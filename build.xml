@@ -129,7 +129,7 @@ maintain proper indentation.
   <!-- Other settings -->
   <property name="junitMem" value="768m"/>
   <property name="junit.dir" value="junit-results"/>
-  <property name="javaSourceVersion" value="1.9"/>
+  <property name="javaSourceVersion" value="1.8"/>
   <property environment="env"/>
   <condition property="correct.environment">
     <and>
@@ -179,7 +179,7 @@ maintain proper indentation.
     <pathelement location="${astgen.third}/astgen.jar" />
     <pathelement location="${junit}/junit.jar"/>
     <pathelement location="${ant.home}/lib/ant.jar"/>
-    <!-- <pathelement location="${java.home}/../lib/tools.jar"/> -->
+    <pathelement location="${java.home}/../lib/tools.jar"/>
     <!-- <pathelement location="${bcel}/bcel.jar"/> -->
     <pathelement location="${javadb}/derby.jar"/>
     <pathelement location="${javadb}/derbytools.jar"/>
@@ -420,7 +420,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="ISO-8859-1" 
         srcdir="${astgen.generators.src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -506,7 +506,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="ISO-8859-1" 
         srcdir="${src}"
         destdir="${build}"
         debug="true"
@@ -535,7 +535,7 @@ testOtherCompiler, testCruiseControl
       <exclude name="${usefulPackage}/*.java"/>
       <exclude name="${unicodePackage}/*.java"/>
     </scalac>
-    <javac
+    <javac encoding="ISO-8859-1" 
         srcdir="${src}"
         destdir="${build}"
         debug="true"
@@ -555,7 +555,7 @@ testOtherCompiler, testCruiseControl
   <target name="compile" depends="compileAll"/>
 
   <target name="check.blas" depends="init">
-    <javac destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" debug="true">
+    <javac encoding="ISO-8859-1"  destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" debug="true">
       <classpath refid="compile.classpath"/>
     </javac>
 
@@ -657,7 +657,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="ISO-8859-1" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -684,7 +684,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="ISO-8859-1" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -705,7 +705,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="ISO-8859-1" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -1387,7 +1387,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="ISO-8859-1" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
