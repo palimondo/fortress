@@ -11,3 +11,6 @@
 
 #Ignore swap files
 *.swp
+
+# Local-only research materials (copyrighted decks etc.; see research/README.md)
+/research/decks/
