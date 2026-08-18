@@ -200,7 +200,7 @@ public class FTypeTuple extends FType {
         // guaranteed to fail.
 
         TreeSet<List<FType>> s = new TreeSet<List<FType>>();
-        s.add(Collections.<FType>emptyList());
+        s.add(new FTypeArrayList());
 
         return meet(s, pl1, pl2);
     }
@@ -239,7 +239,7 @@ public class FTypeTuple extends FType {
         // TODO today, if we can arrive at a single answer, we declare victory,
         // otherwise punt.
 
-        ArrayList<FType> a = new ArrayList<FType>();
+        FTypeArrayList a = new FTypeArrayList();
 
         for (int i = 0; i < s1; i++) {
             FType t1 = pl1.get(i);

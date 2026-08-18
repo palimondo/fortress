@@ -70,11 +70,11 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
     public static final String CONCRETE_ = "Concrete";
     public static final String ABSTRACT_ARROW = ABSTRACT_ + Naming.ARROW_TAG;
     public static final String WRAPPED_ARROW = "Wrapped" + Naming.ARROW_TAG;
-    
+
     public static final String CONCRETE_TUPLE = CONCRETE_ + Naming.TUPLE_TAG;
     public static final String ANY_CONCRETE_TUPLE = "Any" + CONCRETE_ + Naming.TUPLE_TAG;
     public static final String ANY_TUPLE = "Any" + Naming.TUPLE_TAG;
-    
+
     public static final int JVM_BYTECODE_VERSION = Opcodes.V1_6;
     // TODO make this depends on properties/env w/o dragging in all of the world.
     private static final boolean LOG_LOAD_CHOICES = false;
@@ -90,7 +90,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             System.err.println("Failed to open jar file in " + SAVE_EXPANDED_DIR + " for expanded bytecodes");
         }
     }
-    
+
     public static void exitProgram() {
         if (SAVE_EXPANDED_JAR != null) {
             try {
@@ -100,8 +100,8 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             }
         }
     }
-   
-    
+
+
     public final static InstantiatingClassloader ONLY =
         new InstantiatingClassloader(Thread.currentThread().getContextClassLoader());
 
@@ -111,7 +111,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
 
     private final Hashtable<String,  Naming.XlationData>
        stemToXlation = new Hashtable<String, Naming.XlationData>();
-    
+
     private InstantiatingClassloader() {
         throw new Error(); // Really do not call this.
     }
@@ -174,12 +174,12 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         // System.out.println("Loading class:" + name);
         return classData;
     }
-    
+
     protected Class loadClass(String name, boolean resolve)
         throws ClassNotFoundException {
         Class clazz;
-   
-        if (history.contains(name)) { 
+
+        if (history.contains(name)) {
             if (LOG_LOAD_CHOICES)
                 System.err.println("Cached load for " + name);
             Class c = this.findLoadedClass(name);
@@ -206,7 +206,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 System.err.println("Custom load for " + name);
             if (name.equals("com.sun.fortress.runtimeSystem.InstantiatingClassloader"))
                  new Error(); // why are we here?
-            
+
             try {
             byte[] classData = null;
             boolean expanded  = false;
@@ -217,7 +217,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 boolean isGenericAngle = isExpandedAngle(name);
                 boolean isGeneric = isGenericOxford || isGenericAngle;
                 boolean isRTTIc = name.endsWith(Naming.RTTI_CLASS_SUFFIX);
-                
+
                 char left_char = isGenericOxford ?
                         Naming.LEFT_OXFORD_CHAR : Naming.LEFT_HEAVY_ANGLE_CHAR;
                 char right_char = isGenericOxford ?
@@ -239,7 +239,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                     Naming.XlationData xldata = xlationForFunction(dename);
                     classData = readAndExpandGenericThing(dename, sargs, xldata,
                             template_name);
-                    
+
                 } else if (isClosure) {
                     classData = instantiateClosure(Naming.demangleFortressIdentifier(name));
                 } else if (isGeneric) {
@@ -275,7 +275,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                         String template_name = genericTemplateName(dename, left_char, right_char, sargs); // empty sargs
                         classData = readAndExpandGenericThing(dename, sargs, xldata,
                                 template_name);
-                        
+
                         // throw new ClassNotFoundException("Don't know how to instantiate generic " + stem + " of " + parameters);
                     }
                 } else if (isRTTIc) {
@@ -284,44 +284,44 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                     dename = Naming.demangleFortressIdentifier(dename);
                     Naming.XlationData xldata = new Naming.XlationData(Naming.RTTI_GENERIC_TAG);
                     ArrayList<String> sargs = new ArrayList<String>();
-                    
+
                     classData = getClass(name);
                     classData = readAndExpandGenericThing(dename, sargs,
                             xldata, classData);
-                    
+
                 } else {
-                
+
                 	classData = getClass(name);
                 	/*//System.out.println("Getting class: " + name);
                     classData = getClass(name);
-                    
+
                     ClassReader cr = new ClassReader(classData);
                     ClassNode classADT = new ClassNode();
                     cr.accept(classADT, 0);
-                    
+
                     if (!(name.replace('.','/')).equals(classADT.name)) {
                     	System.out.println("Renaming on the fly :-)");
                     	classADT.name = name;
                     }
-                    
+
                     ClassWriter cw = new ClassWriter(0);
                     classADT.accept(cw);
                     classData = cw.toByteArray();*/
                 }
-                
+
                 } catch (java.io.EOFException ioe) {
                     // output error msg if this is a real problem
                     ioe.printStackTrace();
                     throw new ClassNotFoundException(
                                                      "IO Exception in reading class : " + name + " ", ioe);
                 }
-                
+
                 if (expanded && SAVE_EXPANDED_JAR != null) {
 
                     ByteCodeWriter.writeJarredClass(SAVE_EXPANDED_JAR, name , classData);
 
                 }
-                
+
                 clazz = defineClass(name, classData, 0, classData.length);
                 if (LOG_LOADS)
                     System.err.println("Loaded " + clazz.getName() + " (" + name+ ")");
@@ -375,7 +375,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             String template_name) throws IOException {
         byte[] templateClassData = readResource(template_name);
             // Naming.XlationData.fromBytes(readResource(template_name, "xlation"));
-        
+
         byte[] classData = readAndExpandGenericThing(dename, sargs, xldata,
                 templateClassData);
 
@@ -393,10 +393,10 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             ArrayList<String> sargs, Naming.XlationData xldata,
             byte[] templateClassData) {
         List<String> xl = xldata.staticParameterNames();
-               
+
         Map<String, String> xlation  = Useful.map(xl, sargs);
         Map<String, String> opr_xlation  = Useful.map(xl, sargs, xldata.isOprKind());
-        
+
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
         ClassReader cr = new ClassReader(templateClassData);
         ClassVisitor cvcw = LOG_FUNCTION_EXPANSION ?
@@ -427,9 +427,9 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
     }
 
     /**
-     * Parses a method/function name (which can in certain cases also be a 
-     * class name,for instance, closures and generics) into the "name" of the 
-     * method, and 
+     * Parses a method/function name (which can in certain cases also be a
+     * class name,for instance, closures and generics) into the "name" of the
+     * method, and
      * @param name
      * @param tag
      * @param sargs
@@ -440,30 +440,30 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         int rightBracket = name.indexOf(Naming.ENVELOPE) - 1; // right oxford
 
         int depth = 0;
-        
+
         {
             int i = 0;
             while (true) {
                 char ch = name.charAt(i);
                 if (ch == Naming.RIGHT_OXFORD_CHAR) {
-                    
+
                 } else if (ch == Naming.LEFT_OXFORD_CHAR) {
-                    
+
                 } else if (ch == Naming.RIGHT_PAREN_ORNAMENT_CHAR) {
-                    
+
                 } else if (ch == Naming.LEFT_PAREN_ORNAMENT_CHAR) {
-                    
+
                 } else {
                     break;
                 }
             }
         }
-        
-        
+
+
         int pbegin = leftBracket+1;
         for (int i = leftBracket+1; i <= rightBracket; i++) {
             char ch = name.charAt(i);
-    
+
             if ((ch == Naming.GENERIC_SEPARATOR_CHAR || ch == Naming.RIGHT_OXFORD_CHAR) && depth == 1) {
                 String parameter = name.substring(pbegin,i);
                 if (sargs != null)
@@ -475,12 +475,12 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 } else if (ch == Naming.RIGHT_OXFORD_CHAR) {
                     depth--;
                 } else {
-    
+
                 }
             }
         }
-        
-        
+
+
         String s = InstantiationMap.canonicalizeStaticParameters(name, leftBracket,
                 rightBracket, sargs);
 
@@ -506,9 +506,9 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
 
         ArrayList<InitializedStaticField> isf_list = new ArrayList<InitializedStaticField>();
-        
+
         closureClassPrefix(name, cw, null, null, true, null, isf_list);
-        
+
 //        //RTTI getter
 //        {
 //        	MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, Naming.RTTI_GETTER,
@@ -520,32 +520,32 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
 //        	mv.visitMaxs(1, 1);
 //        	mv.visitEnd();
 //        }
-        
+
         optionalStaticsAndClassInitForTO(isf_list, cw);
-        
+
         cw.visitEnd();
 
         return cw.toByteArray();
 
     }
-    
+
     /**
      * Emits code for the common prefix of a closure class.
-     * 
+     *
      * Note that names may contain "illegal" characters; these are on the
      * dangerous side of the "dangerous characters" transformation.
-     * 
+     *
      * A closure class has a name of the form
-     * 
+     *
      * apiComponent DOLLAR functionName ENVELOPE DOLLAR functionType
-     * 
+     *
      * functionType may contain a HEAVY_X_CHAR; if it does, the characters
      * following it are part of the function's schema (declared type syntax),
      * not actual type, used only to locate the appropriate generic function
      * to instantiate.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @param name
      * @param cw
      * @param staticClass
@@ -558,7 +558,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             String forceCastParam0,
             List<InitializedStaticField> statics) {
         return closureClassPrefix(name, cw, staticClass, sig, false, forceCastParam0, statics);
-        
+
     }
         public static String closureClassPrefix(String name,
                                           ManglingClassWriter cw,
@@ -573,19 +573,19 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         String api = name.substring(0,last_dot);
         String suffix = name.substring(last_dot+1);
         env_loc = suffix.indexOf(Naming.ENVELOPE); // followed by $
-        String fn = is_forwarding_closure ? suffix.substring(0,env_loc): Naming.APPLIED_METHOD; 
+        String fn = is_forwarding_closure ? suffix.substring(0,env_loc): Naming.APPLIED_METHOD;
         String ft = suffix.substring(env_loc+2); // skip $ following ENVELOPE
 
         // Normalize out leading HEAVY_CROSS, if there is one.
         {
             if (ft.charAt(0) == Naming.HEAVY_CROSS_CHAR)
                 ft = ft.substring(1);
-            
+
             // Allow bound-specific disambiguation in a suffix
             int hvy_x = ft.indexOf(Naming.HEAVY_X_CHAR);
             if (hvy_x != -1)
                 ft = ft.substring(0, hvy_x);
-            
+
             int left = ft.indexOf(Naming.LEFT_OXFORD);
             int right = ft.lastIndexOf(Naming.RIGHT_OXFORD);
             List<String> parameters = RTHelpers.extractStringParameters(ft, left, right);
@@ -600,7 +600,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             if (sig == null)
                 sig = arrowParamsToJVMsig(flat_params_and_ret);
         }
-        
+
         SignatureParser sp = new SignatureParser(sig);
 
 
@@ -619,14 +619,14 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         String superClass = ABSTRACT_+ft; // ft is assumed to begin with "Arrow"
         name = api.replace(".", "/") + '$' + suffix;
         final String final_name = name;
-        
+
         //String desc = Naming.internalToDesc(name);
         final String field_desc = Naming.internalToDesc(ft);
         // Begin with a class
         cw.visit(JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER, name, null, superClass, null);
 
         statics.add(new InitializedStaticField.StaticForClosureField(field_desc, final_name));
-        
+
         //RTTI field
 //        statics.add(new InitializedStaticField() {
 //
@@ -646,7 +646,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
 //            public String asmSignature() {
 //                return Naming.RTTI_CONTAINER_DESC;
 //            }});
- 
+
         // Instance init does nothing special
         mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
         mv.visitCode();
@@ -682,19 +682,19 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         forwardingMethod(cw, Naming.APPLY_METHOD, ACC_PUBLIC, 0,
                 staticClass, fn, INVOKESTATIC,
                 sig, sig, sp.paramCount()+1, false, forceCastParam0);
-        
+
         return fn;
 
     }
 
     /**
      * Emits a forwarding method.
-     * 
+     *
      * Cases:
      * apply static, target static
      * apply instance, target static
      * apply instance, target instance
-     * 
+     *
      * @param cw Classwriter that will write the forwarding method
      * @param thisName       name of the generated (forwarding) method
      * @param thisModifiers  modifiers for the generated (forwarding) method
@@ -709,7 +709,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
      * @param forceCastParam0 cast param 0, even if it is not self.  This is for
      *                        implementation of generic methods.  It may need
      *                        to be generalized to all params, not entirely sure.
-     * 
+     *
      * Create forwarding method that re-pushes its arguments and
      * chains to another method in another class.
      * When selfIndex == -1, all arguments are pushed exactly in the order given,
@@ -730,7 +730,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 nparamsIncludingSelf, pushSelf, forceCastParam0
                 );
     }
-    
+
     public static void forwardingMethod(ClassWriter cw,
             String thisName, int thisModifiers, int selfIndex,
             String fwdClass, String fwdName, int fwdOp,
@@ -741,15 +741,15 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 nparamsIncludingSelf, pushSelf, forceCastParam0, false
                 );
     }
-    
+
     /**
      * Emits a forwarding method.
-     * 
+     *
      * Cases:
      * apply static, target static
      * apply instance, target static
      * apply instance, target instance
-     * 
+     *
      * @param cw Classwriter that will write the forwarding method
      * @param thisName       name of the generated (forwarding) method
      * @param thisModifiers  modifiers for the generated (forwarding) method
@@ -792,21 +792,21 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             // Dropping explicit self parameter, so remove from signature.
             fwdSig = Naming.removeNthSigParameter(fwdSig, selfIndex);
         }
-        
+
         if (forceCastParam0 != null) {
             fwdSig = Naming.replaceNthSigParameter(fwdSig, 0, Naming.internalToDesc(forceCastParam0));
         }
-        
+
         // System.err.println("Forwarding "+thisName+":"+thisSig+
         //                    " arity "+nparamsIncludingSelf+"\n"+
         //                    "  to       "+fwdClass+"."+fwdName+":"+fwdSig);
         MethodVisitor mv = cw.visitMethod(thisModifiers, thisName, thisSig, null, null);
         mv.visitCode();
-        
+
         SignatureParser sp = new SignatureParser(fwdSig);
-        
+
         int parsed_arg_cursor = 0;
-        
+
         if (pushSelf) {
             mv.visitVarInsn(ALOAD, selfIndex);
             if (selfSig != null)
@@ -814,10 +814,10 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             if (fwdOp == INVOKESTATIC)
                 parsed_arg_cursor++;
         }
-        
+
         pushParamsNotSelf(selfIndex, nparamsIncludingSelf, forceCastParam0, mv,
                 sp, parsed_arg_cursor);
-        
+
         mv.visitMethodInsn(fwdOp, fwdClass, fwdName, fwdSig);
         // optional CAST here for tuple and arrow
         String tyName = Naming.sigRet(thisSig);
@@ -865,46 +865,46 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         mv.visitLdcInsn(s);
         mv.visitMethodInsn(INVOKESTATIC, "com/sun/fortress/runtimeSystem/InstantiatingClassloader", "eep", "(Ljava/lang/String;)V");
     }
-    
+
     public static void eepI(MethodVisitor mv, String s) {
         mv.visitLdcInsn(s);
         mv.visitMethodInsn(INVOKESTATIC, "com/sun/fortress/runtimeSystem/InstantiatingClassloader", "eep", "(Ljava/lang/String;I)I");
-    }     
-    
+    }
+
     public static void eep(String s) {
         System.err.println(s);
     }
-    
+
     public static int eep(String s, int i) {
         System.err.println(s + i);
         return i;
     }
-    
+
      public static void eep(MethodVisitor mv) {
          mv.visitMethodInsn(INVOKESTATIC, "com/sun/fortress/runtimeSystem/InstantiatingClassloader", "eep", "(Ljava/lang/Throwable;)V");
-     } 
+     }
 
      public static void fail(MethodVisitor mv, String s) {
          System.err.println("Warning, emitting fail case for '" + s + "'");
          mv.visitLdcInsn(s);
          mv.visitMethodInsn(INVOKESTATIC, "com/sun/fortress/runtimeSystem/InstantiatingClassloader", "fail", "(Ljava/lang/String;)Ljava/lang/Error;");
          mv.visitInsn(ATHROW);
-     }     
+     }
 
      public static void eep(Throwable t) {
          t.printStackTrace();
 
      }
-     
+
      static Error error(String s) {
          return new Error(s);
      }
 
-     
+
     /**
      * Generates an interface method (public, abstract) with specified name
      * and signature.
-     * 
+     *
      * @param cw
      * @param m
      * @param sig
@@ -915,10 +915,10 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
         mv.visitEnd();
     }
-    
+
     /**
      * Generate a trivial init method.
-     * 
+     *
      * @param cw
      * @param _super
      */
@@ -931,7 +931,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         mv.visitMaxs(1, 1);
         mv.visitEnd();
     }
-    
+
     /**
      * Creates the interface for an Arrow type.  An Arrow interface includes
      * 2 or 3 methods.  One is the simple domain-to-range "apply", where domain
@@ -942,38 +942,38 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
      * third apply method is generated if there is more than parameter to the
      * function, in which case the parameters are wrapped in a tuple, or if the
      * first parameter is a Tuple, in which case they will be unwrapped.
-     * 
+     *
      * For example, Arrow[\T;U;V\] will have the apply methods (ignore
      * both Fortress and JVM dangerous characters mangling issues for now):
-     * 
+     *
      * apply(LT;LU;)LV;
-     * 
+     *
      * apply(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-     * 
+     *
      * apply(LTuple[\T;U\];)LV
-     * 
+     *
      * @param name
      * @param parameters
      * @return
      */
-    
+
     private static byte[] instantiateArrow(String name, List<String> parameters) {
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
-        
+
         // newer boilerplate copied from abstract arrow and wrapped arrow
         Triple<List<String>, List<String>, String> stuff =
             normalizeArrowParameters(parameters);
-        
+
         List<String> flat_params_and_ret = stuff.getA();
         List<String> tupled_params_and_ret = stuff.getB();
         String tuple_type = stuff.getC();
         List<String> flat_obj_params_and_ret = Useful.applyToAll(flat_params_and_ret, toJLO);
         List<String> norm_obj_params_and_ret = normalizeArrowParametersAndReturn(flat_obj_params_and_ret);
         List<String> norm_params_and_ret = normalizeArrowParametersAndReturn(flat_params_and_ret);
-        
+
         String obj_sig = stringListToGeneric("Arrow", flat_obj_params_and_ret);
         String norm_obj_sig = stringListToGeneric("Arrow", norm_obj_params_and_ret);
-            
+
         boolean is_all_objects = flat_obj_params_and_ret.equals(flat_params_and_ret);
         // might need to make Tuple also subtype Object
         String[] super_interfaces = null;
@@ -982,7 +982,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         } else {
         	super_interfaces = new String[] { "fortress/AnyType$Any" };
         }
-        
+
         cw.visit(JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_ABSTRACT + ACC_INTERFACE,
                  name, null, "java/lang/Object", super_interfaces);
 
@@ -996,8 +996,8 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                                 null, null);
             mv.visitEnd();
         }
-        
-        {      
+
+        {
             String sig;
             if (parameters.size() == 2 && parameters.get(0).equals(Naming.INTERNAL_SNOWMAN))
             	sig = arrowParamsToJVMsig(parameters.subList(1,2));
@@ -1009,7 +1009,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                                 null, null);
             mv.visitEnd();
         }
-        {      
+        {
             String sig = "()"+Naming.internalToDesc(norm_obj_sig);
             if (LOG_LOADS) System.err.println(name+".getWrappee"+sig+" abstract");
             MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, getWrappee,
@@ -1029,28 +1029,28 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             // TODO Auto-generated method stub
             return "java/lang/Object";
         }
-        
+
     };
-    
+
     static final String getWrappee = "getWrappee";
-    
+
     private static byte[] instantiateWrappedArrow(String name, List<String> parameters) {
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
         /*
          * extends AbstractArrow[\parameters\]
-         * 
+         *
          * private final Arrow[\Object...Object\] wrappee
-         * 
+         *
          * Arrow[\Object...Object\] getWrappee()
-         * 
+         *
          * WrappedArrow[\parameters\](Arrow[\Object...Object\] _wrappee)
-         * 
-         * public range_parameter apply( domain_parameters ) = 
+         *
+         * public range_parameter apply( domain_parameters ) =
          *   (range_parameter) wrappee.apply( domain_parameters )
          */
         Triple<List<String>, List<String>, String> stuff =
             normalizeArrowParameters(parameters);
-        
+
         List<String> flat_params_and_ret = stuff.getA();
         List<String> tupled_params_and_ret = stuff.getB();
         String tupleType = stuff.getC();
@@ -1060,12 +1060,12 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         List<String> norm_params_and_ret = normalizeArrowParametersAndReturn(flat_params_and_ret);
 
         String extendsClass = stringListToGeneric(ABSTRACT_ARROW, norm_params_and_ret);
-        
+
         // List<String> objectified_parameters = Useful.applyToAll(flat_params_and_ret, toJLO);
         //String obj_sig = stringListToGeneric("AbstractArrow", objectified_parameters);
         String obj_intf_sig = stringListToGeneric(Naming.ARROW_TAG, norm_obj_params_and_ret);
         String wrappee_name = "wrappee";
-        
+
         //extends AbstractArrow[\parameters\]
         cw.visit(JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER, name, null,
                 extendsClass, null);
@@ -1090,11 +1090,11 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         mv.visitEnd();
 
         // getWrappee
-        
+
         mv = cw.visitMethod(ACC_PUBLIC, getWrappee,
                 "()"+Naming.internalToDesc(obj_intf_sig),
                 null, null);
-        
+
         mv.visitCode();
         mv.visitVarInsn(ALOAD, 0);
         mv.visitFieldInsn(GETFIELD, name, wrappee_name, Naming.internalToDesc(obj_intf_sig));
@@ -1102,17 +1102,17 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         mv.visitMaxs(1, 1);
         mv.visitEnd();
 
-        //  public range_parameter apply( domain_parameters ) = 
+        //  public range_parameter apply( domain_parameters ) =
         //    (range_parameter) wrappee.apply( domain_parameters )
-        
+
         String flattened_apply_sig;
         if (parameters.size() == 2 && parameters.get(0).equals(Naming.INTERNAL_SNOWMAN))
         	flattened_apply_sig = arrowParamsToJVMsig(parameters.subList(1,2));
         else
         	flattened_apply_sig= arrowParamsToJVMsig(flat_params_and_ret);
-       
+
         String obj_apply_sig = arrowParamsToJVMsig(flat_obj_params_and_ret);
-  
+
         mv = cw.visitMethod(ACC_PUBLIC, Naming.APPLY_METHOD,
                 flattened_apply_sig,
                 null, null);
@@ -1121,7 +1121,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         // load wrappee for delegation
         mv.visitVarInsn(ALOAD, 0);
         mv.visitFieldInsn(GETFIELD, name, wrappee_name, Naming.internalToDesc(obj_intf_sig));
-        
+
         // Push parameters.
         // i is indexed so that it corresponds to parameters pushed, even though
         // the types are ignored here (for now).
@@ -1132,7 +1132,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             } else {
                 /* we are calling the object-interface version of this,
                  * we need something on the stack, or else it will fail.
-                 * 
+                 *
                  * This is also a naming/refactoring FAIL; this information
                  * needs to come from somewhere else.
                 */
@@ -1144,10 +1144,10 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         }
 
         mv.visitMethodInsn(INVOKEINTERFACE, obj_intf_sig, Naming.APPLY_METHOD, obj_apply_sig);
-        
+
         // mv.visitTypeInsn(Opcodes.CHECKCAST, parameters.get(parameters.size()-1));
         generalizedCastTo(mv, flat_params_and_ret.get(flat_params_and_ret.size()-1));
-        
+
         // done
         mv.visitInsn(ARETURN);
         mv.visitMaxs(1, 1);
@@ -1162,13 +1162,13 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         	// load wrappee for delegation
             mv.visitVarInsn(ALOAD, 0);
             mv.visitFieldInsn(GETFIELD, name, wrappee_name, Naming.internalToDesc(obj_intf_sig));
-            
+
             //invoke interface getRTTI method
             mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, Naming.ANY_TYPE_CLASS, Naming.RTTI_GETTER, Naming.STATIC_PARAMETER_GETTER_SIG);
             mv.visitInsn(ARETURN);
             mv.visitMaxs(1, 1);
             mv.visitEnd();
-        
+
         }
         cw.visitEnd();
 
@@ -1177,14 +1177,14 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
     }
     private byte[] instantiateAbstractArrow(String name, List<String> parameters) {
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
-        
+
         /*
          * Special case extensions to plumb tuples
          * correctly in the face of generics instantiated
          * with tuple types.
-         * 
+         *
          * Except, recall that Arrow parameters are domain...;range
-         * 
+         *
          * if > 1 param then
          *   unwrap = params
          *   wrap = tuple params
@@ -1195,24 +1195,24 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
          *   else
          *     unwrap = param
          *     wrap = null
-         *     
+         *
          *  Use unwrapped parameters to generate the all-Objects case
          *  for casting; check the generated signature against the input
          *  to see if we are them.
-         *   
+         *
          */
-       
+
         Triple<List<String>, List<String>, String> stuff =
             normalizeArrowParameters(parameters);
-        
+
         List<String> flat_params_and_ret = stuff.getA();
         List<String> tupled_params_and_ret = stuff.getB();
         String tupleType = stuff.getC();
-        
+
         List<String> flat_obj_params_and_ret = Useful.applyToAll(flat_params_and_ret, toJLO);
         List<String> norm_obj_params_and_ret = normalizeArrowParametersAndReturn(flat_obj_params_and_ret);
         List<String> norm_params_and_ret = normalizeArrowParametersAndReturn(flat_params_and_ret);
-        
+
         String obj_sig = stringListToGeneric(ABSTRACT_ARROW, norm_obj_params_and_ret);
         String obj_intf_sig = stringListToGeneric(Naming.ARROW_TAG, norm_obj_params_and_ret);
         String wrapped_sig = stringListToGeneric(WRAPPED_ARROW, norm_params_and_ret);
@@ -1223,10 +1223,10 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         	unwrapped_apply_sig = arrowParamsToJVMsig(parameters.subList(1,2));
         else
         	unwrapped_apply_sig= arrowParamsToJVMsig(flat_params_and_ret);
-        
+
         String obj_apply_sig = arrowParamsToJVMsig(flat_obj_params_and_ret);
-    
-        String[] interfaces = 
+
+        String[] interfaces =
                   new String[] { stringListToArrow(norm_params_and_ret) }
                 ;
         /*
@@ -1241,27 +1241,27 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                         Useful.applyToAll(tupled_params_and_ret, toJLO));
 
         boolean is_all_objects = norm_obj_params_and_ret.equals(norm_params_and_ret);
-                  
+
         String _super = is_all_objects ? "java/lang/Object" : obj_sig ;
 
         cw.visit(JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER + ACC_ABSTRACT, name, null,
                 _super, interfaces);
 
         simpleInitMethod(cw, _super);
-        
+
         /* */
         if (! is_all_objects ) {
             // implement method for the object version.
             // cast parameters, invoke this.apply on cast parameters, ARETURN
-            
+
             // note cut and paste from apply below, work in progress.
-            
+
             MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, Naming.APPLY_METHOD,
                     obj_apply_sig,
                     null, null);
-            
+
             mv.visitVarInsn(Opcodes.ALOAD, 0); // this
-            
+
             int unwrapped_l = flat_params_and_ret.size();
 
             for (int i = 0; i < unwrapped_l-1; i++) {
@@ -1276,40 +1276,40 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitMethodInsn(INVOKEVIRTUAL, name, Naming.APPLY_METHOD, unwrapped_apply_sig);
             mv.visitInsn(Opcodes.ARETURN);
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
-       
-            mv.visitEnd();            
+
+            mv.visitEnd();
         }
-        
+
         // is instance method -- takes an Object
         {
             String sig = "(Ljava/lang/Object;)Z";
         	MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, IS_A, sig, null, null);
-            
+
             Label fail = new Label();
-            
+
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitTypeInsn(Opcodes.INSTANCEOF, Naming.ANY_TYPE_CLASS);
             mv.visitJumpInsn(Opcodes.IFEQ, fail);
-            
+
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitTypeInsn(Opcodes.CHECKCAST,Naming.ANY_TYPE_CLASS);
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, name,  IS_A, "("+Naming.internalToDesc(Naming.ANY_TYPE_CLASS)+")Z");
             mv.visitInsn(Opcodes.IRETURN);
-            
+
             mv.visitLabel(fail);
             mv.visitIntInsn(BIPUSH, 0);
             mv.visitInsn(Opcodes.IRETURN);
-            
+
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
             mv.visitEnd();
         }
-        
+
         // is instance method -- takes an Any
         {
             String sig = "(" + Naming.internalToDesc( Naming.ANY_TYPE_CLASS) + ")Z";
             MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, IS_A, sig, null, null);
             Label fail = new Label();
-                        
+
             //get RTTI to compare to
             mv.visitFieldInsn(GETSTATIC, name, Naming.RTTI_FIELD, Naming.RTTI_CONTAINER_DESC);
             //get RTTI of object
@@ -1317,21 +1317,21 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitMethodInsn(INVOKEINTERFACE, Naming.ANY_TYPE_CLASS, Naming.RTTI_GETTER, "()" + Naming.RTTI_CONTAINER_DESC );
            // mv.visitJumpInsn(IFNONNULL, fail);
             mv.visitMethodInsn(INVOKEVIRTUAL,Naming.RTTI_CONTAINER_TYPE , Naming.RTTI_SUBTYPE_METHOD_NAME, Naming.RTTI_SUBTYPE_METHOD_SIG);
-            
+
             //mv.visitIntInsn(BIPUSH, 0);
             mv.visitJumpInsn(Opcodes.IFEQ, fail);
 
             mv.visitIntInsn(BIPUSH, 1);
             mv.visitInsn(Opcodes.IRETURN);
-            
+
             mv.visitLabel(fail);
             mv.visitIntInsn(BIPUSH, 0);
             mv.visitInsn(Opcodes.IRETURN);
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
             mv.visitEnd();
         }
-        
-        
+
+
         // castTo
         {
             /*
@@ -1345,8 +1345,8 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
              *  push argo
              *  init
              *  return tos
-             */         
-            
+             */
+
             MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, CAST_TO,
                     "(" + 
                     // Naming.internalToDesc(obj_intf_sig)
@@ -1364,7 +1364,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitTypeInsn(Opcodes.CHECKCAST, typed_intf_sig);
             mv.visitInsn(Opcodes.ARETURN);
-            
+
             // unwrap
             mv.visitLabel(not_instance1);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
@@ -1379,19 +1379,19 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitTypeInsn(Opcodes.CHECKCAST, typed_intf_sig);
             mv.visitInsn(Opcodes.ARETURN);
-            
+
             // wrap and return
             mv.visitLabel(not_instance2);
             mv.visitTypeInsn(NEW, wrapped_sig);
             mv.visitInsn(DUP);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitMethodInsn(INVOKESPECIAL, wrapped_sig, "<init>", "(" + Naming.internalToDesc(obj_intf_sig) +")V");
-            
+
             mv.visitInsn(Opcodes.ARETURN);
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
-       
-            mv.visitEnd();            
-        } 
+
+            mv.visitEnd();
+        }
 
         if (typed_tupled_intf_sig != null )
         {
@@ -1406,8 +1406,8 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
              *  push argo
              *  init
              *  return tos
-             */         
-            
+             */
+
             MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, CAST_TO,
                     "(" + Naming.internalToDesc(objectified_tupled_intf_sig) + ")" + Naming.internalToDesc(typed_intf_sig),
                     null, null);
@@ -1421,7 +1421,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitJumpInsn(Opcodes.IFEQ, not_instance1);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitInsn(Opcodes.ARETURN);
-            
+
             // unwrap
             mv.visitLabel(not_instance1);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
@@ -1434,33 +1434,33 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitJumpInsn(Opcodes.IFEQ, not_instance2);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitInsn(Opcodes.ARETURN);
-            
+
             // wrap and return - untupled should be okay here, since it subtypes
             mv.visitLabel(not_instance2);
             mv.visitTypeInsn(NEW, wrapped_sig);
             mv.visitInsn(DUP);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitMethodInsn(INVOKESPECIAL, wrapped_sig, "<init>", "(" + Naming.internalToDesc(obj_intf_sig) +")V");
-            
+
             mv.visitInsn(Opcodes.ARETURN);
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
-       
-            mv.visitEnd();            
+
+            mv.visitEnd();
         }
-        
+
         // getWrappee
         {
             MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, getWrappee,
                 "()"+Naming.internalToDesc(obj_intf_sig),
                 null, null);
-        
+
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
             mv.visitInsn(ARETURN);
             mv.visitMaxs(1, 1);
             mv.visitEnd(); // return this
         }
-        
+
         if (tupled_params_and_ret == null) {
             /* Single abstract method */
             if (LOG_LOADS) System.err.println(name + ".apply" + unwrapped_apply_sig+" abstract for abstract");
@@ -1473,28 +1473,28 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             /*
              * Establish two circular forwarding methods;
              * the eventual implementer will break the cycle.
-             * 
+             *
              */
             String tupled_apply_sig = arrowParamsToJVMsig(tupled_params_and_ret);
 
             {
                 /* Given tupled args, extract, and invoke apply. */
-                
+
                 if (LOG_LOADS) System.err.println(name + ".apply" + tupled_apply_sig+" abstract for abstract");
                 MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, Naming.APPLY_METHOD,
                         tupled_apply_sig,
                         null, null);
-                
+
                 mv.visitVarInsn(Opcodes.ALOAD, 0); // closure
-                
+
                 int unwrapped_l = flat_params_and_ret.size();
-                
+
                 for (int i = 0; i < unwrapped_l-1; i++) {
                     String param = flat_params_and_ret.get(i);
                     mv.visitVarInsn(Opcodes.ALOAD, 1); // tuple
                     mv.visitMethodInsn(INVOKEINTERFACE, tupleType, TUPLE_TYPED_ELT_PFX + (Naming.TUPLE_ORIGIN + i), "()" + Naming.internalToDesc(param));
                 }
-                
+
                 mv.visitMethodInsn(INVOKEVIRTUAL, name, Naming.APPLY_METHOD, unwrapped_apply_sig);
                 mv.visitInsn(Opcodes.ARETURN);
                 mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
@@ -1507,9 +1507,9 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, Naming.APPLY_METHOD,
                         unwrapped_apply_sig,
                         null, null);
-                
+
                 mv.visitVarInsn(Opcodes.ALOAD, 0); // closure
-                
+
                 int unwrapped_l = flat_params_and_ret.size();
 
                 for (int i = 0; i < unwrapped_l-1; i++) {
@@ -1517,28 +1517,28 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 }
 
                 List<String> tuple_elements = flat_params_and_ret.subList(0,unwrapped_l-1);
-                
+
                 String make_sig = toJvmSig(tuple_elements,
                                   Naming.javaDescForTaggedFortressType(tupleType));
-                mv.visitMethodInsn(INVOKESTATIC, 
+                mv.visitMethodInsn(INVOKESTATIC,
                         stringListToGeneric(CONCRETE_TUPLE, tuple_elements), "make", make_sig);
 
                 mv.visitMethodInsn(INVOKEVIRTUAL, name, Naming.APPLY_METHOD, tupled_apply_sig);
                 mv.visitInsn(Opcodes.ARETURN);
                 mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
-           
+
                 mv.visitEnd();
             }
-            
+
 
         }
-        
+
         //RTTI comparison field
-       
+
 		final String final_name = name;
 		ArrayList<InitializedStaticField> isf_list = new ArrayList<InitializedStaticField>();
 		if (!parameters.contains("java/lang/Object")) {
-		    
+
 		    isf_list.add(new InitializedStaticField.StaticForUsualRttiField(final_name, this));
         } else {
 		    isf_list.add(new InitializedStaticField.StaticForJLOParameterizedRttiField(final_name));
@@ -1555,11 +1555,11 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
       	mv.visitMaxs(1, 1);
       	mv.visitEnd();
       }
-		
+
 		optionalStaticsAndClassInitForTO(isf_list, cw);
         return cw.toByteArray();
     }
-    
+
     private static byte[] instantiateArrowRTTI(String name) {
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
         // Tuple,N$RTTIc
@@ -1576,7 +1576,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             InstantiatingClassloader.jvmSignatureForOnePlusNTypes("java/lang/Class", n, Naming.RTTI_CONTAINER_TYPE, "V");
         MethodVisitor mv = cw.visitNoMangleMethod(ACC_PUBLIC, "<init>", init_sig, null, null);
         mv.visitCode();
-        
+
         mv.visitVarInsn(ALOAD, 0); // this
         mv.visitVarInsn(ALOAD, 1); // class
                                    // allocate and init array for next parameter
@@ -1590,10 +1590,10 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitVarInsn(ALOAD, first_element + i);
             mv.visitInsn(AASTORE);
         }
-       
+
         // invoke super.<init>
         mv.visitMethodInsn(INVOKESPECIAL, Naming.ARROW_RTTI_CONTAINER_TYPE, "<init>", "(Ljava/lang/Class;["+Naming.RTTI_CONTAINER_DESC+")V");
-        
+
         int pno = 2; // skip the java class parameter
         for (int i = Naming.STATIC_PARAMETER_ORIGIN;
                  i < n+Naming.STATIC_PARAMETER_ORIGIN; i++) {
@@ -1605,22 +1605,22 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                               Naming.RTTI_CONTAINER_DESC);
             pno++;
         }
-        
+
         voidEpilogue(mv);
         }
 
         // fields and getters
         for (int i = Naming.STATIC_PARAMETER_ORIGIN;
              i < n+Naming.STATIC_PARAMETER_ORIGIN; i++) {
-            fieldAndGetterForStaticParameter(cw, stem_name, "T"+i, i);   
+            fieldAndGetterForStaticParameter(cw, stem_name, "T"+i, i);
         }
-        
+
         // clinit -- part of the dictionary call
         // dictionary
         // factory
         // ought to create bogus xldata for tuples and arrows, instead we pass null
         emitDictionaryAndFactoryForGenericRTTIclass(cw, name, n, null);
-        
+
         cw.visitEnd();
         return cw.toByteArray();
 
@@ -1665,11 +1665,11 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
     }
 
     static final String UNTYPED_GETTER_SIG = "()Lfortress/AnyType$Any;";
-    
+
     private static byte[] instantiateAnyTuple(String dename, List<String> parameters) {
         /*
          * Single parameter, N, which is the arity of the tuple.
-         * 
+         *
          * implements Ljava/util/List;
          * implements Lfortress/AnyType$Any;
          * abstract methods o1 ... oN (or 0 ... N-1, depending on tuple origin)
@@ -1691,14 +1691,14 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             interfaceMethod(cw, m, sig);
         }
 
-        cw.visitEnd(); 
+        cw.visitEnd();
         return cw.toByteArray();
     }
-    
+
     private static byte[] instantiateAnyConcreteTuple(String dename, List<String> parameters) {
         /*
          * Single parameter, N, which is the arity of the tuple.
-         * 
+         *
          * extends Ljava/util/AbstractList;
          * implements LAnyTuple[\N\];
          * int size() { return N; }
@@ -1710,12 +1710,12 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
          *    }
          * }
          */
-        
+
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
         final String super_type = "java/lang/Object";
-        
+
         final int n = Integer.parseInt(parameters.get(0));
-        final String any_tuple_n = ANY_TUPLE + Naming.LEFT_OXFORD + n + Naming.RIGHT_OXFORD;        
+        final String any_tuple_n = ANY_TUPLE + Naming.LEFT_OXFORD + n + Naming.RIGHT_OXFORD;
         String[] superInterfaces = { any_tuple_n };
         cw.visit( JVM_BYTECODE_VERSION,
                 Opcodes.ACC_PUBLIC | Opcodes.ACC_ABSTRACT,
@@ -1732,7 +1732,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitEnd();
         }
 
-        { // get method  
+        { // get method
             final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "get", "(I)Ljava/lang/Object;", null, null);
             mv.visitCode();
             mv.visitVarInsn(ILOAD, 1);
@@ -1755,9 +1755,9 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 public void apply() {
                     mv.visitVarInsn(ILOAD, 1);
                 }
-                
+
             };
-            
+
             FnVoid<Integer> leaf = new FnVoid<Integer>() {
 
                 @Override
@@ -1766,28 +1766,28 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                     mv.visitMethodInsn(INVOKEINTERFACE, any_tuple_n, TUPLE_OBJECT_ELT_PFX + (Naming.TUPLE_ORIGIN + x), UNTYPED_GETTER_SIG);
                     mv.visitInsn(ARETURN);
                 }
-                
+
             };
-            
+
             visitBinaryTree(mv, 0, n-1, l2, geti, leaf);
-            
+
             mv.visitMaxs(2, 2);
             mv.visitEnd();
 
         }
-        
-        cw.visitEnd(); 
+
+        cw.visitEnd();
         return cw.toByteArray();
     }
-    
+
     /**
      * Generates a binary search tree for integers in the range [lo,hi]
      * (INCLUSIVE!).  Target, if not null, is to be attached to the generated code.
      * geti pushes the integer in question onto the top of the stack.
      * leaf handles the leaf case where lo=hi.
-     * 
+     *
      * Cases are generated into ascending order, just because.
-     * 
+     *
      * @param mv
      * @param lo
      * @param hi
@@ -1795,7 +1795,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
      * @param geti
      * @param leaf
      */
-    
+
     static void visitBinaryTree(MethodVisitor mv, int lo, int hi, Label target, FnVoidVoid geti,  FnVoid<Integer> leaf) {
         if (target != null)
             mv.visitLabel(target);
@@ -1806,7 +1806,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         } else {
             /*
              * 0,1 -> 0,0; 1,1
-             * 0,2 -> 0,1; 2,2 
+             * 0,2 -> 0,1; 2,2
              */
             int mid = (lo + hi)/2;
             Label small = null;
@@ -1818,7 +1818,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             visitBinaryTree(mv, mid+1, hi, large, geti, leaf);
         }
     }
-    
+
     private static byte[] instantiateTupleRTTI(String name) {
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
         // Tuple,N$RTTIc
@@ -1835,7 +1835,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             InstantiatingClassloader.jvmSignatureForOnePlusNTypes("java/lang/Class", n, Naming.RTTI_CONTAINER_TYPE, "V");
         MethodVisitor mv = cw.visitNoMangleMethod(ACC_PUBLIC, "<init>", init_sig, null, null);
         mv.visitCode();
-        
+
         mv.visitVarInsn(ALOAD, 0); // this
         mv.visitVarInsn(ALOAD, 1); // class
                                    // allocate and init array for next parameter
@@ -1849,10 +1849,10 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitVarInsn(ALOAD, first_element + i);
             mv.visitInsn(AASTORE);
         }
-       
+
         // invoke super.<init>
         mv.visitMethodInsn(INVOKESPECIAL, Naming.TUPLE_RTTI_CONTAINER_TYPE, "<init>", "(Ljava/lang/Class;["+Naming.RTTI_CONTAINER_DESC+")V");
-        
+
         int pno = 2; // skip the java class parameter
         for (int i = Naming.STATIC_PARAMETER_ORIGIN;
                  i < n+Naming.STATIC_PARAMETER_ORIGIN; i++) {
@@ -1864,30 +1864,30 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                               Naming.RTTI_CONTAINER_DESC);
             pno++;
         }
-        
+
         voidEpilogue(mv);
         }
 
         // fields and getters
         for (int i = Naming.STATIC_PARAMETER_ORIGIN;
              i < n+Naming.STATIC_PARAMETER_ORIGIN; i++) {
-            fieldAndGetterForStaticParameter(cw, stem_name, "T"+i, i);   
+            fieldAndGetterForStaticParameter(cw, stem_name, "T"+i, i);
         }
-        
+
         // clinit -- part of the dictionary call
         // dictionary
         // factory
         // ought to create bogus xldata for tuples and arrows, instead we pass null
         emitDictionaryAndFactoryForGenericRTTIclass(cw, name, n, null);
-        
+
         cw.visitEnd();
         return cw.toByteArray();
 
     }
-   
+
     /**
      * A union type.  Iterate over the members of the union
-     * 
+     *
      * @param dename
      * @param parameters
      * @return
@@ -1896,10 +1896,10 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         /*
          */
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
- 
+
         final int n = parameters.size();
         String[] superInterfaces = {  };
-        
+
         cw.visit(JVM_BYTECODE_VERSION, ACC_PUBLIC, dename, null,
                  "java/lang/Object", superInterfaces);
 
@@ -1958,10 +1958,10 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 }
             }
         }
-        
+
         // For each interface-qualified method defined in the intersection
         // of interfaces, emit a forwarding method.
-        
+
         for (String key : forwarded.keySet()) {
             Method m = forwarded.get(key);
             int ploc = key.indexOf('(');
@@ -1973,12 +1973,12 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             String an_interface = Naming.dotToSep(m.getDeclaringClass().getName());
             String the_interface = Naming.demangleFortressIdentifier(an_interface);
             int stack_index = 0;
-            
+
             mv.visitVarInsn(ALOAD, stack_index++); // 'this'
             mv.visitTypeInsn(CHECKCAST, the_interface);
-            
+
             Class[] pts = m.getParameterTypes();
-            
+
             for (Class pt : pts) {
                 String s = pt.getName();
                 if (pt.isPrimitive()) {
@@ -1990,7 +1990,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                     case 'F':
                         mv.visitVarInsn(FLOAD, stack_index++); // param
                         break;
-                        
+
                     case 'I':
                     case 'S':
                     case 'C':
@@ -2007,30 +2007,30 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                     mv.visitVarInsn(ALOAD, stack_index++); // param
                 }
             }
-            
+
             mv.visitMethodInsn(Opcodes.INVOKEINTERFACE,
-                    the_interface, 
+                    the_interface,
                     nm,
                     callee_sig);
-            
+
             char last = sig.charAt(sig.length()-1);
             if (last == 'V')
                 voidEpilogue(mv);
             else
                 areturnEpilogue(mv);
-        }       
+        }
 
         cw.visitEnd();
 
         return cw.toByteArray();
     }
-    
+
     static void addTransitiveImplements(Class cl, Set<Class> tc_ifs) {
         tc_ifs.add(cl);
         Class[] ifs = cl.getInterfaces();
 
-        for (Class an_if : ifs) 
-            if (! tc_ifs.contains(an_if)) 
+        for (Class an_if : ifs)
+            if (! tc_ifs.contains(an_if))
                 addTransitiveImplements(an_if, tc_ifs);
     }
 
@@ -2040,11 +2040,11 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
          * methods e1 ... eN returning typed results.
          */
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
- 
+
         final int n = parameters.size();
-        final String any_tuple_n = ANY_TUPLE + Naming.LEFT_OXFORD + n + Naming.RIGHT_OXFORD;        
+        final String any_tuple_n = ANY_TUPLE + Naming.LEFT_OXFORD + n + Naming.RIGHT_OXFORD;
         String[] superInterfaces = { any_tuple_n };
-        
+
         cw.visit(JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_ABSTRACT + ACC_INTERFACE, dename, null,
                  "java/lang/Object", superInterfaces);
 
@@ -2063,49 +2063,49 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
     private byte[] instantiateConcreteTuple(String dename, List<String> parameters) {
         /*
          * extends AnyConcreteTuple[\ N \]
-         * 
+         *
          * implements Tuple[\ parameters \]
-         * 
+         *
          * defines f1 ... fN
          * defines e1 ... eN
          * defines o1 ... oN
          */
 
         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
-        
+
         final int n = parameters.size();
-        final String any_tuple_n = ANY_TUPLE + Naming.LEFT_OXFORD + n + Naming.RIGHT_OXFORD;        
-        final String any_concrete_tuple_n = ANY_CONCRETE_TUPLE + Naming.LEFT_OXFORD + n + Naming.RIGHT_OXFORD;        
+        final String any_tuple_n = ANY_TUPLE + Naming.LEFT_OXFORD + n + Naming.RIGHT_OXFORD;
+        final String any_concrete_tuple_n = ANY_CONCRETE_TUPLE + Naming.LEFT_OXFORD + n + Naming.RIGHT_OXFORD;
         final String tuple_params = stringListToTuple(parameters);
-        
+
         String[] superInterfaces = { tuple_params };
-        
+
         cw.visit(JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER, dename, null,
                 any_concrete_tuple_n, superInterfaces);
-        
-        
+
+
         /* Outline of what must be generated:
-        
+
         // fields
-        
+
         // init method
-        
+
         // factory method
-          
+
  		// getRTTI method
-        
+
         // is instance method -- takes an Object
 
         // is instance method
-          
+
         // cast method
-        
+
         // typed getters
-        
+
         // untyped getters
-         
+
         */
-        
+
         // fields
         {
             for (int i = 0; i < n; i++) {
@@ -2126,7 +2126,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             for (int i = 0; i < n; i++) {
                 String f = TUPLE_FIELD_PFX + (i + Naming.TUPLE_ORIGIN);
                 String sig = Naming.internalToDesc(parameters.get(i));
-                
+
                 mv.visitVarInsn(Opcodes.ALOAD, 0);
                 mv.visitVarInsn(Opcodes.ALOAD, i+1);
                 mv.visitFieldInsn(Opcodes.PUTFIELD, dename, f, sig);
@@ -2135,13 +2135,13 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
             mv.visitEnd();
         }
-            
+
         // factory method -- same args as init, returns a new one.
         {
             String init_sig = tupleParamsToJvmInitSig(parameters);
             String make_sig = toJvmSig(parameters, Naming.javaDescForTaggedFortressType(tuple_params));
             MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "make", make_sig, null, null);
-            
+
             mv.visitCode();
             // eep(mv, "before new");
             mv.visitTypeInsn(NEW, dename);
@@ -2152,12 +2152,12 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             }
             // eep(mv, "before init");
             mv.visitMethodInsn(INVOKESPECIAL, dename, "<init>", init_sig);
-            
+
             mv.visitInsn(Opcodes.ARETURN);
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
             mv.visitEnd();
         }
-        
+
         // getRTTI method/field and static initialization
         {
         	final String classname = dename;
@@ -2170,13 +2170,13 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         	mv.visitFieldInsn(GETSTATIC, classname, Naming.RTTI_FIELD, Naming.RTTI_CONTAINER_DESC);
 
         	areturnEpilogue(mv);
-        	
+
             MethodVisitor imv = cw.visitMethod(ACC_STATIC,
                     "<clinit>",
                     Naming.voidToVoid,
                     null,
                     null);
-            //taken from codegen.emitRttiField	
+            //taken from codegen.emitRttiField
             InitializedStaticField isf = new InitializedStaticField.StaticForRttiFieldOfTuple(classname, this);
             isf.forClinit(imv);
             cw.visitField(ACC_PUBLIC + ACC_STATIC + ACC_FINAL,
@@ -2186,69 +2186,69 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             imv.visitInsn(RETURN);
             imv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
             imv.visitEnd();
-        	
+
         }
-        
+
         // is instance method -- takes an Object
         {
             String sig = "(Ljava/lang/Object;)Z";
         	MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, IS_A, sig, null, null);
-            
+
             Label fail = new Label();
-            
+
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitTypeInsn(Opcodes.INSTANCEOF, any_tuple_n);
             mv.visitJumpInsn(Opcodes.IFEQ, fail);
-            
+
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitTypeInsn(Opcodes.CHECKCAST, any_tuple_n);
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, dename,  IS_A, "("+Naming.internalToDesc(any_tuple_n)+")Z");
             mv.visitInsn(Opcodes.IRETURN);
-            
+
             mv.visitLabel(fail);
             mv.visitIntInsn(BIPUSH, 0);
             mv.visitInsn(Opcodes.IRETURN);
-            
+
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
             mv.visitEnd();
         }
-        
+
         // is instance method -- takes an AnyTuple[\N\]
         {
             String sig = "(" + Naming.internalToDesc(any_tuple_n) + ")Z";
             MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, IS_A, sig, null, null);
-            
+
             Label fail = new Label();
-            
+
             for (int i = 0; i < n; i++) {
                 mv.visitVarInsn(Opcodes.ALOAD, 0);
                 mv.visitMethodInsn(INVOKEINTERFACE, any_tuple_n, TUPLE_OBJECT_ELT_PFX + (Naming.TUPLE_ORIGIN + i), UNTYPED_GETTER_SIG);
-                
+
                 String cast_to = parameters.get(i);
 
                 generalizedInstanceOf(mv, cast_to);
-                
+
                 mv.visitJumpInsn(Opcodes.IFEQ, fail);
 
             }
-            
+
             mv.visitIntInsn(BIPUSH, 1);
             mv.visitInsn(Opcodes.IRETURN);
-            
+
             mv.visitLabel(fail);
             mv.visitIntInsn(BIPUSH, 0);
             mv.visitInsn(Opcodes.IRETURN);
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
             mv.visitEnd();
         }
-        
+
         // cast method
         {
             String sig = "(" + Naming.internalToDesc(any_tuple_n) + ")"+Naming.internalToDesc(tuple_params);
             String make_sig = toJvmSig(parameters, Naming.javaDescForTaggedFortressType(tuple_params));
-            
+
             MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, CAST_TO, sig, null, null);
-                        
+
             // Get the parameters to make, and cast them.
             for (int i = 0; i < n; i++) {
                 mv.visitVarInsn(Opcodes.ALOAD, 0);
@@ -2256,14 +2256,14 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 String cast_to = parameters.get(i);
                 generalizedCastTo(mv, cast_to);
             }
-            
+
             mv.visitMethodInsn(INVOKESTATIC, dename, "make", make_sig);
-            
+
             mv.visitInsn(Opcodes.ARETURN);
             mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
             mv.visitEnd();
         }
-        
+
         // typed getters
         // untyped getters
         for (int i = 0; i < n; i++) {
@@ -2290,7 +2290,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             }
         }
 
-        
+
         cw.visitEnd();
 
         return cw.toByteArray();
@@ -2320,7 +2320,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
     static Pair<Integer, Integer> make(Integer a, Integer b) {
         return new Pair<Integer, Integer>(a, b);
     }
-    
+
     /**
      * @param mv
      * @param cast_to
@@ -2370,14 +2370,14 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         } else if (cast_to.startsWith(Naming.ARROW_OX)) {
             List<String> cast_to_parameters = RTHelpers.extractStringParameters(cast_to);
             // mv.visitTypeInsn(Opcodes.CHECKCAST, cast_to);
-            
+
             Triple<List<String>, List<String>, String> stuff =
                 normalizeArrowParameters(cast_to_parameters);
-            
+
             List<String> unwrapped_parameters = stuff.getA();
             List<String> tupled_parameters = stuff.getB();
             String tupleType = stuff.getC();
-            
+
             List<String> objectified_parameters = Useful.applyToAll(unwrapped_parameters, toJLO);
             objectified_parameters = normalizeArrowParametersAndReturn(objectified_parameters);
             String obj_sig = stringListToGeneric(Naming.ARROW_TAG, objectified_parameters);
@@ -2453,12 +2453,12 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
     }
 
 
-    
+
     static boolean isExpandedOx(String className) {
         return isExpanded(className, Naming.LEFT_OXFORD_CHAR, Naming.RIGHT_OXFORD_CHAR) ;
     }
     static boolean isExpandedAngle(String className) {
-        return 
+        return
         isExpanded(className, Naming.LEFT_HEAVY_ANGLE_CHAR, Naming.RIGHT_HEAVY_ANGLE_CHAR);
     }
 
@@ -2474,7 +2474,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         int right = className.indexOf(right_ch);
         return (left != -1 && right != -1 && left < right);
     }
-    
+
     Naming.XlationData xlationForGeneric(String t) {
         String template_name = genericTemplateName(t, null);
         return xlationForFunctionOrGeneric(template_name);
@@ -2500,9 +2500,9 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
     private Naming.XlationData xlationForFunctionOrGeneric(String template_name)
             throws Error {
         Naming.XlationData xldata = stemToXlation.get(template_name);
-        
+
         if (xldata != null) return xldata;
-        
+
         try {
             xldata =
                 Naming.XlationData.fromBytes(readResource(template_name, "xlation"));
@@ -2511,13 +2511,13 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         } catch (IOException e) {
             throw new Error("Unable to read serialized data for " + template_name + ", recommend you delete the Fortress bytecode cache and relink", e);
         }
-        
+
         synchronized(stemToXlation) {
             if (stemToXlation.get(template_name) == null) {
                 stemToXlation.put(template_name, xldata);
             }
         }
-        
+
         return xldata;
     }
     public static void optionalStaticsAndClassInitForTO(
@@ -2525,14 +2525,14 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                ManglingClassWriter cw) {
            if (isf_list.size() ==  0)
                return;
-    
+
            MethodVisitor imv = cw.visitMethod(ACC_STATIC,
                                               "<clinit>",
                                               Naming.voidToVoid,
                                               null,
                                               null);
-    
-                  
+
+
            for (InitializedStaticField isf : isf_list) {
                isf.forClinit(imv);
                cw.visitField(
@@ -2541,7 +2541,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                        null /* for non-generic */, null /* instance has no value */);
                // DRC-WIP
            }
-           
+
            imv.visitInsn(RETURN);
            imv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
            imv.visitEnd();
@@ -2587,23 +2587,23 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             String static_parameter_name, int i) {
         String method_name =
             Naming.staticParameterGetterName(stem_name, i);
-        
+
         cw.visitField(ACC_PRIVATE + ACC_FINAL,
                 static_parameter_name, Naming.RTTI_CONTAINER_DESC, null, null);
-        
+
         MethodVisitor mv = cw.visitCGMethod(
                 ACC_PUBLIC, method_name,
                 Naming.STATIC_PARAMETER_GETTER_SIG, null, null);
-        
+
         mv.visitVarInsn(ALOAD, 0);
         mv.visitFieldInsn(GETFIELD, Naming.stemClassToRTTIclass(stem_name), static_parameter_name, Naming.RTTI_CONTAINER_DESC);
-    
-        
+
+
         areturnEpilogue(mv);
     }
 
     /**
-     * 
+     *
      */
     static public void voidEpilogue(MethodVisitor mv) {
         mv.visitInsn(RETURN);
@@ -2612,11 +2612,11 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
     }
 
     /**
-     * 
+     *
      */
     static public void areturnEpilogue(MethodVisitor mv) {
         mv.visitInsn(ARETURN);
-    
+
         mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
         mv.visitEnd();
     }
@@ -2630,7 +2630,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             mv.visitVarInsn(ALOAD, arg+first_arg);
         }
     }
-    
+
     public static void pushArgs(MethodVisitor mv, int first_arg, int n_args, List<Boolean> nulls) {
         int nulls_pushed = 0;
         for (int arg = 0; arg < n_args; arg++) {
@@ -2642,7 +2642,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             }
         }
     }
-    
+
     public static void pushArgsIntoArray(MethodVisitor mv, int first_arg, int n_args, int array_offset) {
         for (int arg = 0; arg < n_args; arg++) {
             mv.visitVarInsn(Opcodes.ALOAD, array_offset);
@@ -2679,7 +2679,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
             String rttiClassName,
             int sparams_size,
             final Naming.XlationData xldata) {
-        
+
         // Push nulls for opr parameters in the factory call.
         List<Boolean> spks;
         int type_sparams_size = sparams_size;
@@ -2689,7 +2689,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         } else {
             spks = new InfiniteList<Boolean>(false);
         }
-        
+
         // FIELD
         // static, initialized to Map-like thing
         cw.visitField(ACC_PRIVATE + ACC_STATIC + ACC_FINAL,
@@ -2706,7 +2706,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         mv.visitMethodInsn(INVOKESPECIAL, Naming.RTTI_MAP_TYPE, "<init>", "()V");
         // store
         mv.visitFieldInsn(PUTSTATIC, rttiClassName,
-                "DICTIONARY", Naming.RTTI_MAP_DESC);                
+                "DICTIONARY", Naming.RTTI_MAP_DESC);
 
         mv.visitInsn(RETURN);
         mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
@@ -2716,7 +2716,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
 
         boolean useSparamsArray = sparams_size > 6;
         int sparamsArrayIndex = sparams_size;
-        
+
         String fact_sig = Naming.rttiFactorySig(type_sparams_size);
         String init_sig = InstantiatingClassloader.jvmSignatureForOnePlusNTypes("java/lang/Class",
                 type_sparams_size, Naming.RTTI_CONTAINER_TYPE, "V");
@@ -2724,9 +2724,9 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         String put_sig;
         String getClass_sig;
         if (useSparamsArray) {
-            get_sig = Naming.makeMethodDesc(Naming.RTTI_CONTAINER_ARRAY_DESC, 
+            get_sig = Naming.makeMethodDesc(Naming.RTTI_CONTAINER_ARRAY_DESC,
                                             Naming.RTTI_CONTAINER_DESC);
-            put_sig = Naming.makeMethodDesc(Naming.RTTI_CONTAINER_ARRAY_DESC + Naming.RTTI_CONTAINER_DESC, 
+            put_sig = Naming.makeMethodDesc(Naming.RTTI_CONTAINER_ARRAY_DESC + Naming.RTTI_CONTAINER_DESC,
                                             Naming.RTTI_CONTAINER_DESC);
             getClass_sig = Naming.makeMethodDesc(NamingCzar.descString + Naming.RTTI_CONTAINER_ARRAY_DESC,
                                                  NamingCzar.descClass);
@@ -2741,9 +2741,9 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
 
         mv = cw.visitNoMangleMethod(ACC_PUBLIC + ACC_STATIC, Naming.RTTI_FACTORY, fact_sig, null, null);
         mv.visitCode();
-        /* 
+        /*
          * First arg is java class, necessary for creation of type.
-         * 
+         *
          * rCN x = DICTIONARY.get(args)
          * if  x == null then
          *   x = new rCN(args)
@@ -2754,7 +2754,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
 
         // object
         mv.visitFieldInsn(GETSTATIC, rttiClassName,
-                "DICTIONARY", Naming.RTTI_MAP_DESC);                
+                "DICTIONARY", Naming.RTTI_MAP_DESC);
         // push args
         int l = sparams_size;
         if (useSparamsArray) {
@@ -2772,16 +2772,16 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         mv.visitJumpInsn(IFNONNULL, not_null);
         mv.visitInsn(POP); // discard dup'd null
         // doing it all on the stack -- (unless too many static params, then use an array for human coded stuff)
-        // 1) first push the dictionary and args (array if used) 
+        // 1) first push the dictionary and args (array if used)
         // 2) create new RTTI object
         // 3) push args again (array if used) and create the class for this object
         // 4) push the args again (never array) to init RTTI object
         // 5) add to dictionary
-        
+
         //1)
         mv.visitFieldInsn(GETSTATIC, rttiClassName,
-                "DICTIONARY", Naming.RTTI_MAP_DESC);                
-        
+                "DICTIONARY", Naming.RTTI_MAP_DESC);
+
         if (useSparamsArray) {
             mv.visitVarInsn(ALOAD, sparamsArrayIndex);
         } else {
@@ -2791,7 +2791,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         // 2) invoke constructor
         mv.visitTypeInsn(NEW, rttiClassName);
         mv.visitInsn(DUP);
-        
+
         // 3) create class for this object
         String stem = Naming.rttiClassToBaseClass(rttiClassName);
         if (true || xldata == null) {
@@ -2805,7 +2805,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         } else {
             InstantiatingClassloader.pushArgs(mv, 0, l, spks);
         }
-        
+
         //(mv, "before getRTTIclass");
         mv.visitMethodInsn(Opcodes.INVOKESTATIC, Naming.RT_HELPERS, "getRTTIclass", getClass_sig);
         //eep(mv, "after getRTTIclass");
@@ -2825,18 +2825,18 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
         mv.visitEnd();
     }
-    
+
 //    static public Class getRTTIclass(String stem, RTTI[] params) {
-//  
+//
 //        StringBuilder classNameBuf = new StringBuilder(stem + Naming.LEFT_OXFORD);
 //        for (int i = 0; i < params.length - 1; i++) {
 //            classNameBuf.append(params[i].className() + ";");
 //        }
 //        classNameBuf.append(params[params.length-1].className() + Naming.RIGHT_OXFORD);
-//        
+//
 //        String mangledClassName = Naming.mangleFortressIdentifier(classNameBuf.toString());
 //        String mangledDots = Naming.sepToDot(mangledClassName);
-//        
+//
 //        try {
 //            return Class.forName(mangledDots); //ONLY.loadClass(Naming.sepToDot(mangledClassName), false);
 //        } catch (ClassNotFoundException e) {
@@ -2844,27 +2844,27 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
 //            throw new RuntimeException("class " + mangledClassName.toString() + " failed to load");
 //        }
 //    }
-//    
+//
 //    static public Class getRTTIclass(String stem, RTTI param1) {
 //        RTTI[] params = { param1 };
 //        return getRTTIclass(stem, params);
 //    }
-//    
+//
 //    static public Class getRTTIclass(String stem, RTTI param1, RTTI param2) {
 //        RTTI[] params = { param1, param2 };
 //        return getRTTIclass(stem, params);
 //    }
-//    
+//
 //    static public Class getRTTIclass(String stem, RTTI param1, RTTI param2, RTTI param3) {
 //        RTTI[] params = { param1, param2, param3 };
 //        return getRTTIclass(stem, params);
 //    }
-//    
+//
 //    static public Class getRTTIclass(String stem, RTTI param1, RTTI param2, RTTI param3, RTTI param4) {
 //        RTTI[] params = { param1, param2, param3, param4 };
 //        return getRTTIclass(stem, params);
 //    }
-//    
+//
 //    static public Class getRTTIclass(String stem, RTTI param1, RTTI param2, RTTI param3, RTTI param4, RTTI param5) {
 //        RTTI[] params = { param1, param2, param3, param4, param5 };
 //        return getRTTIclass(stem, params);
@@ -2902,11 +2902,11 @@ class ClassLoadChecker {
             || name.startsWith("com.sun.fortress.repository.ProjectProperties")
             || name.startsWith("com.sun.fortress.useful.")
             || name.startsWith("org.objectweb.asm.")
-            || name.startsWith("com.sun.fortress.compiler.runtimeValues.RTTI") 
-            || name.startsWith("com.sun.fortress.compiler.runtimeValues.ArrowRTTI") 
-            || name.startsWith("com.sun.fortress.compiler.runtimeValues.JavaRTTI") 
-            || name.startsWith("com.sun.fortress.runtimeSystem.RttiTupleMap") 
-            || name.startsWith("com.sun.fortress.runtimeSystem.Naming") 
+            || name.startsWith("com.sun.fortress.compiler.runtimeValues.RTTI")
+            || name.startsWith("com.sun.fortress.compiler.runtimeValues.ArrowRTTI")
+            || name.startsWith("com.sun.fortress.compiler.runtimeValues.JavaRTTI")
+            || name.startsWith("com.sun.fortress.runtimeSystem.RttiTupleMap")
+            || name.startsWith("com.sun.fortress.runtimeSystem.Naming")
             || (name.startsWith("com.sun.") && ! name.startsWith("com.sun.fortress."))) {
             return true;
         }
@@ -2942,5 +2942,5 @@ class ClassLoadChecker {
             return true;
         }
     }
-    
+
 }

@@ -548,7 +548,7 @@ class TryChecker(current: CompilationUnitIndex,
     }
     catch {
       case e:StaticError => None
-      case e => throw e
+      case e:Throwable => throw e
     }
 
   /** Check the given expression; return it if successful, None otherwise. */
@@ -561,7 +561,7 @@ class TryChecker(current: CompilationUnitIndex,
     }
     catch {
       case e:StaticError => None
-      case e => throw e
+      case e:Throwable => throw e
     }
 
   /** Check the given expression; return it if successful, None otherwise. */
@@ -577,7 +577,7 @@ class TryChecker(current: CompilationUnitIndex,
     }
     catch {
       case e:StaticError => None
-      case e => throw e
+      case e:Throwable => throw e
     }
 
   /**
@@ -593,7 +593,7 @@ class TryChecker(current: CompilationUnitIndex,
     }
     catch {
       case e:StaticError => None
-      case e => throw e
+      case e:Throwable => throw e
     }
 
   /** Return the error that made the TryChecker fail. */

@@ -51,7 +51,7 @@ public class NodeFactory {
     public static final Span unprinterSpan = makeSpan("Unprinter generated.");
     public static final Span testSpan = makeSpan("Test generated.");
     public static final Span repoSpan = makeSpan("Repository generated.");
-    
+
     /**
      * For use only when there is no hope of
      * attaching a true span.
@@ -59,6 +59,7 @@ public class NodeFactory {
      * @return a span from a string.
      * @deprecated
      */
+     @Deprecated
     public static Span makeSpan(String villain) {
         SourceLoc sl = new SourceLocRats(villain,0,0,0);
         return new Span(sl,sl);
@@ -875,7 +876,7 @@ public class NodeFactory {
         return makeTupleType(span, false, elements, Option.<Type>none(),
                 Collections.<KeywordType>emptyList());
     }
-    
+
     public static TupleType makeTupleType(Span span, boolean parenthesized,
                                           List<Type> elements,
                                           Option<Type> varargs,
@@ -1016,7 +1017,7 @@ public class NodeFactory {
     /**
      * Non-standard -- stashes the params into the type-info, leaving the
      * sparams field empty.  (or maybe not)
-     * 
+     *
      * @param name
      * @param sargs
      * @param sparams
@@ -1038,12 +1039,12 @@ public class NodeFactory {
     public static VarType makeVarType(Span span, Id id) {
         return makeVarType(span, false, id, lexicalDepth);
     }
-    
+
     public static VarType makeVarType(Span span, Id id, List<StaticParam> lsp) {
         TypeInfo info =   makeTypeInfo(span, false, lsp, Option.<WhereClause>none());
         return new VarType(info, id, lexicalDepth);
     }
-    
+
     public static VarType makeVarType(Span span, Id id, int depth) {
         return makeVarType(span, false, id, depth);
     }
@@ -1165,7 +1166,7 @@ public class NodeFactory {
     public static _InferenceVarType make_InferenceVarType(Span s) {
         return make_InferenceVarType(s, false, new Object());
     }
-    
+
 
     public static _InferenceVarType make_InferenceVarType(Span span, boolean parenthesized, Object id) {
         TypeInfo info = makeTypeInfo(span, parenthesized);
@@ -1173,7 +1174,7 @@ public class NodeFactory {
         Id bogus = makeId(span, id.toString());
         return new _InferenceVarType(info, bogus, id);
     }
-    
+
     public static _InferenceVarOp make_InferenceVarOp(Span span) {
         return new _InferenceVarOp(makeASTNodeInfo(span), Option.<APIName>none(), "Inference", unknownFix, false, new Object());
     }
@@ -1773,19 +1774,19 @@ public class NodeFactory {
     public static DimArg makeDimArg(Span span, DimExpr d, boolean lifted) {
         return new DimArg(makeSpanInfo(span), lifted, d);
     }
-    
+
     public static OpArg makeOpArg(Span span, Op op){
         return new OpArg(makeSpanInfo(span), false, op);
     }
-    
+
     public static OpArg makeOpArg(Span span, Op op, boolean lifted){
         return new OpArg(makeSpanInfo(span), lifted, op);
     }
-    
+
     public static OpArg makeOpArg(Span span, String text){
         return new OpArg(makeSpanInfo(span), false, makeOp(span, text));
     }
-    
+
     public static UnitArg makeUnitArg(UnitExpr s) {
         return makeUnitArg(NodeUtil.getSpan(s), s);
     }
@@ -1986,7 +1987,7 @@ public class NodeFactory {
             return makeStaticParam(span, variance, bogusId(span), tys, doms, ty, b, k);
         }
     }
-    
+
     public static StaticParam makeStaticParam(Span span,
     							                 String variance,
                                               IdOrOp name, List<BaseType> tys, List<BaseType> doms,
@@ -1995,7 +1996,7 @@ public class NodeFactory {
     	    int v = (variance == null ? 0 : variance.equals("covariant") ? 1 : variance.equals("contravariant") ? -1 : (Integer) bug(span,"Incorrect variance " + variance));
         return new StaticParam(makeSpanInfo(span), v, name, tys, doms, ty, b, k);
     }
-    
+
     public static StaticParam makeStaticParam(StaticParam sp, Id name, List<BaseType> extendsClause) {
         return new StaticParam(sp.getInfo(), sp.getVariance(), name,
                 extendsClause, Collections.<BaseType>emptyList(), sp.getDimParam(), sp.isAbsorbsParam(),
@@ -2023,7 +2024,7 @@ public class NodeFactory {
                                Option.<Type>none(), false,
                                new KindType());
     }
-    
+
     public static StaticParam makeOpParam(Span s, String name) {
         return makeStaticParam(s, null, makeOp(s, name),
                                Collections.<BaseType>emptyList(),Collections.<BaseType>emptyList(),
@@ -2826,7 +2827,7 @@ public class NodeFactory {
         block = new Block(block.getInfo(), block.getLoc(), true, block.isWithinDo(), block.getExprs());
         return block;
     }
-    
+
     public static Id makeLocalId(Id fn) {
         return new Id(fn.getInfo(), Option.<APIName>none(), fn.getText());
     }

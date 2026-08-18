@@ -49,7 +49,7 @@ object TypeParser extends RegexParsers {
     {case ps~t => insertStaticParams(t, ps.getOrElse(Nil)).asInstanceOf[TraitType]}
 
   def staticParams: Parser[List[StaticParam]] = "[" ~> repsep(staticParam, ",") <~ "]"
-  
+
   def staticParam: Parser[StaticParam] = regex(VAR) ~ opt("extends {" ~> repsep(baseType, ",") <~ "}") ^^
     {case id~bounds => makeTypeParam(typeSpan, makeId(typeSpan, id), toJavaList(bounds.getOrElse(List(OBJECT))), none[Type], false)}
 
@@ -64,7 +64,7 @@ object TypeParser extends RegexParsers {
     {typs => makeMaybeTupleType(typeSpan, toJavaList(typs))}
 
   def baseType: Parser[BaseType] = anyType | bottomType | namedType
-  
+
   def objectType: Parser[TraitType] = literal("Object") ^^ {x => OBJECT}
 
   def namedType: Parser[NamedType] = objectType | traitType | varType
@@ -84,7 +84,7 @@ object TypeParser extends RegexParsers {
 
   def ivarType: Parser[_InferenceVarType] = regex(IVAR) ^^
     {id => make_InferenceVarType(typeSpan, false, id)}
-  
+
   def traitType: Parser[TraitType] = regex(TRAIT) ~ opt(staticArgs) ^^
     {case id~args => makeTraitType(typeSpan, id, toJavaList(args.getOrElse(Nil)))}
   def staticArgs: Parser[List[StaticArg]] = "[" ~> repsep(staticArg, ",") <~ "]"
@@ -108,7 +108,7 @@ object TypeParser extends RegexParsers {
         case Some(cs) => makeSelfType(tType, cs)
         case None => makeSelfType(tType)
       }
-       
+
       // Construct the AST trait declaration node.
       val ast = makeTraitDecl(typeSpan,
                               Modifiers.None,
@@ -143,7 +143,7 @@ object TypeParser extends RegexParsers {
       val sargs = sparams.map(staticParamToArg)
       val tType = makeTraitType(typeSpan, tName, toJavaList(sargs))
       val selfType = makeSelfType(tType)
-      
+
       // Make object declaration AST node.
       val ast = makeObjectDecl(typeSpan,
                                Modifiers.None,

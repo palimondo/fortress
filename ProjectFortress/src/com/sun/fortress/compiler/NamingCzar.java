@@ -112,7 +112,7 @@ public class NamingCzar {
     public static final Id SELF_NAME = NodeFactory.makeId(NodeFactory.internalSpan, "self");
     /**
      * Generates a "self" at a particular location.
-     * 
+     *
      * @param sp
      * @return
      */
@@ -227,7 +227,7 @@ public class NamingCzar {
 
     public static final String voidToFortressVoid = Naming.makeMethodDesc("", descFortressVoid);
 
-    public static final String descFortressMutableFValueInternal = 
+    public static final String descFortressMutableFValueInternal =
         "Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;" ;
 
     private static final List<String> extendsObject =
@@ -293,7 +293,7 @@ public class NamingCzar {
 
     static APIName fortLib =
         NodeFactory.makeAPIName(span, WellKnownNames.fortressBuiltin());
-    
+
     static public APIName fortressLibrary() {
         return fortLib;
     }
@@ -317,7 +317,7 @@ public class NamingCzar {
         }
         return false;
     }
-    
+
     /**
      * Given an ASM Type t from foreign Java, what is the corresponding type
      * in Fortress (expressed as an AST Type node)?
@@ -456,12 +456,12 @@ public class NamingCzar {
 	// and it relies on the following static field definition.
      }
     private static TraitType fortressCharacterType = ss(fortLib, "Character");
-    private static TraitType fortressZZ32VectorType = ss(fortLib, "ZZ32Vector");    
+    private static TraitType fortressZZ32VectorType = ss(fortLib, "ZZ32Vector");
     private static TraitType fortressStringVectorType = ss(fortLib, "StringVector");
     private static TraitType fortressNN32Type = ss(fortLib, "NN32");
     private static TraitType fortressNN64Type = ss(fortLib, "NN64");
-    private static TraitType fortressZZType = ss(fortLib, "ZZ");   
-    
+    private static TraitType fortressZZType = ss(fortLib, "ZZ");
+
     /**
      * Package prefix for runtime values
      */
@@ -584,6 +584,7 @@ public class NamingCzar {
      * However, this is probably obsolete, since it appears to be
      * only used in the interpreter code (csf.interpreter.env.ClosureMaker)
      */
+     @Deprecated
     public static String apiNameToPackageName(APIName name) {
         if (ForeignJava.only.definesApi(name)) {
             return Naming.NATIVE_PREFIX_DOT + name.getText();
@@ -663,6 +664,7 @@ public class NamingCzar {
      *         environment for component componentName.
      */
     // I think this is old interpreter-centric code.
+    @Deprecated
     public static String classNameForComponentEnvironment(APIName componentName) {
         return classNameForComponentEnvironment(NodeUtil.nameString(componentName));
     }
@@ -674,6 +676,7 @@ public class NamingCzar {
      *         environment for component componentName.
      */
     // I think this is old interpreter-centric code.
+    @Deprecated
     public static String classNameForComponentEnvironment(String componentName) {
         componentName = componentName + TopLevelEnvGen.COMPONENT_ENV_SUFFIX;
         componentName = mangleClassIdentifier(componentName);  // Need to mangle the name if it contains "."
@@ -688,6 +691,7 @@ public class NamingCzar {
      *         environment for api apiName
      */
     // I think this is old interpreter-centric code.
+    @Deprecated
     public static String classNameForApiEnvironment(APIName apiName) {
         return classNameForApiEnvironment(NodeUtil.nameString(apiName));
     }
@@ -700,6 +704,7 @@ public class NamingCzar {
      *         environment for apiName
      */
     // I think this is old interpreter-centric code.
+    @Deprecated
     public static String classNameForApiEnvironment(String apiName) {
         apiName = apiName + TopLevelEnvGen.API_ENV_SUFFIX;
         apiName = mangleClassIdentifier(apiName);  // Need to mangle the name if it contains "."
@@ -711,6 +716,7 @@ public class NamingCzar {
      * @param identifier
      * @return
      */
+     @Deprecated
     private static String mangleClassIdentifier(String identifier) {
         // Is this adequate, given naming freedom?
         String mangledString = identifier.replace(".", "$");
@@ -780,7 +786,7 @@ public class NamingCzar {
         mname += Naming.NON_OVERLOADED_TAG;
         return mname;
     }
-    
+
     /**
      * functions for generating the name of a generic method used in codegeneration
      */
@@ -792,18 +798,18 @@ public class NamingCzar {
     static public String genericMethodName(FnNameInfo x, int selfIndex, APIName ifNone) {
         ArrowType at = x.methodArrowType(selfIndex); // This looks wrong, too.
         String possiblyDottedName = Naming.fmDottedName(idOrOpToString(x.getName()), selfIndex);
-        
+
         String generic_arrow_type = NamingCzar.jvmTypeDesc(at, ifNone,
                 false);
-        return genericMethodName(possiblyDottedName, generic_arrow_type);    
+        return genericMethodName(possiblyDottedName, generic_arrow_type);
     }
-    
+
     // DRC-WIP
     // forMethodInvocation
     static public String genericMethodName(IdOrOp name, ArrowType at, APIName ifNone) {
         String generic_arrow_type = NamingCzar.jvmTypeDesc(at, ifNone,
                 false);
-        
+
         return genericMethodName(name.getText(), generic_arrow_type);
     }
 
@@ -816,14 +822,14 @@ public class NamingCzar {
         /* Just append the schema.
          * TEMP FIX -- do sep w/HEAVY_X.
          * Need to stop substitution on static parameters from the method itself.
-         * 
-           Do not separate with HEAVY_X, because schema may depend on 
+         *
+           Do not separate with HEAVY_X, because schema may depend on
            parameters from parent trait/object.
            (HEAVY_X stops substitution in instantiator).
            */
         return name + Naming.UP_INDEX + Naming.HEAVY_X + generic_arrow_type ;
     }
-    
+
 
     private static int taskCount = 0;
     public static String gensymTaskName(String packageAndClassName) {
@@ -893,7 +899,7 @@ public class NamingCzar {
         args = buf.toString();
         return Naming.makeMethodDesc(args, rangeDesc);
     }
-    
+
     /**
      * Ultimately used for overloaded methods with self parameters in their list.
      * @param domain
@@ -903,7 +909,7 @@ public class NamingCzar {
      * @return
      */
     public static String jvmSignatureFor(List<com.sun.fortress.nodes.Param> domain,
-            int self_index_to_skip, 
+            int self_index_to_skip,
             String rangeDesc, APIName ifNone) {
         // This special case handles single void argument type properly.
         if (domain.size() == 1)
@@ -919,7 +925,7 @@ public class NamingCzar {
         args = buf.toString();
         return Naming.makeMethodDesc(args, rangeDesc);
     }
-    
+
     public static String jvmSignatureForNObjects(int n,
             String rangeDesc) {
         // This special case handles single void argument type properly.
@@ -997,6 +1003,7 @@ public class NamingCzar {
      * @return
      */
     // Seems like a bad idea to call this.
+    @Deprecated
     public static String jvmClassForSymbol(IdOrOp fnName) {
         return jvmClassForSymbol(fnName, "");
     }
@@ -1035,7 +1042,7 @@ public class NamingCzar {
      * This deals with the boxed case of a type descriptor, meaning for
      * typle types, Tuple[\ stuff \].  These are for return values,
      * and for local variables.
-     * 
+     *
      * @param type
      * @param ifNone
      * @return
@@ -1060,7 +1067,7 @@ public class NamingCzar {
     public static String makeTupleDescriptor(TupleType t, final APIName ifNone,
             boolean specialFortressAsInterfaces) {
         List<com.sun.fortress.nodes.Type> types = t.getElements();
-        
+
         String res =
             "Tuple"+ Naming.LEFT_OXFORD +
             makeUnboxedTupleDescriptor(t, ifNone, specialFortressAsInterfaces) +
@@ -1078,12 +1085,12 @@ public class NamingCzar {
         for (int i = 0; i<n; i ++) {
             res[i] = makeBoxedTypeName(types.get(i), ifNone);
         }
-          
+
         return res;
 
   }
 
-    
+
 //    public static String makeArrowDescriptor(com.sun.fortress.nodes.Type domain,
 //            com.sun.fortress.nodes.Type range, final APIName ifNone) {
 //
@@ -1099,7 +1106,7 @@ public class NamingCzar {
         makeArrowDescriptor(t,ifNone);
     }
 
-    // Refugee from Overloadset, DID NOT BELONG THERE 
+    // Refugee from Overloadset, DID NOT BELONG THERE
     public static String objectAbstractArrowTypeForNParams(int numParams) {
         return objectFooTypeForNParams(Naming.ABSTRACT_ARROW, numParams);
     }
@@ -1119,12 +1126,12 @@ public class NamingCzar {
         ret.append(NamingCzar.internalObject + Naming.RIGHT_OXFORD); // return
         return ret.toString();
     }
-    
-    // Refugee from Overloadset, DID NOT BELONG THERE 
+
+    // Refugee from Overloadset, DID NOT BELONG THERE
     public static  String objectArrowTypeForNParams(int numParams) {
         return objectFooTypeForNParams(Naming.ARROW_TAG, numParams);
     }
-    
+
     // forFnExpr
     public static String makeAbstractArrowDescriptor(
             List<com.sun.fortress.nodes.Param> params,
@@ -1293,9 +1300,9 @@ public class NamingCzar {
             // a Java context that is probably more specific
             // than Object.  The tickling example is a FnExpr
             // with return type Bottom.
-            
+
             return "java/lang/Object";
-            
+
         } else
             throw new CompilerError(t, " How did we get here? type = " +
                                      t + " of class " + t.getClass());
@@ -1311,13 +1318,13 @@ public class NamingCzar {
         String s = makeBoxedThingName(Naming.UNION, ut.getElements(), ifNone);
         return s;
     }
-    
+
     private static String makeBoxedIntersectionName(IntersectionType ut,
             final APIName ifNone) {
         String s = makeBoxedThingName(Naming.INTERSECTION, ut.getElements(), ifNone);
         return s;
     }
-    
+
     private static String makeBoxedThingName(String thing,
             List<com.sun.fortress.nodes.Type> lt,
             final APIName ifNone) {
@@ -1356,14 +1363,14 @@ public class NamingCzar {
         return jvmTypeDesc(type, ifNone, false, false, true);
     }
 
-            
+
     public static String jvmTypeDesc(final com.sun.fortress.nodes.Type type,
             final APIName ifNone,
             final boolean withLSemi,
             final boolean boxed) {
         return jvmTypeDesc(type, ifNone, withLSemi, boxed, false);
     }
-    
+
     private static String jvmTypeDesc(final com.sun.fortress.nodes.Type type,
                                      final APIName ifNone,
                                      final boolean withLSemi,
@@ -1668,7 +1675,7 @@ public class NamingCzar {
         }
         return default_api;
     }
-    
+
     /**
      * @param id_or_op
      * @param default_api
@@ -1682,7 +1689,7 @@ public class NamingCzar {
         String api_string = javaPackageClassForApi(default_api);
         return api_string;
     }
-    
+
     public static String jvmClassForToplevelTypeDecl(String api, String local, String sparams_part) {
         return makeInnerClassName(api, local+sparams_part);
     }
@@ -1705,7 +1712,7 @@ public class NamingCzar {
      * @return
      */
     public static String idOrOpToString(IdOrOp fnName) {
-      
+
         if (fnName instanceof Op)
             return NamingCzar.opToString((Op) fnName);
         else if (fnName instanceof Id)
@@ -1720,7 +1727,7 @@ public class NamingCzar {
      * @return
      */
     public static String opToString(Op op) {
-        if (true) 
+        if (true)
             return OprUtil.fixityDecorator(op.getFixity(), op.getText());
        // Conflicts with above!
         Fixity fixity = op.getFixity();
@@ -1785,19 +1792,19 @@ public class NamingCzar {
     public static Triple<String,String,Integer> p(String s1) {
         return new Triple<String,String,Integer>(s1, null, 0);
     }
-    
+
     public static Triple<String,String,Integer> p(String s1, String s2) {
         return new Triple<String,String,Integer>(s1, s2, 0);
     }
-    
+
     public static Triple<String,String,Integer> p(String s1, Triple<String,String,Integer> ps2) {
         return new Triple<String,String,Integer>(s1, ps2.getB(), ps2.getC());
     }
-    
+
     public static Triple<String,String,Integer> p(Triple<String,String,Integer> ps1, Triple<String,String,Integer> ps2) {
         return new Triple<String,String,Integer>(ps1.getA(), ps2.getB(), ps2.getC());
     }
-    
+
     public static NodeAbstractVisitor<Triple<String,String,Integer>>
         spkTagger(final APIName ifMissing)
         { return new NodeAbstractVisitor<Triple<String,String,Integer>> () {
@@ -1835,7 +1842,7 @@ public class NamingCzar {
 
         @Override
         public Triple<String,String,Integer> forKindUnit(KindUnit that) {
-            return p(Naming.XL_UNIT); 
+            return p(Naming.XL_UNIT);
         }
 
         @Override
@@ -1954,7 +1961,7 @@ public class NamingCzar {
     /**
      * generates string representing the genericity based on the list of static type parameters
      * adds information to xldata if non-null
-     * 
+     *
      * @param receiverType - Type of the receiver added when converting methods to java static methods.  May be null.
      * @param sparams - static parameter list
      * @param xldata - translation data: information added when used to generate output, can be null
@@ -1969,7 +1976,7 @@ public class NamingCzar {
             return "";
 
         NodeAbstractVisitor<Triple<String,String,Integer>> spkTagger = spkTagger(ifMissing);
-        
+
         String frag = Naming.LEFT_OXFORD;
         StringBuilder buf = new StringBuilder();
         buf.append(frag);
@@ -1982,7 +1989,7 @@ public class NamingCzar {
         for (StaticParam sp : sparams) {
             StaticParamKind spk = sp.getKind();
             String k = spk.accept(spkTagger).getA();
-            
+
             IdOrOp spn = sp.getName();
             String s = spn.getText();
             if (xldata != null)
@@ -1996,7 +2003,7 @@ public class NamingCzar {
 
     /**
      * NOTE: similar to genericDecoration, but intended for an instantiated generic
-     * 
+     *
      * @param sargs - list of instantiated static type arguments
      * @param ifMissing - default API
      * @return string representing the generic instantiation

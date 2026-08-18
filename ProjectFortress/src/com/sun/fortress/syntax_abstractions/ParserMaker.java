@@ -22,6 +22,7 @@ import com.sun.fortress.syntax_abstractions.rats.RatsParserGenerator;
 import com.sun.fortress.syntax_abstractions.rats.RatsUtil;
 import com.sun.fortress.useful.Debug;
 import xtc.parser.*;
+import xtc.parser.Module;
 import xtc.tree.Attribute;
 import xtc.tree.Comment;
 

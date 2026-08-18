@@ -60,14 +60,20 @@ maintain proper indentation.
   <property name="xtc" location="${PF}/third_party/xtc"/>
   <property name="unsigned" location="${PF}/third_party/unsigned"/>
   <property name="javadb" location="${PF}/third_party/javadb"/>
+  <!-- BCEL is version 6.2 -->
+  <!-- <property name="bcel" location="${PF}/third-party/bcel"/> -->
 
-  <!-- Scala jar files 2.8.0 / 2.9.0RC1 -->
-  <property name="scala-version" value="2.9.0"/>
+  <!-- Scala jar files 2.10.7 / 2.12.5 -->
+  <property name="scala-version" value="2.10.7"/>
 
  <property name="scala-compiler.jar"
             value="${PF}/third_party/scala/scala-compiler-${scala-version}.jar"/>
   <property name="scala-library.jar"
             value="${PF}/third_party/scala/scala-library-${scala-version}.jar"/>
+  <property name="scala-reflect.jar"
+            value="${PF}/third_party/scala/scala-reflect-${scala-version}.jar"/>
+  <property name="scala-lib"
+            value="${PF}/third_party/scala/"/>
 
   <!-- ASTGen -->
   <property name="generate-sourcefile" value="${astgen.src}/Fortress.ast" />
@@ -123,11 +129,11 @@ maintain proper indentation.
   <!-- Other settings -->
   <property name="junitMem" value="768m"/>
   <property name="junit.dir" value="junit-results"/>
-  <property name="javaSourceVersion" value="1.5"/>
+  <property name="javaSourceVersion" value="1.9"/>
   <property environment="env"/>
   <condition property="correct.environment">
     <and>
-      <equals arg1="${ant.java.version}" arg2="1.6"/>
+      <equals arg1="${ant.java.version}" arg2="1.9"/>
       <equals arg1="${env.ANT_CALLED_FROM_SCRIPT}" arg2='yes'/>
     </and>
   </condition>
@@ -139,6 +145,8 @@ maintain proper indentation.
   <path id="scala.classpath">
     <pathelement location="${scala-compiler.jar}"/>
     <pathelement location="${scala-library.jar}"/>
+    <pathelement location="${scala-reflect.jar}"/>
+    <pathelement location="${scala-lib}"/>
   </path>
 
   <path id="astgen.path">
@@ -171,7 +179,8 @@ maintain proper indentation.
     <pathelement location="${astgen.third}/astgen.jar" />
     <pathelement location="${junit}/junit.jar"/>
     <pathelement location="${ant.home}/lib/ant.jar"/>
-    <pathelement location="${java.home}/../lib/tools.jar"/>
+    <!-- <pathelement location="${java.home}/../lib/tools.jar"/> -->
+    <!-- <pathelement location="${bcel}/bcel.jar"/> -->
     <pathelement location="${javadb}/derby.jar"/>
     <pathelement location="${javadb}/derbytools.jar"/>
   </path>
@@ -300,7 +309,7 @@ testOtherCompiler, testCruiseControl
           description="Delete the ${nodes} directory tree and cached asts.">
     <delete dir="${nodes}"/>
   </target>
- 
+
   <target name="cleanSpec"
           description="Delete the built spec files">
         <ant dir="Specification/fortress/" antfile="build.xml" target="clean"/>
@@ -431,7 +440,6 @@ testOtherCompiler, testCruiseControl
         srcdir="${astgen.generators.src}"
         destdir="${build}"
         classpathref="astgen.classpath"
-        addparams="-Ybuilder-debug:refined"
         deprecation="yes">
       <include name="**/*.scala"/>
       <exclude name="${usefulPackage}/*.scala"/>
@@ -514,7 +522,7 @@ testOtherCompiler, testCruiseControl
       <exclude name="${unicodePackage}/*.java"/>
     </javac>
   </target>
-  
+
   <target name="compileAll" depends="compileCommon, makeAST, parser, operatorsGen"
           description="Compile all Fortress code.">
     <scalac
@@ -725,7 +733,7 @@ testOtherCompiler, testCruiseControl
            description="Build the specification">
         <ant dir="Specification/fortress/" antfile="build.xml" target="spec"/>
     </target>
-       
+
 
   <!-- Note that testOnly no longer depends upon compileAll, as this
        entails a cache flush!  That rules out the only isolated method
@@ -900,7 +908,7 @@ testOtherCompiler, testCruiseControl
           <exclude name="**/TopLevelEnvGenJUTest.class"/>
           <exclude name="**/NightlyCompilerJUTest.class"/>
 		  <exclude name ="**/SpecDataJUTest.class"/>
-  		  <exclude name ="**/SystemJUTest.class"/>        	
+  		  <exclude name ="**/SystemJUTest.class"/>
           <exclude name="**/*$*.class"/>
           <exclude name="**/SyntaxAbstractionJUTestAll.class"/>
           <exclude name="**/ObjectExpressionVisitorJUTest.class"/>

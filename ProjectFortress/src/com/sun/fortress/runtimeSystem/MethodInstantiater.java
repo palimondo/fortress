@@ -24,14 +24,14 @@ import org.objectweb.asm.Type;
 import com.sun.fortress.useful.MagicNumbers;
 import com.sun.fortress.useful.Pair;
 import com.sun.fortress.useful.Useful;
-import com.sun.org.apache.bcel.internal.generic.INVOKEINTERFACE;
+import org.apache.bcel.generic.INVOKEINTERFACE;
 
 public class MethodInstantiater implements MethodVisitor {
 
     MethodVisitor mv;
     InstantiationMap xlation;
     InstantiatingClassloader icl;
-    
+
     public MethodInstantiater(MethodVisitor mv, InstantiationMap xlation, InstantiatingClassloader icl) {
         this.mv = mv;
         this.xlation = xlation;
@@ -61,9 +61,9 @@ public class MethodInstantiater implements MethodVisitor {
 
     public static final String FACTORY_SUFFIX =
         Naming.RIGHT_OXFORD + Naming.RTTI_CLASS_SUFFIX;
-    
+
     public final static int FACTORY_SUFFIX_LENGTH = FACTORY_SUFFIX.length();
-    
+
     public void visitFieldInsn(int opcode, String owner, String name, String orig_desc) {
         owner = xlation.getTypeName(owner);
         name = xlation.getTypeName(name);
@@ -78,15 +78,15 @@ public class MethodInstantiater implements MethodVisitor {
                  * how its descriptor translates (wrapped vs not), that means that
                  * there will be a second closure field, and it needs to be initialized.
                  */
-                mv.visitFieldInsn(Opcodes.PUTSTATIC, owner, name, unwrapped_desc); 
-                mv.visitFieldInsn(Opcodes.GETSTATIC, owner, name, unwrapped_desc); 
-                mv.visitFieldInsn(Opcodes.PUTSTATIC, owner, name, wrapped_desc); 
-                
+                mv.visitFieldInsn(Opcodes.PUTSTATIC, owner, name, unwrapped_desc);
+                mv.visitFieldInsn(Opcodes.GETSTATIC, owner, name, unwrapped_desc);
+                mv.visitFieldInsn(Opcodes.PUTSTATIC, owner, name, wrapped_desc);
+
             } else {
-                mv.visitFieldInsn(opcode, owner, name, desc); 
+                mv.visitFieldInsn(opcode, owner, name, desc);
             }
         } else {
-            mv.visitFieldInsn(opcode, owner, name, desc);        
+            mv.visitFieldInsn(opcode, owner, name, desc);
         }
     }
 
@@ -100,8 +100,8 @@ public class MethodInstantiater implements MethodVisitor {
             String stem = owner.substring(0,lox_index);
             List<String> parameters = RTHelpers.extractStringParameters(
                     owner, lox_index, rox_index);
-            
-            
+
+
             // special case hack for tuples, and arrows
             if (stem.equals(Naming.TUPLE_TAG) || stem.equals("ConcreteTuple")) {
                 stem = Naming.tupleRTTIclass(parameters.size());
@@ -110,7 +110,7 @@ public class MethodInstantiater implements MethodVisitor {
             } else if (stem.contains(Naming.ENVELOPE)  && stem.endsWith(Naming.ARROW_TAG)) {
             	stem = Naming.arrowRTTIclass(parameters.size());
             } else if (stem.equals(Naming.UNION)) {
-                
+
             } else {
                 // a real class that might have opr parameters.
                 // Obtain the xldata for the original type
@@ -121,12 +121,12 @@ public class MethodInstantiater implements MethodVisitor {
                 parameters = Useful.exclude(parameters, filter);
                 stem = Naming.oprArgAnnotatedRTTI(stem, opr_params);
             }
-            
+
             //recursive call
             for (String parameter : parameters) {
-                rttiReference(parameter);  
+                rttiReference(parameter);
             }
-            
+
             //call the factory
             String stem_rtti = Naming.stemClassToRTTIclass(stem);
             String fact_sig = Naming.rttiFactorySig(parameters.size());
@@ -135,7 +135,7 @@ public class MethodInstantiater implements MethodVisitor {
             //just get the field
             String ownerRTTIc = Naming.stemClassToRTTIclass(owner);
         	if (ownerRTTIc.startsWith(Naming.SNOWMAN)) {
-        	    ownerRTTIc = ownerRTTIc.replaceFirst(Naming.SNOWMAN, Naming.RT_VALUES_PKG + "FVoid"); 
+        	    ownerRTTIc = ownerRTTIc.replaceFirst(Naming.SNOWMAN, Naming.RT_VALUES_PKG + "FVoid");
             }
         	mv.visitFieldInsn(Opcodes.GETSTATIC, ownerRTTIc, Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);
         }
@@ -284,12 +284,12 @@ public class MethodInstantiater implements MethodVisitor {
     public void visitVarInsn(int opcode, int var) {
         mv.visitVarInsn(opcode, var);
     }
-    
+
     // removed for backwards compatibility @Override
 //    public void visitInvokeDynamicInsn(String name, String desc,
 //            MethodHandle bsm, Object... bsmArgs) {
 //        throw new Error("InvokeDynamic not yet handled");
-//        
+//
 //    }
 
 }

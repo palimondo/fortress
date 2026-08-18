@@ -18,6 +18,7 @@ import com.sun.fortress.useful.Useful;
 import edu.rice.cs.plt.io.IOUtil;
 import edu.rice.cs.plt.tuple.Option;
 import xtc.parser.*;
+import xtc.parser.Module;
 import xtc.tree.Printer;
 import xtc.type.JavaAST;
 
