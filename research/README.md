@@ -37,7 +37,18 @@ local-only: drop the files in manually each session; they are never committed.
   ("Asterisks are for accountants"; units as free-abelian-group metaclasses.)
 
 - **Google Tech Talk — "Four Solutions to a Trivial Problem"** (cited on
-  JuliaCon slide 9) — YouTube.
+  JuliaCon slide 9) — video: https://www.youtube.com/watch?v=ftcIcn8AmSY
+  (recorded 2015-12-01). **No slide PDF on the open web** (verified
+  2026-08-18); as a 2015 Oracle Labs talk the deck is presumably another
+  Archivist DOC_ID on the dead APEX host. Recovery routes:
+  1. One-shot enumeration of every distinct archived Archivist PDF — each row
+     is one recoverable document, DOC_ID in the URL:
+     `https://web.archive.org/cdx/search/cdx?url=labs.oracle.com/pls/apex/f*&filter=mimetype:application/pdf&collapse=digest&fl=timestamp,original,digest&limit=2000`
+  2. Browse the archived publications app capture (the `p=94065` page) for the
+     title, take its GETDOC link, prefix `web.archive.org/web/<timestamp>id_/`.
+  3. Fallback if never crawled: the slides are full-frame in the video — frame
+     extraction (local task). Note JuliaCon slides 4–9 already reproduce the
+     talk's opening toy problem.
 
 - Adjacent canon: ICFP 2009 foldl/foldr keynote; Strange Loop 2010 "How to
   Think about Parallel Programming: Not!"; "Growing a Language" (OOPSLA 1998).
