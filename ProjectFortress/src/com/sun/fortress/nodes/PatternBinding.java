@@ -17,25 +17,38 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Class PatternBinding, a component of the ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Thu Oct 11 03:24:55 EDT 2018
+ * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
  */
 @SuppressWarnings("unused")
 public abstract class PatternBinding extends AbstractNode {
     private final Option<Id> _field;
+    private final Option<Id> _binderName;
 
     /**
      * Constructs a PatternBinding.
      * @throws java.lang.IllegalArgumentException  If any parameter to the constructor is null.
      */
-    public PatternBinding(ASTNodeInfo in_info, Option<Id> in_field) {
+    public PatternBinding(ASTNodeInfo in_info, Option<Id> in_field, Option<Id> in_binderName) {
         super(in_info);
         if (in_field == null) {
             throw new java.lang.IllegalArgumentException("Parameter 'field' to the PatternBinding constructor was null");
         }
         _field = in_field;
+        if (in_binderName == null) {
+            throw new java.lang.IllegalArgumentException("Parameter 'binderName' to the PatternBinding constructor was null");
+        }
+        _binderName = in_binderName;
+    }
+
+    /**
+     * A constructor with some fields provided by default values.
+     */
+    public PatternBinding(ASTNodeInfo in_info, Option<Id> in_field) {
+        this(in_info, in_field, Option.<Id>none());
     }
 
     public Option<Id> getField() { return _field; }
+    public Option<Id> getBinderName() { return _binderName; }
 
     public abstract int generateHashCode();
     /**
@@ -44,6 +57,7 @@ public abstract class PatternBinding extends AbstractNode {
      */
     protected PatternBinding() {
         _field = null;
+        _binderName = null;
     }
 
     /**
@@ -54,6 +68,7 @@ public abstract class PatternBinding extends AbstractNode {
     protected PatternBinding(ASTNodeInfo info) {
         super(info);
         _field = null;
+        _binderName = null;
     }
 
 }

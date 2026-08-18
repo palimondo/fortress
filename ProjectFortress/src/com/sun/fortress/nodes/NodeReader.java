@@ -2118,13 +2118,15 @@ public class NodeReader {
         ASTNodeInfo read_info = (ASTNodeInfo) readNode();
         readFieldDelim("field = ");
         Option<Id> read_field = readOptionOfId();
+        readFieldDelim("binderName = ");
+        Option<Id> read_binderName = readOptionOfId();
         readFieldDelim("name = ");
         Id read_name = (Id) readNode();
         readFieldDelim("mods = ");
         Modifiers read_mods = (Modifiers) readUnknownObject();
         readFieldDelim("idType = ");
         Option<TypeOrPattern> read_idType = readOptionOfTypeOrPattern();
-        return new PlainPattern(read_info, read_field, read_name, read_mods, read_idType);
+        return new PlainPattern(read_info, read_field, read_binderName, read_name, read_mods, read_idType);
     }
 
     private TypePattern readTypePatternBody() throws java.io.IOException {
@@ -2132,9 +2134,11 @@ public class NodeReader {
         ASTNodeInfo read_info = (ASTNodeInfo) readNode();
         readFieldDelim("field = ");
         Option<Id> read_field = readOptionOfId();
+        readFieldDelim("binderName = ");
+        Option<Id> read_binderName = readOptionOfId();
         readFieldDelim("typ = ");
         Type read_typ = (Type) readNode();
-        return new TypePattern(read_info, read_field, read_typ);
+        return new TypePattern(read_info, read_field, read_binderName, read_typ);
     }
 
     private NestedPattern readNestedPatternBody() throws java.io.IOException {
@@ -2142,9 +2146,11 @@ public class NodeReader {
         ASTNodeInfo read_info = (ASTNodeInfo) readNode();
         readFieldDelim("field = ");
         Option<Id> read_field = readOptionOfId();
+        readFieldDelim("binderName = ");
+        Option<Id> read_binderName = readOptionOfId();
         readFieldDelim("pat = ");
         Pattern read_pat = (Pattern) readNode();
-        return new NestedPattern(read_info, read_field, read_pat);
+        return new NestedPattern(read_info, read_field, read_binderName, read_pat);
     }
 
     private TypeArg readTypeArgBody() throws java.io.IOException {
@@ -5332,6 +5338,8 @@ public class NodeReader {
     private _SyntaxTransformationPatternBinding read_SyntaxTransformationPatternBindingBody() throws java.io.IOException {
         readFieldDelim("field = ");
         Option<Id> read_field = readOptionOfId();
+        readFieldDelim("binderName = ");
+        Option<Id> read_binderName = readOptionOfId();
         readFieldDelim("info = ");
         ASTNodeInfo read_info = (ASTNodeInfo) readNode();
         readFieldDelim("variables = ");
@@ -5340,12 +5348,14 @@ public class NodeReader {
         java.util.List<String> read_syntaxParameters = read_java_util_ListOfString();
         readFieldDelim("syntaxTransformer = ");
         String read_syntaxTransformer = readString();
-        return new _SyntaxTransformationPatternBinding(read_field, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
+        return new _SyntaxTransformationPatternBinding(read_field, read_binderName, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
     }
 
     private _SyntaxTransformationPlainPattern read_SyntaxTransformationPlainPatternBody() throws java.io.IOException {
         readFieldDelim("field = ");
         Option<Id> read_field = readOptionOfId();
+        readFieldDelim("binderName = ");
+        Option<Id> read_binderName = readOptionOfId();
         readFieldDelim("name = ");
         Id read_name = (Id) readNode();
         readFieldDelim("mods = ");
@@ -5360,12 +5370,14 @@ public class NodeReader {
         java.util.List<String> read_syntaxParameters = read_java_util_ListOfString();
         readFieldDelim("syntaxTransformer = ");
         String read_syntaxTransformer = readString();
-        return new _SyntaxTransformationPlainPattern(read_field, read_name, read_mods, read_idType, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
+        return new _SyntaxTransformationPlainPattern(read_field, read_binderName, read_name, read_mods, read_idType, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
     }
 
     private _SyntaxTransformationTypePattern read_SyntaxTransformationTypePatternBody() throws java.io.IOException {
         readFieldDelim("field = ");
         Option<Id> read_field = readOptionOfId();
+        readFieldDelim("binderName = ");
+        Option<Id> read_binderName = readOptionOfId();
         readFieldDelim("typ = ");
         Type read_typ = (Type) readNode();
         readFieldDelim("info = ");
@@ -5376,12 +5388,14 @@ public class NodeReader {
         java.util.List<String> read_syntaxParameters = read_java_util_ListOfString();
         readFieldDelim("syntaxTransformer = ");
         String read_syntaxTransformer = readString();
-        return new _SyntaxTransformationTypePattern(read_field, read_typ, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
+        return new _SyntaxTransformationTypePattern(read_field, read_binderName, read_typ, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
     }
 
     private _SyntaxTransformationNestedPattern read_SyntaxTransformationNestedPatternBody() throws java.io.IOException {
         readFieldDelim("field = ");
         Option<Id> read_field = readOptionOfId();
+        readFieldDelim("binderName = ");
+        Option<Id> read_binderName = readOptionOfId();
         readFieldDelim("pat = ");
         Pattern read_pat = (Pattern) readNode();
         readFieldDelim("info = ");
@@ -5392,7 +5406,7 @@ public class NodeReader {
         java.util.List<String> read_syntaxParameters = read_java_util_ListOfString();
         readFieldDelim("syntaxTransformer = ");
         String read_syntaxTransformer = readString();
-        return new _SyntaxTransformationNestedPattern(read_field, read_pat, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
+        return new _SyntaxTransformationNestedPattern(read_field, read_binderName, read_pat, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
     }
 
     private _SyntaxTransformationStaticArg read_SyntaxTransformationStaticArgBody() throws java.io.IOException {

@@ -570,20 +570,20 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
         return forAbstractNodeOnly(that, info_result);
     }
 
-    public RetType forPatternBindingOnly(PatternBinding that, RetType info_result, Option<RetType> field_result) {
+    public RetType forPatternBindingOnly(PatternBinding that, RetType info_result, Option<RetType> field_result, Option<RetType> binderName_result) {
         return forAbstractNodeOnly(that, info_result);
     }
 
-    public RetType forPlainPatternOnly(PlainPattern that, RetType info_result, Option<RetType> field_result, RetType name_result, Option<RetType> idType_result) {
-        return forPatternBindingOnly(that, info_result, field_result);
+    public RetType forPlainPatternOnly(PlainPattern that, RetType info_result, Option<RetType> field_result, Option<RetType> binderName_result, RetType name_result, Option<RetType> idType_result) {
+        return forPatternBindingOnly(that, info_result, field_result, binderName_result);
     }
 
-    public RetType forTypePatternOnly(TypePattern that, RetType info_result, Option<RetType> field_result, RetType typ_result) {
-        return forPatternBindingOnly(that, info_result, field_result);
+    public RetType forTypePatternOnly(TypePattern that, RetType info_result, Option<RetType> field_result, Option<RetType> binderName_result, RetType typ_result) {
+        return forPatternBindingOnly(that, info_result, field_result, binderName_result);
     }
 
-    public RetType forNestedPatternOnly(NestedPattern that, RetType info_result, Option<RetType> field_result, RetType pat_result) {
-        return forPatternBindingOnly(that, info_result, field_result);
+    public RetType forNestedPatternOnly(NestedPattern that, RetType info_result, Option<RetType> field_result, Option<RetType> binderName_result, RetType pat_result) {
+        return forPatternBindingOnly(that, info_result, field_result, binderName_result);
     }
 
     public RetType forStaticArgOnly(StaticArg that, RetType info_result) {
@@ -1698,20 +1698,20 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
         return forPatternArgsOnly(that, info_result, patterns_result);
     }
 
-    public RetType for_SyntaxTransformationPatternBindingOnly(_SyntaxTransformationPatternBinding that, Option<RetType> field_result, RetType info_result) {
-        return forPatternBindingOnly(that, info_result, field_result);
+    public RetType for_SyntaxTransformationPatternBindingOnly(_SyntaxTransformationPatternBinding that, Option<RetType> field_result, Option<RetType> binderName_result, RetType info_result) {
+        return forPatternBindingOnly(that, info_result, field_result, binderName_result);
     }
 
-    public RetType for_SyntaxTransformationPlainPatternOnly(_SyntaxTransformationPlainPattern that, Option<RetType> field_result, RetType name_result, Option<RetType> idType_result, RetType info_result) {
-        return forPlainPatternOnly(that, info_result, field_result, name_result, idType_result);
+    public RetType for_SyntaxTransformationPlainPatternOnly(_SyntaxTransformationPlainPattern that, Option<RetType> field_result, Option<RetType> binderName_result, RetType name_result, Option<RetType> idType_result, RetType info_result) {
+        return forPlainPatternOnly(that, info_result, field_result, binderName_result, name_result, idType_result);
     }
 
-    public RetType for_SyntaxTransformationTypePatternOnly(_SyntaxTransformationTypePattern that, Option<RetType> field_result, RetType typ_result, RetType info_result) {
-        return forTypePatternOnly(that, info_result, field_result, typ_result);
+    public RetType for_SyntaxTransformationTypePatternOnly(_SyntaxTransformationTypePattern that, Option<RetType> field_result, Option<RetType> binderName_result, RetType typ_result, RetType info_result) {
+        return forTypePatternOnly(that, info_result, field_result, binderName_result, typ_result);
     }
 
-    public RetType for_SyntaxTransformationNestedPatternOnly(_SyntaxTransformationNestedPattern that, Option<RetType> field_result, RetType pat_result, RetType info_result) {
-        return forNestedPatternOnly(that, info_result, field_result, pat_result);
+    public RetType for_SyntaxTransformationNestedPatternOnly(_SyntaxTransformationNestedPattern that, Option<RetType> field_result, Option<RetType> binderName_result, RetType pat_result, RetType info_result) {
+        return forNestedPatternOnly(that, info_result, field_result, binderName_result, pat_result);
     }
 
     public RetType for_SyntaxTransformationStaticArgOnly(_SyntaxTransformationStaticArg that, RetType info_result) {
@@ -4796,23 +4796,26 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
     public RetType forPlainPattern(PlainPattern that) {
         RetType info_result = recur(that.getInfo());
         Option<RetType> field_result = recurOnOptionOfId(that.getField());
+        Option<RetType> binderName_result = recurOnOptionOfId(that.getBinderName());
         RetType name_result = recur(that.getName());
         Option<RetType> idType_result = recurOnOptionOfTypeOrPattern(that.getIdType());
-        return forPlainPatternOnly(that, info_result, field_result, name_result, idType_result);
+        return forPlainPatternOnly(that, info_result, field_result, binderName_result, name_result, idType_result);
     }
 
     public RetType forTypePattern(TypePattern that) {
         RetType info_result = recur(that.getInfo());
         Option<RetType> field_result = recurOnOptionOfId(that.getField());
+        Option<RetType> binderName_result = recurOnOptionOfId(that.getBinderName());
         RetType typ_result = recur(that.getTyp());
-        return forTypePatternOnly(that, info_result, field_result, typ_result);
+        return forTypePatternOnly(that, info_result, field_result, binderName_result, typ_result);
     }
 
     public RetType forNestedPattern(NestedPattern that) {
         RetType info_result = recur(that.getInfo());
         Option<RetType> field_result = recurOnOptionOfId(that.getField());
+        Option<RetType> binderName_result = recurOnOptionOfId(that.getBinderName());
         RetType pat_result = recur(that.getPat());
-        return forNestedPatternOnly(that, info_result, field_result, pat_result);
+        return forNestedPatternOnly(that, info_result, field_result, binderName_result, pat_result);
     }
 
     public RetType forTypeArg(TypeArg that) {
@@ -6394,30 +6397,34 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
 
     public RetType for_SyntaxTransformationPatternBinding(_SyntaxTransformationPatternBinding that) {
         Option<RetType> field_result = recurOnOptionOfId(that.getField());
+        Option<RetType> binderName_result = recurOnOptionOfId(that.getBinderName());
         RetType info_result = recur(that.getInfo());
-        return for_SyntaxTransformationPatternBindingOnly(that, field_result, info_result);
+        return for_SyntaxTransformationPatternBindingOnly(that, field_result, binderName_result, info_result);
     }
 
     public RetType for_SyntaxTransformationPlainPattern(_SyntaxTransformationPlainPattern that) {
         Option<RetType> field_result = recurOnOptionOfId(that.getField());
+        Option<RetType> binderName_result = recurOnOptionOfId(that.getBinderName());
         RetType name_result = recur(that.getName());
         Option<RetType> idType_result = recurOnOptionOfTypeOrPattern(that.getIdType());
         RetType info_result = recur(that.getInfo());
-        return for_SyntaxTransformationPlainPatternOnly(that, field_result, name_result, idType_result, info_result);
+        return for_SyntaxTransformationPlainPatternOnly(that, field_result, binderName_result, name_result, idType_result, info_result);
     }
 
     public RetType for_SyntaxTransformationTypePattern(_SyntaxTransformationTypePattern that) {
         Option<RetType> field_result = recurOnOptionOfId(that.getField());
+        Option<RetType> binderName_result = recurOnOptionOfId(that.getBinderName());
         RetType typ_result = recur(that.getTyp());
         RetType info_result = recur(that.getInfo());
-        return for_SyntaxTransformationTypePatternOnly(that, field_result, typ_result, info_result);
+        return for_SyntaxTransformationTypePatternOnly(that, field_result, binderName_result, typ_result, info_result);
     }
 
     public RetType for_SyntaxTransformationNestedPattern(_SyntaxTransformationNestedPattern that) {
         Option<RetType> field_result = recurOnOptionOfId(that.getField());
+        Option<RetType> binderName_result = recurOnOptionOfId(that.getBinderName());
         RetType pat_result = recur(that.getPat());
         RetType info_result = recur(that.getInfo());
-        return for_SyntaxTransformationNestedPatternOnly(that, field_result, pat_result, info_result);
+        return for_SyntaxTransformationNestedPatternOnly(that, field_result, binderName_result, pat_result, info_result);
     }
 
     public RetType for_SyntaxTransformationStaticArg(_SyntaxTransformationStaticArg that) {

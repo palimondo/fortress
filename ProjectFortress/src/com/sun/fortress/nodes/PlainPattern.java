@@ -17,7 +17,7 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Class PlainPattern, a component of the ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Thu Oct 11 03:24:55 EDT 2018
+ * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
  */
 @SuppressWarnings("unused")
 public class PlainPattern extends PatternBinding {
@@ -29,8 +29,8 @@ public class PlainPattern extends PatternBinding {
      * Constructs a PlainPattern.
      * @throws java.lang.IllegalArgumentException  If any parameter to the constructor is null.
      */
-    public PlainPattern(ASTNodeInfo in_info, Option<Id> in_field, Id in_name, Modifiers in_mods, Option<TypeOrPattern> in_idType) {
-        super(in_info, in_field);
+    public PlainPattern(ASTNodeInfo in_info, Option<Id> in_field, Option<Id> in_binderName, Id in_name, Modifiers in_mods, Option<TypeOrPattern> in_idType) {
+        super(in_info, in_field, in_binderName);
         if (in_name == null) {
             throw new java.lang.IllegalArgumentException("Parameter 'name' to the PlainPattern constructor was null");
         }
@@ -43,6 +43,13 @@ public class PlainPattern extends PatternBinding {
             throw new java.lang.IllegalArgumentException("Parameter 'idType' to the PlainPattern constructor was null");
         }
         _idType = in_idType;
+    }
+
+    /**
+     * A constructor with some fields provided by default values.
+     */
+    public PlainPattern(ASTNodeInfo in_info, Option<Id> in_field, Id in_name, Modifiers in_mods, Option<TypeOrPattern> in_idType) {
+        this(in_info, in_field, Option.<Id>none(), in_name, in_mods, in_idType);
     }
 
     final public Id getName() { return _name; }
@@ -82,6 +89,9 @@ public class PlainPattern extends PatternBinding {
             Option<Id> temp_field = getField();
             Option<Id> casted_field = casted.getField();
             if (!(temp_field == casted_field || temp_field.equals(casted_field))) return false;
+            Option<Id> temp_binderName = getBinderName();
+            Option<Id> casted_binderName = casted.getBinderName();
+            if (!(temp_binderName == casted_binderName || temp_binderName.equals(casted_binderName))) return false;
             Id temp_name = getName();
             Id casted_name = casted.getName();
             if (!(temp_name == casted_name || temp_name.equals(casted_name))) return false;
@@ -107,6 +117,8 @@ public class PlainPattern extends PatternBinding {
         code ^= temp_info.hashCode();
         Option<Id> temp_field = getField();
         code ^= temp_field.hashCode();
+        Option<Id> temp_binderName = getBinderName();
+        code ^= temp_binderName.hashCode();
         Id temp_name = getName();
         code ^= temp_name.hashCode();
         Modifiers temp_mods = getMods();
@@ -139,7 +151,7 @@ public class PlainPattern extends PatternBinding {
     }
 
     public void walk(TreeWalker w) {
-        if (w.visitNode(this, "PlainPattern", 5)) {
+        if (w.visitNode(this, "PlainPattern", 6)) {
             ASTNodeInfo temp_info = getInfo();
             if (w.visitNodeField("info", temp_info)) {
                 temp_info.walk(w);
@@ -159,6 +171,21 @@ public class PlainPattern extends PatternBinding {
                     w.endNonEmptyOption(temp_field);
                 }
                 w.endNodeField("field", temp_field);
+            }
+            Option<Id> temp_binderName = getBinderName();
+            if (w.visitNodeField("binderName", temp_binderName)) {
+                if (temp_binderName.isNone()) {
+                    w.visitEmptyOption(temp_binderName);
+                }
+                else if (w.visitNonEmptyOption(temp_binderName)) {
+                    Id elt_temp_binderName = temp_binderName.unwrap();
+                    if (elt_temp_binderName == null) w.visitNull();
+                    else {
+                        elt_temp_binderName.walk(w);
+                    }
+                    w.endNonEmptyOption(temp_binderName);
+                }
+                w.endNodeField("binderName", temp_binderName);
             }
             Id temp_name = getName();
             if (w.visitNodeField("name", temp_name)) {
@@ -185,7 +212,7 @@ public class PlainPattern extends PatternBinding {
                 }
                 w.endNodeField("idType", temp_idType);
             }
-            w.endNode(this, "PlainPattern", 5);
+            w.endNode(this, "PlainPattern", 6);
         }
     }
 

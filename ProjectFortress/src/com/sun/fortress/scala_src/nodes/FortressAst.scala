@@ -928,9 +928,9 @@ object SNamedType {
 }
 object SNestedPattern {
    def unapply(node:com.sun.fortress.nodes.NestedPattern) = 
-      Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.getField()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getPat()).asInstanceOf[com.sun.fortress.nodes.Pattern]))
-   def apply(getInfo:com.sun.fortress.nodes.ASTNodeInfo, getField:Option[com.sun.fortress.nodes.Id], getPat:com.sun.fortress.nodes.Pattern) = 
-      new com.sun.fortress.nodes.NestedPattern(javaify(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], javaify(getField).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.Id]], javaify(getPat).asInstanceOf[com.sun.fortress.nodes.Pattern])
+      Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.getField()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getBinderName()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getPat()).asInstanceOf[com.sun.fortress.nodes.Pattern]))
+   def apply(getInfo:com.sun.fortress.nodes.ASTNodeInfo, getField:Option[com.sun.fortress.nodes.Id], getBinderName:Option[com.sun.fortress.nodes.Id], getPat:com.sun.fortress.nodes.Pattern) = 
+      new com.sun.fortress.nodes.NestedPattern(javaify(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], javaify(getField).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.Id]], javaify(getBinderName).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.Id]], javaify(getPat).asInstanceOf[com.sun.fortress.nodes.Pattern])
 }
 object SNewlineSymbol {
    def unapply(node:com.sun.fortress.nodes.NewlineSymbol) = 
@@ -1092,13 +1092,13 @@ object SPatternArgs {
 }
 object SPatternBinding {
    def unapply(node:com.sun.fortress.nodes.PatternBinding) = 
-      Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.getField()).asInstanceOf[Option[com.sun.fortress.nodes.Id]]))
+      Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.getField()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getBinderName()).asInstanceOf[Option[com.sun.fortress.nodes.Id]]))
 }
 object SPlainPattern {
    def unapply(node:com.sun.fortress.nodes.PlainPattern) = 
-      Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.getField()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getName()).asInstanceOf[com.sun.fortress.nodes.Id], scalaify(node.getMods()).asInstanceOf[com.sun.fortress.nodes_util.Modifiers], scalaify(node.getIdType()).asInstanceOf[Option[com.sun.fortress.nodes.TypeOrPattern]]))
-   def apply(getInfo:com.sun.fortress.nodes.ASTNodeInfo, getField:Option[com.sun.fortress.nodes.Id], getName:com.sun.fortress.nodes.Id, getMods:com.sun.fortress.nodes_util.Modifiers, getIdType:Option[com.sun.fortress.nodes.TypeOrPattern]) = 
-      new com.sun.fortress.nodes.PlainPattern(javaify(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], javaify(getField).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.Id]], javaify(getName).asInstanceOf[com.sun.fortress.nodes.Id], javaify(getMods).asInstanceOf[com.sun.fortress.nodes_util.Modifiers], javaify(getIdType).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.TypeOrPattern]])
+      Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.getField()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getBinderName()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getName()).asInstanceOf[com.sun.fortress.nodes.Id], scalaify(node.getMods()).asInstanceOf[com.sun.fortress.nodes_util.Modifiers], scalaify(node.getIdType()).asInstanceOf[Option[com.sun.fortress.nodes.TypeOrPattern]]))
+   def apply(getInfo:com.sun.fortress.nodes.ASTNodeInfo, getField:Option[com.sun.fortress.nodes.Id], getBinderName:Option[com.sun.fortress.nodes.Id], getName:com.sun.fortress.nodes.Id, getMods:com.sun.fortress.nodes_util.Modifiers, getIdType:Option[com.sun.fortress.nodes.TypeOrPattern]) = 
+      new com.sun.fortress.nodes.PlainPattern(javaify(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], javaify(getField).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.Id]], javaify(getBinderName).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.Id]], javaify(getName).asInstanceOf[com.sun.fortress.nodes.Id], javaify(getMods).asInstanceOf[com.sun.fortress.nodes_util.Modifiers], javaify(getIdType).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.TypeOrPattern]])
 }
 object SPostFixity {
    def unapply(node:com.sun.fortress.nodes.PostFixity) = 
@@ -1368,9 +1368,9 @@ object STypeInfo {
 }
 object STypePattern {
    def unapply(node:com.sun.fortress.nodes.TypePattern) = 
-      Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.getField()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getTyp()).asInstanceOf[com.sun.fortress.nodes.Type]))
-   def apply(getInfo:com.sun.fortress.nodes.ASTNodeInfo, getField:Option[com.sun.fortress.nodes.Id], getTyp:com.sun.fortress.nodes.Type) = 
-      new com.sun.fortress.nodes.TypePattern(javaify(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], javaify(getField).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.Id]], javaify(getTyp).asInstanceOf[com.sun.fortress.nodes.Type])
+      Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.getField()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getBinderName()).asInstanceOf[Option[com.sun.fortress.nodes.Id]], scalaify(node.getTyp()).asInstanceOf[com.sun.fortress.nodes.Type]))
+   def apply(getInfo:com.sun.fortress.nodes.ASTNodeInfo, getField:Option[com.sun.fortress.nodes.Id], getBinderName:Option[com.sun.fortress.nodes.Id], getTyp:com.sun.fortress.nodes.Type) = 
+      new com.sun.fortress.nodes.TypePattern(javaify(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], javaify(getField).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.Id]], javaify(getBinderName).asInstanceOf[edu.rice.cs.plt.tuple.Option[com.sun.fortress.nodes.Id]], javaify(getTyp).asInstanceOf[com.sun.fortress.nodes.Type])
 }
 object STypecase {
    def unapply(node:com.sun.fortress.nodes.Typecase) = 
@@ -1799,12 +1799,12 @@ trait Walker {
              SIntArg(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(isLifted).asInstanceOf[Boolean], walk(getIntVal).asInstanceOf[com.sun.fortress.nodes.IntExpr])
          case STypeArg(getInfo, isLifted, getTypeArg) =>
              STypeArg(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(isLifted).asInstanceOf[Boolean], walk(getTypeArg).asInstanceOf[com.sun.fortress.nodes.Type])
-         case SNestedPattern(getInfo, getField, getPat) =>
-             SNestedPattern(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getField).asInstanceOf[Option[com.sun.fortress.nodes.Id]], walk(getPat).asInstanceOf[com.sun.fortress.nodes.Pattern])
-         case STypePattern(getInfo, getField, getTyp) =>
-             STypePattern(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getField).asInstanceOf[Option[com.sun.fortress.nodes.Id]], walk(getTyp).asInstanceOf[com.sun.fortress.nodes.Type])
-         case SPlainPattern(getInfo, getField, getName, getMods, getIdType) =>
-             SPlainPattern(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getField).asInstanceOf[Option[com.sun.fortress.nodes.Id]], walk(getName).asInstanceOf[com.sun.fortress.nodes.Id], walk(getMods).asInstanceOf[com.sun.fortress.nodes_util.Modifiers], walk(getIdType).asInstanceOf[Option[com.sun.fortress.nodes.TypeOrPattern]])
+         case SNestedPattern(getInfo, getField, getBinderName, getPat) =>
+             SNestedPattern(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getField).asInstanceOf[Option[com.sun.fortress.nodes.Id]], walk(getBinderName).asInstanceOf[Option[com.sun.fortress.nodes.Id]], walk(getPat).asInstanceOf[com.sun.fortress.nodes.Pattern])
+         case STypePattern(getInfo, getField, getBinderName, getTyp) =>
+             STypePattern(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getField).asInstanceOf[Option[com.sun.fortress.nodes.Id]], walk(getBinderName).asInstanceOf[Option[com.sun.fortress.nodes.Id]], walk(getTyp).asInstanceOf[com.sun.fortress.nodes.Type])
+         case SPlainPattern(getInfo, getField, getBinderName, getName, getMods, getIdType) =>
+             SPlainPattern(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getField).asInstanceOf[Option[com.sun.fortress.nodes.Id]], walk(getBinderName).asInstanceOf[Option[com.sun.fortress.nodes.Id]], walk(getName).asInstanceOf[com.sun.fortress.nodes.Id], walk(getMods).asInstanceOf[com.sun.fortress.nodes_util.Modifiers], walk(getIdType).asInstanceOf[Option[com.sun.fortress.nodes.TypeOrPattern]])
          case SPatternArgs(getInfo, getPatterns) =>
              SPatternArgs(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getPatterns).asInstanceOf[List[com.sun.fortress.nodes.PatternBinding]])
          case SPattern(getInfo, getName, getPatterns) =>

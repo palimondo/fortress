@@ -17,7 +17,7 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Class _SyntaxTransformationPlainPattern, a component of the ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Thu Oct 11 03:24:55 EDT 2018
+ * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
  */
 @SuppressWarnings("unused")
 public class _SyntaxTransformationPlainPattern extends PlainPattern implements _SyntaxTransformation {
@@ -29,8 +29,8 @@ public class _SyntaxTransformationPlainPattern extends PlainPattern implements _
      * Constructs a _SyntaxTransformationPlainPattern.
      * @throws java.lang.IllegalArgumentException  If any parameter to the constructor is null.
      */
-    public _SyntaxTransformationPlainPattern(Option<Id> in_field, Id in_name, Modifiers in_mods, Option<TypeOrPattern> in_idType, ASTNodeInfo in_info, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
-        super(in_info, in_field, in_name, in_mods, in_idType);
+    public _SyntaxTransformationPlainPattern(Option<Id> in_field, Option<Id> in_binderName, Id in_name, Modifiers in_mods, Option<TypeOrPattern> in_idType, ASTNodeInfo in_info, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
+        super(in_info, in_field, in_binderName, in_name, in_mods, in_idType);
         if (in_variables == null) {
             throw new java.lang.IllegalArgumentException("Parameter 'variables' to the _SyntaxTransformationPlainPattern constructor was null");
         }
@@ -48,8 +48,22 @@ public class _SyntaxTransformationPlainPattern extends PlainPattern implements _
     /**
      * A constructor with some fields provided by default values.
      */
+    public _SyntaxTransformationPlainPattern(Option<Id> in_field, Option<Id> in_binderName, Id in_name, Modifiers in_mods, Option<TypeOrPattern> in_idType, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
+        this(in_field, in_binderName, in_name, in_mods, in_idType, NodeFactory.makeASTNodeInfo(NodeFactory.macroSpan), in_variables, in_syntaxParameters, in_syntaxTransformer);
+    }
+
+    /**
+     * A constructor with some fields provided by default values.
+     */
+    public _SyntaxTransformationPlainPattern(Option<Id> in_field, Id in_name, Modifiers in_mods, Option<TypeOrPattern> in_idType, ASTNodeInfo in_info, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
+        this(in_field, Option.<Id>none(), in_name, in_mods, in_idType, in_info, in_variables, in_syntaxParameters, in_syntaxTransformer);
+    }
+
+    /**
+     * A constructor with some fields provided by default values.
+     */
     public _SyntaxTransformationPlainPattern(Option<Id> in_field, Id in_name, Modifiers in_mods, Option<TypeOrPattern> in_idType, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
-        this(in_field, in_name, in_mods, in_idType, NodeFactory.makeASTNodeInfo(NodeFactory.macroSpan), in_variables, in_syntaxParameters, in_syntaxTransformer);
+        this(in_field, Option.<Id>none(), in_name, in_mods, in_idType, NodeFactory.makeASTNodeInfo(NodeFactory.macroSpan), in_variables, in_syntaxParameters, in_syntaxTransformer);
     }
 
     final public java.util.Map<String, Level> getVariables() { return _variables; }
@@ -86,6 +100,9 @@ public class _SyntaxTransformationPlainPattern extends PlainPattern implements _
             Option<Id> temp_field = getField();
             Option<Id> casted_field = casted.getField();
             if (!(temp_field == casted_field || temp_field.equals(casted_field))) return false;
+            Option<Id> temp_binderName = getBinderName();
+            Option<Id> casted_binderName = casted.getBinderName();
+            if (!(temp_binderName == casted_binderName || temp_binderName.equals(casted_binderName))) return false;
             Id temp_name = getName();
             Id casted_name = casted.getName();
             if (!(temp_name == casted_name || temp_name.equals(casted_name))) return false;
@@ -118,6 +135,8 @@ public class _SyntaxTransformationPlainPattern extends PlainPattern implements _
         int code = getClass().hashCode();
         Option<Id> temp_field = getField();
         code ^= temp_field.hashCode();
+        Option<Id> temp_binderName = getBinderName();
+        code ^= temp_binderName.hashCode();
         Id temp_name = getName();
         code ^= temp_name.hashCode();
         Modifiers temp_mods = getMods();
@@ -159,7 +178,7 @@ public class _SyntaxTransformationPlainPattern extends PlainPattern implements _
     }
 
     public void walk(TreeWalker w) {
-        if (w.visitNode(this, "_SyntaxTransformationPlainPattern", 8)) {
+        if (w.visitNode(this, "_SyntaxTransformationPlainPattern", 9)) {
             Option<Id> temp_field = getField();
             if (w.visitNodeField("field", temp_field)) {
                 if (temp_field.isNone()) {
@@ -174,6 +193,21 @@ public class _SyntaxTransformationPlainPattern extends PlainPattern implements _
                     w.endNonEmptyOption(temp_field);
                 }
                 w.endNodeField("field", temp_field);
+            }
+            Option<Id> temp_binderName = getBinderName();
+            if (w.visitNodeField("binderName", temp_binderName)) {
+                if (temp_binderName.isNone()) {
+                    w.visitEmptyOption(temp_binderName);
+                }
+                else if (w.visitNonEmptyOption(temp_binderName)) {
+                    Id elt_temp_binderName = temp_binderName.unwrap();
+                    if (elt_temp_binderName == null) w.visitNull();
+                    else {
+                        elt_temp_binderName.walk(w);
+                    }
+                    w.endNonEmptyOption(temp_binderName);
+                }
+                w.endNodeField("binderName", temp_binderName);
             }
             Id temp_name = getName();
             if (w.visitNodeField("name", temp_name)) {
@@ -232,7 +266,7 @@ public class _SyntaxTransformationPlainPattern extends PlainPattern implements _
                 w.visitString(temp_syntaxTransformer);
                 w.endNodeField("syntaxTransformer", temp_syntaxTransformer);
             }
-            w.endNode(this, "_SyntaxTransformationPlainPattern", 8);
+            w.endNode(this, "_SyntaxTransformationPlainPattern", 9);
         }
     }
 

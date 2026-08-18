@@ -17,7 +17,7 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Class _SyntaxTransformationTypePattern, a component of the ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Thu Oct 11 03:24:55 EDT 2018
+ * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
  */
 @SuppressWarnings("unused")
 public class _SyntaxTransformationTypePattern extends TypePattern implements _SyntaxTransformation {
@@ -29,8 +29,8 @@ public class _SyntaxTransformationTypePattern extends TypePattern implements _Sy
      * Constructs a _SyntaxTransformationTypePattern.
      * @throws java.lang.IllegalArgumentException  If any parameter to the constructor is null.
      */
-    public _SyntaxTransformationTypePattern(Option<Id> in_field, Type in_typ, ASTNodeInfo in_info, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
-        super(in_info, in_field, in_typ);
+    public _SyntaxTransformationTypePattern(Option<Id> in_field, Option<Id> in_binderName, Type in_typ, ASTNodeInfo in_info, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
+        super(in_info, in_field, in_binderName, in_typ);
         if (in_variables == null) {
             throw new java.lang.IllegalArgumentException("Parameter 'variables' to the _SyntaxTransformationTypePattern constructor was null");
         }
@@ -48,8 +48,22 @@ public class _SyntaxTransformationTypePattern extends TypePattern implements _Sy
     /**
      * A constructor with some fields provided by default values.
      */
+    public _SyntaxTransformationTypePattern(Option<Id> in_field, Option<Id> in_binderName, Type in_typ, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
+        this(in_field, in_binderName, in_typ, NodeFactory.makeASTNodeInfo(NodeFactory.macroSpan), in_variables, in_syntaxParameters, in_syntaxTransformer);
+    }
+
+    /**
+     * A constructor with some fields provided by default values.
+     */
+    public _SyntaxTransformationTypePattern(Option<Id> in_field, Type in_typ, ASTNodeInfo in_info, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
+        this(in_field, Option.<Id>none(), in_typ, in_info, in_variables, in_syntaxParameters, in_syntaxTransformer);
+    }
+
+    /**
+     * A constructor with some fields provided by default values.
+     */
     public _SyntaxTransformationTypePattern(Option<Id> in_field, Type in_typ, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
-        this(in_field, in_typ, NodeFactory.makeASTNodeInfo(NodeFactory.macroSpan), in_variables, in_syntaxParameters, in_syntaxTransformer);
+        this(in_field, Option.<Id>none(), in_typ, NodeFactory.makeASTNodeInfo(NodeFactory.macroSpan), in_variables, in_syntaxParameters, in_syntaxTransformer);
     }
 
     final public java.util.Map<String, Level> getVariables() { return _variables; }
@@ -86,6 +100,9 @@ public class _SyntaxTransformationTypePattern extends TypePattern implements _Sy
             Option<Id> temp_field = getField();
             Option<Id> casted_field = casted.getField();
             if (!(temp_field == casted_field || temp_field.equals(casted_field))) return false;
+            Option<Id> temp_binderName = getBinderName();
+            Option<Id> casted_binderName = casted.getBinderName();
+            if (!(temp_binderName == casted_binderName || temp_binderName.equals(casted_binderName))) return false;
             Type temp_typ = getTyp();
             Type casted_typ = casted.getTyp();
             if (!(temp_typ == casted_typ || temp_typ.equals(casted_typ))) return false;
@@ -112,6 +129,8 @@ public class _SyntaxTransformationTypePattern extends TypePattern implements _Sy
         int code = getClass().hashCode();
         Option<Id> temp_field = getField();
         code ^= temp_field.hashCode();
+        Option<Id> temp_binderName = getBinderName();
+        code ^= temp_binderName.hashCode();
         Type temp_typ = getTyp();
         code ^= temp_typ.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();
@@ -149,7 +168,7 @@ public class _SyntaxTransformationTypePattern extends TypePattern implements _Sy
     }
 
     public void walk(TreeWalker w) {
-        if (w.visitNode(this, "_SyntaxTransformationTypePattern", 6)) {
+        if (w.visitNode(this, "_SyntaxTransformationTypePattern", 7)) {
             Option<Id> temp_field = getField();
             if (w.visitNodeField("field", temp_field)) {
                 if (temp_field.isNone()) {
@@ -164,6 +183,21 @@ public class _SyntaxTransformationTypePattern extends TypePattern implements _Sy
                     w.endNonEmptyOption(temp_field);
                 }
                 w.endNodeField("field", temp_field);
+            }
+            Option<Id> temp_binderName = getBinderName();
+            if (w.visitNodeField("binderName", temp_binderName)) {
+                if (temp_binderName.isNone()) {
+                    w.visitEmptyOption(temp_binderName);
+                }
+                else if (w.visitNonEmptyOption(temp_binderName)) {
+                    Id elt_temp_binderName = temp_binderName.unwrap();
+                    if (elt_temp_binderName == null) w.visitNull();
+                    else {
+                        elt_temp_binderName.walk(w);
+                    }
+                    w.endNonEmptyOption(temp_binderName);
+                }
+                w.endNodeField("binderName", temp_binderName);
             }
             Type temp_typ = getTyp();
             if (w.visitNodeField("typ", temp_typ)) {
@@ -202,7 +236,7 @@ public class _SyntaxTransformationTypePattern extends TypePattern implements _Sy
                 w.visitString(temp_syntaxTransformer);
                 w.endNodeField("syntaxTransformer", temp_syntaxTransformer);
             }
-            w.endNode(this, "_SyntaxTransformationTypePattern", 6);
+            w.endNode(this, "_SyntaxTransformationTypePattern", 7);
         }
     }
 

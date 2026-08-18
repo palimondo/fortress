@@ -6642,6 +6642,7 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         forPlainPatternDoFirst(that);
         recurOnASTNodeInfo(that.getInfo());
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getName());
         recurOnOptionOfTypeOrPattern(that.getIdType());
         forPlainPatternOnly(that);
@@ -6651,6 +6652,7 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         forTypePatternDoFirst(that);
         recurOnASTNodeInfo(that.getInfo());
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getTyp());
         forTypePatternOnly(that);
     }
@@ -6659,6 +6661,7 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         forNestedPatternDoFirst(that);
         recurOnASTNodeInfo(that.getInfo());
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getPat());
         forNestedPatternOnly(that);
     }
@@ -8344,6 +8347,7 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
     public void for_SyntaxTransformationPatternBinding(_SyntaxTransformationPatternBinding that) {
         for_SyntaxTransformationPatternBindingDoFirst(that);
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recurOnASTNodeInfo(that.getInfo());
         for_SyntaxTransformationPatternBindingOnly(that);
     }
@@ -8351,6 +8355,7 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
     public void for_SyntaxTransformationPlainPattern(_SyntaxTransformationPlainPattern that) {
         for_SyntaxTransformationPlainPatternDoFirst(that);
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getName());
         recurOnOptionOfTypeOrPattern(that.getIdType());
         recurOnASTNodeInfo(that.getInfo());
@@ -8360,6 +8365,7 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
     public void for_SyntaxTransformationTypePattern(_SyntaxTransformationTypePattern that) {
         for_SyntaxTransformationTypePatternDoFirst(that);
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getTyp());
         recurOnASTNodeInfo(that.getInfo());
         for_SyntaxTransformationTypePatternOnly(that);
@@ -8368,6 +8374,7 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
     public void for_SyntaxTransformationNestedPattern(_SyntaxTransformationNestedPattern that) {
         for_SyntaxTransformationNestedPatternDoFirst(that);
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getPat());
         recurOnASTNodeInfo(that.getInfo());
         for_SyntaxTransformationNestedPatternOnly(that);

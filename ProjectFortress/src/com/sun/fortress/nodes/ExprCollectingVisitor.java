@@ -550,18 +550,8 @@ public abstract class ExprCollectingVisitor<RetType> extends ExprDepthFirstVisit
         return combine(l);
     }
 
-    public RetType combineOptionList(Option<List<RetType>> v) {
-        if (v.isSome()) return combine(v.unwrap());
-        return combine();
-    }
-
     public RetType combine(Option<RetType> v) {
         if (v.isSome()) return v.unwrap();
-        return combine();
-    }
-
-    public RetType combineOptionOption(Option<Option<RetType>> v) {
-        if (v.isSome()) return combine(v.unwrap());
         return combine();
     }
 
@@ -569,6 +559,16 @@ public abstract class ExprCollectingVisitor<RetType> extends ExprDepthFirstVisit
         ArrayList<RetType> t = new ArrayList<RetType>();
         for (Option<RetType> e : v) t.add(combine(e));
         return combine(t);
+    }
+
+    public RetType combineOptionOption(Option<Option<RetType>> v) {
+        if (v.isSome()) return combine(v.unwrap());
+        return combine();
+    }
+
+    public RetType combineOptionList(Option<List<RetType>> v) {
+        if (v.isSome()) return combine(v.unwrap());
+        return combine();
     }
 
 }

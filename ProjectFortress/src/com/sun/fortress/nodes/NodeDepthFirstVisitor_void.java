@@ -7010,6 +7010,7 @@ public class NodeDepthFirstVisitor_void extends NodeVisitorRunnable1 {
         forPlainPatternDoFirst(that);
         recur(that.getInfo());
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getName());
         recurOnOptionOfTypeOrPattern(that.getIdType());
         forPlainPatternOnly(that);
@@ -7019,6 +7020,7 @@ public class NodeDepthFirstVisitor_void extends NodeVisitorRunnable1 {
         forTypePatternDoFirst(that);
         recur(that.getInfo());
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getTyp());
         forTypePatternOnly(that);
     }
@@ -7027,6 +7029,7 @@ public class NodeDepthFirstVisitor_void extends NodeVisitorRunnable1 {
         forNestedPatternDoFirst(that);
         recur(that.getInfo());
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getPat());
         forNestedPatternOnly(that);
     }
@@ -8849,6 +8852,7 @@ public class NodeDepthFirstVisitor_void extends NodeVisitorRunnable1 {
     public void for_SyntaxTransformationPatternBinding(_SyntaxTransformationPatternBinding that) {
         for_SyntaxTransformationPatternBindingDoFirst(that);
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getInfo());
         for_SyntaxTransformationPatternBindingOnly(that);
     }
@@ -8856,6 +8860,7 @@ public class NodeDepthFirstVisitor_void extends NodeVisitorRunnable1 {
     public void for_SyntaxTransformationPlainPattern(_SyntaxTransformationPlainPattern that) {
         for_SyntaxTransformationPlainPatternDoFirst(that);
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getName());
         recurOnOptionOfTypeOrPattern(that.getIdType());
         recur(that.getInfo());
@@ -8865,6 +8870,7 @@ public class NodeDepthFirstVisitor_void extends NodeVisitorRunnable1 {
     public void for_SyntaxTransformationTypePattern(_SyntaxTransformationTypePattern that) {
         for_SyntaxTransformationTypePatternDoFirst(that);
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getTyp());
         recur(that.getInfo());
         for_SyntaxTransformationTypePatternOnly(that);
@@ -8873,6 +8879,7 @@ public class NodeDepthFirstVisitor_void extends NodeVisitorRunnable1 {
     public void for_SyntaxTransformationNestedPattern(_SyntaxTransformationNestedPattern that) {
         for_SyntaxTransformationNestedPatternDoFirst(that);
         recurOnOptionOfId(that.getField());
+        recurOnOptionOfId(that.getBinderName());
         recur(that.getPat());
         recur(that.getInfo());
         for_SyntaxTransformationNestedPatternOnly(that);

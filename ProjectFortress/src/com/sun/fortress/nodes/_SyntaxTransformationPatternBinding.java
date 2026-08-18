@@ -17,7 +17,7 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Class _SyntaxTransformationPatternBinding, a component of the ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Thu Oct 11 03:24:55 EDT 2018
+ * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
  */
 @SuppressWarnings("unused")
 public class _SyntaxTransformationPatternBinding extends PatternBinding implements _SyntaxTransformation {
@@ -29,8 +29,8 @@ public class _SyntaxTransformationPatternBinding extends PatternBinding implemen
      * Constructs a _SyntaxTransformationPatternBinding.
      * @throws java.lang.IllegalArgumentException  If any parameter to the constructor is null.
      */
-    public _SyntaxTransformationPatternBinding(Option<Id> in_field, ASTNodeInfo in_info, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
-        super(in_info, in_field);
+    public _SyntaxTransformationPatternBinding(Option<Id> in_field, Option<Id> in_binderName, ASTNodeInfo in_info, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
+        super(in_info, in_field, in_binderName);
         if (in_variables == null) {
             throw new java.lang.IllegalArgumentException("Parameter 'variables' to the _SyntaxTransformationPatternBinding constructor was null");
         }
@@ -48,8 +48,22 @@ public class _SyntaxTransformationPatternBinding extends PatternBinding implemen
     /**
      * A constructor with some fields provided by default values.
      */
+    public _SyntaxTransformationPatternBinding(Option<Id> in_field, Option<Id> in_binderName, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
+        this(in_field, in_binderName, NodeFactory.makeASTNodeInfo(NodeFactory.macroSpan), in_variables, in_syntaxParameters, in_syntaxTransformer);
+    }
+
+    /**
+     * A constructor with some fields provided by default values.
+     */
+    public _SyntaxTransformationPatternBinding(Option<Id> in_field, ASTNodeInfo in_info, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
+        this(in_field, Option.<Id>none(), in_info, in_variables, in_syntaxParameters, in_syntaxTransformer);
+    }
+
+    /**
+     * A constructor with some fields provided by default values.
+     */
     public _SyntaxTransformationPatternBinding(Option<Id> in_field, java.util.Map<String, Level> in_variables, java.util.List<String> in_syntaxParameters, String in_syntaxTransformer) {
-        this(in_field, NodeFactory.makeASTNodeInfo(NodeFactory.macroSpan), in_variables, in_syntaxParameters, in_syntaxTransformer);
+        this(in_field, Option.<Id>none(), NodeFactory.makeASTNodeInfo(NodeFactory.macroSpan), in_variables, in_syntaxParameters, in_syntaxTransformer);
     }
 
     final public java.util.Map<String, Level> getVariables() { return _variables; }
@@ -86,6 +100,9 @@ public class _SyntaxTransformationPatternBinding extends PatternBinding implemen
             Option<Id> temp_field = getField();
             Option<Id> casted_field = casted.getField();
             if (!(temp_field == casted_field || temp_field.equals(casted_field))) return false;
+            Option<Id> temp_binderName = getBinderName();
+            Option<Id> casted_binderName = casted.getBinderName();
+            if (!(temp_binderName == casted_binderName || temp_binderName.equals(casted_binderName))) return false;
             java.util.Map<String, Level> temp_variables = getVariables();
             java.util.Map<String, Level> casted_variables = casted.getVariables();
             if (!(temp_variables == casted_variables || temp_variables.equals(casted_variables))) return false;
@@ -109,6 +126,8 @@ public class _SyntaxTransformationPatternBinding extends PatternBinding implemen
         int code = getClass().hashCode();
         Option<Id> temp_field = getField();
         code ^= temp_field.hashCode();
+        Option<Id> temp_binderName = getBinderName();
+        code ^= temp_binderName.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();
@@ -144,7 +163,7 @@ public class _SyntaxTransformationPatternBinding extends PatternBinding implemen
     }
 
     public void walk(TreeWalker w) {
-        if (w.visitNode(this, "_SyntaxTransformationPatternBinding", 5)) {
+        if (w.visitNode(this, "_SyntaxTransformationPatternBinding", 6)) {
             Option<Id> temp_field = getField();
             if (w.visitNodeField("field", temp_field)) {
                 if (temp_field.isNone()) {
@@ -159,6 +178,21 @@ public class _SyntaxTransformationPatternBinding extends PatternBinding implemen
                     w.endNonEmptyOption(temp_field);
                 }
                 w.endNodeField("field", temp_field);
+            }
+            Option<Id> temp_binderName = getBinderName();
+            if (w.visitNodeField("binderName", temp_binderName)) {
+                if (temp_binderName.isNone()) {
+                    w.visitEmptyOption(temp_binderName);
+                }
+                else if (w.visitNonEmptyOption(temp_binderName)) {
+                    Id elt_temp_binderName = temp_binderName.unwrap();
+                    if (elt_temp_binderName == null) w.visitNull();
+                    else {
+                        elt_temp_binderName.walk(w);
+                    }
+                    w.endNonEmptyOption(temp_binderName);
+                }
+                w.endNodeField("binderName", temp_binderName);
             }
             ASTNodeInfo temp_info = getInfo();
             if (w.visitNodeField("info", temp_info)) {
@@ -192,7 +226,7 @@ public class _SyntaxTransformationPatternBinding extends PatternBinding implemen
                 w.visitString(temp_syntaxTransformer);
                 w.endNodeField("syntaxTransformer", temp_syntaxTransformer);
             }
-            w.endNode(this, "_SyntaxTransformationPatternBinding", 5);
+            w.endNode(this, "_SyntaxTransformationPatternBinding", 6);
         }
     }
 

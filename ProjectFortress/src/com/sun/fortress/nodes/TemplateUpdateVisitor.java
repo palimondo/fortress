@@ -538,19 +538,19 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
         else return new PatternArgs(info_result, patterns_result);
     }
 
-    public Node forPlainPatternOnly(PlainPattern that, ASTNodeInfo info_result, Option<Id> field_result, Id name_result, Option<TypeOrPattern> idType_result) {
-        if (that.getInfo() == info_result && that.getField() == field_result && that.getName() == name_result && that.getIdType() == idType_result) return that;
-        else return new PlainPattern(info_result, field_result, name_result, that.getMods(), idType_result);
+    public Node forPlainPatternOnly(PlainPattern that, ASTNodeInfo info_result, Option<Id> field_result, Option<Id> binderName_result, Id name_result, Option<TypeOrPattern> idType_result) {
+        if (that.getInfo() == info_result && that.getField() == field_result && that.getBinderName() == binderName_result && that.getName() == name_result && that.getIdType() == idType_result) return that;
+        else return new PlainPattern(info_result, field_result, binderName_result, name_result, that.getMods(), idType_result);
     }
 
-    public Node forTypePatternOnly(TypePattern that, ASTNodeInfo info_result, Option<Id> field_result, Type typ_result) {
-        if (that.getInfo() == info_result && that.getField() == field_result && that.getTyp() == typ_result) return that;
-        else return new TypePattern(info_result, field_result, typ_result);
+    public Node forTypePatternOnly(TypePattern that, ASTNodeInfo info_result, Option<Id> field_result, Option<Id> binderName_result, Type typ_result) {
+        if (that.getInfo() == info_result && that.getField() == field_result && that.getBinderName() == binderName_result && that.getTyp() == typ_result) return that;
+        else return new TypePattern(info_result, field_result, binderName_result, typ_result);
     }
 
-    public Node forNestedPatternOnly(NestedPattern that, ASTNodeInfo info_result, Option<Id> field_result, Pattern pat_result) {
-        if (that.getInfo() == info_result && that.getField() == field_result && that.getPat() == pat_result) return that;
-        else return new NestedPattern(info_result, field_result, pat_result);
+    public Node forNestedPatternOnly(NestedPattern that, ASTNodeInfo info_result, Option<Id> field_result, Option<Id> binderName_result, Pattern pat_result) {
+        if (that.getInfo() == info_result && that.getField() == field_result && that.getBinderName() == binderName_result && that.getPat() == pat_result) return that;
+        else return new NestedPattern(info_result, field_result, binderName_result, pat_result);
     }
 
     public Node forTypeArgOnly(TypeArg that, ASTNodeInfo info_result, Type typeArg_result) {
@@ -5035,25 +5035,28 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
     public Node forPlainPattern(PlainPattern that) {
         ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
         Option<Id> field_result = recurOnOptionOfId(that.getField());
+        Option<Id> binderName_result = recurOnOptionOfId(that.getBinderName());
         Id name_result = (Id) recur(that.getName());
         Option<TypeOrPattern> idType_result = recurOnOptionOfTypeOrPattern(that.getIdType());
-        return forPlainPatternOnly(that, info_result, field_result, name_result, idType_result);
+        return forPlainPatternOnly(that, info_result, field_result, binderName_result, name_result, idType_result);
     }
 
 
     public Node forTypePattern(TypePattern that) {
         ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
         Option<Id> field_result = recurOnOptionOfId(that.getField());
+        Option<Id> binderName_result = recurOnOptionOfId(that.getBinderName());
         Type typ_result = (Type) recur(that.getTyp());
-        return forTypePatternOnly(that, info_result, field_result, typ_result);
+        return forTypePatternOnly(that, info_result, field_result, binderName_result, typ_result);
     }
 
 
     public Node forNestedPattern(NestedPattern that) {
         ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
         Option<Id> field_result = recurOnOptionOfId(that.getField());
+        Option<Id> binderName_result = recurOnOptionOfId(that.getBinderName());
         Pattern pat_result = (Pattern) recur(that.getPat());
-        return forNestedPatternOnly(that, info_result, field_result, pat_result);
+        return forNestedPatternOnly(that, info_result, field_result, binderName_result, pat_result);
     }
 
 
@@ -6874,6 +6877,7 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
 
     public Node for_SyntaxTransformationPatternBinding(_SyntaxTransformationPatternBinding that) {
         Option<Id> field_result = recurOnOptionOfId(that.getField());
+        Option<Id> binderName_result = recurOnOptionOfId(that.getBinderName());
         ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
         return for_SyntaxTransformationPatternBindingOnly(that);
     }
@@ -6881,6 +6885,7 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
 
     public Node for_SyntaxTransformationPlainPattern(_SyntaxTransformationPlainPattern that) {
         Option<Id> field_result = recurOnOptionOfId(that.getField());
+        Option<Id> binderName_result = recurOnOptionOfId(that.getBinderName());
         Id name_result = (Id) recur(that.getName());
         Option<TypeOrPattern> idType_result = recurOnOptionOfTypeOrPattern(that.getIdType());
         ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
@@ -6890,6 +6895,7 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
 
     public Node for_SyntaxTransformationTypePattern(_SyntaxTransformationTypePattern that) {
         Option<Id> field_result = recurOnOptionOfId(that.getField());
+        Option<Id> binderName_result = recurOnOptionOfId(that.getBinderName());
         Type typ_result = (Type) recur(that.getTyp());
         ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
         return for_SyntaxTransformationTypePatternOnly(that);
@@ -6898,6 +6904,7 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
 
     public Node for_SyntaxTransformationNestedPattern(_SyntaxTransformationNestedPattern that) {
         Option<Id> field_result = recurOnOptionOfId(that.getField());
+        Option<Id> binderName_result = recurOnOptionOfId(that.getBinderName());
         Pattern pat_result = (Pattern) recur(that.getPat());
         ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
         return for_SyntaxTransformationNestedPatternOnly(that);

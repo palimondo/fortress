@@ -546,20 +546,20 @@ public abstract class AbstractNodeCollectingVisitor<RetType> extends AbstractNod
         return combine(that, combine(patterns_result));
     }
 
-    public RetType forPatternBindingOnly(PatternBinding that, Option<RetType> field_result) {
-        return combine(that, combine(field_result));
+    public RetType forPatternBindingOnly(PatternBinding that, Option<RetType> field_result, Option<RetType> binderName_result) {
+        return combine(that, combine(field_result), combine(binderName_result));
     }
 
-    public RetType forPlainPatternOnly(PlainPattern that, Option<RetType> field_result, RetType name_result) {
-        return combine(that, combine(field_result), name_result);
+    public RetType forPlainPatternOnly(PlainPattern that, Option<RetType> field_result, Option<RetType> binderName_result, RetType name_result) {
+        return combine(that, combine(field_result), combine(binderName_result), name_result);
     }
 
-    public RetType forTypePatternOnly(TypePattern that, Option<RetType> field_result, RetType typ_result) {
-        return combine(that, combine(field_result), typ_result);
+    public RetType forTypePatternOnly(TypePattern that, Option<RetType> field_result, Option<RetType> binderName_result, RetType typ_result) {
+        return combine(that, combine(field_result), combine(binderName_result), typ_result);
     }
 
-    public RetType forNestedPatternOnly(NestedPattern that, Option<RetType> field_result, RetType pat_result) {
-        return combine(that, combine(field_result), pat_result);
+    public RetType forNestedPatternOnly(NestedPattern that, Option<RetType> field_result, Option<RetType> binderName_result, RetType pat_result) {
+        return combine(that, combine(field_result), combine(binderName_result), pat_result);
     }
 
     public RetType forStaticArgOnly(StaticArg that) {
@@ -1506,20 +1506,20 @@ public abstract class AbstractNodeCollectingVisitor<RetType> extends AbstractNod
         return combine(that, combine(patterns_result));
     }
 
-    public RetType for_SyntaxTransformationPatternBindingOnly(_SyntaxTransformationPatternBinding that, Option<RetType> field_result) {
-        return combine(that, combine(field_result));
+    public RetType for_SyntaxTransformationPatternBindingOnly(_SyntaxTransformationPatternBinding that, Option<RetType> field_result, Option<RetType> binderName_result) {
+        return combine(that, combine(field_result), combine(binderName_result));
     }
 
-    public RetType for_SyntaxTransformationPlainPatternOnly(_SyntaxTransformationPlainPattern that, Option<RetType> field_result, RetType name_result) {
-        return combine(that, combine(field_result), name_result);
+    public RetType for_SyntaxTransformationPlainPatternOnly(_SyntaxTransformationPlainPattern that, Option<RetType> field_result, Option<RetType> binderName_result, RetType name_result) {
+        return combine(that, combine(field_result), combine(binderName_result), name_result);
     }
 
-    public RetType for_SyntaxTransformationTypePatternOnly(_SyntaxTransformationTypePattern that, Option<RetType> field_result, RetType typ_result) {
-        return combine(that, combine(field_result), typ_result);
+    public RetType for_SyntaxTransformationTypePatternOnly(_SyntaxTransformationTypePattern that, Option<RetType> field_result, Option<RetType> binderName_result, RetType typ_result) {
+        return combine(that, combine(field_result), combine(binderName_result), typ_result);
     }
 
-    public RetType for_SyntaxTransformationNestedPatternOnly(_SyntaxTransformationNestedPattern that, Option<RetType> field_result, RetType pat_result) {
-        return combine(that, combine(field_result), pat_result);
+    public RetType for_SyntaxTransformationNestedPatternOnly(_SyntaxTransformationNestedPattern that, Option<RetType> field_result, Option<RetType> binderName_result, RetType pat_result) {
+        return combine(that, combine(field_result), combine(binderName_result), pat_result);
     }
 
     public RetType for_SyntaxTransformationStaticArgOnly(_SyntaxTransformationStaticArg that) {
@@ -1958,18 +1958,8 @@ public abstract class AbstractNodeCollectingVisitor<RetType> extends AbstractNod
         return combine(l);
     }
 
-    public RetType combineOptionList(Option<List<RetType>> v) {
-        if (v.isSome()) return combine(v.unwrap());
-        return combine();
-    }
-
     public RetType combine(Option<RetType> v) {
         if (v.isSome()) return v.unwrap();
-        return combine();
-    }
-
-    public RetType combineOptionOption(Option<Option<RetType>> v) {
-        if (v.isSome()) return combine(v.unwrap());
         return combine();
     }
 
@@ -1977,6 +1967,16 @@ public abstract class AbstractNodeCollectingVisitor<RetType> extends AbstractNod
         ArrayList<RetType> t = new ArrayList<RetType>();
         for (Option<RetType> e : v) t.add(combine(e));
         return combine(t);
+    }
+
+    public RetType combineOptionOption(Option<Option<RetType>> v) {
+        if (v.isSome()) return combine(v.unwrap());
+        return combine();
+    }
+
+    public RetType combineOptionList(Option<List<RetType>> v) {
+        if (v.isSome()) return combine(v.unwrap());
+        return combine();
     }
 
 }

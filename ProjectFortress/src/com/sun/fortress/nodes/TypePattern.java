@@ -17,7 +17,7 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Class TypePattern, a component of the ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Thu Oct 11 03:24:55 EDT 2018
+ * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
  */
 @SuppressWarnings("unused")
 public class TypePattern extends PatternBinding {
@@ -27,12 +27,19 @@ public class TypePattern extends PatternBinding {
      * Constructs a TypePattern.
      * @throws java.lang.IllegalArgumentException  If any parameter to the constructor is null.
      */
-    public TypePattern(ASTNodeInfo in_info, Option<Id> in_field, Type in_typ) {
-        super(in_info, in_field);
+    public TypePattern(ASTNodeInfo in_info, Option<Id> in_field, Option<Id> in_binderName, Type in_typ) {
+        super(in_info, in_field, in_binderName);
         if (in_typ == null) {
             throw new java.lang.IllegalArgumentException("Parameter 'typ' to the TypePattern constructor was null");
         }
         _typ = in_typ;
+    }
+
+    /**
+     * A constructor with some fields provided by default values.
+     */
+    public TypePattern(ASTNodeInfo in_info, Option<Id> in_field, Type in_typ) {
+        this(in_info, in_field, Option.<Id>none(), in_typ);
     }
 
     final public Type getTyp() { return _typ; }
@@ -70,6 +77,9 @@ public class TypePattern extends PatternBinding {
             Option<Id> temp_field = getField();
             Option<Id> casted_field = casted.getField();
             if (!(temp_field == casted_field || temp_field.equals(casted_field))) return false;
+            Option<Id> temp_binderName = getBinderName();
+            Option<Id> casted_binderName = casted.getBinderName();
+            if (!(temp_binderName == casted_binderName || temp_binderName.equals(casted_binderName))) return false;
             Type temp_typ = getTyp();
             Type casted_typ = casted.getTyp();
             if (!(temp_typ == casted_typ || temp_typ.equals(casted_typ))) return false;
@@ -89,6 +99,8 @@ public class TypePattern extends PatternBinding {
         code ^= temp_info.hashCode();
         Option<Id> temp_field = getField();
         code ^= temp_field.hashCode();
+        Option<Id> temp_binderName = getBinderName();
+        code ^= temp_binderName.hashCode();
         Type temp_typ = getTyp();
         code ^= temp_typ.hashCode();
         return code;
@@ -113,7 +125,7 @@ public class TypePattern extends PatternBinding {
     }
 
     public void walk(TreeWalker w) {
-        if (w.visitNode(this, "TypePattern", 3)) {
+        if (w.visitNode(this, "TypePattern", 4)) {
             ASTNodeInfo temp_info = getInfo();
             if (w.visitNodeField("info", temp_info)) {
                 temp_info.walk(w);
@@ -134,12 +146,27 @@ public class TypePattern extends PatternBinding {
                 }
                 w.endNodeField("field", temp_field);
             }
+            Option<Id> temp_binderName = getBinderName();
+            if (w.visitNodeField("binderName", temp_binderName)) {
+                if (temp_binderName.isNone()) {
+                    w.visitEmptyOption(temp_binderName);
+                }
+                else if (w.visitNonEmptyOption(temp_binderName)) {
+                    Id elt_temp_binderName = temp_binderName.unwrap();
+                    if (elt_temp_binderName == null) w.visitNull();
+                    else {
+                        elt_temp_binderName.walk(w);
+                    }
+                    w.endNonEmptyOption(temp_binderName);
+                }
+                w.endNodeField("binderName", temp_binderName);
+            }
             Type temp_typ = getTyp();
             if (w.visitNodeField("typ", temp_typ)) {
                 temp_typ.walk(w);
                 w.endNodeField("typ", temp_typ);
             }
-            w.endNode(this, "TypePattern", 3);
+            w.endNode(this, "TypePattern", 4);
         }
     }
 
