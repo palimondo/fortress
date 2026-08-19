@@ -64,9 +64,9 @@ maintain proper indentation.
   <!-- <property name="bcel" location="${PF}/third-party/bcel"/> -->
 
   <!-- Scala jar files 2.10.7 / 2.12.5 -->
-  <property name="scala-version" value="2.12.5"/>
+  <property name="scala-version" value="2.12.20"/>
   <property name="scala-parser-combinators.jar"
-            value="${PF}/third_party/scala/scala-parser-combinators_2.12-1.0.7.jar"/>
+            value="${PF}/third_party/scala/scala-parser-combinators_2.12-1.1.2.jar"/>
 
  <property name="scala-compiler.jar"
             value="${PF}/third_party/scala/scala-compiler-${scala-version}.jar"/>
