@@ -86,6 +86,25 @@ Rules learned the hard way:
   The JUnit harness gets this right because `CompilerJUTest` starts with
   `Shell.resetRepository()` and compiles the world in dependency order.
 
+## Toolchain traps (JDK rungs)
+
+- **build.xml's javac tasks originally set `source=` but never `target=`**
+  (and three set neither). Harmless on JDK 8 (target defaulted to 8); on
+  JDK 11 target defaulted to 11 → v55 classfiles with invokedynamic string
+  concat → ASM 3.1's ClassReader (used by `ForeignJava.findClass` for every
+  `import java ...`) dies with `ArrayIndexOutOfBoundsException`, failing all
+  compiler-path tests while testSystem stays green. Fixed by pinning
+  `target="${javaSourceVersion}"` on all 8 javac tasks (commit fdd4a57c2).
+  Diagnosis trick: a 20-line probe compiling against
+  `third_party/asm/asm-all-3.1.jar` + `javap -v | grep major` pinpoints
+  exactly which classfile ASM chokes on. (Surprise: JDK 11's *platform*
+  classes parse fine under `SKIP_DEBUG|SKIP_FRAMES|SKIP_CODE`; it was our
+  own freshly compiled v55 output that broke.)
+- `default_repository/caches/global.map` is a **tracked** file at the caches
+  root, so `rm -rf default_repository/caches/*` deletes tracked content —
+  wipe with `rm -rf default_repository/caches/*_cache
+  default_repository/caches/logs` instead, or `git checkout` it back.
+
 ## Generated code
 
 - AST nodes (`src/com/sun/fortress/nodes/`, 1000+ files),
