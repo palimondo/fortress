@@ -38,9 +38,10 @@ Facts that save time:
   2012 upgrade imports `System.getProperty`/`CompilerSystem.args`, which the
   interpreter can't resolve. Use `explorations/*.fss` as interpreter smoke
   tests.
-- **Test baseline (2026-08-18):** `ant testFast` all green (~1,400 tests incl.
-  the full compiler suite); `ant testSystem` 375/382 — the 7 failures are
-  pre-existing 2012 breakage + one JDK float-printing nit, all diagnosed in
+- **Test suite (2026-08-19): fully green.** `ant testFast` (~1,400 tests
+  incl. the full compiler suite) and `ant testSystem` (382 interpreter
+  tests) both pass with zero failures — the first fully green suite in this
+  lineage (the 2012 mainline ended with 7 red). History and the two fixes:
   `explorations/test-baseline-jdk8.md`.
 - The interpreter requires filename (sans `.fss`) == component name.
 - If scalac fails with arity errors in `S*Pattern` nodes, the generated AST
