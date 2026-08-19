@@ -427,6 +427,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${astgen.generators.src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"
@@ -512,6 +513,8 @@ testOtherCompiler, testCruiseControl
     <javac encoding="ISO-8859-1" 
         srcdir="${src}"
         destdir="${build}"
+        source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"
@@ -541,6 +544,8 @@ testOtherCompiler, testCruiseControl
     <javac encoding="ISO-8859-1" 
         srcdir="${src}"
         destdir="${build}"
+        source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"
@@ -558,7 +563,7 @@ testOtherCompiler, testCruiseControl
   <target name="compile" depends="compileAll"/>
 
   <target name="check.blas" depends="init">
-    <javac encoding="ISO-8859-1"  destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" debug="true">
+    <javac encoding="ISO-8859-1"  destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" source="${javaSourceVersion}" target="${javaSourceVersion}" debug="true">
       <classpath refid="compile.classpath"/>
     </javac>
 
@@ -664,6 +669,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"
@@ -691,6 +697,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true">
@@ -712,6 +719,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true">
@@ -1394,6 +1402,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"
