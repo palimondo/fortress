@@ -68,10 +68,11 @@ Facts that save time:
 
 ## Project goals (rough order)
 
-1. Baseline the 2012 test suite on JDK 8 (never yet run on the grafted tree).
-2. Modernization ladder: finish the staged Scala 2.12 migration
-   (`third_party/scala/` already has 2.12.5 jars) → JDK 11 → 2.13 → 17/21,
-   each rung gated on the test baseline.
+1. ~~Baseline the 2012 test suite~~ DONE — fully green on JDK 8 (see above).
+2. Modernization ladder — **approved plan, standing orders, and current rung:
+   `explorations/modernization-plan.md`** (Scala 2.12 ✓ → JDK 11 → UTF-8 →
+   jsr166y→j.u.c. → JDK 17/21 → ASM 9 → Scala 2.13 eval; each rung gated on
+   the fully green suite; CI early).
 3. Complex numbers: the spec promises ℂ but zero complex arithmetic shipped;
    seed is `explorations/complex_ring.fss`.
 4. Fix the bytecode compiler path (see above).
