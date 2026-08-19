@@ -29,10 +29,8 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
 
 1. ~~Scala 2.10.7 → 2.12.5~~ DONE (commit 22c059ef5; the whole 2012 blocker
    was the missing scala-parser-combinators jar).
-2. **Scala 2.12.20** — flip committed (ac517a5ce), clean build green,
-   **full gate was running when this was written** (background logs:
-   scratchpad `s21220-testSystem.log` / `s21220-testFast.log`; expected
-   green). On green: fast-forward main, proceed.
+2. ~~Scala 2.12.20~~ DONE (flip ac517a5ce; gate green 2026-08-19:
+   testSystem 382/0 in 2m19s, testFast 0 failures in 13m39s).
 3. **JDK 11** — JDK installed at `/usr/lib/jvm/java-11-openjdk-amd64`.
    Keep `-source/-target 1.8` (ASM 3.1 and interpreter must keep seeing v52
    classfiles). `tools.jar` analysis done: sole consumer is
