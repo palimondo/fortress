@@ -9,11 +9,11 @@ graft commits for lineage and attribution. Working mode: Claude explains the
 codebase and produces documentation and experiments as we go; Pavol decides
 what gets committed.
 
-## Build and run (verified: Ubuntu 24.04 container, JDK 11 — current rung)
+## Build and run (verified: Ubuntu 24.04 container, JDK 21 — current rung)
 
 ```bash
-apt-get install -y openjdk-11-jdk-headless ant  # JDK 8 also still works (both gated green)
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+apt-get install -y openjdk-21-jdk-headless ant  # JDK 8/11/17 also still work (all gated green)
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 export FORTRESS_HOME=<repo root>
 unset JAVA_TOOL_OPTIONS                          # proxy trust-store options confuse ant's JVM forks

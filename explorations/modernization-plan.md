@@ -68,7 +68,12 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    restore the pointer across `join()` in `runtimeSystem/BaseTask.
    joinOrRun`, mirroring the interpreter Evaluator's existing
    `setCurrentTask(currentTask)` restore after `TupleTask.invokeAll`.
-6. **JDK 17, then 21** — after rung 5, expect incidental breakage only.
+6. ~~JDK 17, then 21~~ DONE (gate green on each, 2026-08-19: testSystem
+   382/0, testFast 0 failures across 47 suites on JDK 17.0.19 and again
+   on JDK 21.0.10). **Zero source changes needed** — the jsr166y
+   retirement (rung 5) was the last JDK-version coupling. New on 21:
+   javac warns `source/target value 8 is obsolete`; stays until the
+   ASM 9 rung lets -source/-target rise.
 7. **ASM 3.1 → 9.x** — the big refactor (`CodeGen.java` & friends use ASM 3
    API heavily). Prerequisite for raising -source/-target above 8 and for
    the Fortress compiler to emit newer than V1_6 bytecode. Gateway to
@@ -87,14 +92,13 @@ Delegation: use background workers/subagents for parallelizable read-only
 work (surveys, triage of large error logs, doc drafts); keep build/test/
 commit actions in the main session to avoid cache and working-tree races.
 
-## State snapshot (2026-08-19, after the jsr166y rung)
+## State snapshot (2026-08-19, after the JDK 17/21 rung)
 
 - Branches: `main` (default) and working branch
-  `claude/handover-reading-vn8zgr` both at the jsr166y-retirement tip
-  (2ed045233 + bf23583ad + doc update), pushed.
-  Current rung's toolchain: **JDK 11 + Scala 2.12.20, UTF-8, stdlib
-  ForkJoin** (JDK 8 still works too; -source/-target stay 1.8).
-  Next up: rung 6, JDK 17 then 21.
+  `claude/handover-reading-vn8zgr` both at the JDK 17/21 rung tip,
+  pushed. Current rung's toolchain: **JDK 21 + Scala 2.12.20, UTF-8,
+  stdlib ForkJoin** (JDK 8/11/17 all still gate green; -source/-target
+  stay 1.8). Next up: rung 7, ASM 3.1 → 9.x.
   `master` deleted. Old hg-era branches surveyed (12 branches; only `John`
   and `bird_count` have zero unique commits). **Decided** (Pavol,
   2026-08-19): historical branches stay as they are — no tagging, no
