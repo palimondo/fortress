@@ -99,8 +99,33 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    correctly on the same object), only genuine overrides re-signed to
    5-arg. Emitted classfile version stays V1_6 and -source/-target stay
    1.8 this rung — ASM 9 *unblocks* raising both as a later step.
-8. **Scala 2.13 evaluation** — real source migration (collections rewrite
-   across the 75 scala_src files); re-evaluate cost/benefit at that point.
+8. ~~**Scala 2.13 evaluation**~~ DONE 2026-08-19 — the feared "collections
+   rewrite across 75 scala_src files" turned out to be ~20 source sites in
+   9 files (pre-migration survey found no Stream/Traversable/CanBuildFrom/
+   breakOut/symbol-literal usage anywhere, and no Java↔Scala collection
+   crossing). Toolchain now **Scala 2.13.18** + parser-combinators_2.13
+   1.1.2 (Apache-2.0; license README updated). Migration patterns:
+   `JavaConversions` (removed) → `scala.jdk.javaapi.CollectionConverters.
+   asScala(...)` 1:1 (Lists/Maps/Sets/Iterators/ASTGenHelper);
+   `mapValues` → `.view.mapValues{...}.toMap` (OverloadingChecker);
+   parameterless `Iterable.iterator` override loses its `()` (TraitTable);
+   postfix operators are now errors — 4 sites fixed directly
+   (STypesUtil `filterNot (xs.contains(_))`, TypeParser `""".r`) rather
+   than enabling `-language:postfixOps`. Build: Scala 2.13 dropped the
+   `scala.tools.ant` tasks entirely (verified against both jars), so
+   build.xml now invokes `scala.tools.nsc.Main` via `<java fork="true">`
+   with an @argfile; joint Java+Scala compilation preserved by feeding
+   scalac the .java sources for signatures. The astgen `<scalac>` call was
+   a no-op (zero .scala files there) and is retired. Gate on JDK 21:
+   compileAll 46 s, testSystem 382/0/0 (2 m 15 s), testFast 0 failures
+   (13 m 42 s), 1,759 junit tests total, 0 UNEXPECTED. Commit 668e689f7
+   (+ docs). Old 2.9.0/2.10.7/2.12.5-era graveyard jars left in
+   third_party/scala — optional cleanup for Pavol.
+
+**The ladder is complete.** All eight rungs gated green. Remaining
+project goals (complex numbers, bytecode-compiler completion — including
+the now-unblocked raise of -source/-target and emitted classfile version —
+research corpus, spec build) proceed from this toolchain.
 
 Cross-cutting: **GitHub Actions CI** — **ON HOLD until after the
 modernization ladder** (Pavol, 2026-08-19). The session's GitHub App token
@@ -113,21 +138,22 @@ Delegation: use background workers/subagents for parallelizable read-only
 work (surveys, triage of large error logs, doc drafts); keep build/test/
 commit actions in the main session to avoid cache and working-tree races.
 
-## State snapshot (2026-08-19, after the ASM 9 rung)
+## State snapshot (2026-08-19, after rung 8 — ladder complete)
 
 - Branches: `main` (default) and working branch
-  `claude/handover-reading-vn8zgr` both at the ASM 9 rung tip,
-  pushed. Current rung's toolchain: **JDK 21 + Scala 2.12.20, UTF-8,
+  `claude/handover-reading-vn8zgr` both at the Scala 2.13 rung tip,
+  pushed. Final ladder toolchain: **JDK 21 + Scala 2.13.18, UTF-8,
   stdlib ForkJoin, ASM 9.10.1** (-source/-target stay 1.8 and emitted
   classfiles stay V1_6, but ASM 9 unblocks raising both). Next up:
-  rung 8, Scala 2.13 evaluation.
+  activate CI (Pavol), then post-ladder goals.
   `master` deleted. Old hg-era branches surveyed (12 branches; only `John`
   and `bird_count` have zero unique commits). **Decided** (Pavol,
   2026-08-19): historical branches stay as they are — no tagging, no
   pruning. Closed.
 - Suite history: JDK 8 + Scala 2.10.7 fully green after two fixes
   (System-api shadowing e700b442d, e-constant 36d160799 — details in
-  `test-baseline-jdk8.md`); 2.12.5 fully green; 2.12.20 gate in flight.
+  `test-baseline-jdk8.md`); fully green on every rung since, through
+  JDK 21 + Scala 2.13.18 + ASM 9.10.1.
 - Both execution paths work; compiler path needs the ordered library compile
   recipe (`repo-internals.md`).
 - Research corpus: `research/README.md` (committed index),

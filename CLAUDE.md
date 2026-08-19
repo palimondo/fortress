@@ -21,7 +21,9 @@ cd $FORTRESS_HOME && ant compileAll              # ~80 s
 ./bin/fortress explorations/claude_demo.fss      # interpreter ("walk") — this works
 ```
 
-Toolchain (2026-08-19): Scala 2.12.20, ASM 9.10.1 (vendored in
+Toolchain (2026-08-19): Scala 2.13.18 (build.xml drives scalac via
+`scala.tools.nsc.Main` directly — Scala 2.13 dropped the `scala.tools.ant`
+tasks), ASM 9.10.1 (vendored in
 `ProjectFortress/third_party/asm/`; watch out — Fortress's own
 `asmbytecodeoptimizer.Opcodes` shadows `org.objectweb.asm.Opcodes` in that
 package), `-source/-target 1.8` and emitted classfiles V1_6 (both now
