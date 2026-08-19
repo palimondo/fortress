@@ -119,8 +119,11 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    a no-op (zero .scala files there) and is retired. Gate on JDK 21:
    compileAll 46 s, testSystem 382/0/0 (2 m 15 s), testFast 0 failures
    (13 m 42 s), 1,759 junit tests total, 0 UNEXPECTED. Commit 668e689f7
-   (+ docs). Old 2.9.0/2.10.7/2.12.5-era graveyard jars left in
-   third_party/scala — optional cleanup for Pavol.
+   (+ docs). Follow-up cleanup: the 2.9.0/2.10.7/2.12.5-era graveyard
+   jars were removed from third_party/scala (only the 2.13.18 toolchain
+   + parser-combinators_2.13 remain; `bin/fortress_leaks` still names
+   scala-2.9.0 and asm-3.1 jars, but it was already dead — rung 7
+   removed asm-3.1 — like `bin/fortress-old`, which names 2.8.0).
 
 **The ladder is complete.** All eight rungs gated green. Remaining
 project goals (complex numbers, bytecode-compiler completion — including
