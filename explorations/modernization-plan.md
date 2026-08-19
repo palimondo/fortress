@@ -49,10 +49,25 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    (StackMap, ObjectType, ReturnaddressType, ReferenceType,
    InstConstraintVisitor, Pass2Verifier, GraphicalVerifier) — damage was
    committed to the tree long ago, left as-is pending Pavol's call.
-5. **Retire jsr166y** — port `runtimeSystem/` from the vendored 2007
-   fork-join backport (`third_party/jsr166y`) to `java.util.concurrent`
-   (ForkJoin is stdlib since JDK 7). Deletes a vendored lib; touches the
-   heart of the work-stealing runtime — good archaeology, needs care.
+5. ~~Retire jsr166y~~ DONE (2ed045233 port + bf23583ad STM fix; gate
+   green 2026-08-19: testSystem 382/0 in 141s, testFast 0 failures in
+   13m55s). Ported 13 sources + build.xml + 6 bin scripts + nbproject to
+   `java.util.concurrent`, deleted `third_party/jsr166y/`. Three API
+   deltas: no `ForkJoinPool(int, factory)` ctor → 4-arg form; no
+   `helpJoin()` → `join()` (helps from worker threads, so
+   `FORTRESS_HELP_JOIN` is now a no-op); CodeGen's emitted
+   `ForkJoinPool.invoke` descriptor changes package only. **Trap
+   found the hard way**: j.u.c. `join()` *helps* (runs other queued
+   tasks on the joining thread) where jsr166y's default join blocked
+   with compensation threads — generated task `compute()` bodies set
+   the worker's current-task pointer and never restore it, and the
+   compiled runtime's STM statics resolve the current transaction
+   through that pointer, so helping corrupted transaction state
+   (nestedTransactions1/2 failed ~30% of standalone runs: escaped
+   TransactionAbortException, non-rolled-back writes). Fix: save/
+   restore the pointer across `join()` in `runtimeSystem/BaseTask.
+   joinOrRun`, mirroring the interpreter Evaluator's existing
+   `setCurrentTask(currentTask)` restore after `TupleTask.invokeAll`.
 6. **JDK 17, then 21** — after rung 5, expect incidental breakage only.
 7. **ASM 3.1 → 9.x** — the big refactor (`CodeGen.java` & friends use ASM 3
    API heavily). Prerequisite for raising -source/-target above 8 and for
@@ -72,14 +87,14 @@ Delegation: use background workers/subagents for parallelizable read-only
 work (surveys, triage of large error logs, doc drafts); keep build/test/
 commit actions in the main session to avoid cache and working-tree races.
 
-## State snapshot (2026-08-19, after the UTF-8 rung)
+## State snapshot (2026-08-19, after the jsr166y rung)
 
 - Branches: `main` (default) and working branch
-  `claude/handover-reading-vn8zgr` both at the UTF-8 rung tip
-  (build.xml `encoding="UTF-8"`, 5f2461096 + doc update), pushed.
-  Current rung's toolchain: **JDK 11 + Scala 2.12.20, UTF-8** (JDK 8
-  still works too; -source/-target stay 1.8). Next up: rung 5,
-  retire jsr166y.
+  `claude/handover-reading-vn8zgr` both at the jsr166y-retirement tip
+  (2ed045233 + bf23583ad + doc update), pushed.
+  Current rung's toolchain: **JDK 11 + Scala 2.12.20, UTF-8, stdlib
+  ForkJoin** (JDK 8 still works too; -source/-target stay 1.8).
+  Next up: rung 6, JDK 17 then 21.
   `master` deleted. Old hg-era branches surveyed (12 branches; only `John`
   and `bird_count` have zero unique commits). **Decided** (Pavol,
   2026-08-19): historical branches stay as they are — no tagging, no
