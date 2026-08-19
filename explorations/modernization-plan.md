@@ -74,10 +74,31 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    retirement (rung 5) was the last JDK-version coupling. New on 21:
    javac warns `source/target value 8 is obsolete`; stays until the
    ASM 9 rung lets -source/-target rise.
-7. **ASM 3.1 → 9.x** — the big refactor (`CodeGen.java` & friends use ASM 3
-   API heavily). Prerequisite for raising -source/-target above 8 and for
-   the Fortress compiler to emit newer than V1_6 bytecode. Gateway to
-   bytecode-compiler work (project goal #4).
+7. ~~ASM 3.1 → 9.10.1~~ DONE (2f1fdbf2e code + docs commit; gate green
+   2026-08-19: compileAll 47s, testSystem 382/0 in 2m10s, testFast 0
+   failures in 13m34s, all on JDK 21). Compiler-path smoke also green
+   (library chain + hello.fss compile/run through the ASM 9 pipeline).
+   17 Java sources edited + build.xml, 4 bin scripts, test/testText,
+   .classpath, DOT_idea library, THIRDPARTYLICENSEREADME. Vendored
+   asm/asm-util/asm-tree/asm-analysis 9.10.1 (+sources, SHA-1 verified);
+   asm-commons not needed (only EmptyVisitor was used — replaced with
+   ASM 9 idioms). API migration patterns and traps, for the record:
+   visitor interfaces → abstract classes with `(int api[, delegate])`
+   ctors; ClassAdapter/MethodAdapter gone; ClassWriter's visit* are
+   final, which forced ManglingClassWriter to become a ClassVisitor
+   delegating to an internal ClassWriter (getCommonSuperClass fallback
+   kept on a nested subclass) — call sites that took `ClassWriter`
+   params were retyped to `ClassVisitor` (CodeGen, VarCodeGen,
+   InstantiatingClassloader — verified bodies only call
+   visitMethod/visitField); TraceMethodVisitor is final with text on a
+   Printer, so CodeGenMethodVisitor wraps one and re-exposes getText();
+   **gotcha**: Fortress's own `asmbytecodeoptimizer.Opcodes` shadows
+   `org.objectweb.asm.Opcodes` inside that package — ASM constants
+   there must be written fully qualified; 4-arg visitMethodInsn emit
+   sites (~195) left as-is (the deprecated forwarder computes `itf`
+   correctly on the same object), only genuine overrides re-signed to
+   5-arg. Emitted classfile version stays V1_6 and -source/-target stay
+   1.8 this rung — ASM 9 *unblocks* raising both as a later step.
 8. **Scala 2.13 evaluation** — real source migration (collections rewrite
    across the 75 scala_src files); re-evaluate cost/benefit at that point.
 
@@ -92,13 +113,14 @@ Delegation: use background workers/subagents for parallelizable read-only
 work (surveys, triage of large error logs, doc drafts); keep build/test/
 commit actions in the main session to avoid cache and working-tree races.
 
-## State snapshot (2026-08-19, after the JDK 17/21 rung)
+## State snapshot (2026-08-19, after the ASM 9 rung)
 
 - Branches: `main` (default) and working branch
-  `claude/handover-reading-vn8zgr` both at the JDK 17/21 rung tip,
+  `claude/handover-reading-vn8zgr` both at the ASM 9 rung tip,
   pushed. Current rung's toolchain: **JDK 21 + Scala 2.12.20, UTF-8,
-  stdlib ForkJoin** (JDK 8/11/17 all still gate green; -source/-target
-  stay 1.8). Next up: rung 7, ASM 3.1 → 9.x.
+  stdlib ForkJoin, ASM 9.10.1** (-source/-target stay 1.8 and emitted
+  classfiles stay V1_6, but ASM 9 unblocks raising both). Next up:
+  rung 8, Scala 2.13 evaluation.
   `master` deleted. Old hg-era branches surveyed (12 branches; only `John`
   and `bird_count` have zero unique commits). **Decided** (Pavol,
   2026-08-19): historical branches stay as they are — no tagging, no

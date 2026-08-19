@@ -21,12 +21,16 @@ cd $FORTRESS_HOME && ant compileAll              # ~80 s
 ./bin/fortress explorations/claude_demo.fss      # interpreter ("walk") — this works
 ```
 
-Toolchain (2026-08-19): Scala 2.12.20, `-source/-target 1.8` (pinned in
-build.xml — ASM 3.1 must keep seeing v52 classfiles), sources compiled as
-UTF-8 (all sources were already valid UTF-8; the old ISO-8859-1 javac
-attributes just mis-decoded comments), work-stealing runtime on stdlib
-`java.util.concurrent` ForkJoin (vendored jsr166y retired); see
-`explorations/modernization-plan.md` for the ladder and current rung.
+Toolchain (2026-08-19): Scala 2.12.20, ASM 9.10.1 (vendored in
+`ProjectFortress/third_party/asm/`; watch out — Fortress's own
+`asmbytecodeoptimizer.Opcodes` shadows `org.objectweb.asm.Opcodes` in that
+package), `-source/-target 1.8` and emitted classfiles V1_6 (both now
+merely conventions — ASM 9 unblocks raising them as a deliberate later
+step), sources compiled as UTF-8 (all sources were already valid UTF-8;
+the old ISO-8859-1 javac attributes just mis-decoded comments),
+work-stealing runtime on stdlib `java.util.concurrent` ForkJoin (vendored
+jsr166y retired); see `explorations/modernization-plan.md` for the ladder
+and current rung.
 
 Facts that save time:
 
