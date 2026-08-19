@@ -14,19 +14,17 @@ package com.sun.fortress.compiler.nativeInterface;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.commons.EmptyVisitor;
 
 import com.sun.fortress.compiler.codegen.CodeGenClassWriter;
 import com.sun.fortress.compiler.OverloadSet;
 import com.sun.fortress.useful.Debug;
 
-public class FortressForeignAdapter extends ClassAdapter {
+public class FortressForeignAdapter extends ClassVisitor {
     private final Set<OverloadSet> overloads;
     HashSet<String> overloadsDone = new HashSet<String>();
     String className;
@@ -37,7 +35,7 @@ public class FortressForeignAdapter extends ClassAdapter {
             Set<OverloadSet> overloads
 
         ) {
-        super(cv);
+        super(Opcodes.ASM9, cv);
         this.cw = cv; // same as parent, avoid cast later.
         this.overloads = overloads;
         className = outputClassName.replace('.','/');

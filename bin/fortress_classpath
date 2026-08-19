@@ -25,6 +25,6 @@ TP="$FORTRESS_HOME/ProjectFortress/third_party"
 SV=2.12.20
 # SV=2.8.0
 
-CLASSPATH="$FORTRESS_HOME/ProjectFortress/build${SEP}${TP}/junit/junit.jar${SEP}${TP}/asm/asm-all-3.1.jar${SEP}${TP}/xtc/xtc.jar${SEP}${TP}/plt/plt.jar${SEP}$JAVA_HOME/lib/tools.jar${SEP}${TP}/unsigned/unsigned.jar${SEP}${TP}/astgen/astgen.jar${SEP}${TP}/scala/scala-compiler-${SV}.jar${SEP}${TP}/scala/scala-library-${SV}.jar${SEP}${TP}/scala/scala-reflect-${SV}.jar${SEP}${TP}/scala/scala-parser-combinators_2.12-1.1.2.jar${SEP}$FORTRESS_HOME/default_repository/caches/bytecode_cache${SEP}$CLASSPATH"
+CLASSPATH="$FORTRESS_HOME/ProjectFortress/build${SEP}${TP}/junit/junit.jar${SEP}${TP}/asm/asm-9.10.1.jar${SEP}${TP}/asm/asm-util-9.10.1.jar${SEP}${TP}/asm/asm-tree-9.10.1.jar${SEP}${TP}/asm/asm-analysis-9.10.1.jar${SEP}${TP}/xtc/xtc.jar${SEP}${TP}/plt/plt.jar${SEP}$JAVA_HOME/lib/tools.jar${SEP}${TP}/unsigned/unsigned.jar${SEP}${TP}/astgen/astgen.jar${SEP}${TP}/scala/scala-compiler-${SV}.jar${SEP}${TP}/scala/scala-library-${SV}.jar${SEP}${TP}/scala/scala-reflect-${SV}.jar${SEP}${TP}/scala/scala-parser-combinators_2.12-1.1.2.jar${SEP}$FORTRESS_HOME/default_repository/caches/bytecode_cache${SEP}$CLASSPATH"
 
 echo "$CLASSPATH"

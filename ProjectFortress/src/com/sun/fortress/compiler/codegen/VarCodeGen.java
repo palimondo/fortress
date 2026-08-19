@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.MethodVisitor;
@@ -448,7 +448,7 @@ public abstract class VarCodeGen {
         final String taskClass;
         private final APIName ifNone;
 
-        public TaskVarCodeGen(VarCodeGen v, String taskClass, APIName ifNone, ClassWriter cw) {
+        public TaskVarCodeGen(VarCodeGen v, String taskClass, APIName ifNone, ClassVisitor cw) {
             super(v.name, v.fortressType);
             this.taskClass = taskClass;
             this.ifNone = ifNone;
@@ -460,7 +460,7 @@ public abstract class VarCodeGen {
                           null, null);
         }
 
-        public TaskVarCodeGen(IdOrOp name, Type fortressType, String taskClass, APIName ifNone, ClassWriter cw) {
+        public TaskVarCodeGen(IdOrOp name, Type fortressType, String taskClass, APIName ifNone, ClassVisitor cw) {
             super(name, fortressType);
             this.ifNone = ifNone;
             this.taskClass = taskClass;
@@ -499,7 +499,7 @@ public abstract class VarCodeGen {
         private final APIName ifNone;
 
         public MutableTaskVarCodeGen(LocalMutableVar lmv, String taskClass, APIName ifNone, 
-                                     ClassWriter cw, CodeGenMethodVisitor mv) {
+                                     ClassVisitor cw, CodeGenMethodVisitor mv) {
             super(lmv.name, lmv.fortressType);
             this.taskClass = taskClass;
             this.ifNone = ifNone;
@@ -510,7 +510,7 @@ public abstract class VarCodeGen {
         }
 
         public MutableTaskVarCodeGen(MutableTaskVarCodeGen mtvcg, String taskClass, APIName ifNone,
-                                     ClassWriter cw, CodeGenMethodVisitor mv) {
+                                     ClassVisitor cw, CodeGenMethodVisitor mv) {
             super(mtvcg.name, mtvcg.fortressType);
             this.taskClass = taskClass;
             this.ifNone = ifNone;

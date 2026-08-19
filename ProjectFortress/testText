@@ -15,9 +15,9 @@ TP=third_party
 SCALAVER=2.7.4
 
 if (uname | egrep -q CYGWIN) ; then 
-  CP="build;$TP/junit/junit.jar;$TP/unsigned/unsigned.jar;$TP/asm/asm-all-3.1.jar;$TP/xtc/xtc.jar;$TP/jsr166y/jsr166y.jar;$TP/plt/plt.jar;$TP/astgen/astgen.jar;$TP/scala/scala-library-$SCALAVER.jar"
+  CP="build;$TP/junit/junit.jar;$TP/unsigned/unsigned.jar;$TP/asm/asm-9.10.1.jar;$TP/asm/asm-util-9.10.1.jar;$TP/asm/asm-tree-9.10.1.jar;$TP/asm/asm-analysis-9.10.1.jar;$TP/xtc/xtc.jar;$TP/jsr166y/jsr166y.jar;$TP/plt/plt.jar;$TP/astgen/astgen.jar;$TP/scala/scala-library-$SCALAVER.jar"
 else
-  CP="build:$TP/junit/junit.jar:$TP/unsigned/unsigned.jar:$TP/asm/asm-all-3.1.jar:$TP/xtc/xtc.jar:$TP/jsr166y/jsr166y.jar:$TP/plt/plt.jar:$TP/astgen/astgen.jar:$TP/scala/scala-library-$SCALAVER.jar"
+  CP="build:$TP/junit/junit.jar:$TP/unsigned/unsigned.jar:$TP/asm/asm-9.10.1.jar:$TP/asm/asm-util-9.10.1.jar:$TP/asm/asm-tree-9.10.1.jar:$TP/asm/asm-analysis-9.10.1.jar:$TP/xtc/xtc.jar:$TP/jsr166y/jsr166y.jar:$TP/plt/plt.jar:$TP/astgen/astgen.jar:$TP/scala/scala-library-$SCALAVER.jar"
 fi
 echo classpath=$CP
 

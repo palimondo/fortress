@@ -1,6 +1,8 @@
-This directory contains ASM Utilities.
+This directory contains the ASM bytecode manipulation framework
+(https://asm.ow2.io), version 9.10.1: asm, asm-util, asm-tree and
+asm-analysis jars, each with its -sources jar.
 
-Copyright (c) 2000-2005 INRIA, France Telecom
+Copyright (c) 2000-2011 INRIA, France Telecom
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

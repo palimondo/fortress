@@ -24,16 +24,14 @@ import org.objectweb.asm.Type;
 import com.sun.fortress.useful.MagicNumbers;
 import com.sun.fortress.useful.Pair;
 import com.sun.fortress.useful.Useful;
-import org.apache.bcel.generic.INVOKEINTERFACE;
 
-public class MethodInstantiater implements MethodVisitor {
+public class MethodInstantiater extends MethodVisitor {
 
-    MethodVisitor mv;
     InstantiationMap xlation;
     InstantiatingClassloader icl;
 
     public MethodInstantiater(MethodVisitor mv, InstantiationMap xlation, InstantiatingClassloader icl) {
-        this.mv = mv;
+        super(Opcodes.ASM9, mv);
         this.xlation = xlation;
         this.icl = icl;
     }
@@ -191,7 +189,7 @@ public class MethodInstantiater implements MethodVisitor {
     }
 
     public void visitMethodInsn(int opcode, String owner, String name,
-            String desc) {
+            String desc, boolean itf) {
         String oname = name;
         String descSplice = ""; // used to transform calls to union/intersection
         if (owner.equals(Naming.magicInterpClass)) {
@@ -250,7 +248,11 @@ public class MethodInstantiater implements MethodVisitor {
             desc = xlation.getMethodDesc(desc);
             if (descSplice != null)
                 desc = "(" + descSplice + desc.substring(1);
-            mv.visitMethodInsn(opcode, new_owner, name, desc);
+            // itf must track the (possibly rewritten) opcode: the
+            // INVOKEINTERFACE -> INVOKESTATIC/INVOKEVIRTUAL rewrites above
+            // retarget the call at a class, not an interface.
+            mv.visitMethodInsn(opcode, new_owner, name, desc,
+                               opcode == Opcodes.INVOKEINTERFACE);
         }
     }
 

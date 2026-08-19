@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -24,17 +23,17 @@ import org.objectweb.asm.Opcodes;
 
 import com.sun.fortress.useful.Useful;
 
-public class Instantiater extends ClassAdapter {
-    
+public class Instantiater extends ClassVisitor {
+
     final InstantiationMap types;
     final InstantiationMap oprs;
     final String instanceName;
     final InstantiatingClassloader icl;
     int access_flags;
-    
+
     public Instantiater(ClassVisitor cv, Map<String, String> xlation,
             Map<String, String> opr_xlation, String instanceName, InstantiatingClassloader icl) {
-        super(cv);
+        super(Opcodes.ASM9, cv);
         this.types = new InstantiationMap(xlation);
         this.oprs = new InstantiationMap(opr_xlation);
         this.instanceName = instanceName;

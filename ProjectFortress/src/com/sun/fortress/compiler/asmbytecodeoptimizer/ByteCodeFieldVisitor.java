@@ -21,7 +21,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.util.*;
 
-public class ByteCodeFieldVisitor implements FieldVisitor {
+public class ByteCodeFieldVisitor extends FieldVisitor {
     int access;
     String name;
     String desc;
@@ -30,6 +30,7 @@ public class ByteCodeFieldVisitor implements FieldVisitor {
 
 
     ByteCodeFieldVisitor(int access, String name, String desc, String sig, Object value) {
+        super(org.objectweb.asm.Opcodes.ASM9);
         this.access = access;
         this.name = name;
         this.desc = desc;

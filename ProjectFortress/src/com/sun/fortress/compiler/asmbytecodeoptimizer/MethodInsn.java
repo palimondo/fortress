@@ -19,21 +19,27 @@ public class MethodInsn extends Insn {
     String owner;
     String _name;
     String desc;
+    boolean itf;
     int id;
 
     static int counter = 0;
 
-    MethodInsn(String name, int opcode, String owner, String _name, String desc, String index) {
+    MethodInsn(String name, int opcode, String owner, String _name, String desc, boolean itf, String index) {
         super(name,index);
         this.opcode = opcode;
         this.owner = owner;
         this._name = _name;
         this.desc = desc;
+        this.itf = itf;
         this.id = counter++;
     }
 
+    MethodInsn(String name, int opcode, String owner, String _name, String desc, String index) {
+        this(name, opcode, owner, _name, desc, opcode == Opcodes.INVOKEINTERFACE, index);
+    }
+
     public MethodInsn copy(String newIndex) {
-        return new MethodInsn(name, opcode, owner, _name, desc, newIndex);
+        return new MethodInsn(name, opcode, owner, _name, desc, itf, newIndex);
     }
 
     public String toString() { 
@@ -47,8 +53,8 @@ public class MethodInsn extends Insn {
 //         } else return "MethodInsn:" + id + " " + index + " " +  opcode + " " + owner + " " + _name + " " + desc + " is not used in a definition";
 //     }
     
-    public void toAsm(MethodVisitor mv) { 
-        mv.visitMethodInsn(opcode, owner, _name, desc);
+    public void toAsm(MethodVisitor mv) {
+        mv.visitMethodInsn(opcode, owner, _name, desc, itf);
     }
 
     public boolean matches(int opcode, String owner, String _name, String desc) {

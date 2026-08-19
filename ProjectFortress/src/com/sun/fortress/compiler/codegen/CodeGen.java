@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarOutputStream;
 
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -3220,7 +3221,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
      * @param is_a_trait
      */
     static void functionalForwardingMethod(
-            ClassWriter cw,
+            ClassVisitor cw,
             String generated_method_name,
             String generated_method_sig,
             String invoked_method_trait_object,

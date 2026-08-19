@@ -25,7 +25,11 @@ import org.objectweb.asm.*;
 import org.objectweb.asm.util.*;
 
 
-class ByteCodeVisitor implements ClassVisitor {
+class ByteCodeVisitor extends ClassVisitor {
+
+    ByteCodeVisitor() {
+        super(org.objectweb.asm.Opcodes.ASM9);
+    }
 
     HashMap methodVisitors = new HashMap();
     HashMap fieldVisitors = new HashMap();

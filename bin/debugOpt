@@ -25,7 +25,7 @@ TP="$FORTRESS_HOME/ProjectFortress/third_party"
 SV=2.9.0
 # SV=2.8.0
 
-CP="expanded.jar${SEP}$FORTRESS_HOME/default_repository/caches/optimizedbytecode_cache/*${SEP}$FORTRESS_HOME/default_repository/caches/bytecode_cache${SEP}$FORTRESS_HOME/default_repository/caches/bytecode_cache/*${SEP}$FORTRESS_HOME/default_repository/caches/nativewrapper_cache${SEP}$FORTRESS_HOME/ProjectFortress/build${SEP}$TP/junit/junit.jar${SEP}$TP/asm/asm-all-3.1.jar${SEP}$TP/xtc/xtc.jar${SEP}$TP/plt/plt.jar${SEP}$JAVA_HOME/lib/tools.jar${SEP}$TP/unsigned/unsigned.jar${SEP}$TP/astgen/astgen.jar${SEP}$TP/scala/scala-compiler-${SV}.jar${SEP}$TP/scala/scala-library-{SV}.jar${SEP}/tmp/expanded.jar${SEP}$CP"
+CP="expanded.jar${SEP}$FORTRESS_HOME/default_repository/caches/optimizedbytecode_cache/*${SEP}$FORTRESS_HOME/default_repository/caches/bytecode_cache${SEP}$FORTRESS_HOME/default_repository/caches/bytecode_cache/*${SEP}$FORTRESS_HOME/default_repository/caches/nativewrapper_cache${SEP}$FORTRESS_HOME/ProjectFortress/build${SEP}$TP/junit/junit.jar${SEP}$TP/asm/asm-9.10.1.jar${SEP}$TP/asm/asm-util-9.10.1.jar${SEP}$TP/asm/asm-tree-9.10.1.jar${SEP}$TP/asm/asm-analysis-9.10.1.jar${SEP}$TP/xtc/xtc.jar${SEP}$TP/plt/plt.jar${SEP}$JAVA_HOME/lib/tools.jar${SEP}$TP/unsigned/unsigned.jar${SEP}$TP/astgen/astgen.jar${SEP}$TP/scala/scala-compiler-${SV}.jar${SEP}$TP/scala/scala-library-{SV}.jar${SEP}/tmp/expanded.jar${SEP}$CP"
 # echo $CP
 if [ -z "$JAVA_HOME" ] ; then
   JAVACMD=java
@@ -41,4 +41,4 @@ JAVA_FLAGS+=" -Dfile.encoding=UTF-8 -Xfuture"
 
 # echo "$JAVACMD" $JAVA_FLAGS "-Xbootclasspath/p:$CP" "$@"
 
-"$JAVACMD" $JAVA_FLAGS -cp "ProjectFortress/third_party/asm/asm-all-3.1.jar:$CP" org.objectweb.asm.util.CheckClassAdapter  "$@"
+"$JAVACMD" $JAVA_FLAGS -cp "ProjectFortress/third_party/asm/asm-9.10.1.jar:ProjectFortress/third_party/asm/asm-util-9.10.1.jar:ProjectFortress/third_party/asm/asm-tree-9.10.1.jar:ProjectFortress/third_party/asm/asm-analysis-9.10.1.jar:$CP" org.objectweb.asm.util.CheckClassAdapter  "$@"

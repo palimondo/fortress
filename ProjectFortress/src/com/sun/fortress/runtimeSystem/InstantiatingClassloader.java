@@ -720,7 +720,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
      *
      * How do we determine incoming and outgoing signatures?
      */
-    public static void forwardingMethod(ClassWriter cw,
+    public static void forwardingMethod(ClassVisitor cw,
             String thisName, int thisModifiers, int selfIndex,
             String fwdClass, String fwdName, int fwdOp,
             String maximalSig, String selfCastSig,
@@ -731,7 +731,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
                 );
     }
 
-    public static void forwardingMethod(ClassWriter cw,
+    public static void forwardingMethod(ClassVisitor cw,
             String thisName, int thisModifiers, int selfIndex,
             String fwdClass, String fwdName, int fwdOp,
             String thisSig, String fwdSig, String selfCastSig,
@@ -768,7 +768,7 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
      * @param castReturn      cast the return type to what it "ought" to be.
      *                        deals with BottomType case.  Makes verifier happy.
      */
-    public static void forwardingMethod(ClassWriter cw,
+    public static void forwardingMethod(ClassVisitor cw,
                                         String thisName, int thisModifiers, int selfIndex,
                                         String fwdClass, String fwdName, int fwdOp,
                                         String thisSig, String fwdSig, String selfCastSig,

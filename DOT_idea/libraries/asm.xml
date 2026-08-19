@@ -1,10 +1,17 @@
 <component name="libraryTable">
   <library name="asm">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-all-3.1.jar!/" />
-      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-src-3.1.zip!/" />
+      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-9.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-util-9.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-tree-9.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-analysis-9.10.1.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-9.10.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-util-9.10.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-tree-9.10.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ProjectFortress/third_party/asm/asm-analysis-9.10.1-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

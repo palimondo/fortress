@@ -24,25 +24,25 @@ import com.sun.fortress.runtimeSystem.InstantiatingClassloader;
 import com.sun.fortress.runtimeSystem.Naming;
 import com.sun.fortress.useful.Debug;
 
-public class ManglingMethodVisitor extends MethodAdapter {
+public class ManglingMethodVisitor extends MethodVisitor {
 
     String name, desc;
     int access;
-    
+
     public ManglingMethodVisitor(MethodVisitor mvisitor, int access, String name, String desc) {
-        super(mvisitor);
+        super(Opcodes.ASM9, mvisitor);
         this.access = access;
         this.name = name;
         this.desc = desc;
     }
 
     public void visitMaxs(int maxStack, int maxLocals) {
-        /* 
+        /*
          * Print early, before it goes bad.
          */
         if (mv instanceof TraceMethodVisitor) {
             System.out.println(name + desc + " " + Integer.toHexString(access));
-            List t = ((TraceMethodVisitor)mv).getText();
+            List t = ((TraceMethodVisitor)mv).p.getText();
             for (Object s : t)
                 System.out.print(s);
         }
@@ -91,17 +91,17 @@ public class ManglingMethodVisitor extends MethodAdapter {
 
     @Override
     public void visitMethodInsn(int opcode, String owner, String _name,
-            String desc) {
+            String desc, boolean itf) {
 
         checkForUIdesc(desc);
-        
+
         StringBuilder erasedContent = new StringBuilder();
         owner = Naming.mangleFortressIdentifier(owner);
         desc = Naming.mangleMethodSignature(desc, erasedContent, true);
         boolean is_not_special = ! Naming.pointyDelimitedInitMethod(_name);
         _name = Naming.mangleMemberName(ManglingClassWriter.TWEAK_ERASED_UNIONS && is_not_special ? _name + erasedContent: _name);  // Need to mangle somehow if NOT ERASED
-     
-        super.visitMethodInsn(opcode, owner, _name, desc);
+
+        super.visitMethodInsn(opcode, owner, _name, desc, itf);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class ManglingMethodVisitor extends MethodAdapter {
         // Special case here for abstract methods
         if (mv instanceof TraceMethodVisitor && 0 != (access & Opcodes.ACC_ABSTRACT) ) {
             System.out.println(name + desc + " " + Integer.toHexString(access));
-            List t = ((TraceMethodVisitor)mv).getText();
+            List t = ((TraceMethodVisitor)mv).p.getText();
             for (Object s : t)
                 System.out.print(s);
         }
