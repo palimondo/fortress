@@ -30,8 +30,9 @@ Facts that save time:
   `CompilerSystem`) must be explicitly `fortress compile`d into the cache
   first, and **stale caches** cause a misleading
   `NoSuchMethodError: fortress.CompilerBuiltin.println(...)` — wipe
-  `default_repository/caches/*` and recompile. The compiler is incomplete
-  (some constructs still `sayWhat`), not broken. See
+  `default_repository/caches/*` and recompile in library order (recipe in
+  `explorations/repo-internals.md`). The compiler is incomplete (some
+  constructs still `sayWhat`), not broken. See
   `explorations/test-baseline-jdk8.md`.
 - **`ProjectFortress/hello.fss` runs only via the compiler path** — its July
   2012 upgrade imports `System.getProperty`/`CompilerSystem.args`, which the
@@ -47,6 +48,9 @@ Facts that save time:
   `touch ProjectFortress/astgen/Fortress.ast && ant compileAll` regenerates.
 - Interpreter caches live in `default_repository/caches/` (gitignored); wipe
   them if library edits seem to have no effect.
+- Architecture map, name-resolution rules, cache anatomy, test-harness
+  mechanics, and git-archaeology techniques: `explorations/repo-internals.md`
+  — read it before diving into the source.
 
 ## Layout
 

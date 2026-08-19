@@ -79,6 +79,23 @@ and the compiler still rejects constructs the 2012 team hadn't finished
 (e.g. pluckyporcupine hit "mutable bindings not yet handled" on other
 programs). The compiler is *incomplete*, not *broken*.
 
+## Postscript (2026-08-19): all failures fixed
+
+Both failure classes were fixed the next day — the suite is now fully green:
+
+- The six `System`-shadowing failures: `LibraryBuiltin/System.fsi/fss`
+  deleted, compiler `getProperty` moved into `CompilerSystem` where `args`
+  already lived, `hello.fss` imports updated (commit "Fix System api
+  shadowing"). **The compile recipe above changed accordingly**: there is no
+  `LibraryBuiltin/System.fss` anymore; compile the library chain in order —
+  `LibraryBuiltin/AnyType.fss`, `LibraryBuiltin/CompilerBuiltin.fss`,
+  `../Library/CompilerLibrary.fss`, `../Library/CompilerAlgebra.fss`,
+  `../Library/CompilerSystem.fss` — then the program. See
+  `repo-internals.md` for why the order matters.
+- `realArith`: the `e` constant in `Library/Constants.fss` was hand-tuned to
+  the 2012 JDK's `exp(1.0)` (1 ulp above correctly-rounded e); corrected to
+  the double nearest e (commit "Correct the e constant").
+
 ## Baseline verdict
 
 The grafted tree is healthier than either parent lineage: it carries the full
