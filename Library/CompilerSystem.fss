@@ -10,10 +10,13 @@
  ******************************************************************************)
 
 component CompilerSystem
-import java com.sun.fortress.nativeHelpers.{systemOps.getArgs => jGetArgs}
+import java com.sun.fortress.nativeHelpers.{systemOps.getArgs => jGetArgs,
+                                            systemOps.getProperty => jGetProperty}
 export CompilerSystem
 
 
 args : StringVector = jGetArgs()
+
+getProperty(what:String, ifMissing:String) = jGetProperty(what.asJavaString, ifMissing.asJavaString)
 
 end

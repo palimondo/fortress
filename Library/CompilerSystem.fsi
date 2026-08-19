@@ -14,4 +14,6 @@ api CompilerSystem
 
 args : StringVector
 
+getProperty(what:String, ifMissing:String):String
+
 end
