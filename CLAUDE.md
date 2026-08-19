@@ -23,15 +23,24 @@ cd $FORTRESS_HOME && ant compileAll              # ~80 s
 
 Facts that save time:
 
-- **Use the interpreter, not the compiler.** `fortress <file>.fss` interprets
-  and works. `fortress compile` + `fortress run` emits bytecode but compiled
-  programs die at runtime (`NoSuchMethodError:
-  fortress.CompilerBuiltin.println(...)`) — reproduced identically on JDK 8
-  and pluckyporcupine's Java 9; unfinished since 2012. Getting it to work is
-  an open project goal, not a regression you caused.
-- **`ProjectFortress/hello.fss` does not run on the interpreter** — its July
-  2012 upgrade imports `System.getProperty`/`CompilerSystem.args`, which only
-  the compiler path provides. Use `explorations/*.fss` as smoke tests.
+- **Both execution paths work.** `fortress <file>.fss` interprets directly.
+  The bytecode compiler path (`fortress compile` + `fortress run`) also works
+  on JDK 8 — pluckyporcupine's "compiled programs don't run" is wrong here —
+  but has two traps: imported library components (`System`,
+  `CompilerSystem`) must be explicitly `fortress compile`d into the cache
+  first, and **stale caches** cause a misleading
+  `NoSuchMethodError: fortress.CompilerBuiltin.println(...)` — wipe
+  `default_repository/caches/*` and recompile. The compiler is incomplete
+  (some constructs still `sayWhat`), not broken. See
+  `explorations/test-baseline-jdk8.md`.
+- **`ProjectFortress/hello.fss` runs only via the compiler path** — its July
+  2012 upgrade imports `System.getProperty`/`CompilerSystem.args`, which the
+  interpreter can't resolve. Use `explorations/*.fss` as interpreter smoke
+  tests.
+- **Test baseline (2026-08-18):** `ant testFast` all green (~1,400 tests incl.
+  the full compiler suite); `ant testSystem` 375/382 — the 7 failures are
+  pre-existing 2012 breakage + one JDK float-printing nit, all diagnosed in
+  `explorations/test-baseline-jdk8.md`.
 - The interpreter requires filename (sans `.fss`) == component name.
 - If scalac fails with arity errors in `S*Pattern` nodes, the generated AST
   sources are stale relative to `ProjectFortress/astgen/Fortress.ast`:

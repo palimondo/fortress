@@ -7,7 +7,8 @@ nothing here is Sun/Oracle code. Original Fortress sources live everywhere
 else in the tree and stay untouched.
 
 All programs run on the reference **interpreter** (the bytecode compiler path
-is broken; see the root CLAUDE.md). From this directory:
+also works, with caveats — see the root CLAUDE.md and
+`test-baseline-jdk8.md`). From this directory:
 
     ../bin/fortress <file>.fss
 
