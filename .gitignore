@@ -27,3 +27,6 @@
 /ProjectFortress/test-tmp/
 /junit-results/
 /junit*.properties
+
+# Scratch file written by file-IO interpreter tests (tests/writeTest*.fss)
+/testFile.txt
