@@ -14,3 +14,10 @@
 
 # Local-only research materials (copyrighted decks etc.; see research/README.md)
 /research/decks/
+
+# Compiler-path caches missing from the imported ignore list
+/default_repository/caches/bytecode_cache/
+/default_repository/caches/environment_cache/
+/default_repository/caches/nativewrapper_cache/
+/default_repository/caches/optimizedbytecode_cache/
+/default_repository/caches/syntax_cache/
