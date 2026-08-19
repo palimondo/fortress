@@ -31,13 +31,14 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    was the missing scala-parser-combinators jar).
 2. ~~Scala 2.12.20~~ DONE (flip ac517a5ce; gate green 2026-08-19:
    testSystem 382/0 in 2m19s, testFast 0 failures in 13m39s).
-3. **JDK 11** — JDK installed at `/usr/lib/jvm/java-11-openjdk-amd64`.
-   Keep `-source/-target 1.8` (ASM 3.1 and interpreter must keep seeing v52
-   classfiles). `tools.jar` analysis done: sole consumer is
-   `syntax_abstractions/rats/JavaC.java` calling `com.sun.tools.javac.Main`,
-   which is accessible from the `jdk.compiler` module on 11 — no code change
-   expected; dead tools.jar pathelements are harmless. Recipe: set JAVA_HOME
-   to 11, `ant clean`, `ant compileAll`, triage, gate.
+3. ~~JDK 11~~ DONE (gate green 2026-08-19: testSystem 382/0, testFast 0).
+   Three fixes were needed, all JDK-internals drift, none in tools.jar as
+   predicted: (a) build.xml javac tasks never set `target=` → v55 bytecode
+   with indy string-concat that ASM 3.1 can't parse (fdd4a57c2);
+   (b) ClassLoadChecker didn't delegate `jdk.*` → IllegalAccessError on
+   JDK 9+ reflection accessors (62dbd760b); (c) FortressMethodAdapter
+   copied NestHost/NestMembers with dangling cp indices into native/*
+   wrappers → ClassFormatError (62dbd760b). Details: repo-internals.md.
 4. **UTF-8 transcode** — convert Latin-1 sources (German comments in
    `runtimeSystem/Instantiater.java` etc.) to UTF-8; drop the
    `encoding="ISO-8859-1"` attributes from build.xml's 8 javac tasks.
@@ -64,10 +65,12 @@ Delegation: use background workers/subagents for parallelizable read-only
 work (surveys, triage of large error logs, doc drafts); keep build/test/
 commit actions in the main session to avoid cache and working-tree races.
 
-## State snapshot (2026-08-19, after commit ac517a5ce)
+## State snapshot (2026-08-19, after the JDK 11 rung)
 
-- Branches: `main` (default) = 454867392; working branch
-  `claude/handover-reading-vn8zgr` = ac517a5ce (2.12.20 flip), both pushed.
+- Branches: `main` (default) and working branch
+  `claude/handover-reading-vn8zgr` both at 62dbd760b (JDK 11 fixes),
+  pushed. Current rung's toolchain: **JDK 11 + Scala 2.12.20** (JDK 8
+  still works too; -source/-target stay 1.8).
   `master` deleted. Old hg-era branches surveyed (12 branches; only `John`
   and `bird_count` have zero unique commits). **Decided** (Pavol,
   2026-08-19): historical branches stay as they are — no tagging, no

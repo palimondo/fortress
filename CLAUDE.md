@@ -9,17 +9,21 @@ graft commits for lineage and attribution. Working mode: Claude explains the
 codebase and produces documentation and experiments as we go; Pavol decides
 what gets committed.
 
-## Build and run (verified: Ubuntu 24.04 container, JDK 8)
+## Build and run (verified: Ubuntu 24.04 container, JDK 11 — current rung)
 
 ```bash
-apt-get install -y openjdk-8-jdk-headless ant   # JDK 8 exactly: Scala 2.10 breaks on 9+
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+apt-get install -y openjdk-11-jdk-headless ant  # JDK 8 also still works (both gated green)
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 export FORTRESS_HOME=<repo root>
 unset JAVA_TOOL_OPTIONS                          # proxy trust-store options confuse ant's JVM forks
 cd $FORTRESS_HOME && ant compileAll              # ~80 s
 ./bin/fortress explorations/claude_demo.fss      # interpreter ("walk") — this works
 ```
+
+Toolchain (2026-08-19): Scala 2.12.20, `-source/-target 1.8` (pinned in
+build.xml — ASM 3.1 must keep seeing v52 classfiles; see
+`explorations/modernization-plan.md` for the ladder and current rung).
 
 Facts that save time:
 
