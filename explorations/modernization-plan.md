@@ -2,10 +2,9 @@
 
 Approved by Pavol (@palimondo) 2026-08-19: "Continue autonomously. Delegate to
 workers where it makes sense." This document is the durable statement of the
-plan, the working rules, and the in-flight state — written so a fresh session
-(or a compacted one; Pavol calls this Claude workstream **Tara**) can resume
-without the conversation history. Read alongside root `CLAUDE.md` and
-`explorations/repo-internals.md`.
+plan, the working rules, and the in-flight state — written so a fresh or
+compacted session can resume without the conversation history. Read alongside
+root `CLAUDE.md` and `explorations/repo-internals.md`.
 
 ## Standing orders
 
