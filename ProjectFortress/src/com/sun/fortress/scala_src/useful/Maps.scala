@@ -14,10 +14,10 @@ package com.sun.fortress.scala_src.useful
 import _root_.java.util.{HashMap => JavaHashMap}
 import _root_.java.util.{Map => JavaMap}
 import scala.collection.{Map => MMap}
-import scala.collection.JavaConversions
+import scala.jdk.javaapi.CollectionConverters
 
 object Maps {
-  def toMap[S, T](jmap: JavaMap[S, T]): Map[S, T] = Map.empty ++ JavaConversions.mapAsScalaMap(jmap)
+  def toMap[S, T](jmap: JavaMap[S, T]): Map[S, T] = Map.empty ++ CollectionConverters.asScala(jmap)
 
   def toJavaMap[S, T](smap: MMap[S, T]): JavaMap[S, T] = {
     var jmap = new JavaHashMap[S, T]()

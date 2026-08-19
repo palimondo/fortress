@@ -62,10 +62,10 @@ maintain proper indentation.
   <!-- BCEL is version 6.2 -->
   <!-- <property name="bcel" location="${PF}/third-party/bcel"/> -->
 
-  <!-- Scala jar files 2.10.7 / 2.12.5 -->
-  <property name="scala-version" value="2.12.20"/>
+  <!-- Scala jar files -->
+  <property name="scala-version" value="2.13.18"/>
   <property name="scala-parser-combinators.jar"
-            value="${PF}/third_party/scala/scala-parser-combinators_2.12-1.1.2.jar"/>
+            value="${PF}/third_party/scala/scala-parser-combinators_2.13-1.1.2.jar"/>
 
  <property name="scala-compiler.jar"
             value="${PF}/third_party/scala/scala-compiler-${scala-version}.jar"/>
@@ -192,9 +192,10 @@ maintain proper indentation.
   <!--
        Taskdefs
   -->
-  <taskdef resource="scala/tools/ant/antlib.xml">
-    <classpath refid="scala.classpath"/>
-  </taskdef>
+  <!-- Scala 2.13 removed the scala.tools.ant tasks (the <scalac> task and
+       antlib.xml are gone from scala-compiler.jar), so Scala compilation
+       now invokes scala.tools.nsc.Main directly via <java>; see the
+       compileAll target. -->
 
 
   <!--
@@ -441,15 +442,10 @@ testOtherCompiler, testCruiseControl
       <exclude name="${usefulPackage}/*.java"/>
       <exclude name="${unicodePackage}/*.java"/>
     </javac>
-    <scalac
-        srcdir="${astgen.generators.src}"
-        destdir="${build}"
-        classpathref="astgen.classpath"
-        deprecation="yes">
-      <include name="**/*.scala"/>
-      <exclude name="${usefulPackage}/*.scala"/>
-      <exclude name="${unicodePackage}/*.scala"/>
-    </scalac>
+    <!-- The <scalac> pass that stood here compiled **/*.scala from
+         ${astgen.generators.src}, which contains no Scala sources (and the
+         task itself is gone from Scala 2.13).  If ASTGen generators ever
+         gain Scala sources, compile them the way compileAll does. -->
   </target>
 
   <target name="checkNodesUptodate" depends="astGenerators">
@@ -532,16 +528,34 @@ testOtherCompiler, testCruiseControl
 
   <target name="compileAll" depends="compileCommon, makeAST, parser, operatorsGen"
           description="Compile all Fortress code.">
-    <scalac
-        srcdir="${src}"
-        destdir="${build}"
-        classpathref="compile.classpath"
-        deprecation="yes">
-      <include name="**/*.java"/>
-      <include name="**/*.scala"/>
-      <exclude name="${usefulPackage}/*.java"/>
-      <exclude name="${unicodePackage}/*.java"/>
-    </scalac>
+    <!-- Joint Java+Scala compilation, formerly the <scalac> Ant task
+         (removed from Scala 2.13): the .java sources are passed to scalac
+         too, which parses them for signatures but emits classes only for
+         the .scala sources; the javac step below then compiles the .java
+         sources for real.  The file list goes through an @argfile to keep
+         the command line short. -->
+    <pathconvert property="scalac.compileAll.sources" pathsep="${line.separator}">
+      <fileset dir="${src}">
+        <include name="**/*.java"/>
+        <include name="**/*.scala"/>
+        <exclude name="${usefulPackage}/*.java"/>
+        <exclude name="${unicodePackage}/*.java"/>
+      </fileset>
+    </pathconvert>
+    <pathconvert property="scalac.compileAll.classpath" refid="compile.classpath"/>
+    <echo file="${build}/scalac-compileAll.args" message="${scalac.compileAll.sources}"/>
+    <java classname="scala.tools.nsc.Main" fork="true" failonerror="true"
+          maxmemory="1024m">
+      <classpath refid="scala.classpath"/>
+      <arg value="-d"/>
+      <arg value="${build}"/>
+      <arg value="-classpath"/>
+      <arg value="${scalac.compileAll.classpath}"/>
+      <arg value="-encoding"/>
+      <arg value="UTF-8"/>
+      <arg value="-deprecation"/>
+      <arg value="@${build}/scalac-compileAll.args"/>
+    </java>
     <javac encoding="UTF-8" 
         srcdir="${src}"
         destdir="${build}"

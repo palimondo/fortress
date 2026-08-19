@@ -76,7 +76,7 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
     else globalEnv.api(name)
   }
 
-  override def iterator() = {
+  override def iterator = {
     var result: Set[TypeConsIndex] = new HashSet()
     for (t <- current.typeConses.values) {
       result += t

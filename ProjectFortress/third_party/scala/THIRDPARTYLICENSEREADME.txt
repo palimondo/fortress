@@ -1,3 +1,12 @@
+The active Scala toolchain vendored here (scala-library, scala-compiler,
+scala-reflect 2.13.18 and scala-parser-combinators_2.13 1.1.2) is
+Copyright (c) 2002-2025 EPFL and Lightbend, Inc. (Akka), and is licensed
+under the Apache License, Version 2.0
+(http://www.apache.org/licenses/LICENSE-2.0), the license Scala adopted
+as of 2.11.12/2.12.2.  The older Scala jars still present in this
+directory (2.9.0/2.10.7/2.12.5 era) remain under the original Scala
+license below.
+
 SCALA LICENSE
 
 Copyright (c) 2002-2009 EPFL, Lausanne, unless otherwise specified.

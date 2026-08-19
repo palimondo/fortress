@@ -13,7 +13,7 @@ package com.sun.fortress.scala_src.useful
 
 import _root_.java.util.{HashSet => JHashSet}
 import _root_.java.util.{Set => JavaSet}
-import scala.collection.JavaConversions
+import scala.jdk.javaapi.CollectionConverters
 import scala.collection.immutable.Set
 
 object Sets {
@@ -27,6 +27,6 @@ object Sets {
 
   /** Creates an immutable set. */
   def toSet[T](jset: JavaSet[T]): Set[T] =
-    Set(JavaConversions.asScalaSet(jset).toSeq: _*)
+    Set(CollectionConverters.asScala(jset).toSeq: _*)
 
 }
