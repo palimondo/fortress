@@ -423,7 +423,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac encoding="ISO-8859-1" 
+    <javac encoding="UTF-8" 
         srcdir="${astgen.generators.src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -510,7 +510,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac encoding="ISO-8859-1" 
+    <javac encoding="UTF-8" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -541,7 +541,7 @@ testOtherCompiler, testCruiseControl
       <exclude name="${usefulPackage}/*.java"/>
       <exclude name="${unicodePackage}/*.java"/>
     </scalac>
-    <javac encoding="ISO-8859-1" 
+    <javac encoding="UTF-8" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -563,7 +563,7 @@ testOtherCompiler, testCruiseControl
   <target name="compile" depends="compileAll"/>
 
   <target name="check.blas" depends="init">
-    <javac encoding="ISO-8859-1"  destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" source="${javaSourceVersion}" target="${javaSourceVersion}" debug="true">
+    <javac encoding="UTF-8"  destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" source="${javaSourceVersion}" target="${javaSourceVersion}" debug="true">
       <classpath refid="compile.classpath"/>
     </javac>
 
@@ -665,7 +665,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac encoding="ISO-8859-1" 
+    <javac encoding="UTF-8" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -693,7 +693,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac encoding="ISO-8859-1" 
+    <javac encoding="UTF-8" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -715,7 +715,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac encoding="ISO-8859-1" 
+    <javac encoding="UTF-8" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -1398,7 +1398,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac encoding="ISO-8859-1" 
+    <javac encoding="UTF-8" 
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
