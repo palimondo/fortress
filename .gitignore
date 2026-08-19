@@ -21,3 +21,9 @@
 /default_repository/caches/nativewrapper_cache/
 /default_repository/caches/optimizedbytecode_cache/
 /default_repository/caches/syntax_cache/
+
+# Transient test-run artifacts
+/ProjectFortress/TEST-RESULTS/
+/ProjectFortress/test-tmp/
+/junit-results/
+/junit*.properties
