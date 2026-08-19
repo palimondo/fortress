@@ -1,0 +1,548 @@
+<title>The Probe and the Pin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --paper: #FBFAF7;
+    --ink: #23282E;
+    --muted: #5A6470;
+    --accent: #0E7490;
+    --copper: #A4551E;
+    --code-bg: #F2F0EB;
+    --code-ink: #2C3138;
+    --hairline: #E2DFD8;
+    --exhibit-bg: #FFFFFF;
+    --ok: #3F7A44;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #15181D;
+      --ink: #E4E2DB;
+      --muted: #98A1AB;
+      --accent: #53B7CB;
+      --copper: #DB8F5B;
+      --code-bg: #1D2127;
+      --code-ink: #D5D9DE;
+      --hairline: #2A2F37;
+      --exhibit-bg: #1A1E24;
+      --ok: #7FB985;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #15181D;
+    --ink: #E4E2DB;
+    --muted: #98A1AB;
+    --accent: #53B7CB;
+    --copper: #DB8F5B;
+    --code-bg: #1D2127;
+    --code-ink: #D5D9DE;
+    --hairline: #2A2F37;
+    --exhibit-bg: #1A1E24;
+    --ok: #7FB985;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Spectral', Georgia, 'Times New Roman', serif;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    margin: 0;
+    padding: 3rem 1.25rem 5rem;
+  }
+  main { max-width: 46rem; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.12;
+    margin: 0.35rem 0 0.6rem;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: var(--muted);
+    margin: 0 0 2.2rem;
+    text-wrap: balance;
+  }
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+
+  h2 {
+    font-weight: 600;
+    font-size: 1.45rem;
+    margin: 3rem 0 0.8rem;
+    text-wrap: balance;
+  }
+  h2 .stepnum {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  p { margin: 0.85rem 0; }
+  em { font-style: italic; }
+  a { color: var(--accent); }
+  code {
+    font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.83em;
+    background: var(--code-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+
+  pre {
+    background: var(--code-bg);
+    color: var(--code-ink);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 0.9rem 1.1rem;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    margin: 1rem 0;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  pre.output { border-left-color: var(--copper); }
+  .prelabel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 1.4rem 0 -0.5rem;
+  }
+  .prelabel.ran { color: var(--accent); }
+  .prelabel.got { color: var(--copper); }
+
+  .chain {
+    background: var(--exhibit-bg);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem;
+    margin: 2rem 0;
+  }
+  .chain h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 0.9rem;
+  }
+  .chain ol {
+    margin: 0; padding-left: 1.3rem;
+    display: flex; flex-direction: column; gap: 0.45rem;
+    font-size: 0.95rem;
+  }
+  .chain li::marker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .verdict {
+    border-left: 3px solid var(--copper);
+    padding: 0.2rem 0 0.2rem 1.2rem;
+    margin: 1.6rem 0;
+    font-size: 1.08rem;
+  }
+  .verdict strong { color: var(--copper); }
+
+  .habits { display: flex; flex-direction: column; gap: 1rem; margin: 1.4rem 0; }
+  .habit {
+    background: var(--exhibit-bg);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 1rem 1.3rem;
+  }
+  .habit b {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  .habit p { margin: 0; font-size: 0.97rem; color: var(--muted); }
+  .habit p code { color: var(--ink); }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--hairline);
+    margin: 3rem 0;
+  }
+  .fine {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .ok { color: var(--ok); font-weight: 600; }
+  .bad { color: var(--copper); font-weight: 600; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+  .tablewrap { overflow-x: auto; margin: 1rem 0; }
+  th, td { text-align: left; padding: 0.45rem 0.9rem 0.45rem 0; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  td code { white-space: nowrap; }
+</style>
+
+<main>
+  <p class="eyebrow">Fortress revival · debugging report · JDK 11 rung</p>
+  <h1>The Probe and the Pin</h1>
+  <p class="standfirst">How 458 test failures under JDK 11 were traced to a single missing
+  <code>target=</code> attribute in a 2012 <code>build.xml</code> — a narrated walkthrough of every
+  grep, the construction of the ASM probe, and the reasoning that connected them. <strong>Everything
+  below is reconstructed from the verbatim session transcript, not from memory.</strong></p>
+
+  <div class="chain">
+    <h3>Chain of evidence</h3>
+    <ol>
+      <li>Gate summary: 458 junit failures, all in the <em>compiler-path</em> suites; the interpreter suite stayed green.</li>
+      <li>First stack trace: <code>ArrayIndexOutOfBoundsException</code> inside ASM 3.1's <code>ClassReader</code>, reached from <code>ForeignJava.findClass</code>.</li>
+      <li>Source read: that call parses a classfile for every <code>import java ...</code> in Fortress code.</li>
+      <li>API survey: upgrading ASM would be a multi-file migration — wrong fix for this rung.</li>
+      <li>Controlled probe: JDK 11's own classes parse <em>fine</em>; our freshly built class fails. Hypothesis overturned.</li>
+      <li><code>javap</code>: our class is major version 55 with <code>invokedynamic</code> string concat — javac was never told <code>target=</code>.</li>
+      <li>The pin: <code>target="${javaSourceVersion}"</code> on all 8 javac tasks. Rebuild → v52 → probe passes → 458 failures become 3.</li>
+    </ol>
+  </div>
+
+  <h2><span class="stepnum">Step 1 / Read the failure at the summary level first</span>Sizing the damage before touching any stack trace</h2>
+
+  <p>The background gate had finished with <code>testSystem=BUILD SUCCESSFUL, testFast=BUILD FAILED</code>.
+  Before looking at any individual failure, the first command extracted only the <em>shape</em> of the
+  damage:</p>
+
+  <p class="prelabel ran">Ran — check JDK 11 gate final results</p>
+  <pre><code>grep -E 'Tests run.*(Failures: [1-9]|Errors: [1-9])' $SP/jdk11-testFast.log | head
+grep -c 'UNEXPECTED' $SP/jdk11-testFast.log</code></pre>
+
+  <p>The first pattern is worth unpacking. JUnit prints one summary line per suite —
+  <code>Tests run: N, Failures: N, Errors: N, ...</code> — and most of them say <code>Failures: 0</code>.
+  The character class <code>[1-9]</code> deliberately excludes zero, so the grep returns <em>only the
+  suites that actually failed</em>, skipping hundreds of healthy summary lines. The alternation
+  catches suites that failed via errors rather than assertions. The second command counts occurrences
+  of the harness's <code>UNEXPECTED exception</code> marker — not to read them, just to get a magnitude.</p>
+
+  <p class="prelabel got">Got</p>
+  <pre class="output"><code>Tests run: 642, Failures: 186, ...   ← CompilerJUTest
+Tests run: 55,  Failures: 42,  ...   ← LibraryJUTest
+Tests run: 263, Failures: 230, ...   ← OtherCompilerJUTest
+235                                   ← count of UNEXPECTED markers</code></pre>
+
+  <p>458 failures, 235 unexpected exceptions. Two structural facts fell out immediately, before reading
+  a single trace: the failures were <em>massive and uniform</em> (230 of 263 in one suite — not a
+  scattering of flaky tests, but something systemic), and <code>testSystem</code> — the 382-test
+  <em>interpreter</em> suite — had passed untouched. Whatever broke, it broke only the path that
+  compiles Fortress to JVM bytecode. That asymmetry became the first constraint on any hypothesis.</p>
+
+  <h2><span class="stepnum">Step 2 / Get one representative trace, cheaply</span>An awk idiom for "the first match, plus context, with line numbers"</h2>
+
+  <p class="prelabel ran">Ran — extract first failure details from testFast log</p>
+  <pre><code>grep -n 'UNEXPECTED' $SP/jdk11-testFast.log | head -3
+awk '/UNEXPECTED/{print NR": "$0; c=NR} c &amp;&amp; NR&gt;c &amp;&amp; NR&lt;c+30' $SP/jdk11-testFast.log | head -45</code></pre>
+
+  <p>With 235 identical-looking markers, reading them all would be waste; reading <em>one, fully,</em>
+  is the move. The awk program is a hand-rolled <code>grep -A30</code> with line numbers: on each match
+  it prints the numbered line and records the position in <code>c</code>; the second clause then prints
+  every subsequent line within 30 of the <em>most recent</em> match. Piped through
+  <code>head&nbsp;-45</code>, it yields the first marker plus its complete stack trace and nothing else.
+  (The preceding <code>grep&nbsp;-n | head&nbsp;-3</code> confirmed matches began at line 134 — i.e. the
+  failures started essentially at the top of the run, another hint of something systemic rather than
+  test-specific.)</p>
+
+  <p class="prelabel got">Got</p>
+  <pre class="output"><code>java.lang.ArrayIndexOutOfBoundsException: Index 3145 out of bounds for length 79
+  at org.objectweb.asm.ClassReader.readClass(ClassReader.java:1976)
+  at org.objectweb.asm.ClassReader.accept(ClassReader.java:464)
+  at com.sun.fortress.repository.ForeignJava.findClass(ForeignJava.java:135)
+  at com.sun.fortress.repository.ForeignJava.processJavaImport(ForeignJava.java:291)
+  at com.sun.fortress.repository.GraphRepository.collectExplicitImports(...)</code></pre>
+
+  <p>This trace is unusually eloquent. An <code>ArrayIndexOutOfBoundsException</code> with a huge index
+  (3145) against a tiny array (79) inside a classfile <em>parser</em> is the signature of a format-version
+  mismatch: the reader has walked off the rails mid-file because the bytes don't mean what it thinks
+  they mean. ASM 3.1 is from 2007. The frame below it says the crash happens during
+  <code>processJavaImport</code> — so every Fortress program containing <code>import java ...</code>
+  dies at compile time. That explains both the scale (458) and the asymmetry (the interpreter never
+  parses classfiles).</p>
+
+  <h2><span class="stepnum">Step 3 / Read the crash site and its caller</span>Two windows into ForeignJava.java</h2>
+
+  <p>Two targeted <code>Read</code>s — not the whole 900-line file — at the line numbers the trace
+  supplied: offset 100 for <code>findClass</code>, offset 255 for the calling context in
+  <code>processJavaImport</code>. The first window found the exact call:</p>
+
+  <pre class="output"><code>static ClassNode findClass(String s) throws IOException {
+    ClassReader cr = new ClassReader(s);
+    ClassNode cn = new ClassNode();
+    cr.accept(cn, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES | ClassReader.SKIP_CODE);
+    return cn;
+}</code></pre>
+
+  <p>Two things mattered here. First, <code>new ClassReader(String)</code> loads the class <em>by name
+  through the classloader</em> — so what gets parsed is whatever is on the runtime classpath, JDK
+  classes and Fortress's own build output alike. Second, the exact flag set
+  (<code>SKIP_DEBUG | SKIP_FRAMES | SKIP_CODE</code>) was recorded, because any faithful reproduction
+  must use the same flags — ASM's parse path differs depending on what it skips. The second window
+  showed the dot-to-dollar "hunting" loop that tries <code>a.b.C.d</code>, <code>a.b.C$d</code>… — which
+  meant <code>findClass</code> gets called speculatively many times per import, so a single unparseable
+  class poisons every import that touches it.</p>
+
+  <h2><span class="stepnum">Step 4 / Survey before choosing the fix</span>How entangled is Fortress with ASM's API?</h2>
+
+  <p>At this point the obvious fix candidate was "upgrade ASM." Before committing to that, one command
+  measured its cost:</p>
+
+  <p class="prelabel ran">Ran — survey ASM API usage across Fortress source</p>
+  <pre><code>grep -rEl 'implements (ClassVisitor|MethodVisitor|FieldVisitor|AnnotationVisitor)|extends (ClassAdapter|MethodAdapter|ClassNode|MethodNode)' . | head
+echo ===
+grep -rc 'org.objectweb.asm' --include=*.java . | grep -v ':0' | sort -t: -k2 -rn | head -12</code></pre>
+
+  <p>The two greps answer two different questions. The first (<code>-l</code>, files-only) looks for
+  classes that <em>implement or extend</em> ASM's visitor types — the load-bearing pattern, because
+  ASM 4 turned the visitor interfaces into abstract classes and deleted
+  <code>ClassAdapter</code>/<code>MethodAdapter</code> outright; every hit is a file an upgrade would
+  break. The second (<code>-c</code>, count per file, <code>grep -v ':0'</code> to drop non-users,
+  <code>sort -t: -k2 -rn</code> to rank by the count field) produces a league table of ASM dependence.</p>
+
+  <p class="prelabel got">Got</p>
+  <pre class="output"><code>9 files implement/extend ASM visitor types
+  (Instantiater, MethodInstantiater, FortressForeignAdapter,
+   FortressMethodAdapter, ByteCodeVisitor, ... ManglingMethodVisitor)
+===
+ForeignJava.java:33   NamingCzar.java:19   CodeGen.java:14   ...</code></pre>
+
+  <p>Verdict: an ASM upgrade was a genuine migration project across the code generator, the runtime
+  classloader, and a bytecode optimizer — far too much for a rung whose one variable was "JDK 8 → 11."
+  So the fix had to go the other way: <em>make the classfiles parseable by ASM 3.1</em>. (The upgrade
+  was deferred and later became its own gated rung — ASM 9.10.1 — where that 9-file survey served as
+  the work list.)</p>
+
+  <h2><span class="stepnum">Step 5 / The probe</span>A 20-line controlled experiment</h2>
+
+  <p>The standing hypothesis was "ASM 3.1 can't read JDK 11 classfiles." Plausible — v55 classfiles
+  didn't exist in 2007. But it was still a guess, and the next step was built to <em>split the
+  hypothesis space in a single run</em>:</p>
+
+  <p class="prelabel ran">Ran — probe which classes ASM 3.1 fails to parse on JDK 11</p>
+  <pre><code>cat &gt; $SP/asmprobe/Probe.java &lt;&lt;'EOF'
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.tree.ClassNode;
+
+public class Probe {
+    public static void main(String[] args) {
+        for (String s : args) {
+            try {
+                ClassReader cr = new ClassReader(s);
+                ClassNode cn = new ClassNode();
+                cr.accept(cn, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES | ClassReader.SKIP_CODE);
+                System.out.println("OK   " + s + " (methods=" + cn.methods.size() + ")");
+            } catch (Throwable t) {
+                System.out.println("FAIL " + s + " : " + t);
+            }
+        }
+    }
+}
+EOF
+javac -cp $TP/asm/asm-all-3.1.jar Probe.java
+java -cp .:$TP/asm/asm-all-3.1.jar:/home/user/fortress/ProjectFortress/build Probe \
+  java.lang.String java.lang.Object java.lang.Integer \
+  com.sun.fortress.nativeHelpers.simplePrintln com.sun.fortress.nativeHelpers.systemOps</code></pre>
+
+  <p>Every detail of the probe's construction is deliberate:</p>
+
+  <p><em>It replicates the crash site exactly.</em> Same <code>ClassReader(String)</code> constructor,
+  same <code>ClassNode</code> sink, same three SKIP flags copied from <code>ForeignJava.findClass</code>.
+  A probe that "roughly does the same thing" proves nothing; this one is line-for-line the failing call
+  with a try/catch around it.</p>
+
+  <p><em>It compiles against the identical jar.</em> <code>-cp third_party/asm/asm-all-3.1.jar</code> —
+  the vendored 2007 artifact itself, not a modern ASM from anywhere else.</p>
+
+  <p><em>Its classpath mirrors production.</em> The probe's runtime classpath includes
+  <code>ProjectFortress/build</code>, exactly what the Fortress compiler sees, so class names resolve
+  to the same bytes.</p>
+
+  <p><em>Its argument list is the experiment.</em> Three JDK platform classes
+  (<code>String</code>, <code>Object</code>, <code>Integer</code>) test the hypothesis "JDK 11's own
+  classfiles break ASM 3.1." Two classes from Fortress's <em>own freshly compiled build output</em>
+  (<code>simplePrintln</code>, <code>systemOps</code> — natives the compiler imports constantly) test
+  the alternative. One invocation, both hypotheses.</p>
+
+  <p class="prelabel got">Got</p>
+  <pre class="output"><code>OK   java.lang.String (methods=109)
+OK   java.lang.Object (methods=14)
+OK   java.lang.Integer (methods=60)
+<b>FAIL com.sun.fortress.nativeHelpers.simplePrintln :
+     java.lang.ArrayIndexOutOfBoundsException: Index 3145 out of bounds for length 79</b>
+OK   com.sun.fortress.nativeHelpers.systemOps (methods=3)</code></pre>
+
+  <div class="verdict">
+    <strong>The hypothesis flipped.</strong> JDK 11's platform classes — the "obvious" suspects — parse
+    fine under those SKIP flags. The class that fails is <em>our own</em>, compiled minutes earlier by
+    our own build. And it fails with the byte-identical exception from the test log (Index 3145,
+    length 79), confirming the probe reproduces the real defect, not a lookalike. The bug wasn't in
+    what JDK 11 ships; it was in what our build produces <em>under</em> JDK 11. (Also informative:
+    <code>systemOps</code> passed while <code>simplePrintln</code> failed — same package, same build,
+    so the trigger was some feature only one of them used.)
+  </div>
+
+  <h2><span class="stepnum">Step 6 / Interrogate the artifact</span>javap with a checklist of post-2007 constant-pool types</h2>
+
+  <p class="prelabel ran">Ran — inspect constant pool of failing classfile</p>
+  <pre><code>javap -v -p -cp ProjectFortress/build com.sun.fortress.nativeHelpers.simplePrintln 2&gt;&amp;1 \
+  | grep -E 'major|minor|#[0-9]+ = (Dynamic|InvokeDynamic|MethodHandle|MethodType|Module|Package)|BootstrapMethods|NestHost|NestMembers|Attribute' | head</code></pre>
+
+  <p>The grep pattern here is a <em>checklist, not a search</em>: it enumerates every constant-pool tag
+  and attribute introduced <em>after</em> ASM 3.1's era — <code>InvokeDynamic</code> and
+  <code>MethodHandle</code>/<code>MethodType</code> (Java 7), <code>Dynamic</code> (condy, Java 11),
+  <code>Module</code>/<code>Package</code> (Java 9), <code>NestHost</code>/<code>NestMembers</code>
+  (Java 11) — plus the version header. Whatever matches is, by construction, something a 2007 parser
+  has never heard of. The <code>#[0-9]+ = </code> prefix anchors matches to actual constant-pool
+  entries rather than incidental prose in method bodies.</p>
+
+  <p class="prelabel got">Got</p>
+  <pre class="output"><code>minor version: 0
+<b>major version: 55</b>                        ← Java 11 format
+#8  = InvokeDynamic  #0:#47  // makeConcatWithConstants(...)
+#44 = Utf8           BootstrapMethods
+#45 = MethodHandle   6:#64   // REF_invokeStatic
+     java/lang/invoke/StringConcatFactory.makeConcatWithConstants...</code></pre>
+
+  <p>Complete explanation in two lines. <strong>Major version 55</strong>: the class was compiled
+  <em>as</em> Java 11 bytecode. And the payload that actually derails a 2007 parser:
+  on JDK 9+, javac compiles ordinary string concatenation (<code>"a" + b</code>) to
+  <code>invokedynamic</code> against <code>StringConcatFactory</code> — so even trivial 2008-era source
+  code, recompiled, now contains constant-pool tags ASM 3.1 misparses, walking it into the weeds and
+  off the end of a 79-slot array. That's also why <code>systemOps</code> survived: no string
+  concatenation, no indy.</p>
+
+  <p>But <em>why</em> v55? The build had faithfully set Java 8 compatibility for years. That question
+  pointed straight at the build file.</p>
+
+  <h2><span class="stepnum">Step 7 / Find the hole in the build</span>One grep over build.xml, then sed windows instead of scrolling</h2>
+
+  <p class="prelabel ran">Ran — find javac source/target settings in build.xml</p>
+  <pre><code>grep -n 'javaSourceVersion\|&lt;javac\|source=\|target=\|release=' build.xml | head -40</code></pre>
+
+  <p>One pass, four facts, because the pattern bundles the property definition and every mechanism that
+  could pin a bytecode level (<code>source=</code>, <code>target=</code>, <code>release=</code>)
+  together with every <code>&lt;javac</code> opening tag. The <code>-n</code> matters — the line numbers
+  are the input to the next command. The output showed: <code>javaSourceVersion=1.8</code> defined at
+  line 134; eight <code>&lt;javac</code> tasks; <code>source=</code> present on five of them;
+  <strong><code>target=</code> present on zero</strong>; <code>release=</code> nowhere.</p>
+
+  <p>That's the whole bug, visible in a grep listing. Ant's <code>&lt;javac&gt;</code> with
+  <code>source="1.8"</code> but no <code>target=</code> lets <code>-target</code> default to the running
+  JDK — harmless for years because the running JDK <em>was</em> 8, silently catastrophic the day it
+  became 11. Three tasks set neither attribute, drifting entirely with the JDK.</p>
+
+  <p class="prelabel ran">Ran — show all javac task definitions</p>
+  <pre><code>for l in 426 512 541 561 663 690 711 1393; do
+  echo "=== line $l ==="; sed -n "${l},$((l+7))p" build.xml
+done</code></pre>
+
+  <p>Rather than opening the 1,400-line file, the grep's line numbers were fed into a loop of
+  <code>sed -n "$l,$((l+7))p"</code> — eight 8-line windows, one per javac task, printed side by side.
+  The purpose was classification before editing: which tasks have <code>source=</code> only, which have
+  neither, and whether the attribute blocks are textually uniform enough for pattern-anchored edits.
+  They fell into exactly three shapes: five tasks with <code>source=</code> then
+  <code>debug="true"</code>; two "bare" tasks (<code>srcdir/destdir/debug</code>, no version at all);
+  and one single-line javac for the numerics package.</p>
+
+  <h2><span class="stepnum">Step 8 / The pin</span>Three edits that cover eight sites, then count-verify</h2>
+
+  <p>The three shapes admitted three surgical edits — two of them <code>replace_all</code> edits
+  anchored on <em>multi-line</em> context strings, so each fires on every instance of its shape and
+  can't touch anything else:</p>
+
+  <div class="tablewrap"><table>
+    <tr><th>Edit</th><th>Anchor</th><th>Covers</th></tr>
+    <tr><td>1 · replace_all</td><td><code>source="${javaSourceVersion}"</code> ⏎ <code>debug="true"</code> → insert <code>target=</code> between</td><td>5 tasks</td></tr>
+    <tr><td>2 · replace_all</td><td><code>srcdir="${src}"</code> ⏎ <code>destdir="${build}"</code> ⏎ <code>debug="true"</code> → insert <code>source=</code> + <code>target=</code></td><td>2 bare tasks</td></tr>
+    <tr><td>3 · single</td><td>the one-line numerics <code>&lt;javac&gt;</code>, edited in place</td><td>1 task</td></tr>
+  </table></div>
+
+  <p>Both values pin to the same existing property, <code>${javaSourceVersion}</code> — no new knob, and
+  future version bumps stay a one-line change. Then the closing bracket of the whole investigation,
+  verification by arithmetic:</p>
+
+  <p class="prelabel ran">Ran — verify all javac tasks now pin target</p>
+  <pre><code>grep -c 'target="${javaSourceVersion}"' build.xml   # → 8  (= number of javac tasks)
+git diff --stat                                      # → build.xml | 11 +, 1 −</code></pre>
+
+  <p>Eight pins for eight tasks, and a diff-stat small enough to read as a sanity check that the
+  replace_alls hadn't rippled anywhere unexpected.</p>
+
+  <h2><span class="stepnum">Step 9 / Cheap proof before expensive proof</span>Seconds of verification before 17 minutes of gate</h2>
+
+  <p>Before spending a full test-gate cycle, the fix was proven at the artifact level:
+  <code>ant clean compileAll</code>, then <code>javap | grep major</code> on the previously failing
+  class — <span class="ok">major version: 52</span> — then the same Probe binary re-run against the
+  rebuilt tree — <span class="ok">OK simplePrintln (methods=13)</span>. Only then was the fix committed
+  (flagged to Pavol as an original-tree edit, <code>build.xml</code> only) and the full gate re-run in
+  the background.</p>
+
+  <p class="prelabel got">Gate rerun</p>
+  <pre class="output"><code>testSystem: Tests run: 382, Failures: 0, Errors: 0        (unchanged, as predicted)
+testFast:   <b>458 failures → 3</b></code></pre>
+
+  <hr>
+
+  <h2>The strategies, generalized</h2>
+  <div class="habits">
+    <div class="habit"><b>Read failures top-down: shape before content.</b>
+      <p>Suite-level counts (<code>Failures: [1-9]</code> to mute the zeros, <code>grep -c</code> for magnitude) revealed "systemic, compiler-path-only" before any stack trace was opened — which immediately constrained the hypothesis space to classfile handling.</p></div>
+    <div class="habit"><b>One failure, read completely, beats 235 read partially.</b>
+      <p>The awk match-plus-context idiom pulled a single full stack trace out of a megabyte of log. Uniform mass failures almost always share one root cause; pick the first specimen and dissect it.</p></div>
+    <div class="habit"><b>Reproduce the exact call, not a paraphrase.</b>
+      <p>The probe copied the crash site's constructor, flags, jar, and classpath verbatim. The reward: its failure was byte-identical to the log's (Index 3145 / length 79), which is what licenses trusting everything else the probe says.</p></div>
+    <div class="habit"><b>Design inputs to split hypotheses, not confirm them.</b>
+      <p>Platform classes and own-build classes in one argument list meant a single run could overturn the leading hypothesis — and did. The most valuable probe output is the one that surprises you.</p></div>
+    <div class="habit"><b>Greps can be checklists.</b>
+      <p>The javap filter enumerated every post-2007 constant-pool tag by name. When you know the taxonomy of possible culprits, encode the whole taxonomy in the pattern and let the output name the culprit.</p></div>
+    <div class="habit"><b>Survey the blast radius before choosing the fix.</b>
+      <p>Two greps (visitor-subclass hits, per-file reference ranking) priced "upgrade ASM" at nine breaking files — the evidence for fixing the build instead, keeping the rung to one variable. The survey later became the work list for the real ASM rung.</p></div>
+    <div class="habit"><b>Edit by shape, verify by count.</b>
+      <p>Classify the sites (sed windows from grep -n line numbers), anchor replace_all edits on multi-line context so they cover a shape exactly, then verify with arithmetic: <code>grep -c</code> = 8 = number of javac tasks.</p></div>
+    <div class="habit"><b>Ladder of proof: cheap rungs first.</b>
+      <p>javap (seconds) → probe (seconds) → compile (80 s) → full gate (17 min). Each rung could have falsified the fix before the next was paid for.</p></div>
+  </div>
+
+  <hr>
+
+  <p class="fine"><strong>Epilogue — the three survivors.</strong> The screenshot's window ends at the
+  count-verify step; the story continued. The three remaining failures were genuinely different JDK 11
+  issues in Fortress's custom runtime classloader: <code>Integer3</code>/<code>Integer4</code> died with
+  <code>IllegalAccessError</code> when reflection-generated accessor classes were routed through
+  <code>InstantiatingClassloader</code> (surfacing via the vendored jsr166y fork), and
+  <code>CompileMath</code> hit a <code>ClassFormatError</code> because the <code>native/java/lang/Math</code>
+  wrapper class carried a stale <code>NestMembers</code> view of the JDK 11 original. Their
+  investigation proceeded by the same playbook — trace, source window, targeted grep for
+  <code>mustUseSystemLoader</code> — and the deeper causes were retired for good by two later rungs of
+  the modernization ladder: the jsr166y → <code>java.util.concurrent</code> migration and the
+  ASM 3.1 → 9.10.1 upgrade.</p>
+
+  <p class="fine">Commits: <code>fdd4a57c2</code> (the pin, build.xml only) and <code>3246e0aee</code>
+  (lessons recorded in <code>explorations/repo-internals.md</code>, including the
+  <code>caches/global.map</code> gotcha found the same afternoon). Full narrative of the rung lives in
+  <code>explorations/modernization-plan.md</code>.</p>
+</main>
