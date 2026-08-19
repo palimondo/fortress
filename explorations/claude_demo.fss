@@ -1,0 +1,42 @@
+component claude_demo
+export Executable
+
+(* Recursion + juxtaposition multiplication *)
+factorial(n: ZZ32): ZZ32 =
+  if n <= 1 then 1
+  else n factorial(n - 1)
+  end
+
+(* Euclid, with REM *)
+gcd(a: ZZ32, b: ZZ32): ZZ32 =
+  if b = 0 then a else gcd(b, a REM b) end
+
+(* Parametric object: constructor params are fields *)
+object Vec2(x: RR64, y: RR64)
+  norm(): RR64 = SQRT (x^2 + y^2)
+  add(other: Vec2): Vec2 = Vec2(x + other.x, y + other.y)
+end
+
+run() = do
+  println("factorial(10) = " || factorial(10))
+  println("gcd(462, 1071) = " || gcd(462, 1071))
+
+  var a: ZZ32 := 0
+  var b: ZZ32 := 1
+  for i <- seq(1#15) do
+    t = a + b
+    a := b
+    b := t
+  end
+  println("fib(15) = " || a)
+
+  total = SUM[i <- 1#100] i
+  println("SUM[i <- 1#100] i = " || total)
+
+  v = Vec2(3.0, 4.0)
+  w = Vec2(1.0, 2.0)
+  u = v.add(w)
+  println("norm of (3,4) = " || v.norm())
+  println("(3,4)+(1,2) = (" || u.x || ", " || u.y || ")")
+end
+end

@@ -5,6 +5,8 @@ part of the revival effort. **Links and metadata only** — the documents
 themselves are copyrighted (Oracle's notice permits personal/classroom copies
 but not redistribution), so PDFs live in `decks/`, which is gitignored and
 local-only: drop the files in manually each session; they are never committed.
+`extracts/` holds committed working notes on the sources — our own summaries
+and commentary with brief attributed quotations, never document reproductions.
 
 ## Talks and decks
 
@@ -19,8 +21,8 @@ local-only: drop the files in manually each session; they are never committed.
     `https://web.archive.org/web/20260416152624id_/https://labs.oracle.com/pls/apex/f?p=LABS:0:100315543614648:APPLICATION_PROCESS=GETDOC_INLINE:::DOC_ID:952`
     (fallback, earliest capture:
     `https://web.archive.org/web/20211209023131id_/https://labs.oracle.com/pls/apex/f?p=LABS:0:101713034580486:APPLICATION_PROCESS=GETDOC_INLINE:::DOC_ID:952`)
-  - Local copy: `decks/SteeleJuliaCon2016.pdf` (+ working extract
-    `decks/SteeleJuliaCon2016-extract.md`).
+  - Local copy: `decks/SteeleJuliaCon2016.pdf`; committed working extract:
+    `extracts/SteeleJuliaCon2016-extract.md`.
   - Key slides: 9 (histogramWater ∑), 14 (`trait ℤ extends {Ring⟦ℤ,+,×⟧, …}`),
     15–16 (algebraic traits with `property` laws; BooleanAlgebra), 27–29
     (whitespace, juxtaposition, nontransitive precedence), 34 (∑ over Monoid),

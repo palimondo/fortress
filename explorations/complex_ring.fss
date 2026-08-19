@@ -1,0 +1,29 @@
+component complex_ring
+export Executable
+
+(* C as a full citizen of the numeric tower: extends MultiplicativeRing.
+   Defines only: one, +, unary -, TIMES, ^.
+   Inherited: juxtaposition (= TIMES), binary - (= self + (-other)),
+   zero (= self - self, a three-default chain). *)
+object C(re: RR64, im: RR64) extends MultiplicativeRing[\C\]
+  getter one(): C = C(1.0, 0.0)
+  opr +(self, other: C): C = C(re + other.re, im + other.im)
+  opr -(self): C = C(-re, -im)
+  opr TIMES(self, other: C): C =
+    C((re other.re) - (im other.im), (im other.re) + (re other.im))
+  opr ^(self, other: AnyIntegral): C =
+    if other <= 0 then self.one else self (self^(other - 1)) end
+end
+
+show(tag: String, z: C): () = println(tag || z.re || " + " || z.im || "i")
+
+run() = do
+  i = C(0.0, 1.0)
+  show("i i     = ", i i)
+  show("i^2     = ", i^2)
+  show("(1+i)^4 = ", (C(1.0, 1.0))^4)
+  w = C(3.0, 4.0)
+  show("w - w   = ", w - w)
+  show("w.zero  = ", w.zero)
+end
+end

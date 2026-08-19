@@ -1,0 +1,86 @@
+(* Port of palimondo/MandelbrotSwifty to Fortress (2012 reference interpreter).
+   Carries over: the ℂ type with operator overloads, the 16-char ASCII gradient
+   doubling as iteration cap, the 64x32 grid over [-2,2)x[-2,2), and the repo's
+   thesis: semantically equivalent imperative vs functional formulations, timed. *)
+component mandelbrot_swifty
+export Executable
+
+asciiGradient: String = " .,:;|!([$O0*%#@"
+maxIter: ZZ32 = |asciiGradient|
+
+toAscii(n: ZZ32): Char = asciiGradient[n - 1]
+
+object ℂ(re: RR64, im: RR64)
+  isPotentiallyInSet(): Boolean = ((re re) + (im im)) <= 4.0
+  opr +(self, other: ℂ): ℂ = ℂ(re + other.re, im + other.im)
+  opr TIMES(self, other: ℂ): ℂ =
+    ℂ((re other.re) - (im other.im), (im other.re) + (re other.im))
+end
+
+(* imperative: Swift's repeat/while, emulated *)
+imperative(c: ℂ): ZZ32 = do
+  var z: ℂ := ℂ(0.0, 0.0)
+  var i: ZZ32 := 0
+  var go: Boolean := true
+  while go do
+    z := (z TIMES z) + c
+    i := i + 1
+    go := z.isPotentiallyInSet() AND (i < maxIter)
+  end
+  i
+end
+
+(* functional: tail-recursive orbit counter, same escape semantics *)
+countOrbit(z0: ℂ, c: ℂ, i: ZZ32): ZZ32 = do
+  z = (z0 TIMES z0) + c
+  j = i + 1
+  if z.isPotentiallyInSet() AND (j < maxIter) then countOrbit(z, c, j) else j end
+end
+
+mandelbrotF(c: ℂ): ZZ32 = countOrbit(ℂ(0.0, 0.0), c, 0)
+
+(* julia family: closure over the constant, as in the Swift original *)
+julia(c: ℂ): ℂ -> ZZ32 = fn z => countOrbit(z, c, 0)
+
+w: ZZ32 = 64
+h: ZZ32 = 32
+dx: RR64 = 4.0 / 64.0
+dy: RR64 = 4.0 / 32.0
+
+renderFractal(renderer: ℂ -> ZZ32): String = do
+  var art: String := ""
+  var cy: RR64 := -2.0
+  for r <- seq(0#h) do
+    var row: String := ""
+    var cx: RR64 := -2.0
+    for k <- seq(0#w) do
+      row := row || toAscii(renderer(ℂ(cx, cy)))
+      cx := cx + dx
+    end
+    art := art || row || "\n"
+    cy := cy + dy
+  end
+  art
+end
+
+timeRender(renderer: ℂ -> ZZ32): (String, RR64) = do
+  t0 = nanoTime()
+  art = renderFractal(renderer)
+  t1 = nanoTime()
+  (art, (t1 - t0) / 1000000000.0)
+end
+
+run() = do
+  (artI, tI) = timeRender(imperative)
+  (artF, tF) = timeRender(mandelbrotF)
+  print(artI)
+  println("imperative  " || tI || "s")
+  println("functional  " || tF || "s")
+  if artI = artF then println("semantically equivalent: outputs identical")
+  else println("DIVERGED: outputs differ") end
+  douadysRabbit = julia(ℂ(-0.123, 0.745))
+  println("")
+  println("Douady's rabbit:")
+  print(renderFractal(douadysRabbit))
+end
+end
