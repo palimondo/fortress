@@ -151,7 +151,29 @@ public abstract class BaseTask extends FortressExecutable {
             // java.util.concurrent has no helpJoin(); its join() already
             // helps by running queued subtasks when called from a worker
             // thread, so FORTRESS_HELP_JOIN (useHelpJoin) is now a no-op.
-            this.join();
+            //
+            // That helping breaks an invariant jsr166y's blocking join
+            // preserved: generated compute() bodies point the worker's
+            // current-task field at themselves (BaseTask.setTask) and never
+            // restore it, and the transaction statics below resolve the
+            // current transaction through that field.  A task run on this
+            // thread while join() helps leaves the field pointing at an
+            // unrelated task, corrupting transaction state in the joiner's
+            // continuation.  Save and restore the field across join(),
+            // mirroring Evaluator's setCurrentTask(currentTask) after
+            // TupleTask.invokeAll on the interpreter side.
+            Thread thread = Thread.currentThread();
+            if (thread instanceof FortressTaskRunner) {
+                FortressTaskRunner ftr = (FortressTaskRunner) thread;
+                BaseTask saved = ftr.task();
+                try {
+                    this.join();
+                } finally {
+                    ftr.setTask(saved);
+                }
+            } else {
+                this.join();
+            }
         }
     }
 
