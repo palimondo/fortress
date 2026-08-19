@@ -53,10 +53,12 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
 8. **Scala 2.13 evaluation** — real source migration (collections rewrite
    across the 75 scala_src files); re-evaluate cost/benefit at that point.
 
-Cross-cutting (approved as part of the plan): **GitHub Actions CI** running
-clean build + both suites on the current rung's JDK, so pushes get the gate
-automatically. Do early. Note Claude Code containers ≠ GH runners: workflow
-must apt-get its JDK and set the env per CLAUDE.md.
+Cross-cutting: **GitHub Actions CI** — **ON HOLD until after the
+modernization ladder** (Pavol, 2026-08-19). The session's GitHub App token
+lacks `workflows` permission (both git push and the contents API 403), so
+the workflow must be pushed from Pavol's machine. The ready-to-use workflow
+file is parked at `explorations/ci/gate.yml`; to activate, move it to
+`.github/workflows/gate.yml` and bump its JDK to the then-current rung.
 
 Delegation: use background workers/subagents for parallelizable read-only
 work (surveys, triage of large error logs, doc drafts); keep build/test/
@@ -66,10 +68,10 @@ commit actions in the main session to avoid cache and working-tree races.
 
 - Branches: `main` (default) = 454867392; working branch
   `claude/handover-reading-vn8zgr` = ac517a5ce (2.12.20 flip), both pushed.
-  `master` deleted. Old hg-era branches surveyed — full report delivered to
-  Pavol (12 branches; recommendation: keep all, optionally tag `archive/*`;
-  only `John` and `bird_count` have zero unique commits). **Pavol has not yet
-  chosen** tag-all / prune-two / leave-alone: leave untouched until he says.
+  `master` deleted. Old hg-era branches surveyed (12 branches; only `John`
+  and `bird_count` have zero unique commits). **Decided** (Pavol,
+  2026-08-19): historical branches stay as they are — no tagging, no
+  pruning. Closed.
 - Suite history: JDK 8 + Scala 2.10.7 fully green after two fixes
   (System-api shadowing e700b442d, e-constant 36d160799 — details in
   `test-baseline-jdk8.md`); 2.12.5 fully green; 2.12.20 gate in flight.
