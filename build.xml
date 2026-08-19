@@ -53,7 +53,6 @@ maintain proper indentation.
   <!-- Third party jar files -->
   <property name="asm" location="${PF}/third_party/asm"/>
   <property name="astgen.third" location="${PF}/third_party/astgen"/>
-  <property name="jsr166y" location="${PF}/third_party/jsr166y"/>
   <property name="junit" location="${PF}/third_party/junit"/>
   <property name="plt" location="${PF}/third_party/plt"/>
   <property name="unicode.third" location="${PF}/third_party/unicode"/>
@@ -177,7 +176,6 @@ maintain proper indentation.
     <pathelement location="${asm}/asm-all-3.1.jar"/>
     <pathelement location="${xtc}/xtc.jar"/>
     <pathelement location ="${unsigned}/unsigned.jar"/>
-    <pathelement location="${jsr166y}/jsr166y.jar"/>
     <pathelement location="${plt}/plt.jar"/>
     <pathelement location="${astgen.third}/astgen.jar" />
     <pathelement location="${junit}/junit.jar"/>

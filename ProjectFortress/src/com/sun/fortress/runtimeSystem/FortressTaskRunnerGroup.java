@@ -10,7 +10,7 @@
  ********************************************************************************/
 
 package com.sun.fortress.runtimeSystem;
-import jsr166y.ForkJoinPool;
+import java.util.concurrent.ForkJoinPool;
 
 public class FortressTaskRunnerGroup extends ForkJoinPool {
     public static class FortressForkJoinWorkerThreadFactory implements ForkJoinWorkerThreadFactory {
@@ -29,7 +29,8 @@ public class FortressTaskRunnerGroup extends ForkJoinPool {
     private long totalElapsedTime = 0;
 
     public FortressTaskRunnerGroup(int groupSize) {
-        super(groupSize, factory);
+        // java.util.concurrent.ForkJoinPool has no (int, factory) constructor
+        super(groupSize, factory, null, false);
     }
 
     public void addRetries(int retries) {

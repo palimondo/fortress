@@ -13,7 +13,7 @@ package com.sun.fortress.runtimeSystem;
 
 
 import com.sun.fortress.nativeHelpers.systemHelper;
-import jsr166y.RecursiveAction;
+import java.util.concurrent.RecursiveAction;
 
 /** Superclass of the generated component class.  We can't refer to
  *  that one until we have defined it and we need to pass an instance

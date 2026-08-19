@@ -11,16 +11,15 @@
 
 package com.sun.fortress.runtimeSystem;
 
-import jsr166y.ForkJoinPool;
-import jsr166y.ForkJoinTask;
-import jsr166y.RecursiveAction;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.sun.fortress.runtimeSystem.FortressExecutable.numThreads;
 import static com.sun.fortress.runtimeSystem.FortressExecutable.spawnThreshold;
-import static com.sun.fortress.runtimeSystem.FortressExecutable.useHelpJoin;
 
 import com.sun.fortress.useful.MagicNumbers;
 
@@ -148,9 +147,10 @@ public abstract class BaseTask extends FortressExecutable {
         // Emphasize common UNFORKED case.
         if (actuallyForked == UNFORKED) {
             this.compute();
-        } else if (useHelpJoin) {
-            this.helpJoin();
         } else {
+            // java.util.concurrent has no helpJoin(); its join() already
+            // helps by running queued subtasks when called from a worker
+            // thread, so FORTRESS_HELP_JOIN (useHelpJoin) is now a no-op.
             this.join();
         }
     }

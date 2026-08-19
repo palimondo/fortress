@@ -17,7 +17,7 @@ import com.sun.fortress.exceptions.transactions.OrphanedException;
 import com.sun.fortress.interpreter.evaluator.transactions.ContentionManager;
 import com.sun.fortress.interpreter.evaluator.transactions.Transaction;
 import com.sun.fortress.interpreter.evaluator.transactions.manager.GreedyManager;
-import jsr166y.ForkJoinWorkerThread;
+import java.util.concurrent.ForkJoinWorkerThread;
 
 import java.util.concurrent.Callable;
 

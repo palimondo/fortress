@@ -17,7 +17,7 @@ import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.Evaluator;
 import com.sun.fortress.interpreter.evaluator.values.FValue;
 import com.sun.fortress.nodes.Expr;
-import jsr166y.ForkJoinTask;
+import java.util.concurrent.ForkJoinTask;
 
 public class TupleTask extends BaseTask {
     Evaluator eval;

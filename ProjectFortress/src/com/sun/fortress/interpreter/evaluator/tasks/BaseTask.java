@@ -14,7 +14,7 @@ package com.sun.fortress.interpreter.evaluator.tasks;
 import com.sun.fortress.exceptions.transactions.AbortedException;
 import com.sun.fortress.exceptions.transactions.PanicException;
 import com.sun.fortress.interpreter.evaluator.transactions.Transaction;
-import jsr166y.RecursiveAction;
+import java.util.concurrent.RecursiveAction;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

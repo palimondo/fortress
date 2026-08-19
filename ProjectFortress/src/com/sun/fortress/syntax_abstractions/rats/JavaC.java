@@ -60,7 +60,6 @@ public class JavaC {
         String jars = "";
         jars += thirdPartyDir + "ant" + sepChar + "ant-junit.jar" + PATHSEP;
         jars += thirdPartyDir + "ant" + sepChar + "ant.jar" + PATHSEP;
-        jars += thirdPartyDir + "jsr166y" + sepChar + "jsr166y.jar" + PATHSEP;
         jars += thirdPartyDir + "junit" + sepChar + "junit.jar" + PATHSEP;
         jars += thirdPartyDir + "junit" + sepChar + "junit_src.jar" + PATHSEP;
         jars += thirdPartyDir + "plt" + sepChar + "plt.jar" + PATHSEP;

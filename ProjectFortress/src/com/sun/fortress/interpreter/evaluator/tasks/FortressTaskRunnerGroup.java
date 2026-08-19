@@ -11,7 +11,7 @@
 
 package com.sun.fortress.interpreter.evaluator.tasks;
 
-import jsr166y.ForkJoinPool;
+import java.util.concurrent.ForkJoinPool;
 
 public class FortressTaskRunnerGroup extends ForkJoinPool {
     public static class FortressForkJoinWorkerThreadFactory implements ForkJoinWorkerThreadFactory {
@@ -27,6 +27,7 @@ public class FortressTaskRunnerGroup extends ForkJoinPool {
     static final FortressForkJoinWorkerThreadFactory factory = new FortressForkJoinWorkerThreadFactory();
 
     public FortressTaskRunnerGroup(int groupSize) {
-        super(groupSize, factory);
+        // java.util.concurrent.ForkJoinPool has no (int, factory) constructor
+        super(groupSize, factory, null, false);
     }
 }
