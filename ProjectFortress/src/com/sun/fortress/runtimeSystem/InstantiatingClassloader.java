@@ -2895,6 +2895,7 @@ class ClassLoadChecker {
                 || name.startsWith("javax.")
             || name.startsWith("jsr166y.")
             || name.startsWith("sun.")
+            || name.startsWith("jdk.")
             || name.startsWith("com.sun.fortress.runtimeSystem.InitializedStaticField")
             || name.startsWith("com.sun.fortress.runtimeSystem.BAlongTree")
             || name.startsWith("com.sun.fortress.runtimeSystem.MainWrapper")
