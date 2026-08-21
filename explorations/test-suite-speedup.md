@@ -1,7 +1,7 @@
 # Test-suite speedup: investigation and proposal (2026-08-21)
 
-Status: **investigated, not yet approved/implemented.** Read-only analysis
-of the rung-10 gate logs plus the harness source. Baseline: `ant testFast`
+Status: **intervention 1 implemented and gated green** (see "Results"
+at the end); interventions 2–4 remain proposals. Baseline: `ant testFast`
 ≈ 11 min, `ant testSystem` ≈ 2 min, on 4 CPUs.
 
 ## Where the time goes
@@ -84,3 +84,21 @@ anywhere, so parallel load can't cause spurious timeout failures.
 fixes are prerequisites for (2)/(3) and are correct on their own. Combined
 ceiling on 4 CPUs: gate ≈ 13 min → ≈ 5–6 min. All of this also folds into
 the clean-ladder rebuild (the enabling fixes belong in the base block).
+
+## Results: intervention 1 (implemented 2026-08-21)
+
+Shape: `CompilerJUTest`/`LibraryJUTest` gate their `suite()` reset on
+`fortress.junit.reset` (default true — standalone runs unchanged);
+`testFast` in build.xml does one up-front file-only wipe of
+`default_repository/caches` (same semantics as `Shell.resetRepository`:
+files deleted, directories kept) and passes
+`-Dfortress.junit.reset=false` to the forked suites.
+
+Validation, JDK 25, 4 CPUs: two back-to-back `ant testFast` runs plus
+`ant testSystem`, all fully green (47 suites, 1,377 tests, 0 failures ×2;
+382/0/0). LibraryJUTest's link phase inherits CompilerJUTest's warm
+cache: 201 s → 88 s. Wall clock: testFast 11 min → **8 min 53 s** (both
+runs within 1 s of each other, so warm-vs-cold start of the whole target
+does not matter — the up-front wipe restores identical conditions).
+`git status` after a run is clean: the suites rewrite
+`caches/global.map` byte-identically, as before.

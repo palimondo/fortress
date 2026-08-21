@@ -919,6 +919,13 @@ testOtherCompiler, testCruiseControl
           description="Run all unit and system tests expected to pass.">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
+    <!-- One fresh-cache start for the whole run (same file-only wipe as
+         Shell.resetRepository); the suites' own per-suite resets are
+         disabled below so the second big suite inherits a warm cache
+         instead of paying a second cold library rebuild. -->
+    <delete quiet="true">
+      <fileset dir="${cache0}" includes="**/*"/>
+    </delete>
     <junit printsummary="on"
            haltonerror="off"
            haltonfailure="off"
@@ -928,6 +935,7 @@ testOtherCompiler, testCruiseControl
            errorProperty="tests.failed"
            failureProperty="tests.failed">
       <classpath refid="compile.classpath"/>
+      <sysproperty key="fortress.junit.reset" value="false"/>
       <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
       <jvmarg value="${bigStack}" />
       <formatter type="plain" usefile="true"/>
