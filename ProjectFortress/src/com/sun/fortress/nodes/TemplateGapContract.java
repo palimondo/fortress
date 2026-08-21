@@ -17,7 +17,7 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Template gap classTemplateGapContract, a template gap of the ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
+ * @version  Generated automatically by ASTGen from Fortress.ast
  */
 @SuppressWarnings(value={"unused"})
 public class TemplateGapContract extends Contract implements TemplateGap {

@@ -17,7 +17,7 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Class _SyntaxTransformation_InferenceVarOp, a component of the ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
+ * @version  Generated automatically by ASTGen from Fortress.ast
  */
 @SuppressWarnings("unused")
 public class _SyntaxTransformation_InferenceVarOp extends _InferenceVarOp implements _SyntaxTransformation {

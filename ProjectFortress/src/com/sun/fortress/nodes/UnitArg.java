@@ -17,7 +17,7 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Class UnitArg, a component of the ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
+ * @version  Generated automatically by ASTGen from Fortress.ast
  */
 @SuppressWarnings("unused")
 public class UnitArg extends StaticArg {

@@ -17,7 +17,7 @@ import edu.rice.cs.plt.tuple.Option;
 /**
  * Ellipses class _EllipsesArrayComprehension.ASTGen-generated composite hierarchy.
  * Note: null is not allowed as a value for any field.
- * @version  Generated automatically by ASTGen at Tue Aug 18 21:13:05 UTC 2026
+ * @version  Generated automatically by ASTGen from Fortress.ast
  */
 @SuppressWarnings(value={"unused"})
 public class _EllipsesArrayComprehension extends ArrayComprehension implements _Ellipses {

@@ -15,7 +15,6 @@ import edu.rice.cs.astgen.*;
 import edu.rice.cs.astgen.Types.TypeName;
 import edu.rice.cs.plt.tuple.Option;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,8 +67,9 @@ public class TemplateGapClass extends NodeClass {
             writer.startLine(" * Note: null is not allowed as a value for any field.");
         }
 
-        writer.startLine(" * @version  Generated automatically by ASTGen at ");
-        writer.print(new Date());
+        // Deterministic provenance line (no build timestamp): regeneration must
+        // be byte-identical so the checked-in nodes/ tree does not churn.
+        writer.startLine(" * @version  Generated automatically by ASTGen from Fortress.ast");
         writer.startLine(" */");
         writer.startLine("@SuppressWarnings(value={\"unused\"})");
         // Class header
