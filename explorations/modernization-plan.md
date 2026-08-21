@@ -20,8 +20,21 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
   `explorations/`, `research/`, docs): make them when the task requires, but
   flag them explicitly to Pavol in the report — rule agreed after the
   System-api fix.
-- Generated-source churn (regeneration timestamps in `nodes/`, parser,
-  `FortressAst*`, `Operators.java`): revert, never commit.
+- Generated-source churn: **fixed 2026-08-21** (3c4dcdabc) — regeneration
+  is now deterministic (build timestamps removed from ASTGen node headers
+  and Rats! parser headers; two consecutive clean builds verified
+  byte-identical, gate green on the normalized tree). A clean build must
+  leave the working tree untouched; if generated files show as modified
+  again, that is a regression to investigate, not noise to revert.
+  Archaeology: the timestamp was a CVS-era accident — ASTGen (Rice, 2003)
+  put a build date in the `@version` javadoc slot where hand-written
+  sources carried `$Id$` CVS keywords, assuming generated files would
+  never be checked in; Fortress checked them in from 2007 on without
+  revisiting that. Four emitters: three in-repo (TemplateGapClass,
+  EllipsesNode, TransformationNode — edited directly) plus
+  edu.rice.cs.astgen.NodeClass inside the vendored astgen.jar and
+  xtc.util.Tool for Rats! (both normalized by post-generation
+  `<replaceregexp>` steps in build.xml rather than forking the jars).
 - One variable per step; when a suite is running, do not touch `build/`,
   caches, or `build.xml`.
 
