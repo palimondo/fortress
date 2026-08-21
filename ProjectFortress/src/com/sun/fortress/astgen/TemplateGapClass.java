@@ -67,8 +67,6 @@ public class TemplateGapClass extends NodeClass {
             writer.startLine(" * Note: null is not allowed as a value for any field.");
         }
 
-        // Deterministic provenance line (no build timestamp): regeneration must
-        // be byte-identical so the checked-in nodes/ tree does not churn.
         writer.startLine(" * @version  Generated automatically by ASTGen from Fortress.ast");
         writer.startLine(" */");
         writer.startLine("@SuppressWarnings(value={\"unused\"})");
