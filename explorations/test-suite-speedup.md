@@ -102,3 +102,68 @@ runs within 1 s of each other, so warm-vs-cold start of the whole target
 does not matter — the up-front wipe restores identical conditions).
 `git status` after a run is clean: the suites rewrite
 `caches/global.map` byte-identically, as before.
+
+## Results: interventions 2–4 (implemented 2026-08-21)
+
+Shape:
+
+- **Enabling fixes (4)**: every place that hardcoded
+  `default_repository/caches` on the classpath or in reset logic now
+  honors the redirection: `bin/fortress_classpath`, `bin/run_classpath`,
+  `bin/runOpt`, `bin/BytecodeOptimizeEverything.sh` derive
+  `CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"`;
+  `Shell.resetRepository` wipes `ProjectProperties.CACHES` instead of the
+  hardwired repository path. In-JVM cache paths already followed
+  `fortress.caches`/`FORTRESS_CACHES` via ProjectProperties (which
+  auto-creates the subdirectories on class init), so no other Java
+  changes were needed. Still hardcoded, deliberately out of scope
+  (unused by the suite): `fortress.bat`, `bin/debugOpt`,
+  `bin/runOptCollect`, `bin/BytecodeOptimizeCompilerTests`, the nine
+  `bin/comp/*` scripts, and `Inlining.java:308/310`.
+- **Parallel testFast (2)**: a `fastTrack` macrodef forks each junit
+  track with its own private cache tree
+  (`ProjectFortress/test-caches/fast-<id>`, gitignored) via the
+  `fortress.caches` sysproperty + `FORTRESS_CACHES` env (the env var is
+  inherited by the `bin/fortress` child processes ShellTest/TestTest
+  spawn). Four tracks run under `<parallel>`: the three big suites
+  (CompilerJUTest, LibraryJUTest, OtherCompilerJUTest) plus one track
+  with every remaining small suite. Per-track junit-report dirs avoid
+  formatter collisions; `errorProperty`/`failureProperty` converge on one
+  `<fail>` after the barrier (ant properties are write-once and
+  project-global, so parallel sets are race-free).
+- **Sharded testSystem (3)**: `FileTests.interpreterSuite` gained an
+  optional `-Dfortress.suite.shard=i/n` filter (sort names, keep
+  `index % n == i`; inactive by default). testSystem runs four shards
+  under `<parallel>`, each with a private cache tree and
+  `FORTRESS_THREADS=1` so four interpreter runtimes don't fight over
+  cores.
+
+Validation, JDK 25, 4 CPUs, fresh `ant compileAll`: both targets fully
+green — testFast 0 failures across all four tracks, testSystem
+382/0/0 (shards 95+95+97+95).
+
+Measured wall clock:
+
+- **testFast: 8 min 53 s → 5 min 23 s** (user time 17 min 39 s — ~3.3×
+  CPU utilization). Track times: compiler 642 tests / 300 s, library
+  55 / 243 s (cold again — the warm-cache handoff from intervention 1 is
+  gone since tracks are isolated, yet the overlap more than pays for
+  it), othercompiler 263 / 321 s (longest track — sets the wall), misc
+  ~45 suites / ~40 s. Ceiling: further gains need splitting
+  OtherCompilerJUTest itself.
+- **testSystem: 2 min 8 s — wall-neutral** vs the ~2 min single run.
+  Honest result: the interpreter's work-stealing runtime already
+  saturated 4 CPUs in the single-JVM run (~404 s user either way);
+  sharding just trades runtime-level for process-level parallelism.
+  Kept anyway for the isolation win below.
+
+Combined gate: ~13 min (pre-intervention-1) → **~7.5 min**.
+
+Isolation win, independent of speed: neither target touches
+`default_repository/caches` at all any more — the old testFast pre-wipe
+of `cache0` is gone, both targets build in `ProjectFortress/test-caches`
+(deleted at target start) — so test runs can no longer dirty the tracked
+`caches/global.map` or invalidate a developer's warm interpreter cache.
+(`ant compileAll` still wipes `cache0` via the pre-existing `cleanCache`
+over-wipe; known separate issue.) The two targets share the same
+`test-caches` root, so they must run sequentially, as before.

@@ -14,7 +14,8 @@
 # Minor special-case acceleration here.
 export FORTRESS_HOME="`${0%BytecodeOptimizeEverything.sh}fortress_home`"
 
-for i in "$FORTRESS_HOME"/default_repository/caches/bytecode_cache/*.jar ; do
+CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"
+for i in "$CACHES"/bytecode_cache/*.jar ; do
    echo Optimizing "$i"
    "$FORTRESS_HOME"/bin/BytecodeOptimize "$i"
 done

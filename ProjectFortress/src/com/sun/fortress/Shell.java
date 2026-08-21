@@ -116,7 +116,7 @@ public final class Shell {
         if (CURRENT_INTERPRETER_REPOSITORY != null) {
             CURRENT_INTERPRETER_REPOSITORY.clear();
         }
-        File cache = new File(ProjectProperties.REPOSITORY + File.separator + "caches");
+        File cache = new File(ProjectProperties.CACHES);
         System.err.println("Deleting cache " + cache.getName());
         removeFiles(cache);
     }

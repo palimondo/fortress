@@ -22,7 +22,8 @@ else
 fi
 
 BASIC_CLASS_PATH="`"${FORTRESS_HOME}"/bin/fortress_classpath`"
-CLASSPATH="$FORTRESS_HOME/default_repository/caches/bytecode_cache${SEP}$FORTRESS_HOME/default_repository/caches/bytecode_cache/*${SEP}$FORTRESS_HOME/default_repository/caches/nativewrapper_cache${SEP}${BASIC_CLASS_PATH}"
+CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"
+CLASSPATH="$CACHES/bytecode_cache${SEP}$CACHES/bytecode_cache/*${SEP}$CACHES/nativewrapper_cache${SEP}${BASIC_CLASS_PATH}"
 
 if [ -z "$MORE_PATH" ] ; then
   true

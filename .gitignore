@@ -25,6 +25,7 @@
 # Transient test-run artifacts
 /ProjectFortress/TEST-RESULTS/
 /ProjectFortress/test-tmp/
+/ProjectFortress/test-caches/
 /junit-results/
 /junit*.properties
 
