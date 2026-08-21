@@ -74,8 +74,17 @@ unrestricted machine.
   but the project began in 2003 (confirmed by JuliaCon slide 47). The earlier
   record lived on Sun-internal systems and java.net SVN (shut down 2017);
   survival of archives unverified.
-- Pre-1.0 spec drafts (2005–2007) with whimsical version numbers (0.618 ≈ 1/φ,
-  0.707 ≈ 1/√2 — unverified recollection; confirm before citing).
-- The 1.0 specification PDF (March 2008) as published — the richer working
-  LaTeX (with editorial notes) is already in this repo under `Specification/`
-  and `Specification-1.0-frozen/`.
+- ~~Pre-1.0 spec drafts (2005–2007) with whimsical version numbers~~ CONFIRMED
+  (2026-08-21): the PLRG publications page lists 0.618, 0.707, 0.785, 0.866,
+  0.903, 0.954, 1.0α, 1.0β, and draft PDFs survive in the Wayback Machine —
+  snapshot URLs and the whole recovered picture of the project websites
+  (front-page pitch, wind-down post, community mechanics, verified captures):
+  `extracts/fortress-websites-wayback.md`.
+- The 1.0 specification PDF (March 31, 2008 per its title page) as published —
+  the richer working LaTeX (with editorial notes) is already in this repo under
+  `Specification/` and `Specification-1.0-frozen/`; spec co-author Sam
+  Tobin-Hochstadt hosts a byte-identical copy at
+  https://samth.github.io/fortress-spec.pdf (SHA-256 verified 2026-08-21).
+- Sun-era mailing-list archives (fortress-announce and the
+  projectfortress.java.net lists) — no archive of the contents found anywhere
+  (verified 2026-08-21; see the dead-ends list in the websites extract).
