@@ -2296,7 +2296,7 @@ public final class Const {
   public static final int APPEND_FRAME_MAX = 254;
 
 
-  // Constants defining the behavior of the Method Handles (JVMS �5.4.3.5)
+  // Constants defining the behavior of the Method Handles (JVMS §5.4.3.5)
 
   public static final byte REF_getField         = 1;
   public static final byte REF_getStatic        = 2;

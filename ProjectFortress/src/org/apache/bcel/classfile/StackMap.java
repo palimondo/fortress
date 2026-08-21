@@ -30,7 +30,7 @@ import org.apache.bcel.Const;
  * (J2ME). This attribute is used by the <a
  * href="http://java.sun.com/products/cldc/">KVM</a> and contained
  * within the Code attribute of a method. See CLDC specification
- * �5.3.1.2
+ * §5.3.1.2
  *
  * @version $Id: StackMap.java 1811017 2017-10-03 17:43:26Z britter $
  * @see     Code

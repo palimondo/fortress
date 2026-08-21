@@ -44,11 +44,21 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    shows every .java/.scala is already valid UTF-8; the ISO-8859-1
    attributes merely mis-decoded a handful of comments (all non-ASCII
    bytes are comments-only, audited). Flipped build.xml's 8 javac tasks
-   to explicit `encoding="UTF-8"`. Note: 7 vendored `org/apache/bcel`
-   files carry pre-existing literal U+FFFD mojibake in comments
-   (StackMap, ObjectType, ReturnaddressType, ReferenceType,
-   InstConstraintVisitor, Pass2Verifier, GraphicalVerifier) — damage was
-   committed to the tree long ago, left as-is pending Pavol's call.
+   to explicit `encoding="UTF-8"`. Note: 8 vendored `org/apache/bcel`
+   files carried 23 literal U+FFFD mojibake characters in comments
+   (StackMap, ObjectType, ReturnaddressType, ReferenceType, Const,
+   InstConstraintVisitor, Pass2Verifier, GraphicalVerifier). Provenance
+   established 2026-08-21: the corruption is *upstream Apache's own* —
+   the released bcel-6.2 and even bcel-6.10.0 sources jars carry the
+   identical U+FFFD bytes, so pluckyporcupine vendored it faithfully and
+   Apache never fixed it. Fixed here (Pavol, 2026-08-21): the 17 `�`
+   preceding JVMS/vmspec section numbers restored to `§`; the 6 in
+   GraphicalVerifier's German comments (JBuilder GUI-designer
+   boilerplate, auto-generated in German locale by the JustIce author's
+   IDE, describing plain Swing `pack()`/`validate()` calls — about GUI
+   window frames, not JVM stack frames) removed as non-actionable noise
+   along with the third, undamaged German line (`Das Fenster
+   zentrieren`).
 5. ~~Retire jsr166y~~ DONE (2ed045233 port + bf23583ad STM fix; gate
    green 2026-08-19: testSystem 382/0 in 141s, testFast 0 failures in
    13m55s). Ported 13 sources + build.xml + 6 bin scripts + nbproject to
@@ -121,9 +131,12 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    (13 m 42 s), 1,759 junit tests total, 0 UNEXPECTED. Commit 668e689f7
    (+ docs). Follow-up cleanup: the 2.9.0/2.10.7/2.12.5-era graveyard
    jars were removed from third_party/scala (only the 2.13.18 toolchain
-   + parser-combinators_2.13 remain; `bin/fortress_leaks` still names
-   scala-2.9.0 and asm-3.1 jars, but it was already dead — rung 7
-   removed asm-3.1 — like `bin/fortress-old`, which names 2.8.0).
+   + parser-combinators_2.13 remain). `bin/fortress_leaks` had been dead
+   since rung 7 (it hard-coded scala-2.9.0 and asm-3.1 jars); revived
+   2026-08-21 (Pavol's call) by delegating its classpath to
+   `bin/fortress_classpath`, mirroring `bin/fortress`, keeping its one
+   difference: `-Dfortress.test.leaks=t`. `bin/fortress-old` (2.8.0-era)
+   stays dead intentionally.
 
 **The ladder is complete.** All eight rungs gated green. Remaining
 project goals (complex numbers, bytecode-compiler completion — including

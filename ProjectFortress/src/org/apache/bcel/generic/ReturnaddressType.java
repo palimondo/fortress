@@ -22,7 +22,7 @@ import org.apache.bcel.Const;
 /**
  * Returnaddress, the type JSR or JSR_W instructions push upon the stack.
  *
- * see vmspec2 �3.3.3
+ * see vmspec2 §3.3.3
  * @version $Id: ReturnaddressType.java 1806200 2017-08-25 16:33:06Z ggregory $
  */
 public class ReturnaddressType extends Type {
