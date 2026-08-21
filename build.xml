@@ -59,9 +59,6 @@ maintain proper indentation.
   <property name="xtc" location="${PF}/third_party/xtc"/>
   <property name="unsigned" location="${PF}/third_party/unsigned"/>
   <property name="javadb" location="${PF}/third_party/javadb"/>
-  <!-- BCEL is version 6.2 -->
-  <!-- <property name="bcel" location="${PF}/third-party/bcel"/> -->
-
   <!-- Scala jar files -->
   <property name="scala-version" value="2.13.18"/>
   <property name="scala-parser-combinators.jar"
@@ -184,7 +181,6 @@ maintain proper indentation.
     <pathelement location="${junit}/junit.jar"/>
     <pathelement location="${ant.home}/lib/ant.jar"/>
     <pathelement location="${java.home}/../lib/tools.jar"/>
-    <!-- <pathelement location="${bcel}/bcel.jar"/> -->
     <pathelement location="${javadb}/derby.jar"/>
     <pathelement location="${javadb}/derbytools.jar"/>
   </path>
