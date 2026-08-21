@@ -34,3 +34,26 @@
 
 # ant <depend> task cache (machine-local, regenerated every build)
 /ProjectFortress/.dependencies/
+
+# LaTeX build byproducts (spec, Papers/, Fortify example); rendered PDFs are committed
+*.aux
+*.log
+*.bbl
+*.blg
+*.toc
+*.out
+*.dvi
+*.tex~
+
+# fortify.el output: .tex generated from .tick sources, and generated example/api dirs
+/Papers/Types/*.tex
+/Papers/Welterweight/*.tex
+/Specification/fortress/fortress-keywords.tex
+/Specification/fortress/fortress-specialReservedWords.tex
+/Specification/fortress/fortress-unitOperators.tex
+/Specification/advanced/examples/
+/Specification/basic/examples/
+/Specification/library/apis/
+/Specification/library/examples/
+/Specification/preliminaries/examples/
+/Documentation/Specification/Generated/
