@@ -138,7 +138,21 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    difference: `-Dfortress.test.leaks=t`. `bin/fortress-old` (2.8.0-era)
    stays dead intentionally.
 
-**The ladder is complete.** All eight rungs gated green. Remaining
+9. ~~JDK 25~~ DONE (gate green 2026-08-21: compileAll 46 s, testSystem
+   382/0/0 in 2 m 05 s, testFast 0 failures across 1,759 junit tests, all
+   on JDK 25.0.3; interpreter and fortress_leaks smokes green). One fix
+   needed (13b5a92d1): **JDK 25 removed the `-Xfuture` JVM flag**
+   (deprecated since JDK 9), so every compiled-test `run` phase — which
+   forks a fresh JVM through `bin/run` — died at startup with
+   `Unrecognized option: -Xfuture` (223 testFast failures; testSystem was
+   unaffected because the interpreter runs in-process). `-Xfuture`
+   ("force strictest class-file format checks") is semantically obsolete:
+   the strict checks it enabled became the JVM default for classfiles
+   ≥ V50. Removed from all 9 launcher scripts (bin/run, runOpt,
+   runOptCollect, runCollect, debugOpt, BytecodeOptimize, comp/frun,
+   comp/rewrite, comp/tlink). Zero source or build.xml changes.
+
+**The ladder is complete.** All rungs gated green, through JDK 25. Remaining
 project goals (complex numbers, bytecode-compiler completion — including
 the now-unblocked raise of -source/-target and emitted classfile version —
 research corpus, spec build) proceed from this toolchain.
@@ -154,14 +168,17 @@ Delegation: use background workers/subagents for parallelizable read-only
 work (surveys, triage of large error logs, doc drafts); keep build/test/
 commit actions in the main session to avoid cache and working-tree races.
 
-## State snapshot (2026-08-19, after rung 8 — ladder complete)
+## State snapshot (2026-08-21, after rung 9 — ladder complete)
 
 - Branches: `main` (default) and working branch
-  `claude/handover-reading-vn8zgr` both at the Scala 2.13 rung tip,
-  pushed. Final ladder toolchain: **JDK 21 + Scala 2.13.18, UTF-8,
-  stdlib ForkJoin, ASM 9.10.1** (-source/-target stay 1.8 and emitted
-  classfiles stay V1_6, but ASM 9 unblocks raising both). Next up:
-  activate CI (Pavol), then post-ladder goals.
+  `claude/handover-reading-vn8zgr` both at the JDK 25 rung tip,
+  pushed. Final ladder toolchain: **JDK 25 + Scala 2.13.18, UTF-8,
+  stdlib ForkJoin, ASM 9.10.1** (JDK 8/11/17/21 all still gated green;
+  -source/-target stay 1.8 and emitted classfiles stay V1_6, but ASM 9
+  unblocks raising both — the -source/-target raise is the approved next
+  rung; the V1_6 raise stays bundled with bytecode-compiler work since
+  it needs stack-map frame generation through the rewriting pipeline).
+  Next up: activate CI (Pavol), then post-ladder goals.
   `master` deleted. Old hg-era branches surveyed (12 branches; only `John`
   and `bird_count` have zero unique commits). **Decided** (Pavol,
   2026-08-19): historical branches stay as they are — no tagging, no
@@ -169,7 +186,7 @@ commit actions in the main session to avoid cache and working-tree races.
 - Suite history: JDK 8 + Scala 2.10.7 fully green after two fixes
   (System-api shadowing e700b442d, e-constant 36d160799 — details in
   `test-baseline-jdk8.md`); fully green on every rung since, through
-  JDK 21 + Scala 2.13.18 + ASM 9.10.1.
+  JDK 25 + Scala 2.13.18 + ASM 9.10.1.
 - Both execution paths work; compiler path needs the ordered library compile
   recipe (`repo-internals.md`).
 - Research corpus: `research/README.md` (committed index),

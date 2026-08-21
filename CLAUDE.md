@@ -9,11 +9,11 @@ graft commits for lineage and attribution. Working mode: Claude explains the
 codebase and produces documentation and experiments as we go; Pavol decides
 what gets committed.
 
-## Build and run (verified: Ubuntu 24.04 container, JDK 21 — current rung)
+## Build and run (verified: Ubuntu 24.04 container, JDK 25 — current rung)
 
 ```bash
-apt-get install -y openjdk-21-jdk-headless ant  # JDK 8/11/17 also still work (all gated green)
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+apt-get install -y openjdk-25-jdk-headless ant  # JDK 8/11/17/21 also still work (all gated green)
+export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 export FORTRESS_HOME=<repo root>
 unset JAVA_TOOL_OPTIONS                          # proxy trust-store options confuse ant's JVM forks
@@ -21,7 +21,7 @@ cd $FORTRESS_HOME && ant compileAll              # ~80 s
 ./bin/fortress explorations/claude_demo.fss      # interpreter ("walk") — this works
 ```
 
-Toolchain (2026-08-19): Scala 2.13.18 (build.xml drives scalac via
+Toolchain (2026-08-21): Scala 2.13.18 (build.xml drives scalac via
 `scala.tools.nsc.Main` directly — Scala 2.13 dropped the `scala.tools.ant`
 tasks), ASM 9.10.1 (vendored in
 `ProjectFortress/third_party/asm/`; watch out — Fortress's own
