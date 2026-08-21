@@ -5,6 +5,93 @@ working on the revival. Started 2026-08-19; extend as new things are learned.
 Companion documents: `test-baseline-jdk8.md` (test-suite state, compiler-path
 discovery narrative), root `CLAUDE.md` (build recipe, quick facts).
 
+## Module map (verified 2026-08-21)
+
+Every count below was measured against the working tree at HEAD; this
+replaces folklore from the old READMEs.
+
+### Top level
+
+Live toolchain: `ProjectFortress/` (293 MB — all Java/Scala source, test
+corpora, third-party jars), root `build.xml`, `bin/` (35 scripts),
+`SpecData/` (133 spec-extracted `.fss` examples, run by `ant testSpecData`),
+`Fortify/` (Emacs-batch LaTeX renderer — `fortify.el` + `fortify.sty` typeset
+Fortress source as math for the spec/papers, via `bin/fortify` and
+`ant_tasks/FortifyTask`), `contrib/` (Atom/Emacs/GtkSourceView/Vim modes).
+Note: `ProjectFortress/build.xml` is an 18-line deprecation stub — the root
+`build.xml` (1,633 lines, 68 targets) is the only real build file.
+
+Standard library: `Library/` (53 `.fss`/`.fsi` pairs; `FortressLibrary.fss`
+is the 4,518-line prelude), top-level `CompilerLibrary/` (10 `.fsi`-only API
+stubs for the compiler path — easy to confuse with `Library/CompilerLibrary.fss`),
+and — surprisingly — `lib/` (Fortress source: `List`, `Queue`, `Test`; not
+jars — those live in `ProjectFortress/third_party/`).
+
+Spec and papers: `Specification/` (365 MB — 55% of the repo, mostly LaTeX
+build residue), `Specification-1.0-frozen/`, `Papers/`, `Documentation/`.
+
+Revival era: `explorations/`, `research/`, `CLAUDE.md`, `README.md`.
+
+Historical artifacts / dead weight: `BasicCoreFortress/` (core-calculus
+experiment), `Sandbox/`, `CommunityMetrics/` (SVN-era metrics scripts),
+`NeedBetterErrorMessages/` (single-file TODO bucket), `DOT_idea/` +
+`PFC_DOT_iml` + `ECLIPSE/` (Sun-era IDE configs).
+
+### Packages under `ProjectFortress/src/com/sun/fortress/`
+
+22 packages plus the loose `Shell.java` (1,288 lines) — the CLI dispatcher
+(`compile`, `run`, `walk`, `link`, `api`, `parse`, `unparse`, `typecheck`,
+`test`, `junit`, … parsed at Shell.java:403–487).
+
+| Package | Files | Role |
+|---|---|---|
+| `nodes/` | 1,071 java | ASTGen-generated AST classes + visitors (committed, regenerable) |
+| `interpreter/` | 246 java | Tree-walking evaluator: `evaluator/` 169, `glue/` 53 (native prims), `env/` 15, `rewrite/` 7 |
+| `compiler/` | 197 java + 10 scala | Static phases + JVM backend: `asmbytecodeoptimizer/` 43, `index/` 34, `runtimeValues/` 30, `codegen/` 15, `phases/` 14, `disambiguator/` 13, `desugarer/` 16 (7 scala); top level holds `Disambiguator`, `Desugarer`, `NamingCzar`, `OverloadSet`, `WellKnownNames`, `GlobalEnvironment` |
+| `useful/` | 131 java | Utility layer dominated by hand-rolled persistent balanced-tree collections (`BATree`, `BASet`, `BATreeEC`), tests interleaved |
+| `parser_util/` | 89 java | Hand-written parser support: precedence/juxtaposition resolution, layout, grammar-coverage instrumentation |
+| `parser/` | 5 java + 62 other | Rats!/xtc packrat parsers — **four grammars** (61 `.rats`): main `Fortress.rats`, `preparser/` (import/grammar discovery), `templateparser/` (syntax-abstraction templates), `import_collector/`. Four generated parsers are huge (`Fortress.java` 2.06 MB, `TemplateParser.java` 2.16 MB); committed, regenerable |
+| `scala_src/` | 59 scala | **The real type checker**: `typechecker/` 27 (+ `impls`, `staticenv`), `useful/` 15, `types/` 7, `linker/` 4, `overloading/` 3, `disambiguator/` 2, `nodes/` 1 (generated). Started Feb 2009 as a Scala rewrite of the Java checker (whose stubs remain in `compiler/typechecker/`) |
+| `syntax_abstractions/` | 30 java | Extensible syntax: user-defined grammars generate new parsers at compile time |
+| `nodes_util/` | 29 java + 1 scala | Hand-written AST factories/utilities: `NodeFactory`, `ExprFactory`, `NodeUtil`, `Span`, `ASTIO` |
+| `exceptions/` | 26 java + 1 scala | Error hierarchy: `StaticError`, `ProgramError`, `TypeError`, `CompilerBug`, `InterpreterBug`, … |
+| `runtimeSystem/` | 25 java | Work-stealing runtime + `Naming`/`Instantiater` (generic instantiation at class-load time) that emitted bytecode links against |
+| `nativeHelpers/` | 24 java | FFI shims for `import java` library functions (compiler world) |
+| `astgen/` | 16 java | Fortress extensions to Rice's ASTGen: visitor generators, `FortressAstGenerator`, `ScalaAstGenerator` |
+| `repository/` | 16 java | Component cache/graph: `CacheBasedRepository`, `GraphRepository`, `ForeignJava`, and `ProjectProperties` — the `FORTRESS_HOME`/`BASEDIR`/cache-path resolver everything routes through; first stop when paths misbehave |
+| `tests/` | 16 java | `tests/unit_tests/` — the JUnit harnesses (`SystemJUTest`, `CompilerJUTest`, `OtherCompilerJUTest`, `FileTests`) driving the `.fss` corpora |
+| `numerics/` | 6 java | BLAS JNI binding, directed-rounding IEEE support |
+| `ant_tasks/` | 6 java | Ant tasks: `fortress`, `fortify`, `fortex`, `foreg`, `fortick` |
+| `linker/` | 5 java | Component linking / api-to-implementation binding |
+| `unicode/` | 4 java | Generates operator/precedence tables from Unicode data files |
+| `tools/` | 2 java | `FortressAstToConcrete` — AST→source unparser behind `fortress unparse`; handy for debugging desugaring |
+| `fib_tests/`, `unit_tests/` | 1 each | Stray: a benchmark harness; one near-empty Scala JUnit |
+
+### Test corpora (`.fss` under `ProjectFortress/`)
+
+`tests/` 381 (interpreter, → `testSystem`), `compiler_tests/` 456 + 35 `.fsi`,
+`other_compiler_tests/` 178, `parser_tests/` 112, `demos/` 62,
+`syntax_abstraction_tests/` 43, `library_tests/` 26, `linker_tests/` 9,
+`compiler_regressions/` 6. Known-failing corpora are parked in sibling dirs
+(`not_passing_yet/` 58, `not_working_*`, `obsolete_interpreter_tests/`,
+`long_term_not_working/`). There is **no `static_tests/`** — the class
+`compiler/StaticTestSuite.java` does not correspond to a directory.
+
+### One edit, many files
+
+`ProjectFortress/astgen/Fortress.ast` (2,125 lines; a sibling of `src/`, not
+the `astgen` Java package) regenerates `nodes/` (all 1,071 files),
+`scala_src/nodes/FortressAst.scala`, and `Library/FortressAst.fss`/`.fsi`
+via `ant makeAST` — all four outputs are committed, so a stale `.ast` edit
+silently diverges from the checked-in tree (see "Generated code" below).
+
+### Git-history caveat for this map
+
+`git log -- <dir>` is unusable for dating anything: the 2026 migration graft
+rewrote directories wholesale, so directory-level history shows only the
+graft. Use `git log --follow` on individual files (that is how the Feb 2009
+start of the Scala type checker was confirmed).
+
 ## The two worlds
 
 The tree contains two nearly-disjoint executions of Fortress, and most
@@ -154,9 +241,12 @@ Rules learned the hard way:
 
 ## Environment gotchas (cloud container)
 
-- JDK 8 exactly (`/usr/lib/jvm/java-8-openjdk-amd64`); `unset
-  JAVA_TOOL_OPTIONS` or the proxy's trust-store flags pollute every JVM fork.
+- Current rung JDK 25 (`/usr/lib/jvm/java-25-openjdk-amd64`; 8/11/17/21 also
+  gated green); `unset JAVA_TOOL_OPTIONS` or the proxy's trust-store flags
+  pollute every JVM fork.
 - `web.archive.org` and `labs.oracle.com` are blocked by network policy —
-  research PDFs must be uploaded into the session by Pavol.
+  research PDFs must be uploaded into the session by Pavol. Archived *pages*
+  (not PDFs) can be read via the pure.md relay; see the method note in
+  `research/extracts/fortress-websites-wayback.md`.
 - Gitignored files (e.g. `research/decks/*.pdf`) do not survive the
   container; only commits and pushes persist.
