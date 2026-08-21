@@ -121,7 +121,16 @@ public class CollectingVisitorGenerator extends DepthFirstVisitorGenerator {
         writer.unindent();
         writer.startLine("}");
         writer.println();
-        for (Map.Entry<TypeName, String> e : encounteredResultTypes.entrySet()) {
+        // Emit in sorted order; HashMap iteration order varies between JVM
+        // runs, which would make the generated sources nondeterministic.
+        List<Map.Entry<TypeName, String>> entries =
+            new ArrayList<Map.Entry<TypeName, String>>(encounteredResultTypes.entrySet());
+        java.util.Collections.sort(entries, new java.util.Comparator<Map.Entry<TypeName, String>>() {
+            public int compare(Map.Entry<TypeName, String> a, Map.Entry<TypeName, String> b) {
+                return a.getKey().name().compareTo(b.getKey().name());
+            }
+        });
+        for (Map.Entry<TypeName, String> e : entries) {
             outputCombineDecl(writer, e.getValue(), e.getKey());
         }
     }

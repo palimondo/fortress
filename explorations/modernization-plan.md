@@ -20,12 +20,19 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
   `explorations/`, `research/`, docs): make them when the task requires, but
   flag them explicitly to Pavol in the report — rule agreed after the
   System-api fix.
-- Generated-source churn: **fixed 2026-08-21** (3c4dcdabc) — regeneration
-  is now deterministic (build timestamps removed from ASTGen node headers
-  and Rats! parser headers; two consecutive clean builds verified
-  byte-identical, gate green on the normalized tree). A clean build must
-  leave the working tree untouched; if generated files show as modified
-  again, that is a regression to investigate, not noise to revert.
+- Generated-source churn: **fixed 2026-08-21** in two steps. (1) 3c4dcdabc
+  removed build timestamps from ASTGen node headers and Rats! parser
+  headers. (2) Its "two builds byte-identical" proof turned out incomplete:
+  a later clean build re-shuffled the `combine*` helper order in the five
+  `*CollectingVisitor.java` files — `CollectingVisitorGenerator` emitted
+  them by iterating a `HashMap<TypeName,String>` entrySet, whose order
+  varies between JVM runs (the original proof's second build evidently
+  reproduced the same hash order by luck). Fixed by sorting entries by
+  type name at emission; re-proven with two regenerations that were each
+  verified (via the build log's "Moving 1071 files") to have actually
+  re-run ASTGen. A clean build must leave the working tree untouched; if
+  generated files show as modified again, that is a regression to
+  investigate, not noise to revert.
   Archaeology: the timestamp was a CVS-era accident — ASTGen (Rice, 2003)
   put a build date in the `@version` javadoc slot where hand-written
   sources carried `$Id$` CVS keywords, assuming generated files would

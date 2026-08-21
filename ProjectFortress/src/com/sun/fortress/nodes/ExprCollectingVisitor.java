@@ -561,13 +561,13 @@ public abstract class ExprCollectingVisitor<RetType> extends ExprDepthFirstVisit
         return combine();
     }
 
-    public RetType combine(Option<RetType> v) {
-        if (v.isSome()) return v.unwrap();
+    public RetType combineOptionOption(Option<Option<RetType>> v) {
+        if (v.isSome()) return combine(v.unwrap());
         return combine();
     }
 
-    public RetType combineOptionOption(Option<Option<RetType>> v) {
-        if (v.isSome()) return combine(v.unwrap());
+    public RetType combine(Option<RetType> v) {
+        if (v.isSome()) return v.unwrap();
         return combine();
     }
 
