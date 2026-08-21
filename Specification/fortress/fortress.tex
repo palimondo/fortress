@@ -36,14 +36,20 @@
 \newcommand{\note}[1]{}
 \newcommand{\marginnote}[1]{}
 \else
-\newcommand{\note}[1]{\framebox[\textwidth][t]{\parbox[t]{\textwidth}{#1}}}
+% 2026 revival fix (draft-mode rendering only, not historical): the original
+% \note dropped a \textwidth-wide framebox inline mid-paragraph, so it started
+% at the current line position and overflowed the right page edge, and the
+% inner parbox was \textwidth wide so text also overran the frame. Break the
+% paragraph and size the parbox inside the frame instead.
+\newcommand{\note}[1]{\par\noindent\framebox[\textwidth][t]{\parbox[t]{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{#1}}\par}
 %\marginnote{Some text that gets put into the margin} places the text in
 %the margin, pretty much vertically centered on the line where the marginnote
 %occurs in the input.
 \renewcommand{\marginparwidth}{.7in}
+% Same repair for \marginnote: keep the frame within \marginparwidth.
 \newcommand{\marginnote}[1]{%
 \marginpar{\footnotesize\raggedright\noindent\tolerance=1000{%
-\framebox[\marginparwidth][t]{\parbox[t]{\marginparwidth}{#1}}}}}
+\framebox[\marginparwidth][t]{\parbox[t]{\dimexpr\marginparwidth-2\fboxsep-2\fboxrule\relax}{#1}}}}}
 \fi
 
 % Joe 8/4/06: added the following line for the proofs in overloading section
@@ -86,7 +92,7 @@
 \ifrelease
 \\ {\large Version 1.0}
 \else
-\\ {\normalsize SVN \svnrevision --- \today}
+\\ {\normalsize July 19, 2012}
 \fi
 }
 \author
@@ -114,6 +120,7 @@
                         \copyright\ Sun Microsystems, Inc.
 \end{tabular}
 }
+\date{}
 
 \begin{document}
 \maketitle
