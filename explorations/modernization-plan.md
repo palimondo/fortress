@@ -217,6 +217,104 @@ commit actions in the main session to avoid cache and working-tree races.
   the handover; seed `explorations/complex_ring.fss`), bytecode-compiler
   completion, Steele corpus growth, Specification LaTeX build (untested).
 
+## Clean-ladder rebuild: hindsight ordering (2026-08-21)
+
+For the planned curated history rebuild ("clean ladder" replacing this first
+ascent). Distilled from a full commit-archaeology pass over all 43 revival
+commits (graft 8fe1daa8f..c4c90f936). Principle: hygiene and determinism
+first, so every later rung is a small, meaningful, reproducible diff.
+
+### Lessons learned too late (what moves, and why)
+
+1. **`-Xfuture` (13b5a92d1, was commit #38 — move to base).** A *JVM* flag
+   hard-coded in 9 launcher scripts since Sun's era (never a scalac flag,
+   never in build.xml). JDK 17/21 printed a deprecation warning from every
+   forked test JVM for three rungs; JDK 25 made it fatal (223 testFast
+   failures). Its strict checks became the JVM default for classfiles
+   ≥ V50, so deleting it is safe all the way back to JDK 8. Deleted at the
+   base, rung 9 (JDK 25) becomes a zero-change verification rung.
+2. **Generated-source determinism (3c4dcdabc + c4c90f936, were #40/#43 —
+   move to base, merged).** Landed dead last; belongs before *any*
+   regeneration (the second revival commit regenerated 1,010 files). For
+   the whole first ascent the standing order was "revert generated churn"
+   — a hygiene tax that structurally masks real regressions. Also merge
+   the two: the timestamp commit's byte-identical proof was invalidated by
+   the HashMap-order bug the second commit fixed.
+3. **ISO-8859-1 → UTF-8 round trip (72716e6b0 vs 5f2461096 — rung
+   disappears).** Commit #1 *added* `encoding="ISO-8859-1"` on a wrong
+   diagnosis; rung 4 existed only to undo it (all sources were already
+   valid UTF-8). Clean ladder: set `encoding="UTF-8"` + `source=` +
+   `target=` once, in one base build.xml-normalization commit — which also
+   pre-empts the JDK 11 `target=` trap (fdd4a57c2) before JDK 11 is
+   reached. The 8 javac lines get touched once instead of three times.
+4. **BCEL (f7c4bf0f2, was #42 — move to base).** Provably dead in Sun's
+   own tree (one dead import in MethodInstantiater); deleting it first
+   makes the mojibake repair (ef45a91ca — fixed 8 files deleted five
+   commits later) unnecessary and drops ~3 MB / 432 class files from every
+   gate build of the ladder.
+5. **Classpath single source of truth (generalize ef45a91ca's
+   fortress_leaks fix — new base commit).** Toolchain jar names live in
+   8–10 places (build.xml, test/testText, .classpath, DOT_idea, several
+   bin scripts); each Scala/ASM rung was an 8-file edit, and
+   `bin/fortress_leaks` sat silently dead for 3 rungs because it was
+   missed. Base commit: all bin scripts delegate to `bin/fortress_classpath`;
+   build.xml derives jar names from version properties. (At HEAD,
+   `bin/debugOpt`, `bin/runOptCollect`, `bin/fortress.bat` still duplicate
+   the jar list — open cleanup item.)
+6. **Scala staging (22c059ef5 + 454867392 + ac517a5ce — collapse).**
+   2.12.5 was a pointless waypoint (the real 2012 blocker was only the
+   missing parser-combinators jar); go 2.10.7 → 2.12.20 in one commit, and
+   have every toolchain rung delete its predecessor's jars itself (the
+   graveyard cleanup 439604f53 came 3 rungs late).
+7. **jsr166y + STM fix (2ed045233 + bf23583ad — merge).** The
+   BaseTask.joinOrRun current-task save/restore is intrinsic to j.u.c.'s
+   helping `join()`, not a separate discovery; shipping the port without
+   it was shipping a ~30% flake.
+8. **Repo hygiene scattered (5 .gitignore commits + tracked
+   `.dependencies/` + tracked `caches/global.map` — one base commit).**
+   Untracking global.map would also retire the permanent "wipe only
+   `*_cache`, never `caches/*`" workaround (verify nothing needs a
+   committed global.map first).
+9. **Bookkeeping split (22 of 43 commits were docs-only).** In the rebuild:
+   one commit per rung, gate result in its own commit message (already the
+   stated convention).
+10. **CI (parked 0926d2a2d).** Should be rung 0.9 of the rebuild, not a
+    permanent TODO — needs Pavol's push (token lacks `workflows` scope).
+
+### Proposed rebuild order
+
+Base block, all on JDK 8, gated green before any toolchain moves:
+0.1 repo hygiene (.gitignore, untrack .dependencies/ and global.map) ·
+0.2 delete BCEL + dead import · 0.3 delete `-Xfuture` from 9 bin scripts ·
+0.4 generated-source determinism (timestamps + sorted combine*) ·
+0.5 build.xml flag normalization (source/target/encoding=UTF-8, consistent
+-Xlint, drop JDK-8-only tools.jar pathelement) · 0.6 classpath single
+source of truth · 0.7 restore 2012 trunk to green (System shadowing
+e700b442d + e-constant 36d160799) · 0.8 regenerate AST from trunk
+Fortress.ast (now a clean, reproducible schema-only diff) · 0.9 gate +
+activate CI (Pavol).
+
+Ladder proper, one gated commit each, era-correct JDK (8/11/17/21/25 all
+installed): 1 Scala 2.10.7→2.12.20 · 2 JDK 11 (ClassLoadChecker jdk.*,
+FortressMethodAdapter nest attrs — build.xml half already done at 0.5) ·
+3 jsr166y→j.u.c. incl. STM fix · 4 JDK 17→21 (zero changes, now
+warning-free) · 5 ASM 3.1→9.10.1 (smaller diff: no BCEL, no bin-script
+edits) · 6 Scala 2.13.18 · 7 JDK 25 (zero changes) · 8 -source/-target →
+25. Net: ~43 commits → ~17, every fix-an-earlier-rung commit eliminated,
+one rung (UTF-8) gone, one (JDK 25) reduced to verification.
+
+### Caveats to re-verify during the rebuild
+
+- `encoding="UTF-8"` at the JDK 8 base: the iconv audit ran on the rung-4
+  tree; re-run it on the base (expected fine — differs only by BCEL).
+- BCEL removal compiles clean at the base: asserted from the dead-import
+  analysis, not yet proven by an `ant clean compileAll` on JDK 8.
+- global.map untracking: check nothing reads a committed copy at startup;
+  if needed, ship as template.
+- V1_6 emitted-classfile raise stays bundled with bytecode-compiler work
+  (needs stack-map frames through the rewriting pipeline) — not a ladder
+  rung.
+
 ## Conventions
 
 - Docs: `CLAUDE.md` = terse quick reference; `repo-internals.md` = living
