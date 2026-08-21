@@ -127,7 +127,7 @@ maintain proper indentation.
   <!-- Other settings -->
   <property name="junitMem" value="768m"/>
   <property name="junit.dir" value="junit-results"/>
-  <property name="javaSourceVersion" value="1.8"/>
+  <property name="javaSourceVersion" value="25"/>
   <property environment="env"/>
   <condition property="correct.environment">
     <and>

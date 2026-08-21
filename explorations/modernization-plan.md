@@ -172,6 +172,17 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    runOptCollect, runCollect, debugOpt, BytecodeOptimize, comp/frun,
    comp/rewrite, comp/tlink). Zero source or build.xml changes.
 
+10. ~~-source/-target 1.8 → 25~~ DONE (gate green 2026-08-21: clean
+    compileAll 47 s, testSystem 382/0/0, testFast 47 suites / 1,377 tests
+    zero failures, interpreter smoke green, all on JDK 25.0.3). One knob:
+    `javaSourceVersion` in build.xml (line 130) feeds `source=`/`target=`
+    of all 8 javac tasks. Decision (Pavol, 2026-08-21): target 25, not 21
+    — the repo tracks the latest LTS; the clean-ladder rebuild will leave
+    every intermediate rung in history for anyone needing an older floor.
+    Emitted Fortress classfiles stay V1_6 (bundled with future
+    bytecode-compiler work — needs stack-map frames through the rewriting
+    pipeline).
+
 **The ladder is complete.** All rungs gated green, through JDK 25. Remaining
 project goals (complex numbers, bytecode-compiler completion — including
 the now-unblocked raise of -source/-target and emitted classfile version —
@@ -188,16 +199,15 @@ Delegation: use background workers/subagents for parallelizable read-only
 work (surveys, triage of large error logs, doc drafts); keep build/test/
 commit actions in the main session to avoid cache and working-tree races.
 
-## State snapshot (2026-08-21, after rung 9 — ladder complete)
+## State snapshot (2026-08-21, after rung 10 — ladder complete)
 
 - Branches: `main` (default) and working branch
-  `claude/handover-reading-vn8zgr` both at the JDK 25 rung tip,
+  `claude/handover-reading-vn8zgr` both at the rung 10 tip,
   pushed. Final ladder toolchain: **JDK 25 + Scala 2.13.18, UTF-8,
-  stdlib ForkJoin, ASM 9.10.1** (JDK 8/11/17/21 all still gated green;
-  -source/-target stay 1.8 and emitted classfiles stay V1_6, but ASM 9
-  unblocks raising both — the -source/-target raise is the approved next
-  rung; the V1_6 raise stays bundled with bytecode-compiler work since
-  it needs stack-map frame generation through the rewriting pipeline).
+  stdlib ForkJoin, ASM 9.10.1, -source/-target 25** (JDK 8/11/17/21 all
+  gated green in their eras; emitted classfiles stay V1_6, raised only
+  with future bytecode-compiler work since that needs stack-map frame
+  generation through the rewriting pipeline).
   Next up: activate CI (Pavol), then post-ladder goals.
   `master` deleted. Old hg-era branches surveyed (12 branches; only `John`
   and `bird_count` have zero unique commits). **Decided** (Pavol,
