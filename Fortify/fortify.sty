@@ -547,3 +547,17 @@
   \expandafter\includegraphics\fortresstemp{#1}}
 
 \newcommand\FortressInlineImage[1]{\includegraphics[width=1in]{#1}}
+
+% 2026 revival fix (build repair, not historical): fortify.el emits the six
+% macros below when rendering operator names of the form PREFIX_OP, SUFFIX_OP,
+% etc. (e.g. `opr PREFIX_SUM` in FortressLibrary), but no definition for them
+% was ever committed anywhere in the 2007-2012 history -- pdflatex dies with
+% "Undefined control sequence \inclusiveprefix" when building the spec.
+% Minimal renderings: the base operator glyph with a small textual tag.
+\providecommand\fortressopnametag[1]{\mathrm{\scriptscriptstyle #1}}
+\providecommand\inclusiveprefix[1]{\fortressopnametag{PREFIX}#1}
+\providecommand\inclusivesuffix[1]{\fortressopnametag{SUFFIX}#1}
+\providecommand\exclusiveprefix[1]{\fortressopnametag{EXCL.PREFIX}#1}
+\providecommand\exclusivesuffix[1]{\fortressopnametag{EXCL.SUFFIX}#1}
+\providecommand\comprehensiveprefix[1]{\fortressopnametag{COMPR.PREFIX}#1}
+\providecommand\comprehensivesuffix[1]{\fortressopnametag{COMPR.SUFFIX}#1}
