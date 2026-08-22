@@ -12,7 +12,16 @@ below — Eric Allen, for instance, was co-principal-investigator from the
 start but shows only ~233 commits because the record starts late, and spec
 co-authors **Sam Tobin-Hochstadt** and **Joe Hallett** have *zero* commits
 here (their era's record is lost). Counts are `git log --full-history`
-per path (the 2026 graft makes plain `git log -- <dir>` useless). The
+per path. Plain `git log -- <dir>` — and `git blame` — are broken in this
+repository, but not by the 2026 graft (a single-parent commit that modified
+only 13 pre-existing files): the hg→git conversion behind the GitHub mirror
+severed 146 parent links, turning ordinary 2011–2012 java.net-era commits
+into parentless full-tree snapshots, so any history walk from HEAD dead-ends
+at the nearest phantom root instead of reaching 2007 (blame will credit an
+entire untouched file to, e.g., a July 2012 seam commit). Those snapshot
+roots also add up to ~146 spurious per-path "touched" credits inside the
+`--full-history` counts — noise spread across 2011–12 committers, small at
+the scale of the numbers above. The
 2007–2011 SVN/Mercurial history uses bare usernames (`sukyoungryu@localhost`
 etc.); identities are resolved below with the evidence stated.
 
