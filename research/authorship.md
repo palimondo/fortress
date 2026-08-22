@@ -21,7 +21,12 @@ at the nearest phantom root instead of reaching 2007 (blame will credit an
 entire untouched file to, e.g., a July 2012 seam commit). Those snapshot
 roots also add up to ~146 spurious per-path "touched" credits inside the
 `--full-history` counts — noise spread across 2011–12 committers, small at
-the scale of the numbers above. The
+the scale of the numbers above. In the other direction, the counts
+*undercount* the 2008 research-branch authors: those branches were
+svn-squash-merged into trunk, so the fine-grained per-commit record for
+Culpepper, Rafkind, Lee, and Spiegel on that work survives only on the
+relic branch heads, not in any walk from HEAD — see "The relic branches"
+below. The
 2007–2011 SVN/Mercurial history uses bare usernames (`sukyoungryu@localhost`
 etc.); identities are resolved below with the evidence stated.
 
@@ -101,6 +106,64 @@ more than the code. The final year (2011–2012) is essentially Chase +
 Steele + Flood + Luchangco + the type-system students (Hilburn, Naden)
 — exactly the run-time-instantiation problem the retrospective says
 stopped the project.
+
+## The relic branches — where squashed authorship survives
+
+The twelve non-`main` branches on the GitHub mirror are relics of the
+Sun/Oracle-era repository, carried over by the conversion. Every
+"finished" branch ends in an empty hg close-branch commit from David
+Chase's 2012-01-20 sweep ("closing X, tired of it"). The 2008 research
+branches were re-landed on trunk via svn-merge commits that **squash the
+branch history** — so the branch heads are the *only* record of the
+fine-grained, per-author development steps, even where the final content
+is fully in trunk.
+
+| Branch | Tip (date) | Authors | Commits not in main | Theme |
+|---|---|---|---|---|
+| `syntax` | e2c818a34, 2012-01-20 | jon, ryanc | 39 (38 real) | syntax abstraction, round 1 |
+| `syntax2` | 63135681e, 2012-01-20 | jon, ryanc | 29 (28 real) | round 2: template parser, 2-stage expansion |
+| `syntax3` | 7159d9f7f, 2012-01-20 | jon, ryanc | 21 (20 real) | round 3: `=>` transformers, case macros |
+| `syntax4` | 9571c665d, 2012-01-20 | jon | 10 (9 real) | round 4: ellipses (`...`) in templates |
+| `ange_michael` | 259a02d3a, 2012-01-20 | angelee, mspiegel | 35 (34 real) | bytecode top-level env generation, Jun 2008 |
+| `perftesting` | dbcdf92aa, 2012-01-20 | mspiegel | 13 (12 real) | perf monitor + JFreeChart, Aug 2008 — orphan root, no merge-base |
+| `hygiene` | f506b7d8b, 2012-01-20 | jon | 6 (5 real) | macro hygiene / alpha-renaming, Sep 2008 |
+| `node-interface` | 6908e4fe2, 2012-01-20 | jon | 4 (3 real) | astgen syntax-abstraction AST nodes, 2009 — **never landed** |
+| `works` | 0f5f3f3d2, 2012-01-25 | Chase | 3 (2 merges + 1 empty) | Jan 2012 compiler-merge staging |
+| `john` | abc8f4807, 2012-01-27 | Tristan King | 1 (empty branch-open marker) | hg marker only |
+| `John` | c111201cb, 2011-12-07 | — | 0 | stale pointer into trunk |
+| `bird_count` | 074f85872, 2012-05-25 | — | 0 | stale pointer (Birds demo merged) |
+
+The squashing merges on trunk, for the record:
+
+- **syntax1–4** → `4295ddf2f` (r1752:1883, 2008-06-12), `99ae14ddc`
+  (2008-07-31), `cbae53bb6` (2008-08-06), `f2dce1624` (2008-08-08). Each
+  branch was svn-merged into trunk immediately after its last commit;
+  the ~95 fine-grained commits — including all of Ryan Culpepper's
+  individual authorship on this work — exist only on these branches.
+- **ange_michael** → `c15629abf` (mspiegel, 2008-06-18, "Merging
+  [compiler] branch r2001 into the main trunk") — squash-landed
+  `TopLevelEnvGenerator.java` (ASM bytecode environments per component);
+  the code lives on as `compiler/environments/TopLevelEnvGen.java`.
+- **hygiene** → `fd30f0b14` (jon, 2008-09-22, "svn merge -r2850:HEAD
+  …/branches/hygiene"); `SyntaxEnvironment.java` is in main today, the
+  five development commits only on the branch.
+- **perftesting** never fully landed: its root `ad808cfa6` (2008-08-05)
+  is a disconnected orphan — "includes only the source files until the
+  libraries can be OKed by the lawyers" (the JFreeChart jars). Trunk got
+  only the initial two files (`42affb1fd`, 2008-07-31); `ChartWriter.java`
+  and the rest never reached trunk. (This orphan is separate from, and
+  not among, the 146 conversion-severed roots.)
+- **node-interface** is genuinely unmerged work:
+  `astgen/SyntaxAbstractionCreator.java` (154 lines) and
+  `astgen/README-interface` exist nowhere in main's history.
+
+Consequences: nothing on these branches should be merged into `main`,
+and none of them should be deleted — the branch *names* record which hg
+named branches existed at Sun/Oracle, and the heads carry per-commit
+authorship (Culpepper, Rafkind, Lee, Spiegel) that trunk's squash merges
+erased. At most, `John` and `bird_count` (zero unique commits) could be
+tagged `archive/*` and dropped, but the safe default is to leave all
+twelve untouched.
 
 ## Where they went (affiliations, 2026, from public sources)
 
