@@ -7,7 +7,9 @@ root 2007-01-04, HEAD Aug 2012) with pluckyporcupine's Scala 2.10.7/Java 9
 migration grafted on top as a tree overlay — see the commit messages of the
 graft commits for lineage and attribution. Working mode: Claude explains the
 codebase and produces documentation and experiments as we go; Pavol decides
-what gets committed.
+what gets committed. The full collaboration protocol — roles, tone, how work
+is presented, commit discipline, delegation — is in
+`explorations/protocol.md`; read it at session start.
 
 ## Build and run (verified: Ubuntu 24.04 container, JDK 25 — current rung)
 
