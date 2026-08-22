@@ -2,14 +2,15 @@
 
 Fortress was Sun Microsystems' experimental programming language for
 high-performance computation, designed at Sun Labs under **Guy L. Steele Jr.**
-and developed from 2003 to 2012. Its ambition was captured in its motto: *"to
-do for Fortran what Java did for C."* In practice it became something broader —
-a laboratory for programming-language ideas that are still being absorbed by
-mainstream languages today:
+and **Eric Allen** and developed from 2003 to 2012. The press framed its ambition as doing
+*"for Fortran what Java did for C"*; the project's own tagline was simpler —
+**"Simple parallelism, beautiful code."** In practice it became something
+broader — a laboratory for programming-language ideas that mainstream
+languages have been absorbing ever since:
 
 - **A growable language.** Following Steele's "Growing a Language" (OOPSLA
-  1998), almost everything — operators, loops, even the parallel machinery of
-  `∑` and friends — is defined in libraries, not the compiler.
+  1998), almost everything — operators, loops, even the parallel machinery
+  behind `∑` — is defined in libraries, not the compiler.
 - **A mathematical language.** Syntax modeled on whiteboard mathematics:
   Unicode operators (`∈`, `⊆`, `⌊x⌋`, `∑`), juxtaposition as a user-definable
   operator (`3 sin pi x`), nontransitive operator precedence (`a+b ∨ c+d` is
@@ -22,46 +23,77 @@ mainstream languages today:
   overloading checked by the Meet Rule — plus algebraic traits (`Monoid`,
   `Ring`, …) and design-by-contract woven into the type system.
 
-This repository is a **revival** of that codebase: the complete surviving
-history (5,397 commits, January 2007 – August 2012) carried forward to a
-modern toolchain, with a fully green test suite — the first in this lineage.
+It looked like this — the heart of
+[`buffons.fss`](ProjectFortress/demos/buffons.fss), one of the original Sun
+Labs demos, estimating π by Buffon's needle. The `for` loop runs its
+iterations in parallel, `atomic` guards the shared counters, juxtaposition
+multiplies, and `0.0 < rsq < 1.0` is a chained comparison:
 
-## Status (2026)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="explorations/fortify/buffons-excerpt-dark.svg">
+  <img alt="The heart of buffons.fss typeset as mathematics: a parallel for loop with atomic counter updates" src="explorations/fortify/buffons-excerpt-light.svg">
+</picture>
 
-- Builds and runs on **JDK 25** with Scala 2.13.18 and ASM 9 (JDK 8–21 also
-  verified). See the quickstart below.
-- **Test suite fully green**: ~1,400 fast tests (including the full compiler
-  suite) plus 382 interpreter system tests, zero failures. The 2012 mainline
-  ended with 7 red; the history of the two fixes is in
-  [`explorations/test-baseline-jdk8.md`](explorations/test-baseline-jdk8.md).
-- Both execution paths work: the **interpreter** (`fortress <file>.fss`) and
-  the partial **JVM bytecode compiler** (`fortress compile` + `fortress run`).
-  The compiler is incomplete (some constructs are unimplemented), not broken.
-- The modernization was done as a ladder of small, individually test-gated
-  steps: see [`explorations/modernization-plan.md`](explorations/modernization-plan.md).
-  Each rung is tagged `ladder/*`; pick the newest tag whose toolchain floor
-  fits your JDK.
+Fortress code was meant to be read as mathematics. The rendering above is
+the canonical one, produced by [Fortify](Fortify/) — the project's own
+Emacs-and-LaTeX typesetter, the tool behind the specification and Steele's
+slides — from the ASCII source you actually type, where `delta_X` is δ_X,
+`SQRT` is the radical, and `|/ … \|` and `|\ … /|` are ⌈ ⌉ and ⌊ ⌋:
 
-## Quickstart
+```
+for i <- 1#3000 do
+   delta_X = random(2.0) - 1.0
+   delta_Y = random(2.0) - 1.0
+   rsq = delta_X^2 + delta_Y^2
+  if 0.0 < rsq < 1.0 then
+     y1 = tableHeight random(1.0)
+     y2 = y1 + needleLength (delta_Y / SQRT rsq)
+     (y_L, y_H) = (y1 MIN y2, y1 MAX y2)
+     temp1:RR64 = y_L / needleLength
+     temp2:RR64 = y_H / needleLength
 
-Requires a JDK (8 through 25 all verified; 25 is the current development
-rung) and Apache Ant.
-
-```bash
-export JAVA_HOME=/path/to/jdk
-export PATH=$JAVA_HOME/bin:$PATH
-export FORTRESS_HOME=$(pwd)          # repo root
-ant compileAll                        # ~80 s
-./bin/fortress explorations/claude_demo.fss   # run a program (interpreter)
+      if |/ temp1 \| = |\ temp2 /| then
+            atomic do hits:= hits + 1.0 end
+      end
+     atomic do n:= n + 1.0 end
+   end
+end
 ```
 
-The interpreter requires the filename (without `.fss`) to match the component
-name. For the compiler path, imported library components must be compiled
-into the cache first — recipe and troubleshooting in
-[`explorations/repo-internals.md`](explorations/repo-internals.md), which is
-also the architecture map for the whole source tree.
+This repository preserves that codebase: the complete surviving history,
+January 2007 through August 2012, carried forward so that it still builds
+and runs on today's Java platform.
 
-To run the test suite: `ant testFast` (~9 min) and `ant testSystem` (~2 min).
+## History
+
+**2003–2006: DARPA HPCS.** Fortress began in 2003 as Sun's language effort
+within DARPA's High Productivity Computing Systems program, run by Sun
+Labs' Programming Language Research Group. When DARPA narrowed HPCS funding
+in late 2006, Sun continued Fortress as a research project.
+
+**2007–2008: open source and Fortress 1.0.** The code — at that point the
+reference interpreter — was opened in January 2007 (this repository's
+history begins on 4 January 2007). The 1.0 specification, with a matching
+interpreter release, followed in March 2008.
+
+**2008–2012: the type-system frontier.** Work shifted from the interpreter
+to compiling Fortress to the JVM, and to the hard theory: the Meet Rule,
+the return type rule, and run-time instantiation of generics. Steele,
+looking back in 2016, was frank about where that frontier stalled:
+*"'Non-trivial' is a euphemism for 'exponential cost' […] So we had a grand
+vision, but could not quite pull it off."* The original repository closes
+in August 2012 with that problem still open — its last commits record the
+attempt.
+
+**2012: wind-down.** Oracle Labs
+[concluded the project in the summer of 2012](https://web.archive.org/web/20121007034544/https://blogs.oracle.com/projectfortress/entry/fortress_wrapping_up).
+
+**2015–2016: coda.** Steele revisited Fortress in a pair of retrospective
+talks: [*Four Solutions to a Trivial Problem*](https://www.youtube.com/watch?v=ftcIcn8AmSY)
+at Google (December 2015), on the generator/reducer decomposition at the
+language's core, and the JuliaCon 2016 keynote
+[*Fortress Features and Lessons Learned*](https://www.youtube.com/watch?v=EZD3Scuv02g),
+the fullest account of what the project proved and where it got stuck.
 
 ## The research
 
@@ -71,98 +103,153 @@ sources of the specification and of several papers live in this repository.
 ### The language specification
 
 - [`Specification-1.0-frozen/`](Specification-1.0-frozen/) — the frozen
-  **Fortress 1.0 specification** (March 2008), with the rendered
-  [`fortress.1.0.pdf`](Specification-1.0-frozen/fortress.1.0.pdf).
+  [**Fortress 1.0 specification**](Specification-1.0-frozen/fortress.1.0.pdf)
+  (March 2008).
 - [`Specification/`](Specification/) — the post-1.0 evolving specification
-  LaTeX, richer in places than any published PDF.
+  LaTeX, a [Working Draft](Specification/fortress.pdf) richer in places
+  than any published PDF.
 - [`Documentation/Specification/`](Documentation/Specification/) — a later,
   partial restart of the specification effort.
 
 ### Papers with sources in this repo
 
-| Paper | Where | Status |
-|---|---|---|
-| *Type Checking Modular Multiple Dispatch with Parametric Polymorphism and Multiple Inheritance* — Allen, Hilburn, Kilpatrick, Luchangco, Ryu, Chase, Steele | [`Papers/Types/`](Papers/Types/) | **OOPSLA 2011** |
-| *Implementing Fully Modular, Statically Typed, Symmetric Multimethod Dispatch* — Steele, Chase, et al. | [`Papers/Dispatch/`](Papers/Dispatch/) ([rendered PDF](Papers/Dispatch/SteelePOPL2011.pdf)) | POPL 2011 submission draft |
-| *Dynamic Dispatch and Type Inference Semipredicates* (Welterweight Fortress) — Chase, Hilburn, Luchangco, et al. | [`Papers/Welterweight/`](Papers/Welterweight/) | unpublished draft |
-| *The Return Type Rule and Generics* | [`Papers/Types/journal/`](Papers/Types/journal/) | draft |
-| *Enforcing Fortress' Return Type Rule at Runtime* | [`Papers/RuntimeInstantiation/`](Papers/RuntimeInstantiation/) | draft + working notes |
-| *Fortress function and method encodings* / *Mapping Fortress type relationships onto the JVM type system* | [`Papers/Implementation/`](Papers/Implementation/) ([rendered PDF](Papers/Implementation/FortressEncodings-rendered.pdf)) | implementation notes |
+Inside [`Papers/`](Papers/):
 
-The last four are the written record of the problem that ultimately stopped
-the project (see the history below): making generic methods, multiple
-inheritance, and fully symmetric dispatch coexist soundly requires solving
-systems of type constraints at run time.
+- [`Types/`](Papers/Types/) — [*Type Checking Modular Multiple Dispatch with
+  Parametric Polymorphism and Multiple Inheritance*](Papers/Types/paper.pdf)
+  (Allen, Hilburn, Kilpatrick, Luchangco, Ryu, Chase, Steele —
+  **OOPSLA 2011**), with a
+  [journal draft on the return type rule](Papers/Types/journal/justificationOfRTR.pdf).
+- [`Dispatch/`](Papers/Dispatch/) — [*Implementing Fully Modular, Statically
+  Typed, Symmetric Multimethod Dispatch*](Papers/Dispatch/SteelePOPL2011.pdf)
+  (Steele, Chase, et al.), a POPL 2011 submission draft.
+- [`Welterweight/`](Papers/Welterweight/) — [*Dynamic Dispatch and Type
+  Inference Semipredicates*](Papers/Welterweight/paper.pdf)
+  ("Welterweight Fortress"; Chase, Hilburn, Luchangco, et al.), an
+  unpublished draft.
+- [`RuntimeInstantiation/`](Papers/RuntimeInstantiation/) — [*Enforcing
+  Fortress' Return Type Rule at Runtime*](Papers/RuntimeInstantiation/RTRinstantionTheory.pdf),
+  a draft with working notes.
+- [`Implementation/`](Papers/Implementation/) — implementation notes:
+  [*Fortress function and method encodings*](Papers/Implementation/FortressEncodings-rendered.pdf)
+  and *Mapping Fortress type relationships onto the JVM type system*.
+
+The unpublished drafts — the return-type-rule journal work, Welterweight,
+and the runtime and implementation notes — are the written record of that
+impasse: making generic methods, multiple inheritance, and fully symmetric
+dispatch coexist soundly requires solving systems of type constraints at
+run time. That work's one public afterlife is a family of Oracle patents on
+the dispatch machinery
+([US 8,843,887](https://patents.google.com/patent/US8843887B2/en) and
+siblings), filed on 31 August 2012 — the same day as the original
+repository's last commits.
 
 Related published work by the team (sources not in this repo) includes
 *Object-Oriented Units of Measurement* (OOPSLA 2004), *Growing a Syntax*
-(FOOL 2009), and Steele's ICFP 2009 talk *Organizing Functional Code for
+(FOOL 2009), Steele's ICFP 2009 talk *Organizing Functional Code for
 Parallel Execution; or, foldl and foldr Considered Slightly Harmful* — the
-generators-and-reducers story. A curated index of talks, decks, and recovery
-provenance is in [`research/README.md`](research/README.md).
-
-## History
-
-**2003–2006: DARPA HPCS.** Steele started the project in 2003 as Sun's
-language effort within DARPA's High Productivity Computing Systems program.
-When DARPA narrowed HPCS funding in late 2006, Sun continued Fortress as a
-research project.
-
-**2007–2008: open source and Fortress 1.0.** The code was opened in January
-2007 (this repository's history begins 2007-01-04). The 1.0 specification
-and the reference interpreter followed in 2008.
-
-**2008–2012: the type-system frontier.** Work shifted from the interpreter
-to compiling Fortress to the JVM, and to the hard theory: the Meet Rule,
-the return type rule, and run-time instantiation of generics. In his 2016
-JuliaCon retrospective, Steele was frank about where it stalled: solving
-type constraints at run time was "non-trivial — a euphemism for exponential
-cost." *"So we had a grand vision, but could not quite pull it off."* The
-final commits in this history (August 2012) are exactly that work — the
-return-type-rule papers above.
-
-**2012: wind-down.** Oracle Labs concluded the project in the summer of
-2012. Steele's retrospective lists what they consider proven and worth
-reusing: symmetric multimethod dispatch with generics, work-stealing
-implicit parallelism, generator/reducer-factored collections, mathematical
-syntax that both parses and pretty-prints, nontransitive precedence, and
-physical dimensions and units in the type system. Ideas seeded here have
-since surfaced elsewhere — Steele points to Swift's optional binding
-(`if let`) as a direct descendant of Fortress's `if x <- z then … end`.
-
-**2018: a first migration attempt** by GitHub user pluckyporcupine moved
-the build to Java 9 and Scala 2.10 but lost the project history; its work
-is preserved here as a grafted overlay commit.
-
-**2026: this revival.** Full history restored, toolchain modernized rung by
-rung (JDK 8 → 25, Scala 2.10 → 2.13, ASM 3 → 9, vendored jsr166y →
-`java.util.concurrent`), every step gated on the fully green suite.
-
-Retrospective sources: Guy L. Steele Jr., *Fortress Features and Lessons
-Learned*, JuliaCon 2016 — [video](https://www.youtube.com/watch?v=EZD3Scuv02g);
-notes in [`research/extracts/`](research/extracts/SteeleJuliaCon2016-extract.md).
+generators-and-reducers story — and David Chase's
+[JVM Language Summit 2008 talk](https://www.infoq.com/presentations/chase-fortress/)
+on the implementation. The dispatch line continued academically after the
+wind-down: *Polymorphic Symmetric Multiple Dispatch with Variance* (POPL
+2019), from Sukyoung Ryu's group with Steele. A curated index of talks,
+decks, and recovery provenance is in
+[`research/README.md`](research/README.md).
 
 ## Repository tour
 
-- Original Fortress tree (everything not listed below) — the historical
-  artifact being revived; treat with care.
-  [`README.txt`](README.txt) is Sun's original SVN-era repository guide,
-  kept as an artifact.
-- [`ProjectFortress/`](ProjectFortress/) — interpreter, compiler, standard
-  library, and ~1,800 tests.
-- [`explorations/`](explorations/) — revival-era experiments and writeups:
-  verified running programs, the modernization plan, repo internals, test
-  baselines.
-- [`research/`](research/) — the Guy Steele research corpus: a links-only
-  index and working notes (copyrighted PDFs are never committed).
-- [`Specification/`](Specification/), [`Papers/`](Papers/) — see above.
+The top level:
+
+- [`ProjectFortress/`](ProjectFortress/) — the toolchain: all Java/Scala
+  source under `src/com/sun/fortress/`, the `.fss` test corpora, and
+  vendored third-party jars. Built by the root [`build.xml`](build.xml)
+  (the one inside `ProjectFortress/` is a deprecation stub).
+- [`Library/`](Library/) — the standard library, written in Fortress itself
+  as `.fss`/`.fsi` component pairs; `FortressLibrary.fss` is the prelude.
+  [`CompilerLibrary/`](CompilerLibrary/) holds API stubs for the compiler
+  path.
+- [`bin/`](bin/) — the `fortress` launcher and its supporting scripts.
+- [`Specification/`](Specification/), [`Papers/`](Papers/),
+  [`Documentation/`](Documentation/) — the research record, plus
+  [`Fortify/`](Fortify/), the Emacs-based renderer that typesets Fortress
+  source as LaTeX math for those documents.
+- [`explorations/`](explorations/), [`research/`](research/) — revival-era:
+  verified experiments, the modernization plan, repo internals, and the
+  Steele research corpus (links and working notes only; copyrighted PDFs are
+  never committed).
+- Everything else is the historical artifact being preserved — Sun-era IDE
+  configs, scratch directories, SVN-metrics scripts — treat with care.
+  [`README.txt`](README.txt) is Sun's original SVN-era repository guide.
+
+Inside `ProjectFortress/src/com/sun/fortress/`, the shape of the
+implementation:
+
+- `Shell.java` — the CLI entry point, dispatching `walk` (interpret),
+  `compile`, `run`, `parse`, `typecheck`, and friends.
+- `parser/` — four Rats!-generated packrat parsers (the main grammar plus a
+  preparser, template parser, and import collector), with hand-written
+  precedence and layout support in `parser_util/` and the extensible-syntax
+  machinery in `syntax_abstractions/`.
+- `nodes/` — the generated AST classes, produced (along with Scala and
+  Fortress mirrors of the AST) from
+  `ProjectFortress/astgen/Fortress.ast`. Generated code is committed;
+  `ant makeAST` regenerates.
+- `scala_src/` — the type checker, rewritten in Scala beginning in late
+  2008 (remains of the older Java checker sit in `compiler/typechecker/`).
+- `compiler/` — disambiguation, desugaring, and the JVM bytecode backend
+  (`codegen/`, `asmbytecodeoptimizer/`); its `WellKnownNames.java` is the
+  switch that gives the interpreter and compiler paths their different
+  preludes.
+- `interpreter/` — the tree-walking reference evaluator, with native
+  primitives in `glue/`.
+- `runtimeSystem/` — the work-stealing runtime, and the class-load-time
+  instantiation of generics that compiled code links against.
+
+The full map — every package and its role, the test-corpora inventory,
+cache anatomy, and the traps — is in
+[`explorations/repo-internals.md`](explorations/repo-internals.md).
+
+## Building, walking and running
+
+Fortress needs only a JDK and Apache Ant; the build has been kept working
+on modern JDKs.
+
+```bash
+export JAVA_HOME=/path/to/jdk
+export PATH=$JAVA_HOME/bin:$PATH
+export FORTRESS_HOME=$(pwd)                    # repo root
+ant compileAll
+./bin/fortress ProjectFortress/demos/buffons.fss
+```
+
+That last command *walks* — the interpreter's own term for direct
+evaluation — the Buffon's-needle demo excerpted at the top of this README.
+
+There is also a partial JVM bytecode compiler (`fortress compile`, then
+`fortress run`); it is incomplete — some constructs were never implemented
+— but what exists works. The interpreter requires the filename (without
+`.fss`) to match the component name, and the compiler path needs imported
+library components compiled into its cache first — recipe, traps, and
+troubleshooting in
+[`explorations/repo-internals.md`](explorations/repo-internals.md).
+
+To run the test suite: `ant testFast` and `ant testSystem`.
 
 ## Lineage and license
 
 This repository carries the full available git history of the original
-`projectfortress.sun.com` Subversion repository (root commit 2007-01-04,
-mainline HEAD August 2012), with pluckyporcupine's 2018 migration grafted
-on top as a tree overlay; see the graft commit messages for attribution.
-The revival work (2026–) continues from there.
+`projectfortress.sun.com` Subversion repository, from the January 2007
+opening to the August 2012 wind-down, together with the later migration
+work that keeps it running — see the commit history for lineage and
+attribution.
 
-Fortress is BSD-licensed — see [`LICENSE`](LICENSE).
+Most of the code is the work of a small core — Sukyoung Ryu on the front
+end from parser to type checker, David Chase on the compiler and runtime,
+Jan-Willem Maessen on the standard library, Christine Flood on
+transactions and the work-stealing runtime — with a wider circle of
+students, interns, and visitors around them; the map of who wrote what,
+reconstructed from the history, is in
+[`research/authorship.md`](research/authorship.md).
+
+Fortress is BSD-licensed, with third-party exceptions noted in
+[`LICENSE`](LICENSE).
