@@ -62,7 +62,7 @@ maintain proper indentation.
   <property name="javadb" location="${PF}/third_party/javadb"/>
 
   <!-- Scala jar files 2.8.0 / 2.9.0RC1 -->
-  <property name="scala-version" value="2.9.0"/>
+  <property name="scala-version" value="2.10.7"/>
 
  <property name="scala-compiler.jar"
             value="${PF}/third_party/scala/scala-compiler-${scala-version}.jar"/>
@@ -139,6 +139,7 @@ maintain proper indentation.
   <path id="scala.classpath">
     <pathelement location="${scala-compiler.jar}"/>
     <pathelement location="${scala-library.jar}"/>
+    <pathelement location="${PF}/third_party/scala/scala-reflect-${scala-version}.jar"/>
   </path>
 
   <path id="astgen.path">
@@ -411,7 +412,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="UTF-8"
         srcdir="${astgen.generators.src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -509,7 +510,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="UTF-8"
         srcdir="${src}"
         destdir="${build}"
         debug="true"
@@ -538,7 +539,7 @@ testOtherCompiler, testCruiseControl
       <exclude name="${usefulPackage}/*.java"/>
       <exclude name="${unicodePackage}/*.java"/>
     </scalac>
-    <javac
+    <javac encoding="UTF-8"
         srcdir="${src}"
         destdir="${build}"
         debug="true"
@@ -558,7 +559,7 @@ testOtherCompiler, testCruiseControl
   <target name="compile" depends="compileAll"/>
 
   <target name="check.blas" depends="init">
-    <javac destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" debug="true">
+    <javac encoding="UTF-8" destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" debug="true">
       <classpath refid="compile.classpath"/>
     </javac>
 
@@ -660,7 +661,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="UTF-8"
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -687,7 +688,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="UTF-8"
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -708,7 +709,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="UTF-8"
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
@@ -1398,7 +1399,7 @@ testOtherCompiler, testCruiseControl
             destdir="${build}"
             closure="yes"
             cache="${PF}/.dependencies"/>
-    <javac
+    <javac encoding="UTF-8"
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
