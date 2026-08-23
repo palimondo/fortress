@@ -468,14 +468,14 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 - [x] Worktree created at `/home/user/fortress-clean`, branch `clean-ladder` from `a874948ac`
 - [x] E1 kickoff README + SVGs (`78e9dfcc5`)
 - [x] E2 fortify.sty cherry-pick (`c571a3fe1`)
-- [x] E3 PDFs cherry-pick (.gitignore conflict resolved as specified) (`5a46d3e08`)
-- [x] E4 spec fixes cherry-pick (`4672b71cd`: note restyle + table generators + refreshed PDF) (`0fb6e78c2`, auto-merged — build-dir-PDF line landed under E3's block as specified)
-- [x] E5 authorship.md (`48e5825fe`)
-- [x] E6 experiments (`dbfd2c48d`); pushed `origin/clean-ladder`
-- [x] B1 full .gitignore (`6abefcb88`)
-- [x] B2 determinism (generators to tip state + 2 build.xml hunks) (`864d32f65`)
-- [x] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups (`3e7e5a5c5`; compileAll 1m21s; testFast 1,377/47/0F/0E in 13m07s; testSystem 382/7F/0E in 2m32s — exactly the seven known failures)
-- [x] B4 generated sources committed; byte-identical double-regen proven (`7da0a115f`; 1,079 files; regen `git status` empty; cheap gate: compileAll green, testFast 1,377/47/0F/0E in 13m15s)
+- [x] E3+E4 squashed into one commit on Pavol's request (2026-08-23, post-B4 rewrite): PDFs + spec repairs + byproduct ignores (`17d0a29d2`; originally landed as `5a46d3e08` + `0fb6e78c2`, same combined tree)
+- [x] E5 authorship.md (`48e5825fe` → `a8dd74348` after rewrite)
+- [x] ~~E6 experiments~~ DROPPED from clean-ladder on Pavol's request (revival-era programs are not part of the historical exhibit; they remain on the working branch). Originally `dbfd2c48d`.
+- [x] B1 full .gitignore (`6abefcb88` → `d9b5f2d1b`)
+- [x] B2 determinism (generators to tip state + 2 build.xml hunks) (`864d32f65` → `77d16fdf4`)
+- [x] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups (`3e7e5a5c5` → `8e06b3e2e`; compileAll 1m21s; testFast 1,377/47/0F/0E in 13m07s; testSystem 382/7F/0E in 2m32s — exactly the seven known failures)
+- [x] B4 generated sources committed; byte-identical double-regen proven (`7da0a115f` → `b5a2323d3`; 1,079 files; regen `git status` empty; cheap gate: compileAll green, testFast 1,377/47/0F/0E in 13m15s)
+- Note: history rewrite 2026-08-23 (E3+E4 squash, E6 drop) replayed B1–B5 verbatim — final tree verified byte-identical to the pre-rewrite branch minus the four E6 programs; gate results carry over. B1 fixup `6cc919889` → `1ea1424fb`. Force-pushed with Pavol's authorization; local backup branch `presquash-backup` in the clean worktree.
 - [ ] B5 -Xfuture deleted
 - [ ] B6 build.xml normalization + classpath SSOT
 - [ ] B7a System shadowing; B7b e constant; FULL GATE FULLY GREEN
