@@ -1,0 +1,24 @@
+% The attention core of Gpt.forward from explorations/microgpt.fss.
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`for h <- seq(0#nHead) do
+  hs = h headDim
+  al = array[\V\](nT).fill(fn (t: ZZ32) => do
+    var acc: V := konst(0.0)
+    for j <- seq(0#headDim) do
+      acc := acc + (q[hs + j] DOT (kc.get(t))[hs + j])
+    end
+    acc DOT konst(attScale) end)
+  aw = softmaxA(al, nT)
+  for j <- seq(0#headDim) do
+    var acc: V := konst(0.0)
+    for t <- seq(0#nT) do acc := acc + (aw[t] DOT (vc.get(t))[hs + j]) end
+    xa[hs + j] := acc
+  end
+end`
+\end{preview}
+\end{document}
