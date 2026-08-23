@@ -553,11 +553,15 @@
 % etc. (e.g. `opr PREFIX_SUM` in FortressLibrary), but no definition for them
 % was ever committed anywhere in the 2007-2012 history -- pdflatex dies with
 % "Undefined control sequence \inclusiveprefix" when building the spec.
-% Minimal renderings: the base operator glyph with a small textual tag.
+% Rendering follows Steele's notation for the parallel prefix/suffix
+% operators: an arrow over the operator, pointing in the sweep direction
+% ("Four Solutions to a Trivial Problem", Google TechTalks 2015, 30:50;
+% JuliaCon 2016 deck, slide 9). The exclusive/comprehensive variants are
+% unattested in those sources and carry a small distinguishing tag.
 \providecommand\fortressopnametag[1]{\mathrm{\scriptscriptstyle #1}}
-\providecommand\inclusiveprefix[1]{\fortressopnametag{PREFIX}#1}
-\providecommand\inclusivesuffix[1]{\fortressopnametag{SUFFIX}#1}
-\providecommand\exclusiveprefix[1]{\fortressopnametag{EXCL.PREFIX}#1}
-\providecommand\exclusivesuffix[1]{\fortressopnametag{EXCL.SUFFIX}#1}
-\providecommand\comprehensiveprefix[1]{\fortressopnametag{COMPR.PREFIX}#1}
-\providecommand\comprehensivesuffix[1]{\fortressopnametag{COMPR.SUFFIX}#1}
+\providecommand\inclusiveprefix[1]{\overrightarrow{#1}}
+\providecommand\inclusivesuffix[1]{\overleftarrow{#1}}
+\providecommand\exclusiveprefix[1]{\overrightarrow{#1}\fortressopnametag{EXCL}}
+\providecommand\exclusivesuffix[1]{\overleftarrow{#1}\fortressopnametag{EXCL}}
+\providecommand\comprehensiveprefix[1]{\overrightarrow{#1}\fortressopnametag{COMPR}}
+\providecommand\comprehensivesuffix[1]{\overleftarrow{#1}\fortressopnametag{COMPR}}
