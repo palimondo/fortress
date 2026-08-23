@@ -475,6 +475,17 @@ testOtherCompiler, testCruiseControl
     <replace dir="${nodes}"
              token="java.lang.Object"
              value="Object" />
+    <!-- Normalize the generation timestamp that ASTGen's NodeClass (inside
+         astgen.jar) stamps into each node's @version javadoc line, so that
+         regeneration is byte-identical and the checked-in nodes/ tree does
+         not churn on every clean build.  The in-repo generators
+         (TemplateGapClass, EllipsesNode, TransformationNode) emit this
+         normalized form directly. -->
+    <replaceregexp byline="true"
+                   match="^( \* @version  Generated automatically by ASTGen) at .*$"
+                   replace="\1 from Fortress.ast">
+      <fileset dir="${nodes}" includes="**/*.java"/>
+    </replaceregexp>
     <move todir="${library}">
       <fileset dir="${astgen.src}">
         <include name="FortressAst.fss" />
@@ -1309,6 +1320,14 @@ testOtherCompiler, testCruiseControl
         <arg value="UTF-8"/>
         <arg value="@{file}"/>
       </java>
+      <!-- Normalize the generation date that xtc.util.Tool.printHeader stamps
+           into the generated parser, so regeneration is byte-identical and
+           the checked-in parsers do not churn on every clean build. -->
+      <replaceregexp byline="true"
+                     match="^// on (Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), .+ at .+\.$"
+                     replace="// (generation timestamp removed for deterministic regeneration).">
+        <fileset dir="@{dir}" includes="*.java"/>
+      </replaceregexp>
     </sequential>
   </macrodef>
 

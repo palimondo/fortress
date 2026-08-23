@@ -1,3 +1,50 @@
+#Ignore the interpreter's cached files
+*.tfs
+*.tfi
+/default_repository/caches/analyzed_cache/
+/default_repository/caches/fortress_cache_checked/
+/default_repository/caches/fortress_cache/
+/default_repository/caches/interpreter_cache/
+/default_repository/caches/interpreter_parsed_cache/
+/default_repository/caches/presyntax_cache/
+/default_repository/caches/logs/
+/ProjectFortress/build/*
+
+# Editor backups, swap files, merge leftovers, JVM heap dumps
+*~
+*.swp
+*.orig
+*.hprof
+
+# Local-only research materials (copyrighted decks etc.; dropped in per session, never committed)
+/research/decks/
+
+# Compiler-path caches
+/default_repository/caches/bytecode_cache/
+/default_repository/caches/environment_cache/
+/default_repository/caches/nativewrapper_cache/
+/default_repository/caches/optimizedbytecode_cache/
+/default_repository/caches/syntax_cache/
+# ... and the top-level cache index the repository writes alongside them
+/default_repository/caches/global.map
+
+# Transient test-run artifacts
+/ProjectFortress/TEST-RESULTS/
+/ProjectFortress/test-tmp/
+/ProjectFortress/test-caches/
+/junit-results/
+/junit*.properties
+
+# Scratch file written by file-IO interpreter tests (tests/writeTest*.fss)
+/testFile.txt
+
+# ant <depend> task cache (machine-local, regenerated every build)
+/ProjectFortress/.dependencies/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
 # LaTeX build byproducts (spec, Papers/, Fortify example); rendered PDFs are committed
 # (the spec build-dir PDF is a byproduct too — the committed copy is Specification/fortress.pdf)
 /Specification/fortress/fortress.pdf
@@ -22,3 +69,17 @@
 /Specification/library/examples/
 /Specification/preliminaries/examples/
 /Documentation/Specification/Generated/
+
+# Generated sources -- ant regenerates them from Fortress.ast and the
+# Rats! grammar on every clean build; this list mirrors the trunk's own
+# .hgignore (Documentation/Specification/Generated/ is covered with the
+# fortify.el output above)
+/Library/FortressAst.fsi
+/Library/FortressAst.fss
+/ProjectFortress/src/com/sun/fortress/nodes/
+/ProjectFortress/src/com/sun/fortress/parser/Fortress.java
+/ProjectFortress/src/com/sun/fortress/parser/import_collector/ImportCollector.java
+/ProjectFortress/src/com/sun/fortress/parser/preparser/PreFortress.java
+/ProjectFortress/src/com/sun/fortress/parser/templateparser/TemplateParser.java
+/ProjectFortress/src/com/sun/fortress/parser_util/precedence_resolver/Operators.java
+/ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala

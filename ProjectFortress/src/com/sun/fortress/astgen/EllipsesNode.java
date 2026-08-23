@@ -15,7 +15,6 @@ import edu.rice.cs.astgen.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class EllipsesNode extends NodeClass {
@@ -53,8 +52,7 @@ public class EllipsesNode extends NodeClass {
             writer.startLine(" * Note: null is not allowed as a value for any field.");
         }
 
-        writer.startLine(" * @version  Generated automatically by ASTGen at ");
-        writer.print(new Date());
+        writer.startLine(" * @version  Generated automatically by ASTGen from Fortress.ast");
         writer.startLine(" */");
         writer.startLine("@SuppressWarnings(value={\"unused\"})");
         // Class header
