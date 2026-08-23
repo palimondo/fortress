@@ -10,8 +10,7 @@
  ******************************************************************************)
 
 component hello
-import System.getProperty
-import CompilerSystem.args
+import CompilerSystem.{args, getProperty}
 export Executable
 
 run() = do
