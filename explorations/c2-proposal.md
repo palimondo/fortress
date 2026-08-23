@@ -4,8 +4,9 @@ Status: **proposal for Pavol's review — nothing here is executed.** This
 document is the review artifact for the C2 history pass (rebuild-plan
 step C2) plus the tag-namespace step that was decided in
 `readme-plan.md` but omitted from the rebuild-plan checklist (now added
-there). Sequence after approval: byte-identical replay with these
-messages → force-push clean-ladder (only on explicit authorization) →
+there). Sequence after approval: replay with these messages, trees
+identical except B1's re-authored .gitignore (see §3) → force-push
+clean-ladder (only on explicit authorization) →
 annotated `ladder/*` tags on the final SHAs → Pavol pushes tags and
 renames the branch to `main` from his machine.
 
@@ -38,6 +39,11 @@ Stripped everywhere:
   porting, smoke-test recitals, "Verified:" framing. Where such a
   paragraph contained a durable fact about the code, the fact stays,
   stated directly; the story of how we ran into it goes.
+- **References to the 2018 GitHub migration.** It served as a scouting
+  reference during the porting work, but nothing in this history
+  derives from it; it is not mentioned anywhere. The .gitignore is
+  authored from the trunk's own .hgignore plus what this tree emits
+  (see B1, which becomes a content change).
 
 One deliberate remnant: the test-speedup commit (B8) keeps a single
 sentence of before/after numbers — the speedup is that commit's entire
@@ -48,8 +54,7 @@ Kept everywhere:
 - The technical narrative: what changed, why, what breaks without it.
   Named failing tests survive **as symptoms of a bug being fixed**
   (motivation), never as verification.
-- Attribution content (pluckyporcupine credits, the 2018-migration
-  accounting, research/authorship.md pointers).
+- Attribution content (research/authorship.md pointers).
 - SHAs of *pre-graft trunk* commits (e.g. `5a68404`, the 2012-07-19
   import) — those are stable ancestors, not churned by any replay.
 - The standard footer on every commit (not repeated in the texts below):
@@ -127,22 +132,42 @@ entirely; and the hg->git conversion behind the GitHub mirror severed
 phantom roots, so all counts use --full-history.
 ```
 
-### B1 `ffca9f7ec` — reworded
+### B1 `ffca9f7ec` — reworded + content change
 
 Changed: plan letters replaced by descriptions; the gate-framing
 sentences ("before the gates start checking", the closing "No build
-gate" paragraph) removed.
+gate" paragraph) removed; the 2018-migration attribution dropped — the
+file is authored from the trunk's .hgignore and live observation, so
+there is nothing to credit.
+
+**Content change (the one non-message edit in this replay):** B1's
+.gitignore is re-authored under the same principle. Delta from the
+committed file:
+
+- Port the last still-useful .hgignore entries: `*.tfi` (API-tree twin
+  of `*.tfs`), `*~`, `*.orig`, `*.hprof`.
+- Reword the comment "Compiler-path caches missing from the imported
+  ignore list" to plain "Compiler-path caches" — no imported list
+  exists in this history.
+
+Everything else in .hgignore is either already covered, dead paths
+(pre-default_repository cache layout, unpacked third-party dirs, OCaml
+byproducts, svn-era scratch names), or reversed policy the trunk itself
+would not want back. The tree diff old-tip vs new-tip after the replay
+is exactly this .gitignore delta; it has no build impact, so no re-gate.
 
 ```
 Repo hygiene: extend .gitignore to cover everything this tree emits
 
 The 2012 trunk shipped only an .hgignore; the ignore entries added with
 the rendered PDFs cover just LaTeX byproducts. Extend it into the full
-ignore file so `git status` stays clean after every build and test run:
+ignore file -- the trunk's .hgignore entries that still apply, plus
+everything the current tree and toolchain emit -- so `git status` stays
+clean after every build and test run:
 
-- Build output and editor noise -- /ProjectFortress/build/*, *.tfs,
-  *.swp. These entries and the interpreter cache list below carry over
-  from the .gitignore of pluckyporcupine's 2018 migration.
+- Build output and editor noise -- /ProjectFortress/build/*, the *.tfs
+  and *.tfi component/api trees, editor backups and swap files, JVM
+  heap dumps.
 - Interpreter and compiler-path caches under default_repository/caches/
   (every *_cache directory plus logs/, and the top-level cache index
   global.map the repository writes alongside them) and the ant <depend>
@@ -207,7 +232,9 @@ in-repo:
 Changed: error-cascade narrative trimmed to the essential
 incompatibility; "rung" phrasing replaced by plain forward references;
 the gate paragraph replaced by one sentence stating that this restores
-exactly the 2012 state, seven known failures included.
+exactly the 2012 state, seven known failures included; the two
+2018-migration paragraphs (the wrapper-type comparison and the
+hand-edit accounting) removed per the no-migration-references rule.
 
 ```
 Revive the 2012 build on JDK 8: Scala 2.10.7, five files
@@ -244,19 +271,7 @@ The complete revival is five files:
   not Comparable); it happened to work on JDK 6/7 only because the
   first insert skipped the compare. Using the lexicographic
   ListComparer the neighboring memo table already uses preserves the
-  2012 ordering semantics — deliberately not the everything-compares-
-  equal wrapper type the 2018 migration introduced for the same crash.
-
-Accounting for the 2018 migration's other hand-edits, so their absence
-here is deliberate, not overlooked: the four "import xtc.parser.Module"
-additions and the MethodInstantiater BCEL-import repoint are JDK 9+
-material and belong to the later move to JDK 11; its NamingCzar,
-NodeFactory, STypeChecker, and TypeParser edits were whitespace,
-@Deprecated, or warning cosmetics and are dropped. This commit carries
-no attribution to that migration: the diff was derived independently
-and shares only the 2.10.7 target version; the migration's real
-contribution — demonstrating the project could be revived at all — is
-on the record in research/authorship.md.
+  2012 ordering semantics.
 
 Known cosmetic debt, deliberately left for the classpath-SSOT commit:
 bin/debugOpt, bin/fortress.bat, bin/fortress_leaks, and bin/runOptCollect
@@ -778,9 +793,10 @@ work without explanation.
 1. Pavol reviews this document; edits/approves the messages, the
    R4/R7 drops, and the tag set.
 2. Replay clean-ladder onto the same base with the approved messages,
-   skipping R4 and R7. Trees are untouched, so no re-gate; verification
-   is `git diff <old-tip> <new-tip>` empty and a commit-count/subject
-   audit.
+   skipping R4 and R7 and re-authoring B1's .gitignore. Trees are
+   otherwise untouched and the change has no build impact, so no
+   re-gate; verification is `git diff <old-tip> <new-tip>` showing
+   exactly the .gitignore delta, plus a commit-count/subject audit.
 3. Force-push clean-ladder — **only on Pavol's explicit authorization**
    (standing rule).
 4. Create the annotated tags on the final SHAs (coordinator, locally);
