@@ -92,6 +92,10 @@ Facts that save time:
    seed is `explorations/complex_ring.fss`.
 4. Fix the bytecode compiler path (see above).
 5. Grow the Steele research corpus (`research/README.md` lists open hunts).
+6. microgpt.fss — port Karpathy's 243-line dependency-free GPT (scalar
+   autodiff, char-level transformer) to interpreter Fortress as an
+   executable-paper showcase; feasibility map and staging:
+   `explorations/microgpt-port.md`.
 
 Claims in old READMEs (root `README.txt`, pluckyporcupine's `README.md`,
 `NOTES.md`) describe *their* eras, not the current tree — verify against the
