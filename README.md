@@ -163,29 +163,40 @@ The top level:
   verified experiments and the authorship map.
 - [`README.txt`](README.txt) — Sun's original SVN-era repository guide.
 
-Inside `ProjectFortress/src/com/sun/fortress/`, the shape of the
-implementation:
+Inside [`ProjectFortress/src/com/sun/fortress/`](ProjectFortress/src/com/sun/fortress/),
+the shape of the implementation:
 
-- `Shell.java` — the CLI entry point, dispatching `walk` (interpret),
-  `compile`, `run`, `parse`, `typecheck`, and friends.
-- `parser/` — four Rats!-generated packrat parsers (the main grammar plus a
-  preparser, template parser, and import collector), with hand-written
-  precedence and layout support in `parser_util/` and the extensible-syntax
-  machinery in `syntax_abstractions/`.
-- `nodes/` — the generated AST classes, produced (along with Scala and
-  Fortress mirrors of the AST) from
-  `ProjectFortress/astgen/Fortress.ast`. Generated code is committed;
-  `ant makeAST` regenerates.
-- `scala_src/` — the type checker, rewritten in Scala beginning in late
-  2008 (remains of the older Java checker sit in `compiler/typechecker/`).
-- `compiler/` — disambiguation, desugaring, and the JVM bytecode backend
-  (`codegen/`, `asmbytecodeoptimizer/`); its `WellKnownNames.java` is the
-  switch that gives the interpreter and compiler paths their different
-  preludes.
-- `interpreter/` — the tree-walking reference evaluator, with native
-  primitives in `glue/`.
-- `runtimeSystem/` — the work-stealing runtime, and the class-load-time
-  instantiation of generics that compiled code links against.
+- [`Shell.java`](ProjectFortress/src/com/sun/fortress/Shell.java) — the CLI
+  entry point, dispatching `walk` (interpret), `compile`, `run`, `parse`,
+  `typecheck`, and friends.
+- [`parser/`](ProjectFortress/src/com/sun/fortress/parser/) — four
+  Rats!-generated packrat parsers (the main grammar plus a preparser,
+  template parser, and import collector), with hand-written precedence and
+  layout support in
+  [`parser_util/`](ProjectFortress/src/com/sun/fortress/parser_util/) and
+  the extensible-syntax machinery in
+  [`syntax_abstractions/`](ProjectFortress/src/com/sun/fortress/syntax_abstractions/).
+- [`nodes/`](ProjectFortress/src/com/sun/fortress/nodes/) — the generated
+  AST classes, produced (along with Scala and Fortress mirrors of the AST)
+  from [`ProjectFortress/astgen/Fortress.ast`](ProjectFortress/astgen/Fortress.ast).
+  Generated code is committed; `ant makeAST` regenerates.
+- [`scala_src/`](ProjectFortress/src/com/sun/fortress/scala_src/) — the
+  type checker, rewritten in Scala beginning in late 2008 (remains of the
+  older Java checker sit in
+  [`compiler/typechecker/`](ProjectFortress/src/com/sun/fortress/compiler/typechecker/)).
+- [`compiler/`](ProjectFortress/src/com/sun/fortress/compiler/) —
+  disambiguation, desugaring, and the JVM bytecode backend
+  ([`codegen/`](ProjectFortress/src/com/sun/fortress/compiler/codegen/),
+  [`asmbytecodeoptimizer/`](ProjectFortress/src/com/sun/fortress/compiler/asmbytecodeoptimizer/));
+  its [`WellKnownNames.java`](ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java)
+  is the switch that gives the interpreter and compiler paths their
+  different preludes.
+- [`interpreter/`](ProjectFortress/src/com/sun/fortress/interpreter/) — the
+  tree-walking reference evaluator, with native primitives in
+  [`glue/`](ProjectFortress/src/com/sun/fortress/interpreter/glue/).
+- [`runtimeSystem/`](ProjectFortress/src/com/sun/fortress/runtimeSystem/) —
+  the work-stealing runtime, and the class-load-time instantiation of
+  generics that compiled code links against.
 
 ## Building, walking and running
 
