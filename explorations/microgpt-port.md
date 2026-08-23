@@ -76,18 +76,60 @@ directory) do not touch this project. The typed-tensor/shape-checking
 showcase is a *separate, later* étude on top of Fortress's
 dimension-typed arrays; microgpt needs none of it.
 
-## Risks
+## Risks and de-risking (v2 — after adversarial pass, 2026-08-23)
 
-- **Interpreter throughput** is the only real unknown: at 10⁵–10⁶
-  scalar graph ops/sec the full 1,000-step run is minutes-to-hours; an
-  order slower and it needs patience or a smaller config. Step 0
-  below measures before anything is built.
-- **Recursion depth**: `build_topo` recurses to graph *depth* (longest
-  dependency chain, not node count) — hundreds here; the interpreter
-  runs on the Java stack, so if it ever overflows, `-Xss` or an
-  explicit work-list version fixes it.
-- **List performance**: the library `List` is a functional deque;
-  fine at this scale. Arrays are the fallback for the hot buffers.
+Correctness:
+
+- **Floating-point association is the top correctness trap.** Python's
+  `sum()` is a sequential left fold; Fortress Σ/BIG operators reduce as
+  trees and its loops are parallel by default — different summation
+  order means different rounding, spuriously failing goldens and
+  nondeterministic runs. Rule: **the reference port is sequential
+  everywhere** (seq loops, left folds); an idiomatic-parallel variant
+  is a separate later artifact. Port audit item: every loop,
+  comprehension, and reduction justified as pure-or-seq.
+- **Transcendental ulp drift**: Java's Math.pow/exp/log and CPython's
+  libm can differ in the last ulp, and error compounds over ~10⁴-node
+  graphs. Golden tolerances: relative ~1e-9 forward, ~1e-6 gradients;
+  and goldens run on *short* inputs (1-position and 3-position
+  sequences) where accumulation is small — full docs are covered by
+  the statistical band, not goldens.
+- **Golden weights carry no RNG**: both harnesses fill weights from the
+  same deterministic formula, e.g. w[i][j] = ((31 i + 17 j) mod 97
+  − 48)/100. Documented once, implemented twice.
+- **Boundary/literal details to pin in stage 1**: relu gradient at
+  exactly 0 is 0 (match Python's `float(data > 0)`); verify RR64
+  scientific-notation literals (`1.0e-8`) early — fall back to written-
+  out decimals if the parser objects.
+
+Performance:
+
+- **Interpreter throughput** is the dominant unknown. Revised workload:
+  average name ≈ 7 tokens ⇒ ~40–50k graph nodes per step, ~4×10⁷
+  node-ops for the full run, plus interpreter constant factors. The
+  step-0 benchmark separates the costs instead of one blended number:
+  (a) raw scalar-arithmetic ceiling, (b) object allocation + `opr`
+  dispatch (build a Value chain), (c) forward+backward over a
+  micro-graph, (d) Array vs. List dot product — the library List is a
+  finger tree with O(log n) indexing, so hot buffers likely want
+  arrays.
+- **Memory**: interpreter values are heavyweight; 40–50k live nodes per
+  step could mean hundreds of MB. The benchmark records RSS; heap flags
+  via the bin/fortress JAVA_FLAGS defaults if needed.
+- **Node-fusion lever** (if the raw port is too slow): a `dot(xs, ws)`
+  operation as a *single* Value node with per-child local gradients —
+  microgpt's Value already carries n-ary children/local-grads, Karpathy
+  just never added the op. Cuts node count ~16×, mathematically
+  identical. Held in reserve, not the first move.
+- **Fallback config**: a nano setting (n_embd 8, block 8, ~200 steps,
+  doc subset) sized from the measured ops/sec so a full training run
+  lands under ~30 minutes even in the slow case.
+- **Recursion depth**: `build_topo` recurses to graph depth (longest
+  chain, hundreds) — fine; `-Xss` or a work-list version if the Java
+  stack ever objects.
+
+CPython reference bar (measured above): 120 s. The port target is
+"within an order of magnitude"; the levers above are the path there.
 
 ## Baseline (measured 2026-08-23, this container)
 
@@ -126,12 +168,54 @@ Compiling microgpt is gated on goal 4 (finish the bytecode compiler)
 plus pushing the needed library surface through it — a fine stretch
 target and forcing function, not the plan.
 
+## Step-0 results (measured 2026-08-23, `explorations/mgbench.fss`)
+
+Interpreter, JDK 25, this container; warm pass ≈ cold pass (the JIT
+optimizes the interpreter, not the program — overhead dominates):
+
+- (a) raw scalar loop: 10⁶ mul+add in ~20–25 s ⇒ **~45k iterations/s**
+- (b) Value-node build (alloc + `opr` dispatch + list literals):
+  40k nodes in ~3.9 s ⇒ **~10k nodes/s**
+- (c) backward walk (zip + grad accumulation): 40k nodes in ~14.3 s ⇒
+  **~2.8k nodes/s** — the zip-generator overhead is the suspect; an
+  indexed loop is the first optimization to try in the port
+- (d) 256-element dot: Array ≈ List (~11 s / 256k index-ops ⇒ ~23k
+  ops/s) — interpreter overhead swamps the finger tree's O(log n), so
+  buffer choice is free at this scale
+
+**Projection, Karpathy config** (~45k nodes/step): ≈ 4.4 s forward +
+16 s backward ⇒ **~20 s/step, ~5–6 h for 1000 steps** — roughly 170×
+CPython. Feasible as an overnight patience piece, not for iteration.
+Consequences, per the de-risking levers:
+
+- **Nano config for development**: n_embd 8, block 8, ~300 steps ⇒
+  ~5 s/step, ~25 min/run. This is the working configuration.
+- **The dot-fusion lever moves from reserve to likely**: one Value node
+  per dot product cuts graph nodes ~16× and shifts the inner loops to
+  plain arithmetic — projected well under an hour for the full config.
+  Still second move, after the faithful port is golden-verified.
+- A quirk for the notebook: ZZ64 division in Fortress is *exact* (the
+  first benchmark run printed its milliseconds as rationals); `DIV`
+  for integer division, per the library's own tests.
+
 ## Staging
 
-0. **Microbenchmark**: build ~10⁵ `Value` nodes in a chain, run
-   backward, time it. Decides the feasible config before any porting.
-1. **micrograd.fss** — `Value` + `backward()` + a tiny MLP on a toy
-   task. Settles the object-model and notation questions cheaply.
+0. ~~**Microbenchmark**~~ DONE — results above.
+1. ~~**micrograd.fss**~~ DONE (2026-08-23, `explorations/micrograd.fss`):
+   the `Value` autodiff object (`opr +`/`DOT`/unary minus, pow, ln,
+   exp, relu), visited-flag topo sort, analytic golden gradient checks
+   (relu, ln∘pow, exp composites — all PASS), and a 2→4→1 relu MLP
+   trained on XOR to 5.5e-11 MSE. **Headline result: the Fortress and
+   Python trajectories are bit-for-bit identical** — a deterministic
+   Python twin of the same graph prints the same loss to all 16 digits
+   at epochs 100–400, both in a first run that collapsed (a shared
+   dead-relu failure, fixed identically in both by initializing the
+   hidden biases from the weight formula) and in the working config.
+   Consequence for the golden strategy: for +/·/relu graphs the port
+   can demand *exact* equality, not tolerances; ulp drift remains a
+   concern only for exp/log/pow. Syntax learnings recorded in the file:
+   no `E`-notation numerals (use `10.0^(-12)`), `log`/`exp` are
+   functional (`log x`), ZZ division is exact (use `DIV`).
 2. **Transformer forward pass** — one block, golden-tested against
    reference activations dumped from the Python.
 3. **Full microgpt.fss** — training run on (a subset of) names.txt;
