@@ -25,7 +25,12 @@ import com.sun.fortress.useful.Debug;
 import com.sun.fortress.compiler.NamingCzar;
 import com.sun.fortress.exceptions.CompilerError;
 
-public class CodeGenMethodVisitor extends TraceMethodVisitor {
+// ASM 3's TraceMethodVisitor was subclassable and kept the trace text
+// itself; in ASM 9 it is final and the text lives on a Printer.  So this
+// class now extends MethodVisitor, delegating through a TraceMethodVisitor
+// it builds around the given visitor, and keeps the Printer (Textifier)
+// for getText().
+public class CodeGenMethodVisitor extends MethodVisitor {
     // All these fields are passed to the constructor, but never
     // used except possibly for debugging after the constructor has run.
     private int access;
@@ -35,6 +40,8 @@ public class CodeGenMethodVisitor extends TraceMethodVisitor {
     private String[] exceptions;
     private List<String> argumentTypes;
     private String resultType;
+
+    private Textifier textifier;
 
     // Only these fields are actually required to generate code.
     int localVariableCount;
@@ -49,7 +56,14 @@ public class CodeGenMethodVisitor extends TraceMethodVisitor {
     public CodeGenMethodVisitor(int access, String name, String desc,
                                 String signature, String[] exceptions,
                                 MethodVisitor mvisitor) {
-        super(mvisitor);
+        this(access, name, desc, signature, exceptions, mvisitor, new Textifier());
+    }
+
+    private CodeGenMethodVisitor(int access, String name, String desc,
+                                 String signature, String[] exceptions,
+                                 MethodVisitor mvisitor, Textifier textifier) {
+        super(Opcodes.ASM9, new TraceMethodVisitor(mvisitor, textifier));
+        this.textifier = textifier;
         this.access = access;
         this.name = name;
         this.desc = desc;
@@ -86,7 +100,12 @@ public class CodeGenMethodVisitor extends TraceMethodVisitor {
     }
 
     public void dumpBytecodes() {
-        Debug.debug(Debug.Type.CODEGEN, 2, getText());
+        Debug.debug(Debug.Type.CODEGEN, 2, textifier.getText());
+    }
+
+    // ASM 3's TraceMethodVisitor provided getText(); keep it for callers.
+    public List<Object> getText() {
+        return textifier.getText();
     }
 
     private String getStackTrace() {
@@ -137,9 +156,9 @@ public class CodeGenMethodVisitor extends TraceMethodVisitor {
         super.visitLdcInsn(cst);
     }
 
-    public void visitMethodInsn(int opcode, String owner, String name, String desc) {
+    public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
         Debug.debug(Debug.Type.CODEGEN, 2, "visitMethodInsn:", opc(opcode), " owner = ", owner, " name = ", name, " desc = ", desc, getStackTrace());
-        super.visitMethodInsn(opcode, owner, name, desc);
+        super.visitMethodInsn(opcode, owner, name, desc, itf);
     }
 
     public void visitTypeInsn(int opcode, String type) {

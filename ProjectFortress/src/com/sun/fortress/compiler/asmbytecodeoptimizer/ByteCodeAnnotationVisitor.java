@@ -17,14 +17,13 @@ import java.util.jar.*;
 import java.util.List;
 
 import org.objectweb.asm.*;
-import org.objectweb.asm.commons.*;
 import org.objectweb.asm.util.*;
 
 
-public class ByteCodeAnnotationVisitor extends AbstractVisitor implements AnnotationVisitor {
+public class ByteCodeAnnotationVisitor extends AnnotationVisitor {
 
     ByteCodeAnnotationVisitor(int foo) {
-        super();
+        super(org.objectweb.asm.Opcodes.ASM9);
     }
 
     public void visit (String name, Object value) {
@@ -39,10 +38,10 @@ public class ByteCodeAnnotationVisitor extends AbstractVisitor implements Annota
     }
 
     public AnnotationVisitor visitArray(String name) {
-        return new EmptyVisitor();
+        return new AnnotationVisitor(org.objectweb.asm.Opcodes.ASM9) {};
     }
 
     public AnnotationVisitor visitAnnotation(String name, String desc) {
-        return new EmptyVisitor();
+        return new AnnotationVisitor(org.objectweb.asm.Opcodes.ASM9) {};
     }
 }

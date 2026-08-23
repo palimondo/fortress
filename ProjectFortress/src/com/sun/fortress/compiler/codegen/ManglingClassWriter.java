@@ -20,15 +20,57 @@ import com.sun.fortress.repository.ProjectProperties;
 import com.sun.fortress.runtimeSystem.Naming;
 import com.sun.fortress.useful.Useful;
 
-public class ManglingClassWriter extends ClassWriter {
+// Under ASM 3 this class subclassed ClassWriter directly and overrode its
+// visit methods to mangle names on the way in.  ASM 4+ makes every
+// ClassWriter.visit* method final, so the mangling now lives in a
+// ClassVisitor that delegates to an internal ClassWriter; only
+// getCommonSuperClass still needs a ClassWriter subclass.
+public class ManglingClassWriter extends ClassVisitor {
 
     public final static boolean TRACE_METHODS = ProjectProperties.getBoolean("fortress.bytecode.list", false);
     public final static boolean TWEAK_ERASED_UNIONS = true;
-    
-    public ManglingClassWriter(int flags) {
-        super(flags);
+
+    private static class FortressClassWriter extends ClassWriter {
+        FortressClassWriter(int flags) {
+            super(flags);
+        }
+
+        @Override
+        protected String getCommonSuperClass(String type1, String type2) {
+            // We may need to do something interesting here.
+            // Consider doing it pre-emptively rather than copping out on failure.
+            try {
+                return super.getCommonSuperClass(type1, type2);
+            } catch (Throwable e) {
+                // [added try/catch wrapper to get useful information out on failure - JWM]
+                // throw new Error("Couldn't getCommonSuperClass("+type1+", "+type2+")",e);
+
+                // Note: the following apparent cop-out was gleaned by perusing:
+                //   http://www.java2s.com/Open-Source/Java-Document/Byte-Code/asm/org/objectweb/asm/ClassWriterComputeFramesTest.java.htm
+                // This returns java.lang.Object as the CommonSuperClass of anything involving an interface
+                // type.  Since all Fortress traits correspond to interface types, we ought to be able to
+                // do the same.
+                //
+                // That said, it still feels wrong.
+                return Naming.javaObject;
+            }
+        }
     }
 
+    private final ClassWriter writer;
+
+    public ManglingClassWriter(int flags) {
+        this(new FortressClassWriter(flags));
+    }
+
+    private ManglingClassWriter(ClassWriter writer) {
+        super(Opcodes.ASM9, writer);
+        this.writer = writer;
+    }
+
+    public byte[] toByteArray() {
+        return writer.toByteArray();
+    }
 
     /**
      * Mangles name/desc/sig before handing off.
@@ -42,7 +84,7 @@ public class ManglingClassWriter extends ClassWriter {
 
         return visitNoMangleMethod(access, name, desc, signature, exceptions);
     }
-    
+
     public MethodVisitor visitCGMethod(int access, String name, String desc, String signature, String[] exceptions) {
         name = Naming.mangleMemberName(name);
         signature = Naming.mangleFortressIdentifier(signature);
@@ -53,7 +95,7 @@ public class ManglingClassWriter extends ClassWriter {
 
     /**
      * Does not mangle name/desc/sig; takes them as provided.
-     * 
+     *
      * @param access
      * @param name
      * @param desc
@@ -63,29 +105,7 @@ public class ManglingClassWriter extends ClassWriter {
      */
     public ManglingMethodVisitor visitNoMangleMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
-        return new ManglingMethodVisitor(TRACE_METHODS ? new TraceMethodVisitor(mv) : mv, access, name, desc);
-    }
-
-
-    @Override
-    protected String getCommonSuperClass(String type1, String type2) {
-        // We may need to do something interesting here.
-        // Consider doing it pre-emptively rather than copping out on failure.
-        try {
-            return super.getCommonSuperClass(type1, type2);
-        } catch (Throwable e) {
-            // [added try/catch wrapper to get useful information out on failure - JWM]
-            // throw new Error("Couldn't getCommonSuperClass("+type1+", "+type2+")",e);
-
-            // Note: the following apparent cop-out was gleaned by perusing:
-            //   http://www.java2s.com/Open-Source/Java-Document/Byte-Code/asm/org/objectweb/asm/ClassWriterComputeFramesTest.java.htm
-            // This returns java.lang.Object as the CommonSuperClass of anything involving an interface
-            // type.  Since all Fortress traits correspond to interface types, we ought to be able to
-            // do the same.
-            //
-            // That said, it still feels wrong.
-            return Naming.javaObject;
-        }
+        return new ManglingMethodVisitor(TRACE_METHODS ? new TraceMethodVisitor(mv, new Textifier()) : mv, access, name, desc);
     }
 
     @Override
@@ -104,7 +124,7 @@ public class ManglingClassWriter extends ClassWriter {
         if (TRACE_METHODS) {
             System.out.println(name  + " extends " + superName + " implements " + Useful.listInCurlies(interfaces));
         }
-        
+
         super.visit(version, access, name, signature, superName, _interfaces);
     }
 
@@ -149,4 +169,3 @@ public class ManglingClassWriter extends ClassWriter {
     }
 
 }
-

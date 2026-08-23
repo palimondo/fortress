@@ -28,7 +28,11 @@ import org.objectweb.asm.util.*;
 import com.sun.fortress.compiler.NamingCzar;
 import com.sun.fortress.runtimeSystem.Naming;
 
-public class ByteCodeMethodVisitor extends AbstractVisitor implements MethodVisitor {
+public class ByteCodeMethodVisitor extends MethodVisitor {
+
+    // ASM 3's util.AbstractVisitor (removed in ASM 4+) provided the
+    // opcode-name table; ASM 9 exposes it on util.Printer instead.
+    static final String[] OPCODES = Printer.OPCODES;
 
     public ArrayList<Insn> insns;
     int access;
@@ -66,6 +70,7 @@ public class ByteCodeMethodVisitor extends AbstractVisitor implements MethodVisi
     }
 
     public ByteCodeMethodVisitor(int access, String name, String desc, String sig, String[] exceptions) {
+        super(org.objectweb.asm.Opcodes.ASM9);
         this.insns = new ArrayList<Insn>();
         this.access = access;
         this.name = name;
@@ -232,8 +237,8 @@ public class ByteCodeMethodVisitor extends AbstractVisitor implements MethodVisi
         addInsn(new NotYetImplementedInsn("visitMultiANewArrayInsn", Integer.toString(index++)));
     }
 
-    public void visitMethodInsn(int opcode, String owner, String _name, String desc) {
-        addInsn(new MethodInsn(OPCODES[opcode], opcode, owner, _name, desc, Integer.toString(index++)));
+    public void visitMethodInsn(int opcode, String owner, String _name, String desc, boolean itf) {
+        addInsn(new MethodInsn(OPCODES[opcode], opcode, owner, _name, desc, itf, Integer.toString(index++)));
     }
 
     public void visitLineNumber(int line, Label start) {

@@ -14,7 +14,6 @@ package com.sun.fortress.compiler.nativeInterface;
 import java.util.*;
 
 import org.objectweb.asm.*;
-import org.objectweb.asm.commons.EmptyVisitor;
 
 import com.sun.fortress.compiler.codegen.CodeGen;
 import com.sun.fortress.compiler.codegen.CodeGenClassWriter;
@@ -89,7 +88,7 @@ class emptyConverter extends fortressConverter {
     }
 }
 
-public class FortressMethodAdapter extends ClassAdapter {
+public class FortressMethodAdapter extends ClassVisitor {
 
     String inputClassName;
     String outputClassName;
@@ -103,10 +102,22 @@ public class FortressMethodAdapter extends ClassAdapter {
     private CodeGenClassWriter cw;
     private Set<String> overloadedNamesAndSigs;
 
+    // Drop nest attributes (JDK 11+ NestHost/NestMembers): copying them
+    // into the rewritten wrapper class would leave them pointing at nest
+    // members the wrapper doesn't have.  Under ASM 3.1 they arrived as raw
+    // non-standard attributes via visitAttribute (where copying their bytes
+    // also dangled constant-pool indices -> ClassFormatError); ASM 9 surfaces
+    // them as first-class visitNestHost/visitNestMember events, so both
+    // paths must stay no-ops.
     public void visitAttribute(Attribute attr) {
-        // Drop non-standard class attributes (JDK 11+ NestHost/NestMembers):
-        // ASM 3.1 would copy their raw bytes into the rewritten wrapper,
-        // leaving constant-pool indices dangling -> ClassFormatError.
+    }
+
+    @Override
+    public void visitNestHost(String nestHost) {
+    }
+
+    @Override
+    public void visitNestMember(String nestMember) {
     }
 
     private void initializeEntry(String fortressRuntimeType,
@@ -168,7 +179,7 @@ public class FortressMethodAdapter extends ClassAdapter {
             APIName api_name,
             Map<IdOrOpOrAnonymousName,MultiMap<Integer, Functional>> size_partitioned_overloads,
             TypeAnalyzer ta) {
-        super(cv);
+        super(Opcodes.ASM9, cv);
         this.cw = cv;
         this.inputClassName = inputClassName.replace('.','/');
         this.outputClassName = outputClassName.replace('.','/');
@@ -215,7 +226,7 @@ public class FortressMethodAdapter extends ClassAdapter {
 
         }
 
-        return new EmptyVisitor();// super.visitMethod(access, name, desc, signature, exceptions);
+        return new MethodVisitor(Opcodes.ASM9) {};// super.visitMethod(access, name, desc, signature, exceptions);
     }
 
     static class SignatureAndConverter {
