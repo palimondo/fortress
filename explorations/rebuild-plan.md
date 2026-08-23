@@ -21,9 +21,13 @@ Primary sources this plan distills:
 - `explorations/modernization-plan.md` § "Clean-ladder rebuild: hindsight
   ordering (2026-08-21)" — the lessons and the first-draft ordering.
 - The working branch's commit history (all hashes below are on
-  `claude/handover-reading-vn8zgr`, tip `3595f511d` at time of writing;
-  63 commits in `a874948ac..3595f511d`, every one either transplanted,
-  re-executed, or deliberately left behind by this plan).
+  `claude/handover-reading-vn8zgr`, tip `eb7e91859` at time of writing;
+  70 commits in `a874948ac..eb7e91859`, every one either transplanted,
+  re-executed, or deliberately left behind by this plan). Pin bumped
+  2026-08-23 from `3595f511d`: the six commits in between touched only
+  spec-land (E4's cherry-pick), this plan file and `protocol.md` (not
+  transplanted), and the README (E1 is a content snapshot, not a
+  cherry-pick, so the link fix rides in via the pin — no squash needed).
 - Branch `spike/scala-upgrade`, single commit `73f598202` on top of
   `a874948ac` — the executed de-risking spike for B3 (2026-08-23): the
   exact five-file revival diff, gated where it lands (testFast 1,377
@@ -154,8 +158,9 @@ Facts about this tree that the hindsight ordering (written against the
 ### Exhibit block (content from the working branch, no build claims)
 
 E1. **Kickoff README + hero SVGs.** New commit adding:
-  - `README.md` — the approved README (working-branch `3595f511d`
-    version) with exactly one edit: in "Building, walking and running",
+  - `README.md` — the approved README (working-branch `eb7e91859`
+    version, which includes the linked implementation tour) with exactly
+    one edit: in "Building, walking and running",
     the sentence "Fortress needs only a JDK and Apache Ant; the build has
     been kept working on modern JDKs." loses its second half — kickoff
     text: "Fortress needs only a JDK and Apache Ant." (The ladder hasn't
@@ -201,7 +206,7 @@ E4. **Cherry-pick `4672b71cd`** — "Spec draft: restyle authors' notes; fix
   LaTeX-byproducts block.
 
 E5. **`research/authorship.md`.** New commit adding the file at its
-  working-branch-tip content (`git show 3595f511d:research/authorship.md`) —
+  working-branch-tip content (`git show eb7e91859:research/authorship.md`) —
   Pavol approved the current form, which already folds in the corrections
   from `6beb45ec7` and `796ae4bfb`. Message derived from `957191d26`'s,
   noting the caveat and relic-branch findings are folded in. Do **not**
@@ -250,7 +255,7 @@ B2. **Generated-source determinism.** Bring the determinism machinery to
     (drop build timestamps) **plus** `c4c90f936`
     (CollectingVisitorGenerator emits `combine*` helpers in sorted order)
     **plus** `760f7ea2a` (drops a stale explainer comment from three of
-    those files) — i.e., simply take these files at their `3595f511d`
+    those files) — i.e., simply take these files at their `eb7e91859`
     content;
   - the **two build.xml hunks from `3c4dcdabc`**: the makeAST
     `replaceregexp` that normalizes the headers emitted by the vendored
