@@ -777,6 +777,24 @@ public class FileTests {
 
         Iterable<String> shuffled = shuffledFileList(dir, true);
 
+        /* Optional sharding: -Dfortress.suite.shard=i/n keeps only every n-th
+           test (by sorted index, offset i), so n JVMs can split the suite. */
+        String shard = ProjectProperties.get("fortress.suite.shard", "");
+        if (shard.length() > 0) {
+            int slash = shard.indexOf('/');
+            int shardIndex = Integer.parseInt(shard.substring(0, slash));
+            int shardCount = Integer.parseInt(shard.substring(slash + 1));
+            List<String> names = new ArrayList<String>();
+            for (String s : shuffled) names.add(s);
+            Collections.sort(names);
+            List<String> kept = new ArrayList<String>();
+            for (int j = 0; j < names.size(); j++) {
+                if (j % shardCount == shardIndex) kept.add(names.get(j));
+            }
+            System.err.println("Shard " + shardIndex + "/" + shardCount + ": " + kept.size() + " of " + names.size() + " files");
+            shuffled = kept;
+        }
+
         int testCount = testCount();
         int i = testCount;
 

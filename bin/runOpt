@@ -29,7 +29,8 @@ else
 fi
 
 CP="`"$FORTRESS_HOME"/bin/run_classpath`"
-CP=$FORTRESS_HOME/default_repository/caches/optimizedbytecode_cache/${SEP}$FORTRESS_HOME/default_repository/caches/optimizedbytecode_cache/*${SEP}$CP
+CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"
+CP=$CACHES/optimizedbytecode_cache/${SEP}$CACHES/optimizedbytecode_cache/*${SEP}$CP
 echo $CP
 
 if [ -z "$JAVA_HOME" ] ; then

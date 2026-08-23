@@ -27,8 +27,11 @@ public class LibraryJUTest {
 
     public static Test suite() throws IOException {
         // Make sure there are no compiled files from earlier tests
-        // lurking in the repository.
-        Shell.resetRepository();
+        // lurking in the repository. Skipped when the harness has already
+        // wiped the cache for the whole run (fortress.junit.reset=false).
+        if (ProjectProperties.getBoolean("fortress.junit.reset", true)) {
+            Shell.resetRepository();
+        }
 
         String testDir1 = ProjectProperties.BASEDIR + "library_tests";
         boolean failsOnly = !ProjectProperties.getBoolean("fortress.junit.verbose", false);

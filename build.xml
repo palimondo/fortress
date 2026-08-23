@@ -40,6 +40,9 @@ maintain proper indentation.
 
   <!-- Directories in the ${PF} directory -->
   <property name="cache0" location="default_repository/caches"/>
+  <!-- Private cache trees for parallel test tracks; redirected via the
+       fortress.caches property / FORTRESS_CACHES environment variable. -->
+  <property name="test.caches" location="${PF}/test-caches"/>
   <property name="cache1" location="local_repository/caches"/>
   <property name="astgen.src" location="${PF}/astgen"/>
   <property name="build" location="${PF}/build"/>
@@ -899,40 +902,77 @@ testOtherCompiler, testCruiseControl
     <fail message="Tests expected to pass are failing!" if="tests.failed"/>
   </target>
 
+  <!-- One track of the parallel testFast run: a forked JUnit JVM whose
+       cache tree is redirected to a private directory under ${test.caches}
+       (sysproperty for in-JVM code, environment variable for the fortress
+       processes the tests fork), so tracks cannot corrupt each other or
+       the tracked default_repository/caches. Per-suite resets are
+       disabled: each track starts cold in a fresh directory. -->
+  <macrodef name="fastTrack">
+    <attribute name="id"/>
+    <element name="tests" implicit="yes"/>
+    <sequential>
+      <mkdir dir="${test.results}/fast-@{id}"/>
+      <junit printsummary="on"
+             haltonerror="off"
+             haltonfailure="off"
+             showoutput="yes"
+             fork="true"
+             maxmemory="${junitMem}"
+             errorProperty="tests.failed"
+             failureProperty="tests.failed">
+        <classpath refid="compile.classpath"/>
+        <sysproperty key="fortress.junit.reset" value="false"/>
+        <sysproperty key="fortress.caches" value="${test.caches}/fast-@{id}"/>
+        <env key="FORTRESS_CACHES" value="${test.caches}/fast-@{id}"/>
+        <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
+        <jvmarg value="${bigStack}" />
+        <formatter type="plain" usefile="true"/>
+        <batchtest fork="true" todir="${test.results}/fast-@{id}">
+          <fileset dir="${build}">
+            <tests/>
+          </fileset>
+        </batchtest>
+      </junit>
+    </sequential>
+  </macrodef>
+
   <target name="testFast"
           description="Run all unit and system tests expected to pass.">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
-    <junit printsummary="on"
-           haltonerror="off"
-           haltonfailure="off"
-           showoutput="yes"
-           fork="true"
-           maxmemory="${junitMem}"
-           errorProperty="tests.failed"
-           failureProperty="tests.failed">
-      <classpath refid="compile.classpath"/>
-      <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
-      <jvmarg value="${bigStack}" />
-      <formatter type="plain" usefile="true"/>
-      <batchtest fork="true" todir="${test.results}">
-        <fileset dir="${build}">
-          <include name="**/*JUTest.class"/>
-          <include name="**/*JUTests.class"/>
+    <delete quiet="true" dir="${test.caches}"/>
+    <!-- The three big suites each dominate a track; everything else shares
+         the fourth. Wall clock is the slowest single suite, not the sum. -->
+    <parallel threadcount="4">
+      <fastTrack id="compiler">
+        <include name="**/CompilerJUTest.class"/>
+      </fastTrack>
+      <fastTrack id="library">
+        <include name="**/LibraryJUTest.class"/>
+      </fastTrack>
+      <fastTrack id="othercompiler">
+        <include name="**/OtherCompilerJUTest.class"/>
+      </fastTrack>
+      <fastTrack id="misc">
+        <include name="**/*JUTest.class"/>
+        <include name="**/*JUTests.class"/>
+        <exclude name="**/CompilerJUTest.class"/>
+        <exclude name="**/LibraryJUTest.class"/>
+        <exclude name="**/OtherCompilerJUTest.class"/>
 
-          <!-- Do not run the interpreter tests here. Only run the interpreter
-               tests during nightly and CruiseControl testing. -->
-          <exclude name="**/TopLevelEnvGenJUTest.class"/>
-          <exclude name="**/NightlyCompilerJUTest.class"/>
-		  <exclude name ="**/SpecDataJUTest.class"/>
-  		  <exclude name ="**/SystemJUTest.class"/>        	
-          <exclude name="**/*$*.class"/>
-          <exclude name="**/SyntaxAbstractionJUTestAll.class"/>
-          <exclude name="**/ObjectExpressionVisitorJUTest.class"/>
-          <exclude name="**/tools/AstJUTest.class"/>
-        </fileset>
-      </batchtest>
-    </junit>
+        <!-- Do not run the interpreter tests here. Only run the interpreter
+             tests during nightly and CruiseControl testing. -->
+        <exclude name="**/TopLevelEnvGenJUTest.class"/>
+        <exclude name="**/NightlyCompilerJUTest.class"/>
+        <exclude name="**/SpecDataJUTest.class"/>
+        <exclude name="**/SystemJUTest.class"/>
+        <exclude name="**/*$*.class"/>
+        <exclude name="**/SyntaxAbstractionJUTestAll.class"/>
+        <exclude name="**/ObjectExpressionVisitorJUTest.class"/>
+        <exclude name="**/tools/AstJUTest.class"/>
+      </fastTrack>
+    </parallel>
     <delete dir="${PF}/test-tmp" />
     <fail message="Tests expected to pass are failing!" if="tests.failed"/>
   </target>
@@ -1104,28 +1144,51 @@ testOtherCompiler, testCruiseControl
   <!-- testSystem used to have compileAll as a target, but now does not
        as this cleans the cache. -->
 
+  <!-- One shard of the parallel testSystem run. The shard spec "i/n" makes
+       FileTests.interpreterSuite keep every n-th test (by sorted index,
+       offset i). Caches are redirected as in fastTrack; FORTRESS_THREADS=1
+       stops four interpreter runtimes from oversubscribing the CPUs. -->
+  <macrodef name="systemShard">
+    <attribute name="shard"/>
+    <attribute name="id"/>
+    <sequential>
+      <mkdir dir="${test.results}/system-@{id}"/>
+      <junit printsummary="on"
+             haltonerror="off"
+             haltonfailure="off"
+             showoutput="yes"
+             fork="true"
+             maxmemory="${junitMem}"
+             errorProperty="tests.failed"
+             failureProperty="tests.failed">
+        <classpath refid="compile.classpath"/>
+        <sysproperty key="fortress.suite.shard" value="@{shard}"/>
+        <sysproperty key="fortress.caches" value="${test.caches}/system-@{id}"/>
+        <env key="FORTRESS_CACHES" value="${test.caches}/system-@{id}"/>
+        <env key="FORTRESS_THREADS" value="1"/>
+        <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
+        <jvmarg value="${bigStack}" />
+        <formatter type="plain" usefile="true"/>
+        <batchtest fork="true" todir="${test.results}/system-@{id}">
+          <fileset dir="${build}">
+            <include name="**/SystemJUTest.class"/>
+          </fileset>
+        </batchtest>
+      </junit>
+    </sequential>
+  </macrodef>
+
   <target name="testSystem"
           description="Run SystemJUTests.">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
-    <junit printsummary="on"
-           haltonerror="off"
-           haltonfailure="off"
-           showoutput="yes"
-           fork="true"
-           maxmemory="${junitMem}"
-           errorProperty="tests.failed"
-           failureProperty="tests.failed">
-      <classpath refid="compile.classpath"/>
-      <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
-      <jvmarg value="${bigStack}" />
-      <formatter type="plain" usefile="true"/>
-      <batchtest fork="true" todir="${test.results}">
-        <fileset dir="${build}">
-          <include name="**/SystemJUTest.class"/>
-        </fileset>
-      </batchtest>
-    </junit>
+    <delete quiet="true" dir="${test.caches}"/>
+    <parallel threadcount="4">
+      <systemShard id="0" shard="0/4"/>
+      <systemShard id="1" shard="1/4"/>
+      <systemShard id="2" shard="2/4"/>
+      <systemShard id="3" shard="3/4"/>
+    </parallel>
     <delete dir="${PF}/test-tmp" />
     <fail message="Tests expected to pass are failing!" if="tests.failed"/>
   </target>
