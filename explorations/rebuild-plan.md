@@ -474,7 +474,7 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 - [x] E6 experiments (`dbfd2c48d`); pushed `origin/clean-ladder`
 - [x] B1 full .gitignore (`6abefcb88`)
 - [x] B2 determinism (generators to tip state + 2 build.xml hunks) (`864d32f65`)
-- [ ] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups
+- [x] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups (`3e7e5a5c5`; compileAll 1m21s; testFast 1,377/47/0F/0E in 13m07s; testSystem 382/7F/0E in 2m32s — exactly the seven known failures)
 - [ ] B4 generated sources committed; byte-identical double-regen proven
 - [ ] B5 -Xfuture deleted
 - [ ] B6 build.xml normalization + classpath SSOT
