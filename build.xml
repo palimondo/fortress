@@ -61,13 +61,18 @@ maintain proper indentation.
   <property name="unsigned" location="${PF}/third_party/unsigned"/>
   <property name="javadb" location="${PF}/third_party/javadb"/>
 
-  <!-- Scala jar files 2.8.0 / 2.9.0RC1 -->
+  <!-- Scala jar files -->
   <property name="scala-version" value="2.10.7"/>
 
  <property name="scala-compiler.jar"
             value="${PF}/third_party/scala/scala-compiler-${scala-version}.jar"/>
   <property name="scala-library.jar"
             value="${PF}/third_party/scala/scala-library-${scala-version}.jar"/>
+  <property name="scala-reflect.jar"
+            value="${PF}/third_party/scala/scala-reflect-${scala-version}.jar"/>
+
+  <!-- ASM jar files -->
+  <property name="asm-version" value="3.1"/>
 
   <!-- ASTGen -->
   <property name="generate-sourcefile" value="${astgen.src}/Fortress.ast" />
@@ -123,7 +128,7 @@ maintain proper indentation.
   <!-- Other settings -->
   <property name="junitMem" value="768m"/>
   <property name="junit.dir" value="junit-results"/>
-  <property name="javaSourceVersion" value="1.5"/>
+  <property name="javaSourceVersion" value="1.8"/>
   <property environment="env"/>
   <condition property="correct.environment">
     <and>
@@ -139,7 +144,7 @@ maintain proper indentation.
   <path id="scala.classpath">
     <pathelement location="${scala-compiler.jar}"/>
     <pathelement location="${scala-library.jar}"/>
-    <pathelement location="${PF}/third_party/scala/scala-reflect-${scala-version}.jar"/>
+    <pathelement location="${scala-reflect.jar}"/>
   </path>
 
   <path id="astgen.path">
@@ -164,7 +169,7 @@ maintain proper indentation.
   <path id="compile.classpath">
     <path refid="scala.classpath"/>
     <pathelement location="${build}"/>
-    <pathelement location="${asm}/asm-all-3.1.jar"/>
+    <pathelement location="${asm}/asm-all-${asm-version}.jar"/>
     <pathelement location="${xtc}/xtc.jar"/>
     <pathelement location ="${unsigned}/unsigned.jar"/>
     <pathelement location="${jsr166y}/jsr166y.jar"/>
@@ -416,6 +421,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${astgen.generators.src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"
@@ -513,6 +519,8 @@ testOtherCompiler, testCruiseControl
     <javac encoding="UTF-8"
         srcdir="${src}"
         destdir="${build}"
+        source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"
@@ -542,6 +550,8 @@ testOtherCompiler, testCruiseControl
     <javac encoding="UTF-8"
         srcdir="${src}"
         destdir="${build}"
+        source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"
@@ -559,7 +569,7 @@ testOtherCompiler, testCruiseControl
   <target name="compile" depends="compileAll"/>
 
   <target name="check.blas" depends="init">
-    <javac encoding="UTF-8" destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" debug="true">
+    <javac encoding="UTF-8" destdir="${build}" srcdir="${src}/com/sun/fortress/numerics" source="${javaSourceVersion}" target="${javaSourceVersion}" debug="true">
       <classpath refid="compile.classpath"/>
     </javac>
 
@@ -665,6 +675,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"
@@ -692,6 +703,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true">
@@ -713,6 +725,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true">
@@ -1403,6 +1416,7 @@ testOtherCompiler, testCruiseControl
         srcdir="${src}"
         destdir="${build}"
         source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
         debug="true"
         includeantruntime="false"
         fork="true"

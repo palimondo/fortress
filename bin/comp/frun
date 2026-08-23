@@ -67,7 +67,7 @@ cat $FULL/exports |
                 JAVA_FLAGS="-Xmx768m"
             fi
 
-            JAVA_FLAGS+=" -Dfile.encoding=UTF-8 -Xfuture"
+            JAVA_FLAGS+=" -Dfile.encoding=UTF-8"
             
             "$JAVACMD" $JAVA_FLAGS -cp "$CP:$FULL/code_pool/" com.sun.fortress.runtimeSystem.MainWrapper "${arr[0]}"
             exit

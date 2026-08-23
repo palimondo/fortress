@@ -34,6 +34,6 @@ if [ -z "$JAVA_FLAGS" ] ; then
   JAVA_FLAGS="-Xmx768m"
 fi
 
-JAVA_FLAGS+=" -Dfile.encoding=UTF-8 -Xfuture"
+JAVA_FLAGS+=" -Dfile.encoding=UTF-8"
 
 "$JAVACMD" $JAVA_FLAGS -cp "$CP" com.sun.fortress.linker.LinkShell "$@"
