@@ -199,7 +199,7 @@ public class FTypeTuple extends FType {
         // TODO For efficiency, we can filter out combinations that are
         // guaranteed to fail.
 
-        TreeSet<List<FType>> s = new TreeSet<List<FType>>();
+        TreeSet<List<FType>> s = new TreeSet<List<FType>>(listComparer);
         s.add(Collections.<FType>emptyList());
 
         return meet(s, pl1, pl2);
@@ -217,7 +217,7 @@ public class FTypeTuple extends FType {
         // in many cases within the Fortress type system that is the only
         // acceptable result.
 
-        TreeSet<List<FType>> s = new TreeSet<List<FType>>();
+        TreeSet<List<FType>> s = new TreeSet<List<FType>>(listComparer);
 
         int s1 = pl1.size();
         int s2 = pl2.size();
