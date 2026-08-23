@@ -215,8 +215,6 @@ Upgrade Scala 2.12.20 to 2.13.18
 Scala 2.13 no longer ships the scala.tools.ant tasks, so build.xml drives scala.tools.nsc.Main directly via <java fork="true"> with an @argfile. Joint Java+Scala compilation is preserved by feeding scalac the .java sources too -- it reads their signatures and emits nothing; the javac step that follows compiles them as before. The astGenerators scalac call was a no-op (zero .scala files there) and is retired.
 
 The source migration is 9 files, all mechanical: JavaConversions (removed in 2.13) becomes scala.jdk.javaapi.CollectionConverters; OverloadingChecker adds .view/.toMap around a now-lazy mapValues; TraitTable drops the empty parens on a now-parameterless iterator override; STypesUtil and TypeParser lose postfix operator syntax.
-
-The vendored jars move to the 2.13.18 set (SHA-1s verified against Maven Central; parser-combinators to its _2.13 build), THIRDPARTYLICENSEREADME.txt records the new toolchain's Apache-2.0 license, and the version references in bin/fortress_classpath, fortress.bat, the test scripts, and the IDE library files follow.
 ```
 
 ### 14. R8+C1 `27aab6a85`+`1871c3c02` — merged, trimmed
