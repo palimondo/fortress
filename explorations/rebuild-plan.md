@@ -465,13 +465,13 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 
 ## Execution checklist (tick as you go; keep updated on the working branch)
 
-- [ ] Worktree created at `/home/user/fortress-clean`, branch `clean-ladder` from `a874948ac`
-- [ ] E1 kickoff README + SVGs
-- [ ] E2 fortify.sty cherry-pick
-- [ ] E3 PDFs cherry-pick (.gitignore conflict resolved as specified)
-- [ ] E4 spec fixes cherry-pick (`4672b71cd`: note restyle + table generators + refreshed PDF)
-- [ ] E5 authorship.md
-- [ ] E6 experiments; push
+- [x] Worktree created at `/home/user/fortress-clean`, branch `clean-ladder` from `a874948ac`
+- [x] E1 kickoff README + SVGs (`78e9dfcc5`)
+- [x] E2 fortify.sty cherry-pick (`c571a3fe1`)
+- [x] E3 PDFs cherry-pick (.gitignore conflict resolved as specified) (`5a46d3e08`)
+- [x] E4 spec fixes cherry-pick (`4672b71cd`: note restyle + table generators + refreshed PDF) (`0fb6e78c2`, auto-merged — build-dir-PDF line landed under E3's block as specified)
+- [x] E5 authorship.md (`48e5825fe`)
+- [x] E6 experiments (`dbfd2c48d`); pushed `origin/clean-ladder`
 - [ ] B1 full .gitignore
 - [ ] B2 determinism (generators to tip state + 2 build.xml hunks)
 - [ ] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups
