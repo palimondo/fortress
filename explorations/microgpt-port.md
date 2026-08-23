@@ -89,6 +89,43 @@ dimension-typed arrays; microgpt needs none of it.
 - **List performance**: the library `List` is a functional deque;
   fine at this scale. Arrays are the fallback for the hot buffers.
 
+## Baseline (measured 2026-08-23, this container)
+
+Assembled the original from the blog post's code blocks (175 lines with
+imports; parses and runs; kept in the session scratchpad, not committed
+— the blog code's license is unstated) and ran it: CPython 3.11.15,
+4-core Xeon @ 2.10 GHz, `random.seed(42)` added for reproducibility
+(the original is unseeded).
+
+- num docs 32,033 · vocab 27 · **4,192 params** (matches the estimate)
+- **1000 steps + 20 samples: 120.3 s ≈ 0.12 s/step**
+- per-doc loss: 3.3660 (step 1) → 2.31 (200) → 2.34 (400) → 2.49 (600)
+  → 2.26 (800) → 2.65 (1000) — noisy per-document values orbiting ~2.3
+- samples are convincingly name-like: kamon, karai, jaire, keylen,
+  alerin, anton, …
+
+So the CPython bar is ~2 minutes. The port needn't beat it — matching
+within an order of magnitude on the interpreter would be a strong
+result; the step-0 microbenchmark tells us where we start.
+
+**Correctness anchors for the port** (the original ships no tests):
+
+1. **Golden activations** — fixed deterministic weights (no RNG), one
+   fixed token sequence; dump logits and parameter gradients from the
+   Python to ~12 digits, assert the Fortress forward/backward matches.
+   RNG-independent, exact.
+2. **Loss-trajectory band** — under the port's own RNG, per-doc loss
+   should fall from ~3.37 into the ~2.3 band by a few hundred steps;
+   statistical, not exact (Python's Mersenne Twister is not ours).
+
+**Walk vs. compile:** interpreter-only, realistically. The compiled
+path links against CompilerLibrary — a 592-line skeleton (assertions,
+exceptions, ZZ32Vector) vs. the interpreter's 4,518-line
+FortressLibrary; no List/Map/Shuffle/file streams/Random there.
+Compiling microgpt is gated on goal 4 (finish the bytecode compiler)
+plus pushing the needed library surface through it — a fine stretch
+target and forcing function, not the plan.
+
 ## Staging
 
 0. **Microbenchmark**: build ~10⁵ `Value` nodes in a chain, run
