@@ -476,7 +476,7 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 - [x] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups (`3e7e5a5c5` → `8e06b3e2e`; compileAll 1m21s; testFast 1,377/47/0F/0E in 13m07s; testSystem 382/7F/0E in 2m32s — exactly the seven known failures)
 - [x] B4 generated sources committed; byte-identical double-regen proven (`7da0a115f` → `b5a2323d3`; 1,079 files; regen `git status` empty; cheap gate: compileAll green, testFast 1,377/47/0F/0E in 13m15s)
 - Note: history rewrite 2026-08-23 (E3+E4 squash, E6 drop) replayed B1–B5 verbatim — final tree verified byte-identical to the pre-rewrite branch minus the four E6 programs; gate results carry over. B1 fixup `6cc919889` → `1ea1424fb`. Force-pushed with Pavol's authorization; local backup branch `presquash-backup` in the clean worktree.
-- [ ] B5 -Xfuture deleted
+- [x] B5 -Xfuture deleted (`bbe77d001`; cheap gate: compileAll green in 43s, testFast 1,377/47/0F/0E in 12m50s)
 - [ ] B6 build.xml normalization + classpath SSOT
 - [ ] B7a System shadowing; B7b e constant; FULL GATE FULLY GREEN
 - [ ] B8 speedup; before/after timings recorded
