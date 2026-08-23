@@ -472,7 +472,7 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 - [x] E4 spec fixes cherry-pick (`4672b71cd`: note restyle + table generators + refreshed PDF) (`0fb6e78c2`, auto-merged — build-dir-PDF line landed under E3's block as specified)
 - [x] E5 authorship.md (`48e5825fe`)
 - [x] E6 experiments (`dbfd2c48d`); pushed `origin/clean-ladder`
-- [ ] B1 full .gitignore
+- [x] B1 full .gitignore (`6abefcb88`)
 - [ ] B2 determinism (generators to tip state + 2 build.xml hunks)
 - [ ] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups
 - [ ] B4 generated sources committed; byte-identical double-regen proven
