@@ -17,10 +17,11 @@ but if one seems to conflict with something Pavol says, his words win.
   experiments as we go; **Pavol decides what gets committed.**
 - **(P)** When in doubt, ask before acting. Surface discrepancies and diffs
   to Pavol; do not resolve them silently.
-- **(P)** Standing approval exists for exactly one thing: *"I approve the
+- **(P)** Standing approval exists for exactly two things: *"I approve the
   above modernization plan. Continue autonomously. Delegate to workers where
-  it makes sense."* This is scoped to the approved ladder in
-  `modernization-plan.md` — it is not a general license.
+  it makes sense."* — scoped to the approved ladder in
+  `modernization-plan.md`, not a general license — and the `main`
+  fast-forward standing order in §4.
 - **(P)** Use idle time — "there's no need for you to idle with empty
   hands." While waiting on builds or feedback, advance parked research or
   documentation.
@@ -59,10 +60,17 @@ but if one seems to conflict with something Pavol says, his words win.
 ## 4. Commit and push discipline
 
 - Work branch: `claude/handover-reading-vn8zgr`. Never push to a different
-  branch without explicit permission (the `transcripts` orphan branch was
-  one explicit exception).
-- After doc commits and gated-green commits, fast-forward main:
-  `git push origin claude/handover-reading-vn8zgr:main`.
+  branch without explicit permission (the `transcripts` orphan branch and
+  the `main` fast-forward below are the two standing exceptions).
+- **(P)** Standing order — fast-forward `main` after every working-branch
+  push: `git push origin claude/handover-reading-vn8zgr:main`. Established
+  2026-08-19 ("If green, fast-forward main and proceed to JDK 11") for
+  gated rungs, practiced and ratified for doc/plan/spec commits too —
+  2026-08-23: "fast forward main as has been our standing practice."
+  Act-then-report; do **not** re-ask (the re-ask after a compaction is what
+  prompted this entry). Whenever `origin/main` is behind the working-branch
+  tip, ff it. This continues through the clean-ladder migration: Pavol
+  renames branches via the GitHub UI himself when it's done.
 - Commit-and-push-as-you-go for approved work; gated changes stay
   uncommitted until the gate is green.
 - No pull requests unless explicitly requested.
@@ -121,7 +129,9 @@ Recurring corrections, kept visible so they stay corrected:
 
 - Wall-of-text replies when a short answer serves.
 - Self-credit creeping into committed prose.
-- Inventing or over-reading standing orders.
+- Inventing or over-reading standing orders — and the symmetric error:
+  losing one to compaction and re-asking a settled question (happened with
+  the `main` fast-forward).
 - Confident claims not verified against primary sources.
 - Compacting instead of delegating.
 - Explanatory prose landing in the wrong artifact (teaching belongs in
