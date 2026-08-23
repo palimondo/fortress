@@ -175,7 +175,8 @@ E2. **Cherry-pick `3b9cf3e39`** — "Fortify: define the six operator-name
   of E3: without it the committed PDFs are not rebuildable from the tree,
   and E3's own message references this repair. Verified: spec-land
   (`Fortify/`, `Specification/`, `Papers/`) is otherwise byte-identical
-  between the base and the working-branch tip, so this and E3 apply clean.
+  between the base and the working-branch tip — E4's spec fixes are the
+  only later spec-land change — so E2–E4 apply clean in order.
 
 E3. **Cherry-pick `414b790e3`** — "Commit rendered PDFs from first
   successful LaTeX builds; ignore byproducts" (spec Working Draft
@@ -188,21 +189,32 @@ E3. **Cherry-pick `414b790e3`** — "Commit rendered PDFs from first
   commit (take the 23 lines from `git show 414b790e3 -- .gitignore`),
   nothing else.
 
-E4. **`research/authorship.md`.** New commit adding the file at its
+E4. **Cherry-pick `4672b71cd`** — "Spec draft: restyle authors' notes; fix
+  doubled reserved-words tables" (draft-mode `\note`/`\marginnote`
+  restyling in `fortress.tex`, append→truncate fix in the three Perl
+  table generators, refreshed `Specification/fortress.pdf` at 599 pp,
+  and a `.gitignore` line for the build-dir PDF). Follows directly on
+  E3 (its parent is E3's commit in spec-land, so the binary PDF and
+  `fortress.tex` apply clean). Possible trivial conflict: the
+  `.gitignore` hunk expects the full working-branch file — resolve by
+  inserting the build-dir-PDF comment + line under E3's
+  LaTeX-byproducts block.
+
+E5. **`research/authorship.md`.** New commit adding the file at its
   working-branch-tip content (`git show 3595f511d:research/authorship.md`) —
   Pavol approved the current form, which already folds in the corrections
   from `6beb45ec7` and `796ae4bfb`. Message derived from `957191d26`'s,
   noting the caveat and relic-branch findings are folded in. Do **not**
   bring `research/README.md` or `research/extracts/`.
 
-E5. **Verified experiments.** New commit adding, at working-branch-tip
+E6. **Verified experiments.** New commit adding, at working-branch-tip
   content: `explorations/claude_demo.fss`, `explorations/complex_ring.fss`,
   `explorations/mandelbrot_canonical.fss`,
   `explorations/mandelbrot_swifty.fss`. These are interpreter-verified
   running programs. `explorations/README.md` stays behind (verified: it
   references working-branch-only material).
 
-Push `clean-ladder` after E5.
+Push `clean-ladder` after E6.
 
 ### Base block (all on JDK 8, ends fully green)
 
@@ -213,8 +225,9 @@ Hygiene and determinism still land before the first regeneration, honoring
 hindsight lesson 2. The hindsight "delete BCEL" and "untrack" items are
 void on this tree (see Base point).
 
-B1. **Repo hygiene: create the full `.gitignore`.** Extend E3's LaTeX
-  block with every entry that applies to this tree, so later gates'
+B1. **Repo hygiene: create the full `.gitignore`.** Extend the exhibit
+  block's LaTeX `.gitignore` (E3 + E4's build-dir-PDF line) with every
+  entry that applies to this tree, so later gates'
   `git status` stays clean:
   - build output and editor noise from the graft's own .gitignore:
     `/ProjectFortress/build/*`, `*.tfs`, `*.swp` (credit the graft in the
@@ -285,7 +298,7 @@ B3. **Revive the 2012 build on JDK 8** (spike-verified minimal revival).
     derived independently by the spike and shares only the 2.10.7 target
     version. The graft's real contribution — demonstrating the project
     could be revived at all — stays on the record via
-    `research/authorship.md` (E4, which documents pluckyporcupine's 2018
+    `research/authorship.md` (E5, which documents pluckyporcupine's 2018
     migration) and the untouched working branch.
   - Known cosmetic debt, deliberately left until B6: `bin/debugOpt`,
     `bin/fortress.bat`, `bin/fortress_leaks`, `bin/runOptCollect` still
@@ -419,8 +432,9 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 - [ ] E1 kickoff README + SVGs
 - [ ] E2 fortify.sty cherry-pick
 - [ ] E3 PDFs cherry-pick (.gitignore conflict resolved as specified)
-- [ ] E4 authorship.md
-- [ ] E5 experiments; push
+- [ ] E4 spec fixes cherry-pick (`4672b71cd`: note restyle + table generators + refreshed PDF)
+- [ ] E5 authorship.md
+- [ ] E6 experiments; push
 - [ ] B1 full .gitignore
 - [ ] B2 determinism (generators to tip state + 2 build.xml hunks)
 - [ ] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups
