@@ -477,7 +477,7 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 - [x] B4 generated sources committed; byte-identical double-regen proven (`7da0a115f` → `b5a2323d3`; 1,079 files; regen `git status` empty; cheap gate: compileAll green, testFast 1,377/47/0F/0E in 13m15s)
 - Note: history rewrite 2026-08-23 (E3+E4 squash, E6 drop) replayed B1–B5 verbatim — final tree verified byte-identical to the pre-rewrite branch minus the four E6 programs; gate results carry over. B1 fixup `6cc919889` → `1ea1424fb`. Force-pushed with Pavol's authorization; local backup branch `presquash-backup` in the clean worktree.
 - [x] B5 -Xfuture deleted (`bbe77d001`; cheap gate: compileAll green in 43s, testFast 1,377/47/0F/0E in 12m50s)
-- [ ] B6 build.xml normalization + classpath SSOT
+- [x] B6 build.xml normalization + classpath SSOT (`ef351f3d4`; source/target 1.8 on all 8 javac tasks, scala-reflect.jar + asm-version properties, debugOpt/fortress_leaks/runOptCollect delegate to fortress_classpath, fortress.bat SV bumped; cheap gate: compileAll green in 1m13s, testFast 1,377/47/0F/0E in 12m58s)
 - [ ] B7a System shadowing; B7b e constant; FULL GATE FULLY GREEN
 - [ ] B8 speedup; before/after timings recorded
 - [ ] R1 Scala 2.12.20 · [ ] R2 JDK 11 (+tools.jar drop) · [ ] R3 j.u.c. · [ ] R4 JDK 17/21
