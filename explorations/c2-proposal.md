@@ -160,9 +160,8 @@ ignore file so `git status` stays clean after every build and test run:
   (scratch output of the file-IO interpreter tests).
 - /ProjectFortress/test-caches/ -- private caches of the parallel test
   harness a later commit introduces.
-- research/decks/ -- copyrighted Steele decks (Oracle's notice permits
-  personal/classroom copies only), dropped in locally per session and
-  never committed.
+- research/decks/ -- local-only research materials, never committed
+  (see research/README.md).
 - OS noise (.DS_Store, Thumbs.db).
 ```
 
