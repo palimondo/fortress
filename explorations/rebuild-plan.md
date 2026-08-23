@@ -478,7 +478,7 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 - Note: two history rewrites 2026-08-23, both on Pavol's request, both force-pushed with his authorization, both replays verified byte-identical (gate results carry over): (1) E3+E4 squash + E6 drop, replayed B1–B5 (backup branch `presquash-backup`); (2) B1-fixup squash — the global.map fixup folded into B1, replayed B2–B6 (backup branch `pre-b1squash-backup`). Both backups live in the clean worktree.
 - [x] B5 -Xfuture deleted (`bbe77d001` → `6943a4258`; cheap gate: compileAll green in 43s, testFast 1,377/47/0F/0E in 12m50s)
 - [x] B6 build.xml normalization + classpath SSOT (`ef351f3d4` → `831f4691e`; source/target 1.8 on all 8 javac tasks, scala-reflect.jar + asm-version properties, debugOpt/fortress_leaks/runOptCollect delegate to fortress_classpath, fortress.bat SV bumped; cheap gate: compileAll green in 1m13s, testFast 1,377/47/0F/0E in 12m58s)
-- [ ] B7a System shadowing; B7b e constant; FULL GATE FULLY GREEN
+- [x] B7a System shadowing (`f489bb9ce`); B7b e constant (`c7cda8bae`); FULL GATE FULLY GREEN (JDK 8: compileAll green in 1m15s; testFast 1,377/47/0F/0E in 12m59s; testSystem 382/0F/0E in 3m08s — first fully green full suite on the pure trunk lineage)
 - [ ] B8 speedup; before/after timings recorded
 - [ ] R1 Scala 2.12.20 · [ ] R2 JDK 11 (+tools.jar drop) · [ ] R3 j.u.c. · [ ] R4 JDK 17/21
 - [ ] R5 ASM 9.10.1 (+fortress_classpath) · [ ] R6 Scala 2.13.18 · [ ] R7 JDK 25 · [ ] R8 source/target 25
