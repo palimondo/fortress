@@ -9,6 +9,14 @@ messages → force-push clean-ladder (only on explicit authorization) →
 annotated `ladder/*` tags on the final SHAs → Pavol pushes tags and
 renames the branch to `main` from his machine.
 
+Revision 2, after Pavol's review of the first draft: the messages are
+now written for someone examining this repository as a historic exhibit
+who wants to see what was changed and why — and nothing about the
+modernization campaign itself. All gate records, test counts, run
+timings, and upgrade-session narratives are gone from the commit
+messages; the verification story lives exclusively in the annotated
+`ladder/*` tags (section 4), whose entire job is to record that process.
+
 Review shorthand: commits are named below by their plan id and current
 clean-ladder SHA. Both are process vocabulary and appear only in this
 document — the proposed messages themselves contain neither.
@@ -17,24 +25,29 @@ document — the proposed messages themselves contain neither.
 
 Stripped everywhere:
 
-- Plan-step ids: `(rung RN)` subject suffixes, and B1/B4/B8-style
-  references inside bodies. In-history references stay, but by
-  description ("the classpath-SSOT commit", "the JDK 11 rung") — the
-  ladder itself is the public story; the lettered plan is not.
-- First-ascent and working-branch SHAs, "re-apply of X" lines, and every
-  "deviations from the first ascent" paragraph. The rebuilt history has
-  to stand alone; the working branch remains the process record.
-- Gate wall-clock timings. The gate *result* stays as one closing
-  paragraph per gated commit — "full gate on JDK N, fully green:
-  compileAll; testFast 1,377 tests / 47 suites / 0F / 0E; testSystem
-  382 / 0F / 0E; working tree clean" — because "every rung was gated
-  green" is part of the exhibit's claim. **One exception: the
-  test-speedup commit keeps its before/after timing table — the timing
-  is that commit's payload, not process noise.**
+- **All verification records.** No gate paragraphs, no test counts, no
+  "fully green", no "git status clean", no wall times. A reader of
+  `git log` sees what changed and why; whether and where each state was
+  verified is the `ladder/*` tags' story.
+- **Plan and campaign vocabulary.** No "rung"/"ladder"/"first ascent"/
+  "gate", no plan-step ids, no "re-apply of X" lines, no working-branch
+  SHAs, no "deviations from the first ascent" paragraphs. Forward
+  references to later work survive only as plain statements about the
+  code ("removed with the later move to JDK 11").
+- **Upgrade-session narratives.** Error cascades encountered while
+  porting, smoke-test recitals, "Verified:" framing. Where such a
+  paragraph contained a durable fact about the code, the fact stays,
+  stated directly; the story of how we ran into it goes.
+
+One deliberate remnant: the test-speedup commit (B8) keeps a single
+sentence of before/after numbers — the speedup is that commit's entire
+point. Veto it if you want the history fully number-free.
 
 Kept everywhere:
 
-- The technical narrative: what changed, why, what broke without it.
+- The technical narrative: what changed, why, what breaks without it.
+  Named failing tests survive **as symptoms of a bug being fixed**
+  (motivation), never as verification.
 - Attribution content (pluckyporcupine credits, the 2018-migration
   accounting, research/authorship.md pointers).
 - SHAs of *pre-graft trunk* commits (e.g. `5a68404`, the 2012-07-19
@@ -55,24 +68,21 @@ recasts the determinism rationale without them.
 ## 2. Structural proposals (merges / drops)
 
 **Drop R4 (`d4698e811`) and R7 (`18178fa5c`), the two empty
-verification commits.** Their entire content is "zero changes, gate
-green on JDK X" — exactly what an annotated tag message is for. R4
+verification commits.** Their entire content is process — "zero changes,
+verified on JDK X" — exactly what an annotated tag message is for, and
+under the historic-exhibit lens they cannot be commits at all. R4
 verified JDK 17 and 21 on R3's tree, so tags `ladder/jdk17` and
 `ladder/jdk21` on R3's commit carry those records in the right place;
 R7 verified JDK 25 on R6's tree, so its record folds into the
 `ladder/scala-2.13` tag message. Dropping empty commits changes no tree,
 so the replay stays byte-identical in content. The history then contains
-only commits that change something, and the verification story moves to
-the tag namespace — the stable public interface. (Alternative, if you
-prefer every verification to be a commit: keep both and tag them
-directly; the messages below include rewritten versions for that case.)
+only commits that change something.
 
 **Keep B7a + B7b separate.** Considered merging them as one "fix the
 seven 2012 failures" commit, but they are two unrelated bugs with
 unrelated diagnoses (api-shadowing design flaw vs. a hand-tuned constant
 invalidated by correctly-rounded exp). Two commits, each telling one
-story, read better; B7b's message already marks the joint milestone
-(first fully green suite).
+story, read better.
 
 **Keep R2 + R3 separate.** Both are JDK-11-era work but distinct
 concerns: platform enablement vs. retiring the vendored jsr166y (with
@@ -119,15 +129,15 @@ phantom roots, so all counts use --full-history.
 
 ### B1 `ffca9f7ec` — reworded
 
-Changed: "(B3)" and "landing at B8" replaced by descriptions; "the
-exhibit block's .gitignore" (plan jargon) replaced.
+Changed: plan letters replaced by descriptions; the gate-framing
+sentences ("before the gates start checking", the closing "No build
+gate" paragraph) removed.
 
 ```
 Repo hygiene: extend .gitignore to cover everything this tree emits
 
 The 2012 trunk shipped only an .hgignore; the ignore entries added with
-the rendered PDFs cover just LaTeX byproducts. Before the build revives
-and the gates start checking for a clean tree, extend it into the full
+the rendered PDFs cover just LaTeX byproducts. Extend it into the full
 ignore file so `git status` stays clean after every build and test run:
 
 - Build output and editor noise -- /ProjectFortress/build/*, *.tfs,
@@ -148,24 +158,18 @@ ignore file so `git status` stays clean after every build and test run:
 - Transient test-run artifacts: TEST-RESULTS/, test-tmp/,
   junit-results/, ant-junit scratch property files, and testFile.txt
   (scratch output of the file-IO interpreter tests).
-- /ProjectFortress/test-caches/ -- used by the parallel test harness a
-  later commit introduces; ignored now so that diff stays pure.
+- /ProjectFortress/test-caches/ -- private caches of the parallel test
+  harness a later commit introduces.
 - research/decks/ -- copyrighted Steele decks (Oracle's notice permits
   personal/classroom copies only), dropped in locally per session and
   never committed.
 - OS noise (.DS_Store, Thumbs.db).
-
-No build gate: the untouched trunk does not compile until the JDK 8
-revival. The standing check is a clean `git status` after every later
-build.
 ```
 
 ### B2 `d7ae70df8` — rewritten
 
-Changed: the stale B4 claims (factual fix), the three working-branch
-SHAs, the "explainer comment briefly carried" aside, and the B3/B4
-letters; the determinism rationale is recast for a history where
-generated trees are never committed.
+Changed: the stale B4 claims (factual fix), working-branch SHAs, plan
+letters, "toolchain rungs", and the closing no-gate paragraph.
 
 ```
 Generated-source determinism: timestamp-free generators, sorted emission
@@ -174,8 +178,8 @@ Make AST/parser regeneration byte-identical run to run. The generated
 trees themselves are ignored as machine output (ant regenerates them
 from Fortress.ast and the grammar on every clean build), but determinism
 still pays: it makes the generated tree a pure function of its inputs,
-so regenerations can be diffed byte-for-byte across toolchain rungs to
-prove a compiler or JDK bump changed nothing it shouldn't.
+so regenerations can be diffed byte-for-byte across toolchain upgrades
+to prove a compiler or JDK bump changed nothing it shouldn't.
 
 - EllipsesNode, TemplateGapClass, TransformationNode: stop stamping
   "@version  Generated automatically by ASTGen at <new Date()>" into
@@ -197,31 +201,24 @@ in-repo:
 - the buildparser macrodef normalizes the locale-formatted generation
   date that xtc.util.Tool.printHeader stamps into the four Rats!
   parsers.
-
-No gate here by design: the untouched trunk cannot yet build on any
-installable JDK (Scala 2.9.0 cannot read the Java 8 rt.jar); the
-revival lands next.
 ```
 
-### B3 `e9aaa8e7d` — reworded
+### B3 `e9aaa8e7d` — rewritten
 
-Changed: dropped the spike sentence, the first-ascent ISO-8859-1
-mis-diagnosis story (kept as a plain statement of why UTF-8 is right),
-"(per Pavol)", the "preserved first-ascent branch" pointer, and the
-lettered forward references; gate keeps JDK version, counts, and the
-seven named failures, drops wall times.
+Changed: error-cascade narrative trimmed to the essential
+incompatibility; "rung" phrasing replaced by plain forward references;
+the gate paragraph replaced by one sentence stating that this restores
+exactly the 2012 state, seven known failures included.
 
 ```
 Revive the 2012 build on JDK 8: Scala 2.10.7, five files
 
 The pure 2012 trunk does not build on any JDK installable here: Scala
-2.9.0's classfile parser cannot read the Java 8 rt.jar ("bad constant
-pool tag 18" loading java.util.Comparator, then 116 cascade errors),
-and no JDK 7 exists for this platform (Ubuntu 24.04), so the true 2012
-baseline is unreproducible. Scala 2.10.7 — the last of the 2.10 line,
-and the earliest release that both runs on JDK 8 and compiles the
-entire 2012 Scala tree unmodified (zero Scala source edits) — is the
-minimal bridge.
+2.9.0's classfile parser cannot read the Java 8 rt.jar, and no JDK 7
+exists for this platform (Ubuntu 24.04), so the true 2012 baseline is
+unreproducible. Scala 2.10.7 — the last of the 2.10 line, and the
+earliest release that both runs on JDK 8 and compiles the entire 2012
+Scala tree unmodified (zero Scala source edits) — is the minimal bridge.
 
 The complete revival is five files:
 
@@ -238,8 +235,8 @@ The complete revival is five files:
   comments. The tools.jar pathelement stays: on JDK 8 it is required
   (syntax_abstractions/rats/JavaC.java calls
   com.sun.tools.javac.Main.compile and every javac task has
-  includeantruntime="false"); it is dropped at the JDK 11 rung, where
-  it dangles harmlessly.
+  includeantruntime="false"); it is removed with the later move to
+  JDK 11.
 - bin/fortress_classpath: SV=2.10.7.
 - FTypeTuple.java: pass the existing FType.listComparer to the two bare
   TreeSet constructors in meet/join. JDK 8's TreeMap invokes the
@@ -254,31 +251,30 @@ The complete revival is five files:
 Accounting for the 2018 migration's other hand-edits, so their absence
 here is deliberate, not overlooked: the four "import xtc.parser.Module"
 additions and the MethodInstantiater BCEL-import repoint are JDK 9+
-material and land at the JDK 11 rung; its NamingCzar, NodeFactory,
-STypeChecker, and TypeParser edits were whitespace, @Deprecated, or
-warning cosmetics and are dropped. This commit carries no attribution
-to that migration: the diff was derived independently and shares only
-the 2.10.7 target version; the migration's real contribution —
-demonstrating the project could be revived at all — is on the record in
-research/authorship.md.
+material and belong to the later move to JDK 11; its NamingCzar,
+NodeFactory, STypeChecker, and TypeParser edits were whitespace,
+@Deprecated, or warning cosmetics and are dropped. This commit carries
+no attribution to that migration: the diff was derived independently
+and shares only the 2.10.7 target version; the migration's real
+contribution — demonstrating the project could be revived at all — is
+on the record in research/authorship.md.
 
 Known cosmetic debt, deliberately left for the classpath-SSOT commit:
 bin/debugOpt, bin/fortress.bat, bin/fortress_leaks, and bin/runOptCollect
-still name scala-*-2.9.0 jars — verified not gate-relevant (the test
-targets use the compile.classpath refid, not those scripts).
+still name scala-*-2.9.0 jars (harmless: the test targets use
+build.xml's compile.classpath, not those scripts).
 
-Gate, all on JDK 8 (OpenJDK 1.8.0_492): ant clean compileAll green;
-ant testFast 1,377 tests across 47 suites, 0 failures, 0 errors — fully
-green; ant testSystem 382 tests, 7 failures, 0 errors — exactly the
-seven known 2012-trunk failures (ParamRef, WordCountSmall, setMakerTest0,
-LongStringTests, CovCollTest, FileConversion: the six System-api-
-shadowing tests; realArith: the e-constant digit) and nothing else.
-Both bug groups are fixed later in this history.
+This restores exactly the 2012 state: the only test failures are the
+seven the mainline itself ended with — six interpreter tests broken by
+the compiler api System shadow (ParamRef, WordCountSmall, setMakerTest0,
+LongStringTests, CovCollTest, FileConversion) and realArith's e-constant
+digit — all fixed later in this history.
 ```
 
-### B5 `1b21a090a` — gate line trimmed only
+### B5 `1b21a090a` — reworded
 
-Changed: wall times dropped from the gate line; body untouched.
+Changed: "this ladder targets"/"before the ladder climbs" phrasing,
+the "Verified:" framing, and the gate line removed.
 
 ```
 Drop -Xfuture from the 9 launcher scripts
@@ -289,26 +285,23 @@ comp/frun, comp/rewrite, comp/tlink) all passed -Xfuture, the 2005-era
 "force strictest class-file format checks, anticipating future
 defaults" flag. Those strict checks stopped being "future" long ago:
 they became the JVM default for classfiles of version 50 (V1_6) and up
--- exactly what Fortress emits -- so on every JDK this ladder targets
-the flag adds nothing. It was deprecated in JDK 9 and removed in
-JDK 25, where a forked JVM dies at startup with "Unrecognized option:
--Xfuture", killing every compiled-code test in testFast. Deleting it
-now, while still on JDK 8, is behavior-neutral (the same checks apply
-by default) and defuses that landmine before the ladder climbs.
+-- exactly what Fortress emits -- so on every modern JDK the flag adds
+nothing. It was deprecated in JDK 9 and removed in JDK 25, where a
+forked JVM dies at startup with "Unrecognized option: -Xfuture",
+killing every compiled-code test. Deleting it is behavior-neutral (the
+same checks apply by default) and removes that failure mode before it
+can bite.
 
-Verified: these nine scripts are the only -Xfuture carriers in the
-tree; the test targets reach the flag via bin/run's forked JVM, so the
-suite exercises the change.
-
-Gate (cheap, JDK 8): ant compileAll green; ant testFast 1,377 tests /
-47 suites / 0 failures / 0 errors.
+These nine scripts are the only -Xfuture carriers in the tree; the
+test suite reaches the flag through bin/run's forked JVM, so it
+exercises the change.
 ```
 
-### B6 `f9eb1e814` — reworded
+### B6 `f9eb1e814` — rewritten
 
-Changed: the first-ascent SHAs (fdd4a57c2, ef45a91ca) and "gated green
-throughout the first ascent" removed — the target-pinning rationale now
-states the JDK 11 failure mode directly; gate times dropped.
+Changed: first-ascent SHAs, "rung"/"toolchain floor of the ladder"
+phrasing, the smoke-test recital, and the gate line removed; the
+target-pinning rationale states the JDK 11 failure mode directly.
 
 ```
 Normalize build.xml and make bin/fortress_classpath the classpath SSOT
@@ -319,34 +312,34 @@ build.xml:
   ${javaSourceVersion}, bumped from 1.5 to 1.8. Before, three tasks set
   neither attribute (so javac silently defaulted to the running JDK's
   level) and five set only source=1.5. Pinning target as well pre-empts
-  a real failure mode waiting at the JDK 11 rung: with target unpinned,
-  javac 11 emits v55 classfiles whose invokedynamic string
-  concatenation ASM 3.1's ClassReader cannot parse. 1.8 is the
-  toolchain floor at this point of the ladder. Verified: javac output
-  is now v52 classfiles.
+  a real failure mode on JDK 11: with target unpinned, javac 11 emits
+  v55 classfiles whose invokedynamic string concatenation ASM 3.1's
+  ClassReader cannot parse. javac output is now v52 classfiles.
 - Jar names are derived from version properties where scala/asm jars
   are referenced: new scala-reflect.jar property replaces the one inline
   scala-reflect path (matching the existing compiler/library
   properties), and a new asm-version property feeds compile.classpath's
-  asm-all jar. Future toolchain rungs edit one property per component.
-  The stale "2.8.0 / 2.9.0RC1" comment over the Scala block is dropped.
-- -Xlint:unchecked verified already consistent: active only in the two
+  asm-all jar. Future toolchain upgrades edit one property per
+  component. The stale "2.8.0 / 2.9.0RC1" comment over the Scala block
+  is dropped.
+- -Xlint:unchecked already consistent: active only in the two
   dedicated lint targets (compileLint, compileCommonLint), commented
   out elsewhere; left as-is.
 - The tools.jar pathelement is deliberately untouched: still required
   on JDK 8 (syntax_abstractions/rats/JavaC.java calls
-  com.sun.tools.javac.Main with includeantruntime="false"); it drops at
-  the JDK 11 rung. Encoding attributes were already UTF-8.
+  com.sun.tools.javac.Main with includeantruntime="false"); it is
+  removed with the later move to JDK 11. Encoding attributes were
+  already UTF-8.
 
 bin scripts: debugOpt, fortress_leaks, and runOptCollect now delegate
 their tool-jar lists to bin/fortress_classpath -- the single source of
 truth that already served bin/fortress, run_classpath, and
 BytecodeOptimize -- instead of each carrying a private copy. This
 retires their stale scala-*-2.9.0 jar names (left behind by the Scala
-2.10.7 revival commit; not gate-relevant, since the test targets use
-build.xml's compile.classpath, but wrong), including debugOpt's and
-runOptCollect's scala-library-{SV}.jar entries whose missing $ made
-them literal nonsense paths. While in there:
+2.10.7 revival commit; harmless, since the test targets use build.xml's
+compile.classpath, but wrong), including debugOpt's and runOptCollect's
+scala-library-{SV}.jar entries whose missing $ made them literal
+nonsense paths. While in there:
 
 - fortress_leaks gains bin/fortress's JAVA_FLAGS defaults and UTF-8
   file.encoding, plus a comment explaining what the script is for.
@@ -361,22 +354,13 @@ list; its SV is bumped 2.9.0 -> 2.10.7 with a note to keep it in sync
 with the SSOT. Residue: that one Windows-only duplicate, and
 bin/fortress-old (a 2.8.0-era relic explicitly named -old), are the
 remaining hardcoded jar lists in bin/.
-
-Script smoke tests: bash -n clean on the three edited shell scripts;
-bin/fortress and bin/fortress_leaks print Shell usage, bin/debugOpt
-reaches CheckClassAdapter through the SSOT classpath, bin/runOptCollect
-resolves FORTRESS_HOME and classpath and stops only at the absent Sun
-Studio collect binary.
-
-Gate (cheap, JDK 8): ant clean compileAll green; ant testFast 1,377
-tests / 47 suites / 0 failures / 0 errors.
 ```
 
-### B7a `1cdb900ca` — one line removed
+### B7a `1cdb900ca` — reworded
 
-Changed: only the "(re-apply of e700b442d from the working branch)"
-line is dropped. The trunk SHA `5a68404` stays — it names a stable
-pre-graft ancestor.
+Changed: the re-apply line and the closing verification paragraph
+removed. The trunk SHA `5a68404` stays — it names a stable pre-graft
+ancestor.
 
 ```
 Fix System api shadowing: move compiler getProperty into CompilerSystem
@@ -401,14 +385,12 @@ Resolution: the compiler world gets getProperty through its own api.
   the same systemOps.getProperty native).
 - hello.fss: import CompilerSystem.{args, getProperty} instead of
   System.getProperty + CompilerSystem.args.
-
-Verified: all six failing interpreter tests pass; hello.fss compiles
-and runs end-to-end on the bytecode compiler path with a cleanly
-ordered cache (compile AnyType, CompilerBuiltin, CompilerLibrary,
-CompilerAlgebra, CompilerSystem, then the program).
 ```
 
-### B7b `3d94b13a8` — re-apply line removed, gate trimmed
+### B7b `3d94b13a8` — reworded
+
+Changed: re-apply line and gate removed; the milestone stays as one
+plain sentence about the code.
 
 ```
 Correct the e constant to the double nearest e
@@ -422,18 +404,15 @@ realArith's assert(exp 1.0, e) failed. Use the correctly rounded value
 log e = 1.0) and is the mathematically right constant. Sole user of
 the old literal was this definition.
 
-Gate (JDK 8, full): ant clean compileAll green; testFast 1,377 tests /
-47 suites / 0 failures / 0 errors; testSystem 382 tests / 0 failures /
-0 errors. With this commit and the System-shadowing fix before it, all
-seven failures the 2012 mainline ended with are gone — the first fully
-green full suite on the pure trunk lineage.
+With this commit and the System-shadowing fix before it, all seven
+failures the 2012 mainline ended with are gone.
 ```
 
-### B8 `ebddd773a` — re-apply parenthetical removed; timings kept
+### B8 `ebddd773a` — reworded
 
-Changed: the opening parenthetical (working-branch SHAs, excluded md
-edits, B1 note) is dropped. The before/after timing table stays — the
-speedup is the commit's point.
+Changed: the opening parenthetical, the "safe because the gate proves"
+paragraph, and the timing table removed; the speedup survives as one
+sentence (the deliberate remnant — veto if unwanted).
 
 ```
 Speed up the test suite: single cache wipe, parallel tracks and shards
@@ -461,37 +440,30 @@ Two mechanisms, one commit:
    bin/run_classpath, bin/runOpt, bin/BytecodeOptimizeEverything.sh
    honor FORTRESS_CACHES with the tracked caches as default.
 
-Safe because the gate proves green-before equals green-after: the full
-suite was fully green on the parent commit and is fully green here,
-with identical test totals — the harness changes how the tests are
-scheduled and where their caches live, not what they test.
-
-Full gate (JDK 8), before (parent commit) vs after (this commit):
-
-  ant clean compileAll   1m15s  ->  1m14s   (unchanged, as expected)
-  ant testFast          12m59s  ->  6m35s   1,377 tests / 47 suites / 0F / 0E
-  ant testSystem         3m08s  ->  2m30s   382 tests / 0F / 0E
-                                            (shards 97+97+97+96 files)
+The harness changes how tests are scheduled and where their caches
+live, not what they test; the full suite's results are identical.
+Net effect: testFast drops from ~13 to ~6.5 minutes, testSystem from
+~3 to ~2.5.
 ```
 
-### R1 `a92f1b736` — gate trimmed only
+### R1 `a92f1b736` — reworded
+
+Changed: "One rung"/"prepares the JDK 11 rung" framing, the
+earlier-attempts cascade narrative, and the gate removed.
 
 ```
 Bump Scala from 2.10.7 to 2.12.20
 
-One rung: 2.10.7 straight to 2.12.20, the final release of the
-binary-compatible 2.12 line, which runs on JDK 8 through 21 and so
-prepares the JDK 11 rung. No intermediate 2.12.x waypoint is needed —
-the entire 2012 Scala tree compiles under 2.12 unmodified, with zero
-source changes; only the toolchain wiring moves:
+2.10.7 straight to 2.12.20, the final release of the binary-compatible
+2.12 line, which runs on JDK 8 through 21. The entire 2012 Scala tree
+compiles under 2.12 unmodified, with zero source changes; only the
+toolchain wiring moves:
 
 - Jars (ProjectFortress/third_party/scala/): scala-compiler, scala-library
   and scala-reflect 2.12.20 in, the 2.10.7 trio out;
-  scala-parser-combinators_2.12-1.1.2 added. Parser combinators left the
-  Scala standard library after 2.10, and this missing dependency was the
-  entirety of what broke earlier 2.12 attempts: TypeParser.scala fails on
-  scala.util.parsing and the cascade surfaces as misleading
-  implicit-resolution errors in seemingly unrelated Scala sources.
+  scala-parser-combinators_2.12-1.1.2 added — parser combinators left
+  the Scala standard library after 2.10, and TypeParser.scala depends
+  on scala.util.parsing.
 - build.xml: scala-version property to 2.12.20, a
   scala-parser-combinators.jar property, and the jar added to
   scala.classpath (used by scalac and every compile/test classpath).
@@ -503,22 +475,17 @@ source changes; only the toolchain wiring moves:
   plus scala-reflect (a runtime dependency since 2.12) and the
   parser-combinators jar. bin/fortress.bat's SV kept in sync per its
   header note.
-
-Full gate on JDK 8, fully green: ant clean compileAll; testFast 1,377
-tests / 47 suites / 0 failures / 0 errors; testSystem 382 tests /
-0 failures / 0 errors. git status clean after the runs.
 ```
 
 ### R2 `9a2e947f7` — rewritten
 
-Changed: subject loses "(rung R2)"; the re-apply/cherry-pick framing
-(62dbd760b, fdd4a57c2, graft-overlay and B3/B6 notes) is gone — the
-four changes are stated directly; gate trimmed.
+Changed: subject loses "(rung R2)"; the re-apply/cherry-pick framing is
+gone — the four changes are stated directly; gate removed.
 
 ```
 Move to JDK 11
 
-Everything the tree needs to build and run fully green on JDK 11:
+Everything the tree needs to build and run on JDK 11:
 
 1. Two 2012-era assumptions about JDK internals that moved:
    - InstantiatingClassloader's ClassLoadChecker delegates jdk.* to the
@@ -547,17 +514,13 @@ Everything the tree needs to build and run fully green on JDK 11:
 4. Delete MethodInstantiater's unused
    com.sun.org.apache.bcel.internal.generic.INVOKEINTERFACE import —
    that JDK-internal BCEL copy is gone in JDK 11.
-
-Full gate on JDK 11, fully green: ant clean compileAll; testFast 1,377
-tests / 47 suites / 0 failures / 0 errors; testSystem 382 tests /
-0 failures / 0 errors; git status clean afterwards.
 ```
 
 ### R3 `96c507c53` — reworded
 
-Changed: subject loses "(rung R3)"; the re-derivation and
-deviations-from-reference paragraph is gone; "the SSOT since B6" becomes
-"the classpath SSOT"; gate trimmed.
+Changed: subject loses "(rung R3)"; the re-derivation paragraph gone;
+"the SSOT since B6" becomes "the classpath SSOT"; the flake-rate run
+detail becomes "intermittently"; gate removed.
 
 ```
 Retire vendored jsr166y for java.util.concurrent
@@ -596,12 +559,11 @@ restore it, and every transaction static (startTransaction, TXRead, ...)
 resolves the current transaction through that field. A helping join()
 can run unrelated queued tasks on the joining thread, leaving the field
 pointing at a foreign task and corrupting transaction state in the
-joiner's continuation (nestedTransactions1/2 flaked ~30% per run
-without this). Fix, included with the port rather than as a chaser:
-BaseTask.joinOrRun saves and restores the runner's task field across
-join(), mirroring the interpreter's existing setCurrentTask restore
-after TupleTask.invokeAll in Evaluator (the 2008-era code already knew
-this invariant).
+joiner's continuation (nestedTransactions1/2 failed intermittently
+without this). Fix, included with the port: BaseTask.joinOrRun saves
+and restores the runner's task field across join(), mirroring the
+interpreter's existing setCurrentTask restore after TupleTask.invokeAll
+in Evaluator (the 2008-era code already knew this invariant).
 
 Also dropped: the jsr166y. delegation entry in
 InstantiatingClassloader's ClassLoadChecker (j.u.c. is covered by the
@@ -610,24 +572,19 @@ classpath entries in bin/fortress_classpath (the classpath SSOT; the
 delegating scripts need no edit), bin/fortress.bat, bin/fortress-old,
 and the NetBeans project file, plus the syntax-abstractions JavaC
 helper's unused import.
-
-Full gate on JDK 11, fully green: ant clean compileAll; testFast 1,377
-tests / 47 suites / 0 failures / 0 errors; testSystem 382 tests /
-0 failures / 0 errors; git status clean afterwards.
 ```
 
 ### R4 `d4698e811` — **proposed: DROP**
 
 The JDK 17 and JDK 21 verification records move to tags `ladder/jdk17`
-and `ladder/jdk21` on R3's commit (section 4). If kept instead, the
-rewrite would be the current text minus "(rung R4)", the first-ascent
-reference "(7f71d3278)", and wall times.
+and `ladder/jdk21` on R3's commit (section 4). Under the
+historic-exhibit lens there is no keep-variant: a commit whose only
+content is a verification run is process by definition.
 
 ### R5 `0d62594b4` — reworded
 
-Changed: subject loses "(rung R5)"; first-ascent references (2f1fdbf2e,
-"same jars as the first ascent", the whole differences paragraph)
-removed; gate trimmed.
+Changed: subject loses "(rung R5)"; first-ascent references removed;
+"this rung" phrasing and gate removed.
 
 ```
 Upgrade ASM 3.1 to 9.10.1
@@ -678,24 +635,19 @@ method final, so the 17 touched sources fall into a few patterns:
   visitNestHost/visitNestMember events, so those are now no-ops
   alongside the earlier visitAttribute no-op.
 
-Emitted classfile version stays V1_6 and -source/-target stay 1.8 this
-rung; raising them is now unblocked (ASM 9 parses through v69).
+Emitted classfile version stays V1_6 and -source/-target stay 1.8;
+raising them is now unblocked (ASM 9 parses through v69).
 
 Classpath updates: build.xml compile.classpath (via its asm-version
 property, bumped 3.1 -> 9.10.1), bin/fortress_classpath,
 bin/fortress.bat, ProjectFortress/test, ProjectFortress/testText,
 .classpath, DOT_idea/libraries/asm.xml. No asm-3.1 references remain
 anywhere in the tree.
-
-Full gate on JDK 21, fully green: ant clean compileAll; testFast 1,377
-tests / 47 suites / 0 failures / 0 errors; testSystem 382 tests /
-0 failures / 0 errors; working tree clean after all runs.
 ```
 
 ### R6 `4d00c4738` — reworded
 
-Changed: subject loses "(rung R6)"; first-ascent jar/license/deviation
-notes removed or restated plainly; gate trimmed.
+Changed: subject loses "(rung R6)"; first-ascent notes and gate removed.
 
 ```
 Upgrade Scala 2.12.20 to 2.13.18
@@ -731,46 +683,31 @@ classpath SSOT) incl. parser-combinators _2.13, and in bin/fortress.bat;
 SCALAVER 2.7.4 -> 2.13.18 in ProjectFortress/test and
 ProjectFortress/testText; DOT_idea/libraries/scala.xml points at the
 2.13.18 set.
-
-Full gate on JDK 21, fully green: ant clean compileAll; testFast 1,377
-tests / 47 suites / 0 failures / 0 errors; testSystem 382 tests /
-0 failures / 0 errors; working tree clean after all runs.
 ```
 
 ### R7 `18178fa5c` — **proposed: DROP**
 
-The JDK 25 verification record (gate green on 25.0.3 with zero changes,
-on the Scala 2.13 tree) moves into the `ladder/scala-2.13` tag message
-(section 4). If kept instead: current text minus "(rung R7)", the
-first-ascent SHAs (864383af4, 13b5a92d1) — restated as "the launcher
-scripts' -Xfuture flag, which JDK 25 removes, was already deleted
-earlier in this history" — and wall times.
+The JDK 25 verification record moves into the `ladder/scala-2.13` tag
+message (section 4). As with R4, no keep-variant under this lens.
 
 ### R8 `27aab6a85` — reworded
 
-Changed: "Decision by Pavol" and the first-ascent deviation note
-removed; the intermediate-rung sentence now points at the `ladder/*`
-tags; gate trimmed (warning inventory kept — it documents the warning
-retired here).
+Changed: "Decision by Pavol", first-ascent note, the warning inventory,
+and the gate removed; the intermediate-state sentence points at the
+`ladder/*` tags.
 
 ```
 Raise javac -source/-target from 1.8 to 25
 
 Flip the single javaSourceVersion knob in build.xml (feeds source= and
-target= of all 8 javac tasks) from 1.8 to 25 — the latest LTS. Every
-intermediate rung remains in this history (tagged ladder/*) for anyone
-who needs an older compilation floor. This also retires javac's
-"source/target value 8 is obsolete" warning.
+target= of all 8 javac tasks) from 1.8 to 25 — the latest LTS. This
+also retires javac's "source/target value 8 is obsolete" warning.
+Every intermediate toolchain state remains in this history, tagged
+ladder/*, for anyone who needs an older compilation floor.
 
 Emitted Fortress classfiles are untouched and stay V1_6 - raising them
 is bundled with future bytecode-compiler work, since it requires
 stack-map frame generation through the class-rewriting pipeline.
-
-Full gate on JDK 25, fully green: ant clean compileAll, with the
-obsolete-source warnings gone (remaining warnings unchanged: 10 javac
-dep-ann/removal, 163 scalac deprecations); testFast 1,377 tests /
-47 suites / 0 failures / 0 errors; testSystem 382 tests / 0 failures /
-0 errors; working tree clean after all runs.
 ```
 
 ### C1 `1871c3c02` — unchanged
@@ -779,14 +716,15 @@ dep-ann/removal, 163 scalac deprecations); testFast 1,377 tests /
 
 ## 4. Proposed `ladder/*` tags
 
-Annotated tags, created on the final (post-C2) SHAs, pushed from
-Pavol's machine (`git push --tags`). Targets are named by rung here
-since every SHA churns. "Floor" = the minimum JDK that builds and runs
-that commit; the tag name records the JDK the full gate ran on, so
-`git checkout ladder/jdkN` is always a verified state for JDK N. All
-gates are `ant clean compileAll` + `testFast` (1,377 tests / 47 suites)
-+ `testSystem` (382 tests), zero failures, zero errors, clean tree —
-abbreviated below as "full gate green".
+The tags are where the modernization process lives — deliberately, and
+only here. Annotated tags, created on the final (post-C2) SHAs, pushed
+from Pavol's machine (`git push --tags`). Targets are named by plan id
+here since every SHA churns. "Floor" = the minimum JDK that builds and
+runs that commit; the tag name records the JDK the full verification
+ran on, so `git checkout ladder/jdkN` is always a verified state for
+JDK N. All verifications are `ant clean compileAll` + `testFast`
+(1,377 tests / 47 suites) + `testSystem` (382 tests), zero failures,
+zero errors, clean tree — abbreviated below as "full gate green".
 
 | Tag | Points at | Floor | Toolchain |
 |---|---|---|---|
