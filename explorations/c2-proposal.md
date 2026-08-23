@@ -63,9 +63,16 @@ The hero image is the heart of the original buffons.fss demo, typeset as mathema
 The README links Specification/fortress.pdf, the rendered Papers PDFs, and research/authorship.md; those files are added in the next few commits.
 ```
 
-### 2. E2+E3 `c571a3fe1`+`17d0a29d2` — merged, trimmed
+### 2. E2+E3 `c571a3fe1`+`17d0a29d2` — merged, trimmed + content change
 
 One commit: the spec-toolchain repairs and the PDFs they produce.
+
+**Content change (decided 2026-08-23):** the six fortify.el
+operator-name macros render with Steele's arrow notation (arrow over
+the operator, per his 2015 TechTalk and 2016 JuliaCon slides) instead
+of the placeholder small-caps tags, and Specification/fortress.pdf is
+the rebuild with that rendering — already committed on the working
+branch (`9622f9db3`); the replay puts it into this commit.
 
 ```
 Render the spec and papers; repair what blocked the builds
@@ -234,8 +241,9 @@ The README's build section now notes that the build and the full test suite run 
 - **Kept separate:** B7a/B7b — two unrelated bugs with unrelated
   diagnoses; each tells one story.
 - **Result: 21 commits (original clean-ladder) → 14.**
-- **Content changes in the replay (the only tree edits):** B1+B2's
-  re-authored .gitignore and E5's authorship.md bullet removal.
+- **Content changes in the replay (the only tree edits):** E2+E3's
+  arrow-notation fortify.sty and rebuilt fortress.pdf, B1+B2's
+  re-authored .gitignore, and E5's authorship.md bullet removal.
 
 ## 3. The `modernization/*` tags
 
@@ -293,10 +301,10 @@ three records is the alternative if three-on-one feels redundant.
 
 1. Pavol reads this preview; final approval (or edits).
 2. Replay clean-ladder onto the same base: 14 commits, these messages,
-   B1+B2's re-authored .gitignore and E5's authorship.md edit. No
-   build impact, so no re-gate; verification is
-   `git diff <old-tip> <new-tip>` showing exactly those two file
-   deltas, plus a commit-count/subject audit.
+   and the three content changes (E2+E3's fortify.sty + fortress.pdf,
+   B1+B2's .gitignore, E5's authorship.md). No build impact, so no
+   re-gate; verification is `git diff <old-tip> <new-tip>` showing
+   exactly those file deltas, plus a commit-count/subject audit.
 3. Force-push clean-ladder — **only on Pavol's explicit authorization**.
 4. Create the annotated `modernization/*` tags locally; Pavol pushes
    them from his machine (`git push --tags`).
