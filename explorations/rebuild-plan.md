@@ -24,6 +24,11 @@ Primary sources this plan distills:
   `claude/handover-reading-vn8zgr`, tip `3595f511d` at time of writing;
   63 commits in `a874948ac..3595f511d`, every one either transplanted,
   re-executed, or deliberately left behind by this plan).
+- Branch `spike/scala-upgrade`, single commit `73f598202` on top of
+  `a874948ac` — the executed de-risking spike for B3 (2026-08-23): the
+  exact five-file revival diff, gated where it lands (testFast 1,377
+  tests / 47 suites fully green; testSystem 382 tests with exactly the
+  seven known 2012 failures). B3 re-lands this commit.
 
 ## Decisions already made by Pavol (do not re-litigate)
 
@@ -71,21 +76,27 @@ Facts about this tree that the hindsight ordering (written against the
 *graft* tree) got wrong, verified 2026-08-22:
 
 - **Scala 2.9.0**, not 2.10.7. `ProjectFortress/third_party/scala/` holds
-  `scala-{compiler,library}-2.9.0.jar`. The 2.10.7 toolchain is
-  pluckyporcupine's graft overlay — which this rebuild *replaces*, so the
-  migration must be re-landed here as a curated, attributed commit (B3
-  below).
+  `scala-{compiler,library}-2.9.0.jar`. The 2.10.7 toolchain arrived with
+  the graft overlay — which this rebuild *replaces*, so the migration is
+  re-landed as the spike-verified minimal commit (B3 below). Spike
+  baseline check (2026-08-23): the untouched trunk does **not** build on
+  JDK 8 — Scala 2.9.0's classfile parser cannot read the Java 8 rt.jar
+  ("bad constant pool tag 18" loading `java.util.Comparator`, 116 cascade
+  errors), and no JDK 7 is installable on Ubuntu 24.04 — confirming that
+  B1/B2 land un-gated by design, not by neglect.
 - **No vendored BCEL.** Trunk's
   `runtimeSystem/MethodInstantiater.java:27` imports the *JDK-internal*
   `com.sun.org.apache.bcel.internal.generic.INVOKEINTERFACE` (satisfied by
   rt.jar on JDK 8; dead code — sole use site line 212 compares against the
   ASM `Opcodes` constant). The graft repointed that import to
   `org.apache.bcel.*` and vendored BCEL 6.2 (378 files + bcel.jar) to
-  satisfy it. So there is no "delete BCEL" base commit here; instead B3
-  deletes the dead import line outright (what `2f1fdbf2e` eventually did)
-  and never lands BCEL at all. This also disposes of the hindsight
-  mojibake concern (`ef45a91ca`) entirely. The import must be gone by R2
-  anyway (JDK 11 removed `com.sun.org.apache.bcel.internal`).
+  satisfy it. So there is no "delete BCEL" base commit here, and BCEL
+  never lands at all; the dead import line is deleted at R2 (what
+  `2f1fdbf2e` eventually did), where JDK 11's removal of
+  `com.sun.org.apache.bcel.internal` makes it an error. On JDK 8 it is
+  merely a warning — spike-verified: the base block gates green with the
+  import untouched. This also disposes of the hindsight mojibake concern
+  (`ef45a91ca`) entirely.
 - **No `.gitignore`** (only `.hgignore`). `default_repository/caches/global.map`
   and `ProjectFortress/.dependencies/` are **not tracked** — both were
   added by the overlay. So the hindsight "untrack" items vanish; the
@@ -238,54 +249,57 @@ B2. **Generated-source determinism.** Bring the determinism machinery to
   generators). Gate deferred: proven at B4 by double regeneration
   producing a byte-identical tree.
 
-B3. **Revive the 2012 build on JDK 8** (the re-landed migration,
-  attributed). One commit combining, curated:
-  - the build.xml JDK 8 patch — re-derive from working-branch `72716e6b0`,
-    **preserving B2's two build.xml hunks** when applying the graft's
-    build.xml delta, and **keeping the tools.jar pathelement** (required
-    on JDK 8, see Base point). Encoding: go **straight to UTF-8** on the
-    8 javac tasks — `72716e6b0`'s `encoding="ISO-8859-1"` was a
+B3. **Revive the 2012 build on JDK 8** (spike-verified minimal revival).
+  Re-land spike commit `73f598202` (branch `spike/scala-upgrade`, executed
+  and fully gated directly on `a874948ac`, 2026-08-23): cherry-pick it,
+  resolving build.xml to **preserve B2's two hunks** — the only expected
+  conflict, since both touch build.xml. Five files:
+  - Scala jars: `scala-{compiler,library}-2.9.0.jar` out,
+    `scala-{compiler,library,reflect}-2.10.7.jar` in
+    (`ProjectFortress/third_party/scala/`), same commit — no graveyards.
+  - `build.xml`: `scala-version` property → 2.10.7; add the scala-reflect
+    jar to `scala.classpath` (new runtime dependency of the 2.10
+    compiler); `encoding="UTF-8"` on the eight javac tasks — straight to
+    UTF-8, since `72716e6b0`'s `encoding="ISO-8859-1"` was a
     mis-diagnosis later reverted by `5f2461096` (all sources are valid
-    UTF-8); the message notes this deviation. Prerequisite: re-run the
-    iconv audit on this tree first (expected fine — the audited tree
-    differs only by files this plan never lands).
-  - pluckyporcupine's Scala 2.9.0 → 2.10.7 migration — re-derive from
-    `git diff a874948ac 8fe1daa8f` as a **take-only whitelist**:
-    - jars: exactly `scala-{compiler,library,reflect}-2.10.7.jar` into
-      `ProjectFortress/third_party/scala/` (sourced from `8fe1daa8f`),
-      deleting the two 2.9.0 jars in the same commit;
-    - the hand-edited sources: NamingCzar, FTypeArrayList, FTypeTuple,
-      NodeFactory, Operators, InstantiatingClassloader, STypeChecker,
-      TypeParser, ParserMaker, RatsUtil, InstrumentedParserGenerator,
-      parser_util Util, `bin/fortress_classpath`, `.classpath` if needed;
-    - `MethodInstantiater.java`: take the graft's edits **except** its
-      BCEL-import repoint — delete the dead
-      `com.sun.org.apache.bcel.internal...INVOKEINTERFACE` import line
-      outright (see Base point).
-    Everything else in the overlay is explicitly NOT taken: the vendored
-    BCEL tree and `third_party/bcel/bcel.jar`, the 2.12.5-era jars
-    (compiler/library/reflect + scalap), the vendored ant 1.9.10 jars,
-    all generated trees (`nodes/`, the four parser `.java` files,
-    `Library/FortressAst.*`, `scala_src/nodes/FortressAst.scala` — B4
-    generates them fresh), and all scratch (`compile_errors*.txt`,
-    `compile_error_scala2.12.5.txt`, `build_fortress.sh`, `jdeps.txt`,
-    `help.tex`, `JAVA_HOME`, `NOTES.md`, `README.md`, `contrib/Atom/`
-    additions, `default_repository/caches/global.map`, `.dependencies/`,
-    graft `.gitignore`).
-  - Commit message credits pluckyporcupine explicitly as the source of the
-    migration (mirror the attribution style of graft commit `8fe1daa8f`).
+    UTF-8; spike-verified green). **Keep the tools.jar pathelement**
+    (required on JDK 8, see Base point).
+  - `bin/fortress_classpath`: `SV=2.10.7`.
+  - `FTypeTuple.java`: pass the existing `FType.listComparer` to the two
+    bare `TreeSet` constructors in meet/join. JDK 8's TreeMap invokes the
+    comparator on the first insert, so a natural-ordering TreeSet of
+    `List<FType>` now throws ClassCastException. Using the lexicographic
+    comparer the neighboring memo table already uses preserves 2012
+    ordering semantics — deliberately NOT the graft's FTypeArrayList
+    everything-compares-equal wrapper.
+  scalac 2.10.7 compiles the entire 2012 Scala tree unmodified — zero
+  Scala source edits, and generation of the AST/parser sources runs
+  in-build from the trunk schemas (both spike-verified; B4 then commits
+  the generated outputs).
+  - Accounting for the graft's other hand-edits, so their absence here is
+    deliberate: the four `import xtc.parser.Module` additions and the
+    MethodInstantiater BCEL import are JDK 9+ material → R2; the
+    NamingCzar, NodeFactory, STypeChecker, and TypeParser edits were
+    whitespace, `@Deprecated`, or warning cosmetics → dropped.
+  - No graft attribution in this commit (Pavol, 2026-08-23): the diff was
+    derived independently by the spike and shares only the 2.10.7 target
+    version. The graft's real contribution — demonstrating the project
+    could be revived at all — stays on the record via
+    `research/authorship.md` (E4, which documents pluckyporcupine's 2018
+    migration) and the untouched working branch.
   - Known cosmetic debt, deliberately left until B6: `bin/debugOpt`,
     `bin/fortress.bat`, `bin/fortress_leaks`, `bin/runOptCollect` still
     name `scala-*-2.9.0` jars — verified not gate-relevant (test targets
     use the `compile.classpath` refid, not those scripts). Do not "fix"
     them mid-block; B6's SSOT commit is their home.
-  - If the tree cannot compile without the generated AST/parser sources,
-    fold B4's generation into this commit rather than committing a broken
-    tree — a deviation to note in the message, not a stopper.
   - Gate: `ant clean compileAll` green; run both suites and **expect
     exactly the two known 2012 failures** (6 System-shadowing failures +
     1 e-constant, all in testSystem; testFast green — per `66cdde53f`).
-    Record the counts in the message. Any other failure stops execution →
+    Spike-confirmed counts on `a874948ac`: testFast 1,377 tests / 47
+    suites / 0 failures / 0 errors; testSystem 382 tests / 7 failures
+    (`ParamRef`, `WordCountSmall`, `setMakerTest0`, `LongStringTests`,
+    `CovCollTest`, `FileConversion`, `realArith`) / 0 errors. Record the
+    counts in the message. Any other failure stops execution →
     investigate before proceeding.
 
 B4. **First-time commit of the generated sources**, freshly generated from
@@ -349,7 +363,14 @@ R2. **JDK 11** (full gate on JDK 11). Re-apply `62dbd760b`
   (ClassLoadChecker accepts `jdk.*` internal names; FortressMethodAdapter
   nest-attribute handling), and **drop the now-dangling tools.jar
   pathelement** from build.xml. The `target=` half of `fdd4a57c2` is
-  already pre-empted by B6.
+  already pre-empted by B6. Also land the JDK 9+ source fixes the graft
+  carried and B3 no longer does: add explicit `import xtc.parser.Module`
+  to InstrumentedParserGenerator, ParserMaker, RatsUtil, and parser_util
+  Util (unqualified `Module` is ambiguous against auto-imported
+  `java.lang.Module` from JDK 9 on), and delete
+  `MethodInstantiater.java`'s dead JDK-internal BCEL import
+  (`com.sun.org.apache.bcel.internal` is gone in JDK 11; see Base
+  point).
 
 R3. **jsr166y → java.util.concurrent** (JDK 11, full gate). Re-apply
   `2ed045233` + `bf23583ad` merged — the BaseTask.joinOrRun current-task
@@ -402,7 +423,7 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 - [ ] E5 experiments; push
 - [ ] B1 full .gitignore
 - [ ] B2 determinism (generators to tip state + 2 build.xml hunks)
-- [ ] B3 revive on JDK 8 (attributed, whitelist, dead import deleted, UTF-8, iconv audit); gate: green minus the 2 known failure groups
+- [ ] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups
 - [ ] B4 generated sources committed; byte-identical double-regen proven
 - [ ] B5 -Xfuture deleted
 - [ ] B6 build.xml normalization + classpath SSOT
