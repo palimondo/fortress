@@ -36,14 +36,40 @@
 \newcommand{\note}[1]{}
 \newcommand{\marginnote}[1]{}
 \else
-\newcommand{\note}[1]{\framebox[\textwidth][t]{\parbox[t]{\textwidth}{#1}}}
+% 2026 revival styling (draft-mode rendering only, not historical): the
+% original \note was a bare \textwidth framebox dropped mid-paragraph — it
+% overflowed the right page edge, could not break across pages, and was
+% typographically indistinguishable from normative spec content. Re-set the
+% authors' editorial annotations so they read as manuscript notes: small
+% sans-serif on a tinted ground with a heavy colored left bar and a
+% small-caps "Draft note" label; mdframed lets long notes break over pages.
+\usepackage{mdframed}
+\definecolor{draftnotebar}{rgb}{0.72,0.29,0.11}
+\definecolor{draftnotebg}{rgb}{0.975,0.949,0.914}
+\newmdenv[
+  backgroundcolor=draftnotebg,
+  linecolor=draftnotebar,
+  topline=false,bottomline=false,rightline=false,
+  linewidth=2.5pt,
+  innerleftmargin=8pt,innerrightmargin=8pt,
+  innertopmargin=6pt,innerbottommargin=6pt,
+  skipabove=8pt,skipbelow=8pt
+]{draftnotebox}
+\newcommand{\note}[1]{%
+\begin{draftnotebox}%
+{\sffamily\footnotesize\color{draftnotebar}\textsc{Draft note}}\\[2pt]
+{\sffamily\small #1}%
+\end{draftnotebox}}
 %\marginnote{Some text that gets put into the margin} places the text in
 %the margin, pretty much vertically centered on the line where the marginnote
 %occurs in the input.
 \renewcommand{\marginparwidth}{.7in}
+% Matching treatment for \marginnote, minus the box: tiny colored sans
+% behind the same left bar, sized to \marginparwidth.
 \newcommand{\marginnote}[1]{%
-\marginpar{\footnotesize\raggedright\noindent\tolerance=1000{%
-\framebox[\marginparwidth][t]{\parbox[t]{\marginparwidth}{#1}}}}}
+\marginpar{\raggedright\noindent\tolerance=1000{%
+{\color{draftnotebar}\vrule width 1.5pt}\hspace{3pt}%
+\parbox[t]{\dimexpr\marginparwidth-4.5pt\relax}{\sffamily\tiny\color{draftnotebar}#1}}}}
 \fi
 
 % Joe 8/4/06: added the following line for the proofs in overloading section
@@ -86,7 +112,7 @@
 \ifrelease
 \\ {\large Version 1.0}
 \else
-\\ {\normalsize SVN \svnrevision --- \today}
+\\ {\normalsize July 19, 2012}
 \fi
 }
 \author
@@ -114,6 +140,7 @@
                         \copyright\ Sun Microsystems, Inc.
 \end{tabular}
 }
+\date{}
 
 \begin{document}
 \maketitle

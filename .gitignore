@@ -1,0 +1,24 @@
+# LaTeX build byproducts (spec, Papers/, Fortify example); rendered PDFs are committed
+# (the spec build-dir PDF is a byproduct too — the committed copy is Specification/fortress.pdf)
+/Specification/fortress/fortress.pdf
+*.aux
+*.log
+*.bbl
+*.blg
+*.toc
+*.out
+*.dvi
+*.tex~
+
+# fortify.el output: .tex generated from .tick sources, and generated example/api dirs
+/Papers/Types/*.tex
+/Papers/Welterweight/*.tex
+/Specification/fortress/fortress-keywords.tex
+/Specification/fortress/fortress-specialReservedWords.tex
+/Specification/fortress/fortress-unitOperators.tex
+/Specification/advanced/examples/
+/Specification/basic/examples/
+/Specification/library/apis/
+/Specification/library/examples/
+/Specification/preliminaries/examples/
+/Documentation/Specification/Generated/
