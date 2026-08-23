@@ -141,8 +141,8 @@ the rendered PDFs cover just LaTeX byproducts. Extend it into the full
 ignore file so `git status` stays clean after every build and test run:
 
 - Build output and editor noise -- /ProjectFortress/build/*, *.tfs,
-  *.swp. These entries (and the interpreter cache list below) come from
-  pluckyporcupine's 2018 migration .gitignore, credited here.
+  *.swp. These entries and the interpreter cache list below carry over
+  from the .gitignore of pluckyporcupine's 2018 migration.
 - Interpreter and compiler-path caches under default_repository/caches/
   (every *_cache directory plus logs/, and the top-level cache index
   global.map the repository writes alongside them) and the ant <depend>
