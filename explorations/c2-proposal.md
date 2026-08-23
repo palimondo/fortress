@@ -58,9 +58,9 @@ README: introduce the repository and the revival
 
 Kickoff of the revival: a README that introduces Fortress -- Sun Labs' 2003-2012 experimental language for high-performance computation, designed under Guy L. Steele Jr. and Eric Allen -- and maps this repository for a modern reader: what the language was, where the implementation lives, how to build and run it, and where the primary sources are.
 
-The hero image is the heart of the original buffons.fss demo, typeset as mathematics the way Fortress was meant to be read. The light/dark SVGs ride in the same commit so the README's first screen renders; their source, explorations/fortify/buffons-excerpt.tic, is the exact excerpt fed through Fortify (the project's own Emacs-and-LaTeX typesetter, in Fortify/ in this tree).
+The hero image is the heart of the original buffons.fss demo, typeset as mathematics the way Fortress was meant to be read. The light/dark SVGs are committed alongside so the README's first screen renders; their source, explorations/fortify/buffons-excerpt.tic, is the exact excerpt fed through Fortify (the project's own Emacs-and-LaTeX typesetter, in Fortify/ in this tree).
 
-The links to Specification/fortress.pdf, the rendered Papers PDFs, and research/authorship.md come true over the next few commits.
+The README links Specification/fortress.pdf, the rendered Papers PDFs, and research/authorship.md; those files are added in the next few commits.
 ```
 
 ### 2. E2+E3 `c571a3fe1`+`17d0a29d2` — merged, trimmed
@@ -72,7 +72,7 @@ Render the spec and papers; repair what blocked the builds
 
 Specification/fortress.pdf is the post-1.0 Working Draft specification (599 pages) built from the in-repo LaTeX -- richer in places than any published PDF. It replaces the committed fortress.1.0.pdf, a byte-identical duplicate of the frozen 1.0 render. Alongside it: the Fortify literate-programming example (buffons_doc.pdf) and the four in-repo research papers.
 
-Three repairs feed those renders. Fortify gains \providecommand definitions for the six operator-name macros fortify.el emits (\inclusiveprefix &c.) but which were never committed anywhere in the 2007-2012 history -- the spec build died on them; being \providecommand, they yield if authentic definitions ever surface. The draft spec's editorial \note boxes -- bare frameboxes that overflowed the page edge and read as normative text -- are restyled as manuscript notes that break across pages (draft mode only; the release build is untouched). And the three Perl reserved-words table generators opened their output in append mode while "ant tex" re-runs them every build, so each rebuild without a clean appended another copy of every table; they now truncate and are idempotent. The only other edit is the draft title page: the sources' snapshot date (July 19, 2012) instead of the build date.
+Three repairs feed those renders. Fortify gains \providecommand definitions for the six operator-name macros fortify.el emits (\inclusiveprefix &c.) but which were never committed anywhere in the 2007-2012 history -- the spec build died on them. They are defined with \providecommand, so if the original definitions are ever found, they override ours. The draft spec's editorial \note boxes -- bare frameboxes that overflowed the page edge and read as normative text -- are restyled as manuscript notes that break across pages (draft mode only; the release build is untouched). And the three Perl reserved-words table generators opened their output in append mode while "ant tex" re-runs them every build, so each rebuild without a clean appended another copy of every table; they now truncate and are idempotent. The only other edit is the draft title page: the sources' snapshot date (July 19, 2012) instead of the build date.
 
 Also ignores the regenerable LaTeX build exhaust (aux/log/toc/..., fortify.el backups, .tex generated from .tick sources, the build-dir PDF) so builds don't pollute git status.
 ```
@@ -221,7 +221,7 @@ Flip the single javaSourceVersion knob in build.xml (feeding all eight javac tas
 
 Emitted Fortress classfiles are untouched and stay V1_6 -- raising them is bundled with future bytecode-compiler work, since it requires stack-map frame generation through the class-rewriting pipeline.
 
-The README's build section now states the claim this makes true: the build and the full test suite run on modern JDKs.
+The README's build section now notes that the build and the full test suite run on modern JDKs.
 ```
 
 ## 2. Structural summary
