@@ -22,6 +22,27 @@ Review shorthand: commits are named below by their plan id and current
 clean-ladder SHA. Both are process vocabulary and appear only in this
 document — the proposed messages themselves contain neither.
 
+Settled in the revision-2 review round (to be applied in revision 3):
+
+- **Tag namespace is `modernization/*`, not `ladder/*`** — "ladder" was
+  internal jargon; the new name self-describes and matches
+  `explorations/modernization-plan.md`. "Ladder"/"rung" vocabulary is
+  also swept from the tag message bodies (plain "step" language).
+- **No hard-wrapped commit bodies.** Only the subject line stays short
+  (git treats line 1 as the title). Bodies are fluent paragraphs with no
+  column-72 wrapping; line breaks appear only as content — bullet lists
+  and blank lines between paragraphs. Viewers reflow the rest.
+- **All messages trimmed to the essential what/why** — no more
+  book-writing in repo comments.
+- **Fewer commits: 19 → 14.** R4/R7 dropped (empty verification
+  commits); proposed merges E2+E3, B1+B2, B5+B6, R2+R3, and the README
+  modern-JDK note folded into R8 — merge set awaiting Pavol's
+  confirmation.
+
+Still open: the merge-set confirmation above, and the
+`research/authorship.md` pluckyporcupine bullet — drop it entirely or
+only its parenthetical, as an E5 content change.
+
 ## 1. Conventions applied (what got stripped, what stayed)
 
 Stripped everywhere:
