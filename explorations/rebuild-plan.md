@@ -471,18 +471,19 @@ Final push; report to Pavol; he renames the branch via GitHub UI.
 - [x] E3+E4 squashed into one commit on Pavol's request (2026-08-23, post-B4 rewrite): PDFs + spec repairs + byproduct ignores (`17d0a29d2`; originally landed as `5a46d3e08` + `0fb6e78c2`, same combined tree)
 - [x] E5 authorship.md (`48e5825fe` → `a8dd74348` after rewrite)
 - [x] ~~E6 experiments~~ DROPPED from clean-ladder on Pavol's request (revival-era programs are not part of the historical exhibit; they remain on the working branch). Originally `dbfd2c48d`.
-- [x] B1 full .gitignore (`6abefcb88` → `d9b5f2d1b`)
-- [x] B2 determinism (generators to tip state + 2 build.xml hunks) (`864d32f65` → `77d16fdf4`)
-- [x] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups (`3e7e5a5c5` → `8e06b3e2e`; compileAll 1m21s; testFast 1,377/47/0F/0E in 13m07s; testSystem 382/7F/0E in 2m32s — exactly the seven known failures)
-- [x] B4 generated sources committed; byte-identical double-regen proven (`7da0a115f` → `b5a2323d3`; 1,079 files; regen `git status` empty; cheap gate: compileAll green, testFast 1,377/47/0F/0E in 13m15s)
-- Note: history rewrite 2026-08-23 (E3+E4 squash, E6 drop) replayed B1–B5 verbatim — final tree verified byte-identical to the pre-rewrite branch minus the four E6 programs; gate results carry over. B1 fixup `6cc919889` → `1ea1424fb`. Force-pushed with Pavol's authorization; local backup branch `presquash-backup` in the clean worktree.
-- [x] B5 -Xfuture deleted (`bbe77d001`; cheap gate: compileAll green in 43s, testFast 1,377/47/0F/0E in 12m50s)
-- [x] B6 build.xml normalization + classpath SSOT (`ef351f3d4`; source/target 1.8 on all 8 javac tasks, scala-reflect.jar + asm-version properties, debugOpt/fortress_leaks/runOptCollect delegate to fortress_classpath, fortress.bat SV bumped; cheap gate: compileAll green in 1m13s, testFast 1,377/47/0F/0E in 12m58s)
+- [x] B1 full .gitignore, incl. global.map cache index (`6abefcb88` → `70cfd8b55`; the global.map line originally landed as a separate fixup `6cc919889`, squashed into B1 on Pavol's request 2026-08-23)
+- [x] B2 determinism (generators to tip state + 2 build.xml hunks) (`864d32f65` → `43c3934b6`)
+- [x] B3 revive on JDK 8 (re-land spike `73f598202`, preserve B2 hunks, UTF-8, keep tools.jar); gate: green minus the 2 known failure groups (`3e7e5a5c5` → `23cefb40e`; compileAll 1m21s; testFast 1,377/47/0F/0E in 13m07s; testSystem 382/7F/0E in 2m32s — exactly the seven known failures)
+- [x] B4 generated sources committed; byte-identical double-regen proven (`7da0a115f` → `98acc2f8f`; 1,079 files; regen `git status` empty; cheap gate: compileAll green, testFast 1,377/47/0F/0E in 13m15s)
+- Note: two history rewrites 2026-08-23, both on Pavol's request, both force-pushed with his authorization, both replays verified byte-identical (gate results carry over): (1) E3+E4 squash + E6 drop, replayed B1–B5 (backup branch `presquash-backup`); (2) B1-fixup squash — the global.map fixup folded into B1, replayed B2–B6 (backup branch `pre-b1squash-backup`). Both backups live in the clean worktree.
+- [x] B5 -Xfuture deleted (`bbe77d001` → `6943a4258`; cheap gate: compileAll green in 43s, testFast 1,377/47/0F/0E in 12m50s)
+- [x] B6 build.xml normalization + classpath SSOT (`ef351f3d4` → `831f4691e`; source/target 1.8 on all 8 javac tasks, scala-reflect.jar + asm-version properties, debugOpt/fortress_leaks/runOptCollect delegate to fortress_classpath, fortress.bat SV bumped; cheap gate: compileAll green in 1m13s, testFast 1,377/47/0F/0E in 12m58s)
 - [ ] B7a System shadowing; B7b e constant; FULL GATE FULLY GREEN
 - [ ] B8 speedup; before/after timings recorded
 - [ ] R1 Scala 2.12.20 · [ ] R2 JDK 11 (+tools.jar drop) · [ ] R3 j.u.c. · [ ] R4 JDK 17/21
 - [ ] R5 ASM 9.10.1 (+fortress_classpath) · [ ] R6 Scala 2.13.18 · [ ] R7 JDK 25 · [ ] R8 source/target 25
 - [ ] C1 closing README amendment; final push
+- [ ] C2 (Pavol, 2026-08-23) final history pass BEFORE the main rename: rewrite all clean-ladder commit messages to strip process notes (gate timings, "re-apply of SHA X" bookkeeping, plan-step references) down to what a future reader of the exhibit needs; churns every SHA one last time; tree must stay byte-identical (no re-gate). Workers keep writing full process detail until then — this pass is where it comes out.
 - [ ] Report to Pavol (branch rename is his)
 
 ## Known risks / stop conditions
