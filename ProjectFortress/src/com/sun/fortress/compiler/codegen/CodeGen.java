@@ -646,7 +646,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         mv.visitMethodInsn(INVOKEVIRTUAL, 
                            "com/sun/fortress/runtimeSystem/FortressTaskRunnerGroup",                           
                            "invoke",
-                           "(Ljsr166y/ForkJoinTask;)Ljava/lang/Object;");
+                           "(Ljava/util/concurrent/ForkJoinTask;)Ljava/lang/Object;");
         mv.visitInsn(POP);
         
         voidEpilogue();

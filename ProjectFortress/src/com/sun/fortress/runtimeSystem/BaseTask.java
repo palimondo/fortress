@@ -11,16 +11,15 @@
 
 package com.sun.fortress.runtimeSystem;
 
-import jsr166y.ForkJoinPool;
-import jsr166y.ForkJoinTask;
-import jsr166y.RecursiveAction;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.sun.fortress.runtimeSystem.FortressExecutable.numThreads;
 import static com.sun.fortress.runtimeSystem.FortressExecutable.spawnThreshold;
-import static com.sun.fortress.runtimeSystem.FortressExecutable.useHelpJoin;
 
 import com.sun.fortress.useful.MagicNumbers;
 
@@ -148,10 +147,33 @@ public abstract class BaseTask extends FortressExecutable {
         // Emphasize common UNFORKED case.
         if (actuallyForked == UNFORKED) {
             this.compute();
-        } else if (useHelpJoin) {
-            this.helpJoin();
         } else {
-            this.join();
+            // java.util.concurrent has no helpJoin(); its join() already
+            // helps by running queued subtasks when called from a worker
+            // thread, so FORTRESS_HELP_JOIN (useHelpJoin) is now a no-op.
+            //
+            // That helping breaks an invariant jsr166y's blocking join
+            // preserved: generated compute() bodies point the worker's
+            // current-task field at themselves (BaseTask.setTask) and never
+            // restore it, and the transaction statics below resolve the
+            // current transaction through that field.  A task run on this
+            // thread while join() helps leaves the field pointing at an
+            // unrelated task, corrupting transaction state in the joiner's
+            // continuation.  Save and restore the field across join(),
+            // mirroring Evaluator's setCurrentTask(currentTask) after
+            // TupleTask.invokeAll on the interpreter side.
+            Thread thread = Thread.currentThread();
+            if (thread instanceof FortressTaskRunner) {
+                FortressTaskRunner ftr = (FortressTaskRunner) thread;
+                BaseTask saved = ftr.task();
+                try {
+                    this.join();
+                } finally {
+                    ftr.setTask(saved);
+                }
+            } else {
+                this.join();
+            }
         }
     }
 

@@ -15,6 +15,7 @@ import static com.sun.fortress.parser_util.instrumentation.ParserGenerator.Renam
 import static com.sun.fortress.parser_util.instrumentation.ParserGenerator.Visitor;
 import static com.sun.fortress.parser_util.instrumentation.Util.getFreshName;
 import xtc.parser.*;
+import xtc.parser.Module;
 import xtc.tree.Attribute;
 
 import java.util.*;

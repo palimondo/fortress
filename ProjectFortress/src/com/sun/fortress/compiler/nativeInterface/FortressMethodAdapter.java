@@ -103,6 +103,12 @@ public class FortressMethodAdapter extends ClassAdapter {
     private CodeGenClassWriter cw;
     private Set<String> overloadedNamesAndSigs;
 
+    public void visitAttribute(Attribute attr) {
+        // Drop non-standard class attributes (JDK 11+ NestHost/NestMembers):
+        // ASM 3.1 would copy their raw bytes into the rewritten wrapper,
+        // leaving constant-pool indices dangling -> ClassFormatError.
+    }
+
     private void initializeEntry(String fortressRuntimeType,
                                  String toJavaTypeMethod,
                                  String toJavaTypeMethodDesc,

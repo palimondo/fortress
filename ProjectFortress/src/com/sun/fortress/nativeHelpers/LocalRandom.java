@@ -10,9 +10,9 @@
  ******************************************************************************/
 
 package com.sun.fortress.nativeHelpers;
-import jsr166y.ThreadLocalRandom;
+import java.util.concurrent.ThreadLocalRandom;
 
-/** A static wrapper to jsr166y.threadLocalRandom.  No way to re-seed
+/** A static wrapper to ThreadLocalRandom.  No way to re-seed
     or set seed; this is for "good enough" non-replayable random
     numbers, not for algorithms that require reproducability or
     high-quality randomness. */

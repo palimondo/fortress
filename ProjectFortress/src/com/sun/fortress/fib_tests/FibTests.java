@@ -11,7 +11,7 @@
 
 package com.sun.fortress.fib_tests;
 
-import jsr166y.*;
+import java.util.concurrent.*;
 
 /**
  * The goal of this file is to explore the design space of possible
@@ -422,7 +422,7 @@ public final class FibTests {
             UnboxedDeepHonHelp n2 = new UnboxedDeepHonHelp(nn);
             n2.fork();
             long n1 = fibb(nn-1);
-            n2.helpJoin();
+            n2.join(); // was helpJoin(); removed in java.util.concurrent — join() helps from worker threads
             return n1 + n2.result;
         }
         public void compute() {
@@ -449,7 +449,7 @@ public final class FibTests {
             UnboxedHonHelp n1 = new UnboxedHonHelp(nn);
             n1.fork();
             long n2 = fibb(nn-2);
-            n1.helpJoin();
+            n1.join(); // was helpJoin(); removed in java.util.concurrent — join() helps from worker threads
             return n1.result + n2;
         }
         public void compute() {

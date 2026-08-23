@@ -24,7 +24,6 @@ import org.objectweb.asm.Type;
 import com.sun.fortress.useful.MagicNumbers;
 import com.sun.fortress.useful.Pair;
 import com.sun.fortress.useful.Useful;
-import com.sun.org.apache.bcel.internal.generic.INVOKEINTERFACE;
 
 public class MethodInstantiater implements MethodVisitor {
 

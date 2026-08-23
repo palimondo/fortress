@@ -11,7 +11,7 @@
 
 package com.sun.fortress.runtimeSystem;
 
-import jsr166y.ForkJoinWorkerThread;
+import java.util.concurrent.ForkJoinWorkerThread;
 import java.util.concurrent.Callable;
 
 public class FortressTaskRunner extends ForkJoinWorkerThread {
