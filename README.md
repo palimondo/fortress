@@ -200,7 +200,8 @@ the shape of the implementation:
 
 ## Building, walking and running
 
-Fortress needs only a JDK and Apache Ant.
+Fortress needs only a JDK and Apache Ant; the build has been kept
+working on modern JDKs.
 
 ```bash
 export JAVA_HOME=/path/to/jdk
