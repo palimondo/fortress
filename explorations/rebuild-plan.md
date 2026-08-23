@@ -143,6 +143,38 @@ Facts about this tree that the hindsight ordering (written against the
   `clean-ladder`. Never force-push `clean-ladder` once published except to
   fix a same-session mistake.
 
+## Orchestration (agreed with Pavol, 2026-08-23)
+
+Coordinator/worker split, so the coordinating session's context survives the
+whole ladder without compaction:
+
+- **Coordinator** (the main session) never runs a build or reads a log dump.
+  It sequences workers, launches them with a brief, and between workers runs
+  cheap read-only verification: commit landed, tree matches the reference
+  commit where this plan says it must, gate numbers as expected, checklist
+  tick present. Deviations land with the coordinator; anything in "Known
+  risks / stop conditions" goes to Pavol.
+- **Workers** execute one step each, strictly **serially** (they share the
+  `../fortress-clean` worktree). Each worker reads its step's section of
+  this file directly — briefs point at the plan by reference (step ID, this
+  file's path, worktree path, env constants, commit footer), they do not
+  paraphrase it. Each worker: executes, verifies its own results, writes
+  the commit(s) on `clean-ladder`, pushes at this plan's push points, ticks
+  its checkbox in the Execution checklist below, commits that tick on the
+  working branch, and reports back tersely (SHA, verification numbers,
+  deviations).
+- **Granularity**: E1–E6 and C1 are done inline by the coordinator (no
+  builds, but concentrated fiddly judgment — cherry-pick conflict
+  resolution, README edits); B1–B8 and R1–R8 get one worker per gated
+  commit (the build/gate log volume is exactly what would force coordinator
+  compaction).
+- **Two branch tracks, never mixed**: rebuild commits exist only on
+  `clean-ladder` (pushed to `origin/clean-ladder`; Pavol renames via the
+  GitHub UI at the end; `main` is never touched from the clean worktree).
+  Checklist ticks are working-branch commits in `/home/user/fortress` on
+  `claude/handover-reading-vn8zgr` — the ff-main standing order
+  (`explorations/protocol.md` §4) applies to those pushes only.
+
 ## Gate definitions
 
 - **Full gate**: `ant clean compileAll` + `ant testFast` + `ant testSystem`
