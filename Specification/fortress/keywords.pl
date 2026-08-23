@@ -15,7 +15,7 @@ use strict;
 
 my $file = '../../SpecData/tables/fortress-keywords';
 open IN, "<$file";
-open OUT, '>>fortress-keywords.tex';
+open OUT, '>fortress-keywords.tex';
 
 print OUT "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
 print OUT "%   Copyright 2009, Oracle and/or its affiliates.\n";

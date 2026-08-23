@@ -36,6 +36,8 @@
 /ProjectFortress/.dependencies/
 
 # LaTeX build byproducts (spec, Papers/, Fortify example); rendered PDFs are committed
+# (the spec build-dir PDF is a byproduct too — the committed copy is Specification/fortress.pdf)
+/Specification/fortress/fortress.pdf
 *.aux
 *.log
 *.bbl
