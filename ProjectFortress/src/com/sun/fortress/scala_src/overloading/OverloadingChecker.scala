@@ -74,10 +74,10 @@ class OverloadingChecker(current: CompilationUnitIndex,
         }
       case _ => List()
     }
-    val explicitFns = (compFns ++ explicitImports).groupBy(_._1.getText).mapValues{x => 
+    val explicitFns = (compFns ++ explicitImports).groupBy(_._1.getText).view.mapValues{x =>
       val (ids, fns) = x.unzip
       (ids, fns.flatMap(y => y))
-    }
+    }.toMap
     
     val importStar = imports.flatMap{isImportStar}
     

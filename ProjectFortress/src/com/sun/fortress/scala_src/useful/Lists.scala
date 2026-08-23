@@ -17,7 +17,7 @@ import _root_.java.util.{Collection => JCollection}
 import _root_.junit.framework.TestCase
 import _root_.com.sun.fortress.useful.Useful
 import _root_.com.sun.fortress.useful.ArrayBackedList
-import scala.collection.JavaConversions
+import scala.jdk.javaapi.CollectionConverters
 
 object Lists {
 
@@ -31,12 +31,12 @@ object Lists {
   /* Conversion recommended by Martin Odersky, with some type trickery
      that's a bit annoying. */
   def toList[T](xs: JList[T]): List[T] =
-    JavaConversions.asScalaBuffer(new ArrayBackedList(xs)).toList 
+    CollectionConverters.asScala(new ArrayBackedList(xs)).toList 
     /* JavaConversions.asBuffer(Useful.list(xs)).toList */
     /* List.fromArray[T]( xs.toArray(List[T]().toArray) ) */
     
   def toListFromImmutable[T](xs: JList[T]): List[T] =
-    JavaConversions.asScalaBuffer(xs).toList 
+    CollectionConverters.asScala(xs).toList 
     /* JavaConversions.asBuffer(ArrayBackedList.fromImmutable(xs)).toList */
     
   def map[S, T](list: JList[S], fun: S => T): JList[T] = toJavaList(toListFromImmutable(list).map(fun))

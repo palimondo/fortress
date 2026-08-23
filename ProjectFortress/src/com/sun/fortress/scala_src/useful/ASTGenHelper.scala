@@ -21,7 +21,7 @@ import _root_.java.util.{Collections => JCollections}
 import _root_.java.lang.{Integer => JInteger}
 import edu.rice.cs.plt.tuple.{Option => JOption}
 import com.sun.fortress.nodes
-import scala.collection.JavaConversions
+import scala.jdk.javaapi.CollectionConverters
 
 object ASTGenHelper {
   def needsScalafication(o: Any): Boolean = o match {
@@ -56,7 +56,7 @@ object ASTGenHelper {
 
     case m: JMap[_, _] => {
       var accum = Map[Any, Any]()
-      for (k <- (Map.empty ++ JavaConversions.mapAsScalaMap(m)).keySet) {
+      for (k <- (Map.empty ++ CollectionConverters.asScala(m)).keySet) {
         accum += ((scalaify(k), scalaify(m.get(k))))
       }
       accum
@@ -64,7 +64,7 @@ object ASTGenHelper {
 
     case s: JSet[_] => {
       var accum = Set[Any]()
-      for (e <- Set.empty ++ JavaConversions.asScalaSet(s)) {
+      for (e <- Set.empty ++ CollectionConverters.asScala(s)) {
         accum = accum + scalaify(e)
       }
       accum

@@ -419,7 +419,7 @@ object STypesUtil {
     object paramWalker extends Walker {
       override def walk(node: Any): Any = node match {
         case STypeInfo(a, b, existingSparams, _) =>
-          STypeInfo(a, b, existingSparams filterNot (sparams contains), None)
+          STypeInfo(a, b, existingSparams filterNot (sparams.contains(_)), None)
         case _ => super.walk(node)
       }
     }
