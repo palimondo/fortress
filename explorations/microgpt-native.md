@@ -382,3 +382,43 @@ Two consequences adopted:
   one *stream*, upgrading the statistical band check to another exact
   golden. Caveat noted in the report: draw *order* must be pinned
   (sequential fills) for that to hold.
+
+## 2026-08-24 — microgpt_native.fss: gates green, spec implemented as written
+
+The delegated implementation landed (`explorations/microgpt_native.fss`,
+378 lines) and passed review; independently re-verified in the main
+checkout (golden PASS, 1264 params — identical count to v1, confirming
+the head partition covers exactly the same weights; loss 3.26→2.51 by
+step 30). Worker's full 250-step run: the ~2.0–2.5 band and name-like
+samples (atalenn, arane, sara, sonna), **20.4 min vs v1's published
+45.4** — and in the paired `FORTRESS_THREADS=1` comparison the native
+version is ~15% *faster* than v1 (4.81 vs 5.69 s/step): the n-ary ⊕
+sum nodes shrink the graph more than O(log n) `List` indexing costs.
+The micro-forking law reproduced on the transformer (default 2 workers
+≈1.6× slower than one).
+
+What review noted with approval, beyond spec compliance:
+
+- **The KV "cache" didn't just get renamed — it dissolved.** `forward`
+  returns `(logits, kh2, vh2)` and the histories are threaded
+  functionally through tuple destructuring; no mutable cache object
+  exists (decision 3 taken further than the spec's own sketch).
+- All four divisions the formulas contain are written as divisions
+  (rmsnorm, softmax, attention scale, loss/temperature normalization).
+- Head outputs reassemble by a two-generator comprehension
+  (`h <- 0#nHead, m <- 0#headSize`); the only global row index left in
+  the program is the golden-preservation init mapping.
+- In-scope choices worth keeping: matvec as top-level
+  `opr juxtaposition(List[\List[\V\]\], List[\V\])` so the source says
+  `W x`; a vector `opr +` for the two residual connections.
+
+New syntax traps, paid for and recorded (worker's report): chained
+subscripts on nested lists mis-parse — `m[i][j]` must be `(m[i])[j]`
+(v1's `(kc.get(t))[hs+j]` had silently worked around the same thing);
+and a comprehension body ending in a subscript swallows the `|`
+separator, so comprehension bodies are blanket-parenthesized.
+
+Still open on this file: the Fortify render sheet (fitness pass — the
+`d 1.0`-style ZZ32→RR64 coercions are known blemishes to look at), the
+seeded-MT reproducibility option above, coarse-grain parallelism
+(decision 8), and the presentation rebuild.
