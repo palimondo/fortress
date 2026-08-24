@@ -209,3 +209,30 @@ later. The three files stay in-tree as the documented design space.
 Next: Fortify-render the candidate forms (the rendering is part of the
 fitness function), then scale the chosen constellation to the
 transformer with the per-token formulas.
+
+## 2026-08-24 — Rendering pass (the fitness function, applied)
+
+`explorations/fortify/mgnative-forms.tic` typesets the money forms of
+all three alternatives on one sheet (SVGs alongside). What the render
+taught, and the polish it forced:
+
+- `yhat` reads as a paper formula: big ⊕ with the generator underneath,
+  `w2[j]` → w2ⱼ, juxtaposition as invisible times. But `xa`/`xb` read
+  as products x·a — renamed to `x1`/`x2` (→ x₁, x₂) in all three files.
+  Lesson: under Fortify, multi-letter lowercase names cost more than
+  they do in ASCII; name variables the way the paper does.
+- B's ∂-table renders as a calculus table — `opr ∂(e: Times) = ⟨…⟩` —
+  and C's adjoint really is the chain rule under a Σ with
+  `(u,d) ← seq(v.outs)` beneath it. The `seq(…)` in the generators
+  stays: it is the honest marker that the fold order is pinned.
+- The all-ones gradient of Sum is now a comprehension
+  `<|[\RR64\] 1.0 | a <- addends|>` (⟨1.0 | a ← addends⟩) instead of
+  `map(fn a => 1.0)` — same meaning, mathematical surface.
+- Failed simplification, recorded: dropping the `[\RR64\]` ascriptions
+  from list literals. The interpreter infers element types from
+  *runtime values*, and numeric literals stay `FloatLiteral` even when
+  stored in `RR64`-typed fields, so `<|1.0, 1.0|>` and even
+  `<|e.b.data, e.a.data|>` produce `ArrayList[\FloatLiteral\]` where
+  `List[\RR64\]` is needed. Ascriptions on value-list literals are
+  load-bearing; all restored (trajectories re-verified bit-identical,
+  A 18.1 s / B 22.0 s / C 23.8 s).

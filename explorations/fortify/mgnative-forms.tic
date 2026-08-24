@@ -1,0 +1,36 @@
+% Candidate canonical forms from the mgnative_{a,b,c}.fss design
+% exploration (explorations/microgpt-native.md), typeset by Fortify to
+% judge them by their rendering. Regenerate:
+%   bin/fortick explorations/fortify/mgnative-forms.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex mgnative-forms.tex
+%   dvisvgm --no-fonts --exact-bbox -o mgnative-forms-light.svg mgnative-forms.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`(* the network as one definition (A, B, C alike) *)
+yhat(x1: V, x2: V): V =
+  b2v + (BIG OPLUS[j <- 0#nH] w2[j] relu(x1 w1[j] + x2 w1[nH+j] + b1[j]))
+
+(* n-ary summation node and its BIG operator (A, C) *)
+vsum(addends: List[\V\]): V =
+  V(SUM[a <- seq(addends)] a.data, addends, <|[\RR64\] 1.0 | a <- addends|>)
+opr BIG OPLUS(): Comprehension[\V,V,List[\V\],List[\V\]\] =
+  Comprehension[\V,V,List[\V\],List[\V\]\](fn l => vsum(l), VConcat, fn v => singleton[\V\](v))
+
+(* B: the derivative table as multimethods on the partial operator *)
+opr DEL(e: Plus): List[\RR64\] = <|[\RR64\] 1.0, 1.0|>
+opr DEL(e: Times): List[\RR64\] = <|[\RR64\] e.b.data, e.a.data|>
+opr DEL(e: Pow): List[\RR64\] = <|[\RR64\] e.n (e.a.data)^(e.n-1.0)|>
+opr DEL(e: Exp): List[\RR64\] = <|[\RR64\] e.data|>
+opr DEL(e: Log): List[\RR64\] = <|[\RR64\] 1.0/e.a.data|>
+opr DEL(e: Sum): List[\RR64\] = <|[\RR64\] 1.0 | t <- e.addends|>
+
+(* C: the adjoint as the memoized chain rule *)
+opr DEL(v: V): RR64 =
+  if |v.outs| = 0 then 1.0
+  else SUM[(u,d) <- seq(v.outs)] (DEL u) d end`
+\end{preview}
+\end{document}

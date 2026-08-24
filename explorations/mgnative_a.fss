@@ -32,7 +32,7 @@ relu(v: V): V = if v.data > 0.0
 (* n-ary summation node: dSum/dAddend_i = 1.  The forward value is the
    one sequential fold, in list order, at the leaf. *)
 vsum(addends: List[\V\]): V =
-  V(SUM[a <- seq(addends)] a.data, addends, addends.map[\RR64\](fn a => 1.0))
+  V(SUM[a <- seq(addends)] a.data, addends, <|[\RR64\] 1.0 | a <- addends|>)
 
 (* BIG OPLUS[i <- g] expr: map each addend to a singleton list, join by
    concatenation (exactly associative -- parallel construction cannot
@@ -119,8 +119,8 @@ run() = do
   ys  = array[\RR64\](4).fill(fn (k:ZZ32) => if (if k >= 2 then 1 else 0 end) + (k REM 2) = 1 then 1.0 else 0.0 end)
 
   (* the network, one definition: y(x) = b2 + SUM_j w2_j relu(w1_j x1 + w1_j' x2 + b1_j) *)
-  yhat(xa: V, xb: V): V =
-    b2v + (BIG OPLUS[j <- 0#nH] w2[j] relu(xa w1[j] + xb w1[nH+j] + b1[j]))
+  yhat(x1: V, x2: V): V =
+    b2v + (BIG OPLUS[j <- 0#nH] w2[j] relu(x1 w1[j] + x2 w1[nH+j] + b1[j]))
 
   params = (<|[\V\] w1[k] | k <- 0#(2 nH) |> || <|[\V\] b1[j] | j <- 0#nH |>
             || <|[\V\] w2[j] | j <- 0#nH |> || <|[\V\] b2v |>)

@@ -78,7 +78,7 @@ opr DEL(e: Pow): List[\RR64\] = <|[\RR64\] e.n (e.a.data)^(e.n-1.0)|>
 opr DEL(e: Exp): List[\RR64\] = <|[\RR64\] e.data|>
 opr DEL(e: Log): List[\RR64\] = <|[\RR64\] 1.0/e.a.data|>
 opr DEL(e: Relu): List[\RR64\] = <|[\RR64\] if e.a.data > 0.0 then 1.0 else 0.0 end|>
-opr DEL(e: Sum): List[\RR64\] = e.addends.map[\RR64\](fn t => 1.0)
+opr DEL(e: Sum): List[\RR64\] = <|[\RR64\] 1.0 | t <- e.addends|>
 
 (* BIG OPLUS builds one n-ary Sum node, as in alternative A *)
 object ExConcat extends MonoidReduction[\List[\Ex\]\]
@@ -160,8 +160,8 @@ run() = do
   x2s = array[\RR64\](4).fill(fn (k:ZZ32) => if k REM 2 = 1 then 1.0 else 0.0 end)
   ys  = array[\RR64\](4).fill(fn (k:ZZ32) => if (if k >= 2 then 1 else 0 end) + (k REM 2) = 1 then 1.0 else 0.0 end)
 
-  yhat(xa: Ex, xb: Ex): Ex =
-    b2v + (BIG OPLUS[j <- 0#nH] w2[j] relu(xa w1[j] + xb w1[nH+j] + b1[j]))
+  yhat(x1: Ex, x2: Ex): Ex =
+    b2v + (BIG OPLUS[j <- 0#nH] w2[j] relu(x1 w1[j] + x2 w1[nH+j] + b1[j]))
 
   params = (<|[\Leaf\] w1[k] | k <- 0#(2 nH) |> || <|[\Leaf\] b1[j] | j <- 0#nH |>
             || <|[\Leaf\] w2[j] | j <- 0#nH |> || <|[\Leaf\] b2v |>)

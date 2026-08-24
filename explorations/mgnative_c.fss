@@ -49,7 +49,7 @@ relu(v: V): V = if v.data > 0.0
 
 (* n-ary summation node, as in alternative A *)
 vsum(addends: List[\V\]): V =
-  mk(SUM[a <- seq(addends)] a.data, addends, addends.map[\RR64\](fn a => 1.0))
+  mk(SUM[a <- seq(addends)] a.data, addends, <|[\RR64\] 1.0 | a <- addends|>)
 
 object VConcat extends MonoidReduction[\List[\V\]\]
   getter asString(): String = "VConcat"
@@ -115,8 +115,8 @@ run() = do
   x2s = array[\RR64\](4).fill(fn (k:ZZ32) => if k REM 2 = 1 then 1.0 else 0.0 end)
   ys  = array[\RR64\](4).fill(fn (k:ZZ32) => if (if k >= 2 then 1 else 0 end) + (k REM 2) = 1 then 1.0 else 0.0 end)
 
-  yhat(xa: V, xb: V): V =
-    b2v + (BIG OPLUS[j <- 0#nH] w2[j] relu(xa w1[j] + xb w1[nH+j] + b1[j]))
+  yhat(x1: V, x2: V): V =
+    b2v + (BIG OPLUS[j <- 0#nH] w2[j] relu(x1 w1[j] + x2 w1[nH+j] + b1[j]))
 
   params = (<|[\V\] w1[k] | k <- 0#(2 nH) |> || <|[\V\] b1[j] | j <- 0#nH |>
             || <|[\V\] w2[j] | j <- 0#nH |> || <|[\V\] b2v |>)
