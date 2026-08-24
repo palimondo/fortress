@@ -323,3 +323,35 @@ trajectories across representations as the verification story, and the
 compiler-gap catalog once the worker's sweep lands. Tone rule stands:
 no self-praise; the artifact narrates the language and the mathematics,
 not our effort.
+
+## 2026-08-24 — Compiled path characterized: the library is the gap
+
+The delegated sweep is in: `explorations/compiled-path-gaps.md` (12-gap
+catalog G1–G12, minimal probes committed in
+`explorations/compiler-probes/`). What it changes for this project:
+
+- **None of our six programs compiles, and none of the failures is
+  codegen.** The compiler path swaps the prelude to the 592-line
+  monomorphic `CompilerLibrary`; `List`, `array`, `exp`/`log`, `SUM`,
+  and the whole `MonoidReduction`/`Comprehension` machinery our designs
+  stand on simply do not exist there. The 2012 "still `sayWhat`s"
+  folklore mislabels the blocker — only `label`/`exit` actually
+  `sayWhat`s (G11).
+- **The prize is measured, not estimated**: 6.8× on scalar loops, 8.9×
+  on autodiff-shaped object churn, ~8× on startup — with bit-identical
+  numerics where the path works (`tparallel` compiles after a one-line
+  `nanoTime` type accommodation, G5, and matches its checksum to the
+  last digit at 5.6×).
+- **Design feedback**: G8 (no multimethod dispatch on a `comprises`
+  union) blocks alternative B's whole dispatch style on the compiled
+  path, and G9 (`typecase` silently wrong on literals) removes the
+  workaround — B stays interpreter-only until the compiler grows. G7's
+  fix (declare methods abstract on the trait) is idiomatically better
+  Fortress regardless and costs us nothing to adopt.
+- **No compiled fast path for training exists today** — the PRNG
+  experiment's chart keeps the interpreter line only, and the
+  modernization goal "fix the bytecode compiler path" now has a
+  prioritized worklist (report §4): the two one-line library edits
+  (G5, G6) first, `exp`/`log` next, then the real project — porting
+  the generic generator/reduction layer of `FortressLibrary` onto
+  `CompilerLibrary` — with G9 treated as a standalone correctness bug.

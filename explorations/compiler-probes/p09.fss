@@ -1,0 +1,7 @@
+component p09
+export Executable
+run() = do
+  x: RR64 = 2.0
+  println("p09 " (exp x) " " (log x) " " |(-x)| " " (x^3.0))
+end
+end

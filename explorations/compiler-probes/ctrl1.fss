@@ -1,0 +1,12 @@
+component ctrl1
+export Executable
+
+run() = do
+  x: RR64 = 15.0
+  n: ZZ32 = 7
+  println("[" x "]")
+  println("[" n "]")
+  println("[" x.asString "]")
+  println("[" true "]")
+end
+end

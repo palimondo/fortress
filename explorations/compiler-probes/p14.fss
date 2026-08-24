@@ -1,0 +1,8 @@
+component p14
+export Executable
+run() = do
+  t0 = nanoTime()
+  t1 = nanoTime()
+  println("p14 " (t1 - t0))
+end
+end

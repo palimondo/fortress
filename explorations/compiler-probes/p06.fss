@@ -1,0 +1,8 @@
+component p06
+export Executable
+object V(data: RR64) end
+run() = do
+  a = array[\V\](4).fill(fn (k:ZZ32) => V(1.5))
+  println("p06 " a[2].data)
+end
+end

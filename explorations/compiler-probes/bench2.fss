@@ -1,0 +1,12 @@
+component bench2
+export Executable
+object V(data: RR64)
+  opr +(self, o: V): V = V(data + o.data)
+  opr DOT(self, o: V): V = V(data o.data)
+end
+run() = do
+  var s: V := V(0.0)
+  for i <- seq(1#2000000) do s := (s + V(1.0)) DOT V(0.9999999) end
+  println("bench2 " s.data)
+end
+end

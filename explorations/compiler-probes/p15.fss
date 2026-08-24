@@ -1,0 +1,8 @@
+component p15
+import List.{...}
+export Executable
+run() = do
+  xs: List[\RR64\] = <|[\RR64\] 1.0, 2.0, 3.0 |>
+  println("p15 " xs)
+end
+end

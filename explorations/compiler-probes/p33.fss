@@ -1,0 +1,11 @@
+component p33
+export Executable
+run() = do
+  x: Any = 5
+  y = typecase x of
+        ZZ32 => 1
+        else => 0
+      end
+  println("p33 " y)
+end
+end

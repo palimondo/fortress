@@ -1,0 +1,13 @@
+component p16
+export Executable
+object Ctr()
+  var n: ZZ32 := 0
+  down(k: ZZ32): () = do
+    if k > 0 then n := n + 1; self.down(k-1) end
+  end
+end
+run() = do
+  c = Ctr(); c.down(5)
+  println("p16 " c.n)
+end
+end

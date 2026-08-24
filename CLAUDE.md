@@ -90,7 +90,9 @@ Facts that save time:
    the fully green suite; CI early).
 3. Complex numbers: the spec promises ℂ but zero complex arithmetic shipped;
    seed is `explorations/complex_ring.fss`.
-4. Fix the bytecode compiler path (see above).
+4. Fix the bytecode compiler path — characterized 2026-08-24: the gap is
+   the compiler's tiny prelude library, not codegen; prioritized worklist
+   and measured 6.8–8.9× payoff in `explorations/compiled-path-gaps.md`.
 5. Grow the Steele research corpus (`research/README.md` lists open hunts).
 6. microgpt.fss — port Karpathy's 243-line dependency-free GPT (scalar
    autodiff, char-level transformer) to interpreter Fortress as an

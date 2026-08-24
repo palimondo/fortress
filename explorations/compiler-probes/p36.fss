@@ -1,0 +1,11 @@
+component p36
+export Executable
+run() = do
+  x = 5
+  y = case x of
+        5 => 1
+        else => 0
+      end
+  println("p36 " y)
+end
+end

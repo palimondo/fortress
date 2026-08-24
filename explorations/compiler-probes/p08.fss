@@ -1,0 +1,7 @@
+component p08
+export Executable
+run() = do
+  assert(1 = 1, "one")
+  println("p08 ok")
+end
+end

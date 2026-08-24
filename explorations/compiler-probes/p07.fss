@@ -1,0 +1,8 @@
+component p07
+export Executable
+run() = do
+  var s: RR64 := 0.0
+  for i <- seq(1#10) do s := s + 1.0 end
+  println("p07 " s)
+end
+end

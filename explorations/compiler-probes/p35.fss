@@ -1,0 +1,11 @@
+component p35
+export Executable
+run() = do
+  r = try
+        throw NegativeLength
+      catch e
+        NegativeLength => 1
+      end
+  println("p35 " r)
+end
+end

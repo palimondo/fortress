@@ -1,0 +1,7 @@
+component p21
+export Executable
+run() = do
+  x: RR64 = 2.0
+  println("p21 " |(-x)| " " (x^3.0) " " (x MAX 3.0))
+end
+end

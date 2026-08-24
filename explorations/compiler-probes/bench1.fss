@@ -1,0 +1,8 @@
+component bench1
+export Executable
+run() = do
+  var acc: RR64 := 0.0
+  for i <- seq(1#20000000) do acc := acc 0.9999999 + 0.0000001 end
+  println("bench1 " acc)
+end
+end
