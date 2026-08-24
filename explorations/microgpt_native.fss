@@ -135,7 +135,7 @@ attend(q: List[\V\], ks: List[\List[\V\]\], vs: List[\List[\V\]\]): List[\V\] = 
   n = |ks|
   hsz = |q|
   p = softmax(<|[\V\] (attScore(q, ks[j])) | j <- 0#n|>)
-  <|[\V\] (BIG OPLUS[(a, u) <- p.zip[\List[\V\]\](vs)] a (u[m])) | m <- 0#hsz|>
+  <|[\V\] (BIG OPLUS[j <- 0#n] p[j] ((vs[j])[m])) | m <- 0#hsz|>
 end
 
 (* one layer, nHead heads; n_layer = 1 as in Karpathy's default.  kh/vh are the
