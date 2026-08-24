@@ -290,3 +290,36 @@ Decisions for `microgpt_native.fss` (engine = alternative A):
    construction under engine A), the backward sweep stays sequential
    for now; C's per-node Σ remains the candidate for a parallel
    backward later.
+
+## 2026-08-24 — Presentation plan: the spectrum, not the destination
+
+The updated "A GPT You Can Read" (same artifact URL) should be
+structured the way Steele structured Four Solutions: one problem,
+several solutions, each teaching something — because the exploration
+landed on his shape without forcing it:
+
+- **Solution 1 — the transliteration** (v1 `microgpt.fss`): correct,
+  golden-verified, sequential by design; the Python accent named
+  honestly, "first, SUM = 0" eleven times. Its role: the anchor
+  everything else is measured against. (Steele's imperative sweep.)
+- **Solution 2 — the user monoid** (`mgnative_a.fss`): summation as an
+  n-ary node built by a registered ⊕ over list concatenation; the
+  network becomes one definition. (Steele's Glob: map to singletons,
+  merge treewise, associativity designed in.)
+- **Solution 3 — structure and dispatch** (`mgnative_b.fss`,
+  `mgnative_c.fss`): the graph as a comprises-ADT with the derivative
+  table as ∂-multimethods; and backward as the memoized chain rule, a
+  literal Σ over consumers. (Steele's CachedTree + multimethod
+  `process`.)
+- **Solution 4 — the concise form** (`microgpt_native.fss`): the
+  per-token index formulas of the papers, one Fortress definition per
+  equation, Fortify-rendered next to the corresponding formula from
+  the target-notation list in the brief.
+
+Supporting threads to weave in, with measurements: the interpreter's
+performance law (micro-forking vs saturation — Steele's "the overheads
+are real" made measurable in his own interpreter), the bit-identical
+trajectories across representations as the verification story, and the
+compiler-gap catalog once the worker's sweep lands. Tone rule stands:
+no self-praise; the artifact narrates the language and the mathematics,
+not our effort.
