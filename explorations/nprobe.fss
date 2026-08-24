@@ -1,0 +1,114 @@
+component nprobe
+import List.{...}
+export Executable
+
+(* Empirical probes for the microgpt canonical-form rewrite: does the
+   2012 interpreter support the idioms in Steele's 2015 Four Solutions
+   talk?  See explorations/microgpt-native.md for the results log. *)
+
+(* --- P2/P3 scaffolding: a user scalar type standing in for autodiff V --- *)
+
+trait Scalar comprises { W } end
+
+object W(x: RR64) extends Scalar
+  getter asString(): String = "W " self.x.asString
+  opr +(self, o: W): W = W(x + o.x)
+end
+
+object WSum extends { CommutativeMonoidReduction[\W\] }
+  getter asString(): String = "WSum"
+  empty(): W = W(0.0)
+  join(a: W, b: W): W = a + b
+end
+
+(* P2: register a user-defined BIG operator backed by the monoid *)
+opr BIG OPLUS(): BigReduction[\W,W\] = BigReduction[\W,W\](WSum)
+opr BIG OPLUS(g: Generator[\W\]): W =
+  __bigOperatorSugar[\W,W,W,W\](BIG OPLUS(), g)
+
+(* P3: overload plain SUM for a user type (library SUM is sealed to Number:
+   Number comprises {RR64}).  A bare nullary overload collides with the
+   library's generic nullary SUM(); an unqualified generator overload is
+   ignored by the desugaring, which goes through the nullary form and
+   dies casting W to Number.  Attempt 3: a nullary overload with static
+   params bounded by a type disjoint from Number. *)
+(* P3 verdict: NO — SUM cannot be commandeered for user types.
+   (a) library SUM is sealed to Number (Number comprises {RR64});
+   (b) any nullary overload collides: "parameter lists have the same
+       types" — static params are ignored by the check;
+   (c) a generator-only overload is bypassed: the comprehension
+       desugars through the nullary form and dies casting W to Number.
+   V-reductions therefore use a registered user BIG operator (P2). *)
+
+(* --- P5 scaffolding: sealed ADT + multimethod structural recursion --- *)
+
+trait Tree comprises { Leaf, Node } end
+object Leaf(v: RR64) extends Tree end
+object Node(a: Tree, b: Tree) extends Tree end
+
+tsum(t: Leaf): RR64 = t.v
+tsum(t: Node): RR64 = tsum(t.a) + tsum(t.b)
+
+(* --- P4 scaffolding: observable work --- *)
+
+burn(n: ZZ32): RR64 = do
+  var acc: RR64 := 0.0
+  for i <- seq(1#n) do acc := acc 0.9999999 + 0.0000001 end
+  acc
+end
+
+run() = do
+  (* P1: SUM comprehension with tuple-destructuring generator *)
+  pairs: List[\(ZZ32,ZZ32)\] = <|[\(ZZ32,ZZ32)\] (1,10), (2,20), (3,30) |>
+  println("P1a SUM[(p,q)<-pairs] q = " (SUM[(p,q) <- pairs] q) "  (expect 60)")
+  xs: List[\RR64\] = <|[\RR64\] 1.0, 2.0, 3.0, 4.0 |>
+  println("P1b SUM[v<-xs] v v = " (SUM[v <- xs] v v) "  (expect 30)")
+  println("P1c SUM[k<-0#4] xs[k] = " (SUM[k <- 0#4] xs[k]) "  (expect 10)")
+
+  (* P2: BIG OPLUS over the user monoid *)
+  ws: List[\W\] = <|[\W\] W(1.0), W(2.0), W(3.0) |>
+  println("P2  BIG OPLUS[w<-ws] w = " (BIG OPLUS[w <- ws] w) "  (expect W 6)")
+
+  (* P3: negative result — see the verdict comment at top level *)
+
+  (* P5: comprises + multimethod dispatch *)
+  t: Tree = Node(Node(Leaf(1.0), Leaf(2.0)), Leaf(3.0))
+  println("P5  tsum(tree) = " tsum(t) "  (expect 6)")
+
+  (* P7: zip inside a comprehension *)
+  ys: List[\RR64\] = <|[\RR64\] 10.0, 20.0, 30.0, 40.0 |>
+  println("P7  SUM[(a,b)<-xs.zip(ys)] a b = " (SUM[(a,b) <- xs.zip[\RR64\](ys)] a b)
+          "  (expect 300)")
+
+  (* P8: List.split *)
+  (lo, hi) = xs.split()
+  println("P8  xs.split() = " lo "  |  " hi)
+
+  (* P4: is tuple evaluation parallel?  burn twice, tuple vs sequenced. *)
+  n: ZZ32 = 500000
+  _ = burn(n)  (* warm-up *)
+  t0 = nanoTime()
+  a2 = burn(n)
+  b2 = burn(n)
+  t1 = nanoTime()
+  (a, b) = (burn(n), burn(n))
+  t2 = nanoTime()
+  (c, cz) = (burn(n), 0)
+  t3a = nanoTime()
+  println("P4  seq: " (((t1-t0) + 500000) DIV 1000000) " ms (" (a2+b2) ")   tuple: "
+          (((t2-t1) + 500000) DIV 1000000) " ms (" (a+b) ")   1-burn tuple: "
+          (((t3a-t2) + 500000) DIV 1000000) " ms (" c "," cz ")")
+
+  (* P6: atomic increment cost vs plain *)
+  m: ZZ32 = 100000
+  var g1: RR64 := 0.0
+  t3 = nanoTime()
+  for i <- seq(1#m) do g1 := g1 + 1.0 end
+  t4 = nanoTime()
+  var g2: RR64 := 0.0
+  for i <- seq(1#m) do atomic do g2 := g2 + 1.0 end end
+  t5 = nanoTime()
+  println("P6  plain += : " (((t4-t3) + 500000) DIV 1000000) " ms   atomic += : "
+          (((t5-t4) + 500000) DIV 1000000) " ms  (g2=" g2 ")")
+end
+end
