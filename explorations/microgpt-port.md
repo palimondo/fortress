@@ -216,9 +216,25 @@ Consequences, per the de-risking levers:
    concern only for exp/log/pow. Syntax learnings recorded in the file:
    no `E`-notation numerals (use `10.0^(-12)`), `log`/`exp` are
    functional (`log x`), ZZ division is exact (use `DIV`).
-2. **Transformer forward pass** — one block, golden-tested against
-   reference activations dumped from the Python.
-3. **Full microgpt.fss** — training run on (a subset of) names.txt;
-   loss curve down, sampled names out.
-4. **Fortify rendering** — the listing typeset as mathematics; the
-   executable-paper artifact.
+2. ~~**Transformer forward pass**~~ DONE (2026-08-23,
+   `explorations/microgpt.fss` `goldenCheck()`): the full 1-layer/
+   2-head model at reference dims (vocab 5, n_embd 4, block 4),
+   deterministic-formula weights on both sides, asserts 15 logits, the
+   mean loss, and 5 parameter gradients against the Python reference
+   generator to 1e-9 — PASS, runs on every program start.
+3. ~~**Full microgpt.fss**~~ DONE (2026-08-24): complete port —
+   tokenizer (a–z + BOS over `explorations/names.txt`), Box–Muller
+   init, KV-cached multi-head attention, Adam with bias correction and
+   linear LR decay, temperature sampling. Nano config (n_embd 8,
+   2 heads, block 8, 2,000 docs, 250 steps): **loss 3.29 → ~2.3 band
+   in 45.4 min (10.9 s/step; the CPython twin: 22 ms/step, same
+   band)**, and the samples are name-like: beller, maana, aleia,
+   auley, ealia, alalein, alana, yania.
+4. ~~**Fortify rendering**~~ DONE:
+   `explorations/fortify/microgpt-{value,model,attn}.tic` typeset the
+   Value object, rmsnorm+softmax, and the attention core straight from
+   the port's source (SVGs committed, light+dark). The educational
+   presentation — Karpathy's post structure, Fortress code, the
+   rendered figures, the loss chart, the samples, and the honest
+   performance numbers — is published as the artifact "A GPT You Can
+   Read".
