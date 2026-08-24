@@ -1,0 +1,143 @@
+component mgnative_c
+import List.{...}
+export Executable
+
+(* microgpt-native design alternative C (explorations/microgpt-native.md):
+   backward as the adjoint recursion itself.  The tape stores only the
+   TRANSPOSE graph: at construction each new node registers (node,
+   dNode/dChild) with its children, and the adjoint is the memoized
+   literal chain rule
+
+       DEL v  =  1                       if v has no consumers (v is L)
+       DEL v  =  SUM[(u,d) <- out(v)] (DEL u) d   otherwise
+
+   -- a Number-SUM comprehension, so the library Sigma applies.  No
+   topological sort, no visited flags, no grad accumulator sweep; local
+   gradients are snapshotted at construction, so parameter updates and
+   adjoint queries cannot interfere. *)
+
+object V(var data: RR64)
+  var outs: List[\(V, RR64)\] := emptyList[\(V, RR64)\]()
+  var adj: RR64 := 0.0
+  var haveAdj: Boolean := false
+  opr +(self, o: V): V = mk(data + o.data, <|[\V\] self, o|>, <|[\RR64\] 1.0, 1.0|>)
+  opr juxtaposition(self, o: V): V =
+    mk(data o.data, <|[\V\] self, o|>, <|[\RR64\] o.data, data|>)
+  opr -(self): V = mk(-data, <|[\V\] self|>, <|[\RR64\] -1.0|>)
+  opr -(self, o: V): V = self + (-o)
+  opr ^(self, n: RR64): V = mk(data^n, <|[\V\] self|>, <|[\RR64\] n data^(n-1.0)|>)
+end
+
+(* Build a node and register the transpose edges on its children.
+   Sequential registration: under parallel graph construction the
+   ch.outs push would race (a design point recorded in the journal). *)
+mk(d: RR64, children: List[\V\], grads: List[\RR64\]): V = do
+  v = V(d)
+  for (ch, lg) <- seq(children.zip[\RR64\](grads)) do
+    ch.outs := ch.outs.addRight((v, lg))
+  end
+  v
+end
+
+konst(d: RR64): V = V(d)
+
+exp(v: V): V = mk(exp v.data, <|[\V\] v|>, <|[\RR64\] exp v.data|>)
+log(v: V): V = mk(log v.data, <|[\V\] v|>, <|[\RR64\] 1.0/v.data|>)
+relu(v: V): V = if v.data > 0.0
+                then mk(v.data, <|[\V\] v|>, <|[\RR64\] 1.0|>)
+                else mk(0.0, <|[\V\] v|>, <|[\RR64\] 0.0|>) end
+
+(* n-ary summation node, as in alternative A *)
+vsum(addends: List[\V\]): V =
+  mk(SUM[a <- seq(addends)] a.data, addends, addends.map[\RR64\](fn a => 1.0))
+
+object VConcat extends MonoidReduction[\List[\V\]\]
+  getter asString(): String = "VConcat"
+  empty(): List[\V\] = emptyList[\V\]()
+  join(a: List[\V\], b: List[\V\]): List[\V\] = a || b
+end
+
+opr BIG OPLUS(): Comprehension[\V,V,List[\V\],List[\V\]\] =
+  Comprehension[\V,V,List[\V\],List[\V\]\](fn l => vsum(l), VConcat,
+                                           fn v => singleton[\V\](v))
+opr BIG OPLUS(g: Generator[\V\]): V =
+  __bigOperatorSugar[\V,V,List[\V\],List[\V\]\](BIG OPLUS(), g)
+
+(* The adjoint: DEL v = dL/dv, where L is the (unique) consumerless
+   ancestor of v -- the boundary condition dL/dL = 1. *)
+opr DEL(v: V): RR64 = do
+  if NOT v.haveAdj then
+    v.adj := if |v.outs| = 0 then 1.0
+             else SUM[(u,d) <- seq(v.outs)] (DEL u) d end
+    v.haveAdj := true
+  end
+  v.adj
+end
+
+initW(i: ZZ32, j: ZZ32): RR64 = (((31 i + 17 j) REM 97) - 48) / 100.0
+
+run() = do
+  eps = 10.0^(-12)
+  (* --- analytic golden checks, as in micrograd.fss --- *)
+  a = konst(2.0); b = konst(3.0); c = konst(-4.0)
+  f = relu(a b + c)
+  assert(|f.data - 2.0| < eps, "f fwd")
+  assert(|(DEL a) - 3.0| < eps, "df/da = b")
+  assert(|(DEL b) - 2.0| < eps, "df/db = a")
+  assert(|(DEL c) - 1.0| < eps, "df/dc = 1")
+
+  a2 = konst(2.0); b2 = konst(3.0)
+  g = log(a2^2.0 b2)
+  assert(|(DEL a2) - 1.0| < eps, "dg/da = 2/a = 1")
+  assert(|(DEL b2) - (1.0/3.0)| < eps, "dg/db = 1/b")
+
+  h0 = konst(0.5)
+  h = (exp(-h0) + h0)^3.0
+  hd = (exp (-0.5)) + 0.5
+  hg = 3.0 hd^2.0 (1.0 - (exp (-0.5)))
+  assert(|h.data - hd^3.0| < eps, "h fwd")
+  assert(|(DEL h0) - hg| < eps, "dh/dx")
+
+  s0 = konst(1.0); s1 = konst(2.0); s2 = konst(3.0)
+  s = BIG OPLUS[t <- <|[\V\] s0, s1, s2|>] t t
+  assert(|s.data - 14.0| < eps, "sum fwd")
+  assert(|(DEL s1) - 4.0| < eps, "d(sum t^2)/ds1 = 2 s1")
+  println("golden gradient checks: PASS")
+
+  (* --- tiny MLP on XOR, identical harness to alternatives A and B --- *)
+  nH: ZZ32 = 4
+  w1 = array[\V\](2 nH).fill(fn (k:ZZ32) => konst(initW(k DIV nH, k REM nH)))
+  b1 = array[\V\](nH).fill(fn (k:ZZ32) => konst(initW(k, 13)))
+  w2 = array[\V\](nH).fill(fn (k:ZZ32) => konst(initW(k + 7, 2 k + 3)))
+  b2v = konst(0.0)
+
+  x1s = array[\RR64\](4).fill(fn (k:ZZ32) => if k >= 2 then 1.0 else 0.0 end)
+  x2s = array[\RR64\](4).fill(fn (k:ZZ32) => if k REM 2 = 1 then 1.0 else 0.0 end)
+  ys  = array[\RR64\](4).fill(fn (k:ZZ32) => if (if k >= 2 then 1 else 0 end) + (k REM 2) = 1 then 1.0 else 0.0 end)
+
+  yhat(xa: V, xb: V): V =
+    b2v + (BIG OPLUS[j <- 0#nH] w2[j] relu(xa w1[j] + xb w1[nH+j] + b1[j]))
+
+  params = (<|[\V\] w1[k] | k <- 0#(2 nH) |> || <|[\V\] b1[j] | j <- 0#nH |>
+            || <|[\V\] w2[j] | j <- 0#nH |> || <|[\V\] b2v |>)
+
+  lr = 0.05
+  epochs: ZZ32 = 400
+  var lastLoss: RR64 := 0.0
+  t0 = nanoTime()
+  for ep <- seq(1#epochs) do
+    loss = BIG OPLUS[p <- 0#4] (yhat(konst(x1s[p]), konst(x2s[p])) - konst(ys[p]))^2.0
+    lastLoss := loss.data
+    for q <- params do
+      q.data := q.data - lr (DEL q)
+      q.outs := emptyList[\(V, RR64)\]()
+      q.haveAdj := false
+    end
+    if ep REM 100 = 0 then println("epoch " ep "  loss " lastLoss) end
+  end
+  t1 = nanoTime()
+  assert(lastLoss < 0.05, "XOR loss should fall below 0.05, got " lastLoss)
+  println("XOR MLP training: PASS (final loss " lastLoss ", "
+          (((t1-t0) + 500000) DIV 1000000) " ms)")
+end
+end

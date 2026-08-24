@@ -13,7 +13,16 @@ trait Scalar comprises { W } end
 object W(x: RR64) extends Scalar
   getter asString(): String = "W " self.x.asString
   opr +(self, o: W): W = W(x + o.x)
+  (* P9: can a user type carry juxtaposition (the papers' implicit
+     multiplication), ^, and unary - ? *)
+  opr juxtaposition(self, o: W): W = W(x o.x)
+  opr ^(self, n: RR64): W = W(x^n)
+  opr -(self): W = W(-x)
 end
+
+(* P11: overloading library prefix functions for a user type *)
+exp(w: W): W = W(exp w.x)
+log(w: W): W = W(log w.x)
 
 object WSum extends { CommutativeMonoidReduction[\W\] }
   getter asString(): String = "WSum"
@@ -70,6 +79,12 @@ run() = do
   println("P2  BIG OPLUS[w<-ws] w = " (BIG OPLUS[w <- ws] w) "  (expect W 6)")
 
   (* P3: negative result — see the verdict comment at top level *)
+
+  (* P9/P11: surface syntax on the user type *)
+  u = W(2.0)
+  v = W(3.0)
+  println("P9  u v = " (u v) "   u^2 = " (u^2.0) "   -u = " (-u) "  (expect 6, 4, -2)")
+  println("P11 exp/log: " exp(log(u)) "  (expect W 2)")
 
   (* P5: comprises + multimethod dispatch *)
   t: Tree = Node(Node(Leaf(1.0), Leaf(2.0)), Leaf(3.0))

@@ -1,0 +1,189 @@
+component mgnative_b
+import List.{...}
+export Executable
+
+(* microgpt-native design alternative B (explorations/microgpt-native.md):
+   the expression graph as a sealed algebraic data type -- trait Ex
+   comprises one object per operation -- with the derivative rules as
+   multimethods on the prefix operator DEL (renders as the partial
+   symbol): one equation per operation, dispatched structurally, no
+   cached local-gradient lists.  All mutation is quarantined in Cell,
+   the per-node accumulator; the nodes themselves are immutable. *)
+
+object Cell(var data: RR64)
+  var grad: RR64 := 0.0
+  var visited: Boolean := false
+end
+
+trait Ex comprises { Leaf, Plus, Times, Neg, Pow, Exp, Log, Relu, Sum }
+  abstract getter c(): Cell
+  getter data(): RR64 = self.c.data
+  getter grad(): RR64 = self.c.grad
+  opr +(self, o: Ex): Ex = Plus(self, o)
+  opr juxtaposition(self, o: Ex): Ex = Times(self, o)
+  opr -(self): Ex = Neg(self)
+  opr -(self, o: Ex): Ex = Plus(self, Neg(o))
+  opr ^(self, n: RR64): Ex = Pow(self, n)
+end
+
+object Leaf(c: Cell) extends Ex end
+object Plus(a: Ex, b: Ex) extends Ex
+  c: Cell = Cell(a.data + b.data)
+end
+object Times(a: Ex, b: Ex) extends Ex
+  c: Cell = Cell(a.data b.data)
+end
+object Neg(a: Ex) extends Ex
+  c: Cell = Cell(-a.data)
+end
+object Pow(a: Ex, n: RR64) extends Ex
+  c: Cell = Cell((a.data)^n)
+end
+object Exp(a: Ex) extends Ex
+  c: Cell = Cell(exp a.data)
+end
+object Log(a: Ex) extends Ex
+  c: Cell = Cell(log a.data)
+end
+object Relu(a: Ex) extends Ex
+  c: Cell = Cell(a.data MAX 0.0)
+end
+object Sum(addends: List[\Ex\]) extends Ex
+  c: Cell = Cell(SUM[t <- seq(addends)] t.data)
+end
+
+exp(v: Ex): Ex = Exp(v)
+log(v: Ex): Ex = Log(v)
+relu(v: Ex): Ex = Relu(v)
+konst(d: RR64): Leaf = Leaf(Cell(d))
+
+(* Structure: the children of each node kind *)
+kids(e: Leaf): List[\Ex\] = emptyList[\Ex\]()
+kids(e: Plus): List[\Ex\] = <|[\Ex\] e.a, e.b|>
+kids(e: Times): List[\Ex\] = <|[\Ex\] e.a, e.b|>
+kids(e: Neg): List[\Ex\] = <|[\Ex\] e.a|>
+kids(e: Pow): List[\Ex\] = <|[\Ex\] e.a|>
+kids(e: Exp): List[\Ex\] = <|[\Ex\] e.a|>
+kids(e: Log): List[\Ex\] = <|[\Ex\] e.a|>
+kids(e: Relu): List[\Ex\] = <|[\Ex\] e.a|>
+kids(e: Sum): List[\Ex\] = e.addends
+
+(* The calculus: DEL e = the partial derivatives of e with respect to
+   its children, one equation per operation. *)
+opr DEL(e: Leaf): List[\RR64\] = emptyList[\RR64\]()
+opr DEL(e: Plus): List[\RR64\] = <|[\RR64\] 1.0, 1.0|>
+opr DEL(e: Times): List[\RR64\] = <|[\RR64\] e.b.data, e.a.data|>
+opr DEL(e: Neg): List[\RR64\] = <|[\RR64\] -1.0|>
+opr DEL(e: Pow): List[\RR64\] = <|[\RR64\] e.n (e.a.data)^(e.n-1.0)|>
+opr DEL(e: Exp): List[\RR64\] = <|[\RR64\] e.data|>
+opr DEL(e: Log): List[\RR64\] = <|[\RR64\] 1.0/e.a.data|>
+opr DEL(e: Relu): List[\RR64\] = <|[\RR64\] if e.a.data > 0.0 then 1.0 else 0.0 end|>
+opr DEL(e: Sum): List[\RR64\] = e.addends.map[\RR64\](fn t => 1.0)
+
+(* BIG OPLUS builds one n-ary Sum node, as in alternative A *)
+object ExConcat extends MonoidReduction[\List[\Ex\]\]
+  getter asString(): String = "ExConcat"
+  empty(): List[\Ex\] = emptyList[\Ex\]()
+  join(a: List[\Ex\], b: List[\Ex\]): List[\Ex\] = a || b
+end
+
+opr BIG OPLUS(): Comprehension[\Ex,Ex,List[\Ex\],List[\Ex\]\] =
+  Comprehension[\Ex,Ex,List[\Ex\],List[\Ex\]\](fn l => Sum(l), ExConcat,
+                                               fn v => singleton[\Ex\](v))
+opr BIG OPLUS(g: Generator[\Ex\]): Ex =
+  __bigOperatorSugar[\Ex,Ex,List[\Ex\],List[\Ex\]\](BIG OPLUS(), g)
+
+object Topo()
+  var items: List[\Ex\] := emptyList[\Ex\]()
+  build(v: Ex): () = do
+    if NOT v.c.visited then
+      v.c.visited := true
+      for ch <- seq(kids(v)) do self.build(ch) end
+      items := items.addRight(v)
+    end
+  end
+end
+
+backward(root: Ex): () = do
+  t = Topo()
+  t.build(root)
+  root.c.grad := 1.0
+  for v <- seq(t.items.reverse) do
+    for (ch, lg) <- seq(kids(v).zip[\RR64\](DEL v)) do
+      ch.c.grad := ch.c.grad + lg v.c.grad
+    end
+  end
+end
+
+initW(i: ZZ32, j: ZZ32): RR64 = (((31 i + 17 j) REM 97) - 48) / 100.0
+
+run() = do
+  eps = 10.0^(-12)
+  (* --- analytic golden checks, as in micrograd.fss --- *)
+  a = konst(2.0); b = konst(3.0); c = konst(-4.0)
+  f = relu(a b + c)
+  backward(f)
+  assert(|f.data - 2.0| < eps, "f fwd")
+  assert(|a.grad - 3.0| < eps, "df/da = b")
+  assert(|b.grad - 2.0| < eps, "df/db = a")
+  assert(|c.grad - 1.0| < eps, "df/dc = 1")
+
+  a2 = konst(2.0); b2 = konst(3.0)
+  g = log(a2^2.0 b2)
+  backward(g)
+  assert(|a2.grad - 1.0| < eps, "dg/da = 2/a = 1")
+  assert(|b2.grad - (1.0/3.0)| < eps, "dg/db = 1/b")
+
+  h0 = konst(0.5)
+  h = (exp(-h0) + h0)^3.0
+  backward(h)
+  hd = (exp (-0.5)) + 0.5
+  hg = 3.0 hd^2.0 (1.0 - (exp (-0.5)))
+  assert(|h.data - hd^3.0| < eps, "h fwd")
+  assert(|h0.grad - hg| < eps, "dh/dx")
+
+  s0 = konst(1.0); s1 = konst(2.0); s2 = konst(3.0)
+  s = BIG OPLUS[t <- <|[\Ex\] s0, s1, s2|>] t t
+  backward(s)
+  assert(|s.data - 14.0| < eps, "sum fwd")
+  assert(|s1.grad - 4.0| < eps, "d(sum t^2)/ds1 = 2 s1")
+  println("golden gradient checks: PASS")
+
+  (* --- tiny MLP on XOR, identical harness to alternative A --- *)
+  nH: ZZ32 = 4
+  w1 = array[\Leaf\](2 nH).fill(fn (k:ZZ32) => konst(initW(k DIV nH, k REM nH)))
+  b1 = array[\Leaf\](nH).fill(fn (k:ZZ32) => konst(initW(k, 13)))
+  w2 = array[\Leaf\](nH).fill(fn (k:ZZ32) => konst(initW(k + 7, 2 k + 3)))
+  b2v = konst(0.0)
+
+  x1s = array[\RR64\](4).fill(fn (k:ZZ32) => if k >= 2 then 1.0 else 0.0 end)
+  x2s = array[\RR64\](4).fill(fn (k:ZZ32) => if k REM 2 = 1 then 1.0 else 0.0 end)
+  ys  = array[\RR64\](4).fill(fn (k:ZZ32) => if (if k >= 2 then 1 else 0 end) + (k REM 2) = 1 then 1.0 else 0.0 end)
+
+  yhat(xa: Ex, xb: Ex): Ex =
+    b2v + (BIG OPLUS[j <- 0#nH] w2[j] relu(xa w1[j] + xb w1[nH+j] + b1[j]))
+
+  params = (<|[\Leaf\] w1[k] | k <- 0#(2 nH) |> || <|[\Leaf\] b1[j] | j <- 0#nH |>
+            || <|[\Leaf\] w2[j] | j <- 0#nH |> || <|[\Leaf\] b2v |>)
+
+  lr = 0.05
+  epochs: ZZ32 = 400
+  var lastLoss: RR64 := 0.0
+  t0 = nanoTime()
+  for ep <- seq(1#epochs) do
+    loss = BIG OPLUS[p <- 0#4] (yhat(konst(x1s[p]), konst(x2s[p])) - konst(ys[p]))^2.0
+    backward(loss)
+    lastLoss := loss.data
+    for q <- params do
+      q.c.data := q.c.data - lr q.c.grad
+      q.c.grad := 0.0
+      q.c.visited := false
+    end
+    if ep REM 100 = 0 then println("epoch " ep "  loss " lastLoss) end
+  end
+  t1 = nanoTime()
+  assert(lastLoss < 0.05, "XOR loss should fall below 0.05, got " lastLoss)
+  println("XOR MLP training: PASS (final loss " lastLoss ", "
+          (((t1-t0) + 500000) DIV 1000000) " ms)")
+end
+end
