@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","worktreePath":"/home/user/fortress/.claude/worktrees/agent-aba70a2cfb843a950","spawnedWithWorktree":true,"worktreeBranch":"worktree-agent-aba70a2cfb843a950","description":"Native-PRNG divergence experiment","toolUseId":"toolu_019pgCRikG38EM1FybL5hUqu","spawnDepth":1,"model":"opus"}
+{"agentType":"general-purpose","description":"Native-PRNG divergence experiment","toolUseId":"toolu_019pgCRikG38EM1FybL5hUqu","spawnDepth":1,"model":"opus","worktreeCleanlyRemoved":true}
