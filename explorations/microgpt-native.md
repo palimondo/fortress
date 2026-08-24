@@ -236,3 +236,57 @@ taught, and the polish it forced:
   `List[\RR64\]` is needed. Ascriptions on value-list literals are
   load-bearing; all restored (trajectories re-verified bit-identical,
   A 18.1 s / B 22.0 s / C 23.8 s).
+
+## 2026-08-24 — Architecture of the transformer-scale rewrite
+
+Working mode from here (Pavol's direction): experiments and
+implementation are delegated to workers; this journal carries the
+design decisions and their reasons. In parallel, a worker is
+characterizing which of our sources the **bytecode compiler** path
+accepts — both for possible speedups and to ground a catalog of
+compiler gaps in real programs.
+
+Decisions for `microgpt_native.fss` (engine = alternative A):
+
+1. **Vectors are `List[\V\]`, matrices lists of row-vectors, and every
+   reduction is a scalar-level ⊕ comprehension.** No `Vec`/`Mat`
+   objects, no vector-sum monoid. Reason: the chosen canonical level is
+   the papers' per-token *index* formulas (`A_ij = (Σ_m Q_im K_jm)/√d_k`),
+   which are scalar-Σ statements already; and a second `BIG OPLUS`
+   registration for a vector carrier would collide with the scalar one
+   (nullary big-operator registrations are one-per-name — the P3
+   lesson). `(W x)_r = ⊕_m W[r][m] x[m]` is one comprehension inside a
+   list comprehension.
+2. **Heads are structure, not offsets** (purity ledger). `wq/wk/wv` are
+   head-indexed lists of (hs × d) matrices, per-head caches of
+   hs-vectors; the flat d×d matrix and its offset arithmetic
+   (`h headDim + m`) disappear. Golden-check preservation constraint:
+   the deterministic init formula must be evaluated at the *global* row
+   index (head h, row m → row h·hs+m of v1's flat matrix) so the
+   partitioned weights are value-identical to v1's — a row-block
+   partition of the same matvec.
+3. **There is no "cache".** In the autoregressive index formulas the
+   attention at step i sums over k_j, v_j for j ≤ i; the growing lists
+   `keys`/`vals` ARE those formulas' data, not a memo of something
+   else. (Adjudicates the KV-cache ledger entry: at this formulation
+   level it is not an optimization at all.)
+4. **Division becomes a primitive**: `opr /(V,V)` with ∂ = (1/b, −a/b²)
+   and `opr /(V, RR64)` for constant divisors (√d_k), replacing v1's
+   pow(−1)-then-multiply — the formulas say division.
+5. **Softmax keeps the max-shift** with the shift as an RR64 constant
+   (softmax(x) = softmax(x−c) identity; ledger: legitimate), written
+   inside one `softmax(List[\V\]): List[\V\]` definition; the loss is
+   `−log softmax(logits)[y]`.
+6. **Adam stays index-form RR64 arithmetic** over a flat parameter
+   list with parallel m/v arrays — the optimizer's equations are
+   already scalar index formulas.
+7. **Verification ladder**: v1's `goldenCheck` numbers at 1e-9 (the
+   reordering drift is ~1e-15 relative), then a short nano training
+   run confirming the loss decline from ~3.29, then timing under
+   `FORTRESS_THREADS=1` and default (2 workers), against v1
+   re-baselined the same way.
+8. Parallelism enters only in coarse grains and only after
+   correctness: heads and matvec rows are independent (pure graph
+   construction under engine A), the backward sweep stays sequential
+   for now; C's per-node Σ remains the candidate for a parallel
+   backward later.
