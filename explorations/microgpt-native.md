@@ -355,3 +355,30 @@ catalog G1–G12, minimal probes committed in
   (G5, G6) first, `exp`/`log` next, then the real project — porting
   the generic generator/reduction layer of `FortressLibrary` onto
   `CompilerLibrary` — with G9 treated as a standalone correctness bug.
+
+## 2026-08-24 — PRNG verdict: the generator doesn't matter, the seed does
+
+The delegated head-to-head is in: `explorations/prng-findings.md` with
+the chart (`prng-chart.svg`). Summary: Fortress's `random()` is
+literally `Math.random()` — one process-wide time-seeded `java.util.Random`,
+unseedable from Fortress source — yet swapping it for CPython's Mersenne
+Twister changes nothing observable: the two Box–Müller samplers are
+statistically indistinguishable at our sizes, and the three Fortress
+trajectories sit inside the 15-seed CPython envelope at exactly the rate
+a 16th seed would (tail means 0.03 sd apart). The v1 loss-band anchor
+stands as written.
+
+Two consequences adopted:
+
+- **Correction filed** in `microgpt-port.md`: its premise "Python's
+  Mersenne Twister is not ours" was wrong — `Library/Random.fss` ships
+  a full, tested, seedable MT19937 (reference constants, green-suite
+  `RandomTest`). Verified claims only; this one slipped through.
+- **Design option registered for `microgpt_native`** (post-golden):
+  seed a `mersenneTwister(seed)` from `Library/Random` for
+  bit-reproducible training runs — today every Fortress run is an
+  unrepeatable experiment — and, if CPython's `init_by_array` seeding
+  (~10 lines) is ported, the Python and Fortress programs could share
+  one *stream*, upgrading the statistical band check to another exact
+  golden. Caveat noted in the report: draw *order* must be pinned
+  (sequential fills) for that to hold.

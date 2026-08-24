@@ -159,6 +159,9 @@ result; the step-0 microbenchmark tells us where we start.
 2. **Loss-trajectory band** — under the port's own RNG, per-doc loss
    should fall from ~3.37 into the ~2.3 band by a few hundred steps;
    statistical, not exact (Python's Mersenne Twister is not ours).
+   [Correction 2026-08-24: that parenthetical is wrong — the 2012
+   library ships a tested, seedable MT19937 (`Library/Random.fss`);
+   the band check stands anyway. See `explorations/prng-findings.md`.]
 
 **Walk vs. compile:** interpreter-only, realistically. The compiled
 path links against CompilerLibrary — a 592-line skeleton (assertions,
