@@ -422,3 +422,21 @@ Still open on this file: the Fortify render sheet (fitness pass — the
 `d 1.0`-style ZZ32→RR64 coercions are known blemishes to look at), the
 seeded-MT reproducibility option above, coarse-grain parallelism
 (decision 8), and the presentation rebuild.
+
+## 2026-08-24 — Presentation rebuilt as the four-solutions story
+
+"A GPT You Can Read" (same artifact URL) rewritten from scratch on the
+plan above: cast introduction assuming zero prior context, Solution 1
+(the literal translation, its verification, and the derivative table
+carried over from the old page), the interlude on Steele's three ideas,
+Solution 2 (the ⊕ design and the bit-identical three-engine result),
+Solution 3 (the transformer formula sheet, with the v1 attention figure
+kept as the *before* against the new one), then the three measurement
+threads (micro-forking, the PRNG chart, the compiler-gap prize) and a
+balanced coda ending on Karpathy's "everything else is just
+efficiency". Writing rule applied throughout, per Pavol's feedback on
+the session's chat summaries: every term defined before use, no
+internal shorthand, honest numbers on both axes (the 15% win over the
+transliteration and the ~200× loss to CPython). Design: single-column
+Source Serif page, Fortify SVGs inlined once with per-figure id
+namespacing and recolored for dark mode via CSS fill inheritance.
