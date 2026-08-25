@@ -423,6 +423,61 @@ Still open on this file: the Fortify render sheet (fitness pass — the
 seeded-MT reproducibility option above, coarse-grain parallelism
 (decision 8), and the presentation rebuild.
 
+## 2026-08-24 — Course correction: the paper register, and teaching both constructions
+
+Pavol's review of the rebuilt presentation, distilled: it explained the
+project, not the transformer, and it showed one notation carried up a
+ladder rather than a genuine exploration of notational alternatives.
+The corrected vision, confirmed with him: the page teaches the
+transformer block by block, and at each block simultaneously teaches
+what Fortress must be *taught* — which types, operators, and reductions
+must be built — so that the block's running definition collapses to the
+formula the AI literature prints. The fitness function is the visual
+distance between the Fortify render and the paper's own notation, and
+the abstraction-building layer is content to teach, not scaffolding to
+hide.
+
+That verdict reopens the "canonical level" decision this journal made
+earlier (per-token index formulas): the literature's register for the
+model level is **vector/matrix notation** — `softmax(q·Kᵀ/√d_k)V`,
+`W₂ relu(W₁ x)`, `x/√(x·x/d+ε)` — and the index formulas belong one
+level down, as the *definitions* of that notation. Spec for
+`explorations/microgpt_paper.fss` (next code round):
+
+1. Vectors stay `List[\V\]`, matrices lists of rows — no wrapper
+   objects, so renders carry no field noise.
+2. The notation layer, each operator defined once by its index formula
+   (these definitions are themselves exhibits):
+   - `opr DOT(u, v)` — u·v = ⊕ₘ uₘvₘ (also gives rmsnorm its ‖x‖²).
+   - `opr juxtaposition(W, x)` — matrix·vector, (W x)ᵣ = ⊕ₘ Wᵣₘxₘ
+     (exists).
+   - `opr juxtaposition(p, M)` — **vector·matrix**, (p M)ₘ = ⊕ⱼ pⱼMⱼₘ:
+     this is the attention blend Σⱼ pⱼVⱼ in disguise, and defining it
+     at index level dissolves the second-monoid problem (a `BIG OPLUS`
+     over vectors would collide with the scalar registration — nullary
+     big-operator registrations are one-per-name).
+   - `opr juxtaposition(a: V, x: Vec)` — scalar·vector; `opr /(x, s)`
+     — vector/scalar; `opr -(x, c)` if softmax wants it; elementwise
+     `relu`/`exp` overloads on vectors.
+   - `concat(heads)` — a named function, as the literature names it.
+3. The model level then states each block in one paper-shaped line:
+   `h0 = wte[t] + wpe[i]`;
+   `rmsnorm(x) = x / (((x DOT x)/(d) + eps)^0.5)`;
+   `attend(q, K, Vv) = softmax(<|(q DOT k)/SQRT dk | k <- K|>) Vv`;
+   `ffn(x) = fc2 (relu (fc1 x))`; residuals by vector `+`.
+4. Everything else (Adam, tokenizer, sampling, golden check) carries
+   over from `microgpt_native.fss` unchanged — Adam's literature form
+   *is* elementwise index arithmetic, so it stays index-form on
+   purpose, and that contrast is itself a teaching point.
+5. Gate unchanged: v1's goldenCheck at 1e-9, then a short training
+   run. `microgpt_native.fss` stays in-tree as the index-form rung of
+   the notation ladder: transliteration → index formulas → paper
+   register.
+6. Notation contests to record per block (for the journal and the
+   page): index vs vector form; DOT vs juxtaposition for the inner
+   product; named function vs operator for softmax/rmsnorm/concat —
+   each adjudicated by the render against the paper.
+
 ## 2026-08-24 — Presentation rebuilt as the four-solutions story
 
 "A GPT You Can Read" (same artifact URL) rewritten from scratch on the
