@@ -1,0 +1,41 @@
+% The notation layer of explorations/microgpt_paper.fss (split from microgpt-paper-forms.tic for the presentation). Regenerate:
+%   bin/fortick explorations/fortify/paper-notation.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex paper-notation.tex
+%   dvisvgm --no-fonts --exact-bbox -o paper-notation-light.svg paper-notation.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`opr DOT(u: List[\V\], v: List[\V\]): V = BIG OPLUS[m <- 0#|u|] (u[m] v[m])
+
+opr juxtaposition(w: List[\List[\V\]\], x: List[\V\]): List[\V\] =
+  <|[\V\] (w[r] DOT x) | r <- 0#|w| |>
+
+opr juxtaposition(a: V, x: List[\V\]): List[\V\] = <|[\V\] (a u) | u <- x|>
+
+vecsum(vs: List[\List[\V\]\]): List[\V\] =
+  <|[\V\] (vsum(<|[\V\] (v[m]) | v <- seq(vs)|>)) | m <- 0#|vs[0]| |>
+
+opr BIG BOXPLUS(g: Generator[\List[\V\]\]): List[\V\] =
+  __bigOperatorSugar[\List[\V\],List[\V\],List[\List[\V\]\],List[\List[\V\]\]\](BIG BOXPLUS(), g)
+
+opr +(x: List[\V\], y: List[\V\]): List[\V\] =
+  <|[\V\] (u + w) | (u, w) <- x.zip[\V\](y)|>
+
+opr -(x: List[\V\], c: RR64): List[\V\] = <|[\V\] (u - c) | u <- x|>
+
+opr /(x: List[\V\], s: V): List[\V\] = <|[\V\] (u / s) | u <- x|>
+
+opr /(x: List[\V\], c: RR64): List[\V\] = <|[\V\] (u / c) | u <- x|>
+
+relu(x: List[\V\]): List[\V\] = <|[\V\] (relu u) | u <- x|>
+
+exp(x: List[\V\]): List[\V\] = <|[\V\] (exp u) | u <- x|>
+
+concat(heads: List[\List[\V\]\]): List[\V\] = <|[\V\] u | h <- heads, u <- h|>
+
+opr SQRT(u: V): V = u^0.5`
+\end{preview}
+\end{document}

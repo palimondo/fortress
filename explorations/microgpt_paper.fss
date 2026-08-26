@@ -1,0 +1,437 @@
+component microgpt_paper
+import List.{...}
+import File.{...}
+export Executable
+
+(* microgpt_paper.fss -- the paper-register rewrite of
+   explorations/microgpt_native.fss (which stays in-tree as the index-form
+   rung of the notation ladder: transliteration -> index formulas -> paper
+   register).  Spec and reasons: explorations/microgpt-native.md, section
+   "Course correction: the paper register".
+
+   The literature states the model level in vector/matrix notation --
+   softmax(q K^T / SQRT d_k) V, W_2 relu(W_1 x), x / SQRT(x.x/d + eps) --
+   and the index formulas are one level DOWN, as the definitions of that
+   notation.  So this file is in two layers:
+
+     - a NOTATION LAYER, each operator defined once by its index formula
+       (these definitions are themselves the exhibits: they are what
+       Fortress has to be taught before the model level can be stated);
+     - a MODEL LEVEL, where each block of the transformer is one
+       paper-shaped line over those operators.
+
+   The autodiff engine (alternative A: a uniform tape node, summation as an
+   n-ary Sum node built by BIG OPLUS over a list-concatenation monoid),
+   the tokenizer, Adam, the training loop and the sampling loop carry over
+   from microgpt_native.fss unchanged.  Adam stays index-form RR64
+   arithmetic on purpose: its literature form IS elementwise index
+   arithmetic, and the contrast with the model level is a teaching point.
+
+   ONE spec item could not be built as written.  The spec asks for a
+   vector-times-matrix "opr juxtaposition(p: List[\V\], m: List[\List[\V\]\])"
+   alongside the matrix-times-vector one, so that the attention blend reads
+   "softmax(...) Vv".  The interpreter rejects the pair:
+
+     first parameters p:[List[\V\],List[\List[\V\]\]] and
+     w:[List[\List[\V\]\],List[\V\]] are unrelated (neither subtype,
+     excludes, nor equal) and no excluding pair is present
+
+   -- two instantiations of the SAME generic trait are not seen as disjoint
+   (the in-tree ProjectFortress/tests/doubledOverloading3.fss records exactly
+   this limitation, and doubts it in its own comment).  Consequence: at most
+   one overload of any operator may be declared on (List, List), so Vec.Vec,
+   Mat.Vec and Vec.Mat need three different names.  DOT takes the inner
+   product, juxtaposition takes W x (seven uses against one), and the blend
+   becomes a reduction under its own glyph:  BIG BOXPLUS[j] p[j] Vv[j],
+   which is the brief's target formula Output_i = SUM_j softmax(A_i)_j V_j
+   with (+) boxed.  The second-monoid worry turns out to be per-NAME, not
+   per-carrier: a second nullary BIG OPLUS() collides, a BIG BOXPLUS() does
+   not.
+
+   Verified: v1's goldenCheck numbers at 1e-9, then a nano training run. *)
+
+(* ---------- scalar reverse-mode autodiff ---------- *)
+
+object V(var data: RR64, children: List[\V\], grads: List[\RR64\])
+  var grad: RR64 := 0.0
+  var visited: Boolean := false
+  opr +(self, o: V): V = V(data + o.data, <|[\V\] self, o|>, <|[\RR64\] 1.0, 1.0|>)
+  opr +(self, c: RR64): V = V(data + c, <|[\V\] self|>, <|[\RR64\] 1.0|>)
+  opr juxtaposition(self, o: V): V =
+    V(data o.data, <|[\V\] self, o|>, <|[\RR64\] o.data, data|>)
+  opr -(self): V = V(-data, <|[\V\] self|>, <|[\RR64\] -1.0|>)
+  opr -(self, o: V): V = self + (-o)
+  opr -(self, c: RR64): V = V(data - c, <|[\V\] self|>, <|[\RR64\] 1.0|>)
+  opr /(self, o: V): V =
+    V(data / o.data, <|[\V\] self, o|>,
+      <|[\RR64\] 1.0 / o.data, (-data) / (o.data o.data)|>)
+  opr /(self, c: RR64): V = V(data / c, <|[\V\] self|>, <|[\RR64\] 1.0 / c|>)
+  opr /(self, n: ZZ32): V = self / (n 1.0)
+  opr ^(self, n: RR64): V = V(data^n, <|[\V\] self|>, <|[\RR64\] n data^(n-1.0)|>)
+end
+
+konst(d: RR64): V = V(d, emptyList[\V\](), emptyList[\RR64\]())
+
+exp(v: V): V = V(exp v.data, <|[\V\] v|>, <|[\RR64\] exp v.data|>)
+log(v: V): V = V(log v.data, <|[\V\] v|>, <|[\RR64\] 1.0/v.data|>)
+relu(v: V): V = if v.data > 0.0
+                then V(v.data, <|[\V\] v|>, <|[\RR64\] 1.0|>)
+                else V(0.0, <|[\V\] v|>, <|[\RR64\] 0.0|>) end
+
+(* the radical sign the formulas print, on a graph value and on a dimension *)
+opr SQRT(u: V): V = u^0.5
+opr SQRT(n: ZZ32): RR64 = SQRT (n 1.0)
+
+(* n-ary summation node: d(Sum)/d(addend_i) = 1.  The forward value is the one
+   sequential fold, in list order, at the leaf. *)
+vsum(addends: List[\V\]): V =
+  V(SUM[a <- seq(addends)] a.data, addends, <|[\RR64\] 1.0 | a <- addends|>)
+
+(* BIG OPLUS[i <- g] e: map each addend to a singleton list, join by
+   concatenation (exactly associative -- parallel construction cannot perturb
+   the result), lift the addend list into one Sum node. *)
+object VConcat extends MonoidReduction[\List[\V\]\]
+  getter asString(): String = "VConcat"
+  empty(): List[\V\] = emptyList[\V\]()
+  join(a: List[\V\], b: List[\V\]): List[\V\] = a || b
+end
+
+opr BIG OPLUS(): Comprehension[\V,V,List[\V\],List[\V\]\] =
+  Comprehension[\V,V,List[\V\],List[\V\]\](fn l => vsum(l), VConcat,
+                                           fn v => singleton[\V\](v))
+opr BIG OPLUS(g: Generator[\V\]): V =
+  __bigOperatorSugar[\V,V,List[\V\],List[\V\]\](BIG OPLUS(), g)
+
+object Topo()
+  var items: List[\V\] := emptyList[\V\]()
+  build(v: V): () = do
+    if NOT v.visited then
+      v.visited := true
+      for ch <- seq(v.children) do self.build(ch) end
+      items := items.addRight(v)
+    end
+  end
+end
+
+backward(root: V): () = do
+  t = Topo()
+  t.build(root)
+  root.grad := 1.0
+  for v <- seq(t.items.reverse) do
+    for (ch, lg) <- seq(v.children.zip[\RR64\](v.grads)) do
+      ch.grad := ch.grad + lg v.grad
+    end
+  end
+end
+
+(* ---------- the notation layer ---------- *)
+
+(* Vectors are List[\V\], matrices lists of row-vectors; no wrapper objects,
+   so the renders carry no field noise.  Each operator below is defined once,
+   by its index formula. *)
+
+(* the sum of a list of VECTORS, componentwise: (BOXPLUS_j x^j)_m = SUM_j x^j_m,
+   one n-ary Sum node per component.  A second BIG OPLUS cannot be registered
+   (nullary big-operator registrations are one-per-name), so the vector-carrier
+   monoid gets its own glyph. *)
+vecsum(vs: List[\List[\V\]\]): List[\V\] =
+  <|[\V\] (vsum(<|[\V\] (v[m]) | v <- seq(vs)|>)) | m <- 0#|vs[0]| |>
+
+object VecConcat extends MonoidReduction[\List[\List[\V\]\]\]
+  getter asString(): String = "VecConcat"
+  empty(): List[\List[\V\]\] = emptyList[\List[\V\]\]()
+  join(a: List[\List[\V\]\], b: List[\List[\V\]\]): List[\List[\V\]\] = a || b
+end
+
+opr BIG BOXPLUS(): Comprehension[\List[\V\],List[\V\],List[\List[\V\]\],List[\List[\V\]\]\] =
+  Comprehension[\List[\V\],List[\V\],List[\List[\V\]\],List[\List[\V\]\]\](
+    fn l => vecsum(l), VecConcat, fn v => singleton[\List[\V\]\](v))
+opr BIG BOXPLUS(g: Generator[\List[\V\]\]): List[\V\] =
+  __bigOperatorSugar[\List[\V\],List[\V\],List[\List[\V\]\],List[\List[\V\]\]\](BIG BOXPLUS(), g)
+
+(* u DOT v = OPLUS_m u_m v_m *)
+opr DOT(u: List[\V\], v: List[\V\]): V = BIG OPLUS[m <- 0#|u|] (u[m] v[m])
+
+(* (W x)_r = W_r DOT x *)
+opr juxtaposition(w: List[\List[\V\]\], x: List[\V\]): List[\V\] =
+  <|[\V\] (w[r] DOT x) | r <- 0#|w| |>
+
+(* (a x)_m = a x_m *)
+opr juxtaposition(a: V, x: List[\V\]): List[\V\] = <|[\V\] (a u) | u <- x|>
+
+opr +(x: List[\V\], y: List[\V\]): List[\V\] =
+  <|[\V\] (u + w) | (u, w) <- x.zip[\V\](y)|>
+
+opr -(x: List[\V\], c: RR64): List[\V\] = <|[\V\] (u - c) | u <- x|>
+
+opr /(x: List[\V\], s: V): List[\V\] = <|[\V\] (u / s) | u <- x|>
+
+opr /(x: List[\V\], c: RR64): List[\V\] = <|[\V\] (u / c) | u <- x|>
+
+relu(x: List[\V\]): List[\V\] = <|[\V\] (relu u) | u <- x|>
+
+exp(x: List[\V\]): List[\V\] = <|[\V\] (exp u) | u <- x|>
+
+concat(heads: List[\List[\V\]\]): List[\V\] = <|[\V\] u | h <- heads, u <- h|>
+
+(* ---------- the model, block by block ---------- *)
+
+(* RMSNorm(x) = x / SQRT(x.x/d + eps) -- no learnable gain *)
+rmsnorm(x: List[\V\]): List[\V\] = x / SQRT((x DOT x) / |x| + 0.00001)
+
+(* softmax(a)_j = e^(a_j - c) / SUM_k e^(a_k - c);  the shift c is an RR64
+   constant -- softmax(a) = softmax(a - c) is an identity, not an accident. *)
+softmax(a: List[\V\]): List[\V\] = do
+  c = BIG MAX[u <- seq(a)] u.data
+  e = exp(a - c)
+  e / (BIG OPLUS[u <- e] u)
+end
+
+(* attention at one step: p = softmax(q K^T / SQRT d_k),  out = SUM_j p_j V_j.
+   K and Vv are the key/value vectors of positions 0..i, so the causal mask is
+   the data, not a mask. *)
+attend(q: List[\V\], K: List[\List[\V\]\], Vv: List[\List[\V\]\]): List[\V\] = do
+  p = softmax(<|[\V\] ((q DOT k) / SQRT |q|) | k <- K|>)
+  BIG BOXPLUS[j <- 0#|p|] p[j] Vv[j]
+end
+
+(* L = -log softmax(logits)_y *)
+nll(logits: List[\V\], y: ZZ32): V = do
+  p = softmax(logits)
+  -(log (p[y]))
+end
+
+(* one layer, nHead heads; n_layer = 1 as in Karpathy's default.  kh/vh are the
+   per-head histories of key/value vectors for positions 0..i-1; forward returns
+   the logits together with the histories extended by position i. *)
+object Model(vocab: ZZ32, nEmbd: ZZ32, nHead: ZZ32, headSize: ZZ32,
+             wte: List[\List[\V\]\], wpe: List[\List[\V\]\], lmHead: List[\List[\V\]\],
+             wq: List[\List[\List[\V\]\]\], wk: List[\List[\List[\V\]\]\],
+             wv: List[\List[\List[\V\]\]\],
+             wo: List[\List[\V\]\], fc1: List[\List[\V\]\], fc2: List[\List[\V\]\])
+
+  (* FFN(x) = W_2 relu(W_1 x) *)
+  ffn(x: List[\V\]): List[\V\] = fc2 relu(fc1 x)
+
+  forward(t: ZZ32, i: ZZ32, kh: List[\List[\List[\V\]\]\], vh: List[\List[\List[\V\]\]\]): (List[\V\], List[\List[\List[\V\]\]\], List[\List[\List[\V\]\]\]) = do
+    h0 = wte[t] + wpe[i]
+    x1 = rmsnorm(h0)
+    x2 = rmsnorm(x1)
+    K = <|[\List[\List[\V\]\]\] ((kh[h]).addRight(wk[h] x2)) | h <- 0#nHead|>
+    Vv = <|[\List[\List[\V\]\]\] ((vh[h]).addRight(wv[h] x2)) | h <- 0#nHead|>
+    heads = <|[\List[\V\]\] (attend(wq[h] x2, K[h], Vv[h])) | h <- 0#nHead|>
+    x4 = wo concat(heads) + x1
+    x5 = rmsnorm(x4)
+    x6 = ffn(x5) + x4
+    (lmHead x6, K, Vv)
+  end
+end
+
+emptyHist(nh: ZZ32): List[\List[\List[\V\]\]\] =
+  <|[\List[\List[\V\]\]\] (emptyList[\List[\V\]\]()) | h <- 0#nh|>
+
+(* ---------- weights ---------- *)
+
+(* deterministic weights for the golden check (no RNG; the same formula lives in
+   the Python reference generator).  goldRows(mi, r0, rows, cols) is the row
+   block r0 .. r0+rows-1 of v1's flat matrix mi -- so a head's slice carries
+   exactly v1's values. *)
+initW(i: ZZ32, j: ZZ32): RR64 = (((31 i + 17 j) REM 97) - 48) / 100.0
+
+goldRow(mi: ZZ32, i: ZZ32, cols: ZZ32): List[\V\] =
+  <|[\V\] (konst(initW(100 mi + i, j))) | j <- 0#cols|>
+
+goldRows(mi: ZZ32, r0: ZZ32, rows: ZZ32, cols: ZZ32): List[\List[\V\]\] =
+  <|[\List[\V\]\] (goldRow(mi, r0 + i, cols)) | i <- 0#rows|>
+
+goldMat(mi: ZZ32, rows: ZZ32, cols: ZZ32): List[\List[\V\]\] =
+  goldRows(mi, 0, rows, cols)
+
+goldHeads(mi: ZZ32, nh: ZZ32, hs: ZZ32, cols: ZZ32): List[\List[\List[\V\]\]\] =
+  <|[\List[\List[\V\]\]\] (goldRows(mi, h hs, hs, cols)) | h <- 0#nh|>
+
+(* Box-Muller; random() is the library native *)
+gauss(std: RR64): RR64 = do
+  var u1: RR64 := random(1.0)
+  if u1 < 0.000000000001 then u1 := 0.000000000001 end
+  u2 = random(1.0)
+  r = SQRT (-2.0 (log u1))
+  theta = 2.0 3.141592653589793 u2
+  std r (cos theta)
+end
+
+gaussRow(cols: ZZ32, std: RR64): List[\V\] =
+  <|[\V\] (konst(gauss(std))) | j <- 0#cols|>
+
+gaussMat(rows: ZZ32, cols: ZZ32, std: RR64): List[\List[\V\]\] =
+  <|[\List[\V\]\] (gaussRow(cols, std)) | i <- 0#rows|>
+
+gaussHeads(nh: ZZ32, hs: ZZ32, cols: ZZ32, std: RR64): List[\List[\List[\V\]\]\] =
+  <|[\List[\List[\V\]\]\] (gaussMat(hs, cols, std)) | h <- 0#nh|>
+
+(* ---------- golden check: exact model math vs. the Python reference ---------- *)
+
+goldenCheck(): () = do
+  nH: ZZ32 = 2
+  hs: ZZ32 = 2
+  g = Model(5, 4, nH, hs,
+            goldMat(0, 5, 4), goldMat(1, 4, 4), goldMat(2, 5, 4),
+            goldHeads(3, nH, hs, 4), goldHeads(4, nH, hs, 4), goldHeads(5, nH, hs, 4),
+            goldMat(6, 4, 4), goldMat(7, 16, 4), goldMat(8, 4, 16))
+  tol = 10.0^(-9)
+  tokens = <|[\ZZ32\] 4, 0, 1, 4|>
+  gold0 = <|[\RR64\] 1.1786640480869652, 0.08369680205708685, -1.2116330341802932, 1.161464590811486, 0.06649734478160751|>
+  gold1 = <|[\RR64\] -0.5153754312822434, 0.7583368418857922, -0.6709093810270941, -0.44385589510170814, 0.8298563780663275|>
+  gold2 = <|[\RR64\] -0.7803193651360372, 0.2648497272535788, 0.9794442126538028, -0.861494046699949, 0.18367504568966714|>
+  golds = <|[\List[\RR64\]\] gold0, gold1, gold2|>
+  var kh: List[\List[\List[\V\]\]\] := emptyHist(nH)
+  var vh: List[\List[\List[\V\]\]\] := emptyHist(nH)
+  var losses: List[\V\] := emptyList[\V\]()
+  for pos <- seq(0#3) do
+    (logits, kh2, vh2) = g.forward(tokens[pos], pos, kh, vh)
+    kh := kh2
+    vh := vh2
+    gold = golds[pos]
+    for i <- seq(0#5) do
+      assert(|logits[i].data - gold[i]| < tol, "golden logits pos " pos " idx " i)
+    end
+    losses := losses.addRight(nll(logits, tokens[pos + 1]))
+  end
+  loss = (BIG OPLUS[l <- losses] l) / 3.0
+  assert(|loss.data - 1.228662661701597| < tol, "golden loss")
+  backward(loss)
+  gwte = g.wte; gwpe = g.wpe; glm = g.lmHead; gwq = g.wq; gfc2 = g.fc2
+  assert(|(gwte[4])[0].grad - (-0.21705452841851058)| < tol, "grad wte[4][0]")
+  assert(|(gwpe[0])[1].grad - 0.06350371373725669| < tol, "grad wpe[0][1]")
+  assert(|(glm[2])[3].grad - 0.028373522248445866| < tol, "grad lm_head[2][3]")
+  assert(|((gwq[0])[0])[0].grad - (-0.001587106636149662)| < tol, "grad attn_wq[0][0]")
+  assert(|(gfc2[1])[2].grad - 0.0101351876799767| < tol, "grad mlp_fc2[1][2]")
+  println("golden transformer forward/backward vs Python reference: PASS")
+end
+
+(* ---------- training ---------- *)
+
+run() = do
+  goldenCheck()
+
+  (* config: BOS = 26, vocab a-z + BOS (names.txt is strictly a-z) *)
+  vocab: ZZ32 = 27
+  nEmbd: ZZ32 = 8
+  nHead: ZZ32 = 2
+  blockSize: ZZ32 = 8
+  numSteps: ZZ32 = 250
+  maxDocs: ZZ32 = 2000
+  bos: ZZ32 = 26
+  hs: ZZ32 = nEmbd DIV nHead
+
+  fr = FileReadStream("explorations/names.txt")
+  var docs: List[\String\] := emptyList[\String\]()
+  while (NOT fr.eof) AND (|docs| < maxDocs) do
+    l = fr.readLine()
+    if |l| > 0 then docs := docs.addRight(l) end
+  end
+  fr.close()
+  println("num docs: " |docs| "  vocab: " vocab)
+
+  g = Model(vocab, nEmbd, nHead, hs,
+            gaussMat(vocab, nEmbd, 0.08), gaussMat(blockSize, nEmbd, 0.08),
+            gaussMat(vocab, nEmbd, 0.08),
+            gaussHeads(nHead, hs, nEmbd, 0.08), gaussHeads(nHead, hs, nEmbd, 0.08),
+            gaussHeads(nHead, hs, nEmbd, 0.08),
+            gaussMat(nEmbd, nEmbd, 0.08), gaussMat(4 nEmbd, nEmbd, 0.08),
+            gaussMat(nEmbd, 4 nEmbd, 0.08))
+
+  (* flat parameter list for the optimizer (shared V references) *)
+  var psL: List[\V\] := emptyList[\V\]()
+  for m <- seq(<|[\List[\List[\V\]\]\] g.wte, g.wpe, g.lmHead, g.wo, g.fc1, g.fc2|>) do
+    for row <- seq(m) do
+      for q <- seq(row) do psL := psL.addRight(q) end
+    end
+  end
+  for hm <- seq(<|[\List[\List[\List[\V\]\]\]\] g.wq, g.wk, g.wv|>) do
+    for m <- seq(hm) do
+      for row <- seq(m) do
+        for q <- seq(row) do psL := psL.addRight(q) end
+      end
+    end
+  end
+  nP: ZZ32 = |psL|
+  params = array[\V\](nP).fill(fn (i: ZZ32) => psL[i])
+  println("num params: " nP)
+
+  (* Adam: m_t = b1 m_{t-1} + (1-b1) g_t;  v_t = b2 v_{t-1} + (1-b2) g_t^2;
+     mHat = m_t/(1-b1^t);  vHat = v_t/(1-b2^t);  w -= lr_t mHat/(SQRT vHat + eps) *)
+  lr0 = 0.01; beta1 = 0.85; beta2 = 0.99; epsA = 0.00000001
+  mBuf = array[\RR64\](nP).fill(fn (i: ZZ32) => 0.0)
+  vBuf = array[\RR64\](nP).fill(fn (i: ZZ32) => 0.0)
+
+  t0 = nanoTime()
+  for step <- seq(0#numSteps) do
+    doc = docs[step REM |docs|]
+    len: ZZ32 = |doc|
+    toks = array[\ZZ32\](len + 2).fill(fn (i: ZZ32) =>
+      if i = 0 OR i = len + 1 then bos else doc[i - 1].codePoint() - 97 end)
+    n = blockSize MIN (len + 1)
+    var kh: List[\List[\List[\V\]\]\] := emptyHist(nHead)
+    var vh: List[\List[\List[\V\]\]\] := emptyHist(nHead)
+    var losses: List[\V\] := emptyList[\V\]()
+    for pos <- seq(0#n) do
+      (logits, kh2, vh2) = g.forward(toks[pos], pos, kh, vh)
+      kh := kh2
+      vh := vh2
+      losses := losses.addRight(nll(logits, toks[pos + 1]))
+    end
+    loss = (BIG OPLUS[l <- losses] l) / (n 1.0)
+    backward(loss)
+    lrT = lr0 (1.0 - (step 1.0) / (numSteps 1.0))
+    for i <- seq(0#nP) do
+      p = params[i]
+      g1 = p.grad
+      g2 = g1 g1
+      mBuf[i] := beta1 mBuf[i] + (1.0 - beta1) g1
+      vBuf[i] := beta2 vBuf[i] + (1.0 - beta2) g2
+      mHat = mBuf[i] / (1.0 - beta1^((step 1.0) + 1.0))
+      vHat = vBuf[i] / (1.0 - beta2^((step 1.0) + 1.0))
+      p.data := p.data - (lrT mHat) / ((vHat^0.5) + epsA)
+      p.grad := 0.0
+      p.visited := false
+    end
+    if (step + 1) REM 10 = 0 then do
+      el = (((nanoTime() - t0) + 500000) DIV 1000000)
+      println("step " (step + 1) " / " numSteps "  loss " loss.data "  elapsed " el " ms")
+    end end
+  end
+
+  (* inference: temperature sampling *)
+  temp = 0.5
+  println("--- inference ---")
+  for s <- seq(1#10) do
+    var kh: List[\List[\List[\V\]\]\] := emptyHist(nHead)
+    var vh: List[\List[\List[\V\]\]\] := emptyHist(nHead)
+    var tid: ZZ32 := bos
+    var out: String := ""
+    var stop: Boolean := false
+    for pos <- seq(0#blockSize) do
+      if NOT stop then
+        (logits, kh2, vh2) = g.forward(tid, pos, kh, vh)
+        kh := kh2
+        vh := vh2
+        probs = softmax(logits / temp)
+        r = random(1.0)
+        var cum: RR64 := 0.0
+        var pick: ZZ32 := vocab - 1
+        var done: Boolean := false
+        for i <- seq(0#vocab) do
+          if NOT done then
+            cum := cum + probs[i].data
+            if r < cum then pick := i; done := true end
+          end
+        end
+        if pick = bos then stop := true
+        else out := out || char(pick + 97); tid := pick end
+      end
+    end
+    println("sample " s ": " out)
+  end
+end
+end

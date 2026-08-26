@@ -1,0 +1,82 @@
+% The notation layer and the model-level blocks of
+% explorations/microgpt_paper.fss, typeset by Fortify (the render is part
+% of the design's fitness function; journal: explorations/microgpt-native.md,
+% section "Course correction: the paper register"). Regenerate:
+%   bin/fortick explorations/fortify/microgpt-paper-forms.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex microgpt-paper-forms.tex
+%   dvisvgm --no-fonts --exact-bbox -o microgpt-paper-forms-light.svg microgpt-paper-forms.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`(* ---------- the notation layer ---------- *)
+
+opr DOT(u: List[\V\], v: List[\V\]): V = BIG OPLUS[m <- 0#|u|] (u[m] v[m])
+
+opr juxtaposition(w: List[\List[\V\]\], x: List[\V\]): List[\V\] =
+  <|[\V\] (w[r] DOT x) | r <- 0#|w| |>
+
+opr juxtaposition(a: V, x: List[\V\]): List[\V\] = <|[\V\] (a u) | u <- x|>
+
+vecsum(vs: List[\List[\V\]\]): List[\V\] =
+  <|[\V\] (vsum(<|[\V\] (v[m]) | v <- seq(vs)|>)) | m <- 0#|vs[0]| |>
+
+opr BIG BOXPLUS(g: Generator[\List[\V\]\]): List[\V\] =
+  __bigOperatorSugar[\List[\V\],List[\V\],List[\List[\V\]\],List[\List[\V\]\]\](BIG BOXPLUS(), g)
+
+opr +(x: List[\V\], y: List[\V\]): List[\V\] =
+  <|[\V\] (u + w) | (u, w) <- x.zip[\V\](y)|>
+
+opr -(x: List[\V\], c: RR64): List[\V\] = <|[\V\] (u - c) | u <- x|>
+
+opr /(x: List[\V\], s: V): List[\V\] = <|[\V\] (u / s) | u <- x|>
+
+opr /(x: List[\V\], c: RR64): List[\V\] = <|[\V\] (u / c) | u <- x|>
+
+relu(x: List[\V\]): List[\V\] = <|[\V\] (relu u) | u <- x|>
+
+exp(x: List[\V\]): List[\V\] = <|[\V\] (exp u) | u <- x|>
+
+concat(heads: List[\List[\V\]\]): List[\V\] = <|[\V\] u | h <- heads, u <- h|>
+
+opr SQRT(u: V): V = u^0.5
+
+
+(* ---------- the model, block by block ---------- *)
+
+rmsnorm(x: List[\V\]): List[\V\] = x / SQRT((x DOT x) / |x| + 0.00001)
+
+softmax(a: List[\V\]): List[\V\] = do
+  c = BIG MAX[u <- seq(a)] u.data
+  e = exp(a - c)
+  e / (BIG OPLUS[u <- e] u)
+end
+
+attend(q: List[\V\], K: List[\List[\V\]\], Vv: List[\List[\V\]\]): List[\V\] = do
+  p = softmax(<|[\V\] ((q DOT k) / SQRT |q|) | k <- K|>)
+  BIG BOXPLUS[j <- 0#|p|] p[j] Vv[j]
+end
+
+ffn(x: List[\V\]): List[\V\] = fc2 relu(fc1 x)
+
+nll(logits: List[\V\], y: ZZ32): V = do
+  p = softmax(logits)
+  -(log (p[y]))
+end
+
+forward(t: ZZ32, i: ZZ32, kh: ..., vh: ...) = do
+  h0 = wte[t] + wpe[i]
+  x1 = rmsnorm(h0)
+  x2 = rmsnorm(x1)
+  K = <|[\List[\List[\V\]\]\] ((kh[h]).addRight(wk[h] x2)) | h <- 0#nHead|>
+  Vv = <|[\List[\List[\V\]\]\] ((vh[h]).addRight(wv[h] x2)) | h <- 0#nHead|>
+  heads = <|[\List[\V\]\] (attend(wq[h] x2, K[h], Vv[h])) | h <- 0#nHead|>
+  x4 = wo concat(heads) + x1
+  x5 = rmsnorm(x4)
+  x6 = ffn(x5) + x4
+  (lmHead x6, K, Vv)
+end`
+\end{preview}
+\end{document}

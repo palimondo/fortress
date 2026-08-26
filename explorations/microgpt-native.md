@@ -495,3 +495,44 @@ internal shorthand, honest numbers on both axes (the 15% win over the
 transliteration and the ~200× loss to CPython). Design: single-column
 Source Serif page, Fortify SVGs inlined once with per-figure id
 namespacing and recolored for dark mode via CSS fill inheritance.
+
+## 2026-08-26 — microgpt_paper.fss: the paper register, gates green
+
+The delegated implementation landed (`explorations/microgpt_paper.fss`)
+and passed independent re-verification: golden at 1e-9, 1264 params,
+loss declining from ~3.3; the worker measured 4.62 s/step vs the
+index-form rung's 4.81 — the notation layer costs nothing. The model
+level now reads as the literature: `rmsnorm(x) = x / SQRT((x DOT x)/|x|
++ eps)`, `ffn(x) = fc2 relu(fc1 x)`, `h0 = wte[t] + wpe[i]`,
+`attend = softmax(<|(q DOT k)/SQRT|q| | k <- K|>)` blended by
+`BIG BOXPLUS[j] p[j] Vv[j]`.
+
+Findings from the round, all recorded in
+`explorations/microgpt-paper-impl-report.md`:
+
+- **Vector-times-matrix juxtaposition is impossible**: the interpreter
+  treats two instantiations of one generic trait as non-disjoint
+  (`doubledOverloading3.fss` documents and doubts this in-tree), so at
+  most one operator overload may exist on (List, List). The blend
+  therefore wears its own big operator ⊞ — which renders as the
+  brief's own target formula Output_i = Σ_j p_j V_j, so the forced
+  deviation lands on the paper's other notation for the same object.
+- **The one-registration-per-name rule is per-name, not per-carrier**:
+  a second nullary `BIG OPLUS()` collides; `BIG BOXPLUS()` coexists.
+- Render-driven polish: softmax shift without `konst`, `nll` split so
+  p_y renders as a subscript, `K`/`Vv` names fixing a real LaTeX
+  double-subscript error (note: the committed
+  `microgpt-native-forms.tic` still carries that latent kh2/vh2
+  double-subscript; benign in the current SVG, rename if regenerating),
+  coercions pushed down into the notation layer so the model level
+  carries no `1.0`s.
+- New traps: `|w||>` and `/|` need spaces to lex; `V` cannot name a
+  variable while object `V` is in scope.
+
+The presentation was rebuilt on the confirmed braided structure —
+thirteen sections teaching the transformer and the construction of its
+notation together, paper formula boxes against Fortify-rendered
+running definitions, the three-rung attention ladder as the visible
+notation exploration — and republished at the same artifact URL. New
+figure sheets: `paper-notation`, `paper-model`, `paper-attend`,
+`native-attend` (all split-committed under `explorations/fortify/`).

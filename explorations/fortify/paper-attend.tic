@@ -1,0 +1,16 @@
+% Attention at the paper-register rung (from explorations/microgpt_paper.fss), for the presentation's notation ladder. Regenerate:
+%   bin/fortick explorations/fortify/paper-attend.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex paper-attend.tex
+%   dvisvgm --no-fonts --exact-bbox -o paper-attend-light.svg paper-attend.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`attend(q: List[\V\], K: List[\List[\V\]\], Vv: List[\List[\V\]\]): List[\V\] = do
+  p = softmax(<|[\V\] ((q DOT k) / SQRT |q|) | k <- K|>)
+  BIG BOXPLUS[j <- 0#|p|] p[j] Vv[j]
+end`
+\end{preview}
+\end{document}

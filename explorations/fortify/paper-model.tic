@@ -1,0 +1,44 @@
+% The model level of explorations/microgpt_paper.fss (split from microgpt-paper-forms.tic for the presentation). Regenerate:
+%   bin/fortick explorations/fortify/paper-model.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex paper-model.tex
+%   dvisvgm --no-fonts --exact-bbox -o paper-model-light.svg paper-model.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`rmsnorm(x: List[\V\]): List[\V\] = x / SQRT((x DOT x) / |x| + 0.00001)
+
+softmax(a: List[\V\]): List[\V\] = do
+  c = BIG MAX[u <- seq(a)] u.data
+  e = exp(a - c)
+  e / (BIG OPLUS[u <- e] u)
+end
+
+attend(q: List[\V\], K: List[\List[\V\]\], Vv: List[\List[\V\]\]): List[\V\] = do
+  p = softmax(<|[\V\] ((q DOT k) / SQRT |q|) | k <- K|>)
+  BIG BOXPLUS[j <- 0#|p|] p[j] Vv[j]
+end
+
+ffn(x: List[\V\]): List[\V\] = fc2 relu(fc1 x)
+
+nll(logits: List[\V\], y: ZZ32): V = do
+  p = softmax(logits)
+  -(log (p[y]))
+end
+
+forward(t: ZZ32, i: ZZ32, kh: ..., vh: ...) = do
+  h0 = wte[t] + wpe[i]
+  x1 = rmsnorm(h0)
+  x2 = rmsnorm(x1)
+  K = <|[\List[\List[\V\]\]\] ((kh[h]).addRight(wk[h] x2)) | h <- 0#nHead|>
+  Vv = <|[\List[\List[\V\]\]\] ((vh[h]).addRight(wv[h] x2)) | h <- 0#nHead|>
+  heads = <|[\List[\V\]\] (attend(wq[h] x2, K[h], Vv[h])) | h <- 0#nHead|>
+  x4 = wo concat(heads) + x1
+  x5 = rmsnorm(x4)
+  x6 = ffn(x5) + x4
+  (lmHead x6, K, Vv)
+end`
+\end{preview}
+\end{document}
