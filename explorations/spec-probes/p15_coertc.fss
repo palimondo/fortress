@@ -1,0 +1,16 @@
+component p15_coertc
+export Executable
+(* coercion, minimal: no arithmetic in the coercion body, so nothing else
+   can be blamed.  Run under BOTH  fortress typecheck  and  fortress <file>. *)
+trait U
+  coerce(b: ZZ32) = W(b)
+end
+object W(d: ZZ32) extends U
+  getter asString(): String = "W"
+end
+f(u: U): String = "f got " u
+run() = do
+  println(f(W(1)))
+  println(f(3))
+end
+end

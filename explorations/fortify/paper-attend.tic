@@ -9,7 +9,7 @@
 \begin{document}
 \begin{preview}
 `attend(q: List[\V\], K: List[\List[\V\]\], Vv: List[\List[\V\]\]): List[\V\] = do
-  p = softmax(<|[\V\] ((q DOT k) / SQRT |q|) | k <- K|>)
+  p = softmax(<| ((q DOT k) / SQRT |q|) | k <- K|>)
   BIG BOXPLUS[j <- 0#|p|] p[j] Vv[j]
 end`
 \end{preview}

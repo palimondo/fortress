@@ -107,7 +107,7 @@ repo), before writing the deliverable.
    parenthesize the receiver, `(m[i])[j]`. (v1 already had this workaround
    in `(kc.get(t))[hs + j]`, without recording why.) Applied throughout;
    three-level `((gwq[0])[0])[0]` likewise.
-2. **A comprehension body ending in a subscript swallows the `|`.**
+2. **A comprehension body ending in a subscript swallows the `|`.** [Correction 2026-08-26: the process audit (explorations/process-audit.md) found this example was never actually run - both real failures were the chained-subscript trap above, and unparenthesized bodies pass. The blanket parenthesization convention is unnecessary.]
    `<|[\V\] m[i] | i <- 0#n|>` mis-parses; the fix is to wrap the whole
    body in parens: `<|[\V\] (m[i]) | i <- 0#n|>`. Adopted as a blanket
    convention for every list comprehension in the file.

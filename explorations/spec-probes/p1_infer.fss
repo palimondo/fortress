@@ -1,0 +1,23 @@
+component p1_infer
+import List.{...}
+export Executable
+
+object V(var data: RR64, children: List[\V\], grads: List[\RR64\])
+  getter asString(): String = "V(" data ")"
+end
+
+run() = do
+  a = V(1.0, <|[\V\] |>, <|[\RR64\] |>)
+  b = V(2.0, <|[\V\] |>, <|[\RR64\] |>)
+  (* spec basic/expressions/aggregate.tex: "The type of a list expression is
+     List[\T\] where T is the union type of the types of all element expressions" *)
+  l1 = <| a, b |>            (* no ascription, elements of known type V *)
+  println("l1 size " |l1| " first " l1[0])
+  l2 = <| a.data, b.data |>  (* RR64 elements *)
+  println("l2 " l2[0])
+  l3 = <| 1.0, 1.0 |>        (* float LITERALS *)
+  println("l3 " l3[0])
+  l4 = <| (x.data) | x <- l1 |>   (* comprehension, no ascription *)
+  println("l4 " l4[0])
+end
+end

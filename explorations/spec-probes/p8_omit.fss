@@ -1,0 +1,30 @@
+component p8_omit
+import List.{...}
+export Executable
+
+object V(var data: RR64) getter asString(): String = "V(" data ")" end
+
+(* 1. return type omitted on a top-level function *)
+konst(d: RR64) = V(d)
+(* 2. return type omitted on an operator declaration *)
+opr ADDV(a: V, b: V) = V(a.data + b.data)
+(* 3. return type omitted on a method *)
+object Box(v: V)
+  getter asString(): String = "Box"
+  unwrap() = v
+end
+(* 4. parameter type omitted *)
+(* twice(x) = V(2.0 x.data) *)
+
+run() = do
+  a = konst(1.0); b = konst(2.0)
+  println("konst inferred return: " a)
+  println("ADDV: " (a ADDV b))
+  println("method: " Box(b).unwrap())
+  (* 5. zip without the static argument *)
+  xs = <|[\V\] a, b|>; ys = <|[\V\] b, a|>
+  for (p, q) <- seq(xs.zip(ys)) do println("zip " p " " q) end
+  (* 6. SQRT on a ZZ32 straight from the library? *)
+  println("SQRT 4 (library) = " (SQRT 4))
+end
+end

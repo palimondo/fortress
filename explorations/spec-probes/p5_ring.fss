@@ -1,0 +1,25 @@
+component p5_ring
+import List.{...}
+export Executable
+
+object V(var data: RR64, children: List[\V\], grads: List[\RR64\])
+        extends MultiplicativeRing[\V\]
+  getter asString(): String = "V(" data ")"
+  getter one(): V = V(1.0, emptyList[\V\](), emptyList[\RR64\]())
+  opr +(self, o: V): V = V(data + o.data, <|[\V\] self, o|>, <|[\RR64\] 1.0, 1.0|>)
+  opr -(self): V = V(-data, <|[\V\] self|>, <|[\RR64\] -1.0|>)
+  opr TIMES(self, o: V): V =
+    V(data o.data, <|[\V\] self, o|>, <|[\RR64\] o.data, data|>)
+  opr ^(self, n: AnyIntegral): V = V(data^n, <|[\V\] self|>, <|[\RR64\] (n 1.0) data^((n 1.0)-1.0)|>)
+  opr ^(self, n: RR64): V = V(data^n, <|[\V\] self|>, <|[\RR64\] n data^(n-1.0)|>)
+end
+konst(d: RR64): V = V(d, emptyList[\V\](), emptyList[\RR64\]())
+run() = do
+  a = konst(3.0); b = konst(2.0)
+  println("a b     = " (a b)   "  (juxtaposition inherited from TIMES)")
+  println("a - b   = " (a - b) "  (binary minus inherited)")
+  println("a.zero  = " a.zero)
+  println("a^2     = " (a^2))
+  println("a^0.5   = " (a^0.5))
+end
+end

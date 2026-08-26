@@ -1,0 +1,15 @@
+component p3_coerce
+import List.{...}
+export Executable
+
+object V(var data: RR64, children: List[\V\], grads: List[\RR64\])
+  coerce(d: RR64) = V(d, <|[\V\] |>, <|[\RR64\] |>)
+  getter asString(): String = "V(" data ")"
+  opr +(self, o: V): V = V(data + o.data, <|[\V\] self, o|>, <|[\RR64\] 1.0, 1.0|>)
+end
+
+run() = do
+  a = V(1.0, <|[\V\] |>, <|[\RR64\] |>)
+  println("a + 2.0 = " (a + 2.0))
+end
+end

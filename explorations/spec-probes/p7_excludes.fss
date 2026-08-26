@@ -1,0 +1,40 @@
+component p7_excludes
+import List.{...}
+export Executable
+
+(* The library's own answer to "vector times matrix AND matrix times vector":
+   Vector extends Rank1, Matrix extends Rank2, and
+     trait Rank1 extends {Rank[\1\]} excludes { Rank2, Rank3, Number, String }
+   (FortressLibrary.fss:1599).  The EXCLUSION is what makes the overload pair
+   legal -- not any property of the generic instantiation.  Reproduce it for
+   List-carried vectors with a one-field wrapper. *)
+
+object V(var data: RR64) getter asString(): String = "V(" data ")" end
+
+trait Rank1V excludes Rank2V end
+trait Rank2V excludes Rank1V end
+
+object Vec(xs: List[\V\]) extends Rank1V
+  getter asString(): String = "Vec" xs
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: V = xs[i]
+end
+object Mat(rows: List[\Vec\]) extends Rank2V
+  getter asString(): String = "Mat" rows
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+end
+
+opr DOT(u: Vec, w: Vec): V = V(SUM[m <- seq(0#|u|)] (u[m].data w[m].data))
+(* BOTH directions, the pair the paper file could not declare on raw Lists *)
+opr juxtaposition(m: Mat, x: Vec): Vec = Vec(<|[\V\] (m[r] DOT x) | r <- 0#|m| |>)
+opr juxtaposition(p: Vec, m: Mat): Vec =
+  Vec(<|[\V\] (V(SUM[j <- seq(0#|p|)] (p[j].data (m[j])[c].data))) | c <- 0#|m[0]| |>)
+
+run() = do
+  x = Vec(<|[\V\] V(1.0), V(2.0)|>)
+  m = Mat(<|[\Vec\] Vec(<|[\V\] V(1.0), V(0.0)|>), Vec(<|[\V\] V(0.0), V(3.0)|>)|>)
+  println("m x = " (m x))
+  println("x m = " (x m))
+end
+end

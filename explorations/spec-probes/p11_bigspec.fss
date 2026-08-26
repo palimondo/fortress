@@ -1,0 +1,24 @@
+component p11_bigspec
+import List.{...}
+export Executable
+
+object V(var data: RR64) getter asString(): String = "V(" data ")" end
+
+object VConcat extends MonoidReduction[\List[\V\]\]
+  getter asString(): String = "VConcat"
+  empty(): List[\V\] = emptyList[\V\]()
+  join(a: List[\V\], b: List[\V\]): List[\V\] = a || b
+end
+vsum(l: List[\V\]): V = V(SUM[a <- seq(l)] a.data)
+
+(* The SPEC's shape for a big operator -- Specification/basic/expressions/
+   reductions.tex:  opr BIG Op[\T\](g:(Reduction[\R0\],T->R0)->R0):R
+   one declaration, no nullary registration, no __bigOperatorSugar. *)
+opr BIG OTIMES(g: (Reduction[\List[\V\]\], V->List[\V\])->List[\V\]): V =
+  vsum(g(VConcat, fn (v: V) => singleton[\V\](v)))
+
+run() = do
+  xs = <|[\V\] V(1.0), V(2.0), V(3.0)|>
+  println("BIG OTIMES = " (BIG OTIMES[x <- xs] x))
+end
+end

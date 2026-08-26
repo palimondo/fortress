@@ -536,3 +536,56 @@ running definitions, the three-rung attention ladder as the visible
 notation exploration — and republished at the same artifact URL. New
 figure sheets: `paper-notation`, `paper-model`, `paper-attend`,
 `native-attend` (all split-committed under `explorations/fortify/`).
+
+## 2026-08-26 — The adversarial review: spec audit and process audit
+
+Pavol's charge, verbatim in essence: you may be re-deriving what the
+language provides and over-specifying what it infers, because you never
+consulted the specification — review the implementation against the
+spec's LaTeX source, and review the *reasoning process* in the session
+transcripts. Both audits are committed:
+`explorations/expressiveness-review.md` (20 findings, spec-cited, every
+one probed against the interpreter; probes in `explorations/spec-probes/`)
+and `explorations/process-audit.md`.
+
+The process verdict, confirmed harder than charged: **zero spec
+consultations during the entire design phase** (556 tool calls: 106
+interpreter runs, 29 library reads, 0 spec reads), with structural
+causes in our own docs — CLAUDE.md and the briefs present the spec as a
+build artifact and contain no pointers into it. Two dead-ends had
+sanctioned escapes sitting in the spec (the Meet Rule for the
+vector×matrix overload; coercion never considered), one recorded "trap"
+was never actually reproduced (the comprehension-body-subscript rule —
+now corrected in the impl report), and the journal had mislabeled a
+documented spec design (static params don't affect overload
+applicability) as an implementation quirk.
+
+The expressiveness verdict: 6 works-today findings we missed, 8
+spec-only gaps now on the revival worklist (declaration-site
+covariance — the root cause of ascription noise tree-wide; coercion,
+906 spec lines, parses but is unwired; multifix operator dispatch,
+which would give the n-ary Sum node for free; the spec's
+single-declaration BIG operators vs the desugarer's nullary registry;
+the 1894-line algebraic-constraints library shipping as
+`Fortress.Operators.fsi.INCOMPLETE`; Vector/Matrix sealed to Number;
+static-arg inference; dimensions), 6 confirmed-deliberate choices, and
+3 places the spec is silent (the type-inference chapter is a 27-line
+stub) where the library is the only authority. Section 7 re-adjudicates
+"why Σ is closed": part library sealing, part genuine spec bar, part
+desugarer artifact — three different reasons where the journal had
+recorded one.
+
+**Folded into `microgpt_paper.fss` (golden re-verified PASS, structure
+intact):** the 26 redundant `[\V\]` ascriptions dropped (the RR64/List
+ones stay — the interpreter types aggregates from runtime class and
+`List` is invariant); `V extends MultiplicativeRing[\V\]` defining
+`one`/`TIMES` and inheriting juxtaposition, binary minus and zero (the
+`complex_ring.fss` precedent honored); the dead `SQRT(ZZ32)` overload
+deleted; the optimizer's 13-line nested-loop parameter flattening
+collapsed to the file's own nested-generator idiom; the header's false
+"could not be built" claim rewritten to the corrected diagnosis.
+Return-type annotations kept deliberately — they are the exhibits.
+Render sheets regenerated to match. **Held for the next iteration on
+Pavol's go:** excluding carrier types (Vec/Mat rank traits, as the
+library's own Vector/Matrix do), which restore `p Vv` and subscripts
+without field noise and dissolve `BIG BOXPLUS`.

@@ -16,30 +16,30 @@
 opr DOT(u: List[\V\], v: List[\V\]): V = BIG OPLUS[m <- 0#|u|] (u[m] v[m])
 
 opr juxtaposition(w: List[\List[\V\]\], x: List[\V\]): List[\V\] =
-  <|[\V\] (w[r] DOT x) | r <- 0#|w| |>
+  <| (w[r] DOT x) | r <- 0#|w| |>
 
-opr juxtaposition(a: V, x: List[\V\]): List[\V\] = <|[\V\] (a u) | u <- x|>
+opr juxtaposition(a: V, x: List[\V\]): List[\V\] = <| (a u) | u <- x|>
 
 vecsum(vs: List[\List[\V\]\]): List[\V\] =
-  <|[\V\] (vsum(<|[\V\] (v[m]) | v <- seq(vs)|>)) | m <- 0#|vs[0]| |>
+  <| (vsum(<| (v[m]) | v <- seq(vs)|>)) | m <- 0#|vs[0]| |>
 
 opr BIG BOXPLUS(g: Generator[\List[\V\]\]): List[\V\] =
   __bigOperatorSugar[\List[\V\],List[\V\],List[\List[\V\]\],List[\List[\V\]\]\](BIG BOXPLUS(), g)
 
 opr +(x: List[\V\], y: List[\V\]): List[\V\] =
-  <|[\V\] (u + w) | (u, w) <- x.zip[\V\](y)|>
+  <| (u + w) | (u, w) <- x.zip[\V\](y)|>
 
-opr -(x: List[\V\], c: RR64): List[\V\] = <|[\V\] (u - c) | u <- x|>
+opr -(x: List[\V\], c: RR64): List[\V\] = <| (u - c) | u <- x|>
 
-opr /(x: List[\V\], s: V): List[\V\] = <|[\V\] (u / s) | u <- x|>
+opr /(x: List[\V\], s: V): List[\V\] = <| (u / s) | u <- x|>
 
-opr /(x: List[\V\], c: RR64): List[\V\] = <|[\V\] (u / c) | u <- x|>
+opr /(x: List[\V\], c: RR64): List[\V\] = <| (u / c) | u <- x|>
 
-relu(x: List[\V\]): List[\V\] = <|[\V\] (relu u) | u <- x|>
+relu(x: List[\V\]): List[\V\] = <| (relu u) | u <- x|>
 
-exp(x: List[\V\]): List[\V\] = <|[\V\] (exp u) | u <- x|>
+exp(x: List[\V\]): List[\V\] = <| (exp u) | u <- x|>
 
-concat(heads: List[\List[\V\]\]): List[\V\] = <|[\V\] u | h <- heads, u <- h|>
+concat(heads: List[\List[\V\]\]): List[\V\] = <| u | h <- heads, u <- h|>
 
 opr SQRT(u: V): V = u^0.5
 
@@ -55,7 +55,7 @@ softmax(a: List[\V\]): List[\V\] = do
 end
 
 attend(q: List[\V\], K: List[\List[\V\]\], Vv: List[\List[\V\]\]): List[\V\] = do
-  p = softmax(<|[\V\] ((q DOT k) / SQRT |q|) | k <- K|>)
+  p = softmax(<| ((q DOT k) / SQRT |q|) | k <- K|>)
   BIG BOXPLUS[j <- 0#|p|] p[j] Vv[j]
 end
 

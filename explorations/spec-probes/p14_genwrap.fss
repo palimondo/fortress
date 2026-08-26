@@ -1,0 +1,45 @@
+component p14_genwrap
+import List.{...}
+export Executable
+
+object V(var data: RR64) getter asString(): String = "V(" data ")" end
+
+(* A carrier that is BOTH a distinct excluding type (so Mat.Vec and Vec.Mat
+   can both be declared) AND a library generator/indexed value (so |x|, x[i]
+   and  <| e | u <- x |>  all work with no hand-written glue and no field
+   noise in renders). *)
+trait Rank1V excludes Rank2V end
+trait Rank2V excludes Rank1V end
+
+object Vec(xs: List[\V\]) extends { Rank1V, ZeroIndexed[\V\], DelegatedIndexed[\V,ZZ32\] }
+  getter asString(): String = "" xs
+  getter indices(): Generator[\ZZ32\] = 0#|xs|
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: V = xs[i]
+  opr [r: Range[\ZZ32\]]: ZeroIndexed[\V\] = Vec(xs[r])
+end
+
+object Mat(rows: List[\Vec\]) extends { Rank2V, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
+  getter asString(): String = "" rows
+  getter indices(): Generator[\ZZ32\] = 0#|rows|
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+  opr [r: Range[\ZZ32\]]: ZeroIndexed[\Vec\] = Mat(rows[r])
+end
+
+opr DOT(u: Vec, w: Vec): V = V(SUM[m <- seq(0#|u|)] (u[m].data w[m].data))
+opr juxtaposition(m: Mat, x: Vec): Vec = Vec(<|[\V\] (r DOT x) | r <- m |>)
+opr juxtaposition(p: Vec, m: Mat): Vec =
+  Vec(<|[\V\] (V(SUM[j <- seq(0#|p|)] (p[j].data (m[j])[c].data))) | c <- 0#|m[0]| |>)
+
+run() = do
+  x = Vec(<|[\V\] V(1.0), V(2.0)|>)
+  m = Mat(<|[\Vec\] Vec(<|[\V\] V(1.0), V(0.0)|>), Vec(<|[\V\] V(0.0), V(3.0)|>)|>)
+  println("m x  = " (m x))
+  println("x m  = " (x m))
+  println("|x|  = " |x| "   x[1] = " x[1])
+  println("comprehension over Vec: " <|[\RR64\] (u.data) | u <- x|>)
+  println("for over Mat: ")
+  for r <- seq(m) do println("  row " r) end
+end
+end
