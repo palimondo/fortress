@@ -1,0 +1,18 @@
+% microgpt2 block render: RMSNorm(x) = x / sqrt(x.x/d + eps), no gain.
+% From explorations/microgpt2.fss. Regenerate:
+%   bin/fortick explorations/fortify/block-rmsnorm.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex block-rmsnorm.tex
+%   dvisvgm --no-fonts --exact-bbox -o block-rmsnorm-light.svg block-rmsnorm.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`rmsnorm(x: Vec): Vec = do
+  d = |x|
+  x / SQRT((x DOT x) / d + epsilon)
+end`
+\end{preview}
+\end{document}

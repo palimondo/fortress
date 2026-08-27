@@ -1,0 +1,29 @@
+% microgpt2 block render: the full forward pass at one position -- the
+% residual stream on inherited Vec +, per-head comprehensions as the
+% literature's head_1..head_h ellipsis made precise, histories threaded.
+% From explorations/microgpt2.fss (Model.forward). Regenerate:
+%   bin/fortick explorations/fortify/block-forward.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex block-forward.tex
+%   dvisvgm --no-fonts --exact-bbox -o block-forward-light.svg block-forward.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`forward(t: ZZ32, i: ZZ32, kh: List[\Mat\], vh: List[\Mat\])
+    : (Vec, List[\Mat\], List[\Mat\]) = do
+  h0 = _We[t] + _Wp[i]
+  x1 = rmsnorm(h0)
+  x2 = rmsnorm(x1)
+  K = <| (kh[h]).addRight(_Wk[h] x2) | h <- 0#nHead |>
+  V = <| (vh[h]).addRight(_Wv[h] x2) | h <- 0#nHead |>
+  heads = <| attend(_Wq[h] x2, K[h], V[h]) | h <- 0#nHead |>
+  x3 = _Wo concat(heads) + x1
+  x4 = rmsnorm(x3)
+  x5 = ffn(x4) + x3
+  (_Wlm x5, K, V)
+end`
+\end{preview}
+\end{document}

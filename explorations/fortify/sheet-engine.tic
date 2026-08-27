@@ -1,0 +1,50 @@
+% microgpt2 engine sheet: the tape node Value (Karpathy's class name --
+% joins the library tower twice: MultiplicativeRing buys juxtaposition,
+% binary minus, zero; StandardMax opens the genuine BIG MAX), the named
+% sum whose body is the how-autodiff-sees-Sigma lesson (one n-ary node,
+% forward folded by the genuine library SUM, unit local gradients) plus
+% its one-line Vec overload (how softmax's sum(e) resolves), and
+% backpropagation over the reverse topological order.
+% From explorations/microgpt2.fss. Regenerate:
+%   bin/fortick explorations/fortify/sheet-engine.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex sheet-engine.tex
+%   dvisvgm --no-fonts --exact-bbox -o sheet-engine-light.svg sheet-engine.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`object Value(var data: RR64, children: List[\Value\], grads: List[\RR64\])
+       extends { MultiplicativeRing[\Value\], StandardMax[\Value\] }
+  getter one(): Value = konst(1.0)
+  var grad: RR64 := 0.0
+  var visited: Boolean := false
+  opr +(self, o: Value): Value = Value(data + o.data, <| self, o |>, <|[\RR64\] 1.0, 1.0|>)
+  opr TIMES(self, o: Value): Value =
+    Value(data o.data, <| self, o |>, <|[\RR64\] o.data, data|>)
+  opr -(self): Value = Value(-data, <| self |>, <|[\RR64\] -1.0|>)
+  opr /(self, o: Value): Value =
+    Value(data / o.data, <| self, o |>,
+          <|[\RR64\] 1.0 / o.data, (-data) / (o.data o.data)|>)
+  opr ^ (self, n: RR64): Value = Value(data^n, <| self |>, <|[\RR64\] n data^(n-1.0)|>)
+  opr MAX(self, o: Value): Value = if data >= o.data then self else o end
+end
+
+sum(addends: List[\Value\]): Value =
+  Value(SUM[a <- seq(addends)] a.data, addends, <|[\RR64\] 1.0 | a <- addends|>)
+sum(x: Vec): Value = sum(x.xs)
+
+backward(root: Value): () = do
+  t = Topo()
+  t.build(root)
+  root.grad := 1.0
+  for v <- seq(t.items.reverse) do
+    for (ch, lg) <- seq(v.children.zip[\RR64\](v.grads)) do
+      ch.grad := ch.grad + lg v.grad
+    end
+  end
+end`
+\end{preview}
+\end{document}

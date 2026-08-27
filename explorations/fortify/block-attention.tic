@@ -1,0 +1,16 @@
+% microgpt2 block render: one-head attention over the history, the
+% literature's own line softmax(q K^T / sqrt d_k) V (d_k is a Model field).
+% From explorations/microgpt2.fss (Model.attend). Regenerate:
+%   bin/fortick explorations/fortify/block-attention.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex block-attention.tex
+%   dvisvgm --no-fonts --exact-bbox -o block-attention-light.svg block-attention.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`attend(q: Vec, K: Mat, V: Mat): Vec = softmax(q K^T / SQRT d_k) V`
+\end{preview}
+\end{document}

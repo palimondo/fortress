@@ -1,0 +1,15 @@
+% microgpt2 block render: token+position embedding, h0 = Wte[t] + Wpe[i].
+% From explorations/microgpt2.fss (forward). Regenerate:
+%   bin/fortick explorations/fortify/block-embedding.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex block-embedding.tex
+%   dvisvgm --no-fonts --exact-bbox -o block-embedding-light.svg block-embedding.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`h0 = _We[t] + _Wp[i]`
+\end{preview}
+\end{document}

@@ -1,0 +1,62 @@
+% microgpt2 notation-layer sheet: the COMPLETE machinery bill -- carriers
+% with their extends clauses (the inheritance ledger: Rank1 excludes Rank2
+% legalizes both juxtaposition directions; ZeroIndexed/DelegatedIndexed buy
+% |x|, x[i], slices, generators; AdditiveGroup gives Vec minus and zero),
+% carrier = (HasRank's default is constant false), every operator of the
+% notation layer defined once by its index formula, and the ^T transpose.
+% From explorations/microgpt2.fss. Regenerate:
+%   bin/fortick explorations/fortify/sheet-notation.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex sheet-notation.tex
+%   dvisvgm --no-fonts --exact-bbox -o sheet-notation-light.svg sheet-notation.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`(* the carriers: library citizens (Rank1 excludes Rank2 makes both
+   juxtaposition directions legal under the Meet Rule) *)
+object Vec(xs: List[\Value\])
+    extends { Rank1, ZeroIndexed[\Value\], DelegatedIndexed[\Value,ZZ32\],
+              AdditiveGroup[\Vec\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |xs|
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: Value = xs[i]
+  opr [r: Range[\ZZ32\]]: Vec = Vec(xs[r])
+  opr +(self, y: Vec): Vec = Vec(<| u + w | (u, w) <- self.zip[\Value\](y) |>)
+  opr -(self): Vec = Vec(<| -u | u <- xs |>)
+  opr =(self, y: Vec): Boolean =
+    (|xs| = |y|) AND (BIG AND[m <- self.indices] ((xs[m]).data = y[m].data))
+end
+
+object Mat(rows: List[\Vec\])
+    extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |rows|
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+  opr [r: Range[\ZZ32\]]: Mat = Mat(rows[r])
+  addRight(k: Vec): Mat = Mat(rows.addRight(k))
+  opr =(self, y: Mat): Boolean =
+    (|rows| = |y|) AND (BIG AND[i <- self.indices] (rows[i] = y[i]))
+end
+
+(* the notation layer: each operator defined once, by its index formula *)
+opr DOT(u: Vec, w: Vec): Value = sum(<| u[m] w[m] | m <- u.indices |>)
+
+opr juxtaposition(w: Mat, x: Vec): Vec = Vec(<| r DOT x | r <- w |>)
+
+opr juxtaposition(p: Vec, m: Mat): Vec =
+  Vec(<| sum(<| p[j] (m[j])[c] | j <- p.indices |>) | c <- (m[0]).indices |>)
+
+opr (m: Mat)^T : Mat =
+  Mat(<| Vec(<| (m[j])[c] | j <- m.indices |>) | c <- (m[0]).indices |>)
+
+opr -(x: Vec, s: Value): Vec = Vec(<| u - s | u <- x |>)
+opr /(x: Vec, s: Value): Vec = Vec(<| u / s | u <- x |>)
+opr /(x: Vec, c: RR64): Vec = Vec(<| u / c | u <- x |>)
+relu(x: Vec): Vec = Vec(<| relu u | u <- x |>)
+exp(x: Vec): Vec = Vec(<| exp u | u <- x |>)
+concat(heads: List[\Vec\]): Vec = Vec(<| u | h <- heads, u <- h |>)`
+\end{preview}
+\end{document}

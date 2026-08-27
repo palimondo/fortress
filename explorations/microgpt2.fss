@@ -1,0 +1,440 @@
+component microgpt2
+import List.{...}
+import File.{...}
+export Executable
+
+(* microgpt2.fss -- iteration 2 of the microgpt notation exploration: the
+   complete model in the merged "carriers (+) tower" design approved in
+   explorations/microgpt-iteration2-plan.md (Judgment section; decision
+   brief in the session record).  Karpathy's microgpt -- scalar reverse-mode
+   autodiff, char-level tokenizer, 1-layer/2-head transformer (rmsnorm,
+   multi-head attention with KV history, relu MLP), Adam with bias
+   correction and linear LR decay, temperature sampling -- with the model
+   level stated in the notation the ML literature itself uses:
+
+     h0      = _We[t] + _Wp[i]
+     RMSNorm  x / SQRT((x DOT x) / d + epsilon)
+     attend   softmax(q K^T / SQRT d_k) V
+     FFN      _W2 relu(_W1 x)
+     loss     - log(p[y])
+
+   The design, per the judgment: the autodiff node is named Value
+   (Karpathy's own class name -- freeing the letter V for the value
+   matrix); Value joins the 2012 library's numeric tower twice
+   (MultiplicativeRing gives juxtaposition, binary minus, zero as trait
+   defaults; StandardMax opens the genuine library BIG MAX to the tape,
+   so softmax's stabilizing shift is a real big operator with no .data
+   leak); vectors and matrices are carrier objects on the library's own
+   Potemkin rank traits (Rank1 excludes Rank2 -- the exclusion that makes
+   BOTH juxtaposition directions legal under the spec's Meet Rule,
+   advanced/overloading.tex; library precedent FortressLibrary.fss:2634,
+   2641); Vec extends AdditiveGroup, so the residual stream rides on
+   carrier-level inherited algebra; ^T is a real superscripted postfix
+   operator (spec basic/operators/intro.tex special-cases ^T "to signify
+   matrix transposition"), making the attention line the literature's own;
+   carrier = is defined (HasRank's default makes even x = x false --
+   FortressLibrary.fss:1588); weights are _W-prefixed, the spec's
+   leading-underscore boldface convention (basic/lexical-structure.tex,
+   render-identifiers), so they typeset as the bold matrices of the
+   papers; n-ary summation is the named function sum(...) -- the library
+   SUM is sealed to Number three independent ways (expressiveness-review
+   finding 7), and the standing rules prefer the named function over a
+   custom big glyph anyway; per-head plumbing is three per-head
+   comprehensions, the literature's "head_1 ... head_h" ellipsis made
+   precise.  Everything else about the architecture matches the Python
+   reference: 1 layer, heads structural, rmsnorm without gain, no biases,
+   plain relu, causality by history, Adam beta1 .85 beta2 .99 lr .01
+   linear decay, BOS = 26, vocab 27.
+
+   Verified: v1's goldenCheck numbers (15 logits, mean loss, 5 gradients)
+   at 1e-9, then a nano training run.  Run FORTRESS_THREADS=1. *)
+
+(* ---------- scalar reverse-mode autodiff: the tape engine ---------- *)
+
+(* Value is a multiplicative ring and a StandardMax; saying so buys
+   juxtaposition (= TIMES), binary minus (= self + (-o)), zero, and the
+   library's genuine BIG MAX, all as trait defaults (precedents:
+   explorations/complex_ring.fss for the ring; the tower nucleus for MAX). *)
+object Value(var data: RR64, children: List[\Value\], grads: List[\RR64\])
+       extends { MultiplicativeRing[\Value\], StandardMax[\Value\] }
+  getter one(): Value = konst(1.0)
+  getter asString(): String = "" data
+  var grad: RR64 := 0.0
+  var visited: Boolean := false
+  opr +(self, o: Value): Value = Value(data + o.data, <| self, o |>, <|[\RR64\] 1.0, 1.0|>)
+  opr +(self, c: RR64): Value = Value(data + c, <| self |>, <|[\RR64\] 1.0|>)
+  opr TIMES(self, o: Value): Value =
+    Value(data o.data, <| self, o |>, <|[\RR64\] o.data, data|>)
+  opr -(self): Value = Value(-data, <| self |>, <|[\RR64\] -1.0|>)
+  opr -(self, c: RR64): Value = Value(data - c, <| self |>, <|[\RR64\] 1.0|>)
+  opr /(self, o: Value): Value =
+    Value(data / o.data, <| self, o |>,
+          <|[\RR64\] 1.0 / o.data, (-data) / (o.data o.data)|>)
+  opr /(self, c: RR64): Value = Value(data / c, <| self |>, <|[\RR64\] 1.0 / c|>)
+  opr /(self, n: ZZ32): Value = self / (n 1.0)
+  opr ^ (self, n: RR64): Value = Value(data^n, <| self |>, <|[\RR64\] n data^(n-1.0)|>)
+  opr ^ (self, n: AnyIntegral): Value = self^(n 1.0)
+  opr MAX(self, o: Value): Value = if data >= o.data then self else o end
+end
+
+konst(d: RR64): Value = Value(d, emptyList[\Value\](), emptyList[\RR64\]())
+
+exp(v: Value): Value = Value(exp v.data, <| v |>, <|[\RR64\] exp v.data|>)
+log(v: Value): Value = Value(log v.data, <| v |>, <|[\RR64\] 1.0/v.data|>)
+relu(v: Value): Value = if v.data > 0.0
+                        then Value(v.data, <| v |>, <|[\RR64\] 1.0|>)
+                        else Value(0.0, <| v |>, <|[\RR64\] 0.0|>) end
+opr SQRT(u: Value): Value = u^0.5
+
+(* Sigma as the literature writes it: a named function, one n-ary Sum
+   node; the forward value is the genuine library SUM over the addends'
+   data (they are Numbers), folded sequentially (FP addition is not
+   associative; the fold order is the reproducibility contract);
+   d(sum)/d(addend_j) = 1. *)
+sum(addends: List[\Value\]): Value =
+  Value(SUM[a <- seq(addends)] a.data, addends, <|[\RR64\] 1.0 | a <- addends|>)
+sum(x: Vec): Value = sum(x.xs)
+
+object Topo()
+  var items: List[\Value\] := emptyList[\Value\]()
+  build(v: Value): () = do
+    if NOT v.visited then
+      v.visited := true
+      for ch <- seq(v.children) do self.build(ch) end
+      items := items.addRight(v)
+    end
+  end
+end
+
+backward(root: Value): () = do
+  t = Topo()
+  t.build(root)
+  root.grad := 1.0
+  for v <- seq(t.items.reverse) do
+    for (ch, lg) <- seq(v.children.zip[\RR64\](v.grads)) do
+      ch.grad := ch.grad + lg v.grad
+    end
+  end
+end
+
+(* ---------- the carriers: library citizens ----------
+   Vec/Mat wrap List; extending the library's own Rank1/Rank2 makes them
+   mutually excluding, so BOTH juxtaposition directions are legal
+   overloads; ZeroIndexed/DelegatedIndexed buy |x|, x[i], slices x[r],
+   zip, and full generator integration (u <- x, BIG ops over x) from four
+   one-line members; AdditiveGroup gives Vec inherited binary minus and
+   zero from + and unary -.  Carrier = is defined because HasRank's
+   default equality is constant false -- even x = x. *)
+
+object Vec(xs: List[\Value\])
+    extends { Rank1, ZeroIndexed[\Value\], DelegatedIndexed[\Value,ZZ32\],
+              AdditiveGroup[\Vec\] }
+  getter asString(): String = "" xs
+  getter indices(): Generator[\ZZ32\] = 0 # |xs|
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: Value = xs[i]
+  opr [r: Range[\ZZ32\]]: Vec = Vec(xs[r])
+  opr +(self, y: Vec): Vec = Vec(<| u + w | (u, w) <- self.zip[\Value\](y) |>)
+  opr -(self): Vec = Vec(<| -u | u <- xs |>)
+  opr =(self, y: Vec): Boolean =
+    (|xs| = |y|) AND (BIG AND[m <- self.indices] ((xs[m]).data = y[m].data))
+end
+
+object Mat(rows: List[\Vec\])
+    extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
+  getter asString(): String = "" rows
+  getter indices(): Generator[\ZZ32\] = 0 # |rows|
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+  opr [r: Range[\ZZ32\]]: Mat = Mat(rows[r])
+  addRight(k: Vec): Mat = Mat(rows.addRight(k))
+  opr =(self, y: Mat): Boolean =
+    (|rows| = |y|) AND (BIG AND[i <- self.indices] (rows[i] = y[i]))
+end
+
+(* ---------- the notation layer: each operator defined once,
+              by its index formula ---------- *)
+
+(* u DOT w = SUM_m u_m w_m : one n-ary Sum node *)
+opr DOT(u: Vec, w: Vec): Value = sum(<| u[m] w[m] | m <- u.indices |>)
+
+(* (W x)_r = W_r DOT x *)
+opr juxtaposition(w: Mat, x: Vec): Vec = Vec(<| r DOT x | r <- w |>)
+
+(* (p M)_c = SUM_j p_j M_j_c -- the OTHER direction, legal because
+   Rank1 excludes Rank2 *)
+opr juxtaposition(p: Vec, m: Mat): Vec =
+  Vec(<| sum(<| p[j] (m[j])[c] | j <- p.indices |>) | c <- (m[0]).indices |>)
+
+(* (M^T)_c_j = M_j_c : the spec's superscripted postfix operator,
+   "typically used to signify matrix transposition" (basic/operators/intro.tex) *)
+opr (m: Mat)^T : Mat =
+  Mat(<| Vec(<| (m[j])[c] | j <- m.indices |>) | c <- (m[0]).indices |>)
+
+(* scalar broadcasts and pointwise lifts *)
+opr -(x: Vec, s: Value): Vec = Vec(<| u - s | u <- x |>)
+opr /(x: Vec, s: Value): Vec = Vec(<| u / s | u <- x |>)
+opr /(x: Vec, c: RR64): Vec = Vec(<| u / c | u <- x |>)
+relu(x: Vec): Vec = Vec(<| relu u | u <- x |>)
+exp(x: Vec): Vec = Vec(<| exp u | u <- x |>)
+concat(heads: List[\Vec\]): Vec = Vec(<| u | h <- heads, u <- h |>)
+
+(* ---------- the model, block by block ---------- *)
+
+epsilon: RR64 = 0.00001
+
+(* RMSNorm(x) = x / SQRT(x.x/d + eps) -- no learnable gain; d is the
+   dimension of x (|x| is length here, not a norm) *)
+rmsnorm(x: Vec): Vec = do
+  d = |x|
+  x / SQRT((x DOT x) / d + epsilon)
+end
+
+(* softmax(a)_j = e^(a_j - m) / SUM_k e^(a_k - m): the stabilizing shift
+   m = max a is the library's own BIG MAX (Value extends StandardMax), the
+   pointwise e^(a - m) uses Value's inherited minus, and
+   softmax(a) = softmax(a - m) is an identity, so the shift changes no
+   number the mathematics defines. *)
+softmax(a: Vec): Vec = do
+  m = BIG MAX[u <- a] u
+  e = exp(a - m)
+  e / sum(e)
+end
+
+(* L = -log softmax(logits)_y *)
+nll(logits: Vec, y: ZZ32): Value = do
+  p = softmax(logits)
+  - log(p[y])
+end
+
+(* one layer, nHead heads; n_layer = 1 as in Karpathy's default.  kh/vh
+   are the per-head histories of key/value vectors for positions 0..i-1;
+   forward returns the logits together with the histories extended by
+   position i -- the KV cache is visible as data, and causality is the
+   data too: K and V never contain a future position, so no mask. *)
+object Model(vocab: ZZ32, nEmbd: ZZ32, nHead: ZZ32, d_k: ZZ32,
+             _We: Mat, _Wp: Mat, _Wlm: Mat,
+             _Wq: List[\Mat\], _Wk: List[\Mat\], _Wv: List[\Mat\],
+             _Wo: Mat, _W1: Mat, _W2: Mat)
+
+  (* one head at one step, over its whole history: score, weights, blend
+     in the literature's own line.  K stacks the head's key vectors as
+     rows, so (q K^T)_j = q DOT k_j. *)
+  attend(q: Vec, K: Mat, V: Mat): Vec = softmax(q K^T / SQRT d_k) V
+
+  (* FFN(x) = W_2 relu(W_1 x) *)
+  ffn(x: Vec): Vec = _W2 relu(_W1 x)
+
+  forward(t: ZZ32, i: ZZ32, kh: List[\Mat\], vh: List[\Mat\])
+      : (Vec, List[\Mat\], List[\Mat\]) = do
+    h0 = _We[t] + _Wp[i]
+    x1 = rmsnorm(h0)
+    x2 = rmsnorm(x1)
+    K = <| (kh[h]).addRight(_Wk[h] x2) | h <- 0#nHead |>
+    V = <| (vh[h]).addRight(_Wv[h] x2) | h <- 0#nHead |>
+    heads = <| attend(_Wq[h] x2, K[h], V[h]) | h <- 0#nHead |>
+    x3 = _Wo concat(heads) + x1
+    x4 = rmsnorm(x3)
+    x5 = ffn(x4) + x3
+    (_Wlm x5, K, V)
+  end
+end
+
+emptyHist(nh: ZZ32): List[\Mat\] = <| Mat(emptyList[\Vec\]()) | h <- 0#nh |>
+
+(* ---------- weights ---------- *)
+
+(* deterministic weights for the golden check (no RNG; the same formula
+   lives in the Python reference generator).  goldRows(mi, r0, rows, cols)
+   is the row block r0 .. r0+rows-1 of v1's flat matrix mi, so a head's
+   slice carries exactly v1's values (the flat-row-index mapping). *)
+initW(i: ZZ32, j: ZZ32): RR64 = (((31 i + 17 j) REM 97) - 48) / 100.0
+
+goldRow(mi: ZZ32, i: ZZ32, cols: ZZ32): Vec =
+  Vec(<| konst(initW(100 mi + i, j)) | j <- 0#cols |>)
+
+goldRows(mi: ZZ32, r0: ZZ32, rows: ZZ32, cols: ZZ32): Mat =
+  Mat(<| goldRow(mi, r0 + i, cols) | i <- 0#rows |>)
+
+goldMat(mi: ZZ32, rows: ZZ32, cols: ZZ32): Mat = goldRows(mi, 0, rows, cols)
+
+goldHeads(mi: ZZ32, nh: ZZ32, hs: ZZ32, cols: ZZ32): List[\Mat\] =
+  <| goldRows(mi, h hs, hs, cols) | h <- 0#nh |>
+
+(* Box-Muller; random() is the library native *)
+gauss(std: RR64): RR64 = do
+  var u1: RR64 := random(1.0)
+  if u1 < 0.000000000001 then u1 := 0.000000000001 end
+  u2 = random(1.0)
+  r = SQRT (-2.0 (log u1))
+  theta = 2.0 3.141592653589793 u2
+  std r (cos theta)
+end
+
+gaussRow(cols: ZZ32, std: RR64): Vec = Vec(<| konst(gauss(std)) | j <- 0#cols |>)
+gaussMat(rows: ZZ32, cols: ZZ32, std: RR64): Mat =
+  Mat(<| gaussRow(cols, std) | i <- 0#rows |>)
+gaussHeads(nh: ZZ32, hs: ZZ32, cols: ZZ32, std: RR64): List[\Mat\] =
+  <| gaussMat(hs, cols, std) | h <- 0#nh |>
+
+(* ---------- golden check: exact model math vs. the Python reference ---------- *)
+
+goldenCheck(): () = do
+  nH: ZZ32 = 2
+  hs: ZZ32 = 2
+  g = Model(5, 4, nH, hs,
+            goldMat(0, 5, 4), goldMat(1, 4, 4), goldMat(2, 5, 4),
+            goldHeads(3, nH, hs, 4), goldHeads(4, nH, hs, 4), goldHeads(5, nH, hs, 4),
+            goldMat(6, 4, 4), goldMat(7, 16, 4), goldMat(8, 4, 16))
+  tol = 10.0^(-9)
+  tokens = <|[\ZZ32\] 4, 0, 1, 4|>
+  gold0 = <|[\RR64\] 1.1786640480869652, 0.08369680205708685, -1.2116330341802932, 1.161464590811486, 0.06649734478160751|>
+  gold1 = <|[\RR64\] -0.5153754312822434, 0.7583368418857922, -0.6709093810270941, -0.44385589510170814, 0.8298563780663275|>
+  gold2 = <|[\RR64\] -0.7803193651360372, 0.2648497272535788, 0.9794442126538028, -0.861494046699949, 0.18367504568966714|>
+  golds = <|[\List[\RR64\]\] gold0, gold1, gold2|>
+  var kh: List[\Mat\] := emptyHist(nH)
+  var vh: List[\Mat\] := emptyHist(nH)
+  var losses: List[\Value\] := emptyList[\Value\]()
+  for pos <- seq(0#3) do
+    (logits, kh2, vh2) = g.forward(tokens[pos], pos, kh, vh)
+    kh := kh2
+    vh := vh2
+    gold = golds[pos]
+    for i <- seq(0#5) do
+      assert(|(logits[i]).data - gold[i]| < tol, "golden logits pos " pos " idx " i)
+    end
+    losses := losses.addRight(nll(logits, tokens[pos + 1]))
+  end
+  loss = sum(losses) / 3.0
+  assert(|loss.data - 1.228662661701597| < tol, "golden loss")
+  backward(loss)
+  gwte = g._We; gwpe = g._Wp; glm = g._Wlm; gwq = g._Wq; gfc2 = g._W2
+  assert(|((gwte[4])[0]).grad - (-0.21705452841851058)| < tol, "grad wte[4][0]")
+  assert(|((gwpe[0])[1]).grad - 0.06350371373725669| < tol, "grad wpe[0][1]")
+  assert(|((glm[2])[3]).grad - 0.028373522248445866| < tol, "grad lm_head[2][3]")
+  assert(|(((gwq[0])[0])[0]).grad - (-0.001587106636149662)| < tol, "grad attn_wq[0][0]")
+  assert(|((gfc2[1])[2]).grad - 0.0101351876799767| < tol, "grad mlp_fc2[1][2]")
+  println("golden transformer forward/backward vs Python reference: PASS")
+end
+
+(* ---------- training ---------- *)
+
+run() = do
+  goldenCheck()
+
+  (* config: BOS = 26, vocab a-z + BOS (names.txt is strictly a-z) *)
+  vocab: ZZ32 = 27
+  nEmbd: ZZ32 = 8
+  nHead: ZZ32 = 2
+  blockSize: ZZ32 = 8
+  numSteps: ZZ32 = 30
+  maxDocs: ZZ32 = 2000
+  bos: ZZ32 = 26
+  hs: ZZ32 = nEmbd DIV nHead
+
+  fr = FileReadStream("explorations/names.txt")
+  var docs: List[\String\] := emptyList[\String\]()
+  while (NOT fr.eof) AND (|docs| < maxDocs) do
+    l = fr.readLine()
+    if |l| > 0 then docs := docs.addRight(l) end
+  end
+  fr.close()
+  println("num docs: " |docs| "  vocab: " vocab)
+
+  g = Model(vocab, nEmbd, nHead, hs,
+            gaussMat(vocab, nEmbd, 0.08), gaussMat(blockSize, nEmbd, 0.08),
+            gaussMat(vocab, nEmbd, 0.08),
+            gaussHeads(nHead, hs, nEmbd, 0.08), gaussHeads(nHead, hs, nEmbd, 0.08),
+            gaussHeads(nHead, hs, nEmbd, 0.08),
+            gaussMat(nEmbd, nEmbd, 0.08), gaussMat(4 nEmbd, nEmbd, 0.08),
+            gaussMat(nEmbd, 4 nEmbd, 0.08))
+
+  (* flat parameter list for the optimizer (shared Value references) --
+     Mats and Vecs are generators, so nested generator clauses iterate
+     them directly, no unwrapping *)
+  psL = (<| p | m <- <| g._We, g._Wp, g._Wlm, g._Wo, g._W1, g._W2 |>,
+                row <- m, p <- row |>
+         || <| p | hm <- <|[\List[\Mat\]\] g._Wq, g._Wk, g._Wv |>,
+                   m <- hm, row <- m, p <- row |>)
+  nP: ZZ32 = |psL|
+  params = array[\Value\](nP).fill(fn (i: ZZ32) => psL[i])
+  println("num params: " nP)
+
+  (* Adam: m_t = b1 m_{t-1} + (1-b1) g_t;  v_t = b2 v_{t-1} + (1-b2) g_t^2;
+     mHat = m_t/(1-b1^t);  vHat = v_t/(1-b2^t);  w -= lr_t mHat/(SQRT vHat + eps).
+     Index-form RR64 on purpose: the literature's Adam IS elementwise
+     index arithmetic. *)
+  lr0 = 0.01; beta1 = 0.85; beta2 = 0.99; epsA = 0.00000001
+  mBuf = array[\RR64\](nP).fill(fn (i: ZZ32) => 0.0)
+  vBuf = array[\RR64\](nP).fill(fn (i: ZZ32) => 0.0)
+
+  t0 = nanoTime()
+  for step <- seq(0#numSteps) do
+    doc = docs[step REM |docs|]
+    len: ZZ32 = |doc|
+    toks = array[\ZZ32\](len + 2).fill(fn (i: ZZ32) =>
+      if i = 0 OR i = len + 1 then bos else doc[i - 1].codePoint() - 97 end)
+    n = blockSize MIN (len + 1)
+    var kh: List[\Mat\] := emptyHist(nHead)
+    var vh: List[\Mat\] := emptyHist(nHead)
+    var losses: List[\Value\] := emptyList[\Value\]()
+    for pos <- seq(0#n) do
+      (logits, kh2, vh2) = g.forward(toks[pos], pos, kh, vh)
+      kh := kh2
+      vh := vh2
+      losses := losses.addRight(nll(logits, toks[pos + 1]))
+    end
+    loss = sum(losses) / (n 1.0)
+    backward(loss)
+    lrT = lr0 (1.0 - (step 1.0) / (numSteps 1.0))
+    for i <- seq(0#nP) do
+      p = params[i]
+      g1 = p.grad
+      g2 = g1 g1
+      mBuf[i] := beta1 mBuf[i] + (1.0 - beta1) g1
+      vBuf[i] := beta2 vBuf[i] + (1.0 - beta2) g2
+      mHat = mBuf[i] / (1.0 - beta1^((step 1.0) + 1.0))
+      vHat = vBuf[i] / (1.0 - beta2^((step 1.0) + 1.0))
+      p.data := p.data - (lrT mHat) / ((vHat^0.5) + epsA)
+      p.grad := 0.0
+      p.visited := false
+    end
+    el = (((nanoTime() - t0) + 500000) DIV 1000000)
+    println("step " (step + 1) " / " numSteps "  loss " loss.data "  elapsed " el " ms")
+  end
+  secPerStep = ((nanoTime() - t0) 1.0) / (numSteps 1000000000.0)
+  println("s/step: " secPerStep)
+
+  (* inference: temperature sampling *)
+  temp = 0.5
+  println("--- inference ---")
+  for s <- seq(1#10) do
+    var kh: List[\Mat\] := emptyHist(nHead)
+    var vh: List[\Mat\] := emptyHist(nHead)
+    var tid: ZZ32 := bos
+    var out: String := ""
+    var stop: Boolean := false
+    for pos <- seq(0#blockSize) do
+      if NOT stop then
+        (logits, kh2, vh2) = g.forward(tid, pos, kh, vh)
+        kh := kh2
+        vh := vh2
+        probs = softmax(logits / temp)
+        r = random(1.0)
+        var cum: RR64 := 0.0
+        var pick: ZZ32 := vocab - 1
+        var done: Boolean := false
+        for i <- seq(0#vocab) do
+          if NOT done then
+            cum := cum + (probs[i]).data
+            if r < cum then pick := i; done := true end
+          end
+        end
+        if pick = bos then stop := true
+        else out := out || char(pick + 97); tid := pick end
+      end
+    end
+    println("sample " s ": " out)
+  end
+end
+end

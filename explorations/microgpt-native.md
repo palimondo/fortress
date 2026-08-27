@@ -589,3 +589,32 @@ Render sheets regenerated to match. **Held for the next iteration on
 Pavol's go:** excluding carrier types (Vec/Mat rank traits, as the
 library's own Vector/Matrix do), which restore `p Vv` and subscripts
 without field noise and dissolve `BIG BOXPLUS`.
+
+## 2026-08-27 — microgpt2.fss: the merged design, built, verified, integrated
+
+The build workflow (implement → two adversarial verifiers → fixer)
+delivered `explorations/microgpt2.fss`, and the flagship result stands:
+**attention is the literature's own line** — `softmax(q K^T/√d_k) V` —
+made possible by the transpose operator a judge proved from the spec in
+the candidate round. FFN is `𝐖₂ relu(𝐖₁ x)`; the loss is `−log p_y`
+(the fixer probe-upgraded it to verbatim); softmax's max-shift rides
+the genuine library `BIG MAX` through `StandardMax[\Value\]`; the
+engine node is `Value` (Karpathy's name), freeing `V` for the value
+matrix; the notation layer is 39 itemized lines on library `Rank1`/
+`Rank2` exclusion carriers with defined equality. Zero custom BIG
+operators anywhere. Golden gate passed at 1e-9 five times across four
+independent builds (implementer twice, both verifiers, fixer), and
+once more in the main checkout after integration polish (weights
+renamed `_We`/`_Wp` so the embedding renders `𝐖e_t + 𝐖p_i`, and the
+residual-stream numbering closed to h0,x1…x5 — both flagged by the
+fidelity judge, both golden-neutral). ~4.0 s/step at one worker.
+
+The verification round also caught the implementer red-handed
+propagating the falsified parenthesization trap while claiming not to
+(≈15 redundant comprehension-body parens, stripped and re-gated) — the
+adversarial structure paying for itself twice in one run. Deviations
+D1–D10 are classified in `explorations/microgpt2-memo.md`; per-block
+render figures (`block-*.svg`) and the two machinery sheets
+(`sheet-notation`, `sheet-engine` — the inheritance ledger shown, not
+curated away) are committed under `explorations/fortify/`. Next: the
+interleaved presentation.

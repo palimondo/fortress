@@ -1,0 +1,20 @@
+% microgpt2 block render: softmax with the visible stabilizing max-shift,
+% m = BIG MAX (the genuine library big operator over the tape node).
+% From explorations/microgpt2.fss. Regenerate:
+%   bin/fortick explorations/fortify/block-softmax.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex block-softmax.tex
+%   dvisvgm --no-fonts --exact-bbox -o block-softmax-light.svg block-softmax.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`softmax(a: Vec): Vec = do
+  m = BIG MAX[u <- a] u
+  e = exp(a - m)
+  e / sum(e)
+end`
+\end{preview}
+\end{document}
