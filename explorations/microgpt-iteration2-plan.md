@@ -158,3 +158,39 @@ pushes, no tracked-file modifications; deliverables copied to the
 session scratchpad under your candidate's name; timings indicative
 (shared box). Report every dead end with the error verbatim and the
 spec section consulted.
+
+## Judgment (2026-08-26, coordinating session; full brief: candidates-decision-brief.md in session scratchpad, mirrored below in spirit)
+
+The model notation is the **carriers ⊕ tower merge**; spartan survives as
+the page's measurement exhibit (its verified price list of what each line
+of machinery buys). Decisions on the brief's open questions:
+
+1. Axis weighting: fidelity and machinery-as-content together — the merge
+   with tower's inheritance-ledger narrative serves both mission halves.
+2. Weights typeset **bold** (`_W1` → 𝐖₁): bold-matrix is a genuine,
+   prevalent ML register; italic-capital subscripts are unreachable
+   (spec numeral rule + Fortify roman rule — classified design/toolchain
+   limit, stated on the page).
+3. **Adopt `^T`**: the flagship attention line becomes the literature's
+   own `softmax(q Kᵀ/√d_k) V`; the one-line transpose operator is itself
+   a teachable exhibit.
+4. **Keep the visible max-shift**, in tower's form: `StandardMax[\V\]`
+   opens the genuine library `BIG MAX` (no `.data` leak) — an honest
+   numerics point Karpathy also keeps, and the counterpoint to sealed Σ.
+5. **Bind `d = |x|` / use `d_k` fields** so the paper's symbols survive
+   and `|·|` is never misread as a norm.
+6. Spartan's price list and falsified-trap hygiene become page content.
+7. Per-head plumbing stays as comprehensions — the literature's
+   `head₁…head_h` ellipsis made precise, not hidden behind machinery.
+8. Render sheets show the machinery (carriers, lifts, extends-clauses
+   framed as the inheritance ledger; `sum()`'s body framed as the
+   autodiff-sees-Σ lesson) — the mission's second half is not curated
+   away.
+9. Mandated cleanups: define carrier `=` (the reflexive-false landmine);
+   apply all judge reclassifications (carriers D2/D5, tower's `Vv` and
+   "library fiat"); engine node named `Value` freeing the letter `V`;
+   the loose-vs-tight-slash footnote; every full-model claim gated on
+   the golden check.
+
+Build target: `explorations/microgpt2.fss`, plus per-block render
+figures (one small .tic/.svg per block) for the interleaved page.
