@@ -1,0 +1,20 @@
+(* Q2 probe 13: is the q11 "Syntax Error" caused by the trailing unit-NAME LIST
+   of an SI_unit declaration swallowing the next top-level declaration's name?
+   Grammar (ProjectFortress/src/com/sun/fortress/parser/OtherDecl.rats:35-36):
+       dim w IdOrOpName (w = w NoNewlineType)? s (unit / SI_unit) w
+       IdOrOpName a5s:(wr Id)* (w = w NoNewlineExpr)?
+   `(wr Id)*` is greedy and `wr` crosses line breaks, so the following
+   declaration's leading identifier is eaten -- unless it starts with a
+   KEYWORD.  Here the SI_unit decl is followed by another `dim` (a keyword),
+   which should stop the absorption.  Compare q11 (followed by `run`, an Id).
+   Prior art: ProjectFortress/tests/dimensionUnitDecl.fss never puts an
+   identifier-initial declaration after a unit-name list. *)
+component q13_siunit_greedy
+export Executable
+
+dim Length  SI_unit meter meters m_
+dim Mass default kilogram
+
+run() = println "greedy absorption stopped by the dim keyword"
+
+end

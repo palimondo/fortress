@@ -1,0 +1,9 @@
+(* Q1 probe 7 (part 2 of 2): component implementing the api that declares the
+   type alias.  Does routing the alias through an api avoid the
+   IndexBuilder "Not yet implemented: TypeAlias" bug()? *)
+component p7_alias_api
+export p7_alias_api
+
+bump(i: ZZ32): ZZ32 = i + 1
+
+end

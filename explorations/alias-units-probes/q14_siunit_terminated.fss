@@ -1,0 +1,14 @@
+(* Q2 probe 14: second data point for the q13 hypothesis -- terminate the
+   SI_unit declaration with an `= Expr` clause instead, so the name list is
+   closed by the equals sign rather than by a following keyword.
+   Spec: Specification/advanced/defining-dimensions.tex:333
+       dim Power = Energy/Time  SI_unit watt watts W_ = joule/second *)
+component q14_siunit_terminated
+export Executable
+
+dim Length  SI_unit meter meters m_
+dim Area = Length^2  SI_unit squareMeter sqm_ = meter meter
+
+run() = println "terminated by = clause"
+
+end

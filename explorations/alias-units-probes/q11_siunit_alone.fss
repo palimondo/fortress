@@ -1,0 +1,13 @@
+(* Q2 probe 11: the collapsed dim+SI_unit declaration on its own, nothing else.
+   Spec: Specification/advanced/defining-dimensions.tex:332,352
+       dim Length  SI_unit meter meters m_
+   (This is the exact line the SI units library opens with:
+    Library/incomplete/basic/Fortress.SIUnits.fss:18.) *)
+component q11_siunit_alone
+export Executable
+
+dim Length  SI_unit meter meters m_
+
+run() = println "SI_unit declaration accepted"
+
+end

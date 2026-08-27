@@ -1,0 +1,45 @@
+(* Q1 substitute B: the carrier object -- a six-line wrapper that IS a new
+   nominal type but reads like a named space in signatures, and (per
+   explorations/expressiveness-review.md finding 4, probe p14_genwrap.fss)
+   buys |x|, x[i], generator integration.
+   This is NOT an alias: the wrapper is a distinct type and values must be
+   lifted into it.  Probing what it costs and what it buys. *)
+component p9_carrier_subst
+import List.{...}
+export Executable
+
+trait Rank1V excludes Rank2V end
+trait Rank2V excludes Rank1V end
+
+(* named space: a vector of reals *)
+object Vec(xs: List[\RR64\]) extends { Rank1V, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\] }
+  getter asString(): String = "" xs
+  getter indices(): Generator[\ZZ32\] = 0#|xs|
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: RR64 = xs[i]
+  opr [r: Range[\ZZ32\]]: ZeroIndexed[\RR64\] = Vec(xs[r])
+end
+
+(* named space: a probability distribution -- same representation, different name *)
+object ProbDist(xs: List[\RR64\]) extends { Rank1V, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\] }
+  getter asString(): String = "" xs
+  getter indices(): Generator[\ZZ32\] = 0#|xs|
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: RR64 = xs[i]
+  opr [r: Range[\ZZ32\]]: ZeroIndexed[\RR64\] = ProbDist(xs[r])
+end
+
+(* the signature now echoes the paper: softmax : R^n -> Delta^{n-1} *)
+softmax(z: Vec): ProbDist = do
+  e = <|[\RR64\] exp(z[i]) | i <- 0#|z| |>
+  s = SUM [ u <- e ] u
+  ProbDist(<|[\RR64\] u / s | u <- e |>)
+end
+
+run() = do
+  p = softmax(Vec(<|[\RR64\] 1.0, 2.0, 3.0|>))
+  println("softmax = " p)
+  println("sums to " (SUM [ i <- 0#|p| ] p[i]))
+end
+
+end

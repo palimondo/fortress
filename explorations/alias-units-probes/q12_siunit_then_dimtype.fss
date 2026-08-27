@@ -1,0 +1,13 @@
+(* Q2 probe 12: SI_unit declaration FOLLOWED BY a use of the dimension in a
+   type.  Companion to q11 (declaration alone) and q10 (dimensioned type with
+   an ordinary trait).  Isolates the interaction. *)
+component q12_siunit_then_dimtype
+export Executable
+
+dim Length  SI_unit meter meters m_
+
+f(d: RR64 Length): RR64 = 1.0
+
+run() = println "parsed"
+
+end

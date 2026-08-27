@@ -1,0 +1,16 @@
+(* Q1 substitute C, second data point: the import alias WITHOUT the on-demand
+   `...` (p10 failed with "Missing comma" and the span covered the whole brace
+   list, so the `as` and the `...` may not combine).
+   Spec: Specification/basic/components/source-code.tex:74-75,93 --
+       APIName . { AliasedSimpleNameList [, ...] }
+   explicitly allows both together, so if this one works the p10 failure is an
+   implementation gap in the ImportedNames production. *)
+component p11_import_as_only
+import List.{ List as Seq }
+export Executable
+
+heads(x: Seq[\ZZ32\]): ZZ32 = x[0]
+
+run() = println("heads = " heads(<|[\ZZ32\] 4, 5, 6|>))
+
+end

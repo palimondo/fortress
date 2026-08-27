@@ -1,0 +1,14 @@
+(* Q2 probe 10: the LOCAL var-decl position, isolated (companion to q9).
+   Same trait-not-dimension trick as q8 so that a name error would be
+   distinguishable from a grammar failure. *)
+component q10_dimtype_local
+export Executable
+
+trait Length end
+
+run() = do
+  x: RR64 Length = 1.3
+  println("x = " x)
+end
+
+end

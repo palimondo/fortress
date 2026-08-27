@@ -1,0 +1,16 @@
+(* Q1 probe 3: parameterized type alias.
+   Spec: "Parameterized type aliases are allowed but recursively defined type
+   aliases are not." (Specification/basic/types-vals-vars.tex:610-611)
+   Spec example shape: type SimpleFloat[\nat e, nat s\] = DetailedFloat[\...\]
+                       (types-vals-vars.tex:618) *)
+component p3_alias_param
+import List.{...}
+export Executable
+
+type Pair[\T\] = List[\T\]
+
+first[\T\](p: Pair[\T\]): T = p[0]
+
+run() = println("first = " first[\ZZ32\](<|[\ZZ32\] 7, 8|>))
+
+end

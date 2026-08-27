@@ -1,0 +1,14 @@
+(* Q2 probe 4: the same declaration WITH a default clause.  Isolates whether
+   the q3 failure is about `dim` at all or specifically about the ABSENT
+   optional `default` clause.
+   Spec: Specification/advanced/defining-dimensions.tex:102-106
+       dim Length default meter
+   Two-data-point rule: q3 (no default) vs q4 (default present). *)
+component q4_dim_default
+export Executable
+
+dim Length default meter
+
+run() = println "dim with default accepted"
+
+end

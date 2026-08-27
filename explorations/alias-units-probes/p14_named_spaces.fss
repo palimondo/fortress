@@ -1,0 +1,87 @@
+(* Q3 probe: since `type` aliases do not exist (p1/p2/p3/p7), the only working
+   way to name a space in microgpt2's design is ANOTHER CARRIER OBJECT.  This
+   probe asks the decisive structural question: does adding a third Rank1
+   carrier (ProbDist) break the flagship's excludes-based overload structure?
+
+   microgpt2.fss declares (lines 165, 169):
+       opr juxtaposition(w: Mat, x: Vec): Vec
+       opr juxtaposition(p: Vec, m: Mat): Vec
+   legal because Rank1 excludes Rank2 (FortressLibrary.fss:1599).
+   If softmax returns ProbDist rather than Vec, then microgpt2.fss:225
+       attend(q,K,V) = softmax(q K^T / SQRT d_k) V
+   becomes a ProbDist x Mat juxtaposition and needs its own overload, which
+   must coexist with the Vec x Mat one.  Two distinct object types under the
+   same rank trait: is that a legal overloading?
+
+   Element type is RR64 here (no autodiff tape) -- overload resolution among
+   carriers does not depend on the element type; the shapes are microgpt2's. *)
+component p14_named_spaces
+import List.{...}
+export Executable
+
+object Vec(xs: List[\RR64\])
+    extends { Rank1, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\],
+              AdditiveGroup[\Vec\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |xs|
+  getter asString(): String = "Vec" xs
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: RR64 = xs[i]
+  opr +(self, y: Vec): Vec = Vec(<|[\RR64\] u + w | (u, w) <- self.zip[\RR64\](y) |>)
+  opr -(self): Vec = Vec(<|[\RR64\] -u | u <- xs |>)
+end
+
+(* a named space with the SAME representation and a DIFFERENT name:
+   the paper's  p in Delta^{n-1}  rather than  p in RR^n  *)
+object ProbDist(xs: List[\RR64\])
+    extends { Rank1, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |xs|
+  getter asString(): String = "ProbDist" xs
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: RR64 = xs[i]
+end
+
+object Mat(rows: List[\Vec\])
+    extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |rows|
+  getter asString(): String = "Mat" rows
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+end
+
+opr DOT(u: Vec, w: Vec): RR64 = SUM[m <- u.indices] (u[m] w[m])
+opr juxtaposition(w: Mat, x: Vec): Vec = Vec(<|[\RR64\] r DOT x | r <- w |>)
+opr juxtaposition(p: Vec, m: Mat): Vec =
+  Vec(<|[\RR64\] SUM[j <- p.indices] (p[j] (m[j])[c]) | c <- (m[0]).indices |>)
+
+(* THE NEW OVERLOAD the named space forces: ProbDist x Mat *)
+opr juxtaposition(p: ProbDist, m: Mat): Vec =
+  Vec(<|[\RR64\] SUM[j <- p.indices] (p[j] (m[j])[c]) | c <- (m[0]).indices |>)
+
+opr (m: Mat)^T : Mat =
+  Mat(<| Vec(<|[\RR64\] (m[j])[c] | j <- m.indices |>) | c <- (m[0]).indices |>)
+
+opr /(x: Vec, c: RR64): Vec = Vec(<|[\RR64\] u / c | u <- x |>)
+opr -(x: Vec, s: RR64): Vec = Vec(<|[\RR64\] u - s | u <- x |>)
+exp(x: Vec): Vec = Vec(<|[\RR64\] exp u | u <- x |>)
+
+(* the signature now states the paper's own membership:
+     softmax : RR^n -> Delta^{n-1}                                        *)
+softmax(a: Vec): ProbDist = do
+  m = BIG MAX[u <- a] u
+  e = exp(a - m)
+  s = SUM[u <- e] u
+  ProbDist(<|[\RR64\] u / s | u <- e |>)
+end
+
+(* microgpt2.fss:225 verbatim in shape, now typed with named spaces *)
+attend(q: Vec, K: Mat, V: Mat, d_k: ZZ32): Vec = softmax(q K^T / SQRT d_k) V
+
+run() = do
+  q  = Vec(<|[\RR64\] 1.0, 0.0|>)
+  K  = Mat(<| Vec(<|[\RR64\] 1.0, 0.0|>), Vec(<|[\RR64\] 0.0, 1.0|>) |>)
+  V  = Mat(<| Vec(<|[\RR64\] 3.0, 4.0|>), Vec(<|[\RR64\] 5.0, 6.0|>) |>)
+  println("softmax(q K^T/SQRT 2) = " softmax(q K^T / SQRT 2))
+  println("attend = " attend(q, K, V, 2))
+end
+
+end

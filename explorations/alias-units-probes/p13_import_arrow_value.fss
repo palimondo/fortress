@@ -1,0 +1,11 @@
+(* Q1 substitute C, fourth data point: does the `=>` import alias bind a VALUE
+   name, even though p12 showed it does not bind a TYPE name ("Seq is
+   undefined")?  Distinguishes "aliasing unimplemented" from "type namespace
+   only".  Spec: Specification/basic/components/source-code.tex:93. *)
+component p13_import_arrow_value
+import List.{ emptyList => nil, ... }
+export Executable
+
+run() = println("nil = " nil[\ZZ32\]())
+
+end

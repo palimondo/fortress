@@ -1,0 +1,17 @@
+(* Q2 probe 17: the spec's own unit-parameterized operator.
+   Specification/basic/trait-parameters.tex:148 (section "Dimension and Unit
+   Parameters", seclabel dimunitparams), ASCII source verbatim from the LaTeX
+   comment on :147:
+       opr SQRT[\unit U\](x: RR64 U^2): RR64 U = numericalsqrt(x/U^2) U *)
+component q17_unit_staticparam
+export Executable
+
+dim Length  SI_unit meter meters m_ = 1.0
+
+opr SQRT[\unit U\](x: RR64 U^2): RR64 U = numericalsqrt(x/U^2) U
+
+numericalsqrt(x: RR64): RR64 = x^0.5
+
+run() = println "unit static parameter accepted"
+
+end

@@ -1,0 +1,18 @@
+(* Q2 probe 6: the dimensioned TYPE alone, with no dimensioned value.
+   Spec: Specification/basic/dimensions.tex:190-198 -- "Multiplying or dividing
+   a dimensionless numerical type by a unit produces an equivalent dimensioned
+   numerical type"; ":=  a variable whose declared type includes a dimension
+   without an accompanying unit is understood to have the default unit for that
+   dimension" (:217-219).  So `RR64 Length` is a legal type and a plain RR64
+   literal should be admissible in it (the default unit is meter). *)
+component q6_dim_type_only
+export Executable
+
+dim Length   SI_unit meter meters m_
+
+run() = do
+  x: RR64 Length = 1.3
+  println("x = " x)
+end
+
+end

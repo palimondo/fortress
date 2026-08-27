@@ -1,0 +1,21 @@
+(* Q2 probe 1: do dim/unit DECLARATIONS parse and survive to run time?
+   Spec: Specification/advanced/defining-dimensions.tex:17-30 (DimUnitDecl
+   grammar), :64-69 (base dims), :89-92 (derived dims), :138-143 (base units),
+   :163-166 (derived units), :332-334 (the collapsed dim+SI_unit form).
+   Prior art in tree: ProjectFortress/tests/dimensionUnitDecl.fss (a LIVE
+   member of the green testSystem suite). *)
+component q1_dimunit_decl
+export Executable
+
+dim Length  SI_unit meter meters m_
+dim Time    SI_unit second seconds s_
+dim Velocity = Length / Time
+dim Area = Length^2
+
+unit inch inches: Length
+unit foot feet ft_: Length = 12 inch
+unit radian = meter/meter
+
+run() = println "declarations accepted"
+
+end

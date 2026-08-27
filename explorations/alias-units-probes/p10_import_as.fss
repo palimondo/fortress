@@ -1,0 +1,19 @@
+(* Q1 substitute C: the import ALIAS.  This is the one aliasing mechanism the
+   spec puts outside the (unimplemented) `type` declaration.
+   Spec: Specification/basic/components/source-code.tex:93
+       AliasedSimpleName ::= Id [as Id]
+   and :140-160 for the api-level `import apiName as alias` form.
+   NOTE it can only RENAME a name, never name an INSTANTIATION: there is no
+   way to write `List[\Value\] as Vec` in this grammar. *)
+component p10_import_as
+import List.{ List as Seq, emptyList, ... }
+export Executable
+
+heads(x: Seq[\ZZ32\]): ZZ32 = x[0]
+
+run() = do
+  v: Seq[\ZZ32\] = <|[\ZZ32\] 4, 5, 6|>
+  println("heads = " heads(v))
+end
+
+end
