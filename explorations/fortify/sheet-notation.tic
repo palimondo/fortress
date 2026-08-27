@@ -23,7 +23,6 @@ object Vec(xs: List[\Value\])
   getter indices(): Generator[\ZZ32\] = 0 # |xs|
   opr |self| : ZZ32 = |xs|
   opr [i: ZZ32]: Value = xs[i]
-  opr [r: Range[\ZZ32\]]: Vec = Vec(xs[r])
   opr +(self, y: Vec): Vec = Vec(<| u + w | (u, w) <- self.zip[\Value\](y) |>)
   opr -(self): Vec = Vec(<| -u | u <- xs |>)
   opr =(self, y: Vec): Boolean =
@@ -35,7 +34,6 @@ object Mat(rows: List[\Vec\])
   getter indices(): Generator[\ZZ32\] = 0 # |rows|
   opr |self| : ZZ32 = |rows|
   opr [i: ZZ32]: Vec = rows[i]
-  opr [r: Range[\ZZ32\]]: Mat = Mat(rows[r])
   addRight(k: Vec): Mat = Mat(rows.addRight(k))
   opr =(self, y: Mat): Boolean =
     (|rows| = |y|) AND (BIG AND[i <- self.indices] (rows[i] = y[i]))

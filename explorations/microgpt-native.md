@@ -637,3 +637,30 @@ Karpathy's one-minute budget, the Chinchilla arithmetic) and
 Fortress→SplitMix→LXM story). The could/could-not-say ledger is a
 six-row classified table; the ladder shows attention at rungs 1, 3, and
 4. Same artifact URL.
+
+## 2026-08-27 — The harness diet: 241 → 206 core lines, Python at 152
+
+The honest-accounting round (`explorations/microgpt2-diet-report.md`):
+comments and verification stripped identically from both sides,
+microgpt2 fell from 1.59× to **1.36× Karpathy's line count**, with the
+whole reduction where the bloat was — the harness half (119 → 88
+against Python's 70). The math half stands at 118 vs Python's 82, the
+notation layer being the priced difference. Changes: Adam de-seq'd
+(and the engine now clears its own `visited` marks, ending a scratch
+flag's leak into the optimizer); tokenizer as the concatenation
+Karpathy writes; sampling restated as the inverse-CDF count in five
+lines; grep-verified dead code removed; tuple `var` declarations
+adopted. Golden at 1e-9 on every change, re-verified here after
+integration; a timing ablation shows the diet is performance-neutral.
+
+New findings for the record: comprehensions over ~32k elements
+overflow the launcher's default 32m stack (the interpreter's error
+formatter then buries the real error — suspect `-Xss` first); keyword
+parameters with defaults are spec-sanctioned, parse, and die in the
+evaluator (implementation gap, worklist); and the **companion-component
+split works** — an `api microgpt2` + a separate `goldenCheck` importer
+run green under the walk interpreter, with two documented limits (the
+api file must bear the component's own name; apis cannot declare `var`
+fields). Recommendation adopted: the single file stays primary — the
+split's 63-line api buys removal of a section the count already
+excludes.

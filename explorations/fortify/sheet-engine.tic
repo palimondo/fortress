@@ -45,6 +45,7 @@ backward(root: Value): () = do
       ch.grad := ch.grad + lg v.grad
     end
   end
+  for v <- t.items do v.visited := false end
 end`
 \end{preview}
 \end{document}
