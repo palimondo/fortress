@@ -618,3 +618,22 @@ render figures (`block-*.svg`) and the two machinery sheets
 (`sheet-notation`, `sheet-engine` — the inheritance ledger shown, not
 curated away) are committed under `explorations/fortify/`. Next: the
 interleaved presentation.
+
+## 2026-08-27 — The interleaved presentation, published
+
+"A GPT You Can Read" rebuilt on the pair convention: each block of the
+model is one visual unit — the literature's formula on top, the running
+Fortress definition's Fortify render beneath, micro-labeled, no echo
+boxes, no code-block-then-explanation. The pact section opens with the
+FFN pair so the reader learns the convention on the page's best example;
+the flagship attention pair is near character-for-character. Machinery
+appears as content (the engine and notation sheets with their extends
+clauses framed as the inheritance ledger; spartan's measured price-list
+knee; the Σ/MAX asymmetry; the retired ⊕ named as a retired mistake).
+New sections carried in from the experiment rounds: "Training, honestly"
+(the per-name sawtooth, the held-out curve, checkpoint samples,
+Karpathy's one-minute budget, the Chinchilla arithmetic) and
+"Randomness, and a lineage" (the PRNG verdict and the
+Fortress→SplitMix→LXM story). The could/could-not-say ledger is a
+six-row classified table; the ladder shows attention at rungs 1, 3, and
+4. Same artifact URL.
