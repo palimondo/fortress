@@ -18,6 +18,12 @@ export Executable
      FFN      _W2 relu(_W1 x)
      loss     - log(p[y])
 
+   -- and with the SPACES the literature names them over stated in the
+   signatures: softmax : Vec -> ProbDist (the paper's p in Delta^(n-1)),
+   forward : ... -> (Vec, KVCache, KVCache) (the paper's own noun for the
+   thing the same List[\Mat\] spelling otherwise shares with the per-head
+   weight bundles).
+
    The design, per the judgment: the autodiff node is named Value
    (Karpathy's own class name -- freeing the letter V for the value
    matrix); Value joins the 2012 library's numeric tower twice
@@ -45,6 +51,23 @@ export Executable
    reference: 1 layer, heads structural, rmsnorm without gain, no biases,
    plain relu, causality by history, Adam beta1 .85 beta2 .99 lr .01
    linear decay, BOS = 26, vocab 27.
+
+   The named spaces (ProbDist, KVCache) and their price: Fortress
+   SPECIFIES transparent type aliases -- `type ProbDist = Vec`, expanded
+   before type checking, defining no new type and no nominal equivalence
+   (basic/types-vals-vars.tex:597-623) -- and the 2012 implementation
+   stops one line short of them (IndexBuilder.scala:187 is `bug("Not yet
+   implemented")`; the expansion at TypeAnalyzer.scala:552-557 is written
+   and unreachable).  So here a signature can name a space only by
+   minting a NEW NOMINAL TYPE, and minting is not free.  The bill, in
+   full: KVCache costs +7 counted lines (an 8-line carrier and
+   emptyCache, against a one-line forward signature and the vanished
+   emptyHist), and ProbDist costs +2 -- because the shared supertype
+   RowLike lets the left-multiplication  p M  be written once for both
+   rank-1 carriers.  Without RowLike, ProbDist costs +8, six of them a
+   VERBATIM DUPLICATE of the Vec-times-Mat operator body.  Both variants
+   were built and both pass the golden check; the 6-line difference is
+   the measured price of the missing alias.
 
    The harness (data, tokenizer, optimizer, sampling) is held to the same
    notational discipline as the model: each stage is a named definition
@@ -125,25 +148,48 @@ backward(root: Value): () = do
 end
 
 (* ---------- the carriers: library citizens ----------
-   Vec/Mat wrap List; extending the library's own Rank1/Rank2 makes them
-   mutually excluding, so BOTH juxtaposition directions are legal
-   overloads; ZeroIndexed/DelegatedIndexed buy |x|, x[i], zip, and full
-   generator integration (u <- x, BIG ops over x) from three one-line
-   members; AdditiveGroup gives Vec inherited binary minus and zero from
-   + and unary -.  Carrier = is defined because HasRank's default
-   equality is constant false -- even x = x. *)
+   The carriers wrap List; extending the library's own Rank1/Rank2 makes
+   rows and matrices mutually excluding, so BOTH juxtaposition directions
+   are legal overloads; ZeroIndexed/DelegatedIndexed buy |x|, x[i], zip,
+   and full generator integration (u <- x, BIG ops over x) from three
+   one-line members; AdditiveGroup gives Vec inherited binary minus and
+   zero from + and unary -.  Carrier = is defined because HasRank's
+   default equality is constant false -- even x = x.
 
-object Vec(xs: List[\Value\])
-    extends { Rank1, ZeroIndexed[\Value\], DelegatedIndexed[\Value,ZZ32\],
-              AdditiveGroup[\Vec\] }
-  getter indices(): Generator[\ZZ32\] = 0 # |xs|
-  opr |self| : ZZ32 = |xs|
-  opr [i: ZZ32]: Value = xs[i]
+   RowLike is the shared supertype of every rank-1 carrier.  `xs` is the
+   spec's ABSTRACT FIELD DECLARATION -- "an implicit declaration of an
+   abstract getter method" (basic/traits.tex:573-583) -- and indices, |.|
+   and [.] are defined once in terms of it, the same move by which
+   MultiplicativeRing hands Value its inherited operators.  An object's
+   non-transient value parameter is a field (basic/objects.tex:271) with
+   that implicit getter, so `object Vec(xs: ...)` satisfies it with no
+   extra line.  Its purpose is dedup: the left-multiplication  p M  is
+   written ONE time, on RowLike, and both Vec and ProbDist get it.
+
+   ProbDist is the simplex: softmax's codomain, the paper's own
+   p in Delta^(n-1).  Because Fortress 1.0 has no working type alias
+   (spec basic/types-vals-vars.tex:597-623 specifies
+   `type ProbDist = Vec`, expanded before type checking and defining no
+   new type; IndexBuilder.scala:187 stops one line short of it), naming
+   the space costs a NEW NOMINAL TYPE.  With RowLike that cost is one
+   declaration line and one lift at softmax's exit -- not a duplicated
+   operator body. *)
+
+trait RowLike extends { Rank1, ZeroIndexed[\Value\], DelegatedIndexed[\Value,ZZ32\] }
+  xs: List[\Value\]
+  getter indices(): Generator[\ZZ32\] = 0 # |self.xs|
+  opr |self| : ZZ32 = |self.xs|
+  opr [i: ZZ32]: Value = (self.xs)[i]
+end
+
+object Vec(xs: List[\Value\]) extends { RowLike, AdditiveGroup[\Vec\] }
   opr +(self, y: Vec): Vec = Vec(<| u + w | (u, w) <- self.zip[\Value\](y) |>)
   opr -(self): Vec = Vec(<| -u | u <- xs |>)
   opr =(self, y: Vec): Boolean =
     (|xs| = |y|) AND (BIG AND[m <- self.indices] ((xs[m]).data = y[m].data))
 end
+
+object ProbDist(xs: List[\Value\]) extends { RowLike } end
 
 object Mat(rows: List[\Vec\])
     extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
@@ -155,6 +201,23 @@ object Mat(rows: List[\Vec\])
     (|rows| = |y|) AND (BIG AND[i <- self.indices] (rows[i] = y[i]))
 end
 
+(* the KV cache: one Mat of history per head, indexed by head and
+   extended at the right -- the paper's own noun, with the paper's own
+   two operations.  It replaces the spelling List[\Mat\], which this file
+   otherwise uses for the per-head WEIGHT bundles _Wq/_Wk/_Wv: the same
+   type name meant two unrelated things, and needed a comment to say
+   which. *)
+object KVCache(heads: List[\Mat\])
+    extends { ZeroIndexed[\Mat\], DelegatedIndexed[\Mat,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |heads|
+  opr |self| : ZZ32 = |heads|
+  opr [h: ZZ32]: Mat = heads[h]
+  extend(ks: List[\Vec\]): KVCache =
+    KVCache(<| (heads[h]).addRight(ks[h]) | h <- self.indices |>)
+end
+
+emptyCache(nh: ZZ32): KVCache = KVCache(<| Mat(emptyList[\Vec\]()) | h <- 0#nh |>)
+
 (* ---------- the notation layer: each operator defined once,
               by its index formula ---------- *)
 
@@ -165,8 +228,9 @@ opr DOT(u: Vec, w: Vec): Value = sum(<| u[m] w[m] | m <- u.indices |>)
 opr juxtaposition(w: Mat, x: Vec): Vec = Vec(<| r DOT x | r <- w |>)
 
 (* (p M)_c = SUM_j p_j M_j_c -- the OTHER direction, legal because
-   Rank1 excludes Rank2 *)
-opr juxtaposition(p: Vec, m: Mat): Vec =
+   Rank1 excludes Rank2.  Stated on RowLike, so q K^T (a Vec on the left)
+   and softmax(...) V (a ProbDist on the left) are the SAME definition. *)
+opr juxtaposition(p: RowLike, m: Mat): Vec =
   Vec(<| sum(<| p[j] (m[j])[c] | j <- p.indices |>) | c <- (m[0]).indices |>)
 
 (* (M^T)_c_j = M_j_c : the spec's superscripted postfix operator,
@@ -197,11 +261,14 @@ end
    m = max a is the library's own BIG MAX (Value extends StandardMax), the
    pointwise e^(a - m) uses Value's inherited minus, and
    softmax(a) = softmax(a - m) is an identity, so the shift changes no
-   number the mathematics defines. *)
-softmax(a: Vec): Vec = do
+   number the mathematics defines.  The signature states the paper's own
+   membership, softmax : RR^n -> Delta^(n-1); the ProbDist(... .xs) lift
+   on the last line is the whole price of saying it without a type
+   alias. *)
+softmax(a: Vec): ProbDist = do
   m = BIG MAX[u <- a] u
   e = exp(a - m)
-  e / sum(e)
+  ProbDist((e / sum(e)).xs)
 end
 
 (* L = -log softmax(logits)_y *)
@@ -211,10 +278,10 @@ nll(logits: Vec, y: ZZ32): Value = do
 end
 
 (* one layer, nHead heads; n_layer = 1 as in Karpathy's default.  kh/vh
-   are the per-head histories of key/value vectors for positions 0..i-1;
-   forward returns the logits together with the histories extended by
-   position i -- the KV cache is visible as data, and causality is the
-   data too: K and V never contain a future position, so no mask. *)
+   are the KV caches for positions 0..i-1; forward returns the logits
+   together with the caches extended by position i -- the KV cache is
+   visible as data, and causality is the data too: K and V never contain
+   a future position, so no mask. *)
 object Model(nHead: ZZ32, d_k: ZZ32, _We: Mat, _Wp: Mat, _Wlm: Mat,
              _Wq: List[\Mat\], _Wk: List[\Mat\], _Wv: List[\Mat\],
              _Wo: Mat, _W1: Mat, _W2: Mat)
@@ -227,13 +294,12 @@ object Model(nHead: ZZ32, d_k: ZZ32, _We: Mat, _Wp: Mat, _Wlm: Mat,
   (* FFN(x) = W_2 relu(W_1 x) *)
   ffn(x: Vec): Vec = _W2 relu(_W1 x)
 
-  forward(t: ZZ32, i: ZZ32, kh: List[\Mat\], vh: List[\Mat\])
-      : (Vec, List[\Mat\], List[\Mat\]) = do
+  forward(t: ZZ32, i: ZZ32, kh: KVCache, vh: KVCache): (Vec, KVCache, KVCache) = do
     h0 = _We[t] + _Wp[i]
     x1 = rmsnorm(h0)
     x2 = rmsnorm(x1)
-    K = <| (kh[h]).addRight(_Wk[h] x2) | h <- 0#nHead |>
-    V = <| (vh[h]).addRight(_Wv[h] x2) | h <- 0#nHead |>
+    K = kh.extend(<| _Wk[h] x2 | h <- 0#nHead |>)
+    V = vh.extend(<| _Wv[h] x2 | h <- 0#nHead |>)
     heads = <| attend(_Wq[h] x2, K[h], V[h]) | h <- 0#nHead |>
     x3 = _Wo concat(heads) + x1
     x4 = rmsnorm(x3)
@@ -249,8 +315,6 @@ object Model(nHead: ZZ32, d_k: ZZ32, _We: Mat, _Wp: Mat, _Wlm: Mat,
     (<| p | m <- <| _We, _Wp, _Wlm, _Wo, _W1, _W2 |>, row <- m, p <- row |>
      || <| p | hm <- <|[\List[\Mat\]\] _Wq, _Wk, _Wv |>, m <- hm, row <- m, p <- row |>)
 end
-
-emptyHist(nh: ZZ32): List[\Mat\] = <| Mat(emptyList[\Vec\]()) | h <- 0#nh |>
 
 (* ---------- weights ---------- *)
 
@@ -297,7 +361,7 @@ tokenize(doc: String, bos: ZZ32): List[\ZZ32\] =
 (* sample j with probability p_j: the inverse-CDF rule stated as a count
    -- j is the number of prefix sums that fall short of a uniform draw
    (the MIN is the floating-point guard, exactly v1's fallback) *)
-sample(p: Vec): ZZ32 = do
+sample(p: ProbDist): ZZ32 = do
   r = random(1.0)
   short = <| j | j <- p.indices, (SUM[i <- seq(0#(j + 1))] (p[i]).data) < r |>
   |short| MIN (|p| - 1)
@@ -332,7 +396,7 @@ goldenCheck(): () = do
   gold1 = <|[\RR64\] -0.5153754312822434, 0.7583368418857922, -0.6709093810270941, -0.44385589510170814, 0.8298563780663275|>
   gold2 = <|[\RR64\] -0.7803193651360372, 0.2648497272535788, 0.9794442126538028, -0.861494046699949, 0.18367504568966714|>
   golds = <|[\List[\RR64\]\] gold0, gold1, gold2|>
-  var (kh, vh): (List[\Mat\], List[\Mat\]) := (emptyHist(nH), emptyHist(nH))
+  var (kh, vh): (KVCache, KVCache) := (emptyCache(nH), emptyCache(nH))
   var losses: List[\Value\] := emptyList[\Value\]()
   for pos <- seq(0#3) do
     (logits, kh2, vh2) = g.forward(tokens[pos], pos, kh, vh)
@@ -390,7 +454,7 @@ run() = do
   for step <- seq(0#numSteps) do
     toks = tokenize(docs[step REM |docs|], bos)
     n = blockSize MIN (|toks| - 1)
-    var (kh, vh): (List[\Mat\], List[\Mat\]) := (emptyHist(nHead), emptyHist(nHead))
+    var (kh, vh): (KVCache, KVCache) := (emptyCache(nHead), emptyCache(nHead))
     var losses: List[\Value\] := emptyList[\Value\]()
     for pos <- seq(0#n) do
       (logits, kh2, vh2) = g.forward(toks[pos], pos, kh, vh)
@@ -419,7 +483,7 @@ run() = do
      and tid = bos is exactly that condition once past position 0. *)
   println("--- inference ---")
   for s <- seq(1#10) do
-    var (kh, vh): (List[\Mat\], List[\Mat\]) := (emptyHist(nHead), emptyHist(nHead))
+    var (kh, vh): (KVCache, KVCache) := (emptyCache(nHead), emptyCache(nHead))
     var (tid, out): (ZZ32, String) := (bos, "")
     for pos <- seq(0#blockSize) do
       if pos = 0 OR tid =/= bos then

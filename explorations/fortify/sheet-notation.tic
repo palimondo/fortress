@@ -16,18 +16,26 @@
 \begin{document}
 \begin{preview}
 `(* the carriers: library citizens (Rank1 excludes Rank2 makes both
-   juxtaposition directions legal under the Meet Rule) *)
-object Vec(xs: List[\Value\])
-    extends { Rank1, ZeroIndexed[\Value\], DelegatedIndexed[\Value,ZZ32\],
-              AdditiveGroup[\Vec\] }
-  getter indices(): Generator[\ZZ32\] = 0 # |xs|
-  opr |self| : ZZ32 = |xs|
-  opr [i: ZZ32]: Value = xs[i]
+   juxtaposition directions legal under the Meet Rule).  RowLike is the
+   shared rank-1 supertype: xs is the spec's abstract field declaration
+   (basic/traits.tex:573), and indices, |.| and [.] are defined once in
+   terms of it, so ProbDist -- the paper's simplex, softmax's codomain --
+   is ONE line and the left-multiplication p M is written ONE time. *)
+trait RowLike extends { Rank1, ZeroIndexed[\Value\], DelegatedIndexed[\Value,ZZ32\] }
+  xs: List[\Value\]
+  getter indices(): Generator[\ZZ32\] = 0 # |self.xs|
+  opr |self| : ZZ32 = |self.xs|
+  opr [i: ZZ32]: Value = (self.xs)[i]
+end
+
+object Vec(xs: List[\Value\]) extends { RowLike, AdditiveGroup[\Vec\] }
   opr +(self, y: Vec): Vec = Vec(<| u + w | (u, w) <- self.zip[\Value\](y) |>)
   opr -(self): Vec = Vec(<| -u | u <- xs |>)
   opr =(self, y: Vec): Boolean =
     (|xs| = |y|) AND (BIG AND[m <- self.indices] ((xs[m]).data = y[m].data))
 end
+
+object ProbDist(xs: List[\Value\]) extends { RowLike } end
 
 object Mat(rows: List[\Vec\])
     extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
@@ -39,12 +47,25 @@ object Mat(rows: List[\Vec\])
     (|rows| = |y|) AND (BIG AND[i <- self.indices] (rows[i] = y[i]))
 end
 
+(* the KV cache: the paper's own noun, with the paper's own two
+   operations -- index by head, extend at the right *)
+object KVCache(heads: List[\Mat\])
+    extends { ZeroIndexed[\Mat\], DelegatedIndexed[\Mat,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |heads|
+  opr |self| : ZZ32 = |heads|
+  opr [h: ZZ32]: Mat = heads[h]
+  extend(ks: List[\Vec\]): KVCache =
+    KVCache(<| (heads[h]).addRight(ks[h]) | h <- self.indices |>)
+end
+
+emptyCache(nh: ZZ32): KVCache = KVCache(<| Mat(emptyList[\Vec\]()) | h <- 0#nh |>)
+
 (* the notation layer: each operator defined once, by its index formula *)
 opr DOT(u: Vec, w: Vec): Value = sum(<| u[m] w[m] | m <- u.indices |>)
 
 opr juxtaposition(w: Mat, x: Vec): Vec = Vec(<| r DOT x | r <- w |>)
 
-opr juxtaposition(p: Vec, m: Mat): Vec =
+opr juxtaposition(p: RowLike, m: Mat): Vec =
   Vec(<| sum(<| p[j] (m[j])[c] | j <- p.indices |>) | c <- (m[0]).indices |>)
 
 opr (m: Mat)^T : Mat =

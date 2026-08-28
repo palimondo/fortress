@@ -1,5 +1,8 @@
 % microgpt2 block render: softmax with the visible stabilizing max-shift,
-% m = BIG MAX (the genuine library big operator over the tape node).
+% m = BIG MAX (the genuine library big operator over the tape node).  The
+% signature states the paper's own membership, softmax : RR^n -> Delta^(n-1);
+% the ProbDist(... .xs) lift is the whole price of saying it without a
+% (spec-sanctioned, unimplemented) transparent type alias.
 % From explorations/microgpt2.fss. Regenerate:
 %   bin/fortick explorations/fortify/block-softmax.tic
 %   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex block-softmax.tex
@@ -11,10 +14,10 @@
 \setlength\PreviewBorder{6pt}
 \begin{document}
 \begin{preview}
-`softmax(a: Vec): Vec = do
+`softmax(a: Vec): ProbDist = do
   m = BIG MAX[u <- a] u
   e = exp(a - m)
-  e / sum(e)
+  ProbDist((e / sum(e)).xs)
 end`
 \end{preview}
 \end{document}

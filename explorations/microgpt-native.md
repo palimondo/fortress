@@ -664,3 +664,27 @@ api file must bear the component's own name; apis cannot declare `var`
 fields). Recommendation adopted: the single file stays primary — the
 split's 63-line api buys removal of a section the count already
 excludes.
+
+## 2026-08-28 — Named spaces: `KVCache` and `ProbDist`, and the trait that answers the alias gap
+
+Research round (explorations/aliases-units-report.md, 41 probes): the spec
+specifies transparent type aliases exactly (`type KVCache = List[\Mat\]`,
+basic/types-vals-vars.tex:597-623) and the 2012 implementation stops one
+line short — parser and AST complete, expansion written and unreachable
+(IndexBuilder.scala:187 vs TypeAnalyzer.scala:552-557). Dimensions/units:
+~1000 spec lines, SI library written and shelved in 2008, parses (two new
+parser bugs found), evaluates nothing. Units rejected for the model — ML
+papers write x ∈ ℝᵈ, not metres.
+
+Build round (explorations/microgpt2-named-spaces.md): adopted the two
+names that echo the literature's ∈-statements. Pavol's caveat — can traits
+eliminate the predicted duplicated ProbDist × Mat overload? — probed and
+confirmed four ways: a shared `RowLike` trait with the spec's abstract
+field idiom writes `juxtaposition` once; ProbDist costs 2 lines, not 6+.
+KVCache removes the file's one type ambiguity at +7 lines (the research
+report's "net negative" forecast was an estimation trap: it priced what
+the carrier deletes, not the carrier). Core 206 → 215 vs Python's 152
+(1.41×); all cost in the notation layer, model blocks −1, harness ±0.
+Golden gate PASS at 1e-9 (worker and independent main-checkout run);
+flagship attention line character-identical. Figures regenerated:
+block-softmax, block-forward, sheet-notation.
