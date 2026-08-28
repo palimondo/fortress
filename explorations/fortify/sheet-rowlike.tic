@@ -1,0 +1,32 @@
+% microgpt2 named-spaces mechanism: the shared rank-1 supertype.  The
+% trait declares xs as the spec's abstract field (basic/traits.tex:573);
+% each carrier's own value parameter satisfies it, so ProbDist is one
+% line and the left-multiplication p M is written once, on RowLike.
+% Vec's arithmetic elided (unchanged, shown on the notation sheet).
+% From explorations/microgpt2.fss. Regenerate:
+%   bin/fortick sheet-rowlike.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex sheet-rowlike.tex
+%   dvisvgm --no-fonts --exact-bbox -o sheet-rowlike-light.svg sheet-rowlike.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`trait RowLike extends { Rank1, ZeroIndexed[\Value\], DelegatedIndexed[\Value,ZZ32\] }
+  xs: List[\Value\]
+  getter indices(): Generator[\ZZ32\] = 0 # |self.xs|
+  opr |self| : ZZ32 = |self.xs|
+  opr [i: ZZ32]: Value = (self.xs)[i]
+end
+
+object Vec(xs: List[\Value\]) extends { RowLike, AdditiveGroup[\Vec\] }
+  (* +, unary -, = : unchanged *)
+end
+
+object ProbDist(xs: List[\Value\]) extends { RowLike } end
+
+opr juxtaposition(p: RowLike, m: Mat): Vec =
+  Vec(<| sum(<| p[j] (m[j])[c] | j <- p.indices |>) | c <- (m[0]).indices |>)`
+\end{preview}
+\end{document}
