@@ -1,7 +1,14 @@
 % microgpt2 block render: softmax with the visible stabilizing max-shift,
-% m = BIG MAX (the genuine library big operator over the tape node).  The
-% signature states the paper's own membership, softmax : RR^n -> Delta^(n-1);
-% the ProbDist(... .xs) lift is the whole price of saying it without a
+% m = BIG MAX (the genuine library big operator over the tape node), and
+% the normalizer as a genuine Sigma over the tape -- SUM reopened for the
+% autodiff node by the except-import route, so the denominator of
+% softmax(z)_i = e^(z_i)/SUM_j e^(z_j) is the literature's own operator and
+% not a named function standing in for it.  Z is bound rather than inlined:
+% a reduction is a FlowExpr in the spec's grammar, so an inline division by
+% one needs parentheses, and Z is both the partition function's own name and
+% Karpathy's own structure (total = sum(exps)).  The signature states the
+% paper's own membership, softmax : RR^n -> Delta^(n-1); the
+% ProbDist(... .xs) lift is the whole price of saying it without a
 % (spec-sanctioned, unimplemented) transparent type alias.
 % From explorations/microgpt2.fss. Regenerate:
 %   bin/fortick explorations/fortify/block-softmax.tic
@@ -17,7 +24,8 @@
 `softmax(a: Vec): ProbDist = do
   m = BIG MAX[u <- a] u
   e = exp(a - m)
-  ProbDist((e / sum(e)).xs)
+  Z = SUM[u <- e] u
+  ProbDist((e / Z).xs)
 end`
 \end{preview}
 \end{document}

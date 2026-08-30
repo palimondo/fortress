@@ -1,4 +1,4 @@
-component microgpt2
+component mg2_nodes_sigma
 import FortressLibrary.{...} except { opr BIG + }
 import List.{...}
 import File.{...}
@@ -87,14 +87,7 @@ export Executable
 (* Value is a multiplicative ring and a StandardMax; saying so buys
    juxtaposition (= TIMES), binary minus (= self + (-o)), zero, and the
    library's genuine BIG MAX, all as trait defaults (precedents:
-   explorations/complex_ring.fss for the ring; the tower nucleus for MAX).
-   The engine has NO summation of its own: a reduction folds with the
-   monoid's join, so what the tape records when the source says SUM is a
-   CHAIN of the binary + below -- exactly what the Python reference's own
-   sum() over Value objects records.  Measured price on the golden config:
-   1384 -> 1802 tape nodes (+30%), 4.14 -> 5.17 s/step, and no number
-   moved above 1e-15 (both versions pass the golden check at 1e-15 and
-   both fail at 1e-16, i.e. at the resolution of RR64). *)
+   explorations/complex_ring.fss for the ring; the tower nucleus for MAX). *)
 object Value(var data: RR64, children: List[\Value\], grads: List[\RR64\])
        extends { MultiplicativeRing[\Value\], StandardMax[\Value\] }
   getter one(): Value = konst(1.0)
@@ -140,6 +133,7 @@ end
 backward(root: Value): () = do
   t = Topo()
   t.build(root)
+  println("tape nodes: " |t.items|)
   root.grad := 1.0
   for v <- seq(t.items.reverse) do
     for (ch, lg) <- seq(v.children.zip[\RR64\](v.grads)) do
@@ -237,15 +231,11 @@ emptyCache(nh: ZZ32): KVCache = KVCache(<| Mat(emptyList[\Vec\]()) | h <- 0#nh |
    PlusReduction's identity is the numeric 0 (a polymorphic reduction
    cannot know Value's own zero), which is why Value accepts an integer on
    either side of +; that identity element is only ever joined in when a
-   generator is FILTERED or EMPTY (an unfiltered reduction over n elements
-   performs exactly n-1 joins and never calls empty() -- counted in
-   explorations/sigma-probes/s1_shapes.fss, Q3).  No Sigma here is either:
-   every one runs over the index range of a non-empty carrier (dimensions
-   are 4, 8, 27 and 32 -- never 0), or over the loss list of a step with at
-   least one token (tokenize always emits BOS ... BOS, so |toks| >= 2 and
-   n >= 1), or over 0#(j+1) with j >= 0.  An empty Sigma over Values would
-   return the numeric 0 rather than Value(0.0) -- the one honest hole in a
-   single shared SUM, recorded in explorations/sum-experiment-report.md. *)
+   generator is FILTERED or EMPTY.  No Sigma here is either: every one runs
+   over the index range of a non-empty carrier, or over the loss list of a
+   step with at least one token.  An empty Sigma over Values would return
+   the numeric 0 rather than Value(0.0) -- the one honest hole in a single
+   shared SUM, recorded in explorations/sum-experiment-report.md. *)
 opr +(z: ZZ32, v: Value): Value = v + (z 1.0)
 opr +(v: Value, z: ZZ32): Value = v + (z 1.0)
 
@@ -292,25 +282,18 @@ rmsnorm(x: Vec): Vec = do
   x / SQRT((x DOT x) / d + epsilon)
 end
 
-(* softmax(a)_j = e^(a_j - m) / Z,  Z = SUM_k e^(a_k - m): the stabilizing
-   shift m = max a is the library's own BIG MAX (Value extends StandardMax),
-   the pointwise e^(a - m) uses Value's inherited minus, and
+(* softmax(a)_j = e^(a_j - m) / SUM_k e^(a_k - m): the stabilizing shift
+   m = max a is the library's own BIG MAX (Value extends StandardMax), the
+   pointwise e^(a - m) uses Value's inherited minus, and
    softmax(a) = softmax(a - m) is an identity, so the shift changes no
-   number the mathematics defines.  The normalizer is bound as Z -- the
-   partition function's own name, and Karpathy's own structure
-   (`total = sum(exps)`); a reduction is a FlowExpr in the spec's grammar
-   (appendices/grammars/concrete-syntax.tex:971-974, same production as
-   `throw` and `spawn`), so an inline  e / (SUM[u <- e] u)  is legal only
-   parenthesized and renders as three nested auto-scaled parens.  Both
-   forms were built and rendered; the bound Z is the one that reads like
-   the paper.  The signature states the paper's own membership,
-   softmax : RR^n -> Delta^(n-1); the ProbDist(... .xs) lift on the last
-   line is the whole price of saying it without a type alias. *)
+   number the mathematics defines.  The signature states the paper's own
+   membership, softmax : RR^n -> Delta^(n-1); the ProbDist(... .xs) lift
+   on the last line is the whole price of saying it without a type
+   alias. *)
 softmax(a: Vec): ProbDist = do
   m = BIG MAX[u <- a] u
   e = exp(a - m)
-  Z = SUM[u <- e] u
-  ProbDist((e / Z).xs)
+  ProbDist((e / (SUM[u <- e] u)).xs)
 end
 
 (* L = -log softmax(logits)_y *)
@@ -466,76 +449,5 @@ end
 
 run() = do
   goldenCheck()
-
-  (* config: BOS = 26, vocab a-z + BOS (names.txt is strictly a-z) *)
-  vocab: ZZ32 = 27; bos: ZZ32 = 26; maxDocs: ZZ32 = 2000
-  nEmbd: ZZ32 = 8; nHead: ZZ32 = 2; hs: ZZ32 = nEmbd DIV nHead
-  blockSize: ZZ32 = 8; numSteps: ZZ32 = 30; temp: RR64 = 0.5
-
-  docs = readDocs("explorations/names.txt", maxDocs)
-  println("num docs: " |docs| "  vocab: " vocab)
-
-  g = Model(nHead, hs, gaussMat(vocab, nEmbd), gaussMat(blockSize, nEmbd),
-            gaussMat(vocab, nEmbd), gaussHeads(nHead, hs, nEmbd),
-            gaussHeads(nHead, hs, nEmbd), gaussHeads(nHead, hs, nEmbd),
-            gaussMat(nEmbd, nEmbd), gaussMat(4 nEmbd, nEmbd),
-            gaussMat(nEmbd, 4 nEmbd))
-  params = g.params(); nP: ZZ32 = |params|
-  println("num params: " nP)
-
-  (* Adam: m_t = b1 m_{t-1} + (1-b1) g_t;  v_t = b2 v_{t-1} + (1-b2) g_t^2;
-     mHat = m_t/(1-b1^t);  vHat = v_t/(1-b2^t);  w -= lr_t mHat/(SQRT vHat + eps).
-     Index-form RR64 on purpose: the literature's Adam IS elementwise
-     index arithmetic -- and elementwise means independent, so the sweep
-     over i is an unordered for; only the step loop below is seq. *)
-  lr0 = 0.01; beta1 = 0.85; beta2 = 0.99; epsA = 0.00000001
-  mBuf = array[\RR64\](nP).fill(fn (i: ZZ32) => 0.0)
-  vBuf = array[\RR64\](nP).fill(fn (i: ZZ32) => 0.0)
-
-  t0 = nanoTime()
-  for step <- seq(0#numSteps) do
-    toks = tokenize(docs[step REM |docs|], bos)
-    n = blockSize MIN (|toks| - 1)
-    var (kh, vh): (KVCache, KVCache) := (emptyCache(nHead), emptyCache(nHead))
-    var losses: List[\Value\] := emptyList[\Value\]()
-    for pos <- seq(0#n) do
-      (logits, kh2, vh2) = g.forward(toks[pos], pos, kh, vh)
-      kh := kh2; vh := vh2
-      losses := losses.addRight(nll(logits, toks[pos + 1]))
-    end
-    loss = (SUM[l <- losses] l) / n
-    backward(loss)
-    lrT = lr0 (1.0 - (step 1.0) / (numSteps 1.0))
-    st = (step 1.0) + 1.0
-    for i <- 0#nP do
-      p = params[i]
-      mBuf[i] := beta1 mBuf[i] + (1.0 - beta1) (p.grad)
-      vBuf[i] := beta2 vBuf[i] + (1.0 - beta2) (p.grad)^2.0
-      mHat = mBuf[i] / (1.0 - beta1^st)
-      vHat = vBuf[i] / (1.0 - beta2^st)
-      p.data := p.data - (lrT mHat) / ((vHat^0.5) + epsA)
-      p.grad := 0.0
-    end
-    el = (((nanoTime() - t0) + 500000) DIV 1000000)
-    println("step " (step + 1) " / " numSteps "  loss " loss.data "  elapsed " el " ms")
-  end
-  println("s/step: " (((nanoTime() - t0) 1.0) / (numSteps 1000000000.0)))
-
-  (* inference: temperature sampling.  A sample stops at the first BOS,
-     and tid = bos is exactly that condition once past position 0. *)
-  println("--- inference ---")
-  for s <- seq(1#10) do
-    var (kh, vh): (KVCache, KVCache) := (emptyCache(nHead), emptyCache(nHead))
-    var (tid, out): (ZZ32, String) := (bos, "")
-    for pos <- seq(0#blockSize) do
-      if pos = 0 OR tid =/= bos then
-        (logits, kh2, vh2) = g.forward(tid, pos, kh, vh)
-        kh := kh2; vh := vh2
-        tid := sample(softmax(logits / temp))
-        if tid =/= bos then out := out || char(tid + 97) end
-      end
-    end
-    println("sample " s ": " out)
-  end
 end
 end

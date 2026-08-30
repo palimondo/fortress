@@ -1,10 +1,14 @@
 % microgpt2 engine sheet: the tape node Value (Karpathy's class name --
 % joins the library tower twice: MultiplicativeRing buys juxtaposition,
-% binary minus, zero; StandardMax opens the genuine BIG MAX), the named
-% sum whose body is the how-autodiff-sees-Sigma lesson (one n-ary node,
-% forward folded by the genuine library SUM, unit local gradients) plus
-% its one-line Vec overload (how softmax's sum(e) resolves), and
+% binary minus, zero; StandardMax opens the genuine BIG MAX), and
 % backpropagation over the reverse topological order.
+% The engine has NO summation of its own any more: the named n-ary sum()
+% that used to sit here is gone, because SUM is now a genuine big operator
+% over Value (notation sheet), and a reduction builds a chain of the
+% binary + declared above -- which is exactly what the Python reference's
+% own sum() over Value objects builds.  What autodiff sees when the source
+% says Sigma is therefore ordinary binary addition, +418 tape nodes on the
+% golden config (1384 -> 1802) and no change to any number above 1e-15.
 % From explorations/microgpt2.fss. Regenerate:
 %   bin/fortick explorations/fortify/sheet-engine.tic
 %   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex sheet-engine.tex
@@ -31,10 +35,6 @@
   opr ^ (self, n: RR64): Value = Value(data^n, <| self |>, <|[\RR64\] n data^(n-1.0)|>)
   opr MAX(self, o: Value): Value = if data >= o.data then self else o end
 end
-
-sum(addends: List[\Value\]): Value =
-  Value(SUM[a <- seq(addends)] a.data, addends, <|[\RR64\] 1.0 | a <- addends|>)
-sum(x: Vec): Value = sum(x.xs)
 
 backward(root: Value): () = do
   t = Topo()

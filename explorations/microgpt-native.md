@@ -688,3 +688,29 @@ the carrier deletes, not the carrier). Core 206 → 215 vs Python's 152
 Golden gate PASS at 1e-9 (worker and independent main-checkout run);
 flagship attention line character-identical. Figures regenerated:
 block-softmax, block-forward, sheet-notation.
+
+## 2026-08-30 — Σ regained: the except-route, adopted
+
+Pavol called BS on "Σ is sealed". A blinded clean-room worker (barred
+from our analysis docs) proved him right in the way that matters:
+`import FortressLibrary.{...} except { opr BIG + }` plus a user
+reduction gives one SUM working over a user type and the built-in
+numbers together (explorations/sum-experiment-report.md; probe of
+record p15, 12/12). The old finding survives only as: Σ is not
+extensible by addition (nofix desugaring + overloading.tex:99-105);
+the component system makes it extensible by replacement. Also found:
+U+2211 does not lex as an accumulator at all (parser matches ASCII
+"SUM" only — spec divergence), and the library seal carries its own
+comment "Hack to permit any Number to work non-parametrically".
+
+Adoption (explorations/microgpt2-sigma.md): microgpt2 now writes SUM
+at every site the literature writes Σ — DOT, p·M, softmax's partition
+sum Z, the mean loss — and Fortify renders each as a true Σ with the
+generator as subscript. The named sum() and the n-ary sum node are
+retired: the monoid reduction's chain of binary + nodes matches
+Karpathy's own tape shape, and golden passes at 1e-15 (n-ary vs chain
+vs 4 threads — reassociation unobservable). Honest price: +30% tape
+nodes, +25% s/step, core 215 → 221 vs Python's 152 (1.45×). New
+syntactic fact: a reduction is a FlowExpr — parenthesize it as an
+operand (hence Z bound, which is also Karpathy's total = sum(exps)).
+Independent golden gate in the main checkout: PASS.

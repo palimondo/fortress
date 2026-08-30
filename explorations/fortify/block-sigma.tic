@@ -1,0 +1,52 @@
+% microgpt2 block render: the whole price of writing Sigma over the autodiff
+% node.  A reduction expression desugars to a NULLARY operator call
+% (PreTypeCheckDesugaringVisitor.java:358-373) and Fortress overloading is
+% decided on value parameter lists alone -- static parameters do not enter in
+% (Specification/basic/overloading.tex:99-105) -- so two nullary SUMs always
+% collide and a big operator's name admits exactly ONE declaration.  SUM is
+% therefore not extensible by ADDITION, but it is by REPLACEMENT: the spec's
+% `except` import (basic/components/source-code.tex:64-93, spelled with SUM's
+% internal name `BIG +`) frees the name in this component, and this monoid is
+% what the library's own reduction machinery then runs -- over Values and over
+% the built-in numbers alike, in the same file.  Six lines, and every Sigma in
+% microgpt2 is the genuine library big operator.
+% From explorations/microgpt2.fss. Regenerate:
+%   bin/fortick explorations/fortify/block-sigma.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex block-sigma.tex
+%   dvisvgm --no-fonts --exact-bbox -o block-sigma-light.svg block-sigma.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`import FortressLibrary.{...} except { opr BIG + }
+
+opr +(z: ZZ32, v: Value): Value = v + (z 1.0)
+opr +(v: Value, z: ZZ32): Value = v + (z 1.0)
+
+object PlusReduction extends CommutativeMonoidReduction[\Any\]
+  empty(): Any = 0
+  join(a: Any, b: Any): Any = a + b
+end
+
+opr SUM[\T\](): BigReduction[\Any,Any\] = BigReduction[\Any,Any\](PlusReduction)
+
+(* and then, everywhere the ML literature writes Sigma -- the dot product,
+   the left-multiplication, softmax's normalizer, the mean loss, and (last)
+   the inverse-CDF count, whose summands are plain RR64: one SUM, both
+   worlds *)
+
+opr DOT(u: Vec, w: Vec): Value = SUM[m <- u.indices] u[m] w[m]
+
+opr juxtaposition(p: RowLike, m: Mat): Vec =
+  Vec(<| SUM[j <- p.indices] p[j] (m[j])[c] | c <- (m[0]).indices |>)
+
+Z = SUM[u <- e] u
+
+loss = (SUM[l <- losses] l) / n
+
+short = <| j | j <- p.indices, (SUM[i <- seq(0#(j + 1))] (p[i]).data) < r |>`
+\end{preview}
+\end{document}

@@ -2,8 +2,12 @@
 % with their extends clauses (the inheritance ledger: Rank1 excludes Rank2
 % legalizes both juxtaposition directions; ZeroIndexed/DelegatedIndexed buy
 % |x|, x[i], slices, generators; AdditiveGroup gives Vec minus and zero),
-% carrier = (HasRank's default is constant false), every operator of the
-% notation layer defined once by its index formula, and the ^T transpose.
+% carrier = (HasRank's default is constant false), the Sigma machinery (the
+% except-import that frees the big-operator name, the monoid the library's
+% own reduction then runs, and the single nullary SUM declaration that a
+% big operator's name admits), every operator of the notation layer defined
+% once by its index formula -- now with Sigma where the literature writes
+% Sigma -- and the ^T transpose.
 % From explorations/microgpt2.fss. Regenerate:
 %   bin/fortick explorations/fortify/sheet-notation.tic
 %   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex sheet-notation.tex
@@ -60,13 +64,33 @@ end
 
 emptyCache(nh: ZZ32): KVCache = KVCache(<| Mat(emptyList[\Vec\]()) | h <- 0#nh |>)
 
+(* Sigma over the tape.  A big operator's name admits exactly ONE
+   declaration -- a reduction desugars to a NULLARY operator call and
+   Fortress overloading looks only at value parameter lists -- so SUM is
+   not extensible by ADDITION, only by REPLACEMENT.  The component's own
+   import line, verbatim, is what frees the name; this monoid is then what
+   the library's reduction machinery runs, over Values and over the
+   built-in numbers alike, so the numeric Sigma in sample() still works in
+   the same file. *)
+import FortressLibrary.{...} except { opr BIG + }
+
+opr +(z: ZZ32, v: Value): Value = v + (z 1.0)
+opr +(v: Value, z: ZZ32): Value = v + (z 1.0)
+
+object PlusReduction extends CommutativeMonoidReduction[\Any\]
+  empty(): Any = 0
+  join(a: Any, b: Any): Any = a + b
+end
+
+opr SUM[\T\](): BigReduction[\Any,Any\] = BigReduction[\Any,Any\](PlusReduction)
+
 (* the notation layer: each operator defined once, by its index formula *)
-opr DOT(u: Vec, w: Vec): Value = sum(<| u[m] w[m] | m <- u.indices |>)
+opr DOT(u: Vec, w: Vec): Value = SUM[m <- u.indices] u[m] w[m]
 
 opr juxtaposition(w: Mat, x: Vec): Vec = Vec(<| r DOT x | r <- w |>)
 
 opr juxtaposition(p: RowLike, m: Mat): Vec =
-  Vec(<| sum(<| p[j] (m[j])[c] | j <- p.indices |>) | c <- (m[0]).indices |>)
+  Vec(<| SUM[j <- p.indices] p[j] (m[j])[c] | c <- (m[0]).indices |>)
 
 opr (m: Mat)^T : Mat =
   Mat(<| Vec(<| (m[j])[c] | j <- m.indices |>) | c <- (m[0]).indices |>)

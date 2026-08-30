@@ -27,6 +27,6 @@ end
 object ProbDist(xs: List[\Value\]) extends { RowLike } end
 
 opr juxtaposition(p: RowLike, m: Mat): Vec =
-  Vec(<| sum(<| p[j] (m[j])[c] | j <- p.indices |>) | c <- (m[0]).indices |>)`
+  Vec(<| SUM[j <- p.indices] p[j] (m[j])[c] | c <- (m[0]).indices |>)`
 \end{preview}
 \end{document}
