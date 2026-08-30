@@ -1,0 +1,25 @@
+(* P05: Can a LOCAL (block-level) declaration of the nullary SUM shadow the
+   library's, instead of overloading with it?
+   Spec, Specification/advanced/operator-definitions.tex:17-19:
+     "An operator declaration may appear anywhere a top-level function or
+      method declaration may appear." *)
+component p05_local_sum
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+    empty(): V = V(0.0)
+    join(a: V, b: V): V = a + b
+end
+
+run(): () = do
+    opr SUM(): BigReduction[\V,V\] = BigReduction[\V,V\](VSumReduction)
+    vs = <| V(1.0), V(2.0), V(3.5) |>
+    println("SUM [v <- vs] v = " (SUM [v <- vs] v))
+end
+end

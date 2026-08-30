@@ -1,0 +1,88 @@
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 9512e82b3..ef551cb97 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -1817,9 +1817,20 @@ DistributesOver[\MinReductionN\] }
+     join(a: Number, b: Number): Number
+ end
+ 
+-opr SUM[\T extends Number\](): Comprehension[\T,Number,Number,Number\]
++object SumZero end
+ 
+-opr SUM[\T extends Number\](g: Generator[\T\]): Number
++trait SumJoinable
++    sumJoin(other: Any): Any
++end
++
++object AnySumReduction extends { CommutativeMonoidReduction[\Any\] }
++    empty(): Any
++    join(a: Any, b: Any): Any
++end
++
++opr SUM[\T\](): Comprehension[\T,Any,Any,Any\]
++
++opr SUM[\T\](g: Generator[\T\]): Any
+ 
+ object ProdReduction extends {CommutativeMonoidReduction[\Number\],
+ DistributesOver[\SumReduction\],
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 13f0fd587..c97bf871a 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -3038,11 +3038,52 @@ object SumReduction extends {
+     MaxNSumReductionPair
+ end
+ 
+-opr SUM[\T extends Number\](): Comprehension[\T,Number,Number,Number\] =
+-    Comprehension[\T,Number,Number,Number\](fn x => x, SumReduction, cast[\Number\])
++(** The identity element of a SUM over a user-defined type is not knowable
++    from the big operator alone, so SUM's reduction uses this sentinel and
++    unwraps it to the numeric 0 if nothing else was ever added to it. **)
++object SumZero
++    getter asString(): String = "0"
++end
++
++(** A user-defined type joins SUM by extending SumJoinable.  The library
++    cannot simply call the user's opr + : operator overload sets are scoped to
++    the component that declares them, and FortressLibrary does not import the
++    user's component.  A dotted method is dispatched on the receiver object
++    itself, so it crosses the component boundary. **)
++trait SumJoinable
++    sumJoin(other: Any): Any
++end
++
++(** Element-driven SUM: the summand type picks the addition that is used. **)
++object AnySumReduction extends { CommutativeMonoidReduction[\Any\] }
++    getter asString(): String = "AnySumReduction"
++    empty(): Any = SumZero
++    join(a: Any, b: Any): Any =
++        typecase a of
++            SumZero => b
++            x:SumJoinable =>
++                typecase b of
++                    SumZero => a
++                    else => x.sumJoin(b)
++                end
++            else =>
++                typecase b of
++                    SumZero => a
++                    else => cast[\Number\](a) + cast[\Number\](b)
++                end
++        end
++end
++
++__unwrapSumZero(x: Any): Any =
++    typecase x of
++        SumZero => 0
++        else => x
++    end
++
++opr SUM[\T\](): Comprehension[\T,Any,Any,Any\] =
++    Comprehension[\T,Any,Any,Any\](__unwrapSumZero, AnySumReduction, identity[\Any\])
+ 
+-opr SUM[\T extends Number\](g: Generator[\T\]) =
+-    __bigOperatorSugar[\T,Number,Number,Number\](SUM[\T\](), g)
++opr SUM[\T\](g: Generator[\T\]) = SUM [x <- g] x
+ 
+ object ProdReduction extends {
+   CommutativeMonoidReduction[\Number\],

@@ -1,0 +1,11 @@
+(* P16: does the library's own generic sugar form  SUM g  work on a List?
+   opr SUM[\T extends Number\](g: Generator[\T\]): Number   (FortressLibrary.fss:3044) *)
+component p16_library_sugar
+import List.{...}
+export Executable
+
+run(): () = do
+    println("SUM <| 1, 2, 3 |>   = " (SUM <| 1, 2, 3 |>))
+    println("BIG || <| \"a\",\"b\" |> = " (BIG || <| "a", "b" |>))
+end
+end

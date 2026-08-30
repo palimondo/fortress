@@ -1,0 +1,28 @@
+(* P03: Only the UNARY (sugar) overload of SUM, no nullary one.
+   Tests   SUM vs   (=== SUM [x <- vs] x per the spec) without touching
+   the nullary big-operator slot that P02 collided on. *)
+component p03_sum_unary_only
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+    getter asString(): String = "VSumReduction"
+    empty(): V = V(0.0)
+    join(a: V, b: V): V = a + b
+end
+
+opr SUM(g: Generator[\V\]): V =
+    __bigOperatorSugar[\V,V,V,V\](BigReduction[\V,V\](VSumReduction), g)
+
+run(): () = do
+    vs = <| V(1.0), V(2.0), V(3.5) |>
+    println("SUM vs (sugar)  = " (SUM vs))
+    println("builtin SUM     = " (SUM [i <- 0#5] i))
+    println("SUM [v <- vs] v = " (SUM [v <- vs] v))
+end
+end

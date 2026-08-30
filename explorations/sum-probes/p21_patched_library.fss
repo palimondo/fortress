@@ -1,0 +1,41 @@
+(* P21: with the FortressLibrary.fss patch applied (see sum-any.patch), the
+   library's own SUM is element-driven.  No "except" import, nothing declared
+   for SUM in user code -- the user writes ONLY the type and its +. *)
+component p21_patched_library
+import List.{...}
+export Executable
+
+(* ================= all the user has to write ================= *)
+object V(data: RR64) extends SumJoinable
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+    sumJoin(other: Any): Any = self + cast[\V\](other)
+end
+(* ============================================================= *)
+
+f(x: ZZ32): V = V(x x)
+
+run(): () = do
+    vs   = <| V(1.0), V(2.0), V(3.5) |>
+    one  = <| V(7.25) |>
+    none = <|[\V\] |>
+
+    println("1  SUM [v <- vs] v            = " (SUM [v <- vs] v))
+    println("2  SUM [i <- 0#4] f(i)        = " (SUM [i <- 0#4] f(i)))
+    println("3  SUM [v <- one] v (single)  = " (SUM [v <- one] v))
+    println("4  SUM vs (sugar form)        = " (SUM vs))
+    println("5  numeric SUM [i <- 0#5] i   = " (SUM [i <- 0#5] i))
+    println("6  numeric SUM over RR64      = " (SUM [x <- <| 1.5, 2.5 |>] x))
+    println("7  numeric SUM, empty         = " (SUM [i <- 0#0] i))
+    println("8  V SUM, empty               = " (SUM [v <- none] v))
+    println("9  filtered SUM over V        = " (SUM [v <- vs, v.data > 1.5] v))
+    println("10 V and numbers in one expr  = " ((SUM [v <- vs] v).data + (SUM [i <- 1#3] i)))
+    println("11 nested SUM over V          = " (SUM [i <- 0#3] (SUM [j <- 0#3] V(i j))))
+    println("12 SUM over a 2-generator box = " (SUM [i <- 0#3, j <- 0#3] V(i j)))
+    (* library functions that use SUM internally *)
+    println("13 strToInt(\"1234\")           = " strToInt("1234"))
+    println("14 strToFloat(\"12.5\")         = " strToFloat("12.5"))
+    println("15 PROD [i <- 1#5] i          = " (PROD [i <- 1#5] i))
+    println("16 BIG MAX [i <- 0#5] i       = " (BIG MAX [i <- 0#5] i))
+end
+end

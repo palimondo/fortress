@@ -1,0 +1,21 @@
+(* P07: Make V a subtype of Number so the LIBRARY's SUM applies.
+   FortressLibrary.fss:349-352 declares
+       trait Number ... comprises { RR64 }
+   so this should be rejected; probe records exactly how. *)
+component p07_v_extends_number
+import List.{...}
+export Executable
+
+object V(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Number = V(0.0)
+    getter one(): Number = V(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+run(): () = do
+    vs = <| V(1.0), V(2.0), V(3.5) |>
+    println("SUM [v <- vs] v = " (SUM [v <- vs] v))
+end
+end

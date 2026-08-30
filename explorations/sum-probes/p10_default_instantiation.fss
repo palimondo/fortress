@@ -1,0 +1,28 @@
+(* P10: diagnostic. When  SUM [g] e  is written with NO static args, at what
+   type does the interpreter instantiate the library's
+   opr SUM[\T extends Number\]()? Overload __bigOperator at
+   Comprehension[\Number,Number,Number,Number\] and see whether it fires. *)
+component p10_default_instantiation
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+__bigOperator(o: Comprehension[\Number,Number,Number,Number\],
+              d:(Reduction[\Number\],Number->Number)->Number): Number = do
+    println("  [hijack fired: Comprehension[\\Number,Number,Number,Number\\]]")
+    r = o.reduction
+    (o.unwrap)(r.unlift(d(r, fn (x:Number):Number => r.lift((o.body)(x)))))
+  end
+
+run(): () = do
+    println("plain SUM over ZZ32:")
+    println("  " (SUM [i <- 0#5] i))
+    println("SUM[\\V\\] over V (no user __bigOperator for V):")
+    vs = <| V(1.0), V(2.0) |>
+    println("  " (SUM[\V\] [v <- vs] v))
+end
+end

@@ -1,0 +1,29 @@
+(* P14: Fortress imports have an "except" clause
+   (Specification/basic/components/source-code.tex:69-71,86-88):
+       ImportedNames ::= APIName . { ... } [except SimpleNames]
+       SimpleName    ::= opr [BIG] (Encloser | Op)
+   Try to import FortressLibrary while excluding the SUM big operator, then
+   declare our own nullary SUM over V. *)
+component p14_import_except
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+    empty(): V = V(0.0)
+    join(a: V, b: V): V = a + b
+end
+
+opr SUM(): BigReduction[\V,V\] = BigReduction[\V,V\](VSumReduction)
+opr SUM(g: Generator[\V\]): V = __bigOperatorSugar[\V,V,V,V\](SUM(), g)
+
+run(): () = do
+    vs = <| V(1.0), V(2.0), V(3.5) |>
+    println("SUM [v <- vs] v = " (SUM [v <- vs] v))
+end
+end

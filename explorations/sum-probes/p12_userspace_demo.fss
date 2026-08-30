@@ -1,0 +1,47 @@
+(* P12: the DEFINITIVE pure-user-space demo.
+   No library or interpreter edits.  Everything a user must write is between
+   the two ==== markers below.
+
+   What works:  SUM g   /   SUM <| ... |>   (the spec's own reduction-without-
+   generator-clause form, Specification/basic/expressions/reductions.tex:80-90)
+   What does not: SUM [v <- vs] v  -- see p02/p03. *)
+component p12_userspace_demo
+import List.{...}
+export Executable
+
+(* ================= all the user has to write ================= *)
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+    getter asString(): String = "VSumReduction"
+    empty(): V = V(0.0)
+    join(a: V, b: V): V = a + b
+end
+
+opr SUM[\T extends Number\](g: Generator[\V\]): V =
+    __bigOperatorSugar[\V,V,V,V\](BigReduction[\V,V\](VSumReduction), g)
+(* ============================================================= *)
+
+f(x: ZZ32): V = V(x x)
+
+run(): () = do
+    vs   = <| V(1.0), V(2.0), V(3.5) |>
+    one  = <| V(7.25) |>
+    none = <|[\V\] |>
+
+    println("1  SUM vs                    = " (SUM vs))
+    println("2  SUM one (singleton)       = " (SUM one))
+    println("3  SUM none (empty)          = " (SUM none))
+    println("4  SUM <| f(i) | i <- 0#5 |> = " (SUM <| f(i) | i <- 0#5 |>))
+    println("5  SUM (vs.map[\\V\\](fn v => v + v)) = " (SUM (vs.map[\V\](fn (v:V):V => v + v))))
+    println("6  builtin SUM [i <- 0#5] i  = " (SUM [i <- 0#5] i))
+    println("7  builtin SUM over RR64     = " (SUM [x <- <| 1.5, 2.5 |>] x))
+    println("8  mixed in one expression   = " ((SUM vs).data + (SUM [i <- 1#3] i)))
+    (* Unicode U+2211 is NOT usable as an accumulator in this implementation --
+       see p13_unicode_sigma.fss; it lexes to an undefined PREFIX operator
+       named SUM, not to the big operator "BIG +".  ASCII SUM only. *)
+end
+end

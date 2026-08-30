@@ -1,0 +1,25 @@
+(* P18: does hiding "opr BIG +" from FortressLibrary break library functions
+   that use SUM internally (strToInt at FortressLibrary.fss:4180, strToFloat at
+   FortressLibrary.fss:4196), or other big operators? *)
+component p18_except_side_effects
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+export Executable
+
+object PolySumReduction extends CommutativeMonoidReduction[\Any\]
+    empty(): Any = 0
+    join(a: Any, b: Any): Any = a + b
+end
+opr SUM[\T\](): BigReduction[\Any,Any\] = BigReduction[\Any,Any\](PolySumReduction)
+opr SUM[\T\](g: Generator[\T\]) = SUM [x <- g] x
+
+run(): () = do
+    println("strToInt(\"1234\")     = " strToInt("1234"))
+    println("strToFloat(\"12.5\")   = " strToFloat("12.5"))
+    println("PROD [i <- 1#5] i    = " (PROD [i <- 1#5] i))
+    println("BIG MAX [i <- 0#5] i = " (BIG MAX [i <- 0#5] i))
+    println("BIG || over strings  = " (BIG || [s <- <| "a", "b", "c" |>] s))
+    println("list comprehension   = " (<| i i | i <- 0#5 |>))
+    println("infix + still fine   = " (2 + 3))
+end
+end

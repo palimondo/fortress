@@ -1,0 +1,28 @@
+(* P01: Can a user define a brand-new big operator over a user type? *)
+component p01_own_bigop
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+    getter asString(): String = "VSumReduction"
+    empty(): V = V(0.0)
+    join(a: V, b: V): V = a + b
+end
+
+opr BIG OPLUS(): BigReduction[\V,V\] = BigReduction[\V,V\](VSumReduction)
+opr BIG OPLUS(g: Generator[\V\]): V =
+    __bigOperatorSugar[\V,V,V,V\](BIG OPLUS(), g)
+
+run(): () = do
+    vs = <| V(1.0), V(2.0), V(3.5) |>
+    println("BIG OPLUS over list      = " (BIG OPLUS [v <- vs] v))
+    println("BIG OPLUS mapped index   = " (BIG OPLUS [i <- 0#4] V(i)))
+    println("BIG OPLUS empty          = " (BIG OPLUS [v <- <|[\V\]|>] v))
+    println("BIG OPLUS sugar          = " (BIG OPLUS vs))
+end
+end

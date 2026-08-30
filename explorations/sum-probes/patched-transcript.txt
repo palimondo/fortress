@@ -1,0 +1,64 @@
+=========== p21_patched_library (sum-extensible.patch applied) ===========
+1  SUM [v <- vs] v            = V(6.5)
+2  SUM [i <- 0#4] f(i)        = V(14)
+3  SUM [v <- one] v (single)  = V(7.25)
+4  SUM vs (sugar form)        = V(6.5)
+5  numeric SUM [i <- 0#5] i   = 10
+6  numeric SUM over RR64      = 4.0
+7  numeric SUM, empty         = 0
+8  V SUM, empty               = 0
+9  filtered SUM over V        = V(5.5)
+10 V and numbers in one expr  = 12.5
+11 nested SUM over V          = V(9)
+12 SUM over a 2-generator box = V(9)
+13 strToInt("1234")           = 1234
+14 strToFloat("12.5")         = 12.5
+15 PROD [i <- 1#5] i          = 120
+16 BIG MAX [i <- 0#5] i       = 4
+=========== p22_naive_patch_probe (needs sum-any-naive.patch instead) ===========
+numeric SUM [i <- 0#5] i = 10
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:3072:49-64:
+=========== regression: interpreter tests under the patch ===========
+--- simpleSum ---
+--- setSum ---
+--- simpleBig ---
+<|2, 3, 4, 4, 5, 6, 5, 6, 7, 8, 6, 7, 8, 9, 10, 7, 8, 9, 10, 11, 12, 8, 9, 10, 11, 12, 13, 14, 9, 10, 11, 12, 13, 14, 15, 16, 10, 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20|>
+<|2, 3, 4, 4, 5, 6, 5, 6, 7, 8, 6, 7, 8, 9, 10, 7, 8, 9, 10, 11, 12, 8, 9, 10, 11, 12, 13, 14, 9, 10, 11, 12, 13, 14, 15, 16, 10, 11, 12, 13, 14, 15, 16, 17, 18, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20|>
+<|2, 3.0, 4, 4, 5.0, 6, 5.0, 6, 7.0, 8, 6, 7.0, 8, 9.0, 10, 7.0, 8, 9.0, 10, 11.0, 12, 8, 9.0, 10, 11.0, 12, 13.0, 14, 9.0, 10, 11.0, 12, 13.0, 14, 15.0, 16, 10, 11.0, 12, 13.0, 14, 15.0, 16, 17.0, 18, 11.0, 12, 13.0, 14, 15.0, 16, 17.0, 18, 19.0, 20|>
+45
+45
+100
+45
+0
+--- naiveSeq ---
+sum OK
+actualSum OK
+2v+i OK
+1#11 OK
+--- restTest ---
+--- restTest2 ---
+--- restTest2a ---
+--- Generator2Test ---
+res = 46, ggres = 46
+res = 15, ggres = 15
+res = 8, ggres = 8
+--- PureListQuick ---
+
+0:<||>................................
+1:<|0|>..................................
+2:<|0, 1|>....................................
+7:<|0, 1, 2, 3, 4, 5, 6|>..............................................
+10:<|0, 1, 2, 3, 4, 5, 6, 7, 8, 9|>....................................................
+Succeeded in 0.465s
+--- ArrayListQuick ---
+
+0:<||>................................
+1:<|0|>..................................
+2:<|0, 1|>....................................
+7:<|0, 1, 2, 3, 4, 5, 6|>..............................................
+10:<|0, 1, 2, 3, 4, 5, 6, 7, 8, 9|>....................................................
+Succeeded in 0.483s

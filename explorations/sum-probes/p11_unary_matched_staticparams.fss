@@ -1,0 +1,29 @@
+(* P11: the unary SUM overload, but with static parameters alpha-equivalent to
+   the library's, as Specification/basic/overloading.tex:100-103 demands:
+     "it is an error for their static parameters to differ (up to
+      alpha-equivalence), or for one declaration to have static parameters and
+      another to not have them."
+   Library: opr SUM[\T extends Number\](g: Generator[\T\]): Number *)
+component p11_unary_matched_staticparams
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+    empty(): V = V(0.0)
+    join(a: V, b: V): V = a + b
+end
+
+opr SUM[\T extends Number\](g: Generator[\V\]): V =
+    __bigOperatorSugar[\V,V,V,V\](BigReduction[\V,V\](VSumReduction), g)
+
+run(): () = do
+    vs = <| V(1.0), V(2.0), V(3.5) |>
+    println("SUM vs      = " (SUM vs))
+    println("builtin SUM = " (SUM [i <- 0#5] i))
+end
+end
