@@ -1,0 +1,61 @@
+(* Step-0 probe B: the SECOND design -- the shared juxtaposition written as
+   a FUNCTIONAL METHOD on the trait (self in the first parameter position)
+   rather than as a top-level function on the trait type.  Same dedup goal;
+   different mechanism.  Question: does a functional-method juxtaposition
+   overload legally coexist with the TOP-LEVEL Mat x Vec one? *)
+component n3_rowlike_method
+import List.{...}
+export Executable
+
+trait RowLike extends { Rank1, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\] }
+  getter xs(): List[\RR64\]
+  getter indices(): Generator[\ZZ32\] = 0 # |self.xs|
+  opr |self| : ZZ32 = |self.xs|
+  opr [i: ZZ32]: RR64 = (self.xs)[i]
+  (* the shared body, as a functional method *)
+  opr juxtaposition(self, m: Mat): Vec =
+    Vec(<|[\RR64\] SUM[j <- self.indices] (self[j] (m[j])[c]) | c <- (m[0]).indices |>)
+end
+
+object Vec(xs: List[\RR64\]) extends { RowLike }
+  getter asString(): String = "Vec" xs
+end
+
+object ProbDist(xs: List[\RR64\]) extends { RowLike } end
+
+object Mat(rows: List[\Vec\])
+    extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |rows|
+  getter asString(): String = "Mat" rows
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+end
+
+opr DOT(u: Vec, w: Vec): RR64 = SUM[m <- u.indices] (u[m] w[m])
+opr juxtaposition(w: Mat, x: Vec): Vec = Vec(<|[\RR64\] r DOT x | r <- w |>)
+
+opr (m: Mat)^T : Mat =
+  Mat(<| Vec(<|[\RR64\] (m[j])[c] | j <- m.indices |>) | c <- (m[0]).indices |>)
+
+opr /(x: Vec, c: RR64): Vec = Vec(<|[\RR64\] u / c | u <- x |>)
+opr -(x: Vec, s: RR64): Vec = Vec(<|[\RR64\] u - s | u <- x |>)
+exp(x: Vec): Vec = Vec(<|[\RR64\] exp u | u <- x |>)
+
+softmax(a: Vec): ProbDist = do
+  m = BIG MAX[u <- a] u
+  e = exp(a - m)
+  ProbDist((e / (SUM[u <- e] u)).xs)
+end
+
+attend(q: Vec, K: Mat, V: Mat, d_k: ZZ32): Vec = softmax(q K^T / SQRT d_k) V
+
+run() = do
+  q  = Vec(<|[\RR64\] 1.0, 0.0|>)
+  K  = Mat(<| Vec(<|[\RR64\] 1.0, 0.0|>), Vec(<|[\RR64\] 0.0, 1.0|>) |>)
+  V  = Mat(<| Vec(<|[\RR64\] 3.0, 4.0|>), Vec(<|[\RR64\] 5.0, 6.0|>) |>)
+  println("attend = " attend(q, K, V, 2))
+  println("Mat x Vec = " (K V[0]))
+  println("Vec x Mat = " (q K))
+end
+
+end
