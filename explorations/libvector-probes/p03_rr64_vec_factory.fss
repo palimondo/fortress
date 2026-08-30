@@ -1,0 +1,26 @@
+(* Baseline 1c: the library's own vector[\T,n\] factories with RR64.
+   NOTE: printing a vector[\T,n\]() built with no fill throws
+   "Access to uninitialized element" -- the 0-arg factory does NOT zero-fill.
+   So here we only take |v| of it, then fill it by hand. *)
+component p03_rr64_vec_factory
+export Executable
+
+run(): () = do
+    v = vector[\RR64,4\]()
+    println("|vector[RR64,4]()| = " |v|)
+    for i <- seq(0#4) do v[i] := 0.0 end
+    println("after manual zero fill: " v)
+
+    w = vector[\RR64,4\](2.5)
+    println("w = vector[RR64,4](2.5)   -> " w)
+    println("w[1] = " w[1] ", |w| = " |w|)
+
+    u = vector[\RR64,4\](fn (i:ZZ32):RR64 => 10.0 (i+1))
+    println("u = vector[RR64,4](fn i)  -> " u)
+
+    typecase u of
+        AnyVector => println("u IS an AnyVector")
+        else      => println("u is NOT an AnyVector")
+    end
+  end
+end

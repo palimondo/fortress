@@ -1,0 +1,30 @@
+(* Probe L (the silent-wrong-answer trap): Value extends Number, defines
+   asFloat and + and TIMES, but NOT juxtaposition.  Number's inherited
+     opr juxtaposition(self,b:Number):RR64 = asFloat(self) asFloat(b)
+   (FortressLibrary.fss:380-381) then applies -- and Vector.dot is written
+   with juxtaposition, so the element type SILENTLY degrades to RR64. *)
+component p21_value_asfloat_trap
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+end
+
+run(): () = do
+    u: Value[3] = [Value(1.0) Value(2.0) Value(3.0)]
+    v: Value[3] = [Value(10.0) Value(20.0) Value(30.0)]
+    println("u + v   = " (u + v))
+    d = u DOT v
+    println("u DOT v = " d)
+    typecase d of
+        Value => println("  ... u DOT v is a Value")
+        RR64  => println("  ... u DOT v SILENTLY became an RR64")
+        else  => println("  ... u DOT v is something else")
+    end
+    s = u.scale(Value(2.0))
+    println("u.scale(V(2.0)) = " s)
+  end
+end

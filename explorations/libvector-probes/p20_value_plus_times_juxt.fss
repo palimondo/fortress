@@ -1,0 +1,36 @@
+(* Probe K: Value extends Number with exactly + , TIMES and juxtaposition.
+   p19 (+ and TIMES only) died with
+     "** bug! MethodClosure asFloat(self:(Number & {RR64})):RR64
+      FortressLibrary.fss:355:5-23 has neither body nor def instanceof Method"
+   raised from FortressLibrary.fss:381 -- the body of the INHERITED
+     opr juxtaposition(self,b:Number):RR64 = asFloat(self) asFloat(b)
+   because Vector.dot/scale/pmul are written with juxtaposition
+   (FortressLibrary.fss:2197, 2199, 2201). *)
+component p20_value_plus_times_juxt
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+run(): () = do
+    u: Value[3] = [Value(1.0) Value(2.0) Value(3.0)]
+    v: Value[3] = [Value(10.0) Value(20.0) Value(30.0)]
+    println("u + v   = " (u + v))
+    println("u DOT v = " (u DOT v))
+    println("u v     = " (u v))
+    println("SUM     = " (SUM [ x <- u ] x))
+    println("scale   = " u.scale(Value(2.0)))
+    println("pmul    = " pmul(u,v))
+    m: Value[2,2] = [Value(1.0) Value(2.0); Value(3.0) Value(4.0)]
+    w: Value[2]   = [Value(1.0) Value(1.0)]
+    println("m w     = " (m w))
+    println("w m     = " (w m))
+    println("m.t()   = " m.t())
+    println("m m     = " (m m))
+    println("m + m   = " (m + m))
+  end
+end

@@ -1,0 +1,41 @@
+(* Probe C: full vector operation battery over user element type Value. *)
+component p12_value_vec_ops
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+    opr ^(self, k: AnyIntegral): Value = Value(data^k)
+end
+
+run(): () = do
+    u = vector[\Value,3\](fn (i:ZZ32):Value => Value(1.0 (i+1)))
+    v = vector[\Value,3\](fn (i:ZZ32):Value => Value(10.0 (i+1)))
+    println("u = " u)
+    println("v = " v)
+
+    println("-- 4. elementwise addition / subtraction / negation --")
+    println("u + v = " (u + v))
+    println("u - v = " (u - v))
+    println("-u    = " (-u))
+
+    println("-- 4. scaling by a Value --")
+    println("u.scale(V(2.0)) = " u.scale(Value(2.0)))
+    println("Value(2.0) u    = " (Value(2.0) u))
+    println("u Value(2.0)    = " (u Value(2.0)))
+
+    println("-- products --")
+    println("u.dot(v)  = " u.dot(v))
+    println("u DOT v   = " (u DOT v))
+    println("u v       = " (u v))
+    println("pmul(u,v) = " pmul(u,v))
+    println("squaredNorm(u) = " squaredNorm(u))
+  end
+end

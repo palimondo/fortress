@@ -1,0 +1,48 @@
+(* Probe O: rectangular, runtime-computed shapes over Value; plus the
+   norm operator ||v|| and matrix exponentiation m^k
+   (Specification/basic/operators/opr-overview.tex:57 and 79-81). *)
+component p24_rect_runtime
+import NatReflect.{...}
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+mkMat[\nat n, nat m\](wn:N[\n\], wm:N[\m\], f:(ZZ32,ZZ32)->Value): Matrix[\Value,n,m\] =
+    matrix[\Value,n,m\]().fill(f)
+mkVec[\nat n\](wn:N[\n\], f:ZZ32->Value): Vector[\Value,n\] = vector[\Value,n\](f)
+
+run(): () = do
+    rows: ZZ32 = 2 + 1        (* computed at run time *)
+    cols: ZZ32 = rows + 1
+
+    w = mkMat(reflect(rows), reflect(cols),
+              fn (i:ZZ32,j:ZZ32):Value => Value(1.0 (i cols + j)))
+    println("W (" rows "x" cols ") = " w)
+
+    x = mkVec(reflect(cols), fn (j:ZZ32):Value => Value(1.0))
+    println("x (" cols ") = " x)
+
+    println("W x  = " (w x))            (* rows-vector *)
+    y = mkVec(reflect(rows), fn (i:ZZ32):Value => Value(1.0))
+    println("y W  = " (y w))            (* cols-vector *)
+    println("W^T  = " w.t())
+    println("W^T y= " (w.t() y))
+
+    println("-- norm and power --")
+    println("||x||  = " ||x||)
+    sq = mkMat(reflect(rows), reflect(rows),
+               fn (i:ZZ32,j:ZZ32):Value => if i=j then Value(2.0) else Value(1.0) end)
+    println("S      = " sq)
+    println("S^2    = " (sq^2))
+  end
+end

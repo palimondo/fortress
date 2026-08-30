@@ -1,0 +1,4 @@
+component p00_smoke
+export Executable
+run(): () = println("smoke ok")
+end

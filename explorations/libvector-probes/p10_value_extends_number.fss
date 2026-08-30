@@ -1,0 +1,28 @@
+(* Probe A: the direct route -- make the user element type a Number, which is
+   what Vector[\T extends Number, nat s0\] demands
+   (Library/FortressLibrary.fsi:1460).
+   First attempt put asFloat() before the getters and got
+   "Field/getter/setter declarations should come before method declarations." *)
+component p10_value_extends_number
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+    opr ^(self, k: AnyIntegral): Value = Value(data^k)
+end
+
+run(): () = do
+    a = Value(2.0)
+    b = Value(3.0)
+    println("a + b = " (a + b))
+    println("a b   = " (a b))
+  end
+end

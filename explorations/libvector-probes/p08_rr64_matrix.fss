@@ -1,0 +1,44 @@
+(* Baseline 5: RR64 matrices -- construction, indexing, size, product,
+   matrix-vector juxtaposition, transpose, elementwise add, scaling. *)
+component p08_rr64_matrix
+export Executable
+
+run(): () = do
+    m: RR64[2,2] = [1.0 2.0; 3.0 4.0]
+    println("m       = " m)
+    println("|m|     = " |m|)
+    println("m.sizes = " m.sizes)
+    println("m[0,1]  = " m[0,1])
+    typecase m of
+        AnyMatrix => println("m IS an AnyMatrix")
+        else      => println("m is NOT an AnyMatrix")
+    end
+
+    n: RR64[2,2] = [10.0 20.0; 30.0 40.0]
+    println("m + n   = " (m + n))
+    println("m - n   = " (m - n))
+    println("-m      = " (-m))
+    println("m.scale(2.0) = " m.scale(2.0))
+    println("2.0 m   = " (2.0 m))
+    println("m 2.0   = " (m 2.0))
+    println("m n     = " (m n))
+    println("m DOT n = " (m DOT n))
+    println("m.mul(n)= " m.mul[\2\](n))
+    println("m.t()   = " m.t())
+
+    v: RR64[2] = [1.0 1.0]
+    println("v       = " v)
+    println("m v     = " (m v))
+    println("m.rmul(v) = " m.rmul(v))
+    println("v m     = " (v m))
+    println("m.lmul(v) = " m.lmul(v))
+
+    (* library factory *)
+    k = matrix[\RR64,2,2\](3.0)
+    println("matrix[RR64,2,2](3.0) = " k)
+
+    (* generator integration *)
+    println("SUM over matrix elements = " (SUM [ x <- m ] x))
+    for (ij,x) <- seq(m.indexValuePairs) do println("ivp " ij " -> " x) end
+  end
+end

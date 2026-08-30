@@ -1,0 +1,34 @@
+(* Baseline 1: RR64 vector construction, the library's home ground. *)
+component p01_rr64_vec_construct
+export Executable
+
+run(): () = do
+    (* (a) array literal of RR64 *)
+    a = [1.0 2.0 3.0 4.0]
+    println("a  = " a)
+    println("|a| = " |a|)
+    println("a[2] = " a[2])
+
+    (* (b) explicit factory, zero-filled *)
+    v = vector[\RR64,4\]()
+    println("v (vector[RR64,4]()) = " v)
+
+    (* (c) factory with a fill value *)
+    w = vector[\RR64,4\](2.5)
+    println("w (vector[RR64,4](2.5)) = " w)
+
+    (* (d) factory from a function ZZ32->RR64 : comprehension-ish *)
+    u = vector[\RR64,4\](fn (i:ZZ32):RR64 => 10.0 i)
+    println("u (vector from fn) = " u)
+
+    (* (e) is the literal actually a Vector? *)
+    typecase a of
+        AnyVector => println("literal [1.0 2.0 3.0 4.0] IS an AnyVector")
+        else      => println("literal [1.0 2.0 3.0 4.0] is NOT an AnyVector")
+    end
+    typecase v of
+        AnyVector => println("vector[RR64,4]() IS an AnyVector")
+        else      => println("vector[RR64,4]() is NOT an AnyVector")
+    end
+  end
+end

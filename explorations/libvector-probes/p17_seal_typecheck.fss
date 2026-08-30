@@ -1,0 +1,25 @@
+(* Probe H: does any static phase enforce "trait Number ... comprises { RR64 }"
+   (Library/FortressLibrary.fss:349-351, .fsi:273-276)?
+   Run with:  fortress typecheck p17_seal_typecheck.fss
+   (opr ^ dropped: "fortress typecheck" reported "AnyIntegral is undefined"
+    for the AnyIntegral-typed exponent, which is a separate issue.) *)
+component p17_seal_typecheck
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+run(): () = do
+    v = vector[\Value,3\](Value(1.0))
+    println("v = " v)
+  end
+end

@@ -1,0 +1,55 @@
+(* Probe E: full matrix battery over user element type Value. *)
+component p14_value_matrix
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+    opr ^(self, k: AnyIntegral): Value = Value(data^k)
+end
+
+run(): () = do
+    m: Value[2,2] = [Value(1.0) Value(2.0); Value(3.0) Value(4.0)]
+    n: Value[2,2] = [Value(10.0) Value(20.0); Value(30.0) Value(40.0)]
+    v: Value[2]   = [Value(1.0) Value(1.0)]
+
+    println("-- 2. indexing / size --")
+    println("m[0,1]  = " m[0,1])
+    println("|m|     = " |m|)
+    println("m.sizes = " m.sizes)
+
+    println("-- 4. elementwise + and scaling --")
+    println("m + n   = " (m + n))
+    println("m - n   = " (m - n))
+    println("-m      = " (-m))
+    println("m.scale(V(2.0)) = " m.scale(Value(2.0)))
+    println("Value(2.0) m    = " (Value(2.0) m))
+    println("m Value(2.0)    = " (m Value(2.0)))
+
+    println("-- 3. products and transpose --")
+    println("m n     = " (m n))
+    println("m DOT n = " (m DOT n))
+    println("m.mul(n)= " m.mul[\2\](n))
+    println("m v     = " (m v))
+    println("m.rmul(v)=" m.rmul(v))
+    println("v m     = " (v m))
+    println("m.lmul(v)=" m.lmul(v))
+    println("m.t()   = " m.t())
+    println("m.t() v = " (m.t() v))
+
+    println("-- library matrix factory --")
+    k = matrix[\Value,2,2\](Value(3.0))
+    println("matrix[Value,2,2](V(3.0)) = " k)
+
+    println("-- 5. generator integration --")
+    println("SUM over matrix elements = " (SUM [ x <- m ] x))
+    for (ij,x) <- seq(m.indexValuePairs) do println("ivp " ij " -> " x) end
+  end
+end

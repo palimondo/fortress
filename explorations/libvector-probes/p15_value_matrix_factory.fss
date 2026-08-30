@@ -1,0 +1,53 @@
+(* Probe F: hunting for a sanctioned matrix factory over Value, after
+     matrix[\Value,2,2\](Value(3.0))
+   died with
+     "Unification error: Closure/Constructor for init0 param 2 (v:Value)
+      got arg 0: ZZ32 of type Int"
+   from Library/FortressLibrary.fss:2616
+     matrix[\T ...\](v:T) = array2[\T,s0,s1\]().fill(
+         fn (x,y):T => if x=y then v else 0 end)
+   -- the "else 0" is a ZZ32 literal, not T's zero. *)
+component p15_value_matrix_factory
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+    opr ^(self, k: AnyIntegral): Value = Value(data^k)
+end
+
+run(): () = do
+    (* (a) 0-arg matrix factory + fill with a function -- the workaround *)
+    k = matrix[\Value,2,2\]().fill(fn (x:ZZ32,y:ZZ32):Value =>
+            if x=y then Value(3.0) else Value(0.0) end)
+    println("matrix[Value,2,2]().fill(f) = " k)
+    typecase k of
+        AnyMatrix => println("k IS an AnyMatrix")
+        else      => println("k is NOT an AnyMatrix")
+    end
+
+    (* (b) 0-arg matrix factory + constant fill *)
+    z = matrix[\Value,2,2\]().fill(Value(7.0))
+    println("matrix[Value,2,2]().fill(V(7.0)) = " z)
+
+    (* (c) array2 factory with a function (the generic sibling) *)
+    a = array2[\Value,2,2\](fn (x:ZZ32,y:ZZ32):Value => Value(1.0 x + 10.0 y))
+    println("array2[Value,2,2](f) = " a)
+    typecase a of
+        AnyMatrix => println("array2 result IS an AnyMatrix")
+        else      => println("array2 result is NOT an AnyMatrix")
+    end
+
+    (* (d) does the workaround still support the matrix algebra? *)
+    println("k k = " (k k))
+    v: Value[2] = [Value(1.0) Value(2.0)]
+    println("k v = " (k v))
+  end
+end

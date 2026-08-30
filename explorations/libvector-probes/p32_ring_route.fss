@@ -1,0 +1,63 @@
+(* Probe W (the SPEC-LEGAL route): do not touch the sealed Number.
+   Extend the UNSEALED algebraic traits instead
+     trait AdditiveGroup[\T extends AdditiveGroup[\T\]\]        (FortressLibrary.fss:328)
+     trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\] (FortressLibrary.fss:340)
+   -- neither has a comprises clause, so extending them is legal per
+   Specification/basic/traits.tex:231-235.
+   The library's generic call sites (Vector.opr +, .scale, .dot, Matrix.mul)
+   need SOME entry in the global overload table that maps (Value,Value)
+   back to the user's own method; AdditiveGroup/MultiplicativeRing supply it. *)
+component p32_ring_route
+import NatReflect.{...}
+export Executable
+
+object Value(data: RR64)
+        extends { AdditiveGroup[\Value\], MultiplicativeRing[\Value\] }
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+    opr ^(self, k: AnyIntegral): Value = Value(data^k)
+end
+
+mkMat[\nat n, nat m\](wn:N[\n\], wm:N[\m\], f:(ZZ32,ZZ32)->Value): Matrix[\Value,n,m\] =
+    matrix[\Value,n,m\]().fill(f)
+
+run(): () = do
+    u = vector[\Value,3\](fn (i:ZZ32):Value => Value(1.0 (i+1)))
+    v = vector[\Value,3\](fn (i:ZZ32):Value => Value(10.0 (i+1)))
+    println("u = " u)
+    typecase u of
+        AnyVector => println("u IS an AnyVector")
+        else      => println("u is NOT an AnyVector")
+    end
+    println("u + v   = " (u + v))
+    println("u - v   = " (u - v))
+    println("-u      = " (-u))
+    println("u DOT v = " (u DOT v))
+    println("u v     = " (u v))
+    println("scale   = " u.scale(Value(2.0)))
+    println("pmul    = " pmul(u,v))
+    println("SUM     = " (SUM [ x <- u ] x))
+
+    m = mkMat(reflect(3), reflect(3),
+              fn (i:ZZ32,j:ZZ32):Value => if i=j then Value(2.0) else Value(0.0) end)
+    println("m       = " m)
+    println("m u     = " (m u))
+    println("u m     = " (u m))
+    println("m.t()   = " m.t())
+    println("m m     = " (m m))
+    println("m + m   = " (m + m))
+
+    println("-- and does the ARRAY LITERAL still make a Vector? --")
+    a: Value[3] = [Value(1.0) Value(2.0) Value(3.0)]
+    typecase a of
+        AnyVector => println("literal IS an AnyVector")
+        else      => println("literal is NOT an AnyVector (array1 dispatches on '() -> Number')")
+    end
+  end
+end

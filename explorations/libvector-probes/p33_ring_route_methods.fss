@@ -1,0 +1,50 @@
+(* Probe X: how far the SPEC-LEGAL route (AdditiveGroup + MultiplicativeRing,
+   no Number) gets when the METHOD forms are used instead of the top-level
+   operators.  p32 showed:
+     u + v, u - v, -u        WORK   (Vector's own methods, FortressLibrary.fss:2192-2196)
+     u DOT v                 FAILS  "Failed to find any matching overload,
+                                     args = (__DefaultVector[\Value,3\],
+                                             __DefaultVector[\Value,3\])"
+   -- the top-level opr DOT[\T extends Number, nat n\] (FortressLibrary.fss:2261)
+   is not applicable because Value is not a Number.  The bound IS enforced
+   for top-level generic functions/operators, but NOT for trait methods. *)
+component p33_ring_route_methods
+import NatReflect.{...}
+export Executable
+
+object Value(data: RR64)
+        extends { AdditiveGroup[\Value\], MultiplicativeRing[\Value\] }
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+    opr ^(self, k: AnyIntegral): Value = Value(data^k)
+end
+
+mkMat[\nat n, nat m\](wn:N[\n\], wm:N[\m\], f:(ZZ32,ZZ32)->Value): Matrix[\Value,n,m\] =
+    matrix[\Value,n,m\]().fill(f)
+
+run(): () = do
+    u = vector[\Value,3\](fn (i:ZZ32):Value => Value(1.0 (i+1)))
+    v = vector[\Value,3\](fn (i:ZZ32):Value => Value(10.0 (i+1)))
+    m = mkMat(reflect(3), reflect(3),
+              fn (i:ZZ32,j:ZZ32):Value => if i=j then Value(2.0) else Value(0.0) end)
+
+    println("u + v      = " (u + v))
+    println("u.scale(V) = " u.scale(Value(2.0)))
+    println("u.pmul(v)  = " u.pmul(v))
+    println("m.t()      = " m.t())
+    println("m + m      = " (m + m))
+    println("m.scale(V) = " m.scale(Value(2.0)))
+    (* u.dot(v)  -> CastError at FortressLibrary.fss:36 (cast[\Number\]),
+       reached through Vector.dot's SUM (FortressLibrary.fss:2201) and
+       opr SUM's unwrap  cast[\Number\]  (FortressLibrary.fss:3042).
+       m.rmul(u), m.lmul(u), m.mul(m) all go through the same dot/SUM. *)
+    println("-- the ones that go through SUM, one at a time --")
+    println("m.rmul(u)  = " m.rmul(u))
+  end
+end

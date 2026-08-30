@@ -1,0 +1,24 @@
+(* Baseline 2: RR64 vector operations. *)
+component p04_rr64_vec_ops
+export Executable
+
+run(): () = do
+    u: RR64[3] = [1.0 2.0 3.0]
+    v: RR64[3] = [10.0 20.0 30.0]
+
+    println("u        = " u)
+    println("v        = " v)
+    println("u + v    = " (u + v))
+    println("u - v    = " (u - v))
+    println("-u       = " (-u))
+    println("u.scale(2.0)  = " u.scale(2.0))
+    println("2.0 u    = " (2.0 u))
+    println("u 2.0    = " (u 2.0))
+    println("u DOT v  = " (u DOT v))
+    println("u v      = " (u v))
+    println("u.dot(v) = " u.dot(v))
+    println("pmul     = " pmul(u,v))
+    println("||u||    = " ||u||)
+    println("squaredNorm(u) = " squaredNorm(u))
+  end
+end

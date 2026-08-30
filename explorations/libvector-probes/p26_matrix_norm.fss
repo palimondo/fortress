@@ -1,0 +1,15 @@
+(* Probe Q: matrix norm ||m||, promised by
+   Specification/basic/operators/opr-overview.tex:56-57
+   "Similarly, || || is used to compute the norm of a vector or matrix."
+   The library declares the norm only for Vector:
+   Library/FortressLibrary.fsi:1528
+     opr ||[\ T extends Number, nat k \]me : Vector[\T,k\]|| : RR64
+   Plain RR64 elements, so nothing here is the user type's fault. *)
+component p26_matrix_norm
+export Executable
+
+run(): () = do
+    m: RR64[2,2] = [1.0 2.0; 3.0 4.0]
+    println("||m||  = " ||m||)
+  end
+end

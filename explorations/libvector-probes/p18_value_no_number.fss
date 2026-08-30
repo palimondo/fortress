@@ -1,0 +1,28 @@
+(* Probe I: what if Value does NOT extend Number at all?
+   Vector[\T extends Number, nat s0\] (FortressLibrary.fsi:1460) and
+   vector[\T extends Number, nat s0\] (FortressLibrary.fsi:1491-1493)
+   both declare the bound.  Does the walk interpreter enforce it? *)
+component p18_value_no_number
+export Executable
+
+object Value(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+run(): () = do
+    println("-- (a) does the array literal make a Vector? --")
+    a: Value[3] = [Value(1.0) Value(2.0) Value(3.0)]
+    println("a = " a)
+    typecase a of
+        AnyVector => println("a IS an AnyVector")
+        else      => println("a is NOT an AnyVector")
+    end
+
+    println("-- (b) does vector[\\Value,3\\] accept a non-Number T? --")
+    v = vector[\Value,3\](Value(1.0))
+    println("v = " v)
+  end
+end

@@ -1,0 +1,59 @@
+(* Probe M: runtime-sized construction.
+     vector[\RR64,n\] with a runtime "n" -> "n is undefined." (probe p09):
+     nat is a STATIC parameter, and value names are not in scope as static args.
+   The library's sanctioned runtime-sized factory is
+     array[\E\](x:ZZ32):Array[\E,ZZ32\]     (FortressLibrary.fsi:1343-1345)
+       "Factory for arrays that returns an empty 0-indexed array of a
+        given run-time-determined size."
+   Does it produce a Vector/Matrix?  Does the vector algebra apply to it? *)
+component p22_runtime_sized
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+n: ZZ32 = 8
+
+run(): () = do
+    println("-- RR64, runtime size " n " --")
+    a = array[\RR64\](n).fill(fn (i:ZZ32):RR64 => 1.0 (i+1))
+    println("array[RR64](n).fill(f) = " a)
+    println("|a| = " |a| ", a[3] = " a[3])
+    typecase a of
+        AnyVector => println("a IS an AnyVector")
+        else      => println("a is NOT an AnyVector")
+    end
+    println("SUM over a = " (SUM [ x <- a ] x))
+
+    println("-- Value, runtime size " n " --")
+    b = array[\Value\](n).fill(fn (i:ZZ32):Value => Value(1.0 (i+1)))
+    println("array[Value](n).fill(f) = " b)
+    println("|b| = " |b| ", b[3] = " b[3])
+    typecase b of
+        AnyVector => println("b IS an AnyVector")
+        else      => println("b is NOT an AnyVector")
+    end
+    println("SUM over b = " (SUM [ x <- b ] x))
+
+    println("-- runtime-sized 2-D --")
+    c = array[\Value\](2,3).fill(fn (t:(ZZ32,ZZ32)):Value => do (i,j) = t; Value(1.0 i + 10.0 j) end)
+    println("array[Value](2,3).fill(f) = " c)
+    typecase c of
+        AnyMatrix => println("c IS an AnyMatrix")
+        else      => println("c is NOT an AnyMatrix")
+    end
+
+    println("-- do the vector operators apply to runtime-sized arrays? --")
+    d = array[\Value\](n).fill(Value(1.0))
+    println("b + d = " (b + d))
+  end
+end

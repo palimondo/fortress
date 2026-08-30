@@ -1,0 +1,34 @@
+(* Baseline 3: RR64 vector generator integration -- SUM, comprehension,
+   for-loops over elements and index/value pairs.
+   Attempt log:
+     "BIG MAX [ x <- u ] x"   -> Operator BIG [_BIG ] is not defined.
+     "MAX [ x <- u ] x"       -> Operator BIG [_BIG ] is not defined.
+     "[ x x | x <- u ]"       -> Operator BIG [_BIG ] is not defined.
+     "{ x x | x <- u }"       -> needed  import Set.{...}
+     "<| x x | x <- u |>"     -> needed  import List.{...}                *)
+component p05_rr64_vec_gen
+import Set.{...}
+import List.{...}
+export Executable
+
+run(): () = do
+    u: RR64[4] = [1.0 2.0 3.0 4.0]
+
+    println("SUM over elements       = " (SUM [ x <- u ] x))
+    println("SUM of squares          = " (SUM [ x <- u ] x x))
+    println("SUM over indexValuePairs= " (SUM [ (i,x) <- u.indexValuePairs ] x))
+    println("PROD over elements      = " (PROD [ x <- u ] x))
+    println("BIG MAX over elements   = " (BIG MAX [ x <- u ] x))
+
+    (* set comprehension over a vector's elements *)
+    s = { x x | x <- u }
+    println("set comprehension       = " s)
+
+    (* list comprehension over a vector's elements *)
+    l = <| x x | x <- u |>
+    println("list comprehension      = " l)
+
+    for x <- seq(u) do println("elem " x) end
+    for (i,x) <- seq(u.indexValuePairs) do println("ivp " i " -> " x) end
+  end
+end
