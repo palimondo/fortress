@@ -101,8 +101,8 @@ ASCII source excerpts, corresponding actual Fortify renderings, Python
 comparison blocks and the complete ASCII executable. No external scripts or
 fonts are required. Inline mathematics uses native MathML.
 
-Supplementary historical logs and original SVG/TeX outputs remain local;
-automatic review blocked their archive publication. The public branch includes
-final numerical output, current source, fixtures and PNG figures. Re-run the
-bounded figure-rendering commands above when building the standalone HTML from
-a fresh checkout. Existing workspace SVGs need no re-rendering.
+Supplementary historical logs and original SVG/TeX outputs are published in
+`experiment/archive/process-evidence.tar.xz`. Extract with `tar -xJf` from the
+repository root before inspecting historical outputs or building standalone
+HTML without re-rendering. The archive's INDEX.json lists all 171 members and
+REVIEW.json records its reviewed hash. Coordinator-only material is excluded.

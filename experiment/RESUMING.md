@@ -45,12 +45,18 @@ worker context or the full conversation. A stopped worker may still require a
 new explicit turn to resume. Restore only missing dependencies in this workspace;
 a genuinely new machine also needs the baseline build described in README.md.
 
-## Published experiment and local supplementary evidence
+## Published checkpoint and supplementary evidence
 
-Resume from the public `codex/astra-microgpt` branch for the completed article,
-source, figures, fixture and final validation logs. The shell has no GitHub write
-credential; publication uses the connected GitHub app. Coordinator-only material
-and the supplementary historical archive were withheld after automatic approval
-review objections. They remain in the original workspace. Do not claim that
-this public checkpoint is a full transcript or that the withheld archive has
-been published. Re-render figures when SVG intermediates are unavailable.
+Resume from `codex/astra-microgpt` for the article, source, figures, fixture,
+research timeline and final validation logs. The shell has no GitHub write
+credential; publication uses the connected GitHub app. The user explicitly
+authorized the reviewed supplementary archive after earlier approval rejections.
+It is included with INDEX.json and REVIEW.json under experiment/archive/.
+Restore the original evidence paths with:
+
+```sh
+tar -xJf experiment/archive/process-evidence.tar.xz
+```
+
+Coordinator-only notes and session transcripts remain excluded. This remains
+checkpoint-based reconstruction, not restoration of a complete session context.

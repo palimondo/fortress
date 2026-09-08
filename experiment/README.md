@@ -114,12 +114,19 @@ compiled build caches are excluded.
 
 ## Supplementary process archive
 
-Supplementary historical logs, failed-source snapshots and rendering
-intermediates have been retained locally in a lossless archive. Automatic
-approval review blocked its publication; it is not included in this branch.
-The original workspace retains its archive index and restoration command.
-The directly browsable checkpoint includes the completed implementation,
-its actual final numerical evidence and the worker's research notes.
+The user explicitly authorized publication of the reviewed archive. The
+[archive](archive/process-evidence.tar.xz) preserves 171 supplementary logs,
+failed-source probes and generated rendering intermediates. See its
+[file index](archive/INDEX.json) and [review report](archive/REVIEW.json).
+Coordinator-only material and session transcripts are excluded. The credential
+pattern scan found no matches; it is not a proof against every secret format.
 
-To regenerate SVG/TeX figures, use the rendering commands in the reproduction
-guide. The repository HTML edition uses the included PNG figures.
+Restore the original paths from the repository root:
+
+```sh
+tar -xJf experiment/archive/process-evidence.tar.xz
+```
+
+SHA-256: `b9453b0979ff7add95699d8764fa590ffc6d380abcbd2d92ddc29bdab1a2f347`.
+This also restores original SVG/TeX intermediates for the standalone HTML
+builder. The repository HTML edition uses the directly browsable PNG figures.

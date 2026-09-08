@@ -134,6 +134,6 @@ anchors=[
  ('RMS comparison render','20260908T041945'),
  ('Incomplete reduction record','20260908T042022')]
 report+='\n'.join(f'- {title}: {record(prefix)}.' for title,prefix in anchors)
-report+='\n\nThe linked metadata are in the public checkpoint. Some supplementary raw outputs and older source/render intermediates were inspected locally but are not publicly available: their archive publication was blocked by approval review. Final integrated and alternative outputs, source snapshots, current source and worker notes remain browsable. The HTML appendix includes all 83 metadata events; [events.json](events.json) is the machine-readable index.\n'
+report+='\n\nThe linked metadata are in the public checkpoint. Supplementary raw outputs and older source/render intermediates are now available in the [reviewed evidence archive](../../archive/process-evidence.tar.xz), with its [index](../../archive/INDEX.json). Earlier approval blocks were resolved after explicit user authorization. Final integrated and alternative outputs, source snapshots, current source and worker notes remain browsable. The HTML appendix includes all 83 metadata events; [events.json](events.json) is the machine-readable index.\n'
 (OUT/'TIMELINE.md').write_text(report)
 print(f'Wrote report and {len(events)} events; 18 snapshot hashes verified.')
