@@ -1,0 +1,9 @@
+component RvwChainedSub
+import List.{...}
+export Executable
+run(): () = do
+  m = <|[\List[\RR64\]\] <|[\RR64\] 1.0, 2.0 |>, <|[\RR64\] 3.0, 4.0 |> |>
+  println("paren: " ((m[1])[0]))
+  println("bare:  " (m[1][0]))
+end
+end

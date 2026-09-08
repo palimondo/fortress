@@ -1,0 +1,345 @@
+(* GENERATED for review by the same recipe as tools/build.py *)
+component CheckV2
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+import Set.{...}
+import MicroGPTData.{...}
+export Executable
+
+
+(********************************************************************
+ * Autograd: a scalar Value that remembers the values it was computed
+ * from and the local derivative with respect to each of them.
+ ********************************************************************)
+
+var nodeCount: ZZ32 := 0
+nextId(): ZZ32 = atomic do nodeCount += 1; nodeCount end
+
+(* FIG value *)
+object Value(var data: RR64, deps: Generator[\(Value, RR64)\])
+  id: ZZ32 = nextId()
+  var grad: RR64 := 0
+
+  opr +(self, b: Value): Value = node(data + b.data, (self, 1), (b, 1))
+  opr juxtaposition(self, b: Value): Value = node(data b.data, (self, b.data), (b, data))
+  opr ^ (self, n: RR64): Value = node(data^n, (self, n data^(n-1)))
+  log(self): Value = node(log(data), (self, 1/data))
+  exp(self): Value = node(exp(data), (self, exp(data)))
+  relu(self): Value = node(data MAX 0, (self, if data > 0 then 1 else 0 end))
+
+  opr -(self): Value = self (-1)
+  opr -(self, b: Value): Value = self + (-b)
+  opr /(self, b: Value): Value = self b^(-1)
+  opr +(self, c: RR64): Value = self + node(c)
+  opr -(self, c: RR64): Value = self + node(-c)
+  opr juxtaposition(self, c: RR64): Value = self node(c)
+  opr /(self, c: RR64): Value = self node(1/c)
+
+  backward(): () = do
+    grad := 1
+    for v <- seq(topo(self).reverse) do
+      for (c, d) <- seq(v.deps) do c.grad += d v.grad end
+    end
+  end
+end
+
+node(data: RR64, deps: (Value, RR64)...): Value = Value(data, deps)
+opr juxtaposition(c: RR64, v: Value): Value = node(c) v
+opr +(c: RR64, v: Value): Value = node(c) + v
+opr -(c: RR64, v: Value): Value = node(c) + (-v)
+(* END FIG *)
+
+(* FIG topo *)
+(* every Value after all the Values it depends on *)
+topo(root: Value): List[\Value\] = do
+  var seen: Set[\ZZ32\] := {[\ZZ32\] }
+  var order: List[\Value\] := <|[\Value\] |>
+  visit(v: Value): () =
+    if v.id NOTIN seen then
+      seen := seen.add(v.id)
+      for (c, _) <- seq(v.deps) do visit(c) end
+      order := order.addRight(v)
+    end
+  visit(root)
+  order
+end
+(* END FIG *)
+
+(* FIG sum *)
+(* Summation over Values: the library's SUM is for Numbers only. *)
+object SumValues extends CommutativeMonoidReduction[\Value\]
+  getter asString(): String = "SumValues"
+  empty(): Value = node(0)
+  join(a: Value, b: Value): Value = a + b
+end
+opr SUM(): BigReduction[\Value, Value\] = BigReduction[\Value, Value\](SumValues)
+opr SUM(g: Generator[\Value\]): Value = g.generate[\Value\](SumValues, fn (v: Value) => v)
+(* END FIG *)
+
+(********************************************************************
+ * Vectors and matrices of Values
+ ********************************************************************)
+
+(* FIG vec *)
+object Vec(x: List[\Value\]) extends DelegatedIndexed[\Value, ZZ32\]
+  getter bounds(): CompactFullRange[\ZZ32\] = x.bounds
+  getter indices(): Generator[\ZZ32\] = x.indices
+  getter indexValuePairs(): Indexed[\(ZZ32, Value), ZZ32\] = x.indexValuePairs
+  opr |self|: ZZ32 = |x|
+  opr [i: ZZ32]: Value = x[i]
+  opr [r: Range[\ZZ32\]]: Vec = Vec(x[r])
+  opr ||(self, y: Vec): Vec = Vec(x || y.x)
+
+  opr +(self, y: Vec): Vec = Vec(<| x[i] + y[i] | i <- x.indices |>)
+  opr DOT(self, y: Vec): Value = SUM[i <- x.indices] x[i] y[i]
+  opr /(self, c: RR64): Vec = Vec(<| x_i / c | x_i <- x |>)
+end
+opr juxtaposition(s: Value, x: Vec): Vec = Vec(<| s x_i | x_i <- x |>)
+relu(x: Vec): Vec = Vec(<| relu(x_i) | x_i <- x |>)
+
+(* concatenation of vectors as a big operator *)
+object CatVecs extends MonoidReduction[\Vec\]
+  getter asString(): String = "CatVecs"
+  empty(): Vec = Vec(<|[\Value\] |>)
+  join(a: Vec, b: Vec): Vec = a || b
+end
+opr BIG ||(): BigReduction[\Vec, Vec\] = BigReduction[\Vec, Vec\](CatVecs)
+(* END FIG *)
+
+(* FIG mat *)
+object Mat(rows: List[\Vec\])
+  getter entries(): List[\Value\] = BIG CONCAT[\Value\][w <- rows] w.x
+  opr [i: ZZ32]: Vec = rows[i]
+  opr [i: ZZ32, j: ZZ32]: Value = (rows[i])[j]
+  opr [cols: Range[\ZZ32\]]: Mat = Mat(<| w[cols] | w <- rows |>)
+end
+(* matrix times column vector, and row vector times matrix *)
+opr juxtaposition(W: Mat, x: Vec): Vec = Vec(<| w DOT x | w <- W.rows |>)
+opr juxtaposition(a: Vec, M: Mat): Vec = Vec(<| SUM[t <- a.indices] a[t] M[t, j] | j <- M[0].indices |>)
+(* END FIG *)
+
+(********************************************************************
+ * The model
+ ********************************************************************)
+
+(* FIG rmsnorm *)
+rmsnorm(x: Vec): Vec = do
+  ms = (SUM[x_i <- x] x_i^2) / |x|
+  scale = (ms + 0.00001)^(-0.5)
+  scale x
+end
+(* END FIG *)
+
+(* FIG softmax *)
+softmax(z: Vec): Vec = do
+  m = BIG MAX[z_i <- z] z_i.data
+  e = Vec(<| exp(z_i - m) | z_i <- z |>)
+  total = SUM[e_i <- e] e_i
+  Vec(<| e_i / total | e_i <- e |>)
+end
+(* END FIG *)
+
+(* FIG layer *)
+object Layer(n_head: ZZ32, W_q: Mat, W_k: Mat, W_v: Mat, W_o: Mat, W1: Mat, W2: Mat)
+  (* the KV cache: keys and values of the positions seen so far *)
+  var keys: List[\Vec\] := <|[\Vec\] |>
+  var values: List[\Vec\] := <|[\Vec\] |>
+  reset(): () = do keys := <|[\Vec\] |>; values := <|[\Vec\] |> end
+
+  attention(x: Vec): Vec = do
+    (q, k, v) = (W_q x, W_k x, W_v x)
+    keys := keys.addRight(k)
+    values := values.addRight(v)
+    (K, V) = (Mat(keys), Mat(values))
+    d_h = |q| DIV n_head
+    head(h: ZZ32): Vec = do
+      cols = (h d_h) # d_h
+      alpha = softmax((K[cols] q[cols]) / SQRT(d_h))
+      alpha V[cols]
+    end
+    W_o (BIG ||[h <- 0#n_head] head(h))
+  end
+
+  mlp(x: Vec): Vec = W2 relu(W1 x)
+
+  forward(x: Vec): Vec = do
+    x1 = x + attention(rmsnorm(x))
+    x1 + mlp(rmsnorm(x1))
+  end
+
+  matrices(): List[\Mat\] = <| W_q, W_k, W_v, W_o, W1, W2 |>
+end
+(* END FIG *)
+
+(* FIG model *)
+object Model(E: Mat, P: Mat, W_lm: Mat, layers: List[\Layer\])
+  reset(): () = for l <- layers do l.reset() end
+  (* token embedding E, position embedding P; logits for the next token *)
+  forward(token: ZZ32, pos: ZZ32): Vec = do
+    var x: Vec := rmsnorm(E[token] + P[pos])
+    for l <- seq(layers) do x := l.forward(x) end
+    W_lm x
+  end
+  matrices(): List[\Mat\] = <| E, P, W_lm |> || (BIG CONCAT[\Mat\][l <- layers] l.matrices())
+  params(): List[\Value\] = BIG CONCAT[\Value\][W <- matrices()] W.entries
+end
+(* END FIG *)
+
+(********************************************************************
+ * Loss, optimizer, sampling
+ ********************************************************************)
+
+(* FIG loss *)
+(* cross-entropy over a token sequence, averaged over positions *)
+loss(model: Model, tokens: List[\ZZ32\]): Value = do
+  n = |tokens| - 1
+  model.reset()
+  lossAt(t: ZZ32): Value = do
+    probs = softmax(model.forward(tokens[t], t))
+    -log(probs[tokens[t+1]])
+  end
+  losses = <| lossAt(t) | t <- seq(0#n) |>
+  (1/n) (SUM[l <- losses] l)
+end
+(* END FIG *)
+
+(* FIG adam *)
+object Adam(params: List[\Value\], lr: RR64, beta1: RR64, beta2: RR64, eps: RR64)
+  m: Array[\RR64, ZZ32\] = array[\RR64\](|params|).fill(0)
+  v: Array[\RR64, ZZ32\] = array[\RR64\](|params|).fill(0)
+  var t: ZZ32 := 0
+  step(lr_t: RR64): () = do
+    t += 1
+    for (i, p) <- params.indexValuePairs do
+      m[i] := beta1 m[i] + (1 - beta1) p.grad
+      v[i] := beta2 v[i] + (1 - beta2) (p.grad)^2
+      m_hat = m[i] / (1 - beta1^t)
+      v_hat = v[i] / (1 - beta2^t)
+      p.data -= lr_t m_hat / (v_hat^0.5 + eps)
+      p.grad := 0
+    end
+  end
+end
+(* END FIG *)
+
+(* FIG pick *)
+(* index of the first cumulative probability exceeding u (u uniform in [0,1)) *)
+pick(probs: List[\RR64\], u: RR64): ZZ32 = do
+  var total: RR64 := 0
+  for p <- seq(probs) do total += p end
+  var acc: RR64 := 0
+  label found
+    for (i, p) <- seq(probs.indexValuePairs) do
+      acc += p
+      if u total < acc then exit found with i end
+    end
+    |probs| - 1
+  end found
+end
+(* END FIG *)
+
+
+
+(* Deterministic checks of the Fortress microGPT against data derived from the
+   pinned Python reference (tools/derive_checks.py -> checks/*.json -> MicroGPTData). *)
+
+toMat(rows: List[\List[\RR64\]\]): Mat = Mat(<| Vec(<| node(x) | x <- row |>) | row <- rows |>)
+
+maxAbsDiff(a: List[\RR64\], b: List[\RR64\]): RR64 = BIG MAX[i <- a.indices] |a[i] - b[i]|
+matDiff(W: Mat, rows: List[\List[\RR64\]\], f: Value -> RR64): RR64 =
+  BIG MAX[(i, w) <- W.rows.indexValuePairs, (j, v) <- w.indexValuePairs] |f(v) - (rows[i])[j]|
+
+var failures: ZZ32 := 0
+check(name: String, diff: RR64, tol: RR64): () = do
+  ok = diff <= tol
+  if NOT ok then failures += 1 end
+  println((if ok then "PASS " else "FAIL ") name ": max abs diff " diff " (tol " tol ")")
+end
+checkEq(name: String, a: ZZ32, b: ZZ32): () = do
+  if a =/= b then failures += 1 end
+  println((if a = b then "PASS " else "FAIL ") name ": " a " vs " b)
+end
+
+run(): () = do
+  println("reference source sha256: " ref_source_sha256)
+  layer = Layer(ref_n_head, toMat(ref_init_layer0_attn_wq()), toMat(ref_init_layer0_attn_wk()),
+                toMat(ref_init_layer0_attn_wv()), toMat(ref_init_layer0_attn_wo()),
+                toMat(ref_init_layer0_mlp_fc1()), toMat(ref_init_layer0_mlp_fc2()))
+  model = Model(toMat(ref_init_wte()), toMat(ref_init_wpe()), toMat(ref_init_lm_head()), <| layer |>)
+  ps = model.params()
+  checkEq("num params", |ps|, 4192)
+  opt = Adam(ps, 0.01, 0.85, 0.99, 0.00000001)
+  named = <|[\(String, Mat)\] ("wte", model.E), ("wpe", model.P), ("lm_head", model.W_lm),
+             ("attn_wq", layer.W_q), ("attn_wk", layer.W_k), ("attn_wv", layer.W_v), ("attn_wo", layer.W_o),
+             ("mlp_fc1", layer.W1), ("mlp_fc2", layer.W2) |>
+  gradsOf(name: String, k: ZZ32): List[\List[\RR64\]\] = case name of
+      "wte" => (ref_grad_wte())[k]; "wpe" => (ref_grad_wpe())[k]; "lm_head" => (ref_grad_lm_head())[k]
+      "attn_wq" => (ref_grad_layer0_attn_wq())[k]; "attn_wk" => (ref_grad_layer0_attn_wk())[k]
+      "attn_wv" => (ref_grad_layer0_attn_wv())[k]; "attn_wo" => (ref_grad_layer0_attn_wo())[k]
+      "mlp_fc1" => (ref_grad_layer0_mlp_fc1())[k]; else => (ref_grad_layer0_mlp_fc2())[k]
+    end
+  afterOf(name: String, k: ZZ32): List[\List[\RR64\]\] = case name of
+      "wte" => (ref_after_wte())[k]; "wpe" => (ref_after_wpe())[k]; "lm_head" => (ref_after_lm_head())[k]
+      "attn_wq" => (ref_after_layer0_attn_wq())[k]; "attn_wk" => (ref_after_layer0_attn_wk())[k]
+      "attn_wv" => (ref_after_layer0_attn_wv())[k]; "attn_wo" => (ref_after_layer0_attn_wo())[k]
+      "mlp_fc1" => (ref_after_layer0_mlp_fc1())[k]; else => (ref_after_layer0_mlp_fc2())[k]
+    end
+
+  for k <- seq(0#ref_num_steps) do
+    toks = (ref_tokens())[k]
+    println("--- step " k ": doc " (ref_docs())[k] " tokens " toks)
+    recordTime(k)
+    (* forward only: logits and per-position losses *)
+    model.reset()
+    n = |toks| - 1
+    var dLogits: RR64 := 0.0
+    var dLosses: RR64 := 0.0
+    for t <- seq(0#n) do
+      z = model.forward(toks[t], t)
+      dLogits := dLogits MAX maxAbsDiff(<|[\RR64\] v.data | v <- z |>, ((ref_logits())[k])[t])
+      l_t = -log((softmax(z))[toks[t+1]])
+      dLosses := dLosses MAX |l_t.data - ((ref_losses())[k])[t]|
+    end
+    check("logits (all positions)", dLogits, 0.000000000001)
+    check("per-position losses", dLosses, 0.000000000001)
+    (* the real training path: loss, backward, Adam *)
+    L = loss(model, toks)
+    check("loss", |L.data - (ref_loss())[k]|, 0.000000000001)
+    L.backward()
+    for (name, W) <- seq(named) do
+      check("grad " name, matDiff(W, gradsOf(name, k), fn (v: Value) => v.grad), 0.000000000001)
+    end
+    opt.step((ref_lr())[k])
+    for (name, W) <- seq(named) do
+      check("params after Adam " name, matDiff(W, afterOf(name, k), fn (v: Value) => v.data), 0.000000000001)
+    end
+    printTime(k)
+  end
+
+  (* inference with the recorded uniform draws *)
+  for s <- seq(0#ref_num_samples) do
+    model.reset()
+    draws = (ref_sample_draws())[s]
+    expectedTokens = (ref_sample_tokens())[s]
+    var token: ZZ32 := ref_bos
+    var text: String := ""
+    var dProbs: RR64 := 0.0
+    var mismatches: ZZ32 := 0
+    for j <- seq(0#|draws|) do
+      z = model.forward(token, j)
+      probs = <|[\RR64\] p.data | p <- softmax(z / ref_temperature) |>
+      dProbs := dProbs MAX maxAbsDiff(probs, ((ref_sample_probs())[s])[j])
+      token := pick(probs, draws[j])
+      if token =/= expectedTokens[j] then mismatches += 1 end
+      if token =/= ref_bos then text := text || ref_uchars[token] end
+    end
+    check("sample " s " probabilities", dProbs, 0.000000000001)
+    checkEq("sample " s " token mismatches", mismatches, 0)
+    println((if text = (ref_sample_text())[s] then "PASS " else "FAIL ") "sample " s " text: " text " (expected " (ref_sample_text())[s] ")")
+    if text =/= (ref_sample_text())[s] then failures += 1 end
+  end
+  println("nodes created: " nodeCount)
+  println(if failures = 0 then "ALL CHECKS PASSED" else ("FAILURES: " failures) end)
+end
+
+end

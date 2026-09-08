@@ -1,0 +1,7 @@
+component RvwVarargsObj
+export Executable
+object Foo(xs: ZZ32...)
+  n(): ZZ32 = |xs|
+end
+run(): () = println(Foo(1, 2, 3).n())
+end

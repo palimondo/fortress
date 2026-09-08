@@ -1,0 +1,9 @@
+component RvwSubPow
+import List.{...}
+export Executable
+run(): () = do
+  a = <|[\RR64\] 2.0, 3.0 |>
+  println("paren: " ((a[1])^2))
+  println("bare:  " (a[1]^2))
+end
+end

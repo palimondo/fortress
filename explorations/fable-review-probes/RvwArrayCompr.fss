@@ -1,0 +1,7 @@
+component RvwArrayCompr
+export Executable
+run(): () = do
+  a = [ i |-> i i | i <- 0#3 ]
+  println(a)
+end
+end

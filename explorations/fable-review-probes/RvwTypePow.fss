@@ -1,0 +1,6 @@
+component RvwTypePow
+export Executable
+object V(x: RR64) end
+f(a: V^3): ZZ32 = 3
+run(): () = println("parsed V^3 as a type; " f(array[\V\](3).fill(V(1))))
+end
