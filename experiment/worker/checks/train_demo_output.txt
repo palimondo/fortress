@@ -10,3 +10,13 @@ step 8 / 12 | loss 3.3164711816144186 | doc samatha
 step 9 / 12 | loss 2.9824670037505 | doc phoenix
 step 10 / 12 | loss 3.2459973970516316 | doc emmelynn
 step 11 / 12 | loss 2.928308922810882 | doc hollan
+step 12 / 12 | loss 3.025322836295106 | doc hollis
+Operation took 423462ms
+--- inference (new, hallucinated names) ---
+sample 1: ydiian
+sample 2: 
+sample 3: xdenenn
+sample 4: dzoiaudmca
+nodes created: 1647922
+-------- exit: 0
+TRAIN EXIT: 0

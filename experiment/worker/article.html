@@ -11392,7 +11392,7 @@ end</pre></details></figure>
   opt.step(0.01 (1 - step / num_steps))   (* linear learning-rate decay, as in the reference *)
   println(&quot;step &quot; (step + 1) &quot; / &quot; num_steps &quot; | loss &quot; L.data &quot; | doc &quot; docs[step MOD |docs|])
 end</pre></details></figure>
-<p>Output of the demo run (the first loss equals the reference's own first step, 3.3660, because both start from the same weights and the same first document):</p>
+<p>Output of the demo run. Its first two losses are the reference's own steps 1 and 2 (3.3660 and 3.4243 in the microgpt article), because both start from the same weights and the same documents; after twelve steps the loss has moved from about 3.37 (near ln 27 = 3.30, uniform guessing) to about 3.0, and the sampled strings are not yet name-like — the reference needs its full thousand steps for that, which at 35 s per step is outside this experiment's bounded runs.</p>
 <pre class="out">======== 2026-09-08T18:08:33Z ./bin/fortress experiment/worker/build/Train.fss
 step 1 / 12 | loss 3.365966947584851 | doc yuheng
 step 2 / 12 | loss 3.424272783871772 | doc diondre
@@ -11405,6 +11405,16 @@ step 8 / 12 | loss 3.3164711816144186 | doc samatha
 step 9 / 12 | loss 2.9824670037505 | doc phoenix
 step 10 / 12 | loss 3.2459973970516316 | doc emmelynn
 step 11 / 12 | loss 2.928308922810882 | doc hollan
+step 12 / 12 | loss 3.025322836295106 | doc hollis
+Operation took 423462ms
+--- inference (new, hallucinated names) ---
+sample 1: ydiian
+sample 2: 
+sample 3: xdenenn
+sample 4: dzoiaudmca
+nodes created: 1647922
+-------- exit: 0
+TRAIN EXIT: 0
 </pre>
 
 <h3>6.4 Sampling</h3>
@@ -14391,7 +14401,7 @@ python3 experiment/worker/tools/figs.py experiment/worker/src/MicroGPT.fss gpt  
 python3 experiment/worker/tools/build_article.py            # this page</pre>
 <ul>
 <li><code>notes/01-orientation.md</code> — the checkout survey and every probe's finding with evidence; <code>notes/02-v1-verified.md</code>, <code>notes/03-design.md</code>, <code>notes/gaps.md</code> — milestone notes (attempt, observation, decision, uncertainty) and the classified gap list.</li>
-<li><code>probes/</code> — 40 small runnable programs, failures included; <code>transcript.txt</code> — every interpreter and typesetting invocation with its output.</li>
+<li><code>probes/</code> — 39 small runnable programs, failures included; <code>transcript.txt</code> — every interpreter and typesetting invocation with its output.</li>
 <li><code>checks/checks_2steps.json</code> — the reference-derived data; <code>checks/check_run_v{1,2,3}_output.txt</code>, <code>checks/train_demo_output.txt</code> — run outputs.</li>
 <li><code>figures/*.tic</code>, <code>*.svg</code> — figure sources and renderings; <code>article/sections/*.html</code> and <code>article/math_table.py</code> — this article's sources.</li>
 </ul>

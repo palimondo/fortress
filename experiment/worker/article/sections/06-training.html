@@ -36,7 +36,7 @@ n = min(block_size, len(tokens) - 1)
 lr_t = learning_rate * (1 - step / num_steps) # linear learning rate decay</pre>
 {{fig:demo_tokenize}}
 {{fig:demo_train}}
-<p>Output of the demo run (the first loss equals the reference's own first step, 3.3660, because both start from the same weights and the same first document):</p>
+<p>Output of the demo run. Its first two losses are the reference's own steps 1 and 2 (3.3660 and 3.4243 in the microgpt article), because both start from the same weights and the same documents; after twelve steps the loss has moved from about 3.37 (near ln 27 = 3.30, uniform guessing) to about 3.0, and the sampled strings are not yet name-like — the reference needs its full thousand steps for that, which at 35 s per step is outside this experiment's bounded runs.</p>
 {{pre:checks/train_demo_output.txt}}
 
 <h3>6.4 Sampling</h3>
