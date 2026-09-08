@@ -21,14 +21,27 @@ Performance is a separate track with its own proposal, `explorations/performance
 
 Pavol's definition: the best-possible artifact, produced after both blinded runs and their reviews landed, by a run that has everything: the five process methods from `explorations/navigation-retrospective.md` (falsification gate for negative claims, mechanism inventory from the spec's table of contents, epistemic-status marks, blind replication before page claims, forecasts priced from the object), plus every verified fact in this tree, plus the adopt lists from both reviews. Deliverables as in the blinded brief: running verified program, an educational article with formula/Python/Fortress adjacent and figures rendered from actual source, and a reviewable process record; final presentation as HTML. Same standing rules: spec first, never modify the historical language or library, classify every departure, no self-praise, no model names in committed artifacts.
 
-## The pending decision (Pavol will come back to it)
+## The five-step method Run B follows (from `navigation-retrospective.md`, "Process changes, adopted forthwith", applied in order)
 
-Which design is primary:
+1. **Falsification gate for negative claims.** No "impossible / sealed / unsupported / needed" enters the program's design or the article until a worker given the goal of achieving the thing (never "verify it fails") has failed with spec citations. The merged gap ledger's NEGATIVE-VERIFIED rows count as already gated; NEGATIVE-BOUNDED and CONTESTED rows do not.
+2. **Mechanism inventory as the de-biasing artifact.** Before choosing representations, one pass over the specification's full table of contents produces the checklist of Fortress mechanisms, with the un-mainstream ones flagged (component algebra and `except` imports, where-clauses, functional methods, coercion, dimensions, `value` objects, `comprises` sealing, properties and tests, distributions). Every design decision is argued against the list, not against whatever came to mind.
+3. **Epistemic-status marks on every fact used.** POSITIVE-VERIFIED (ran, output recorded) vs NEGATIVE-BOUNDED (mechanisms tried, listed, not exhaustive). The gap ledger supplies the marks; the article carries them.
+4. **Blind replication before page claims.** Any language-capability claim that will appear in the article is first handed to a worker without the article's reasoning, with the goal of reproducing it from spec and probes.
+5. **Forecasts priced from the object.** Every "this design costs N lines / this carrier is net negative" is priced by writing the skeleton, never by enumerating deletions.
 
-1. Scalar autodiff, Karpathy-faithful, as all three runs did; the blinded run's sequence-level form with `Vec`/`Mat` carriers is the best specimen so far.
-2. Matrix-level autodiff over the library's own `Vector`/`Matrix`, probed in `matrix-ad-probes/` but never built end to end; closer to how papers state backprop, drops the custom scalar and the Σ replacement, and is the driver the performance roadmap wants.
+Then the deliverable steps as in the blinded brief: pinned reference and derived goldens (real model, every gradient, Adam step, sampling); materially different candidate forms rendered early and judged by eye beside the formula; the chosen form justified against the alternatives; article with formula, Python and rendered Fortress adjacent; process record with failures kept; final HTML presentation.
 
-Coordinator's recommendation, not yet accepted: build both under the golden gate and let the by-eye comparison decide. Next step once decided: draft the Run B brief for Pavol's review before anything launches. Nothing about Run B is launched or drafted yet.
+## Design decision (Pavol, 2026-09-08)
+
+**Matrix-level autodiff is primary.** Reasons, in Pavol's terms: it is the more canonical mathematical form (papers state backprop at the matrix level); everything learned about performance points toward primitive arrays and structure-of-arrays layouts; Karpathy's mutable `grad` field on every scalar is the root problem of the reference design, not something to reproduce; the program should use value objects and immutable data as far as the mathematics allows. The scalar Karpathy-faithful design is the explored alternative in the article, not the flagship.
+
+Three ways to hang the graph on the computation instead of the number, all probed viable in `explorations/matrix-ad-probes/`: (1) a tape of backward closures with a thin tensor handle; (2) an expression tree walked in reverse; (3) functional backprop, each op returning its value and a linear map from output cotangent to input cotangents, composed by the chain rule, sharing handled by summing cotangents at fan-out (Elliott, "The simple essence of automatic differentiation", 2018). The coordinator's recommendation is (3), as the most immutable and the best fit for Fortress's parallel reductions; Run B's worker is to be given the goal, not the choice, and must render and compare at least two of the three before selecting.
+
+Known costs carried into the design (all in the gap ledger): slices and views of library vectors lose the algebra unless re-wrapped in a small user object extending `Vector`; `SUM` rejects vectors, so a user reduction or user big operator over vectors is the spec-legal route; runtime-sized shapes come from the `array` factory; a bare accumulator in a parallel `for` loses updates, so accumulation is by reduction or `atomic`; array comprehensions, `^T`, `^k`, `‖·‖` and the `matrix` factory's off-diagonal bug bite `RR64` too.
+
+## Open question before launch
+
+Where to run it: in this coordinator's session with Opus workers (full context, cheapest coordination) or in a fresh isolated session from a prepared branch as the blinded run was (cleaner record, own transcripts branch, Turn-1 verify-and-stop protocol), this time given everything rather than blinded. To be discussed with Pavol before the brief is drafted.
 
 ## Inputs the brief must fold in
 
