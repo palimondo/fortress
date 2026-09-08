@@ -165,15 +165,24 @@ lost; push only to this branch.
    manufacture apparent brevity. Compare the mathematical core and required
    support separately from tests, benchmarks and comments. Explain
    substantive alternatives explored and why the chosen form is preferable.
-   Avoid large code dumps with detached prose. The article is a Markdown
-   document with the rendered figures beside it; page production happens
-   after review.
+   Avoid large code dumps with detached prose. The final article is a
+   self-contained HTML presentation (`experiment/worker/article.html`) with
+   the rendered SVG figures inlined or committed beside it — designed for
+   reading, legible in light and dark, wide content in scrollable
+   containers. Commit the figure sources (`.tic`, `.svg`) alongside it.
 
 3. **A reviewable process record:** meaningful runnable probes including
    failures, source versions, command logs, validation data and brief
    milestone notes (attempt, observation, decision, uncertainty, evidence
    links). These are partial work artifacts, not a full session transcript.
    Do not log credentials or dump environment variables.
+
+4. **Session transcript backup.** Your own session's JSONL transcripts
+   (under `~/.claude/projects/<this workspace>/`) are part of the record for
+   later analysis of the run itself: at each milestone commit, copy the
+   current transcript files into `experiment/transcripts/` and commit them
+   to this branch. Instruct any delegated workers' transcripts to be
+   included the same way if they are accessible.
 
 Preserve the independent design and evidence before any comparison with prior
 work. Subsequent independent review may challenge the solution and
