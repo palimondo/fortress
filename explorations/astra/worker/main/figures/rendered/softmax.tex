@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$m=\max_i x_i,\quad e_i=\exp(x_i-m),\quad p_i=e_i/\sum_j e_j$
+\begin{FortressCode}
+\VAR{maximum}(x\COLON\TYP{Vec})\COLON\mathbb{R}64 = \BIGOPR{MAXNUM}\limits_{i \leftarrow 0\mathbin{\#}x.n}\, (x_{i}).\VAR{primal} \\
+\VAR{softmax}(x\COLON\TYP{Vec})\COLON\TYP{Vec} =\; \KWD{do} \\
+\2\+e = \exp\bigl(x-\VAR{maximum}(x)\bigr) \\
+  {\textstyle{}e\over\textstyle\sum\limits_{i \leftarrow 0\mathbin{\#}x.n}\, e_{i}}\- \\
+\KWD{end}
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

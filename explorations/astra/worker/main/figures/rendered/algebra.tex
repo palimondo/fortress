@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$y_i=\sum_{j=0}^{n-1}A_{ij}x_j,\qquad x\cdot y=\sum_i x_i y_i$
+\begin{FortressCode}
+\KWD{opr} \VAR{juxtaposition}(A\COLON\TYP{Mat},x\COLON\TYP{Vec})\COLON\TYP{Vec} = \TYP{Vec}\left(A.m,\KWD{fn} i \Rightarrow \sum\limits_{j \leftarrow 0\mathbin{\#}A.n}\, A_{i,j}\, x_{j}\right) \\
+\KWD{opr}\, \mathord{\cdot}(x\COLON\TYP{Vec},y\COLON\TYP{Vec})\COLONOP{}V = \sum\limits_{i \leftarrow 0\mathbin{\#}x.n}\, x_{i}\, y_{i}
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

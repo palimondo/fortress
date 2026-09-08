@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$m=\max_i x_i,\quad e_i=\exp(x_i-m),\quad p_i=e_i/\sum_j e_j$
+`
+maximum(x:Vec):RR64 = BIG MAXNUM[i <- 0#x.n] (x[i]).primal
+softmax(x:Vec):Vec = do
+  e = exp(x-maximum(x))
+  e/(SUM[i <- 0#x.n] e[i])
+end
+`
+\end{minipage}\end{preview}\end{document}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "python",
+    "experiment/render.py",
+    "experiment/worker/main/figures/embedding.tic",
+    "experiment/worker/main/figures/rendered"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260908T042120.464147Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "status": "completed",
+  "exit_code": 0,
+  "source_snapshots": [
+    {
+      "original": "experiment/worker/main/figures/embedding.tic",
+      "saved": "source/main/figures/embedding.tic",
+      "sha256": "4fffbc09af672f89bfc57a6f5701bd12ae4163d8ac73a91467f53498a7222148"
+    }
+  ],
+  "elapsed_seconds": 0.817
+}

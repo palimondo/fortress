@@ -1,0 +1,41 @@
+component AlternativesProbe
+export Executable
+
+entries(n:ZZ32, f:ZZ32->RR64):Array[\RR64,ZZ32\] = do
+  a = array[\RR64\](n)
+  for i <- 0#n do a[i] := f(i) end
+  a
+end
+object Vec(n:ZZ32, f:ZZ32->RR64)
+  data = entries(n,f)
+  opr[i:ZZ32]:RR64 = data[i]
+end
+object Mat(m:ZZ32,n:ZZ32,f:(ZZ32,ZZ32)->RR64)
+  data = entries(m n,fn(k:ZZ32):RR64 => f(k DIV n,k MOD n))
+  opr[i:ZZ32,j:ZZ32]:RR64 = data[i n+j]
+end
+opr DOT(x:Vec,y:Vec):RR64 = SUM[i <- 0#x.n] x[i] y[i]
+opr juxtaposition(s:RR64,x:Vec):Vec = Vec(x.n,fn(i:ZZ32):RR64 => s x[i])
+opr /(x:Vec,s:RR64):Vec = Vec(x.n,fn(i:ZZ32):RR64 => x[i]/s)
+opr juxtaposition(W:Mat,a:Vec):Vec =
+  Vec(W.m,fn(i:ZZ32):RR64 => SUM[j <- 0#W.n] W[i,j] a[j])
+transpose(W:Mat):Mat = Mat(W.n,W.m,fn(i:ZZ32,j:ZZ32):RR64 => W[j,i])
+contract(W:Mat,a:Vec):Vec =
+  Vec(W.n,fn(j:ZZ32):RR64 => SUM[i <- 0#W.m] a[i] W[i,j])
+attentionDirect(W:Mat,a:Vec):Vec = contract(W,a)
+attentionTranspose(W:Mat,a:Vec):Vec = transpose(W) a
+rmsDivide(x:Vec,epsilon:RR64):Vec = x / SQRT((x DOT x)/(1.0 x.n)+epsilon)
+rmsScale(x:Vec,epsilon:RR64):Vec = (((x DOT x)/(1.0 x.n)+epsilon)^(-0.5)) x
+
+run():() = do
+  W = Mat(2,3,fn(i:ZZ32,j:ZZ32):RR64 => 1.0 (3 i+j+1))
+  a = Vec(2,fn(i:ZZ32):RR64 => if i=0 then 0.25 else 0.75 end)
+  d = attentionDirect(W,a)
+  t = attentionTranspose(W,a)
+  for j <- 0#3 do println(d[j]," ",t[j]) end
+  x = Vec(2,fn(i:ZZ32):RR64 => 3.0 + 1.0 i)
+  r = rmsDivide(x,0.00001)
+  s = rmsScale(x,0.00001)
+  for i <- 0#2 do println(r[i]," ",s[i]) end
+end
+end

@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`component NotationNamedSum
+export Executable
+
+object D(v:RR64, d:RR64)
+end
+opr +(x:D, y:D):D = D(x.v+y.v, x.d+y.d)
+object DSumReduction extends CommutativeMonoidReduction[\D\]
+  empty():D = D(0.0,0.0)
+  join(x:D,y:D):D = x+y
+end
+opr BIG DSUM(): Comprehension[\D,D,D,D\] =
+  Comprehension[\D,D,D,D\](fn (x:D) => x, DSumReduction, fn (x:D) => x)
+
+run():() = do
+  s:D = BIG DSUM[i <- 1#4] D(1.0 i, 1.0)
+  println(s.v)
+  println(s.d)
+  m:RR64 = BIG MAXNUM[i <- 1#4] (1.0 i)
+  println(m)
+end
+end
+`
+\end{preview}
+\end{document}

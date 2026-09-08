@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$\ell_t=U\,\mathrm{Block}(\mathrm{RMS}(E_{token_t}+P_t))$
+\begin{FortressCode}
+\KWD{object} \TYP{Model}(E\COLON\TYP{Mat},P\COLON\TYP{Mat},U\COLON\TYP{Mat},B\COLON\TYP{Block},H\COLON\mathbb{Z}32) \KWD{end} \\
+\VAR{gpt}(M\COLON\TYP{Model},\VAR{token}\COLON\mathbb{Z}32,t\COLON\mathbb{Z}32,C\COLON\TYP{Cache})\COLON\TYP{Vec} = \\
+\2\+M.U\, \VAR{transformer}\bigl(\VAR{rmsnorm}(M.E_{\VAR{token}} + M.P_{t}),M.B,C,t,M.H\bigr)\-
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

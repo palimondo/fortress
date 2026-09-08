@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$a=\mathrm{softmax}(Kq/\sqrt{d_h}),\quad o_j=\sum_t a_tW_{tj}= (W^\mathsf{T}a)_j$
+`
+attention(q:Vec,K:Mat,W:Mat):(Vec,Vec) = do
+  a = softmax((K q)/(SQRT(q.n)))
+  (a,Vec(W.n,fn j => SUM[t <- 0#W.m] a[t] W[t,j]))
+end
+
+transpose(A:Mat):Mat = Mat(A.n,A.m,fn (i,j) => A[j,i])
+attention(q:Vec,K:Mat,W:Mat):(Vec,Vec) = do
+  a = softmax((K q)/(SQRT(q.n)))
+  (a,transpose(W) a)
+end
+`
+\end{minipage}\end{preview}\end{document}

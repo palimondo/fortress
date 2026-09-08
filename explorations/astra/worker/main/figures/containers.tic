@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$x_i=f(i),\quad A_{ij}=f(i,j)$; eager storage of scalar graph references.
+`
+object Vec(n:ZZ32, f:ZZ32->V)
+  data:Array[\V,ZZ32\] = do
+    a = array[\V\](n)
+    for i <- 0#n do a[i] := f(i) end
+    a
+  end
+  opr[i:ZZ32]:V = data[i]
+end
+object Mat(m:ZZ32,n:ZZ32,f:(ZZ32,ZZ32)->V)
+  rows:Array[\Vec,ZZ32\] = do
+    a = array[\Vec\](m)
+    for i <- 0#m do a[i] := Vec(n,fn j => f(i,j)) end
+    a
+  end
+  opr[i:ZZ32,j:ZZ32]:V = do row = rows[i]; row[j] end
+  opr[i:ZZ32]:Vec = rows[i]
+end
+`
+\end{minipage}\end{preview}\end{document}

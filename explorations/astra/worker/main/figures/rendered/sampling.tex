@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$p=\operatorname{softmax}(\ell/0.5),\quad k=\min\{j:u<\sum_{i=0}^{j}p_i\}$
+\begin{FortressCode}
+\VAR{categorical}(p\COLON\TYP{Vec},u\COLON\mathbb{R}64)\COLON\mathbb{Z}32 =\; \KWD{do} \\
+\2\+\VAR{cumulative}\COLON\mathbb{R}64 \ASSIGN 0.0 \\
+  \VAR{choice}\COLON\mathbb{Z}32 \ASSIGN p.n-1 \\
+  \VAR{found}\COLON\TYP{Boolean} \ASSIGN \VAR{false} \\
+  \KWD{for} i \leftarrow \VAR{sequential}(0\mathbin{\#}p.n) \KWD{do} \\
+  \2\+\VAR{cumulative} \mathrel{\mathrel{+}=} (p_{i}).\VAR{primal} \\
+    \KWD{if}\; \neg \VAR{found} \wedge u<\VAR{cumulative} \KWD{then} \VAR{choice} \ASSIGN i; \VAR{found} \ASSIGN \VAR{true} \KWD{end}\- \\
+  \KWD{end} \\
+  \VAR{choice}\- \\
+\KWD{end}
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

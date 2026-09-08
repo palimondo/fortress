@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$y=x+W_o\operatorname{concat}_h(o_h),\quad x^+=y+W_{out}\operatorname{ReLU}(W_{in}\mathrm{RMS}(y))$
+`
+  y = x  +  B.W_o Vec(x.n,fn j => do v = heads[j DIV s]; v[j MOD s] end)
+  y  +  B.W_out relu(B.W_in rmsnorm(y))
+end
+`
+\end{minipage}\end{preview}\end{document}

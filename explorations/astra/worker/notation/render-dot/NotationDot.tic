@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`component NotationDot
+import FortressLibrary.{...} except { opr BIG + }
+export Executable
+
+object D(v:RR64, d:RR64)
+end
+opr +(x:D, y:D):D = D(x.v+y.v, x.d+y.d)
+object DSumReduction extends CommutativeMonoidReduction[\D\]
+  empty():D = D(0.0,0.0)
+  join(x:D,y:D):D = x+y
+end
+opr SUM(): Comprehension[\D,D,D,D\] =
+  Comprehension[\D,D,D,D\](fn (x:D) => x, DSumReduction, fn (x:D) => x)
+
+object Vec(a:D,b:D)
+end
+opr DOT(x:Vec,y:Vec):D = D(x.a.v y.a.v + x.b.v y.b.v,
+  x.a.d y.a.v + x.a.v y.a.d + x.b.d y.b.v + x.b.v y.b.d)
+run():() = do
+  x = Vec(D(3.0,1.0),D(4.0,0.0))
+  q:D = x DOT x
+  rms:RR64 = SQRT(q.v / 2.0)
+  println(q.v)
+  println(q.d)
+  println(rms)
+end
+end
+`
+\end{preview}
+\end{document}

@@ -1,0 +1,3 @@
+The original mutable-tape probe is preserved in AutodiffTapeProbe.fss.
+Its addNode method mutates a shared next counter and parallel comprehension
+bodies can therefore race while constructing an expression for ordinary SUM.

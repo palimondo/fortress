@@ -1,0 +1,22 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$m\leftarrow\beta_m m+(1-\beta_m)g,\quad v\leftarrow\beta_v v+(1-\beta_v)g^2$\\$p\leftarrow p-\alpha\widehat m/(\sqrt{\widehat v}+10^{-8})$
+`
+adam(p:Array[\RR64,ZZ32\],g:Array[\RR64,ZZ32\],
+     m:Array[\RR64,ZZ32\],v:Array[\RR64,ZZ32\],n:ZZ32,step:ZZ32,total:ZZ32):() = do
+  beta_m = 0.85; beta_v = 0.99
+  alpha = 0.01 (1.0-(step-1)/(1.0 total))
+  for i <- 0#n do
+    m[i] := beta_m m[i] + (1.0-beta_m) g[i]
+    v[i] := beta_v v[i] + (1.0-beta_v) (g[i])^2.0
+    m_hat = m[i]/(1.0-beta_m^(1.0 step))
+    v_hat = v[i]/(1.0-beta_v^(1.0 step))
+    p[i] := p[i] - alpha m_hat/(SQRT(v_hat) + 0.00000001)
+  end
+end
+`
+\end{minipage}\end{preview}\end{document}

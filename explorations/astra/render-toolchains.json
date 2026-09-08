@@ -1,0 +1,62 @@
+{
+  "emacs-nox": {
+    "Version": "1:29.3+1-1ubuntu2",
+    "Filename": "pool/universe/e/emacs/emacs-nox_29.3+1-1ubuntu2_amd64.deb",
+    "SHA256": "e44ca7fcdff4be41ab12141af2e463b718e865597e7a12fed3022fbc84c793b6"
+  },
+  "emacs-common": {
+    "Version": "1:29.3+1-1ubuntu2",
+    "Filename": "pool/universe/e/emacs/emacs-common_29.3+1-1ubuntu2_all.deb",
+    "SHA256": "120fdb7eb98bb292c487283f619393d2d9c352828335755c2132ea0d11263eb9"
+  },
+  "emacs-bin-common": {
+    "Version": "1:29.3+1-1ubuntu2",
+    "Filename": "pool/universe/e/emacs/emacs-bin-common_29.3+1-1ubuntu2_amd64.deb",
+    "SHA256": "1d45981f747d04858156ffc04b00c34ab2a61fe9a535d91c274b2568228cacbc"
+  },
+  "emacs-el": {
+    "Version": "1:29.3+1-1ubuntu2",
+    "Filename": "pool/universe/e/emacs/emacs-el_29.3+1-1ubuntu2_all.deb",
+    "SHA256": "1ab0e2c6926fbace5c64abfd5742e6ae134a95f20b06b215a3ec6ffeb4056a7a"
+  },
+  "dvisvgm": {
+    "Version": "3.2.1+ds-1build1",
+    "Filename": "pool/universe/d/dvisvgm/dvisvgm_3.2.1+ds-1build1_amd64.deb",
+    "SHA256": "81547ad8d2b7cc9269fb018fccd4459d5f3ba2345bb5a3bdfa22c61a5ca24c78"
+  },
+  "libgpm2": {
+    "Version": "1.20.7-11",
+    "Filename": "pool/main/g/gpm/libgpm2_1.20.7-11_amd64.deb",
+    "SHA256": "158b9073bf5177286474dacb87cb60aac9ceb08613fdb5a1e1643ca5d07be7cf"
+  },
+  "libgccjit0": {
+    "Version": "14-20240412-0ubuntu1",
+    "Filename": "pool/universe/g/gcc-14/libgccjit0_14-20240412-0ubuntu1_amd64.deb",
+    "SHA256": "9e1d146473f292483f3fde6d824ec42d4c5f13d3cd5353ef2638fc5abbdaa7ec"
+  },
+  "libtree-sitter0": {
+    "Version": "0.20.8-2",
+    "Filename": "pool/universe/t/tree-sitter/libtree-sitter0_0.20.8-2_amd64.deb",
+    "SHA256": "cde7cd7ffc576b9857a1c75c0a86242e033800726858be4be18f8d221d385115"
+  },
+  "libwoff1": {
+    "Version": "1.0.2-2build1",
+    "Filename": "pool/main/w/woff2/libwoff1_1.0.2-2build1_amd64.deb",
+    "SHA256": "e23a6287ff611ff60a5a598de21f8f60f6236b6ad9443376318e6cc7914219c1"
+  },
+  "texlive-science": {
+    "Version": "2023.20240207-1",
+    "Filename": "pool/universe/t/texlive-extra/texlive-science_2023.20240207-1_all.deb",
+    "SHA256": "01beac58521957fab75aeee6f07b8aacc2da94ef2c435b7fed719a5405d588d1"
+  },
+  "preview-latex-style": {
+    "Version": "13.2-1",
+    "Filename": "pool/universe/a/auctex/preview-latex-style_13.2-1_all.deb",
+    "SHA256": "a8470ab2713694b83f6d62bb2961f420e40a685130c63d95a04535826e04bfdd"
+  },
+  "texlive-fonts-recommended": {
+    "Version": "2023.20240207-1",
+    "Filename": "pool/universe/t/texlive-base/texlive-fonts-recommended_2023.20240207-1_all.deb",
+    "SHA256": "350ff2efe82e901158ef589530473c8c838fd19a75aa793da5b53d81ec41de80"
+  }
+}

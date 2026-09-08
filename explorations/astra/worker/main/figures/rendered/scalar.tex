@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$z=xy:\quad \partial z/\partial x=y,\quad\partial z/\partial y=x$
+\begin{FortressCode}
+\VAR{binary}(z\COLON\mathbb{R}64,x\COLONOP{}V,\VAR{dx}\COLON\mathbb{R}64,y\COLONOP{}V,\VAR{dy}\COLON\mathbb{R}64)\COLONOP{}V = V\bigl(z,-1,\TYP{TwoParents}(x,\VAR{dx},y,\VAR{dy})\bigr) \\
+\KWD{opr}\,  \mathord{+} (x\COLONOP{}V,y\COLONOP{}V)\COLONOP{}V = \VAR{binary}(x.\VAR{primal} + y.\VAR{primal},x,1.0,y,1.0) \\
+\KWD{opr}\, \mathord{-}(x\COLONOP{}V,y\COLONOP{}V)\COLONOP{}V = \VAR{binary}(x.\VAR{primal}-y.\VAR{primal},x,1.0,y,-1.0) \\
+\KWD{opr}\, \mathord{-}(x\COLONOP{}V)\COLONOP{}V = \VAR{unary}(-x.\VAR{primal},x,-1.0) \\
+\KWD{opr} \VAR{juxtaposition}(x\COLONOP{}V,y\COLONOP{}V)\COLONOP{}V = \VAR{binary}(x.\VAR{primal}\, y.\VAR{primal},x,y.\VAR{primal},y,x.\VAR{primal}) \\
+\KWD{opr}\, \mathord{/}(x\COLONOP{}V,y\COLONOP{}V)\COLONOP{}V = \VAR{binary}\left({\textstyle{}x.\VAR{primal}\over\textstyle{}y.\VAR{primal}},x,{\textstyle1.0\over\textstyle{}y.\VAR{primal}},y,-{\textstyle{}x.\VAR{primal}\over\textstyle{}y.\VAR{primal}\, y.\VAR{primal}}\right)
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

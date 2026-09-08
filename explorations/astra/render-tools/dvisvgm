@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+render_root=/tmp/fortress-render-tools/usr
+export LD_LIBRARY_PATH="$render_root/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec "$render_root/bin/dvisvgm" "$@"

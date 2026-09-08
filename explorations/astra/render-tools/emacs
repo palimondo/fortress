@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+render_root=/tmp/fortress-render-tools/usr
+export LD_LIBRARY_PATH="$render_root/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export EMACSDATA="$render_root/share/emacs/29.3/etc"
+export EMACSDOC="$EMACSDATA"
+export EMACSLOADPATH="$render_root/share/emacs/29.3/lisp"
+export EMACSPATH="$render_root/libexec/emacs/29.3/x86_64-linux-gnu"
+render_dumps=("$EMACSPATH"/*.pdmp)
+exec "$render_root/bin/emacs-nox" --dump-file "${render_dumps[0]}" "$@"

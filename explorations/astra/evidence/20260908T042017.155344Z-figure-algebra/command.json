@@ -1,0 +1,21 @@
+{
+  "command": [
+    "python",
+    "experiment/render.py",
+    "experiment/worker/main/figures/algebra.tic",
+    "experiment/worker/main/figures/rendered"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260908T042017.155344Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "status": "completed",
+  "exit_code": 0,
+  "source_snapshots": [
+    {
+      "original": "experiment/worker/main/figures/algebra.tic",
+      "saved": "source/main/figures/algebra.tic",
+      "sha256": "835ea5131a97a660a9f77b9243782de559d90f7dcca96712d3a30760928517a2"
+    }
+  ],
+  "elapsed_seconds": 2.33
+}

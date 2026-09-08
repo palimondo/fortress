@@ -1,0 +1,1529 @@
+[
+  {
+    "id": "20260907T001350.341342Z-java-version",
+    "utc": "2026-09-07T00:13:50.341342+00:00",
+    "lane": "Environment",
+    "label": "java-version",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.165,
+    "command": [
+      "java",
+      "-version"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001350.341342Z-java-version/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001350.588458Z-ant-version",
+    "utc": "2026-09-07T00:13:50.588458+00:00",
+    "lane": "Environment",
+    "label": "ant-version",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.219,
+    "command": [
+      "ant",
+      "-version"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001350.588458Z-ant-version/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001350.861073Z-build",
+    "utc": "2026-09-07T00:13:50.861073+00:00",
+    "lane": "Environment",
+    "label": "build",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 0.368,
+    "command": [
+      "ant",
+      "clean",
+      "compileAll"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001350.861073Z-build/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001433.511973Z-build",
+    "utc": "2026-09-07T00:14:33.511973+00:00",
+    "lane": "Environment",
+    "label": "build",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 61.133,
+    "command": [
+      "ant",
+      "clean",
+      "compileAll"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001433.511973Z-build/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001543.994350Z-smoke",
+    "utc": "2026-09-07T00:15:43.994350+00:00",
+    "lane": "Environment",
+    "label": "smoke",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.315,
+    "command": [
+      "bin/fortress",
+      "interpret",
+      "experiment/smoke.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001543.994350Z-smoke/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001544.347861Z-testFast",
+    "utc": "2026-09-07T00:15:44.347861+00:00",
+    "lane": "Environment",
+    "label": "testFast",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 467.769,
+    "command": [
+      "ant",
+      "testFast"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001544.347861Z-testFast/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001605.091925Z-interpreter-smoke",
+    "utc": "2026-09-07T00:16:05.091925+00:00",
+    "lane": "Environment",
+    "label": "interpreter-smoke",
+    "exit_code": 255,
+    "status": "nonzero",
+    "elapsed_seconds": 33.451,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/smoke.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001605.091925Z-interpreter-smoke/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001728.599067Z-interpreter-smoke",
+    "utc": "2026-09-07T00:17:28.599067+00:00",
+    "lane": "Environment",
+    "label": "interpreter-smoke",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 4.332,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/smoke.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001728.599067Z-interpreter-smoke/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001814.524127Z-java-version",
+    "utc": "2026-09-07T00:18:14.524127+00:00",
+    "lane": "Environment",
+    "label": "java-version",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.177,
+    "command": [
+      "java",
+      "-version"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001814.524127Z-java-version/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001814.764575Z-javac-version",
+    "utc": "2026-09-07T00:18:14.764575+00:00",
+    "lane": "Environment",
+    "label": "javac-version",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.269,
+    "command": [
+      "javac",
+      "-version"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001814.764575Z-javac-version/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T001815.114197Z-ant-version",
+    "utc": "2026-09-07T00:18:15.114197+00:00",
+    "lane": "Environment",
+    "label": "ant-version",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.168,
+    "command": [
+      "ant",
+      "-version"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T001815.114197Z-ant-version/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T002343.795715Z-testSystem",
+    "utc": "2026-09-07T00:23:43.795715+00:00",
+    "lane": "Environment",
+    "label": "testSystem",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 129.81,
+    "command": [
+      "ant",
+      "testSystem"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T002343.795715Z-testSystem/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T002708.096937Z-recorder-smoke",
+    "utc": "2026-09-07T00:27:08.096937+00:00",
+    "lane": "Environment",
+    "label": "recorder-smoke",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 6.194,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/smoke.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T002708.096937Z-recorder-smoke/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014531.611982Z-notation-sum-001",
+    "utc": "2026-09-07T01:45:31.611982+00:00",
+    "lane": "Notation",
+    "label": "notation-sum-001",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 19.706,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationSum.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014531.611982Z-notation-sum-001/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014551.365760Z-notation-juxt-001",
+    "utc": "2026-09-07T01:45:51.365760+00:00",
+    "lane": "Notation",
+    "label": "notation-juxt-001",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 4.344,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationJuxt.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014551.365760Z-notation-juxt-001/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014555.755128Z-notation-generic-sum-001",
+    "utc": "2026-09-07T01:45:55.755128+00:00",
+    "lane": "Notation",
+    "label": "notation-generic-sum-001",
+    "exit_code": 255,
+    "status": "nonzero",
+    "elapsed_seconds": 3.193,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationGenericSum.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014555.755128Z-notation-generic-sum-001/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014616.854137Z-vector-function-probe",
+    "utc": "2026-09-07T01:46:16.854137+00:00",
+    "lane": "Model",
+    "label": "vector-function-probe",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 21.059,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/VectorProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014616.854137Z-vector-function-probe/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014617.089945Z-notation-generic-sum-002",
+    "utc": "2026-09-07T01:46:17.089945+00:00",
+    "lane": "Notation",
+    "label": "notation-generic-sum-002",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 4.836,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationGenericSum.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014617.089945Z-notation-generic-sum-002/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014639.304328Z-notation-dual-sum-001",
+    "utc": "2026-09-07T01:46:39.304328+00:00",
+    "lane": "Notation",
+    "label": "notation-dual-sum-001",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 2.446,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationDualSum.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014639.304328Z-notation-dual-sum-001/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014643.859625Z-autodiff_initial",
+    "utc": "2026-09-07T01:46:43.859625+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_initial",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 18.699,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014643.859625Z-autodiff_initial/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014659.975947Z-notation-dual-sum-002",
+    "utc": "2026-09-07T01:46:59.975947+00:00",
+    "lane": "Notation",
+    "label": "notation-dual-sum-002",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 4.96,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationDualSum.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014659.975947Z-notation-dual-sum-002/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014707.902395Z-vector-function-probe-spaced",
+    "utc": "2026-09-07T01:47:07.902395+00:00",
+    "lane": "Model",
+    "label": "vector-function-probe-spaced",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 6.705,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/VectorProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014707.902395Z-vector-function-probe-spaced/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T014724.273454Z-autodiff_getters",
+    "utc": "2026-09-07T01:47:24.273454+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_getters",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 2.026,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T014724.273454Z-autodiff_getters/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055550.562104Z-resumed-runtime",
+    "utc": "2026-09-07T05:55:50.562104+00:00",
+    "lane": "Environment",
+    "label": "resumed-runtime",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 5.768,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/smoke.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055550.562104Z-resumed-runtime/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055657.417207Z-fortify-check",
+    "utc": "2026-09-07T05:56:57.417207+00:00",
+    "lane": "Environment",
+    "label": "fortify-check",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.468,
+    "command": [
+      "bin/fortick",
+      "/tmp/fortress-render-check/buffons.tic"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055657.417207Z-fortify-check/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055717.730757Z-microgpt-model-candidate-01",
+    "utc": "2026-09-07T05:57:17.730757+00:00",
+    "lane": "Model",
+    "label": "microgpt-model-candidate-01",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 32.683,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ModelCandidate.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055717.730757Z-microgpt-model-candidate-01/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055719.205664Z-notation-dual-sum",
+    "utc": "2026-09-07T05:57:19.205664+00:00",
+    "lane": "Notation",
+    "label": "notation-dual-sum",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 37.346,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationDualSum.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055719.205664Z-notation-dual-sum/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055719.972097Z-autodiff_immutable_sum",
+    "utc": "2026-09-07T05:57:19.972097+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_immutable_sum",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 34.201,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055719.972097Z-autodiff_immutable_sum/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055822.717055Z-autodiff_immutable_sum_getterfix",
+    "utc": "2026-09-07T05:58:22.717055+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_immutable_sum_getterfix",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 4.756,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055822.717055Z-autodiff_immutable_sum_getterfix/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055823.426904Z-notation-dual-sum",
+    "utc": "2026-09-07T05:58:23.426904+00:00",
+    "lane": "Notation",
+    "label": "notation-dual-sum",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 6.334,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationDualSum.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055823.426904Z-notation-dual-sum/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055831.736959Z-microgpt-model-candidate-02",
+    "utc": "2026-09-07T05:58:31.736959+00:00",
+    "lane": "Model",
+    "label": "microgpt-model-candidate-02",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 3.69,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ModelCandidate.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055831.736959Z-microgpt-model-candidate-02/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055856.947811Z-notation-dual-sum-generator",
+    "utc": "2026-09-07T05:58:56.947811+00:00",
+    "lane": "Notation",
+    "label": "notation-dual-sum-generator",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 7.492,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationDualSumGenerator.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055856.947811Z-notation-dual-sum-generator/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055858.686288Z-autodiff_immutable_sum_primal",
+    "utc": "2026-09-07T05:58:58.686288+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_immutable_sum_primal",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 4.59,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055858.686288Z-autodiff_immutable_sum_primal/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055901.950383Z-microgpt-model-candidate-03",
+    "utc": "2026-09-07T05:59:01.950383+00:00",
+    "lane": "Model",
+    "label": "microgpt-model-candidate-03",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 7.001,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ModelCandidate.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055901.950383Z-microgpt-model-candidate-03/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055910.159333Z-notation-generic-sum",
+    "utc": "2026-09-07T05:59:10.159333+00:00",
+    "lane": "Notation",
+    "label": "notation-generic-sum",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 6.765,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationGenericSum.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055910.159333Z-notation-generic-sum/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055922.439724Z-notation-number-bound",
+    "utc": "2026-09-07T05:59:22.439724+00:00",
+    "lane": "Notation",
+    "label": "notation-number-bound",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 7.705,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationNumberBound.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055922.439724Z-notation-number-bound/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055925.475660Z-autodiff_immutable_sum_powname",
+    "utc": "2026-09-07T05:59:25.475660+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_immutable_sum_powname",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 4.593,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055925.475660Z-autodiff_immutable_sum_powname/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055926.362669Z-microgpt-model-candidate-04",
+    "utc": "2026-09-07T05:59:26.362669+00:00",
+    "lane": "Model",
+    "label": "microgpt-model-candidate-04",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 7.79,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ModelCandidate.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055926.362669Z-microgpt-model-candidate-04/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055953.298778Z-notation-builtin-sum-d",
+    "utc": "2026-09-07T05:59:53.298778+00:00",
+    "lane": "Notation",
+    "label": "notation-builtin-sum-d",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 6.628,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationBuiltinSumD.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055953.298778Z-notation-builtin-sum-d/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T055956.778086Z-microgpt-model-candidate-05",
+    "utc": "2026-09-07T05:59:56.778086+00:00",
+    "lane": "Model",
+    "label": "microgpt-model-candidate-05",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 7.912,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ModelCandidate.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T055956.778086Z-microgpt-model-candidate-05/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060002.395804Z-autodiff_immutable_sum_powblock",
+    "utc": "2026-09-07T06:00:02.395804+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_immutable_sum_powblock",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 4.306,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060002.395804Z-autodiff_immutable_sum_powblock/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060037.905798Z-autodiff_immutable_sum_powtight",
+    "utc": "2026-09-07T06:00:37.905798+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_immutable_sum_powtight",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 5.041,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060037.905798Z-autodiff_immutable_sum_powtight/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060039.807128Z-render-helper",
+    "utc": "2026-09-07T06:00:39.807128+00:00",
+    "lane": "Environment",
+    "label": "render-helper",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 3.313,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "explorations/fortify/buffons-excerpt.tic",
+      "experiment/render-check"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060039.807128Z-render-helper/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060041.444861Z-notation-dual-sum-reduction",
+    "utc": "2026-09-07T06:00:41.444861+00:00",
+    "lane": "Notation",
+    "label": "notation-dual-sum-reduction",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 7.5,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationDualSumGenerator.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060041.444861Z-notation-dual-sum-reduction/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060104.660272Z-autodiff_immutable_sum_powparen",
+    "utc": "2026-09-07T06:01:04.660272+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_immutable_sum_powparen",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 3.742,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060104.660272Z-autodiff_immutable_sum_powparen/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060134.575775Z-microgpt-model-candidate-06",
+    "utc": "2026-09-07T06:01:34.575775+00:00",
+    "lane": "Model",
+    "label": "microgpt-model-candidate-06",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 8.053,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ModelCandidate.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060134.575775Z-microgpt-model-candidate-06/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060139.027684Z-autodiff_immutable_sum_mixedops",
+    "utc": "2026-09-07T06:01:39.027684+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_immutable_sum_mixedops",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 4.759,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060139.027684Z-autodiff_immutable_sum_mixedops/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060209.035148Z-autodiff_immutable_sum_constpow",
+    "utc": "2026-09-07T06:02:09.035148+00:00",
+    "lane": "Autodiff",
+    "label": "autodiff_immutable_sum_constpow",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 4.359,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060209.035148Z-autodiff_immutable_sum_constpow/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060209.717769Z-notation-dual-sum-static",
+    "utc": "2026-09-07T06:02:09.717769+00:00",
+    "lane": "Notation",
+    "label": "notation-dual-sum-static",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 6.457,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationDualSumStatic.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060209.717769Z-notation-dual-sum-static/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060221.372322Z-notation-generic-big-sum",
+    "utc": "2026-09-07T06:02:21.372322+00:00",
+    "lane": "Notation",
+    "label": "notation-generic-big-sum",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 6.408,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/notation/NotationGenericBigSum.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060221.372322Z-notation-generic-big-sum/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T060227.459744Z-microgpt-forward-01",
+    "utc": "2026-09-07T06:02:27.459744+00:00",
+    "lane": "Model",
+    "label": "microgpt-forward-01",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 6.915,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ForwardProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T060227.459744Z-microgpt-forward-01/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203055.791853Z-resumed-forward",
+    "utc": "2026-09-07T20:30:55.791853+00:00",
+    "lane": "Model",
+    "label": "resumed-forward",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 3.44,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ForwardProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203055.791853Z-resumed-forward/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203154.764676Z-forward-index-fix",
+    "utc": "2026-09-07T20:31:54.764676+00:00",
+    "lane": "Model",
+    "label": "forward-index-fix",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 3.236,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ForwardProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203154.764676Z-forward-index-fix/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203352.051863Z-ad-graph-probe",
+    "utc": "2026-09-07T20:33:52.051863+00:00",
+    "lane": "Autodiff",
+    "label": "ad-graph-probe",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 3.099,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffGraphProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203352.051863Z-ad-graph-probe/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203413.299411Z-ad-graph-probe",
+    "utc": "2026-09-07T20:34:13.299411+00:00",
+    "lane": "Autodiff",
+    "label": "ad-graph-probe",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 3.146,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffGraphProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203413.299411Z-ad-graph-probe/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203439.313086Z-ad-graph-probe",
+    "utc": "2026-09-07T20:34:39.313086+00:00",
+    "lane": "Autodiff",
+    "label": "ad-graph-probe",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 2.797,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffGraphProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203439.313086Z-ad-graph-probe/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203458.699244Z-ad-graph-probe",
+    "utc": "2026-09-07T20:34:58.699244+00:00",
+    "lane": "Autodiff",
+    "label": "ad-graph-probe",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 2.788,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffGraphProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203458.699244Z-ad-graph-probe/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203517.817562Z-ad-graph-probe",
+    "utc": "2026-09-07T20:35:17.817562+00:00",
+    "lane": "Autodiff",
+    "label": "ad-graph-probe",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 3.039,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffGraphProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203517.817562Z-ad-graph-probe/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203545.128691Z-ad-graph-shared-stress",
+    "utc": "2026-09-07T20:35:45.128691+00:00",
+    "lane": "Autodiff",
+    "label": "ad-graph-shared-stress",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 2.824,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffGraphProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203545.128691Z-ad-graph-shared-stress/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203620.542037Z-ad-graph-8191-stress",
+    "utc": "2026-09-07T20:36:20.542037+00:00",
+    "lane": "Autodiff",
+    "label": "ad-graph-8191-stress",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 3.582,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/autodiff/AutodiffGraphProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203620.542037Z-ad-graph-8191-stress/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203632.890886Z-microgpt-integrated-01",
+    "utc": "2026-09-07T20:36:32.890886+00:00",
+    "lane": "Model",
+    "label": "microgpt-integrated-01",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 1.472,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/MicroGPT.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203632.890886Z-microgpt-integrated-01/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203731.355096Z-microgpt-integrated-02",
+    "utc": "2026-09-07T20:37:31.355096+00:00",
+    "lane": "Model",
+    "label": "microgpt-integrated-02",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 12.184,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/MicroGPT.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203731.355096Z-microgpt-integrated-02/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260907T203818.638869Z-microgpt-integrated-03",
+    "utc": "2026-09-07T20:38:18.638869+00:00",
+    "lane": "Model",
+    "label": "microgpt-integrated-03",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 3.683,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/MicroGPT.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260907T203818.638869Z-microgpt-integrated-03/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260908T041512.524528Z-checkpoint-forward",
+    "utc": "2026-09-08T04:15:12.524528+00:00",
+    "lane": "Model",
+    "label": "checkpoint-forward",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 2.471,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/ForwardProbe.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T041512.524528Z-checkpoint-forward/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T041512.524528Z-checkpoint-forward/source/main/ForwardProbe.fss",
+        "sha256": "37bc3ec89078d170e1e678b94993cf31518424315ce3ba2276837fa5ec5ea80a",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T041655.817401Z-microgpt-integrated-04",
+    "utc": "2026-09-08T04:16:55.817401+00:00",
+    "lane": "Model",
+    "label": "microgpt-integrated-04",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 5.834,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/MicroGPT.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T041655.817401Z-microgpt-integrated-04/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T041655.817401Z-microgpt-integrated-04/source/main/MicroGPT.fss",
+        "sha256": "7622c433c84dea020c6fae5ec60c9ed37165ce8c8db664d0b108fdc308d56251",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T041725.435506Z-microgpt-integrated-05",
+    "utc": "2026-09-08T04:17:25.435506+00:00",
+    "lane": "Model",
+    "label": "microgpt-integrated-05",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 3.938,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/MicroGPT.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T041725.435506Z-microgpt-integrated-05/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T041725.435506Z-microgpt-integrated-05/source/main/MicroGPT.fss",
+        "sha256": "81fca3fec537c3381959dd4080653d9ea5dbdaf5288b260a06d0c9a5078d8007",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T041738.426708Z-microgpt-integrated-06",
+    "utc": "2026-09-08T04:17:38.426708+00:00",
+    "lane": "Model",
+    "label": "microgpt-integrated-06",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 4.438,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/MicroGPT.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T041738.426708Z-microgpt-integrated-06/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T041738.426708Z-microgpt-integrated-06/source/main/MicroGPT.fss",
+        "sha256": "6bb32da2bddbc22a2a3019e0964a692aa04d1660697acfc80739d37873fbefce",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T041838.775815Z-microgpt-alternatives-01",
+    "utc": "2026-09-08T04:18:38.775815+00:00",
+    "lane": "Model",
+    "label": "microgpt-alternatives-01",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 3.935,
+    "command": [
+      "bin/fortress",
+      "walk",
+      "experiment/worker/main/MicroGPTAlternatives.fss"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T041838.775815Z-microgpt-alternatives-01/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T041838.775815Z-microgpt-alternatives-01/source/main/MicroGPTAlternatives.fss",
+        "sha256": "5071c7b18d92193869e911afbbee0ff678e1313caeeaa04b207c5d1ac61bc592",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T041932.954493Z-notation-rms-compare",
+    "utc": "2026-09-08T04:19:32.954493+00:00",
+    "lane": "Rendering",
+    "label": "notation-rms-compare",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 0.265,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/rms.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T041932.954493Z-notation-rms-compare/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260908T041933.256138Z-notation-attention-compare",
+    "utc": "2026-09-08T04:19:33.256138+00:00",
+    "lane": "Rendering",
+    "label": "notation-attention-compare",
+    "exit_code": 1,
+    "status": "nonzero",
+    "elapsed_seconds": 0.215,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/attention.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T041933.256138Z-notation-attention-compare/command.json",
+    "output_present_locally": true,
+    "source_snapshots": []
+  },
+  {
+    "id": "20260908T041945.313897Z-notation-rms-compare-02",
+    "utc": "2026-09-08T04:19:45.313897+00:00",
+    "lane": "Rendering",
+    "label": "notation-rms-compare-02",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.867,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/rms.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T041945.313897Z-notation-rms-compare-02/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T041945.313897Z-notation-rms-compare-02/source/main/figures/rms.tic",
+        "sha256": "877ef7f2b9b34d186def408c41581fa7bce863659eeb0a73c59dc0ba5a22c8e4",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T041946.213777Z-notation-attention-compare-02",
+    "utc": "2026-09-08T04:19:46.213777+00:00",
+    "lane": "Rendering",
+    "label": "notation-attention-compare-02",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.816,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/attention.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T041946.213777Z-notation-attention-compare-02/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T041946.213777Z-notation-attention-compare-02/source/main/figures/attention.tic",
+        "sha256": "06a02b45b24b8dea358def9ca131f2eb109ac03f9ca073ea5294f192e9c29c92",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042017.155344Z-figure-algebra",
+    "utc": "2026-09-08T04:20:17.155344+00:00",
+    "lane": "Rendering",
+    "label": "figure-algebra",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 2.33,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/algebra.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042017.155344Z-figure-algebra/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042017.155344Z-figure-algebra/source/main/figures/algebra.tic",
+        "sha256": "835ea5131a97a660a9f77b9243782de559d90f7dcca96712d3a30760928517a2",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042019.523499Z-figure-rms",
+    "utc": "2026-09-08T04:20:19.523499+00:00",
+    "lane": "Rendering",
+    "label": "figure-rms",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.817,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/rms.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042019.523499Z-figure-rms/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042019.523499Z-figure-rms/source/main/figures/rms.tic",
+        "sha256": "52d3ad6ddbeb3d0a5a1df69e9200c8acfc69eb08bc21ec09822ca5a8d6640a57",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042020.386924Z-figure-softmax",
+    "utc": "2026-09-08T04:20:20.386924+00:00",
+    "lane": "Rendering",
+    "label": "figure-softmax",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.817,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/softmax.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042020.386924Z-figure-softmax/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042020.386924Z-figure-softmax/source/main/figures/softmax.tic",
+        "sha256": "5d77d51ccdace60c4f05c266ece86a5e7b2c5f0befadbbbf03f6d24915b07ce9",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042021.240470Z-figure-block",
+    "utc": "2026-09-08T04:20:21.240470+00:00",
+    "lane": "Rendering",
+    "label": "figure-block",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.818,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/block.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042021.240470Z-figure-block/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042021.240470Z-figure-block/source/main/figures/block.tic",
+        "sha256": "dce9a4d0b88fe459fec87bda5bd9b065f0e5bc4e510c59deefd7e884017ce250",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042022.098009Z-figure-reduction",
+    "utc": "2026-09-08T04:20:22.098009+00:00",
+    "lane": "Rendering",
+    "label": "figure-reduction",
+    "exit_code": null,
+    "status": "unknown",
+    "elapsed_seconds": null,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/reduction.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042022.098009Z-figure-reduction/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042022.098009Z-figure-reduction/source/main/figures/reduction.tic",
+        "sha256": "25bf224ee0285ab30c8280380836ec9355b9b707aa06d4bfc160dc29812139cc",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042023.014126Z-figure-adam",
+    "utc": "2026-09-08T04:20:23.014126+00:00",
+    "lane": "Rendering",
+    "label": "figure-adam",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.967,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/adam.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042023.014126Z-figure-adam/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042023.014126Z-figure-adam/source/main/figures/adam.tic",
+        "sha256": "7c860ebd1d6e7fcf086c5cd873398d99d80ff4115c91da8ce956d671f2a21abd",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042118.601478Z-figure-scalar",
+    "utc": "2026-09-08T04:21:18.601478+00:00",
+    "lane": "Rendering",
+    "label": "figure-scalar",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.917,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/scalar.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042118.601478Z-figure-scalar/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042118.601478Z-figure-scalar/source/main/figures/scalar.tic",
+        "sha256": "7ae714ea7598357ab709f0feb9d8f1f3541e194151cf9b34eba9a42262c716cd",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042119.563161Z-figure-containers",
+    "utc": "2026-09-08T04:21:19.563161+00:00",
+    "lane": "Rendering",
+    "label": "figure-containers",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.867,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/containers.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042119.563161Z-figure-containers/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042119.563161Z-figure-containers/source/main/figures/containers.tic",
+        "sha256": "0cf0069ca7e5da539789f4a20e282f86e3afeec2d8afb8b817f149b357fc4b17",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042120.464147Z-figure-embedding",
+    "utc": "2026-09-08T04:21:20.464147+00:00",
+    "lane": "Rendering",
+    "label": "figure-embedding",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.817,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/embedding.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042120.464147Z-figure-embedding/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042120.464147Z-figure-embedding/source/main/figures/embedding.tic",
+        "sha256": "4fffbc09af672f89bfc57a6f5701bd12ae4163d8ac73a91467f53498a7222148",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042121.321926Z-figure-loss",
+    "utc": "2026-09-08T04:21:21.321926+00:00",
+    "lane": "Rendering",
+    "label": "figure-loss",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.817,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/loss.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042121.321926Z-figure-loss/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042121.321926Z-figure-loss/source/main/figures/loss.tic",
+        "sha256": "5d3d71417e30ee8922369e1c6debad35d283ebc6157e3a27dfb8c3cfb5734f15",
+        "hash_matches": true
+      }
+    ]
+  },
+  {
+    "id": "20260908T042122.179432Z-figure-sampling",
+    "utc": "2026-09-08T04:21:22.179432+00:00",
+    "lane": "Rendering",
+    "label": "figure-sampling",
+    "exit_code": 0,
+    "status": "exit 0",
+    "elapsed_seconds": 0.867,
+    "command": [
+      "python",
+      "experiment/render.py",
+      "experiment/worker/main/figures/sampling.tic",
+      "experiment/worker/main/figures/rendered"
+    ],
+    "metadata_url": "https://github.com/palimondo/fortress/blob/a0a7d7e2a52c84b0036aaea75d96b684fd2326ac/experiment/evidence/20260908T042122.179432Z-figure-sampling/command.json",
+    "output_present_locally": true,
+    "source_snapshots": [
+      {
+        "path": "experiment/evidence/20260908T042122.179432Z-figure-sampling/source/main/figures/sampling.tic",
+        "sha256": "730dd2e2b6d0506ba6845a2b1442f3f2f41b13177b30a687fa4342ab3d69e9ed",
+        "hash_matches": true
+      }
+    ]
+  }
+]

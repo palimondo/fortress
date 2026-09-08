@@ -1,0 +1,25 @@
+component NotationDualSum
+import List.{...}
+export Executable
+
+object D(v:RR64, d:RR64)
+end
+opr +(x:D, y:D):D = D(x.v+y.v, x.d+y.d)
+opr juxtaposition(x:D, y:D):D = D(x.v y.v, x.d y.v + x.v y.d)
+
+object DSumReduction extends CommutativeMonoidReduction[\D\]
+  empty():D = D(0.0,0.0)
+  join(x:D,y:D):D = x+y
+end
+
+opr SUM(): Comprehension[\D,D,D,D\] =
+  Comprehension[\D,D,D,D\](fn (x:D) => x, DSumReduction, fn (x:D) => x)
+opr SUM(g:Generator[\D\]):D = __bigOperatorSugar[\D,D,D,D\](SUM(), g)
+
+run():() = do
+  x = D(3.0,1.0)
+  s:D = SUM[i <- 1#4] x x
+  println(s.v)
+  println(s.d)
+end
+end

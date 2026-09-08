@@ -1,0 +1,21 @@
+{
+  "command": [
+    "python",
+    "experiment/render.py",
+    "experiment/worker/main/figures/softmax.tic",
+    "experiment/worker/main/figures/rendered"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260908T042020.386924Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "status": "completed",
+  "exit_code": 0,
+  "source_snapshots": [
+    {
+      "original": "experiment/worker/main/figures/softmax.tic",
+      "saved": "source/main/figures/softmax.tic",
+      "sha256": "5d77d51ccdace60c4f05c266ece86a5e7b2c5f0befadbbbf03f6d24915b07ce9"
+    }
+  ],
+  "elapsed_seconds": 0.817
+}

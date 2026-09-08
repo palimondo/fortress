@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{FortressCode}
+\KWD{component} \TYP{NotationDualSumGenerator} \\
+\KWD{import} \TYP{List}.\lbrace\ldots\rbrace \\
+\KWD{export} \TYP{Executable} \\
+ \\
+\KWD{object} D(v\COLON\mathbb{R}64, d\COLON\mathbb{R}64) \\
+\KWD{end} \\
+\KWD{opr}\, \mathord{+}(x\COLONOP{}D, y\COLONOP{}D)\COLONOP{}D = D(x.v+y.v, x.d+y.d) \\
+ \\
+\KWD{object} \TYP{DSumReduction} \KWD{extends} \TYP{CommutativeMonoidReduction}\llbracket{}D\rrbracket \\
+\2\+\VAR{empty}(\ultrathin)\COLONOP{}D = D(0.0,0.0) \\
+  \VAR{join}(x\COLONOP{}D,y\COLONOP{}D)\COLONOP{}D = x+y\- \\
+\KWD{end} \\
+ \\
+\FortressBeginFlushRightComment A one-argument overload avoids the zero-argument collision used by
+generator-clause desugaring.  Test whether SUM <{$|$} ... {$|$}> can retain the
+ordinary summation glyph for graph scalars. \FortressEndComment \\
+\KWD{opr}\, \mathord{\sum}\bigl(g\COLON\TYP{Generator}\llbracket{}D\rrbracket\bigr)\COLONOP{}D = g.\VAR{reduce}(\TYP{DSumReduction}) \\
+ \\
+\VAR{run}(\ultrathin)\COLON(\ultrathin) =\; \KWD{do} \\
+\2\+s\COLONOP{}D = \sum \bigl\langle\llbracket{}D\rrbracket\, D(1.0\, i, 1.0) \bigm| i \leftarrow 1\mathbin{\#}4\,\bigr\rangle \\
+  \VAR{println}(s.v) \\
+  \VAR{println}(s.d)\- \\
+\KWD{end} \\
+\KWD{end}
+\end{FortressCode}
+\end{preview}
+\end{document}

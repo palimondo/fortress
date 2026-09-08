@@ -1,0 +1,15 @@
+component NotationSum
+import List.{...}
+export Executable
+
+run():() = do
+  xs: List[\RR64\] = <|[\RR64\] (1.0 i) | i <- 1#4 |>
+  a: Number = SUM[i <- 0#4] xs[i] xs[i]
+  b: Number = SUM xs
+  grid: List[\List[\RR64\]\] =
+    <|[\List[\RR64\]\] <|[\RR64\] 10.0 i + j | j <- 0#3 |> | i <- 0#2 |>
+  println(a)
+  println(b)
+  println(grid)
+end
+end

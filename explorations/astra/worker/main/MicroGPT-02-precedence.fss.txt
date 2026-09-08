@@ -1,0 +1,262 @@
+component MicroGPT
+import FortressLibrary.{...} except { opr BIG + }
+export Executable
+
+trait Parents
+  visit(w:Walk):()
+  push(a:RR64):()
+end
+object NoParents extends Parents
+  visit(w:Walk):() = ()
+  push(a:RR64):() = ()
+end
+object OneParent(x:V,dx:RR64) extends Parents
+  visit(w:Walk):() = x.visit(w)
+  push(a:RR64):() = x.add(a dx)
+end
+object TwoParents(x:V,dx:RR64,y:V,dy:RR64) extends Parents
+  visit(w:Walk):() = do x.visit(w); y.visit(w) end
+  push(a:RR64):() = do x.add(a dx); y.add(a dy) end
+end
+trait Chain
+  backward(g:Array[\RR64,ZZ32\]):()
+  clear():()
+end
+object EmptyChain extends Chain
+  backward(g:Array[\RR64,ZZ32\]):() = ()
+  clear():() = ()
+end
+object Link(x:V,rest:Chain) extends Chain
+  backward(g:Array[\RR64,ZZ32\]):() = do
+    x.push(g)
+    rest.backward(g)
+  end
+  clear():() = do x.clear(); rest.clear() end
+end
+object Walk(seed:ZZ32)
+  stack:Chain := EmptyChain
+  prepend(x:V):() = stack := Link(x,stack)
+end
+object V(primal:RR64,index:ZZ32,parents:Parents)
+  seen:Boolean := false
+  adjoint:RR64 := 0.0
+  visit(w:Walk):() = if NOT seen then
+    seen := true
+    parents.visit(w)
+    w.prepend(self)
+  end
+  add(a:RR64):() = adjoint += a
+  push(g:Array[\RR64,ZZ32\]):() = do
+    if index >= 0 then g[index] += adjoint end
+    parents.push(adjoint)
+  end
+  clear():() = do seen := false; adjoint := 0.0 end
+end
+constant(x:RR64):V = V(x,-1,NoParents)
+variable(i:ZZ32,x:RR64):V = V(x,i,NoParents)
+unary(z:RR64,x:V,dx:RR64):V = V(z,-1,OneParent(x,dx))
+binary(z:RR64,x:V,dx:RR64,y:V,dy:RR64):V = V(z,-1,TwoParents(x,dx,y,dy))
+opr +(x:V,y:V):V = binary(x.primal+y.primal,x,1.0,y,1.0)
+opr -(x:V,y:V):V = binary(x.primal-y.primal,x,1.0,y,-1.0)
+opr -(x:V):V = unary(-x.primal,x,-1.0)
+opr juxtaposition(x:V,y:V):V = binary(x.primal y.primal,x,y.primal,y,x.primal)
+opr /(x:V,y:V):V = binary(x.primal/y.primal,x,1.0/y.primal,y,-x.primal/(y.primal y.primal))
+opr +(x:V,y:RR64):V = x+constant(y)
+opr +(x:RR64,y:V):V = constant(x)+y
+opr -(x:V,y:RR64):V = x-constant(y)
+opr -(x:RR64,y:V):V = constant(x)-y
+opr juxtaposition(x:V,y:RR64):V = x constant(y)
+opr juxtaposition(x:RR64,y:V):V = constant(x) y
+opr /(x:V,y:RR64):V = x/constant(y)
+opr /(x:RR64,y:V):V = constant(x)/y
+opr ^(x:V,p:RR64):V = unary((x.primal)^p,x,p ((x.primal)^(p-1.0)))
+opr SQRT(x:V):V = do z = SQRT(x.primal); unary(z,x,0.5/z) end
+exp(x:V):V = do z = exp(x.primal); unary(z,x,z) end
+log(x:V):V = unary(log(x.primal),x,1.0/x.primal)
+relu(x:V):V = if x.primal > 0.0 then unary(x.primal,x,1.0) else unary(0.0,x,0.0) end
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+  empty():V = constant(0.0)
+  join(x:V,y:V):V = x+y
+end
+opr SUM():Comprehension[\V,V,V,V\] =
+  Comprehension[\V,V,V,V\](fn (x:V) => x,VSumReduction,fn (x:V) => x)
+gradient(y:V,n:ZZ32):Array[\RR64,ZZ32\] = do
+  g = array[\RR64\](n).fill(0.0)
+  w = Walk(0)
+  y.visit(w)
+  y.add(1.0)
+  w.stack.backward(g)
+  w.stack.clear()
+  g
+end
+tree(x:V,n:ZZ32):V = if n = 0 then x else tree(x,n-1)+tree(x,n-1) end
+diamond(x:V,n:ZZ32):V = if n = 0 then x else diamond(x+x,n-1) end
+
+(* Eager finite vectors retain shared scalar graph nodes. Independent cells may
+   be constructed in parallel; cache positions are visited in sequence. *)
+object Vec(n:ZZ32, f:ZZ32->V)
+  data:Array[\V,ZZ32\] = do
+    a = array[\V\](n)
+    for i <- 0#n do a[i] := f(i) end
+    a
+  end
+  opr[i:ZZ32]:V = data[i]
+end
+object Mat(m:ZZ32,n:ZZ32,f:(ZZ32,ZZ32)->V)
+  rows:Array[\Vec,ZZ32\] = do
+    a = array[\Vec\](m)
+    for i <- 0#m do a[i] := Vec(n,fn j => f(i,j)) end
+    a
+  end
+  opr[i:ZZ32,j:ZZ32]:V = do row = rows[i]; row[j] end
+  opr[i:ZZ32]:Vec = rows[i]
+end
+opr juxtaposition(A:Mat,x:Vec):Vec = Vec(A.m,fn i => SUM[j <- 0#A.n] A[i,j] x[j])
+opr DOT(x:Vec,y:Vec):V = SUM[i <- 0#x.n] x[i] y[i]
+opr +(x:Vec,y:Vec):Vec = Vec(x.n,fn i => x[i]+y[i])
+opr /(x:Vec,s:V):Vec = Vec(x.n,fn i => x[i]/s)
+opr /(x:Vec,s:RR64):Vec = Vec(x.n,fn i => x[i]/s)
+opr -(x:Vec,s:RR64):Vec = Vec(x.n,fn i => x[i]-s)
+exp(x:Vec):Vec = Vec(x.n,fn i => exp(x[i]))
+relu(x:Vec):Vec = Vec(x.n,fn i => relu(x[i]))
+maximum(x:Vec):RR64 = BIG MAXNUM[i <- 0#x.n] (x[i]).primal
+softmax(x:Vec):Vec = do
+  e = exp(x-maximum(x))
+  e/(SUM[i <- 0#x.n] e[i])
+end
+rmsnorm(x:Vec):Vec = x/(SQRT((x DOT x)/x.n+0.00001))
+head(x:Vec,h:ZZ32,s:ZZ32):Vec = Vec(s,fn j => x[h s + j])
+attention(q:Vec,K:Mat,W:Mat):(Vec,Vec) = do
+  a = softmax((K q)/(SQRT(q.n)))
+  (a,Vec(W.n,fn j => SUM[t <- 0#W.m] a[t] W[t,j]))
+end
+object Block(W_q:Mat,W_k:Mat,W_v:Mat,W_o:Mat,W_in:Mat,W_out:Mat) end
+object Cache(context:ZZ32,H:ZZ32)
+  keys:Array[\Vec,ZZ32\] = array[\Vec\](context)
+  values:Array[\Vec,ZZ32\] = array[\Vec\](context)
+  weights:Array[\Vec,ZZ32\] = array[\Vec\](context H)
+end
+transformer(x:Vec,B:Block,C:Cache,t:ZZ32,H:ZZ32):Vec = do
+  z = rmsnorm(x)
+  q = B.W_q z
+  C.keys[t] := B.W_k z
+  C.values[t] := B.W_v z
+  s = x.n DIV H
+  heads = do
+    a = array[\Vec\](H)
+    for h <- 0#H do
+      K = Mat(t+1,s,fn (u,j) => (head(C.keys[u],h,s))[j])
+      W = Mat(t+1,s,fn (u,j) => (head(C.values[u],h,s))[j])
+      (weights,output) = attention(head(q,h,s),K,W)
+      C.weights[t H+h] := weights
+      a[h] := output
+    end
+    a
+  end
+  y = x + B.W_o Vec(x.n,fn j => do v = heads[j DIV s]; v[j MOD s] end)
+  y + B.W_out relu(B.W_in rmsnorm(y))
+end
+object Model(E:Mat,P:Mat,U:Mat,B:Block,H:ZZ32) end
+gpt(M:Model,token:ZZ32,t:ZZ32,C:Cache):Vec =
+  M.U transformer(rmsnorm(M.E[token]+M.P[t]),M.B,C,t,M.H)
+
+(* Each parameter identity is its global row-major index, independently of
+   evaluation order. This constructor fixes the inspectable one-block fixture. *)
+matrixAt(p:Array[\RR64,ZZ32\],m:ZZ32,n:ZZ32,offset:ZZ32):Mat =
+  Mat(m,n,fn (i,j) => variable(offset+i n+j,p[offset+i n+j]))
+model(p:Array[\RR64,ZZ32\]):Model = Model(
+  matrixAt(p,3,4,0),matrixAt(p,3,4,12),matrixAt(p,3,4,24),
+  Block(matrixAt(p,4,4,36),matrixAt(p,4,4,52),matrixAt(p,4,4,68),
+        matrixAt(p,4,4,84),matrixAt(p,16,4,100),matrixAt(p,4,16,164)),2)
+
+adam(p:Array[\RR64,ZZ32\],g:Array[\RR64,ZZ32\],
+     m:Array[\RR64,ZZ32\],v:Array[\RR64,ZZ32\],n:ZZ32,step:ZZ32,total:ZZ32):() = do
+  beta_m = 0.85; beta_v = 0.99
+  alpha = 0.01 (1.0-(step-1)/(1.0 total))
+  for i <- 0#n do
+    m[i] := beta_m m[i]+(1.0-beta_m) g[i]
+    v[i] := beta_v v[i]+(1.0-beta_v) g[i]^2
+    m_hat = m[i]/(1.0-beta_m^(1.0 step))
+    v_hat = v[i]/(1.0-beta_v^(1.0 step))
+    p[i] := p[i]-alpha m_hat/(SQRT(v_hat)+0.00000001)
+  end
+end
+categorical(p:Vec,u:RR64):ZZ32 = do
+  cumulative:RR64 := 0.0
+  choice:ZZ32 := p.n-1
+  found:Boolean := false
+  for i <- sequential(0#p.n) do
+    cumulative += (p[i]).primal
+    if NOT found AND u<cumulative then choice := i; found := true end
+  end
+  choice
+end
+
+emitMatrix(kind:String,name:String,p:Array[\RR64,ZZ32\],m:ZZ32,n:ZZ32,offset:ZZ32):() =
+  for i <- sequential(0#m), j <- sequential(0#n) do
+    println(kind "\t" name "\t" i "\t" j "\t" p[offset+i n+j])
+  end
+emitParameters(kind:String,p:Array[\RR64,ZZ32\]):() = do
+  emitMatrix(kind,"wte",p,3,4,0)
+  emitMatrix(kind,"wpe",p,3,4,12)
+  emitMatrix(kind,"lm_head",p,3,4,24)
+  emitMatrix(kind,"layer0.attn_wq",p,4,4,36)
+  emitMatrix(kind,"layer0.attn_wk",p,4,4,52)
+  emitMatrix(kind,"layer0.attn_wv",p,4,4,68)
+  emitMatrix(kind,"layer0.attn_wo",p,4,4,84)
+  emitMatrix(kind,"layer0.mlp_fc1",p,16,4,100)
+  emitMatrix(kind,"layer0.mlp_fc2",p,4,16,164)
+end
+emitVector(kind:String,t:ZZ32,x:Vec):() =
+  for j <- sequential(0#x.n) do println(kind "\t" t "\t" j "\t" (x[j]).primal) end
+run():() = do
+  p = array[\RR64\](228)
+  for i <- 0#228 do p[i] := 1.0 ((i MOD 29)-14)/100.0 end
+  emitParameters("initial",p)
+  M = model(p)
+  C = Cache(3,2)
+  tokens = array[\ZZ32\](4)
+  tokens[0] := 2; tokens[1] := 0; tokens[2] := 1; tokens[3] := 2
+  losses = array[\V\](3)
+  for t <- sequential(0#3) do
+    logits = gpt(M,tokens[t],t,C)
+    probabilities = softmax(logits)
+    losses[t] := -log(probabilities[tokens[t+1]])
+    emitVector("logits",t,logits)
+    emitVector("probability",t,probabilities)
+    for h <- sequential(0#2) do
+      a = C.weights[t 2+h]
+      for u <- sequential(0#(t+1)) do
+        println("attention\t" t "\t" h "\t" u "\t" (a[u]).primal)
+      end
+    end
+  end
+  loss = (SUM[t <- 0#3] losses[t])/3.0
+  println("loss\t" loss.primal)
+  g = gradient(loss,228)
+  emitParameters("gradient",g)
+  m = array[\RR64\](228).fill(0.0)
+  v = array[\RR64\](228).fill(0.0)
+  adam(p,g,m,v,228,1,1)
+  emitParameters("updated",p)
+  updatedModel = model(p)
+  freshCache = Cache(3,2)
+  uniforms = array[\RR64\](3)
+  uniforms[0] := 0.1; uniforms[1] := 0.5; uniforms[2] := 0.9
+  token:ZZ32 := 2
+  finished:Boolean := false
+  for t <- sequential(0#3) do
+    if NOT finished then
+      logits = gpt(updatedModel,token,t,freshCache)
+      probabilities = softmax(logits/0.5)
+      token := categorical(probabilities,uniforms[t])
+      println("uniform\t" t "\t" uniforms[t])
+      emitVector("genlogits",t,logits)
+      emitVector("genprobability",t,probabilities)
+      println("gentoken\t" t "\t" token)
+      finished := token=2
+    end
+  end
+end
+
+end

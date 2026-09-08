@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$L=-\frac1T\sum_{t=0}^{T-1}\log p_t[token_{t+1}]$
+\begin{FortressCode}
+{\tt ~~~~}\+\VAR{losses}_{t} \ASSIGN -\log\bigl(\VAR{probabilities}[\VAR{tokens}[t + 1]]\bigr)\- \\
+\2\+\VAR{loss} = {\textstyle\sum\limits_{t \leftarrow 0\mathbin{\#}3}\, \VAR{losses}_{t}\over\textstyle3.0} \\
+  \VAR{println}(\hbox{\rm\usefont{T1}{ptm}{m}{n}``\STR{loss{\char'134}t}''}\; \VAR{loss}.\VAR{primal}) \\
+  g = \VAR{gradient}(\VAR{loss},228)\-
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}
