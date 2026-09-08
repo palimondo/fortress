@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/user/fortress-transcripts-blinded/scripts/backup.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

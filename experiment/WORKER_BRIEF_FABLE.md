@@ -36,27 +36,31 @@ This is also a concrete test of connecting knowledge of mathematics,
 transformers and programming languages in an unfamiliar codebase, with
 inspectable evidence.
 
-## Environment setup (once)
+## Turn 1: environment setup, then stop
 
-This is a fresh checkout of the branch `blinded-fable`. Build once (~2 min):
+This is a fresh checkout of the branch `blinded-fable` in a fresh container.
+Your first turn does exactly this and nothing else:
 
-```sh
-export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
-export PATH=$JAVA_HOME/bin:$PATH
-export FORTRESS_HOME=$PWD          # the repo root
-unset JAVA_TOOL_OPTIONS
-ant compileAll
-```
+1. Run `bash experiment/setup.sh` in the background (it takes 5–10 minutes on
+   a fresh container: package install, `ant compileAll`, first-run library
+   caches, a render check, and a transcript-archiving check). Every stage
+   prints a timestamped `STAGE <name>: START/OK/FAIL` line; details stream to
+   `experiment/setup.log`. Poll the log roughly once a minute and report each
+   stage line as it appears, so progress is visible.
+2. When it finishes, paste its summary block (the lines after
+   `---- setup summary ----`) verbatim.
+3. **Stop and wait.** Do not begin the experiment until the coordinator
+   replies that the environment is verified. If any stage is FAIL, report
+   the concrete evidence (`tail -40 experiment/setup.log`) and stop; the
+   coordinator will help. Do not improvise repairs to the environment.
 
-Run probes as `FORTRESS_THREADS=1 ./bin/fortress PATH.fss` (the shared box
-requires the single-thread setting). The Fortress component name must match
-its filename (sans `.fss`). The first interpreter run generates library
-caches under `default_repository/caches/` (takes a few minutes once); wipe
-that cache directory if edits to `Library/` files ever seem to have no effect
-— but you are not to change the shipped library (see below). Do not reinstall
-Java or Ant, and do not run the full test suites as onboarding; the baseline
-is known green (1,377 testFast; 382 testSystem). If an actual environment
-failure occurs, report its concrete evidence rather than rebuilding the world.
+After the go-ahead: `source experiment/env.sh` in every shell that runs
+Fortress; run probes as `./bin/fortress PATH.fss` (the env file sets the
+required single-thread mode). The Fortress component name must match its
+filename (sans `.fss`). Do not reinstall Java or Ant, and do not run the
+full test suites as onboarding; the baseline is known green (1,377 testFast;
+382 testSystem). If an actual environment failure occurs later, report its
+concrete evidence rather than rebuilding the world.
 
 Create all your work under `experiment/worker/`. Keep a command log: append
 each probe invocation and its captured output to
@@ -176,13 +180,6 @@ lost; push only to this branch.
    milestone notes (attempt, observation, decision, uncertainty, evidence
    links). These are partial work artifacts, not a full session transcript.
    Do not log credentials or dump environment variables.
-
-4. **Session transcript backup.** Your own session's JSONL transcripts
-   (under `~/.claude/projects/<this workspace>/`) are part of the record for
-   later analysis of the run itself: at each milestone commit, copy the
-   current transcript files into `experiment/transcripts/` and commit them
-   to this branch. Instruct any delegated workers' transcripts to be
-   included the same way if they are accessible.
 
 Preserve the independent design and evidence before any comparison with prior
 work. Subsequent independent review may challenge the solution and
