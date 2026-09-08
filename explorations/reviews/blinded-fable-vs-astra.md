@@ -147,3 +147,17 @@ Both are reviewable. Astra's is more mechanical (per-run JSON, hashes); Fable's 
 ## J. Overall judgment
 
 The blinded Fable run is the better program and the better article; Astra's is the tidier evidence trail. On the mission's forcing function — the executable definition beside the paper's formula, judged by eye — Fable wins seven of twelve pairs and loses two, both to a single typographic device (Astra's tight fraction) that Fable could adopt in an afternoon. Fable's correctness anchoring is the stronger by a wide margin: the reference's actual 4,192-parameter model on real data for two steps and three replayed samples, bit-identical goldens regenerated here from the upstream text, and two alternative complete programs plus a 12-step training demo verified against the same checks; Astra's is a one-step 228-parameter synthetic fixture whose derivation from upstream was established only by the previous review. Fable's core is smaller (162 vs 181 lines) while covering more of the Python (multi-layer, general-length loss, tokenizer, training loop, full inference), and it keeps fixture constants and verification plumbing out of the core where Astra does not. Astra's advantages are real but narrower: the fraction-shaped rmsnorm/softmax, per-run snapshots with hashes, a Markdown article source, and a 3-second check. Where the two disagree about the language — reverse juxtaposition, concatenation as a big operator, carriers as generators — the running, verified Fable program settles each in Fable's favour; where they agree (`except { opr BIG + }`, the chained-subscript interpreter bug) both are right. Fable's faults are an over-stated "same graph" sentence, an apples-to-oranges line count, an unused parameter, and an HTML deliverable where Markdown was asked for.
+
+---
+
+## Provenance note on the correctness-anchoring verdict (added by the coordinator)
+
+Both runs were instructed to keep executions small and bounded and to
+avoid long training runs; neither brief constrained model size. Astra's
+operator later confirmed its exact instruction was to validate
+correctness against reference data rather than train, and that the
+228-parameter synthetic fixture was Astra's own implementation decision,
+not a requested size. The blinded run, under the same runtime constraint,
+chose the real 4,192-parameter model for two steps and three samples. The
+anchoring comparison above therefore reflects a design choice made under
+equal instructions, not a difference in briefing.
