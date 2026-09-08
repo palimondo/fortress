@@ -1,0 +1,27 @@
+(* Q1a: sub-vector views of a library Vector[\RR64,8\]. *)
+component p01
+export Executable
+
+run(): () = do
+    v: Vector[\RR64,8\] = [ 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 ]
+    println("v = " v)
+    typecase v of
+        AnyVector => println("v IS an AnyVector")
+        else      => println("v is NOT an AnyVector")
+    end
+
+    (* (1) static subarray method: elements 4..7 *)
+    s = v.subarray[\0,4,4\](1)
+    println("v.subarray[0,4,4](1) = " s)
+    println("  |s| = " |s| ", s[0] = " s[0] ", s[3] = " s[3])
+    typecase s of
+        AnyVector => println("  subarray IS an AnyVector")
+        else      => println("  subarray is NOT an AnyVector")
+    end
+
+    (* (2) is it a VIEW?  mutate through it *)
+    s[0] := 99.0
+    println("after s[0] := 99.0 :  v = " v)
+    println("  -> view (aliases v)? " (v[4] = 99.0))
+  end
+end

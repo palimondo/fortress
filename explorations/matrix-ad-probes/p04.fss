@@ -1,0 +1,30 @@
+(* Q1c': the surviving 2-D slicing spellings.  Library FortressLibrary.fss:2330
+   (tuple range) and :2381 (static subarray).  Pair-of-ranges m[r0,r1] and the
+   mixed m[i,r]/m[r,j] are COMMENTED OUT at fss:2340-2356 and 2360-2367. *)
+component p04
+export Executable
+
+run(): () = do
+    m: Matrix[\RR64,3,4\] = [ 0.0  1.0  2.0  3.0 ;
+                              4.0  5.0  6.0  7.0 ;
+                              8.0  9.0 10.0 11.0 ]
+    blk = m[(1,1)#(2,2)]
+    println("m[(1,1)#(2,2)] = " blk)
+    typecase blk of
+        AnyMatrix => println("  block IS an AnyMatrix")
+        else      => println("  block is NOT an AnyMatrix")
+    end
+    println("  blk[0,0] = " blk[0,0])
+
+    sub = m.subarray[\0,2,0,2,1,1\](1,1)
+    println("m.subarray[0,2,0,2,1,1](1,1) = " sub)
+    typecase sub of
+        AnyMatrix => println("  static 2-D subarray IS an AnyMatrix")
+        else      => println("  static 2-D subarray is NOT an AnyMatrix")
+    end
+
+    r1 = m[1, :]
+    r1[0] := 77.0
+    println("after m[1,:][0] := 77.0 : m = " m)
+  end
+end

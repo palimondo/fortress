@@ -1,0 +1,37 @@
+(* Q5: cost sketch. 100 forward+backward passes of the Q3 chain at n=16,
+   on the WALK INTERPRETER.  nanoTime() at FortressLibrary.fsi:2388. *)
+component p12
+export Executable
+
+sumsq(v: Vector[\RR64,16\]): RR64 = SUM [ e <- v ] e e
+
+linear(W: Matrix[\RR64,16,16\], x: Vector[\RR64,16\])
+    : (Vector[\RR64,16\], Vector[\RR64,16\] -> (Vector[\RR64,16\], Matrix[\RR64,16,16\])) =
+  (W x,
+   fn (g: Vector[\RR64,16\]): (Vector[\RR64,16\], Matrix[\RR64,16,16\]) =>
+       (W.t() g, matrix[\RR64,16,16\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => g[i] x[j])))
+
+run(): () = do
+    W: Matrix[\RR64,16,16\] =
+        matrix[\RR64,16,16\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => 1.0/(1.0+i+j))
+    x: Vector[\RR64,16\] = vector[\RR64,16\](fn (i:ZZ32):RR64 => 1.0/(1.0+i))
+    reps: ZZ32 = 100
+    (* warm up *)
+    (y0, b0) = linear(W, x)
+    (gx0, gW0) = b0(y0.scale(2.0))
+    println("warmup L = " sumsq(y0) "  gx[0] = " gx0[0] "  gW[0,0] = " gW0[0,0])
+
+    t0 = nanoTime()
+    var chk: RR64 := 0.0
+    for r <- seq(0#reps) do
+        (y, back) = linear(W, x)
+        L = sumsq(y)
+        (gx, gW) = back(y.scale(2.0))
+        chk := chk + L + gx[0] + gW[0,0]
+    end
+    t1 = nanoTime()
+    println("reps = " reps "  checksum = " chk)
+    println("total ns = " (t1 - t0))
+    println("per fwd+bwd ms = " (((t1 - t0) asif RR64) / 1000000.0 / 100.0))
+  end
+end

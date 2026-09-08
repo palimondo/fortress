@@ -1,0 +1,49 @@
+(* Q2: runtime-sized shapes over plain RR64.
+   Route A: array[\E\](n) -- FortressLibrary.fsi:1343-1347, static type
+            Array[\RR64,ZZ32\] / Array[\RR64,(ZZ32,ZZ32)\].
+   Route B: NatReflect.reflect + a hoisted generic taking N[\n\], which yields
+            the true static type Vector[\RR64,n\] / Matrix[\RR64,n,m\]. *)
+component p07
+import NatReflect.{...}
+export Executable
+
+mkVec[\nat n\](w:N[\n\], f:ZZ32->RR64): Vector[\RR64,n\] = vector[\RR64,n\](f)
+mkMat[\nat n, nat m\](wn:N[\n\], wm:N[\m\], f:(ZZ32,ZZ32)->RR64): Matrix[\RR64,n,m\] =
+    matrix[\RR64,n,m\]().fill(f)
+
+run(): () = do
+    n: ZZ32 = 4
+    m: ZZ32 = 3
+
+    (* Route A *)
+    a = array[\RR64\](n).fill(fn (i:ZZ32):RR64 => 1.0 (i+1))
+    println("A: array[RR64](n).fill(...)  = " a)
+    typecase a of
+        AnyVector => println("   IS an AnyVector")
+        else      => println("   is NOT an AnyVector")
+    end
+    b = array[\RR64\](n).fill(fn (i:ZZ32):RR64 => 10.0 (i+1))
+    println("A: a + b       = " (a + b))
+    println("A: a DOT b     = " (a DOT b))
+    g = array[\RR64\](m,n).fill(fn (i:ZZ32,j:ZZ32):RR64 => 1.0 (n i + j))
+    println("A: array[RR64](m,n) = " g)
+    typecase g of
+        AnyMatrix => println("   IS an AnyMatrix")
+        else      => println("   is NOT an AnyMatrix")
+    end
+    println("A: g a         = " (g a))
+    println("A: g.t()       = " g.t())
+
+    (* Route B *)
+    v = mkVec(reflect(n), fn (i:ZZ32):RR64 => 1.0 (i+1))
+    w = mkVec(reflect(n), fn (i:ZZ32):RR64 => 10.0 (i+1))
+    println("B: mkVec(reflect(n),...) = " v)
+    println("B: v + w   = " (v + w))
+    println("B: v DOT w = " (v DOT w))
+    W = mkMat(reflect(m), reflect(n), fn (i:ZZ32,j:ZZ32):RR64 => 1.0 (n i + j))
+    println("B: mkMat(reflect(m),reflect(n),...) = " W)
+    println("B: W v     = " (W v))
+    println("B: W.t()   = " W.t())
+    println("B: (W.t()) (W v) = " (W.t() (W v)))
+  end
+end

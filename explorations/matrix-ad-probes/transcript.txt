@@ -1,0 +1,422 @@
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p01.fss
+v = [0#8][ 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 ]
+v IS an AnyVector
+v.subarray[0,4,4](1) = [0#4][ 4.0 5.0 6.0 7.0 ]
+  |s| = 4, s[0] = 4.0, s[3] = 7.0
+  subarray is NOT an AnyVector
+after s[0] := 99.0 :  v = [0#8][ 0.0 1.0 2.0 3.0 99.0 5.0 6.0 7.0 ]
+  -> view (aliases v)? true
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p02.fss
+v[4:7] = [0#4][ 4.0 5.0 6.0 7.0 ]  |a| = 4
+  v[4:7] is NOT an AnyVector
+v[4#4] = [0#4][ 4.0 5.0 6.0 7.0 ]  |b| = 4
+v[0:7:2] = [0#4][ 0.0 2.0 4.0 6.0 ]  |c| = 4
+after a[0] := 42.0 : v = [0#8][ 0.0 1.0 2.0 3.0 42.0 5.0 6.0 7.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p03.fss
+m = [0#3,0#4]
+[ 0.0 1.0 2.0 3.0
+  4.0 5.0 6.0 7.0
+  8.0 9.0 10.0 11.0 ]
+m.sizes = (3,4)
+m[1,:] = [0#4][ 4.0 5.0 6.0 7.0 ]  |r1| = 4
+  row is NOT an AnyVector
+m[:,2] = [0#3][ 2.0 6.0 10.0 ]  |c2| = 3
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/matrix-ad-probes/p03.fss:23:10-18:
+Failed to find any matching overload, args = (1: ZZ32,CompactFullParScalarRange[\ZZ32\]), overload = {
+	_[_](r:Range[\(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/Library/FortressLibrary.fss:2330:3-2337:6
+	_[_](i0:FortressLibrary.ZZ32,_:FortressLibrary.TrivialOpenRange):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/Library/FortressLibrary.fss:2363:3-2366:2
+	_[_](_:FortressLibrary.TrivialOpenRange,i1:FortressLibrary.ZZ32):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/Library/FortressLibrary.fss:2359:3-2362:2
+	_[_](i:I):E/home/user/fortress/Library/FortressLibrary.fss:1817:5-1822:61
+	_[_](_:FortressLibrary.TrivialOpenRange):Array2[\T,0,s0,0,s1\]/home/user/fortress/Library/FortressLibrary.fss:2338:3-2358:34}:OverloadedMethod
+Context:
+/home/user/fortress/explorations/matrix-ad-probes/p03.fss:23:10-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p04.fss
+m[(1,1)#(2,2)] = [0#2,0#2]
+[ 5.0 6.0
+  9.0 10.0 ]
+  block is NOT an AnyMatrix
+  blk[0,0] = 5.0
+m.subarray[0,2,0,2,1,1](1,1) = [0#2,0#2]
+[ 5.0 6.0
+  9.0 10.0 ]
+  static 2-D subarray is NOT an AnyMatrix
+after m[1,:][0] := 77.0 : m = [0#3,0#4]
+[ 0.0 1.0 2.0 3.0
+  77.0 5.0 6.0 7.0
+  8.0 9.0 10.0 11.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p05.fss
+s (view)          is NOT an AnyVector
+s.copy() = [0#4][ 4.0 5.0 6.0 7.0 ]
+s.copy()          IS an AnyVector
+s.map(id)         IS an AnyVector
+sc + sc  = [0#4][ 8.0 10.0 12.0 14.0 ]
+sc DOT sc= 126.0
+vector[RR64,4](fn i => s[i]) = [0#4][ 4.0 5.0 6.0 7.0 ]
+sv DOT sv = 126.0
+m[1,:].copy()     IS an AnyVector
+row1 = [0#4][ 4.0 5.0 6.0 7.0 ]  row1 DOT row1 = 126.0
+m[(1,1)#(2,2)].copy() IS an AnyMatrix
+mc = [0#2,0#2]
+[ 5.0 6.0
+  9.0 10.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p06.fss
+/home/user/fortress/explorations/matrix-ad-probes/p06.fss:31:11-22:
+    Operator BIG SUMSTRING is not defined.
+=== exit: 255
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p06.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/matrix-ad-probes/p06.fss:12:5-35:
+RHS expression type ArrayList[\__DefaultVector[\RR64,4\]\] is not assignable to LHS type List[\Vector[\RR64,4\]\]
+Context:
+/home/user/fortress/explorations/matrix-ad-probes/p06.fss:12:5-35:
+/home/user/fortress/explorations/matrix-ad-probes/p06.fss:12:5-35:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p06.fss
+rows = <|[0#4][ 0.0 1.0 2.0 3.0 ], [0#4][ 4.0 5.0 6.0 7.0 ], [0#4][ 8.0 9.0 10.0 11.0 ]|>  |rows| = 3
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/matrix-ad-probes/p06.fss:14:66-71:
+Failed to find any matching overload, args = (), overload = {
+	_[_](n:FortressLibrary.ZZ32):E ZZ32->Vector[\RR64,4\] /home/user/fortress/Library/List.fss:453:5-460:8
+	_[_](n:Range[\FortressLibrary.ZZ32\]):List.List[\E\]/home/user/fortress/Library/List.fss:145:5-152:8
+	_[_](_:FortressLibrary.TrivialOpenRange):ZeroIndexed[\E\]/home/user/fortress/Library/FortressLibrary.fss:1721:5-53}:OverloadedMethod
+Context:
+/home/user/fortress/explorations/matrix-ad-probes/p06.fss:14:66-71:
+/home/user/fortress/Library/FortressLibrary.fss:1975:43-54:
+/home/user/fortress/Library/FortressLibrary.fss:3517:71-75:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3517:31-76:
+/home/user/fortress/Library/FortressLibrary.fss:3517:31-76:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3516:9-3517:77:
+/home/user/fortress/Library/FortressLibrary.fss:3516:9-3517:77:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1779:25-45:
+/home/user/fortress/Library/FortressLibrary.fss:1975:13-32:
+/home/user/fortress/explorations/matrix-ad-probes/p06.fss:14:9-71:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p06.fss
+rows = <|[0#4][ 0.0 1.0 2.0 3.0 ], [0#4][ 4.0 5.0 6.0 7.0 ], [0#4][ 8.0 9.0 10.0 11.0 ]|>  |rows| = 3
+matrix from rows = [0#3,0#4]
+[ 0.0 1.0 2.0 3.0
+  4.0 5.0 6.0 7.0
+  8.0 9.0 10.0 11.0 ]
+  IS an AnyMatrix
+m x = [0#3][ 6.0 22.0 38.0 ]
+|heads| = 2
+  head y = [0#2][ 5.0 8.0 ]
+  head y = [0#2][ 50.0 80.0 ]
+heads[1] = [0#2,0#2]
+[ 10.0 20.0
+  20.0 30.0 ]
+heads[1] y = [0#2][ 50.0 80.0 ]
+concat of head outputs = [0#4][ 5.0 8.0 50.0 80.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p07.fss
+/home/user/fortress/explorations/matrix-ad-probes/p07.fss:9:18:
+    N is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p07.fss:10:26:
+    N is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p07.fss:10:37:
+    N is undefined.
+=== exit: 255
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p07.fss
+A: array[RR64](n).fill(...)  = [0#4][ 1.0 2.0 3.0 4.0 ]
+   IS an AnyVector
+A: a + b       = [0#4][ 11.0 22.0 33.0 44.0 ]
+A: a DOT b     = 300.0
+A: array[RR64](m,n) = [0#3,0#4]
+[ 0.0 1.0 2.0 3.0
+  4.0 5.0 6.0 7.0
+  8.0 9.0 10.0 11.0 ]
+   IS an AnyMatrix
+A: g a         = [0#3][ 20.0 60.0 100.0 ]
+A: g.t()       = [0#4,0#3]
+[ 0.0 4.0 8.0
+  1.0 5.0 9.0
+  2.0 6.0 10.0
+  3.0 7.0 11.0 ]
+B: mkVec(reflect(n),...) = [0#4][ 1.0 2.0 3.0 4.0 ]
+B: v + w   = [0#4][ 11.0 22.0 33.0 44.0 ]
+B: v DOT w = 300.0
+B: mkMat(reflect(m),reflect(n),...) = [0#3,0#4]
+[ 0.0 1.0 2.0 3.0
+  4.0 5.0 6.0 7.0
+  8.0 9.0 10.0 11.0 ]
+B: W v     = [0#3][ 20.0 60.0 100.0 ]
+B: W.t()   = [0#4,0#3]
+[ 0.0 4.0 8.0
+  1.0 5.0 9.0
+  2.0 6.0 10.0
+  3.0 7.0 11.0 ]
+B: (W.t()) (W v) = [0#4][ 1040.0 1220.0 1400.0 1580.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p08.fss
+/home/user/fortress/explorations/matrix-ad-probes/p08.fss:43:22-60:
+    Operator <|_|> is not defined.
+=== exit: 255
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p08.fss
+y = [0#3][ 0.4 1.4 2.4 ]
+L = 7.879999999999999
+dL/dx (analytic) = [0#4][ 5.800000000000001 6.64 7.48 8.32 ]
+dL/dW (analytic) = [0#3,0#4]
+[ 0.8 1.6 -0.8 0.4
+  2.8 5.6 -2.8 1.4
+  4.8 9.6 -4.8 2.4 ]
+dL/dx (fin.diff) = [0#4][ 5.799999998882413 6.640000000130385 7.480000000447035 8.3199999993667 ]
+max |err_x| = 1.11758780008131E-9
+dL/dW[0,0]  analytic=0.8  fd=0.7999999998137355  err=1.862645593320167E-10
+dL/dW[2,3]  analytic=2.4  fd=2.400000000372529  err=3.725291186640334E-10
+dL/dW[1,2]  analytic=-2.8  fd=-2.7999999998137355  err=1.8626433728741176E-10
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p09.fss
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:15:18-20:
+    VecR is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:15:27-29:
+    VecR is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:15:34-36:
+    VecR is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:45:8-10:
+    VecR is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:46:8-10:
+    VecR is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:49:9-11:
+    VecR is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:49:17-19:
+    VecR is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:49:31-33:
+    VecR is undefined.
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:49:38-40:
+    VecR is undefined.
+=== exit: 255
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p09.fss
+** bug! Not yet implemented: TypeAlias at /home/user/fortress/explorations/matrix-ad-probes/p09.fss:14.1
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p09.fss
+null
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:46:13-30:
+    Unmatched delimiters "\"" and "\]".
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:46:20:
+    Invalid string literal content: \
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:46:49-65:
+    Unmatched delimiters "\"" and ")".
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:46:67:
+    Invalid string literal content: 
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:47:13-30:
+    Unmatched delimiters "\"" and "\]".
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:47:20:
+    Invalid string literal content: \
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:47:49-59:
+    Unmatched delimiters "\"" and ")".
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:47:61:
+    Invalid string literal content: 
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:49:13-30:
+    Unmatched delimiters "\"" and "\]".
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:49:20:
+    Invalid string literal content: \
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:49:49-55:
+    Unmatched delimiters "\"" and ")".
+/home/user/fortress/explorations/matrix-ad-probes/p09.fss:49:57:
+    Invalid string literal content: 
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p09.fss
+compose(fA,fB)(x) = [0#4][ 8.653809523809525 6.215476190476191 5.043809523809523 4.32452380952381 ]
+B (A x)           = [0#4][ 8.653809523809525 6.215476190476191 5.043809523809523 4.32452380952381 ]
+|tape| = 3
+tape applied in reverse = [0#4][ 19.366666666666667 12.89 9.88 8.06047619047619 ]
+expected A^T (B^T (2 x))= [0#4][ 19.366666666666667 12.89 9.88 8.06047619047619 ]
+runtime-sized axpy(2.0,u,w) = [0#4][ 12.0 24.0 36.0 48.0 ]
+runtime-sized u DOT w       = 300.0
+runtime-sized closure       = [0#4][ 13.0 26.0 39.0 52.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p10.fss
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/Library/FortressLibrary.fss:1120:25-34:
+/home/user/fortress/explorations/matrix-ad-probes/p10.fss:12:30-38:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/explorations/matrix-ad-probes/p10.fss:12:19-25:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/explorations/matrix-ad-probes/p10.fss:12:13-39:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p11.fss
+expected = [0#3][ 5050.0 10100.0 15150.0 ]
+(b) __generate + VecSum3 = [0#3][ 5050.0 10100.0 15150.0 ]
+(c) BIG OPLUS [i<-0#n]   = [0#3][ 5050.0 10100.0 15150.0 ]
+(d) atomic accumulator   = [0#3][ 5050.0 10100.0 15150.0 ]
+(e) NO atomic            = [0#3][ 5050.0 10100.0 15150.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=4 ./bin/fortress explorations/matrix-ad-probes/p11.fss
+expected = [0#3][ 5050.0 10100.0 15150.0 ]
+(b) __generate + VecSum3 = [0#3][ 5050.0 10100.0 15150.0 ]
+(c) BIG OPLUS [i<-0#n]   = [0#3][ 5050.0 10100.0 15150.0 ]
+(d) atomic accumulator   = [0#3][ 5050.0 10100.0 15150.0 ]
+(e) NO atomic            = [0#3][ 1563.0 3126.0 4689.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=4 ./bin/fortress explorations/matrix-ad-probes/p11.fss
+expected = [0#3][ 5050.0 10100.0 15150.0 ]
+(b) __generate + VecSum3 = [0#3][ 5050.0 10100.0 15150.0 ]
+(c) BIG OPLUS [i<-0#n]   = [0#3][ 5050.0 10100.0 15150.0 ]
+(d) atomic accumulator   = [0#3][ 5050.0 10100.0 15150.0 ]
+(e) NO atomic            = [0#3][ 2930.0 5860.0 8790.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=4 ./bin/fortress explorations/matrix-ad-probes/p11.fss
+expected = [0#3][ 5050.0 10100.0 15150.0 ]
+(b) __generate + VecSum3 = [0#3][ 5050.0 10100.0 15150.0 ]
+(c) BIG OPLUS [i<-0#n]   = [0#3][ 5050.0 10100.0 15150.0 ]
+(d) atomic accumulator   = [0#3][ 5050.0 10100.0 15150.0 ]
+(e) NO atomic            = [0#3][ 2338.0 4676.0 7014.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p12.fss
+warmup L = 5.214638675687057  gx[0] = 5.661645436024581  gW[0,0] = 3.168693066889974
+reps = 100  checksum = 1404.4977178601641
+total ns = 1173027147
+per fwd+bwd ns = 1173027147/100
+=== exit: 0
+=== $ FORTRESS_THREADS=4 ./bin/fortress explorations/matrix-ad-probes/p12.fss
+warmup L = 5.214638675687057  gx[0] = 5.661645436024581  gW[0,0] = 3.168693066889974
+reps = 100  checksum = 1404.4977178601641
+total ns = 1090343532
+per fwd+bwd ns = 272585883/25
+=== exit: 0
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p12.fss
+total ns = 1199451715
+per fwd+bwd ms = 11.99451715
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p12.fss
+total ns = 1165156428
+per fwd+bwd ms = 11.65156428
+=== exit: 0
+=== $ FORTRESS_THREADS=4 ./bin/fortress explorations/matrix-ad-probes/p12.fss
+total ns = 1027033538
+per fwd+bwd ms = 10.270335379999999
+=== exit: 0
+=== $ FORTRESS_THREADS=4 ./bin/fortress explorations/matrix-ad-probes/p12.fss
+total ns = 1016335988
+per fwd+bwd ms = 10.16335988
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p13.fss
+VecView(v,4) = [0#4][ 4.0 5.0 6.0 7.0 ]
+  VecView IS an AnyVector
+  |s| = 4  s[1] = 5.0
+  s + s     = [0#4][ 8.0 10.0 12.0 14.0 ]
+  s DOT s   = 126.0
+  s.scale(2.0) = [0#4][ 8.0 10.0 12.0 14.0 ]
+  ||s||     = 11.224972160321824
+  SUM s     = 22.0
+  A s       = [0#3][ 4.0 5.0 6.0 ]
+  after s[0] := 99.0, v = [0#8][ 0.0 1.0 2.0 3.0 99.0 5.0 6.0 7.0 ]   (zero-copy view: true)
+RowView IS an AnyVector
+  RowView(A,1) = [0#4][ 0.0 1.0 0.0 0.0 ]   rv DOT s = 5.0
+  after rv[3] := 5.0, A = [0#3,0#4]
+[ 1.0 0.0 0.0 0.0
+  0.0 1.0 0.0 5.0
+  0.0 0.0 1.0 0.0 ]
+=== exit: 0
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p14.fss
+null/home/user/fortress/explorations/matrix-ad-probes/p14.fss:22:43:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit: 1
+=== $ FORTRESS_THREADS=1 ./bin/fortress explorations/matrix-ad-probes/p14.fss
+W x            ms/op = 5.64495405
+W.t()          ms/op = 0.06194191
+W.t() g        ms/op = 2.7522356500000003
+outer g x^T    ms/op = 4.55906052
+SUM x_i^2      ms/op = 0.23714321000000002
+W + W          ms/op = 3.2988497
+checksum 2266.86930668899
+=== exit: 0

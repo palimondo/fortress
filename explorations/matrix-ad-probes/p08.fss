@@ -1,0 +1,51 @@
+(* Q3: a function returning (value, backward-closure) over library Vector/Matrix.
+   Chain: y = W x ; L = SUM_i y_i^2.
+   Backward: dL/dy = 2y ; dL/dx = W^T (2y) ; dL/dW = (2y) x^T.
+   Checked against central finite differences. *)
+component p08
+import List.{...}
+export Executable
+
+sumsq(v: Vector[\RR64,3\]): RR64 = SUM [ e <- v ] e e
+
+(* forward pass returns the value AND a closure capturing W and x *)
+linear(W: Matrix[\RR64,3,4\], x: Vector[\RR64,4\])
+    : (Vector[\RR64,3\], Vector[\RR64,3\] -> (Vector[\RR64,4\], Matrix[\RR64,3,4\])) =
+  (W x,
+   fn (g: Vector[\RR64,3\]): (Vector[\RR64,4\], Matrix[\RR64,3,4\]) =>
+       (W.t() g, matrix[\RR64,3,4\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => g[i] x[j])))
+
+run(): () = do
+    W: Matrix[\RR64,3,4\] = [ 0.1 0.2 0.3 0.4 ;
+                              0.5 0.6 0.7 0.8 ;
+                              0.9 1.0 1.1 1.2 ]
+    x: Vector[\RR64,4\] = [ 1.0 2.0 -1.0 0.5 ]
+
+    (y, back) = linear(W, x)
+    L = sumsq(y)
+    println("y = " y)
+    println("L = " L)
+
+    (gx, gW) = back(y.scale(2.0))
+    println("dL/dx (analytic) = " gx)
+    println("dL/dW (analytic) = " gW)
+
+    (* central finite differences on x *)
+    h: RR64 = 1.0/1048576.0
+    fdx = vector[\RR64,4\](fn (k:ZZ32):RR64 => do
+             xp = x.copy(); xp[k] := x[k] + h
+             xm = x.copy(); xm[k] := x[k] - h
+             (sumsq(W xp) - sumsq(W xm)) / (2.0 h)
+          end)
+    println("dL/dx (fin.diff) = " fdx)
+    println("max |err_x| = " (BIG MAX [ k <- 0#4 ] |gx[k] - fdx[k]|))
+
+    (* central finite differences on two entries of W *)
+    for (i,j) <- seq(<|[\(ZZ32,ZZ32)\] (0,0), (2,3), (1,2) |>) do
+        Wp = W.copy(); Wp[i,j] := W[i,j] + h
+        Wm = W.copy(); Wm[i,j] := W[i,j] - h
+        fd = (sumsq(Wp x) - sumsq(Wm x)) / (2.0 h)
+        println("dL/dW[" i "," j "]  analytic=" gW[i,j] "  fd=" fd "  err=" |gW[i,j]-fd|)
+    end
+  end
+end

@@ -1,0 +1,20 @@
+(* Q1b: range subscripts on a Vector; spec Specification/basic/expressions/ranges.tex *)
+component p02
+export Executable
+
+run(): () = do
+    v: Vector[\RR64,8\] = [ 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 ]
+    a = v[4:7]
+    println("v[4:7] = " a "  |a| = " |a|)
+    typecase a of
+        AnyVector => println("  v[4:7] IS an AnyVector")
+        else      => println("  v[4:7] is NOT an AnyVector")
+    end
+    b = v[4#4]
+    println("v[4#4] = " b "  |b| = " |b|)
+    c = v[0:7:2]
+    println("v[0:7:2] = " c "  |c| = " |c|)
+    a[0] := 42.0
+    println("after a[0] := 42.0 : v = " v)
+  end
+end
