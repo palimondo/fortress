@@ -1,0 +1,58 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=latex)
+ restricted \write18 enabled.
+entering extended mode
+(./v1_layer.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo))
+(/home/user/fortress/Fortify/fortify.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/dvips.def)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/dvipsnam.def)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty))
+(/usr/share/texmf/tex/latex/preview/preview.sty
+(/usr/share/texmf/tex/latex/preview/prtightpage.def))
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-dvips.def)
+No file v1_layer.aux.
+Preview: Fontsize 10pt
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
+Overfull \hbox (26.34305pt too wide) in paragraph at lines 8--8
+[][] 
+
+Overfull \hbox (26.23541pt too wide) in paragraph at lines 9--9
+[] 
+
+Overfull \hbox (29.03072pt too wide) in paragraph at lines 10--10
+[] 
+! Double subscript.
+l.27 ...{indices}}\, \alpha_{t}\, (v_{\mathrm{h}}_
+                                                  {t})[j] \right| j \leftarr...
+
+
+Overfull \hbox (101.35748pt too wide) in paragraph at lines 42--42
+[] 
+Preview: Tightpage -524288 -524288 524288 524288
+[1] (./v1_layer.aux) )
+(see the transcript file for additional information)
+Output written on v1_layer.dvi (1 page, 6296 bytes).
+Transcript written on v1_layer.log.

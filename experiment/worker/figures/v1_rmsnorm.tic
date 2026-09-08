@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`rmsnorm(x: Indexed[\Value, ZZ32\]): List[\Value\] = do
+  ms = (SUM[x_i <- x] x_i^2.0) / |x|
+  scale = (ms + 0.00001)^(-0.5)
+  scale x
+end`
+\end{preview}
+\end{document}

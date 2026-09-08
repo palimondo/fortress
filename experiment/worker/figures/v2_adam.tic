@@ -1,0 +1,24 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Adam(params: List[\Value\], lr: RR64, beta1: RR64, beta2: RR64, eps: RR64)
+  m: Array[\RR64, ZZ32\] = array[\RR64\](|params|).fill(0)
+  v: Array[\RR64, ZZ32\] = array[\RR64\](|params|).fill(0)
+  var t: ZZ32 := 0
+  step(lr_t: RR64): () = do
+    t += 1
+    for (i, p) <- params.indexValuePairs do
+      m[i] := beta1 m[i] + (1 - beta1) p.grad
+      v[i] := beta2 v[i] + (1 - beta2) (p.grad)^2
+      m_hat = m[i] / (1 - beta1^t)
+      v_hat = v[i] / (1 - beta2^t)
+      p.data -= lr_t m_hat / (v_hat^0.5 + eps)
+      p.grad := 0
+    end
+  end
+end`
+\end{preview}
+\end{document}

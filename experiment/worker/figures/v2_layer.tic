@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Layer(n_head: ZZ32, W_q: Mat, W_k: Mat, W_v: Mat, W_o: Mat, W1: Mat, W2: Mat)
+  (* the KV cache: keys and values of the positions seen so far *)
+  var keys: List[\Vec\] := <|[\Vec\] |>
+  var values: List[\Vec\] := <|[\Vec\] |>
+  reset(): () = do keys := <|[\Vec\] |>; values := <|[\Vec\] |> end
+
+  attention(x: Vec): Vec = do
+    (q, k, v) = (W_q x, W_k x, W_v x)
+    keys := keys.addRight(k)
+    values := values.addRight(v)
+    d_h = |q| DIV n_head
+    head(h: ZZ32): Vec = do
+      slice = (h d_h) # d_h
+      K = Mat(<| k[slice] | k <- keys |>)
+      V = Mat(<| v[slice] | v <- values |>)
+      alpha = softmax((K q[slice]) / SQRT(d_h))
+      alpha V
+    end
+    W_o (BIG ||[h <- 0#n_head] head(h))
+  end
+
+  mlp(x: Vec): Vec = W2 relu(W1 x)
+
+  forward(x: Vec): Vec = do
+    x1 = x + attention(rmsnorm(x))
+    x1 + mlp(rmsnorm(x1))
+  end
+
+  matrices(): List[\Mat\] = <| W_q, W_k, W_v, W_o, W1, W2 |>
+end`
+\end{preview}
+\end{document}

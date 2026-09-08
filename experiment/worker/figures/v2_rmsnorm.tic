@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`rmsnorm(x: Vec): Vec = do
+  ms = (SUM[x_i <- x] x_i^2) / |x|
+  scale = (ms + 0.00001)^(-0.5)
+  scale x
+end`
+\end{preview}
+\end{document}

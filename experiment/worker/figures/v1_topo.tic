@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* every Value after all the Values it depends on *)
+topo(root: Value): List[\Value\] = do
+  var seen: Set[\ZZ32\] := {[\ZZ32\] }
+  var order: List[\Value\] := <|[\Value\] |>
+  visit(v: Value): () =
+    if v.id NOTIN seen then
+      seen := seen.add(v.id)
+      for (c, _) <- seq(v.deps) do visit(c) end
+      order := order.addRight(v)
+    end
+  visit(root)
+  order
+end`
+\end{preview}
+\end{document}

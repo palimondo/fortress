@@ -1,0 +1,53 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=latex)
+ restricted \write18 enabled.
+entering extended mode
+(./v2_layer.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo))
+(/home/user/fortress/Fortify/fortify.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/dvips.def)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/dvipsnam.def)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty))
+(/usr/share/texmf/tex/latex/preview/preview.sty
+(/usr/share/texmf/tex/latex/preview/prtightpage.def))
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-dvips.def)
+No file v2_layer.aux.
+Preview: Fontsize 10pt
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
+Overfull \hbox (14.0751pt too wide) in paragraph at lines 8--8
+[][] 
+! Double subscript.
+l.21 ... = \TYP{Mat}\bigl(\langle\,k_{\mathrm{t}}_
+                                                  {\VAR{slice}} \mid k_{\mat...
+
+! Double subscript.
+l.22 ... = \TYP{Mat}\bigl(\langle\,v_{\mathrm{t}}_
+                                                  {\VAR{slice}} \mid v_{\mat...
+
+Preview: Tightpage -524288 -524288 524288 524288
+[1] (./v2_layer.aux) )
+(see the transcript file for additional information)
+Output written on v2_layer.dvi (1 page, 4632 bytes).
+Transcript written on v2_layer.log.

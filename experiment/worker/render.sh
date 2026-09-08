@@ -10,9 +10,9 @@ NAME="$1"
 cd "$FIG"
 {
   echo "======== $(date -u +%Y-%m-%dT%H:%M:%SZ) render $NAME.tic"
-  "$FORTRESS_HOME/bin/fortick" "$NAME.tic" && \
+  "$FORTRESS_HOME/bin/fortick" "$NAME.tic" 2>&1 | grep -v 'Warning:\|^Loading \|Package cl is deprecated\|^Process with\|^  TEXINPUTS\|^or (for pdf' ; \
   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex -interaction=nonstopmode "$NAME.tex" > "$NAME.latex.out" 2>&1; st=$?
-  if [ $st -ne 0 ]; then grep -A3 '^!' "$NAME.latex.out" | head -40; fi
+  if [ $st -ne 0 ]; then grep -B2 -A6 '^!' "$NAME.latex.out" | head -60; cp "$NAME.latex.out" "$NAME.latex.err"; fi
   dvisvgm --no-fonts --exact-bbox -o "$NAME.svg" "$NAME.dvi" 2>&1 | tail -2
   /opt/pw-browsers/chromium --headless --no-sandbox --disable-gpu --hide-scrollbars \
      --window-size="${WIN:-1400,900}" --screenshot="$NAME.png" "$NAME.svg" 2>/dev/null

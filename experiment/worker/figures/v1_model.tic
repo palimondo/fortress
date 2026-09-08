@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Model[\nat V, nat T, nat d, nat f\](W_te: Array2[\Value,0,V,0,d\], W_pe: Array2[\Value,0,T,0,d\],
+                                         W_lm: Array2[\Value,0,V,0,d\], layers: List[\Layer[\d,f\]\], n_head: ZZ32)
+  reset(): () = for l <- layers do l.reset() end
+  (* logits for the next token, given the token at position pos *)
+  forward(token: ZZ32, pos: ZZ32): List[\Value\] = do
+    var x: List[\Value\] := rmsnorm(row(W_te, token) + row(W_pe, pos))
+    for l <- seq(layers) do x := l.forward(x, n_head) end
+    W_lm x
+  end
+  matrices(): List[\Array[\Value,(ZZ32,ZZ32)\]\] =
+    <|[\Array[\Value,(ZZ32,ZZ32)\]\] W_te, W_pe, W_lm |> || concat(<|[\List[\Array[\Value,(ZZ32,ZZ32)\]\]\] l.matrices() | l <- layers |>)
+  params(): List[\Value\] = concat(<|[\List[\Value\]\] entries(W) | W <- matrices() |>)
+end
+
+entries(W: Array[\Value,(ZZ32,ZZ32)\]): List[\Value\] = <| W[ij] | ij <- W.indices |>`
+\end{preview}
+\end{document}

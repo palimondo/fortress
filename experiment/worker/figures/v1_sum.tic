@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* Summation over Values: the library's SUM is for Numbers only. *)
+object SumValues extends CommutativeMonoidReduction[\Value\]
+  getter asString(): String = "SumValues"
+  empty(): Value = node(0.0)
+  join(a: Value, b: Value): Value = a + b
+end
+opr SUM(): BigReduction[\Value, Value\] = BigReduction[\Value, Value\](SumValues)
+opr SUM(g: Generator[\Value\]): Value = g.generate[\Value\](SumValues, fn (v: Value) => v)`
+\end{preview}
+\end{document}
