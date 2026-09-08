@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`for step <- seq(0#num_steps) do
+  tokens = tokenize(docs[step MOD |docs|])
+  L = loss(model, tokens.take(ref_block_size + 1))
+  L.backward()
+  opt.step(0.01 (1 - step / num_steps))   (* linear learning-rate decay, as in the reference *)
+  println("step " (step + 1) " / " num_steps " | loss " L.data " | doc " docs[step MOD |docs|])
+end`
+\end{preview}
+\end{document}

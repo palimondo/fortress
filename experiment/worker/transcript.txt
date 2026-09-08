@@ -2073,3 +2073,256 @@ Overfull \hbox (101.35748pt too wide) in paragraph at lines 42--42
 -rw-r--r-- 1 root root  73003 Sep  8 18:02 alt_unified_sum.png
 -rw-r--r-- 1 root root 129231 Sep  8 18:02 alt_unified_sum.svg
 -------- render exit: 0
+======== 2026-09-08T18:04:45Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.241831527050068 nodes: 41823
+Operation took 2125ms
+Operation took 25635ms
+grad of E[26,0]: 0.05110717762060508
+loss after one step: 2.8895066810089087
+pick(0.5) = 12
+-------- exit: 0
+======== 2026-09-08T18:05:45Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/build/Check.fss:272:49-55:
+Cannot find definition for method W2 given receiver Layer
+Context:
+/home/user/fortress/experiment/worker/build/Check.fss:272:49-55:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T18:06:00Z render gpt_value.tic
+  output written to gpt_value.svg
+1 of 1 page converted in 0.131675 seconds
+-rw-r--r-- 1 root root  97595 Sep  8 18:06 gpt_value.png
+-rw-r--r-- 1 root root 131704 Sep  8 18:06 gpt_value.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:01Z render gpt_topo.tic
+  output written to gpt_topo.svg
+1 of 1 page converted in 0.068728 seconds
+-rw-r--r-- 1 root root 34092 Sep  8 18:06 gpt_topo.png
+-rw-r--r-- 1 root root 71648 Sep  8 18:06 gpt_topo.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:02Z render gpt_sum.tic
+  output written to gpt_sum.svg
+1 of 1 page converted in 0.0703399 seconds
+-rw-r--r-- 1 root root 39977 Sep  8 18:06 gpt_sum.png
+-rw-r--r-- 1 root root 98813 Sep  8 18:06 gpt_sum.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:02Z render gpt_vec.tic
+  output written to gpt_vec.svg
+1 of 1 page converted in 0.138833 seconds
+-rw-r--r-- 1 root root  80260 Sep  8 18:06 gpt_vec.png
+-rw-r--r-- 1 root root 157968 Sep  8 18:06 gpt_vec.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:04Z render gpt_mat.tic
+  output written to gpt_mat.svg
+1 of 1 page converted in 0.111396 seconds
+-rw-r--r-- 1 root root  44619 Sep  8 18:06 gpt_mat.png
+-rw-r--r-- 1 root root 114314 Sep  8 18:06 gpt_mat.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:05Z render gpt_rmsnorm.tic
+  output written to gpt_rmsnorm.svg
+1 of 1 page converted in 0.0618391 seconds
+-rw-r--r-- 1 root root 14825 Sep  8 18:06 gpt_rmsnorm.png
+-rw-r--r-- 1 root root 33977 Sep  8 18:06 gpt_rmsnorm.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:05Z render gpt_softmax.tic
+  output written to gpt_softmax.svg
+1 of 1 page converted in 0.0659111 seconds
+-rw-r--r-- 1 root root 17434 Sep  8 18:06 gpt_softmax.png
+-rw-r--r-- 1 root root 41722 Sep  8 18:06 gpt_softmax.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:06Z render gpt_layer.tic
+  output written to gpt_layer.svg
+1 of 1 page converted in 0.126348 seconds
+-rw-r--r-- 1 root root  86221 Sep  8 18:06 gpt_layer.png
+-rw-r--r-- 1 root root 151083 Sep  8 18:06 gpt_layer.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:07Z render gpt_model.tic
+  output written to gpt_model.svg
+1 of 1 page converted in 0.093292 seconds
+-rw-r--r-- 1 root root  43326 Sep  8 18:06 gpt_model.png
+-rw-r--r-- 1 root root 113336 Sep  8 18:06 gpt_model.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:08Z render gpt_loss.tic
+  output written to gpt_loss.svg
+1 of 1 page converted in 0.0751948 seconds
+-rw-r--r-- 1 root root 28910 Sep  8 18:06 gpt_loss.png
+-rw-r--r-- 1 root root 82869 Sep  8 18:06 gpt_loss.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:09Z render gpt_adam.tic
+  output written to gpt_adam.svg
+1 of 1 page converted in 0.0954912 seconds
+-rw-r--r-- 1 root root 40957 Sep  8 18:06 gpt_adam.png
+-rw-r--r-- 1 root root 90825 Sep  8 18:06 gpt_adam.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:10Z render gpt_pick.tic
+  output written to gpt_pick.svg
+1 of 1 page converted in 0.0732689 seconds
+-rw-r--r-- 1 root root 33894 Sep  8 18:06 gpt_pick.png
+-rw-r--r-- 1 root root 92215 Sep  8 18:06 gpt_pick.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:31Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 40310ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 41144ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 1393152
+ALL CHECKS PASSED
+-------- exit: 0
+======== 2026-09-08T18:08:33Z ./bin/fortress experiment/worker/build/Train.fss
+======== 2026-09-08T18:09:16Z ./bin/fortress experiment/worker/probes/intro_example.fss
+/home/user/fortress/experiment/worker/probes/intro_example.fss:4:6:
+    Variable x is already declared.
+/home/user/fortress/experiment/worker/probes/intro_example.fss:6:5-41:
+    Operator BIG <|_BIG |> is not defined.
+-------- exit: 255
+======== 2026-09-08T18:09:19Z render intro_intro.tic
+  output written to intro_intro.svg
+1 of 1 page converted in 0.069659 seconds
+-rw-r--r-- 1 root root 13327 Sep  8 18:09 intro_intro.png
+-rw-r--r-- 1 root root 35039 Sep  8 18:09 intro_intro.svg
+-------- render exit: 0
+======== 2026-09-08T18:09:20Z render demo_tokenize.tic
+  output written to demo_tokenize.svg
+1 of 1 page converted in 0.0570221 seconds
+-rw-r--r-- 1 root root 20364 Sep  8 18:09 demo_tokenize.png
+-rw-r--r-- 1 root root 59984 Sep  8 18:09 demo_tokenize.svg
+-------- render exit: 0
+step 1 / 12 | loss 3.365966947584851 | doc yuheng
+======== 2026-09-08T18:09:52Z ./bin/fortress experiment/worker/probes/intro_example.fss
+/home/user/fortress/experiment/worker/probes/intro_example.fss:5:6:
+    Variable x is already declared.
+-------- exit: 255
+======== 2026-09-08T18:09:55Z render demo_tokenize.tic
+  output written to demo_tokenize.svg
+1 of 1 page converted in 0.062839 seconds
+-rw-r--r-- 1 root root 20364 Sep  8 18:09 demo_tokenize.png
+-rw-r--r-- 1 root root 59984 Sep  8 18:09 demo_tokenize.svg
+-------- render exit: 0
+step 2 / 12 | loss 3.424272783871772 | doc diondre
+step 3 / 12 | loss 3.177429052927641 | doc xavien
+======== 2026-09-08T18:10:50Z ./bin/fortress experiment/worker/probes/intro_example.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/intro_example.fss:7:20-41:
+Unification error: /home/user/fortress/Library/FortressLibrary.fss:1063:21-32:
+Cannot unify (FloatLiteral,FloatLiteral,FloatLiteral)(class com.sun.fortress.interpreter.evaluator.types.FTypeTuple)
+  with Generator[\E\](class com.sun.fortress.nodes.TraitType) abm=()
+Context:
+/home/user/fortress/experiment/worker/probes/intro_example.fss:7:20-41:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/probes/intro_example.fss:7:5-41:
+/home/user/fortress/experiment/worker/probes/intro_example.fss:7:1-42:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T18:10:55Z render intro_intro.tic
+  output written to intro_intro.svg
+1 of 1 page converted in 0.0531061 seconds
+-rw-r--r-- 1 root root 13084 Sep  8 18:10 intro_intro.png
+-rw-r--r-- 1 root root 35533 Sep  8 18:10 intro_intro.svg
+-------- render exit: 0
+======== 2026-09-08T18:10:56Z render demo_tokenize.tic
+  output written to demo_tokenize.svg
+1 of 1 page converted in 0.05948 seconds
+-rw-r--r-- 1 root root 20364 Sep  8 18:10 demo_tokenize.png
+-rw-r--r-- 1 root root 59984 Sep  8 18:10 demo_tokenize.svg
+-------- render exit: 0
+======== 2026-09-08T18:10:57Z render demo_train.tic
+  output written to demo_train.svg
+1 of 1 page converted in 0.0932989 seconds
+-rw-r--r-- 1 root root 31645 Sep  8 18:10 demo_train.png
+-rw-r--r-- 1 root root 80223 Sep  8 18:10 demo_train.svg
+-------- render exit: 0
+======== 2026-09-08T18:10:58Z render demo_sample.tic
+  output written to demo_sample.svg
+1 of 1 page converted in 0.0929389 seconds
+-rw-r--r-- 1 root root  42413 Sep  8 18:10 demo_sample.png
+-rw-r--r-- 1 root root 107367 Sep  8 18:10 demo_sample.svg
+-------- render exit: 0
+step 4 / 12 | loss 3.0715431047496087 | doc jori
+step 5 / 12 | loss 3.229698108490771 | doc juanluis
+step 6 / 12 | loss 2.9928135804808185 | doc erandi
+step 7 / 12 | loss 3.317915931034672 | doc phia
+step 8 / 12 | loss 3.3164711816144186 | doc samatha
+======== 2026-09-08T18:13:38Z ./bin/fortress experiment/worker/probes/intro_example.fss
+norm(x) = 3.7416573867739413  scale(0.5, x) = <|0.5, 1.0, 1.5|>  angle(x, w) = 0.2257261285527342
+-------- exit: 0
+======== 2026-09-08T18:13:42Z render intro_intro.tic
+  output written to intro_intro.svg
+1 of 1 page converted in 0.058444 seconds
+-rw-r--r-- 1 root root 19655 Sep  8 18:13 intro_intro.png
+-rw-r--r-- 1 root root 42345 Sep  8 18:13 intro_intro.svg
+-------- render exit: 0
+step 9 / 12 | loss 2.9824670037505 | doc phoenix
+step 10 / 12 | loss 3.2459973970516316 | doc emmelynn
+step 11 / 12 | loss 2.928308922810882 | doc hollan

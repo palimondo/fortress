@@ -13,7 +13,7 @@ cat > "$NAME.tex" <<EOF
 \setlength\PreviewBorder{6pt}
 \begin{document}
 \begin{preview}
-\$\displaystyle $MATH\$
+\mbox{$\displaystyle $MATH$}
 \end{preview}
 \end{document}
 EOF

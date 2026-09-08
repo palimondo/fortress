@@ -30,7 +30,7 @@ run(): () = do
   opt = Adam(ps, 0.01, 0.85, 0.99, 0.00000001)
   named = <|[\(String, Mat)\] ("wte", model.E), ("wpe", model.P), ("lm_head", model.W_lm),
              ("attn_wq", layer.W_q), ("attn_wk", layer.W_k), ("attn_wv", layer.W_v), ("attn_wo", layer.W_o),
-             ("mlp_fc1", layer.W1), ("mlp_fc2", layer.W2) |>
+             ("mlp_fc1", layer.W_in), ("mlp_fc2", layer.W_out) |>
   gradsOf(name: String, k: ZZ32): List[\List[\RR64\]\] = case name of
       "wte" => (ref_grad_wte())[k]; "wpe" => (ref_grad_wpe())[k]; "lm_head" => (ref_grad_lm_head())[k]
       "attn_wq" => (ref_grad_layer0_attn_wq())[k]; "attn_wk" => (ref_grad_layer0_attn_wk())[k]

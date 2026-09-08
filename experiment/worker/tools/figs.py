@@ -16,8 +16,9 @@ HEADER = r"""\documentclass{article}
 \begin{preview}
 """
 FOOTER = "\n\\end{preview}\n\\end{document}\n"
-for m in re.finditer(r'\(\* FIG (\w+) \*\)\n(.*?)\n\(\* END FIG \*\)', text, flags=re.S):
+for m in re.finditer(r'\(\* FIG (\w+) \*\)\n(.*?)\n[ \t]*\(\* END FIG \*\)', text, flags=re.S):
     name, body = m.group(1), m.group(2)
+    import textwrap; body = textwrap.dedent(body)
     if only and name not in only: continue
     fname = '%s_%s' % (prefix, name)
     open(os.path.join(FIG, fname + '.tic'), 'w').write(HEADER + '`' + body.rstrip() + '`' + FOOTER)

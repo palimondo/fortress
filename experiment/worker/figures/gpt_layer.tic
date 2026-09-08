@@ -8,7 +8,7 @@
 opr +(X: List[\Vec\], Y: List[\Vec\]): List[\Vec\] = <| X[t] + Y[t] | t <- X.indices |>
 rmsnorm(X: List[\Vec\]): List[\Vec\] = <| rmsnorm(x) | x <- X |>
 
-object Layer(n_head: ZZ32, W_q: Mat, W_k: Mat, W_v: Mat, W_o: Mat, W1: Mat, W2: Mat)
+object Layer(n_head: ZZ32, W_q: Mat, W_k: Mat, W_v: Mat, W_o: Mat, W_in: Mat, W_out: Mat)
   (* causal self-attention over the whole sequence: position t attends to 0..t *)
   attention(X: List[\Vec\]): List[\Vec\] = do
     (Q, K, V) = (Mat(<| W_q x | x <- X |>), Mat(<| W_k x | x <- X |>), Mat(<| W_v x | x <- X |>))
@@ -26,14 +26,14 @@ object Layer(n_head: ZZ32, W_q: Mat, W_k: Mat, W_v: Mat, W_o: Mat, W1: Mat, W2: 
     <| W_o (BIG ||[h <- 0#n_head] (heads[h])[t]) | t <- X.indices |>
   end
 
-  mlp(x: Vec): Vec = W2 relu(W1 x)
+  mlp(x: Vec): Vec = W_out relu(W_in x)
 
   forward(X: List[\Vec\]): List[\Vec\] = do
-    X1 = X + attention(rmsnorm(X))
-    X1 + <| mlp(x) | x <- rmsnorm(X1) |>
+    X' = X + attention(rmsnorm(X))
+    X' + <| mlp(x) | x <- rmsnorm(X') |>
   end
 
-  matrices(): List[\Mat\] = <| W_q, W_k, W_v, W_o, W1, W2 |>
+  matrices(): List[\Mat\] = <| W_q, W_k, W_v, W_o, W_in, W_out |>
 end`
 \end{preview}
 \end{document}

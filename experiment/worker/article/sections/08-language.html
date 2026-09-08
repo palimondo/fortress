@@ -1,0 +1,31 @@
+<h2 id="language">8. What the language gives, what we added, where the mismatches remain</h2>
+<h3>Given by Fortress</h3>
+<ul>
+<li><strong>Operators as library code.</strong> <code>+</code>, juxtaposition, <code>^</code>, <code>DOT</code>, <code>||</code> are ordinary operator declarations (<code>opr</code>), so a user type takes part in arithmetic notation with the same precedence and typesetting as numbers. Juxtaposition being multiplication is what makes <code>W x</code>, <code>alpha V</code>, <code>scale x</code> and <code>n data^(n-1)</code> read as formulas.</li>
+<li><strong>Generators, reductions, comprehensions.</strong> Every collection is a generator; <code>SUM[i &lt;- g] e</code>, <code>BIG MAX</code>, <code>BIG ||</code> and <code>⟨ e | x ← g ⟩</code> desugar into a generator's <code>generate</code> with a reduction object; the same desugaring makes iterations implicitly parallel. Adding a big operator for a new type is a seven-line reduction object plus a two-line operator.</li>
+<li><strong>Traits with default behavior.</strong> <code>DelegatedIndexed</code> gives <code>Vec</code> the whole generator protocol from a handful of delegations; <code>CommutativeMonoidReduction</code> and <code>MonoidReduction</code> supply the reduction plumbing.</li>
+<li><strong>Static sizes and nat arithmetic</strong> exist (<code>Array1⟦T,0,n⟧</code>, <code>d+d</code>) and were used in the first design.</li>
+<li><strong>Fortify.</strong> Subscripts, Greek letters, hats, blackboard types, the big operators with their bindings, fractions for <code>1/data</code>, and √ are all produced from the ASCII source.</li>
+</ul>
+<h3>Added at user level (all shown in the figures above)</h3>
+<ul>
+<li>the autograd <code>Value</code> with 13 operator/method definitions, the <code>node</code> factory, three mixed-operand operators, <code>topo</code>, the id counter;</li>
+<li><code>SumValues</code> + the two ∑ operators, after hiding the library's ∑ with an <code>except</code> import;</li>
+<li><code>Vec</code> (six delegations, six operators), <code>CatVecs</code> + <code>BIG ||</code>, <code>Mat</code> (four subscripts, entries, two juxtapositions), <code>relu</code> on vectors, and two sequence-lifting helpers.</li>
+</ul>
+<p>Line counts of the primary program (non-blank, non-comment): mathematical core — <code>Value</code> operations 27, <code>Vec</code> 20, <code>Mat</code> 9, rmsnorm 5, softmax 6, layer 25, model 9, loss 6, Adam 16, sampler 12; supporting machinery — topological sort 12, ∑ 7, ids/imports/headers 21; smoke test 27. Total 202 lines against the reference's 199 lines of Python, which fold the tokenizer, the training loop and inference into the same file (in Fortress those live in the generated data component and the demo driver).</p>
+
+<h3>Where the notation still departs from the mathematics, and why</h3>
+<div class="tablewrap"><table>
+<tr><th>departure</th><th>class</th><th>evidence</th><th>what was done</th></tr>
+<tr><td>The library's ∑ is nullary and Number-only; a user nullary <code>SUM()</code> is an invalid overload (static parameters must agree)</td><td>language design (nofix big-operator protocol) + library (sealed <code>Number</code>)</td><td>probes 02, 02b, 02c, 04</td><td><code>import … except { opr BIG + }</code> and a user reduction — the spec's sanctioned mechanism</td></tr>
+<tr><td>A subscript followed by <code>^</code> or by another subscript is evaluated with no arguments</td><td>interpreter bug</td><td>probe17; v3 <code>Q[t][cols]</code></td><td>iterate elements (<code>∑<sub>x_i←x</sub> x_i²</code>) or parenthesize <code>(heads_h)[t]</code></td></tr>
+<tr><td><code>T[n]</code>/<code>T[m,n]</code> with a <code>nat</code> parameter do not unify with runtime arrays; <code>T^n</code> denotes the Number-only <code>Vector</code></td><td>interpreter / library gap</td><td>probes 08, 08b</td><td><code>Vec</code>/<code>Mat</code> wrappers (or explicit <code>Array1⟦…⟧</code> in v1)</td></tr>
+<tr><td>Generic types are invariant and literals type as <code>FloatLiteral</code>/<code>IntLiteral</code>: nested comprehensions and data literals need <code>[\T\]</code> annotations</td><td>language design + interpreter typing</td><td>probes 01, 07b; <code>params()</code></td><td>annotations confined to plumbing and generated data</td></tr>
+<tr><td>Objects cannot declare varargs constructors</td><td>language design (spec)</td><td>probe07</td><td><code>node(data, deps...)</code> factory</td></tr>
+<tr><td>nat-generic functions mis-unify on a second instantiation across an API boundary</td><td>interpreter bug</td><td>transcript 17:29 (<code>MicroGPT.fsi</code> attempt)</td><td>checks are composed into one component by <code>tools/build.py</code></td></tr>
+<tr><td>Array comprehensions unsupported; no exponent numerals; <code>f()[i]</code> and a line-final <code>||</code> are syntax errors; all-caps names are operators; <code>value</code>, <code>at</code> are keywords</td><td>interpreter (spec notes) / grammar</td><td>probes 08c, 03; iterations logged in <code>transcript.txt</code></td><td>list comprehensions, <code>0.00001</code>, parentheses, naming</td></tr>
+<tr><td>Fortify typesets <code>x_h[t]</code> as a double subscript (LaTeX error) and <code>opr ^(…)</code> as a superscript unless spaced</td><td>typesetter limitation</td><td><code>figures/*.latex.err</code> in the transcript</td><td>names <code>Qh</code>, <code>E</code>, <code>P</code>; <code>opr ^ (…)</code></td></tr>
+<tr><td>The default 256 MB heap</td><td>packaging</td><td>probe06</td><td><code>JAVA_FLAGS</code> in <code>run.sh</code>; nothing in the historical tree was changed</td></tr>
+</table></div>
+<p>Items that would make the historical system better at this task without changing its design — a revival worklist: (1) a ∑ defined over an additive-monoid trait instead of the sealed <code>Number</code>; (2) unification of <code>T[n]</code>/<code>T^n</code> types with runtime arrays of any element type; (3) the subscript-then-subscript/superscript evaluation bug; (4) API-boundary instantiation of nat-generic functions; (5) inferring the element type of list literals from context; (6) Fortify's handling of subscripted identifiers followed by an index.</p>

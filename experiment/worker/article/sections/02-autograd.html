@@ -1,0 +1,53 @@
+<h2 id="autograd">2. Autograd: a scalar that remembers the chain rule</h2>
+<p>Training needs, for every parameter, the derivative of the loss with respect to it. microgpt gets it by <em>reverse-mode automatic differentiation on scalars</em>: every number in the computation is wrapped in a <code>Value</code> that records which values it was computed from and the local derivative with respect to each. Backpropagation then walks the graph from the loss backwards, applying the chain rule at each node:</p>
+{{math:chain}}
+<p>The local derivatives of the six operations microgpt uses are:</p>
+{{math:localgrads}}
+<p>Here is the reference class, minus the reverse-operand helpers:</p>
+<pre class="py">class Value:
+    def __init__(self, data, children=(), local_grads=()):
+        self.data = data                # scalar value of this node calculated during forward pass
+        self.grad = 0                   # derivative of the loss w.r.t. this node, calculated in backward pass
+        self._children = children       # children of this node in the computation graph
+        self._local_grads = local_grads # local derivative of this node w.r.t. its children
+
+    def __add__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data + other.data, (self, other), (1, 1))
+
+    def __mul__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data * other.data, (self, other), (other.data, self.data))
+
+    def __pow__(self, other): return Value(self.data**other, (self,), (other * self.data**(other-1),))
+    def log(self): return Value(math.log(self.data), (self,), (1/self.data,))
+    def exp(self): return Value(math.exp(self.data), (self,), (math.exp(self.data),))
+    def relu(self): return Value(max(0, self.data), (self,), (float(self.data > 0),))</pre>
+<p>The Fortress version is an <code>object</code> whose <em>operator methods</em> define <code>+</code>, juxtaposition (Fortress's multiplication: <code>a b</code> means <em>a·b</em>), <code>^</code>, and the functions <code>log</code>, <code>exp</code>, <code>relu</code>. Each result is built by <code>node(data, (child, ∂/∂child) …)</code>: the dependencies are <em>pairs</em> of a child and the local derivative with respect to it, which is exactly the information the chain rule consumes. The pairs are a variable-length argument list (<code>deps: (Value, RR64)...</code>) of a small factory function, because Fortress objects cannot declare varargs constructors.</p>
+{{fig:gpt_value}}
+<p>Read <code>opr +(self, b: Value): Value = node(data + b.data, (self, 1), (b, 1))</code> against the first two local derivatives above: the sum's value is <em>data + b.data</em>, and its derivative is 1 with respect to each operand. Multiplication records <em>(self, b.data)</em> and <em>(b, data)</em>; the power records <em>n·data<sup>n−1</sup></em>; <code>log</code> records 1/data. Python's <code>__radd__</code>/<code>__rmul__</code>/<code>__truediv__</code> helpers become overloads that accept a plain <code>RR64</code> on either side; <code>−a</code>, <code>a − b</code> and <code>a / b</code> are derived exactly as in the reference (<code>a·(−1)</code>, <code>a + (−b)</code>, <code>a·b<sup>−1</sup></code>), so the two programs build the same graph.</p>
+<p>The <code>backward</code> method is the chain rule verbatim: set ∂L/∂L = 1, visit the nodes in reverse topological order, and for each dependency <em>(c, d)</em> of a node <em>v</em> accumulate <em>c.grad += d · v.grad</em>. Compare with the reference:</p>
+<pre class="py">    def backward(self):
+        topo = []
+        visited = set()
+        def build_topo(v):
+            if v not in visited:
+                visited.add(v)
+                for child in v._children:
+                    build_topo(child)
+                topo.append(v)
+        build_topo(self)
+        self.grad = 1
+        for v in reversed(topo):
+            for child, local_grad in zip(v._children, v._local_grads):
+                child.grad += local_grad * v.grad</pre>
+<p>The topological sort is the one piece of supporting machinery here. Python keys its <code>visited</code> set by object identity; Fortress's library <code>Set</code> is an ordered set, so every <code>Value</code> gets an integer <code>id</code> from an atomic counter (<code>nextId()</code>), which is what the local function <code>visit</code> records.</p>
+{{fig:gpt_topo}}
+<p>These 40 lines are the whole autograd engine. A first sanity check, taken from the microgpt article (<em>L = a·b + a</em> with a = 2, b = 3 gives ∂L/∂a = 4, ∂L/∂b = 2) and a finite-difference check on <em>exp(ab) + ln b − a²/b</em> agree with the Fortress gradients to 3·10<sup>-10</sup> (the central-difference error; <code>probes/probe11_backward.fss</code>).</p>
+
+<h3>Two other shapes for the same node</h3>
+<p>Before settling on pairs, two other representations were built and run. The Python shape — two parallel lists, children and local gradients — works, but Fortress list literals infer the element type from the literals (<code>&lt;|1, 1|&gt;</code> is a list of integer literals, not of <code>RR64</code>), so every literal needs a static-argument annotation, and the backward pass needs an explicit <code>zip</code>:</p>
+{{fig:alt_autograd_lists}}
+<p>The original micrograd shape — each node owns a closure that pushes its gradient to its children — also works, and is the most “object-oriented”, but the derivative is buried in imperative code and a function-valued field must be called as <code>(v.propagate)()</code>:</p>
+{{fig:alt_autograd_closure}}
+<p>The pairs form was chosen because it makes the two ingredients of the chain rule — <em>which</em> child and <em>what</em> local derivative — the literal arguments of every operation, and because it typesets without noise.</p>

@@ -1,0 +1,24 @@
+<h2 id="alternatives">9. Alternatives explored, and why this form</h2>
+<p>Three complete, verified programs were written before choosing; each passes the same 52 checks against the reference. They differ in how vectors are typed, how the matrix–vector product is written, and whether the model carries state.</p>
+<div class="tablewrap"><table>
+<tr><th></th><th>v1 — arrays and indices</th><th>v2 — Vec/Mat, one token at a time</th><th>v3 — Vec/Mat, whole sequence (primary)</th></tr>
+<tr><td>vector type</td><td><code>Indexed⟦Value,ℤ32⟧</code> parameters, <code>List</code> results</td><td><code>Vec</code></td><td><code>Vec</code></td></tr>
+<tr><td>weights</td><td><code>Array2⟦Value,0,m,0,n⟧</code> with <code>nat</code> parameters</td><td><code>Mat</code> (rows)</td><td><code>Mat</code> (rows)</td></tr>
+<tr><td><em>W x</em></td><td><code>⟨ ∑<sub>j←0#n</sub> W<sub>i,j</sub> x<sub>j</sub> | i ← 0#m ⟩</code></td><td><code>⟨ w·x | w ← W.rows ⟩</code></td><td>same</td></tr>
+<tr><td>attention</td><td>per component, <code>⟨ ∑<sub>t</sub> α<sub>t</sub> (v<sub>t</sub>)<sub>j</sub> | j ⟩</code></td><td><code>softmax((K<sub>cols</sub> q<sub>cols</sub>)/√d<sub>h</sub>)</code>, <code>α V<sub>cols</sub></code></td><td><code>softmax((Kh<sub>0:t</sub> Qh<sub>t</sub>)/√d<sub>h</sub>)</code>, <code>α Vh<sub>0:t</sub></code></td></tr>
+<tr><td>state</td><td>KV cache</td><td>KV cache</td><td>none; positions are a comprehension</td></tr>
+<tr><td>source</td><td><code>src/alt/v1_MicroGPT.fss</code></td><td><code>src/alt/v2_kvcache_MicroGPT.fss</code></td><td><code>src/MicroGPT.fss</code></td></tr>
+</table></div>
+<p>The array design (v1) is closest to Fortress's own library idiom — sizes in types, indices under the ∑ — and its formulas typeset well, but the interpreter does not accept the abbreviated <code>Value[n]</code> types, so every signature spells <code>Indexed⟦Value,ℤ32⟧</code> or <code>Array2⟦Value,0,m,0,n⟧</code>, and its attention had to be written per component because a sliced array is no longer a sized array. Its layer:</p>
+{{svgw:v1_layer}}
+<p>Moving to <code>Vec</code>/<code>Mat</code> (v2) is what made <code>softmax(K q/√d) V</code> expressible. Turning the token loop into a sequence function (v3) removed the mutable cache and made positions independent iterations; it also shortened the loss to a single call. The remaining visible seams in v3 are: <code>Mat(⟨ W_q x | x ← X ⟩)</code> where a paper writes <em>XW<sub>q</sub><sup>⊤</sup></em> (a matrix–matrix product was not needed anywhere else, so none was defined); <code>.cols(c)</code> for head selection; the parenthesized <code>(heads<sub>h</sub>)[t]</code> forced by the interpreter bug; and the <code>BIG ‖</code> spelling of head concatenation.</p>
+
+<h3>Autograd representations</h3>
+<p>Pairs (chosen), parallel lists (Python's shape) and closures (micrograd's original) are compared in section 2; all three run. The pairs form is the only one whose operator definitions carry no static-argument annotations.</p>
+
+<h3>One ∑ for scalars and vectors</h3>
+<p>A single reduction over an <code>Additive</code> trait with an explicit <code>Zero</code> lets the same ∑ sum <code>Value</code>s and <code>Vec</code>s, so the head output could be written <em>∑<sub>t</sub> α<sub>t</sub> v<sub>t</sub></em> instead of <code>alpha V</code>. It runs correctly (the interpreter checks types at run time), but the static result type is <code>Additive</code>; the specification's overloading rules leave no way to give the nullary ∑ a result type that depends on the body. This is the one place where a genuinely nicer notation was declined for typing honesty.</p>
+{{svgw:alt_unified_sum}}
+
+<h3>What “canonical” means here</h3>
+<p>The chosen form is canonical in the sense that every operation of the model is written with the operator or big operator the mathematics uses, on types that name the mathematical object (<code>Value</code>, <code>Vec</code>, <code>Mat</code>), with no annotations in the model's definitions, and that the same definitions execute and reproduce the reference bit-for-bit up to summation order. It is not unique: the array form is equally correct and arguably more idiomatic for Fortress's numeric library; it was set aside because of interpreter gaps, not because of the language.</p>

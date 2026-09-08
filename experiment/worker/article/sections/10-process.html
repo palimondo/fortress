@@ -1,0 +1,20 @@
+<h2 id="process">10. Reproducing everything</h2>
+<p>All files live under <code>experiment/worker/</code> of the repository; the interpreter is the historical Fortress tree, unmodified.</p>
+<pre>source experiment/env.sh                                   # Java 25, single-thread interpreter
+experiment/worker/run.sh experiment/worker/src/MicroGPT.fss # smoke test with random weights (~35 s)
+python3 experiment/worker/tools/derive_checks.py 2 3         # needs reference/microgpt.py + input.txt (not committed)
+python3 experiment/worker/tools/gen_data.py                  # -> src/MicroGPTData.{fsi,fss} (committed)
+python3 experiment/worker/tools/build.py                     # -> build/Check.fss
+cp experiment/worker/src/MicroGPTData.* experiment/worker/build/
+experiment/worker/run.sh experiment/worker/build/Check.fss  # 52 checks, ~2 min
+python3 experiment/worker/tools/build.py experiment/worker/src/MicroGPT.fss train_main.part Train
+experiment/worker/run.sh experiment/worker/build/Train.fss  # bounded training demo, ~15 min
+python3 experiment/worker/tools/figs.py experiment/worker/src/MicroGPT.fss gpt   # typeset the figures
+python3 experiment/worker/tools/build_article.py            # this page</pre>
+<ul>
+<li><code>notes/01-orientation.md</code> — the checkout survey and every probe's finding with evidence; <code>notes/02-v1-verified.md</code>, <code>notes/03-design.md</code>, <code>notes/gaps.md</code> — milestone notes (attempt, observation, decision, uncertainty) and the classified gap list.</li>
+<li><code>probes/</code> — 40 small runnable programs, failures included; <code>transcript.txt</code> — every interpreter and typesetting invocation with its output.</li>
+<li><code>checks/checks_2steps.json</code> — the reference-derived data; <code>checks/check_run_v{1,2,3}_output.txt</code>, <code>checks/train_demo_output.txt</code> — run outputs.</li>
+<li><code>figures/*.tic</code>, <code>*.svg</code> — figure sources and renderings; <code>article/sections/*.html</code> and <code>article/math_table.py</code> — this article's sources.</li>
+</ul>
+<p class="small">The reference Python and dataset are not committed (their licenses are unstated); they are fetched from the pinned URLs by the commands in <code>notes/01-orientation.md</code>. Fortress and Fortify are Sun Microsystems / Oracle work under their own license in the repository root.</p>

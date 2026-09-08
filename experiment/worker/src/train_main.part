@@ -3,10 +3,12 @@
 
 toMat(rows: List[\List[\RR64\]\]): Mat = Mat(<| Vec(<| node(x) | x <- row |>) | row <- rows |>)
 
+(* FIG tokenize *)
 tokenize(doc: String): List[\ZZ32\] = do
-  ids = <|[\ZZ32\] ref_uchars.indexOf(ch).get | ch <- doc |>
+  ids = <|[\ZZ32\] (if i <- ref_uchars.indexOf(ch) then i else 0 end) | ch <- doc |>
   (<|[\ZZ32\] ref_bos |> || ids).addRight(ref_bos)
 end
+(* END FIG *)
 
 run(): () = do
   layer = Layer(ref_n_head, toMat(ref_init_layer0_attn_wq()), toMat(ref_init_layer0_attn_wk()),
@@ -17,6 +19,7 @@ run(): () = do
   docs = ref_docs_head()
   num_steps = 12
   recordTime(0)
+  (* FIG train *)
   for step <- seq(0#num_steps) do
     tokens = tokenize(docs[step MOD |docs|])
     L = loss(model, tokens.take(ref_block_size + 1))
@@ -24,8 +27,10 @@ run(): () = do
     opt.step(0.01 (1 - step / num_steps))   (* linear learning-rate decay, as in the reference *)
     println("step " (step + 1) " / " num_steps " | loss " L.data " | doc " docs[step MOD |docs|])
   end
+  (* END FIG *)
   printTime(0)
   println("--- inference (new, hallucinated names) ---")
+  (* FIG sample *)
   for s <- seq(0#4) do
     var prefix: List[\ZZ32\] := <|[\ZZ32\] ref_bos |>
     var text: String := ""
@@ -41,5 +46,6 @@ run(): () = do
     end done
     println("sample " (s + 1) ": " text)
   end
+  (* END FIG *)
   println("nodes created: " nodeCount)
 end
