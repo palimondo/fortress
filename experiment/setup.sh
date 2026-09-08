@@ -11,7 +11,7 @@ STAGE_TIMEOUT="${STAGE_TIMEOUT:-900}"
 TB_BRANCH="${TRANSCRIPTS_BRANCH:-transcripts-blinded}"
 TB_DIR="${TRANSCRIPTS_DIR:-/home/user/fortress-transcripts-blinded}"
 SETTINGS="${CLAUDE_SETTINGS:-$HOME/.claude/settings.json}"
-PKGS="openjdk-25-jdk-headless ant texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-science texlive-lang-greek texlive-pictures texlive-plain-generic dvisvgm"
+PKGS="openjdk-25-jdk-headless ant texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-science texlive-lang-greek texlive-pictures texlive-plain-generic dvisvgm emacs-nox"
 : > "$LOG"
 log(){ printf '[%s] %s\n' "$(date -u +%H:%M:%S)" "$*" | tee -a "$LOG"; }
 FAILED=0; SUMMARY=()
