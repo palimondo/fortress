@@ -25,7 +25,7 @@ Fortress's type system (symmetric multiple dispatch, reified generics, multiple 
 
 0.2 **Benchmark harness.** microGPT forward, backward and one Adam step at the reference size, plus the two scalar benchmarks from the compiled-path report, timed on interpreter, compiler and CPython, recorded in the tree. Every later step reports against this table.
 
-0.3 **Type-system stress map.** Which specified features were retracted or restricted between the frozen 1.0 spec and the later one, which have no implementation and no test, and which require run-time type information of generic instantiations to specialize. Sources: `Papers/Dispatch`, `Papers/RuntimeInstantiation`, `Papers/Welterweight`, the not-working test directories, `explorations/fortress-gap-ledger.md`. No backend rescues an unchecked ambiguity.
+0.3 **Type-system stress map.** Which specified features were retracted or restricted between the frozen 1.0 spec and the later one, which have no implementation and no test, and which require run-time type information of generic instantiations to specialize. Sources: `Papers/Dispatch`, `Papers/RuntimeInstantiation`, `Papers/Welterweight`, the not-working test directories, `explorations/fortress-gap-ledger.md`. No backend rescues an unchecked ambiguity. Record separately every `comprises` clause in the prelude: each is closed-world information the 2012 compiler never used for dispatch.
 
 ## Route A: the compiler, taking what Scala took
 
@@ -37,7 +37,7 @@ A2 **Specialized arrays.** `Array1[\RR64,…\]` backed by `double[]`, selected f
 
 A3 **Static overload resolution.** Where the checker decides the overload, emit a direct call; the JIT inlines it. Scala does this for every call.
 
-A4 **Dynamic dispatch through `invokedynamic`.** For the calls the static types do not decide, an inline-cached call site over run-time type tags replaces the 2012 static dispatch tables. This is the one piece Scala never needed and the piece that ate the 2012 team; `invokedynamic` (JDK 7) and default methods on interfaces (JDK 8) arrived after their design was fixed.
+A4 **Dynamic dispatch through `invokedynamic`.** For the calls the static types do not decide, an inline-cached call site over run-time type tags replaces the 2012 generated type-test chains. Behind the call site, one generic run-time dispatcher per operator, on the pattern of Clojure's `MultiFn` (a method table, a best-match search over the subtype relation, a cache keyed by the tuple of argument types, invalidated when a component links in new overloads), with the match relation upgraded to Fortress's type lattice and the call-time ambiguity check dropped because the checker excludes ambiguity statically. This is the one piece Scala never needed and the piece that ate the 2012 team; `invokedynamic` (JDK 7) and default methods on interfaces (JDK 8) arrived after their design was fixed. Where a trait is sealed by `comprises`, the overload set is closed and the dispatcher can be compiled to a direct call or a fixed decision tree (Dylan's sealing, Vortex's class hierarchy analysis).
 
 A5 **Loop lowering.** Recognize a generator over a known range and a known monoid reduction, and emit a sequential counted loop; fork-join only above a size threshold, with the reduction's declared algebra licensing the split. Scala's closure inliner and Java's parallel-stream splitting are the worked examples. This is where bounds-check elimination and SIMD then come free from HotSpot.
 
@@ -64,6 +64,30 @@ B5 **Whole-language coverage**, then retire the 2012 evaluator.
 The static checker is not strictly required for Truffle, which specializes on observed run-time types, but it makes first guesses right, keeps guards cheap, and is the only way the interpreter becomes spec-conforming. Phase 0.1 is therefore on the critical path for B as well.
 
 Caveat carried from the backend notes: Truffle wants Graal; the JVM Vector API is intrinsified most reliably by the stock C2 compiler. Within-core SIMD is the one line where Route A on stock HotSpot may hold an advantage. To be re-verified against current releases when reached.
+
+## Reference implementations, by step
+
+Each technique in the routes has a worked example to read before implementing. None of the code should be copied; Clojure in particular is under the Eclipse Public License and this tree is BSD.
+
+- **A1, unboxing by static type.** Scala's treatment of `Double`: object in the language, primitive in the bytecode wherever the static type is known, boxed only at generic boundaries. SBCL shows the same from declared types inside a dynamic language.
+
+- **A2, specialized arrays and reified generics.** Scala's `Array[Double]` chosen through a class tag. The .NET runtime is the existence proof that a JIT VM can hold reified generics with value-type instantiations specialized and reference-type instantiations shared, since 2005; Project Valhalla is the JVM's version of the same and its status must be checked per release. Kotlin's inline functions with reified type parameters are the cheap trick for small generic helpers. Rust monomorphization is the whole-program alternative; Swift's witness tables (type metadata plus per-trait implementation tables passed at run time, one compiled copy of generic code, hot paths specialized by the optimizer) are the separate-compilation alternative that fits the component/API design, and Fortress's run-time type objects in `compiler/runtimeValues/` are half of one already. Zig's compile-time evaluation of types as values is the model for `nat` parameters and size-indexed arrays.
+
+- **A3, static overload resolution.** Every statically typed JVM language; the checker already computes the answer.
+
+- **A4, dynamic multimethod dispatch.** Clojure's `clojure.lang.MultiFn` for the dispatcher shape; C#'s `dynamic` on the Dynamic Language Runtime for call-site binders with polymorphic inline caches (built 2008 to 2010, the same design as `invokedynamic`); Julia's per-call-signature method cache for the specialize-once-per-type-tuple discipline; Chambers's Cecil/Vortex work for class hierarchy analysis and compiled dispatch trees; Dylan's sealing for turning closed overload sets into static calls, which Fortress's `comprises` already expresses.
+
+- **A5, loop lowering.** Scala's `for` desugars to `foreach`/`map`/`flatMap` with a closure per body, exactly as Fortress desugars to `generate`; Scala pays for it with HotSpot inlining of monomorphic closure sites, the Scala 2.12 optimizer's closure inliner, Scala 3 `inline`, and specialized function types. Scala's parallel collections and Java's parallel streams are the cautionary examples for the fork-join side: split only above a size threshold, sequential loop inside each chunk. Fortress adds what neither has, the reduction's declared algebra licensing the split.
+
+- **Route B.** TruffleRuby, GraalPy and Espresso as the reference interpreters; PyPy's meta-tracing as the one genuine sibling of the derive-the-JIT approach.
+
+## Corrections recorded on the way
+
+- The runtime-instantiation notes under `Papers/RuntimeInstantiation` are about when a generic function's type parameters may be instantiated at run time under the return-type rule, a soundness question; they are not an optimization plan. Boxing and unspecialized generics were not on the 2012 team's worklist at all.
+
+- The emitted classfiles stay at version 1.6 because the load-time rewriting pipeline drops stack-map frames and the JVM's bytecode verifier may fall back to type inference only at that version; execution is unaffected. The verifier checks JVM types, never Fortress types, which do not survive into the classfile.
+
+- Fortress is a small language in surface (loops, numbers, arrays and big operators are library) and a large one in kernel (the type rules that make library extension checkable). The cost of the small surface is that the compiler no longer knows what a loop is; A5 is the repair.
 
 ## Both routes, or one?
 
