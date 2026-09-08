@@ -1,0 +1,29 @@
+component probe02d_bigsigma
+import List.{...}
+export Executable
+
+(* Variant: a differently named big operator, BIG SIGMA, for the user type. *)
+object V(x: RR64)
+  opr +(self, other: V): V = V(x + other.x)
+  opr juxtaposition(self, other: V): V = V(x other.x)
+end
+
+object VSum extends CommutativeMonoidReduction[\V\]
+  getter asString(): String = "VSum"
+  empty(): V = V(0.0)
+  join(a: V, b: V): V = a + b
+end
+
+opr BIG SIGMA(): BigReduction[\V,V\] = BigReduction[\V,V\](VSum)
+opr BIG SIGMA(g: Generator[\V\]): V = g.generate[\V\](VSum, fn (v: V) => v)
+
+run(): () = do
+  xs = <|V(1.0), V(2.0), V(3.5)|>
+  s1 = BIG SIGMA xs
+  println("BIG SIGMA xs = " s1.x " (expect 6.5)")
+  s2 = BIG SIGMA[v <- xs] v v
+  println("BIG SIGMA[v<-xs] v v = " s2.x " (expect 17.25)")
+  s3 = BIG SIGMA[i <- 0#4] V(i)
+  println("BIG SIGMA[i<-0#4] V(i) = " s3.x " (expect 6)")
+end
+end

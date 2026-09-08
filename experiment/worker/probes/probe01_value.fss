@@ -1,0 +1,47 @@
+component probe01_value
+import List.{...}
+export Executable
+
+(* First probe: an autodiff scalar as a user object with operator methods,
+   mutable fields, lists of children, and transcendental functions. *)
+object Value(var data: RR64, children: List[\Value\], localGrads: List[\RR64\])
+  var grad: RR64 := 0.0
+  opr +(self, other: Value): Value =
+    Value(data + other.data, <|[\Value\] self, other|>, <|[\RR64\] 1.0, 1.0|>)
+  opr juxtaposition(self, other: Value): Value =
+    Value(data other.data, <|[\Value\] self, other|>, <|[\RR64\] other.data, data|>)
+  opr -(self): Value = Value(-data, <|[\Value\] self|>, <|[\RR64\] -1.0|>)
+  exp(self): Value = Value(exp(data), <|[\Value\] self|>, <|[\RR64\] exp(data)|>)
+  log(self): Value = Value(log(data), <|[\Value\] self|>, <|[\RR64\] 1.0/data|>)
+  opr ^(self, n: RR64): Value = Value(data^n, <|[\Value\] self|>, <|[\RR64\] n data^(n-1)|>)
+end
+
+val(x: RR64): Value = Value(x, <|[\Value\] |>, <|[\RR64\] |>)
+
+run(): () = do
+  a = val(2.0)
+  b = val(3.0)
+  c = a b
+  L = c + a
+  println("L.data = " L.data)
+  println("children of L: " |L.children|)
+  (* manual backward for this tiny graph *)
+  L.grad := 1.0
+  for (ch, lg) <- L.children.zip[\RR64\](L.localGrads) do
+    ch.grad += lg L.grad
+  end
+  for (ch, lg) <- c.children.zip[\RR64\](c.localGrads) do
+    ch.grad += lg c.grad
+  end
+  println("a.grad = " a.grad " (expect 4)")
+  println("b.grad = " b.grad " (expect 2)")
+  e = exp(a)
+  println("exp(a).data = " e.data)
+  g = log(b)
+  println("log(b).data = " g.data)
+  h = a^(-0.5)
+  println("a^(-0.5) = " h.data " local grad " h.localGrads[0])
+  m = -a
+  println("(-a).data = " m.data)
+end
+end

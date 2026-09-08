@@ -1,0 +1,367 @@
+======== 2026-09-08T16:57:00Z ./bin/fortress ProjectFortress/hello.fss
+/home/user/fortress/Library/CompilerSystem.fsi:15:8-18:
+    StringVector is undefined.
+Internally generated library name, in source code NamingCzar.:0:0:
+    FortressBuiltin.JavaString is undefined.
+Internally generated library name, in source code NamingCzar.:0:0:
+    FortressBuiltin.StringVector is undefined.
+-------- exit: 255
+======== 2026-09-08T17:00:02Z ./bin/fortress experiment/worker/probes/probe01_value.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe01_value.fss:12:5-64:
+Unification error: Closure/Constructor for Value param 3 ($localGrads:List[\RR64\]) got arg ArrayList[\FloatLiteral\] of type ArrayList[\FloatLiteral\]
+Context:
+/home/user/fortress/experiment/worker/probes/probe01_value.fss:12:5-64:
+/home/user/fortress/experiment/worker/probes/probe01_value.fss:24:7-9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:00:06Z ./bin/fortress experiment/worker/probes/probe02_sum.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85: and
+/home/user/fortress/experiment/worker/probes/probe02_sum.fss:20:1-59:
+Overloading of BIG +[\T extends FortressLibrary.Number\]():Comprehension[\T,FortressLibrary.Number,FortressLibrary.Number,FortressLibrary.Number\]/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85 and BIG +():BigReduction[\V,V\] ()->BigReduction[\V,V\] /home/user/fortress/experiment/worker/probes/probe02_sum.fss:20:1-59 fails because their parameter lists have the same types
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85:
+/home/user/fortress/experiment/worker/probes/probe02_sum.fss:24:8-9:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:00:09Z ./bin/fortress experiment/worker/probes/probe03_numeric.fss
+null/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:13:11-26:
+    Resolution of operator property failed for:
+    /home/user/fortress/experiment/worker/probes/probe03_numeric.fss:13.11: Precedence mismatch: juxtaposition and -.
+  RealExpr: expr = StringLiteralExpr at /home/user/fortress/experiment/worker/probes/probe03_numeric.fss:13.11
+  RealExpr: expr = 0
+  TightInfix: op = -
+  RealExpr: expr = 5
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:13:21-23:
+    Syntax Error: a numeral contains letters and does not have a radix specifier.
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:27:13-18:
+    Syntax Error: a numeral contains letters and does not have a radix specifier.
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:29:20-22:
+    Syntax Error: a numeral contains letters and does not have a radix specifier.
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:29:20-36:
+    Resolution of operator property failed for:
+    /home/user/fortress/experiment/worker/probes/probe03_numeric.fss:29.25: Precedence mismatch: - and juxtaposition.
+  RealExpr: expr = 0
+  TightInfix: op = -
+  RealExpr: expr = 300
+  RealExpr: expr = 0
+  TightInfix: op = -
+  RealExpr: expr = 300
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:29:29-31:
+    Syntax Error: a numeral contains letters and does not have a radix specifier.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:01:05Z ./bin/fortress experiment/worker/probes/probe01_value.fss
+L.data = 8.0
+children of L: 2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe01_value.fss:30:19-44:
+Unification error: Closure/Constructor for zip param 1 (g:ZeroIndexed[\F@/home/user/fortress/Library/List.fss:251:1-477:2\]) got arg ArrayList[\RR64\] of type ArrayList[\RR64\]
+Context:
+/home/user/fortress/experiment/worker/probes/probe01_value.fss:30:19-44:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:01:09Z ./bin/fortress experiment/worker/probes/probe02b_sum.fss
+SUM xs = 6.5 (expect 6.5)
+SUM <| v v | v <- xs |> = 17.25 (expect 17.25)
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/Library/FortressLibrary.fss:1120:25-34:
+/home/user/fortress/experiment/worker/probes/probe02b_sum.fss:25:21-23:
+/home/user/fortress/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/probes/probe02b_sum.fss:25:12-17:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/probes/probe02b_sum.fss:25:8-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:01:11Z ./bin/fortress experiment/worker/probes/probe03_numeric.fss
+x^(-0.5) = 0.7071067811865476
+x^0.5 = 1.4142135623730951
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/experiment/worker/probes/probe03_numeric.fss:8:23-25:
+** bug! Expect all oprefs to be top level SQRT
+Context:
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:8:23-25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:01:54Z ./bin/fortress experiment/worker/probes/probe01_value.fss
+L.data = 8.0
+children of L: 2
+a.grad = 4.0 (expect 4)
+b.grad = 2.0 (expect 2)
+exp(a).data = 7.38905609893065
+log(b).data = 1.0986122886681098
+a^(-0.5) = 0.7071067811865476 local grad -0.1767766952966369
+(-a).data = -2.0
+-------- exit: 0
+======== 2026-09-08T17:01:57Z ./bin/fortress experiment/worker/probes/probe02c_sumstatic.fss
+SUM[v<-xs] v v = 17.25 (expect 17.25)
+-------- exit: 0
+======== 2026-09-08T17:02:01Z ./bin/fortress experiment/worker/probes/probe02d_bigsigma.fss
+BIG SIGMA xs = 6.5 (expect 6.5)
+BIG SIGMA[v<-xs] v v = 17.25 (expect 17.25)
+BIG SIGMA[i<-0#4] V(i) = 6 (expect 6)
+-------- exit: 0
+======== 2026-09-08T17:02:04Z ./bin/fortress experiment/worker/probes/probe03_numeric.fss
+x^(-0.5) = 0.7071067811865476
+x^0.5 = 1.4142135623730951
+SQRT x = 1.4142135623730951
+exp 1 = 2.718281828459045
+log 10 = 2.302585092994046
+1/3 = 0.3333333333333333
+0.1+0.2 = 0.30000000000000004
+1e-5 = 0.00001
+MAX = 7.5
+|-2.5| = 2.5
+0.0 > -1 ? true
+y = 2.5
+z = 1.0
+int division 16/4 = 4 head_dim 
+16 DIV 4 = 4
+floating from int 4.0
+random(1.0) = 0.5635788824576127
+big Infinity
+tiny 0.0
+-------- exit: 0
+======== 2026-09-08T17:03:23Z ./bin/fortress experiment/worker/probes/probe04_arrays.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85: and
+/home/user/fortress/experiment/worker/probes/probe04_arrays.fss:15:1-73:
+Overloading of BIG +[\T extends FortressLibrary.Number\]():Comprehension[\T,FortressLibrary.Number,FortressLibrary.Number,FortressLibrary.Number\]/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85 and BIG +[\T extends V\]():BigReduction[\V,V\]/home/user/fortress/experiment/worker/probes/probe04_arrays.fss:15:1-73 fails because their parameter lists have the same types
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85:
+/home/user/fortress/experiment/worker/probes/probe04_arrays.fss:35:7-8:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:03:25Z ./bin/fortress experiment/worker/probes/probe05_graph.fss
+topo size = 4 (expect 4)
+ids in order: <|1, 2, 3, 4|>
+reversed: <|4, 3, 2, 1|>
+acc = 15.0 (expect 15)
+f(3) = 9.0
+i = 3
+found = 4 (expect 4)
+-------- exit: 0
+======== 2026-09-08T17:03:30Z ./bin/fortress experiment/worker/probes/probe06_speed.fss
+null/home/user/fortress/experiment/worker/probes/probe06_speed.fss:34:23:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:04:24Z ./bin/fortress experiment/worker/probes/probe04_arrays.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe04_arrays.fss:28:7-17:
+Unification error: /home/user/fortress/experiment/worker/probes/probe04_arrays.fss:19:27-31:
+Cannot unify __DefaultArray2[\V,0,2,0,3\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with ArrayType at /home/user/fortress/experiment/worker/probes/probe04_arrays.fss:19.27(class com.sun.fortress.nodes.ArrayType) abm=()
+Context:
+/home/user/fortress/experiment/worker/probes/probe04_arrays.fss:28:7-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:04:26Z ./bin/fortress experiment/worker/probes/probe02e_except.fss
+/home/user/fortress/experiment/worker/probes/probe02e_except.fss:2:42:
+    Syntax Error
+-------- exit: 255
+======== 2026-09-08T17:04:28Z ./bin/fortress experiment/worker/probes/probe06_speed.fss
+null/home/user/fortress/experiment/worker/probes/probe06_speed.fss:35:23:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:05:55Z ./bin/fortress experiment/worker/probes/probe04b_array2.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe04b_array2.fss:26:7-17:
+Unification error: /home/user/fortress/experiment/worker/probes/probe04b_array2.fss:17:51-53:
+Cannot unify PrimitiveArray[\V,3\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with ArrayType at /home/user/fortress/experiment/worker/probes/probe04b_array2.fss:17.51(class com.sun.fortress.nodes.ArrayType) abm=m=(2,Any) n=(3,Any)
+Context:
+/home/user/fortress/experiment/worker/probes/probe04b_array2.fss:26:7-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:05:57Z ./bin/fortress experiment/worker/probes/probe04c_arraylit.fss
+w[1,0] = 3.0 (expect 3)
+-------- exit: 0
+======== 2026-09-08T17:06:00Z ./bin/fortress experiment/worker/probes/probe02f_except.fss
+/home/user/fortress/experiment/worker/probes/probe02f_except.fss:2:42:
+    Syntax Error
+-------- exit: 255
+======== 2026-09-08T17:06:02Z ./bin/fortress experiment/worker/probes/probe06_speed.fss
+null/home/user/fortress/experiment/worker/probes/probe06_speed.fss:35:23:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:07:12Z ./bin/fortress experiment/worker/probes/probe04d_array1.fss
+y[0] = 3.0 (expect 3)
+y[1] = 7.5 (expect 7.5)
+x DOT x = 14.0 (expect 14)
+|x| = 3  |w| = 6
+z[2] = 9.0 (expect 9)
+SUM[v<-x] v = 6.0 (expect 6)
+w[0,0] = 0.5
+|x[0:1]| = 2
+x[1:2][0] = 2.0 (expect 2)
+-------- exit: 0
+======== 2026-09-08T17:07:26Z render fig00_probe.tic
+Process with
+  TEXINPUTS=".:/home/user/fortress/Fortify:" latex "fig00_probe.tex"
+or (for pdf output) 
+  TEXINPUTS=".:/home/user/fortress/Fortify:" pdflatex "fig00_probe.tex"
+  output written to fig00_probe.svg
+1 of 1 page converted in 0.120805 seconds
+-rw-r--r-- 1 root root  83686 Sep  8 17:07 fig00_probe.png
+-rw-r--r-- 1 root root 145763 Sep  8 17:07 fig00_probe.svg
+-------- render exit: 0
+======== 2026-09-08T17:07:48Z ./bin/fortress experiment/worker/probes/probe06_speed.fss
+Operation took 20157ms
+acc = 40.00000000000292
+expect about 40.0
+Exception in thread "main" java.lang.OutOfMemoryError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at com.sun.fortress.interpreter.Driver.runProgram(Driver.java:562)
+	at com.sun.fortress.Shell.eval(Shell.java:621)
+	at com.sun.fortress.Shell.walk(Shell.java:1125)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+Caused by: java.lang.OutOfMemoryError: Java heap space
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprListParallel(Evaluator.java:347)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxtCommon(Evaluator.java:671)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:652)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.tasks.TupleTask.compute(TupleTask.java:38)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinTask.invokeAll(ForkJoinTask.java:807)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprListParallel(Evaluator.java:351)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forOpExpr(Evaluator.java:846)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forOpExpr(Evaluator.java:44)
+	at com.sun.fortress.nodes.OpExpr.accept(OpExpr.java:55)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forAssignment(Evaluator.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forAssignment(Evaluator.java:44)
+	at com.sun.fortress.nodes.Assignment.accept(Assignment.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+-------- exit: 1

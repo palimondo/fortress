@@ -1,0 +1,31 @@
+component probe03_numeric
+export Executable
+
+run(): () = do
+  x: RR64 = 2.0
+  println("x^(-0.5) = " x^(-0.5))
+  println("x^0.5 = " x^0.5)
+  println("SQRT x = " (SQRT x))
+  println("exp 1 = " exp(1.0))
+  println("log 10 = " log(10.0))
+  println("1/3 = " 1.0/3.0)
+  println("0.1+0.2 = " (0.1 + 0.2))
+  println("1e-5 = " 0.00001)
+  println("MAX = " (3.0 MAX 7.5))
+  println("|-2.5| = " |(-2.5)|)
+  println("0.0 > -1 ? " (0.0 > -1.0))
+  y: RR64 = 3.0
+  y -= 0.5
+  println("y = " y)
+  z = if x > 1.0 then 1.0 else 0.0 end
+  println("z = " z)
+  println("int division 16/4 = " (16/4) " head_dim ")
+  h: ZZ32 = 16 DIV 4
+  println("16 DIV 4 = " h)
+  println("floating from int " (h 1.0))
+  println("random(1.0) = " random(1.0))
+  w: RR64 = 10.0^300
+  println("big " (w w))
+  println("tiny " ((10.0^(-300)) (10.0^(-300))))
+end
+end
