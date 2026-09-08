@@ -1,0 +1,670 @@
+=== g01: chained subscript ===
+baseline (r)[1] = 2.0
+bound then index q[1] = 2.0
+parenthesized (rows[0])[1] = 2.0
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/gap-ledger-probes/g01.fss:20:40-45:
+Failed to find any matching overload, args = (), overload = {
+	_[_](i:FortressLibrary.ZZ32):T ZZ32->Row /home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:19:3-30
+	_[_](_:FortressLibrary.TrivialOpenRange):Array1[\T,0,s0\]/home/user/fortress/Library/FortressLibrary.fss:2114:5-2119:63
+	_[_](r:Range[\FortressLibrary.ZZ32\]):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/Library/FortressLibrary.fss:2107:5-2113:8}:OverloadedMethod
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/g01.fss:20:40-45:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+=== g02: MathPrimary subscript drops first argument ===
+parenthesized (m[3,7])   = 1037
+parenthesized (m[7])     = 107
+MathPrimary  m[3,7]^2    = 11449
+expected if first arg dropped: (m[7])^2 = 11449
+
+=== g03: call-then-subscript f()[i] ===
+(mk())[2] = 102
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/gap-ledger-probes/g03.fss:10:29:
+Syntax Error: the argument should not be immediately followed by a non-expression element.
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/g03.fss:10:29:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+=== spec-probes/p16_covar.fss ===
+/home/user/fortress/explorations/spec-probes/p16_covar.fss:6:27:
+    T is undefined.
+/home/user/fortress/explorations/spec-probes/p16_covar.fss:6:49:
+    T is undefined.
+
+=== spec-probes/p15_coertc.fss ===
+f got W
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/spec-probes/p15_coertc.fss:14:11-13:
+Unification error: Closure/Constructor for f param 1 (u:U) got arg 3: ZZ32 of type Int
+Context:
+/home/user/fortress/explorations/spec-probes/p15_coertc.fss:14:11-13:
+toplevel:
+
+
+=== spec-probes/p11_bigspec.fss ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/spec-probes/p11_bigspec.fss:22:28-48:
+Unification error: Closure/Constructor for BIG OTIMES param 1 (g:(Reduction[\List[\V\]\],V->List[\V\])->List[\V\]) got arg (): () of type ()
+Context:
+/home/user/fortress/explorations/spec-probes/p11_bigspec.fss:22:28-48:
+toplevel:
+
+
+=== spec-probes/p13_multifix2.fss ===
+a OTIMES b OTIMES c = V(24.0, n=2)
+
+=== spec-probes/p6_sum.fss ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85: and
+/home/user/fortress/explorations/spec-probes/p6_sum.fss:22:1-24:69:
+Overloading of BIG +[\T extends FortressLibrary.Number\]():Comprehension[\T,FortressLibrary.Number,FortressLibrary.Number,FortressLibrary.Number\]/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85 and BIG +():Comprehension[\V,V,List.List[\V\],List.List[\V\]\] ()->Comprehension[\V,V,List[\V\],List[\V\]\] /home/user/fortress/explorations/spec-probes/p6_sum.fss:22:1-24:69 fails because their parameter lists have the same types
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85:
+/home/user/fortress/explorations/spec-probes/p6_sum.fss:30:7-8:
+
+
+=== spec-probes/p7_excludes.fss ===
+m x = Vec<|V(1.0), V(6.0)|>
+x m = Vec<|V(1.0), V(6.0)|>
+
+=== spec-probes/p4_addgroup.fss ===
+a - b   = V(2.0)   (inherited binary minus)
+a.zero  = V(0.0)   (inherited zero)
+a + 2.0 = V(5.0)  (own RR64 overload still resolves)
+children of a-b: 2
+
+=== spec-probes/p5_ring.fss ===
+a b     = V(6.0)  (juxtaposition inherited from TIMES)
+a - b   = V(1.0)  (binary minus inherited)
+a.zero  = V(0.0)
+a^2     = V(9.0)
+a^0.5   = V(1.7320508075688772)
+
+=== spec-probes/p9_natvec.fss ===
+r[2] = V(12.0)  |r| = 3
+SQRT 4 = 2.0
+SQRT 4.0 = 2.0
+typecase: ZZ32
+
+=== spec-probes/p17_nested.fss ===
+flat = <|1, 2, 3, 4, 5, 6|>
+
+=== spec-probes/p10_sqrt.fss ===
+SQRT |q| = 2.0
+SQRT V(9.0) = V(3.0)
+
+=== spec-probes/p1_infer.fss ===
+l1 size 2 first V(1.0)
+l2 1.0
+l3 1.0
+l4 1.0
+
+=== spec-probes/p2_ascribe.fss ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/spec-probes/p2_ascribe.fss:7:26-71:
+Unification error: Closure/Constructor for V param 3 ($grads:List[\RR64\]) got arg ArrayList[\FloatLiteral\] of type ArrayList[\FloatLiteral\]
+Context:
+/home/user/fortress/explorations/spec-probes/p2_ascribe.fss:7:26-71:
+/home/user/fortress/explorations/spec-probes/p2_ascribe.fss:17:7:
+toplevel:
+
+
+=== spec-probes/p8_omit.fss ===
+konst inferred return: V(1.0)
+ADDV: V(3.0)
+method: V(2.0)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/spec-probes/p8_omit.fss:26:21-28:
+Unification error: Closure/Constructor for zip param 1 (g:ZeroIndexed[\F@/home/user/fortress/Library/List.fss:251:1-477:2\]) got arg ArrayList[\V\] of type ArrayList[\V\]
+Context:
+/home/user/fortress/explorations/spec-probes/p8_omit.fss:26:21-28:
+toplevel:
+
+
+=== spec-probes/p14_genwrap.fss ===
+m x  = <|V(1.0), V(6.0)|>
+x m  = <|V(1.0), V(6.0)|>
+|x|  = 2   x[1] = V(2.0)
+comprehension over Vec: <|1.0, 2.0|>
+for over Mat: 
+  row <|V(1.0), V(0.0)|>
+  row <|V(0.0), V(3.0)|>
+
+=== libvector-probes/p01_rr64_vec_construct.fss ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/libvector-probes/p01_rr64_vec_construct.fss:7:5:
+Can't infer element type for array construction
+Context:
+/home/user/fortress/explorations/libvector-probes/p01_rr64_vec_construct.fss:7:5:
+toplevel:
+
+
+=== libvector-probes/p06_rr64_arraycomp.fss ===
+/home/user/fortress/explorations/libvector-probes/p06_rr64_arraycomp.fss:11:20:
+    Variable i is not defined.
+/home/user/fortress/explorations/libvector-probes/p06_rr64_arraycomp.fss:11:31:
+    Variable i is not defined.
+
+=== libvector-probes/p27_literal_staticargs.fss ===
+null/home/user/fortress/explorations/libvector-probes/p27_literal_staticargs.fss:18:9-50:
+    Unmatched delimiters "[\" and "]".
+
+=== libvector-probes/p14_value_matrix.fss ===
+-- 2. indexing / size --
+m[0,1]  = V(2.0)
+|m|     = 4
+m.sizes = (2,2)
+-- 4. elementwise + and scaling --
+m + n   = [0#2,0#2]
+[ V(11.0) V(22.0)
+  V(33.0) V(44.0) ]
+m - n   = [0#2,0#2]
+[ V(-9.0) V(-18.0)
+  V(-27.0) V(-36.0) ]
+-m      = [0#2,0#2]
+[ V(-1.0) V(-2.0)
+  V(-3.0) V(-4.0) ]
+
+=== libvector-probes/p25_spec_gaps.fss ===
+||v||  = 5.0
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/libvector-probes/p25_spec_gaps.fss:19:26-28:
+Failed to find any matching overload, args = (__DefaultMatrix[\RR64,2,2\],2: ZZ32), overload = {
+	^(native Pow)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:154:5-155:76)
+	^(native Pow)fn meth(self 0):(Float,RR32)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:156:5-157:76)
+	^(native Pow)fn meth(self 0):(Float,AnyIntegral)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:160:5-161:76)
+	^(self:FortressBuiltin.Float,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Float,Number)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:158:5-159:50)
+	^(native Pow)fn meth(self 0):(RR32,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:325:5-326:76)
+	^(native Pow)fn meth(self 0):(RR32,RR32)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:323:5-324:75)
+	^(self:FortressBuiltin.RR32,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(RR32,Number)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:5-328:50)
+	^(native Pow)fn meth(self 0):(RR32,ZZ64)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:329:5-330:75)
+	^(native Pow)fn meth(self 0):(NN32,AnyIntegral)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:440:5-441:75)
+	^(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Number,AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:404:5-55)
+	^(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:402:5-403:50)
+
+=== libvector-probes/p26_matrix_norm.fss ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/libvector-probes/p26_matrix_norm.fss:13:25-28:
+Unification error: /home/user/fortress/Library/FortressLibrary.fss:2281:41-51:
+Cannot unify __DefaultMatrix[\RR64,2,2\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with Vector[\T,k\](class com.sun.fortress.nodes.TraitType) abm=T=(BOTTOM,Number)
+Context:
+/home/user/fortress/explorations/libvector-probes/p26_matrix_norm.fss:13:25-28:
+toplevel:
+
+
+=== libvector-probes/p29_mixing.fss ===
+-- SUM over an EMPTY Value vector --
+SUM over empty = 0
+  ... it is NOT a Value (SumReduction.empty() = 0)
+-- scaling a Vector[\Value\] by a bare RR64 --
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/libvector-probes/p29_mixing.fss:33:25-29:
+Failed to find any matching overload, args = (2.0,__DefaultVector[\Value,3\]), overload = {
+	juxtaposition(self:Value,other:Value):Valuefn meth(self 0):(Value,Value)->Value (/home/user/fortress/explorations/libvector-probes/p29_mixing.fss:17:5-67)
+	juxtaposition(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:380:5-381:56)
+	juxtaposition(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:344:5-345:65)
+	juxtaposition(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:111:5-113:76)
+	juxtaposition(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:280:5-282:75)
+	juxtaposition(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:414:5-415:75)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:664:5-665:74)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:732:5-733:75)
+
+=== libvector-probes/p32_ring_route.fss ===
+u = [0#3][ V(1.0) V(2.0) V(3.0) ]
+u IS an AnyVector
+u + v   = [0#3][ V(11.0) V(22.0) V(33.0) ]
+u - v   = [0#3][ V(-9.0) V(-18.0) V(-27.0) ]
+-u      = [0#3][ V(-1.0) V(-2.0) V(-3.0) ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/libvector-probes/p32_ring_route.fss:41:27:
+Failed to find any matching overload, args = (__DefaultVector[\Value,3\],__DefaultVector[\Value,3\]), overload = {
+	DOT(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:378:5-62)
+	DOT(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:563:5-567:6)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].DOT(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:620:5-23
+	DOT(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:660:5-661:74)
+	DOT(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:728:5-729:75)
+	DOT(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:782:5-783:83)
+	DOT(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:845:5-846:77)
+
+=== libvector-probes/p09_runtime_size.fss ===
+/home/user/fortress/explorations/libvector-probes/p09_runtime_size.fss:9:22:
+    n is undefined.
+
+=== libvector-probes/p14_value_matrix.fss (tail: matrix factory) ===
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3516:9-3517:77:
+/home/user/fortress/Library/FortressLibrary.fss:3516:9-3517:77:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1779:25-45:
+/home/user/fortress/Library/FortressLibrary.fss:1975:13-32:
+/home/user/fortress/Library/FortressLibrary.fss:2616:3-74:
+/home/user/fortress/explorations/libvector-probes/p14_value_matrix.fss:48:9-38:
+toplevel:
+
+
+=== alias-units-probes/p1_alias_basic.fss ===
+** bug! Not yet implemented: TypeAlias at /home/user/fortress/explorations/alias-units-probes/p1_alias_basic.fss:10.1
+
+=== alias-units-probes/p10_import_as.fss ===
+null/home/user/fortress/explorations/alias-units-probes/p10_import_as.fss:9:15-36:
+    Missing comma.
+
+=== alias-units-probes/p12_import_arrow.fss ===
+/home/user/fortress/explorations/alias-units-probes/p12_import_arrow.fss:14:10-11:
+    Seq is undefined.
+
+=== alias-units-probes/q3_bare_dim.fss ===
+null/home/user/fortress/explorations/alias-units-probes/q3_bare_dim.fss:13:1-11:
+    null is not a valid unit name.
+
+=== alias-units-probes/q8_dimtype_parse.fss ===
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/explorations/alias-units-probes/q8_dimtype_parse.fss:13:6-15:
+Can't EvalType this node type class com.sun.fortress.nodes.TaggedDimType
+Context:
+/home/user/fortress/explorations/alias-units-probes/q8_dimtype_parse.fss:13:6-15:
+/home/user/fortress/explorations/alias-units-probes/q8_dimtype_parse.fss:13:1-30:
+
+
+=== alias-units-probes/q18_in_operator.fss ===
+/home/user/fortress/explorations/alias-units-probes/q18_in_operator.fss:16:35:
+    Operator in is not defined.
+
+=== matrix-ad-probes/p03.fss ===
+m = [0#3,0#4]
+[ 0.0 1.0 2.0 3.0
+  4.0 5.0 6.0 7.0
+  8.0 9.0 10.0 11.0 ]
+m.sizes = (3,4)
+m[1,:] = [0#4][ 4.0 5.0 6.0 7.0 ]  |r1| = 4
+  row is NOT an AnyVector
+m[:,2] = [0#3][ 2.0 6.0 10.0 ]  |c2| = 3
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/matrix-ad-probes/p03.fss:23:10-18:
+Failed to find any matching overload, args = (1: ZZ32,CompactFullParScalarRange[\ZZ32\]), overload = {
+	_[_](_:FortressLibrary.TrivialOpenRange,i1:FortressLibrary.ZZ32):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/Library/FortressLibrary.fss:2359:3-2362:2
+	_[_](i0:FortressLibrary.ZZ32,_:FortressLibrary.TrivialOpenRange):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/Library/FortressLibrary.fss:2363:3-2366:2
+	_[_](_:FortressLibrary.TrivialOpenRange):Array2[\T,0,s0,0,s1\]/home/user/fortress/Library/FortressLibrary.fss:2338:3-2358:34
+	_[_](i:I):E/home/user/fortress/Library/FortressLibrary.fss:1817:5-1822:61
+
+=== matrix-ad-probes/p10.fss ===
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/Library/FortressLibrary.fss:1120:25-34:
+/home/user/fortress/explorations/matrix-ad-probes/p10.fss:12:30-38:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/explorations/matrix-ad-probes/p10.fss:12:19-25:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/explorations/matrix-ad-probes/p10.fss:12:13-39:
+
+=== matrix-ad-probes/p11.fss ===
+expected = [0#3][ 5050.0 10100.0 15150.0 ]
+(b) __generate + VecSum3 = [0#3][ 5050.0 10100.0 15150.0 ]
+(c) BIG OPLUS [i<-0#n]   = [0#3][ 5050.0 10100.0 15150.0 ]
+(d) atomic accumulator   = [0#3][ 5050.0 10100.0 15150.0 ]
+(e) NO atomic            = [0#3][ 5050.0 10100.0 15150.0 ]
+
+=== matrix-ad-probes/p09.fss ===
+compose(fA,fB)(x) = [0#4][ 8.653809523809525 6.215476190476191 5.043809523809523 4.32452380952381 ]
+B (A x)           = [0#4][ 8.653809523809525 6.215476190476191 5.043809523809523 4.32452380952381 ]
+|tape| = 3
+tape applied in reverse = [0#4][ 19.366666666666667 12.89 9.88 8.06047619047619 ]
+expected A^T (B^T (2 x))= [0#4][ 19.366666666666667 12.89 9.88 8.06047619047619 ]
+runtime-sized axpy(2.0,u,w) = [0#4][ 12.0 24.0 36.0 48.0 ]
+runtime-sized u DOT w       = 300.0
+runtime-sized closure       = [0#4][ 13.0 26.0 39.0 52.0 ]
+
+=== matrix-ad-probes/p11.fss at FORTRESS_THREADS=4, three runs ===
+(d) atomic accumulator   = [0#3][ 5050.0 10100.0 15150.0 ]
+(e) NO atomic            = [0#3][ 2968.0 5936.0 8904.0 ]
+(d) atomic accumulator   = [0#3][ 5050.0 10100.0 15150.0 ]
+(e) NO atomic            = [0#3][ 1505.0 3010.0 4515.0 ]
+(d) atomic accumulator   = [0#3][ 5050.0 10100.0 15150.0 ]
+(e) NO atomic            = [0#3][ 3213.0 6426.0 9639.0 ]
+
+=== fable-review-probes/RvwNameKeywords.fss ===
+/home/user/fortress/explorations/fable-review-probes/RvwNameKeywords.fss:4:3-4:
+    Operator prefix BOS is not defined.
+/home/user/fortress/explorations/fable-review-probes/RvwNameKeywords.fss:5:11-13:
+    Operator BOS is not defined.
+
+=== fable-review-probes/RvwBarEnd.fss ===
+null/home/user/fortress/explorations/fable-review-probes/RvwBarEnd.fss:1:1-8:
+    Unmatched delimiter "component".
+
+=== fable-review-probes/RvwVarargsObj.fss ===
+null/home/user/fortress/explorations/fable-review-probes/RvwVarargsObj.fss:3:12-20:
+    Varargs parameters of objects are not allowed.
+
+=== fable-review-probes/RvwNatArray.fss ===
+literal size: 3
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/fable-review-probes/RvwNatArray.fss:8:28-30:
+Unification error: /home/user/fortress/explorations/fable-review-probes/RvwNatArray.fss:3:15-20:
+Cannot unify __DefaultVector[\RR64,3\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with ArrayType at /home/user/fortress/explorations/fable-review-probes/RvwNatArray.fss:3.15(class com.sun.fortress.nodes.ArrayType) abm=()
+Context:
+/home/user/fortress/explorations/fable-review-probes/RvwNatArray.fss:8:28-30:
+toplevel:
+
+
+=== fable-review-probes/RvwTypePow.fss ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/fable-review-probes/RvwTypePow.fss:5:46-71:
+Unification error: Closure/Constructor for f param 1 (a:Matrix [\V\]^(3)) got arg PrimitiveArray[\V,3\] of type PrimitiveArray[\V,3\]
+Context:
+/home/user/fortress/explorations/fable-review-probes/RvwTypePow.fss:5:46-71:
+toplevel:
+
+
+=== fable-review-probes/RvwArrayCompr.fss ===
+/home/user/fortress/explorations/fable-review-probes/RvwArrayCompr.fss:4:9:
+    Variable i is not defined.
+/home/user/fortress/explorations/fable-review-probes/RvwArrayCompr.fss:4:15:
+    Variable i is not defined.
+/home/user/fortress/explorations/fable-review-probes/RvwArrayCompr.fss:4:17:
+    Variable i is not defined.
+
+=== fable-review-probes/RvwExceptSigma.fss ===
+except { opr ∑ } parsed
+
+=== gap-ledger-probes/g04.fss ===
+W_q = 3.0  W1 = 4.0  w17 = 5.0
+10.0^(-5) = 1.0E-5
+0.00001   = 0.00001
+radix numeral 7fff_16 = 32767
+
+=== gap-ledger-probes/g05.fss ===
+/home/user/fortress/explorations/gap-ledger-probes/g05.fss:4:4:
+    Syntax Error
+
+=== gap-ledger-probes/g06.fss ===
+null/home/user/fortress/explorations/gap-ledger-probes/g06.fss:4:21:
+    Syntax Error: a numeral contains letters and does not have a radix specifier.
+
+=== gap-ledger-probes/g07.fss ===
+null/home/user/fortress/explorations/gap-ledger-probes/g07.fss:6:20:
+    Syntax Error
+
+=== gap-ledger-probes/g08.fss ===
+null/home/user/fortress/explorations/gap-ledger-probes/g08.fss:4:9:
+    Syntax Error
+
+=== compile compiler-probes/p11.fss ===
+/home/user/fortress/explorations/compiler-probes/p11.fss:3:25-26:
+    Operator BIG + is not defined.
+File p11.fss has 1 error.
+
+=== compile compiler-probes/p05.fss ===
+/home/user/fortress/explorations/compiler-probes/p05.fss:4:7-17:
+    Function array is not defined.
+File p05.fss has 1 error.
+
+=== compile compiler-probes/p09.fss ===
+/home/user/fortress/explorations/compiler-probes/p09.fss:5:19-20:
+    Variable exp is not defined.
+/home/user/fortress/explorations/compiler-probes/p09.fss:5:31-32:
+    Variable log is not defined.
+File p09.fss has 2 errors.
+
+=== compile compiler-probes/p15.fss ===
+/home/user/fortress/Library/List.fsi:55:34-39:
+    HasRank is undefined.
+/home/user/fortress/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress/Library/List.fsi:68:28-33:
+    HasRank is undefined.
+/home/user/fortress/Library/List.fsi:74:17-20:
+    Maybe is undefined.
+
+=== compile compiler-probes/p31.fss ===
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+/home/user/fortress/explorations/compiler-probes/p31.fss:4:7-7:6:
+    Can't compile Label at /home/user/fortress/explorations/compiler-probes/p31.fss:4.7
+
+=== compile+run compiler-probes/ctrl1.fss ===
+[ 15.0 ]
+[ 7 ]
+[ 15.0 ]
+[ true ]
+   [interpreter] 
+[15.0]
+[7]
+[15.0]
+[true]
+
+=== compile+run compiler-probes/p33.fss ===
+p33  0
+   [interpreter] 
+p33 1
+
+=== compile+run compiler-probes/p36.fss ===
+FortressException: class fortress.CompilerBuiltin$CompilerFailureDetectedAtRunTime with string Compiler failure detected at runtime
+   [interpreter] 
+p36 1
+
+=== compile+run compiler-probes/p32.fss ===
+/home/user/fortress/explorations/compiler-probes/p32.fss:5:18-23:
+    No such method Thread[\IntLiteral\].val.
+File p32.fss has 1 error.
+Could not load p32
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : p32.class
+	... 4 more
+   [interpreter] 
+p32 42
+
+=== compile+run compiler-probes/p20.fss ===
+/home/user/fortress/explorations/compiler-probes/p20.fss:8:18-24:
+    No such method Tree.tsum.
+/home/user/fortress/explorations/compiler-probes/p20.fss:8:29-35:
+    No such method Tree.tsum.
+/home/user/fortress/explorations/compiler-probes/p20.fss:12:18-24:
+    No such method Tree.tsum.
+Could not load p20
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : p20.class
+	... 4 more
+   [interpreter] 
+p20 3.0
+
+=== gap-ledger-probes/g09.fss ===
+SUM over W (method opr +) = W(6.0)
+
+=== gap-ledger-probes/g10.fss ===
+user top-level +: W(3.0)
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/Library/FortressLibrary.fss:376:49-57:
+** bug! MethodClosure asFloat(self:(FortressLibrary.Number & {FortressLibrary.RR64})):FortressLibrary.RR64/home/user/fortress/Library/FortressLibrary.fss:355:5-23 has neither body nor def instanceof Method
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:376:49-57:
+/home/user/fortress/Library/FortressLibrary.fss:3030:42:
+/home/user/fortress/Library/RangeInternals.fss:1032:21-58:
+/home/user/fortress/Library/RangeInternals.fss:1032:30-43:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+
+=== gap-ledger-probes/g11.fss ===
+<|1, 2, 3|>
+
+=== gap-ledger-probes/g12.fss ===
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/Library/FortressLibrary.fss:3116:24:
+** bug! MethodClosure MAX(self:StandardMax[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:247:5-248:1 has neither body nor def instanceof Method
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:3116:24:
+/home/user/fortress/Library/FortressLibrary.fss:2900:22-37:
+/home/user/fortress/Library/FortressLibrary.fss:1319:37-39:
+/home/user/fortress/Library/FortressLibrary.fss:1073:55-69:
+/home/user/fortress/Library/FortressLibrary.fss:1073:55-69:
+/home/user/fortress/Library/FortressLibrary.fss:2899:16-2900:38:
+/home/user/fortress/Library/FortressLibrary.fss:1319:37-39:
+/home/user/fortress/Library/FortressLibrary.fss:1073:55-69:
+/home/user/fortress/Library/FortressLibrary.fss:1073:55-69:
+/home/user/fortress/Library/FortressLibrary.fss:2898:12-2903:14:
+/home/user/fortress/Library/RangeInternals.fss:1032:21-58:
+
+=== gap-ledger-probes/g09.fss (rev) ===
+SUM over W (method opr +) = W(6.0)
+
+=== gap-ledger-probes/g10.fss (rev) ===
+user top-level +: W(3.0)
+SUM over W (top-level opr +) = 6.0
+
+=== gap-ledger-probes/g12.fss (rev) ===
+BIG MAX over a user type = V(9.0)
+
+=== bin/fortify g13.fss -> g13.tex (identifier rendering) ===
+\begin{FortressCode}
+\KWD{component} g_{13} \\
+\KWD{export} \TYP{Executable} \\
+\VAR{run}(\ultrathin)\COLON (\ultrathin) =\; \KWD{do} \\
+\2\+\TYP{Wq} = 1.0 \\
+  \TYP{W1} = 2.0 \\
+  w_{17} = 3.0 \\
+  x_{\mathrm{h}} = 4.0 \\
+  \VAR{println}(\TYP{Wq}\, \TYP{W1}\, w_{17}\, x_{\mathrm{h}})\- \\
+\KWD{end} \\
+\KWD{end}
+\end{FortressCode}
+
+=== bin/fortify g14.fss -> g14.tex (operators, Sigma, DOT, double subscript) ===
+\begin{FortressCode}
+\KWD{component} g_{14} \\
+\KWD{export} \TYP{Executable} \\
+\KWD{opr} ^{m\COLON \mathbb{Z}32, t\COLON \mathbb{Z}32}\COLON \mathbb{Z}32 = m \\
+\KWD{opr} (m\COLON \mathbb{Z}32)^{T}\COLON \mathbb{Z}32 = m \\
+f(x_{\mathrm{h}}\COLON \mathbb{Z}32, t\COLON \mathbb{Z}32, u\COLON \mathbb{Z}32, w\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 = x_{\mathrm{h}}_{t} \\
+g(u\COLON \mathbb{Z}32, w\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 = \sum\limits_{m \leftarrow 0\mathbin{\#}3}\, u\, w \\
+h(u\COLON \mathbb{Z}32, w\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 = u \cdot w \\
+\mathbf{Wq}\COLON \mathbb{Z}32 = 1 \\
+\VAR{run}(\ultrathin)\COLON (\ultrathin) = \VAR{println}\bigl(f(1,2,3,4)\bigr) \\
+\KWD{end}
+\end{FortressCode}
+
+=== latex on $x_{\mathrm{h}}_{t}$ ==> ! Double subscript.
+
+=== bin/fortress:28-29 hard-codes JAVA_FLAGS="-Xmx256m -Xss32m" ===
+    fi
+
+    if [ -z "$JAVA_FLAGS" ] ; then
+      JAVA_FLAGS="-Xmx256m  -Xss32m"
+    fi
+    JAVA_FLAGS="$JAVA_FLAGS -Dfile.encoding=UTF-8"
+    "$JAVACMD" $JAVA_FLAGS -cp "$CP" com.sun.fortress.Shell "$@"
+
+=== g15 default heap ===
+Exception in thread "main" java.lang.OutOfMemoryError
+Caused by: java.lang.OutOfMemoryError: Java heap space
+=== g15 with JAVA_FLAGS=-Xmx2g ===
+allocated 2000000 elements; a[1999999] = 1.0
+
+=== libvector-probes/p10_value_extends_number.fss ===
+a + b = V(5.0)
+a b   = V(6.0)
+
+=== libvector-probes/p30_capstone.fss ===
+x  = [0#3][ V(1.0) V(2.0) V(3.0) ]
+W1 = [0#4,0#3]
+[ V(0.0) V(0.1) V(0.2)
+  V(0.1) V(0.2) V(0.30000000000000004)
+  V(0.2) V(0.30000000000000004) V(0.4)
+  V(0.30000000000000004) V(0.4) V(0.5) ]
+W1 x + b1  = [0#4][ V(0.30000000000000004) V(0.9000000000000001) V(1.5) V(2.1) ]
+relu(...)  = [0#4][ V(0.30000000000000004) V(0.9000000000000001) V(1.5) V(2.1) ]
+W2 h + b2  = [0#2][ V(2.2) V(3.4000000000000004) ]
+loss (SUM y_i^2) = V(16.400000000000002)
+transpose round-trip w1.t().t()[0,2] = w1[0,2]?  true
+sanity: 2.0 + 3.0 = 5.0, SQRT 2.0 = 1.4142135623730951
+
+=== libvector-probes/p22_runtime_sized.fss ===
+-- RR64, runtime size 8 --
+array[RR64](n).fill(f) = [0#8][ 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 ]
+|a| = 8, a[3] = 4.0
+a IS an AnyVector
+SUM over a = 36.0
+-- Value, runtime size 8 --
+array[Value](n).fill(f) = [0#8][ V(1.0) V(2.0) V(3.0) V(4.0) V(5.0) V(6.0) V(7.0) V(8.0) ]
+|b| = 8, b[3] = V(4.0)
+b IS an AnyVector
+SUM over b = V(36.0)
+-- runtime-sized 2-D --
+array[Value](2,3).fill(f) = [0#2,0#3]
+
+=== matrix-ad-probes/p13.fss ===
+VecView(v,4) = [0#4][ 4.0 5.0 6.0 7.0 ]
+  VecView IS an AnyVector
+  |s| = 4  s[1] = 5.0
+  s + s     = [0#4][ 8.0 10.0 12.0 14.0 ]
+  s DOT s   = 126.0
+  s.scale(2.0) = [0#4][ 8.0 10.0 12.0 14.0 ]
+  ||s||     = 11.224972160321824
+  SUM s     = 22.0
+  A s       = [0#3][ 4.0 5.0 6.0 ]
+  after s[0] := 99.0, v = [0#8][ 0.0 1.0 2.0 3.0 99.0 5.0 6.0 7.0 ]   (zero-copy view: true)
+RowView IS an AnyVector
+  RowView(A,1) = [0#4][ 0.0 1.0 0.0 0.0 ]   rv DOT s = 5.0
+
+=== matrix-ad-probes/p07.fss ===
+A: array[RR64](n).fill(...)  = [0#4][ 1.0 2.0 3.0 4.0 ]
+   IS an AnyVector
+A: a + b       = [0#4][ 11.0 22.0 33.0 44.0 ]
+A: a DOT b     = 300.0
+A: array[RR64](m,n) = [0#3,0#4]
+[ 0.0 1.0 2.0 3.0
+  4.0 5.0 6.0 7.0
+  8.0 9.0 10.0 11.0 ]
+   IS an AnyMatrix
+A: g a         = [0#3][ 20.0 60.0 100.0 ]
+A: g.t()       = [0#4,0#3]
+[ 0.0 4.0 8.0
+
+=== spec-probes/p12_multifix.fss ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/spec-probes/p12_multifix.fss:18:31-27:
+Failed to find any matching overload, args = (V,V), overload = {
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:330:5-28
+	+(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:376:5-58)
+	+(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:556:5-561:10)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].+(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:618:5-21
+	+(native Add)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:656:5-657:74)
+	+(native Add)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:724:5-725:75)
+	+(native Add)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:778:5-779:83)
+	+(native Add)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:841:5-842:77)
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].+(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress/Library/FortressLibrary.fss:2192:5-2193:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].+(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress/Library/FortressLibrary.fss:2500:5-2501:60
+
+=== g16_misnamed.fss: component g04 in a file named g16_misnamed.fss ===
+/home/user/fortress/explorations/gap-ledger-probes/g16_misnamed.fss:1:11-13:
+    Component/API names must match their enclosing file names.
+    File name: /home/user/fortress/explorations/gap-ledger-probes/g16_misnamed.fss
+    Component/API name: g04
+
+=== gap-ledger-probes/g17.fss (postfix ^T runs) ===
+m = Mat(2,3)   m^T = Mat(3,2)
+
+=== fortress typecheck on libvector-probes/p30_capstone.fss (CompilerLibrary oracle) ===
+/home/user/fortress/explorations/libvector-probes/p30_capstone.fss:25:43-47:
+    Vector is undefined.
+File p30_capstone.fss has 1 error.
+
+=== fortress typecheck on alias-units-probes/q16_dimcheck.fss ===
+Exception in thread "main" java.lang.Error: Not yet implemented: class com.sun.fortress.nodes.DimDecl
+
+=== compiled-path control: compile+run p12 (implicit tuple parallelism) and p13 (atomic) ===
+p12  200.0
+p13  10.0

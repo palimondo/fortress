@@ -1,0 +1,6 @@
+component g05
+export Executable
+(* W_1: underscore-digit suffix is a radix specifier, radix 1 is a static error *)
+W_1: RR64 = 2.0
+run(): () = println(W_1)
+end

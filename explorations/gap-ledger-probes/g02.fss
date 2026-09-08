@@ -1,0 +1,16 @@
+component g02
+export Executable
+(* Isolates the mechanism: a subscripting reached through MathPrimary is
+   invoked with its argument list minus the first element. *)
+object M()
+  opr [i: ZZ32]: ZZ32 = 100 + i
+  opr [i: ZZ32, j: ZZ32]: ZZ32 = 1000 + 10 i + j
+end
+run(): () = do
+  m = M()
+  println("parenthesized (m[3,7])   = " ((m[3,7])))
+  println("parenthesized (m[7])     = " ((m[7])))
+  println("MathPrimary  m[3,7]^2    = " (m[3,7]^2))
+  println("expected if first arg dropped: (m[7])^2 = " ((m[7])^2))
+end
+end

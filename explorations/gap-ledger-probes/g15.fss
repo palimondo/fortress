@@ -1,0 +1,8 @@
+component g15
+export Executable
+(* packaging: bin/fortress hard-codes -Xmx256m unless JAVA_FLAGS is set *)
+run(): () = do
+  a = array[\RR64\](2000000).fill(fn (i: ZZ32): RR64 => 1.0)
+  println("allocated " |a| " elements; a[1999999] = " a[1999999])
+end
+end

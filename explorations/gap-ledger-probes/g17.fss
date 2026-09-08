@@ -1,0 +1,12 @@
+component g17
+export Executable
+(* postfix ^T is a declarable operator, per opr-overview.tex:86-90 *)
+object Mat(r: ZZ32, c: ZZ32)
+  getter asString(): String = "Mat(" r "," c ")"
+end
+opr (m: Mat)^T: Mat = Mat(m.c, m.r)
+run(): () = do
+  m = Mat(2,3)
+  println("m = " m "   m^T = " (m^T))
+end
+end

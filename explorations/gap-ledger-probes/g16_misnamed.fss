@@ -1,0 +1,14 @@
+component g04
+export Executable
+(* positives: numerals and identifier spellings that DO work *)
+W_q: RR64 = 3.0
+W1: RR64 = 4.0
+w17: RR64 = 5.0
+epsilon: RR64 = 10.0^(-5)
+run(): () = do
+  println("W_q = " W_q "  W1 = " W1 "  w17 = " w17)
+  println("10.0^(-5) = " epsilon)
+  println("0.00001   = " 0.00001)
+  println("radix numeral 7fff_16 = " 7fff_16)
+end
+end

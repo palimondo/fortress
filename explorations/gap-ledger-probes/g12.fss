@@ -1,0 +1,14 @@
+component g12
+import List.{...}
+export Executable
+(* extension by ADDITION works for BIG MAX: one trait declaration opens the
+   library's own big operator to a user type (contrast SUM, which does not). *)
+object V(data: RR64) extends StandardMax[\V\]
+  getter asString(): String = "V(" data ")"
+  opr MAX(self, o: V): V = if data > o.data then self else o end
+end
+run(): () = do
+  a = <|[\V\] V(3.0), V(9.0), V(4.0)|>
+  println("BIG MAX over a user type = " (BIG MAX[u <- a] u))
+end
+end

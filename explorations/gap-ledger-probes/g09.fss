@@ -1,0 +1,15 @@
+component g09
+import List.{...}
+export Executable
+(* Can library code (SumReduction.join) reach a user operator declared as a
+   functional METHOD on the element type? *)
+object W(d: RR64) extends Number
+  getter asString(): String = "W(" d ")"
+  asFloat(self): RR64 = d
+  opr +(self, other: W): W = W(d + other.d)
+end
+run(): () = do
+  xs = <|[\W\] W(1.0), W(2.0), W(3.0)|>
+  println("SUM over W (method opr +) = " (SUM[x <- xs] x))
+end
+end

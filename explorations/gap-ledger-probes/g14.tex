@@ -1,0 +1,12 @@
+\begin{FortressCode}
+\KWD{component} g_{14} \\
+\KWD{export} \TYP{Executable} \\
+\KWD{opr} ^{m\COLON \mathbb{Z}32, t\COLON \mathbb{Z}32}\COLON \mathbb{Z}32 = m \\
+\KWD{opr} (m\COLON \mathbb{Z}32)^{T}\COLON \mathbb{Z}32 = m \\
+f(x_{\mathrm{h}}\COLON \mathbb{Z}32, t\COLON \mathbb{Z}32, u\COLON \mathbb{Z}32, w\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 = x_{\mathrm{h}}_{t} \\
+g(u\COLON \mathbb{Z}32, w\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 = \sum\limits_{m \leftarrow 0\mathbin{\#}3}\, u\, w \\
+h(u\COLON \mathbb{Z}32, w\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 = u \cdot w \\
+\mathbf{Wq}\COLON \mathbb{Z}32 = 1 \\
+\VAR{run}(\ultrathin)\COLON (\ultrathin) = \VAR{println}\bigl(f(1,2,3,4)\bigr) \\
+\KWD{end}
+\end{FortressCode}

@@ -1,0 +1,7 @@
+component g08
+export Executable
+run(): () = do
+  value = 3
+  println(value)
+end
+end

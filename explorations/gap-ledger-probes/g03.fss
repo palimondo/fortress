@@ -1,0 +1,12 @@
+component g03
+export Executable
+object M()
+  opr [i: ZZ32]: ZZ32 = 100 + i
+end
+mk(): M = M()
+pair(): (ZZ32, ZZ32) = (7, 9)
+run(): () = do
+  println("(mk())[2] = " ((mk())[2]))
+  println("mk()[2]   = " (mk()[2]))
+end
+end
