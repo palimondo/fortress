@@ -1944,3 +1944,132 @@ PASS sample 2 text: ku (expected ku)
 nodes created: 1393152
 ALL CHECKS PASSED
 -------- exit: 0
+======== 2026-09-08T18:02:17Z render gpt_value.tic
+  output written to gpt_value.svg
+1 of 1 page converted in 0.116601 seconds
+-rw-r--r-- 1 root root  97595 Sep  8 18:02 gpt_value.png
+-rw-r--r-- 1 root root 131704 Sep  8 18:02 gpt_value.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:18Z render gpt_topo.tic
+  output written to gpt_topo.svg
+1 of 1 page converted in 0.066644 seconds
+-rw-r--r-- 1 root root 34092 Sep  8 18:02 gpt_topo.png
+-rw-r--r-- 1 root root 71648 Sep  8 18:02 gpt_topo.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:19Z render gpt_sum.tic
+  output written to gpt_sum.svg
+1 of 1 page converted in 0.0619469 seconds
+-rw-r--r-- 1 root root 39977 Sep  8 18:02 gpt_sum.png
+-rw-r--r-- 1 root root 98813 Sep  8 18:02 gpt_sum.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:20Z render gpt_vec.tic
+  output written to gpt_vec.svg
+1 of 1 page converted in 0.126748 seconds
+-rw-r--r-- 1 root root  80260 Sep  8 18:02 gpt_vec.png
+-rw-r--r-- 1 root root 157968 Sep  8 18:02 gpt_vec.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:21Z render gpt_mat.tic
+  output written to gpt_mat.svg
+1 of 1 page converted in 0.0873148 seconds
+-rw-r--r-- 1 root root  44619 Sep  8 18:02 gpt_mat.png
+-rw-r--r-- 1 root root 114314 Sep  8 18:02 gpt_mat.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:21Z render gpt_rmsnorm.tic
+  output written to gpt_rmsnorm.svg
+1 of 1 page converted in 0.058991 seconds
+-rw-r--r-- 1 root root 14825 Sep  8 18:02 gpt_rmsnorm.png
+-rw-r--r-- 1 root root 33977 Sep  8 18:02 gpt_rmsnorm.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:22Z render gpt_softmax.tic
+  output written to gpt_softmax.svg
+1 of 1 page converted in 0.05879 seconds
+-rw-r--r-- 1 root root 17434 Sep  8 18:02 gpt_softmax.png
+-rw-r--r-- 1 root root 41722 Sep  8 18:02 gpt_softmax.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:23Z render gpt_layer.tic
+  output written to gpt_layer.svg
+1 of 1 page converted in 0.124112 seconds
+-rw-r--r-- 1 root root  85983 Sep  8 18:02 gpt_layer.png
+-rw-r--r-- 1 root root 150789 Sep  8 18:02 gpt_layer.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:24Z render gpt_model.tic
+  output written to gpt_model.svg
+1 of 1 page converted in 0.0677669 seconds
+-rw-r--r-- 1 root root  43326 Sep  8 18:02 gpt_model.png
+-rw-r--r-- 1 root root 113336 Sep  8 18:02 gpt_model.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:25Z render gpt_loss.tic
+  output written to gpt_loss.svg
+1 of 1 page converted in 0.066299 seconds
+-rw-r--r-- 1 root root 28910 Sep  8 18:02 gpt_loss.png
+-rw-r--r-- 1 root root 82869 Sep  8 18:02 gpt_loss.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:26Z render gpt_adam.tic
+  output written to gpt_adam.svg
+1 of 1 page converted in 0.0809879 seconds
+-rw-r--r-- 1 root root 40957 Sep  8 18:02 gpt_adam.png
+-rw-r--r-- 1 root root 90825 Sep  8 18:02 gpt_adam.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:27Z render gpt_pick.tic
+  output written to gpt_pick.svg
+1 of 1 page converted in 0.0549231 seconds
+-rw-r--r-- 1 root root 33894 Sep  8 18:02 gpt_pick.png
+-rw-r--r-- 1 root root 92215 Sep  8 18:02 gpt_pick.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:28Z render kv_layer.tic
+  output written to kv_layer.svg
+1 of 1 page converted in 0.093518 seconds
+-rw-r--r-- 1 root root  69120 Sep  8 18:02 kv_layer.png
+-rw-r--r-- 1 root root 137986 Sep  8 18:02 kv_layer.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:29Z render kv_model.tic
+  output written to kv_model.svg
+1 of 1 page converted in 0.0820169 seconds
+-rw-r--r-- 1 root root  43494 Sep  8 18:02 kv_model.png
+-rw-r--r-- 1 root root 111653 Sep  8 18:02 kv_model.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:30Z render v1_vectors.tic
+  output written to v1_vectors.svg
+1 of 1 page converted in 0.106054 seconds
+-rw-r--r-- 1 root root 45728 Sep  8 18:02 v1_vectors.png
+-rw-r--r-- 1 root root 99404 Sep  8 18:02 v1_vectors.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:30Z render v1_rmsnorm.tic
+  output written to v1_rmsnorm.svg
+1 of 1 page converted in 0.0563481 seconds
+-rw-r--r-- 1 root root 17027 Sep  8 18:02 v1_rmsnorm.png
+-rw-r--r-- 1 root root 48850 Sep  8 18:02 v1_rmsnorm.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:31Z render v1_layer.tic
+Overfull \hbox (29.03072pt too wide) in paragraph at lines 10--10
+[] 
+! Double subscript.
+l.27 ...{indices}}\, \alpha_{t}\, (v_{\mathrm{h}}_
+                                                  {t})[j] \right| j \leftarr...
+
+
+Overfull \hbox (101.35748pt too wide) in paragraph at lines 42--42
+[] 
+  output written to v1_layer.svg
+1 of 1 page converted in 0.133546 seconds
+-rw-r--r-- 1 root root 102196 Sep  8 18:02 v1_layer.png
+-rw-r--r-- 1 root root 174961 Sep  8 18:02 v1_layer.svg
+-------- render exit: 1
+======== 2026-09-08T18:02:34Z render alt_autograd_lists.tic
+  output written to alt_autograd_lists.svg
+1 of 1 page converted in 0.086329 seconds
+-rw-r--r-- 1 root root 46108 Sep  8 18:02 alt_autograd_lists.png
+-rw-r--r-- 1 root root 92654 Sep  8 18:02 alt_autograd_lists.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:35Z render alt_autograd_closure.tic
+  output written to alt_autograd_closure.svg
+1 of 1 page converted in 0.0769041 seconds
+-rw-r--r-- 1 root root 50009 Sep  8 18:02 alt_autograd_closure.png
+-rw-r--r-- 1 root root 85422 Sep  8 18:02 alt_autograd_closure.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:35Z render alt_unified_sum.tic
+  output written to alt_unified_sum.svg
+1 of 1 page converted in 0.093678 seconds
+-rw-r--r-- 1 root root  73003 Sep  8 18:02 alt_unified_sum.png
+-rw-r--r-- 1 root root 129231 Sep  8 18:02 alt_unified_sum.svg
+-------- render exit: 0

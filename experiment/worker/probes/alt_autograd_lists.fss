@@ -7,7 +7,8 @@ export Executable
 var counter: ZZ32 := 0
 nextId(): ZZ32 = atomic do counter += 1; counter end
 
-object Value(var data: RR64, children: List[\Value\], localGrads: List[\RR64\])
+(* FIG autograd_lists *)
+
   id: ZZ32 = nextId()
   var grad: RR64 := 0
   opr +(self, b: Value): Value = Value(data + b.data, <|[\Value\] self, b|>, <|[\RR64\] 1, 1|>)
@@ -21,6 +22,7 @@ object Value(var data: RR64, children: List[\Value\], localGrads: List[\RR64\])
   end
 end
 leaf(x: RR64): Value = Value(x, <|[\Value\] |>, <|[\RR64\] |>)
+(* END FIG *)
 
 topo(root: Value): List[\Value\] = do
   var seen: Set[\ZZ32\] := {[\ZZ32\] }

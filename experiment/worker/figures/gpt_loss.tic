@@ -7,12 +7,8 @@
 `(* cross-entropy over a token sequence, averaged over positions *)
 loss(model: Model, tokens: List[\ZZ32\]): Value = do
   n = |tokens| - 1
-  model.reset()
-  lossAt(t: ZZ32): Value = do
-    probs = softmax(model.forward(tokens[t], t))
-    -log(probs[tokens[t+1]])
-  end
-  losses = <| lossAt(t) | t <- seq(0#n) |>
+  logits = model.forward(tokens[0 # n])
+  losses = <| -log((softmax(logits[t]))[tokens[t+1]]) | t <- 0#n |>
   (1/n) (SUM[l <- losses] l)
 end`
 \end{preview}

@@ -8,7 +8,8 @@
   getter entries(): List[\Value\] = BIG CONCAT[\Value\][w <- rows] w.x
   opr [i: ZZ32]: Vec = rows[i]
   opr [i: ZZ32, j: ZZ32]: Value = (rows[i])[j]
-  opr [cols: Range[\ZZ32\]]: Mat = Mat(<| w[cols] | w <- rows |>)
+  opr [r: Range[\ZZ32\]]: Mat = Mat(rows[r])
+  cols(r: Range[\ZZ32\]): Mat = Mat(<| w[r] | w <- rows |>)
 end
 (* matrix times column vector, and row vector times matrix *)
 opr juxtaposition(W: Mat, x: Vec): Vec = Vec(<| w DOT x | w <- W.rows |>)

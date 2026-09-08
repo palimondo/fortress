@@ -1,0 +1,45 @@
+(* Bounded training demo: start from the reference's initial weights, train on the
+   first documents of the (seeded, shuffled) dataset, then sample names. *)
+
+toMat(rows: List[\List[\RR64\]\]): Mat = Mat(<| Vec(<| node(x) | x <- row |>) | row <- rows |>)
+
+tokenize(doc: String): List[\ZZ32\] = do
+  ids = <|[\ZZ32\] ref_uchars.indexOf(ch).get | ch <- doc |>
+  (<|[\ZZ32\] ref_bos |> || ids).addRight(ref_bos)
+end
+
+run(): () = do
+  layer = Layer(ref_n_head, toMat(ref_init_layer0_attn_wq()), toMat(ref_init_layer0_attn_wk()),
+                toMat(ref_init_layer0_attn_wv()), toMat(ref_init_layer0_attn_wo()),
+                toMat(ref_init_layer0_mlp_fc1()), toMat(ref_init_layer0_mlp_fc2()))
+  model = Model(toMat(ref_init_wte()), toMat(ref_init_wpe()), toMat(ref_init_lm_head()), <| layer |>)
+  opt = Adam(model.params(), 0.01, 0.85, 0.99, 0.00000001)
+  docs = ref_docs_head()
+  num_steps = 12
+  recordTime(0)
+  for step <- seq(0#num_steps) do
+    tokens = tokenize(docs[step MOD |docs|])
+    L = loss(model, tokens.take(ref_block_size + 1))
+    L.backward()
+    opt.step(0.01 (1 - step / num_steps))   (* linear learning-rate decay, as in the reference *)
+    println("step " (step + 1) " / " num_steps " | loss " L.data " | doc " docs[step MOD |docs|])
+  end
+  printTime(0)
+  println("--- inference (new, hallucinated names) ---")
+  for s <- seq(0#4) do
+    var prefix: List[\ZZ32\] := <|[\ZZ32\] ref_bos |>
+    var text: String := ""
+    label done
+      for j <- seq(0#ref_block_size) do
+        z = (model.forward(prefix))[j]
+        probs = <|[\RR64\] p.data | p <- softmax(z / ref_temperature) |>
+        token = pick(probs, random(1.0))
+        if token = ref_bos then exit done with () end
+        text := text || ref_uchars[token]
+        prefix := prefix.addRight(token)
+      end
+    end done
+    println("sample " (s + 1) ": " text)
+  end
+  println("nodes created: " nodeCount)
+end

@@ -11,6 +11,7 @@ os.makedirs(BUILD, exist_ok=True)
 
 LIB = sys.argv[1] if len(sys.argv) > 1 else os.path.join(SRC, 'MicroGPT.fss')
 PART = sys.argv[2] if len(sys.argv) > 2 else 'check_main.part'
+NAME = sys.argv[3] if len(sys.argv) > 3 else 'Check'
 lib = open(LIB).read()
 # strip component header lines and the final 'end'
 lines = lib.split('\n')
@@ -33,4 +34,4 @@ def compose(name, imports, part):
     open(dest, 'w').write(out)
     print('wrote', dest, len(out.split('\n')), 'lines')
 
-compose('Check', ['import FortressLibrary.{...} except { opr BIG + }', 'import List.{...}', 'import Set.{...}', 'import MicroGPTData.{...}'], PART)
+compose(NAME, ['import FortressLibrary.{...} except { opr BIG + }', 'import List.{...}', 'import Set.{...}', 'import MicroGPTData.{...}'], PART)

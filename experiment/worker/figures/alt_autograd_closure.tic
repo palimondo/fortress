@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`
+  id: ZZ32 = nextId()
+  var grad: RR64 := 0
+  var propagate: () -> () := fn () => ()
+  opr +(self, b: Value): Value = do
+    out = Value(data + b.data, <|[\Value\] self, b|>)
+    out.propagate := fn () => do grad += out.grad; b.grad += out.grad end
+    out
+  end
+  opr juxtaposition(self, b: Value): Value = do
+    out = Value(data b.data, <|[\Value\] self, b|>)
+    out.propagate := fn () => do grad += b.data out.grad; b.grad += data out.grad end
+    out
+  end
+  backward(): () = do
+    grad := 1
+    for v <- seq(topo(self).reverse) do (v.propagate)() end
+  end
+end
+leaf(x: RR64): Value = Value(x, <|[\Value\] |>)`
+\end{preview}
+\end{document}
