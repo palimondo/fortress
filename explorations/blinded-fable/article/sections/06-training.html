@@ -1,0 +1,54 @@
+<h2 id="training">6. Loss, backpropagation, Adam, training loop, sampling</h2>
+<h3>6.1 Cross-entropy loss</h3>
+<p>Each training document is a name wrapped in the special BOS token on both sides. For every position the model predicts the next token; the loss is the negative log-probability it assigned to the token that actually came next, averaged over the positions:</p>
+{{math:loss}}
+<pre class="py">keys, values = [[] for _ in range(n_layer)], [[] for _ in range(n_layer)]
+losses = []
+for pos_id in range(n):
+    token_id, target_id = tokens[pos_id], tokens[pos_id + 1]
+    logits = gpt(token_id, pos_id, keys, values)
+    probs = softmax(logits)
+    loss_t = -probs[target_id].log()
+    losses.append(loss_t)
+loss = (1 / n) * sum(losses) # final average loss over the document sequence. May yours be low.</pre>
+{{fig:gpt_loss}}
+<p>The sequence form calls the model once on the first <em>n</em> tokens and reads one logit vector per position. The result is a single <code>Value</code> at the root of a graph with about 8 400 nodes per position; <code>loss.backward()</code> (section 2) fills the <code>grad</code> field of all 4 192 parameters.</p>
+
+<h3>6.2 Adam</h3>
+<p>Adam keeps two running averages per parameter — of the gradient and of its square — corrects their start-up bias, and steps each parameter by their ratio; microgpt also decays the learning rate linearly over training.</p>
+{{math:adam}}
+<pre class="py">for i, p in enumerate(params):
+    m[i] = beta1 * m[i] + (1 - beta1) * p.grad
+    v[i] = beta2 * v[i] + (1 - beta2) * p.grad ** 2
+    m_hat = m[i] / (1 - beta1 ** (step + 1))
+    v_hat = v[i] / (1 - beta2 ** (step + 1))
+    p.data -= lr_t * m_hat / (v_hat ** 0.5 + eps_adam)
+    p.grad = 0</pre>
+{{fig:gpt_adam}}
+<p>This is the one place where Fortify's typesetting adds notation on its own: <code>beta1</code> becomes β<sub>1</sub>, <code>m_hat</code> becomes m̂, and the update reads as the formula. The buffers <code>m</code>, <code>v</code> are plain arrays of numbers indexed like the parameter list, and the step count <code>t</code> lives in the optimizer object rather than in the training loop.</p>
+
+<h3>6.3 The training loop</h3>
+<p>The reference trains for 1 000 steps, one document per step. The Fortress demo is bounded: it starts from the reference's initial weights, takes 12 steps over the first documents of the seeded, shuffled dataset, and then samples. Tokenization is the character index in the sorted alphabet with BOS added at both ends:</p>
+<pre class="py">doc = docs[step % len(docs)]
+tokens = [BOS] + [uchars.index(ch) for ch in doc] + [BOS]
+n = min(block_size, len(tokens) - 1)
+# ... forward, loss, loss.backward(), Adam update ...
+lr_t = learning_rate * (1 - step / num_steps) # linear learning rate decay</pre>
+{{fig:demo_tokenize}}
+{{fig:demo_train}}
+<p>Output of the demo run. Its first two losses are the reference's own steps 1 and 2 (3.3660 and 3.4243 in the microgpt article), because both start from the same weights and the same documents; after twelve steps the loss has moved from about 3.37 (near ln 27 = 3.30, uniform guessing) to about 3.0, and the sampled strings are not yet name-like — the reference needs its full thousand steps for that, which at 35 s per step is outside this experiment's bounded runs.</p>
+{{pre:checks/train_demo_output.txt}}
+
+<h3>6.4 Sampling</h3>
+<p>Generation feeds the model its own output: start from BOS, turn the logits at the last position into probabilities (divided by a temperature that sharpens the distribution), draw a token, append it, repeat until BOS or the block size. The draw picks the first index whose cumulative probability exceeds a uniform number — the rule <code>random.choices</code> implements.</p>
+{{math:sample}}
+<pre class="py">for pos_id in range(block_size):
+    logits = gpt(token_id, pos_id, keys, values)
+    probs = softmax([l / temperature for l in logits])
+    token_id = random.choices(range(vocab_size), weights=[p.data for p in probs])[0]
+    if token_id == BOS:
+        break
+    sample.append(uchars[token_id])</pre>
+{{fig:gpt_pick}}
+{{fig:demo_sample}}
+<p>In the sequence form the model is re-run on the growing prefix at every step (quadratic in the length, but the block size is 16); the cached form of section 5.6 is the linear-time way to do the same. The verification run replays the uniform draws recorded from the Python sampler, so the two programs pick identical tokens.</p>

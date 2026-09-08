@@ -1,0 +1,26 @@
+<h1>microGPT in Fortress: a transformer written as mathematics</h1>
+<p class="lede">A complete GPT — tokenizer, autograd, model, loss, Adam, sampling — expressed in Sun Labs' Fortress language so that its executable definitions typeset as the formulas of the papers, verified against Andrej Karpathy's <em>microgpt</em> to machine precision. The article teaches two things side by side: how a GPT works, and how to build the Fortress building blocks that let its mathematical core be written so directly.</p>
+
+<div class="note">
+<p><strong>What you are looking at.</strong> Every Fortress figure below is typeset by <em>Fortify</em>, the project's own Emacs-and-LaTeX typesetter, from the exact ASCII source that the Fortress interpreter runs (open “ASCII source as typed” under any figure). Nothing is hand-typeset. The behavioral reference is the pinned <code>microgpt.py</code> gist (revision <code>14fb0388…</code>, sha256 <code>d47d88c2…</code>); the Fortress program reproduces its logits, losses, all 4192 gradients, the Adam-updated parameters and its sampled names for two training steps and three samples with maximum differences at the level of floating-point rounding (≤ 3·10<sup>-16</sup>). Section 7 has the numbers.</p>
+</div>
+
+<h2 id="contents">Contents</h2>
+<ol>
+<li><a href="#reading">How to read the figures</a></li>
+<li><a href="#autograd">Autograd: a scalar that remembers the chain rule</a></li>
+<li><a href="#sum">Summation, and how a user type joins the ∑ big operator</a></li>
+<li><a href="#vectors">Vectors and matrices of differentiable scalars</a></li>
+<li><a href="#model">The model: rmsnorm, softmax, attention, MLP, residual stream</a></li>
+<li><a href="#training">Loss, backpropagation, Adam, training loop, sampling</a></li>
+<li><a href="#verification">Verification against the reference and cost</a></li>
+<li><a href="#language">What the language gives, what we added, and where the mismatches remain</a></li>
+<li><a href="#alternatives">Alternatives explored, and why this form</a></li>
+<li><a href="#process">Reproducing everything</a></li>
+</ol>
+
+<h2 id="reading">1. How to read the figures</h2>
+<p>Fortress (Sun Labs, 2003–2012) was designed so that programs read like whiteboard mathematics: Unicode or ASCII-spelled operators, juxtaposition as a user-definable multiplication, big operators such as <code>SUM</code> defined in libraries, and a typesetter that turns the ASCII you type into the notation you mean. The four lines below are a running Fortress program; on the left is what Fortify makes of them.</p>
+{{fig:intro_intro}}
+<p>Conventions to keep in mind: <code>SUM[x_i &lt;- x] x_i^2</code> is a real reduction over the elements of <code>x</code> (typeset ∑ with its binding below); <code>&lt;| e | x &lt;- g |&gt;</code> is a list comprehension (⟨ e | x ← g ⟩); <code>x DOT w</code> is the operator named DOT (·); identifiers such as <code>alpha</code> or <code>x_i</code> are typeset as α and x<sub>i</sub>; a name in <code>[\ … \]</code> is a static (type or size) argument and typesets in white brackets ⟦…⟧; keywords are in typewriter. Fortress code is <em>implicitly parallel</em>: the iterations of a comprehension or a reduction may run in separate threads, and the language keeps that order-independence visible rather than hiding it.</p>
+<p>Three colors of code appear in this article. Python excerpts (blue) are quoted verbatim from the pinned reference. Fortress figures (cards) are typeset from the actual program. Plain grey blocks are interpreter output or shell commands.</p>

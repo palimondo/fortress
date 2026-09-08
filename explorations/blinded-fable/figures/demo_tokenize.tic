@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`tokenize(doc: String): List[\ZZ32\] = do
+  ids = <|[\ZZ32\] (if i <- ref_uchars.indexOf(ch) then i else 0 end) | ch <- doc |>
+  (<|[\ZZ32\] ref_bos |> || ids).addRight(ref_bos)
+end`
+\end{preview}
+\end{document}

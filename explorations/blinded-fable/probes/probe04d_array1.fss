@@ -1,0 +1,42 @@
+component probe04d_array1
+import List.{...}
+export Executable
+
+(* Explicit Array1/Array2 types with nat parameters. *)
+object V(x: RR64)
+  opr +(self, other: V): V = V(x + other.x)
+  opr juxtaposition(self, other: V): V = V(x other.x)
+end
+object VSum extends CommutativeMonoidReduction[\V\]
+  getter asString(): String = "VSum"
+  empty(): V = V(0.0)
+  join(a: V, b: V): V = a + b
+end
+opr SUM[\T extends V\](): BigReduction[\V,V\] = BigReduction[\V,V\](VSum)
+
+linear[\nat m, nat n\](w: Array2[\V,0,m,0,n\], x: Array1[\V,0,n\]): Array1[\V,0,m\] =
+  array1[\V,m\](fn (i: ZZ32) => SUM[j <- 0#n] w[i,j] x[j])
+
+opr DOT[\nat n\](a: Array1[\V,0,n\], b: Array1[\V,0,n\]): V = SUM[i <- 0#n] a[i] b[i]
+
+run(): () = do
+  x = array1[\V,3\](fn (i: ZZ32) => V(i + 1.0))
+  w = array2[\V,2,3\]().fill(V(0.5))
+  w[1,2] := V(2.0)
+  y = linear(w, x)
+  println("y[0] = " y[0].x " (expect 3)")
+  println("y[1] = " y[1].x " (expect 7.5)")
+  println("x DOT x = " (x DOT x).x " (expect 14)")
+  println("|x| = " |x| "  |w| = " |w|)
+  z = x.map[\V\](fn (v: V) => v v)
+  println("z[2] = " z[2].x " (expect 9)")
+  t = SUM[v <- x] v
+  println("SUM[v<-x] v = " t.x " (expect 6)")
+  for (i,j) <- w.indices do
+    if i = 0 AND j = 0 then println("w[0,0] = " w[i,j].x) end
+  end
+  xs = x[0:1]
+  println("|x[0:1]| = " |xs|)
+  println("x[1:2][0] = " (x[1:2])[0].x " (expect 2)")
+end
+end

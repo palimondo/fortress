@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Vec(x: List[\Value\]) extends DelegatedIndexed[\Value, ZZ32\]
+  getter bounds(): CompactFullRange[\ZZ32\] = x.bounds
+  getter indices(): Generator[\ZZ32\] = x.indices
+  getter indexValuePairs(): Indexed[\(ZZ32, Value), ZZ32\] = x.indexValuePairs
+  opr |self|: ZZ32 = |x|
+  opr [i: ZZ32]: Value = x[i]
+  opr [r: Range[\ZZ32\]]: Vec = Vec(x[r])
+  opr ||(self, y: Vec): Vec = Vec(x || y.x)
+
+  opr +(self, y: Vec): Vec = Vec(<| x[i] + y[i] | i <- x.indices |>)
+  opr DOT(self, y: Vec): Value = SUM[i <- x.indices] x[i] y[i]
+  opr /(self, c: RR64): Vec = Vec(<| x_i / c | x_i <- x |>)
+end
+opr juxtaposition(s: Value, x: Vec): Vec = Vec(<| s x_i | x_i <- x |>)
+relu(x: Vec): Vec = Vec(<| relu(x_i) | x_i <- x |>)
+
+(* concatenation of vectors as a big operator *)
+object CatVecs extends MonoidReduction[\Vec\]
+  getter asString(): String = "CatVecs"
+  empty(): Vec = Vec(<|[\Value\] |>)
+  join(a: Vec, b: Vec): Vec = a || b
+end
+opr BIG ||(): BigReduction[\Vec, Vec\] = BigReduction[\Vec, Vec\](CatVecs)`
+\end{preview}
+\end{document}

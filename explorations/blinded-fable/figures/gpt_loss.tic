@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* cross-entropy over a token sequence, averaged over positions *)
+loss(model: Model, tokens: List[\ZZ32\]): Value = do
+  n = |tokens| - 1
+  logits = model.forward(tokens[0 # n])
+  losses = <| -log((softmax(logits[t]))[tokens[t+1]]) | t <- 0#n |>
+  (1/n) (SUM[l <- losses] l)
+end`
+\end{preview}
+\end{document}

@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`norm(v: RR64[3]): RR64 = SQRT(SUM[v_i <- v] v_i^2)
+scale(alpha: RR64, v: RR64[3]): List[\RR64\] = <| alpha v_i | v_i <- v |>
+angle(x: RR64[3], w: RR64[3]): RR64 = acos((x DOT w) / (norm(x) norm(w)))`
+\end{preview}
+\end{document}

@@ -1,0 +1,69 @@
+component probe11_backward
+import List.{...}
+import Set.{...}
+export Executable
+
+(* First complete reverse-mode autodiff: node ids, topological order, chain rule,
+   checked against the micrograd example and against finite differences. *)
+var counter: ZZ32 := 0
+nextId(): ZZ32 = atomic do counter += 1; counter end
+
+object Value(var data: RR64, deps: Generator[\(Value, RR64)\])
+  id: ZZ32 = nextId()
+  var grad: RR64 := 0.0
+  opr +(self, other: Value): Value = node(data + other.data, (self, 1.0), (other, 1.0))
+  opr juxtaposition(self, other: Value): Value = node(data other.data, (self, other.data), (other, data))
+  opr -(self): Value = node(-data, (self, -1.0))
+  opr -(self, other: Value): Value = self + (-other)
+  opr /(self, other: Value): Value = self other^(-1.0)
+  opr ^ (self, n: RR64): Value = node(data^n, (self, n data^(n-1.0)))
+  exp(self): Value = node(exp(data), (self, exp(data)))
+  log(self): Value = node(log(data), (self, 1.0/data))
+
+  backward(): () = do
+    order = topo(self)
+    grad := 1.0
+    for v <- seq(order.reverse) do
+      for (c, d) <- seq(v.deps) do c.grad += d v.grad end
+    end
+  end
+end
+node(data: RR64, deps: (Value, RR64)...): Value = Value(data, deps)
+
+(* children before parents *)
+topo(root: Value): List[\Value\] = do
+  var seen: Set[\ZZ32\] := {[\ZZ32\] }
+  var order: List[\Value\] := <|[\Value\] |>
+  visit(v: Value): () =
+    if v.id NOTIN seen then
+      seen := seen.add(v.id)
+      for (c, _) <- seq(v.deps) do visit(c) end
+      order := order.addRight(v)
+    end
+  visit(root)
+  order
+end
+
+f(a: Value, b: Value): Value = exp(a b) + log(b) - a^2.0 / b
+
+run(): () = do
+  (* micrograd example *)
+  a = node(2.0)
+  b = node(3.0)
+  L = a b + a
+  L.backward()
+  println("a.grad = " a.grad " (expect 4)  b.grad = " b.grad " (expect 2)")
+  (* finite differences on f *)
+  x = node(0.7)
+  y = node(1.3)
+  z = f(x, y)
+  z.backward()
+  h = 0.000001
+  dfdx = (f(node(0.7 + h), node(1.3)).data - f(node(0.7 - h), node(1.3)).data) / (2 h)
+  dfdy = (f(node(0.7), node(1.3 + h)).data - f(node(0.7), node(1.3 - h)).data) / (2 h)
+  println("f = " z.data)
+  println("df/dx autodiff " x.grad " numeric " dfdx " diff " |x.grad - dfdx|)
+  println("df/dy autodiff " y.grad " numeric " dfdy " diff " |y.grad - dfdy|)
+  println("nodes created: " counter)
+end
+end

@@ -1,0 +1,8 @@
+component probe08c_arraycompr
+export Executable
+object V(x: RR64) end
+run(): () = do
+  a = [ i |-> V(2 i) | i <- 0#4 ]
+  println("array comprehension ok " a[3].x " (expect 6)")
+end
+end

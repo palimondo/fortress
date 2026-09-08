@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Layer[\nat d, nat f\](W_q: Array2[\Value,0,d,0,d\], W_k: Array2[\Value,0,d,0,d\],
+                             W_v: Array2[\Value,0,d,0,d\], W_o: Array2[\Value,0,d,0,d\],
+                             W1: Array2[\Value,0,f,0,d\], W2: Array2[\Value,0,d,0,f\])
+  (* the KV cache: keys and values of the positions seen so far *)
+  var keys: List[\List[\Value\]\] := <|[\List[\Value\]\] |>
+  var values: List[\List[\Value\]\] := <|[\List[\Value\]\] |>
+  reset(): () = do keys := <|[\List[\Value\]\] |>; values := <|[\List[\Value\]\] |> end
+
+  attention(x: Indexed[\Value, ZZ32\], n_head: ZZ32): List[\Value\] = do
+    (q, k, v) = (W_q x, W_k x, W_v x)
+    keys := keys.addRight(k)
+    values := values.addRight(v)
+    hd = d DIV n_head
+    head(h: ZZ32): List[\Value\] = do
+      hs = h hd
+      q_h = q[hs # hd]
+      k_h = <| k_t[hs # hd] | k_t <- keys |>
+      v_h = <| v_t[hs # hd] | v_t <- values |>
+      alpha = softmax(<| (q_h DOT k_t) / SQRT(hd) | k_t <- k_h |>)
+      <| SUM[t <- alpha.indices] alpha[t] (v_h[t])[j] | j <- 0#hd |>
+    end
+    W_o (BIG CONCAT[\Value\][h <- 0#n_head] head(h))
+  end
+
+  mlp(x: Indexed[\Value, ZZ32\]): List[\Value\] = do
+    h = <| relu(u) | u <- W1 x |>
+    W2 h
+  end
+
+  forward(x: Indexed[\Value, ZZ32\], n_head: ZZ32): List[\Value\] = do
+    x1 = x + attention(rmsnorm(x), n_head)
+    x1 + mlp(rmsnorm(x1))
+  end
+
+  matrices(): List[\Array[\Value,(ZZ32,ZZ32)\]\] = <|[\Array[\Value,(ZZ32,ZZ32)\]\] W_q, W_k, W_v, W_o, W1, W2 |>
+end`
+\end{preview}
+\end{document}

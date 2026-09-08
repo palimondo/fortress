@@ -1,0 +1,52 @@
+component probe18_vec
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+export Executable
+
+(* A Vec wrapper object as a DelegatedIndexed: does the generator machinery work through it? *)
+object V(x: RR64)
+  opr +(self, other: V): V = V(x + other.x)
+  opr juxtaposition(self, other: V): V = V(x other.x)
+  opr ^ (self, n: RR64): V = V(x^n)
+end
+object VSum extends CommutativeMonoidReduction[\V\]
+  getter asString(): String = "VSum"
+  empty(): V = V(0.0)
+  join(a: V, b: V): V = a + b
+end
+opr SUM(): BigReduction[\V,V\] = BigReduction[\V,V\](VSum)
+
+object Vec(e: List[\V\]) extends DelegatedIndexed[\V, ZZ32\]
+  getter bounds(): CompactFullRange[\ZZ32\] = e.bounds
+  getter indices(): Generator[\ZZ32\] = e.indices
+  getter indexValuePairs(): Indexed[\(ZZ32,V),ZZ32\] = e.indexValuePairs
+  opr |self|: ZZ32 = |e|
+  opr [i: ZZ32]: V = e[i]
+  opr [r: Range[\ZZ32\]]: Vec = Vec(e[r])
+  opr +(self, y: Vec): Vec = Vec(<| x_i + y[i] | (i, x_i) <- e.indexValuePairs |>)
+  opr DOT(self, y: Vec): V = SUM[i <- e.indices] e[i] y[i]
+end
+vec(g: Generator[\V\]): Vec = Vec(list(g))
+node(x: RR64, deps: (V, RR64)...): V = V(x)
+
+run(): () = do
+  x = Vec(<| V(1.0), V(2.0), V(3.0), V(4.0) |>)
+  println("|x| = " |x| " x[2] = " x[2].x)
+  s1 = SUM[x_i <- x] x_i^2
+  println("SUM[x_i <- x] x_i^2 = " s1.x " (expect 30)")
+  s2 = SUM[i <- x.indices] x[i]
+  println("SUM[i <- x.indices] x[i] = " s2.x " (expect 10)")
+  y = x + x
+  println("(x + x)[3] = " y[3].x " (expect 8)")
+  z = x[1 # 2]
+  println("x[1#2]: |z| = " |z| " z[0] = " z[0].x " (expect 2, 2)")
+  println("x DOT x = " (x DOT x).x " (expect 30)")
+  w = vec(<| V(2 i) | i <- 0#3 |>)
+  println("vec from comprehension: " w[2].x " (expect 4)")
+  for (i, x_i) <- x.indexValuePairs do if i = 3 then println("ivp ok " x_i.x) end end
+  l = <| x_i | x_i <- x |>
+  println("list from Vec: " |l|)
+  n = node(1.0, (V(0.0), 1), (V(0.0), 2.5))
+  println("int literal in varargs pair ok " n.x)
+end
+end

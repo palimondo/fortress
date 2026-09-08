@@ -1,0 +1,47 @@
+component alt_autograd_lists
+import List.{...}
+import Set.{...}
+export Executable
+
+(* Alternative A2: the Python shape — separate lists of children and local gradients. *)
+var counter: ZZ32 := 0
+nextId(): ZZ32 = atomic do counter += 1; counter end
+
+(* FIG autograd_lists *)
+
+  id: ZZ32 = nextId()
+  var grad: RR64 := 0
+  opr +(self, b: Value): Value = Value(data + b.data, <|[\Value\] self, b|>, <|[\RR64\] 1, 1|>)
+  opr juxtaposition(self, b: Value): Value = Value(data b.data, <|[\Value\] self, b|>, <|[\RR64\] b.data, data|>)
+  opr ^ (self, n: RR64): Value = Value(data^n, <|[\Value\] self|>, <|[\RR64\] n data^(n-1)|>)
+  backward(): () = do
+    grad := 1
+    for v <- seq(topo(self).reverse) do
+      for (c, d) <- seq(v.children.zip[\RR64\](v.localGrads)) do c.grad += d v.grad end
+    end
+  end
+end
+leaf(x: RR64): Value = Value(x, <|[\Value\] |>, <|[\RR64\] |>)
+(* END FIG *)
+
+topo(root: Value): List[\Value\] = do
+  var seen: Set[\ZZ32\] := {[\ZZ32\] }
+  var order: List[\Value\] := <|[\Value\] |>
+  visit(v: Value): () =
+    if v.id NOTIN seen then
+      seen := seen.add(v.id)
+      for c <- seq(v.children) do visit(c) end
+      order := order.addRight(v)
+    end
+  visit(root)
+  order
+end
+
+run(): () = do
+  a = leaf(2.0)
+  b = leaf(3.0)
+  L = a b + a
+  L.backward()
+  println("a.grad = " a.grad " (expect 4)  b.grad = " b.grad " (expect 2)")
+end
+end

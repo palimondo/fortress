@@ -1,0 +1,2337 @@
+======== 2026-09-08T16:57:00Z ./bin/fortress ProjectFortress/hello.fss
+/home/user/fortress/Library/CompilerSystem.fsi:15:8-18:
+    StringVector is undefined.
+Internally generated library name, in source code NamingCzar.:0:0:
+    FortressBuiltin.JavaString is undefined.
+Internally generated library name, in source code NamingCzar.:0:0:
+    FortressBuiltin.StringVector is undefined.
+-------- exit: 255
+======== 2026-09-08T17:00:02Z ./bin/fortress experiment/worker/probes/probe01_value.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe01_value.fss:12:5-64:
+Unification error: Closure/Constructor for Value param 3 ($localGrads:List[\RR64\]) got arg ArrayList[\FloatLiteral\] of type ArrayList[\FloatLiteral\]
+Context:
+/home/user/fortress/experiment/worker/probes/probe01_value.fss:12:5-64:
+/home/user/fortress/experiment/worker/probes/probe01_value.fss:24:7-9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:00:06Z ./bin/fortress experiment/worker/probes/probe02_sum.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85: and
+/home/user/fortress/experiment/worker/probes/probe02_sum.fss:20:1-59:
+Overloading of BIG +[\T extends FortressLibrary.Number\]():Comprehension[\T,FortressLibrary.Number,FortressLibrary.Number,FortressLibrary.Number\]/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85 and BIG +():BigReduction[\V,V\] ()->BigReduction[\V,V\] /home/user/fortress/experiment/worker/probes/probe02_sum.fss:20:1-59 fails because their parameter lists have the same types
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85:
+/home/user/fortress/experiment/worker/probes/probe02_sum.fss:24:8-9:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:00:09Z ./bin/fortress experiment/worker/probes/probe03_numeric.fss
+null/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:13:11-26:
+    Resolution of operator property failed for:
+    /home/user/fortress/experiment/worker/probes/probe03_numeric.fss:13.11: Precedence mismatch: juxtaposition and -.
+  RealExpr: expr = StringLiteralExpr at /home/user/fortress/experiment/worker/probes/probe03_numeric.fss:13.11
+  RealExpr: expr = 0
+  TightInfix: op = -
+  RealExpr: expr = 5
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:13:21-23:
+    Syntax Error: a numeral contains letters and does not have a radix specifier.
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:27:13-18:
+    Syntax Error: a numeral contains letters and does not have a radix specifier.
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:29:20-22:
+    Syntax Error: a numeral contains letters and does not have a radix specifier.
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:29:20-36:
+    Resolution of operator property failed for:
+    /home/user/fortress/experiment/worker/probes/probe03_numeric.fss:29.25: Precedence mismatch: - and juxtaposition.
+  RealExpr: expr = 0
+  TightInfix: op = -
+  RealExpr: expr = 300
+  RealExpr: expr = 0
+  TightInfix: op = -
+  RealExpr: expr = 300
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:29:29-31:
+    Syntax Error: a numeral contains letters and does not have a radix specifier.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:01:05Z ./bin/fortress experiment/worker/probes/probe01_value.fss
+L.data = 8.0
+children of L: 2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe01_value.fss:30:19-44:
+Unification error: Closure/Constructor for zip param 1 (g:ZeroIndexed[\F@/home/user/fortress/Library/List.fss:251:1-477:2\]) got arg ArrayList[\RR64\] of type ArrayList[\RR64\]
+Context:
+/home/user/fortress/experiment/worker/probes/probe01_value.fss:30:19-44:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:01:09Z ./bin/fortress experiment/worker/probes/probe02b_sum.fss
+SUM xs = 6.5 (expect 6.5)
+SUM <| v v | v <- xs |> = 17.25 (expect 17.25)
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/Library/FortressLibrary.fss:1120:25-34:
+/home/user/fortress/experiment/worker/probes/probe02b_sum.fss:25:21-23:
+/home/user/fortress/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/probes/probe02b_sum.fss:25:12-17:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/probes/probe02b_sum.fss:25:8-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:01:11Z ./bin/fortress experiment/worker/probes/probe03_numeric.fss
+x^(-0.5) = 0.7071067811865476
+x^0.5 = 1.4142135623730951
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/experiment/worker/probes/probe03_numeric.fss:8:23-25:
+** bug! Expect all oprefs to be top level SQRT
+Context:
+/home/user/fortress/experiment/worker/probes/probe03_numeric.fss:8:23-25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:01:54Z ./bin/fortress experiment/worker/probes/probe01_value.fss
+L.data = 8.0
+children of L: 2
+a.grad = 4.0 (expect 4)
+b.grad = 2.0 (expect 2)
+exp(a).data = 7.38905609893065
+log(b).data = 1.0986122886681098
+a^(-0.5) = 0.7071067811865476 local grad -0.1767766952966369
+(-a).data = -2.0
+-------- exit: 0
+======== 2026-09-08T17:01:57Z ./bin/fortress experiment/worker/probes/probe02c_sumstatic.fss
+SUM[v<-xs] v v = 17.25 (expect 17.25)
+-------- exit: 0
+======== 2026-09-08T17:02:01Z ./bin/fortress experiment/worker/probes/probe02d_bigsigma.fss
+BIG SIGMA xs = 6.5 (expect 6.5)
+BIG SIGMA[v<-xs] v v = 17.25 (expect 17.25)
+BIG SIGMA[i<-0#4] V(i) = 6 (expect 6)
+-------- exit: 0
+======== 2026-09-08T17:02:04Z ./bin/fortress experiment/worker/probes/probe03_numeric.fss
+x^(-0.5) = 0.7071067811865476
+x^0.5 = 1.4142135623730951
+SQRT x = 1.4142135623730951
+exp 1 = 2.718281828459045
+log 10 = 2.302585092994046
+1/3 = 0.3333333333333333
+0.1+0.2 = 0.30000000000000004
+1e-5 = 0.00001
+MAX = 7.5
+|-2.5| = 2.5
+0.0 > -1 ? true
+y = 2.5
+z = 1.0
+int division 16/4 = 4 head_dim 
+16 DIV 4 = 4
+floating from int 4.0
+random(1.0) = 0.5635788824576127
+big Infinity
+tiny 0.0
+-------- exit: 0
+======== 2026-09-08T17:03:23Z ./bin/fortress experiment/worker/probes/probe04_arrays.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85: and
+/home/user/fortress/experiment/worker/probes/probe04_arrays.fss:15:1-73:
+Overloading of BIG +[\T extends FortressLibrary.Number\]():Comprehension[\T,FortressLibrary.Number,FortressLibrary.Number,FortressLibrary.Number\]/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85 and BIG +[\T extends V\]():BigReduction[\V,V\]/home/user/fortress/experiment/worker/probes/probe04_arrays.fss:15:1-73 fails because their parameter lists have the same types
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:3041:1-3042:85:
+/home/user/fortress/experiment/worker/probes/probe04_arrays.fss:35:7-8:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:03:25Z ./bin/fortress experiment/worker/probes/probe05_graph.fss
+topo size = 4 (expect 4)
+ids in order: <|1, 2, 3, 4|>
+reversed: <|4, 3, 2, 1|>
+acc = 15.0 (expect 15)
+f(3) = 9.0
+i = 3
+found = 4 (expect 4)
+-------- exit: 0
+======== 2026-09-08T17:03:30Z ./bin/fortress experiment/worker/probes/probe06_speed.fss
+null/home/user/fortress/experiment/worker/probes/probe06_speed.fss:34:23:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:04:24Z ./bin/fortress experiment/worker/probes/probe04_arrays.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe04_arrays.fss:28:7-17:
+Unification error: /home/user/fortress/experiment/worker/probes/probe04_arrays.fss:19:27-31:
+Cannot unify __DefaultArray2[\V,0,2,0,3\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with ArrayType at /home/user/fortress/experiment/worker/probes/probe04_arrays.fss:19.27(class com.sun.fortress.nodes.ArrayType) abm=()
+Context:
+/home/user/fortress/experiment/worker/probes/probe04_arrays.fss:28:7-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:04:26Z ./bin/fortress experiment/worker/probes/probe02e_except.fss
+/home/user/fortress/experiment/worker/probes/probe02e_except.fss:2:42:
+    Syntax Error
+-------- exit: 255
+======== 2026-09-08T17:04:28Z ./bin/fortress experiment/worker/probes/probe06_speed.fss
+null/home/user/fortress/experiment/worker/probes/probe06_speed.fss:35:23:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:05:55Z ./bin/fortress experiment/worker/probes/probe04b_array2.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe04b_array2.fss:26:7-17:
+Unification error: /home/user/fortress/experiment/worker/probes/probe04b_array2.fss:17:51-53:
+Cannot unify PrimitiveArray[\V,3\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with ArrayType at /home/user/fortress/experiment/worker/probes/probe04b_array2.fss:17.51(class com.sun.fortress.nodes.ArrayType) abm=m=(2,Any) n=(3,Any)
+Context:
+/home/user/fortress/experiment/worker/probes/probe04b_array2.fss:26:7-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:05:57Z ./bin/fortress experiment/worker/probes/probe04c_arraylit.fss
+w[1,0] = 3.0 (expect 3)
+-------- exit: 0
+======== 2026-09-08T17:06:00Z ./bin/fortress experiment/worker/probes/probe02f_except.fss
+/home/user/fortress/experiment/worker/probes/probe02f_except.fss:2:42:
+    Syntax Error
+-------- exit: 255
+======== 2026-09-08T17:06:02Z ./bin/fortress experiment/worker/probes/probe06_speed.fss
+null/home/user/fortress/experiment/worker/probes/probe06_speed.fss:35:23:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:07:12Z ./bin/fortress experiment/worker/probes/probe04d_array1.fss
+y[0] = 3.0 (expect 3)
+y[1] = 7.5 (expect 7.5)
+x DOT x = 14.0 (expect 14)
+|x| = 3  |w| = 6
+z[2] = 9.0 (expect 9)
+SUM[v<-x] v = 6.0 (expect 6)
+w[0,0] = 0.5
+|x[0:1]| = 2
+x[1:2][0] = 2.0 (expect 2)
+-------- exit: 0
+======== 2026-09-08T17:07:26Z render fig00_probe.tic
+Process with
+  TEXINPUTS=".:/home/user/fortress/Fortify:" latex "fig00_probe.tex"
+or (for pdf output) 
+  TEXINPUTS=".:/home/user/fortress/Fortify:" pdflatex "fig00_probe.tex"
+  output written to fig00_probe.svg
+1 of 1 page converted in 0.120805 seconds
+-rw-r--r-- 1 root root  83686 Sep  8 17:07 fig00_probe.png
+-rw-r--r-- 1 root root 145763 Sep  8 17:07 fig00_probe.svg
+-------- render exit: 0
+======== 2026-09-08T17:07:48Z ./bin/fortress experiment/worker/probes/probe06_speed.fss
+Operation took 20157ms
+acc = 40.00000000000292
+expect about 40.0
+Exception in thread "main" java.lang.OutOfMemoryError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at com.sun.fortress.interpreter.Driver.runProgram(Driver.java:562)
+	at com.sun.fortress.Shell.eval(Shell.java:621)
+	at com.sun.fortress.Shell.walk(Shell.java:1125)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+Caused by: java.lang.OutOfMemoryError: Java heap space
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprListParallel(Evaluator.java:347)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxtCommon(Evaluator.java:671)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:652)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.tasks.TupleTask.compute(TupleTask.java:38)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinTask.invokeAll(ForkJoinTask.java:807)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprListParallel(Evaluator.java:351)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forOpExpr(Evaluator.java:846)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forOpExpr(Evaluator.java:44)
+	at com.sun.fortress.nodes.OpExpr.accept(OpExpr.java:55)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forAssignment(Evaluator.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forAssignment(Evaluator.java:44)
+	at com.sun.fortress.nodes.Assignment.accept(Assignment.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+-------- exit: 1
+======== 2026-09-08T17:09:49Z ./bin/fortress experiment/worker/probes/probe07_varargs.fss
+null/home/user/fortress/experiment/worker/probes/probe07_varargs.fss:5:30-49:
+    Varargs parameters of objects are not allowed.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:09:51Z ./bin/fortress experiment/worker/probes/probe08_types.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe08_types.fss:13:8-11:
+Unification error: /home/user/fortress/experiment/worker/probes/probe08_types.fss:7:16-18:
+Cannot unify PrimitiveArray[\V,3\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with ArrayType at /home/user/fortress/experiment/worker/probes/probe08_types.fss:7.16(class com.sun.fortress.nodes.ArrayType) abm=()
+Context:
+/home/user/fortress/experiment/worker/probes/probe08_types.fss:13:8-11:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:09:53Z ./bin/fortress experiment/worker/probes/probe09_vecops.fss
+y[2] = 6.0 (expect 6)
+z[2] = 6.0 (expect 6)
+u[0] = 3.0 (expect 3)  u[1] = 7.5 (expect 7.5)
+x DOT x = 14.0 (expect 14)
+r[1] = 9.5 (expect 9.5)
+-------- exit: 0
+======== 2026-09-08T17:10:01Z render fig01_variants.tic
+Process with
+  TEXINPUTS=".:/home/user/fortress/Fortify:" latex "fig01_variants.tex"
+or (for pdf output) 
+  TEXINPUTS=".:/home/user/fortress/Fortify:" pdflatex "fig01_variants.tex"
+  output written to fig01_variants.svg
+1 of 1 page converted in 0.186625 seconds
+-rw-r--r-- 1 root root 122763 Sep  8 17:10 fig01_variants.png
+-rw-r--r-- 1 root root 222303 Sep  8 17:10 fig01_variants.svg
+-------- render exit: 0
+======== 2026-09-08T17:10:42Z ./bin/fortress experiment/worker/probes/probe06_speed.fss
+Operation took 18786ms
+acc = 40.00000000000292
+expect about 40.0
+Operation took 60ms
+plain RR64 loop s = 40.00000000000292
+Operation took 583ms
+50 dot products of length 64: 503.9999999999998
+-------- exit: 0
+======== 2026-09-08T17:11:05Z ./bin/fortress experiment/worker/probes/probe02g_except.fss
+/home/user/fortress/experiment/worker/probes/probe02g_except.fss:2:46:
+    Syntax Error
+-------- exit: 255
+======== 2026-09-08T17:11:06Z ./bin/fortress experiment/worker/probes/probe07b_varargs.fss
+L = 8.0
+deps type: [0#2](immutable)[ (Node,1.0) (Node,1.0) ]
+a.grad = 4.0 (expect 4)  b.grad = 2.0 (expect 2)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe07b_varargs.fss:26:3-27:
+RHS expression type ArrayList[\(Node,FloatLiteral)\] is not assignable to LHS type List[\(Node,RR64)\]
+Context:
+/home/user/fortress/experiment/worker/probes/probe07b_varargs.fss:26:3-27:
+/home/user/fortress/experiment/worker/probes/probe07b_varargs.fss:26:3-27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:12:20Z ./bin/fortress experiment/worker/probes/probe02h_except.fss
+parsed: except { opr BIG + }
+-------- exit: 0
+======== 2026-09-08T17:12:23Z ./bin/fortress experiment/worker/probes/probe02i_except.fss
+parsed: except { opr ∑ }
+-------- exit: 0
+======== 2026-09-08T17:12:25Z ./bin/fortress experiment/worker/probes/probe08b_typesyntax.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe08b_typesyntax.fss:7:27-29:
+Unification error: Closure/Constructor for g param 1 (x:Matrix [\V\]^(3)) got arg PrimitiveArray[\V,3\] of type PrimitiveArray[\V,3\]
+Context:
+/home/user/fortress/experiment/worker/probes/probe08b_typesyntax.fss:7:27-29:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:12:28Z ./bin/fortress experiment/worker/probes/probe08c_arraycompr.fss
+/home/user/fortress/experiment/worker/probes/probe08c_arraycompr.fss:5:9:
+    Variable i is not defined.
+/home/user/fortress/experiment/worker/probes/probe08c_arraycompr.fss:5:19:
+    Variable i is not defined.
+-------- exit: 255
+======== 2026-09-08T17:12:31Z ./bin/fortress experiment/worker/probes/probe10_mixedops.fss
+a + 1.0 = 3.0
+a + 1 = 3.0
+2 a = 4.0
+2.5 a = 5.0
+a 2 = 4.0
+-a = -2.0
+a - b = -1.0
+a / b = 0.6666666666666666
+a / 4 = 0.5
+a ^ 3 = 8.0
+(a + 0.00001)^(-0.5) = 0.7071050134262237
+(1/n) a = 0.2857142857142857
+a/n = 0.2857142857142857
+relu(-a) = 0.0 relu(a) = 2.0
+log(b) = 1.0986122886681098 exp(a) = 7.38905609893065
+1 + a = 3.0
+-------- exit: 0
+======== 2026-09-08T17:12:43Z ./bin/fortress experiment/worker/probes/probe11_backward.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe11_backward.fss:54:3-13:
+Cannot find definition for method backward given receiver Value
+Context:
+/home/user/fortress/experiment/worker/probes/probe11_backward.fss:54:3-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:13:49Z ./bin/fortress experiment/worker/probes/probe02g_except.fss
+SUM xs = 6.5 (expect 6.5)
+SUM[v<-xs] v v = 17.25 (expect 17.25)
+SUM[i<-0#4] V(i) = 6 (expect 6)
+-------- exit: 0
+======== 2026-09-08T17:13:52Z ./bin/fortress experiment/worker/probes/probe02j_except_rr64.fss
+/home/user/fortress/experiment/worker/probes/probe02j_except_rr64.fss:6:8-18:
+    Operator <|_|> is not defined.
+/home/user/fortress/experiment/worker/probes/probe02j_except_rr64.fss:7:43-44:
+    Operator BIG + is not defined.
+-------- exit: 255
+======== 2026-09-08T17:13:53Z ./bin/fortress experiment/worker/probes/probe11_backward.fss
+a.grad = 4.0 (expect 4)  b.grad = 2.0 (expect 2)
+f = 2.3697637209292304
+df/dx autodiff 2.152696216477185 numeric 2.152696216839445 diff 3.6225999977546053E-10
+df/dy autodiff 2.7981973710025074 numeric 2.7981973707014163 diff 3.010911520107129E-10
+nodes created: 59
+-------- exit: 0
+======== 2026-09-08T17:15:30Z ./bin/fortress experiment/worker/probes/probe12_import.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/ProbeData.fss:3:1-55:
+Type mismatch binding ((1.0,2.0,3.0),(4.0,5.0,6.0)): ((FloatLiteral,FloatLiteral,FloatLiteral),(FloatLiteral,FloatLiteral,FloatLiteral)) (type ((FloatLiteral,FloatLiteral,FloatLiteral),(FloatLiteral,FloatLiteral,FloatLiteral))) to w0 (type Array2[\RR64,0,2,0,3\])
+Context:
+/home/user/fortress/experiment/worker/probes/ProbeData.fss:3:1-55:
+/home/user/fortress/experiment/worker/probes/ProbeData.fss:3:1-55:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:15:33Z ./bin/fortress experiment/worker/probes/probe13_natarith.fss
+null/home/user/fortress/experiment/worker/probes/probe13_natarith.fss:8:52:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:17:15Z ./bin/fortress experiment/worker/probes/probe12_import.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/ProbeData.fss:4:1-38:
+Type mismatch binding (7.0,8.0,9.0): (FloatLiteral,FloatLiteral,FloatLiteral) (type (FloatLiteral,FloatLiteral,FloatLiteral)) to v0 (type Array1[\RR64,0,3\])
+Context:
+/home/user/fortress/experiment/worker/probes/ProbeData.fss:4:1-38:
+/home/user/fortress/experiment/worker/probes/ProbeData.fss:4:1-38:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:17:18Z ./bin/fortress experiment/worker/probes/probe13_natarith.fss
+null/home/user/fortress/experiment/worker/probes/probe13_natarith.fss:8:59:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:17:19Z ./bin/fortress experiment/worker/probes/probe14_natarith2.fss
+|f(x)| = 6 (expect 6)
+-------- exit: 0
+======== 2026-09-08T17:17:22Z ./bin/fortress experiment/worker/probes/probe15_erased.fss
+slice: 2 elems, s[0] = 2.0
+dotA arrays 30.0 (expect 30)
+dotA slices 13.0 (expect 13)
+dotI arrays 30.0
+dotI slices 13.0
+dotI lists 5.0 (expect 5)
+dotZ lists 5.0
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe15_erased.fss:37:27-35:
+Unification error: Closure/Constructor for dotZ param 1 (x:ZeroIndexed[\V\]) got arg PrimitiveArray[\V,4\] of type PrimitiveArray[\V,4\]
+Context:
+/home/user/fortress/experiment/worker/probes/probe15_erased.fss:37:27-35:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:18:16Z ./bin/fortress experiment/worker/probes/probe12_import.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe12_import.fss:5:3:
+Can't infer element type for array construction
+Context:
+/home/user/fortress/experiment/worker/probes/probe12_import.fss:5:3:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:18:19Z ./bin/fortress experiment/worker/probes/probe16_names.fss
+null/home/user/fortress/experiment/worker/probes/probe16_names.fss:4:25:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:18:20Z ./bin/fortress experiment/worker/probes/probe15_erased.fss
+slice: 2 elems, s[0] = 2.0
+dotA arrays 30.0 (expect 30)
+dotA slices 13.0 (expect 13)
+dotI arrays 30.0
+dotI slices 13.0
+dotI lists 5.0 (expect 5)
+dotZ lists 5.0
+mv ok 2
+-------- exit: 0
+======== 2026-09-08T17:20:18Z ./bin/fortress experiment/worker/probes/probe12_import.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe12_import.fss:5:3:
+Can't infer element type for array construction
+Context:
+/home/user/fortress/experiment/worker/probes/probe12_import.fss:5:3:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:20:59Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:146:116:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:21:27Z ./bin/fortress experiment/worker/probes/probe12_import.fss
+w0()[1][2] = 6.0 (expect 6)  v0()[0] = 7.0 name emma twice(3) = 6.0
+a[1,2] = 6.0 (expect 6)
+-------- exit: 0
+======== 2026-09-08T17:21:34Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:160:16:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:21:55Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:160:16:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:22:40Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:160:46:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:23:29Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:179:47:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:24:25Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/MicroGPT.fss:149:61-99:
+Unification error: Closure/Constructor for concat param 1 (lists:Indexed[\List[\Array[\Value,(ZZ32,ZZ32)\]\],ZZ32\]) got arg ArrayList[\ArrayList[\Array[\Value,(ZZ32,ZZ32)\]\]\] of type ArrayList[\ArrayList[\Array[\Value,(ZZ32,ZZ32)\]\]\]
+Context:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:149:61-99:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:150:57-65:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:150:36-68:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:215:8-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:25:06Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:149:60:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:25:54Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/MicroGPT.fss:150:29-69:
+Unification error: Closure/Constructor for concat param 1 (lists:Indexed[\List[\Value\],ZZ32\]) got arg ArrayList[\ArrayList[\Value\]\] of type ArrayList[\ArrayList[\Value\]\]
+Context:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:150:29-69:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:215:8-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:26:14Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/MicroGPT.fss:218:7-24:
+Unification error: Closure/Constructor for loss param 2 (tokens:List[\ZZ32\]) got arg ArrayList[\Int\] of type ArrayList[\Int\]
+Context:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:218:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:26:28Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/MicroGPT.fss:90:30-32:
+Failed to find any matching overload, args = (), overload = {
+	_[_](n:FortressLibrary.ZZ32):E ZZ32->Value /home/user/fortress/Library/List.fss:453:5-460:8
+	_[_](_:FortressLibrary.TrivialOpenRange):ZeroIndexed[\E\]/home/user/fortress/Library/FortressLibrary.fss:1721:5-53
+	_[_](n:Range[\FortressLibrary.ZZ32\]):List.List[\E\]/home/user/fortress/Library/List.fss:145:5-152:8}:OverloadedMethod
+Context:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:90:30-32:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:90:13-25:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:90:9-36:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:144:29-69:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:164:21-46:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:167:15-22:
+/home/user/fortress/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:167:27-41:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:167:12-41:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:218:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:26:52Z ./bin/fortress experiment/worker/probes/probe17_subexp.fss
+list (xs[i])^2.0 = 9.0
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/probe17_subexp.fss:13:33-35:
+Failed to find any matching overload, args = (), overload = {
+	_[_](_:FortressLibrary.TrivialOpenRange):Array1[\T,0,s0\]/home/user/fortress/Library/FortressLibrary.fss:2114:5-2119:63
+	_[_](r:Range[\FortressLibrary.ZZ32\]):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/Library/FortressLibrary.fss:2107:5-2113:8
+	_[_](i:FortressLibrary.ZZ32):T ZZ32->V /home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:19:3-30}:OverloadedMethod
+Context:
+/home/user/fortress/experiment/worker/probes/probe17_subexp.fss:13:33-35:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:27:16Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/RangeInternals.fss:1032:21-58:
+Unification error: Closure/Constructor for join param 1 (a:List[\BOTTOM\]) got arg ArrayList[\Value\] of type ArrayList[\Value\]
+Context:
+/home/user/fortress/Library/RangeInternals.fss:1032:21-58:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:123:21-32:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:123:10-42:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:132:14-41:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:145:34-52:
+/home/user/fortress/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:145:9-26:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:164:21-46:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:167:15-22:
+/home/user/fortress/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:167:27-41:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:167:12-41:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:218:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:27:31Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.283856307273898 nodes: 41823
+Operation took 4172ms
+Operation took 26175ms
+grad of W_te[26,0]: 0.010121630444861566
+loss after one step: 2.916395745455722
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/MicroGPT.fss:230:26-40:
+Unification error: Closure/Constructor for pick param 1 (probs:List[\RR64\]) got arg ArrayList[\Float\] of type ArrayList[\Float\]
+Context:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:230:26-40:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:28:34Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:6:18-20:
+    var cannot modify an object parameter, data
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:8:3-9:4:
+    var cannot modify fields in an API.
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:52:3-53:4:
+    var cannot modify fields in an API.
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:53:3-54:7:
+    var cannot modify fields in an API.
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:76:3-77:11:
+    var cannot modify fields in an API.
+-------- exit: 255
+======== 2026-09-08T17:28:57Z ./bin/fortress experiment/worker/src/Check.fss
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:6:18-20:
+    var cannot modify an object parameter, data
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:8:3-9:4:
+    var cannot modify fields in an API.
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:52:3-53:4:
+    var cannot modify fields in an API.
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:53:3-54:7:
+    var cannot modify fields in an API.
+/home/user/fortress/experiment/worker/src/MicroGPT.fsi:76:3-77:11:
+    var cannot modify fields in an API.
+-------- exit: 255
+======== 2026-09-08T17:29:09Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/MicroGPT.fss:144:56-68:
+Unification error: /home/user/fortress/experiment/worker/src/MicroGPT.fss:82:24-48:
+Cannot unify __DefaultArray2[\Value,0,16,0,16\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with Array2[\MicroGPT.Value,0,m,0,n\](class com.sun.fortress.nodes.TraitType) abm=()
+Context:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:144:56-68:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:164:21-46:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:167:15-22:
+/home/user/fortress/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:167:27-41:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:167:12-41:
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:218:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:29:30Z ./bin/fortress experiment/worker/src/Check.fss
+/home/user/fortress/experiment/worker/src/Check.fss:108:29-36:
+    Variable nodeCount is not defined.
+-------- exit: 255
+======== 2026-09-08T17:30:32Z ./bin/fortress experiment/worker/build/Check.fss
+/home/user/fortress/experiment/worker/build/Check.fss:113:40-44:
+    Variable n_head is already declared.
+/home/user/fortress/experiment/worker/build/Check.fss:134:38-42:
+    Variable n_head is already declared.
+/home/user/fortress/experiment/worker/build/Check.fss:163:61-65:
+    Variable tokens is already declared.
+/home/user/fortress/experiment/worker/build/Check.fss:170:3-7:
+    Variable losses is already declared.
+-------- exit: 255
+======== 2026-09-08T17:30:52Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.3569269467900895 nodes: 41823
+Operation took 4145ms
+Operation took 27452ms
+grad of W_te[26,0]: -0.10671116030163014
+loss after one step: 2.992150991449448
+pick(0.5) = 13
+-------- exit: 0
+======== 2026-09-08T17:31:47Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/experiment/worker/build/Check.fss:238:11-240:59:
+** bug! Join((FlatString,__DefaultArray2[\Value,0,27,0,16\]), (FlatString,__DefaultArray2[\Value,0,16,0,16\])) not a singleton: []
+Context:
+/home/user/fortress/experiment/worker/build/Check.fss:238:11-240:59:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:32:13Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/build/Check.fss:255:22:
+Syntax Error: the argument should not be immediately followed by a non-expression element.
+Context:
+/home/user/fortress/experiment/worker/build/Check.fss:255:22:
+/home/user/fortress/Library/RangeInternals.fss:1080:13-1081:12:
+/home/user/fortress/experiment/worker/build/Check.fss:254:7-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:32:27Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/build/Check.fss:266:26:
+Syntax Error: the argument should not be immediately followed by a non-expression element.
+Context:
+/home/user/fortress/experiment/worker/build/Check.fss:266:26:
+/home/user/fortress/Library/RangeInternals.fss:1080:13-1081:12:
+/home/user/fortress/experiment/worker/build/Check.fss:263:9-23:
+/home/user/fortress/Library/RangeInternals.fss:1080:13-1081:12:
+/home/user/fortress/experiment/worker/build/Check.fss:254:7-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:32:47Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 40067ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 42103ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 415339
+ALL CHECKS PASSED
+-------- exit: 0
+======== 2026-09-08T17:35:10Z render fig02_v1_all.tic
+Process with
+  TEXINPUTS=".:/home/user/fortress/Fortify:" latex "fig02_v1_all.tex"
+or (for pdf output) 
+  TEXINPUTS=".:/home/user/fortress/Fortify:" pdflatex "fig02_v1_all.tex"
+! Double subscript.
+l.128 ...indices}}\, \alpha_{t}\, (v_{\mathrm{h}}_
+                                                  {t})[j] \right| j \leftarr...
+
+  output written to fig02_v1_all.svg
+1 of 1 page converted in 0.596906 seconds
+-rw-r--r-- 1 root root 537783 Sep  8 17:35 fig02_v1_all.png
+-rw-r--r-- 1 root root 537303 Sep  8 17:35 fig02_v1_all.svg
+-------- render exit: 1
+======== 2026-09-08T17:35:34Z render fig02_v1_all.tic
+======== 2026-09-08T17:37:12Z render v1_value.tic
+  output written to v1_value.svg
+1 of 1 page converted in 0.129038 seconds
+-rw-r--r-- 1 root root  99284 Sep  8 17:37 v1_value.png
+-rw-r--r-- 1 root root 134124 Sep  8 17:37 v1_value.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:13Z render v1_topo.tic
+  output written to v1_topo.svg
+1 of 1 page converted in 0.0656109 seconds
+-rw-r--r-- 1 root root 34092 Sep  8 17:37 v1_topo.png
+-rw-r--r-- 1 root root 71648 Sep  8 17:37 v1_topo.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:14Z render v1_sum.tic
+  output written to v1_sum.svg
+1 of 1 page converted in 0.0614409 seconds
+-rw-r--r-- 1 root root 40084 Sep  8 17:37 v1_sum.png
+-rw-r--r-- 1 root root 98927 Sep  8 17:37 v1_sum.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:15Z render v1_vectors.tic
+  output written to v1_vectors.svg
+1 of 1 page converted in 0.0903261 seconds
+-rw-r--r-- 1 root root 45728 Sep  8 17:37 v1_vectors.png
+-rw-r--r-- 1 root root 99404 Sep  8 17:37 v1_vectors.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:16Z render v1_rmsnorm.tic
+  output written to v1_rmsnorm.svg
+1 of 1 page converted in 0.0621629 seconds
+-rw-r--r-- 1 root root 17027 Sep  8 17:37 v1_rmsnorm.png
+-rw-r--r-- 1 root root 48850 Sep  8 17:37 v1_rmsnorm.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:17Z render v1_softmax.tic
+  output written to v1_softmax.svg
+1 of 1 page converted in 0.0592942 seconds
+-rw-r--r-- 1 root root 20714 Sep  8 17:37 v1_softmax.png
+-rw-r--r-- 1 root root 68968 Sep  8 17:37 v1_softmax.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:18Z render v1_layer.tic
+Overfull \hbox (29.03072pt too wide) in paragraph at lines 10--10
+[] 
+! Double subscript.
+l.27 ...{indices}}\, \alpha_{t}\, (v_{\mathrm{h}}_
+                                                  {t})[j] \right| j \leftarr...
+
+
+Overfull \hbox (101.35748pt too wide) in paragraph at lines 42--42
+[] 
+  output written to v1_layer.svg
+1 of 1 page converted in 0.137064 seconds
+-rw-r--r-- 1 root root 102196 Sep  8 17:37 v1_layer.png
+-rw-r--r-- 1 root root 174961 Sep  8 17:37 v1_layer.svg
+-------- render exit: 1
+======== 2026-09-08T17:37:19Z render v1_model.tic
+  output written to v1_model.svg
+1 of 1 page converted in 0.10136 seconds
+-rw-r--r-- 1 root root  66376 Sep  8 17:37 v1_model.png
+-rw-r--r-- 1 root root 124236 Sep  8 17:37 v1_model.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:20Z render v1_loss.tic
+  output written to v1_loss.svg
+1 of 1 page converted in 0.0772579 seconds
+-rw-r--r-- 1 root root  36451 Sep  8 17:37 v1_loss.png
+-rw-r--r-- 1 root root 101963 Sep  8 17:37 v1_loss.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:21Z render v1_adam.tic
+  output written to v1_adam.svg
+1 of 1 page converted in 0.091002 seconds
+-rw-r--r-- 1 root root 41330 Sep  8 17:37 v1_adam.png
+-rw-r--r-- 1 root root 91169 Sep  8 17:37 v1_adam.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:22Z render v1_pick.tic
+  output written to v1_pick.svg
+1 of 1 page converted in 0.0618041 seconds
+-rw-r--r-- 1 root root 34155 Sep  8 17:37 v1_pick.png
+-rw-r--r-- 1 root root 92442 Sep  8 17:37 v1_pick.svg
+-------- render exit: 0
+======== 2026-09-08T17:37:24Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.3970862394939303 nodes: 41823
+Operation took 3859ms
+Operation took 25951ms
+grad of W_te[26,0]: 0.08809698305557247
+loss after one step: 3.0079414897196046
+pick(0.5) = 13
+-------- exit: 0
+======== 2026-09-08T17:40:07Z ./bin/fortress experiment/worker/probes/probe18_vec.fss
+|x| = 4 x[2] = 3.0
+SUM[x_i <- x] x_i^2 = 30.0 (expect 30)
+SUM[i <- x.indices] x[i] = 10.0 (expect 10)
+(x + x)[3] = 8.0 (expect 8)
+x[1#2]: |z| = 2 z[0] = 2.0 (expect 2, 2)
+x DOT x = 30.0 (expect 30)
+vec from comprehension: 4 (expect 4)
+ivp ok 4.0
+list from Vec: 4
+int literal in varargs pair ok 1.0
+-------- exit: 0
+======== 2026-09-08T17:41:25Z ./bin/fortress experiment/worker/probes/probe19_bigcat.fss
+BIG || : |c| = 5 c[3] = 4.0 (expect 5, 4)
+m[2] = 2 m[2,1] = 5.0 (expect 2, 5)
+BIG ||[k<-0#3] h(k): |c2| = 6 c2[5] = 21 (expect 6, 21)
+-------- exit: 0
+======== 2026-09-08T17:42:05Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:110:3-70:
+    Field/getter/setter declarations should come before method declarations.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:42:28Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.4113444391268155 nodes: 41823
+Operation took 3328ms
+Operation took 28122ms
+grad of W_te[26,0]: 0.0679397548055674
+loss after one step: 2.9848465407467764
+pick(0.5) = 12
+-------- exit: 0
+======== 2026-09-08T17:43:13Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 44757ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 44439ms
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/build/Check.fss:330:40-90:
+Unification error: Closure/Constructor for softmax param 1 (z:Vec) got arg ArrayList[\Value\] of type ArrayList[\Value\]
+Context:
+/home/user/fortress/experiment/worker/build/Check.fss:330:40-90:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/build/Check.fss:330:15-93:
+/home/user/fortress/Library/RangeInternals.fss:1080:13-1081:12:
+/home/user/fortress/experiment/worker/build/Check.fss:328:9-29:
+/home/user/fortress/Library/RangeInternals.fss:1080:13-1081:12:
+/home/user/fortress/experiment/worker/build/Check.fss:320:7-35:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:45:02Z render v2_value.tic
+  output written to v2_value.svg
+1 of 1 page converted in 0.111986 seconds
+-rw-r--r-- 1 root root  97595 Sep  8 17:45 v2_value.png
+-rw-r--r-- 1 root root 131704 Sep  8 17:45 v2_value.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:03Z render v2_topo.tic
+  output written to v2_topo.svg
+1 of 1 page converted in 0.081229 seconds
+-rw-r--r-- 1 root root 34092 Sep  8 17:45 v2_topo.png
+-rw-r--r-- 1 root root 71648 Sep  8 17:45 v2_topo.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:04Z render v2_sum.tic
+  output written to v2_sum.svg
+1 of 1 page converted in 0.078877 seconds
+-rw-r--r-- 1 root root 39977 Sep  8 17:45 v2_sum.png
+-rw-r--r-- 1 root root 98813 Sep  8 17:45 v2_sum.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:05Z render v2_vec.tic
+  output written to v2_vec.svg
+1 of 1 page converted in 0.111925 seconds
+-rw-r--r-- 1 root root  81268 Sep  8 17:45 v2_vec.png
+-rw-r--r-- 1 root root 161349 Sep  8 17:45 v2_vec.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:06Z render v2_mat.tic
+  output written to v2_mat.svg
+1 of 1 page converted in 0.077435 seconds
+-rw-r--r-- 1 root root  38589 Sep  8 17:45 v2_mat.png
+-rw-r--r-- 1 root root 104514 Sep  8 17:45 v2_mat.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:07Z render v2_rmsnorm.tic
+  output written to v2_rmsnorm.svg
+1 of 1 page converted in 0.0642061 seconds
+-rw-r--r-- 1 root root 14825 Sep  8 17:45 v2_rmsnorm.png
+-rw-r--r-- 1 root root 33977 Sep  8 17:45 v2_rmsnorm.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:08Z render v2_softmax.tic
+  output written to v2_softmax.svg
+1 of 1 page converted in 0.0541298 seconds
+-rw-r--r-- 1 root root 17434 Sep  8 17:45 v2_softmax.png
+-rw-r--r-- 1 root root 41722 Sep  8 17:45 v2_softmax.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:08Z render v2_layer.tic
+Overfull \hbox (14.0751pt too wide) in paragraph at lines 8--8
+[][] 
+! Double subscript.
+l.21 ... = \TYP{Mat}\bigl(\langle\,k_{\mathrm{t}}_
+                                                  {\VAR{slice}} \mid k_{\mat...
+
+! Double subscript.
+l.22 ... = \TYP{Mat}\bigl(\langle\,v_{\mathrm{t}}_
+                                                  {\VAR{slice}} \mid v_{\mat...
+
+Preview: Tightpage -524288 -524288 524288 524288
+[1] (./v2_layer.aux) )
+(see the transcript file for additional information)
+  output written to v2_layer.svg
+1 of 1 page converted in 0.106677 seconds
+-rw-r--r-- 1 root root  70210 Sep  8 17:45 v2_layer.png
+-rw-r--r-- 1 root root 140735 Sep  8 17:45 v2_layer.svg
+-------- render exit: 1
+======== 2026-09-08T17:45:10Z render v2_model.tic
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
+! Double subscript.
+l.12 ...ec} \ASSIGN \VAR{rmsnorm}(W_{\mathrm{te}}_
+                                                  {\VAR{token}} + W_{\mathrm...
+
+! Double subscript.
+l.12 ...thrm{te}}_{\VAR{token}} + W_{\mathrm{pe}}_
+                                                  {\VAR{pos}}) \\
+
+Overfull \hbox (42.45038pt too wide) in paragraph at lines 16--16
+[] 
+Preview: Tightpage -524288 -524288 524288 524288
+  output written to v2_model.svg
+1 of 1 page converted in 0.0780041 seconds
+-rw-r--r-- 1 root root  43817 Sep  8 17:45 v2_model.png
+-rw-r--r-- 1 root root 107534 Sep  8 17:45 v2_model.svg
+-------- render exit: 1
+======== 2026-09-08T17:45:10Z render v2_loss.tic
+  output written to v2_loss.svg
+1 of 1 page converted in 0.094321 seconds
+-rw-r--r-- 1 root root 34136 Sep  8 17:45 v2_loss.png
+-rw-r--r-- 1 root root 93083 Sep  8 17:45 v2_loss.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:11Z render v2_adam.tic
+  output written to v2_adam.svg
+1 of 1 page converted in 0.105875 seconds
+-rw-r--r-- 1 root root 40957 Sep  8 17:45 v2_adam.png
+-rw-r--r-- 1 root root 90825 Sep  8 17:45 v2_adam.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:12Z render v2_pick.tic
+  output written to v2_pick.svg
+1 of 1 page converted in 0.057018 seconds
+-rw-r--r-- 1 root root 33894 Sep  8 17:45 v2_pick.png
+-rw-r--r-- 1 root root 92215 Sep  8 17:45 v2_pick.svg
+-------- render exit: 0
+======== 2026-09-08T17:45:33Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 41779ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 42593ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 415339
+ALL CHECKS PASSED
+-------- exit: 0
+======== 2026-09-08T17:48:03Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:152:29:
+    Variable k is already declared.
+/home/user/fortress/experiment/worker/src/MicroGPT.fss:153:29:
+    Variable v is already declared.
+-------- exit: 255
+======== 2026-09-08T17:48:06Z render v2_vec.tic
+  output written to v2_vec.svg
+1 of 1 page converted in 0.133836 seconds
+-rw-r--r-- 1 root root  80260 Sep  8 17:48 v2_vec.png
+-rw-r--r-- 1 root root 157968 Sep  8 17:48 v2_vec.svg
+-------- render exit: 0
+======== 2026-09-08T17:48:07Z render v2_mat.tic
+  output written to v2_mat.svg
+1 of 1 page converted in 0.0802119 seconds
+-rw-r--r-- 1 root root  38612 Sep  8 17:48 v2_mat.png
+-rw-r--r-- 1 root root 103701 Sep  8 17:48 v2_mat.svg
+-------- render exit: 0
+======== 2026-09-08T17:48:08Z render v2_layer.tic
+  output written to v2_layer.svg
+1 of 1 page converted in 0.122684 seconds
+-rw-r--r-- 1 root root  69971 Sep  8 17:48 v2_layer.png
+-rw-r--r-- 1 root root 140094 Sep  8 17:48 v2_layer.svg
+-------- render exit: 0
+======== 2026-09-08T17:48:09Z render v2_model.tic
+  output written to v2_model.svg
+1 of 1 page converted in 0.0847671 seconds
+-rw-r--r-- 1 root root  43494 Sep  8 17:48 v2_model.png
+-rw-r--r-- 1 root root 111653 Sep  8 17:48 v2_model.svg
+-------- render exit: 0
+======== 2026-09-08T17:48:26Z ./bin/fortress experiment/worker/probes/alt_autograd_lists.fss
+null/home/user/fortress/experiment/worker/probes/alt_autograd_lists.fss:23:14:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:48:27Z ./bin/fortress experiment/worker/probes/alt_autograd_closure.fss
+null/home/user/fortress/experiment/worker/probes/alt_autograd_closure.fss:30:14:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:48:29Z ./bin/fortress experiment/worker/probes/alt_unified_sum.fss
+scalar SUM = 17.25 (expect 17.25)
+vector SUM: h[0] = 20.5 h[1] = 41.0 (expect 20.5, 41)
+assigned to a V-typed variable: 6.5 (expect 6.5)
+-------- exit: 0
+======== 2026-09-08T17:49:11Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.347150476251512 nodes: 41823
+Operation took 2929ms
+Operation took 26642ms
+grad of E[26,0]: 0.2176674990866743
+loss after one step: 2.9729067130063114
+pick(0.5) = 12
+-------- exit: 0
+======== 2026-09-08T17:49:46Z render v2_mat.tic
+  output written to v2_mat.svg
+1 of 1 page converted in 0.0898809 seconds
+-rw-r--r-- 1 root root  42883 Sep  8 17:49 v2_mat.png
+-rw-r--r-- 1 root root 111920 Sep  8 17:49 v2_mat.svg
+-------- render exit: 0
+======== 2026-09-08T17:49:47Z render v2_layer.tic
+  output written to v2_layer.svg
+1 of 1 page converted in 0.114453 seconds
+-rw-r--r-- 1 root root  69120 Sep  8 17:49 v2_layer.png
+-rw-r--r-- 1 root root 137986 Sep  8 17:49 v2_layer.svg
+-------- render exit: 0
+======== 2026-09-08T17:50:31Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 46030ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 42216ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 415339
+ALL CHECKS PASSED
+-------- exit: 0
+======== 2026-09-08T17:52:12Z ./bin/fortress experiment/worker/probes/alt_autograd_lists.fss
+a.grad = 4.0 (expect 4)  b.grad = 2.0 (expect 2)
+-------- exit: 0
+======== 2026-09-08T17:52:15Z ./bin/fortress experiment/worker/probes/alt_autograd_closure.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/RangeInternals.fss:1072:23-40:
+Unification error: Closure/Constructor for join param 2 (b:()) got arg FnExpr at /home/user/fortress/experiment/worker/probes/alt_autograd_closure.fss:17.22 ()->BOTTOM /home/user/fortress/experiment/worker/probes/alt_autograd_closure.fss:17:22-72 of type ()->BOTTOM
+Context:
+/home/user/fortress/Library/RangeInternals.fss:1072:23-40:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/experiment/worker/probes/alt_autograd_closure.fss:27:9-38:
+/home/user/fortress/experiment/worker/probes/alt_autograd_closure.fss:49:3-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:52:36Z ./bin/fortress experiment/worker/src/alt/v3_sequence_MicroGPT.fss
+num params: 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:152:45-52:
+Failed to find any matching overload, args = (), overload = {
+	_[_](i:FortressLibrary.ZZ32):Vec ZZ32->Vec /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:109:3-30
+	_[_](i:FortressLibrary.ZZ32,j:FortressLibrary.ZZ32):Value (ZZ32,ZZ32)->Value /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:110:3-46
+	_[_](r:Range[\FortressLibrary.ZZ32\]):Mat Range[\ZZ32\]->Mat /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:111:3-44}:OverloadedMethod
+Context:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:152:45-52:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:35-43:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:30-43:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:20-31:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:13-44:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:49-64:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:5-64:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:161:14-33:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:174:34-44:
+/home/user/fortress/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:174:9-26:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:190:12-38:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:247:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:52:42Z ./bin/fortress experiment/worker/probes/alt_autograd_closure.fss
+a.grad = 4.0 (expect 4)  b.grad = 2.0 (expect 2)
+-------- exit: 0
+======== 2026-09-08T17:53:23Z ./bin/fortress experiment/worker/src/alt/v3_sequence_MicroGPT.fss
+num params: 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:191:28-36:
+Syntax Error: the argument should not be immediately followed by a non-expression element.
+Context:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:191:28-36:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:191:55-64:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:191:12-64:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:247:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:53:30Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/build/Check.fss:194:28-36:
+Syntax Error: the argument should not be immediately followed by a non-expression element.
+Context:
+/home/user/fortress/experiment/worker/build/Check.fss:194:28-36:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/build/Check.fss:194:55-64:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/build/Check.fss:194:12-64:
+/home/user/fortress/experiment/worker/build/Check.fss:299:9-24:
+/home/user/fortress/Library/RangeInternals.fss:1080:13-1081:12:
+/home/user/fortress/experiment/worker/build/Check.fss:281:7-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:53:53Z ./bin/fortress experiment/worker/src/alt/v3_sequence_MicroGPT.fss
+num params: 4192
+loss: 3.4495211832245887 nodes: 41823
+Operation took 2865ms
+Operation took 25619ms
+grad of E[26,0]: -0.1800928276895514
+loss after one step: 3.1103317519552123
+pick(0.5) = 13
+-------- exit: 0
+======== 2026-09-08T17:54:26Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 40888ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 41662ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 1393152
+ALL CHECKS PASSED
+-------- exit: 0
+======== 2026-09-08T17:58:15Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:152:28:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:58:16Z ./bin/fortress experiment/worker/build/Check.fss
+null/home/user/fortress/experiment/worker/build/Check.fss:155:28:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:58:39Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:153:28:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:58:41Z ./bin/fortress experiment/worker/build/Check.fss
+null/home/user/fortress/experiment/worker/build/Check.fss:156:28:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:59:08Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.219073530565075 nodes: 41823
+Operation took 2016ms
+Operation took 26071ms
+grad of E[26,0]: -0.04728629521279669
+loss after one step: 2.7928464951353345
+pick(0.5) = 12
+-------- exit: 0
+======== 2026-09-08T17:59:42Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 42134ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 40102ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 1393152
+ALL CHECKS PASSED
+-------- exit: 0
+======== 2026-09-08T18:02:17Z render gpt_value.tic
+  output written to gpt_value.svg
+1 of 1 page converted in 0.116601 seconds
+-rw-r--r-- 1 root root  97595 Sep  8 18:02 gpt_value.png
+-rw-r--r-- 1 root root 131704 Sep  8 18:02 gpt_value.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:18Z render gpt_topo.tic
+  output written to gpt_topo.svg
+1 of 1 page converted in 0.066644 seconds
+-rw-r--r-- 1 root root 34092 Sep  8 18:02 gpt_topo.png
+-rw-r--r-- 1 root root 71648 Sep  8 18:02 gpt_topo.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:19Z render gpt_sum.tic
+  output written to gpt_sum.svg
+1 of 1 page converted in 0.0619469 seconds
+-rw-r--r-- 1 root root 39977 Sep  8 18:02 gpt_sum.png
+-rw-r--r-- 1 root root 98813 Sep  8 18:02 gpt_sum.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:20Z render gpt_vec.tic
+  output written to gpt_vec.svg
+1 of 1 page converted in 0.126748 seconds
+-rw-r--r-- 1 root root  80260 Sep  8 18:02 gpt_vec.png
+-rw-r--r-- 1 root root 157968 Sep  8 18:02 gpt_vec.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:21Z render gpt_mat.tic
+  output written to gpt_mat.svg
+1 of 1 page converted in 0.0873148 seconds
+-rw-r--r-- 1 root root  44619 Sep  8 18:02 gpt_mat.png
+-rw-r--r-- 1 root root 114314 Sep  8 18:02 gpt_mat.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:21Z render gpt_rmsnorm.tic
+  output written to gpt_rmsnorm.svg
+1 of 1 page converted in 0.058991 seconds
+-rw-r--r-- 1 root root 14825 Sep  8 18:02 gpt_rmsnorm.png
+-rw-r--r-- 1 root root 33977 Sep  8 18:02 gpt_rmsnorm.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:22Z render gpt_softmax.tic
+  output written to gpt_softmax.svg
+1 of 1 page converted in 0.05879 seconds
+-rw-r--r-- 1 root root 17434 Sep  8 18:02 gpt_softmax.png
+-rw-r--r-- 1 root root 41722 Sep  8 18:02 gpt_softmax.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:23Z render gpt_layer.tic
+  output written to gpt_layer.svg
+1 of 1 page converted in 0.124112 seconds
+-rw-r--r-- 1 root root  85983 Sep  8 18:02 gpt_layer.png
+-rw-r--r-- 1 root root 150789 Sep  8 18:02 gpt_layer.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:24Z render gpt_model.tic
+  output written to gpt_model.svg
+1 of 1 page converted in 0.0677669 seconds
+-rw-r--r-- 1 root root  43326 Sep  8 18:02 gpt_model.png
+-rw-r--r-- 1 root root 113336 Sep  8 18:02 gpt_model.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:25Z render gpt_loss.tic
+  output written to gpt_loss.svg
+1 of 1 page converted in 0.066299 seconds
+-rw-r--r-- 1 root root 28910 Sep  8 18:02 gpt_loss.png
+-rw-r--r-- 1 root root 82869 Sep  8 18:02 gpt_loss.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:26Z render gpt_adam.tic
+  output written to gpt_adam.svg
+1 of 1 page converted in 0.0809879 seconds
+-rw-r--r-- 1 root root 40957 Sep  8 18:02 gpt_adam.png
+-rw-r--r-- 1 root root 90825 Sep  8 18:02 gpt_adam.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:27Z render gpt_pick.tic
+  output written to gpt_pick.svg
+1 of 1 page converted in 0.0549231 seconds
+-rw-r--r-- 1 root root 33894 Sep  8 18:02 gpt_pick.png
+-rw-r--r-- 1 root root 92215 Sep  8 18:02 gpt_pick.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:28Z render kv_layer.tic
+  output written to kv_layer.svg
+1 of 1 page converted in 0.093518 seconds
+-rw-r--r-- 1 root root  69120 Sep  8 18:02 kv_layer.png
+-rw-r--r-- 1 root root 137986 Sep  8 18:02 kv_layer.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:29Z render kv_model.tic
+  output written to kv_model.svg
+1 of 1 page converted in 0.0820169 seconds
+-rw-r--r-- 1 root root  43494 Sep  8 18:02 kv_model.png
+-rw-r--r-- 1 root root 111653 Sep  8 18:02 kv_model.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:30Z render v1_vectors.tic
+  output written to v1_vectors.svg
+1 of 1 page converted in 0.106054 seconds
+-rw-r--r-- 1 root root 45728 Sep  8 18:02 v1_vectors.png
+-rw-r--r-- 1 root root 99404 Sep  8 18:02 v1_vectors.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:30Z render v1_rmsnorm.tic
+  output written to v1_rmsnorm.svg
+1 of 1 page converted in 0.0563481 seconds
+-rw-r--r-- 1 root root 17027 Sep  8 18:02 v1_rmsnorm.png
+-rw-r--r-- 1 root root 48850 Sep  8 18:02 v1_rmsnorm.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:31Z render v1_layer.tic
+Overfull \hbox (29.03072pt too wide) in paragraph at lines 10--10
+[] 
+! Double subscript.
+l.27 ...{indices}}\, \alpha_{t}\, (v_{\mathrm{h}}_
+                                                  {t})[j] \right| j \leftarr...
+
+
+Overfull \hbox (101.35748pt too wide) in paragraph at lines 42--42
+[] 
+  output written to v1_layer.svg
+1 of 1 page converted in 0.133546 seconds
+-rw-r--r-- 1 root root 102196 Sep  8 18:02 v1_layer.png
+-rw-r--r-- 1 root root 174961 Sep  8 18:02 v1_layer.svg
+-------- render exit: 1
+======== 2026-09-08T18:02:34Z render alt_autograd_lists.tic
+  output written to alt_autograd_lists.svg
+1 of 1 page converted in 0.086329 seconds
+-rw-r--r-- 1 root root 46108 Sep  8 18:02 alt_autograd_lists.png
+-rw-r--r-- 1 root root 92654 Sep  8 18:02 alt_autograd_lists.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:35Z render alt_autograd_closure.tic
+  output written to alt_autograd_closure.svg
+1 of 1 page converted in 0.0769041 seconds
+-rw-r--r-- 1 root root 50009 Sep  8 18:02 alt_autograd_closure.png
+-rw-r--r-- 1 root root 85422 Sep  8 18:02 alt_autograd_closure.svg
+-------- render exit: 0
+======== 2026-09-08T18:02:35Z render alt_unified_sum.tic
+  output written to alt_unified_sum.svg
+1 of 1 page converted in 0.093678 seconds
+-rw-r--r-- 1 root root  73003 Sep  8 18:02 alt_unified_sum.png
+-rw-r--r-- 1 root root 129231 Sep  8 18:02 alt_unified_sum.svg
+-------- render exit: 0
+======== 2026-09-08T18:04:45Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.241831527050068 nodes: 41823
+Operation took 2125ms
+Operation took 25635ms
+grad of E[26,0]: 0.05110717762060508
+loss after one step: 2.8895066810089087
+pick(0.5) = 12
+-------- exit: 0
+======== 2026-09-08T18:05:45Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/build/Check.fss:272:49-55:
+Cannot find definition for method W2 given receiver Layer
+Context:
+/home/user/fortress/experiment/worker/build/Check.fss:272:49-55:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T18:06:00Z render gpt_value.tic
+  output written to gpt_value.svg
+1 of 1 page converted in 0.131675 seconds
+-rw-r--r-- 1 root root  97595 Sep  8 18:06 gpt_value.png
+-rw-r--r-- 1 root root 131704 Sep  8 18:06 gpt_value.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:01Z render gpt_topo.tic
+  output written to gpt_topo.svg
+1 of 1 page converted in 0.068728 seconds
+-rw-r--r-- 1 root root 34092 Sep  8 18:06 gpt_topo.png
+-rw-r--r-- 1 root root 71648 Sep  8 18:06 gpt_topo.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:02Z render gpt_sum.tic
+  output written to gpt_sum.svg
+1 of 1 page converted in 0.0703399 seconds
+-rw-r--r-- 1 root root 39977 Sep  8 18:06 gpt_sum.png
+-rw-r--r-- 1 root root 98813 Sep  8 18:06 gpt_sum.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:02Z render gpt_vec.tic
+  output written to gpt_vec.svg
+1 of 1 page converted in 0.138833 seconds
+-rw-r--r-- 1 root root  80260 Sep  8 18:06 gpt_vec.png
+-rw-r--r-- 1 root root 157968 Sep  8 18:06 gpt_vec.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:04Z render gpt_mat.tic
+  output written to gpt_mat.svg
+1 of 1 page converted in 0.111396 seconds
+-rw-r--r-- 1 root root  44619 Sep  8 18:06 gpt_mat.png
+-rw-r--r-- 1 root root 114314 Sep  8 18:06 gpt_mat.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:05Z render gpt_rmsnorm.tic
+  output written to gpt_rmsnorm.svg
+1 of 1 page converted in 0.0618391 seconds
+-rw-r--r-- 1 root root 14825 Sep  8 18:06 gpt_rmsnorm.png
+-rw-r--r-- 1 root root 33977 Sep  8 18:06 gpt_rmsnorm.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:05Z render gpt_softmax.tic
+  output written to gpt_softmax.svg
+1 of 1 page converted in 0.0659111 seconds
+-rw-r--r-- 1 root root 17434 Sep  8 18:06 gpt_softmax.png
+-rw-r--r-- 1 root root 41722 Sep  8 18:06 gpt_softmax.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:06Z render gpt_layer.tic
+  output written to gpt_layer.svg
+1 of 1 page converted in 0.126348 seconds
+-rw-r--r-- 1 root root  86221 Sep  8 18:06 gpt_layer.png
+-rw-r--r-- 1 root root 151083 Sep  8 18:06 gpt_layer.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:07Z render gpt_model.tic
+  output written to gpt_model.svg
+1 of 1 page converted in 0.093292 seconds
+-rw-r--r-- 1 root root  43326 Sep  8 18:06 gpt_model.png
+-rw-r--r-- 1 root root 113336 Sep  8 18:06 gpt_model.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:08Z render gpt_loss.tic
+  output written to gpt_loss.svg
+1 of 1 page converted in 0.0751948 seconds
+-rw-r--r-- 1 root root 28910 Sep  8 18:06 gpt_loss.png
+-rw-r--r-- 1 root root 82869 Sep  8 18:06 gpt_loss.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:09Z render gpt_adam.tic
+  output written to gpt_adam.svg
+1 of 1 page converted in 0.0954912 seconds
+-rw-r--r-- 1 root root 40957 Sep  8 18:06 gpt_adam.png
+-rw-r--r-- 1 root root 90825 Sep  8 18:06 gpt_adam.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:10Z render gpt_pick.tic
+  output written to gpt_pick.svg
+1 of 1 page converted in 0.0732689 seconds
+-rw-r--r-- 1 root root 33894 Sep  8 18:06 gpt_pick.png
+-rw-r--r-- 1 root root 92215 Sep  8 18:06 gpt_pick.svg
+-------- render exit: 0
+======== 2026-09-08T18:06:31Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 40310ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 41144ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 1393152
+ALL CHECKS PASSED
+-------- exit: 0
+======== 2026-09-08T18:08:33Z ./bin/fortress experiment/worker/build/Train.fss
+======== 2026-09-08T18:09:16Z ./bin/fortress experiment/worker/probes/intro_example.fss
+/home/user/fortress/experiment/worker/probes/intro_example.fss:4:6:
+    Variable x is already declared.
+/home/user/fortress/experiment/worker/probes/intro_example.fss:6:5-41:
+    Operator BIG <|_BIG |> is not defined.
+-------- exit: 255
+======== 2026-09-08T18:09:19Z render intro_intro.tic
+  output written to intro_intro.svg
+1 of 1 page converted in 0.069659 seconds
+-rw-r--r-- 1 root root 13327 Sep  8 18:09 intro_intro.png
+-rw-r--r-- 1 root root 35039 Sep  8 18:09 intro_intro.svg
+-------- render exit: 0
+======== 2026-09-08T18:09:20Z render demo_tokenize.tic
+  output written to demo_tokenize.svg
+1 of 1 page converted in 0.0570221 seconds
+-rw-r--r-- 1 root root 20364 Sep  8 18:09 demo_tokenize.png
+-rw-r--r-- 1 root root 59984 Sep  8 18:09 demo_tokenize.svg
+-------- render exit: 0
+step 1 / 12 | loss 3.365966947584851 | doc yuheng
+======== 2026-09-08T18:09:52Z ./bin/fortress experiment/worker/probes/intro_example.fss
+/home/user/fortress/experiment/worker/probes/intro_example.fss:5:6:
+    Variable x is already declared.
+-------- exit: 255
+======== 2026-09-08T18:09:55Z render demo_tokenize.tic
+  output written to demo_tokenize.svg
+1 of 1 page converted in 0.062839 seconds
+-rw-r--r-- 1 root root 20364 Sep  8 18:09 demo_tokenize.png
+-rw-r--r-- 1 root root 59984 Sep  8 18:09 demo_tokenize.svg
+-------- render exit: 0
+step 2 / 12 | loss 3.424272783871772 | doc diondre
+step 3 / 12 | loss 3.177429052927641 | doc xavien
+======== 2026-09-08T18:10:50Z ./bin/fortress experiment/worker/probes/intro_example.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/probes/intro_example.fss:7:20-41:
+Unification error: /home/user/fortress/Library/FortressLibrary.fss:1063:21-32:
+Cannot unify (FloatLiteral,FloatLiteral,FloatLiteral)(class com.sun.fortress.interpreter.evaluator.types.FTypeTuple)
+  with Generator[\E\](class com.sun.fortress.nodes.TraitType) abm=()
+Context:
+/home/user/fortress/experiment/worker/probes/intro_example.fss:7:20-41:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/probes/intro_example.fss:7:5-41:
+/home/user/fortress/experiment/worker/probes/intro_example.fss:7:1-42:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T18:10:55Z render intro_intro.tic
+  output written to intro_intro.svg
+1 of 1 page converted in 0.0531061 seconds
+-rw-r--r-- 1 root root 13084 Sep  8 18:10 intro_intro.png
+-rw-r--r-- 1 root root 35533 Sep  8 18:10 intro_intro.svg
+-------- render exit: 0
+======== 2026-09-08T18:10:56Z render demo_tokenize.tic
+  output written to demo_tokenize.svg
+1 of 1 page converted in 0.05948 seconds
+-rw-r--r-- 1 root root 20364 Sep  8 18:10 demo_tokenize.png
+-rw-r--r-- 1 root root 59984 Sep  8 18:10 demo_tokenize.svg
+-------- render exit: 0
+======== 2026-09-08T18:10:57Z render demo_train.tic
+  output written to demo_train.svg
+1 of 1 page converted in 0.0932989 seconds
+-rw-r--r-- 1 root root 31645 Sep  8 18:10 demo_train.png
+-rw-r--r-- 1 root root 80223 Sep  8 18:10 demo_train.svg
+-------- render exit: 0
+======== 2026-09-08T18:10:58Z render demo_sample.tic
+  output written to demo_sample.svg
+1 of 1 page converted in 0.0929389 seconds
+-rw-r--r-- 1 root root  42413 Sep  8 18:10 demo_sample.png
+-rw-r--r-- 1 root root 107367 Sep  8 18:10 demo_sample.svg
+-------- render exit: 0
+step 4 / 12 | loss 3.0715431047496087 | doc jori
+step 5 / 12 | loss 3.229698108490771 | doc juanluis
+step 6 / 12 | loss 2.9928135804808185 | doc erandi
+step 7 / 12 | loss 3.317915931034672 | doc phia
+step 8 / 12 | loss 3.3164711816144186 | doc samatha
+======== 2026-09-08T18:13:38Z ./bin/fortress experiment/worker/probes/intro_example.fss
+norm(x) = 3.7416573867739413  scale(0.5, x) = <|0.5, 1.0, 1.5|>  angle(x, w) = 0.2257261285527342
+-------- exit: 0
+======== 2026-09-08T18:13:42Z render intro_intro.tic
+  output written to intro_intro.svg
+1 of 1 page converted in 0.058444 seconds
+-rw-r--r-- 1 root root 19655 Sep  8 18:13 intro_intro.png
+-rw-r--r-- 1 root root 42345 Sep  8 18:13 intro_intro.svg
+-------- render exit: 0
+step 9 / 12 | loss 2.9824670037505 | doc phoenix
+step 10 / 12 | loss 3.2459973970516316 | doc emmelynn
+step 11 / 12 | loss 2.928308922810882 | doc hollan
+step 12 / 12 | loss 3.025322836295106 | doc hollis
+Operation took 423462ms
+--- inference (new, hallucinated names) ---
+sample 1: ydiian
+sample 2: 
+sample 3: xdenenn
+sample 4: dzoiaudmca
+nodes created: 1647922
+-------- exit: 0

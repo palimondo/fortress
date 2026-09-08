@@ -1,0 +1,28 @@
+component probe02g_except
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+export Executable
+
+(* Spec-sanctioned hiding of the library SUM, then our own nofix and prefix SUM. *)
+object V(x: RR64)
+  opr +(self, other: V): V = V(x + other.x)
+  opr juxtaposition(self, other: V): V = V(x other.x)
+end
+object VSum extends CommutativeMonoidReduction[\V\]
+  getter asString(): String = "VSum"
+  empty(): V = V(0.0)
+  join(a: V, b: V): V = a + b
+end
+opr SUM(): BigReduction[\V,V\] = BigReduction[\V,V\](VSum)
+opr SUM(g: Generator[\V\]): V = g.generate[\V\](VSum, fn (v: V) => v)
+
+run(): () = do
+  xs = <|V(1.0), V(2.0), V(3.5)|>
+  s1 = SUM xs
+  println("SUM xs = " s1.x " (expect 6.5)")
+  s2 = SUM[v <- xs] v v
+  println("SUM[v<-xs] v v = " s2.x " (expect 17.25)")
+  s4 = SUM[i <- 0#4] V(i)
+  println("SUM[i<-0#4] V(i) = " s4.x " (expect 6)")
+end
+end

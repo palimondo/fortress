@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Value(var data: RR64, children: List[\Value\], localGrads: List[\RR64\])
+  var grad: RR64 := 0.0
+  opr +(self, other: Value): Value =
+    Value(data + other.data, <|[\Value\] self, other|>, <|[\RR64\] 1.0, 1.0|>)
+  opr juxtaposition(self, other: Value): Value =
+    Value(data other.data, <|[\Value\] self, other|>, <|[\RR64\] other.data, data|>)
+  exp(self): Value = Value(exp(data), <|[\Value\] self|>, <|[\RR64\] exp(data)|>)
+  opr ^(self, n: RR64): Value = Value(data^n, <|[\Value\] self|>, <|[\RR64\] n data^(n-1)|>)
+end
+
+linear[\nat m, nat n\](w: Array2[\Value,0,m,0,n\], x: Array1[\Value,0,n\]): Array1[\Value,0,m\] =
+  array1[\Value,m\](fn (i: ZZ32) => SUM[j <- 0#n] w[i,j] x[j])
+
+opr DOT[\nat n\](a: Value[n], b: Value[n]): Value = SUM[i <- 0#n] a[i] b[i]
+
+rmsnorm(x: Value[n]): Value[n] = do
+  ms = (SUM[i <- 0#n] x[i]^2) / n
+  scale = (ms + 0.00001)^(-0.5)
+  x.map(fn (x_i) => x_i scale)
+end
+
+softmax(z: Value[n]): Value[n] = do
+  m = BIG MAX[i <- 0#n] z[i].data
+  e = array1[\Value,n\](fn (i) => exp(z[i] - m))
+  total = SUM[i <- 0#n] e[i]
+  array1[\Value,n\](fn (i) => e[i] / total)
+end`
+\end{preview}
+\end{document}

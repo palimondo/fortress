@@ -1,0 +1,23 @@
+<h2 id="vectors">4. Vectors and matrices of differentiable scalars</h2>
+<p>microgpt keeps vectors as Python lists of <code>Value</code>s and matrices as lists of rows, and writes the three linear-algebra operations it needs as comprehensions:</p>
+<pre class="py">def linear(x, w):
+    return [sum(wi * xi for wi, xi in zip(wo, x)) for wo in w]
+# ... inside gpt():
+x = [t + p for t, p in zip(tok_emb, pos_emb)]
+attn_logits = [sum(q_h[j] * k_h[t][j] for j in range(head_dim)) / head_dim**0.5 for t in range(len(k_h))]
+head_out = [sum(attn_weights[t] * v_h[t][j] for t in range(len(v_h))) for j in range(head_dim)]</pre>
+<p>The mathematics names these: a dot product, a matrix–vector product taken row by row, and a row-vector–matrix product.</p>
+{{math:dot}}
+<p>Fortress lets us give those names executable meaning. A <code>Vec</code> is a list of <code>Value</code>s wrapped in an object so that operators can be attached to it; a <code>Mat</code> is a list of row <code>Vec</code>s. The wrapper costs six one-line delegations — bounds, indices, index/value pairs, size, subscript, slice — after which the library's <code>DelegatedIndexed</code> trait supplies everything a generator needs, so a <code>Vec</code> works inside comprehensions and under ∑ exactly like a list. The operators are then one line each: <code>x + y</code>, the dot product <code>x DOT y</code> (typeset ·), division by a scalar, concatenation <code>x || y</code>, scalar times vector by juxtaposition, and <code>relu</code> applied elementwise.</p>
+{{fig:gpt_vec}}
+<p>The last three lines define a second big operator: <code>BIG ||</code> is the “concatenate all” version of <code>||</code>, a monoid whose identity is the empty vector. It will join the attention heads.</p>
+<p>A matrix subscripts as <code>W[i]</code> (a row), <code>W[i, j]</code> (an entry) and <code>W[r]</code> with a range (a block of rows); <code>W.cols(r)</code> selects columns. <code>W.entries</code> flattens the parameters for the optimizer. Juxtaposition is overloaded twice: <code>W x</code> is the matrix–vector product (each row dotted with <em>x</em>), and <code>a M</code> is the row-vector–matrix product ∑<sub>t</sub> a<sub>t</sub> M<sub>tj</sub> — the form in which attention weights multiply the cached values.</p>
+{{fig:gpt_mat}}
+<p>With these definitions the transformer below is written in the vocabulary of the formulas: <code>W_q x</code>, <code>K q</code>, <code>alpha V</code>, <code>x + y</code>, <code>W_out relu(W_in x)</code>. The dot product of a row with <em>x</em> is a ∑ over <code>Value</code>s, so every scalar multiply-add still becomes one node in the autograd graph, exactly as in the reference — the operators add notation, not a different computation.</p>
+
+<h3>Why wrappers, and not the library's own vectors</h3>
+<p>Fortress's specification abbreviates array types as <code>T[n]</code> and vector/matrix types as <code>T^n</code>, <code>T^(m TIMES n)</code>, which typeset as the ℝ<sup>n</sup>, ℝ<sup>m×n</sup> of the papers. The sheet below (an exploration, not a running program) shows the candidate spellings side by side:</p>
+{{svgw:fig01_variants}}
+<p>Only the first two rows of “type spellings” execute in this interpreter, and only with literal sizes: <code>Value[n]</code> with a <code>nat</code> parameter does not unify with the runtime array (an implementation gap), and <code>Value^n</code> parses but denotes the library's <code>Vector</code>, which is restricted to <code>Number</code> (a library gap). The verified first design of this experiment (<code>src/alt/v1_MicroGPT.fss</code>) used explicit <code>Array2⟦Value,0,m,0,n⟧</code> weights and the index form of the product; it reads as textbook algebra but every signature carries the type noise:</p>
+{{svgw:v1_vectors}}
+<p>The <code>Vec</code>/<code>Mat</code> pair trades twenty lines of user-level definitions for signatures such as <code>rmsnorm(x: Vec): Vec</code> and for attention written as <code>softmax(K q/√d) V</code>. Section 9 keeps the comparison.</p>

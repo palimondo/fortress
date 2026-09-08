@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`
+  opr +(self, other: Additive): Additive
+end
+object Zero extends Additive
+  opr +(self, other: Additive): Additive = other
+end
+object V(x: RR64) extends Additive
+  opr +(self, other: V): V = V(x + other.x)
+  opr +(self, other: Zero): V = self
+  opr juxtaposition(self, other: V): V = V(x other.x)
+end
+object Vec(e: List[\V\]) extends Additive
+  opr +(self, other: Vec): Vec = Vec(<| e[i] + other.e[i] | i <- e.indices |>)
+  opr +(self, other: Zero): Vec = self
+  opr [i: ZZ32]: V = e[i]
+end
+opr juxtaposition(s: V, v: Vec): Vec = Vec(<| s v_i | v_i <- v.e |>)
+
+object SumAdditive extends CommutativeMonoidReduction[\Additive\]
+  getter asString(): String = "SumAdditive"
+  empty(): Additive = Zero
+  join(a: Additive, b: Additive): Additive = a + b
+end
+opr SUM(): BigReduction[\Additive, Additive\] = BigReduction[\Additive, Additive\](SumAdditive)`
+\end{preview}
+\end{document}

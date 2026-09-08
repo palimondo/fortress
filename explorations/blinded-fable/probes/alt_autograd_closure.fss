@@ -1,0 +1,54 @@
+component alt_autograd_closure
+import List.{...}
+import Set.{...}
+export Executable
+
+(* Alternative A3: each Value carries a closure that propagates its gradient to its
+   children (the original micrograd shape). *)
+var counter: ZZ32 := 0
+nextId(): ZZ32 = atomic do counter += 1; counter end
+
+(* FIG autograd_closure *)
+
+  id: ZZ32 = nextId()
+  var grad: RR64 := 0
+  var propagate: () -> () := fn () => ()
+  opr +(self, b: Value): Value = do
+    out = Value(data + b.data, <|[\Value\] self, b|>)
+    out.propagate := fn () => do grad += out.grad; b.grad += out.grad end
+    out
+  end
+  opr juxtaposition(self, b: Value): Value = do
+    out = Value(data b.data, <|[\Value\] self, b|>)
+    out.propagate := fn () => do grad += b.data out.grad; b.grad += data out.grad end
+    out
+  end
+  backward(): () = do
+    grad := 1
+    for v <- seq(topo(self).reverse) do (v.propagate)() end
+  end
+end
+leaf(x: RR64): Value = Value(x, <|[\Value\] |>)
+(* END FIG *)
+
+topo(root: Value): List[\Value\] = do
+  var seen: Set[\ZZ32\] := {[\ZZ32\] }
+  var order: List[\Value\] := <|[\Value\] |>
+  visit(v: Value): () =
+    if v.id NOTIN seen then
+      seen := seen.add(v.id)
+      for c <- seq(v.children) do visit(c) end
+      order := order.addRight(v)
+    end
+  visit(root)
+  order
+end
+
+run(): () = do
+  a = leaf(2.0)
+  b = leaf(3.0)
+  L = a b + a
+  L.backward()
+  println("a.grad = " a.grad " (expect 4)  b.grad = " b.grad " (expect 2)")
+end
+end

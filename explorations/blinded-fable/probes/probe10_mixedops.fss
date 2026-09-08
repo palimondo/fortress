@@ -1,0 +1,46 @@
+component probe10_mixedops
+export Executable
+
+(* Mixed operators: Value with RR64 / literals, prefix minus, binary minus, division,
+   caret with a space, MAX for relu, and plain-number-first juxtaposition. *)
+object Value(var data: RR64, deps: Generator[\(Value, RR64)\])
+  var grad: RR64 := 0.0
+  opr +(self, other: Value): Value = node(data + other.data, (self, 1.0), (other, 1.0))
+  opr +(self, c: RR64): Value = node(data + c, (self, 1.0))
+  opr juxtaposition(self, other: Value): Value = node(data other.data, (self, other.data), (other, data))
+  opr juxtaposition(self, c: RR64): Value = node(data c, (self, c))
+  opr -(self): Value = node(-data, (self, -1.0))
+  opr -(self, other: Value): Value = self + (-other)
+  opr /(self, other: Value): Value = self other^(-1.0)
+  opr /(self, c: RR64): Value = self (1.0/c)
+  opr ^ (self, n: RR64): Value = node(data^n, (self, n data^(n-1.0)))
+  exp(self): Value = node(exp(data), (self, exp(data)))
+  log(self): Value = node(log(data), (self, 1.0/data))
+  relu(self): Value = node(data MAX 0.0, (self, if data > 0.0 then 1.0 else 0.0 end))
+end
+node(data: RR64, deps: (Value, RR64)...): Value = Value(data, deps)
+opr juxtaposition(c: RR64, v: Value): Value = v c
+opr +(c: RR64, v: Value): Value = v + c
+
+run(): () = do
+  a = node(2.0)
+  b = node(3.0)
+  println("a + 1.0 = " (a + 1.0).data)
+  println("a + 1 = " (a + 1).data)
+  println("2 a = " (2 a).data)
+  println("2.5 a = " (2.5 a).data)
+  println("a 2 = " (a 2).data)
+  println("-a = " (-a).data)
+  println("a - b = " (a - b).data)
+  println("a / b = " (a / b).data)
+  println("a / 4 = " (a / 4).data)
+  println("a ^ 3 = " (a^3).data)
+  println("(a + 0.00001)^(-0.5) = " ((a + 0.00001)^(-0.5)).data)
+  n = 7
+  println("(1/n) a = " ((1/n) a).data)
+  println("a/n = " (a/n).data)
+  println("relu(-a) = " relu(-a).data " relu(a) = " relu(a).data)
+  println("log(b) = " log(b).data " exp(a) = " exp(a).data)
+  println("1 + a = " (1 + a).data)
+end
+end

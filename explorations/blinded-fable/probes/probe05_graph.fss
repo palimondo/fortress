@@ -1,0 +1,58 @@
+component probe05_graph
+import List.{...}
+import Set.{...}
+export Executable
+
+(* Topological sort machinery: unique ids, sets, mutable list accumulation, closures. *)
+var counter: ZZ32 := 0
+nextId(): ZZ32 = atomic do counter += 1; counter end
+
+object Node(id: ZZ32, children: List[\Node\])
+  var grad: RR64 := 0.0
+end
+mk(cs: List[\Node\]): Node = Node(nextId(), cs)
+
+topo(root: Node): List[\Node\] = do
+  var visited: Set[\ZZ32\] := {[\ZZ32\] }
+  var order: List[\Node\] := <|[\Node\] |>
+  visit(v: Node): () = do
+    if v.id NOTIN visited then
+      visited := visited.add(v.id)
+      for c <- seq(v.children) do visit(c) end
+      order := order.addRight(v)
+    end
+  end
+  visit(root)
+  order
+end
+
+run(): () = do
+  a = mk(<|[\Node\] |>)
+  b = mk(<|[\Node\] |>)
+  c = mk(<|[\Node\] a, b|>)
+  L = mk(<|[\Node\] c, a|>)
+  order = topo(L)
+  println("topo size = " |order| " (expect 4)")
+  ids = <|[\ZZ32\] v.id | v <- order |>
+  println("ids in order: " ids)
+  println("reversed: " order.reverse.map[\ZZ32\](fn (v: Node) => v.id))
+  (* closures capturing mutable locals *)
+  var acc: RR64 := 0.0
+  add(d: RR64): () = do acc += d end
+  for i <- seq(1:5) do add(i 1.0) end
+  println("acc = " acc " (expect 15)")
+  f = fn (u: RR64) => u u
+  println("f(3) = " f(3.0))
+  (* while loop and label/exit *)
+  i: ZZ32 := 0
+  while i < 3 do i += 1 end
+  println("i = " i)
+  r = label found
+    for k <- seq(0#10) do
+      if k = 4 then exit found with k end
+    end
+    -1
+  end found
+  println("found = " r " (expect 4)")
+end
+end

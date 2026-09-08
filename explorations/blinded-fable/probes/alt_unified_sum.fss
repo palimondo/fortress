@@ -1,0 +1,45 @@
+component alt_unified_sum
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+export Executable
+
+(* One SUM for every additive type: scalars and vectors alike, with an explicit Zero. *)
+(* FIG unified_sum *)
+
+  opr +(self, other: Additive): Additive
+end
+object Zero extends Additive
+  opr +(self, other: Additive): Additive = other
+end
+object V(x: RR64) extends Additive
+  opr +(self, other: V): V = V(x + other.x)
+  opr +(self, other: Zero): V = self
+  opr juxtaposition(self, other: V): V = V(x other.x)
+end
+object Vec(e: List[\V\]) extends Additive
+  opr +(self, other: Vec): Vec = Vec(<| e[i] + other.e[i] | i <- e.indices |>)
+  opr +(self, other: Zero): Vec = self
+  opr [i: ZZ32]: V = e[i]
+end
+opr juxtaposition(s: V, v: Vec): Vec = Vec(<| s v_i | v_i <- v.e |>)
+
+object SumAdditive extends CommutativeMonoidReduction[\Additive\]
+  getter asString(): String = "SumAdditive"
+  empty(): Additive = Zero
+  join(a: Additive, b: Additive): Additive = a + b
+end
+opr SUM(): BigReduction[\Additive, Additive\] = BigReduction[\Additive, Additive\](SumAdditive)
+(* END FIG *)
+
+run(): () = do
+  xs = <| V(1.0), V(2.0), V(3.5) |>
+  s = SUM[v <- xs] v v
+  println("scalar SUM = " s.x " (expect 17.25)")
+  vs = <| Vec(<| V(1.0), V(2.0) |>), Vec(<| V(10.0), V(20.0) |>) |>
+  alpha = <| V(0.5), V(2.0) |>
+  h = SUM[t <- 0#2] alpha[t] vs[t]
+  println("vector SUM: h[0] = " h[0].x " h[1] = " h[1].x " (expect 20.5, 41)")
+  y: V = SUM[v <- xs] v
+  println("assigned to a V-typed variable: " y.x " (expect 6.5)")
+end
+end

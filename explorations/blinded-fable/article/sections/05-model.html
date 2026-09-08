@@ -1,0 +1,83 @@
+<h2 id="model">5. The model</h2>
+<p>microgpt follows GPT-2 with three simplifications: RMSNorm instead of LayerNorm, no biases, ReLU instead of GeLU. Its <code>gpt</code> function processes one token at a time and keeps the keys and values of earlier positions in a cache. This article's primary form processes the whole sequence at once, which is how the papers write it; section 5.6 shows the one-token-at-a-time form, which is verified too.</p>
+
+<h3>5.1 RMSNorm</h3>
+{{math:rmsnorm}}
+<pre class="py">def rmsnorm(x):
+    ms = sum(xi * xi for xi in x) / len(x)
+    scale = (ms + 1e-5) ** -0.5
+    return [xi * scale for xi in x]</pre>
+{{fig:gpt_rmsnorm}}
+<p>The mean square is a ∑ over the elements of <em>x</em> divided by <em>|x|</em>; <code>scale x</code> is scalar–vector juxtaposition. The <code>−0.5</code> power is the same node the Python builds (<code>** -0.5</code>).</p>
+
+<h3>5.2 Softmax</h3>
+{{math:softmax}}
+<pre class="py">def softmax(logits):
+    max_val = max(val.data for val in logits)
+    exps = [(val - max_val).exp() for val in logits]
+    total = sum(exps)
+    return [e / total for e in exps]</pre>
+{{fig:gpt_softmax}}
+<p><code>BIG MAX</code> is the library's maximum big operator over plain numbers (the shift <em>m</em> is a constant, not part of the graph, in both programs). Subtracting <em>m</em> before exponentiating is the standard overflow guard and does not change the result.</p>
+
+<h3>5.3 Attention</h3>
+<p>For each layer, every position's vector is projected to a query, a key and a value; a position attends to all positions up to itself: its query is scored against those keys, the scores become weights through softmax, and the weights mix the corresponding values. The reference does this one token at a time (the cached keys and values are the earlier positions'):</p>
+<pre class="py">q = linear(x, state_dict[f'layer{li}.attn_wq'])
+k = linear(x, state_dict[f'layer{li}.attn_wk'])
+v = linear(x, state_dict[f'layer{li}.attn_wv'])
+keys[li].append(k)
+values[li].append(v)
+x_attn = []
+for h in range(n_head):
+    hs = h * head_dim
+    q_h = q[hs:hs+head_dim]
+    k_h = [ki[hs:hs+head_dim] for ki in keys[li]]
+    v_h = [vi[hs:hs+head_dim] for vi in values[li]]
+    attn_logits = [sum(q_h[j] * k_h[t][j] for j in range(head_dim)) / head_dim**0.5 for t in range(len(k_h))]
+    attn_weights = softmax(attn_logits)
+    head_out = [sum(attn_weights[t] * v_h[t][j] for t in range(len(v_h))) for j in range(head_dim)]
+    x_attn.extend(head_out)
+x = linear(x_attn, state_dict[f'layer{li}.attn_wo'])</pre>
+<p>Written for the whole sequence <em>X</em> (one row per position) and one head <em>h</em> of width <em>d<sub>h</sub></em>:</p>
+{{math:attention}}
+{{math:multihead}}
+<p>The Fortress layer is that formula. <code>Q</code>, <code>K</code>, <code>V</code> are matrices whose rows are <code>W_q x</code>, <code>W_k x</code>, <code>W_v x</code> for each position; <code>.cols(c)</code> restricts them to head <em>h</em>'s columns; for position <em>t</em>, <code>Kh[0:t] Qh[t]</code> is the vector of scores against the keys of positions 0…t, and <code>alpha Vh[0:t]</code> is the row-vector–matrix product that mixes the values. The heads are concatenated with the <code>BIG ||</code> operator and projected by <code>W_o</code>. Because every position is computed by a comprehension over <code>X.indices</code>, positions are independent iterations — in Fortress that means they may run in parallel; the reference's token loop is inherently sequential.</p>
+{{fig:gpt_layer}}
+<p>The two remaining lines of the block are the MLP and the residual stream:</p>
+{{math:mlp}}
+{{math:block}}
+<pre class="py">x_residual = x
+x = rmsnorm(x)
+x = linear(x, state_dict[f'layer{li}.mlp_fc1'])
+x = [xi.relu() for xi in x]
+x = linear(x, state_dict[f'layer{li}.mlp_fc2'])
+x = [a + b for a, b in zip(x, x_residual)]</pre>
+<p><code>mlp(x: Vec): Vec = W_out relu(W_in x)</code> is the first formula; <code>forward</code> is the second, with <code>X'</code> as the primed intermediate. (Two small elementwise helpers at the top of the figure lift <code>+</code> and <code>rmsnorm</code> to a whole sequence; <code>matrices()</code> lists the layer's parameters for the optimizer.)</p>
+
+<h3>5.4 Embeddings, layers, logits</h3>
+{{math:embed}}
+<pre class="py">tok_emb = state_dict['wte'][token_id] # token embedding
+pos_emb = state_dict['wpe'][pos_id] # position embedding
+x = [t + p for t, p in zip(tok_emb, pos_emb)] # joint token and position embedding
+x = rmsnorm(x)
+for li in range(n_layer):
+    ...
+logits = linear(x, state_dict['lm_head'])</pre>
+{{fig:gpt_model}}
+<p>The token embedding table <code>E</code> and the position table <code>P</code> are matrices whose rows are looked up by subscript; the input at position <em>t</em> is <code>rmsnorm(E[tokens[t]] + P[t])</code>. Layers are applied in order (the only genuinely sequential loop in the forward pass), and <code>W_lm x</code> maps each final vector to one logit per vocabulary entry. <code>params()</code> flattens every matrix into the single parameter list the optimizer walks.</p>
+
+<h3>5.5 Parameters</h3>
+<p>The reference initializes each matrix with Gaussian noise of standard deviation 0.08 and keeps them in a dictionary; in Fortress the matrices are constructor arguments of <code>Layer</code> and <code>Model</code>, built from lists of numbers by <code>Mat(⟨ Vec(⟨ node(x) | x ← row ⟩) | row ← rows ⟩)</code>. For the verification run the numbers are the reference's own initial weights (dumped from the seeded Python run); the demo in section 6 starts from the same weights. Fortress's library has no Gaussian generator, so a uniform-based initializer is used only in the smoke test.</p>
+<pre class="py">matrix = lambda nout, nin, std=0.08: [[Value(random.gauss(0, std)) for _ in range(nin)] for _ in range(nout)]
+state_dict = {'wte': matrix(vocab_size, n_embd), 'wpe': matrix(block_size, n_embd), 'lm_head': matrix(vocab_size, n_embd)}
+for i in range(n_layer):
+    state_dict[f'layer{i}.attn_wq'] = matrix(n_embd, n_embd)
+    ...
+params = [p for mat in state_dict.values() for row in mat for p in row]</pre>
+
+<h3>5.6 The same attention one token at a time (the KV cache)</h3>
+<p>The reference's formulation is an incremental one: a layer object keeps the keys and values of the positions seen so far, and a call handles one new token. This is exactly the same mathematics with the sequence loop turned inside out — for the current token's query <em>q</em>:</p>
+{{math:kv}}
+<p>The verified Fortress version of that form (<code>src/alt/v2_kvcache_MicroGPT.fss</code>) makes the cache two mutable lists on the layer and writes one head as <code>alpha = softmax((K[cols] q[cols]) / SQRT(d_h))</code>, <code>alpha V[cols]</code>:</p>
+{{svgw:kv_layer}}
+<p>Both forms produce identical logits and gradients (section 7). The stateless sequence form was chosen as primary because the model becomes a pure function of its input, positions are independent iterations, and the notation matches the papers; the cached form remains the natural one for generating text token by token, which is why the reference uses it everywhere.</p>

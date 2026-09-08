@@ -1,0 +1,12 @@
+component probe12_import
+import ProbeData.{...}
+import List.{...}
+export Executable
+object V(x: RR64) end
+run(): () = do
+  w = w0()
+  println("w0()[1][2] = " (w[1])[2] " (expect 6)  v0()[0] = " (v0())[0] " name " name0 " twice(3) = " twice(3.0))
+  a = array2[\V,2,3\]().assign(fn (ij: (ZZ32,ZZ32)) => do (i,j) = ij; V((w[i])[j]) end)
+  println("a[1,2] = " a[1,2].x " (expect 6)")
+end
+end

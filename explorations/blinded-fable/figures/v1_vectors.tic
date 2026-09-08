@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`opr DOT(x: Indexed[\Value, ZZ32\], y: Indexed[\Value, ZZ32\]): Value =
+  SUM[i <- x.indices] x[i] y[i]
+opr +(x: Indexed[\Value, ZZ32\], y: Indexed[\Value, ZZ32\]): List[\Value\] =
+  <| x[i] + y[i] | i <- x.indices |>
+opr juxtaposition(s: Value, x: Indexed[\Value, ZZ32\]): List[\Value\] =
+  <| s x[i] | i <- x.indices |>
+opr juxtaposition[\nat m, nat n\](W: Array2[\Value, 0, m, 0, n\], x: Indexed[\Value, ZZ32\]): List[\Value\] =
+  <| SUM[j <- 0#n] W[i,j] x[j] | i <- 0#m |>
+row[\nat m, nat n\](W: Array2[\Value, 0, m, 0, n\], i: ZZ32): List[\Value\] =
+  <| W[i,j] | j <- 0#n |>`
+\end{preview}
+\end{document}

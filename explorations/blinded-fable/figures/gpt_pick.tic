@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* index of the first cumulative probability exceeding u (u uniform in [0,1)) *)
+pick(probs: List[\RR64\], u: RR64): ZZ32 = do
+  var total: RR64 := 0
+  for p <- seq(probs) do total += p end
+  var acc: RR64 := 0
+  label found
+    for (i, p) <- seq(probs.indexValuePairs) do
+      acc += p
+      if u total < acc then exit found with i end
+    end
+    |probs| - 1
+  end found
+end`
+\end{preview}
+\end{document}

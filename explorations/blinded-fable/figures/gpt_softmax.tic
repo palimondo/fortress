@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`softmax(z: Vec): Vec = do
+  m = BIG MAX[z_i <- z] z_i.data
+  e = Vec(<| exp(z_i - m) | z_i <- z |>)
+  total = SUM[e_i <- e] e_i
+  Vec(<| e_i / total | e_i <- e |>)
+end`
+\end{preview}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`for s <- seq(0#4) do
+  var prefix: List[\ZZ32\] := <|[\ZZ32\] ref_bos |>
+  var text: String := ""
+  label done
+    for j <- seq(0#ref_block_size) do
+      z = (model.forward(prefix))[j]
+      probs = <|[\RR64\] p.data | p <- softmax(z / ref_temperature) |>
+      token = pick(probs, random(1.0))
+      if token = ref_bos then exit done with () end
+      text := text || ref_uchars[token]
+      prefix := prefix.addRight(token)
+    end
+  end done
+  println("sample " (s + 1) ": " text)
+end`
+\end{preview}
+\end{document}

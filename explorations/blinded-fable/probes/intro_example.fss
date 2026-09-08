@@ -1,0 +1,14 @@
+component intro_example
+import List.{...}
+export Executable
+(* FIG intro *)
+norm(v: RR64[3]): RR64 = SQRT(SUM[v_i <- v] v_i^2)
+scale(alpha: RR64, v: RR64[3]): List[\RR64\] = <| alpha v_i | v_i <- v |>
+angle(x: RR64[3], w: RR64[3]): RR64 = acos((x DOT w) / (norm(x) norm(w)))
+(* END FIG *)
+run(): () = do
+  x: RR64[3] = [1.0 2.0 3.0]
+  w: RR64[3] = [4.0 5.0 6.0]
+  println("norm(x) = " norm(x) "  scale(0.5, x) = " scale(0.5, x) "  angle(x, w) = " angle(x, w))
+end
+end

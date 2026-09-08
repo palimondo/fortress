@@ -1,0 +1,47 @@
+component probe06_speed
+import List.{...}
+export Executable
+
+(* How fast is the interpreter on object-allocating scalar arithmetic? *)
+object V(data: RR64, children: List[\V\], localGrads: List[\RR64\])
+  var grad: RR64 := 0.0
+  opr +(self, other: V): V = V(data + other.data, <|[\V\] self, other|>, <|[\RR64\] 1.0, 1.0|>)
+  opr juxtaposition(self, other: V): V = V(data other.data, <|[\V\] self, other|>, <|[\RR64\] other.data, data|>)
+end
+c(x: RR64): V = V(x, <|[\V\] |>, <|[\RR64\] |>)
+
+run(): () = do
+  n = 20000
+  recordTime(1)
+  acc: V := c(0.0)
+  for i <- seq(0#n) do
+    acc := acc + c(0.001) c(2.0)
+  end
+  printTime(1)
+  println("acc = " acc.data)
+  println("expect about " (n TIMES 0.002))
+  recordTime(2)
+  s: RR64 := 0.0
+  for i <- seq(0#n) do
+    s := s + 0.001 2.0
+  end
+  printTime(2)
+  println("plain RR64 loop s = " s)
+  recordTime(3)
+  xs = array1[\V,64\](fn (i: ZZ32) => c(i 0.01))
+  ws = array1[\V,64\](fn (i: ZZ32) => c(0.5))
+  acc2: V := c(0.0)
+  for k <- seq(0#50) do
+    acc2 := acc2 + (SUM[i <- 0#64] ws[i] xs[i])
+  end
+  printTime(3)
+  println("50 dot products of length 64: " acc2.data)
+end
+
+object VSum extends CommutativeMonoidReduction[\V\]
+  getter asString(): String = "VSum"
+  empty(): V = c(0.0)
+  join(a: V, b: V): V = a + b
+end
+opr SUM[\T extends V\](): BigReduction[\V,V\] = BigReduction[\V,V\](VSum)
+end

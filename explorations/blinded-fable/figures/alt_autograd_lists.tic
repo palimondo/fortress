@@ -1,0 +1,22 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`
+  id: ZZ32 = nextId()
+  var grad: RR64 := 0
+  opr +(self, b: Value): Value = Value(data + b.data, <|[\Value\] self, b|>, <|[\RR64\] 1, 1|>)
+  opr juxtaposition(self, b: Value): Value = Value(data b.data, <|[\Value\] self, b|>, <|[\RR64\] b.data, data|>)
+  opr ^ (self, n: RR64): Value = Value(data^n, <|[\Value\] self|>, <|[\RR64\] n data^(n-1)|>)
+  backward(): () = do
+    grad := 1
+    for v <- seq(topo(self).reverse) do
+      for (c, d) <- seq(v.children.zip[\RR64\](v.localGrads)) do c.grad += d v.grad end
+    end
+  end
+end
+leaf(x: RR64): Value = Value(x, <|[\Value\] |>, <|[\RR64\] |>)`
+\end{preview}
+\end{document}

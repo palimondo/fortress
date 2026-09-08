@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Model(E: Mat, P: Mat, W_lm: Mat, layers: List[\Layer\])
+  reset(): () = for l <- layers do l.reset() end
+  (* token embedding E, position embedding P; logits for the next token *)
+  forward(token: ZZ32, pos: ZZ32): Vec = do
+    var x: Vec := rmsnorm(E[token] + P[pos])
+    for l <- seq(layers) do x := l.forward(x) end
+    W_lm x
+  end
+  matrices(): List[\Mat\] = <| E, P, W_lm |> || (BIG CONCAT[\Mat\][l <- layers] l.matrices())
+  params(): List[\Value\] = BIG CONCAT[\Value\][W <- matrices()] W.entries
+end`
+\end{preview}
+\end{document}
