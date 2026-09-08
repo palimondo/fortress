@@ -1,0 +1,557 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Building the notation while building a tiny GPT — Fortress × Python × Mathematics</title><style>:root{color-scheme:light;--ink:#182b35;--muted:#53646d;--line:#d6e0e3;--accent:#0b675f}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:#f7f9f8;font:18px/1.65 Georgia,serif}header{background:#102f3b;color:white;padding:32px max(24px,calc((100vw - 1320px)/2));font:14px/1.6 system-ui}header strong{letter-spacing:.12em}header p{margin:8px 0 0;color:#d1e3e5}main{max-width:1320px;margin:auto;padding:42px 28px 80px}h1{font-size:clamp(34px,5vw,58px);line-height:1.1;max-width:900px;letter-spacing:-.03em;margin:0 0 32px}h2{font:650 30px/1.25 system-ui;margin:64px 0 24px;scroll-margin-top:24px}h3,figcaption{font:650 12px/1.5 system-ui;letter-spacing:.08em;color:var(--accent);margin:0 0 14px}main>p{max-width:880px}a{color:#075e68;text-underline-offset:3px}nav{display:flex;flex-wrap:wrap;gap:7px 20px;margin:28px 0;padding:22px 0;border-block:1px solid var(--line);font:14px/1.5 system-ui}nav a{max-width:320px}.comparison{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:0;margin:32px 0;background:white;border:1px solid var(--line);border-radius:10px;overflow:hidden}.comparison figure{margin:0;padding:24px;min-width:0}.render{overflow-x:auto;padding:10px 0 16px}.render svg{display:block;width:100%;height:auto;min-width:380px;max-height:none}.ascii{padding:24px;background:#f0f5f5;border-left:1px solid var(--line);min-width:0}.python{grid-column:1/-1;padding:22px 24px;border-top:1px solid var(--line);background:#fbfcfc}.caption{font:13px/1.5 system-ui;color:var(--muted);margin:12px 0 0}pre{overflow:auto;margin:0;padding:0;tab-size:2;font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.87em}pre code{font-size:inherit}main>pre{padding:20px;background:#edf3f3;border-radius:6px}table{width:100%;border-collapse:collapse;font:14px/1.5 system-ui;margin:28px 0;display:block;overflow:auto}th{text-align:left;background:#e7efef}th,td{padding:12px 16px;border-bottom:1px solid var(--line)}math{font-size:1.04em}details{padding:22px;background:white;border:1px solid var(--line);border-radius:8px;margin-top:36px}summary{font:600 17px/1.4 system-ui;cursor:pointer}details pre{margin-top:20px}.footer{margin-top:44px;color:var(--muted);font:13px/1.6 system-ui}@media(max-width:850px){main{padding:28px 16px}.comparison{grid-template-columns:1fr}.ascii{border-left:0;border-top:1px solid var(--line)}.comparison figure,.ascii,.python{padding:18px}.render svg{min-width:320px}body{font-size:17px}h2{font-size:26px}}@media print{body{background:white;font-size:11pt}header{background:white;color:black;padding:0}header p{color:#333}nav{display:none}main{padding:0}.comparison{break-inside:avoid}h2{break-after:avoid}a{color:inherit}details{display:none}.render svg{min-width:0}pre{white-space:pre-wrap;font-size:8pt}}</style></head><body><header><strong>ASTRA / FORTRESS EXPERIMENT</strong><p>Mathematics, executable notation, and the machinery connecting them · 228-parameter correctness fixture</p></header><main><nav aria-label="Article sections"><a href="#section-1">1. Make a scalar remember how it was computed</a><a href="#section-2">2. Store finite vectors without losing graph sharing</a><a href="#section-3">3. Teach summation to the scalar algebra</a><a href="#section-4">4. Build linear algebra from the sum</a><a href="#section-5">5. Normalize scale, then turn scores into probabilities</a><a href="#section-6">6. Attention contracts over the past</a><a href="#section-7">7. Assemble a transformer block and predict the next token</a><a href="#section-8">8. A scalar loss connects the whole graph</a><a href="#section-9">9. Update parameters, then generate with a fresh cache</a><a href="#section-10">10. What has actually been established</a><a href="#section-11">Reproduction and remaining departures</a></nav><h1>Building the notation while building a tiny GPT</h1>
+<p>A transformer becomes easier to inspect when its executable definitions retain the shape of its equations. Fortress gets remarkably close for sums, inner products, normalization and matrix products, but those expressions require a scalar algebra, finite containers and a reduction implementation. This article builds those layers together. The selected implementation runs forward prediction, reverse differentiation, one Adam update and autoregressive generation; every numerical field of a small independent Python fixture passes.</p>
+<p>This is a one-block, two-head microGPT with width four, context three and vocabulary three: 228 parameters. It follows Karpathy&#39;s <a href="https://karpathy.github.io/2026/02/12/microgpt/">microGPT</a>, using the <a href="https://gist.githubusercontent.com/karpathy/8627fe009c40f57531cb18360106ce95/raw/14fb038816c7aae0bb9342c2dbf1a51dd134a5ff/microgpt.py">pinned Python revision</a>. Its SHA-256 is <code>d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee</code>. The fixture replaces random initialization and sampling with specified numbers. It does not download names, build a character vocabulary, or train for 1,000 steps. Thus it demonstrates the complete numerical path, not a trained name generator or arbitrary configurable GPT package.</p>
+<p>Read the <a href="MicroGPT.fss">executable source</a> beside this article. All Fortress figures below are <strong>actual Fortify output extracted from that executed source</strong>, or from the separately executed alternative. Formula captions are explanatory mathematics; the program beneath them is not a hand-typeset substitute. Small Python fragments are equivalent comparisons unless explicitly described as upstream code.</p>
+<h2 id="section-1">1. Make a scalar remember how it was computed</h2>
+<p>For an operation <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="z=xy"><mrow><mi>z</mi><mo>=</mo><mi>x</mi><mi>y</mi></mrow></math>, reverse differentiation uses <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="\bar x\mathrel{+}=y\bar z"><mrow><mover><mi>x</mi><mo>¯</mo></mover><mo>+=</mo><mi>y</mi><mover><mi>z</mi><mo>¯</mo></mover></mrow></math> and <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="\bar y\mathrel{+}=x\bar z"><mrow><mover><mi>y</mi><mo>¯</mo></mover><mo>+=</mo><mi>x</mi><mover><mi>z</mi><mo>¯</mo></mover></mrow></math>, where <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="\bar z=\partial L/\partial z"><mrow><mover><mi>z</mi><mo>¯</mo></mover><mo>=</mo><mfrac><mrow><mo>∂</mo><mi>L</mi></mrow><mrow><mo>∂</mo><mi>z</mi></mrow></mfrac></mrow></math>. The forward result must therefore retain references to both inputs and the two local derivatives.</p>
+<p>Python&#39;s <code>Value</code> object records <code>children=(x,y)</code> and <code>local_grads=(y.data,x.data)</code>. Fortress uses <code>V(primal,index,parents)</code>: <code>primal</code> is the floating-point value, <code>index</code> identifies a parameter or is −1 for a temporary, and <code>parents</code> stores zero, one or two derivative edges. The constructor <code>binary</code> creates a <code>V</code> with <code>TwoParents</code>; multiplication is a user-defined juxtaposition operator.</p>
+<div class="comparison" id="panel-scalar"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/scalar.png" alt="Actual Fortify rendering"></div><p class="caption">Scalar operations and their derivative edges</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>binary(z:RR64,x:V,dx:RR64,y:V,dy:RR64):V = V(z,-1,TwoParents(x,dx,y,dy))
+opr  + (x:V,y:V):V = binary(x.primal + y.primal,x,1.0,y,1.0)
+opr -(x:V,y:V):V = binary(x.primal-y.primal,x,1.0,y,-1.0)
+opr -(x:V):V = unary(-x.primal,x,-1.0)
+opr juxtaposition(x:V,y:V):V = binary(x.primal y.primal,x,y.primal,y,x.primal)
+opr /(x:V,y:V):V = binary(x.primal/y.primal,x,1.0/y.primal,y,-x.primal/(y.primal y.primal))</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>def mul(x, y):
+    return Value(x.data * y.data,
+                 children=(x, y),
+                 local_grads=(y.data, x.data))</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div>
+
+<p><code>opr +(x:V,y:V)</code> gives ordinary addition its differentiated meaning. <code>opr juxtaposition(x:V,y:V)</code> makes <code>x y</code> multiplication. Unary minus, division, square root, exponentiation, exponential, logarithm and ReLU complete the scalar vocabulary; mixed <code>RR64</code> overloads insert constant nodes. The multiplication figure shows the actual local partials passed to <code>binary</code>, so the concise notation does not conceal the chain rule.</p>
+<p>To compute a gradient, <code>visit</code> marks each node once, visits its parents, then prepends it to a linked chain. This places every result before its parents in the reverse traversal. Seed the loss adjoint with 1; <code>push</code> adds each local derivative times the current adjoint into its parent. A parameter node also adds to the output array at its immutable parameter index. Finally <code>clear</code> resets the visited flags and adjoints for another sequential gradient call.</p>
+<p>Shared subexpressions matter: two uses of the same node must both contribute, while its parents must be propagated only after those contributions accumulate. Traversal takes O(nodes + edges), rather than recursively propagating once per path. The retained scalar probe checks repeated gradients, a shared diamond with <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="2^{30}"><msup><mn>2</mn><mn>30</mn></msup></math> paths, and an 8,191-node tree. This implementation uses recursive traversal and a linked reverse chain, so the demonstrated interpreter runs use a 32 MB Java stack. It is educational machinery, not an industrial autodiff engine.</p>
+<p>Graph construction allocates fresh nodes and immutable edges, without a shared allocation counter. Mutations of <code>seen</code> and <code>adjoint</code> occur during the sequential reverse phase. Concurrent <code>gradient</code> calls on overlapping graphs are unsupported; ordinary independent forward cells need not be serialized.</p>
+<h2 id="section-2">2. Store finite vectors without losing graph sharing</h2>
+<p>Mathematical notation treats <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="x_i"><msub><mi>x</mi><mi>i</mi></msub></math> as a selection, not a recomputation. Accordingly <code>Vec(n,f)</code> evaluates <code>f(i)</code> once per cell and stores the resulting scalar node; <code>Mat(m,n,f)</code> stores rows of these vectors. Python would use <code>[f(i) for i in range(n)]</code> and nested lists.</p>
+<div class="comparison" id="panel-containers"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/containers.png" alt="Actual Fortify rendering"></div><p class="caption">Eager vector and matrix constructors</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>object Vec(n:ZZ32, f:ZZ32-&gt;V)
+  data:Array[\V,ZZ32\] = do
+    a = array[\V\](n)
+    for i &lt;- 0#n do a[i] := f(i) end
+    a
+  end
+  opr[i:ZZ32]:V = data[i]
+end
+object Mat(m:ZZ32,n:ZZ32,f:(ZZ32,ZZ32)-&gt;V)
+  rows:Array[\Vec,ZZ32\] = do
+    a = array[\Vec\](m)
+    for i &lt;- 0#m do a[i] := Vec(n,fn j =&gt; f(i,j)) end
+    a
+  end
+  opr[i:ZZ32,j:ZZ32]:V = do row = rows[i]; row[j] end
+  opr[i:ZZ32]:Vec = rows[i]
+end</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>vector = [f(i) for i in range(n)]
+matrix = [[f(i, j) for j in range(n)]
+          for i in range(m)]</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div>
+
+<p>The enclosing operator <code>opr[i:ZZ32]</code> supplies subscripting. For a matrix, <code>opr[i,j]</code> first binds a row, then indexes it. That local binding is deliberate: this interpreter failed on a directly chained <code>rows[i][j]</code> expression. The dimensions are ordinary runtime fields; these types do not prove shape compatibility. The fixture supplies compatible shapes, and a general-purpose library would need shape checks or stronger dimension types.</p>
+<p>Why define containers at all? The shipped <code>Vector</code> requires <code>T extends Number</code>, and this checkout&#39;s <code>Number</code> is a closed <code>comprises { RR64 }</code> hierarchy. A new graph scalar cannot simply join that hierarchy. These small containers are a user-level design choice around that library constraint, not evidence that Fortress has no vector abstraction. See <a href="../../../Library/FortressLibrary.fsi">the library API</a>, the <code>Number</code> and <code>Vector</code> declarations.</p>
+<h2 id="section-3">3. Teach summation to the scalar algebra</h2>
+<p>A matrix product needs <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="y_i=\sum_j A_{ij}x_j"><mrow><msub><mi>y</mi><mi>i</mi></msub><mo>=</mo><msub><mo>∑</mo><mi>j</mi></msub><msub><mi>A</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msub><mi>x</mi><mi>j</mi></msub></mrow></math>. A loop can compute it, but a summation communicates the contraction directly. The scalar <code>+</code> overload is only half the construction: the big operator also needs a reduction identity and a way to join terms.</p>
+<div class="comparison" id="panel-reduction"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/reduction.png" alt="Actual Fortify rendering"></div><p class="caption">The actual ordinary SUM implementation</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>object VSumReduction extends CommutativeMonoidReduction[\V\]
+  empty():V = constant(0.0)
+  join(x:V,y:V):V = x + y
+end
+opr SUM():Comprehension[\V,V,V,V\] =
+  Comprehension[\V,V,V,V\](fn (x:V) =&gt; x,VSumReduction,fn (x:V) =&gt; x)</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>total = sum(values)
+# Each addition retains derivative edges.
+# Fortress additionally defines the reduction identity
+# and join operation for its graph scalar.</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div>
+
+<p><code>VSumReduction</code> extends the library&#39;s <code>CommutativeMonoidReduction[V]</code>. Its empty sum is <code>constant(0.0)</code>; its join constructs a differentiated sum node. <code>Comprehension[V,V,V,V]</code> supplies identity mappings around that reduction. Defining zero-argument <code>opr SUM()</code> lets the generator expression <code>SUM[i &lt;- 0#n] ...</code> use this algebra. The range <code>0#n</code> means the <code>n</code> indices starting at zero, so its last element is <code>n-1</code>.</p>
+<p>There is an essential import detail:</p>
+<pre><code class="language-fortress">import FortressLibrary.{...} except { opr BIG + }
+</code></pre>
+<p>The standard big addition spelling collides with the local sum declaration unless excluded. The completed namespace probe demonstrates ordinary <code>SUM</code> after this exclusion; a failed initial overload attempt was not a language limit. We retain numeric maximum separately as <code>BIG MAXNUM</code>.</p>
+<p>The <a href="../../../Library/FortressLibrary.fsi">reduction API</a> supplies the inherited abstraction; our identity, join and comprehension instance supply the new behavior. Floating-point addition is not exactly associative. This uses the same mathematical reduction convention as numerical summation generally: reassociation may change rounding. We compare with tolerances and do not force a serial sum merely to reproduce Python&#39;s order. The <a href="../../../Specification/basic/expressions/generators.tex">generator specification</a> requires assuming parallel iterations unless the generator is sequential.</p>
+<h2 id="section-4">4. Build linear algebra from the sum</h2>
+<p>Python&#39;s upstream linear layer is a nested comprehension: <code>[sum(wi*xi for wi,xi in zip(row,x)) for row in W]</code>. Fortress puts the row selection and reduction inside a matrix-vector juxtaposition overload. Dot product gets its own <code>DOT</code> operator.</p>
+<div class="comparison" id="panel-algebra"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/algebra.png" alt="Actual Fortify rendering"></div><p class="caption">Matrix-vector multiplication and dot product</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>opr juxtaposition(A:Mat,x:Vec):Vec = Vec(A.m,fn i =&gt; SUM[j &lt;- 0#A.n] A[i,j] x[j])
+opr DOT(x:Vec,y:Vec):V = SUM[i &lt;- 0#x.n] x[i] y[i]</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>def linear(x, W):
+    return [sum(wi * xi for wi, xi in zip(row, x))
+            for row in W]
+
+<p>def dot(x, y):
+    return sum(xi * yi for xi, yi in zip(x, y))</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div></p>
+<p>The resulting model can write <code>W x</code> and <code>x DOT x</code>; Fortify displays the latter with a central dot. We chose that dot over vector-vector juxtaposition because <code>x x</code> is visually ambiguous. Matrix-vector juxtaposition remains recognizable. This separation is a convention of this little algebra, rather than a new compiler feature. <a href="../../../Specification/basic/operators/juxtameaning.tex">Fortress&#39;s juxtaposition rules</a> distinguish function application from operator application by the left operand.</p>
+<p>Vector addition, division by a scalar, subtraction of a numeric shift, <code>exp</code> and <code>relu</code> are pointwise <code>Vec</code> constructors. For example, the complete vector division definition is <code>opr /(x:Vec,s:V):Vec = Vec(x.n,fn i =&gt; x[i]/s)</code>. These overloads account for the vector-level notation used below; a paper&#39;s short fraction is supported by actual cellwise computation.</p>
+<h2 id="section-5">5. Normalize scale, then turn scores into probabilities</h2>
+<p>RMS normalization divides by the root mean square with a small stabilizer. It has no learned gain or bias here, matching microGPT. Python computes <code>ms=sum(xi*xi for xi in x)/len(x)</code>, then <code>scale=(ms+1e-5)**-0.5</code>, then returns <code>[xi*scale for xi in x]</code>.</p>
+<div class="comparison" id="panel-rms"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/rms.png" alt="Actual Fortify rendering"></div><p class="caption">RMS quotient and inverse-power alternatives</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>rmsnorm(x:Vec):Vec = x/(SQRT((x DOT x)/x.n + 0.00001))
+
+<p>opr juxtaposition(s:V,x:Vec):Vec = Vec(x.n,fn i =&gt; s x[i])
+rmsnorm(x:Vec):Vec = ((x DOT x)/x.n + 0.00001)^(-0.5) x</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>ms = sum(xi * xi for xi in x) / len(x)
+scale = (ms + 1e-5) ** -0.5
+x = [xi * scale for xi in x]</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div></p>
+<p>Both formulations in this figure were executed through the whole model and passed the same fixture, including gradients. The selected quotient places a radical under the vector, directly matching the target formula, and reuses vector division. The inverse-power alternative introduces scalar-vector multiplication and computes a scale first; that is closer to Python&#39;s operational form. Neither is mathematically superior. For teaching the formula, the quotient is the clearer local choice.</p>
+<p>Tight division, written without spaces around <code>/</code>, is significant in Fortress&#39;s <a href="../../../Specification/basic/operators/precedence.tex">precedence rules</a> and gives the actual stacked fraction here. Parentheses are part of the executable definition, not merely instructions to the renderer. An earlier wide figure clipped its Python caption; the final figures keep the formulas and source together and place Python in nearby prose.</p>
+<p>Softmax transforms unrestricted scores into positive probabilities summing to one. Subtracting their maximum avoids unnecessarily large exponentials: adding or subtracting a common score does not change the distribution. Python computes <code>exps=[(v-max_val).exp() for v in logits]</code>, then <code>[e/sum(exps) for e in exps]</code>.</p>
+<div class="comparison" id="panel-softmax"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/softmax.png" alt="Actual Fortify rendering"></div><p class="caption">Stable softmax and numeric maximum</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>maximum(x:Vec):RR64 = BIG MAXNUM[i &lt;- 0#x.n] (x[i]).primal
+softmax(x:Vec):Vec = do
+  e = exp(x-maximum(x))
+  e/(SUM[i &lt;- 0#x.n] e[i])
+end</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>shift = max(xi.data for xi in x)
+e = [(xi - shift).exp() for xi in x]
+total = sum(e)
+p = [ei / total for ei in e]</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div>
+
+<p>The maximum is taken on <code>primal</code> values, just as in the pinned Python. It is a detached numerical shift; shift invariance makes this valid for differentiating the resulting softmax. It is not a general derivative rule for maximum. Ordinary summation now survives visibly as a sigma. <code>MAXNUM</code> still renders as a word rather than the paper&#39;s <code>max</code>: this is a demonstrated library/rendering departure, and the figure leaves it visible.</p>
+<h2 id="section-6">6. Attention contracts over the past</h2>
+<p>For a head of width <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="d_h"><msub><mi>d</mi><mi>h</mi></msub></math>, project the normalized current token to a query <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="q"><mi>q</mi></math>. Keep one key and value row for each position seen so far. Then <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="Kq/\sqrt{d_h}"><mfrac><mrow><mi>K</mi><mi>q</mi></mrow><msqrt><msub><mi>d</mi><mi>h</mi></msub></msqrt></mfrac></math> measures the query&#39;s scaled similarity to each key. Softmax gives weights <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="a_t"><msub><mi>a</mi><mi>t</mi></msub></math> over those positions, and <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="o_j=\sum_t a_t W_{tj}"><mrow><msub><mi>o</mi><mi>j</mi></msub><mo>=</mo><msub><mo>∑</mo><mi>t</mi></msub><msub><mi>a</mi><mi>t</mi></msub><msub><mi>W</mi><mrow><mi>t</mi><mi>j</mi></mrow></msub></mrow></math> mixes the corresponding value coordinates. The figure calls the value matrix <code>W</code> to avoid confusing it with scalar type <code>V</code>.</p>
+<p>Python spells the two contractions as <code>sum(q[j]*K[t][j] for j in range(s))</code> and <code>sum(a[t]*W[t][j] for t in range(T))</code> inside outer comprehensions.</p>
+<div class="comparison" id="panel-attention"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/attention.png" alt="Actual Fortify rendering"></div><p class="caption">Direct attention contraction and transposed-matrix alternative</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>attention(q:Vec,K:Mat,W:Mat):(Vec,Vec) = do
+  a = softmax((K q)/(SQRT(q.n)))
+  (a,Vec(W.n,fn j =&gt; SUM[t &lt;- 0#W.m] a[t] W[t,j]))
+end
+
+<p>transpose(A:Mat):Mat = Mat(A.n,A.m,fn (i,j) =&gt; A[j,i])
+attention(q:Vec,K:Mat,W:Mat):(Vec,Vec) = do
+  a = softmax((K q)/(SQRT(q.n)))
+  (a,transpose(W) a)
+end</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>scores = [sum(q[j] * K[t][j] for j in range(s))
+          / s**0.5 for t in range(T)]
+a = softmax(scores)
+o = [sum(a[t] * W[t][j] for t in range(T))
+     for j in range(s)]</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div></p>
+<p>The chosen version exposes the time reduction explicitly. The alternative reuses matrix-vector multiplication as <code>transpose(W) a</code>, with a user-defined transpose constructor. This is a substantive alternate formulation and also passed the full numerical check. It allocates a transposed matrix of references; our straightforward implementation does not provide a lazy transpose view. Fortify renders the function name <code>transpose</code>, not a superscript T. The alternate is shorter at the call site, but the direct sum better shows which axis is contracted without adding another representation operation.</p>
+<p>Causality comes from construction: at position <code>t</code>, the matrices contain only <code>t+1</code> cache rows. There is no future row to mask. Token positions run through <code>sequential(0#3)</code> because later positions read earlier cache entries. Heads can be formed independently, and each writes a distinct output and attention-weight slot. The output weights are returned alongside the values for inspection; only the values feed the next layer.</p>
+<h2 id="section-7">7. Assemble a transformer block and predict the next token</h2>
+<p>Each head gets a contiguous slice of the projected query, keys and values. Concatenate the head outputs, apply the output matrix, and add the incoming residual. A second pre-normalized branch applies an expanding matrix, ReLU, and a contracting matrix before another residual addition. The expansion factor is four.</p>
+<p>Python uses explicit elementwise lists for residual addition and <code>x_attn.extend(head_out)</code> for concatenation. The selected Fortress definitions below make both residual equations visible, while concatenation remains explicit index arithmetic.</p>
+<div class="comparison" id="panel-block"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/block.png" alt="Actual Fortify rendering"></div><p class="caption">Residual attention and MLP equations</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>  y = x  +  B.W_o Vec(x.n,fn j =&gt; do v = heads[j DIV s]; v[j MOD s] end)
+  y  +  B.W_out relu(B.W_in rmsnorm(y))
+end</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>joined = [value for head in heads for value in head]
+y = [xi + oi for xi, oi in zip(x, linear(joined, Wo))]
+hidden = [v.relu() for v in linear(rmsnorm(y), Win)]
+x = [yi + oi for yi, oi in zip(y, linear(hidden, Wout))]</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div>
+
+<p><code>heads[j DIV s]</code> chooses the head; <code>j MOD s</code> chooses its feature. This is less fluent than a paper&#39;s <code>concat</code>. It is a justified small-container implementation choice, not a claim that a concatenation operator is impossible. The local <code>v</code> binding also avoids chained subscripting in the interpreter.</p>
+<p>Token and position embeddings are rows of learned matrices. Add them, normalize, apply the block, then project through the unembedding matrix to obtain vocabulary logits. Python starts with <code>x=[t+p for t,p in zip(tok_emb,pos_emb)]</code> and ends with <code>linear(x,lm_head)</code>.</p>
+<div class="comparison" id="panel-embedding"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/embedding.png" alt="Actual Fortify rendering"></div><p class="caption">Embedding and complete one-block prediction</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>object Model(E:Mat,P:Mat,U:Mat,B:Block,H:ZZ32) end
+gpt(M:Model,token:ZZ32,t:ZZ32,C:Cache):Vec =
+  M.U transformer(rmsnorm(M.E[token] + M.P[t]),M.B,C,t,M.H)</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>x = [e + p for e, p in zip(E[token], P[t])]
+x = rmsnorm(x)
+x = transformer_block(x, block, cache, t)
+logits = linear(x, U)</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div>
+
+<p>The first RMS normalization and the block&#39;s own pre-normalization are both retained. The residual branch means dropping the first is not generally equivalent. There is no positional rotation, dropout, bias, learned normalization gain, or final normalization added to this pinned microGPT architecture.</p>
+<h2 id="section-8">8. A scalar loss connects the whole graph</h2>
+<p>For input tokens <code>[2,0,1]</code>, the targets are <code>[0,1,2]</code>. At each position, negative log probability penalizes the model for assigning little mass to the actual next token. Mean cross-entropy is <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="L=-T^{-1}\sum_t\log p_t[y_t]"><mrow><mi>L</mi><mo>=</mo><mo>−</mo><msup><mi>T</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msub><mo>∑</mo><mi>t</mi></msub><mi>log</mi><msub><mi>p</mi><mi>t</mi></msub><mo>[</mo><msub><mi>y</mi><mi>t</mi></msub><mo>]</mo></mrow></math>.</p>
+<p>Python uses <code>losses.append(-probs[target_id].log())</code>, then <code>loss=sum(losses)/n</code> and <code>loss.backward()</code>.</p>
+<div class="comparison" id="panel-loss"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/loss.png" alt="Actual Fortify rendering"></div><p class="caption">Executed per-position loss, mean and gradient call</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>    losses[t] := -log(probabilities[tokens[t + 1]])
+  loss = (SUM[t &lt;- 0#3] losses[t])/3.0
+  println(&quot;loss\t&quot; loss.primal)
+  g = gradient(loss,228)</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>losses.append(-probs[target_id].log())
+loss = sum(losses) / len(losses)
+loss.backward()</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div>
+
+<p>All three losses share parameter nodes through the model and share earlier cache graphs where attention uses them. <code>gradient(loss,228)</code> traverses the combined graph and returns every parameter derivative. Parameter identities are fixed by global row-major offsets when matrices are built, so forward evaluation order does not determine their identities.</p>
+<h2 id="section-9">9. Update parameters, then generate with a fresh cache</h2>
+<p>Adam keeps exponentially smoothed gradients <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="m"><mi>m</mi></math> and squared gradients <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="v"><mi>v</mi></math>. Bias correction divides by <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="1-\beta^s"><mrow><mn>1</mn><mo>−</mo><msup><mi>β</mi><mi>s</mi></msup></mrow></math> at one-based step <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="s"><mi>s</mi></math>. A linearly decaying learning rate controls the update; epsilon stabilizes the denominator.</p>
+<p>Python updates <code>m[i]=beta1*m[i]+(1-beta1)*g</code>, similarly updates <code>v</code>, computes the two corrected moments, then subtracts <code>lr*m_hat/(sqrt(v_hat)+eps)</code> from the parameter.</p>
+<div class="comparison" id="panel-adam"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/adam.png" alt="Actual Fortify rendering"></div><p class="caption">Executed Adam update with bias correction</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>adam(p:Array[\RR64,ZZ32\],g:Array[\RR64,ZZ32\],
+     m:Array[\RR64,ZZ32\],v:Array[\RR64,ZZ32\],n:ZZ32,step:ZZ32,total:ZZ32):() = do
+  beta_m = 0.85; beta_v = 0.99
+  alpha = 0.01 (1.0-(step-1)/(1.0 total))
+  for i &lt;- 0#n do
+    m[i] := beta_m m[i] + (1.0-beta_m) g[i]
+    v[i] := beta_v v[i] + (1.0-beta_v) (g[i])^2.0
+    m_hat = m[i]/(1.0-beta_m^(1.0 step))
+    v_hat = v[i]/(1.0-beta_v^(1.0 step))
+    p[i] := p[i] - alpha m_hat/(SQRT(v_hat) + 0.00000001)
+  end
+end</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>m[i] = beta1 * m[i] + (1 - beta1) * g
+v[i] = beta2 * v[i] + (1 - beta2) * g**2
+mhat = m[i] / (1 - beta1**step)
+vhat = v[i] / (1 - beta2**step)
+p[i] -= lr * mhat / (vhat**0.5 + 1e-8)</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div>
+
+<p>The Fortress routine takes one-based <code>step</code>; consequently <code>step-1</code> appears in learning-rate decay. The fixture performs <code>step=1,total=1</code>, starting both moment arrays at zero. At that step, the independently checked update simplifies to <math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="p'=p-0.01g/(|g|+10^{-8})"><mrow><msup><mi>p</mi><mo>′</mo></msup><mo>=</mo><mi>p</mi><mo>−</mo><mfrac><mrow><mn>0.01</mn><mi>g</mi></mrow><mrow><mo>|</mo><mi>g</mi><mo>|</mo><mo>+</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>8</mn></mrow></msup></mrow></mfrac></mrow></math>. Later optimizer steps are implemented by the routine but are outside this fixture&#39;s demonstrated numerical coverage.</p>
+<p>The parenthesized <code>(g[i])^2.0</code> in the figure is intentional. An unparenthesized indexed base failed in this interpreter even though the specification gives subscripting and superscripting left-associative precedence. Changing only the exponent did not repair it; grouping the indexed value did. The saved run logs preserve that integration failure.</p>
+<p>Generation constructs a model from the updated parameters and uses a fresh cache. Begin with BOS token 2; predict, divide logits by temperature 0.5, sample, feed the selected token back, and stop on BOS or the context limit. Python uses <code>random.choices</code>; the check injects uniforms into the equivalent inverse-CDF operation.</p>
+<div class="comparison" id="panel-sampling"><figure><figcaption>FORTRESS · FORTIFY 2D</figcaption><div class="render"><img style="width:100%;height:auto" src="figures/rendered/sampling.png" alt="Actual Fortify rendering"></div><p class="caption">Categorical sampling with a supplied uniform</p></figure><div class="ascii"><h3>FORTRESS · ASCII SOURCE</h3><pre><code>categorical(p:Vec,u:RR64):ZZ32 = do
+  cumulative:RR64 := 0.0
+  choice:ZZ32 := p.n-1
+  found:Boolean := false
+  for i &lt;- sequential(0#p.n) do
+    cumulative += (p[i]).primal
+    if NOT found AND u&lt;cumulative then choice := i; found := true end
+  end
+  choice
+end</code></pre></div><div class="python"><h3>PYTHON · COMPARISON</h3><pre><code>probs = softmax([v / temperature for v in logits])
+cumulative = 0.0
+choice = len(probs) - 1
+for j, p in enumerate(probs):
+    cumulative += p.data
+    if u &lt; cumulative:
+        choice = j
+        break</code></pre><p class="caption">Equivalent teaching excerpt; names may be shortened. The pinned upstream source remains the numerical reference.</p></div></div>
+
+<p>The strict inequality implements half-open CDF intervals. Uniforms <code>[0.1,0.5,0.9]</code> select <code>[0,1,2]</code>, including the terminating BOS. The fallback is the last category if roundoff leaves the accumulated total slightly below one. This function assumes a valid uniform in <code>[0,1)</code> and valid probabilities, as supplied by the fixture.</p>
+<h2 id="section-10">10. What has actually been established</h2>
+<p>The selected program&#39;s completed run took 4.438 seconds in the historical interpreter, including startup and TSV output. The alternative took 3.935 seconds. These single runs establish bounded feasibility, not a performance comparison. No long training was run.</p>
+<table>
+<thead>
+<tr>
+<th>Quantity checked against Python</th>
+<th align="right">Coverage</th>
+<th align="right">Selected maximum absolute error</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Initial parameters</td>
+<td align="right">228</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>Training logits</td>
+<td align="right">9</td>
+<td align="right">5.56e-17</td>
+</tr>
+<tr>
+<td>Training probabilities</td>
+<td align="right">9</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>Attention weights</td>
+<td align="right">12, both heads</td>
+<td align="right">5.56e-17</td>
+</tr>
+<tr>
+<td>Mean loss</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>Gradients</td>
+<td align="right">228</td>
+<td align="right">2.23e-16</td>
+</tr>
+<tr>
+<td>Updated parameters</td>
+<td align="right">228</td>
+<td align="right">3.47e-16</td>
+</tr>
+<tr>
+<td>Generation logits and probabilities</td>
+<td align="right">9 each</td>
+<td align="right">5.56e-17</td>
+</tr>
+<tr>
+<td>Selected tokens and supplied uniforms</td>
+<td align="right">3 each</td>
+<td align="right">0</td>
+</tr>
+</tbody></table>
+<p>Loss is <code>1.147958783149666</code>. The strict converter rejects missing cells, duplicates, unknown records and non-finite values; it inserts only static metadata. Both full models pass the independent validator at absolute tolerance <code>1e-12</code> and relative tolerance <code>1e-10</code>. The Python gradients were separately checked by central differences for every parameter, with worst error <code>3.649e-10</code> at step <code>1e-6</code>. See <a href="../reference/INDEPENDENT_VALIDATION.md">independent validation</a>, <a href="actual.json">full actual values</a>, and <a href="validation-summary.json">error summary</a>.</p>
+<p>This evidence is stronger than matching one scalar loss, but it is still one deliberately small configuration. It does not establish every shape, multi-block behavior, all floating-point extremes, higher derivatives, large-graph stack safety, concurrent backwards, or trained text quality.</p>
+<p>The selected form is canonical <strong>for this experiment</strong>: ordinary sum, matrix-vector juxtaposition, explicit vector dot, RMS quotient and explicit attention contraction. Actual alternative execution and visual inspection support those local choices; this specimen does not establish a unique optimum for Fortress or ML languages generally.</p>
+<h2 id="section-11">Reproduction and remaining departures</h2>
+<p>The <a href="REPRODUCE.md">reproduction guide</a> gives the bounded commands and exact evidence locations. <a href="make_figures.py">Figure extraction</a> takes literal source slices, writes formula-captioned <code>.tic</code> sheets and records source hashes; <code>experiment/render.py</code> runs Fortify, LaTeX and dvisvgm. PNGs were inspected beside their mathematical captions. The two comparison figures were inspected before selecting the final formulations, and a clipped RMS caption was split and rendered again.</p>
+<p>The support is not free: the executable contains the scalar graph, reduction, eager containers, vector overloads, cache representation, parameter mapping, optimizer and sampler before the fixture driver. <a href="SOURCE_INVENTORY.md">The source inventory</a> separates those from the short mathematical core and from test output. Rendering an entire transliteration alone would not have supplied the mathematical correspondences above.</p>
+<table>
+<thead>
+<tr>
+<th>Remaining departure</th>
+<th>Classification and evidence</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Closed shipped <code>Number</code>/<code>Vector</code> scalar constraint</td>
+<td>Library design restriction, API declarations</td>
+<td>Define user-level AD containers; no runtime changes</td>
+</tr>
+<tr>
+<td>Local SUM collides with imported big addition</td>
+<td>Namespace/import integration, successful excluded-import probe</td>
+<td>Retain explicit import exclusion; ordinary sigma works</td>
+</tr>
+<tr>
+<td><code>MAXNUM</code> and <code>transpose</code> remain words</td>
+<td>Observed library/rendering spelling</td>
+<td>Figures show the actual mismatch; no claimed impossibility</td>
+</tr>
+<tr>
+<td>Chained subscripting / indexed power fails</td>
+<td>Interpreter gap relative to documented postfix precedence; saved failures</td>
+<td>Bind intermediate row or parenthesize indexed base</td>
+</tr>
+<tr>
+<td>Concatenation uses <code>DIV</code>/<code>MOD</code> and a constructor</td>
+<td>Deliberate representation choice</td>
+<td>More support visible than the paper&#39;s <code>concat</code></td>
+</tr>
+<tr>
+<td>Floating sum is not exactly associative</td>
+<td>Numerical approximation in reduction abstraction</td>
+<td>Permit parallel reassociation; compare with tolerances</td>
+</tr>
+<tr>
+<td>Mutating reverse pass is sequential</td>
+<td>Deliberate graph algorithm dependency</td>
+<td>No concurrent gradients on shared nodes</td>
+</tr>
+</tbody></table>
+<p>No compiler, interpreter or shipped library was modified to make these forms run. The open work for a revival is concrete: minimize and fix the subscripting regressions, consider AD-friendly generic numerical containers, and improve rendering conventions for the remaining named operations. The successful ordinary summation investigation should not be misreported as an unresolved language limit.</p>
+<details><summary>Complete executable · ASCII Fortress source</summary><pre><code>component MicroGPT
+import FortressLibrary.{...} except { opr BIG  +  }
+export Executable
+
+trait Parents
+  visit(w:Walk):()
+  push(a:RR64):()
+end
+object NoParents extends Parents
+  visit(w:Walk):() = ()
+  push(a:RR64):() = ()
+end
+object OneParent(x:V,dx:RR64) extends Parents
+  visit(w:Walk):() = x.visit(w)
+  push(a:RR64):() = x.add(a dx)
+end
+object TwoParents(x:V,dx:RR64,y:V,dy:RR64) extends Parents
+  visit(w:Walk):() = do x.visit(w); y.visit(w) end
+  push(a:RR64):() = do x.add(a dx); y.add(a dy) end
+end
+trait Chain
+  backward(g:Array[\RR64,ZZ32\]):()
+  clear():()
+end
+object EmptyChain extends Chain
+  backward(g:Array[\RR64,ZZ32\]):() = ()
+  clear():() = ()
+end
+object Link(x:V,rest:Chain) extends Chain
+  backward(g:Array[\RR64,ZZ32\]):() = do
+    x.push(g)
+    rest.backward(g)
+  end
+  clear():() = do x.clear(); rest.clear() end
+end
+object Walk(seed:ZZ32)
+  stack:Chain := EmptyChain
+  prepend(x:V):() = stack := Link(x,stack)
+end
+object V(primal:RR64,index:ZZ32,parents:Parents)
+  seen:Boolean := false
+  adjoint:RR64 := 0.0
+  visit(w:Walk):() = if NOT seen then
+    seen := true
+    parents.visit(w)
+    w.prepend(self)
+  end
+  add(a:RR64):() = adjoint += a
+  push(g:Array[\RR64,ZZ32\]):() = do
+    if index &gt;= 0 then g[index] += adjoint end
+    parents.push(adjoint)
+  end
+  clear():() = do seen := false; adjoint := 0.0 end
+end
+constant(x:RR64):V = V(x,-1,NoParents)
+variable(i:ZZ32,x:RR64):V = V(x,i,NoParents)
+unary(z:RR64,x:V,dx:RR64):V = V(z,-1,OneParent(x,dx))
+binary(z:RR64,x:V,dx:RR64,y:V,dy:RR64):V = V(z,-1,TwoParents(x,dx,y,dy))
+opr  + (x:V,y:V):V = binary(x.primal + y.primal,x,1.0,y,1.0)
+opr -(x:V,y:V):V = binary(x.primal-y.primal,x,1.0,y,-1.0)
+opr -(x:V):V = unary(-x.primal,x,-1.0)
+opr juxtaposition(x:V,y:V):V = binary(x.primal y.primal,x,y.primal,y,x.primal)
+opr /(x:V,y:V):V = binary(x.primal/y.primal,x,1.0/y.primal,y,-x.primal/(y.primal y.primal))
+opr  + (x:V,y:RR64):V = x + constant(y)
+opr  + (x:RR64,y:V):V = constant(x) + y
+opr -(x:V,y:RR64):V = x-constant(y)
+opr -(x:RR64,y:V):V = constant(x)-y
+opr juxtaposition(x:V,y:RR64):V = x constant(y)
+opr juxtaposition(x:RR64,y:V):V = constant(x) y
+opr /(x:V,y:RR64):V = x/constant(y)
+opr /(x:RR64,y:V):V = constant(x)/y
+opr ^(x:V,p:RR64):V = unary((x.primal)^p,x,p ((x.primal)^(p-1.0)))
+opr SQRT(x:V):V = do z = SQRT(x.primal); unary(z,x,0.5/z) end
+exp(x:V):V = do z = exp(x.primal); unary(z,x,z) end
+log(x:V):V = unary(log(x.primal),x,1.0/x.primal)
+relu(x:V):V = if x.primal &gt; 0.0 then unary(x.primal,x,1.0) else unary(0.0,x,0.0) end
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+  empty():V = constant(0.0)
+  join(x:V,y:V):V = x + y
+end
+opr SUM():Comprehension[\V,V,V,V\] =
+  Comprehension[\V,V,V,V\](fn (x:V) =&gt; x,VSumReduction,fn (x:V) =&gt; x)
+gradient(y:V,n:ZZ32):Array[\RR64,ZZ32\] = do
+  g = array[\RR64\](n).fill(0.0)
+  w = Walk(0)
+  y.visit(w)
+  y.add(1.0)
+  w.stack.backward(g)
+  w.stack.clear()
+  g
+end
+tree(x:V,n:ZZ32):V = if n = 0 then x else tree(x,n-1) + tree(x,n-1) end
+diamond(x:V,n:ZZ32):V = if n = 0 then x else diamond(x + x,n-1) end
+
+(* Eager finite vectors retain shared scalar graph nodes. Independent cells may
+   be constructed in parallel; cache positions are visited in sequence. *)
+object Vec(n:ZZ32, f:ZZ32-&gt;V)
+  data:Array[\V,ZZ32\] = do
+    a = array[\V\](n)
+    for i &lt;- 0#n do a[i] := f(i) end
+    a
+  end
+  opr[i:ZZ32]:V = data[i]
+end
+object Mat(m:ZZ32,n:ZZ32,f:(ZZ32,ZZ32)-&gt;V)
+  rows:Array[\Vec,ZZ32\] = do
+    a = array[\Vec\](m)
+    for i &lt;- 0#m do a[i] := Vec(n,fn j =&gt; f(i,j)) end
+    a
+  end
+  opr[i:ZZ32,j:ZZ32]:V = do row = rows[i]; row[j] end
+  opr[i:ZZ32]:Vec = rows[i]
+end
+opr juxtaposition(A:Mat,x:Vec):Vec = Vec(A.m,fn i =&gt; SUM[j &lt;- 0#A.n] A[i,j] x[j])
+opr DOT(x:Vec,y:Vec):V = SUM[i &lt;- 0#x.n] x[i] y[i]
+opr  + (x:Vec,y:Vec):Vec = Vec(x.n,fn i =&gt; x[i] + y[i])
+opr /(x:Vec,s:V):Vec = Vec(x.n,fn i =&gt; x[i]/s)
+opr /(x:Vec,s:RR64):Vec = Vec(x.n,fn i =&gt; x[i]/s)
+opr -(x:Vec,s:RR64):Vec = Vec(x.n,fn i =&gt; x[i]-s)
+exp(x:Vec):Vec = Vec(x.n,fn i =&gt; exp(x[i]))
+relu(x:Vec):Vec = Vec(x.n,fn i =&gt; relu(x[i]))
+maximum(x:Vec):RR64 = BIG MAXNUM[i &lt;- 0#x.n] (x[i]).primal
+softmax(x:Vec):Vec = do
+  e = exp(x-maximum(x))
+  e/(SUM[i &lt;- 0#x.n] e[i])
+end
+rmsnorm(x:Vec):Vec = x/(SQRT((x DOT x)/x.n + 0.00001))
+head(x:Vec,h:ZZ32,s:ZZ32):Vec = Vec(s,fn j =&gt; x[h s  +  j])
+attention(q:Vec,K:Mat,W:Mat):(Vec,Vec) = do
+  a = softmax((K q)/(SQRT(q.n)))
+  (a,Vec(W.n,fn j =&gt; SUM[t &lt;- 0#W.m] a[t] W[t,j]))
+end
+object Block(W_q:Mat,W_k:Mat,W_v:Mat,W_o:Mat,W_in:Mat,W_out:Mat) end
+object Cache(context:ZZ32,H:ZZ32)
+  keys:Array[\Vec,ZZ32\] = array[\Vec\](context)
+  values:Array[\Vec,ZZ32\] = array[\Vec\](context)
+  weights:Array[\Vec,ZZ32\] = array[\Vec\](context H)
+end
+transformer(x:Vec,B:Block,C:Cache,t:ZZ32,H:ZZ32):Vec = do
+  z = rmsnorm(x)
+  q = B.W_q z
+  C.keys[t] := B.W_k z
+  C.values[t] := B.W_v z
+  s = x.n DIV H
+  heads = do
+    a = array[\Vec\](H)
+    for h &lt;- 0#H do
+      K = Mat(t + 1,s,fn (u,j) =&gt; (head(C.keys[u],h,s))[j])
+      W = Mat(t + 1,s,fn (u,j) =&gt; (head(C.values[u],h,s))[j])
+      (weights,output) = attention(head(q,h,s),K,W)
+      C.weights[t H + h] := weights
+      a[h] := output
+    end
+    a
+  end
+  y = x  +  B.W_o Vec(x.n,fn j =&gt; do v = heads[j DIV s]; v[j MOD s] end)
+  y  +  B.W_out relu(B.W_in rmsnorm(y))
+end
+object Model(E:Mat,P:Mat,U:Mat,B:Block,H:ZZ32) end
+gpt(M:Model,token:ZZ32,t:ZZ32,C:Cache):Vec =
+  M.U transformer(rmsnorm(M.E[token] + M.P[t]),M.B,C,t,M.H)
+
+(* Each parameter identity is its global row-major index, independently of
+   evaluation order. This constructor fixes the inspectable one-block fixture. *)
+matrixAt(p:Array[\RR64,ZZ32\],m:ZZ32,n:ZZ32,offset:ZZ32):Mat =
+  Mat(m,n,fn (i,j) =&gt; variable(offset + i n + j,p[offset + i n + j]))
+model(p:Array[\RR64,ZZ32\]):Model = Model(
+  matrixAt(p,3,4,0),matrixAt(p,3,4,12),matrixAt(p,3,4,24),
+  Block(matrixAt(p,4,4,36),matrixAt(p,4,4,52),matrixAt(p,4,4,68),
+        matrixAt(p,4,4,84),matrixAt(p,16,4,100),matrixAt(p,4,16,164)),2)
+
+adam(p:Array[\RR64,ZZ32\],g:Array[\RR64,ZZ32\],
+     m:Array[\RR64,ZZ32\],v:Array[\RR64,ZZ32\],n:ZZ32,step:ZZ32,total:ZZ32):() = do
+  beta_m = 0.85; beta_v = 0.99
+  alpha = 0.01 (1.0-(step-1)/(1.0 total))
+  for i &lt;- 0#n do
+    m[i] := beta_m m[i] + (1.0-beta_m) g[i]
+    v[i] := beta_v v[i] + (1.0-beta_v) (g[i])^2.0
+    m_hat = m[i]/(1.0-beta_m^(1.0 step))
+    v_hat = v[i]/(1.0-beta_v^(1.0 step))
+    p[i] := p[i] - alpha m_hat/(SQRT(v_hat) + 0.00000001)
+  end
+end
+categorical(p:Vec,u:RR64):ZZ32 = do
+  cumulative:RR64 := 0.0
+  choice:ZZ32 := p.n-1
+  found:Boolean := false
+  for i &lt;- sequential(0#p.n) do
+    cumulative += (p[i]).primal
+    if NOT found AND u&lt;cumulative then choice := i; found := true end
+  end
+  choice
+end
+
+emitMatrix(kind:String,name:String,p:Array[\RR64,ZZ32\],m:ZZ32,n:ZZ32,offset:ZZ32):() =
+  for i &lt;- sequential(0#m), j &lt;- sequential(0#n) do
+    println(kind &quot;\t&quot; name &quot;\t&quot; i &quot;\t&quot; j &quot;\t&quot; p[offset + i n + j])
+  end
+emitParameters(kind:String,p:Array[\RR64,ZZ32\]):() = do
+  emitMatrix(kind,&quot;wte&quot;,p,3,4,0)
+  emitMatrix(kind,&quot;wpe&quot;,p,3,4,12)
+  emitMatrix(kind,&quot;lm_head&quot;,p,3,4,24)
+  emitMatrix(kind,&quot;layer0.attn_wq&quot;,p,4,4,36)
+  emitMatrix(kind,&quot;layer0.attn_wk&quot;,p,4,4,52)
+  emitMatrix(kind,&quot;layer0.attn_wv&quot;,p,4,4,68)
+  emitMatrix(kind,&quot;layer0.attn_wo&quot;,p,4,4,84)
+  emitMatrix(kind,&quot;layer0.mlp_fc1&quot;,p,16,4,100)
+  emitMatrix(kind,&quot;layer0.mlp_fc2&quot;,p,4,16,164)
+end
+emitVector(kind:String,t:ZZ32,x:Vec):() =
+  for j &lt;- sequential(0#x.n) do println(kind &quot;\t&quot; t &quot;\t&quot; j &quot;\t&quot; (x[j]).primal) end
+run():() = do
+  p = array[\RR64\](228)
+  for i &lt;- 0#228 do p[i] := 1.0 ((i MOD 29)-14)/100.0 end
+  emitParameters(&quot;initial&quot;,p)
+  M = model(p)
+  C = Cache(3,2)
+  tokens = array[\ZZ32\](4)
+  tokens[0] := 2; tokens[1] := 0; tokens[2] := 1; tokens[3] := 2
+  losses = array[\V\](3)
+  for t &lt;- sequential(0#3) do
+    logits = gpt(M,tokens[t],t,C)
+    probabilities = softmax(logits)
+    losses[t] := -log(probabilities[tokens[t + 1]])
+    emitVector(&quot;logits&quot;,t,logits)
+    emitVector(&quot;probability&quot;,t,probabilities)
+    for h &lt;- sequential(0#2) do
+      a = C.weights[t 2 + h]
+      for u &lt;- sequential(0#(t + 1)) do
+        println(&quot;attention\t&quot; t &quot;\t&quot; h &quot;\t&quot; u &quot;\t&quot; (a[u]).primal)
+      end
+    end
+  end
+  loss = (SUM[t &lt;- 0#3] losses[t])/3.0
+  println(&quot;loss\t&quot; loss.primal)
+  g = gradient(loss,228)
+  emitParameters(&quot;gradient&quot;,g)
+  m = array[\RR64\](228).fill(0.0)
+  v = array[\RR64\](228).fill(0.0)
+  adam(p,g,m,v,228,1,1)
+  emitParameters(&quot;updated&quot;,p)
+  updatedModel = model(p)
+  freshCache = Cache(3,2)
+  uniforms = array[\RR64\](3)
+  uniforms[0] := 0.1; uniforms[1] := 0.5; uniforms[2] := 0.9
+  token:ZZ32 := 2
+  finished:Boolean := false
+  for t &lt;- sequential(0#3) do
+    if NOT finished then
+      logits = gpt(updatedModel,token,t,freshCache)
+      probabilities = softmax(logits/0.5)
+      token := categorical(probabilities,uniforms[t])
+      println(&quot;uniform\t&quot; t &quot;\t&quot; uniforms[t])
+      emitVector(&quot;genlogits&quot;,t,logits)
+      emitVector(&quot;genprobability&quot;,t,probabilities)
+      println(&quot;gentoken\t&quot; t &quot;\t&quot; token)
+      finished := token=2
+    end
+  end
+end
+
+end
+</code></pre></details><p class="footer">Standalone reading edition. The full ASCII executable is embedded. The twelve actual Fortify figures are loaded from the accompanying figures/rendered directory. Inline mathematics uses native MathML. No external scripts or fonts are required. Keep the accompanying figure directory beside this HTML file. Supporting repository links require access to the accompanying files.</p></main></body></html>

@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$\ell_t=U\,\mathrm{Block}(\mathrm{RMS}(E_{token_t}+P_t))$
+`
+object Model(E:Mat,P:Mat,U:Mat,B:Block,H:ZZ32) end
+gpt(M:Model,token:ZZ32,t:ZZ32,C:Cache):Vec =
+  M.U transformer(rmsnorm(M.E[token] + M.P[t]),M.B,C,t,M.H)
+`
+\end{minipage}\end{preview}\end{document}

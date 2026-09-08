@@ -1,0 +1,18 @@
+component NotationBuiltinSumD
+export Executable
+
+(* Probe the implementation's apparent failure to enforce T extends Number.
+   The shipped SUM reduction itself stores Number, so acceptance here would
+   still need semantic validation rather than being treated as sound genericity. *)
+object D(v:RR64, d:RR64)
+end
+opr +(x:D, y:D):D = D(x.v+y.v, x.d+y.d)
+
+run():() = do
+  s = SUM[i <- 1#4] D(1.0 i, 1.0)
+  typecase s of
+    d:D => do println(d.v); println(d.d) end
+    else => println(s)
+  end
+end
+end

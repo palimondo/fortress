@@ -1,0 +1,20 @@
+{
+  "command": [
+    "bin/fortress",
+    "walk",
+    "experiment/worker/main/MicroGPT.fss"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260908T041725.435506Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "status": "completed",
+  "exit_code": 1,
+  "source_snapshots": [
+    {
+      "original": "experiment/worker/main/MicroGPT.fss",
+      "saved": "source/main/MicroGPT.fss",
+      "sha256": "81fca3fec537c3381959dd4080653d9ea5dbdaf5288b260a06d0c9a5078d8007"
+    }
+  ],
+  "elapsed_seconds": 3.938
+}

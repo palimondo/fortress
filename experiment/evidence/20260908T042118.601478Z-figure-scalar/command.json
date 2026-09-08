@@ -1,0 +1,21 @@
+{
+  "command": [
+    "python",
+    "experiment/render.py",
+    "experiment/worker/main/figures/scalar.tic",
+    "experiment/worker/main/figures/rendered"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260908T042118.601478Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "status": "completed",
+  "exit_code": 0,
+  "source_snapshots": [
+    {
+      "original": "experiment/worker/main/figures/scalar.tic",
+      "saved": "source/main/figures/scalar.tic",
+      "sha256": "7ae714ea7598357ab709f0feb9d8f1f3541e194151cf9b34eba9a42262c716cd"
+    }
+  ],
+  "elapsed_seconds": 0.917
+}

@@ -1,0 +1,4 @@
+component smoke
+export Executable
+run() = println(40 + 2)
+end

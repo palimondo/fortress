@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python",
+    "experiment/render.py",
+    "explorations/fortify/buffons-excerpt.tic",
+    "experiment/render-check"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260907T060039.807128Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "exit_code": 0,
+  "elapsed_seconds": 3.313
+}

@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$L=-\frac1T\sum_{t=0}^{T-1}\log p_t[token_{t+1}]$
+`
+    losses[t] := -log(probabilities[tokens[t + 1]])
+  loss = (SUM[t <- 0#3] losses[t])/3.0
+  println("loss\t" loss.primal)
+  g = gradient(loss,228)
+`
+\end{minipage}\end{preview}\end{document}

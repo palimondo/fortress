@@ -1,0 +1,20 @@
+{
+  "command": [
+    "bin/fortress",
+    "walk",
+    "experiment/worker/main/ForwardProbe.fss"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260908T041512.524528Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "status": "completed",
+  "exit_code": 0,
+  "source_snapshots": [
+    {
+      "original": "experiment/worker/main/ForwardProbe.fss",
+      "saved": "source/main/ForwardProbe.fss",
+      "sha256": "37bc3ec89078d170e1e678b94993cf31518424315ce3ba2276837fa5ec5ea80a"
+    }
+  ],
+  "elapsed_seconds": 2.471
+}

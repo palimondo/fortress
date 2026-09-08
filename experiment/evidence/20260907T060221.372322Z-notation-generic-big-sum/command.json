@@ -1,0 +1,12 @@
+{
+  "command": [
+    "bin/fortress",
+    "walk",
+    "experiment/worker/notation/NotationGenericBigSum.fss"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260907T060221.372322Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "exit_code": 1,
+  "elapsed_seconds": 6.408
+}

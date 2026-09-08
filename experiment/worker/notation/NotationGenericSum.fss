@@ -1,0 +1,18 @@
+component NotationGenericSum
+import List.{...}
+export Executable
+
+object D(v:RR64, d:RR64) extends AdditiveGroup[\D\]
+  getter zero():D = D(0.0,0.0)
+  opr +(self, y:D):D = D(v+y.v, d+y.d)
+end
+
+sum[\T extends AdditiveGroup[\T\]\](g:Generator[\T\], sample:T):T =
+  g.reduce(fn (x:T,y:T) => x+y, sample.zero)
+
+run():() = do
+  s = sum[\D\](<|[\D\] D(1.0 i, 1.0) | i <- 1#4 |>, D(0.0,0.0))
+  println(s.v)
+  println(s.d)
+end
+end

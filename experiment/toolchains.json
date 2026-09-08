@@ -1,0 +1,11 @@
+{
+  "jdk": {
+    "url": "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jdk_x64_linux_hotspot_25.0.4.1_1.tar.gz",
+    "sha256": "dbb698396d478e7fa2b1e50f4103324b2a99b90569ee27c33f2261f9215cf41e"
+  },
+  "ant": {
+    "url": "https://dlcdn.apache.org/ant/binaries/apache-ant-1.10.18-bin.tar.gz",
+    "sha512": "c510d744876d8da48dabc9495b023b6ec5284a0f18b40ee50d98ce099e791ca5c73e3cd4c80d3c90d3efc03f9620be43aad0a373ed47198284f7e3373e0db2c3"
+  },
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9"
+}

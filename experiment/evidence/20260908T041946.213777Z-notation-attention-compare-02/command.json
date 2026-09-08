@@ -1,0 +1,21 @@
+{
+  "command": [
+    "python",
+    "experiment/render.py",
+    "experiment/worker/main/figures/attention.tic",
+    "experiment/worker/main/figures/rendered"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260908T041946.213777Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "status": "completed",
+  "exit_code": 0,
+  "source_snapshots": [
+    {
+      "original": "experiment/worker/main/figures/attention.tic",
+      "saved": "source/main/figures/attention.tic",
+      "sha256": "06a02b45b24b8dea358def9ca131f2eb109ac03f9ca073ea5294f192e9c29c92"
+    }
+  ],
+  "elapsed_seconds": 0.816
+}
