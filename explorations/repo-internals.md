@@ -120,6 +120,14 @@ Consequences:
   interpreter tests in the 2012 endgame (`api System` shadowed — see
   test-baseline postscript) and why the compiler apis are `Compiler*`-prefixed.
 
+## The pipeline, phase by phase (verified 2026-09-08 from `compiler/phases/PhaseOrder.java` and `Shell.java`)
+
+Both execution paths share one phase list and differ only at the end. Parse (`parser/`, Rats!) produces the AST (`nodes/`); then PREDISAMBIGUATEDESUGAR, DISAMBIGUATE (names bound to declarations), GRAMMAR (syntax extensions), PRETYPECHECKDESUGAR, TYPECHECK (`scala_src/typechecker/`, writes a static type on every expression; no new representation), DESUGAR (comprehensions and big operators to `generate` calls with reduction objects, coercions, chained comparisons, getters/setters), then OVERLOADREWRITE and CODEGEN on the compiler path (`compilerPhaseOrder`, which also has INTEGERLITERALFOLDING before TYPECHECK) or OVERLOADREWRITE_FOR_INTERPRETER on the interpreter path (`interpreterPhaseOrder`). The AST is the only intermediate representation from parse to bytecode; there is no lower IR and no optimizing middle.
+
+The TYPECHECK phase is in the interpreter's list but is a no-op there: `walk` calls `setScala(false)` and the checking flag `fortress.compile.typecheck` defaults to false, and `StaticChecker` returns the tree untouched when off. `compile`/`build` set it on. Consequently the interpreter runs untyped desugared trees and accepts spec-illegal programs (e.g. `Value extends Number` against `Number comprises {RR64}`), and there is no command-line switch to enable checking for `walk`.
+
+What the code generator does with the static types: every Fortress type is lowered to a JVM reference type (traits to interfaces, objects to classes, `RR64` to the runtime class `FRR64` via `NamingCzar`; `CodeGen.java` emits no `DADD`), every overloaded name gets one generated dispatch method that tests argument types from most to least specific (symmetric multimethod dispatch on run-time types), and generic declarations are compiled once as templates whose instantiations (`Box⟦RR64⟧`, oxford brackets from `Naming.java`) are stamped out by `runtimeSystem/InstantiatingClassloader.java` at first use by ASM rewriting of the template bytes; instantiation renames, it does not change representation. Emitted classfiles stay at version 1.6 because the load-time rewriting pipeline does not maintain stack-map frames and the JVM verifier may fall back to type inference only at that version. The `value` modifier on objects (spec: immutable fields, no identity) has no representation meaning in codegen.
+
 ## Name resolution: fortress.source.path
 
 `default_repository/configuration` (overridable via `local_repository/`,
