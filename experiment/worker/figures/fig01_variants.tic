@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+Variant A: list children with explicit static args\\
+`opr +(self, other: Value): Value =
+  Value(data + other.data, <|[\Value\] self, other|>, <|[\RR64\] 1.0, 1.0|>)`
+
+Variant B: varargs pairs (child, local derivative)\\
+`object Value(var data: RR64, deps: (Value, RR64)...)
+  var grad: RR64 := 0.0
+  opr +(self, other: Value): Value = Value(data + other.data, (self, 1), (other, 1))
+  opr juxtaposition(self, other: Value): Value = Value(data other.data, (self, other.data), (other, data))
+  opr ^(self, n: RR64): Value = Value(data^n, (self, n data^(n-1)))
+  opr ^ (self, n: RR64): Value = Value(data^n, (self, n data^(n-1)))
+  exp(self): Value = Value(exp(data), (self, exp(data)))
+  log(self): Value = Value(log(data), (self, 1/data))
+  relu(self): Value = Value(data MAX 0, (self, if data > 0 then 1 else 0 end))
+end`
+
+Type spellings\\
+`f1[\nat n\](x: Value[n]): Value[n]
+f2[\nat n\](x: Array1[\Value,0,n\]): Array1[\Value,0,n\]
+f3[\nat n\](x: Value^n): Value^n
+f4[\nat n\](x: Vec[\n\]): Vec[\n\]
+f5[\nat m, nat n\](w: Value[m,n], x: Value[n]): Value[m]
+f6[\nat m, nat n\](W: Value^(m TIMES n), x: Value^n): Value^m`
+
+Operators on vectors\\
+`opr juxtaposition[\nat m, nat n\](w: Value[m,n], x: Value[n]): Value[m] =
+  array1[\Value,m\](fn (i: ZZ32) => SUM[j <- 0#n] w[i,j] x[j])
+opr juxtaposition[\nat m, nat n\](w: Value[m,n], x: Value[n]): Value[m] =
+  [ i |-> SUM[j <- 0#n] w[i,j] x[j] | i <- 0#m ]
+opr DOT[\nat n\](a: Value[n], b: Value[n]): Value = SUM[i <- 0#n] a[i] b[i]
+opr DOT[\nat n\](a: Value[n], b: Value[n]): Value = SUM[(a_i, b_i) <- a.zip(b)] a_i b_i
+q = W_q x
+k = W_k x
+alpha = softmax <| (q DOT k_t)/SQRT(d) | t <- 0:T |>
+head = SUM[t <- 0:T] alpha[t] v_t
+x' = x + W_o head
+h = relu(W_1 (rmsnorm x))
+y = x + W_2 h`
+\end{preview}
+\end{document}

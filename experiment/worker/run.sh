@@ -3,6 +3,7 @@
 # Usage: experiment/worker/run.sh PATH.fss [extra args]
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 source "$ROOT/experiment/env.sh"
+export JAVA_FLAGS="${JAVA_FLAGS:--Xmx6g -Xss64m}"
 T="$ROOT/experiment/worker/transcript.txt"
 cd "$ROOT"
 {

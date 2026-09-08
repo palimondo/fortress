@@ -1,0 +1,29 @@
+component probe07b_varargs
+import List.{...}
+export Executable
+
+(* Varargs factory function feeding an object whose field is a generator of pairs. *)
+object Node(var data: RR64, deps: Generator[\(Node, RR64)\])
+  var grad: RR64 := 0.0
+  opr +(self, other: Node): Node = Value(data + other.data, (self, 1.0), (other, 1.0))
+  opr juxtaposition(self, other: Node): Node = Value(data other.data, (self, other.data), (other, data))
+  exp(self): Node = Value(exp(data), (self, exp(data)))
+end
+Value(data: RR64, deps: (Node, RR64)...): Node = Node(data, deps)
+
+run(): () = do
+  a = Value(2.0)
+  b = Value(3.0)
+  c = a b
+  L = c + a
+  println("L = " L.data)
+  println("deps type: " L.deps)
+  L.grad := 1.0
+  for (ch, lg) <- seq(L.deps) do ch.grad += lg L.grad end
+  for (ch, lg) <- seq(c.deps) do ch.grad += lg c.grad end
+  println("a.grad = " a.grad " (expect 4)  b.grad = " b.grad " (expect 2)")
+  (* list literal of tuples against a declared tuple element type *)
+  ps: List[\(Node, RR64)\] = <|(a, 1.0), (b, 2.5)|>
+  println("list of pairs ok " |ps|)
+end
+end

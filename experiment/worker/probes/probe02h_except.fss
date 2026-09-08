@@ -1,0 +1,5 @@
+component probe02h_except
+import FortressLibrary.{...} except { opr BIG + }
+export Executable
+run(): () = println("parsed: except { opr BIG + }")
+end

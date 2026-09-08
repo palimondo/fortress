@@ -74,3 +74,44 @@ Date: 2026-09-08. Branch of record: `claude/worker-brief-fable-vnnuv8`.
   `NOTIN`/`add`; mutable local `List` accumulation with `addRight`; nested
   function closures over mutable locals; `label … exit … with`; `seq(g)`; all work.
 - probe04b/c, probe06: see below (pending).
+
+## Later probes (same day)
+- probe02g/h/i/j: the parser accepts `import FortressLibrary.{...} except { opr BIG + }`
+  and `except { opr ∑ }` (SimpleName ::= Id | opr (BIG)? Op; `opr SUM` is NOT accepted,
+  the accumulator is tokenized as `BIG +`). With the library ∑ hidden, a user nofix
+  `opr SUM(): BigReduction[\V,V\]` plus prefix `opr SUM(g: Generator[\V\])` is a valid,
+  spec-conformant overload set (results in transcript). This is the sanctioned route.
+- probe06 (speed, JAVA_FLAGS=-Xmx6g): 20000 iterations of `acc + c(0.001) c(2.0)`
+  (4 object allocations each) = 18.8 s (~1000 iter/s); the same loop on plain RR64 =
+  60 ms; 50 dot products of length 64 via `SUM[i<-0#64] ws[i] xs[i]` = 583 ms
+  (~11k graph nodes/s). Default heap (-Xmx256m in bin/fortress) OOMs on a 20k-node
+  chain; run.sh now exports JAVA_FLAGS="-Xmx6g -Xss64m" (environment, not a system
+  change). Estimate: ~8k nodes per token forward → ~1 s/token; bounded check run is
+  minutes.
+- probe07/07b: varargs in object constructors are rejected ("Varargs parameters of
+  objects are not allowed"; spec objects.tex note says object varargs "are
+  eliminated", so this agrees with the spec). A varargs FACTORY function works:
+  `Value(data: RR64, deps: (Node, RR64)...): Node = Node(data, deps)`; the varargs
+  value is an immutable array (spec: HeapSequence) and can be stored in a field typed
+  `Generator[\(Node, RR64)\]`. A list literal of tuples with a float literal types as
+  `List[\(Node,FloatLiteral)\]` and is not assignable to `List[\(Node,RR64)\]`.
+- probe08/08b/08c (types): `V[n]` / `V[m,n]` with a `nat` PARAMETER fail to unify with
+  the runtime array (PrimitiveArray/__DefaultArray2) — implementation gap; literal
+  sizes `V[3]`, `V[2,2]` work; explicit `Array1[\V,0,n\]`, `Array2[\V,0,m,0,n\]` work
+  (probe04d). `V^3` PARSES (grammar Type.rats: Exponentiation) but denotes
+  `Matrix[\V\]^(3)`, i.e. the library's Number-only Vector/Matrix — the ℝⁿ-style
+  notation exists in the language but the library ties it to Number. Array
+  comprehensions `[ i |-> e | i <- g ]`: "Variable i is not defined" (spec note:
+  not yet supported).
+- probe09: top-level `opr +`, `opr juxtaposition` (scalar·vector, matrix·vector),
+  `opr DOT` on `Array1/Array2` of a user type coexist with the library's Number
+  versions. `w x + x[0:1]` evaluates correctly.
+- probe10: mixed operands: `a + 1`, `2 a`, `a 2`, `a/4`, `(1/n) a`, `a/n` (ZZ32 arg
+  accepted by an RR64 parameter), `1 + a` (top-level `opr +(c: RR64, v: Value)`),
+  prefix `-a`, `a^3`, `(a + 0.00001)^(-0.5)`, `relu` via `MAX` and an `if` expression.
+- Fortify observations (fig00, fig01): `SUM[j <- 0#n] w[i,j] x[j]` typesets as a real
+  ∑ with limits and subscripts; `Value[n]` → Value_n, `Value^n` → Valueⁿ,
+  `Value^(m TIMES n)` → Value^{m×n}; `W_q x`, `k_t`, `alpha`, `SQRT(d)` → W_q x, k_t,
+  α, √d; `opr ^(self, n)` (no space) mis-renders as a superscript, `opr ^ (self, n)`
+  is fine; list literals with static args are cluttered; the pairs form
+  `Value(data + other.data, (self, 1), (other, 1))` is clean; `1/data` → a fraction.

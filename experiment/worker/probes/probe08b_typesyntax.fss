@@ -1,0 +1,9 @@
+component probe08b_typesyntax
+export Executable
+object V(x: RR64) end
+g(x: V^3): RR64 = x[0].x
+run(): () = do
+  x = array1[\V,3\](fn (i: ZZ32) => V(i + 1.0))
+  println("V^3 param ok " g(x))
+end
+end

@@ -1,0 +1,39 @@
+component probe09_vecops
+export Executable
+
+(* Top-level operators on arrays of a user type: vector +, scalar * vector,
+   matrix * vector by juxtaposition, DOT. Do they clash with library overloads? *)
+object V(x: RR64)
+  opr +(self, other: V): V = V(x + other.x)
+  opr juxtaposition(self, other: V): V = V(x other.x)
+end
+object VSum extends CommutativeMonoidReduction[\V\]
+  getter asString(): String = "VSum"
+  empty(): V = V(0.0)
+  join(a: V, b: V): V = a + b
+end
+opr SUM[\T extends V\](): BigReduction[\V,V\] = BigReduction[\V,V\](VSum)
+
+opr +[\nat n\](a: Array1[\V,0,n\], b: Array1[\V,0,n\]): Array1[\V,0,n\] =
+  array1[\V,n\](fn (i: ZZ32) => a[i] + b[i])
+opr juxtaposition[\nat n\](s: V, a: Array1[\V,0,n\]): Array1[\V,0,n\] =
+  array1[\V,n\](fn (i: ZZ32) => s a[i])
+opr juxtaposition[\nat m, nat n\](w: Array2[\V,0,m,0,n\], x: Array1[\V,0,n\]): Array1[\V,0,m\] =
+  array1[\V,m\](fn (i: ZZ32) => SUM[j <- 0#n] w[i,j] x[j])
+opr DOT[\nat n\](a: Array1[\V,0,n\], b: Array1[\V,0,n\]): V = SUM[i <- 0#n] a[i] b[i]
+
+run(): () = do
+  x = array1[\V,3\](fn (i: ZZ32) => V(i + 1.0))
+  y = x + x
+  println("y[2] = " y[2].x " (expect 6)")
+  z = V(2.0) x
+  println("z[2] = " z[2].x " (expect 6)")
+  w = array2[\V,2,3\]().fill(V(0.5))
+  w[1,2] := V(2.0)
+  u = w x
+  println("u[0] = " u[0].x " (expect 3)  u[1] = " u[1].x " (expect 7.5)")
+  println("x DOT x = " (x DOT x).x " (expect 14)")
+  r = w x + x[0:1]
+  println("r[1] = " r[1].x " (expect 9.5)")
+end
+end

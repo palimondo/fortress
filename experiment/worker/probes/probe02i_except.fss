@@ -1,0 +1,5 @@
+component probe02i_except
+import FortressLibrary.{...} except { opr ∑ }
+export Executable
+run(): () = println("parsed: except { opr ∑ }")
+end

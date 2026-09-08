@@ -1,0 +1,25 @@
+component probe07_varargs
+export Executable
+
+(* Node storing (child, local derivative) pairs as varargs. *)
+object Value(var data: RR64, deps: (Value, RR64)...)
+  var grad: RR64 := 0.0
+  opr +(self, other: Value): Value = Value(data + other.data, (self, 1.0), (other, 1.0))
+  opr juxtaposition(self, other: Value): Value = Value(data other.data, (self, other.data), (other, data))
+  exp(self): Value = Value(exp(data), (self, exp(data)))
+end
+
+run(): () = do
+  a = Value(2.0)
+  b = Value(3.0)
+  c = a b
+  L = c + a
+  println("L = " L.data " deps " |L.deps|)
+  L.grad := 1.0
+  for (ch, lg) <- seq(L.deps) do ch.grad += lg L.grad end
+  for (ch, lg) <- seq(c.deps) do ch.grad += lg c.grad end
+  println("a.grad = " a.grad " (expect 4)  b.grad = " b.grad " (expect 2)")
+  e = exp(a)
+  println("exp deps " |e.deps| " local " (e.deps[0]))
+end
+end

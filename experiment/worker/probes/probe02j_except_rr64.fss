@@ -1,0 +1,9 @@
+component probe02j_except_rr64
+import FortressLibrary.{...} except { opr BIG + }
+export Executable
+(* After hiding the library SUM and defining none of our own: is SUM over RR64 gone? *)
+run(): () = do
+  ys = <|1.0, 2.0|>
+  println("SUM over RR64 after except: " (SUM[y <- ys] y))
+end
+end
