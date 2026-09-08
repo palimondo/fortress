@@ -19,6 +19,7 @@ ref_init_layer0_mlp_fc1(): List[\List[\RR64\]\]
 ref_init_layer0_mlp_fc2(): List[\List[\RR64\]\]
 ref_num_steps: ZZ32
 ref_docs(): List[\String\]
+ref_docs_head(): List[\String\]
 ref_tokens(): List[\List[\ZZ32\]\]
 ref_logits(): List[\List[\List[\RR64\]\]\]
 ref_losses(): List[\List[\RR64\]\]

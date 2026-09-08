@@ -20,7 +20,7 @@ object Value(var data: RR64, children: List[\Value\], localGrads: List[\RR64\])
     end
   end
 end
-value(x: RR64): Value = Value(x, <|[\Value\] |>, <|[\RR64\] |>)
+leaf(x: RR64): Value = Value(x, <|[\Value\] |>, <|[\RR64\] |>)
 
 topo(root: Value): List[\Value\] = do
   var seen: Set[\ZZ32\] := {[\ZZ32\] }
@@ -36,8 +36,8 @@ topo(root: Value): List[\Value\] = do
 end
 
 run(): () = do
-  a = value(2.0)
-  b = value(3.0)
+  a = leaf(2.0)
+  b = leaf(3.0)
   L = a b + a
   L.backward()
   println("a.grad = " a.grad " (expect 4)  b.grad = " b.grad " (expect 2)")

@@ -24,10 +24,10 @@ object Value(var data: RR64, children: List[\Value\])
   end
   backward(): () = do
     grad := 1
-    for v <- seq(topo(self).reverse) do v.propagate() end
+    for v <- seq(topo(self).reverse) do (v.propagate)() end
   end
 end
-value(x: RR64): Value = Value(x, <|[\Value\] |>)
+leaf(x: RR64): Value = Value(x, <|[\Value\] |>)
 
 topo(root: Value): List[\Value\] = do
   var seen: Set[\ZZ32\] := {[\ZZ32\] }
@@ -43,8 +43,8 @@ topo(root: Value): List[\Value\] = do
 end
 
 run(): () = do
-  a = value(2.0)
-  b = value(3.0)
+  a = leaf(2.0)
+  b = leaf(3.0)
   L = a b + a
   L.backward()
   println("a.grad = " a.grad " (expect 4)  b.grad = " b.grad " (expect 2)")

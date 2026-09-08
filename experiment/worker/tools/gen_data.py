@@ -56,6 +56,7 @@ def strs(xs):
     return '<|[\\String\\] ' + ', '.join('"%s"' % x for x in xs) + '|>'
 steps = d['steps']
 decl('docs(): List[\\String\\]', strs([st['doc'] for st in steps]))
+decl('docs_head(): List[\\String\\]', strs(d['docs_head']))
 decl('tokens(): List[\\List[\\ZZ32\\]\\]', lst2i([st['tokens'] for st in steps]))
 decl('logits(): List[\\List[\\List[\\RR64\\]\\]\\]', lst3([[p['logits'] for p in st['positions']] for st in steps]))
 decl('losses(): List[\\List[\\RR64\\]\\]', mat([[p['loss'] for p in st['positions']] for st in steps]))

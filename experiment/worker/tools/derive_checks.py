@@ -34,6 +34,7 @@ out = {
   'config': dict(n_layer=n_layer, n_embd=n_embd, block_size=block_size, n_head=n_head,
                  vocab_size=vocab_size, BOS=BOS, uchars=''.join(uchars)),
   'docs': docs[:NUM_STEPS],
+  'docs_head': docs[:64],   # the first 64 shuffled documents, for a bounded training demo
   'init': {k: mat(v) for k, v in state_dict.items()},
   'steps': [], 'inference': None,
 }

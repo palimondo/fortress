@@ -1538,3 +1538,409 @@ scalar SUM = 17.25 (expect 17.25)
 vector SUM: h[0] = 20.5 h[1] = 41.0 (expect 20.5, 41)
 assigned to a V-typed variable: 6.5 (expect 6.5)
 -------- exit: 0
+======== 2026-09-08T17:49:11Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.347150476251512 nodes: 41823
+Operation took 2929ms
+Operation took 26642ms
+grad of E[26,0]: 0.2176674990866743
+loss after one step: 2.9729067130063114
+pick(0.5) = 12
+-------- exit: 0
+======== 2026-09-08T17:49:46Z render v2_mat.tic
+  output written to v2_mat.svg
+1 of 1 page converted in 0.0898809 seconds
+-rw-r--r-- 1 root root  42883 Sep  8 17:49 v2_mat.png
+-rw-r--r-- 1 root root 111920 Sep  8 17:49 v2_mat.svg
+-------- render exit: 0
+======== 2026-09-08T17:49:47Z render v2_layer.tic
+  output written to v2_layer.svg
+1 of 1 page converted in 0.114453 seconds
+-rw-r--r-- 1 root root  69120 Sep  8 17:49 v2_layer.png
+-rw-r--r-- 1 root root 137986 Sep  8 17:49 v2_layer.svg
+-------- render exit: 0
+======== 2026-09-08T17:50:31Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 46030ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 42216ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 415339
+ALL CHECKS PASSED
+-------- exit: 0
+======== 2026-09-08T17:52:12Z ./bin/fortress experiment/worker/probes/alt_autograd_lists.fss
+a.grad = 4.0 (expect 4)  b.grad = 2.0 (expect 2)
+-------- exit: 0
+======== 2026-09-08T17:52:15Z ./bin/fortress experiment/worker/probes/alt_autograd_closure.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/RangeInternals.fss:1072:23-40:
+Unification error: Closure/Constructor for join param 2 (b:()) got arg FnExpr at /home/user/fortress/experiment/worker/probes/alt_autograd_closure.fss:17.22 ()->BOTTOM /home/user/fortress/experiment/worker/probes/alt_autograd_closure.fss:17:22-72 of type ()->BOTTOM
+Context:
+/home/user/fortress/Library/RangeInternals.fss:1072:23-40:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/experiment/worker/probes/alt_autograd_closure.fss:27:9-38:
+/home/user/fortress/experiment/worker/probes/alt_autograd_closure.fss:49:3-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:52:36Z ./bin/fortress experiment/worker/src/alt/v3_sequence_MicroGPT.fss
+num params: 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:152:45-52:
+Failed to find any matching overload, args = (), overload = {
+	_[_](i:FortressLibrary.ZZ32):Vec ZZ32->Vec /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:109:3-30
+	_[_](i:FortressLibrary.ZZ32,j:FortressLibrary.ZZ32):Value (ZZ32,ZZ32)->Value /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:110:3-46
+	_[_](r:Range[\FortressLibrary.ZZ32\]):Mat Range[\ZZ32\]->Mat /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:111:3-44}:OverloadedMethod
+Context:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:152:45-52:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:35-43:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:30-43:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:20-31:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:13-44:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:49-64:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:155:5-64:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:161:14-33:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:174:34-44:
+/home/user/fortress/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:174:9-26:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:190:12-38:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:247:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:52:42Z ./bin/fortress experiment/worker/probes/alt_autograd_closure.fss
+a.grad = 4.0 (expect 4)  b.grad = 2.0 (expect 2)
+-------- exit: 0
+======== 2026-09-08T17:53:23Z ./bin/fortress experiment/worker/src/alt/v3_sequence_MicroGPT.fss
+num params: 4192
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:191:28-36:
+Syntax Error: the argument should not be immediately followed by a non-expression element.
+Context:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:191:28-36:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:191:55-64:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:191:12-64:
+/home/user/fortress/experiment/worker/src/alt/v3_sequence_MicroGPT.fss:247:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:53:30Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/experiment/worker/build/Check.fss:194:28-36:
+Syntax Error: the argument should not be immediately followed by a non-expression element.
+Context:
+/home/user/fortress/experiment/worker/build/Check.fss:194:28-36:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/experiment/worker/build/Check.fss:194:55-64:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/experiment/worker/build/Check.fss:194:12-64:
+/home/user/fortress/experiment/worker/build/Check.fss:299:9-24:
+/home/user/fortress/Library/RangeInternals.fss:1080:13-1081:12:
+/home/user/fortress/experiment/worker/build/Check.fss:281:7-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:53:53Z ./bin/fortress experiment/worker/src/alt/v3_sequence_MicroGPT.fss
+num params: 4192
+loss: 3.4495211832245887 nodes: 41823
+Operation took 2865ms
+Operation took 25619ms
+grad of E[26,0]: -0.1800928276895514
+loss after one step: 3.1103317519552123
+pick(0.5) = 13
+-------- exit: 0
+======== 2026-09-08T17:54:26Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 40888ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 41662ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 1393152
+ALL CHECKS PASSED
+-------- exit: 0
+======== 2026-09-08T17:58:15Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:152:28:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:58:16Z ./bin/fortress experiment/worker/build/Check.fss
+null/home/user/fortress/experiment/worker/build/Check.fss:155:28:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:58:39Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+null/home/user/fortress/experiment/worker/src/MicroGPT.fss:153:28:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:58:41Z ./bin/fortress experiment/worker/build/Check.fss
+null/home/user/fortress/experiment/worker/build/Check.fss:156:28:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+-------- exit: 1
+======== 2026-09-08T17:59:08Z ./bin/fortress experiment/worker/src/MicroGPT.fss
+num params: 4192
+loss: 3.219073530565075 nodes: 41823
+Operation took 2016ms
+Operation took 26071ms
+grad of E[26,0]: -0.04728629521279669
+loss after one step: 2.7928464951353345
+pick(0.5) = 12
+-------- exit: 0
+======== 2026-09-08T17:59:42Z ./bin/fortress experiment/worker/build/Check.fss
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+PASS num params: 4192 vs 4192
+--- step 0: doc yuheng tokens <|26, 24, 20, 7, 4, 13, 6, 26|>
+PASS logits (all positions): max abs diff 3.3306690738754696E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 1.734723475976807E-18 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 6.505213034913027E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 3.122502256758253E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 1.3877787807814457E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+Operation took 42134ms
+--- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
+PASS logits (all positions): max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS per-position losses: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS loss: max abs diff 4.440892098500626E-16 (tol 0.000000000001)
+PASS grad wte: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad wpe: max abs diff 8.326672684688674E-17 (tol 0.000000000001)
+PASS grad lm_head: max abs diff 2.220446049250313E-16 (tol 0.000000000001)
+PASS grad attn_wq: max abs diff 8.673617379884035E-19 (tol 0.000000000001)
+PASS grad attn_wk: max abs diff 3.2526065174565133E-19 (tol 0.000000000001)
+PASS grad attn_wv: max abs diff 3.469446951953614E-18 (tol 0.000000000001)
+PASS grad attn_wo: max abs diff 1.0408340855860843E-17 (tol 0.000000000001)
+PASS grad mlp_fc1: max abs diff 6.938893903907228E-18 (tol 0.000000000001)
+PASS grad mlp_fc2: max abs diff 8.673617379884035E-18 (tol 0.000000000001)
+PASS params after Adam wte: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam wpe: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam lm_head: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS params after Adam attn_wq: max abs diff 9.71445146547012E-17 (tol 0.000000000001)
+PASS params after Adam attn_wk: max abs diff 4.7704895589362195E-17 (tol 0.000000000001)
+PASS params after Adam attn_wv: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam attn_wo: max abs diff 2.7755575615628914E-17 (tol 0.000000000001)
+PASS params after Adam mlp_fc1: max abs diff 3.0531133177191805E-16 (tol 0.000000000001)
+PASS params after Adam mlp_fc2: max abs diff 3.469446951953614E-17 (tol 0.000000000001)
+Operation took 40102ms
+PASS sample 0 probabilities: max abs diff 6.938893903907228E-17 (tol 0.000000000001)
+PASS sample 0 token mismatches: 0 vs 0
+PASS sample 0 text: org (expected org)
+PASS sample 1 probabilities: max abs diff 5.551115123125783E-17 (tol 0.000000000001)
+PASS sample 1 token mismatches: 0 vs 0
+PASS sample 1 text: stclyzqwpactmmcx (expected stclyzqwpactmmcx)
+PASS sample 2 probabilities: max abs diff 4.163336342344337E-17 (tol 0.000000000001)
+PASS sample 2 token mismatches: 0 vs 0
+PASS sample 2 text: ku (expected ku)
+nodes created: 1393152
+ALL CHECKS PASSED
+-------- exit: 0

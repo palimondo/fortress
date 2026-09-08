@@ -48,13 +48,13 @@ run(): () = do
     toks = (ref_tokens())[k]
     println("--- step " k ": doc " (ref_docs())[k] " tokens " toks)
     recordTime(k)
-    (* forward only: logits and per-position losses, all positions at once *)
+    (* forward only: logits and per-position losses *)
+    model.reset()
     n = |toks| - 1
-    logitsAll = model.forward(toks[0 # n])
     var dLogits: RR64 := 0.0
     var dLosses: RR64 := 0.0
     for t <- seq(0#n) do
-      z = logitsAll[t]
+      z = model.forward(toks[t], t)
       dLogits := dLogits MAX maxAbsDiff(<|[\RR64\] v.data | v <- z |>, ((ref_logits())[k])[t])
       l_t = -log((softmax(z))[toks[t+1]])
       dLosses := dLosses MAX |l_t.data - ((ref_losses())[k])[t]|
@@ -77,20 +77,20 @@ run(): () = do
 
   (* inference with the recorded uniform draws *)
   for s <- seq(0#ref_num_samples) do
+    model.reset()
     draws = (ref_sample_draws())[s]
     expectedTokens = (ref_sample_tokens())[s]
-    var prefix: List[\ZZ32\] := <|[\ZZ32\] ref_bos |>
+    var token: ZZ32 := ref_bos
     var text: String := ""
     var dProbs: RR64 := 0.0
     var mismatches: ZZ32 := 0
     for j <- seq(0#|draws|) do
-      z = (model.forward(prefix))[j]
+      z = model.forward(token, j)
       probs = <|[\RR64\] p.data | p <- softmax(z / ref_temperature) |>
       dProbs := dProbs MAX maxAbsDiff(probs, ((ref_sample_probs())[s])[j])
-      token = pick(probs, draws[j])
+      token := pick(probs, draws[j])
       if token =/= expectedTokens[j] then mismatches += 1 end
       if token =/= ref_bos then text := text || ref_uchars[token] end
-      prefix := prefix.addRight(token)
     end
     check("sample " s " probabilities", dProbs, 0.000000000001)
     checkEq("sample " s " token mismatches", mismatches, 0)

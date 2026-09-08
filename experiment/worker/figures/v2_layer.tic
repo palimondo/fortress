@@ -14,13 +14,12 @@
     (q, k, v) = (W_q x, W_k x, W_v x)
     keys := keys.addRight(k)
     values := values.addRight(v)
+    (K, V) = (Mat(keys), Mat(values))
     d_h = |q| DIV n_head
     head(h: ZZ32): Vec = do
-      slice = (h d_h) # d_h
-      K = Mat(<| k[slice] | k <- keys |>)
-      V = Mat(<| v[slice] | v <- values |>)
-      alpha = softmax((K q[slice]) / SQRT(d_h))
-      alpha V
+      cols = (h d_h) # d_h
+      alpha = softmax((K[cols] q[cols]) / SQRT(d_h))
+      alpha V[cols]
     end
     W_o (BIG ||[h <- 0#n_head] head(h))
   end

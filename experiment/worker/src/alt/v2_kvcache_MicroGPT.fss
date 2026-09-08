@@ -1,4 +1,4 @@
-component MicroGPT
+component v2_kvcache_MicroGPT
 import FortressLibrary.{...} except { opr BIG + }
 import List.{...}
 import Set.{...}
@@ -108,8 +108,7 @@ object Mat(rows: List[\Vec\])
   getter entries(): List[\Value\] = BIG CONCAT[\Value\][w <- rows] w.x
   opr [i: ZZ32]: Vec = rows[i]
   opr [i: ZZ32, j: ZZ32]: Value = (rows[i])[j]
-  opr [r: Range[\ZZ32\]]: Mat = Mat(rows[r])
-  cols(r: Range[\ZZ32\]): Mat = Mat(<| w[r] | w <- rows |>)
+  opr [cols: Range[\ZZ32\]]: Mat = Mat(<| w[cols] | w <- rows |>)
 end
 (* matrix times column vector, and row vector times matrix *)
 opr juxtaposition(W: Mat, x: Vec): Vec = Vec(<| w DOT x | w <- W.rows |>)
@@ -138,33 +137,31 @@ end
 (* END FIG *)
 
 (* FIG layer *)
-(* Elementwise operations on a sequence of vectors, one per position *)
-opr +(X: List[\Vec\], Y: List[\Vec\]): List[\Vec\] = <| X[t] + Y[t] | t <- X.indices |>
-rmsnorm(X: List[\Vec\]): List[\Vec\] = <| rmsnorm(x) | x <- X |>
-
 object Layer(n_head: ZZ32, W_q: Mat, W_k: Mat, W_v: Mat, W_o: Mat, W1: Mat, W2: Mat)
-  (* causal self-attention over the whole sequence: position t attends to 0..t *)
-  attention(X: List[\Vec\]): List[\Vec\] = do
-    (Q, K, V) = (Mat(<| W_q x | x <- X |>), Mat(<| W_k x | x <- X |>), Mat(<| W_v x | x <- X |>))
-    d_h = |Q[0]| DIV n_head
-    head(h: ZZ32): List[\Vec\] = do
-      c = (h d_h) # d_h
-      (Qh, Kh, Vh) = (Q.cols(c), K.cols(c), V.cols(c))
-      attend(t: ZZ32): Vec = do
-        alpha = softmax((Kh[0:t] Qh[t]) / SQRT(d_h))
-        alpha Vh[0:t]
-      end
-      <| attend(t) | t <- X.indices |>
+  (* the KV cache: keys and values of the positions seen so far *)
+  var keys: List[\Vec\] := <|[\Vec\] |>
+  var values: List[\Vec\] := <|[\Vec\] |>
+  reset(): () = do keys := <|[\Vec\] |>; values := <|[\Vec\] |> end
+
+  attention(x: Vec): Vec = do
+    (q, k, v) = (W_q x, W_k x, W_v x)
+    keys := keys.addRight(k)
+    values := values.addRight(v)
+    (K, V) = (Mat(keys), Mat(values))
+    d_h = |q| DIV n_head
+    head(h: ZZ32): Vec = do
+      cols = (h d_h) # d_h
+      alpha = softmax((K[cols] q[cols]) / SQRT(d_h))
+      alpha V[cols]
     end
-    heads = <| head(h) | h <- 0#n_head |>
-    <| W_o (BIG ||[h <- 0#n_head] (heads[h])[t]) | t <- X.indices |>
+    W_o (BIG ||[h <- 0#n_head] head(h))
   end
 
   mlp(x: Vec): Vec = W2 relu(W1 x)
 
-  forward(X: List[\Vec\]): List[\Vec\] = do
-    X1 = X + attention(rmsnorm(X))
-    X1 + <| mlp(x) | x <- rmsnorm(X1) |>
+  forward(x: Vec): Vec = do
+    x1 = x + attention(rmsnorm(x))
+    x1 + mlp(rmsnorm(x1))
   end
 
   matrices(): List[\Mat\] = <| W_q, W_k, W_v, W_o, W1, W2 |>
@@ -173,11 +170,12 @@ end
 
 (* FIG model *)
 object Model(E: Mat, P: Mat, W_lm: Mat, layers: List[\Layer\])
-  (* logits for the next token at every position of the sequence *)
-  forward(tokens: List[\ZZ32\]): List[\Vec\] = do
-    var X: List[\Vec\] := <| rmsnorm(E[tokens[t]] + P[t]) | t <- tokens.indices |>
-    for l <- seq(layers) do X := l.forward(X) end
-    <| W_lm x | x <- X |>
+  reset(): () = for l <- layers do l.reset() end
+  (* token embedding E, position embedding P; logits for the next token *)
+  forward(token: ZZ32, pos: ZZ32): Vec = do
+    var x: Vec := rmsnorm(E[token] + P[pos])
+    for l <- seq(layers) do x := l.forward(x) end
+    W_lm x
   end
   matrices(): List[\Mat\] = <| E, P, W_lm |> || (BIG CONCAT[\Mat\][l <- layers] l.matrices())
   params(): List[\Value\] = BIG CONCAT[\Value\][W <- matrices()] W.entries
@@ -192,8 +190,12 @@ end
 (* cross-entropy over a token sequence, averaged over positions *)
 loss(model: Model, tokens: List[\ZZ32\]): Value = do
   n = |tokens| - 1
-  logits = model.forward(tokens[0 # n])
-  losses = <| -log((softmax(logits[t]))[tokens[t+1]]) | t <- 0#n |>
+  model.reset()
+  lossAt(t: ZZ32): Value = do
+    probs = softmax(model.forward(tokens[t], t))
+    -log(probs[tokens[t+1]])
+  end
+  losses = <| lossAt(t) | t <- seq(0#n) |>
   (1/n) (SUM[l <- losses] l)
 end
 (* END FIG *)
@@ -260,7 +262,7 @@ run(): () = do
   opt.step(0.01)
   L2 = loss(model, tokens)
   println("loss after one step: " L2.data)
-  probs = <|[\RR64\] p.data | p <- softmax((model.forward(<|[\ZZ32\] 26 |>))[0]) |>
+  probs = <|[\RR64\] p.data | p <- softmax(model.forward(26, 0)) |>
   println("pick(0.5) = " pick(probs, 0.5))
 end
 (* END TESTS *)
