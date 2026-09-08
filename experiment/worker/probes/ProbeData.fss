@@ -1,7 +1,8 @@
 component ProbeData
+import List.{...}
 export ProbeData
-w0: Array2[\RR64,0,2,0,3\] = [1.0 2.0 3.0; 4.0 5.0 6.0]
-v0: Array1[\RR64,0,3\] = [7.0 8.0 9.0]
+w0(): List[\List[\RR64\]\] = <|[\List[\RR64\]\] <|[\RR64\] 1.0, 2.0, 3.0|>, <|[\RR64\] 4.0, 5.0, 6.0|> |>
+v0(): List[\RR64\] = <|[\RR64\] 7.0, 8.0, 9.0|>
 name0: String = "emma"
 twice(x: RR64): RR64 = 2 x
 end

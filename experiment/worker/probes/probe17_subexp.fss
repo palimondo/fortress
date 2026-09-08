@@ -1,0 +1,17 @@
+component probe17_subexp
+import List.{...}
+export Executable
+object V(x: RR64)
+  opr ^ (self, n: RR64): V = V(x^n)
+  opr juxtaposition(self, o: V): V = V(x o.x)
+end
+run(): () = do
+  xs = <| V(2.0), V(3.0) |>
+  a = array1[\V,2\](fn (i: ZZ32) => V(i + 2.0))
+  i = 1
+  println("list (xs[i])^2.0 = " ((xs[i])^2.0).x)
+  println("array a[i]^2.0 = " (a[i]^2.0).x)
+  println("list xs[i] xs[i] = " (xs[i] xs[i]).x)
+  println("list xs[i]^2.0 = " (xs[i]^2.0).x)
+end
+end

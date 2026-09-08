@@ -1,0 +1,234 @@
+component MicroGPT
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+import Set.{...}
+export Executable
+
+(********************************************************************
+ * Autograd: a scalar Value that remembers the values it was computed
+ * from and the local derivative with respect to each of them.
+ ********************************************************************)
+
+var nodeCount: ZZ32 := 0
+nextId(): ZZ32 = atomic do nodeCount += 1; nodeCount end
+
+object Value(var data: RR64, deps: Generator[\(Value, RR64)\])
+  id: ZZ32 = nextId()
+  var grad: RR64 := 0.0
+
+  opr +(self, b: Value): Value = node(data + b.data, (self, 1.0), (b, 1.0))
+  opr juxtaposition(self, b: Value): Value = node(data b.data, (self, b.data), (b, data))
+  opr ^ (self, n: RR64): Value = node(data^n, (self, n data^(n-1.0)))
+  log(self): Value = node(log(data), (self, 1.0/data))
+  exp(self): Value = node(exp(data), (self, exp(data)))
+  relu(self): Value = node(data MAX 0.0, (self, if data > 0.0 then 1.0 else 0.0 end))
+
+  opr -(self): Value = self (-1.0)
+  opr -(self, b: Value): Value = self + (-b)
+  opr /(self, b: Value): Value = self b^(-1.0)
+  opr +(self, c: RR64): Value = self + node(c)
+  opr -(self, c: RR64): Value = self + node(-c)
+  opr juxtaposition(self, c: RR64): Value = self node(c)
+  opr /(self, c: RR64): Value = self node(1.0/c)
+
+  backward(): () = do
+    grad := 1.0
+    for v <- seq(topo(self).reverse) do
+      for (c, d) <- seq(v.deps) do c.grad += d v.grad end
+    end
+  end
+end
+
+node(data: RR64, deps: (Value, RR64)...): Value = Value(data, deps)
+opr juxtaposition(c: RR64, v: Value): Value = node(c) v
+opr +(c: RR64, v: Value): Value = node(c) + v
+opr -(c: RR64, v: Value): Value = node(c) + (-v)
+
+(* every Value after all the Values it depends on *)
+topo(root: Value): List[\Value\] = do
+  var seen: Set[\ZZ32\] := {[\ZZ32\] }
+  var order: List[\Value\] := <|[\Value\] |>
+  visit(v: Value): () =
+    if v.id NOTIN seen then
+      seen := seen.add(v.id)
+      for (c, _) <- seq(v.deps) do visit(c) end
+      order := order.addRight(v)
+    end
+  visit(root)
+  order
+end
+
+(* Summation over Values: the library's SUM is for Numbers only. *)
+object SumValues extends CommutativeMonoidReduction[\Value\]
+  getter asString(): String = "SumValues"
+  empty(): Value = node(0.0)
+  join(a: Value, b: Value): Value = a + b
+end
+opr SUM(): BigReduction[\Value, Value\] = BigReduction[\Value, Value\](SumValues)
+opr SUM(g: Generator[\Value\]): Value = g.generate[\Value\](SumValues, fn (v: Value) => v)
+
+(********************************************************************
+ * Vectors and matrices of Values
+ ********************************************************************)
+
+opr DOT(x: Indexed[\Value, ZZ32\], y: Indexed[\Value, ZZ32\]): Value =
+  SUM[i <- x.indices] x[i] y[i]
+opr +(x: Indexed[\Value, ZZ32\], y: Indexed[\Value, ZZ32\]): List[\Value\] =
+  <| x[i] + y[i] | i <- x.indices |>
+opr juxtaposition(s: Value, x: Indexed[\Value, ZZ32\]): List[\Value\] =
+  <| s x[i] | i <- x.indices |>
+opr juxtaposition[\nat m, nat n\](W: Array2[\Value, 0, m, 0, n\], x: Indexed[\Value, ZZ32\]): List[\Value\] =
+  <| SUM[j <- 0#n] W[i,j] x[j] | i <- 0#m |>
+row[\nat m, nat n\](W: Array2[\Value, 0, m, 0, n\], i: ZZ32): List[\Value\] =
+  <| W[i,j] | j <- 0#n |>
+
+(********************************************************************
+ * The model
+ ********************************************************************)
+
+rmsnorm(x: Indexed[\Value, ZZ32\]): List[\Value\] = do
+  ms = (SUM[x_i <- x] x_i^2.0) / |x|
+  scale = (ms + 0.00001)^(-0.5)
+  scale x
+end
+
+softmax(z: Indexed[\Value, ZZ32\]): List[\Value\] = do
+  m = BIG MAX[i <- z.indices] z[i].data
+  e = <| exp(z[i] - m) | i <- z.indices |>
+  total = SUM[i <- e.indices] e[i]
+  <| e[i] / total | i <- e.indices |>
+end
+
+object Layer[\nat d, nat f\](W_q: Array2[\Value,0,d,0,d\], W_k: Array2[\Value,0,d,0,d\],
+                             W_v: Array2[\Value,0,d,0,d\], W_o: Array2[\Value,0,d,0,d\],
+                             W1: Array2[\Value,0,f,0,d\], W2: Array2[\Value,0,d,0,f\])
+  (* the KV cache: keys and values of the positions seen so far *)
+  var keys: List[\List[\Value\]\] := <|[\List[\Value\]\] |>
+  var values: List[\List[\Value\]\] := <|[\List[\Value\]\] |>
+  reset(): () = do keys := <|[\List[\Value\]\] |>; values := <|[\List[\Value\]\] |> end
+
+  attention(x: Indexed[\Value, ZZ32\], n_head: ZZ32): List[\Value\] = do
+    (q, k, v) = (W_q x, W_k x, W_v x)
+    keys := keys.addRight(k)
+    values := values.addRight(v)
+    hd = d DIV n_head
+    head(h: ZZ32): List[\Value\] = do
+      hs = h hd
+      q_h = q[hs # hd]
+      k_h = <| k_t[hs # hd] | k_t <- keys |>
+      v_h = <| v_t[hs # hd] | v_t <- values |>
+      alpha = softmax(<| (q_h DOT k_t) / SQRT(hd) | k_t <- k_h |>)
+      <| SUM[t <- alpha.indices] alpha[t] (v_h[t])[j] | j <- 0#hd |>
+    end
+    W_o (BIG CONCAT[\Value\][h <- 0#n_head] head(h))
+  end
+
+  mlp(x: Indexed[\Value, ZZ32\]): List[\Value\] = do
+    h = <| relu(u) | u <- W1 x |>
+    W2 h
+  end
+
+  forward(x: Indexed[\Value, ZZ32\], n_head: ZZ32): List[\Value\] = do
+    x1 = x + attention(rmsnorm(x), n_head)
+    x1 + mlp(rmsnorm(x1))
+  end
+
+  matrices(): List[\Array[\Value,(ZZ32,ZZ32)\]\] = <|[\Array[\Value,(ZZ32,ZZ32)\]\] W_q, W_k, W_v, W_o, W1, W2 |>
+end
+
+object Model[\nat V, nat T, nat d, nat f\](W_te: Array2[\Value,0,V,0,d\], W_pe: Array2[\Value,0,T,0,d\],
+                                         W_lm: Array2[\Value,0,V,0,d\], layers: List[\Layer[\d,f\]\], n_head: ZZ32)
+  reset(): () = for l <- layers do l.reset() end
+  (* logits for the next token, given the token at position pos *)
+  forward(token: ZZ32, pos: ZZ32): List[\Value\] = do
+    var x: List[\Value\] := rmsnorm(row(W_te, token) + row(W_pe, pos))
+    for l <- seq(layers) do x := l.forward(x, n_head) end
+    W_lm x
+  end
+  matrices(): List[\Array[\Value,(ZZ32,ZZ32)\]\] =
+    <|[\Array[\Value,(ZZ32,ZZ32)\]\] W_te, W_pe, W_lm |> || concat(<|[\List[\Array[\Value,(ZZ32,ZZ32)\]\]\] l.matrices() | l <- layers |>)
+  params(): List[\Value\] = concat(<|[\List[\Value\]\] entries(W) | W <- matrices() |>)
+end
+
+entries(W: Array[\Value,(ZZ32,ZZ32)\]): List[\Value\] = <| W[ij] | ij <- W.indices |>
+
+(********************************************************************
+ * Loss, optimizer, sampling
+ ********************************************************************)
+
+(* cross-entropy over a token sequence, averaged over positions *)
+loss[\nat V, nat T, nat d, nat f\](model: Model[\V,T,d,f\], tokens: List[\ZZ32\]): Value = do
+  n = |tokens| - 1
+  model.reset()
+  lossAt(t: ZZ32): Value = do
+    probs = softmax(model.forward(tokens[t], t))
+    -log(probs[tokens[t+1]])
+  end
+  losses = <| lossAt(t) | t <- seq(0#n) |>
+  (1.0/n) (SUM[l <- losses] l)
+end
+
+object Adam(params: List[\Value\], lr: RR64, beta1: RR64, beta2: RR64, eps: RR64)
+  m: Array[\RR64, ZZ32\] = array[\RR64\](|params|).fill(0.0)
+  v: Array[\RR64, ZZ32\] = array[\RR64\](|params|).fill(0.0)
+  var t: ZZ32 := 0
+  step(lr_t: RR64): () = do
+    t += 1
+    for (i, p) <- params.indexValuePairs do
+      m[i] := beta1 m[i] + (1 - beta1) p.grad
+      v[i] := beta2 v[i] + (1 - beta2) (p.grad)^2
+      m_hat = m[i] / (1 - beta1^t)
+      v_hat = v[i] / (1 - beta2^t)
+      p.data -= lr_t m_hat / (v_hat^0.5 + eps)
+      p.grad := 0.0
+    end
+  end
+end
+
+(* index of the first cumulative probability exceeding u (u uniform in [0,1)) *)
+pick(probs: List[\RR64\], u: RR64): ZZ32 = do
+  var total: RR64 := 0.0
+  for p <- seq(probs) do total += p end
+  var acc: RR64 := 0.0
+  label found
+    for (i, p) <- seq(probs.indexValuePairs) do
+      acc += p
+      if u total < acc then exit found with i end
+    end
+    |probs| - 1
+  end found
+end
+
+(* TESTS *)
+(********************************************************************
+ * Smoke test with random weights
+ ********************************************************************)
+
+randomMatrix[\nat m, nat n\](std: RR64): Array2[\Value,0,m,0,n\] =
+  array2[\Value,m,n\]().assign(fn (ij: (ZZ32,ZZ32)) => node(std (2 random(1.0) - 1)))
+
+run(): () = do
+  recordTime(0)
+  layer = Layer[\16,64\](randomMatrix[\16,16\](0.08), randomMatrix[\16,16\](0.08), randomMatrix[\16,16\](0.08),
+                         randomMatrix[\16,16\](0.08), randomMatrix[\64,16\](0.08), randomMatrix[\16,64\](0.08))
+  model = Model[\27,16,16,64\](randomMatrix[\27,16\](0.08), randomMatrix[\16,16\](0.08), randomMatrix[\27,16\](0.08),
+                             <| layer |>, 4)
+  ps = model.params()
+  println("num params: " |ps|)
+  tokens = <|[\ZZ32\] 26, 4, 12, 12, 0, 26 |>   (* BOS e m m a BOS *)
+  L = loss(model, tokens)
+  println("loss: " L.data " nodes: " nodeCount)
+  printTime(0)
+  recordTime(1)
+  L.backward()
+  printTime(1)
+  println("grad of W_te[26,0]: " (model.W_te)[26,0].grad)
+  opt = Adam(ps, 0.01, 0.85, 0.99, 0.00000001)
+  opt.step(0.01)
+  L2 = loss(model, tokens)
+  println("loss after one step: " L2.data)
+  probs = <|[\RR64\] p.data | p <- softmax(model.forward(26, 0)) |>
+  println("pick(0.5) = " pick(probs, 0.5))
+end
+(* END TESTS *)
+end

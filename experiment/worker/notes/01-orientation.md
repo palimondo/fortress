@@ -115,3 +115,19 @@ Date: 2026-09-08. Branch of record: `claude/worker-brief-fable-vnnuv8`.
   α, √d; `opr ^(self, n)` (no space) mis-renders as a superscript, `opr ^ (self, n)`
   is fine; list literals with static args are cluttered; the pairs form
   `Value(data + other.data, (self, 1), (other, 1))` is clean; `1/data` → a fraction.
+- probe17: `a[i]^2.0` (subscript immediately followed by `^`) fails at runtime with
+  "Failed to find any matching overload, args = ()" for both arrays and lists —
+  the subscript is invoked with an empty argument tuple. `(a[i])^2.0` works. This is an
+  interpreter bug (gap); `SUM[x_i <- x] x_i^2` iterates elements directly and avoids it.
+- All-uppercase identifiers (e.g. `GPT`, `BOS`) are operator names in Fortress; using
+  them as object/variable names is a syntax error. Renamed to `Model`, `bos`.
+- `||` (list concatenation) at the end of a line is a syntax error (it doubles as an
+  encloser); keep it mid-line.
+- A comprehension whose body yields lists has runtime type ArrayList[\ArrayList[..]\]
+  and is not accepted where List[\List[..]\] is expected (invariance); annotate the
+  element type (`<|[\List[\Value\]\] … |>`) or use `BIG CONCAT[gs] body`.
+- A `do … end` block as the body of a list comprehension is a syntax error; use a
+  local function.
+- Literal static args in a TYPE position (`Model[\27,16,16,64\]`) are a syntax error
+  in parameter types, while the same in an expression (constructor call) is fine;
+  make the function generic in nat parameters instead.

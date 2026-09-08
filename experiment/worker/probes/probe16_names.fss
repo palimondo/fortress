@@ -1,0 +1,13 @@
+component probe16_names
+export Executable
+object V(x: RR64) end
+object Layer(W_q: V, W_1: V, x_i: V) end
+run(): () = do
+  W_q = V(1.0)
+  W_1 = V(2.0)
+  k_t = V(3.0)
+  alpha = V(4.0)
+  l = Layer(W_q, W_1, k_t)
+  println("names ok " l.W_q.x " " l.W_1.x " " l.x_i.x " " alpha.x)
+end
+end

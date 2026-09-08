@@ -1,0 +1,41 @@
+component probe15_erased
+import List.{...}
+import FortressLibrary.{...} except { opr BIG + }
+export Executable
+
+(* Size-erased element-collection types: which accept arrays, slices, and lists? *)
+object V(x: RR64)
+  opr +(self, other: V): V = V(x + other.x)
+  opr juxtaposition(self, other: V): V = V(x other.x)
+end
+object VSum extends CommutativeMonoidReduction[\V\]
+  getter asString(): String = "VSum"
+  empty(): V = V(0.0)
+  join(a: V, b: V): V = a + b
+end
+opr SUM(): BigReduction[\V,V\] = BigReduction[\V,V\](VSum)
+
+dotA(x: Array[\V,ZZ32\], y: Array[\V,ZZ32\]): V = SUM[i <- x.indices] x[i] y[i]
+dotI(x: Indexed[\V,ZZ32\], y: Indexed[\V,ZZ32\]): V = SUM[i <- x.indices] x[i] y[i]
+dotZ(x: ZeroIndexed[\V\], y: ZeroIndexed[\V\]): V = SUM[i <- x.indices] x[i] y[i]
+mv(W: Array[\V,(ZZ32,ZZ32)\], x: Indexed[\V,ZZ32\]): Array[\V,ZZ32\] = do
+  (m, n) = (|x|, |x|)
+  array[\V\](2).fill(V(0.0))
+end
+
+run(): () = do
+  x = array1[\V,4\](fn (i: ZZ32) => V(i + 1.0))
+  s = x[1#2]
+  l = <|V(1.0), V(2.0)|>
+  println("slice: " |s| " elems, s[0] = " s[0].x)
+  println("dotA arrays " (dotA(x, x)).x " (expect 30)")
+  println("dotA slices " (dotA(s, s)).x " (expect 13)")
+  println("dotI arrays " (dotI(x, x)).x)
+  println("dotI slices " (dotI(s, s)).x)
+  println("dotI lists " (dotI(l, l)).x " (expect 5)")
+  println("dotZ lists " (dotZ(l, l)).x)
+
+  W = array2[\V,2,3\]().fill(V(1.0))
+  println("mv ok " |mv(W, x)|)
+end
+end

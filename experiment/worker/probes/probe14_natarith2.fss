@@ -1,0 +1,9 @@
+component probe14_natarith2
+export Executable
+object V(x: RR64) end
+f[\nat d\](x: Array1[\V,0,d\]): Array1[\V,0,d+d\] = array1[\V,d+d\](fn (i: ZZ32) => x[i MOD d])
+run(): () = do
+  x = array1[\V,3\](fn (i: ZZ32) => V(i))
+  println("|f(x)| = " |f(x)| " (expect 6)")
+end
+end
