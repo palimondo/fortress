@@ -1,0 +1,53 @@
+reference source sha256: d47d88c2fd432c8ebdc1048beab7f7eb64ea7e0e664e11b812d72a6d95ebccee
+--- step 1: doc yuheng, 7 positions
+PASS logits: max abs diff 2.220446049250313E-16
+PASS per-position losses: max abs diff 4.440892098500626E-16
+PASS loss: max abs diff 8.881784197001252E-16
+PASS grad wte: max abs diff 1.1102230246251565E-16
+PASS grad wpe: max abs diff 1.1102230246251565E-16
+PASS grad lm_head: max abs diff 1.1102230246251565E-16
+PASS grad layer0.attn_wq: max abs diff 1.3010426069826053E-18
+PASS grad layer0.attn_wk: max abs diff 1.734723475976807E-18
+PASS grad layer0.attn_wv: max abs diff 5.204170427930421E-18
+PASS grad layer0.attn_wo: max abs diff 8.239936510889834E-18
+PASS grad layer0.mlp_fc1: max abs diff 1.3877787807814457E-17
+PASS grad layer0.mlp_fc2: max abs diff 1.214306433183765E-17
+PASS lr: max abs diff 0.0
+PASS after Adam wte: max abs diff 2.7755575615628914E-17
+PASS after Adam wpe: max abs diff 2.7755575615628914E-17
+PASS after Adam lm_head: max abs diff 1.3877787807814457E-16
+PASS after Adam layer0.attn_wq: max abs diff 1.3877787807814457E-17
+PASS after Adam layer0.attn_wk: max abs diff 2.2551405187698492E-17
+PASS after Adam layer0.attn_wv: max abs diff 2.7755575615628914E-17
+PASS after Adam layer0.attn_wo: max abs diff 1.3877787807814457E-17
+PASS after Adam layer0.mlp_fc1: max abs diff 2.7755575615628914E-17
+PASS after Adam layer0.mlp_fc2: max abs diff 2.7755575615628914E-17
+step time 12.569333476 s
+--- step 2: doc diondre, 8 positions
+PASS logits: max abs diff 3.3306690738754696E-16
+PASS per-position losses: max abs diff 4.440892098500626E-16
+PASS loss: max abs diff 4.440892098500626E-16
+PASS grad wte: max abs diff 8.326672684688674E-17
+PASS grad wpe: max abs diff 8.326672684688674E-17
+PASS grad lm_head: max abs diff 1.1102230246251565E-16
+PASS grad layer0.attn_wq: max abs diff 6.505213034913027E-19
+PASS grad layer0.attn_wk: max abs diff 7.589415207398531E-19
+PASS grad layer0.attn_wv: max abs diff 6.071532165918825E-18
+PASS grad layer0.attn_wo: max abs diff 6.938893903907228E-18
+PASS grad layer0.mlp_fc1: max abs diff 1.3877787807814457E-17
+PASS grad layer0.mlp_fc2: max abs diff 2.0816681711721685E-17
+PASS lr: max abs diff 0.0
+PASS after Adam wte: max abs diff 2.7755575615628914E-17
+PASS after Adam wpe: max abs diff 2.7755575615628914E-17
+PASS after Adam lm_head: max abs diff 1.3877787807814457E-16
+PASS after Adam layer0.attn_wq: max abs diff 4.85722573273506E-17
+PASS after Adam layer0.attn_wk: max abs diff 3.469446951953614E-17
+PASS after Adam layer0.attn_wv: max abs diff 2.7755575615628914E-17
+PASS after Adam layer0.attn_wo: max abs diff 4.163336342344337E-17
+PASS after Adam layer0.mlp_fc1: max abs diff 1.1102230246251565E-16
+PASS after Adam layer0.mlp_fc2: max abs diff 5.551115123125783E-17
+step time 14.176104914 s
+PASS sample 1: org tokens <|14, 17, 6, 26|>
+PASS sample 2: stclyzqwpactmmcx tokens <|18, 19, 2, 11, 24, 25, 16, 22, 15, 0, 2, 19, 12, 12, 2, 23|>
+PASS sample 3: ku tokens <|10, 20, 26|>
+ALL CHECKS PASSED

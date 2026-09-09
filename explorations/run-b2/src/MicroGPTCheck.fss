@@ -1,0 +1,93 @@
+component MicroGPTCheck
+import List.{...}
+import MicroGPT.{...}
+import MicroGPTRef.{...}
+export Executable
+
+(* Deterministic checks against goldens derived from the pinned reference
+   (tools/derive_goldens.py -> checks/goldens_2steps.json -> MicroGPTRef). *)
+
+opr (A: Mat)^T: Mat = transpose(A)
+toMat(rows: List[\List[\RR64\]\]): Mat = mat(|rows|, |rows[0]|, fn (i: ZZ32, j: ZZ32): RR64 => (rows[i])[j])
+
+(* Convention bridge.  The reference stores W as (out × in) and applies it as
+   W x to a column vector; this program applies X W^T to row vectors, so a
+   reference matrix enters transposed.  A head's projection is the transpose
+   of its row block of wq, wk, wv. *)
+dk: ZZ32 = ref_n_embd DIV ref_n_head
+headBlock(W: Mat, h: ZZ32): Mat = transpose(mat(dk, W.cols, fn (i: ZZ32, j: ZZ32): RR64 => W[dk h + i, j]))
+stackHeads(g: Params, prefix: String): Mat =
+  mat(ref_n_embd, ref_n_embd, fn (i: ZZ32, j: ZZ32): RR64 => (g[prefix (i DIV dk)])[j, i MOD dk])
+
+initTheta(): Params = params(
+  <|[\(String, Mat)\] ("wte", toMat(ref_init("wte"))), ("wpe", toMat(ref_init("wpe"))),
+     ("lm_head", transpose(toMat(ref_init("lm_head")))), ("wo", transpose(toMat(ref_init("layer0.attn_wo")))),
+     ("fc1", transpose(toMat(ref_init("layer0.mlp_fc1")))), ("fc2", transpose(toMat(ref_init("layer0.mlp_fc2")))) |>
+  || <|[\(String, Mat)\] ("wq" h, headBlock(toMat(ref_init("layer0.attn_wq")), h)) | h <- 0 # ref_n_head |>
+  || <|[\(String, Mat)\] ("wk" h, headBlock(toMat(ref_init("layer0.attn_wk")), h)) | h <- 0 # ref_n_head |>
+  || <|[\(String, Mat)\] ("wv" h, headBlock(toMat(ref_init("layer0.attn_wv")), h)) | h <- 0 # ref_n_head |>)
+
+(* back to the reference's layout, for comparison *)
+inRefLayout(p: Params, name: String): Mat = case name of
+    "wte" => p["wte"]
+    "wpe" => p["wpe"]
+    "lm_head" => (p["lm_head"])^T
+    "layer0.attn_wq" => stackHeads(p, "wq")
+    "layer0.attn_wk" => stackHeads(p, "wk")
+    "layer0.attn_wv" => stackHeads(p, "wv")
+    "layer0.attn_wo" => (p["wo"])^T
+    "layer0.mlp_fc1" => (p["fc1"])^T
+    else => (p["fc2"])^T
+  end
+
+maxDiff(A: Mat, rows: List[\List[\RR64\]\]): RR64 = BIG MAX[i <- 0 # A.rows, j <- 0 # A.cols] |A[i, j] - (rows[i])[j]|
+maxDiffL(a: List[\RR64\], b: List[\RR64\]): RR64 = BIG MAX[i <- a.indices] |a[i] - b[i]|
+
+var failures: ZZ32 := 0
+check(name: String, diff: RR64, tol: RR64): () = do
+  if diff > tol then failures += 1 end
+  println((if diff <= tol then "PASS " else "FAIL ") name ": max abs diff " diff)
+end
+
+run(): () = do
+  println("reference source sha256: " ref_source_sha256)
+  var theta: Params := initTheta()
+  var m: Params := zerosLike(theta)
+  var v: Params := zerosLike(theta)
+  for k <- seq(0 # ref_num_steps) do
+    toks = ref_tokens(k)
+    n = ref_block_size MIN (|toks| - 1)
+    println("--- step " (k + 1) ": doc " (ref_doc(k)) ", " n " positions")
+    t0 = nanoTime()
+    model = Transformer(theta, ref_n_head)
+    Z = model.logits(toks[0 # n])
+    check("logits", maxDiff(Z.data, ref_logits(k)), 10.0^(-9))
+    P = softmax(Z)
+    losses = <|[\RR64\] -log(P.data[t, toks[t + 1]]) | t <- 0 # n |>
+    check("per-position losses", maxDiffL(losses, ref_losses(k)), 10.0^(-9))
+    (L, g) = model.loss(toks[0 # n], toks[1 # n])
+    check("loss", |L - ref_loss(k)|, 10.0^(-9))
+    for name <- seq(ref_names()) do
+      check("grad " name, maxDiff(inRefLayout(g, name), ref_grad(k, name)), 10.0^(-9))
+    end
+    lr = ref_learning_rate (1 - k / (1.0 ref_num_steps_schedule))
+    check("lr", |lr - ref_lr(k)|, 10.0^(-12))
+    (theta, m, v) := adam(theta, g, m, v, k + 1, lr)
+    for name <- seq(ref_names()) do
+      check("after Adam " name, maxDiff(inRefLayout(theta, name), ref_after(k, name)), 10.0^(-9))
+    end
+    println("step time " ((nanoTime() - t0) / 1000000000.0) " s")
+  end
+  model = Transformer(theta, ref_n_head)
+  for s <- seq(0 # ref_num_samples) do
+    draws = ref_sample_draws(s)
+    toks = sample(model, ref_bos, ref_block_size, ref_temperature, fn (pos: ZZ32): RR64 => draws[pos])
+    expected = ref_sample_tokens(s)
+    got = toks[1 # (|toks| - 1)] || (if |expected| > |toks| - 1 then <|[\ZZ32\] ref_bos |> else <|[\ZZ32\] |> end)
+    same = (|got| = |expected|) AND (BIG AND[i <- got.indices] got[i] = expected[i])
+    if NOT same then failures += 1 end
+    println((if same then "PASS " else "FAIL ") "sample " (s + 1) ": " (ref_sample_text(s)) " tokens " got)
+  end
+  println((if failures = 0 then "ALL CHECKS PASSED" else ("FAILURES: " failures)))
+end
+end
