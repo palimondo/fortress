@@ -1,0 +1,14 @@
+(* Q1 probe 5: is the where-clause type alias of p4 actually BOUND, or merely
+   tolerated because nothing referred to it?  Here the alias name U is used as
+   the declared type of the parameter and of the body.
+   Spec: Specification/basic/declarations.tex:237 ("type aliases in where
+   clauses"); Specification/basic/trait-parameters.tex:294,324 list TypeAlias
+   among WhereClause constituents. *)
+component p5_alias_where_used
+export Executable
+
+f[\T\](x: U): U where { type U = T } = x
+
+run() = println("f = " f[\ZZ32\](3))
+
+end

@@ -1,0 +1,46 @@
+(* Probe V (the key adversarial follow-up): p18 showed that
+   vector[\Value,3\](...) ACCEPTS a Value that does NOT extend Number --
+   the walk interpreter does not check the "T extends Number" bound.
+   Does the whole algebra then work, WITHOUT breaking the comprises seal? *)
+component p31_no_number_full
+import NatReflect.{...}
+export Executable
+
+object Value(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+mkMat[\nat n, nat m\](wn:N[\n\], wm:N[\m\], f:(ZZ32,ZZ32)->Value): Matrix[\Value,n,m\] =
+    matrix[\Value,n,m\]().fill(f)
+
+run(): () = do
+    u = vector[\Value,3\](fn (i:ZZ32):Value => Value(1.0 (i+1)))
+    v = vector[\Value,3\](fn (i:ZZ32):Value => Value(10.0 (i+1)))
+    println("u = " u)
+    typecase u of
+        AnyVector => println("u IS an AnyVector")
+        else      => println("u is NOT an AnyVector")
+    end
+    println("u + v   = " (u + v))
+    println("u - v   = " (u - v))
+    println("-u      = " (-u))
+    println("u DOT v = " (u DOT v))
+    println("u v     = " (u v))
+    println("scale   = " u.scale(Value(2.0)))
+    println("pmul    = " pmul(u,v))
+    println("SUM     = " (SUM [ x <- u ] x))
+
+    m = mkMat(reflect(3), reflect(3),
+              fn (i:ZZ32,j:ZZ32):Value => if i=j then Value(2.0) else Value(0.0) end)
+    println("m       = " m)
+    println("m u     = " (m u))
+    println("u m     = " (u m))
+    println("m.t()   = " m.t())
+    println("m m     = " (m m))
+  end
+end

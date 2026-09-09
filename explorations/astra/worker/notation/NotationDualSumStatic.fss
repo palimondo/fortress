@@ -1,0 +1,23 @@
+component NotationDualSumStatic
+export Executable
+
+object D(v:RR64, d:RR64)
+end
+opr +(x:D, y:D):D = D(x.v+y.v, x.d+y.d)
+
+object DSumReduction extends CommutativeMonoidReduction[\D\]
+  empty():D = D(0.0,0.0)
+  join(x:D,y:D):D = x+y
+end
+
+(* Probe whether a static bound and explicit static argument make this overload
+   distinguishable from the prelude's T extends Number overload. *)
+opr SUM[\T extends D\](): Comprehension[\T,D,D,D\] =
+  Comprehension[\T,D,D,D\](fn (x:D) => x, DSumReduction, fn (x:T) => x)
+
+run():() = do
+  s:D = SUM[\D\][i <- 1#4] D(1.0 i, 1.0)
+  println(s.v)
+  println(s.d)
+end
+end

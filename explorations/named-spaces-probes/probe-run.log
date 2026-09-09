@@ -1,0 +1,39 @@
+=== n1_rowlike_toplevel ===
+softmax(q K^T/SQRT 2) = ProbDist<|0.6697615493266569, 0.3302384506733431|>
+attend = Vec<|3.6604769013466862, 4.660476901346686|>
+Mat x Vec = Vec<|3.0, 4.0|>
+Vec x Mat = Vec<|1.0, 0.0|>
+
+=== n2_rowlike_getter ===
+softmax(q K^T/SQRT 2) = 0.6697615493266569,0.3302384506733431
+attend = Vec<|3.6604769013466862, 4.660476901346686|>
+Mat x Vec = Vec<|3.0, 4.0|>
+Vec x Mat = Vec<|1.0, 0.0|>
+|p| = 2   p[0] = 0.6697615493266569
+SUM over p (generator) = 1.0
+Vec = Vec (reflexive) : true
+Mat = Mat (reflexive) : true
+zip on Vec : Vec<|2.0, 0.0|>
+p indices  : <|0, 1|>
+
+=== n3_rowlike_method ===
+attend = Vec<|3.6604769013466862, 4.660476901346686|>
+Mat x Vec = Vec<|3.0, 4.0|>
+Vec x Mat = Vec<|1.0, 0.0|>
+
+=== n4_rowlike_comprises ===
+softmax(q K^T/SQRT 2) = 0.6697615493266569,0.3302384506733431
+attend = Vec<|3.6604769013466862, 4.660476901346686|>
+Mat x Vec = Vec<|3.0, 4.0|>
+Vec x Mat = Vec<|1.0, 0.0|>
+|p| = 2   p[0] = 0.6697615493266569
+SUM over p (generator) = 1.0
+Vec = Vec (reflexive) : true
+Mat = Mat (reflexive) : true
+zip on Vec : Vec<|2.0, 0.0|>
+p indices  : <|0, 1|>
+
+=== n5_kvcache_nolen ===
+K after two steps = KVCache<|Mat<|Vec<|1.0, 2.0|>, Vec<|1.0, 2.0|>|>, Mat<|Vec<|1.0, 2.0|>, Vec<|1.0, 2.0|>|>|>
+|K2[0]| = 2
+

@@ -1,0 +1,29 @@
+component VectorProbe
+export Executable
+object Vec(n:ZZ32, f:ZZ32->RR64)
+  data:Array[\RR64,ZZ32\] = do
+    a = array[\RR64\](n)
+    for i <- 0#n do a[i] := f(i) end
+    a
+  end
+  opr[i:ZZ32]:RR64 = data[i]
+end
+object Mat(m:ZZ32,n:ZZ32,f:(ZZ32,ZZ32)->RR64)
+  rows: Array[\Vec,ZZ32\] = do
+    a = array[\Vec\](m)
+    for i <- 0#m do a[i] := Vec(n,fn j => f(i,j)) end
+    a
+  end
+  opr[i:ZZ32,j:ZZ32]:RR64 = rows[i][j]
+end
+opr juxtaposition(A:Mat,x:Vec):Vec = Vec(A.m,fn i => SUM[j <- 0#A.n] A[i,j] x[j])
+opr +(x:Vec,y:Vec):Vec = Vec(x.n,fn i => x[i]+y[i])
+opr /(x:Vec,s:RR64):Vec = Vec(x.n,fn i => x[i]/s)
+run() = do
+  x = Vec(3,fn i => (i+1).asFloat())
+  A = Mat(2,3,fn (i,j) => (3 i+j+1).asFloat())
+  y = A x
+  println(y[0]," ",y[1])
+  println((x/2.0+x)[2])
+end
+end

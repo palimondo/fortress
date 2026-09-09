@@ -1,0 +1,87 @@
+component mgbench
+import List.{...}
+export Executable
+
+(* Step-0 microbenchmark for the microgpt.fss port: separates the costs
+   that decide the feasible config. See explorations/microgpt-port.md. *)
+
+(* Minimal autodiff node mirroring microgpt's Value: data, grad,
+   children, and the local gradients w.r.t. each child. *)
+object Val(var data: RR64, children: List[\Val\], grads: List[\RR64\])
+  var grad: RR64 := 0.0
+  opr +(self, o: Val): Val = Val(data + o.data, <|[\Val\] self, o|>, <|[\RR64\] 1.0, 1.0|>)
+  opr DOT(self, o: Val): Val = Val(data o.data, <|[\Val\] self, o|>, <|[\RR64\] o.data, data|>)
+end
+
+leaf(d: RR64): Val = Val(d, emptyList[\Val\](), emptyList[\RR64\]())
+
+run() = do
+ for pass <- seq(1#2) do
+  println("--- pass " pass " ---")
+  (* (a) raw scalar-arithmetic ceiling: 10^6 mul+add on RR64 *)
+  nA: ZZ32 = 1000000
+  tA0 = nanoTime()
+  var acc: RR64 := 1.0
+  for i <- seq(1#nA) do
+    acc := acc 0.9999999 + 0.0000001
+  end
+  tA1 = nanoTime()
+  println("(a) " nA " mul+add: " (((tA1-tA0) + 500000) DIV 1000000) " ms  (acc=" acc ")")
+
+  (* (b) Value-node allocation + opr dispatch: build a 20k-node chain *)
+  nB: ZZ32 = 20000
+  konst = leaf(0.001)
+  tB0 = nanoTime()
+  var c: Val := leaf(1.0)
+  for i <- seq(1#nB) do
+    c := (c DOT konst) + konst
+  end
+  tB1 = nanoTime()
+  println("(b) " (2 nB) " Value nodes built: " (((tB1-tB0) + 500000) DIV 1000000) " ms  (data=" c.data ")")
+
+  (* (c) backward walk down the chain: chain rule + grad accumulation *)
+  tC0 = nanoTime()
+  c.grad := 1.0
+  var node: Val := c
+  var steps: ZZ32 := 0
+  while |node.children| > 0 do
+    for (ch, lg) <- seq(node.children.zip[\RR64\](node.grads)) do
+      ch.grad := ch.grad + lg node.grad
+    end
+    node := node.children[0]
+    steps := steps + 1
+  end
+  tC1 = nanoTime()
+  println("(c) backward over " steps " nodes: " (((tC1-tC0) + 500000) DIV 1000000) " ms")
+
+  (* (d) 256-dot-product: Array vs library List, 1000 reps each *)
+  nD: ZZ32 = 256
+  reps: ZZ32 = 1000
+  arr = array[\RR64\](nD).fill(fn (i:ZZ32) => 0.5)
+  tD0 = nanoTime()
+  var s1: RR64 := 0.0
+  for r <- seq(1#reps) do
+    var d1: RR64 := 0.0
+    for i <- seq(0#nD) do
+      d1 := d1 + arr[i] arr[i]
+    end
+    s1 := s1 + d1
+  end
+  tD1 = nanoTime()
+  println("(d) Array dot " nD "x" reps ": " (((tD1-tD0) + 500000) DIV 1000000) " ms  (s=" s1 ")")
+
+  lst = <|[\RR64\] 0.5 | i <- 0#nD |>
+  tE0 = nanoTime()
+  var s2: RR64 := 0.0
+  for r <- seq(1#reps) do
+    var d2: RR64 := 0.0
+    for i <- seq(0#nD) do
+      d2 := d2 + lst[i] lst[i]
+    end
+    s2 := s2 + d2
+  end
+  tE1 = nanoTime()
+  println("(d) List  dot " nD "x" reps ": " (((tE1-tE0) + 500000) DIV 1000000) " ms  (s=" s2 ")")
+ end
+end
+end

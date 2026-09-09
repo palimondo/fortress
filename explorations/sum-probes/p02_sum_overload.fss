@@ -1,0 +1,29 @@
+(* P02: Can a user OVERLOAD the library's SUM for a user type?
+   Library has:  opr SUM[\T extends Number\](): Comprehension[\T,Number,Number,Number\]
+                 opr SUM[\T extends Number\](g: Generator[\T\]): Number
+   We add a nullary SUM returning a BigReduction over V, plus the sugar form. *)
+component p02_sum_overload
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+    getter asString(): String = "VSumReduction"
+    empty(): V = V(0.0)
+    join(a: V, b: V): V = a + b
+end
+
+opr SUM(): BigReduction[\V,V\] = BigReduction[\V,V\](VSumReduction)
+opr SUM(g: Generator[\V\]): V =
+    __bigOperatorSugar[\V,V,V,V\](SUM(), g)
+
+run(): () = do
+    vs = <| V(1.0), V(2.0), V(3.5) |>
+    println("SUM over V list = " (SUM [v <- vs] v))
+    println("builtin SUM     = " (SUM [i <- 0#5] i))
+end
+end

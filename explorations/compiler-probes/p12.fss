@@ -1,0 +1,12 @@
+component p12
+export Executable
+burn(n: ZZ32): RR64 = do
+  var acc: RR64 := 0.0
+  for i <- seq(1#n) do acc := acc + 1.0 end
+  acc
+end
+run() = do
+  (a, b) = (burn(100), burn(100))
+  println("p12 " (a+b))
+end
+end

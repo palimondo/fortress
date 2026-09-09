@@ -1,0 +1,93 @@
+component AutodiffProbe
+export Executable
+
+(* Expression construction is immutable, so comprehension bodies may run in
+   parallel.  Reverse propagation is deliberately sequential: contributions
+   to the same parameter are a true dependency. *)
+trait V
+  getter primal():RR64
+  backprop(scale:RR64, gradient:Array[RR64,ZZ32]):()
+  opr +(self, other:V):V = binary(self.primal + other.primal,self,1.0,other,1.0)
+  opr -(self, other:V):V = binary(self.primal - other.primal,self,1.0,other,-1.0)
+  opr -(self):V = unary(-self.primal,self,-1.0)
+  opr DOT(self, other:V):V = binary(self.primal other.primal,self,other.primal,other,self.primal)
+  opr /(self, other:V):V = binary(self.primal / other.primal,self,1.0/other.primal,
+                                  other,-self.primal/(other.primal other.primal))
+  opr ^(self, p:RR64):V = do
+    z = (self.primal)^p
+    dz = p ((self.primal)^(p - 1.0))
+    unary(z,self,dz)
+  end
+end
+
+object Constant(primal:RR64) extends V
+  backprop(scale:RR64, gradient:Array[RR64,ZZ32]):() = ()
+end
+object Variable(primal:RR64, index:ZZ32) extends V
+  backprop(scale:RR64, gradient:Array[RR64,ZZ32]):() = gradient[index] += scale
+end
+object Unary(primal:RR64, parent:V, weight:RR64) extends V
+  backprop(scale:RR64, gradient:Array[RR64,ZZ32]):() = parent.backprop(scale weight,gradient)
+end
+object Binary(primal:RR64, left:V, leftWeight:RR64, right:V, rightWeight:RR64) extends V
+  backprop(scale:RR64, gradient:Array[RR64,ZZ32]):() = do
+    left.backprop(scale leftWeight,gradient)
+    right.backprop(scale rightWeight,gradient)
+  end
+end
+
+constant(x:RR64):V = Constant(x)
+variable(index:ZZ32, x:RR64):V = Variable(x,index)
+unary(z:RR64, a:V, da:RR64):V = Unary(z,a,da)
+binary(z:RR64, a:V, da:RR64, b:V, db:RR64):V = Binary(z,a,da,b,db)
+
+opr +(x:V, y:RR64):V = x + constant(y)
+opr +(x:RR64, y:V):V = constant(x) + y
+opr -(x:V, y:RR64):V = x - constant(y)
+opr -(x:RR64, y:V):V = constant(x) - y
+opr DOT(x:V, y:RR64):V = x constant(y)
+opr DOT(x:RR64, y:V):V = constant(x) y
+opr /(x:V, y:RR64):V = x / constant(y)
+opr /(x:RR64, y:V):V = constant(x) / y
+
+exp(a:V):V = do z = exp(a.primal); unary(z,a,z) end
+log(a:V):V = unary(log(a.primal),a,1.0/a.primal)
+relu(a:V):V = if a.primal > 0.0 then unary(a.primal,a,1.0) else unary(0.0,a,0.0) end
+
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+  empty():V = constant(0.0)
+  join(a:V,b:V):V = a+b
+end
+opr SUM():Comprehension[\V,V,V,V\] =
+  Comprehension[\V,V,V,V\](fn (x:V) => x,VSumReduction,fn (x:V) => x)
+opr SUM(g:Generator[\V\]):V = g.generate[\V\](VSumReduction,fn (x:V) => x)
+
+gradient(y:V, parameterCount:ZZ32):Array[RR64,ZZ32] = do
+  g = array[RR64](parameterCount).fill(0,0.0)
+  y.backprop(1.0,g)
+  g
+end
+
+near(a:RR64,b:RR64):Boolean = |a-b| < 0.000000001
+
+run():() = do
+  x = variable(0,2.0)
+  y = variable(1,3.0)
+  shared = x y
+  f = shared shared + exp(x) / y - log(y) + relu(-x) + (x^3.0)
+  g = gradient(f,2)
+  gx = g[0]
+  gy = g[1]
+  expectedX = 2.0 shared y + exp(2.0)/3.0 - 0.0 + 3.0 (2.0^2.0)
+  expectedY = 2.0 shared x - exp(2.0)/9.0 - 1.0/3.0
+  println("value=" f.primal)
+  println("dx=" gx)
+  println("dy=" gy)
+  assert(near(gx,expectedX))
+  assert(near(gy,expectedY))
+  s = SUM[i <- 0#4] x + i
+  gs = gradient(s,2)
+  assert(near(s.primal,14.0))
+  assert(near(gs[0],4.0))
+end
+end

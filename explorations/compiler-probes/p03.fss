@@ -1,0 +1,11 @@
+component p03
+export Executable
+object V(data: RR64)
+  getter asString(): String = "V " self.data.asString
+  opr juxtaposition(self, o: V): V = V(data o.data)
+end
+run() = do
+  a = V(2.0); b = V(3.0)
+  println("p03 " (a b))
+end
+end

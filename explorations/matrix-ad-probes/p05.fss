@@ -1,0 +1,49 @@
+(* Q1d: re-vectorizing a view.  Array1.replica -> __builtinFactory1 -> array1,
+   whose typecase (FortressLibrary.fss:2239-2244) turns a Number element type
+   back into a Vector.  So copy()/map()/ivmap() on a view should be Vectors. *)
+component p05
+export Executable
+
+run(): () = do
+    v: Vector[\RR64,8\] = [ 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 ]
+    s = v.subarray[\0,4,4\](1)
+    typecase s of
+        AnyVector => println("s (view)          IS an AnyVector")
+        else      => println("s (view)          is NOT an AnyVector")
+    end
+    sc = s.copy()
+    println("s.copy() = " sc)
+    typecase sc of
+        AnyVector => println("s.copy()          IS an AnyVector")
+        else      => println("s.copy()          is NOT an AnyVector")
+    end
+    sm = s.map[\RR64\](fn (x:RR64):RR64 => x)
+    typecase sm of
+        AnyVector => println("s.map(id)         IS an AnyVector")
+        else      => println("s.map(id)         is NOT an AnyVector")
+    end
+    (* does the recovered vector do vector algebra? *)
+    println("sc + sc  = " (sc + sc))
+    println("sc DOT sc= " (sc DOT sc))
+    (* explicit rebuild via the factory *)
+    sv = vector[\RR64,4\](fn (i:ZZ32):RR64 => s[i])
+    println("vector[RR64,4](fn i => s[i]) = " sv)
+    println("sv DOT sv = " (sv DOT sv))
+
+    m: Matrix[\RR64,3,4\] = [ 0.0  1.0  2.0  3.0 ;
+                              4.0  5.0  6.0  7.0 ;
+                              8.0  9.0 10.0 11.0 ]
+    row1 = m[1,:].copy()
+    typecase row1 of
+        AnyVector => println("m[1,:].copy()     IS an AnyVector")
+        else      => println("m[1,:].copy()     is NOT an AnyVector")
+    end
+    println("row1 = " row1 "  row1 DOT row1 = " (row1 DOT row1))
+    mc = m[(1,1)#(2,2)].copy()
+    typecase mc of
+        AnyMatrix => println("m[(1,1)#(2,2)].copy() IS an AnyMatrix")
+        else      => println("m[(1,1)#(2,2)].copy() is NOT an AnyMatrix")
+    end
+    println("mc = " mc)
+  end
+end

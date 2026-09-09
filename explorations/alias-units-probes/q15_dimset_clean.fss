@@ -1,0 +1,22 @@
+(* Q2 probe 15: the whole spec dimension/unit declaration vocabulary, written
+   so as to dodge BOTH parser bugs found above:
+     - every `dim` has a unit clause or a `default` clause (bug 1: a bare
+       `dim X` reports "null is not a valid unit name", OtherDecl.rats:73-78)
+     - no unit-NAME-LIST declaration is followed by an identifier-initial
+       declaration (bug 2: greedy `(wr Id)*`, OtherDecl.rats:36)
+   Spec: Specification/advanced/defining-dimensions.tex, whole chapter.
+   Mirrors Library/incomplete/basic/Fortress.SIUnits.fss:18-24. *)
+component q15_dimset_clean
+export Executable
+
+dim Length  SI_unit meter meters m_
+dim Time    SI_unit second seconds s_
+dim Mass default kilogram
+dim Velocity = Length / Time  SI_unit mps = meter/second
+unit inch inches: Length = 0.0254 meter
+unit foot feet ft_: Length = 12 inch
+unit gram grams g_: Mass = 0.001 kilogram
+
+run() = println "full declaration set accepted"
+
+end

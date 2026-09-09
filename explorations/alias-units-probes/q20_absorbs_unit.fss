@@ -1,0 +1,27 @@
+(* Q2 probe 20: the `absorbs unit` static-parameter clause.
+   Spec: Specification/advanced/defining-dimensions.tex:364-395 (section
+   "Absorbing Units"), example at :388:
+       trait Vector[\EltType extends Number absorbs unit, nat len\] ... end
+   so that [3 2 5] m_ means [(3 m_) (2 m_) (5 m_)].
+   Prior art in tree: ProjectFortress/tests/dimensionUnitDecl.fss:26
+       trait Float1[\unit U absorbs unit, nat e, nat s\] end
+   -- a LIVE member of the green testSystem suite, so the declaration parses.
+   This probe asks whether the absorption itself does anything. *)
+component q20_absorbs_unit
+export Executable
+
+dim Length  SI_unit meter meters m_ = 1.0
+
+trait Boxed[\T extends Number absorbs unit\]
+  getter payload(): T
+end
+
+object B(payload0: RR64) extends Boxed[\RR64\]
+  getter payload(): RR64 = payload0
+end
+
+f(b: Boxed[\RR64\] meter): RR64 = b.payload
+
+run() = println("absorbed = " f(B(2.0)))
+
+end

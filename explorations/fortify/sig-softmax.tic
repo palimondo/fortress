@@ -1,0 +1,14 @@
+% microgpt2 signature-only render: softmax's codomain carries the paper's
+% own name.  From explorations/microgpt2.fss. Regenerate:
+%   bin/fortick sig-softmax.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex sig-softmax.tex
+%   dvisvgm --no-fonts --exact-bbox -o sig-softmax-light.svg sig-softmax.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`softmax(a: Vec): ProbDist`
+\end{preview}
+\end{document}

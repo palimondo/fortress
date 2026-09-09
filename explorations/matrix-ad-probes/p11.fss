@@ -1,0 +1,55 @@
+(* Q4b/c/d: spec-legal ways to combine per-iteration Vector contributions
+   in a PARALLEL for/reduction.
+   (b) user reduction object + __generate  (FortressLibrary.fsi:701)
+   (c) user-declared  opr BIG OPLUS  (Specification/basic/expressions/reductions.tex:28-34)
+   (d) mutating accumulator inside atomic (Specification/basic/expressions/atomic.tex) *)
+component p11
+export Executable
+
+zero3(): Vector[\RR64,3\] = vector[\RR64,3\](0.0)
+
+contrib(i: ZZ32): Vector[\RR64,3\] =
+    vector[\RR64,3\](fn (j:ZZ32):RR64 => 1.0 (i+1) (j+1))
+
+object VecSum3 extends CommutativeMonoidReduction[\Vector[\RR64,3\]\]
+    getter asString(): String = "VecSum3"
+    empty(): Vector[\RR64,3\] = zero3()
+    join(a: Vector[\RR64,3\], b: Vector[\RR64,3\]): Vector[\RR64,3\] = a + b
+end
+
+opr BIG OPLUS(): BigReduction[\Vector[\RR64,3\],Vector[\RR64,3\]\] =
+    BigReduction[\Vector[\RR64,3\],Vector[\RR64,3\]\](VecSum3)
+opr BIG OPLUS(g: Generator[\Vector[\RR64,3\]\]): Vector[\RR64,3\] =
+    __bigOperatorSugar[\Vector[\RR64,3\],Vector[\RR64,3\],
+                       Vector[\RR64,3\],Vector[\RR64,3\]\](BIG OPLUS(), g)
+
+run(): () = do
+    n: ZZ32 = 100
+    (* closed form: sum_{i=0}^{n-1} (i+1)(j+1) = (j+1) n(n+1)/2 *)
+    println("expected = " (vector[\RR64,3\](fn (j:ZZ32):RR64 => 1.0 (j+1) (n (n+1)) / 2.0)))
+
+    (* (b) __generate with a user reduction *)
+    tb = __generate[\ZZ32, Vector[\RR64,3\]\](0#n, VecSum3, contrib)
+    println("(b) __generate + VecSum3 = " tb)
+
+    (* (c) user-declared BIG OPLUS, parallel generator clause *)
+    tc = BIG OPLUS [ i <- 0#n ] contrib(i)
+    println("(c) BIG OPLUS [i<-0#n]   = " tc)
+
+    (* (d) mutating accumulator inside atomic, parallel for *)
+    var acc: Vector[\RR64,3\] := zero3()
+    for i <- 0#n do
+        c = contrib(i)
+        atomic do acc := acc + c end
+    end
+    println("(d) atomic accumulator   = " acc)
+
+    (* (e) same loop WITHOUT atomic -- racy by construction *)
+    var bad: Vector[\RR64,3\] := zero3()
+    for i <- 0#n do
+        c = contrib(i)
+        bad := bad + c
+    end
+    println("(e) NO atomic            = " bad)
+  end
+end

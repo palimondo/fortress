@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\begin{document}\begin{preview}
+\begin{minipage}{17cm}
+\textbf{Candidate A: eager user-level vectors, ordinary reductions}\\
+Mathematics: $y_i=\sum_{j=0}^{n-1} A_{ij}x_j$,\quad
+$\operatorname{softmax}(x)_i=\frac{\exp(x_i-m)}{\sum_j\exp(x_j-m)}$, $m=\max_jx_j$.\\
+$\operatorname{RMSNorm}(x)=x/\sqrt{(\sum_i x_i^2)/n+10^{-5}}$.\\
+$\alpha=\operatorname{softmax}(Kq/\sqrt{d_h})$,\quad
+$o_j=\sum_{t=0}^{T-1}\alpha_t V_{tj}$.\\[1ex]
+\textbf{Actual executable-source definitions (Fortify):}
+`
+opr juxtaposition(A:Mat,x:Vec):Vec = Vec(A.m,fn i => SUM[j <- 0#A.n] A[i,j] x[j])
+opr +(x:Vec,y:Vec):Vec = Vec(x.n,fn i => x[i]+y[i])
+opr /(x:Vec,s:RR64):Vec = Vec(x.n,fn i => x[i]/s)
+opr juxtaposition(x:Vec,y:Vec):RR64 = SUM[i <- 0#x.n] x[i] y[i]
+opr juxtaposition(s:RR64,x:Vec):Vec = Vec(x.n,fn i => s x[i])
+opr -(x:Vec,s:RR64):Vec = Vec(x.n,fn i => x[i]-s)
+exp(x:Vec):Vec = Vec(x.n,fn i => exp(x[i]))
+relu(x:Vec):Vec = Vec(x.n,fn i => if x[i]>0.0 then x[i] else 0.0 end)
+maximum(x:Vec):RR64 = (0#x.n).map(fn (i:ZZ32) => x[i]).reduce(fn (a:RR64,b:RR64) => a MAX b, -1.0/0.0)
+softmax(x:Vec):Vec = do
+  e = exp(x-maximum(x))
+  e / (SUM[i <- 0#x.n] e[i])
+end
+rmsnorm(x:Vec):Vec = x / SQRT((x x)/(1.0 x.n)+0.00001)
+head(x:Vec,h:ZZ32,s:ZZ32):Vec = Vec(s,fn j => x[h s + j])
+
+(* Each row of K and V is one cached time position, including the current one. *)
+attention(q:Vec,K:Mat,V:Mat):Vec = do
+  a = softmax((K q) / (SQRT((1.0 q.n))))
+  Vec(V.n,fn j => SUM[t <- 0#V.m] a[t] V[t,j])
+end
+
+`
+\textbf{Python reference:}\\
+\texttt{[sum(wi*xi for wi,xi in zip(row,x)) for row in w]}\\
+\texttt{exps = [(val-max\_val).exp() for val in logits]}\\
+\texttt{[e / sum(exps) for e in exps]}\\
+\texttt{[xi * (sum(xj*xj for xj in x)/len(x)+1e-5)**-0.5 for xi in x]}
+\end{minipage}
+\end{preview}\end{document}

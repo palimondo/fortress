@@ -1,0 +1,20 @@
+component p12_multifix
+import List.{...}
+export Executable
+
+object V(var data: RR64, children: List[\V\])
+  getter asString(): String = "V(" data ", n=" |children| ")"
+end
+
+(* spec basic/operators/chained-multifix.tex: "If n-1 occurrences of the same
+   operator separate n operands where n >= 3, the compiler first checks whether
+   there is a definition for that operator that will accept n arguments."
+   That is the sanctioned way to fuse a + b + c into ONE n-ary node -- exactly
+   what microgpt_paper.fss's vsum/BIG OPLUS build by hand. *)
+opr +(args: V...): V = V(SUM[a <- seq(args)] a.data, <| a | a <- seq(args) |>)
+
+run() = do
+  a = V(1.0, <|[\V\] |>); b = V(2.0, <|[\V\] |>); c = V(3.0, <|[\V\] |>)
+  println("a + b + c = " (a + b + c))
+end
+end

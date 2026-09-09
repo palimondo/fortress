@@ -1,0 +1,17 @@
+(* Q2 probe 8: does the juxtaposed dimensioned TYPE `RR64 Length` parse at
+   all, independently of whether Length is a declared dimension?
+   Spec grammar: Specification/basic/dimensions.tex:23-24
+       DimType ::= DimRef | TypeRef DimRef
+   i.e. a type juxtaposed with a dimension reference IS in the type grammar.
+   Here `Length` is an ordinary trait, so if the juxtaposition parses we get a
+   name/type error, not a Syntax Error. *)
+component q8_dimtype_parse
+export Executable
+
+trait Length end
+
+f(x: RR64 Length): RR64 = 0.0
+
+run() = println "parsed"
+
+end

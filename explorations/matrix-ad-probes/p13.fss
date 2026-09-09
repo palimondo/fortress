@@ -1,0 +1,52 @@
+(* Q1f: the library's own views (__SimpleSubArray1 fss:2158, Row/Col fss:2473-2492)
+   extend Array1, not Vector, so they lose the algebra.  Can a USER object extend
+   Vector[\T,s\] directly and be a zero-copy view that keeps it?  (This is a choice
+   on our side, not a library change.) *)
+component p13
+export Executable
+
+object VecView(base: Vector[\RR64,8\], off: ZZ32) extends Vector[\RR64,4\]
+    get(i: ZZ32): RR64 = base.get(i + off)
+    put(i: ZZ32, v: RR64): () = base.put(i + off, v)
+    init0(i: ZZ32, v: RR64): () = base.init0(i + off, v)
+    replica[\U\](): Array1[\U,0,4\] = array1[\U,4\]()
+end
+
+object RowView(base: Matrix[\RR64,3,4\], r: ZZ32) extends Vector[\RR64,4\]
+    get(j: ZZ32): RR64 = base.get(r, j)
+    put(j: ZZ32, v: RR64): () = base.put((r, j), v)
+    init0(j: ZZ32, v: RR64): () = base.init0((r, j), v)
+    replica[\U\](): Array1[\U,0,4\] = array1[\U,4\]()
+end
+
+run(): () = do
+    v: Vector[\RR64,8\] = [ 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 ]
+    s = VecView(v, 4)
+    println("VecView(v,4) = " s)
+    typecase s of
+        AnyVector => println("  VecView IS an AnyVector")
+        else      => println("  VecView is NOT an AnyVector")
+    end
+    println("  |s| = " |s| "  s[1] = " s[1])
+    println("  s + s     = " (s + s))
+    println("  s DOT s   = " (s DOT s))
+    println("  s.scale(2.0) = " s.scale(2.0))
+    println("  ||s||     = " ||s||)
+    println("  SUM s     = " (SUM [ e <- s ] e))
+    A: Matrix[\RR64,3,4\] = [ 1.0 0.0 0.0 0.0 ;
+                              0.0 1.0 0.0 0.0 ;
+                              0.0 0.0 1.0 0.0 ]
+    println("  A s       = " (A s))
+    s[0] := 99.0
+    println("  after s[0] := 99.0, v = " v "   (zero-copy view: " (v[4] = 99.0) ")")
+
+    rv = RowView(A, 1)
+    typecase rv of
+        AnyVector => println("RowView IS an AnyVector")
+        else      => println("RowView is NOT an AnyVector")
+    end
+    println("  RowView(A,1) = " rv "   rv DOT s = " (rv DOT s))
+    rv[3] := 5.0
+    println("  after rv[3] := 5.0, A = " A)
+  end
+end

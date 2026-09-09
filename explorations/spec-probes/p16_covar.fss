@@ -1,0 +1,17 @@
+component p16_covar
+export Executable
+(* spec basic/trait-parameters.tex: "Trait declarations are allowed to extend
+   other instantiations of themselves... Effectively, we have expressed the
+   fact that the static parameter S of C is covariant." *)
+trait Co[\S\] extends Co[\T\] where { S extends T, T extends Object }
+  getter item(): S
+end
+object Box[\S\](v: S) extends Co[\S\]
+  getter asString(): String = "Box"
+  getter item(): S = v
+end
+trait Animal end
+object Dog extends Animal getter asString(): String = "Dog" end
+f(c: Co[\Animal\]): String = "" c.item
+run() = println(f(Box[\Dog\](Dog)))
+end

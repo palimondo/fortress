@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$\mathrm{RMS}(x)=x/\sqrt{(x\cdot x)/n+10^{-5}}$; alternative: $((x\cdot x)/n+10^{-5})^{-1/2}x$
+`
+rmsnorm(x:Vec):Vec = x/(SQRT((x DOT x)/x.n + 0.00001))
+
+opr juxtaposition(s:V,x:Vec):Vec = Vec(x.n,fn i => s x[i])
+rmsnorm(x:Vec):Vec = ((x DOT x)/x.n + 0.00001)^(-0.5) x
+`
+\end{minipage}\end{preview}\end{document}

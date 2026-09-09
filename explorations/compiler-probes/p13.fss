@@ -1,0 +1,8 @@
+component p13
+export Executable
+run() = do
+  var g: RR64 := 0.0
+  for i <- seq(1#10) do atomic do g := g + 1.0 end end
+  println("p13 " g)
+end
+end

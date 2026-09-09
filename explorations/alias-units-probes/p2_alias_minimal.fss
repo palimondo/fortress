@@ -1,0 +1,14 @@
+(* Q1 probe 2: minimal type alias, no imports, so the diagnostic is not
+   contaminated by the List.fsi typechecker noise seen in p1.
+   Spec: Specification/basic/types-vals-vars.tex:597-623 (section "Type Aliases").
+   Grammar: TypeAlias ::= type Id [StaticParams] = Type   (line 601) *)
+component p2_alias_minimal
+export Executable
+
+type Idx = ZZ32
+
+next(i: Idx): Idx = i + 1
+
+run() = println("next 41 = " next(41))
+
+end

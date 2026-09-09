@@ -1,0 +1,25 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 13f0fd587..6754281d0 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -3038,11 +3038,16 @@ object SumReduction extends {
+     MaxNSumReductionPair
+ end
+ 
+-opr SUM[\T extends Number\](): Comprehension[\T,Number,Number,Number\] =
+-    Comprehension[\T,Number,Number,Number\](fn x => x, SumReduction, cast[\Number\])
++object AnySumReduction extends { CommutativeMonoidReduction[\Any\] }
++    getter asString(): String = "AnySumReduction"
++    empty(): Any = 0
++    join(a: Any, b: Any): Any = a + b
++end
++
++opr SUM[\T\](): Comprehension[\T,Any,Any,Any\] =
++    Comprehension[\T,Any,Any,Any\](fn x => x, AnySumReduction, identity[\Any\])
+ 
+-opr SUM[\T extends Number\](g: Generator[\T\]) =
+-    __bigOperatorSugar[\T,Number,Number,Number\](SUM[\T\](), g)
++opr SUM[\T\](g: Generator[\T\]) = SUM [x <- g] x
+ 
+ object ProdReduction extends {
+   CommutativeMonoidReduction[\Number\],

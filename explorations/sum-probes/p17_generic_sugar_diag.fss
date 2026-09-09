@@ -1,0 +1,27 @@
+(* P17: diagnostic for the sugar form with an inferred element type.
+   Does  opr BIG OPLUS[\T\](g: Generator[\T\])  accept an ArrayList[\V\]? *)
+component p17_generic_sugar_diag
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+object PolySumReduction extends CommutativeMonoidReduction[\Any\]
+    empty(): Any = 0
+    join(a: Any, b: Any): Any = a + b
+end
+
+opr BIG OPLUS[\T\](): BigReduction[\Any,Any\] = BigReduction[\Any,Any\](PolySumReduction)
+opr BIG OPLUS[\T\](g: Generator[\T\]) =
+    BIG OPLUS [x <- g] x
+
+run(): () = do
+    println("A bracket over V   = " (BIG OPLUS [v <- <| V(1.0), V(2.0) |>] v))
+    println("B bracket numeric  = " (BIG OPLUS [i <- 0#5] i))
+    println("C sugar numeric    = " (BIG OPLUS <| 1, 2, 3 |>))
+    println("D sugar over V     = " (BIG OPLUS <| V(1.0), V(2.0) |>))
+end
+end

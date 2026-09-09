@@ -1,0 +1,58 @@
+(* Probe U (capstone): a runtime-sized two-layer forward pass whose working
+   representation is the LIBRARY's own Vector/Matrix over the user element
+   type Value -- no user-defined container anywhere.
+   Sizes come from ordinary runtime ZZ32 values via NatReflect.reflect. *)
+component p30_capstone
+import NatReflect.{...}
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+relu(x: Value): Value = if x.data > 0.0 then x else Value(0.0) end
+
+mkMat[\nat n, nat m\](wn:N[\n\], wm:N[\m\], f:(ZZ32,ZZ32)->Value): Matrix[\Value,n,m\] =
+    matrix[\Value,n,m\]().fill(f)
+mkVec[\nat n\](wn:N[\n\], f:ZZ32->Value): Vector[\Value,n\] = vector[\Value,n\](f)
+
+run(): () = do
+    nIn:  ZZ32 = 3
+    nHid: ZZ32 = 4
+    nOut: ZZ32 = 2
+
+    w1 = mkMat(reflect(nHid), reflect(nIn),
+               fn (i:ZZ32,j:ZZ32):Value => Value(0.1 (1.0 (i+j))))
+    b1 = mkVec(reflect(nHid), fn (i:ZZ32):Value => Value(-0.5))
+    w2 = mkMat(reflect(nOut), reflect(nHid),
+               fn (i:ZZ32,j:ZZ32):Value => Value(0.25 (1.0 (i+1))))
+    b2 = mkVec(reflect(nOut), fn (i:ZZ32):Value => Value(1.0))
+    x  = mkVec(reflect(nIn),  fn (j:ZZ32):Value => Value(1.0 (j+1)))
+
+    println("x  = " x)
+    println("W1 = " w1)
+    h  = (w1 x) + b1
+    println("W1 x + b1  = " h)
+    hr = h.map[\Value\](relu)
+    println("relu(...)  = " hr)
+    y  = (w2 hr) + b2
+    println("W2 h + b2  = " y)
+
+    println("loss (SUM y_i^2) = " (SUM [ t <- y ] t t))
+    w1tt = (w1.t()).t()
+    println("transpose round-trip w1.t().t()[0,2] = w1[0,2]?  " (w1tt[0,2] = w1[0,2]))
+
+    (* plain RR64 arithmetic still behaves in the same program *)
+    println("sanity: 2.0 + 3.0 = " (2.0 + 3.0) ", SQRT 2.0 = " (SQRT 2.0))
+    r: RR64[3] = [1.0 2.0 3.0]
+    println("sanity: RR64 vector still works: " (r + r) ", r DOT r = " (r DOT r))
+  end
+end

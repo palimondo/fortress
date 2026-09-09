@@ -1,0 +1,15 @@
+component p3b_coerce_fn
+export Executable
+
+trait U
+  coerce(b: ZZ32) = W(b 1.0)
+end
+object W(d: RR64) extends U
+  getter asString(): String = "W(" d ")"
+end
+f(u: U): String = "f got " u
+run() = do
+  println(f(W(1.0)))
+  println(f(3))
+end
+end

@@ -1,0 +1,11 @@
+component p04b
+export Executable
+object V(data: RR64)
+  getter asString(): String = "V " self.data.asString
+  opr -(self): V = V(-data)
+end
+run() = do
+  a = V(2.0)
+  println("p04b " (-a))
+end
+end

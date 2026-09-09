@@ -1,0 +1,26 @@
+(* Baseline 1b: RR64 vector construction with EXPLICIT LHS types,
+   after "Can't infer element type for array construction". *)
+component p02_rr64_vec_construct2
+export Executable
+
+run(): () = do
+    (* (a) array literal, LHS typed with the abbreviated array type *)
+    a: RR64[4] = [1.0 2.0 3.0 4.0]
+    println("a  = " a)
+    println("|a| = " |a|)
+    println("a[2] = " a[2])
+    typecase a of
+        AnyVector => println("a IS an AnyVector")
+        else      => println("a is NOT an AnyVector")
+    end
+
+    (* (b) array literal, LHS typed as the library Vector trait *)
+    b: Vector[\RR64,4\] = [1.0 2.0 3.0 4.0]
+    println("b  = " b)
+    println("b[2] = " b[2])
+    typecase b of
+        AnyVector => println("b IS an AnyVector")
+        else      => println("b is NOT an AnyVector")
+    end
+  end
+end

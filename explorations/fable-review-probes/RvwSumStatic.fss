@@ -1,0 +1,17 @@
+component RvwSumStatic
+import List.{...}
+export Executable
+object V(x: RR64)
+  opr +(self, o: V): V = V(x + o.x)
+end
+object SumV extends CommutativeMonoidReduction[\V\]
+  getter asString(): String = "SumV"
+  empty(): V = V(0)
+  join(a: V, b: V): V = a + b
+end
+opr SUM[\T extends V\](): BigReduction[\V, V\] = BigReduction[\V, V\](SumV)
+run(): () = do
+  println("nofix accepted next to the library's: " (SUM[v <- <|[\V\] V(1), V(2) |>] v).x)
+  println("library SUM on numbers: " (SUM[i <- 1:3] i))
+end
+end

@@ -1,0 +1,6 @@
+component p00_hello
+export Executable
+run(): () = do
+  println("builtin SUM = " (SUM[i <- 0#5] i))
+end
+end

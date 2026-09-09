@@ -1,0 +1,15 @@
+component NotationNumberBound
+export Executable
+
+(* Negative probe: the library's Vector requires T extends Number, while
+   Number comprises only RR64 and its arithmetic returns RR64.  Retain the
+   compiler result from this probe as evidence; do not "repair" D by adding
+   meaningless numeric methods. *)
+object D(v:RR64)
+end
+
+run():() = do
+  v:Vector[\D,2\] = vector[\D,2\](fn (i:ZZ32) => D(1.0 i))
+  println(v)
+end
+end

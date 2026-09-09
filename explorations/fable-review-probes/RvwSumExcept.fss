@@ -1,0 +1,20 @@
+component RvwSumExcept
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+export Executable
+object V(x: RR64)
+  opr +(self, o: V): V = V(x + o.x)
+end
+object SumV extends CommutativeMonoidReduction[\V\]
+  getter asString(): String = "SumV"
+  empty(): V = V(0)
+  join(a: V, b: V): V = a + b
+end
+opr SUM(): BigReduction[\V, V\] = BigReduction[\V, V\](SumV)
+opr SUM(g: Generator[\V\]): V = g.generate[\V\](SumV, fn (v: V) => v)
+run(): () = do
+  println("nofix: " (SUM[v <- <|[\V\] V(1), V(2) |>] v).x)
+  println("prefix: " (SUM <|[\V\] V(1), V(2), V(3) |>).x)
+  println("plain numbers still sum by hand: " (1 + 2))
+end
+end

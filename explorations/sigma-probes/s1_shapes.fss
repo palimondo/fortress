@@ -1,0 +1,154 @@
+(* S1: the shapes microgpt2 actually needs from a user-space SUM over the
+   autodiff node.  Miniature of the real engine: a ring-valued Value with a
+   tape, a RowLike/Vec/Mat carrier trio, and every syntactic position where
+   the flagship file would write Sigma.
+
+   Questions answered here:
+     Q1  does  SUM[m <- u.indices] u[m] w[m]  parse (juxtaposed body)?
+     Q2  does  <| SUM[...] ... | c <- ... |>  parse (Sigma inside a
+         comprehension whose separator is also a bar)?
+     Q3  is  join(empty(), x)  ever called for a NON-empty generator
+         (i.e. do we need the ZZ32-identity overloads at all)?
+     Q4  does the numeric SUM still work in the same component?
+     Q5  do the OTHER big operators (BIG MAX, BIG AND) survive the
+         `except { opr BIG + }` import?
+     Q6  does anything the carriers already had break -- carrier `=` (the
+         HasRank reflexive-false landmine), |.|, [.], zip, generator
+         integration, nested and multi-generator reductions?
+
+   ANSWERS (transcript: scratchpad sigma-adoption/s1-transcript.txt): all
+   yes/none.  Q1c: seq and non-seq folds are bit-identical here.  Q3: an
+   UNFILTERED reduction over n elements performs exactly n-1 joins and
+   never calls empty(), so no identity node enters the tape; a FILTERED
+   one calls empty() once and joins the numeric 0 in, which is why the two
+   identity `opr +` overloads exist.  microgpt2 has no filtered and no
+   empty Sigma. *)
+component s1_shapes
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+export Executable
+
+var joinCalls: ZZ32 := 0
+var emptyCalls: ZZ32 := 0
+
+object Value(var data: RR64, children: List[\Value\], grads: List[\RR64\])
+       extends { MultiplicativeRing[\Value\], StandardMax[\Value\] }
+  getter one(): Value = konst(1.0)
+  getter asString(): String = "Value(" data ")"
+  var grad: RR64 := 0.0
+  opr +(self, o: Value): Value = Value(data + o.data, <| self, o |>, <|[\RR64\] 1.0, 1.0|>)
+  opr +(self, c: RR64): Value = Value(data + c, <| self |>, <|[\RR64\] 1.0|>)
+  opr TIMES(self, o: Value): Value =
+    Value(data o.data, <| self, o |>, <|[\RR64\] o.data, data|>)
+  opr -(self): Value = Value(-data, <| self |>, <|[\RR64\] -1.0|>)
+  opr /(self, o: Value): Value =
+    Value(data / o.data, <| self, o |>,
+          <|[\RR64\] 1.0 / o.data, (-data) / (o.data o.data)|>)
+  opr MAX(self, o: Value): Value = if data >= o.data then self else o end
+end
+
+konst(d: RR64): Value = Value(d, emptyList[\Value\](), emptyList[\RR64\]())
+
+(* the identity element of PlusReduction is the numeric 0; it cannot know
+   Value's own zero, so Value must accept it on either side. *)
+opr +(z: ZZ32, v: Value): Value = do joinCalls := joinCalls + 1000; v + (z 1.0) end
+opr +(v: Value, z: ZZ32): Value = do joinCalls := joinCalls + 1000000; v + (z 1.0) end
+
+object PlusReduction extends CommutativeMonoidReduction[\Any\]
+  getter asString(): String = "PlusReduction"
+  empty(): Any = do emptyCalls := emptyCalls + 1; 0 end
+  join(a: Any, b: Any): Any = do joinCalls := joinCalls + 1; a + b end
+end
+
+opr SUM[\T\](): BigReduction[\Any,Any\] = BigReduction[\Any,Any\](PlusReduction)
+opr SUM[\T\](g: Generator[\T\]) = SUM [x <- g] x
+
+trait RowLike extends { Rank1, ZeroIndexed[\Value\], DelegatedIndexed[\Value,ZZ32\] }
+  xs: List[\Value\]
+  getter indices(): Generator[\ZZ32\] = 0 # |self.xs|
+  opr |self| : ZZ32 = |self.xs|
+  opr [i: ZZ32]: Value = (self.xs)[i]
+end
+
+object Vec(xs: List[\Value\]) extends { RowLike, AdditiveGroup[\Vec\] }
+  getter asString(): String = "Vec" xs
+  opr +(self, y: Vec): Vec = Vec(<| u + w | (u, w) <- self.zip[\Value\](y) |>)
+  opr -(self): Vec = Vec(<| -u | u <- xs |>)
+  opr =(self, y: Vec): Boolean =
+    (|xs| = |y|) AND (BIG AND[m <- self.indices] ((xs[m]).data = y[m].data))
+end
+
+object ProbDist(xs: List[\Value\]) extends { RowLike } end
+
+object Mat(rows: List[\Vec\])
+    extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |rows|
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+  opr =(self, y: Mat): Boolean =
+    (|rows| = |y|) AND (BIG AND[i <- self.indices] (rows[i] = y[i]))
+end
+
+(* Q1: juxtaposed body, no parens *)
+opr DOT(u: Vec, w: Vec): Value = SUM[m <- u.indices] u[m] w[m]
+
+(* Q1b: the seq-ed variant, for the determinism comparison *)
+dotSeq(u: Vec, w: Vec): Value = SUM[m <- seq(u.indices)] u[m] w[m]
+
+opr juxtaposition(w: Mat, x: Vec): Vec = Vec(<| r DOT x | r <- w |>)
+
+(* Q2: Sigma inside a bar comprehension, no parens around the reduction *)
+opr juxtaposition(p: RowLike, m: Mat): Vec =
+  Vec(<| SUM[j <- p.indices] p[j] (m[j])[c] | c <- (m[0]).indices |>)
+
+vec(ds: List[\RR64\]): Vec = Vec(<| konst(d) | d <- ds |>)
+
+run(): () = do
+  u = vec(<|[\RR64\] 1.0, 2.0, 3.0 |>)
+  w = vec(<|[\RR64\] 4.0, 5.0, 6.0 |>)
+  println("Q1  u DOT w                    = " (u DOT w).data "   (expect 32.0)")
+  println("Q1b dotSeq(u, w)               = " (dotSeq(u, w)).data)
+  println("Q1c bit-identical?             = " ((u DOT w).data = (dotSeq(u, w)).data))
+
+  m = Mat(<| vec(<|[\RR64\] 1.0, 2.0 |>), vec(<|[\RR64\] 3.0, 4.0 |>), vec(<|[\RR64\] 5.0, 6.0 |>) |>)
+  println("Q2  u m (RowLike x Mat)        = " (u m) "   (expect 22, 28)")
+  p = ProbDist((vec(<|[\RR64\] 0.5, 0.5, 0.0 |>)).xs)
+  println("Q2b p m (ProbDist on the left) = " (p m) "   (expect 2, 3)")
+
+  joinCalls := 0
+  emptyCalls := 0
+  s = SUM[x <- u] x
+  println("Q3  SUM over 3 Values          = " s)
+  println("Q3  joinCalls (n-1 = 2 means no identity join) = " joinCalls)
+  println("Q3  emptyCalls                 = " emptyCalls)
+
+  joinCalls := 0
+  emptyCalls := 0
+  f = SUM[x <- u, x.data > 1.5] x
+  println("Q3b filtered SUM               = " f)
+  println("Q3b joinCalls                  = " joinCalls)
+  println("Q3b emptyCalls                 = " emptyCalls)
+
+  joinCalls := 0
+  println("Q4  numeric SUM over RR64      = " (SUM[i <- seq(0#4)] (i 1.5)))
+  println("Q4b numeric SUM over ZZ32      = " (SUM[i <- 0#5] i))
+  println("Q4c numeric SUM, empty         = " (SUM[i <- 0#0] i))
+  println("Q4d SUM over a Vec generator   = " (SUM[x <- u] x).data)
+  println("Q4e sugar SUM over a list      = " (SUM <|[\ZZ32\] 1, 2, 3|>))
+  println("Q5  BIG MAX still open         = " (BIG MAX[i <- 0#5] i))
+  println("Q5b BIG AND still open         = " (BIG AND[i <- 0#5] (i < 9)))
+
+  (* Q6: nothing the carriers already had may break under the except import *)
+  println("Q6  Vec = Vec (reflexive)      = " (u = u) "  (HasRank default is false)")
+  println("Q6b Vec = other                = " (u = w))
+  println("Q6c Mat = Mat (reflexive)      = " (m = m))
+  println("Q6d |u|, u[1]                  = " |u| ", " (u[1]).data)
+  println("Q6e zip on Vec                 = " (u + w))
+  println("Q6f u.indices                  = " (<| i | i <- u.indices |>))
+  println("Q6g BIG MAX over a Vec         = " (BIG MAX[x <- u] x).data)
+  println("Q6h nested Sigma over Values   = "
+          (SUM[i <- 0#3] (SUM[j <- 0#3] konst((i j) 1.0))).data "  (expect 9)")
+  println("Q6i two-generator Sigma        = "
+          (SUM[i <- 0#3, j <- 0#3] konst((i j) 1.0)).data "  (expect 9)")
+end
+end

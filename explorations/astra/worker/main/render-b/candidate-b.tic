@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\begin{document}\begin{preview}\begin{minipage}{17cm}
+\textbf{Candidate B: tight division and the same executed formulas}\\
+$y_i=\sum_j A_{ij}x_j$; Python: \texttt{[sum(wi*xi for wi,xi in zip(row,x)) for row in W]}
+`
+opr juxtaposition(A:Mat,x:Vec):Vec = Vec(A.m,fn i => SUM[j <- 0#A.n] A[i,j] x[j])
+`
+$p_i=\frac{e^{x_i-m}}{\sum_j e^{x_j-m}}$; $\operatorname{RMSNorm}(x)=\frac{x}{\sqrt{(x\cdot x)/n+10^{-5}}}$.
+\\Python: \texttt{exps=[(v-max\_val).exp() for v in logits]; [e/sum(exps) for e in exps]}
+`
+softmax(x:Vec):Vec = do
+  e = exp(x-maximum(x))
+  e/(SUM[i <- 0#x.n] e[i])
+end
+rmsnorm(x:Vec):Vec = x/(SQRT((x x)/x.n+0.00001))
+`
+$a=\operatorname{softmax}\left(\frac{Kq}{\sqrt{d_h}}\right)$; $o_j=\sum_t a_tV_{tj}$.
+\\Python: \texttt{[sum(weights[t]*vh[t][j] for t in range(T)) for j in range(s)]}
+`
+attention(q:Vec,K:Mat,V:Mat):Vec = do
+  a = softmax((K q)/(SQRT(q.n)))
+  Vec(V.n,fn j => SUM[t <- 0#V.m] a[t] V[t,j])
+end
+
+`
+\end{minipage}\end{preview}\end{document}

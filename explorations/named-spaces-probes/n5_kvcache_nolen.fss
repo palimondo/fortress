@@ -1,0 +1,58 @@
+(* Q3 probe: the one place in microgpt2.fss where the SAME spelled type means
+   two different things.  List[\Mat\] is BOTH
+     - the per-head weight bundle   _Wq, _Wk, _Wv : List[\Mat\]   (line 219)
+     - the per-head KV history      kh, vh        : List[\Mat\]   (line 230)
+   and forward's return type is the opaque (Vec, List[\Mat\], List[\Mat\]).
+   With no `type` alias, a carrier object is again the route -- and here it is
+   cheap, because a KV cache is only ever indexed by head and extended at the
+   right, exactly the two operations a carrier declares in two lines. *)
+component n5_kvcache_nolen
+import List.{...}
+export Executable
+
+object Vec(xs: List[\RR64\])
+    extends { Rank1, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |xs|
+  getter asString(): String = "Vec" xs
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: RR64 = xs[i]
+end
+
+object Mat(rows: List[\Vec\])
+    extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |rows|
+  getter asString(): String = "Mat" rows
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+  addRight(k: Vec): Mat = Mat(rows.addRight(k))
+end
+
+(* the named space: one cache, one Mat of history per head *)
+object KVCache(heads: List[\Mat\])
+    extends { ZeroIndexed[\Mat\], DelegatedIndexed[\Mat,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |heads|
+  getter asString(): String = "KVCache" heads
+  opr [h: ZZ32]: Mat = heads[h]
+  extend(ks: List[\Vec\]): KVCache =
+    KVCache(<| (heads[h]).addRight(ks[h]) | h <- self.indices |>)
+end
+
+emptyCache(nh: ZZ32): KVCache = KVCache(<| Mat(emptyList[\Vec\]()) | h <- 0#nh |>)
+
+(* before:  forward(...) : (Vec, List[\Mat\], List[\Mat\])
+   after :  forward(...) : (Vec, KVCache, KVCache)                        *)
+step(nHead: ZZ32, x: Vec, kh: KVCache, vh: KVCache): (Vec, KVCache, KVCache) = do
+  K = kh.extend(<| x | h <- 0#nHead |>)
+  V = vh.extend(<| x | h <- 0#nHead |>)
+  (x, K, V)
+end
+
+run() = do
+  x = Vec(<|[\RR64\] 1.0, 2.0|>)
+  (y, K, V) = step(2, x, emptyCache(2), emptyCache(2))
+  (y2, K2, V2) = step(2, x, K, V)
+  println("K after two steps = " K2)
+  println("|K2[0]| = " |K2[0]|)
+end
+
+end

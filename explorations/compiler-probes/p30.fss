@@ -1,0 +1,5 @@
+component p30
+export Executable
+f[\T\](x: T): T = x
+run() = println("p30 " f[\ZZ32\](7))
+end

@@ -1,0 +1,10 @@
+component RvwNatArray
+export Executable
+f[\nat n\](a: RR64[n]): ZZ32 = n
+g(a: RR64[3]): ZZ32 = 3
+run(): () = do
+  a = array[\RR64\](3).fill(1.5)
+  println("literal size: " g(a))
+  println("nat param:    " f(a))
+end
+end

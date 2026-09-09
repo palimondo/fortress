@@ -1,0 +1,22 @@
+(* Probe P: spec-promised operators that the library may or may not have.
+   Specification/basic/operators/opr-overview.tex:
+     :57      "||  || is used to compute the norm of a vector or matrix"
+     :75-77   e^k for a VECTOR = repeated vector multiplication
+     :79-81   e^k for a square MATRIX = repeated matrix multiplication
+     :86-90   "The superscript operator ^T transposes a matrix. It also
+               converts a column vector to a row vector..."
+   Run on plain RR64 first, so any failure is not the user type's fault. *)
+component p25_spec_gaps
+export Executable
+
+run(): () = do
+    m: RR64[2,2] = [1.0 2.0; 3.0 4.0]
+    v: RR64[2]   = [3.0 4.0]
+
+    println("||v||  = " ||v||)            (* vector norm: expected OK *)
+    (* "m^T" and "v^T" both -> "Operator postfix ^T is not defined." *)
+
+    println("m^2    = " (m^2))            (* repeated matrix multiplication *)
+    println("||m||  = " ||m||)            (* matrix norm *)
+  end
+end

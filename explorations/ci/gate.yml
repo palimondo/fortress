@@ -1,0 +1,57 @@
+# The modernization gate: clean build + both test suites on the JDK of the
+# current gated rung (see explorations/modernization-plan.md). Bump the JDK
+# here when a JDK rung lands on main.
+name: gate
+
+on:
+  push:
+    branches:
+      - main
+      - 'claude/**'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+      FORTRESS_HOME: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install JDK and ant
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-8-jdk-headless ant
+
+      - name: Clean build
+        run: |
+          export PATH="$JAVA_HOME/bin:$PATH"
+          ant clean compileAll
+
+      - name: testSystem (382 interpreter tests)
+        run: |
+          export PATH="$JAVA_HOME/bin:$PATH"
+          rm -rf default_repository/caches/*
+          ant testSystem
+
+      - name: testFast (unit + compiler suites)
+        run: |
+          export PATH="$JAVA_HOME/bin:$PATH"
+          rm -rf default_repository/caches/*
+          ant testFast
+
+      - name: Publish test results on failure
+        if: failure()
+        run: |
+          for f in ProjectFortress/TEST-RESULTS/TEST-*.txt; do
+            [ -e "$f" ] || continue
+            if grep -qE 'Failures: [1-9]|Errors: [1-9]' "$f"; then
+              echo "=== $f ==="
+              cat "$f"
+            fi
+          done

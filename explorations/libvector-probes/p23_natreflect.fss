@@ -1,0 +1,52 @@
+(* Probe N: the sanctioned runtime-size -> static-nat bridge,
+   ProjectFortress/LibraryBuiltin/NatReflect.fss:
+     trait NatParam ... value object N[\nat n\] extends { NatParam }
+     reflect(z:ZZ32):NatParam
+   FortressLibrary.fss:1922 uses exactly this for array[\E\](x:ZZ32).
+   Can a USER program use it to build a library Vector/Matrix of Value
+   at a runtime-chosen size, and then run the full algebra on it? *)
+component p23_natreflect
+import NatReflect.{...}
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+(* Hoisted, because the nat parameter can only be bound by a
+   top-level generic function taking N[\n\]. *)
+mkVec[\nat n\](w:N[\n\], f:ZZ32->Value): Vector[\Value,n\] = vector[\Value,n\](f)
+
+mkSquare[\nat n\](w:N[\n\], f:(ZZ32,ZZ32)->Value): Matrix[\Value,n,n\] =
+    matrix[\Value,n,n\]().fill(f)
+
+sz: ZZ32 = 5
+
+run(): () = do
+    v = mkVec(reflect(sz), fn (i:ZZ32):Value => Value(1.0 (i+1)))
+    println("mkVec(reflect(" sz ")) = " v)
+    typecase v of
+        AnyVector => println("v IS an AnyVector")
+        else      => println("v is NOT an AnyVector")
+    end
+
+    m = mkSquare(reflect(sz), fn (i:ZZ32,j:ZZ32):Value =>
+            if i=j then Value(2.0) else Value(0.0) end)
+    println("mkSquare(reflect(" sz ")) = " m)
+
+    println("m v     = " (m v))
+    println("v m     = " (v m))
+    println("m.t()   = " m.t())
+    println("v DOT v = " (v DOT v))
+    println("v + v   = " (v + v))
+    println("SUM     = " (SUM [ x <- v ] x))
+  end
+end

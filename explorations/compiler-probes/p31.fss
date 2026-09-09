@@ -1,0 +1,10 @@
+component p31
+export Executable
+run() = do
+  r = label L
+    for i <- seq(1#10) do if i = 5 then exit L with i end end
+    0
+  end L
+  println("p31 " r)
+end
+end

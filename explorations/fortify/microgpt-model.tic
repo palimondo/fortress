@@ -1,0 +1,26 @@
+% rmsnorm and softmax from explorations/microgpt.fss, typeset by Fortify.
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`rmsnorm(x: Array[\V,ZZ32\], n: ZZ32): Array[\V,ZZ32\] = do
+  var ms: V := konst(0.0)
+  for i <- seq(0#n) do ms := ms + (x[i] DOT x[i]) end
+  ms := ms DOT konst(1.0 / (n 1.0))
+  scale = (ms + konst(0.00001)).pow(-0.5)
+  array[\V\](n).fill(fn (i: ZZ32) => x[i] DOT scale)
+end
+
+softmaxA(x: Array[\V,ZZ32\], n: ZZ32): Array[\V,ZZ32\] = do
+  var mx: RR64 := x[0].data
+  for i <- seq(1#(n - 1)) do if x[i].data > mx then mx := x[i].data end end
+  exps = array[\V\](n).fill(fn (i: ZZ32) => (x[i] - konst(mx)).expV())
+  var tot: V := konst(0.0)
+  for i <- seq(0#n) do tot := tot + exps[i] end
+  inv = tot.pow(-1.0)
+  array[\V\](n).fill(fn (i: ZZ32) => exps[i] DOT inv)
+end`
+\end{preview}
+\end{document}

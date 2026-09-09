@@ -1,0 +1,27 @@
+% The Value autodiff object from explorations/microgpt.fss, typeset by
+% Fortify. Regenerate:
+%   bin/fortick explorations/fortify/microgpt-value.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex microgpt-value.tex
+%   dvisvgm --no-fonts --exact-bbox -o microgpt-value-light.svg microgpt-value.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`object V(var data: RR64, children: List[\V\], grads: List[\RR64\])
+  var grad: RR64 := 0.0
+  var visited: Boolean := false
+  opr +(self, o: V): V = V(data + o.data, <|[\V\] self, o|>, <|[\RR64\] 1.0, 1.0|>)
+  opr DOT(self, o: V): V = V(data o.data, <|[\V\] self, o|>, <|[\RR64\] o.data, data|>)
+  opr -(self): V = self DOT konst(-1.0)
+  opr -(self, o: V): V = self + (-o)
+  pow(n: RR64): V = V(data^n, <|[\V\] self|>, <|[\RR64\] n data^(n-1.0)|>)
+  ln(): V = V(log data, <|[\V\] self|>, <|[\RR64\] 1.0/data|>)
+  expV(): V = V(exp data, <|[\V\] self|>, <|[\RR64\] exp data|>)
+  relu(): V = if data > 0.0
+              then V(data, <|[\V\] self|>, <|[\RR64\] 1.0|>)
+              else V(0.0, <|[\V\] self|>, <|[\RR64\] 0.0|>) end
+end`
+\end{preview}
+\end{document}

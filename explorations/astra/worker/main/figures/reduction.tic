@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$\sum_i x_i$: identity $0$, combination $+$, scalar graph retained.
+`
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+  empty():V = constant(0.0)
+  join(x:V,y:V):V = x + y
+end
+opr SUM():Comprehension[\V,V,V,V\] =
+  Comprehension[\V,V,V,V\](fn (x:V) => x,VSumReduction,fn (x:V) => x)
+`
+\end{minipage}\end{preview}\end{document}

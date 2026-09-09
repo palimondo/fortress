@@ -1,0 +1,50 @@
+(* Q5b: where the 11 ms goes.  100 reps of each piece at n=16.
+   TransposedMatrix (FortressLibrary.fss:2571) is a VIEW, so .t() should be O(1). *)
+component p14
+export Executable
+
+ms(a: ZZ64, b: ZZ64): RR64 = (((b - a) asif RR64) / 1000000.0 / 100.0)
+
+run(): () = do
+    W: Matrix[\RR64,16,16\] =
+        matrix[\RR64,16,16\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => 1.0/(1.0+i+j))
+    x: Vector[\RR64,16\] = vector[\RR64,16\](fn (i:ZZ32):RR64 => 1.0/(1.0+i))
+    g: Vector[\RR64,16\] = vector[\RR64,16\](fn (i:ZZ32):RR64 => 1.0 (i+1))
+    reps: ZZ32 = 100
+    var c: RR64 := 0.0
+
+    t0 = nanoTime()
+    for r <- seq(0#reps) do c := c + (W x)[0] end
+    t1 = nanoTime()
+    println("W x            ms/op = " ms(t0,t1))
+
+    t2 = nanoTime()
+    for r <- seq(0#reps) do do wt = W.t(); c := c + wt[0,1] end end
+    t3 = nanoTime()
+    println("W.t()          ms/op = " ms(t2,t3))
+
+    t4 = nanoTime()
+    for r <- seq(0#reps) do c := c + (W.t() g)[0] end
+    t5 = nanoTime()
+    println("W.t() g        ms/op = " ms(t4,t5))
+
+    t6 = nanoTime()
+    for r <- seq(0#reps) do
+        do o = matrix[\RR64,16,16\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => g[i] x[j]); c := c + o[0,0] end
+    end
+    t7 = nanoTime()
+    println("outer g x^T    ms/op = " ms(t6,t7))
+
+    t8 = nanoTime()
+    for r <- seq(0#reps) do c := c + (SUM [ e <- x ] e e) end
+    t9 = nanoTime()
+    println("SUM x_i^2      ms/op = " ms(t8,t9))
+
+    ta = nanoTime()
+    for r <- seq(0#reps) do c := c + (W + W)[0,0] end
+    tb = nanoTime()
+    println("W + W          ms/op = " ms(ta,tb))
+
+    println("checksum " c)
+  end
+end

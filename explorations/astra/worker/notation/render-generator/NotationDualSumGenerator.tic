@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`component NotationDualSumGenerator
+import List.{...}
+export Executable
+
+object D(v:RR64, d:RR64)
+end
+opr +(x:D, y:D):D = D(x.v+y.v, x.d+y.d)
+
+object DSumReduction extends CommutativeMonoidReduction[\D\]
+  empty():D = D(0.0,0.0)
+  join(x:D,y:D):D = x+y
+end
+
+(* A one-argument overload avoids the zero-argument collision used by
+   generator-clause desugaring.  Test whether SUM <| ... |> can retain the
+   ordinary summation glyph for graph scalars. *)
+opr SUM(g:Generator[\D\]):D = g.reduce(DSumReduction)
+
+run():() = do
+  s:D = SUM <|[\D\] D(1.0 i, 1.0) | i <- 1#4 |>
+  println(s.v)
+  println(s.d)
+end
+end
+`
+\end{preview}
+\end{document}

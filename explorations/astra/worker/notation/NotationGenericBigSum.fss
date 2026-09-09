@@ -1,0 +1,27 @@
+component NotationGenericBigSum
+export Executable
+
+object D(v:RR64, d:RR64) extends AdditiveGroup[\D\]
+  getter zero():D = D(0.0,0.0)
+  opr +(self, y:D):D = D(v+y.v, d+y.d)
+end
+
+object AddReduction[\T extends AdditiveGroup[\T\]\] extends CommutativeReduction[\T\]
+  simpleJoin(x:Any,y:Any):Any = do
+    x':T = cast[\T\](x)
+    y':T = cast[\T\](y)
+    x'+y'
+  end
+end
+
+(* Identity-less reduction permits a generic big SUM without requiring a
+   run-time witness solely to obtain zero. *)
+opr SUM[\T extends AdditiveGroup[\T\]\](): Comprehension[\T,T,T,AnyMaybe\] =
+  Comprehension[\T,T,T,AnyMaybe\](fn (x:T) => x, AddReduction[\T\], fn (x:T) => x)
+
+run():() = do
+  s:D = SUM[\D\][i <- 1#4] D(1.0 i, 1.0)
+  println(s.v)
+  println(s.d)
+end
+end

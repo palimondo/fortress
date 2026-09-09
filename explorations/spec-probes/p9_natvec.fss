@@ -1,0 +1,36 @@
+component p9_natvec
+export Executable
+
+(* spec-style dimensioned vector: a user object with a nat static parameter,
+   the shape Specification/basic/expressions/aggregate.tex describes for
+   Vector[\T\][n] and FortressLibrary.fss:2189 implements for Number. *)
+object V(var data: RR64) getter asString(): String = "V(" data ")" end
+
+object Vn[\nat n\](xs: Array[\V,ZZ32\])
+  getter asString(): String = "Vn[" n "]"
+  opr |self| : ZZ32 = n
+  opr [i: ZZ32]: V = xs[i]
+end
+
+mk[\nat n\](f: ZZ32 -> V): Vn[\n\] = Vn[\n\](array[\V\](n).fill(f))
+
+(* dimension-checked: only same-n vectors add *)
+opr +[\nat n\](a: Vn[\n\], b: Vn[\n\]): Vn[\n\] =
+  mk[\n\](fn (i: ZZ32) => V(a[i].data + b[i].data))
+
+run() = do
+  p = mk[\3\](fn (i: ZZ32) => V(i 1.0))
+  q = mk[\3\](fn (i: ZZ32) => V(10.0))
+  r = p + q
+  println("r[2] = " r[2] "  |r| = " |r|)
+  s = mk[\2\](fn (i: ZZ32) => V(1.0))
+  println("SQRT 4 = " (SQRT 4))
+  println("SQRT 4.0 = " (SQRT 4.0))
+  (* typecase *)
+  x: Object = 3
+  typecase x of
+    ZZ32 => println("typecase: ZZ32")
+    else => println("typecase: other")
+  end
+end
+end

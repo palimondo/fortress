@@ -1,0 +1,7 @@
+component p32
+export Executable
+run() = do
+  t = spawn do 40 + 2 end
+  println("p32 " t.val())
+end
+end

@@ -1,0 +1,22 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$m\leftarrow\beta_m m+(1-\beta_m)g,\quad v\leftarrow\beta_v v+(1-\beta_v)g^2$\\$p\leftarrow p-\alpha\widehat m/(\sqrt{\widehat v}+10^{-8})$
+\begin{FortressCode}
+\VAR{adam}(\+p\COLON\TYP{Array}\llbracket\mathbb{R}64,\mathbb{Z}32\rrbracket,g\COLON\TYP{Array}\llbracket\mathbb{R}64,\mathbb{Z}32\rrbracket, \\
+     m\COLON\TYP{Array}\llbracket\mathbb{R}64,\mathbb{Z}32\rrbracket,v\COLON\TYP{Array}\llbracket\mathbb{R}64,\mathbb{Z}32\rrbracket,n\COLON\mathbb{Z}32,\VAR{step}\COLON\mathbb{Z}32,\VAR{total}\COLON\mathbb{Z}32)\COLON(\ultrathin) =\; \KWD{do}\- \\
+\2\+\beta_{\mathrm{m}} = 0.85; \beta_{\mathrm{v}} = 0.99 \\
+  \alpha = 0.01\, \left(1.0-{\textstyle\VAR{step}-1\over\textstyle1.0\, \VAR{total}}\right) \\
+  \KWD{for} i \leftarrow 0\mathbin{\#}n \KWD{do} \\
+  \2\+m_{i} \ASSIGN \beta_{\mathrm{m}}\, m_{i} + (1.0-\beta_{\mathrm{m}})\, g_{i} \\
+    v_{i} \ASSIGN \beta_{\mathrm{v}}\, v_{i} + (1.0-\beta_{\mathrm{v}})\, (g_{i})^{2.0} \\
+    \hat{m} = {\textstyle{}m_{i}\over\textstyle1.0-\beta_{\mathrm{m}}^{1.0\, \VAR{step}}} \\
+    \hat{v} = {\textstyle{}v_{i}\over\textstyle1.0-\beta_{\mathrm{v}}^{1.0\, \VAR{step}}} \\
+    p_{i} \ASSIGN p_{i} - \alpha {\textstyle\hat{m}\over\textstyle{\textstyle\sqrt{\hat{v}}} + 0.00000001}\- \\
+  \KWD{end}\- \\
+\KWD{end}
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

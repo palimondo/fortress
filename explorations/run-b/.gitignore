@@ -1,0 +1,8 @@
+# rendering byproducts (figure sources are .tic and .svg)
+**/*.tex
+**/*.dvi
+**/*.aux
+**/*.log
+# the pinned Python reference is run locally, never committed (license unstated)
+reference/*.py
+reference/__pycache__/

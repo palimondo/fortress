@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$a=\mathrm{softmax}(Kq/\sqrt{d_h}),\quad o_j=\sum_t a_tW_{tj}= (W^\mathsf{T}a)_j$
+\begin{FortressCode}
+\VAR{attention}(q\COLON\TYP{Vec},K\COLON\TYP{Mat},W\COLON\TYP{Mat})\COLON(\TYP{Vec},\TYP{Vec}) =\; \KWD{do} \\
+\2\+a = \VAR{softmax}\left({\textstyle{}K\, q\over\textstyle{\textstyle\sqrt{q.n}}}\right) \\
+  \left(a,\TYP{Vec}\left(W.n,\KWD{fn} j \Rightarrow \sum\limits_{t \leftarrow 0\mathbin{\#}W.m}\, a_{t}\, W_{t,j}\right)\right)\- \\
+\KWD{end} \\
+ \\
+\VAR{transpose}(A\COLON\TYP{Mat})\COLON\TYP{Mat} = \TYP{Mat}\bigl(A.n,A.m,\KWD{fn} (i,j) \Rightarrow A_{j,i}\bigr) \\
+\VAR{attention}(q\COLON\TYP{Vec},K\COLON\TYP{Mat},W\COLON\TYP{Mat})\COLON(\TYP{Vec},\TYP{Vec}) =\; \KWD{do} \\
+\2\+a = \VAR{softmax}\left({\textstyle{}K\, q\over\textstyle{\textstyle\sqrt{q.n}}}\right) \\
+  \bigl(a,\VAR{transpose}(W)\, a\bigr)\- \\
+\KWD{end}
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

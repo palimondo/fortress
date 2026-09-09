@@ -1,0 +1,52 @@
+component tpar2
+export Executable
+
+(* Characterize implicit tuple-parallelism in the interpreter: where the
+   work runs (primordial task vs forked tasks) and what it costs.
+   Companion to explorations/nprobe.fss; results in microgpt-native.md. *)
+
+burn(n: ZZ32): RR64 = do
+  var acc: RR64 := 0.0
+  for i <- seq(1#n) do acc := acc 0.9999999 + 0.0000001 end
+  acc
+end
+
+ms(t0: RR64, t1: RR64): RR64 = (t1-t0) / 1000000.0
+
+run() = do
+  n: ZZ32 = 500000
+  _ = burn(n)  (* warm-up *)
+
+  t0 = nanoTime()
+  a = burn(n)
+  t1 = nanoTime()
+  println("main x1           : " ms(t0,t1) " ms")
+
+  t2 = nanoTime()
+  (b, c) = (burn(n), burn(n))
+  t3 = nanoTime()
+  println("2-tuple           : " ms(t2,t3) " ms")
+
+  t4 = nanoTime()
+  (d, e, f, g) = (burn(n), burn(n), burn(n), burn(n))
+  t5 = nanoTime()
+  println("4-tuple           : " ms(t4,t5) " ms")
+
+  t6 = nanoTime()
+  h = burn(n)
+  t7 = nanoTime()
+  println("main x1 again     : " ms(t6,t7) " ms")
+
+  t8 = nanoTime()
+  (p, z1) = (burn(n), 0)
+  t9 = nanoTime()
+  println("(burn, 0) tuple   : " ms(t8,t9) " ms")
+
+  t10 = nanoTime()
+  (z2, q) = (0, burn(n))
+  t11 = nanoTime()
+  println("(0, burn) tuple   : " ms(t10,t11) " ms")
+
+  println("checksum " (a+b+c+d+e+f+g+h+p+q))
+end
+end

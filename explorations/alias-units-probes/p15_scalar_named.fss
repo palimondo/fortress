@@ -1,0 +1,54 @@
+(* Q3 probe: the SCALAR named space -- Token / TokenId / Position, all of which
+   are ZZ32 in microgpt2.fss (t, i, y, nHead, d_k, blockSize, vocab).
+   With no `type` alias, the only route is again a carrier object.  This probe
+   measures what that costs for a scalar: every use site that was arithmetic or
+   subscripting needs an operator declaration.
+   Compare microgpt2.fss:230-232
+       forward(t: ZZ32, i: ZZ32, ...) = do h0 = _We[t] + _Wp[i] ... *)
+component p15_scalar_named
+import List.{...}
+export Executable
+
+object Vec(xs: List[\RR64\])
+    extends { Rank1, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |xs|
+  getter asString(): String = "Vec" xs
+  opr |self| : ZZ32 = |xs|
+  opr [i: ZZ32]: RR64 = xs[i]
+end
+
+object Mat(rows: List[\Vec\])
+    extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |rows|
+  getter asString(): String = "Mat" rows
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+  (* COST 1: a second subscript overload, one per scalar named space *)
+  opr [t: TokenId]: Vec = rows[t.v]
+  opr [i: Position]: Vec = rows[i.p]
+end
+
+object TokenId(v: ZZ32)
+  getter asString(): String = "t" v
+end
+
+object Position(p: ZZ32)
+  getter asString(): String = "i" p
+end
+
+(* the signature now states the paper's own membership:
+     t in {0..V-1},  i in {0..T-1}                                       *)
+embed(_We: Mat, _Wp: Mat, t: TokenId, i: Position): Vec =
+  Vec(<|[\RR64\] u + w | (u, w) <- (_We[t]).zip[\RR64\](_Wp[i]) |>)
+
+run() = do
+  _We = Mat(<| Vec(<|[\RR64\] 1.0, 2.0|>), Vec(<|[\RR64\] 3.0, 4.0|>) |>)
+  _Wp = Mat(<| Vec(<|[\RR64\] 0.1, 0.2|>), Vec(<|[\RR64\] 0.3, 0.4|>) |>)
+  println("h0 = " embed(_We, _Wp, TokenId(1), Position(0)))
+  (* COST 2: the tokenizer, the sampler and every loop bound now sit on the
+     wrong side of the wrapper -- .v / .p unwrapping at each boundary *)
+  toks = <| TokenId(c) | c <- <|[\ZZ32\] 4, 0, 1|> |>
+  println("token ids = " <|[\ZZ32\] (tk.v) | tk <- toks |>)
+end
+
+end

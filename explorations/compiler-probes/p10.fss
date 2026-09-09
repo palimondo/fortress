@@ -1,0 +1,12 @@
+component p10
+export Executable
+trait Tree comprises { Leaf, Node } end
+object Leaf(v: RR64) extends Tree end
+object Node(a: Tree, b: Tree) extends Tree end
+tsum(t: Leaf): RR64 = t.v
+tsum(t: Node): RR64 = tsum(t.a) + tsum(t.b)
+run() = do
+  t: Tree = Node(Leaf(1.0), Leaf(2.0))
+  println("p10 " tsum(t))
+end
+end

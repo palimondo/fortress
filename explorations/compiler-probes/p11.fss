@@ -1,0 +1,4 @@
+component p11
+export Executable
+run() = println("p11 " (SUM[k <- 0#4] k))
+end

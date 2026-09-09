@@ -1,0 +1,7 @@
+component p18
+export Executable
+run() = do
+  xs = <|[\RR64\] 1.0, 2.0, 3.0 |>
+  println("p18 " xs[1])
+end
+end

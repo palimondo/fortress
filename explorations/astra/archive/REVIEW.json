@@ -1,0 +1,12 @@
+{
+  "destination": "palimondo/fortress",
+  "branch": "codex/astra-microgpt",
+  "archive_sha256": "b9453b0979ff7add95699d8764fa590ffc6d380abcbd2d92ddc29bdab1a2f347",
+  "archive_bytes": 192344,
+  "members_reviewed": 171,
+  "all_members_match_local_sources": true,
+  "coordinator_or_transcript_members": 0,
+  "credential_pattern_findings": [],
+  "scope": "Fortress experiment logs, failed source probes and generated rendering intermediates; no credentials, environment dumps or session transcripts included.",
+  "limits": "A pattern scan cannot prove absence of every possible secret format."
+}

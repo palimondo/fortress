@@ -1,0 +1,6 @@
+component g11
+import List.{...}
+export Executable
+(* do ... end as a comprehension body *)
+run(): () = println(<|[\ZZ32\] do i + 1 end | i <- 0#3 |>)
+end

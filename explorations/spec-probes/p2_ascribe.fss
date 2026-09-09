@@ -1,0 +1,25 @@
+component p2_ascribe
+import List.{...}
+export Executable
+
+object V(var data: RR64, children: List[\V\], grads: List[\RR64\])
+  getter asString(): String = "V(" data ")"
+  opr +(self, o: V): V = V(data + o.data, <| self, o |>, <| 1.0, 1.0 |>)
+  opr -(self): V = V(-data, <| self |>, <| -1.0 |>)
+end
+
+konst(d: RR64): V = V(d, <|[\V\] |>, <|[\RR64\] |>)
+
+sumdata(xs: List[\RR64\]): RR64 = SUM[x <- seq(xs)] x
+
+run() = do
+  a = konst(1.0); b = konst(2.0)
+  c = a + b
+  println("c = " c)
+  println("children " |c.children| " grads " |c.grads|)
+  println("sumdata unascribed literal list = " sumdata(<| 1.0, 2.0, 3.0 |>))
+  (* known counter-example claim: literals stay FloatLiteral *)
+  g: List[\RR64\] = <| 1.0, 1.0 |>
+  println("g[0] = " g[0])
+end
+end

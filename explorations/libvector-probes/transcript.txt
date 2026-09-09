@@ -1,0 +1,916 @@
+Fortress library Vector/Matrix over a user element type -- full probe transcript
+generated: 2026-08-30T09:05:07Z
+FORTRESS_HOME=/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f
+JDK: Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/root/.ccr/java-truststore.p12 -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStoreType=PKCS12 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=44181 -Dhttp.nonProxyHosts=localhost|127.0.0.1|::1|127.*|0.*|::|169.254.*|api.anthropic.com|api-staging.anthropic.com|api-pr-preview.anthropic.com|mcp-proxy.anthropic.com|mcp-proxy-staging.anthropic.com|registry.npmjs.org|jsr.io|npm.jsr.io|pypi.org|files.pythonhosted.org|index.crates.io|proxy.golang.org|host.docker.internal|10.*|172.16.*|172.17.*|172.18.*|172.19.*|172.20.*|172.21.*|172.22.*|172.23.*|172.24.*|172.25.*|172.26.*|172.27.*|172.28.*|172.29.*|172.30.*|172.31.*|192.168.*|100.64.0.0/10|*.svc.cluster.local|*.svc.cluster.local -Djdk.http.auth.tunneling.disabledSchemes= -Djdk.http.auth.proxying.disabledSchemes=
+FORTRESS_THREADS=1
+
+########## RUN: p00_smoke.fss ##########
+smoke ok
+########## EXIT: 0 ##########
+
+########## RUN: p01_rr64_vec_construct.fss ##########
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p01_rr64_vec_construct.fss:7:5:
+Can't infer element type for array construction
+Context:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p01_rr64_vec_construct.fss:7:5:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p02_rr64_vec_construct2.fss ##########
+a  = [0#4][ 1.0 2.0 3.0 4.0 ]
+|a| = 4
+a[2] = 3.0
+a IS an AnyVector
+b  = [0#4][ 1.0 2.0 3.0 4.0 ]
+b[2] = 3.0
+b IS an AnyVector
+########## EXIT: 0 ##########
+
+########## RUN: p03_rr64_vec_factory.fss ##########
+|vector[RR64,4]()| = 4
+after manual zero fill: [0#4][ 0.0 0.0 0.0 0.0 ]
+w = vector[RR64,4](2.5)   -> [0#4][ 2.5 2.5 2.5 2.5 ]
+w[1] = 2.5, |w| = 4
+u = vector[RR64,4](fn i)  -> [0#4][ 10.0 20.0 30.0 40.0 ]
+u IS an AnyVector
+########## EXIT: 0 ##########
+
+########## RUN: p04_rr64_vec_ops.fss ##########
+u        = [0#3][ 1.0 2.0 3.0 ]
+v        = [0#3][ 10.0 20.0 30.0 ]
+u + v    = [0#3][ 11.0 22.0 33.0 ]
+u - v    = [0#3][ -9.0 -18.0 -27.0 ]
+-u       = [0#3][ -1.0 -2.0 -3.0 ]
+u.scale(2.0)  = [0#3][ 2.0 4.0 6.0 ]
+2.0 u    = [0#3][ 2.0 4.0 6.0 ]
+u 2.0    = [0#3][ 2.0 4.0 6.0 ]
+u DOT v  = 140.0
+u v      = 140.0
+u.dot(v) = 140.0
+pmul     = [0#3][ 10.0 40.0 90.0 ]
+||u||    = 3.7416573867739413
+squaredNorm(u) = 14.0
+########## EXIT: 0 ##########
+
+########## RUN: p05_rr64_vec_gen.fss ##########
+SUM over elements       = 10.0
+SUM of squares          = 30.0
+SUM over indexValuePairs= 10.0
+PROD over elements      = 24.0
+BIG MAX over elements   = 4.0
+set comprehension       = {1.0,4.0,9.0,16.0}
+list comprehension      = <|1.0, 4.0, 9.0, 16.0|>
+elem 1.0
+elem 2.0
+elem 3.0
+elem 4.0
+ivp 0 -> 1.0
+ivp 1 -> 2.0
+ivp 2 -> 3.0
+ivp 3 -> 4.0
+########## EXIT: 0 ##########
+
+########## RUN: p06_rr64_arraycomp.fss ##########
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p06_rr64_arraycomp.fss:11:20:
+    Variable i is not defined.
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p06_rr64_arraycomp.fss:11:31:
+    Variable i is not defined.
+########## EXIT: 255 ##########
+
+########## RUN: p07_rr64_arraycomp2d.fss ##########
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p07_rr64_arraycomp2d.fss:6:23:
+    Variable x is not defined.
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p07_rr64_arraycomp2d.fss:6:25:
+    Variable y is not defined.
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p07_rr64_arraycomp2d.fss:7:23:
+    Variable x is not defined.
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p07_rr64_arraycomp2d.fss:7:25:
+    Variable x is not defined.
+########## EXIT: 255 ##########
+
+########## RUN: p08_rr64_matrix.fss ##########
+m       = [0#2,0#2]
+[ 1.0 2.0
+  3.0 4.0 ]
+|m|     = 4
+m.sizes = (2,2)
+m[0,1]  = 2.0
+m IS an AnyMatrix
+m + n   = [0#2,0#2]
+[ 11.0 22.0
+  33.0 44.0 ]
+m - n   = [0#2,0#2]
+[ -9.0 -18.0
+  -27.0 -36.0 ]
+-m      = [0#2,0#2]
+[ -1.0 -2.0
+  -3.0 -4.0 ]
+m.scale(2.0) = [0#2,0#2]
+[ 2.0 4.0
+  6.0 8.0 ]
+2.0 m   = [0#2,0#2]
+[ 2.0 4.0
+  6.0 8.0 ]
+m 2.0   = [0#2,0#2]
+[ 2.0 4.0
+  6.0 8.0 ]
+m n     = [0#2,0#2]
+[ 70.0 100.0
+  150.0 220.0 ]
+m DOT n = [0#2,0#2]
+[ 70.0 100.0
+  150.0 220.0 ]
+m.mul(n)= [0#2,0#2]
+[ 70.0 100.0
+  150.0 220.0 ]
+m.t()   = [0#2,0#2]
+[ 1.0 3.0
+  2.0 4.0 ]
+v       = [0#2][ 1.0 1.0 ]
+m v     = [0#2][ 3.0 7.0 ]
+m.rmul(v) = [0#2][ 3.0 7.0 ]
+v m     = [0#2][ 4.0 6.0 ]
+m.lmul(v) = [0#2][ 4.0 6.0 ]
+matrix[RR64,2,2](3.0) = [0#2,0#2]
+[ 3.0 0
+  0 3.0 ]
+SUM over matrix elements = 10.0
+ivp (0,0) -> 1.0
+ivp (0,1) -> 2.0
+ivp (1,0) -> 3.0
+ivp (1,1) -> 4.0
+########## EXIT: 0 ##########
+
+########## RUN: p09_runtime_size.fss ##########
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p09_runtime_size.fss:9:22:
+    n is undefined.
+########## EXIT: 255 ##########
+
+########## RUN: p10_value_extends_number.fss ##########
+a + b = V(5.0)
+a b   = V(6.0)
+########## EXIT: 0 ##########
+
+########## RUN: p11_value_vector.fss ##########
+vector[Value,3](V(1.0)) = [0#3][ V(1.0) V(1.0) V(1.0) ]
+vector[Value,3](fn i)   = [0#3][ V(1.0) V(2.0) V(3.0) ]
+u IS an AnyVector
+u[1] = V(2.0)
+|u|  = 3
+########## EXIT: 0 ##########
+
+########## RUN: p12_value_vec_ops.fss ##########
+u = [0#3][ V(1.0) V(2.0) V(3.0) ]
+v = [0#3][ V(10.0) V(20.0) V(30.0) ]
+-- 4. elementwise addition / subtraction / negation --
+u + v = [0#3][ V(11.0) V(22.0) V(33.0) ]
+u - v = [0#3][ V(-9.0) V(-18.0) V(-27.0) ]
+-u    = [0#3][ V(-1.0) V(-2.0) V(-3.0) ]
+-- 4. scaling by a Value --
+u.scale(V(2.0)) = [0#3][ V(2.0) V(4.0) V(6.0) ]
+Value(2.0) u    = [0#3][ V(2.0) V(4.0) V(6.0) ]
+u Value(2.0)    = [0#3][ V(2.0) V(4.0) V(6.0) ]
+-- products --
+u.dot(v)  = V(140.0)
+u DOT v   = V(140.0)
+u v       = V(140.0)
+pmul(u,v) = [0#3][ V(10.0) V(40.0) V(90.0) ]
+squaredNorm(u) = V(14.0)
+########## EXIT: 0 ##########
+
+########## RUN: p13_value_literal.fss ##########
+a = [0#3][ V(1.0) V(2.0) V(3.0) ]
+a IS an AnyVector
+a[1] = V(2.0), |a| = 3
+b = [0#3][ V(1.0) V(2.0) V(3.0) ]
+b IS an AnyVector
+a + b = [0#3][ V(2.0) V(4.0) V(6.0) ]
+m = [0#2,0#2]
+[ V(1.0) V(2.0)
+  V(3.0) V(4.0) ]
+m IS an AnyMatrix
+########## EXIT: 0 ##########
+
+########## RUN: p14_value_matrix.fss ##########
+-- 2. indexing / size --
+m[0,1]  = V(2.0)
+|m|     = 4
+m.sizes = (2,2)
+-- 4. elementwise + and scaling --
+m + n   = [0#2,0#2]
+[ V(11.0) V(22.0)
+  V(33.0) V(44.0) ]
+m - n   = [0#2,0#2]
+[ V(-9.0) V(-18.0)
+  V(-27.0) V(-36.0) ]
+-m      = [0#2,0#2]
+[ V(-1.0) V(-2.0)
+  V(-3.0) V(-4.0) ]
+m.scale(V(2.0)) = [0#2,0#2]
+[ V(2.0) V(4.0)
+  V(6.0) V(8.0) ]
+Value(2.0) m    = [0#2,0#2]
+[ V(2.0) V(4.0)
+  V(6.0) V(8.0) ]
+m Value(2.0)    = [0#2,0#2]
+[ V(2.0) V(4.0)
+  V(6.0) V(8.0) ]
+-- 3. products and transpose --
+m n     = [0#2,0#2]
+[ V(70.0) V(100.0)
+  V(150.0) V(220.0) ]
+m DOT n = [0#2,0#2]
+[ V(70.0) V(100.0)
+  V(150.0) V(220.0) ]
+m.mul(n)= [0#2,0#2]
+[ V(70.0) V(100.0)
+  V(150.0) V(220.0) ]
+m v     = [0#2][ V(3.0) V(7.0) ]
+m.rmul(v)=[0#2][ V(3.0) V(7.0) ]
+v m     = [0#2][ V(4.0) V(6.0) ]
+m.lmul(v)=[0#2][ V(4.0) V(6.0) ]
+m.t()   = [0#2,0#2]
+[ V(1.0) V(3.0)
+  V(2.0) V(4.0) ]
+m.t() v = [0#2][ V(4.0) V(6.0) ]
+-- library matrix factory --
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:35-55:
+Unification error: Closure/Constructor for init0 param 2 (v:Value) got arg 0: ZZ32 of type Int
+Context:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:35-55:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3517:71-75:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1032:30-43:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3517:31-76:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3517:31-76:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3516:9-3517:77:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3516:9-3517:77:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1779:25-45:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:13-32:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2616:3-74:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p14_value_matrix.fss:48:9-38:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p15_value_matrix_factory.fss ##########
+matrix[Value,2,2]().fill(f) = [0#2,0#2]
+[ V(3.0) V(0.0)
+  V(0.0) V(3.0) ]
+k IS an AnyMatrix
+matrix[Value,2,2]().fill(V(7.0)) = [0#2,0#2]
+[ V(7.0) V(7.0)
+  V(7.0) V(7.0) ]
+array2[Value,2,2](f) = [0#2,0#2]
+[ V(0.0) V(10.0)
+  V(1.0) V(11.0) ]
+array2 result IS an AnyMatrix
+k k = [0#2,0#2]
+[ V(9.0) V(0.0)
+  V(0.0) V(9.0) ]
+k v = [0#2][ V(3.0) V(6.0) ]
+########## EXIT: 0 ##########
+
+########## RUN: p16_value_gen.fss ##########
+SUM over vector elements = V(10.0)
+SUM of squares           = V(30.0)
+SUM over matrix elements = V(10.0)
+SUM over indexValuePairs = V(10.0)
+PROD over vector elements= V(24.0)
+list comprehension       = <|V(1.0), V(4.0), V(9.0), V(16.0)|>
+u.map(x=>x x)            = [0#4][ V(1.0) V(4.0) V(9.0) V(16.0) ]
+map result IS an AnyVector
+u.ivmap                  = [0#4][ V(1.0) V(3.0) V(5.0) V(7.0) ]
+elem V(1.0)
+elem V(2.0)
+elem V(3.0)
+elem V(4.0)
+m ivp (0,0) -> V(1.0)
+m ivp (0,1) -> V(2.0)
+m ivp (1,0) -> V(3.0)
+m ivp (1,1) -> V(4.0)
+########## EXIT: 0 ##########
+
+########## RUN: p17_seal_typecheck.fss ##########
+v = [0#3][ V(1.0) V(1.0) V(1.0) ]
+########## EXIT: 0 ##########
+
+########## RUN: p18_value_no_number.fss ##########
+-- (a) does the array literal make a Vector? --
+a = [0#3][ V(1.0) V(2.0) V(3.0) ]
+a is NOT an AnyVector
+-- (b) does vector[\Value,3\] accept a non-Number T? --
+v = [0#3][ V(1.0) V(1.0) V(1.0) ]
+########## EXIT: 0 ##########
+
+########## RUN: p19_value_minimal.fss ##########
+u = [0#3][ V(1.0) V(2.0) V(3.0) ]
+|u| = 3, u[1] = V(2.0)
+u + v = [0#3][ V(11.0) V(22.0) V(33.0) ]
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:381:47-55:
+** bug! MethodClosure asFloat(self:(FortressLibrary.Number & {FortressLibrary.RR64})):FortressLibrary.RR64/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:355:5-23 has neither body nor def instanceof Method
+Context:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:381:47-55:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2201:46-57:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2201:14-42:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2201:9-58:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2262:56-66:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p19_value_minimal.fss:19:27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p20_value_plus_times_juxt.fss ##########
+u + v   = [0#3][ V(11.0) V(22.0) V(33.0) ]
+u DOT v = V(140.0)
+u v     = V(140.0)
+SUM     = V(6.0)
+scale   = [0#3][ V(2.0) V(4.0) V(6.0) ]
+pmul    = [0#3][ V(10.0) V(40.0) V(90.0) ]
+m w     = [0#2][ V(3.0) V(7.0) ]
+w m     = [0#2][ V(4.0) V(6.0) ]
+m.t()   = [0#2,0#2]
+[ V(1.0) V(3.0)
+  V(2.0) V(4.0) ]
+m m     = [0#2,0#2]
+[ V(7.0) V(10.0)
+  V(15.0) V(22.0) ]
+m + m   = [0#2,0#2]
+[ V(2.0) V(4.0)
+  V(6.0) V(8.0) ]
+########## EXIT: 0 ##########
+
+########## RUN: p21_value_asfloat_trap.fss ##########
+u + v   = [0#3][ V(11.0) V(22.0) V(33.0) ]
+u DOT v = 140.0
+  ... u DOT v SILENTLY became an RR64
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:35-55:
+Unification error: Closure/Constructor for init0 param 2 (v:Value) got arg 2.0:RR64 of type Float
+Context:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:35-55:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1042:21-1043:16:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1053:13-1054:9:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:13-32:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2136:9-57:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2197:35-56:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2197:35-56:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p21_value_asfloat_trap.fss:27:9-25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p22_runtime_sized.fss ##########
+-- RR64, runtime size 8 --
+array[RR64](n).fill(f) = [0#8][ 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 ]
+|a| = 8, a[3] = 4.0
+a IS an AnyVector
+SUM over a = 36.0
+-- Value, runtime size 8 --
+array[Value](n).fill(f) = [0#8][ V(1.0) V(2.0) V(3.0) V(4.0) V(5.0) V(6.0) V(7.0) V(8.0) ]
+|b| = 8, b[3] = V(4.0)
+b IS an AnyVector
+SUM over b = V(36.0)
+-- runtime-sized 2-D --
+array[Value](2,3).fill(f) = [0#2,0#3]
+[ V(0.0) V(10.0) V(20.0)
+  V(1.0) V(11.0) V(21.0) ]
+c IS an AnyMatrix
+-- do the vector operators apply to runtime-sized arrays? --
+b + d = [0#8][ V(2.0) V(3.0) V(4.0) V(5.0) V(6.0) V(7.0) V(8.0) V(9.0) ]
+########## EXIT: 0 ##########
+
+########## RUN: p23_natreflect.fss ##########
+mkVec(reflect(5)) = [0#5][ V(1.0) V(2.0) V(3.0) V(4.0) V(5.0) ]
+v IS an AnyVector
+mkSquare(reflect(5)) = [0#5,0#5]
+[ V(2.0) V(0.0) V(0.0) V(0.0) V(0.0)
+  V(0.0) V(2.0) V(0.0) V(0.0) V(0.0)
+  V(0.0) V(0.0) V(2.0) V(0.0) V(0.0)
+  V(0.0) V(0.0) V(0.0) V(2.0) V(0.0)
+  V(0.0) V(0.0) V(0.0) V(0.0) V(2.0) ]
+m v     = [0#5][ V(2.0) V(4.0) V(6.0) V(8.0) V(10.0) ]
+v m     = [0#5][ V(2.0) V(4.0) V(6.0) V(8.0) V(10.0) ]
+m.t()   = [0#5,0#5]
+[ V(2.0) V(0.0) V(0.0) V(0.0) V(0.0)
+  V(0.0) V(2.0) V(0.0) V(0.0) V(0.0)
+  V(0.0) V(0.0) V(2.0) V(0.0) V(0.0)
+  V(0.0) V(0.0) V(0.0) V(2.0) V(0.0)
+  V(0.0) V(0.0) V(0.0) V(0.0) V(2.0) ]
+v DOT v = V(55.0)
+v + v   = [0#5][ V(2.0) V(4.0) V(6.0) V(8.0) V(10.0) ]
+SUM     = V(15.0)
+########## EXIT: 0 ##########
+
+########## RUN: p24_rect_runtime.fss ##########
+W (3x4) = [0#3,0#4]
+[ V(0.0) V(1.0) V(2.0) V(3.0)
+  V(4.0) V(5.0) V(6.0) V(7.0)
+  V(8.0) V(9.0) V(10.0) V(11.0) ]
+x (4) = [0#4][ V(1.0) V(1.0) V(1.0) V(1.0) ]
+W x  = [0#3][ V(6.0) V(22.0) V(38.0) ]
+y W  = [0#4][ V(12.0) V(15.0) V(18.0) V(21.0) ]
+W^T  = [0#4,0#3]
+[ V(0.0) V(4.0) V(8.0)
+  V(1.0) V(5.0) V(9.0)
+  V(2.0) V(6.0) V(10.0)
+  V(3.0) V(7.0) V(11.0) ]
+W^T y= [0#4][ V(12.0) V(15.0) V(18.0) V(21.0) ]
+-- norm and power --
+||x||  = 2.0
+S      = [0#3,0#3]
+[ V(2.0) V(1.0) V(1.0)
+  V(1.0) V(2.0) V(1.0)
+  V(1.0) V(1.0) V(2.0) ]
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p24_rect_runtime.fss:46:26-29:
+Failed to find any matching overload, args = (__DefaultMatrix[\Value,3,3\],2: ZZ32), overload = {
+	^(native Pow)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:154:5-155:76)
+	^(native Pow)fn meth(self 0):(Float,RR32)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:156:5-157:76)
+	^(native Pow)fn meth(self 0):(Float,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:160:5-161:76)
+	^(self:FortressBuiltin.Float,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Float,Number)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:158:5-159:50)
+	^(native Pow)fn meth(self 0):(RR32,Float)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:325:5-326:76)
+	^(native Pow)fn meth(self 0):(RR32,RR32)->RR32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:323:5-324:75)
+	^(self:FortressBuiltin.RR32,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(RR32,Number)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:5-328:50)
+	^(native Pow)fn meth(self 0):(RR32,ZZ64)->RR32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:329:5-330:75)
+	^(native Pow)fn meth(self 0):(NN32,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:440:5-441:75)
+	^(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Number,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:404:5-55)
+	^(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:402:5-403:50)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\Number\],AnyIntegral)->Number (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:346:5-347:1)
+	^(native Pow)fn meth(self 0):(ZZ32,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:690:5-691:74)
+	^(native Pow)fn meth(self 0):(ZZ64,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:758:5-759:75)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ32\],AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35)
+	^(native Pow)fn meth(self 0):(ZZ,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:883:5-884:77)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ64\],AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ\],AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35)
+	^(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.AnyIntegral):FortressLibrary.QQfn meth(self 0):(QQ,AnyIntegral)->QQ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:575:5-580:10)
+	^(native Pow)fn meth(self 0):(NN64,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:812:5-813:83)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\NN64\],AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35)
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):T/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:346:5-347:1
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35
+	^(self:FortressLibrary.String,n:FortressLibrary.ZZ32):FortressLibrary.Stringfn meth(self 0):(String,ZZ32)->String (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3998:5-4004:8)}:OverloadedFunction
+Context:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p24_rect_runtime.fss:46:26-29:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p25_spec_gaps.fss ##########
+||v||  = 5.0
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p25_spec_gaps.fss:19:26-28:
+Failed to find any matching overload, args = (__DefaultMatrix[\RR64,2,2\],2: ZZ32), overload = {
+	^(native Pow)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:154:5-155:76)
+	^(native Pow)fn meth(self 0):(Float,RR32)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:156:5-157:76)
+	^(native Pow)fn meth(self 0):(Float,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:160:5-161:76)
+	^(self:FortressBuiltin.Float,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Float,Number)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:158:5-159:50)
+	^(native Pow)fn meth(self 0):(RR32,Float)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:325:5-326:76)
+	^(native Pow)fn meth(self 0):(RR32,RR32)->RR32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:323:5-324:75)
+	^(self:FortressBuiltin.RR32,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(RR32,Number)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:5-328:50)
+	^(native Pow)fn meth(self 0):(RR32,ZZ64)->RR32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:329:5-330:75)
+	^(native Pow)fn meth(self 0):(NN32,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:440:5-441:75)
+	^(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Number,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:404:5-55)
+	^(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:402:5-403:50)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\Number\],AnyIntegral)->Number (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:346:5-347:1)
+	^(native Pow)fn meth(self 0):(ZZ32,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:690:5-691:74)
+	^(native Pow)fn meth(self 0):(ZZ64,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:758:5-759:75)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ32\],AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35)
+	^(native Pow)fn meth(self 0):(ZZ,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:883:5-884:77)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ64\],AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ\],AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35)
+	^(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.AnyIntegral):FortressLibrary.QQfn meth(self 0):(QQ,AnyIntegral)->QQ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:575:5-580:10)
+	^(native Pow)fn meth(self 0):(NN64,AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:812:5-813:83)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\NN64\],AnyIntegral)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35)
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):T/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:346:5-347:1
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:636:5-35
+	^(self:FortressLibrary.String,n:FortressLibrary.ZZ32):FortressLibrary.Stringfn meth(self 0):(String,ZZ32)->String (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3998:5-4004:8)}:OverloadedFunction
+Context:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p25_spec_gaps.fss:19:26-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p26_matrix_norm.fss ##########
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p26_matrix_norm.fss:13:25-28:
+Unification error: /home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2281:41-51:
+Cannot unify __DefaultMatrix[\RR64,2,2\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with Vector[\T,k\](class com.sun.fortress.nodes.TraitType) abm=T=(BOTTOM,Number)
+Context:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p26_matrix_norm.fss:13:25-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p27_literal_staticargs.fss ##########
+null/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p27_literal_staticargs.fss:18:9-50:
+    Unmatched delimiters "[\" and "]".
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p28_minus_and_mutation.fss ##########
+-- (b) mutation --
+after u[0] := V(99.0): [0#3][ V(99.0) V(2.0) V(3.0) ]
+-- (a) subtraction with no opr - on Value --
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:377:33-44:
+** bug! MethodClosure asFloat(self:(FortressLibrary.Number & {FortressLibrary.RR64})):FortressLibrary.RR64/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:355:5-23 has neither body nor def instanceof Method
+Context:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:377:33-44:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2195:43:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2138:46-58:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:43-54:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1042:21-1043:16:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1053:13-1054:9:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:13-32:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2138:9-59:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2195:9-54:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2195:9-54:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p28_minus_and_mutation.fss:20:25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p29_mixing.fss ##########
+-- SUM over an EMPTY Value vector --
+SUM over empty = 0
+  ... it is NOT a Value (SumReduction.empty() = 0)
+-- scaling a Vector[\Value\] by a bare RR64 --
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p29_mixing.fss:33:25-29:
+Failed to find any matching overload, args = (2.0,__DefaultVector[\Value,3\]), overload = {
+	juxtaposition(self:Value,other:Value):Valuefn meth(self 0):(Value,Value)->Value (/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p29_mixing.fss:17:5-67)
+	juxtaposition(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:380:5-381:56)
+	juxtaposition(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:344:5-345:65)
+	juxtaposition(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:111:5-113:76)
+	juxtaposition(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:280:5-282:75)
+	juxtaposition(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:414:5-415:75)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:664:5-665:74)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:732:5-733:75)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:847:5-848:77)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:569:5-57)
+	juxtaposition(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:786:5-787:83)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:622:5-33)
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].juxtaposition(self:MultiplicativeRing[\T\],other:T):T/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:344:5-345:65
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].juxtaposition(self:Integral[\I\],b:I):I/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:622:5-33
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:Vector[\T,n\]):T/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2264:1-2265:67
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:T):Vector[\T,n\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2270:1-2271:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](other:T,me:Vector[\T,n\]):Vector[\T,n\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2276:1-2277:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m,nat p\](me:Matrix[\T,n,m\],other:Matrix[\T,m,p\]):Matrix[\T,n,p\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2625:1-2630:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],v:Vector[\T,m\]):Vector[\T,n\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2634:1-2637:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](v:Vector[\T,n\],me:Matrix[\T,n,m\]):Vector[\T,m\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2641:1-2642:70
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],other:T):Matrix[\T,n,m\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2647:1-2648:75
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](other:T,me:Matrix[\T,n,m\]):Matrix[\T,n,m\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2653:1-2661:27
+	juxtaposition(a:Any,self:FortressLibrary.String):FortressLibrary.Stringfn meth(self 1):(Any,String)->String (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:4048:5-59)
+	juxtaposition(self:FortressLibrary.String,b:Any):FortressLibrary.Stringfn meth(self 0):(String,Any)->String (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:4050:5-4056:48)
+	juxtaposition(self:FortressLibrary.String,b:FortressLibrary.String):FortressLibrary.Stringfn meth(self 0):(String,String)->String (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:4049:5-56)}:OverloadedFunction
+Context:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p29_mixing.fss:33:25-29:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p30_capstone.fss ##########
+x  = [0#3][ V(1.0) V(2.0) V(3.0) ]
+W1 = [0#4,0#3]
+[ V(0.0) V(0.1) V(0.2)
+  V(0.1) V(0.2) V(0.30000000000000004)
+  V(0.2) V(0.30000000000000004) V(0.4)
+  V(0.30000000000000004) V(0.4) V(0.5) ]
+W1 x + b1  = [0#4][ V(0.30000000000000004) V(0.9000000000000001) V(1.5) V(2.1) ]
+relu(...)  = [0#4][ V(0.30000000000000004) V(0.9000000000000001) V(1.5) V(2.1) ]
+W2 h + b2  = [0#2][ V(2.2) V(3.4000000000000004) ]
+loss (SUM y_i^2) = V(16.400000000000002)
+transpose round-trip w1.t().t()[0,2] = w1[0,2]?  true
+sanity: 2.0 + 3.0 = 5.0, SQRT 2.0 = 1.4142135623730951
+sanity: RR64 vector still works: [0#3][ 2.0 4.0 6.0 ], r DOT r = 14.0
+########## EXIT: 0 ##########
+
+########## RUN: p31_no_number_full.fss ##########
+u = [0#3][ V(1.0) V(2.0) V(3.0) ]
+u IS an AnyVector
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2193:43:
+Failed to find any matching overload, args = (Value,Value), overload = {
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:330:5-28
+	+(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:376:5-58)
+	+(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:556:5-561:10)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].+(self:Integral[\I\],b:I):I/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:618:5-21
+	+(native Add)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:656:5-657:74)
+	+(native Add)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:724:5-725:75)
+	+(native Add)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:778:5-779:83)
+	+(native Add)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:841:5-842:77)
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].+(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2192:5-2193:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].+(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2500:5-2501:60
+	+(x:Array[\FortressLibrary.ZZ32,FortressLibrary.ZZ32\],y:FortressLibrary.ZZ32):Array[\FortressLibrary.ZZ32,FortressLibrary.ZZ32\] (Array[\ZZ32,ZZ32\],ZZ32)->Array[\ZZ32,ZZ32\] /home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:4493:1-4497:2
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\Number\],Number)->Number (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:330:5-28)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:618:5-21)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:618:5-21)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:618:5-21)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:618:5-21)
+	+(native Add)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:103:5-104:76)
+	+(native Add)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:272:5-273:75)
+	+(native Add)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:406:5-407:75)}:OverloadedFunction
+Context:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2193:43:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2138:46-58:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:43-54:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1042:21-1043:16:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1053:13-1054:9:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:13-32:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2138:9-59:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2193:9-54:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2193:9-54:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p31_no_number_full.fss:29:27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p32_ring_route.fss ##########
+u = [0#3][ V(1.0) V(2.0) V(3.0) ]
+u IS an AnyVector
+u + v   = [0#3][ V(11.0) V(22.0) V(33.0) ]
+u - v   = [0#3][ V(-9.0) V(-18.0) V(-27.0) ]
+-u      = [0#3][ V(-1.0) V(-2.0) V(-3.0) ]
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p32_ring_route.fss:41:27:
+Failed to find any matching overload, args = (__DefaultVector[\Value,3\],__DefaultVector[\Value,3\]), overload = {
+	DOT(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:378:5-62)
+	DOT(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:563:5-567:6)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].DOT(self:Integral[\I\],b:I):I/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:620:5-23
+	DOT(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:660:5-661:74)
+	DOT(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:728:5-729:75)
+	DOT(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:782:5-783:83)
+	DOT(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:845:5-846:77)
+	DOT[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:Vector[\T,n\]):T/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2261:1-2262:69
+	DOT[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:T):Vector[\T,n\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2267:1-2268:73
+	DOT[\T extends FortressLibrary.Number,nat n\](other:T,me:Vector[\T,n\]):Vector[\T,n\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2273:1-2274:74
+	DOT[\T extends FortressLibrary.Number,nat n,nat m,nat p\](me:Matrix[\T,n,m\],other:Matrix[\T,m,p\]):Matrix[\T,n,p\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2621:1-2623:27
+	DOT[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],v:Vector[\T,m\]):Vector[\T,n\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2631:1-2632:72
+	DOT[\T extends FortressLibrary.Number,nat n,nat m\](v:Vector[\T,n\],me:Matrix[\T,n,m\]):Vector[\T,m\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2638:1-2639:72
+	DOT[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],other:T):Matrix[\T,n,m\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2644:1-2645:77
+	DOT[\T extends FortressLibrary.Number,nat n,nat m\](other:T,me:Matrix[\T,n,m\]):Matrix[\T,n,m\]/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2650:1-2651:77
+	DOT(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:620:5-23)
+	DOT(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:620:5-23)
+	DOT(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:620:5-23)
+	DOT(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:620:5-23)
+	DOT(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:107:5-108:76)
+	DOT(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:276:5-277:75)
+	DOT(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:410:5-411:75)}:OverloadedFunction
+Context:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p32_ring_route.fss:41:27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+########## RUN: p33_ring_route_methods.fss ##########
+u + v      = [0#3][ V(11.0) V(22.0) V(33.0) ]
+u.scale(V) = [0#3][ V(2.0) V(4.0) V(6.0) ]
+u.pmul(v)  = [0#3][ V(10.0) V(40.0) V(90.0) ]
+m.t()      = [0#3,0#3]
+[ V(2.0) V(0.0) V(0.0)
+  V(0.0) V(2.0) V(0.0)
+  V(0.0) V(0.0) V(2.0) ]
+m + m      = [0#3,0#3]
+[ V(4.0) V(0.0) V(0.0)
+  V(0.0) V(4.0) V(0.0)
+  V(0.0) V(0.0) V(4.0) ]
+m.scale(V) = [0#3,0#3]
+[ V(4.0) V(0.0) V(0.0)
+  V(0.0) V(4.0) V(0.0)
+  V(0.0) V(0.0) V(4.0) ]
+-- the ones that go through SUM, one at a time --
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1120:25-34:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2551:45-55:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1032:30-43:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1032:30-43:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2551:17-41:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2551:13-56:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:43-54:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1042:21-1043:16:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/RangeInternals.fss:1053:13-1054:9:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:1975:13-32:
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fss:2552:9-32:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p33_ring_route_methods.fss:48:29-36:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+########## EXIT: 1 ##########
+
+===== fortress typecheck (uses CompilerLibrary -- Shell.java:453-457) =====
+########## TYPECHECK: p10_value_extends_number.fss ##########
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p10_value_extends_number.fss:19:20-29:
+    AnyIntegral is undefined.
+File p10_value_extends_number.fss has 1 error.
+########## EXIT: 255 ##########
+########## TYPECHECK: p17_seal_typecheck.fss ##########
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p17_seal_typecheck.fss:22:9-23:
+    Function vector is not defined.
+File p17_seal_typecheck.fss has 1 error.
+########## EXIT: 255 ##########
+########## TYPECHECK: p04_rr64_vec_ops.fss ##########
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p04_rr64_vec_ops.fss:20:27-29:
+    Variable pmul is not defined.
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p04_rr64_vec_ops.fss:21:27-30:
+    Operator ||_|| is not defined.
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/libvector-experiment/p04_rr64_vec_ops.fss:22:33-42:
+    Variable squaredNorm is not defined.
+File p04_rr64_vec_ops.fss has 3 errors.
+########## EXIT: 255 ##########
+
+===== fortress typecheck-old (uses the interpreter library -- Shell.java:465-471) =====
+########## TYPECHECK-OLD: p17_seal_typecheck.fss ##########
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:121:19-27:
+    Type TotalComparison excludes FortressLibrary.Comparison but it extends FortressLibrary.Comparison.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:121:19-27:
+    Types Comparison and StandardTotalOrder[\TotalComparison\] exclude each other.  TotalComparison must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:121:31-65:
+    Types StandardTotalOrder[\TotalComparison\] and Comparison exclude each other.  TotalComparison must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:121:31-66:
+    Type TotalComparison excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:132:25-39:
+    Type LessThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:143:28-42:
+    Type GreaterThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:153:24-38:
+    Type EqualTo excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:370:20-22:
+    Type QQ excludes FortressLibrary.RR64 but it extends FortressLibrary.RR64.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:370:20-22:
+    Types RR64 and StandardPartialOrder[\QQ\] exclude each other.  QQ must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:370:26-49:
+    Types StandardPartialOrder[\QQ\] and RR64 exclude each other.  QQ must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:370:26-50:
+    Type QQ excludes FortressLibrary.StandardPartialOrder but it extends FortressLibrary.StandardPartialOrder.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:406:1-35:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as FortressLibrary.QQ, should not be extended.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:406:29:
+    Type AnyIntegral excludes FortressLibrary.QQ but it extends FortressLibrary.QQ.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:408:53-73:
+    Types StandardTotalOrder[\I\] and AnyIntegral exclude each other.  Integral must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:408:53-74:
+    Type Integral[\I\] excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:408:78-87:
+    Type Integral[\I\] excludes FortressLibrary.AnyIntegral but it extends FortressLibrary.AnyIntegral.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:408:78-87:
+    Types AnyIntegral and StandardTotalOrder[\I\] exclude each other.  Integral must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:434:22:
+    Type NN64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:434:22:
+    Types ZZ and Integral[\NN64\] exclude each other.  NN64 must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:434:26-39:
+    Types Integral[\NN64\] and ZZ exclude each other.  NN64 must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:434:26-40:
+    Type NN64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:461:22-24:
+    Type ZZ32 excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:461:22-24:
+    Types ZZ64 and Integral[\ZZ32\] exclude each other.  ZZ32 must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:461:28-41:
+    Types Integral[\ZZ32\] and ZZ64 exclude each other.  ZZ32 must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:461:28-42:
+    Type ZZ32 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:495:22:
+    Type ZZ64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:495:22:
+    Types ZZ and Integral[\ZZ64\] exclude each other.  ZZ64 must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:495:26-39:
+    Types Integral[\ZZ64\] and ZZ exclude each other.  ZZ64 must not extend them.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:495:26-40:
+    Type ZZ64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+/home/user/fortress/.claude/worktrees/agent-a03b77f222b9f971f/Library/FortressLibrary.fsi:533:20-32:
+########## DONE ##########

@@ -1,0 +1,14 @@
+(* Q1 probe 4: a type alias in a where clause.
+   Spec: Specification/basic/declarations.tex:237 lists "type aliases in
+   where clauses" among the declarations; the AST node is WhereTypeAlias
+   (ProjectFortress/astgen/Fortress.ast). Does the interpreter tolerate the
+   alias in this position, where IndexBuilder does not walk it as a top-level
+   component declaration? *)
+component p4_alias_where
+export Executable
+
+f[\T\](x: T): ZZ32 where { type U = T } = 1
+
+run() = println("f = " f[\ZZ32\](3))
+
+end

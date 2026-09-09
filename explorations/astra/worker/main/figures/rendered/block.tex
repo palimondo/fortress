@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$y=x+W_o\operatorname{concat}_h(o_h),\quad x^+=y+W_{out}\operatorname{ReLU}(W_{in}\mathrm{RMS}(y))$
+\begin{FortressCode}
+{\tt ~~}\+y = x  +  B.W_{\mathrm{o}}\, \TYP{Vec}\bigl(x.n,\KWD{fn} j \Rightarrow\; \KWD{do} v = \VAR{heads}[j \div s]; v[j \OPR{MOD} s] \KWD{end}\bigr) \\
+  y  +  B.W_{\mathrm{out}}\, \VAR{relu}\bigl(B.W_{\mathrm{in}}\, \VAR{rmsnorm}(y)\bigr)\- \\
+\KWD{end}
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

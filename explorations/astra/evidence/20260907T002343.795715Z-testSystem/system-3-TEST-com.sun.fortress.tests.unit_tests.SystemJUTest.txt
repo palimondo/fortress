@@ -1,0 +1,201 @@
+Testsuite: com.sun.fortress.tests.unit_tests.SystemJUTest
+Tests run: 95, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 115.087 sec
+------------- Standard Output ---------------
+Not compiling file sample.fa
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ArrayListQuick  OK (time = 29191ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/BigNum  OK (time = 391ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/Brackets  OK (time = 538ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ConditionalOpTruncation  OK (time = 275ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/EqualityOverloadBug  OK (time = 385ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/FileReadWrite  OK (time = 1935ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/GS1  OK (time = 354ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/GeneratorNullPointer  OK (time = 3295ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ImportNonparamObject  OK (time = 372ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/InitOrderWithMutable  OK (time = 374ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ListNullPointer  OK (time = 2992ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/MapExprTest  OK (time = 341ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/NatReflectTest  OK (time = 347ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ObjectExprWithFunctionalMethod  OK (time = 394ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/OpenRangeCase  OK (time = 246ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/OverloadConstructor3  OK (time = 272ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/QuickCheckTest  OK (time = 40216ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/RationalTest  OK (time = 3964ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ReplicaTest  OK (time = 180ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ShuffleTest  OK (time = 408ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/Spawn3  OK (time = 131ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/StringTests  OK (time = 1530ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/TestCompiledNestedImports  OK (time = 185ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/TransitiveImportMethodLookup  OK (time = 117ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/TypeImportBug  OK (time = 143ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/Variable.VarWTypes  OK (time = 108ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXAsExpr  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXGenericOverload2  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXImportImportCollision2  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXLabelShadowing  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXUnimplementedMethod  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXcaseTest  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXextendObject  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXgenericMethod1  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXimmutable0  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXlabelExit  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXmutableTopVarWithoutType  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXnoclassNativeFn  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXseqLoopError  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXtypecaseTest  OK Saw expected exception
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/abortTest  OK (time = 499ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/arrayBig  OK (time = 764ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/arrayTest3  OK (time = 174ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/atomic1  OK (time = 162ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/atomic5  OK (time = 581ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/atomicTest  OK (time = 391ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/booleanGuard  OK (time = 502ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/chain0  OK (time = 219ms)
+  /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/concurrentPrinting Passed
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/contracts1  OK (time = 257ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/disp0  OK (time = 164ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/doubledOverloading  OK (time = 206ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/emptySubscripting  OK (time = 147ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/expTest  OK (time = 286ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/extendNumber  OK (time = 189ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/fmTest1  OK (time = 171ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/fmTest5  OK (time = 200ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/formatTest  OK (time = 4934ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/genericMethod0  OK (time = 1136ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/genericTest2  OK (time = 687ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/han  OK (time = 216ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/immutable  OK (time = 579ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/initOrder  OK (time = 374ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/juxtTwice  OK (time = 699ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/longPrim  OK (time = 2642ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/matrixOps  OK (time = 993ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/naiveSeq  OK (time = 313ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/nativeTestFn  OK (time = 180ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/nestedOutcome  OK (time = 105ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/nestedTransactions4  OK (time = 133ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectCC  OK (time = 227ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectCC_multi_objExpr_mutVar2  OK (time = 244ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectCC_shadowTest  OK (time = 303ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectTest2  OK (time = 112ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectTest8  OK (time = 235ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/oprTests  OK (time = 221ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/overloadTest3  OK (time = 153ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/parametricListCompr  OK (time = 213ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/precedence  OK (time = 108ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/printTests  OK (time = 144ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/realArith  OK (time = 398ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/returnAndMutateTuple  OK (time = 145ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/setMakerTest0  OK (time = 333ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/simpleBig  OK (time = 410ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/singleArgInference  OK (time = 174ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/subArray  OK (time = 540ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/testParen  OK (time = 221ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/testTest1  OK (time = 915ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/tparams0  OK (time = 122ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/traitTest1  OK (time = 152ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/tryatomicTest  OK (time = 148ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/tupleTest3  OK (time = 161ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/typecaseBlockTest  OK (time = 163ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/unicodeTest  OK (time = 140ms)
+ interpret /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/whileTest  OK (time = 153ms)
+------------- ---------------- ---------------
+------------- Standard Error -----------------
+/workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0793fe4a0_16
+Shard 3/4: 96 of 387 files
+------------- ---------------- ---------------
+
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ArrayListQuick took 29.196 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/BigNum took 0.417 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/Brackets took 0.539 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ConditionalOpTruncation took 0.276 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/EqualityOverloadBug took 0.392 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/FileReadWrite took 1.939 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/GS1 took 0.355 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/GeneratorNullPointer took 3.295 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ImportNonparamObject took 0.373 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/InitOrderWithMutable took 0.376 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ListNullPointer took 2.997 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/MapExprTest took 0.341 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/NatReflectTest took 0.348 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ObjectExprWithFunctionalMethod took 0.395 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/OpenRangeCase took 0.247 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/OverloadConstructor3 took 0.274 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/QuickCheckTest took 40.217 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/RationalTest took 3.965 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ReplicaTest took 0.181 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/ShuffleTest took 0.409 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/Spawn3 took 0.131 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/StringTests took 1.531 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/TestCompiledNestedImports took 0.188 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/TransitiveImportMethodLookup took 0.118 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/TypeImportBug took 0.144 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/Variable.VarWTypes took 0.109 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXAsExpr took 0.131 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXGenericOverload2 took 0.111 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXImportImportCollision2 took 0.051 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXLabelShadowing took 0.017 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXUnimplementedMethod took 0.245 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXcaseTest took 0.181 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXextendObject took 0.101 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXgenericMethod1 took 0.17 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXimmutable0 took 0.022 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXlabelExit took 0.167 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXmutableTopVarWithoutType took 0.005 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXnoclassNativeFn took 0.07 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXseqLoopError took 0.51 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/XXXtypecaseTest took 0.172 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/abortTest took 0.5 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/arrayBig took 0.765 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/arrayTest3 took 0.175 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/atomic1 took 0.163 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/atomic5 took 0.582 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/atomicTest took 0.392 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/booleanGuard took 0.503 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/chain0 took 0.22 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/concurrentPrinting took 0.211 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/contracts1 took 0.258 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/disp0 took 0.165 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/doubledOverloading took 0.206 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/emptySubscripting took 0.148 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/expTest took 0.288 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/extendNumber took 0.19 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/fmTest1 took 0.171 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/fmTest5 took 0.201 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/formatTest took 4.934 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/genericMethod0 took 1.137 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/genericTest2 took 0.687 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/han took 0.217 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/immutable took 0.58 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/initOrder took 0.375 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/juxtTwice took 0.699 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/longPrim took 2.642 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/matrixOps took 0.994 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/naiveSeq took 0.314 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/nativeTestFn took 0.18 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/nestedOutcome took 0.106 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/nestedTransactions4 took 0.134 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectCC took 0.229 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectCC_multi_objExpr_mutVar2 took 0.245 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectCC_shadowTest took 0.304 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectTest2 took 0.112 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/objectTest8 took 0.236 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/oprTests took 0.222 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/overloadTest3 took 0.154 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/parametricListCompr took 0.214 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/precedence took 0.109 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/printTests took 0.144 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/realArith took 0.4 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/returnAndMutateTuple took 0.146 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/setMakerTest0 took 0.334 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/simpleBig took 0.413 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/singleArgInference took 0.176 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/subArray took 0.541 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/testParen took 0.223 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/testTest1 took 0.916 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/tparams0 took 0.123 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/traitTest1 took 0.154 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/tryatomicTest took 0.154 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/tupleTest3 took 0.162 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/typecaseBlockTest took 0.164 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/unicodeTest took 0.141 sec
+Testcase: /workspace/scratch/60367cc738a0/fortress-experiment/ProjectFortress/tests/whileTest took 0.154 sec

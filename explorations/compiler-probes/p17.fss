@@ -1,0 +1,8 @@
+component p17
+export Executable
+object V(data: RR64)
+  opr +(self, o: V): V = V(data + o.data)
+  getter asString(): String = "V " self.data.asString
+end
+run() = println("p17 " (V(1.0) + V(2.0)))
+end

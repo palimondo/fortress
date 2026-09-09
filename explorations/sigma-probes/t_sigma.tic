@@ -1,0 +1,41 @@
+% Fortify render probe: does the ASCII accumulator SUM typeset as a genuine
+% Sigma, in every syntactic position microgpt2 uses?  Regenerate:
+%   bin/fortick explorations/sigma-probes/t_sigma.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex t_sigma.tex
+%   dvisvgm --no-fonts --exact-bbox -o t_sigma.svg t_sigma.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`opr DOT(u: Vec, w: Vec): Value = SUM[m <- u.indices] u[m] w[m]
+
+opr juxtaposition(p: RowLike, m: Mat): Vec =
+  Vec(<| SUM[j <- p.indices] p[j] (m[j])[c] | c <- (m[0]).indices |>)
+
+softmax(a: Vec): ProbDist = do
+  m = BIG MAX[u <- a] u
+  e = exp(a - m)
+  ProbDist((e / (SUM[u <- e] u)).xs)
+end
+
+softmaxZ(a: Vec): ProbDist = do
+  m = BIG MAX[u <- a] u
+  e = exp(a - m)
+  Z = SUM[u <- e] u
+  ProbDist((e / Z).xs)
+end
+
+loss = (SUM[l <- losses] l) / (n 1.0)
+
+import FortressLibrary.{...} except { opr BIG + }
+
+object PlusReduction extends CommutativeMonoidReduction[\Any\]
+  empty(): Any = 0
+  join(a: Any, b: Any): Any = a + b
+end
+
+opr SUM[\T\](): BigReduction[\Any,Any\] = BigReduction[\Any,Any\](PlusReduction)`
+\end{preview}
+\end{document}

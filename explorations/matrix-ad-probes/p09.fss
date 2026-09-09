@@ -1,0 +1,51 @@
+(* Q3b: compose closures over vectors, store them in a List, apply in reverse.
+   Also Q2 follow-up: does the runtime-sized STATIC type Array[\RR64,ZZ32\]
+   (FortressLibrary.fsi:1345) still dispatch Vector algebra? *)
+component p09
+import List.{...}
+export Executable
+
+(* homogeneous, statically sized *)
+compose(f: Vector[\RR64,4\] -> Vector[\RR64,4\],
+        g: Vector[\RR64,4\] -> Vector[\RR64,4\]): Vector[\RR64,4\] -> Vector[\RR64,4\] =
+    fn (v: Vector[\RR64,4\]): Vector[\RR64,4\] => g(f(v))
+
+(* runtime-sized: the arrow type nameable at runtime size *)
+axpy(a: RR64, u: Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = u.scale(a) + v
+
+run(): () = do
+    A: Matrix[\RR64,4,4\] = matrix[\RR64,4,4\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => 1.0/(1.0+i+j))
+    B: Matrix[\RR64,4,4\] = matrix[\RR64,4,4\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => if i=j then 2.0 else 0.1 end)
+    fA = fn (v: Vector[\RR64,4\]): Vector[\RR64,4\] => A v
+    fB = fn (v: Vector[\RR64,4\]): Vector[\RR64,4\] => B v
+    x: Vector[\RR64,4\] = [ 1.0 2.0 3.0 4.0 ]
+
+    h = compose(fA, fB)
+    println("compose(fA,fB)(x) = " h(x))
+    println("B (A x)           = " (B (A x)))
+
+    (* a tape of backward closures, applied in reverse *)
+    tape: List[\Vector[\RR64,4\] -> Vector[\RR64,4\]\] =
+        <|[\Vector[\RR64,4\] -> Vector[\RR64,4\]\]
+            fn (v: Vector[\RR64,4\]): Vector[\RR64,4\] => A.t() v,
+            fn (v: Vector[\RR64,4\]): Vector[\RR64,4\] => B.t() v,
+            fn (v: Vector[\RR64,4\]): Vector[\RR64,4\] => v.scale(2.0) |>
+    println("|tape| = " |tape|)
+    var g: Vector[\RR64,4\] := x
+    for k <- seq(0 # |tape|) do
+        step = tape[|tape| - 1 - k]
+        g := step(g)
+    end
+    println("tape applied in reverse = " g)
+    println("expected A^T (B^T (2 x))= " (A.t() (B.t() (x.scale(2.0)))))
+
+    (* runtime-sized route through a declared Array[\RR64,ZZ32\] type *)
+    n: ZZ32 = 4
+    u: Array[\RR64,ZZ32\] = array[\RR64\](n).fill(fn (i:ZZ32):RR64 => 1.0 (i+1))
+    w: Array[\RR64,ZZ32\] = array[\RR64\](n).fill(fn (i:ZZ32):RR64 => 10.0 (i+1))
+    println("runtime-sized axpy(2.0,u,w) = " axpy(2.0, u, w))
+    println("runtime-sized u DOT w       = " (u DOT w))
+    fr: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\] = fn (v: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] => axpy(3.0, v, w)
+    println("runtime-sized closure       = " fr(u))
+  end
+end

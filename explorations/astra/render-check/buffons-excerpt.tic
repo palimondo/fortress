@@ -1,0 +1,31 @@
+% The README's buffons excerpt (ProjectFortress/demos/buffons.fss, the run loop),
+% typeset by the repository's own Fortify tool. To regenerate:
+%   bin/fortick explorations/fortify/buffons-excerpt.tic     (writes buffons-excerpt.tex)
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex buffons-excerpt.tex
+%   dvisvgm --no-fonts --exact-bbox -o buffons-excerpt-light.svg buffons-excerpt.dvi
+% The dark variant is the same SVG with fill='#e6edf3' on the root element.
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`for i <- 1#3000 do
+   delta_X = random(2.0) - 1.0
+   delta_Y = random(2.0) - 1.0
+   rsq = delta_X^2 + delta_Y^2
+  if 0.0 < rsq < 1.0 then
+     y1 = tableHeight random(1.0)
+     y2 = y1 + needleLength (delta_Y / SQRT rsq)
+     (y_L, y_H) = (y1 MIN y2, y1 MAX y2)
+     temp1:RR64 = y_L / needleLength
+     temp2:RR64 = y_H / needleLength
+
+      if |/ temp1 \| = |\ temp2 /| then
+            atomic do hits:= hits + 1.0 end
+      end
+     atomic do n:= n + 1.0 end
+   end
+end`
+\end{preview}
+\end{document}

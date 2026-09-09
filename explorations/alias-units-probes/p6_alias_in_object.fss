@@ -1,0 +1,16 @@
+(* Q1 probe 6: type alias declared inside an object body (i.e. NOT a top-level
+   component declaration, so IndexBuilder.buildCompilationUnitIndex never sees
+   it).  Spec: Specification/basic/declarations.tex:546 speaks of "a type alias
+   (top-level or not)", and :162/:223/:295 enumerate *top-level* type aliases,
+   so the non-top-level position is spec-sanctioned. *)
+component p6_alias_in_object
+export Executable
+
+object Box(v: ZZ32)
+  type Payload = ZZ32
+  getter val(): Payload = v
+end
+
+run() = println("box = " Box(5).val)
+
+end

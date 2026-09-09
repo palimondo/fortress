@@ -1,0 +1,11 @@
+component p01
+export Executable
+object V(var data: RR64)
+  bump(): () = do data := data + 1.0 end
+end
+run() = do
+  v = V(1.0)
+  v.bump()
+  println("p01 " v.data)
+end
+end

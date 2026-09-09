@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$\sum_i x_i$: identity $0$, combination $+$, scalar graph retained.
+\begin{FortressCode}
+\KWD{object} \TYP{VSumReduction} \KWD{extends} \TYP{CommutativeMonoidReduction}\llbracket{}V\rrbracket \\
+\2\+\VAR{empty}(\ultrathin)\COLONOP{}V = \VAR{constant}(0.0) \\
+  \VAR{join}(x\COLONOP{}V,y\COLONOP{}V)\COLONOP{}V = x + y\- \\
+\KWD{end} \\
+\KWD{opr}\, \mathord{\sum}(\ultrathin)\COLON\TYP{Comprehension}\llbracket{}V,V,V,V\rrbracket = \\
+\2\+\TYP{Comprehension}\llbracket{}V,V,V,V\rrbracket\bigl(\KWD{fn} (x\COLONOP{}V) \Rightarrow x,\TYP{VSumReduction},\KWD{fn} (x\COLONOP{}V) \Rightarrow x\bigr)\-
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

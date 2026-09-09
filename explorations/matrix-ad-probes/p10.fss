@@ -1,0 +1,15 @@
+(* Q4a: does SUM reduce a generator of library Vectors?
+   opr SUM[\T extends Number\] -- FortressLibrary.fss:3041-3045, .fsi:1820-1822.
+   Vector extends AdditiveGroup, NOT Number (.fsi:1461). *)
+component p10
+export Executable
+
+contrib(i: ZZ32): Vector[\RR64,3\] =
+    vector[\RR64,3\](fn (j:ZZ32):RR64 => 1.0 (i+1) (j+1))
+
+run(): () = do
+    n: ZZ32 = 5
+    total = SUM [ i <- 0#n ] contrib(i)
+    println("SUM over vectors = " total)
+  end
+end

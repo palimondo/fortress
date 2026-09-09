@@ -1,0 +1,13 @@
+(* P13: Does the Unicode N-ARY SUMMATION sign U+2211 work as a reduction
+   operator at all, even for the built-in numeric SUM?
+   Specification/basic/expressions/reductions.tex:19 says
+       Accumulator ::= \sum | \prod | BIG (Encloser | Op)
+   No user code involved -- pure library. *)
+component p13_unicode_sigma
+export Executable
+
+run(): () = do
+    println("ASCII   SUM [i <- 0#5] i = " (SUM [i <- 0#5] i))
+    println("UNICODE   ∑ [i <- 0#5] i = " (∑ [i <- 0#5] i))
+end
+end

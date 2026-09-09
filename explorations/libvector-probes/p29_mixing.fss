@@ -1,0 +1,35 @@
+(* Probe T: mixing RR64 scalars with a Vector[\Value\], and the SUM identity.
+   SumReduction.empty() : Number = 0   (Library/FortressLibrary.fss:3029)
+   -- an integer literal, not T's zero, so an empty reduction cannot
+   produce a Value. *)
+component p29_mixing
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+run(): () = do
+    u: Value[3] = [Value(1.0) Value(2.0) Value(3.0)]
+
+    println("-- SUM over an EMPTY Value vector --")
+    e = vector[\Value,0\]()
+    s = SUM [ x <- e ] x
+    println("SUM over empty = " s)
+    typecase s of
+        Value => println("  ... it is a Value")
+        else  => println("  ... it is NOT a Value (SumReduction.empty() = 0)")
+    end
+
+    println("-- scaling a Vector[\\Value\\] by a bare RR64 --")
+    println("2.0 u = " (2.0 u))
+  end
+end

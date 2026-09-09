@@ -1,0 +1,19 @@
+(* Q1 probe 1: the spec's own first type-alias example, verbatim.
+   Specification/basic/types-vals-vars.tex:616
+     type IntList = List[\ZZ64\]
+   "Fortress allows names to serve as aliases for more complex type
+   instantiations." (types-vals-vars.tex:605-609) *)
+component p1_alias_basic
+import List.{...}
+export Executable
+
+type IntList = List[\ZZ64\]
+
+sum2(xs: IntList): ZZ64 = SUM [ x <- xs ] x
+
+run() = do
+  ys : IntList = <|[\ZZ64\] 1, 2, 3|>
+  println("sum2 = " sum2(ys))
+end
+
+end

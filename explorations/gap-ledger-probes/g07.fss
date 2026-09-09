@@ -1,0 +1,8 @@
+component g07
+export Executable
+(* a reduction is a FlowExpr: it cannot be an operand of an infix operator *)
+run(): () = do
+  e = <|[\RR64\] 1.0, 2.0, 3.0|>
+  println(2.0 / SUM[u <- e] u)
+end
+end

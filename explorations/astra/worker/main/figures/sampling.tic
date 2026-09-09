@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$p=\operatorname{softmax}(\ell/0.5),\quad k=\min\{j:u<\sum_{i=0}^{j}p_i\}$
+`
+categorical(p:Vec,u:RR64):ZZ32 = do
+  cumulative:RR64 := 0.0
+  choice:ZZ32 := p.n-1
+  found:Boolean := false
+  for i <- sequential(0#p.n) do
+    cumulative += (p[i]).primal
+    if NOT found AND u<cumulative then choice := i; found := true end
+  end
+  choice
+end
+`
+\end{minipage}\end{preview}\end{document}

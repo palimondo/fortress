@@ -1,11 +1,9 @@
 # Independent Fortress microGPT experiment — Fable-side blinded run
 
-This brief parallels an independent assignment given to another model in a
-separate environment. The point is a fair, comparable baseline: same mission,
-same standard of success, same blinding discipline, different environment
-plumbing. You are the coordinator of this run: you may delegate to worker
-agents (any model, any number) as your investigation requires — every
-delegated brief must carry this brief's instruction-following boundary.
+This brief parallels the Astra-side assignment (branch `codex/astra-microgpt`,
+`experiment/WORKER_BRIEF_DRAFT.md`) with only the changes this environment
+requires. The point is a fair, comparable baseline: same mission, same
+standard of success, same blinding discipline, different environment plumbing.
 
 ## Mission and standard of success
 
@@ -36,47 +34,47 @@ This is also a concrete test of connecting knowledge of mathematics,
 transformers and programming languages in an unfamiliar codebase, with
 inspectable evidence.
 
-## Turn 1: environment setup, then stop
+## Work here, using the already running build
 
-This is a fresh checkout of the branch `blinded-fable` in a fresh container.
-Your first turn does exactly this and nothing else:
-
-1. Run `bash experiment/setup.sh` in the background (it takes 5–10 minutes on
-   a fresh container: package install, `ant compileAll`, first-run library
-   caches, a render check, and a transcript-archiving check). Every stage
-   prints a timestamped `STAGE <name>: START/OK/FAIL` line; details stream to
-   `experiment/setup.log`. Poll the log roughly once a minute and report each
-   stage line as it appears, so progress is visible.
-2. When it finishes, paste its summary block (the lines after
-   `---- setup summary ----`) verbatim.
-3. **Stop and wait.** Do not begin the experiment until the coordinator
-   replies that the environment is verified. If any stage is FAIL, report
-   the concrete evidence (`tail -40 experiment/setup.log`) and stop; the
-   coordinator will help. Do not improvise repairs to the environment.
-
-After the go-ahead: `source experiment/env.sh` in every shell that runs
-Fortress; run probes as `./bin/fortress PATH.fss` (the env file sets the
-required single-thread mode). The Fortress component name must match its
-filename (sans `.fss`). Do not reinstall Java or Ant, and do not run the
-full test suites as onboarding; the baseline is known green (1,377 testFast;
-382 testSystem). If an actual environment failure occurs later, report its
-concrete evidence rather than rebuilding the world.
-
-Create all your work under `experiment/worker/`. Keep a command log: append
-each probe invocation and its captured output to
-`experiment/worker/transcript.txt` (redirect with `tee -a`).
-
-### Rendering pipeline
-
-To typeset actual Fortress source: write a `.tic` file containing the source
-excerpt, then from its directory (with `$FORTRESS_HOME` set as above):
+You are in a git worktree of an already-built checkout. Do not clone another
+checkout, reinstall Java/Ant, or rerun baseline suites as onboarding — the
+baseline is green (clean build; 1,377 testFast; 382 testSystem). Set up once:
 
 ```sh
-$FORTRESS_HOME/bin/fortick NAME.tic          # .tic -> .tex
-TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex NAME.tex
+cp -r /home/user/fortress/ProjectFortress/build $PWD/ProjectFortress/
+cp -r /home/user/fortress/default_repository $PWD/
+export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+export FORTRESS_HOME=$PWD
+unset JAVA_TOOL_OPTIONS
+```
+
+Never point `FORTRESS_HOME` at `/home/user/fortress` itself; nothing in the
+main checkout may be modified. Run probes as
+`FORTRESS_THREADS=1 ./bin/fortress PATH.fss` (the shared box requires the
+single-thread setting; the interpreter's subcommandless form walks the file).
+The Fortress component name must match its filename (sans `.fss`). If library
+files under your worktree's `Library/` are ever touched, wipe
+`$PWD/default_repository/caches/*` — but you are not to change the shipped
+library (see below). If an actual environment failure occurs, report its
+concrete evidence to the coordinator for repair rather than rebuilding.
+
+Create all your work under `experiment/worker/` in your worktree. Keep a
+command log: append each probe invocation and its captured output to
+`experiment/worker/transcript.txt` (redirect with `tee -a`). There is no
+recording wrapper here; the transcript file serves that role.
+
+### Rendering pipeline (prepared and verified; do not re-derive it)
+
+To typeset actual Fortress source: write a `.tic` file containing the source
+excerpt, then from its directory:
+
+```sh
+/home/user/fortress/bin/fortick NAME.tic          # .tic -> .tex
+TEXINPUTS=".:/home/user/fortress/Fortify:" latex NAME.tex
 dvisvgm --no-fonts --exact-bbox -o NAME.svg NAME.dvi
 /opt/pw-browsers/chromium --headless --no-sandbox --disable-gpu \
-  --screenshot=NAME.png NAME.svg              # rasterize to inspect
+  --screenshot=NAME.png NAME.svg                  # rasterize to inspect
 ```
 
 Inspect the PNG visually and retain the SVG and `.tic` inputs. Delete the
@@ -86,32 +84,28 @@ not meet the deliverable.
 
 ## Instruction-following boundary
 
-Start from this brief only. Prior experiments toward the same goal exist in
-this repository's history and elsewhere; independence relies on obeying these
-instructions.
+Start from this brief only, with no inherited coordinator conversation. Agents
+share the filesystem; independence relies on obeying these instructions, not
+on access restrictions.
 
-This branch has been prepared: the prior work (an `explorations/` directory, a
-`research/` directory, and a root `CLAUDE.md`) is absent from the checkout by
-construction. It still exists in git history and on other branches, so:
+Do not read, search, recursively list, or otherwise retrieve content from:
 
-- Do not use `git log`, `git show`, `git diff`, `git checkout` of other
-  revisions, or any ref/branch archaeology — work with this checked-out tree
-  only.
-- Do not fetch other branches of this repository, its GitHub web views, pull
-  requests, or issues.
-- Do not retrieve prior published artifacts or pages about Fortress microGPT
-  work, and do not use conversation/memory retrieval of prior sessions.
-- Report any accidental exposure.
+- `explorations/` — prior experiment work and analysis (any file, any depth).
+- `CLAUDE.md` at the repo root — it summarizes prior findings.
+- `experiment/` outside your own `experiment/worker/` — coordinator materials.
+- Any git branch, ref, log, or historical revision — work with the checked-out
+  tree only; no `git log`/`show`/`diff` archaeology, which reaches the
+  excluded material.
+- GitHub, prior published artifacts, conversation retrieval, or other agents'
+  findings.
 
-Every worker you delegate to must receive these same restrictions verbatim in
-its brief.
+Scope searches (grep/glob) to permitted directories explicitly; a repo-wide
+recursive search includes the excluded paths. Report any accidental exposure.
 
 Freely explore this checkout's `Specification/` (TeX sources; no PDFs),
 `Library/`, `ProjectFortress/`, `Fortify/`, `bin/` and other original source
 materials. The exclusions restrict contamination, not investigation of
-Fortress's capabilities. General web research on transformers, ML notation,
-and Fortress's public history is allowed; prior microGPT-in-Fortress material
-is not.
+Fortress's capabilities.
 
 ## Design and validation
 
@@ -120,17 +114,16 @@ reference: https://karpathy.github.io/2026/02/12/microgpt/ . Pin the actual
 source revision. If article and gist differ, identify and consistently select
 a variant. You may download and run the Python locally under
 `experiment/worker/` to derive deterministic checks (logits/loss/gradients
-under fixed weights, with justified tolerances); do not commit the Python
-source (its license is unstated).
+under fixed weights, with justified tolerances); do not commit it anywhere.
 
 For each building block, distinguish the mathematical computation from
-accidents of the Python implementation. Investigate the language's
-facilities, including reuse, algebraic structure and inference where useful.
-Do not preselect an operator, type representation, evaluation order or
-approach from an example. Target recognizable ML notation: where the formula
-uses ordinary summation, seek that notation. A look-alike glyph or a prettier
-label in the article does not substitute for an executable definition with
-the intended meaning.
+accidents of the Python implementation. Investigate the language's facilities,
+including reuse, algebraic structure and inference where useful. Do not
+preselect an operator, type representation, evaluation order or approach from
+an example. Target recognizable ML notation: where the formula uses ordinary
+summation, seek that notation. A look-alike glyph or a prettier label in the
+article does not substitute for an executable definition with the intended
+meaning.
 
 User-level types, operations and library modules are welcome. Do not change
 the historical language, compiler, runtime or shipped library to make the
@@ -141,8 +134,8 @@ impossibility; investigate alternatives. Conversely, interpreter acceptance
 alone does not establish specification conformance. Classify surviving
 notational departures as an implementation/library gap, language-design
 limit, or justified design choice, with reproducers and source citations.
-Retain actionable gaps for a revival worklist without changing the historical
-system during this experiment.
+Retain actionable gaps for the revival worklist without changing the
+historical system during this experiment.
 
 Do not suppress language parallelism merely to reproduce Python's exact
 order. Distinguish true dependencies, numerical effects and implementation
@@ -151,9 +144,9 @@ notation. Keep executions small and bounded; no long training runs.
 
 ## Deliverables
 
-All under `experiment/worker/`, committed and pushed to this branch
-(`blinded-fable`) as you reach milestones — commit-as-you-go so nothing is
-lost; push only to this branch.
+All under `experiment/worker/` in your worktree, mirrored to the session
+scratchpad directory `blinded-microgpt/` (the coordinator names it in your
+task message).
 
 1. **Running, verified microGPT in Fortress**, including the model,
    differentiation, training update and generation path for the pinned
@@ -169,11 +162,9 @@ lost; push only to this branch.
    manufacture apparent brevity. Compare the mathematical core and required
    support separately from tests, benchmarks and comments. Explain
    substantive alternatives explored and why the chosen form is preferable.
-   Avoid large code dumps with detached prose. The final article is a
-   self-contained HTML presentation (`experiment/worker/article.html`) with
-   the rendered SVG figures inlined or committed beside it — designed for
-   reading, legible in light and dark, wide content in scrollable
-   containers. Commit the figure sources (`.tic`, `.svg`) alongside it.
+   Avoid large code dumps with detached prose. The article is a Markdown
+   document with the rendered figures beside it; page production happens
+   after review.
 
 3. **A reviewable process record:** meaningful runnable probes including
    failures, source versions, command logs, validation data and brief
@@ -183,6 +174,6 @@ lost; push only to this branch.
 
 Preserve the independent design and evidence before any comparison with prior
 work. Subsequent independent review may challenge the solution and
-investigative claims. The coordinator of the overall experiment handles
-review and eventual comparison. Evaluate results without self-praise or
-treating this single specimen as proof that coding is solved.
+investigative claims. The coordinator handles review and eventual comparison.
+Evaluate results without self-praise or treating this single specimen as
+proof that coding is solved.

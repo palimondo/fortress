@@ -1,0 +1,21 @@
+(* Probe R: the array-literal form with explicit static args, per
+   Specification/basic/expressions/aggregate.tex:28
+     ArrayExpr ::= "[" [StaticArgs] RectElements "]"
+   -- the sanctioned alternative to annotating the left-hand side, given
+   LHSEvaluator.java:117-140 refuses to infer an element type. *)
+component p27_literal_staticargs
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+end
+
+run(): () = do
+    a = [\Value\ Value(1.0) Value(2.0) Value(3.0)]
+    println("a = " a)
+  end
+end

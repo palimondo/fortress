@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\begin{document}\begin{preview}
+\begin{minipage}{17cm}
+\textbf{Candidate A: eager user-level vectors, ordinary reductions}\\
+Mathematics: $y_i=\sum_{j=0}^{n-1} A_{ij}x_j$,\quad
+$\operatorname{softmax}(x)_i=\frac{\exp(x_i-m)}{\sum_j\exp(x_j-m)}$, $m=\max_jx_j$.\\
+$\operatorname{RMSNorm}(x)=x/\sqrt{(\sum_i x_i^2)/n+10^{-5}}$.\\
+$\alpha=\operatorname{softmax}(Kq/\sqrt{d_h})$,\quad
+$o_j=\sum_{t=0}^{T-1}\alpha_t V_{tj}$.\\[1ex]
+\textbf{Actual executable-source definitions (Fortify):}
+\begin{FortressCode}
+\KWD{opr} \VAR{juxtaposition}(A\COLON\TYP{Mat},x\COLON\TYP{Vec})\COLON\TYP{Vec} = \TYP{Vec}\left(A.m,\KWD{fn} i \Rightarrow \sum\limits_{j \leftarrow 0\mathbin{\#}A.n}\, A_{i,j}\, x_{j}\right) \\
+\KWD{opr}\, \mathord{+}(x\COLON\TYP{Vec},y\COLON\TYP{Vec})\COLON\TYP{Vec} = \TYP{Vec}(x.n,\KWD{fn} i \Rightarrow x_{i}+y_{i}) \\
+\KWD{opr}\, \mathord{/}(x\COLON\TYP{Vec},s\COLON\mathbb{R}64)\COLON\TYP{Vec} = \TYP{Vec}\left(x.n,\KWD{fn} i \Rightarrow {\textstyle{}x_{i}\over\textstyle{}s}\right) \\
+\KWD{opr} \VAR{juxtaposition}(x\COLON\TYP{Vec},y\COLON\TYP{Vec})\COLON\mathbb{R}64 = \sum\limits_{i \leftarrow 0\mathbin{\#}x.n}\, x_{i}\, y_{i} \\
+\KWD{opr} \VAR{juxtaposition}(s\COLON\mathbb{R}64,x\COLON\TYP{Vec})\COLON\TYP{Vec} = \TYP{Vec}(x.n,\KWD{fn} i \Rightarrow s\, x_{i}) \\
+\KWD{opr}\, \mathord{-}(x\COLON\TYP{Vec},s\COLON\mathbb{R}64)\COLON\TYP{Vec} = \TYP{Vec}(x.n,\KWD{fn} i \Rightarrow x_{i}-s) \\
+\exp(x\COLON\TYP{Vec})\COLON\TYP{Vec} = \TYP{Vec}\bigl(x.n,\KWD{fn} i \Rightarrow \exp(x_{i})\bigr) \\
+\VAR{relu}(x\COLON\TYP{Vec})\COLON\TYP{Vec} = \TYP{Vec}(x.n,\KWD{fn} i \Rightarrow\; \KWD{if} x_{i}>0.0 \KWD{then} x_{i} \KWD{else} 0.0 \KWD{end}) \\
+\VAR{maximum}(x\COLON\TYP{Vec})\COLON\mathbb{R}64 = (0\mathbin{\#}x.n).\VAR{map}\bigl(\KWD{fn} (i\COLON\mathbb{Z}32) \Rightarrow x_{i}\bigr).\VAR{reduce}\left(\KWD{fn} (a\COLON\mathbb{R}64,b\COLON\mathbb{R}64) \Rightarrow a \OPR{MAX} b, -{\textstyle1.0\over\textstyle0.0}\right) \\
+\VAR{softmax}(x\COLON\TYP{Vec})\COLON\TYP{Vec} =\; \KWD{do} \\
+\2\+e = \exp\bigl(x-\VAR{maximum}(x)\bigr) \\
+  e / \left(\sum\limits_{i \leftarrow 0\mathbin{\#}x.n}\, e_{i}\right)\- \\
+\KWD{end} \\
+\VAR{rmsnorm}(x\COLON\TYP{Vec})\COLON\TYP{Vec} = x / {\textstyle\sqrt{{\textstyle{}x\, x\over\textstyle1.0\, x.n}+0.00001}} \\
+\VAR{head}(x\COLON\TYP{Vec},h\COLON\mathbb{Z}32,s\COLON\mathbb{Z}32)\COLON\TYP{Vec} = \TYP{Vec}\bigl(s,\KWD{fn} j \Rightarrow x[h\, s + j]\bigr) \\
+ \\
+\fortressonelinecomment{(*}{ Each row of K and V is one cached time position, including the current one. }{*)} \\
+\VAR{attention}(q\COLON\TYP{Vec},K\COLON\TYP{Mat},V\COLON\TYP{Mat})\COLON\TYP{Vec} =\; \KWD{do} \\
+\2\+a = \VAR{softmax}\left((K\, q) / \left({\textstyle\sqrt{(1.0\, q.n)}}\,\right)\right) \\
+  \TYP{Vec}\left(V.n,\KWD{fn} j \Rightarrow \sum\limits_{t \leftarrow 0\mathbin{\#}V.m}\, a_{t}\, V_{t,j}\right)\- \\
+\KWD{end} \\
+ \\
+\end{FortressCode}
+\textbf{Python reference:}\\
+\texttt{[sum(wi*xi for wi,xi in zip(row,x)) for row in w]}\\
+\texttt{exps = [(val-max\_val).exp() for val in logits]}\\
+\texttt{[e / sum(exps) for e in exps]}\\
+\texttt{[xi * (sum(xj*xj for xj in x)/len(x)+1e-5)**-0.5 for xi in x]}
+\end{minipage}
+\end{preview}\end{document}

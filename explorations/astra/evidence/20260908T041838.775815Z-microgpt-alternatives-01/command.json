@@ -1,0 +1,20 @@
+{
+  "command": [
+    "bin/fortress",
+    "walk",
+    "experiment/worker/main/MicroGPTAlternatives.fss"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260908T041838.775815Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "status": "completed",
+  "exit_code": 0,
+  "source_snapshots": [
+    {
+      "original": "experiment/worker/main/MicroGPTAlternatives.fss",
+      "saved": "source/main/MicroGPTAlternatives.fss",
+      "sha256": "5071c7b18d92193869e911afbbee0ff678e1313caeeaa04b207c5d1ac61bc592"
+    }
+  ],
+  "elapsed_seconds": 3.935
+}

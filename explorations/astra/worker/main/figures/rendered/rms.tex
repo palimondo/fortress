@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$\mathrm{RMS}(x)=x/\sqrt{(x\cdot x)/n+10^{-5}}$\\alternative: $((x\cdot x)/n+10^{-5})^{-1/2}x$
+\begin{FortressCode}
+\VAR{rmsnorm}(x\COLON\TYP{Vec})\COLON\TYP{Vec} = {\textstyle{}x\over\textstyle{\textstyle\sqrt{{\textstyle{}x \cdot x\over\textstyle{}x.n} + 0.00001}}} \\
+ \\
+\KWD{opr} \VAR{juxtaposition}(s\COLONOP{}V,x\COLON\TYP{Vec})\COLON\TYP{Vec} = \TYP{Vec}(x.n,\KWD{fn} i \Rightarrow s\, x_{i}) \\
+\VAR{rmsnorm}(x\COLON\TYP{Vec})\COLON\TYP{Vec} = \left({\textstyle{}x \cdot x\over\textstyle{}x.n} + 0.00001\right)^{-0.5}\, x
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "bin/fortress",
+    "walk",
+    "experiment/smoke.fss"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "started_utc": "20260907T001728.599067Z",
+  "base_commit": "8332bd34faad28cac7231c4eb261827b6ce7d9f9",
+  "exit_code": 0,
+  "elapsed_seconds": 4.332
+}

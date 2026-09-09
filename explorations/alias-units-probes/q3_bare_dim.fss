@@ -1,0 +1,17 @@
+(* Q2 probe 3: a BASE dimension declaration with no default clause -- the
+   spec's very first dimension example.
+   Specification/advanced/defining-dimensions.tex:64-69:
+       dim Length
+       dim Mass
+       dim Time
+       dim ElectricCurrent
+   Grammar (defining-dimensions.tex:23-25):
+       dim Id [= Type] [default Id]      -- the default clause is OPTIONAL *)
+component q3_bare_dim
+export Executable
+
+dim Length
+
+run() = println "bare dim accepted"
+
+end

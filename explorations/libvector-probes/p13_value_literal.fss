@@ -1,0 +1,48 @@
+(* Probe D: array-literal construction of a library Vector/Matrix over Value.
+   The dispatch that decides literal -> Vector vs plain array lives in
+   Library/FortressLibrary.fss:2242-2247 (array1 typecases __thrower[\T\]
+   against "() -> Number"). *)
+component p13_value_literal
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+    opr ^(self, k: AnyIntegral): Value = Value(data^k)
+end
+
+run(): () = do
+    (* abbreviated array type over the user element type *)
+    a: Value[3] = [Value(1.0) Value(2.0) Value(3.0)]
+    println("a = " a)
+    typecase a of
+        AnyVector => println("a IS an AnyVector")
+        else      => println("a is NOT an AnyVector")
+    end
+    println("a[1] = " a[1] ", |a| = " |a|)
+
+    (* explicit library Vector trait on the LHS *)
+    b: Vector[\Value,3\] = [Value(1.0) Value(2.0) Value(3.0)]
+    println("b = " b)
+    typecase b of
+        AnyVector => println("b IS an AnyVector")
+        else      => println("b is NOT an AnyVector")
+    end
+    println("a + b = " (a + b))
+
+    (* 2-D literal *)
+    m: Value[2,2] = [Value(1.0) Value(2.0); Value(3.0) Value(4.0)]
+    println("m = " m)
+    typecase m of
+        AnyMatrix => println("m IS an AnyMatrix")
+        else      => println("m is NOT an AnyMatrix")
+    end
+  end
+end

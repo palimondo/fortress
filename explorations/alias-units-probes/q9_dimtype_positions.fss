@@ -1,0 +1,16 @@
+(* Q2 probe 9: where does the dimensioned type `RR64 Length` parse?
+   q8 showed it parses in a FUNCTION PARAMETER (TaggedDimType node reached the
+   evaluator).  q6/q7 showed a plain "Syntax Error" for a LOCAL var decl inside
+   `do`.  This probe isolates the TOP-LEVEL var-decl position.
+   Spec: Specification/basic/dimensions.tex:132-143 writes exactly this form
+   at what reads as top level. *)
+component q9_dimtype_positions
+export Executable
+
+trait Length end
+
+x: RR64 Length = 1.3
+
+run() = println "parsed"
+
+end

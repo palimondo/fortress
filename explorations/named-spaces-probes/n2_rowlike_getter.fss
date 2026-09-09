@@ -1,0 +1,88 @@
+(* Step-0 probe A2: push the shared members INTO the trait.
+
+   RowLike declares an abstract accessor (the underlying List) and defines
+   indices, |self| and [i] in terms of it, exactly as MultiplicativeRing
+   hands Value its inherited operators (complex_ring precedent).  Then
+   ProbDist's whole body is empty: it is one line of source.
+
+   Open question this probe settles: does an OBJECT VALUE PARAMETER
+   (`object Vec(xs: List[..])`) satisfy a trait's ABSTRACT GETTER of the
+   same name?  Spec basic/objects.tex: object value parameters are fields
+   and fields have getters.
+
+   Also exercised here, per the brief: opr = (both carriers), |x|,
+   subscripting, generator integration (u <- x, BIG AND, zip), and the
+   Mat x Vec direction that rests on Rank1 excludes Rank2. *)
+component n2_rowlike_getter
+import List.{...}
+export Executable
+
+trait RowLike extends { Rank1, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\] }
+  getter xs(): List[\RR64\]
+  getter indices(): Generator[\ZZ32\] = 0 # |self.xs|
+  opr |self| : ZZ32 = |self.xs|
+  opr [i: ZZ32]: RR64 = (self.xs)[i]
+end
+
+object Vec(xs: List[\RR64\]) extends { RowLike, AdditiveGroup[\Vec\] }
+  getter asString(): String = "Vec" xs
+  opr +(self, y: Vec): Vec = Vec(<|[\RR64\] u + w | (u, w) <- self.zip[\RR64\](y) |>)
+  opr -(self): Vec = Vec(<|[\RR64\] -u | u <- xs |>)
+  opr =(self, y: Vec): Boolean =
+    (|xs| = |y|) AND (BIG AND[m <- self.indices] (xs[m] = y[m]))
+end
+
+(* the named space: ONE line *)
+object ProbDist(xs: List[\RR64\]) extends { RowLike } end
+
+object Mat(rows: List[\Vec\])
+    extends { Rank2, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec,ZZ32\] }
+  getter indices(): Generator[\ZZ32\] = 0 # |rows|
+  getter asString(): String = "Mat" rows
+  opr |self| : ZZ32 = |rows|
+  opr [i: ZZ32]: Vec = rows[i]
+  opr =(self, y: Mat): Boolean =
+    (|rows| = |y|) AND (BIG AND[i <- self.indices] (rows[i] = y[i]))
+end
+
+opr DOT(u: Vec, w: Vec): RR64 = SUM[m <- u.indices] (u[m] w[m])
+opr juxtaposition(w: Mat, x: Vec): Vec = Vec(<|[\RR64\] r DOT x | r <- w |>)
+
+(* THE DEDUPLICATED OVERLOAD: one body, both Vec and ProbDist *)
+opr juxtaposition(p: RowLike, m: Mat): Vec =
+  Vec(<|[\RR64\] SUM[j <- p.indices] (p[j] (m[j])[c]) | c <- (m[0]).indices |>)
+
+opr (m: Mat)^T : Mat =
+  Mat(<| Vec(<|[\RR64\] (m[j])[c] | j <- m.indices |>) | c <- (m[0]).indices |>)
+
+opr /(x: Vec, c: RR64): Vec = Vec(<|[\RR64\] u / c | u <- x |>)
+opr -(x: Vec, s: RR64): Vec = Vec(<|[\RR64\] u - s | u <- x |>)
+exp(x: Vec): Vec = Vec(<|[\RR64\] exp u | u <- x |>)
+
+softmax(a: Vec): ProbDist = do
+  m = BIG MAX[u <- a] u
+  e = exp(a - m)
+  ProbDist((e / (SUM[u <- e] u)).xs)
+end
+
+attend(q: Vec, K: Mat, V: Mat, d_k: ZZ32): Vec = softmax(q K^T / SQRT d_k) V
+
+run() = do
+  q  = Vec(<|[\RR64\] 1.0, 0.0|>)
+  K  = Mat(<| Vec(<|[\RR64\] 1.0, 0.0|>), Vec(<|[\RR64\] 0.0, 1.0|>) |>)
+  V  = Mat(<| Vec(<|[\RR64\] 3.0, 4.0|>), Vec(<|[\RR64\] 5.0, 6.0|>) |>)
+  p  = softmax(q K^T / SQRT 2)
+  println("softmax(q K^T/SQRT 2) = " p)
+  println("attend = " attend(q, K, V, 2))
+  println("Mat x Vec = " (K V[0]))
+  println("Vec x Mat = " (q K))
+  (* the members the carriers rely on, on BOTH carriers *)
+  println("|p| = " |p| "   p[0] = " p[0])
+  println("SUM over p (generator) = " (SUM[u <- p] u))
+  println("Vec = Vec (reflexive) : " (q = Vec(<|[\RR64\] 1.0, 0.0|>)))
+  println("Mat = Mat (reflexive) : " (K = K))
+  println("zip on Vec : " (q + q))
+  println("p indices  : " (<|[\ZZ32\] j | j <- p.indices |>))
+end
+
+end

@@ -1,0 +1,146 @@
+===================== p00_hello =====================
+builtin SUM = 10
+===================== p01_own_bigop =====================
+BIG OPLUS over list      = V(6.5)
+BIG OPLUS mapped index   = V(6)
+BIG OPLUS empty          = V(0.0)
+BIG OPLUS sugar          = V(6.5)
+===================== p02_sum_overload =====================
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:3041:1-3042:85: and
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p02_sum_overload.fss:20:1-67:
+Overloading of BIG +[\T extends FortressLibrary.Number\]():Comprehension[\T,FortressLibrary.Number,FortressLibrary.Number,FortressLibrary.Number\]/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:3041:1-3042:85 and BIG +():BigReduction[\V,V\] ()->BigReduction[\V,V\] /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p02_sum_overload.fss:20:1-67 fails because their parameter lists have the same types
+Context:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:3041:1-3042:85:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p02_sum_overload.fss:27:35-36:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+===================== p03_sum_unary_only =====================
+SUM vs (sugar)  = V(6.5)
+builtin SUM     = 10
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:1120:25-34:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p03_sum_unary_only.fss:26:49:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1034:13-1035:9:
+===================== p04_static_args =====================
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:1120:25-34:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p04_static_args.fss:17:32:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:3387:9-48:
+===================== p05_local_sum =====================
+null/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p05_local_sum.fss:21:5-6:
+    Operator declarations are not allowed in block expressions.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+===================== p07_v_extends_number =====================
+SUM [v <- vs] v = V(6.5)
+===================== p08_hijack_bigoperator =====================
+SUM[\V\] [v <- vs] v = V(6.5)
+builtin SUM          = 10
+===================== p09_hijack_nostaticargs =====================
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:1120:25-34:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p09_hijack_nostaticargs.fss:27:49:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:3387:9-48:
+===================== p10_default_instantiation =====================
+plain SUM over ZZ32:
+  10
+SUM[\V\] over V (no user __bigOperator for V):
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:1120:25-34:
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p10_default_instantiation.fss:26:38:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/.claude/worktrees/agent-a57c5c713053ca19b/Library/RangeInternals.fss:1032:46-57:
+===================== p11_unary_matched_staticparams =====================
+SUM vs      = V(6.5)
+builtin SUM = 10
+===================== p12_userspace_demo =====================
+1  SUM vs                    = V(6.5)
+2  SUM one (singleton)       = V(7.25)
+3  SUM none (empty)          = V(0.0)
+4  SUM <| f(i) | i <- 0#5 |> = V(30)
+5  SUM (vs.map[\V\](fn v => v + v)) = V(13.0)
+6  builtin SUM [i <- 0#5] i  = 10
+7  builtin SUM over RR64     = 4.0
+8  mixed in one expression   = 12.5
+===================== p13_unicode_sigma =====================
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p13_unicode_sigma.fss:11:44:
+    Operator prefix SUM is not defined.
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p13_unicode_sigma.fss:11:47:
+    Variable i is not defined.
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p13_unicode_sigma.fss:11:49-53:
+    Operator <- is not defined.
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p13_unicode_sigma.fss:11:57:
+    Variable i is not defined.
+===================== p14_import_except =====================
+SUM [v <- vs] v = V(6.5)
+===================== p15_full_sum =====================
+1  SUM [v <- vs] v            = V(6.5)
+2  SUM [i <- 0#4] f(i)        = V(14)
+3  SUM [v <- one] v (single)  = V(7.25)
+4  SUM vs (sugar form)        = V(6.5)
+5  numeric SUM [i <- 0#5] i   = 10
+6  numeric SUM over RR64      = 4.0
+7  numeric SUM, empty         = 0
+8  V SUM, empty (gives ZZ32 0)= 0
+9  filtered SUM over V        = V(5.5)
+10 V and numbers in one expr  = 12.5
+11 nested SUM over V          = V(9)
+12 SUM over a 2-generator box = V(9)
+===================== p16_library_sugar =====================
+SUM <| 1, 2, 3 |>   = 6
+BIG || <| "a","b" |> = ab
+===================== p17_generic_sugar_diag =====================
+A bracket over V   = V(3.0)
+B bracket numeric  = 10
+C sugar numeric    = 6
+D sugar over V     = V(3.0)
+===================== p18_except_side_effects =====================
+strToInt("1234")     = 1234
+strToFloat("12.5")   = 12.5
+PROD [i <- 1#5] i    = 120
+BIG MAX [i <- 0#5] i = 4
+BIG || over strings  = abc
+list comprehension   = <|0, 1, 4, 9, 16|>
+infix + still fine   = 5
+===================== p19_except_removes =====================
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p19_except_removes.fss:8:36-37:
+    Operator BIG + is not defined.
+===================== p20_except_spelling_sum =====================
+/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/sum-experiment/p20_except_spelling_sum.fss:9:46:
+    Syntax Error

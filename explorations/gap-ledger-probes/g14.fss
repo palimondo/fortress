@@ -1,0 +1,10 @@
+component g14
+export Executable
+opr ^(m: ZZ32, t: ZZ32): ZZ32 = m
+opr (m: ZZ32)^T: ZZ32 = m
+f(x_h: ZZ32, t: ZZ32, u: ZZ32, w: ZZ32): ZZ32 = x_h[t]
+g(u: ZZ32, w: ZZ32): ZZ32 = SUM[m <- 0#3] u w
+h(u: ZZ32, w: ZZ32): ZZ32 = u DOT w
+_Wq: ZZ32 = 1
+run(): () = println(f(1,2,3,4))
+end

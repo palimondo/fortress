@@ -1,0 +1,19 @@
+(* P04: Supply explicit static args to the reduction expression:
+       SUM[\V\] [v <- vs] v
+   The desugarer builds  __bigOperator(SUM[\V\](), fn (r,u) => ...),
+   so this asks the library's  opr SUM[\T extends Number\]()  to be
+   instantiated at T = V, which violates its bound. *)
+component p04_static_args
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+run(): () = do
+    vs = <| V(1.0), V(2.0), V(3.5) |>
+    println(SUM[\V\] [v <- vs] v)
+end
+end

@@ -1,0 +1,7 @@
+component RvwNameKeywords
+export Executable
+run(): () = do
+  BOS = 26
+  println(BOS)
+end
+end

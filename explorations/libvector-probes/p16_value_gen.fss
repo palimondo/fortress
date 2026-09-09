@@ -1,0 +1,49 @@
+(* Probe G: generator integration for a library Vector/Matrix of Value. *)
+component p16_value_gen
+import Set.{...}
+import List.{...}
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+    opr ^(self, k: AnyIntegral): Value = Value(data^k)
+end
+
+run(): () = do
+    u: Value[4] = [Value(1.0) Value(2.0) Value(3.0) Value(4.0)]
+    m: Value[2,2] = [Value(1.0) Value(2.0); Value(3.0) Value(4.0)]
+
+    println("SUM over vector elements = " (SUM [ x <- u ] x))
+    println("SUM of squares           = " (SUM [ x <- u ] x x))
+    println("SUM over matrix elements = " (SUM [ x <- m ] x))
+    println("SUM over indexValuePairs = " (SUM [ (i,x) <- u.indexValuePairs ] x))
+    println("PROD over vector elements= " (PROD [ x <- u ] x))
+
+    (* comprehension over a vector's elements *)
+    l = <| x x | x <- u |>
+    println("list comprehension       = " l)
+
+    (* map back into a library Vector via the library's own map *)
+    d = u.map[\Value\](fn (x:Value):Value => x x)
+    println("u.map(x=>x x)            = " d)
+    typecase d of
+        AnyVector => println("map result IS an AnyVector")
+        else      => println("map result is NOT an AnyVector")
+    end
+
+    (* ivmap *)
+    e = u.ivmap[\Value\](fn (i:ZZ32, x:Value):Value => Value(1.0 i) + x)
+    println("u.ivmap                  = " e)
+
+    for x <- seq(u) do println("elem " x) end
+    for (ij,x) <- seq(m.indexValuePairs) do println("m ivp " ij " -> " x) end
+  end
+end

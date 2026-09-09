@@ -1,6 +1,2 @@
 setup.log
 warm/
-worker/**/*.tex
-worker/**/*.dvi
-worker/**/*.aux
-worker/**/*.log

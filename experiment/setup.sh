@@ -1,5 +1,5 @@
 #!/bin/bash
-# One-shot environment setup for the blinded run. Idempotent: safe to re-run.
+# One-shot environment setup for the microGPT experiment sessions. Idempotent: safe to re-run.
 # Every stage prints "[HH:MM:SS] STAGE <name>: START|OK|FAIL (Ns)" to stdout;
 # stage detail (apt, ant, latex output) streams to experiment/setup.log.
 # Exit status is non-zero if any stage failed. Stages: packages build warm

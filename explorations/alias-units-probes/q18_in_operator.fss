@@ -1,0 +1,19 @@
+(* Q2 probe 18: the `in` unit-conversion operator, the spec's first stated
+   reason for having units at all.
+   Specification/basic/dimensions.tex:184-188:
+     "The unit of a dimensioned value may be changed to another unit of the
+      same dimension by using the `in` operator ... Thus 1.3 m_ in nm_
+      produces 1 300 000 000 nm_."
+   Also defining-dimensions.tex:221-225 (3 miles in kilometers). *)
+component q18_in_operator
+export Executable
+
+dim Length  SI_unit meter meters m_ = 1.0
+unit inch inches: Length = 0.0254 meter
+
+run() = do
+  d = 1.3 m_
+  println("1.3 m in inches = " (d in inches))
+end
+
+end

@@ -1,0 +1,12 @@
+component p13_multifix2
+import List.{...}
+export Executable
+object V(var data: RR64, children: List[\V\])
+  getter asString(): String = "V(" data ", n=" |children| ")"
+end
+opr OTIMES(args: V...): V = V(PROD[a <- seq(args)] a.data, <| a | a <- seq(args) |>)
+run() = do
+  a = V(2.0, <|[\V\] |>); b = V(3.0, <|[\V\] |>); c = V(4.0, <|[\V\] |>)
+  println("a OTIMES b OTIMES c = " (a OTIMES b OTIMES c))
+end
+end

@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{FortressCode}
+\KWD{component} \TYP{NotationDot} \\
+\KWD{import} \TYP{FortressLibrary}.\lbrace\ldots\rbrace \KWD{except} \lbrace\,\KWD{opr}\, \KWD{BIG}\, +\,\rbrace \\
+\KWD{export} \TYP{Executable} \\
+ \\
+\KWD{object} D(v\COLON\mathbb{R}64, d\COLON\mathbb{R}64) \\
+\KWD{end} \\
+\KWD{opr}\, \mathord{+}(x\COLONOP{}D, y\COLONOP{}D)\COLONOP{}D = D(x.v+y.v, x.d+y.d) \\
+\KWD{object} \TYP{DSumReduction} \KWD{extends} \TYP{CommutativeMonoidReduction}\llbracket{}D\rrbracket \\
+\2\+\VAR{empty}(\ultrathin)\COLONOP{}D = D(0.0,0.0) \\
+  \VAR{join}(x\COLONOP{}D,y\COLONOP{}D)\COLONOP{}D = x+y\- \\
+\KWD{end} \\
+\KWD{opr}\, \mathord{\sum}(\ultrathin)\COLON \TYP{Comprehension}\llbracket{}D,D,D,D\rrbracket = \\
+\2\+\TYP{Comprehension}\llbracket{}D,D,D,D\rrbracket\bigl(\KWD{fn} (x\COLONOP{}D) \Rightarrow x, \TYP{DSumReduction}, \KWD{fn} (x\COLONOP{}D) \Rightarrow x\bigr) \\
+\- \\
+\KWD{object} \TYP{Vec}(a\COLONOP{}D,b\COLONOP{}D) \\
+\KWD{end} \\
+\KWD{opr}\, \mathord{\cdot}(x\COLON\TYP{Vec},y\COLON\TYP{Vec})\COLONOP{}D = D(x.a.v\, y.a.v + x.b.v\, y.b.v, \\
+\2\+x.a.d\, y.a.v + x.a.v\, y.a.d + x.b.d\, y.b.v + x.b.v\, y.b.d)\- \\
+\VAR{run}(\ultrathin)\COLON(\ultrathin) =\; \KWD{do} \\
+\2\+x = \TYP{Vec}\bigl(D(3.0,1.0),D(4.0,0.0)\bigr) \\
+  q\COLONOP{}D = x \cdot x \\
+  \VAR{rms}\COLON\mathbb{R}64 = {\textstyle\sqrt{q.v / 2.0}} \\
+  \VAR{println}(q.v) \\
+  \VAR{println}(q.d) \\
+  \VAR{println}(\VAR{rms})\- \\
+\KWD{end} \\
+\KWD{end}
+\end{FortressCode}
+\end{preview}
+\end{document}

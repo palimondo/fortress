@@ -1,0 +1,11 @@
+component p04a
+export Executable
+object V(data: RR64)
+  getter asString(): String = "V " self.data.asString
+  opr ^(self, n: RR64): V = V(data^n)
+end
+run() = do
+  a = V(2.0)
+  println("p04a " (a^3.0))
+end
+end

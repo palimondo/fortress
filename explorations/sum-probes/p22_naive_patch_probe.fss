@@ -1,0 +1,16 @@
+(* P22: run under the NAIVE library patch (sum-any-naive.patch), which makes
+   SUM's reduction  join(a: Any, b: Any) = a + b  inside FortressLibrary. *)
+component p22_naive_patch_probe
+import List.{...}
+export Executable
+
+object V(data: RR64)
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: V): V = V(data + other.data)
+end
+
+run(): () = do
+    println("numeric SUM [i <- 0#5] i = " (SUM [i <- 0#5] i))
+    println("SUM [v <- vs] v          = " (SUM [v <- <| V(1.0), V(2.0) |>] v))
+end
+end

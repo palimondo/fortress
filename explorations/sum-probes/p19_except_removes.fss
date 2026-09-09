@@ -1,0 +1,10 @@
+(* P19: confirm that the except-import really removes the library's SUM
+   (rather than the local declaration merely winning). No local SUM here. *)
+component p19_except_removes
+import FortressLibrary.{...} except { opr BIG + }
+export Executable
+
+run(): () = do
+    println("SUM [i <- 0#5] i = " (SUM [i <- 0#5] i))
+end
+end

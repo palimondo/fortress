@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$z=xy:\quad \partial z/\partial x=y,\quad\partial z/\partial y=x$
+`
+binary(z:RR64,x:V,dx:RR64,y:V,dy:RR64):V = V(z,-1,TwoParents(x,dx,y,dy))
+opr  + (x:V,y:V):V = binary(x.primal + y.primal,x,1.0,y,1.0)
+opr -(x:V,y:V):V = binary(x.primal-y.primal,x,1.0,y,-1.0)
+opr -(x:V):V = unary(-x.primal,x,-1.0)
+opr juxtaposition(x:V,y:V):V = binary(x.primal y.primal,x,y.primal,y,x.primal)
+opr /(x:V,y:V):V = binary(x.primal/y.primal,x,1.0/y.primal,y,-x.primal/(y.primal y.primal))
+`
+\end{minipage}\end{preview}\end{document}

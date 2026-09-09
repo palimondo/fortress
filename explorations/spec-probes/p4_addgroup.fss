@@ -1,0 +1,25 @@
+component p4_addgroup
+import List.{...}
+export Executable
+
+(* V as a citizen of the numeric tower: AdditiveGroup gives binary -, zero.
+   Defines only: +, unary -.  Compare explorations/complex_ring.fss. *)
+object V(var data: RR64, children: List[\V\], grads: List[\RR64\])
+        extends AdditiveGroup[\V\]
+  var grad: RR64 := 0.0
+  getter asString(): String = "V(" data ")"
+  opr +(self, o: V): V = V(data + o.data, <|[\V\] self, o|>, <|[\RR64\] 1.0, 1.0|>)
+  opr +(self, c: RR64): V = V(data + c, <|[\V\] self|>, <|[\RR64\] 1.0|>)
+  opr -(self): V = V(-data, <|[\V\] self|>, <|[\RR64\] -1.0|>)
+end
+
+konst(d: RR64): V = V(d, emptyList[\V\](), emptyList[\RR64\]())
+
+run() = do
+  a = konst(3.0); b = konst(1.0)
+  println("a - b   = " (a - b)  "   (inherited binary minus)")
+  println("a.zero  = " a.zero   "   (inherited zero)")
+  println("a + 2.0 = " (a + 2.0) "  (own RR64 overload still resolves)")
+  println("children of a-b: " |(a - b).children|)
+end
+end

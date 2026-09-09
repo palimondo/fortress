@@ -1,0 +1,17 @@
+component NotationJuxt
+export Executable
+
+object D(v:RR64, d:RR64)
+end
+
+opr +(x:D, y:D):D = D(x.v+y.v, x.d+y.d)
+opr juxtaposition(x:D, y:D):D = D(x.v y.v, x.d y.v + x.v y.d)
+
+run():() = do
+  x = D(3.0, 1.0)
+  y = D(4.0, 0.0)
+  z = x x + y
+  println(z.v)
+  println(z.d)
+end
+end

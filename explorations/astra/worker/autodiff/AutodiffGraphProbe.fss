@@ -1,0 +1,120 @@
+component AutodiffGraphProbe
+import FortressLibrary.{...} except { opr BIG + }
+export Executable
+
+trait Parents
+  visit(w:Walk):()
+  push(a:RR64):()
+end
+object NoParents extends Parents
+  visit(w:Walk):() = ()
+  push(a:RR64):() = ()
+end
+object OneParent(x:V,dx:RR64) extends Parents
+  visit(w:Walk):() = x.visit(w)
+  push(a:RR64):() = x.add(a dx)
+end
+object TwoParents(x:V,dx:RR64,y:V,dy:RR64) extends Parents
+  visit(w:Walk):() = do x.visit(w); y.visit(w) end
+  push(a:RR64):() = do x.add(a dx); y.add(a dy) end
+end
+trait Chain
+  backward(g:Array[\RR64,ZZ32\]):()
+  clear():()
+end
+object EmptyChain extends Chain
+  backward(g:Array[\RR64,ZZ32\]):() = ()
+  clear():() = ()
+end
+object Link(x:V,rest:Chain) extends Chain
+  backward(g:Array[\RR64,ZZ32\]):() = do
+    x.push(g)
+    rest.backward(g)
+  end
+  clear():() = do x.clear(); rest.clear() end
+end
+object Walk(seed:ZZ32)
+  stack:Chain := EmptyChain
+  prepend(x:V):() = stack := Link(x,stack)
+end
+object V(primal:RR64,index:ZZ32,parents:Parents)
+  seen:Boolean := false
+  adjoint:RR64 := 0.0
+  visit(w:Walk):() = if NOT seen then
+    seen := true
+    parents.visit(w)
+    w.prepend(self)
+  end
+  add(a:RR64):() = adjoint += a
+  push(g:Array[\RR64,ZZ32\]):() = do
+    if index >= 0 then g[index] += adjoint end
+    parents.push(adjoint)
+  end
+  clear():() = do seen := false; adjoint := 0.0 end
+end
+constant(x:RR64):V = V(x,-1,NoParents)
+variable(i:ZZ32,x:RR64):V = V(x,i,NoParents)
+unary(z:RR64,x:V,dx:RR64):V = V(z,-1,OneParent(x,dx))
+binary(z:RR64,x:V,dx:RR64,y:V,dy:RR64):V = V(z,-1,TwoParents(x,dx,y,dy))
+opr +(x:V,y:V):V = binary(x.primal+y.primal,x,1.0,y,1.0)
+opr -(x:V,y:V):V = binary(x.primal-y.primal,x,1.0,y,-1.0)
+opr -(x:V):V = unary(-x.primal,x,-1.0)
+opr juxtaposition(x:V,y:V):V = binary(x.primal y.primal,x,y.primal,y,x.primal)
+opr /(x:V,y:V):V = binary(x.primal/y.primal,x,1.0/y.primal,y,-x.primal/(y.primal y.primal))
+opr +(x:V,y:RR64):V = x+constant(y)
+opr +(x:RR64,y:V):V = constant(x)+y
+opr -(x:V,y:RR64):V = x-constant(y)
+opr -(x:RR64,y:V):V = constant(x)-y
+opr juxtaposition(x:V,y:RR64):V = x constant(y)
+opr juxtaposition(x:RR64,y:V):V = constant(x) y
+opr /(x:V,y:RR64):V = x/constant(y)
+opr /(x:RR64,y:V):V = constant(x)/y
+opr ^(x:V,p:RR64):V = unary((x.primal)^p,x,p ((x.primal)^(p-1.0)))
+opr SQRT(x:V):V = do z = SQRT(x.primal); unary(z,x,0.5/z) end
+exp(x:V):V = do z = exp(x.primal); unary(z,x,z) end
+log(x:V):V = unary(log(x.primal),x,1.0/x.primal)
+relu(x:V):V = if x.primal > 0.0 then unary(x.primal,x,1.0) else unary(0.0,x,0.0) end
+object VSumReduction extends CommutativeMonoidReduction[\V\]
+  empty():V = constant(0.0)
+  join(x:V,y:V):V = x+y
+end
+opr SUM():Comprehension[\V,V,V,V\] =
+  Comprehension[\V,V,V,V\](fn (x:V) => x,VSumReduction,fn (x:V) => x)
+gradient(y:V,n:ZZ32):Array[\RR64,ZZ32\] = do
+  g = array[\RR64\](n).fill(0.0)
+  w = Walk(0)
+  y.visit(w)
+  y.add(1.0)
+  w.stack.backward(g)
+  w.stack.clear()
+  g
+end
+tree(x:V,n:ZZ32):V = if n = 0 then x else tree(x,n-1)+tree(x,n-1) end
+diamond(x:V,n:ZZ32):V = if n = 0 then x else diamond(x+x,n-1) end
+near(x:RR64,y:RR64):Boolean = |x-y| < 0.000000001
+run():() = do
+  x = variable(0,2.0)
+  y = variable(1,3.0)
+  common = x y
+  f = common common + exp(x)/y - log(y) + relu(-x) + (x^3.0)
+  g = gradient(f,2)
+  assert(near(g[0],36.0+exp(2.0)/3.0+12.0))
+  assert(near(g[1],24.0-exp(2.0)/9.0-1.0/3.0))
+  again = gradient(f,2)
+  assert(near(again[0],g[0]))
+  s:V = SUM[i <- 0#4] x + (1.0 i)
+  gs = gradient(s,2)
+  assert(near(s.primal,14.0))
+  assert(near(gs[0],4.0))
+  root = SQRT(x x)
+  gr = gradient(root,2)
+  assert(near(gr[0],1.0))
+  diamondRoot = diamond(x,30)
+  gd = gradient(diamondRoot,2)
+  assert(near(gd[0],1073741824.0))
+  wideRoot = tree(x,13)
+  gw = gradient(wideRoot,2)
+  assert(near(gw[0],8192.0))
+  println("AD graph OK value=" f.primal " dx=" g[0] " dy=" g[1])
+end
+end

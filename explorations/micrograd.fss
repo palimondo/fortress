@@ -1,0 +1,127 @@
+component micrograd
+import List.{...}
+export Executable
+
+(* Stage 1 of the microgpt.fss port (explorations/microgpt-port.md):
+   scalar reverse-mode autodiff after Karpathy's Value, plus a tiny MLP
+   trained on XOR. Sequential everywhere by design -- see the
+   floating-point-association rule in the port plan. *)
+
+object V(var data: RR64, children: List[\V\], grads: List[\RR64\])
+  var grad: RR64 := 0.0
+  var visited: Boolean := false
+  opr +(self, o: V): V = V(data + o.data, <|[\V\] self, o|>, <|[\RR64\] 1.0, 1.0|>)
+  opr DOT(self, o: V): V = V(data o.data, <|[\V\] self, o|>, <|[\RR64\] o.data, data|>)
+  opr -(self): V = self DOT konst(-1.0)
+  opr -(self, o: V): V = self + (-o)
+  pow(n: RR64): V = V(data^n, <|[\V\] self|>, <|[\RR64\] n data^(n-1.0)|>)
+  ln(): V = V(log data, <|[\V\] self|>, <|[\RR64\] 1.0/data|>)
+  expV(): V = V(exp data, <|[\V\] self|>, <|[\RR64\] exp data|>)
+  relu(): V = if data > 0.0
+              then V(data, <|[\V\] self|>, <|[\RR64\] 1.0|>)
+              else V(0.0, <|[\V\] self|>, <|[\RR64\] 0.0|>) end
+end
+
+konst(d: RR64): V = V(d, emptyList[\V\](), emptyList[\RR64\]())
+
+(* Reverse topological order via a mutable accumulator object; the
+   visited flag on the node replaces Python's identity-hashed set. *)
+object Topo()
+  var items: List[\V\] := emptyList[\V\]()
+  build(v: V): () = do
+    if NOT v.visited then
+      v.visited := true
+      for ch <- seq(v.children) do self.build(ch) end
+      items := items.addRight(v)
+    end
+  end
+end
+
+backward(root: V): () = do
+  t = Topo()
+  t.build(root)
+  root.grad := 1.0
+  for v <- seq(t.items.reverse) do
+    for (ch, lg) <- seq(v.children.zip[\RR64\](v.grads)) do
+      ch.grad := ch.grad + lg v.grad
+    end
+  end
+end
+
+(* Deterministic pseudo-random weights, the port plan's golden formula *)
+initW(i: ZZ32, j: ZZ32): RR64 = (((31 i + 17 j) REM 97) - 48) / 100.0
+
+run() = do
+  eps = 10.0^(-12)
+  (* --- analytic golden checks: gradients known in closed form --- *)
+  a = konst(2.0); b = konst(3.0); c = konst(-4.0)
+  f = ((a DOT b) + c).relu()          (* f = relu(2*3 - 4) = 2 *)
+  backward(f)
+  assert(|f.data - 2.0| < eps, "f fwd")
+  assert(|a.grad - 3.0| < eps, "df/da = b")
+  assert(|b.grad - 2.0| < eps, "df/db = a")
+  assert(|c.grad - 1.0| < eps, "df/dc = 1")
+
+  a2 = konst(2.0); b2 = konst(3.0)
+  g = ((a2.pow(2.0)) DOT b2).ln()     (* g = ln(a^2 b); dg/da = 2/a; dg/db = 1/b *)
+  backward(g)
+  assert(|a2.grad - 1.0| < eps, "dg/da = 2/a = 1")
+  assert(|b2.grad - (1.0/3.0)| < eps, "dg/db = 1/b")
+
+  h0 = konst(0.5)
+  h = ((-h0).expV() + h0).pow(3.0)    (* h = (e^-x + x)^3 *)
+  backward(h)
+  hd = (exp (-0.5)) + 0.5
+  hg = 3.0 hd^2.0 (1.0 - (exp (-0.5)))
+  assert(|h.data - hd^3.0| < eps, "h fwd")
+  assert(|h0.grad - hg| < eps, "dh/dx")
+  println("golden gradient checks: PASS")
+
+  (* --- tiny MLP on XOR: 2 -> 4 relu -> 1, MSE, plain SGD --- *)
+  nH: ZZ32 = 4
+  w1 = array[\V\](2 nH).fill(fn (k:ZZ32) => konst(initW(k DIV nH, k REM nH)))
+  b1 = array[\V\](nH).fill(fn (k:ZZ32) => konst(initW(k, 13)))
+  w2 = array[\V\](nH).fill(fn (k:ZZ32) => konst(initW(k + 7, 2 k + 3)))
+  var b2v: V := konst(0.0)
+
+  (* XOR truth table: inputs (0,0)(0,1)(1,0)(1,1), targets 0,1,1,0 *)
+  x1s = array[\RR64\](4).fill(fn (k:ZZ32) => if k >= 2 then 1.0 else 0.0 end)
+  x2s = array[\RR64\](4).fill(fn (k:ZZ32) => if k REM 2 = 1 then 1.0 else 0.0 end)
+  ys  = array[\RR64\](4).fill(fn (k:ZZ32) => if (if k >= 2 then 1 else 0 end) + (k REM 2) = 1 then 1.0 else 0.0 end)
+
+  lr = 0.05
+  epochs: ZZ32 = 400
+  var lastLoss: RR64 := 0.0
+  for ep <- seq(1#epochs) do
+    (* forward over all 4 points, summed MSE, sequential *)
+    var loss: V := konst(0.0)
+    for p <- seq(0#4) do
+      xa = konst(x1s[p]); xb = konst(x2s[p])
+      var out: V := b2v
+      for jn <- seq(0#nH) do
+        hpre = (xa DOT w1[jn]) + (xb DOT w1[nH + jn]) + b1[jn]
+        out := out + (hpre.relu() DOT w2[jn])
+      end
+      d = out - konst(ys[p])
+      loss := loss + (d DOT d)
+    end
+    backward(loss)
+    lastLoss := loss.data
+    (* SGD update + zero grads *)
+    for k <- seq(0#(2 nH)) do w1[k].data := w1[k].data - lr w1[k].grad; w1[k].grad := 0.0 end
+    for jn <- seq(0#nH) do
+      b1[jn].data := b1[jn].data - lr b1[jn].grad; b1[jn].grad := 0.0
+      w2[jn].data := w2[jn].data - lr w2[jn].grad; w2[jn].grad := 0.0
+    end
+    b2v.data := b2v.data - lr b2v.grad; b2v.grad := 0.0
+    (* reset visited flags for the next pass: fresh graph each epoch, but
+       parameters are shared nodes and stay marked -- clear them *)
+    for k <- seq(0#(2 nH)) do w1[k].visited := false end
+    for jn <- seq(0#nH) do b1[jn].visited := false; w2[jn].visited := false end
+    b2v.visited := false
+    if ep REM 100 = 0 then println("epoch " ep "  loss " lastLoss) end
+  end
+  assert(lastLoss < 0.05, "XOR loss should fall below 0.05, got " lastLoss)
+  println("XOR MLP training: PASS (final loss " lastLoss ")")
+end
+end

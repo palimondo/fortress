@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}\begin{minipage}{19cm}
+\small
+$x_i=f(i),\quad A_{ij}=f(i,j)$; eager storage of scalar graph references.
+\begin{FortressCode}
+\KWD{object} \TYP{Vec}(n\COLON\mathbb{Z}32, f\COLON\mathbb{Z}32\rightarrow{}V) \\
+\2\+\VAR{data}\COLON\TYP{Array}\llbracket{}V,\mathbb{Z}32\rrbracket =\; \KWD{do} \\
+  \2\+a = \VAR{array}\llbracket{}V\rrbracket(n) \\
+    \KWD{for} i \leftarrow 0\mathbin{\#}n \KWD{do} a_{i} \ASSIGN f(i) \KWD{end} \\
+    a\- \\
+  \KWD{end} \\
+  \KWD{opr}\,[i\COLON\mathbb{Z}32]\COLONOP{}V = \VAR{data}_{i}\- \\
+\KWD{end} \\
+\KWD{object} \TYP{Mat}\bigl(m\COLON\mathbb{Z}32,n\COLON\mathbb{Z}32,f\COLON(\mathbb{Z}32,\mathbb{Z}32)\rightarrow{}V\bigr) \\
+\2\+\VAR{rows}\COLON\TYP{Array}\llbracket\TYP{Vec},\mathbb{Z}32\rrbracket =\; \KWD{do} \\
+  \2\+a = \VAR{array}\llbracket\TYP{Vec}\rrbracket(m) \\
+    \KWD{for} i \leftarrow 0\mathbin{\#}m \KWD{do} a_{i} \ASSIGN \TYP{Vec}\bigl(n,\KWD{fn} j \Rightarrow f(i,j)\bigr) \KWD{end} \\
+    a\- \\
+  \KWD{end} \\
+  \KWD{opr}\,[i\COLON\mathbb{Z}32,j\COLON\mathbb{Z}32]\COLONOP{}V =\; \KWD{do} \VAR{row} = \VAR{rows}_{i}; \VAR{row}_{j} \KWD{end} \\
+  \KWD{opr}\,[i\COLON\mathbb{Z}32]\COLON\TYP{Vec} = \VAR{rows}_{i}\- \\
+\KWD{end}
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

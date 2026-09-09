@@ -1,0 +1,39 @@
+(* Probe B: library Vector over the user element type Value.
+   Value extends Number even though FortressLibrary declares
+   "trait Number ... comprises { RR64 }" (FortressLibrary.fss:349-351) --
+   probe p10 showed the walk interpreter does not enforce that seal. *)
+component p11_value_vector
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    getter zero(): Value = Value(0.0)
+    getter one(): Value = Value(1.0)
+    asFloat(self): RR64 = data
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr -(self, other: Value): Value = Value(data - other.data)
+    opr -(self): Value = Value(-data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+    opr juxtaposition(self, other: Value): Value = self TIMES other
+    opr ^(self, k: AnyIntegral): Value = Value(data^k)
+end
+
+run(): () = do
+    (* 1a. library factory with a fill value *)
+    v = vector[\Value,3\](Value(1.0))
+    println("vector[Value,3](V(1.0)) = " v)
+
+    (* 1b. library factory from a function *)
+    u = vector[\Value,3\](fn (i:ZZ32):Value => Value(1.0 (i+1)))
+    println("vector[Value,3](fn i)   = " u)
+
+    typecase u of
+        AnyVector => println("u IS an AnyVector")
+        else      => println("u is NOT an AnyVector")
+    end
+
+    (* 2. indexing and size *)
+    println("u[1] = " u[1])
+    println("|u|  = " |u|)
+  end
+end

@@ -1,0 +1,292 @@
+component microgpt
+import List.{...}
+import File.{...}
+export Executable
+
+(* microgpt.fss -- Karpathy's microgpt (karpathy.github.io/2026/02/12/microgpt/)
+   ported to interpreter Fortress: a complete GPT -- scalar reverse-mode
+   autodiff, char-level tokenizer, 1-layer/2..4-head transformer (rmsnorm,
+   attention with KV cache, relu MLP), Adam with bias correction and linear
+   LR decay, temperature sampling. Sequential everywhere by design (the
+   floating-point-association rule); plan and golden strategy in
+   explorations/microgpt-port.md. *)
+
+(* ---------- scalar autodiff ---------- *)
+
+object V(var data: RR64, children: List[\V\], grads: List[\RR64\])
+  var grad: RR64 := 0.0
+  var visited: Boolean := false
+  opr +(self, o: V): V = V(data + o.data, <|[\V\] self, o|>, <|[\RR64\] 1.0, 1.0|>)
+  opr DOT(self, o: V): V = V(data o.data, <|[\V\] self, o|>, <|[\RR64\] o.data, data|>)
+  opr -(self): V = self DOT konst(-1.0)
+  opr -(self, o: V): V = self + (-o)
+  pow(n: RR64): V = V(data^n, <|[\V\] self|>, <|[\RR64\] n data^(n-1.0)|>)
+  ln(): V = V(log data, <|[\V\] self|>, <|[\RR64\] 1.0/data|>)
+  expV(): V = V(exp data, <|[\V\] self|>, <|[\RR64\] exp data|>)
+  relu(): V = if data > 0.0
+              then V(data, <|[\V\] self|>, <|[\RR64\] 1.0|>)
+              else V(0.0, <|[\V\] self|>, <|[\RR64\] 0.0|>) end
+end
+
+konst(d: RR64): V = V(d, emptyList[\V\](), emptyList[\RR64\]())
+
+object Topo()
+  var items: List[\V\] := emptyList[\V\]()
+  build(v: V): () = do
+    if NOT v.visited then
+      v.visited := true
+      for ch <- seq(v.children) do self.build(ch) end
+      items := items.addRight(v)
+    end
+  end
+end
+
+backward(root: V): () = do
+  t = Topo()
+  t.build(root)
+  root.grad := 1.0
+  for v <- seq(t.items.reverse) do
+    for (ch, lg) <- seq(v.children.zip[\RR64\](v.grads)) do
+      ch.grad := ch.grad + lg v.grad
+    end
+  end
+end
+
+(* ---------- matrices and layers ---------- *)
+
+object Mat(rows: ZZ32, cols: ZZ32, a: Array[\V,ZZ32\])
+  el(i: ZZ32, j: ZZ32): V = a[i cols + j]
+end
+
+(* deterministic weights for the golden check (no RNG; the same formula
+   lives in the Python reference generator) *)
+initW(i: ZZ32, j: ZZ32): RR64 = (((31 i + 17 j) REM 97) - 48) / 100.0
+goldMat(m: ZZ32, rows: ZZ32, cols: ZZ32): Mat =
+  Mat(rows, cols, array[\V\](rows cols).fill(fn (k: ZZ32) => konst(initW(100 m + (k DIV cols), k REM cols))))
+
+linear(x: Array[\V,ZZ32\], m: Mat): Array[\V,ZZ32\] =
+  array[\V\](m.rows).fill(fn (i: ZZ32) => do
+    var acc: V := konst(0.0)
+    for j <- seq(0#m.cols) do acc := acc + (m.el(i, j) DOT x[j]) end
+    acc end)
+
+softmaxA(x: Array[\V,ZZ32\], n: ZZ32): Array[\V,ZZ32\] = do
+  var mx: RR64 := x[0].data
+  for i <- seq(1#(n - 1)) do if x[i].data > mx then mx := x[i].data end end
+  exps = array[\V\](n).fill(fn (i: ZZ32) => (x[i] - konst(mx)).expV())
+  var tot: V := konst(0.0)
+  for i <- seq(0#n) do tot := tot + exps[i] end
+  inv = tot.pow(-1.0)
+  array[\V\](n).fill(fn (i: ZZ32) => exps[i] DOT inv)
+end
+
+rmsnorm(x: Array[\V,ZZ32\], n: ZZ32): Array[\V,ZZ32\] = do
+  var ms: V := konst(0.0)
+  for i <- seq(0#n) do ms := ms + (x[i] DOT x[i]) end
+  ms := ms DOT konst(1.0 / (n 1.0))
+  scale = (ms + konst(0.00001)).pow(-0.5)
+  array[\V\](n).fill(fn (i: ZZ32) => x[i] DOT scale)
+end
+
+addVec(a: Array[\V,ZZ32\], b: Array[\V,ZZ32\], n: ZZ32): Array[\V,ZZ32\] =
+  array[\V\](n).fill(fn (i: ZZ32) => a[i] + b[i])
+
+object Cache()
+  var items: List[\Array[\V,ZZ32\]\] := emptyList[\Array[\V,ZZ32\]\]()
+  push(k: Array[\V,ZZ32\]): () = do items := items.addRight(k) end
+  size(): ZZ32 = |items|
+  get(t: ZZ32): Array[\V,ZZ32\] = items[t]
+end
+
+(* one transformer layer + heads; n_layer = 1 as in Karpathy's default *)
+object Gpt(vocab: ZZ32, nEmbd: ZZ32, nHead: ZZ32, blockSize: ZZ32, attScale: RR64,
+           wte: Mat, wpe: Mat, lmHead: Mat,
+           wq: Mat, wk: Mat, wv: Mat, wo: Mat, fc1: Mat, fc2: Mat)
+  headDim: ZZ32 = nEmbd DIV nHead
+  forward(tid: ZZ32, pid: ZZ32, kc: Cache, vc: Cache): Array[\V,ZZ32\] = do
+    x0 = array[\V\](nEmbd).fill(fn (i: ZZ32) => wte.el(tid, i) + wpe.el(pid, i))
+    x1 = rmsnorm(x0, nEmbd)
+    x2 = rmsnorm(x1, nEmbd)
+    q = linear(x2, wq)
+    kc.push(linear(x2, wk))
+    vc.push(linear(x2, wv))
+    nT = kc.size()
+    xa = array[\V\](nEmbd).fill(fn (i: ZZ32) => konst(0.0))
+    for h <- seq(0#nHead) do
+      hs = h headDim
+      al = array[\V\](nT).fill(fn (t: ZZ32) => do
+        var acc: V := konst(0.0)
+        for j <- seq(0#headDim) do acc := acc + (q[hs + j] DOT (kc.get(t))[hs + j]) end
+        acc DOT konst(attScale) end)
+      aw = softmaxA(al, nT)
+      for j <- seq(0#headDim) do
+        var acc: V := konst(0.0)
+        for t <- seq(0#nT) do acc := acc + (aw[t] DOT (vc.get(t))[hs + j]) end
+        xa[hs + j] := acc
+      end
+    end
+    x4 = addVec(linear(xa, wo), x1, nEmbd)
+    x5 = rmsnorm(x4, nEmbd)
+    h1a = linear(x5, fc1)
+    h1 = array[\V\](4 nEmbd).fill(fn (i: ZZ32) => h1a[i].relu())
+    x6 = addVec(linear(h1, fc2), x4, nEmbd)
+    linear(x6, lmHead)
+  end
+end
+
+(* ---------- golden check: exact model math vs. the Python reference ---------- *)
+
+goldenCheck(): () = do
+  g = Gpt(5, 4, 2, 4, 1.0 / SQRT 2.0,
+          goldMat(0, 5, 4), goldMat(1, 4, 4), goldMat(2, 5, 4),
+          goldMat(3, 4, 4), goldMat(4, 4, 4), goldMat(5, 4, 4), goldMat(6, 4, 4),
+          goldMat(7, 16, 4), goldMat(8, 4, 16))
+  tol = 10.0^(-9)
+  tokens = array[\ZZ32\](4).fill(fn (i: ZZ32) => if i = 0 then 4 elif i = 1 then 0 elif i = 2 then 1 else 4 end)
+  kc = Cache(); vc = Cache()
+  var loss: V := konst(0.0)
+  gold0 = array[\RR64\](5).fill(fn (i: ZZ32) => if i = 0 then 1.1786640480869652 elif i = 1 then 0.08369680205708685 elif i = 2 then -1.2116330341802932 elif i = 3 then 1.161464590811486 else 0.06649734478160751 end)
+  gold1 = array[\RR64\](5).fill(fn (i: ZZ32) => if i = 0 then -0.5153754312822434 elif i = 1 then 0.7583368418857922 elif i = 2 then -0.6709093810270941 elif i = 3 then -0.44385589510170814 else 0.8298563780663275 end)
+  gold2 = array[\RR64\](5).fill(fn (i: ZZ32) => if i = 0 then -0.7803193651360372 elif i = 1 then 0.2648497272535788 elif i = 2 then 0.9794442126538028 elif i = 3 then -0.861494046699949 else 0.18367504568966714 end)
+  for pos <- seq(0#3) do
+    logits = g.forward(tokens[pos], pos, kc, vc)
+    gold = if pos = 0 then gold0 elif pos = 1 then gold1 else gold2 end
+    for i <- seq(0#5) do
+      assert(|logits[i].data - gold[i]| < tol, "golden logits pos " pos " idx " i)
+    end
+    probs = softmaxA(logits, 5)
+    loss := loss + (-(probs[tokens[pos + 1]].ln()))
+  end
+  loss := loss DOT konst(1.0 / 3.0)
+  assert(|loss.data - 1.228662661701597| < tol, "golden loss")
+  backward(loss)
+  assert(|g.wte.el(4, 0).grad - (-0.21705452841851058)| < tol, "grad wte[4][0]")
+  assert(|g.wpe.el(0, 1).grad - 0.06350371373725669| < tol, "grad wpe[0][1]")
+  assert(|g.lmHead.el(2, 3).grad - 0.028373522248445866| < tol, "grad lm_head[2][3]")
+  assert(|g.wq.el(0, 0).grad - (-0.001587106636149662)| < tol, "grad attn_wq[0][0]")
+  assert(|g.fc2.el(1, 2).grad - 0.0101351876799767| < tol, "grad mlp_fc2[1][2]")
+  println("golden transformer forward/backward vs Python reference: PASS")
+end
+
+(* ---------- training ---------- *)
+
+(* Box-Muller; random() is the library native *)
+gauss(std: RR64): RR64 = do
+  var u1: RR64 := random(1.0)
+  if u1 < 0.000000000001 then u1 := 0.000000000001 end
+  u2 = random(1.0)
+  r = SQRT (-2.0 (log u1))
+  theta = 2.0 3.141592653589793 u2
+  std r (cos theta)
+end
+
+gaussMat(rows: ZZ32, cols: ZZ32, std: RR64): Mat =
+  Mat(rows, cols, array[\V\](rows cols).fill(fn (k: ZZ32) => konst(gauss(std))))
+
+run() = do
+  goldenCheck()
+
+  (* config: BOS = 26, vocab a-z + BOS (names.txt is strictly a-z) *)
+  vocab: ZZ32 = 27
+  nEmbd: ZZ32 = 8
+  nHead: ZZ32 = 2
+  blockSize: ZZ32 = 8
+  numSteps: ZZ32 = 250
+  maxDocs: ZZ32 = 2000
+  bos: ZZ32 = 26
+
+  fr = FileReadStream("explorations/names.txt")
+  var docs: List[\String\] := emptyList[\String\]()
+  while (NOT fr.eof) AND (|docs| < maxDocs) do
+    l = fr.readLine()
+    if |l| > 0 then docs := docs.addRight(l) end
+  end
+  fr.close()
+  println("num docs: " |docs| "  vocab: " vocab)
+
+  hd: ZZ32 = nEmbd DIV nHead
+  g = Gpt(vocab, nEmbd, nHead, blockSize, 1.0 / SQRT(hd 1.0),
+          gaussMat(vocab, nEmbd, 0.08), gaussMat(blockSize, nEmbd, 0.08), gaussMat(vocab, nEmbd, 0.08),
+          gaussMat(nEmbd, nEmbd, 0.08), gaussMat(nEmbd, nEmbd, 0.08), gaussMat(nEmbd, nEmbd, 0.08),
+          gaussMat(nEmbd, nEmbd, 0.08), gaussMat(4 nEmbd, nEmbd, 0.08), gaussMat(nEmbd, 4 nEmbd, 0.08))
+
+  (* flat parameter list for the optimizer (shared V references) *)
+  var psL: List[\V\] := emptyList[\V\]()
+  for m <- seq(<|[\Mat\] g.wte, g.wpe, g.lmHead, g.wq, g.wk, g.wv, g.wo, g.fc1, g.fc2|>) do
+    for k <- seq(0#(m.rows m.cols)) do psL := psL.addRight(m.a[k]) end
+  end
+  nP: ZZ32 = |psL|
+  params = array[\V\](nP).fill(fn (i: ZZ32) => psL[i])
+  println("num params: " nP)
+
+  (* Adam *)
+  lr0 = 0.01; beta1 = 0.85; beta2 = 0.99; epsA = 0.00000001
+  mBuf = array[\RR64\](nP).fill(fn (i: ZZ32) => 0.0)
+  vBuf = array[\RR64\](nP).fill(fn (i: ZZ32) => 0.0)
+
+  t0 = nanoTime()
+  for step <- seq(0#numSteps) do
+    doc = docs[step REM |docs|]
+    len: ZZ32 = |doc|
+    toks = array[\ZZ32\](len + 2).fill(fn (i: ZZ32) =>
+      if i = 0 OR i = len + 1 then bos else doc[i - 1].codePoint() - 97 end)
+    n = blockSize MIN (len + 1)
+    kc = Cache(); vc = Cache()
+    var loss: V := konst(0.0)
+    for pos <- seq(0#n) do
+      logits = g.forward(toks[pos], pos, kc, vc)
+      probs = softmaxA(logits, vocab)
+      loss := loss + (-(probs[toks[pos + 1]].ln()))
+    end
+    loss := loss DOT konst(1.0 / (n 1.0))
+    backward(loss)
+    lrT = lr0 (1.0 - (step 1.0) / (numSteps 1.0))
+    for i <- seq(0#nP) do
+      p = params[i]
+      g1 = p.grad
+      g2 = g1 g1
+      mBuf[i] := beta1 mBuf[i] + (1.0 - beta1) g1
+      vBuf[i] := beta2 vBuf[i] + (1.0 - beta2) g2
+      mHat = mBuf[i] / (1.0 - beta1^((step 1.0) + 1.0))
+      vHat = vBuf[i] / (1.0 - beta2^((step 1.0) + 1.0))
+      p.data := p.data - (lrT mHat) / ((vHat^0.5) + epsA)
+      p.grad := 0.0
+      p.visited := false
+    end
+    if (step + 1) REM 10 = 0 then do
+      el = (((nanoTime() - t0) + 500000) DIV 1000000)
+      println("step " (step + 1) " / " numSteps "  loss " loss.data "  elapsed " el " ms")
+    end end
+  end
+
+  (* inference: temperature sampling *)
+  temp = 0.5
+  println("--- inference ---")
+  for s <- seq(1#10) do
+    kc = Cache(); vc = Cache()
+    var tid: ZZ32 := bos
+    var out: String := ""
+    var stop: Boolean := false
+    for pos <- seq(0#blockSize) do
+      if NOT stop then
+        logits = g.forward(tid, pos, kc, vc)
+        scaled = array[\V\](vocab).fill(fn (i: ZZ32) => logits[i] DOT konst(1.0 / temp))
+        probs = softmaxA(scaled, vocab)
+        r = random(1.0)
+        var cum: RR64 := 0.0
+        var pick: ZZ32 := vocab - 1
+        var done: Boolean := false
+        for i <- seq(0#vocab) do
+          if NOT done then
+            cum := cum + probs[i].data
+            if r < cum then pick := i; done := true end
+          end
+        end
+        if pick = bos then stop := true
+        else out := out || char(pick + 97); tid := pick end
+      end
+    end
+    println("sample " s ": " out)
+  end
+end
+end

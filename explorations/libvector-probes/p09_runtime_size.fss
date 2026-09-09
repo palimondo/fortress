@@ -1,0 +1,12 @@
+(* Baseline 6: can a dimension come from a RUNTIME value?
+   Vector[\T, nat s0\] takes a *nat* static parameter. *)
+component p09_runtime_size
+export Executable
+
+n: ZZ32 = 8
+
+run(): () = do
+    v = vector[\RR64,n\](1.0)
+    println("vector[RR64,n](1.0) = " v)
+  end
+end

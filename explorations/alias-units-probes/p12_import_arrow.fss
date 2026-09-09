@@ -1,0 +1,18 @@
+(* Q1 substitute C, third data point: the implementation's ACTUAL import-alias
+   spelling.  The spec writes `as`
+   (Specification/basic/components/source-code.tex:93
+        AliasedSimpleName ::= Id [as Id])
+   but the parser's own grammar comment
+   (ProjectFortress/src/com/sun/fortress/parser/Compilation.rats:303-306)
+   writes `=>`, and Symbol.rats:234 defines
+        transient void match = "=>" / "⇒";
+   So the surface syntax diverges from the spec.  Probing `=>`. *)
+component p12_import_arrow
+import List.{ List => Seq, ... }
+export Executable
+
+heads(x: Seq[\ZZ32\]): ZZ32 = x[0]
+
+run() = println("heads = " heads(<|[\ZZ32\] 4, 5, 6|>))
+
+end

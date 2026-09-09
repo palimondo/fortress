@@ -1,0 +1,10 @@
+component g13
+export Executable
+run(): () = do
+  Wq = 1.0
+  W1 = 2.0
+  w17 = 3.0
+  x_h = 4.0
+  println(Wq W1 w17 x_h)
+end
+end

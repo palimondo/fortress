@@ -1,0 +1,86 @@
+component ForwardProbe
+export Executable
+object Vec(n:ZZ32, f:ZZ32->RR64)
+  data:Array[\RR64,ZZ32\] = do
+    a = array[\RR64\](n)
+    for i <- 0#n do a[i] := f(i) end
+    a
+  end
+  opr[i:ZZ32]:RR64 = data[i]
+end
+object Mat(m:ZZ32,n:ZZ32,f:(ZZ32,ZZ32)->RR64)
+  rows: Array[\Vec,ZZ32\] = do
+    a = array[\Vec\](m)
+    for i <- 0#m do a[i] := Vec(n,fn j => f(i,j)) end
+    a
+  end
+  opr[i:ZZ32,j:ZZ32]:RR64 = do row = rows[i]; row[j] end
+  opr[i:ZZ32]:Vec = rows[i]
+end
+opr juxtaposition(A:Mat,x:Vec):Vec = Vec(A.m,fn i => SUM[j <- 0#A.n] A[i,j] x[j])
+opr +(x:Vec,y:Vec):Vec = Vec(x.n,fn i => x[i]+y[i])
+opr /(x:Vec,s:RR64):Vec = Vec(x.n,fn i => x[i]/s)
+opr juxtaposition(x:Vec,y:Vec):RR64 = SUM[i <- 0#x.n] x[i] y[i]
+opr juxtaposition(s:RR64,x:Vec):Vec = Vec(x.n,fn i => s x[i])
+opr -(x:Vec,s:RR64):Vec = Vec(x.n,fn i => x[i]-s)
+exp(x:Vec):Vec = Vec(x.n,fn i => exp(x[i]))
+relu(x:Vec):Vec = Vec(x.n,fn i => if x[i]>0.0 then x[i] else 0.0 end)
+maximum(x:Vec):RR64 = (0#x.n).map[\RR64\](fn (i:ZZ32):RR64 => x[i]).reduce(fn (a:RR64,b:RR64):RR64 => a MAX b, -1.0/0.0)
+softmax(x:Vec):Vec = do
+  e = exp(x-maximum(x))
+  e/(SUM[i <- 0#x.n] e[i])
+end
+rmsnorm(x:Vec):Vec = x/(SQRT((x x)/x.n+0.00001))
+head(x:Vec,h:ZZ32,s:ZZ32):Vec = Vec(s,fn j => x[h s + j])
+
+(* Each row of K and V is one cached time position, including the current one. *)
+attention(q:Vec,K:Mat,V:Mat):Vec = do
+  a = softmax((K q)/(SQRT(q.n)))
+  Vec(V.n,fn j => SUM[t <- 0#V.m] a[t] V[t,j])
+end
+
+object Block(W_q:Mat,W_k:Mat,W_v:Mat,W_o:Mat,W_in:Mat,W_out:Mat) end
+object Cache(context:ZZ32)
+  keys:Array[\Vec,ZZ32\] = array[\Vec\](context)
+  values:Array[\Vec,ZZ32\] = array[\Vec\](context)
+end
+transformer(x:Vec,B:Block,C:Cache,t:ZZ32,H:ZZ32):Vec = do
+  z = rmsnorm(x)
+  q = B.W_q z
+  C.keys[t] := B.W_k z
+  C.values[t] := B.W_v z
+  s = x.n DIV H
+  heads = do
+    a = array[\Vec\](H)
+    for h <- 0#H do
+      K = Mat(t+1,s,fn (u,j) => (head(C.keys[u],h,s))[j])
+      V = Mat(t+1,s,fn (u,j) => (head(C.values[u],h,s))[j])
+      a[h] := attention(head(q,h,s),K,V)
+    end
+    a
+  end
+  y = x + B.W_o Vec(x.n,fn j => do v = heads[j DIV s]; v[j MOD s] end)
+  y + B.W_out relu(B.W_in rmsnorm(y))
+end
+matrixAt(m:ZZ32,n:ZZ32,offset:ZZ32):Mat = Mat(m,n,fn (i,j) =>
+  1.0 (((offset + i n + j) MOD 29)-14)/100.0)
+run() = do
+  E = matrixAt(3,4,0)
+  P = matrixAt(3,4,12)
+  U = matrixAt(3,4,24)
+  B = Block(matrixAt(4,4,36),matrixAt(4,4,52),matrixAt(4,4,68),
+            matrixAt(4,4,84),matrixAt(16,4,100),matrixAt(4,16,164))
+  C = Cache(3)
+  tokens = array[\ZZ32\](4)
+  tokens[0] := 2; tokens[1] := 0; tokens[2] := 1; tokens[3] := 2
+  losses = array[\RR64\](3)
+  for t <- sequential(0#3) do
+    x = rmsnorm(E[tokens[t]]+P[t])
+    logits = U transformer(x,B,C,t,2)
+    p = softmax(logits)
+    losses[t] := -log(p[tokens[t+1]])
+    for j <- sequential(0#3) do println("logits\t" t "\t" j "\t" logits[j]) end
+  end
+  println("loss\t" (SUM[t <- 0#3] losses[t])/3.0)
+end
+end

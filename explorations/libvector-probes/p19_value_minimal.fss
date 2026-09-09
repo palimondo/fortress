@@ -1,0 +1,27 @@
+(* Probe J: MINIMAL Value extends Number -- only asString, + and TIMES,
+   as the task's spec ("opr +", "opr TIMES") asks.  What does the library
+   actually demand beyond that? *)
+component p19_value_minimal
+export Executable
+
+object Value(data: RR64) extends Number
+    getter asString(): String = "V(" data ")"
+    opr +(self, other: Value): Value = Value(data + other.data)
+    opr TIMES(self, other: Value): Value = Value(data other.data)
+end
+
+run(): () = do
+    u: Value[3] = [Value(1.0) Value(2.0) Value(3.0)]
+    v: Value[3] = [Value(10.0) Value(20.0) Value(30.0)]
+    println("u = " u)
+    println("|u| = " |u| ", u[1] = " u[1])
+    println("u + v = " (u + v))
+    println("u DOT v = " (u DOT v))
+    println("SUM [x<-u] x = " (SUM [ x <- u ] x))
+    m: Value[2,2] = [Value(1.0) Value(2.0); Value(3.0) Value(4.0)]
+    w: Value[2]   = [Value(1.0) Value(1.0)]
+    println("m w = " (m w))
+    println("m.t() = " m.t())
+    println("u.scale(Value(2.0)) = " u.scale(Value(2.0)))
+  end
+end

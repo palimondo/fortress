@@ -1,0 +1,36 @@
+(* Q1c: matrix row / column extraction.  Library FortressLibrary.fss:2358-2365
+   (Row/Col objects at :2473-2495), 2-D subarray at :2381. *)
+component p03
+export Executable
+
+run(): () = do
+    m: Matrix[\RR64,3,4\] = [ 0.0  1.0  2.0  3.0 ;
+                              4.0  5.0  6.0  7.0 ;
+                              8.0  9.0 10.0 11.0 ]
+    println("m = " m)
+    println("m.sizes = " m.sizes)
+
+    r1 = m[1, :]
+    println("m[1,:] = " r1 "  |r1| = " |r1|)
+    typecase r1 of
+        AnyVector => println("  row IS an AnyVector")
+        else      => println("  row is NOT an AnyVector")
+    end
+
+    c2 = m[:, 2]
+    println("m[:,2] = " c2 "  |c2| = " |c2|)
+
+    rr = m[1, 1:2]
+    println("m[1,1:2] = " rr)
+
+    sub = m.subarray[\0,2,0,2,1,1\](1,1)
+    println("m.subarray[0,2,0,2,1,1](1,1) = " sub)
+    typecase sub of
+        AnyMatrix => println("  2-D subarray IS an AnyMatrix")
+        else      => println("  2-D subarray is NOT an AnyMatrix")
+    end
+
+    r1[0] := 77.0
+    println("after r1[0] := 77.0 : m = " m)
+  end
+end

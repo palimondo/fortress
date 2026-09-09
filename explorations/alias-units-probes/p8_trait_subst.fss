@@ -1,0 +1,20 @@
+(* Q1 substitute A: can an empty trait extension stand in for a type alias?
+   Idea: trait Logits extends List[\RR64\] end, then write f(x: Logits).
+   The spec says a type alias "does not define new types nor nominal
+   equivalence relations among types" (types-vals-vars.tex:621-623) --
+   a trait extension does exactly the opposite, so this should FAIL for an
+   ordinary List value.  Probing to record the verbatim failure. *)
+component p8_trait_subst
+import List.{...}
+export Executable
+
+trait Logits extends List[\RR64\] end
+
+peek(x: Logits): RR64 = x[0]
+
+run() = do
+  v: List[\RR64\] = <|[\RR64\] 1.0, 2.0|>
+  println("peek = " peek(v))
+end
+
+end

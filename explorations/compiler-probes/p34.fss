@@ -1,0 +1,8 @@
+component p34
+export Executable
+run() = do
+  var i: ZZ32 := 0
+  while i < 5 do i := i + 1 end
+  println("p34 " i)
+end
+end

@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\begin{document}\begin{preview}\begin{minipage}{17cm}
+\textbf{Candidate B: tight division and the same executed formulas}\\
+$y_i=\sum_j A_{ij}x_j$; Python: \texttt{[sum(wi*xi for wi,xi in zip(row,x)) for row in W]}
+\begin{FortressCode}
+\KWD{opr} \VAR{juxtaposition}(A\COLON\TYP{Mat},x\COLON\TYP{Vec})\COLON\TYP{Vec} = \TYP{Vec}\left(A.m,\KWD{fn} i \Rightarrow \sum\limits_{j \leftarrow 0\mathbin{\#}A.n}\, A_{i,j}\, x_{j}\right)
+\end{FortressCode}
+$p_i=\frac{e^{x_i-m}}{\sum_j e^{x_j-m}}$; $\operatorname{RMSNorm}(x)=\frac{x}{\sqrt{(x\cdot x)/n+10^{-5}}}$.
+\\Python: \texttt{exps=[(v-max\_val).exp() for v in logits]; [e/sum(exps) for e in exps]}
+\begin{FortressCode}
+\VAR{softmax}(x\COLON\TYP{Vec})\COLON\TYP{Vec} =\; \KWD{do} \\
+\2\+e = \exp\bigl(x-\VAR{maximum}(x)\bigr) \\
+  {\textstyle{}e\over\textstyle\sum\limits_{i \leftarrow 0\mathbin{\#}x.n}\, e_{i}}\- \\
+\KWD{end} \\
+\VAR{rmsnorm}(x\COLON\TYP{Vec})\COLON\TYP{Vec} = {\textstyle{}x\over\textstyle{\textstyle\sqrt{{\textstyle{}x\, x\over\textstyle{}x.n}+0.00001}}}
+\end{FortressCode}
+$a=\operatorname{softmax}\left(\frac{Kq}{\sqrt{d_h}}\right)$; $o_j=\sum_t a_tV_{tj}$.
+\\Python: \texttt{[sum(weights[t]*vh[t][j] for t in range(T)) for j in range(s)]}
+\begin{FortressCode}
+\VAR{attention}(q\COLON\TYP{Vec},K\COLON\TYP{Mat},V\COLON\TYP{Mat})\COLON\TYP{Vec} =\; \KWD{do} \\
+\2\+a = \VAR{softmax}\left({\textstyle{}K\, q\over\textstyle{\textstyle\sqrt{q.n}}}\right) \\
+  \TYP{Vec}\left(V.n,\KWD{fn} j \Rightarrow \sum\limits_{t \leftarrow 0\mathbin{\#}V.m}\, a_{t}\, V_{t,j}\right)\- \\
+\KWD{end} \\
+ \\
+\end{FortressCode}
+\end{minipage}\end{preview}\end{document}

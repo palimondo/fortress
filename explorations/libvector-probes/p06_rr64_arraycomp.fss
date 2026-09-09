@@ -1,0 +1,14 @@
+(* Baseline 4: the spec's ARRAY COMPREHENSION form,
+   Specification/appendices/grammars/concrete-syntax.tex:1081-1096
+     Comprehension ::= [BIG] "[" [StaticArgs] ArrayComprehensionClause+ "]"
+     ArrayComprehensionClause ::= ArrayComprehensionLeft "|" GeneratorClauseList
+     ArrayComprehensionLeft   ::= IdOrInt |-> Expr | "(" IdOrInt "," IdOrIntList ")" |-> Expr
+   and Specification/preliminaries/overview.tex:974-999.        *)
+component p06_rr64_arraycomp
+export Executable
+
+run(): () = do
+    v: RR64[4] = [ i |-> 1.0 (i+1) | i <- 0#4 ]
+    println("array comprehension 1-D = " v)
+  end
+end

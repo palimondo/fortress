@@ -1,0 +1,8 @@
+component p19
+export Executable
+object Box[\T\](v: T) end
+run() = do
+  b = Box[\RR64\](3.0)
+  println("p19 " b.v)
+end
+end

@@ -1,0 +1,21 @@
+component p10_sqrt
+import List.{...}
+export Executable
+
+object V(var data: RR64)
+  getter asString(): String = "V(" data ")"
+  opr ^(self, n: RR64): V = V(data^n)
+end
+
+(* microgpt_paper.fss line 82-83 declares BOTH of these.  Is the ZZ32 one
+   needed, given trait Number already provides opr SQRT(self):RR64
+   (FortressLibrary.fss:383) and ZZ32 extends Number? *)
+opr SQRT(u: V): V = u^0.5
+(* opr SQRT(n: ZZ32): RR64 = SQRT (n 1.0)   -- deliberately omitted *)
+
+run() = do
+  q = <|[\V\] V(1.0), V(2.0), V(3.0), V(4.0)|>
+  println("SQRT |q| = " (SQRT |q|))
+  println("SQRT V(9.0) = " (SQRT V(9.0)))
+end
+end

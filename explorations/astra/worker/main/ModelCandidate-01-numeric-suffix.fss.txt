@@ -1,0 +1,69 @@
+component ModelCandidate
+export Executable
+object Vec(n:ZZ32, f:ZZ32->RR64)
+  data:Array[\RR64,ZZ32\] = do
+    a = array[\RR64\](n)
+    for i <- 0#n do a[i] := f(i) end
+    a
+  end
+  opr[i:ZZ32]:RR64 = data[i]
+end
+object Mat(m:ZZ32,n:ZZ32,f:(ZZ32,ZZ32)->RR64)
+  rows: Array[\Vec,ZZ32\] = do
+    a = array[\Vec\](m)
+    for i <- 0#m do a[i] := Vec(n,fn j => f(i,j)) end
+    a
+  end
+  opr[i:ZZ32,j:ZZ32]:RR64 = rows[i][j]
+end
+opr juxtaposition(A:Mat,x:Vec):Vec = Vec(A.m,fn i => SUM[j <- 0#A.n] A[i,j] x[j])
+opr +(x:Vec,y:Vec):Vec = Vec(x.n,fn i => x[i]+y[i])
+opr /(x:Vec,s:RR64):Vec = Vec(x.n,fn i => x[i]/s)
+opr juxtaposition(x:Vec,y:Vec):RR64 = SUM[i <- 0#x.n] x[i] y[i]
+opr juxtaposition(s:RR64,x:Vec):Vec = Vec(x.n,fn i => s x[i])
+opr -(x:Vec,s:RR64):Vec = Vec(x.n,fn i => x[i]-s)
+exp(x:Vec):Vec = Vec(x.n,fn i => exp(x[i]))
+relu(x:Vec):Vec = Vec(x.n,fn i => if x[i]>0.0 then x[i] else 0.0 end)
+maximum(x:Vec):RR64 = (0#x.n).map(fn (i:ZZ32) => x[i]).reduce(fn (a:RR64,b:RR64) => a MAX b, -1.0/0.0)
+softmax(x:Vec):Vec = do
+  e = exp(x-maximum(x))
+  e / (SUM[i <- 0#x.n] e[i])
+end
+rmsnorm(x:Vec):Vec = x / SQRT((x x)/x.n.asFloat()+0.00001)
+head(x:Vec,h:ZZ32,s:ZZ32):Vec = Vec(s,fn j => x[h s+j])
+
+(* Each row of K and V is one cached time position, including the current one. *)
+attention(q:Vec,K:Mat,V:Mat):Vec = do
+  a = softmax((K q)/SQRT(q.n.asFloat()))
+  Vec(V.n,fn j => SUM[t <- 0#V.m] a[t] V[t,j])
+end
+
+object Block(W_q:Mat,W_k:Mat,W_v:Mat,W_o:Mat,W_1:Mat,W_2:Mat) end
+object Cache(context:ZZ32)
+  keys:Array[\Vec,ZZ32\] = array[\Vec\](context)
+  values:Array[\Vec,ZZ32\] = array[\Vec\](context)
+end
+transformer(x:Vec,B:Block,C:Cache,t:ZZ32,H:ZZ32):Vec = do
+  z = rmsnorm(x)
+  q = B.W_q z
+  C.keys[t] := B.W_k z
+  C.values[t] := B.W_v z
+  s = x.n DIV H
+  heads = do
+    a = array[\Vec\](H)
+    for h <- 0#H do
+      K = Mat(t+1,s,fn (u,j) => C.keys[u][h s+j])
+      V = Mat(t+1,s,fn (u,j) => C.values[u][h s+j])
+      a[h] := attention(head(q,h,s),K,V)
+    end
+    a
+  end
+  y = x + B.W_o Vec(x.n,fn j => heads[j DIV s][j MOD s])
+  y + B.W_2 relu(B.W_1 rmsnorm(y))
+end
+run() = do
+  x = Vec(3,fn i => (i+1).asFloat())
+  println(softmax(x)[0])
+  println(rmsnorm(x)[0])
+end
+end
