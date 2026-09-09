@@ -1,0 +1,42 @@
+(* c03: closures over runtime-sized library arrays as the backward maps of a
+   matrix-level AD: untyped lambda parameters, (value, backward) tuple returns,
+   an object holding an arrow-typed field and calling it, a List of closures,
+   and object identity (===) for graph nodes. *)
+component c03_closures
+import List.{...}
+export Executable
+
+object Node(v: Array[\RR64,ZZ32\], back: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\])
+  var grad: Array[\RR64,ZZ32\] := array[\RR64\](|v|).fill(0.0)
+end
+
+linear(W: Array[\RR64,(ZZ32,ZZ32)\], x: Array[\RR64,ZZ32\]) =
+  (W x, fn g => W.t() g)
+
+run(): () = do
+  W = array[\RR64\](2, 3).fill(fn (i, j) => 1.0 (3 i + j + 1))
+  x = array[\RR64\](3).fill(fn i => 1.0 (i + 1))
+  (y, back) = linear(W, x)
+  println("y = " y)
+  println("back(y) = W^T y = " back(y))
+  n = Node(y, back)
+  println("(n.back)(y) = " (n.back)(y))
+  n.grad := n.grad + y
+  println("n.grad = " n.grad)
+  (* a list of closures, applied in reverse *)
+  fs: List[\(Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\])\] =
+     <|[\(Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\])\] (fn g => g.scale(2.0)), (fn g => g + g) |>
+  var acc: Array[\RR64,ZZ32\] := x
+  for f <- seq(fs.reverse) do acc := f(acc) end
+  println("tape applied = " acc)
+  (* identity *)
+  m = Node(y, back)
+  println("n === n: " (n === n) "   n === m: " (n === m))
+  (* untyped lambda with two params, and a closure returning a tuple *)
+  outer = fn (g, z) => array[\RR64\](|g|, |z|).fill(fn (i, j) => g[i] z[j])
+  println("outer(y, x) = " outer(y, x))
+  both = fn g => (W.t() g, outer(g, x))
+  (gx, gW) = both(y)
+  println("gx = " gx "  gW = " gW)
+end
+end

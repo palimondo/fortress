@@ -1,0 +1,43 @@
+(* c01: what the library's own Vector/Matrix over RR64 give a matrix-level
+   forward pass at RUNTIME sizes (array[\RR64\](n), array[\RR64\](n,m)):
+   products in all four directions, transpose as a view, elementwise ops,
+   scaling, outer product via fill, row/column extraction, and printing. *)
+component c01_library_matrix
+export Executable
+
+run(): () = do
+  n: ZZ32 = 3; d: ZZ32 = 4; k: ZZ32 = 2
+  X = array[\RR64\](n, d).fill(fn (i: ZZ32, j: ZZ32): RR64 => 0.1 (d i + j + 1))
+  W = array[\RR64\](k, d).fill(fn (i: ZZ32, j: ZZ32): RR64 => 0.01 (d i + j + 1))
+  x = array[\RR64\](d).fill(fn (i: ZZ32): RR64 => 1.0 (i + 1))
+  g = array[\RR64\](k).fill(fn (i: ZZ32): RR64 => 0.5 (i + 1))
+  println("X = " X)
+  println("W = " W)
+  println("W x        (Mat Vec)         = " (W x))
+  println("g W        (Vec Mat)         = " (g W))
+  println("X W.t()    (Mat Mat, n x k)  = " (X W.t()))
+  println("W.t() g    (view times vec)  = " (W.t() g))
+  println("X + X                        = " (X + X))
+  println("X.scale(2.0)                 = " X.scale(2.0))
+  println("2.0 X (scalar juxtaposition) = " (2.0 X))
+  println("X 2.0                        = " (X 2.0))
+  println("x DOT x                      = " (x DOT x))
+  println("x pmul x                     = " x.pmul(x))
+  println("X.t() X    (d x d)           = " (X.t() X))
+  (* outer product g x^T via fill *)
+  outer = array[\RR64\](k, d).fill(fn (i: ZZ32, j: ZZ32): RR64 => g[i] x[j])
+  println("outer g x^T                  = " outer)
+  (* elementwise map *)
+  println("X.map(relu)                  = " X.map[\RR64\](fn (e: RR64): RR64 => e MAX 0.0))
+  println("X.ivmap                      = " X.ivmap[\RR64\](fn (ij: (ZZ32, ZZ32), e: RR64): RR64 => do (i, j) = ij; if j > i then 0.0 else e end end))
+  (* row and column as copies *)
+  println("X[1,:].copy()                = " X[1, :].copy())
+  println("X[:,2].copy()                = " X[:, 2].copy())
+  println("|x| = " |x| "  |X| = " |X| "  X.sizes = " X.sizes)
+  println("||x|| = " ||x||)
+  (* Mat Mat with the transpose view on the LEFT *)
+  println("W.t() W   (d x d)            = " (W.t() W))
+  (* transpose of a product *)
+  println("(X W.t()).t()                = " (X W.t()).t())
+end
+end

@@ -1,0 +1,27 @@
+(* c07: function contracts (basic/functions.tex, Function Contracts) as shape
+   assertions, and a `test`/`property` declaration (basic/tests.tex) -- are
+   they honoured by the walk interpreter? *)
+component c07_contracts_tests
+export Executable
+
+dotp(x: Array[\RR64,ZZ32\], y: Array[\RR64,ZZ32\]): RR64
+  requires { |x| = |y| }
+  ensures { outcome >= 0.0 provided x === y }
+  = x DOT y
+
+test tinyCheck() = do
+  x = array[\RR64\](2).fill(1.0)
+  assert(dotp(x, x) = 2.0)
+  println("test ran")
+end
+
+(* property alwaysNonNeg = FORALL (n: ZZ32) (n n >= 0)   -- PropertyDecl: "Not yet implemented" (see c07 first run) *)
+
+run(): () = do
+  x = array[\RR64\](3).fill(fn i => 1.0 (i + 1))
+  println("dotp(x,x) = " dotp(x, x))
+  y = array[\RR64\](2).fill(1.0)
+  println("about to violate the contract:")
+  println("dotp(x,y) = " dotp(x, y))
+end
+end

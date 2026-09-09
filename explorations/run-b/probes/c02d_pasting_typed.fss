@@ -1,0 +1,23 @@
+(* c02d: pasting with a declared LHS type at runtime sizes: does the
+   element-type inference gap (ledger row 49) go away with the type given? *)
+component c02d_pasting_typed
+export Executable
+
+run(): () = do
+  n: ZZ32 = 2
+  u = array[\RR64\](n).fill(fn i => 1.0 (i + 1))
+  v = array[\RR64\](n).fill(fn i => 10.0 (i + 1))
+  w4: Array[\RR64,ZZ32\] = [ u v u v ]
+  println("[ u v u v ] typed LHS = " w4 "  |w4| = " |w4|)
+  typecase w4 of
+    AnyVector => println("  IS an AnyVector")
+    else => println("  is NOT an AnyVector")
+  end
+  A = array[\RR64\](n, n).fill(fn (i, j) => 1.0 (n i + j + 1))
+  B = array[\RR64\](n, n).fill(fn (i, j) => 10.0 (n i + j + 1))
+  D: Array[\RR64,(ZZ32,ZZ32)\] = [ A ; B ]
+  println("[ A ; B ] = " D)
+  C: Array[\RR64,(ZZ32,ZZ32)\] = [ A B ]
+  println("[ A B ] = " C)
+end
+end

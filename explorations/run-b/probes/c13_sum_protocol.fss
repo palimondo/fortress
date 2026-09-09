@@ -1,0 +1,38 @@
+(* c13: the two Sigmas the matrix-level design wants, in one component:
+   (a) SUM[t <- 0#n] over a list of differentiable scalars (a user reduction
+       behind the library's own big operator, ledger row 41: except-import
+       plus a nullary opr SUM), and
+   (b) a PREFIX `SUM e` over a differentiable VECTOR node, which is not a
+       reduction over elements but one graph operation returning a scalar node
+       (softmax's denominator, written as the paper's Sigma). *)
+component c13_sum_protocol
+import FortressLibrary.{...} except { opr BIG + }
+import List.{...}
+export Executable
+
+object Num(v: RR64, name: String)
+  opr +(self, o: Num): Num = Num(v + o.v, "(" name "+" o.name ")")
+end
+object Vec(v: Array[\RR64,ZZ32\]) end
+
+(* second run: one Sigma for numbers AND nodes -- a reduction over Any whose
+   join dispatches on the dynamic types (explorations/microgpt2.fss's route);
+   the first run's Num-only reduction broke the numeric SUM inside (b). *)
+object PlusReduction extends CommutativeMonoidReduction[\Any\]
+  getter asString(): String = "PlusReduction"
+  empty(): Any = 0
+  join(a: Any, b: Any): Any = a + b
+end
+opr SUM(): BigReduction[\Any, Any\] = BigReduction[\Any, Any\](PlusReduction)
+opr SUM(e: Vec): Num = Num(SUM[x <- e.v] x, "sum(e)")
+
+run(): () = do
+  nums = <|[\Num\] Num(1.0, "a"), Num(2.0, "b"), Num(3.0, "c") |>
+  s = SUM[t <- 0#3] nums[t]
+  println("(a) SUM[t <- 0#3] nums[t] = " s.v "  built as " s.name)
+  e = Vec(array[\RR64\](4).fill(fn i => 1.0 (i + 1)))
+  z = SUM e
+  println("(b) SUM e over a Vec node = " z.v "  " z.name)
+  println("(c) numeric SUM[i <- 1:4] i (still needed inside (b)) = " (SUM[i <- 1:4] i))
+end
+end

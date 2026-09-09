@@ -1,0 +1,38 @@
+(* c11: three object-model details the engine design hinges on.
+   (1) a list literal of two DIFFERENT object types where a List of their
+       common trait is expected (ledger row 20 says the element type is the
+       runtime class);
+   (2) an abstract getter in a trait satisfied by a `var` field of an object,
+       and read through the trait type;
+   (3) a user-declared setter that absorbs assignments (so a constant can
+       swallow `c.grad += g`), and `+=` through it. *)
+component c11_object_model
+import List.{...}
+export Executable
+
+trait Node
+  getter grad(): RR64
+  setter grad(g: RR64): ()
+end
+object Leaf(v: RR64) extends Node
+  var grad: RR64 := 0.0
+end
+object Const(v: RR64) extends Node
+  getter grad(): RR64 = 0.0
+  setter grad(g: RR64): () = ()
+end
+object Other(name: String) extends Node
+  var grad: RR64 := 0.0
+end
+
+bump(n: Node): () = n.grad += 1.0
+
+run(): () = do
+  a = Leaf(1.0); c = Const(2.0); o = Other("o")
+  bump(a); bump(a); bump(c); bump(o)
+  println("(2)(3) a.grad = " a.grad "  c.grad = " c.grad "  o.grad = " o.grad)
+  xs: List[\Node\] = <| a, c, o |>
+  println("(1) heterogeneous literal into List[\\Node\\]: |xs| = " |xs|)
+  for n <- seq(xs) do println("   " n.grad) end
+end
+end

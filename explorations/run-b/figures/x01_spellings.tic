@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* sheet 1: fractions, Greek names, adjoint names, transposes, big operators *)
+rmsnorm(x: Vec): Vec = x/(SQRT(mean(x^2) + epsilon))
+rmsnorm(x: Vec): Vec = x/(SQRT((x DOT x)/|x| + epsilon))
+softmax(z: Vec): Vec = do e = exp(z - BIG MAX z); e/(SUM e) end
+softmax(z: Vec): Vec = do e = exp(z - (BIG MAX[z_i <- z] z_i)); e/(SUM[e_i <- e] e_i) end
+attention(Q: Mat, K: Mat, V: Mat): Mat = softmax((Q K^T)/(SQRT d_k) + M) V
+attention(Q: Mat, K: Mat, V: Mat): Mat = softmax(Q K^T/SQRT d_k + M) V
+epsilon = 10.0^(-5)
+theta := theta - eta_t m_hat/(SQRT v_hat + epsilon)
+theta := theta - eta m_hat/(SQRT v_hat + epsilon)
+m := beta1 m + (1 - beta1) g
+m := beta_1 m + (1 - beta_1) g
+v := beta2 v + (1 - beta2) g^2
+lr_t = lr (1 - t/T)
+eta_t = eta (1 - t/T)
+y.grad := y.grad + g
+y.bar := y.bar + g
+y_bar := y_bar + g
+y.delta := y.delta + g
+dy := dy + g
+y.adj := y.adj + g
+opr juxtaposition(W: Mat, x: Vec): Vec = node(W.v x.v, (W, fn g => g x^T), (x, fn g => W^T g))
+opr juxtaposition(W: Mat, x: Vec): Vec = Vec(W.v x.v, fn g => W.back(g x^T) + x.back(W^T g))
+opr juxtaposition(W: Mat, x: Vec): Vec = vec(W.v x.v, fn y => do W.grad += y.grad x^T; x.grad += W^T y.grad end, W, x)
+opr juxtaposition(W: Mat, x: Vec): Vec = node(W.v x.v, (W, fn g => g OUTER x), (x, fn g => W^T g))
+grads = SUM[t <- 0#n] (losses[t]).back(1/n)
+X W_q^T
+X (W_q)^T
+Q_h K_h^T
+h_1 || h_2 || h_3
+BIG ||[h <- 0#n_head] head(h)
+CONCAT[h <- 0#n_head] head(h)
+opr (x: Vec)^T: Row = Row(x)
+opr juxtaposition(g: Vec, x: Row): Mat = outer(g, x)
+E[tokens] + P[0#n]
+E_tok + P_t
+(1/n) SUM[t <- 0#n] -log p[t, y_t]
+-(1/n) SUM[t <- 0#n] log p[t, y[t]]
+crossEntropy(logits: Mat, y: List[\ZZ32\]): Num = -(1/n) SUM[t <- 0#n] log (softmax(logits[t]))[y[t]]`
+\end{preview}
+\end{document}

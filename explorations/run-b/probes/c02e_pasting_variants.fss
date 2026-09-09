@@ -1,0 +1,17 @@
+(* c02e: two more spellings of runtime-sized vector pasting.  c02d showed that
+   `w4: Array[\RR64,ZZ32\] = [ u v u v ]` leaves w4 UNBOUND with no error.
+   (a) a literal-sized Vector type on the LHS with runtime-sized elements;
+   (b) the Array-typed form again, printed immediately, to confirm the silence. *)
+component c02e_pasting_variants
+export Executable
+
+run(): () = do
+  n: ZZ32 = 2
+  u = array[\RR64\](n).fill(fn i => 1.0 (i + 1))
+  v = array[\RR64\](n).fill(fn i => 10.0 (i + 1))
+  w8: Vector[\RR64,8\] = [ u v u v ]
+  println("(a) [ u v u v ] with Vector[\\RR64,8\\] LHS = " w8)
+  w4: Array[\RR64,ZZ32\] = [ u v ]
+  println("(b) bound? " w4)
+end
+end

@@ -1,0 +1,37 @@
+(* c05: the sequence-as-matrix formulation's row-wise operations over library
+   matrices: row-wise softmax with a causal mask ((-1.0/0.0) above the diagonal),
+   row-wise rmsnorm, relu, and the products X W^T, alpha V.  Also whether a row
+   view X[i,:] can drive SUM and MAX (it is a generator even without algebra). *)
+component c05_rowwise
+export Executable
+
+run(): () = do
+  n: ZZ32 = 3; d: ZZ32 = 4
+  X = array[\RR64\](n, d).fill(fn (i, j) => 0.1 (d i + j + 1) - 0.5)
+  println("X = " X)
+  (* row-wise reductions over a view *)
+  ms(i) = (SUM[e <- X[i, :]] e^2) / d
+  println("mean square of row 1 = " ms(1))
+  (* rmsnorm row-wise via ivmap *)
+  eps = 10.0^(-5)
+  N = X.ivmap[\RR64\](fn (ij, e) => do (i, j) = ij; e / SQRT(ms(i) + eps) end)
+  println("rmsnorm rows = " N)
+  (* scores with causal mask *)
+  S = (X X.t()).ivmap[\RR64\](fn (ij, e) => do (i, j) = ij; if j > i then (-1.0/0.0) else e end end)
+  println("masked scores = " S)
+  (* row-wise softmax *)
+  mx(i) = BIG MAX[e <- S[i, :]] e
+  E = S.ivmap[\RR64\](fn (ij, e) => do (i, j) = ij; exp(e - mx(i)) end)
+  Z(i) = SUM[e <- E[i, :]] e
+  P = E.ivmap[\RR64\](fn (ij, e) => do (i, j) = ij; e / Z(i) end)
+  println("softmax rows = " P)
+  (* attention output = P V *)
+  println("P X = " (P X))
+  println("relu(X) = " X.map[\RR64\](fn e => e MAX 0.0))
+  (* row extraction with algebra needs a copy *)
+  r = X[1, :].copy()
+  println("row 1 DOT row 1 = " (r DOT r))
+  (* an infinity literal *)
+  println("exp((-1.0/0.0)) = " exp((-1.0/0.0)) "  MAX with (-1.0/0.0) = " (3.0 MAX ((-1.0/0.0))))
+end
+end

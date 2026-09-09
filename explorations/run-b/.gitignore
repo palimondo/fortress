@@ -6,3 +6,6 @@
 # the pinned Python reference is run locally, never committed (license unstated)
 reference/*.py
 reference/__pycache__/
+# the dataset the reference downloads (makemore names.txt@988aa59); explorations/names.txt is the same file
+reference/input.txt
+reference/checks_*.json.tmp

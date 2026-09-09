@@ -1,0 +1,84 @@
+(* Skeleton F: FUNCTIONAL backprop on carriers.  Every value -- a number, a
+   vector, a matrix -- carries a linear map from its own cotangent to the
+   cotangent of the loss with respect to all parameters (a Grad record keyed by
+   parameter name).  Composition is the chain rule, sharing is handled by
+   summing Grads at fan-out, nothing is mutated, and the backward maps are
+   written in the same algebra as the forward pass (g x^T, W^T g, ...).
+   Finite-difference checked; timed. *)
+component s02_functional
+import List.{...}
+import Map.{...}
+export Executable
+
+(* ---- the cotangent record: parameter name |-> dL/dParameter, an additive monoid ---- *)
+object Grad(m: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\])
+  opr +(self, o: Grad): Grad = Grad(m.union(fn (k, a, b) => a + b, o.m))
+  opr [k: String]: Array[\RR64,(ZZ32,ZZ32)\] = m[k]
+end
+zero: Grad = Grad({[\String, Array[\RR64,(ZZ32,ZZ32)\]\] })
+
+(* ---- carriers: a value and its backward map ---- *)
+object Num(a: RR64, vjp: RR64 -> Grad)
+  back(g: RR64): Grad = vjp(g)
+end
+object Vec(a: Array[\RR64,ZZ32\], vjp: Vec -> Grad)
+  back(g: Vec): Grad = vjp(g)
+  opr |self|: ZZ32 = |a|
+  opr [i: ZZ32]: RR64 = a[i]
+end
+object Mat(a: Array[\RR64,(ZZ32,ZZ32)\], vjp: Mat -> Grad)
+  back(g: Mat): Grad = vjp(g)
+  opr [i: ZZ32, j: ZZ32]: RR64 = a[i, j]
+end
+object Row(x: Vec) end                       (* a transposed vector *)
+vec(a: Array[\RR64,ZZ32\]): Vec = Vec(a, fn g => zero)
+mat(a: Array[\RR64,(ZZ32,ZZ32)\]): Mat = Mat(a, fn g => zero)
+param(name: String, a: Array[\RR64,(ZZ32,ZZ32)\]): Mat =
+  Mat(a, fn g => Grad({[\String, Array[\RR64,(ZZ32,ZZ32)\]\] name |-> g.a }))
+
+(* ---- the operators: value, then the chain rule ---- *)
+opr juxtaposition(W: Mat, x: Vec): Vec = Vec(W.a x.a, fn g => W.back(g x^T) + x.back(W^T g))
+opr juxtaposition(g: Vec, xT: Row): Mat =                             (* outer product g x^T *)
+  Mat(array[\RR64\](|g|, |xT.x|).fill(fn (i, j) => g[i] (xT.x)[j]), fn G => zero)
+opr +(x: Vec, y: Vec): Vec = Vec(x.a + y.a, fn g => x.back(g) + y.back(g))
+opr (x: Vec)^T: Row = Row(x)
+opr (W: Mat)^T: Mat = Mat(W.a.t(), fn g => W.back(g^T))
+opr juxtaposition(c: RR64, x: Vec): Vec = Vec(c x.a, fn g => x.back(c g))
+opr DOT(x: Vec, y: Vec): Num = Num(x.a DOT y.a, fn g => x.back(g y) + y.back(g x))
+relu(x: Vec): Vec = Vec(x.a.map[\RR64\](fn e => e MAX 0.0), fn g => x.back(g ODOT step(x)))
+step(x: Vec): Vec = vec(x.a.map[\RR64\](fn e => if e > 0.0 then 1.0 else 0.0 end))
+opr ODOT(x: Vec, y: Vec): Vec = Vec(x.a.pmul(y.a), fn g => x.back(g ODOT y) + y.back(g ODOT x))
+backward(L: Num): Grad = L.back(1.0)
+
+model(W1: Mat, W2: Mat, x: Vec): Num = do
+  h = W1 x
+  u = h + W2^T (W2 relu(h))
+  u DOT u
+end
+
+run(): () = do
+  W1v = array[\RR64\](3, 4).fill(fn (i, j) => 0.1 (4 i + j + 1) - 0.7)
+  W2v = array[\RR64\](2, 3).fill(fn (i, j) => 0.2 (3 i + j) - 0.5)
+  xv = array[\RR64\](4).fill(fn i => 1.0 (i + 1) - 2.5)
+  L = model(param("W1", W1v), param("W2", W2v), vec(xv))
+  println("L = " L.a)
+  grads = backward(L)
+  println("dL/dW1 = " grads["W1"])
+  println("dL/dW2 = " grads["W2"])
+  h = 1.0/1048576.0
+  f(): RR64 = model(param("W1", W1v), param("W2", W2v), vec(xv)).a
+  var worst: RR64 := 0.0
+  for (i, j) <- seq(<|[\(ZZ32,ZZ32)\] (0,0), (2,3), (1,2) |>) do
+    W1v[i,j] := W1v[i,j] + h; fp = f(); W1v[i,j] := W1v[i,j] - 2.0 h; fm = f(); W1v[i,j] := W1v[i,j] + h
+    worst := worst MAX |(fp - fm)/(2.0 h) - (grads["W1"])[i,j]|
+  end
+  for (i, j) <- seq(<|[\(ZZ32,ZZ32)\] (0,0), (1,2), (0,1) |>) do
+    W2v[i,j] := W2v[i,j] + h; fp = f(); W2v[i,j] := W2v[i,j] - 2.0 h; fm = f(); W2v[i,j] := W2v[i,j] + h
+    worst := worst MAX |(fp - fm)/(2.0 h) - (grads["W2"])[i,j]|
+  end
+  println("max |analytic - finite difference| = " worst)
+  t0 = nanoTime()
+  for r <- seq(0#20) do backward(model(param("W1", W1v), param("W2", W2v), vec(xv))) end
+  println("20 x (forward + backward): " ((nanoTime() - t0) DIV 1000000) " ms")
+end
+end

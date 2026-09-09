@@ -1,0 +1,67 @@
+(* c14: (1) a lazily allocated adjoint: the field holds Maybe[\Mat\], a getter
+   returns a zero node of the right shape until the first accumulation, and
+   `A.grad += G` goes through the setter -- so a carrier can hold its adjoint
+   AS A CARRIER without constructing an infinite chain of zero adjoints;
+   (2) a carrier that is a Generator of its elements (x_i <- x, BIG MAX x)
+   and a matrix carrier that is a Generator of its ROW nodes (x <- X). *)
+component c14_lazy_grad_generators
+import List.{...}
+export Executable
+
+trait Node
+  getter children(): List[\Node\]
+  push(): ()
+end
+
+object Vec(v: Array[\RR64,ZZ32\], children: List[\Node\], backprop: Vec -> ())
+    extends { Node, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64, ZZ32\] }
+  var g: Maybe[\Vec\] := Nothing[\Vec\]
+  getter grad(): Vec = if gg <- g then gg else vec(array[\RR64\](|v|).fill(0.0)) end
+  setter grad(x: Vec): () = g := Just[\Vec\](x)
+  getter indices(): Generator[\ZZ32\] = 0 # |v|
+  push(): () = backprop(self.grad)
+  opr |self|: ZZ32 = |v|
+  opr [i: ZZ32]: RR64 = v[i]
+end
+object Mat(v: Array[\RR64,(ZZ32,ZZ32)\], children: List[\Node\], backprop: Mat -> ())
+    extends { Node, ZeroIndexed[\Vec\], DelegatedIndexed[\Vec, ZZ32\] }
+  var g: Maybe[\Mat\] := Nothing[\Mat\]
+  getter grad(): Mat = if gg <- g then gg else mat(array[\RR64\](rows(self), cols(self)).fill(0.0)) end
+  setter grad(x: Mat): () = g := Just[\Mat\](x)
+  getter indices(): Generator[\ZZ32\] = 0 # rows(self)
+  push(): () = backprop(self.grad)
+  opr |self|: ZZ32 = rows(self)
+  opr [t: ZZ32]: Vec = row(self, t)
+end
+rows(X: Mat): ZZ32 = do (n, m) = X.v.sizes; n end
+cols(X: Mat): ZZ32 = do (n, m) = X.v.sizes; m end
+vec(a: Array[\RR64,ZZ32\]): Vec = Vec(a, <|[\Node\] |>, fn g => ())
+mat(a: Array[\RR64,(ZZ32,ZZ32)\]): Mat = Mat(a, <|[\Node\] |>, fn g => ())
+opr +(x: Vec, y: Vec): Vec = Vec(x.v + y.v, <|[\Node\] x, y |>, fn g => do x.grad += g; y.grad += g end)
+opr +(X: Mat, Y: Mat): Mat = Mat(X.v + Y.v, <|[\Node\] X, Y |>, fn G => do X.grad += G; Y.grad += G end)
+(* row t of a matrix node: a vector node whose adjoint scatters back into row t *)
+row(X: Mat, t: ZZ32): Vec =
+  Vec(X.v[t, :].copy(), <|[\Node\] X |>,
+      fn g => X.grad += mat(array[\RR64\](rows(X), cols(X)).fill(fn (i, j) => if i = t then g[j] else 0.0 end)))
+
+run(): () = do
+  x = vec(array[\RR64\](3).fill(fn i => 1.0 (i + 1)))
+  y = x + x
+  println("y.grad before: " y.grad.v)
+  y.grad += vec(array[\RR64\](3).fill(1.0))
+  y.grad += vec(array[\RR64\](3).fill(1.0))
+  println("y.grad after two += : " y.grad.v)
+  y.push()
+  println("x.grad after push (2 per use, 2 uses) : " x.grad.v)
+  println("BIG MAX over x's elements: " (BIG MAX[x_i <- x] x_i) "   |x| = " |x| "  x[1] = " x[1])
+  println("comprehension over elements: " <| 2 x_i | x_i <- x |>)
+  X = mat(array[\RR64\](2, 3).fill(fn (i, j) => 1.0 (3 i + j)))
+  Z = X + X
+  println("rows of Z as nodes: " <| r.v | r <- Z |>)
+  for r <- Z do r.grad += vec(array[\RR64\](3).fill(1.0)) end
+  for r <- seq(Z) do r.push() end
+  println("Z.grad after each row pushed ones: " Z.grad.v)
+  Z.push()
+  println("X.grad: " X.grad.v)
+end
+end

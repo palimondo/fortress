@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* candidate spellings, sheet 0: matrix-level forms beside the papers' formulas *)
+linear(W: Mat, x: Vec) = (W x, fn g => (g OUTER x, W^T g))
+rmsnorm(x: Vec): Vec = x/SQRT(mean(x^2) + eps)
+rmsnorm2(x: Vec): Vec = x / SQRT((x DOT x)/|x| + eps)
+softmax(z: Vec): Vec = do e = exp(z - MAX z); e/(SUM e) end
+attention(Q: Mat, K: Mat, V: Mat): Mat = softmax(Q K^T/SQRT d_k + M) V
+attention2(Q: Mat, K: Mat, V: Mat): Mat = softmax((Q K^T)/SQRT(d_k) + M) V
+mlp(x: Vec): Vec = W_out relu(W_in x)
+block(X: Mat): Mat = do X' = X + attention(rmsnorm X); X' + mlp(rmsnorm X') end
+loss(logits: Mat, targets: List[\ZZ32\]): RR64 = (1/n) SUM[t <- 0#n] -log (softmax(logits[t]))[targets[t]]
+eps = 10.0^(-5)
+xs: Array[\RR64,ZZ32\] = array[\RR64\](n)
+opr OUTER(g: Vec, x: Vec): Mat = Mat(array[\RR64\](|g|, |x|).fill(fn (i, j) => g[i] x[j]))
+opr (m: Mat)^T: Mat = Mat(m.a.t())
+Q = X W_q^T
+theta -= lr_t m_hat/(SQRT v_hat + eps)
+grads = SUM[t <- 0#n] back_t(1/n)
+backward(y: Dual) = do y.grad := 1; for v <- seq(topo(y).reverse) do for (c, vjp) <- v.deps do c.grad += vjp(v.grad) end end end`
+\end{preview}
+\end{document}
