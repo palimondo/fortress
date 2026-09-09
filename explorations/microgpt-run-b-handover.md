@@ -74,3 +74,7 @@ The brief this attempt follows is `experiment/RUN_B_BRIEF.md` on branch `claude/
 4. Do not touch `explorations/run-b/`, the ledger, or anything under the historical tree. Keep Fable tokens for design and implementation; probes and any gate-1 or gate-4 work go to Opus workers with pointer briefs that carry the brief's standing rules verbatim.
 
 5. When Pavol says the other session has finished: import its `explorations/run-b/` from `claude/worker-brief-fable-vnnuv8` verbatim, then commission the reviews (condition 2). Pavol decides the order if both are in flight.
+
+### Run B2 state (2026-09-09)
+
+The coordinator's attempt is built, verified and written up: `explorations/run-b2/` (design state in `design.md`, article published at https://claude.ai/code/artifact/87d25c95-ab48-4ea9-a3ac-507b359e3050). Checks pass to 9e-16 on two golden steps with three replayed samples. What remains for Run B2 is `gaps.md` from the pending replication probes `probes/g4c_*` to `g4i_*`, and possibly a tightening pass on the article after Pavol reads it. Then, when the other session finishes, step 5 above.
