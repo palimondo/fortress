@@ -1,0 +1,28 @@
+component w03_dotpostfix
+export Executable
+
+opr (m: Matrix[\RR64,n,p\])^T[\nat n, nat p\] : Array[\RR64,(ZZ32,ZZ32)\] = do
+    r: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](p, n)
+    for (i, j) <- m.indices do
+        r[(j, i)] := m[(i, j)]
+    end
+    r
+  end
+
+object Holder(v: Array[\RR64,(ZZ32,ZZ32)\])
+end
+
+run(): () = do
+    m: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](2, 3)
+    m[(0,0)] := 1.0
+    m[(0,1)] := 2.0
+    m[(0,2)] := 3.0
+    m[(1,0)] := 4.0
+    m[(1,1)] := 5.0
+    m[(1,2)] := 6.0
+    x = Holder(m)
+    b = (x.v)^T
+    println("paren (x.v)^T = " b)
+  end
+
+end

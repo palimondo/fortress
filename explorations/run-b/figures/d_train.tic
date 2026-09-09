@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`for step <- seq(0#num_steps) do
+  tokens = tk.encode(docs[step MOD |docs|])
+  gpt = build(theta, ref_n_head, ref_n_layer)
+  L = loss(gpt, tokens.take(ref_block_size + 1))
+  backward(L)
+  eta = 0.01 (1 - step/num_steps)          (* linear learning-rate decay, as in the reference *)
+  (theta, m, v) := opt.step(theta, grads(gpt, ref_n_layer), m, v, step + 1, eta)
+  println("step " (step + 1) " / " num_steps " | loss " L.v " | doc " docs[step MOD |docs|])
+end`
+\end{preview}
+\end{document}

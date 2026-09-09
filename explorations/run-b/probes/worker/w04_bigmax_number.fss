@@ -1,0 +1,23 @@
+component w04_bigmax_number
+export Executable
+
+object VecN(n: ZZ32, d: Array[\RR64,ZZ32\])
+        extends { ZeroIndexed[\Number\], DelegatedIndexed[\Number,ZZ32\] }
+    getter size(): ZZ32 = n
+    getter indices(): Generator[\ZZ32\] = 0#n
+    opr |self| : ZZ32 = n
+    opr[i:ZZ32]: Number = d[i]
+    opr[r:Range[\ZZ32\]] : ZeroIndexed[\Number\] = self
+end
+
+run(): () = do
+    d: Array[\RR64,ZZ32\] = array[\RR64\](4)
+    d[0] := 3.0
+    d[1] := 9.5
+    d[2] := (-2.0)
+    d[3] := 7.25
+    gn = VecN(4, d)
+    println("Generator[Number], prefix BIG MAX = " (BIG MAX gn))
+  end
+
+end

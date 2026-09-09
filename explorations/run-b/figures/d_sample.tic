@@ -1,0 +1,22 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`for s <- seq(0#4) do
+  var prefix: List[\ZZ32\] := <|[\ZZ32\] tk.bos |>
+  var text: String := ""
+  label done
+    for j <- seq(0#ref_block_size) do
+      logits = (build(theta, ref_n_head, ref_n_layer).forward(prefix))[j]
+      token = pick(softmax(logits/ref_temperature), random(1.0))
+      if token = tk.bos then exit done with () end
+      text := text || tk.decode(token)
+      prefix := prefix.addRight(token)
+    end
+  end done
+  println("sample " (s + 1) ": " text)
+end`
+\end{preview}
+\end{document}

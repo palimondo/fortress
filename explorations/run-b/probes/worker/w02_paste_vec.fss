@@ -1,0 +1,16 @@
+component w02_paste_vec
+export Executable
+
+run(): () = do
+    u: Array1[\RR64,0,2\] = [ 1.0 2.0 ]
+    v: Array1[\RR64,0,2\] = [ 3.0 4.0 ]
+    w: Array1[\RR64,0,4\] = [ u v ]
+    println("w = " w)
+    r: Array[\RR64,ZZ32\] = array[\RR64\](2)
+    r[0] := 7.0
+    r[1] := 8.0
+    s: Array1[\RR64,0,4\] = [ u r ]
+    println("s = " s)
+  end
+
+end

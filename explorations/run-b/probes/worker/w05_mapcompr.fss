@@ -1,0 +1,23 @@
+component w05_mapcompr
+import Map.{...}
+import List.{...}
+export Executable
+
+shape(k: String): Array[\RR64,(ZZ32,ZZ32)\] =
+    if k = "a" then array[\RR64\](2, 3)
+    elif k = "b" then array[\RR64\](4, 3)
+    else array[\RR64\](3, 5)
+    end
+
+run(): () = do
+    keys: List[\String\] = <|[\String\] "a", "b", "c" |>
+    m: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] =
+        { k |-> shape(k) | k <- keys }
+    println("|m| = " |m|)
+    println("keys = " (m.dom))
+    for k <- keys do
+        println(k " -> " |(m[k]).bounds|)
+    end
+  end
+
+end
