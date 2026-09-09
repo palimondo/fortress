@@ -230,7 +230,7 @@ Every notational departure that remains, classified. Reproducers are under `prob
 | `epsilon_adam` beside `epsilon` | naming | two constants named ε in the reference |
 | entry-by-entry row operations | design limit (library) | no row broadcasting in the shipped `Matrix` |
 | `value object` declared, not enforced | implementation gap | `probes/g1a_varfield.out`: a `var` field in a value object is accepted; `probes/g1a_equality2.out`: value equality degenerates |
-| the checker's postfix `^T` declared locally: an API cannot declare a postfix operator | NEGATIVE-BOUNDED | `probes/apix/`: two spellings tried |
+| the checker's postfix `^T` declared locally: an API cannot declare a superscripted postfix operator | NEGATIVE-BOUNDED | `probes/apix/`: one spelling has a recorded failure; the API grammar (`Parameter.rats:172-175`, a missing `/` beside `ExponentOp`) predicts both, see `gaps.md` |
 
 ## Language facts the program relies on, with their marks
 
