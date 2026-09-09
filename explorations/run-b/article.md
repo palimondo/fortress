@@ -245,7 +245,7 @@ The tolerance is 10⁻¹² absolute. A matrix-level program cannot be bit-identi
 
 {{pre:checks/check_run_output.txt}}
 
-The same component with `FORTRESS_THREADS=4` (`checks/check_run_threads4_output.txt`) gives the same verdict on every check, 27 s wall against 46 s: the head comprehension, the row lifts and the operands of every product run as implicit threads, and no accumulation is shared between them (the backward maps of one node run in one thread; the id counter is `atomic`). The finite-difference checks of the engine are in the core's smoke test (`src/MicroGPT.fss`, `(* TESTS *)`: 1.6·10⁻¹⁰ on three parameter entries at the reference's configuration) and in the two skeletons (§4.6).
+The same component with `FORTRESS_THREADS=4` (`checks/check_run_threads4_output.txt`) gives the same verdict on every check, 27 s wall against 46 s: the head comprehension, the row lifts and the operands of every product run as implicit threads, and no accumulation is shared between them (the backward maps of one node run in one thread; the id counter is `atomic`). The finite-difference checks of the engine are in the core's smoke test (`src/MicroGPT.fss`, `(* TESTS *)`, output in `checks/smoke_output.txt`: 1.3·10⁻¹⁰ on three parameter entries at the reference's configuration with random weights) and in the two skeletons (§4.6).
 
 ### 6.4 Cost and size
 

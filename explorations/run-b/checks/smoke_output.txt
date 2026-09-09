@@ -1,0 +1,11 @@
+loss: 3.308249108259132  (ln 27 = 3.295836866004329)  nodes: 305
+Operation took 2197ms
+Operation took 2279ms
+  analytic -0.1729519808613315  finite difference -0.1729519807267934
+  analytic 7.480445209439541E-6  finite difference 7.4803829193115234E-6
+  analytic -0.0017366082222213541  finite difference -0.001736608101055026
+max |analytic - finite difference| = 1.345381028805548E-10
+
+real	0m15.482s
+user	0m22.811s
+sys	0m2.606s
