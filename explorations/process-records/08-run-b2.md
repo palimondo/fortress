@@ -1,6 +1,6 @@
 # Process record: Run B2
 
-Reconstructed in the common format of `explorations/process-records/FORMAT.md` by a worker that did not take part in the run. The coordinating session asked for this file at `explorations/process-records/run-b2.md` rather than the format's `NN-<run>.md` name.
+Reconstructed in the common format of `explorations/process-records/FORMAT.md` by a worker that did not take part in the run. The coordinating session asked for this file at `explorations/process-records/08-run-b2.md` rather than the format's `NN-<run>.md` name.
 
 ## Header
 
