@@ -1,0 +1,12 @@
+component w06_pi
+import Constants.{...}
+export Executable
+
+run(): () = do
+    r: RR64 = 2.0
+    println("pi        = " pi)
+    println("pi r^2    = " (pi r^2))
+    println("2 pi r    = " (2.0 pi r))
+  end
+
+end

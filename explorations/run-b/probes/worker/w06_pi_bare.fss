@@ -1,0 +1,8 @@
+component w06_pi_bare
+export Executable
+
+run(): () = do
+    println("pi = " pi)
+  end
+
+end

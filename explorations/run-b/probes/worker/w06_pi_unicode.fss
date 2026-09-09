@@ -1,0 +1,9 @@
+component w06_pi_unicode
+import Constants.{...}
+export Executable
+
+run(): () = do
+    println("unicode pi = " π)
+  end
+
+end

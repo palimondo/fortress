@@ -12,7 +12,7 @@ shape(k: String): Array[\RR64,(ZZ32,ZZ32)\] =
 run(): () = do
     keys: List[\String\] = <|[\String\] "a", "b", "c" |>
     m: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] =
-        { k |-> shape(k) | k <- keys }
+        {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] k |-> shape(k) | k <- keys }
     println("|m| = " |m|)
     println("keys = " (m.dom))
     for k <- keys do
