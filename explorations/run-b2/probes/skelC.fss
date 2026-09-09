@@ -1,0 +1,77 @@
+component skelC
+import List.{...}
+import Map.{...}
+export Executable
+
+(* Skeleton C: skeleton B with the value carrier separated from the node.
+   Mat is a plain matrix over the library's array, carrying the operators
+   the papers write: juxtaposition, +, -, ^T, scalar juxtaposition, / by a
+   scalar, ODOT for the elementwise product.  Node is a differentiable
+   matrix: its value and its pullback, the linear map from this node's
+   cotangent to the gradient environment of the parameters beneath it.
+   Every operation on nodes states that map as a closure. *)
+
+object Mat(a: Array[\RR64,(ZZ32,ZZ32)\])
+  getter indices(): Generator[\(ZZ32,ZZ32)\] = a.indices
+  opr +(self, B: Mat): Mat = Mat(a + B.a)
+  opr -(self, B: Mat): Mat = Mat(a - B.a)
+  opr -(self): Mat = Mat(-a)
+  opr juxtaposition(self, B: Mat): Mat = Mat(a B.a)
+  opr /(self, s: RR64): Mat = Mat(a.scale(1.0 / s))
+  opr ODOT(self, B: Mat): Mat = Mat(a.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), x: RR64): RR64 => x B.a[ij]))
+  opr[i: ZZ32, j: ZZ32]: RR64 = a[i, j]
+  map(f: RR64 -> RR64): Mat = Mat(a.map[\RR64\](f))
+  ivmap(f: ((ZZ32,ZZ32), RR64) -> RR64): Mat = Mat(a.ivmap[\RR64\](f))
+end
+opr (A: Mat)^T: Mat = Mat(A.a.t())
+opr juxtaposition(s: RR64, A: Mat): Mat = Mat(A.a.scale(s))
+mat(n: ZZ32, m: ZZ32, f: (ZZ32, ZZ32) -> RR64): Mat = Mat(array[\RR64\](n, m).fill(fn (i: ZZ32, j: ZZ32): RR64 => f(i, j)))
+
+object Grad(g: Map[\String, Mat\])
+  opr +(self, o: Grad): Grad = Grad(g.union(fn (k: String, x: Mat, y: Mat): Mat => x + y, o.g))
+  opr[k: String]: Mat = g[k]
+end
+
+object Node(data: Mat, pullback: Mat -> Grad)
+  pull(C_bar: Mat): Grad = pullback(C_bar)
+end
+
+param(name: String, v: Mat): Node = Node(v, fn (C_bar: Mat): Grad => Grad({[\String, Mat\] name |-> C_bar }))
+
+opr +(A: Node, B: Node): Node = Node(A.data + B.data, fn (C_bar: Mat): Grad => A.pull(C_bar) + B.pull(C_bar))
+
+opr juxtaposition(A: Node, B: Node): Node =
+  Node(A.data B.data, fn (C_bar: Mat): Grad => A.pull(C_bar (B.data)^T) + B.pull((A.data)^T C_bar))
+
+opr (A: Node)^T: Node = Node((A.data)^T, fn (C_bar: Mat): Grad => A.pull(C_bar^T))
+
+relu(A: Node): Node =
+  Node(A.data.map(fn (x: RR64): RR64 => x MAX 0.0),
+       fn (C_bar: Mat): Grad => A.pull(C_bar ODOT A.data.map(fn (x: RR64): RR64 => if x > 0.0 then 1.0 else 0.0 end)))
+
+sumsq(A: Node): (RR64, Grad) = (SUM[ij <- A.data.indices] (A.data[ij])^2, A.pull(2.0 A.data))
+
+loss(xa: Mat, wa: Mat, ua: Mat): (RR64, Grad) = do
+  X = param("x", xa); W = param("w", wa); U = param("u", ua)
+  H = relu(X W + X)
+  Y = H U^T
+  sumsq(Y)
+end
+
+run(): () = do
+  xa = mat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 0.3 (i + 1) - 0.25 j)
+  wa = mat(4, 4, fn (i: ZZ32, j: ZZ32): RR64 => if i = j then 0.5 else 0.1 (i - j) end)
+  ua = mat(2, 4, fn (i: ZZ32, j: ZZ32): RR64 => 0.2 i + 0.15 j - 0.3)
+  (L, grads) = loss(xa, wa, ua)
+  println("L = " L)
+  eps = 10.0^(-6)
+  bump(m: Mat, i: ZZ32, j: ZZ32, d: RR64): Mat = m.ivmap(fn (ij: (ZZ32,ZZ32), v: RR64): RR64 => if ij = (i, j) then v + d else v end)
+  fd(f: RR64 -> RR64): RR64 = (f(eps) - f(-eps)) / (2 eps)
+  gW = fd(fn (d: RR64): RR64 => do (l, _) = loss(xa, bump(wa, 1, 2, d), ua); l end)
+  gU = fd(fn (d: RR64): RR64 => do (l, _) = loss(xa, wa, bump(ua, 1, 1, d)); l end)
+  gX = fd(fn (d: RR64): RR64 => do (l, _) = loss(bump(xa, 2, 1, d), wa, ua); l end)
+  println("dL/dW[1,2] analytic = " (grads["w"])[1,2] "  fd = " gW "  err = " |(grads["w"])[1,2] - gW|)
+  println("dL/dU[1,1] analytic = " (grads["u"])[1,1] "  fd = " gU "  err = " |(grads["u"])[1,1] - gU|)
+  println("dL/dX[2,1] analytic = " (grads["x"])[2,1] "  fd = " gX "  err = " |(grads["x"])[2,1] - gX|)
+end
+end

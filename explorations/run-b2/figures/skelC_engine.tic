@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Mat(a: Array[\RR64,(ZZ32,ZZ32)\])
+  getter indices(): Generator[\(ZZ32,ZZ32)\] = a.indices
+  opr +(self, B: Mat): Mat = Mat(a + B.a)
+  opr -(self, B: Mat): Mat = Mat(a - B.a)
+  opr -(self): Mat = Mat(-a)
+  opr juxtaposition(self, B: Mat): Mat = Mat(a B.a)
+  opr /(self, s: RR64): Mat = Mat(a.scale(1.0 / s))
+  opr ODOT(self, B: Mat): Mat = Mat(a.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), x: RR64): RR64 => x B.a[ij]))
+  opr[i: ZZ32, j: ZZ32]: RR64 = a[i, j]
+  map(f: RR64 -> RR64): Mat = Mat(a.map[\RR64\](f))
+  ivmap(f: ((ZZ32,ZZ32), RR64) -> RR64): Mat = Mat(a.ivmap[\RR64\](f))
+end
+opr (A: Mat)^T: Mat = Mat(A.a.t())
+opr juxtaposition(s: RR64, A: Mat): Mat = Mat(A.a.scale(s))
+mat(n: ZZ32, m: ZZ32, f: (ZZ32, ZZ32) -> RR64): Mat = Mat(array[\RR64\](n, m).fill(fn (i: ZZ32, j: ZZ32): RR64 => f(i, j)))
+
+object Grad(g: Map[\String, Mat\])
+  opr +(self, o: Grad): Grad = Grad(g.union(fn (k: String, x: Mat, y: Mat): Mat => x + y, o.g))
+  opr[k: String]: Mat = g[k]
+end
+
+object Node(data: Mat, pullback: Mat -> Grad)
+  pull(C_bar: Mat): Grad = pullback(C_bar)
+end
+
+param(name: String, v: Mat): Node = Node(v, fn (C_bar: Mat): Grad => Grad({[\String, Mat\] name |-> C_bar }))
+
+opr +(A: Node, B: Node): Node = Node(A.data + B.data, fn (C_bar: Mat): Grad => A.pull(C_bar) + B.pull(C_bar))
+
+opr juxtaposition(A: Node, B: Node): Node =
+  Node(A.data B.data, fn (C_bar: Mat): Grad => A.pull(C_bar (B.data)^T) + B.pull((A.data)^T C_bar))
+
+opr (A: Node)^T: Node = Node((A.data)^T, fn (C_bar: Mat): Grad => A.pull(C_bar^T))
+
+relu(A: Node): Node =
+  Node(A.data.map(fn (x: RR64): RR64 => x MAX 0.0),
+       fn (C_bar: Mat): Grad => A.pull(C_bar ODOT A.data.map(fn (x: RR64): RR64 => if x > 0.0 then 1.0 else 0.0 end)))
+
+sumsq(A: Node): (RR64, Grad) = (SUM[ij <- A.data.indices] (A.data[ij])^2, A.pull(2.0 A.data))
+`
+\end{preview}
+\end{document}

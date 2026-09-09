@@ -1,0 +1,63 @@
+component skelB
+import List.{...}
+import Map.{...}
+export Executable
+
+(* Skeleton B: functional backprop.  Every operation returns a new Mat
+   holding its data and its pullback, the linear map from this node's
+   cotangent to the cotangents of the parameters it depends on, delivered
+   as a gradient environment.  Environments add; fan-out is a sum.  No
+   tape, no mutable slot. *)
+
+object Grad(g: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\])
+  opr +(self, o: Grad): Grad =
+    Grad(g.union(fn (k: String, a: Array[\RR64,(ZZ32,ZZ32)\], b: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] => a + b, o.g))
+  opr[k: String]: Array[\RR64,(ZZ32,ZZ32)\] = g[k]
+end
+noGrad(): Grad = Grad({[\String, Array[\RR64,(ZZ32,ZZ32)\]\] })
+
+object Mat(data: Array[\RR64,(ZZ32,ZZ32)\], pullback: Array[\RR64,(ZZ32,ZZ32)\] -> Grad)
+  opr +(self, B: Mat): Mat = Mat(data + B.data, fn (C_bar) => pullback(C_bar) + (B.pullback)(C_bar))
+  opr juxtaposition(self, B: Mat): Mat =
+    Mat(data B.data, fn (C_bar) => pullback(C_bar (B.data.t())) + (B.pullback)((data.t()) C_bar))
+end
+
+opr (A: Mat)^T: Mat = Mat(A.data.t(), fn (C_bar) => (A.pullback)(C_bar.t()))
+
+param(name: String, v: Array[\RR64,(ZZ32,ZZ32)\]): Mat =
+  Mat(v, fn (C_bar) => Grad({[\String, Array[\RR64,(ZZ32,ZZ32)\]\] name |-> C_bar }))
+
+relu(A: Mat): Mat =
+  Mat(A.data.map[\RR64\](fn (x: RR64): RR64 => x MAX 0.0),
+      fn (C_bar) => (A.pullback)(C_bar.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), c: RR64): RR64 => if A.data[ij] > 0.0 then c else 0.0 end)))
+
+sumsq(A: Mat): (RR64, Grad) = (SUM[ij <- A.data.indices] (A.data[ij])^2, (A.pullback)(A.data.scale(2.0)))
+
+mk(n: ZZ32, m: ZZ32, f: (ZZ32, ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+  array[\RR64\](n, m).fill(fn (i: ZZ32, j: ZZ32): RR64 => f(i, j))
+
+loss(xa: Array[\RR64,(ZZ32,ZZ32)\], wa: Array[\RR64,(ZZ32,ZZ32)\], ua: Array[\RR64,(ZZ32,ZZ32)\]): (RR64, Grad) = do
+  X = param("x", xa); W = param("w", wa); U = param("u", ua)
+  H = relu(X W + X)
+  Y = H U^T
+  sumsq(Y)
+end
+
+run(): () = do
+  xa = mk(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 0.3 (i + 1) - 0.25 j)
+  wa = mk(4, 4, fn (i: ZZ32, j: ZZ32): RR64 => if i = j then 0.5 else 0.1 (i - j) end)
+  ua = mk(2, 4, fn (i: ZZ32, j: ZZ32): RR64 => 0.2 i + 0.15 j - 0.3)
+  (L, grads) = loss(xa, wa, ua)
+  println("L = " L)
+  eps = 10.0^(-6)
+  bump(a: Array[\RR64,(ZZ32,ZZ32)\], i: ZZ32, j: ZZ32, d: RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    a.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), v: RR64): RR64 => if ij = (i, j) then v + d else v end)
+  fd(f: RR64 -> RR64): RR64 = (f(eps) - f(-eps)) / (2 eps)
+  gW = fd(fn (d: RR64): RR64 => do (l, _) = loss(xa, bump(wa, 1, 2, d), ua); l end)
+  gU = fd(fn (d: RR64): RR64 => do (l, _) = loss(xa, wa, bump(ua, 1, 1, d)); l end)
+  gX = fd(fn (d: RR64): RR64 => do (l, _) = loss(bump(xa, 2, 1, d), wa, ua); l end)
+  println("dL/dW[1,2] analytic = " ((grads["w"])[1,2]) "  fd = " gW "  err = " |(grads["w"])[1,2] - gW|)
+  println("dL/dU[1,1] analytic = " ((grads["u"])[1,1]) "  fd = " gU "  err = " |(grads["u"])[1,1] - gU|)
+  println("dL/dX[2,1] analytic = " ((grads["x"])[2,1]) "  fd = " gX "  err = " |(grads["x"])[2,1] - gX|)
+end
+end

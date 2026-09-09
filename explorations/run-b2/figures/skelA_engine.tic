@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`var tape: List[\() -> ()\] := <|[\() -> ()\] |>
+record(step: () -> ()): () = tape := tape.addRight(step)
+
+object Mat(data: Array[\RR64,(ZZ32,ZZ32)\])
+  var grad: Array[\RR64,(ZZ32,ZZ32)\] := data.map[\RR64\](fn (x: RR64): RR64 => 0.0)
+  opr +(self, B: Mat): Mat = do
+    C = Mat(data + B.data)
+    record(fn () => do grad := grad + C.grad; B.grad := B.grad + C.grad end)
+    C
+  end
+  opr juxtaposition(self, B: Mat): Mat = do
+    C = Mat(data B.data)
+    record(fn () => do grad := grad + C.grad (B.data.t()); B.grad := B.grad + (data.t()) C.grad end)
+    C
+  end
+end
+
+opr (A: Mat)^T: Mat = do
+  C = Mat(A.data.t())
+  record(fn () => A.grad := A.grad + C.grad.t())
+  C
+end
+
+relu(A: Mat): Mat = do
+  C = Mat(A.data.map[\RR64\](fn (x: RR64): RR64 => x MAX 0.0))
+  record(fn () => A.grad := A.grad + C.grad.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), c: RR64): RR64 => if A.data[ij] > 0.0 then c else 0.0 end))
+  C
+end
+
+sumsq(A: Mat): RR64 = do
+  record(fn () => A.grad := A.grad + A.data.scale(2.0))
+  SUM[ij <- A.data.indices] (A.data[ij])^2
+end
+
+backward(): () = for k <- seq(0 # |tape|) do (tape[|tape| - 1 - k])() end
+`
+\end{preview}
+\end{document}

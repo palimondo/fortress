@@ -1,0 +1,7 @@
+**/*.tex
+**/*.dvi
+**/*.aux
+**/*.log
+reference/*.py
+reference/__pycache__/
+!probes/*.out

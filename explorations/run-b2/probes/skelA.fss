@@ -1,0 +1,75 @@
+component skelA
+import List.{...}
+export Executable
+
+(* Skeleton A: a tape of backward closures.  Every operation returns a new
+   Mat holding its data, and records on a global tape the closure that
+   pushes this node's cotangent back to its operands.  Gradients live in a
+   mutable slot on each node; backward runs the tape in reverse. *)
+
+var tape: List[\() -> ()\] := <|[\() -> ()\] |>
+record(step: () -> ()): () = tape := tape.addRight(step)
+
+object Mat(data: Array[\RR64,(ZZ32,ZZ32)\])
+  var grad: Array[\RR64,(ZZ32,ZZ32)\] := data.map[\RR64\](fn (x: RR64): RR64 => 0.0)
+  opr +(self, B: Mat): Mat = do
+    C = Mat(data + B.data)
+    record(fn () => do grad := grad + C.grad; B.grad := B.grad + C.grad end)
+    C
+  end
+  opr juxtaposition(self, B: Mat): Mat = do
+    C = Mat(data B.data)
+    record(fn () => do grad := grad + C.grad (B.data.t()); B.grad := B.grad + (data.t()) C.grad end)
+    C
+  end
+end
+
+opr (A: Mat)^T: Mat = do
+  C = Mat(A.data.t())
+  record(fn () => A.grad := A.grad + C.grad.t())
+  C
+end
+
+relu(A: Mat): Mat = do
+  C = Mat(A.data.map[\RR64\](fn (x: RR64): RR64 => x MAX 0.0))
+  record(fn () => A.grad := A.grad + C.grad.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), c: RR64): RR64 => if A.data[ij] > 0.0 then c else 0.0 end))
+  C
+end
+
+sumsq(A: Mat): RR64 = do
+  record(fn () => A.grad := A.grad + A.data.scale(2.0))
+  SUM[ij <- A.data.indices] (A.data[ij])^2
+end
+
+backward(): () = for k <- seq(0 # |tape|) do (tape[|tape| - 1 - k])() end
+
+mk(n: ZZ32, m: ZZ32, f: (ZZ32, ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+  array[\RR64\](n, m).fill(fn (i: ZZ32, j: ZZ32): RR64 => f(i, j))
+
+loss(xa: Array[\RR64,(ZZ32,ZZ32)\], wa: Array[\RR64,(ZZ32,ZZ32)\], ua: Array[\RR64,(ZZ32,ZZ32)\]): (RR64, Mat, Mat, Mat) = do
+  tape := <|[\() -> ()\] |>
+  X = Mat(xa); W = Mat(wa); U = Mat(ua)
+  H = relu(X W + X)
+  Y = H U^T
+  (sumsq(Y), X, W, U)
+end
+
+run(): () = do
+  xa = mk(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 0.3 (i + 1) - 0.25 j)
+  wa = mk(4, 4, fn (i: ZZ32, j: ZZ32): RR64 => if i = j then 0.5 else 0.1 (i - j) end)
+  ua = mk(2, 4, fn (i: ZZ32, j: ZZ32): RR64 => 0.2 i + 0.15 j - 0.3)
+  (L, X, W, U) = loss(xa, wa, ua)
+  backward()
+  println("L = " L)
+  eps = 10.0^(-6)
+  bump(a: Array[\RR64,(ZZ32,ZZ32)\], i: ZZ32, j: ZZ32, d: RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    a.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), v: RR64): RR64 => if ij = (i, j) then v + d else v end)
+  fd(f: RR64 -> RR64): RR64 = (f(eps) - f(-eps)) / (2 eps)
+  gW = fd(fn (d: RR64): RR64 => do (l, _, _, _) = loss(xa, bump(wa, 1, 2, d), ua); l end)
+  gU = fd(fn (d: RR64): RR64 => do (l, _, _, _) = loss(xa, wa, bump(ua, 1, 1, d)); l end)
+  gX = fd(fn (d: RR64): RR64 => do (l, _, _, _) = loss(bump(xa, 2, 1, d), wa, ua); l end)
+  println("dL/dW[1,2] analytic = " (W.grad[1,2]) "  fd = " gW "  err = " |W.grad[1,2] - gW|)
+  println("dL/dU[1,1] analytic = " (U.grad[1,1]) "  fd = " gU "  err = " |U.grad[1,1] - gU|)
+  println("dL/dX[2,1] analytic = " (X.grad[2,1]) "  fd = " gX "  err = " |X.grad[2,1] - gX|)
+end
+end
