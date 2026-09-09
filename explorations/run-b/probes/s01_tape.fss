@@ -65,7 +65,7 @@ vec(v: Array[\RR64,ZZ32\], deps: Dep1...): Vec = Vec(v, deps)
 mat(v: Array[\RR64,(ZZ32,ZZ32)\], deps: Dep2...): Mat = Mat(v, deps)
 num(v: RR64, deps: Dep0...): Num = Num(v, deps)
 
-(* ---- the operators: value, then for each child the map g |-> J^T g ---- *)
+(* ---- the operators: value, then for each child the map from g to J^T g ---- *)
 opr juxtaposition(W: Mat, x: Vec): Vec = vec(W.v x.v, dep(W, fn g => outer(g, x.v)), dep(x, fn g => W.v.t() g))
 opr +(a: Vec, b: Vec): Vec = vec(a.v + b.v, dep(a, fn g => g), dep(b, fn g => g))
 opr (W: Mat)^T: Mat = mat(W.v.t(), MatOfMat(W, fn g => g.t()))
