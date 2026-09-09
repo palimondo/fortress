@@ -1,0 +1,13 @@
+component w11_arraylit_variants
+export Executable
+
+run(): () = do
+    a: Array1[\RR64,0,2\] = [ 1.0 2.0 ]
+    println("a = " a)
+    b: RR64[2] = [ 3.0 4.0 ]
+    println("b = " b)
+    c: Vector[\RR64,2\] = [ 5.0 6.0 ]
+    println("c = " c)
+  end
+
+end

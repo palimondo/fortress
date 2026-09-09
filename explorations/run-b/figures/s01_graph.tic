@@ -1,0 +1,54 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`trait Node
+  getter children(): List[\Node\]
+  push(): ()                              (* send this node's adjoint to its children *)
+end
+trait Dep0  getter child(): Node; push(g: RR64): () end                           (* deps of a Num parent *)
+trait Dep1  getter child(): Node; push(g: Array[\RR64,ZZ32\]): () end             (* deps of a Vec parent *)
+trait Dep2  getter child(): Node; push(g: Array[\RR64,(ZZ32,ZZ32)\]): () end      (* deps of a Mat parent *)
+
+object Num(v: RR64, deps: Generator[\Dep0\]) extends Node
+  var grad: RR64 := 0.0
+  getter children(): List[\Node\] = <|[\Node\] d.child | d <- deps |>
+  push(): () = for d <- seq(deps) do d.push(grad) end
+end
+object Vec(v: Array[\RR64,ZZ32\], deps: Generator[\Dep1\]) extends Node
+  var grad: Array[\RR64,ZZ32\] := array[\RR64\](|v|).fill(0.0)
+  getter children(): List[\Node\] = <|[\Node\] d.child | d <- deps |>
+  push(): () = for d <- seq(deps) do d.push(grad) end
+end
+object Mat(v: Array[\RR64,(ZZ32,ZZ32)\], deps: Generator[\Dep2\]) extends Node
+  var grad: Array[\RR64,(ZZ32,ZZ32)\] := do (n, m) = v.sizes; array[\RR64\](n, m).fill(0.0) end
+  getter children(): List[\Node\] = <|[\Node\] d.child | d <- deps |>
+  push(): () = for d <- seq(deps) do d.push(grad) end
+end
+
+(* (child, transposed Jacobian) pairs: one object per (parent kind, child kind) *)
+object VecOfVec(c: Vec, f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\]) extends Dep1
+  getter child(): Node = c
+  push(g: Array[\RR64,ZZ32\]): () = c.grad := c.grad + f(g)
+end
+object MatOfVec(c: Mat, f: Array[\RR64,ZZ32\] -> Array[\RR64,(ZZ32,ZZ32)\]) extends Dep1
+  getter child(): Node = c
+  push(g: Array[\RR64,ZZ32\]): () = c.grad := c.grad + f(g)
+end
+object MatOfMat(c: Mat, f: Array[\RR64,(ZZ32,ZZ32)\] -> Array[\RR64,(ZZ32,ZZ32)\]) extends Dep2
+  getter child(): Node = c
+  push(g: Array[\RR64,(ZZ32,ZZ32)\]): () = c.grad := c.grad + f(g)
+end
+object VecOfNum(c: Vec, f: RR64 -> Array[\RR64,ZZ32\]) extends Dep0
+  getter child(): Node = c
+  push(g: RR64): () = c.grad := c.grad + f(g)
+end
+dep(c: Vec, f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\]): Dep1 = VecOfVec(c, f)
+dep(c: Mat, f: Array[\RR64,ZZ32\] -> Array[\RR64,(ZZ32,ZZ32)\]): Dep1 = MatOfVec(c, f)
+vec(v: Array[\RR64,ZZ32\], deps: Dep1...): Vec = Vec(v, deps)
+mat(v: Array[\RR64,(ZZ32,ZZ32)\], deps: Dep2...): Mat = Mat(v, deps)
+num(v: RR64, deps: Dep0...): Num = Num(v, deps)`
+\end{preview}
+\end{document}

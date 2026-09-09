@@ -1,0 +1,28 @@
+(* c15b: the same factory with the children as a trailing VARARGS parameter
+   of the trait type (a spec-sanctioned function form; ledger row 11 rules it
+   out only for objects), so one declaration covers 0, 1, 2, n children --
+   the closure comes before the children. *)
+component c15b_factory_varargs
+import List.{...}
+export Executable
+
+trait Node  getter name(): String end
+object Leaf(name: String) extends Node end
+object Vec(v: RR64, children: List[\Node\], backprop: RR64 -> ()) extends Node
+  getter name(): String = "vec(" v ")"
+end
+vec(v: RR64): Vec = Vec(v, <|[\Node\] |>, fn g => ())
+vec(v: RR64, f: RR64 -> (), cs: Node...): Vec = Vec(v, <|[\Node\] c | c <- cs |>, f)
+
+run(): () = do
+  a = Leaf("a"); b = Leaf("b")
+  x = vec(1.0)
+  y = vec(2.0, fn g => println("one child " g), a)
+  z = vec(3.0, fn g => println("two children " g), a, b)
+  w = vec(4.0, fn g => println("three " g), a, b, x)
+  for n <- seq(<|[\Vec\] x, y, z, w |>) do
+    println(n.name " children: " <| c.name | c <- n.children |>)
+    (n.backprop)(0.5)
+  end
+end
+end

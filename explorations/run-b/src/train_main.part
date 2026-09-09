@@ -1,0 +1,53 @@
+(* Bounded training demo: start from the reference's initial weights, train on
+   the first documents of the (seeded, shuffled) dataset with the reference's
+   schedule, then sample names with Fortress's own random draws. *)
+
+toArr(ref: List[\List[\RR64\]\]): Array[\RR64,(ZZ32,ZZ32)\] =
+  array[\RR64\](|ref|, |ref[0]|).fill(fn (i, j) => (ref[i])[j])
+initOf(name: String): List[\List[\RR64\]\] = case name of
+    "wte" => ref_init_wte(); "wpe" => ref_init_wpe(); "lm_head" => ref_init_lm_head()
+    "layer0.attn_wq" => ref_init_layer0_attn_wq(); "layer0.attn_wk" => ref_init_layer0_attn_wk()
+    "layer0.attn_wv" => ref_init_layer0_attn_wv(); "layer0.attn_wo" => ref_init_layer0_attn_wo()
+    "layer0.mlp_fc1" => ref_init_layer0_mlp_fc1(); else => ref_init_layer0_mlp_fc2()
+  end
+
+run(): () = do
+  tk = Tokenizer(ref_uchars)
+  docs = ref_docs_head()
+  num_steps = 12
+  var theta: Params := record(fn name => toArr(initOf(name)), names(ref_n_layer))
+  var m: Params := 0.0 theta
+  var v: Params := 0.0 theta
+  opt = Adam(0.85, 0.99, 10.0^(-8))
+  recordTime(0)
+  (* FIG train *)
+  for step <- seq(0#num_steps) do
+    tokens = tk.encode(docs[step MOD |docs|])
+    gpt = build(theta, ref_n_head, ref_n_layer)
+    L = loss(gpt, tokens.take(ref_block_size + 1))
+    backward(L)
+    eta = 0.01 (1 - step/num_steps)          (* linear learning-rate decay, as in the reference *)
+    (theta, m, v) := opt.step(theta, grads(gpt, ref_n_layer), m, v, step + 1, eta)
+    println("step " (step + 1) " / " num_steps " | loss " L.v " | doc " docs[step MOD |docs|])
+  end
+  (* END FIG *)
+  printTime(0)
+  println("--- inference (new, hallucinated names) ---")
+  (* FIG sample *)
+  for s <- seq(0#4) do
+    var prefix: List[\ZZ32\] := <|[\ZZ32\] tk.bos |>
+    var text: String := ""
+    label done
+      for j <- seq(0#ref_block_size) do
+        logits = (build(theta, ref_n_head, ref_n_layer).forward(prefix))[j]
+        token = pick(softmax(logits/ref_temperature), random(1.0))
+        if token = tk.bos then exit done with () end
+        text := text || tk.decode(token)
+        prefix := prefix.addRight(token)
+      end
+    end done
+    println("sample " (s + 1) ": " text)
+  end
+  (* END FIG *)
+  println("nodes created: " nodeCount)
+end

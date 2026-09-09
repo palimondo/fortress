@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`opr +(a: Num, b: Num): Num = num(a.v + b.v, fn g => do a.grad += g; b.grad += g end, a, b)
+opr -(a: Num): Num = num(-a.v, fn g => a.grad += -g, a)
+opr -(a: Num, b: Num): Num = a + (-b)
+opr juxtaposition(a: Num, b: Num): Num = num(a.v b.v, fn g => do a.grad += g b; b.grad += g a end, a, b)
+opr /(a: Num, b: Num): Num = num(a.v/b.v, fn g => do a.grad += g/b; b.grad += -(g a)/(b b) end, a, b)
+opr juxtaposition(c: RR64, a: Num): Num = num(c a.v, fn g => a.grad += c g, a)
+opr +(a: Num, c: RR64): Num = num(a.v + c, fn g => a.grad += g, a)
+opr /(a: Num, c: RR64): Num = (1/c) a
+opr /(a: Num, n: ZZ32): Num = (1.0/n) a
+opr SQRT(a: Num): Num = do s = SQRT a.v; num(s, fn g => a.grad += g/(2 s), a) end
+log(a: Num): Num = num(log a.v, fn g => a.grad += g/a, a)`
+\end{preview}
+\end{document}

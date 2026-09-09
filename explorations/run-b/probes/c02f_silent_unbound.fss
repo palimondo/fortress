@@ -1,0 +1,12 @@
+(* c02f: minimal reproducer -- an array literal with a declared LHS type of
+   the runtime-sized form Array[\RR64,ZZ32\] evaluates without error and leaves
+   the variable UNBOUND (c02d/c02e).  Two elements, no pasting. *)
+component c02f_silent_unbound
+export Executable
+
+run(): () = do
+  w: Array[\RR64,ZZ32\] = [ 1.0 2.0 ]
+  println("after the declaration")
+  println("w = " w)
+end
+end

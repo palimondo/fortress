@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* the model's nodes for one step, built from the parameter record *)
+build(theta: Params, n_head: ZZ32, n_layer: ZZ32): Model = do
+  p(name: String): Mat = mat(theta[name])
+  layer(l: ZZ32): Layer = do
+    w(part: String): Mat = p("layer" l "." part)
+    Layer(n_head, w("attn_wq"), w("attn_wk"), w("attn_wv"), w("attn_wo"), w("mlp_fc1"), w("mlp_fc2"))
+  end
+  Model(p("wte"), p("wpe"), p("lm_head"), <| layer(l) | l <- 0#n_layer |>)
+end
+(* the names, in the order of Model.matrices() *)
+names(n_layer: ZZ32): List[\String\] =
+  (<|[\String\] "wte", "wpe", "lm_head" |> ||
+   (BIG CONCAT[\String\][l <- 0#n_layer] <|[\String\] "layer" l ".attn_wq", "layer" l ".attn_wk", "layer" l ".attn_wv",
+                                                      "layer" l ".attn_wo", "layer" l ".mlp_fc1", "layer" l ".mlp_fc2" |>))
+(* the gradient record after backward *)
+grads(g: Model, n_layer: ZZ32): Params = do
+  (nm, ms) = (names(n_layer), g.matrices())
+  record(fn name => (ms[nm.indexOf(name).get]).grad.v, nm)
+end`
+\end{preview}
+\end{document}

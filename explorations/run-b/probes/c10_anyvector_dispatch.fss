@@ -1,0 +1,16 @@
+(* c10: can a user postfix ^T be overloaded on the library's AnyVector and
+   AnyMatrix marker traits (which the runtime objects extend), given that the
+   two Array instantiations are "unrelated" for overloading (c09)? *)
+component c10_anyvector_dispatch
+export Executable
+
+opr (x: AnyVector)^T: String = "vector transposed"
+opr (m: AnyMatrix)^T: String = "matrix transposed"
+
+run(): () = do
+  x = array[\RR64\](3).fill(1.0)
+  W = array[\RR64\](2, 3).fill(1.0)
+  println(x^T)
+  println(W^T)
+end
+end

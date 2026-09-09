@@ -1,0 +1,15 @@
+component w16_shadow_field
+export Executable
+
+epsilon: RR64 = 10.0^(-5)
+
+object Tol(epsilon: RR64)
+    getter show(): String = "field epsilon = " epsilon
+end
+
+run(): () = do
+    println("top-level epsilon = " epsilon)
+    println((Tol(0.25)).show)
+  end
+
+end

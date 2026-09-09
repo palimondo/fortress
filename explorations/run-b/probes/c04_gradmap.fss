@@ -1,0 +1,32 @@
+(* c04: a functional cotangent record for the parameters -- a persistent Map
+   from parameter id to matrix cotangent, summed by key -- as the monoid a
+   functional backprop would return, and a user reduction over it (Sigma over
+   positions).  Also: BIG UNION on maps, union with a combining function. *)
+component c04_gradmap
+import Map.{...}
+export Executable
+
+object GradSum extends CommutativeMonoidReduction[\Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\]\]
+  getter asString(): String = "GradSum"
+  empty(): Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\] = {[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\] }
+  join(a: Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\], b: Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\]): Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\] =
+    a.union(fn (k, x, y) => x + y, b)
+end
+opr BIG OPLUS(): BigReduction[\Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\], Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\]\] =
+  BigReduction[\Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\], Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\]\](GradSum)
+
+contrib(t: ZZ32): Map[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\] = do
+  m = array[\RR64\](2, 2).fill(fn (i, j) => 1.0 (t + 1) (2 i + j + 1))
+  if t MOD 2 = 0 then {[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\] 7 |-> m } else {[\ZZ32, Array[\RR64,(ZZ32,ZZ32)\]\] 7 |-> m, 9 |-> m } end
+end
+
+run(): () = do
+  a = contrib(0); b = contrib(1)
+  println("a = " a)
+  println("a + b by union = " a.union(fn (k, x, y) => x + y, b))
+  s = BIG OPLUS[t <- 0#4] contrib(t)
+  println("BIG OPLUS over 4 contributions = " s)
+  println("s[7] = " s[7])
+  println("keys: " (dom(s)))
+end
+end

@@ -1,0 +1,15 @@
+component w02_paste_static
+export Executable
+
+run(): () = do
+    a: Array2[\RR64,0,2,0,2\] = [ 1.0 2.0 ; 3.0 4.0 ]
+    b: Array2[\RR64,0,2,0,2\] = [ 5.0 6.0 ; 7.0 8.0 ]
+    stack: Array2[\RR64,0,4,0,2\] = [ a ; b ]
+    println("stack = " stack)
+    u: Array1[\RR64,0,2\] = [ 1.0 2.0 ]
+    v: Array1[\RR64,0,2\] = [ 3.0 4.0 ]
+    w: Array1[\RR64,0,4\] = [ u v ]
+    println("w = " w)
+  end
+
+end

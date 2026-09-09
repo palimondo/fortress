@@ -1,0 +1,33 @@
+component w05_mapcompr_same
+import Map.{...}
+import List.{...}
+export Executable
+
+same(k: String): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](2, 3)
+
+shape(k: String): Array[\RR64,(ZZ32,ZZ32)\] =
+    if k = "a" then array[\RR64\](2, 3)
+    elif k = "b" then array[\RR64\](4, 3)
+    else array[\RR64\](3, 5)
+    end
+
+run(): () = do
+    keys: List[\String\] = <|[\String\] "a", "b", "c" |>
+    m1: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] =
+        {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] k |-> same(k) | k <- keys }
+    println("uniform shapes + static args: |m1| = " |m1|)
+    for (k, v) <- seq(m1) do
+        println("  m1 key " k " -> " |v.bounds|)
+    end
+    var m2: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] =
+        {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] }
+    for k <- seq(keys) do
+        m2 := m2.update(k, shape(k))
+    end
+    println("different shapes by update: |m2| = " |m2|)
+    for (k, v) <- seq(m2) do
+        println("  m2 key " k " -> " |v.bounds|)
+    end
+  end
+
+end

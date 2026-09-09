@@ -1,0 +1,11 @@
+(* c21: the worker's G6 finding -- pi lives in the optional Constants API.
+   Can it be imported selectively (Constants also declares e, which the
+   program binds locally in softmax)? *)
+component c21_constants_pi
+import Constants.{pi}
+export Executable
+run(): () = do
+  e = 2.0
+  println("pi = " pi "  cos(2 pi 0.25) = " (cos(2 pi 0.25)) "  e (local) = " e)
+end
+end

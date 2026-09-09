@@ -1,0 +1,22 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Layer(n_head: ZZ32, W_q: Mat, W_k: Mat, W_v: Mat, W_o: Mat, W_in: Mat, W_out: Mat)
+  attention(X: Mat): Mat = do
+    (Q, K, V) = (X W_q^T, X W_k^T, X W_v^T)
+    d_h = cols(Q) DIV n_head
+    head(h: ZZ32): Mat = do c = (h d_h) # d_h; attend(Q[:, c], K[:, c], V[:, c]) end
+    (BIG ||[h <- 0#n_head] head(h)) W_o^T
+  end
+  mlp(X: Mat): Mat = relu(X W_in^T) W_out^T
+  forward(X: Mat): Mat = do
+    X' = X + attention(rmsnorm(X))
+    X' + mlp(rmsnorm(X'))
+  end
+  matrices(): List[\Mat\] = <| W_q, W_k, W_v, W_o, W_in, W_out |>
+end`
+\end{preview}
+\end{document}

@@ -1,0 +1,19 @@
+(* c08: operator static parameters (basic/trait-parameters.tex, Operator
+   Parameters): a reduction generic in its operator, and a big operator built
+   from it. *)
+component c08_opr_params
+export Executable
+
+object Fold[\T, opr OP\](z: T) extends CommutativeMonoidReduction[\T\]
+  getter asString(): String = "Fold"
+  empty(): T = z
+  join(a: T, b: T): T = a OP b
+end
+
+run(): () = do
+  s = __generate[\ZZ32, RR64\](0#5, Fold[\RR64, +\](0.0), fn i => 1.0 i)
+  println("fold + over 0..4 = " s)
+  p = __generate[\ZZ32, RR64\](1#4, Fold[\RR64, TIMES\](1.0), fn i => 1.0 i)
+  println("fold TIMES over 1..4 = " p)
+end
+end

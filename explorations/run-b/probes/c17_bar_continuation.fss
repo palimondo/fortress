@@ -1,0 +1,18 @@
+(* c17: a list concatenation that spans two lines.  Ledger row 9 records that
+   a line-final || ends the component (the lexer reads it as an encloser) and
+   lists the leading form as not tried.  (a) leading || on the continuation
+   line; (b) the whole expression parenthesized.  The trailing form is row 9's
+   own reproducer.  Run twice: with (a) present, then without it. *)
+component c17_bar_continuation
+import List.{...}
+export Executable
+
+xs(): List[\String\] =
+  (<|[\String\] "a", "b" |> ||
+   <|[\String\] "c" |>)
+
+run(): () = do
+  println("(b) parenthesized, || at the end of an inner line: " xs())
+  (* (a) leading || on the continuation line: Syntax Error at the ||, see c17_bar_continuation.leading.out *)
+end
+end

@@ -1,0 +1,20 @@
+component w10_contract
+export Executable
+
+pairsum(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64
+        requires { |a| = |b| }
+    = SUM[i <- 0#|a|] (a[i] + b[i])
+
+run(): () = do
+    a: Array[\RR64,ZZ32\] = array[\RR64\](2)
+    a[0] := 1.0
+    a[1] := 2.0
+    b: Array[\RR64,ZZ32\] = array[\RR64\](3)
+    b[0] := 1.0
+    b[1] := 2.0
+    b[2] := 3.0
+    println("ok call  = " (pairsum(a, a)))
+    println("bad call = " (pairsum(a, b)))
+  end
+
+end

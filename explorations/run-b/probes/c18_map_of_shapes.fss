@@ -1,0 +1,34 @@
+(* c18: building a Map[\String, Array2\] whose values are matrices of DIFFERENT
+   shapes.  A map comprehension fails inside the library's covariant
+   collection ("Singleton[(FlatString,__DefaultMatrix[RR64,16,16])] APPCOV
+   Singleton[(FlatString,__DefaultMatrix[RR64,64,16])] have no common
+   supertype", build/Check.fss run of 2026-09-09).  Three alternatives:
+   (a) a list comprehension of pairs with an explicit static argument, fed to
+       mapping();  (b) BIG UNION over singleton maps with explicit static
+       arguments;  (c) a sequential fold with add. *)
+component c18_map_of_shapes
+import List.{...}
+import Map.{...}
+export Executable
+
+shape(name: String): (ZZ32, ZZ32) = if name = "a" then (2, 3) elif name = "b" then (4, 3) else (3, 5) end
+make(name: String): Array[\RR64,(ZZ32,ZZ32)\] = do (n, m) = shape(name); array[\RR64\](n, m).fill(1.0) end
+nm = <|[\String\] "a", "b", "c" |>
+
+run(): () = do
+  (* (c) fold *)
+  var mc: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] := {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] }
+  for name <- seq(nm) do mc := mc.add(name, make(name)) end
+  println("(c) fold: " (dom(mc)) " sizes " <| (mc[k]).sizes | k <- nm |>)
+  (* (b) BIG UNION of singleton maps *)
+  mb = BIG UNION[\String, Array[\RR64,(ZZ32,ZZ32)\]\][name <- nm] {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] name |-> make(name) }
+  println("(b) BIG UNION: " (dom(mb)) " sizes " <| (mb[k]).sizes | k <- nm |>)
+  (* (a) list of pairs with a static argument, then mapping *)
+  pairs = <|[\(String, Array[\RR64,(ZZ32,ZZ32)\])\] (name, make(name)) | name <- nm |>
+  ma = mapping[\String, Array[\RR64,(ZZ32,ZZ32)\]\](pairs)
+  println("(a) mapping(pairs): " (dom(ma)) " sizes " <| (ma[k]).sizes | k <- nm |>)
+  (* (d) the map comprehension itself, with static arguments, for the record *)
+  md = {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] name |-> make(name) | name <- nm }
+  println("(d) comprehension: " (dom(md)))
+end
+end

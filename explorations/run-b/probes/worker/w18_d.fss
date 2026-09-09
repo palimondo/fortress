@@ -1,0 +1,18 @@
+component w18_d
+export Executable
+
+log(x: RR64): RR64 = x.log()
+cosine(x: RR64): RR64 = x.cos()
+
+run(): () = do
+    d: RR64 = 9.0
+    a: RR64 = 2.0
+    b: RR64 = 16.0
+    c: RR64 = 3.0
+    std: RR64 = 0.5
+    u: RR64 = 0.25
+    u2: RR64 = 0.125
+    println("text " (SQRT d))
+  end
+
+end

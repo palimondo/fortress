@@ -1,0 +1,15 @@
+component w15_openrange
+export Executable
+
+object Q(v: Array[\RR64,(ZZ32,ZZ32)\])
+    opr [_: TrivialOpenRange, c: Range[\ZZ32\]] : String =
+        "column slice: lower = " (c.lower) " width = " |c|
+end
+
+run(): () = do
+    m: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](2, 3)
+    q = Q(m)
+    println("q[:, 1#2] = " (q[:, 1#2]))
+  end
+
+end

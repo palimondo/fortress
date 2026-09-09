@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`softmax(z: Vec): Vec = do e = exp(z - (BIG MAX[z_i <- z] z_i)); e/(SUM e) end
+softmax(Z: Mat): Mat = stack(<| softmax(z) | z <- Z |>)`
+\end{preview}
+\end{document}

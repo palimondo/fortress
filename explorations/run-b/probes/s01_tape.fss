@@ -1,0 +1,130 @@
+(* Skeleton T: a TAPE at the tensor level.  A node holds its value (a library
+   array), a mutable adjoint `grad` (a library array: a carrier-typed adjoint
+   would need a lazily allocated grad, since every carrier would allocate its
+   own), and for each child the map from the node's adjoint to the child's
+   adjoint (the transposed Jacobian).  backward() walks the graph in reverse
+   topological order and accumulates -- Karpathy's design lifted from scalars
+   to vectors and matrices.  The adjoint maps work on raw arrays, so transpose
+   is the library's .t() and the outer product a function (c09: a user ^T
+   cannot be overloaded on the two Array instantiations).  Finite-difference
+   checked; timed. *)
+component s01_tape
+import List.{...}
+export Executable
+
+outer(g: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,(ZZ32,ZZ32)\] =
+  array[\RR64\](|g|, |x|).fill(fn (i, j) => g[i] x[j])
+relu(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x.map[\RR64\](fn e => e MAX 0.0)
+step(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x.map[\RR64\](fn e => if e > 0.0 then 1.0 else 0.0 end)
+
+(* ---- the graph ---- *)
+trait Node
+  getter children(): List[\Node\]
+  push(): ()                              (* send this node's adjoint to its children *)
+end
+trait Dep0  getter child(): Node; push(g: RR64): () end                           (* deps of a Num parent *)
+trait Dep1  getter child(): Node; push(g: Array[\RR64,ZZ32\]): () end             (* deps of a Vec parent *)
+trait Dep2  getter child(): Node; push(g: Array[\RR64,(ZZ32,ZZ32)\]): () end      (* deps of a Mat parent *)
+
+object Num(v: RR64, deps: Generator[\Dep0\]) extends Node
+  var grad: RR64 := 0.0
+  getter children(): List[\Node\] = <|[\Node\] d.child | d <- deps |>
+  push(): () = for d <- seq(deps) do d.push(grad) end
+end
+object Vec(v: Array[\RR64,ZZ32\], deps: Generator[\Dep1\]) extends Node
+  var grad: Array[\RR64,ZZ32\] := array[\RR64\](|v|).fill(0.0)
+  getter children(): List[\Node\] = <|[\Node\] d.child | d <- deps |>
+  push(): () = for d <- seq(deps) do d.push(grad) end
+end
+object Mat(v: Array[\RR64,(ZZ32,ZZ32)\], deps: Generator[\Dep2\]) extends Node
+  var grad: Array[\RR64,(ZZ32,ZZ32)\] := do (n, m) = v.sizes; array[\RR64\](n, m).fill(0.0) end
+  getter children(): List[\Node\] = <|[\Node\] d.child | d <- deps |>
+  push(): () = for d <- seq(deps) do d.push(grad) end
+end
+
+(* (child, transposed Jacobian) pairs: one object per (parent kind, child kind) *)
+object VecOfVec(c: Vec, f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\]) extends Dep1
+  getter child(): Node = c
+  push(g: Array[\RR64,ZZ32\]): () = c.grad := c.grad + f(g)
+end
+object MatOfVec(c: Mat, f: Array[\RR64,ZZ32\] -> Array[\RR64,(ZZ32,ZZ32)\]) extends Dep1
+  getter child(): Node = c
+  push(g: Array[\RR64,ZZ32\]): () = c.grad := c.grad + f(g)
+end
+object MatOfMat(c: Mat, f: Array[\RR64,(ZZ32,ZZ32)\] -> Array[\RR64,(ZZ32,ZZ32)\]) extends Dep2
+  getter child(): Node = c
+  push(g: Array[\RR64,(ZZ32,ZZ32)\]): () = c.grad := c.grad + f(g)
+end
+object VecOfNum(c: Vec, f: RR64 -> Array[\RR64,ZZ32\]) extends Dep0
+  getter child(): Node = c
+  push(g: RR64): () = c.grad := c.grad + f(g)
+end
+dep(c: Vec, f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\]): Dep1 = VecOfVec(c, f)
+dep(c: Mat, f: Array[\RR64,ZZ32\] -> Array[\RR64,(ZZ32,ZZ32)\]): Dep1 = MatOfVec(c, f)
+vec(v: Array[\RR64,ZZ32\], deps: Dep1...): Vec = Vec(v, deps)
+mat(v: Array[\RR64,(ZZ32,ZZ32)\], deps: Dep2...): Mat = Mat(v, deps)
+num(v: RR64, deps: Dep0...): Num = Num(v, deps)
+
+(* ---- the operators: value, then for each child the map from g to J^T g ---- *)
+opr juxtaposition(W: Mat, x: Vec): Vec = vec(W.v x.v, dep(W, fn g => outer(g, x.v)), dep(x, fn g => W.v.t() g))
+opr +(a: Vec, b: Vec): Vec = vec(a.v + b.v, dep(a, fn g => g), dep(b, fn g => g))
+opr (W: Mat)^T: Mat = mat(W.v.t(), MatOfMat(W, fn g => g.t()))
+relu(x: Vec): Vec = vec(relu(x.v), dep(x, fn g => g.pmul(step(x.v))))
+opr DOT(x: Vec, y: Vec): Num = num(x.v DOT y.v, VecOfNum(x, fn g => g y.v), VecOfNum(y, fn g => g x.v))
+
+(* ---- reverse topological order by object identity, then accumulate ---- *)
+topo(root: Node): List[\Node\] = do
+  var seen: List[\Node\] := <|[\Node\] |>
+  var order: List[\Node\] := <|[\Node\] |>
+  visit(n: Node): () =
+    if NOT (BIG OR[s <- seen] (s === n)) then
+      seen := seen.addRight(n)
+      for c <- seq(n.children) do visit(c) end
+      order := order.addRight(n)
+    end
+  visit(root)
+  order
+end
+backward(L: Num): () = do
+  L.grad := 1.0
+  for n <- seq(topo(L).reverse) do n.push() end
+end
+
+model(W1: Mat, W2: Mat, x: Vec): Num = do
+  h = W1 x
+  u = h + W2^T (W2 relu(h))
+  u DOT u
+end
+
+run(): () = do
+  W1v = array[\RR64\](3, 4).fill(fn (i, j) => 0.1 (4 i + j + 1) - 0.7)
+  W2v = array[\RR64\](2, 3).fill(fn (i, j) => 0.2 (3 i + j) - 0.5)
+  xv = array[\RR64\](4).fill(fn i => 1.0 (i + 1) - 2.5)
+  (W1, W2, x) = (mat(W1v), mat(W2v), vec(xv))
+  L = model(W1, W2, x)
+  println("L = " L.v)
+  backward(L)
+  println("dL/dx  = " x.grad)
+  println("dL/dW1 = " W1.grad)
+  println("dL/dW2 = " W2.grad)
+  h = 1.0/1048576.0
+  f(): RR64 = model(mat(W1v), mat(W2v), vec(xv)).v
+  var worst: RR64 := 0.0
+  for k <- seq(0#4) do
+    xv[k] := xv[k] + h; fp = f(); xv[k] := xv[k] - 2.0 h; fm = f(); xv[k] := xv[k] + h
+    worst := worst MAX |(fp - fm)/(2.0 h) - x.grad[k]|
+  end
+  for (i, j) <- seq(<|[\(ZZ32,ZZ32)\] (0,0), (2,3), (1,2) |>) do
+    W1v[i,j] := W1v[i,j] + h; fp = f(); W1v[i,j] := W1v[i,j] - 2.0 h; fm = f(); W1v[i,j] := W1v[i,j] + h
+    worst := worst MAX |(fp - fm)/(2.0 h) - W1.grad[i,j]|
+  end
+  for (i, j) <- seq(<|[\(ZZ32,ZZ32)\] (0,0), (1,2), (0,1) |>) do
+    W2v[i,j] := W2v[i,j] + h; fp = f(); W2v[i,j] := W2v[i,j] - 2.0 h; fm = f(); W2v[i,j] := W2v[i,j] + h
+    worst := worst MAX |(fp - fm)/(2.0 h) - W2.grad[i,j]|
+  end
+  println("max |analytic - finite difference| = " worst)
+  t0 = nanoTime()
+  for r <- seq(0#20) do backward(model(mat(W1v), mat(W2v), vec(xv))) end
+  println("20 x (forward + backward): " ((nanoTime() - t0) DIV 1000000) " ms")
+end
+end

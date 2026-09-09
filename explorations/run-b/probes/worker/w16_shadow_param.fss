@@ -1,0 +1,17 @@
+component w16_shadow_param
+export Executable
+
+rows(x: Array[\RR64,(ZZ32,ZZ32)\]): ZZ32 = do
+    (r, c) = |x.bounds|
+    r
+  end
+
+scale(rows: ZZ32): ZZ32 = rows + 1
+
+run(): () = do
+    m: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](2, 3)
+    println("rows(m)  = " (rows(m)))
+    println("scale(7) = " (scale(7)))
+  end
+
+end

@@ -1,0 +1,13 @@
+component w04_bigmax_lib
+export Executable
+
+run(): () = do
+    d: Array[\RR64,ZZ32\] = array[\RR64\](4)
+    d[0] := 3.0
+    d[1] := 9.5
+    d[2] := (-2.0)
+    d[3] := 7.25
+    println("library array, prefix BIG MAX = " (BIG MAX d))
+  end
+
+end

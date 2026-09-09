@@ -1,0 +1,30 @@
+(* c15: can one factory name be overloaded on the SHAPE of its children
+   argument -- a single Node, a pair (Node, Node), a List[\Node\] -- next to a
+   one-argument constant form?  (The rank cannot be overloaded on the value's
+   array type, c09; so the factories are vec/mat/num by name.) *)
+component c15_factory_overloads
+import List.{...}
+export Executable
+
+trait Node  getter name(): String end
+object Leaf(name: String) extends Node end
+object Vec(v: RR64, children: List[\Node\], backprop: RR64 -> ()) extends Node
+  getter name(): String = "vec(" v ")"
+end
+vec(v: RR64): Vec = Vec(v, <|[\Node\] |>, fn g => ())
+vec(v: RR64, c: Node, f: RR64 -> ()): Vec = Vec(v, <|[\Node\] c |>, f)
+vec(v: RR64, cs: (Node, Node), f: RR64 -> ()): Vec = do (a, b) = cs; Vec(v, <|[\Node\] a, b |>, f) end
+vec(v: RR64, cs: List[\Node\], f: RR64 -> ()): Vec = Vec(v, cs, f)
+
+run(): () = do
+  a = Leaf("a"); b = Leaf("b")
+  x = vec(1.0)
+  y = vec(2.0, a, fn g => println("one child " g))
+  z = vec(3.0, (a, b), fn g => println("two children " g))
+  w = vec(4.0, <|[\Node\] a, b, x |>, fn g => println("list " g))
+  for n <- seq(<|[\Vec\] x, y, z, w |>) do
+    println(n.name " children: " <| c.name | c <- n.children |>)
+    (n.backprop)(0.5)
+  end
+end
+end

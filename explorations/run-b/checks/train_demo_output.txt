@@ -1,0 +1,23 @@
+step 1 / 12 | loss 3.3659669475848504 | doc yuheng
+step 2 / 12 | loss 3.424272783871772 | doc diondre
+step 3 / 12 | loss 3.177429052927641 | doc xavien
+step 4 / 12 | loss 3.0715431047496087 | doc jori
+step 5 / 12 | loss 3.229698108490771 | doc juanluis
+step 6 / 12 | loss 2.9928135804808185 | doc erandi
+step 7 / 12 | loss 3.3179159310346713 | doc phia
+step 8 / 12 | loss 3.3164711816144186 | doc samatha
+step 9 / 12 | loss 2.9824670037505 | doc phoenix
+step 10 / 12 | loss 3.2459973970516316 | doc emmelynn
+step 11 / 12 | loss 2.928308922810882 | doc hollan
+step 12 / 12 | loss 3.025322836295106 | doc hollis
+Operation took 58069ms
+--- inference (new, hallucinated names) ---
+sample 1: pphonczatvmlu
+sample 2: swieijvukxnvdhjr
+sample 3: j
+sample 4: esxdinaurmwuvqdd
+nodes created: 43708
+
+real	1m52.982s
+user	2m8.520s
+sys	0m2.106s

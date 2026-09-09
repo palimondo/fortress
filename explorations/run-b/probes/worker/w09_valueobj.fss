@@ -1,0 +1,26 @@
+component w09_valueobj
+export Executable
+
+value object VBox(d: Array[\RR64,ZZ32\], f: RR64 -> RR64)
+end
+
+inc(x: RR64): RR64 = x + 1.0
+
+run(): () = do
+    d: Array[\RR64,ZZ32\] = array[\RR64\](2)
+    d[0] := 1.0
+    d[1] := 2.0
+    e: Array[\RR64,ZZ32\] = array[\RR64\](2)
+    e[0] := 1.0
+    e[1] := 2.0
+    p = VBox(d, inc)
+    q = VBox(d, inc)
+    r = VBox(e, inc)
+    println("p === p (same instance)          : " (p === p))
+    println("q === p (same field values)      : " (q === p))
+    println("r === p (equal but distinct array): " (r === p))
+    println("p.f === p.f (closure field)      : " ((p.f) === (q.f)))
+    println("p.d === q.d (array field)        : " ((p.d) === (q.d)))
+  end
+
+end

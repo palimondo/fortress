@@ -1,0 +1,30 @@
+component w12_sum
+import FortressLibrary.{...} except { opr BIG + }
+export Executable
+
+object Node(v: RR64)
+    getter asString(): String = "Node(" v ")"
+    opr +(self, other: Node): Node = Node(v + other.v)
+end
+
+object AnySumReduction extends CommutativeMonoidReduction[\Any\]
+    getter asString(): String = "AnySumReduction"
+    empty(): Any = 0
+    join(a: Any, b: Any): Any = a + b
+end
+
+opr SUM(): BigReduction[\Any,Any\] = BigReduction[\Any,Any\](AnySumReduction)
+
+opr SUM(x: Node): RR64 = x.v
+
+run(): () = do
+    println("SUM[i <- 1:4] i        = " (SUM[i <- 1:4] i))
+    nodes: Array[\Node,ZZ32\] = array[\Node\](3)
+    nodes[0] := Node(1.0)
+    nodes[1] := Node(2.0)
+    nodes[2] := Node(4.0)
+    println("SUM[t <- 0#3] nodes[t] = " (SUM[t <- 0#3] nodes[t]))
+    println("prefix SUM nodes[0]    = " (SUM nodes[0]))
+  end
+
+end

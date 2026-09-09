@@ -1,0 +1,26 @@
+component w09_valueobj_fields
+export Executable
+
+object RBox(d: Array[\RR64,ZZ32\])
+end
+
+run(): () = do
+    d: Array[\RR64,ZZ32\] = array[\RR64\](2)
+    d[0] := 1.0
+    d[1] := 2.0
+    e: Array[\RR64,ZZ32\] = array[\RR64\](2)
+    e[0] := 1.0
+    e[1] := 2.0
+    g: Array[\RR64,ZZ32\] = array[\RR64\](2)
+    g[0] := 5.0
+    g[1] := 6.0
+    println("d === d : " (d === d))
+    println("d === e (distinct, equal contents)   : " (d === e))
+    println("d === g (distinct, different contents): " (d === g))
+    rp = RBox(d)
+    rq = RBox(d)
+    println("reference object, RBox(d) === RBox(d): " (rp === rq))
+    println("reference object, rp === rp          : " (rp === rp))
+  end
+
+end

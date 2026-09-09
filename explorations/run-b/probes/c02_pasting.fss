@@ -1,0 +1,27 @@
+(* c02: the spec's array PASTING (aggregate.tex, Array Expressions: an element
+   that is itself an array is pasted) and matrix UNPASTING (basic/matrix-unpasting.tex)
+   as the notation for head concatenation and head splitting.  Goal: make
+   [ u v ] concatenate two vectors and [Q1 Q2] = Q split a matrix. *)
+component c02_pasting
+export Executable
+
+run(): () = do
+  u: Vector[\RR64,2\] = [ 1.0 2.0 ]
+  v: Vector[\RR64,2\] = [ 3.0 4.0 ]
+  (* 1. pasting two row vectors side by side into a longer row *)
+  w: Vector[\RR64,4\] = [ u v ]
+  println("[ u v ] = " w)
+  (* 2. pasting two matrices side by side *)
+  A: Matrix[\RR64,2,2\] = [ 1.0 2.0 ; 3.0 4.0 ]
+  B: Matrix[\RR64,2,2\] = [ 5.0 6.0 ; 7.0 8.0 ]
+  C: Matrix[\RR64,2,4\] = [ A B ]
+  println("[ A B ] = " C)
+  (* 3. pasting stacked *)
+  D: Matrix[\RR64,4,2\] = [ A ; B ]
+  println("[ A ; B ] = " D)
+  (* 4. unpasting *)
+  [ P Q ] = C
+  println("unpasted P = " P)
+  println("unpasted Q = " Q)
+end
+end

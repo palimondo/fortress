@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* constants (no children) and nodes (a backward map, then the children) *)
+num(a: RR64): Num = Num(a, <|[\Node\] |>, fn g => ())
+vec(a: Array[\RR64,ZZ32\]): Vec = Vec(a, <|[\Node\] |>, fn g => ())
+mat(a: Array[\RR64,(ZZ32,ZZ32)\]): Mat = Mat(a, <|[\Node\] |>, fn G => ())
+num(a: RR64, f: Num -> (), cs: Node...): Num = Num(a, <|[\Node\] c | c <- cs |>, f)
+vec(a: Array[\RR64,ZZ32\], f: Vec -> (), cs: Node...): Vec = Vec(a, <|[\Node\] c | c <- cs |>, f)
+mat(a: Array[\RR64,(ZZ32,ZZ32)\], f: Mat -> (), cs: Node...): Mat = Mat(a, <|[\Node\] c | c <- cs |>, f)`
+\end{preview}
+\end{document}

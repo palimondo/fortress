@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`opr +(x: Vec, y: Vec): Vec = vec(x.v + y.v, fn g => do x.grad += g; y.grad += g end, x, y)
+opr -(x: Vec, c: RR64): Vec = vec(x.v.map[\RR64\](fn e => e - c), fn g => x.grad += g, x)
+opr ODOT(x: Vec, y: Vec): Vec = vec(x.v.pmul(y.v), fn g => do x.grad += g ODOT y; y.grad += g ODOT x end, x, y)
+opr DOT(x: Vec, y: Vec): Num = num(x.v DOT y.v, fn g => do x.grad += g y; y.grad += g x end, x, y)
+opr juxtaposition(c: Num, x: Vec): Vec = vec(c.v x.v, fn g => do c.grad += g DOT x; x.grad += c g end, c, x)
+opr /(x: Vec, c: RR64): Vec = vec(x.v.scale(1/c), fn g => x.grad += g/c, x)
+opr /(x: Vec, s: Num): Vec = vec(x.v.scale(1/s.v), fn g => do x.grad += g/s; s.grad += -((g DOT x)/(s s)) end, x, s)
+exp(x: Vec): Vec = do e = x.v.map[\RR64\](fn t => exp t); vec(e, fn g => x.grad += g ODOT vec(e), x) end
+opr SUM(x: Vec): Num = num(elementSum(x.v), fn g => x.grad += g ones(|x|), x)
+ones(n: ZZ32): Vec = vec(array[\RR64\](n).fill(1.0))`
+\end{preview}
+\end{document}

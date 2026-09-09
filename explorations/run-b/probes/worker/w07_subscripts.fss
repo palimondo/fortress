@@ -1,0 +1,16 @@
+component w07_subscripts
+import List.{...}
+export Executable
+
+object Box(n: ZZ32)
+    opr [ts: List[\ZZ32\]] : String = "list of " |ts| " indices"
+    opr [g: Generator[\ZZ32\]] : String = "generator, sum " (SUM[i <- g] i)
+end
+
+run(): () = do
+    x = Box(5)
+    println("x[<|1,2|>] = " (x[<|[\ZZ32\] 1, 2|>]))
+    println("x[0#2]     = " (x[0#2]))
+  end
+
+end

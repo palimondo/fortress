@@ -1,0 +1,7 @@
+component c20c_prefix_juxtaposition
+export Executable
+run(): () = do
+  d: ZZ32 = 4
+  println("(3b) unparenthesized: " SQRT(d))
+end
+end

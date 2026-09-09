@@ -1,0 +1,24 @@
+component w04_bigmax
+export Executable
+
+object Vec(n: ZZ32, d: Array[\RR64,ZZ32\])
+        extends { ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\] }
+    getter size(): ZZ32 = n
+    getter indices(): Generator[\ZZ32\] = 0#n
+    opr |self| : ZZ32 = n
+    opr[i:ZZ32]: RR64 = d[i]
+    opr[r:Range[\ZZ32\]] : ZeroIndexed[\RR64\] = self
+end
+
+run(): () = do
+    d: Array[\RR64,ZZ32\] = array[\RR64\](4)
+    d[0] := 3.0
+    d[1] := 9.5
+    d[2] := (-2.0)
+    d[3] := 7.25
+    g = Vec(4, d)
+    println("generator clause : " (BIG MAX[x <- g] x))
+    println("prefix, [\\Number\\]: " (BIG MAX[\Number\] g))
+  end
+
+end

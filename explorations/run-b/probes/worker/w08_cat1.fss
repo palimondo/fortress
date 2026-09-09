@@ -1,0 +1,12 @@
+component w08_cat1
+import List.{...}
+export Executable
+
+run(): () = do
+    a: List[\ZZ32\] = <|[\ZZ32\] 1, 2|>
+    b: List[\ZZ32\] = <|[\ZZ32\] 3, 4|>
+    c: List[\ZZ32\] = a || b
+    println("cat1 = " c)
+  end
+
+end
