@@ -1,0 +1,10 @@
+component c20b_field_transpose
+export Executable
+object Box(v: Array[\RR64,(ZZ32,ZZ32)\]) end
+opr (m: Array[\RR64,(ZZ32,ZZ32)\])^T: Array[\RR64,(ZZ32,ZZ32)\] = m.t()
+run(): () = do
+  x = Box(array[\RR64\](2, 3).fill(1.0))
+  b = x.v^T
+  println("(2b) x.v^T: " b.sizes)
+end
+end

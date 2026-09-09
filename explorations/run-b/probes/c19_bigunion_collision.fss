@@ -1,0 +1,16 @@
+(* c19: BIG UNION of singleton maps (c18 (b)) in a component that ALSO imports
+   Set.{...}: the library's Map and Set each declare the nullary opr BIG CUP,
+   and one big-operator name admits one nullary declaration per program
+   (ledger row 40) -- so importing both with {...} and using BIG UNION collides. *)
+component c19_bigunion_collision
+import List.{...}
+import Set.{...}
+import Map.{...}
+export Executable
+
+run(): () = do
+  nm = <|[\String\] "a", "b" |>
+  mb = BIG UNION[\String, RR64\][name <- nm] {[\String, RR64\] name |-> 1.0 }
+  println("BIG UNION with Set and Map both imported: " mb)
+end
+end

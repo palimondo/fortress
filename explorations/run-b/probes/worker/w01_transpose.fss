@@ -1,0 +1,43 @@
+component w01_transpose
+export Executable
+
+(* Two postfix overloads, separated by Rank1 excludes Rank2
+   (FortressLibrary.fsi:1072-1075): Vector extends Array1 extends Rank1,
+   Matrix extends Array2 extends Rank2.  Static parameters of a postfix
+   operator follow the operator (Parameter.rats:132-151). *)
+
+opr (x: Vector[\RR64,n\])^T[\nat n\] : Array[\RR64,(ZZ32,ZZ32)\] = do
+    r: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](1, n)
+    for j <- 0#n do
+        r[(0, j)] := x[j]
+    end
+    r
+  end
+
+opr (m: Matrix[\RR64,n,p\])^T[\nat n, nat p\] : Array[\RR64,(ZZ32,ZZ32)\] = do
+    r: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](p, n)
+    for (i, j) <- m.indices do
+        r[(j, i)] := m[(i, j)]
+    end
+    r
+  end
+
+run(): () = do
+    x: Array[\RR64,ZZ32\] = array[\RR64\](3)
+    x[0] := 1.0
+    x[1] := 2.0
+    x[2] := 3.0
+    m: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](2, 3)
+    m[(0,0)] := 1.0
+    m[(0,1)] := 2.0
+    m[(0,2)] := 3.0
+    m[(1,0)] := 4.0
+    m[(1,1)] := 5.0
+    m[(1,2)] := 6.0
+    println("x   = " x)
+    println("x^T = " (x^T))
+    println("M   = " m)
+    println("M^T = " (m^T))
+  end
+
+end

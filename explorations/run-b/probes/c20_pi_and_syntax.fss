@@ -1,0 +1,21 @@
+(* c20: three small facts the program ran into.
+   (1) the spec's constant pi ("The object named pi", basic/expressions/literals.tex):
+       is it defined?  (2) a postfix ^T directly after a dotted field access
+       (x.v^T) -- s01/s02 reported a Syntax Error at that column; (3) a prefix
+       operator application as a juxtaposition operand ("s" SQRT(d)), which
+       c16 and the Gaussian init hit.  Each in its own line. *)
+component c20_pi_and_syntax
+export Executable
+
+object Box(v: Array[\RR64,(ZZ32,ZZ32)\]) end
+opr (m: Array[\RR64,(ZZ32,ZZ32)\])^T: Array[\RR64,(ZZ32,ZZ32)\] = m.t()
+
+run(): () = do
+  x = Box(array[\RR64\](2, 3).fill(1.0))
+  a = (x.v)^T
+  println("(2a) (x.v)^T parses and runs: " a.sizes)
+  d: ZZ32 = 4
+  println("(3a) parenthesized prefix in juxtaposition: " (SQRT(d)))
+  (* (1) pi: "Variable pi is not defined." -- see c20_pi_and_syntax.pi.out *)
+end
+end

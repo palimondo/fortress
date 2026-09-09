@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* ---- reverse topological order by object identity, then accumulate ---- *)
+topo(root: Node): List[\Node\] = do
+  var seen: List[\Node\] := <|[\Node\] |>
+  var order: List[\Node\] := <|[\Node\] |>
+  visit(n: Node): () =
+    if NOT (BIG OR[s <- seen] (s === n)) then
+      seen := seen.addRight(n)
+      for c <- seq(n.children) do visit(c) end
+      order := order.addRight(n)
+    end
+  visit(root)
+  order
+end
+backward(L: Num): () = do
+  L.grad := 1.0
+  for n <- seq(topo(L).reverse) do n.push() end
+end`
+\end{preview}
+\end{document}

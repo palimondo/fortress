@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* ---- the cotangent record: parameter name |-> dL/dParameter, an additive monoid ---- *)
+object Grad(m: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\])
+  opr +(self, o: Grad): Grad = Grad(m.union(fn (k, a, b) => a + b, o.m))
+  opr [k: String]: Array[\RR64,(ZZ32,ZZ32)\] = m[k]
+end
+zero: Grad = Grad({[\String, Array[\RR64,(ZZ32,ZZ32)\]\] })
+
+(* ---- carriers: a value and its backward map ---- *)
+object Num(a: RR64, vjp: RR64 -> Grad)
+  back(g: RR64): Grad = vjp(g)
+end
+object Vec(a: Array[\RR64,ZZ32\], vjp: Vec -> Grad)
+  back(g: Vec): Grad = vjp(g)
+  opr |self|: ZZ32 = |a|
+  opr [i: ZZ32]: RR64 = a[i]
+end
+object Mat(a: Array[\RR64,(ZZ32,ZZ32)\], vjp: Mat -> Grad)
+  back(g: Mat): Grad = vjp(g)
+  opr [i: ZZ32, j: ZZ32]: RR64 = a[i, j]
+end
+object Row(x: Vec) end                       (* a transposed vector *)
+vec(a: Array[\RR64,ZZ32\]): Vec = Vec(a, fn g => zero)
+mat(a: Array[\RR64,(ZZ32,ZZ32)\]): Mat = Mat(a, fn g => zero)
+param(name: String, a: Array[\RR64,(ZZ32,ZZ32)\]): Mat =
+  Mat(a, fn g => Grad({[\String, Array[\RR64,(ZZ32,ZZ32)\]\] name |-> g.a }))`
+\end{preview}
+\end{document}

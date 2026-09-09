@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* ---- the operators: value, then the chain rule ---- *)
+opr juxtaposition(W: Mat, x: Vec): Vec = Vec(W.a x.a, fn g => W.back(g x^T) + x.back(W^T g))
+opr juxtaposition(g: Vec, xT: Row): Mat =                             (* outer product g x^T *)
+  Mat(array[\RR64\](|g|, |xT.x|).fill(fn (i, j) => g[i] (xT.x)[j]), fn G => zero)
+opr +(x: Vec, y: Vec): Vec = Vec(x.a + y.a, fn g => x.back(g) + y.back(g))
+opr (x: Vec)^T: Row = Row(x)
+opr (W: Mat)^T: Mat = Mat(W.a.t(), fn g => W.back(g^T))
+opr juxtaposition(c: RR64, x: Vec): Vec = Vec(c x.a, fn g => x.back(c g))
+opr DOT(x: Vec, y: Vec): Num = Num(x.a DOT y.a, fn g => x.back(g y) + y.back(g x))
+relu(x: Vec): Vec = Vec(x.a.map[\RR64\](fn e => e MAX 0.0), fn g => x.back(g ODOT step(x)))
+step(x: Vec): Vec = vec(x.a.map[\RR64\](fn e => if e > 0.0 then 1.0 else 0.0 end))
+opr ODOT(x: Vec, y: Vec): Vec = Vec(x.a.pmul(y.a), fn g => x.back(g ODOT y) + y.back(g ODOT x))
+backward(L: Num): Grad = L.back(1.0)`
+\end{preview}
+\end{document}

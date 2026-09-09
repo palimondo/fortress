@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Num(v: RR64, children: List[\Node\], backprop: Num -> ()) extends Node
+  id: ZZ32 = nextId()
+  var adj: Maybe[\Num\] := Nothing[\Num\]
+  getter grad(): Num = if x <- adj then x else num(0.0) end
+  setter grad(x: Num): () = adj := Just[\Num\](x)
+  push(): () = backprop(self.grad)
+end
+
+object Vec(v: Array[\RR64,ZZ32\], children: List[\Node\], backprop: Vec -> ())
+    extends { Node, ZeroIndexed[\RR64\], DelegatedIndexed[\RR64, ZZ32\] }
+  id: ZZ32 = nextId()
+  var adj: Maybe[\Vec\] := Nothing[\Vec\]
+  getter grad(): Vec = if x <- adj then x else vec(zeros(|v|)) end
+  setter grad(x: Vec): () = adj := Just[\Vec\](x)
+  getter indices(): Generator[\ZZ32\] = 0 # |v|
+  push(): () = backprop(self.grad)
+  opr |self|: ZZ32 = |v|
+  opr [i: ZZ32]: RR64 = v[i]
+end
+
+object Mat(v: Array[\RR64,(ZZ32,ZZ32)\], children: List[\Node\], backprop: Mat -> ())
+    extends { Node, Generator[\Vec\] }
+  id: ZZ32 = nextId()
+  var adj: Maybe[\Mat\] := Nothing[\Mat\]
+  getter grad(): Mat = if x <- adj then x else mat(zeros(rows(self), cols(self))) end
+  setter grad(x: Mat): () = adj := Just[\Mat\](x)
+  push(): () = backprop(self.grad)
+  opr |self|: ZZ32 = rows(self)                  (* the number of rows: positions *)
+  (* the rows, as nodes, are what a matrix generates (x drawn from X) *)
+  generate[\R\](r: Reduction[\R\], body: Vec -> R): R =
+    (0 # rows(self)).generate[\R\](r, fn t => body(self[t]))
+  (* row t as a node; its adjoint is scattered back into row t *)
+  opr [t: ZZ32]: Vec = vec(v[t, :].copy(), fn g => self.grad += rowInto(g, t, rows(self), cols(self)), self)
+  (* element (t, j) as a scalar node *)
+  opr [t: ZZ32, j: ZZ32]: Num = num(v[t, j], fn g => self.grad += entryInto(g, t, j, rows(self), cols(self)), self)
+  (* the rows named by a sequence of indices, as a matrix: E[tokens], P[0#n] *)
+  opr [ts: Generator[\ZZ32\]]: Mat = do
+    ix = <|[\ZZ32\] t | t <- ts |>
+    mat(array[\RR64\](|ix|, cols(self)).fill(fn (i, j) => v[ix[i], j]),
+        fn G => self.grad += scatter(G, ix, rows(self)), self)
+  end
+  (* the columns c, as a matrix: Q[:, c] *)
+  opr [_: TrivialOpenRange, c: Range[\ZZ32\]]: Mat = cols(self, c.lower, |c|)
+end`
+\end{preview}
+\end{document}

@@ -143,8 +143,8 @@ opr (A: Mat)^T: Mat = mat(A.v.t(), fn G => A.grad += G^T, A)
 opr +(A: Mat, B: Mat): Mat = mat(A.v + B.v, fn G => do A.grad += G; B.grad += G end, A, B)
 opr ODOT(A: Mat, B: Mat): Mat = mat(hadamard(A.v, B.v), fn G => do A.grad += G ODOT B; B.grad += G ODOT A end, A, B)
 opr /(A: Mat, c: RR64): Mat = mat(A.v.scale(1/c), fn G => A.grad += G/c, A)
-relu(X: Mat): Mat = mat(X.v.map[\RR64\](fn e => e MAX 0.0), fn G => X.grad += G ODOT step(X), X)
-step(X: Mat): Mat = mat(X.v.map[\RR64\](fn e => if e > 0.0 then 1.0 else 0.0 end))
+relu(X: Mat): Mat = mat(X.v.map[\RR64\](fn e => e MAX 0.0), fn G => X.grad += G ODOT positive(X), X)
+positive(X: Mat): Mat = mat(X.v.map[\RR64\](fn e => if e > 0.0 then 1.0 else 0.0 end))
 cols(X: Mat, j0: ZZ32, w: ZZ32): Mat =
   mat(X.v[(0, j0) # (rows(X), w)].copy(), fn G => X.grad += colsInto(G, j0, w, cols(X)), X)
 (* rows stacked into a matrix; each row's adjoint is the matching row of G *)
@@ -198,12 +198,15 @@ end
 epsilon: RR64 = 10.0^(-5)
 
 (* FIG rmsnorm *)
-rmsnorm(x: Vec): Vec = do d = |x|; x/(SQRT((x DOT x)/d + epsilon)) end
+rmsnorm(x: Vec): Vec = x/(SQRT((x DOT x)/(|x|) + epsilon))
 rmsnorm(X: Mat): Mat = stack(<| rmsnorm(x) | x <- X |>)
 (* END FIG *)
 
 (* FIG softmax *)
-softmax(z: Vec): Vec = do e = exp(z - (BIG MAX[z_i <- z] z_i)); e/(SUM e) end
+softmax(z: Vec): Vec = do
+  e = exp(z - (BIG MAX[z_i <- z] z_i))
+  e/(SUM e)
+end
 softmax(Z: Mat): Mat = stack(<| softmax(z) | z <- Z |>)
 (* END FIG *)
 
@@ -250,8 +253,9 @@ end
 (* cross-entropy of the next token, averaged over the positions *)
 loss(model: Model, tokens: List[\ZZ32\]): Num = do
   n = |tokens| - 1
-  P = softmax(model.forward(tokens[0 # n]))
-  -(1/n) (SUM[t <- 0#n] log P[t, tokens[t + 1]])
+  (x, y) = (tokens[0 # n], tokens[1 # n])
+  P = softmax(model.forward(x))
+  -(1/n) (SUM[t <- 0#n] log P[t, y[t]])
 end
 (* END FIG *)
 
@@ -269,8 +273,9 @@ object Params(m: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\])
   zip(o: Params, f: (Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\]) -> Array[\RR64,(ZZ32,ZZ32)\]): Params =
     record(fn name => f(m[name], o[name]), dom(m))
 end
-(* a record from a function of the name (a fold: the map comprehension cannot
-   join matrices of different shapes, probes/c18) *)
+(* a record from a function of the name, by a fold: the map comprehension
+   cannot join matrices of different shapes (probes/c18), and BIG UNION over
+   singleton maps collides with Set's BIG UNION in one component (probes/c19) *)
 record(f: String -> Array[\RR64,(ZZ32,ZZ32)\], keys: Generator[\String\]): Params = do
   var r: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] := {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] }
   for name <- seq(keys) do r := r.add(name, f(name)) end
@@ -317,8 +322,9 @@ names(n_layer: ZZ32): List[\String\] =
                                                       "layer" l ".attn_wo", "layer" l ".mlp_fc1", "layer" l ".mlp_fc2" |>))
 (* the gradient record after backward *)
 grads(g: Model, n_layer: ZZ32): Params = do
-  (nm, ms) = (names(n_layer), g.matrices())
-  record(fn name => (ms[nm.indexOf(name).get]).grad.v, nm)
+  var r: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] := {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] }
+  for (i, name) <- seq((names(n_layer)).indexValuePairs) do r := r.add(name, ((g.matrices())[i]).grad.v) end
+  Params(r)
 end
 (* END FIG *)
 

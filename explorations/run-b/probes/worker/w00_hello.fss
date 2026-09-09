@@ -1,0 +1,8 @@
+component w00_hello
+export Executable
+
+run(): () = do
+  println("hello")
+end
+
+end

@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Tokenizer(uchars: String)
+  bos: ZZ32 = |uchars|
+  encode(doc: String): List[\ZZ32\] =
+    <|[\ZZ32\] bos |> || <| (if i <- uchars.indexOf(ch) then i else 0 end) | ch <- doc |> || <|[\ZZ32\] bos |>
+  decode(t: ZZ32): String = "" || uchars[t]
+end`
+\end{preview}
+\end{document}

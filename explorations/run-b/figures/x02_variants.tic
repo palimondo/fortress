@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* sheet 2: loss and rmsnorm spellings *)
+loss(gpt: Model, tokens: List[\ZZ32\]): Num = do
+  n = |tokens| - 1
+  P = softmax(gpt.forward(tokens[0 # n]))
+  -(1/n) (SUM[t <- 0#n] log P[t, tokens[t + 1]])
+end
+loss(gpt: Model, tokens: List[\ZZ32\]): Num = do
+  n = |tokens| - 1
+  (x, y) = (tokens[0 # n], tokens[1 # n])
+  P = softmax(gpt.forward(x))
+  -(1/n) (SUM[t <- 0#n] log P[t, y[t]])
+end
+loss(gpt: Model, tokens: List[\ZZ32\]): Num = do
+  n = |tokens| - 1
+  (x, y) = (tokens[0 # n], tokens[1 # n])
+  P = softmax(gpt.forward(x))
+  -(SUM[t <- 0#n] log P[t, y[t]])/n
+end
+rmsnorm(x: Vec): Vec = do d = |x|; x/(SQRT((x DOT x)/d + epsilon)) end
+rmsnorm(x: Vec): Vec = x/(SQRT((x DOT x)/(|x|) + epsilon))
+rmsnorm(x: Vec): Vec = x/(SQRT(mean(x ODOT x) + epsilon))
+rmsnorm(x: Vec): Vec = do
+  d = |x|
+  x/(SQRT((x DOT x)/d + epsilon))
+end
+softmax(z: Vec): Vec = do e = exp(z - (BIG MAX[z_i <- z] z_i)); e/(SUM e) end
+softmax(z: Vec): Vec = do
+  e = exp(z - (BIG MAX[z_i <- z] z_i))
+  e/(SUM e)
+end
+attend(Q: Mat, K: Mat, V: Mat): Mat = softmax((Q K^T)/(SQRT d_k) + M) V
+head(h: ZZ32): Mat = do c = (h d_h) # d_h; attend(Q[:, c], K[:, c], V[:, c]) end
+head(h: ZZ32): Mat = attend(Q[:, c_h], K[:, c_h], V[:, c_h])
+opr juxtaposition(A: Mat, B: Mat): Mat = mat(A.v B.v, fn G => do A.grad += G B^T; B.grad += A^T G end, A, B)
+opr juxtaposition(A: Mat, B: Mat): Mat =
+  mat(A.v B.v, fn G => do A.grad += G B^T; B.grad += A^T G end, A, B)
+opr juxtaposition(A: Mat, B: Mat): Mat = mat(A.v B.v, fn G => do
+    A.grad += G B^T
+    B.grad += A^T G
+  end, A, B)`
+\end{preview}
+\end{document}
