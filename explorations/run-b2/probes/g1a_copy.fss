@@ -1,0 +1,29 @@
+component g1a_copy
+export Executable
+
+(* A: does "an implementation may freely copy value objects"
+   (objects.tex:33-38) show up as copy semantics here?  VCounter is a value
+   object with a var field; d = c then c.bump(). *)
+
+value object VCounter(var n: ZZ32)
+    getter asString(): String = "VCounter(" n ")"
+    bump(): () = do n := n + 1 end
+end
+
+object RCounter(var n: ZZ32)
+    getter asString(): String = "RCounter(" n ")"
+    bump(): () = do n := n + 1 end
+end
+
+run(): () = do
+    c = VCounter(1)
+    d = c
+    c.bump()
+    println("value object:     c = " c "   d = " d)
+    r = RCounter(1)
+    s = r
+    r.bump()
+    println("reference object: r = " r "   s = " s)
+    println("c SEQV d = " (c SEQV d))
+end
+end

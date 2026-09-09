@@ -1,0 +1,20 @@
+component g1a_settable
+export Executable
+
+(* A: the spec's settable-field abbreviation for value objects.
+   Spec: basic/objects.tex:358-366 and the Complex example at :370.
+   z.imaginary := v means z := Complex(z.real, v). *)
+
+value object Cpx(settable re: RR64, settable im: RR64)
+    getter asString(): String = "(" re " + " im " i)"
+    opr +(self, o: Cpx): Cpx = Cpx(re + o.re, im + o.im)
+end
+
+run(): () = do
+    var z: Cpx := Cpx(1.0, 2.0)
+    println("z = " z)
+    z.im := 7.0
+    println("after z.im := 7.0, z = " z)
+    println("z + z = " (z + z))
+end
+end

@@ -1,0 +1,3 @@
+after push: Stack(1)
+after pop: Stack(0)
+caught CallerViolation from the second pop

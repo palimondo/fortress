@@ -1,0 +1,21 @@
+component g1c_property
+export Executable
+
+(* C: property declarations, spec basic/tests.tex:231:
+   PropertyDecl ::= property (Id =)? (FORALL ValParam)? Expr
+   (parser: OtherDecl.rats:132).  A named property binds a Boolean-valued
+   function that the tests may call. *)
+
+double(x: ZZ32): ZZ32 = 2 x
+
+property doubleIsAdditive = FORALL(x: ZZ32, y: ZZ32) double(x + y) = double(x) + double(y)
+
+test testAdditive(): () = do
+    println("  [testAdditive running]")
+    assert(doubleIsAdditive(2, 5))
+end
+
+run(): () = do
+    println("run(): double(21) = " (double(21)))
+end
+end

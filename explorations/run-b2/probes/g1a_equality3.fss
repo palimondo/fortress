@@ -1,0 +1,14 @@
+component g1a_equality3
+export Executable
+
+(* A: the library-visible consequence of the field-list defect seen in
+   g1a_equality2 - Maybe is a value trait (FortressLibrary.fss:1306) and Just
+   (:1312) declares no field in its body, so no field is compared. *)
+
+run(): () = do
+    println("Just(1) SEQV Just(2) = " (Just[\ZZ32\](1) SEQV Just[\ZZ32\](2)))
+    println("Just(1) =    Just(2) = " (Just[\ZZ32\](1) = Just[\ZZ32\](2)))
+    println("Just(1).get =        " (Just[\ZZ32\](1).get))
+    println("Just(2).get =        " (Just[\ZZ32\](2).get))
+end
+end

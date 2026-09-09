@@ -1,0 +1,18 @@
+component g1c_testfail
+export Executable
+
+(* C: does a failing test actually fail the "fortress test" run?
+   assert is FortressLibrary.fsi:230; a failed assert throws TestFailure
+   (FortressLibrary.fsi:980). *)
+
+double(x: ZZ32): ZZ32 = 2 x
+
+test testThatFails(): () = do
+    println("  [testThatFails running]")
+    assert(double(3) = 7, "double(3) should have been 7")
+end
+
+run(): () = do
+    println("run(): double(21) = " (double(21)))
+end
+end

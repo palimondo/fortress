@@ -1,0 +1,45 @@
+component g1a_valobj_arrayonly
+export Executable
+
+(* A: the exact shape asked for - one array field, extents recovered from the
+   array itself (ReadableArray.bounds is a CompactFullRange, whose extent is a
+   Just; FortressLibrary.fsi:1120, :2050). *)
+
+value object Mat(a: Array[\RR64,(ZZ32,ZZ32)\])
+    getter dims(): (ZZ32,ZZ32) = a.bounds.extent.get
+    getter asString(): String = do
+        (nr, nc) = self.dims
+        var s: String := "["
+        for i <- seq(0 # nr) do
+            for j <- seq(0 # nc) do
+                s := s " " (a[i,j])
+            end
+            s := s " ;"
+        end
+        s "]"
+    end
+    opr +(self, o: Mat): Mat = do
+        (nr, nc) = self.dims
+        b = o.a
+        Mat(array[\RR64\](nr,nc).fill(fn (i:ZZ32, j:ZZ32): RR64 => a[i,j] + b[i,j]))
+    end
+    opr juxtaposition(self, o: Mat): Mat = do
+        (nr, m) = self.dims
+        (_, p) = o.dims
+        b = o.a
+        Mat(array[\RR64\](nr,p).fill(fn (i:ZZ32, j:ZZ32): RR64 =>
+            SUM[k <- seq(0 # m)] (a[i,k] b[k,j])))
+    end
+end
+
+mk(nr: ZZ32, nc: ZZ32, f: (ZZ32,ZZ32) -> RR64): Mat =
+    Mat(array[\RR64\](nr,nc).fill(f))
+
+run(): () = do
+    A = mk(2, 2, fn (i:ZZ32, j:ZZ32): RR64 => 1.0 + i + 2.0 j)
+    B = mk(2, 2, fn (i:ZZ32, j:ZZ32): RR64 => if i = j then 1.0 else 0.5 end)
+    println("A.dims = " (A.dims))
+    println("A + B = " (A + B))
+    println("A B   = " (A B))
+end
+end

@@ -1,0 +1,20 @@
+component g1a_valtrait_bad
+export Executable
+
+(* A: the one valueness rule the interpreter does enforce -
+   traits.tex:810 "all objects extending [a value trait] are required to be
+   value objects".  Here Bad is an ordinary (reference) object extending a
+   value trait. *)
+
+value trait Shape
+    abstract getter area(): RR64
+end
+
+object Bad(s: RR64) extends Shape
+    getter area(): RR64 = s s
+end
+
+run(): () = do
+    println("Bad(2.0).area = " (Bad(2.0).area))
+end
+end

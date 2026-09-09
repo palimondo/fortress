@@ -1,0 +1,20 @@
+component g1a_varfield
+export Executable
+
+(* A: does the interpreter reject a mutable field in a value object?
+   Spec: basic/objects.tex:33 "A value object cannot have mutable fields";
+   objects.tex:356 "The fields of a value object are immutable; they cannot
+   be changed directly or it is a static error." *)
+
+value object Counter(var n: ZZ32)
+    getter asString(): String = "Counter(" n ")"
+    bump(): () = do n := n + 1 end
+end
+
+run(): () = do
+    c = Counter(1)
+    println("built " c)
+    c.bump()
+    println("after bump " c)
+end
+end

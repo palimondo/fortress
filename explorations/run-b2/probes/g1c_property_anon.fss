@@ -1,0 +1,14 @@
+component g1c_property_anon
+export Executable
+
+(* C: the unnamed top-level property spelling - PropertyDecl allows the
+   "Id =" part to be absent (OtherDecl.rats:135, tests.tex:231). *)
+
+double(x: ZZ32): ZZ32 = 2 x
+
+property FORALL(x: ZZ32) double(x) = x + x
+
+run(): () = do
+    println("run(): double(21) = " (double(21)))
+end
+end

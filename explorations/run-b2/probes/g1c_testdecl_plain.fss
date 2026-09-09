@@ -1,0 +1,17 @@
+component g1c_testdecl_plain
+export Executable
+
+(* C: a test declaration with generators, spec basic/tests.tex:90:
+   TestDecl ::= test Id [ GeneratorClauseList ] = Expr
+   (parser: OtherDecl.rats:117).  Run with: fortress test g1c_testdecl.fss *)
+
+double(x: ZZ32): ZZ32 = 2 x
+
+test testDoubleOverRange[x <- 0#4] = assert(double(x) = x + x)
+
+test testPairs[x <- 0#3, y <- 0#3] = assert(double(x + y) = double(x) + double(y))
+
+run(): () = do
+    println("run(): double(21) = " (double(21)))
+end
+end

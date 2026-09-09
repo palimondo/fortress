@@ -1,0 +1,31 @@
+component g1a_valtrait
+import List.{...}
+export Executable
+
+(* A: value trait. Spec: basic/traits.tex:800 "Value Traits" -
+   TraitMod ::= value; all objects extending it must be value objects. *)
+
+value trait Shape
+    abstract getter area(): RR64
+    getter asString(): String = "Shape(area=" (self.area) ")"
+end
+
+value object Sq(s: RR64) extends Shape
+    getter area(): RR64 = s s
+end
+
+value object Rect(w: RR64, h: RR64) extends Shape
+    getter area(): RR64 = w h
+end
+
+total(xs: List[\Shape\]): RR64 = SUM[x <- seq(xs)] x.area
+
+run(): () = do
+    a = Sq(3.0)
+    b = Rect(2.0, 4.5)
+    println("a = " a)
+    println("b = " b)
+    println("a.area + b.area = " (a.area + b.area))
+    println("Sq(3.0) SEQV Sq(3.0) = " (Sq(3.0) SEQV Sq(3.0)))
+end
+end

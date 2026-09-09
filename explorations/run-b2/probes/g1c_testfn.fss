@@ -1,0 +1,26 @@
+component g1c_testfn
+export Executable
+
+(* C: the "limited form of tests supported by the interpreter" of
+   basic/tests.tex:33-52 - the test modifier on a top-level function of type
+   () -> ().  Run with:  fortress test g1c_testfn.fss
+   (Shell.java:473 dispatches "test" to walkTests, which calls
+   Driver.runTests; CollectTests.forFnDecl collects every FnDecl whose
+   modifiers include test). *)
+
+double(x: ZZ32): ZZ32 = 2 x
+
+test testDoubleSmall(): () = do
+    println("  [testDoubleSmall running]")
+    assert(double(3) = 6)
+end
+
+test testDoubleZero(): () = do
+    println("  [testDoubleZero running]")
+    assert(double(0) = 0)
+end
+
+run(): () = do
+    println("run(): double(21) = " (double(21)))
+end
+end

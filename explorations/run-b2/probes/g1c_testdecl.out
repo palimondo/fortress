@@ -1,0 +1,8 @@
+** bug! Not yet implemented: TestDecl at /home/user/fortress/explorations/run-b2/probes/g1c_testdecl.fss:10.1
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walkTests(Shell.java:1250)
+	at com.sun.fortress.Shell.subMain(Shell.java:477)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

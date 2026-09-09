@@ -1,0 +1,10 @@
+component Core
+export Core
+object Mat(a: Array[\RR64,(ZZ32,ZZ32)\])
+  opr +(self, B: Mat): Mat = Mat(a + B.a)
+  opr juxtaposition(self, B: Mat): Mat = Mat(a B.a)
+  opr (self)^T: Mat = Mat(a.t())
+  opr[i: ZZ32, j: ZZ32]: RR64 = a[i, j]
+end
+mat(n: ZZ32, m: ZZ32, f: (ZZ32, ZZ32) -> RR64): Mat = Mat(array[\RR64\](n, m).fill(fn (i: ZZ32, j: ZZ32): RR64 => f(i, j)))
+end

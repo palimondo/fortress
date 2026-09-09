@@ -1,0 +1,30 @@
+component g1b_requires_bad
+export Executable
+
+(* B: a call that violates the requires clause.  functions.tex:462-466:
+   "The requires clause is evaluated during a function call before the body
+   of the function.  If any expression in a requires clause does not evaluate
+   to true, a CallerViolation exception is thrown." *)
+
+value object Mat(nr: ZZ32, nc: ZZ32, a: Array[\RR64,(ZZ32,ZZ32)\]) end
+
+mk(nr: ZZ32, nc: ZZ32, f: (ZZ32,ZZ32) -> RR64): Mat =
+    Mat(nr, nc, array[\RR64\](nr,nc).fill(f))
+
+mmul(X: Mat, Y: Mat): Mat requires { X.nc = Y.nr } = do
+    m = X.nc
+    p = Y.nc
+    xa = X.a
+    ya = Y.a
+    Mat(X.nr, p, array[\RR64\](X.nr, p).fill(fn (i:ZZ32, j:ZZ32): RR64 =>
+        SUM[k <- seq(0 # m)] (xa[i,k] ya[k,j])))
+end
+
+run(): () = do
+    A = mk(2, 3, fn (i:ZZ32, j:ZZ32): RR64 => 1.0)
+    C = mk(2, 2, fn (i:ZZ32, j:ZZ32): RR64 => 1.0)
+    println("about to call mmul with inner extents 3 and 2")
+    D = mmul(A, C)
+    println("returned " (D.nr) "x" (D.nc))
+end
+end

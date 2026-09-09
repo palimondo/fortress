@@ -1,0 +1,28 @@
+component g1b_method
+export Executable
+
+(* B: method contracts.  Spec 10.4 Method Contracts (traits.tex); the chapter
+   note at traits.tex:15 says method contracts are "not yet supported".
+   Note the interpreter's own ordering rule: field/getter/setter declarations
+   must precede method declarations inside an object. *)
+
+object Stack(var n: ZZ32)
+    getter asString(): String = "Stack(" n ")"
+    push(): () requires { n >= 0 } ensures { n > 0 provided true } = do n := n + 1 end
+    pop(): () requires { n > 0 } = do n := n - 1 end
+end
+
+run(): () = do
+    s = Stack(0)
+    s.push()
+    println("after push: " s)
+    s.pop()
+    println("after pop: " s)
+    try
+        s.pop()
+        println("second pop succeeded: " s)
+    catch e
+        CallerViolation => println("caught CallerViolation from the second pop")
+    end
+end
+end
