@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`  block(X: Node): Node = do
+    X' = X + mha(rmsnorm X)
+    X' + ffn(rmsnorm X')
+  end
+`
+\end{preview}
+\end{document}

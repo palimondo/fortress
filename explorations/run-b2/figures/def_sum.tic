@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`object PlusReduction extends CommutativeMonoidReduction[\Any\]
+  empty(): Any = 0
+  join(a: Any, b: Any): Any = a + b
+end
+opr SUM[\T\](): BigReduction[\Any,Any\] = BigReduction[\Any,Any\](PlusReduction)
+`
+\end{preview}
+\end{document}

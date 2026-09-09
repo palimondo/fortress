@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`  mha(X: Node): Node = concat(<|[\Node\] head(X, h) | h <- 0 # nh |>) _Wo
+`
+\end{preview}
+\end{document}

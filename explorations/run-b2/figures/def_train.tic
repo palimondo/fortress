@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`trainStep(theta: Params, nh: ZZ32, toks: List[\ZZ32\], block: ZZ32, m: Params, v: Params, t: ZZ32, lr: RR64): (RR64, Params, Params, Params) = do
+  n = block MIN (|toks| - 1)
+  (L, g) = Transformer(theta, nh).loss(toks[0 # n], toks[1 # n])
+  (theta1, m1, v1) = adam(theta, g, m, v, t, lr)
+  (L, theta1, m1, v1)
+end
+`
+\end{preview}
+\end{document}

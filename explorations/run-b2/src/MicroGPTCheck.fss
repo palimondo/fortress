@@ -61,11 +61,15 @@ run(): () = do
     t0 = nanoTime()
     model = Transformer(theta, ref_n_head)
     Z = model.logits(toks[0 # n])
+    tf = nanoTime()
     check("logits", maxDiff(Z.data, ref_logits(k)), 10.0^(-9))
     P = softmax(Z)
     losses = <|[\RR64\] -log(P.data[t, toks[t + 1]]) | t <- 0 # n |>
     check("per-position losses", maxDiffL(losses, ref_losses(k)), 10.0^(-9))
+    tl = nanoTime()
     (L, g) = model.loss(toks[0 # n], toks[1 # n])
+    tb = nanoTime()
+    println("forward " ((tf - t0) / 1000000000.0) " s, forward+backward " ((tb - tl) / 1000000000.0) " s")
     check("loss", |L - ref_loss(k)|, 10.0^(-9))
     for name <- seq(ref_names()) do
       check("grad " name, maxDiff(inRefLayout(g, name), ref_grad(k, name)), 10.0^(-9))

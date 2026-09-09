@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`nll(P: Node, ys: List[\ZZ32\]): (RR64, Params) = do
+  T = |ys|
+  L = -(SUM[t <- 0 # T] log(P.data[t, ys[t]])) / T
+  P_bar = mat(T, P.cols, fn (t, v) => if v = ys[t] then -1.0 / (T P.data[t, v]) else 0.0 end)
+  (L, P.pull(P_bar))
+end
+`
+\end{preview}
+\end{document}

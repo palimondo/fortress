@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`softmax(S: Node): Node = do
+  (n, m) = (S.rows, S.cols)
+  s = S.data
+  mx = <|[\RR64\] BIG MAX[j <- 0 # m] s[i, j] | i <- 0 # n |>
+  z = <|[\RR64\] SUM[j <- 0 # m] exp(s[i, j] - mx[i]) | i <- 0 # n |>
+  P = mat(n, m, fn (i, j) => exp(s[i, j] - mx[i]) / z[i])
+  S_bar(P_bar: Mat): Params = S.pull(mat(n, m, fn (i, j) => P[i, j] (P_bar[i, j] - (SUM[k <- 0 # m] P_bar[i, k] P[i, k]))))
+  Node(P, S_bar)
+end
+`
+\end{preview}
+\end{document}

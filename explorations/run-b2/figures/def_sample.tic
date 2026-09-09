@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`choose(p: List[\RR64\], u: RR64): ZZ32 = do
+  total = SUM[x <- p] x
+  var acc: RR64 := 0.0
+  var k: ZZ32 := 0
+  while (k < |p| - 1) AND (acc + p[k] <= u total) do
+    acc += p[k]
+    k += 1
+  end
+  k
+end
+
+sample(model: Transformer, bos: ZZ32, block: ZZ32, temperature: RR64, u: ZZ32 -> RR64): List[\ZZ32\] = do
+  var toks: List[\ZZ32\] = <|[\ZZ32\] bos |>
+  var done: Boolean := false
+  var pos: ZZ32 := 0
+  while (NOT done) AND (pos < block) do
+    P = softmax(model.logits(toks) / temperature).data
+    t = choose(<|[\RR64\] P[pos, j] | j <- 0 # P.cols |>, u(pos))
+    if t = bos then done := true else toks := toks.addRight(t) end
+    pos += 1
+  end
+  toks
+end
+`
+\end{preview}
+\end{document}

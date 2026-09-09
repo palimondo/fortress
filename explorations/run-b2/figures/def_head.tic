@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`  head(X: Node, h: ZZ32): Node = attention(X _Wq[h], X _Wk[h], X _Wv[h])
+`
+\end{preview}
+\end{document}

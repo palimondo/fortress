@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`rmsnorm(X: Node): Node = do
+  (n, m) = (X.rows, X.cols)
+  x = X.data
+  r = <|[\RR64\] SQRT((SUM[j <- 0 # m] (x[i, j])^2) / m + epsilon) | i <- 0 # n |>
+  Y = mat(n, m, fn (i, j) => x[i, j] / r[i])
+  X_bar(Y_bar: Mat): Params =
+    X.pull(mat(n, m, fn (i, j) => Y_bar[i, j] / r[i] - x[i, j] (SUM[k <- 0 # m] Y_bar[i, k] x[i, k]) / (m (r[i])^3)))
+  Node(Y, X_bar)
+end
+`
+\end{preview}
+\end{document}
