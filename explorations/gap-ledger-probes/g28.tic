@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`
+render(M1: Mat, W1: Mat, Fred17: Mat, w1: RR64, x17: RR64, ab2: RR64): RR64 = w1 + x17 + ab2`
+\end{preview}
+\end{document}

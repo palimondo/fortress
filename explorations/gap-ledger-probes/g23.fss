@@ -1,0 +1,14 @@
+(* g23 (merge pass): minimal reproducer for run-b row 99 -- Vector has pmul
+   (elementwise product), Matrix does not. *)
+component g23
+export Executable
+
+run(): () = do
+    u: Vector[\RR64,2\] = [ 1.0 2.0 ]
+    v: Vector[\RR64,2\] = [ 3.0 4.0 ]
+    println("u.pmul(v) = " (u.pmul(v)))
+    A: Matrix[\RR64,2,2\] = [ 1.0 2.0 ; 3.0 4.0 ]
+    B: Matrix[\RR64,2,2\] = [ 5.0 6.0 ; 7.0 8.0 ]
+    println("A.pmul(B) = " (A.pmul(B)))
+  end
+end

@@ -1,0 +1,19 @@
+(* g22 (merge pass): minimal reproducer for run-b row 85 -- a carrier that
+   extends ZeroIndexed/DelegatedIndexed and defines opr[Generator] but not the
+   abstract opr[r: Range[\ZZ32\]] the mix-in declares (FortressLibrary.fss:1720). *)
+component g22
+export Executable
+
+object Z(v: Array[\RR64,ZZ32\]) extends { ZeroIndexed[\RR64\], DelegatedIndexed[\RR64,ZZ32\] }
+    getter indices(): Generator[\ZZ32\] = 0 # |v|
+    opr |self|: ZZ32 = |v|
+    opr [i: ZZ32]: RR64 = v[i]
+    opr [ts: Generator[\ZZ32\]]: String = "user generator subscript"
+end
+
+run(): () = do
+    z = Z(array[\RR64\](3).fill(fn i => 1.0 (i + 1)))
+    println("z[1] = " z[1])
+    println("z[0#2] = " (z[0#2]))
+  end
+end

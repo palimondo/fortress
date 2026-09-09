@@ -1,0 +1,11 @@
+(* g20 (merge pass): minimal reproducer for run-b row 91 -- (x DOT x)/|x| does
+   not lex, because /| is taken as one operator token. *)
+component g20
+export Executable
+
+run(): () = do
+    x: Vector[\RR64,2\] = [ 3.0 4.0 ]
+    println("bar norm alone = " (|x|))
+    println("(x DOT x)/|x| = " ((x DOT x)/|x|))
+  end
+end
