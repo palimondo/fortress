@@ -1,0 +1,7 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c14_lazy_grad_generators.fss
+/home/user/fortress/explorations/run-b/probes/c14_lazy_grad_generators.fss:22:25-27:
+    Variable grad is not defined.
+/home/user/fortress/explorations/run-b/probes/c14_lazy_grad_generators.fss:32:25-27:
+    Variable grad is not defined.
+exit: 255
+[recovered from the transcript, run-b.jsonl line 422: shown through | tail, so lines run.sh wrote to the file may be absent]

@@ -1,0 +1,13 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/s02_functional.fss
+null/home/user/fortress/explorations/run-b/probes/s02_functional.fss:41:75:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+[recovered from the transcript, run-b.jsonl line 329: shown through | tail, so lines run.sh wrote to the file may be absent]

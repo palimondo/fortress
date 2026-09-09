@@ -1,0 +1,7 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w17_bigunion_except.fss
+|m| = 3
+  a -> 1.0
+  b -> 1.0
+  c -> 1.0
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 466: shown through | grep, so lines run.sh wrote to the file may be absent]

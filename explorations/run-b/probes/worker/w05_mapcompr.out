@@ -1,0 +1,32 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w05_mapcompr.fss
+FAIL: Singleton[\(FlatString,__DefaultMatrix[\RR64,2,3\])\] APPCOV Singleton[\(FlatString,__DefaultMatrix[\RR64,4,3\])\] have no common supertype!
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/CovariantCollection.fss:40:5-52:
+/home/user/fortress/Library/CovariantCollection.fss:139:52:
+/home/user/fortress/Library/RangeInternals.fss:1032:21-58:
+/home/user/fortress/Library/RangeInternals.fss:1032:30-43:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/explorations/run-b/probes/worker/w05_mapcompr.fss:15:65-72:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/explorations/run-b/probes/worker/w05_mapcompr.fss:15:9-72:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 300: the complete output run.sh wrote]

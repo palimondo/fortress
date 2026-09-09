@@ -1,0 +1,15 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c03_closures.fss
+y = [0#2][ 14.0 32.0 ]
+back(y) = W^T y = [0#3][ 142.0 188.0 234.0 ]
+(n.back)(y) = [0#3][ 142.0 188.0 234.0 ]
+n.grad = [0#2][ 14.0 32.0 ]
+tape applied = [0#3][ 4.0 8.0 12.0 ]
+n === n: true   n === m: false
+outer(y, x) = [0#2,0#3]
+[ 14.0 28.0 42.0
+  32.0 64.0 96.0 ]
+gx = [0#3][ 142.0 188.0 234.0 ]  gW = [0#2,0#3]
+[ 14.0 28.0 42.0
+  32.0 64.0 96.0 ]
+exit: 0
+[recovered from the transcript, run-b.jsonl line 281: shown through | tail, so lines run.sh wrote to the file may be absent]

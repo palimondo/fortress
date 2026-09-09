@@ -1,0 +1,6 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w12_sum.fss
+SUM[i <- 1:4] i        = 10
+SUM[t <- 0#3] nodes[t] = Node(7.0)
+prefix SUM nodes[0]    = 1.0
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 423: the complete output run.sh wrote]

@@ -1,0 +1,5 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w02_paste_vec.fss
+w = [0#4][ 1.0 2.0 3.0 4.0 ]
+s = [0#4][ 1.0 2.0 7.0 8.0 ]
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 203: the complete output run.sh wrote]

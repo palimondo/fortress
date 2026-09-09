@@ -1,0 +1,19 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c06_value_object.fss
+c.v = [0#3][ 3.0 6.0 9.0 ]
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/explorations/run-b/probes/c06_value_object.fss:7:64-71:
+** bug! The number of parameters (0) does not match with the number of arguments (1).
+Context:
+/home/user/fortress/explorations/run-b/probes/c06_value_object.fss:7:64-71:
+/home/user/fortress/explorations/run-b/probes/c06_value_object.fss:16:29-63:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+[recovered from the transcript, run-b.jsonl line 241: shown through | tail, so lines run.sh wrote to the file may be absent; start recovered from the head of the file displayed at main:258]

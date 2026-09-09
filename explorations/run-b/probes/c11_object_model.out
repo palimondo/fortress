@@ -1,0 +1,8 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c11_object_model.fss
+(2)(3) a.grad = 2.0  c.grad = 0.0  o.grad = 1.0
+(1) heterogeneous literal into List[\Node\]: |xs| = 3
+   2.0
+   0.0
+   1.0
+exit: 0
+[recovered from the transcript, run-b.jsonl line 393: shown through | tail, so lines run.sh wrote to the file may be absent]

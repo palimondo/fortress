@@ -1,0 +1,7 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c19_bigunion_collision.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/Map.fss:197:1-198:77: and
+/home/user/fortress/Library/Set.fss:115:1-116:50:
+Overloading of BIG CUP[\Key,Val\]():Comprehension[\Map.Map[\Key,Val\],Map.Map[\Key,Val\],Any,Any\]/home/user/fortress/Library/Map.fss:197:1-198:77 and BIG CUP[\R extends StandardTotalOrder[\R\]\]():BigReduction[\Set.Set[\R\],Set.Set[\R\]\]/home/user/fortress/Library/Set.fss:115:1-116:50 fails because their parameter lists have the same types
+Context:
+/home/user/fortress/Library/Map.fss:197:1-198:77:
+[recovered from the transcript, run-b.jsonl line 685: end of the run is missing (the command displayed only the head); shown through | head, so lines run.sh wrote to the file may be absent]

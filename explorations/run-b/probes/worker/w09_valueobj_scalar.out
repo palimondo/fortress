@@ -1,0 +1,7 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w09_valueobj_scalar.fss
+P(1.0) === P(1.0) : true
+P(1.0) === P(2.0) : true
+VBox(d,inc) === VBox(g,dec) : true
+1.0 === 2.0 : false
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 390: the complete output run.sh wrote]

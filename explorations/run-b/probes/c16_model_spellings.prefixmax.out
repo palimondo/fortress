@@ -1,0 +1,22 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c16_model_spellings.fss
+(1) map comprehension: {a|->10.0, b|->20.0}
+(2) Q[:, 1#2] = columns [1,2]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/c16_model_spellings.fss:34:31-39:
+Failed to find any matching overload, args = (Z), overload = {
+	BIG MAX[\T extends StandardMax[\T\]\]():BigReduction[\T,FortressLibrary.AnyMaybe\]/home/user/fortress/Library/FortressLibrary.fss:3118:1-3119:49
+	BIG MAX[\T extends StandardMax[\T\]\](g:Generator[\T\]):(T, T)/home/user/fortress/Library/FortressLibrary.fss:3120:1-3121:60}:OverloadedFunction
+Context:
+[... the middle of this run was never displayed in the transcript ...]
+/home/user/fortress/explorations/run-b/probes/c16_model_spellings.fss:34:31-39:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+[recovered from the transcript, run-b.jsonl line 476 (the run copied it to this name at main:514): shown through | tail, so lines run.sh wrote to the file may be absent; start recovered from the head of the file displayed at main:490; a gap between the head and the tail the session displayed]

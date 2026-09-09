@@ -1,0 +1,9 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/s03_tape_depth.fss
+tape        depth 1: 53 ms per forward+backward
+tape        depth 2: 32 ms per forward+backward
+tape        depth 4: 46 ms per forward+backward
+tape        depth 6: 75 ms per forward+backward
+tape        depth 8: 68 ms per forward+backward
+tape        depth 10: 198 ms per forward+backward
+exit: 0
+[recovered from the transcript, run-b.jsonl line 434: shown through | tail, so lines run.sh wrote to the file may be absent]

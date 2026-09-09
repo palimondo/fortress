@@ -1,0 +1,10 @@
+[ 1.0 2.0
+  5.0 6.0
+  9.0 10.0 ]  copy: [0#3,0#2]
+[ 1.0 2.0
+  5.0 6.0
+  9.0 10.0 ]
+(6) SQRT d = 2.0  SQRT(d) = 2.0
+(7) Adam's epsilon = 1.0E-8  top-level epsilon = 1.0E-5
+exit: 0
+[recovered from the transcript, run-b.jsonl line 514: start of the run is missing (the command displayed only the tail); shown through | tail, so lines run.sh wrote to the file may be absent]

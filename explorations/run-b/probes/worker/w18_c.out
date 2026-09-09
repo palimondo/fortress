@@ -1,0 +1,5 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w18_c.fss
+null/home/user/fortress/explorations/run-b/probes/worker/w18_c.fss:15:17:
+    Syntax Error
+exit: 1
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 481: shown through | grep, so lines run.sh wrote to the file may be absent]

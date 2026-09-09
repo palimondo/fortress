@@ -1,0 +1,8 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w08_cat6.fss
+null/home/user/fortress/explorations/run-b/probes/worker/w08_cat6.fss:8:23-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/explorations/run-b/probes/worker/w08_cat6.fss:8.24: Right encloser without left encloser.
+  RealExpr: expr = a
+  Right: op = ||
+exit: 1
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 364: shown through | grep, so lines run.sh wrote to the file may be absent]

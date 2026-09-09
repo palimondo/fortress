@@ -1,0 +1,9 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c05_rowwise.fss
+/home/user/fortress/explorations/run-b/probes/c05_rowwise.fss:20:76-82:
+    Variable infinity is not defined.
+/home/user/fortress/explorations/run-b/probes/c05_rowwise.fss:35:36-42:
+    Variable infinity is not defined.
+/home/user/fortress/explorations/run-b/probes/c05_rowwise.fss:35:83-89:
+    Variable infinity is not defined.
+exit: 255
+[recovered from the transcript, run-b.jsonl line 239: shown through | tail, so lines run.sh wrote to the file may be absent]

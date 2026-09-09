@@ -1,0 +1,21 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w14_varargs.fss
+zero:
+  closure saw 1.0
+  arity = 0, is a Generator[Node] = yes
+one:
+  closure saw 2.0
+  arity = 1, is a Generator[Node] = yes
+    child A
+two:
+  closure saw 3.0
+  arity = 2, is a Generator[Node] = yes
+    child A
+    child B
+three:
+  closure saw 4.0
+  arity = 3, is a Generator[Node] = yes
+    child A
+    child B
+    child C
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 439: the complete output run.sh wrote]

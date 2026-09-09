@@ -1,0 +1,4 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w18_e.fss
+a (SQRT b) c = 24.0
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 481: shown through | grep, so lines run.sh wrote to the file may be absent]

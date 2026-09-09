@@ -1,0 +1,26 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c18_map_of_shapes.fss
+(c) fold: {a,b,c} sizes <|(2,3), (4,3), (3,5)|>
+(b) BIG UNION: {a,b,c} sizes <|(2,3), (4,3), (3,5)|>
+FAIL: Singleton[\(FlatString,__DefaultMatrix[\RR64,2,3\])\] APPCOV Singleton[\(FlatString,__DefaultMatrix[\RR64,4,3\])\] have no common supertype!
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/CovariantCollection.fss:40:5-52:
+/home/user/fortress/Library/CovariantCollection.fss:139:52:
+/home/user/fortress/Library/RangeInternals.fss:1032:21-58:
+/home/user/fortress/Library/RangeInternals.fss:1032:30-43:
+[... the middle of this run was never displayed in the transcript ...]
+/home/user/fortress/explorations/run-b/probes/c18_map_of_shapes.fss:27:11-85:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+[recovered from the transcript, run-b.jsonl line 620: shown through | tail, so lines run.sh wrote to the file may be absent; start recovered from the head of the file displayed at main:633; a gap between the head and the tail the session displayed]

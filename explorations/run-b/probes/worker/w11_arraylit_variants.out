@@ -1,0 +1,6 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w11_arraylit_variants.fss
+a = [0#2][ 1.0 2.0 ]
+b = [0#2][ 3.0 4.0 ]
+c = [0#2][ 5.0 6.0 ]
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 184: the complete output run.sh wrote]

@@ -14,3 +14,5 @@ build/
 __pycache__/
 # inspection screenshots of the renders
 **/*.png
+# the probe outputs the write-ups cite; the root .gitignore ignores *.out (a LaTeX byproduct rule), which silently kept them off the branch -- see probes/RECOVERED-OUTPUTS.md
+!probes/**/*.out
