@@ -5,8 +5,6 @@ pairsum(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64
         requires { |a| = |b| }
     = SUM[i <- 0#|a|] (a[i] + b[i])
 
-property lengthsAgree = FORALL (x: ZZ32) (x = x)
-
 run(): () = do
     a: Array[\RR64,ZZ32\] = array[\RR64\](2)
     a[0] := 1.0

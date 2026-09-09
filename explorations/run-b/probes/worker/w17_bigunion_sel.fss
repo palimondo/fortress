@@ -1,0 +1,17 @@
+component w17_bigunion_sel
+import Set.{Set}
+import Map.{...}
+import List.{...}
+export Executable
+
+run(): () = do
+    keys: List[\String\] = <|[\String\] "a", "b", "c" |>
+    m: Map[\String, RR64\] =
+        BIG UNION[\String, RR64\][k <- keys] {[\String, RR64\] k |-> 1.0 }
+    println("|m| = " |m|)
+    for (k, v) <- seq(m) do
+        println("  " k " -> " v)
+    end
+  end
+
+end

@@ -10,14 +10,14 @@ step 9 / 12 | loss 2.9824670037505 | doc phoenix
 step 10 / 12 | loss 3.2459973970516316 | doc emmelynn
 step 11 / 12 | loss 2.928308922810882 | doc hollan
 step 12 / 12 | loss 3.025322836295106 | doc hollis
-Operation took 59691ms
+Operation took 58069ms
 --- inference (new, hallucinated names) ---
-sample 1: sdx
-sample 2: gnodope
-sample 3: f
-sample 4: zden
-nodes created: 29409
+sample 1: pphonczatvmlu
+sample 2: swieijvukxnvdhjr
+sample 3: j
+sample 4: esxdinaurmwuvqdd
+nodes created: 43708
 
-real	1m14.666s
-user	1m23.471s
-sys	0m4.641s
+real	1m52.982s
+user	2m8.520s
+sys	0m2.106s

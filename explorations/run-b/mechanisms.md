@@ -47,7 +47,7 @@ this program). The un-mainstream mechanisms are flagged ★.
 | 34 | static expressions | basic/expressions/constant.tex | N/A | |
 | 35 | intersection and union types | basic/types-vals-vars.tex:534-547 | UNAVAILABLE by design ("cannot be expressed directly in programs") | relevant to the Meet Rule below. |
 | 36 | overloading: Subtype, Incompatibility and Meet rules ★ | advanced/overloading.tex | USED (as a constraint) | two overloads on unrelated, non-excluding types are rejected ("no excluding pair is present", probes/c09, c10, c15): `^T` on both library array ranks, `Node` next to `List[\Node\]`, `Range` next to `Generator`. The carriers are disjoint objects for this reason. |
-| 37 | `excludes` | basic/traits.tex | CONSIDERED | would license `^T` on `AnyVector` and `AnyMatrix`; both are library traits and are not to be edited. |
+| 37 | `excludes` | basic/traits.tex | CONSIDERED | would license `^T` on `AnyVector` and `AnyMatrix`; both are library traits and are not to be edited. The independent worker found the exclusion the library already provides, `Rank1 excludes Rank2`, reachable by declaring on `Vector[\RR64,n\]`/`Matrix[\RR64,n,p\]` with `nat` parameters (gaps row 84). |
 | 38 | `Maybe`, `if x <- m then` binding | library | USED | the adjoint cell, `indexOf`. |
 | 39 | `Map`, `Set`, `List` libraries | library/optional-libraries.tex | USED | `Params` is a `Map` (the reference's `state_dict`); `Set[\ZZ32\]` in the topological sort. |
 | 40 | `Sparse`, `Heap`, `SkipList`, `PureList` | library | N/A | |

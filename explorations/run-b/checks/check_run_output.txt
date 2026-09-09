@@ -23,7 +23,7 @@ PASS params after Adam layer0.attn_wv: max abs diff 2.7755575615628914E-17
 PASS params after Adam layer0.attn_wo: max abs diff 2.7755575615628914E-17
 PASS params after Adam layer0.mlp_fc1: max abs diff 2.7755575615628914E-17
 PASS params after Adam layer0.mlp_fc2: max abs diff 2.7755575615628914E-17
-Operation took 10065ms
+Operation took 8606ms
 --- step 1: doc diondre tokens <|26, 3, 8, 14, 13, 3, 17, 4, 26|>
 PASS logits (all positions): max abs diff 3.3306690738754696E-16
 PASS probabilities (all positions): max abs diff 2.0816681711721685E-17
@@ -47,7 +47,7 @@ PASS params after Adam layer0.attn_wv: max abs diff 2.7755575615628914E-17
 PASS params after Adam layer0.attn_wo: max abs diff 8.326672684688674E-17
 PASS params after Adam layer0.mlp_fc1: max abs diff 1.1102230246251565E-16
 PASS params after Adam layer0.mlp_fc2: max abs diff 5.551115123125783E-17
-Operation took 7973ms
+Operation took 9865ms
 PASS sample 0 probabilities: max abs diff 8.326672684688674E-17
 PASS sample 0 token mismatches: 0 vs 0
 PASS sample 0 text: org (expected org)
@@ -60,6 +60,6 @@ PASS sample 2 text: ku (expected ku)
 nodes created: 12813
 ALL CHECKS PASSED
 
-real	0m46.184s
-user	0m57.079s
-sys	0m5.050s
+real	1m3.931s
+user	1m23.926s
+sys	0m10.293s

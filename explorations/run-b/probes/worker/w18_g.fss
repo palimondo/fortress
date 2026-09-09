@@ -1,0 +1,11 @@
+component w18_g
+export Executable
+
+run(): () = do
+    d: RR64 = 9.0
+    r1 = SQRT(d)
+    r2 = SQRT d
+    println("SQRT(d) = " r1 " ; SQRT d = " r2)
+  end
+
+end

@@ -1,0 +1,44 @@
+component w14_varargs
+export Executable
+
+trait Node
+    abstract getter tag(): String
+end
+
+object A() extends Node
+    getter tag(): String = "A"
+end
+
+object B() extends Node
+    getter tag(): String = "B"
+end
+
+object C() extends Node
+    getter tag(): String = "C"
+end
+
+f(v: RR64, k: RR64 -> (), cs: Node...): () = do
+    k(v)
+    isGen = typecase cs of
+        Generator[\Node\] => "yes"
+        else => "no"
+      end
+    println("  arity = " |cs| ", is a Generator[Node] = " isGen)
+    for c <- seq(cs) do
+        println("    child " (c.tag))
+    end
+  end
+
+run(): () = do
+    show(x: RR64): () = println("  closure saw " x)
+    println("zero:")
+    f(1.0, show)
+    println("one:")
+    f(2.0, show, A())
+    println("two:")
+    f(3.0, show, A(), B())
+    println("three:")
+    f(4.0, show, A(), B(), C())
+  end
+
+end

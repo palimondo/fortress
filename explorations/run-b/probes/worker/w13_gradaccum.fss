@@ -1,0 +1,19 @@
+component w13_gradaccum
+export Executable
+
+object Cell()
+    var adj: Maybe[\RR64\] := Nothing[\RR64\]
+    getter grad(): RR64 = adj.getDefault(0.0)
+    setter grad(x: RR64): () = adj := Just[\RR64\](x)
+end
+
+run(): () = do
+    c = Cell()
+    println("initial       : " (c.grad))
+    c.grad += 1.5
+    println("after first  += 1.5 : " (c.grad))
+    c.grad += 2.25
+    println("after second += 2.25: " (c.grad))
+  end
+
+end

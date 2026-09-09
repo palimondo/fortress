@@ -3,6 +3,7 @@ import FortressLibrary.{...} except { opr BIG + }
 import List.{...}
 import Set.{...}
 import Map.{...}
+import Constants.{pi, infinity}
 export Executable
 
 (********************************************************************
@@ -77,7 +78,6 @@ rows(X: Mat): ZZ32 = do (n, m) = X.v.sizes; n end
 cols(X: Mat): ZZ32 = do (n, m) = X.v.sizes; m end
 zeros(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(0.0)
 zeros(n: ZZ32, m: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](n, m).fill(0.0)
-infinity: RR64 = 1.0/0.0
 
 (* FIG factories *)
 (* constants (no children) and nodes (a backward map, then the children) *)
@@ -352,7 +352,7 @@ end
 (* Gaussian initialization (Box-Muller over the library's uniform random) *)
 gauss(std: RR64): RR64 = do
   (u1, u2) = (random(1.0) MAX 10.0^(-12), random(1.0))
-  std (SQRT(-2 (log u1))) (cos(2 3.141592653589793 u2))   (* the spec's pi is not in the library *)
+  std (SQRT(-2 (log u1))) (cos(2 pi u2))
 end
 init(vocab: ZZ32, d: ZZ32, block: ZZ32, n_layer: ZZ32, std: RR64): Params = do
   shape(name: String): (ZZ32, ZZ32) = case name of

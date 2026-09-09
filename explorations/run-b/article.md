@@ -32,7 +32,7 @@ A token is a row of the embedding table *E*; its position is a row of *P*. The m
 
 {{pair:embed|embed|v2_model}}
 
-`E[tokens]` is a subscript of a matrix node by a list of indices, and `P[0 # |tokens|]` the same by a range: both are one operator declaration, `opr [ts: Generator[\ZZ32\]]`, because `List` and `Range` are both generators (a second overload for `Range` next to a `Generator` one is rejected by the overloading rules, gaps row 84). The layers are applied in sequence; `seq` marks the one loop in the model whose order matters. The last line, `X W_lmᵀ`, is the logits: one row of vocabulary scores per position.
+`E[tokens]` is a subscript of a matrix node by a list of indices, and `P[0 # |tokens|]` the same by a range: both are one operator declaration, `opr [ts: Generator[\ZZ32\]]`, because a list and the range value `0 # n` are both generators (a second overload for `Range` next to a `Generator` one is rejected by the overloading rules, gaps row 84; the independent worker found that `List` next to `Generator` is accepted and `List` next to `Range` is not). The layers are applied in sequence; `seq` marks the one loop in the model whose order matters. The last line, `X W_lmᵀ`, is the logits: one row of vocabulary scores per position.
 
 ### 3.2 RMS normalization
 
@@ -56,7 +56,7 @@ Attention lets each position read from the others. For every position, a *query*
 
 {{pair:attention|attention|v2_attention}}
 
-This is the formula of Vaswani et al. with the mask written in; the reference reaches the same numbers by never computing a later position's score at all (its `keys`/`values` lists hold only the past). In Fortress, `Q K^T` is the library's matrix product on the values, `^T` is the spec's postfix transpose declared on the carrier (ledger row 34), the tight `/(SQRT d_k)` is what makes Fortify set the stacked fraction, and `mask(|Q|)` is a constant matrix node. `−∞` is spelled `-infinity` with `infinity = 1.0/0.0`, since the spec's `∞` object is not in the library (gaps row 104).
+This is the formula of Vaswani et al. with the mask written in; the reference reaches the same numbers by never computing a later position's score at all (its `keys`/`values` lists hold only the past). In Fortress, `Q K^T` is the library's matrix product on the values, `^T` is the spec's postfix transpose declared on the carrier (ledger row 34), the tight `/(SQRT d_k)` is what makes Fortify set the stacked fraction, and `mask(|Q|)` is a constant matrix node. `−∞` is spelled `-infinity`, with `infinity` imported from the optional `Constants` API (the default library has no `∞` object; gaps row 104).
 
 ### 3.5 Heads, the residual stream, and the layer
 
@@ -136,7 +136,7 @@ The topological sort is Karpathy's, over nodes instead of scalars; the ids come 
 
 The brief required at least two materially different shapes as working skeletons before a choice. Both are under `probes/`, both are finite-difference checked on the same small model with a shared parameter and a residual fan-out.
 
-**The tape** (`probes/s01_tape.fss`, max |analytic − finite difference| = 4.7·10⁻¹⁰). Nodes with a mutable adjoint, `(child, transposed Jacobian)` pairs, Karpathy's backward. Its first skeleton kept adjoints as raw library arrays, and paid for it in notation: a user `^T` cannot be declared for both a runtime vector and a runtime matrix (gaps row 84), so the backward maps read `outer(g, x.v)` and `W.v.t() g`. It also needed one dependency object per (parent kind, child kind) pair, because the accumulation `c.grad += f(g)` must be typed by the child.
+**The tape** (`probes/s01_tape.fss`, max |analytic − finite difference| = 4.7·10⁻¹⁰). Nodes with a mutable adjoint, `(child, transposed Jacobian)` pairs, Karpathy's backward. Its first skeleton kept adjoints as raw library arrays, and paid for it in notation: the two `^T` overloads it tried, on the library's `Array[\RR64,ZZ32\]` and `Array[\RR64,(ZZ32,ZZ32)\]`, are rejected by the overloading rules (gaps row 84), so the backward maps read `outer(g, x.v)` and `W.v.t() g`. The independent worker later found the route this skeleton missed: overloads on the library's generic `Vector[\RR64,n\]` and `Matrix[\RR64,n,p\]`, which exclude each other, dispatch on runtime-sized arrays (`probes/worker/w01_transpose.fss`); with it the raw-adjoint tape could have written `g x^T` and `W^T g`. The skeleton also needed one dependency object per (parent kind, child kind) pair, because the accumulation `c.grad += f(g)` must be typed by the child; that cost stands.
 
 {{fig:s01_ops}}
 
@@ -229,7 +229,7 @@ Inference feeds the model its own output: each new token is drawn from the softm
 
 {{py:params}}
 
-The Gaussian initializer is Box–Muller over the library's uniform `random`; the spec's constant `pi` is not defined in the library (gaps row 98), so the numeral stands in. The verified runs start from the reference's own initial weights (imported through the data component), so the initializer is exercised only by the smoke test.
+The Gaussian initializer is Box–Muller over the library's uniform `random`; `pi` is not in the default library but in the optional `Constants` API, as a plain `FloatLiteral` rather than the spec's `RationalValueTimesPi` object (gaps row 98, a row the independent worker corrected: this run had first written the numeral). The verified runs start from the reference's own initial weights (imported through the data component), so the initializer is exercised only by the smoke test.
 
 ## 6. Verification
 
@@ -245,7 +245,7 @@ The tolerance is 10⁻¹² absolute. A matrix-level program cannot be bit-identi
 
 {{pre:checks/check_run_output.txt}}
 
-The same component with `FORTRESS_THREADS=4` (`checks/check_run_threads4_output.txt`) gives the same verdict on every check, 27 s wall against 46 s: the head comprehension, the row lifts and the operands of every product run as implicit threads, and no accumulation is shared between them (the backward maps of one node run in one thread; the id counter is `atomic`). The finite-difference checks of the engine are in the core's smoke test (`src/MicroGPT.fss`, `(* TESTS *)`, output in `checks/smoke_output.txt`: 1.3·10⁻¹⁰ on three parameter entries at the reference's configuration with random weights) and in the two skeletons (§4.6).
+The same component with `FORTRESS_THREADS=4` (`checks/check_run_threads4_output.txt`) gives the same verdict on every check, 27 s wall against 64 s for the recorded single-threaded run: the head comprehension, the row lifts and the operands of every product run as implicit threads, and no accumulation is shared between them (the backward maps of one node run in one thread; the id counter is `atomic`). The finite-difference checks of the engine are in the core's smoke test (`src/MicroGPT.fss`, `(* TESTS *)`, output in `checks/smoke_output.txt`: 4.8·10⁻¹⁰ on three parameter entries at the reference's configuration with random weights) and in the two skeletons (§4.6).
 
 ### 6.4 Cost and size
 
@@ -268,7 +268,7 @@ The model itself is 40 lines; the differentiation engine at three ranks is what 
 
 ### 7.1 The mechanism inventory
 
-Before the representations were fixed, one pass over the specification's table of contents produced `mechanisms.md`: 46 mechanisms, each marked used, considered (with the reason it lost), unavailable in this tree (with the ledger row or probe), or not applicable. The ones this program stands on: the component algebra's `except` import (Σ), generators and reductions (rows of a matrix as a generator, Σ over positions), big-operator declarations (the one nullary Σ and the prefix Σ on vectors), getters and setters (the lazily allocated adjoint), varargs functions (the factories), postfix operator declarations (`^T`), subscript operator methods (`X[tokens]`, `X[:, c]`, `X[t, j]`), the overloading rules as a constraint (the carriers are disjoint objects because two overloads on unrelated library traits are rejected), tuple parallelism, and the rendering rules (every Greek letter and hat on this page is a name chosen for Fortify). The ones that would have served and are not available: matrix unpasting (`[Q_1 Q_2 Q_3 Q_4] = Q` for the heads), array pasting at runtime sizes (`[head_1 head_2 …]`), coercion (the constant lifts), type aliases (the array types in the plumbing), reduction variables, properties, and the `pi` and `∞` objects.
+Before the representations were fixed, one pass over the specification's table of contents produced `mechanisms.md`: 46 mechanisms, each marked used, considered (with the reason it lost), unavailable in this tree (with the ledger row or probe), or not applicable. The ones this program stands on: the component algebra's `except` import (Σ), generators and reductions (rows of a matrix as a generator, Σ over positions), big-operator declarations (the one nullary Σ and the prefix Σ on vectors), getters and setters (the lazily allocated adjoint), varargs functions (the factories), postfix operator declarations (`^T`), subscript operator methods (`X[tokens]`, `X[:, c]`, `X[t, j]`), the overloading rules as a constraint (the carriers are disjoint objects because two overloads on unrelated library traits are rejected), tuple parallelism, and the rendering rules (every Greek letter and hat on this page is a name chosen for Fortify). The ones that would have served and are not available: matrix unpasting (`[Q_1 Q_2 Q_3 Q_4] = Q` for the heads), array pasting at runtime sizes (`[head_1 head_2 …]`), coercion (the constant lifts), type aliases (the array types in the plumbing), reduction variables, properties, and the spec's `∞` and `pi` objects (the optional `Constants` library supplies both as plain floats).
 
 ### 7.2 The departures
 
@@ -295,7 +295,7 @@ Every place where the rendered Fortress still differs from the formula beside it
 | 17 | `(g ODOT g)` for g² | JC | `M^2` is a matrix power in the spec (`opr-overview.tex`); Kingma & Ba define g² as elementwise |
 | 18 | `pick` as a count with `MIN` | JC | the reference's bisection stated as arithmetic |
 | 19 | the Σ reduction typed over `Any` | JC | ledger rows 40, 45; one nullary declaration per program |
-| 20 | `3.141592653589793` | LG | gaps row 98 |
+| 20 | `import Constants.{pi}` for the spec's `pi` object | LG | gaps row 98: a `FloatLiteral` in an optional API, not the spec's `RationalValueTimesPi` |
 | 21 | `hadamard`, `positive`, `rowInto`, `entryInto`, `colsInto`, `scatter` helpers on raw arrays | LG | no elementwise product on `Matrix` (gaps row 99), no scatter |
 | 22 | `x <- X` allocates a row node per row | JC | the differentiable rows are the point |
 | 23 | no `requires` shape contracts on the operators | JC | contracts work (gaps row 106) and would add a line to every rendered pair |
@@ -303,11 +303,11 @@ Every place where the rendered Fortress still differs from the formula beside it
 
 ### 7.3 New rows for the ledger
 
-`gaps.md` records 25 rows in the ledger's format: the overloading rule that shapes the design (row 84), the silent unbound array literal (row 95, a defect that produces no error), matrix pasting and unpasting (96–97), the map comprehension over shapes (87), the `BIG UNION` collision between `Set` and `Map` (86), the `pi` object (98), and the positive rows the engine stands on (100–107). Ledger row 9 is sharpened: the leading `||` on a continuation line fails as the trailing one does, and the parenthesized expression is the form that works.
+`gaps.md` records 25 rows in the ledger's format: the overloading rule that shapes the design (row 84), the silent unbound array literal (row 95, a defect that produces no error), matrix pasting and unpasting (96–97), the map comprehension over shapes (87), the `BIG UNION` collision between `Set` and `Map` (86), the `pi` object (98), `===` on value objects (105), and the positive rows the engine stands on (100–107). Ledger row 9 is sharpened: the leading `||` on a continuation line fails as the trailing one does, and the parenthesized expression is the form that works.
 
 ### 7.4 Independent reproduction
 
-Eighteen of these claims were handed to a worker as goals to achieve, with the specification, the library and its own probes, and without this run's probes, source or reasoning (`probes/worker/BRIEF.md`). Its report is `probes/worker/REPORT.md`; the last column of `gaps.md` records, per row, whether the worker's finding agreed. (The worker was still running when this page was first built; its verdicts are filled in below.)
+Eighteen of these claims were handed to a worker as goals to achieve, with the specification, the library and its own probes, and without this run's probes, source or reasoning (`probes/worker/BRIEF.md`). Its report is `probes/worker/REPORT.md` (45 probes with their outputs, every verdict with a specification citation); the last column of `gaps.md` records, per row, whether the worker's finding agreed. Twelve goals were achieved and six were not. Two of its findings corrected this run: `pi` exists after `import Constants.{...}` (the program now uses it), and `===` on a `value object` compares only the dynamic type, where this run had read a `true` on equal arguments as a field comparison. Three findings sharpened rows: the transpose overloads work on the library's generic `Vector`/`Matrix` types where they fail on `Array` (row 84), the prefix `BIG MAX g` is unreachable for any `Generator[\RR64\]` because of the library's `StandardMax` bound and works over `Number` (row 88), and matrix pasting fails at static sizes too, with the defect located in the interpreter's tuple pasting (row 96). Every other verdict agreed with the row it was handed.
 
 ### 7.5 For the revival worklist
 
