@@ -1,0 +1,14 @@
+component g4a_sub
+export Executable
+
+object Mat(v: ZZ32)
+  opr[i: ZZ32]: ZZ32 = v + i
+end
+object Box(data: Mat)
+end
+
+run(): () = do
+  B = Box(Mat(10))
+  println(B.data[5])
+end
+end

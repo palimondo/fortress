@@ -1,0 +1,15 @@
+(* E3a: BIG UNION over a generator of maps, plainest spelling, simplest
+   value type (ZZ32) to see whether the failure is about the value type. *)
+component g1e_bigunion1
+import Map.{...}
+import List.{...}
+export Executable
+
+run(): () = do
+    s1: Map[\String,ZZ32\] = {[\String,ZZ32\] "a" |-> 1, "b" |-> 2 }
+    s2: Map[\String,ZZ32\] = {[\String,ZZ32\] "a" |-> 10, "c" |-> 30 }
+    ss: List[\Map[\String,ZZ32\]\] = <|[\Map[\String,ZZ32\]\] s1, s2 |>
+    b: Map[\String,ZZ32\] = BIG UNION[ m <- seq(ss) ] m
+    println("BIG UNION = " b)
+  end
+end

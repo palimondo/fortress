@@ -1,0 +1,14 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b2/probes/g1d_paste2.fss:15:36-45:
+Element at [0] has extent 4 along axis 1 but an earlier element has length 0
+Context:
+/home/user/fortress/explorations/run-b2/probes/g1d_paste2.fss:15:36-45:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

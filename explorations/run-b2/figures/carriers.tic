@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`value object Mat(a: Array[\RR64,(ZZ32,ZZ32)\])
+  getter dims(): (ZZ32, ZZ32) = a.bounds.extent.get
+  getter rows(): ZZ32 = do (n, _) = self.dims; n end
+  getter cols(): ZZ32 = do (_, m) = self.dims; m end
+  opr +(self, B: Mat): Mat = Mat(a + B.a)
+  opr -(self, B: Mat): Mat = Mat(a - B.a)
+  opr -(self): Mat = Mat(-a)
+  opr juxtaposition(self, B: Mat): Mat = Mat(a B.a)
+  opr /(self, s: RR64): Mat = Mat(a.scale(1.0 / s))
+  opr +(self, s: RR64): Mat = map(fn (x) => x + s)
+  opr ODOT(self, B: Mat): Mat = ivmap(fn (ij, x) => x B[ij])
+  opr /(self, B: Mat): Mat = ivmap(fn (ij, x) => x / B[ij])
+  opr[i: ZZ32, j: ZZ32]: RR64 = a[i, j]
+  map(f: RR64 -> RR64): Mat = Mat(a.map[\RR64\](f))
+  ivmap(f: ((ZZ32,ZZ32), RR64) -> RR64): Mat = Mat(a.ivmap[\RR64\](f))
+end
+opr (A: Mat)^T: Mat = Mat(A.a.t())
+transpose(A: Mat): Mat = A^T
+opr juxtaposition(s: RR64, A: Mat): Mat = Mat(A.a.scale(s))
+opr SQRT(A: Mat): Mat = A.map(fn (x) => SQRT x)
+mat(n: ZZ32, m: ZZ32, f: (ZZ32, ZZ32) -> RR64): Mat =
+  Mat(array[\RR64\](n, m).fill(fn (i, j) => f(i, j)))
+zeros(n: ZZ32, m: ZZ32): Mat = mat(n, m, fn (i, j) => 0.0)
+infinity: RR64 = 1.0 / 0.0
+
+value object Params(m: Map[\String, Mat\])
+  opr[k: String]: Mat = m[k]
+  opr +(self, o: Params): Params = Params(m.union(fn (k, x, y) => x + y, o.m))
+  opr -(self, o: Params): Params = zipWith(fn (x, y) => x - y, o)
+  opr ODOT(self, o: Params): Params = zipWith(fn (x, y) => x ODOT y, o)
+  opr /(self, o: Params): Params = zipWith(fn (x, y) => x / y, o)
+  opr /(self, s: RR64): Params = map(fn (x) => x / s)
+  opr +(self, s: RR64): Params = map(fn (x) => x + s)
+  map(f: Mat -> Mat): Params = Params({[\String, Mat\] k |-> f(v) | (k, v) <- m })
+  zipWith(f: (Mat, Mat) -> Mat, o: Params): Params = Params({[\String, Mat\] k |-> f(v, o.m[k]) | (k, v) <- m })
+end
+opr juxtaposition(s: RR64, P: Params): Params = P.map(fn (x) => s x)
+opr SQRT(P: Params): Params = P.map(fn (x) => SQRT x)
+params(entries: List[\(String, Mat)\]): Params = Params(mapping[\String, Mat\](entries))
+zerosLike(P: Params): Params = P.map(fn (x) => zeros(x.rows, x.cols))
+`
+\end{preview}
+\end{document}

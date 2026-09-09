@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`attention(Q: Node, K: Node, V: Node): Node = softmax(Q K^T / SQRT d_k + M) V
+attention(Q: Node, K: Node, V: Node): Node = softmax(Q K^T/SQRT d_k + M) V
+attention(Q: Node, K: Node, V: Node): Node = softmax((Q K^T)/(SQRT d_k) + M) V
+attention(Q: Node, K: Node, V: Node): Node = softmax((Q K^T)/SQRT(d_k) + M) V
+block(X: Node): Node = do
+  X' = X + mha(rmsnorm X)
+  X' + ffn(rmsnorm X')
+end
+epsilon_adam: RR64 = 10.0^(-8)
+lr_t: RR64 = 0.01
+eta: RR64 = 0.01
+theta' = theta - eta (m_hat / (SQRT v_hat + epsilon_adam))
+`
+\end{preview}
+\end{document}

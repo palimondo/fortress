@@ -1,0 +1,33 @@
+(* E1: Map.union(f, other) -- Library/Map.fsi:66 -- over maps whose values are
+   runtime-sized matrices.  Overlapping keys must hold the matrix sum; the
+   rest must pass through unchanged.  (Type aliases `type Mat = ...` parse but
+   are not resolved by the walk interpreter: "Mat is undefined", see
+   g1e_alias.out -- so every type is spelled out.) *)
+component g1e_union
+import Map.{...}
+export Executable
+
+mk(r:ZZ32, c:ZZ32, base:RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    array[\RR64\](r,c).fill(fn (i:ZZ32,j:ZZ32):RR64 => base + 1.0 (c i + j))
+
+plusM(k:String, a:Array[\RR64,(ZZ32,ZZ32)\], b:Array[\RR64,(ZZ32,ZZ32)\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = a + b
+
+run(): () = do
+    W1 = mk(2,3,100.0)
+    B1 = mk(2,3,200.0)
+    W2 = mk(2,3,1000.0)
+    C2 = mk(2,3,3000.0)
+    e1: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] "W" |-> W1, "b" |-> B1 }
+    e2: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] "W" |-> W2, "c" |-> C2 }
+    println("|e1| = " |e1| "   dom e1 = " dom(e1))
+    println("|e2| = " |e2| "   dom e2 = " dom(e2))
+    u: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = e1.union(plusM, e2)
+    println("|u| = " |u| "   dom u = " dom(u))
+    println("u[W] (must be W1+W2) = " u["W"])
+    println("u[b] (passes through) = " u["b"])
+    println("u[c] (passes through) = " u["c"])
+    l: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = e1 UNION e2
+    println("UNION favours left: l[W] = " l["W"])
+  end
+end

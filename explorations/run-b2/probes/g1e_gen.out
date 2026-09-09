@@ -1,0 +1,11 @@
+-- for over a Map
+   W -> 100.0
+   b -> 200.0
+-- list comprehension over a Map
+   keys = <|W, b|>
+-- map comprehension over a Map
+   corner = {W|->100.0, b|->200.0}
+-- BIG UNION over a generator of Maps (needs the static args)
+   dom = {W,b,c}   bu[W][0,0] = 100.0
+-- summing many environments as one fold
+   dom = {W,b,c}   acc[W][0,0] = 11100.0   acc[b][0,0] = 20200.0   acc[c][0,0] = 3000.0

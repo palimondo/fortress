@@ -16,6 +16,7 @@ ref_num_steps: ZZ32
 ref_temperature: RR64
 ref_num_samples: ZZ32
 ref_names(): List[\String\]
+ref_docs_head(): List[\String\]
 ref_init(name: String): List[\List[\RR64\]\]
 ref_doc(step: ZZ32): String
 ref_tokens(step: ZZ32): List[\ZZ32\]

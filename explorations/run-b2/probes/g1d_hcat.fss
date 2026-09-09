@@ -1,0 +1,49 @@
+(* D8: the smallest user-level spelling that achieves what 13.29.4 pasting and
+   8.3 unpasting were supposed to give: a `fill` over an index map.
+   hcat  : four 3x4 blocks -> one 3x16 matrix   (replaces [ h1 h2 h3 h4 ])
+   hsplit: one 3x16 matrix -> four 3x4 blocks   (replaces [ q1 q2 q3 q4 ] = Q)
+   Also the runtime-sized variant over Array[\RR64,(ZZ32,ZZ32)\]. *)
+component g1d_hcat
+import List.{...}
+export Executable
+
+mk(base: RR64): Matrix[\RR64,3,4\] =
+    matrix[\RR64,3,4\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => base + 1.0 (4 i + j))
+
+hcat(bs: List[\Matrix[\RR64,3,4\]\]): Matrix[\RR64,3,16\] =
+    matrix[\RR64,3,16\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => do
+        b = bs[j DIV 4]
+        b[i, j MOD 4]
+      end)
+
+hsplit(Q: Matrix[\RR64,3,16\]): List[\Matrix[\RR64,3,4\]\] = do
+    part(k: ZZ32): Matrix[\RR64,3,4\] =
+        matrix[\RR64,3,4\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => Q[i, 4 k + j])
+    <|[\Matrix[\RR64,3,4\]\] part(0), part(1), part(2), part(3) |>
+  end
+
+(* runtime-sized: blocks r x c, any number of them *)
+hcatN(bs: List[\Array[\RR64,(ZZ32,ZZ32)\]\], r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    array[\RR64\](r, c |bs|).fill(fn (i:ZZ32,j:ZZ32):RR64 => do
+        b = bs[j DIV c]
+        b[i, j MOD c]
+      end)
+
+run(): () = do
+    h1 = mk(100.0); h2 = mk(200.0); h3 = mk(300.0); h4 = mk(400.0)
+    hs: List[\Matrix[\RR64,3,4\]\] = <|[\Matrix[\RR64,3,4\]\] h1, h2, h3, h4 |>
+    C: Matrix[\RR64,3,16\] = hcat(hs)
+    println("hcat = " C)
+    qs = hsplit(C)
+    println("|hsplit| = " |qs|)
+    println("q1 = " qs[0])
+    println("q4 = " qs[3])
+    ok = BIG AND[k <- 0#4, i <- 0#3, j <- 0#4] (qs[k])[i,j] = (hs[k])[i,j]
+    println("round trip hcat then hsplit identical: " ok)
+
+    a1: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](3,4).fill(fn (i:ZZ32,j:ZZ32):RR64 => 1.0 (4 i + j))
+    a2: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](3,4).fill(fn (i:ZZ32,j:ZZ32):RR64 => 100.0 + 1.0 (4 i + j))
+    as: List[\Array[\RR64,(ZZ32,ZZ32)\]\] = <|[\Array[\RR64,(ZZ32,ZZ32)\]\] a1, a2 |>
+    println("hcatN = " hcatN(as, 3, 4))
+  end
+end

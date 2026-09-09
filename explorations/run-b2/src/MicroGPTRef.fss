@@ -19,6 +19,7 @@ ref_num_steps: ZZ32 = 2
 ref_temperature: RR64 = 0.5
 ref_num_samples: ZZ32 = 3
 ref_names(): List[\String\] = <|[\String\] "wte", "wpe", "lm_head", "layer0.attn_wq", "layer0.attn_wk", "layer0.attn_wv", "layer0.attn_wo", "layer0.mlp_fc1", "layer0.mlp_fc2"|>
+ref_docs_head(): List[\String\] = <|[\String\] "yuheng", "diondre", "xavien", "jori", "juanluis", "erandi", "phia", "samatha", "phoenix", "emmelynn", "hollan", "hollis", "callalily", "adelayde", "josephyne", "weldon", "kayle", "ragnar", "colbie", "taveon", "aki", "peyten", "kevari", "joella", "mecca", "egan", "justyce", "taliyah", "hayley", "alleah", "kymberlynn", "parrish", "houstyn", "jamaya", "ahmod", "nivin", "milli", "cristiana", "jaimee", "mitchell", "nairah", "lorena", "gentrie", "torrion", "savian", "benjamine", "airess", "knute", "sultana", "danai", "azzan", "issabelle", "abrahim", "aislyn", "aerys", "malaiya", "kieon", "ayansh", "berklee", "emmakate", "avaneesh", "amenadiel", "renardo", "brekken"|>
 ref_init(name: String): List[\List[\RR64\]\] = case name of
     "wte" => <|[\List[\RR64\]\]
     <|[\RR64\] -0.04273180935726127, 0.07696138795865093, 0.10844210106107166, 0.03741680212434131, -0.0031437655498982994, -0.004425542236071316, 0.09739277609170183, -0.11227107651933786, -0.03318121711190419, -0.04985948901569463, 0.01114614081126478, -0.028872684050893608, 0.046982695064467506, -0.017899943290165567, -0.0005483556527782804, -0.012542092727380863|>,

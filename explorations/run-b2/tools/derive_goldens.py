@@ -38,7 +38,7 @@ out = {'source_sha256': sha,
                   'num_steps_schedule': num_steps, 'learning_rate': learning_rate,
                   'beta1': beta1, 'beta2': beta2, 'eps_adam': eps_adam},
        'init': {k: mat(M) for k, M in state_dict.items()},
-       'docs': docs[:NUM_STEPS], 'steps': []}
+       'docs': docs[:NUM_STEPS], 'docs_head': docs[:64], 'steps': []}
 
 for step in range(NUM_STEPS):
     doc = docs[step % len(docs)]

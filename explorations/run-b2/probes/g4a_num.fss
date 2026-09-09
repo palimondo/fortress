@@ -1,0 +1,11 @@
+component g4a_num
+export Executable
+
+object Box(n: ZZ32)
+end
+
+run(): () = do
+  B = Box(3)
+  println(B.n^2)
+end
+end

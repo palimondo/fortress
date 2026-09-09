@@ -1,0 +1,45 @@
+(* E2: is a Map a Generator of (key,value) pairs -- in a for, in a list
+   comprehension, in a map comprehension -- and does BIG UNION reduce a
+   generator of maps?  Plus a fold that sums many environments. *)
+component g1e_gen
+import Map.{...}
+import List.{...}
+export Executable
+
+mk(r:ZZ32, c:ZZ32, base:RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    array[\RR64\](r,c).fill(fn (i:ZZ32,j:ZZ32):RR64 => base + 1.0 (c i + j))
+
+plusM(k:String, a:Array[\RR64,(ZZ32,ZZ32)\], b:Array[\RR64,(ZZ32,ZZ32)\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = a + b
+
+run(): () = do
+    e1: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] "W" |-> mk(2,3,100.0), "b" |-> mk(2,3,200.0) }
+    e2: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] "W" |-> mk(2,3,1000.0), "c" |-> mk(2,3,3000.0) }
+    e3: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] "W" |-> mk(2,3,10000.0), "b" |-> mk(2,3,20000.0) }
+
+    es: List[\Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\]\] =
+        <|[\Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\]\] e1, e2, e3 |>
+
+    println("-- for over a Map")
+    for (k,v) <- seq(e1) do println("   " k " -> " v[0,0]) end
+
+    println("-- list comprehension over a Map")
+    ks: List[\String\] = <|[\String\] k | (k,v) <- e1 |>
+    println("   keys = " ks)
+
+    println("-- map comprehension over a Map")
+    corner: Map[\String,RR64\] = {[\String,RR64\] k |-> v[0,0] | (k,v) <- e1 }
+    println("   corner = " corner)
+
+    println("-- BIG UNION over a generator of Maps (needs the static args)")
+    bu: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] =
+        BIG UNION[\String, Array[\RR64,(ZZ32,ZZ32)\]\][ m <- seq(es) ] m
+    println("   dom = " dom(bu) "   bu[W][0,0] = " (bu["W"])[0,0])
+
+    println("-- summing many environments as one fold")
+    var acc: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] := {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] }
+    for m <- seq(es) do acc := acc.union(plusM, m) end
+    println("   dom = " dom(acc) "   acc[W][0,0] = " (acc["W"])[0,0]
+            "   acc[b][0,0] = " (acc["b"])[0,0] "   acc[c][0,0] = " (acc["c"])[0,0])
+  end
+end

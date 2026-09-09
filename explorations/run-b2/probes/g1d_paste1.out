@@ -1,0 +1,18 @@
+h1 = [0#3,0#4]
+[ 100.0 101.0 102.0 103.0
+  104.0 105.0 106.0 107.0
+  108.0 109.0 110.0 111.0 ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b2/probes/g1d_paste1.fss:16:34-43:
+Element at [0] has extent 4 along axis 1 but an earlier element has length 0
+Context:
+/home/user/fortress/explorations/run-b2/probes/g1d_paste1.fss:16:34-43:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

@@ -22,7 +22,7 @@ PASS after Adam layer0.attn_wv: max abs diff 2.7755575615628914E-17
 PASS after Adam layer0.attn_wo: max abs diff 1.3877787807814457E-17
 PASS after Adam layer0.mlp_fc1: max abs diff 2.7755575615628914E-17
 PASS after Adam layer0.mlp_fc2: max abs diff 2.7755575615628914E-17
-step time 12.569333476 s
+step time 12.341542839 s
 --- step 2: doc diondre, 8 positions
 PASS logits: max abs diff 3.3306690738754696E-16
 PASS per-position losses: max abs diff 4.440892098500626E-16
@@ -46,7 +46,7 @@ PASS after Adam layer0.attn_wv: max abs diff 2.7755575615628914E-17
 PASS after Adam layer0.attn_wo: max abs diff 4.163336342344337E-17
 PASS after Adam layer0.mlp_fc1: max abs diff 1.1102230246251565E-16
 PASS after Adam layer0.mlp_fc2: max abs diff 5.551115123125783E-17
-step time 14.176104914 s
+step time 13.258038355 s
 PASS sample 1: org tokens <|14, 17, 6, 26|>
 PASS sample 2: stclyzqwpactmmcx tokens <|18, 19, 2, 11, 24, 25, 16, 22, 15, 0, 2, 19, 12, 12, 2, 23|>
 PASS sample 3: ku tokens <|10, 20, 26|>

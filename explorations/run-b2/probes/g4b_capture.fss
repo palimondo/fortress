@@ -1,0 +1,29 @@
+component g4b_capture
+export Executable
+
+trait Nd
+  getter data(): ZZ32
+  bump(): ZZ32
+end
+
+mk1(k: ZZ32): Nd = do
+  c = k
+  object extends Nd
+    getter data(): ZZ32 = c
+    bump(): ZZ32 = c + 1
+  end
+end
+
+mk2(k: ZZ32): Nd = do
+  c = k + 10
+  object extends Nd
+    getter data(): ZZ32 = c
+    bump(): ZZ32 = c + 2
+  end
+end
+
+run(): () = do
+  println((mk1(5)).data " " (mk1(5)).bump())
+  println((mk2(5)).data " " (mk2(5)).bump())
+end
+end

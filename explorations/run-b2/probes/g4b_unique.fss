@@ -1,0 +1,22 @@
+component g4b_unique
+export Executable
+
+trait Nd
+  getter data(): ZZ32
+end
+
+mk1(k: ZZ32): Nd = object extends Nd
+    d1: ZZ32 = k
+    getter data(): ZZ32 = d1
+  end
+
+mk2(k: ZZ32): Nd = object extends Nd
+    d2: ZZ32 = k + 1
+    getter data(): ZZ32 = d2
+  end
+
+run(): () = do
+  println((mk1(5)).data)
+  println((mk2(5)).data)
+end
+end

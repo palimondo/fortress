@@ -1,0 +1,14 @@
+(* E0: a component-level type alias.  OtherDecl.rats:103-115 parses
+   `type Id = Type`, but the walk interpreter never binds the name. *)
+component g1e_alias
+export Executable
+
+type Mat = Array[\RR64,(ZZ32,ZZ32)\]
+
+mk(r:ZZ32, c:ZZ32): Mat = array[\RR64\](r,c).fill(fn (i:ZZ32,j:ZZ32):RR64 => 1.0 (c i + j))
+
+run(): () = do
+    m: Mat = mk(2,3)
+    println("m = " m)
+  end
+end
