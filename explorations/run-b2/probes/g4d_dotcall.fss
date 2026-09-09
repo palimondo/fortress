@@ -1,0 +1,14 @@
+component g4d_dotcall
+export Executable
+(* g4d: applying a field that holds a function value, with the ordinary
+   dotted call syntax.  Spec basic/operators/juxtameaning.tex: in a tight
+   juxtaposition containing a dot, "if the last identifier in the dotted id
+   chain is part of a selector ... and it is immediately followed by a left
+   parenthesis, then the last selector together with the subsequent
+   parenthesis-delimited expression is a METHOD INVOCATION." *)
+object Box(f: ZZ32 -> ZZ32) end
+run(): () = do
+  b = Box(fn (x: ZZ32): ZZ32 => x + 1)
+  println("b.f(3) = " b.f(3))
+end
+end

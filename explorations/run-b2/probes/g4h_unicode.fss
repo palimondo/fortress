@@ -1,0 +1,10 @@
+component g4h_unicode
+export Executable
+(* g4h: spec basic/expressions/literals.tex:225-228, "Infinity and Zero":
+   "The object named INFINITY has type ExtendedIntegerValue[\true,0,true\].
+    One can negate INFINITY to get a negative infinity." *)
+run(): () = do
+  x = ∞
+  println("infinity = " x)
+end
+end

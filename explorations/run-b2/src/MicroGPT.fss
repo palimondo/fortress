@@ -2,6 +2,7 @@ component MicroGPT
 import FortressLibrary.{...} except { opr BIG + }
 import List.{...}
 import Map.{...}
+import Constants.{...}
 export MicroGPT
 
 (* microGPT at the matrix level: the sequence X ∈ R^{T×d} is the unit of
@@ -41,7 +42,6 @@ opr SQRT(A: Mat): Mat = A.map(fn (x) => SQRT x)
 mat(n: ZZ32, m: ZZ32, f: (ZZ32, ZZ32) -> RR64): Mat =
   Mat(array[\RR64\](n, m).fill(fn (i, j) => f(i, j)))
 zeros(n: ZZ32, m: ZZ32): Mat = mat(n, m, fn (i, j) => 0.0)
-infinity: RR64 = 1.0 / 0.0
 
 (* ---- Params: a named family of matrices; θ, ∇θ L, and Adam's m and v all have this shape ---- *)
 value object Params(m: Map[\String, Mat\])
@@ -108,7 +108,7 @@ end
 
 concat(hs: List[\Node\]): Node = do
   (n, w) = ((hs[0]).rows, (hs[0]).cols)
-  C = mat(n, w (|hs|), fn (i, j) => (hs[j DIV w]).data[i, j MOD w])
+  C = mat(n, w |hs|, fn (i, j) => (hs[j DIV w]).data[i, j MOD w])
   H_bar(C_bar: Mat): Params = SUM[h <- hs.indices] (hs[h]).pull(mat(n, w, fn (i, j) => C_bar[i, w h + j]))
   Node(C, H_bar)
 end
@@ -166,7 +166,7 @@ end
 
 (* ---- tokens, training, sampling ---- *)
 tokenize(doc: String, uchars: String, bos: ZZ32): List[\ZZ32\] =
-  <|[\ZZ32\] bos |> || <|[\ZZ32\] (BIG MIN[i <- 0 # |uchars|, uchars[i] = c] i) | c <- doc |> || <|[\ZZ32\] bos |>
+  <|[\ZZ32\] bos |> || <|[\ZZ32\] uchars.indexOf(c).get | c <- doc |> || <|[\ZZ32\] bos |>
 
 trainStep(theta: Params, nh: ZZ32, toks: List[\ZZ32\], block: ZZ32, m: Params, v: Params, t: ZZ32, lr: RR64): (RR64, Params, Params, Params) = do
   n = block MIN (|toks| - 1)

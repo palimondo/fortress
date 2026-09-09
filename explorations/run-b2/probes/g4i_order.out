@@ -1,0 +1,3 @@
+for ch <- uchars      : edcba
+for ch <- seq(uchars) : abcde
+for i <- seq(0#|uchars|): abcde

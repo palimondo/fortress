@@ -1,0 +1,7 @@
+component g4h_neg_unicode
+export Executable
+run(): () = do
+  x = -∞
+  println("-infinity = " x)
+end
+end

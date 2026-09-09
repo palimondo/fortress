@@ -71,7 +71,7 @@ The brief this attempt follows is `experiment/RUN_B_BRIEF.md` on branch `claude/
 
 3. If it exists, continue from its latest committed state; the design decisions so far are in the committed files, not in memory.
 
-4. Do not touch `explorations/run-b/`, the ledger, or anything under the historical tree. Keep Fable tokens for design and implementation; probes and any gate-1 or gate-4 work go to Opus workers with pointer briefs that carry the brief's standing rules verbatim.
+4. Do not touch `explorations/run-b/`, the ledger, or anything under the historical tree. The delegation process agreed with Pavol (condition 3, restated by him after compaction on 2026-09-09): every probe, exploration, replication and compilation task (gate-1 attempts, gate-4 replications, gap tables, review harnesses, reviews) goes to an Opus worker with a pointer brief carrying the brief's standing rules verbatim; this thread keeps only context gathering, design, implementation and the article. Do not run probes here that a worker could run.
 
 5. When Pavol says the other session has finished: import its `explorations/run-b/` from `claude/worker-brief-fable-vnnuv8` verbatim, then commission the reviews (condition 2). Pavol decides the order if both are in flight.
 

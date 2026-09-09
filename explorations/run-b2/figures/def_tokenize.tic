@@ -5,7 +5,7 @@
 \begin{document}
 \begin{preview}
 `tokenize(doc: String, uchars: String, bos: ZZ32): List[\ZZ32\] =
-  <|[\ZZ32\] bos |> || <|[\ZZ32\] (BIG MIN[i <- 0 # |uchars|, uchars[i] = c] i) | c <- doc |> || <|[\ZZ32\] bos |>
+  <|[\ZZ32\] bos |> || <|[\ZZ32\] uchars.indexOf(c).get | c <- doc |> || <|[\ZZ32\] bos |>
 `
 \end{preview}
 \end{document}

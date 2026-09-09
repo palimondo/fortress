@@ -1,0 +1,22 @@
+component g4e_typecase
+import List.{...}
+export Executable
+(* Fix 4, keeping BOTH library argument types unmodified: one subscript
+   overload plus a typecase.  This is the only spelling found that accepts
+   an actual library List[\ZZ32\] AND an actual library Range[\ZZ32\] with
+   no user wrapper type. *)
+object Box(xs: Array[\ZZ32, ZZ32\])
+  opr[k: Object]: ZZ32 =
+    typecase k of
+      ts: List[\ZZ32\]  => |ts|
+      r:  Range[\ZZ32\] => 999
+      else => -1
+    end
+end
+run(): () = do
+  a = array[\ZZ32\](4).fill(fn (i: ZZ32): ZZ32 => i)
+  b = Box(a)
+  println("b[list]  = " b[<|[\ZZ32\] 1, 2, 3|>])
+  println("b[range] = " b[0#2])
+end
+end

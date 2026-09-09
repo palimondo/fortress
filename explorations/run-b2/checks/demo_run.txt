@@ -1,18 +1,18 @@
-step 1 / 12 | loss 3.3659669475848513 | doc yuheng | 10.389561076 s
-step 2 / 12 | loss 3.424272783871772 | doc diondre | 11.239629319 s
-step 3 / 12 | loss 3.177802125458053 | doc xavien | 10.029907021 s
-step 4 / 12 | loss 3.066355684224198 | doc jori | 8.081888035 s
-step 5 / 12 | loss 3.2208830897506227 | doc juanluis | 12.82675565 s
-step 6 / 12 | loss 2.9451597230099433 | doc erandi | 10.425309199 s
-step 7 / 12 | loss 3.2894250644306675 | doc phia | 7.946733136 s
-step 8 / 12 | loss 3.324529585380703 | doc samatha | 12.08208002 s
-step 9 / 12 | loss 2.8990336423579377 | doc phoenix | 12.634443017 s
-step 10 / 12 | loss 3.222888240118263 | doc emmelynn | 13.086461081 s
-step 11 / 12 | loss 2.796350759428702 | doc hollan | 10.417130404 s
-step 12 / 12 | loss 2.934480617624684 | doc hollis | 9.911982493 s
+step 1 / 12 | loss 3.3659669475848513 | doc yuheng | 11.867998498 s
+step 2 / 12 | loss 3.424272783871772 | doc diondre | 12.000248777 s
+step 3 / 12 | loss 3.177802125458053 | doc xavien | 10.7650633 s
+step 4 / 12 | loss 3.066355684224198 | doc jori | 8.189485867 s
+step 5 / 12 | loss 3.2208830897506227 | doc juanluis | 13.408249932 s
+step 6 / 12 | loss 2.9451597230099433 | doc erandi | 10.571143452 s
+step 7 / 12 | loss 3.2894250644306675 | doc phia | 8.194651837 s
+step 8 / 12 | loss 3.324529585380703 | doc samatha | 11.638992936 s
+step 9 / 12 | loss 2.8990336423579377 | doc phoenix | 11.473158198 s
+step 10 / 12 | loss 3.222888240118263 | doc emmelynn | 12.907014341 s
+step 11 / 12 | loss 2.796350759428702 | doc hollan | 10.409032759 s
+step 12 / 12 | loss 2.934480617624684 | doc hollis | 10.432249521 s
 --- inference (new, hallucinated names) ---
-sample 1: cn
-sample 2: g
-sample 3: jarior
-sample 4: jqie
-sample 5: xm
+sample 1: haen
+sample 2: xaik
+sample 3: saiunviya
+sample 4: raoihia
+sample 5: j

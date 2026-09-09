@@ -1,0 +1,12 @@
+component g4i_order
+export Executable
+(* `for c <- doc` over a String does yield Char values, but `for` is a
+   PARALLEL generator: the order is not the string order.  seq() and an
+   explicit index loop both restore it. *)
+run(): () = do
+  uchars: String = "abcde"
+  print("for ch <- uchars      : "); for ch <- uchars do print(ch) end; println("")
+  print("for ch <- seq(uchars) : "); for ch <- seq(uchars) do print(ch) end; println("")
+  print("for i <- seq(0#|uchars|): "); for i <- seq(0 # |uchars|) do print(uchars[i]) end; println("")
+end
+end

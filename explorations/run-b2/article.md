@@ -19,7 +19,7 @@ How to read the pairs below. Each definition of the model appears three ways: th
 | samples with the reference's uniform draws replayed | 3 of 3 identical, token for token (`org`, `stclyzqwpactmmcx`, `ku`) |
 | a third step, checked once against a three-step golden | loss 3.177802125458053 against 3.177802125458052 |
 | speed | about 13 s per training step on the walk interpreter: the forward pass about 1 s, forward plus backward about 10 s, the Adam sweep the rest |
-| program | `src/MicroGPT.fss`, 201 lines: carriers 39, differentiation 54, model 27, Σ 5, Adam 10, tokens, training and sampling 34, the rest comments |
+| program | `src/MicroGPT.fss`, about 200 lines: carriers 38, differentiation 54, model 27, Σ 5, Adam 10, tokens, training and sampling 34, the rest comments |
 
 The checker (`src/MicroGPTCheck.fss`) declares a tolerance of 1e-9. The measured agreement is at machine epsilon because every sum in this program runs over the same index range in the same order as the reference's sequential `sum`: the library's inner products and this program's `SUM` reductions are evaluated in index order on one thread. The tolerance is there for the day the reductions run in parallel, when the order changes and the last bits with it; nothing in the mathematics is sensitive at 1e-9.
 
@@ -42,7 +42,7 @@ The reference processes one token at a time and keeps the keys and values of ear
 
 The subscript on a bold matrix is a gather of rows: `_We[tokens]` is a node whose value is the rows of the embedding matrix at the token ids and whose pullback scatters the cotangent rows back, summing where a token repeats (the Σ with the filter `ts[t] = v` in the `Node` definition further down). The leading underscore is Fortress's own spelling for a boldface identifier, so `_We` is **We** as the papers set their weight matrices. The reference applies RMSNorm to the embedding once before the layer; the program does the same.
 
-The tokenizer needs the index of a character in the alphabet, spelled here as a `BIG MIN` over the matching indices; the reference calls `uchars.index(ch)`. It is the one place in the program where the render is heavier than the Python.
+The tokenizer's `uchars.indexOf(c).get` is the library's own `Indexed.indexOf`, which returns a `Maybe`; the reference calls `uchars.index(ch)`. The comprehension keeps the document's order (a parallel `for` over a string would not, `probes/g4i_order.out`).
 
 ### RMSNorm
 
@@ -165,7 +165,7 @@ What the language gives: a runtime-sized matrix from `array[\RR64\](n, m)` that 
 
 What the user level adds, and why: `Mat` exists to name the array type once, since `type` aliases are specified but unimplemented (row 18), and to spell the library's `t()` and `scale` as `^T` and juxtaposition and add ⊙, elementwise `/` and √. `Params` exists so that θ, ∇θL and Adam's moments are one kind of thing with `+`, `-`, ⊙, `/` and √ over the whole family, which is what makes Adam four lines. `Node` and its rules are the differentiation engine, 54 lines. The Σ object is five.
 
-Where a mismatch remains: the node's value is reached as `.data` and its pullback as `.pull`, so the backward rules carry those two words the formulas do not; a superscript cannot follow a dotted field directly (`(B.data)^T`, a parser gap, `probes/g4a_*`); a list element cannot be followed by a field or a superscript without parentheses (`(hs[h])`, rows 1 to 3); and the row-wise operations are written entry by entry because the library has no row broadcasting.
+Where a mismatch remains: the node's value is reached as `.data` and its pullback as `.pull`, so the backward rules carry those two words the formulas do not; a superscript cannot follow a dotted field directly (`(B.data)^T`, a parser gap, `probes/g4a_*`); a list element cannot be followed by a field or a superscript without parentheses (`(hs[h])`, rows 1 to 3); a reduction cannot be an infix operand without parentheses (row 6); and the row-wise operations are written entry by entry because the library has no row broadcasting.
 
 ## Adam, training and sampling
 
@@ -204,7 +204,7 @@ Twelve steps from the reference's initial weights on its shuffled documents, the
 | RMSNorm | close | as softmax; the backward rule is one equation beside its formula |
 | Adam | yes | identical line by line |
 | backward rules | yes | Ā = C̄ Bᵀ, B̄ = Aᵀ C̄ as `A.pull(C_bar (B.data)^T) + B.pull((A.data)^T C_bar)`; `.data`, `.pull` and two pairs of parentheses are the noise |
-| tokenizer | no | `BIG MIN` over matching indices for `index(uchars, c)` |
+| tokenizer | yes | `uchars.indexOf(c).get` for `uchars.index(ch)` |
 
 ## Departures from the papers' notation
 
@@ -218,13 +218,12 @@ Every notational departure that remains, classified. Reproducers are under `prob
 | `transpose(mat(…))` in the checker: a superscript cannot follow a call's argument list | design limit | ledger row 4 (the spec's own static error) |
 | `_Wq[h]` for W^Q_h | typesetter | rendering rules, appendix D.1 |
 | `X'` for the residual stream: `X1` sets in roman | typesetter | `probes/../figures/g1f_render.png`; Fortify deviates from the spec's rule (c) |
-| `positions` as a list rather than `_Wp[0 # T]` | design limit | two subscript overloads on `List` and `Range` need an `excludes` pair (Meet Rule, ledger row 33) |
+| `positions` as a list rather than `_Wp[0 # T]` | design limit | two subscript overloads on `List` and `Range` need an `excludes` pair (Meet Rule, `advanced/overloading.tex:224-272`, ledger row 33); a user trait with `excludes` or a `typecase` would admit both, `probes/g4e_*` |
 | `concat` by a fill instead of `[ h1 h2 h3 h4 ]` | implementation gap | `probes/g1d_*`: rank-one pasting and non-square blocks fail; unpasting unimplemented |
 | `SUM` redeclared over `Any`; Unicode ∑ is not an accumulator | library gap vs spec; implementation gap | ledger rows 41, 44, 5 |
 | `(SUM[…])` inside an infix expression | design limit | ledger row 6 |
-| `w (|hs|)`: juxtaposition with an enclosing operator | implementation gap (see `gaps.md`) | `probes/g4c_*` |
-| `pull` as a method over the `pullback` field: `A.pullback(x)` is read as a getter with an argument | implementation gap (see `gaps.md`) | `probes/g4d_*` |
-| `-infinity` written as `1.0 / 0.0` | see `gaps.md` | `probes/g4h_*`, `probes/p_infty.out` |
+| `pull` as a method over the `pullback` field: `A.pullback(x)` is a method invocation by the spec's dotted-chain rule, so a field holding a function needs `(A.pullback)(x)`, `A.pullback (x)` or a method | design limit | `probes/g4d_*`; `basic/operators/juxtameaning.tex` |
+| `-infinity` from `import Constants.{...}` rather than the spec's `∞` object, which never shipped | library gap vs spec | `probes/g4h_*`; `basic/expressions/literals.tex:225-228`; `Library/Constants.fss:17` |
 | `10.0^(-5)` for 1e-5 | design limit | ledger rows 14 and 16 |
 | `Transformer` rather than `GPT` | design limit | ledger row 7: an all-capital word is an operator |
 | `data` for the node's value: `value` is reserved | design limit | ledger row 8 |
@@ -263,7 +262,21 @@ Every notational departure that remains, classified. Reproducers are under `prob
 
 - <span class="mark">NEGATIVE-VERIFIED</span> `BIG UNION` and a map literal need explicit static arguments; `dom` is a functional method (`probes/g1e_*`).
 
-- The claims replicated after this article was drafted, `probes/g4c_*` to `g4i_*`, carry their marks in `gaps.md`.
+- <span class="mark">RETIRED</span> "`w |hs|` is a syntax error": it is not; with a space before the bar it is a left encloser and runs, only the tight form fails (`probes/g4c_*`; `basic/operators/enclosingops.tex`). The program's `concat` uses it. This run's own first reading was wrong and the replication caught it.
+
+- <span class="mark">NEGATIVE-VERIFIED</span> `b.f(3)` on a field holding a function is a method invocation by spec (`probes/g4d_*`; `juxtameaning.tex`); `b.f (3)` and `(b.f)(3)` work.
+
+- <span class="mark">NEGATIVE-VERIFIED</span> Two overloads on unrelated `List` and `Range` parameters need an excludes pair (`probes/g4e_*`; Meet Rule, `advanced/overloading.tex:224-272`).
+
+- <span class="mark">NEGATIVE-VERIFIED</span> `-` and `AND` have incomparable precedence, and both pairs of parentheses are needed (`probes/g4f_*`; `precedence.tex:158-166`).
+
+- <span class="mark">NEGATIVE-VERIFIED</span> Fields and getters precede methods in an object body, a spec rule; a `property` after a method is rejected against the spec (`probes/g4g_*`; `concrete-syntax.tex:268-285`, `objects.tex:172-181`).
+
+- <span class="mark">NEGATIVE-VERIFIED</span> The spec's `∞` object never shipped; `Constants.infinity` is the library's spelling (`probes/g4h_*`).
+
+- <span class="mark">POSITIVE-VERIFIED</span> `indexOf` on a string, and the order of a parallel `for` over a string is not the string order (`probes/g4i_*`).
+
+The rows in the ledger's format are in `gaps.md`.
 
 ## Reproducing
 

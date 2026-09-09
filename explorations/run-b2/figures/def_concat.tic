@@ -6,7 +6,7 @@
 \begin{preview}
 `concat(hs: List[\Node\]): Node = do
   (n, w) = ((hs[0]).rows, (hs[0]).cols)
-  C = mat(n, w (|hs|), fn (i, j) => (hs[j DIV w]).data[i, j MOD w])
+  C = mat(n, w |hs|, fn (i, j) => (hs[j DIV w]).data[i, j MOD w])
   H_bar(C_bar: Mat): Params = SUM[h <- hs.indices] (hs[h]).pull(mat(n, w, fn (i, j) => C_bar[i, w h + j]))
   Node(C, H_bar)
 end

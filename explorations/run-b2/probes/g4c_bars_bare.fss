@@ -1,0 +1,16 @@
+component g4c_bars_bare
+import List.{...}
+export Executable
+
+(* g4c: is `w |hs|` (juxtaposition of a value with an enclosing-operator
+   expression) grammatical?  Spec basic/operators/enclosingops.tex,
+   Figure "Operator Fixity (II)": left context = primary tail,
+   whitespace-before = yes, whitespace-after = no  ==>  LEFT ENCLOSER. *)
+
+run(): () = do
+  hs: List[\ZZ32\] = <|[\ZZ32\] 10, 20, 30 |>
+  w: ZZ32 = 5
+  n = w |hs|
+  println("w |hs| = " n)
+end
+end

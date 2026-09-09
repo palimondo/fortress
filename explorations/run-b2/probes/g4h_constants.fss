@@ -1,0 +1,17 @@
+component g4h_constants
+import Constants.{...}
+export Executable
+(* Library/Constants.fss:17  --  infinity : RR64 = 1.0 / 0.0 *)
+run(): () = do
+  inf: RR64 = infinity
+  println("infinity      = " inf)
+  println("-infinity     = " (-inf))
+  println("exp(-infinity)= " exp(-inf))
+  println("exp(infinity) = " exp(inf))
+  println("1.0 < inf     = " (1.0 < inf))
+  println("-inf < 1.0    = " ((-inf) < 1.0))
+  println("inf isInfinite= " inf.isInfinite)
+  println("MAX 1.0       = " (inf MAX 1.0))
+  println("literal 1.0/0.0 = inf : " ((1.0 / 0.0) = inf))
+end
+end

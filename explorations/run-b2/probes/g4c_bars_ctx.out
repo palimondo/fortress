@@ -1,0 +1,7 @@
+in println juxta: 15
+w |hs| + 1 = 16
+2 + w |hs| = 17
+f(w |hs|) = 115
+cmp ok
+while ok k = 15
+string juxta: 5 3

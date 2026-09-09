@@ -1,0 +1,10 @@
+component g4c_bars_tight
+import List.{...}
+export Executable
+run(): () = do
+  hs: List[\ZZ32\] = <|[\ZZ32\] 10, 20, 30 |>
+  w: ZZ32 = 5
+  n = w|hs|
+  println("w|hs| = " n)
+end
+end

@@ -1,0 +1,8 @@
+component g4h_infinity_id
+export Executable
+(* bare name, no import: is `infinity` in scope from FortressLibrary? *)
+run(): () = do
+  x = infinity
+  println("infinity = " x)
+end
+end

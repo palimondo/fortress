@@ -1,0 +1,19 @@
+component g4e_arraylist
+import List.{...}
+export Executable
+(* Fix 1b, keeping BOTH library argument types: declare the list overload
+   at the concrete library OBJECT type ArrayList[\ZZ32\] (Library/List.fss:254)
+   rather than at the trait List[\ZZ32\].  All parameters of that overload
+   are then object-instance types, which OverloadedFunction.java:466 counts
+   as distinct. *)
+object Box(xs: Array[\ZZ32, ZZ32\])
+  opr[ts: ArrayList[\ZZ32\]]: ZZ32 = |ts|
+  opr[r: Range[\ZZ32\]]: ZZ32 = 999
+end
+run(): () = do
+  a = array[\ZZ32\](4).fill(fn (i: ZZ32): ZZ32 => i)
+  b = Box(a)
+  println("b[ArrayList] = " b[<|[\ZZ32\] 1, 2, 3|>])
+  println("b[Range]     = " b[0#2])
+end
+end

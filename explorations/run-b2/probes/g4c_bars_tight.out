@@ -1,0 +1,15 @@
+null/home/user/fortress/explorations/run-b2/probes/g4c_bars_tight.fss:7:7-8:9:
+    Resolution of operator property failed for:
+    /home/user/fortress/explorations/run-b2/probes/g4c_bars_tight.fss:7.11: Right encloser without left encloser.
+  RealExpr: expr = w
+  TightInfix: op = |
+  RealExpr: expr = hs
+  Right: op = |
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

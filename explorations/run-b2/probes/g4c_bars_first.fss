@@ -1,0 +1,12 @@
+component g4c_bars_first
+import List.{...}
+export Executable
+(* the bar-expression as the FIRST element of a loose juxtaposition,
+   i.e. left context is not a primary tail *)
+run(): () = do
+  hs: List[\ZZ32\] = <|[\ZZ32\] 10, 20, 30 |>
+  w: ZZ32 = 5
+  n = |hs| w
+  println("|hs| w = " n)
+end
+end

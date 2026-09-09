@@ -1,0 +1,11 @@
+component g4g_getter_before
+export Executable
+object Counter(n: ZZ32)
+  getter twice(): ZZ32 = 2 n
+  bump(): ZZ32 = n + 1
+end
+run(): () = do
+  c = Counter(3)
+  println("bump = " c.bump() "  twice = " c.twice)
+end
+end

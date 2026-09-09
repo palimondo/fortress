@@ -1,0 +1,17 @@
+component g4g_getter_after
+export Executable
+(* g4g: a getter declared AFTER a method declaration.  Spec grammar
+   appendices/grammars/concrete-syntax.tex:268-285 --
+     GoInAnObject ::= Coercions? GoFrontInAnObject GoBackInAnObject?
+     GoesFrontInAnObject ::= FldDecl | GetterSetterDef | PropertyDecl
+     GoesBackInAnObject  ::= MdDef | PropertyDecl
+   and the prose at basic/objects.tex:172-181. *)
+object Counter(n: ZZ32)
+  bump(): ZZ32 = n + 1
+  getter twice(): ZZ32 = 2 n
+end
+run(): () = do
+  c = Counter(3)
+  println("bump = " c.bump() "  twice = " c.twice)
+end
+end

@@ -27,7 +27,163 @@ opr SQRT(A: Mat): Mat = A.map(fn (x) => SQRT x)
 mat(n: ZZ32, m: ZZ32, f: (ZZ32, ZZ32) -> RR64): Mat =
   Mat(array[\RR64\](n, m).fill(fn (i, j) => f(i, j)))
 zeros(n: ZZ32, m: ZZ32): Mat = mat(n, m, fn (i, j) => 0.0)
-infinity: RR64 = 1.0 / 0.0
+
+(* ---- Params: a named family of matrices; θ, ∇θ L, and Adam's m and v all have this shape ---- *)
+value object Params(m: Map[\String, Mat\])
+  opr[k: String]: Mat = m[k]
+  opr +(self, o: Params): Params = Params(m.union(fn (k, x, y) => x + y, o.m))
+  opr -(self, o: Params): Params = zipWith(fn (x, y) => x - y, o)
+  opr ODOT(self, o: Params): Params = zipWith(fn (x, y) => x ODOT y, o)
+  opr /(self, o: Params): Params = zipWith(fn (x, y) => x / y, o)
+  opr /(self, s: RR64): Params = map(fn (x) => x / s)
+  opr +(self, s: RR64): Params = map(fn (x) => x + s)
+  map(f: Mat -> Mat): Params = Params({[\String, Mat\] k |-> f(v) | (k, v) <- m })
+  zipWith(f: (Mat, Mat) -> Mat, o: Params): Params = Params({[\String, Mat\] k |-> f(v, o.m[k]) | (k, v) <- m })
+end
+opr juxtaposition(s: RR64, P: Params): Params = P.map(fn (x) => s x)
+opr SQRT(P: Params): Params = P.map(fn (x) => SQRT x)
+params(entries: List[\(String, Mat)\]): Params = Params(mapping[\String, Mat\](entries))
+zerosLike(P: Params): Params = P.map(fn (x) => zeros(x.rows, x.cols))
+
+(* ---- Node: a differentiable matrix, its value and its pullback ---- *)
+value object Node(data: Mat, pullback: Mat -> Params)
+  getter rows(): ZZ32 = data.rows
+  getter cols(): ZZ32 = data.cols
+  pull(C_bar: Mat): Params = pullback(C_bar)
+  opr[ts: List[\ZZ32\]]: Node = do
+    (T, m) = (|ts|, data.cols)
+    E_bar(C_bar: Mat): Params = pull(mat(data.rows, m, fn (v, j) => SUM[t <- 0 # T, ts[t] = v] C_bar[t, j]))
+    Node(mat(T, m, fn (t, j) => data[ts[t], j]), E_bar)
+  end
+end
+param(name: String, W: Mat): Node = Node(W, fn (C_bar) => Params({[\String, Mat\] name |-> C_bar }))
+
+opr +(A: Node, B: Node): Node = Node(A.data + B.data, fn (C_bar) => A.pull(C_bar) + B.pull(C_bar))
+opr +(A: Node, M: Mat): Node = Node(A.data + M, fn (C_bar) => A.pull(C_bar))
+opr juxtaposition(A: Node, B: Node): Node =
+  Node(A.data B.data, fn (C_bar) => A.pull(C_bar (B.data)^T) + B.pull((A.data)^T C_bar))
+opr /(A: Node, s: RR64): Node = Node(A.data / s, fn (C_bar) => A.pull(C_bar / s))
+opr (A: Node)^T: Node = Node((A.data)^T, fn (C_bar) => A.pull(C_bar^T))
+
+relu(A: Node): Node = do
+  A_bar(C_bar: Mat): Params = A.pull(C_bar ODOT A.data.map(fn (x) => if x > 0.0 then 1.0 else 0.0 end))
+  Node(A.data.map(fn (x) => x MAX 0.0), A_bar)
+end
+
+epsilon: RR64 = 10.0^(-5)
+rmsnorm(X: Node): Node = do
+  (n, m) = (X.rows, X.cols)
+  x = X.data
+  r = <|[\RR64\] SQRT((SUM[j <- 0 # m] (x[i, j])^2) / m + epsilon) | i <- 0 # n |>
+  Y = mat(n, m, fn (i, j) => x[i, j] / r[i])
+  X_bar(Y_bar: Mat): Params =
+    X.pull(mat(n, m, fn (i, j) => Y_bar[i, j] / r[i] - x[i, j] (SUM[k <- 0 # m] Y_bar[i, k] x[i, k]) / (m (r[i])^3)))
+  Node(Y, X_bar)
+end
+
+softmax(S: Node): Node = do
+  (n, m) = (S.rows, S.cols)
+  s = S.data
+  mx = <|[\RR64\] BIG MAX[j <- 0 # m] s[i, j] | i <- 0 # n |>
+  z = <|[\RR64\] SUM[j <- 0 # m] exp(s[i, j] - mx[i]) | i <- 0 # n |>
+  P = mat(n, m, fn (i, j) => exp(s[i, j] - mx[i]) / z[i])
+  S_bar(P_bar: Mat): Params = S.pull(mat(n, m, fn (i, j) => P[i, j] (P_bar[i, j] - (SUM[k <- 0 # m] P_bar[i, k] P[i, k]))))
+  Node(P, S_bar)
+end
+
+concat(hs: List[\Node\]): Node = do
+  (n, w) = ((hs[0]).rows, (hs[0]).cols)
+  C = mat(n, w |hs|, fn (i, j) => (hs[j DIV w]).data[i, j MOD w])
+  H_bar(C_bar: Mat): Params = SUM[h <- hs.indices] (hs[h]).pull(mat(n, w, fn (i, j) => C_bar[i, w h + j]))
+  Node(C, H_bar)
+end
+
+(* L = -(1/T) Σ_t log P[t, y_t] *)
+nll(P: Node, ys: List[\ZZ32\]): (RR64, Params) = do
+  T = |ys|
+  L = -(SUM[t <- 0 # T] log(P.data[t, ys[t]])) / T
+  P_bar = mat(T, P.cols, fn (t, v) => if v = ys[t] then -1.0 / (T P.data[t, v]) else 0.0 end)
+  (L, P.pull(P_bar))
+end
+
+causal(T: ZZ32): Mat = mat(T, T, fn (i, j) => if j <= i then 0.0 else -infinity end)
+
+(* ---- the model ---- *)
+object Transformer(theta: Params, nh: ZZ32)
+  _We: Node = param("wte", theta["wte"])
+  _Wp: Node = param("wpe", theta["wpe"])
+  _Wq: List[\Node\] = <|[\Node\] param("wq" h, theta["wq" h]) | h <- 0 # nh |>
+  _Wk: List[\Node\] = <|[\Node\] param("wk" h, theta["wk" h]) | h <- 0 # nh |>
+  _Wv: List[\Node\] = <|[\Node\] param("wv" h, theta["wv" h]) | h <- 0 # nh |>
+  _Wo: Node = param("wo", theta["wo"])
+  _W1: Node = param("fc1", theta["fc1"])
+  _W2: Node = param("fc2", theta["fc2"])
+  _Wlm: Node = param("lm_head", theta["lm_head"])
+  d_k: ZZ32 = theta["wq0"].cols
+
+  embed(tokens: List[\ZZ32\]): Node = do
+    positions = <|[\ZZ32\] t | t <- 0 # |tokens| |>
+    rmsnorm(_We[tokens] + _Wp[positions])
+  end
+  attention(Q: Node, K: Node, V: Node): Node = softmax((Q K^T)/(SQRT d_k) + causal(Q.rows)) V
+  head(X: Node, h: ZZ32): Node = attention(X _Wq[h], X _Wk[h], X _Wv[h])
+  mha(X: Node): Node = concat(<|[\Node\] head(X, h) | h <- 0 # nh |>) _Wo
+  ffn(X: Node): Node = relu(X _W1) _W2
+  block(X: Node): Node = do
+    X' = X + mha(rmsnorm X)
+    X' + ffn(rmsnorm X')
+  end
+  logits(tokens: List[\ZZ32\]): Node = block(embed tokens) _Wlm
+  loss(tokens: List[\ZZ32\], targets: List[\ZZ32\]): (RR64, Params) = nll(softmax(logits tokens), targets)
+end
+
+(* ---- Adam ---- *)
+beta1: RR64 = 0.85
+beta2: RR64 = 0.99
+epsilon_adam: RR64 = 10.0^(-8)
+adam(theta: Params, g: Params, m: Params, v: Params, t: ZZ32, lr: RR64): (Params, Params, Params) = do
+  m1 = beta1 m + (1 - beta1) g
+  v1 = beta2 v + (1 - beta2) (g ODOT g)
+  m_hat = m1 / (1 - beta1^t)
+  v_hat = v1 / (1 - beta2^t)
+  (theta - lr (m_hat / (SQRT v_hat + epsilon_adam)), m1, v1)
+end
+
+(* ---- tokens, training, sampling ---- *)
+tokenize(doc: String, uchars: String, bos: ZZ32): List[\ZZ32\] =
+  <|[\ZZ32\] bos |> || <|[\ZZ32\] uchars.indexOf(c).get | c <- doc |> || <|[\ZZ32\] bos |>
+
+trainStep(theta: Params, nh: ZZ32, toks: List[\ZZ32\], block: ZZ32, m: Params, v: Params, t: ZZ32, lr: RR64): (RR64, Params, Params, Params) = do
+  n = block MIN (|toks| - 1)
+  (L, g) = Transformer(theta, nh).loss(toks[0 # n], toks[1 # n])
+  (theta1, m1, v1) = adam(theta, g, m, v, t, lr)
+  (L, theta1, m1, v1)
+end
+
+choose(p: List[\RR64\], u: RR64): ZZ32 = do
+  total = SUM[x <- p] x
+  var acc: RR64 := 0.0
+  var k: ZZ32 := 0
+  while (k < |p| - 1) AND (acc + p[k] <= u total) do
+    acc += p[k]
+    k += 1
+  end
+  k
+end
+
+sample(model: Transformer, bos: ZZ32, block: ZZ32, temperature: RR64, u: ZZ32 -> RR64): List[\ZZ32\] = do
+  var toks: List[\ZZ32\] = <|[\ZZ32\] bos |>
+  var done: Boolean := false
+  var pos: ZZ32 := 0
+  while (NOT done) AND (pos < block) do
+    P = softmax(model.logits(toks) / temperature).data
+    t = choose(<|[\RR64\] P[pos, j] | j <- 0 # P.cols |>, u(pos))
+    if t = bos then done := true else toks := toks.addRight(t) end
+    pos += 1
+  end
+  toks
+end
+end
 `
 \end{preview}
 \end{document}

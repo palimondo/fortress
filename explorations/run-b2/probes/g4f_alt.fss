@@ -1,0 +1,17 @@
+component g4f_alt
+import List.{...}
+export Executable
+(* the precedence check is on ADJACENT operators in the flat infix chain:
+   parenthesising the two arithmetic sub-terms instead of the two
+   comparisons removes the same two adjacencies (- next to AND, AND next
+   to +) and is equally accepted. *)
+run(): () = do
+  p: List[\ZZ32\] = <|[\ZZ32\] 1, 2, 3, 4 |>
+  k: ZZ32 = 1
+  acc: ZZ32 = 1
+  u: ZZ32 = 5
+  if k < (|p| - 1) AND (acc + p[k]) <= u then println("both") else println("neither") end
+  (* and with no arithmetic at all, no parentheses are needed *)
+  if k < |p| AND acc <= u then println("no parens needed") end
+end
+end

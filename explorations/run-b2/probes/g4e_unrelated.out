@@ -1,0 +1,16 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b2/probes/g4e_unrelated.fss:11:3-35: and
+/home/user/fortress/explorations/run-b2/probes/g4e_unrelated.fss:10:3-11:4:
+first parameters r:[Range[\ZZ32\]] and ts:[List[\ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress/explorations/run-b2/probes/g4e_unrelated.fss:11:3-35:
+/home/user/fortress/explorations/run-b2/probes/g4e_unrelated.fss:10:3-11:4:
+/home/user/fortress/explorations/run-b2/probes/g4e_unrelated.fss:9:1-12:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
