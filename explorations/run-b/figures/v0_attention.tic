@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* causal mask: a position attends to itself and the positions before it *)
+mask(n: ZZ32): Mat = mat(array[\RR64\](n, n).fill(fn (i, j) => if j > i then -infinity else 0.0 end))
+
+attend(Q: Mat, K: Mat, V: Mat): Mat = do
+  d_k = cols(Q)
+  softmax((Q K^T)/(SQRT d_k) + mask(|Q|)) V
+end`
+\end{preview}
+\end{document}

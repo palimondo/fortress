@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`opr juxtaposition(A: Mat, B: Mat): Mat = mat(A.v B.v, fn G => do A.grad += G B^T; B.grad += A^T G end, A, B)
+opr (A: Mat)^T: Mat = mat(A.v.t(), fn G => A.grad += G^T, A)
+opr +(A: Mat, B: Mat): Mat = mat(A.v + B.v, fn G => do A.grad += G; B.grad += G end, A, B)
+opr ODOT(A: Mat, B: Mat): Mat = mat(hadamard(A.v, B.v), fn G => do A.grad += G ODOT B; B.grad += G ODOT A end, A, B)
+opr /(A: Mat, c: RR64): Mat = mat(A.v.scale(1/c), fn G => A.grad += G/c, A)
+relu(X: Mat): Mat = mat(X.v.map[\RR64\](fn e => e MAX 0.0), fn G => X.grad += G ODOT step(X), X)
+step(X: Mat): Mat = mat(X.v.map[\RR64\](fn e => if e > 0.0 then 1.0 else 0.0 end))
+cols(X: Mat, j0: ZZ32, w: ZZ32): Mat =
+  mat(X.v[(0, j0) # (rows(X), w)].copy(), fn G => X.grad += colsInto(G, j0, w, cols(X)), X)
+(* rows stacked into a matrix; each row's adjoint is the matching row of G *)
+stack(xs: List[\Vec\]): Mat =
+  Mat(array[\RR64\](|xs|, |xs[0]|).fill(fn (t, j) => (xs[t]).v[j]), <|[\Node\] x | x <- xs |>,
+      fn G => for (t, x) <- xs.indexValuePairs do x.grad += G[t] end)
+(* column-wise concatenation, and the same as a big operator over heads *)
+opr ||(A: Mat, B: Mat): Mat = do
+  (ca, cb) = (cols(A), cols(B))
+  mat(array[\RR64\](rows(A), ca + cb).fill(fn (i, j) => if j < ca then A.v[i, j] else B.v[i, j - ca] end),
+      fn G => do A.grad += cols(G, 0, ca); B.grad += cols(G, ca, cb) end, A, B)
+end
+object CatMats extends MonoidReduction[\Mat\]
+  getter asString(): String = "CatMats"
+  empty(): Mat = mat(zeros(0, 0))
+  join(a: Mat, b: Mat): Mat = a || b
+end
+opr BIG ||(): BigReduction[\Mat, Mat\] = BigReduction[\Mat, Mat\](CatMats)`
+\end{preview}
+\end{document}

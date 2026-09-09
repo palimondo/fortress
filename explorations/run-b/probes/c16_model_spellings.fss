@@ -31,7 +31,7 @@ run(): () = do
   q = Q(array[\RR64\](2, 4).fill(fn (i, j) => 1.0 (4 i + j)))
   println("(2) Q[:, 1#2] = " q[:, 1#2])
   z = Z(array[\RR64\](3).fill(fn i => 1.0 (i + 1)))
-  println("(3) BIG MAX z = " (BIG MAX z))
+  println("(3) BIG MAX[z_i <- z] z_i = " (BIG MAX[z_i <- z] z_i) "   (the prefix form BIG MAX z: no applicable overload, see c16_model_spellings.prefixmax.out)")
   c = 2#3
   println("(4) range 2#3: lower " c.lower "  upper " c.upper "  |c| = " |c|)
   A = array[\RR64\](3, 4).fill(fn (i, j) => 1.0 (4 i + j))
