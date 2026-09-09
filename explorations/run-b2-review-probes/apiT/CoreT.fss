@@ -1,0 +1,10 @@
+component CoreT
+export CoreT
+object Mat(a: Array[\RR64,(ZZ32,ZZ32)\])
+  opr +(self, B: Mat): Mat = Mat(a + B.a)
+  opr[i: ZZ32, j: ZZ32]: RR64 = a[i, j]
+end
+mat(n: ZZ32, m: ZZ32, f: (ZZ32, ZZ32) -> RR64): Mat =
+  Mat(array[\RR64\](n, m).fill(fn (i, j) => f(i, j)))
+transpose(A: Mat): Mat = Mat(A.a.t())
+end

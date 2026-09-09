@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{FortressCode}
+{\tt ~~}\+\VAR{ffn}(X\COLON \TYP{Node})\COLON \TYP{Node} = \VAR{relu}(X\, \mathbf{W}_1)\, \mathbf{W}_2 \\
+  \VAR{ffn}(X\COLON \TYP{Node})\COLON \TYP{Node} = \VAR{relu}(X\, \mathbf{W}_{(1)})\, \mathbf{W}_{(2)} \\
+  \VAR{logits}\bigl(\VAR{tokens}\COLON \TYP{List}\llbracket\mathbb{Z}32\rrbracket\bigr)\COLON \TYP{Node} = \VAR{block}(\VAR{embed}\, \VAR{tokens})\, \mathbf{Wlm} \\
+  \VAR{logits}\bigl(\VAR{tokens}\COLON \TYP{List}\llbracket\mathbb{Z}32\rrbracket\bigr)\COLON \TYP{Node} = \VAR{block}(\VAR{embed}\, \VAR{tokens})\, \mathbf{W}_{\mathrm{lm}} \\
+  \VAR{mha}(X\COLON \TYP{Node})\COLON \TYP{Node} = \VAR{concat}\bigl(\langle\llbracket\TYP{Node}\rrbracket\, \VAR{head}(X, h) \mid h \leftarrow 0 \mathbin{\#} \VAR{nh}\,\rangle\bigr)\, \mathbf{Wo} \\
+  \VAR{mha}(X\COLON \TYP{Node})\COLON \TYP{Node} = \VAR{concat}\bigl(\langle\llbracket\TYP{Node}\rrbracket\, \VAR{head}(X, h) \mid h \leftarrow 0 \mathbin{\#} \VAR{nh}\,\rangle\bigr)\, \mathbf{W}_{\mathrm{o}}\-
+\end{FortressCode}
+\end{preview}
+\end{document}

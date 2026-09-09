@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`  m_hat = m1 / (1 - beta1^t)
+  m_hat = m1/(1 - beta1^t)
+  theta - lr (m_hat / (SQRT v_hat + epsilon_adam))
+  theta - lr m_hat/(SQRT v_hat + epsilon_adam)
+`
+\end{preview}
+\end{document}

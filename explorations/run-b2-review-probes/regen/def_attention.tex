@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{FortressCode}
+{\tt ~~}\+\VAR{attention}(Q\COLON \TYP{Node}, K\COLON \TYP{Node}, V\COLON \TYP{Node})\COLON \TYP{Node} = \VAR{softmax}\left({\textstyle{}Q\, K^{T}\over\textstyle\sqrt{ d_{\mathrm{k}}}} + \VAR{causal}(Q.\VAR{rows})\right)\, V\-
+\end{FortressCode}
+\end{preview}
+\end{document}

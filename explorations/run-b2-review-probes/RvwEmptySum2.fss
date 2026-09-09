@@ -1,0 +1,20 @@
+component RvwEmptySum2
+import List.{...}
+import MicroGPT.{...}
+export Executable
+run(): () = do
+  A = mat(2, 2, fn (i, j) => 1.0)
+  hs: List[\Mat\] = <|[\Mat\] A, A |>
+  println("A: over a two-element list of matrices")
+  s2 = SUM[h <- hs.indices] hs[h]
+  println("  [0,0] = " s2[0, 0])
+  println("B: over a one-element list")
+  hs1: List[\Mat\] = <|[\Mat\] A |>
+  s1 = SUM[h <- hs1.indices] hs1[h]
+  println("  [0,0] = " s1[0, 0])
+  println("C: over an EMPTY list of matrices")
+  hs0: List[\Mat\] = <|[\Mat\] |>
+  s0 = SUM[h <- hs0.indices] hs0[h]
+  println("  result = " s0)
+end
+end
