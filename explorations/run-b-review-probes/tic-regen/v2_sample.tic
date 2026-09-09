@@ -1,0 +1,16 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* inverse-transform sampling with the uniform draw u: the number of prefix sums
+   of p that do not exceed u times the total (random.choices normalizes), capped at
+   the last index *)
+pick(p: Vec, u: RR64): ZZ32 = do
+  total = SUM[p_i <- p] p_i
+  cumulative(j: ZZ32): RR64 = SUM[i <- 0:j] p[i]
+  (|<| j | j <- p.indices, cumulative(j) <= u total |>|) MIN (|p| - 1)
+end`
+\end{preview}
+\end{document}

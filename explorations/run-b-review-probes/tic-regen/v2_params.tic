@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* the parameters as Karpathy's state_dict: a name for every matrix; the
+   elementwise algebra Adam needs is defined once, over the whole record *)
+object Params(m: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\])
+  opr [name: String]: Array[\RR64,(ZZ32,ZZ32)\] = m[name]
+  each(f: Array[\RR64,(ZZ32,ZZ32)\] -> Array[\RR64,(ZZ32,ZZ32)\]): Params = record(fn name => f(m[name]), dom(m))
+  zip(o: Params, f: (Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\]) -> Array[\RR64,(ZZ32,ZZ32)\]): Params =
+    record(fn name => f(m[name], o[name]), dom(m))
+end
+(* a record from a function of the name, by a fold: the map comprehension
+   cannot join matrices of different shapes (probes/c18), and BIG UNION over
+   singleton maps collides with Set's BIG UNION in one component (probes/c19) *)
+record(f: String -> Array[\RR64,(ZZ32,ZZ32)\], keys: Generator[\String\]): Params = do
+  var r: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] := {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] }
+  for name <- seq(keys) do r := r.add(name, f(name)) end
+  Params(r)
+end
+opr +(a: Params, b: Params): Params = a.zip(b, fn (x, y) => x + y)
+opr -(a: Params, b: Params): Params = a.zip(b, fn (x, y) => x - y)
+opr juxtaposition(c: RR64, a: Params): Params = a.each(fn x => x.scale(c))
+opr ODOT(a: Params, b: Params): Params = a.zip(b, fn (x, y) => hadamard(x, y))
+opr /(a: Params, c: RR64): Params = a.each(fn x => x.scale(1/c))
+opr /(a: Params, b: Params): Params = a.zip(b, fn (x, y) => x.ivmap[\RR64\](fn (ij, e) => e/y.get(ij)))
+opr +(a: Params, c: RR64): Params = a.each(fn x => x.map[\RR64\](fn e => e + c))
+opr SQRT(a: Params): Params = a.each(fn x => x.map[\RR64\](fn e => SQRT e))`
+\end{preview}
+\end{document}

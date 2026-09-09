@@ -1,0 +1,26 @@
+component RvwColSubscript
+export Executable
+(* gaps row 103: a user object declaring opr [_: TrivialOpenRange, c: Range[\ZZ32\]]
+   is callable as Q[:, c], and c.lower / |c| give the bounds.
+   (First draft put the getter after the subscript method and hit gaps row 93:
+    "Field/getter/setter declarations should come before method declarations".) *)
+object M(v: Array[\RR64,(ZZ32,ZZ32)\])
+  getter asString(): String = do
+    (n, m) = v.sizes
+    "M(" n "x" m ") row0: " (BIG || [j <- 0#m] ("" v[0, j] " "))
+  end
+  opr |self|: ZZ32 = do (n, m) = v.sizes; n end
+  opr [_: TrivialOpenRange, c: Range[\ZZ32\]]: M = do
+    (n, m) = v.sizes
+    M(v[(0, c.lower) # (n, |c|)].copy())
+  end
+end
+run(): () = do
+  A = M(array[\RR64\](2, 8).fill(fn (i, j) => 10.0 i + j))
+  (h, d_h) = (1, 4)
+  c = (h d_h) # d_h
+  println("A      = " A)
+  println("A[:,c] = " A[:, c])
+  println("c.lower = " c.lower "  |c| = " |c|)
+end
+end

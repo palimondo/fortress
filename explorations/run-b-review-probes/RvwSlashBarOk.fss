@@ -1,0 +1,9 @@
+component RvwSlashBarOk
+export Executable
+(* the parenthesized divisor, the form Run B ships *)
+run(): () = do
+  x: Array[\RR64,ZZ32\] = array[\RR64\](4).fill(fn i => 1.0 i)
+  ms = (x DOT x)/(|x|)
+  println("ms = " ms)
+end
+end

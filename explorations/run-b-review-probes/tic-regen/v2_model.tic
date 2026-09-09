@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Model(E: Mat, P: Mat, W_lm: Mat, layers: List[\Layer\])
+  (* logits for the next token at every position *)
+  forward(tokens: List[\ZZ32\]): Mat = do
+    var X: Mat := rmsnorm(E[tokens] + P[0 # |tokens|])
+    for l <- seq(layers) do X := l.forward(X) end
+    X W_lm^T
+  end
+  matrices(): List[\Mat\] = <| E, P, W_lm |> || (BIG CONCAT[\Mat\][l <- layers] l.matrices())
+end`
+\end{preview}
+\end{document}

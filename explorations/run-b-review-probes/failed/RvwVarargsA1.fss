@@ -1,0 +1,12 @@
+component RvwVarargsA1
+export Executable
+(* first attempt: a parameter named `label`, a reserved word (ledger row 8) *)
+trait N
+  getter tag(): String
+end
+object A(x: RR64) extends N
+  getter tag(): String = "A" x
+end
+make(label: String, f: RR64 -> RR64, cs: N...): String = label "(" f(2.0) ")"
+run(): () = println(make("one", fn g => g g, A(1.5)))
+end

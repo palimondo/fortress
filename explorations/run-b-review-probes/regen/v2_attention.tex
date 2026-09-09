@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+\begin{FortressCode}
+\fortressonelinecomment{(*}{ causal mask: a position attends to itself and the positions before it }{*)} \\
+\VAR{mask}(n\COLON \mathbb{Z}32)\COLON \TYP{Mat} = \VAR{mat}\bigl(\VAR{array}\llbracket\mathbb{R}64\rrbracket(n, n).\VAR{fill}(\KWD{fn} (i, j) \Rightarrow\; \KWD{if} j > i \KWD{then}\; -\VAR{infinity} \KWD{else} 0.0 \KWD{end})\bigr) \\
+ \\
+\VAR{attend}(Q\COLON \TYP{Mat}, K\COLON \TYP{Mat}, V\COLON \TYP{Mat})\COLON \TYP{Mat} =\; \KWD{do} \\
+\2\+d_{\mathrm{k}} = \VAR{cols}(Q) \\
+  \VAR{softmax}\left({\textstyle{}Q\, K^{T}\over\textstyle\sqrt{ d_{\mathrm{k}}}} + \VAR{mask}(\mathopen{\vert}Q\mathclose{\vert})\right)\, V\- \\
+\KWD{end}
+\end{FortressCode}
+\end{preview}
+\end{document}

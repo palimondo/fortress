@@ -1,0 +1,13 @@
+component RvwColSubscriptA1
+export Executable
+(* first attempt: the asString getter placed AFTER the subscript method *)
+object M(v: Array[\RR64,(ZZ32,ZZ32)\])
+  opr |self|: ZZ32 = do (n, m) = v.sizes; n end
+  opr [_: TrivialOpenRange, c: Range[\ZZ32\]]: M = do
+    (n, m) = v.sizes
+    M(v[(0, c.lower) # (n, |c|)].copy())
+  end
+  getter asString(): String = "M"
+end
+run(): () = println(M(array[\RR64\](2, 8).fill(fn (i, j) => 0.0)))
+end

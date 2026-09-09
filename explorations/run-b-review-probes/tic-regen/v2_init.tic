@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* Gaussian initialization (Box-Muller over the library's uniform random) *)
+gauss(std: RR64): RR64 = do
+  (u1, u2) = (random(1.0) MAX 10.0^(-12), random(1.0))
+  std (SQRT(-2 (log u1))) (cos(2 pi u2))
+end
+init(vocab: ZZ32, d: ZZ32, block: ZZ32, n_layer: ZZ32, std: RR64): Params = do
+  shape(name: String): (ZZ32, ZZ32) = case name of
+    "wte" => (vocab, d); "wpe" => (block, d); "lm_head" => (vocab, d)
+    else => if name.endsWith("mlp_fc1") then (4 d, d) elif name.endsWith("mlp_fc2") then (d, 4 d) else (d, d) end
+  end
+  record(fn name => do (n, m) = shape(name); array[\RR64\](n, m).fill(fn (i, j) => gauss(std)) end, names(n_layer))
+end`
+\end{preview}
+\end{document}
