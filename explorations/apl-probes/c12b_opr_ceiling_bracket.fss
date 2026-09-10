@@ -1,0 +1,17 @@
+(* C retry: the bracketing form per OpHeaderFront in MethodParam.rats:64-67
+   -- unparenthesized Params between the two enclosers, as in the spec's
+   inner-product example Specification/advanced/examples/OprDecl.Bracketing.tex *)
+component c12b_opr_ceiling_bracket
+export Executable
+
+object Box(v: ZZ32) end
+
+opr ⌈ b: Box ⌉: ZZ32 = b.v + 100
+opr ⌊ b: Box ⌋: ZZ32 = b.v - 100
+
+run() = do
+    println(⌈ Box(7) ⌉)
+    println(⌊ Box(7) ⌋)
+end
+
+end

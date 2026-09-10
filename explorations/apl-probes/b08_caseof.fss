@@ -1,0 +1,8 @@
+component b08_caseof
+import b08_caseof_g.{...}
+export Executable
+run() = do
+    println(kind⦇ 3 ⦈)
+    println(kind⦇ 3 4 5 ⦈)
+end
+end

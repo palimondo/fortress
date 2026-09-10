@@ -1,0 +1,30 @@
+(* C: shared-mathematics glyphs as user operators, monadic and dyadic of the
+   same symbol coexisting. *)
+component c13_shared_glyphs
+export Executable
+
+object Cell(v: ZZ32)
+    getter asString(): String = "Cell(" v ")"
+end
+
+opr ∘(a: Cell, b: Cell): Cell = Cell(a.v + b.v)
+opr ∘(a: Cell): Cell = Cell(-a.v)
+opr ⊂(a: Cell, b: Cell): Boolean = a.v < b.v
+opr ⊃(a: Cell, b: Cell): Boolean = a.v > b.v
+opr ⊖(a: Cell): Cell = Cell(a.v BY 10)
+opr ⊖(a: Cell, b: Cell): Cell = Cell(a.v - b.v)
+opr ×(a: Cell, b: Cell): Cell = Cell(a.v BY b.v)
+opr ÷(a: Cell, b: Cell): Cell = Cell(a.v DIV b.v)
+
+run() = do
+    println("infix  ring  : " (Cell 2 ∘ Cell 3))
+    println("prefix ring  : " (∘ Cell 3))
+    println("subset       : " (Cell 2 ⊂ Cell 3))
+    println("supset       : " (Cell 2 ⊃ Cell 3))
+    println("prefix ominus: " (⊖ Cell 3))
+    println("infix  ominus: " (Cell 9 ⊖ Cell 3))
+    println("times        : " (Cell 6 × Cell 7))
+    println("divide       : " (Cell 42 ÷ Cell 7))
+end
+
+end

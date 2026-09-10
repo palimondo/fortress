@@ -1,0 +1,14 @@
+(* B: may a grammar be declared in a component?  Declaration.rats:42-51 lists
+   GrammarDef only under AbsDecl (api), not under Decl (component). *)
+component b11_gram_in_component
+import FortressAst.{...}
+import FortressSyntax.{Expression}
+export Executable
+
+grammar Local extends { Expression }
+    Expr |:= loc⦇ a:Expr ⦈ => <[ (a) ]>
+end
+
+run() = println(loc⦇ 5 ⦈)
+
+end

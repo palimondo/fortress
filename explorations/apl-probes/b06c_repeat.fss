@@ -1,0 +1,10 @@
+component b06c_repeat
+import b06c_repeat_g.{...}
+import List.{...}
+export Executable
+sumOf3(xs: List[\ZZ32\]): ZZ32 = (SUM[ i <- seq(0 # |xs|) ] xs[i])
+run() = do
+    println(sumc⦇ 1 2 3 4 ⦈)
+    println(sumc⦇ 7 ⦈)
+end
+end

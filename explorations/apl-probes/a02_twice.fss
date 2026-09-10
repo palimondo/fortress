@@ -1,0 +1,10 @@
+component a02_twice
+import a02_twice_g.{...}
+export Executable
+
+run() = do
+    println(twice⦇ 21 ⦈)
+    println(twice⦇ 1 + 2 ⦈)
+end
+
+end

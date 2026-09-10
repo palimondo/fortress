@@ -1,0 +1,12 @@
+(* Side probe: how does one get a ZZ32 out of an RR64 in this library? *)
+component d21_narrow
+export Executable
+
+run(): () = do
+    v: RR64 = 3.0
+    f: ZZ = |\ v /|
+    println("floor bracket           : " f)
+    println("floor bracket . narrow(): " (f.narrow()))
+end
+
+end

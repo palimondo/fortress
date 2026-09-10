@@ -1,0 +1,9 @@
+component b07b_optvar
+import b07b_optvar_g.{...}
+export Executable
+maybeNeg(m: Maybe[\ZZ32\], e: ZZ32): ZZ32 = if _ <- m then -e else e end
+run() = do
+    println(negb⦇ 7 ⦈)
+    println(negb⦇ minus 7 ⦈)
+end
+end
