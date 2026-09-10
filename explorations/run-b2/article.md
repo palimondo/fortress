@@ -165,7 +165,7 @@ What the language gives: a runtime-sized matrix from `array[\RR64\](n, m)` that 
 
 What the user level adds, and why: `Mat` exists to name the array type once, since `type` aliases are specified but unimplemented (row 18), and to spell the library's `t()` and `scale` as `^T` and juxtaposition and add ⊙, elementwise `/` and √. `Params` exists so that θ, ∇θL and Adam's moments are one kind of thing with `+`, `-`, ⊙, `/` and √ over the whole family, which is what makes Adam four lines. `Node` and its rules are the differentiation engine, 54 lines. The Σ object is five.
 
-Where a mismatch remains: the node's value is reached as `.data` and its pullback as `.pull`, so the backward rules carry those two words the formulas do not; a superscript cannot follow a dotted field directly (`(B.data)^T`, a parser gap, `probes/g4a_*`); a list element cannot be followed by a field or a superscript without parentheses (`(hs[h])`, rows 1 to 3); a reduction cannot be an infix operand without parentheses (row 6); and the row-wise operations are written entry by entry because the library has no row broadcasting.
+Where a mismatch remains: the node's value is reached as `.data` and its pullback as `.pull`, so the backward rules carry those two words the formulas do not; a superscript cannot follow a dotted field directly (`(B.data)^T`, a parser gap, `probes/g4a_*`); a list element cannot be followed by a field or a superscript without parentheses (`(hs[h])`, rows 1 to 3); a reduction cannot be an infix operand without parentheses (row 6); and the row-wise operations are written entry by entry, a choice: the library has no row broadcasting, but a `diag` product on `Mat` would set RMSNorm as a matrix formula (`run-b2-review-probes/RvwBroadcast.out`).
 
 ## Adam, training and sampling
 
@@ -202,7 +202,7 @@ Twelve steps from the reference's initial weights on its shuffled documents, the
 | logits and loss | close | the loss is `nll(softmax(…), targets)`; the formula's −(1/T)Σ log is inside `nll` |
 | softmax | close | entry by entry with an index function; the scalar programs read closer for the forward pass |
 | RMSNorm | close | as softmax; the backward rule is one equation beside its formula |
-| Adam | yes | identical line by line |
+| Adam | close | the four fractions set inline because the `/` is loose; the tight spelling stacks them and passes the checker unchanged (found by the Phase 1 review, `run-b2-review-probes/tightadam/`) |
 | backward rules | yes | Ā = C̄ Bᵀ, B̄ = Aᵀ C̄ as `A.pull(C_bar (B.data)^T) + B.pull((A.data)^T C_bar)`; `.data`, `.pull` and two pairs of parentheses are the noise |
 | tokenizer | yes | `uchars.indexOf(c).get` for `uchars.index(ch)` |
 
@@ -218,7 +218,7 @@ Every notational departure that remains, classified. Reproducers are under `prob
 | `transpose(mat(…))` in the checker: a superscript cannot follow a call's argument list | design limit | ledger row 4 (the spec's own static error) |
 | `_Wq[h]` for W^Q_h | typesetter | rendering rules, appendix D.1 |
 | `X'` for the residual stream: `X1` sets in roman | typesetter | `probes/../figures/g1f_render.png`; Fortify deviates from the spec's rule (c) |
-| `positions` as a list rather than `_Wp[0 # T]` | design limit | two subscript overloads on `List` and `Range` need an `excludes` pair (Meet Rule, `advanced/overloading.tex:224-272`, ledger row 33); a user trait with `excludes` or a `typecase` would admit both, `probes/g4e_*` |
+| `positions` as a list rather than `_Wp[0 # T]` | justified choice | two subscript overloads on `List` and `Range` need an `excludes` pair (Meet Rule, `advanced/overloading.tex:224-272`, ledger row 33); a user trait with `excludes`, a `typecase`, or one overload on `Generator[\ZZ32\]` would admit both (`probes/g4e_*`, `run-b-vs-run-b2-probes/RvwGenSubscript.out`); the list was kept |
 | `concat` by a fill instead of `[ h1 h2 h3 h4 ]` | implementation gap | `probes/g1d_*`: rank-one pasting and non-square blocks fail; unpasting unimplemented |
 | `SUM` redeclared over `Any`; Unicode ∑ is not an accumulator | library gap vs spec; implementation gap | ledger rows 41, 44, 5 |
 | `(SUM[…])` inside an infix expression | design limit | ledger row 6 |
@@ -228,9 +228,35 @@ Every notational departure that remains, classified. Reproducers are under `prob
 | `Transformer` rather than `GPT` | design limit | ledger row 7: an all-capital word is an operator |
 | `data` for the node's value: `value` is reserved | design limit | ledger row 8 |
 | `epsilon_adam` beside `epsilon` | naming | two constants named ε in the reference |
-| entry-by-entry row operations | design limit (library) | no row broadcasting in the shipped `Matrix` |
+| entry-by-entry row operations | justified choice, corrected after review | the library has no row broadcasting, but `diag(1/r) X` on this program's own `Mat` gives the same RMSNorm (`run-b2-review-probes/RvwBroadcast.out`); the entry-by-entry form was a choice, not a limit |
 | `value object` declared, not enforced | implementation gap | `probes/g1a_varfield.out`: a `var` field in a value object is accepted; `probes/g1a_equality2.out`: value equality degenerates |
 | the checker's postfix `^T` declared locally: an API cannot declare a superscripted postfix operator | NEGATIVE-BOUNDED | `probes/apix/`: one spelling has a recorded failure; the API grammar (`Parameter.rats:172-175`, a missing `/` beside `ExponentOp`) predicts both, see `gaps.md` |
+
+## The adopt lists, item by item
+
+Added after the Phase 1 review (`explorations/reviews/run-b2-phase1.md`), which found that this run kept no adopt-or-reject record although the brief asked for one. The items are the ones in `blinded-fable-vs-astra.md` section I (Fable ← Astra and the shared line) and `astra-vs-ours.md` section G (Ours ← Astra) that point at the strongest artifact. "Missed" means the run never considered the item; those are recorded as such rather than given a reason after the fact.
+
+| item | decision | where, or why |
+|---|---|---|
+| tight `/` so that fractions stack | adopted for attention, missed for RMSNorm and softmax | `(Q K^T)/(SQRT d_k)` in `src/MicroGPT.fss`; the RMSNorm and softmax denominators and Adam's fractions were left loose without a reason |
+| `SQRT v_hat` rather than `v_hat^0.5`; no unused parameter | adopted | `adam` in `src/MicroGPT.fss` |
+| per-run source snapshots with hashes | missed | only the reference's sha256 is recorded; the git history is the run's provenance |
+| a Markdown source for the article | adopted | `article.md` and `tools/build_article.py` |
+| a fast pre-check beside the full check | rejected | the full checker runs in under a minute on this interpreter, so a second executable would add a file without a purpose |
+| `10.0^(-5)` for ε | adopted | `epsilon` and `epsilon_adam` |
+| a scalar carrier joining `StandardMax` so that max needs no `.data` | not applicable | there is no scalar carrier at the matrix level; `BIG MAX` runs over `RR64` after one unwrap in `softmax` |
+| the spec's postfix `^T` | adopted | `opr (A: Mat)^T`, `opr (A: Node)^T` |
+| a named ε | adopted | `epsilon`, `epsilon_adam` |
+| full-fixture verification: every gradient, the Adam step, injected uniforms, a converter, a finite-difference check, the Python generator in the tree | adopted except the finite-difference check of the shipped engine | `tools/`, `checks/`; finite differences were run on the three skeletons only (`probes/skel*.out`), not on the final program |
+| ASCII source beside each render, Python where it helps | adopted | every render carries its source; the reference is quoted with line numbers |
+| the literature line typeset at parity | adopted | `figures/formulas/` through the same pipeline |
+| render the Adam and sampling pairs | adopted, sampling not judged | `def_adam`, `def_sample`; the by-eye table above had no sampling row until the review pointed it out: sampling does not read as the formula (two `var` loops) |
+| correct the ledger row on chained subscripting | not applicable | the brief forbids editing the ledger; rows 1 to 3 already carry the finding |
+| letter-subscript weight names where the paper uses letters | missed for the unindexed weights | `_W_o` and `_W_lm` render as **W**_o and **W**_lm (`run-b2-review-probes/pairs/rvw_names3.png`); only the indexed `_W_q[h]` is blocked by a double subscript |
+| figure provenance hashes and a departures table with reproducer links | table adopted, hashes missed | the departures table above |
+| a reduction identity that is the carrier's own zero | missed | `PlusReduction.empty(): Any = 0` reproduces ledger row 45 at user level; harmless here only because every Σ runs over a non-empty range |
+
+Eight adopted, three partial, five missed, one rejected with a reason, two not applicable.
 
 ## Language facts the program relies on, with their marks
 

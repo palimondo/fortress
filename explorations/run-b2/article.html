@@ -10548,7 +10548,7 @@ zerosLike(P: Params): Params = P.map(fn (x) =&gt; zeros(x.rows, x.cols))</code><
 
 <p>What the language gives: a runtime-sized matrix from <code>array[\RR64\](n, m)</code> that dispatches as the library's <code>Matrix</code>, with <code>+</code>, <code>-</code>, juxtaposition as the product, <code>scale</code>, <code>t()</code>, <code>map</code> and <code>ivmap</code> (ledger rows 52 and 57); generators, comprehensions and big operators; closures; <code>value object</code>; operator declarations including postfix, prefix and enclosing forms; a <code>Map</code> with a combining union; and rendering rules that set <code>_W</code> bold, <code>x_bar</code> as x̄, <code>m_hat</code> as m̂, <code>d_k</code> with its subscript, <code>SUM</code> as Σ and <code>ODOT</code> as ⊙.</p>
 <p>What the user level adds, and why: <code>Mat</code> exists to name the array type once, since <code>type</code> aliases are specified but unimplemented (row 18), and to spell the library's <code>t()</code> and <code>scale</code> as <code>^T</code> and juxtaposition and add ⊙, elementwise <code>/</code> and √. <code>Params</code> exists so that θ, ∇θL and Adam's moments are one kind of thing with <code>+</code>, <code>-</code>, ⊙, <code>/</code> and √ over the whole family, which is what makes Adam four lines. <code>Node</code> and its rules are the differentiation engine, 54 lines. The Σ object is five.</p>
-<p>Where a mismatch remains: the node's value is reached as <code>.data</code> and its pullback as <code>.pull</code>, so the backward rules carry those two words the formulas do not; a superscript cannot follow a dotted field directly (<code>(B.data)^T</code>, a parser gap, <code>probes/g4a_*</code>); a list element cannot be followed by a field or a superscript without parentheses (<code>(hs[h])</code>, rows 1 to 3); a reduction cannot be an infix operand without parentheses (row 6); and the row-wise operations are written entry by entry because the library has no row broadcasting.</p>
+<p>Where a mismatch remains: the node's value is reached as <code>.data</code> and its pullback as <code>.pull</code>, so the backward rules carry those two words the formulas do not; a superscript cannot follow a dotted field directly (<code>(B.data)^T</code>, a parser gap, <code>probes/g4a_*</code>); a list element cannot be followed by a field or a superscript without parentheses (<code>(hs[h])</code>, rows 1 to 3); a reduction cannot be an infix operand without parentheses (row 6); and the row-wise operations are written entry by entry, a choice: the library has no row broadcasting, but a <code>diag</code> product on <code>Mat</code> would set RMSNorm as a matrix formula (<code>run-b2-review-probes/RvwBroadcast.out</code>).</p>
 <h2 id="adam-training-and-sampling">Adam, training and sampling</h2>
 <div class='pair-formula'><svg class='fig formula' style='width:365.1px;height:90.6px' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='.288917 -33.278313 251.822398 62.471886'>
 <defs>
@@ -12027,8 +12027,8 @@ sample 5: j
 </tr>
 <tr>
 <td>Adam</td>
-<td>yes</td>
-<td>identical line by line</td>
+<td>close</td>
+<td>the four fractions set inline because the <code>/</code> is loose; the tight spelling stacks them and passes the checker unchanged (found by the Phase 1 review, <code>run-b2-review-probes/tightadam/</code>)</td>
 </tr>
 <tr>
 <td>backward rules</td>
@@ -12085,8 +12085,8 @@ sample 5: j
 </tr>
 <tr>
 <td><code>positions</code> as a list rather than <code>_Wp[0 # T]</code></td>
-<td>design limit</td>
-<td>two subscript overloads on <code>List</code> and <code>Range</code> need an <code>excludes</code> pair (Meet Rule, <code>advanced/overloading.tex:224-272</code>, ledger row 33); a user trait with <code>excludes</code> or a <code>typecase</code> would admit both, <code>probes/g4e_*</code></td>
+<td>justified choice</td>
+<td>two subscript overloads on <code>List</code> and <code>Range</code> need an <code>excludes</code> pair (Meet Rule, <code>advanced/overloading.tex:224-272</code>, ledger row 33); a user trait with <code>excludes</code>, a <code>typecase</code>, or one overload on <code>Generator[\ZZ32\]</code> would admit both (<code>probes/g4e_*</code>, <code>run-b-vs-run-b2-probes/RvwGenSubscript.out</code>); the list was kept</td>
 </tr>
 <tr>
 <td><code>concat</code> by a fill instead of <code>[ h1 h2 h3 h4 ]</code></td>
@@ -12135,8 +12135,8 @@ sample 5: j
 </tr>
 <tr>
 <td>entry-by-entry row operations</td>
-<td>design limit (library)</td>
-<td>no row broadcasting in the shipped <code>Matrix</code></td>
+<td>justified choice, corrected after review</td>
+<td>the library has no row broadcasting, but <code>diag(1/r) X</code> on this program's own <code>Mat</code> gives the same RMSNorm (<code>run-b2-review-probes/RvwBroadcast.out</code>); the entry-by-entry form was a choice, not a limit</td>
 </tr>
 <tr>
 <td><code>value object</code> declared, not enforced</td>
@@ -12150,6 +12150,105 @@ sample 5: j
 </tr>
 </tbody>
 </table>
+<h2 id="the-adopt-lists-item-by-item">The adopt lists, item by item</h2>
+<p>Added after the Phase 1 review (<code>explorations/reviews/run-b2-phase1.md</code>), which found that this run kept no adopt-or-reject record although the brief asked for one. The items are the ones in <code>blinded-fable-vs-astra.md</code> section I (Fable ← Astra and the shared line) and <code>astra-vs-ours.md</code> section G (Ours ← Astra) that point at the strongest artifact. "Missed" means the run never considered the item; those are recorded as such rather than given a reason after the fact.</p>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>decision</th>
+<th>where, or why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tight <code>/</code> so that fractions stack</td>
+<td>adopted for attention, missed for RMSNorm and softmax</td>
+<td><code>(Q K^T)/(SQRT d_k)</code> in <code>src/MicroGPT.fss</code>; the RMSNorm and softmax denominators and Adam's fractions were left loose without a reason</td>
+</tr>
+<tr>
+<td><code>SQRT v_hat</code> rather than <code>v_hat^0.5</code>; no unused parameter</td>
+<td>adopted</td>
+<td><code>adam</code> in <code>src/MicroGPT.fss</code></td>
+</tr>
+<tr>
+<td>per-run source snapshots with hashes</td>
+<td>missed</td>
+<td>only the reference's sha256 is recorded; the git history is the run's provenance</td>
+</tr>
+<tr>
+<td>a Markdown source for the article</td>
+<td>adopted</td>
+<td><code>article.md</code> and <code>tools/build_article.py</code></td>
+</tr>
+<tr>
+<td>a fast pre-check beside the full check</td>
+<td>rejected</td>
+<td>the full checker runs in under a minute on this interpreter, so a second executable would add a file without a purpose</td>
+</tr>
+<tr>
+<td><code>10.0^(-5)</code> for ε</td>
+<td>adopted</td>
+<td><code>epsilon</code> and <code>epsilon_adam</code></td>
+</tr>
+<tr>
+<td>a scalar carrier joining <code>StandardMax</code> so that max needs no <code>.data</code></td>
+<td>not applicable</td>
+<td>there is no scalar carrier at the matrix level; <code>BIG MAX</code> runs over <code>RR64</code> after one unwrap in <code>softmax</code></td>
+</tr>
+<tr>
+<td>the spec's postfix <code>^T</code></td>
+<td>adopted</td>
+<td><code>opr (A: Mat)^T</code>, <code>opr (A: Node)^T</code></td>
+</tr>
+<tr>
+<td>a named ε</td>
+<td>adopted</td>
+<td><code>epsilon</code>, <code>epsilon_adam</code></td>
+</tr>
+<tr>
+<td>full-fixture verification: every gradient, the Adam step, injected uniforms, a converter, a finite-difference check, the Python generator in the tree</td>
+<td>adopted except the finite-difference check of the shipped engine</td>
+<td><code>tools/</code>, <code>checks/</code>; finite differences were run on the three skeletons only (<code>probes/skel*.out</code>), not on the final program</td>
+</tr>
+<tr>
+<td>ASCII source beside each render, Python where it helps</td>
+<td>adopted</td>
+<td>every render carries its source; the reference is quoted with line numbers</td>
+</tr>
+<tr>
+<td>the literature line typeset at parity</td>
+<td>adopted</td>
+<td><code>figures/formulas/</code> through the same pipeline</td>
+</tr>
+<tr>
+<td>render the Adam and sampling pairs</td>
+<td>adopted, sampling not judged</td>
+<td><code>def_adam</code>, <code>def_sample</code>; the by-eye table above had no sampling row until the review pointed it out: sampling does not read as the formula (two <code>var</code> loops)</td>
+</tr>
+<tr>
+<td>correct the ledger row on chained subscripting</td>
+<td>not applicable</td>
+<td>the brief forbids editing the ledger; rows 1 to 3 already carry the finding</td>
+</tr>
+<tr>
+<td>letter-subscript weight names where the paper uses letters</td>
+<td>missed for the unindexed weights</td>
+<td><code>_W_o</code> and <code>_W_lm</code> render as <strong>W</strong>_o and <strong>W</strong>_lm (<code>run-b2-review-probes/pairs/rvw_names3.png</code>); only the indexed <code>_W_q[h]</code> is blocked by a double subscript</td>
+</tr>
+<tr>
+<td>figure provenance hashes and a departures table with reproducer links</td>
+<td>table adopted, hashes missed</td>
+<td>the departures table above</td>
+</tr>
+<tr>
+<td>a reduction identity that is the carrier's own zero</td>
+<td>missed</td>
+<td><code>PlusReduction.empty(): Any = 0</code> reproduces ledger row 45 at user level; harmless here only because every Σ runs over a non-empty range</td>
+</tr>
+</tbody>
+</table>
+<p>Eight adopted, three partial, five missed, one rejected with a reason, two not applicable.</p>
 <h2 id="language-facts-the-program-relies-on-with-their-marks">Language facts the program relies on, with their marks</h2>
 <p><span class="mark">POSITIVE-VERIFIED</span> means a run whose output is in <code>checks/</code> or <code>probes/</code>; <span class="mark">NEGATIVE-VERIFIED</span> means the specification settles it and a reproducer confirms; <span class="mark">NEGATIVE-BOUNDED</span> means the spellings tried are listed and are not exhaustive.</p>
 <ul>
