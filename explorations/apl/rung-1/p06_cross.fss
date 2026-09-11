@@ -1,0 +1,30 @@
+(* p06 -- both halves, imported across directories from ../base, with
+   FORTRESS_SOURCE_PATH naming base/ plus the four entries the shipped
+   default_repository/configuration puts on the path (".", LibraryBuiltin,
+   Library, test_library): setting the variable REPLACES that default, and
+   without the library entries the run dies with "Could not find an
+   implementation for API FortressLibrary" (p05_core.out.0).  Second
+   spelling used a bare ⍎v escape; see p06_cross.out.0. *)
+component p06_cross
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+run(): () = do
+    println("iota 8              : " (apl⦇ ⍳8 ⦈))
+    println("2 4 reshape iota 8  :")
+    println(apl⦇ 2 4⍴⍳8 ⦈)
+    println("shape of a scalar   : [" (apl⦇ ⍴5 ⦈) "]")
+    println("zilde match that    : " (apl⦇ ⍬≡⍴5 ⦈))
+    println("1 + 1 2 3           : " (apl⦇ 1 + 1 2 3 ⦈))
+    v = apl⦇ 8 6 2 9 ⦈
+    println("escaped variable    : " (apl⦇ ⍎(v) ⦈))
+    println("1 4 reshape v       : " (apl⦇ 1 4⍴⍎(v) ⦈))
+    println("v match 1 4 rho v   : " (apl⦇ ⍎(v) ≡ 1 4⍴⍎(v) ⦈))
+    println("rank of v           : " (apl⦇ ≢⍴⍎(v) ⦈))
+    println("plus reduce last    : " (apl⦇ +/ 2 4⍴⍳8 ⦈))
+    println("plus reduce first   : " (apl⦇ +⌿ 2 4⍴⍳8 ⦈))
+    println("right to left       : " (apl⦇ 2 × 3 + 4 ⦈))
+end
+
+end

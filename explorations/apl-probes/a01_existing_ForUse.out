@@ -1,0 +1,39 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress13434347893821070904rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress13434347893821070904rats/com/sun/fortress/parser/templateparser/TemplateParser23.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress17516887740748459590rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress17516887740748459590rats/com/sun/fortress/parser/templateparser/TemplateParser35.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+With seq
+1
+2
+3
+And without seq
+3 and 102
+3 and 101
+3 and 100
+2 and 102
+2 and 101
+2 and 100
+1 and 102
+1 and 101
+1 and 100
+Testing _
+Works.
+Works.
+Works.
+Testing filter expressions
+102 is an even number.
+100 is an even number.
+Testing more doFront
+Testing at
+Testing at
+Testing at
+Testing atomic
+Testing atomic
+Testing atomic
+Ok, im done!

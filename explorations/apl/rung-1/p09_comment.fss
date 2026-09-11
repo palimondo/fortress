@@ -1,0 +1,10 @@
+component p09_comment
+import p09_g.{...}
+export Executable
+
+run(): () = do
+    println("with a trailing comment  : " (cmt⦇ 41 ⍝ this should be ignored ⦈))
+    println("without one              : " (cmt⦇ 41 ⦈))
+end
+
+end

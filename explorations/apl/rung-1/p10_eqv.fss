@@ -1,0 +1,22 @@
+(* p10 -- p06_cross.out.0 died with "** bug! Expect all oprefs to be top level
+   EQV" when a greedy Expr gap made the interpreter apply ≡ (EQV) to a user
+   value object with no such definition.  Two questions: is ≡ a user-definable
+   operator at the ordinary Fortress level (it is in the operator table, unlike
+   ⍳ and ⍴), and does defining it make that expression work? *)
+component p10_eqv
+import AplCore.{...}
+import List.{...}
+export Executable
+
+opr ≡(a: AplArr, b: AplArr): Boolean = (("" (aplMatch(a, b))) = "1")
+opr ≢(a: AplArr, b: AplArr): Boolean = NOT (a ≡ b)
+
+run(): () = do
+    v = aplVec(<|[\RR64\] 8.0, 6.0, 2.0, 9.0 |>)
+    m = aplReshape(aplVec(<|[\RR64\] 1.0, 4.0 |>), v)
+    println("user-defined EQV, v ≡ v : " (v ≡ v))
+    println("user-defined EQV, v ≡ m : " (v ≡ m))
+    println("user-defined NEQV       : " (v ≢ m))
+end
+
+end

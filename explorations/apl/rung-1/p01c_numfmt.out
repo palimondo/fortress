@@ -1,0 +1,14 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-1/p01c_numfmt.fss:8:42-50:
+Cannot find definition for method narrow given receiver 7: ZZ64
+Context:
+/home/user/fortress/explorations/apl/rung-1/p01c_numfmt.fss:8:42-50:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

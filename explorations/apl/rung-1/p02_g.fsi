@@ -8,13 +8,14 @@
    (c) can one production carry a *function glyph* gap followed by the reduce
        slash, so that f/ is one rule for every dyadic glyph rather than one
        rule per glyph?
-   First spelling of this file put an escaped plus inside the expander
-   brackets; see p02_mech.out.0.  Second spelling kept the escapes but had no
-   APL glyph before them, and the preparser's delimiter check then reaches the
-   end of the file and reports the escape as an unclosed quote
-   (PreParserState.java:256, PreCompilation.rats:115); see p02_mech.out.1.
-   Third spelling puts an APL glyph (U+2373) in the first alternative, which
-   the preparser cannot tokenise at all, so it gives up before the escape. *)
+   The escaped plus in the table below is what cost this probe two spellings:
+   the preparser reads a backtick as an opening quote wanting a closing '
+   (PreCompilation.rats:115, PreParserState.java:256).  p02_mech.out.0 is the
+   rejection of the spelling without the APL glyph; p08d_pre.out is the first
+   spelling of all, with the escape inside the expander brackets.  This
+   spelling puts an APL glyph (U+2373) in the first alternative of the table,
+   which the preparser cannot tokenise at all, so it abandons the delimiter
+   check before reaching the escape; p08a and p08b isolate that. *)
 api p02_g
 
 import FortressAst.{...}

@@ -1,0 +1,16 @@
+
+
+iota 8              : 0 1 2 3 4 5 6 7
+2 4 reshape iota 8  :
+0 1 2 3
+4 5 6 7
+shape of a scalar   : []
+zilde match that    : 1
+1 + 1 2 3           : 2 3 4
+escaped variable    : 8 6 2 9
+1 4 reshape v       : 8 6 2 9
+v match 1 4 rho v   : 0
+rank of v           : 1
+plus reduce last    : 6 22
+plus reduce first   : 4 6 8 10
+right to left       : 14

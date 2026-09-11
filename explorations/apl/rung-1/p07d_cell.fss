@@ -1,0 +1,16 @@
+component p07d_cell
+import p07d_g.{...}
+export Executable
+
+object Cell(var slot: ZZ32)
+    put(n: ZZ32): () = do slot := n end
+    getter asString(): String = ("" slot)
+end
+
+run(): () = do
+    c = Cell(0)
+    asgnc⦇ ⍎(c) ← 41 ⦈
+    println("the cell afterwards      : " c)
+end
+
+end

@@ -1,0 +1,272 @@
+(* AplCore -- see AplCore.fsi.  Walk interpreter; no operators are exported,
+   only functions, because a top-level opr is component-scoped (ledger row 30).
+   Values are RR64 throughout: Fortress has no working RR64 -> ZZ32 narrowing
+   (ledger: narrow on the floor bracket's ZZ64 cannot be found), so integer
+   display is done by stringifying the floor bracket itself -- see aplFmt. *)
+component AplCore
+
+import List.{...}
+export AplCore
+
+(* ------------------------------------------------------------- carrier *)
+value object AplArr(shape: List[\ZZ32\], data: List[\RR64\])
+    getter rank(): ZZ32 = |self.shape|
+    getter asString(): String = aplShow(self)
+end
+
+aplOrigin(): ZZ32 = 0
+
+(* ------------------------------------------------------------- numbers *)
+(* |\ v /| is the library's floor bracket; it yields a ZZ64, which stringifies
+   as an integer even though it will not narrow to a ZZ32. *)
+aplFloor1(v: RR64): RR64 = 1.0 (|\ v /|)
+aplCeil1(v: RR64): RR64 = 1.0 (|/ v \|)
+
+aplFmt(v: RR64): String =
+    if (1.0 (|\ v /|)) = v then ("" (|\ v /|)) else ("" v) end
+
+(* RR64 -> ZZ32 by doubling and halving, since narrow is unavailable. *)
+aplAsInt(v: RR64): ZZ32 = do
+    k: ZZ32 := 0
+    step: ZZ32 := 1
+    if v > 0.0 then
+        while (1.0 (k + step)) <= v do
+            k := k + step
+            step := step 2
+        end
+        while step > 1 do
+            step := step DIV 2
+            if (1.0 (k + step)) <= v then k := k + step end
+        end
+    end
+    k
+  end
+
+aplWidth(s: String): ZZ32 = |s|
+
+aplPad(s: String, w: ZZ32): String = do
+    r: String := s
+    while (aplWidth(r)) < w do r := (" " r) end
+    r
+  end
+
+aplCell(x: AplArr, i: ZZ32): String = aplFmt(x.data[i])
+
+(* ------------------------------------------------------------- display *)
+aplShow(x: AplArr): String = do
+    r = |x.shape|
+    if r = 0 then aplFmt(x.data[0])
+    elif r = 1 then
+        if (|x.data|) = 0 then ""
+        else (BIG |||[ v <- seq(x.data) ] aplFmt(v))
+        end
+    else
+        cols = x.shape[r - 1]
+        rows = (|x.data|) DIV cols
+        if (cols = 0) OR (rows = 0) then ""
+        else
+            ws: List[\ZZ32\] =
+                <|[\ZZ32\] (BIG MAX[ i <- seq(0 # rows) ]
+                              aplWidth(aplCell(x, (i cols) + k)))
+                  | k <- seq(0 # cols) |>
+            (BIG //[ i <- seq(0 # rows) ]
+                (BIG |||[ k <- seq(0 # cols) ]
+                    aplPad(aplCell(x, (i cols) + k), ws[k])))
+        end
+    end
+  end
+
+(* ------------------------------------------------------- constructors *)
+aplScalar(v: RR64): AplArr = AplArr(<|[\ZZ32\] |>, <|[\RR64\] v |>)
+aplZilde(): AplArr = AplArr(<|[\ZZ32\] 0 |>, <|[\RR64\] |>)
+aplVec(d: List[\RR64\]): AplArr = AplArr(<|[\ZZ32\] |d| |>, d)
+
+aplCountOf(sh: List[\ZZ32\]): ZZ32 = (PROD[ i <- seq(0 # |sh|) ] sh[i])
+
+(* ---------------------------------------------------------- primitives *)
+aplIota(a: AplArr): AplArr = do
+    n = aplAsInt(a.data[0])
+    o = aplOrigin()
+    aplVec(<|[\RR64\] 1.0 (i + o) | i <- seq(0 # n) |>)
+  end
+
+aplShapeOf(a: AplArr): AplArr = aplVec(<|[\RR64\] 1.0 s | s <- seq(a.shape) |>)
+
+aplReshape(s: AplArr, a: AplArr): AplArr = do
+    sh: List[\ZZ32\] = <|[\ZZ32\] aplAsInt(v) | v <- seq(s.data) |>
+    n = aplCountOf(sh)
+    m = |a.data|
+    AplArr(sh, <|[\RR64\] a.data[i MOD m] | i <- seq(0 # n) |>)
+  end
+
+aplTally(a: AplArr): AplArr =
+    if (|a.shape|) = 0 then aplScalar(1.0) else aplScalar(1.0 (a.shape[0])) end
+
+aplFirst(a: AplArr): AplArr = aplScalar(a.data[0])
+
+aplRavel(a: AplArr): AplArr = aplVec(a.data)
+
+aplCat(a: AplArr, b: AplArr): AplArr = aplVec(a.data || b.data)
+
+aplSame(a: AplArr, b: AplArr): Boolean = do
+    ok: Boolean := ((|a.shape|) = (|b.shape|)) AND ((|a.data|) = (|b.data|))
+    if ok then
+        i: ZZ32 := 0
+        while i < (|a.shape|) do
+            if (a.shape[i]) =/= (b.shape[i]) then ok := false end
+            i := i + 1
+        end
+        j: ZZ32 := 0
+        while j < (|a.data|) do
+            if (a.data[j]) =/= (b.data[j]) then ok := false end
+            j := j + 1
+        end
+    end
+    ok
+  end
+
+aplMatch(a: AplArr, b: AplArr): AplArr =
+    if aplSame(a, b) then aplScalar(1.0) else aplScalar(0.0) end
+
+aplReverse(a: AplArr): AplArr = do
+    r = |a.shape|
+    if r = 0 then a
+    elif r = 1 then
+        do
+            n = |a.data|
+            AplArr(a.shape, <|[\RR64\] a.data[(n - 1) - i] | i <- seq(0 # n) |>)
+        end
+    else
+        do
+            cols = a.shape[r - 1]
+            rows = (|a.data|) DIV cols
+            AplArr(a.shape,
+                   <|[\RR64\] a.data[(i cols) + ((cols - 1) - k)]
+                     | i <- seq(0 # rows), k <- seq(0 # cols) |>)
+        end
+    end
+  end
+
+aplReverseFirst(a: AplArr): AplArr = do
+    r = |a.shape|
+    if r <= 1 then aplReverse(a)
+    else
+        do
+            cols = a.shape[r - 1]
+            rows = (|a.data|) DIV cols
+            AplArr(a.shape,
+                   <|[\RR64\] a.data[(((rows - 1) - i) cols) + k]
+                     | i <- seq(0 # rows), k <- seq(0 # cols) |>)
+        end
+    end
+  end
+
+aplTranspose(a: AplArr): AplArr = do
+    r = |a.shape|
+    if r <= 1 then a
+    else
+        do
+            rows = a.shape[0]
+            cols = a.shape[1]
+            AplArr(<|[\ZZ32\] cols, rows |>,
+                   <|[\RR64\] a.data[(q cols) + p]
+                     | p <- seq(0 # cols), q <- seq(0 # rows) |>)
+        end
+    end
+  end
+
+aplNegate(a: AplArr): AplArr =
+    AplArr(a.shape, <|[\RR64\] -v | v <- seq(a.data) |>)
+
+aplMap(f: RR64 -> RR64, a: AplArr): AplArr =
+    AplArr(a.shape, <|[\RR64\] f(v) | v <- seq(a.data) |>)
+
+(* -------------------------------------- elementwise, scalar extension *)
+aplZip(f: (RR64, RR64) -> RR64, a: AplArr, b: AplArr): AplArr =
+    if ((|a.data|) = 1) AND ((|b.data|) =/= 1) then
+        AplArr(b.shape, <|[\RR64\] f(a.data[0], v) | v <- seq(b.data) |>)
+    elif ((|b.data|) = 1) AND ((|a.data|) =/= 1) then
+        AplArr(a.shape, <|[\RR64\] f(v, b.data[0]) | v <- seq(a.data) |>)
+    else
+        AplArr(a.shape,
+               <|[\RR64\] f(a.data[i], b.data[i]) | i <- seq(0 # |a.data|) |>)
+    end
+
+aplBool(b: Boolean): RR64 = if b then 1.0 else 0.0 end
+
+(* ------------------------------------------------------- dispatch by name *)
+aplDy(f: String, a: AplArr, b: AplArr): AplArr =
+    if f = "plus" then aplZip(fn (p: RR64, q: RR64): RR64 => p + q, a, b)
+    elif f = "minus" then aplZip(fn (p: RR64, q: RR64): RR64 => p - q, a, b)
+    elif f = "times" then aplZip(fn (p: RR64, q: RR64): RR64 => p q, a, b)
+    elif f = "divide" then aplZip(fn (p: RR64, q: RR64): RR64 => p / q, a, b)
+    elif f = "power" then aplZip(fn (p: RR64, q: RR64): RR64 => p^q, a, b)
+    elif f = "ceil" then aplZip(fn (p: RR64, q: RR64): RR64 => p MAX q, a, b)
+    elif f = "floor" then aplZip(fn (p: RR64, q: RR64): RR64 => p MIN q, a, b)
+    elif f = "eq" then aplZip(fn (p: RR64, q: RR64): RR64 => aplBool(p = q), a, b)
+    elif f = "ne" then aplZip(fn (p: RR64, q: RR64): RR64 => aplBool(p =/= q), a, b)
+    elif f = "lt" then aplZip(fn (p: RR64, q: RR64): RR64 => aplBool(p < q), a, b)
+    elif f = "le" then aplZip(fn (p: RR64, q: RR64): RR64 => aplBool(p <= q), a, b)
+    elif f = "gt" then aplZip(fn (p: RR64, q: RR64): RR64 => aplBool(p > q), a, b)
+    elif f = "ge" then aplZip(fn (p: RR64, q: RR64): RR64 => aplBool(p >= q), a, b)
+    elif f = "rho" then aplReshape(a, b)
+    elif f = "cat" then aplCat(a, b)
+    elif f = "match" then aplMatch(a, b)
+    else aplScalar(-999.0) end
+
+aplMon(f: String, a: AplArr): AplArr =
+    if f = "iota" then aplIota(a)
+    elif f = "rho" then aplShapeOf(a)
+    elif f = "tally" then aplTally(a)
+    elif f = "first" then aplFirst(a)
+    elif f = "reverse" then aplReverse(a)
+    elif f = "reversefirst" then aplReverseFirst(a)
+    elif f = "transpose" then aplTranspose(a)
+    elif f = "cat" then aplRavel(a)
+    elif f = "minus" then aplNegate(a)
+    elif f = "plus" then a
+    elif f = "ceil" then aplMap(fn (v: RR64): RR64 => aplCeil1(v), a)
+    elif f = "floor" then aplMap(fn (v: RR64): RR64 => aplFloor1(v), a)
+    elif f = "times" then aplMap(fn (v: RR64): RR64 =>
+                                   if v > 0.0 then 1.0
+                                   elif v < 0.0 then -1.0
+                                   else 0.0 end, a)
+    elif f = "divide" then aplMap(fn (v: RR64): RR64 => 1.0 / v, a)
+    else aplScalar(-999.0) end
+
+(* A reduction folds right to left, as APL's does. *)
+aplFoldData(f: String, a: AplArr, start: ZZ32, stride: ZZ32, n: ZZ32): RR64 = do
+    if n = 0 then 0.0
+    else
+        acc: RR64 := a.data[start + ((n - 1) stride)]
+        j: ZZ32 := n - 2
+        while j >= 0 do
+            acc := (aplDy(f, aplScalar(a.data[start + (j stride)]),
+                             aplScalar(acc))).data[0]
+            j := j - 1
+        end
+        acc
+    end
+  end
+
+aplRed(f: String, axis: String, a: AplArr): AplArr = do
+    r = |a.shape|
+    if r = 0 then a
+    elif r = 1 then aplScalar(aplFoldData(f, a, 0, 1, |a.data|))
+    else
+        do
+            cols = a.shape[r - 1]
+            rows = (|a.data|) DIV cols
+            if f = "nofn" then a
+            elif axis = "first" then
+                aplVec(<|[\RR64\] aplFoldData(f, a, k, cols, rows)
+                         | k <- seq(0 # cols) |>)
+            else
+                aplVec(<|[\RR64\] aplFoldData(f, a, i cols, 1, cols)
+                         | i <- seq(0 # rows) |>)
+            end
+        end
+    end
+  end
+
+end

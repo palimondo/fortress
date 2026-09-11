@@ -1,0 +1,6 @@
+/home/user/fortress/explorations/apl/rung-1/p08d_g.fsi:6:1-2:
+    Unmatched delimiter "api".
+/home/user/fortress/explorations/apl/rung-1/p08d_g.fsi:12:17-15:2:
+    Unmatched delimiters "(./" and "end".
+/home/user/fortress/explorations/apl/rung-1/p08d_g.fsi:12:33-50:
+    Unmatched delimiters "`" and "/.)".

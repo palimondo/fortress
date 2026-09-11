@@ -1,0 +1,22 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress159195711362918472rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress159195711362918472rats/com/sun/fortress/parser/templateparser/TemplateParser9.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress10456942018308569063rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress10456942018308569063rats/com/sun/fortress/parser/templateparser/TemplateParser15.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Turn on "-debug interpreter" for Java-level stack trace.
+null/home/user/fortress/explorations/apl-probes/b06b_repeat.fss:
+    Error occurred while instantiating and executing a temporary parser: com.sun.fortress.parser.templateparser.TemplateParser15 (class java.util.LinkedList cannot be cast to class com.sun.fortress.nodes.Node (java.util.LinkedList is in module java.base of loader 'bootstrap'; com.sun.fortress.nodes.Node is in unnamed module of loader 'app'))
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+EXIT=1

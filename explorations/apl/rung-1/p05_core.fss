@@ -1,0 +1,52 @@
+(* p05 -- the library half alone, imported across directories: AplCore lives in
+   ../base, so this needs FORTRESS_SOURCE_PATH (Shell.sourcePath prepends only
+   the directory of the file being run, ProjectProperties.SOURCE_PATH supplies
+   the rest).  Also the first check of the display and of every primitive
+   chapter 1 uses. *)
+component p05_core
+import AplCore.{...}
+import List.{...}
+export Executable
+
+run(): () = do
+    five = aplScalar(5.0)
+    println("shape of a scalar (blank) : [" (aplShapeOf(five)) "]")
+    println("zilde matches that        : " (aplMatch(aplZilde(), aplShapeOf(five))))
+    v = aplVec(<|[\RR64\] 8.0, 6.0, 2.0, 9.0 |>)
+    println("a vector                  : " v)
+    println("its shape                 : " (aplShapeOf(v)))
+    println("its tally-of-shape (rank) : " (aplTally(aplShapeOf(v))))
+    m = aplReshape(aplVec(<|[\RR64\] 3.0, 4.0 |>),
+                   aplDy("plus", aplScalar(1.0), aplIota(aplScalar(12.0))))
+    println("3 4 reshape 1 + iota 12   :")
+    println(m)
+    println("its shape                 : " (aplShapeOf(m)))
+    println("shape of shape            : " (aplShapeOf(aplShapeOf(m))))
+    println("rank                      : " (aplTally(aplShapeOf(m))))
+    println("iota 8 reshaped 2 4       :")
+    println(aplReshape(aplVec(<|[\RR64\] 2.0, 4.0 |>), aplIota(aplScalar(8.0))))
+    println("1 4 reshape v             : " (aplReshape(aplVec(<|[\RR64\] 1.0, 4.0 |>), v)))
+    println("v match (1 4 reshape v)   : "
+            (aplMatch(v, aplReshape(aplVec(<|[\RR64\] 1.0, 4.0 |>), v))))
+    data = aplReshape(aplVec(<|[\RR64\] 4.0, 4.0 |>),
+                      aplVec(<|[\RR64\] 1.0, 2.0, 3.0, 4.0, 2.0, 5.0, 8.0, 6.0,
+                                        8.0, 6.0, 2.0, 3.0, 8.0, 7.0, 6.0, 1.0 |>))
+    println("the 4x4 of the chapter    :")
+    println(data)
+    println("plus-reduce first axis    : " (aplRed("plus", "first", data)))
+    println("first of that             : " (aplFirst(aplRed("plus", "first", data))))
+    println("plus-reduce last axis     : " (aplRed("plus", "last", data)))
+    println("minus-reduce 1 2 3        : " (aplRed("minus", "last",
+              aplVec(<|[\RR64\] 1.0, 2.0, 3.0 |>))))
+    println("transpose of 3x4          :")
+    println(aplTranspose(m))
+    println("reverse last axis of 3x4  :")
+    println(aplReverse(m))
+    println("reverse first axis of 3x4 :")
+    println(aplReverseFirst(m))
+    println("2 divide 4 and power      : " (aplDy("divide", aplScalar(2.0), aplScalar(4.0)))
+            "  " (aplDy("power", aplScalar(2.0), aplScalar(10.0))))
+    println("non-integral display      : " (aplDy("divide", aplScalar(1.0), aplScalar(3.0))))
+end
+
+end
