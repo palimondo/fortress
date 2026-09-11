@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-11",
+  "author": "Astra, at Pavol’s request",
+  "repository": "palimondo/fortress",
+  "source_revision": "3cbbc8672a197279d72565db23986d9cc0f237d9",
+  "handoff": {
+    "uploaded_name": "astra-handoff-executable-math-notation(1).zip",
+    "package_date": "2026-09-10",
+    "framework_original_path": "03_sol_candidate_framework.md",
+    "framework_committed_path": "sol-candidate-framework.md",
+    "framework_sha256": "d828ffed9c21471f06f7b16e8e8d935fc1a6ab8f3aac0bec0c1294af5662dca5",
+    "framework_copy": "byte-identical",
+    "read": [
+      "00_README_FOR_ASTRA.md",
+      "01_conversation_context.md",
+      "03_sol_candidate_framework.md",
+      "04_reading_and_sources.md",
+      "05_provenance.md"
+    ],
+    "excluded": "02_astra_reflection.md was intentionally not read or copied"
+  },
+  "evidence_boundary": "This directory contains documents, source, command output and generated renderings; it is not a session transcript."
+}

@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`
+  A: RR64[2,2] = [1.0 2.0; 3.0 4.0]
+  x: RR64[2] = [5.0 6.0]
+  y = A x
+  z = vector[\RR64,2\](fn i => SUM[j <- 0#2] A[i,j] x[j])
+`
+\end{preview}
+\end{document}

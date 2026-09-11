@@ -2,7 +2,7 @@
 
 Revival-era experiments and learning material — **not** part of the original
 Fortress project. Everything under this directory was written in 2026 by Pavol
-(@palimondo) and Claude while studying the 2012 reference implementation;
+(@palimondo) with Claude and OpenAI assistants while studying the 2012 reference implementation;
 nothing here is Sun/Oracle code. Original Fortress sources live everywhere
 else in the tree and stay untouched.
 
@@ -31,3 +31,7 @@ Interpreter gotchas learned the hard way:
 - UTF-8 source with Unicode identifiers (`ℂ`) works; `seq()` exists but
   canonical style avoids it.
 - Component/API names must match their enclosing file names.
+
+## Notation and implementation collaboration
+
+The [shared notation investigation](notation-collaboration/README.md) records Pavol’s questions, Sol’s candidate framework, and Astra’s source-grounded account of traits, refactoring, and Fortify. It includes a small executable probe and actual two-dimensional renderings. Use it alongside the [process-record format and diary](process-records/FORMAT.md), [specification/implementation gap ledger](fortress-gap-ledger.md), and [Run B / B2 comparison](reviews/run-b-vs-run-b2.md).
