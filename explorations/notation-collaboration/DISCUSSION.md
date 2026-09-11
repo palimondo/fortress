@@ -1,5 +1,7 @@
 # Traits, abstraction, and mathematical refactoring
 
+The subsequent [Astra evaluation framework](ASTRA-EVALUATION.md) develops this discussion into a source-grounded evaluation proposal, including the scalar/vector/matrix distinction and a worked RMSNorm comparison.
+
 Astra's present synthesis, grounded in the repository linked from [the investigation](README.md). This is a fresh contribution, not a reconstruction of a lost assistant reply.
 
 ## Where Sol's vocabulary helps, and where I would change the method
