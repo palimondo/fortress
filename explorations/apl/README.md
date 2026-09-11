@@ -21,4 +21,4 @@ Later chapters (errors, real data, HTTP, workspaces, testing, workflow) are Dyal
 
 Layout: `base/` holds the library and grammar the rungs share (`AplCore.fss` with its API, `AplSyntax.fsi` with the grammar), grown rung by rung; `rung-N/` holds that rung's examples as a Fortress component, its expected results, its probes with outputs, and a short `REPORT.md`; `goldens/` holds the book's examples with their printed results per chapter, and the oracle's results where an oracle exists; `gaps.md` is the running gap table.
 
-Oracle: GNU APL (free software) if it builds in the container; otherwise the book's printed outputs, which are Dyalog's. Index origin is 1 in both, as in the book.
+Goldens are the book's own printed outputs (Dyalog, `⎕IO ← 0`, so every index and `⍳` counts from zero), extracted per chapter under `goldens/`. GNU APL 2.0 is built in the container as a secondary oracle (`goldens/ORACLE.md`); it is an APL2 dialect and disagrees with 100 of the 127 outputs of the first three chapters, mostly in display and in the glyphs it lacks, so it checks values, not the book's notation.

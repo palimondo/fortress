@@ -1,0 +1,22 @@
+(* p01d -- the floor bracket stringifies as an integer ("7", p01b), so integer
+   display is reachable without narrow.  What is still needed: an integrality
+   test (compare 1.0 (|\ v /|) against v), and String length for column
+   padding. *)
+component p01d_numfmt
+export Executable
+
+fmt(v: RR64): String =
+    if (1.0 (|\ v /|)) = v then ("" (|\ v /|)) else ("" v) end
+
+run(): () = do
+    println("fmt 7.0       : " (fmt(7.0)))
+    println("fmt -3.0      : " (fmt(-3.0)))
+    println("fmt 2.5       : " (fmt(2.5)))
+    println("fmt 0.0       : " (fmt(0.0)))
+    println("fmt 1.0/3.0   : " (fmt(1.0 / 3.0)))
+    s: String = "12"
+    println("String length : " (|s|))
+    println("pad           : [" (" " "12") "]")
+end
+
+end

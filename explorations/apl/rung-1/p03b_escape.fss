@@ -1,0 +1,14 @@
+component p03b_escape
+import p03b_g.{...}
+export Executable
+
+p03pair(a: ZZ32, b: ZZ32): String = ("(" a "," b ")")
+
+run(): () = do
+    v: ZZ32 = 3
+    m: ZZ32 = 4
+    println("Expr gap, APL glyph sep   : " (esc1⦇ v ⍴ m ⦈))
+    println("Expr gap, host-known sep  : " (esc2⦇ v ≡ m ⦈))
+end
+
+end

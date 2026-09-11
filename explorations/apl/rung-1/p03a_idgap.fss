@@ -1,0 +1,10 @@
+component p03a_idgap
+import p03a_g.{...}
+export Executable
+
+run(): () = do
+    x: ZZ32 = 41
+    println("bare Id gap as expression : " (idbare⦇ x ⦈))
+end
+
+end

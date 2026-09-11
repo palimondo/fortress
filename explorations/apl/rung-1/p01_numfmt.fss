@@ -1,0 +1,30 @@
+(* p01 -- is there a working RR64 -> integer conversion, so that an APL array
+   of RR64 can print "1" where Fortress prints "1.0"?  Ledger row (apl-probes,
+   d21_narrow) says |\ v /| yields a ZZ64 whose narrow cannot be found; try the
+   other spellings the library advertises:
+     RR64.truncate(self): ZZ64   (FortressLibrary.fsi:332)
+     ZZ64.narrow(self): ZZ32     (FortressLibrary.fsi:529)
+     RR64.floor(self): RR64      (:328)
+*)
+component p01_numfmt
+export Executable
+
+run(): () = do
+    v: RR64 = 7.0
+    w: RR64 = -3.0
+    u: RR64 = 2.5
+
+    println("1. plain RR64 asString      : " v)
+    println("2. v.truncate()            : " (v.truncate()))
+    println("3. v.truncate().narrow()   : " (v.truncate().narrow()))
+    println("4. floor bracket           : " (|\ v /|))
+    println("5. v.floor()               : " (v.floor()))
+    println("6. w.truncate()            : " (w.truncate()))
+    println("7. u.truncate()            : " (u.truncate()))
+    println("8. integral test           : " ((1.0 (v.truncate())) = v))
+    println("9. non-integral test       : " ((1.0 (u.truncate())) = u))
+    n: ZZ32 = v.truncate().narrow()
+    println("10. as a ZZ32 in a string  : " ("[" n "]"))
+end
+
+end
