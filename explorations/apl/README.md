@@ -8,7 +8,7 @@ The rungs follow the chapters of Stefan Kruger's "Learning APL" (https://xpqz.gi
 
 | rung | chapter | what it needs from Fortress | state |
 |---|---|---|---|
-| 1 | It's arrays all the way down (`array.html`) | arrays, strands, scalar extension, `⍳ ⍴`, reductions, rank | in progress |
+| 1 | It's arrays all the way down (`array.html`) | arrays, strands, scalar extension, `⍳ ⍴`, reductions, rank | done: 18 of 28 examples in scope all pass, 10 out of scope (nested arrays, `]box`, `⎕` names); `rung-1/REPORT.md` |
 | 2 | Indexing (`indexing.html`) | bracket indexing, `⌷`, index origin | |
 | 3 | Glyphiary (`manip.html`) | the bulk of the primitives, monadic and dyadic | |
 | 4 | Direct functions and operators (`functions.html`) | `{⍵}` dfns as generated `fn`, user operators | |
