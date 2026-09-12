@@ -1,0 +1,18 @@
+component q03_ref
+import q03_g.{...}
+export Executable
+
+(* the identity in front of the gap: what keeps the Id gap off the first
+   token of an expression *)
+q03ref(x: ZZ32): ZZ32 = x
+
+run(): () = do
+    println(("a. v ← 41 ⋄ v            -> " (qref⦇ v ← 41 ⋄ v ⦈)))
+    println(("b. v ← 41 ⋄ w ← 2 ⋄ w    -> " (qref⦇ v ← 41 ⋄ w ← 2 ⋄ w ⦈)))
+    println(("c. v ← 41 ⋄ w ← 2 ⋄ v    -> " (qref⦇ v ← 41 ⋄ w ← 2 ⋄ v ⦈)))
+    println(("d. a lone literal          -> " (qref⦇ 7 ⦈)))
+    println(("e. the value of the block is the last statement: v ← 1 ⋄ v ← 2 ⋄ v -> "
+             (qref⦇ v ← 1 ⋄ v ← 2 ⋄ v ⦈)))
+end
+
+end

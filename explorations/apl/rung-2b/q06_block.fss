@@ -1,0 +1,27 @@
+component q06_block
+import q06_g.{...}
+export Executable
+
+(* if v and m had become keywords, these parameter names would not parse *)
+q06dy(v: ZZ32, m: ZZ32): ZZ32 = 10 v + m
+q06echo(a: ZZ32): ZZ32 = do println(("      echo " a)); a end
+
+run(): () = do
+    println(("a. v ← 41 ⋄ v              -> " (qsix⦇ v ← 41 ⋄ v ⦈)))
+    println(("b. v ← 4 ⋄ m ← 2 ⋄ v ⍴ m   -> " (qsix⦇ v ← 4 ⋄ m ← 2 ⋄ v ⍴ m ⦈)))
+    println("c. a non-final expression statement is echoed:")
+    println(("   v ← 4 ⋄ v ⍴ 1 ⋄ v       -> " (qsix⦇ v ← 4 ⋄ v ⍴ 1 ⋄ v ⦈)))
+    println("d. newline-separated, the book's layout:")
+    println(("   -> " (qsix⦇ v ← 7
+                            m ← 2
+                            v ⍴ m ⦈)))
+    (* e. REBINDING the same name inside one block -- v ← 1 ⋄ v ← 2 ⋄ v -- is
+       rejected, "Variable v is already declared" (q06_block.out.0, and
+       q07_rebind.fss keeps it as a probe of its own). *)
+    println(("e. a name used in a later right-hand side: v ← 4 ⋄ m ← v ⍴ 1 ⋄ m -> "
+             (qsix⦇ v ← 4 ⋄ m ← v ⍴ 1 ⋄ m ⦈)))
+    println(("f. two blocks, the same name in each: " (qsix⦇ v ← 1 ⋄ v ⦈)
+             " then " (qsix⦇ v ← 2 ⋄ v ⦈)))
+end
+
+end

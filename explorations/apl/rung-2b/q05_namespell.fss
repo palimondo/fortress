@@ -1,0 +1,11 @@
+component q05_namespell
+import q05_g.{...}
+export Executable
+
+q05id(x: ZZ32): ZZ32 = x
+v: ZZ32 = 1
+vv: ZZ32 = 2
+
+run(): () = println(("only the templates matter here: " (qfive⦇ 9 ⦈)))
+
+end

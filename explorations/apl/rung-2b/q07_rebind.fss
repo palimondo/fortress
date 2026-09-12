@@ -1,0 +1,19 @@
+(* q07 -- the one thing the lambda route cannot do, gated by the attempt.
+   APL rebinds: the chapter's m ← … appears three times, select ← … three
+   times, and EVERY indexed assignment v[3] ← ¯1 is a rebinding of v, because
+   AplArr is a value object.  On the lambda route a second binding of the same
+   name in the same block is a nested lambda parameter of that name, and this
+   implementation rejects it.  Kept as the probe that q06_block.fss no longer
+   runs. *)
+component q07_rebind
+import q06_g.{...}
+export Executable
+
+q06dy(v: ZZ32, m: ZZ32): ZZ32 = 10 v + m
+q06echo(a: ZZ32): ZZ32 = do println(("      echo " a)); a end
+
+run(): () = do
+    println(("rebinding v inside one block: " (qsix⦇ v ← 1 ⋄ v ← 2 ⋄ v ⦈)))
+end
+
+end

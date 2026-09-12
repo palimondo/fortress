@@ -1,0 +1,33 @@
+component q08_cell
+import q08_g.{...}
+export Executable
+
+(* the cell: a reference object with a var field.  Free names of the templates
+   resolve here, at the use site. *)
+object Q08Cell()
+    var cur: ZZ32 := 0
+    put(x: ZZ32): ZZ32 = do cur := x; x end
+    get(): ZZ32 = cur
+end
+
+q08cell(): Q08Cell = Q08Cell()
+q08put(c: Q08Cell, x: ZZ32): ZZ32 = c.put(x)
+q08val(c: Q08Cell): ZZ32 = c.get()
+q08dy(a: ZZ32, b: ZZ32): ZZ32 = 10 a + b
+q08bump(old: ZZ32, x: ZZ32): ZZ32 = old + x
+q08echo(a: ZZ32): ZZ32 = do println(("      echo " a)); a end
+
+run(): () = do
+    println(("a. v ← 41 ⋄ v                 -> " (qeight⦇ v ← 41 ⋄ v ⦈)))
+    println(("b. REBINDING: v ← 1 ⋄ v ← 2 ⋄ v -> " (qeight⦇ v ← 1 ⋄ v ← 2 ⋄ v ⦈)))
+    println(("c. an update in place, v⌈ ← 5 after v ← 1: "
+             (qeight⦇ v ← 1 ⋄ v⌈ ← 5 ⋄ v ⦈)))
+    println(("d. two names, newline-separated: " (qeight⦇ v ← 4
+                                                         m ← 2
+                                                         v ⍴ m ⦈)))
+    println(("e. the name is a Fortress variable per block, so a second block "
+             "starts empty: " (qeight⦇ v ⦈)))
+    println(("f. assignment is an expression, as in APL: " (qeight⦇ m ← v ← 3 ⦈)))
+end
+
+end

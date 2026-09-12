@@ -1,0 +1,45 @@
+component q09_hostvar
+import q09a_g.{...}
+import q09b_g.{...}
+export Executable
+
+object Q09Cell()
+    var cur: ZZ32 := 0
+    put(x: ZZ32): ZZ32 = do cur := x; x end
+    get(): ZZ32 = cur
+end
+
+q09put(c: Q09Cell, x: ZZ32): ZZ32 = c.put(x)
+q09val(c: Q09Cell): ZZ32 = c.get()
+q09dy(a: ZZ32, b: ZZ32): ZZ32 = 10 a + b
+q09bump(old: ZZ32, x: ZZ32): ZZ32 = old + x
+q09echo(a: ZZ32): ZZ32 = do println(("      echo " a)); a end
+
+(* a: the APL names, declared once by the host as cells *)
+cells(): () = do
+    v = Q09Cell()
+    m = Q09Cell()
+    println(("a1. v ← 41 ⋄ v                   -> " (qnine⦇ v ← 41 ⋄ v ⦈)))
+    println(("a2. REBINDING: v ← 1 ⋄ v ← 2 ⋄ v -> " (qnine⦇ v ← 1 ⋄ v ← 2 ⋄ v ⦈)))
+    println(("a3. update in place v⌈ ← 5       -> " (qnine⦇ v⌈ ← 5 ⋄ v ⦈)))
+    println(("a4. a SECOND block reads what the first bound: " (qnine⦇ v ⦈)))
+    println(("a5. two names over two lines: " (qnine⦇ v ← 4
+                                                     m ← 2
+                                                     v ⍴ m ⦈)))
+    println(("a6. the host reads the APL variable directly: v = " (q09val(v))
+             ", m = " (q09val(m))))
+end
+
+(* b: the APL names, declared by the host as plain Fortress vars *)
+vars(): () = do
+    v: ZZ32 := 0
+    m: ZZ32 := 0
+    println(("b1. v ← 41 ⋄ v                   -> " (qvar⦇ v ← 41 ⋄ v ⦈)))
+    println(("b2. REBINDING: v ← 1 ⋄ v ← 2 ⋄ v -> " (qvar⦇ v ← 1 ⋄ v ← 2 ⋄ v ⦈)))
+    println(("b3. a second block: " (qvar⦇ v ⍴ 7 ⦈)))
+    println(("b4. the host reads it directly: v = " v))
+end
+
+run(): () = do cells(); vars() end
+
+end

@@ -1,0 +1,12 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress1305607290483138656rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress1305607290483138656rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress9679434103937103371rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress9679434103937103371rats/com/sun/fortress/parser/templateparser/TemplateParser8.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/apl/rung-2b/q01_bind.fss:14:38:
+    Variable v is already declared.
