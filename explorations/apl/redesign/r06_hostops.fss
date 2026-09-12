@@ -1,0 +1,30 @@
+(* r06 -- the host's own spellings for the glyphs rung 1 needs on plain RR64,
+   and the question whether a comparison glyph can return APL's 0/1 vector
+   instead of a Boolean.  Four independent questions, so four lines to lose. *)
+component r06_hostops
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+
+(* (1) is ÷ (DIV) defined on RR64 by the library, or must we declare it? *)
+(* (2) is * defined on RR64 (APL uses it for power)? *)
+opr *(a: RR64, b: RR64): RR64 = a^b
+opr ÷(a: RR64, b: RR64): RR64 = a / b
+
+(* (3) a comparison glyph whose result is an APL 0/1 array, not a Boolean *)
+opr =[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    vec(|a|, fn (i: ZZ32): RR64 => if a[i] = b[i] then 1.0 else 0.0 end)
+
+(* (4) MAX / MIN on vectors, the stand-ins for the encloser glyphs ⌈ ⌊ *)
+opr MAX[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    vec(|a|, fn (i: ZZ32): RR64 => if a[i] > b[i] then a[i] else b[i] end)
+
+run(): () = do
+    println("10 ÷ 4 = " (10.0 ÷ 4.0))
+    println("2 * 10 = " (2.0 * 10.0))
+    a = vec(3, fn (i: ZZ32): RR64 => 1.0 i)
+    b = vec(3, fn (i: ZZ32): RR64 => 1.0)
+    println("a = b  = " (a = b))
+    println("a MAX b= " (a MAX b))
+  end
+end

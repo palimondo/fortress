@@ -1,0 +1,24 @@
+(* r16 -- what the native carrier inherits that a wrapper would have to
+   re-declare: the library's own algebra on runtime-sized arrays (merged ledger
+   rows 52, 57).  Two of these are APL primitives of later rungs -- m v is the
+   inner product +.× of chapter 6, and v DOT w its vector case -- and they are
+   already here, for no lines at all.  This is the argument against a wrapper:
+   ledger rows 54 and 55 say a view loses the algebra, and a wrapper loses it
+   the same way unless it extends Vector/Matrix. *)
+component r16_libalgebra
+import AplGen.{...}
+import AplGenSyntax.{...}
+export Executable
+run(): () = do
+    v = apl⦇ 1 2 3 ⦈
+    w = apl⦇ 4 5 6 ⦈
+    m = apl⦇ 2 3⍴⍳6 ⦈
+    println("v + w    = " aplShow(v + w) "      (library: Vector.+)")
+    println("v - w    = " aplShow(v - w) "   (library: Vector.-)")
+    println("v DOT w  = " (v DOT w) "          (library: +.× on vectors)")
+    println("m v      = " aplShow(m v) "         (library: juxtaposition, +.× on a matrix)")
+    println("m.t()    =" // aplShow(m.t()) "   (library: ⍉)")
+    println("m + m    =" // aplShow(m + m))
+    println("ivmap    = " aplShow(v.ivmap[\RR64\](fn (i: ZZ32, x: RR64): RR64 => (1.0 i) + x)))
+  end
+end

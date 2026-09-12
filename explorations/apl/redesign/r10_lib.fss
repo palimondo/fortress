@@ -1,0 +1,30 @@
+(* r10 -- the library through its api, with no grammar in the way. *)
+component r10_lib
+import AplGen.{...}
+export Executable
+run(): () = do
+    println("⍳8       = " aplShow(aplIota(8.0)))
+    v = aplCons(8.0, aplCons(6.0, aplCons(2.0, 9.0)))
+    println("8 6 2 9  = " aplShow(v))
+    println("⍴v       = " aplShow(aplShapeOf(v)))
+    println("≢⍴v      = " aplShow(≢ aplShapeOf(v)))
+    m = aplReshapeM(3.0, 4.0, 1.0 + aplIota(12.0))
+    println("3 4⍴1+⍳12 =" // aplShow(m))
+    println("⍴m       = " aplShow(aplShapeOf(m)))
+    println("+⌿m      = " aplShow(aplSumFirst(m)))
+    println("⊃+⌿m     = " aplShow(⊃ aplSumFirst(m)))
+    println("⍉m       =" // aplShow(aplTrans(m)))
+    println("⌽v       = " aplShow(aplRev(v)))
+    println("2×3      = " aplShow(2.0 × 3.0))
+    println("10÷4     = " aplShow(10.0 ÷ 4.0))
+    println("2*10     = " aplShow(2.0 * 10.0))
+    println("v≡v      = " aplShow(v ≡ v))
+    println("v≡m      = " aplShow(v ≡ m))
+    println("⍬≡⍴5     = " aplShow(aplZilde() ≡ aplShapeOf(5.0)))
+    println("3 1⌈1 4  = " aplShow(aplCons(3.0,1.0) MAX aplCons(1.0,4.0)))
+    println("1 2,3 4  = " aplShow(aplCat(aplCons(1.0,2.0), aplCons(3.0,4.0))))
+    println("×/1 2 3 4= " aplShow(aplProdLast(aplCons(1.0,aplCons(2.0,aplCons(3.0,4.0))))))
+    println("-/1 2 3  = " aplShow(aplDifLast(aplCons(1.0,aplCons(2.0,3.0)))))
+    println("chars    = " aplShowC(aplChars("hello")) "  ≢ = " aplShow(aplTallyC(aplChars("hello"))))
+  end
+end

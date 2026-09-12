@@ -1,0 +1,7 @@
+component AplT
+export AplT
+opr ⊕[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => a + x)
+opr ×[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => a x)
+opr ×[\nat s\](v: Vector[\RR64,s\], w: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.pmul(w)
+iota(n: RR64): Array[\RR64,ZZ32\] = array[\RR64\](strToInt("" (|\ n /|))).fill(fn (i: ZZ32): RR64 => 1.0 i)
+end

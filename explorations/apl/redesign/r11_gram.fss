@@ -1,0 +1,23 @@
+(* r11 -- the grammar, smallest possible use site: does a template expand to a
+   host OPERATOR (an unescaped + and * inside <[ … ]>, a prefix ≢ and ⊃), and
+   does the rank of 2 4⍴x get fixed by the grammar? *)
+component r11_gram
+import AplGen.{...}
+import AplGenSyntax.{...}
+export Executable
+run(): () = do
+    println("1 + 1       = " aplShow(apl⦇ 1 + 1 ⦈))
+    println("1 + 1 2 3   = " aplShow(apl⦇ 1 + 1 2 3 ⦈))
+    println("2 × 3 + 4   = " aplShow(apl⦇ 2 × 3 + 4 ⦈))
+    println("2*10        = " aplShow(apl⦇ 2*10 ⦈))
+    println("⍳8          = " aplShow(apl⦇ ⍳8 ⦈))
+    println("2 4⍴⍳8      =" // aplShow(apl⦇ 2 4⍴⍳8 ⦈))
+    println("≢⍴ 8 5 2 3  = " aplShow(apl⦇ ≢⍴ 8 5 2 3 ⦈))
+    println("⊃+⌿2 4⍴⍳8   = " aplShow(apl⦇ ⊃+⌿2 4⍴⍳8 ⦈))
+    println("⌈/3 1 4 1 5 = " aplShow(apl⦇ ⌈/3 1 4 1 5 ⦈))
+    println("3 1⌈1 4     = " aplShow(apl⦇ 3 1⌈1 4 ⦈))
+    println("1 2,3 4     = " aplShow(apl⦇ 1 2,3 4 ⦈))
+    println("⍬≡⍴5        = " aplShow(apl⦇ ⍬≡⍴5 ⍝ a comment ⦈))
+    println("¯1 2        = " aplShow(apl⦇ ¯1 2 ⦈))
+  end
+end

@@ -1,0 +1,25 @@
+(* r13 -- design point 4: the array as a generator of its cells.  Merged ledger
+   row 47 buys this for a USER carrier with ZeroIndexed + DelegatedIndexed and
+   about six lines; a library array needs no lines at all, it already is a
+   Generator.  The last two lines are the trap that forces the rank-split
+   reduction functions in AplGen: a matrix generates ALL of its cells, so
+   SUM over it is APL's +/,m and not +/m. *)
+component r13_generator
+import AplGen.{...}
+import AplGenSyntax.{...}
+import List.{...}
+export Executable
+run(): () = do
+    v = apl⦇ 3 1 4 1 5 ⦈
+    println("|v|                 = " |v|)
+    println("v[2]                = " aplShow(v[2]))
+    println("comprehension       = " <|[\RR64\] 10.0 u | u <- seq(v) |>)
+    println("SUM[u <- v] u       = " (SUM[ u <- seq(v) ] u))
+    println("BIG MAX[u <- v] u   = " (BIG MAX[ u <- seq(v) ] u))
+    for u <- seq(v) do print(("" aplShow(u) " ")) end
+    println("   <- a for over the array")
+    m = apl⦇ 2 4⍴⍳8 ⦈
+    println("+/m  (rank split)   = " aplShow(apl⦇ +/2 4⍴⍳8 ⦈))
+    println("SUM over seq(m)     = " (SUM[ u <- seq(m) ] u) "   <- that is +/,m, not +/m")
+  end
+end

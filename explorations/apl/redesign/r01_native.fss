@@ -1,0 +1,57 @@
+(* r01 -- can APL's values be Fortress's own arrays?  One component, no
+   grammar, no api: the carrier question only.  Ledger rows 57 (array[\T\](n)
+   dispatches as Vector/Matrix), 49 (no array literal), 50 (no array
+   comprehension), 10 of apl/gaps.md (no RR64 -> ZZ32). *)
+component r01_native
+import List.{...}
+export Executable
+
+(* (a) RR64 -> ZZ32 in one line instead of fourteen? *)
+asInt(v: RR64): ZZ32 = strToInt("" (|\ v /|))
+
+(* (b) a vector and a matrix from runtime sizes *)
+vec(d: List[\RR64\]): Array[\RR64,ZZ32\] =
+    array[\RR64\](|d|).fill(fn (i: ZZ32): RR64 => d[i])
+
+(* (c) APL display, one overload per rank *)
+fmt(v: RR64): String =
+    if v < 0.0 then ("¯" fmt(-v))
+    elif (1.0 (|\ v /|)) = v then ("" (|\ v /|))
+    else ("" v) end
+
+show(v: RR64): String = fmt(v)
+show(v: Array[\RR64,ZZ32\]): String =
+    if |v| = 0 then "" else (BIG |||[ i <- seq(0 # |v|) ] fmt(v[i])) end
+show(m: Array[\RR64,(ZZ32,ZZ32)\]): String = do
+    (rows, cols) = m.sizes
+    w(k: ZZ32): ZZ32 = BIG MAX[ i <- seq(0 # rows) ] |fmt(m[i,k])|
+    pad(s: String, k: ZZ32): String = do
+        r: String := s
+        while |r| < w(k) do r := (" " r) end
+        r
+      end
+    BIG //[ i <- seq(0 # rows) ] (BIG |||[ k <- seq(0 # cols) ] pad(fmt(m[i,k]), k))
+  end
+
+run(): () = do
+    println("asInt(7.0) = " asInt(7.0) "   asInt(0.0) = " asInt(0.0))
+    a = vec(<|[\RR64\] 1.0, 2.0, 3.0 |>)
+    b = vec(<|[\RR64\] 9.0, 3.0, 2.0 |>)
+    println("a        = " show(a))
+    println("a + b    = " show(a + b))
+    println("a - b    = " show(a - b))
+    println("-a       = " show(-a))
+    println("a DOT b  = " (a DOT b))
+    println("pmul     = " show(pmul(a, b)))
+    g = array[\RR64\](2,4).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((4 i) + j))
+    println("g        =" // show(g))
+    println("g.t()    =" // show(g.t()))
+    println("g + g    =" // show(g + g))
+    e = array[\RR64\](0)
+    println("empty    |" show(e) "|   |e| = " |e|)
+    println("SUM      = " (SUM[ i <- seq(0 # |a|) ] a[i]))
+    println("SUM gen  = " (SUM[ u <- seq(a) ] u))
+    println("BIG MAX  = " (BIG MAX[ u <- seq(a) ] u))
+    println("PROD     = " (PROD[ u <- seq(a) ] u))
+  end
+end

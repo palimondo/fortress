@@ -1,0 +1,23 @@
+(* r12 -- design point 5: APL's LENGTH ERROR and DOMAIN ERROR as `requires`
+   contracts on the operator declarations, thrown as CallerViolation.  The
+   contract sits on the header line after the return type, as verified in
+   run-b2/probes/g1b_ok.fss.  Note what does NOT need a contract: + and - between
+   two vectors are the library's own Vector.+, whose single nat already makes a
+   length mismatch a DISPATCH failure (r09_reduce.out) -- a contract cannot be
+   attached to a method we do not own, so the two error shapes coexist. *)
+component r12_contract
+import AplGen.{...}
+import AplGenSyntax.{...}
+export Executable
+run(): () = do
+    println("1 2 3×1 2 3 = " aplShow(apl⦇ 1 2 3×1 2 3 ⦈))
+    try println("1 2 3×1 2   = " aplShow(apl⦇ 1 2 3×1 2 ⦈))
+    catch e CallerViolation => println("1 2 3×1 2   -> CallerViolation (APL LENGTH ERROR)") end
+    try println("⍳¯1         = " aplShow(apl⦇ ⍳¯1 ⦈))
+    catch e CallerViolation => println("⍳¯1         -> CallerViolation (APL DOMAIN ERROR)") end
+    try println("¯2 3⍴⍳6     = " aplShow(apl⦇ ¯2 3⍴⍳6 ⦈))
+    catch e CallerViolation => println("¯2 3⍴⍳6     -> CallerViolation (APL DOMAIN ERROR)") end
+    println("-- and the length mismatch the library's own + reports instead --")
+    println("1 2 3+1 2   = " aplShow(apl⦇ 1 2 3+1 2 ⦈))
+  end
+end

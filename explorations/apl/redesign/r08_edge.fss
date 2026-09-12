@@ -1,0 +1,42 @@
+(* r07 -- four edges of the native-array carrier: (a) the empty vector (APL's
+   ⍬, and the shape of a scalar) as array[\RR64\](0); (b) cross-rank ≡, which
+   needs Vector and Matrix to exclude each other; (c) a character vector beside
+   a numeric one in the SAME overload family; (d) arithmetic on a character
+   vector, which should fail by dispatch -- APL's DOMAIN ERROR. *)
+component r08_edge
+export Executable
+
+vecR(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+vecC(s: String): Array[\Char,ZZ32\] = array[\Char\](|s|).fill(fn (i: ZZ32): Char => s[i])
+
+tally(x: RR64): RR64 = 1.0
+tally[\nat s\](v: Vector[\RR64,s\]): RR64 = 1.0 |v|
+tally[\nat r, nat c\](m: Matrix[\RR64,r,c\]): RR64 = do (rr, cc) = m.sizes; 1.0 rr end
+
+same[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): RR64 =
+    if |a| =/= |b| then 0.0
+    else (if (BIG MAX[ i <- seq(0 # |a|) ] (if a[i] = b[i] then 0.0 else 1.0 end)) > 0.0
+          then 0.0 else 1.0 end) end
+same[\nat s, nat r, nat c\](a: Vector[\RR64,s\], m: Matrix[\RR64,r,c\]): RR64 = 0.0
+same[\nat s, nat r, nat c\](m: Matrix[\RR64,r,c\], a: Vector[\RR64,s\]): RR64 = 0.0
+
+(* (c) FALLBACK after r07: an Array1[\Char,0,s\] parameter cannot join the
+   numeric overload family -- "at least one pair of parameters must have
+   excluding types" -- so the character primitives take their own NAME. *)
+tallyC[\nat s\](v: Array1[\Char,0,s\]): RR64 = 1.0 |v|
+
+run(): () = do
+    e = array[\RR64\](0)
+    println("zilde: |e| = " |e| "   tally = " tally(e))
+    println("tally(2.5) = " tally(2.5))
+    a = vecR(4, fn (i: ZZ32): RR64 => 1.0 i)
+    g = array[\RR64\](1,4).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 j)
+    println("tally(a) = " tally(a) "   tally(g) = " tally(g))
+    println("same(a,a) = " same(a, a) "   same(a,g) = " same(a, g))
+    c = vecC("hello")
+    println("tallyC(c) = " tallyC(c))
+    println("c = " c)
+    (* (d) APL's DOMAIN ERROR, by dispatch: no numeric overload takes a Char array *)
+    try println("tally(c) = " tally(c)) catch ex Exception => println("tally(c): domain error by dispatch") end
+  end
+end

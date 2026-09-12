@@ -1,0 +1,46 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress12002572562749954618rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress12002572562749954618rats/com/sun/fortress/parser/templateparser/TemplateParser47.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+1 2 3×1 2 3 = 1 4 9
+1 2 3×1 2   -> CallerViolation (APL LENGTH ERROR)
+⍳¯1         -> CallerViolation (APL DOMAIN ERROR)
+¯2 3⍴⍳6     -> CallerViolation (APL DOMAIN ERROR)
+-- and the length mismatch the library's own + reports instead --
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/redesign/AplGenSyntax.fsi:1:3-27:
+Failed to find any matching overload, args = (__DefaultVector[\RR64,3\],__DefaultVector[\RR64,2\]), overload = {
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:330:5-28
+	+(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:376:5-58)
+	+(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:556:5-561:10)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].+(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:618:5-21
+	+(native Add)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:656:5-657:74)
+	+(native Add)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:724:5-725:75)
+	+(native Add)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:778:5-779:83)
+	+(native Add)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:841:5-842:77)
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].+(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress/Library/FortressLibrary.fss:2192:5-2193:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].+(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress/Library/FortressLibrary.fss:2500:5-2501:60
+	+(x:Array[\FortressLibrary.ZZ32,FortressLibrary.ZZ32\],y:FortressLibrary.ZZ32):Array[\FortressLibrary.ZZ32,FortressLibrary.ZZ32\] (Array[\ZZ32,ZZ32\],ZZ32)->Array[\ZZ32,ZZ32\] /home/user/fortress/Library/FortressLibrary.fss:4493:1-4497:2
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:330:5-28)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:618:5-21)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:618:5-21)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:618:5-21)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:618:5-21)
+	+[\nat s\](a:FortressLibrary.RR64,v:Vector[\FortressLibrary.RR64,s\]):Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/redesign/AplGen.fss:157:1-158:46
+	+[\nat s\](v:Vector[\FortressLibrary.RR64,s\],a:FortressLibrary.RR64):Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/redesign/AplGen.fss:159:1-160:46
+	+[\nat r,nat c\](a:FortressLibrary.RR64,m:Matrix[\FortressLibrary.RR64,r,c\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/redesign/AplGen.fss:161:1-162:47
+	+(native Add)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:103:5-104:76)
+	+(native Add)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:272:5-273:75)
+	+(native Add)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:406:5-407:75)}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/redesign/AplGenSyntax.fsi:1:3-27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

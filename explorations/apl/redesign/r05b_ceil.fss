@@ -1,0 +1,10 @@
+(* r05b -- ⌈ and ⌊ are listed in appendices/operators.tex:67-70 as ENCLOSERS
+   (LEFT CEILING / RIGHT CEILING, ASCII |/ and \|), not as prefix or infix
+   operators.  APL uses ⌈ monadically for ceiling and dyadically for maximum. *)
+component r05b_ceil
+export Executable
+object D(n: ZZ32) getter asString(): String = ("D" n) end
+opr ⌈(a: D): D = D(1 a.n)
+opr ⌈(a: D, b: D): D = D(2 a.n)
+run(): () = println("⌈ a = " (⌈ D(1)))
+end

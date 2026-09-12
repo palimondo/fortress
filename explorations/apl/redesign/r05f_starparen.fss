@@ -1,0 +1,9 @@
+(* r05f -- the use site of a prefix * : an open parenthesis immediately followed
+   by the star opens a COMMENT, and Fortress comments nest, so the rest of the
+   file is swallowed.  A space after the parenthesis is the fix (r05d_prefix). *)
+component r05f_starparen
+export Executable
+object D(n: ZZ32) getter asString(): String = ("D" n) end
+opr *(a: D): D = D(3 a.n)
+run(): () = println("* a = " (* D(1)))
+end

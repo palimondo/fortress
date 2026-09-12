@@ -1,0 +1,15 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/redesign/r07_edge.fss:24:1-26:3: and
+/home/user/fortress/explorations/apl/redesign/r07_edge.fss:13:1-14:4:
+
+tally[\nat s\](v:Array1[\FortressBuiltin.Char,0,s\]):FortressLibrary.RR64/home/user/fortress/explorations/apl/redesign/r07_edge.fss:24:1-26:3 and
+tally[\nat s\](v:Vector[\FortressLibrary.RR64,s\]):FortressLibrary.RR64/home/user/fortress/explorations/apl/redesign/r07_edge.fss:13:1-14:4 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/explorations/apl/redesign/r07_edge.fss:24:1-26:3:
+/home/user/fortress/explorations/apl/redesign/r07_edge.fss:12:1-26:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)

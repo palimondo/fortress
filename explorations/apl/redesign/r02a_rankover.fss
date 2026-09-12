@@ -1,0 +1,21 @@
+(* r02a -- overloading on rank.  r01 showed that Array[\RR64,ZZ32\] and
+   Array[\RR64,(ZZ32,ZZ32)\] are "unrelated (neither subtype, excludes, nor
+   equal)", so the two instantiations of one generic trait cannot be overloaded.
+   Vector and Matrix reach Rank1 / Rank2, which DO exclude each other
+   (FortressLibrary.fsi:1072-1076).  Does a runtime-sized array unify with
+   Vector[\RR64,s\] / Matrix[\RR64,r,c\] with the nat inferred? *)
+component r02a_rankover
+export Executable
+
+show[\nat s\](v: Vector[\RR64,s\]): String = ("vector of " |v| ": " v[0])
+show[\nat r, nat c\](m: Matrix[\RR64,r,c\]): String = ("matrix " m.sizes ": " m[0,0])
+show(x: RR64): String = ("scalar " x)
+
+run(): () = do
+    a = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    g = array[\RR64\](2,4).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((4 i) + j))
+    println(show(2.5))
+    println(show(a))
+    println(show(g))
+  end
+end

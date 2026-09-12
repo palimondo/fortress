@@ -1,0 +1,14 @@
+(* r15 -- the one construct whose rank is NOT in the source text: s⍴x where the
+   shape s is computed.  The grammar fixes the rank of `r c⍴x` and `n⍴x` by
+   counting the numerals it can see; it has no production for an ATOM on the
+   left of ⍴, so this does not parse.  Keeping it a FAIL is the deliberate
+   choice: a runtime-rank carrier is what the redesign removes. *)
+component r15_runtimerank
+import AplGen.{...}
+import AplGenSyntax.{...}
+export Executable
+run(): () = do
+    sh = apl⦇ 2 4 ⦈
+    println("⍎(sh)⍴⍳8 = " aplShow(apl⦇ ⍎(sh)⍴⍳8 ⦈))
+  end
+end

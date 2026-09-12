@@ -1,0 +1,29 @@
+(* r14 -- nested arrays on the native carrier: an array of arrays is
+   Array[\Array[\RR64,ZZ32\],ZZ32\], and it builds and indexes.  Two walls:
+   (a) its parameter type is Array1[\Array[\RR64,ZZ32\],0,s\], which cannot
+       join the numeric overload family for the same reason a Char vector
+       cannot (r07_edge.out), so it needs its own names -- one per primitive;
+   (b) the shipped SUM cannot reduce it: merged ledger row 44, SUM is sealed
+       [\T extends Number\] with an unwrap that is cast[\Number\]. *)
+component r14_nested
+import AplGen.{...}
+import AplGenSyntax.{...}
+export Executable
+
+(* (a) own name, because the element type is not RR64 *)
+showN[\nat s\](x: Array1[\Array[\RR64,ZZ32\],0,s\]): String =
+    BIG ||[ i <- seq(0 # |x|) ] (("(" aplShow(x[i])) ")")
+
+run(): () = do
+    a = apl⦇ 1 2 3 ⦈
+    b = apl⦇ 4 5 ⦈
+    n = array[\Array[\RR64,ZZ32\]\](2).fill(
+            fn (i: ZZ32): Array[\RR64,ZZ32\] => if i = 0 then a else b end)
+    println("nested        = " showN(n))
+    println("|n|           = " |n| "   n[1] = " aplShow(n[1]))
+    println("≢ of the cells= " aplShow(1.0 |n|))
+    (* (b) the shipped SUM over a generator of vectors *)
+    println("SUM over the cells:")
+    println("  " (SUM[ u <- seq(n) ] u))
+  end
+end

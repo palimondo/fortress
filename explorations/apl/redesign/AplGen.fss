@@ -1,0 +1,355 @@
+(* AplGen -- see AplGen.fsi.  The redesign of explorations/apl/base/AplCore.fss:
+   APL's values are Fortress's OWN arrays, not a wrapper.
+
+   An APL scalar is an RR64; a vector is an Array[\RR64,ZZ32\] from
+   array[\RR64\](n); a matrix is an Array[\RR64,(ZZ32,ZZ32)\] from
+   array[\RR64\](r,c) (merged ledger row 57).  Rank is not a field, it is the
+   TYPE, and every primitive is an overload family keyed on rank:
+
+       f(x: RR64)                         rank 0
+       f[\nat s\](v: Vector[\RR64,s\])    rank 1
+       f[\nat r, nat c\](m: Matrix[\RR64,r,c\])   rank 2
+
+   This works -- and only this spelling works.  Overloading directly on
+   Array[\RR64,ZZ32\] against Array[\RR64,(ZZ32,ZZ32)\] is rejected ("first
+   parameters m:[...] and v:[...] are unrelated (neither subtype, excludes, nor
+   equal)", r01_native.out), because two instantiations of one generic trait are
+   not known to exclude.  Vector and Matrix reach Rank1 and Rank2, which DO
+   exclude each other (FortressLibrary.fsi:1072-1076), and the nat is inferred
+   from the runtime-built array (r02a_rankover.out).  Parameters are therefore
+   Vector/Matrix; RESULTS are Array[\...\], the honest runtime-sized type.
+
+   What the library does for us, for no lines at all: + and - elementwise on
+   equal-length vectors and on matrices (Vector.+, Matrix.+), pmul, DOT, m.t(),
+   |v|, v[i], m[i,j], u <- v, comprehensions, SUM, PROD, BIG MAX, and a LENGTH
+   ERROR by dispatch when the two nats disagree (r09_reduce.out).
+
+   Index origin is 0, as the chapter sets it with its first line, ⎕IO ← 0. *)
+component AplGen
+export AplGen
+
+(* ------------------------------------------------------------- numbers ---- *)
+(* RR64 -> ZZ32 in one line: there is still no narrowing (apl/gaps.md row 10),
+   but the floor bracket's ZZ64 stringifies as an integer (row 11) and
+   strToInt reads it back.  base/AplCore.fss spent 14 lines on this. *)
+aplInt(v: RR64): ZZ32 = strToInt("" (|\ v /|))
+
+aplNegS(v: RR64): RR64 = -v
+
+(* APL's high minus for negatives; integral values print without a fraction *)
+aplFmt(v: RR64): String =
+    if v < 0.0 then ("¯" aplFmt(-v))
+    elif (1.0 (|\ v /|)) = v then ("" (|\ v /|))
+    else ("" v) end
+
+aplPad(s: String, w: ZZ32): String = do
+    r: String := s
+    while |r| < w do r := (" " r) end
+    r
+  end
+
+(* ------------------------------------------------------- constructors ----- *)
+aplVec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+aplMat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    array[\RR64\](r,c).fill(f)
+aplZilde(): Array[\RR64,ZZ32\] = array[\RR64\](0)
+
+(* strand notation, built right to left by the grammar: the tail of a strand is
+   a scalar when it has one element and a vector when it has more, so one
+   overload each and no length bookkeeping in the grammar. *)
+aplCons(x: RR64, y: RR64): Array[\RR64,ZZ32\] =
+    aplVec(2, fn (i: ZZ32): RR64 => if i = 0 then x else y end)
+aplCons[\nat s\](x: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    aplVec(|v| + 1, fn (i: ZZ32): RR64 => if i = 0 then x else v[i - 1] end)
+
+(* ----------------------------------------------------------- display ----- *)
+aplShow(x: RR64): String = aplFmt(x)
+
+aplShow[\nat s\](v: Vector[\RR64,s\]): String =
+    if |v| = 0 then "" else (BIG |||[ i <- seq(0 # |v|) ] aplFmt(v[i])) end
+
+(* Dyalog's matrix display: one line per row, each column padded to its own
+   width (apl/gaps.md row 14, now over the library's own matrix). *)
+aplShow[\nat r, nat c\](m: Matrix[\RR64,r,c\]): String = do
+    (rows, cols) = m.sizes
+    if (rows = 0) OR (cols = 0) then ""
+    else
+        w = array[\ZZ32\](cols).fill(
+                fn (k: ZZ32): ZZ32 => BIG MAX[ i <- seq(0 # rows) ] |aplFmt(m[i,k])|)
+        BIG //[ i <- seq(0 # rows) ]
+            (BIG |||[ k <- seq(0 # cols) ] aplPad(aplFmt(m[i,k]), w[k]))
+    end
+  end
+
+(* ------------------------------------------------------------- ⍳ iota ---- *)
+aplIota(n: RR64): Array[\RR64,ZZ32\] requires { n >= 0.0 } =
+    aplVec(aplInt(n), fn (i: ZZ32): RR64 => 1.0 i)
+
+(* --------------------------------------------------- ⍴ monadic: shape ---- *)
+aplShapeOf(x: RR64): Array[\RR64,ZZ32\] = aplZilde()
+aplShapeOf[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    aplVec(1, fn (i: ZZ32): RR64 => 1.0 |v|)
+aplShapeOf[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (rows, cols) = m.sizes
+    aplVec(2, fn (i: ZZ32): RR64 => if i = 0 then 1.0 rows else 1.0 cols end)
+  end
+
+(* --------------------------------------------------- ⍴ dyadic: reshape --- *)
+(* The RESULT's rank is the LENGTH of the left argument, a runtime value -- the
+   one place where APL's rank is not in the type.  The grammar reads it off the
+   source text instead: `2 4⍴x` fires aplReshapeM, `4⍴x` fires aplReshapeV, so
+   the rank is fixed at expansion time and never at run time. *)
+aplReshapeV(n: RR64, x: RR64): Array[\RR64,ZZ32\] requires { n >= 0.0 } =
+    aplVec(aplInt(n), fn (i: ZZ32): RR64 => x)
+aplReshapeV[\nat s\](n: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+        requires { (n >= 0.0) AND (|v| > 0) } =
+    aplVec(aplInt(n), fn (i: ZZ32): RR64 => v[i MOD |v|])
+
+aplReshapeM(rw: RR64, cl: RR64, x: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+        requires { (rw >= 0.0) AND (cl >= 0.0) } =
+    aplMat(aplInt(rw), aplInt(cl), fn (i: ZZ32, j: ZZ32): RR64 => x)
+aplReshapeM[\nat s\](rw: RR64, cl: RR64, v: Vector[\RR64,s\]): Array[\RR64,(ZZ32,ZZ32)\]
+        requires { (rw >= 0.0) AND (cl >= 0.0) AND (|v| > 0) } = do
+    c = aplInt(cl)
+    aplMat(aplInt(rw), c, fn (i: ZZ32, j: ZZ32): RR64 => v[((c i) + j) MOD |v|])
+  end
+aplReshapeM[\nat r, nat c\](rw: RR64, cl: RR64, m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\] requires { (rw >= 0.0) AND (cl >= 0.0) } = do
+    (mr, mc) = m.sizes
+    cc = aplInt(cl)
+    aplMat(aplInt(rw), cc, fn (i: ZZ32, j: ZZ32): RR64 => do
+        k = ((cc i) + j) MOD (mr mc)
+        m[k DIV mc, k MOD mc]
+      end)
+  end
+
+(* ------------------------------------------- scalar extension: × ÷ + - --- *)
+(* + and - between two vectors, or two matrices, are the library's own
+   (Vector.+, Matrix.+) and cost nothing here.  What the library does not have
+   is APL's scalar extension, nor an elementwise × or ÷, so those are declared
+   -- as real operators, both arities, so that the monadic/dyadic split of APL
+   is just Fortress overloading (r04_glyphs.out: × ÷ - ⊖ ⊂ ⊃ ≡ ≢ * and ∘ all
+   take a prefix AND an infix declaration; , ⌈ ⌊ do not). *)
+opr ×[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+        requires { |a| = |b| } =
+    aplVec(|a|, fn (i: ZZ32): RR64 => a[i] b[i])
+opr ×[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => a x)
+opr ×[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => x a)
+(* monadic × is APL's signum *)
+opr ×(x: RR64): RR64 = if x > 0.0 then 1.0 elif x < 0.0 then -1.0 else 0.0 end
+opr ×[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => × x)
+
+opr ÷(a: RR64, b: RR64): RR64 = a / b
+opr ÷[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+        requires { |a| = |b| } =
+    aplVec(|a|, fn (i: ZZ32): RR64 => a[i] / b[i])
+opr ÷[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => a / x)
+opr ÷[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => x / a)
+opr ÷(x: RR64): RR64 = 1.0 / x
+opr ÷[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => 1.0 / x)
+
+opr +[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => a + x)
+opr +[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => x + a)
+opr +[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    m.map[\RR64\](fn (x: RR64): RR64 => a + x)
+
+opr -[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => a - x)
+opr -[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => x - a)
+
+(* APL's dyadic * is power; the host's * is free (it is not multiplication --
+   that is juxtaposition).  Watch the use site:
+   an open parenthesis immediately followed by the star opens a COMMENT, and
+   Fortress comments nest, so a space is needed after the parenthesis
+   (r05f_starparen.out). *)
+opr *(a: RR64, b: RR64): RR64 = a^b
+opr *[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => x^a)
+opr *[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => a^x)
+
+(* ------------------------------------------------- ⌈ ⌊ : MAX, MIN, ceil -- *)
+(* ⌈ and ⌉ are ENCLOSERS in the host table (operators.tex:67-70), so neither
+   arity of ⌈ is declarable: r05b_ceil.out is `Unmatched delimiter "|/"`.  The
+   dyadic glyph therefore expands to the host's MAX/MIN and the monadic one to
+   a named function -- the grammar still reads APL's glyph. *)
+opr MAX[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+        requires { |a| = |b| } =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] > b[i] then a[i] else b[i] end)
+opr MAX[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => if a > x then a else x end)
+opr MIN[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+        requires { |a| = |b| } =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] < b[i] then a[i] else b[i] end)
+opr MIN[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => if a < x then a else x end)
+
+aplCeil(x: RR64): RR64 = 1.0 (|/ x \|)
+aplCeil[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => 1.0 (|/ x \|))
+aplFloor(x: RR64): RR64 = 1.0 (|\ x /|)
+aplFloor[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => 1.0 (|\ x /|))
+
+(* ---------------------------------------------- ≡ match, ≢ tally/notmatch - *)
+(* ≡ and ≢ are in the host table (EQV, NEQV) and take both arities.  APL's
+   match compares shape first, so the cross-rank cases are separate overloads:
+   six of them for three ranks, the price of putting rank in the type. *)
+opr ≡(a: RR64, b: RR64): RR64 = if a = b then 1.0 else 0.0 end
+opr ≡[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): RR64 =
+    if |a| =/= |b| then 0.0
+    elif |a| = 0 then 1.0
+    elif (BIG MAX[ i <- seq(0 # |a|) ] (if a[i] = b[i] then 0.0 else 1.0 end)) > 0.0
+    then 0.0 else 1.0 end
+opr ≡[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): RR64 = do
+    (ar, ac) = a.sizes
+    (br, bc) = b.sizes
+    if (ar =/= br) OR (ac =/= bc) then 0.0
+    elif (BIG MAX[ i <- seq(0 # ar), j <- seq(0 # ac) ]
+            (if a[i,j] = b[i,j] then 0.0 else 1.0 end)) > 0.0
+    then 0.0 else 1.0 end
+  end
+opr ≡[\nat s, nat r, nat c\](a: Vector[\RR64,s\], b: Matrix[\RR64,r,c\]): RR64 = 0.0
+opr ≡[\nat s, nat r, nat c\](a: Matrix[\RR64,r,c\], b: Vector[\RR64,s\]): RR64 = 0.0
+opr ≡[\nat s\](a: RR64, b: Vector[\RR64,s\]): RR64 = 0.0
+opr ≡[\nat s\](a: Vector[\RR64,s\], b: RR64): RR64 = 0.0
+
+opr ≢(x: RR64): RR64 = 1.0
+opr ≢[\nat s\](v: Vector[\RR64,s\]): RR64 = 1.0 |v|
+opr ≢[\nat r, nat c\](m: Matrix[\RR64,r,c\]): RR64 = do (rows, cols) = m.sizes; 1.0 rows end
+
+(* -------------------------------------------------------- ⊃ first -------- *)
+opr ⊃(x: RR64): RR64 = x
+opr ⊃[\nat s\](v: Vector[\RR64,s\]): RR64 = if |v| = 0 then 0.0 else v[0] end
+opr ⊃[\nat r, nat c\](m: Matrix[\RR64,r,c\]): RR64 = m[0,0]
+
+(* ------------------------------------------------ ⌽ ⊖ reverse, ⍉ transpose *)
+(* ⌽ ⍉ ⍳ ⍴ ⍋ ⍒ are not in the host operator table at all, so they stay named
+   functions; ⊖ is (OMINUS) and is an operator. *)
+aplRev(x: RR64): RR64 = x
+aplRev[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    aplVec(|v|, fn (i: ZZ32): RR64 => v[(|v| - 1) - i])
+aplRev[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    aplMat(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => m[i, (cols - 1) - j])
+  end
+
+opr ⊖(x: RR64): RR64 = x
+opr ⊖[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplRev(v)
+opr ⊖[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    aplMat(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => m[(rows - 1) - i, j])
+  end
+
+aplTrans(x: RR64): RR64 = x
+aplTrans[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v
+(* the library already owns this one *)
+aplTrans[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.t()
+
+(* --------------------------------------------------- , catenate, ravel --- *)
+(* , is the argument separator and cannot be an operator in EITHER arity:
+   r05a_comma.out (infix) and r05e_ravel.out (prefix) are both a bare
+   `Syntax Error` at the declaration.  So catenate and ravel are named. *)
+aplCat(a: RR64, b: RR64): Array[\RR64,ZZ32\] = aplCons(a, b)
+aplCat[\nat s\](a: RR64, b: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplCons(a, b)
+aplCat[\nat s\](a: Vector[\RR64,s\], b: RR64): Array[\RR64,ZZ32\] =
+    aplVec(|a| + 1, fn (i: ZZ32): RR64 => if i < |a| then a[i] else b end)
+aplCat[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a| + |b|, fn (i: ZZ32): RR64 => if i < |a| then a[i] else b[i - |a|] end)
+
+aplRavel(x: RR64): Array[\RR64,ZZ32\] = aplVec(1, fn (i: ZZ32): RR64 => x)
+aplRavel[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v
+aplRavel[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (rows, cols) = m.sizes
+    aplVec(rows cols, fn (k: ZZ32): RR64 => m[k DIV cols, k MOD cols])
+  end
+
+(* ------------------------------------------- comparison: APL's 0/1 ------- *)
+(* A host comparison returns a Boolean; APL's returns a 0/1 array.  The glyph
+   can be redeclared with the APL result type (r06_hostops.out) -- the numeric
+   overload is more specific than the library's Boolean one and wins. *)
+opr =[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+        requires { |a| = |b| } =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] = b[i] then 1.0 else 0.0 end)
+opr ≤[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+        requires { |a| = |b| } =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] <= b[i] then 1.0 else 0.0 end)
+
+(* ------------------------------------------------------ reductions ------- *)
+(* f/ reduces along the LAST axis, f⌿ along the FIRST; on a vector both are the
+   same fold.  The body is the library's own big operator wherever the library
+   has one (SUM, PROD, BIG MAX -- no `except { opr BIG + }` needed, ledger row
+   41, because RR64 is already a Number), and a hand fold only for -/ , which
+   is not associative and has no big operator.  An axis reduction of a matrix
+   is a fill over the other axis: an ARRAY comprehension would be the natural
+   spelling and is dead at two layers (ledger row 50), and a row VIEW would
+   carry no algebra (rows 54, 56). *)
+aplSumLast(x: RR64): RR64 = x
+aplSumLast[\nat s\](v: Vector[\RR64,s\]): RR64 = SUM[ i <- seq(0 # |v|) ] v[i]
+aplSumLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (rows, cols) = m.sizes
+    aplVec(rows, fn (i: ZZ32): RR64 => SUM[ j <- seq(0 # cols) ] m[i,j])
+  end
+aplSumFirst(x: RR64): RR64 = x
+aplSumFirst[\nat s\](v: Vector[\RR64,s\]): RR64 = aplSumLast(v)
+aplSumFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (rows, cols) = m.sizes
+    aplVec(cols, fn (k: ZZ32): RR64 => SUM[ i <- seq(0 # rows) ] m[i,k])
+  end
+
+aplProdLast(x: RR64): RR64 = x
+aplProdLast[\nat s\](v: Vector[\RR64,s\]): RR64 = PROD[ i <- seq(0 # |v|) ] v[i]
+aplProdLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (rows, cols) = m.sizes
+    aplVec(rows, fn (i: ZZ32): RR64 => PROD[ j <- seq(0 # cols) ] m[i,j])
+  end
+
+aplMaxLast(x: RR64): RR64 = x
+aplMaxLast[\nat s\](v: Vector[\RR64,s\]): RR64 = BIG MAX[ i <- seq(0 # |v|) ] v[i]
+aplMaxLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (rows, cols) = m.sizes
+    aplVec(rows, fn (i: ZZ32): RR64 => BIG MAX[ j <- seq(0 # cols) ] m[i,j])
+  end
+
+aplDifLast(x: RR64): RR64 = x
+aplDifLast[\nat s\](v: Vector[\RR64,s\]): RR64 = do
+    acc: RR64 := v[|v| - 1]
+    j: ZZ32 := |v| - 2
+    while j >= 0 do acc := v[j] - acc; j := j - 1 end
+    acc
+  end
+aplDifLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (rows, cols) = m.sizes
+    aplVec(rows, fn (i: ZZ32): RR64 => do
+        acc: RR64 := m[i, cols - 1]
+        j: ZZ32 := cols - 2
+        while j >= 0 do acc := m[i,j] - acc; j := j - 1 end
+        acc
+      end)
+  end
+
+(* ------------------------------------------------- character arrays ------ *)
+(* An APL character array is an Array[\Char,ZZ32\].  It may NOT join the numeric
+   overload family: a Char vector parameter beside an RR64 one is rejected,
+   "at least one pair of parameters must have excluding types"
+   (r07_edge.out), because Array1[\Char,0,s\] and Vector[\RR64,s\] are both
+   Rank1 and neither excludes the other.  So the character primitives carry
+   their own NAMES -- one extra name per primitive that admits characters --
+   and APL's DOMAIN ERROR on 'abc'+1 is the numeric family failing to dispatch
+   (r08_edge.out, "Failed to find any matching overload"). *)
+aplChars(s: String): Array[\Char,ZZ32\] =
+    array[\Char\](|s|).fill(fn (i: ZZ32): Char => s[i])
+aplShowC[\nat s\](v: Array1[\Char,0,s\]): String =
+    if |v| = 0 then "" else (BIG ||[ i <- seq(0 # |v|) ] ("" v[i])) end
+aplTallyC[\nat s\](v: Array1[\Char,0,s\]): RR64 = 1.0 |v|
+
+end

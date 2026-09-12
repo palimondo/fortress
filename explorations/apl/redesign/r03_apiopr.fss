@@ -1,0 +1,10 @@
+component r03_apiopr
+import AplT.{...}
+export Executable
+run(): () = do
+    v = iota(4.0)
+    println("iota(4)   = " v)
+    println("2 ⊕ v     = " (2.0 ⊕ v))
+    println("3 × v     = " (3.0 × v))
+  end
+end

@@ -1,0 +1,49 @@
+(* r04 -- which of APL's glyphs can be declared as Fortress operators, in BOTH
+   the monadic (prefix) and the dyadic (infix) arity that APL gives them?  The
+   host operator table is Specification/appendices/operators.tex; ⌈⌉ and ⌊⌋ are
+   listed there as ENCLOSERS (|/ \| and |\ /|), so their prefix/infix use is the
+   doubtful case.  One dummy carrier so that nothing but fixity is tested. *)
+component r04_glyphs
+export Executable
+
+object D(n: ZZ32) getter asString(): String = ("D" n) end
+
+opr ×(a: D): D = D(1 a.n)
+opr ×(a: D, b: D): D = D(2 (a.n b.n))
+opr ÷(a: D): D = D(3 a.n)
+opr ÷(a: D, b: D): D = D(4 (a.n + b.n))
+(* opr ,(a: D): D -- Syntax Error at the declaration; kept as r05e_ravel *)
+(* opr ,(a: D, b: D): D -- Syntax Error too; kept as r05a_comma *)
+opr ≡(a: D, b: D): D = D(7 (a.n + b.n))
+opr ≢(a: D, b: D): D = D(8 (a.n + b.n))
+opr ⊖(a: D): D = D(9 a.n)
+opr ⊖(a: D, b: D): D = D(10 (a.n + b.n))
+opr ⊂(a: D): D = D(11 a.n)
+opr ⊂(a: D, b: D): D = D(12 (a.n + b.n))
+opr ⊃(a: D): D = D(13 a.n)
+opr ⊃(a: D, b: D): D = D(14 (a.n + b.n))
+opr ∘(a: D, b: D): D = D(15 (a.n + b.n))
+opr -(a: D): D = D(16 a.n)
+opr -(a: D, b: D): D = D(17 (a.n + b.n))
+opr +(a: D): D = D(18 a.n)
+opr +(a: D, b: D): D = D(19 (a.n + b.n))
+opr *(a: D, b: D): D = D(20 (a.n + b.n))
+opr MAX(a: D, b: D): D = D(21 (a.n + b.n))
+opr MIN(a: D, b: D): D = D(22 (a.n + b.n))
+
+run(): () = do
+    a = D(1); b = D(1)
+    println("× a   = " (× a));    println("a × b = " (a × b))
+    println("÷ a   = " (÷ a));    println("a ÷ b = " (a ÷ b))
+    (* comma: see r05a_comma and r05e_ravel *)
+    println("a ≡ b = " (a ≡ b));  println("a ≢ b = " (a ≢ b))
+    println("⊖ a   = " (⊖ a));    println("a ⊖ b = " (a ⊖ b))
+    println("⊂ a   = " (⊂ a));    println("a ⊂ b = " (a ⊂ b))
+    println("⊃ a   = " (⊃ a));    println("a ⊃ b = " (a ⊃ b))
+    println("a ∘ b = " (a ∘ b))
+    println("- a   = " (- a));    println("a - b = " (a - b))
+    println("+ a   = " (+ a));    println("a + b = " (a + b))
+    println("a * b = " (a * b))
+    println("a MAX b = " (a MAX b)); println("a MIN b = " (a MIN b))
+  end
+end
