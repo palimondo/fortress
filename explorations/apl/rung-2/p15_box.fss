@@ -1,0 +1,121 @@
+(* p15 -- the price of nested arrays, written out rather than argued.
+   AplCore's carrier is value object AplArr(shape: List[\ZZ32\],
+   data: List[\RR64\]): its element type is RR64, so no element can be an
+   array, and the chapter's Ex 9-16, 23-26 and 33-36 -- whose indexed array
+   itself holds vectors -- are out of reach of it.  (The chapter's nested-LOOKING
+   index expressions are not: m[⊂1 1] is one coordinate vector and
+   m[(0 0)(1 1)(2 2)] is a matrix of them, both absorbed by the grammar, so
+   rung 2 runs them with no boxes at all -- p14_idx.)
+
+   What a boxed element costs is one new representation and then every
+   signature in the library again.  This skeleton is that representation, with
+   ⊂ enclose, ⊃ first, (⊂i j)⊃m pick and the book's framed display over it, so
+   that the price is measured and not estimated.  It is deliberately NOT in
+   base/: AplCore's 40-odd functions are typed in RR64 and every one of them
+   would have to be rewritten against AplEl for the nesting to reach the rest
+   of the language. *)
+component p15_box
+import List.{...}
+export Executable
+
+(* --- the new element representation: a number OR an array ---------------- *)
+trait AplEl
+    getter isBox(): Boolean
+    getter num(): RR64
+    getter arr(): BoxArr
+end
+
+value object BoxArr(shape: List[\ZZ32\], data: List[\AplEl\])
+    getter rank(): ZZ32 = |self.shape|
+end
+
+value object ElN(v: RR64) extends AplEl
+    getter isBox(): Boolean = false
+    getter num(): RR64 = self.v
+    getter arr(): BoxArr = BoxArr(<|[\ZZ32\] |>, <|[\AplEl\] self |>)
+end
+
+value object ElB(a: BoxArr) extends AplEl
+    getter isBox(): Boolean = true
+    getter num(): RR64 = 0.0
+    getter arr(): BoxArr = self.a
+end
+
+fmtN(v: RR64): String =
+    if v < 0.0 then ("¯" fmtN(-v))
+    elif (1.0 (|\ v /|)) = v then ("" (|\ v /|))
+    else ("" v) end
+
+bvec(d: List[\RR64\]): BoxArr =
+    BoxArr(<|[\ZZ32\] |d| |>, <|[\AplEl\] ElN(x) | x <- seq(d) |>)
+
+(* ⊂ enclose: a scalar whose single element is the array *)
+encl(a: BoxArr): BoxArr = BoxArr(<|[\ZZ32\] |>, <|[\AplEl\] ElB(a) |>)
+
+(* ⊃ first, and the (⊂i j)⊃m pick of a cell of a nested matrix *)
+first(a: BoxArr): AplEl = a.data[0]
+pick(a: BoxArr, i: ZZ32, j: ZZ32): AplEl = a.data[(i (a.shape[1])) + j]
+
+cell(e: AplEl): String =
+    if e.isBox then (BIG |||[ x <- seq((e.arr).data) ] cell(x))
+    else fmtN(e.num) end
+
+rep(s: String, n: ZZ32): String = do
+    r: String := ""
+    k: ZZ32 := 0
+    while k < n do r := (r s); k := k + 1 end
+    r
+  end
+
+(* the book's frame, ┌─┬─┐ … , over a nested matrix of equal-width cells *)
+frame(a: BoxArr): String = do
+    rows = a.shape[0]
+    cols = a.shape[1]
+    w = BIG MAX[ e <- seq(a.data) ] (|cell(e)|)
+    bar = rep("─", w)
+    top: String := "┌"
+    mid: String := "├"
+    bot: String := "└"
+    k: ZZ32 := 0
+    while k < cols do
+        top := (top bar (if k = (cols - 1) then "┐" else "┬" end))
+        mid := (mid bar (if k = (cols - 1) then "┤" else "┼" end))
+        bot := (bot bar (if k = (cols - 1) then "┘" else "┴" end))
+        k := k + 1
+    end
+    out: String := top
+    i: ZZ32 := 0
+    while i < rows do
+        line: String := "│"
+        j: ZZ32 := 0
+        while j < cols do
+            c: String := cell(a.data[(i cols) + j])
+            while (|c|) < w do c := (c " ") end
+            line := (line c "│")
+            j := j + 1
+        end
+        out := (out "\n" line)
+        if i < (rows - 1) then out := (out "\n" mid) end
+        i := i + 1
+    end
+    (out "\n" bot)
+  end
+
+run(): () = do
+    (* the chapter's nested matrix, Ex 9: 3 3⍴(1 2 3)(3 2 1)…(4 5 1) *)
+    vs: List[\List[\RR64\]\] =
+        <|[\List[\RR64\]\] <|[\RR64\] 1.0, 2.0, 3.0 |>, <|[\RR64\] 3.0, 2.0, 1.0 |>,
+          <|[\RR64\] 4.0, 5.0, 6.0 |>, <|[\RR64\] 5.0, 3.0, 1.0 |>,
+          <|[\RR64\] 5.0, 6.0, 8.0 |>, <|[\RR64\] 7.0, 1.0, 2.0 |>,
+          <|[\RR64\] 4.0, 3.0, 9.0 |>, <|[\RR64\] 3.0, 7.0, 6.0 |>,
+          <|[\RR64\] 4.0, 5.0, 1.0 |> |>
+    m = BoxArr(<|[\ZZ32\] 3, 3 |>, <|[\AplEl\] ElB(bvec(d)) | d <- seq(vs) |>)
+    println("Ex 9  ⎕ ← m ← 3 3⍴(1 2 3)(3 2 1)…(4 5 1)")
+    println(frame(m))
+    println("Ex 35 ⊃m        : " (cell(first(m))))
+    println("Ex 34 (⊂1 1)⊃m  : " (cell(pick(m, 1, 1))))
+    println("Ex 10 m[1;1]    : " (cell(ElB((pick(m, 1, 1)).arr))) "  (the enclosure)")
+    println("⊂ of a vector, rank: " ((encl(bvec(<|[\RR64\] 5.0, 6.0, 8.0 |>))).rank))
+end
+
+end

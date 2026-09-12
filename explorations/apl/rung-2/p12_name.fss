@@ -1,0 +1,48 @@
+component p12_name
+import p12_g.{...}
+import AplCore.{...}
+import List.{...}
+export Executable
+
+object Ws()
+    var names: List[\String\] := <|[\String\] |>
+    var vals: List[\AplArr\] := <|[\AplArr\] |>
+    find(n: String): ZZ32 = do
+        k: ZZ32 := -1
+        i: ZZ32 := 0
+        while i < (|names|) do
+            if (names[i]) = n then k := i end
+            i := i + 1
+        end
+        k
+      end
+    put(n: String, v: AplArr): () = do
+        k = find(n)
+        if k < 0 then
+            names := names || <|[\String\] n |>
+            vals := vals || <|[\AplArr\] v |>
+        else
+            vals := <|[\AplArr\] if i = k then v else vals[i] end | i <- seq(0 # |vals|) |>
+        end
+      end
+    get(n: String): AplArr = do
+        k = find(n)
+        if k < 0 then aplZilde() else vals[k] end
+      end
+end
+
+ws: Ws = Ws()
+wsSet(n: String, v: AplArr): AplArr = do ws.put(n, v); v end
+wsGet(n: String): AplArr = ws.get(n)
+
+run(): () = do
+    println("v ← 9 2 6 : " (w1⦇ v ← 9 2 6 ⦈))
+    println("v         : " (w1⦇ v ⦈))
+    println("data ← 1 2: " (w1⦇ data ← 1 2 ⦈))
+    println("v again   : " (w1⦇ v ⦈))
+    println("data      : " (w1⦇ data ⦈))
+    println("v ← data  : " (w1⦇ v ← data ⦈))
+    println("v          : " (w1⦇ v ⦈))
+end
+
+end

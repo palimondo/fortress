@@ -1,0 +1,55 @@
+(* p13 -- the rung-2 library half on its own, before any grammar: indexing,
+   indexed and selective assignment, scatter, squad, where, compress, the high
+   minus, and the workspace.  Library-only, so no parser is regenerated and the
+   run costs 15 s instead of 40. *)
+component p13_core
+import AplCore.{...}
+import List.{...}
+export Executable
+
+v(d: List[\RR64\]): AplArr = aplVec(d)
+show(t: String, a: AplArr): () = println((t "  " ("" a)))
+
+run(): () = do
+    vv = v(<|[\RR64\] 9.0, 2.0, 6.0, 3.0, 5.0, 8.0, 7.0, 4.0, 0.0, 1.0 |>)
+    m = aplReshape(v(<|[\RR64\] 3.0, 3.0 |>),
+                   v(<|[\RR64\] 4.0, 1.0, 6.0, 5.0, 2.0, 9.0, 7.0, 8.0, 3.0 |>))
+    show("v                 :", vv)
+    show("v[5]              :", aplIx1(vv, aplScalar(5.0)))
+    show("v[5 2]            :", aplIx1(vv, v(<|[\RR64\] 5.0, 2.0 |>)))
+    show("v[3] ← ¯1         :", aplIxSet1(vv, aplScalar(3.0), aplScalarNeg(1.0)))
+    println("")
+    show("m                 :", m)
+    show("m[1;1]            :", aplIx2(m, aplScalar(1.0), aplScalar(1.0)))
+    show("m[1;]             :", aplIxRow(m, aplScalar(1.0)))
+    show("m[;1]             :", aplIxCol(m, aplScalar(1.0)))
+    show("m[⊂1 1]           :", aplPick(m, v(<|[\RR64\] 1.0, 1.0 |>)))
+    show("m[(0 0)(1 1)(2 2)]:",
+         aplScatter(m, aplIdxCons(v(<|[\RR64\] 0.0, 0.0 |>),
+                      aplIdxCons(v(<|[\RR64\] 1.0, 1.0 |>),
+                      aplIdxOne(v(<|[\RR64\] 2.0, 2.0 |>))))))
+    show("1 1⌷m             :", aplSquad(v(<|[\RR64\] 1.0, 1.0 |>), m))
+    show("1⌷m               :", aplSquad(aplScalar(1.0), m))
+    show("(⊂1 1)⌷m          :", aplSquadEncl(v(<|[\RR64\] 1.0, 1.0 |>), m))
+    show("(⊂1 2)⌷m          :", aplSquadEncl(v(<|[\RR64\] 1.0, 2.0 |>), m))
+    println("")
+    sel = v(<|[\RR64\] 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0 |>)
+    data = v(<|[\RR64\] 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 |>)
+    show("select/data       :", aplCompress(sel, data))
+    rep = v(<|[\RR64\] 1.0, 3.0, 0.0, 0.0, 5.0, 0.0, 7.0, 0.0, 0.0, 1.0 |>)
+    show("replicate/data    :", aplCompress(rep, data))
+    s3 = v(<|[\RR64\] 0.0, 1.0, 0.0 |>)
+    show("select⌿m          :", aplCompressFirst(s3, m))
+    show("select/m          :", aplCompress(s3, m))
+    show("⍸sel              :", aplWhere(sel))
+    show("(select/data) ← ¯1:", aplSelSet(data, sel, aplScalarNeg(1.0)))
+    show("(0 0⍉m) ← ¯1 ¯1 ¯1:", aplDiagSet(m, v(<|[\RR64\] -1.0, -1.0, -1.0 |>)))
+    println("")
+    show("ws: set v         :", aplSet("v", vv))
+    show("ws: get v         :", aplGet("v"))
+    show("ws: v[3] ← ¯1     :", aplSet("v", aplIxSet1(aplGet("v"), aplScalar(3.0),
+                                                      aplScalarNeg(1.0))))
+    show("ws: get v         :", aplGet("v"))
+end
+
+end

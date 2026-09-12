@@ -22,8 +22,14 @@ aplOrigin(): ZZ32 = 0
 aplFloor1(v: RR64): RR64 = 1.0 (|\ v /|)
 aplCeil1(v: RR64): RR64 = 1.0 (|/ v \|)
 
+(* A negative number prints with APL's high minus ¯ (U+00AF), not the
+   hyphen: the book's v[3] ← ¯1 prints back as ¯1.  String literals have no \u
+   escape (Literal.rats:182-195), so the character stands in the source, which
+   is read as UTF-8. *)
 aplFmt(v: RR64): String =
-    if (1.0 (|\ v /|)) = v then ("" (|\ v /|)) else ("" v) end
+    if v < 0.0 then ("¯" aplFmt(-v))
+    elif (1.0 (|\ v /|)) = v then ("" (|\ v /|))
+    else ("" v) end
 
 (* RR64 -> ZZ32 by doubling and halving, since narrow is unavailable. *)
 aplAsInt(v: RR64): ZZ32 = do
@@ -212,6 +218,7 @@ aplDy(f: String, a: AplArr, b: AplArr): AplArr =
     elif f = "rho" then aplReshape(a, b)
     elif f = "cat" then aplCat(a, b)
     elif f = "match" then aplMatch(a, b)
+    elif f = "squad" then aplSquad(a, b)
     else aplScalar(-999.0) end
 
 aplMon(f: String, a: AplArr): AplArr =
@@ -232,6 +239,7 @@ aplMon(f: String, a: AplArr): AplArr =
                                    elif v < 0.0 then -1.0
                                    else 0.0 end, a)
     elif f = "divide" then aplMap(fn (v: RR64): RR64 => 1.0 / v, a)
+    elif f = "where" then aplWhere(a)
     else aplScalar(-999.0) end
 
 (* A reduction folds right to left, as APL's does. *)
@@ -268,5 +276,215 @@ aplRed(f: String, axis: String, a: AplArr): AplArr = do
         end
     end
   end
+
+(* ================================================ rung 2: indexing ======= *)
+
+aplRankOf(a: AplArr): ZZ32 = |a.shape|
+aplColsOf(a: AplArr): ZZ32 = a.shape[(|a.shape|) - 1]
+aplRowsOf(a: AplArr): ZZ32 = a.shape[0]
+
+aplAxisIx(n: ZZ32): AplArr = aplVec(<|[\RR64\] 1.0 k | k <- seq(0 # n) |>)
+
+(* The shape of an indexed result is the shapes of the index expressions
+   concatenated: a scalar index contributes nothing, so m[1;1] is a scalar,
+   m[1;] a vector, and v[5 2] a vector. *)
+aplIx1(a: AplArr, i: AplArr): AplArr =
+    AplArr(i.shape, <|[\RR64\] a.data[aplAsInt(p)] | p <- seq(i.data) |>)
+
+aplIx2(a: AplArr, i: AplArr, j: AplArr): AplArr = do
+    cols = aplColsOf(a)
+    AplArr(i.shape || j.shape,
+           <|[\RR64\] a.data[(aplAsInt(p) cols) + aplAsInt(q)]
+             | p <- seq(i.data), q <- seq(j.data) |>)
+  end
+
+aplIxRow(a: AplArr, i: AplArr): AplArr = aplIx2(a, i, aplAxisIx(aplColsOf(a)))
+aplIxCol(a: AplArr, j: AplArr): AplArr = aplIx2(a, aplAxisIx(aplRowsOf(a)), j)
+
+(* ---------------------------------------------- indexed assignment ------- *)
+(* AplArr is a value object, so an indexed assignment builds an updated copy;
+   the grammar stores it back into the workspace.  idx is the list of flat
+   positions being assigned, in the order the values are consumed. *)
+aplPut1(old: RR64, k: ZZ32, idx: List[\ZZ32\], v: AplArr): RR64 = do
+    res: RR64 := old
+    t: ZZ32 := 0
+    while t < (|idx|) do
+        if (idx[t]) = k then
+            res := if (|v.data|) = 1 then v.data[0] else v.data[t] end
+        end
+        t := t + 1
+    end
+    res
+  end
+
+aplPutAt(a: AplArr, idx: List[\ZZ32\], v: AplArr): AplArr =
+    AplArr(a.shape,
+           <|[\RR64\] aplPut1(a.data[k], k, idx, v) | k <- seq(0 # |a.data|) |>)
+
+aplIxSet1(a: AplArr, i: AplArr, v: AplArr): AplArr =
+    aplPutAt(a, <|[\ZZ32\] aplAsInt(p) | p <- seq(i.data) |>, v)
+
+aplIxSet2(a: AplArr, i: AplArr, j: AplArr, v: AplArr): AplArr = do
+    cols = aplColsOf(a)
+    aplPutAt(a, <|[\ZZ32\] (aplAsInt(p) cols) + aplAsInt(q)
+                  | p <- seq(i.data), q <- seq(j.data) |>, v)
+  end
+
+aplIxSetRow(a: AplArr, i: AplArr, v: AplArr): AplArr =
+    aplIxSet2(a, i, aplAxisIx(aplColsOf(a)), v)
+aplIxSetCol(a: AplArr, j: AplArr, v: AplArr): AplArr =
+    aplIxSet2(a, aplAxisIx(aplRowsOf(a)), j, v)
+
+(* Selective assignment.  APL inverts an arbitrary expression on the left of ←;
+   here each invertible form is its own function, called from its own
+   production: the compress form and the main-diagonal transpose. *)
+aplSelSet(a: AplArr, sel: AplArr, v: AplArr): AplArr = do
+    idx: List[\ZZ32\] := <|[\ZZ32\] |>
+    k: ZZ32 := 0
+    while k < (|a.data|) do
+        m = if (|sel.data|) = 1 then sel.data[0] else sel.data[k] end
+        if m =/= 0.0 then idx := idx || <|[\ZZ32\] k |> end
+        k := k + 1
+    end
+    aplPutAt(a, idx, v)
+  end
+
+aplDiagSet(a: AplArr, v: AplArr): AplArr = do
+    cols = aplColsOf(a)
+    n = aplRowsOf(a) MIN cols
+    aplPutAt(a, <|[\ZZ32\] (k cols) + k | k <- seq(0 # n) |>, v)
+  end
+
+(* ------------------------------------------------------ scatter indexing - *)
+(* A coordinate vector, one index per axis, addresses one cell; several of them
+   are collected into a k-by-rank matrix, so a list of index vectors needs no
+   element type that can hold an array. *)
+aplOffsetAt(a: AplArr, c: List[\RR64\], base: ZZ32): ZZ32 = do
+    off: ZZ32 := 0
+    k: ZZ32 := 0
+    while k < (|a.shape|) do
+        off := (off (a.shape[k])) + aplAsInt(c[base + k])
+        k := k + 1
+    end
+    off
+  end
+
+aplPick(a: AplArr, c: AplArr): AplArr = aplScalar(a.data[aplOffsetAt(a, c.data, 0)])
+
+aplIdxOne(v: AplArr): AplArr = AplArr(<|[\ZZ32\] 1, |v.data| |>, v.data)
+
+aplIdxCons(v: AplArr, rest: AplArr): AplArr =
+    AplArr(<|[\ZZ32\] (rest.shape[0]) + 1, rest.shape[1] |>, v.data || rest.data)
+
+aplScatter(a: AplArr, cs: AplArr): AplArr = do
+    r = cs.shape[1]
+    aplVec(<|[\RR64\] a.data[aplOffsetAt(a, cs.data, t r)]
+             | t <- seq(0 # cs.shape[0]) |>)
+  end
+
+(* --------------------------------------------------------------- squad ⌷ - *)
+aplSquad(i: AplArr, a: AplArr): AplArr = do
+    r = aplRankOf(a)
+    n = |i.data|
+    if r <= 1 then aplScalar(a.data[aplAsInt(i.data[0])])
+    elif n >= r then aplPick(a, i)
+    else aplIxRow(a, aplScalar(i.data[0]))
+    end
+  end
+
+aplSquadEncl(i: AplArr, a: AplArr): AplArr = do
+    r = aplRankOf(a)
+    if r <= 1 then aplIx1(a, i)
+    else aplIx2(a, i, aplAxisIx(aplColsOf(a)))
+    end
+  end
+
+(* ------------------------------------------------------------- ⍸ Where --- *)
+aplWhere(a: AplArr): AplArr = do
+    out: List[\RR64\] := <|[\RR64\] |>
+    k: ZZ32 := 0
+    while k < (|a.data|) do
+        if (a.data[k]) =/= 0.0 then out := out || <|[\RR64\] 1.0 k |> end
+        k := k + 1
+    end
+    aplVec(out)
+  end
+
+(* --------------------------------------------- compress and replicate ---- *)
+aplRepList(sel: AplArr, d: List[\RR64\]): List[\RR64\] = do
+    out: List[\RR64\] := <|[\RR64\] |>
+    i: ZZ32 := 0
+    while i < (|d|) do
+        c = aplAsInt(if (|sel.data|) = 1 then sel.data[0] else sel.data[i] end)
+        t: ZZ32 := 0
+        while t < c do
+            out := out || <|[\RR64\] d[i] |>
+            t := t + 1
+        end
+        i := i + 1
+    end
+    out
+  end
+
+aplSelIx(sel: AplArr, n: ZZ32): AplArr =
+    aplVec(aplRepList(sel, <|[\RR64\] 1.0 k | k <- seq(0 # n) |>))
+
+aplCompress(sel: AplArr, a: AplArr): AplArr =
+    if aplRankOf(a) <= 1 then aplVec(aplRepList(sel, a.data))
+    else aplIx2(a, aplAxisIx(aplRowsOf(a)), aplSelIx(sel, aplColsOf(a)))
+    end
+
+aplCompressFirst(sel: AplArr, a: AplArr): AplArr =
+    if aplRankOf(a) <= 1 then aplVec(aplRepList(sel, a.data))
+    else aplIx2(a, aplSelIx(sel, aplRowsOf(a)), aplAxisIx(aplColsOf(a)))
+    end
+
+aplScalarNeg(v: RR64): AplArr = aplScalar(-v)
+
+(* ----------------------------------------------------------- workspace --- *)
+(* APL's own variables.  A template cannot expand to a Fortress binding or an
+   assignment (gap row 8), but it can expand to a call, so the sub-language's
+   names live in one mutable object held by this component. *)
+object AplWs()
+    var names: List[\String\] := <|[\String\] |>
+    var vals: List[\AplArr\] := <|[\AplArr\] |>
+
+    find(n: String): ZZ32 = do
+        k: ZZ32 := -1
+        i: ZZ32 := 0
+        while i < (|names|) do
+            if (names[i]) = n then k := i end
+            i := i + 1
+        end
+        k
+      end
+
+    put(n: String, v: AplArr): () = do
+        k = find(n)
+        if k < 0 then
+            names := names || <|[\String\] n |>
+            vals := vals || <|[\AplArr\] v |>
+        else
+            vals := <|[\AplArr\] if i = k then v else vals[i] end
+                      | i <- seq(0 # |vals|) |>
+        end
+      end
+
+    get(n: String): AplArr = do
+        k = find(n)
+        if k < 0 then aplZilde() else vals[k] end
+      end
+
+    clear(): () = do
+        names := <|[\String\] |>
+        vals := <|[\AplArr\] |>
+      end
+end
+
+aplWs: AplWs = AplWs()
+
+aplSet(n: String, v: AplArr): AplArr = do aplWs.put(n, v); v end
+aplGet(n: String): AplArr = aplWs.get(n)
+aplWsClear(): () = aplWs.clear()
 
 end

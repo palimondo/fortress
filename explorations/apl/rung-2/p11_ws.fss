@@ -1,0 +1,65 @@
+(* p11 -- the workspace: APL's v ← 1 2 3 must survive from one apl⦇ … ⦈ to the
+   next, and rung 1 showed a template cannot expand to a Fortress binding or
+   assignment (gap row 8).  The reachable thing is a method call on a mutable
+   object, so this probe asks whether a single module-level mutable store can be
+   held by a component and reached through plain functions -- which is all a
+   template can emit.  Questions: (1) may a component hold a top-level
+   immutable binding to a reference object with var fields, mutated later?
+   (2) does a List[\String\] grow by || and index by [ ]?  (3) what does a
+   lookup of an unset name do? *)
+component p11_ws
+import List.{...}
+export Executable
+
+value object Arr(shape: List[\ZZ32\], data: List[\RR64\])
+    getter asString(): String = (BIG |||[ v <- seq(self.data) ] ("" v))
+end
+
+object Ws()
+    var names: List[\String\] := <|[\String\] |>
+    var vals: List[\Arr\] := <|[\Arr\] |>
+
+    find(n: String): ZZ32 = do
+        k: ZZ32 := -1
+        i: ZZ32 := 0
+        while i < (|names|) do
+            if (names[i]) = n then k := i end
+            i := i + 1
+        end
+        k
+      end
+
+    put(n: String, v: Arr): () = do
+        k = find(n)
+        if k < 0 then
+            names := names || <|[\String\] n |>
+            vals := vals || <|[\Arr\] v |>
+        else
+            vals := <|[\Arr\] if i = k then v else vals[i] end
+                      | i <- seq(0 # |vals|) |>
+        end
+      end
+
+    get(n: String): Arr = do
+        k = find(n)
+        if k < 0 then Arr(<|[\ZZ32\] 0 |>, <|[\RR64\] |>) else vals[k] end
+      end
+end
+
+ws: Ws = Ws()
+
+wsSet(n: String, v: Arr): Arr = do ws.put(n, v); v end
+wsGet(n: String): Arr = ws.get(n)
+
+run(): () = do
+    println("set v     : " (wsSet("v", Arr(<|[\ZZ32\] 3 |>, <|[\RR64\] 1.0, 2.0, 3.0 |>))))
+    println("get v     : " (wsGet("v")))
+    println("set w     : " (wsSet("w", Arr(<|[\ZZ32\] 2 |>, <|[\RR64\] 9.0, 8.0 |>))))
+    println("get v     : " (wsGet("v")))
+    println("reset v   : " (wsSet("v", Arr(<|[\ZZ32\] 1 |>, <|[\RR64\] 7.0 |>))))
+    println("get v     : " (wsGet("v")))
+    println("get w     : " (wsGet("w")))
+    println("get unset : [" (wsGet("zzz")) "]")
+end
+
+end

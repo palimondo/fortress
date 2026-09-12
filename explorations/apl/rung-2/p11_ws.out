@@ -1,0 +1,8 @@
+set v     : 1.0 2.0 3.0
+get v     : 1.0 2.0 3.0
+set w     : 9.0 8.0
+get v     : 1.0 2.0 3.0
+reset v   : 7.0
+get v     : 7.0
+get w     : 9.0 8.0
+get unset : []

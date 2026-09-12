@@ -1,0 +1,204 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress1625182836914898810rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress1625182836914898810rats/com/sun/fortress/parser/templateparser/TemplateParser70.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /tmp/fortress1625182836914898810rats/com/sun/fortress/parser/templateparser/TemplateParser70.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+=== examples of the chapter, against the book's printed output ===
+
+SKIP  Ex 1   out of scope: ⎕IO ← 0 is a ⎕ system name; realised instead as AplCore's index origin 0
+SKIP  Ex 2   out of scope: ]box on is a Dyalog user command, not language
+PASS  Ex 3a  v ← 9 2 6 3 5 8 7 4 0 1   (⎕ ← dropped)
+        want |9 2 6 3 5 8 7 4 0 1|
+        got  |9 2 6 3 5 8 7 4 0 1|
+PASS  Ex 3b  v[5] ⍝ Grab the cell at index 5
+        want |8|
+        got  |8|
+PASS  Ex 4   v[5 2] ⍝ Grab the cells at indices 5 and 2
+        want |8 6|
+        got  |8 6|
+PASS  Ex 5   v[3] ← ¯1  then  v
+        want |9 2 6 ¯1 5 8 7 4 0 1|
+        got  |9 2 6 ¯1 5 8 7 4 0 1|
+PASS  Ex 6a  m ← 3 3⍴4 1 6 5 2 9 7 8 3 ⍝ a 3×3 matrix
+        want |4 1 6
+5 2 9
+7 8 3|
+        got  |4 1 6
+5 2 9
+7 8 3|
+PASS  Ex 6b  m[1;1] ⍝ Row 1, col 1
+        want |2|
+        got  |2|
+PASS  Ex 6c  m[1;]  ⍝ Row 1
+        want |5 2 9|
+        got  |5 2 9|
+PASS  Ex 6d  m[;1]  ⍝ Col 1
+        want |1 2 8|
+        got  |1 2 8|
+PASS  Ex 7   m[⊂1 1] ⍝ Centre
+        want |2|
+        got  |2|
+PASS  Ex 8   m[(0 0)(1 1)(2 2)] ⍝ Three points along the main diagonal
+        want |4 2 3|
+        got  |4 2 3|
+SKIP  Ex 9   out of scope: m ← 3 3⍴(1 2 3)(3 2 1)… is a matrix OF VECTORS: a boxed element representation, priced in p15_box.fss
+SKIP  Ex 10  out of scope: ]DISPLAY of the enclosure returned by m[1;1] on that nested m
+SKIP  Ex 11  out of scope: the nested m again
+SKIP  Ex 12  out of scope: 1⌷m on the nested m
+SKIP  Ex 13  out of scope: 1 1⌷m on the nested m
+SKIP  Ex 14  out of scope: (⊂1 2)⌷m on the nested m
+SKIP  Ex 15  out of scope: 2⌷[1]m on the nested m; also ⌷[axis], which the grammar does not have
+SKIP  Ex 16  out of scope: 2⌷⍉m on the nested m
+PASS  Ex 17  n ← 3 3⍴4 1 6 5 2 9 7 8 3   (the book prints nothing)
+        want |4 1 6
+5 2 9
+7 8 3|
+        got  |4 1 6
+5 2 9
+7 8 3|
+PASS  Ex 18  n[⊂1 1] ⍝ Centre
+        want |2|
+        got  |2|
+PASS  Ex 19  n[(0 0)(1 1)(2 2)] ⍝ Three points along the main diagonal
+        want |4 2 3|
+        got  |4 2 3|
+PASS  Ex 20  1 1⌷n ⍝ Centre
+        want |2|
+        got  |2|
+PASS  Ex 21  (⊂1 1)⌷n ⍝ Repeat row 1
+        want |5 2 9
+5 2 9|
+        got  |5 2 9
+5 2 9|
+SKIP  Ex 22  out of scope: I←⌷⍨∘⊃⍨⍤0 99: the operators ⍨ ∘ ⍤ and a tacit definition, rungs 4 and 7
+SKIP  Ex 23  out of scope: the nested m again
+SKIP  Ex 24  out of scope: 1 2I m and 1 2⌷m on the nested m, with I from Ex 22
+SKIP  Ex 25  out of scope: (⊂1 2)I m and (⊂1 2)⌷m on the nested m
+SKIP  Ex 26  out of scope: (0 0)(1 2)(2 2)I m: a vector of coordinate pairs as a VALUE, and the nested m
+PASS  Ex 27a  data ← 0 1 2 3 4 5 6 7 8 9
+        want |0 1 2 3 4 5 6 7 8 9|
+        got  |0 1 2 3 4 5 6 7 8 9|
+PASS  Ex 27b  select ← 0 0 1 0 1 1 0 1 1 0  then  select/data
+        want |2 4 5 7 8|
+        got  |2 4 5 7 8|
+PASS  Ex 28  select ← 1 3 0 0 5 0 7 0 0 1  then  select/data
+        want |0 1 1 1 4 4 4 4 4 6 6 6 6 6 6 6 9|
+        got  |0 1 1 1 4 4 4 4 4 6 6 6 6 6 6 6 9|
+PASS  Ex 29  m ← 3 3⍴9?9   (adapted: bound to the book's own deal)
+        want |3 0 5
+4 1 8
+6 7 2|
+        got  |3 0 5
+4 1 8
+6 7 2|
+PASS  Ex 30  select ← 0 1 0   (the book prints nothing)
+        want |0 1 0|
+        got  |0 1 0|
+PASS  Ex 31  select⌿m ⍝ Replicate first
+        want |4 1 8|
+        got  |4 1 8|
+PASS  Ex 32  select/m ⍝ Replicate
+        want |0
+1
+7|
+        got  |0
+1
+7|
+SKIP  Ex 33  out of scope: the nested m again
+SKIP  Ex 34  out of scope: (⊂1 1)⊃m Pick on the nested m: boxed elements, priced in p15_box.fss
+SKIP  Ex 35  out of scope: ⊃m on the nested m
+SKIP  Ex 36  out of scope: G ← 2 3⍴('Adam' 1)…: nested arrays and characters
+PASS  Ex 37a  m ← 3 3⍴9?9   (adapted: the book's own deal)
+        want |1 2 3
+4 8 0
+6 5 7|
+        got  |1 2 3
+4 8 0
+6 5 7|
+PASS  Ex 37b  (0 0⍉m) ← ¯1 ¯1 ¯1  then  m
+        want |¯1  2  3
+ 4 ¯1  0
+ 6  5 ¯1|
+        got  |¯1  2  3
+ 4 ¯1  0
+ 6  5 ¯1|
+PASS  Ex 38  (select/data) ← ¯1 ¯1 ¯1 ¯1 ¯1  then  data
+        want |0 1 ¯1 3 ¯1 ¯1 6 ¯1 ¯1 9|
+        got  |0 1 ¯1 3 ¯1 ¯1 6 ¯1 ¯1 9|
+SKIP  Ex 39  out of scope: s ← 'This is a string' and (2↑s) ← '**': characters
+SKIP  Ex 40  out of scope: ((s='i')/¨s)←'*': nested character vectors and the each operator ¨
+
+checks passed: 25 of 26, over 19 of the chapter's 40 examples
+
+=== beyond the chapter: what rung 2 added but the chapter does not exercise ===
+
+PASS  X1   ⍸0 0 1 0 1            (⍸ Where)
+        want |2 4|
+        got  |2 4|
+PASS  X2   v[⍸0 1 0 1 0 1 0 0 0 0]  (Where as an index)
+        want |2 ¯1 8|
+        got  |2 ¯1 8|
+FAIL  X3   q ← 3 3⍴⍳9 then q[1;1] ← 99 then q   (assignment on two axes)
+        want | 0  1  2
+ 3 99  5
+ 6  7  8|
+        got  |0  1 2
+3 99 5
+6  7 8|
+FAIL  X4   q[;0] ← 0 0 0                        (an elided axis on the left)
+        want |0  1  2
+0 99  5
+0  7  8|
+        got  |0  1 2
+0 99 5
+0  7 8|
+FAIL  X5   q[0;] ← 7 7 7
+        want |7  7  7
+0 99  5
+0  7  8|
+        got  |7  7 7
+0 99 5
+0  7 8|
+PASS  X6   2⌷v                   (squad on a vector)
+        want |6|
+        got  |6|
+PASS  X7   1⌷n                   (squad, leading-axis cell of a matrix)
+        want |5 2 9|
+        got  |5 2 9|
+PASS  X8   2/1 2 3               (Replicate with a scalar count)
+        want |1 1 2 2 3 3|
+        got  |1 1 2 2 3 3|
+PASS  X9   m1 ← 1 2 3 then m1[1]  (a digit in a name)
+        want |1 2 3|
+        got  |1 2 3|
+PASS  X10  m1[1]
+        want |2|
+        got  |2|
+PASS  X11  a ← b ← 1 2           (assignment is an expression)
+        want |1 2|
+        got  |1 2|
+PASS  X12  b
+        want |1 2|
+        got  |1 2|
+PASS  X13  +/n[1;]               (an indexed expression as an argument)
+        want |16|
+        got  |16|
+PASS  X14  ⍴n[;1 2]              (a matrix from two index vectors)
+        want |3 2|
+        got  |3 2|
+PASS  X15  ⍎(hostm)[1;2]         (rung 1's escape, then indexing)
+        want |5|
+        got  |5|
+PASS  X16  zzz                   (an unset name is zilde)
+        want ||
+        got  ||
+PASS  X17  n[1 2;0]              (two rows, one column)
+        want |5 7|
+        got  |5 7|
+PASS  X18  (0 1)(2 2)            as coordinates: n[(0 1)(2 2)]
+        want |1 3|
+        got  |1 3|
+
+beyond-chapter checks passed: 15 of 18
