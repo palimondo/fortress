@@ -10,6 +10,7 @@ The rungs follow the chapters of Stefan Kruger's "Learning APL" (https://xpqz.gi
 |---|---|---|---|
 | 1 | It's arrays all the way down (`array.html`) | arrays, strands, scalar extension, `⍳ ⍴`, reductions, rank | done: 18 of 28 examples in scope all pass, 10 out of scope (nested arrays, `]box`, `⎕` names); `rung-1/REPORT.md` |
 | 2 | Indexing (`indexing.html`) | bracket indexing, `⌷`, index origin | done: 25 of 25 checks over 19 of the 40 examples pass (the goldens call only 5 "core"), 21 out of scope (16 nested `m`, `⎕`/`]`, tacit `⌷⍨∘⊃⍨⍤`, characters); APL names and `←` now work through a workspace; `rung-2/REPORT.md` |
+| 2b | Indexing again, variables only | APL names as **real Fortress variables** | done: the lambda route of the paper's design works — an `Id` gap as a lambda parameter binds, the name needs no `⍎(…)` escape, and host code in the block reads it; 52 of 52 checks, the chapter's variable examples run both by lambda binding and over host-declared cells, which also recovers rebinding and the cross-block session; costs a closed name set (1 grammar line per name) because a reference cannot be a gap. Also: what the shipped `Regex.fsi` teaches about delimiting, `#` and escaping, and a newline-terminated `apl 2 3 ⍴ ⍳ 6` form. `rung-2b/REPORT.md` |
 | 3 | Glyphiary (`manip.html`) | the bulk of the primitives, monadic and dyadic | |
 | 4 | Direct functions and operators (`functions.html`) | `{⍵}` dfns as generated `fn`, user operators | |
 | 5 | Iteration (`iteration.html`) | `¨`, power operator, recursion | |

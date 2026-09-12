@@ -1,0 +1,13 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress16310664138290803681rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress16310664138290803681rats/com/sun/fortress/parser/templateparser/TemplateParser13.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+a1. aplw 2 3 ⍴ ⍳ 6 as a non-final statement -> (2 3 ⍴ (⍳ 6))
+a2. a second one, and a statement after it   -> 1 2 3
+b1. aplx as the last statement of a do block:
+b2. its value -> (2 3 ⍴ (⍳ 6))
+c1. aply 2 3 ⍴ ⍳ 6, nothing to leave by     -> (2 3 ⍴ (⍳ 6))
+c2. aply 1 2 / 3 4 on two lines             -> 1 2 3 4
+d1. aplz⦇ 2 3 ⍴ ⍳ 6 ⦈ in an argument position -> (2 3 ⍴ (⍳ 6))
+d2. and mid-expression: 1 2 | 3 4

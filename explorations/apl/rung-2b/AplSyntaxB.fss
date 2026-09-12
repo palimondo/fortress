@@ -1,0 +1,5 @@
+(* the stub component the grammar api needs; the grammar's free names resolve in
+   the component that writes apl⦇ … ⦈, not here *)
+component AplSyntaxB
+export AplSyntaxB
+end

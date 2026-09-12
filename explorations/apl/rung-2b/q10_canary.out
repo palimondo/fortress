@@ -1,0 +1,22 @@
+=== baselines ===
+Regex.fsi as shipped               Ok 
+base/AplSyntax.fsi                 Ok 
+rung-1/p08a_g.fsi (one escaped +)  /home/user/fortress/explorations/apl/rung-1/p08a_g.fsi:5:1-2:     Unmatched delimiter "api". 
+
+=== one escape, with one construct of Regex.fsi above it ===
+nothing above it                   REJECTED   (the escape was seen)
+^ (Regex.fsi:116)                  REJECTED   (the escape was seen)
+$ (Regex.fsi:117)                  REJECTED   (the escape was seen)
+. (Regex.fsi:119)                  REJECTED   (the escape was seen)
+_ as any character                 REJECTED   (the escape was seen)
+pling-escaped # (\#)               REJECTED   (the escape was seen)
+a class [A:Za:z0:9~!@%&]           Ok         (the escape went unchecked)
+a bare # after a terminal          REJECTED   (the escape was seen)
+an escaped : (`:)                  REJECTED   (the escape was seen)
+an APL glyph (the rung-1 recipe)   Ok         (the escape went unchecked)
+
+=== which token of Regex.fsi:93 stops the scan ===
+a plain template                   REPORTED   (the scan survived it)
+a list literal <| … |>           REPORTED   (the scan survived it)
+the splice ** alone                silent     (the scan died on it)
+<| xs** |> as in Regex.fsi         silent     (the scan died on it)

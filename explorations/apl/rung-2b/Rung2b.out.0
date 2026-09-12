@@ -1,0 +1,22 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7609667907823993188rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7609667907823993188rats/com/sun/fortress/parser/templateparser/TemplateParser151.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress10978001493082645641rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress10978001493082645641rats/com/sun/fortress/parser/templateparser/TemplateParser227.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Turn on "-debug interpreter" for Java-level stack trace.
+null/home/user/fortress/explorations/apl/rung-2b/Rung2b.fss:
+    Error occurred while instantiating and executing a temporary parser: com.sun.fortress.parser.templateparser.TemplateParser227 (/home/user/fortress/explorations/apl/rung-2b/Rung2b.fss:131:34:
+    Syntax Error)
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

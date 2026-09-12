@@ -1,0 +1,58 @@
+component q11_nlform
+import q11_g.{...}
+export Executable
+
+(* the sub-language's "library": a phrase reduces to a String, so that what the
+   grammar read is visible in the output *)
+q11num(n: ZZ32): String = ("" n)
+q11cat(a: String, b: String): String = (a " " b)
+q11mon(f: String, r: String): String = ("(" f " " r ")")
+q11dy(f: String, l: String, r: String): String = ("(" l " " f " " r ")")
+
+(* a: the AND-predicate form, which looks at the newline without eating it, so
+   the host still has its statement separator *)
+lookahead(): () = do
+    a = aplw 2 3 ⍴ ⍳ 6
+    println ("a1. aplw 2 3 ⍴ ⍳ 6 as a non-final statement -> " a)
+    b = aplw 1 2 3
+    println ("a2. a second one, and a statement after it   -> " b)
+    (* a3. the same form in an ARGUMENT position is rejected -- the lookahead
+       wants a newline where the argument list has a ")":
+         q11_nlform.fss:19:58: Syntax Error
+         Error occurred while instantiating and executing a temporary parser
+       kept as q11_nlform.fss.0 / .out.0. *)
+end
+
+(* b: the consuming form, as the LAST statement of a block: it eats the newline
+   and the block's end follows *)
+consuming(): String = do
+    println "b1. aplx as the last statement of a do block:"
+    aplx 2 3 ⍴ ⍳ 6
+end
+
+(* c: no terminator at all, as the regex grammar has none *)
+noterm(): () = do
+    c = aply 2 3 ⍴ ⍳ 6
+    println ("c1. aply 2 3 ⍴ ⍳ 6, nothing to leave by     -> " c)
+    (* the hazard: the next line begins with a numeral.  w crosses a line break,
+       so the strand may continue onto it; if the printed value has four
+       elements the sub-grammar swallowed the second line. *)
+    d = aply 1 2
+        3 4
+    println ("c2. aply 1 2 / 3 4 on two lines             -> " d)
+end
+
+(* d: the bracketed form, in the same grammar as the other three *)
+bracketed(): () = do
+    println ("d1. aplz⦇ 2 3 ⍴ ⍳ 6 ⦈ in an argument position -> " (aplz⦇ 2 3 ⍴ ⍳ 6 ⦈))
+    println ("d2. and mid-expression: " (aplz⦇ 1 2 ⦈) " | " (aplz⦇ 3 4 ⦈))
+end
+
+run(): () = do
+    lookahead()
+    println ("b2. its value -> " (consuming()))
+    noterm()
+    bracketed()
+end
+
+end

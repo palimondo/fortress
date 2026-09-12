@@ -1,0 +1,38 @@
+/abc/ = /abc/
+/a*bc/ = /a*bc/
+/a*?bc/ = /a*?bc/
+/a(bc)/ = /a(bc)/
+/a+bc/ = /a+bc/
+/a+?bc/ = /a+?bc/
+/(ab)*c/ = /(ab)*c/
+/^foo/ = /^foo/
+/bar$/ = /bar$/
+/^foo$/ = /^foo$/
+/foo.x/ = /foo.x/
+/x?/ = /x?/
+/[foo]/ = /[foo]/
+/[^foo]/ = /[^foo]/
+/a{1}/ = /a{1}/
+/a{1,}/ = /a{1,}/
+/a{1,2}/ = /a{1, 2}/
+/a{,2}/ = /a{,2}/
+/\a/ = /\a/
+/\\/ = /\\/
+/\// = /\//
+/\a\b\c\d/ = /\a\b\c\d/
+/a|b/ = /a|b/
+/(abc)|(def)/ = /(abc)|(def)/
+/(abc|def)/ = /(abc|def)/
+/:/ = /:/
+/#/ = /#/
+/&/ = /&/
+/4/ = /4/
+/#{1+1}/ = /\#{1+1}/
+/a/ CONTAINS 'a'? true
+'a' IN /a/? true
+/\d+?/ CONTAINS '542'? true
+/'542' IN \d+?/? true
+/\d+?/ CONTAINS 'apple542'? false
+/\w+\d+?/ CONTAINS 'apple542'? true
+n = n? true
+/123/ = /123/? true
