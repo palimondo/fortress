@@ -62,6 +62,7 @@ and commentary with brief attributed quotations, never document reproductions.
   January 2009, Savannah, Georgia; 11 pages, © Sun Microsystems.
   - PDF: https://www.cs.cmu.edu/~aldrich/FOOL09/allen.pdf (the FOOL'09 program
     page at CMU still hosts the accepted papers).
+  - Storage: the PDF is not committed (copyright Sun Microsystems, now Oracle, no redistribution granted), the same rule as for the Oracle decks; it lives in the ignored `research/decks/` per session and is reached by the link above. The Wayback Machine could not be reached from this container to capture the URL; a capture from another machine would make the link durable.
   - Local copy: `decks/GrowingASyntax-FOOL2009.pdf`; committed working extract:
     `extracts/growing-a-syntax.md`.
   - The design document for Fortress's syntactic abstraction (`grammar … end`):
