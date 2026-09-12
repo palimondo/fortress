@@ -1,0 +1,1 @@
+./bin/fortress: line 32: /tmp/fortress-toolchains/jdk-25.0.4.1+1/bin/java: No such file or directory
