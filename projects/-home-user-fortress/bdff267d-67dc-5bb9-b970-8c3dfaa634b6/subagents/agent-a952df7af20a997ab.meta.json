@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","description":"APL variables via lambda binding in the grammar","toolUseId":"toolu_0164osZBdJ3zbhkUr8uumMcr","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","description":"APL variables via lambda binding in the grammar","toolUseId":"toolu_0164osZBdJ3zbhkUr8uumMcr","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","stoppedByUser":true}
