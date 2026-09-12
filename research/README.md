@@ -55,6 +55,20 @@ and commentary with brief attributed quotations, never document reproductions.
 - Adjacent canon: ICFP 2009 foldl/foldr keynote; Strange Loop 2010 "How to
   Think about Parallel Programming: Not!"; "Growing a Language" (OOPSLA 1998).
 
+## Papers
+
+- **"Growing a Syntax"** — Eric Allen, Ryan Culpepper, Janus Dam Nielsen, Jon
+  Rafkind, Sukyoung Ryu; Foundations of Object-Oriented Languages (FOOL), 24
+  January 2009, Savannah, Georgia; 11 pages, © Sun Microsystems.
+  - PDF: https://www.cs.cmu.edu/~aldrich/FOOL09/allen.pdf (the FOOL'09 program
+    page at CMU still hosts the accepted papers).
+  - Local copy: `decks/GrowingASyntax-FOOL2009.pdf`; committed working extract:
+    `extracts/growing-a-syntax.md`.
+  - The design document for Fortress's syntactic abstraction (`grammar … end`):
+    the spec's DSL chapter is a one-line stub deferring to this paper
+    (`Specification/advanced/domain-specific-languages.tex`, `\cite{fool09}`), so
+    this is the only prose specification of the mechanism the APL probes exercise.
+
 ## Recovery technique (Wayback CDX)
 
 The APEX server serves documents by DOC_ID under per-session URLs, so filename
