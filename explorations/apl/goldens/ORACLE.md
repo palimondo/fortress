@@ -50,16 +50,17 @@ Even at the closest boxing level the frames are not the same characters. GNU APL
 
 ## How many book outputs the oracle disagreed with
 
-Counted per example: an example disagrees if the oracle's printed text differs from the book's after blank lines and trailing spaces are normalised away. 100 of the 127 examples disagree.
+Counted per example: an example disagrees if the oracle's printed text differs from the book's after blank lines and trailing spaces are normalised away. 121 of the 156 examples disagree.
 
 | chapter | examples | disagree | display only | different values | GNU APL errors |
 |---|---|---|---|---|---|
 | 1, arrays | 28 | 20 | 9 | 11 | 0 |
 | 2, indexing | 40 | 28 | 9 | 6 | 13 |
 | 3, glyphiary | 59 | 52 | 29 | 13 | 10 |
-| total | 127 | 100 | 47 | 30 | 23 |
+| 4, functions | 29 | 21 | 0 | 4 | 17 |
+| total | 156 | 121 | 47 | 34 | 40 |
 
-"Display only" means the values agree once the frames are stripped: 47 of the 100 disagreements are the `∼`/`ϵ` frame glyphs and the `]BOXING`-versus-`]box` framing, nothing more. The other 53 are real.
+"Display only" means the values agree once the frames are stripped: 47 of the 121 disagreements are the `∼`/`ϵ` frame glyphs and the `]BOXING`-versus-`]box` framing, nothing more. The other 74 are real. Chapter 4 contributes none of the display-only kind: it prints few arrays, and almost everything it does print, GNU APL refuses outright.
 
 ## The families of real disagreement
 
@@ -78,9 +79,26 @@ These are the recurring causes, each one a fact about what a GNU APL oracle can 
 - `⍕` of a mixed nested matrix flattens onto one line instead of aligning columns (chapter 3, Ex 35).
 - Dyadic `?` (Deal) is random, so every example built on `12?12` or `9?9` differs by construction and carries no information: chapter 2's Ex 29, 31, 32, 37 and chapter 3's Ex 2, 6, 7, 8, 10, 18, 50. Pinning `⎕RL` would make these reproducible but still would not match Dyalog's generator.
 
+## Chapter 4: dfns and dops
+
+Chapter 4 is about direct functions, so almost all of it lands on the one part of GNU APL that is furthest from Dyalog. GNU APL has *lambdas*, `{…}`, and they are much less than a dfn. What works: `⍺` and `⍵`; several statements separated by `⋄`; local names; nesting one lambda inside another; applying a lambda by name. What does not, each verified on its own:
+
+- **Multi-line definition.** `]dinput` is `BAD COMMAND`, and a `{` left open at end of line is `Unbalanced left curly bracket`. Every multi-line dfn in the chapter was therefore translated into a one-line lambda with `⋄` separators and the trailing `⍝` comments dropped — a comment inside a one-liner would swallow the rest of the definition. This is flagged as an `Oracle translation:` line on each affected example.
+- **Guards.** A `:` inside a lambda is `Illegal : in immediate execution`, and it stays a `SYNTAX ERROR` when the same lambda is written inside a `∇`-defined function, so this is not a scripting restriction but the absence of the feature. Guards take down Ex 2, 9, 11, 14 and 15, and with them the named functions those examples define, so Ex 10 and Ex 12 fail as `VALUE ERROR`s.
+- **Recursion.** `∇` as a self-reference in a lambda is a `SYNTAX ERROR` on its own (`dummy ← {∇⍵}` fails with no guard in sight). Since the chapter's recursive `sum` also uses a guard, both halves of it are unavailable.
+- **Direct operators.** `⍺⍺` is parsed as `⍺ ⍺`: the definition of `foldl` is accepted, and every application of it is a `VALENCE ERROR`. `⍵⍵` and `∇∇` do not arise in this chapter but there is no dop mechanism for them either.
+- **Modified assignment.** `a +← 45` and `a ⊢← ¯99` are `SYNTAX ERROR`s inside a lambda (`λ1[1]  λ←a+←45`), so the chapter's whole "how do I change an outer name" sequence, Ex 19 to Ex 24, is unavailable.
+- **Rebinding a lambda name.** A name that already holds a lambda cannot be assigned another one: `foo ← {…}` twice is `SYNTAX ERROR` at `foo←λ1`, and the first definition stays in force. The chapter defines `foo` seven times (Ex 14 to Ex 23); the first one GNU APL accepts is Ex 16, and from there on the oracle is running that body — which is why Ex 18, 20, 22 and 24 all print `¯99 42`.
+- **Default left argument.** `⍺ ← ¯99` is an ordinary assignment here, not "give `⍺` this value only if called monadically". It overwrites a left argument that *was* supplied (Ex 7 prints 0 where the book prints 156) and a second `⍺ ←` wins over the first (Ex 8 prints `¯999900` where the book prints 0). This is the one place in the chapter where GNU APL runs the code and quietly computes something else.
+- **Name scoping.** Not visible in the run, because `foo` could not be rebound, but a side probe on a fresh name shows `{a ← 45 ⋄ _ ← {a←¯99}⍬ ⋄ a}` returning `¯99`, not the book's 45: an inner lambda assigns to the outer `a`. GNU APL scopes lambda names dynamically where Dyalog's dfns are lexical, which is the very point Ex 17 is making.
+
+Two disagreements are old news rather than new: `]box on`/`]rows on` print nothing (`]BOXING 7` and `⎕PW←10000` stand in), and tacit assignment of a derived function, `sumred ← +/`, is a `SYNTAX ERROR`, exactly as `tally ← +/=⍨` was in chapter 3. What did run unchanged: plain one-line dfns with `⍺` and `⍵` (Ex 4, 6, 13), the notebook's `⍬`, and the windowed reduction `2 (+/) ⍳10`.
+
+The net of it: GNU APL can adjudicate APL2 array semantics, but it cannot adjudicate dfns. For anything in this chapter beyond `{⍺+⍵}`, the book is the only authority available here.
+
 ## Reproducing the run
 
-The three scripts actually fed to the interpreter are kept here as `oracle-ch1.apl`, `oracle-ch2.apl` and `oracle-ch3.apl`; each begins with its `⎕PW` and `]BOXING` setup and prints an `@@CELL n` marker before each example, which is how the outputs were split back apart per example. To re-run a chapter:
+The four scripts actually fed to the interpreter are kept here as `oracle-ch1.apl`, `oracle-ch2.apl`, `oracle-ch3.apl` and `oracle-ch4.apl`; each begins with its `⎕PW` and `]BOXING` setup and prints an `@@CELL n` marker before each example, which is how the outputs were split back apart per example. To re-run a chapter:
 
 ```
 /usr/local/bin/apl --script --OFF --to_COUT -f oracle-ch3.apl
