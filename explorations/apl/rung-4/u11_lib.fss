@@ -1,0 +1,93 @@
+(* u11: the rung-4 library half, called directly, with no grammar in the way --
+   the frame stack, the rank-3 carrier, and the rank operator.  A library-only
+   probe costs 15 s where a probe that uses the expander costs 25-40 s, so every
+   library question is asked here first.
+
+   (a) aplCall / aplCall1 / ⍺ ⍵ ∇, and a dfn nested in a dfn
+   (b) the ⍺ contract and aplDefaultAlpha
+   (c) aplBindLeft (0∘⌈) and aplTruthy over both a 0/1 and a host Boolean
+   (d) rank 3: build, show, ≢ ⍴ , ⊃, reshape in and out, 1 0 2⍉
+   (e) elementwise arithmetic and comparison on rank 3
+   (f) the rank operator: f⍤1 over a matrix (scalar and vector results), f⍤1
+       over a rank-3 array, f⍤2 over a rank-3 array, and the dyadic forms
+   (g) a LENGTH ERROR from cells of different shapes *)
+component u11_lib
+import AplCore.{...}
+export Executable
+
+run(): () = do
+    println("(a) the frame stack:")
+    add = fn (): Any => aplAlpha() + aplOmega()
+    println(("  aplCall(⍺+⍵, 32, 98) = " aplShow(aplCall(add, 32.0, 98.0))))
+    nested = fn (): Any => do
+                 inner = fn (): Any => aplOmega() × 2.0
+                 aplAlpha() + aplCall1(inner, aplOmega())
+               end
+    println(("  a dfn in a dfn, ⍺+2×⍵ with 1, 20 = " aplShow(aplCall(nested, 1.0, 20.0))))
+    (* ∇: sum ⍳n through aplSelf *)
+    var sumv: Any := 0.0
+    sumv := fn (): Any => do
+                aplDefaultAlpha(0.0)
+                if aplTruthy(0.0 = (≢ aplOmega())) then aplAlpha()
+                else aplCall(aplSelf(), aplAlpha() + (⊃ aplOmega()), aplDrop(1.0, aplOmega()))
+                end
+              end
+    println(("  ∇ recursion, sum ⍳10 = " aplShow(aplCall1(sumv, aplIota(10.0)))))
+    println(("  100 sum ⍳10 = " aplShow(aplCall(sumv, 100.0, aplIota(10.0)))))
+    println(("  frame depth after = " aplDepth()))
+
+    println("(b) ⍺ absent:")
+    r = try aplShow(aplCall1(add, 3.0)) catch e CallerViolation => "CallerViolation" end
+    println(("  reading ⍺ in a monadic call -> " r))
+    dflt = fn (): Any => do aplDefaultAlpha(-99.0); aplAlpha() + aplOmega() end
+    println(("  {⍺ ← ¯99 ⋄ ⍺+⍵} 99     = " aplShow(aplCall1(dflt, 99.0))))
+    println(("  57 {⍺ ← ¯99 ⋄ ⍺+⍵} 99  = " aplShow(aplCall(dflt, 57.0, 99.0))))
+
+    println("(c) ∘ and the guard's truth:")
+    relu = aplBindLeft(fn (): Any => aplAlpha() MAX aplOmega(), 0.0)
+    println(("  0∘⌈ on ¯2 ¯1 0 1 2 = "
+             aplShow(aplCall1(relu, aplVec(5, fn (i: ZZ32): RR64 => (1.0 i) - 2.0)))))
+    println(("  aplTruthy(1.0) = " aplTruthy(1.0) ", aplTruthy(0.0) = " aplTruthy(0.0)
+             ", aplTruthy(2.0 < 3.0) = " aplTruthy(2.0 < 3.0)))
+
+    println("(d) rank 3:")
+    t = aplReshape3(2.0, 3.0, 4.0, aplIota(24.0))
+    println(("  2 3 4⍴⍳24 =" // aplShow(t)))
+    println(("  ≢t = " aplShow(≢ t) ", ⍴t = " aplShow(aplShapeOf(t)) ", ⊃t = " aplShow(⊃ t)))
+    println(("  ,t = " aplShow(aplRavel(t))))
+    println(("  2 12⍴t = " // aplShow(aplReshapeM(2.0, 12.0, t))))
+    println(("  6⍴t = " aplShow(aplReshapeV(6.0, t))))
+    p = aplPerm(1.0, 0.0, 2.0, t)
+    println(("  ⍴1 0 2⍉t = " aplShow(aplShapeOf(p))))
+    println(("  1 0 2⍉t =" // aplShow(p)))
+
+    println("(e) elementwise on rank 3:")
+    println(("  t÷2 =" // aplShow(t ÷ 2.0)))
+    println(("  ⍴(t+t) = " aplShow(aplShapeOf(t + t)) ", ⊃(t×t) = " aplShow(⊃ (t × t))))
+    println(("  ,(t>20) = " aplShow(aplRavel(t > 20.0))))
+
+    println("(f) the rank operator:")
+    m = aplMat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((4 i) + j))
+    println(("  m =" // aplShow(m)))
+    sumf = fn (): Any => aplSumLast(aplOmega())
+    revf = fn (): Any => aplRev(aplOmega())
+    println(("  +/⍤1⊢m = " aplShow(aplRank1(sumf, m))))
+    println(("  ⌽⍤1⊢m =" // aplShow(aplRank1(revf, m))))
+    println(("  ⍉⍤2⊢m =" // aplShow(aplRank2(fn (): Any => aplTrans(aplOmega()), m))))
+    println(("  +/⍤1⊢t =" // aplShow(aplRank1(sumf, t))))
+    println(("  ⌽⍤1⊢t (rank 3 back) : ⍴ = " aplShow(aplShapeOf(aplRank1(revf, t)))))
+    println(("  ,⍤2⊢t =" // aplShow(aplRank2(fn (): Any => aplRavel(aplOmega()), t))))
+    println(("  ⍉⍤2⊢t : ⍴ = " aplShow(aplShapeOf(aplRank2(fn (): Any => aplTrans(aplOmega()), t)))))
+    println(("  1 2 3 4 +⍤1⊢m =" // aplShow(aplRank1(add, aplIota(4.0), m))))
+    println(("  10 +⍤1⊢m =" // aplShow(aplRank1(add, 10.0, m))))
+    mk = aplMat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 100.0)
+    println(("  m {⍺+⍵}⍤1 mk =" // aplShow(aplRank1(add, mk, m))))
+    pl = aplMat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 1000.0)
+    println(("  pl +⍤2⊢t =" // aplShow(aplRank2(add, pl, t))))
+
+    println("(g) cells of different shapes:")
+    bad = fn (): Any => aplTake(⊃ aplOmega(), aplOmega())
+    e2 = try aplShow(aplRank1(bad, m)) catch e CallerViolation => "CallerViolation" end
+    println(("  a cell whose result length varies -> " e2))
+  end
+end

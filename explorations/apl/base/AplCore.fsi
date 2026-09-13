@@ -458,4 +458,172 @@ aplProdFirst(x: RR64): RR64
 aplProdFirst[\nat s\](v: Vector[\RR64,s\]): RR64
 aplProdFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\]
 
+
+(* ============================================ rung 4: dfns and operators ==
+   A dfn is a ZERO-parameter lambda over a frame stack: the host refuses every
+   nested re-declaration of a name (../rung-4/u01-u03), so ⍺ and ⍵ cannot be
+   parameters once dfns nest.  aplCall pushes (f, ⍺, ⍵), calls f(), pops.
+   Every APL function value has that shape, the glyph tables of AplSyntax
+   included.  Rank 3 joins the dispatch family as Array3[\RR64,0,a,0,b,0,c\]
+   (u07), a plane and a 1 0 2 axis order are views (u08), and the rank operator
+   ⍤ decides its result's rank from the FIRST cell's result (u09).
+   FORTRESS_THREADS=1 is assumed: the frame stack is one mutable object. **)
+
+(** The frame stack.  aplAlpha's contract is APL's VALUE ERROR: reading ⍺ in a
+    monadic call is a caller violation.  aplDefaultAlpha sets ⍺ only when it is
+    absent, so a second `⍺ ←` has no effect, as in APL. **)
+aplCall(f: Any, l: Any, r: Any): Any
+aplCall1(f: Any, r: Any): Any
+aplAlpha(): Any
+aplOmega(): Any
+aplSelf(): Any
+aplHasAlpha(): Boolean
+aplDefaultAlpha(e: Any): ()
+aplDepth(): ZZ32
+aplTruthy(c: Any): Boolean
+aplBindLeft(f: Any, a: Any): ()->Any
+aplPickAt[\nat s\](i: RR64, v: Vector[\RR64,s\]): RR64
+
+(** APL's × between two scalars: the host library declares no `opr ×` at all. **)
+opr ×(a: RR64, b: RR64): RR64
+
+(** Rank 3.  The parameter type is Array3 itself -- there is no rank-3
+    Vector/Matrix analogue -- and the result type the runtime-sized array. **)
+aplArr3(d0: ZZ32, d1: ZZ32, d2: ZZ32, f: (ZZ32,ZZ32,ZZ32) -> RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+aplD0[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): ZZ32
+aplD1[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): ZZ32
+aplD2[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): ZZ32
+aplShow[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): String
+opr ≢[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): RR64
+opr ⊃[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): RR64
+aplShapeOf[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,ZZ32\]
+aplRavel[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,ZZ32\]
+aplReshape3(d0: RR64, d1: RR64, d2: RR64, x: RR64): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+aplReshape3[\nat s\](d0: RR64, d1: RR64, d2: RR64, v: Vector[\RR64,s\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+aplReshape3[\nat r, nat c\](d0: RR64, d1: RR64, d2: RR64, m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+aplReshape3[\nat a, nat b, nat c\](d0: RR64, d1: RR64, d2: RR64,
+        t: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+aplReshapeM[\nat a, nat b, nat c\](rw: RR64, cl: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplReshapeV[\nat a, nat b, nat c\](nn: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,ZZ32\]
+
+(** 1 0 2⍉t as a VIEW; every other permutation is out of scope and the contract
+    says so. **)
+aplPerm[\nat a, nat b, nat c\](x: RR64, y: RR64, z: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array3[\RR64,0,b,0,a,0,c\]
+
+(** Elementwise arithmetic and comparison over rank 3, the three shapes each. **)
+opr ×[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ×[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ×[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ÷[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ÷[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ÷[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr +[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr +[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr +[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr -[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr -[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr -[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr *[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr *[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr *[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr MAX[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr MAX[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr MAX[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr MIN[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr MIN[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr MIN[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr =[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr =[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr =[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ≠[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ≠[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ≠[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr <[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr <[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr <[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ≤[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ≤[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ≤[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr >[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr >[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr >[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ≥[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a1,0,b1,0,c1\],
+        y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ≥[\nat a, nat b, nat c\](s: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ≥[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], s: RR64):
+        Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr *[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+opr ÷[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+aplLog[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\]
+
+(** The rank operator ⍤, both valences.  The result's rank is decided by the
+    FIRST cell's result (u09); a later cell of a different shape is APL's
+    LENGTH ERROR, a contract violation.  The result type is Any because the
+    rank is a run-time fact -- the caller's aplShow dispatches on it. **)
+aplRank1(f: Any, x: RR64): Any
+aplRank1[\nat s\](f: Any, v: Vector[\RR64,s\]): Any
+aplRank1[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Any
+aplRank1[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): Any
+aplRank2[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Any
+aplRank2[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): Any
+aplRank1[\nat s, nat t\](f: Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Any
+aplRank1[\nat s\](f: Any, l: RR64, r: Vector[\RR64,s\]): Any
+aplRank1[\nat s, nat r2, nat c2\](f: Any, l: Vector[\RR64,s\], m: Matrix[\RR64,r2,c2\]): Any
+aplRank1[\nat r2, nat c2\](f: Any, l: RR64, m: Matrix[\RR64,r2,c2\]): Any
+aplRank1[\nat p, nat q, nat r2, nat c2\](f: Any, a: Matrix[\RR64,p,q\],
+        b: Matrix[\RR64,r2,c2\]): Any
+aplRank1[\nat s, nat a, nat b, nat c\](f: Any, l: Vector[\RR64,s\],
+        t: Array3[\RR64,0,a,0,b,0,c\]): Any
+aplRank1[\nat a, nat b, nat c\](f: Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Any
+aplRank2[\nat p, nat q, nat r2, nat c2\](f: Any, a: Matrix[\RR64,p,q\],
+        b: Matrix[\RR64,r2,c2\]): Any
+aplRank2[\nat p, nat q, nat a, nat b, nat c\](f: Any, l: Matrix[\RR64,p,q\],
+        t: Array3[\RR64,0,a,0,b,0,c\]): Any
+aplRank2[\nat a, nat b, nat c\](f: Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Any
+aplRank2[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: Any,
+        x: Array3[\RR64,0,a1,0,b1,0,c1\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Any
+
 end
