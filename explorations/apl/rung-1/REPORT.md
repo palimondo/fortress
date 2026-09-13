@@ -1,238 +1,395 @@
-# Rung 1 — "It's arrays all the way down"
+<!-- Pricing skeleton for a redesigned APL library and grammar, built 2026-09-12
+     under explorations/apl/redesign/.  base/ untouched.  Walk interpreter,
+     JDK 25, FORTRESS_THREADS=1. -->
 
-Chapter: https://xpqz.github.io/learnapl/array.html · goldens: `../goldens/ch1-arrays.md`
-(28 examples, the book's printed output verbatim) · walk interpreter, JDK 25,
-`FORTRESS_THREADS=1`, nothing outside `explorations/apl/` touched, nothing built.
+# The redesign, priced
+
+> **Where this lives now.** The redesign won, and on 2026-09-13 it was promoted:
+> what this report calls `redesign/` is now `../base/` (`AplGen` → `AplCore`,
+> `AplGenSyntax` → `AplSyntax`), its `Rung1R.fss` is this directory's
+> `Rung1.fss`, and its probes `r01`-`r16` + `AplT` are the probes beside it.
+> What this report calls `base/` — the first library, one `value object AplArr`
+> with the rank as run-time data — is now `../v1/base/`, and the rung it is
+> priced against is `../v1/rung-1/`. Nothing in the measurements below was
+> re-run for the move; `Rung1.out` is the re-run, 26 of 26 and 18 of 18 as
+> before, the same transcript plus Rats!'s own banner lines.
 
 ## Verdict
 
-- **26 of 26 checks pass, covering 18 of the chapter's 28 examples. Nothing fails.**
-  `Rung1.out`, exit 0: `checks passed: 26 of 26, over 18 of the chapter's 28 examples`.
-  The 18 examples carry 26 checks because six of them print several results
-  (Ex 18, 20, 21, 22, 23 and the repeated Ex 3/6).
-- **10 examples are out of scope for this rung**, each printed as a `SKIP` line
-  with its reason: Ex 1 (`⎕IO ← 0` is a `⎕` system name — realised instead as
-  AplCore's index origin 0), Ex 2, 24, 25, 26, 27, 28 (nested arrays; Ex 28 also
-  characters; Ex 27 also bracket indexing, which is rung 2), Ex 8 and 10
-  (`]box`, a Dyalog user command), Ex 9 (the same value as Ex 7, but the book's
-  printed output is the `]box -style=max` frame).
-- **Five of the 18 are adapted, and say so on their own line**: Ex 3, 4, 5, 6
-  replace `↑data` — Mix over a nested vector — by the `4 4⍴` reshape that yields
-  the same matrix, and Ex 14 replaces `m ← ↑(1 2 3 4)(5 6 7 8)(9 10 11 12)` by
-  `3 4⍴1+⍳12`. Their printed results are the book's, unchanged: `19`,
-  `19 20 19 14`, and the 3×4 matrix with the book's own column alignment.
-- **18 further checks beyond the chapter** exercise the rest of this rung's
-  glyph set — `⌽ ⍉ ⊖ , ⌈ ⌊ × ÷ *`, the comparisons `= ≤`, `f/` and `f⌿` over
-  several glyphs, parenthesised APL, and right-to-left evaluation
-  (`2 × 3 + 4` → `14`). All 18 pass.
-- Index origin is **0**, as the chapter's first line sets it, so `⍳8` is
-  `0 1 2 3 4 5 6 7` and every shape, rank and reduction below follows from that.
-- The book's own `⍝` comments are inside the expander: the sublanguage accepts
-  `apl⦇ ⍬≡⍴5 ⍝ Does zilde match shape of 5? ⦈`, so nine of the lines are the
-  book's text character for character apart from the `⍎(…)` escape.
+- **Rung 1: 26 of 26 in-scope checks PASS**, plus 18 of 18 beyond-chapter checks
+  (`Rung1.out`). Same examples, same expected strings, same `⍎(…)` escape as
+  `../v1/rung-1/Rung1.fss`; index origin 0.
+- **Lines**, under one rule for both sides: blank lines and comment blocks
+  removed, counted after stripping `(* … *)` (nested, and not inside string
+  literals) and then dropping every whitespace-only line.
 
-## How to run
+  | | library `.fss` + `.fsi` | grammar `.fsi` + `.fss` | total |
+  |---|---|---|---|
+  | old `base/`, **rung 1 only** (`AplCore` above its `rung 2: indexing` marker; `AplSyntax.fsi` with the 10 rung-2 productions, `AplCoord`, `AplId`/`AplIdTail`/`AplCh`/`AplChD`, the bracket `AplAtom`, and the `⌷`/`⍸` glyphs deleted) | 226 + 27 = **253** | 53 + 3 = **56** | **309** |
+  | new `redesign/` (rung 1) | 221 + 99 = **320** | 57 + 3 = **60** | **380** |
+  | old `base/` as it stands (rungs 1 **and** 2) | 382 + 52 = 434 | 92 + 3 = 95 | 529 |
 
-The library and grammar live in `../base`, so the source path has to name that
-directory **and** re-list the four entries the shipped
-`default_repository/configuration` puts on it (setting the variable replaces the
-default — gap row 12):
+  So for the same 26 + 18 checks the redesign is **+71 effective lines, +23%**.
+  The grammar is a wash (60 against 56, 45 productions against 43). The whole
+  difference is in the library, and it is entirely the api: the component body
+  shrank by 5 lines (221 against 226) while the api grew by 72 (99 against 27),
+  because `base` exported 21 names and the redesign exports **97 declarations,
+  41 of them `opr`**. What was bought with those 72 lines is the deletion of
+  `base`'s four dispatch switches — `aplDy` 19, `aplMon` 20, `aplRed` 19,
+  `aplFoldData` 13 = **71 effective lines of run-time string comparison** — and
+  what the redesign got for free on top (see point 1).
+- **Design points: 2, 3, 4 and 5 held. Point 1 held in its revised form** (native
+  `Array`, rank at expansion time) **with one documented FAIL** (a computed shape,
+  `r15`) and **two forced name families** (characters, nesting — `r07`).
 
-```
-export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64; export PATH=$JAVA_HOME/bin:$PATH
-export FORTRESS_HOME=/home/user/fortress; unset JAVA_TOOL_OPTIONS; export FORTRESS_THREADS=1
-export FORTRESS_SOURCE_PATH=".:$FORTRESS_HOME/explorations/apl/base:\
-$FORTRESS_HOME/ProjectFortress/LibraryBuiltin:$FORTRESS_HOME/Library:\
-$FORTRESS_HOME/ProjectFortress/test_library"
-cd $FORTRESS_HOME/explorations/apl/rung-1 && $FORTRESS_HOME/bin/fortress Rung1.fss
-```
+## 1. The carrier: Fortress's own arrays, rank in the type
 
-Each run regenerates two Rats! parsers (~40 s). `fortress parse` is a 0.6 s
-check for the grammar api but is useless on `Rung1.fss` itself (gap row 13):
+Revised brief: no wrapper, no runtime rank. An APL scalar is an `RR64`, a vector
+an `Array[\RR64,ZZ32\]` from `array[\RR64\](n)`, a matrix an
+`Array[\RR64,(ZZ32,ZZ32)\]` from `array[\RR64\](r,c)` (ledger row 57). **No
+wrapper object was needed anywhere**, and the report says below where one was
+considered and rejected.
+
+**What worked.** Rank dispatch, but in exactly one spelling. The obvious one is
+rejected:
 
 ```
-$ bin/fortress parse Rung1.fss
-Turn on "-debug interpreter" for Java-level stack trace.
+aplShow(v: Array[\RR64,ZZ32\]): String = …
+aplShow(m: Array[\RR64,(ZZ32,ZZ32)\]): String = …
+```
+> `r01_native.out`: `first parameters m:[Array[\RR64,(ZZ32,ZZ32)\]] and
+> v:[Array[\RR64,ZZ32\]] are unrelated (neither subtype, excludes, nor equal)
+> and no excluding pair is present`
+
+Two instantiations of one generic trait are not known to exclude (the same hole
+as merged ledger row 33 read from the other side). The spelling that works goes
+through `Vector`/`Matrix`, which reach `Rank1` and `Rank2`, and
+`Rank1 excludes Rank2` (`FortressLibrary.fsi:1072-1076`):
+
+```
+aplShow(x: RR64): String
+aplShow[\nat s\](v: Vector[\RR64,s\]): String
+aplShow[\nat r, nat c\](m: Matrix[\RR64,r,c\]): String
 ```
 
-## What the library needed (`../base/AplCore.fsi`, `AplCore.fss`)
+and the `nat` is **inferred from a runtime-built array** — `r02a_rankover.out`
+prints `scalar 2.5` / `vector of 3: 0.0` / `matrix (2,4): 0.0` for
+`array[\RR64\](3)` and `array[\RR64\](2,4)`. That sharpens merged ledger row 23
+("`T[n]` with a `nat` parameter does not unify with a runtime-built array"): the
+`T[n]` *array type syntax* does not unify, but `Vector[\RR64,s\]` and
+`Matrix[\RR64,r,c\]` do. Parameters are therefore `Vector`/`Matrix`; results are
+the honest runtime-sized `Array[\…\]`, never a fabricated `nat`.
 
-Grown from `../../apl-probes/d20_apl.fss`. The carrier is unchanged — a
-`value object AplArr(shape: List[\ZZ32\], data: List[\RR64\])` — and everything
-that crosses the api boundary is a plain **function**, because a top-level `opr`
-is component-scoped (merged ledger row 30). Added for this chapter:
+**What the library then does for nothing** (`r16_libalgebra.out`): `v + w`,
+`v - w`, `m + m` elementwise; `v DOT w = 32.0` and `m v = 8 26`, which are
+chapter 6's inner product `+.×` already present; `m.t()`, which is `⍉`;
+`.map`, `.ivmap`, `.fill`; `|v|`, `v[i]`, `m[i,j]`; and a **LENGTH ERROR by
+dispatch** when the two `nat`s disagree (`r09_reduce.out`:
+`Failed to find any matching overload, args = (__DefaultVector[\RR64,3\],
+__DefaultVector[\RR64,4\])`). `base` hand-wrote all of this: `aplZip` with its
+scalar-extension branches, `aplTranspose`, `aplSame`, and the `List` plumbing.
+Against that, the rank split costs **three declarations per primitive instead of
+one**, and nine of the 97 api lines are `≡`'s cross-rank cases alone, because
+APL's match compares shape first and `Vector`/`Matrix`/`RR64` are three
+unrelated domains.
 
-| what | spelling that worked | why |
-|---|---|---|
-| index origin | `aplOrigin(): ZZ32 = 0`, used by `aplIota` | the chapter's `⎕IO ← 0`; a `⎕` name is out of scope, a library constant is not |
-| integer display | `aplFmt(v) = if (1.0 (\|\ v /\|)) = v then ("" (\|\ v /\|)) else ("" v) end` | `1` must not print as `1.0`. `RR64.truncate()` does not exist at run time and the floor bracket's `ZZ64` will not `narrow` (gap row 10), but it **stringifies** as `7` (gap row 11) |
-| `RR64 → ZZ32` for shapes and counts | `aplAsInt`, doubling then halving | same gap; d20 counted up one at a time |
-| matrix display | `aplShow`: `BIG \|\|\|` per row, `BIG //` per matrix, each column padded to `BIG MAX` of its own cells' widths | reproduces Dyalog's layout exactly (gap row 14) |
-| `≢` tally | `aplTally`: `1` for a scalar, else `shape[0]` | the chapter's rank idiom `≢⍴m` |
-| `≡` match | `aplMatch` via `aplSame`, comparing shape and data with two `while` loops | `List` has no `=`; a scalar `1`/`0` is what APL returns |
-| `⊃` first | `aplFirst(a) = aplScalar(a.data[0])` | enough for simple arrays; Disclose on nested arrays is a later rung |
-| `⍬` zilde | `aplZilde() = AplArr(<\|[\ZZ32\] 0 \|>, <\|[\RR64\] \|>)` | shape ⟨0⟩, no elements; displays as the empty line the book prints |
-| reductions | `aplRed(f, axis, a)` over `aplFoldData`, folding **right to left** | APL's reduction is right-associative: `-/1 2 3` is `2`, not `-4` (check X12). `+/` reduces the last axis, `+⌿` the first |
-| `⌽ ⊖ ⍉ , ⌈ ⌊ * = ≠ < ≤ > ≥` | `aplReverse` (last axis), `aplReverseFirst`, `aplTranspose`, `aplRavel`/`aplCat`, and `aplZip` closures in `aplDy` | the brief's glyph set; comparisons return `1.0`/`0.0` |
-| the grammar's entry points | `aplScalar`, `aplCat`, `aplMon(f, a)`, `aplDy(f, a, b)`, `aplRed(f, axis, a)` | a transformer is a template, not a computation, so the glyph arrives as a `String` and the library dispatches on it |
+`aplInt` is the clearest single saving: `base` spent 14 lines on a
+doubling-and-halving binary search because there is no `RR64 → ZZ32` narrowing
+(apl gap row 10). One line does it, via gap row 11 and `strToInt`:
 
-## What the grammar needed (`../base/AplSyntax.fsi`, `AplSyntax.fss`)
+```
+aplInt(v: RR64): ZZ32 = strToInt("" (|\ v /|))
+```
 
-Grown from `../../apl-probes/e30_aplg.fsi`; still five APL nonterminals plus a
-comment tail, and still no Fortress-level operator declarations. The four
-additions that mattered, with the spellings that worked:
+**Characters.** `AplArr[\Char\]` has no equivalent, and the reason is a wall:
 
-1. **`f/` and `f⌿` for any glyph, one rule each** (gap row 2):
+```
+tally[\nat s\](v: Vector[\RR64,s\]): RR64 = 1.0 |v|
+tally[\nat s\](v: Array1[\Char,0,s\]): RR64 = 1.0 |v|
+```
+> `r07_edge.out`: `tally[\nat s\](v:Array1[\FortressBuiltin.Char,0,s\]):RR64 …
+> and tally[\nat s\](v:Vector[\FortressLibrary.RR64,s\]):RR64 … have parameters
+> with generic type, at least one pair of parameters must have excluding types`
 
+`Vector` needs `T extends Number`, so a `Char` array can only be an
+`Array1[\Char,0,s\]`; that and `Vector[\RR64,s\]` are both `Rank1` and neither
+excludes the other. **Fallback, kept and counted:** the character primitives
+carry their own names — `aplChars`, `aplShowC`, `aplTallyC`, 5 effective lines
+for three of them, i.e. **one extra name per primitive that admits characters**.
+The compensation is that APL's DOMAIN ERROR is then free: `r08_edge.out` ends with
+`Failed to find any matching overload, args = (PrimitiveArray[\Char,5\])`, the
+numeric family refusing a character array, which is exactly the brief's "fails by
+dispatch".
+
+**Nesting.** `Array[\Array[\RR64,ZZ32\],ZZ32\]` builds, indexes and displays
+(`r14_nested.out`: `nested = (1 2 3)(4 5)`, `|n| = 2`, `n[1] = 4 5`) in **2 lines**
+of construction plus a 2-line `showN`. It hits the same two walls: its parameter
+type `Array1[\Array[\RR64,ZZ32\],0,s\]` cannot join the numeric family (so, own
+names again), and the shipped `SUM` over a generator of arrays is a `CastError`
+at `FortressLibrary.fss:36` via `:1120` — merged ledger row 44, now confirmed
+outside `Vector` as well.
+
+**A mixed array** (APL's general array, numbers and characters and boxes in one
+value) would need the `Cell` trait, and it is **not built**. Priced: a `trait Cell`
+with `object CellNum(v: RR64)` and `object CellChar(v: Char)` and
+`object CellBox(v: Array[\Cell,ZZ32\])` is 4 declarations ≈ 10 lines, but every
+one of the 97 api declarations is typed in `RR64`/`Vector`/`Matrix` and a mixed
+array is a fourth domain that excludes none of them — so it is **a third name
+family of ~60 lines**, not 10. That is the same measurement `base` made at
+rung 2 (apl gap row 21, "1 trait + 2 variants + 1 carrier replaces 1 carrier,
+and the 65 top-level functions are all typed in the old one"); putting rank in
+the type does not change it.
+
+**Where a wrapper would have been needed, and was not.** Display is the only
+place the native carrier lacks something (`asString` on a library array is not
+ours to override), and a function `aplShow` answers it without a new type. Views
+lose the algebra (rows 54, 55) — so no view is taken anywhere; axis reductions
+index explicitly instead, which is why `aplSumFirst` is a `.fill` over the other
+axis and not `m[:,k]`.
+
+## 2. Glyphs as real Fortress operators
+
+Held, and the inventory is now exact. `r04_glyphs.out` declares a prefix **and**
+an infix arity for one dummy carrier and prints all twenty:
+
+```
+opr ×(a: D): D …            opr ×(a: D, b: D): D …
+```
+> `× a = D1` / `a × b = D2` / `÷ a = D3` / `a ÷ b = D8` / `a ≡ b = D14` /
+> `a ≢ b = D16` / `⊖ a = D9` / `a ⊖ b = D20` / `⊂ a = D11` / `a ⊂ b = D24` /
+> `⊃ a = D13` / `a ⊃ b = D28` / `a ∘ b = D30` / `- a = D16` / `a - b = D34` /
+> `+ a = D18` / `a + b = D38` / `a * b = D40` / `a MAX b = D42` / `a MIN b = D44`
+
+and `r05d_prefix.out` adds the monadic `≢ ≡ * ∘`. So **both arities are
+declarable for `× ÷ - + * ⊖ ⊂ ⊃ ≡ ≢ ∘`**, and APL's monadic/dyadic split really is
+Fortress overloading: `opr ×(x: RR64)` is signum, `opr ×(a: Vector, b: Vector)` is
+times, one glyph, no dispatch table.
+
+Three refusals, verbatim:
+
+- `,` is not declarable in **either** arity.
+  > `r05a_comma.out`: `r05a_comma.fss:6:5: Syntax Error` at `opr ,(a: D, b: D): D`;
+  > `r05e_ravel.out`: `r05e_ravel.fss:6:5: Syntax Error` at `opr ,(a: D): D`.
+  Fallback: `aplCat` (4 overloads) and `aplRavel` (3), and the grammar rule
+  `l:AplAtom SPACE , SPACE r:AplE => <[ aplCat((l), (r)) ]>` keeps APL's glyph in
+  the source. Cost 7 lines that would have been 7 `opr` lines anyway — no loss.
+- `⌈` and `⌊` are **enclosers** in the host table (`appendices/operators.tex:67-70`,
+  `LEFT CEILING … |/`), so neither arity is declarable.
+  > `r05b_ceil.out`: `Unmatched delimiter "|/"` at `opr ⌈(a: D): D`, twice, plus
+  `Unmatched delimiter "component"`.
+  Fallback as the brief anticipated: dyadic `⌈ ⌊` expand to the host's
+  `MAX`/`MIN` (`<[ (l) MAX (r) ]>`), monadic to `aplCeil`/`aplFloor`. 8 library
+  lines; the APL text is unchanged.
+- monadic `|` is an encloser too (`|x|`); dyadic `|` **is** declarable
+  (`r05c_bar.out`: `a | b = D3`). Not used by rung 1; recorded.
+
+Two further facts the point depends on.
+
+- **A top-level `opr` does cross an api boundary.** `base/AplCore.fss`'s header
+  says it does not, citing merged ledger row 30, and exports only functions for
+  that reason. It is wrong about this direction: `r03_apiopr.out` declares
+  `opr ⊕[\nat s\](a: RR64, v: Vector[\RR64,s\])` in `AplT.fsi`, and the importing
+  component prints `2 ⊕ v = [0#4][ 2.0 3.0 4.0 5.0 ]`. Row 30's claim is about
+  *library generic code* (`SUM` inside `FortressLibrary`) failing to see a
+  top-level `opr`; a user call site sees it. The whole operator design rests on
+  this, and the library's arrays are not ours to give functional methods to, so
+  the alternative (row 132) was unavailable.
+- **A comparison glyph can be re-typed to APL's 0/1.** `opr =` over vectors
+  returning `Array[\RR64,ZZ32\]` coexists with the library's Boolean `=`, the more
+  specific overload winning (`r06_hostops.out`: `a = b = [0#3][ 0.0 1.0 0.0 ]`).
+  `base` had to name these `"eq"`, `"le"`, … in its dispatch string.
+
+Named functions remain for exactly the glyphs the table lacks: `⍳ ⍴ ⌽ ⍉` (and
+`⍋ ⍒` when they arrive), as the brief expected.
+
+## 3. Templates that expand to host code
+
+Held. `base`'s core translation was
+
+```
+l:AplAtom SPACE f:AplFn SPACE r:AplE => <[ aplDy((f), (l), (r)) ]>
+⍳ => <[ "iota" ]>    × => <[ "times" ]>    `+ => <[ "plus" ]>   …
+```
+
+one rule for every glyph, a string per glyph, and `aplDy`/`aplMon`/`aplRed`
+comparing that string at run time. The redesign writes one rule per glyph per
+arity and the expansion **is** the host construct:
+
+```
+| l:AplAtom SPACE × SPACE r:AplE => <[ (l) × (r) ]>
+| ⍳ SPACE r:AplE                 => <[ aplIota((r)) ]>
+| ≢ SPACE r:AplE                 => <[ ≢ (r) ]>
+| `+ / SPACE r:AplE              => <[ aplSumLast((r)) ]>
+```
+
+New fact: **operator characters need no escape inside `<[ … ]>`.** The backtick
+escape of apl gap row 3 is required for a production's *terminal* (`` `+ ``,
+`` `* ``) but the template body is host Fortress, and `<[ (l) + (r) ]>` and
+`<[ (l) * (r) ]>` both expand (`r11_gram.out`: `1 + 1 = 2`, `2*10 = 1024`). A
+prefix operator in a template works too (`<[ ≢ (r) ]>`, `<[ ⊃ (r) ]>`,
+`<[ - (r) ]>`). Gap row 3's preparser collision is respected: the `⍴` of the
+first production stands above every escape in the file.
+
+Everything the brief asked to keep is kept and unchanged from `base`: the
+`apl⦇ … ⦈` entry, strictly right-to-left evaluation with no precedence, strand
+notation, the `⍝` comment tail as a right-recursive one-character `NOT`
+(gap row 9), `⍎(…)` as the bounded host escape (gap rows 4, 5), `⍬`, `¯`, and
+index origin 0. Rung 1 needs no APL *names*, so `AplId`, `AplIdTail`, `AplCh`,
+`AplChD` and the workspace are simply absent — the 28 effective lines of
+`base`'s workspace object and its `aplSet`/`aplGet` are out of scope here, not
+replaced, and gap rows 17 and 23 say how they would come back.
+
+Line effect: 45 productions against `base`'s 43 for the same rung — **+2
+productions, +4 lines, and −71 lines of library dispatch switch**. This is the
+one place the redesign is unambiguously cheaper.
+
+## 4. The array as a generator of its cells
+
+Held, and cheaper than the brief expected. Merged ledger row 47 buys the
+generator protocol for a *user* carrier with `ZeroIndexed` + `DelegatedIndexed`
+in about six lines; **a library array needs none**, it already is a `Generator`.
+`r13_generator.out`:
+
+```
+|v| = 5    v[2] = 4
+comprehension = <|30.0, 10.0, 40.0, 10.0, 50.0|>
+SUM[u <- v] u = 14.0      BIG MAX[u <- v] u = 5.0
+3 1 4 1 5    <- a for over the array
+```
+
+So `+/` is the shipped `SUM` and `⌈/` the shipped `BIG MAX`, in the body of the
+function the template names:
+
+```
+aplSumLast[\nat s\](v: Vector[\RR64,s\]): RR64 = SUM[ i <- seq(0 # |v|) ] v[i]
+aplMaxLast[\nat s\](v: Vector[\RR64,s\]): RR64 = BIG MAX[ i <- seq(0 # |v|) ] v[i]
+aplProdLast[\nat s\](v: Vector[\RR64,s\]): RR64 = PROD[ i <- seq(0 # |v|) ] v[i]
+```
+
+**No `except { opr BIG + }` was needed** (ledger row 41): `RR64` is already a
+`Number`, so the seal of row 44 never closes on us. The user reduction appears
+exactly where the brief predicted — `-/`, which is not associative and has no big
+operator — and is 6 lines of `while` (`aplDifLast`), against `base`'s
+`aplFoldData` (13 lines) that had to serve *every* glyph through `aplDy`.
+
+Axis reductions on a matrix are the other axis filled in:
+
+```
+aplSumFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (rows, cols) = m.sizes
+    aplVec(cols, fn (k: ZZ32): RR64 => SUM[ i <- seq(0 # rows) ] m[i,k])
+  end
+```
+
+Two departures from the brief's wording here, both forced. (a) The brief asked
+for *comprehensions* over rows; an **array** comprehension is dead at two layers
+and has no big operator (ledger row 50), and a row **view** would carry no vector
+algebra (rows 54, 56: `m[1,:]` extends `Array1`, never `Vector`, and the
+pair-of-ranges subscripts ship commented out), so the spelling is `.fill` over
+explicit indices. (b) The brief asked for `+/` to expand *to* `SUM`; it expands
+to a one-line wrapper whose body is `SUM`, because the rank split cannot happen in
+the template — and must not be skipped: a matrix generates **all** of its cells,
+so a direct `SUM[u <- seq(m)] u` is APL's `+/,m` and silently not `+/m`
+(`r13_generator.out`: `+/m = 6 22` but `SUM over seq(m) = 28.0`).
+
+## 5. Rank and length errors as `requires` contracts
+
+Held. The contract goes on the header line after the return type, as
+`run-b2/probes/g1b_ok.fss` established:
+
+```
+opr ×[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+        requires { |a| = |b| } =
+    aplVec(|a|, fn (i: ZZ32): RR64 => a[i] b[i])
+aplIota(n: RR64): Array[\RR64,ZZ32\] requires { n >= 0.0 } = …
+```
+
+and it fires **through the macro expansion**, from APL source, as a catchable
+`CallerViolation` (`r12_contract.out`):
+
+```
+1 2 3×1 2 3 = 1 4 9
+1 2 3×1 2   -> CallerViolation (APL LENGTH ERROR)
+⍳¯1         -> CallerViolation (APL DOMAIN ERROR)
+¯2 3⍴⍳6     -> CallerViolation (APL DOMAIN ERROR)
+```
+
+Contracts are in the component, not in the api (the api declares the signature
+only); that was not forced, it simply was not needed.
+
+One honest limit, in the same probe. The two error shapes **coexist and cannot be
+unified**: `+` and `-` between two vectors are the library's own `Vector.+`, whose
+single `nat` makes a length mismatch a *dispatch* failure instead, and a contract
+cannot be attached to a method we do not own — `1 2 3+1 2` ends
+`r12_contract.out` with `Failed to find any matching overload`, not with a
+`CallerViolation`. Declaring our own `opr +` over two independent `nat`s to get
+the contract would shadow the library's free elementwise `+`, which is the thing
+point 1 is built on. The choice taken is the free `+` and the inconsistent
+diagnostic; 10 lines and a worse message is the alternative.
+
+## Departures from the design as given
+
+1. **Point 1's carrier** is the revised one: native `Array`, rank decided at
+   expansion time, no wrapper. (The coordinator's correction; the generic
+   `AplArr[\T\]` wrapper was never built, so it is not priced here. The one fact
+   that was established before the correction and still matters is that
+   `value object AplArr[\T\]` would have had to reach `Rank1`/`Rank2` itself or
+   hit the very same overload wall — `r01_native.out`.)
+2. **`⌈` and `⌊` are not operators**, by the spec's own table. Dyadic uses `MAX`
+   and `MIN`; monadic uses named functions. 8 lines.
+3. **`,` is not an operator** in any arity. `aplCat` and `aplRavel`. 7 lines.
+4. **Character and nested arrays need their own name families**, not their own
+   type parameter: `aplShowC`/`aplTallyC`/`aplChars`, `showN` in `r14`. ~7 lines
+   for the skeleton; a full character family is one name per primitive.
+5. **Axis reductions are `.fill`, not comprehensions**, and **`+/` expands to a
+   wrapper around `SUM`**, not to `SUM` itself (point 4 above).
+6. **A computed shape is a FAIL, not a fallback.** `r15_runtimerank.out`:
    ```
-   AplE :Expr:=
-       l:AplAtom SPACE f:AplFn SPACE r:AplE => <[ aplDy((f), (l), (r)) ]>
-     | f:AplFn / SPACE r:AplE               => <[ aplRed((f), "last", (r)) ]>
-     | f:AplFn ⌿ SPACE r:AplE               => <[ aplRed((f), "first", (r)) ]>
-     | f:AplFn SPACE r:AplE                 => <[ aplMon((f), (r)) ]>
-     | a:AplAtom                            => <[ (a) ]>
+   Error occurred while instantiating and executing a temporary parser: …
+   (r15_runtimerank.fss:12:45: Syntax Error)
    ```
-
-   The reduce alternatives must precede the plain monadic one; right-to-left
-   evaluation is still the *shape* of the productions, not a precedence table.
-
-2. **Naming a Fortress variable**: `⍎ ( SPACE e:Expr SPACE )`, written `⍎(v)`.
-   An `Id` gap cannot be an expression (gap row 4) and an undelimited `Expr` gap
-   is greedy (gap row 5); the parentheses are what bound it.
-
-3. **Zilde and grouping**: `⍬ => <[ aplZilde() ]>` and
-   `( SPACE e:AplE SPACE ) => <[ (e) ]>`.
-
-4. **The book's trailing comments**, with a right-recursive `NOT` tail because a
-   `{ NOT ⦈ _ }*` group runs away to end of file (gap row 9):
-
-   ```
-   Expr |:= apl⦇ e:AplE SPACE ⍝ t:AplCmt ⦈ => <[ (e) ]>
-          | apl⦇ e:AplE ⦈                  => <[ (e) ]>
-   AplCmt :Expr:= NOT ⦈ _ t:AplCmt => <[ 0 ]> | NOT ⦈ _ => <[ 0 ]>
-   ```
-
-The glyph table is one alternative per glyph reducing to a name — `⍳ ⍴ ≢ ≡ ⊃ ⌽
-⊖ ⍉ ⌈ ⌊ × ÷ - , ≠ ≤ ≥ = < >` as bare terminals, `+` and `*` backtick-escaped —
-and it must stay **below** at least one APL glyph in the file, or the preparser
-rejects the escape (gap row 3).
-
-## Errors met, verbatim
-
-```
-p01_numfmt.fss:18:46-56:
-Cannot find definition for method truncate given receiver 7.0
-
-p01c_numfmt.fss:8:42-50:
-Cannot find definition for method narrow given receiver 7: ZZ64
-
-p08d_g.fsi:6:1-2:  Unmatched delimiter "api".
-p08d_g.fsi:12:17-15:2:  Unmatched delimiters "(./" and "end".
-p08d_g.fsi:12:33-50:  Unmatched delimiters "`" and "/.)".
-      (an escaped + inside the expander brackets; "(./" and "/.)" are how the
-       preparser renders ⦇ and ⦈, so the escape breaks their pairing too.
-       p08d_pre.out, and the same errors as p02's first spelling)
-
-p08a_g.fsi:5:1-2:  Unmatched delimiter "api".
-p08a_g.fsi:14:9-18:2:  Unmatched delimiters "`" and "end".
-      (the same escape in a table at grammar top level, with no APL glyph above
-       it; p02_mech.out.0 is p02's version of this)
-
-MacroError: Could not parse '( <!@#$%^&*<Id i >*&^%$#@!> ) + 1 '
-MacroError: Could not parse ' <!@#$%^&*<Id i >*&^%$#@!>  + 1 '
-      Caused by: java.lang.IllegalArgumentException:
-      Parameter 'text' to the IdOrOp constructor was null
-      (an Id gap in an expression position, parenthesised then bare)
-
-p03b_escape.fss:11:45-54:  Variable esc2 is not defined.
-      (an Expr gap followed by ≡: the gap ate the operator)
-
-p06_cross.fss:22:47:
-** bug! Expect all oprefs to be top level EQV
-      (the same greediness inside apl⦇ ⍎v ≡ 1 4⍴⍎v ⦈)
-
-MacroError: Could not parse 'do
-               ( <!@#$%^&*<Expr t >*&^%$#@!> ) := ( <!@#$%^&*<Expr r >*&^%$#@!> )
-               …
-      Caused by: p07_g.fsi:2:50:  Syntax Error
-      (no gap position on the left of :=; three spellings tried)
-
-p09_comment.fss:
-Error occurred while instantiating and executing a temporary parser:
-com.sun.fortress.parser.templateparser.TemplateParser12
-(p09_comment.fss:11:1:  Syntax Error)
-      ({ NOT ⦈ _ }* ran past the closing bracket to end of file)
-
-Shell generated.:0:0:
-Could not find an implementation for API FortressLibrary on path
-/home/user/fortress/explorations/apl/rung-1:/home/user/fortress/explorations/apl/base
-      (FORTRESS_SOURCE_PATH replaces the default instead of extending it)
-```
-
-## Departures from APL that remain
-
-- **A variable is named `⍎(v)`, not `v`.** Forced: gap rows 4 and 5. Three
-  spellings were tried (parenthesised `Id` gap, bare `Id` gap, bare `Expr` gap)
-  and the third is actively dangerous, silently reparsing the line.
-- **There is no `←`.** The session's variables are bound at the Fortress level
-  (`m1 = apl⦇ 3 4⍴1+⍳12 ⦈`). A template has no gap position on the left of `:=`
-  (gap row 8); the closest reachable thing is assignment through a user cell
-  object, `⍎(c) ← 41` → `c.put(41)` (`p07d_cell.fss`), which buys nothing for
-  the book's notation and is not in the grammar.
-- **Display.** One line per row, single-space separation, each column
-  right-aligned to its own width — which is exactly Dyalog for the chapter's
-  matrices. What is missing: the `]box`/`]DISPLAY` frames (a Dyalog user
-  command, and only string formatting, not a language question); and a
-  non-integral number prints all seventeen digits of the `RR64`
-  (`0.3333333333333333`) where Dyalog prints ten. Integers **do** print as
-  integers (gap row 11) — `1`, not `1.0` — which is what the rest of the
-  chapter's output depends on.
-- **Glyphs the grammar could not accept: none of those tried.** Every glyph of
-  this rung works as a terminal, including `⍬ ⍎ ⌿ ⍝ ≢ ⊃ ⊖` on top of the set
-  apl-probes had verified. Two carry conditions rather than refusals: `+` and
-  `*` need the macro language's backtick escape, which then needs an APL glyph
-  above it in the file (gap row 3); and nothing in the sub-grammar can be made
-  whitespace-sensitive, since `SPACE` is optional whitespace (gap row 1).
-- **Numeric arrays only.** Scalars, vectors and matrices of `RR64`; no
-  characters, no nesting, no `⎕` names, no dfns — the out-of-scope examples are
-  named individually in `Rung1.out`.
-- One thing not probed: a strand immediately followed by `-` (`1 - 1`), where it
-  is `LiteralExpr`'s own greediness that decides whether the minus starts a new
-  literal. The chapter has no such line; rung 3 will.
-
-## New gap rows
-
-Fourteen rows appended to `../gaps.md`, numbered 1-14: whitespace in productions
-is optional (1); `f/` as one rule for every glyph (2); the backtick escape versus
-the preparser (3); `Id` gaps are not expressions (4); `Expr` gaps are greedy and
-unbacktrackable (5); undefined `EQV` on a user object is an InterpreterBug (6);
-`≡`/`≢` are user-definable host operators (7); no gap position left of `:=` (8);
-`NOT` inside a repeated group runs away (9); `RR64.truncate()` is declared but
-absent (10); integer display without narrowing (11); cross-directory imports and
-the source-path trap (12); `fortress parse` as the only fast check (13); Dyalog's
-matrix layout from `BIG |||` and `BIG //` (14).
+   for `apl⦇ ⍎(sh)⍴⍳8 ⦈` where `sh = apl⦇ 2 4 ⦈`. The grammar fixes the result
+   rank of `⍴` by counting the numerals it can *see*; there is no production for
+   an atom on the left of `⍴`, and adding one would require a function whose
+   result rank is a run-time value. No rung-1 example needs it (every `⍴` in the
+   chapter has a literal left argument), so it stays a FAIL. **Priced:** a
+   runtime-rank path means one sum type over the three ranks — the `Cell` trait
+   of point 1 again — which is the third name family, ~60 lines, plus a `typecase`
+   at the head of every primitive that can receive it, plus the loss of the
+   library algebra of `r16` for any value that passes through it. That is the
+   whole of `base`'s design, re-entered through one primitive.
+7. **No APL names / `←` / workspace**, because rung 1 has none. `base`'s 28-line
+   workspace is out of scope rather than improved on; rung 2's gap rows 17, 23
+   and 27 are where it would be rebuilt.
 
 ## Probes
 
-Every attempt is kept with its output; `.out.0`, `.out.1` are earlier spellings
-of the same probe, failures included. (There is no `p04`: the number was skipped
-when a planned probe proved unnecessary.)
+| probe | what it settles |
+|---|---|
+| `r01_native.fss` / `.out` | FAIL: two instantiations of `Array[\E,I\]` cannot be overloaded |
+| `r02a_rankover.fss` / `.out` | rank dispatch through `RR64` / `Vector` / `Matrix`, `nat` inferred |
+| `AplT.fsi`, `AplT.fss`, `r03_apiopr.fss` / `.out` | a top-level `opr` crosses an api boundary |
+| `r04_glyphs.fss` / `.out` | the twenty prefix/infix declarations that work; `,` fails |
+| `r05a_comma.fss` / `.out` | FAIL: `opr ,` in the infix arity too |
+| `r05b_ceil.fss` / `.out` | FAIL: `⌈` is an encloser |
+| `r05c_bar.fss` / `.out` | dyadic `\|` works |
+| `r05d_prefix.fss` / `.out` | monadic `≢ ≡ * ∘` all declarable |
+| `r05e_ravel.fss` / `.out` | FAIL: `opr ,` in the prefix arity |
+| `r05f_starparen.fss` / `.out` | FAIL: `(` immediately before `*` opens a nested comment |
+| `r06_hostops.fss` / `.out` | `÷` and `*` on `RR64`; `=` re-typed to a 0/1 array |
+| `r07_edge.fss` / `.out` | FAIL: a `Char` array cannot join the numeric overload family |
+| `r08_edge.fss` / `.out` | the fallback (own names) and APL's DOMAIN ERROR by dispatch |
+| `r09_reduce.fss` / `.out` | `SUM`/`PROD`/`BIG MAX` return types, `map`, `t()`, LENGTH ERROR by dispatch |
+| `r10_lib.fss` / `.out` | the whole library through its api, no grammar |
+| `r11_gram.fss` / `.out` | the grammar: host operators in templates, rank fixed at expansion |
+| `r12_contract.fss` / `.out` | `requires` → `CallerViolation` from APL source |
+| `r13_generator.fss` / `.out` | the generator protocol for free; the `+/,m` trap |
+| `r14_nested.fss` / `.out` | nested arrays build and index; `SUM` over them is a `CastError` |
+| `r15_runtimerank.fss` / `.out` | FAIL: a computed shape does not parse |
+| `r16_libalgebra.fss` / `.out` | `v DOT w`, `m v`, `m.t()`, `ivmap` inherited free |
+| `Rung1.fss` / `Rung1.out` | 26 of 26 and 18 of 18 |
 
-| probe | question | outcome |
-|---|---|---|
-| `p01_numfmt` | is there an `RR64 → ZZ32` conversion? | `truncate` missing at run time |
-| `p01b_numfmt` | does the floor bracket print as an integer? | yes, `7` |
-| `p01c_numfmt` | does its `ZZ64` narrow? | no |
-| `p01d_numfmt` | the `aplFmt` formatter and `\|s\|` for padding | works |
-| `p02_g`, `p02_mech` | whitespace, `Id` gap, `f/` — all three at once | the `Id` gap aborted the run before the others could be evaluated; `.out.0` is the preparser rejecting the escape |
-| `p02b_g`, `p02b_mech` | whitespace and `f/` alone | both work |
-| `p03a_idgap` | a bare `Id` gap as an expression | fails |
-| `p03b_escape` | an `Expr` gap delimited by a glyph, and by `≡` | glyph yes, `≡` no |
-| `p03c_escape` | escaped `Expr` gaps on both sides of `≡` | works — this is `⍎(v)` |
-| `p05_core` | the library alone, imported across directories | works; `.out.0` is the source-path failure |
-| `p06_cross` | both halves across directories | works; `.out.0` is the greedy-escape reparse |
-| `p07_g`, `p07_assign` | a template that assigns | three spellings, three failures |
-| `p07d_cell` | assignment through a user cell object | works |
-| `p08a_g`, `p08b_g`, `p08d_g` | the backtick escape at top level without a glyph above it, with one, and inside the expander brackets | rejected / `Ok` / rejected, and the bracket pairing broken too |
-| `p09_g`, `p09_comment` | APL comments inside the expander | group form runs away; recursive `NOT` works |
-| `p10_eqv` | is `≡` user-definable at the ordinary level? | yes |
+## Gap rows
+
+Rows **36 to 47** appended to `../gaps.md` under a new section, continuing its
+numbering.

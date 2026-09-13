@@ -1,16 +1,11 @@
 Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
-Processing /tmp/fortress17753067535162332565rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
-Note: /tmp/fortress17753067535162332565rats/com/sun/fortress/parser/templateparser/TemplateParser77.java uses unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
-
-Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
-Processing /tmp/fortress12787003337125568799rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
-Note: /tmp/fortress12787003337125568799rats/com/sun/fortress/parser/templateparser/TemplateParser116.java uses unchecked or unsafe operations.
+Processing /tmp/fortress10291527523101182072rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress10291527523101182072rats/com/sun/fortress/parser/templateparser/TemplateParser87.java uses unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 
 === examples of the chapter, against the book's printed output ===
 
-SKIP  Ex 1   out of scope: ⎕IO ← 0 is a ⎕ system name; realised instead as AplCore's index origin 0
+SKIP  Ex 1   out of scope: ⎕IO ← 0 is a ⎕ system name; realised instead as index origin 0
 SKIP  Ex 2   out of scope: nested arrays (a vector of four enclosed vectors) and ⎕ ←
 PASS  Ex 3   ⊃+⌿⍎(data4)   (adapted: data as a 4 4 reshape)
         want |19|
@@ -150,13 +145,13 @@ PASS  X8  10÷4
 PASS  X9  2*10
         want |1024|
         got  |1024|
-PASS  X10  ×/1 2 3 4     (f/ for any glyph)
+PASS  X10  ×/1 2 3 4     (one rule per glyph, not one for all)
         want |24|
         got  |24|
-PASS  X11  ⌈/3 1 4 1 5
+PASS  X11  ⌈/3 1 4 1 5   (expands to the library's BIG MAX)
         want |5|
         got  |5|
-PASS  X12  -/1 2 3       (reduction folds right to left)
+PASS  X12  -/1 2 3       (no big operator: a hand fold)
         want |2|
         got  |2|
 PASS  X13  +/2 4⍴⍳8      (last axis)
@@ -171,7 +166,7 @@ PASS  X15  2 × 3 + 4     (right to left, not Fortress precedence)
 PASS  X16  (2 3⍴⍳6)≡2 3⍴⍳6   (parenthesised APL)
         want |1|
         got  |1|
-PASS  X17  1 0 1=1 1 1   (comparison)
+PASS  X17  1 0 1=1 1 1   (comparison: the glyph re-typed to 0/1)
         want |1 0 1|
         got  |1 0 1|
 PASS  X18  2 3 4≤3 3 3

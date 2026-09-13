@@ -1,190 +1,242 @@
-(* AplSyntax -- the grammar half: a sub-language apl⦇ … ⦈ whose terminals are
-   the APL glyphs, evaluated strictly right to left as APL is, desugaring to
-   the functions of AplCore.  Grown from explorations/apl-probes/e30_aplg.fsi
-   (rung 1) and extended with indexing, assignment and the workspace (rung 2).
+(* AplSyntax -- the grammar half of the APL sub-language.  Same sub-language
+   apl⦇ … ⦈ as v1/base/AplSyntax.fsi, same strictly right-to-left evaluation, same
+   strands, same index origin 0 -- but the templates expand to HOST CODE, not to
+   a string-dispatched interpreter.  Where v1 wrote
 
-   Five things to know before editing this file.
+       l:AplAtom SPACE f:AplFn SPACE r:AplE => <[ aplDy((f), (l), (r)) ]>
+       ⍳ => <[ "iota" ]>   ×  => <[ "times" ]>   …
 
-   (1) The free names in the templates below (aplDy, aplMon, aplRed, aplCat,
-       aplScalar, aplZilde, aplSet, aplGet, aplIx1 …) resolve at the USE SITE,
-       not here, so this api does not import AplCore; the component that writes
-       apl⦇ … ⦈ must import both.
+   and made AplCore switch on the name at run time, this file writes one rule
+   per glyph per arity, and the expansion is the Fortress operator itself:
 
-   (2) SPACE and a plain space between symbols both translate to the
-       nonterminal w, which is OPTIONAL whitespace
-       (ComposingSyntaxDefTranslator.java:147-149), so 2 4⍴⍳8 parses against a
-       production written with spaces.  That is what lets the chapter's
-       examples be copied in verbatim.
+       l:AplAtom SPACE × SPACE r:AplE => <[ (l) × (r) ]>
 
-   (3) The escape for APL's plus and for the index brackets -- an escaped +, [
-       and ] -- is seen by the PREPARSER as an opening quote that wants a
-       closing ' (PreCompilation.rats:115, PreParserState.java:256).  The file
-       survives only because the preparser cannot tokenise an APL glyph at all
-       and gives up before it reaches them.  Keep at least one APL glyph above
-       every escape (the ⍝ of the Expr production is above them all), or the
-       delimiter check reaches the end of the file and rejects it.
+   so the monadic/dyadic split and the rank split are both done by Fortress
+   overload resolution, at the call, with no dispatch table in the library.
 
-   (4) A nonterminal's name must not be a word of two or more uppercase letters:
-       such a word is an operator, not an identifier (spec
-       basic/lexical-structure.tex:1167-1172, NodeUtil.validOp), and the api is
-       rejected with a bare "Syntax Error" pointing at the name.  rung-2/p12a.
+   Two consequences for the shape of the grammar.
 
-   (5) APL's variables are the workspace of AplCore, not Fortress bindings: a
-       template cannot expand to a binding or an assignment (rung 1, gap row 8),
-       but it can expand to a call.  A name is SPELLED here rather than spliced
-       -- a character class of letters concatenated into a String, as the
-       shipped Xml.fsi builds its attribute names (syntax_abstraction_tests/
-       Xml.fsi:120-133) -- because an Id gap is not an expression (gap row 4). *)
+   (1) One rule per glyph per arity is more rules than v1's one rule for all
+       glyphs -- but each rule is a translation, so the library loses its
+       aplDy/aplMon/aplRed switches (67 lines in v1) entirely.
+
+   (2) Dyadic ⍴ is the one primitive whose RESULT RANK is the LENGTH of its left
+       argument, a run-time value.  Rather than carry a runtime rank in the
+       values, the grammar reads the rank off the SOURCE TEXT: `r c⍴x` is a
+       matrix and fires aplReshapeM, `n⍴x` is a vector and fires aplReshapeV.
+       These two rules must come first, before the strand in AplAtom can eat
+       `r c` as one vector.
+
+   The five things to know before editing this file all still hold:
+   free names resolve at the use site; SPACE and a literal space are both
+   OPTIONAL whitespace; a backtick escape is seen by the PREPARSER as an opening
+   quote, so at least one APL glyph must stand ABOVE every escape (the ⍴ of the
+   first rule is above them all); a nonterminal's name must not be a word of two
+   or more uppercase letters; and a template cannot expand to a binding or an
+   assignment, which is why rung 1 needs no APL names at all. *)
 api AplSyntax
 
 import FortressAst.{...}
-import FortressSyntax.{Expression, Literal}
+import FortressSyntax.{Expression, Literal, Identifier}
 
-grammar Apl extends { Expression, Literal }
+grammar AplG extends { Expression, Literal, Identifier }
 
-    (* one new Expr form, with and without a trailing APL comment, so that a
-       line of the book can be copied in as it stands.  The comment tail is
-       right-recursive with a NOT predicate, one character at a time: a
-       { NOT ⦈ _ }* group instead runs to the end of the file and the expander
-       never closes (rung-1/p09_comment.out.0). *)
-    Expr |:= apl⦇ e:AplE SPACE ⍝ t:AplCmt ⦈ => <[ (e) ]>
-           | apl⦇ e:AplE ⦈                  => <[ (e) ]>
+    Expr |:= apl⦇ b:AplStm SPACE ⍝ t:AplCmt ⦈ => <[ (b) ]>
+           | apl⦇ b:AplStm ⦈                  => <[ (b) ]>
 
+    (* the book's own trailing comment, one character at a time: a NOT inside a
+       repetition group runs to the end of the file (apl/gaps.md row 9) *)
     AplCmt :Expr:=
         NOT ⦈ _ t:AplCmt => <[ 0 ]>
       | NOT ⦈ _          => <[ 0 ]>
 
-    (* APL evaluation order: no precedence, strictly right to left.  The left
-       argument of a dyadic function is an atom; its right argument is the
-       whole rest of the expression.  f/ and f⌿ are one rule each, for every
-       function glyph, rather than one rule per glyph; sel/ and sel⌿ -- an ATOM
-       before the slash -- are Compress and Replicate, and must come after the
-       reduce rules, which they cannot mask because a glyph is not an atom.
+    (* the same comment tail bounded by the END OF ITS LINE, so that it may
+       follow a statement that is not the block's last: NEWLINE is an Item of the
+       macro language (apl/gaps.md row 31) and NOT is the PEG not-predicate, so
+       two NOTs in sequence read "while neither the closing bracket nor a line
+       break is next".  Every symbol here needs its #: without it the optional
+       whitespace between two symbols crosses the line break, the NOT then looks
+       PAST the newline, and the comment swallows the statements below it
+       (s04_stm.out.0, `s04_stm.fss:21:42: Syntax Error`).  The # on a
+       NOT-prefixed symbol is honoured -- Syntax.rats:248-254 lifts the
+       NoWhitespaceSymbol back out over the predicate. *)
+    AplLn :Expr:=
+        NOT ⦈# NOT NEWLINE# _# t:AplLn => <[ 0 ]>
+      | NOT ⦈# NOT NEWLINE# _          => <[ 0 ]>
 
-       The assignment rules come first, and there is one per invertible
-       left-hand side: APL inverts an arbitrary expression on the left of ←,
-       a template grammar needs a production and a function per shape. *)
+    (* ------------------------------------------------ rung 2: statements ----
+       APL's ← binds, and what it binds is a LAMBDA PARAMETER: the rest of the
+       block is the lambda's body, so the name is a real block-scoped Fortress
+       variable and host code in the block sees it (apl/gaps.md rows 23, 30).
+       The Id gap is the one position a name may be spliced into; a name can only
+       be READ through the closed set of AplName below (row 24).
+
+       ⋄ and a line break both separate statements, the line break becoming the
+       host parser's own br.  A binding needs a REST to be the body of, so both
+       binding alternatives demand a separator and a following statement; a lone
+       `v ← e` has no production and is a Syntax Error.
+
+       No cell, and no rebinding to an updated copy: the library's arrays are
+       MUTABLE (s01_ix.out (a)), so v[3] ← ¯1 is an in-place put on the array the
+       name is already bound to.  Rebinding is not available anyway -- a second
+       lambda parameter of the same name is "Variable v is already declared"
+       (row 29, s05_rebind.out). *)
+    AplStm :Expr:=
+        n:Id SPACE ← SPACE e:AplE SPACE ⍝ c:AplLn SPACE r:AplStm
+            => <[ (fn n => (r))((e)) ]>
+      | n:Id SPACE ← SPACE e:AplE SPACE ⋄ SPACE r:AplStm
+            => <[ (fn n => (r))((e)) ]>
+      | n:Id SPACE ← SPACE e:AplE
+        r:AplStm
+            => <[ (fn n => (r))((e)) ]>
+      | s:AplE SPACE ⍝ c:AplLn SPACE r:AplStm => <[ (fn _ => (r))((s)) ]>
+      | s:AplE SPACE ⋄ SPACE r:AplStm         => <[ (fn _ => (r))((s)) ]>
+      | s:AplE
+        r:AplStm                              => <[ (fn _ => (r))((s)) ]>
+      | s:AplE                                => <[ (s) ]>
+
     AplE :Expr:=
-        n:AplId `[ SPACE i:AplE SPACE ; SPACE j:AplE SPACE `] SPACE ← SPACE r:AplE
-            => <[ aplSet((n), aplIxSet2(aplGet((n)), (i), (j), (r))) ]>
-      | n:AplId `[ SPACE i:AplE SPACE ; SPACE `] SPACE ← SPACE r:AplE
-            => <[ aplSet((n), aplIxSetRow(aplGet((n)), (i), (r))) ]>
-      | n:AplId `[ SPACE ; SPACE j:AplE SPACE `] SPACE ← SPACE r:AplE
-            => <[ aplSet((n), aplIxSetCol(aplGet((n)), (j), (r))) ]>
-      | n:AplId `[ SPACE i:AplE SPACE `] SPACE ← SPACE r:AplE
-            => <[ aplSet((n), aplIxSet1(aplGet((n)), (i), (r))) ]>
-      | ( SPACE s:AplAtom SPACE / SPACE n:AplId SPACE ) SPACE ← SPACE r:AplE
-            => <[ aplSet((n), aplSelSet(aplGet((n)), (s), (r))) ]>
-      | ( SPACE 0 SPACE 0 ⍉ SPACE n:AplId SPACE ) SPACE ← SPACE r:AplE
-            => <[ aplSet((n), aplDiagSet(aplGet((n)), (r))) ]>
-      | n:AplId SPACE ← SPACE r:AplE
-            => <[ aplSet((n), (r)) ]>
+      (* ---- indexed and selective assignment.  One production per left-hand
+              shape, and the expansion is an in-place put on the array the name
+              is bound to, so nothing is rebound and nothing is copied. ---- *)
+        c:AplName `[ SPACE i:AplE SPACE ; SPACE j:AplE SPACE `] SPACE ← SPACE r:AplE
+            => <[ aplIxPut2((c), (i), (j), (r)) ]>
+      | c:AplName `[ SPACE i:AplE SPACE ; SPACE `] SPACE ← SPACE r:AplE
+            => <[ aplIxPutRow((c), (i), (r)) ]>
+      | c:AplName `[ SPACE ; SPACE j:AplE SPACE `] SPACE ← SPACE r:AplE
+            => <[ aplIxPutCol((c), (j), (r)) ]>
+      | c:AplName `[ SPACE i:AplE SPACE `] SPACE ← SPACE r:AplE
+            => <[ aplIxPut1((c), (i), (r)) ]>
+      | ( SPACE s:AplAtom SPACE / SPACE c:AplName SPACE ) SPACE ← SPACE r:AplE
+            => <[ aplSelPut((c), (s), (r)) ]>
+      | ( SPACE 0 SPACE 0 ⍉ SPACE c:AplName SPACE ) SPACE ← SPACE r:AplE
+            => <[ aplDiagPut((c), (r)) ]>
+
+      (* ---- ⌷ squad.  Like dyadic ⍴, the LENGTH of the left argument decides
+              the result's rank, so the grammar counts the numerals it can see
+              (apl/gaps.md row 47); (⊂i)⌷m selects leading-axis cells. ---- *)
       | ( SPACE ⊂ SPACE i:AplE SPACE ) SPACE ⌷ SPACE r:AplE
             => <[ aplSquadEncl((i), (r)) ]>
-      | l:AplAtom SPACE f:AplFn SPACE r:AplE => <[ aplDy((f), (l), (r)) ]>
-      | f:AplFn / SPACE r:AplE               => <[ aplRed((f), "last", (r)) ]>
-      | f:AplFn ⌿ SPACE r:AplE               => <[ aplRed((f), "first", (r)) ]>
-      | l:AplAtom / SPACE r:AplE             => <[ aplCompress((l), (r)) ]>
-      | l:AplAtom ⌿ SPACE r:AplE             => <[ aplCompressFirst((l), (r)) ]>
-      | f:AplFn SPACE r:AplE                 => <[ aplMon((f), (r)) ]>
-      | a:AplAtom                            => <[ (a) ]>
+      | a:AplNum SPACE b:AplNum SPACE ⌷ SPACE r:AplE => <[ aplSquad2((a), (b), (r)) ]>
+      | a:AplNum SPACE ⌷ SPACE r:AplE                => <[ aplSquad1((a), (r)) ]>
 
-    (* Bracket indexing, one production per bracket shape.  The axis list COULD
-       be passed as one host list instead: a repeated gap splices with ** and
-       rung-2/p17_ixlist.fss indexes with one, two and three axes through a
-       single production.  What forces a production per shape is ELISION -- the
-       empty axis of m[1;] -- because a bound optional gap (i:AplE?) is
-       unimplemented ("not supported now", apl-probes b07b_optvar), so an elided
-       axis would have to become a sentinel VALUE in the array domain.  One
-       production and one function per shape keeps the sentinel out.  ⊂ and a vector of parenthesised
-       coordinate vectors are absorbed HERE, by the grammar, and never become
-       values: m[⊂1 1] is one coordinate vector and m[(0 0)(1 1)] is a matrix of
-       them, so scatter indexing needs no array-of-arrays. *)
+      (* ---- dyadic ⍴: the rank of the result is fixed HERE, at expansion ---- *)
+      | a:AplNum SPACE b:AplNum SPACE ⍴ SPACE r:AplE => <[ aplReshapeM((a), (b), (r)) ]>
+      | a:AplNum SPACE ⍴ SPACE r:AplE                => <[ aplReshapeV((a), (r)) ]>
+
+      (* ---- dyadic glyphs.  Each expands to the host operator of the same
+              shape; ⌈ and ⌊ are enclosers in the host table and cannot be
+              declared, so they expand to MAX and MIN while the APL source keeps
+              the glyph.  , cannot be an operator in any arity, so it expands to
+              a call. ---- *)
+      | l:AplAtom SPACE × SPACE r:AplE => <[ (l) × (r) ]>
+      | l:AplAtom SPACE ÷ SPACE r:AplE => <[ (l) ÷ (r) ]>
+      | l:AplAtom SPACE ⌈ SPACE r:AplE => <[ (l) MAX (r) ]>
+      | l:AplAtom SPACE ⌊ SPACE r:AplE => <[ (l) MIN (r) ]>
+      | l:AplAtom SPACE ≡ SPACE r:AplE => <[ (l) ≡ (r) ]>
+      | l:AplAtom SPACE ≤ SPACE r:AplE => <[ (l) ≤ (r) ]>
+      | l:AplAtom SPACE , SPACE r:AplE => <[ aplCat((l), (r)) ]>
+      | l:AplAtom SPACE = SPACE r:AplE => <[ (l) = (r) ]>
+      | l:AplAtom SPACE - SPACE r:AplE => <[ (l) - (r) ]>
+      | l:AplAtom SPACE `+ SPACE r:AplE => <[ (l) + (r) ]>
+      | l:AplAtom SPACE `* SPACE r:AplE => <[ (l) * (r) ]>
+
+      (* ---- reductions.  f/ is the last axis, f⌿ the first.  v1 had ONE rule
+              for every glyph because the glyph became a string; here there is
+              one rule per glyph, and the expansion names the library function
+              whose body is the shipped SUM / PROD / BIG MAX. ---- *)
+      | `+ / SPACE r:AplE => <[ aplSumLast((r)) ]>
+      | `+ ⌿ SPACE r:AplE => <[ aplSumFirst((r)) ]>
+      | × / SPACE r:AplE  => <[ aplProdLast((r)) ]>
+      | ⌈ / SPACE r:AplE  => <[ aplMaxLast((r)) ]>
+      | - / SPACE r:AplE  => <[ aplDifLast((r)) ]>
+
+      (* ---- Compress and Replicate.  A glyph is not an atom, so these cannot
+              mask the reductions above them. ---- *)
+      | l:AplAtom / SPACE r:AplE => <[ aplCompress((l), (r)) ]>
+      | l:AplAtom ⌿ SPACE r:AplE => <[ aplCompressFirst((l), (r)) ]>
+
+      (* ---- monadic glyphs ---- *)
+      | ⍴ SPACE r:AplE => <[ aplShapeOf((r)) ]>
+      | ⍳ SPACE r:AplE => <[ aplIota((r)) ]>
+      | ≢ SPACE r:AplE => <[ ≢ (r) ]>
+      | ⊃ SPACE r:AplE => <[ ⊃ (r) ]>
+      | ⊖ SPACE r:AplE => <[ ⊖ (r) ]>
+      | ⌽ SPACE r:AplE => <[ aplRev((r)) ]>
+      | ⍉ SPACE r:AplE => <[ aplTrans((r)) ]>
+      | ⌈ SPACE r:AplE => <[ aplCeil((r)) ]>
+      | ⌊ SPACE r:AplE => <[ aplFloor((r)) ]>
+      | ⍸ SPACE r:AplE => <[ aplWhere((r)) ]>
+      | × SPACE r:AplE => <[ × (r) ]>
+      | ÷ SPACE r:AplE => <[ ÷ (r) ]>
+      | , SPACE r:AplE => <[ aplRavel((r)) ]>
+      | - SPACE r:AplE => <[ - (r) ]>
+      | `+ SPACE r:AplE => <[ (r) ]>
+      | a:AplAtom      => <[ (a) ]>
+
+    (* ---- bracket indexing: six shapes, six productions.  A repeated gap does
+            splice as a list (apl/gaps.md row 19), so the ;-list could have any
+            arity -- what forces one production per shape is the ELIDED axis,
+            which would need a sentinel value in an optional gap.  The rank of
+            each result is settled by the library's overloads on the INDEX's
+            rank, not here. ---- *)
     AplAtom :Expr:=
         b:AplBase `[ SPACE i:AplE SPACE ; SPACE j:AplE SPACE `]
             => <[ aplIx2((b), (i), (j)) ]>
       | b:AplBase `[ SPACE i:AplE SPACE ; SPACE `] => <[ aplIxRow((b), (i)) ]>
       | b:AplBase `[ SPACE ; SPACE j:AplE SPACE `] => <[ aplIxCol((b), (j)) ]>
       | b:AplBase `[ SPACE ⊂ SPACE i:AplE SPACE `] => <[ aplPick((b), (i)) ]>
-      | b:AplBase `[ SPACE i:AplE SPACE `]         => <[ aplIx1((b), (i)) ]>
       | b:AplBase `[ SPACE c:AplCoord SPACE `]     => <[ aplScatter((b), (c)) ]>
+      | b:AplBase `[ SPACE i:AplE SPACE `]         => <[ aplIx1((b), (i)) ]>
       | b:AplBase                                  => <[ (b) ]>
 
+    (* a list of coordinate vectors, folded into a k×rank matrix.  ⊂ and the
+       parenthesised pairs are absorbed here: no enclosure is ever a value. *)
     AplCoord :Expr:=
         ( SPACE v:AplE SPACE ) SPACE r:AplCoord => <[ aplIdxCons((v), (r)) ]>
       | ( SPACE v:AplE SPACE )                  => <[ aplIdxOne((v)) ]>
 
-    (* ⍬ is zilde, the empty numeric vector; a bare name is a workspace lookup;
-       ⍎(…) escapes to a Fortress expression, which is how APL here names a
-       Fortress variable -- an Id gap cannot be spliced into an expression
-       position (p03a).  The parentheses are load-bearing: an undelimited Expr
-       gap is greedy and eats any host operator that follows it, so ⍎v ≡ 1 4⍴⍎v
-       parsed as aplDy("rho", v EQV (1 4), v) and died with "** bug! Expect all
-       oprefs to be top level EQV" (p06_cross.out.0).  Rats does not re-enter a
-       nonterminal for a shorter match, so only a closing delimiter bounds it. *)
+    (* ⍬ is zilde; ⍎(…) escapes to a Fortress expression, the parentheses being
+       load-bearing because an undelimited Expr gap is greedy (gaps row 5) and an
+       Id gap is not an expression at all (gaps row 4) *)
     AplBase :Expr:=
         ⍬                        => <[ aplZilde() ]>
       | ⍎ ( SPACE e:Expr SPACE ) => <[ (e) ]>
       | ( SPACE e:AplE SPACE )   => <[ (e) ]>
-      | n:AplId                  => <[ aplGet((n)) ]>
+      | c:AplName                => <[ (c) ]>
       | s:AplStrand              => <[ (s) ]>
 
-    (* an APL name, spelled one character at a time; # forbids whitespace inside
-       it, so "v w" is two names and not one.  The first character must be a
-       LETTER and only the tail admits digits, APL's own rule: a name is tried
-       before a numeral in AplBase, so a class that admitted a leading digit
-       would read the 9 of 9 2 6 as a name (rung-2/p14_idx.out.0). *)
-    AplId:String :Expr:=
-        x:AplCh# y:AplIdTail => <[ x y ]>
-      | x:AplCh              => <[ x "" ]>
+    (* THE CLOSED NAME SET (apl/gaps.md rows 24, 25).  A reference cannot be a
+       gap -- a TemplateGapId inside a VarRef is never substituted -- so each name
+       is one alternative whose template writes it as an ordinary free Fortress
+       identifier, which resolves at the use site and meets the gap-bound lambda
+       parameter of the same spelling.  Each name is a sequence of one-character
+       CLASSES glued with #, never a bare terminal: a terminal that is a valid
+       identifier becomes a keyword of the whole language and then Id excludes it.
+       The NOT predicate ends the name, and the longer names come first. *)
+    AplName :Expr:=
+        [s]# [e]# [l]# [e]# [c]# [t]# NOT [A:Za:z0:9] => <[ (select) ]>
+      | [d]# [a]# [t]# [a]# NOT [A:Za:z0:9]           => <[ (data) ]>
+      | [m]# [1]# NOT [A:Za:z0:9]                     => <[ (m1) ]>
+      | [v]# NOT [A:Za:z0:9]                          => <[ (v) ]>
+      | [m]# NOT [A:Za:z0:9]                          => <[ (m) ]>
+      | [n]# NOT [A:Za:z0:9]                          => <[ (n) ]>
+      | [q]# NOT [A:Za:z0:9]                          => <[ (q) ]>
+      | [a]# NOT [A:Za:z0:9]                          => <[ (a) ]>
+      | [b]# NOT [A:Za:z0:9]                          => <[ (b) ]>
+      | [w]# NOT [A:Za:z0:9]                          => <[ (w) ]>
 
-    AplIdTail:String :Expr:=
-        x:AplChD# y:AplIdTail => <[ x y ]>
-      | x:AplChD              => <[ x "" ]>
-
-    AplCh:String :StringLiteralExpr:= x:[A:Za:z] => <[ "" x ]>
-    AplChD:String :StringLiteralExpr:= x:[A:Za:z0:9] => <[ "" x ]>
-
-    (* strand notation: 1 2 3 is one vector, not three juxtaposed numbers *)
+    (* strand notation: 1 2 3 is one vector, 3 alone is a scalar.  The tail is a
+       scalar when it has one element and a vector when it has more, and aplCons
+       is overloaded on exactly that, so the grammar counts nothing. *)
     AplStrand :Expr:=
-        n:AplNum SPACE s:AplStrand => <[ aplCat((n), (s)) ]>
+        n:AplNum SPACE s:AplStrand => <[ aplCons((n), (s)) ]>
       | n:AplNum                   => <[ (n) ]>
 
-    (* ¯ is APL's high minus, part of the numeral and not a function; # keeps it
-       glued to its digits *)
+    (* ¯ is APL's high minus, part of the numeral; every APL number is an RR64 *)
     AplNum :Expr:=
-        ¯# n:LiteralExpr => <[ aplScalarNeg(1.0 (n)) ]>
-      | n:LiteralExpr    => <[ aplScalar(1.0 (n)) ]>
-
-    (* Every function glyph reduces to its name; AplCore dispatches on the
-       name, monadically or dyadically according to which rule of AplE fired.
-       A glyph the host lexer knows (× ÷ - , = < >) and one it does not (⍳ ⍴ ≢
-       ≡ ⊃ ⌽ ⊖ ⍉ ⌷ ⍸) are equally ordinary terminals here. *)
-    AplFn :Expr:=
-        ⍳ => <[ "iota" ]>
-      | ⍴ => <[ "rho" ]>
-      | ≢ => <[ "tally" ]>
-      | ≡ => <[ "match" ]>
-      | ⊃ => <[ "first" ]>
-      | ⌽ => <[ "reverse" ]>
-      | ⊖ => <[ "reversefirst" ]>
-      | ⍉ => <[ "transpose" ]>
-      | ⌈ => <[ "ceil" ]>
-      | ⌊ => <[ "floor" ]>
-      | ⌷ => <[ "squad" ]>
-      | ⍸ => <[ "where" ]>
-      | × => <[ "times" ]>
-      | ÷ => <[ "divide" ]>
-      | `+ => <[ "plus" ]>
-      | `* => <[ "power" ]>
-      | -  => <[ "minus" ]>
-      | ,  => <[ "cat" ]>
-      | ≠ => <[ "ne" ]>
-      | ≤ => <[ "le" ]>
-      | ≥ => <[ "ge" ]>
-      | =  => <[ "eq" ]>
-      | <  => <[ "lt" ]>
-      | >  => <[ "gt" ]>
+        ¯# n:LiteralExpr => <[ aplNegS(1.0 (n)) ]>
+      | n:LiteralExpr    => <[ (1.0 (n)) ]>
 end
 
 end

@@ -1,0 +1,9 @@
+(* s07: a ← b ← 1 2, the chained assignment of rung 2's X11.  A binding needs a
+   statement to be the body of, so the right of ← is an expression and an
+   expression cannot bind.  Expected to fail, and kept. *)
+component s07_chain
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+run(): () = println(("a ← b ← 1 2 ⋄ a = " aplShow(apl⦇ a ← b ← 1 2 ⋄ a ⦈)))
+end

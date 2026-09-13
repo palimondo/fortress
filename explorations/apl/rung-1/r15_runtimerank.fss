@@ -4,8 +4,8 @@
    left of ⍴, so this does not parse.  Keeping it a FAIL is the deliberate
    choice: a runtime-rank carrier is what the redesign removes. *)
 component r15_runtimerank
-import AplGen.{...}
-import AplGenSyntax.{...}
+import AplCore.{...}
+import AplSyntax.{...}
 export Executable
 run(): () = do
     sh = apl⦇ 2 4 ⦈

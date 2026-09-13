@@ -6,8 +6,8 @@
    ledger rows 54 and 55 say a view loses the algebra, and a wrapper loses it
    the same way unless it extends Vector/Matrix. *)
 component r16_libalgebra
-import AplGen.{...}
-import AplGenSyntax.{...}
+import AplCore.{...}
+import AplSyntax.{...}
 export Executable
 run(): () = do
     v = apl⦇ 1 2 3 ⦈

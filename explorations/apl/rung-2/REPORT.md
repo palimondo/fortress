@@ -1,54 +1,57 @@
-# Rung 2 — "Indexing"
+# Rung 2 — "Indexing", on the native-array base
 
 Chapter: https://xpqz.github.io/learnapl/indexing.html · goldens:
-`../goldens/ch2-indexing.md` (40 examples, the book's printed output verbatim) ·
+`../goldens/ch2-indexing.md` (40 examples, the book's printed output verbatim,
+index origin 0) · library and grammar: `../base/` (`AplCore`, `AplSyntax`) ·
 walk interpreter, JDK 25, `FORTRESS_THREADS=1`, nothing outside
 `explorations/apl/` touched, nothing built.
 
 ## Verdict
 
-- **25 of 25 checks pass, covering 19 of the chapter's 40 examples. Nothing
-  fails.** `Rung2.out`, exit 0:
-  `checks passed: 25 of 25, over 19 of the chapter's 40 examples`. Nineteen
-  examples carry 25 checks because Ex 3, 6, 27 and 37 each print more than one
-  result.
-- The goldens label only **5** of the 40 examples "core — simple numeric arrays
-  and the listed primitives". Nineteen run because **the grammar absorbs what
-  looked like nesting**: `m[⊂1 1]`, `m[(0 0)(1 1)(2 2)]` and `(⊂1 1)⌷n` are a
-  coordinate vector and a matrix of coordinate vectors, not arrays of arrays, so
-  Ex 7, 8, 18, 19 and 21 need no boxed element at all (gap row 20). The rest of
-  the distance is made up by the workspace (Ex 3, 5, 17, 27, 28, 30, 37, 38 are
-  the book's own `v ← …` lines) and by two adaptations named on their own lines:
-  Ex 29 and Ex 37 begin `m ← 3 3⍴9?9`, a random **Deal**, so `m` is bound to the
-  very permutation the book printed, and every `]box`/`]DISPLAY` frame is
-  dropped.
-- **21 examples are out of scope**, each printed as a `SKIP` line with its
-  reason: Ex 1 (`⎕IO ← 0`, a `⎕` system name — realised instead as AplCore's
-  index origin 0) and Ex 2 (`]box`, a Dyalog user command); **16** whose `m` is
-  itself nested, `3 3⍴(1 2 3)(3 2 1)…` (Ex 9-16, 23-26, 33-36 — Ex 36 also
-  characters), priced in `p15_box.fss` and explained below; Ex 22
-  (`I←⌷⍨∘⊃⍨⍤0 99`: the operators `⍨ ∘ ⍤` and a tacit definition, rungs 4 and 7);
-  Ex 39 and 40 (characters).
-- **18 further checks beyond the chapter** all pass (`X1`-`X18`): `⍸` Where
-  alone and as an index, indexed assignment on two axes and through an elided
-  axis, squad on a vector and on a matrix's leading axis, Replicate with a
-  scalar count, a digit in a name, `a ← b ← 1 2`, an indexed expression as a
-  function argument, `⍴n[;1 2]`, rung 1's `⍎(…)` escape followed by indexing,
-  an unset name (zilde), `n[1 2;0]`, and a two-coordinate scatter.
-- `Rung2.out.0` is the first run of the same file: three of the beyond-chapter
-  checks (`X3`-`X5`) failed there because their *expectations* had been written
-  with one column width for the whole matrix. Dyalog pads each column to its own
-  width — the rule rung 1 verified against the book's Ex 14 — so the library was
-  right and the expectation wrong; the three `want` strings were corrected, not
-  the display.
-- **Rung 1 still passes against the extended `base/`**: 26 of 26 and 18 of 18,
-  output identical to the committed `../rung-1/Rung1.out`.
-- Index origin is **0** throughout, as the chapter's first line sets it.
+- **25 of 25 checks pass, over 19 of the chapter's 40 examples. Nothing fails.**
+  `Rung2.out`: `checks passed: 25 of 25, over 19 of the chapter's 40 examples`.
+  The 19 are Ex 3, 4, 5, 6, 7, 8, 17, 18, 19, 20, 21, 27, 28, 29, 30, 31, 32, 37,
+  38 — **exactly v1's 19, and exactly v1's 25 checks** (Ex 3, 6, 27 and 37 each
+  print more than one result). **Nothing regressed.**
+- **21 of 21 beyond-chapter checks pass** (`X1`-`X21`), against v1's 18.
+  Fourteen of v1's carried over unchanged (its `X9`+`X10` pair is one check here);
+  **three are gone** and are printed as `SKIP` with their reason at the end of
+  `Rung2.out` — `a ← b ← 1 2` (a binding is not an expression here,
+  `s07_chain.out`), "an unset name is zilde" (a name outside the closed set is now
+  a syntax error at the use site, which is better), and the cross-block session
+  (`s06_scope.out`); and **seven are new**: the row view carrying the library's
+  algebra (`X10`, `X11`), a matrix from a vector row index (`X13`), host code
+  reading the APL name inside the block (`X17`), a comment after a non-final
+  statement (`X18`), APL's INDEX ERROR and LENGTH ERROR as contract violations
+  (`X19`, `X20`), and a scalar right argument to a selective assignment (`X21`).
+- **21 examples are out of scope**, each a `SKIP` line with its reason, the same
+  21 as v1: Ex 1 (`⎕IO ← 0`, realised as the library's index origin 0), Ex 2
+  (`]box`), the **16** whose `m` is itself nested (Ex 9-16, 23-26, 33-36; Ex 36
+  also characters), Ex 22 (`I←⌷⍨∘⊃⍨⍤0 99`), Ex 39 and 40 (characters).
+- **What changed against v1 is not the score but the notation**, in three places,
+  all consequences of names being lambda parameters rather than a workspace table:
+  1. the chapter's **session is not a session**. A binding lives as long as its
+     block, so each example is one `apl⦇ … ⦈` that opens with the book's own
+     binding lines. The book's *layout* is kept — one statement per line, the
+     book's `⍝` comments where the book puts them, including on lines that are
+     not the block's last, which v1's 2b could not do at all.
+  2. **`←` is not an expression.** v1 read `v ← 9 2 6 …` and printed its value
+     for Ex 3a, 17, 27a and 30; here the binding is followed by a reference
+     (`v ← … ⋄ v`), which is what the book's `⎕ ←` prints anyway.
+  3. **one line of the chapter needs `⋄` for its line break**: Ex 20's `1 1⌷n`
+     begins with a numeral, and a line break between two symbols of a strand is
+     optional whitespace, so `…7 8 3` and `1 1` read as one strand
+     (`Rung2.out.0`). Gap row 32, biting the book's own layout.
+- **No cell, no copy, no workspace.** v1's `aplSet`/`aplGet` and rung 2b's
+  `AplCell` are both gone: a library array is **mutable through a
+  `Vector`/`Matrix` parameter**, so `v[3] ← ¯1` is an in-place `put` on the array
+  the lambda parameter is already bound to. Rebinding — which the host refuses,
+  gap row 29, re-confirmed in `s05_rebind.out` — is never needed.
+- **Rung 1 still passes on the extended base**: `../rung-1/Rung1.out`, re-run
+  after the promotion and again after every rung-2 addition, 26 of 26 and 18 of
+  18, output identical both times.
 
 ## How to run
-
-As rung 1 (`FORTRESS_SOURCE_PATH` must re-list the four shipped entries — gap
-row 12):
 
 ```
 export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64; export PATH=$JAVA_HOME/bin:$PATH
@@ -59,70 +62,112 @@ $FORTRESS_HOME/ProjectFortress/test_library"
 cd $FORTRESS_HOME/explorations/apl/rung-2 && $FORTRESS_HOME/bin/fortress Rung2.fss
 ```
 
-A component that uses an expander regenerates two Rats! parsers (7-10 s here); a
-library-only probe costs 3-5 s; `fortress parse FILE.fsi` checks a grammar api
-in 0.6 s and was the only way to bisect the two grammar failures below.
+A component that uses the expander regenerates two Rats! parsers (25-40 s); a
+library-only probe costs 5 s, which is why `s01_ix.fss` and `s02_lib.fss` exist.
 
 ## What the library needed (`../base/AplCore.fsi`, `AplCore.fss`)
 
-The carrier is **unchanged** — `value object AplArr(shape: List[\ZZ32\],
-data: List[\RR64\])` — so rung 1 is untouched. Added:
+The carrier is unchanged — an APL scalar is an `RR64`, a vector an
+`Array[\RR64,ZZ32\]`, a matrix an `Array[\RR64,(ZZ32,ZZ32)\]`, and every
+primitive is an overload family on `RR64` / `Vector[\RR64,s\]` /
+`Matrix[\RR64,r,c\]`. Rung 2 adds 36 declarations under one rule: **the shape of
+an indexed result is the shapes of the indices catenated**, so indexing by a
+scalar lowers the rank and indexing by a vector keeps it. That is not a run-time
+shape test but overloading on the **index's** rank, because `Array1 excludes
+{Number, String}` (`FortressLibrary.fsi:1435`) makes `RR64` and `Vector` an
+excluding pair:
+
+```
+aplIx1[\nat s\](v: Vector[\RR64,s\], i: RR64): RR64
+aplIx1[\nat s, nat t\](v: Vector[\RR64,s\], i: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplIx2[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: RR64, j: RR64): RR64
+aplIx2[\nat r, nat c, nat t\](m: Matrix[\RR64,r,c\], i: RR64, j: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplIx2[\nat r, nat c, nat s\](m: Matrix[\RR64,r,c\], i: Vector[\RR64,s\], j: RR64): Array[\RR64,ZZ32\]
+aplIx2[\nat r, nat c, nat s, nat t\](m: Matrix[\RR64,r,c\], i: Vector[\RR64,s\],
+        j: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\]
+```
+
+so `m[1;1]` is a scalar, `m[1;1 2]` and `m[1 2;0]` are vectors and `m[1 2;1 2]` is
+a matrix, with no rank stored anywhere (`s02_lib.out`).
 
 | what | spelling that worked | why |
 |---|---|---|
-| bracket indexing | `aplIx1(a, i)`, `aplIx2(a, i, j)`, and `aplIxRow`/`aplIxCol` for an elided axis, with **result shape = the index shapes concatenated** (`AplArr(i.shape \|\| j.shape, …)`) | that one rule gives APL's own answers: `m[1;1]` a scalar, `m[1;]` and `m[;1]` vectors, `v[5 2]` a vector, `n[;1 2]` a 3×2 matrix |
-| an elided axis | `aplAxisIx(n) = aplVec(<\|[\RR64\] 1.0 k \| k <- seq(0 # n) \|>)` | elision is *all of that axis*, so it is an index vector, not a sentinel — which keeps the sentinel out of `AplArr` (gap row 19) |
-| indexed assignment | `aplPutAt(a, idx, v)` over a flat position list, with `aplIxSet1/2/Row/Col` computing the positions | `AplArr` is a `value object`: an assignment is an updated **copy**, which the grammar stores back with `aplSet` |
-| selective assignment | one function per invertible left-hand side: `aplSelSet(a, sel, v)` for `(select/data) ← …`, `aplDiagSet(a, v)` for `(0 0⍉m) ← …` | APL inverts an arbitrary expression; a template grammar needs a production and a function per shape |
-| scatter indexing | `aplPick(a, c)` for one coordinate vector; `aplIdxOne`/`aplIdxCons` building a **k×rank matrix** of coordinates and `aplScatter(a, cs)` reading it | this is what makes Ex 7, 8, 18, 19 run on a flat carrier |
-| squad `⌷` | `aplSquad(i, a)` (full coordinates → cell, one index → leading-axis cell) and `aplSquadEncl(i, a)` for `(⊂1 2)⌷m` | Ex 20, 21, X6, X7 |
-| `⍸` Where | `aplWhere(a)` → the indices where the value is non-zero | not in the chapter; `X1`, `X2` |
-| Compress and Replicate | `aplRepList(sel, d)` for a vector; for a matrix, `aplIx2` with `aplSelIx(sel, n)` along the compressed axis and `aplAxisIx` along the other | `select/data`, `select⌿m` and `select/m` then keep APL's ranks: Ex 31 prints one row, Ex 32 three lines, Ex 28 the 17-element replicate |
-| the high minus | `aplScalarNeg`, and `aplFmt(v) = if v < 0.0 then ("¯" aplFmt(-v)) …` | Ex 5's `¯1` must print as `¯1`; a string literal has no `\u` escape, so the character stands in the source (gap row 22) |
-| the workspace | `object AplWs()` with `var names: List[\String\]`, `var vals: List[\AplArr\]`, held in `aplWs: AplWs = AplWs()`, behind `aplSet`/`aplGet`/`aplWsClear` | APL's variables; `aplSet` returns what it stored, so assignment is an expression as in APL |
+| an elided axis, `m[1;]` and `m[;1]` | `aplIxRow[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: RR64): Vector[\RR64,c\] = AplRow[\r,c\](m, aplInt(i))` over a 6-line view object | the view **is** a `Vector`, so the library's whole vector algebra applies to a row (`X11`, `X13`); see below |
+| an elided axis with a vector index | `aplIxRow[\nat r, nat c, nat s\](…, i: Vector[\RR64,s\]): Array[\RR64,(ZZ32,ZZ32)\]` | `m[1 2;]` keeps the rank, and a gather cannot be a view, so it copies |
+| indexed assignment | `aplIxPut1`, `aplIxPut2`, `aplIxPutRow`, `aplIxPutCol`, all `: ()` and all `v.put(i, x)` / `m.put((i,j), x)` | **an array reached through a `Vector`/`Matrix` parameter is mutable** (`s01_ix.out` (a)), so assignment needs no cell, no copy and no rebinding |
+| selective assignment | one function per invertible left-hand side: `aplSelPut(d, sel, x)` for `(select/data) ← …` (with a scalar-`x` overload for APL's extension), `aplDiagPut(m, x)` for `(0 0⍉m) ← …` | APL inverts an arbitrary expression; a template grammar needs a production and a function per shape |
+| `⊂` coordinates and scatter | `aplPick(m, i)` for one coordinate vector; `aplIdxOne`/`aplIdxCons` folding `(0 0)(1 1)(2 2)` into a **k×rank matrix** and `aplScatter(m, cs)` reading it | this is what makes Ex 7, 8, 18, 19 run without a nested value: no enclosure is ever a value |
+| squad `⌷` | `aplSquad1(i, v)`, `aplSquad1(i, m)`, `aplSquad2(i, j, m)`, `aplSquadEncl(i, m)` | the left argument's **length** decides the result's rank, exactly as dyadic `⍴`'s does, so the grammar splits it (gap row 47) instead of the run time |
+| `⍸` Where | `aplWhere[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]` | `X1`, `X2` |
+| Compress and Replicate | `aplCompress(sel, d)` / `(sel, m)` / `(sel: RR64, d)` and `aplCompressFirst` | `select/data`, `select⌿m` and `select/m` keep APL's ranks: Ex 31 is a 1×3 matrix, Ex 32 a 3×1 one, Ex 28 the 17-element replicate |
+| INDEX ERROR and LENGTH ERROR | `requires { (i >= 0.0) AND (i < (1.0 \|v\|)) }` on `aplIx1`/`aplIxPut1`, `requires { \|sel\| = \|d\| }` on the compress family | rung 1's contract route extends to indexing: `X19`, `X20` catch `CallerViolation` from APL source. v1 had "whatever `List`'s own indexing does" |
+
+**The row view is the one place the library gave more than was asked.** Merged
+ledger row 54 says the library's own `m[1,:]` extends `Array1` and never
+`Vector`; `s01_ix.out` asks it again over a **runtime-sized** matrix and gets the
+same answer — `m[1,:] = [0#3][ 3.0 99.0 5.0 ]`, `m[1,:] is NOT an AnyVector` — so
+a row taken that way carries no vector algebra. Row 55's user object does, and
+its `nat`s are **inferred from the runtime-built matrix**:
+
+```
+object AplRow[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, v: RR64): () = base.put((i, j), v)
+    init0(j: ZZ32, v: RR64): () = base.init0((i, j), v)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+```
+
+`RowView IS an AnyVector` (`s01_ix.out` (d)), `+/m[1;]` and `+/1⌷m` are the
+shipped `SUM` over it, and a write through it reaches the matrix. The price is
+APL's semantics: **ours aliases where APL copies** (`s08_alias.out`: after
+`w ← m[1;]` and `m[1;1] ← 99`, `w` reads `3 99 5`), while a vector index, which
+must copy, behaves as APL does.
 
 ## What the grammar needed (`../base/AplSyntax.fsi`)
 
-Still one `Expr` extension and no Fortress-level operator declarations. The
-additions, with the spellings that worked:
+Still one `Expr` extension. The entry now takes a **statement**, and the
+additions are these, verbatim.
 
-1. **A name is spelled, not spliced** (gap row 16). An `Id` gap cannot be an
-   expression (rung 1, gap row 4), so the name is built one character at a time
-   as the shipped `Xml.fsi:120-133` builds attribute names, and looked up in the
-   workspace:
-
-   ```
-   AplBase :Expr:= … | n:AplId => <[ aplGet((n)) ]> | s:AplStrand => <[ (s) ]>
-   AplId:String :Expr:= x:AplCh# y:AplIdTail => <[ x y ]> | x:AplCh => <[ x "" ]>
-   AplIdTail:String :Expr:= x:AplChD# y:AplIdTail => <[ x y ]> | x:AplChD => <[ x "" ]>
-   AplCh:String :StringLiteralExpr:= x:[A:Za:z] => <[ "" x ]>
-   AplChD:String :StringLiteralExpr:= x:[A:Za:z0:9] => <[ "" x ]>
-   ```
-
-   The split into `AplCh`/`AplChD` is load-bearing: a name is tried before a
-   numeral, so one class that admitted a leading digit would read the `9` of
-   `9 2 6` as a name.
-
-2. **`←` is a call** (gap row 17):
-   `n:AplId SPACE ← SPACE r:AplE => <[ aplSet((n), (r)) ]>`, and one rule per
-   indexed or invertible left-hand side, for instance
+1. **A statement layer, with `⋄`, a line break, and a per-line comment.** APL's
+   `←` binds a **lambda parameter** whose body is the rest of the block, which is
+   rung 2b's design carried over unchanged except that what is bound is the array
+   itself and not a cell:
 
    ```
-   n:AplId `[ SPACE i:AplE SPACE `] SPACE ← SPACE r:AplE
-       => <[ aplSet((n), aplIxSet1(aplGet((n)), (i), (r))) ]>
-   ( SPACE s:AplAtom SPACE / SPACE n:AplId SPACE ) SPACE ← SPACE r:AplE
-       => <[ aplSet((n), aplSelSet(aplGet((n)), (s), (r))) ]>
-   ( SPACE 0 SPACE 0 ⍉ SPACE n:AplId SPACE ) SPACE ← SPACE r:AplE
-       => <[ aplSet((n), aplDiagSet(aplGet((n)), (r))) ]>
+   AplStm :Expr:=
+       n:Id SPACE ← SPACE e:AplE SPACE ⍝ c:AplLn SPACE r:AplStm
+           => <[ (fn n => (r))((e)) ]>
+     | n:Id SPACE ← SPACE e:AplE SPACE ⋄ SPACE r:AplStm
+           => <[ (fn n => (r))((e)) ]>
+     | n:Id SPACE ← SPACE e:AplE
+       r:AplStm
+           => <[ (fn n => (r))((e)) ]>
+     | s:AplE SPACE ⍝ c:AplLn SPACE r:AplStm => <[ (fn _ => (r))((s)) ]>
+     | s:AplE SPACE ⋄ SPACE r:AplStm         => <[ (fn _ => (r))((s)) ]>
+     | s:AplE
+       r:AplStm                              => <[ (fn _ => (r))((s)) ]>
+     | s:AplE                                => <[ (s) ]>
    ```
 
-   The compress form must take an **`AplAtom`** and not an `AplE` on the left of
-   the slash: `AplE` would match `select/data` whole and then fail at the `/`,
-   and Rats does not re-enter a nonterminal for a shorter match (rung 1, gap
-   row 5).
+2. **A comment that ends at the end of its line** — new here, and what lets the
+   book's commented lines stand anywhere in a block:
 
-3. **Six bracket shapes, six productions**, with `[` and `]` backtick-escaped
-   because they are the macro language's character-class brackets:
+   ```
+   AplLn :Expr:=
+       NOT ⦈# NOT NEWLINE# _# t:AplLn => <[ 0 ]>
+     | NOT ⦈# NOT NEWLINE# _          => <[ 0 ]>
+   ```
+
+   Every symbol needs its `#`. Without it the optional whitespace between two
+   symbols crosses the line break, the `NOT NEWLINE` then looks *past* the
+   newline, and the comment swallows the statements below it — `s04_stm.out.0`,
+   `s04_stm.fss:21:42: Syntax Error`. That `#` is honoured on a `NOT`-prefixed
+   symbol is the library's own doing: `Syntax.rats:248-254` lifts the
+   `NoWhitespaceSymbol` back out over the predicate.
+
+3. **Six bracket shapes, six productions**, with `[` and `]` backtick-escaped,
+   and the rank of each result left to the library:
 
    ```
    AplAtom :Expr:=
@@ -130,180 +175,190 @@ additions, with the spellings that worked:
      | b:AplBase `[ SPACE i:AplE SPACE ; SPACE `]              => <[ aplIxRow((b), (i)) ]>
      | b:AplBase `[ SPACE ; SPACE j:AplE SPACE `]              => <[ aplIxCol((b), (j)) ]>
      | b:AplBase `[ SPACE ⊂ SPACE i:AplE SPACE `]              => <[ aplPick((b), (i)) ]>
-     | b:AplBase `[ SPACE i:AplE SPACE `]                      => <[ aplIx1((b), (i)) ]>
      | b:AplBase `[ SPACE c:AplCoord SPACE `]                  => <[ aplScatter((b), (c)) ]>
+     | b:AplBase `[ SPACE i:AplE SPACE `]                      => <[ aplIx1((b), (i)) ]>
      | b:AplBase                                               => <[ (b) ]>
    ```
 
-   One production per shape is a **choice for elision only**: a repeated gap
-   does splice as a list (`xs**`, `p17_ixlist.fss`, gap row 19), so the axis
-   list could have any arity, but the elided axis of `m[1;]` would then need a
-   sentinel value, a bound optional gap being unimplemented.
-
-4. **`⊂` and coordinate lists are absorbed by the grammar** (gap row 20): `⊂`
-   appears only as a terminal inside an index bracket or before `⌷`, and
+4. **Assignment is a call, one production per left-hand shape**, and the call
+   mutates:
 
    ```
-   AplCoord :Expr:= ( SPACE v:AplE SPACE ) SPACE r:AplCoord => <[ aplIdxCons((v), (r)) ]>
-                  | ( SPACE v:AplE SPACE )                  => <[ aplIdxOne((v)) ]>
+   c:AplName `[ SPACE i:AplE SPACE ; SPACE j:AplE SPACE `] SPACE ← SPACE r:AplE
+       => <[ aplIxPut2((c), (i), (j), (r)) ]>
+   c:AplName `[ SPACE i:AplE SPACE ; SPACE `] SPACE ← SPACE r:AplE
+       => <[ aplIxPutRow((c), (i), (r)) ]>
+   c:AplName `[ SPACE ; SPACE j:AplE SPACE `] SPACE ← SPACE r:AplE
+       => <[ aplIxPutCol((c), (j), (r)) ]>
+   c:AplName `[ SPACE i:AplE SPACE `] SPACE ← SPACE r:AplE
+       => <[ aplIxPut1((c), (i), (r)) ]>
+   ( SPACE s:AplAtom SPACE / SPACE c:AplName SPACE ) SPACE ← SPACE r:AplE
+       => <[ aplSelPut((c), (s), (r)) ]>
+   ( SPACE 0 SPACE 0 ⍉ SPACE c:AplName SPACE ) SPACE ← SPACE r:AplE
+       => <[ aplDiagPut((c), (r)) ]>
    ```
 
-   folds `(0 0)(1 1)(2 2)` into a 3×2 matrix. No enclosure is ever a value.
+   v1's spelling of the same line was `aplSet(n, aplIxSet1(aplGet(n), …))` — a
+   lookup, a copy and a store — three calls where the mutable array needs one.
 
-5. **Compress and Replicate** as two alternatives below the two reduce rules:
-   `l:AplAtom / SPACE r:AplE => <[ aplCompress((l), (r)) ]>` and the same with
-   `⌿`. A glyph is not an atom, so they cannot mask `+/`.
+5. **Squad, with the rank read off the source text**, as dyadic `⍴` already was:
 
-6. **The high minus** inside the numeral, glued on with `#`:
-   `AplNum :Expr:= ¯# n:LiteralExpr => <[ aplScalarNeg(1.0 (n)) ]> | n:LiteralExpr => …`.
+   ```
+   ( SPACE ⊂ SPACE i:AplE SPACE ) SPACE ⌷ SPACE r:AplE => <[ aplSquadEncl((i), (r)) ]>
+   a:AplNum SPACE b:AplNum SPACE ⌷ SPACE r:AplE        => <[ aplSquad2((a), (b), (r)) ]>
+   a:AplNum SPACE ⌷ SPACE r:AplE                       => <[ aplSquad1((a), (r)) ]>
+   ```
 
-7. Two glyphs added to the table: `⌷ => "squad"`, `⍸ => "where"`.
+6. **Compress and Replicate below the reductions**, which they cannot mask
+   because a glyph is not an atom:
+
+   ```
+   l:AplAtom / SPACE r:AplE => <[ aplCompress((l), (r)) ]>
+   l:AplAtom ⌿ SPACE r:AplE => <[ aplCompressFirst((l), (r)) ]>
+   ```
+
+7. **`⍸` with the monadic glyphs**: `⍸ SPACE r:AplE => <[ aplWhere((r)) ]>`.
+
+8. **The closed name set**, unchanged from rung 2b: one alternative per name,
+   each a sequence of one-character classes glued with `#`, each template writing
+   the name as an ordinary free Fortress identifier, because a reference cannot be
+   a gap (gap row 24) and a terminal that is a valid identifier would become a
+   keyword of the whole language (row 25).
+
+   ```
+   AplName :Expr:=
+       [s]# [e]# [l]# [e]# [c]# [t]# NOT [A:Za:z0:9] => <[ (select) ]>
+     | [d]# [a]# [t]# [a]# NOT [A:Za:z0:9]           => <[ (data) ]>
+     | [m]# [1]# NOT [A:Za:z0:9]                     => <[ (m1) ]>
+     | [v]# NOT [A:Za:z0:9]                          => <[ (v) ]>
+     … [m] [n] [q] [a] [b] [w], ten names, ten lines
+   ```
+
+   `AplBase` gains `| c:AplName => <[ (c) ]>` above the strand, and the
+   coordinate list is
+
+   ```
+   AplCoord :Expr:=
+       ( SPACE v:AplE SPACE ) SPACE r:AplCoord => <[ aplIdxCons((v), (r)) ]>
+     | ( SPACE v:AplE SPACE )                  => <[ aplIdxOne((v)) ]>
+   ```
+
+**Line cost**, measured under the redesign report's own rule (strip `(* … *)`,
+then drop whitespace-only lines):
+
+| | library `.fss` + `.fsi` | grammar `.fsi` + `.fss` | `=>` templates |
+|---|---|---|---|
+| `base/` at rung 1 | 221 + 99 = **320** | 57 + 3 = **60** | 50 |
+| `base/` at rung 2 (now) | 393 + 148 = **541** | 115 + 3 = **118** | 96 |
+| `v1/base/` at rungs 1 **and** 2 | 382 + 52 = **434** | 92 + 3 = **95** | 67 |
+
+So rung 2 costs +221 library lines and +58 grammar lines, and the native design
+stays about a quarter longer than v1's for the same chapter (541 + 118 against
+434 + 95, +24%) — the same ratio the redesign was priced at for rung 1 alone.
+Where the extra goes is visible in the table above: one overload per combination
+of index ranks, and one production per bracket shape. What v1 spends instead is
+run-time work: `aplDy`/`aplMon`/`aplRed` string comparison on every operation,
+and for indexing a shape list built and concatenated per index.
 
 ## Errors met, verbatim
 
 ```
-p12_g.fsi:20:7:
+s02_lib.fss:14:10-67:
+Unification error: Closure/Constructor for aplRavel param 1 (v:Vector[\RR64,10\])
+  got arg (9.0,2.0,6.0,3.0,5.0,8.0,7.0,4.0,0.0,1.0):
+  (FloatLiteral,FloatLiteral,…) of type (FloatLiteral,FloatLiteral,…)
+      (s02_lib.out.0: a host vector literal [ 9.0 2.0 … ] in an ARGUMENT position
+       is read as a tuple; it needs a type annotation, v: Vector[\RR64,10\] = […].
+       Only the probe is affected -- the grammar's own strands go through aplCons)
+
+s04_stm.fss:21:42:
     Syntax Error
-      (the nonterminal was called WE.  A word of two or more uppercase letters is
-       an OPERATOR, not an identifier; renaming it WEx fixed it.  p12a_oprword.out
-       bisects eleven names: WE AB ABC AAA A_B rejected, AA Ab AbC A W2 AB2 Ok,
-       which also shows the implementation is looser than the spec -- gap row 15)
+  Error occurred while instantiating and executing a temporary parser:
+  com.sun.fortress.parser.templateparser.TemplateParser87
+      (s04_stm.out.0: the per-line comment spelled NOT ⦈ NOT NEWLINE _ without
+       the #s.  The optional whitespace between the two NOTs crosses the line
+       break, so the comment ran to ⦈ and ate the statements below it)
 
-p14_idx.fss:35:45:
+Rung2.fss:137:42:
     Syntax Error
-      (sel3⌿m, with a letters-only character class for names: the name stopped at
-       "sel" and "3⌿m" was left over.  p14_idx.out.0; fixed by AplIdTail)
+      (Rung2.out.0: Ex 20's `1 1⌷n` on the line after `n ← 3 3⍴4 1 6 5 2 9 7 8 3`.
+       The line break is optional whitespace inside the strand, so the two lines
+       read as one strand `…7 8 3 1 1` and the ⌷ is left over.  Gap row 32)
 
-MacroError: Could not parse 'do  <!@#$%^&*<Id t >*&^%$#@!>  = ( <!@#$%^&*<Expr r >*&^%$#@!> ); … end '
-  Caused by: java.lang.IllegalArgumentException: Parameter 'text' to the IdOrOp constructor was null
-        at com.sun.fortress.parser.templateparser.TemplateParser3.pNoNewlineExpr$AssignLeft
-      (a template expanding to a DECLARATION, p16_decl.out: the fourth spelling
-       of APL's ← after rung 1's three, and the one that names the reason -- the
-       template parser reads the left of = with AssignLeft, where a gap is null)
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-107:
+Unification error: /home/user/fortress/explorations/apl/base/AplCore.fss:547:12-25:
+Cannot unify Float(class …types.FTypeObject)
+  with Vector[\FortressLibrary.RR64,u\](class …nodes.TraitType) abm=s=(3,Any) t=(2,Any)
+      (Rung2.out.1: `(select/data) ← ¯1`, a SCALAR right argument, before
+       aplSelPut had the scalar overload APL's extension requires.  Note the span:
+       line 1 of the GRAMMAR api, not the use site -- gap row 35 again, and the
+       shape a missing rank overload takes when it is reached through an expansion)
 
-p18_uesc.fss:10:19:
-    Invalid string literal content: \
-p18_uesc.fss:10:14-51:
-    Unmatched delimiters """ and "]".
-      (a \u escape in a string literal; the character itself works -- gap row 22)
+s05_rebind.fss:9:72:
+    Variable v is already declared.
+      (v ← 1 2 ⋄ v ← 3 4 ⋄ v: the second ← is a nested lambda parameter of the
+       same name.  Gap row 29, re-confirmed on the native carrier -- and no longer
+       needed for assignment, only for a rebinding that changes the rank)
 
-p16_g.fsi:9:25-61:
-    Unmatched delimiters "do" and ")".
-      (not a Fortress gap: the probe's own comment contained "p07_assign.out*)",
-       whose *) closed the comment early.  Recorded because it cost a bisection)
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:2:
+    Variable v is not defined.
+      (s06_scope.out: a name bound in one apl⦇ … ⦈ read in the next one.  This is
+       the one thing v1's workspace table had that the lambda route gives up)
+
+s07_chain.fss:8:51-59:
+    Variable apl is not defined.
+      (a ← b ← 1 2.  A use of the expander that matches no production is not a
+       syntax error at all: the bracket is left unparsed and `apl` is read as an
+       ordinary identifier.  A new diagnostic shape, worse than a Syntax Error)
 ```
-
-## The variable and assignment routes, and their verdicts
-
-Four routes were tried, in this order.
-
-1. **A template expanding to a Fortress binding or assignment. NO**, four
-   spellings. Rung 1 tried three against `:=` — parenthesised `Expr` gap, bare
-   `Expr` gap, `Id` gap — all `Syntax Error` at the `:=` (gap row 8,
-   `../rung-1/p07_assign.out`, `.out.0`, `.out.1`). Rung 2 adds the fourth, a
-   **declaration** `do t = (r); … end` with the `Id` gap in what is a binder
-   position in the shipped `For.fsi`: it reaches the template parser's
-   `AssignLeft` production and the gap's text arrives null (`p16_decl.out`, gap
-   row 18). So the left of `=` and of `:=` is closed to gaps, and an APL
-   variable cannot be a Fortress variable.
-
-2. **The host binds the value of an `apl⦇ … ⦈` block and APL names it through
-   `⍎(v)`. Works, and is what rung 1 used.** `hostm = apl⦇ 2 3⍴⍳6 ⦈` then
-   `apl⦇ ⍎(hostm)[1;2] ⦈` → `5` (`Rung2.out`, X15). The cost is that the book's
-   `←` is missing, the name is spelled `⍎(m)` and not `m`, and the variable
-   belongs to Fortress's scope, not to an APL session.
-
-3. **A user-level workspace object whose `set`/`get` the templates call. Works,
-   and is what rung 2 ships.** `v ← 9 2 6 3 5 8 7 4 0 1` then `v[5]` → `8`,
-   `v[3] ← ¯1` then `v` → `9 2 6 ¯1 5 8 7 4 0 1`, the book's lines character for
-   character, and the name survives from one expander use to the next
-   (`p11_ws.out`, `p12_name.out`, `p14_idx.out`, `Rung2.out`). Three things had
-   to be true at once: a bare identifier must be a **terminal** — it is, if it
-   is spelled rather than spliced (route 1's wall is what forces this); the
-   store must be **mutable module state** — one reference `object` with `var`
-   `List` fields in a component-level immutable binding; and indexed assignment
-   must be a **copy**, `AplArr` being a `value object`, which is why
-   `v[1] ← 9` expands to `aplSet("v", aplIxSet1(aplGet("v"), …))`.
-   The two routes meet: `w ← ⍎(hostm)` stores a Fortress value under an APL name
-   (`p14_idx.out`).
-
-4. **A keyword per name** — one alternative per variable in the glyph table's
-   style — was not needed: the character class covers it, and rung 1's `AplFn`
-   already proves a terminal can reduce to a `String`. It remains the fallback
-   for a sub-language with a fixed, small set of names.
-
-**Which reads closest to the book: route 3, and by a distance.** Every line of
-the chapter that names a variable is now copied in verbatim. What it costs:
-APL's variables are not Fortress variables and are invisible to the host except
-through `aplGet`; there is no scoping, no shadowing and no type but `AplArr`; a
-misspelt name is not an error but zilde (`X16`); and the value of an indexed
-assignment is the whole updated array rather than APL's right argument (the
-book's lines never read it, and `Rung2.fss` writes `_ = apl⦇ … ⦈` where APL
-would suppress the display).
-
-## Nested arrays: the price, paid in a skeleton and not in `base/`
-
-Sixteen of the chapter's examples index an `m` that is itself nested,
-`3 3⍴(1 2 3)(3 2 1)…`. `AplArr`'s elements are `RR64`, so this is a new
-**element representation**, not a new function. `p15_box.fss` writes that
-representation out and runs it rather than arguing about it: a trait `AplEl`
-with a number variant and a box variant, a parallel carrier
-`BoxArr(shape, data: List[\AplEl\])`, `⊂` enclose, `⊃` first, the `(⊂1 1)⊃m`
-pick, and a framed display. It reproduces **the book's Ex 9 frame character for
-character**, Ex 34 → `5 6 8` and Ex 35 → `1 2 3` (`p15_box.out`). The price is
-therefore not the representation but everything typed against the old one: 1
-trait + 2 variants + 1 carrier, and then the **65 top-level functions** of
-`AplCore.fss`, every one of which takes or returns `AplArr`/`RR64`, rewritten.
-That is a rung of its own (the ladder's rung 8, nested arrays and boxes), so
-`base/` keeps the flat carrier and those 16 examples stay `SKIP` (gap row 21).
 
 ## Departures from APL that remain
 
-- **Variables live in a workspace, not in Fortress.** See route 3 above. `←`
-  and a bare name read as the book prints them; `⍎(v)` is still there for a
-  Fortress value.
+- **A name lives as long as its block.** The chapter's session is replayed per
+  example; an example that needed a name to outlive its block would be out of
+  scope, and none of the 19 does.
+- **No rebinding inside a block** (gap row 29), so `m ← …` twice in one block is
+  a static error. The chapter rebinds `m` at Ex 29 and Ex 37, which are separate
+  blocks here.
+- **`←` is not an expression**: no `a ← b ← 1 2`, and the value of an assignment
+  cannot be read (`aplIxPut*` return `()`).
+- **A row or column is a view, not a copy**, so it aliases (`s08_alias.out`).
+  APL copies. A vector index copies here too, so the two shapes of `m[…;…]`
+  disagree about aliasing.
 - **`⊂` is not a function**, only a terminal inside an index bracket and before
-  `⌷`. `(⊂1 2)⌷m` and `m[⊂1 1]` work; `⊂v` alone has no meaning here.
-- **No nesting**, hence no `⊃` Pick on a nested array, no `]DISPLAY` frames, no
-  `¨`; and no characters, so Ex 36, 39, 40 are out. Priced above.
-- **No `⌷[axis]`**: Ex 15's `2⌷[1]m` would need an axis bracket on a function,
-  which the grammar does not have (the example's `m` is nested anyway).
-- **Selective assignment is per-shape.** APL inverts an arbitrary expression on
-  the left of `←`; here `(select/data) ←` and `(0 0⍉m) ←` are two productions
-  and two functions. A third shape needs a third pair.
-- **`?` Deal is absent** (no RNG in the library, and the book's own output is
-  one run): Ex 29 and 37 are bound to the permutation the book printed.
-- **An index out of range** is whatever `List`'s own indexing does, not an APL
-  `INDEX ERROR`; `m[1]` on a matrix indexes the ravel instead of raising
-  `RANK ERROR`.
-- Display is unchanged from rung 1 — one line per row, each column padded to its
-  own width, which is Dyalog's layout for these matrices — plus the high minus.
-  Negative numbers now print `¯1`, as the book does.
+  `⌷`; `⊂v` alone has no meaning.
+- **No `⌷[axis]`** (Ex 15), no nesting, no characters, no `?` Deal (Ex 29 and 37
+  are bound to the permutation the book printed), and `m[1]` on a matrix is not a
+  RANK ERROR but a dispatch failure, because no overload takes it.
+- **Selective assignment is per-shape**: `(select/data) ←` and `(0 0⍉m) ←` are
+  two productions and two functions; a third shape needs a third pair.
 
 ## New gap rows
 
-Eight rows appended to `../gaps.md`, numbered 15-22: all-uppercase nonterminal
-names are operators, and the implementation's rule diverges from the spec's
-(15); a bare identifier can be a terminal if it is spelled (16); APL's `←` and a
-persistent workspace at user level (17); no gap left of `=` either, and
-`AssignLeft` is the reason (18); a repeated gap splices as a list, so only
-elision forces a production per bracket shape (19); enclosures and coordinate
-lists absorbed by the grammar (20); the boxed element priced (21); no `\u`
-escape in string literals (22).
+Eight rows appended to `../gaps.md`, numbered **48-55**: an APL array is mutable
+through a `Vector`/`Matrix` parameter, so assignment is an in-place put (48);
+overloading on the *index's* rank works, `Array1 excludes Number` being the
+excluding pair (49); a row/column view with `nat`s inferred from a runtime-built
+matrix keeps the algebra the library's own view loses, and aliases (50); a
+comment may follow a non-final statement if every symbol of its tail carries `#`
+(51); a line break does **not** separate statements when the next line can extend
+the phrase (52); an expander use that matches no production degrades to `Variable
+apl is not defined` (53); a missing rank overload reached through an expansion is
+a host unification error at the grammar api's line 1 (54); APL's INDEX ERROR and
+LENGTH ERROR as `requires` contracts on indexing (55).
 
 ## Probes
 
-Every attempt is kept with its output; `.out.0` is an earlier spelling of the
-same probe, failures included.
+`.out.0` / `.out.1` are earlier spellings of the same probe, failures kept.
 
 | probe | question | outcome |
 |---|---|---|
-| `p11_ws` | can a component hold one mutable store reachable through plain functions? | yes: reference object with `var List` fields, set/get/overwrite across uses |
-| `p12a_oprword` (`.sh`) | why was the api rejected at a nonterminal's name? | a two-letter all-caps name is an operator; eleven names bisected |
-| `p12_g`, `p12_name` | can a bare identifier be a terminal, and `←` a call? | yes, both; `.out.0` is the `WE` rejection |
-| `p13_core` | the whole rung-2 library without any grammar | all of it, values matching the book |
-| `p14_idx` | the book's own lines through the grammar | all of them; `.out.0` is the letters-only name class failing on `sel3⌿m` |
-| `p15_box` | the price of nested arrays, written out | the skeleton runs and draws the book's frame; 65 functions would have to follow |
-| `p16_g`, `p16_decl` | can a template expand to a **declaration**? | no: `AssignLeft` takes no gap |
-| `p17_g`, `p17_ixlist` | can a repeated gap carry the `;`-list as a host list? | yes, any arity; elision is the part that cannot |
-| `p18_uesc` | is there a `\u` escape in a string literal? | no; the character itself works |
+| `s01_ix` | is an array mutable through a `Vector`/`Matrix` parameter; does index-rank overloading work; is `m[1,:]` a `Vector`; can a user view object infer its `nat`s? | yes / yes / **no** / yes — the four facts the rung is built on |
+| `s02_lib` | the whole rung-2 library through its api, no grammar | every value the book prints; `.out.0` is the untyped vector literal |
+| `s03_gram` | the new grammar with **no** APL names, values entering through `⍎(…)` | all six bracket shapes, squad, where, compress, replicate |
+| `s04_stm` | statements, the closed name set, assignment, a comment after a non-final statement | all of it; `.out.0` is the comment tail without its `#`s |
+| `s05_rebind` | can a block rebind a name? | no: `Variable v is already declared` |
+| `s06_scope` | can a name cross from one `apl⦇ … ⦈` to the next? | no: `Variable v is not defined`, at the grammar api's line 1 |
+| `s07_chain` | `a ← b ← 1 2` | no, and the failure is `Variable apl is not defined` |
+| `s08_alias` | does a row view alias the matrix it came from? | yes — the one semantic departure the view buys |
+| `Rung2` | the chapter | 25 of 25 over 19 examples, 21 of 21 beyond; `.out.0` and `.out.1` are the two failures above |

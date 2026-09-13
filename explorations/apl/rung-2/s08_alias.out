@@ -1,0 +1,12 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress3904913083438559410rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress3904913083438559410rats/com/sun/fortress/parser/templateparser/TemplateParser87.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+w ← 1⌷m, then m[1;1] ← 99, then w = 3 99 5
+the same with w ← m[1;]        = 3 99 5
+and with a vector index, m[1 2;] being a fresh matrix = 3 4 5
+6 7 8
+a write through the view, w[2] ← ¯1, then m = 0 1  2
+3 4 ¯1
+6 7  8

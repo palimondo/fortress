@@ -1,0 +1,10 @@
+(* s05: can a block REBIND a name?  The chapter's session does -- m is bound at
+   Ex 6, again at Ex 29 and again at Ex 37 -- so this is the question that decides
+   whether the book's session can be one block.  Expected to fail (gap row 29),
+   and kept with its output because the claim is a negative one. *)
+component s05_rebind
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+run(): () = println(("v ← 1 2 ⋄ v ← 3 4 ⋄ v = " aplShow(apl⦇ v ← 1 2 ⋄ v ← 3 4 ⋄ v ⦈)))
+end

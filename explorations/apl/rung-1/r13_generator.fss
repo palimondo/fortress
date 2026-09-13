@@ -2,11 +2,11 @@
    row 47 buys this for a USER carrier with ZeroIndexed + DelegatedIndexed and
    about six lines; a library array needs no lines at all, it already is a
    Generator.  The last two lines are the trap that forces the rank-split
-   reduction functions in AplGen: a matrix generates ALL of its cells, so
+   reduction functions in AplCore: a matrix generates ALL of its cells, so
    SUM over it is APL's +/,m and not +/m. *)
 component r13_generator
-import AplGen.{...}
-import AplGenSyntax.{...}
+import AplCore.{...}
+import AplSyntax.{...}
 import List.{...}
 export Executable
 run(): () = do

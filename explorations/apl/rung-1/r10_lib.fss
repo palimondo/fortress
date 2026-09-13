@@ -1,6 +1,6 @@
 (* r10 -- the library through its api, with no grammar in the way. *)
 component r10_lib
-import AplGen.{...}
+import AplCore.{...}
 export Executable
 run(): () = do
     println("⍳8       = " aplShow(aplIota(8.0)))

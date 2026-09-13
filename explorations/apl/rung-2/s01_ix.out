@@ -1,0 +1,18 @@
+v = 0 3 6 9 12
+m = 0 1 2
+3 4 5
+6 7 8
+(b) overloading on the index's rank:
+  scalar index -> 6
+  vector index -> 3 9
+(a) mutation through a Vector/Matrix parameter:
+  after bang(v,3,¯1): 0 3 6 ¯1 12
+  after bangm(m,1,1,99): 0  1 2
+3 99 5
+6  7 8
+(c) the library's own row view:
+  m[1,:] = [0#3][ 3.0 99.0 5.0 ]
+  m[1,:] is NOT an AnyVector
+(d) a user view object with inferred nats:
+  RowView(m,1) = 3 99 5
+  RowView IS an AnyVector

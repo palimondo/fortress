@@ -1,11 +1,11 @@
 Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
-Processing /tmp/fortress15841270307625209364rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
-Note: /tmp/fortress15841270307625209364rats/com/sun/fortress/parser/templateparser/TemplateParser87.java uses unchecked or unsafe operations.
+Processing /tmp/fortress1081325299939769767rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress1081325299939769767rats/com/sun/fortress/parser/templateparser/TemplateParser87.java uses unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 
 Turn on "-debug interpreter" for Java-level stack trace.
-null/home/user/fortress/explorations/apl/rung-2/Rung2.fss:
-    Error occurred while instantiating and executing a temporary parser: com.sun.fortress.parser.templateparser.TemplateParser87 (/home/user/fortress/explorations/apl/rung-2/Rung2.fss:137:42:
+null/home/user/fortress/explorations/apl/rung-2/s04_stm.fss:
+    Error occurred while instantiating and executing a temporary parser: com.sun.fortress.parser.templateparser.TemplateParser87 (/home/user/fortress/explorations/apl/rung-2/s04_stm.fss:21:42:
     Syntax Error)
 Turn on "-debug interpreter" for Java-level stack trace.
 java.lang.Throwable

@@ -1,0 +1,19 @@
+(* s08: the price of the row view.  APL's m[1;] is a COPY; ours is a zero-copy
+   view (s01_ix.out (d)), which keeps the vector algebra and writes through.  So
+   does a name bound to a row still read the old values after the matrix is
+   changed under it?  In APL it would.  This probe says what we do instead. *)
+component s08_alias
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+run(): () = do
+    println(("w ← 1⌷m, then m[1;1] ← 99, then w = "
+             aplShow(apl⦇ m ← 3 3⍴⍳9 ⋄ w ← 1⌷m ⋄ m[1;1] ← 99 ⋄ w ⦈)))
+    println(("the same with w ← m[1;]        = "
+             aplShow(apl⦇ m ← 3 3⍴⍳9 ⋄ w ← m[1;] ⋄ m[1;1] ← 99 ⋄ w ⦈)))
+    println(("and with a vector index, m[1 2;] being a fresh matrix = "
+             aplShow(apl⦇ m ← 3 3⍴⍳9 ⋄ w ← m[1 2;] ⋄ m[1;1] ← 99 ⋄ w ⦈)))
+    println(("a write through the view, w[2] ← ¯1, then m = "
+             aplShow(apl⦇ m ← 3 3⍴⍳9 ⋄ w ← m[1;] ⋄ w[2] ← ¯1 ⋄ m ⦈)))
+  end
+end

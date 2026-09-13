@@ -1,0 +1,6 @@
+(* The stub component an api carrying a grammar needs: a grammar may be
+   declared only in an api (ledger: Declaration.rats:32-51), and the api still
+   needs a component to be importable. *)
+component AplSyntax
+export AplSyntax
+end

@@ -1,0 +1,165 @@
+(* Rung1 -- every example of "It's arrays all the way down"
+   (https://xpqz.github.io/learnapl/array.html) that is a simple numeric array,
+   written inside apl⦇ … ⦈ and checked against the book's printed output as
+   extracted in ../goldens/ch1-arrays.md.
+
+   Index origin is 0: the chapter's first line is ⎕IO ← 0, so ⍳8 is 0 1 2 3 4 5
+   6 7 and every shape and rank below follows from that.
+
+   Run from this directory with AplCore and AplSyntax on the source path:
+
+     export FORTRESS_SOURCE_PATH=".:$FORTRESS_HOME/explorations/apl/base:\
+     $FORTRESS_HOME/ProjectFortress/LibraryBuiltin:$FORTRESS_HOME/Library:\
+     $FORTRESS_HOME/ProjectFortress/test_library"
+     $FORTRESS_HOME/bin/fortress Rung1.fss
+
+   Two departures from the book's notation are forced and appear below:
+   a Fortress variable is named inside APL as ⍎(v), not as v (an Id gap cannot
+   be spliced into an expression position, p03a); and APL's assignment arrow is
+   not in the sublanguage, so the session's variables (data, m, v) are bound at
+   the Fortress level.  Where an example's own input needs nested arrays, the
+   adaptation is named in the line. *)
+component Rung1
+
+import AplCore.{...}
+import AplSyntax.{...}
+import List.{...}
+export Executable
+
+str(a: AplArr): String = ("" a)
+
+chk(id: String, src: String, got: String, want: String): ZZ32 = do
+    ok = (got = want)
+    println(((if ok then "PASS  " else "FAIL  " end) id "  " src))
+    println(("        want |" want "|"))
+    println(("        got  |" got "|"))
+    if ok then 1 else 0 end
+  end
+
+note(id: String, why: String): () = println(("SKIP  " id "  out of scope: " why))
+
+run(): () = do
+    score: ZZ32 := 0
+
+    println("=== examples of the chapter, against the book's printed output ===")
+    println("")
+
+    note("Ex 1 ", "⎕IO ← 0 is a ⎕ system name; realised instead as AplCore's index origin 0")
+    note("Ex 2 ", "nested arrays (a vector of four enclosed vectors) and ⎕ ←")
+
+    (* the chapter's data, as a 4x4 matrix instead of a nested vector: the
+       adaptation replaces ↑data, which needs nesting, by the reshape that
+       yields the same matrix. *)
+    data4 = apl⦇ 4 4⍴1 2 3 4 2 5 8 6 8 6 2 3 8 7 6 1 ⦈
+
+    score := score + chk("Ex 3 ", "⊃+⌿⍎(data4)   (adapted: data as a 4 4 reshape)",
+                         str(apl⦇ ⊃+⌿⍎(data4) ⦈), "19")
+    score := score + chk("Ex 4 ", "⍎(data4)      (adapted: ↑data needs nesting)",
+                         str(apl⦇ ⍎(data4) ⦈),
+                         ("1 2 3 4" // "2 5 8 6" // "8 6 2 3" // "8 7 6 1"))
+    score := score + chk("Ex 5 ", "+⌿⍎(data4)    (adapted)",
+                         str(apl⦇ +⌿⍎(data4) ⦈), "19 20 19 14")
+    score := score + chk("Ex 6 ", "⊃+⌿⍎(data4)   (adapted; the chapter repeats Ex 3)",
+                         str(apl⦇ ⊃+⌿⍎(data4) ⦈), "19")
+    score := score + chk("Ex 7 ", "⍴5            (the empty vector prints as nothing)",
+                         str(apl⦇ ⍴5 ⦈), "")
+
+    note("Ex 8 ", "]box is a Dyalog user command, not language")
+    note("Ex 9 ", "same value as Ex 7; the book's output is the ]box -style=max frame")
+    note("Ex 10", "]box again")
+
+    score := score + chk("Ex 11", "⍬≡⍴5 ⍝ Does zilde match shape of 5?",
+                         str(apl⦇ ⍬≡⍴5 ⍝ Does zilde match shape of 5? ⦈), "1")
+    score := score + chk("Ex 12", "8 5 2 3 ⍝ A vector, yay   (]DISPLAY dropped)",
+                         str(apl⦇ 8 5 2 3 ⍝ A vector, yay ⦈), "8 5 2 3")
+    score := score + chk("Ex 13", "⍴ 8 5 2 3 ⍝ What is the shape of my vector?",
+                         str(apl⦇ ⍴ 8 5 2 3 ⍝ What's the shape of my vector? ⦈), "4")
+
+    (* Ex 14's m ← ↑(1 2 3 4)(5 6 7 8)(9 10 11 12) needs Mix over a nested
+       strand; 3 4⍴1+⍳12 is the same matrix. *)
+    m1 = apl⦇ 3 4⍴1+⍳12 ⦈
+    score := score + chk("Ex 14", "3 4⍴1+⍳12     (adapted; ]DISPLAY frame dropped)",
+                         str(m1), ("1  2  3  4" // "5  6  7  8" // "9 10 11 12"))
+    score := score + chk("Ex 15", "⍴⍎(m1)", str(apl⦇ ⍴⍎(m1) ⦈), "3 4")
+    score := score + chk("Ex 16", "⍴⍴⍎(m1)       (]DISPLAY frame dropped)",
+                         str(apl⦇ ⍴⍴⍎(m1) ⦈), "2")
+    score := score + chk("Ex 17", "≢⍴⍎(m1) ⍝ Rank",
+                         str(apl⦇ ≢⍴⍎(m1) ⍝ Rank ⦈), "2")
+
+    score := score + chk("Ex 18a", "1 + 1 ⍝ Scalar + scalar",
+                         str(apl⦇ 1 + 1 ⍝ Scalar + scalar ⦈), "2")
+    score := score + chk("Ex 18b", "1 + 1 2 3 ⍝ Scalar + vector",
+                         str(apl⦇ 1 + 1 2 3 ⍝ Scalar + vector ⦈), "2 3 4")
+    score := score + chk("Ex 18c", "1 2 3 + 9 3 2 ⍝ Vector + vector",
+                         str(apl⦇ 1 2 3 + 9 3 2 ⍝ Vector + vector ⦈), "10 5 5")
+
+    score := score + chk("Ex 19", "2 4⍴⍳8 ⍝ Reshape vector to 2x4 matrix",
+                         str(apl⦇ 2 4⍴⍳8 ⍝ Reshape vector to 2×4 matrix ⦈),
+                         ("0 1 2 3" // "4 5 6 7"))
+
+    v = apl⦇ 8 6 2 9 ⦈
+    m2 = apl⦇ 1 4⍴⍎(v) ⦈
+    score := score + chk("Ex 20a", "8 6 2 9 ⍝ Vector of length 4   (]DISPLAY dropped)",
+                         str(v), "8 6 2 9")
+    score := score + chk("Ex 20b", "1 4⍴⍎(v)      (]DISPLAY frame dropped)",
+                         str(m2), "8 6 2 9")
+
+    score := score + chk("Ex 21a", "≢⍴⍎(v)", str(apl⦇ ≢⍴⍎(v) ⦈), "1")
+    score := score + chk("Ex 21b", "≢⍴⍎(m2)", str(apl⦇ ≢⍴⍎(m2) ⦈), "2")
+    score := score + chk("Ex 21c", "⍎(v)≡⍎(m2) ⍝ Does v match m?",
+                         str(apl⦇ ⍎(v)≡⍎(m2) ⍝ Does v match m? ⦈), "0")
+
+    score := score + chk("Ex 22a", "⍎(v)", str(apl⦇ ⍎(v) ⦈), "8 6 2 9")
+    score := score + chk("Ex 22b", "⍎(m2)", str(apl⦇ ⍎(m2) ⦈), "8 6 2 9")
+    score := score + chk("Ex 22c", "⍎(v)≡⍎(m2) ⍝ ?????",
+                         str(apl⦇ ⍎(v)≡⍎(m2) ⍝ ????? ⦈), "0")
+
+    m3 = apl⦇ 2 4⍴0 1 2 3 4 5 6 7 ⍝ y=2, x=4 ⦈
+    score := score + chk("Ex 23a", "2 4⍴0 1 2 3 4 5 6 7   (⎕ ← dropped)",
+                         str(m3), ("0 1 2 3" // "4 5 6 7"))
+    score := score + chk("Ex 23b", "⍴⍎(m3)", str(apl⦇ ⍴⍎(m3) ⦈), "2 4")
+
+    note("Ex 24", "⊂ enclose: nested arrays")
+    note("Ex 25", "rank of an enclosed vector: nested arrays")
+    note("Ex 26", "a vector of three enclosed vectors: nested arrays")
+    note("Ex 27", "bracket indexing a nested vector: nested arrays, rung 2")
+    note("Ex 28", "(1 ('hello' 2)) (3 ('world' 4)): nested arrays and characters")
+
+    println("")
+    println(("checks passed: " score " of 26, over 18 of the chapter's 28 examples"))
+    println("")
+
+    println("=== beyond the chapter: the other glyphs of this rung ===")
+    println("")
+    bonus: ZZ32 := 0
+    bonus := bonus + chk("X1", "⌽1 2 3 4", str(apl⦇ ⌽1 2 3 4 ⦈), "4 3 2 1")
+    bonus := bonus + chk("X2", "⍉2 3⍴⍳6", str(apl⦇ ⍉2 3⍴⍳6 ⦈),
+                         ("0 3" // "1 4" // "2 5"))
+    bonus := bonus + chk("X3", "⊖2 3⍴⍳6", str(apl⦇ ⊖2 3⍴⍳6 ⦈), ("3 4 5" // "0 1 2"))
+    bonus := bonus + chk("X4", "1 2,3 4", str(apl⦇ 1 2,3 4 ⦈), "1 2 3 4")
+    bonus := bonus + chk("X5", "3 1⌈1 4", str(apl⦇ 3 1⌈1 4 ⦈), "3 4")
+    bonus := bonus + chk("X6", "3 1⌊1 4", str(apl⦇ 3 1⌊1 4 ⦈), "1 1")
+    bonus := bonus + chk("X7", "2×3", str(apl⦇ 2×3 ⦈), "6")
+    bonus := bonus + chk("X8", "10÷4", str(apl⦇ 10÷4 ⦈), "2.5")
+    bonus := bonus + chk("X9", "2*10", str(apl⦇ 2*10 ⦈), "1024")
+    bonus := bonus + chk("X10", "×/1 2 3 4     (f/ for any glyph)",
+                         str(apl⦇ ×/1 2 3 4 ⦈), "24")
+    bonus := bonus + chk("X11", "⌈/3 1 4 1 5", str(apl⦇ ⌈/3 1 4 1 5 ⦈), "5")
+    bonus := bonus + chk("X12", "-/1 2 3       (reduction folds right to left)",
+                         str(apl⦇ -/1 2 3 ⦈), "2")
+    bonus := bonus + chk("X13", "+/2 4⍴⍳8      (last axis)",
+                         str(apl⦇ +/2 4⍴⍳8 ⦈), "6 22")
+    bonus := bonus + chk("X14", "+⌿2 4⍴⍳8      (first axis)",
+                         str(apl⦇ +⌿2 4⍴⍳8 ⦈), "4 6 8 10")
+    bonus := bonus + chk("X15", "2 × 3 + 4     (right to left, not Fortress precedence)",
+                         str(apl⦇ 2 × 3 + 4 ⦈), "14")
+    bonus := bonus + chk("X16", "(2 3⍴⍳6)≡2 3⍴⍳6   (parenthesised APL)",
+                         str(apl⦇ (2 3⍴⍳6)≡2 3⍴⍳6 ⦈), "1")
+    bonus := bonus + chk("X17", "1 0 1=1 1 1   (comparison)",
+                         str(apl⦇ 1 0 1=1 1 1 ⦈), "1 0 1")
+    bonus := bonus + chk("X18", "2 3 4≤3 3 3", str(apl⦇ 2 3 4≤3 3 3 ⦈), "1 1 0")
+    println("")
+    println(("beyond-chapter checks passed: " bonus " of 18"))
+end
+
+end

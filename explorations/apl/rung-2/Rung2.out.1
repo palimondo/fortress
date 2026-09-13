@@ -1,6 +1,6 @@
 Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
-Processing /tmp/fortress5772615575282926701rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
-Note: /tmp/fortress5772615575282926701rats/com/sun/fortress/parser/templateparser/TemplateParser87.java uses unchecked or unsafe operations.
+Processing /tmp/fortress10852375522050961436rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress10852375522050961436rats/com/sun/fortress/parser/templateparser/TemplateParser87.java uses unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 
 === examples of the chapter, against the book's printed output ===
@@ -75,10 +75,7 @@ SKIP  Ex 23  out of scope: the nested m again
 SKIP  Ex 24  out of scope: 1 2I m and 1 2⌷m on the nested m, with I from Ex 22
 SKIP  Ex 25  out of scope: (⊂1 2)I m and (⊂1 2)⌷m on the nested m
 SKIP  Ex 26  out of scope: (0 0)(1 2)(2 2)I m: a vector of coordinate pairs as a VALUE, and the nested m
-PASS  Ex 27a  data ← 0 1 2 3 4 5 6 7 8 9 ⋄ data
-        want |0 1 2 3 4 5 6 7 8 9|
-        got  |0 1 2 3 4 5 6 7 8 9|
-PASS  Ex 27b  select ← 0 0 1 0 1 1 0 1 1 0 ⋄ select/data
+PASS  Ex 27  data ← … ⋄ select ← 0 0 1 0 1 1 0 1 1 0 ⋄ select/data
         want |2 4 5 7 8|
         got  |2 4 5 7 8|
 PASS  Ex 28  select ← 1 3 0 0 5 0 7 0 0 1 ⋄ select/data
@@ -128,7 +125,7 @@ PASS  Ex 38  (select/data) ← ¯1 ¯1 ¯1 ¯1 ¯1  then  data
 SKIP  Ex 39  out of scope: s ← 'This is a string' and (2↑s) ← '**': characters (gap row 42)
 SKIP  Ex 40  out of scope: ((s='i')/¨s)←'*': nested character vectors and the each operator ¨
 
-checks passed: 25 of 25, over 19 of the chapter's 40 examples
+checks passed: 24 of 25, over 19 of the chapter's 40 examples
 
 === beyond the chapter: what rung 2 added but the chapter does not exercise ===
 
@@ -201,17 +198,21 @@ PASS  X18  a comment after a non-final statement
 PASS  X19  v[99]                 (out of range: APL's INDEX ERROR)
         want |CallerViolation|
         got  |CallerViolation|
-PASS  X20  (select/data) ← ¯1 ¯1 with |select| ≠ |data|   (APL's LENGTH ERROR)
-        want |CallerViolation|
-        got  |CallerViolation|
-PASS  X21  (select/data) ← ¯1    (a scalar right argument, extended)
-        want |0 ¯1 ¯1 3|
-        got  |0 ¯1 ¯1 3|
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-107:
+Unification error: /home/user/fortress/explorations/apl/base/AplCore.fss:547:12-25:
+Cannot unify Float(class com.sun.fortress.interpreter.evaluator.types.FTypeObject)
+  with Vector[\FortressLibrary.RR64,u\](class com.sun.fortress.nodes.TraitType) abm=s=(3,Any) t=(2,Any)
+Context:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-107:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+toplevel:
 
-beyond-chapter checks passed: 21 of 21
-
-=== what v1's beyond-chapter list had and the lambda route does not ===
-
-SKIP  X11 of v1  out of scope: a ← b ← 1 2: a binding is not an expression here, so ← cannot be chained (s07_chain.out)
-SKIP  X16 of v1  out of scope: an unset name is NOT zilde: a name outside the closed set is a Syntax Error at the use site (v1/rung-2b/Rung2b.out.0)
-SKIP  v1's session  out of scope: a name surviving from one apl⦇ … ⦈ to the next: a lambda parameter's scope is its block (s06_scope.out)
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

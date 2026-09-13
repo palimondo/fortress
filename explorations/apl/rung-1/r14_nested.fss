@@ -6,8 +6,8 @@
    (b) the shipped SUM cannot reduce it: merged ledger row 44, SUM is sealed
        [\T extends Number\] with an unwrap that is cast[\Number\]. *)
 component r14_nested
-import AplGen.{...}
-import AplGenSyntax.{...}
+import AplCore.{...}
+import AplSyntax.{...}
 export Executable
 
 (* (a) own name, because the element type is not RR64 *)

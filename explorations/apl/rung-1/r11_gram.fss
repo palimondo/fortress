@@ -2,8 +2,8 @@
    host OPERATOR (an unescaped + and * inside <[ … ]>, a prefix ≢ and ⊃), and
    does the rank of 2 4⍴x get fixed by the grammar? *)
 component r11_gram
-import AplGen.{...}
-import AplGenSyntax.{...}
+import AplCore.{...}
+import AplSyntax.{...}
 export Executable
 run(): () = do
     println("1 + 1       = " aplShow(apl⦇ 1 + 1 ⦈))
