@@ -1,0 +1,21 @@
+(* t06 -- gap row 52 in its rung-3 form.  Row 52 saw a line break fail to
+   separate two statements when the next line began with a NUMERAL.  With rung
+   3's dyadic rules in the grammar, the same thing happens when the next line
+   begins with a dyadic GLYPH: `⌽mat` after a binding is read as a dyadic rotate
+   whose left argument is the strand of the line above.  Three runs of this file
+   are kept: .out.0 is the ⌽ case, .out.1 the , case, .out the ⋄ that fixes both. *)
+component t06_break
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+run(): () = do
+    (* the ⋄ that fixes both; the two failures are in .out.0 and .out.1 *)
+    println(aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4 ⋄ ⌽mat ⦈))
+    println(aplShow(apl⦇ simple ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4 ⋄ ,simple ⦈))
+    (* and the one glyph that CANNOT continue the strand, so the book's own line
+       break stands: ⍉ has no dyadic rule *)
+    println(aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4
+                         ⍉mat ⦈))
+  end
+end

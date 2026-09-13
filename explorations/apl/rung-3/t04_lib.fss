@@ -1,0 +1,106 @@
+(* t04 -- the rung-3 library alone, before the grammar knows any of it: every
+   new family called directly, so that a failure in Rung3.fss afterwards is the
+   grammar and not the library.  Values are checked by eye against the chapter
+   (../goldens/ch3-glyphiary.md) and against APL's own rules for the shapes the
+   chapter does not print. *)
+component t04_lib
+import AplCore.{...}
+export Executable
+
+p(tag: String, s: String): () = println(("  " tag " = " s))
+
+run(): () = do
+    v = aplVec(4, fn (i: ZZ32): RR64 => 1.0 (i + 1))            (* 1 2 3 4 *)
+    mat = aplMat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 =>
+              (aplVec(12, fn (k: ZZ32): RR64 => 1.0 k))[(4 i) + j])
+    matb = aplMat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 0)
+    (* the chapter's own mat, from its 12?12 deal *)
+    book = aplMat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => do
+        d = aplVec(12, fn (k: ZZ32): RR64 => 1.0 k)
+        d.put(0, 3.0); d.put(1, 0.0); d.put(2, 5.0); d.put(3, 1.0)
+        d.put(4, 7.0); d.put(5, 9.0); d.put(6, 8.0); d.put(7, 6.0)
+        d.put(8, 2.0); d.put(9, 10.0); d.put(10, 11.0); d.put(11, 4.0)
+        d[(4 i) + j]
+      end)
+    println("take and drop")
+    p("2↑1 2 3 4", aplShow(aplTake(2.0, v)))
+    p("¯2↑1 2 3 4", aplShow(aplTake(-2.0, v)))
+    p("6↑1 2 3 4", aplShow(aplTake(6.0, v)))
+    p("1↑book (a one-row MATRIX)", aplShow(aplTake(1.0, book)))
+    p("1↓book", aplShow(aplDrop(1.0, book)))
+    p("¯1↑book", aplShow(aplTake(-1.0, book)))
+    p("2 2↑book", aplShow(aplTake(2.0, 2.0, book)))
+    p("2 2↓book", aplShow(aplDrop(2.0, 2.0, book)))
+    p("¯2 ¯2↑book", aplShow(aplTake(-2.0, -2.0, book)))
+    p("1↑5 (a scalar)", aplShow(aplTake(1.0, 5.0)))
+    println("rotate")
+    p("1⌽1 2 3 4", aplShow(aplRotate(1.0, v)))
+    p("¯1⌽1 2 3 4", aplShow(aplRotate(-1.0, v)))
+    p("1⌽book", aplShow(aplRotate(1.0, book)))
+    p("1⊖book", aplShow(1.0 ⊖ book))
+    p("1 2 ¯1 0⊖book (Ex 8)",
+      aplShow(aplCons(1.0, aplCons(2.0, aplCons(-1.0, 0.0))) ⊖ book))
+    println("⍳ index of, ⍸ interval index, ⍸ where with counts")
+    p("1 2 3 4⍳3", aplShow(aplIndexOf(v, 3.0)))
+    p("1 2 3 4⍳9 (not found)", aplShow(aplIndexOf(v, 9.0)))
+    p("1 3 5 7 9⍸8 9 0", aplShow(aplBin(aplCons(1.0, aplCons(3.0, aplCons(5.0,
+        aplCons(7.0, 9.0)))), aplCons(8.0, aplCons(9.0, 0.0)))))
+    p("⍸0 1 0 2 0 3", aplShow(aplWhere(aplCons(0.0, aplCons(1.0, aplCons(0.0,
+        aplCons(2.0, aplCons(0.0, 3.0))))))))
+    println("| residue and magnitude")
+    p("5|13", aplShow(aplResidue(5.0, 13.0)))
+    p("¯5|13", aplShow(aplResidue(-5.0, 13.0)))
+    p("5|¯13", aplShow(aplResidue(5.0, -13.0)))
+    p("0|13", aplShow(aplResidue(0.0, 13.0)))
+    p("|¯3", aplShow(aplAbs(-3.0)))
+    println("set primitives")
+    p("3∊1 2 3 4", aplShow(aplIn(3.0, v)))
+    p("∊book (enlist = ravel)", aplShow(aplEnlist(book)))
+    p("1 1 2 3 4∪1 2 5 6",
+      aplShow(aplUnion(aplCons(1.0, aplCons(1.0, aplCons(2.0, aplCons(3.0, 4.0)))),
+                       aplCons(1.0, aplCons(2.0, aplCons(5.0, 6.0))))))
+    p("∪1 1 2 2 3", aplShow(aplUnique(aplCons(1.0, aplCons(1.0, aplCons(2.0,
+        aplCons(2.0, 3.0)))))))
+    p("1 1 2 3 4∩1 2 5 6",
+      aplShow(aplIntersect(aplCons(1.0, aplCons(1.0, aplCons(2.0, aplCons(3.0, 4.0)))),
+                           aplCons(1.0, aplCons(2.0, aplCons(5.0, 6.0))))))
+    p("1 1 2 3 4 5~1 3 5",
+      aplShow(aplWithout(aplCons(1.0, aplCons(1.0, aplCons(2.0, aplCons(3.0,
+                             aplCons(4.0, 5.0))))),
+                         aplCons(1.0, aplCons(3.0, 5.0)))))
+    p("~1 0 1", aplShow(aplNot(aplCons(1.0, aplCons(0.0, 1.0)))))
+    println("catenate and table")
+    p("book,book", aplShow(aplCat(book, book)))
+    p("book⍪book (first two rows only shown by ⍴)", aplShow(aplShapeOf(aplCatFirst(book, book))))
+    p("⍪1 2 3", aplShow(aplTable(aplCons(1.0, aplCons(2.0, 3.0)))))
+    println("comparisons and connectives over matrices")
+    p("book>5", aplShow(book > 5.0))
+    p("book=book", aplShow(book = book))
+    p("(book>5)∧(book<9)", aplShow((book > 5.0) ∧ (book < 9.0)))
+    p("2⌈1 2 3 4", aplShow(2.0 MAX v))
+    p("mat⌈matb", aplShow(mat MAX matb))
+    println("arithmetic over matrices")
+    p("2×book", aplShow(2.0 × book))
+    p("book×book", aplShow(book × book))
+    p("book+1", aplShow(book + 1.0))
+    p("book-1", aplShow(book - 1.0))
+    p("book*2", aplShow(book * 2.0))
+    p("mat+mat (the library's own)", aplShow(mat + mat))
+    println("exp, log, grades, the new reductions")
+    p("*0 1", aplShow( * aplCons(0.0, 1.0)))
+    p("⍟1 (log)", aplShow(aplLog(1.0)))
+    p("2⍟8", aplShow(aplLog(2.0, 8.0)))
+    p("⍋3 1 2", aplShow(aplGradeUp(aplCons(3.0, aplCons(1.0, 2.0)))))
+    p("⍋2 1 2 1 (stable)", aplShow(aplGradeUp(aplCons(2.0, aplCons(1.0,
+        aplCons(2.0, 1.0))))))
+    p("⍒3 1 2", aplShow(aplGradeDown(aplCons(3.0, aplCons(1.0, 2.0)))))
+    p("⌊/book", aplShow(aplMinLast(book)))
+    p("⌊⌿book", aplShow(aplMinFirst(book)))
+    p("⌈⌿book", aplShow(aplMaxFirst(book)))
+    p("×⌿book", aplShow(aplProdFirst(book)))
+    (* a LENGTH ERROR through the new contracts *)
+    e = try aplShow(aplCatFirst(book, aplTake(2.0, 2.0, book)))
+        catch ex CallerViolation => "CallerViolation" end
+    p("book⍪(2 2↑book)  (a LENGTH ERROR)", e)
+  end
+end

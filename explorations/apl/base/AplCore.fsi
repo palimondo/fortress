@@ -249,4 +249,213 @@ aplSelPut[\nat s, nat t, nat u\](d: Vector[\RR64,s\], sel: Vector[\RR64,t\],
 aplSelPut[\nat s, nat t\](d: Vector[\RR64,s\], sel: Vector[\RR64,t\], x: RR64): ()
 aplDiagPut[\nat r, nat c, nat s\](m: Matrix[\RR64,r,c\], x: Vector[\RR64,s\]): ()
 
+(* ======================================================= rung 3: glyphiary ==
+   The chapter's primitives.  What decided the shapes: every glyph that is not a
+   host ENCLOSER can be an opr in both arities -- ≠ < > ≥ ∧ ∨, a dyadic ⊖, and a
+   prefix * (../rung-3/t01_ops.out) -- while ⌈ ⌊ | , stay named as in rung 1;
+   the library already owns matrix + and matrix - (FortressLibrary.fsi:1581), so
+   they are not redeclared here; and a (s,s) comparison is deliberately absent,
+   leaving `2<3` the host's Boolean (gap row 41).
+
+   Scalar extension is written once, in the six private zips of AplCore.fss, so
+   each line below is a signature and a one-line body. **)
+
+(** ⍸ Where is now COUNTS, not just 0/1: index k appears v[k] times. **)
+
+(** ↑ Take and ↓ Drop.  A negative count works from the back, an overtake pads
+    with 0, and the result keeps the argument's RANK -- 1↑m is a one-row matrix.
+    The two-numeral forms `a b↑m` and `a b↓m` are chosen by the grammar, exactly
+    as `r c⍴x` is (gap row 47). **)
+aplTake(n: RR64, x: RR64): Array[\RR64,ZZ32\]
+aplTake[\nat s\](n: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplTake[\nat r, nat c\](n: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplTake[\nat r, nat c\](rw: RR64, cl: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplDrop[\nat s\](n: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplDrop[\nat r, nat c\](n: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplDrop[\nat r, nat c\](rw: RR64, cl: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+
+(** ⌽ rotates the last axis, ⊖ the first; a VECTOR left argument of ⊖ rotates
+    each column by its own count. **)
+aplRotate[\nat s\](n: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplRotate[\nat r, nat c\](n: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ⊖[\nat s\](n: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr ⊖[\nat r, nat c\](n: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ⊖[\nat s, nat r, nat c\](ks: Vector[\RR64,s\], m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+
+(** ⍳ Index of (not found is ≢⍺, here |v|) and ⍸ Interval index (a boundary goes
+    to the higher bin, below the first bin is ¯1). **)
+aplIndexOf[\nat s\](v: Vector[\RR64,s\], x: RR64): RR64
+aplIndexOf[\nat s, nat t\](v: Vector[\RR64,s\], w: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplBin[\nat s\](v: Vector[\RR64,s\], x: RR64): RR64
+aplBin[\nat s, nat t\](v: Vector[\RR64,s\], w: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+
+(** | is a host encloser and cannot be an opr in either arity, so residue and
+    magnitude are named; a|b is b modulo a and takes the sign of a. **)
+aplResidue(a: RR64, b: RR64): RR64
+aplResidue[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplResidue[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+aplResidue[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplResidue[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplResidue[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+aplAbs(x: RR64): RR64
+aplAbs[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplAbs[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+
+(** ∊ ∪ ∩ ~ .  Dyalog's Union keeps the left argument's duplicates. **)
+aplIn[\nat s\](x: RR64, v: Vector[\RR64,s\]): RR64
+aplIn[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplIn[\nat r, nat c\](x: RR64, m: Matrix[\RR64,r,c\]): RR64
+aplEnlist(x: RR64): Array[\RR64,ZZ32\]
+aplEnlist[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplEnlist[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\]
+aplUnion[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplUnique[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplIntersect[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplWithout[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplWithout[\nat s\](a: Vector[\RR64,s\], x: RR64): Array[\RR64,ZZ32\]
+aplNot(x: RR64): RR64
+aplNot[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplNot[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+
+(** , Catenate-last and ⍪ Catenate-first over the rank pairs the chapter uses;
+    monadic ⍪ is Table. **)
+aplCat[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplCat[\nat r, nat c, nat s\](m: Matrix[\RR64,r,c\], v: Vector[\RR64,s\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplCat[\nat r, nat c, nat s\](v: Vector[\RR64,s\], m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplCat[\nat r, nat c\](m: Matrix[\RR64,r,c\], x: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+aplCatFirst[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplCatFirst[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplCatFirst[\nat r, nat c, nat s\](v: Vector[\RR64,s\], m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplCatFirst[\nat r, nat c, nat s\](m: Matrix[\RR64,r,c\], v: Vector[\RR64,s\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplTable(x: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+aplTable[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplTable[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+
+(** The six comparisons and the two connectives, each over the five array
+    shapes.  (s,s) is absent on purpose. **)
+opr =[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr =[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr =[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr =[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr =[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr ≠[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+opr ≠[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr ≠[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr ≠[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr ≠[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ≠[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr <[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+opr <[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr <[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr <[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr <[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr <[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr ≤[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr ≤[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr ≤[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr ≤[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ≤[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr >[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+opr >[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr >[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr >[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr >[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr >[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr ≥[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+opr ≥[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr ≥[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr ≥[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr ≥[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ≥[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr ∧[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+opr ∧[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr ∧[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr ∧[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr ∧[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ∧[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr ∨[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+opr ∨[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr ∨[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr ∨[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr ∨[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ∨[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+
+(** ⌈ ⌊ over the shapes rung 1 did not need, and the monadic pair on a matrix. **)
+opr MAX[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr MAX[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr MAX[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr MAX[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr MIN[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\]
+opr MIN[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr MIN[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr MIN[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+aplCeil[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplFloor[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+
+(** Arithmetic over matrices: × ÷ * elementwise and scalar-extended, - and + in
+    the one direction the library does not already give. **)
+opr ×[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr ×[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ×[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr ×[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ÷[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr ÷[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr ÷[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr ÷[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr -[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr -[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr +[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+opr *[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+opr *[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+opr *[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\]
+
+(** Monadic * is APL's exp and ⍟ is log, dyadic ⍟ log to a base. **)
+opr *(x: RR64): RR64
+opr *[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+opr *[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplLog(x: RR64): RR64
+aplLog[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplLog[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplLog(b: RR64, x: RR64): RR64
+aplLog[\nat s\](b: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplLog[\nat r, nat c\](b: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+
+(** ⍋ ⍒ : the grades, stable, as a vector of indices. **)
+aplGradeUp[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplGradeDown[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+
+(** The reductions rung 1 left out: ⌊/ ⌊⌿ ⌈⌿ ×⌿ . **)
+aplMinLast(x: RR64): RR64
+aplMinLast[\nat s\](v: Vector[\RR64,s\]): RR64
+aplMinLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\]
+aplMinFirst(x: RR64): RR64
+aplMinFirst[\nat s\](v: Vector[\RR64,s\]): RR64
+aplMinFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\]
+aplMaxFirst(x: RR64): RR64
+aplMaxFirst[\nat s\](v: Vector[\RR64,s\]): RR64
+aplMaxFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\]
+aplProdFirst(x: RR64): RR64
+aplProdFirst[\nat s\](v: Vector[\RR64,s\]): RR64
+aplProdFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\]
+
 end

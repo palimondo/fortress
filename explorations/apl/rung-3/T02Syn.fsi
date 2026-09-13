@@ -23,16 +23,23 @@ grammar TstG extends { Expression, Literal, Identifier }
     Expr |:= tst⦇ e:TExp ⦈ => <[ (e) ]>
 
     TExp :Expr:=
-      (* an APL glyph above every backtick escape, as gap row 3 requires *)
-        l:TAtom SPACE ⍴ SPACE r:TExp => <[ aplReshapeV((l), (r)) ]>
-      | ( SPACE a:TExp SPACE , SPACE b:TExp SPACE ) SPACE ⍴ SPACE r:TExp
+      (* an APL glyph above every backtick escape, as gap row 3 requires.
+         The two `(a,b)⍴x` rules stand ABOVE the plain dyadic ⍴: below it the
+         parenthesis is eaten by TAtom's own `( TExp )` and the rule is never
+         reached at all (t02_gram.out.5). *)
+        ( SPACE a:TExp SPACE , SPACE b:TExp SPACE ) SPACE ⍴ SPACE r:TExp
             => <[ tstReE((a), (b), (r)) ]>
       | ( SPACE a:TAtom SPACE , SPACE b:TAtom SPACE ) SPACE ⍴ SPACE r:TExp
             => <[ tstReA((a), (b), (r)) ]>
+      | l:TAtom SPACE ⍴ SPACE r:TExp => <[ aplReshapeV((l), (r)) ]>
 
       (* (4) commute *)
       | l:TAtom SPACE f:TDy ⍨ SPACE r:TExp => <[ (f)((r), (l)) ]>
       | f:TDy ⍨ SPACE r:TExp            => <[ (f)((r), (r)) ]>
+
+      (* catenate, so that the `(a,b)⍴x` rules above are asked the real
+         question: the inner gap can itself parse `a , b` as a catenation *)
+      | l:TAtom SPACE , SPACE r:TExp  => <[ aplCat((l), (r)) ]>
 
       (* (1) (2) (3) the terminals *)
       | l:TAtom SPACE `| SPACE r:TExp => <[ tstRes((l), (r)) ]>

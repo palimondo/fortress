@@ -120,9 +120,32 @@ grammar AplG extends { Expression, Literal, Identifier }
       | a:AplNum SPACE b:AplNum SPACE ⌷ SPACE r:AplE => <[ aplSquad2((a), (b), (r)) ]>
       | a:AplNum SPACE ⌷ SPACE r:AplE                => <[ aplSquad1((a), (r)) ]>
 
-      (* ---- dyadic ⍴: the rank of the result is fixed HERE, at expansion ---- *)
+      (* ---- dyadic ⍴: the rank of the result is fixed HERE, at expansion.
+              `(a,b)⍴x` is the same rule with an EXPRESSION shape, and its two
+              gaps must be ATOMS: an AplE gap eats the comma as a catenation and
+              the rule is then never matched (rung-3/t02_gram.out.5).  It stands
+              above the numeral rules because a parenthesis would otherwise be
+              taken by AplAtom's own `( AplE )` first. ---- *)
+      | ( SPACE a:AplAtom SPACE , SPACE b:AplAtom SPACE ) SPACE ⍴ SPACE r:AplE
+            => <[ aplReshapeM((a), (b), (r)) ]>
       | a:AplNum SPACE b:AplNum SPACE ⍴ SPACE r:AplE => <[ aplReshapeM((a), (b), (r)) ]>
       | a:AplNum SPACE ⍴ SPACE r:AplE                => <[ aplReshapeV((a), (r)) ]>
+
+      (* ---- ↑ and ↓ with a two-element left argument: the same numeral count
+              as ⍴ and ⌷, and for the same reason -- `1 2↑m` must not read its
+              left argument as one strand. ---- *)
+      | a:AplNum SPACE b:AplNum SPACE ↑ SPACE r:AplE => <[ aplTake((a), (b), (r)) ]>
+      | a:AplNum SPACE b:AplNum SPACE ↓ SPACE r:AplE => <[ aplDrop((a), (b), (r)) ]>
+
+      (* ---- Commute ⍨.  The glyph is looked up in AplDy, whose alternatives are
+              host LAMBDAS, and the two arguments are handed over swapped; the
+              monadic form f⍨r is r f r.  An untyped lambda DOES dispatch on the
+              arguments' ranks at the call (rung-3/t01_ops.out (f)), so one
+              alternative per glyph serves every rank.  These rules stand above
+              the plain dyadic ones so that the glyph is read as an operand
+              before it is read as an operator. ---- *)
+      | l:AplAtom SPACE f:AplDy ⍨ SPACE r:AplE => <[ (f)((r), (l)) ]>
+      | f:AplDy ⍨ SPACE r:AplE                 => <[ (f)((r), (r)) ]>
 
       (* ---- dyadic glyphs.  Each expands to the host operator of the same
               shape; ⌈ and ⌊ are enclosers in the host table and cannot be
@@ -141,6 +164,32 @@ grammar AplG extends { Expression, Literal, Identifier }
       | l:AplAtom SPACE `+ SPACE r:AplE => <[ (l) + (r) ]>
       | l:AplAtom SPACE `* SPACE r:AplE => <[ (l) * (r) ]>
 
+      (* ---- rung 3's dyadic glyphs.  ≠ < > ≥ ∧ ∨ and ⊖ are oprs of AplCore,
+              so their rules are translations like × and ÷; ↑ ↓ ⌽ ⍳ ⍸ ∊ ∪ ∩ ~ ⍪ ⍟
+              and | are calls, | being a host encloser and the rest not being in
+              the host's operator table.  Every one of these glyphs parses as a
+              terminal, the backtick escape being needed only for |
+              (rung-3/t02_gram.out). ---- *)
+      | l:AplAtom SPACE ≠ SPACE r:AplE => <[ (l) ≠ (r) ]>
+      | l:AplAtom SPACE < SPACE r:AplE => <[ (l) < (r) ]>
+      | l:AplAtom SPACE > SPACE r:AplE => <[ (l) > (r) ]>
+      | l:AplAtom SPACE ≥ SPACE r:AplE => <[ (l) ≥ (r) ]>
+      | l:AplAtom SPACE ∧ SPACE r:AplE => <[ (l) ∧ (r) ]>
+      | l:AplAtom SPACE ∨ SPACE r:AplE => <[ (l) ∨ (r) ]>
+      | l:AplAtom SPACE ⊖ SPACE r:AplE => <[ (l) ⊖ (r) ]>
+      | l:AplAtom SPACE ↑ SPACE r:AplE => <[ aplTake((l), (r)) ]>
+      | l:AplAtom SPACE ↓ SPACE r:AplE => <[ aplDrop((l), (r)) ]>
+      | l:AplAtom SPACE ⌽ SPACE r:AplE => <[ aplRotate((l), (r)) ]>
+      | l:AplAtom SPACE ⍳ SPACE r:AplE => <[ aplIndexOf((l), (r)) ]>
+      | l:AplAtom SPACE ⍸ SPACE r:AplE => <[ aplBin((l), (r)) ]>
+      | l:AplAtom SPACE ∊ SPACE r:AplE => <[ aplIn((l), (r)) ]>
+      | l:AplAtom SPACE ∪ SPACE r:AplE => <[ aplUnion((l), (r)) ]>
+      | l:AplAtom SPACE ∩ SPACE r:AplE => <[ aplIntersect((l), (r)) ]>
+      | l:AplAtom SPACE ~ SPACE r:AplE => <[ aplWithout((l), (r)) ]>
+      | l:AplAtom SPACE ⍪ SPACE r:AplE => <[ aplCatFirst((l), (r)) ]>
+      | l:AplAtom SPACE ⍟ SPACE r:AplE => <[ aplLog((l), (r)) ]>
+      | l:AplAtom SPACE `| SPACE r:AplE => <[ aplResidue((l), (r)) ]>
+
       (* ---- reductions.  f/ is the last axis, f⌿ the first.  v1 had ONE rule
               for every glyph because the glyph became a string; here there is
               one rule per glyph, and the expansion names the library function
@@ -150,6 +199,10 @@ grammar AplG extends { Expression, Literal, Identifier }
       | × / SPACE r:AplE  => <[ aplProdLast((r)) ]>
       | ⌈ / SPACE r:AplE  => <[ aplMaxLast((r)) ]>
       | - / SPACE r:AplE  => <[ aplDifLast((r)) ]>
+      | ⌊ / SPACE r:AplE  => <[ aplMinLast((r)) ]>
+      | ⌊ ⌿ SPACE r:AplE  => <[ aplMinFirst((r)) ]>
+      | ⌈ ⌿ SPACE r:AplE  => <[ aplMaxFirst((r)) ]>
+      | × ⌿ SPACE r:AplE  => <[ aplProdFirst((r)) ]>
 
       (* ---- Compress and Replicate.  A glyph is not an atom, so these cannot
               mask the reductions above them. ---- *)
@@ -172,7 +225,56 @@ grammar AplG extends { Expression, Literal, Identifier }
       | , SPACE r:AplE => <[ aplRavel((r)) ]>
       | - SPACE r:AplE => <[ - (r) ]>
       | `+ SPACE r:AplE => <[ (r) ]>
+      (* ---- rung 3's monadic glyphs.  Monadic ↑ (Mix) and ↓ (Split) are NOT
+              here: both make nested arrays. ---- *)
+      | ⍋ SPACE r:AplE  => <[ aplGradeUp((r)) ]>
+      | ⍒ SPACE r:AplE  => <[ aplGradeDown((r)) ]>
+      | ~ SPACE r:AplE  => <[ aplNot((r)) ]>
+      | ∊ SPACE r:AplE  => <[ aplEnlist((r)) ]>
+      | ∪ SPACE r:AplE  => <[ aplUnique((r)) ]>
+      | ⍪ SPACE r:AplE  => <[ aplTable((r)) ]>
+      | ⍟ SPACE r:AplE  => <[ aplLog((r)) ]>
+      | `| SPACE r:AplE => <[ aplAbs((r)) ]>
+      | `* SPACE r:AplE => <[ * (r) ]>
       | a:AplAtom      => <[ (a) ]>
+
+    (* ---- the glyph table the operators read.  Each alternative is an untyped
+            host lambda, so a glyph handed to ⍨ (and, in the rungs to come, to
+            / ¨ ⍤ ∘. and .) is a VALUE, while a glyph used directly still expands
+            to the operator itself.  The lambda keeps APL's rank polymorphism:
+            the ranks are resolved at the call, not here. ---- *)
+    AplDy :Expr:=
+        × => <[ fn (x, y) => x × y ]>
+      | ÷ => <[ fn (x, y) => x ÷ y ]>
+      | `+ => <[ fn (x, y) => x + y ]>
+      | - => <[ fn (x, y) => x - y ]>
+      | `* => <[ fn (x, y) => x * y ]>
+      | ⌈ => <[ fn (x, y) => x MAX y ]>
+      | ⌊ => <[ fn (x, y) => x MIN y ]>
+      | = => <[ fn (x, y) => x = y ]>
+      | ≠ => <[ fn (x, y) => x ≠ y ]>
+      | ≤ => <[ fn (x, y) => x ≤ y ]>
+      | < => <[ fn (x, y) => x < y ]>
+      | ≥ => <[ fn (x, y) => x ≥ y ]>
+      | > => <[ fn (x, y) => x > y ]>
+      | ∧ => <[ fn (x, y) => x ∧ y ]>
+      | ∨ => <[ fn (x, y) => x ∨ y ]>
+      | ≡ => <[ fn (x, y) => x ≡ y ]>
+      | ⊖ => <[ fn (x, y) => x ⊖ y ]>
+      | ↑ => <[ fn (x, y) => aplTake(x, y) ]>
+      | ↓ => <[ fn (x, y) => aplDrop(x, y) ]>
+      | ⌽ => <[ fn (x, y) => aplRotate(x, y) ]>
+      | ⍳ => <[ fn (x, y) => aplIndexOf(x, y) ]>
+      | ⍸ => <[ fn (x, y) => aplBin(x, y) ]>
+      | ∊ => <[ fn (x, y) => aplIn(x, y) ]>
+      | ∪ => <[ fn (x, y) => aplUnion(x, y) ]>
+      | ∩ => <[ fn (x, y) => aplIntersect(x, y) ]>
+      | ~ => <[ fn (x, y) => aplWithout(x, y) ]>
+      | , => <[ fn (x, y) => aplCat(x, y) ]>
+      | ⍪ => <[ fn (x, y) => aplCatFirst(x, y) ]>
+      | ⍟ => <[ fn (x, y) => aplLog(x, y) ]>
+      | `| => <[ fn (x, y) => aplResidue(x, y) ]>
+      | ⍴ => <[ fn (x, y) => aplReshapeV(x, y) ]>
 
     (* ---- bracket indexing: six shapes, six productions.  A repeated gap does
             splice as a list (apl/gaps.md row 19), so the ;-list could have any
@@ -216,7 +318,16 @@ grammar AplG extends { Expression, Literal, Identifier }
        The NOT predicate ends the name, and the longer names come first. *)
     AplName :Expr:=
         [s]# [e]# [l]# [e]# [c]# [t]# NOT [A:Za:z0:9] => <[ (select) ]>
+      | [s]# [i]# [m]# [p]# [l]# [e]# NOT [A:Za:z0:9] => <[ (simple) ]>
+      | [m]# [i]# [n]# [i]# [d]# [x]# NOT [A:Za:z0:9] => <[ (minidx) ]>
+      | [l]# [i]# [m]# [i]# [t]# [s]# NOT [A:Za:z0:9] => <[ (limits) ]>
+      | [n]# [u]# [m]# [s]# NOT [A:Za:z0:9]           => <[ (nums) ]>
+      | [c]# [o]# [d]# [e]# NOT [A:Za:z0:9]           => <[ (code) ]>
+      | [r]# [a]# [t]# [e]# NOT [A:Za:z0:9]           => <[ (rate) ]>
       | [d]# [a]# [t]# [a]# NOT [A:Za:z0:9]           => <[ (data) ]>
+      | [m]# [a]# [t]# NOT [A:Za:z0:9]                => <[ (mat) ]>
+      | [a]# [b]# [v]# NOT [A:Za:z0:9]                => <[ (abv) ]>
+      | [b]# [i]# [n]# NOT [A:Za:z0:9]                => <[ (bin) ]>
       | [m]# [1]# NOT [A:Za:z0:9]                     => <[ (m1) ]>
       | [v]# NOT [A:Za:z0:9]                          => <[ (v) ]>
       | [m]# NOT [A:Za:z0:9]                          => <[ (m) ]>

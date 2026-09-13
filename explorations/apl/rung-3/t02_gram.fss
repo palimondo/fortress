@@ -130,9 +130,10 @@ run(): () = do
     p("1 2 3×⍨2", aplShow(tst⦇ 1 2 3 ×⍨ 2 ⦈))
     p("1 2 3 4↑⍨2  (take, commuted)", aplShow(tst⦇ 1 2 3 4 ↑⍨ 2 ⦈))
     p("=⍨1 2 3", aplShow(tst⦇ =⍨ 1 2 3 ⦈))
-    p("2<⍨3  (3<2)", aplShow(tst⦇ 2 <⍨ 3 ⦈))
+    p("1 2 3<⍨3 2 1  (3 2 1<1 2 3)", aplShow(tst⦇ 1 2 3 <⍨ 3 2 1 ⦈))
     p("1 2,⍨3 4", aplShow(tst⦇ 1 2 ,⍨ 3 4 ⦈))
     println("(5) (a,b)⍴x")
     p("(2,3)⍴5", tst⦇ (2,3)⍴5 ⦈)
+    p("1 2,3 4  (catenate is now in the grammar too)", aplShow(tst⦇ 1 2 , 3 4 ⦈))
   end
 end

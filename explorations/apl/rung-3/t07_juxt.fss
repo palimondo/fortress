@@ -1,0 +1,25 @@
+(* t07 -- where may a use of the expander stand?  t02_gram.out.1 showed
+   `("" tst⦇ 2 < 3 ⦈)` failing with row 53's diagnostic while
+   `aplShow(tst⦇ … ⦈)` in the same file worked, so the question is the
+   JUXTAPOSITION, not the argument position.  Gap row 31 measured the same
+   boundary for the newline-terminated form; this asks it of the bracketed one. *)
+component t07_juxt
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+run(): () = do
+    (* (a) argument position: known to work *)
+    println(aplShow(apl⦇ 5 ⦈))
+    (* (b) a binding, then juxtaposed *)
+    b = apl⦇ 5 ⦈
+    println(("five = " aplFmt(b)))
+    (* (c) juxtaposed directly *)
+    println(("five = " aplFmt(apl⦇ 5 ⦈)))
+    (* (d) the use as an operand of a juxtaposition: NOT parsed -- t07_juxt.out.0,
+       `Variable apl is not defined.` (row 53's diagnostic, for a use that is in
+       fact well formed).  Left commented out so the rest can run.
+    println(("five = " apl⦇ 5 ⦈)) *)
+    println("(d) juxtaposed: Variable apl is not defined (t07_juxt.out.0)")
+  end
+end
