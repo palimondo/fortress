@@ -67,7 +67,7 @@
      PROMOTED 2026-09-13: redesign/ is now base/ (AplGen -> AplCore,
      AplGenSyntax -> AplSyntax) with its probes and that report in rung-1/, and the
      old base/ is now v1/base/.  So in the rows below read base/AplCore* as
-     base/AplCore*, redesign/r* and rung-1/AplT* as rung-1/*, rung-1/Rung1.*
+     base/AplCore*, rung-1/r* and rung-1/AplT* as rung-1/*, rung-1/Rung1.*
      as v1 (retired; git history).*, and a bare `base` in a claim as v1's first library. -->
 
 | # | claim | status | class | spec citation | reproducer | found by | notes / workaround |
