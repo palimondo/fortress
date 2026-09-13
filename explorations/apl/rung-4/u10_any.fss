@@ -1,0 +1,89 @@
+(* u10: does a value whose STATIC type is Any reach the rank overload families?
+   The frame stack of u04 stores ⍺ and ⍵ as Any, so every dfn body and every
+   glyph lambda of rung 4 applies a library function to an Any.  u09 showed that
+   a lambda's RESULT dispatches; this asks the same of a declared Any, and asks
+   four smaller questions the expansion depends on.
+
+   (a) aplShow of an Any -- scalar, vector, matrix
+   (b) a library function of an Any: aplSumLast, aplRev, aplIota
+   (c) an operator on two Anys: ÷ and + over mixed ranks
+   (d) a zero-parameter lambda held as Any and called
+   (e) a `requires` contract on a zero-argument reader (APL's VALUE ERROR)
+   (f) fail[\T\](s) as the explicit failure
+   (g) (fn _ => r)(e) where e is a call that returns () -- the shape the default
+       ⍺ rule wants *)
+component u10_any
+import AplCore.{...}
+export Executable
+
+object NoAlphaU end
+
+object FramesU
+    var n: ZZ32 := 0
+    fstk: Array[\Any,ZZ32\] = array[\Any\](64)
+    astk: Array[\Any,ZZ32\] = array[\Any\](64)
+    ostk: Array[\Any,ZZ32\] = array[\Any\](64)
+    push(fv: Any, av: Any, ov: Any): () = do
+        fstk[n] := fv; astk[n] := av; ostk[n] := ov; n := n + 1 end
+    pop(): () = do n := n - 1 end
+    topF(): Any = fstk[n - 1]
+    topA(): Any = astk[n - 1]
+    topO(): Any = ostk[n - 1]
+    setA(av: Any): () = astk[n - 1] := av
+    depth(): ZZ32 = n
+end
+
+hasAlphaU(): Boolean = typecase FramesU.topA() of NoAlphaU => false; else => true end
+alphaU(): Any requires { hasAlphaU() } = FramesU.topA()
+omegaU(): Any = FramesU.topO()
+selfU(): Any = FramesU.topF()
+callU(f: Any, av: Any, ov: Any): Any = do
+    FramesU.push(f, av, ov)
+    v = f()
+    FramesU.pop()
+    v
+  end
+call1U(f: Any, ov: Any): Any = callU(f, NoAlphaU, ov)
+defAlphaU(e: Any): () = if NOT hasAlphaU() then FramesU.setA(e) end
+
+run(): () = do
+    println("(a) aplShow of an Any:")
+    x: Any = 3.5
+    v: Any = aplVec(3, fn (i: ZZ32): RR64 => 1.0 i)
+    m: Any = aplMat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    println(("  scalar = " aplShow(x)))
+    println(("  vector = " aplShow(v)))
+    println(("  matrix = " aplShow(m)))
+
+    println("(b) a library function of an Any:")
+    println(("  aplSumLast(v) = " aplShow(aplSumLast(v))))
+    println(("  aplRev(v)     = " aplShow(aplRev(v))))
+    println(("  aplIota(x)    = " aplShow(aplIota(3.0))))
+
+    println("(c) an operator on two Anys:")
+    println(("  v ÷ x   = " aplShow(v ÷ x)))
+    println(("  x + v   = " aplShow(x + v)))
+    println(("  m + m   = " aplShow(m + m)))
+
+    println("(d) a zero-parameter lambda held as Any:")
+    println(("  call1U(fn () => aplRev(aplOmega-like), v) = "
+             aplShow(call1U(fn () => aplRev(omegaU()), v))))
+    println(("  callU(fn () => ⍺ ÷ ⍵, v, x) = "
+             aplShow(callU(fn () => alphaU() ÷ omegaU(), v, x))))
+    println(("  depth after = " FramesU.depth()))
+
+    println("(e) the ⍺ contract:")
+    r = try aplShow(call1U(fn () => alphaU(), v))
+        catch e CallerViolation => "CallerViolation (APL VALUE ERROR)" end
+    println(("  monadic call reading ⍺ -> " r))
+
+    println("(f) fail:")
+    r2 = try (fail[\String\]("APL VALUE ERROR"))
+         catch e Exception => "caught a fail" end
+    println(("  fail -> " r2))
+
+    println("(g) (fn _ => r)(a call returning ()):")
+    z = (fn _ => 42.0)(defAlphaU(1.0))
+    println(("  z = " aplShow(z)))
+  end
+end
