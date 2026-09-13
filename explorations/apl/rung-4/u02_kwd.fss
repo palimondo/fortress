@@ -1,0 +1,65 @@
+(* u02: keyword parameters.  basic/functions.tex:155-172 declares them
+   `name: Type = default`, basic/functions.tex:283-293 calls them
+   `f(name = value)`, and basic/declarations.tex:490 makes a keyword-parameter
+   declaration one of the only four things in Fortress that may SHADOW an
+   enclosing declaration of the same name.  If the interpreter implemented that,
+   an APL dfn could be an object whose `ap` takes keyword parameters alpha and
+   omega, and dfns could nest.  It does not.  Three recorded failures:
+
+   u02_kwd.out.0 -- the full probe.  A keyword ARGUMENT does not parse as one:
+     u02_kwd.fss:32:38-41: Variable omega is not defined.      (kw(omega = 3))
+     u02_kwd.fss:33:49-52: Variable alpha is not defined.
+     u02_kwd.fss:37:44-47: Variable omega is not defined.      (Box.m(omega = 7))
+     u02_kwd.fss:49:51-54: Variable omega is not defined.      (inner.ap(omega = 3))
+   because Expression.rats:559-561 orders `ParenthesisDelimited = Parenthesized
+   / ArgExpr`, and `( omega = 3 )` is already a legal Parenthesized Expr, so the
+   KeywordExpr alternative of ArgExpr is never reached with a lone keyword.
+   And the SHADOWING the spec permits is refused by the same check as u01's:
+     u02_kwd.fss:43:36-39: Variable alpha is already declared.
+     u02_kwd.fss:43:61-64: Variable omega is already declared.
+   (line 43 was the INNER object expression's `ap`, nested in the outer's body).
+
+   u02_kwd.out.1 / .out.2 -- with one plain argument in front, `kw2(1, omega = 3)`
+   DOES parse as an ArgExpr, but the evaluator ignores the keyword:
+     ** bug! The number of parameters (2) does not match with the number of
+     arguments (1).
+   and a call that relies on the defaults alone, `kw()`, fails the same way with
+   (2) against (0).  So keyword parameters are declaration-only in the walk
+   interpreter.
+
+   What runs below: the declarations themselves are accepted -- at top level,
+   on a dotted method, and in an object expression extending a trait that
+   declares them -- and then (d) shows the call failing. *)
+component u02_kwd
+export Executable
+
+object AplNoAlpha end
+
+trait AplFn
+    ap(alpha: Any = AplNoAlpha, omega: Any = AplNoAlpha): Any
+end
+
+(* (a) *)
+kw(alpha: ZZ32 = 10, omega: ZZ32 = 20): ZZ32 = alpha + omega
+
+(* (b) *)
+object Box
+    m(alpha: ZZ32 = 1, omega: ZZ32 = 2): ZZ32 = (100 alpha) + omega
+end
+
+run(): () = do
+    println("(a) keyword parameters on a top-level function: DECLARED, accepted")
+    println("(b) keyword parameters on a dotted method: DECLARED, accepted")
+
+    (* (c) one object expression (NOT nested) with the same keyword parameters *)
+    one = object extends AplFn
+              ap(alpha: Any = AplNoAlpha, omega: Any = AplNoAlpha): Any = 0
+            end
+    println("(c) an object expression with keyword parameters: DECLARED, accepted")
+    println("    (nesting a second such object expression inside its ap body is")
+    println("     rejected -- see u02_kwd.out.0 lines 43:36-39 and 43:61-64)")
+
+    println("(d) the call kw() -- relying on the defaults -- follows:")
+    println(("  kw() = " kw()))
+  end
+end

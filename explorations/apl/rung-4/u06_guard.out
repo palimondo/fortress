@@ -1,0 +1,6 @@
+(a) guard taken,     1 : 5  = 5
+(b) guard not taken, 0 : 5  = 0
+(c) a computed condition    = 7
+(d) the :: spelling, 1 :: 5 = 5
+(d2) the :: spelling, 0 :: 5 = 1
+(e) no guard, plain 5       = 5

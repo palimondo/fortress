@@ -1,0 +1,22 @@
+(* u06: a dfn GUARD needs a colon in the production -- APL writes
+   { ⍵ < 0 : ¯1 ⋄ 1 }.  gaps.md row 17 says `:` is one of the macro language's
+   SpecialChars and needs the backtick escape, and row 3 says the escape itself
+   is only readable when an APL glyph stands above it in the file.  U06Syn.fsi
+   is rung 3's working T02Syn.fsi with two top-level alternatives added, one
+   spelled with the escaped colon and one with a doubled escaped colon. *)
+component u06_guard
+import AplCore.{...}
+import U06Syn.{...}
+export Executable
+
+run(): () = do
+    println(("(a) guard taken,     1 : 5  = " aplShow(dfn⦇ 1 : 5 ⦈)))
+    println(("(b) guard not taken, 0 : 5  = " aplShow(dfn⦇ 0 : 5 ⦈)))
+    println(("(c) a computed condition    = " aplShow(dfn⦇ 2<3 : 7 ⦈)))
+    println(("(d) the :: spelling, 1 :: 5 = " aplShow(dfn⦇ 1 :: 5 ⦈)))
+    (* the :: rule yields 1 when its condition is false, the : rule yields 0,
+       so this line says which of the two actually fired *)
+    println(("(d2) the :: spelling, 0 :: 5 = " aplShow(dfn⦇ 0 :: 5 ⦈)))
+    println(("(e) no guard, plain 5       = " aplShow(dfn⦇ 5 ⦈)))
+  end
+end

@@ -1,0 +1,92 @@
+(* u04: the frame-stack alternative to lambda parameters.  If a dfn is compiled
+   to a ZERO-parameter lambda and ⍺ / ⍵ are reads of the top frame of a mutable
+   stack that the caller pushes, then no name is ever bound and u01's
+   "Variable omega is already declared" cannot arise, however deeply dfns nest.
+
+   (a) a one-level call through aplCall
+   (b) a dfn nested inside a dfn -- the case u01 (a) refuses
+   (c) ⍺ present and absent (aplNoAlpha) in the same frame
+   (d) recursion: factorial, the function reaching itself by name through a var
+   (e) 100 000 calls of an ordinary two-parameter lambda against 100 000 calls
+       through aplCall, wall time from nanoTime()
+
+   One false start, u04_frame.out.0: the frame object's reader methods were
+   first named a() and o(), which collide with its own push(a, o) --
+     u04_frame.fss:21:10: Variable a is already declared.
+     u04_frame.fss:21:18: Variable o is already declared.
+   i.e. a dotted method's parameter may not take the name of a method of the
+   same object either.  Renamed to topA()/topO(). *)
+component u04_frame
+export Executable
+
+object AplNoAlpha end
+
+object AplFrames
+    var n: ZZ32 := 0
+    as: Array[\Any,ZZ32\] = array[\Any\](256)
+    os: Array[\Any,ZZ32\] = array[\Any\](256)
+    push(a: Any, o: Any): () = do as[n] := a; os[n] := o; n := n + 1 end
+    pop(): () = do n := n - 1 end
+    topA(): Any = as[n - 1]
+    topO(): Any = os[n - 1]
+    depth(): ZZ32 = n
+end
+
+aplAlpha(): Any = AplFrames.topA()
+aplOmega(): Any = AplFrames.topO()
+aplCall(f: () -> Any, a: Any, o: Any): Any = do
+    AplFrames.push(a, o)
+    r = f()
+    AplFrames.pop()
+    r
+  end
+
+(* (d) the recursive dfn, reached by name *)
+var aplFact: () -> Any := fn (): Any => 0
+
+run(): () = do
+    println("(a) one level:")
+    plus1 = fn (): Any => (aplOmega() asif ZZ32) + 1
+    println(("  aplCall(plus1, AplNoAlpha, 3) = " aplCall(plus1, AplNoAlpha, 3)))
+
+    println("(b) a dfn nested inside a dfn, both reading ⍺ and ⍵:")
+    nested = fn (): Any => do
+                 inner = fn (): Any => (aplOmega() asif ZZ32) + 1
+                 (aplAlpha() asif ZZ32) + (aplOmega() asif ZZ32) +
+                     (aplCall(inner, AplNoAlpha, 3) asif ZZ32)
+               end
+    println(("  aplCall(nested, 1, 2) = " aplCall(nested, 1, 2)))
+    println(("  frame depth after the call = " AplFrames.depth()))
+
+    println("(c) ⍺ absent:")
+    hasAlpha = fn (): Any => typecase aplAlpha() of
+                                 AplNoAlpha => "monadic"
+                                 else => "dyadic"
+                             end
+    println(("  aplCall(hasAlpha, AplNoAlpha, 3) = " aplCall(hasAlpha, AplNoAlpha, 3)))
+    println(("  aplCall(hasAlpha, 1, 3) = " aplCall(hasAlpha, 1, 3)))
+
+    println("(d) recursion by name:")
+    aplFact := fn (): Any => do
+                   k = aplOmega() asif ZZ32
+                   if k <= 1 then 1
+                   else k (aplCall(aplFact, AplNoAlpha, k - 1) asif ZZ32) end
+                 end
+    println(("  aplCall(aplFact, AplNoAlpha, 10) = " aplCall(aplFact, AplNoAlpha, 10)))
+
+    println("(e) 100 000 calls each:")
+    twoParam = fn (al: ZZ32, om: ZZ32): ZZ32 => al + om + 1
+    body = fn (): Any => (aplAlpha() asif ZZ32) + (aplOmega() asif ZZ32) + 1
+    reps = 100000
+    var s1: ZZ32 := 0
+    t0 = nanoTime()
+    for i <- seq(0 # reps) do s1 := s1 + twoParam(1, 2) end
+    t1 = nanoTime()
+    var s2: ZZ32 := 0
+    for i <- seq(0 # reps) do s2 := s2 + (aplCall(body, 1, 2) asif ZZ32) end
+    t2 = nanoTime()
+    println(("  two-parameter lambda: " ((t1 - t0) / 1000000000.0) " s, sum " s1))
+    println(("  through aplCall:      " ((t2 - t1) / 1000000000.0) " s, sum " s2))
+    println(("  ratio aplCall / lambda = " (((t2 - t1) 1.0) / ((t1 - t0) 1.0))))
+  end
+end

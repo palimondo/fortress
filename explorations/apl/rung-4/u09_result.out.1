@@ -1,0 +1,41 @@
+m = 0 1  2  3
+4 5  6  7
+8 9 10 11
+(a) f returns a scalar (+/ on the row):
+  vector: 6 22 38
+(b) f returns a vector (⌽ on the row):
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/explorations/apl/rung-4/u09_result.fss:15:55-83:
+** bug! MethodClosure get(i:I):E/home/user/fortress/Library/FortressLibrary.fss:1830:5-1831:5 has neither body nor def instanceof Method
+Context:
+/home/user/fortress/explorations/apl/rung-4/u09_result.fss:15:55-83:
+/home/user/fortress/Library/FortressLibrary.fss:1975:43-54:
+/home/user/fortress/Library/FortressLibrary.fss:3517:71-75:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3517:31-76:
+/home/user/fortress/Library/FortressLibrary.fss:3517:31-76:
+/home/user/fortress/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3516:9-3517:77:
+/home/user/fortress/Library/FortressLibrary.fss:3516:9-3517:77:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1052:25-55:
+/home/user/fortress/Library/FortressLibrary.fss:1779:25-45:
+/home/user/fortress/Library/FortressLibrary.fss:1975:13-32:
+/home/user/fortress/explorations/apl/base/AplCore.fss:54:5-29:
+/home/user/fortress/explorations/apl/rung-4/u09_result.fss:13:11-15:88:
+/home/user/fortress/explorations/apl/rung-4/u09_result.fss:20:5-38:
+/home/user/fortress/explorations/apl/rung-4/u09_result.fss:28:19-42:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

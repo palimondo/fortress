@@ -1,0 +1,58 @@
+(* u09: dispatch on a FUNCTION'S RESULT.  APL's rank operator f⍤1 applies f to
+   each row of a matrix and then assembles: a vector of results if f returned
+   scalars, a matrix if f returned vectors.  On a rank-in-the-type library the
+   assembling step must therefore be chosen by the rank of the FIRST result,
+   and f is an untyped host lambda (gaps.md row 59), so the question is whether
+   overload resolution reads that rank off the value.
+
+   (a) f returns a scalar  -> the RR64 assembler, a vector comes back
+   (b) f returns a vector  -> the Vector assembler, a matrix comes back
+   (c) the same with f a lambda whose body itself dispatches on rank
+
+   Two false starts, both in the assembling code rather than in the dispatch:
+   u09_result.out.0 subscripted an `asif`-ascribed vector,
+     Unexpected method value {...}:OverloadedFunction when invoking method _[_]
+     given receiver (__DefaultVector[\RR64,4\] asif Vector[\RR64,4\])
+   and u09_result.out.1 called .get on it,
+     ** bug! MethodClosure get(i:I):E ... has neither body nor def instanceof
+     Method
+   Both disappear when the ascription is replaced by a call to a typed helper
+   (aplNth below), which is the same rank dispatch again. *)
+component u09_result
+import AplCore.{...}
+export Executable
+
+(* the typed helpers that replace `asif`: each is chosen by its argument's rank *)
+aplScal(x: RR64): RR64 = x
+aplNth[\nat s\](v: Vector[\RR64,s\], j: ZZ32): RR64 = v[j]
+
+(* the two assemblers, overloaded on the RANK of the first result *)
+assemble[\nat r, nat c\](r0: RR64, f: Any, m: Matrix[\RR64,r,c\]): String = do
+    v = aplVec(r, fn (i: ZZ32): RR64 =>
+                      if i = 0 then r0 else aplScal(f(aplIxRow(m, 1.0 i))) end)
+    "vector: " aplShow(v)
+  end
+
+assemble[\nat s, nat r, nat c\](r0: Vector[\RR64,s\], f: Any, m: Matrix[\RR64,r,c\]): String = do
+    out = aplMat(r, |r0|, fn (i: ZZ32, j: ZZ32): RR64 =>
+                              if i = 0 then r0[j]
+                              else aplNth(f(aplIxRow(m, 1.0 i)), j) end)
+    "matrix: " aplShow(out)
+  end
+
+(* g computes the first result and hands it to assemble; nothing here says
+   which assembler will be used *)
+g[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): String =
+    assemble(f(aplIxRow(m, 0.0)), f, m)
+
+run(): () = do
+    m = aplMat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((4 i) + j))
+    println(("m = " aplShow(m)))
+    println("(a) f returns a scalar, +/ on the row:")
+    println(("  " g(fn (v) => aplSumLast(v), m)))
+    println("(b) f returns a vector, ⌽ on the row:")
+    println(("  " g(fn (v) => aplRev(v), m)))
+    println("(c) f is a lambda that itself dispatches on rank, ×2:")
+    println(("  " g(fn (v) => 2.0 × v, m)))
+  end
+end
