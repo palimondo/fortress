@@ -1,0 +1,30 @@
+(a) comparisons
+  1 2 3 ≠ 3 2 1 = 1 0 1
+  1 2 3 < 3 2 1 = 1 0 0
+  1 2 3 > 3 2 1 = 0 0 1
+  1 2 3 ≥ 3 2 1 = 0 1 1
+  m < n         = 1 1
+0 0
+  m > 1         = 0 0
+1 1
+(b) ∧ ∨
+  1 0 1 ∧ 1 1 0 = 1 0 0
+  1 0 1 ∨ 1 1 0 = 1 1 1
+(c) dyadic ⊖ beside the monadic one
+  ⊖m    = 2 3
+0 1
+  1⊖m   = 2 3
+0 1
+(d) prefix *
+  *0 = 1
+  *1 = 2.718281828459045
+(e) what the library already has for two matrices
+  m + n = 3 3
+3 3
+  m - n = ¯3 ¯1
+ 1  3
+(f) an untyped lambda over ranks
+  f(2,3)       = 6
+  f(2, 1 2 3)  = 2 4 6
+  f(1 2 3,1 2 3) = 1 4 9
+  callit(fn (x: RR64, y: RR64) => x + y, 2, 3) = 5
