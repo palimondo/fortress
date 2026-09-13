@@ -1,0 +1,291 @@
+:Namespace MICROGPT
+⍝ ═══════════════════════════════════════════════════════════════
+⍝ microgpt.apln — array-native port of karpathy/microgpt
+⍝ Full-sequence forward: (n × NE) matrices throughout, causal mask
+⍝ instead of per-token dispatch, multi-head attention via ⍤2.
+⍝ No KV cache during training. Companion to microgpt_kv.apln.
+⍝ ═══════════════════════════════════════════════════════════════
+
+⎕IO←0 ⋄ ⎕FR←645 ⋄ ⎕PP←17 ⋄ ⎕CT←0
+
+NE ← 16 ⋄ BLK ← 16 ⋄ NH ← 4 ⋄ HD ← 4 ⋄ VS ← 27 ⋄ BOSID ← 26
+EPSR ← 1E¯5
+
+⍝ optimizer + training hyperparameters (match microgpt.py)
+LR0        ← 0.01
+B1         ← 0.85
+B2         ← 0.99
+EPSA       ← 1E¯8
+NSTEPS_FULL ← 1000
+
+⍝ weight matrix names, used for Adam iteration and gradient accumulation
+NAMES ← 'wte' 'wpe' 'lm_head' 'attn_wq' 'attn_wk' 'attn_wv' 'attn_wo' 'mlp_fc1' 'mlp_fc2'
+
+W    ← ⎕NS''
+G    ← ⎕NS''
+ACT  ← ⎕NS''
+OPT  ← ⎕NS''
+DATA ← ⎕NS''
+
+⍝ Row-wise primitives (apply via ⍤1 over the last axis)
+rmsnorm ← {⍵÷(EPSR+(+/⍵*2)÷≢⍵)*0.5}
+softmax ← {e÷+/e←*⍵-⌈/⍵}
+relu    ← 0∘⌈
+
+⍝ Gradient primitives (row-wise via ⍤1). See apl_research_dossier.md for derivations.
+⍝   rmsnorm:  y = x/rms  →  dx = (dy - y·mean(y·dy))/rms
+⍝   softmax:  p = softmax(s) → ds = p·(dp - ⟨p,dp⟩)   (Jacobian-vector product)
+rmsnorm_bwd ← { dy←⍺ ⋄ x←⍵
+    rms ← (EPSR+(+/x*2)÷≢x)*0.5
+    y   ← x÷rms
+    (dy-y×(+/y×dy)÷≢y)÷rms
+}
+softmax_bwd ← { p←⍺ ⋄ dy←⍵ ⋄ p×dy-+/p×dy }
+
+loadmat ← {
+    tn ← ⍵ ⎕NTIE 0
+    v  ← ⎕NREAD tn 645 (×/⍺) 0
+    _  ← ⎕NUNTIE tn
+    ⍺ ⍴ v
+}
+
+LOAD ← {dir←⍵
+    W.wte     ← (VS NE)     loadmat dir,'/wte.bin'
+    W.wpe     ← (BLK NE)    loadmat dir,'/wpe.bin'
+    W.lm_head ← (VS NE)     loadmat dir,'/lm_head.bin'
+    W.attn_wq ← (NE NE)     loadmat dir,'/attn_wq.bin'
+    W.attn_wk ← (NE NE)     loadmat dir,'/attn_wk.bin'
+    W.attn_wv ← (NE NE)     loadmat dir,'/attn_wv.bin'
+    W.attn_wo ← (NE NE)     loadmat dir,'/attn_wo.bin'
+    W.mlp_fc1 ← ((4×NE) NE) loadmat dir,'/mlp_fc1.bin'
+    W.mlp_fc2 ← (NE (4×NE)) loadmat dir,'/mlp_fc2.bin'
+    ⍬
+}
+
+⍝ Additive causal mask: 0 where j ≤ i, -1E10 where j > i.
+MASK ← {¯1E10×~(⍳⍵)∘.≥⍳⍵}
+
+⍝ --- full-sequence forward (n × NE matrices throughout) ---
+⍝ ⍵: integer token id vector. Returns (n × VS) logits.
+⍝ Caches every intermediate in ACT for the backward pass.
+FWD ← { ids←⍵
+    n  ← ≢ids
+    X  ← W.wte[ids;] + W.wpe[⍳n;]
+    Xp ← rmsnorm⍤1⊢X                            ⍝ primes residual stream
+    X1 ← rmsnorm⍤1⊢Xp                           ⍝ pre-attention norm
+    Q  ← X1 +.× ⍉W.attn_wq
+    K  ← X1 +.× ⍉W.attn_wk
+    V  ← X1 +.× ⍉W.attn_wv
+    ⍝ split heads: (n NE) → (n NH HD) → transpose to (NH n HD)
+    Qh ← 1 0 2⍉(n,NH,HD)⍴Q
+    Kh ← 1 0 2⍉(n,NH,HD)⍴K
+    Vh ← 1 0 2⍉(n,NH,HD)⍴V
+    ⍝ scaled dot-product scores + causal mask (broadcast over heads via ⍤2)
+    S  ← (MASK n)+⍤2⊢(Qh +.×⍤2⊢⍉⍤2⊢Kh)÷HD*0.5
+    A  ← softmax⍤1⊢S
+    H  ← A +.×⍤2⊢Vh
+    ⍝ concat heads: (NH n HD) → (n NH HD) → ravel inner 2 axes
+    Hc ← ,⍤2⊢1 0 2⍉H
+    X2 ← Xp + Hc +.× ⍉W.attn_wo                 ⍝ residual
+    X3 ← rmsnorm⍤1⊢X2
+    M0 ← X3 +.× ⍉W.mlp_fc1
+    Mr ← relu M0
+    X4 ← X2 + Mr +.× ⍉W.mlp_fc2                 ⍝ residual
+    logits ← X4 +.× ⍉W.lm_head
+    ACT.ids ← ids
+    ACT.X ← X ⋄ ACT.Xp ← Xp ⋄ ACT.X1 ← X1
+    ACT.Q ← Q ⋄ ACT.K ← K ⋄ ACT.V ← V
+    ACT.Qh ← Qh ⋄ ACT.Kh ← Kh ⋄ ACT.Vh ← Vh
+    ACT.S ← S ⋄ ACT.A ← A ⋄ ACT.H ← H ⋄ ACT.Hc ← Hc
+    ACT.X2 ← X2 ⋄ ACT.X3 ← X3 ⋄ ACT.M0 ← M0 ⋄ ACT.Mr ← Mr ⋄ ACT.X4 ← X4
+    ACT.logits ← logits
+    logits
+}
+
+⍝ --- full-sequence backward pass ---
+⍝ ⍵: target token ids (length n). Uses ACT from the most recent FWD call.
+⍝ Populates G.* with gradients mirroring W.*. Returns mean cross-entropy loss.
+BWD ← { targets←⍵
+    n ← ≢targets
+
+    ⍝ softmax + cross-entropy combined: dlogits = (probs - onehot) / n
+    P         ← softmax⍤1⊢ACT.logits
+    onehot    ← targets ∘.= ⍳VS
+    p_target  ← +/P×onehot                          ⍝ (n,) probability at each target
+    loss      ← -(÷n)×+/⍟p_target
+    dlogits   ← (P-onehot)÷n
+
+    ⍝ final linear: logits = X4 @ lm_head.T
+    G.lm_head ← (⍉dlogits)+.×ACT.X4
+    dX4       ← dlogits+.×W.lm_head
+
+    ⍝ MLP block (residual: X4 = X2 + Mr @ mlp_fc2.T)
+    G.mlp_fc2 ← (⍉dX4)+.×ACT.Mr
+    dMr       ← dX4+.×W.mlp_fc2
+    dM0       ← dMr×ACT.M0>0                        ⍝ relu backward
+    G.mlp_fc1 ← (⍉dM0)+.×ACT.X3
+    dX3       ← dM0+.×W.mlp_fc1
+
+    ⍝ rmsnorm backward X2 → X3
+    dX2_mlp ← dX3 (rmsnorm_bwd⍤1) ACT.X2
+    dX2     ← dX4+dX2_mlp                           ⍝ residual merge
+
+    ⍝ attention output projection (residual: X2 = Xp + Hc @ attn_wo.T)
+    G.attn_wo ← (⍉dX2)+.×ACT.Hc
+    dHc       ← dX2+.×W.attn_wo
+    dXp_res   ← dX2                                  ⍝ residual path for Xp
+
+    ⍝ un-concat heads: (n NE) → (n NH HD) → (NH n HD)
+    dH ← 1 0 2⍉(n,NH,HD)⍴dHc
+
+    ⍝ per-head: H = A @ Vh  →  dA = dH @ Vh.T ,  dVh = A.T @ dH
+    dVh ← (⍉⍤2⊢ACT.A)+.×⍤2⊢dH
+    dA  ← dH+.×⍤2⊢⍉⍤2⊢ACT.Vh
+
+    ⍝ softmax backward per-row over the last axis of (NH n n)
+    dS_masked ← ACT.A (softmax_bwd⍤1) dA
+
+    ⍝ mask is additive, scale is ÷sqrt(HD), so dS_raw = dS_masked / sqrt(HD)
+    dS_raw ← dS_masked÷HD*0.5
+
+    ⍝ per-head: S_raw = Qh @ Kh.T  →  dQh = dS @ Kh ,  dKh = dS.T @ Qh
+    dQh ← dS_raw+.×⍤2⊢ACT.Kh
+    dKh ← (⍉⍤2⊢dS_raw)+.×⍤2⊢ACT.Qh
+
+    ⍝ merge heads back: (NH n HD) → (n NH HD) → (n NE)
+    dQ ← (n,NE)⍴1 0 2⍉dQh
+    dK ← (n,NE)⍴1 0 2⍉dKh
+    dV ← (n,NE)⍴1 0 2⍉dVh
+
+    ⍝ linear backward for Q/K/V projections (all read X1 as input)
+    G.attn_wq ← (⍉dQ)+.×ACT.X1
+    G.attn_wk ← (⍉dK)+.×ACT.X1
+    G.attn_wv ← (⍉dV)+.×ACT.X1
+    dX1       ← (dQ+.×W.attn_wq)+(dK+.×W.attn_wk)+(dV+.×W.attn_wv)
+
+    ⍝ rmsnorm backward Xp → X1, merge with residual from attn_wo path
+    dXp ← dXp_res + dX1 (rmsnorm_bwd⍤1) ACT.Xp
+
+    ⍝ rmsnorm backward X → Xp
+    dX ← dXp (rmsnorm_bwd⍤1) ACT.X
+
+    ⍝ scatter-add into wte (non-unique indices via onehot-matmul)
+    G.wte ← (⍉ACT.ids∘.=⍳VS)+.×dX
+
+    ⍝ wpe: each position index unique, dense copy into rows 0..n-1
+    G.wpe ← (BLK,NE)⍴0
+    G.wpe[⍳n;] ← dX
+
+    loss
+}
+
+⍝ --- Adam optimizer state init ---
+⍝ Creates OPT.m and OPT.v as namespaces with one zero buffer per weight matrix.
+⍝ Every ⍎ side-effect is bound to _ so the inner dfn does not return early
+⍝ on the first bare expression (Dyalog dfn quirk).
+INIT_OPT ← {
+    OPT.m ← ⎕NS''
+    OPT.v ← ⎕NS''
+    _ ← {name←⍵
+        shp ← ⍴W⍎name
+        _ ← ⍎'OPT.m.',name,' ← shp⍴0'
+        _ ← ⍎'OPT.v.',name,' ← shp⍴0'
+        ⍬
+    }¨NAMES
+    ⍬
+}
+
+⍝ --- one Adam step ---
+⍝ ⍵: (step, lr). step is 0-indexed. Updates W in place using G and OPT.m/OPT.v.
+⍝ Standard Adam with bias correction, matches microgpt.py's loop body.
+⍝ Locals are named mom1/mom2/etc. to avoid shadowing namespace member
+⍝ access like OPT.m / OPT.v (Dyalog parses the bare `v` as a local).
+ADAM_STEP ← { step lr←⍵
+    t   ← step+1
+    bc1 ← 1-B1*t
+    bc2 ← 1-B2*t
+    _ ← {name←⍵
+        grad  ← G⍎name
+        mom1  ← (B1×OPT.m⍎name)+(1-B1)×grad
+        mom2  ← (B2×OPT.v⍎name)+(1-B2)×grad*2
+        m_hat ← mom1÷bc1
+        v_hat ← mom2÷bc2
+        w_new ← (W⍎name)-lr×m_hat÷EPSA+v_hat*0.5
+        _ ← ⍎'W.',name,' ← w_new'
+        _ ← ⍎'OPT.m.',name,' ← mom1'
+        _ ← ⍎'OPT.v.',name,' ← mom2'
+        ⍬
+    }¨NAMES
+    ⍬
+}
+
+⍝ --- one training step ---
+⍝ ⍵: (input_token_ids, target_token_ids, step_index). Runs FWD+BWD+ADAM_STEP.
+⍝ Returns the loss for this step.
+TRAIN_STEP ← { inputs targets step←⍵
+    _ ← FWD inputs
+    l ← BWD targets
+    lr ← LR0×1-step÷NSTEPS_FULL
+    _ ← ADAM_STEP step lr
+    l
+}
+
+⍝ --- data loading + tokenizer ---
+⍝ ⍵: path to the dataset text file (one document per line).
+⍝ Populates DATA namespace with docs, uchars, encode, decode, BOS token id.
+INIT_DATA ← { path←⍵
+    DATA.docs   ← (⊂'')~⍨⊃⎕NGET path 1
+    uniq        ← ∪∊DATA.docs
+    DATA.uchars ← uniq[⍋uniq]
+    DATA.BOSID  ← ≢DATA.uchars
+    DATA.VS     ← 1+≢DATA.uchars
+    ⍬
+}
+
+⍝ Encode/decode live in the MICROGPT namespace so their lexical scope can
+⍝ see DATA. If stored as members of DATA the dfns fail to resolve DATA at
+⍝ call time (their home namespace would be DATA, not MICROGPT).
+encode ← {DATA.uchars⍳⍵}
+decode ← {DATA.uchars[⍵]}
+
+⍝ --- full training loop ---
+⍝ ⍵: number of steps. Uses DATA.docs in shuffled order.
+⍝ Returns the vector of per-step losses.
+TRAIN ← { nsteps←⍵
+    shuffled ← DATA.docs[(≢DATA.docs)?(≢DATA.docs)]
+    _ ← INIT_OPT ⍬
+    losses ← nsteps⍴0
+    step ← 0
+    _ ← {
+        doc ← ((≢shuffled)|step)⊃shuffled            ⍝ A|B is B mod A in APL
+        tokens ← DATA.BOSID,(encode doc),DATA.BOSID
+        n ← BLK⌊¯1+≢tokens
+        inputs  ← n↑tokens
+        targets ← n↑1↓tokens
+        l ← TRAIN_STEP inputs targets step
+        losses[step] ← l
+        step +← 1
+        ⍬
+    }¨⍳nsteps
+    losses
+}
+
+⍝ --- inference: sample one name ---
+⍝ ⍵: temperature (0, 1]. Returns a character vector (without BOS).
+⍝ Re-runs FWD on the growing sequence each step (no KV cache; BLK is small).
+GEN ← { temp←⍵
+    step ← {
+        (1<≢⍵)∧(DATA.BOSID=⊃⌽⍵): ⍵                   ⍝ stop if last token is BOS
+        logits   ← FWD ⍵
+        last_row ← logits[(¯1+≢logits);]              ⍝ length-VS logit vector
+        p        ← softmax last_row÷temp
+        next     ← ⊃⍸(+\p)≥?0                         ⍝ inverse-CDF sampling
+        ⍵,next
+    }
+    ids  ← step⍣BLK⊢,DATA.BOSID                      ⍝ at most BLK tokens
+    body ← 1↓ids                                      ⍝ strip leading BOS
+    body ← (body⍳DATA.BOSID)↑body                     ⍝ truncate at first BOS
+    decode body
+}
+
+:EndNamespace

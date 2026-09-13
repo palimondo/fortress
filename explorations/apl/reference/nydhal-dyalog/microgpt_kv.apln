@@ -1,0 +1,129 @@
+:Namespace MICROGPT_KV
+⍝ ═══════════════════════════════════════════════════════════════
+⍝ microgpt_kv.apln — faithful port of Karpathy's microgpt.py
+⍝ Token-by-token forward pass with KV cache. Explicit matrix
+⍝ backprop (no scalar Value class). Mirrors the Python control
+⍝ flow line-by-line so a reader can trace microgpt.py line N to
+⍝ this file line M. The array-native companion is microgpt.apln.
+⍝ ═══════════════════════════════════════════════════════════════
+
+⎕IO←0 ⋄ ⎕FR←645 ⋄ ⎕PP←17 ⋄ ⎕CT←0
+
+⍝ --- hyperparameters (match Python) ---
+NE     ← 16      ⍝ n_embd
+BLK    ← 16      ⍝ block_size
+NH     ← 4       ⍝ n_head
+HD     ← 4       ⍝ head_dim = NE ÷ NH
+VS     ← 27      ⍝ vocab_size (26 letters + BOS)
+BOSID  ← 26      ⍝ BOS token id
+LR     ← 0.01    ⍝ learning rate
+B1     ← 0.85    ⍝ beta1
+B2     ← 0.99    ⍝ beta2
+EPSA   ← 1E¯8    ⍝ Adam epsilon
+EPSR   ← 1E¯5    ⍝ RMSNorm epsilon
+NSTEPS ← 1000
+TEMP   ← 0.5
+
+⍝ --- namespaces for weights, gradients, and KV cache state ---
+W ← ⎕NS''        ⍝ weight matrices (populated by LOAD)
+G ← ⎕NS''        ⍝ gradients (populated by BWD, mirrors W)
+S ← ⎕NS''        ⍝ per-sequence state (KV cache, activations)
+S.keys   ← ⍬
+S.values ← ⍬
+
+⍝ --- primitives (operate on vectors, matching Python's per-token style) ---
+linear  ← {⍺+.×⍵}                              ⍝ W·x where W is (out,in) and x is (in,)
+rmsnorm ← {⍵÷(EPSR+(+/⍵*2)÷≢⍵)*0.5}            ⍝ x / sqrt(mean(x²)+eps)
+softmax ← {e÷+/e←*⍵-⌈/⍵}                       ⍝ stable softmax on a vector
+relu    ← 0∘⌈                                   ⍝ elementwise max(0,x)
+
+⍝ --- binary weight loader (IEEE float64) ---
+⍝ Dyalog dfn caveat: a BARE expression ends the dfn on the spot, so side-effect
+⍝ calls like ⎕NUNTIE must be bound to _ to keep execution going.
+loadmat ← {
+    tn ← ⍵ ⎕NTIE 0
+    v  ← ⎕NREAD tn 645 (×/⍺) 0
+    _  ← ⎕NUNTIE tn
+    ⍺ ⍴ v
+}
+
+⍝ --- load Python reference weights from weights/ ---
+LOAD ← {dir←⍵
+    W.wte     ← (VS NE)     loadmat dir,'/wte.bin'
+    W.wpe     ← (BLK NE)    loadmat dir,'/wpe.bin'
+    W.lm_head ← (VS NE)     loadmat dir,'/lm_head.bin'
+    W.attn_wq ← (NE NE)     loadmat dir,'/attn_wq.bin'
+    W.attn_wk ← (NE NE)     loadmat dir,'/attn_wk.bin'
+    W.attn_wv ← (NE NE)     loadmat dir,'/attn_wv.bin'
+    W.attn_wo ← (NE NE)     loadmat dir,'/attn_wo.bin'
+    W.mlp_fc1 ← ((4×NE) NE) loadmat dir,'/mlp_fc1.bin'
+    W.mlp_fc2 ← (NE (4×NE)) loadmat dir,'/mlp_fc2.bin'
+    ⍬
+}
+
+⍝ --- reset KV cache between sequences ---
+RESET ← {S.keys ← ⍬ ⋄ S.values ← ⍬ ⋄ ⍬}
+
+⍝ --- per-token forward pass, mirrors Python's gpt(token_id, pos_id, keys, values) ---
+⍝ ⍵ is a two-element vector: (token_id pos_id). Reads W, mutates S.keys/S.values.
+⍝ Returns logits vector (length VS).
+GPT_STEP ← {
+    token pos ← ⍵
+    ⍝ token and position embeddings
+    tok_emb ← W.wte[token;]                    ⍝ Python: state_dict['wte'][token_id]
+    pos_emb ← W.wpe[pos;]                      ⍝ Python: state_dict['wpe'][pos_id]
+    x ← tok_emb + pos_emb                      ⍝ Python: x = [t+p for t,p in zip(tok_emb, pos_emb)]
+    x ← rmsnorm x                              ⍝ Python line 112 — primes the residual stream
+
+    ⍝ -- attention block --
+    x_res ← x                                  ⍝ Python: x_residual = x
+    xn ← rmsnorm x                             ⍝ Python line 117 — pre-attention norm
+    q ← W.attn_wq linear xn                    ⍝ Python: q = linear(x, attn_wq)
+    k ← W.attn_wk linear xn                    ⍝ Python: k = linear(x, attn_wk)
+    v ← W.attn_wv linear xn                    ⍝ Python: v = linear(x, attn_wv)
+    S.keys   ,← ⊂k                             ⍝ Python: keys[li].append(k)
+    S.values ,← ⊂v                             ⍝ Python: values[li].append(v)
+
+    ⍝ per-head attention via each (Python: for h in range(n_head))
+    ⍝ The nested dfn captures q, S.keys, S.values, HD from this scope.
+    ⍝ Each call returns one head's output (length HD); ∊ concatenates them.
+    x_attn ← ∊{
+        hs  ← ⍵ × HD                           ⍝ head start: Python's hs = h*head_dim
+        q_h ← q[hs+⍳HD]                        ⍝ Python: q_h = q[hs:hs+head_dim]
+        K_h ← ↑{⍵[hs+⍳HD]}¨S.keys              ⍝ Python: k_h = [ki[hs:hs+hd] for ki in keys]
+        V_h ← ↑{⍵[hs+⍳HD]}¨S.values            ⍝ Python: v_h = [vi[hs:hs+hd] for vi in values]
+        al  ← (K_h+.×q_h)÷HD*0.5               ⍝ Python: attn_logits = ...÷sqrt(hd)
+        aw  ← softmax al                       ⍝ Python: attn_weights = softmax(attn_logits)
+        aw+.×V_h                               ⍝ Python: head_out = ...
+    }¨⍳NH
+
+    x ← W.attn_wo linear x_attn                ⍝ Python: x = linear(x_attn, attn_wo)
+    x ← x + x_res                              ⍝ Python: x = [a+b for a,b in zip(x, x_residual)]
+
+    ⍝ -- MLP block --
+    x_res ← x
+    xn ← rmsnorm x                             ⍝ Python line 137 — pre-MLP norm
+    h1 ← relu W.mlp_fc1 linear xn              ⍝ Python: relu(linear(x, mlp_fc1))
+    x ← W.mlp_fc2 linear h1                    ⍝ Python: x = linear(x, mlp_fc2)
+    x ← x + x_res                              ⍝ Python: x = [a+b for a,b in zip(x, x_residual)]
+
+    W.lm_head linear x                         ⍝ Python: logits = linear(x, lm_head)
+}
+
+⍝ --- forward pass over a full token sequence, returns mean cross-entropy loss ---
+⍝ ⍵ is the full token id vector (including BOS at both ends).
+⍝ Cycles through positions 0..n-1 where n = min(BLK, ≢ids-1),
+⍝ accumulating per-position cross-entropy loss.
+FWD_KV ← { ids←⍵
+    n      ← BLK ⌊ ¯1+≢ids                     ⍝ Python: n = min(block_size, len(tokens)-1)
+    _      ← RESET ⍬                           ⍝ bind to _ so the dfn does not return early
+    losses ← ⍬
+    :For pos :In ⍳n
+        logits ← GPT_STEP (ids[pos]) pos       ⍝ Python: logits = gpt(token_id, pos_id, keys, values)
+        prob   ← softmax logits                ⍝ Python: probs = softmax(logits)
+        losses ,← -⍟prob[ids[pos+1]]           ⍝ Python: loss_t = -probs[target_id].log()
+    :EndFor
+    (÷n)×+/losses                              ⍝ Python: loss = (1/n) * sum(losses)
+}
+
+:EndNamespace
