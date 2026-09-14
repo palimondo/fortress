@@ -1,0 +1,12 @@
+/home/user/fortress/explorations/apl/rung-4/u02_kwd.fss:32:38-41:
+    Variable omega is not defined.
+/home/user/fortress/explorations/apl/rung-4/u02_kwd.fss:33:49-52:
+    Variable alpha is not defined.
+/home/user/fortress/explorations/apl/rung-4/u02_kwd.fss:37:44-47:
+    Variable omega is not defined.
+/home/user/fortress/explorations/apl/rung-4/u02_kwd.fss:43:36-39:
+    Variable alpha is already declared.
+/home/user/fortress/explorations/apl/rung-4/u02_kwd.fss:43:61-64:
+    Variable omega is already declared.
+/home/user/fortress/explorations/apl/rung-4/u02_kwd.fss:49:51-54:
+    Variable omega is not defined.

@@ -1,0 +1,46 @@
+(* s03: the new GRAMMAR, with no APL names in it -- every value comes in through
+   rung 1's ⍎(…) escape -- so that a failure here is the bracket, squad, where,
+   compress or coordinate productions and not the closed name set. *)
+component s03_gram
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+p(tag: String, s: String): () = println(("  " tag " = " s))
+
+run(): () = do
+    v = apl⦇ 9 2 6 3 5 8 7 4 0 1 ⦈
+    m = apl⦇ 3 3⍴4 1 6 5 2 9 7 8 3 ⦈
+    println("--- brackets ---")
+    p("⍎(v)[5]", aplShow(apl⦇ ⍎(v)[5] ⦈))
+    p("⍎(v)[5 2]", aplShow(apl⦇ ⍎(v)[5 2] ⦈))
+    p("⍎(m)[1;1]", aplShow(apl⦇ ⍎(m)[1;1] ⦈))
+    p("⍎(m)[1;]", aplShow(apl⦇ ⍎(m)[1;] ⦈))
+    p("⍎(m)[;1]", aplShow(apl⦇ ⍎(m)[;1] ⦈))
+    p("⍎(m)[1 2;0]", aplShow(apl⦇ ⍎(m)[1 2;0] ⦈))
+    p("⍴⍎(m)[;1 2]", aplShow(apl⦇ ⍴⍎(m)[;1 2] ⦈))
+    p("⍎(m)[⊂1 1]", aplShow(apl⦇ ⍎(m)[⊂1 1] ⦈))
+    p("⍎(m)[(0 0)(1 1)(2 2)]", aplShow(apl⦇ ⍎(m)[(0 0)(1 1)(2 2)] ⦈))
+    p("+/⍎(m)[1;]", aplShow(apl⦇ +/⍎(m)[1;] ⦈))
+    println("--- squad ---")
+    p("2⌷⍎(v)", aplShow(apl⦇ 2⌷⍎(v) ⦈))
+    p("1⌷⍎(m)", aplShow(apl⦇ 1⌷⍎(m) ⦈))
+    p("1 1⌷⍎(m)", aplShow(apl⦇ 1 1⌷⍎(m) ⦈))
+    p("(⊂1 1)⌷⍎(m)", aplShow(apl⦇ (⊂1 1)⌷⍎(m) ⦈))
+    p("2⌷⍉⍎(m)", aplShow(apl⦇ 2⌷⍉⍎(m) ⦈))
+    println("--- where, compress, replicate ---")
+    p("⍸0 0 1 0 1", aplShow(apl⦇ ⍸0 0 1 0 1 ⦈))
+    p("⍎(v)[⍸0 1 0 1 0 1 0 0 0 0]", aplShow(apl⦇ ⍎(v)[⍸0 1 0 1 0 1 0 0 0 0] ⦈))
+    p("0 0 1 0 1 1 0 1 1 0/0 1 2 3 4 5 6 7 8 9",
+      aplShow(apl⦇ 0 0 1 0 1 1 0 1 1 0/0 1 2 3 4 5 6 7 8 9 ⦈))
+    p("1 3 0 0 5 0 7 0 0 1/0 1 2 3 4 5 6 7 8 9",
+      aplShow(apl⦇ 1 3 0 0 5 0 7 0 0 1/0 1 2 3 4 5 6 7 8 9 ⦈))
+    p("2/1 2 3", aplShow(apl⦇ 2/1 2 3 ⦈))
+    p("0 1 0⌿⍎(m)", aplShow(apl⦇ 0 1 0⌿⍎(m) ⦈))
+    p("0 1 0/⍎(m)", aplShow(apl⦇ 0 1 0/⍎(m) ⦈))
+    println("--- rung 1 still reads the same way ---")
+    p("+/2 4⍴⍳8", aplShow(apl⦇ +/2 4⍴⍳8 ⦈))
+    p("2 × 3 + 4", aplShow(apl⦇ 2 × 3 + 4 ⦈))
+    p("⍴5 ⍝ a trailing comment", aplShow(apl⦇ ⍴5 ⍝ a trailing comment ⦈))
+  end
+end

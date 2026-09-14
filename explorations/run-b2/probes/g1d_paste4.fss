@@ -1,0 +1,18 @@
+(* D4: semantics probe on SQUARE blocks, where the row/column swap in
+   IndexedArrayWrapper cannot show up as a size mismatch. 2x2 blocks -> 4x4. *)
+component g1d_paste4
+export Executable
+
+blk(base: RR64): Matrix[\RR64,2,2\] =
+    matrix[\RR64,2,2\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => base + 1.0 (2 i + j))
+
+run(): () = do
+    a: Matrix[\RR64,2,2\] = blk(10.0)
+    b: Matrix[\RR64,2,2\] = blk(20.0)
+    c: Matrix[\RR64,2,2\] = blk(30.0)
+    d: Matrix[\RR64,2,2\] = blk(40.0)
+    println("a = " a)
+    m: Matrix[\RR64,4,4\] = [ a b ; c d ]
+    println("m = " m)
+  end
+end

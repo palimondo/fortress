@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`
+  i: ZZ32 = 1
+  x_i: RR64 = 123.0
+  assert(x_i =/= x[i])
+  assert(A[0,1] = A[0, 1])
+`
+\end{preview}
+\end{document}

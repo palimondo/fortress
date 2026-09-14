@@ -1,0 +1,9 @@
+component UseCoreT
+import CoreT.{...}
+export Executable
+run(): () = do
+  A = mat(2, 3, fn (i, j) => 1.0 (3 i + j))
+  B = transpose(A)
+  println("B[2,1] = " B[2, 1])
+end
+end

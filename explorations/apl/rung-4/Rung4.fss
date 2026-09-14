@@ -1,0 +1,339 @@
+(* Rung4 -- every example of "Direct functions and operators"
+   (https://xpqz.github.io/learnapl/functions.html) that the base reaches,
+   written inside apl⦇ … ⦈ and checked against the book's printed output as
+   extracted in ../goldens/ch4-functions.md, followed by the section the
+   microGPT program needs.
+
+   Index origin is 0, as the chapter's prelude sets it.
+
+   Run from this directory with ../base on the source path:
+
+     export FORTRESS_SOURCE_PATH=".:$FORTRESS_HOME/explorations/apl/base:\
+     $FORTRESS_HOME/ProjectFortress/LibraryBuiltin:$FORTRESS_HOME/Library:\
+     $FORTRESS_HOME/ProjectFortress/test_library"
+     $FORTRESS_HOME/bin/fortress Rung4.fss
+
+   Five adaptations, each named on the block that uses it.
+
+   (1) Dyalog's ]dinput line is dropped; the multi-line dfn under it is the
+       example.  The book prints nothing for a definition, so a definition-only
+       example is checked by appending `⋄ 0` to it: the check is that the dfn
+       parses, expands and evaluates, and 0 is the value of the statement
+       appended to it.  Every such dfn is then applied in the beyond-chapter
+       section or in the example that applies it.
+   (2) A dfn binding followed by a LINE BREAK and then an application swallows
+       the next line -- the monadic call rule reads the dfn as a function and
+       the whole next line as its argument -- so `⋄` follows the closing brace
+       (gaps row 68, widening row 63).
+   (3) `_ ← …`, the chapter's throw-away name, is a Syntax Error: the Id gap of
+       the binding rule does not accept the underscore (row 69).  Ex 23 writes
+       `x ←`.
+   (4) A dfn whose last statement is a BINDING has no production, so Ex 15 and
+       Ex 16, whose bodies end with a binding and two comment lines, get the
+       bound name appended as a last statement.  Ex 16's local `⎕IO←0` is
+       dropped: the index origin is already 0.
+   (5) A dfn's body lines are separated by the book's own trailing comments or
+       by `⋄`: a bare line break above a line that begins with a numeral or a
+       dyadic glyph is swallowed by the line above it (gaps row 52/63, now
+       inside the braces; u19_break.out.0).
+   (6) `e ← *⍵-⌈/⍵` is a statement, not an inline binding inside an expression:
+       APL's `e÷+/e←*⍵-⌈/⍵` is written as two statements (the beyond-chapter
+       softmax). *)
+component Rung4
+
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+chk(id: String, src: String, got: String, want: String): ZZ32 = do
+    ok = (got = want)
+    println(((if ok then "PASS  " else "FAIL  " end) id "  " src))
+    println(("        want |" want "|"))
+    println(("        got  |" got "|"))
+    if ok then 1 else 0 end
+  end
+
+note(id: String, why: String): () = println(("SKIP  " id "  out of scope: " why))
+
+run(): () = do
+    score: ZZ32 := 0
+    tot: ZZ32 := 0
+
+    println("=== examples of the chapter, against the book's printed output ===")
+    println("")
+
+    note("Ex 1 ", "⎕IO ← 0, ]box and ]rows: a ⎕ system name and two Dyalog user commands")
+    note("Ex 2 ", "assert ← {⍺ ← 'assertion failure' ⋄ 0∊⍵: ⍺ ⎕signal 8 ⋄ shy ← 0}: a character vector and ⎕signal")
+
+    (* Ex 3 -- the definition prints nothing; `⋄ 0` is appended (adaptation 1) *)
+    score := score + chk("Ex 3 ", "MyFirstFunction ← {⍝ Add left and right ⋄ ⍺+⍵}   (the book's ]dinput dfn; the value is the appended 0)",
+                         aplShow(apl⦇ MyFirstFunction ← {
+                                          ⍝ Add left and right
+                                          ⍺+⍵
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    score := score + chk("Ex 4 ", "32 MyFirstFunction 98",
+                         aplShow(apl⦇ MyFirstFunction ← {
+                                          ⍝ Add left and right
+                                          ⍺+⍵
+                                      } ⋄
+                                      32 MyFirstFunction 98 ⦈), "130")
+    tot := tot + 1
+
+    score := score + chk("Ex 5 ", "Sum ← {⍝ Add left and right ⋄ total ← ⍺+⍵ ⋄ total}   (definition)",
+                         aplShow(apl⦇ Sum ← {
+                                          ⍝ Add left and right
+                                          total ← ⍺+⍵
+                                          total
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    score := score + chk("Ex 6 ", "32 Sum 98",
+                         aplShow(apl⦇ Sum ← {
+                                          ⍝ Add left and right
+                                          total ← ⍺+⍵
+                                          total
+                                      } ⋄
+                                      32 Sum 98 ⦈), "130")
+    tot := tot + 1
+
+    score := score + chk("Ex 7a", "{⍺ ← ¯99 ⋄ ⍺+⍵} 99", aplShow(apl⦇ {⍺ ← ¯99 ⋄ ⍺+⍵} 99 ⦈), "0")
+    score := score + chk("Ex 7b", "57 {⍺ ← ¯99 ⋄ ⍺+⍵} 99",
+                         aplShow(apl⦇ 57 {⍺ ← ¯99 ⋄ ⍺+⍵} 99 ⦈), "156")
+    tot := tot + 2
+
+    score := score + chk("Ex 8 ", "{⍺ ← ¯99 ⋄ ⍺ ← ¯999999 ⋄ ⍺+⍵} 99   (only the first ⍺ ← counts)",
+                         aplShow(apl⦇ {⍺ ← ¯99 ⋄ ⍺ ← ¯999999 ⋄ ⍺+⍵} 99 ⦈), "0")
+    tot := tot + 1
+
+    score := score + chk("Ex 9 ", "sum ← {⍺ ← 0 ⋄ 0=≢⍵:⍺ ⋄ (⍺+⊃⍵)∇1↓⍵}   (definition: a guard, a default ⍺ and ∇)",
+                         aplShow(apl⦇ sum ← {
+                                          ⍺ ← 0       ⍝ Initialise the accumulator
+                                          0=≢⍵:⍺      ⍝ If right arg empty vector, return accumulator
+                                          (⍺+⊃⍵)∇1↓⍵  ⍝ Add head to accumulator, recurse over tail
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    score := score + chk("Ex 10a", "sum ⍳10",
+                         aplShow(apl⦇ sum ← {
+                                          ⍺ ← 0       ⍝ Initialise the accumulator
+                                          0=≢⍵:⍺      ⍝ If right arg empty vector, return accumulator
+                                          (⍺+⊃⍵)∇1↓⍵  ⍝ Add head to accumulator, recurse over tail
+                                      } ⋄
+                                      sum ⍳10 ⦈), "45")
+    score := score + chk("Ex 10b", "100 sum ⍳10",
+                         aplShow(apl⦇ sum ← {
+                                          ⍺ ← 0       ⍝ Initialise the accumulator
+                                          0=≢⍵:⍺      ⍝ If right arg empty vector, return accumulator
+                                          (⍺+⊃⍵)∇1↓⍵  ⍝ Add head to accumulator, recurse over tail
+                                      } ⋄
+                                      100 sum ⍳10 ⦈), "145")
+    tot := tot + 2
+
+    score := score + chk("Ex 11", "Palinish ← {rev ← ⊖⍵ ⋄ rev≡⍵: 1 ⋄ 0}   (definition)",
+                         aplShow(apl⦇ Palinish ← {
+                                          rev ← ⊖⍵ ⍝ Reverse the right arg
+                                          rev≡⍵: 1 ⍝ If right arg matches its own reverse, return 1
+                                          0        ⍝ Else, return 0
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    score := score + chk("Ex 12a", "Palinish 1 2 3 2 1",
+                         aplShow(apl⦇ Palinish ← {
+                                          rev ← ⊖⍵ ⍝ Reverse the right arg
+                                          rev≡⍵: 1 ⍝ If right arg matches its own reverse, return 1
+                                          0        ⍝ Else, return 0
+                                      } ⋄
+                                      Palinish 1 2 3 2 1 ⦈), "1")
+    score := score + chk("Ex 12b", "Palinish 1 2 3 4 5",
+                         aplShow(apl⦇ Palinish ← {
+                                          rev ← ⊖⍵ ⍝ Reverse the right arg
+                                          rev≡⍵: 1 ⍝ If right arg matches its own reverse, return 1
+                                          0        ⍝ Else, return 0
+                                      } ⋄
+                                      Palinish 1 2 3 4 5 ⦈), "0")
+    score := score + chk("Ex 12c", "Palinish 3",
+                         aplShow(apl⦇ Palinish ← {
+                                          rev ← ⊖⍵ ⍝ Reverse the right arg
+                                          rev≡⍵: 1 ⍝ If right arg matches its own reverse, return 1
+                                          0        ⍝ Else, return 0
+                                      } ⋄
+                                      Palinish 3 ⦈), "1")
+    tot := tot + 3
+
+    score := score + chk("Ex 13", "{⍵≡⊖⍵} 1 2 3 2 1 ⍝ Anonymous (unnamed) version",
+                         aplShow(apl⦇ {⍵≡⊖⍵} 1 2 3 2 1 ⍝ Anonymous (unnamed) version ⦈), "1")
+    tot := tot + 1
+
+    note("Ex 14", "foo ← {47>flerp ⍵: 92+flumm ⍵ ⋄ 57+8}: flerp and flumm are never defined, and a name in a template is a FREE Fortress identifier -- an unbound one is rejected before anything runs (row 70, u19_free.out.0)")
+
+    (* Ex 15 -- adaptation 4: the body ends with a binding and two comments, so
+       the bound name is appended.  DESIGN.md lists this one as out of scope for
+       a reason that belongs to Ex 14. *)
+    score := score + chk("Ex 15", "foo ← {answer ← ⍵ ⋄ a ← {⍵:42 ⋄ ¯99} answer ⋄ ⍝ … ⋄ a}   (definition; `a` appended)",
+                         aplShow(apl⦇ foo ← {
+                                          answer ← ⍵
+                                          a ← {⍵:42 ⋄ ¯99} answer
+                                          ⍝ ...execution follows here
+                                          ⍝ do something with a
+                                          a
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    score := score + chk("Ex 16", "foo ← {answer ← ⍵ ⋄ a ← answer⊃¯99 42 ⋄ ⍝ … ⋄ a}   (definition; ⎕IO←0 dropped, `a` appended)",
+                         aplShow(apl⦇ foo ← {
+                                          answer ← ⍵
+                                          a ← answer⊃¯99 42
+                                          ⍝ ...execution follows here
+                                          ⍝ do something with a
+                                          a
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    note("Ex 17", "{a←¯99} inside a dfn that already bound a: an APL name is a lambda parameter and a nested one of the same name is `Variable a is already declared` (row 29)")
+    note("Ex 18", "foo ⍬ ⍝ Note: 45, not ¯99: it needs Ex 17's foo")
+    note("Ex 19", "a +← 45: modified assignment reaches an outer name, which a lambda parameter cannot (row 29)")
+    note("Ex 20", "⎕ ← r ← foo ⍬ ⋄ assert r=90: a ⎕ system name, a second binding target, and Ex 2's assert")
+    note("Ex 21", "a ⊢← ¯99: set assignment, the same gap as Ex 19")
+    note("Ex 22", "⎕ ← r ← foo ⍬ ⋄ assert r=¯99: as Ex 20")
+
+    score := score + chk("Ex 23", "foo ← {a ← 3 3⍴1 ⋄ x ← {a[1;1] ← 0}⍬ ⋄ a}   (definition; `x` for the book's `_`)",
+                         aplShow(apl⦇ foo ← {
+                                          a ← 3 3⍴1 ⍝ 3×3 matrix of all 1
+                                          x ← {a[1;1] ← 0}⍬
+                                          a
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    note("Ex 24", "⎕ ← r ← foo ⍬ ⋄ assert r≡3 3⍴1 1 1 1 0 1 1 1 1: as Ex 20; the matrix it prints is checked as X16 below")
+    note("Ex 25", "2 (+/) ⍳10: an n-wise reduction, which is the reduce operator with a left argument (rung 5)")
+    note("Ex 26", "sumred ← +/: a derived function as a value, i.e. a tacit definition (rung 7)")
+    note("Ex 27", "foldl ← {⍺ ← ⊃0⍴⍵ ⋄ ↑⍺⍺⍨/(⌽⍵),⊂⍺}: a direct OPERATOR (⍺⍺), and ⊂ makes a nested array")
+    note("Ex 28", "+foldl ⍳10 and -foldl ⍳10: they need Ex 27's dop")
+    note("Ex 29", "99 +foldl ⍳10: as Ex 28")
+
+    println("")
+    println(("checks passed: " score " of " tot ", over 14 of the chapter's 29 examples"))
+    println("")
+    println("=== beyond the chapter: what the microGPT program needs from this rung ===")
+    println("")
+
+    bx: ZZ32 := 0
+
+    bx := bx + chk("X1 ", "2 3 4⍴⍳24                  (a rank-3 array, the APL display)",
+                 aplShow(apl⦇ 2 3 4⍴⍳24 ⦈),
+                 ("0 1  2  3" // "4 5  6  7" // "8 9 10 11" // "" //
+                  "12 13 14 15" // "16 17 18 19" // "20 21 22 23"))
+    bx := bx + chk("X2 ", "(≢t),(⍴t),(⊃t)             (tally, shape and first of a rank-3 array)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ (≢t),(⍴t),(⊃t) ⦈), "2 2 3 4 0")
+    bx := bx + chk("X3 ", ",t                         (ravel of a rank-3 array)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ ,t ⦈),
+                 "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23")
+    bx := bx + chk("X4 ", "2 12⍴t ⋄ 6⍴t               (rank 3 reshaped down to a matrix and a vector)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ (,2 12⍴t),6⍴t ⦈),
+                 "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 0 1 2 3 4 5")
+    bx := bx + chk("X5 ", "⍴1 0 2⍉t                   (the axis permutation the program writes)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ ⍴1 0 2⍉t ⦈), "3 2 4")
+    bx := bx + chk("X6 ", "1 0 2⍉t                    (… and its value)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ 1 0 2⍉t ⦈),
+                 (" 0  1  2  3" // "12 13 14 15" // "" //
+                  " 4  5  6  7" // "16 17 18 19" // "" //
+                  " 8  9 10 11" // "20 21 22 23"))
+    bx := bx + chk("X7 ", "⊃t÷2 ⋄ ⍴t+t ⋄ ,t>20        (elementwise arithmetic and comparison on rank 3)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ (⊃(t÷2)),(⍴t+t),(,t>20) ⦈),
+                 "0 2 3 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1")
+    bx := bx + chk("X8 ", "⍴t÷2 3 4⍴1+⍳24             (two rank-3 arrays elementwise)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ ⍴t÷2 3 4⍴1+⍳24 ⦈), "2 3 4")
+    bx := bx + chk("X9 ", "(nh,hd,ne)⍴⍳24             (the three-atom reshape, shape from names)",
+                 aplShow(apl⦇ nh ← 2 ⋄ hd ← 3 ⋄ ne ← 4 ⋄ ⍴(nh,hd,ne)⍴⍳24 ⦈), "2 3 4")
+    bx := bx + chk("X10", ",⍤2⊢t                      (ravel each plane: rank 3 -> matrix)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ ,⍤2⊢t ⦈),
+                 (" 0  1  2  3  4  5  6  7  8  9 10 11" //
+                  "12 13 14 15 16 17 18 19 20 21 22 23"))
+    bx := bx + chk("X11", "⍴⍉⍤2⊢t                     (transpose each plane: rank 3 -> rank 3)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ ⍴⍉⍤2⊢t ⦈), "2 4 3")
+    bx := bx + chk("X12", "the program's own chain, there and back: (n,ne)⍴1 0 2⍉1 0 2⍉(n,nh,hd)⍴,q",
+                 aplShow(apl⦇ n ← 2 ⋄ nh ← 3 ⋄ hd ← 4 ⋄ ne ← 12 ⋄
+                              q ← 2 12⍴⍳24 ⋄
+                              (n,ne)⍴1 0 2⍉1 0 2⍉(n,nh,hd)⍴,q ⦈),
+                 (" 0  1  2  3  4  5  6  7  8  9 10 11" //
+                  "12 13 14 15 16 17 18 19 20 21 22 23"))
+    bx := bx + chk("X13", "+/⍤1⊢m and ⌽⍤1⊢m           (the rank operator over a matrix, both result ranks)",
+                 aplShow(apl⦇ m ← 2 3⍴⍳6 ⋄ ({+/⍵}⍤1⊢m),(,⌽⍤1⊢m) ⦈), "3 12 2 1 0 5 4 3")
+    bx := bx + chk("X14", "(⌽⍤1)m                     (the parenthesised spelling)",
+                 aplShow(apl⦇ m ← 2 3⍴⍳6 ⋄ (⌽⍤1)m ⦈), ("2 1 0" // "5 4 3"))
+    bx := bx + chk("X15", "0 1 2 +⍤1⊢m                (a dyadic rank operator, a vector left argument)",
+                 aplShow(apl⦇ m ← 2 3⍴⍳6 ⋄ 0 1 2 +⍤1⊢m ⦈), ("0 2 4" // "3 5 7"))
+    bx := bx + chk("X16", "m {⍺+⍵}⍤1⊢m               (a dyadic dfn under ⍤1, frames paired)",
+                 aplShow(apl⦇ m ← 2 3⍴⍳6 ⋄ m {⍺+⍵}⍤1⊢m ⦈), ("0 2  4" // "6 8 10"))
+    bx := bx + chk("X17", "p +⍤2⊢t                    (a matrix left argument against every plane)",
+                 aplShow(apl⦇ t ← 2 3 4⍴⍳24 ⋄ p ← 3 4⍴1000 ⋄ ⍴p +⍤2⊢t ⦈), "2 3 4")
+    bx := bx + chk("X18", "relu ← 0∘⌈ ⋄ relu m        (∘ with a bound left argument, on a matrix)",
+                 aplShow(apl⦇ relu ← 0∘⌈ ⋄ relu 2 3⍴¯2 ¯1 0 1 2 3 ⦈), ("0 0 0" // "1 2 3"))
+    bx := bx + chk("X19", "softmax ← {e ← *⍵-⌈/⍵ ⋄ e÷+/e} ⋄ softmax 0 1 2   (adaptation 5)",
+                 aplShow(apl⦇ softmax ← {e ← *⍵-⌈/⍵ ⋄ e÷+/e} ⋄ softmax 0 1 2 ⦈),
+                 "0.09003057317038046 0.24472847105479764 0.6652409557748218")
+    bx := bx + chk("X20", "rmsnorm ← {⍵÷(0.00001+(+/⍵*2)÷≢⍵)*0.5} ⋄ ⌊0.5+1000×rmsnorm⍤1⊢m   (rounded to 3 places)",
+                 aplShow(apl⦇ rmsnorm ← {⍵÷(0.00001+(+/⍵*2)÷≢⍵)*0.5} ⋄
+                              ⌊0.5+1000×rmsnorm⍤1⊢2 3⍴⍳6 ⦈),
+                 ("  0 775 1549" // "735 980 1225"))
+    bx := bx + chk("X21", "fact ← {⍺ ← 1 ⋄ ⍵=0: ⍺ ⋄ (⍺×⍵)∇⍵-1} ⋄ fact 10   (∇ with a default ⍺)",
+                 aplShow(apl⦇ fact ← {⍺ ← 1 ⋄ ⍵=0: ⍺ ⋄ (⍺×⍵)∇⍵-1} ⋄ fact 10 ⦈), "3628800")
+    bx := bx + chk("X22", "sign ← {⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} over ¯5 0 7      (a guard chain)",
+                 aplShow(apl⦇ f ← {⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} ⋄ (f ¯5),(f 0),(f 7) ⦈), "¯1 0 1")
+    bx := bx + chk("X23", "2 {⍺×{⍵+1} ⍵} 4            (a dfn inside a dfn, with its own ⍵)",
+                 aplShow(apl⦇ 2 {⍺×{⍵+1} ⍵} 4 ⦈), "10")
+    bx := bx + chk("X24", "Ex 15's foo applied: foo 1 and foo 0",
+                 aplShow(apl⦇ foo ← {
+                                  answer ← ⍵
+                                  a ← {⍵:42 ⋄ ¯99} answer
+                                  a
+                              } ⋄
+                              (foo 1),(foo 0) ⦈), "42 ¯99")
+    bx := bx + chk("X25", "Ex 16's foo applied: foo 1 and foo 0",
+                 aplShow(apl⦇ foo ← {
+                                  answer ← ⍵
+                                  a ← answer⊃¯99 42
+                                  a
+                              } ⋄
+                              (foo 1),(foo 0) ⦈), "42 ¯99")
+    bx := bx + chk("X26", "Ex 23's foo applied: foo ⍬   (the matrix Ex 24 prints)",
+                 aplShow(apl⦇ foo ← {
+                                  a ← 3 3⍴1
+                                  x ← {a[1;1] ← 0}⍬
+                                  a
+                              } ⋄
+                              foo ⍬ ⦈), ("1 1 1" // "1 0 1" // "1 1 1"))
+    bx := bx + chk("X27", "⊢ and ⊣                     (Right and Left, both valences)",
+                 aplShow(apl⦇ (⊢1 2),(1 2⊢3 4),(1 2⊣3 4) ⦈), "1 2 3 4 1 2")
+    (* APL's VALUE ERROR, LENGTH ERROR and the unsupported permutation, as
+       catchable contract violations *)
+    verr = try aplShow(apl⦇ {⍺+⍵} 1 ⦈) catch e CallerViolation => "CallerViolation" end
+    bx := bx + chk("X28", "{⍺+⍵} 1                     (⍺ in a monadic call: APL's VALUE ERROR)",
+                 verr, "CallerViolation")
+    lerr = try aplShow(apl⦇ m ← 2 3⍴⍳6 ⋄ {(⊃⍵)↑⍵}⍤1⊢m ⦈)
+           catch e CallerViolation => "CallerViolation" end
+    bx := bx + chk("X29", "{(⊃⍵)↑⍵}⍤1⊢m                (cells of different shapes: APL's LENGTH ERROR)",
+                 lerr, "CallerViolation")
+    perr = try aplShow(apl⦇ 0 2 1⍉2 3 4⍴⍳24 ⦈)
+           catch e CallerViolation => "CallerViolation" end
+    bx := bx + chk("X30", "0 2 1⍉t                     (a permutation other than 1 0 2)",
+                 perr, "CallerViolation")
+    bx := bx + chk("X31", "sq ← {⍵×⍵} ⋄ sq⍤1⊢m         (a NAMED dfn as the operand of ⍤)",
+                 aplShow(apl⦇ sq ← {⍵×⍵} ⋄ sq⍤1⊢2 3⍴⍳6 ⦈), ("0  1  4" // "9 16 25"))
+
+    println("")
+    println(("beyond-chapter checks passed: " bx " of 31"))
+    println("")
+    println("=== what rung 4 does not carry over from APL ===")
+    println("")
+    note("⍺⍺ ⍵⍵ ∇∇", "a direct OPERATOR takes its operands as names, and a name in a template is a free Fortress identifier: rung 5 or 6")
+    note("f⍤0 and f⍤3", "only ⍤1 and ⍤2 have rules; the rank is a terminal of the grammar, not a value")
+    note("+/⍤1⊢m", "a REDUCTION is not a member of the glyph tables, so it cannot be an operand of ⍤; the dfn {+/⍵} is (X13)")
+    note("0 2 1⍉t", "every axis permutation but 1 0 2 is a contract violation (X30); monadic ⍉ on rank 3 has no rule at all")
+    note("a dfn's last statement", "a dfn whose body ends with a binding has no production, as at the top level (rung 2); the chapter's Ex 15 and Ex 16 get their bound name appended")
+    note("⍵ in a nested dfn", "APL's own rule that ⍺ ⍵ are never inherited is free here: a nested dfn's ⍵ is its own because its call pushed its own frame (X23)")
+end
+
+end

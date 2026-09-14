@@ -1,0 +1,30 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress13570387056007267008rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress13570387056007267008rats/com/sun/fortress/parser/templateparser/TemplateParser73.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11257605564009375586rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11257605564009375586rats/com/sun/fortress/parser/templateparser/TemplateParser110.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(1) | as a terminal, backtick-escaped
+  5`|13 = 3
+(2) < and > as terminals
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-3/t02_gram.fss:100:14-33:
+Failed to find any matching overload, args = (true), overload = {
+	aplShow(x:FortressLibrary.RR64):FortressLibrary.String RR64->String /home/user/fortress/explorations/apl/base/AplCore.fss:66:1-37
+	aplShow[\nat s\](v:Vector[\FortressLibrary.RR64,s\]):FortressLibrary.String/home/user/fortress/explorations/apl/base/AplCore.fss:68:1-69:74
+	aplShow[\nat r,nat c\](m:Matrix[\FortressLibrary.RR64,r,c\]):FortressLibrary.String/home/user/fortress/explorations/apl/base/AplCore.fss:73:1-82:4}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/rung-3/t02_gram.fss:100:14-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

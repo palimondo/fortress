@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/syntax_abstraction_tests/SXXGrammarExtendsNonExistingGrammar.fsi:16:21-22:
+    Undefined grammar: Foo
+EXIT=255

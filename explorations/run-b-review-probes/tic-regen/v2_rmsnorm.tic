@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`rmsnorm(x: Vec): Vec = x/(SQRT((x DOT x)/(|x|) + epsilon))
+rmsnorm(X: Mat): Mat = stack(<| rmsnorm(x) | x <- X |>)`
+\end{preview}
+\end{document}

@@ -1,0 +1,22 @@
+component q04_name
+import q04_g.{...}
+export Executable
+
+q04dy(a: ZZ32, b: ZZ32): ZZ32 = 10 a + b
+q04echo(a: ZZ32): ZZ32 = do println(("      echo " a)); a end
+
+run(): () = do
+    println(("a. v ← 41 ⋄ v              -> " (qnam⦇ v ← 41 ⋄ v ⦈)))
+    println(("b. v ← 4 ⋄ m ← 2 ⋄ v ⍴ m   -> " (qnam⦇ v ← 4 ⋄ m ← 2 ⋄ v ⍴ m ⦈)))
+    println(("c. an expression statement is echoed, the last one is the value: "
+             (qnam⦇ v ← 4 ⋄ v ⍴ 1 ⋄ v ⦈)))
+    println("d. newline-separated, the book's layout:")
+    println(("   -> " (qnam⦇ v ← 7
+                            m ← 2
+                            v ⍴ m ⦈)))
+    println("e. the hazard: a line beginning with a dyadic glyph")
+    println(("   -> " (qnam⦇ v ← 7
+                            ⍴ 2 ⦈)))
+end
+
+end

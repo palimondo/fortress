@@ -1,0 +1,14 @@
+component g4g_prop_after
+export Executable
+(* PropertyDecl is in BOTH the front and the back group, so a property may
+   follow a method; a field or getter may not. *)
+object Counter(n: ZZ32)
+  base: ZZ32 = 100
+  bump(): ZZ32 = n + 1
+  property allPositive = (n + base) > 0
+end
+run(): () = do
+  c = Counter(3)
+  println("bump = " c.bump() "  base = " c.base)
+end
+end

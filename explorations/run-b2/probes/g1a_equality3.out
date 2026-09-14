@@ -1,0 +1,4 @@
+Just(1) SEQV Just(2) = true
+Just(1) =    Just(2) = false
+Just(1).get =        1
+Just(2).get =        2

@@ -1,0 +1,37 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress1899518076636400041rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress1899518076636400041rats/com/sun/fortress/parser/templateparser/TemplateParser87.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+--- brackets ---
+  ⍎(v)[5] = 8
+  ⍎(v)[5 2] = 8 6
+  ⍎(m)[1;1] = 2
+  ⍎(m)[1;] = 5 2 9
+  ⍎(m)[;1] = 1 2 8
+  ⍎(m)[1 2;0] = 5 7
+  ⍴⍎(m)[;1 2] = 3 2
+  ⍎(m)[⊂1 1] = 2
+  ⍎(m)[(0 0)(1 1)(2 2)] = 4 2 3
+  +/⍎(m)[1;] = 16
+--- squad ---
+  2⌷⍎(v) = 6
+  1⌷⍎(m) = 5 2 9
+  1 1⌷⍎(m) = 2
+  (⊂1 1)⌷⍎(m) = 5 2 9
+5 2 9
+  2⌷⍉⍎(m) = 6 9 3
+--- where, compress, replicate ---
+  ⍸0 0 1 0 1 = 2 4
+  ⍎(v)[⍸0 1 0 1 0 1 0 0 0 0] = 2 3 8
+  0 0 1 0 1 1 0 1 1 0/0 1 2 3 4 5 6 7 8 9 = 2 4 5 7 8
+  1 3 0 0 5 0 7 0 0 1/0 1 2 3 4 5 6 7 8 9 = 0 1 1 1 4 4 4 4 4 6 6 6 6 6 6 6 9
+  2/1 2 3 = 1 1 2 2 3 3
+  0 1 0⌿⍎(m) = 5 2 9
+  0 1 0/⍎(m) = 1
+2
+8
+--- rung 1 still reads the same way ---
+  +/2 4⍴⍳8 = 6 22
+  2 × 3 + 4 = 14
+  ⍴5 ⍝ a trailing comment = 

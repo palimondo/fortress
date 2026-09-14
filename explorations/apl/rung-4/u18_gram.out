@@ -1,0 +1,42 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress4620189461765867387rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress4620189461765867387rats/com/sun/fortress/parser/templateparser/TemplateParser249.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(a) (b) a binding inside a dfn, graded:
+  {a ← 1 ⋄ a} 0                  = 1
+  {a ← 3 3⍴1 ⋄ a} 0              = 1 1 1
+1 1 1
+1 1 1
+  {a ← 3 3⍴1 ⋄ x ← 0 ⋄ a} 0      = 1 1 1
+1 1 1
+1 1 1
+  {a ← 3 3⍴1 ⋄ x ← {a[1;1] ← 0}⍬ ⋄ a} 0 = 1 1 1
+1 0 1
+1 1 1
+(c) (d) an inner dfn with a guard, and i⊃v:
+  {answer ← ⍵ ⋄ {⍵: 42 ⋄ ¯99} answer} 1 = 42
+  {answer ← ⍵ ⋄ {⍵: 42 ⋄ ¯99} answer} 0 = ¯99
+  {answer ← ⍵ ⋄ answer⊃¯99 42} 1 = 42
+(e) a guard chain:
+  {⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} ¯5 = ¯1
+  {⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} 0  = 0
+  {⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} 7  = 1
+(f) softmax and rmsnorm:
+  softmax 0 0 = 0.5 0.5
+  softmax 0 1 2 = 0.09003057317038046 0.24472847105479764 0.6652409557748218
+  rmsnorm⍤1⊢2 3⍴⍳6 =                  0 0.7745943454619326 1.5491886909238652
+0.7348467023809757 0.9797956031746343  1.224744503968293
+  ⌊0.5+1000×rmsnorm⍤1⊢2 3⍴⍳6 =   0 775 1549
+735 980 1225
+(g) rank 3 through the operators:
+  ,⍤2⊢2 3 4⍴⍳24 =  0  1  2  3  4  5  6  7  8  9 10 11
+12 13 14 15 16 17 18 19 20 21 22 23
+  ⍴⍉⍤2⊢2 3 4⍴⍳24 = 2 4 3
+  (a,b)⍴1 0 2⍉2 3 4⍴⍳24 = 0 1  2  3 12 13 14 15
+4 5  6  7 16 17 18 19
+8 9 10 11 20 21 22 23
+  ⊃(2 3 4⍴⍳24)÷2 = 0
+  ⍴(2 3 4⍴⍳24)÷2 3 4⍴1+⍳24 = 2 3 4
+(h) a dfn whose body calls a dfn with its own ⍵:
+  2 {⍺×{⍵+1} ⍵} 4 = 10

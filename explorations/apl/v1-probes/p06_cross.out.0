@@ -1,0 +1,19 @@
+
+
+iota 8              : 0 1 2 3 4 5 6 7
+2 4 reshape iota 8  :
+0 1 2 3
+4 5 6 7
+shape of a scalar   : []
+zilde match that    : 1
+1 + 1 2 3           : 2 3 4
+escaped variable    : 8 6 2 9
+1 4 reshape v       : 8 6 2 9
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/explorations/apl/rung-1/p06_cross.fss:22:47:
+** bug! Expect all oprefs to be top level EQV
+Context:
+/home/user/fortress/explorations/apl/rung-1/p06_cross.fss:22:47:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable

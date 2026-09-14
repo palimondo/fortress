@@ -1,0 +1,24 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`
+attention(_W: Mat, _Wq: Mat, _w1: Mat, W1: Mat, d_k: ZZ32, dk: RR64, x17: RR64): Mat = do
+    Q = _W W1
+    K = _Wq W1
+    S = (Q K^T) / SQRT dk
+    z = x17 / SQRT(d_k)
+    _w1 S
+  end
+
+update(A_bar: Mat, C_bar: Mat, m_hat: Mat, v_hat: Mat,
+       theta: RR64, alpha: RR64, epsilon: RR64): Mat =
+    (A_bar + C_bar) - (m_hat theta) / (v_hat + epsilon) alpha
+
+norm(a: Array[\RR64,ZZ32\], n: ZZ32): RR64 = SUM[j <- 0#n] a[j]
+
+opr (m: Mat)^T : Mat = m.t()`
+\end{preview}
+\end{document}

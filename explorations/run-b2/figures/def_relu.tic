@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`relu(A: Node): Node = do
+  A_bar(C_bar: Mat): Params = A.pull(C_bar ODOT A.data.map(fn (x) => if x > 0.0 then 1.0 else 0.0 end))
+  Node(A.data.map(fn (x) => x MAX 0.0), A_bar)
+end
+`
+\end{preview}
+\end{document}

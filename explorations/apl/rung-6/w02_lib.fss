@@ -1,0 +1,65 @@
+(* w02: the rung-6 library, called directly, before the grammar is touched.
+   Outer product in the four shapes and through the general rule; the inner
+   product +.× in the four rank pairs against hand-computed values, and against
+   the shipped DOT; +.= ; the general f.g ; and ⍤0 1 in its four shapes.
+   The two LENGTH ERRORs are asked as catchable contract violations. *)
+component w02_lib
+import AplCore.{...}
+export Executable
+
+run(): () = do
+    x = aplVec(4, fn (i: ZZ32): RR64 => 1.0 i)              (* 0 1 2 3 *)
+    y = aplVec(3, fn (i: ZZ32): RR64 => 1.0 (i + 1))        (* 1 2 3 *)
+    a = aplMat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 =>
+            aplIx1(aplVec(12, fn (k: ZZ32): RR64 =>
+                if k = 0 then 3.0 elif k = 1 then 2.0 elif k = 2 then 0.0
+                elif k = 3 then 8.0 elif k = 4 then 11.0 elif k = 5 then 7.0
+                elif k = 6 then 5.0 elif k = 7 then 1.0 elif k = 8 then 4.0
+                elif k = 9 then 9.0 elif k = 10 then 6.0 else 10.0 end),
+                1.0 ((4 i) + j)))
+    b = aplMat(4, 3, fn (i: ZZ32, j: ZZ32): RR64 =>
+            aplIx1(aplVec(12, fn (k: ZZ32): RR64 =>
+                if k = 0 then 8.0 elif k = 1 then 10.0 elif k = 2 then 11.0
+                elif k = 3 then 2.0 elif k = 4 then 4.0 elif k = 5 then 6.0
+                elif k = 6 then 5.0 elif k = 7 then 1.0 elif k = 8 then 7.0
+                elif k = 9 then 9.0 elif k = 10 then 3.0 else 0.0 end),
+                1.0 ((3 i) + j)))
+    mul = fn (): Any => aplAlpha() × aplOmega()
+    add = fn (): Any => aplAlpha() + aplOmega()
+    lt  = fn (): Any => aplAlpha() < aplOmega()
+    sq1 = fn (): Any => aplSquad1(aplAlpha(), aplOmega())
+
+    println("(a) ∘.g direct, the four shapes")
+    println(("  1 2 3∘.×0 1 2 3:" // aplShow(aplOuterMul(y, x))))
+    println(("  2∘.×0 1 2 3    = " aplShow(aplOuterMul(2.0, x))))
+    println(("  1 2 3∘.×2      = " aplShow(aplOuterMul(y, 2.0))))
+    println(("  2∘.×3          = " aplShow(aplOuterMul(2.0, 3.0))))
+    println(("  0 1 2 3∘.<0 1 2 3:" // aplShow(aplOuterLt(x, x))))
+    println(("  0 1 2 3∘.≥0 1 2 3:" // aplShow(aplOuterGe(x, x))))
+    println("(b) ∘.g general, through aplCall")
+    println(("  1 2 3∘.{⍺×⍵}0 1 2 3:" // aplShow(aplOuter(mul, y, x))))
+    println(("  1 2 3∘.{⍺<⍵}1 2 3:" // aplShow(aplOuter(lt, y, y))))
+    println("(c) +.× in the four rank pairs")
+    println(("  1 2 3+.×1 2 3  = " aplShow(aplMatMul(y, y))))
+    println(("  A+.×B:" // aplShow(aplMatMul(a, b))))
+    println(("  A+.×(1 2 3 4)  = " aplShow(aplMatMul(a, aplVec(4, fn (i: ZZ32): RR64 => 1.0 (i+1))))))
+    println(("  (1 2 3)+.×A    = " aplShow(aplMatMul(y, a))))
+    println("(d) the same product through the hand-written loop")
+    println(("  A loop B:" // aplShow(aplLoopMul(a, b))))
+    println("(e) +.= and the general f.g")
+    println(("  1 2 3+.=1 9 3  = " aplShow(aplInnerPlusEq(y,
+                aplVec(3, fn (i: ZZ32): RR64 => if i = 1 then 9.0 else 1.0 (i+1) end)))))
+    println(("  A{⍺+⍵}.{⍺×⍵}B:" // aplShow(aplInner(add, mul, a, b))))
+    println("(f) ⍤0 1")
+    println(("  (1 2 3)×⍤0 1⊢(1 2 3 4):" // aplShow(aplRankD01(mul, y, x))))
+    println(("  (1 2 3)+⍤0 1⊢A   (a scalar per ROW):" // aplShow(aplRankD01(add, y, a))))
+    println(("  (0 1 2)⌷⍤0 1⊢A   (one element per row) = "
+             aplShow(aplRankD01(sq1, aplVec(3, fn (i: ZZ32): RR64 => 1.0 i), a))))
+    println(("  2×⍤0 1⊢(1 2 3)  = " aplShow(aplRankD01(mul, 2.0, y))))
+    println("(g) the two LENGTH ERRORs")
+    le1 = try aplShow(aplMatMul(a, a)) catch e CallerViolation => "CallerViolation" end
+    println(("  A+.×A (3x4 by 3x4)      = " le1))
+    le2 = try aplShow(aplInner(add, mul, y, x)) catch e CallerViolation => "CallerViolation" end
+    println(("  (1 2 3){⍺+⍵}.{⍺×⍵}(0 1 2 3) = " le2))
+  end
+end

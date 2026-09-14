@@ -1,0 +1,19 @@
+component g1c_testsuite
+export Executable
+
+(* C: TestSuite, spec basic/tests.tex:213 "Test Suites" - the convenience
+   object in the library that collects test functions and runs them. *)
+
+double(x: ZZ32): ZZ32 = 2 x
+
+test testA(): () = assert(double(2) = 4)
+test testB(): () = assert(double(5) = 10)
+
+run(): () = do
+    ts = TestSuite()
+    ts.add(testA)
+    ts.add(testB)
+    ts.run()
+    println("TestSuite ran without failure")
+end
+end

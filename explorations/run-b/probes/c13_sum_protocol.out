@@ -1,0 +1,6 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c13_sum_protocol.fss
+(a) SUM[t <- 0#3] nums[t] = 6.0  built as ((a+b)+c)
+(b) SUM e over a Vec node = 10.0  sum(e)
+(c) numeric SUM[i <- 1:4] i (still needed inside (b)) = 10
+exit: 0
+[recovered from the transcript, run-b.jsonl line 432: shown through | tail, so lines run.sh wrote to the file may be absent]

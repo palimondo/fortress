@@ -1,0 +1,9 @@
+infix  ring  : Cell(5)
+prefix ring  : Cell(-3)
+subset       : true
+supset       : false
+prefix ominus: Cell(30)
+infix  ominus: Cell(6)
+times        : Cell(42)
+divide       : Cell(6)
+EXIT=0

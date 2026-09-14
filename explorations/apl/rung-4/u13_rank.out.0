@@ -1,0 +1,24 @@
+(a) the same eleven signatures, declared locally:
+  my1(f, m) = local: rank 2
+  my1(f, v) = local: rank 1
+(b) the library's aplRank2 (six signatures) over a matrix:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-4/u13_rank.fss:33:44-56:
+Failed to find any matching overload, args = (FnExpr at /home/user/fortress/explorations/apl/rung-4/u13_rank.fss:28.9 ()->Any /home/user/fortress/explorations/apl/rung-4/u13_rank.fss:28:9-38:4,__DefaultMatrix[\RR64,2,2\]), overload = {
+	aplRank2[\nat r,nat c\](f:Any,m:Matrix[\FortressLibrary.RR64,r,c\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1515:1-77
+	aplRank2[\nat a,nat b,nat c\](f:Any,t:Array3[\FortressLibrary.RR64,0,a,0,b,0,c\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1516:1-1525:4
+	aplRank2[\nat p,nat q,nat r2,nat c2\](f:Any,a:Matrix[\FortressLibrary.RR64,p,q\],b:Matrix[\FortressLibrary.RR64,r2,c2\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1593:1-1594:56
+	aplRank2[\nat p,nat q,nat a,nat b,nat c\](f:Any,l:Matrix[\FortressLibrary.RR64,p,q\],t:Array3[\FortressLibrary.RR64,0,a,0,b,0,c\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1595:1-1605:4
+	aplRank2[\nat a,nat b,nat c\](f:Any,l:FortressLibrary.RR64,t:Array3[\FortressLibrary.RR64,0,a,0,b,0,c\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1606:1-1615:4
+	aplRank2[\nat a1,nat b1,nat c1,nat a2,nat b2,nat c2\](f:Any,x:Array3[\FortressLibrary.RR64,0,a1,0,b1,0,c1\],y:Array3[\FortressLibrary.RR64,0,a2,0,b2,0,c2\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1616:1-1627:4}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/rung-4/u13_rank.fss:33:44-56:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

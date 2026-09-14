@@ -1,0 +1,24 @@
+component g1c_testmods
+export Executable
+
+(* C: the test modifier on constructs other than functions,
+   spec basic/tests.tex:130 "Other Test Constructs" - function, trait,
+   object, or top-level variable definition. *)
+
+test goldenN: ZZ32 = 4
+
+test object Golden(v: ZZ32)
+    getter asString(): String = "Golden(" v ")"
+end
+
+double(x: ZZ32): ZZ32 = 2 x
+
+test testUsesTestData(): () = do
+    println("  [testUsesTestData running] goldenN = " goldenN " " (Golden(goldenN)))
+    assert(double(goldenN) = 8)
+end
+
+run(): () = do
+    println("run(): double(21) = " (double(21)))
+end
+end

@@ -1,0 +1,355 @@
+(* Rung3 -- every example of "Glyphiary"
+   (https://xpqz.github.io/learnapl/manip.html) that the native-carrier library
+   reaches, written inside apl⦇ … ⦈ and checked against the book's printed output
+   as extracted in ../goldens/ch3-glyphiary.md.
+
+   Index origin is 0, as the chapter's first line sets it.
+
+   Run from this directory with ../base on the source path:
+
+     export FORTRESS_SOURCE_PATH=".:$FORTRESS_HOME/explorations/apl/base:\
+     $FORTRESS_HOME/ProjectFortress/LibraryBuiltin:$FORTRESS_HOME/Library:\
+     $FORTRESS_HOME/ProjectFortress/test_library"
+     $FORTRESS_HOME/bin/fortress Rung3.fss
+
+   Three adaptations, each named on the line that uses it.  Dyalog's ]box frames
+   are dropped, as in rung 2.  The chapter's mat comes from 12?12, a random deal
+   the library has no RNG for, so mat is bound to the very permutation the book
+   printed and every example that shows mat is checked against that run.  And a
+   statement whose next line begins with a NUMERAL or with a dyadic GLYPH is
+   separated by ⋄ rather than by the book's line break: the optional whitespace
+   between two symbols crosses a line break, so `…10 11 4` followed by `1↑mat`
+   reads as one strand and `…11 4` followed by `⌽mat` reads as a dyadic rotate
+   (gap row 52, now biting one glyph more than it did in rung 2). *)
+component Rung3
+
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+chk(id: String, src: String, got: String, want: String): ZZ32 = do
+    ok = (got = want)
+    println(((if ok then "PASS  " else "FAIL  " end) id "  " src))
+    println(("        want |" want "|"))
+    println(("        got  |" got "|"))
+    if ok then 1 else 0 end
+  end
+
+note(id: String, why: String): () = println(("SKIP  " id "  out of scope: " why))
+
+run(): () = do
+    score: ZZ32 := 0
+    total: ZZ32 := 0
+
+    println("=== examples of the chapter, against the book's printed output ===")
+    println("")
+
+    note("Ex 1 ", "⎕IO ← 0, ]box and ]rows: a ⎕ system name and two Dyalog user commands")
+
+    (* Ex 2 -- mat ← 3 4⍴12?12 is a random deal; bound here to the book's own. *)
+    score := score + chk("Ex 2 ", "⎕ ← mat ← 3 4⍴12?12   (adapted: the book's own deal, ⎕ ← dropped)",
+                         aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4
+                                      mat ⦈),
+                         ("3  0  5 1" // "7  9  8 6" // "2 10 11 4"))
+    total := total + 1
+
+    score := score + chk("Ex 3a", "≢7 5 1 2 9", aplShow(apl⦇ ≢7 5 1 2 9 ⦈), "5")
+    note("Ex 3b", "≢'Hello world': a character vector (gap row 42)")
+    score := score + chk("Ex 3c", "≢mat",
+                         aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4
+                                      ≢mat ⦈), "3")
+    total := total + 1
+
+    note("Ex 4 ", "≡ as Depth over nested vectors: nested arrays (gap row 21)")
+
+    score := score + chk("Ex 5a", "1 2 3 4 ≡ 1 2 3 4 5",
+                         aplShow(apl⦇ 1 2 3 4 ≡ 1 2 3 4 5 ⦈), "0")
+    score := score + chk("Ex 5b", "1 2 3 4 ≡ 1 2 3 4",
+                         aplShow(apl⦇ 1 2 3 4 ≡ 1 2 3 4 ⦈), "1")
+    score := score + chk("Ex 5c", "1 2 3 4 ≡ 4 1 2 3",
+                         aplShow(apl⦇ 1 2 3 4 ≡ 4 1 2 3 ⦈), "0")
+    score := score + chk("Ex 5d", "1 2 3 4 ≡ 1 4⍴1 2 3 4",
+                         aplShow(apl⦇ 1 2 3 4 ≡ 1 4⍴1 2 3 4 ⦈), "0")
+    total := total + 1
+
+    score := score + chk("Ex 6a", "⍉mat ⍝ Transpose",
+                         aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4
+                                      ⍉mat ⍝ Transpose ⦈),
+                         ("3 7  2" // "0 9 10" // "5 8 11" // "1 6  4"))
+    score := score + chk("Ex 6b", "⌽mat ⍝ Reverse   (⋄ for the line break: see the header)",
+                         aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4 ⋄ ⌽mat ⍝ Reverse ⦈),
+                         ("1  5  0 3" // "6  8  9 7" // "4 11 10 2"))
+    score := score + chk("Ex 6c", "⊖mat ⍝ Reverse first   (⋄ likewise)",
+                         aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4 ⋄ ⊖mat ⍝ Reverse first ⦈),
+                         ("2 10 11 4" // "7  9  8 6" // "3  0  5 1"))
+    total := total + 1
+
+    note("Ex 7 ", "⊖⍤1⊢mat and ⊖[1]mat: the rank operator ⍤ is rung 4 and the bracket axis is out")
+
+    score := score + chk("Ex 8 ", "1 2 ¯1 0⊖mat   (⋄ for the line break)",
+                         aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4 ⋄ 1 2 ¯1 0⊖mat ⦈),
+                         ("7 10 11 1" // "2  0  5 6" // "3  9  8 4"))
+    total := total + 1
+
+    note("Ex 9 ", "↑ on 'Hello' 'world': Mix of a nested character vector")
+    note("Ex 10", "↓m: Split, whose result is a nested vector")
+    note("Ex 11", "↓⍉↑v on a vector of vectors: the Remix idiom over nested arrays")
+    note("Ex 12", "↓⍉↑(1 2 3 4)(5 6)(7 8 9 10): nested arrays")
+    note("Ex 13", "↑(1 2 3 4)(5 6)(7 8 9 10): Mix, with prototype padding, of a nested vector")
+    note("Ex 14", "1↑ and 2↑ of a nested vector")
+    note("Ex 15", "0⌷ and 0⊃ of a nested vector")
+    note("Ex 16", "¯1↑ of a nested vector")
+    note("Ex 17", "1↓ and ¯1↓ of a nested vector")
+
+    (* Ex 18 -- the two lines after mat begin with a numeral, so ⋄ *)
+    score := score + chk("Ex 18a", "mat",
+                         aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4
+                                      mat ⦈),
+                         ("3  0  5 1" // "7  9  8 6" // "2 10 11 4"))
+    score := score + chk("Ex 18b", "1↑mat ⍝ Take first cell   (⋄ for the line break)",
+                         aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4 ⋄ 1↑mat ⍝ Take first cell ⦈),
+                         "3 0 5 1")
+    score := score + chk("Ex 18c", "1↓mat ⍝ Drop first cell   (⋄ likewise)",
+                         aplShow(apl⦇ mat ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4 ⋄ 1↓mat ⍝ Drop first cell ⦈),
+                         ("7  9  8 6" // "2 10 11 4"))
+    total := total + 1
+
+    score := score + chk("Ex 19", "⍳10", aplShow(apl⦇ ⍳10 ⦈), "0 1 2 3 4 5 6 7 8 9")
+    total := total + 1
+
+    note("Ex 20", "⍳3 4: an index matrix of coordinate vectors, i.e. nested")
+    note("Ex 21", "'Hello world'⍳'o': characters")
+    note("Ex 22", "'Hello world'⍳'od': characters")
+    note("Ex 23", "staff⍳'Bob' 'David' over a nested vector of character vectors")
+
+    score := score + chk("Ex 24", "⍸1 0 0 1 0 1 0 1 1 1 0 1 0 1",
+                         aplShow(apl⦇ ⍸1 0 0 1 0 1 0 1 1 1 0 1 0 1 ⦈),
+                         "0 3 5 7 8 9 11 13")
+    total := total + 1
+
+    score := score + chk("Ex 25a", "⎕←nums←⍳20   (⎕ ← dropped)",
+                         aplShow(apl⦇ nums ← ⍳20
+                                      nums ⦈),
+                         "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19")
+    score := score + chk("Ex 25b", "nums[⍸0=5|nums] ⍝ Find all numbers divisible by 5",
+                         aplShow(apl⦇ nums ← ⍳20
+                                      nums[⍸0=5|nums] ⍝ Find all numbers divisible by 5 ⦈),
+                         "0 5 10 15")
+    total := total + 1
+
+    score := score + chk("Ex 26a", "3 3⍴1 0 0 1 1 0 0 1 0",
+                         aplShow(apl⦇ 3 3⍴1 0 0 1 1 0 0 1 0 ⦈),
+                         ("1 0 0" // "1 1 0" // "0 1 0"))
+    note("Ex 26b", "⍸ of that matrix: the result is a vector of coordinate vectors, i.e. nested")
+    total := total + 1
+
+    score := score + chk("Ex 27", "⍸0 1 0 2 0 3 0 4 0 5",
+                         aplShow(apl⦇ ⍸0 1 0 2 0 3 0 4 0 5 ⦈),
+                         "1 3 3 5 5 5 7 7 7 7 9 9 9 9 9")
+    total := total + 1
+
+    score := score + chk("Ex 28", "1 3 5 7 9⍸8 9 0  ⍝ bin 8, 9 and 0 over the intervals 1 3 5 7 9",
+                         aplShow(apl⦇ 1 3 5 7 9⍸8 9 0 ⍝ bin over the intervals ⦈), "3 4 ¯1")
+    total := total + 1
+    score := score + chk("Ex 29", "1 3 5 7 9⍸5      ⍝ on a boundary goes in the higher bin",
+                         aplShow(apl⦇ 1 3 5 7 9⍸5 ⍝ the higher bin ⦈), "2")
+    total := total + 1
+    score := score + chk("Ex 30", "3 5 7 9⍸0 100",
+                         aplShow(apl⦇ 3 5 7 9⍸0 100 ⦈), "¯1 3")
+    total := total + 1
+
+    note("Ex 31", "'AEIOU'⍸'HELLO WORLD': characters")
+    note("Ex 32", "ciders←'Kopparberg …' …: a nested vector of character vectors (abv is bound in Ex 34)")
+
+    score := score + chk("Ex 33", "code←431 … ⋄ rate←0 … ⋄ limits←1.2 6.9 7.5 8.5   (the book prints nothing)",
+                         aplShow(apl⦇ code ← 431 481 487 486
+                                      rate ← 0 40.38 50.71 61.04
+                                      limits ← 1.2 6.9 7.5 8.5
+                                      limits ⦈),
+                         "1.2 6.9 7.5 8.5")
+    total := total + 1
+
+    score := score + chk("Ex 34", "⎕←bin←1+limits⍸abv   (⎕ ← dropped; abv from Ex 32)",
+                         aplShow(apl⦇ limits ← 1.2 6.9 7.5 8.5
+                                      abv ← 7.0 4.5 8.3 0.0
+                                      bin ← 1+limits⍸abv
+                                      bin ⦈),
+                         "2 1 3 0")
+    total := total + 1
+
+    note("Ex 35", "⍕('Name' 'Rate' 'Code')⍪⍉↑(ciders …): characters, nested arrays and ⍕")
+
+    (* Ex 36 -- the two lines after the binding begin with a dyadic glyph, so ⋄ *)
+    score := score + chk("Ex 36a", ",simple ⍝ Ravel   (⋄ for the line break)",
+                         aplShow(apl⦇ simple ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4 ⋄ ,simple ⍝ Ravel ⦈),
+                         "3 0 5 1 7 9 8 6 2 10 11 4")
+    score := score + chk("Ex 36b", "∊simple ⍝ Enlist   (⋄ likewise)",
+                         aplShow(apl⦇ simple ← 3 4⍴3 0 5 1 7 9 8 6 2 10 11 4 ⋄ ∊simple ⍝ Enlist ⦈),
+                         "3 0 5 1 7 9 8 6 2 10 11 4")
+    total := total + 1
+
+    note("Ex 37", "nested ← ↑((2 3)(4 5))((6 7)(8 9)) and its Ravel and Enlist: nested arrays")
+    note("Ex 38", "1 2 3 4 , 5 6 'hello': a mixed nested vector")
+
+    score := score + chk("Ex 39a", "(3 3⍴⍳9),(3 3⍴⍳9) ⍝ Catenate-last (new cols)",
+                         aplShow(apl⦇ (3 3⍴⍳9),(3 3⍴⍳9) ⍝ Catenate-last ⦈),
+                         ("0 1 2 0 1 2" // "3 4 5 3 4 5" // "6 7 8 6 7 8"))
+    score := score + chk("Ex 39b", "(3 3⍴⍳9)⍪(3 3⍴⍳9) ⍝ Catenate-first (new rows)",
+                         aplShow(apl⦇ (3 3⍴⍳9)⍪(3 3⍴⍳9) ⍝ Catenate-first ⦈),
+                         ("0 1 2" // "3 4 5" // "6 7 8" // "0 1 2" // "3 4 5" // "6 7 8"))
+    total := total + 1
+
+    note("Ex 40", "'l'∊'Hello world': characters")
+    note("Ex 41", "'lo w'∊'Hello world': characters")
+    note("Ex 42", "'lo'(⍸⍷)'Hello world': characters, ⍷ and a function train (rung 7)")
+
+    score := score + chk("Ex 43a", "⎕ ← v ← 6 9 5 2 0 9   (⎕ ← dropped)",
+                         aplShow(apl⦇ v ← 6 9 5 2 0 9
+                                      v ⦈), "6 9 5 2 0 9")
+    score := score + chk("Ex 43b", "v↑⍨1     ⍝ Take 1 but commute arguments ⍨",
+                         aplShow(apl⦇ v ← 6 9 5 2 0 9
+                                      v↑⍨1 ⍝ Take 1 but commute arguments ⍨ ⦈), "6")
+    total := total + 1
+
+    note("Ex 44", "{⍵⊂⍨1,2≠/⍵} and {(1,2≠/⍵)⊂⍵} shown as values: dfns are rung 4")
+
+    score := score + chk("Ex 45", "=⍨1 2 3 4 5", aplShow(apl⦇ =⍨1 2 3 4 5 ⦈), "1 1 1 1 1")
+    total := total + 1
+    score := score + chk("Ex 46", "1 2 3 4 5 = 1 2 3 4 5",
+                         aplShow(apl⦇ 1 2 3 4 5 = 1 2 3 4 5 ⦈), "1 1 1 1 1")
+    total := total + 1
+
+    note("Ex 47", "tally ← +/=⍨: a tacit definition, rung 7")
+    note("Ex 48", "tally 1 2 3 4 5: needs the tacit tally of Ex 47")
+    note("Ex 49", "1⍨ 2 and 1⍨¨ 2 3 4 5: an ARRAY as the operand of ⍨, and the each operator ¨")
+    note("Ex 50", "5⍨¨m: the same, over a matrix")
+    note("Ex 51", "5⍴⍨⍴m: the shape is a RUN-TIME vector, and the rank of a reshape is read off the source text (gap row 47)")
+
+    score := score + chk("Ex 52a", "∪1 1 2 2 3 3 4 4 5 5 6 6",
+                         aplShow(apl⦇ ∪1 1 2 2 3 3 4 4 5 5 6 6 ⦈), "1 2 3 4 5 6")
+    note("Ex 52b", "∪'hello world': characters")
+    total := total + 1
+
+    score := score + chk("Ex 53", "1 1 2 3 4 ∪ 1 2 5 6",
+                         aplShow(apl⦇ 1 1 2 3 4 ∪ 1 2 5 6 ⦈), "1 1 2 3 4 5 6")
+    total := total + 1
+    score := score + chk("Ex 54", "1 1 2 3 4 ∩ 1 2 5 6",
+                         aplShow(apl⦇ 1 1 2 3 4 ∩ 1 2 5 6 ⦈), "1 1 2")
+    total := total + 1
+    score := score + chk("Ex 55", "1 1 2 3 4 5 ~ 1 3 5",
+                         aplShow(apl⦇ 1 1 2 3 4 5 ~ 1 3 5 ⦈), "2 4")
+    total := total + 1
+    score := score + chk("Ex 56", "~1 0 1 1 0 0 1",
+                         aplShow(apl⦇ ~1 0 1 1 0 0 1 ⦈), "0 1 0 0 1 1 0")
+    total := total + 1
+
+    score := score + chk("Ex 57a", "⎕ ← data ← 110 109 204 …   (⎕ ← dropped)",
+                         aplShow(apl⦇ data ← 110 109 204 40 105 201 2 208 160 143 213 31 21 317 132 242 164 176 67 18 75 89 18 7 20
+                                      data ⦈),
+                         "110 109 204 40 105 201 2 208 160 143 213 31 21 317 132 242 164 176 67 18 75 89 18 7 20")
+    score := score + chk("Ex 57b", "data[⍋data]",
+                         aplShow(apl⦇ data ← 110 109 204 40 105 201 2 208 160 143 213 31 21 317 132 242 164 176 67 18 75 89 18 7 20
+                                      data[⍋data] ⦈),
+                         "2 7 18 18 20 21 31 40 67 75 89 105 109 110 132 143 160 164 176 201 204 208 213 242 317")
+    total := total + 1
+
+    score := score + chk("Ex 58", "⍋data",
+                         aplShow(apl⦇ data ← 110 109 204 40 105 201 2 208 160 143 213 31 21 317 132 242 164 176 67 18 75 89 18 7 20
+                                      ⍋data ⦈),
+                         "6 23 19 22 24 12 11 3 18 20 21 4 1 0 14 9 8 16 17 5 2 7 10 15 13")
+    total := total + 1
+
+    (* Ex 59 -- ⊃ of a simple numeric vector is First, which the library has;
+       only the book's own note about the enclosure is nested. *)
+    score := score + chk("Ex 59a", "⎕ ← minidx ← ⊃⍋data ⍝ Index of smallest value",
+                         aplShow(apl⦇ data ← 110 109 204 40 105 201 2 208 160 143 213 31 21 317 132 242 164 176 67 18 75 89 18 7 20
+                                      minidx ← ⊃⍋data ⍝ Index of smallest value
+                                      minidx ⦈), "6")
+    score := score + chk("Ex 59b", "data[minidx]",
+                         aplShow(apl⦇ data ← 110 109 204 40 105 201 2 208 160 143 213 31 21 317 132 242 164 176 67 18 75 89 18 7 20
+                                      minidx ← ⊃⍋data
+                                      data[minidx] ⦈), "2")
+    total := total + 1
+
+    println("")
+    println(("checks passed: " score " of 43, over " total
+             " of the chapter's 59 examples"))
+
+    println("")
+    println("=== beyond the chapter: the microGPT overloads rung 3 adds ===")
+    println("")
+    x: ZZ32 := 0
+
+    (* q ← 2 3⍴⍳6 is  0 1 2 / 3 4 5  throughout this section *)
+    x := x + chk("X1 ", "q ← 2 3⍴⍳6 ⋄ 2×q            (a scalar extended over a matrix)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ 2×q ⦈), ("0 2  4" // "6 8 10"))
+    x := x + chk("X2 ", "q×q                         (elementwise ×, which the library has not)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ q×q ⦈), ("0  1  4" // "9 16 25"))
+    x := x + chk("X3 ", "q+1", aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ q+1 ⦈), ("1 2 3" // "4 5 6"))
+    x := x + chk("X4 ", "q-1", aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ q-1 ⦈), ("¯1 0 1" // " 2 3 4"))
+    x := x + chk("X5 ", "q+q                         (the library's own Matrix.+)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ q+q ⦈), ("0 2  4" // "6 8 10"))
+    x := x + chk("X6 ", "q*2", aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ q*2 ⦈), ("0  1  4" // "9 16 25"))
+    x := x + chk("X7 ", "q÷2", aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ q÷2 ⦈),
+                 ("  0 0.5   1" // "1.5   2 2.5"))
+    x := x + chk("X8 ", "q>2                         (a comparison on a matrix)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ q>2 ⦈), ("0 0 0" // "1 1 1"))
+    x := x + chk("X9 ", "q=q", aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ q=q ⦈), ("1 1 1" // "1 1 1"))
+    x := x + chk("X10", "(q>0)∧(q<4)", aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ (q>0)∧(q<4) ⦈),
+                 ("0 1 1" // "1 0 0"))
+    x := x + chk("X11", "q≠1 ⋄ q≥4 ⋄ q≤1             (the rest of the six, as one strand of results)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ (,q≠1),(,q≥4),(,q≤1) ⦈),
+                 "1 0 1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0")
+    x := x + chk("X12", "*0 1 2                      (monadic *, APL's exp)",
+                 aplShow(apl⦇ ⍟*0 1 2 ⦈), "0 1 2")
+    x := x + chk("X13", "2⍟8                         (dyadic ⍟, log to a base)",
+                 aplShow(apl⦇ 2⍟8 ⦈), "3")
+    x := x + chk("X14", "2⍟2 4 8", aplShow(apl⦇ 2⍟2 4 8 ⦈), "1 2 3")
+    x := x + chk("X15", "⍟*q                         (⍟ over a matrix)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ ⍟*q ⦈), ("0 1 2" // "3 4 5"))
+    x := x + chk("X16", "a ← 2 ⋄ b ← 3 ⋄ (a,b)⍴⍳6    (a reshape whose shape is an expression)",
+                 aplShow(apl⦇ a ← 2 ⋄ b ← 3 ⋄ (a,b)⍴⍳6 ⦈), ("0 1 2" // "3 4 5"))
+    x := x + chk("X17", "2 2↑q                       (take on two axes)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ 2 2↑q ⦈), ("0 1" // "3 4"))
+    x := x + chk("X18", "¯2 ¯2↑q                     (… from the back)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ ¯2 ¯2↑q ⦈), ("1 2" // "4 5"))
+    x := x + chk("X19", "1 2↓q                       (drop on two axes)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ 1 2↓q ⦈), "5")
+    x := x + chk("X20", "¯1↑q", aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ ¯1↑q ⦈), "3 4 5")
+    x := x + chk("X21", "1 2 3 4↑⍨2                  (commute ⍨ on a named function)",
+                 aplShow(apl⦇ 1 2 3 4↑⍨2 ⦈), "1 2")
+    x := x + chk("X22", "5⍴⍨3                        (commute ⍨ on ⍴, with a literal shape)",
+                 aplShow(apl⦇ 5⍴⍨3 ⦈), "5 5 5")
+    x := x + chk("X23", "q⊖⍨1                        (commute ⍨ on an operator)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ q⊖⍨1 ⦈), ("3 4 5" // "0 1 2"))
+    x := x + chk("X24", "×⍨1 2 3                     (the monadic form of ⍨)",
+                 aplShow(apl⦇ ×⍨1 2 3 ⦈), "1 4 9")
+    x := x + chk("X25", "-⍨1 2 3", aplShow(apl⦇ -⍨1 2 3 ⦈), "0 0 0")
+    x := x + chk("X26", "⌊⌿q ⋄ ⌈⌿q ⋄ ×⌿q ⋄ ⌊/q       (the four reductions rung 1 lacked)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ (⌊⌿q),(⌈⌿q),(×⌿q),(⌊/q) ⦈),
+                 "0 1 2 3 4 5 0 4 10 0 3")
+    x := x + chk("X27", "5|¯13 ⋄ ¯5|13               (residue takes the sign of the left argument)",
+                 aplShow(apl⦇ (5|¯13),(¯5|13) ⦈), "2 ¯2")
+    x := x + chk("X28", "⍴q,q                        (catenate two matrices, last axis)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ ⍴q,q ⦈), "2 6")
+    x := x + chk("X29", "⍴q⍪q                        (… and first axis)",
+                 aplShow(apl⦇ q ← 2 3⍴⍳6 ⋄ ⍴q⍪q ⦈), "4 3")
+    x := x + chk("X30", "⍪1 2 3                      (monadic ⍪, Table)",
+                 aplShow(apl⦇ ⍪1 2 3 ⦈), ("1" // "2" // "3"))
+    (* the LENGTH ERROR of a matrix catenate, as a catchable contract violation *)
+    lenerr = try aplShow(apl⦇ (2 3⍴⍳6)⍪(2 2⍴⍳4) ⦈)
+             catch e CallerViolation => "CallerViolation" end
+    x := x + chk("X31", "(2 3⍴⍳6)⍪(2 2⍴⍳4)           (APL's LENGTH ERROR)",
+                 lenerr, "CallerViolation")
+    println("")
+    println(("beyond-chapter checks passed: " x " of 31"))
+    println("")
+    println("=== what rung 3 does not carry over from APL ===")
+    println("")
+    note("2<3", "a comparison of two SCALARS stays the host's Boolean, not APL's 0/1 (gap row 41): only the array shapes are redeclared")
+    note("monadic ↑ ↓", "Mix and Split make nested arrays; the dyadic take and drop are here, the monadic ones are not")
+    note("⍸ of a matrix", "the result is a vector of coordinate vectors")
+    note("5⍴⍨⍴m", "a reshape whose shape is computed at run time: the rank is read off the source text (gap row 47)")
+end
+
+end

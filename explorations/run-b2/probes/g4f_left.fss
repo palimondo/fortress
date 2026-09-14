@@ -1,0 +1,17 @@
+component g4f_left
+import List.{...}
+export Executable
+(* g4f: mixing an arithmetic operator and a boolean operator across a
+   comparison.  Spec basic/operators/precedence.tex:158-166: "operator
+   precedence in Fortress is not always transitive; ... while + has higher
+   precedence than <, and < has higher precedence than \/, it is not true
+   that + has higher precedence than \/ -- the expression a \/ b + c is not
+   permitted".  Same shape for - and AND here. *)
+run(): () = do
+  p: List[\ZZ32\] = <|[\ZZ32\] 1, 2, 3, 4 |>
+  k: ZZ32 = 1
+  acc: ZZ32 = 1
+  u: ZZ32 = 5
+  if (k < |p| - 1) AND acc + p[k] <= u then println("both") else println("neither") end
+end
+end

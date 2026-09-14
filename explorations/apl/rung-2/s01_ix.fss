@@ -1,0 +1,77 @@
+(* s01: the four questions the indexing rung turns on, asked of the LIBRARY only
+   (no grammar, so this runs in seconds).
+
+   (a) is a library array reached through a Vector/Matrix PARAMETER mutable?
+       If it is, APL's v[3] ← ¯1 is an in-place put and needs no cell and no
+       rebinding (which rung 2b found impossible anyway, gap row 29).
+   (b) does overloading on the INDEX's rank work -- f(v, i: RR64) beside
+       f(v, i: Vector) -- so that "index by a scalar lowers the rank, index by a
+       vector keeps it" is dispatch and not a run-time shape test?
+   (c) is the library's own row view m[1,:] usable as an APL row?  (merged
+       ledger row 54 says it extends Array1 and never Vector; asked again here
+       over a RUNTIME-sized matrix.)
+   (d) can a user object recover the view AND the algebra (ledger row 55) when
+       its nat parameters must be INFERRED from a runtime-built matrix? *)
+component s01_ix
+import AplCore.{...}
+export Executable
+
+(* (b) *)
+ix[\nat s\](v: Vector[\RR64,s\], i: RR64): String = ("scalar index -> " aplShow(v[aplInt(i)]))
+ix[\nat s, nat t\](v: Vector[\RR64,s\], i: Vector[\RR64,t\]): String =
+    ("vector index -> " aplShow(aplVec(|i|, fn (k: ZZ32): RR64 => v[aplInt(i[k])])))
+
+(* (a) *)
+bang[\nat s\](v: Vector[\RR64,s\], i: ZZ32, x: RR64): () = v.put(i, x)
+bangm[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32, j: ZZ32, x: RR64): () = m.put((i,j), x)
+
+(* (c) *)
+rowkind[\nat r, nat c\](m: Matrix[\RR64,r,c\]): () = do
+    row = m[1,:]
+    println(("  m[1,:] = " row))
+    typecase row of
+        AnyVector => println("  m[1,:] IS an AnyVector")
+        else      => println("  m[1,:] is NOT an AnyVector")
+    end
+  end
+
+(* (d) *)
+object RowView[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, v: RR64): () = base.put((i, j), v)
+    init0(j: ZZ32, v: RR64): () = base.init0((i, j), v)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+
+viewkind[\nat r, nat c\](m: Matrix[\RR64,r,c\]): () = do
+    rv = RowView[\r,c\](m, 1)
+    println(("  RowView(m,1) = " aplShow(rv)))
+    typecase rv of
+        AnyVector => println("  RowView IS an AnyVector")
+        else      => println("  RowView is NOT an AnyVector")
+    end
+  end
+
+run(): () = do
+    v = aplVec(5, fn (i: ZZ32): RR64 => 1.0 (3 i))
+    m = aplMat(3, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((3 i) + j))
+    println(("v = " aplShow(v)))
+    println(("m = " aplShow(m)))
+
+    println("(b) overloading on the index's rank:")
+    println(("  " ix(v, 2.0)))
+    println(("  " ix(v, aplVec(2, fn (k: ZZ32): RR64 => if k = 0 then 1.0 else 3.0 end))))
+
+    println("(a) mutation through a Vector/Matrix parameter:")
+    bang(v, 3, -1.0)
+    println(("  after bang(v,3,¯1): " aplShow(v)))
+    bangm(m, 1, 1, 99.0)
+    println(("  after bangm(m,1,1,99): " aplShow(m)))
+
+    println("(c) the library's own row view:")
+    rowkind(m)
+
+    println("(d) a user view object with inferred nats:")
+    viewkind(m)
+  end
+end

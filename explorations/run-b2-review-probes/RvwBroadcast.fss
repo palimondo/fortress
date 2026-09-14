@@ -1,0 +1,31 @@
+component RvwBroadcast
+import List.{...}
+import MicroGPT.{...}
+export Executable
+
+(* Reviewer probe.  The article's departures table says the row-wise
+   operations are written entry by entry because "the library has no row
+   broadcasting" -- a negative claim with no reproducer and no ledger row.
+   Goal here: achieve the row scaling of RMSNorm without an index function,
+   using only the run's own Mat carrier, as the papers write it:
+       Y = diag(r)^{-1} X.
+   Also try the library Matrix's own operators on a row vector. *)
+
+diag(v: List[\RR64\]): Mat = mat(|v|, |v|, fn (i, j) => if i = j then v[i] else 0.0 end)
+
+run(): () = do
+  X = mat(3, 4, fn (i, j) => 1.0 (i + 1) (j + 1))
+  r = <|[\RR64\] SQRT((SUM[j <- 0 # 4] (X[i, j])^2) / 4 + 10.0^(-5)) | i <- 0 # 3 |>
+  (* the papers' spelling: a diagonal matrix times X *)
+  Y = diag(<|[\RR64\] 1.0 / r[i] | i <- 0 # 3 |>) X
+  (* the run's spelling: entry by entry *)
+  Z = mat(3, 4, fn (i, j) => X[i, j] / r[i])
+  d = BIG MAX[i <- 0 # 3, j <- 0 # 4] |Y[i, j] - Z[i, j]|
+  println("diag(1/r) X vs entry-by-entry: max abs diff " d)
+  (* does the shipped library Matrix broadcast a row vector at all? *)
+  a = array[\RR64\](3, 4).fill(fn (i, j) => 1.0)
+  v = array[\RR64\](4).fill(fn (j) => 2.0)
+  println("library matrix + row vector:")
+  println(a + v)
+end
+end

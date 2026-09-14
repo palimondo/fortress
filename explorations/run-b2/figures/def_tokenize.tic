@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`tokenize(doc: String, uchars: String, bos: ZZ32): List[\ZZ32\] =
+  <|[\ZZ32\] bos |> || <|[\ZZ32\] uchars.indexOf(c).get | c <- doc |> || <|[\ZZ32\] bos |>
+`
+\end{preview}
+\end{document}

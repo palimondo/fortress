@@ -1,0 +1,20 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress18337050603751751392rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress18337050603751751392rats/com/sun/fortress/parser/templateparser/TemplateParser6.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /tmp/fortress18337050603751751392rats/com/sun/fortress/parser/templateparser/TemplateParser6.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Turn on "-debug interpreter" for Java-level stack trace.
+null/home/user/fortress/ProjectFortress/syntax_abstraction_tests/SXXKeywordNotIdUse.fss:
+    Error occurred while instantiating and executing a temporary parser: com.sun.fortress.parser.templateparser.TemplateParser6 (/home/user/fortress/ProjectFortress/syntax_abstraction_tests/SXXKeywordNotIdUse.fss:18:11:
+    Syntax Error)
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+EXIT=1

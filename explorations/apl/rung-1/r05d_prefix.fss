@@ -1,0 +1,16 @@
+(* r05d -- the remaining monadic arities APL needs: ≢ (tally), ≡ (depth),
+   * (exponential), ∘ (unused monadically, tested for completeness). *)
+component r05d_prefix
+export Executable
+object D(n: ZZ32) getter asString(): String = ("D" n) end
+opr ≢(a: D): D = D(1 a.n)
+opr ≡(a: D): D = D(2 a.n)
+opr *(a: D): D = D(3 a.n)
+opr ∘(a: D): D = D(4 a.n)
+run(): () = do
+    println("≢ a = " (≢ D(1)))
+    println("≡ a = " (≡ D(1)))
+    println("* a = " ( * D(1)))
+    println("∘ a = " (∘ D(1)))
+  end
+end

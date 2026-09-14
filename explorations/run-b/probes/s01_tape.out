@@ -1,0 +1,4 @@
+max |analytic - finite difference| = 4.6566039912931956E-10
+20 x (forward + backward): 326 ms
+exit: 0
+[recovered from the transcript, run-b.jsonl line 391: start of the run is missing (the command displayed only the tail); shown through | tail, so lines run.sh wrote to the file may be absent]

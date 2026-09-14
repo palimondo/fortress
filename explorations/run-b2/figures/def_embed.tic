@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`  embed(tokens: List[\ZZ32\]): Node = do
+    positions = <|[\ZZ32\] t | t <- 0 # |tokens| |>
+    rmsnorm(_We[tokens] + _Wp[positions])
+  end
+`
+\end{preview}
+\end{document}

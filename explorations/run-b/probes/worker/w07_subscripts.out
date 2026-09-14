@@ -1,0 +1,5 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w07_subscripts.fss
+x[<|1,2|>] = list of 2 indices
+x[0#2]     = generator, sum 1
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 347: the complete output run.sh wrote]

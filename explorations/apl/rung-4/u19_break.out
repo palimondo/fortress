@@ -1,0 +1,10 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress2991174270669853581rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress2991174270669853581rats/com/sun/fortress/parser/templateparser/TemplateParser250.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+  (a) {a ← 1 (break) a+⍵} 5 = 6
+  (b) {⍺ ← 7 (break) ⍺+⍵} 5 = 12
+  (c1) {⍵>2: 42 ⋄ ¯99} 3 = 42
+  (c2) {⍵>2: 42 (break) a} 3 = 42
+  (d) the chapter's sum, with its comments = 45

@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* Sigma over anything that has a +: scalars, numbers, nodes.  The library's
+   own SUM is sealed to Number, so it is hidden by the except-import above and
+   redeclared once, over a reduction whose join dispatches on its arguments. *)
+object PlusReduction extends CommutativeMonoidReduction[\Any\]
+  getter asString(): String = "PlusReduction"
+  empty(): Any = 0
+  join(a: Any, b: Any): Any = a + b
+end
+opr SUM(): BigReduction[\Any, Any\] = BigReduction[\Any, Any\](PlusReduction)`
+\end{preview}
+\end{document}

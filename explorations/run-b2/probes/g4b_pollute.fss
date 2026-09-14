@@ -1,0 +1,15 @@
+component g4b_pollute
+export Executable
+
+trait Nd
+  getter data(): ZZ32
+end
+
+mk1(k: ZZ32): Nd = object extends Nd
+    data: ZZ32 = k
+  end
+
+data: ZZ32 = 77
+
+run(): () = println((mk1(5)).data " " data)
+end

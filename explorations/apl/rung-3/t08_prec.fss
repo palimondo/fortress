@@ -1,0 +1,12 @@
+(* t08 -- the first thing rung 3 hit, kept as its own probe: index arithmetic
+   mixing MOD and + without parentheses.  Fortress does not assign integers to
+   operators; where no precedence relationship is specified, parentheses are
+   required (Specification/basic/operators/precedence.tex:13-33).  .out.0 is the
+   unparenthesised spelling, .out the one aplRotN uses. *)
+component t08_prec
+export Executable
+
+wrap(i: ZZ32, k: ZZ32, n: ZZ32): ZZ32 = ((((i + k) MOD n) + n) MOD n)
+
+run(): () = println(("wrap(2,¯1,3) = " wrap(2, -1, 3)))
+end

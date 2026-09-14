@@ -1,0 +1,4 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c21_constants_pi.fss
+pi = 3.141592653589793  cos(2 pi 0.25) = 6.123233995736766E-17  e (local) = 2.0
+exit: 0
+[recovered from the transcript, run-b.jsonl line 1001: shown through | tail, so lines run.sh wrote to the file may be absent]

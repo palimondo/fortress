@@ -1,0 +1,18 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c09_transpose_syntax.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/c09_transpose_syntax.fss:8:1-71: and
+/home/user/fortress/explorations/run-b/probes/c09_transpose_syntax.fss:7:1-43:
+first parameters m:[Array[\RR64,(ZZ32,ZZ32)\]] and x:[Array[\RR64,ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress/explorations/run-b/probes/c09_transpose_syntax.fss:8:1-71:
+/home/user/fortress/explorations/run-b/probes/c09_transpose_syntax.fss:7:1-43:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+[recovered from the transcript, run-b.jsonl line 340: shown through | tail, so lines run.sh wrote to the file may be absent; start recovered from the head of the file displayed at main:348]

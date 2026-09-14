@@ -1,0 +1,30 @@
+component g1c_testgen
+export Executable
+
+(* C: what replaces the unimplemented generator test declaration - a plain
+   test function that walks the generator itself, plus test-modified data
+   (tests.tex:130 allows the test modifier on a top-level variable).
+   Run with: fortress test g1c_testgen.fss *)
+
+double(x: ZZ32): ZZ32 = 2 x
+
+test goldenInputs: Range[\ZZ32\] = 0#5
+
+test testDoubleOverRange(): () = do
+    println("  [testDoubleOverRange running]")
+    for x <- seq(goldenInputs) do
+        assert(double(x) = x + x)
+    end
+end
+
+test testPairs(): () = do
+    println("  [testPairs running]")
+    for x <- seq(goldenInputs), y <- seq(goldenInputs) do
+        assert(double(x + y) = double(x) + double(y))
+    end
+end
+
+run(): () = do
+    println("run(): double(21) = " (double(21)))
+end
+end

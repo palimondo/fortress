@@ -1,0 +1,11 @@
+null/home/user/fortress/explorations/apl/redesign/r05b_ceil.fss:4:1-8:
+    Unmatched delimiter "component".
+/home/user/fortress/explorations/apl/redesign/r05b_ceil.fss:7:5:
+    Unmatched delimiter "|/".
+/home/user/fortress/explorations/apl/redesign/r05b_ceil.fss:8:5:
+    Unmatched delimiter "|/".
+/home/user/fortress/explorations/apl/redesign/r05b_ceil.fss:9:20-10:3:
+    Unmatched delimiters "(" and "end".
+/home/user/fortress/explorations/apl/redesign/r05b_ceil.fss:9:31-37:
+    Unmatched delimiters "|/" and ")".
+Turn on "-debug interpreter" for Java-level stack trace.

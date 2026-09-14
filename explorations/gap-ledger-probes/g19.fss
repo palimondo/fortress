@@ -1,0 +1,12 @@
+(* g19 (merge pass): the same stacked paste with a runtime-sized declared type,
+   the spelling run-b's worker used (w02_paste_stack). *)
+component g19
+export Executable
+
+run(): () = do
+    a: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](2,2).fill(fn (i,j) => 10.0 + 1.0 (2 i + j))
+    b: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](2,2).fill(fn (i,j) => 20.0 + 1.0 (2 i + j))
+    m: Array[\RR64,(ZZ32,ZZ32)\] = [ a b ; a b ]
+    println("[ a b ; a b ] = " m)
+  end
+end

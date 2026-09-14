@@ -1,0 +1,23 @@
+component RvwVarargsAfterClosure
+export Executable
+(* gaps row 102: a trailing varargs parameter of a trait type, AFTER a closure
+   parameter, takes zero..n arguments of different subtypes.  (Ledger row 11
+   says OBJECTS may not declare varargs constructor parameters; this is a
+   function.) *)
+trait N
+  getter tag(): String
+end
+object A(x: RR64) extends N
+  getter tag(): String = "A" x
+end
+object B(x: ZZ32) extends N
+  getter tag(): String = "B" x
+end
+make(name: String, f: RR64 -> RR64, cs: N...): String =
+  name "(" f(2.0) ")[" (BIG || [c <- cs] (c.tag " ")) "]"
+run(): () = do
+  println(make("zero", fn g => g g))
+  println(make("one ", fn g => g g, A(1.5)))
+  println(make("two ", fn g => g g, A(1.5), B(7)))
+end
+end

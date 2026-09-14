@@ -1,0 +1,25 @@
+component g4e_excludes
+import List.{...}
+export Executable
+(* Fix 2: declare a user trait that EXCLUDES the other argument type, and
+   dispatch on it.  Spec advanced/overloading.tex:260 -- "either Ps excludes
+   Qs or there is a declaration f(Ps INTERSECT Qs) in the scope". *)
+trait Slicer excludes { List[\ZZ32\] }
+  getter lo(): ZZ32
+  getter hi(): ZZ32
+end
+object Slice(lo0: ZZ32, hi0: ZZ32) extends Slicer
+  getter lo(): ZZ32 = lo0
+  getter hi(): ZZ32 = hi0
+end
+object Box(xs: Array[\ZZ32, ZZ32\])
+  opr[ts: List[\ZZ32\]]: ZZ32 = |ts|
+  opr[s: Slicer]: ZZ32 = s.hi - s.lo
+end
+run(): () = do
+  a = array[\ZZ32\](4).fill(fn (i: ZZ32): ZZ32 => i)
+  b = Box(a)
+  println("b[list]   = " b[<|[\ZZ32\] 1, 2, 3|>])
+  println("b[Slicer] = " b[Slice(0, 2)])
+end
+end

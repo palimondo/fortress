@@ -1,0 +1,15 @@
+component p17_ixlist
+import p17_g.{...}
+import List.{...}
+export Executable
+
+lst(b: ZZ32, xs: List[\ZZ32\]): String =
+    ("" b " indexed by " (|xs|) " axes: " (BIG |||[ k <- seq(xs) ] ("" k)))
+
+run(): () = do
+    println(ixl⦇ 7[1;2;3] ⦈)
+    println(ixl⦇ 7[5] ⦈)
+    println(ixl⦇ 7[1;2] ⦈)
+end
+
+end

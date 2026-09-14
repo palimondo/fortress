@@ -1,0 +1,33 @@
+component g1b_catch
+export Executable
+
+(* B: is the contract violation an ordinary catchable Fortress exception?
+   CallerViolation / CalleeViolation are declared in
+   Library/FortressLibrary.fss:1467,1471 as UncheckedException. *)
+
+f(n: ZZ32): ZZ32 requires { n > 0 } = n n
+
+g(n: ZZ32): ZZ32 ensures { outcome > 0 provided true } = -n
+
+h(n: ZZ32): ZZ32 ensures { outcome > 100 provided n > 10 } = n
+
+run(): () = do
+    println("f(3) = " (f(3)))
+    try
+        println("f(-1) = " (f(-1)))
+    catch e
+        CallerViolation => println("caught CallerViolation from f(-1)")
+    end
+    try
+        println("g(5) = " (g(5)))
+    catch e
+        CalleeViolation => println("caught CalleeViolation from g(5)")
+    end
+    println("h(3) = " (h(3)) "   (provided-guard false, ensures skipped)")
+    try
+        println("h(20) = " (h(20)))
+    catch e
+        CalleeViolation => println("caught CalleeViolation from h(20)")
+    end
+end
+end

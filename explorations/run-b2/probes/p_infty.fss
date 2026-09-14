@@ -1,0 +1,11 @@
+component p_infty
+export Executable
+run(): () = do
+  a: RR64 = -1.0/0.0
+  println("neg inf by division: " a "  exp = " (exp a))
+  b: RR64 = 3.0
+  println("3 + (-inf) = " (b + a) "  max(3, -inf) = " (b MAX a))
+  m = array[\RR64\](3, 3).fill(fn (i: ZZ32, j: ZZ32): RR64 => if j <= i then 0.0 else a end)
+  println("mask row 0: " m[0,0] " " m[0,1] " " m[0,2])
+end
+end

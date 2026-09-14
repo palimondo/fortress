@@ -668,3 +668,1788 @@ Exception in thread "main" java.lang.Error: Not yet implemented: class com.sun.f
 === compiled-path control: compile+run p12 (implicit tuple parallelism) and p13 (atomic) ===
 p12  200.0
 p13  10.0
+
+############################################################
+# Merge of run-b and run-b2 gap tables (this pass). Walk interpreter,
+# JDK 25, FORTRESS_THREADS=1, environment as in the ledger head.
+############################################################
+
+=== run-b2/probes/g1a_varfield.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_varfield.fss
+built Counter(1)
+after bump Counter(2)
+exit: 0
+
+=== run-b2/probes/g1a_copy.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_copy.fss
+value object:     c = VCounter(2)   d = VCounter(2)
+reference object: r = RCounter(2)   s = RCounter(2)
+c SEQV d = true
+exit: 0
+
+=== run-b2/probes/g1a_equality2.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_equality2.fss
+VPlain(1,2) SEQV VPlain(1,3) = true
+VBare(1,2)  SEQV VBare(1,3)  = true
+VField(1,2) SEQV VField(1,3) = false
+VField(1,2) SEQV VField(1,2) = true
+library: Just(1) SEQV Just(2) = true
+library: Just(1) SEQV Just(1) = true
+exit: 0
+
+=== run-b2/probes/g1a_equality3.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_equality3.fss
+Just(1) SEQV Just(2) = true
+Just(1) =    Just(2) = false
+Just(1).get =        1
+Just(2).get =        2
+exit: 0
+
+=== run-b2/probes/g1a_valtrait.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_valtrait.fss
+a = Shape(area=9.0)
+b = Shape(area=9.0)
+a.area + b.area = 18.0
+Sq(3.0) SEQV Sq(3.0) = true
+exit: 0
+
+=== run-b2/probes/g1a_valtrait_bad.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_valtrait_bad.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b2/probes/g1a_valtrait_bad.fss:13:1-15:2:
+Bad: non-value subtype of value type Shape
+Context:
+/home/user/fortress/explorations/run-b2/probes/g1a_valtrait_bad.fss:13:1-15:2:
+/home/user/fortress/explorations/run-b2/probes/g1a_valtrait_bad.fss:13:1-15:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1a_settable.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_settable.fss
+z = (1.0 + 2.0 i)
+after z.im := 7.0, z = (1.0 + 7.0 i)
+z + z = (2.0 + 14.0 i)
+exit: 0
+
+=== run-b2/probes/g1a_valobj.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_valobj.fss
+A = [ 1.0 3.0 ; 2.0 4.0 ;]
+B = [ 1.0 0.5 ; 0.5 1.0 ;]
+A + B = [ 2.0 3.5 ; 2.5 5.0 ;]
+A B = [ 2.5 3.5 ; 4.0 5.0 ;]
+exit: 0
+
+=== run-b2/probes/g1b_ok.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1b_ok.fss
+A = [2x3: 1.0 4.0 7.0 ; 2.0 5.0 8.0 ;]
+B = [3x2: 1.0 0.5 ; 0.5 1.0 ; 0.5 0.5 ;]
+mmul(A,B) = [2x2: 6.5 8.0 ; 8.5 10.0 ;]
+exit: 0
+
+=== run-b2/probes/g1b_requires_bad.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1b_requires_bad.fss
+about to call mmul with inner extents 3 and 2
+/home/user/fortress/explorations/run-b2/probes/g1b_requires_bad.fss:14:38-47:
+CallerViolation
+Context:
+/home/user/fortress/explorations/run-b2/probes/g1b_requires_bad.fss:14:38-47:
+/home/user/fortress/explorations/run-b2/probes/g1b_requires_bad.fss:27:9-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1b_catch.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1b_catch.fss
+f(3) = 9
+caught CallerViolation from f(-1)
+caught CalleeViolation from g(5)
+h(3) = 3   (provided-guard false, ensures skipped)
+caught CalleeViolation from h(20)
+exit: 0
+
+=== run-b2/probes/g1b_ensures_bare.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1b_ensures_bare.fss
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/explorations/run-b2/probes/g1b_ensures_bare.fss:12:24-26:
+** bug! Non-top-level reference to imported FortressLibrary.true
+Context:
+/home/user/fortress/explorations/run-b2/probes/g1b_ensures_bare.fss:12:24-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1b_method.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1b_method.fss
+after push: Stack(1)
+after pop: Stack(0)
+caught CallerViolation from the second pop
+exit: 0
+
+=== g1c_testfn under fortress test ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress test g1c_testfn.fss
+  [testDoubleSmall running]
+  [testDoubleZero running]
+exit: 0
+
+=== g1c_testfn under plain fortress ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1c_testfn.fss
+run(): double(21) = 42
+exit: 0
+
+=== g1c_testmods under fortress test ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress test g1c_testmods.fss
+  [testUsesTestData running] goldenN = 4 Golden(4)
+exit: 0
+
+=== g1c_testgen under fortress test ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress test g1c_testgen.fss
+  [testDoubleOverRange running]
+  [testPairs running]
+exit: 0
+
+=== g1c_testfail under fortress test ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress test g1c_testfail.fss
+  [testThatFails running]
+FAIL: double(3) should have been 7
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:293:9-294:5:
+/home/user/fortress/explorations/run-b2/probes/g1c_testfail.fss:12:5-56:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walkTests(Shell.java:1250)
+	at com.sun.fortress.Shell.subMain(Shell.java:477)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== g1c_testdecl under fortress test ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress test g1c_testdecl.fss
+** bug! Not yet implemented: TestDecl at /home/user/fortress/explorations/run-b2/probes/g1c_testdecl.fss:10.1
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walkTests(Shell.java:1250)
+	at com.sun.fortress.Shell.subMain(Shell.java:477)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== g1c_testdecl_plain under plain fortress ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1c_testdecl_plain.fss
+** bug! Not yet implemented: TestDecl at /home/user/fortress/explorations/run-b2/probes/g1c_testdecl_plain.fss:10.1
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== g1c_testdecl_obj (object member) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress test g1c_testdecl_obj.fss
+null/home/user/fortress/explorations/run-b2/probes/g1c_testdecl_obj.fss:11:17:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walkTests(Shell.java:1250)
+	at com.sun.fortress.Shell.subMain(Shell.java:477)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== g1c_property under fortress test ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress test g1c_property.fss
+** bug! Not yet implemented: PropertyDecl at /home/user/fortress/explorations/run-b2/probes/g1c_property.fss:11.1
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walkTests(Shell.java:1250)
+	at com.sun.fortress.Shell.subMain(Shell.java:477)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== g1c_property_plain under plain fortress ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1c_property_plain.fss
+** bug! Not yet implemented: PropertyDecl at /home/user/fortress/explorations/run-b2/probes/g1c_property_plain.fss:11.1
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== g1c_property_obj under fortress test ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress test g1c_property_obj.fss
+Exception in thread "main" java.lang.Error: Not yet implemented
+	at com.sun.fortress.useful.NI.nyi(NI.java:52)
+	at com.sun.fortress.scala_src.typechecker.IndexBuilder$.$anonfun$buildObject$2(IndexBuilder.scala:349)
+	at scala.collection.IterableOnceOps.foreach(IterableOnce.scala:630)
+	at scala.collection.IterableOnceOps.foreach$(IterableOnce.scala:628)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1313)
+	at com.sun.fortress.scala_src.typechecker.IndexBuilder$.buildObject(IndexBuilder.scala:344)
+	at com.sun.fortress.scala_src.typechecker.IndexBuilder$.$anonfun$buildCompilationUnitIndex$1(IndexBuilder.scala:179)
+	at scala.collection.IterableOnceOps.foreach(IterableOnce.scala:630)
+	at scala.collection.IterableOnceOps.foreach$(IterableOnce.scala:628)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1313)
+	at com.sun.fortress.scala_src.typechecker.IndexBuilder$.buildCompilationUnitIndex(IndexBuilder.scala:171)
+	at com.sun.fortress.scala_src.typechecker.IndexBuilder$.buildComponent(IndexBuilder.scala:147)
+	at com.sun.fortress.scala_src.typechecker.IndexBuilder$.$anonfun$buildComponents$1(IndexBuilder.scala:119)
+	at scala.collection.IterableOnceOps.foreach(IterableOnce.scala:630)
+	at scala.collection.IterableOnceOps.foreach$(IterableOnce.scala:628)
+	at scala.collection.AbstractIterator.foreach(Iterator.scala:1313)
+	at com.sun.fortress.scala_src.typechecker.IndexBuilder$.buildComponents(IndexBuilder.scala:119)
+	at com.sun.fortress.scala_src.typechecker.IndexBuilder.buildComponents(IndexBuilder.scala)
+	at com.sun.fortress.compiler.phases.EmptyPhase.execute(EmptyPhase.java:47)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.Shell.walkTests(Shell.java:1220)
+	at com.sun.fortress.Shell.subMain(Shell.java:477)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== g1c_testsuite ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1c_testsuite.fss
+/home/user/fortress/explorations/run-b2/probes/g1c_testsuite.fss:13:10-17:
+    Variable TestSuite is not defined.
+exit: 255
+
+=== run-b2/probes/g1d_paste1.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1d_paste1.fss
+h1 = [0#3,0#4]
+[ 100.0 101.0 102.0 103.0
+  104.0 105.0 106.0 107.0
+  108.0 109.0 110.0 111.0 ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b2/probes/g1d_paste1.fss:16:34-43:
+Element at [0] has extent 4 along axis 1 but an earlier element has length 0
+Context:
+/home/user/fortress/explorations/run-b2/probes/g1d_paste1.fss:16:34-43:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1d_paste5.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1d_paste5.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b2/probes/g1d_paste5.fss:12:31-33:
+Element at [0] has extent 2 along axis 1 but an earlier element has length 0
+Context:
+/home/user/fortress/explorations/run-b2/probes/g1d_paste5.fss:12:31-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1d_paste2.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1d_paste2.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b2/probes/g1d_paste2.fss:15:36-45:
+Element at [0] has extent 4 along axis 1 but an earlier element has length 0
+Context:
+/home/user/fortress/explorations/run-b2/probes/g1d_paste2.fss:15:36-45:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1d_paste4.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1d_paste4.fss
+a = [0#2,0#2]
+[ 10.0 11.0
+  12.0 13.0 ]
+m = [0#4,0#4]
+[ 10.0 11.0 20.0 21.0
+  12.0 13.0 22.0 23.0
+  30.0 31.0 40.0 41.0
+  32.0 33.0 42.0 43.0 ]
+exit: 0
+
+=== run-b2/probes/g1d_paste3.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1d_paste3.fss
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at com.sun.fortress.interpreter.Driver.runProgram(Driver.java:562)
+	at com.sun.fortress.Shell.eval(Shell.java:621)
+	at com.sun.fortress.Shell.walk(Shell.java:1125)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 12 out of bounds for length 12
+	at com.sun.fortress.interpreter.evaluator.transactions.AtomicArray.get(AtomicArray.java:49)
+	at com.sun.fortress.interpreter.glue.prim.PrimitiveArray$get.f(PrimitiveArray.java:76)
+	at com.sun.fortress.interpreter.glue.prim.PrimitiveArray$vi2O.applyMethod(PrimitiveArray.java:49)
+	at com.sun.fortress.interpreter.glue.prim.PrimitiveArray$get.applyMethod(PrimitiveArray.java:74)
+	at com.sun.fortress.interpreter.glue.NativeMeth1.applyMethod(NativeMeth1.java:37)
+	at com.sun.fortress.interpreter.evaluator.values.MethodClosure.applyMethod(MethodClosure.java:86)
+	at com.sun.fortress.interpreter.evaluator.values.DottedMethodApplication.applyInnerPossiblyGeneric(DottedMethodApplication.java:166)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.DottedMethodApplication.invokeMethod(DottedMethodApplication.java:121)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.invokeMethod(Evaluator.java:915)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forMethodInvocation(Evaluator.java:559)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forMethodInvocation(Evaluator.java:44)
+	at com.sun.fortress.nodes.MethodInvocation.accept(MethodInvocation.java:93)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.MethodClosure.applyMethod(MethodClosure.java:84)
+	at com.sun.fortress.interpreter.glue.IndexedArrayWrapper.get(IndexedArrayWrapper.java:86)
+	at com.sun.fortress.interpreter.evaluator.values.IUOTuple.arrayCopyto(IUOTuple.java:309)
+	at com.sun.fortress.interpreter.evaluator.values.IUOTuple.arrayCopyto(IUOTuple.java:318)
+	at com.sun.fortress.interpreter.evaluator.values.IUOTuple.arrayCopyto(IUOTuple.java:318)
+	at com.sun.fortress.interpreter.evaluator.values.IUOTuple.copyTo(IUOTuple.java:265)
+	at com.sun.fortress.interpreter.evaluator.values.IUOTuple.copyTo(IUOTuple.java:285)
+	at com.sun.fortress.interpreter.evaluator.values.IUOTuple.copyTo(IUOTuple.java:249)
+	at com.sun.fortress.interpreter.evaluator.values.IUOTuple.copyTo(IUOTuple.java:238)
+	at com.sun.fortress.interpreter.evaluator.LHSEvaluator.forLValue(LHSEvaluator.java:171)
+	at com.sun.fortress.interpreter.evaluator.LHSEvaluator.forLValue(LHSEvaluator.java:36)
+	at com.sun.fortress.nodes.LValue.accept(LValue.java:42)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:82)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.Driver.runProgramTask(Driver.java:507)
+	at com.sun.fortress.interpreter.evaluator.tasks.EvaluatorTask.compute(EvaluatorTask.java:46)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+exit: 1
+
+=== gap-ledger-probes/g18.fss ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g18.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/gap-ledger-probes/g18.fss:14:31-35:
+Element at [0] has extent 2 along axis 1 but an earlier element has length 0
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/g18.fss:14:31-35:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== gap-ledger-probes/g19.fss ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g19.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/gap-ledger-probes/g19.fss:10:32:
+undefined variable [m]
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/g19.fss:10:32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1d_unpaste1.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1d_unpaste1.fss
+null/home/user/fortress/explorations/run-b2/probes/g1d_unpaste1.fss:8:5-16:
+    Matrix unpasting is not yet implemented.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1d_unpaste2.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1d_unpaste2.fss
+null/home/user/fortress/explorations/run-b2/probes/g1d_unpaste2.fss:9:5-46:
+    Matrix unpasting is not yet implemented.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/c02_pasting.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c02_pasting.fss
+null/home/user/fortress/explorations/run-b/probes/c02_pasting.fss:23:3-6:
+    Matrix unpasting is not yet implemented.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/c02b_pasting_only.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c02b_pasting_only.fss
+[ u v ] = [0#4][ 1.0 2.0 3.0 4.0 ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/c02b_pasting_only.fss:14:29-31:
+Element at [0] has extent 2 along axis 1 but an earlier element has length 0
+Context:
+/home/user/fortress/explorations/run-b/probes/c02b_pasting_only.fss:14:29-31:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/c02e_pasting_variants.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c02e_pasting_variants.fss
+(a) [ u v u v ] with Vector[\RR64,8\] LHS = [0#8][ 1.0 2.0 10.0 20.0 1.0 2.0 10.0 20.0 ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/c02e_pasting_variants.fss:15:25:
+undefined variable [w4]
+Context:
+/home/user/fortress/explorations/run-b/probes/c02e_pasting_variants.fss:15:25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/c02f_silent_unbound.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c02f_silent_unbound.fss
+after the declaration
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/c02f_silent_unbound.fss:10:18:
+undefined variable [w]
+Context:
+/home/user/fortress/explorations/run-b/probes/c02f_silent_unbound.fss:10:18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1d_hcat.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1d_hcat.fss
+hcat = [0#3,0#16]
+[ 100.0 101.0 102.0 103.0 200.0 201.0 202.0 203.0 300.0 301.0 302.0 303.0 400.0 401.0 402.0 403.0
+  104.0 105.0 106.0 107.0 204.0 205.0 206.0 207.0 304.0 305.0 306.0 307.0 404.0 405.0 406.0 407.0
+  108.0 109.0 110.0 111.0 208.0 209.0 210.0 211.0 308.0 309.0 310.0 311.0 408.0 409.0 410.0 411.0 ]
+|hsplit| = 4
+q1 = [0#3,0#4]
+[ 100.0 101.0 102.0 103.0
+  104.0 105.0 106.0 107.0
+  108.0 109.0 110.0 111.0 ]
+q4 = [0#3,0#4]
+[ 400.0 401.0 402.0 403.0
+  404.0 405.0 406.0 407.0
+  408.0 409.0 410.0 411.0 ]
+round trip hcat then hsplit identical: true
+hcatN = [0#3,0#8]
+[ 0.0 1.0 2.0 3.0 100.0 101.0 102.0 103.0
+  4.0 5.0 6.0 7.0 104.0 105.0 106.0 107.0
+  8.0 9.0 10.0 11.0 108.0 109.0 110.0 111.0 ]
+exit: 0
+
+=== run-b/probes/worker/w09_valueobj.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w09_valueobj.fss
+p === p (same instance)          : true
+q === p (same field values)      : true
+r === p (equal but distinct array): true
+p.f === p.f (closure field)      : true
+p.d === q.d (array field)        : true
+exit: 0
+
+=== run-b/probes/worker/w09_valueobj_scalar.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w09_valueobj_scalar.fss
+P(1.0) === P(1.0) : true
+P(1.0) === P(2.0) : true
+VBox(d,inc) === VBox(g,dec) : true
+1.0 === 2.0 : false
+exit: 0
+
+=== gap-ledger-probes/g20.fss ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g20.fss
+null/home/user/fortress/explorations/gap-ledger-probes/g20.fss:6:13-9:47:
+    Unmatched delimiters "do" and ")".
+/home/user/fortress/explorations/gap-ledger-probes/g20.fss:9:32-42:
+    Unmatched delimiters "(" and "/|".
+/home/user/fortress/explorations/gap-ledger-probes/g20.fss:11:1-3:
+    Unmatched delimiter "end".
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== gap-ledger-probes/g21.fss ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g21.fss
+/home/user/fortress/explorations/gap-ledger-probes/g21.fss:9:5-7:
+    Variable step is already declared.
+exit: 255
+
+=== gap-ledger-probes/g22.fss ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g22.fss
+z[1] = 2.0
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/explorations/gap-ledger-probes/g22.fss:17:26-31:
+** bug! MethodClosure _[_](r:Range[\FortressLibrary.ZZ32\]):ZeroIndexed[\E\]/home/user/fortress/Library/FortressLibrary.fss:1720:5-43 has neither body nor def instanceof Method
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/g22.fss:17:26-31:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== gap-ledger-probes/g23.fss ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g23.fss
+u.pmul(v) = [0#2][ 3.0 8.0 ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/gap-ledger-probes/g23.fss:12:29-36:
+Cannot find definition for method pmul given receiver __DefaultMatrix[\RR64,2,2\]
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/g23.fss:12:29-36:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== gap-ledger-probes/g24.fss ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g24.fss
+/home/user/fortress/explorations/gap-ledger-probes/g24.fss:9:24-26:
+    Variable grad is not defined.
+exit: 255
+
+=== run-b/probes/c09_transpose_syntax.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c09_transpose_syntax.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/c09_transpose_syntax.fss:8:1-71: and
+/home/user/fortress/explorations/run-b/probes/c09_transpose_syntax.fss:7:1-43:
+first parameters m:[Array[\RR64,(ZZ32,ZZ32)\]] and x:[Array[\RR64,ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress/explorations/run-b/probes/c09_transpose_syntax.fss:8:1-71:
+/home/user/fortress/explorations/run-b/probes/c09_transpose_syntax.fss:7:1-43:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/c10_anyvector_dispatch.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c10_anyvector_dispatch.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/c10_anyvector_dispatch.fss:8:1-51: and
+/home/user/fortress/explorations/run-b/probes/c10_anyvector_dispatch.fss:7:1-50:
+first parameters m:[AnyMatrix] and x:[AnyVector] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress/explorations/run-b/probes/c10_anyvector_dispatch.fss:8:1-51:
+/home/user/fortress/explorations/run-b/probes/c10_anyvector_dispatch.fss:7:1-50:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4e_unrelated.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4e_unrelated.fss
+b[list]  = 3
+b[range] = 999
+exit: 0
+
+=== run-b2/probes/g4e_excludes.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4e_excludes.fss
+b[list]   = 3
+b[Slicer] = 2
+exit: 0
+
+=== run-b2/probes/g4e_objwrap.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4e_objwrap.fss
+b[list]  = 3
+b[Slice] = 2
+exit: 0
+
+=== run-b2/probes/g4e_typecase.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4e_typecase.fss
+b[list]  = 3
+b[range] = 999
+exit: 0
+
+=== run-b/probes/worker/w01_transpose.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w01_transpose.fss
+x   = [0#3][ 1.0 2.0 3.0 ]
+x^T = [0#1,0#3]
+[ 1.0 2.0 3.0 ]
+M   = [0#2,0#3]
+[ 1.0 2.0 3.0
+  4.0 5.0 6.0 ]
+M^T = [0#3,0#2]
+[ 1.0 4.0
+  2.0 5.0
+  3.0 6.0 ]
+exit: 0
+
+=== run-b/probes/c19_bigunion_collision.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c19_bigunion_collision.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/Map.fss:197:1-198:77: and
+/home/user/fortress/Library/Set.fss:115:1-116:50:
+Overloading of BIG CUP[\Key,Val\]():Comprehension[\Map.Map[\Key,Val\],Map.Map[\Key,Val\],Any,Any\]/home/user/fortress/Library/Map.fss:197:1-198:77 and BIG CUP[\R extends StandardTotalOrder[\R\]\]():BigReduction[\Set.Set[\R\],Set.Set[\R\]\]/home/user/fortress/Library/Set.fss:115:1-116:50 fails because their parameter lists have the same types
+Context:
+/home/user/fortress/Library/Map.fss:197:1-198:77:
+/home/user/fortress/explorations/run-b/probes/c19_bigunion_collision.fss:13:8-17:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/worker/w17_bigunion_except.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w17_bigunion_except.fss
+|m| = 3
+  a -> 1.0
+  b -> 1.0
+  c -> 1.0
+exit: 0
+
+=== run-b/probes/c18_map_of_shapes.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c18_map_of_shapes.fss
+(c) fold: {a,b,c} sizes <|(2,3), (4,3), (3,5)|>
+(b) BIG UNION: {a,b,c} sizes <|(2,3), (4,3), (3,5)|>
+FAIL: Singleton[\(FlatString,__DefaultMatrix[\RR64,2,3\])\] APPCOV Singleton[\(FlatString,__DefaultMatrix[\RR64,4,3\])\] have no common supertype!
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/CovariantCollection.fss:40:5-52:
+/home/user/fortress/Library/CovariantCollection.fss:139:52:
+/home/user/fortress/Library/RangeInternals.fss:1032:21-58:
+/home/user/fortress/Library/RangeInternals.fss:1032:30-43:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/explorations/run-b/probes/c18_map_of_shapes.fss:27:74-85:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/explorations/run-b/probes/c18_map_of_shapes.fss:27:11-85:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/worker/w05_mapcompr.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w05_mapcompr.fss
+FAIL: Singleton[\(FlatString,__DefaultMatrix[\RR64,2,3\])\] APPCOV Singleton[\(FlatString,__DefaultMatrix[\RR64,4,3\])\] have no common supertype!
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/CovariantCollection.fss:40:5-52:
+/home/user/fortress/Library/CovariantCollection.fss:139:52:
+/home/user/fortress/Library/RangeInternals.fss:1032:21-58:
+/home/user/fortress/Library/RangeInternals.fss:1032:30-43:
+/home/user/fortress/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1771:9-43:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/explorations/run-b/probes/worker/w05_mapcompr.fss:15:65-72:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/explorations/run-b/probes/worker/w05_mapcompr.fss:15:9-72:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/worker/w04_bigmax.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w04_bigmax.fss
+generator clause : 9.5
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/worker/w04_bigmax.fss:21:39-57:
+Failed to find any matching overload, args = (Vec), overload = {
+	BIG MAX[\T extends StandardMax[\T\]\]():BigReduction[\T,FortressLibrary.AnyMaybe\][\Number\] ()->BigReduction[\Number,AnyMaybe\] /home/user/fortress/Library/FortressLibrary.fss:3118:1-3119:49
+	BIG MAX[\T extends StandardMax[\T\]\](g:Generator[\T\]):(T, T)[\Number\] Generator[\Number\]->(Number,Number) /home/user/fortress/Library/FortressLibrary.fss:3120:1-3121:60}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/run-b/probes/worker/w04_bigmax.fss:21:39-57:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/worker/w04_bigmax_lib.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w04_bigmax_lib.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/worker/w04_bigmax_lib.fss:10:49-57:
+Failed to find any matching overload, args = (__DefaultVector[\RR64,4\]), overload = {
+	BIG MAX[\T extends StandardMax[\T\]\]():BigReduction[\T,FortressLibrary.AnyMaybe\]/home/user/fortress/Library/FortressLibrary.fss:3118:1-3119:49
+	BIG MAX[\T extends StandardMax[\T\]\](g:Generator[\T\]):(T, T)/home/user/fortress/Library/FortressLibrary.fss:3120:1-3121:60}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/run-b/probes/worker/w04_bigmax_lib.fss:10:49-57:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/worker/w04_bigmax_number.fss ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w04_bigmax_number.fss
+Generator[Number], prefix BIG MAX = 9.5
+exit: 0
+
+=== gap-ledger-probes/g25.fss: Meet Rule on unrelated library traits, cold cache then warm ===
+$ rm -f $FORTRESS_HOME/default_repository/caches/interpreter_parsed_cache/g25-*.tfs $FORTRESS_HOME/default_repository/caches/interpreter_cache/g25-*.tfs
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g25.fss   # run 1, cold
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/gap-ledger-probes/g25.fss:11:5-38: and
+/home/user/fortress/explorations/gap-ledger-probes/g25.fss:10:5-11:6:
+first parameters r:[Range[\ZZ32\]] and ts:[List[\ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/g25.fss:11:5-38:
+/home/user/fortress/explorations/gap-ledger-probes/g25.fss:10:5-11:6:
+/home/user/fortress/explorations/gap-ledger-probes/g25.fss:9:1-12:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+$ $FORTRESS_HOME/bin/fortress g25.fss   # run 2, warm
+b[list]  = 3
+b[range] = 999
+exit: 0
+$ rm -f .../interpreter_parsed_cache/g25-*.tfs   # delete only the parsed-cache entry
+$ $FORTRESS_HOME/bin/fortress g25.fss   # run 3, parsed cache cold again
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/gap-ledger-probes/g25.fss:11:5-38: and
+/home/user/fortress/explorations/gap-ledger-probes/g25.fss:10:5-11:6:
+first parameters r:[Range[\ZZ32\]] and ts:[List[\ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/g25.fss:11:5-38:
+/home/user/fortress/explorations/gap-ledger-probes/g25.fss:10:5-11:6:
+/home/user/fortress/explorations/gap-ledger-probes/g25.fss:9:1-12:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+=== cold re-runs of the positive probes above (a warm interpreter_parsed_cache entry can suppress declaration-time overload checking; all of these hold cold) ===
+=== run-b2/probes/g1a_copy.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_copy.fss
+value object:     c = VCounter(2)   d = VCounter(2)
+reference object: r = RCounter(2)   s = RCounter(2)
+c SEQV d = true
+exit: 0
+
+=== run-b2/probes/g1a_equality2.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_equality2.fss
+VPlain(1,2) SEQV VPlain(1,3) = true
+VBare(1,2)  SEQV VBare(1,3)  = true
+VField(1,2) SEQV VField(1,3) = false
+VField(1,2) SEQV VField(1,2) = true
+library: Just(1) SEQV Just(2) = true
+library: Just(1) SEQV Just(1) = true
+exit: 0
+
+=== run-b2/probes/g1a_settable.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_settable.fss
+z = (1.0 + 2.0 i)
+after z.im := 7.0, z = (1.0 + 7.0 i)
+z + z = (2.0 + 14.0 i)
+exit: 0
+
+=== run-b2/probes/g1a_valobj.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_valobj.fss
+A = [ 1.0 3.0 ; 2.0 4.0 ;]
+B = [ 1.0 0.5 ; 0.5 1.0 ;]
+A + B = [ 2.0 3.5 ; 2.5 5.0 ;]
+A B = [ 2.5 3.5 ; 4.0 5.0 ;]
+exit: 0
+
+=== run-b2/probes/g1a_valtrait.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_valtrait.fss
+a = Shape(area=9.0)
+b = Shape(area=9.0)
+a.area + b.area = 18.0
+Sq(3.0) SEQV Sq(3.0) = true
+exit: 0
+
+=== run-b2/probes/g1a_varfield.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1a_varfield.fss
+built Counter(1)
+after bump Counter(2)
+exit: 0
+
+=== run-b2/probes/g1b_catch.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1b_catch.fss
+f(3) = 9
+caught CallerViolation from f(-1)
+caught CalleeViolation from g(5)
+h(3) = 3   (provided-guard false, ensures skipped)
+caught CalleeViolation from h(20)
+exit: 0
+
+=== run-b2/probes/g1b_method.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1b_method.fss
+after push: Stack(1)
+after pop: Stack(0)
+caught CallerViolation from the second pop
+exit: 0
+
+=== run-b2/probes/g1d_paste4.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1d_paste4.fss
+a = [0#2,0#2]
+[ 10.0 11.0
+  12.0 13.0 ]
+m = [0#4,0#4]
+[ 10.0 11.0 20.0 21.0
+  12.0 13.0 22.0 23.0
+  30.0 31.0 40.0 41.0
+  32.0 33.0 42.0 43.0 ]
+exit: 0
+
+=== run-b2/probes/g4e_excludes.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4e_excludes.fss
+b[list]   = 3
+b[Slicer] = 2
+exit: 0
+
+=== run-b2/probes/g4e_typecase.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4e_typecase.fss
+b[list]  = 3
+b[range] = 999
+exit: 0
+
+=== run-b/probes/worker/w04_bigmax_number.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w04_bigmax_number.fss
+Generator[Number], prefix BIG MAX = 9.5
+exit: 0
+
+=== run-b/probes/worker/w09_valueobj_scalar.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w09_valueobj_scalar.fss
+P(1.0) === P(1.0) : true
+P(1.0) === P(2.0) : true
+VBox(d,inc) === VBox(g,dec) : true
+1.0 === 2.0 : false
+exit: 0
+
+=== run-b/probes/worker/w17_bigunion_except.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w17_bigunion_except.fss
+|m| = 3
+  a -> 1.0
+  b -> 1.0
+  c -> 1.0
+exit: 0
+
+=== run-b2/probes/g4a_base.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4a_base.fss
+null/home/user/fortress/explorations/run-b2/probes/g4a_base.fss:12:13:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4a_call.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4a_call.fss
+null/home/user/fortress/explorations/run-b2/probes/g4a_call.fss:13:12:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4a_expop2.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4a_expop2.fss
+null/home/user/fortress/explorations/run-b2/probes/g4a_expop2.fss:12:14:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4a_getter.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4a_getter.fss
+null/home/user/fortress/explorations/run-b2/probes/g4a_getter.fss:13:13:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4a_num.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4a_num.fss
+null/home/user/fortress/explorations/run-b2/probes/g4a_num.fss:9:15:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4a_postfix.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4a_postfix.fss
+null/home/user/fortress/explorations/run-b2/probes/g4a_postfix.fss:6:1-35:
+    Invalid top-level declaration.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4a_postfix2.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4a_postfix2.fss
+101
+exit: 0
+
+=== run-b2/probes/g4a_sub.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4a_sub.fss
+15
+exit: 0
+
+=== run-b/probes/c20b_field_transpose.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c20b_field_transpose.fss
+null/home/user/fortress/explorations/run-b/probes/c20b_field_transpose.fss:7:10:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4b_capture.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4b_capture.fss
+null/home/user/fortress/explorations/run-b2/probes/g4b_capture.fss:12:5-27:
+    getter cannot modify a local function, data
+/home/user/fortress/explorations/run-b2/probes/g4b_capture.fss:20:5-27:
+    getter cannot modify a local function, data
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4b_capture2.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4b_capture2.fss
+5 6
+15 17
+exit: 0
+
+=== run-b2/probes/g4b_methodonly.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4b_methodonly.fss
+6
+105
+exit: 0
+
+=== run-b2/probes/g4b_one.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4b_one.fss
+5
+exit: 0
+
+=== run-b2/probes/g4b_pollute.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4b_pollute.fss
+/home/user/fortress/explorations/run-b2/probes/g4b_pollute.fss:12:1-3:
+    Top-level variable data is already declared.
+exit: 255
+
+=== run-b2/probes/g4b_two_same.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4b_two_same.fss
+/home/user/fortress/explorations/run-b2/probes/g4b_two_same.fss:13:5-7:
+    Top-level variable data is already declared.
+exit: 255
+
+=== run-b2/probes/g4c_bars_bare.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4c_bars_bare.fss
+w |hs| = 15
+exit: 0
+
+=== run-b2/probes/g4c_bars_first.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4c_bars_first.fss
+|hs| w = 15
+exit: 0
+
+=== run-b2/probes/g4c_bars_tight.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4c_bars_tight.fss
+null/home/user/fortress/explorations/run-b2/probes/g4c_bars_tight.fss:7:7-8:9:
+    Resolution of operator property failed for:
+    /home/user/fortress/explorations/run-b2/probes/g4c_bars_tight.fss:7.11: Right encloser without left encloser.
+  RealExpr: expr = w
+  TightInfix: op = |
+  RealExpr: expr = hs
+  Right: op = |
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4d_dotcall.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4d_dotcall.fss
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/explorations/run-b2/probes/g4d_dotcall.fss:12:23-27:
+** bug! The number of parameters (0) does not match with the number of arguments (1).
+Context:
+/home/user/fortress/explorations/run-b2/probes/g4d_dotcall.fss:12:23-27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4d_loose.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4d_loose.fss
+b.f (3) = 4
+exit: 0
+
+=== run-b2/probes/g4f_bare.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4f_bare.fss
+null/home/user/fortress/explorations/run-b2/probes/g4f_bare.fss:15:6-40:
+    Resolution of operator property failed for:
+    /home/user/fortress/explorations/run-b2/probes/g4f_bare.fss:15.14: Loose operators - and AND have incomparable precedence.
+  RealExpr: expr = k
+  LooseInfix: op = <
+  Left: op = |
+  RealExpr: expr = p
+  Right: op = |
+  LooseInfix: op = -
+  RealExpr: expr = 1
+  LooseInfix: op = AND
+  RealExpr: expr = acc
+  LooseInfix: op = +
+  RealExpr: expr = SubscriptExpr at /home/user/fortress/explorations/run-b2/probes/g4f_bare.fss:15.28
+  LooseInfix: op = <=
+  RealExpr: expr = u
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4f_both.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4f_both.fss
+both
+exit: 0
+
+=== run-b2/probes/g4g_field_after.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4g_field_after.fss
+null/home/user/fortress/explorations/run-b2/probes/g4g_field_after.fss:6:3-18:
+    Field/getter/setter declarations should come before method declarations.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4g_getter_before.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4g_getter_before.fss
+bump = 4  twice = 6
+exit: 0
+
+=== run-b2/probes/g4g_prop_after.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4g_prop_after.fss
+null/home/user/fortress/explorations/run-b2/probes/g4g_prop_after.fss:8:3-39:
+    Field/getter/setter declarations should come before method declarations.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1e_bigmerge.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1e_bigmerge.fss
+BIG MERGE dom = {W,b,c}
+  W (100+1000+10000 = 11100) = 11100.0
+  b (200+20000     = 20200) = 20200.0
+  c (3000)                  = 3000.0
+exit: 0
+
+=== run-b2/probes/g1e_bigunion1.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1e_bigunion1.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/Map.fss:198:46:
+Failed to find any matching overload, args = (EmptyMap[\BOTTOM,BOTTOM\],NodeMap[\String,ZZ32\]), overload = {
+	CUP(self:(Map.Map[\Key,Val\] & {NodeMap[\Key,Val\], EmptyMap[\Key,Val\]}),other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]fn meth(self 0):(Map[\BOTTOM,BOTTOM\],Map[\BOTTOM,BOTTOM\])->Map[\BOTTOM,BOTTOM\] (/home/user/fortress/Library/Map.fss:99:5-101:32)
+	CUP(self:(Map.Map[\Key,Val\] & {NodeMap[\Key,Val\], EmptyMap[\Key,Val\]}),other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]fn meth(self 0):(Map[\String,ZZ32\],Map[\String,ZZ32\])->Map[\String,ZZ32\] (/home/user/fortress/Library/Map.fss:99:5-101:32)
+	Map[\Key,Val\](uninstantiated)[\Key,Val\].CUP(self:(Map.Map[\Key,Val\] & {NodeMap[\Key,Val\], EmptyMap[\Key,Val\]}),other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]/home/user/fortress/Library/Map.fss:99:5-101:32
+	EmptyMap[\Key,Val\](uninstantiated)[\Key,Val\].CUP(self:EmptyMap[\Key,Val\],other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]/home/user/fortress/Library/Map.fss:248:5-66
+	NodeMap[\Key,Val\](uninstantiated)[\Key,Val\].CUP(self:NodeMap[\Key,Val\],other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]/home/user/fortress/Library/Map.fss:373:5-376:8}:OverloadedFunction
+Context:
+/home/user/fortress/Library/Map.fss:198:46:
+/home/user/fortress/Library/FortressLibrary.fss:3361:29-35:
+/home/user/fortress/Library/RangeInternals.fss:1072:23-40:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/explorations/run-b2/probes/g1e_bigunion1.fss:12:40-50:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/explorations/run-b2/probes/g1e_bigunion1.fss:12:29-55:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g1e_bigunion2.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1e_bigunion2.fss
+BIG UNION with static args = {a|->1, b|->2, c|->30}
+exit: 0
+
+=== run-b2/probes/g1e_gen.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1e_gen.fss
+-- for over a Map
+   W -> 100.0
+   b -> 200.0
+-- list comprehension over a Map
+   keys = <|W, b|>
+-- map comprehension over a Map
+   corner = {W|->100.0, b|->200.0}
+-- BIG UNION over a generator of Maps (needs the static args)
+   dom = {W,b,c}   bu[W][0,0] = 100.0
+-- summing many environments as one fold
+   dom = {W,b,c}   acc[W][0,0] = 11100.0   acc[b][0,0] = 20200.0   acc[c][0,0] = 3000.0
+exit: 0
+
+=== run-b2/probes/g1e_union.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1e_union.fss
+|e1| = 2   dom e1 = {W,b}
+|e2| = 2   dom e2 = {W,c}
+|u| = 3   dom u = {W,b,c}
+u[W] (must be W1+W2) = [0#2,0#3]
+[ 1100.0 1102.0 1104.0
+  1106.0 1108.0 1110.0 ]
+u[b] (passes through) = [0#2,0#3]
+[ 200.0 201.0 202.0
+  203.0 204.0 205.0 ]
+u[c] (passes through) = [0#2,0#3]
+[ 3000.0 3001.0 3002.0
+  3003.0 3004.0 3005.0 ]
+UNION favours left: l[W] = [0#2,0#3]
+[ 100.0 101.0 102.0
+  103.0 104.0 105.0 ]
+exit: 0
+
+=== run-b2/probes/g4h_constants.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4h_constants.fss
+infinity      = Infinity
+-infinity     = -Infinity
+exp(-infinity)= 0.0
+exp(infinity) = Infinity
+1.0 < inf     = true
+-inf < 1.0    = true
+inf isInfinite= true
+MAX 1.0       = Infinity
+literal 1.0/0.0 = inf : true
+exit: 0
+
+=== run-b2/probes/g4h_infinity_id.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4h_infinity_id.fss
+/home/user/fortress/explorations/run-b2/probes/g4h_infinity_id.fss:5:7-13:
+    Variable infinity is not defined.
+exit: 255
+
+=== run-b2/probes/g4h_unicode.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4h_unicode.fss
+null/home/user/fortress/explorations/run-b2/probes/g4h_unicode.fss:7:7:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4h_uppercase.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4h_uppercase.fss
+/home/user/fortress/explorations/run-b2/probes/g4h_uppercase.fss:4:7-14:
+    Operator INFINITY is not defined.
+exit: 255
+
+=== run-b2/probes/g4i_indexof.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4i_indexof.fss
+indexOf('c')            = Just(2)
+  .holds                = true
+  .get                  = 2
+if i <- indexOf        = 2
+indexOf('z')            = Nothing
+  .holds                = false
+  for ch <- uchars: e
+  for ch <- uchars: d
+  for ch <- uchars: c
+  for ch <- uchars: b
+  for ch <- uchars: a
+uchars[2] = c           = true
+uchars[0] = c           = false
+c IN uchars             = true
+BIG MIN over indices    = 2
+getDefault(-1)          = -1
+exit: 0
+
+=== run-b2/probes/g4i_order.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4i_order.fss
+for ch <- uchars      : edcba
+for ch <- seq(uchars) : abcde
+for i <- seq(0#|uchars|): abcde
+exit: 0
+
+=== run-b2/probes/p_infty.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress p_infty.fss
+neg inf by division: -Infinity  exp = 0.0
+3 + (-inf) = -Infinity  max(3, -inf) = 3.0
+mask row 0: 0.0 -Infinity -Infinity
+exit: 0
+
+=== run-b2/probes/p_names.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress p_names.fss
+d_k = 4  X' = 4.0  epsilon_adam = 1.0E-8  lr_t = 0.01  SQRT d_k = 2.0
+exit: 0
+
+=== run-b/probes/worker/w06_pi.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w06_pi.fss
+pi        = 3.141592653589793
+pi r^2    = 12.566370614359172
+2 pi r    = 12.566370614359172
+exit: 0
+
+=== run-b/probes/worker/w06_pi_bare.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w06_pi_bare.fss
+/home/user/fortress/explorations/run-b/probes/worker/w06_pi_bare.fss:5:21:
+    Variable pi is not defined.
+exit: 255
+
+=== run-b/probes/worker/w06_pi_unicode.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes/worker && $FORTRESS_HOME/bin/fortress w06_pi_unicode.fss
+/home/user/fortress/explorations/run-b/probes/worker/w06_pi_unicode.fss:6:29:
+    Variable ? is not defined.
+exit: 255
+
+=== run-b2/probes/g1e_alias.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g1e_alias.fss
+** bug! Not yet implemented: TypeAlias at /home/user/fortress/explorations/run-b2/probes/g1e_alias.fss:6.1
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4g_getter_after.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4g_getter_after.fss
+null/home/user/fortress/explorations/run-b2/probes/g4g_getter_after.fss:11:3-28:
+    Field/getter/setter declarations should come before method declarations.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b2/probes/g4h_inf_ascii.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress g4h_inf_ascii.fss
+/home/user/fortress/explorations/run-b2/probes/g4h_inf_ascii.fss:7:7-9:
+    Operator INF is not defined.
+exit: 255
+
+=== run-b2/probes/skelB.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes && $FORTRESS_HOME/bin/fortress skelB.fss
+L = 0.49536424999999973
+dL/dW[1,2] analytic = -0.008384999999999984  fd = -0.008384999972133045  err = 2.7866939658616197E-11
+dL/dU[1,1] analytic = -0.12278499999999987  fd = -0.12278500000073578  err = 7.35911331872785E-13
+dL/dX[2,1] analytic = 0.3057749999999999  fd = 0.3057750000978743  err = 9.787437527108978E-11
+exit: 0
+
+=== run-b/probes/c05_rowwise.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c05_rowwise.fss
+X = [0#3,0#4]
+[ -0.4 -0.3 -0.19999999999999996 -0.09999999999999998
+  0.0 0.10000000000000009 0.20000000000000007 0.30000000000000004
+  0.4 0.5 0.6000000000000001 0.7000000000000002 ]
+mean square of row 1 = 0.03500000000000002
+rmsnorm rows = [0#3,0#4]
+[ -1.460496123517539 -1.0953720926381543 -0.7302480617587693 -0.36512403087938466
+  0.0 0.5344461398290552 1.0688922796581097 1.6033384194871645
+  0.7126853327239795 0.8908566659049744 1.0690279990859695 1.2471993322669643 ]
+masked scores = [0#3,0#3]
+[ 0.3 -Infinity -Infinity
+  -0.10000000000000003 0.14000000000000007 -Infinity
+  -0.5 0.38000000000000017 1.2600000000000005 ]
+softmax rows = [0#3,0#3]
+[ 1.0 0.0 0.0
+  0.44028635073280703 0.5597136492671929 0.0
+  0.1084206279212235 0.2613912600248473 0.6301881120539292 ]
+P X = [0#3,0#4]
+[ -0.4 -0.3 -0.19999999999999996 -0.09999999999999998
+  -0.17611454029312282 -0.07611454029312276 0.023885459706877235 0.1238854597068772
+  0.20870699365308226 0.3087069936530823 0.4087069936530824 0.5087069936530825 ]
+relu(X) = [0#3,0#4]
+[ 0.0 0.0 0.0 0.0
+  0.0 0.10000000000000009 0.20000000000000007 0.30000000000000004
+  0.4 0.5 0.6000000000000001 0.7000000000000002 ]
+row 1 DOT row 1 = 0.14000000000000007
+exp((-1.0/0.0)) = 0.0  MAX with (-1.0/0.0) = 3.0
+exit: 0
+
+=== run-b/probes/c11_object_model.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c11_object_model.fss
+(2)(3) a.grad = 2.0  c.grad = 0.0  o.grad = 1.0
+(1) heterogeneous literal into List[\Node\]: |xs| = 3
+   2.0
+   0.0
+   1.0
+exit: 0
+
+=== run-b/probes/c13_sum_protocol.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c13_sum_protocol.fss
+(a) SUM[t <- 0#3] nums[t] = 6.0  built as ((a+b)+c)
+(b) SUM e over a Vec node = 10.0  sum(e)
+(c) numeric SUM[i <- 1:4] i (still needed inside (b)) = 10
+exit: 0
+
+=== run-b/probes/c14_lazy_grad_generators.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c14_lazy_grad_generators.fss
+y.grad before: [0#3][ 0.0 0.0 0.0 ]
+y.grad after two += : [0#3][ 2.0 2.0 2.0 ]
+x.grad after push (2 per use, 2 uses) : [0#3][ 4.0 4.0 4.0 ]
+BIG MAX over x's elements: 3.0   |x| = 3  x[1] = 2.0
+comprehension over elements: <|2.0, 4.0, 6.0|>
+rows of Z as nodes: <|[0#3][ 0.0 2.0 4.0 ], [0#3][ 6.0 8.0 10.0 ]|>
+Z.grad after each row pushed ones: [0#2,0#3]
+[ 0.0 0.0 0.0
+  0.0 0.0 0.0 ]
+X.grad: [0#2,0#3]
+[ 0.0 0.0 0.0
+  0.0 0.0 0.0 ]
+exit: 0
+
+=== run-b/probes/c15b_factory_varargs.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c15b_factory_varargs.fss
+vec(1.0) children: <||>
+vec(2.0) children: <|a|>
+one child 0.5
+vec(3.0) children: <|a, b|>
+two children 0.5
+vec(4.0) children: <|a, b, vec(1.0)|>
+three 0.5
+exit: 0
+
+=== run-b/probes/c16_model_spellings.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c16_model_spellings.fss
+(1) map comprehension: {a|->10.0, b|->20.0}
+(2) Q[:, 1#2] = columns [1,2]
+(3) BIG MAX[z_i <- z] z_i = 3.0   (the prefix form BIG MAX z: no applicable overload, see c16_model_spellings.prefixmax.out)
+(4) range 2#3: lower 2  upper 4  |c| = 3
+(5) block A[(0,1)#(3,2)] = [0#3,0#2]
+[ 1.0 2.0
+  5.0 6.0
+  9.0 10.0 ]  copy: [0#3,0#2]
+[ 1.0 2.0
+  5.0 6.0
+  9.0 10.0 ]
+(6) SQRT d = 2.0  SQRT(d) = 2.0
+(7) Adam's epsilon = 1.0E-8  top-level epsilon = 1.0E-5
+exit: 0
+
+=== run-b/probes/c17_bar_continuation.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c17_bar_continuation.fss
+(b) parenthesized, || at the end of an inner line: <|a, b, c|>
+exit: 0
+
+=== run-b/probes/c20_pi_and_syntax.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c20_pi_and_syntax.fss
+(2a) (x.v)^T parses and runs: (3,2)
+(3a) parenthesized prefix in juxtaposition: 2.0
+exit: 0
+
+=== run-b/probes/c20c_prefix_juxtaposition.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c20c_prefix_juxtaposition.fss
+null/home/user/fortress/explorations/run-b/probes/c20c_prefix_juxtaposition.fss:5:40:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/c21_constants_pi.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress c21_constants_pi.fss
+pi = 3.141592653589793  cos(2 pi 0.25) = 6.123233995736766E-17  e (local) = 2.0
+exit: 0
+
+
+=== gap-ledger-probes/g28.tic -> g28.tex -> g28.svg -> g28.png (Fortify rendering of two-character capital-initial names) ===
+$ $FORTRESS_HOME/bin/fortick -q g28.tic   (emacs byte-compile warnings from Fortify/fortify.el elided)
+$ cat g28.tex
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+\EXP{\VAR{render}(\TYP{M1}\COLON \TYP{Mat}, \TYP{W1}\COLON \TYP{Mat}, \TYP{Fred17}\COLON \TYP{Mat}, w_1\COLON \mathbb{R}64, x_{17}\COLON \mathbb{R}64, \VAR{ab}_2\COLON \mathbb{R}64)\COLON \mathbb{R}64 = w_1 + x_{17} + \VAR{ab}_2}
+\end{preview}
+\end{document}
+$ TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex -interaction=nonstopmode g28.tex
+[] $[]$ 
+Preview: Tightpage -524288 -524288 524288 524288
+[1] (./g28.aux) )
+(see the transcript file for additional information)
+Output written on g28.dvi (1 page, 2116 bytes).
+Transcript written on g28.log.
+$ dvisvgm --no-fonts --exact-bbox -o g28.svg g28.dvi
+  graphic size: 389.472956pt x 10pt (136.884089mm x 3.514598mm)
+  output written to g28.svg
+1 of 1 page converted in 0.060781 seconds
+$ /opt/pw-browsers/chromium --headless --no-sandbox --disable-gpu --screenshot=g28.png g28.svg
+[18813:18813:0909/074952.548453:ERROR:dbus/object_proxy.cc:573] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+8358 bytes written to file g28.png
+
+=== g27api_UseCore ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes/g27api && $FORTRESS_HOME/bin/fortress UseCore.fss
+/home/user/fortress/explorations/gap-ledger-probes/g27api/Core.fsi:5:3:
+    Syntax Error
+exit: 255
+
+=== gap-ledger-probes/g26.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g26.fss
+null/home/user/fortress/explorations/gap-ledger-probes/g26.fss:10:3:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+
+=== run-b/probes/s03_tape_depth.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress s03_tape_depth.fss
+tape        depth 1: 105 ms per forward+backward
+tape        depth 2: 41 ms per forward+backward
+tape        depth 4: 62 ms per forward+backward
+tape        depth 6: 84 ms per forward+backward
+tape        depth 8: 72 ms per forward+backward
+tape        depth 10: 77 ms per forward+backward
+exit: 0
+
+=== run-b/probes/s03_functional_depth.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/run-b/probes && $FORTRESS_HOME/bin/fortress s03_functional_depth.fss
+functional  depth 1: 79 ms per forward+backward
+functional  depth 2: 70 ms per forward+backward
+functional  depth 4: 197 ms per forward+backward
+functional  depth 6: 400 ms per forward+backward
+functional  depth 8: 1617 ms per forward+backward
+functional  depth 10: 6587 ms per forward+backward
+exit: 0
+
+=== apix_UseCore ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes/apix && $FORTRESS_HOME/bin/fortress UseCore.fss
+B[1,1] = 2.0  (A + A)[1,2] = 6.0
+exit: 0
+
+=== apix_v2_UseCore ===
+$ cd $FORTRESS_HOME/explorations/run-b2/probes/apix/v2 && $FORTRESS_HOME/bin/fortress UseCore.fss
+/home/user/fortress/explorations/run-b2/probes/apix/v2/Core.fsi:6:3:
+    Syntax Error
+exit: 255
+
+=== gap-ledger-probes/g11.fss (cold cache) ===
+$ cd $FORTRESS_HOME/explorations/gap-ledger-probes && $FORTRESS_HOME/bin/fortress g11.fss
+<|1, 2, 3|>
+exit: 0
+

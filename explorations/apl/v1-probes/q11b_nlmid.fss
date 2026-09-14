@@ -1,0 +1,20 @@
+(* q11b -- the consuming newline form (aplx … NEWLINE of q11_g.fsi) as a NON-final
+   statement.  The form eats the line break, and the line break is what the host
+   block uses to separate statements (br = nl / s semicolon w, Spacing.rats:101),
+   so the statement after it should have no separator left.  q11_nlform.fss shows
+   the same form working as the LAST statement of a block. *)
+component q11b_nlmid
+import q11_g.{...}
+export Executable
+
+q11num(n: ZZ32): String = ("" n)
+q11cat(a: String, b: String): String = (a " " b)
+q11mon(f: String, r: String): String = ("(" f " " r ")")
+q11dy(f: String, l: String, r: String): String = ("(" l " " f " " r ")")
+
+run(): () = do
+    a = aplx 2 3 ⍴ ⍳ 6
+    println ("aplx as a non-final statement -> " a)
+  end
+
+end

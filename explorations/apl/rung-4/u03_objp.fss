@@ -1,0 +1,82 @@
+(* u03: object expressions.  basic/declarations.tex:466-492 lists everything that
+   may shadow: a FIELD or DOTTED-METHOD declaration in a trait/object declaration
+   or object expression strictly inside the other's reach, a KEYWORD-PARAMETER
+   declaration, `self`, and `result`.  An ordinary (positional) parameter of a
+   dotted method is NOT on that list; a field IS.
+
+   u03_objp.out.0 is the full probe.  All four nestings are refused, the
+   spec-legal field one included:
+
+     (a) nested object expressions, same POSITIONAL method parameters
+         u03_objp.fss:27:36-39: Variable alpha is already declared.
+         u03_objp.fss:27:48-51: Variable omega is already declared.
+     (b) nested object expressions, same FIELD names  -- the spec permits this
+         u03_objp.fss:40:27-30: Top-level variable alpha is already declared.
+         u03_objp.fss:41:27-30: Top-level variable omega is already declared.
+     (c) object-expression method parameter over a LAMBDA parameter
+         u03_objp.fss:52:25-28: Variable alpha is already declared.
+         u03_objp.fss:52:37-40: Variable omega is already declared.
+     (d) object-expression FIELD over a lambda parameter
+         u03_objp.fss:61:22-25: Top-level variable alpha is already declared.
+         u03_objp.fss:62:22-25: Top-level variable omega is already declared.
+
+   (a) and (c) are ExprDisambiguator.checkForShadowingVar; (b) and (d) are
+   checkForShadowingTopVariable (ExprDisambiguator.scala:793-797).  So the
+   interpreter implements NO shadowing at all: not the keyword-parameter
+   shadowing of u02, not the field shadowing of the spec's first bullet.
+
+   u03_objp.out.1 adds one more, unlooked-for: two SIBLING object expressions
+   in the same block, neither inside the other, cannot both have a field named
+   alpha --
+     u03_objp.fss:60:14-17: Top-level variable alpha is already declared.
+     u03_objp.fss:61:14-17: Top-level variable omega is already declared.
+   (line 51 was the first object expression's `alpha`, line 60 the second's).
+   An object expression's field names are therefore checked against the
+   enclosing BLOCK, not only against enclosing declarations that reach into it.
+
+   Below are the positive controls, which do run: the same nestings with
+   DISTINCT names, and a single object expression whose fields are alpha and
+   omega with nothing of those names enclosing it. *)
+component u03_objp
+export Executable
+
+trait AplFn
+    ap(alpha: Any, omega: Any): Any
+end
+
+run(): () = do
+    println("(e) nested object expressions, DISTINCT method parameter names:")
+    outer = object extends AplFn
+                ap(alpha: Any, omega: Any): Any = do
+                    inner = object extends AplFn
+                                ap(a2: Any, o2: Any): Any = (o2 asif ZZ32) + 1
+                              end
+                    (omega asif ZZ32) + (inner.ap(0, 3) asif ZZ32)
+                  end
+              end
+    println(("  outer.ap(0, 10) = " outer.ap(0, 10)))
+
+    println("(f) a single object expression with fields alpha, omega:")
+    ob = object
+             alpha = 1
+             omega = 2
+             tot(): ZZ32 = alpha + omega
+           end
+    println(("  ob.tot() = " ob.tot()))
+
+    println("(g) nested object expressions, DISTINCT field names:")
+    o2 = object
+             al3 = 1
+             om3 = 2
+             go(): ZZ32 = do
+                 ib = object
+                          a2 = 10
+                          o2b = 20
+                          tot(): ZZ32 = a2 + o2b
+                        end
+                 al3 + om3 + ib.tot()
+               end
+           end
+    println(("  o2.go() = " o2.go()))
+  end
+end

@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Transformer(theta: Params, nh: ZZ32)
+  _We: Node = param("wte", theta["wte"])
+  _Wp: Node = param("wpe", theta["wpe"])
+  _Wq: List[\Node\] = <|[\Node\] param("wq" h, theta["wq" h]) | h <- 0 # nh |>
+  _Wk: List[\Node\] = <|[\Node\] param("wk" h, theta["wk" h]) | h <- 0 # nh |>
+  _Wv: List[\Node\] = <|[\Node\] param("wv" h, theta["wv" h]) | h <- 0 # nh |>
+  _Wo: Node = param("wo", theta["wo"])
+  _W1: Node = param("fc1", theta["fc1"])
+  _W2: Node = param("fc2", theta["fc2"])
+  _Wlm: Node = param("lm_head", theta["lm_head"])
+  d_k: ZZ32 = theta["wq0"].cols
+
+  embed(tokens: List[\ZZ32\]): Node = do
+    positions = <|[\ZZ32\] t | t <- 0 # |tokens| |>
+    rmsnorm(_We[tokens] + _Wp[positions])
+  end
+  attention(Q: Node, K: Node, V: Node): Node = softmax((Q K^T)/(SQRT d_k) + causal(Q.rows)) V
+  head(X: Node, h: ZZ32): Node = attention(X _Wq[h], X _Wk[h], X _Wv[h])
+  mha(X: Node): Node = concat(<|[\Node\] head(X, h) | h <- 0 # nh |>) _Wo
+  ffn(X: Node): Node = relu(X _W1) _W2
+  block(X: Node): Node = do
+    X' = X + mha(rmsnorm X)
+    X' + ffn(rmsnorm X')
+  end
+  logits(tokens: List[\ZZ32\]): Node = block(embed tokens) _Wlm
+  loss(tokens: List[\ZZ32\], targets: List[\ZZ32\]): (RR64, Params) = nll(softmax(logits tokens), targets)
+end
+`
+\end{preview}
+\end{document}

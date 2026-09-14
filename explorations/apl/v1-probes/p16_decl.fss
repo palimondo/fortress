@@ -1,0 +1,10 @@
+component p16_decl
+import p16_g.{...}
+export Executable
+
+run(): () = do
+    println(("the expander's value     : " (decl⦇ v ← 41 ⦈)))
+    println(("v afterwards             : " v))
+end
+
+end

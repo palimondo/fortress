@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`beta1: RR64 = 0.85
+beta2: RR64 = 0.99
+epsilon_adam: RR64 = 10.0^(-8)
+adam(theta: Params, g: Params, m: Params, v: Params, t: ZZ32, lr: RR64): (Params, Params, Params) = do
+  m1 = beta1 m + (1 - beta1) g
+  v1 = beta2 v + (1 - beta2) (g ODOT g)
+  m_hat = m1 / (1 - beta1^t)
+  v_hat = v1 / (1 - beta2^t)
+  (theta - lr (m_hat / (SQRT v_hat + epsilon_adam)), m1, v1)
+end
+`
+\end{preview}
+\end{document}

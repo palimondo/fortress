@@ -1,0 +1,6 @@
+VPlain(1,2) SEQV VPlain(1,3) = true
+VBare(1,2)  SEQV VBare(1,3)  = true
+VField(1,2) SEQV VField(1,3) = false
+VField(1,2) SEQV VField(1,2) = true
+library: Just(1) SEQV Just(2) = true
+library: Just(1) SEQV Just(1) = true

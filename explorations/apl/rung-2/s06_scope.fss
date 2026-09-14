@@ -1,0 +1,12 @@
+(* s06: can a name bound in one apl⦇ … ⦈ be read in the NEXT one?  This is what
+   rung 2's workspace table had and the lambda route gives up: a lambda parameter
+   is scoped to its block.  Expected to fail, and kept. *)
+component s06_scope
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+run(): () = do
+    _ = apl⦇ v ← 9 2 6 ⋄ v ⦈
+    println(("a later block reading v = " aplShow(apl⦇ v[1] ⦈)))
+  end
+end

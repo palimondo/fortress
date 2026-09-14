@@ -1,0 +1,11 @@
+nonterminal WE:              Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal AB:              Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal ABC:             Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal AA:              Ok
+nonterminal AAA:             Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal A_B:             Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal Ab:              Ok
+nonterminal AbC:             Ok
+nonterminal A:               Ok
+nonterminal W2:              Ok
+nonterminal AB2:             Ok

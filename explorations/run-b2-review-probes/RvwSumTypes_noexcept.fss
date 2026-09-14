@@ -1,0 +1,22 @@
+component RvwSumTypes_noexcept
+import List.{...}
+import MicroGPT.{...}
+export Executable
+run(): () = do
+  A = mat(2, 2, fn (i, j) => 1.0)
+  P: Params = params(<|[\(String, Mat)\] ("w", A) |>)
+  ps: List[\Params\] = <|[\Params\] P, P |>
+  println("Sigma over Params (the shape the program uses):")
+  sp = SUM[h <- ps.indices] (ps[h])
+  println("  [w][0,0] = " (sp["w"])[0, 0])
+  println("Sigma over RR64:")
+  println("  " (SUM[j <- 0 # 3] 1.0 j))
+  println("Sigma over an EMPTY list of Params:")
+  ps0: List[\Params\] = <|[\Params\] |>
+  println("  " (SUM[h <- ps0.indices] (ps0[h])))
+  println("Sigma over Mat:")
+  ms: List[\Mat\] = <|[\Mat\] A, A |>
+  sm = SUM[h <- ms.indices] (ms[h])
+  println("  [0,0] = " sm[0, 0])
+end
+end

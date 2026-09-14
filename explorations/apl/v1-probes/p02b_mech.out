@@ -1,0 +1,9 @@
+
+
+(a) no spaces in the use  : 10
+(a) spaces in the use     : 10
+(c) plus-reduce           : reduce plus along last of 3
+(c) times-reduce          : reduce times along last of 3
+(c) power-reduce          : reduce power along last of 3
+(c) iota-reduce (nonsense): reduce iota along last of 3
+(c) first-axis reduce     : reduce plus along first of 3

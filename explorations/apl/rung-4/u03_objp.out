@@ -1,0 +1,6 @@
+(e) nested object expressions, DISTINCT method parameter names:
+  outer.ap(0, 10) = 14
+(f) a single object expression with fields alpha, omega:
+  ob.tot() = 3
+(g) nested object expressions, DISTINCT field names:
+  o2.go() = 33

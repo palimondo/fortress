@@ -1,0 +1,57 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11914696271962121777rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11914696271962121777rats/com/sun/fortress/parser/templateparser/TemplateParser75.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11992510823898517084rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11992510823898517084rats/com/sun/fortress/parser/templateparser/TemplateParser113.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(1) | as a terminal, backtick-escaped
+  5`|13 = 3
+(2) < and > as terminals
+  2<3  (the library's Boolean <) = true
+  1 2 3<3 2 1 = 1 0 0
+  1 2 3>3 2 1 = 0 0 1
+(3) the rest of the terminals
+  1 2 3≠3 2 1 = 1 0 1
+  1 0 1∧1 1 0 = 1 0 0
+  1 0 1∨1 1 0 = 1 1 1
+  3∊1 2 3 = 1
+  1 1 2 3 4∪1 2 5 6 = 1 1 2 3 4 5 6
+  1 1 2 3 4∩1 2 5 6 = 1 1 2
+  1 1 2 3 4 5~1 3 5 = 2 4
+  2↑1 2 3 4 = 1 2
+  ¯2↑1 2 3 4 = 3 4
+  6↑1 2 3 4  (overtake pads) = 1 2 3 4 0 0
+  1↓1 2 3 4 = 2 3 4
+  2⍟8 = 3
+  1 2⍪3 4 = 1 2 3 4
+  ⍋3 1 2 = 1 2 0
+  ⍒3 1 2 = 0 2 1
+  ~1 0 1 = 0 1 0
+  `*1 (monadic exp) = 2.718281828459045
+(4) commute ⍨ through a nonterminal of host lambdas
+  1 2 3×⍨2 = 2 4 6
+  1 2 3 4↑⍨2  (take, commuted) = 1 2
+  =⍨1 2 3 = 1 1 1
+  1 2 3<⍨3 2 1  (3 2 1<1 2 3) = 0 0 1
+  1 2,⍨3 4 = 3 4 1 2
+(5) (a,b)⍴x
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-3/T02Syn.fsi:1:1-76:
+Failed to find any matching overload, args = (__DefaultVector[\RR64,2\],5.0:RR64), overload = {
+	aplReshapeV(n:FortressLibrary.RR64,x:FortressLibrary.RR64):Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\] (RR64,RR64)->Array[\RR64,ZZ32\] /home/user/fortress/explorations/apl/base/AplCore.fss:102:1-103:46
+	aplReshapeV[\nat s\](n:FortressLibrary.RR64,v:Vector[\FortressLibrary.RR64,s\]):Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/base/AplCore.fss:104:1-106:58}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/rung-3/T02Syn.fsi:1:1-76:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

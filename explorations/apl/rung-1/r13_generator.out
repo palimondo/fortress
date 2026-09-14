@@ -1,0 +1,13 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress12044365200519840924rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress12044365200519840924rats/com/sun/fortress/parser/templateparser/TemplateParser47.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+|v|                 = 5
+v[2]                = 4
+comprehension       = <|30.0, 10.0, 40.0, 10.0, 50.0|>
+SUM[u <- v] u       = 14.0
+BIG MAX[u <- v] u   = 5.0
+3 1 4 1 5    <- a for over the array
++/m  (rank split)   = 6 22
+SUM over seq(m)     = 28.0   <- that is +/,m, not +/m

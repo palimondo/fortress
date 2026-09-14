@@ -1,0 +1,21 @@
+component q01_bind
+import q01_g.{...}
+export Executable
+
+run(): () = do
+    println(("1. v ← 41 ⋄ v + 1        -> " (qbind⦇ v ← 41 ⋄ v + 1 ⦈)))
+    println(("2. the name is the body's: v ← 7 ⋄ v v  -> "
+             (qbind⦇ v ← 7 ⋄ v v ⦈)))
+    outer: ZZ32 = 100
+    println(("3. the body sees the host too: v ← 5 ⋄ v + outer -> "
+             (qbind⦇ v ← 5 ⋄ v + outer ⦈)))
+    (* 4. shadowing: a host local v of the same name as the block's binder is
+       REJECTED at 14:38 of q01_bind.fss.0 -- "Variable v is already declared".
+       Kept as q01_bind.out.0; the test lives on in q06_shadow.fss. *)
+    println(("4. two blocks, the same name, one function: "
+             (qbind⦇ v ← 1 ⋄ v ⦈) " then " (qbind⦇ v ← 2 ⋄ v ⦈)))
+    println(("5. nested blocks, inner name different: "
+             (qbind⦇ v ← 1 ⋄ qbind⦇ w ← 2 ⋄ v + w ⦈ ⦈)))
+end
+
+end

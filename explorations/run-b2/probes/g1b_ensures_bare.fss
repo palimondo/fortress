@@ -1,0 +1,14 @@
+component g1b_ensures_bare
+export Executable
+
+(* B: the spec's plain ensures clause with no "provided" subclause
+   (functions.tex:427, EnsuresClause ::= Expr (provided Expr)?).
+   DesugarerVisitor.translateEnsures (line 1546) substitutes a VarRef to
+   FortressLibrary.true when the provided subclause is absent. *)
+
+g(n: ZZ32): ZZ32 ensures { outcome > 0 } = n n
+
+run(): () = do
+    println("g(3) = " (g(3)))
+end
+end

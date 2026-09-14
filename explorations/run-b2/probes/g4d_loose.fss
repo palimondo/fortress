@@ -1,0 +1,12 @@
+component g4d_loose
+export Executable
+(* the same call written as a LOOSE juxtaposition: `b.f` is then a dotted
+   field access (a getter call, basic/expressions/field-access.tex) and
+   `(3)` a parenthesized argument, so the reassociation rules of
+   juxtameaning.tex make it a function application. *)
+object Box(f: ZZ32 -> ZZ32) end
+run(): () = do
+  b = Box(fn (x: ZZ32): ZZ32 => x + 1)
+  println("b.f (3) = " (b.f (3)))
+end
+end

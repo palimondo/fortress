@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`beta1: RR64 = 0.85
+beta2: RR64 = 0.99
+epsilon_adam: RR64 = 10.0^(-8)
+adam(theta: Params, g: Params, m: Params, v: Params, t: ZZ32, lr: RR64): (Params, Params, Params) = do
+  m1 = beta1 m + (1 - beta1) g
+  v1 = beta2 v + (1 - beta2) (g ODOT g)
+  m_hat = m1 / (1 - beta1^t)
+  v_hat = v1 / (1 - beta2^t)
+  (theta - lr (m_hat / (SQRT v_hat + epsilon_adam)), m1, v1)
+end
+
+tokenize(doc: String, uchars: String, bos: ZZ32): List[\ZZ32\] =
+  <|[\ZZ32\] bos |> || <|[\ZZ32\] (BIG MIN[i <- 0 # |uchars|, uchars[i] = c] i) | c <- doc |> || <|[\ZZ32\] bos |>
+
+trainStep(theta: Params, nh: ZZ32, toks: List[\ZZ32\], block: ZZ32, m: Params, v: Params, t: ZZ32, lr: RR64): (RR64, Params, Params, Params) = do
+  n = block MIN (|toks| - 1)
+  (L, g) = Transformer(theta, nh).loss(toks[0 # n], toks[1 # n])
+  (theta1, m1, v1) = adam(theta, g, m, v, t, lr)
+  (L, theta1, m1, v1)
+end
+
+choose(p: List[\RR64\], u: RR64): ZZ32 = do
+  total = SUM[x <- p] x
+  var acc: RR64 := 0.0
+  var k: ZZ32 := 0
+  while (k < |p| - 1) AND (acc + p[k] <= u total) do
+    acc += p[k]
+    k += 1
+  end
+  k
+end
+
+sample(model: Transformer, bos: ZZ32, block: ZZ32, temperature: RR64, u: ZZ32 -> RR64): List[\ZZ32\] = do
+  var toks: List[\ZZ32\] = <|[\ZZ32\] bos |>
+  var done: Boolean := false
+  var pos: ZZ32 := 0
+  while (NOT done) AND (pos < block) do
+    P = softmax(model.logits(toks) / temperature).data
+    t = choose(<|[\RR64\] P[pos, j] | j <- 0 # P.cols |>, u(pos))
+    if t = bos then done := true else toks := toks.addRight(t) end
+    pos += 1
+  end
+  toks
+end
+`
+\end{preview}
+\end{document}

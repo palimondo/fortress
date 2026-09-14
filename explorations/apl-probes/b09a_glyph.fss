@@ -1,0 +1,12 @@
+component b09a_glyph
+import b09a_glyph_g.{...}
+export Executable
+run() = do
+    println(g⦇ ⍳ ⦈)
+    println(g⦇ ⍴ ⦈)
+    println(g⦇ ⍵ ⦈)
+    println(g⦇ ⍺ ⦈)
+    println(g⦇ ⌽ ⦈)
+    println(g⦇ ⍉ ⦈)
+end
+end

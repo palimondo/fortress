@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`  ffn(X: Node): Node = relu(X _W1) _W2
+  ffn(X: Node): Node = relu(X _W_1) _W_2
+  logits(tokens: List[\ZZ32\]): Node = block(embed tokens) _Wlm
+  logits(tokens: List[\ZZ32\]): Node = block(embed tokens) _W_lm
+  mha(X: Node): Node = concat(<|[\Node\] head(X, h) | h <- 0 # nh |>) _Wo
+  mha(X: Node): Node = concat(<|[\Node\] head(X, h) | h <- 0 # nh |>) _W_o
+`
+\end{preview}
+\end{document}

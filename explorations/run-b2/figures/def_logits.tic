@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`  logits(tokens: List[\ZZ32\]): Node = block(embed tokens) _Wlm
+
+  loss(tokens: List[\ZZ32\], targets: List[\ZZ32\]): (RR64, Params) = nll(softmax(logits tokens), targets)
+`
+\end{preview}
+\end{document}

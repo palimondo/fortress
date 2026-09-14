@@ -1,0 +1,4 @@
+(b) an api family with an Object result:
+  aplTstF(f, v) = 1.5, aplTstF(f, m) = 0 1 2 3
+(a) a LOCAL family with an Any result -- u16_res.out.0:
+  it fails exactly as the api one does; see the header

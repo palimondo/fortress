@@ -1,0 +1,38 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8490313313232454196rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8490313313232454196rats/com/sun/fortress/parser/templateparser/TemplateParser173.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress16053597164411763882rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress16053597164411763882rats/com/sun/fortress/parser/templateparser/TemplateParser260.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+--- ⋄ and a line break ---
+  v ← 9 2 6 3 5 8 7 4 0 1 ⋄ v[5] = 8
+  two lines = 8 6
+--- a comment after a non-final statement ---
+  m ← 3 3⍴4 1 6 5 2 9 7 8 3 ⍝ a 3×3 matrix / m[1;1] ⍝ Row 1, col 1 = 2
+  three commented lines, last value wins = 1 2 8
+--- indexed assignment is an in-place put ---
+  v ← 9 2 6 3 5 8 7 4 0 1 ⋄ v[3] ← ¯1 ⋄ v = 9 2 6 ¯1 5 8 7 4 0 1
+  q ← 3 3⍴⍳9 ⋄ q[1;1] ← 99 ⋄ q[;0] ← 0 0 0 ⋄ q[0;] ← 7 7 7 ⋄ q = 7  7 7
+0 99 5
+0  7 8
+  v ← 1 2 3 4 5 ⋄ v[1 3] ← 0 ⋄ v = 1 0 3 0 5
+--- selective assignment ---
+  data ← … ⋄ select ← … ⋄ (select/data) ← ¯1 ¯1 ¯1 ¯1 ¯1 ⋄ data = 0 1 ¯1 3 ¯1 ¯1 6 ¯1 ¯1 9
+  m ← 3 3⍴1 2 3 4 8 0 6 5 7 ⋄ (0 0⍉m) ← ¯1 ¯1 ¯1 ⋄ m = ¯1  2  3
+ 4 ¯1  0
+ 6  5 ¯1
+--- compress over two names, and squad over one ---
+  data ← … ⋄ select ← 1 3 0 0 5 0 7 0 0 1 ⋄ select/data = 0 1 1 1 4 4 4 4 4 6 6 6 6 6 6 6 9
+  n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ 1 1⌷n = 2
+  n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ (⊂1 1)⌷n = 5 2 9
+5 2 9
+  n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ n[(0 0)(1 1)(2 2)] = 4 2 3
+--- the name is an ordinary Fortress variable in the block ---
+  v ← 9 2 6 ⋄ ⍎(aplSumLast(v)) = 17
+  m ← 2 3⍴⍳6 ⋄ ⍎(m.t()) = 0 3
+1 4
+2 5

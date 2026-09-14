@@ -1,0 +1,4 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c17_bar_continuation.fss
+(b) parenthesized, || at the end of an inner line: <|a, b, c|>
+exit: 0
+[recovered from the transcript, run-b.jsonl line 611: shown through | tail, so lines run.sh wrote to the file may be absent]

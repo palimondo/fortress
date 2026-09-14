@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-11",
+  "renderer_source_revision": "3cbbc8672a197279d72565db23986d9cc0f237d9",
+  "pipeline": [
+    "bin/fortick -q <name>.tic",
+    "latex -interaction=nonstopmode -halt-on-error <name>.tex",
+    "dvisvgm --no-fonts --exact-bbox --output=<name>.svg <name>.dvi",
+    "pdflatex -interaction=nonstopmode -halt-on-error <name>.tex",
+    "pdftoppm -png -singlefile -r 170 <name>.pdf <name>"
+  ],
+  "all_commands_exit_zero": true,
+  "visual_inspection": "Both PNGs inspected alongside the executable source; readable matrix, summation, identifier/access collision and bracket-spacing difference confirmed.",
+  "files": {
+    "figures/same-data.png": "7043182faae7d5e2852e27cc1e832b1591d85de7fbbc2e0057289cfde5d8ab96",
+    "figures/same-data.svg": "3b998c9e4441adb18ba75b91fb4d81eb661fdfa45327b3bd55dd2444a0206ae6",
+    "figures/same-data.tex": "14de136138f8b182d16b62e614972eda2d4ed10d5cf8d48ff8bf7c523d13856c",
+    "figures/same-data.tic": "a228cfa35218b2979302f38ab56af41ea9a629aff4507cb62f3b10d86084e273",
+    "figures/subscript-meaning.png": "fc29ccb124ab7de5e657a6217e6fc3fd209deb49cfe89f1d1d94c5fff1a1ebc0",
+    "figures/subscript-meaning.svg": "7f55fac8cf08cf26aeb5083a0bd250520975cbd357ecb7542db357841b2233df",
+    "figures/subscript-meaning.tex": "777fd85782e7a108ad52ce0819a32b936a57dc069156b1a254a615de6479605e",
+    "figures/subscript-meaning.tic": "5aa15d78a08ec74958e2c05849972ddb5e074b08592c8a76c4a30d710ccb0df7"
+  }
+}

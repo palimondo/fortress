@@ -1,0 +1,8 @@
+component b09b_charclass
+import b09b_charclass_g.{...}
+export Executable
+run() = do
+    println(cls⦇ ⍳ ⦈)
+    println(cls⦇ ⍵ ⦈)
+end
+end

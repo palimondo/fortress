@@ -1,0 +1,12 @@
+component g4g_field_after
+export Executable
+(* the same question for an ordinary field declaration after a method *)
+object Counter(n: ZZ32)
+  bump(): ZZ32 = n + 1
+  base: ZZ32 = 100
+end
+run(): () = do
+  c = Counter(3)
+  println("bump = " c.bump() "  base = " c.base)
+end
+end

@@ -1,0 +1,16 @@
+/home/user/fortress/explorations/apl/rung-4/u03_objp.fss:27:36-39:
+    Variable alpha is already declared.
+/home/user/fortress/explorations/apl/rung-4/u03_objp.fss:27:48-51:
+    Variable omega is already declared.
+/home/user/fortress/explorations/apl/rung-4/u03_objp.fss:40:27-30:
+    Top-level variable alpha is already declared.
+/home/user/fortress/explorations/apl/rung-4/u03_objp.fss:41:27-30:
+    Top-level variable omega is already declared.
+/home/user/fortress/explorations/apl/rung-4/u03_objp.fss:52:25-28:
+    Variable alpha is already declared.
+/home/user/fortress/explorations/apl/rung-4/u03_objp.fss:52:37-40:
+    Variable omega is already declared.
+/home/user/fortress/explorations/apl/rung-4/u03_objp.fss:61:22-25:
+    Top-level variable alpha is already declared.
+/home/user/fortress/explorations/apl/rung-4/u03_objp.fss:62:22-25:
+    Top-level variable omega is already declared.

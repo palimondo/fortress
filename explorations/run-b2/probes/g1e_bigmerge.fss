@@ -1,0 +1,39 @@
+(* E4: a user BIG operator that reduces a generator of environments by SUMMING
+   the overlapping matrices -- what BIG UNION cannot do, since UNION keeps the
+   leftmost value.  Built the way Map.fss:197-201 builds BIG UNION, out of
+   FortressLibrary's embiggen and __bigOperatorSugar. *)
+component g1e_bigmerge
+import Map.{...}
+import List.{...}
+export Executable
+
+mk(r:ZZ32, c:ZZ32, base:RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    array[\RR64\](r,c).fill(fn (i:ZZ32,j:ZZ32):RR64 => base + 1.0 (c i + j))
+
+plusM(k:String, a:Array[\RR64,(ZZ32,ZZ32)\], b:Array[\RR64,(ZZ32,ZZ32)\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = a + b
+
+opr BIG MERGE():
+        Comprehension[\Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\],
+                      Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\], Any, Any\] =
+    embiggen[\Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\]\](
+        fn (a,b) => a.union(plusM, b), {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] })
+
+opr BIG MERGE(g: Generator[\Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\]\]):
+        Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] =
+    __bigOperatorSugar[\Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\],
+                        Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\], Any, Any\](BIG MERGE(), g)
+
+run(): () = do
+    e1: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] "W" |-> mk(2,3,100.0), "b" |-> mk(2,3,200.0) }
+    e2: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] "W" |-> mk(2,3,1000.0), "c" |-> mk(2,3,3000.0) }
+    e3: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = {[\String, Array[\RR64,(ZZ32,ZZ32)\]\] "W" |-> mk(2,3,10000.0), "b" |-> mk(2,3,20000.0) }
+    es: List[\Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\]\] =
+        <|[\Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\]\] e1, e2, e3 |>
+    s: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\] = BIG MERGE[ m <- seq(es) ] m
+    println("BIG MERGE dom = " dom(s))
+    println("  W (100+1000+10000 = 11100) = " (s["W"])[0,0])
+    println("  b (200+20000     = 20200) = " (s["b"])[0,0])
+    println("  c (3000)                  = " (s["c"])[0,0])
+  end
+end

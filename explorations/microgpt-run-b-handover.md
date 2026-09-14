@@ -48,3 +48,41 @@ In the blinded run's own session and branch, `claude/worker-brief-fable-vnnuv8`,
 - Adopt lists: `explorations/reviews/blinded-fable-vs-astra.md` §2.7-equivalent and `astra-vs-ours.md` §2.7 (tight `/` for stacked fractions; ASCII beside every render; Python adjacent; Adam rendered; real-model goldens of every gradient and Adam step; no fixture constants in the core; no verification plumbing in the core).
 - Facts: `explorations/fortress-gap-ledger.md` (use its rows and marks rather than restating claims), `CLAUDE.md` build facts, the Fortify pipeline (`bin/fortick`, `TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex`, `dvisvgm --no-fonts --exact-bbox`, chromium screenshot; needs emacs-nox).
 - Process: transcript backup via the Stop hook to the `transcripts` branch; commit-and-push-as-you-go; fast-forward `main` after every push; delegation to Opus workers with pointer briefs; Fable tokens conserved.
+
+## Run B launched (2026-09-09), and the coordinator's own attempt
+
+Run B is running in the cleared blinded session on `claude/worker-brief-fable-vnnuv8` from commit 848dfd9f2 (merge of the work branch at 056743f7a onto the blinded run's last commit, plus `experiment/RUN_B_BRIEF.md`). Its transcripts land on `transcripts-blinded`. This session cannot be woken by it: Pavol reports when it finishes, and the result is then imported from that branch into `explorations/run-b/` exactly as the blinded run was, followed by a Phase 1 review of it alone and a Phase 2 comparison, both by independent workers.
+
+Pavol asked whether this coordinator session should make its own attempt under the same brief, and the answer was yes, as a second sample of the informed run at the opposite extreme of anchoring (this session carries every prior design, the reviews and the ledger). Conditions agreed:
+
+1. Work goes in `explorations/run-b2/` on the work branch `claude/handover-reading-vn8zgr`, never in `explorations/run-b/`, which is reserved for the import of the other session's result.
+
+2. This session does not review its own run. Phase 1 reviews of both runs and the Phase 2 comparison go to independent workers, briefed with no favour to either.
+
+3. Exploration and probes go to Opus workers to conserve Fable tokens; context gathering, design and implementation happen in this thread, as the strongest prior run did. Because compaction is the real risk here, design state is committed as it is reached (commit-and-push-as-you-go, `main` fast-forwarded), which is this session's mitigation rather than a process duty.
+
+The brief this attempt follows is `experiment/RUN_B_BRIEF.md` on branch `claude/worker-brief-fable-vnnuv8` (also in the coordinator scratchpad as `run-b/RUN_B_BRIEF.md`, beside the adversarial review `run-b/REVIEW.md` whose 17 findings shaped it). Where the brief says "the branch you are on", read the work branch; where it says `explorations/run-b/`, read `explorations/run-b2/`; the setup section does not apply, this container is already built.
+
+### What to do after compaction
+
+1. Re-read this file, `explorations/protocol.md`, and `experiment/RUN_B_BRIEF.md` (from the branch above, or the scratchpad copy). Check `git status` and `git log --oneline -3`; whatever is in `explorations/run-b2/` is the state of the attempt.
+
+2. If `explorations/run-b2/` does not exist, the attempt has not started. Start with the brief's gate 2, the mechanism inventory from `Specification/fortress/fortress.toc`, committed as `explorations/run-b2/inventory.md`, then the two autodiff skeletons (value-plus-backward-closure tape, and functional backprop with linear maps; the expression tree if time allows), rendered with Fortify and judged beside the formulas before choosing. Report to Pavol when the first rendered pairs exist, with the artifact link on the first line.
+
+3. If it exists, continue from its latest committed state; the design decisions so far are in the committed files, not in memory.
+
+4. Do not touch `explorations/run-b/`, the ledger, or anything under the historical tree. The delegation process agreed with Pavol (condition 3, restated by him after compaction on 2026-09-09): every probe, exploration, replication and compilation task (gate-1 attempts, gate-4 replications, gap tables, review harnesses, reviews) goes to an Opus worker with a pointer brief carrying the brief's standing rules verbatim; this thread keeps only context gathering, design, implementation and the article. Do not run probes here that a worker could run.
+
+5. When Pavol says the other session has finished: import its `explorations/run-b/` from `claude/worker-brief-fable-vnnuv8` verbatim, then commission the reviews (condition 2). Pavol decides the order if both are in flight.
+
+### Run B2 state (2026-09-09)
+
+The coordinator's attempt is built, verified and written up: `explorations/run-b2/` (design state in `design.md`, article published at https://claude.ai/code/artifact/87d25c95-ab48-4ea9-a3ac-507b359e3050). Checks pass to 9e-16 on two golden steps with three replayed samples. What remains for Run B2 is `gaps.md` from the pending replication probes `probes/g4c_*` to `g4i_*`, and possibly a tightening pass on the article after Pavol reads it. Then, when the other session finishes, step 5 above.
+
+## Integration of the two informed runs (agreed with Pavol, 2026-09-09)
+
+What Pavol wants preserved is the exploration record of every run, in two products: the gaps (each run's `gaps.md`, merged into the ledger, plus one cross-run analysis of which problems every run hit and which only one did) and one chronological process record per run in the common format `explorations/process-records/FORMAT.md`, for a later comparison of strategies (single long context versus coordinator with workers; effort against quality). The strict re-verification regime of the Astra review is not to be repeated: it existed because Astra had no transcript. Run B is imported verbatim at bb2f57f79.
+
+Records are being extracted by Opus workers, one file per run under `explorations/process-records/`: `microgpt-port`, `microgpt-paper`, `microgpt-native`, `microgpt2` (this session's four earlier rounds, from this session's transcript), `run-b2` (with the five delegated reports recovered verbatim into `run-b2/probes/REPORT-*.md`), `blinded-fable` and `run-b` (from `transcripts-blinded`: sessions `fe616d40` and `d1c8a60d`), `astra` (from its tree, no transcript). The coordinator numbers the files chronologically at commit time, checks each against the tree, commits and pushes. Model names appear in the records' header row because the strategy comparison is the point; Pavol has not yet confirmed that exception to the no-model-names rule, so flag it when reporting.
+
+Then, in this order: the ledger merge worker (both runs' `gaps.md`, every row re-run, plus the cross-run gap analysis); the reviews in the lighter shape agreed: Phase 1 for Run B and for Run B2 (checks run, rendered pairs judged, and an adopt-list table: adopted, rejected with reason, missed), one Phase 2 of Run B against Run B2 with a short "against the field" section setting each pair's winner beside the best prior render of that pair; the Run B2 reviewer may read the B2 transcript; this session reviews neither.

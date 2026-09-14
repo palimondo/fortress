@@ -1,0 +1,15 @@
+{
+  "started_utc": "2026-09-11T06:17:43.621955+00:00",
+  "command": [
+    "/workspace/scratch/60367cc738a0/fortress-experiment/bin/fortress",
+    "/workspace/scratch/60367cc738a0/fortress/explorations/notation-collaboration/NotationViews.fss"
+  ],
+  "cwd": "/workspace/scratch/60367cc738a0/fortress-experiment",
+  "exit_code": 0,
+  "elapsed_seconds": 3.426,
+  "threads": 1,
+  "source_sha256": "3506d2aeb67c39bd9426778b5af2abbff3083509d44d5b2ee60336038c5fbc55",
+  "output_sha256": "22096b5a1d3fac8af0605834bed6874ece98c654df3572c98d3b44a00d319022",
+  "java_home": "/tmp/fortress-notation-jdk/jdk-25.0.4.1+1",
+  "build": "Existing Astra classes; no Fortress rebuild"
+}

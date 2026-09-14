@@ -1,0 +1,2 @@
+# probe outputs are evidence here; the root .gitignore ignores *.out
+!**/*.out

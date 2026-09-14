@@ -1,0 +1,11 @@
+component p07_assign
+import p07_g.{...}
+export Executable
+
+run(): () = do
+    x: ZZ32 := 0
+    asgn⦇ x ← 41 ⦈
+    println("the variable afterwards  : " x)
+end
+
+end

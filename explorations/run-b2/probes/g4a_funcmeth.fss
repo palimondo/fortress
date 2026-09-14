@@ -1,0 +1,16 @@
+component g4a_funcmeth
+export Executable
+
+object Mat(v: ZZ32)
+end
+opr (A: Mat)^T: Mat = Mat(A.v + 100)
+object Box(m: Mat)
+  dat(self): Mat = m
+end
+
+run(): () = do
+  B = Box(Mat(1))
+  x = dat(B)^T
+  println(x.v)
+end
+end

@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{FortressCode}
+{\tt ~~}\+A\COLON \mathbb{R}64_{2,2} = \left[\begin{array}{cc}1.0\;&2.0\\ 3.0\;&4.0\end{array}\right] \\
+  x\COLON \mathbb{R}64_{2} = [5.0\; 6.0] \\
+  y = A\, x \\
+  z = \VAR{vector}\llbracket\mathbb{R}64,2\rrbracket\left(\KWD{fn} i \Rightarrow \sum\limits_{j \leftarrow 0\mathbin{\#}2}\, A_{i,j}\, x_{j}\right)\-
+\end{FortressCode}
+\end{preview}
+\end{document}

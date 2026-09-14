@@ -1,0 +1,14 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress5210749969754366699rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress5210749969754366699rats/com/sun/fortress/parser/templateparser/TemplateParser12.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+a. v ← 41 ⋄ v              -> 41
+b. v ← 4 ⋄ m ← 2 ⋄ v ⍴ m   -> 42
+c. a non-final expression statement is echoed:
+      echo 41
+   v ← 4 ⋄ v ⍴ 1 ⋄ v       -> 4
+d. newline-separated, the book's layout:
+   -> 72
+e. a name used in a later right-hand side: v ← 4 ⋄ m ← v ⍴ 1 ⋄ m -> 41
+f. two blocks, the same name in each: 1 then 2

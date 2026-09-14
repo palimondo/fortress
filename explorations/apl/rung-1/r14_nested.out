@@ -1,0 +1,34 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress12436038344694035397rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress12436038344694035397rats/com/sun/fortress/parser/templateparser/TemplateParser47.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+nested        = (1 2 3)(4 5)
+|n|           = 2   n[1] = 4 5
+≢ of the cells= 2
+SUM over the cells:
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:36:13-27:
+/home/user/fortress/Library/FortressLibrary.fss:1120:25-34:
+/home/user/fortress/explorations/apl/redesign/r14_nested.fss:27:38:
+/home/user/fortress/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/explorations/apl/redesign/r14_nested.fss:27:24-33:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/explorations/apl/redesign/r14_nested.fss:27:19-38:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

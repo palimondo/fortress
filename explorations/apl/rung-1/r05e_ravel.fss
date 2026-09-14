@@ -1,0 +1,8 @@
+(* r05e -- the prefix half of the comma, kept as its own file because r04_glyphs
+   was edited to get past it.  APL's monadic , is Ravel. *)
+component r05e_ravel
+export Executable
+object D(n: ZZ32) getter asString(): String = ("D" n) end
+opr ,(a: D): D = D(5 a.n)
+run(): () = println(", a = " (, D(1)))
+end

@@ -1,0 +1,6 @@
+(a) AND
+  false AND bump()        = false, bump ran 1 time(s)
+  false AND (fn () => …)  = false, bump ran 0 time(s)
+  true OR bump()          = true, bump ran 1 time(s)
+(b) a component opr with the library's exact parameter types
+  2.0 < 3.0 = 99.0   (99 would be this component's)

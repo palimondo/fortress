@@ -1,0 +1,6 @@
+(b) nested lambdas, DIFFERENT parameter names:
+  fb(1) = 5
+(d) `_` as the inner lambda's parameters:
+  fd(1,2) = 10
+(e) lambda inside a top-level function, fresh names:
+  top(1,2) = 7

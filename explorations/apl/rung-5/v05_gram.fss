@@ -1,0 +1,61 @@
+(* v05: the rung-5 GRAMMAR, against the extended ../base/AplSyntax.fsi -- one
+   line per new production, so that a failure names the rule and not the
+   example that happens to use it.  Asked in the order the rules stand in:
+   ⍣ with a count and with a stop function, ¨ in both valences and over a name
+   strand, the destructuring binding, the ten direct scans, the general
+   f/ f⌿ f\ f⍀ , -⌿ , and ⍨ as a monadic function value. *)
+component v05_gram
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+p(tag: String, s: String): () = println(("  " tag " = " s))
+
+run(): () = do
+    println("(a) ⍣ power")
+    p("2÷⍨⍣3⊢80", aplShow(apl⦇ 2÷⍨⍣3⊢80 ⦈))
+    p("(2÷⍨⍣3)80", aplShow(apl⦇ (2÷⍨⍣3)80 ⦈))
+    p("2÷⍨⍣=10", aplShow(apl⦇ 2÷⍨⍣=10 ⦈))
+    p("{⍵+1}⍣5⊢0", aplShow(apl⦇ {⍵+1}⍣5⊢0 ⦈))
+    p("Blk ← 4 ⋄ {⍵×2}⍣Blk⊢1", aplShow(apl⦇ Blk ← 4 ⋄ {⍵×2}⍣Blk⊢1 ⦈))
+    println("(b) ¨ each")
+    p("×⍨¨1+⍳9", aplShow(apl⦇ ×⍨¨1+⍳9 ⦈))
+    p("{⍵×⍵}¨1 2 3", aplShow(apl⦇ {⍵×⍵}¨1 2 3 ⦈))
+    p("10{⍺+⍵}¨1 2 3", aplShow(apl⦇ 10{⍺+⍵}¨1 2 3 ⦈))
+    p("1 2 3+¨10 20 30", aplShow(apl⦇ 1 2 3+¨10 20 30 ⦈))
+    p("{⍵×⍵}¨2 3⍴⍳6", aplShow(apl⦇ {⍵×⍵}¨2 3⍴⍳6 ⦈))
+    println("(c) ¨ over a NAME STRAND, and the destructuring binding")
+    p("Q ← 2 ⋄ K ← 3 ⋄ Vv ← 4 ⋄ {⍵×⍵}¨Q K Vv",
+      aplShowT(apl⦇ Q ← 2 ⋄ K ← 3 ⋄ Vv ← 4 ⋄ {⍵×⍵}¨Q K Vv ⦈))
+    p("Q K Vv ← {⍵×⍵}¨wq wk wv ⋄ (Q+K)+Vv   (three names bound from one tuple)",
+      aplShow(apl⦇ wq ← 1 ⋄ wk ← 2 ⋄ wv ← 3 ⋄
+                   Q K Vv ← {⍵×⍵}¨wq wk wv ⋄
+                   (Q+K)+Vv ⦈))
+    p("Q K ← {⍵+100}¨wq wk ⋄ Q,K",
+      aplShow(apl⦇ wq ← 1 ⋄ wk ← 2 ⋄ Q K ← {⍵+100}¨wq wk ⋄ Q,K ⦈))
+    println("(d) the ten direct scans")
+    p("+\\1 2 3 4", aplShow(apl⦇ +\1 2 3 4 ⦈))
+    p("-\\1 2 3 4", aplShow(apl⦇ -\1 2 3 4 ⦈))
+    p("×\\1 2 3 4", aplShow(apl⦇ ×\1 2 3 4 ⦈))
+    p("⌈\\3 1 4 1 5", aplShow(apl⦇ ⌈\3 1 4 1 5 ⦈))
+    p("⌊\\3 1 4 1 5", aplShow(apl⦇ ⌊\3 1 4 1 5 ⦈))
+    p("+⍀2 3⍴⍳6", aplShow(apl⦇ +⍀2 3⍴⍳6 ⦈))
+    p("×⍀2 3⍴1+⍳6", aplShow(apl⦇ ×⍀2 3⍴1+⍳6 ⦈))
+    p("⌈⍀2 3⍴⍳6", aplShow(apl⦇ ⌈⍀2 3⍴⍳6 ⦈))
+    p("⌊⍀2 3⍴⍳6", aplShow(apl⦇ ⌊⍀2 3⍴⍳6 ⦈))
+    p("-⍀2 3⍴⍳6", aplShow(apl⦇ -⍀2 3⍴⍳6 ⦈))
+    println("(e) the general f/ f⌿ f\\ f⍀ , and -⌿")
+    p("{⍺+⍵}/⍳5", aplShow(apl⦇ {⍺+⍵}/⍳5 ⦈))
+    p("{⍺-⍵}/1 2 3 4", aplShow(apl⦇ {⍺-⍵}/1 2 3 4 ⦈))
+    p("{⍺+⍵}⌿2 3⍴⍳6", aplShow(apl⦇ {⍺+⍵}⌿2 3⍴⍳6 ⦈))
+    p("{⍺+⍵}\\1 2 3 4", aplShow(apl⦇ {⍺+⍵}\1 2 3 4 ⦈))
+    p("{⍺+⍵}⍀2 3⍴⍳6", aplShow(apl⦇ {⍺+⍵}⍀2 3⍴⍳6 ⦈))
+    p("-⌿1 2 3 4 5 6 7 8 9", aplShow(apl⦇ -⌿1 2 3 4 5 6 7 8 9 ⦈))
+    p("-⌿2 3⍴⍳6", aplShow(apl⦇ -⌿2 3⍴⍳6 ⦈))
+    println("(f) the rules rungs 1-4 already had, re-asked beside the new ones")
+    p("+/1 2 3 4   (still the shipped SUM)", aplShow(apl⦇ +/1 2 3 4 ⦈))
+    p("1 2 3 4↑⍨2  (rung 3's commute, beside the new AplFnM)",
+      aplShow(apl⦇ 1 2 3 4↑⍨2 ⦈))
+    p("⌽⍤1⊢2 3⍴⍳6  (rung 4's rank operator)", aplShow(apl⦇ ⌽⍤1⊢2 3⍴⍳6 ⦈))
+  end
+end

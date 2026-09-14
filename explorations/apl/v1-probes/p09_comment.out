@@ -1,0 +1,12 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress4309775992060642397rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress4309775992060642397rats/com/sun/fortress/parser/templateparser/TemplateParser9.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress2469920555672443429rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress2469920555672443429rats/com/sun/fortress/parser/templateparser/TemplateParser14.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+with a trailing comment  : 41
+without one              : 41

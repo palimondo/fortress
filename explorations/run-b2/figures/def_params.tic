@@ -1,0 +1,24 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`value object Params(m: Map[\String, Mat\])
+  opr[k: String]: Mat = m[k]
+  opr +(self, o: Params): Params = Params(m.union(fn (k, x, y) => x + y, o.m))
+  opr -(self, o: Params): Params = zipWith(fn (x, y) => x - y, o)
+  opr ODOT(self, o: Params): Params = zipWith(fn (x, y) => x ODOT y, o)
+  opr /(self, o: Params): Params = zipWith(fn (x, y) => x / y, o)
+  opr /(self, s: RR64): Params = map(fn (x) => x / s)
+  opr +(self, s: RR64): Params = map(fn (x) => x + s)
+  map(f: Mat -> Mat): Params = Params({[\String, Mat\] k |-> f(v) | (k, v) <- m })
+  zipWith(f: (Mat, Mat) -> Mat, o: Params): Params = Params({[\String, Mat\] k |-> f(v, o.m[k]) | (k, v) <- m })
+end
+opr juxtaposition(s: RR64, P: Params): Params = P.map(fn (x) => s x)
+opr SQRT(P: Params): Params = P.map(fn (x) => SQRT x)
+params(entries: List[\(String, Mat)\]): Params = Params(mapping[\String, Mat\](entries))
+zerosLike(P: Params): Params = P.map(fn (x) => zeros(x.rows, x.cols))
+`
+\end{preview}
+\end{document}

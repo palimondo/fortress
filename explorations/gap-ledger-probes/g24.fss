@@ -1,0 +1,17 @@
+(* g24 (merge pass): minimal reproducer for run-b row 94 -- inside an object, a
+   getter is not reachable by its naked name from a method; self.g is. *)
+component g24
+export Executable
+
+object Node(x: RR64)
+    getter grad(): RR64 = 2.0 x
+    viaSelf(): RR64 = self.grad
+    viaNaked(): RR64 = grad
+end
+
+run(): () = do
+    n = Node(3.0)
+    println("self.grad = " (n.viaSelf()))
+    println("naked grad = " (n.viaNaked()))
+  end
+end

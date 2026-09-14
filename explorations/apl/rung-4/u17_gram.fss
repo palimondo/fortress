@@ -1,0 +1,72 @@
+(* u17: the rung-4 grammar, one line per new rule, before Rung4.fss uses them.
+   A component that uses the expander regenerates two Rats! parsers, so every
+   grammar question is asked in this one file.
+
+   (a) a dfn as a value and as a monadic and dyadic call
+   (b) ⍺ ⍵ in operand positions, a nested dfn with its own ⍵
+   (c) the default ⍺ and the guard
+   (d) ∇ recursion and a named function
+   (e) the rank operator, both spellings and both valences
+   (f) ∘ with a bound left argument, ⊢ and ⊣
+   (g) (a,b,c)⍴x, 2 3 4⍴x, 1 0 2⍉t, dyadic ⊃
+   (h) a multi-line dfn whose first line is a comment
+
+   Three failures on the way, all three recorded:
+   u17_gram.out.0/.1 -- `(a,b,c)⍴x` written as a production that BREAKS ACROSS
+   A LINE between `)` and `⍴` never matches: a line break inside a production's
+   symbol sequence is not optional whitespace.  On one line the rule works.
+   u17_gram.out.3 -- a dfn binding followed by a LINE BREAK and an application
+   swallows the next line: the monadic call rule reads `{…}` as a function and
+   the whole next line as its argument (gap row 63's trap, now for dfns), so a
+   `⋄` is needed after the closing brace. *)
+component u17_gram
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+p(id: String, got: String): () = println(("  " id " = " got))
+
+run(): () = do
+    println("(a) a dfn:")
+    p("{⍵+1} 41            ", aplShow(apl⦇ {⍵+1} 41 ⦈))
+    p("32 {⍺+⍵} 98         ", aplShow(apl⦇ 32 {⍺+⍵} 98 ⦈))
+    p("f ← {⍵×2} ⋄ f 21    ", aplShow(apl⦇ f ← {⍵×2} ⋄ f 21 ⦈))
+    println("(b) ⍺ ⍵ as operands, a dfn in a dfn:")
+    p("{⍵≡⊖⍵} 1 2 3 2 1    ", aplShow(apl⦇ {⍵≡⊖⍵} 1 2 3 2 1 ⦈))
+    p("1 {⍺+{⍵×10} ⍵} 2    ", aplShow(apl⦇ 1 {⍺+{⍵×10} ⍵} 2 ⦈))
+    println("(c) the default ⍺ and the guard:")
+    p("{⍺ ← ¯99 ⋄ ⍺+⍵} 99  ", aplShow(apl⦇ {⍺ ← ¯99 ⋄ ⍺+⍵} 99 ⦈))
+    p("57 {⍺ ← ¯99 ⋄ ⍺+⍵}99", aplShow(apl⦇ 57 {⍺ ← ¯99 ⋄ ⍺+⍵} 99 ⦈))
+    p("{⍵>2: 42 ⋄ ¯99} 3   ", aplShow(apl⦇ {⍵>2: 42 ⋄ ¯99} 3 ⦈))
+    p("{⍵>2: 42 ⋄ ¯99} 1   ", aplShow(apl⦇ {⍵>2: 42 ⋄ ¯99} 1 ⦈))
+    println("(d) ∇ and a named function:")
+    p("sum ← {⍺←0 ⋄ 0=≢⍵:⍺ ⋄ (⍺+⊃⍵)∇1↓⍵} ⋄ sum ⍳10",
+      aplShow(apl⦇ sum ← {⍺ ← 0 ⋄ 0=≢⍵: ⍺ ⋄ (⍺+⊃⍵)∇1↓⍵} ⋄ sum ⍳10 ⦈))
+    p("100 sum ⍳10         ",
+      aplShow(apl⦇ sum ← {⍺ ← 0 ⋄ 0=≢⍵: ⍺ ⋄ (⍺+⊃⍵)∇1↓⍵} ⋄ 100 sum ⍳10 ⦈))
+    println("(e) the rank operator:")
+    p("⌽⍤1⊢2 3⍴⍳6          ", aplShow(apl⦇ ⌽⍤1⊢2 3⍴⍳6 ⦈))
+    p("(⌽⍤1)2 3⍴⍳6         ", aplShow(apl⦇ (⌽⍤1)2 3⍴⍳6 ⦈))
+    p("⍉⍤2⊢2 3⍴⍳6          ", aplShow(apl⦇ ⍉⍤2⊢2 3⍴⍳6 ⦈))
+    p("{+/⍵}⍤1⊢2 3⍴⍳6      ", aplShow(apl⦇ {+/⍵}⍤1⊢2 3⍴⍳6 ⦈))
+    p("0 1 2 +⍤1⊢2 3⍴⍳6    ", aplShow(apl⦇ 0 1 2 +⍤1⊢2 3⍴⍳6 ⦈))
+    p("(2 3⍴⍳6)(+⍤1)2 3⍴⍳6 ", aplShow(apl⦇ (2 3⍴⍳6)(+⍤1)2 3⍴⍳6 ⦈))
+    println("(f) ∘ ⊢ ⊣:")
+    p("relu ← 0∘⌈ ⋄ relu ¯2 ¯1 0 1 2", aplShow(apl⦇ relu ← 0∘⌈ ⋄ relu ¯2 ¯1 0 1 2 ⦈))
+    p("⊢1 2 3              ", aplShow(apl⦇ ⊢1 2 3 ⦈))
+    p("1 2 3⊣4 5 6         ", aplShow(apl⦇ 1 2 3⊣4 5 6 ⦈))
+    println("(g) rank 3 and dyadic ⊃:")
+    p("2 3 4⍴⍳24 : ⍴       ", aplShow(apl⦇ ⍴2 3 4⍴⍳24 ⦈))
+    p("three bindings       ", aplShow(apl⦇ a ← 2 ⋄ b ← 3 ⋄ n ← 4 ⋄ (a,b,n) ⦈))
+    p("(a,b,a)⍴⍳24 : ⍴      ", aplShow(apl⦇ a ← 2 ⋄ b ← 3 ⋄ ⍴(a,b,a)⍴⍳24 ⦈))
+    p("⍴1 0 2⍉2 3 4⍴⍳24    ", aplShow(apl⦇ ⍴1 0 2⍉2 3 4⍴⍳24 ⦈))
+    p("1⊃¯99 42            ", aplShow(apl⦇ 1⊃¯99 42 ⦈))
+    println("(h) a multi-line dfn opening with a comment:")
+    p("MyFirstFunction     ",
+      aplShow(apl⦇ MyFirstFunction ← {
+                       ⍝ Add left and right
+                       ⍺+⍵
+                   } ⋄
+                   32 MyFirstFunction 98 ⦈))
+  end
+end

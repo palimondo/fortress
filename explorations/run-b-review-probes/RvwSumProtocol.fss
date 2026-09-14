@@ -1,0 +1,26 @@
+component RvwSumProtocol
+import FortressLibrary.{...} except { opr BIG + }
+export Executable
+(* gaps row 100: one nullary opr SUM() over a reduction whose join dispatches on
+   Any, plus a user PREFIX opr SUM on a carrier, coexisting in one component.
+   Also gaps row 88: the prefix BIG MAX g on a Generator[\RR64\]. *)
+object Box(v: RR64)
+  getter asString(): String = "Box(" v ")"
+end
+opr +(a: Box, b: Box): Box = Box(a.v + b.v)
+object PlusReduction extends CommutativeMonoidReduction[\Any\]
+  getter asString(): String = "PlusReduction"
+  empty(): Any = 0
+  join(a: Any, b: Any): Any = a + b
+end
+opr SUM(): BigReduction[\Any, Any\] = BigReduction[\Any, Any\](PlusReduction)
+opr SUM(x: Box): Box = Box(x.v + 1000.0)   (* a prefix SUM on a user type *)
+run(): () = do
+  println("numeric  SUM[i <- 1:4] i        = " (SUM[i <- 1:4] i))
+  println("object   SUM[t <- 0#3] Box(t)   = " (SUM[t <- 0#3] Box(1.0 t)))
+  println("prefix   SUM Box(1.5)           = " (SUM Box(1.5)))
+  a: Array[\RR64,ZZ32\] = array[\RR64\](4).fill(fn i => 1.0 i)
+  println("clause   BIG MAX[e <- a] e      = " (BIG MAX[e <- a] e))
+  println("prefix   BIG MAX a              = " (BIG MAX a))
+end
+end

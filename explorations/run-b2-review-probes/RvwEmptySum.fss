@@ -1,0 +1,18 @@
+component RvwEmptySum
+import List.{...}
+import MicroGPT.{...}
+export Executable
+
+(* Reviewer probe.  MicroGPT.fss:16 declares PlusReduction.empty(): Any = 0,
+   an integer identity for a reduction whose values are Mat and Params.
+   What happens when a Sigma in the program runs over an empty generator? *)
+
+run(): () = do
+  A = mat(2, 2, fn (i, j) => 1.0)
+  nonempty = SUM[k <- 0 # 1] A
+  println("SUM over one matrix: [0,0] = " nonempty[0, 0])
+  empty = SUM[k <- 0 # 0] A
+  println("SUM over no matrices: " empty)
+  println("adding it to a matrix: " (empty + A))
+end
+end

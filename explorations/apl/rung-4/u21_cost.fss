@@ -1,0 +1,42 @@
+(* u21: what a dfn call costs against the same primitive written directly.
+   u04 measured the frame stack against a two-parameter host lambda (about 4x);
+   this measures what the rung actually ships: the expansion of `1 {⍺+⍵} 2`,
+   which allocates a closure and pushes a frame, against the expansion of
+   `1+2`, which is the host operator; and the same over 100-element vectors,
+   where the array work should swamp the call.
+
+   nanoTime(), one run each, FORTRESS_THREADS=1, so the ratios are indicative
+   and not a benchmark. *)
+component u21_cost
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+run(): () = do
+    reps = 100000
+    viaDfn = fn (): Any => apl⦇ 1 {⍺+⍵} 2 ⦈
+    direct = fn (): Any => apl⦇ 1+2 ⦈
+    t0 = nanoTime()
+    for i <- seq(0 # reps) do direct() end
+    t1 = nanoTime()
+    for i <- seq(0 # reps) do viaDfn() end
+    t2 = nanoTime()
+    println(("scalars, " reps " calls each:"))
+    println(("  1+2      : " ((t1 - t0) / 1000000000.0) " s"))
+    println(("  1 {⍺+⍵} 2: " ((t2 - t1) / 1000000000.0) " s"))
+    println(("  ratio    : " (((t2 - t1) 1.0) / ((t1 - t0) 1.0))))
+
+    vreps = 10000
+    vDfn = fn (): Any => apl⦇ v ← ⍳100 ⋄ v {⍺+⍵} v ⦈
+    vDir = fn (): Any => apl⦇ v ← ⍳100 ⋄ v+v ⦈
+    s0 = nanoTime()
+    for i <- seq(0 # vreps) do vDir() end
+    s1 = nanoTime()
+    for i <- seq(0 # vreps) do vDfn() end
+    s2 = nanoTime()
+    println(("100-element vectors, " vreps " calls each:"))
+    println(("  v+v      : " ((s1 - s0) / 1000000000.0) " s"))
+    println(("  v {⍺+⍵} v: " ((s2 - s1) / 1000000000.0) " s"))
+    println(("  ratio    : " (((s2 - s1) 1.0) / ((s1 - s0) 1.0))))
+  end
+end

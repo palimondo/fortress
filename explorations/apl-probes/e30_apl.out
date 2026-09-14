@@ -1,0 +1,28 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11073428364771468570rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11073428364771468570rats/com/sun/fortress/parser/templateparser/TemplateParser45.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress12381159341544289980rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress12381159341544289980rats/com/sun/fortress/parser/templateparser/TemplateParser68.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+apl( +/ iota 5 )          : 15.0
+apl( 2 3 rho iota 6 )     :
+1.0 2.0 3.0
+4.0 5.0 6.0
+apl( +/ 1 2 3 4 )         : 10.0
+apl( 2 times iota 5 )     : 2.0 4.0 6.0 8.0 10.0
+apl( reverse iota 5 )     : 5.0 4.0 3.0 2.0 1.0
+apl( rho 2 3 rho iota 6 ) : 2.0 3.0
+apl( +/ 2 3 rho iota 6 )  : 6.0 15.0
+apl( transpose 2 3 rho iota 6 ):
+1.0 4.0
+2.0 5.0
+3.0 6.0
+apl( 3 4 max 4 3 )        : 4.0 4.0
+apl( 1 2 , 3 4 )          : 1.0 2.0 3.0 4.0
+apl( +/ 1 2 + 10 20 )     : 33.0
+right to left: 2 times 3 + 4 = 14, not 10 : 14.0
+EXIT=0

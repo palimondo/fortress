@@ -1,0 +1,19 @@
+component g4e_unrelated
+import List.{...}
+export Executable
+(* g4e: two subscript-operator methods whose first parameters are unrelated
+   library TRAITS (List and Range).  Spec advanced/overloading.tex:224-272,
+   the Meet Rule for Dotted Methods (:344-372): for two declarations where
+   neither parameter list is a subtype of the other, either Ps excludes Qs
+   or a disambiguating declaration f(Ps INTERSECT Qs) must be in scope. *)
+object Box(xs: Array[\ZZ32, ZZ32\])
+  opr[ts: List[\ZZ32\]]: ZZ32 = |ts|
+  opr[r: Range[\ZZ32\]]: ZZ32 = 999
+end
+run(): () = do
+  a = array[\ZZ32\](4).fill(fn (i: ZZ32): ZZ32 => i)
+  b = Box(a)
+  println("b[list]  = " b[<|[\ZZ32\] 1, 2, 3|>])
+  println("b[range] = " b[0#2])
+end
+end

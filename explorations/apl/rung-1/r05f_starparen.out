@@ -1,0 +1,7 @@
+null/home/user/fortress/explorations/apl/redesign/r05f_starparen.fss:4:1-8:
+    Unmatched delimiter "component".
+/home/user/fortress/explorations/apl/redesign/r05f_starparen.fss:8:20:
+    Unmatched delimiter "(".
+/home/user/fortress/explorations/apl/redesign/r05f_starparen.fss:8:30-9:3:
+    Unbalanced comment: '*)' is expected.
+Turn on "-debug interpreter" for Java-level stack trace.

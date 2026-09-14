@@ -1,0 +1,15 @@
+--- indexing a vector ---
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-2/s02_lib.fss:14:10-67:
+Unification error: Closure/Constructor for aplRavel param 1 (v:Vector[\RR64,10\]) got arg (9.0,2.0,6.0,3.0,5.0,8.0,7.0,4.0,0.0,1.0): (FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral) of type (FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral,FloatLiteral)
+Context:
+/home/user/fortress/explorations/apl/rung-2/s02_lib.fss:14:10-67:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

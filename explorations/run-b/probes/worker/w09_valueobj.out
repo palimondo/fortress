@@ -1,0 +1,8 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w09_valueobj.fss
+p === p (same instance)          : true
+q === p (same field values)      : true
+r === p (equal but distinct array): true
+p.f === p.f (closure field)      : true
+p.d === q.d (array field)        : true
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 382: the complete output run.sh wrote]

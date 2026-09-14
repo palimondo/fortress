@@ -1,0 +1,12 @@
+(* C: U+2308/U+2309 as a bracketing operator pair, per
+   Specification/advanced/examples/OprDecl.Bracketing.tex *)
+component c12_opr_ceiling_bracket
+export Executable
+
+object Box(v: ZZ32) end
+
+opr ⌈(b: Box)⌉: ZZ32 = b.v + 100
+
+run() = println(⌈ Box(7) ⌉)
+
+end

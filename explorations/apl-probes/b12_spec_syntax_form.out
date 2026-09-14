@@ -1,0 +1,7 @@
+/home/user/fortress/explorations/apl-probes/b12_spec_syntax_form.fss:9:16-27:
+    Unmatched delimiters "(" and "end".
+/home/user/fortress/explorations/apl-probes/b12_spec_syntax_form.fss:9:29:
+    Unmatched delimiter ")".
+/home/user/fortress/explorations/apl-probes/b12_spec_syntax_form.fss:11:1-3:
+    Unmatched delimiter "end".
+EXIT=255

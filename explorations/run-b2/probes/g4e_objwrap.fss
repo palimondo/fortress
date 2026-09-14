@@ -1,0 +1,19 @@
+component g4e_objwrap
+import List.{...}
+export Executable
+(* Fix 1: give one of the two overloads a parameter whose type is a user
+   OBJECT.  OverloadedFunction.java:466 -- `distinct |= unequal &&
+   (allObjInstance1 || allObjInstance2)` -- an overload all of whose
+   parameters are object-instance types is taken to be distinct. *)
+object Slice(lo: ZZ32, hi: ZZ32) end
+object Box(xs: Array[\ZZ32, ZZ32\])
+  opr[ts: List[\ZZ32\]]: ZZ32 = |ts|
+  opr[s: Slice]: ZZ32 = s.hi - s.lo
+end
+run(): () = do
+  a = array[\ZZ32\](4).fill(fn (i: ZZ32): ZZ32 => i)
+  b = Box(a)
+  println("b[list]  = " b[<|[\ZZ32\] 1, 2, 3|>])
+  println("b[Slice] = " b[Slice(0, 2)])
+end
+end

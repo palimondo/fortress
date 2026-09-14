@@ -1,0 +1,16 @@
+component q02_ref
+import q02a_g.{...}
+export Executable
+
+q02inc(x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    x: ZZ32 = 41
+    println(("a. Id gap as a call argument, q02inc(n): " (qarg⦇ x ⦈)))
+    (* b. the bare spelling <[ n ]> is q02b_g.fsi, and it does NOT parse:
+       q02_ref.out.0 keeps the failure.  The template parser reads a lone gap
+       as the left of an assignment (pExpression$AssignLeft -> QualifiedName ->
+       NodeFactory.makeId), where the gap's text is null. *)
+end
+
+end

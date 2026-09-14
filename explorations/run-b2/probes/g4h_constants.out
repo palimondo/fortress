@@ -1,0 +1,9 @@
+infinity      = Infinity
+-infinity     = -Infinity
+exp(-infinity)= 0.0
+exp(infinity) = Infinity
+1.0 < inf     = true
+-inf < 1.0    = true
+inf isInfinite= true
+MAX 1.0       = Infinity
+literal 1.0/0.0 = inf : true

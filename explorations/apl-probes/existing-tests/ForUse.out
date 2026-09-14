@@ -1,0 +1,31 @@
+With seq
+1
+2
+3
+And without seq
+3 and 102
+3 and 101
+3 and 100
+2 and 102
+2 and 101
+2 and 100
+1 and 102
+1 and 101
+1 and 100
+Testing _
+Works.
+Works.
+Works.
+Testing filter expressions
+102 is an even number.
+100 is an even number.
+Testing more doFront
+Testing at
+Testing at
+Testing at
+Testing atomic
+Testing atomic
+Testing atomic
+Ok, im done!
+EXIT=0
+EXIT=0

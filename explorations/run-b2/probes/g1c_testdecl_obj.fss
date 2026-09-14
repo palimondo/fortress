@@ -1,0 +1,17 @@
+component g1c_testdecl_obj
+export Executable
+
+(* C: a test declaration as an object member (Declaration.rats:66 admits
+   TestDecl among trait/object members). *)
+
+double(x: ZZ32): ZZ32 = 2 x
+
+object Checker(k: ZZ32)
+    getter asString(): String = "Checker(" k ")"
+    test tDouble[x <- 0#3] = assert(double(x) = x + x)
+end
+
+run(): () = do
+    println("run(): " (Checker(1)))
+end
+end

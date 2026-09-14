@@ -1,0 +1,15 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7551543586662161778rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Turn on "-debug interpreter" for Java-level stack trace.
+null/home/user/fortress/explorations/apl-probes/b11_gram_in_component.fss:
+    Error occurred while instantiating and executing a temporary parser: com.sun.fortress.parser.templateparser.TemplateParser1 (/home/user/fortress/explorations/apl-probes/b11_gram_in_component.fss:8:8:
+    Syntax Error)
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+EXIT=1

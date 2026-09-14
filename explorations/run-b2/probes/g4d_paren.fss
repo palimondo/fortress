@@ -1,0 +1,17 @@
+component g4d_paren
+export Executable
+object Box(f: ZZ32 -> ZZ32)
+  (* a method that applies the field *)
+  apply(x: ZZ32): ZZ32 = f(x)
+  (* the same, spelled as an application operator *)
+  opr[x: ZZ32]: ZZ32 = f(x)
+end
+run(): () = do
+  b = Box(fn (x: ZZ32): ZZ32 => x + 1)
+  println("(b.f)(3)  = " ((b.f)(3)))
+  println("b.apply(3)   = " b.apply(3))
+  println("b[3]      = " b[3])
+  g = b.f
+  println("g(3)      = " g(3))
+end
+end

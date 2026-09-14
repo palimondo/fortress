@@ -1,0 +1,13 @@
+(* g26 (merge pass): the leading-|| continuation line ledger row 9 lists as
+   "not tried" (run-b's 9-prime).  (a) the concatenation split with || first on
+   the second line. *)
+component g26
+import List.{...}
+export Executable
+
+xs(): List[\String\] =
+  <|[\String\] "a", "b" |>
+  || <|[\String\] "c" |>
+
+run(): () = println("xs = " xs())
+end

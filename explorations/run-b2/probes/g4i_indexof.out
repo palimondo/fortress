@@ -1,0 +1,16 @@
+indexOf('c')            = Just(2)
+  .holds                = true
+  .get                  = 2
+if i <- indexOf        = 2
+indexOf('z')            = Nothing
+  .holds                = false
+  for ch <- uchars: e
+  for ch <- uchars: d
+  for ch <- uchars: c
+  for ch <- uchars: b
+  for ch <- uchars: a
+uchars[2] = c           = true
+uchars[0] = c           = false
+c IN uchars             = true
+BIG MIN over indices    = 2
+getDefault(-1)          = -1

@@ -1,0 +1,7 @@
+  18.0 24.0 ]}
+s[7] = [0#2,0#2]
+[ 10.0 20.0
+  30.0 40.0 ]
+keys: {7,9}
+exit: 0
+[recovered from the transcript, run-b.jsonl line 263: start of the run is missing (the command displayed only the tail); shown through | tail, so lines run.sh wrote to the file may be absent]

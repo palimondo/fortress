@@ -1,0 +1,28 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/Map.fss:198:46:
+Failed to find any matching overload, args = (EmptyMap[\BOTTOM,BOTTOM\],NodeMap[\String,ZZ32\]), overload = {
+	CUP(self:(Map.Map[\Key,Val\] & {NodeMap[\Key,Val\], EmptyMap[\Key,Val\]}),other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]fn meth(self 0):(Map[\BOTTOM,BOTTOM\],Map[\BOTTOM,BOTTOM\])->Map[\BOTTOM,BOTTOM\] (/home/user/fortress/Library/Map.fss:99:5-101:32)
+	CUP(self:(Map.Map[\Key,Val\] & {NodeMap[\Key,Val\], EmptyMap[\Key,Val\]}),other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]fn meth(self 0):(Map[\String,ZZ32\],Map[\String,ZZ32\])->Map[\String,ZZ32\] (/home/user/fortress/Library/Map.fss:99:5-101:32)
+	Map[\Key,Val\](uninstantiated)[\Key,Val\].CUP(self:(Map.Map[\Key,Val\] & {NodeMap[\Key,Val\], EmptyMap[\Key,Val\]}),other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]/home/user/fortress/Library/Map.fss:99:5-101:32
+	EmptyMap[\Key,Val\](uninstantiated)[\Key,Val\].CUP(self:EmptyMap[\Key,Val\],other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]/home/user/fortress/Library/Map.fss:248:5-66
+	NodeMap[\Key,Val\](uninstantiated)[\Key,Val\].CUP(self:NodeMap[\Key,Val\],other:Map.Map[\Key,Val\]):Map.Map[\Key,Val\]/home/user/fortress/Library/Map.fss:373:5-376:8}:OverloadedFunction
+Context:
+/home/user/fortress/Library/Map.fss:198:46:
+/home/user/fortress/Library/FortressLibrary.fss:3361:29-35:
+/home/user/fortress/Library/RangeInternals.fss:1072:23-40:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:3387:9-48:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:1064:5-23:
+/home/user/fortress/explorations/run-b2/probes/g1e_bigunion1.fss:12:40-50:
+/home/user/fortress/Library/FortressLibrary.fss:1121:25-47:
+/home/user/fortress/explorations/run-b2/probes/g1e_bigunion1.fss:12:29-55:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

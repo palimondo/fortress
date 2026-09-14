@@ -1,0 +1,99 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8967461294132800941rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8967461294132800941rats/com/sun/fortress/parser/templateparser/TemplateParser327.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8388173766070322285rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8388173766070322285rats/com/sun/fortress/parser/templateparser/TemplateParser491.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+--- take, drop, rotate ---
+  2↑1 2 3 4 = 1 2
+  ¯2↑1 2 3 4 = 3 4
+  6↑1 2 3 4 = 1 2 3 4 0 0
+  1↓1 2 3 4 = 2 3 4
+  1↑⍎(m) = 3 0 5 1
+  1↓⍎(m) = 7  9  8 6
+2 10 11 4
+  2 2↑⍎(m) = 3 0
+7 9
+  1 2↓⍎(m) =  8 6
+11 4
+  1⌽1 2 3 4 = 2 3 4 1
+  1⌽⍎(m) =  0  5 1 3
+ 9  8 6 7
+10 11 4 2
+  1⊖⍎(m) = 7  9  8 6
+2 10 11 4
+3  0  5 1
+  1 2 ¯1 0⊖⍎(m) = 7 10 11 1
+2  0  5 6
+3  9  8 4
+--- ⍳ ⍸ | ---
+  1 2 3 4⍳3 = 2
+  ⍳4  (monadic, still) = 0 1 2 3
+  1 3 5 7 9⍸8 9 0 = 3 4 ¯1
+  ⍸0 1 0 2 = 1 3 3
+  5|13 = 3
+  5|⍳6 = 0 1 2 3 4 0
+  |¯3 = 3
+--- set primitives ---
+  3∊1 2 3 = 1
+  ∊⍎(m) = 3 0 5 1 7 9 8 6 2 10 11 4
+  1 1 2 3 4∪1 2 5 6 = 1 1 2 3 4 5 6
+  ∪1 1 2 2 3 = 1 2 3
+  1 1 2 3 4∩1 2 5 6 = 1 1 2
+  1 1 2 3 4 5~1 3 5 = 2 4
+  ~1 0 1 = 0 1 0
+--- comparisons, connectives ---
+  1 2 3=1 5 3 = 1 0 1
+  1 2 3≠1 5 3 = 0 1 0
+  1 2 3<1 5 3 = 0 1 0
+  1 2 3>1 5 3 = 0 0 0
+  1 2 3≥1 5 3 = 1 0 1
+  1 2 3≤1 5 3 = 1 1 1
+  0=5|⍳10 = 1 0 0 0 0 1 0 0 0 0
+  1 0 1∧1 1 0 = 1 0 0
+  1 0 1∨1 1 0 = 1 1 1
+  ⍎(m)>5 = 0 0 0 0
+1 1 1 1
+0 1 1 0
+--- , ⍪ ⍟ * and the new reductions ---
+  ⍎(m),⍎(m) = 3  0  5 1 3  0  5 1
+7  9  8 6 7  9  8 6
+2 10 11 4 2 10 11 4
+  ⍴⍎(m)⍪⍎(m) = 6 4
+  ⍪1 2 3 = 1
+2
+3
+  2⍟8 = 3
+  ⍟1 = 0
+  *0 1 = 1 2.718281828459045
+  ⌊/3 1 2 = 1
+  ⌊⌿⍎(m) = 2 0 5 1
+  ⌈⌿⍎(m) = 7 10 11 6
+  ×⌿⍎(m) = 42 0 440 24
+  ⌈/⍎(m)  (rung 1's, still) = 5 9 11
+--- ⍋ ⍒ ---
+  ⍋3 1 2 = 1 2 0
+  ⍒3 1 2 = 0 2 1
+--- commute ⍨ ---
+  1 2 3 4↑⍨2 = 1 2
+  2 4 6÷⍨2 = 1 0.5 0.3333333333333333
+  =⍨1 2 3 = 1 1 1
+  +⍨1 2 3 = 2 4 6
+  1 2,⍨3 4 = 3 4 1 2
+  ⍎(m)⊖⍨1 = 7  9  8 6
+2 10 11 4
+3  0  5 1
+--- (a,b)⍴x ---
+  (2,3)⍴5 = 5 5 5
+5 5 5
+  (2,3)⍴⍳6 = 0 1 2
+3 4 5
+--- rungs 1 and 2 read the same way ---
+  +/2 4⍴⍳8 = 6 22
+  2 × 3 + 4 = 14
+  ⍎(m)[1;2] = 8
+  0 1 0⌿⍎(m) = 7 9 8 6

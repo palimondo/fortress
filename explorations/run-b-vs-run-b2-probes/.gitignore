@@ -1,0 +1,3 @@
+# the root .gitignore ignores *.out (a LaTeX byproduct rule); these are probe outputs
+!*.out
+!failed/*.out

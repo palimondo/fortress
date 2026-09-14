@@ -1,0 +1,50 @@
+(a) ¨ monadic
+  sq¨ 1 2 3 4      = 1 4 9 16
+  sq¨ m            = 0  1  4
+9 16 25
+  sq¨ 5            = 25
+(b) ¨ dyadic, with scalar extension
+  10 add¨ 1 2 3 4  = 11 12 13 14
+  v add¨ v         = 2 4 6 8
+  m add¨ 100       = 100 101 102
+103 104 105
+(c) ¨ over a name strand (a tuple)
+  sq¨ (2, v, m):
+4
+
+1 4 9 16
+
+0  1  4
+9 16 25
+  sq¨ (2, 3):
+4
+
+9
+(d) the general fold, right to left
+  add/ 1 2 3 4     = 10
+  sub/ 1 2 3 4     = ¯2
+  add/ m           = 3 12
+  add⌿ m           = 3 5 7
+(e) the direct scans; APL's definition, not a running fold
+  +\ 1 2 3 4       = 1 3 6 10
+  -\ 1 2 3 4       = 1 ¯1 2 ¯2
+  ×\ 1 2 3 4       = 1 2 6 24
+  +⍀ m             = 0 1 2
+3 5 7
+  +\ m             = 0 1  3
+3 7 12
+(f) the general scan
+  add\ 1 2 3 4     = 1 3 6 10
+  sub\ 1 2 3 4     = 1 ¯1 2 ¯2
+(g) -⌿ on a matrix, the reduction rungs 1 and 3 left out
+  -⌿ m             = ¯3 ¯3 ¯3
+(h) ⍣ power
+  half⍣3⊢ 80       = 10
+  half⍣= 10        = 0
+(i) ⍨ as a value
+  ×⍨ 7   (aplCommute)   = 49
+  2÷⍨ 9  (aplBindRight) = 4.5
+  3 -⍨ 10 (aplCommuteD) = 7
+(j) the two contract violations
+  {⍳⍵}¨ 1 2 3 4 (a nested result) = CallerViolation
+  add/ ⍬        (empty, general)  = CallerViolation

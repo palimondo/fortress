@@ -1,0 +1,40 @@
+(* u16: u15 pinned the obstacle on the api's `Any` as the RESULT type of an
+   OVERLOADED function.  Two ways out, asked together:
+
+   (a) a LOCAL overload family with an `Any` result -- does the same family
+       dispatch when it is not exported?
+   (b) an api family with an `Object` result, one member returning an RR64 and
+       one an array (a TEMPORARY aplTstF in base/AplCore, removed once the
+       answer was in, so this file no longer runs against the current base;
+       u16_res.out is its run):
+
+         aplTstF[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): Object = 1.5
+         aplTstF[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): Object = aplRavel(m)
+
+   (a) answers NO, and that widens u15: it is not the api boundary at all.  An
+   overloaded function whose declared RESULT is `Any` does not dispatch even
+   when it is declared in the same component as its call (u16_res.out.0):
+
+     Failed to find any matching overload, args = (FnExpr … ()->Any …,
+     __DefaultMatrix[\RR64,2,2\]), overload = {
+       loc[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):Any …
+       loc[\nat r,nat c\](f:()->Any,m:Matrix[\FortressLibrary.RR64,r,c\]):Any …}
+
+   So the result type is the whole of it, and (b) is the way out. *)
+component u16_res
+import AplCore.{...}
+export Executable
+
+loc[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): Any = 1.5
+loc[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): Any = aplRavel(m)
+
+run(): () = do
+    m = aplMat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    v = aplVec(2, fn (i: ZZ32): RR64 => 1.0 i)
+    f = fn (): Any => 1.0
+    println("(b) an api family with an Object result:")
+    println(("  aplTstF(f, v) = " aplShow(aplTstF(f, v)) ", aplTstF(f, m) = " aplShow(aplTstF(f, m))))
+    println("(a) a LOCAL family with an Any result -- u16_res.out.0:")
+    println("  it fails exactly as the api one does; see the header")
+  end
+end

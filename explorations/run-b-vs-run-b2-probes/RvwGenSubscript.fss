@@ -1,0 +1,31 @@
+component RvwGenSubscript
+import List.{...}
+export Executable
+
+(* Goal: achieve ONE subscript overload that serves both a List of indices and
+   the range value 0 # n, which run b2's gaps row 112 records as needing an
+   excludes pair, an object wrapper or a typecase.  Declared over the single
+   supertype Generator[\ZZ32\], as run b's src/MicroGPT.fss:67 does. *)
+
+object M(v: Array[\RR64,(ZZ32,ZZ32)\])
+  getter asString(): String = do
+    (n, m) = v.sizes
+    var s: String := ""
+    for i <- seq(0 # n), j <- seq(0 # m) do s := s " " v[i, j] end
+    s
+  end
+  opr [ts: Generator[\ZZ32\]]: M = do
+    ix = <|[\ZZ32\] t | t <- ts |>
+    (n, m) = v.sizes
+    M(array[\RR64\](|ix|, m).fill(fn (i, j) => v[ix[i], j]))
+  end
+end
+
+run(): () = do
+  A = M(array[\RR64\](3, 2).fill(fn (i, j) => 10.0 i + j))
+  toks: List[\ZZ32\] = <|[\ZZ32\] 2, 0, 2 |>
+  println("by a List  :" A[toks])
+  println("by 0 # n   :" A[0 # 2])
+  println("by a Range :" A[1:2])
+end
+end

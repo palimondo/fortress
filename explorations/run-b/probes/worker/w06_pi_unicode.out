@@ -1,0 +1,5 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w06_pi_unicode.fss
+/home/user/fortress/explorations/run-b/probes/worker/w06_pi_unicode.fss:6:29:
+    Variable ? is not defined.
+exit: 255
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 335: shown through | head, so lines run.sh wrote to the file may be absent]

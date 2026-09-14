@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`causal(T: ZZ32): Mat = mat(T, T, fn (i, j) => if j <= i then 0.0 else -infinity end)
+`
+\end{preview}
+\end{document}

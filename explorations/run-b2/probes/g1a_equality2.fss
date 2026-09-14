@@ -1,0 +1,29 @@
+component g1a_equality2
+export Executable
+
+(* A: how far the value-object SEQV of objects.tex:427 actually goes on this
+   interpreter.  VPlain has only methods in its body; VField also declares a
+   field in the body.  FOrdinaryObject.seqv walks FTypeObject.getFieldNames,
+   and FTypeObject only records the constructor parameters when the body
+   contains at least one field declaration. *)
+
+value object VPlain(x: ZZ32, y: ZZ32)
+    getter asString(): String = "VPlain(" x ", " y ")"
+end
+
+value object VBare(x: ZZ32, y: ZZ32) end
+
+value object VField(x: ZZ32, y: ZZ32)
+    tag: ZZ32 = 0
+    getter asString(): String = "VField(" x ", " y ")"
+end
+
+run(): () = do
+    println("VPlain(1,2) SEQV VPlain(1,3) = " (VPlain(1,2) SEQV VPlain(1,3)))
+    println("VBare(1,2)  SEQV VBare(1,3)  = " (VBare(1,2)  SEQV VBare(1,3)))
+    println("VField(1,2) SEQV VField(1,3) = " (VField(1,2) SEQV VField(1,3)))
+    println("VField(1,2) SEQV VField(1,2) = " (VField(1,2) SEQV VField(1,2)))
+    println("library: Just(1) SEQV Just(2) = " (Just[\ZZ32\](1) SEQV Just[\ZZ32\](2)))
+    println("library: Just(1) SEQV Just(1) = " (Just[\ZZ32\](1) SEQV Just[\ZZ32\](1)))
+end
+end

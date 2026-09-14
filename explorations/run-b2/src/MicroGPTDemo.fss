@@ -1,0 +1,48 @@
+component MicroGPTDemo
+import List.{...}
+import MicroGPT.{...}
+import MicroGPTRef.{...}
+export Executable
+
+(* A bounded training demo: the reference's initial weights and its shuffled
+   document order (from the fixture), a few Adam steps, then samples drawn
+   with the library's random numbers.  Bounded because the walk interpreter
+   is two to three orders of magnitude slower than CPython on this workload. *)
+
+opr (A: Mat)^T: Mat = transpose(A)
+toMat(rows: List[\List[\RR64\]\]): Mat = mat(|rows|, |rows[0]|, fn (i, j) => (rows[i])[j])
+d_k: ZZ32 = ref_n_embd DIV ref_n_head
+headBlock(W: Mat, h: ZZ32): Mat = transpose(mat(d_k, W.cols, fn (i, j) => W[d_k h + i, j]))
+initTheta(): Params = params(
+  <|[\(String, Mat)\] ("wte", toMat(ref_init("wte"))), ("wpe", toMat(ref_init("wpe"))),
+     ("lm_head", transpose(toMat(ref_init("lm_head")))), ("wo", transpose(toMat(ref_init("layer0.attn_wo")))),
+     ("fc1", transpose(toMat(ref_init("layer0.mlp_fc1")))), ("fc2", transpose(toMat(ref_init("layer0.mlp_fc2")))) |>
+  || <|[\(String, Mat)\] ("wq" h, headBlock(toMat(ref_init("layer0.attn_wq")), h)) | h <- 0 # ref_n_head |>
+  || <|[\(String, Mat)\] ("wk" h, headBlock(toMat(ref_init("layer0.attn_wk")), h)) | h <- 0 # ref_n_head |>
+  || <|[\(String, Mat)\] ("wv" h, headBlock(toMat(ref_init("layer0.attn_wv")), h)) | h <- 0 # ref_n_head |>)
+
+decode(toks: List[\ZZ32\]): String = BIG ||[t <- toks, t =/= ref_bos] ref_uchars[t]
+
+run(): () = do
+  nsteps = 12
+  docs = ref_docs_head()
+  var theta: Params := initTheta()
+  var m: Params := zerosLike(theta)
+  var v: Params := zerosLike(theta)
+  for s <- seq(0 # nsteps) do
+    doc = docs[s MOD |docs|]
+    toks = tokenize(doc, ref_uchars, ref_bos)
+    lr = ref_learning_rate (1 - s / (1.0 ref_num_steps_schedule))
+    t0 = nanoTime()
+    (L, theta1, m1, v1) = trainStep(theta, ref_n_head, toks, ref_block_size, m, v, s + 1, lr)
+    (theta, m, v) := (theta1, m1, v1)
+    println("step " (s + 1) " / " nsteps " | loss " L " | doc " doc " | " ((nanoTime() - t0) / 1000000000.0) " s")
+  end
+  model = Transformer(theta, ref_n_head)
+  println("--- inference (new, hallucinated names) ---")
+  for k <- seq(0 # 5) do
+    toks = sample(model, ref_bos, ref_block_size, ref_temperature, fn (pos) => random(1.0))
+    println("sample " (k + 1) ": " decode(toks))
+  end
+end
+end

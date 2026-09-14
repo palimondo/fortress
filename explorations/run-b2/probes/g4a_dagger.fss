@@ -1,0 +1,15 @@
+component g4a_dagger
+export Executable
+
+object Mat(v: ZZ32)
+end
+opr (A: Mat)† : Mat = Mat(A.v + 100)
+object Box(data: Mat)
+end
+
+run(): () = do
+  B = Box(Mat(1))
+  x = B.data†
+  println(x.v)
+end
+end

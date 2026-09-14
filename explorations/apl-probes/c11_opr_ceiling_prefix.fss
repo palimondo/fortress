@@ -1,0 +1,9 @@
+(* C: U+2308 LEFT CEILING as a prefix operator (APL's monadic ceiling). *)
+component c11_opr_ceiling_prefix
+export Executable
+
+opr ⌈(x: ZZ32): ZZ32 = x
+
+run() = println(⌈ 3)
+
+end

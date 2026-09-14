@@ -1,0 +1,16 @@
+component g1c_property_obj
+export Executable
+
+(* C: property declared inside an object, spec basic/tests.tex:277
+   "Properties can also be declared in trait or object declarations."
+   (IndexBuilder.scala:301,349 take this path.) *)
+
+object Box(v: ZZ32)
+    getter asString(): String = "Box(" v ")"
+    property nonNegative = v >= 0
+end
+
+run(): () = do
+    println("Box(3) = " (Box(3)))
+end
+end

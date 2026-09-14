@@ -1,0 +1,20 @@
+(* D1: spec 13.29.4 array/matrix pasting.  Four 3x4 matrices juxtaposed inside
+   an array literal should paste into one 3x16 matrix.  Declared LHS type
+   (ledger row 49) so the element type need not be inferred. *)
+component g1d_paste1
+export Executable
+
+mk(base: RR64): Matrix[\RR64,3,4\] =
+    matrix[\RR64,3,4\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => base + 1.0 (4 i + j))
+
+run(): () = do
+    h1: Matrix[\RR64,3,4\] = mk(100.0)
+    h2: Matrix[\RR64,3,4\] = mk(200.0)
+    h3: Matrix[\RR64,3,4\] = mk(300.0)
+    h4: Matrix[\RR64,3,4\] = mk(400.0)
+    println("h1 = " h1)
+    cat: Matrix[\RR64,3,16\] = [ h1 h2 h3 h4 ]
+    println("cat = " cat)
+    println("cat[0,0] = " cat[0,0] "  cat[0,4] = " cat[0,4] "  cat[2,15] = " cat[2,15])
+  end
+end

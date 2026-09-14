@@ -1,0 +1,42 @@
+component g1b_ok
+export Executable
+
+(* B: function contracts, spec basic/functions.tex:417 "Function Contracts".
+   Contract ::= (Requires)? (Ensures)? (Invariant)?, requires { ExprList },
+   ensures { Expr (provided Expr)? , ... }, invariant { ExprList }.
+   The contract sits after the return type and before "=", on the header line
+   (the parser rule lives in NoNewlineHeader.rats:214). *)
+
+value object Mat(nr: ZZ32, nc: ZZ32, a: Array[\RR64,(ZZ32,ZZ32)\])
+    getter asString(): String = do
+        var s: String := "[" nr "x" nc ":"
+        for i <- seq(0 # nr) do
+            for j <- seq(0 # nc) do
+                s := s " " (a[i,j])
+            end
+            s := s " ;"
+        end
+        s "]"
+    end
+end
+
+mk(nr: ZZ32, nc: ZZ32, f: (ZZ32,ZZ32) -> RR64): Mat =
+    Mat(nr, nc, array[\RR64\](nr,nc).fill(f))
+
+mmul(X: Mat, Y: Mat): Mat requires { X.nc = Y.nr } ensures { outcome.nr = X.nr provided true, outcome.nc = Y.nc provided true } invariant { X.nr, Y.nc } = do
+    m = X.nc
+    p = Y.nc
+    xa = X.a
+    ya = Y.a
+    Mat(X.nr, p, array[\RR64\](X.nr, p).fill(fn (i:ZZ32, j:ZZ32): RR64 =>
+        SUM[k <- seq(0 # m)] (xa[i,k] ya[k,j])))
+end
+
+run(): () = do
+    A = mk(2, 3, fn (i:ZZ32, j:ZZ32): RR64 => 1.0 + i + 3.0 j)
+    B = mk(3, 2, fn (i:ZZ32, j:ZZ32): RR64 => if i = j then 1.0 else 0.5 end)
+    println("A = " A)
+    println("B = " B)
+    println("mmul(A,B) = " (mmul(A, B)))
+end
+end

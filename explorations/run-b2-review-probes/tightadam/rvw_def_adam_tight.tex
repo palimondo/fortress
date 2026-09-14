@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{FortressCode}
+\VAR{adam}(\theta\COLON \TYP{Params}, g\COLON \TYP{Params}, m\COLON \TYP{Params}, v\COLON \TYP{Params}, t\COLON \mathbb{Z}32, \VAR{lr}\COLON \mathbb{R}64)\COLON (\TYP{Params}, \TYP{Params}, \TYP{Params}) =\; \KWD{do} \\
+\2\+m_1 = \beta_1\, m + (1 - \beta_1)\, g \\
+  v_1 = \beta_2\, v + (1 - \beta_2)\, (g \odot g) \\
+  \hat{m} = {\textstyle{}m_1\over\textstyle1 - \beta_1^{t}} \\
+  \hat{v} = {\textstyle{}v_1\over\textstyle1 - \beta_2^{t}} \\
+  \left(\theta - \VAR{lr} {\textstyle\hat{m}\over\textstyle\sqrt{ \hat{v}} + \epsilon_{\mathrm{adam}}}, m_1, v_1\right)\- \\
+\KWD{end}
+\end{FortressCode}
+\end{preview}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{FortressCode}
+\VAR{head}(X\COLON \TYP{Mat}, h\COLON \mathbb{Z}32, \mathbf{Wq}\COLON \TYP{Mat}, W_{\mathrm{q}}\COLON \TYP{Mat}, \mathbf{W}_{\mathrm{q}}\COLON \TYP{Mat}, \TYP{Wq}\COLON \TYP{Mat}, \mathbf{Wo}\COLON \TYP{Mat}, W_{\mathrm{o}}\COLON \TYP{Mat})\COLON \TYP{Mat} =\; \KWD{do} \\
+\2\+A = X\, \mathbf{Wq} \\
+  B = X\, W_{\mathrm{q}} \\
+  C = X\, \mathbf{W}_{\mathrm{q}} \\
+  D = X\, \TYP{Wq} \\
+  E = X\, \mathbf{Wo} \\
+  F = X\, W_{\mathrm{o}} \\
+  A + B + C + D + E + F\- \\
+\KWD{end}
+\end{FortressCode}
+\end{preview}
+\end{document}

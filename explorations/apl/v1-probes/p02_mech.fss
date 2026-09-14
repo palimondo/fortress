@@ -1,0 +1,17 @@
+component p02_mech
+import p02_g.{...}
+export Executable
+
+p02Red(f: String, n: ZZ32): String = ("reduce " f " over " n)
+
+run(): () = do
+    x: ZZ32 = 41
+    println("(a) no spaces in the use  : " (nospace⦇5,5⦈))
+    println("(a) spaces in the use     : " (nospace⦇ 5 , 5 ⦈))
+    println("(b) Id gap as expression  : " (idgap⦇ x ⦈))
+    println("(c) f/ with plus          : " (redop⦇ +/ 3 ⦈))
+    println("(c) f/ with times         : " (redop⦇ ⍳/ 3 ⦈))
+    println("(c) f/ with power         : " (redop⦇ */ 3 ⦈))
+end
+
+end

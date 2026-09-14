@@ -1,0 +1,13 @@
+(* D7: unpasting with the spec's extent specifications (8.3 UnpastingDim),
+   square right-hand side so nothing else can be blamed. *)
+component g1d_unpaste2
+export Executable
+
+run(): () = do
+    Q: Matrix[\RR64,4,4\] =
+        matrix[\RR64,4,4\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => 1.0 (4 i + j))
+    [ A[2 BY 2] B[2 BY 2] ; C[2 BY 2] D[2 BY 2] ] = Q
+    println("A = " A)
+    println("D = " D)
+  end
+end

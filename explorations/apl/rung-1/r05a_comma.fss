@@ -1,0 +1,8 @@
+(* r05a -- APL's dyadic , (catenate) as an infix Fortress operator.  r04 died
+   at the PREFIX declaration (ravel); is the infix one declarable? *)
+component r05a_comma
+export Executable
+object D(n: ZZ32) getter asString(): String = ("D" n) end
+opr ,(a: D, b: D): D = D(a.n + b.n)
+run(): () = println("a , b = " (D(1) , D(2)))
+end

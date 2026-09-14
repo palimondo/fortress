@@ -1,0 +1,17 @@
+component p02b_mech
+import p02b_g.{...}
+export Executable
+
+p02Red(f: String, axis: String, n: ZZ32): String = ("reduce " f " along " axis " of " n)
+
+run(): () = do
+    println("(a) no spaces in the use  : " (nospace⦇5,5⦈))
+    println("(a) spaces in the use     : " (nospace⦇ 5 , 5 ⦈))
+    println("(c) plus-reduce           : " (redop⦇ +/ 3 ⦈))
+    println("(c) times-reduce          : " (redop⦇ ×/ 3 ⦈))
+    println("(c) power-reduce          : " (redop⦇ */ 3 ⦈))
+    println("(c) iota-reduce (nonsense): " (redop⦇ ⍳/ 3 ⦈))
+    println("(c) first-axis reduce     : " (redfi⦇ +⌿ 3 ⦈))
+end
+
+end

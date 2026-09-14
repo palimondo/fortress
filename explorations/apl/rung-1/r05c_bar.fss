@@ -1,0 +1,8 @@
+(* r05c -- APL's | is monadic magnitude and dyadic residue; in Fortress a run of
+   vertical lines is an encloser (merged ledger rows 9, 87, 88). *)
+component r05c_bar
+export Executable
+object D(n: ZZ32) getter asString(): String = ("D" n) end
+opr |(a: D, b: D): D = D(a.n + b.n)
+run(): () = println("a | b = " (D(1) | D(2)))
+end

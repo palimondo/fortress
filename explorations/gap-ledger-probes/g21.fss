@@ -1,0 +1,12 @@
+(* g21 (merge pass): minimal reproducer for run-b row 92 -- a local name that
+   repeats a top-level function name. *)
+component g21
+export Executable
+
+step(k: ZZ32): ZZ32 = k + 1
+
+run(): () = do
+    step: ZZ32 = 3
+    println("step = " step)
+  end
+end

@@ -1,0 +1,43 @@
+t = [0#2,0#3,0#4]
+[ 0.0 10.0 20.0
+  100.0 110.0 120.0 ;;
+  1.0 11.0 21.0
+  101.0 111.0 121.0 ;;
+  2.0 12.0 22.0
+  102.0 112.0 122.0 ;;
+  3.0 13.0 23.0
+  103.0 113.0 123.0 ]
+(a) the library's own routes:
+  t.shift((1,0,0)) moves the ORIGIN: s[1,0,0] = 0.0
+  t[(0,0,1)#(2,3,1)] = [0#2,0#3,0#1]
+[ 1.0 11.0 21.0
+  101.0 111.0 121.0 ]
+  the one-deep slice is STILL Rank3, not a matrix
+(b) a user plane view that IS a Matrix:
+  AplPlane(t,1) =   1  11  21
+101 111 121
+  f(plane) -> rank 2, 2x3
+  after plane[0,0] := ¯1, t[0,0,1] = -1.0 (it writes through)
+(c) the 1 0 2 transpose as a view:
+  q.sizes = (3,2,4)
+  t[1,2,3] = 123.0, q[2,1,3] = 123.0
+  f(q) -> rank 3, 3x2x4
+(d) reshape n x 16 -> n x 4 x 4 and back:
+  c3[1,2,3] = 27.0, m[1,11] = 27.0
+  f(c3) -> rank 3, 2x4x4
+  back[1,11] = 27.0, f(back) -> rank 2, 2x16
+(e) t.plane(1), the library method that does not exist:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-4/u08_plane.fss:96:32-40:
+Cannot find definition for method plane given receiver __DefaultArray3[\RR64,0,2,0,3,0,4\]
+Context:
+/home/user/fortress/explorations/apl/rung-4/u08_plane.fss:96:32-40:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

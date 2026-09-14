@@ -1,0 +1,18 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w01_transpose.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/worker/w01_transpose.fss:13:1-20:4: and
+/home/user/fortress/explorations/run-b/probes/worker/w01_transpose.fss:4:1-11:4:
+first parameters m:[Array[\RR64,(ZZ32,ZZ32)\]] and x:[Array[\RR64,ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress/explorations/run-b/probes/worker/w01_transpose.fss:13:1-20:4:
+/home/user/fortress/explorations/run-b/probes/worker/w01_transpose.fss:4:1-11:4:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 98 (the run copied it to this name at worker:136): the complete output run.sh wrote]

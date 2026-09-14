@@ -1,0 +1,7 @@
+(a)/(b) a three-parameter lambda applied to a tuple-valued call:
+  3 | 0 1 2 | 3 3
+3 3
+(c) nested destructuring, the inner one inside the outer's body:
+  1 2 3 / 10 20
+(d) a two-parameter lambda over a two-tuple:
+  7 8

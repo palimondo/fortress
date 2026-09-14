@@ -1,0 +1,18 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/base/AplCore.fss:1639:1-63: and
+/home/user/fortress/explorations/apl/base/AplCore.fss:1631:1-68:
+
+aplTstD[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):FortressBuiltin.Object/home/user/fortress/explorations/apl/base/AplCore.fss:1639:1-63 and
+aplTstD[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1631:1-68 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/explorations/apl/base/AplCore.fss:1639:1-63:
+/home/user/fortress/explorations/apl/base/AplCore.fss:1631:1-68:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

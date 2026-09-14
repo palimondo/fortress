@@ -1,0 +1,13 @@
+(* p18 -- the high minus had to be written as the character itself.  Is the \u
+   escape really unavailable, or was Literal.rats read too quickly?  An attempt,
+   so that the negative is gated by one.  Both spellings are below; the escaped
+   one is the question. *)
+component p18_uesc
+export Executable
+
+run(): () = do
+    println(("the character itself : [" "¯" "]"))
+    println(("the \u escape        : [" "\u00af" "]"))
+end
+
+end

@@ -1,0 +1,72 @@
+(a) the frame stack:
+  aplCall(⍺+⍵, 32, 98) = 130
+  a dfn in a dfn, ⍺+2×⍵ with 1, 20 = 41
+  ∇ recursion, sum ⍳10 = 45
+  100 sum ⍳10 = 145
+  frame depth after = 0
+(b) ⍺ absent:
+  reading ⍺ in a monadic call -> CallerViolation
+  {⍺ ← ¯99 ⋄ ⍺+⍵} 99     = 0
+  57 {⍺ ← ¯99 ⋄ ⍺+⍵} 99  = 156
+(c) ∘ and the guard's truth:
+  0∘⌈ on ¯2 ¯1 0 1 2 = 0 0 0 1 2
+  aplTruthy(1.0) = true, aplTruthy(0.0) = false, aplTruthy(2.0 < 3.0) = true
+(d) rank 3:
+  2 3 4⍴⍳24 =
+0 1  2  3
+4 5  6  7
+8 9 10 11
+
+12 13 14 15
+16 17 18 19
+20 21 22 23
+  ≢t = 2, ⍴t = 2 3 4, ⊃t = 0
+  ,t = 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+  2 12⍴t = 
+ 0  1  2  3  4  5  6  7  8  9 10 11
+12 13 14 15 16 17 18 19 20 21 22 23
+  6⍴t = 0 1 2 3 4 5
+  ⍴1 0 2⍉t = 3 2 4
+  1 0 2⍉t =
+ 0  1  2  3
+12 13 14 15
+
+ 4  5  6  7
+16 17 18 19
+
+ 8  9 10 11
+20 21 22 23
+(e) elementwise on rank 3:
+  t÷2 =
+0 0.5 1 1.5
+2 2.5 3 3.5
+4 4.5 5 5.5
+
+ 6  6.5  7  7.5
+ 8  8.5  9  9.5
+10 10.5 11 11.5
+  ⍴(t+t) = 2 3 4, ⊃(t×t) = 0
+  ,(t>20) = 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1
+(f) the rank operator:
+  m =
+0 1  2  3
+4 5  6  7
+8 9 10 11
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-4/u11_lib.fss:74:36-51:
+Failed to find any matching overload, args = (FnExpr at /home/user/fortress/explorations/apl/rung-4/u11_lib.fss:72.12 ()->Any /home/user/fortress/explorations/apl/rung-4/u11_lib.fss:72:12-92:4,__DefaultMatrix[\RR64,3,4\]), overload = {
+	aplRank1(f:()->Any,x:FortressLibrary.RR64):Any (()->Any,RR64)->Any /home/user/fortress/explorations/apl/base/AplCore.fss:1487:1-51
+	aplRank1[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1488:1-72
+	aplRank1[\nat r,nat c\](f:()->Any,m:Matrix[\FortressLibrary.RR64,r,c\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1489:1-1498:4
+	aplRank1[\nat a,nat b,nat c\](f:()->Any,t:Array3[\FortressLibrary.RR64,0,a,0,b,0,c\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1499:1-1512:4}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/rung-4/u11_lib.fss:74:36-51:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

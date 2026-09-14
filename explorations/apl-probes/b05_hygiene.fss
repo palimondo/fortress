@@ -1,0 +1,9 @@
+component b05_hygiene
+import b05_hygiene_g.{...}
+export Executable
+
+mydouble(x: ZZ32): ZZ32 = 2 x
+
+run() = println(dbl⦇ 21 ⦈)
+
+end

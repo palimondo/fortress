@@ -1,0 +1,171 @@
+(* E -- run the apl<( )> sub-language of e30_aplg over the library of d20_apl. *)
+component e30_apl
+import e30_aplg.{...}
+import List.{...}
+export Executable
+
+
+(* ---------------------------------------------------------------- carrier *)
+value object AplArr(shape: List[\ZZ32\], data: List[\RR64\])
+    getter rank(): ZZ32 = |self.shape|
+    getter asString(): String = aplShow(self)
+end
+
+(* RR64 -> ZZ32: the library's floor bracket yields a ZZ64 on which the
+   interpreter cannot find narrow (see d21_narrow.fss), so count up instead. *)
+asInt(v: RR64): ZZ32 = do
+    k: ZZ32 := 0
+    while (1.0 (k + 1)) <= v do k := k + 1 end
+    k
+  end
+
+scalarA(v: RR64): AplArr = AplArr(<|[\ZZ32\] |>, <|[\RR64\] v |>)
+vecA(d: List[\RR64\]): AplArr = AplArr(<|[\ZZ32\] |d| |>, d)
+countOf(sh: List[\ZZ32\]): ZZ32 = (PROD[ i <- seq(0 # |sh|) ] sh[i])
+
+aplShow(x: AplArr): String = do
+    r = |x.shape|
+    if r = 0 then ("" (x.data[0]))
+    elif r = 1 then (BIG |||[ v <- seq(x.data) ] v)
+    else
+        cols = x.shape[r - 1]
+        rows = (|x.data|) DIV cols
+        (BIG //[ i <- seq(0 # rows) ]
+            (BIG |||[ k <- seq(0 # cols) ] x.data[(i cols) + k]))
+    end
+  end
+
+(* --------------------------------------------------- 1. iota   (APL mon. i) *)
+opr IOTA(n: ZZ32): AplArr = vecA(<|[\RR64\] 1.0 (i + 1) | i <- seq(0 # n) |>)
+
+(* ------------------------------------ 2. rho: monadic shape, dyadic reshape *)
+opr RHO(x: AplArr): AplArr = vecA(<|[\RR64\] 1.0 s | s <- seq(x.shape) |>)
+
+opr RHO(s: AplArr, x: AplArr): AplArr = do
+    sh: List[\ZZ32\] = <|[\ZZ32\] asInt(v) | v <- seq(s.data) |>
+    n = countOf(sh)
+    m = |x.data|
+    AplArr(sh, <|[\RR64\] x.data[i MOD m] | i <- seq(0 # n) |>)
+  end
+
+(* ----------------------------- 3-5. elementwise, with scalar extension *)
+zipA(f: (RR64, RR64) -> RR64, a: AplArr, b: AplArr): AplArr =
+    if (|a.data| = 1) AND (|b.data| =/= 1) then
+        AplArr(b.shape, <|[\RR64\] f(a.data[0], v) | v <- seq(b.data) |>)
+    elif (|b.data| = 1) AND (|a.data| =/= 1) then
+        AplArr(a.shape, <|[\RR64\] f(v, b.data[0]) | v <- seq(a.data) |>)
+    else
+        AplArr(a.shape,
+               <|[\RR64\] f(a.data[i], b.data[i]) | i <- seq(0 # |a.data|) |>)
+    end
+
+opr +(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p + q, a, b)
+opr -(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p - q, a, b)
+opr ×(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p q,   a, b)
+opr ÷(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p / q, a, b)
+opr MAX(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p MAX q, a, b)
+opr MIN(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p MIN q, a, b)
+opr -(a: AplArr): AplArr = AplArr(a.shape, <|[\RR64\] -v | v <- seq(a.data) |>)
+
+opr +(s: RR64, a: AplArr): AplArr = scalarA(s) + a
+opr +(a: AplArr, s: RR64): AplArr = a + scalarA(s)
+opr ×(s: RR64, a: AplArr): AplArr = scalarA(s) × a
+opr ×(a: AplArr, s: RR64): AplArr = a × scalarA(s)
+
+(* ----------------------------------- 6. reverse along first axis (APL ominus) *)
+opr ⊖(a: AplArr): AplArr = do
+    r = |a.shape|
+    if r <= 1 then AplArr(a.shape, a.data.reverse)
+    else
+        cols = a.shape[r - 1]
+        rows = (|a.data|) DIV cols
+        AplArr(a.shape,
+               <|[\RR64\] a.data[(((rows - 1) - i) cols) + k]
+                 | i <- seq(0 # rows), k <- seq(0 # cols) |>)
+    end
+  end
+
+(* ------------------------------------------- 7. transpose (APL circle-slash) *)
+opr (a: AplArr)^T: AplArr = do
+    r = |a.shape|
+    if r <= 1 then a
+    else
+        rows = a.shape[0]
+        cols = a.shape[1]
+        AplArr(<|[\ZZ32\] cols, rows |>,
+               <|[\RR64\] a.data[(q cols) + p]
+                 | p <- seq(0 # cols), q <- seq(0 # rows) |>)
+    end
+  end
+
+(* ------------------------------------------------ 8. outer product (jot-dot-times) *)
+opr ∘(a: AplArr, b: AplArr): AplArr =
+    AplArr(a.shape || b.shape,
+           <|[\RR64\] p q | p <- seq(a.data), q <- seq(b.data) |>)
+
+(* -------------------------------- 9. reduce, as a genuine Fortress BIG operator *)
+opr BIG APLUS(): Comprehension[\AplArr, AplArr, Any, Any\] =
+    embiggen[\AplArr\](fn (a, b) => a + b, scalarA(0.0))
+
+opr BIG APLUS(g: Generator[\AplArr\]): AplArr =
+    __bigOperatorSugar[\AplArr, AplArr, Any, Any\](BIG APLUS(), g)
+
+(* ------------------------------------- 10. +/  plus-reduce along the last axis *)
+opr PLUSRED(a: AplArr): AplArr = do
+    r = |a.shape|
+    if r = 0 then a
+    elif r = 1 then (BIG APLUS[ v <- seq(a.data) ] scalarA(v))
+    else
+        cols = a.shape[r - 1]
+        rows = (|a.data|) DIV cols
+        AplArr(a.shape.take(r - 1),
+               <|[\RR64\] (SUM[ k <- seq(0 # cols) ] a.data[(i cols) + k])
+                 | i <- seq(0 # rows) |>)
+    end
+  end
+
+
+(* ------------------------------------------------ what the transformers call *)
+aplScalar(v: RR64): AplArr = scalarA(v)
+aplCat(a: AplArr, b: AplArr): AplArr = vecA(a.data || b.data)
+
+aplDy(f: String, a: AplArr, b: AplArr): AplArr =
+    if f = "plus" then a + b
+    elif f = "minus" then a - b
+    elif f = "times" then a × b
+    elif f = "divide" then a ÷ b
+    elif f = "max" then a MAX b
+    elif f = "min" then a MIN b
+    elif f = "reshape" then a RHO b
+    elif f = "catenate" then aplCat(a, b)
+    else scalarA(-999.0) end
+
+aplMon(f: String, a: AplArr): AplArr =
+    if f = "iota" then (IOTA (asInt(a.data[0])))
+    elif f = "shape" then (RHO a)
+    elif f = "reverse" then (⊖ a)
+    elif f = "transpose" then a^T
+    elif f = "negate" then (- a)
+    elif f = "plusreduce" then (PLUSRED a)
+    elif f = "ceilingish" then a
+    else scalarA(-999.0) end
+
+(* ------------------------------------------------------------------- driver *)
+run(): () = do
+    println("apl( +/ iota 5 )          : " (apl⦇ +/ ⍳ 5 ⦈))
+    println("apl( 2 3 rho iota 6 )     :")
+    println(apl⦇ 2 3 ⍴ ⍳ 6 ⦈)
+    println("apl( +/ 1 2 3 4 )         : " (apl⦇ +/ 1 2 3 4 ⦈))
+    println("apl( 2 times iota 5 )     : " (apl⦇ 2 × ⍳ 5 ⦈))
+    println("apl( reverse iota 5 )     : " (apl⦇ ⌽ ⍳ 5 ⦈))
+    println("apl( rho 2 3 rho iota 6 ) : " (apl⦇ ⍴ 2 3 ⍴ ⍳ 6 ⦈))
+    println("apl( +/ 2 3 rho iota 6 )  : " (apl⦇ +/ 2 3 ⍴ ⍳ 6 ⦈))
+    println("apl( transpose 2 3 rho iota 6 ):")
+    println(apl⦇ ⍉ 2 3 ⍴ ⍳ 6 ⦈)
+    println("apl( 3 4 max 4 3 )        : " (apl⦇ 3 4 ⌈ 4 3 ⦈))
+    println("apl( 1 2 , 3 4 )          : " (apl⦇ 1 2 , 3 4 ⦈))
+    println("apl( +/ 1 2 + 10 20 )     : " (apl⦇ +/ 1 2 + 10 20 ⦈))
+    println("right to left: 2 times 3 + 4 = 14, not 10 : " (apl⦇ 2 × 3 + 4 ⦈))
+end
+
+end

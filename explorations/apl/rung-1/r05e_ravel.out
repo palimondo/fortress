@@ -1,0 +1,6 @@
+null/home/user/fortress/explorations/apl/redesign/r05e_ravel.fss:6:5:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)

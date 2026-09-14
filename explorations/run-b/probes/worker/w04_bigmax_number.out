@@ -1,0 +1,4 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w04_bigmax_number.fss
+Generator[Number], prefix BIG MAX = 9.5
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 281: the complete output run.sh wrote]

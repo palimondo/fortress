@@ -1,0 +1,9 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/s03_functional_depth.fss
+functional  depth 1: 45 ms per forward+backward
+functional  depth 2: 45 ms per forward+backward
+functional  depth 4: 135 ms per forward+backward
+functional  depth 6: 481 ms per forward+backward
+functional  depth 8: 1872 ms per forward+backward
+functional  depth 10: 6950 ms per forward+backward
+exit: 0
+[recovered from the transcript, run-b.jsonl line 435: shown through | tail, so lines run.sh wrote to the file may be absent]

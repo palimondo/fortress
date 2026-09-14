@@ -1,0 +1,61 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress4044938183913797575rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress4044938183913797575rats/com/sun/fortress/parser/templateparser/TemplateParser77.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /tmp/fortress4044938183913797575rats/com/sun/fortress/parser/templateparser/TemplateParser77.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8376668225658001866rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8376668225658001866rats/com/sun/fortress/parser/templateparser/TemplateParser87.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /tmp/fortress8376668225658001866rats/com/sun/fortress/parser/templateparser/TemplateParser87.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress2639068496817208268rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+NNote: /tmp/fortress17286637367471164845rats/com/sun/fortress/parser/templateparser/TemplateParser131.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /tmp/fortress17286637367471164845rats/com/sun/fortress/parser/templateparser/TemplateParser131.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/abc/ = /abc/
+/a*bc/ = /a*bc/
+/a*?bc/ = /a*?bc/
+/a(bc)/ = /a(bc)/
+/a+bc/ = /a+bc/
+/a+?bc/ = /a+?bc/
+/(ab)*c/ = /(ab)*c/
+/^foo/ = /^foo/
+/bar$/ = /bar$/
+/^foo$/ = /^foo$/
+/foo.x/ = /foo.x/
+/x?/ = /x?/
+/[foo]/ = /[foo]/
+/[^foo]/ = /[^foo]/
+/a{1}/ = /a{1}/
+/a{1,}/ = /a{1,}/
+/a{1,2}/ = /a{1, 2}/
+/a{,2}/ = /a{,2}/
+/\a/ = /\a/
+/\\/ = /\\/
+/\// = /\//
+/\a\b\c\d/ = /\a\b\c\d/
+/a|b/ = /a|b/
+/(abc)|(def)/ = /(abc)|(def)/
+/(abc|def)/ = /(abc|def)/
+/:/ = /:/
+/#/ = /#/
+/&/ = /&/
+/4/ = /4/
+/#{1+1}/ = /\#{1+1}/
+/a/ CONTAINS 'a'? true
+'a' IN /a/? true
+/\d+?/ CONTAINS '542'? true
+/'542' IN \d+?/? true
+/\d+?/ CONTAINS 'apple542'? false
+/\w+\d+?/ CONTAINS 'apple542'? true
+n = n? true
+/123/ = /123/? true
+T=0
+EXIT=0

@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{FortressCode}
+{\tt ~~}\+\VAR{head}(X\COLON \TYP{Node}, h\COLON \mathbb{Z}32)\COLON \TYP{Node} = \VAR{attention}(X\, \mathbf{Wq}_{h}, X\, \mathbf{Wk}_{h}, X\, \mathbf{Wv}_{h}) \\
+  \VAR{head}(X\COLON \TYP{Node}, h\COLON \mathbb{Z}32)\COLON \TYP{Node} = \VAR{attention}(X\, \mathbf{W}_{\mathrm{q}}_{h}, X\, \mathbf{W}_{\mathrm{k}}_{h}, X\, \mathbf{W}_{\mathrm{v}}_{h})\-
+\end{FortressCode}
+\end{preview}
+\end{document}

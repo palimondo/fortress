@@ -1,0 +1,11 @@
+component p_names
+export Executable
+d_k: ZZ32 = 4
+epsilon_adam: RR64 = 10.0^(-8)
+run(): () = do
+  X = 3.0
+  X' = X + 1.0
+  lr_t = 0.01
+  println("d_k = " d_k "  X' = " X' "  epsilon_adam = " epsilon_adam "  lr_t = " lr_t "  SQRT d_k = " (SQRT d_k))
+end
+end

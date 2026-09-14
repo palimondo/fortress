@@ -1,0 +1,17 @@
+null/home/user/fortress/explorations/apl-probes/c11_opr_ceiling_prefix.fss:2:1-8:
+    Unmatched delimiter "component".
+/home/user/fortress/explorations/apl-probes/c11_opr_ceiling_prefix.fss:5:5:
+    Unmatched delimiter "|/".
+/home/user/fortress/explorations/apl-probes/c11_opr_ceiling_prefix.fss:7:16-9:3:
+    Unmatched delimiters "(" and "end".
+/home/user/fortress/explorations/apl-probes/c11_opr_ceiling_prefix.fss:7:17-20:
+    Unmatched delimiters "|/" and ")".
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+EXIT=1

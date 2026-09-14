@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`  ffn(X: Node): Node = relu(X _W1) _W2
+`
+\end{preview}
+\end{document}

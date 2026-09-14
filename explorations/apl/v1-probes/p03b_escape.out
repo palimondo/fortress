@@ -1,0 +1,12 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7918620651693354719rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7918620651693354719rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress4742820905315376835rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress4742820905315376835rats/com/sun/fortress/parser/templateparser/TemplateParser8.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/apl/rung-1/p03b_escape.fss:11:45-54:
+    Variable esc2 is not defined.

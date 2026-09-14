@@ -1,0 +1,118 @@
+(* v02 -- the terminal questions of rungs 5 and 6, asked through the throw-away
+   grammar V02Syn.fsi, which is rung 3's T02Syn.fsi verbatim plus the new
+   alternatives.  Every function the templates name is declared HERE, in the
+   component, because a template's free names resolve at the use site. *)
+component v02_term
+import AplCore.{...}
+import V02Syn.{...}
+export Executable
+
+opr ≠[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] =/= b[i] then 1.0 else 0.0 end)
+opr <[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] < b[i] then 1.0 else 0.0 end)
+opr >[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] > b[i] then 1.0 else 0.0 end)
+opr ∧[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if (a[i] =/= 0.0) AND (b[i] =/= 0.0) then 1.0 else 0.0 end)
+opr ∨[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if (a[i] =/= 0.0) OR (b[i] =/= 0.0) then 1.0 else 0.0 end)
+opr *(x: RR64): RR64 = 2.718281828459045^x
+
+tstRes(a: RR64, b: RR64): RR64 = if a = 0.0 then b else b - (a (1.0 (|\ b / a /|))) end
+tstIn[\nat s\](x: RR64, v: Vector[\RR64,s\]): RR64 = do
+    hit: RR64 := 0.0
+    k: ZZ32 := 0
+    while k < |v| do (if v[k] = x then hit := 1.0 end); k := k + 1 end
+    hit
+  end
+tstUnion[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = do
+    keep = aplVec(|b|, fn (k: ZZ32): RR64 => if tstIn(b[k], a) = 0.0 then 1.0 else 0.0 end)
+    aplCat(a, aplCompress(keep, b))
+  end
+tstIntersect[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplCompress(aplVec(|a|, fn (k: ZZ32): RR64 => tstIn(a[k], b)), a)
+tstWithout[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplCompress(aplVec(|a|, fn (k: ZZ32): RR64 => 1.0 - tstIn(a[k], b)), a)
+tstTake[\nat s\](n: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = do
+    k = aplInt(n)
+    if k >= 0 then aplVec(k, fn (i: ZZ32): RR64 => if i < |v| then v[i] else 0.0 end)
+    else do
+        kk = -k
+        aplVec(kk, fn (i: ZZ32): RR64 => do j = (|v| - kk) + i
+                                            if j >= 0 then v[j] else 0.0 end end)
+      end
+    end
+  end
+tstDrop[\nat s\](n: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = do
+    k = aplInt(n)
+    if k >= 0 then do
+        m = if k > |v| then 0 else |v| - k end
+        aplVec(m, fn (i: ZZ32): RR64 => v[i + k])
+      end
+    else do
+        m = if (-k) > |v| then 0 else |v| + k end
+        aplVec(m, fn (i: ZZ32): RR64 => v[i])
+      end
+    end
+  end
+tstLog(b: RR64, x: RR64): RR64 = (log x) / (log b)
+tstCatFirst[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplCat(a, b)
+tstGradeUp[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = do
+    n = |v|
+    idx = array[\RR64\](n).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    i: ZZ32 := 1
+    while i < n do
+        j: ZZ32 := i
+        (* NOT `(j > 0) AND (…idx[j-1]…)`: AND is strict, and the second operand
+           indexes at ¯1 when j is 0 (t02_gram.out.2) *)
+        while j > 0 do
+            if v[aplInt(idx[j - 1])] > v[aplInt(idx[j])] then
+                t = idx[j - 1]; idx.put(j - 1, idx[j]); idx.put(j, t); j := j - 1
+            else j := 0 end
+        end
+        i := i + 1
+    end
+    idx
+  end
+tstGradeDown[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = do
+    n = |v|
+    idx = array[\RR64\](n).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    i: ZZ32 := 1
+    while i < n do
+        j: ZZ32 := i
+        while j > 0 do
+            if v[aplInt(idx[j - 1])] < v[aplInt(idx[j])] then
+                t = idx[j - 1]; idx.put(j - 1, idx[j]); idx.put(j, t); j := j - 1
+            else j := 0 end
+        end
+        i := i + 1
+    end
+    idx
+  end
+tstNot[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => 1.0 - x)
+tstReE(a: RR64, b: RR64, x: RR64): String = ("TE gaps: " aplShow(aplReshapeM(a, b, x)))
+tstReA(a: RR64, b: RR64, x: RR64): String = ("TA gaps: " aplShow(aplReshapeM(a, b, x)))
+
+p(tag: String, s: String): () = println(("  " tag " = " s))
+
+run(): () = do
+    println("(0) rung 3's own commute, to show the copied grammar works")
+    p("=⍨1 2 3", aplShow(v02⦇ =⍨ 1 2 3 ⦈))
+    println("(a) ¨ each, both valences")
+    p("×¨ 2 3 4   (monadic form, x x)", v02⦇ ×¨ 2 3 4 ⦈)
+    p("2 ×¨ 3 4   (dyadic form)", v02⦇ 2 ×¨ 3 4 ⦈)
+    println("(b) \\ as a plain item")
+    p("+\\ 1 2 3", v02⦇ +\ 1 2 3 ⦈)
+    println("(c) ⍀ as a plain item")
+    p("+⍀ 1 2 3", v02⦇ +⍀ 1 2 3 ⦈)
+    println("(d) ⍣ with the count read off the source")
+    p("×⍣2⊢3", v02⦇ ×⍣2⊢3 ⦈)
+    println("(e) the dot of ∘.g as a plain item")
+    p("2∘.×3", v02⦇ 2∘.×3 ⦈)
+    println("(f) ⌷ as an alternative of a glyph table")
+    p("⌷⍤ 7 8 9", v02⦇ ⌷⍤ 7 8 9 ⦈)
+  end
+end

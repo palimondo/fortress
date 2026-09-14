@@ -1,0 +1,16 @@
+zilde: |e| = 0   tally = 0.0
+tally(2.5) = 1.0
+tally(a) = 4.0   tally(g) = 1.0
+same(a,a) = 1.0   same(a,g) = 0.0
+tallyC(c) = 5.0
+c = [0#5][ h e l l o ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/redesign/r08_edge.fss:40:31-37:
+Failed to find any matching overload, args = (PrimitiveArray[\Char,5\]), overload = {
+	tally(x:FortressLibrary.RR64):FortressLibrary.RR64 RR64->RR64 /home/user/fortress/explorations/apl/redesign/r08_edge.fss:12:1-26
+	tally[\nat s\](v:Vector[\FortressLibrary.RR64,s\]):FortressLibrary.RR64/home/user/fortress/explorations/apl/redesign/r08_edge.fss:13:1-14:4
+	tally[\nat r,nat c\](m:Matrix[\FortressLibrary.RR64,r,c\]):FortressLibrary.RR64/home/user/fortress/explorations/apl/redesign/r08_edge.fss:14:1-85}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/redesign/r08_edge.fss:40:31-37:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.

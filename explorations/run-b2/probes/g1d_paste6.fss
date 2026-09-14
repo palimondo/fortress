@@ -1,0 +1,14 @@
+(* D9: the static-argument spelling of the array literal
+   (aggregate.tex:27, ArrayExpr ::= [ StaticArgs? RectElements ]). *)
+component g1d_paste6
+export Executable
+
+mk(base: RR64): Matrix[\RR64,3,4\] =
+    matrix[\RR64,3,4\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => base + 1.0 (4 i + j))
+
+run(): () = do
+    h1 = mk(100.0); h2 = mk(200.0); h3 = mk(300.0); h4 = mk(400.0)
+    cat = [\RR64,3,16\ h1 h2 h3 h4 ]
+    println("cat = " cat)
+  end
+end

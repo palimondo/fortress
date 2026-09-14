@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`  attention(Q: Node, K: Node, V: Node): Node = softmax((Q K^T)/(SQRT d_k) + causal(Q.rows)) V
+`
+\end{preview}
+\end{document}

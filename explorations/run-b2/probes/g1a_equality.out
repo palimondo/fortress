@@ -1,0 +1,6 @@
+v1 SEQV v2 (same fields, value)     = true
+v1 SEQV v3 (differing fields)       = true
+r1 SEQV r2 (same fields, reference) = false
+r1 SEQV r1 (identical reference)    = true
+v1 = v2 (default = is SEQV)         = true
+r1 = r2                             = false

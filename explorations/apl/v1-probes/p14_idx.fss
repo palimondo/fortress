@@ -1,0 +1,48 @@
+(* p14 -- the grammar half of rung 2, on the book's own lines: a name, the
+   assignment arrow, bracket indexing on one and two axes with elision, an
+   indexed assignment, scatter indexing with ⊂ and with a vector of coordinate
+   pairs, squad, compress, and selective assignment.  Every line here is the
+   chapter's, with nothing escaped. *)
+component p14_idx
+import AplCore.{...}
+import AplSyntax.{...}
+import List.{...}
+export Executable
+
+p(t: String, a: AplArr): () = println((t "  " ("" a)))
+
+run(): () = do
+    p("v ← 9 2 6 3 5 8 7 4 0 1 :", apl⦇ v ← 9 2 6 3 5 8 7 4 0 1 ⦈)
+    p("v[5]                    :", apl⦇ v[5] ⦈)
+    p("v[5 2]                  :", apl⦇ v[5 2] ⦈)
+    p("v[3] ← ¯1               :", apl⦇ v[3] ← ¯1 ⦈)
+    p("v                       :", apl⦇ v ⦈)
+    p("m ← 3 3⍴4 1 6 5 2 9 7 8 3:", apl⦇ m ← 3 3⍴4 1 6 5 2 9 7 8 3 ⦈)
+    p("m[1;1]                  :", apl⦇ m[1;1] ⦈)
+    p("m[1;]                   :", apl⦇ m[1;] ⦈)
+    p("m[;1]                   :", apl⦇ m[;1] ⦈)
+    p("m[⊂1 1]                 :", apl⦇ m[⊂1 1] ⦈)
+    p("m[(0 0)(1 1)(2 2)]      :", apl⦇ m[(0 0)(1 1)(2 2)] ⦈)
+    p("1 1⌷m                   :", apl⦇ 1 1⌷m ⦈)
+    p("(⊂1 1)⌷m                :", apl⦇ (⊂1 1)⌷m ⦈)
+    p("⍸0 0 1 0 1              :", apl⦇ ⍸0 0 1 0 1 ⦈)
+    p("data ← 0 1 2 3 4 5 6 7 8 9:", apl⦇ data ← 0 1 2 3 4 5 6 7 8 9 ⦈)
+    p("select ← 0 0 1 0 1 1 0 1 1 0:", apl⦇ select ← 0 0 1 0 1 1 0 1 1 0 ⦈)
+    p("select/data             :", apl⦇ select/data ⦈)
+    p("(select/data) ← ¯1 ¯1 ¯1 ¯1 ¯1:", apl⦇ (select/data) ← ¯1 ¯1 ¯1 ¯1 ¯1 ⦈)
+    p("data                    :", apl⦇ data ⦈)
+    p("sel3 ← 0 1 0            :", apl⦇ sel3 ← 0 1 0 ⦈)
+    p("sel3⌿m                  :", apl⦇ sel3⌿m ⦈)
+    p("sel3/m                  :", apl⦇ sel3/m ⦈)
+    p("(0 0⍉m) ← ¯1 ¯1 ¯1      :", apl⦇ (0 0⍉m) ← ¯1 ¯1 ¯1 ⦈)
+    p("m                       :", apl⦇ m ⦈)
+    p("+/v[5 2] ⍝ a comment    :", apl⦇ +/v[5 2] ⍝ still accepted ⦈)
+    p("2 × 3 + 4               :", apl⦇ 2 × 3 + 4 ⦈)
+    (* the bridge between the two variable routes: a Fortress value, named by
+       rung 1's escape, stored under an APL name in the workspace *)
+    hostm = apl⦇ 2 3⍴⍳6 ⦈
+    p("w ← ⍎(hostm)            :", apl⦇ w ← ⍎(hostm) ⦈)
+    p("w[1;2]                  :", apl⦇ w[1;2] ⦈)
+end
+
+end

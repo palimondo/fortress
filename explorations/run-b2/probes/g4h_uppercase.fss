@@ -1,0 +1,7 @@
+component g4h_uppercase
+export Executable
+run(): () = do
+  x = INFINITY
+  println("INFINITY = " x)
+end
+end

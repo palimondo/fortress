@@ -1,0 +1,98 @@
+(* u08: planes and permuted views of a rank-3 array.  APL needs k⌷[2]t (a plane
+   as a MATRIX, so the rank-2 overload family applies to it) and 1 0 2⍉t (an
+   axis permutation).  u07 established that Array3 is the rank-3 member of the
+   dispatch family; this asks what the library gives as views and what has to be
+   written by hand, the way AplRow is written by hand for a matrix row
+   (base/AplCore.fss:375).
+
+   (a) what the library offers: t.shift and the bracket subarray
+   (b) a hand-written plane view that IS a Matrix[\RR64,a,b\]
+   (c) a hand-written 1 0 2 transpose view that IS an Array3
+   (d) reshape n x 16 -> n x 4 x 4 through the flat row-major order, and back
+   (e) t.plane(k) -- the Array3 trait has no such method; the `plane` at
+       FortressLibrary.fss:2680 is a local function inside asString.  The call
+       is the last line so that the rest of the probe runs first.
+
+   One false start, u08_plane.out.0: the view objects' get/put/init0 first named
+   their index parameter `t`, which collides with Matrix's own transpose method
+   t() --
+     u08_plane.fss:12:9: Variable t is already declared.
+     u08_plane.fss:13:9: Variable t is already declared.
+     u08_plane.fss:14:11: Variable t is already declared.
+   The reach of a dotted method declaration includes every object that extends
+   the trait (basic/declarations.tex:441-452), so a view object may not use any
+   of its supertrait's method names as a parameter name.  Renamed to `ix`. *)
+component u08_plane
+import AplCore.{...}
+export Executable
+
+f(x: RR64): String = "rank 0"
+f[\nat s\](v: Vector[\RR64,s\]): String = "rank 1, " |v| " elements"
+f[\nat r, nat c\](m: Matrix[\RR64,r,c\]): String = "rank 2, " r "x" c
+f[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): String = "rank 3, " a "x" b "x" c
+
+(* (b) the plane view, six lines, exactly the shape of AplRow *)
+object AplPlane[\nat a, nat b, nat c\](base: Array3[\RR64,0,a,0,b,0,c\], k: ZZ32)
+        extends Matrix[\RR64,a,b\]
+    get(ix: (ZZ32,ZZ32)): RR64 = do (i,j) = ix; base.get((i,j,k)) end
+    put(ix: (ZZ32,ZZ32), v: RR64): () = do (i,j) = ix; base.put((i,j,k), v) end
+    init0(ix: (ZZ32,ZZ32), v: RR64): () = do (i,j) = ix; base.init0((i,j,k), v) end
+    replica[\U\](): Array2[\U,0,a,0,b\] = array2[\U,a,b\]()
+end
+
+(* (c) 1 0 2⍉ *)
+object AplPerm102[\nat a, nat b, nat c\](base: Array3[\RR64,0,a,0,b,0,c\])
+        extends Array3[\RR64,0,b,0,a,0,c\]
+    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (j,i,k) = ix; base.get((i,j,k)) end
+    put(ix: (ZZ32,ZZ32,ZZ32), v: RR64): () = do (j,i,k) = ix; base.put((i,j,k), v) end
+    init0(ix: (ZZ32,ZZ32,ZZ32), v: RR64): () = do (j,i,k) = ix; base.init0((i,j,k), v) end
+    replica[\U\](): Array3[\U,0,b,0,a,0,c\] = array3[\U,b,a,c\]()
+end
+
+run(): () = do
+    t = array[\RR64\](2,3,4).fill(fn (i: ZZ32, j: ZZ32, k: ZZ32): RR64 =>
+                                     1.0 ((i 100) + (j 10) + k))
+    println(("t = " t))
+
+    println("(a) the library's own routes:")
+    s = t.shift((1,0,0))
+    println(("  t.shift((1,0,0)) moves the ORIGIN: s[1,0,0] = " s[1,0,0]))
+    u = t[(0,0,1)#(2,3,1)]
+    println(("  t[(0,0,1)#(2,3,1)] = " u))
+    typecase u of
+        Rank3 => println("  the one-deep slice is STILL Rank3, not a matrix")
+        else  => println("  the one-deep slice is not Rank3")
+    end
+
+    println("(b) a user plane view that IS a Matrix:")
+    p = AplPlane[\2,3,4\](t, 1)
+    println(("  AplPlane(t,1) = " aplShow(p)))
+    println(("  f(plane) -> " f(p)))
+    p[0,0] := -1.0
+    println(("  after plane[0,0] := ¯1, t[0,0,1] = " t[0,0,1] " (it writes through)"))
+
+    println("(c) the 1 0 2 transpose as a view:")
+    q = AplPerm102[\2,3,4\](t)
+    println(("  q.sizes = " q.sizes))
+    println(("  t[1,2,3] = " t[1,2,3] ", q[2,1,3] = " q[2,1,3]))
+    println(("  f(q) -> " f(q)))
+
+    println("(d) reshape n x 16 -> n x 4 x 4 and back:")
+    n = 2
+    m = aplMat(n, 16, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((i 16) + j))
+    c3 = array[\RR64\](n, 4, 4)
+    for i <- seq(0 # n), j <- seq(0 # 4), k <- seq(0 # 4) do
+        c3[i,j,k] := m[i, (j 4) + k]
+    end
+    println(("  c3[1,2,3] = " c3[1,2,3] ", m[1,11] = " m[1,11]))
+    println(("  f(c3) -> " f(c3)))
+    back = array[\RR64\](n, 16)
+    for i <- seq(0 # n), j <- seq(0 # 4), k <- seq(0 # 4) do
+        back[i, (j 4) + k] := c3[i,j,k]
+    end
+    println(("  back[1,11] = " back[1,11] ", f(back) -> " f(back)))
+
+    println("(e) t.plane(1), the library method that does not exist:")
+    println(("  t.plane(1) = " t.plane(1)))
+  end
+end

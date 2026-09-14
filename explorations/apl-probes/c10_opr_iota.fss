@@ -1,0 +1,10 @@
+(* C: can U+2373 APL FUNCTIONAL SYMBOL IOTA be a user operator at the
+   ordinary Fortress level? *)
+component c10_opr_iota
+export Executable
+
+opr ⍳(n: ZZ32): ZZ32 = n + 1
+
+run() = println(⍳ 3)
+
+end

@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`object Grad(g: Map[\String, Array[\RR64,(ZZ32,ZZ32)\]\])
+  opr +(self, o: Grad): Grad =
+    Grad(g.union(fn (k: String, a: Array[\RR64,(ZZ32,ZZ32)\], b: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] => a + b, o.g))
+  opr[k: String]: Array[\RR64,(ZZ32,ZZ32)\] = g[k]
+end
+
+object Mat(data: Array[\RR64,(ZZ32,ZZ32)\], pullback: Array[\RR64,(ZZ32,ZZ32)\] -> Grad)
+  opr +(self, B: Mat): Mat = Mat(data + B.data, fn (C_bar) => pullback(C_bar) + (B.pullback)(C_bar))
+  opr juxtaposition(self, B: Mat): Mat =
+    Mat(data B.data, fn (C_bar) => pullback(C_bar (B.data.t())) + (B.pullback)((data.t()) C_bar))
+end
+
+opr (A: Mat)^T: Mat = Mat(A.data.t(), fn (C_bar) => (A.pullback)(C_bar.t()))
+
+param(name: String, v: Array[\RR64,(ZZ32,ZZ32)\]): Mat =
+  Mat(v, fn (C_bar) => Grad({[\String, Array[\RR64,(ZZ32,ZZ32)\]\] name |-> C_bar }))
+
+relu(A: Mat): Mat =
+  Mat(A.data.map[\RR64\](fn (x: RR64): RR64 => x MAX 0.0),
+      fn (C_bar) => (A.pullback)(C_bar.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), c: RR64): RR64 => if A.data[ij] > 0.0 then c else 0.0 end)))
+
+sumsq(A: Mat): (RR64, Grad) = (SUM[ij <- A.data.indices] (A.data[ij])^2, (A.pullback)(A.data.scale(2.0)))
+`
+\end{preview}
+\end{document}

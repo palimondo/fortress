@@ -1,0 +1,32 @@
+(* v03: DESTRUCTURING.  The rung-5 design wants `Q K Vv ← e` to expand to
+   `(fn (Q, K, Vv) => rest)((e))`, i.e. a lambda of three parameters applied to
+   ONE tuple-valued expression.  Three questions:
+
+     (a) does a three-parameter lambda accept a tuple VALUE -- not a literal
+         tuple written at the call site, but the result of a function?
+     (b) does it accept a tuple whose three elements have three different APL
+         ranks, which is what `Q K Vv ← wq wk wv` is?
+     (c) does the binding nest, one destructuring inside another, the way rung
+         2's single-name binding does?
+
+   v01 settled that a tuple parameter must be destructured in the BODY (a
+   tuple PATTERN in the parameter list is a Syntax Error); this asks the other
+   side, where the tuple is the ARGUMENT and the parameters are separate. *)
+component v03_destr
+import AplCore.{...}
+export Executable
+
+mk3(x: RR64): (Any, Any, Any) = (x, aplIota(x), aplReshapeM(2.0, 2.0, x))
+
+run(): () = do
+    println("(a)/(b) a three-parameter lambda applied to a tuple-valued call:")
+    println(("  " (fn (p, q, r) => (aplShow(p) " | " aplShow(q) " | " aplShow(r)))(mk3(3.0))))
+    println("(c) nested destructuring, the inner one inside the outer's body:")
+    println(("  " (fn (a, b, c) =>
+                      (fn (d, e) => (aplShow(a) " " aplShow(b) " " aplShow(c)
+                                     " / " aplShow(d) " " aplShow(e)))((10.0, 20.0)))
+                  ((1.0, 2.0, 3.0))))
+    println("(d) a two-parameter lambda over a two-tuple:")
+    println(("  " (fn (a, b) => (aplShow(a) " " aplShow(b)))((7.0, 8.0))))
+  end
+end

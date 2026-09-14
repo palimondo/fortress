@@ -1,0 +1,3 @@
+value object:     c = VCounter(2)   d = VCounter(2)
+reference object: r = RCounter(2)   s = RCounter(2)
+c SEQV d = true

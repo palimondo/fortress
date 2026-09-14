@@ -1,0 +1,7 @@
+matrix product: [0#2][ 17.0 39.0 ]
+indexed product: [0#2][ 17.0 39.0 ]
+named scalar x_i: 123.0
+indexed element x[i]: 6.0
+spacing in the two accesses preserves this value: 2.0
+transpose view observes the write: 9.0
+NotationViews PASS

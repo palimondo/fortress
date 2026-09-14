@@ -1,0 +1,34 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress3570782773320485rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress3570782773320485rats/com/sun/fortress/parser/templateparser/TemplateParser33.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7080546942379555796rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7080546942379555796rats/com/sun/fortress/parser/templateparser/TemplateParser46.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress6362855713621795168rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress6362855713621795168rats/com/sun/fortress/parser/templateparser/TemplateParser69.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+      echo 41
+a1. v ← 41 ⋄ v                   -> 41
+      echo 1
+      echo 2
+a2. REBINDING: v ← 1 ⋄ v ← 2 ⋄ v -> 2
+      echo 7
+a3. update in place v⌈ ← 5       -> 7
+a4. a SECOND block reads what the first bound: 7
+      echo 4
+      echo 2
+a5. two names over two lines: 42
+a6. the host reads the APL variable directly: v = 4, m = 2
+      echo 41
+b1. v ← 41 ⋄ v                   -> 41
+      echo 1
+      echo 2
+b2. REBINDING: v ← 1 ⋄ v ← 2 ⋄ v -> 2
+b3. a second block: 27
+b4. the host reads it directly: v = 2

@@ -1,0 +1,89 @@
+(* t01 -- the LIBRARY half of rung 3, asked before anything is written into
+   ../base: which of the chapter's glyphs will the host let us declare with the
+   signatures the design wants, and does the host already own the matrix
+   arithmetic the design assumes it owns?
+
+   (a) the six comparisons ≠ < > ≥ (= and ≤ are already in AplCore) as oprs
+       returning APL's 0/1 array, over vectors and matrices;
+   (b) ∧ ∨ as oprs over the same shapes;
+   (c) a dyadic ⊖ beside the monadic one already in AplCore;
+   (d) a PREFIX * (APL's monadic exp);
+   (e) what the library already gives for two matrices: + - × ;
+   (f) an UNTYPED host lambda fn (x, y) => x × y -- does it dispatch on the
+       arguments' ranks at the call?  This is what the ⍨ design rests on. *)
+component t01_ops
+import AplCore.{...}
+export Executable
+
+(* (a) *)
+opr ≠[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] =/= b[i] then 1.0 else 0.0 end)
+opr <[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] < b[i] then 1.0 else 0.0 end)
+opr >[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] > b[i] then 1.0 else 0.0 end)
+opr ≥[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if a[i] >= b[i] then 1.0 else 0.0 end)
+opr <[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = a.sizes
+    aplMat(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => if a[i,j] < b[i,j] then 1.0 else 0.0 end)
+  end
+opr >[\nat r, nat c\](m: Matrix[\RR64,r,c\], x: RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    m.map[\RR64\](fn (y: RR64): RR64 => if y > x then 1.0 else 0.0 end)
+
+(* (b) *)
+opr ∧[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if (a[i] =/= 0.0) AND (b[i] =/= 0.0) then 1.0 else 0.0 end)
+opr ∨[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    aplVec(|a|, fn (i: ZZ32): RR64 => if (a[i] =/= 0.0) OR (b[i] =/= 0.0) then 1.0 else 0.0 end)
+
+(* (c) *)
+opr ⊖[\nat r, nat c\](n: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    k = aplInt(n)
+    aplMat(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => m[((((i + k) MOD rows) + rows) MOD rows), j])
+  end
+
+(* (d) a PREFIX * : APL's monadic exp.  Note the hazard of gap row 40: at the
+   USE site `( * x)` needs the space after the parenthesis. *)
+opr *(x: RR64): RR64 = 2.718281828459045^x
+
+(* (f) *)
+callit(f: (RR64, RR64) -> RR64, a: RR64, b: RR64): RR64 = f(a, b)
+
+v3(x: RR64, y: RR64, z: RR64): Array[\RR64,ZZ32\] = aplCons(x, aplCons(y, z))
+
+run(): () = do
+    a = v3(1.0, 2.0, 3.0)
+    b = v3(3.0, 2.0, 1.0)
+    m = aplMat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    n = aplMat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 - ((2 i) + j)))
+    println("(a) comparisons")
+    println(("  1 2 3 ≠ 3 2 1 = " aplShow(a ≠ b)))
+    println(("  1 2 3 < 3 2 1 = " aplShow(a < b)))
+    println(("  1 2 3 > 3 2 1 = " aplShow(a > b)))
+    println(("  1 2 3 ≥ 3 2 1 = " aplShow(a ≥ b)))
+    println(("  m < n         = " aplShow(m < n)))
+    println(("  m > 1         = " aplShow(m > 1.0)))
+    println("(b) ∧ ∨")
+    println(("  1 0 1 ∧ 1 1 0 = " aplShow(v3(1.0,0.0,1.0) ∧ v3(1.0,1.0,0.0))))
+    println(("  1 0 1 ∨ 1 1 0 = " aplShow(v3(1.0,0.0,1.0) ∨ v3(1.0,1.0,0.0))))
+    println("(c) dyadic ⊖ beside the monadic one")
+    println(("  ⊖m    = " aplShow(⊖ m)))
+    println(("  1⊖m   = " aplShow(1.0 ⊖ m)))
+    println("(d) prefix *")
+    println(("  *0 = " aplFmt( * 0.0)))
+    println(("  *1 = " aplFmt( * 1.0)))
+    println("(e) what the library already has for two matrices")
+    println(("  m + n = " aplShow(m + n)))
+    println(("  m - n = " aplShow(m - n)))
+    println("(f) an untyped lambda over ranks")
+    f = fn (x, y) => x × y
+    println(("  f(2,3)       = " aplFmt(f(2.0, 3.0))))
+    println(("  f(2, 1 2 3)  = " aplShow(f(2.0, a))))
+    println(("  f(1 2 3,1 2 3) = " aplShow(f(a, a))))
+    println(("  callit(fn (x: RR64, y: RR64) => x + y, 2, 3) = "
+             aplFmt(callit(fn (x: RR64, y: RR64): RR64 => x + y, 2.0, 3.0))))
+  end
+end

@@ -1,0 +1,33 @@
+iota 5                    : 1.0 2.0 3.0 4.0 5.0
+rho iota 5  (shape)       : 5.0
++/ iota 5                 : 15.0
+2 3 rho iota 6            :
+1.0 2.0 3.0
+4.0 5.0 6.0
+shape of that             : 2.0 3.0
++/ that  (row sums)       : 6.0 15.0
+transpose                 :
+1.0 4.0
+2.0 5.0
+3.0 6.0
+reverse first axis        :
+4.0 5.0 6.0
+1.0 2.0 3.0
+m + m                     :
+2.0 4.0 6.0
+8.0 10.0 12.0
+10.0 x m  (scalar ext)    :
+10.0 20.0 30.0
+40.0 50.0 60.0
+m MAX (- m)               :
+1.0 2.0 3.0
+4.0 5.0 6.0
+m MIN (- m)               :
+-1.0 -2.0 -3.0
+-4.0 -5.0 -6.0
+outer product iota3 o iota3:
+1.0 2.0 3.0
+2.0 4.0 6.0
+3.0 6.0 9.0
+BIG APLUS over a list     : 10.0
+EXIT=0

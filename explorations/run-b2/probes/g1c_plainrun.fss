@@ -1,0 +1,23 @@
+component g1c_plainrun
+export Executable
+
+(* C: the point of the exercise - a component that ships test functions
+   beside its ordinary definitions still runs normally under plain
+   "fortress g1c_plainrun.fss"; the tests are not called from run(). *)
+
+double(x: ZZ32): ZZ32 = 2 x
+
+test testDoubleSmall(): () = do
+    println("  [testDoubleSmall running]")
+    assert(double(3) = 6)
+end
+
+test testDoubleZero(): () = do
+    println("  [testDoubleZero running]")
+    assert(double(0) = 0)
+end
+
+run(): () = do
+    println("run(): double(21) = " (double(21)))
+end
+end

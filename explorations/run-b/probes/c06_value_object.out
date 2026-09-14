@@ -1,0 +1,6 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c06_value_object.fss
+c.v = [0#3][ 3.0 6.0 9.0 ]
+c.back(ones) = [0#3][ 3.0 3.0 3.0 ]
+a === a: true  a === Dual(x, fn g => g): true
+exit: 0
+[recovered from the transcript, run-b.jsonl line 282: shown through | tail, so lines run.sh wrote to the file may be absent]

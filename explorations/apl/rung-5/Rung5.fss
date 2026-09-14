@@ -1,0 +1,261 @@
+(* Rung5 -- every example of "Iteration"
+   (https://xpqz.github.io/learnapl/iteration.html) that the base reaches,
+   written inside apl⦇ … ⦈ and checked against the book's printed output as
+   extracted in ../goldens/ch5-iteration.md, followed by the section the
+   microGPT programs need.
+
+   Index origin is 0, as the chapter's prelude sets it.
+
+   Run from this directory with ../base on the source path:
+
+     export FORTRESS_SOURCE_PATH=".:$FORTRESS_HOME/explorations/apl/base:\
+     $FORTRESS_HOME/ProjectFortress/LibraryBuiltin:$FORTRESS_HOME/Library:\
+     $FORTRESS_HOME/ProjectFortress/test_library"
+     $FORTRESS_HOME/bin/fortress Rung5.fss
+
+   Adaptations, each named on the block that uses it.  (1)-(6) are rung 4's and
+   still apply: the ]dinput line is dropped and a definition-only example is
+   checked by appending `⋄ 0`; a dfn binding is followed by `⋄`; `_ ←` is not
+   available; a dfn body may not end with a binding; a body line is separated by
+   `⋄` or by the book's own trailing comment; an inline binding inside an
+   expression is written as two statements.  Rung 5 adds:
+
+   (7) Ex 9 builds its matrix with `9?9`, which is random, and prints it; Ex 10
+       and Ex 11 then reduce THAT matrix.  Ex 9 is out of scope, but the matrix
+       it printed is in the goldens, so Ex 10 binds it literally --
+       `m ← 3 3⍴3 0 5 4 1 8 6 7 2` -- and checks the row sums the book prints.
+   (8) A name strand is built from a THIRD closed name set (`AplTName`:
+       Q K Vv wq wk wv dQh dKh dVh), not from every APL name, because over all
+       names two ordinary names on consecutive lines merge into one strand
+       (v07_tuple.out.0, .out.1).
+   (9) An APL name may not be a word of two or more uppercase letters: such a
+       word is a Fortress OPERATOR, not an identifier (v06_caps.out.0).  The
+       program's `BLK` is written `Blk`. *)
+component Rung5
+
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+chk(id: String, src: String, got: String, want: String): ZZ32 = do
+    ok = (got = want)
+    println(((if ok then "PASS  " else "FAIL  " end) id "  " src))
+    println(("        want |" want "|"))
+    println(("        got  |" got "|"))
+    if ok then 1 else 0 end
+  end
+
+note(id: String, why: String): () = println(("SKIP  " id "  out of scope: " why))
+
+run(): () = do
+    score: ZZ32 := 0
+    tot: ZZ32 := 0
+
+    println("=== examples of the chapter, against the book's printed output ===")
+    println("")
+
+    note("Ex 1 ", "⎕IO ← 0, ]box on, ]rows on and Roger Hui's assert: two ⎕ system names, two Dyalog user commands and a character vector")
+
+    score := score + chk("Ex 2 ", "×⍨¨1+⍳9  ⍝ Square elements via each",
+                         aplShow(apl⦇ ×⍨¨1+⍳9 ⍝ Square elements via each (but see below!) ⦈),
+                         "1 4 9 16 25 36 49 64 81")
+    tot := tot + 1
+
+    score := score + chk("Ex 3 ", "×⍨1+⍳9  ⍝ Square elements via scalar pervasion",
+                         aplShow(apl⦇ ×⍨1+⍳9 ⍝ Square elements via scalar pervasion ⦈),
+                         "1 4 9 16 25 36 49 64 81")
+    tot := tot + 1
+
+    note("Ex 4 ", "⎕ ← V ← (1 2 3 4)(1 2)… and ≢¨V: a nested vector of five ragged elements, and ⎕ ←")
+
+    score := score + chk("Ex 5 ", "+⌿1 2 3 4 5 6 7 8 9  ⍝ sum-reduce-first",
+                         aplShow(apl⦇ +⌿1 2 3 4 5 6 7 8 9 ⍝ sum-reduce-first integers 1-9 ⦈), "45")
+    tot := tot + 1
+
+    score := score + chk("Ex 6 ", "1+2+3+4+5+6+7+8+9",
+                         aplShow(apl⦇ 1+2+3+4+5+6+7+8+9 ⦈), "45")
+    tot := tot + 1
+
+    score := score + chk("Ex 7 ", "-⌿1 2 3 4 5 6 7 8 9  ⍝ right-to-left fold",
+                         aplShow(apl⦇ -⌿1 2 3 4 5 6 7 8 9 ⍝ difference-reduction ⦈), "5")
+    tot := tot + 1
+
+    score := score + chk("Ex 8 ", "1-2-3-4-5-6-7-8-9",
+                         aplShow(apl⦇ 1-2-3-4-5-6-7-8-9 ⦈), "5")
+    tot := tot + 1
+
+    note("Ex 9 ", "⎕ ← m ← 3 3⍴9?9 and +⌿m: dyadic ? (Deal) is random and ⎕ ← is a second binding target; the matrix it printed is bound literally in Ex 10")
+
+    (* Ex 10 -- adaptation 7: the book's own m, from Ex 9's printed output *)
+    score := score + chk("Ex 10", "+/m   (m ← 3 3⍴3 0 5 4 1 8 6 7 2, the matrix Ex 9 printed)",
+                         aplShow(apl⦇ m ← 3 3⍴3 0 5 4 1 8 6 7 2 ⋄ +/m ⦈), "8 13 15")
+    tot := tot + 1
+
+    note("Ex 11", "+⌿[1]m: bracket axis, which names an axis at run time and has no rule")
+    note("Ex 12", "2+⌿1 2 3 4 5 6 7 8 9: n-wise reduction -- the derived function a reduction returns, called dyadically")
+
+    score := score + chk("Ex 13a", "+⌿1 2 3 4 5 6 7 8 9  ⍝ Sum-reduce first",
+                         aplShow(apl⦇ +⌿1 2 3 4 5 6 7 8 9 ⍝ Sum-reduce first ⦈), "45")
+    score := score + chk("Ex 13b", "+⍀1 2 3 4 5 6 7 8 9  ⍝ Sum-scan first",
+                         aplShow(apl⦇ +⍀1 2 3 4 5 6 7 8 9 ⍝ Sum-scan first ⦈),
+                         "1 3 6 10 15 21 28 36 45")
+    tot := tot + 2
+
+    (* Ex 14 -- the book prints nine lines, one reduction per prefix *)
+    score := score + chk("Ex 14a", "+⌿1", aplShow(apl⦇ +⌿1 ⦈), "1")
+    score := score + chk("Ex 14b", "+⌿1 2", aplShow(apl⦇ +⌿1 2 ⦈), "3")
+    score := score + chk("Ex 14c", "+⌿1 2 3", aplShow(apl⦇ +⌿1 2 3 ⦈), "6")
+    score := score + chk("Ex 14d", "+⌿1 2 3 4", aplShow(apl⦇ +⌿1 2 3 4 ⦈), "10")
+    score := score + chk("Ex 14e", "+⌿1 2 3 4 5", aplShow(apl⦇ +⌿1 2 3 4 5 ⦈), "15")
+    score := score + chk("Ex 14f", "+⌿1 2 3 4 5 6", aplShow(apl⦇ +⌿1 2 3 4 5 6 ⦈), "21")
+    score := score + chk("Ex 14g", "+⌿1 2 3 4 5 6 7", aplShow(apl⦇ +⌿1 2 3 4 5 6 7 ⦈), "28")
+    score := score + chk("Ex 14h", "+⌿1 2 3 4 5 6 7 8", aplShow(apl⦇ +⌿1 2 3 4 5 6 7 8 ⦈), "36")
+    score := score + chk("Ex 14i", "+⌿1 2 3 4 5 6 7 8 9", aplShow(apl⦇ +⌿1 2 3 4 5 6 7 8 9 ⦈), "45")
+    tot := tot + 9
+
+    score := score + chk("Ex 15", "2÷⍨⍣=10  ⍝ Divide by 2 until we reach a fixed point",
+                         aplShow(apl⦇ 2÷⍨⍣=10 ⍝ Divide by 2 until we reach a fixed point ⦈), "0")
+    tot := tot + 1
+
+    note("Ex 16", "{⍞ ← ?10}⍣{6=⍺} 0: ⍞ is a ⎕ system name, ? is random, and the whole run is one sample")
+
+    (* Ex 17 -- the definition prints nothing; `⋄ 0` is appended (adaptation 1) *)
+    score := score + chk("Ex 17", "Sum ← {⍺ ← 0 ⋄ 0=≢⍵: ⍺ ⋄ (⍺+⊃⍵)∇1↓⍵}   (definition)",
+                         aplShow(apl⦇ Sum ← {
+                                          ⍺ ← 0        ⍝ Left arg defaults to 0 if not given
+                                          0=≢⍵: ⍺      ⍝ If right arg is empty, return left arg
+                                          (⍺+⊃⍵)∇1↓⍵   ⍝ Add head to acc, recur over tail
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    note("Ex 18", "⎕ ← mysum ← Sum 1 2 … 9 ⋄ assert mysum=+/…: ⎕ ←, a second binding target and Ex 1's assert; the value it prints is checked as Y1 below")
+
+    score := score + chk("Ex 19", "Sscan ← {⍺ ← ⍬ ⋄ 0=≢⍵: ⍺ ⋄ (⍺,⊃⍵+⊃¯1↑⍺)∇1↓⍵}   (definition)",
+                         aplShow(apl⦇ Sscan ← {
+                                          ⍺ ← ⍬              ⍝ Left arg defaults to ⍬ if not given
+                                          0=≢⍵: ⍺            ⍝ If right arg is empty, return left arg
+                                          (⍺,⊃⍵+⊃¯1↑⍺)∇1↓⍵   ⍝ Append the sum of the head and the last element of acc
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    note("Ex 20", "⎕ ← myscan ← Sscan … ⋄ assert myscan≡+⍀…: as Ex 18; the value it prints is checked as Y2 below")
+
+    score := score + chk("Ex 21", "Fib ← {⍺ ← 0 1 ⋄ ⍵=0: ⊃⍺ ⋄ (1↓⍺,+/⍺)∇⍵-1}   (definition)",
+                         aplShow(apl⦇ Fib ← { ⍝ Tail-recursive Fibonacci.
+                                          ⍺ ← 0 1
+                                          ⍵=0: ⊃⍺
+                                          (1↓⍺,+/⍺)∇⍵-1
+                                      } ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    score := score + chk("Ex 22", "Fib¨⍳10  ⍝ The 10 first Fibonacci numbers",
+                         aplShow(apl⦇ Fib ← { ⍝ Tail-recursive Fibonacci.
+                                          ⍺ ← 0 1
+                                          ⍵=0: ⊃⍺
+                                          (1↓⍺,+/⍺)∇⍵-1
+                                      } ⋄
+                                      Fib¨⍳10 ⍝ The 10 first Fibonacci numbers ⦈),
+                         "0 1 1 2 3 5 8 13 21 34")
+    tot := tot + 1
+
+    note("Ex 23", "Quicksort ← {… S ← {⍺⌿⍨⍺ ⍺⍺ ⍵} … ⍵((∇<S),=S,(∇>S))⍵⌷⍨?≢⍵}: a direct OPERATOR (⍺⍺), a tacit fork, and ?")
+    note("Ex 24", "Quicksort ⎕←20?20: ⎕ ←, dyadic ? and Ex 23's Quicksort")
+    note("Ex 25", "bsearch ← {⎕IO←0 ⋄ _bs_ ← {… ⍺⍺ … ⍵⍵ …} …}: a direct OPERATOR with both operands, and a local ⎕IO")
+    note("Ex 26", "5 bsearch 0 2 3 5 8 12 75 and four more: they need Ex 25's operator, and the last prints ⍬ through ]display")
+    note("Ex 27", "prefix1 ← {… pi[i] ← j⊢←1+{…} j …}: set assignment ⊢← on an enclosing name, which a lambda parameter cannot carry (row 29)")
+    note("Ex 28", "prefix1 'CAGCATGGTATCACAGCAGAG': a character vector, and Ex 27's dfn")
+    note("Ex 29", "prefix2 ← {…}: the same ⊢← as Ex 27")
+    note("Ex 30", "prefix2 'CAGCATGGTATCACAGCAGAG': as Ex 28")
+    note("Ex 31", "data ← ⊃⊃⎕NGET'../kmp.txt'1: ⎕NGET and a data file the book does not ship")
+    note("Ex 32", "'cmpx'⎕CY'dfns': ⎕CY and Dyalog's dfns workspace")
+    note("Ex 33", "cmpx 'prefix1 data' 'prefix2 data': Dyalog's cmpx and one machine's timings")
+    note("Ex 34", "cmpx 'data ⍳ 17777' '17777 bsearch data': as Ex 33")
+    note("Ex 35", "randInts ← 100000 ? 100000 ⋄ cmpx …: dyadic ? and cmpx")
+    note("Ex 36", "find←randInts∘⍳ ⋄ cmpx …: a tacit definition (rung 7) and cmpx")
+    note("Ex 37", "cmpx 'data⍸1' …: as Ex 33")
+    note("Ex 38", "⎕ ← nesty ← (1 2 3 (3 4 (5 6)) 7): a vector nested three deep")
+    note("Ex 39", "-nesty: scalar pervasion through three levels of nesting")
+    note("Ex 40", "(1 2) 3 + 4 (5 6) and (1 1⍴5) - 1 (2 3): nested arrays on both sides")
+
+    println("")
+    println(("checks passed: " score " of " tot ", over 14 of the chapter's 40 examples"))
+    println("")
+    println("=== beyond the chapter: what the microGPT programs need from this rung ===")
+    println("")
+
+    bx: ZZ32 := 0
+
+    bx := bx + chk("Y1 ", "Sum 1 2 3 4 5 6 7 8 9      (Ex 18's value, without ⎕ ← and assert)",
+                 aplShow(apl⦇ Sum ← {⍺ ← 0 ⋄ 0=≢⍵: ⍺ ⋄ (⍺+⊃⍵)∇1↓⍵} ⋄
+                              Sum 1 2 3 4 5 6 7 8 9 ⦈), "45")
+    bx := bx + chk("Y2 ", "Sscan 1 2 3 4 5 6 7 8 9    (Ex 20's value)",
+                 aplShow(apl⦇ Sscan ← {⍺ ← ⍬ ⋄ 0=≢⍵: ⍺ ⋄ (⍺,⊃⍵+⊃¯1↑⍺)∇1↓⍵} ⋄
+                              Sscan 1 2 3 4 5 6 7 8 9 ⦈), "1 3 6 10 15 21 28 36 45")
+    bx := bx + chk("Y3 ", "(Sscan 1 … 9)≡+⍀1 … 9      (Ex 20's assertion, as a value)",
+                 aplShow(apl⦇ Sscan ← {⍺ ← ⍬ ⋄ 0=≢⍵: ⍺ ⋄ (⍺,⊃⍵+⊃¯1↑⍺)∇1↓⍵} ⋄
+                              (Sscan 1 2 3 4 5 6 7 8 9)≡+⍀1 2 3 4 5 6 7 8 9 ⦈), "1")
+    bx := bx + chk("Y4 ", "h¨Q K Vv                   (each over a STRAND of three matrices)",
+                 aplShowT(apl⦇ Q ← 2 2⍴1 2 3 4 ⋄ K ← 2 2⍴10 20 30 40 ⋄ Vv ← 2 2⍴0 1 0 1 ⋄
+                               h ← {⍵×2} ⋄
+                               h¨Q K Vv ⦈),
+                 (("2 4" // "6 8") // "" // ("20 40" // "60 80") // "" // ("0 2" // "0 2")))
+    bx := bx + chk("Y5 ", "Q K Vv ← h¨wq wk wv ⋄ ⍴Q    (destructuring a strand into three names)",
+                 aplShow(apl⦇ wq ← 2 3⍴⍳6 ⋄ wk ← 3 4⍴⍳12 ⋄ wv ← 4 2⍴⍳8 ⋄
+                              h ← {⍵+1} ⋄
+                              Q K Vv ← h¨wq wk wv ⋄
+                              ((⍴Q),(⍴K)),(⍴Vv) ⦈), "2 3 3 4 4 2")
+    bx := bx + chk("Y6 ", "u¨dQh dKh dVh              (the program's own three-name strand)",
+                 aplShowT(apl⦇ dQh ← 1 2 ⋄ dKh ← 3 4 ⋄ dVh ← 5 6 ⋄
+                               u ← {+/⍵} ⋄
+                               u¨dQh dKh dVh ⦈), ((("3" // "") // "7") // "") // "11")
+    bx := bx + chk("Y7 ", "Q K ← h¨wq wk ⋄ Q,K        (a TWO-name strand)",
+                 aplShow(apl⦇ wq ← 1 ⋄ wk ← 2 ⋄ h ← {⍵×10} ⋄ Q K ← h¨wq wk ⋄ Q,K ⦈), "10 20")
+    bx := bx + chk("Y8 ", "step⍣Blk⊢v                 (power with a COUNT read from a name)",
+                 aplShow(apl⦇ Blk ← 3 ⋄ step ← {⍵+⍵} ⋄ step⍣Blk⊢1 2 3 ⦈), "8 16 24")
+    bx := bx + chk("Y9 ", "2÷⍨⍣3⊢80 and (2÷⍨⍣3)80     (both spellings of the count)",
+                 aplShow(apl⦇ (2÷⍨⍣3⊢80),(2÷⍨⍣3)80 ⦈), "10 10")
+    bx := bx + chk("Y10", "{⍵×2}⍣{100≤⍺}⊢1            (power with a dfn stop condition)",
+                 aplShow(apl⦇ {⍵×2}⍣{100≤⍺}⊢1 ⦈), "128")
+    bx := bx + chk("Y11", "+\\1 2 3 4 5 and -\\1 2 3 4  (scan is APL's, a reduction per prefix)",
+                 aplShow(apl⦇ (+\1 2 3 4 5),-\1 2 3 4 ⦈), "1 3 6 10 15 1 ¯1 2 ¯2")
+    bx := bx + chk("Y12", "×\\1 2 3 4 5 , ⌈\\3 1 4 1 5 , ⌊\\3 1 4 1 5",
+                 aplShow(apl⦇ ((×\1 2 3 4 5),⌈\3 1 4 1 5),⌊\3 1 4 1 5 ⦈),
+                 "1 2 6 24 120 3 3 4 4 5 3 1 1 1 1")
+    bx := bx + chk("Y13", "+⍀m and -⍀m               (scan along the FIRST axis of a matrix)",
+                 aplShow(apl⦇ m ← 2 3⍴⍳6 ⋄ (,+⍀m),,-⍀m ⦈), "0 1 2 3 5 7 0 1 2 ¯3 ¯3 ¯3")
+    bx := bx + chk("Y14", "+\\m                        (… and along the last)",
+                 aplShow(apl⦇ +\2 3⍴⍳6 ⦈), ("0 1  3" // "3 7 12"))
+    bx := bx + chk("Y15", "{⍺+⍵}/⍳5 and {⍺-⍵}/1 2 3 4 (a dfn as the operand of / )",
+                 aplShow(apl⦇ ({⍺+⍵}/⍳5),{⍺-⍵}/1 2 3 4 ⦈), "10 ¯2")
+    bx := bx + chk("Y16", "{⍺+⍵}⌿m and {⍺+⍵}\\1 2 3 4  (a dfn as the operand of ⌿ and \\ )",
+                 aplShow(apl⦇ m ← 2 3⍴⍳6 ⋄ ({⍺+⍵}⌿m),{⍺+⍵}\1 2 3 4 ⦈), "3 5 7 1 3 6 10")
+    bx := bx + chk("Y17", "10{⍺+⍵}¨1 2 3 and 1 2 3+¨10 20 30   (dyadic ¨, scalar extension and pairing)",
+                 aplShow(apl⦇ (10{⍺+⍵}¨1 2 3),1 2 3+¨10 20 30 ⦈), "11 12 13 11 22 33")
+    bx := bx + chk("Y18", "{⍵×⍵}¨m                    (each over a matrix, elementwise)",
+                 aplShow(apl⦇ {⍵×⍵}¨2 3⍴⍳6 ⦈), ("0  1  4" // "9 16 25"))
+    bx := bx + chk("Y19", "-⌿m                        (the reduction rungs 1 and 3 left out)",
+                 aplShow(apl⦇ -⌿2 3⍴⍳6 ⦈), "¯3 ¯3 ¯3")
+    (* APL's DOMAIN ERROR for an empty general reduction, and the nested result
+       that this base has no carrier for, both as catchable contract violations *)
+    nest = try aplShow(apl⦇ {⍳⍵}¨1 2 3 ⦈) catch e CallerViolation => "CallerViolation" end
+    bx := bx + chk("Y20", "{⍳⍵}¨1 2 3                 (a NESTED each result: out of scope, and it says so)",
+                 nest, "CallerViolation")
+    mt = try aplShow(apl⦇ {⍺+⍵}/⍬ ⦈) catch e CallerViolation => "CallerViolation" end
+    bx := bx + chk("Y21", "{⍺+⍵}/⍬                    (an empty general reduction: APL's DOMAIN ERROR)",
+                 mt, "CallerViolation")
+
+    println("")
+    println(("beyond-chapter checks passed: " bx " of 21"))
+    println("")
+    println("=== what rung 5 does not carry over from APL ===")
+    println("")
+    note("v¨⍳9", "each over ⍳9 with an ARRAY operand makes a nine-element nested vector; a strand here is a tuple of two or three names, and nothing builds a tuple of nine")
+    note("f¨ over a strand, dyadically", "only the monadic form reads a name strand; a dyadic ¨ pairing two strands has no rule")
+    note("2f/v", "n-wise reduction is the derived function of / called dyadically, and a derived function is not a value here (rung 7)")
+    note("⍺⍺ ⍵⍵", "a direct OPERATOR still takes its operands as names (rung 4's note stands)")
+    note("f⍣g with ⍵ as the old value", "the stop function is called with the new value as ⍺ and the old as ⍵, as in APL; a function that never fires is a contract violation after a million steps, not a hang")
+    note("a name strand", "it is built from a THIRD closed name set, not from every APL name: over all names two ordinary names on consecutive lines merge into one strand (v07_tuple)")
+    note("an all-uppercase name", "a word of two or more uppercase letters is a Fortress OPERATOR, so the program's BLK is written Blk (v06_caps)")
+end
+
+end

@@ -1,0 +1,56 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11918840072242597008rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11918840072242597008rats/com/sun/fortress/parser/templateparser/TemplateParser354.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(a) ⍣ power
+  2÷⍨⍣3⊢80 = 10
+  (2÷⍨⍣3)80 = 10
+  2÷⍨⍣=10 = 0
+  {⍵+1}⍣5⊢0 = 5
+  Blk ← 4 ⋄ {⍵×2}⍣Blk⊢1 = 16
+(b) ¨ each
+  ×⍨¨1+⍳9 = 1 4 9 16 25 36 49 64 81
+  {⍵×⍵}¨1 2 3 = 1 4 9
+  10{⍺+⍵}¨1 2 3 = 11 12 13
+  1 2 3+¨10 20 30 = 11 22 33
+  {⍵×⍵}¨2 3⍴⍳6 = 0  1  4
+9 16 25
+(c) ¨ over a NAME STRAND, and the destructuring binding
+  Q ← 2 ⋄ K ← 3 ⋄ Vv ← 4 ⋄ {⍵×⍵}¨Q K Vv = 4
+
+9
+
+16
+  Q K Vv ← {⍵×⍵}¨wq wk wv ⋄ (Q+K)+Vv   (three names bound from one tuple) = 14
+  Q K ← {⍵+100}¨wq wk ⋄ Q,K = 101 102
+(d) the ten direct scans
+  +\1 2 3 4 = 1 3 6 10
+  -\1 2 3 4 = 1 ¯1 2 ¯2
+  ×\1 2 3 4 = 1 2 6 24
+  ⌈\3 1 4 1 5 = 3 3 4 4 5
+  ⌊\3 1 4 1 5 = 3 1 1 1 1
+  +⍀2 3⍴⍳6 = 0 1 2
+3 5 7
+  ×⍀2 3⍴1+⍳6 = 1  2  3
+4 10 18
+  ⌈⍀2 3⍴⍳6 = 0 1 2
+3 4 5
+  ⌊⍀2 3⍴⍳6 = 0 1 2
+0 1 2
+  -⍀2 3⍴⍳6 =  0  1  2
+¯3 ¯3 ¯3
+(e) the general f/ f⌿ f\ f⍀ , and -⌿
+  {⍺+⍵}/⍳5 = 10
+  {⍺-⍵}/1 2 3 4 = ¯2
+  {⍺+⍵}⌿2 3⍴⍳6 = 3 5 7
+  {⍺+⍵}\1 2 3 4 = 1 3 6 10
+  {⍺+⍵}⍀2 3⍴⍳6 = 0 1 2
+3 5 7
+  -⌿1 2 3 4 5 6 7 8 9 = 5
+  -⌿2 3⍴⍳6 = ¯3 ¯3 ¯3
+(f) the rules rungs 1-4 already had, re-asked beside the new ones
+  +/1 2 3 4   (still the shipped SUM) = 10
+  1 2 3 4↑⍨2  (rung 3's commute, beside the new AplFnM) = 1 2
+  ⌽⍤1⊢2 3⍴⍳6  (rung 4's rank operator) = 2 1 0
+5 4 3

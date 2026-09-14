@@ -1,0 +1,10 @@
+(* C: if U+2373 is not an operator character, is it an identifier character?
+   (If it were, iota could be an ordinary function and "iota 5" juxtaposition.) *)
+component c16_glyph_identifier
+export Executable
+
+⍳(n: ZZ32): ZZ32 = n + 1
+
+run() = println(⍳(3))
+
+end

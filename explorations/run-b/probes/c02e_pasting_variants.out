@@ -1,0 +1,18 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/c02e_pasting_variants.fss
+(a) [ u v u v ] with Vector[\RR64,8\] LHS = [0#8][ 1.0 2.0 10.0 20.0 1.0 2.0 10.0 20.0 ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-b/probes/c02e_pasting_variants.fss:15:25:
+undefined variable [w4]
+Context:
+/home/user/fortress/explorations/run-b/probes/c02e_pasting_variants.fss:15:25:
+toplevel:
+[... the middle of this run was never displayed in the transcript ...]
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit: 1
+[recovered from the transcript, run-b.jsonl line 331: shown through | tail, so lines run.sh wrote to the file may be absent; start recovered from the head of the file displayed at main:348; a gap between the head and the tail the session displayed]

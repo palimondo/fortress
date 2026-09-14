@@ -1,0 +1,26 @@
+component g4b_methodonly
+export Executable
+
+trait Nd
+  data(): ZZ32
+end
+
+mk1(k: ZZ32): Nd = do
+  c = k + 1
+  object extends Nd
+    data(): ZZ32 = c
+  end
+end
+
+mk2(k: ZZ32): Nd = do
+  c = k + 100
+  object extends Nd
+    data(): ZZ32 = c
+  end
+end
+
+run(): () = do
+  println((mk1(5)).data())
+  println((mk2(5)).data())
+end
+end

@@ -1,0 +1,4 @@
+a = Shape(area=9.0)
+b = Shape(area=9.0)
+a.area + b.area = 18.0
+Sq(3.0) SEQV Sq(3.0) = true

@@ -1,0 +1,70 @@
+(* v04: the rung-5 library additions, called directly, before the grammar is
+   touched.  A library-only probe costs one run and no parser regeneration, so
+   every library question is asked here and the grammar probe (v05) asks only
+   grammar questions.
+
+   Asked: each in both valences and over a name strand; the general fold and
+   scan with a dfn-shaped operand; the direct scans, including the one that
+   shows APL's definition (-\1 2 3 is 1 ¯1 2); -⌿ on a matrix; power with a
+   count and with a stop function; the three ⍨ values; and the two contract
+   violations the design asks for -- a nested cell result and an empty general
+   reduction. *)
+component v04_lib
+import AplCore.{...}
+export Executable
+
+run(): () = do
+    v = aplVec(4, fn (i: ZZ32): RR64 => 1.0 (i + 1))          (* 1 2 3 4 *)
+    m = aplMat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((3 i) + j))
+    sq = fn (): Any => aplOmega() × aplOmega()
+    add = fn (): Any => aplAlpha() + aplOmega()
+    sub = fn (): Any => aplAlpha() - aplOmega()
+    half = fn (): Any => aplOmega() ÷ 2.0
+    eq = fn (): Any => aplAlpha() = aplOmega()
+
+    println("(a) ¨ monadic")
+    println(("  sq¨ 1 2 3 4      = " aplShow(aplEach(sq, v))))
+    println(("  sq¨ m            = " aplShow(aplEach(sq, m))))
+    println(("  sq¨ 5            = " aplShow(aplEach(sq, 5.0))))
+    println("(b) ¨ dyadic, with scalar extension")
+    println(("  10 add¨ 1 2 3 4  = " aplShow(aplEach(add, 10.0, v))))
+    println(("  v add¨ v         = " aplShow(aplEach(add, v, v))))
+    println(("  m add¨ 100       = " aplShow(aplEach(add, m, 100.0))))
+    println("(c) ¨ over a name strand (a tuple)")
+    println(("  sq¨ (2, v, m):" // aplShowT(aplEachT3(sq, 2.0, v, m))))
+    println(("  sq¨ (2, 3):" // aplShowT(aplEachT2(sq, 2.0, 3.0))))
+    println("(d) the general fold, right to left")
+    println(("  add/ 1 2 3 4     = " aplShow(aplFoldLast(add, v))))
+    println(("  sub/ 1 2 3 4     = " aplShow(aplFoldLast(sub, v))))
+    println(("  add/ m           = " aplShow(aplFoldLast(add, m))))
+    println(("  add⌿ m           = " aplShow(aplFoldFirst(add, m))))
+    println("(e) the direct scans; APL's definition, not a running fold")
+    println(("  +\\ 1 2 3 4       = " aplShow(aplSumScanLast(v))))
+    println(("  -\\ 1 2 3 4       = " aplShow(aplDifScanLast(v))))
+    println(("  ×\\ 1 2 3 4       = " aplShow(aplProdScanLast(v))))
+    println(("  +⍀ m             = " aplShow(aplSumScanFirst(m))))
+    println(("  +\\ m             = " aplShow(aplSumScanLast(m))))
+    println("(f) the general scan")
+    println(("  add\\ 1 2 3 4     = " aplShow(aplScanLast(add, v))))
+    println(("  sub\\ 1 2 3 4     = " aplShow(aplScanLast(sub, v))))
+    println("(g) -⌿ on a matrix, the reduction rungs 1 and 3 left out")
+    println(("  -⌿ m             = " aplShow(aplDifFirst(m))))
+    println("(h) ⍣ power")
+    println(("  half⍣3⊢ 80       = " aplShow(aplPower(half, 3.0, 80.0))))
+    println(("  half⍣= 10        = " aplShow(aplPowerUntil(half, eq, 10.0))))
+    println("(i) ⍨ as a value")
+    println(("  ×⍨ 7   (aplCommute)   = " aplShow(aplCall1(aplCommute(
+                fn (): Any => aplAlpha() × aplOmega()), 7.0))))
+    println(("  2÷⍨ 9  (aplBindRight) = " aplShow(aplCall1(aplBindRight(
+                fn (): Any => aplAlpha() ÷ aplOmega(), 2.0), 9.0))))
+    println(("  3 -⍨ 10 (aplCommuteD) = " aplShow(aplCall(aplCommuteD(
+                fn (): Any => aplAlpha() - aplOmega()), 3.0, 10.0))))
+    println("(j) the two contract violations")
+    nested = try aplShow(aplEach(fn (): Any => aplIota(aplOmega()), v))
+             catch e CallerViolation => "CallerViolation" end
+    println(("  {⍳⍵}¨ 1 2 3 4 (a nested result) = " nested))
+    empty = try aplShow(aplFoldLast(add, aplZilde()))
+            catch e CallerViolation => "CallerViolation" end
+    println(("  add/ ⍬        (empty, general)  = " empty))
+  end
+end

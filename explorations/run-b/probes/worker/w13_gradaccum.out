@@ -1,0 +1,6 @@
+$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/w13_gradaccum.fss
+initial       : 0.0
+after first  += 1.5 : 1.5
+after second += 2.25: 3.75
+exit: 0
+[recovered from the transcript, run-b-subagents/agent-a3425313e0fb75a35.jsonl line 431: the complete output run.sh wrote]

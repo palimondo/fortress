@@ -1,0 +1,15 @@
+(* E3b: same, with the static arguments the opr declares
+   (Map.fsi:107 opr BIG UNION[\Key,Val\](g: Generator[\Map[\Key,Val\]\])). *)
+component g1e_bigunion2
+import Map.{...}
+import List.{...}
+export Executable
+
+run(): () = do
+    s1: Map[\String,ZZ32\] = {[\String,ZZ32\] "a" |-> 1, "b" |-> 2 }
+    s2: Map[\String,ZZ32\] = {[\String,ZZ32\] "a" |-> 10, "c" |-> 30 }
+    ss: List[\Map[\String,ZZ32\]\] = <|[\Map[\String,ZZ32\]\] s1, s2 |>
+    b: Map[\String,ZZ32\] = BIG UNION[\String,ZZ32\][ m <- seq(ss) ] m
+    println("BIG UNION with static args = " b)
+  end
+end

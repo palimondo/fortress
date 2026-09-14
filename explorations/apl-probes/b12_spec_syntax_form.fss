@@ -1,0 +1,11 @@
+(* B: the ONLY DSL declaration form the specification actually gives
+   (Specification/appendices/grammars/concrete-syntax.tex:434-448,
+    ExternalSyntax ::= syntax OpenExpander Id CloseExpander = Expr). *)
+component b12_spec_syntax_form
+export Executable
+
+syntax twice e end = (e) + (e)
+
+run() = println(twice 21 end)
+
+end

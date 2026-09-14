@@ -1,0 +1,17 @@
+  [testThatFails running]
+FAIL: double(3) should have been 7
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:293:9-294:5:
+/home/user/fortress/explorations/run-b2/probes/g1c_testfail.fss:12:5-56:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walkTests(Shell.java:1250)
+	at com.sun.fortress.Shell.subMain(Shell.java:477)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

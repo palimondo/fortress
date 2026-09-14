@@ -1,0 +1,300 @@
+(* Rung2 -- every example of "Indexing"
+   (https://xpqz.github.io/learnapl/indexing.html) that the native-carrier
+   library reaches, written inside apl⦇ … ⦈ and checked against the book's
+   printed output as extracted in ../goldens/ch2-indexing.md.
+
+   Index origin is 0: the chapter's first line is ⎕IO ← 0, so v[5] is the sixth
+   element and ⍳n counts from zero.
+
+   Run from this directory with ../base on the source path:
+
+     export FORTRESS_SOURCE_PATH=".:$FORTRESS_HOME/explorations/apl/base:\
+     $FORTRESS_HOME/ProjectFortress/LibraryBuiltin:$FORTRESS_HOME/Library:\
+     $FORTRESS_HOME/ProjectFortress/test_library"
+     $FORTRESS_HOME/bin/fortress Rung2.fss
+
+   The one thing to know while reading the lines below: an APL name here is a
+   real Fortress variable -- a LAMBDA PARAMETER bound by ←, block-scoped, visible
+   to host code inside the block (X16) -- and not an entry in a workspace table.
+   The consequence for this file is that the chapter's session cannot be read one
+   expander use at a time: a binding lives exactly as long as its block, so each
+   example is one block that opens with the book's own binding lines and ends
+   with the line whose output the book prints.  The book's layout is kept --
+   successive lines separated by a line break, the book's trailing ⍝ comments in
+   place, including on lines that are not the block's last.
+
+   The printed displays drop Dyalog's ]box / ]DISPLAY frames (a user command, not
+   language), and the two examples whose input is 9?9 -- dyadic ? Deal, a random
+   permutation -- are bound instead to the very permutation the book printed, so
+   that its output can still be checked.  Both adaptations are named on the line
+   that uses them. *)
+component Rung2
+
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+chk(id: String, src: String, got: String, want: String): ZZ32 = do
+    ok = (got = want)
+    println(((if ok then "PASS  " else "FAIL  " end) id "  " src))
+    println(("        want |" want "|"))
+    println(("        got  |" got "|"))
+    if ok then 1 else 0 end
+  end
+
+note(id: String, why: String): () = println(("SKIP  " id "  out of scope: " why))
+
+run(): () = do
+    score: ZZ32 := 0
+    total: ZZ32 := 0
+
+    println("=== examples of the chapter, against the book's printed output ===")
+    println("")
+
+    note("Ex 1 ", "⎕IO ← 0 is a ⎕ system name; realised instead as the library's index origin 0")
+    note("Ex 2 ", "]box on is a Dyalog user command, not language")
+
+    (* Ex 3 -- the book's ⎕ ← v ← … prints the vector it binds; here the binding
+       and the reference are two statements of one block, because ← is a binding
+       and not an expression. *)
+    score := score + chk("Ex 3a", "v ← 9 2 6 3 5 8 7 4 0 1 ⋄ v   (⎕ ← dropped)",
+                         aplShow(apl⦇ v ← 9 2 6 3 5 8 7 4 0 1
+                                      v ⦈),
+                         "9 2 6 3 5 8 7 4 0 1")
+    score := score + chk("Ex 3b", "v[5] ⍝ Grab the cell at index 5",
+                         aplShow(apl⦇ v ← 9 2 6 3 5 8 7 4 0 1
+                                      v[5] ⍝ Grab the cell at index 5 ⦈), "8")
+    total := total + 1
+
+    score := score + chk("Ex 4 ", "v[5 2] ⍝ Grab the cells at indices 5 and 2",
+                         aplShow(apl⦇ v ← 9 2 6 3 5 8 7 4 0 1
+                                      v[5 2] ⍝ Grab the cells at indices 5 and 2 ⦈),
+                         "8 6")
+    total := total + 1
+
+    (* Ex 5 -- indexed assignment, and ¯1 is the high-minus literal.  The array
+       is mutated in place: the name is never rebound. *)
+    score := score + chk("Ex 5 ", "v[3] ← ¯1  then  v",
+                         aplShow(apl⦇ v ← 9 2 6 3 5 8 7 4 0 1
+                                      v[3] ← ¯1
+                                      v ⦈),
+                         "9 2 6 ¯1 5 8 7 4 0 1")
+    total := total + 1
+
+    (* Ex 6 -- ]DISPLAY frame dropped; the three indexing lines are the example,
+       and the book's comment on each of them is kept where the book puts it. *)
+    score := score + chk("Ex 6a", "m ← 3 3⍴4 1 6 5 2 9 7 8 3 ⍝ a 3×3 matrix",
+                         aplShow(apl⦇ m ← 3 3⍴4 1 6 5 2 9 7 8 3 ⍝ a 3×3 matrix
+                                      m ⦈),
+                         ("4 1 6" // "5 2 9" // "7 8 3"))
+    score := score + chk("Ex 6b", "m[1;1] ⍝ Row 1, col 1",
+                         aplShow(apl⦇ m ← 3 3⍴4 1 6 5 2 9 7 8 3 ⍝ a 3×3 matrix
+                                      m[1;1] ⍝ Row 1, col 1 ⦈), "2")
+    score := score + chk("Ex 6c", "m[1;]  ⍝ Row 1",
+                         aplShow(apl⦇ m ← 3 3⍴4 1 6 5 2 9 7 8 3 ⍝ a 3×3 matrix
+                                      m[1;] ⍝ Row 1 ⦈), "5 2 9")
+    score := score + chk("Ex 6d", "m[;1]  ⍝ Col 1",
+                         aplShow(apl⦇ m ← 3 3⍴4 1 6 5 2 9 7 8 3 ⍝ a 3×3 matrix
+                                      m[;1] ⍝ Col 1 ⦈), "1 2 8")
+    total := total + 1
+
+    (* Ex 7 and 8 -- the enclosure and the vector of coordinate pairs are
+       absorbed by the grammar, so no nested value is ever built *)
+    score := score + chk("Ex 7 ", "m[⊂1 1] ⍝ Centre",
+                         aplShow(apl⦇ m ← 3 3⍴4 1 6 5 2 9 7 8 3
+                                      m[⊂1 1] ⍝ Centre ⦈), "2")
+    total := total + 1
+    score := score + chk("Ex 8 ", "m[(0 0)(1 1)(2 2)] ⍝ Three points along the main diagonal",
+                         aplShow(apl⦇ m ← 3 3⍴4 1 6 5 2 9 7 8 3
+                                      m[(0 0)(1 1)(2 2)] ⍝ diagonal ⦈), "4 2 3")
+    total := total + 1
+
+    note("Ex 9 ", "m ← 3 3⍴(1 2 3)(3 2 1)… is a matrix OF VECTORS: nested arrays (gap rows 21, 42)")
+    note("Ex 10", "]DISPLAY of the enclosure returned by m[1;1] on that nested m")
+    note("Ex 11", "the nested m again")
+    note("Ex 12", "1⌷m on the nested m")
+    note("Ex 13", "1 1⌷m on the nested m")
+    note("Ex 14", "(⊂1 2)⌷m on the nested m")
+    note("Ex 15", "2⌷[1]m on the nested m; also ⌷[axis], which the grammar does not have")
+    note("Ex 16", "2⌷⍉m on the nested m")
+
+    score := score + chk("Ex 17", "n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ n   (the book prints nothing)",
+                         aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3
+                                      n ⦈),
+                         ("4 1 6" // "5 2 9" // "7 8 3"))
+    total := total + 1
+
+    score := score + chk("Ex 18", "n[⊂1 1] ⍝ Centre",
+                         aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3
+                                      n[⊂1 1] ⍝ Centre ⦈), "2")
+    total := total + 1
+    score := score + chk("Ex 19", "n[(0 0)(1 1)(2 2)] ⍝ Three points along the main diagonal",
+                         aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3
+                                      n[(0 0)(1 1)(2 2)] ⍝ diagonal ⦈), "4 2 3")
+    total := total + 1
+    (* Ex 20 is the one line of the chapter that cannot follow its binding over a
+       LINE BREAK: it begins with a numeral, and the optional whitespace between
+       two symbols of a strand crosses the break, so `…7 8 3` and `1 1` read as
+       one strand and the ⌷ is left over (Rung2.out.0, `Rung2.fss:137:42: Syntax
+       Error`, gap row 32 biting the book's own layout).  ⋄ separates them. *)
+    score := score + chk("Ex 20", "1 1⌷n ⍝ Centre   (⋄ for the line break: see the note)",
+                         aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ 1 1⌷n ⍝ Centre ⦈), "2")
+    total := total + 1
+    score := score + chk("Ex 21", "(⊂1 1)⌷n ⍝ Repeat row 1",
+                         aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3
+                                      (⊂1 1)⌷n ⍝ Repeat row 1 ⦈),
+                         ("5 2 9" // "5 2 9"))
+    total := total + 1
+
+    note("Ex 22", "I←⌷⍨∘⊃⍨⍤0 99: the operators ⍨ ∘ ⍤ and a tacit definition, rungs 4 and 7")
+    note("Ex 23", "the nested m again")
+    note("Ex 24", "1 2I m and 1 2⌷m on the nested m, with I from Ex 22")
+    note("Ex 25", "(⊂1 2)I m and (⊂1 2)⌷m on the nested m")
+    note("Ex 26", "(0 0)(1 2)(2 2)I m: a vector of coordinate pairs as a VALUE, and the nested m")
+
+    score := score + chk("Ex 27a", "data ← 0 1 2 3 4 5 6 7 8 9 ⋄ data",
+                         aplShow(apl⦇ data ← 0 1 2 3 4 5 6 7 8 9
+                                      data ⦈), "0 1 2 3 4 5 6 7 8 9")
+    score := score + chk("Ex 27b", "select ← 0 0 1 0 1 1 0 1 1 0 ⋄ select/data",
+                         aplShow(apl⦇ data ← 0 1 2 3 4 5 6 7 8 9
+                                      select ← 0 0 1 0 1 1 0 1 1 0 ⍝ Select elements 2, 4, 5, 7 and 8
+                                      select/data ⦈),
+                         "2 4 5 7 8")
+    total := total + 1
+
+    score := score + chk("Ex 28", "select ← 1 3 0 0 5 0 7 0 0 1 ⋄ select/data",
+                         aplShow(apl⦇ data ← 0 1 2 3 4 5 6 7 8 9
+                                      select ← 1 3 0 0 5 0 7 0 0 1
+                                      select/data ⦈),
+                         "0 1 1 1 4 4 4 4 4 6 6 6 6 6 6 6 9")
+    total := total + 1
+
+    (* Ex 29 -- m ← 3 3⍴9?9 is a random deal; the library has no RNG and the
+       book's output is one run, so m is bound to the permutation the book
+       printed.  ]DISPLAY frame dropped. *)
+    score := score + chk("Ex 29", "m ← 3 3⍴9?9   (adapted: bound to the book's own deal)",
+                         aplShow(apl⦇ m ← 3 3⍴3 0 5 4 1 8 6 7 2
+                                      m ⦈),
+                         ("3 0 5" // "4 1 8" // "6 7 2"))
+    total := total + 1
+
+    score := score + chk("Ex 30", "select ← 0 1 0 ⋄ select   (the book prints nothing)",
+                         aplShow(apl⦇ select ← 0 1 0
+                                      select ⦈), "0 1 0")
+    total := total + 1
+    score := score + chk("Ex 31", "select⌿m ⍝ Replicate first",
+                         aplShow(apl⦇ m ← 3 3⍴3 0 5 4 1 8 6 7 2
+                                      select ← 0 1 0
+                                      select⌿m ⍝ Replicate first ⦈), "4 1 8")
+    total := total + 1
+    score := score + chk("Ex 32", "select/m ⍝ Replicate",
+                         aplShow(apl⦇ m ← 3 3⍴3 0 5 4 1 8 6 7 2
+                                      select ← 0 1 0
+                                      select/m ⍝ Replicate ⦈),
+                         ("0" // "1" // "7"))
+    total := total + 1
+
+    note("Ex 33", "the nested m again")
+    note("Ex 34", "(⊂1 1)⊃m Pick on the nested m: nested arrays")
+    note("Ex 35", "⊃m on the nested m")
+    note("Ex 36", "G ← 2 3⍴('Adam' 1)…: nested arrays and characters")
+
+    (* Ex 37 -- the same deal adaptation, then selective assignment through a
+       dyadic transpose: (0 0⍉m) is the main diagonal. *)
+    score := score + chk("Ex 37a", "m ← 3 3⍴9?9   (adapted: the book's own deal)",
+                         aplShow(apl⦇ m ← 3 3⍴1 2 3 4 8 0 6 5 7
+                                      m ⦈),
+                         ("1 2 3" // "4 8 0" // "6 5 7"))
+    score := score + chk("Ex 37b", "(0 0⍉m) ← ¯1 ¯1 ¯1  then  m",
+                         aplShow(apl⦇ m ← 3 3⍴1 2 3 4 8 0 6 5 7
+                                      (0 0⍉m) ← ¯1 ¯1 ¯1 ⍝ 0 0⍉m is the main diagonal
+                                      m ⦈),
+                         ("¯1  2  3" // " 4 ¯1  0" // " 6  5 ¯1"))
+    total := total + 1
+
+    (* Ex 38 -- selective assignment through Compress *)
+    score := score + chk("Ex 38", "(select/data) ← ¯1 ¯1 ¯1 ¯1 ¯1  then  data",
+                         aplShow(apl⦇ data ← 0 1 2 3 4 5 6 7 8 9
+                                      select ← 0 0 1 0 1 1 0 1 1 0
+                                      (select/data) ← ¯1 ¯1 ¯1 ¯1 ¯1
+                                      data ⦈),
+                         "0 1 ¯1 3 ¯1 ¯1 6 ¯1 ¯1 9")
+    total := total + 1
+
+    note("Ex 39", "s ← 'This is a string' and (2↑s) ← '**': characters (gap row 42)")
+    note("Ex 40", "((s='i')/¨s)←'*': nested character vectors and the each operator ¨")
+
+    println("")
+    println(("checks passed: " score " of 25, over " total
+             " of the chapter's 40 examples"))
+
+    println("")
+    println("=== beyond the chapter: what rung 2 added but the chapter does not exercise ===")
+    println("")
+    x: ZZ32 := 0
+    x := x + chk("X1 ", "⍸0 0 1 0 1            (⍸ Where)",
+                 aplShow(apl⦇ ⍸0 0 1 0 1 ⦈), "2 4")
+    x := x + chk("X2 ", "v[⍸0 1 0 1 0 1 0 0 0 0]  (Where as an index, after v[3] ← ¯1)",
+                 aplShow(apl⦇ v ← 9 2 6 3 5 8 7 4 0 1
+                              v[3] ← ¯1
+                              v[⍸0 1 0 1 0 1 0 0 0 0] ⦈), "2 ¯1 8")
+    x := x + chk("X3 ", "q ← 3 3⍴⍳9 ⋄ q[1;1] ← 99 ⋄ q   (assignment on two axes)",
+                 aplShow(apl⦇ q ← 3 3⍴⍳9 ⋄ q[1;1] ← 99 ⋄ q ⦈),
+                 ("0  1 2" // "3 99 5" // "6  7 8"))
+    x := x + chk("X4 ", "q[;0] ← 0 0 0                  (an elided axis on the left)",
+                 aplShow(apl⦇ q ← 3 3⍴⍳9 ⋄ q[1;1] ← 99 ⋄ q[;0] ← 0 0 0 ⋄ q ⦈),
+                 ("0  1 2" // "0 99 5" // "0  7 8"))
+    x := x + chk("X5 ", "q[0;] ← 7 7 7",
+                 aplShow(apl⦇ q ← 3 3⍴⍳9 ⋄ q[1;1] ← 99 ⋄ q[;0] ← 0 0 0 ⋄ q[0;] ← 7 7 7 ⋄ q ⦈),
+                 ("7  7 7" // "0 99 5" // "0  7 8"))
+    x := x + chk("X6 ", "2⌷v                   (squad on a vector)",
+                 aplShow(apl⦇ v ← 9 2 6 3 5 8 7 4 0 1 ⋄ 2⌷v ⦈), "6")
+    x := x + chk("X7 ", "1⌷n                   (squad, leading-axis cell of a matrix)",
+                 aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ 1⌷n ⦈), "5 2 9")
+    x := x + chk("X8 ", "2/1 2 3               (Replicate with a scalar count)",
+                 aplShow(apl⦇ 2/1 2 3 ⦈), "1 1 2 2 3 3")
+    x := x + chk("X9 ", "m1 ← 1 2 3 ⋄ m1[1]    (a digit in a name)",
+                 aplShow(apl⦇ m1 ← 1 2 3 ⋄ m1[1] ⦈), "2")
+    x := x + chk("X10", "+/n[1;]               (an indexed expression as an argument;",
+                 aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ +/n[1;] ⦈), "16")
+    x := x + chk("X11", "+/1⌷n                  the row is a VIEW that is a Vector, so the",
+                 aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ +/1⌷n ⦈), "16")
+    x := x + chk("X12", "⍴n[;1 2]               library's own algebra applies to it)",
+                 aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ ⍴n[;1 2] ⦈), "3 2")
+    x := x + chk("X13", "⍴n[1 2;]",
+                 aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ ⍴n[1 2;] ⦈), "2 3")
+    x := x + chk("X14", "n[1 2;0]              (two rows, one column)",
+                 aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ n[1 2;0] ⦈), "5 7")
+    x := x + chk("X15", "n[(0 1)(2 2)]         (two coordinates)",
+                 aplShow(apl⦇ n ← 3 3⍴4 1 6 5 2 9 7 8 3 ⋄ n[(0 1)(2 2)] ⦈), "1 3")
+    hostm = apl⦇ 2 3⍴⍳6 ⦈
+    x := x + chk("X16", "⍎(hostm)[1;2]         (rung 1's escape, then indexing)",
+                 aplShow(apl⦇ ⍎(hostm)[1;2] ⦈), "5")
+    x := x + chk("X17", "v ← 9 2 6 ⋄ ⍎(aplSumLast(v))   (host code reads the APL name)",
+                 aplShow(apl⦇ v ← 9 2 6 ⋄ ⍎(aplSumLast(v)) ⦈), "17")
+    x := x + chk("X18", "a comment after a non-final statement",
+                 aplShow(apl⦇ a ← 1 2 3 ⍝ bound here
+                              +/a ⍝ and summed here ⦈), "6")
+    (* the two error shapes, both as catchable contract violations *)
+    ixerr = try aplShow(apl⦇ v ← 1 2 3 ⋄ v[99] ⦈)
+            catch e CallerViolation => "CallerViolation" end
+    x := x + chk("X19", "v[99]                 (out of range: APL's INDEX ERROR)",
+                 ixerr, "CallerViolation")
+    lenerr = try aplShow(apl⦇ data ← 0 1 2 ⋄ select ← 0 1 ⋄ (select/data) ← ¯1 ¯1 ⋄ data ⦈)
+             catch e CallerViolation => "CallerViolation" end
+    x := x + chk("X20", "(select/data) ← ¯1 ¯1 with |select| ≠ |data|   (APL's LENGTH ERROR)",
+                 lenerr, "CallerViolation")
+    x := x + chk("X21", "(select/data) ← ¯1    (a scalar right argument, extended)",
+                 aplShow(apl⦇ data ← 0 1 2 3 ⋄ select ← 0 1 1 0 ⋄ (select/data) ← ¯1
+                              data ⦈), "0 ¯1 ¯1 3")
+    println("")
+    println(("beyond-chapter checks passed: " x " of 21"))
+    println("")
+    println("=== what v1's beyond-chapter list had and the lambda route does not ===")
+    println("")
+    note("X11 of v1", "a ← b ← 1 2: a binding is not an expression here, so ← cannot be chained (s07_chain.out)")
+    note("X16 of v1", "an unset name is NOT zilde: a name outside the closed set is a Syntax Error at the use site (v1/rung-2b/Rung2b.out.0)")
+    note("v1's session", "a name surviving from one apl⦇ … ⦈ to the next: a lambda parameter's scope is its block (s06_scope.out)")
+end
+
+end

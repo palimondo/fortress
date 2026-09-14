@@ -1,0 +1,49 @@
+component g1a_valobj
+export Executable
+
+(* A: value object with functional-method operators.
+   Spec: basic/objects.tex:347 "Value Objects"; the Complex example at
+   objects.tex:370 is the model. *)
+
+value object Mat(nr: ZZ32, nc: ZZ32, a: Array[\RR64,(ZZ32,ZZ32)\])
+
+    getter asString(): String = do
+        var s: String := "["
+        for i <- seq(0 # nr) do
+            for j <- seq(0 # nc) do
+                s := s " " (a[i,j])
+            end
+            s := s " ;"
+        end
+        s "]"
+    end
+
+    opr +(self, o: Mat): Mat = do
+        b = o.a
+        r = array[\RR64\](nr, nc).fill(fn (i:ZZ32, j:ZZ32): RR64 => a[i,j] + b[i,j])
+        Mat(nr, nc, r)
+    end
+
+    opr juxtaposition(self, o: Mat): Mat = do
+        b = o.a
+        p = o.nc
+        m = nc
+        r = array[\RR64\](nr, p).fill(fn (i:ZZ32, j:ZZ32): RR64 =>
+                SUM[k <- seq(0 # m)] (a[i,k] b[k,j]))
+        Mat(nr, p, r)
+    end
+end
+
+mk(nr: ZZ32, nc: ZZ32, f: (ZZ32,ZZ32) -> RR64): Mat =
+    Mat(nr, nc, array[\RR64\](nr,nc).fill(f))
+
+run(): () = do
+    A = mk(2, 2, fn (i:ZZ32, j:ZZ32): RR64 => 1.0 + i + 2.0 j)
+    B = mk(2, 2, fn (i:ZZ32, j:ZZ32): RR64 => if i = j then 1.0 else 0.5 end)
+    println("A = " A)
+    println("B = " B)
+    println("A + B = " (A + B))
+    C = A B
+    println("A B = " C)
+end
+end

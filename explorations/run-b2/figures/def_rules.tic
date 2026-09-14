@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`opr +(A: Node, B: Node): Node = Node(A.data + B.data, fn (C_bar) => A.pull(C_bar) + B.pull(C_bar))
+opr +(A: Node, M: Mat): Node = Node(A.data + M, fn (C_bar) => A.pull(C_bar))
+opr juxtaposition(A: Node, B: Node): Node =
+  Node(A.data B.data, fn (C_bar) => A.pull(C_bar (B.data)^T) + B.pull((A.data)^T C_bar))
+opr /(A: Node, s: RR64): Node = Node(A.data / s, fn (C_bar) => A.pull(C_bar / s))
+opr (A: Node)^T: Node = Node((A.data)^T, fn (C_bar) => A.pull(C_bar^T))
+`
+\end{preview}
+\end{document}

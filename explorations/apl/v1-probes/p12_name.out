@@ -1,0 +1,21 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress10652282172103609501rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress10652282172103609501rats/com/sun/fortress/parser/templateparser/TemplateParser22.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /tmp/fortress10652282172103609501rats/com/sun/fortress/parser/templateparser/TemplateParser22.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress13922772770461574351rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress13922772770461574351rats/com/sun/fortress/parser/templateparser/TemplateParser34.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /tmp/fortress13922772770461574351rats/com/sun/fortress/parser/templateparser/TemplateParser34.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+v ← 9 2 6 : 9 2 6
+v         : 9 2 6
+data ← 1 2: 1 2
+v again   : 9 2 6
+data      : 1 2
+v ← data  : 1 2
+v          : 1 2

@@ -1,0 +1,36 @@
+(* t03 -- two things t02 ran into sideways, asked directly.
+
+   (a) is `AND` short-circuiting?  The guard `(j > 0) AND (v[idx[j-1]] > …)` of an
+       insertion sort -- the natural spelling of ⍋ -- died at index ¯1
+       (t02_gram.out.2).  FortressLibrary.fsi:2471-2473 declares BOTH
+       `opr AND(a:Boolean, b:Boolean)` and `opr AND(a:Boolean, b:()->Boolean)`,
+       so the question is which one an ordinary `a AND b` selects.
+   (b) what happens to a component-level `opr` whose signature is EXACTLY the
+       library's (`opr <(RR64,RR64)`) but whose result type differs?  t02's
+       `2 < 3` printed `true`, i.e. the library's. *)
+component t03_and
+import AplCore.{...}
+export Executable
+
+(* (b) *)
+opr <(a: RR64, b: RR64): RR64 = 99.0
+
+count: ZZ32 := 0
+bump(): Boolean = do count := count + 1; true end
+
+run(): () = do
+    println("(a) AND")
+    count := 0
+    r1 = false AND bump()
+    println(("  false AND bump()        = " r1 ", bump ran " count " time(s)"))
+    count := 0
+    r2 = false AND (fn (): Boolean => bump())
+    println(("  false AND (fn () => …)  = " r2 ", bump ran " count " time(s)"))
+    count := 0
+    r3 = true OR bump()
+    println(("  true OR bump()          = " r3 ", bump ran " count " time(s)"))
+    println("(b) a component opr with the library's exact parameter types")
+    x = 2.0 < 3.0
+    println(("  2.0 < 3.0 = " x "   (99 would be this component's)"))
+  end
+end

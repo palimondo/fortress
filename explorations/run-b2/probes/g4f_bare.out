@@ -1,0 +1,24 @@
+null/home/user/fortress/explorations/run-b2/probes/g4f_bare.fss:15:6-40:
+    Resolution of operator property failed for:
+    /home/user/fortress/explorations/run-b2/probes/g4f_bare.fss:15.14: Loose operators - and AND have incomparable precedence.
+  RealExpr: expr = k
+  LooseInfix: op = <
+  Left: op = |
+  RealExpr: expr = p
+  Right: op = |
+  LooseInfix: op = -
+  RealExpr: expr = 1
+  LooseInfix: op = AND
+  RealExpr: expr = acc
+  LooseInfix: op = +
+  RealExpr: expr = SubscriptExpr at /home/user/fortress/explorations/run-b2/probes/g4f_bare.fss:15.28
+  LooseInfix: op = <=
+  RealExpr: expr = u
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

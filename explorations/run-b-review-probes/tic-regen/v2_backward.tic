@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{8pt}
+\begin{document}
+\begin{preview}
+`(* every node after all the nodes it depends on *)
+topo(root: Node): List[\Node\] = do
+  var seen: Set[\ZZ32\] := {[\ZZ32\] }
+  var order: List[\Node\] := <|[\Node\] |>
+  visit(n: Node): () =
+    if n.id NOTIN seen then
+      seen := seen.add(n.id)
+      for c <- seq(n.children) do visit(c) end
+      order := order.addRight(n)
+    end
+  visit(root)
+  order
+end
+backward(L: Num): () = do
+  L.grad := num(1.0)
+  for n <- seq(topo(L).reverse) do n.push() end
+end`
+\end{preview}
+\end{document}

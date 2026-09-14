@@ -1,0 +1,8 @@
+component b07a_option
+import b07a_option_g.{...}
+export Executable
+run() = do
+    println(neg⦇ 7 ⦈)
+    println(neg⦇ minus 7 ⦈)
+end
+end

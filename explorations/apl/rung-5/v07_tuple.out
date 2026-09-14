@@ -1,0 +1,20 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress3501966904612685938rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress3501966904612685938rats/com/sun/fortress/parser/templateparser/TemplateParser354.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(a) rung 3's Ex 34 shape: three ordinary names, one per line
+  2 1 3 0
+(b) a strand of AplTName, on one line
+  Q K Vv as a tuple:
+1
+
+2
+
+3
+  Q K   as a tuple:
+1
+
+2
+(c) a single strand name still reads as a name
+  3

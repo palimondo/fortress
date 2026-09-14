@@ -1,0 +1,156 @@
+(* D -- the library half of APL in Fortress.
+   A user value object with a dynamic shape (a shape vector + a flat
+   List[\RR64\]) and the basic APL primitives on it, spelled with whatever
+   Fortress's fixed operator-character set allows. *)
+component d20_apl
+import List.{...}
+export Executable
+
+(* ---------------------------------------------------------------- carrier *)
+value object AplArr(shape: List[\ZZ32\], data: List[\RR64\])
+    getter rank(): ZZ32 = |self.shape|
+    getter asString(): String = aplShow(self)
+end
+
+(* RR64 -> ZZ32: the library's floor bracket yields a ZZ64 on which the
+   interpreter cannot find narrow (see d21_narrow.fss), so count up instead. *)
+asInt(v: RR64): ZZ32 = do
+    k: ZZ32 := 0
+    while (1.0 (k + 1)) <= v do k := k + 1 end
+    k
+  end
+
+scalarA(v: RR64): AplArr = AplArr(<|[\ZZ32\] |>, <|[\RR64\] v |>)
+vecA(d: List[\RR64\]): AplArr = AplArr(<|[\ZZ32\] |d| |>, d)
+countOf(sh: List[\ZZ32\]): ZZ32 = (PROD[ i <- seq(0 # |sh|) ] sh[i])
+
+aplShow(x: AplArr): String = do
+    r = |x.shape|
+    if r = 0 then ("" (x.data[0]))
+    elif r = 1 then (BIG |||[ v <- seq(x.data) ] v)
+    else
+        cols = x.shape[r - 1]
+        rows = (|x.data|) DIV cols
+        (BIG //[ i <- seq(0 # rows) ]
+            (BIG |||[ k <- seq(0 # cols) ] x.data[(i cols) + k]))
+    end
+  end
+
+(* --------------------------------------------------- 1. iota   (APL mon. i) *)
+opr IOTA(n: ZZ32): AplArr = vecA(<|[\RR64\] 1.0 (i + 1) | i <- seq(0 # n) |>)
+
+(* ------------------------------------ 2. rho: monadic shape, dyadic reshape *)
+opr RHO(x: AplArr): AplArr = vecA(<|[\RR64\] 1.0 s | s <- seq(x.shape) |>)
+
+opr RHO(s: AplArr, x: AplArr): AplArr = do
+    sh: List[\ZZ32\] = <|[\ZZ32\] asInt(v) | v <- seq(s.data) |>
+    n = countOf(sh)
+    m = |x.data|
+    AplArr(sh, <|[\RR64\] x.data[i MOD m] | i <- seq(0 # n) |>)
+  end
+
+(* ----------------------------- 3-5. elementwise, with scalar extension *)
+zipA(f: (RR64, RR64) -> RR64, a: AplArr, b: AplArr): AplArr =
+    if (|a.data| = 1) AND (|b.data| =/= 1) then
+        AplArr(b.shape, <|[\RR64\] f(a.data[0], v) | v <- seq(b.data) |>)
+    elif (|b.data| = 1) AND (|a.data| =/= 1) then
+        AplArr(a.shape, <|[\RR64\] f(v, b.data[0]) | v <- seq(a.data) |>)
+    else
+        AplArr(a.shape,
+               <|[\RR64\] f(a.data[i], b.data[i]) | i <- seq(0 # |a.data|) |>)
+    end
+
+opr +(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p + q, a, b)
+opr -(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p - q, a, b)
+opr ×(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p q,   a, b)
+opr ÷(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p / q, a, b)
+opr MAX(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p MAX q, a, b)
+opr MIN(a: AplArr, b: AplArr): AplArr = zipA(fn (p:RR64,q:RR64):RR64 => p MIN q, a, b)
+opr -(a: AplArr): AplArr = AplArr(a.shape, <|[\RR64\] -v | v <- seq(a.data) |>)
+
+opr +(s: RR64, a: AplArr): AplArr = scalarA(s) + a
+opr +(a: AplArr, s: RR64): AplArr = a + scalarA(s)
+opr ×(s: RR64, a: AplArr): AplArr = scalarA(s) × a
+opr ×(a: AplArr, s: RR64): AplArr = a × scalarA(s)
+
+(* ----------------------------------- 6. reverse along first axis (APL ominus) *)
+opr ⊖(a: AplArr): AplArr = do
+    r = |a.shape|
+    if r <= 1 then AplArr(a.shape, a.data.reverse)
+    else
+        cols = a.shape[r - 1]
+        rows = (|a.data|) DIV cols
+        AplArr(a.shape,
+               <|[\RR64\] a.data[(((rows - 1) - i) cols) + k]
+                 | i <- seq(0 # rows), k <- seq(0 # cols) |>)
+    end
+  end
+
+(* ------------------------------------------- 7. transpose (APL circle-slash) *)
+opr (a: AplArr)^T: AplArr = do
+    r = |a.shape|
+    if r <= 1 then a
+    else
+        rows = a.shape[0]
+        cols = a.shape[1]
+        AplArr(<|[\ZZ32\] cols, rows |>,
+               <|[\RR64\] a.data[(q cols) + p]
+                 | p <- seq(0 # cols), q <- seq(0 # rows) |>)
+    end
+  end
+
+(* ------------------------------------------------ 8. outer product (jot-dot-times) *)
+opr ∘(a: AplArr, b: AplArr): AplArr =
+    AplArr(a.shape || b.shape,
+           <|[\RR64\] p q | p <- seq(a.data), q <- seq(b.data) |>)
+
+(* -------------------------------- 9. reduce, as a genuine Fortress BIG operator *)
+opr BIG APLUS(): Comprehension[\AplArr, AplArr, Any, Any\] =
+    embiggen[\AplArr\](fn (a, b) => a + b, scalarA(0.0))
+
+opr BIG APLUS(g: Generator[\AplArr\]): AplArr =
+    __bigOperatorSugar[\AplArr, AplArr, Any, Any\](BIG APLUS(), g)
+
+(* ------------------------------------- 10. +/  plus-reduce along the last axis *)
+opr PLUSRED(a: AplArr): AplArr = do
+    r = |a.shape|
+    if r = 0 then a
+    elif r = 1 then (BIG APLUS[ v <- seq(a.data) ] scalarA(v))
+    else
+        cols = a.shape[r - 1]
+        rows = (|a.data|) DIV cols
+        AplArr(a.shape.take(r - 1),
+               <|[\RR64\] (SUM[ k <- seq(0 # cols) ] a.data[(i cols) + k])
+                 | i <- seq(0 # rows) |>)
+    end
+  end
+
+(* ------------------------------------------------------------------- driver *)
+run(): () = do
+    println("iota 5                    : " (IOTA 5))
+    println("rho iota 5  (shape)       : " (RHO IOTA 5))
+    println("+/ iota 5                 : " (PLUSRED IOTA 5))
+    m = (vecA(<|[\RR64\] 2.0, 3.0 |>)) RHO (IOTA 6)
+    println("2 3 rho iota 6            :")
+    println(m)
+    println("shape of that             : " (RHO m))
+    println("+/ that  (row sums)       : " (PLUSRED m))
+    println("transpose                 :")
+    println(m^T)
+    println("reverse first axis        :")
+    println(⊖ m)
+    println("m + m                     :")
+    println(m + m)
+    println("10.0 x m  (scalar ext)    :")
+    println(10.0 × m)
+    println("m MAX (- m)               :")
+    println(m MAX (- m))
+    println("m MIN (- m)               :")
+    println(m MIN (- m))
+    println("outer product iota3 o iota3:")
+    println((IOTA 3) ∘ (IOTA 3))
+    println("BIG APLUS over a list     : "
+            (BIG APLUS[ k <- seq(1 # 4) ] scalarA(1.0 k)))
+end
+
+end

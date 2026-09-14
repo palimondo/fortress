@@ -1,0 +1,15 @@
+(* D5: one-row paste of SQUARE blocks -- isolates the rank-1 paste failure
+   from the non-square failure of D3. *)
+component g1d_paste5
+export Executable
+
+blk(base: RR64): Matrix[\RR64,2,2\] =
+    matrix[\RR64,2,2\]().fill(fn (i:ZZ32,j:ZZ32):RR64 => base + 1.0 (2 i + j))
+
+run(): () = do
+    a: Matrix[\RR64,2,2\] = blk(10.0)
+    b: Matrix[\RR64,2,2\] = blk(20.0)
+    m: Matrix[\RR64,2,4\] = [ a b ]
+    println("m = " m)
+  end
+end

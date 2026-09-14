@@ -1,0 +1,25 @@
+(a) aplShow of an Any:
+  scalar = 3.5
+  vector = 0 1 2
+  matrix = 0 1
+2 3
+(b) a library function of an Any:
+  aplSumLast(v) = 3
+  aplRev(v)     = 2 1 0
+  aplIota(x)    = 0 1 2
+(c) an operator on two Anys:
+  v ÷ x   = 0 0.2857142857142857 0.5714285714285714
+  x + v   = 3.5 4.5 5.5
+  m + m   = 0 2
+4 6
+(d) a zero-parameter lambda held as Any:
+  call1U(fn () => aplRev(aplOmega-like), v) = 2 1 0
+  callU(fn () => ⍺ ÷ ⍵, v, x) = 0 0.2857142857142857 0.5714285714285714
+  depth after = 0
+(e) the ⍺ contract:
+  monadic call reading ⍺ -> CallerViolation (APL VALUE ERROR)
+(f) fail:
+FAIL: APL VALUE ERROR
+  fail -> caught a fail
+(g) (fn _ => r)(a call returning ()):
+  z = 42

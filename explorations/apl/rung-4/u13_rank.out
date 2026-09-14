@@ -1,0 +1,9 @@
+(a) the same eleven signatures, declared locally:
+  my1(f, m) = local: rank 2
+  my1(f, v) = local: rank 1
+(b) the library's aplRank2 (six signatures) over a matrix:
+  aplRank2(f, m) = 1 5
+(c) the library's aplRank1 over a vector:
+  aplRank1(f, v) = 1
+(d) the library's aplRank1 over a matrix -- the failing call:
+  aplRank1(f, m) = 1 5

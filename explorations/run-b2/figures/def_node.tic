@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`value object Node(data: Mat, pullback: Mat -> Params)
+  getter rows(): ZZ32 = data.rows
+  getter cols(): ZZ32 = data.cols
+  pull(C_bar: Mat): Params = pullback(C_bar)
+  opr[ts: List[\ZZ32\]]: Node = do
+    (T, m) = (|ts|, data.cols)
+    E_bar(C_bar: Mat): Params = pull(mat(data.rows, m, fn (v, j) => SUM[t <- 0 # T, ts[t] = v] C_bar[t, j]))
+    Node(mat(T, m, fn (t, j) => data[ts[t], j]), E_bar)
+  end
+end
+
+param(name: String, W: Mat): Node = Node(W, fn (C_bar) => Params({[\String, Mat\] name |-> C_bar }))
+`
+\end{preview}
+\end{document}

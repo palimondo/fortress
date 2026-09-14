@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`head(X: Mat, h: ZZ32, _Wq: Mat, W_q: Mat, _W_q: Mat, Wq: Mat, _Wo: Mat, W_o: Mat): Mat = do
+  A = X _Wq
+  B = X W_q
+  C = X _W_q
+  D = X Wq
+  E = X _Wo
+  F = X W_o
+  A + B + C + D + E + F
+end
+`
+\end{preview}
+\end{document}

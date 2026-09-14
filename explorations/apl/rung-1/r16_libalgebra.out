@@ -1,0 +1,17 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress1299021794224370900rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress1299021794224370900rats/com/sun/fortress/parser/templateparser/TemplateParser47.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+v + w    = 5 7 9      (library: Vector.+)
+v - w    = ¯3 ¯3 ¯3   (library: Vector.-)
+v DOT w  = 32.0          (library: +.× on vectors)
+m v      = 8 26         (library: juxtaposition, +.× on a matrix)
+m.t()    =
+0 3
+1 4
+2 5   (library: ⍉)
+m + m    =
+0 2  4
+6 8 10
+ivmap    = 1 3 5

@@ -1,0 +1,30 @@
+component NotationViews
+export Executable
+
+run(): () = do
+  A: RR64[2,2] = [1.0 2.0; 3.0 4.0]
+  x: RR64[2] = [5.0 6.0]
+  y = A x
+  z = vector[\RR64,2\](fn i => SUM[j <- 0#2] A[i,j] x[j])
+  assert(y[0] = z[0])
+  assert(y[1] = z[1])
+  println("matrix product: " y)
+  println("indexed product: " z)
+
+  i: ZZ32 = 1
+  x_i: RR64 = 123.0
+  println("named scalar x_i: " x_i)
+  println("indexed element x[i]: " x[i])
+  assert(x_i =/= x[i])
+  assert(A[0,1] = A[0, 1])
+  println("spacing in the two accesses preserves this value: " A[0,1])
+
+  t = A.t()
+  assert(t[1,0] = A[0,1])
+  A[0,1] := 9.0
+  assert(t[1,0] = 9.0)
+  println("transpose view observes the write: " t[1,0])
+  println("NotationViews PASS")
+end
+
+end

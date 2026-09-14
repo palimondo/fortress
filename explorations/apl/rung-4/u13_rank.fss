@@ -1,0 +1,43 @@
+(* u13: u11 (f) failed on aplRank1(f, m) and u12 showed that neither Any, nor a
+   zero-parameter lambda, nor a mixed-arity family is the obstacle on its own.
+   This bisects the real family: the same eleven signatures declared LOCALLY,
+   against the library's, called with the same two arguments.  u13_rank.out.0 is
+   the run that mattered: the local family dispatched and the library's did not,
+   which sent the hunt on to u14-u16 and ended at the api's `Any` as a RESULT
+   type.  u13_rank.out is the same file against the FIXED library, where the
+   four calls agree. *)
+component u13_rank
+import AplCore.{...}
+export Executable
+
+(* the eleven signatures of aplRank1, verbatim, with trivial bodies *)
+my1(f: Any, x: RR64): String = "local: rank 0"
+my1[\nat s\](f: Any, v: Vector[\RR64,s\]): String = "local: rank 1"
+my1[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): String = "local: rank 2"
+my1[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): String = "local: rank 3"
+my1[\nat s, nat t\](f: Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): String = "local: v v"
+my1[\nat s\](f: Any, l: RR64, r: Vector[\RR64,s\]): String = "local: s v"
+my1[\nat s, nat r2, nat c2\](f: Any, l: Vector[\RR64,s\], m: Matrix[\RR64,r2,c2\]): String =
+    "local: v m"
+my1[\nat r2, nat c2\](f: Any, l: RR64, m: Matrix[\RR64,r2,c2\]): String = "local: s m"
+my1[\nat p, nat q, nat r2, nat c2\](f: Any, a: Matrix[\RR64,p,q\], b: Matrix[\RR64,r2,c2\]):
+    String = "local: m m"
+my1[\nat s, nat a, nat b, nat c\](f: Any, l: Vector[\RR64,s\], t: Array3[\RR64,0,a,0,b,0,c\]):
+    String = "local: v t"
+my1[\nat a, nat b, nat c\](f: Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): String = "local: s t"
+
+run(): () = do
+    m = aplMat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    v = aplVec(2, fn (i: ZZ32): RR64 => 1.0 i)
+    f = fn (): Any => aplSumLast(aplOmega())
+    println("(a) the same eleven signatures, declared locally:")
+    println(("  my1(f, m) = " my1(f, m)))
+    println(("  my1(f, v) = " my1(f, v)))
+    println("(b) the library's aplRank2 (six signatures) over a matrix:")
+    println(("  aplRank2(f, m) = " aplShow(aplRank2(f, m))))
+    println("(c) the library's aplRank1 over a vector:")
+    println(("  aplRank1(f, v) = " aplShow(aplRank1(f, v))))
+    println("(d) the library's aplRank1 over a matrix -- the failing call:")
+    println(("  aplRank1(f, m) = " aplShow(aplRank1(f, m))))
+  end
+end

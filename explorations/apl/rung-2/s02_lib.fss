@@ -1,0 +1,98 @@
+(* s02: the whole rung-2 half of the library through its api, with no grammar at
+   all, so that an overload or typing error is found in 5 s instead of 40.  The
+   values are the chapter's own (../goldens/ch2-indexing.md).
+
+   The literal vectors are the host's own Vector syntax, which is where the APL
+   strand notation of the grammar lands anyway -- but every one of them needs a
+   type ANNOTATION: a bare [ 9.0 2.0 … ] in an argument position is read as a
+   TUPLE of FloatLiterals (s02_lib.out.0, "Unification error: … got arg
+   (9.0,2.0,…) of type (FloatLiteral,…)"). *)
+component s02_lib
+import AplCore.{...}
+export Executable
+
+show(tag: String, s: String): () = println(("  " tag " = " s))
+
+run(): () = do
+    v: Vector[\RR64,10\] = [ 9.0 2.0 6.0 3.0 5.0 8.0 7.0 4.0 0.0 1.0 ]
+    i52: Vector[\RR64,2\] = [ 5.0 2.0 ]
+    i12: Vector[\RR64,2\] = [ 1.0 2.0 ]
+    c11: Vector[\RR64,2\] = [ 1.0 1.0 ]
+    c00: Vector[\RR64,2\] = [ 0.0 0.0 ]
+    c22: Vector[\RR64,2\] = [ 2.0 2.0 ]
+    nine: Vector[\RR64,9\] = [ 4.0 1.0 6.0 5.0 2.0 9.0 7.0 8.0 3.0 ]
+    deal: Vector[\RR64,9\] = [ 1.0 2.0 3.0 4.0 8.0 0.0 6.0 5.0 7.0 ]
+    bits: Vector[\RR64,5\] = [ 0.0 0.0 1.0 0.0 1.0 ]
+    data: Vector[\RR64,10\] = [ 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 ]
+    data2: Vector[\RR64,10\] = [ 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 ]
+    sel: Vector[\RR64,10\] = [ 0.0 0.0 1.0 0.0 1.0 1.0 0.0 1.0 1.0 0.0 ]
+    rep: Vector[\RR64,10\] = [ 1.0 3.0 0.0 0.0 5.0 0.0 7.0 0.0 0.0 1.0 ]
+    s010: Vector[\RR64,3\] = [ 0.0 1.0 0.0 ]
+    three: Vector[\RR64,3\] = [ 1.0 2.0 3.0 ]
+    zeros: Vector[\RR64,3\] = [ 0.0 0.0 0.0 ]
+    sevens: Vector[\RR64,3\] = [ 7.0 7.0 7.0 ]
+    negs: Vector[\RR64,3\] = [ -1.0 -1.0 -1.0 ]
+    negs5: Vector[\RR64,5\] = [ -1.0 -1.0 -1.0 -1.0 -1.0 ]
+
+    println("--- indexing a vector ---")
+    show("v", aplShow(v))
+    show("v[5] (scalar index -> scalar)", aplShow(aplIx1(v, 5.0)))
+    show("v[5 2] (vector index -> vector)", aplShow(aplIx1(v, i52)))
+
+    println("--- indexing a matrix ---")
+    m = aplReshapeM(3.0, 3.0, nine)
+    show("m", aplShow(m))
+    show("m[1;1]", aplShow(aplIx2(m, 1.0, 1.0)))
+    show("m[1;] (a row VIEW that is a Vector)", aplShow(aplIxRow(m, 1.0)))
+    show("m[;1]", aplShow(aplIxCol(m, 1.0)))
+    show("m[1 2;0]", aplShow(aplIx2(m, i12, 0.0)))
+    show("m[0;1 2]", aplShow(aplIx2(m, 0.0, i12)))
+    show("m[;1 2]", aplShow(aplIxCol(m, i12)))
+    show("m[1 2;]", aplShow(aplIxRow(m, i12)))
+    show("m[1 2;1 2]", aplShow(aplIx2(m, i12, i12)))
+    show("+/m[1;] (the view carries the algebra)", aplShow(aplSumLast(aplIxRow(m, 1.0))))
+
+    println("--- ⊂ coordinates and scatter ---")
+    show("m[⊂1 1]", aplShow(aplPick(m, c11)))
+    cs = aplIdxCons(c00, aplIdxCons(c11, aplIdxOne(c22)))
+    show("m[(0 0)(1 1)(2 2)]", aplShow(aplScatter(m, cs)))
+
+    println("--- ⌷ squad ---")
+    show("2⌷v", aplShow(aplSquad1(2.0, v)))
+    show("1⌷m", aplShow(aplSquad1(1.0, m)))
+    show("1 1⌷m", aplShow(aplSquad2(1.0, 1.0, m)))
+    show("(⊂1 1)⌷m", aplShow(aplSquadEncl(c11, m)))
+    show("(⊂1 2)⌷m", aplShow(aplSquadEncl(i12, m)))
+
+    println("--- ⍸ where ---")
+    show("⍸0 0 1 0 1", aplShow(aplWhere(bits)))
+
+    println("--- / ⌿ compress and replicate ---")
+    show("select/data", aplShow(aplCompress(sel, data)))
+    show("1 3 0 0 5 0 7 0 0 1/data", aplShow(aplCompress(rep, data)))
+    show("2/1 2 3", aplShow(aplCompress(2.0, three)))
+    show("select⌿m  (select ← 0 1 0)", aplShow(aplCompressFirst(s010, m)))
+    show("select/m", aplShow(aplCompress(s010, m)))
+
+    println("--- assignment, in place ---")
+    aplIxPut1(v, 3.0, -1.0)
+    show("v[3] ← ¯1 then v", aplShow(v))
+    q = aplReshapeM(3.0, 3.0, aplIota(9.0))
+    aplIxPut2(q, 1.0, 1.0, 99.0)
+    show("q[1;1] ← 99", aplShow(q))
+    aplIxPutCol(q, 0.0, zeros)
+    show("q[;0] ← 0 0 0", aplShow(q))
+    aplIxPutRow(q, 0.0, sevens)
+    show("q[0;] ← 7 7 7", aplShow(q))
+    aplSelPut(data2, sel, negs5)
+    show("(select/data) ← ¯1 ¯1 ¯1 ¯1 ¯1", aplShow(data2))
+    dm = aplReshapeM(3.0, 3.0, deal)
+    aplDiagPut(dm, negs)
+    show("(0 0⍉m) ← ¯1 ¯1 ¯1", aplShow(dm))
+
+    println("--- a row view writes through ---")
+    rw = aplIxRow(q, 2.0)
+    aplIxPut1(rw, 1.0, 42.0)
+    show("q[2;][1] ← 42 then q", aplShow(q))
+  end
+end

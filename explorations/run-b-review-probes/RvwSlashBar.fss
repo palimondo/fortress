@@ -1,0 +1,10 @@
+component RvwSlashBar
+export Executable
+(* gaps row 91: (x DOT x)/|x| does not lex -- "/|" is one operator token.  The
+   goal here is to WRITE the paper's 1/d sum x_i^2 with a bare |x| divisor. *)
+run(): () = do
+  x: Array[\RR64,ZZ32\] = array[\RR64\](4).fill(fn i => 1.0 i)
+  ms = (x DOT x)/|x|
+  println("ms = " ms)
+end
+end

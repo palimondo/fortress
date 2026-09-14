@@ -1,0 +1,71 @@
+(* u07: rank 3.  The APL-in-Fortress base dispatches every primitive on the
+   PARAMETER's rank -- RR64 / Vector[\RR64,s\] / Matrix[\RR64,r,c\] -- because
+   Rank1 and Rank2 exclude each other.  FortressLibrary.fss:1592-1606 declares a
+   Rank3 in the same family, so the question is whether the rank-3 analogue is
+   available and whether it joins the same overload family.
+
+   (a) array3 with literal nats
+   (b) a RUNTIME-sized rank-3 array: array[\RR64\](x,y,z), library line 1925
+   (c) t[i,j,k] := and t[i,j,k], and the extents
+   (d) the overload family f : RR64 / Vector / Matrix / Array3
+   (e) which one a runtime-built rank-3 array picks
+   (f) what the rank-3 analogue of Vector/Matrix is -- array1 and array2 route
+       numeric element types to vector[] and matrix[] (library lines 2240-2246
+       and 2599-2603); array3 does not.
+   (g) .fill with a three-argument function.  Note that the library's own
+       array3[\T,s0,s1,s2\](f) overload (FortressLibrary.fss:2818) declares its
+       argument as (ZZ32,ZZ32)->T, a two-argument function, which cannot be what
+       Array3.fill wants; .fill is the working route. *)
+component u07_rank3
+import AplCore.{...}
+export Executable
+
+f(x: RR64): String = "rank 0"
+f[\nat s\](v: Vector[\RR64,s\]): String = "rank 1, " |v| " elements"
+f[\nat r, nat c\](m: Matrix[\RR64,r,c\]): String = "rank 2, " r "x" c
+f[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): String =
+    "rank 3, " a "x" b "x" c
+
+run(): () = do
+    println("(a) array3 with literal nats:")
+    t0 = array3[\RR64, 2, 3, 4\](0.0)
+    println(("  t0.sizes = " t0.sizes ", |t0| = " |t0|))
+
+    println("(b) a runtime-sized rank-3 array from array[\\RR64\\](x,y,z):")
+    x = 2; y = 3; z = 4
+    t = array[\RR64\](x, y, z)
+    println(("  t.sizes = " t.sizes))
+
+    println("(c) put, get, extents:")
+    for i <- seq(0 # x), j <- seq(0 # y), k <- seq(0 # z) do
+        t[i,j,k] := 1.0 ((i (y z)) + (j z) + k)
+    end
+    println(("  t[1,2,3] = " t[1,2,3]))
+    println(("  t[0,0,0] = " t[0,0,0]))
+    (a0,a1,a2) = t.sizes
+    println(("  extents  = " a0 " " a1 " " a2))
+
+    println("(d)(e) the overload family:")
+    println(("  f(3.0)                 -> " f(3.0)))
+    println(("  f(aplVec(5,...))       -> " f(aplVec(5, fn (i: ZZ32): RR64 => 1.0 i))))
+    println(("  f(aplMat(2,3,...))     -> " f(aplMat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 0.0))))
+    println(("  f(array[\\RR64\\](2,3,4)) -> " f(t)))
+    println(("  f(array3 literal nats) -> " f(t0)))
+
+    println("(f) what the runtime-built rank-3 array IS:")
+    typecase t of
+        Rank3 => println("  it is a Rank3")
+        else  => println("  it is NOT a Rank3")
+    end
+    typecase t of
+        AnyVector => println("  it is an AnyVector")
+        AnyMatrix => println("  it is an AnyMatrix")
+        else      => println("  it is neither AnyVector nor AnyMatrix")
+    end
+
+    println("(g) filling by function:")
+    t2 = array[\RR64\](2,2,2).fill(fn (i: ZZ32, j: ZZ32, k: ZZ32): RR64 =>
+                                       1.0 ((4 i) + (2 j) + k))
+    println(("  t2[1,1,1] = " t2[1,1,1] ", f(t2) -> " f(t2)))
+  end
+end

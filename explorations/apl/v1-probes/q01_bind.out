@@ -1,0 +1,10 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress14922280309635316423rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress14922280309635316423rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+1. v ← 41 ⋄ v + 1        -> 42
+2. the name is the body's: v ← 7 ⋄ v v  -> 49
+3. the body sees the host too: v ← 5 ⋄ v + outer -> 105
+4. two blocks, the same name, one function: 1 then 2
+5. nested blocks, inner name different: 3

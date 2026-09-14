@@ -1,0 +1,15 @@
+1. plain RR64 asString      : 7.0
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-1/p01_numfmt.fss:18:46-56:
+Cannot find definition for method truncate given receiver 7.0
+Context:
+/home/user/fortress/explorations/apl/rung-1/p01_numfmt.fss:18:46-56:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

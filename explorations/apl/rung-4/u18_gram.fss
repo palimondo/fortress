@@ -1,0 +1,60 @@
+(* u18: the constructs Rung4.fss needs that u17 did not ask for -- the ones the
+   chapter's later examples and the microGPT program turn on.
+
+   (a) `_ ← {…}⍬` : is `_` accepted by the Id gap of the binding rule?  NO --
+       u18_gram.out.1, `u18_gram.fss:27:34: Syntax Error` for the line
+       `{a ← 3 3⍴1 ⋄ _ ← {a[1;1] ← 0}⍬ ⋄ a} 0`, where the same line with `x` in
+       place of `_` parses and runs.  (The reported column is the reshape three
+       tokens earlier: the furthest-failure position is not the offending one.)
+   (b) an inner dfn that MUTATES an array bound in the enclosing dfn
+   (c) an inner dfn with a guard, applied to a name (the chapter's Ex 15 shape)
+   (d) i⊃v with the index in a name (Ex 16)
+   (e) a guard chain of two guards
+   (f) softmax as two statements, rmsnorm through ⍤1
+   (g) ,⍤2⊢t , ⍉⍤2⊢t , (a,b)⍴t from rank 3, ÷ on rank 3
+   (h) a dfn whose body is a dfn call with its own ⍵ *)
+component u18_gram
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+p(id: String, got: String): () = println(("  " id " = " got))
+
+run(): () = do
+    println("(a) (b) a binding inside a dfn, graded:")
+    p("{a ← 1 ⋄ a} 0                 ", aplShow(apl⦇ {a ← 1 ⋄ a} 0 ⦈))
+    p("{a ← 3 3⍴1 ⋄ a} 0             ", aplShow(apl⦇ {a ← 3 3⍴1 ⋄ a} 0 ⦈))
+    p("{a ← 3 3⍴1 ⋄ x ← 0 ⋄ a} 0     ", aplShow(apl⦇ {a ← 3 3⍴1 ⋄ x ← 0 ⋄ a} 0 ⦈))
+    p("{a ← 3 3⍴1 ⋄ x ← {a[1;1] ← 0}⍬ ⋄ a} 0",
+      aplShow(apl⦇ {a ← 3 3⍴1 ⋄ x ← {a[1;1] ← 0}⍬ ⋄ a} 0 ⦈))
+    (* `_ ← …`, the chapter's own spelling, is a Syntax Error: the Id gap of the
+       binding rule does not accept the underscore (u18_gram.out.1).  Every
+       later use writes a name instead. *)
+    println("(c) (d) an inner dfn with a guard, and i⊃v:")
+    p("{answer ← ⍵ ⋄ {⍵: 42 ⋄ ¯99} answer} 1",
+      aplShow(apl⦇ {answer ← ⍵ ⋄ {⍵: 42 ⋄ ¯99} answer} 1 ⦈))
+    p("{answer ← ⍵ ⋄ {⍵: 42 ⋄ ¯99} answer} 0",
+      aplShow(apl⦇ {answer ← ⍵ ⋄ {⍵: 42 ⋄ ¯99} answer} 0 ⦈))
+    p("{answer ← ⍵ ⋄ answer⊃¯99 42} 1", aplShow(apl⦇ {answer ← ⍵ ⋄ answer⊃¯99 42} 1 ⦈))
+    println("(e) a guard chain:")
+    p("{⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} ¯5", aplShow(apl⦇ {⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} ¯5 ⦈))
+    p("{⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} 0 ", aplShow(apl⦇ {⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} 0 ⦈))
+    p("{⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} 7 ", aplShow(apl⦇ {⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} 7 ⦈))
+    println("(f) softmax and rmsnorm:")
+    p("softmax 0 0", aplShow(apl⦇ softmax ← {e ← *⍵-⌈/⍵ ⋄ e÷+/e} ⋄ softmax 0 0 ⦈))
+    p("softmax 0 1 2", aplShow(apl⦇ softmax ← {e ← *⍵-⌈/⍵ ⋄ e÷+/e} ⋄ softmax 0 1 2 ⦈))
+    p("rmsnorm⍤1⊢2 3⍴⍳6",
+      aplShow(apl⦇ rmsnorm ← {⍵÷(0.00001+(+/⍵*2)÷≢⍵)*0.5} ⋄ rmsnorm⍤1⊢2 3⍴⍳6 ⦈))
+    p("⌊0.5+1000×rmsnorm⍤1⊢2 3⍴⍳6",
+      aplShow(apl⦇ rmsnorm ← {⍵÷(0.00001+(+/⍵*2)÷≢⍵)*0.5} ⋄ ⌊0.5+1000×rmsnorm⍤1⊢2 3⍴⍳6 ⦈))
+    println("(g) rank 3 through the operators:")
+    p(",⍤2⊢2 3 4⍴⍳24", aplShow(apl⦇ ,⍤2⊢2 3 4⍴⍳24 ⦈))
+    p("⍴⍉⍤2⊢2 3 4⍴⍳24", aplShow(apl⦇ ⍴⍉⍤2⊢2 3 4⍴⍳24 ⦈))
+    p("(a,b)⍴1 0 2⍉2 3 4⍴⍳24",
+      aplShow(apl⦇ a ← 3 ⋄ b ← 8 ⋄ (a,b)⍴1 0 2⍉2 3 4⍴⍳24 ⦈))
+    p("⊃(2 3 4⍴⍳24)÷2", aplShow(apl⦇ ⊃(2 3 4⍴⍳24)÷2 ⦈))
+    p("⍴(2 3 4⍴⍳24)÷2 3 4⍴1+⍳24", aplShow(apl⦇ ⍴(2 3 4⍴⍳24)÷2 3 4⍴1+⍳24 ⦈))
+    println("(h) a dfn whose body calls a dfn with its own ⍵:")
+    p("2 {⍺×{⍵+1} ⍵} 4", aplShow(apl⦇ 2 {⍺×{⍵+1} ⍵} 4 ⦈))
+  end
+end

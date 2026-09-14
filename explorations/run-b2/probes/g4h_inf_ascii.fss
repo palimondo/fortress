@@ -1,0 +1,10 @@
+component g4h_inf_ascii
+export Executable
+(* ProjectFortress/src/com/sun/fortress/parser/Literal.rats:251 maps the
+   ASCII word INF to U+221E -- but that table is the ASCII spelling of
+   OPERATOR NAMES, so `INF` lexes as an operator, not as a value name. *)
+run(): () = do
+  x = INF
+  println("INF = " x)
+end
+end

@@ -1,0 +1,7 @@
+component b06b_repeat
+import b06b_repeat_g.{...}
+import List.{...}
+export Executable
+sumOf2(x: ZZ32, xs: List[\ZZ32\]): ZZ32 = x + (SUM[ i <- seq(0 # |xs|) ] xs[i])
+run() = println(sumb⦇ 1 2 3 4 ⦈)
+end

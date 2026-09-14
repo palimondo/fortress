@@ -1,0 +1,34 @@
+component g4i_indexof
+export Executable
+(* g4i: the index of a character in a string.
+   Library/FortressLibrary.fsi:1177-1179 declares indexOf(e:E): Maybe[\I\]
+   on trait Indexed[\E,I\]; FortressLibrary.fss:1705-1713 gives the default
+   body; trait String (FortressLibrary.fss:3955) extends ZeroIndexed[\Char\]
+   and DelegatedIndexed[\Char,ZZ32\], so E = Char and I = ZZ32.
+   Library/FlatString.fss:101 overrides it with indexOf(c:Char): Maybe[\ZZ32\]. *)
+run(): () = do
+  uchars: String = "abcde"
+  c: Char = 'c'
+  (* 1. indexOf on a String with a Char *)
+  m = uchars.indexOf(c)
+  println("indexOf('c')            = " m)
+  println("  .holds                = " m.holds)
+  println("  .get                  = " m.get)
+  (* 2. the Maybe unwrapped by the generator/if-binding form *)
+  if i <- uchars.indexOf(c) then println("if i <- indexOf        = " i) end
+  (* 3. absent character *)
+  println("indexOf('z')            = " uchars.indexOf('z'))
+  println("  .holds                = " uchars.indexOf('z').holds)
+  (* 4. does `for c <- doc` over a String yield Char? *)
+  for ch <- uchars do println("  for ch <- uchars: " ch) end
+  (* 5. does uchars[i] = c compare characters? *)
+  println("uchars[2] = c           = " (uchars[2] = c))
+  println("uchars[0] = c           = " (uchars[0] = c))
+  (* 6. the library's own idiom, FortressLibrary.fss upto/beyond *)
+  println("c IN uchars             = " (c IN uchars))
+  n = BIG MIN[i <- uchars.indices, uchars[i] = c] i
+  println("BIG MIN over indices    = " n)
+  (* 7. Maybe unwrapped with getDefault *)
+  println("getDefault(-1)          = " (uchars.indexOf('z')).getDefault(-1))
+end
+end

@@ -1,0 +1,18 @@
+component q01_bind
+import q01_g.{...}
+export Executable
+
+run(): () = do
+    println(("1. v ← 41 ⋄ v + 1        -> " (qbind⦇ v ← 41 ⋄ v + 1 ⦈)))
+    println(("2. the name is the body's: v ← 7 ⋄ v v  -> "
+             (qbind⦇ v ← 7 ⋄ v v ⦈)))
+    outer: ZZ32 = 100
+    println(("3. the body sees the host too: v ← 5 ⋄ v + outer -> "
+             (qbind⦇ v ← 5 ⋄ v + outer ⦈)))
+    v: ZZ32 = 1000
+    println(("4. does the block's v shadow a host v of the same name? host v="
+             v ", block -> " (qbind⦇ v ← 5 ⋄ v ⦈)))
+    println(("5. after the block, the host v is still " v))
+end
+
+end

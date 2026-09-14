@@ -1,0 +1,30 @@
+(* u05: are ⍺ (U+237A) and ⍵ (U+2375) legal Fortress identifiers, and can they
+   be sub-grammar terminals?
+
+   IDENTIFIERS: no.  u05_glyphid.out.0 is the attempt --
+     null/home/user/fortress/explorations/apl/rung-4/u05_glyphid.fss:6:5:
+         Syntax Error
+   for the local binding `⍵ = 3` on line 6, with the plain `omega = 3` on the
+   line above accepted; `⍺ = 3` fails identically.  Both characters are Unicode
+   category So (Miscellaneous Technical), and the host's Id lexer takes letters
+   and digits.  So the expansion of a dfn must use ASCII names (alpha, omega)
+   or no names at all.
+
+   TERMINALS: yes, both.  The three lines below are parsed by U05Syn.fsi, which
+   is rung 3's working T02Syn.fsi plus two alternatives, `⍺ SPACE r:TExp` and
+   `⍵ SPACE r:TExp`.  Four hand-written minimal grammars were tried first and
+   all failed at the use site (u05_glyphid.out.4, .out.7, .out.8, .out.9); the
+   control in u05_glyphid.out.6 fails the same way for ⍳, so the fault was the
+   throw-away grammar, not the glyphs. *)
+component u05_glyphid
+import AplCore.{...}
+import U05Syn.{...}
+export Executable
+
+run(): () = do
+    println(("(n) a number, no glyph  = " aplShow(dfn⦇ 3 ⦈)))
+    println(("(a) alpha as a terminal = " aplShow(dfn⦇ ⍺ 3 ⦈)))
+    println(("(b) omega as a terminal = " aplShow(dfn⦇ ⍵ 3 ⦈)))
+    println(("(c) both in one phrase  = " aplShow(dfn⦇ ⍺ ⍵ 3 ⦈)))
+  end
+end

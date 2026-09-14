@@ -1,0 +1,4 @@
+(* the stub component the grammar api needs *)
+component q01_g
+export q01_g
+end

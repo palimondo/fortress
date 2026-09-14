@@ -1,0 +1,103 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7357502506283887974rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7357502506283887974rats/com/sun/fortress/parser/templateparser/TemplateParser40.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /tmp/fortress7357502506283887974rats/com/sun/fortress/parser/templateparser/TemplateParser40.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Answer is <aaa></aaa>
+Answer is <aaa foo= 'bar'>a</aaa>
+Answer is <aaa foo= 'bar/boo'>a</aaa>
+Answer is <aaa foo= 'bar'></aaa>
+Answer is <aaa foo= 'bar' a= 'b'></aaa>
+Answer is <a></a>
+Answer is <x></x>
+Answer is <aaa>aa</aaa>
+Answer is <aaa>
+<q></q></aaa>
+Answer is <aaa>
+<foobar></foobar></aaa>
+Answer is <aaa>
+<aa>aa</aa></aaa>
+Answer is <hello>
+<world>hi mom</world></hello>
+Answer is <hello attr= 'foobar'>
+<world>hi mom</world></hello>
+Answer is <hello attr= 'foobar' more= 'blah'>
+<world>hi mom</world></hello>
+Answer is <hi>i like food</hi>
+Answer is <hi>i like food pizza is good too</hi>
+Xml: <note>hi</note>
+Xml: 
+Tags dont match start 'note' end 'eton'
+Xml: <note>
+<to>Tove</to></eton>
+Xml: <from>Jani</from>
+Xml: <note>
+<to>Tove</to>
+<from>Jani</from>
+<heading>Reminder</heading>
+<body>Dont forget me this weekend</body></note>
+xml2 has elements = true
+false
+true
+true
+<|<elbow>hi</elbow>, <hand status= 'swollen' number= '9'>
+<finger>pinky</finger>
+<finger>thumb</finger></hand>|>
+Print tree for q2
+chicken  tastes= 'good':
+ hand  status= 'swollen'  number= '9':
+  finger :thumb
+  finger :pinky
+ elbow :hi
+ok
+Answer is <aaa></aaa>
+Answer is <aaa foo= 'bar'>a</aaa>
+Answer is <aaa foo= 'bar/boo'>a</aaa>
+Answer is <aaa foo= 'bar'></aaa>
+Answer is <aaa foo= 'bar' a= 'b'></aaa>
+Answer is <a></a>
+Answer is <x></x>
+Answer is <aaa>aa</aaa>
+Answer is <aaa>
+<q></q></aaa>
+Answer is <aaa>
+<foobar></foobar></aaa>
+Answer is <aaa>
+<aa>aa</aa></aaa>
+Answer is <hello>
+<world>hi mom</world></hello>
+Answer is <hello attr= 'foobar'>
+<world>hi mom</world></hello>
+Answer is <hello attr= 'foobar' more= 'blah'>
+<world>hi mom</world></hello>
+Answer is <hi>i like food</hi>
+Answer is <hi>i like food pizza is good too</hi>
+Xml: <note>hi</note>
+Xml: 
+Tags dont match start 'note' end 'eton'
+Xml: <note>
+<to>Tove</to></eton>
+Xml: <from>Jani</from>
+Xml: <note>
+<to>Tove</to>
+<from>Jani</from>
+<heading>Reminder</heading>
+<body>Dont forget me this weekend</body></note>
+xml2 has elements = true
+false
+true
+true
+<|<elbow>hi</elbow>, <hand status= 'swollen' number= '9'>
+<finger>pinky</finger>
+<finger>thumb</finger></hand>|>
+Print tree for q2
+chicken  tastes= 'good':
+ hand  status= 'swollen'  number= '9':
+  finger :thumb
+  finger :pinky
+ elbow :hi
+ok
+EXIT=0
+EXIT=0

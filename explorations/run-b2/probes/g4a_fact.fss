@@ -1,0 +1,11 @@
+component g4a_fact
+export Executable
+
+object Box(n: ZZ32)
+end
+
+run(): () = do
+  B = Box(4)
+  println(B.n!)
+end
+end

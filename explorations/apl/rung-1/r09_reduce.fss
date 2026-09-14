@@ -1,0 +1,33 @@
+(* r09 -- the pieces the library will lean on: the return types of the shipped
+   reductions (SUM and PROD are declared :Number, BIG MAX :T -- ledger rows
+   39-46), map on a runtime-sized vector, the transpose the library already
+   owns, and what a LENGTH ERROR looks like when the two nats disagree. *)
+component r09_reduce
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+
+sumV[\nat s\](v: Vector[\RR64,s\]): RR64 = SUM[ i <- seq(0 # |v|) ] v[i]
+prodV[\nat s\](v: Vector[\RR64,s\]): RR64 = PROD[ i <- seq(0 # |v|) ] v[i]
+maxV[\nat s\](v: Vector[\RR64,s\]): RR64 = BIG MAX[ i <- seq(0 # |v|) ] v[i]
+(* right-to-left fold: APL's -/ has no big operator (it is not associative) *)
+difV[\nat s\](v: Vector[\RR64,s\]): RR64 = do
+    acc: RR64 := v[|v| - 1]
+    j: ZZ32 := (|v| - 2)
+    while j >= 0 do acc := v[j] - acc; j := j - 1 end
+    acc
+  end
+
+run(): () = do
+    a = vec(3, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    b = vec(4, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    println("SUM  = " sumV(a) "   PROD = " prodV(a) "   BIG MAX = " maxV(a))
+    println("-/   = " difV(a))
+    println("map  = " (a.map[\RR64\](fn (x: RR64): RR64 => 10.0 x)))
+    println("pmul = " (a.pmul(a)))
+    m = array[\RR64\](2,3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((3 i) + j))
+    println("m.t()= " m.t())
+    println("-- mismatched lengths: APL's LENGTH ERROR --")
+    println("a + b = " (a + b))
+  end
+end

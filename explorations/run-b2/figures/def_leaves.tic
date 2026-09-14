@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`object Transformer(theta: Params, nh: ZZ32)
+  _We: Node = param("wte", theta["wte"])
+  _Wp: Node = param("wpe", theta["wpe"])
+  _Wq: List[\Node\] = <|[\Node\] param("wq" h, theta["wq" h]) | h <- 0 # nh |>
+  _Wk: List[\Node\] = <|[\Node\] param("wk" h, theta["wk" h]) | h <- 0 # nh |>
+  _Wv: List[\Node\] = <|[\Node\] param("wv" h, theta["wv" h]) | h <- 0 # nh |>
+  _Wo: Node = param("wo", theta["wo"])
+  _W1: Node = param("fc1", theta["fc1"])
+  _W2: Node = param("fc2", theta["fc2"])
+  _Wlm: Node = param("lm_head", theta["lm_head"])
+  d_k: ZZ32 = theta["wq0"].cols
+`
+\end{preview}
+\end{document}
