@@ -12,7 +12,7 @@ Written by the coordinating session itself, the same day, in the common format o
 | models | main thread `claude-fable-5-1` (`message.model` on every assistant record); workers `opus` (the `model` field of each `Agent` call) |
 | delegations | four, all to `opus`: the check runs (failed, see Dead ends), the tour render and verification, the C2 tour page fix, the type-annotation probe |
 | tokens, main thread | to 19:56: output 7.7e4 per message (67 messages) and 2.2e5 per record (163 records, the split-message double count record 11 explains); context processed 3.7e7 |
-| tokens, workers | `subagent_tokens` of the completion notices: check runs 59,749 (no result); tour render 81,252; C2 tour fix 112,686; type probe in the Delegations table |
+| tokens, workers | `subagent_tokens` of the completion notices: check runs 59,749 (no result); tour render 81,252; C2 tour fix 112,686; type probe 81,120; 335k in all |
 | wall time | 42 min from the first turn to the filled-in design note; the merged sources were written and smoke-tested in the first 6 min, and the rest is the two check runs (873 s and 396 s, sequential, 10 min lost to the false starts in Dead ends) with the tour work and Pavol's two mid-run requests done alongside |
 | gates | the handover's decision section: a merge and not a new design; the same check and goldens; checks at both pool sizes; a short design note; the tour by C2's generator; new gap rows only if something new appears |
 | outcome | `src/MicroGptFlat.fss` 71 code lines (step 20), `FlatArrays.fss` 141, `FlatData.fss` 101 (C3's), three `.fsi` 70, `MicroGptFlatCheck.fss` 85 with 40 checks; `checks/threads1.txt` and `threads4.txt` each `VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS`, exit 0, 873 s and 396 s, identical values; tour 28 rows, published at https://claude.ai/artifact/FyUD5p9Tzd91rD9ixb8iTm; no new gap rows from the merge; the probe's rows, if any, in `probes/types/REPORT.md` |
@@ -54,7 +54,7 @@ Written by the coordinating session itself, the same day, in the common format o
 | 1 | run the check at pool sizes 1 and 4, sequentially, report verdicts, timings and whether the values agree | opus | 59,749 | nothing usable: the run died with the worker; the main thread ran both checks (`checks/`) |
 | 2 | render the 28-row tour, confirm 56 SVGs, check id uniqueness, screenshot and read every row against its ASCII source | opus | 81,252 | 56 SVGs in `tour/`, 1,686 distinct ids, 28 of 28 clean; its per-row table is in Recovered reports |
 | 3 | give C2's tour page C4's page section, rebuild without re-rendering, verify ids and every row in both themes | opus | 112,686 | `run-c/tour/mktour.py` and `run-c/tour.html`, screenshots in `run-c/tour/`, 28 of 28 clean, the eight flagged rows fixed; its table in Recovered reports |
-| 4 | the type-annotation probe: seven variants of the model with one category of annotation removed each, run the driver, report compiles/runs/losses/time | opus | @PROBE_TOKENS@ | `run-c4/probes/types/` with `REPORT.md`; @PROBE_RESULT@ |
+| 4 | the type-annotation probe: seven variants of the model with one category of annotation removed each, run the driver, report compiles/runs/losses/time | opus | 81,120 | `run-c4/probes/types/` with `REPORT.md` and nine variant trees with their outputs: every annotation but the mutable locals' declared type is redundant to the interpreter; its paragraph on overload resolution overclaims and is corrected at the report's end; gap rows 176–178 |
 
 ## Delegation and its cost
 
