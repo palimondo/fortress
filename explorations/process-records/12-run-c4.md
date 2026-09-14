@@ -16,7 +16,7 @@ Written by the coordinating session itself, the same day, in the common format o
 | wall time | 42 min from the first turn to the filled-in design note; the merged sources were written and smoke-tested in the first 6 min, and the rest is the two check runs (873 s and 396 s, sequential, 10 min lost to the false starts in Dead ends) with the tour work and Pavol's two mid-run requests done alongside |
 | gates | the handover's decision section: a merge and not a new design; the same check and goldens; checks at both pool sizes; a short design note; the tour by C2's generator; new gap rows only if something new appears |
 | outcome | `src/MicroGptFlat.fss` 71 code lines (step 20), `FlatArrays.fss` 141, `FlatData.fss` 101 (C3's), three `.fsi` 70, `MicroGptFlatCheck.fss` 85 with 40 checks; `checks/threads1.txt` and `threads4.txt` each `VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS`, exit 0, 873 s and 396 s, identical values; tour 28 rows, published at https://claude.ai/artifact/FyUD5p9Tzd91rD9ixb8iTm; no new gap rows from the merge; the probe's rows, if any, in `probes/types/REPORT.md` |
-| sources | `/root/.claude/projects/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6.jsonl` from record 24335; commits a92569f83 through the one that adds this record |
+| sources | `/root/.claude/projects/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6.jsonl` from record 24335; commits a92569f83 through dbf8ba028 and the ones that add this record and the probe |
 
 ## Timeline
 
@@ -44,7 +44,7 @@ Written by the coordinating session itself, the same day, in the common format o
 | `pkill -f MicroGptFlatCheck` before a relaunch | matched the shell running it and killed the tool call itself (exit 144) | the transcript at 19:30 |
 | a `setsid nohup` script detached from the tool call | died when the tool call ended; the harness reclaims what a call leaves behind | `threads1.txt` with only the header, 19:31 |
 | a Bash `run_in_background` run of both checks | the tool's ten-minute ceiling is under the pool-size-1 run's 14 min | stopped at 19:31 before it could be cut off |
-| C2's five-column table page for C4's tour | the renders shrink below legibility; Pavol's feedback at 19:41 | the first `tour.html`, commit c9d… superseded at 19:44 |
+| C2's five-column table page for C4's tour | the renders shrink below legibility; Pavol's feedback at 19:41 | the first `tour.html`, commit 74514646f, superseded by d7d98231c |
 | the always-light render panel of C3's page | it defeats the dark theme; the strokes carry no colour of their own, so `currentColor` does it | `run-c3/probes/tour/build_tour.py` before and after |
 
 ## Delegations

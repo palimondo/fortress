@@ -24,14 +24,14 @@ opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = transpose(m)
 opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\] = transpose(t)
 
 (* -------------------------------------- rmsn, sm and their backward ------ *)
-rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)
-sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
+rmsn(x) = x / SQRT (epsilon + (x DOT x) / |x|)
+sm(z) = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
 mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 => if j > i then -(10.0^10) else 0.0 end)
-rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+rmsn_b(dy, x) = do
     r = SQRT (epsilon + (x DOT x) / |x|); y = x / r
     (dy - y ((y DOT dy) / |y|)) / r
   end
-sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
+sm_b(p, dy) = p × (dy - (p DOT dy))
 
 (* ------------------------------- tactic 2/8: one vector, nine views ------ *)
 matName(i: ZZ32): String =

@@ -24,14 +24,14 @@ opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = transpose(m)
 opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\] = transpose(t)
 
 (* -------------------------------------- rmsn, sm and their backward ------ *)
-rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)
-sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
+rmsn(x: Array[\RR64,ZZ32\]) = x / SQRT (epsilon + (x DOT x) / |x|)
+sm(z: Array[\RR64,ZZ32\]) = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
 mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 => if j > i then -(10.0^10) else 0.0 end)
-rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]) = do
     r = SQRT (epsilon + (x DOT x) / |x|); y = x / r
     (dy - y ((y DOT dy) / |y|)) / r
   end
-sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
+sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]) = p × (dy - (p DOT dy))
 
 (* ------------------------------- tactic 2/8: one vector, nine views ------ *)
 matName(i: ZZ32): String =
@@ -42,7 +42,7 @@ matShape(i: ZZ32): (ZZ32, ZZ32) =
 matCount(i: ZZ32): ZZ32 = do (r, c) = matShape(i); r c end
 matOffset(i: ZZ32): ZZ32 = SUM[j <- 0#i] matCount(j)
 nParams(): ZZ32 = matOffset(9)
-view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end
+view(p: Array[\RR64,ZZ32\], i: ZZ32) = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end
 
 (* -------------------- tactic 3/5: the corpus as one padded integer matrix - *)
 corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)
@@ -51,8 +51,8 @@ corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)
 step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
     ids = corpus.tokens(b, 0); tg = corpus.tokens(b, 1); vm = corpus.valid(b); nv = SUM vm; pos = corpus.positions(b)
     (wte, wpe, lm, wq, wk, wv, wo, f1, f2) = (view(p, 0), view(p, 1), view(p, 2), view(p, 3), view(p, 4), view(p, 5), view(p, 6), view(p, 7), view(p, 8))
-    h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)
-    u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)
+    h(m: Array[\RR64,(ZZ32,ZZ32)\]) = heads(m, blockSize, nHead, headDim)
+    u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]) = unheads(t, nHead)
     (* -- forward, all (doc, pos) rows at once -- *)
     x = gather(wte, ids) + gather(wpe, pos); xp = rows(rmsn, x); x1 = rows(rmsn, xp)
     (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T); (qh, kh, vh) = (h(q), h(k), h(v))

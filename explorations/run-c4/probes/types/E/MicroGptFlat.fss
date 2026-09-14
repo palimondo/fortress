@@ -85,9 +85,9 @@ learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)
 run(): () = do
     println "microgpt flat | params " nParams() " | corpus " corpus.size() " x " (blockSize + 1) " | batch 1, 5 steps"
     bsz = 1
-    p: Array[\RR64,ZZ32\] := loadParams(weightsDir, matName, 9, nParams())
-    m: Array[\RR64,ZZ32\] := zeros(nParams())
-    v: Array[\RR64,ZZ32\] := zeros(nParams())
+    p := loadParams(weightsDir, matName, 9, nParams())
+    m := zeros(nParams())
+    v := zeros(nParams())
     for s <- seq(0#5) do
         t0 = nanoTime()
         (l, g) = step(p, keys(bsz, fn (i: ZZ32): ZZ32 => (s bsz + i) MOD corpus.size()))

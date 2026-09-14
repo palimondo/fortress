@@ -26,7 +26,7 @@ opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0
 (* -------------------------------------- rmsn, sm and their backward ------ *)
 rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)
 sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
-mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 => if j > i then -(10.0^10) else 0.0 end)
+mask = mat(blockSize, blockSize, fn (i, j) => if j > i then -(10.0^10) else 0.0 end)
 rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
     r = SQRT (epsilon + (x DOT x) / |x|); y = x / r
     (dy - y ((y DOT dy) / |y|)) / r
@@ -45,7 +45,7 @@ nParams(): ZZ32 = matOffset(9)
 view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end
 
 (* -------------------- tactic 3/5: the corpus as one padded integer matrix - *)
-corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)
+corpus = loadCorpus(corpusPath, blockSize, bosId)
 
 (* ------------------------- the step: keys -> (loss, flat gradient). Pure. -- *)
 step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
@@ -90,7 +90,7 @@ run(): () = do
     v: Array[\RR64,ZZ32\] := zeros(nParams())
     for s <- seq(0#5) do
         t0 = nanoTime()
-        (l, g) = step(p, keys(bsz, fn (i: ZZ32): ZZ32 => (s bsz + i) MOD corpus.size()))
+        (l, g) = step(p, keys(bsz, fn (i) => (s bsz + i) MOD corpus.size()))
         (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))
         println "step " (s + 1) " loss " l "  (" ((nanoTime() - t0) DIV 1000000) " ms)"
     end
