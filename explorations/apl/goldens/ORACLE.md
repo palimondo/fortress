@@ -36,21 +36,23 @@ Results are echoed by default: the value of every line that is not an assignment
 
 ## Index origin
 
-GNU APL's default `⎕IO` is 1. The book sets `⎕IO ← 0` in the first example of every one of these three chapters, those lines are part of the scripts, and nothing resets them, so every oracle result recorded in the goldens is at index origin 0, matching the book.
+GNU APL's default `⎕IO` is 1. The book sets `⎕IO ← 0` in the first example of every one of these six chapters, those lines are part of the scripts, and nothing resets them, so every oracle result recorded in the goldens is at index origin 0, matching the book. Three of chapter 5's dfns set `⎕IO←0` again locally; that changes nothing here, the session already being at origin 0.
 
 ## Display, and the three translations
 
 GNU APL has none of Dyalog's display user commands. `]box`, `]DISPLAY` and `]rows` are all `BAD COMMAND`. What it has instead is `]BOXING [OFF|2-4|7-9|i20-25|29]`, a global setting. Three translations were therefore applied to the book's input before running it, and each is flagged as an `Oracle translation:` line on the affected example in the goldens:
 
-- `]box on [-style=…]` becomes `]BOXING n`. Chapters 1 and 2, which the book runs under `]box on` in its minimum style, ran at `]BOXING 7`: nested values are framed, simple arrays print bare, which is what the book shows. Chapter 3, which the book runs under `]box on -style=max`, ran at `]BOXING 8`, the level that frames everything and marks rank and type on the frame. Chapter 1's Ex 8 and Ex 10, where the book switches style mid-chapter, switch between 8 and 7 accordingly. Unlike Dyalog's `]box`, `]BOXING` prints no "Was ON …" confirmation, so those two examples have no oracle output at all.
+- `]box on [-style=…]` becomes `]BOXING n`. Chapters 1 and 2, which the book runs under `]box on` in its minimum style, ran at `]BOXING 7`: nested values are framed, simple arrays print bare, which is what the book shows. Chapter 3, which the book runs under `]box on -style=max`, ran at `]BOXING 8`, the level that frames everything and marks rank and type on the frame. Chapter 1's Ex 8 and Ex 10, where the book switches style mid-chapter, switch between 8 and 7 accordingly. Chapters 4, 5 and 6 run `]box on` in its minimum style too, so they ran at `]BOXING 7`, switching to 8 only around the `]display`/`]DISPLAY` lines in chapter 5's Ex 26 and chapter 6's Ex 7 and Ex 17. Unlike Dyalog's `]box`, `]BOXING` prints no "Was ON …" confirmation, so those two examples have no oracle output at all.
 - `]DISPLAY expr` becomes `expr` evaluated under `]BOXING 8`, the nearest equivalent of the frame `]DISPLAY` draws. Where the argument is an assignment, the assignment is followed by the bare variable name, because `⎕←` bypasses the boxing setting and would print the value unframed.
 - `]rows on` becomes `⎕PW←10000`, which stops GNU APL wrapping long result lines.
+
+Two further user commands appear in the later chapters and have no translation at all: `]dinput` (chapters 4 and 5) and `]runtime` (chapter 6) are both `BAD COMMAND`. `]dinput`'s multi-line dfns are rewritten as one-line lambdas, as the chapter 4 section describes; `]runtime`, like `cmpx`, has no stand-in, and the benchmark examples are recorded for completeness only.
 
 Even at the closest boxing level the frames are not the same characters. GNU APL draws the type marker in a frame's bottom-left corner as `∼` (U+223C TILDE OPERATOR) where Dyalog uses `~`, and marks enclosure as `ϵ` (U+03F5 GREEK LUNATE EPSILON) where Dyalog uses `∊`. Every framed output therefore differs from the book's by at least those two characters, which is why the display-only disagreements below are so numerous.
 
 ## How many book outputs the oracle disagreed with
 
-Counted per example: an example disagrees if the oracle's printed text differs from the book's after blank lines and trailing spaces are normalised away. 121 of the 156 examples disagree.
+Counted per example: an example disagrees if the oracle's printed text differs from the book's after blank lines and trailing spaces are normalised away. 156 of the 214 examples disagree.
 
 | chapter | examples | disagree | display only | different values | GNU APL errors |
 |---|---|---|---|---|---|
@@ -58,9 +60,11 @@ Counted per example: an example disagrees if the oracle's printed text differs f
 | 2, indexing | 40 | 28 | 9 | 6 | 13 |
 | 3, glyphiary | 59 | 52 | 29 | 13 | 10 |
 | 4, functions | 29 | 21 | 0 | 4 | 17 |
-| total | 156 | 121 | 47 | 34 | 40 |
+| 5, iteration | 40 | 30 | 4 | 3 | 23 |
+| 6, products | 18 | 5 | 1 | 2 | 2 |
+| total | 214 | 156 | 52 | 39 | 65 |
 
-"Display only" means the values agree once the frames are stripped: 47 of the 121 disagreements are the `∼`/`ϵ` frame glyphs and the `]BOXING`-versus-`]box` framing, nothing more. The other 74 are real. Chapter 4 contributes none of the display-only kind: it prints few arrays, and almost everything it does print, GNU APL refuses outright.
+"Display only" means the values agree once the frames are stripped: 52 of the 156 disagreements are the `∼`/`ϵ` frame glyphs and the `]BOXING`-versus-`]box` framing, nothing more. The other 104 are real. Chapter 4 contributes none of the display-only kind and chapter 5 only four: those two chapters print few arrays, and much of what they do print, GNU APL refuses outright. Chapter 6 is the opposite extreme — 13 of its 18 examples agree exactly, the highest rate of any chapter, because it is the one chapter built almost entirely on APL2 operators that GNU APL has.
 
 ## The families of real disagreement
 
@@ -96,9 +100,47 @@ Two disagreements are old news rather than new: `]box on`/`]rows on` print nothi
 
 The net of it: GNU APL can adjudicate APL2 array semantics, but it cannot adjudicate dfns. For anything in this chapter beyond `{⍺+⍵}`, the book is the only authority available here.
 
+## Chapter 5: the iteration operators
+
+Chapter 5 is the sharpest split so far: the operators it teaches are all present in GNU APL and all agree with Dyalog, while the dfns it wraps them in are all unavailable. Twenty-one of its twenty-three errors are the chapter 4 dfn limits repeating.
+
+What works, each verified against the book:
+
+- **Each, `¨`.** `×⍨¨1+⍳9` and `≢¨V` both agree exactly, on a nested argument too. Each with a lambda operand also works (`{⍵×⍵}¨1 2 3`).
+- **Reduce first `⌿` and Scan first `⍀`.** Both agree with the book, including the right-to-left fold order `-⌿1 2 3 4 5 6 7 8 9` → 5 that the chapter makes a point of, and the running sums of `+⍀`.
+- **N-wise reduction.** The dyadic call of a derived reduction, `2+⌿1 2 3 4 5 6 7 8 9`, agrees. Chapter 4 had already shown `2 (+/) ⍳10` working.
+- **Bracket axis.** `+⌿[1]m` picks the second axis at origin 0, as in Dyalog.
+- **Power, `⍣`.** `2÷⍨⍣=10` agrees (0), and side probes show lambda operands are fine on both sides: `{⍵+1}⍣3 ⊢ 0` is 3 and `{⍵+1}⍣{⍺=5} 0` is 5. The chapter's Ex 16 fails for an unrelated reason, below.
+
+What does not:
+
+- **A lambda that mentions neither `⍺` nor `⍵` is niladic.** `{⍞ ← ?10}` is a *value* in GNU APL, not a function: `{⍞ ← ?10} 0` prints the roll and then evaluates to the two-element vector `6 0`. It therefore cannot be an operand of `⍣`, and Ex 16 ends in `SYNTAX ERROR` at `λ1⍣λ2` after evaluating the left side once. This is a new limit, distinct from every chapter 4 one.
+- **The chapter 4 dfn limits, wholesale.** Guards, `∇` self-reference, `]dinput`, the dops `⍺⍺`/`⍵⍵` and modified assignment (`j⊢←`) take down every one of this chapter's seven `]dinput` definitions — `Sum`, `Sscan`, `Fib`, `Quicksort`, `bsearch`, `prefix1`, `prefix2` — and with them the eight examples that apply them. `Quicksort` would also need a fork train, which GNU APL does not have.
+- **`⎕NGET` and `⎕CY`.** Neither system function exists (`VALUE ERROR`), so the data file the benchmarks read and Dyalog's `cmpx` utility are both out of reach, and the five `cmpx` examples are `VALUE ERROR`s. These examples carry no reproducible value in any interpreter: they are one machine's timings.
+- **Compose binding an array to a function.** `find←randInts∘⍳` is a `SYNTAX ERROR`, the same tacit limit chapters 2, 3 and 4 already hit.
+
+One display fact worth recording, since chapter 5 leans on it: `⎕←` bypasses `]BOXING`, so the book's framed nested vectors in Ex 4 and Ex 38 print bare in the oracle even though the values agree. `-nesty` in Ex 39, printed without `⎕←`, does get frames — GNU APL frames only the nested parts at `]BOXING 7` where Dyalog's `]box on` frames every element, so the shapes of the two pictures differ while the numbers do not. Scalar pervasion itself, monadic and dyadic, agrees.
+
+## Chapter 6: the products
+
+Chapter 6 is the chapter GNU APL handles best: 13 of its 18 examples agree exactly. Outer and inner product are APL2's oldest operators and they behave as the book says.
+
+- **Outer product, `∘.f`.** `∘.×⍨⍳10` and `∘.<⍨⍳10` agree to the character, and `x∘.|x` drives the prime sieve in Ex 6 to the same answer. Lambda operands work too: `1 2 3 ∘.{⍺+⍵} 4 5` is the expected 3×2 matrix.
+- **Inner product, `f.g`.** Matrix multiplication `A +.× B` agrees, `'GATTACA' +.= 'TATTCAG'` is 3, and the Rosalind offspring calculation gives the book's 153703. A lambda as an operand is accepted here as well: `1 2 {⍺+⍵}.× 3 4` is 11.
+- **Rank, `⍤`.** `(⍳10) <⍤0 1 ⊢ ⍳10` reproduces the outer product exactly, so the chapter's central insight — that `∘.f` is a special case of Rank — checks out in GNU APL too.
+
+The five disagreements are all previously known families, none of them new:
+
+- `]box on` and `]rows on` print no confirmation (Ex 1), and `]DISPLAY` becomes a `]BOXING 8` evaluation whose frame marker is `∼` rather than `~` (Ex 7).
+- Tacit assignment of a derived function is still a `SYNTAX ERROR`, now for `prod ← ∘.×` and `rank ← ×⍤0 1` alike; `]runtime` is a `BAD COMMAND`, GNU APL having no benchmarking user command at all (Ex 5).
+- Dyadic `?` (Deal) is random, so Ex 17's matrices and their product differ by construction.
+- Lambdas cannot be operators, so Adám Brudzewsky's eXplanation operator `X` is defined without complaint — `⍺⍺` parsing as `⍺ ⍺` — and then `A +X.(×X) B` is a `SYNTAX ERROR` at `+X`. This is the chapter 4 dop limit, reappearing in the one place chapter 6 needs a user-defined operator.
+
+The net: for array-level product semantics GNU APL is a usable oracle, and chapter 6 is the first chapter where the oracle mostly confirms rather than contradicts.
+
 ## Reproducing the run
 
-The four scripts actually fed to the interpreter are kept here as `oracle-ch1.apl`, `oracle-ch2.apl`, `oracle-ch3.apl` and `oracle-ch4.apl`; each begins with its `⎕PW` and `]BOXING` setup and prints an `@@CELL n` marker before each example, which is how the outputs were split back apart per example. To re-run a chapter:
+The six scripts actually fed to the interpreter are kept here as `oracle-ch1.apl` through `oracle-ch6.apl`; each begins with its `⎕PW` and `]BOXING` setup and prints an `@@CELL n` marker before each example, which is how the outputs were split back apart per example. To re-run a chapter:
 
 ```
 /usr/local/bin/apl --script --OFF --to_COUT -f oracle-ch3.apl
