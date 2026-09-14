@@ -117,6 +117,19 @@ grammar AplG extends { Expression, Literal, Identifier }
               tuple-valued expression (rung-5/v03_destr.out).  These stand above
               the single-name binding, longest first; `_` is still not an Id
               (row 69), so a throw-away element has to be named. ---- *)
+      (* ---- microgpt rung: NINE names.  `wte wpe lm wq wk wv wo f1 f2←vw¨⍳9`
+              (L14) takes the nine weight views apart in one line, so the
+              three-name rule is copied at arity nine and stands above it,
+              longest first as the other destructuring rules are.  The gap
+              names skip `e`, which is the expression's.  No arity between
+              four and eight is needed and none is added. ---- *)
+      | a:Id SPACE b:Id SPACE c:Id SPACE d:Id SPACE f:Id SPACE g:Id SPACE h:Id SPACE i:Id SPACE j:Id SPACE ← SPACE e:AplE SPACE ⍝ m:AplLn SPACE r:AplStm
+            => <[ (fn (a, b, c, d, f, g, h, i, j) => (r))((e)) ]>
+      | a:Id SPACE b:Id SPACE c:Id SPACE d:Id SPACE f:Id SPACE g:Id SPACE h:Id SPACE i:Id SPACE j:Id SPACE ← SPACE e:AplE SPACE ⋄ SPACE r:AplStm
+            => <[ (fn (a, b, c, d, f, g, h, i, j) => (r))((e)) ]>
+      | a:Id SPACE b:Id SPACE c:Id SPACE d:Id SPACE f:Id SPACE g:Id SPACE h:Id SPACE i:Id SPACE j:Id SPACE ← SPACE e:AplE
+        r:AplStm
+            => <[ (fn (a, b, c, d, f, g, h, i, j) => (r))((e)) ]>
       | a:Id SPACE b:Id SPACE c:Id SPACE ← SPACE e:AplE SPACE ⍝ m:AplLn SPACE r:AplStm
             => <[ (fn (a, b, c) => (r))((e)) ]>
       | a:Id SPACE b:Id SPACE c:Id SPACE ← SPACE e:AplE SPACE ⋄ SPACE r:AplStm
@@ -198,6 +211,12 @@ grammar AplG extends { Expression, Literal, Identifier }
               taken by AplAtom's own `( AplE )` first. ---- *)
       | ( SPACE a:AplAtom SPACE , SPACE b:AplAtom SPACE ) SPACE ⍴ SPACE r:AplE
             => <[ aplReshapeM((a), (b), (r)) ]>
+      (* microgpt rung: a NAME as the shape, for `N⍴⍳Blk` (L13).  The rank is
+         still read off the source text -- one name is a SCALAR shape and so
+         yields a vector, which is the only case the program needs.  It stands
+         above the numeral rules; a name is not a numeral, so the order is for
+         reading and not for correctness. *)
+      | n:AplName SPACE ⍴ SPACE r:AplE               => <[ aplReshapeV((n), (r)) ]>
       | a:AplNum SPACE b:AplNum SPACE ⍴ SPACE r:AplE => <[ aplReshapeM((a), (b), (r)) ]>
       | a:AplNum SPACE ⍴ SPACE r:AplE                => <[ aplReshapeV((a), (r)) ]>
 
@@ -254,6 +273,17 @@ grammar AplG extends { Expression, Literal, Identifier }
             => <[ aplPowerUntil((f), (g), (r)) ]>
       | f:AplFnM ⍣ SPACE g:AplFnD SPACE r:AplE
             => <[ aplPowerUntil((f), (g), (r)) ]>
+
+      (* ---- microgpt rung: `⊃,/,¨` over a strand, as ONE direct rule.  The
+              program's last line (L28) ravels every element of a strand and
+              catenates them all into one flat vector, which is C4's varargs
+              `flat`.  Read generally it would be `,¨` over the strand (cells
+              that are not scalars), then `,/` folded over the NESTED vector
+              that makes, then `⊃` -- and this base has no nested array, so the
+              direct rule is the only reading.  It stands above the ¨ rules and
+              far above the monadic ⊃, both of which would otherwise take the
+              head of it. ---- *)
+      | ⊃ , / , ¨ SPACE t:AplTuple => <[ aplFlatten((t)) ]>
 
       (* ---- rung 5: ¨ Each.  The first two alternatives read a NAME STRAND --
               two or three names, which is a Fortress tuple -- and hand the
@@ -577,7 +607,17 @@ grammar AplG extends { Expression, Literal, Identifier }
             predicate ending the name.  Longer names first, so that `foo` is not
             read as `f`. ---- *)
     AplFnName :Expr:=
-        [M]# [y]# [F]# [i]# [r]# [s]# [t]# [F]# [u]# [n]# [c]# [t]# [i]# [o]# [n]# NOT [A:Za:z0:9] => <[ (MyFirstFunction) ]>
+      (* microgpt rung's function names.  rmsn_b and sm_b must stand ABOVE
+         rmsn and sm: `_` is not in [A:Za:z0:9], so the NOT predicate SUCCEEDS
+         after the `rmsn` of `rmsn_b` and the shorter name would win (x01).
+         An underscore inside a name needs the backtick escape even inside a
+         character class -- `[_]` alone is a Syntax Error (x01_names.out.0). *)
+        [r]# [m]# [s]# [n]# [`_]# [b]# NOT [A:Za:z0:9]           => <[ (rmsn_b) ]>
+      | [s]# [m]# [`_]# [b]# NOT [A:Za:z0:9]                     => <[ (sm_b) ]>
+      | [r]# [m]# [s]# [n]# NOT [A:Za:z0:9]                      => <[ (rmsn) ]>
+      | [s]# [m]# NOT [A:Za:z0:9]                                => <[ (sm) ]>
+      | [v]# [w]# NOT [A:Za:z0:9]                                => <[ (vw) ]>
+      | [M]# [y]# [F]# [i]# [r]# [s]# [t]# [F]# [u]# [n]# [c]# [t]# [i]# [o]# [n]# NOT [A:Za:z0:9] => <[ (MyFirstFunction) ]>
       | [P]# [a]# [l]# [i]# [n]# [i]# [s]# [h]# NOT [A:Za:z0:9] => <[ (Palinish) ]>
       | [S]# [s]# [c]# [a]# [n]# NOT [A:Za:z0:9]                => <[ (Sscan) ]>
       | [s]# [t]# [e]# [p]# NOT [A:Za:z0:9]                     => <[ (step) ]>
@@ -648,13 +688,48 @@ grammar AplG extends { Expression, Literal, Identifier }
        every name rungs 1-4 use, and the same trap still applies INSIDE it: two
        strand names on consecutive lines are one strand. *)
     AplTuple :Expr:=
-        a:AplTName SPACE b:AplTName SPACE c:AplTName => <[ ((a), (b), (c)) ]>
+      (* microgpt rung: NINE names, for `⊃,/,¨gWTE gWPE gLM gWQ gWK gWV gWO gF1
+         gF2` (L28).  Longest first, as every name rule here is. *)
+        a:AplTName SPACE b:AplTName SPACE c:AplTName SPACE d:AplTName SPACE f:AplTName SPACE g:AplTName SPACE h:AplTName SPACE i:AplTName SPACE j:AplTName => <[ ((a), (b), (c), (d), (f), (g), (h), (i), (j)) ]>
+      | a:AplTName SPACE b:AplTName SPACE c:AplTName => <[ ((a), (b), (c)) ]>
       | a:AplTName SPACE b:AplTName                  => <[ ((a), (b)) ]>
 
     (* the names a STRAND may be built from; each is also an ordinary AplName
        below, so `Q+K` still reads as two names and an addition *)
     AplTName :Expr:=
-        [d]# [Q]# [h]# NOT [A:Za:z0:9] => <[ (dQh) ]>
+      (* microgpt rung's strand names: every name the program puts in a strand,
+         26 of them, on top of rung 5's nine.  Each is an ordinary AplName
+         below as well, so `loss gr` is a tuple and `Q+K` is still an addition.
+         Row 81's trap survives inside the set: two of these on consecutive
+         lines are ONE strand, which is why every statement of the program's
+         blocks ends in ⋄ . *)
+        [g]# [W]# [T]# [E]# NOT [A:Za:z0:9] => <[ (gWTE) ]>
+      | [g]# [W]# [P]# [E]# NOT [A:Za:z0:9] => <[ (gWPE) ]>
+      | [l]# [o]# [s]# [s]# NOT [A:Za:z0:9] => <[ (loss) ]>
+      | [g]# [W]# [Q]# NOT [A:Za:z0:9]   => <[ (gWQ) ]>
+      | [g]# [W]# [K]# NOT [A:Za:z0:9]   => <[ (gWK) ]>
+      | [g]# [W]# [V]# NOT [A:Za:z0:9]   => <[ (gWV) ]>
+      | [w]# [t]# [e]# NOT [A:Za:z0:9]   => <[ (wte) ]>
+      | [w]# [p]# [e]# NOT [A:Za:z0:9]   => <[ (wpe) ]>
+      | [g]# [L]# [M]# NOT [A:Za:z0:9]   => <[ (gLM) ]>
+      | [g]# [W]# [O]# NOT [A:Za:z0:9]   => <[ (gWO) ]>
+      | [g]# [F]# [1]# NOT [A:Za:z0:9]   => <[ (gF1) ]>
+      | [g]# [F]# [2]# NOT [A:Za:z0:9]   => <[ (gF2) ]>
+      | [Q]# [h]# NOT [A:Za:z0:9]        => <[ (Qh) ]>
+      | [K]# [h]# NOT [A:Za:z0:9]        => <[ (Kh) ]>
+      | [V]# [h]# NOT [A:Za:z0:9]        => <[ (Vh) ]>
+      | [d]# [Q]# NOT [A:Za:z0:9]        => <[ (dQ) ]>
+      | [d]# [K]# NOT [A:Za:z0:9]        => <[ (dK) ]>
+      | [d]# [V]# NOT [A:Za:z0:9]        => <[ (dV) ]>
+      | [l]# [m]# NOT [A:Za:z0:9]        => <[ (lm) ]>
+      | [w]# [o]# NOT [A:Za:z0:9]        => <[ (wo) ]>
+      | [f]# [1]# NOT [A:Za:z0:9]        => <[ (f1) ]>
+      | [f]# [2]# NOT [A:Za:z0:9]        => <[ (f2) ]>
+      | [g]# [r]# NOT [A:Za:z0:9]        => <[ (gr) ]>
+      | [P]# [n]# NOT [A:Za:z0:9]        => <[ (Pn) ]>
+      | [M]# [n]# NOT [A:Za:z0:9]        => <[ (Mn) ]>
+      | [V]# [n]# NOT [A:Za:z0:9]        => <[ (Vn) ]>
+      | [d]# [Q]# [h]# NOT [A:Za:z0:9] => <[ (dQh) ]>
       | [d]# [K]# [h]# NOT [A:Za:z0:9] => <[ (dKh) ]>
       | [d]# [V]# [h]# NOT [A:Za:z0:9] => <[ (dVh) ]>
       | [w]# [q]# NOT [A:Za:z0:9]      => <[ (wq) ]>
@@ -673,9 +748,81 @@ grammar AplG extends { Expression, Literal, Identifier }
        identifier becomes a keyword of the whole language and then Id excludes it.
        The NOT predicate ends the name, and the longer names come first. *)
     AplName :Expr:=
+      (* microgpt rung's names, 65 of them: the program's own, less the ones
+         rungs 5 and 6 already left here (Blk B Hd Vs Pr ids tg vm dX A Q K Vv
+         Qh Kh wq wk wv dQh dKh dVh t b e x y).  BLK, NE, VS and the rest of
+         the all-capital spellings cannot be APL names at all (row 78), so they
+         are Blk, Ne, Vs; a capital followed by a DIGIT is fine (x01), which is
+         what lets B1 B2 Lr0 M0 X1 X2 X3 X4 stand.  v and g are taken, so the
+         program's view function is vw and its gradient gr. *)
+        [N]# [s]# [t]# [e]# [p]# [s]# NOT [A:Za:z0:9]  => <[ (Nsteps) ]>
+      | [E]# [p]# [s]# [a]# NOT [A:Za:z0:9]            => <[ (Epsa) ]>
+      | [T]# [o]# [k]# [m]# NOT [A:Za:z0:9]            => <[ (Tokm) ]>
+      | [l]# [o]# [s]# [s]# NOT [A:Za:z0:9]            => <[ (loss) ]>
+      | [g]# [W]# [T]# [E]# NOT [A:Za:z0:9]            => <[ (gWTE) ]>
+      | [g]# [W]# [P]# [E]# NOT [A:Za:z0:9]            => <[ (gWPE) ]>
+      | [B]# [o]# [s]# NOT [A:Za:z0:9]                 => <[ (Bos) ]>
+      | [E]# [p]# [s]# NOT [A:Za:z0:9]                 => <[ (Eps) ]>
+      | [L]# [r]# [0]# NOT [A:Za:z0:9]                 => <[ (Lr0) ]>
+      | [L]# [e]# [n]# NOT [A:Za:z0:9]                 => <[ (Len) ]>
+      | [p]# [o]# [s]# NOT [A:Za:z0:9]                 => <[ (pos) ]>
+      | [g]# [L]# [M]# NOT [A:Za:z0:9]                 => <[ (gLM) ]>
+      | [d]# [X]# [4]# NOT [A:Za:z0:9]                 => <[ (dX4) ]>
+      | [g]# [F]# [2]# NOT [A:Za:z0:9]                 => <[ (gF2) ]>
+      | [d]# [M]# [0]# NOT [A:Za:z0:9]                 => <[ (dM0) ]>
+      | [g]# [F]# [1]# NOT [A:Za:z0:9]                 => <[ (gF1) ]>
+      | [d]# [X]# [3]# NOT [A:Za:z0:9]                 => <[ (dX3) ]>
+      | [d]# [X]# [2]# NOT [A:Za:z0:9]                 => <[ (dX2) ]>
+      | [g]# [W]# [O]# NOT [A:Za:z0:9]                 => <[ (gWO) ]>
+      | [g]# [W]# [Q]# NOT [A:Za:z0:9]                 => <[ (gWQ) ]>
+      | [g]# [W]# [K]# NOT [A:Za:z0:9]                 => <[ (gWK) ]>
+      | [g]# [W]# [V]# NOT [A:Za:z0:9]                 => <[ (gWV) ]>
+      | [d]# [X]# [1]# NOT [A:Za:z0:9]                 => <[ (dX1) ]>
+      | [d]# [X]# [p]# NOT [A:Za:z0:9]                 => <[ (dXp) ]>
+      | [w]# [t]# [e]# NOT [A:Za:z0:9]                 => <[ (wte) ]>
+      | [w]# [p]# [e]# NOT [A:Za:z0:9]                 => <[ (wpe) ]>
+      | [N]# [e]# NOT [A:Za:z0:9]                      => <[ (Ne) ]>
+      | [N]# [h]# NOT [A:Za:z0:9]                      => <[ (Nh) ]>
+      | [B]# [1]# NOT [A:Za:z0:9]                      => <[ (B1) ]>
+      | [B]# [2]# NOT [A:Za:z0:9]                      => <[ (B2) ]>
+      | [M]# [k]# NOT [A:Za:z0:9]                      => <[ (Mk) ]>
+      | [b]# [b]# NOT [A:Za:z0:9]                      => <[ (bb) ]>
+      | [n]# [v]# NOT [A:Za:z0:9]                      => <[ (nv) ]>
+      | [X]# [p]# NOT [A:Za:z0:9]                      => <[ (Xp) ]>
+      | [X]# [1]# NOT [A:Za:z0:9]                      => <[ (X1) ]>
+      | [V]# [h]# NOT [A:Za:z0:9]                      => <[ (Vh) ]>
+      | [H]# [c]# NOT [A:Za:z0:9]                      => <[ (Hc) ]>
+      | [X]# [2]# NOT [A:Za:z0:9]                      => <[ (X2) ]>
+      | [X]# [3]# NOT [A:Za:z0:9]                      => <[ (X3) ]>
+      | [M]# [0]# NOT [A:Za:z0:9]                      => <[ (M0) ]>
+      | [M]# [r]# NOT [A:Za:z0:9]                      => <[ (Mr) ]>
+      | [X]# [4]# NOT [A:Za:z0:9]                      => <[ (X4) ]>
+      | [d]# [L]# NOT [A:Za:z0:9]                      => <[ (dL) ]>
+      | [d]# [H]# NOT [A:Za:z0:9]                      => <[ (dH) ]>
+      | [d]# [S]# NOT [A:Za:z0:9]                      => <[ (dS) ]>
+      | [d]# [Q]# NOT [A:Za:z0:9]                      => <[ (dQ) ]>
+      | [d]# [K]# NOT [A:Za:z0:9]                      => <[ (dK) ]>
+      | [d]# [V]# NOT [A:Za:z0:9]                      => <[ (dV) ]>
+      | [g]# [r]# NOT [A:Za:z0:9]                      => <[ (gr) ]>
+      | [l]# [r]# NOT [A:Za:z0:9]                      => <[ (lr) ]>
+      | [s]# [f]# NOT [A:Za:z0:9]                      => <[ (sf) ]>
+      | [M]# [n]# NOT [A:Za:z0:9]                      => <[ (Mn) ]>
+      | [V]# [n]# NOT [A:Za:z0:9]                      => <[ (Vn) ]>
+      | [P]# [n]# NOT [A:Za:z0:9]                      => <[ (Pn) ]>
+      | [l]# [m]# NOT [A:Za:z0:9]                      => <[ (lm) ]>
+      | [w]# [o]# NOT [A:Za:z0:9]                      => <[ (wo) ]>
+      | [f]# [1]# NOT [A:Za:z0:9]                      => <[ (f1) ]>
+      | [f]# [2]# NOT [A:Za:z0:9]                      => <[ (f2) ]>
+      | [N]# NOT [A:Za:z0:9]                           => <[ (N) ]>
+      | [R]# NOT [A:Za:z0:9]                           => <[ (R) ]>
+      | [X]# NOT [A:Za:z0:9]                           => <[ (X) ]>
+      | [P]# NOT [A:Za:z0:9]                           => <[ (P) ]>
+      | [M]# NOT [A:Za:z0:9]                           => <[ (M) ]>
+      | [V]# NOT [A:Za:z0:9]                           => <[ (V) ]>
+      | [r]# NOT [A:Za:z0:9]                           => <[ (r) ]>
       (* rung 6's names.  HD, NE, VS and the rest of the program's all-capital
          names cannot be APL names at all (row 78), so they are Hd, Ne, Vs. *)
-        [r]# [o]# [w]# [0]# [c]# [o]# [l]# [0]# [p]# [r]# [o]# [d]# NOT [A:Za:z0:9]
+      | [r]# [o]# [w]# [0]# [c]# [o]# [l]# [0]# [p]# [r]# [o]# [d]# NOT [A:Za:z0:9]
             => <[ (row0col0prod) ]>
       | [p]# [r]# [o]# [b]# NOT [A:Za:z0:9]           => <[ (prob) ]>
       | [i]# [d]# [s]# NOT [A:Za:z0:9]                => <[ (ids) ]>

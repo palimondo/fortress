@@ -618,6 +618,10 @@ aplRankD1[\nat p, nat q, nat r2, nat c2\](f: ()->Any, a: Matrix[\RR64,p,q\],
 aplRankD1[\nat s, nat a, nat b, nat c\](f: ()->Any, l: Vector[\RR64,s\],
         t: Array3[\RR64,0,a,0,b,0,c\]): Object
 aplRankD1[\nat a, nat b, nat c\](f: ()->Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Object
+(* microgpt rung: dyadic ⍤1 over TWO rank-3 arrays, row i of plane k against
+   row i of plane k -- the program's `A(sm_b⍤1)dH+.×⍤2⊢⍉⍤2⊢Vh` (L23). *)
+aplRankD1[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: ()->Any,
+        x: Array3[\RR64,0,a1,0,b1,0,c1\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Object
 aplRankD2[\nat p, nat q, nat r2, nat c2\](f: ()->Any, a: Matrix[\RR64,p,q\],
         b: Matrix[\RR64,r2,c2\]): Object
 aplRankD2[\nat p, nat q, nat a, nat b, nat c\](f: ()->Any, l: Matrix[\RR64,p,q\],
@@ -647,6 +651,14 @@ aplScalarOf(x: Any): RR64
 aplAllScalar(rs: Array[\Any,ZZ32\]): Boolean
 aplAsmV(rs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\]
 aplAsmM(rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Array[\RR64,(ZZ32,ZZ32)\]
+(* microgpt rung: a cell result of `¨` over a VECTOR that is not a scalar is no
+   longer a contract violation -- the cells become a TUPLE, which is rung 5's
+   "a strand of arrays is a tuple" applied to a computed strand.  Arity 2, 3
+   and 9 (`vw¨⍳9`), the arities the program destructures. *)
+aplIsMat(x: Any): Boolean
+aplIsMat[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Boolean
+aplAllMat(rs: Array[\Any,ZZ32\]): Boolean
+aplTup(rs: Array[\Any,ZZ32\]): Object
 aplEach(f: Any, x: RR64): Object
 aplEach[\nat s\](f: Any, v: Vector[\RR64,s\]): Object
 aplEach[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object
@@ -664,6 +676,14 @@ aplEachT2(f: Any, a: Any, b: Any): (Any, Any)
 aplEachT3(f: Any, a: Any, b: Any, c: Any): (Any, Any, Any)
 aplShowT(t: (Any, Any)): String
 aplShowT(t: (Any, Any, Any)): String
+
+(** microgpt rung: `⊃,/,¨` over a strand -- ravel every element and catenate
+    them all, which is C4's varargs `flat`.  One direct entry per tuple arity,
+    because the general reading would build a nested vector and this base has
+    none. **)
+aplFlatten(t: (Any, Any)): Array[\RR64,ZZ32\]
+aplFlatten(t: (Any, Any, Any)): Array[\RR64,ZZ32\]
+aplFlatten(t: (Any, Any, Any, Any, Any, Any, Any, Any, Any)): Array[\RR64,ZZ32\]
 
 (** ⍨ as a function VALUE: monadic `f⍨` is `⍵ f ⍵`, dyadic swaps, and `a f⍨`
     binds the RIGHT argument, which is what `2÷⍨` is. **)

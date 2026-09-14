@@ -1,0 +1,62 @@
+(* x02 -- questions (f) and (g) of the microgpt rung.  Neither needs anything
+   new in the base, so this probe runs against base/AplSyntax.fsi and
+   base/AplCore.fss exactly as rung 6 left them, with run-c4/src on the source
+   path for FlatArrays.
+
+   (f) a HOST ADAPTER in the dfn calling shape.  Rank 4 is outside the
+       sub-language, so the program's `h←{0 2 1 3⍉(B,BLK,NH,HD)⍴⍵}` becomes
+       C4's `heads`, wrapped up in a zero-parameter lambda that reads ⍵ off the
+       frame stack -- the shape EVERY APL function value has since rung 4.  The
+       question is whether the dynamic dispatch on aplOmega()'s declared type,
+       which is Any, reaches a generic whose parameter is Matrix[\RR64,br,bc\]
+       with two nat parameters to infer.  `h` is already in AplFnName, `Q K Vv`
+       already in AplTName, so `h¨Q K Vv` is rung 5's aplEachT3 unchanged.
+
+   (g) a block as the BODY of a function declared with C4's tuple result type.
+       `step` and `adam` return tuples; the last statement of their block is a
+       name strand, which rung 5 makes a Fortress tuple.  The question is
+       whether the declared result type and the block's tuple meet, in a bare
+       body and inside a `do … end` with host statements above it, and whether
+       a host PARAMETER is readable from the block under its own spelling. *)
+component x02_host
+import AplCore.{...}
+import AplSyntax.{...}
+import FlatArrays.{...}
+export Executable
+
+(* the hyperparameters, as the program's top line will write them *)
+(Ne, Blk, Nh, Hd) = (6.0, 4.0, 2.0, 3.0)
+
+(* (f) the adapter: C4's heads behind the dfn calling shape *)
+h = fn (): Any => heads(aplOmega(), aplInt(Blk), aplInt(Nh), aplInt(Hd))
+
+(* (g) a block as a function body, twice: bare, and inside a do … end *)
+bare(): (RR64, Array[\RR64,ZZ32\]) = apl⦇ Q←1.5 ⋄ K←⍳3 ⋄ Q K ⦈
+inDo(b: Array[\RR64,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
+    q = 2.0
+    apl⦇ Q←+/b ⋄ K←b×q ⋄ Q K ⦈
+  end
+
+p(tag: String, s: String): () = println(("  " tag " = " s))
+
+run(): () = do
+    println("(f) a host adapter in the dfn calling shape")
+    p("⍴h⍎(m)  where m is 8x6", aplShow(apl⦇ ⍴h⍎(aplMat(8, 6, fn (i: ZZ32, j: ZZ32): RR64 => ((1.0 i) 6.0) + (1.0 j))) ⦈))
+    p("⍴Qh after Qh Kh Vh←h¨Q K Vv",
+      aplShow(apl⦇ Q←8 6⍴⍳48 ⋄ K←8 6⍴⍳48 ⋄ Vv←8 6⍴⍳48 ⋄ Qh Kh Vh←h¨Q K Vv ⋄ ⍴Qh ⦈))
+    p("Qh, all four planes",
+      aplShow(apl⦇ Q←8 6⍴⍳48 ⋄ K←8 6⍴⍳48 ⋄ Vv←8 6⍴⍳48 ⋄ Qh Kh Vh←h¨Q K Vv ⋄ Qh ⦈))
+    p("the tuple itself, through aplShowT (shapes only)",
+      aplShow(apl⦇ Q←8 6⍴⍳48 ⋄ K←2×8 6⍴⍳48 ⋄ Vv←3×8 6⍴⍳48 ⋄ Qh Kh Vh←h¨Q K Vv ⋄ ⍴Kh ⦈))
+    (* the same thing in host code, as C4 writes it, for comparison *)
+    m = aplMat(8, 6, fn (i: ZZ32, j: ZZ32): RR64 => ((1.0 i) 6.0) + (1.0 j))
+    p("host heads(m, 4, 2, 3)", aplShow(heads(m, 4, 2, 3)))
+    println("(g) a block as the body of a function with a tuple result type")
+    (l1, v1) = bare()
+    p("bare(): loss", aplShow(l1))
+    p("bare(): vector", aplShow(v1))
+    (l2, v2) = inDo(aplIota(4.0))
+    p("inDo(⍳4): loss", aplShow(l2))
+    p("inDo(⍳4): vector", aplShow(v2))
+  end
+end

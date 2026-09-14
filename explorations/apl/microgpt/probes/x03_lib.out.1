@@ -1,0 +1,26 @@
+(c) aplEach over a vector with cells of unequal shape
+  nine shapes, through a lambda of nine parameters = 1 9 2 8 3 7 4 6 5 5 6 4 7 3 8 2 9 1
+  nine first elements = 0 0 0 0 0 0 0 0 0
+  arity 3, shapes = 1 9 2 8 3 7
+  arity 2, shapes = 1 9 2 8
+  scalar cells still assemble: sq¨⍳5 = 0 1 4 9 16
+(d) aplFlatten over a strand
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/base/AplCore.fss:1823:50-55:
+Failed to find any matching overload, args = (), overload = {
+	_[_](r:Range[\FortressLibrary.ZZ32\]):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/Library/FortressLibrary.fss:2107:5-2113:8
+	_[_](i:FortressLibrary.ZZ32):T ZZ32->Array[\RR64,ZZ32\] /home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:19:3-30
+	_[_](_:FortressLibrary.TrivialOpenRange):Array1[\T,0,s0\]/home/user/fortress/Library/FortressLibrary.fss:2114:5-2119:63}:OverloadedMethod
+Context:
+/home/user/fortress/explorations/apl/base/AplCore.fss:1823:50-55:
+/home/user/fortress/explorations/apl/base/AplCore.fss:1833:5-1834:3:
+/home/user/fortress/explorations/apl/microgpt/probes/x03_lib.fss:52:37-55:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

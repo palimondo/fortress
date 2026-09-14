@@ -1,0 +1,44 @@
+(* x01 -- question (a) of the microgpt rung: the two contested NAME spellings,
+   a digit after a capital (B1, B2, Lr0, M0, X1) and an underscore (rmsn_b,
+   sm_b), asked through the throw-away grammar X01Syn.fsi.  Question (b), a
+   NAME as the shape of a reshape, is asked here too: it is grammar-only and
+   costs nothing extra in the same run. *)
+component x01_names
+import AplCore.{...}
+import X01Syn.{...}
+export Executable
+
+(* the host bindings the names must resolve to; every one of them is an
+   ordinary top-level Fortress declaration, which is what the program's
+   hyperparameter line will be *)
+B1: RR64 = 0.85
+B2: RR64 = 0.99
+Lr0: RR64 = 0.01
+Epsa: RR64 = 10.0^(-8)
+Blk: RR64 = 4.0
+N: RR64 = 6.0
+rmsn_b: RR64 = 7.0
+sm_b: RR64 = 8.0
+
+p(tag: String, s: String): () = println(("  " tag " = " s))
+
+run(): () = do
+    println("(a) a digit after a capital, read as a free host name")
+    p("B1", aplShow(x01⦇ B1 ⦈))
+    p("B2", aplShow(x01⦇ B2 ⦈))
+    p("Lr0", aplShow(x01⦇ Lr0 ⦈))
+    p("B1×B2", aplShow(x01⦇ B1×B2 ⦈))
+    println("(a) a digit after a capital, bound through the Id gap")
+    p("X1 ← 3 ⋄ X1+1", aplShow(x01⦇ X1 ← 3 ⋄ X1+1 ⦈))
+    p("M0 ← 5 ⋄ M0×X1", aplShow(x01⦇ M0 ← 5 ⋄ X1 ← 2 ⋄ M0×X1 ⦈))
+    println("(a) an underscore, read as a free host name")
+    p("rmsn_b", aplShow(x01⦇ rmsn_b ⦈))
+    p("sm_b", aplShow(x01⦇ sm_b ⦈))
+    p("rmsn_b+sm_b", aplShow(x01⦇ rmsn_b+sm_b ⦈))
+    p("Epsa", aplShow(x01⦇ Epsa ⦈))
+    println("(b) a NAME as the shape of a reshape")
+    p("N⍴⍳Blk", aplShow(x01⦇ N⍴⍳Blk ⦈))
+    p("Blk⍴1 2", aplShow(x01⦇ Blk⍴1 2 ⦈))
+    p("3⍴⍳Blk  (the numeral rule still fires)", aplShow(x01⦇ 3⍴⍳Blk ⦈))
+  end
+end

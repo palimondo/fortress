@@ -1,0 +1,22 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7116618339826987915rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7116618339826987915rats/com/sun/fortress/parser/templateparser/TemplateParser28.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(a) a digit after a capital, read as a free host name
+  B1 = 0.85
+  B2 = 0.99
+  Lr0 = 0.01
+  B1×B2 = 0.8415
+(a) a digit after a capital, bound through the Id gap
+  X1 ← 3 ⋄ X1+1 = 4
+  M0 ← 5 ⋄ M0×X1 = 10
+(a) an underscore, read as a free host name
+  rmsn_b = 7
+  sm_b = 8
+  rmsn_b+sm_b = 15
+  Epsa = 1.0E-8
+(b) a NAME as the shape of a reshape
+  N⍴⍳Blk = 0 1 2 3 0 1
+  Blk⍴1 2 = 1 2 1 2
+  3⍴⍳Blk  (the numeral rule still fires) = 0 1 2

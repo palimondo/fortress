@@ -1,0 +1,52 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress17476325856815688998rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress17476325856815688998rats/com/sun/fortress/parser/templateparser/TemplateParser456.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(f) a host adapter in the dfn calling shape
+  ⍴h⍎(m)  where m is 8x6 = 4 4 3
+  ⍴Qh after Qh Kh Vh←h¨Q K Vv = 4 4 3
+  Qh, all four planes =  0  1  2
+ 6  7  8
+12 13 14
+18 19 20
+
+ 3  4  5
+ 9 10 11
+15 16 17
+21 22 23
+
+24 25 26
+30 31 32
+36 37 38
+42 43 44
+
+27 28 29
+33 34 35
+39 40 41
+45 46 47
+  the tuple itself, through aplShowT (shapes only) = 4 4 3
+  host heads(m, 4, 2, 3) =  0  1  2
+ 6  7  8
+12 13 14
+18 19 20
+
+ 3  4  5
+ 9 10 11
+15 16 17
+21 22 23
+
+24 25 26
+30 31 32
+36 37 38
+42 43 44
+
+27 28 29
+33 34 35
+39 40 41
+45 46 47
+(g) a block as the body of a function with a tuple result type
+  bare(): loss = 1.5
+  bare(): vector = 0 1 2
+  inDo(⍳4): loss = 6
+  inDo(⍳4): vector = 0 2 4 6

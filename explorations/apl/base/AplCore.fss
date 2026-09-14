@@ -1588,6 +1588,27 @@ aplRankD1[\nat a, nat b, nat c\](f: ()->Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,
     end
     aplAsm2(rs, d0, d1)
   end
+(* microgpt rung: two rank-3 arrays, row i of plane k against row i of plane k.
+   The frames must agree on both leading axes, as the (M,M) member's do on the
+   one, and the result is assembled by the first cell's result exactly as the
+   (V,A3) member's is.  This is C4's `rows(f, x, y)` over two Array3
+   (run-c4/src/FlatArrays.fss:159-164), for L23's `A(sm_b⍤1)dH…`. *)
+aplRankD1[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: ()->Any,
+        x: Array3[\RR64,0,a1,0,b1,0,c1\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Object
+        requires { (aplD0(x) = aplD0(y)) AND (aplD1(x) = aplD1(y)) } = do
+    (d0, d1, d2) = x.sizes
+    rs = array[\Any\](d0 d1)
+    i: ZZ32 := 0
+    while i < d0 do
+        j: ZZ32 := 0
+        while j < d1 do
+            rs[(i d1) + j] := aplCall(f, AplRow3[\a1,b1,c1\](x, i, j), AplRow3[\a2,b2,c2\](y, i, j))
+            j := j + 1
+        end
+        i := i + 1
+    end
+    aplAsm2(rs, d0, d1)
+  end
 
 (* dyadic l f⍤2 r *)
 aplRankD2[\nat p, nat q, nat r2, nat c2\](f: ()->Any, a: Matrix[\RR64,p,q\],
@@ -1679,13 +1700,49 @@ aplAsmV(rs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\] requires { aplAllScalar(rs) }
 aplAsmM(rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Array[\RR64,(ZZ32,ZZ32)\]
         requires { aplAllScalar(rs) } =
     aplMat(d0, d1, fn (i: ZZ32, j: ZZ32): RR64 => aplScalarOf(rs[(i d1) + j]))
+(* microgpt rung: the OTHER assembly of a cell list -- a Fortress TUPLE, for
+   the cells `¨` may not assemble into an array because they are arrays
+   themselves of unequal shape (`vw¨⍳9`, L14).  The arities are the ones a
+   destructuring rule can take apart: 2, 3 and 9.  A tuple is not an Object by
+   the spec (types-vals-vars.tex:263) but the walk interpreter accepts one
+   where Object is declared, which is what keeps aplEach out of row 67.
+
+   Only MATRIX cells take this road.  A VECTOR cell result is still APL's
+   nested array and still a contract violation, which is what rung 5's Y20
+   (`{⍳⍵}¨1 2 3`) checks; the test is by overload resolution, as aplSig's
+   shape signature is, because typecase cannot spell Matrix[\RR64,r,c\]
+   without its nats. *)
+aplIsMat(x: Any): Boolean = false
+aplIsMat[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Boolean = true
+aplAllMat(rs: Array[\Any,ZZ32\]): Boolean = do
+    ok: Boolean := true
+    k: ZZ32 := 0
+    while k < |rs| do
+        (if NOT aplIsMat(rs[k]) then ok := false end)
+        k := k + 1
+    end
+    ok
+  end
+aplTup(rs: Array[\Any,ZZ32\]): Object
+        requires { ((|rs| = 2) OR (|rs| = 3)) OR (|rs| = 9) } =
+    if |rs| = 2 then (rs[0], rs[1])
+    elif |rs| = 3 then (rs[0], rs[1], rs[2])
+    else (rs[0], rs[1], rs[2], rs[3], rs[4], rs[5], rs[6], rs[7], rs[8])
+    end
 
 aplEach(f: Any, x: RR64): Object = aplCall1(f, x)
+(* microgpt rung: when the cells are not scalars they cannot be assembled into
+   an array of the next rank up -- `vw¨⍳9` returns nine matrices of unequal
+   shape -- so they become a tuple, which the nine-name destructuring rule
+   binds.  Scalar cells still assemble, as every rung 1-6 use of ¨ does. *)
 aplEach[\nat s\](f: Any, v: Vector[\RR64,s\]): Object = do
     rs = array[\Any\](|v|)
     i: ZZ32 := 0
     while i < |v| do rs[i] := aplCall1(f, v[i]); i := i + 1 end
-    aplAsmV(rs)
+    if aplAllScalar(rs) then aplAsmV(rs)
+    elif aplAllMat(rs) then aplTup(rs)
+    else aplAsmV(rs)
+    end
   end
 aplEach[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object = do
     (rows, cols) = m.sizes
@@ -1765,6 +1822,49 @@ aplShowT(t: (Any, Any)): String = do (a, b) = t; ((aplShow(a) // "") // aplShow(
 aplShowT(t: (Any, Any, Any)): String = do
     (a, b, c) = t
     ((((aplShow(a) // "") // aplShow(b)) // "") // aplShow(c))
+  end
+
+(* ------------------------------------------ microgpt rung: ⊃,/,¨ --------- *)
+(* The program's `⊃,/,¨gWTE gWPE gLM …` (L28) ravels every element of a strand
+   and catenates them all into one flat vector -- C4's varargs `flat`.  Read
+   generally it would build a NESTED vector (,¨ over non-scalar cells) and fold
+   catenate over it, which this base cannot do, so the whole idiom is one
+   direct rule per tuple arity.  aplRavel dispatches on each element's rank. *)
+aplJoin(vs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\] = do
+    rs = array[\Array[\RR64,ZZ32\]\](|vs|)
+    n: ZZ32 := 0
+    k: ZZ32 := 0
+    while k < |vs| do rs[k] := aplRavel(vs[k]); n := n + |rs[k]|; k := k + 1 end
+    flatv = array[\RR64\](n)
+    off: ZZ32 := 0
+    k := 0
+    while k < |vs| do
+        rk = rs[k]
+        j: ZZ32 := 0
+        while j < |rk| do flatv[off + j] := rk[j]; j := j + 1 end
+        off := off + |rk|
+        k := k + 1
+    end
+    flatv
+  end
+aplFlatten(t: (Any, Any)): Array[\RR64,ZZ32\] = do
+    (a, b) = t
+    vs = array[\Any\](2)
+    vs[0] := a; vs[1] := b
+    aplJoin(vs)
+  end
+aplFlatten(t: (Any, Any, Any)): Array[\RR64,ZZ32\] = do
+    (a, b, c) = t
+    vs = array[\Any\](3)
+    vs[0] := a; vs[1] := b; vs[2] := c
+    aplJoin(vs)
+  end
+aplFlatten(t: (Any, Any, Any, Any, Any, Any, Any, Any, Any)): Array[\RR64,ZZ32\] = do
+    (a, b, c, d, e, f, g, h, i) = t
+    vs = array[\Any\](9)
+    vs[0] := a; vs[1] := b; vs[2] := c; vs[3] := d; vs[4] := e
+    vs[5] := f; vs[6] := g; vs[7] := h; vs[8] := i
+    aplJoin(vs)
   end
 
 (* ---------------------------------------------- ⍨ as a function VALUE ----- *)

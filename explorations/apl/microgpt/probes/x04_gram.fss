@@ -1,0 +1,80 @@
+(* x04 -- the microgpt rung's GRAMMAR, against the extended ../base/AplSyntax.fsi:
+   one line per new production, in the order the rules stand in.
+
+   (b) addition 4: a NAME as the shape of a reshape, `N⍴⍳Blk` (L13).
+   (c) additions 1 and 2: `¨` over ⍳9 with a function whose cells are matrices
+       of unequal shape, destructured into NINE names (L14).
+   (d) addition 3: `⊃,/,¨` over a nine-name strand (L28), checked against a
+       hand-built flat vector, and at arity three and two.
+   (e) addition 5: `A(sm_b⍤1)dH` with two rank-3 arguments (L23), checked
+       against the per-row values.
+
+   The three name sets are asked here too: the program's own spellings are read
+   as free host names (N Blk A), through the binding's Id gap (the nine weight
+   names, the nine gradient names), and as function names (vw, sm_b). *)
+component x04_gram
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+(N, Blk) = (6.0, 4.0)
+
+(* the nine weight views: nine matrices of nine different shapes *)
+shapeOfI(i: ZZ32): (ZZ32, ZZ32) = (i + 1, 9 - i)
+viewI(i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (r, c) = shapeOfI(i)
+    aplMat(r, c, fn (a: ZZ32, b: ZZ32): RR64 => ((100.0 (1.0 i)) + ((1.0 a) 10.0)) + (1.0 b))
+  end
+vw = fn (): Any => viewI(aplInt(aplOmega()))
+
+(* the program's own sm_b, L8, written as the program writes it *)
+sm_b = apl⦇ {⍺×⍵-+/⍺×⍵} ⦈
+
+p(tag: String, s: String): () = println(("  " tag " = " s))
+
+run(): () = do
+    println("(b) a NAME as the shape of a reshape")
+    p("N⍴⍳Blk", aplShow(apl⦇ N⍴⍳Blk ⦈))
+    p("Blk⍴1 2", aplShow(apl⦇ Blk⍴1 2 ⦈))
+    p("3⍴⍳Blk   (the numeral rule still fires)", aplShow(apl⦇ 3⍴⍳Blk ⦈))
+    p("2 3⍴⍳6   (the two-numeral rule still fires)", aplShow(apl⦇ 2 3⍴⍳6 ⦈))
+    println("(c) ¨ over ⍳9 with unequal cells, destructured into nine names")
+    p("⍴wte, ⍴lm, ⍴f2",
+      aplShow(apl⦇ wte wpe lm wq wk wv wo f1 f2←vw¨⍳9 ⋄ (⍴wte),(⍴lm),⍴f2 ⦈))
+    p("first element of each",
+      aplShow(apl⦇ wte wpe lm wq wk wv wo f1 f2←vw¨⍳9 ⋄ (⊃wte),(⊃wpe),(⊃lm),(⊃wq),(⊃wk),(⊃wv),(⊃wo),(⊃f1),⊃f2 ⦈))
+    p("the strand each of rung 5 is unchanged: ⍴¨ over Q K Vv",
+      aplShowT(apl⦇ Q←2 3⍴⍳6 ⋄ K←3 2⍴⍳6 ⋄ Vv←1 4⍴⍳4 ⋄ ⍴¨Q K Vv ⦈))
+    println("(d) ⊃,/,¨ over a strand")
+    p("⊃,/,¨ over nine",
+      aplShow(apl⦇ gWTE←2 3⍴⍳6 ⋄ gWPE←1 2⍴9 8 ⋄ gLM←⍳3 ⋄ gWQ←2 2⍴1 ⋄ gWK←⍳2 ⋄ gWV←1 1⍴7 ⋄ gWO←⍳1 ⋄ gF1←2 1⍴5 6 ⋄ gF2←⍳4 ⋄ ⊃,/,¨gWTE gWPE gLM gWQ gWK gWV gWO gF1 gF2 ⦈))
+    (* the same nine, ravelled and catenated one pair at a time in host code *)
+    h1 = aplRavel(apl⦇ 2 3⍴⍳6 ⦈)
+    h2 = aplRavel(apl⦇ 1 2⍴9 8 ⦈)
+    h3 = apl⦇ ⍳3 ⦈
+    h4 = aplRavel(apl⦇ 2 2⍴1 ⦈)
+    h5 = apl⦇ ⍳2 ⦈
+    h6 = aplRavel(apl⦇ 1 1⍴7 ⦈)
+    h7 = apl⦇ ⍳1 ⦈
+    h8 = aplRavel(apl⦇ 2 1⍴5 6 ⦈)
+    h9 = apl⦇ ⍳4 ⦈
+    hand = aplCat(h1, aplCat(h2, aplCat(h3, aplCat(h4, aplCat(h5, aplCat(h6, aplCat(h7, aplCat(h8, h9))))))))
+    p("the same, hand-built", aplShow(hand))
+    p("⊃,/,¨ over three",
+      aplShow(apl⦇ gWQ←2 3⍴⍳6 ⋄ gWK←1 2⍴9 8 ⋄ gWV←⍳3 ⋄ ⊃,/,¨gWQ gWK gWV ⦈))
+    p("⊃,/,¨ over two",
+      aplShow(apl⦇ gWQ←2 3⍴⍳6 ⋄ gWK←1 2⍴9 8 ⋄ ⊃,/,¨gWQ gWK ⦈))
+    p("⊃ and , alone still read as themselves: ⊃,2 3⍴⍳6", aplShow(apl⦇ ⊃,2 3⍴⍳6 ⦈))
+    println("(e) dyadic ⍤1 over two rank-3 arrays")
+    p("⍴(A(sm_b⍤1)dH)", aplShow(apl⦇ A←2 3 4⍴⍳24 ⋄ dH←1+2 3 4⍴⍳24 ⋄ ⍴A(sm_b⍤1)dH ⦈))
+    p("A(sm_b⍤1)dH", aplShow(apl⦇ A←2 3 4⍴⍳24 ⋄ dH←1+2 3 4⍴⍳24 ⋄ A(sm_b⍤1)dH ⦈))
+    p("row 0 of plane 0 by hand: 0 1 2 3 sm_b 1 2 3 4",
+      aplShow(apl⦇ 0 1 2 3(sm_b⍤1)1 2 3 4 ⦈))
+    p("row 1 of plane 1 by hand: 16 17 18 19 sm_b 17 18 19 20",
+      aplShow(apl⦇ 16 17 18 19(sm_b⍤1)17 18 19 20 ⦈))
+    p("the (M,M) member is unchanged: X2(sm_b⍤1)X3 over two 2x4 matrices",
+      aplShow(apl⦇ X2←2 4⍴⍳8 ⋄ X3←1+2 4⍴⍳8 ⋄ X2(sm_b⍤1)X3 ⦈))
+    p("and with a parenthesised left argument, as gap row 61 asks",
+      aplShow(apl⦇ (2 4⍴⍳8)(sm_b⍤1)1+2 4⍴⍳8 ⦈))
+  end
+end

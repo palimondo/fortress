@@ -1,0 +1,76 @@
+(* x03 -- the three LIBRARY additions of the microgpt rung, called directly,
+   before any grammar rule reaches them.  Rung 6's w02 asked its library the
+   same way and for the same reason: a library-only probe imports no grammar,
+   so it costs one run and no parser regeneration.
+
+   (c) aplEach over a VECTOR whose cells are matrices of unequal shape: the
+       cells cannot be assembled into an array of the next rank up, so they
+       become a TUPLE (aplTup), which is rung 5's "a strand of arrays is a
+       tuple" applied to a computed strand.  Asked at arity 9, 3 and 2, and
+       with scalar cells to show that rungs 1-6's ¨ is unchanged.
+   (d) aplFlatten over a tuple of arity 9, 3 and 2: ravel each, catenate all.
+       Checked against a hand-built flat vector.
+   (e) aplRankD1 over two rank-3 arrays: row i of plane k against row i of
+       plane k.  Checked against the per-row values.
+
+   Gap row 82: on a cold cache the first component that imports AplCore
+   directly can fail a spurious overload-conflict check; run it twice. *)
+component x03_lib
+import AplCore.{...}
+export Executable
+
+p(tag: String, s: String): () = println(("  " tag " = " s))
+sh(x: Any): String = aplShow(aplShapeOf(x))
+fe(x: Any): String = aplShow(⊃ x)
+
+(* nine matrices of nine different shapes, indexed as the program's views are *)
+shapeOfI(i: ZZ32): (ZZ32, ZZ32) = (i + 1, 9 - i)
+viewI(i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (r, c) = shapeOfI(i)
+    aplMat(r, c, fn (a: ZZ32, b: ZZ32): RR64 => ((100.0 (1.0 i)) + ((1.0 a) 10.0)) + (1.0 b))
+  end
+
+run(): () = do
+    println("(c) aplEach over a vector with cells of unequal shape")
+    vw = fn (): Any => viewI(aplInt(aplOmega()))
+    t9 = aplEach(vw, aplIota(9.0))
+    p("nine shapes, through a lambda of nine parameters",
+      (fn (q0, q1, q2, q3, q4, q5, q6, q7, q8) =>
+          ((((((((sh(q0) " ") sh(q1) " ") sh(q2) " ") sh(q3) " ") sh(q4) " ") sh(q5) " ") sh(q6) " ") sh(q7) " ") sh(q8))(t9))
+    p("nine first elements (100i is the cell's own tag)",
+      (fn (q0, q1, q2, q3, q4, q5, q6, q7, q8) =>
+          ((((((((fe(q0) " ") fe(q1) " ") fe(q2) " ") fe(q3) " ") fe(q4) " ") fe(q5) " ") fe(q6) " ") fe(q7) " ") fe(q8))(t9))
+    t3 = aplEach(vw, aplIota(3.0))
+    p("arity 3, shapes", (fn (q0, q1, q2) => ((sh(q0) " ") sh(q1) " ") sh(q2))(t3))
+    t2 = aplEach(vw, aplIota(2.0))
+    p("arity 2, shapes", (fn (q0, q1) => (sh(q0) " ") sh(q1))(t2))
+    sq = fn (): Any => aplOmega() × aplOmega()
+    p("scalar cells still assemble: sq¨⍳5", aplShow(aplEach(sq, aplIota(5.0))))
+    iot = fn (): Any => aplIota(aplOmega())
+    nest = try aplShow(aplEach(iot, 1.0 + aplIota(3.0))) catch e CallerViolation => "CallerViolation" end
+    p("a VECTOR cell result is still APL's nested array ({⍳⍵}¨1 2 3, rung 5's Y20)", nest)
+    println("(d) aplFlatten over a strand")
+    m0 = aplMat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => ((1.0 i) 3.0) + (1.0 j))
+    m1 = aplMat(1, 2, fn (i: ZZ32, j: ZZ32): RR64 => 10.0 + (1.0 j))
+    m2 = aplIota(3.0)
+    p("aplFlatten(m0, m1)", aplShow(aplFlatten((m0, m1))))
+    p("aplFlatten(m0, m1, m2)", aplShow(aplFlatten((m0, m1, m2))))
+    p("hand-built", aplShow(aplCat(aplRavel(m0), aplCat(aplRavel(m1), aplRavel(m2)))))
+    f9 = aplFlatten((viewI(0), viewI(1), viewI(2), viewI(3), viewI(4), viewI(5), viewI(6), viewI(7), viewI(8)))
+    p("aplFlatten over the nine views: length", aplShow(1.0 |f9|))
+    p("hand-computed length", aplShow(SUM[ k <- seq(0 # 9) ] do (r, c) = shapeOfI(k); 1.0 (r c) end))
+    p("its first 12 elements", aplShow(aplVec(12, fn (i: ZZ32): RR64 => f9[i])))
+    p("its last element", aplShow(f9[|f9| - 1]))
+    println("(e) aplRankD1 over two rank-3 arrays")
+    x = aplReshape3(2.0, 3.0, 4.0, aplIota(24.0))
+    y = aplReshape3(2.0, 3.0, 4.0, aplIota(24.0))
+    add = fn (): Any => aplAlpha() + aplOmega()
+    r1 = aplRankD1(add, x, y)
+    p("⍴(x(+⍤1)y)", aplShow(aplShapeOf(r1)))
+    p("x(+⍤1)y", aplShow(r1))
+    p("2×x, for comparison", aplShow(2.0 × x))
+    sumr = fn (): Any => aplSumLast(aplAlpha()) + aplSumLast(aplOmega())
+    r2 = aplRankD1(sumr, x, y)
+    p("x({(+/⍺)+(+/⍵)}⍤1)y  -- a lower-rank cell result", aplShow(r2))
+  end
+end

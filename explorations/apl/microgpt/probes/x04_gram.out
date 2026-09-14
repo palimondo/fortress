@@ -1,0 +1,40 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7128378877748822911rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7128378877748822911rats/com/sun/fortress/parser/templateparser/TemplateParser456.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(b) a NAME as the shape of a reshape
+  N⍴⍳Blk = 0 1 2 3 0 1
+  Blk⍴1 2 = 1 2 1 2
+  3⍴⍳Blk   (the numeral rule still fires) = 0 1 2
+  2 3⍴⍳6   (the two-numeral rule still fires) = 0 1 2
+3 4 5
+(c) ¨ over ⍳9 with unequal cells, destructured into nine names
+  ⍴wte, ⍴lm, ⍴f2 = 1 9 3 7 9 1
+  first element of each = 0 100 200 300 400 500 600 700 800
+  the strand each of rung 5 is unchanged: ⍴¨ over Q K Vv = 2 3
+
+3 2
+
+1 4
+(d) ⊃,/,¨ over a strand
+  ⊃,/,¨ over nine = 0 1 2 3 4 5 9 8 0 1 2 1 1 1 1 0 1 7 0 5 6 0 1 2 3
+  the same, hand-built = 0 1 2 3 4 5 9 8 0 1 2 1 1 1 1 0 1 7 0 5 6 0 1 2 3
+  ⊃,/,¨ over three = 0 1 2 3 4 5 9 8 0 1 2
+  ⊃,/,¨ over two = 0 1 2 3 4 5 9 8
+  ⊃ and , alone still read as themselves: ⊃,2 3⍴⍳6 = 0
+(e) dyadic ⍤1 over two rank-3 arrays
+  ⍴(A(sm_b⍤1)dH) = 2 3 4
+  A(sm_b⍤1)dH =     0   ¯18   ¯34   ¯48
+ ¯572  ¯710  ¯846  ¯980
+¯3160 ¯3546 ¯3930 ¯4312
+
+ ¯9300 ¯10062 ¯10822 ¯11580
+¯20528 ¯21794 ¯23058 ¯24320
+¯38380 ¯40278 ¯42174 ¯44068
+  row 0 of plane 0 by hand: 0 1 2 3 sm_b 1 2 3 4 = 0 ¯18 ¯34 ¯48
+  row 1 of plane 1 by hand: 16 17 18 19 sm_b 17 18 19 20 = ¯20528 ¯21794 ¯23058 ¯24320
+  the (M,M) member is unchanged: X2(sm_b⍤1)X3 over two 2x4 matrices =    0  ¯18  ¯34  ¯48
+¯572 ¯710 ¯846 ¯980
+  and with a parenthesised left argument, as gap row 61 asks =    0  ¯18  ¯34  ¯48
+¯572 ¯710 ¯846 ¯980
