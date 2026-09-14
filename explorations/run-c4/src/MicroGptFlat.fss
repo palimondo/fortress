@@ -1,0 +1,98 @@
+(* MicroGptFlat -- microGPT in native Fortress arrays, data designed after Hsu
+   (Run C4, the synthesis of rounds two and three: explorations/run-c4/design.md).
+   The model only: hyperparameters, the layout table, the four vector
+   functions, the step, Adam and the training loop, line for line against
+   explorations/apl/reference/hsu-flat/microgpt_concise.dyalog and the formulas
+   (the tour: explorations/run-c4/tour.md).  The array vocabulary is FlatArrays,
+   the loaders and the corpus FlatData.  Run from explorations/run-c4/src: the
+   paths are relative. *)
+component MicroGptFlat
+export MicroGptFlat
+export Executable
+import FlatArrays.{...}
+import FlatData.{...}
+import System.{...}
+
+(* --------------------------------------------------- hyperparameters ---- *)
+(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)
+(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)
+(corpusPath, weightsDir) = ("../../apl/reference/dzaima/docs.txt", "../../apl/reference/dzaima/w")
+
+(* ^T on a matrix and on every plane of a rank-3 array, declared here and not
+   in the vocabulary because an API cannot declare a postfix operator (row 133) *)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = transpose(m)
+opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\] = transpose(t)
+
+(* -------------------------------------- rmsn, sm and their backward ------ *)
+rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)
+sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
+mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 => if j > i then -(10.0^10) else 0.0 end)
+rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+    r = SQRT (epsilon + (x DOT x) / |x|); y = x / r
+    (dy - y ((y DOT dy) / |y|)) / r
+  end
+sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
+
+(* ------------------------------- tactic 2/8: one vector, nine views ------ *)
+matName(i: ZZ32): String =
+    if i = 0 then "wte" elif i = 1 then "wpe" elif i = 2 then "lm_head" elif i = 3 then "attn_wq" elif i = 4 then "attn_wk"
+    elif i = 5 then "attn_wv" elif i = 6 then "attn_wo" elif i = 7 then "mlp_fc1" else "mlp_fc2" end
+matShape(i: ZZ32): (ZZ32, ZZ32) =
+    if (i = 0) OR (i = 2) then (vocabSize, nEmbd) elif i = 7 then (4 nEmbd, nEmbd) elif i = 8 then (nEmbd, 4 nEmbd) else (nEmbd, nEmbd) end
+matCount(i: ZZ32): ZZ32 = do (r, c) = matShape(i); r c end
+matOffset(i: ZZ32): ZZ32 = SUM[j <- 0#i] matCount(j)
+nParams(): ZZ32 = matOffset(9)
+view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end
+
+(* -------------------- tactic 3/5: the corpus as one padded integer matrix - *)
+corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)
+
+(* ------------------------- the step: keys -> (loss, flat gradient). Pure. -- *)
+step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
+    ids = corpus.tokens(b, 0); tg = corpus.tokens(b, 1); vm = corpus.valid(b); nv = SUM vm; pos = corpus.positions(b)
+    (wte, wpe, lm, wq, wk, wv, wo, f1, f2) = (view(p, 0), view(p, 1), view(p, 2), view(p, 3), view(p, 4), view(p, 5), view(p, 6), view(p, 7), view(p, 8))
+    h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)
+    u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)
+    (* -- forward, all (doc, pos) rows at once -- *)
+    x = gather(wte, ids) + gather(wpe, pos); xp = rows(rmsn, x); x1 = rows(rmsn, xp)
+    (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T); (qh, kh, vh) = (h(q), h(k), h(v))
+    a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim)); hc = u(a vh)
+    x2 = xp + hc wo^T; x3 = rows(rmsn, x2); m0 = x3 f1^T; mr = 0.0 MAX m0; x4 = x2 + mr f2^T
+    pr = rows(sm, x4 lm^T); loss = -(vm DOT log(pick(pr, tg))) / nv
+    (* -- backward, one line under each forward line, bottom-up -- *)
+    dL = diag(vm / nv) (pr - onehot(tg, vocabSize)); gLM = dL^T x4; dX4 = dL lm
+    gF2 = dX4^T mr; dM0 = (dX4 f2) × (m0 > 0.0); gF1 = dM0^T x3; dX3 = dM0 f1
+    dX2 = dX4 + rows(rmsn_b, dX3, x2); gWO = dX2^T hc; dh = h(dX2 wo)
+    dVh = a^T dh; dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)
+    dQh = dS kh; dKh = dS^T qh; (dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))
+    (gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1); dX1 = dQ wq + dK wk + dV wv
+    dXp = dX2 + rows(rmsn_b, dX1, xp); dX = rows(rmsn_b, dXp, x)
+    gWTE = transpose(onehot(ids, vocabSize)) dX; gWPE = transpose(onehot(pos, blockSize)) dX
+    (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))
+  end
+
+(* --------------------- Adam: three whole-vector expressions over p, m, v -- *)
+adam(p: Array[\RR64,ZZ32\], m: Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\], g: Array[\RR64,ZZ32\], t: ZZ32, lr: RR64):
+    (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) = do
+    m' = beta1 m + (1 - beta1) g
+    v' = beta2 v + (1 - beta2) (g × g)
+    p' = p - (lr (m' / (1 - beta1^t))) / (SQRT (v' / (1 - beta2^t)) + epsilon_A)
+    (p', m', v')
+  end
+learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)
+
+(* --------------------------------------------------- training ----------- *)
+run(): () = do
+    println "microgpt flat | params " nParams() " | corpus " corpus.size() " x " (blockSize + 1) " | batch 1, 5 steps"
+    bsz = 1
+    p: Array[\RR64,ZZ32\] := loadParams(weightsDir, matName, 9, nParams())
+    m: Array[\RR64,ZZ32\] := zeros(nParams())
+    v: Array[\RR64,ZZ32\] := zeros(nParams())
+    for s <- seq(0#5) do
+        t0 = nanoTime()
+        (l, g) = step(p, keys(bsz, fn (i: ZZ32): ZZ32 => (s bsz + i) MOD corpus.size()))
+        (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))
+        println "step " (s + 1) " loss " l "  (" ((nanoTime() - t0) DIV 1000000) " ms)"
+    end
+  end
+end
