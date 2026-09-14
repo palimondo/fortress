@@ -1,0 +1,37 @@
+microgpt apl | params 4192 | corpus 2000 x 17 | batch 1, 5 steps
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:19:20-29:
+Access to uninitialized element 1 of array PrimitiveArray[\Any,1024\]
+Context:
+/home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:19:20-29:
+/home/user/fortress/explorations/apl/base/AplCore.fss:1167:19-29:
+/home/user/fortress/explorations/apl/base/AplCore.fss:1182:19-33:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-9:
+/home/user/fortress/explorations/apl/base/AplCore.fss:1176:9-10:
+/home/user/fortress/explorations/apl/base/AplCore.fss:1178:33-56:
+/home/user/fortress/explorations/apl/base/AplCore.fss:1820:6-18:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-140:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-333:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:1-99:
+/home/user/fortress/explorations/apl/microgpt/MicroGptApl.fss:114:18-87:
+/home/user/fortress/Library/RangeInternals.fss:1080:13-1081:12:
+/home/user/fortress/explorations/apl/microgpt/MicroGptApl.fss:112:9-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

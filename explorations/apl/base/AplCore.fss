@@ -1815,9 +1815,26 @@ aplEach[\nat r, nat c, nat p, nat q\](f: Any, a: Matrix[\RR64,r,c\], b: Matrix[\
 (* ------------------------------------------ ¨ over a strand of arrays ----- *)
 (* The grammar counts the names, as it counts the numerals of a reshape, so
    these take the elements one by one and hand back a tuple. *)
-aplEachT2(f: Any, a: Any, b: Any): (Any, Any) = (aplCall1(f, a), aplCall1(f, b))
-aplEachT3(f: Any, a: Any, b: Any, c: Any): (Any, Any, Any) =
-    (aplCall1(f, a), aplCall1(f, b), aplCall1(f, c))
+(* microgpt rung: the calls are SEQUENCED in a block, not written as the tuple
+   they return.  The elements of a tuple expression are evaluated in parallel
+   in separate implicit threads (Specification/basic/expressions/tuple-expr.tex:23),
+   and three APL calls in parallel share the one frame stack above: at
+   FORTRESS_THREADS=4 the pushes interleave and a frame is read before it is
+   written (microgpt/checks/model_run_threads4.out.0, "Access to uninitialized
+   element 1 of array PrimitiveArray[\Any,1024\]"; threads4_crash.txt, "Index -1
+   out of bounds").  A block's statements are sequential, so the tuple is built
+   after its three calls have returned. *)
+aplEachT2(f: Any, a: Any, b: Any): (Any, Any) = do
+    ra = aplCall1(f, a)
+    rb = aplCall1(f, b)
+    (ra, rb)
+  end
+aplEachT3(f: Any, a: Any, b: Any, c: Any): (Any, Any, Any) = do
+    ra = aplCall1(f, a)
+    rb = aplCall1(f, b)
+    rc = aplCall1(f, c)
+    (ra, rb, rc)
+  end
 aplShowT(t: (Any, Any)): String = do (a, b) = t; ((aplShow(a) // "") // aplShow(b)) end
 aplShowT(t: (Any, Any, Any)): String = do
     (a, b, c) = t
