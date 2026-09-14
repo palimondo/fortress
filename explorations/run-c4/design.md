@@ -44,18 +44,19 @@ The tour (`tour.md`, `tour.html`) sets every Dyalog line beside its formula and 
 
 ## The check
 
-`src/MicroGptFlatCheck.fss`, 40 checks against `explorations/run-c/goldens` at tolerances 1e-12 on losses and gradients and 1e-8 on finite differences: the loader against P0, the corpus against sixteen golden rows, five batch-1 Adam steps (losses, the step-0 gradient, the weights after Adam, the zero-gradient count), batch 4 (the loss, the four single-document losses, the token-weighted mean), and central finite differences at eleven golden indices for document 0 and for batch 4. Run at pool sizes 1 and 4 (`checks/threads1.txt`, `checks/threads4.txt`): @VERDICT@; the numeric values are @IDENTICAL@ between the two files.
+`src/MicroGptFlatCheck.fss`, 40 checks against `explorations/run-c/goldens` at tolerances 1e-12 on losses and gradients and 1e-8 on finite differences: the loader against P0, the corpus against sixteen golden rows, five batch-1 Adam steps (losses, the step-0 gradient, the weights after Adam, the zero-gradient count), batch 4 (the loss, the four single-document losses, the token-weighted mean), and central finite differences at eleven golden indices for document 0 and for batch 4. Run at pool sizes 1 and 4 (`checks/threads1.txt`, `checks/threads4.txt`): 40 PASS, 0 FAIL, exit 0 in both; 873 s and 396 s; the two outputs differ only in the header's pool size and the timing fields (`diff` after stripping the `( … ms)` fields and the `total` line).
 
 ## Cost
 
-| | C2 | C3 | C4 |
-|---|---|---|---|
-| check, pool size 1 | 610 s | 420 s | @T1@ s |
-| check, pool size 4 | 247 s | 248 s | @T4@ s |
-| batch-1 step, pool size 1 | 5.4 s | 3.7 s | @STEP1@ s |
-| batch-4 step, pool size 1 | 19.0 s | 13.5 s | @B4@ s |
+| | C2, its own host | C2, this host (re-run by the review) | C3, this host | C4, this host |
+|---|---|---|---|---|
+| check, pool size 1 | 610 s | 941 s | 420 s | 873 s |
+| check, pool size 4 | 247 s | 377 s | 248 s | 396 s |
+| batch-1 step, pool size 1 | 5.4 s | 8.2 s | 3.7 s | 8.0 s |
+| batch-4 step, pool size 1 | 19.0 s | 29.3 s | 13.5 s | 28.2 s |
+| batch-1 step, pool size 4 | 2.0 s | 3.1 s | 1.6 s | 2.9 s |
 
-@COSTNOTE@
+C4 costs what C2 costs: on this host C2's re-run (`reviews/run-c2-review-probes/recheck_threads1.txt`, taken under the review's own probe load) and C4 agree to within 8 % on every figure, and the pieces C4 took from C3 (the corpus object, `x DOT x`, `SUM e`) are outside the hot path. C2's own 610 s came from the blinded session's host, which the Phase 1 review put at about 1.5× this one. That also corrects a figure in Phase 2: its "1.45×" for the rank-3 attention set C2's own-host 610 s against C3's this-host 420 s. On one host the rank-3 form costs 2.1× C3's cell lift (8.0 s against 3.7 s per batch-1 step, 873 s against 420 s), the price of the target form for the APL round, paid knowingly. The pool-size-4 figures were taken while nothing else ran; the pool-size-1 run overlapped with the tour work (screenshots and a page rebuild), so its 873 s is an upper bound.
 
 ## What C4 settles for the APL round
 
@@ -63,4 +64,4 @@ The flat-style program `explorations/apl/reference/hsu-flat/microgpt_concise.dya
 
 ## Process
 
-Written in the coordinating thread from the two sources in one pass; the merged model compiled and ran on the first attempt (five steps, the losses equal to the oracle's to fifteen digits). Two Opus workers: one ran the check at both pool sizes, sequentially; the other rendered the tour and verified the HTML (the glyph-id check and a by-eye pass over a screenshot). No probes were needed: every mechanism in C4 was already proven in C2 or C3. New gap rows: none.
+Written in the coordinating thread from the two sources in one pass; the merged model compiled and ran on the first attempt (five steps, the losses equal to the oracle's to fifteen digits). Two Opus workers were sent out: one rendered the tour and verified the HTML (the glyph-id check and a by-eye pass over a screenshot); the other was to run the check at both pool sizes, but its run died when the worker stopped to wait on it, six checks from the end, so the coordinating thread ran both checks itself, sequentially, under a monitor that outlives the shell's ten-minute limit. A third worker later gave C2's tour page C4's page section, after Pavol asked for it. No probes were needed: every mechanism in C4 was already proven in C2 or C3. New gap rows: none.

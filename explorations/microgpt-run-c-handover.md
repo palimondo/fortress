@@ -17,7 +17,7 @@
 
 ## Decision taken with Pavol on 2026-09-14: C4, the synthesis, is the APL target
 
-DONE the same day: `explorations/run-c4/` (model 71 code lines, step 20, vocabulary 141, data C3's, check 40 of 40 at both pool sizes: @T1@ s and @T4@ s, identical values; `design.md` with the merge table, the line budget, the cost and the Dyalog map; `tour.md`/`tour.html` 28 rows by C2's generator with the glyph-id fault fixed, in C3's layout, theme-aware, published at https://claude.ai/artifact/FyUD5p9Tzd91rD9ixb8iTm; C3's tour page was made theme-aware the same way and republished at its link; `README.md`); the Phase 2 note has an addendum naming C4 as the target; no new gap rows. What follows is the decision as taken.
+DONE the same day: `explorations/run-c4/` (model 71 code lines, step 20, vocabulary 141, data C3's, check 40 of 40 at both pool sizes: 873 s and 396 s on this host, identical values, C2's cost, 2.1× C3's, see the design note's cost section; `design.md` with the merge table, the line budget, the cost and the Dyalog map; `tour.md`/`tour.html` 28 rows by C2's generator with the glyph-id fault fixed, in C3's layout, theme-aware, published at https://claude.ai/artifact/FyUD5p9Tzd91rD9ixb8iTm; C3's tour page was made theme-aware the same way and republished at its link; `README.md`); the Phase 2 note has an addendum naming C4 as the target; no new gap rows. What follows is the decision as taken.
 
 Before the APL round, write C4 in this thread: a merge of the two working programs, not a new design, under the same check (`run-c3/src/MicroGptFlatCheck.fss` or C2's 40-check version, same goldens in `run-c/goldens`), about an hour with one or two workers for the check runs and the render. Its content is section H of the Phase 2 note:
 
