@@ -14,7 +14,7 @@ Nine things the chapter prints are not examples and are not numbered: four Pytho
 
 Where GNU APL 2.0 printed something different, a second fenced block marked `apl-oracle` follows the book's, preceded by a one-line note on the difference. This chapter ran under `]BOXING 7`; the invocation, the translation of Dyalog's `]box`, `]rows`, `]display` and `]dinput` user commands, which GNU APL does not have, and what GNU APL does and does not support of this chapter's iteration operators, are in `ORACLE.md`.
 
-Seven of this chapter's examples are benchmarks (Ex 31 to Ex 37). They depend on Dyalog's `cmpx`, on a data file the book does not ship, and on timings of one machine, so their printed output carries no reproducible value; they are recorded here for completeness only.
+Seven examples, Ex 31 to Ex 37, belong to the chapter's performance section. They depend on Dyalog's `cmpx`, on a data file the book does not ship, and on the timings of one machine, so their printed output carries no reproducible value; they are recorded here for completeness only.
 
 ## Ex 1 — needs: characters; ⎕ system name; ] user command; glyphs outside the set: ⋄
 
@@ -219,7 +219,7 @@ Power, `⍣`, with a function right operand is a while-loop: apply `2÷⍨` unti
 0
 ```
 
-## Ex 16 — needs: power ⍣ with a dfn right operand; glyphs outside the set: ⍞ ? =
+## Ex 16 — needs: power ⍣ with dfn operands; glyphs outside the set: ⍞ ? =
 
 The stopping condition can be any dfn: `⍺` is the new result, `⍵` the previous one. `⍞←` prints without a newline, so the whole sequence of rolls appears on one line before the final 6. Random: one run only.
 
