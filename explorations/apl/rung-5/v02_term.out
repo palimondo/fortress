@@ -1,0 +1,20 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress414890858786355133rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress414890858786355133rats/com/sun/fortress/parser/templateparser/TemplateParser46.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(0) rung 3's own commute, to show the copied grammar works
+  =⍨1 2 3 = 1 1 1
+(a) ¨ each, both valences
+  ×¨ 2 3 4   (monadic form, x x) = each1 4 9 16
+  2 ×¨ 3 4   (dyadic form) = each2 6 8
+(b) \ as a plain item
+  +\ 1 2 3 = backslash 6
+(c) ⍀ as a plain item
+  +⍀ 1 2 3 = slashbar 6
+(d) ⍣ with the count read off the source
+  ×⍣2⊢3 = power n=2 once=9
+(e) the dot of ∘.g as a plain item
+  2∘.×3 = outer 6
+(f) ⌷ as an alternative of a glyph table
+  ⌷⍤ 7 8 9 = squad-in-a-table 8
