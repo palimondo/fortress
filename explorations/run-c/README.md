@@ -27,7 +27,10 @@ Fortress, line for line against the Dyalog and the formulas.
   Dyalog, the formula, the Dyalog line, the Fortress line rendered by Fortify,
   and a note where they differ; `tour/mktour.py` (with `tour/render.sh`)
   rebuilds both files and the SVGs from the rows it holds, checking every
-  Fortress snippet verbatim against the source.
+  Fortress snippet verbatim against the source. The page it writes is C4's
+  (2026-09-14, after Phase 2): the inlined SVGs' glyph ids are unique per cell,
+  which the round's own page lacked and which garbled eight rows; round three's
+  layout; renders that take the viewer's light or dark theme.
 - `design.md`: round one's design notes and the "Round two" section — the
   survey of the shipped array algebra, the alternatives tried and rejected,
   the line budget, the subscript count, what the language gave and what had
