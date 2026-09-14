@@ -18,8 +18,8 @@ The map from this table to the ledger, rows in order: 1-35 → 179-213; **36 →
 recorded in that row's notes. Rows about the syntax-extension mechanism are in the
 ledger's new section 16; the rest are in the section their subject belongs to.
 This file is not edited from the ledger and keeps its own numbering. The microGPT
-rung's rows (86 on) were written after that merge and are **not** in the ledger yet;
-they follow in a second pass, continuing the ledger's numbering from 257.
+rung's rows 86-93, written after that merge, entered the ledger the same day as
+257-264 (86-90 in section 16, 91 and 92 in section 1, 93 in section 5).
 
 ## Rung 1 — "It's arrays all the way down"
 
