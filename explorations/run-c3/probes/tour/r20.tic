@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`pr = rows(sm, x4 (lm^T)); loss = -(vm DOT log(pick(pr, tg))) / nv`
+
+\end{preview}\end{document}

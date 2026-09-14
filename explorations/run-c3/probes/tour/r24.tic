@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`dV = heads(fn (ac, dc) => (ac^T) dc, att, dH)`
+
+`dS = heads(fn (ac, dc, vc) => rows(smB, ac, dc (vc^T)), att, dH, v) / SQRT (1.0 headDim)`
+
+\end{preview}\end{document}

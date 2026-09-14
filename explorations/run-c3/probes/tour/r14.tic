@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`xp = rows(rmsn, x); x1 = rows(rmsn, xp)`
+
+\end{preview}\end{document}

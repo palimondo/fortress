@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`dXp = dX2 + rows(rmsnB, dX1, xp); dX = rows(rmsnB, dXp, x)`
+
+\end{preview}\end{document}

@@ -1,0 +1,4 @@
+component ExitFail
+export Executable
+run(): () = do println "before"; fail("verdict FAIL"); println "after" end
+end

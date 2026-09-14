@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`dL = rows(fn (w, r) => w r, vm / nv, pr - onehot(tg, vocabSize)); gLM = (dL^T) x4; dX4 = dL lm`
+
+\end{preview}\end{document}

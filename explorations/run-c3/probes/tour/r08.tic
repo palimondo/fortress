@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`p: Array[\RR64,ZZ32\] := loadParams(weightsDir, matName, 9, nParams())`
+
+`m: Array[\RR64,ZZ32\] := zeros(nParams())`
+
+`v: Array[\RR64,ZZ32\] := zeros(nParams())`
+
+\end{preview}\end{document}

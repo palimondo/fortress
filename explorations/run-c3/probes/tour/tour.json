@@ -1,0 +1,335 @@
+{
+ "title": "Run C3: the guided tour",
+ "paras": [
+  "One row per line of `explorations/apl/reference/hsu-flat/microgpt_concise.dyalog`, in the order of the program, the helper dfns included. Each row gives the formula, the Dyalog line, the Fortress line or lines from `src/MicroGptFlat.fss` (or the vocabulary where the Dyalog line is a primitive that Fortress lacks), and a note where they differ. The Fortress lines are judged against the formula first and the Dyalog second; `tour.html` shows the same rows with the formula and the Fortress rendered by LaTeX and Fortify.",
+  "Conventions in the formulas: matrices have one row per (document, position) pair, N = B\u00b716 rows; `sm` and `rmsn` on a matrix act row by row; `\u2299` is the elementwise product; `[A_h]_h` places the per-head results side by side; `Y_k` is the one-hot matrix of a key vector `k`."
+ ],
+ "secs": [
+  {
+   "num": 1,
+   "name": "Hyperparameters",
+   "formula": "$n_e=16,\\ T=16,\\ n_h=4,\\ d=4,\\ V=27,\\ \\mathrm{bos}=26;\\ \\varepsilon=10^{-5},\\ \\eta_0=0.01,\\ \\beta_1=0.85,\\ \\beta_2=0.99,\\ \\varepsilon_A=10^{-8}$",
+   "dyalog": "\u2395IO\u21900 \u22c4 NE BLK NH HD VS BOS\u219016 16 4 4 27 26 \u22c4 EPS LR0 B1 B2 EPSA\u21901E\u00af5 0.01 0.85 0.99 1E\u00af8",
+   "fortress": [
+    "nEmbd: ZZ32 = 16",
+    "blockSize: ZZ32 = 16",
+    "epsRms: RR64 = 10.0^(-5)",
+    "beta1: RR64 = 0.85"
+   ],
+   "note": "one declaration per line, fourteen in all (the four above and ten more of the same shape); a strand assignment has no Fortress form, and the interpreter binds a top-level array literal as a tuple (ledger row 142)."
+  },
+  {
+   "num": 2,
+   "name": "RMS normalisation of a vector",
+   "formula": "$\\mathrm{rmsn}(x) = \\dfrac{x}{\\sqrt{\\varepsilon + \\|x\\|^2 / n}}$",
+   "dyalog": "rmsn\u2190{\u2375\u00f7(EPS+(+/\u2375*2)\u00f7\u2262\u2375)*0.5}",
+   "fortress": [
+    "rmsn(x: Array[\\RR64,ZZ32\\]): Array[\\RR64,ZZ32\\] = x / SQRT (epsRms + (x DOT x) / |x|)"
+   ],
+   "note": "`x DOT x` is the library's dot product, which is the formula's $\\|x\\|^2$; `|x|` is the length."
+  },
+  {
+   "num": 3,
+   "name": "Softmax of a vector",
+   "formula": "$\\mathrm{sm}(z)_i = \\dfrac{e^{z_i - \\max z}}{\\sum_j e^{z_j - \\max z}}$",
+   "dyalog": "sm\u2190{e\u00f7+/e\u2190*\u2375-\u2308/\u2375}",
+   "fortress": [
+    "sm(z: Array[\\RR64,ZZ32\\]): Array[\\RR64,ZZ32\\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end"
+   ],
+   "note": "`SUM e` is the library's reduction over an array; `BIG MAX` has no prefix form over an array (ledger row 102), so its generator is written."
+  },
+  {
+   "num": 4,
+   "name": "The causal mask",
+   "formula": "$M_{ij} = -10^{10}\\,[\\,j > i\\,]$",
+   "dyalog": "MK\u2190\u00af1E10\u00d7~(\u2373BLK)\u2218.\u2265\u2373BLK",
+   "fortress": [
+    "causalMask: Array[\\RR64,(ZZ32,ZZ32)\\] = mat(blockSize, blockSize, fn (i, j) => if j > i then -(10.0^10) else 0.0 end)"
+   ],
+   "note": "a fill by index instead of an outer product; the indicator is the `if`."
+  },
+  {
+   "num": 5,
+   "name": "Backward of the RMS normalisation",
+   "formula": "$r = \\sqrt{\\varepsilon + \\|x\\|^2/n},\\quad y = x/r,\\quad \\bar x = \\dfrac{\\bar y - y\\,\\langle y, \\bar y\\rangle / n}{r}$",
+   "dyalog": "rmsn_b\u2190{r\u2190(EPS+(+/\u2375*2)\u00f7\u2262\u2375)*0.5 \u22c4 y\u2190\u2375\u00f7r \u22c4 (\u237a-y\u00d7(+/y\u00d7\u237a)\u00f7\u2262y)\u00f7r}",
+   "fortress": [
+    "rmsnB(dy: Array[\\RR64,ZZ32\\], x: Array[\\RR64,ZZ32\\]): Array[\\RR64,ZZ32\\] = do",
+    "    r = SQRT (epsRms + (x DOT x) / |x|); y = x / r",
+    "    (dy - y ((y DOT dy) / |y|)) / r",
+    "  end"
+   ],
+   "note": "the Dyalog's three statements are three Fortress statements; `y ((y DOT dy) / |y|)` is the scalar multiple of the vector `y`."
+  },
+  {
+   "num": 6,
+   "name": "Backward of the softmax",
+   "formula": "$\\bar z = p \\odot (\\bar p - \\langle p, \\bar p\\rangle)$",
+   "dyalog": "sm_b\u2190{\u237a\u00d7\u2375-+/\u237a\u00d7\u2375}",
+   "fortress": [
+    "smB(p: Array[\\RR64,ZZ32\\], dy: Array[\\RR64,ZZ32\\]): Array[\\RR64,ZZ32\\] = p \u00d7 (dy - (p DOT dy))"
+   ],
+   "note": "`\u00d7` is the elementwise product declared in the vocabulary; `p DOT dy` is the library's."
+  },
+  {
+   "num": 7,
+   "name": "The layout: shapes, counts, offsets",
+   "formula": "$\\mathrm{SHP} = ((V,n_e),(T,n_e),(V,n_e),(n_e,n_e)^{\\times 4},(4n_e,n_e),(n_e,4n_e)),\\ \\mathrm{OFF}_i = \\sum_{j<i} r_j c_j$",
+   "dyalog": "SHP\u2190(VS NE)(BLK NE)(VS NE)(NE NE)(NE NE)(NE NE)(NE NE)((4\u00d7NE)NE)(NE(4\u00d7NE)) \u22c4 CNT\u2190\u00d7/\u00a8SHP \u22c4 OFF\u2190+\\0,\u00af1\u2193CNT",
+   "fortress": [
+    "matRows(i: ZZ32): ZZ32 = if (i = 0) OR (i = 2) then vocabSize elif i = 7 then 4 nEmbd else nEmbd end",
+    "matCols(i: ZZ32): ZZ32 = if i = 8 then 4 nEmbd else nEmbd end",
+    "matOffset(i: ZZ32): ZZ32 = SUM[j <- 0#i] matRows(j) matCols(j)",
+    "nParams(): ZZ32 = matOffset(9)"
+   ],
+   "note": "the shape table is two functions of the index instead of a nested vector (Hsu's lesson 1: the layout is visible code); the prefix sum is the `SUM` with a generator; `matName` (three lines) names the nine files."
+  },
+  {
+   "num": 8,
+   "name": "The flat parameter vector and the Adam state",
+   "formula": "$P \\in \\mathbb{R}^{4192},\\ M = V = 0$",
+   "dyalog": "P\u2190\u2283,/,\u00a8{(\u2375\u2283SHP)\u2374\u2395NREAD \u2375}\u00a8\u23739 \u22c4 M\u2190V\u2190P\u00d70",
+   "fortress": [
+    "p: Array[\\RR64,ZZ32\\] := loadParams(weightsDir, matName, 9, nParams())",
+    "m: Array[\\RR64,ZZ32\\] := zeros(nParams())",
+    "v: Array[\\RR64,ZZ32\\] := zeros(nParams())"
+   ],
+   "note": "the loader (`FlatData`) reads the nine files' lines straight into the vector in layout order; there is no reshape and no catenation because the vector is the only container."
+  },
+  {
+   "num": 9,
+   "name": "Matrix i as a view of P",
+   "formula": "$W_i = \\mathrm{reshape}(P[\\mathrm{OFF}_i .. \\mathrm{OFF}_i + r_i c_i), r_i, c_i)$",
+   "dyalog": "v\u2190{(\u2375\u2283SHP)\u2374P[(\u2375\u2283OFF)+\u2373\u2375\u2283CNT]}",
+   "fortress": [
+    "view(p: Array[\\RR64,ZZ32\\], i: ZZ32): Array[\\RR64,(ZZ32,ZZ32)\\] = view(p, matOffset(i), matRows(i), matCols(i))"
+   ],
+   "note": "the Dyalog reshapes a copy; the Fortress `view` (the vocabulary's `PView`, six lines) is a zero-copy `Matrix` over the vector, readable and writable (Hsu's tactic 8)."
+  },
+  {
+   "num": 10,
+   "name": "The corpus",
+   "formula": "$\\mathrm{TOKM}_{d} = (\\mathrm{bos}, c_1, \\dots, c_{\\ell_d}, \\mathrm{bos}, \\dots) \\in \\mathbb{Z}^{T+1},\\ \\mathrm{LEN}_d = 1 + \\ell_d$",
+   "dyalog": "TOKM\u2190\u2191{(BLK+1)\u2191BOS,(\u2395A\u2373\u2375),BOS}\u00a8docs \u22c4 LEN\u21901+\u2262\u00a8docs",
+   "fortress": [
+    "corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)"
+   ],
+   "note": "`loadCorpus` (`FlatData`, five lines) fills a (documents \u00d7 17) integer matrix with BOS and interns the characters; the `Corpus` object carries the matrix, the lengths and the key functions of row 11."
+  },
+  {
+   "num": 11,
+   "name": "The keys of a batch",
+   "formula": "$\\mathrm{ids} = \\mathrm{TOKM}[b, 0..T),\\ \\mathrm{tg} = \\mathrm{TOKM}[b, 1..T],\\ \\mathrm{vm}_{(d,t)} = [\\,t < \\mathrm{LEN}_{b_d}\\,],\\ n_v = \\sum \\mathrm{vm},\\ \\mathrm{pos}_{(d,t)} = t$",
+   "dyalog": "b\u2190\u2375 \u22c4 B\u2190\u2262b \u22c4 N\u2190B\u00d7BLK \u22c4 R\u2190TOKM[b;] \u22c4 ids\u2190,R[;\u2373BLK] \u22c4 tg\u2190,R[;1+\u2373BLK] \u22c4 vm\u2190,LEN[b]\u2218.>\u2373BLK \u22c4 nv\u2190+/vm \u22c4 pos\u2190N\u2374\u2373BLK",
+   "fortress": [
+    "ids = corpus.tokens(b, 0); tg = corpus.tokens(b, 1); vm = corpus.valid(b); nv = SUM vm; pos = corpus.positions(b)"
+   ],
+   "note": "the three key functions are the corpus object's (`FlatData`), one line each with the subscripts inside; the model line names the five keys as the formula does."
+  },
+  {
+   "num": 12,
+   "name": "The nine weight matrices",
+   "formula": "$W_{te}, W_{pe}, W_{lm}, W_q, W_k, W_v, W_o, F_1, F_2 = W_0 \\dots W_8$",
+   "dyalog": "wte wpe lm wq wk wv wo f1 f2\u2190v\u00a8\u23739",
+   "fortress": [
+    "(wte, wpe, lm, wq, wk, wv, wo, f1, f2) = views(p)"
+   ],
+   "note": "a nine-tuple binding; `views(p)` is the one-line tuple of the nine views."
+  },
+  {
+   "num": 13,
+   "name": "Embedding",
+   "formula": "$X = W_{te}[\\mathrm{ids}] + W_{pe}[\\mathrm{pos}]$",
+   "dyalog": "X\u2190wte[ids;]+wpe[pos;]",
+   "fortress": [
+    "x = gather(wte, ids) + gather(wpe, pos)"
+   ],
+   "note": "`gather` is the vocabulary's row selection by keys (Hsu's tactic 10); `+` is the library's."
+  },
+  {
+   "num": 14,
+   "name": "Two normalisations",
+   "formula": "$X_p = \\mathrm{rmsn}(X),\\quad X_1 = \\mathrm{rmsn}(X_p)$",
+   "dyalog": "Xp\u2190rmsn\u23641\u22a2X \u22c4 X1\u2190rmsn\u23641\u22a2Xp",
+   "fortress": [
+    "xp = rows(rmsn, x); x1 = rows(rmsn, xp)"
+   ],
+   "note": "`rows(f, m)` is the vocabulary's `\u23641`: `f` on every row, stacked; `rmsn` is the vector function of row 2, written once."
+  },
+  {
+   "num": 15,
+   "name": "Queries, keys, values",
+   "formula": "$Q = X_1 W_q^\\top,\\quad K = X_1 W_k^\\top,\\quad V = X_1 W_v^\\top$",
+   "dyalog": "Q K Vv\u2190X1\u2218(+.\u00d7\u2349)\u00a8wq wk wv",
+   "fortress": [
+    "q = x1 (wq^T); k = x1 (wk^T); v = x1 (wv^T)"
+   ],
+   "note": "juxtaposition is the library's matrix product; `^T` is `m.t()`, the library's transpose view."
+  },
+  {
+   "num": 16,
+   "name": "Splitting into heads",
+   "formula": "$Q_h = Q[\\,:, hd..(h+1)d\\,)$ per document, and likewise $K_h, V_h$",
+   "dyalog": "h\u2190{0 2 1 3\u2349(B,BLK,NH,HD)\u2374\u2375} \u22c4 Qh Kh Vh\u2190h\u00a8Q K Vv",
+   "fortress": [
+    "heads(f, a, b) = cells(f, a, b, blockSize, nHead)"
+   ],
+   "note": "no data moves. The Dyalog's rank-4 array with axes permuted is, in the flat layout, a matrix whose per-head cells are 16 \u00d7 4 blocks; `heads` (`cells` in the vocabulary, seven lines) applies a function to the (document, head) cells of its arguments and lays the results out the same way, so `Qh Kh Vh` never exist as values and the `u` of row 25 is the identity."
+  },
+  {
+   "num": 17,
+   "name": "Attention weights",
+   "formula": "$A_h = \\mathrm{sm}\\!\\left(\\dfrac{Q_h K_h^\\top}{\\sqrt d} + M\\right)$",
+   "dyalog": "A\u2190sm\u23641\u22a2MK+\u23642\u22a2(Qh+.\u00d7\u23642\u22a2\u2349\u23642\u22a2Kh)\u00f7HD*0.5",
+   "fortress": [
+    "att = heads(fn (qc, kc) => rows(sm, (qc (kc^T)) / SQRT (1.0 headDim) + causalMask), q, k)"
+   ],
+   "note": "the lambda is the per-head cell; `rows(sm, \u2026)` is the `sm\u23641`; the `/` on a matrix by a scalar is the vocabulary's. `att` holds the B\u00b74 cells side by side as an N \u00d7 64 matrix."
+  },
+  {
+   "num": 18,
+   "name": "Heads applied to values, concatenated",
+   "formula": "$H = [\\,A_h V_h\\,]_h$",
+   "dyalog": "Hc\u2190(N,NE)\u23740 2 1 3\u2349A+.\u00d7\u23642\u22a2Vh",
+   "fortress": [
+    "hc = heads(fn (ac, vc) => ac vc, att, v)"
+   ],
+   "note": "the reshape and permutation are the layout of `heads`'s result."
+  },
+  {
+   "num": 19,
+   "name": "Output projection, normalisation, the MLP",
+   "formula": "$X_2 = X_p + H W_o^\\top,\\ X_3 = \\mathrm{rmsn}(X_2),\\ M_0 = X_3 F_1^\\top,\\ M_r = \\max(0, M_0),\\ X_4 = X_2 + M_r F_2^\\top$",
+   "dyalog": "X2\u2190Xp+Hc+.\u00d7\u2349wo \u22c4 X3\u2190rmsn\u23641\u22a2X2 \u22c4 M0\u2190X3+.\u00d7\u2349f1 \u22c4 Mr\u21900\u2308M0 \u22c4 X4\u2190X2+Mr+.\u00d7\u2349f2",
+   "fortress": [
+    "x2 = xp + hc (wo^T); x3 = rows(rmsn, x2); m0 = x3 (f1^T); mr = 0.0 MAX m0; x4 = x2 + mr (f2^T)"
+   ],
+   "note": "`0.0 MAX m0` is the vocabulary's `MAX` between a scalar and a matrix."
+  },
+  {
+   "num": 20,
+   "name": "Probabilities and loss",
+   "formula": "$P = \\mathrm{sm}(X_4 W_{lm}^\\top),\\qquad L = -\\dfrac{\\langle \\mathrm{vm}, \\log P[\\cdot, \\mathrm{tg}]\\rangle}{n_v}$",
+   "dyalog": "Pr\u2190sm\u23641\u22a2X4+.\u00d7\u2349lm \u22c4 loss\u2190-(+/vm\u00d7\u235ftg\u2337\u23640 1\u22a2Pr)\u00f7nv",
+   "fortress": [
+    "pr = rows(sm, x4 (lm^T)); loss = -(vm DOT log(pick(pr, tg))) / nv"
+   ],
+   "note": "`pick(m, ks)` is the vocabulary's `\u2337\u23640 1`, one element per row at its key; `log` is elementwise on a vector; the masked sum is the dot product with `vm`."
+  },
+  {
+   "num": 21,
+   "name": "Backward: the loss and the output head",
+   "formula": "$\\bar L = \\mathrm{diag}(\\mathrm{vm}/n_v)\\,(P - Y_{\\mathrm{tg}}),\\quad \\bar W_{lm} = \\bar L^\\top X_4,\\quad \\bar X_4 = \\bar L\\, W_{lm}$",
+   "dyalog": "dL\u2190(vm\u00f7nv)\u00d7\u23640 1\u22a2Pr-tg\u2218.=\u2373VS \u22c4 gLM\u2190(\u2349dL)+.\u00d7X4 \u22c4 dX4\u2190dL+.\u00d7lm",
+   "fortress": [
+    "dL = rows(fn (w, r) => w r, vm / nv, pr - onehot(tg, vocabSize)); gLM = (dL^T) x4; dX4 = dL lm"
+   ],
+   "note": "the `\u00d7\u23640 1` is the rank-0-1 form of `rows`: each row scaled by its element of the vector, the lambda being the scalar product because an operator cannot be passed as a function value (gap row 160); `onehot` is the vocabulary's `\u2218.=\u2373`."
+  },
+  {
+   "num": 22,
+   "name": "Backward: the MLP",
+   "formula": "$\\bar F_2 = \\bar X_4^\\top M_r,\\quad \\bar M_0 = (\\bar X_4 F_2) \\odot [M_0 > 0],\\quad \\bar F_1 = \\bar M_0^\\top X_3,\\quad \\bar X_3 = \\bar M_0 F_1$",
+   "dyalog": "gF2\u2190(\u2349dX4)+.\u00d7Mr \u22c4 dM0\u2190(dX4+.\u00d7f2)\u00d7M0>0 \u22c4 gF1\u2190(\u2349dM0)+.\u00d7X3 \u22c4 dX3\u2190dM0+.\u00d7f1",
+   "fortress": [
+    "gF2 = (dX4^T) mr; dM0 = (dX4 f2) \u00d7 (m0 > 0.0); gF1 = (dM0^T) x3; dX3 = dM0 f1"
+   ],
+   "note": "`m0 > 0.0` is a 0/1 matrix and `\u00d7` the elementwise product, both from the vocabulary."
+  },
+  {
+   "num": 23,
+   "name": "Backward: the residual and the output projection",
+   "formula": "$\\bar X_2 = \\bar X_4 + \\mathrm{rmsn\\_b}(\\bar X_3, X_2),\\quad \\bar W_o = \\bar X_2^\\top H,\\quad \\bar H = \\bar X_2 W_o$",
+   "dyalog": "dX2\u2190dX4+dX3(rmsn_b\u23641)X2 \u22c4 gWO\u2190(\u2349dX2)+.\u00d7Hc \u22c4 dH\u2190h dX2+.\u00d7wo",
+   "fortress": [
+    "dX2 = dX4 + rows(rmsnB, dX3, x2); gWO = (dX2^T) hc; dH = dX2 wo"
+   ],
+   "note": "the dyadic `rows` is the `rmsn_b\u23641`; the Dyalog re-heads `dH` with `h`, the Fortress does not need to (row 16)."
+  },
+  {
+   "num": 24,
+   "name": "Backward: attention, values and scores",
+   "formula": "$\\bar V_h = A_h^\\top \\bar H_h,\\qquad \\bar S_h = \\dfrac{\\mathrm{sm\\_b}(A_h, \\bar H_h V_h^\\top)}{\\sqrt d}$",
+   "dyalog": "dVh\u2190(\u2349\u23642\u22a2A)+.\u00d7\u23642\u22a2dH \u22c4 dS\u2190(A(sm_b\u23641)dH+.\u00d7\u23642\u22a2\u2349\u23642\u22a2Vh)\u00f7HD*0.5",
+   "fortress": [
+    "dV = heads(fn (ac, dc) => (ac^T) dc, att, dH)",
+    "dS = heads(fn (ac, dc, vc) => rows(smB, ac, dc (vc^T)), att, dH, v) / SQRT (1.0 headDim)"
+   ],
+   "note": "the three-argument `heads` takes the cells of `att`, `dH` and `v` together; `dV` lands directly in the (N \u00d7 16) layout the Dyalog reaches with `u`."
+  },
+  {
+   "num": 25,
+   "name": "Backward: queries and keys, un-heading",
+   "formula": "$\\bar Q_h = \\bar S_h K_h,\\qquad \\bar K_h = \\bar S_h^\\top Q_h$",
+   "dyalog": "dQh\u2190dS+.\u00d7\u23642\u22a2Kh \u22c4 dKh\u2190(\u2349\u23642\u22a2dS)+.\u00d7\u23642\u22a2Qh \u22c4 u\u2190{(N,NE)\u23740 2 1 3\u2349\u2375} \u22c4 dQ dK dV\u2190u\u00a8dQh dKh dVh",
+   "fortress": [
+    "dQ = heads(fn (sc, kc) => sc kc, dS, k); dK = heads(fn (sc, qc) => (sc^T) qc, dS, q)"
+   ],
+   "note": "`u` has no Fortress line: the results of `heads` are already N \u00d7 16."
+  },
+  {
+   "num": 26,
+   "name": "Backward: the projections",
+   "formula": "$\\bar W_q = \\bar Q^\\top X_1,\\ \\bar W_k = \\bar K^\\top X_1,\\ \\bar W_v = \\bar V^\\top X_1,\\qquad \\bar X_1 = \\bar Q W_q + \\bar K W_k + \\bar V W_v$",
+   "dyalog": "gWQ gWK gWV\u2190{(\u2349\u2375)+.\u00d7X1}\u00a8dQ dK dV \u22c4 dX1\u2190(dQ+.\u00d7wq)+(dK+.\u00d7wk)+dV+.\u00d7wv",
+   "fortress": [
+    "gWQ = (dQ^T) x1; gWK = (dK^T) x1; gWV = (dV^T) x1; dX1 = dQ wq + dK wk + dV wv"
+   ],
+   "note": "the `\u00a8` over three names is three bindings."
+  },
+  {
+   "num": 27,
+   "name": "Backward: the two normalisations",
+   "formula": "$\\bar X_p = \\bar X_2 + \\mathrm{rmsn\\_b}(\\bar X_1, X_p),\\qquad \\bar X = \\mathrm{rmsn\\_b}(\\bar X_p, X)$",
+   "dyalog": "dXp\u2190dX2+dX1(rmsn_b\u23641)Xp \u22c4 dX\u2190dXp(rmsn_b\u23641)X",
+   "fortress": [
+    "dXp = dX2 + rows(rmsnB, dX1, xp); dX = rows(rmsnB, dXp, x)"
+   ],
+   "note": "none."
+  },
+  {
+   "num": 28,
+   "name": "Backward: the embeddings as scatter-adds",
+   "formula": "$\\bar W_{te} = Y_{\\mathrm{ids}}^\\top \\bar X,\\qquad \\bar W_{pe} = Y_{\\mathrm{pos}}^\\top \\bar X$",
+   "dyalog": "gWTE\u2190(\u2349ids\u2218.=\u2373VS)+.\u00d7dX \u22c4 gWPE\u2190(\u2349pos\u2218.=\u2373BLK)+.\u00d7dX",
+   "fortress": [
+    "yi = onehot(ids, vocabSize); yp = onehot(pos, blockSize); gWTE = (yi^T) dX; gWPE = (yp^T) dX"
+   ],
+   "note": "the one-hots are bound first because a call cannot be followed by a postfix operator, even in parentheses (ledger rows 4 and 144, sharpened in gap row 162)."
+  },
+  {
+   "num": 29,
+   "name": "The step's result",
+   "formula": "$(L,\\ \\bar P)$ with $\\bar P$ the nine gradients in the layout of $P$",
+   "dyalog": "loss(\u2283,/,\u00a8gWTE gWPE gLM gWQ gWK gWV gWO gF1 gF2)",
+   "fortress": [
+    "(loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))"
+   ],
+   "note": "`flat` (the layout section, five lines) writes each matrix through its view of a fresh vector; the Dyalog ravels and catenates copies."
+  },
+  {
+   "num": 30,
+   "name": "Adam",
+   "formula": "$m \\leftarrow \\beta_1 m + (1-\\beta_1) g,\\quad v \\leftarrow \\beta_2 v + (1-\\beta_2) g^{\\odot 2},\\quad P \\leftarrow P - \\eta\\,\\dfrac{m/(1-\\beta_1^t)}{\\sqrt{v/(1-\\beta_2^t)} + \\varepsilon_A}$",
+   "dyalog": "ADAM\u2190{(t lr g)\u2190\u2375 \u22c4 M\u2218\u2190(B1\u00d7M)+(1-B1)\u00d7g \u22c4 V\u2218\u2190(B2\u00d7V)+(1-B2)\u00d7g*2 \u22c4 P\u2218\u2190P-lr\u00d7(M\u00f71-B1*t)\u00f7EPSA+(V\u00f71-B2*t)*0.5}",
+   "fortress": [
+    "m' = beta1 m + (1 - beta1) g; v' = beta2 v + (1 - beta2) (g \u00d7 g)",
+    "(p - lr (m' / (1 - beta1^t)) / (SQRT (v' / (1 - beta2^t)) + epsAdam), m', v')"
+   ],
+   "note": "the state is returned, not assigned in place (Hsu's lesson 8); juxtaposition binds tighter than the loose `/`, so the third line parses as the formula (precedence.tex:181)."
+  },
+  {
+   "num": 31,
+   "name": "The training loop",
+   "formula": "$L_s = \\mathrm{step}(P, b_s),\\quad (P, m, v) \\leftarrow \\mathrm{adam}(\\dots, s+1, \\eta_0 (1 - s/1000))$",
+   "dyalog": "losses\u2190{l g\u2190STEP(\u2262docs)|(\u2375\u00d7BSZ)+\u2373BSZ \u22c4 ADAM(1+\u2375)(LR0\u00d71-\u2375\u00f7NSTEPS)g \u22c4 l}\u00a8\u2373RUN",
+   "fortress": [
+    "for s <- seq(0#5) do",
+    "    (l, g) = step(p, keys(1, fn (i: ZZ32): ZZ32 => s MOD corpus.size()))",
+    "    (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))",
+    "end"
+   ],
+   "note": "a sequential `for` with a tuple assignment of the three state variables, the only mutable state of the program."
+  }
+ ]
+}

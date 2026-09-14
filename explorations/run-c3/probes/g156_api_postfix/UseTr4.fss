@@ -1,0 +1,5 @@
+component UseTr4
+export Executable
+import Tr4.{...}
+run(): () = do m = array[\RR64\](2,3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 i + 0.1 j); println (m^T) end
+end

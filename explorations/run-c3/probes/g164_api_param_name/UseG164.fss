@@ -1,0 +1,5 @@
+component UseG164
+export Executable
+import G164.{...}
+run(): () = println area(2, 3)
+end

@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`heads(f, a, b) = cells(f, a, b, blockSize, nHead)`
+
+\end{preview}\end{document}

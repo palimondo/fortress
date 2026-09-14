@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`causalMask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i, j) => if j > i then -(10.0^10) else 0.0 end)`
+
+\end{preview}\end{document}

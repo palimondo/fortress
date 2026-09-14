@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`yi = onehot(ids, vocabSize); yp = onehot(pos, blockSize); gWTE = (yi^T) dX; gWPE = (yp^T) dX`
+
+\end{preview}\end{document}

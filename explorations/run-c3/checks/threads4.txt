@@ -1,0 +1,4 @@
+MicroGptFlat checks (Run C3) | threads 4 | tolerances: loss 1.0E-12 grad 1.0E-12 fd 1.0E-8
+loader: max |P - P0| over 4192: diff 0.0 PASS
+corpus: max |row - golden| over documents 0..15: diff 0.0 PASS
+step 0 batch 1: max |gradient - golden| over 4192: diff 1.1102230246251565E-16 PASS

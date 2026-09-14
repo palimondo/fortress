@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+\EXP{\KWD{for} s \leftarrow \VAR{seq}(0\mathbin{\#}5) \KWD{do}}
+
+\EXP{    (l, g) = \VAR{step}\bigl(p, \VAR{keys}(1, \KWD{fn} (i\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 \Rightarrow s \OPR{MOD} \VAR{corpus}.\VAR{size}(\ultrathin))\bigr)}
+
+\EXP{    (p, m, v) \ASSIGN \VAR{adam}\bigl(p, m, v, g, s + 1, \VAR{learningRate}(s)\bigr)}
+
+\KWD{end}
+
+\end{preview}\end{document}

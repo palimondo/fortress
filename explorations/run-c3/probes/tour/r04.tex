@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+\EXP{\VAR{causalMask}\COLON \TYP{Array}\bigllbracket\mathbb{R}64,(\mathbb{Z}32,\mathbb{Z}32)\bigrrbracket = \VAR{mat}\bigl(\VAR{blockSize}, \VAR{blockSize}, \KWD{fn} (i, j) \Rightarrow\; \KWD{if} j > i \KWD{then}\; -(10.0^{10}) \KWD{else} 0.0 \KWD{end}\bigr)}
+
+\end{preview}\end{document}

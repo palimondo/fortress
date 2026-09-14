@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`q = x1 (wq^T); k = x1 (wk^T); v = x1 (wv^T)`
+
+\end{preview}\end{document}

@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+\EXP{\VAR{rmsnB}\bigl(\VAR{dy}\COLON \TYP{Array}\llbracket\mathbb{R}64,\mathbb{Z}32\rrbracket, x\COLON \TYP{Array}\llbracket\mathbb{R}64,\mathbb{Z}32\rrbracket\bigr)\COLON \TYP{Array}\llbracket\mathbb{R}64,\mathbb{Z}32\rrbracket =\; \KWD{do}}
+
+\EXP{    r = {\textstyle\sqrt{ \VAR{epsRms} + (x \cdot x) / \mathopen{\vert}x\mathclose{\vert}}}; y = x / r}
+
+\EXP{    \bigl(\VAR{dy} - y\, ((y \cdot \VAR{dy}) / \mathopen{\vert}y\mathclose{\vert})\bigr) / r}
+
+\EXP{  \KWD{end}}
+
+\end{preview}\end{document}

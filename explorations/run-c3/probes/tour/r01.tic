@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`nEmbd: ZZ32 = 16`
+
+`blockSize: ZZ32 = 16`
+
+`epsRms: RR64 = 10.0^(-5)`
+
+`beta1: RR64 = 0.85`
+
+\end{preview}\end{document}

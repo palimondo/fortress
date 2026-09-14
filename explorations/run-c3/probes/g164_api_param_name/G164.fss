@@ -1,0 +1,7 @@
+(* g164: in an API file, a parameter named like a function declared in the
+   same API is "already declared" (ledger row 92's rule, api instance) *)
+component G164
+export G164
+rows(n: ZZ32): ZZ32 = n
+area(rows: ZZ32, cols: ZZ32): ZZ32 = rows cols
+end

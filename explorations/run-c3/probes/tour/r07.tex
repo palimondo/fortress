@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+\EXP{\VAR{matRows}(i\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 =\; \KWD{if} (i = 0) \vee (i = 2) \KWD{then} \VAR{vocabSize} \KWD{elif} i = 7 \KWD{then} 4\, \VAR{nEmbd} \KWD{else} \VAR{nEmbd} \KWD{end}}
+
+\EXP{\VAR{matCols}(i\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 =\; \KWD{if} i = 8 \KWD{then} 4\, \VAR{nEmbd} \KWD{else} \VAR{nEmbd} \KWD{end}}
+
+\EXP{\VAR{matOffset}(i\COLON \mathbb{Z}32)\COLON \mathbb{Z}32 = \sum\limits_{j \leftarrow 0\mathbin{\#}i}\, \VAR{matRows}(j)\, \VAR{matCols}(j)}
+
+\EXP{\VAR{nParams}(\ultrathin)\COLON \mathbb{Z}32 = \VAR{matOffset}(9)}
+
+\end{preview}\end{document}

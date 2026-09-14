@@ -1,0 +1,16 @@
+(* g158: two overloads differing only in the arrow type of a function
+   parameter; a TYPED lambda picks the right one, an UNTYPED lambda takes the
+   first declared overload without a diagnostic *)
+component G158
+export Executable
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+apply(f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\]): String = "vector-result overload: " f(v)
+apply(f: Array[\RR64,ZZ32\] -> RR64, v: Array[\RR64,ZZ32\]): String = "scalar-result overload: " f(v)
+run(): () = do
+    v = vec(3, fn (i: ZZ32): RR64 => 1.0 i)
+    println "(1) typed scalar lambda   -> " apply(fn (x: Array[\RR64,ZZ32\]): RR64 => SUM x, v)
+    println "(2) typed vector lambda   -> " apply(fn (x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] => x, v)
+    println "(3) untyped scalar lambda -> " apply(fn (x) => SUM x, v)
+    println "(4) untyped vector lambda -> " apply(fn (x) => x, v)
+  end
+end

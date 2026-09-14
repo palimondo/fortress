@@ -1,0 +1,15 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`for s <- seq(0#5) do`
+
+`    (l, g) = step(p, keys(1, fn (i: ZZ32): ZZ32 => s MOD corpus.size()))`
+
+`    (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))`
+
+`end`
+
+\end{preview}\end{document}

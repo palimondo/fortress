@@ -30,9 +30,9 @@ run(): () = do
     p0 = loadParams("../../apl/reference/dzaima/w", matName, 9, nParams())
     (* 0. the loaders against the goldens' P0 and corpus rows *)
     report("loader: max |P - P0| over 4192", maxAbsDiff(p0, readVector(goldensDir "/P0.txt", 4192)), 0.0)
-    rows = readLines(goldensDir "/corpus_first16.txt")
+    lines = readLines(goldensDir "/corpus_first16.txt")
     corpusDiff = BIG MAX[d <- 0#16] do
-        nums = numbersOf(rows[d].beyond(' '))   (* the line is: name len t0 .. t16; nums[0] is len *)
+        nums = numbersOf(lines[d].beyond(' '))   (* the line is: name len t0 .. t16; nums[0] is len *)
         (BIG MAX[j <- 0#17] |nums[1 + j] - (1.0 corpus.token(d, j))|) MAX |nums[0] - (1.0 corpus.length(d))|
       end
     report("corpus: max |row - golden| over documents 0..15", corpusDiff, 0.0)

@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`gWQ = (dQ^T) x1; gWK = (dK^T) x1; gWV = (dV^T) x1; dX1 = dQ wq + dK wk + dV wv`
+
+\end{preview}\end{document}

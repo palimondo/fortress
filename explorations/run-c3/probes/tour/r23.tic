@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`dX2 = dX4 + rows(rmsnB, dX3, x2); gWO = (dX2^T) hc; dH = dX2 wo`
+
+\end{preview}\end{document}

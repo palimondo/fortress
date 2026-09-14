@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+\EXP{\VAR{sm}\bigl(z\COLON \TYP{Array}\llbracket\mathbb{R}64,\mathbb{Z}32\rrbracket\bigr)\COLON \TYP{Array}\llbracket\mathbb{R}64,\mathbb{Z}32\rrbracket =\; \KWD{do} e = \exp\left(z - \left(\BIGOPR{MAX}\limits_{t \leftarrow z}\, t\right)\right); e / \left(\sum e\right) \KWD{end}}
+
+\end{preview}\end{document}
