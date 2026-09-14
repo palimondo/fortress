@@ -23,9 +23,9 @@ Round one, counted the same way (blank and comment-only lines excluded, `(* … 
 The model against the brief's target of about 50 lines (twice the Dyalog's 25): 91, of which `step` is 22 lines for the Dyalog's `STEP` of 19, and `step` plus the row functions, Adam, the mask and the training loop are 45. The other 46 lines are declarations the Dyalog does in one line each or not at all, and each has a Fortress reason:
 
 - 14 hyperparameters, one per line: a strand assignment has no Fortress form, and a typed top-level array literal is bound as a tuple (ledger row 142).
-- `flat` is 5 lines with nine typed parameters: an array literal of matrices is pasting (gap row 160), and a type alias for `Array[\RR64,(ZZ32,ZZ32)\]` is specified but unimplemented (row 18).
+- `flat` is 5 lines with nine typed parameters: an array literal of matrices is pasting (ledger rows 106 and 49), and a type alias for `Array[\RR64,(ZZ32,ZZ32)\]` is specified but unimplemented (row 18).
 - The two `heads` wrappers are 4 lines for the same reason: the arrow type of the cell function is spelled out in full twice.
-- The transpose operator is in the model, not the vocabulary: an api cannot declare a postfix `^T` (gap row 156).
+- The transpose operator is in the model, not the vocabulary: an api cannot declare a postfix `^T` (ledger row 133).
 - `matName` is 3 lines the Dyalog leaves to `⎕NREAD ⍵`; `views` is 1 line the Dyalog writes as `v¨⍳9`.
 - `run` is 10 lines for the Dyalog's one `losses←…¨⍳RUN`, because the state is three variables and each step prints.
 
@@ -54,7 +54,7 @@ Each of the three places was tried in two or three forms by a worker on a probe 
 
 Taken: C. It is the fastest at four threads, allocates exactly the result, and depends on nothing beyond the `Row` view. Rejected: A, because in this program every row function's result rank is known, so the `Any` round trip costs without buying the rank inference the APL base needed; B, the closest to APL notation at the declaration and 1.6× faster than A at four threads, because it needs a `List`, a `stack` and a generator of views for what C does with one loop, and the call site reads the same. Array comprehensions are dead (row 50); list comprehensions work. C computes the first row twice to learn the width; at 64 rows that is 1.6 %.
 
-**The elementwise algebra.** (A) operators declared on the shipped `Vector`/`Matrix` families with scalar extension; (B) a thin wrapper object of one's own carrying the algebra. Both run the five formulas (Adam, softmax, rmsnorm, ReLU and its backward, the residual line). A: 43 declaration lines, no wrap anywhere, Adam over 4192 × 100 in 41.3 s. B: 70 lines, a `.a` unwrap in the softmax's generators and a wrap at every construction site, the library's product and `.t()` reachable only through hoisted helpers, 51.9 s. Taken: A. The values never stop being the library's arrays, so everything the library gives keeps working. Twenty-four operator overloads and four function overloads coexist with the library's number operators without one ambiguity (gap row 168).
+**The elementwise algebra.** (A) operators declared on the shipped `Vector`/`Matrix` families with scalar extension; (B) a thin wrapper object of one's own carrying the algebra. Both run the five formulas (Adam, softmax, rmsnorm, ReLU and its backward, the residual line). A: 43 declaration lines, no wrap anywhere, Adam over 4192 × 100 in 41.3 s. B: 70 lines, a `.a` unwrap in the softmax's generators and a wrap at every construction site, the library's product and `.t()` reachable only through hoisted helpers, 51.9 s. Taken: A. The values never stop being the library's arrays, so everything the library gives keeps working. Twenty-four operator overloads and four function overloads coexist with the library's number operators without one ambiguity (ledger row 172).
 
 **The attention block.** (A) round one's two `for d, h` loops over block views with `assignInto`; (B) a `cells` lift over a uniform layout, zero copy: every per-head array is a matrix of N rows whose columns hold the heads side by side, cell (d, h) is a block view, and `cells(f, a, b)` applies `f` to the cells of its arguments and lays the results out the same way; (C) per-head cells as values in a rank-3 array with `heads`/`unheads` copies, the Dyalog's own `h` and `u`. Forward and backward at B = 2, ten repetitions:
 
@@ -70,8 +70,8 @@ Taken: B. Six lines, one per Dyalog line, no index arithmetic in the model, and 
 
 `tour.md`, thirty-one rows. Departures from the Dyalog, and why:
 
-- `⍉` on a weight is the postfix `^T`, the library's transpose view; `+.×` is juxtaposition. A call cannot be followed by a postfix operator even in parentheses (gap row 161), so the two one-hots of the scatter-adds are bound first.
-- `⍤1` is `rows(f, m)`, `f⍤1` dyadic is `rows(f, a, b)`, `×⍤0 1` is `rows(fn (w, r) => w r, v, m)`; an operator cannot be passed as a value (gap row 159).
+- `⍉` on a weight is the postfix `^T`, the library's transpose view; `+.×` is juxtaposition. A call cannot be followed by a postfix operator even in parentheses (ledger row 158), so the two one-hots of the scatter-adds are bound first.
+- `⍤1` is `rows(f, m)`, `f⍤1` dyadic is `rows(f, a, b)`, `×⍤0 1` is `rows(fn (w, r) => w r, v, m)`; an operator cannot be passed as a value (ledger row 165).
 - `h`, `⍤2`, `0 2 1 3⍉` and `u` are `heads(f, a, b)`: a lift over block views, so `Qh Kh Vh` and the re-headed gradients never exist as values.
 - `tg⌷⍤0 1⊢Pr` is `pick(pr, tg)`; `tg∘.=⍳VS` is `onehot`; `⊃,/,¨` is `flat`, nine writes through views of a fresh vector.
 - `M∘←`, `V∘←`, `P∘←` return a triple instead of assigning; the training loop's tuple assignment is the only state.
@@ -101,11 +101,11 @@ One thread: 3.7 s per batch-1 step after the first (7.0 s, which pays the interp
 
 ## What the language gave, what had to be built
 
-Given, used unchanged: everything in the survey's first list; runtime-sized arrays dispatching to `nat`-generic declarations (rows 150, 151); a six-line object extending `Vector` or `Matrix` as a zero-copy view with the whole algebra (row 55); `assign` from another array value through a view's `put` (gap row 166); overloading on the arrow type of a typed function argument (gap row 167); untyped lambda parameters; a nine-tuple binding; an object with methods across an api, and top-level mutable counters (gap row 169); `fail` as a non-zero exit (gap row 170); parallel `for` over rows and over cells with the same results at four threads (gap row 171).
+Given, used unchanged: everything in the survey's first list; runtime-sized arrays dispatching to `nat`-generic declarations (rows 150, 151); a six-line object extending `Vector` or `Matrix` as a zero-copy view with the whole algebra (row 55); `assign` from another array value through a view's `put` (ledger row 170); overloading on the arrow type of a typed function argument (ledger row 171); untyped lambda parameters; a nine-tuple binding; an object with methods across an api, and top-level mutable counters (ledger row 173); `fail` as a non-zero exit (ledger row 162); parallel `for` over rows and over cells with the same results at four threads (ledger row 155).
 
 Built, all user-level: fourteen elementwise operators and two zips; three view objects; the row lift in four overloads and the cell lift in two; `gather`, `onehot`, `pick`; the float parser and the readers (unchanged from round one, moved to `FlatData` and shared with the check); the `Corpus` object.
 
-Refused, each a gap row with a reproducer in `probes/`: a postfix operator in an api (156); a `nat`-generic function as a value (157); overload resolution on the arrow type of an untyped lambda (158); an operator as a value (159); an array literal of matrices (160); a postfix operator after a parenthesised call (161); static parameters after value parameters of an ordinary function (162); a top-level value named like a `nat` parameter (163) and an api parameter named like an api function (164); a slice assignment into a row (165); integer division yielding a rational (172).
+Refused, each a ledger row (the numbers are the ledger's after the merge; `gaps.md` keeps the run's own numbering with the map) with a reproducer in `probes/`: a postfix operator in an api (133); a `nat`-generic function as a value (156); overload resolution on the arrow type of an untyped lambda (164); an operator as a value (165); an array literal of matrices (106 and 49); a postfix operator after a parenthesised call (158); static parameters after value parameters of an ordinary function (166); a top-level value named like a `nat` parameter (167) and an api parameter named like an api function (168); a slice assignment into a row (169); integer division yielding a rational (174).
 
 ## Process
 
@@ -113,4 +113,14 @@ Delegated to Opus workers, each bounded and reported back with files in the tree
 
 The five process rules of `explorations/navigation-retrospective.md`, applied: every negative claim in `gaps.md` came from a worker set the goal of achieving the thing (the lift worker tried four spellings of an operator as a value and three of a call followed by `^T`); the survey is the mechanism inventory, made before the design; the gap rows carry POSITIVE-VERIFIED and NEGATIVE-VERIFIED marks and cite the spec or the library line; a second worker replicated every reproducer blind to this note; and the line budget was priced from the object, a draft of the model written before the probes and forecast at about 85 lines, landing at 91 (the two `heads` wrappers and the `^T` line were not in the forecast).
 
-Two mistakes this run made and what they cost: naming parameters after functions of the same component or its imports (`rows`, `block`, `blk`) cost three compile rounds before the rule of row 92 was recognised in its api form (gap row 164); and the first draft of the check named a local `rows`, one more round. The model's first run after the smoke test passed all five losses at the first attempt.
+Two mistakes this run made and what they cost: naming parameters after functions of the same component or its imports (`rows`, `block`, `blk`) cost three compile rounds before the rule of row 92 was recognised in its api form (ledger row 168); and the first draft of the check named a local `rows`, one more round. The model's first run after the smoke test passed all five losses at the first attempt.
+
+## After Phase 2
+
+Three rulings above are corrected by the comparison with round two (`explorations/reviews/run-c2-vs-run-c3.md`), each a "Fortress cannot" that round two shows Fortress can:
+
+- "a strand assignment has no Fortress form": a top-level tuple binding, `(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)`, binds every name (ledger row 152). The fourteen hyperparameter lines are three.
+- `flat` with nine typed parameters: a varargs `flat(ms: Array[\RR64,(ZZ32,ZZ32)\]...)` takes the nine matrices in one line (ledger row 130). The array-literal ruling (rows 106 and 49) is true and was the wrong question.
+- fourteen per-rank operator declarations: one declaration generic in the index type, `opr +[\I\](a: Array[\RR64,I\], s: RR64)`, serves vectors, matrices and rank-3 arrays (ledger row 161); thirteen declarations replace the fourteen and their two zips.
+
+Two habits are corrected as well: `x1 (wq^T)` needs no parentheses, since a postfix binds tighter than juxtaposition; and the transpose of a call's result, which cannot take `^T` (row 158), is one `transpose(m)` function call rather than a binding to a name. The gap-row numbers in this note are the ledger's after the merge; `gaps.md` carries the run's own numbering and the map.

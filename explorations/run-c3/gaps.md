@@ -1,6 +1,6 @@
 # Run C3: new gap rows
 
-Rows for `explorations/fortress-gap-ledger.md`, in its column format, numbered from 156 (Run C2's rows, on its own branch, are not visible to this run and will be renumbered at the merge). Walk interpreter, JDK 25, `FORTRESS_THREADS=1` unless stated; reproducer paths are relative to `explorations/run-c3/probes/`. Findings that only repeat a ledger row are cited by number in the notes of the row they sharpen (rows 18, 20, 50, 102, 147 came up again and are not rewritten).
+Rows for `explorations/fortress-gap-ledger.md`, in its column format, numbered from 156 as found (Run C2's rows, on its own branch, were not visible to this run and took 156 to 163 at the merge). The merge's map from this table to the ledger: 156 → 133 (folded), 157 → 156 (folded), 158 → 164, 159 → 165, 160 → 106 and 49 (folded), 161 → 158 (folded), 162 → 166, 163 → 167, 164 → 168, 165 → 169, 166 → 170, 167 → 171, 168 → 172, 169 → 173, 170 → 162 (folded), 171 → 155 (folded), 172 → 174. Walk interpreter, JDK 25, `FORTRESS_THREADS=1` unless stated; reproducer paths are relative to `explorations/run-c3/probes/`. Findings that only repeat a ledger row are cited by number in the notes of the row they sharpen (rows 18, 20, 50, 102, 147 came up again and are not rewritten).
 
 | # | claim | status | class | spec citation | reproducer | found by | notes / workaround |
 |---|---|---|---|---|---|---|---|

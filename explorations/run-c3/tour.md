@@ -288,7 +288,7 @@ Fortress:
 dL = rows(fn (w, r) => w r, vm / nv, pr - onehot(tg, vocabSize)); gLM = (dL^T) x4; dX4 = dL lm
 ```
 
-Note: the `×⍤0 1` is the rank-0-1 form of `rows`: each row scaled by its element of the vector, the lambda being the scalar product because an operator cannot be passed as a function value (gap row 160); `onehot` is the vocabulary's `∘.=⍳`.
+Note: the `×⍤0 1` is the rank-0-1 form of `rows`: each row scaled by its element of the vector, the lambda being the scalar product because an operator cannot be passed as a function value (ledger row 165); `onehot` is the vocabulary's `∘.=⍳`.
 
 ## 22. Backward: the MLP
 
@@ -380,7 +380,7 @@ Fortress:
 yi = onehot(ids, vocabSize); yp = onehot(pos, blockSize); gWTE = (yi^T) dX; gWPE = (yp^T) dX
 ```
 
-Note: the one-hots are bound first because a call cannot be followed by a postfix operator, even in parentheses (ledger rows 4 and 144, sharpened in gap row 162).
+Note: the one-hots are bound first because a call cannot be followed by a postfix operator, even in parentheses (ledger rows 4 and 144, sharpened in ledger row 158).
 
 ## 29. The step's result
 

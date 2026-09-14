@@ -60,13 +60,17 @@ measurement quoted where the tree holds a different one.
 (`run-c2-review-probes/recheck_threads1.txt`): 43 lines, 40 checks, every one
 PASS, 0 FAIL, exit 0. Against the committed `checks/round2_threads1.txt` the
 only differences are the six `( … ms)` fields and the `total … s` line
-(`recheck_vs_shipped_1.diff`); normalised, the two files are identical.
+(`raw_diff_1.txt`); normalised, the two files are identical
+(`recheck_vs_shipped_1.diff`, empty). 941 s here against the committed 610 s:
+my runs shared the machine with the reviewer's own probes and the failing-copy
+run, so no timing comparison is drawn from them — the run's own four outputs
+are used for that instead (below).
 
 **The re-run, four threads.** Same component at `FORTRESS_THREADS=4`
-(`recheck_threads4.txt`): 40 PASS, 0 FAIL, exit 0. Normalising the header, the
+(`recheck_threads4.txt`): 40 PASS, 0 FAIL, exit 0, 377 s. Normalising the header, the
 six timing fields and the total, all four files — `checks/round2_threads1.txt`,
 `checks/round2_threads4.txt`, and both re-runs — have the same md5,
-`MD5NORM`. Four runs at two thread counts on two hosts agree on every measured
+`b37c5476f1a5d0542ed50f494af2ebab`. Four runs at two thread counts on two hosts agree on every measured
 value to the last digit.
 
 | measurement | committed (run's host) | this re-run |
@@ -83,8 +87,8 @@ value to the last digit.
 | fd doc 0 worst | 3.1012873996302814E-10 | same |
 | fd batch 4 worst | 3.6822056515006807E-10 | same |
 | verdict line | `verdict: 40 PASS, 0 FAIL` | same |
-| total, one thread | 610 s | T1RECHECK s |
-| total, four threads | 247 s | T4RECHECK s |
+| total, one thread | 610 s | 941 s (this host, under my own concurrent probe load) |
+| total, four threads | 247 s | 377 s (same caveat) |
 
 **The aggregate verdict and the exit status.** The check counts in `report`
 (`MicroGptFlatCheck.fss:20-24`), prints `verdict: N PASS, M FAIL` (`:97`) and
@@ -240,7 +244,7 @@ and checked five spec citations.
 
 | row | claim | status |
 |---|---|---|
-| 156 | a `nat`-generic function is not a value; three diagnostics | read, six cited probes present with outputs; the three diagnostics appear verbatim in `q02c2`, `q02c4`/`q02c5` and `q02b`'s `.out`. **confirmed (by the committed outputs)** |
+| 156 | a `nat`-generic function is not a value; three diagnostics | read; the three diagnostics appear verbatim in the committed outputs — the unification error in `q02c2` (`Any`) and `q02c5` (arrow), "has no type information" in `q02c4`, and the NPE at `GenericFunctionOrConstructor.applyInnerPossiblyGeneric:52` in `q02b`. **confirmed (by the committed outputs)** |
 | 157 | `Any` in a `nat`-generic signature is `InterpreterBug: Missing visitor … AnyType`; the overload symptom differs | read, `q02c3_genericplain_any.out` and `q02d_rankbyresult.out` carry the message. **confirmed (by the committed outputs)** |
 | 158 | a parenthesised call followed by `^T` is still the row-144 error | read, cited to `q04a_varargs` (5) and `q04f_callsuper` (3), both with outputs. **confirmed (by the committed outputs)** |
 | 159 | two generic `opr` declarations of one operator are rejected unless a parameter pair excludes | **re-run here**: `rvw_q05_genericpair.out` reproduces the message word for word — "have parameters with generic type, at least one pair of parameters must have excluding types". Spec citation `basic/overloading.tex:100-105` is right ("it is an error for their static parameters to differ"). **confirmed** |
@@ -262,8 +266,9 @@ production).
 | | row 165 / `design.md` says | the tree says |
 |---|---|---|
 | the probe outputs | "outputs `.threads1.out`/`.threads4.out`" | no file of either name exists in `probes/`; there are plain `.out` files for `q03_heads` and `q03e_heads_rowsb` only |
-| the attention block, 3 reps, 1 thread | "(A) 12.6 s against (B) 9.3 s" (row 165); "12.6 s against 13.6 s" (`design.md`, comparing lift forms) | `q03_heads.out`: (A) 26030 ms, (B) 14613 ms; `q03e_heads_rowsb.out`: (A) 28794 ms, (B) 14711 ms |
-| the ratio | 1.4× at one thread | 1.78× (`q03_heads.out`), 1.96× (`q03e`) |
+| the attention block, 3 reps, 1 thread, model shape | "(A) 12.6 s against (B) 9.3 s" (row 165) | `q03_heads.out`: (A) 26030 ms, (B) 14613 ms; `q03e_heads_rowsb.out`: (A) 28794 ms, (B) 14711 ms — both headed `threads 1`, both at `docs 4 pos 16 heads 4 dim 4, 3 reps` |
+| the ratio (A)/(B) | 1.4× at one thread | 1.78× (`q03_heads.out`), 1.96× (`q03e_heads_rowsb.out`) |
+| which lift form is cheaper | "(b) is the cheapest … 12.6 s against 13.6 s at one thread" — `q03e` (form b) under `q03` (form a), the reason (b) is shipped (`design.md`) | the two outputs order the other way: `q03e` 28794 ms against `q03` 26030 ms. The shipped choice may still be right; the committed evidence does not show it |
 | the four-thread figures | 4.9 s against 3.1 s | no four-thread output is committed |
 | `q03b`, `q03c`, `q03d` ("no faster") | cited as reproducers | no output committed for any of the three |
 | the whole step | "about 1.1× round one's" | round two's check is 0.71× round one's at one thread and 0.70× at four, on the same host, for the same work (§1). Every step timing in `checks/round2_threads1.txt` is below the corresponding one in `checks/threads1.txt` |
