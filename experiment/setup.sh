@@ -1,9 +1,9 @@
 #!/bin/bash
 # One-shot environment setup for the microGPT experiment sessions. Idempotent: safe to re-run.
 # Every stage prints "[HH:MM:SS] STAGE <name>: START|OK|FAIL (Ns)" to stdout;
-# stage detail (apt, ant output) streams to experiment/setup.log.
+# stage detail (apt, ant, latex output) streams to experiment/setup.log.
 # Exit status is non-zero if any stage failed. Stages: packages build warm
-# transcripts. Run all:  bash experiment/setup.sh
+# render transcripts. Run all:  bash experiment/setup.sh
 set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 LOG="$ROOT/experiment/setup.log"
@@ -11,7 +11,7 @@ STAGE_TIMEOUT="${STAGE_TIMEOUT:-900}"
 TB_BRANCH="${TRANSCRIPTS_BRANCH:-transcripts-blinded}"
 TB_DIR="${TRANSCRIPTS_DIR:-/home/user/fortress-transcripts-blinded}"
 SETTINGS="${CLAUDE_SETTINGS:-$HOME/.claude/settings.json}"
-PKGS="openjdk-25-jdk-headless ant"
+PKGS="openjdk-25-jdk-headless ant texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-science texlive-lang-greek texlive-pictures texlive-plain-generic dvisvgm"
 : > "$LOG"
 log(){ printf '[%s] %s\n' "$(date -u +%H:%M:%S)" "$*" | tee -a "$LOG"; }
 FAILED=0; SUMMARY=()
@@ -38,6 +38,20 @@ else stage build "cd '$ROOT' && ant compileAll"; fi
 mkdir -p "$ROOT/experiment/warm"
 printf 'component warm\nexport Executable\nrun() = println "warm ok"\nend\n' > "$ROOT/experiment/warm/warm.fss"
 stage warm "cd '$ROOT' && FORTRESS_THREADS=1 ./bin/fortress experiment/warm/warm.fss | grep -q 'warm ok'"
+
+# --- render: Fortify pipeline end-to-end on a one-line excerpt
+cat > "$ROOT/experiment/warm/rt.tic" <<'TIC'
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`f(x: RR64): RR64 = x^2`
+\end{preview}
+\end{document}
+TIC
+stage render "cd '$ROOT/experiment/warm' && '$ROOT/bin/fortick' rt.tic && TEXINPUTS='.:$ROOT/Fortify:' latex -interaction=nonstopmode rt.tex && dvisvgm --no-fonts --exact-bbox -o rt.svg rt.dvi && /opt/pw-browsers/chromium --headless --no-sandbox --disable-gpu --screenshot=rt.png rt.svg && test -s rt.svg && test -s rt.png && rm -f rt.tex rt.dvi rt.aux rt.log"
 
 # --- transcripts: worktree of the transcripts branch + Stop hook + one real snapshot
 stage transcripts "
