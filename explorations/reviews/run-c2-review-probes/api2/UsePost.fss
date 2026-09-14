@@ -1,0 +1,8 @@
+component UsePost
+export Executable
+import Post.{...}
+run(): () = do
+    m = array[\RR64\](2, 3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    println "m^T = " (m^T)
+  end
+end
