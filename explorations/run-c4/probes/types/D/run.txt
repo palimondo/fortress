@@ -1,2 +1,1 @@
-/bin/bash: line 1: /usr/bin/time: No such file or directory
-EXIT=127
+microgpt flat | params 4192 | corpus 2000 x 17 | batch 1, 5 steps
