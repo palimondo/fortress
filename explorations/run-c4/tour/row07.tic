@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`matName(i: ZZ32): String =
+    if i = 0 then "wte" elif i = 1 then "wpe" elif i = 2 then "lm_head" elif i = 3 then "attn_wq" elif i = 4 then "attn_wk"
+    elif i = 5 then "attn_wv" elif i = 6 then "attn_wo" elif i = 7 then "mlp_fc1" else "mlp_fc2" end
+matShape(i: ZZ32): (ZZ32, ZZ32) =
+    if (i = 0) OR (i = 2) then (vocabSize, nEmbd) elif i = 7 then (4 nEmbd, nEmbd) elif i = 8 then (nEmbd, 4 nEmbd) else (nEmbd, nEmbd) end
+matCount(i: ZZ32): ZZ32 = do (r, c) = matShape(i); r c end
+matOffset(i: ZZ32): ZZ32 = SUM[j <- 0#i] matCount(j)
+nParams(): ZZ32 = matOffset(9)`
+\end{preview}
+\end{document}

@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))`
+\end{preview}
+\end{document}

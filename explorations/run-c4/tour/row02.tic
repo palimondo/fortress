@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)`
+\end{preview}
+\end{document}

@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end`
+\end{preview}
+\end{document}

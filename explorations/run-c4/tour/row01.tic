@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)
+(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)`
+\end{preview}
+\end{document}

@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`dX2 = dX4 + rows(rmsn_b, dX3, x2)
+gWO = dX2^T hc
+dh = h(dX2 wo)`
+\end{preview}
+\end{document}

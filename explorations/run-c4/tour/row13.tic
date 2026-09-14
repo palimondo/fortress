@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`x = gather(wte, ids) + gather(wpe, pos)
+xp = rows(rmsn, x)
+x1 = rows(rmsn, xp)`
+\end{preview}
+\end{document}

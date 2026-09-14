@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)
+u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)
+(q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T)
+(qh, kh, vh) = (h(q), h(k), h(v))`
+\end{preview}
+\end{document}

@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`dQh = dS kh
+dKh = dS^T qh
+(dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))`
+\end{preview}
+\end{document}

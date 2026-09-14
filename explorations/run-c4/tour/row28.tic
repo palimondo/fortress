@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)
+        (l, g) = step(p, keys(bsz, fn (i: ZZ32): ZZ32 => (s bsz + i) MOD corpus.size()))
+        (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))`
+\end{preview}
+\end{document}
