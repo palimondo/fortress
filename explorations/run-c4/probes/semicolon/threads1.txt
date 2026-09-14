@@ -4,12 +4,12 @@ corpus: max |row - golden| over documents 0..15: diff 0.0 PASS
 step 0 batch 1: max |gradient - golden| over 4192: diff 1.1102230246251565E-16 PASS
 step 0 batch 1: max |P after Adam - golden| over 4192: diff 8.326672684688674E-17 PASS
 step 0 batch 1: zero gradient entries - 464: diff 0.0 PASS
-batch 1 step 1 loss 3.3659669475848513 vs 3.365966947584851 (14042 ms): diff 4.440892098500626E-16 PASS
-batch 1 step 2 loss 3.424272783871772 vs 3.424272783871772 (8136 ms): diff 0.0 PASS
-batch 1 step 3 loss 3.177802125458053 vs 3.177802125458053 (8003 ms): diff 0.0 PASS
-batch 1 step 4 loss 3.066355684224198 vs 3.066355684224198 (8053 ms): diff 0.0 PASS
-batch 1 step 5 loss 3.2208830897506235 vs 3.2208830897506235 (7848 ms): diff 0.0 PASS
-batch 4 loss 3.28664155669517 vs golden 3.28664155669517 (28245 ms): diff 0.0 PASS
+batch 1 step 1 loss 3.3659669475848513 vs 3.365966947584851 (15381 ms): diff 4.440892098500626E-16 PASS
+batch 1 step 2 loss 3.424272783871772 vs 3.424272783871772 (8605 ms): diff 0.0 PASS
+batch 1 step 3 loss 3.177802125458053 vs 3.177802125458053 (8335 ms): diff 0.0 PASS
+batch 1 step 4 loss 3.066355684224198 vs 3.066355684224198 (7832 ms): diff 0.0 PASS
+batch 1 step 5 loss 3.2208830897506235 vs 3.2208830897506235 (7874 ms): diff 0.0 PASS
+batch 4 loss 3.28664155669517 vs golden 3.28664155669517 (27829 ms): diff 0.0 PASS
 batch 4: single-document loss 3.3659669475848513 vs golden 3.365966947584851 (document 0): diff 4.440892098500626E-16 PASS
 batch 4: single-document loss 3.426576395687917 vs golden 3.426576395687917 (document 1): diff 0.0 PASS
 batch 4: single-document loss 3.181956443648965 vs golden 3.1819564436489656 (document 2): diff 4.440892098500626E-16 PASS
@@ -39,6 +39,6 @@ fd batch 4 P[3000] backprop 0.001185814944881895 fd 0.0011858147797028096 (golde
 fd batch 4 P[4000] backprop -0.004676599055575628 fd -0.004676599107966695 (golden fd -0.004676599107966695): diff 5.239106631166335E-11 PASS
 fd batch 4 P[4191] backprop -0.00407719213345234 fd -0.004077191917417622 (golden fd -0.004077191917417622): diff 2.160347178925548E-10 PASS
 fd batch 4 worst |fd - backprop|: diff 3.6822056515006807E-10 PASS
-total 873 s
+total 884 s
 VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
 exit 0
