@@ -163,3 +163,11 @@ program's attention score" and the one-hot scatter-add — a sentence about
 the APL work, not the prior Fortress ports. The Hsu handover's tactics
 table and the two verified references were the design inputs, as the brief
 lists.
+
+## After the review
+
+Two claims above are corrected by the Phase 1 review (`explorations/reviews/run-c-phase1.md`).
+
+The loader claim in "Numerics" is circular: the weight files and the goldens' `P0` carry the same digit strings and are parsed by the same routine, so a difference of zero is forced. The review ran the routine against Python's correctly rounded parse over all 4192 values: 696 are one ulp off and 3 are two ulp off, worst 5.55e-17 (`run-c-review-probes/RvwParse.out`). That is below every tolerance the check uses, and the check results stand, but the sentence claimed more than it showed.
+
+The Blinding section's "no history was read" is not literally true: two `git log --oneline -3` calls were made in turn 1 while pulling, before the brief was read. They showed the brief's merge commit, the merge of main and the APL rungs, nothing from a prior Fortress microGPT run.
