@@ -1,0 +1,14 @@
+(* top-level declarations separated by semicolons on one line, untyped, from literals *)
+component SemiTop
+export Executable
+
+nEmbd = 16; blockSize = 16; nHead = 4; headDim = 4; vocabSize = 27; bosId = 26
+epsilon = 10.0^(-5); lr0 = 0.01; beta1 = 0.85; beta2 = 0.99; epsilon_A = 10.0^(-8); nSteps = 1000
+
+run(): () = do
+    println "ints " nEmbd " " blockSize " " nHead " " headDim " " vocabSize " " bosId " product " (nEmbd blockSize)
+    println "floats " epsilon " " lr0 " " beta1 " " beta2 " " epsilon_A " " nSteps " sqrt " (SQRT (1.0 headDim)) " lr " (lr0 (1 - (1.0 3) / nSteps))
+    x: ZZ32 = nHead headDim
+    println "typed use " x " " (beta1^3)
+  end
+end

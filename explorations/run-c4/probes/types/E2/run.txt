@@ -1,0 +1,16 @@
+null/home/user/fortress/explorations/run-c4/probes/types/E2/MicroGptFlat.fss:88:9:
+    The type of p is required.
+/home/user/fortress/explorations/run-c4/probes/types/E2/MicroGptFlat.fss:89:9:
+    The type of m is required.
+/home/user/fortress/explorations/run-c4/probes/types/E2/MicroGptFlat.fss:90:9:
+    The type of v is required.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+EXIT=1
+WALL=3s

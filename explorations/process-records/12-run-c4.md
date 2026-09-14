@@ -62,7 +62,7 @@ The merge needed no probes, so delegation bought only the check runs (which it f
 
 ## Gaps found
 
-None from the merge: every mechanism in C4 was proven in C2 or C3. The type probe's findings, if they are new, are entered into `explorations/fortress-gap-ledger.md` by the next ledger merge; see `run-c4/probes/types/REPORT.md`.
+`run-c4/gaps.md`: row 175, semicolon-separated untyped top-level declarations (from Pavol's remark that the typed hyperparameter lines and the tuple trick were both ugly; a ten-second probe in the thread), plus the type probe's findings from `run-c4/probes/types/REPORT.md`. None from the merge itself. To be entered into `explorations/fortress-gap-ledger.md` by the next ledger merge.
 
 ## Findings
 

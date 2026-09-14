@@ -1,0 +1,22 @@
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:88:5-7:
+    Variable p is not defined.
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:89:5-7:
+    Variable m is not defined.
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:90:5-7:
+    Variable v is not defined.
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:93:23:
+    Variable p is not defined.
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:94:10-19:
+    Variable p is not defined.
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:94:13-19:
+    Variable m is not defined.
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:94:16-19:
+    Variable v is not defined.
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:94:27:
+    Variable p is not defined.
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:94:30:
+    Variable m is not defined.
+/home/user/fortress/explorations/run-c4/probes/types/E/MicroGptFlat.fss:94:33:
+    Variable v is not defined.
+EXIT=255
+WALL=4s

@@ -5,7 +5,7 @@
 \setlength\PreviewBorder{5pt}
 \begin{document}
 \begin{preview}
-`(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)
-(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)`
+`nEmbd = 16; blockSize = 16; nHead = 4; headDim = 4; vocabSize = 27; bosId = 26
+epsilon = 10.0^(-5); lr0 = 0.01; beta1 = 0.85; beta2 = 0.99; epsilon_A = 10.0^(-8); nSteps = 1000`
 \end{preview}
 \end{document}

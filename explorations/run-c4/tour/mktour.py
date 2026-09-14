@@ -12,9 +12,10 @@ ENV = 'source /home/user/fortress/experiment/env.sh; '
 rows = [
  dict(dy='L6', dyalog='⎕IO←0 ⋄ NE BLK NH HD VS BOS←16 16 4 4 27 26 ⋄ EPS LR0 B1 B2 EPSA←1E¯5 0.01 0.85 0.99 1E¯8',
   tex=r'NE{=}16,\ BLK{=}16,\ NH{=}4,\ HD{=}4,\ VS{=}27,\ BOS{=}26;\ \varepsilon{=}10^{-5},\ \alpha_0{=}0.01,\ \beta_1{=}0.85,\ \beta_2{=}0.99,\ \varepsilon_A{=}10^{-8}',
-  fortress=['(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)',
-            '(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)'],
-  note='Index origin is 0 on both sides. The driver\'s NSTEPS joins the second tuple; the two file paths, which the Dyalog reads "however you like", are a third line not shown.'),
+  fortress=['nEmbd = 16; blockSize = 16; nHead = 4; headDim = 4; vocabSize = 27; bosId = 26',
+            'epsilon = 10.0^(-5); lr0 = 0.01; beta1 = 0.85; beta2 = 0.99; epsilon_A = 10.0^(-8); nSteps = 1000'],
+  split=False,
+  note='Index origin is 0 on both sides. One declaration per constant, untyped (each takes its literal\'s type), six to a line as the Dyalog strands six: the semicolon separates top-level declarations as it separates statements (probes/semicolon). The driver\'s NSTEPS joins the second line; the two file paths, which the Dyalog reads "however you like", are a third line not shown.'),
  dict(dy='L7', dyalog='rmsn←{⍵÷(EPS+(+/⍵*2)÷≢⍵)*0.5}',
   tex=r'\mathrm{rmsn}(x) = \frac{x}{\sqrt{\varepsilon + \frac{1}{n}\sum_i x_i^2}},\quad n = |x|',
   fortress=['rmsn(x: Array[\\RR64,ZZ32\\]): Array[\\RR64,ZZ32\\] = x / SQRT (epsilon + (x DOT x) / |x|)'],
@@ -166,11 +167,12 @@ def dedent(lines):
     ind = min(len(l) - len(l.lstrip()) for l in lines if l.strip())
     return [l[ind:] for l in lines]
 
-def split_stmts(lines):
-    # for display, a `; ` line of the source is shown one statement per line (a do ... end on one line stays)
+def split_stmts(lines, split=True):
+    # for display, a `; ` line of the source is shown one statement per line (a do ... end on one line stays);
+    # a row with split=False keeps its lines as written (the hyperparameter strands)
     out = []
     for l in lines:
-        if '; ' in l and ' = do ' not in l:
+        if split and '; ' in l and ' = do ' not in l:
             parts = l.split('; ')
             out.append(parts[0])
             out.extend(parts[1:])
@@ -180,7 +182,7 @@ def split_stmts(lines):
 
 jobs = []
 for n, r in enumerate(rows, 1):
-    lines = split_stmts(dedent(r['fortress']))
+    lines = split_stmts(dedent(r['fortress']), r.get('split', True))
     code = '\n'.join(lines)
     tic = f'{TOUR}/row{n:02d}.tic'
     open(tic, 'w').write(PRE + '`' + code + '`' + POST)
@@ -207,7 +209,7 @@ md = ['# Run C4: the guided tour', '',
  'line is not done.', '',
  '| # | Dyalog line | formula (TeX) | Dyalog | Fortress | note |', '|---|---|---|---|---|---|']
 for n, r in enumerate(rows, 1):
-    code = '<br>'.join('`' + l.replace('|', '\\|') + '`' for l in split_stmts(dedent(r['fortress'])))
+    code = '<br>'.join('`' + l.replace('|', '\\|') + '`' for l in split_stmts(dedent(r['fortress']), r.get('split', True)))
     dyesc = r['dyalog'].replace('|', '\\|')
     texesc = r['tex'].replace('|', '\\|')
     md.append(f"| {n} | {r['dy']} | `${texesc}$` | `{dyesc}` | {code} | {r['note']} |")
@@ -288,7 +290,7 @@ h = ['<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="vie
  '<p>One row per line of <code>microgpt_concise.dyalog</code>, in the order of the program, the helper dfns included: the formula, the Dyalog line, the Fortress line or lines of <code>src/MicroGptFlat.fss</code> set by Fortify (verbatim; a <code>;</code> line of the source is shown one statement per line; the ASCII source is under each render), and a note where they differ. Every Fortress snippet is checked against the source by the generator, <code>tour/mktour.py</code>. The by-eye test of round four is this page.</p>',
  '</div>']
 for n, r in enumerate(rows, 1):
-    code = '\n'.join(split_stmts(dedent(r['fortress'])))
+    code = '\n'.join(split_stmts(dedent(r['fortress']), r.get('split', True)))
     fs, fnat = svg(f'{TOUR}/row{n:02d}_f.svg', f'f{n}')
     xs, xnat = svg(f'{TOUR}/row{n:02d}.svg', f'x{n}')
     note = html.escape(r['note']) if r['note'].strip() else ''
