@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Run C3 tour</title>
 <style>
 :root{
@@ -71,10 +75,12 @@ svg.r{max-width:100%; height:auto; display:block;}
   white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; margin:0;
 }
 .note{margin:0; color:var(--ink);}
+.m{font-family:"DejaVu Serif",Georgia,serif;font-style:italic}
 .note.none{color:var(--muted); font-style:italic;}
 footer{margin-top:44px; padding-top:14px; border-top:1px solid var(--rule);
   color:var(--muted); font-size:12.5px;}
 </style>
+</head><body>
 <div class="wrap">
 <h1>Run C3: the guided tour</h1>
 <div class="intro">
@@ -431,7 +437,7 @@ footer{margin-top:44px; padding-top:14px; border-top:1px solid var(--rule);
 <use x='309.326349' y='0' xlink:href='#r02_g3-106'/>
 </g>
 </svg></div></div>
-<div class="cell c-note"><div class="lab">Note</div><p class="note"><code>x DOT x</code> is the library&#x27;s dot product, which is the formula&#x27;s $\|x\|^2$; <code>|x|</code> is the length.</p></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note"><code>x DOT x</code> is the library&#x27;s dot product, which is the formula&#x27;s <span class="m">‖x‖²</span>; <code>|x|</code> is the length.</p></div>
 </div></section>
 <section class="row" id="r03">
 <h2><span class="n">3</span>Softmax of a vector</h2>
@@ -5454,3 +5460,4 @@ footer{margin-top:44px; padding-top:14px; border-top:1px solid var(--rule);
 </div></section>
 <footer>31 rows. Formulas typeset with LaTeX; Fortress typeset with Fortify (<code>bin/fortick</code>); both embedded as inline SVG. Dyalog lines are plain text. Sources and renders: <code>explorations/run-c3/probes/tour/</code>.</footer>
 </div>
+</body></html>

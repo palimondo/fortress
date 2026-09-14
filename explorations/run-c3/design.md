@@ -97,7 +97,7 @@ Four threads (`checks/threads4.txt`): every measured value identical to the one-
 
 ## Cost
 
-One thread: 3.7 s per batch-1 step after the first (7.0 s, which pays the interpreter's warm-up), 13.5 s per batch-4 step, 420 s for the whole check of 55 steps. Round one: 7.8 to 8 s, 26.6 s, 855 s. Four threads: STEP4 per batch-1 step, TOTAL4 for the check; round one 2.6 to 3.0 s and 353 s. The speed-up over round one at one thread comes from the row lift and the elementwise operators doing one pass per operation where round one's helpers did several (a `vec` of row norms and then a `mat`, twice per `rmsnRowsB`), and from `cells` building each per-head result once. No speed work was done beyond choosing between the probed forms.
+One thread: 3.7 s per batch-1 step after the first (7.0 s, which pays the interpreter's warm-up), 13.5 s per batch-4 step, 420 s for the whole check of 55 steps. Round one: 7.8 to 8 s, 26.6 s, 855 s. Four threads: 1.6 s per batch-1 step after the first (15 s: the four-thread warm-up is longer), 5.6 s per batch-4 step, 248 s for the check, every measured value identical to the one-thread run; round one 2.6 to 3.0 s and 353 s. The speed-up over round one at one thread comes from the row lift and the elementwise operators doing one pass per operation where round one's helpers did several (a `vec` of row norms and then a `mat`, twice per `rmsnRowsB`), and from `cells` building each per-head result once. No speed work was done beyond choosing between the probed forms.
 
 ## What the language gave, what had to be built
 
