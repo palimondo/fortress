@@ -1,0 +1,1 @@
+MicroGptFlat checks (Run C4) | threads 1 | tolerances: loss 1.0E-12 grad 1.0E-12 fd 1.0E-8
