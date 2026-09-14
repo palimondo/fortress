@@ -1,0 +1,14 @@
+(* lift_g1: lambda parameter and result types.  (a) no types at all,
+   (b) types on the parameters but no return type. *)
+component lift_g1
+export Executable
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+applyIt(f: (RR64, Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], w: RR64, v: Array[\RR64,ZZ32\]):
+        Array[\RR64,ZZ32\] = f(w, v)
+run(): () = do
+    v = vec(3, fn (j: ZZ32): RR64 => 1.0 + j)
+    println "(a) untyped lambda: " applyIt(fn (w, r) => w r, 2.0, v)
+    println "(b) typed params, no return type: "
+        applyIt(fn (w: RR64, r: Array[\RR64,ZZ32\]) => w r, 3.0, v)
+  end
+end

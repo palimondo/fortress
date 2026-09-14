@@ -1,0 +1,17 @@
+(* lift_c2: spelling 2 of "write a vector into row i of a matrix" *)
+component lift_c2
+export Executable
+object Row[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, v: RR64): () = base.put((i, j), v)
+    init0(j: ZZ32, v: RR64): () = base.init0((i, j), v)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+run(): () = do
+    out = mat(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 0.0)
+    y = array[\RR64\](3).fill(fn (j: ZZ32): RR64 => 1.0 + j)
+    Row[\4,3\](out, 1).assign(y)
+    println "(c2) " out
+  end
+end

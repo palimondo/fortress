@@ -1,0 +1,158 @@
+(* att_c -- run-c3 attention probe, form C: per-head cells as VALUES in a
+   rank-3 array, the Dyalog's own h (0 2 1 3 transpose) and u (its inverse).
+   heads/unheads copy; the lift over planes assembles by the first result,
+   as AplCore's aplAsm1 does. *)
+component att_c
+export Executable
+import NatReflect.{...}
+import System.{...}
+
+(* ----------------------------------------------------- shared header ---- *)
+nEmbd: ZZ32 = 16
+blockSize: ZZ32 = 16
+nHead: ZZ32 = 4
+headDim: ZZ32 = 4
+bsz: ZZ32 = 2
+nn: ZZ32 = 32
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+zerosM(r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(0.0)
+
+object Row[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, x: RR64): () = base.put((i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+
+object Block[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32)
+        extends Matrix[\RR64,r,c\]
+    get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij; base.get(r0 + i, c0 + j) end
+    put(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.put((r0 + i, c0 + j), x) end
+    init0(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.init0((r0 + i, c0 + j), x) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+blockOf[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] =
+    Block[\br,bc,r,c\](base, r0, c0)
+block[\nat br, nat bc\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, rows: ZZ32, cols: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    blockOf(base, r0, c0, reflect(rows), reflect(cols))
+head[\nat br, nat bc\](a: Matrix[\RR64,br,bc\], d: ZZ32, h: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    block(a, d blockSize, h headDim, blockSize, headDim)
+headCell[\nat br, nat bc\](a: Matrix[\RR64,br,bc\], d: ZZ32, h: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    block(a, (d nHead + h) blockSize, 0, blockSize, blockSize)
+assignInto[\nat r, nat c, nat p, nat s\](dest: Matrix[\RR64,r,c\], src: Matrix[\RR64,p,s\]): () = do
+    dest.assign(fn (i: ZZ32, j: ZZ32): RR64 => src[i,j])
+  end
+
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+opr /[\nat r, nat c\](m: Matrix[\RR64,r,c\], s: RR64): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    mat(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => m[i,j] / s)
+  end
+
+smRows[\nat r, nat c\](z: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = z.sizes
+    mx = vec(n, fn (i: ZZ32): RR64 => BIG MAX[j <- 0#d] z[i,j])
+    e = mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => exp(z[i,j] - mx[i]))
+    sums = vec(n, fn (i: ZZ32): RR64 => SUM[j <- 0#d] e[i,j])
+    mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => e[i,j] / sums[i])
+  end
+smRowsB[\nat r, nat c, nat p, nat s\](pm: Matrix[\RR64,r,c\], dy: Matrix[\RR64,p,s\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = pm.sizes
+    pd = vec(n, fn (i: ZZ32): RR64 => SUM[j <- 0#d] pm[i,j] dy[i,j])
+    mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => pm[i,j] (dy[i,j] - pd[i]))
+  end
+causalMask: Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 => if j > i then -(10.0^10) else 0.0 end)
+
+(* -------------------------------------------------------- test data ----- *)
+q: Array[\RR64,(ZZ32,ZZ32)\] = mat(nn, nEmbd, fn (i: ZZ32, j: ZZ32): RR64 => sin(0.1 i + 0.37 j))
+k: Array[\RR64,(ZZ32,ZZ32)\] = mat(nn, nEmbd, fn (i: ZZ32, j: ZZ32): RR64 => sin(0.1 i + 0.37 j + 1.0))
+v: Array[\RR64,(ZZ32,ZZ32)\] = mat(nn, nEmbd, fn (i: ZZ32, j: ZZ32): RR64 => sin(0.1 i + 0.37 j + 2.0))
+dH: Array[\RR64,(ZZ32,ZZ32)\] = mat(nn, nEmbd, fn (i: ZZ32, j: ZZ32): RR64 => sin(0.1 i + 0.37 j + 3.0))
+
+sumOf[\nat r, nat c\](m: Matrix[\RR64,r,c\]): RR64 = do
+    (rows, cols) = m.sizes
+    SUM[i <- 0#rows, j <- 0#cols] m[i,j]
+  end
+sumOf3[\nat a, nat b, nat c\](x: Array3[\RR64,0,a,0,b,0,c\]): RR64 = do
+    (d0, d1, d2) = x.sizes
+    SUM[i <- 0#d0, j <- 0#d1, l <- 0#d2] x[i,j,l]
+  end
+
+(* ------------------------------------------- rank 3: plane view and lift - *)
+arr3(a: ZZ32, b: ZZ32, c: ZZ32, f: (ZZ32,ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = array[\RR64\](a,b,c).fill(f)
+
+object Plane[\nat a, nat b, nat c\](base: Array3[\RR64,0,a,0,b,0,c\], pl: ZZ32)
+        extends Matrix[\RR64,b,c\]
+    get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij; base.get((pl,i,j)) end
+    put(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.put((pl,i,j), x) end
+    init0(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.init0((pl,i,j), x) end
+    replica[\U\](): Array2[\U,0,b,0,c\] = array2[\U,b,c\]()
+end
+plane[\nat a, nat b, nat c\](x: Array3[\RR64,0,a,0,b,0,c\], pl: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = Plane[\a,b,c\](x, pl)
+
+rowsOfA[\nat r, nat c\](m: Matrix[\RR64,r,c\]): ZZ32 = do (rows, cols) = m.sizes; rows end
+colsOfA[\nat r, nat c\](m: Matrix[\RR64,r,c\]): ZZ32 = do (rows, cols) = m.sizes; cols end
+nth2[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32, j: ZZ32): RR64 = m[i,j]
+
+(* h: (B,BLK,NH,HD) reshape then 0 2 1 3 transpose -- a copy *)
+heads[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    w = cols DIV nHead
+    arr3(bsz nHead, blockSize, w,
+         fn (pl: ZZ32, i: ZZ32, j: ZZ32): RR64 => m[(pl DIV nHead) blockSize + i, (pl MOD nHead) w + j])
+  end
+(* u: the inverse -- also a copy *)
+unheads[\nat a, nat b, nat c\](x: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (d0, d1, d2) = x.sizes
+    mat(nn, nHead d2,
+        fn (i: ZZ32, j: ZZ32): RR64 => x[(i DIV blockSize) nHead + (j DIV d2), i MOD blockSize, j MOD d2])
+  end
+
+(* the lift over planes, assembled by the first result *)
+cells(f: (Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\]) -> Array[\RR64,(ZZ32,ZZ32)\], s: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], x: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (d0, d1, d2) = s.sizes
+    rs = array[\Any\](d0)
+    for pl <- 0#d0 do rs[pl] := f(plane(s,pl), plane(x,pl)) end
+    arr3(d0, rowsOfA(rs[0]), colsOfA(rs[0]),
+         fn (pl: ZZ32, i: ZZ32, j: ZZ32): RR64 => nth2(rs[pl], i, j))
+  end
+opr /[\nat a, nat b, nat c\](x: Array3[\RR64,0,a,0,b,0,c\], s: RR64): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (d0, d1, d2) = x.sizes
+    arr3(d0, d1, d2, fn (i: ZZ32, j: ZZ32, l: ZZ32): RR64 => x[i,j,l] / s)
+  end
+
+(* ---------------------------------------------- form C: the attention --- *)
+attnC(): (Array[\RR64,(ZZ32,ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\]) = do
+    (qh, kh, vh, dHh) = (heads(q), heads(k), heads(v), heads(dH))
+    att = cells(fn (qc, kc) => smRows((qc (kc^T)) / (SQRT (1.0 headDim)) + causalMask), qh, kh)
+    hc  = unheads(cells(fn (ac, vc) => ac vc, att, vh))
+    dV  = unheads(cells(fn (ac, dc) => (ac^T) dc, att, dHh))
+    dS  = cells(fn (ac, dc) => smRowsB(ac, dc), att,
+                cells(fn (dc, vc) => dc (vc^T), dHh, vh)) / (SQRT (1.0 headDim))
+    dQ  = unheads(cells(fn (sc, kc) => sc kc, dS, kh))
+    dK  = unheads(cells(fn (sc, qc) => (sc^T) qc, dS, qh))
+    (att, hc, dS, dQ, dK, dV)
+  end
+
+report(att: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], hc: Array[\RR64,(ZZ32,ZZ32)\], dSa: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], dQ: Array[\RR64,(ZZ32,ZZ32)\], dK: Array[\RR64,(ZZ32,ZZ32)\], dV: Array[\RR64,(ZZ32,ZZ32)\]): () = do
+    println "att sum " sumOf3(att)
+    println "dS  sum " sumOf3(dSa)
+    println "hc  sum " sumOf(hc) "  hc[5,7] " hc[5,7]
+    println "dQ  sum " sumOf(dQ) "  dQ[5,7] " dQ[5,7]
+    println "dK  sum " sumOf(dK) "  dK[5,7] " dK[5,7]
+    println "dV  sum " sumOf(dV) "  dV[5,7] " dV[5,7]
+  end
+
+run(): () = do
+    (att, hc, dSa, dQ, dK, dV) = attnC()
+    report(att, hc, dSa, dQ, dK, dV)
+    t0 = nanoTime()
+    for r <- seq(0#10) do
+        (a2, h2, s2, q2, k2, v2) = attnC()
+    end
+    println "form C: 10 reps of forward+backward " ((nanoTime() - t0) DIV 1000000) " ms"
+  end
+end

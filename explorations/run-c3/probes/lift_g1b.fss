@@ -1,0 +1,11 @@
+(* lift_g1b: (b) alone -- types on the parameters, no return type *)
+component lift_g1b
+export Executable
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+applyIt(f: (RR64, Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], w: RR64, v: Array[\RR64,ZZ32\]):
+        Array[\RR64,ZZ32\] = f(w, v)
+run(): () = do
+    v = vec(3, fn (j: ZZ32): RR64 => 1.0 + j)
+    println "(b) typed params, no return type: " applyIt(fn (w: RR64, r: Array[\RR64,ZZ32\]) => w r, 3.0, v)
+  end
+end

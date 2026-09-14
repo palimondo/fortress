@@ -75,14 +75,6 @@ sumOf[\nat r, nat c\](m: Matrix[\RR64,r,c\]): RR64 = do
     SUM[i <- 0#rows, j <- 0#cols] m[i,j]
   end
 
-(* -------------------------------------------------------- test data ----- *)
-q: Array[\RR64,(ZZ32,ZZ32)\] = mat(nn, nEmbd, fn (i: ZZ32, j: ZZ32): RR64 => sin(0.1 i + 0.37 j))
-k: Array[\RR64,(ZZ32,ZZ32)\] = mat(nn, nEmbd, fn (i: ZZ32, j: ZZ32): RR64 => sin(0.1 i + 0.37 j + 1.0))
-sumOf[\nat r, nat c\](m: Matrix[\RR64,r,c\]): RR64 = do
-    (rows, cols) = m.sizes
-    SUM[i <- 0#rows, j <- 0#cols] m[i,j]
-  end
-
 (* ------------------------------------------------------ the cells lift -- *)
 colsOfA[\nat r, nat c\](m: Matrix[\RR64,r,c\]): ZZ32 = do (rows, cols) = m.sizes; cols end
 nth2[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32, j: ZZ32): RR64 = m[i,j]

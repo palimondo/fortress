@@ -1,0 +1,155 @@
+(* alg_b -- form B: a thin wrapper type of our own carrying the algebra.
+   Arr wraps a rank-1 array, Mat a rank-2 one; every operator is a method
+   (or a functional method) of the wrapper. *)
+component alg_b
+export Executable
+import System.{...}
+
+(* ==================== ALGEBRA DECLARATIONS (counted) ==================== *)
+vecOf(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+matOf(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    array[\RR64\](r,c).fill(f)
+zipV[\nat s, nat t\](f: (RR64,RR64)->RR64, a: Vector[\RR64,s\], b: Vector[\RR64,t\]):
+        Array[\RR64,ZZ32\] = vecOf(|a|, fn (i: ZZ32): RR64 => f(a[i], b[i]))
+zipM[\nat r, nat c, nat p, nat q\](f: (RR64,RR64)->RR64, a: Matrix[\RR64,r,c\],
+        b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = a.sizes
+    matOf(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => f(a[i,j], b[i,j]))
+  end
+mapV[\nat s\](f: RR64->RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](f)
+mapM[\nat r, nat c\](f: RR64->RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](f)
+lenOf[\nat s\](v: Vector[\RR64,s\]): ZZ32 = |v|
+dotOf[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): RR64 = SUM[i <- 0#|a|] a[i] b[i]
+matMul[\nat r, nat c, nat p\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,c,p\]): Array[\RR64,(ZZ32,ZZ32)\] = a b
+trOf[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.t()
+addS(x: RR64, y: RR64): RR64 = x + y
+subS(x: RR64, y: RR64): RR64 = x - y
+mulS(x: RR64, y: RR64): RR64 = x y
+divS(x: RR64, y: RR64): RR64 = x / y
+maxS(x: RR64, y: RR64): RR64 = if x > y then x else y end
+
+object Arr(a: Array[\RR64,ZZ32\])
+    opr +(self, o: Arr): Arr = Arr(zipV(addS, self.a, o.a))
+    opr +(self, s: RR64): Arr = Arr(mapV(fn (x: RR64): RR64 => x + s, self.a))
+    opr +(s: RR64, self): Arr = Arr(mapV(fn (x: RR64): RR64 => s + x, self.a))
+    opr -(self, o: Arr): Arr = Arr(zipV(subS, self.a, o.a))
+    opr -(self, s: RR64): Arr = Arr(mapV(fn (x: RR64): RR64 => x - s, self.a))
+    opr -(s: RR64, self): Arr = Arr(mapV(fn (x: RR64): RR64 => s - x, self.a))
+    opr -(self): Arr = Arr(mapV(fn (x: RR64): RR64 => -x, self.a))
+    opr ×(self, o: Arr): Arr = Arr(zipV(mulS, self.a, o.a))
+    opr /(self, o: Arr): Arr = Arr(zipV(divS, self.a, o.a))
+    opr /(self, s: RR64): Arr = Arr(mapV(fn (x: RR64): RR64 => x / s, self.a))
+    opr /(s: RR64, self): Arr = Arr(mapV(fn (x: RR64): RR64 => s / x, self.a))
+    opr juxtaposition(self, s: RR64): Arr = Arr(mapV(fn (x: RR64): RR64 => x s, self.a))
+    opr juxtaposition(s: RR64, self): Arr = Arr(mapV(fn (x: RR64): RR64 => s x, self.a))
+    opr SQRT(self): Arr = Arr(mapV(fn (x: RR64): RR64 => SQRT x, self.a))
+    exp(self): Arr = Arr(mapV(fn (x: RR64): RR64 => exp x, self.a))
+    opr DOT(self, o: Arr): RR64 = dotOf(self.a, o.a)
+    opr |self| : ZZ32 = lenOf(self.a)
+    sum(): RR64 = SUM[i <- 0#lenOf(self.a)] self.a[i]
+    max(): RR64 = BIG MAX[i <- 0#lenOf(self.a)] self.a[i]
+    show(): String = BIG |||[i <- seq(0#lenOf(self.a))] ("" self.a[i])
+end
+
+object Mat(m: Array[\RR64,(ZZ32,ZZ32)\])
+    opr +(self, o: Mat): Mat = Mat(zipM(addS, self.m, o.m))
+    opr +(self, s: RR64): Mat = Mat(mapM(fn (x: RR64): RR64 => x + s, self.m))
+    opr +(s: RR64, self): Mat = Mat(mapM(fn (x: RR64): RR64 => s + x, self.m))
+    opr -(self, o: Mat): Mat = Mat(zipM(subS, self.m, o.m))
+    opr -(self, s: RR64): Mat = Mat(mapM(fn (x: RR64): RR64 => x - s, self.m))
+    opr -(self): Mat = Mat(mapM(fn (x: RR64): RR64 => -x, self.m))
+    opr ×(self, o: Mat): Mat = Mat(zipM(mulS, self.m, o.m))
+    opr /(self, o: Mat): Mat = Mat(zipM(divS, self.m, o.m))
+    opr /(self, s: RR64): Mat = Mat(mapM(fn (x: RR64): RR64 => x / s, self.m))
+    opr juxtaposition(self, o: Mat): Mat = Mat(matMul(self.m, o.m))
+    opr juxtaposition(self, s: RR64): Mat = Mat(mapM(fn (x: RR64): RR64 => x s, self.m))
+    opr juxtaposition(s: RR64, self): Mat = Mat(mapM(fn (x: RR64): RR64 => s x, self.m))
+    opr SQRT(self): Mat = Mat(mapM(fn (x: RR64): RR64 => SQRT x, self.m))
+    exp(self): Mat = Mat(mapM(fn (x: RR64): RR64 => exp x, self.m))
+    opr MAX(self, s: RR64): Mat = Mat(mapM(fn (x: RR64): RR64 => maxS(x, s), self.m))
+    opr MAX(s: RR64, self): Mat = Mat(mapM(fn (x: RR64): RR64 => maxS(s, x), self.m))
+    opr MAX(self, o: Mat): Mat = Mat(zipM(maxS, self.m, o.m))
+    opr >(self, s: RR64): Mat = Mat(mapM(fn (x: RR64): RR64 => if x > s then 1.0 else 0.0 end, self.m))
+    opr =(self, s: RR64): Mat = Mat(mapM(fn (x: RR64): RR64 => if x = s then 1.0 else 0.0 end, self.m))
+    tr(): Mat = Mat(trOf(self.m))
+    show(): String = do
+        (rows, cols) = self.m.sizes
+        BIG //[i <- seq(0#rows)] (BIG |||[j <- seq(0#cols)] ("" self.m[i,j]))
+      end
+end
+
+opr (x: Mat)^T: Mat = x.tr()
+(* ==================== END ALGEBRA DECLARATIONS ========================== *)
+
+beta1: RR64 = 0.85
+beta2: RR64 = 0.99
+epsAdam: RR64 = 10.0^(-8)
+eps: RR64 = 10.0^(-5)
+
+(* ---------------------------- the five formulas ------------------------- *)
+adam(p: Arr, m: Arr, v: Arr, g: Arr, t: ZZ32, lr: RR64): (Arr, Arr, Arr) = do
+    m' = beta1 m + (1 - beta1) g
+    v' = beta2 v + (1 - beta2) (g × g)
+    p' = p - (lr (m' / (1 - beta1^t))) / ((SQRT (v' / (1 - beta2^t))) + epsAdam)
+    (p', m', v')
+  end
+
+softmax(z: Arr): Arr = do
+    e = exp(z - (BIG MAX[t <- z.a] t))
+    e / (SUM[t <- e.a] t)
+  end
+
+rmsnorm(x: Arr): Arr = x / SQRT (eps + (x DOT x) / |x|)
+
+run(): () = do
+    n = 6
+    p = Arr(vecOf(n, fn (i: ZZ32): RR64 => 0.1 (1.0 i)))
+    mm = Arr(vecOf(n, fn (i: ZZ32): RR64 => 0.01 (1.0 i)))
+    vv = Arr(vecOf(n, fn (i: ZZ32): RR64 => 0.001 (1.0 (i + 1))))
+    gg = Arr(vecOf(n, fn (i: ZZ32): RR64 => 0.5 - 0.1 (1.0 i)))
+    println "== 1 Adam (vectors of 6, t = 3, lr = 0.01) =="
+    (p', m', v') = adam(p, mm, vv, gg, 3, 0.01)
+    println "m' = " m'.show()
+    println "v' = " v'.show()
+    println "p' = " p'.show()
+
+    z = Arr(vecOf(n, fn (i: ZZ32): RR64 => 1.0 i - 2.0))
+    println "== 2 softmax =="
+    println "z  = " z.show()
+    println "sm = " softmax(z).show()
+
+    println "== 3 rmsnorm =="
+    println "rn = " rmsnorm(z).show()
+
+    m0 = Mat(matOf(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j) - 3.0))
+    f2 = Mat(matOf(3, 3, fn (i: ZZ32, j: ZZ32): RR64 => 0.1 (1.0 (i + 2 j))))
+    dX4 = Mat(matOf(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 0.5 - 0.1 (1.0 (i j))))
+    println "== 4 ReLU and its backward (4x3, 3x3) =="
+    mr = 0.0 MAX m0
+    println ("m0 =" // m0.show())
+    println ("mr =" // mr.show())
+    dM0 = (dX4 f2) × (m0 > 0.0)
+    println ("dM0 =" // dM0.show())
+
+    xp = Mat(matOf(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i + j)))
+    hc = Mat(matOf(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 0.25 (1.0 (i + 1))))
+    wo = Mat(matOf(3, 3, fn (i: ZZ32, j: ZZ32): RR64 => if i = j then 1.0 else 0.5 end))
+    println "== 5 residual: x2 = xp + hc (wo^T) =="
+    x2 = xp + hc (wo^T)
+    println ("x2 =" // x2.show())
+    println "2.0 v = " (2.0 z).show()
+    println "v 2.0 = " (z 2.0).show()
+    println ("2.0 m =" // (2.0 m0).show())
+
+    nbig = 4192
+    pb: Arr := Arr(vecOf(nbig, fn (i: ZZ32): RR64 => 0.001 (1.0 i)))
+    mb: Arr := Arr(vecOf(nbig, fn (i: ZZ32): RR64 => 0.0))
+    vb: Arr := Arr(vecOf(nbig, fn (i: ZZ32): RR64 => 0.0))
+    gb = Arr(vecOf(nbig, fn (i: ZZ32): RR64 => 0.5 - 0.0001 (1.0 i)))
+    t0 = nanoTime()
+    for k <- seq(0#100) do
+        (pb, mb, vb) := adam(pb, mb, vb, gb, 1, 0.01)
+    end
+    println "adam 4192 x 100: " ((nanoTime() - t0) DIV 1000000) " ms  (pb[0] = " pb.a[0] ")"
+  end
+end

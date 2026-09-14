@@ -1,0 +1,11 @@
+(* lift_g1a: (a) alone -- a lambda with no parameter types *)
+component lift_g1a
+export Executable
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+applyIt(f: (RR64, Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], w: RR64, v: Array[\RR64,ZZ32\]):
+        Array[\RR64,ZZ32\] = f(w, v)
+run(): () = do
+    v = vec(3, fn (j: ZZ32): RR64 => 1.0 + j)
+    println "(a) untyped lambda: " applyIt(fn (w, r) => w r, 2.0, v)
+  end
+end
