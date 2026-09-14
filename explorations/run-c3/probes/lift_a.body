@@ -1,0 +1,79 @@
+
+(* ---- typed readers on a cell result (AplCore's aplNth/aplScalOf) --------- *)
+nth[\nat s\](v: Vector[\RR64,s\], j: ZZ32): RR64 = v[j]
+lenOf[\nat s\](v: Vector[\RR64,s\]): ZZ32 = |v|
+
+(* ---- the lift: monadic, vector result ----------------------------------- *)
+rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = do
+    (nr, nc) = m.sizes
+    rs = array[\Any\](nr)
+    i: ZZ32 := 0
+    while i < nr do rs[i] := f(rowOf(m, i)); i := i + 1 end
+    mat(nr, lenOf(rs[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(rs[u], w))
+  end
+
+(* ---- the lift: monadic, scalar result (arrow-type overload under test) --- *)
+rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> RR64, m: Matrix[\RR64,r,c\]):
+        Array[\RR64,ZZ32\] = do
+    (nr, nc) = m.sizes
+    vec(nr, fn (u: ZZ32): RR64 => f(rowOf(m, u)))
+  end
+
+(* ---- the lift: parallel for into an Array[\Any\] ------------------------- *)
+rowsP[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = do
+    (nr, nc) = m.sizes
+    rs = array[\Any\](nr)
+    for i <- 0#nr do rs[i] := f(rowOf(m, i)) end
+    mat(nr, lenOf(rs[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(rs[u], w))
+  end
+
+(* ---- the dyadic lift (rank 1 1) ----------------------------------------- *)
+rows[\nat r, nat c, nat p, nat q\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\],
+        d: Matrix[\RR64,r,c\], e: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (nr, nc) = d.sizes
+    rs = array[\Any\](nr)
+    i: ZZ32 := 0
+    while i < nr do rs[i] := f(rowOf(d, i), rowOf(e, i)); i := i + 1 end
+    mat(nr, lenOf(rs[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(rs[u], w))
+  end
+
+(* ---- the rank 0 1 lift --------------------------------------------------- *)
+rows[\nat n, nat r, nat c\](f: (RR64, Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\],
+        v: Vector[\RR64,n\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (nr, nc) = m.sizes
+    rs = array[\Any\](nr)
+    i: ZZ32 := 0
+    while i < nr do rs[i] := f(v[i], rowOf(m, i)); i := i + 1 end
+    mat(nr, lenOf(rs[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(rs[u], w))
+  end
+
+x: Array[\RR64,(ZZ32,ZZ32)\] = mat(64, 16, fn (i: ZZ32, j: ZZ32): RR64 => sin(1.0 i + 0.3 j))
+x2: Array[\RR64,(ZZ32,ZZ32)\] = mat(64, 16, fn (i: ZZ32, j: ZZ32): RR64 => cos(0.7 i - 0.2 j))
+nv: Array[\RR64,ZZ32\] = vec(64, fn (i: ZZ32): RR64 => 1.0 + 0.01 i)
+
+report(tag: String, m: Array[\RR64,(ZZ32,ZZ32)\]): () =
+    println tag " sum = " sumOf(m) "  [5,7] = " m[5,7]
+
+run(): () = do
+    xp = rows(rmsn, x)
+    report("(1) rows(rmsn, x)          ", xp)
+    report("(2) rows(sm, x)            ", rows(sm, x))
+    report("(3) rowsP(rmsn, x) parallel", rowsP(rmsn, x))
+    report("(4) rowsP(sm, x)   parallel", rowsP(sm, x))
+    report("(5) rows(rmsnB, x2, x)     ", rows(rmsnB, x2, x))
+    report("(6) rows(scale, nv, x)     ",
+           rows(fn (w: RR64, r: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] => w r, nv, x))
+    sv = rows(fn (r: Array[\RR64,ZZ32\]): RR64 => sumV(r), x)
+    println "(7) scalar-result overload: |sv| = " |sv| "  sv[5] = " sv[5]
+
+    t0 = nanoTime()
+    for k <- seq(0#10) do rows(rmsn, x) end
+    t1 = nanoTime()
+    for k <- seq(0#10) do rows(sm, x) end
+    t2 = nanoTime()
+    println "(t) 10 x rows(rmsn,x): " ms(t0,t1) " ms   10 x rows(sm,x): " ms(t1,t2) " ms"
+    println "done"
+  end
+end

@@ -1,0 +1,150 @@
+(* alg_a -- form A: an elementwise algebra declared as operator overloads
+   directly on the library's own Vector/Matrix families, with scalar
+   extension.  Values stay the library's arrays; nothing is wrapped. *)
+component alg_a
+export Executable
+import System.{...}
+
+(* ==================== ALGEBRA DECLARATIONS (counted) ==================== *)
+vecOf(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+matOf(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    array[\RR64\](r,c).fill(f)
+zipV[\nat s, nat t\](f: (RR64,RR64)->RR64, a: Vector[\RR64,s\], b: Vector[\RR64,t\]):
+        Array[\RR64,ZZ32\] = vecOf(|a|, fn (i: ZZ32): RR64 => f(a[i], b[i]))
+zipM[\nat r, nat c, nat p, nat q\](f: (RR64,RR64)->RR64, a: Matrix[\RR64,r,c\],
+        b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = a.sizes
+    matOf(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => f(a[i,j], b[i,j]))
+  end
+mulS(x: RR64, y: RR64): RR64 = x y
+divS(x: RR64, y: RR64): RR64 = x / y
+maxS(x: RR64, y: RR64): RR64 = if x > y then x else y end
+gtS(x: RR64, y: RR64): RR64 = if x > y then 1.0 else 0.0 end
+eqS(x: RR64, y: RR64): RR64 = if x = y then 1.0 else 0.0 end
+
+(* Hadamard *)
+opr ×[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = zipV(mulS, a, b)
+opr ×[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = zipM(mulS, a, b)
+
+(* elementwise / with scalar extension in both orders *)
+opr /[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = zipV(divS, a, b)
+opr /[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = zipM(divS, a, b)
+opr /[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => x / a)
+opr /[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => x / a)
+opr /[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => a / x)
+opr /[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => a / x)
+
+(* + and - between an array and a scalar, both orders (array+array is the library's) *)
+opr +[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => x + a)
+opr +[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => a + x)
+opr +[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => x + a)
+opr +[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => a + x)
+opr -[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => x - a)
+opr -[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => a - x)
+opr -[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => x - a)
+opr -[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => a - x)
+
+(* elementwise SQRT, exp, log *)
+opr SQRT[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => SQRT x)
+opr SQRT[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => SQRT x)
+exp[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => exp x)
+exp[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => exp x)
+log[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => log x)
+log[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => log x)
+
+(* MAX with a scalar, both orders, and between two matrices *)
+opr MAX[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => maxS(a, x))
+opr MAX[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => maxS(x, a))
+opr MAX[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = zipM(maxS, a, b)
+
+(* comparisons against a scalar yield a 0/1 matrix *)
+opr >[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => gtS(x, a))
+opr =[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => eqS(x, a))
+
+(* the transpose postfix of gap row 149 *)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+(* ==================== END ALGEBRA DECLARATIONS ========================== *)
+
+showV[\nat s\](v: Vector[\RR64,s\]): String = BIG |||[i <- seq(0#|v|)] ("" v[i])
+showM[\nat r, nat c\](m: Matrix[\RR64,r,c\]): String = do
+    (rows, cols) = m.sizes
+    BIG //[i <- seq(0#rows)] (BIG |||[j <- seq(0#cols)] ("" m[i,j]))
+  end
+
+beta1: RR64 = 0.85
+beta2: RR64 = 0.99
+epsAdam: RR64 = 10.0^(-8)
+eps: RR64 = 10.0^(-5)
+
+(* ---------------------------- the five formulas ------------------------- *)
+adam(p: Array[\RR64,ZZ32\], m: Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\],
+     g: Array[\RR64,ZZ32\], t: ZZ32, lr: RR64):
+     (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) = do
+    m' = beta1 m + (1 - beta1) g
+    v' = beta2 v + (1 - beta2) (g × g)
+    p' = p - (lr (m' / (1 - beta1^t))) / ((SQRT (v' / (1 - beta2^t))) + epsAdam)
+    (p', m', v')
+  end
+
+softmax[\nat s\](z: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = do
+    e = exp(z - (BIG MAX[t <- z] t))
+    e / (SUM[t <- e] t)
+  end
+
+rmsnorm[\nat s\](x: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    x / SQRT (eps + (x DOT x) / |x|)
+
+run(): () = do
+    n = 6
+    p = vecOf(n, fn (i: ZZ32): RR64 => 0.1 (1.0 i))
+    mm = vecOf(n, fn (i: ZZ32): RR64 => 0.01 (1.0 i))
+    vv = vecOf(n, fn (i: ZZ32): RR64 => 0.001 (1.0 (i + 1)))
+    gg = vecOf(n, fn (i: ZZ32): RR64 => 0.5 - 0.1 (1.0 i))
+    println "== 1 Adam (vectors of 6, t = 3, lr = 0.01) =="
+    (p', m', v') = adam(p, mm, vv, gg, 3, 0.01)
+    println "m' = " showV(m')
+    println "v' = " showV(v')
+    println "p' = " showV(p')
+
+    z = vecOf(n, fn (i: ZZ32): RR64 => 1.0 i - 2.0)
+    println "== 2 softmax =="
+    println "z  = " showV(z)
+    println "sm = " showV(softmax(z))
+
+    println "== 3 rmsnorm =="
+    println "x  = " showV(z)
+    println "rn = " showV(rmsnorm(z))
+
+    m0 = matOf(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j) - 3.0)
+    f2 = matOf(3, 3, fn (i: ZZ32, j: ZZ32): RR64 => 0.1 (1.0 (i + 2 j)))
+    dX4 = matOf(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 0.5 - 0.1 (1.0 (i j)))
+    println "== 4 ReLU and its backward (4x3, 3x3) =="
+    mr = 0.0 MAX m0
+    println ("m0 =" // showM(m0))
+    println ("mr =" // showM(mr))
+    dM0 = (dX4 f2) × (m0 > 0.0)
+    println ("dM0 =" // showM(dM0))
+
+    xp = matOf(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i + j))
+    hc = matOf(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 0.25 (1.0 (i + 1)))
+    wo = matOf(3, 3, fn (i: ZZ32, j: ZZ32): RR64 => if i = j then 1.0 else 0.5 end)
+    println "== 5 residual: x2 = xp + hc (wo^T) =="
+    x2 = xp + hc (wo^T)
+    println ("x2 =" // showM(x2))
+    println "2.0 v = " showV(2.0 z)
+    println "v 2.0 = " showV(z 2.0)
+    println ("2.0 m =" // showM(2.0 m0))
+
+    (* timing: Adam over a 4192-vector, 100 repetitions *)
+    nbig = 4192
+    pb: Array[\RR64,ZZ32\] := vecOf(nbig, fn (i: ZZ32): RR64 => 0.001 (1.0 i))
+    mb: Array[\RR64,ZZ32\] := vecOf(nbig, fn (i: ZZ32): RR64 => 0.0)
+    vb: Array[\RR64,ZZ32\] := vecOf(nbig, fn (i: ZZ32): RR64 => 0.0)
+    gb = vecOf(nbig, fn (i: ZZ32): RR64 => 0.5 - 0.0001 (1.0 i))
+    t0 = nanoTime()
+    for k <- seq(0#100) do
+        (pb, mb, vb) := adam(pb, mb, vb, gb, 1, 0.01)
+    end
+    println "adam 4192 x 100: " ((nanoTime() - t0) DIV 1000000) " ms  (pb[0] = " pb[0] ")"
+  end
+end

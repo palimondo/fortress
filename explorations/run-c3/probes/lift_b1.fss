@@ -1,0 +1,10 @@
+(* lift_b1: spelling 1 -- a 2-D array comprehension [ (i,j) |-> e | gens ] *)
+component lift_b1
+export Executable
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+run(): () = do
+    m = mat(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 i + 0.1 j)
+    out = [ (i,j) |-> 2.0 m[i,j] | i <- 0#4, j <- 0#3 ]
+    println "(b1) " out
+  end
+end

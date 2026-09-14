@@ -1,0 +1,55 @@
+(* lift_h: the shared header alone, smoke-tested at vector level *)
+component lift_h
+export Executable
+
+(* ---- shared header (pasted into every lift_* probe) ---------------------- *)
+object Row[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, v: RR64): () = base.put((i, j), v)
+    init0(j: ZZ32, v: RR64): () = base.init0((i, j), v)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+rowOf[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Vector[\RR64,c\] = Row[\r,c\](m, i)
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+
+opr /[\nat n\](v: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => v[j] / s)
+opr -[\nat n\](v: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => v[j] - s)
+opr SQRT[\nat n\](v: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => SQRT (v[j]))
+opr ×[\nat n, nat m\](a: Vector[\RR64,n\], b: Vector[\RR64,m\]): Array[\RR64,ZZ32\] = vec(|a|, fn (j: ZZ32): RR64 => a[j] b[j])
+exp[\nat n\](v: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => exp(v[j]))
+
+epsRms: RR64 = 1.0 / (10.0^5)
+
+rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsRms + (x DOT x) / (1.0 |x|))
+sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+    e = exp(z - (BIG MAX[u <- z] u))
+    e / (SUM[u <- e] u)
+  end
+rmsnB(a: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+    r = SQRT (epsRms + (x DOT x) / (1.0 |x|))
+    y = x / r
+    (a - ((y DOT a) / (1.0 |y|)) y) / r
+  end
+sumOf[\nat r, nat c\](m: Matrix[\RR64,r,c\]): RR64 = do
+    (rr, cc) = m.sizes
+    SUM[i <- 0#rr, j <- 0#cc] m[i,j]
+  end
+sumV[\nat n\](v: Vector[\RR64,n\]): RR64 = SUM[j <- 0#|v|] v[j]
+ms(t0: ZZ64, t1: ZZ64): RR64 = (1.0 (t1 - t0)) / 1000000.0
+
+run(): () = do
+    x = vec(16, fn (j: ZZ32): RR64 => sin(1.0 j))
+    println "rmsn(x) = " rmsn(x)
+    println "sum sm(x) = " sumV(sm(x))
+    d = vec(16, fn (j: ZZ32): RR64 => cos(1.0 j))
+    println "rmsnB sum = " sumV(rmsnB(d, x))
+    m = mat(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => sin(1.0 i + 0.3 j))
+    println "row 1 of m = " rowOf(m, 1)
+    println "rmsn(row 1) = " rmsn(rowOf(m, 1))
+    println "sumOf m = " sumOf(m)
+    println "hadamard = " (x × d)
+    println "done"
+  end
+end

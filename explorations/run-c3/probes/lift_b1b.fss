@@ -1,0 +1,8 @@
+(* lift_b1b: spelling 2 -- a 1-D array comprehension [ i |-> e | i <- g ] *)
+component lift_b1b
+export Executable
+run(): () = do
+    out = [ i |-> 1.0 i | i <- 0#5 ]
+    println "(b1b) " out
+  end
+end

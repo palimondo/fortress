@@ -1,0 +1,32 @@
+(* lift_b3: spelling 4 -- a user reduction object stacking the row results,
+   driven through Generator.generate (the machinery a BIG operator uses). *)
+component lift_b3
+export Executable
+
+object StackR extends MonoidReduction[\Array[\Any,ZZ32\]\]
+    getter asString(): String = "StackR"
+    empty(): Array[\Any,ZZ32\] = array[\Any\](0)
+    join(a: Array[\Any,ZZ32\], b: Array[\Any,ZZ32\]): Array[\Any,ZZ32\] = do
+        o = array[\Any\](|a| + |b|)
+        for i <- seq(0#|a|) do o[i] := a[i] end
+        for i <- seq(0#|b|) do o[|a| + i] := b[i] end
+        o
+      end
+end
+one(x: Any): Array[\Any,ZZ32\] = do
+    o = array[\Any\](1)
+    o[0] := x
+    o
+  end
+nth[\nat s\](v: Vector[\RR64,s\], j: ZZ32): RR64 = v[j]
+lenOf[\nat s\](v: Vector[\RR64,s\]): ZZ32 = |v|
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+run(): () = do
+    m = mat(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 i + 0.1 j)
+    rs = (0#4).generate[\Array[\Any,ZZ32\]\](StackR,
+             fn (i: ZZ32): Array[\Any,ZZ32\] =>
+                 one(array[\RR64\](3).fill(fn (j: ZZ32): RR64 => 2.0 m[i,j])))
+    println "(b3) |rs| = " |rs|
+    println "(b3) stacked = " mat(|rs|, lenOf(rs[0]), fn (i: ZZ32, j: ZZ32): RR64 => nth(rs[i], j))
+  end
+end

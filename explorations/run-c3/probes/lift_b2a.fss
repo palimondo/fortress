@@ -1,0 +1,11 @@
+(* lift_b2a: the chained subscript ls[i][j] on a List element, kept as the
+   failing half of lift_b2. *)
+component lift_b2a
+export Executable
+import List.{...}
+run(): () = do
+    ls = <| array[\RR64\](3).fill(fn (j: ZZ32): RR64 => 1.0 i + 0.1 j) | i <- 0#4 |>
+    println "(b2a) ls[0] = " ls[0]
+    println "(b2a) ls[1][2] = " ls[1][2]
+  end
+end

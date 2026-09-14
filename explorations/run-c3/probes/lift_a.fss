@@ -1,0 +1,121 @@
+(* lift_a: the row lift as stack-by-first-result.  The rows are computed into
+   an Array[\Any\] and the result's shape is read off rs[0] by overload
+   resolution, as AplCore's aplAsm1 does. *)
+component lift_a
+export Executable
+
+(* ---- shared header (pasted into every lift_* probe) ---------------------- *)
+object Row[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, v: RR64): () = base.put((i, j), v)
+    init0(j: ZZ32, v: RR64): () = base.init0((i, j), v)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+rowOf[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Vector[\RR64,c\] = Row[\r,c\](m, i)
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+
+opr /[\nat n\](v: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => v[j] / s)
+opr -[\nat n\](v: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => v[j] - s)
+opr SQRT[\nat n\](v: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => SQRT (v[j]))
+opr ×[\nat n, nat m\](a: Vector[\RR64,n\], b: Vector[\RR64,m\]): Array[\RR64,ZZ32\] = vec(|a|, fn (j: ZZ32): RR64 => a[j] b[j])
+exp[\nat n\](v: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => exp(v[j]))
+
+epsRms: RR64 = 1.0 / (10.0^5)
+
+rmsn(a: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = a / SQRT (epsRms + (a DOT a) / (1.0 |a|))
+sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+    e = exp(z - (BIG MAX[u <- z] u))
+    e / (SUM[u <- e] u)
+  end
+rmsnB(g: Array[\RR64,ZZ32\], a: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+    r = SQRT (epsRms + (a DOT a) / (1.0 |a|))
+    y = a / r
+    (g - ((y DOT g) / (1.0 |y|)) y) / r
+  end
+sumOf[\nat r, nat c\](m: Matrix[\RR64,r,c\]): RR64 = do
+    (rr, cc) = m.sizes
+    SUM[i <- 0#rr, j <- 0#cc] m[i,j]
+  end
+sumV[\nat n\](v: Vector[\RR64,n\]): RR64 = SUM[j <- 0#|v|] v[j]
+ms(t0: ZZ64, t1: ZZ64): RR64 = (1.0 (t1 - t0)) / 1000000.0
+
+(* ---- typed readers on a cell result (AplCore's aplNth/aplScalOf) --------- *)
+nth[\nat s\](v: Vector[\RR64,s\], j: ZZ32): RR64 = v[j]
+lenOf[\nat s\](v: Vector[\RR64,s\]): ZZ32 = |v|
+
+(* ---- the lift: monadic, vector result ----------------------------------- *)
+rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = do
+    (nr, nc) = m.sizes
+    rs = array[\Any\](nr)
+    i: ZZ32 := 0
+    while i < nr do rs[i] := f(rowOf(m, i)); i := i + 1 end
+    mat(nr, lenOf(rs[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(rs[u], w))
+  end
+
+(* ---- the lift: monadic, scalar result (arrow-type overload under test) --- *)
+rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> RR64, m: Matrix[\RR64,r,c\]):
+        Array[\RR64,ZZ32\] = do
+    (nr, nc) = m.sizes
+    vec(nr, fn (u: ZZ32): RR64 => f(rowOf(m, u)))
+  end
+
+(* ---- the lift: parallel for into an Array[\Any\] ------------------------- *)
+rowsP[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = do
+    (nr, nc) = m.sizes
+    rs = array[\Any\](nr)
+    for i <- 0#nr do rs[i] := f(rowOf(m, i)) end
+    mat(nr, lenOf(rs[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(rs[u], w))
+  end
+
+(* ---- the dyadic lift (rank 1 1) ----------------------------------------- *)
+rows[\nat r, nat c, nat p, nat q\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\],
+        d: Matrix[\RR64,r,c\], e: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (nr, nc) = d.sizes
+    rs = array[\Any\](nr)
+    i: ZZ32 := 0
+    while i < nr do rs[i] := f(rowOf(d, i), rowOf(e, i)); i := i + 1 end
+    mat(nr, lenOf(rs[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(rs[u], w))
+  end
+
+(* ---- the rank 0 1 lift --------------------------------------------------- *)
+rows[\nat n, nat r, nat c\](f: (RR64, Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\],
+        v: Vector[\RR64,n\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (nr, nc) = m.sizes
+    rs = array[\Any\](nr)
+    i: ZZ32 := 0
+    while i < nr do rs[i] := f(v[i], rowOf(m, i)); i := i + 1 end
+    mat(nr, lenOf(rs[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(rs[u], w))
+  end
+
+x: Array[\RR64,(ZZ32,ZZ32)\] = mat(64, 16, fn (i: ZZ32, j: ZZ32): RR64 => sin(1.0 i + 0.3 j))
+x2: Array[\RR64,(ZZ32,ZZ32)\] = mat(64, 16, fn (i: ZZ32, j: ZZ32): RR64 => cos(0.7 i - 0.2 j))
+nv: Array[\RR64,ZZ32\] = vec(64, fn (i: ZZ32): RR64 => 1.0 + 0.01 i)
+
+report(tag: String, m: Array[\RR64,(ZZ32,ZZ32)\]): () =
+    println tag " sum = " sumOf(m) "  [5,7] = " m[5,7]
+
+run(): () = do
+    xp = rows(rmsn, x)
+    report("(1) rows(rmsn, x)          ", xp)
+    report("(2) rows(sm, x)            ", rows(sm, x))
+    report("(3) rowsP(rmsn, x) parallel", rowsP(rmsn, x))
+    report("(4) rowsP(sm, x)   parallel", rowsP(sm, x))
+    report("(5) rows(rmsnB, x2, x)     ", rows(rmsnB, x2, x))
+    report("(6) rows(scale, nv, x)     ",
+           rows(fn (w: RR64, r: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] => w r, nv, x))
+    sv = rows(fn (r: Array[\RR64,ZZ32\]): RR64 => sumV(r), x)
+    println "(7) scalar-result overload: |sv| = " |sv| "  sv[5] = " sv[5]
+
+    t0 = nanoTime()
+    for k <- seq(0#10) do rows(rmsn, x) end
+    t1 = nanoTime()
+    for k <- seq(0#10) do rows(sm, x) end
+    t2 = nanoTime()
+    println "(t) 10 x rows(rmsn,x): " ms(t0,t1) " ms   10 x rows(sm,x): " ms(t1,t2) " ms"
+    println "done"
+  end
+end
