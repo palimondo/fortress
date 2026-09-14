@@ -51,12 +51,12 @@ CSS = """
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#16161a; --panel:#f7f5f1; --ink:#e8e5df; --muted:#9a938a;
+    --bg:#16161a; --panel:#1e1e24; --ink:#e8e5df; --muted:#9a938a;
     --rule:#2e2e35; --accent:#e0a468; --codebg:#23232a; --shadow:0 1px 3px rgba(0,0,0,.5);
   }
 }
 :root[data-theme="dark"]{
-  --bg:#16161a; --panel:#f7f5f1; --ink:#e8e5df; --muted:#9a938a;
+  --bg:#16161a; --panel:#1e1e24; --ink:#e8e5df; --muted:#9a938a;
   --rule:#2e2e35; --accent:#e0a468; --codebg:#23232a; --shadow:0 1px 3px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box}
@@ -101,11 +101,13 @@ h2 .n{
   font-size:10px; letter-spacing:.13em; text-transform:uppercase;
   color:var(--muted); margin-bottom:5px;
 }
-/* rendered SVG panel: always light so the black TeX strokes read in both themes */
+/* rendered SVG panel: the TeX and Fortify strokes carry no colour of their own
+   (dvisvgm emits paths and rects without fill), so they take the ink of the theme */
 .render{
   background:var(--panel); border:1px solid var(--rule); border-radius:5px;
-  padding:8px 10px; overflow-x:auto; box-shadow:var(--shadow);
+  padding:8px 10px; overflow-x:auto; box-shadow:var(--shadow); color:var(--ink);
 }
+.render svg{fill:currentColor}
 /* fit the cell, but never shrink a render below 80% of its natural size:
    below that the panel scrolls instead (--nat is the render's natural width) */
 svg.r{max-width:100%; min-width:calc(var(--nat, 0px) * .8); height:auto; display:block;}

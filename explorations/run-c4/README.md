@@ -8,7 +8,7 @@ The merge of rounds two (`explorations/run-c/`) and three (`explorations/run-c3/
 - `src/MicroGptFlatCheck.fss`: the standard of success, 40 checks against `explorations/run-c/goldens`, an aggregate verdict, non-zero exit on any FAIL.
 - `checks/threads1.txt`, `checks/threads4.txt`: the check outputs at pool sizes 1 and 4.
 - `design.md`: what was merged from where and why, the line budget, the check, the cost, the map onto the Dyalog for the APL round.
-- `tour.md`, `tour.html`, `tour/`: the guided tour, one row per Dyalog line (formula, Dyalog, Fortress set by Fortify, note), built by `tour/mktour.py`, which checks every snippet verbatim against the source; `python3 tour/mktour.py --render` rebuilds the SVGs and both files.
+- `tour.md`, `tour.html`, `tour/`: the guided tour, one row per Dyalog line (formula, Dyalog, Fortress set by Fortify, note), built by `tour/mktour.py`, which checks every snippet verbatim against the source; the page has round three's layout and follows the viewer's light or dark theme; `python3 tour/mktour.py --render` rebuilds the SVGs and both files.
 
 ## Run
 

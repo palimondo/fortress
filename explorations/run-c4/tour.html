@@ -1,13 +1,57 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>Run C4: the guided tour</title>
-<style>body{font-family:system-ui,sans-serif;margin:20px;max-width:1500px} table{border-collapse:collapse;width:100%}
-td,th{border:1px solid #bbb;padding:6px 8px;vertical-align:top} th{background:#f2f2f2;text-align:left}
-td.dy{font-family:"DejaVu Sans Mono","APL385 Unicode",monospace;font-size:13px;white-space:pre-wrap;word-break:break-all;max-width:330px}
-td.f svg,td.x svg{max-width:100%;height:auto} td.x{min-width:380px} td.f{min-width:260px} td.n{font-size:13px;max-width:260px}
-pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-break:break-all}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run C4 tour</title>
+<style>
+:root{
+  --bg:#faf9f7; --panel:#ffffff; --ink:#1c1b19; --muted:#6c6760;
+  --rule:#e2ddd5; --accent:#7a4b1e; --codebg:#f2efe9; --shadow:0 1px 2px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16161a; --panel:#1e1e24; --ink:#e8e5df; --muted:#9a938a;
+    --rule:#2e2e35; --accent:#e0a468; --codebg:#23232a; --shadow:0 1px 3px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16161a; --panel:#1e1e24; --ink:#e8e5df; --muted:#9a938a;
+  --rule:#2e2e35; --accent:#e0a468; --codebg:#23232a; --shadow:0 1px 3px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font-family:"DejaVu Serif",Georgia,"Times New Roman",serif; font-size:15px; line-height:1.55; margin:0;}
+.wrap{max-width:1180px; margin:0 auto; padding-block:32px 64px; padding-left:20px; padding-right:20px;}
+h1{font-size:1.9rem; line-height:1.2; margin:0 0 .6em; letter-spacing:-.01em;}
+.intro p{margin:0 0 1em; max-width:70ch;}
+.intro{border-bottom:1px solid var(--rule); padding-bottom:12px; margin-bottom:28px;}
+code{font-family:"DejaVu Sans Mono","Noto Sans Mono","Liberation Mono",ui-monospace,monospace; font-size:.86em; background:var(--codebg); padding:.08em .28em; border-radius:3px;}
+section.row{border-top:1px solid var(--rule); padding-top:14px; margin-top:22px;}
+section.row:first-of-type{border-top:none; margin-top:0;}
+h2{font-size:1.02rem; margin:0 0 12px; font-weight:600; letter-spacing:.01em;}
+h2 .n{display:inline-block; min-width:2.1em; color:var(--accent); font-family:"DejaVu Sans Mono",ui-monospace,monospace; font-size:.85em;}
+h2 .dy{color:var(--muted); font-weight:400; font-size:.85em; margin-left:.6em;}
+.grid{display:grid; gap:12px 22px; grid-template-columns:1fr;}
+@media (min-width:900px){
+  .grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-areas:"formula fortress" "dyalog note"; align-items:start;}
+  .c-formula{grid-area:formula} .c-dyalog{grid-area:dyalog} .c-fortress{grid-area:fortress} .c-note{grid-area:note}
+}
+.cell{min-width:0}
+.lab{font-family:"DejaVu Sans Mono",ui-monospace,monospace; font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin-bottom:5px;}
+/* rendered SVG panel: the TeX and Fortify strokes carry no colour of their own (dvisvgm emits
+   paths and rects without fill), so they take the ink of the theme */
+.render{background:var(--panel); border:1px solid var(--rule); border-radius:5px; padding:8px 10px; overflow-x:auto; box-shadow:var(--shadow); color:var(--ink);}
+.render svg{fill:currentColor}
+/* fit the cell, but never shrink a render below 80% of its natural size: below that the panel scrolls */
+svg.r{max-width:100%; min-width:calc(var(--nat, 0px) * .8); height:auto; display:block;}
+details.src{margin-top:4px} details.src summary{font-size:11px; color:var(--muted); cursor:pointer; font-style:italic}
+.apl, pre.ascii{font-family:"APL385 Unicode","BQN386 Unicode","APL333","DejaVu Sans Mono","Noto Sans Mono","Menlo","Consolas","Liberation Mono",ui-monospace,monospace; font-size:12.5px; line-height:1.65; background:var(--codebg); border:1px solid var(--rule); border-radius:5px; padding:8px 10px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; margin:0;}
+.note{margin:0;} .note.none{color:var(--muted); font-style:italic;}
+footer{margin-top:44px; padding-top:14px; border-top:1px solid var(--rule); color:var(--muted); font-size:12.5px;}
+</style>
+</head><body><div class="wrap">
 <h1>Run C4: the guided tour</h1>
-<p>One row per line of <code>microgpt_concise.dyalog</code>, in the order of the line-for-line table of <code>design.md</code>, the helper dfns included: the formula, the Dyalog line, the Fortress line or lines of <code>src/MicroGptFlat.fss</code> set by Fortify (verbatim; a <code>;</code> line of the source is shown one statement per line, and the ASCII source follows in grey), and a note where they differ. The by-eye test of round four is this table.</p>
-<table><tr><th>#</th><th>formula</th><th>Dyalog</th><th>Fortress (Fortify)</th><th>note</th></tr>
-<tr><td>1<br><small>L6</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='621' height='14' viewBox='.388543 -8.744131 466.699807 10.676883'>
+<div class="intro">
+<p>One row per line of <code>microgpt_concise.dyalog</code>, in the order of the program, the helper dfns included: the formula, the Dyalog line, the Fortress line or lines of <code>src/MicroGptFlat.fss</code> set by Fortify (verbatim; a <code>;</code> line of the source is shown one statement per line; the ASCII source is under each render), and a note where they differ. Every Fortress snippet is checked against the source by the generator, <code>tour/mktour.py</code>. The by-eye test of round four is this page.</p>
+</div>
+<section class="row" id="r01"><h2><span class="n">1</span>Hyperparameters<span class="dy">L6</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:622px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='466.699807pt' height='10.676883pt' viewBox='.388543 -8.744131 466.699807 10.676883'>
 <defs>
 <path id='f1-g2-65' d='M1.436613-.836862C1.192528-.460274 .969365-.278954 .557908-.251059C.488169-.244085 .397509-.244085 .397509-.104608C.397509-.027895 .460274 0 .495143 0C.676463 0 .9066-.027895 1.094894-.027895C1.318057-.027895 1.603985 0 1.8132 0C1.84807 0 1.952677 0 1.952677-.153425C1.952677-.244085 1.862017-.251059 1.834122-.251059C1.778331-.258032 1.527273-.27198 1.527273-.460274C1.527273-.54396 1.597011-.662516 1.63188-.72528L2.189788-1.590037H4.184309L4.351681-.432379C4.323786-.36264 4.281943-.251059 3.870486-.251059C3.7868-.251059 3.689166-.251059 3.689166-.097634C3.689166-.069738 3.710087 0 3.800747 0C4.002989 0 4.498132-.027895 4.700374-.027895C4.825903-.027895 4.986301-.020922 5.111831-.020922C5.23736-.013948 5.383811 0 5.50934 0C5.6 0 5.648817-.055791 5.648817-.146451C5.648817-.251059 5.565131-.251059 5.453549-.251059C5.049066-.251059 5.035118-.306849 5.014197-.474222L4.400498-4.777086C4.379577-4.923537 4.365629-4.972354 4.233126-4.972354S4.05878-4.909589 3.996015-4.811955L1.436613-.836862ZM2.357161-1.841096L3.821669-4.121544L4.14944-1.841096H2.357161Z'/>
 <path id='f1-g4-48' d='M3.598506-2.224658C3.598506-2.991781 3.507846-3.542715 3.187049-4.030884C2.970859-4.351681 2.538481-4.630635 1.980573-4.630635C.36264-4.630635 .36264-2.726775 .36264-2.224658S.36264 .139477 1.980573 .139477S3.598506-1.72254 3.598506-2.224658ZM1.980573-.055791C1.659776-.055791 1.234371-.244085 1.094894-.81594C.99726-1.227397 .99726-1.799253 .99726-2.315318C.99726-2.824408 .99726-3.354421 1.101868-3.737983C1.248319-4.288917 1.694645-4.435367 1.980573-4.435367C2.357161-4.435367 2.719801-4.20523 2.84533-3.800747C2.956912-3.424159 2.963885-2.922042 2.963885-2.315318C2.963885-1.799253 2.963885-1.283188 2.873225-.843836C2.733748-.209215 2.259527-.055791 1.980573-.055791Z'/>
@@ -119,7 +163,9 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='457.277112' y='-4.113496' xlink:href='#f1-g0-0'/>
 <use x='463.503792' y='-4.113496' xlink:href='#f1-g4-56'/>
 </g>
-</svg></td><td class='dy'>⎕IO←0 ⋄ NE BLK NH HD VS BOS←16 16 4 4 27 26 ⋄ EPS LR0 B1 B2 EPSA←1E¯5 0.01 0.85 0.99 1E¯8</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='428' height='31' viewBox='.986301 -21.160714 321.839253 23.651374'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">⎕IO←0 ⋄ NE BLK NH HD VS BOS←16 16 4 4 27 26 ⋄ EPS LR0 B1 B2 EPSA←1E¯5 0.01 0.85 0.99 1E¯8</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:429px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='321.839253pt' height='23.651374pt' viewBox='.986301 -21.160714 321.839253 23.651374'>
 <defs>
 <path id='x1-g4-48' d='M3.598506-2.224658C3.598506-2.991781 3.507846-3.542715 3.187049-4.030884C2.970859-4.351681 2.538481-4.630635 1.980573-4.630635C.36264-4.630635 .36264-2.726775 .36264-2.224658S.36264 .139477 1.980573 .139477S3.598506-1.72254 3.598506-2.224658ZM1.980573-.055791C1.659776-.055791 1.234371-.244085 1.094894-.81594C.99726-1.227397 .99726-1.799253 .99726-2.315318C.99726-2.824408 .99726-3.354421 1.101868-3.737983C1.248319-4.288917 1.694645-4.435367 1.980573-4.435367C2.357161-4.435367 2.719801-4.20523 2.84533-3.800747C2.956912-3.424159 2.963885-2.922042 2.963885-2.315318C2.963885-1.799253 2.963885-1.283188 2.873225-.843836C2.733748-.209215 2.259527-.055791 1.980573-.055791Z'/>
 <path id='x1-g4-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
@@ -294,9 +340,12 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='270.120317' y='0' xlink:href='#x1-g3-48'/>
 <use x='275.101656' y='0' xlink:href='#x1-g3-41'/>
 </g>
-</svg><pre class='src'>(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)
-(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)</pre></td><td class='n'>Index origin is 0 on both sides. The driver&#x27;s NSTEPS joins the second tuple; the two file paths, which the Dyalog reads &quot;however you like&quot;, are a third line not shown.</td></tr>
-<tr><td>2<br><small>L7</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='207' height='38' viewBox='.278954 -11.143288 155.624016 28.378531'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)
+(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">Index origin is 0 on both sides. The driver&#x27;s NSTEPS joins the second tuple; the two file paths, which the Dyalog reads &quot;however you like&quot;, are a third line not shown.</p></div>
+</div></section>
+<section class="row" id="r02"><h2><span class="n">2</span>RMS normalisation of a vector<span class="dy">L7</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:207px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='155.624016pt' height='28.378531pt' viewBox='.278954 -11.143288 155.624016 28.378531'>
 <defs>
 <path id='f2-g0-106' d='M1.58406-7.113325C1.58406-7.292653 1.58406-7.47198 1.384807-7.47198S1.185554-7.292653 1.185554-7.113325V2.132005C1.185554 2.311333 1.185554 2.49066 1.384807 2.49066S1.58406 2.311333 1.58406 2.132005V-7.113325Z'/>
 <path id='f2-g2-105' d='M2.259527-4.358655C2.259527-4.470237 2.175841-4.623661 1.980573-4.623661C1.792279-4.623661 1.590037-4.442341 1.590037-4.2401C1.590037-4.121544 1.680697-3.975093 1.868991-3.975093C2.071233-3.975093 2.259527-4.170361 2.259527-4.358655ZM.836862-.81594C.808966-.72528 .774097-.641594 .774097-.523039C.774097-.195268 1.053051 .069738 1.436613 .069738C2.133998 .069738 2.440847-.892653 2.440847-.99726C2.440847-1.08792 2.350187-1.08792 2.329265-1.08792C2.231631-1.08792 2.224658-1.046077 2.196762-.969365C2.036364-.411457 1.729514-.125529 1.457534-.125529C1.318057-.125529 1.283188-.216189 1.283188-.369614C1.283188-.530012 1.332005-.662516 1.39477-.81594C1.464508-1.004234 1.54122-1.192528 1.617933-1.373848C1.680697-1.54122 1.931756-2.175841 1.959651-2.259527C1.980573-2.329265 2.001494-2.412951 2.001494-2.48269C2.001494-2.810461 1.72254-3.075467 1.338979-3.075467C.648568-3.075467 .327771-2.127024 .327771-2.008468C.327771-1.917808 .425405-1.917808 .446326-1.917808C.54396-1.917808 .550934-1.952677 .571856-2.02939C.753176-2.629141 1.060025-2.880199 1.318057-2.880199C1.429639-2.880199 1.492403-2.824408 1.492403-2.636115C1.492403-2.475716 1.45056-2.371108 1.276214-1.93873L.836862-.81594Z'/>
@@ -348,7 +397,9 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='148.624978' y='0' xlink:href='#f2-g1-120'/>
 <use x='154.31891' y='0' xlink:href='#f2-g0-106'/>
 </g>
-</svg></td><td class='dy'>rmsn←{⍵÷(EPS+(+/⍵*2)÷≢⍵)*0.5}</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='374' height='16' viewBox='.826899 -8.916612 281.511263 12.393506'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">rmsn←{⍵÷(EPS+(+/⍵*2)÷≢⍵)*0.5}</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:375px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='281.511263pt' height='12.393506pt' viewBox='.826899 -8.916612 281.511263 12.393506'>
 <defs>
 <path id='x2-g2-82' d='M2.669988-3.128269H3.028643L4.523039-.816936C4.622665-.657534 4.861768-.268991 4.971357-.119552C5.041096 0 5.070984 0 5.300125 0H6.674969C6.854296 0 7.003736 0 7.003736-.179328C7.003736-.259029 6.94396-.328767 6.854296-.348692C6.485679-.428394 5.997509-1.085928 5.758406-1.404732C5.688667-1.504359 5.190535-2.161893 4.523039-3.237858C5.409714-3.39726 6.266501-3.775841 6.266501-4.961395C6.266501-6.346202 4.801993-6.824408 3.626401-6.824408H.498132C.318804-6.824408 .159402-6.824408 .159402-6.645081C.159402-6.475716 .348692-6.475716 .428394-6.475716C.996264-6.475716 1.046077-6.405978 1.046077-5.907846V-.916563C1.046077-.418431 .996264-.348692 .428394-.348692C.348692-.348692 .159402-.348692 .159402-.179328C.159402 0 .318804 0 .498132 0H3.227895C3.407223 0 3.556663 0 3.556663-.179328C3.556663-.348692 3.387298-.348692 3.277709-.348692C2.709838-.348692 2.669988-.428394 2.669988-.916563V-3.128269ZM4.592777-3.616438C4.871731-3.985056 4.901619-4.513076 4.901619-4.951432C4.901619-5.429639 4.841843-5.957659 4.523039-6.366127C4.931507-6.276463 5.917808-5.967621 5.917808-4.961395C5.917808-4.313823 5.618929-3.805729 4.592777-3.616438ZM2.669988-5.937733C2.669988-6.146949 2.669988-6.475716 3.287671-6.475716C4.134496-6.475716 4.552927-6.127024 4.552927-4.951432C4.552927-3.666252 4.244085-3.476961 2.669988-3.476961V-5.937733ZM1.315068-.348692C1.39477-.52802 1.39477-.806974 1.39477-.896638V-5.927771C1.39477-6.027397 1.39477-6.296389 1.315068-6.475716H2.450809C2.321295-6.316314 2.321295-6.117061 2.321295-5.967621V-.896638C2.321295-.797011 2.321295-.52802 2.400996-.348692H1.315068ZM3.437111-3.128269C3.506849-3.138232 3.5467-3.148194 3.626401-3.148194C3.775841-3.148194 3.995019-3.16812 4.144458-3.188045C4.293898-2.948941 5.369863-1.175592 6.196762-.348692H5.230386L3.437111-3.128269Z'/>
 <path id='x2-g2-90' d='M5.937733-6.465753C6.027397-6.595268 6.027397-6.615193 6.027397-6.645081C6.027397-6.824408 5.877958-6.824408 5.69863-6.824408H1.135741C.816936-6.824408 .816936-6.794521 .787049-6.535492L.637609-5.190535L.617684-5.061021C.617684-4.921544 .727273-4.871731 .797011-4.871731C.886675-4.871731 .946451-4.941469 .966376-5.021171C1.006227-5.260274 1.09589-5.69863 1.703611-6.07721C2.271482-6.445828 2.968867-6.475716 3.307597-6.475716H4.11457L.368618-.358655C.278954-.229141 .278954-.209215 .278954-.179328C.278954 0 .438356 0 .617684 0H5.728518C6.027397 0 6.027397-.019925 6.067248-.278954L6.336239-2.241594C6.336239-2.351183 6.246575-2.420922 6.166874-2.420922C6.017435-2.420922 5.997509-2.321295 5.967621-2.122042C5.798257-1.305106 5.021171-.348692 3.606476-.348692H2.191781L5.937733-6.465753ZM1.125778-6.475716H1.653798V-6.465753C1.384807-6.316314 1.195517-6.136986 1.075965-6.027397L1.125778-6.475716ZM4.523039-6.475716H5.539228L1.783313-.348692H.767123L4.523039-6.475716ZM5.051059-.358655C5.330012-.518057 5.589041-.737235 5.818182-1.016189C5.798257-.816936 5.778331-.707347 5.728518-.348692H5.051059V-.358655Z'/>
@@ -436,8 +487,11 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='273.876875' y='0' xlink:href='#x2-g4-120'/>
 <use x='279.570807' y='0' xlink:href='#x2-g3-106'/>
 </g>
-</svg><pre class='src'>rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)</pre></td><td class='n'>+/⍵*2 is the dot product x DOT x (round three&#x27;s form). The parameter is a runtime-sized array rather than a nat-generic Vector so that rmsn can be handed to the lift (ledger row 156).</td></tr>
-<tr><td>3<br><small>L7</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='219' height='28' viewBox='.328767 -11.143288 164.384854 21.035735'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">+/⍵*2 is the dot product x DOT x (round three&#x27;s form). The parameter is a runtime-sized array rather than a nat-generic Vector so that rmsn can be handed to the lift (ledger row 156).</p></div>
+</div></section>
+<section class="row" id="r03"><h2><span class="n">3</span>Softmax of a vector<span class="dy">L7</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:219px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='164.384854pt' height='21.035735pt' viewBox='.328767 -11.143288 164.384854 21.035735'>
 <defs>
 <path id='f3-g0-0' d='M6.56538-2.291407C6.734745-2.291407 6.914072-2.291407 6.914072-2.49066S6.734745-2.689913 6.56538-2.689913H1.175592C1.006227-2.689913 .826899-2.689913 .826899-2.49066S1.006227-2.291407 1.175592-2.291407H6.56538Z'/>
 <path id='f3-g2-105' d='M2.259527-4.358655C2.259527-4.470237 2.175841-4.623661 1.980573-4.623661C1.792279-4.623661 1.590037-4.442341 1.590037-4.2401C1.590037-4.121544 1.680697-3.975093 1.868991-3.975093C2.071233-3.975093 2.259527-4.170361 2.259527-4.358655ZM.836862-.81594C.808966-.72528 .774097-.641594 .774097-.523039C.774097-.195268 1.053051 .069738 1.436613 .069738C2.133998 .069738 2.440847-.892653 2.440847-.99726C2.440847-1.08792 2.350187-1.08792 2.329265-1.08792C2.231631-1.08792 2.224658-1.046077 2.196762-.969365C2.036364-.411457 1.729514-.125529 1.457534-.125529C1.318057-.125529 1.283188-.216189 1.283188-.369614C1.283188-.530012 1.332005-.662516 1.39477-.81594C1.464508-1.004234 1.54122-1.192528 1.617933-1.373848C1.680697-1.54122 1.931756-2.175841 1.959651-2.259527C1.980573-2.329265 2.001494-2.412951 2.001494-2.48269C2.001494-2.810461 1.72254-3.075467 1.338979-3.075467C.648568-3.075467 .327771-2.127024 .327771-2.008468C.327771-1.917808 .425405-1.917808 .446326-1.917808C.54396-1.917808 .550934-1.952677 .571856-2.02939C.753176-2.629141 1.060025-2.880199 1.318057-2.880199C1.429639-2.880199 1.492403-2.824408 1.492403-2.636115C1.492403-2.475716 1.45056-2.371108 1.276214-1.93873L.836862-.81594Z'/>
@@ -487,7 +541,9 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='158.35817' y='1.494381' xlink:href='#f3-g2-105'/>
 <use x='161.675016' y='-8.069805' xlink:href='#f3-g4-1'/>
 </g>
-</svg></td><td class='dy'>sm←{e÷+/e←*⍵-⌈/⍵}</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='500' height='32' viewBox='.757161 -14.445956 375.697206 23.900374'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">sm←{e÷+/e←*⍵-⌈/⍵}</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:501px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='375.697206pt' height='23.900374pt' viewBox='.757161 -14.445956 375.697206 23.900374'>
 <defs>
 <path id='x3-g6-32' d='M7.120299-1.57609C7.23188-1.57609 7.399253-1.57609 7.399253-1.743462C7.399253-1.917808 7.238854-1.917808 7.120299-1.917808H1.520299C2.399004-2.559402 2.517559-3.472976 2.517559-3.47995C2.517559-3.584558 2.447821-3.584558 2.350187-3.584558C2.224658-3.584558 2.203736-3.584558 2.168867-3.466002C1.896887-2.364134 1.150685-2.008468 .606725-1.841096C.578829-1.827148 .536986-1.792279 .536986-1.750436C.536986-1.673724 .613699-1.652802 .620672-1.645828C1.617933-1.345953 2.008468-.683437 2.175841 .006974C2.203736 .09066 2.252553 .09066 2.350187 .09066S2.517559 .09066 2.517559-.013948C2.517559-.027895 2.447821-.495143 2.106102-.976339C1.945704-1.21345 1.750436-1.408717 1.520299-1.57609H7.120299Z'/>
 <path id='x3-g0-65' d='M4.418628-8.449909C4.303859-8.966372 4.016935-8.966372 3.686972-8.966372C3.24224-8.966372 3.070086-8.908988 2.969663-8.449909L1.190734-.832079C.71731-.832079 .387347-.832079 .387347-.41604S.774695 0 .975541 0H2.352776C2.553623 0 2.94097 0 2.94097-.41604S2.596661-.832079 2.151929-.832079L2.52493-2.438853H4.849014L5.222015-.832079C4.777283-.832079 4.432974-.832079 4.432974-.41604S4.820322 0 5.021168 0H6.398403C6.59925 0 6.986597 0 6.986597-.41604S6.656635-.832079 6.18321-.832079L4.418628-8.449909ZM2.711431-3.270933C2.811854-3.701318 3.600895-7.087021 3.672626-7.775638H3.686972C3.730011-7.445676 3.930858-6.570558 3.930858-6.556211L4.662514-3.270933H2.711431Z'/>
@@ -601,8 +657,11 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='366.123151' y='0' xlink:href='#x3-g1-110'/>
 <use x='371.353495' y='0' xlink:href='#x3-g1-100'/>
 </g>
-</svg><pre class='src'>sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t &lt;- z] t)); e / (SUM e) end</pre></td><td class='n'>The Dyalog binds e inside the expression; Fortress binds it in a do block, so the line reads left to right. The sum is the library&#x27;s SUM over the array; the max must be written as a generator, BIG MAX e alone does not parse (ledger row 102).</td></tr>
-<tr><td>4<br><small>L7</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='128' height='16' viewBox='.418431 -8.744131 95.96755 11.661177'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t &lt;- z] t)); e / (SUM e) end</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">The Dyalog binds e inside the expression; Fortress binds it in a do block, so the line reads left to right. The sum is the library&#x27;s SUM over the array; the max must be written as a generator, BIG MAX e alone does not parse (ledger row 102).</p></div>
+</div></section>
+<section class="row" id="r04"><h2><span class="n">4</span>The causal mask<span class="dy">L7</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:128px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='95.96755pt' height='11.661177pt' viewBox='.418431 -8.744131 95.96755 11.661177'>
 <defs>
 <path id='f4-g4-48' d='M3.598506-2.224658C3.598506-2.991781 3.507846-3.542715 3.187049-4.030884C2.970859-4.351681 2.538481-4.630635 1.980573-4.630635C.36264-4.630635 .36264-2.726775 .36264-2.224658S.36264 .139477 1.980573 .139477S3.598506-1.72254 3.598506-2.224658ZM1.980573-.055791C1.659776-.055791 1.234371-.244085 1.094894-.81594C.99726-1.227397 .99726-1.799253 .99726-2.315318C.99726-2.824408 .99726-3.354421 1.101868-3.737983C1.248319-4.288917 1.694645-4.435367 1.980573-4.435367C2.357161-4.435367 2.719801-4.20523 2.84533-3.800747C2.956912-3.424159 2.963885-2.922042 2.963885-2.315318C2.963885-1.799253 2.963885-1.283188 2.873225-.843836C2.733748-.209215 2.259527-.055791 1.980573-.055791Z'/>
 <path id='f4-g4-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
@@ -637,7 +696,9 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='89.709264' y='0' xlink:href='#f4-g1-105'/>
 <use x='94.801922' y='0' xlink:href='#f4-g3-93'/>
 </g>
-</svg></td><td class='dy'>MK←¯1E10×~(⍳BLK)∘.≥⍳BLK</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='706' height='16' viewBox='.826899 -8.468311 530.893101 11.945205'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">MK←¯1E10×~(⍳BLK)∘.≥⍳BLK</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:708px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='530.893101pt' height='11.945205pt' viewBox='.826899 -8.468311 530.893101 11.945205'>
 <defs>
 <path id='x4-g3-0' d='M6.56538-2.291407C6.734745-2.291407 6.914072-2.291407 6.914072-2.49066S6.734745-2.689913 6.56538-2.689913H1.175592C1.006227-2.689913 .826899-2.689913 .826899-2.49066S1.006227-2.291407 1.175592-2.291407H6.56538Z'/>
 <path id='x4-g3-41' d='M7.232877-3.257783C7.651308-2.899128 8.159402-2.6401 8.488169-2.49066C8.129514-2.331258 7.641345-2.072229 7.232877-1.723537H.9066C.737235-1.723537 .547945-1.723537 .547945-1.524284S.727273-1.325031 .896638-1.325031H6.784558C6.306351-.86675 5.788294 .009963 5.788294 .139477C5.788294 .249066 5.917808 .249066 5.977584 .249066C6.057285 .249066 6.127024 .249066 6.166874 .169365C6.37609-.209215 6.655044-.737235 7.302615-1.315068C7.990037-1.92279 8.657534-2.191781 9.175592-2.34122C9.344956-2.400996 9.354919-2.410959 9.374844-2.430884C9.39477-2.440847 9.39477-2.470735 9.39477-2.49066S9.39477-2.530511 9.384807-2.550436L9.354919-2.570361C9.334994-2.580324 9.325031-2.590286 9.135741-2.650062C7.790785-3.048568 6.794521-3.955168 6.236613-5.021171C6.127024-5.220423 6.117061-5.230386 5.977584-5.230386C5.917808-5.230386 5.788294-5.230386 5.788294-5.120797C5.788294-4.991283 6.296389-4.124533 6.784558-3.656289H.896638C.727273-3.656289 .547945-3.656289 .547945-3.457036S.737235-3.257783 .9066-3.257783H7.232877Z'/>
@@ -794,8 +855,11 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='523.451062' y='0' xlink:href='#x4-g0-100'/>
 <use x='528.681395' y='-8.069805' xlink:href='#x4-g7-1'/>
 </g>
-</svg><pre class='src'>mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 =&gt; if j &gt; i then -(10.0^10) else 0.0 end)</pre></td><td class='n'>~(⍳BLK)∘.≥⍳BLK is written as its predicate j &gt; i. This is the model&#x27;s one index lambda; it has no subscript.</td></tr>
-<tr><td>5<br><small>L8</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='335' height='42' viewBox='.278954 -16.605148 251.777256 31.759267'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 =&gt; if j &gt; i then -(10.0^10) else 0.0 end)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">~(⍳BLK)∘.≥⍳BLK is written as its predicate j &gt; i. This is the model&#x27;s one index lambda; it has no subscript.</p></div>
+</div></section>
+<section class="row" id="r05"><h2><span class="n">5</span>Backward of the RMS normalisation<span class="dy">L8</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:336px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='251.777256pt' height='31.759267pt' viewBox='.278954 -16.605148 251.777256 31.759267'>
 <defs>
 <path id='f5-g1-1' d='M1.583064-1.743462C1.583064-1.994521 1.373848-2.147945 1.185554-2.147945C.955417-2.147945 .781071-1.959651 .781071-1.750436C.781071-1.499377 .990286-1.345953 1.17858-1.345953C1.408717-1.345953 1.583064-1.534247 1.583064-1.743462Z'/>
 <path id='f5-g0-0' d='M6.56538-2.291407C6.734745-2.291407 6.914072-2.291407 6.914072-2.49066S6.734745-2.689913 6.56538-2.689913H1.175592C1.006227-2.689913 .826899-2.689913 .826899-2.49066S1.006227-2.291407 1.175592-2.291407H6.56538Z'/>
@@ -870,7 +934,9 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='247.586861' y='-3.431559' xlink:href='#f5-g5-50'/>
 <use x='247.586861' y='2.777001' xlink:href='#f5-g3-105'/>
 </g>
-</svg></td><td class='dy'>rmsn_b←{r←(EPS+(+/⍵*2)÷≢⍵)*0.5 ⋄ y←⍵÷r ⋄ (⍺-y×(+/y×⍺)÷≢y)÷r}</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='417' height='84' viewBox='.288917 -63.312769 313.419648 63.372545'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">rmsn_b←{r←(EPS+(+/⍵*2)÷≢⍵)*0.5 ⋄ y←⍵÷r ⋄ (⍺-y×(+/y×⍺)÷≢y)÷r}</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:418px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='313.419648pt' height='63.372545pt' viewBox='.288917 -63.312769 313.419648 63.372545'>
 <defs>
 <path id='x5-g0-100' d='M3.566625-.498132C3.566625-.139477 3.566625 0 3.965131 0H4.692403C4.851806 0 5.100872 0 5.100872-.308842C5.100872-.607721 4.841843-.607721 4.702366-.607721H4.254047V-5.678705C4.254047-5.987547 4.194271-6.087173 3.855542-6.087173H3.128269C2.968867-6.087173 2.719801-6.087173 2.719801-5.778331C2.719801-5.479452 2.978829-5.479452 3.118306-5.479452H3.566625V-3.905355C3.237858-4.194271 2.82939-4.353674 2.400996-4.353674C1.315068-4.353674 .358655-3.407223 .358655-2.141968C.358655-.9066 1.255293 .059776 2.311333 .059776C2.86924 .059776 3.287671-.209215 3.566625-.498132ZM3.566625-2.6401V-1.932752C3.566625-1.374844 3.118306-.547945 2.351183-.547945C1.643836-.547945 1.046077-1.255293 1.046077-2.141968C1.046077-3.098381 1.743462-3.745953 2.440847-3.745953C3.078456-3.745953 3.566625-3.188045 3.566625-2.6401Z'/>
 <path id='x5-g0-101' d='M4.224159-1.902864C4.433375-1.902864 4.622665-1.902864 4.622665-2.271482C4.622665-3.407223 3.985056-4.383562 2.689913-4.383562C1.504359-4.383562 .547945-3.387298 .547945-2.161893C.547945-.946451 1.554172 .059776 2.839352 .059776C4.154421 .059776 4.622665-.836862 4.622665-1.085928C4.622665-1.364882 4.333748-1.364882 4.273973-1.364882C4.094645-1.364882 4.014944-1.334994 3.945205-1.145704C3.726027-.637609 3.188045-.547945 2.909091-.547945C2.161893-.547945 1.414695-1.046077 1.255293-1.902864H4.224159ZM1.265255-2.500623C1.404732-3.227895 1.992528-3.775841 2.689913-3.775841C3.20797-3.775841 3.825654-3.526775 3.915318-2.500623H1.265255Z'/>
@@ -1018,12 +1084,15 @@ pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-bre
 <use x='10.472284' y='0' xlink:href='#x5-g0-110'/>
 <use x='15.702628' y='0' xlink:href='#x5-g0-100'/>
 </g>
-</svg><pre class='src'>rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
     r = SQRT (epsilon + (x DOT x) / |x|)
 y = x / r
     (dy - y ((y DOT dy) / |y|)) / r
-  end</pre></td><td class='n'>The dfn&#x27;s three statements, in its order; +/y×⍺ is the dot product y DOT dy. The name keeps the Dyalog&#x27;s underscore, which Fortify sets literally.</td></tr>
-<tr><td>6<br><small>L8</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='169' height='16' viewBox='.328767 -8.468311 126.83725 11.945205'>
+  end</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">The dfn&#x27;s three statements, in its order; +/y×⍺ is the dot product y DOT dy. The name keeps the Dyalog&#x27;s underscore, which Fortify sets literally.</p></div>
+</div></section>
+<section class="row" id="r06"><h2><span class="n">6</span>Backward of the softmax<span class="dy">L8</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:169px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='126.83725pt' height='11.945205pt' viewBox='.328767 -8.468311 126.83725 11.945205'>
 <defs>
 <path id='f6-g4-0' d='M4.11457 11.447073C4.11457 11.407223 4.094645 11.387298 4.07472 11.35741C3.616438 10.86924 2.938979 10.062267 2.520548 8.438356C2.291407 7.531756 2.201743 6.505604 2.201743 5.579078C2.201743 2.958904 2.82939 1.125778 4.024907-.169365C4.11457-.259029 4.11457-.278954 4.11457-.298879C4.11457-.398506 4.034869-.398506 3.995019-.398506C3.845579-.398506 3.307597 .199253 3.178082 .348692C2.161893 1.554172 1.514321 3.347447 1.514321 5.569116C1.514321 6.983811 1.763387 8.986301 3.068493 10.669988C3.16812 10.789539 3.815691 11.5467 3.995019 11.5467C4.034869 11.5467 4.11457 11.5467 4.11457 11.447073Z'/>
 <path id='f6-g4-1' d='M3.038605 5.579078C3.038605 4.164384 2.789539 2.161893 1.484433 .478207C1.384807 .358655 .737235-.398506 .557908-.398506C.508095-.398506 .438356-.37858 .438356-.298879C.438356-.259029 .458281-.229141 .498132-.199253C.976339 .318804 1.62391 1.125778 2.032379 2.709838C2.261519 3.616438 2.351183 4.64259 2.351183 5.569116C2.351183 6.575342 2.261519 7.591532 2.002491 8.56787C1.62391 9.96264 1.036115 10.759651 .52802 11.317559C.438356 11.407223 .438356 11.427148 .438356 11.447073C.438356 11.526775 .508095 11.5467 .557908 11.5467C.707347 11.5467 1.255293 10.938979 1.374844 10.799502C2.391034 9.594022 3.038605 7.800747 3.038605 5.579078Z'/>
@@ -1064,7 +1133,9 @@ y = x / r
 <use x='118.885469' y='0' xlink:href='#f6-g1-121'/>
 <use x='124.127412' y='-8.069805' xlink:href='#f6-g4-1'/>
 </g>
-</svg></td><td class='dy'>sm_b←{⍺×⍵-+/⍺×⍵}</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='494' height='16' viewBox='.757161 -8.468311 371.133148 11.945205'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">sm_b←{⍺×⍵-+/⍺×⍵}</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:495px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='371.133148pt' height='11.945205pt' viewBox='.757161 -8.468311 371.133148 11.945205'>
 <defs>
 <path id='x6-g2-82' d='M2.669988-3.128269H3.028643L4.523039-.816936C4.622665-.657534 4.861768-.268991 4.971357-.119552C5.041096 0 5.070984 0 5.300125 0H6.674969C6.854296 0 7.003736 0 7.003736-.179328C7.003736-.259029 6.94396-.328767 6.854296-.348692C6.485679-.428394 5.997509-1.085928 5.758406-1.404732C5.688667-1.504359 5.190535-2.161893 4.523039-3.237858C5.409714-3.39726 6.266501-3.775841 6.266501-4.961395C6.266501-6.346202 4.801993-6.824408 3.626401-6.824408H.498132C.318804-6.824408 .159402-6.824408 .159402-6.645081C.159402-6.475716 .348692-6.475716 .428394-6.475716C.996264-6.475716 1.046077-6.405978 1.046077-5.907846V-.916563C1.046077-.418431 .996264-.348692 .428394-.348692C.348692-.348692 .159402-.348692 .159402-.179328C.159402 0 .318804 0 .498132 0H3.227895C3.407223 0 3.556663 0 3.556663-.179328C3.556663-.348692 3.387298-.348692 3.277709-.348692C2.709838-.348692 2.669988-.428394 2.669988-.916563V-3.128269ZM4.592777-3.616438C4.871731-3.985056 4.901619-4.513076 4.901619-4.951432C4.901619-5.429639 4.841843-5.957659 4.523039-6.366127C4.931507-6.276463 5.917808-5.967621 5.917808-4.961395C5.917808-4.313823 5.618929-3.805729 4.592777-3.616438ZM2.669988-5.937733C2.669988-6.146949 2.669988-6.475716 3.287671-6.475716C4.134496-6.475716 4.552927-6.127024 4.552927-4.951432C4.552927-3.666252 4.244085-3.476961 2.669988-3.476961V-5.937733ZM1.315068-.348692C1.39477-.52802 1.39477-.806974 1.39477-.896638V-5.927771C1.39477-6.027397 1.39477-6.296389 1.315068-6.475716H2.450809C2.321295-6.316314 2.321295-6.117061 2.321295-5.967621V-.896638C2.321295-.797011 2.321295-.52802 2.400996-.348692H1.315068ZM3.437111-3.128269C3.506849-3.138232 3.5467-3.148194 3.626401-3.148194C3.775841-3.148194 3.995019-3.16812 4.144458-3.188045C4.293898-2.948941 5.369863-1.175592 6.196762-.348692H5.230386L3.437111-3.128269Z'/>
 <path id='x6-g2-90' d='M5.937733-6.465753C6.027397-6.595268 6.027397-6.615193 6.027397-6.645081C6.027397-6.824408 5.877958-6.824408 5.69863-6.824408H1.135741C.816936-6.824408 .816936-6.794521 .787049-6.535492L.637609-5.190535L.617684-5.061021C.617684-4.921544 .727273-4.871731 .797011-4.871731C.886675-4.871731 .946451-4.941469 .966376-5.021171C1.006227-5.260274 1.09589-5.69863 1.703611-6.07721C2.271482-6.445828 2.968867-6.475716 3.307597-6.475716H4.11457L.368618-.358655C.278954-.229141 .278954-.209215 .278954-.179328C.278954 0 .438356 0 .617684 0H5.728518C6.027397 0 6.027397-.019925 6.067248-.278954L6.336239-2.241594C6.336239-2.351183 6.246575-2.420922 6.166874-2.420922C6.017435-2.420922 5.997509-2.321295 5.967621-2.122042C5.798257-1.305106 5.021171-.348692 3.606476-.348692H2.191781L5.937733-6.465753ZM1.125778-6.475716H1.653798V-6.465753C1.384807-6.316314 1.195517-6.136986 1.075965-6.027397L1.125778-6.475716ZM4.523039-6.475716H5.539228L1.783313-.348692H.767123L4.523039-6.475716ZM5.051059-.358655C5.330012-.518057 5.589041-.737235 5.818182-1.016189C5.798257-.816936 5.778331-.707347 5.728518-.348692H5.051059V-.358655Z'/>
@@ -1166,8 +1237,11 @@ y = x / r
 <use x='364.97733' y='0' xlink:href='#x6-g5-41'/>
 <use x='368.851704' y='-8.069805' xlink:href='#x6-g6-1'/>
 </g>
-</svg><pre class='src'>sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))</pre></td><td class='n'>+/⍺×⍵ is p DOT dy; the outer × is the vocabulary&#x27;s elementwise product and dy - scalar its scalar extension.</td></tr>
-<tr><td>7<br><small>L9</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='347' height='30' viewBox='.328767 -9.464569 261.072372 22.641799'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">+/⍺×⍵ is p DOT dy; the outer × is the vocabulary&#x27;s elementwise product and dy - scalar its scalar extension.</p></div>
+</div></section>
+<section class="row" id="r07"><h2><span class="n">7</span>The layout: shapes, counts, offsets<span class="dy">L9</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:348px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='261.072372pt' height='22.641799pt' viewBox='.328767 -9.464569 261.072372 22.641799'>
 <defs>
 <path id='f7-g4-57' d='M2.915068-2.078207C2.915068-.348692 2.057285-.083686 1.638854-.083686C1.48543-.083686 1.115816-.097634 .927522-.313823C1.21345-.341719 1.234371-.578829 1.234371-.641594C1.234371-.81594 1.115816-.969365 .9066-.969365S.571856-.829888 .571856-.627646C.571856-.153425 .969365 .139477 1.645828 .139477C2.643088 .139477 3.584558-.801993 3.584558-2.294396C3.584558-4.02391 2.817435-4.630635 2.001494-4.630635C1.771357-4.630635 1.290162-4.595766 .892653-4.20523C.655542-3.975093 .376588-3.703113 .376588-3.075467C.376588-2.189788 1.080946-1.534247 1.896887-1.534247C2.454795-1.534247 2.75467-1.903861 2.915068-2.217684V-2.078207ZM1.931756-1.729514C1.659776-1.729514 1.401743-1.820174 1.206476-2.140971C1.046077-2.399004 1.046077-2.691905 1.046077-3.075467C1.046077-3.47995 1.046077-3.758904 1.248319-4.037858C1.415691-4.281943 1.645828-4.428394 2.008468-4.428394C2.364134-4.428394 2.57335-4.20523 2.684932-4.02391C2.873225-3.731009 2.894147-3.242839 2.894147-2.998755C2.894147-2.092154 2.371108-1.729514 1.931756-1.729514Z'/>
 <path id='f7-g0-106' d='M1.58406-7.113325C1.58406-7.292653 1.58406-7.47198 1.384807-7.47198S1.185554-7.292653 1.185554-7.113325V2.132005C1.185554 2.311333 1.185554 2.49066 1.384807 2.49066S1.58406 2.311333 1.58406 2.132005V-7.113325Z'/>
@@ -1240,7 +1314,9 @@ y = x / r
 <use x='251.23014' y='0' xlink:href='#f7-g3-11'/>
 <use x='257.816582' y='1.494381' xlink:href='#f7-g4-57'/>
 </g>
-</svg></td><td class='dy'>SHP←(VS NE)(BLK NE)(VS NE)(NE NE)(NE NE)(NE NE)(NE NE)((4×NE)NE)(NE(4×NE)) ⋄ CNT←×/¨SHP ⋄ OFF←+\0,¯1↓CNT</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='849' height='156' viewBox='.826899 -114.459753 638.406514 116.950413'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">SHP←(VS NE)(BLK NE)(VS NE)(NE NE)(NE NE)(NE NE)(NE NE)((4×NE)NE)(NE(4×NE)) ⋄ CNT←×/¨SHP ⋄ OFF←+\0,¯1↓CNT</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:851px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='638.406514pt' height='116.950413pt' viewBox='.826899 -114.459753 638.406514 116.950413'>
 <defs>
 <path id='x7-g7-95' d='M6.017435-5.559153C6.07721-5.688667 6.087173-5.708593 6.087173-5.758406C6.087173-5.867995 5.997509-5.957659 5.88792-5.957659C5.788294-5.957659 5.728518-5.88792 5.65878-5.738481L3.317559-.468244L.976339-5.748443C.896638-5.937733 .816936-5.957659 .747198-5.957659C.637609-5.957659 .547945-5.867995 .547945-5.758406C.547945-5.738481 .547945-5.718555 .607721-5.599004L3.088418 .009963C3.16812 .179328 3.227895 .219178 3.317559 .219178C3.447073 .219178 3.476961 .14944 3.536737 .009963L6.017435-5.559153Z'/>
 <path id='x7-g3-147' d='M1.53844-6.709584C.873437-6.382045 .426793-5.776594 .426793-5.181069C.426793-4.674873 .774183-4.297707 1.220827-4.297707C1.568216-4.297707 1.806426-4.525991 1.806426-4.863456C1.806426-5.181069 1.578142-5.369652 1.220827-5.369652C1.161274-5.369652 1.091796-5.359727 1.032244-5.349801C.962766-5.32995 .962766-5.32995 .95284-5.32995C.873437-5.32995 .813884-5.389503 .813884-5.468906C.813884-5.796445 1.091796-6.15376 1.627769-6.521001L1.53844-6.709584ZM3.841137-6.709584C3.176134-6.382045 2.72949-5.776594 2.72949-5.181069C2.72949-4.674873 3.07688-4.297707 3.523524-4.297707C3.870914-4.297707 4.109124-4.525991 4.109124-4.863456C4.109124-5.181069 3.880839-5.369652 3.523524-5.369652C3.463972-5.369652 3.394494-5.359727 3.334941-5.349801C3.265463-5.32995 3.265463-5.32995 3.255538-5.32995C3.176134-5.32995 3.116582-5.389503 3.116582-5.468906C3.116582-5.796445 3.394494-6.15376 3.930466-6.521001L3.841137-6.709584Z'/>
@@ -1759,15 +1835,18 @@ y = x / r
 <use x='128.835718' y='0' xlink:href='#x7-g11-57'/>
 <use x='133.817057' y='0' xlink:href='#x7-g11-41'/>
 </g>
-</svg><pre class='src'>matName(i: ZZ32): String =
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">matName(i: ZZ32): String =
     if i = 0 then &quot;wte&quot; elif i = 1 then &quot;wpe&quot; elif i = 2 then &quot;lm_head&quot; elif i = 3 then &quot;attn_wq&quot; elif i = 4 then &quot;attn_wk&quot;
     elif i = 5 then &quot;attn_wv&quot; elif i = 6 then &quot;attn_wo&quot; elif i = 7 then &quot;mlp_fc1&quot; else &quot;mlp_fc2&quot; end
 matShape(i: ZZ32): (ZZ32, ZZ32) =
     if (i = 0) OR (i = 2) then (vocabSize, nEmbd) elif i = 7 then (4 nEmbd, nEmbd) elif i = 8 then (nEmbd, 4 nEmbd) else (nEmbd, nEmbd) end
 matCount(i: ZZ32): ZZ32 = do (r, c) = matShape(i); r c end
 matOffset(i: ZZ32): ZZ32 = SUM[j &lt;- 0#i] matCount(j)
-nParams(): ZZ32 = matOffset(9)</pre></td><td class='n'>The shapes are a function of the index, not an array of pairs: a typed array literal at top level binds a tuple (ledger row 142). The file names are the price of the Dyalog&#x27;s ⎕NREAD ⍵ being by index.</td></tr>
-<tr><td>8<br><small>L10</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='291' height='16' viewBox='.398506 -8.468311 218.771261 11.945205'>
+nParams(): ZZ32 = matOffset(9)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">The shapes are a function of the index, not an array of pairs: a typed array literal at top level binds a tuple (ledger row 142). The file names are the price of the Dyalog&#x27;s ⎕NREAD ⍵ being by index.</p></div>
+</div></section>
+<section class="row" id="r08"><h2><span class="n">8</span>The flat parameter vector and the Adam state<span class="dy">L10</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:292px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='218.771261pt' height='11.945205pt' viewBox='.398506 -8.468311 218.771261 11.945205'>
 <defs>
 <path id='f8-g0-1' d='M1.912827-2.49066C1.912827-2.779577 1.673724-3.01868 1.384807-3.01868S.856787-2.779577 .856787-2.49066S1.09589-1.96264 1.384807-1.96264S1.912827-2.201743 1.912827-2.49066Z'/>
 <path id='f8-g0-106' d='M1.58406-7.113325C1.58406-7.292653 1.58406-7.47198 1.384807-7.47198S1.185554-7.292653 1.185554-7.113325V2.132005C1.185554 2.311333 1.185554 2.49066 1.384807 2.49066S1.58406 2.311333 1.58406 2.132005V-7.113325Z'/>
@@ -1820,7 +1899,9 @@ nParams(): ZZ32 = matOffset(9)</pre></td><td class='n'>The shapes are a function
 <use x='204.070872' y='0' xlink:href='#f8-g2-61'/>
 <use x='214.586952' y='0' xlink:href='#f8-g2-48'/>
 </g>
-</svg></td><td class='dy'>P←⊃,/,¨{(⍵⊃SHP)⍴⎕NREAD ⍵}¨⍳9 ⋄ M←V←P×0</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='414' height='52' viewBox='-.318804 -35.566856 311.385129 39.043751'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">P←⊃,/,¨{(⍵⊃SHP)⍴⎕NREAD ⍵}¨⍳9 ⋄ M←V←P×0</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:415px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='311.385129pt' height='39.043751pt' viewBox='-.318804 -35.566856 311.385129 39.043751'>
 <defs>
 <path id='x8-g5-0' d='M4.11457 11.447073C4.11457 11.407223 4.094645 11.387298 4.07472 11.35741C3.616438 10.86924 2.938979 10.062267 2.520548 8.438356C2.291407 7.531756 2.201743 6.505604 2.201743 5.579078C2.201743 2.958904 2.82939 1.125778 4.024907-.169365C4.11457-.259029 4.11457-.278954 4.11457-.298879C4.11457-.398506 4.034869-.398506 3.995019-.398506C3.845579-.398506 3.307597 .199253 3.178082 .348692C2.161893 1.554172 1.514321 3.347447 1.514321 5.569116C1.514321 6.983811 1.763387 8.986301 3.068493 10.669988C3.16812 10.789539 3.815691 11.5467 3.995019 11.5467C4.034869 11.5467 4.11457 11.5467 4.11457 11.447073Z'/>
 <path id='x8-g5-1' d='M3.038605 5.579078C3.038605 4.164384 2.789539 2.161893 1.484433 .478207C1.384807 .358655 .737235-.398506 .557908-.398506C.508095-.398506 .438356-.37858 .438356-.298879C.438356-.259029 .458281-.229141 .498132-.199253C.976339 .318804 1.62391 1.125778 2.032379 2.709838C2.261519 3.616438 2.351183 4.64259 2.351183 5.569116C2.351183 6.575342 2.261519 7.591532 2.002491 8.56787C1.62391 9.96264 1.036115 10.759651 .52802 11.317559C.438356 11.407223 .438356 11.427148 .438356 11.447073C.438356 11.526775 .508095 11.5467 .557908 11.5467C.707347 11.5467 1.255293 10.938979 1.374844 10.799502C2.391034 9.594022 3.038605 7.800747 3.038605 5.579078Z'/>
@@ -1994,10 +2075,13 @@ nParams(): ZZ32 = matOffset(9)</pre></td><td class='n'>The shapes are a function
 <use x='167.718348' y='0' xlink:href='#x8-g4-41'/>
 <use x='171.592722' y='-8.069805' xlink:href='#x8-g5-1'/>
 </g>
-</svg><pre class='src'>p: Array[\RR64,ZZ32\] := loadParams(weightsDir, matName, 9, nParams())
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">p: Array[\RR64,ZZ32\] := loadParams(weightsDir, matName, 9, nParams())
 m: Array[\RR64,ZZ32\] := zeros(nParams())
-v: Array[\RR64,ZZ32\] := zeros(nParams())</pre></td><td class='n'>The driver&#x27;s three lines. The loader (FlatData, round three&#x27;s) reads the nine files named by the layout table straight into one vector in layout order, so the model has no load line of its own; ⊃,/,¨ appears only in the step, as flat.</td></tr>
-<tr><td>9<br><small>L11</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='242' height='16' viewBox='.547945 -8.468311 181.886069 11.945205'>
+v: Array[\RR64,ZZ32\] := zeros(nParams())</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">The driver&#x27;s three lines. The loader (FlatData, round three&#x27;s) reads the nine files named by the layout table straight into one vector in layout order, so the model has no load line of its own; ⊃,/,¨ appears only in the step, as flat.</p></div>
+</div></section>
+<section class="row" id="r09"><h2><span class="n">9</span>Matrix i as a view of P<span class="dy">L11</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:243px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='181.886069pt' height='11.945205pt' viewBox='.547945 -8.468311 181.886069 11.945205'>
 <defs>
 <path id='f9-g0-2' d='M3.875467-2.769614L1.882939-4.752179C1.763387-4.871731 1.743462-4.891656 1.663761-4.891656C1.564134-4.891656 1.464508-4.801993 1.464508-4.692403C1.464508-4.622665 1.484433-4.60274 1.594022-4.493151L3.58655-2.49066L1.594022-.488169C1.484433-.37858 1.464508-.358655 1.464508-.288917C1.464508-.179328 1.564134-.089664 1.663761-.089664C1.743462-.089664 1.763387-.109589 1.882939-.229141L3.865504-2.211706L5.927771-.14944C5.947696-.139477 6.017435-.089664 6.07721-.089664C6.196762-.089664 6.276463-.179328 6.276463-.288917C6.276463-.308842 6.276463-.348692 6.246575-.398506C6.236613-.418431 4.652553-1.982565 4.154421-2.49066L5.977584-4.313823C6.027397-4.373599 6.176837-4.503113 6.22665-4.562889C6.236613-4.582814 6.276463-4.622665 6.276463-4.692403C6.276463-4.801993 6.196762-4.891656 6.07721-4.891656C5.997509-4.891656 5.957659-4.851806 5.84807-4.742217L3.875467-2.769614Z'/>
 <path id='f9-g4-0' d='M4.11457 11.447073C4.11457 11.407223 4.094645 11.387298 4.07472 11.35741C3.616438 10.86924 2.938979 10.062267 2.520548 8.438356C2.291407 7.531756 2.201743 6.505604 2.201743 5.579078C2.201743 2.958904 2.82939 1.125778 4.024907-.169365C4.11457-.259029 4.11457-.278954 4.11457-.298879C4.11457-.398506 4.034869-.398506 3.995019-.398506C3.845579-.398506 3.307597 .199253 3.178082 .348692C2.161893 1.554172 1.514321 3.347447 1.514321 5.569116C1.514321 6.983811 1.763387 8.986301 3.068493 10.669988C3.16812 10.789539 3.815691 11.5467 3.995019 11.5467C4.034869 11.5467 4.11457 11.5467 4.11457 11.447073Z'/>
@@ -2060,7 +2144,9 @@ v: Array[\RR64,ZZ32\] := zeros(nParams())</pre></td><td class='n'>The driver&#x2
 <use x='176.078563' y='1.494381' xlink:href='#f9-g2-105'/>
 <use x='179.395409' y='-8.069805' xlink:href='#f9-g4-1'/>
 </g>
-</svg></td><td class='dy'>v←{(⍵⊃SHP)⍴P[(⍵⊃OFF)+⍳⍵⊃CNT]}</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='656' height='16' viewBox='.826899 -8.468311 492.936286 11.945205'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">v←{(⍵⊃SHP)⍴P[(⍵⊃OFF)+⍳⍵⊃CNT]}</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:657px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='492.936286pt' height='11.945205pt' viewBox='.826899 -8.468311 492.936286 11.945205'>
 <defs>
 <path id='x9-g0-100' d='M3.566625-.498132C3.566625-.139477 3.566625 0 3.965131 0H4.692403C4.851806 0 5.100872 0 5.100872-.308842C5.100872-.607721 4.841843-.607721 4.702366-.607721H4.254047V-5.678705C4.254047-5.987547 4.194271-6.087173 3.855542-6.087173H3.128269C2.968867-6.087173 2.719801-6.087173 2.719801-5.778331C2.719801-5.479452 2.978829-5.479452 3.118306-5.479452H3.566625V-3.905355C3.237858-4.194271 2.82939-4.353674 2.400996-4.353674C1.315068-4.353674 .358655-3.407223 .358655-2.141968C.358655-.9066 1.255293 .059776 2.311333 .059776C2.86924 .059776 3.287671-.209215 3.566625-.498132ZM3.566625-2.6401V-1.932752C3.566625-1.374844 3.118306-.547945 2.351183-.547945C1.643836-.547945 1.046077-1.255293 1.046077-2.141968C1.046077-3.098381 1.743462-3.745953 2.440847-3.745953C3.078456-3.745953 3.566625-3.188045 3.566625-2.6401Z'/>
 <path id='x9-g0-101' d='M4.224159-1.902864C4.433375-1.902864 4.622665-1.902864 4.622665-2.271482C4.622665-3.407223 3.985056-4.383562 2.689913-4.383562C1.504359-4.383562 .547945-3.387298 .547945-2.161893C.547945-.946451 1.554172 .059776 2.839352 .059776C4.154421 .059776 4.622665-.836862 4.622665-1.085928C4.622665-1.364882 4.333748-1.364882 4.273973-1.364882C4.094645-1.364882 4.014944-1.334994 3.945205-1.145704C3.726027-.637609 3.188045-.547945 2.909091-.547945C2.161893-.547945 1.414695-1.046077 1.255293-1.902864H4.224159ZM1.265255-2.500623C1.404732-3.227895 1.992528-3.775841 2.689913-3.775841C3.20797-3.775841 3.825654-3.526775 3.915318-2.500623H1.265255Z'/>
@@ -2206,8 +2292,11 @@ v: Array[\RR64,ZZ32\] := zeros(nParams())</pre></td><td class='n'>The driver&#x2
 <use x='483.431969' y='0' xlink:href='#x9-g0-110'/>
 <use x='488.662313' y='0' xlink:href='#x9-g0-100'/>
 </g>
-</svg><pre class='src'>view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end</pre></td><td class='n'>The Dyalog&#x27;s v copies the slice; the vocabulary&#x27;s four-argument view is a zero-copy, writable Matrix over it, so the same table that reads the weights would write them (Hsu&#x27;s tactic 8).</td></tr>
-<tr><td>10<br><small>L12</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='330' height='14' viewBox='.239103 -7.47198 247.924415 10.312314'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">The Dyalog&#x27;s v copies the slice; the vocabulary&#x27;s four-argument view is a zero-copy, writable Matrix over it, so the same table that reads the weights would write them (Hsu&#x27;s tactic 8).</p></div>
+</div></section>
+<section class="row" id="r10"><h2><span class="n">10</span>The corpus<span class="dy">L12</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:331px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='247.924415pt' height='10.312314pt' viewBox='.239103 -7.47198 247.924415 10.312314'>
 <defs>
 <path id='f10-g3-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
 <path id='f10-g3-41' d='M2.879203-2.49066C2.879203-3.267746 2.769614-4.473225 2.221669-5.599004C1.62391-6.824408 .767123-7.47198 .667497-7.47198C.607721-7.47198 .56787-7.43213 .56787-7.372354C.56787-7.342466 .56787-7.32254 .757161-7.143213C1.733499-6.156912 2.30137-4.572852 2.30137-2.49066C2.30137-.787049 1.932752 .966376 .697385 2.221669C.56787 2.34122 .56787 2.361146 .56787 2.391034C.56787 2.450809 .607721 2.49066 .667497 2.49066C.767123 2.49066 1.663761 1.8132 2.251557 .547945C2.759651-.547945 2.879203-1.653798 2.879203-2.49066Z'/>
@@ -2273,7 +2362,9 @@ v: Array[\RR64,ZZ32\] := zeros(nParams())</pre></td><td class='n'>The driver&#x2
 <use x='240.002424' y='0' xlink:href='#f10-g0-96'/>
 <use x='244.153556' y='1.494381' xlink:href='#f10-g1-100'/>
 </g>
-</svg></td><td class='dy'>TOKM←↑{(BLK+1)↑BOS,(⎕A⍳⍵),BOS}¨docs ⋄ LEN←1+≢¨docs</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='335' height='13' viewBox='1.09589 -7.47198 252.097858 9.96264'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">TOKM←↑{(BLK+1)↑BOS,(⎕A⍳⍵),BOS}¨docs ⋄ LEN←1+≢¨docs</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:336px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='252.097858pt' height='9.96264pt' viewBox='1.09589 -7.47198 252.097858 9.96264'>
 <defs>
 <path id='x10-g1-59' d='M2.022416-.009963C2.022416-.667497 1.77335-1.05604 1.384807-1.05604C1.05604-1.05604 .856787-.806974 .856787-.52802C.856787-.259029 1.05604 0 1.384807 0C1.504359 0 1.633873-.039851 1.733499-.129514C1.763387-.14944 1.77335-.159402 1.783313-.159402S1.803238-.14944 1.803238-.009963C1.803238 .727273 1.454545 1.325031 1.125778 1.653798C1.016189 1.763387 1.016189 1.783313 1.016189 1.8132C1.016189 1.882939 1.066002 1.92279 1.115816 1.92279C1.225405 1.92279 2.022416 1.155666 2.022416-.009963Z'/>
 <path id='x10-g2-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
@@ -2361,8 +2452,11 @@ v: Array[\RR64,ZZ32\] := zeros(nParams())</pre></td><td class='n'>The driver&#x2
 <use x='244.193094' y='0' xlink:href='#x10-g0-100'/>
 <use x='250.314546' y='0' xlink:href='#x10-g2-41'/>
 </g>
-</svg><pre class='src'>corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)</pre></td><td class='n'>TOKM and LEN are the two fields of one corpus object (round three&#x27;s), whose methods are the key functions of L13. ↑ pads with 0 in the Dyalog; the layout pads with BOS, which loadCorpus does. The causal mask and the validity mask make the difference invisible.</td></tr>
-<tr><td>11<br><small>L13</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='456' height='29' viewBox='.388543 -19.427148 342.48803 22.033471'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">TOKM and LEN are the two fields of one corpus object (round three&#x27;s), whose methods are the key functions of L13. ↑ pads with 0 in the Dyalog; the layout pads with BOS, which loadCorpus does. The causal mask and the validity mask make the difference invisible.</p></div>
+</div></section>
+<section class="row" id="r11"><h2><span class="n">11</span>The keys of a batch<span class="dy">L13</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:457px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='342.48803pt' height='22.033471pt' viewBox='.388543 -19.427148 342.48803 22.033471'>
 <defs>
 <path id='f11-g4-80' d='M4.194271 5.32005L.657534 9.693649C.577833 9.793275 .56787 9.8132 .56787 9.853051C.56787 9.96264 .657534 9.96264 .836862 9.96264H9.09589L9.952677 7.481943H9.703611C9.454545 8.229141 8.787049 8.836862 7.940224 9.125778C7.780822 9.175592 7.0934 9.414695 5.628892 9.414695H1.39477L4.851806 5.140722C4.921544 5.051059 4.941469 5.021171 4.941469 4.98132S4.931507 4.931507 4.871731 4.841843L1.633873 .398506H5.579078C6.714819 .398506 9.006227 .468244 9.703611 2.331258H9.952677L9.09589 0H.836862C.56787 0 .557908 .009963 .557908 .318804L4.194271 5.32005Z'/>
 <path id='f11-g1-59' d='M1.471482-.111582C1.471482 .27198 1.401743 .718306 .927522 1.164633C.899626 1.192528 .878705 1.21345 .878705 1.248319C.878705 1.297136 .934496 1.345953 .976339 1.345953C1.073973 1.345953 1.66675 .788045 1.66675-.041843C1.66675-.474222 1.499377-.801993 1.17858-.801993C.948443-.801993 .781071-.620672 .781071-.404483C.781071-.18132 .941469 0 1.185554 0C1.352927 0 1.464508-.111582 1.471482-.111582Z'/>
@@ -2483,7 +2577,9 @@ v: Array[\RR64,ZZ32\] := zeros(nParams())</pre></td><td class='n'>The driver&#x2
 <use x='145.914291' y='0' xlink:href='#f11-g0-76'/>
 <use x='152.694438' y='0' xlink:href='#f11-g0-75'/>
 </g>
-</svg></td><td class='dy'>STEP←{b←⍵ ⋄ B←≢b ⋄ N←B×BLK ⋄ R←TOKM[b;] ⋄ ids←,R[;⍳BLK] ⋄ tg←,R[;1+⍳BLK] ⋄ vm←,LEN[b]∘.&gt;⍳BLK ⋄ nv←+/vm ⋄ pos←N⍴⍳BLK</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='428' height='109' viewBox='.139477 -79.701309 321.78871 82.191969'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">STEP←{b←⍵ ⋄ B←≢b ⋄ N←B×BLK ⋄ R←TOKM[b;] ⋄ ids←,R[;⍳BLK] ⋄ tg←,R[;1+⍳BLK] ⋄ vm←,LEN[b]∘.&gt;⍳BLK ⋄ nv←+/vm ⋄ pos←N⍴⍳BLK</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:429px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='321.78871pt' height='82.191969pt' viewBox='.139477 -79.701309 321.78871 82.191969'>
 <defs>
 <path id='x11-g0-100' d='M3.566625-.498132C3.566625-.139477 3.566625 0 3.965131 0H4.692403C4.851806 0 5.100872 0 5.100872-.308842C5.100872-.607721 4.841843-.607721 4.702366-.607721H4.254047V-5.678705C4.254047-5.987547 4.194271-6.087173 3.855542-6.087173H3.128269C2.968867-6.087173 2.719801-6.087173 2.719801-5.778331C2.719801-5.479452 2.978829-5.479452 3.118306-5.479452H3.566625V-3.905355C3.237858-4.194271 2.82939-4.353674 2.400996-4.353674C1.315068-4.353674 .358655-3.407223 .358655-2.141968C.358655-.9066 1.255293 .059776 2.311333 .059776C2.86924 .059776 3.287671-.209215 3.566625-.498132ZM3.566625-2.6401V-1.932752C3.566625-1.374844 3.118306-.547945 2.351183-.547945C1.643836-.547945 1.046077-1.255293 1.046077-2.141968C1.046077-3.098381 1.743462-3.745953 2.440847-3.745953C3.078456-3.745953 3.566625-3.188045 3.566625-2.6401Z'/>
 <path id='x11-g0-111' d='M4.652553-2.15193C4.652553-3.39726 3.726027-4.383562 2.610212-4.383562S.56787-3.39726 .56787-2.15193C.56787-.886675 1.514321 .059776 2.610212 .059776S4.652553-.896638 4.652553-2.15193ZM2.610212-.547945C1.872976-.547945 1.255293-1.295143 1.255293-2.221669C1.255293-3.128269 1.902864-3.775841 2.610212-3.775841C3.327522-3.775841 3.965131-3.128269 3.965131-2.221669C3.965131-1.295143 3.347447-.547945 2.610212-.547945Z'/>
@@ -2685,13 +2781,16 @@ v: Array[\RR64,ZZ32\] := zeros(nParams())</pre></td><td class='n'>The driver&#x2
 <use x='101.94068' y='0' xlink:href='#x11-g4-98'/>
 <use x='106.216315' y='0' xlink:href='#x11-g5-41'/>
 </g>
-</svg><pre class='src'>step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
     ids = corpus.tokens(b, 0)
 tg = corpus.tokens(b, 1)
 vm = corpus.valid(b)
 nv = SUM vm
-pos = corpus.positions(b)</pre></td><td class='n'>The keys line names the keys: ,R[;⍳BLK] and ,R[;1+⍳BLK] are the corpus&#x27;s tokens at offset 0 and 1, ,LEN[b]∘.&gt;⍳BLK its validity mask, N⍴⍳BLK its positions, each a vector over the (document, position) rows of the batch. The Dyalog&#x27;s R, B and N are not bound: the row count is the vectors&#x27; length.</td></tr>
-<tr><td>12<br><small>L14</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='305' height='13' viewBox='.547945 -6.804483 229.051174 9.651791'>
+pos = corpus.positions(b)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">The keys line names the keys: ,R[;⍳BLK] and ,R[;1+⍳BLK] are the corpus&#x27;s tokens at offset 0 and 1, ,LEN[b]∘.&gt;⍳BLK its validity mask, N⍴⍳BLK its positions, each a vector over the (document, position) rows of the batch. The Dyalog&#x27;s R, B and N are not bound: the row count is the vectors&#x27; length.</p></div>
+</div></section>
+<section class="row" id="r12"><h2><span class="n">12</span>The nine weight matrices<span class="dy">L14</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:305px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='229.051174pt' height='9.651791pt' viewBox='.547945 -6.804483 229.051174 9.651791'>
 <defs>
 <path id='f12-g3-48' d='M3.598506-2.224658C3.598506-2.991781 3.507846-3.542715 3.187049-4.030884C2.970859-4.351681 2.538481-4.630635 1.980573-4.630635C.36264-4.630635 .36264-2.726775 .36264-2.224658S.36264 .139477 1.980573 .139477S3.598506-1.72254 3.598506-2.224658ZM1.980573-.055791C1.659776-.055791 1.234371-.244085 1.094894-.81594C.99726-1.227397 .99726-1.799253 .99726-2.315318C.99726-2.824408 .99726-3.354421 1.101868-3.737983C1.248319-4.288917 1.694645-4.435367 1.980573-4.435367C2.357161-4.435367 2.719801-4.20523 2.84533-3.800747C2.956912-3.424159 2.963885-2.922042 2.963885-2.315318C2.963885-1.799253 2.963885-1.283188 2.873225-.843836C2.733748-.209215 2.259527-.055791 1.980573-.055791Z'/>
 <path id='f12-g3-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
@@ -2753,7 +2852,9 @@ pos = corpus.positions(b)</pre></td><td class='n'>The keys line names the keys: 
 <use x='216.60539' y='0' xlink:href='#f12-g0-87'/>
 <use x='226.014561' y='1.494381' xlink:href='#f12-g3-56'/>
 </g>
-</svg></td><td class='dy'>wte wpe lm wq wk wv wo f1 f2←v¨⍳9</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='782' height='16' viewBox='.986301 -8.468311 588.162355 11.945205'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">wte wpe lm wq wk wv wo f1 f2←v¨⍳9</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:784px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='588.162355pt' height='11.945205pt' viewBox='.986301 -8.468311 588.162355 11.945205'>
 <defs>
 <path id='x12-g3-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
 <path id='x12-g3-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
@@ -2910,8 +3011,11 @@ pos = corpus.positions(b)</pre></td><td class='n'>The keys line names the keys: 
 <use x='582.235678' y='0' xlink:href='#x12-g2-41'/>
 <use x='586.110052' y='-8.069805' xlink:href='#x12-g4-1'/>
 </g>
-</svg><pre class='src'>(wte, wpe, lm, wq, wk, wv, wo, f1, f2) = (view(p, 0), view(p, 1), view(p, 2), view(p, 3), view(p, 4), view(p, 5), view(p, 6), view(p, 7), view(p, 8))</pre></td><td class='n'>One tuple binding for the strand assignment; every name is a view.</td></tr>
-<tr><td>13<br><small>L15</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='449' height='14' viewBox='.268991 -7.47198 337.795284 10.319287'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">(wte, wpe, lm, wq, wk, wv, wo, f1, f2) = (view(p, 0), view(p, 1), view(p, 2), view(p, 3), view(p, 4), view(p, 5), view(p, 6), view(p, 7), view(p, 8))</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">One tuple binding for the strand assignment; every name is a view.</p></div>
+</div></section>
+<section class="row" id="r13"><h2><span class="n">13</span>Embedding and two normalisations<span class="dy">L15</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:450px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='337.795284pt' height='10.319287pt' viewBox='.268991 -7.47198 337.795284 10.319287'>
 <defs>
 <path id='f13-g3-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
 <path id='f13-g1-101' d='M1.562142-1.590037C1.75741-1.590037 2.308344-1.603985 2.684932-1.736488C3.200996-1.917808 3.29863-2.252553 3.29863-2.461768C3.29863-2.84533 2.915068-3.075467 2.433873-3.075467C1.597011-3.075467 .467248-2.433873 .467248-1.241345C.467248-.536986 .9066 .069738 1.72254 .069738C2.901121 .069738 3.452055-.620672 3.452055-.718306C3.452055-.760149 3.38929-.836862 3.333499-.836862C3.291656-.836862 3.277709-.822914 3.221918-.767123C2.677958-.125529 1.862017-.125529 1.736488-.125529C1.318057-.125529 1.039103-.404483 1.039103-.969365C1.039103-1.066999 1.039103-1.206476 1.12279-1.590037H1.562142ZM1.17858-1.785305C1.464508-2.796513 2.238605-2.880199 2.433873-2.880199C2.740722-2.880199 2.998755-2.726775 2.998755-2.461768C2.998755-1.785305 1.820174-1.785305 1.520299-1.785305H1.17858Z'/>
@@ -3000,7 +3104,9 @@ pos = corpus.positions(b)</pre></td><td class='n'>The keys line names the keys: 
 <use x='330.757221' y='0' xlink:href='#f13-g2-101'/>
 <use x='335.185073' y='0' xlink:href='#f13-g2-41'/>
 </g>
-</svg></td><td class='dy'>X←wte[ids;]+wpe[pos;] ⋄ Xp←rmsn⍤1⊢X ⋄ X1←rmsn⍤1⊢Xp</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='225' height='49' viewBox='.288917 -34.371108 169.486973 36.861768'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">X←wte[ids;]+wpe[pos;] ⋄ Xp←rmsn⍤1⊢X ⋄ X1←rmsn⍤1⊢Xp</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:226px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='169.486973pt' height='36.861768pt' viewBox='.288917 -34.371108 169.486973 36.861768'>
 <defs>
 <path id='x13-g3-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
 <path id='x13-g0-97' d='M3.476961-.587796C3.58655-.099626 3.955168 .109589 4.303861 .109589C4.672478 .109589 4.881694-.139477 5.031133-.448319C5.210461-.826899 5.330012-1.404732 5.330012-1.424658C5.330012-1.524284 5.250311-1.524284 5.180573-1.524284C5.061021-1.524284 5.051059-1.514321 4.991283-1.295143C4.851806-.737235 4.662516-.109589 4.323786-.109589C4.064757-.109589 4.064757-.37858 4.064757-.518057C4.064757-.587796 4.064757-.747198 4.134496-1.026152L4.811955-3.73599C4.851806-3.875467 4.851806-3.895392 4.851806-3.945205C4.851806-4.154421 4.682441-4.204234 4.582814-4.204234C4.26401-4.204234 4.194271-3.865504 4.184309-3.815691C3.995019-4.244085 3.676214-4.403487 3.35741-4.403487C2.251557-4.403487 1.075965-2.889166 1.075965-1.43462C1.075965-.587796 1.534247 .109589 2.281445 .109589C2.6401 .109589 3.078456-.099626 3.476961-.587796ZM4.014944-3.118306L3.5467-1.235367C3.466999-.916563 2.849315-.109589 2.30137-.109589C1.833126-.109589 1.753425-.697385 1.753425-.996264C1.753425-1.494396 2.062267-2.660025 2.241594-3.078456C2.49066-3.686177 2.948941-4.184309 3.35741-4.184309C3.795766-4.184309 4.044832-3.666252 4.044832-3.247821C4.044832-3.227895 4.034869-3.178082 4.014944-3.118306Z'/>
@@ -3091,10 +3197,13 @@ pos = corpus.positions(b)</pre></td><td class='n'>The keys line names the keys: 
 <use x='79.452121' y='0' xlink:href='#x13-g0-112'/>
 <use x='85.172976' y='0' xlink:href='#x13-g2-41'/>
 </g>
-</svg><pre class='src'>x = gather(wte, ids) + gather(wpe, pos)
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">x = gather(wte, ids) + gather(wpe, pos)
 xp = rows(rmsn, x)
-x1 = rows(rmsn, xp)</pre></td><td class='n'>rmsn⍤1 is rows(rmsn, ·): the lift is a function of the vocabulary, since ⍤ is not an operator character in Fortress and a nat-generic function cannot be an argument (row 156).</td></tr>
-<tr><td>14<br><small>L16</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='456' height='31' viewBox='.318804 -20.908515 342.826736 23.399175'>
+x1 = rows(rmsn, xp)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">rmsn⍤1 is rows(rmsn, ·): the lift is a function of the vocabulary, since ⍤ is not an operator character in Fortress and a nat-generic function cannot be an argument (row 156).</p></div>
+</div></section>
+<section class="row" id="r14"><h2><span class="n">14</span>Queries, keys, values, split into heads<span class="dy">L16</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:457px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='342.826736pt' height='23.399175pt' viewBox='.318804 -20.908515 342.826736 23.399175'>
 <defs>
 <path id='f14-g2-104' d='M2.182814-4.630635C2.189788-4.644583 2.21071-4.735243 2.21071-4.742217C2.21071-4.777086 2.182814-4.839851 2.099128-4.839851C1.959651-4.839851 1.380822-4.78406 1.206476-4.770112C1.150685-4.763138 1.053051-4.756164 1.053051-4.609714C1.053051-4.51208 1.150685-4.51208 1.234371-4.51208C1.569116-4.51208 1.569116-4.463263 1.569116-4.407472C1.569116-4.358655 1.555168-4.316812 1.54122-4.254047L.557908-.306849C.523039-.18132 .523039-.167372 .523039-.153425C.523039-.048817 .606725 .069738 .760149 .069738C.836862 .069738 .969365 .034869 1.046077-.111582C1.066999-.153425 1.129763-.404483 1.164633-.550934L1.325031-1.171606C1.345953-1.276214 1.415691-1.54122 1.436613-1.645828C1.506351-1.910834 1.506351-1.917808 1.645828-2.140971C1.868991-2.48269 2.217684-2.880199 2.761644-2.880199C3.152179-2.880199 3.173101-2.559402 3.173101-2.39203C3.173101-1.973599 2.873225-1.199502 2.761644-.9066C2.684932-.711333 2.657036-.648568 2.657036-.530012C2.657036-.160399 2.963885 .069738 3.319552 .069738C4.016936 .069738 4.323786-.892653 4.323786-.99726C4.323786-1.08792 4.233126-1.08792 4.212204-1.08792C4.11457-1.08792 4.107597-1.046077 4.079701-.969365C3.919303-.411457 3.612453-.125529 3.340473-.125529C3.194022-.125529 3.166127-.223163 3.166127-.369614C3.166127-.530012 3.200996-.620672 3.326526-.934496C3.410212-1.150685 3.696139-1.889913 3.696139-2.280448C3.696139-2.39203 3.696139-2.684932 3.438107-2.887173C3.319552-2.977833 3.11731-3.075467 2.789539-3.075467C2.280448-3.075467 1.910834-2.796513 1.652802-2.496638L2.182814-4.630635Z'/>
 <path id='f14-g2-107' d='M2.182814-4.630635C2.189788-4.644583 2.21071-4.735243 2.21071-4.742217C2.21071-4.777086 2.182814-4.839851 2.099128-4.839851C1.959651-4.839851 1.380822-4.78406 1.206476-4.770112C1.150685-4.763138 1.053051-4.756164 1.053051-4.609714C1.053051-4.51208 1.150685-4.51208 1.234371-4.51208C1.569116-4.51208 1.569116-4.463263 1.569116-4.407472C1.569116-4.358655 1.555168-4.316812 1.54122-4.254047L.557908-.306849C.523039-.18132 .523039-.167372 .523039-.153425C.523039-.048817 .606725 .069738 .760149 .069738C.948443 .069738 1.039103-.069738 1.080946-.223163C1.094894-.251059 1.39477-1.478456 1.422665-1.57609C1.917808-1.527273 2.315318-1.366874 2.315318-1.004234C2.315318-.969365 2.315318-.934496 2.30137-.864757C2.273474-.760149 2.273474-.72528 2.273474-.648568C2.273474-.153425 2.677958 .069738 3.012702 .069738C3.689166 .069738 3.898381-.990286 3.898381-.99726C3.898381-1.08792 3.807721-1.08792 3.7868-1.08792C3.689166-1.08792 3.682192-1.053051 3.647323-.920548C3.563636-.620672 3.375342-.125529 3.033624-.125529C2.84533-.125529 2.789539-.299875 2.789539-.488169C2.789539-.606725 2.789539-.620672 2.831382-.801993C2.838356-.822914 2.866252-.941469 2.866252-1.018182C2.866252-1.638854 2.02939-1.736488 1.736488-1.75741C1.93873-1.882939 2.196762-2.113076 2.315318-2.217684C2.670984-2.552428 3.019676-2.880199 3.410212-2.880199C3.493898-2.880199 3.584558-2.859278 3.640349-2.789539C3.340473-2.740722 3.277709-2.503611 3.277709-2.399004C3.277709-2.245579 3.396264-2.140971 3.556663-2.140971C3.744956-2.140971 3.954172-2.294396 3.954172-2.587298C3.954172-2.817435 3.7868-3.075467 3.417186-3.075467C3.019676-3.075467 2.657036-2.789539 2.30137-2.461768C2.008468-2.182814 1.778331-1.966625 1.492403-1.84807L2.182814-4.630635Z'/>
@@ -3179,7 +3288,9 @@ x1 = rows(rmsn, xp)</pre></td><td class='n'>rmsn⍤1 is rows(rmsn, ·): the lift
 <use x='101.620119' y='0' xlink:href='#f14-g1-86'/>
 <use x='109.645592' y='0' xlink:href='#f14-g3-41'/>
 </g>
-</svg></td><td class='dy'>Q K Vv←X1∘(+.×⍉)¨wq wk wv ⋄ h←{0 2 1 3⍉(B,BLK,NH,HD)⍴⍵} ⋄ Qh Kh Vh←h¨Q K Vv</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='571' height='71' viewBox='.288917 -49.868845 429.389442 53.34574'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">Q K Vv←X1∘(+.×⍉)¨wq wk wv ⋄ h←{0 2 1 3⍉(B,BLK,NH,HD)⍴⍵} ⋄ Qh Kh Vh←h¨Q K Vv</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:573px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='429.389442pt' height='53.34574pt' viewBox='.288917 -49.868845 429.389442 53.34574'>
 <defs>
 <path id='x14-g4-84' d='M3.38929-4.219178C3.438107-4.42142 3.452055-4.442341 3.605479-4.456289C3.640349-4.463263 3.884433-4.463263 4.02391-4.463263C4.449315-4.463263 4.630635-4.463263 4.804981-4.407472C5.118804-4.309838 5.132752-4.107597 5.132752-3.856538C5.132752-3.744956 5.132752-3.654296 5.083935-3.291656L5.069988-3.214944C5.069988-3.145205 5.118804-3.110336 5.188543-3.110336C5.293151-3.110336 5.307098-3.173101 5.321046-3.284682L5.50934-4.616687C5.50934-4.714321 5.425654-4.714321 5.300125-4.714321H1.011208C.836862-4.714321 .822914-4.714321 .774097-4.56787L.334745-3.333499C.327771-3.305604 .299875-3.242839 .299875-3.20797C.299875-3.180075 .313823-3.110336 .418431-3.110336C.509091-3.110336 .523039-3.145205 .564882-3.277709C.969365-4.393524 1.199502-4.463263 2.259527-4.463263H2.552428C2.761644-4.463263 2.768618-4.456289 2.768618-4.393524C2.768618-4.38655 2.768618-4.351681 2.740722-4.247073L1.820174-.578829C1.75741-.320797 1.736488-.251059 1.004234-.251059C.753176-.251059 .690411-.251059 .690411-.097634C.690411-.076712 .704359 0 .808966 0C1.004234 0 1.21345-.020922 1.408717-.020922S1.8132-.027895 2.008468-.027895S2.440847-.027895 2.636115-.020922C2.824408-.013948 3.033624 0 3.221918 0C3.277709 0 3.382316 0 3.382316-.153425C3.382316-.251059 3.312578-.251059 3.096389-.251059C2.963885-.251059 2.824408-.258032 2.691905-.265006C2.454795-.285928 2.440847-.313823 2.440847-.397509C2.440847-.446326 2.440847-.460274 2.468742-.557908L3.38929-4.219178Z'/>
 <path id='x14-g2-82' d='M2.669988-3.128269H3.028643L4.523039-.816936C4.622665-.657534 4.861768-.268991 4.971357-.119552C5.041096 0 5.070984 0 5.300125 0H6.674969C6.854296 0 7.003736 0 7.003736-.179328C7.003736-.259029 6.94396-.328767 6.854296-.348692C6.485679-.428394 5.997509-1.085928 5.758406-1.404732C5.688667-1.504359 5.190535-2.161893 4.523039-3.237858C5.409714-3.39726 6.266501-3.775841 6.266501-4.961395C6.266501-6.346202 4.801993-6.824408 3.626401-6.824408H.498132C.318804-6.824408 .159402-6.824408 .159402-6.645081C.159402-6.475716 .348692-6.475716 .428394-6.475716C.996264-6.475716 1.046077-6.405978 1.046077-5.907846V-.916563C1.046077-.418431 .996264-.348692 .428394-.348692C.348692-.348692 .159402-.348692 .159402-.179328C.159402 0 .318804 0 .498132 0H3.227895C3.407223 0 3.556663 0 3.556663-.179328C3.556663-.348692 3.387298-.348692 3.277709-.348692C2.709838-.348692 2.669988-.428394 2.669988-.916563V-3.128269ZM4.592777-3.616438C4.871731-3.985056 4.901619-4.513076 4.901619-4.951432C4.901619-5.429639 4.841843-5.957659 4.523039-6.366127C4.931507-6.276463 5.917808-5.967621 5.917808-4.961395C5.917808-4.313823 5.618929-3.805729 4.592777-3.616438ZM2.669988-5.937733C2.669988-6.146949 2.669988-6.475716 3.287671-6.475716C4.134496-6.475716 4.552927-6.127024 4.552927-4.951432C4.552927-3.666252 4.244085-3.476961 2.669988-3.476961V-5.937733ZM1.315068-.348692C1.39477-.52802 1.39477-.806974 1.39477-.896638V-5.927771C1.39477-6.027397 1.39477-6.296389 1.315068-6.475716H2.450809C2.321295-6.316314 2.321295-6.117061 2.321295-5.967621V-.896638C2.321295-.797011 2.321295-.52802 2.400996-.348692H1.315068ZM3.437111-3.128269C3.506849-3.138232 3.5467-3.148194 3.626401-3.148194C3.775841-3.148194 3.995019-3.16812 4.144458-3.188045C4.293898-2.948941 5.369863-1.175592 6.196762-.348692H5.230386L3.437111-3.128269Z'/>
@@ -3444,11 +3555,14 @@ x1 = rows(rmsn, xp)</pre></td><td class='n'>rmsn⍤1 is rows(rmsn, ·): the lift
 <use x='126.710497' y='0' xlink:href='#x14-g5-41'/>
 <use x='130.584871' y='-8.069805' xlink:href='#x14-g7-1'/>
 </g>
-</svg><pre class='src'>h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)
 u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)
 (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T)
-(qh, kh, vh) = (h(q), h(k), h(v))</pre></td><td class='n'>h is a rank-3 view of the (doc·pos × heads·dim) matrix, not a copy, and u its inverse; u is declared here beside h where the Dyalog declares it at L24. The two definitions sit before the forward pass in the source.</td></tr>
-<tr><td>15<br><small>L17</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='406' height='33' viewBox='.348692 -15.195016 305.325411 24.460147'>
+(qh, kh, vh) = (h(q), h(k), h(v))</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">h is a rank-3 view of the (doc·pos × heads·dim) matrix, not a copy, and u its inverse; u is declared here beside h where the Dyalog declares it at L24. The two definitions sit before the forward pass in the source.</p></div>
+</div></section>
+<section class="row" id="r15"><h2><span class="n">15</span>Attention weights, heads applied to values<span class="dy">L17</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:407px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='305.325411pt' height='24.460147pt' viewBox='.348692 -15.195016 305.325411 24.460147'>
 <defs>
 <path id='f15-g0-112' d='M3.875467 8.518057L2.122042 4.64259C2.052304 4.483188 2.002491 4.483188 1.972603 4.483188C1.96264 4.483188 1.912827 4.483188 1.803238 4.562889L.856787 5.280199C.727273 5.379826 .727273 5.409714 .727273 5.439601C.727273 5.489415 .757161 5.549191 .826899 5.549191C.886675 5.549191 1.05604 5.409714 1.165629 5.330012C1.225405 5.280199 1.374844 5.17061 1.484433 5.090909L3.447073 9.404732C3.516812 9.564134 3.566625 9.564134 3.656289 9.564134C3.805729 9.564134 3.835616 9.504359 3.905355 9.364882L8.428394 0C8.498132-.139477 8.498132-.179328 8.498132-.199253C8.498132-.298879 8.418431-.398506 8.298879-.398506C8.219178-.398506 8.14944-.348692 8.069738-.18929L3.875467 8.518057Z'/>
 <path id='f15-g1-62' d='M3.284682-4.498132H5.411706C5.523288-4.498132 5.69066-4.498132 5.69066-4.665504C5.69066-4.839851 5.530262-4.839851 5.411706-4.839851H.81594C.711333-4.839851 .536986-4.839851 .536986-4.672478C.536986-4.498132 .697385-4.498132 .81594-4.498132H2.942964V-.27198C2.942964-.160399 2.942964 0 3.11731 0C3.284682 0 3.284682-.167372 3.284682-.27198V-4.498132Z'/>
@@ -3535,7 +3649,9 @@ u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHe
 <use x='295.599641' y='0' xlink:href='#f15-g4-119'/>
 <use x='302.794901' y='0' xlink:href='#f15-g4-41'/>
 </g>
-</svg></td><td class='dy'>A←sm⍤1⊢MK+⍤2⊢(Qh+.×⍤2⊢⍉⍤2⊢Kh)÷HD*0.5 ⋄ Hc←(N,NE)⍴0 2 1 3⍉A+.×⍤2⊢Vh</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='276' height='40' viewBox='.398506 -27.795918 207.493312 30.286578'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">A←sm⍤1⊢MK+⍤2⊢(Qh+.×⍤2⊢⍉⍤2⊢Kh)÷HD*0.5 ⋄ Hc←(N,NE)⍴0 2 1 3⍉A+.×⍤2⊢Vh</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:277px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='207.493312pt' height='30.286578pt' viewBox='.398506 -27.795918 207.493312 30.286578'>
 <defs>
 <path id='x15-g1-112' d='M3.875467 8.518057L2.122042 4.64259C2.052304 4.483188 2.002491 4.483188 1.972603 4.483188C1.96264 4.483188 1.912827 4.483188 1.803238 4.562889L.856787 5.280199C.727273 5.379826 .727273 5.409714 .727273 5.439601C.727273 5.489415 .757161 5.549191 .826899 5.549191C.886675 5.549191 1.05604 5.409714 1.165629 5.330012C1.225405 5.280199 1.374844 5.17061 1.484433 5.090909L3.447073 9.404732C3.516812 9.564134 3.566625 9.564134 3.656289 9.564134C3.805729 9.564134 3.835616 9.504359 3.905355 9.364882L8.428394 0C8.498132-.139477 8.498132-.179328 8.498132-.199253C8.498132-.298879 8.418431-.398506 8.298879-.398506C8.219178-.398506 8.14944-.348692 8.069738-.18929L3.875467 8.518057Z'/>
 <path id='x15-g3-84' d='M3.38929-4.219178C3.438107-4.42142 3.452055-4.442341 3.605479-4.456289C3.640349-4.463263 3.884433-4.463263 4.02391-4.463263C4.449315-4.463263 4.630635-4.463263 4.804981-4.407472C5.118804-4.309838 5.132752-4.107597 5.132752-3.856538C5.132752-3.744956 5.132752-3.654296 5.083935-3.291656L5.069988-3.214944C5.069988-3.145205 5.118804-3.110336 5.188543-3.110336C5.293151-3.110336 5.307098-3.173101 5.321046-3.284682L5.50934-4.616687C5.50934-4.714321 5.425654-4.714321 5.300125-4.714321H1.011208C.836862-4.714321 .822914-4.714321 .774097-4.56787L.334745-3.333499C.327771-3.305604 .299875-3.242839 .299875-3.20797C.299875-3.180075 .313823-3.110336 .418431-3.110336C.509091-3.110336 .523039-3.145205 .564882-3.277709C.969365-4.393524 1.199502-4.463263 2.259527-4.463263H2.552428C2.761644-4.463263 2.768618-4.456289 2.768618-4.393524C2.768618-4.38655 2.768618-4.351681 2.740722-4.247073L1.820174-.578829C1.75741-.320797 1.736488-.251059 1.004234-.251059C.753176-.251059 .690411-.251059 .690411-.097634C.690411-.076712 .704359 0 .808966 0C1.004234 0 1.21345-.020922 1.408717-.020922S1.8132-.027895 2.008468-.027895S2.440847-.027895 2.636115-.020922C2.824408-.013948 3.033624 0 3.221918 0C3.277709 0 3.382316 0 3.382316-.153425C3.382316-.251059 3.312578-.251059 3.096389-.251059C2.963885-.251059 2.824408-.258032 2.691905-.265006C2.454795-.285928 2.440847-.313823 2.440847-.397509C2.440847-.446326 2.440847-.460274 2.468742-.557908L3.38929-4.219178Z'/>
@@ -3615,9 +3731,12 @@ u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHe
 <use x='44.608251' y='0' xlink:href='#x15-g0-104'/>
 <use x='50.464498' y='0' xlink:href='#x15-g4-41'/>
 </g>
-</svg><pre class='src'>a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))
-hc = u(a vh)</pre></td><td class='n'>One line, as in the Dyalog: +.×⍤2 is the batched product, ⍉⍤2 the plane-transpose view, MK+⍤2 the plane-wise sum, sm⍤1 the row lift over planes; nothing is copied but the products&#x27; results.</td></tr>
-<tr><td>16<br><small>L18</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='456' height='31' viewBox='.268991 -20.908515 342.876558 23.371447'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))
+hc = u(a vh)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">One line, as in the Dyalog: +.×⍤2 is the batched product, ⍉⍤2 the plane-transpose view, MK+⍤2 the plane-wise sum, sm⍤1 the row lift over planes; nothing is copied but the products&#x27; results.</p></div>
+</div></section>
+<section class="row" id="r16"><h2><span class="n">16</span>Output projection, normalisation, the MLP<span class="dy">L18</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:457px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='342.876558pt' height='23.371447pt' viewBox='.268991 -20.908515 342.876558 23.371447'>
 <defs>
 <path id='f16-g0-62' d='M3.284682-4.498132H5.411706C5.523288-4.498132 5.69066-4.498132 5.69066-4.665504C5.69066-4.839851 5.530262-4.839851 5.411706-4.839851H.81594C.711333-4.839851 .536986-4.839851 .536986-4.672478C.536986-4.498132 .697385-4.498132 .81594-4.498132H2.942964V-.27198C2.942964-.160399 2.942964 0 3.11731 0C3.284682 0 3.284682-.167372 3.284682-.27198V-4.498132Z'/>
 <path id='f16-g2-99' d='M3.054545-2.670984C2.803487-2.629141 2.698879-2.433873 2.698879-2.280448C2.698879-2.092154 2.84533-2.022416 2.970859-2.022416C3.124284-2.022416 3.368369-2.133998 3.368369-2.468742C3.368369-2.942964 2.824408-3.075467 2.447821-3.075467C1.401743-3.075467 .432379-2.113076 .432379-1.143711C.432379-.54396 .850809 .069738 1.72254 .069738C2.901121 .069738 3.452055-.620672 3.452055-.718306C3.452055-.760149 3.38929-.836862 3.333499-.836862C3.291656-.836862 3.277709-.822914 3.221918-.767123C2.677958-.125529 1.862017-.125529 1.736488-.125529C1.234371-.125529 1.011208-.467248 1.011208-.899626C1.011208-1.101868 1.108842-1.862017 1.471482-2.343213C1.736488-2.684932 2.099128-2.880199 2.447821-2.880199C2.545455-2.880199 2.880199-2.866252 3.054545-2.670984Z'/>
@@ -3706,7 +3825,9 @@ hc = u(a vh)</pre></td><td class='n'>One line, as in the Dyalog: +.×⍤2 is the
 <use x='46.766763' y='-4.113496' xlink:href='#f16-g0-62'/>
 <use x='45.383051' y='2.462932' xlink:href='#f16-g4-50'/>
 </g>
-</svg></td><td class='dy'>X2←Xp+Hc+.×⍉wo ⋄ X3←rmsn⍤1⊢X2 ⋄ M0←X3+.×⍉f1 ⋄ Mr←0⌈M0 ⋄ X4←X2+Mr+.×⍉f2</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='116' height='88' viewBox='.288917 -63.646843 87.584168 66.109775'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">X2←Xp+Hc+.×⍉wo ⋄ X3←rmsn⍤1⊢X2 ⋄ M0←X3+.×⍉f1 ⋄ Mr←0⌈M0 ⋄ X4←X2+Mr+.×⍉f2</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:117px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='87.584168pt' height='66.109775pt' viewBox='.288917 -63.646843 87.584168 66.109775'>
 <defs>
 <path id='x16-g3-84' d='M3.38929-4.219178C3.438107-4.42142 3.452055-4.442341 3.605479-4.456289C3.640349-4.463263 3.884433-4.463263 4.02391-4.463263C4.449315-4.463263 4.630635-4.463263 4.804981-4.407472C5.118804-4.309838 5.132752-4.107597 5.132752-3.856538C5.132752-3.744956 5.132752-3.654296 5.083935-3.291656L5.069988-3.214944C5.069988-3.145205 5.118804-3.110336 5.188543-3.110336C5.293151-3.110336 5.307098-3.173101 5.321046-3.284682L5.50934-4.616687C5.50934-4.714321 5.425654-4.714321 5.300125-4.714321H1.011208C.836862-4.714321 .822914-4.714321 .774097-4.56787L.334745-3.333499C.327771-3.305604 .299875-3.242839 .299875-3.20797C.299875-3.180075 .313823-3.110336 .418431-3.110336C.509091-3.110336 .523039-3.145205 .564882-3.277709C.969365-4.393524 1.199502-4.463263 2.259527-4.463263H2.552428C2.761644-4.463263 2.768618-4.456289 2.768618-4.393524C2.768618-4.38655 2.768618-4.351681 2.740722-4.247073L1.820174-.578829C1.75741-.320797 1.736488-.251059 1.004234-.251059C.753176-.251059 .690411-.251059 .690411-.097634C.690411-.076712 .704359 0 .808966 0C1.004234 0 1.21345-.020922 1.408717-.020922S1.8132-.027895 2.008468-.027895S2.440847-.027895 2.636115-.020922C2.824408-.013948 3.033624 0 3.221918 0C3.277709 0 3.382316 0 3.382316-.153425C3.382316-.251059 3.312578-.251059 3.096389-.251059C2.963885-.251059 2.824408-.258032 2.691905-.265006C2.454795-.285928 2.440847-.313823 2.440847-.397509C2.440847-.446326 2.440847-.460274 2.468742-.557908L3.38929-4.219178Z'/>
 <path id='x16-g1-99' d='M4.333748-3.755915C3.835616-3.696139 3.835616-3.287671 3.835616-3.267746C3.835616-3.108344 3.945205-2.948941 4.174346-2.948941C4.443337-2.948941 4.682441-3.16812 4.682441-3.5467C4.682441-4.034869 4.254047-4.403487 3.616438-4.403487C2.381071-4.403487 1.09589-2.988792 1.09589-1.534247C1.09589-.547945 1.683686 .109589 2.560399 .109589C3.835616 .109589 4.662516-.886675 4.662516-1.036115C4.662516-1.085928 4.582814-1.195517 4.503113-1.195517C4.463263-1.195517 4.4533-1.185554 4.373599-1.085928C3.636364-.14944 2.749689-.109589 2.580324-.109589C2.042341-.109589 1.793275-.557908 1.793275-1.135741C1.793275-1.663761 2.062267-2.709838 2.321295-3.188045C2.67995-3.835616 3.178082-4.184309 3.626401-4.184309C3.73599-4.184309 4.184309-4.164384 4.333748-3.755915Z'/>
@@ -3797,12 +3918,15 @@ hc = u(a vh)</pre></td><td class='n'>One line, as in the Dyalog: +.×⍤2 is the
 <use x='66.817249' y='-4.113496' xlink:href='#x16-g3-84'/>
 <use x='65.74487' y='2.462932' xlink:href='#x16-g5-50'/>
 </g>
-</svg><pre class='src'>x2 = xp + hc wo^T
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">x2 = xp + hc wo^T
 x3 = rows(rmsn, x2)
 m0 = x3 f1^T
 mr = 0.0 MAX m0
-x4 = x2 + mr f2^T</pre></td><td class='n'>0⌈M0 is 0.0 MAX m0, the scalar extension of the library&#x27;s MAX.</td></tr>
-<tr><td>17<br><small>L19</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='260' height='33' viewBox='.398506 -13.37492 195.196936 24.901755'>
+x4 = x2 + mr f2^T</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">0⌈M0 is 0.0 MAX m0, the scalar extension of the library&#x27;s MAX.</p></div>
+</div></section>
+<section class="row" id="r17"><h2><span class="n">17</span>Probabilities and loss<span class="dy">L19</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:260px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='195.196936pt' height='24.901755pt' viewBox='.398506 -13.37492 195.196936 24.901755'>
 <defs>
 <path id='f17-g0-0' d='M6.56538-2.291407C6.734745-2.291407 6.914072-2.291407 6.914072-2.49066S6.734745-2.689913 6.56538-2.689913H1.175592C1.006227-2.689913 .826899-2.689913 .826899-2.49066S1.006227-2.291407 1.175592-2.291407H6.56538Z'/>
 <path id='f17-g0-76' d='M1.793275-.926526C2.331258-1.763387 2.500623-2.400996 2.630137-2.929016C2.978829-4.303861 3.35741-5.499377 3.975093-6.1868C4.094645-6.316314 4.174346-6.405978 4.493151-6.405978C5.180573-6.405978 5.200498-5.718555 5.200498-5.579078C5.200498-5.399751 5.150685-5.260274 5.150685-5.210461C5.150685-5.140722 5.210461-5.140722 5.220423-5.140722C5.379826-5.140722 5.648817-5.250311 5.897883-5.429639C6.07721-5.569116 6.166874-5.668742 6.166874-6.07721C6.166874-6.615193 5.88792-7.023661 5.330012-7.023661C5.011208-7.023661 4.134496-6.94396 3.158157-5.957659C2.361146-5.140722 1.892902-3.347447 1.703611-2.600249C1.524284-1.912827 1.444583-1.603985 1.145704-1.006227C1.075965-.886675 .816936-.448319 .67746-.318804C.408468-.069738 .308842 .109589 .308842 .159402C.308842 .179328 .328767 .219178 .398506 .219178C.438356 .219178 .647572 .179328 .9066 .009963C1.075965-.089664 1.09589-.109589 1.325031-.348692C1.823163-.33873 2.171856-.249066 2.799502-.069738C3.307597 .069738 3.815691 .219178 4.323786 .219178C5.13076 .219178 5.947696-.388543 6.266501-.826899C6.465753-1.09589 6.525529-1.344956 6.525529-1.374844C6.525529-1.444583 6.465753-1.444583 6.455791-1.444583C6.296389-1.444583 6.057285-1.334994 5.88792-1.215442C5.618929-1.046077 5.599004-.986301 5.539228-.816936C5.489415-.657534 5.429639-.577833 5.389788-.518057C5.310087-.398506 5.300125-.398506 5.150685-.398506C4.672478-.398506 4.174346-.547945 3.516812-.727273C3.237858-.806974 2.689913-.966376 2.191781-.966376C2.062267-.966376 1.92279-.956413 1.793275-.926526Z'/>
@@ -3868,7 +3992,9 @@ x4 = x2 + mr f2^T</pre></td><td class='n'>0⌈M0 is 0.0 MAX m0, the scalar exten
 <use x='188.460892' y='1.494381' xlink:href='#f17-g3-103'/>
 <use x='192.347621' y='2.490645' xlink:href='#f17-g4-114'/>
 </g>
-</svg></td><td class='dy'>Pr←sm⍤1⊢X4+.×⍉lm ⋄ loss←-(+/vm×⍟tg⌷⍤0 1⊢Pr)÷nv</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='204' height='35' viewBox='.139477 -22.71913 153.129544 26.196024'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">Pr←sm⍤1⊢X4+.×⍉lm ⋄ loss←-(+/vm×⍟tg⌷⍤0 1⊢Pr)÷nv</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:204px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='153.129544pt' height='26.196024pt' viewBox='.139477 -22.71913 153.129544 26.196024'>
 <defs>
 <path id='x17-g6-0' d='M4.11457 11.447073C4.11457 11.407223 4.094645 11.387298 4.07472 11.35741C3.616438 10.86924 2.938979 10.062267 2.520548 8.438356C2.291407 7.531756 2.201743 6.505604 2.201743 5.579078C2.201743 2.958904 2.82939 1.125778 4.024907-.169365C4.11457-.259029 4.11457-.278954 4.11457-.298879C4.11457-.398506 4.034869-.398506 3.995019-.398506C3.845579-.398506 3.307597 .199253 3.178082 .348692C2.161893 1.554172 1.514321 3.347447 1.514321 5.569116C1.514321 6.983811 1.763387 8.986301 3.068493 10.669988C3.16812 10.789539 3.815691 11.5467 3.995019 11.5467C4.034869 11.5467 4.11457 11.5467 4.11457 11.447073Z'/>
 <path id='x17-g6-1' d='M3.038605 5.579078C3.038605 4.164384 2.789539 2.161893 1.484433 .478207C1.384807 .358655 .737235-.398506 .557908-.398506C.508095-.398506 .438356-.37858 .438356-.298879C.438356-.259029 .458281-.229141 .498132-.199253C.976339 .318804 1.62391 1.125778 2.032379 2.709838C2.261519 3.616438 2.351183 4.64259 2.351183 5.569116C2.351183 6.575342 2.261519 7.591532 2.002491 8.56787C1.62391 9.96264 1.036115 10.759651 .52802 11.317559C.438356 11.407223 .438356 11.427148 .438356 11.447073C.438356 11.526775 .508095 11.5467 .557908 11.5467C.707347 11.5467 1.255293 10.938979 1.374844 10.799502C2.391034 9.594022 3.038605 7.800747 3.038605 5.579078Z'/>
@@ -3949,9 +4075,12 @@ x4 = x2 + mr f2^T</pre></td><td class='n'>0⌈M0 is 0.0 MAX m0, the scalar exten
 <use x='142.756248' y='0' xlink:href='#x17-g0-110'/>
 <use x='148.35744' y='0' xlink:href='#x17-g0-118'/>
 </g>
-</svg><pre class='src'>pr = rows(sm, x4 lm^T)
-loss = -(vm DOT log(pick(pr, tg))) / nv</pre></td><td class='n'>tg⌷⍤0 1⊢Pr is pick; +/vm×⍟… is written as the dot product of vm with the elementwise log.</td></tr>
-<tr><td>18<br><small>L20</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='357' height='16' viewBox='.398506 -8.953346 268.122371 11.870392'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">pr = rows(sm, x4 lm^T)
+loss = -(vm DOT log(pick(pr, tg))) / nv</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">tg⌷⍤0 1⊢Pr is pick; +/vm×⍟… is written as the dot product of vm with the elementwise log.</p></div>
+</div></section>
+<section class="row" id="r18"><h2><span class="n">18</span>Backward: the loss and the output head<span class="dy">L20</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:357px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='268.122371pt' height='11.870392pt' viewBox='.398506 -8.953346 268.122371 11.870392'>
 <defs>
 <path id='f18-g1-62' d='M3.284682-4.498132H5.411706C5.523288-4.498132 5.69066-4.498132 5.69066-4.665504C5.69066-4.839851 5.530262-4.839851 5.411706-4.839851H.81594C.711333-4.839851 .536986-4.839851 .536986-4.672478C.536986-4.498132 .697385-4.498132 .81594-4.498132H2.942964V-.27198C2.942964-.160399 2.942964 0 3.11731 0C3.284682 0 3.284682-.167372 3.284682-.27198V-4.498132Z'/>
 <path id='f18-g0-0' d='M6.56538-2.291407C6.734745-2.291407 6.914072-2.291407 6.914072-2.49066S6.734745-2.689913 6.56538-2.689913H1.175592C1.006227-2.689913 .826899-2.689913 .826899-2.49066S1.006227-2.291407 1.175592-2.291407H6.56538Z'/>
@@ -4022,7 +4151,9 @@ loss = -(vm DOT log(pick(pr, tg))) / nv</pre></td><td class='n'>tg⌷⍤0 1⊢Pr
 <use x='259.231242' y='1.494381' xlink:href='#f18-g3-108'/>
 <use x='261.791113' y='1.494381' xlink:href='#f18-g3-109'/>
 </g>
-</svg></td><td class='dy'>dL←(vm÷nv)×⍤0 1⊢Pr-tg∘.=⍳VS ⋄ gLM←(⍉dL)+.×X4 ⋄ dX4←dL+.×lm</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='271' height='50' viewBox='.52802 -36.219864 203.727537 37.714245'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">dL←(vm÷nv)×⍤0 1⊢Pr-tg∘.=⍳VS ⋄ gLM←(⍉dL)+.×X4 ⋄ dX4←dL+.×lm</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:272px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='203.727537pt' height='37.714245pt' viewBox='.52802 -36.219864 203.727537 37.714245'>
 <defs>
 <path id='x18-g5-52' d='M3.689166-1.143711V-1.39477H2.915068V-4.505106C2.915068-4.651557 2.915068-4.700374 2.761644-4.700374C2.677958-4.700374 2.650062-4.700374 2.580324-4.60274L.27198-1.39477V-1.143711H2.322291V-.571856C2.322291-.334745 2.322291-.251059 1.75741-.251059H1.569116V0C1.917808-.013948 2.364134-.027895 2.615193-.027895C2.873225-.027895 3.319552-.013948 3.668244 0V-.251059H3.47995C2.915068-.251059 2.915068-.334745 2.915068-.571856V-1.143711H3.689166ZM2.371108-3.947198V-1.39477H.530012L2.371108-3.947198Z'/>
 <path id='x18-g3-84' d='M3.38929-4.219178C3.438107-4.42142 3.452055-4.442341 3.605479-4.456289C3.640349-4.463263 3.884433-4.463263 4.02391-4.463263C4.449315-4.463263 4.630635-4.463263 4.804981-4.407472C5.118804-4.309838 5.132752-4.107597 5.132752-3.856538C5.132752-3.744956 5.132752-3.654296 5.083935-3.291656L5.069988-3.214944C5.069988-3.145205 5.118804-3.110336 5.188543-3.110336C5.293151-3.110336 5.307098-3.173101 5.321046-3.284682L5.50934-4.616687C5.50934-4.714321 5.425654-4.714321 5.300125-4.714321H1.011208C.836862-4.714321 .822914-4.714321 .774097-4.56787L.334745-3.333499C.327771-3.305604 .299875-3.242839 .299875-3.20797C.299875-3.180075 .313823-3.110336 .418431-3.110336C.509091-3.110336 .523039-3.145205 .564882-3.277709C.969365-4.393524 1.199502-4.463263 2.259527-4.463263H2.552428C2.761644-4.463263 2.768618-4.456289 2.768618-4.393524C2.768618-4.38655 2.768618-4.351681 2.740722-4.247073L1.820174-.578829C1.75741-.320797 1.736488-.251059 1.004234-.251059C.753176-.251059 .690411-.251059 .690411-.097634C.690411-.076712 .704359 0 .808966 0C1.004234 0 1.21345-.020922 1.408717-.020922S1.8132-.027895 2.008468-.027895S2.440847-.027895 2.636115-.020922C2.824408-.013948 3.033624 0 3.221918 0C3.277709 0 3.382316 0 3.382316-.153425C3.382316-.251059 3.312578-.251059 3.096389-.251059C2.963885-.251059 2.824408-.258032 2.691905-.265006C2.454795-.285928 2.440847-.313823 2.440847-.397509C2.440847-.446326 2.440847-.460274 2.468742-.557908L3.38929-4.219178Z'/>
@@ -4115,10 +4246,13 @@ loss = -(vm DOT log(pick(pr, tg))) / nv</pre></td><td class='n'>tg⌷⍤0 1⊢Pr
 <use x='44.826062' y='0' xlink:href='#x18-g0-108'/>
 <use x='47.372056' y='0' xlink:href='#x18-g0-109'/>
 </g>
-</svg><pre class='src'>dL = diag(vm / nv) (pr - onehot(tg, vocabSize))
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">dL = diag(vm / nv) (pr - onehot(tg, vocabSize))
 gLM = dL^T x4
-dX4 = dL lm</pre></td><td class='n'>(vm÷nv)×⍤0 1 is diag(vm / nv), whose product scales the rows without forming the diagonal (a row-scaling × is gap row 159); tg∘.=⍳VS is onehot.</td></tr>
-<tr><td>19<br><small>L21</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='456' height='30' viewBox='.14944 -20.908515 342.996137 22.542372'>
+dX4 = dL lm</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">(vm÷nv)×⍤0 1 is diag(vm / nv), whose product scales the rows without forming the diagonal (a row-scaling × is gap row 159); tg∘.=⍳VS is onehot.</p></div>
+</div></section>
+<section class="row" id="r19"><h2><span class="n">19</span>Backward: the MLP<span class="dy">L21</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:457px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='342.996137pt' height='22.542372pt' viewBox='.14944 -20.908515 342.996137 22.542372'>
 <defs>
 <path id='f19-g0-12' d='M7.193026-2.49066C7.193026-4.323786 5.69863-5.808219 3.875467-5.808219C2.022416-5.808219 .547945-4.303861 .547945-2.49066C.547945-.657534 2.042341 .826899 3.865504 .826899C5.718555 .826899 7.193026-.67746 7.193026-2.49066ZM3.875467 .577833C2.161893 .577833 .797011-.806974 .797011-2.49066C.797011-4.204234 2.191781-5.559153 3.865504-5.559153C5.579078-5.559153 6.94396-4.174346 6.94396-2.49066C6.94396-.777086 5.549191 .577833 3.875467 .577833ZM4.552927-2.49066C4.552927-2.86924 4.244085-3.178082 3.875467-3.178082C3.476961-3.178082 3.188045-2.849315 3.188045-2.49066C3.188045-2.11208 3.496887-1.803238 3.865504-1.803238C4.26401-1.803238 4.552927-2.132005 4.552927-2.49066Z'/>
 <path id='f19-g1-62' d='M3.284682-4.498132H5.411706C5.523288-4.498132 5.69066-4.498132 5.69066-4.665504C5.69066-4.839851 5.530262-4.839851 5.411706-4.839851H.81594C.711333-4.839851 .536986-4.839851 .536986-4.672478C.536986-4.498132 .697385-4.498132 .81594-4.498132H2.942964V-.27198C2.942964-.160399 2.942964 0 3.11731 0C3.284682 0 3.284682-.167372 3.284682-.27198V-4.498132Z'/>
@@ -4195,7 +4329,9 @@ dX4 = dL lm</pre></td><td class='n'>(vm÷nv)×⍤0 1 is diag(vm / nv), whose pro
 <use x='19.319962' y='0' xlink:href='#f19-g2-70'/>
 <use x='25.726506' y='1.494381' xlink:href='#f19-g5-49'/>
 </g>
-</svg></td><td class='dy'>gF2←(⍉dX4)+.×Mr ⋄ dM0←(dX4+.×f2)×M0&gt;0 ⋄ gF1←(⍉dM0)+.×X3 ⋄ dX3←dM0+.×f1</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='171' height='70' viewBox='.52802 -50.370974 128.340494 52.413316'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">gF2←(⍉dX4)+.×Mr ⋄ dM0←(dX4+.×f2)×M0&gt;0 ⋄ gF1←(⍉dM0)+.×X3 ⋄ dX3←dM0+.×f1</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:171px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='128.340494pt' height='52.413316pt' viewBox='.52802 -50.370974 128.340494 52.413316'>
 <defs>
 <path id='x19-g2-58' d='M1.912827-.52802C1.912827-.816936 1.673724-1.05604 1.384807-1.05604S.856787-.816936 .856787-.52802S1.09589 0 1.384807 0S1.912827-.239103 1.912827-.52802Z'/>
 <path id='x19-g2-62' d='M6.724782-2.271482C6.834371-2.321295 6.914072-2.371108 6.914072-2.49066S6.834371-2.660025 6.724782-2.709838L1.205479-5.310087C1.075965-5.379826 1.05604-5.379826 1.026152-5.379826C.916563-5.379826 .826899-5.290162 .826899-5.180573C.826899-5.090909 .876712-5.031133 1.016189-4.961395L6.246575-2.49066L1.016189-.019925C.876712 .049813 .826899 .109589 .826899 .199253C.826899 .308842 .916563 .398506 1.026152 .398506C1.05604 .398506 1.075965 .398506 1.205479 .328767L6.724782-2.271482Z'/>
@@ -4272,11 +4408,14 @@ dX4 = dL lm</pre></td><td class='n'>(vm÷nv)×⍤0 1 is diag(vm / nv), whose pro
 <use x='53.612571' y='0' xlink:href='#x19-g2-102'/>
 <use x='58.490138' y='1.494381' xlink:href='#x19-g5-49'/>
 </g>
-</svg><pre class='src'>gF2 = dX4^T mr
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">gF2 = dX4^T mr
 dM0 = (dX4 f2) × (m0 &gt; 0.0)
 gF1 = dM0^T x3
-dX3 = dM0 f1</pre></td><td class='n'>M0&gt;0 is the 0/1 matrix m0 &gt; 0.0 and × its elementwise product.</td></tr>
-<tr><td>20<br><small>L22</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='416' height='15' viewBox='.398506 -8.953346 312.925215 11.444006'>
+dX3 = dM0 f1</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">M0&gt;0 is the 0/1 matrix m0 &gt; 0.0 and × its elementwise product.</p></div>
+</div></section>
+<section class="row" id="r20"><h2><span class="n">20</span>Backward: the residual and the output projection<span class="dy">L22</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:417px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='312.925215pt' height='11.444006pt' viewBox='.398506 -8.953346 312.925215 11.444006'>
 <defs>
 <path id='f20-g0-62' d='M3.284682-4.498132H5.411706C5.523288-4.498132 5.69066-4.498132 5.69066-4.665504C5.69066-4.839851 5.530262-4.839851 5.411706-4.839851H.81594C.711333-4.839851 .536986-4.839851 .536986-4.672478C.536986-4.498132 .697385-4.498132 .81594-4.498132H2.942964V-.27198C2.942964-.160399 2.942964 0 3.11731 0C3.284682 0 3.284682-.167372 3.284682-.27198V-4.498132Z'/>
 <path id='f20-g2-87' d='M7.224907-3.940224L7.350436-4.121544C7.496887-4.309838 7.664259-4.484184 8.005978-4.51208C8.08269-4.519054 8.166376-4.526027 8.166376-4.665504C8.166376-4.714321 8.124533-4.763138 8.068742-4.763138C7.908344-4.763138 7.706102-4.735243 7.53873-4.735243C7.294645-4.735243 6.99477-4.763138 6.764633-4.763138C6.729763-4.763138 6.618182-4.763138 6.618182-4.609714C6.618182-4.519054 6.715816-4.51208 6.743711-4.51208C6.897136-4.505106 7.127273-4.463263 7.127273-4.267995C7.127273-4.191283 7.05056-4.065753 7.022665-4.016936L5.05604-.788045L4.672478-4.309838C4.672478-4.505106 5.076961-4.51208 5.160648-4.51208C5.251308-4.51208 5.348941-4.51208 5.348941-4.665504C5.348941-4.672478 5.341968-4.763138 5.230386-4.763138C5.097883-4.763138 4.930511-4.749191 4.798007-4.742217C4.658531-4.735243 4.47721-4.735243 4.337733-4.735243C4.177335-4.735243 3.765878-4.763138 3.605479-4.763138C3.57061-4.763138 3.466002-4.763138 3.466002-4.609714C3.466002-4.51208 3.556663-4.51208 3.647323-4.51208C3.947198-4.51208 3.982067-4.463263 4.002989-4.393524C4.009963-4.351681 4.02391-4.156413 4.051806-3.940224L2.133998-.788045L1.764384-4.20523C1.764384-4.233126 1.750436-4.302864 1.750436-4.309838C1.750436-4.51208 2.182814-4.51208 2.238605-4.51208C2.329265-4.51208 2.426899-4.51208 2.426899-4.665504C2.426899-4.6934 2.405978-4.763138 2.315318-4.763138C2.113076-4.763138 1.617933-4.735243 1.415691-4.735243C1.185554-4.735243 .892653-4.763138 .683437-4.763138C.613699-4.763138 .54396-4.735243 .54396-4.616687C.54396-4.51208 .627646-4.51208 .739228-4.51208C1.066999-4.51208 1.066999-4.470237 1.08792-4.29589L1.555168-.048817C1.569116 .09066 1.57609 .139477 1.701619 .139477C1.820174 .139477 1.868991 .076712 1.910834 0L4.086675-3.584558L4.470237-.041843C4.484184 .104608 4.519054 .139477 4.623661 .139477C4.742217 .139477 4.78406 .076712 4.832877-.006974L7.224907-3.940224Z'/>
@@ -4355,7 +4494,9 @@ dX3 = dM0 f1</pre></td><td class='n'>M0&gt;0 is the 0/1 matrix m0 &gt; 0.0 and �
 <use x='306.013913' y='1.494381' xlink:href='#f20-g2-111'/>
 <use x='310.444518' y='0' xlink:href='#f20-g3-41'/>
 </g>
-</svg></td><td class='dy'>dX2←dX4+dX3(rmsn_b⍤1)X2 ⋄ gWO←(⍉dX2)+.×Hc ⋄ dH←h dX2+.×wo</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='212' height='50' viewBox='.52802 -35.223533 159.039017 37.714193'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">dX2←dX4+dX3(rmsn_b⍤1)X2 ⋄ gWO←(⍉dX2)+.×Hc ⋄ dH←h dX2+.×wo</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:212px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='159.039017pt' height='37.714193pt' viewBox='.52802 -35.223533 159.039017 37.714193'>
 <defs>
 <path id='x20-g2-84' d='M3.38929-4.219178C3.438107-4.42142 3.452055-4.442341 3.605479-4.456289C3.640349-4.463263 3.884433-4.463263 4.02391-4.463263C4.449315-4.463263 4.630635-4.463263 4.804981-4.407472C5.118804-4.309838 5.132752-4.107597 5.132752-3.856538C5.132752-3.744956 5.132752-3.654296 5.083935-3.291656L5.069988-3.214944C5.069988-3.145205 5.118804-3.110336 5.188543-3.110336C5.293151-3.110336 5.307098-3.173101 5.321046-3.284682L5.50934-4.616687C5.50934-4.714321 5.425654-4.714321 5.300125-4.714321H1.011208C.836862-4.714321 .822914-4.714321 .774097-4.56787L.334745-3.333499C.327771-3.305604 .299875-3.242839 .299875-3.20797C.299875-3.180075 .313823-3.110336 .418431-3.110336C.509091-3.110336 .523039-3.145205 .564882-3.277709C.969365-4.393524 1.199502-4.463263 2.259527-4.463263H2.552428C2.761644-4.463263 2.768618-4.456289 2.768618-4.393524C2.768618-4.38655 2.768618-4.351681 2.740722-4.247073L1.820174-.578829C1.75741-.320797 1.736488-.251059 1.004234-.251059C.753176-.251059 .690411-.251059 .690411-.097634C.690411-.076712 .704359 0 .808966 0C1.004234 0 1.21345-.020922 1.408717-.020922S1.8132-.027895 2.008468-.027895S2.440847-.027895 2.636115-.020922C2.824408-.013948 3.033624 0 3.221918 0C3.277709 0 3.382316 0 3.382316-.153425C3.382316-.251059 3.312578-.251059 3.096389-.251059C2.963885-.251059 2.824408-.258032 2.691905-.265006C2.454795-.285928 2.440847-.313823 2.440847-.397509C2.440847-.446326 2.440847-.460274 2.468742-.557908L3.38929-4.219178Z'/>
 <path id='x20-g1-59' d='M2.022416-.009963C2.022416-.667497 1.77335-1.05604 1.384807-1.05604C1.05604-1.05604 .856787-.806974 .856787-.52802C.856787-.259029 1.05604 0 1.384807 0C1.504359 0 1.633873-.039851 1.733499-.129514C1.763387-.14944 1.77335-.159402 1.783313-.159402S1.803238-.14944 1.803238-.009963C1.803238 .727273 1.454545 1.325031 1.125778 1.653798C1.016189 1.763387 1.016189 1.783313 1.016189 1.8132C1.016189 1.882939 1.066002 1.92279 1.115816 1.92279C1.225405 1.92279 2.022416 1.155666 2.022416-.009963Z'/>
@@ -4433,10 +4574,13 @@ dX3 = dM0 f1</pre></td><td class='n'>M0&gt;0 is the 0/1 matrix m0 &gt; 0.0 and �
 <use x='60.667613' y='0' xlink:href='#x20-g0-111'/>
 <use x='66.388468' y='0' xlink:href='#x20-g3-41'/>
 </g>
-</svg><pre class='src'>dX2 = dX4 + rows(rmsn_b, dX3, x2)
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">dX2 = dX4 + rows(rmsn_b, dX3, x2)
 gWO = dX2^T hc
-dh = h(dX2 wo)</pre></td><td class='n'>dX3(rmsn_b⍤1)X2 is the dyadic lift rows(rmsn_b, dX3, x2), the rows of the two matrices paired.</td></tr>
-<tr><td>21<br><small>L23</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='351' height='33' viewBox='.398506 -15.840659 264.181129 25.105789'>
+dh = h(dX2 wo)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">dX3(rmsn_b⍤1)X2 is the dyadic lift rows(rmsn_b, dX3, x2), the rows of the two matrices paired.</p></div>
+</div></section>
+<section class="row" id="r21"><h2><span class="n">21</span>Backward: attention, values and scores<span class="dy">L23</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:352px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='264.181129pt' height='25.105789pt' viewBox='.398506 -15.840659 264.181129 25.105789'>
 <defs>
 <path id='f21-g0-112' d='M3.875467 8.518057L2.122042 4.64259C2.052304 4.483188 2.002491 4.483188 1.972603 4.483188C1.96264 4.483188 1.912827 4.483188 1.803238 4.562889L.856787 5.280199C.727273 5.379826 .727273 5.409714 .727273 5.439601C.727273 5.489415 .757161 5.549191 .826899 5.549191C.886675 5.549191 1.05604 5.409714 1.165629 5.330012C1.225405 5.280199 1.374844 5.17061 1.484433 5.090909L3.447073 9.404732C3.516812 9.564134 3.566625 9.564134 3.656289 9.564134C3.805729 9.564134 3.835616 9.504359 3.905355 9.364882L8.428394 0C8.498132-.139477 8.498132-.179328 8.498132-.199253C8.498132-.298879 8.418431-.398506 8.298879-.398506C8.219178-.398506 8.14944-.348692 8.069738-.18929L3.875467 8.518057Z'/>
 <path id='f21-g1-62' d='M3.284682-4.498132H5.411706C5.523288-4.498132 5.69066-4.498132 5.69066-4.665504C5.69066-4.839851 5.530262-4.839851 5.411706-4.839851H.81594C.711333-4.839851 .536986-4.839851 .536986-4.672478C.536986-4.498132 .697385-4.498132 .81594-4.498132H2.942964V-.27198C2.942964-.160399 2.942964 0 3.11731 0C3.284682 0 3.284682-.167372 3.284682-.27198V-4.498132Z'/>
@@ -4513,7 +4657,9 @@ dh = h(dX2 wo)</pre></td><td class='n'>dX3(rmsn_b⍤1)X2 is the dyadic lift rows
 <use x='254.505172' y='0' xlink:href='#f21-g4-119'/>
 <use x='261.700432' y='0' xlink:href='#f21-g4-41'/>
 </g>
-</svg></td><td class='dy'>dVh←(⍉⍤2⊢A)+.×⍤2⊢dH ⋄ dS←(A(sm_b⍤1)dH+.×⍤2⊢⍉⍤2⊢Vh)÷HD*0.5</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='246' height='34' viewBox='1.075965 -23.196147 184.707657 25.686807'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">dVh←(⍉⍤2⊢A)+.×⍤2⊢dH ⋄ dS←(A(sm_b⍤1)dH+.×⍤2⊢⍉⍤2⊢Vh)÷HD*0.5</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:246px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='184.707657pt' height='25.686807pt' viewBox='1.075965 -23.196147 184.707657 25.686807'>
 <defs>
 <path id='x21-g1-112' d='M3.875467 8.518057L2.122042 4.64259C2.052304 4.483188 2.002491 4.483188 1.972603 4.483188C1.96264 4.483188 1.912827 4.483188 1.803238 4.562889L.856787 5.280199C.727273 5.379826 .727273 5.409714 .727273 5.439601C.727273 5.489415 .757161 5.549191 .826899 5.549191C.886675 5.549191 1.05604 5.409714 1.165629 5.330012C1.225405 5.280199 1.374844 5.17061 1.484433 5.090909L3.447073 9.404732C3.516812 9.564134 3.566625 9.564134 3.656289 9.564134C3.805729 9.564134 3.835616 9.504359 3.905355 9.364882L8.428394 0C8.498132-.139477 8.498132-.179328 8.498132-.199253C8.498132-.298879 8.418431-.398506 8.298879-.398506C8.219178-.398506 8.14944-.348692 8.069738-.18929L3.875467 8.518057Z'/>
 <path id='x21-g3-84' d='M3.38929-4.219178C3.438107-4.42142 3.452055-4.442341 3.605479-4.456289C3.640349-4.463263 3.884433-4.463263 4.02391-4.463263C4.449315-4.463263 4.630635-4.463263 4.804981-4.407472C5.118804-4.309838 5.132752-4.107597 5.132752-3.856538C5.132752-3.744956 5.132752-3.654296 5.083935-3.291656L5.069988-3.214944C5.069988-3.145205 5.118804-3.110336 5.188543-3.110336C5.293151-3.110336 5.307098-3.173101 5.321046-3.284682L5.50934-4.616687C5.50934-4.714321 5.425654-4.714321 5.300125-4.714321H1.011208C.836862-4.714321 .822914-4.714321 .774097-4.56787L.334745-3.333499C.327771-3.305604 .299875-3.242839 .299875-3.20797C.299875-3.180075 .313823-3.110336 .418431-3.110336C.509091-3.110336 .523039-3.145205 .564882-3.277709C.969365-4.393524 1.199502-4.463263 2.259527-4.463263H2.552428C2.761644-4.463263 2.768618-4.456289 2.768618-4.393524C2.768618-4.38655 2.768618-4.351681 2.740722-4.247073L1.820174-.578829C1.75741-.320797 1.736488-.251059 1.004234-.251059C.753176-.251059 .690411-.251059 .690411-.097634C.690411-.076712 .704359 0 .808966 0C1.004234 0 1.21345-.020922 1.408717-.020922S1.8132-.027895 2.008468-.027895S2.440847-.027895 2.636115-.020922C2.824408-.013948 3.033624 0 3.221918 0C3.277709 0 3.382316 0 3.382316-.153425C3.382316-.251059 3.312578-.251059 3.096389-.251059C2.963885-.251059 2.824408-.258032 2.691905-.265006C2.454795-.285928 2.440847-.313823 2.440847-.397509C2.440847-.446326 2.440847-.460274 2.468742-.557908L3.38929-4.219178Z'/>
@@ -4586,9 +4732,12 @@ dh = h(dX2 wo)</pre></td><td class='n'>dX3(rmsn_b⍤1)X2 is the dyadic lift rows
 <use x='173.817007' y='0' xlink:href='#x21-g0-105'/>
 <use x='176.872204' y='0' xlink:href='#x21-g0-109'/>
 </g>
-</svg><pre class='src'>dVh = a^T dh
-dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)</pre></td><td class='n'></td></tr>
-<tr><td>22<br><small>L24</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='456' height='31' viewBox='.318804 -20.908515 342.826779 23.399175'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">dVh = a^T dh
+dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note none">none</p></div>
+</div></section>
+<section class="row" id="r22"><h2><span class="n">22</span>Backward: queries and keys, un-heading<span class="dy">L24</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:457px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='342.826779pt' height='23.399175pt' viewBox='.318804 -20.908515 342.826779 23.399175'>
 <defs>
 <path id='f22-g0-62' d='M3.284682-4.498132H5.411706C5.523288-4.498132 5.69066-4.498132 5.69066-4.665504C5.69066-4.839851 5.530262-4.839851 5.411706-4.839851H.81594C.711333-4.839851 .536986-4.839851 .536986-4.672478C.536986-4.498132 .697385-4.498132 .81594-4.498132H2.942964V-.27198C2.942964-.160399 2.942964 0 3.11731 0C3.284682 0 3.284682-.167372 3.284682-.27198V-4.498132Z'/>
 <path id='f22-g3-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
@@ -4677,7 +4826,9 @@ dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)</pre></td><td class='n'></td></
 <use x='182.691904' y='1.494381' xlink:href='#f22-g2-104'/>
 <use x='187.854293' y='0' xlink:href='#f22-g3-41'/>
 </g>
-</svg></td><td class='dy'>dQh←dS+.×⍤2⊢Kh ⋄ dKh←(⍉⍤2⊢dS)+.×⍤2⊢Qh ⋄ u←{(N,NE)⍴0 2 1 3⍉⍵} ⋄ dQ dK dV←u¨dQh dKh dVh</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='244' height='51' viewBox='.986301 -34.874923 183.459034 38.351817'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">dQh←dS+.×⍤2⊢Kh ⋄ dKh←(⍉⍤2⊢dS)+.×⍤2⊢Qh ⋄ u←{(N,NE)⍴0 2 1 3⍉⍵} ⋄ dQ dK dV←u¨dQh dKh dVh</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:245px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='183.459034pt' height='38.351817pt' viewBox='.986301 -34.874923 183.459034 38.351817'>
 <defs>
 <path id='x22-g4-0' d='M4.11457 11.447073C4.11457 11.407223 4.094645 11.387298 4.07472 11.35741C3.616438 10.86924 2.938979 10.062267 2.520548 8.438356C2.291407 7.531756 2.201743 6.505604 2.201743 5.579078C2.201743 2.958904 2.82939 1.125778 4.024907-.169365C4.11457-.259029 4.11457-.278954 4.11457-.298879C4.11457-.398506 4.034869-.398506 3.995019-.398506C3.845579-.398506 3.307597 .199253 3.178082 .348692C2.161893 1.554172 1.514321 3.347447 1.514321 5.569116C1.514321 6.983811 1.763387 8.986301 3.068493 10.669988C3.16812 10.789539 3.815691 11.5467 3.995019 11.5467C4.034869 11.5467 4.11457 11.5467 4.11457 11.447073Z'/>
 <path id='x22-g4-1' d='M3.038605 5.579078C3.038605 4.164384 2.789539 2.161893 1.484433 .478207C1.384807 .358655 .737235-.398506 .557908-.398506C.508095-.398506 .438356-.37858 .438356-.298879C.438356-.259029 .458281-.229141 .498132-.199253C.976339 .318804 1.62391 1.125778 2.032379 2.709838C2.261519 3.616438 2.351183 4.64259 2.351183 5.569116C2.351183 6.575342 2.261519 7.591532 2.002491 8.56787C1.62391 9.96264 1.036115 10.759651 .52802 11.317559C.438356 11.407223 .438356 11.427148 .438356 11.447073C.438356 11.526775 .508095 11.5467 .557908 11.5467C.707347 11.5467 1.255293 10.938979 1.374844 10.799502C2.391034 9.594022 3.038605 7.800747 3.038605 5.579078Z'/>
@@ -4748,10 +4899,13 @@ dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)</pre></td><td class='n'></td></
 <use x='177.532357' y='0' xlink:href='#x22-g3-41'/>
 <use x='181.40673' y='-8.069805' xlink:href='#x22-g4-1'/>
 </g>
-</svg><pre class='src'>dQh = dS kh
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">dQh = dS kh
 dKh = dS^T qh
-(dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))</pre></td><td class='n'>u is declared beside h (L16); here it is applied. Its results are views, read by the four products of L25.</td></tr>
-<tr><td>23<br><small>L25</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='453' height='16' viewBox='.14944 -8.953346 340.608357 11.800654'>
+(dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">u is declared beside h (L16); here it is applied. Its results are views, read by the four products of L25.</p></div>
+</div></section>
+<section class="row" id="r23"><h2><span class="n">23</span>Backward: the projections<span class="dy">L25</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:454px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='340.608357pt' height='11.800654pt' viewBox='.14944 -8.953346 340.608357 11.800654'>
 <defs>
 <path id='f23-g4-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
 <path id='f23-g0-62' d='M3.284682-4.498132H5.411706C5.523288-4.498132 5.69066-4.498132 5.69066-4.665504C5.69066-4.839851 5.530262-4.839851 5.411706-4.839851H.81594C.711333-4.839851 .536986-4.839851 .536986-4.672478C.536986-4.498132 .697385-4.498132 .81594-4.498132H2.942964V-.27198C2.942964-.160399 2.942964 0 3.11731 0C3.284682 0 3.284682-.167372 3.284682-.27198V-4.498132Z'/>
@@ -4820,7 +4974,9 @@ dKh = dS^T qh
 <use x='327.62459' y='0' xlink:href='#f23-g1-87'/>
 <use x='337.033761' y='1.494381' xlink:href='#f23-g2-118'/>
 </g>
-</svg></td><td class='dy'>gWQ gWK gWV←{(⍉⍵)+.×X1}¨dQ dK dV ⋄ dX1←(dQ+.×wq)+(dK+.×wk)+dV+.×wv</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='281' height='33' viewBox='.986301 -22.619421 211.522839 24.552174'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">gWQ gWK gWV←{(⍉⍵)+.×X1}¨dQ dK dV ⋄ dX1←(dQ+.×wq)+(dK+.×wk)+dV+.×wv</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:282px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='211.522839pt' height='24.552174pt' viewBox='.986301 -22.619421 211.522839 24.552174'>
 <defs>
 <path id='x23-g4-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
 <path id='x23-g2-84' d='M3.38929-4.219178C3.438107-4.42142 3.452055-4.442341 3.605479-4.456289C3.640349-4.463263 3.884433-4.463263 4.02391-4.463263C4.449315-4.463263 4.630635-4.463263 4.804981-4.407472C5.118804-4.309838 5.132752-4.107597 5.132752-3.856538C5.132752-3.744956 5.132752-3.654296 5.083935-3.291656L5.069988-3.214944C5.069988-3.145205 5.118804-3.110336 5.188543-3.110336C5.293151-3.110336 5.307098-3.173101 5.321046-3.284682L5.50934-4.616687C5.50934-4.714321 5.425654-4.714321 5.300125-4.714321H1.011208C.836862-4.714321 .822914-4.714321 .774097-4.56787L.334745-3.333499C.327771-3.305604 .299875-3.242839 .299875-3.20797C.299875-3.180075 .313823-3.110336 .418431-3.110336C.509091-3.110336 .523039-3.145205 .564882-3.277709C.969365-4.393524 1.199502-4.463263 2.259527-4.463263H2.552428C2.761644-4.463263 2.768618-4.456289 2.768618-4.393524C2.768618-4.38655 2.768618-4.351681 2.740722-4.247073L1.820174-.578829C1.75741-.320797 1.736488-.251059 1.004234-.251059C.753176-.251059 .690411-.251059 .690411-.097634C.690411-.076712 .704359 0 .808966 0C1.004234 0 1.21345-.020922 1.408717-.020922S1.8132-.027895 2.008468-.027895S2.440847-.027895 2.636115-.020922C2.824408-.013948 3.033624 0 3.221918 0C3.277709 0 3.382316 0 3.382316-.153425C3.382316-.251059 3.312578-.251059 3.096389-.251059C2.963885-.251059 2.824408-.258032 2.691905-.265006C2.454795-.285928 2.440847-.313823 2.440847-.397509C2.440847-.446326 2.440847-.460274 2.468742-.557908L3.38929-4.219178Z'/>
@@ -4895,9 +5051,12 @@ dKh = dS^T qh
 <use x='127.710489' y='0' xlink:href='#x23-g0-119'/>
 <use x='134.330077' y='0' xlink:href='#x23-g0-118'/>
 </g>
-</svg><pre class='src'>(gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1)
-dX1 = dQ wq + dK wk + dV wv</pre></td><td class='n'></td></tr>
-<tr><td>24<br><small>L26</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='313' height='14' viewBox='.398506 -7.47198 235.455275 10.319287'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">(gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1)
+dX1 = dQ wq + dK wk + dV wv</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note none">none</p></div>
+</div></section>
+<section class="row" id="r24"><h2><span class="n">24</span>Backward: the two normalisations<span class="dy">L26</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:314px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='235.455275pt' height='10.319287pt' viewBox='.398506 -7.47198 235.455275 10.319287'>
 <defs>
 <path id='f24-g3-49' d='M2.336239-4.435367C2.336239-4.623661 2.322291-4.630635 2.127024-4.630635C1.680697-4.191283 1.046077-4.184309 .760149-4.184309V-3.93325C.927522-3.93325 1.387796-3.93325 1.771357-4.128518V-.571856C1.771357-.341719 1.771357-.251059 1.073973-.251059H.808966V0C.934496-.006974 1.792279-.027895 2.050311-.027895C2.266501-.027895 3.145205-.006974 3.29863 0V-.251059H3.033624C2.336239-.251059 2.336239-.341719 2.336239-.571856V-4.435367Z'/>
 <path id='f24-g3-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
@@ -4954,7 +5113,9 @@ dX1 = dQ wq + dK wk + dV wv</pre></td><td class='n'></td></tr>
 <use x='223.939022' y='0' xlink:href='#f24-g0-88'/>
 <use x='232.974578' y='0' xlink:href='#f24-g2-41'/>
 </g>
-</svg></td><td class='dy'>dXp←dX2+dX1(rmsn_b⍤1)Xp ⋄ dX←dXp(rmsn_b⍤1)X</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='211' height='31' viewBox='1.075965 -20.921544 158.347007 23.412204'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">dXp←dX2+dX1(rmsn_b⍤1)Xp ⋄ dX←dXp(rmsn_b⍤1)X</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:211px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='158.347007pt' height='23.412204pt' viewBox='1.075965 -20.921544 158.347007 23.412204'>
 <defs>
 <path id='x24-g1-59' d='M2.022416-.009963C2.022416-.667497 1.77335-1.05604 1.384807-1.05604C1.05604-1.05604 .856787-.806974 .856787-.52802C.856787-.259029 1.05604 0 1.384807 0C1.504359 0 1.633873-.039851 1.733499-.129514C1.763387-.14944 1.77335-.159402 1.783313-.159402S1.803238-.14944 1.803238-.009963C1.803238 .727273 1.454545 1.325031 1.125778 1.653798C1.016189 1.763387 1.016189 1.783313 1.016189 1.8132C1.016189 1.882939 1.066002 1.92279 1.115816 1.92279C1.225405 1.92279 2.022416 1.155666 2.022416-.009963Z'/>
 <path id='x24-g1-120' d='M3.327522-3.008717C3.387298-3.267746 3.616438-4.184309 4.313823-4.184309C4.363636-4.184309 4.60274-4.184309 4.811955-4.054795C4.533001-4.004981 4.333748-3.755915 4.333748-3.516812C4.333748-3.35741 4.443337-3.16812 4.712329-3.16812C4.931507-3.16812 5.250311-3.347447 5.250311-3.745953C5.250311-4.26401 4.662516-4.403487 4.323786-4.403487C3.745953-4.403487 3.39726-3.875467 3.277709-3.646326C3.028643-4.303861 2.49066-4.403487 2.201743-4.403487C1.165629-4.403487 .597758-3.118306 .597758-2.86924C.597758-2.769614 .697385-2.769614 .71731-2.769614C.797011-2.769614 .826899-2.789539 .846824-2.879203C1.185554-3.935243 1.843088-4.184309 2.181818-4.184309C2.371108-4.184309 2.719801-4.094645 2.719801-3.516812C2.719801-3.20797 2.550436-2.540473 2.181818-1.145704C2.022416-.52802 1.673724-.109589 1.235367-.109589C1.175592-.109589 .946451-.109589 .737235-.239103C.986301-.288917 1.205479-.498132 1.205479-.777086C1.205479-1.046077 .986301-1.125778 .836862-1.125778C.537983-1.125778 .288917-.86675 .288917-.547945C.288917-.089664 .787049 .109589 1.225405 .109589C1.882939 .109589 2.241594-.587796 2.271482-.647572C2.391034-.278954 2.749689 .109589 3.347447 .109589C4.373599 .109589 4.941469-1.175592 4.941469-1.424658C4.941469-1.524284 4.851806-1.524284 4.821918-1.524284C4.732254-1.524284 4.712329-1.484433 4.692403-1.414695C4.363636-.348692 3.686177-.109589 3.367372-.109589C2.978829-.109589 2.819427-.428394 2.819427-.767123C2.819427-.986301 2.879203-1.205479 2.988792-1.643836L3.327522-3.008717Z'/>
@@ -5026,9 +5187,12 @@ dX1 = dQ wq + dK wk + dV wv</pre></td><td class='n'></td></tr>
 <use x='111.014001' y='0' xlink:href='#x24-g1-120'/>
 <use x='116.707933' y='0' xlink:href='#x24-g2-41'/>
 </g>
-</svg><pre class='src'>dXp = dX2 + rows(rmsn_b, dX1, xp)
-dX = rows(rmsn_b, dXp, x)</pre></td><td class='n'></td></tr>
-<tr><td>25<br><small>L27</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='373' height='17' viewBox='.14944 -8.953346 280.648445 12.769205'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">dXp = dX2 + rows(rmsn_b, dX1, xp)
+dX = rows(rmsn_b, dXp, x)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note none">none</p></div>
+</div></section>
+<section class="row" id="r25"><h2><span class="n">25</span>Backward: the embeddings<span class="dy">L27</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:374px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='280.648445pt' height='12.769205pt' viewBox='.14944 -8.953346 280.648445 12.769205'>
 <defs>
 <path id='f25-g0-62' d='M3.284682-4.498132H5.411706C5.523288-4.498132 5.69066-4.498132 5.69066-4.665504C5.69066-4.839851 5.530262-4.839851 5.411706-4.839851H.81594C.711333-4.839851 .536986-4.839851 .536986-4.672478C.536986-4.498132 .697385-4.498132 .81594-4.498132H2.942964V-.27198C2.942964-.160399 2.942964 0 3.11731 0C3.284682 0 3.284682-.167372 3.284682-.27198V-4.498132Z'/>
 <path id='f25-g3-40' d='M3.297634 2.391034C3.297634 2.361146 3.297634 2.34122 3.128269 2.171856C1.882939 .916563 1.564134-.966376 1.564134-2.49066C1.564134-4.224159 1.942715-5.957659 3.16812-7.202989C3.297634-7.32254 3.297634-7.342466 3.297634-7.372354C3.297634-7.442092 3.257783-7.47198 3.198007-7.47198C3.098381-7.47198 2.201743-6.794521 1.613948-5.529265C1.105853-4.433375 .986301-3.327522 .986301-2.49066C.986301-1.713574 1.09589-.508095 1.643836 .617684C2.241594 1.843088 3.098381 2.49066 3.198007 2.49066C3.257783 2.49066 3.297634 2.460772 3.297634 2.391034Z'/>
@@ -5106,7 +5270,9 @@ dX = rows(rmsn_b, dXp, x)</pre></td><td class='n'></td></tr>
 <use x='272.418462' y='0' xlink:href='#f25-g1-107'/>
 <use x='277.918681' y='0' xlink:href='#f25-g3-41'/>
 </g>
-</svg></td><td class='dy'>gWTE←(⍉ids∘.=⍳VS)+.×dX ⋄ gWPE←(⍉pos∘.=⍳BLK)+.×dX</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='270' height='34' viewBox='.52802 -22.017584 203.231692 25.494478'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">gWTE←(⍉ids∘.=⍳VS)+.×dX ⋄ gWPE←(⍉pos∘.=⍳BLK)+.×dX</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:271px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='203.231692pt' height='25.494478pt' viewBox='.52802 -22.017584 203.231692 25.494478'>
 <defs>
 <path id='x25-g1-59' d='M2.022416-.009963C2.022416-.667497 1.77335-1.05604 1.384807-1.05604C1.05604-1.05604 .856787-.806974 .856787-.52802C.856787-.259029 1.05604 0 1.384807 0C1.504359 0 1.633873-.039851 1.733499-.129514C1.763387-.14944 1.77335-.159402 1.783313-.159402S1.803238-.14944 1.803238-.009963C1.803238 .727273 1.454545 1.325031 1.125778 1.653798C1.016189 1.763387 1.016189 1.783313 1.016189 1.8132C1.016189 1.882939 1.066002 1.92279 1.115816 1.92279C1.225405 1.92279 2.022416 1.155666 2.022416-.009963Z'/>
 <path id='x25-g3-0' d='M4.11457 11.447073C4.11457 11.407223 4.094645 11.387298 4.07472 11.35741C3.616438 10.86924 2.938979 10.062267 2.520548 8.438356C2.291407 7.531756 2.201743 6.505604 2.201743 5.579078C2.201743 2.958904 2.82939 1.125778 4.024907-.169365C4.11457-.259029 4.11457-.278954 4.11457-.298879C4.11457-.398506 4.034869-.398506 3.995019-.398506C3.845579-.398506 3.307597 .199253 3.178082 .348692C2.161893 1.554172 1.514321 3.347447 1.514321 5.569116C1.514321 6.983811 1.763387 8.986301 3.068493 10.669988C3.16812 10.789539 3.815691 11.5467 3.995019 11.5467C4.034869 11.5467 4.11457 11.5467 4.11457 11.447073Z'/>
@@ -5219,9 +5385,12 @@ dX = rows(rmsn_b, dXp, x)</pre></td><td class='n'></td></tr>
 <use x='189.568529' y='0' xlink:href='#x25-g0-100'/>
 <use x='194.660518' y='0' xlink:href='#x25-g0-88'/>
 </g>
-</svg><pre class='src'>gWTE = transpose(onehot(ids, vocabSize)) dX
-gWPE = transpose(onehot(pos, blockSize)) dX</pre></td><td class='n'>transpose(…) and not ^T: a call result may not be followed by a superscript, parenthesised or not (rows 144, 158).</td></tr>
-<tr><td>26<br><small>L28</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='225' height='16' viewBox='1.514321 -8.468311 169.133757 11.945205'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">gWTE = transpose(onehot(ids, vocabSize)) dX
+gWPE = transpose(onehot(pos, blockSize)) dX</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">transpose(…) and not ^T: a call result may not be followed by a superscript, parenthesised or not (rows 144, 158).</p></div>
+</div></section>
+<section class="row" id="r26"><h2><span class="n">26</span>The step&#x27;s result<span class="dy">L28</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:226px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='169.133757pt' height='11.945205pt' viewBox='1.514321 -8.468311 169.133757 11.945205'>
 <defs>
 <path id='f26-g4-50' d='M3.521793-1.26924H3.284682C3.263761-1.115816 3.194022-.704359 3.103362-.63462C3.047572-.592777 2.510585-.592777 2.412951-.592777H1.129763C1.862017-1.241345 2.106102-1.436613 2.524533-1.764384C3.040598-2.175841 3.521793-2.608219 3.521793-3.270735C3.521793-4.11457 2.782565-4.630635 1.889913-4.630635C1.025156-4.630635 .439352-4.02391 .439352-3.382316C.439352-3.02665 .739228-2.991781 .808966-2.991781C.976339-2.991781 1.17858-3.110336 1.17858-3.361395C1.17858-3.486924 1.129763-3.731009 .767123-3.731009C.983313-4.226152 1.457534-4.379577 1.785305-4.379577C2.48269-4.379577 2.84533-3.835616 2.84533-3.270735C2.84533-2.66401 2.412951-2.182814 2.189788-1.931756L.509091-.27198C.439352-.209215 .439352-.195268 .439352 0H3.312578L3.521793-1.26924Z'/>
 <path id='f26-g2-70' d='M2.385056-2.245579H3.131258C3.66127-2.245579 3.75193-2.161893 3.75193-1.931756C3.75193-1.827148 3.75193-1.8132 3.703113-1.617933C3.689166-1.57609 3.682192-1.555168 3.682192-1.534247C3.682192-1.464508 3.731009-1.429639 3.800747-1.429639C3.891407-1.429639 3.898381-1.464508 3.93325-1.590037L4.309838-3.068493C4.316812-3.089415 4.337733-3.194022 4.337733-3.20797C4.337733-3.277709 4.288917-3.312578 4.219178-3.312578C4.121544-3.312578 4.11457-3.270735 4.079701-3.145205C3.940224-2.601245 3.737983-2.496638 3.145205-2.496638H2.447821L2.887173-4.247073C2.942964-4.463263 2.949938-4.484184 3.242839-4.484184H4.309838C5.23736-4.484184 5.411706-4.261021 5.411706-3.682192C5.411706-3.452055 5.383811-3.305604 5.383811-3.249813S5.404732-3.131258 5.502366-3.131258C5.606974-3.131258 5.613948-3.194022 5.627895-3.312578L5.753425-4.526027C5.774346-4.735243 5.725529-4.735243 5.551183-4.735243H1.827148C1.694645-4.735243 1.603985-4.735243 1.603985-4.581818C1.603985-4.484184 1.687671-4.484184 1.827148-4.484184C1.834122-4.484184 1.966625-4.484184 2.092154-4.470237C2.238605-4.456289 2.252553-4.442341 2.252553-4.372603C2.252553-4.323786 2.231631-4.254047 2.224658-4.219178L1.311083-.571856C1.241345-.299875 1.234371-.251059 .690411-.251059C.571856-.251059 .481196-.251059 .481196-.104608C.481196-.034869 .530012 0 .592777 0C.795019 0 1.311083-.027895 1.513325-.027895L2.050311-.020922C2.231631-.020922 2.426899 0 2.601245 0C2.650062 0 2.75467 0 2.75467-.153425C2.75467-.251059 2.670984-.251059 2.510585-.251059C2.496638-.251059 2.322291-.251059 2.147945-.265006C2.001494-.278954 1.931756-.285928 1.931756-.383562C1.931756-.411457 1.931756-.432379 1.952677-.509091L2.385056-2.245579Z'/>
@@ -5276,7 +5445,9 @@ gWPE = transpose(onehot(pos, blockSize)) dX</pre></td><td class='n'>transpose(�
 <use x='163.735099' y='0' xlink:href='#f26-g3-41'/>
 <use x='167.609473' y='-8.069805' xlink:href='#f26-g5-1'/>
 </g>
-</svg></td><td class='dy'>loss(⊃,/,¨gWTE gWPE gLM gWQ gWK gWV gWO gF1 gF2)}</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='400' height='29' viewBox='.547945 -21.917875 300.759257 21.977651'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">loss(⊃,/,¨gWTE gWPE gLM gWQ gWK gWV gWO gF1 gF2)}</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:401px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='300.759257pt' height='21.977651pt' viewBox='.547945 -21.917875 300.759257 21.977651'>
 <defs>
 <path id='x26-g1-100' d='M3.566625-.498132C3.566625-.139477 3.566625 0 3.965131 0H4.692403C4.851806 0 5.100872 0 5.100872-.308842C5.100872-.607721 4.841843-.607721 4.702366-.607721H4.254047V-5.678705C4.254047-5.987547 4.194271-6.087173 3.855542-6.087173H3.128269C2.968867-6.087173 2.719801-6.087173 2.719801-5.778331C2.719801-5.479452 2.978829-5.479452 3.118306-5.479452H3.566625V-3.905355C3.237858-4.194271 2.82939-4.353674 2.400996-4.353674C1.315068-4.353674 .358655-3.407223 .358655-2.141968C.358655-.9066 1.255293 .059776 2.311333 .059776C2.86924 .059776 3.287671-.209215 3.566625-.498132ZM3.566625-2.6401V-1.932752C3.566625-1.374844 3.118306-.547945 2.351183-.547945C1.643836-.547945 1.046077-1.255293 1.046077-2.141968C1.046077-3.098381 1.743462-3.745953 2.440847-3.745953C3.078456-3.745953 3.566625-3.188045 3.566625-2.6401Z'/>
 <path id='x26-g1-101' d='M4.224159-1.902864C4.433375-1.902864 4.622665-1.902864 4.622665-2.271482C4.622665-3.407223 3.985056-4.383562 2.689913-4.383562C1.504359-4.383562 .547945-3.387298 .547945-2.161893C.547945-.946451 1.554172 .059776 2.839352 .059776C4.154421 .059776 4.622665-.836862 4.622665-1.085928C4.622665-1.364882 4.333748-1.364882 4.273973-1.364882C4.094645-1.364882 4.014944-1.334994 3.945205-1.145704C3.726027-.637609 3.188045-.547945 2.909091-.547945C2.161893-.547945 1.414695-1.046077 1.255293-1.902864H4.224159ZM1.265255-2.500623C1.404732-3.227895 1.992528-3.775841 2.689913-3.775841C3.20797-3.775841 3.825654-3.526775 3.915318-2.500623H1.265255Z'/>
@@ -5361,9 +5532,12 @@ gWPE = transpose(onehot(pos, blockSize)) dX</pre></td><td class='n'>transpose(�
 <use x='5.230344' y='0' xlink:href='#x26-g1-110'/>
 <use x='10.460688' y='0' xlink:href='#x26-g1-100'/>
 </g>
-</svg><pre class='src'>  (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))
-end</pre></td><td class='n'>flat ravels and catenates the nine gradients in layout order, as ⊃,/,¨ does; the result is a gradient in the layout of p.</td></tr>
-<tr><td>27<br><small>L29</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='456' height='50' viewBox='.288917 -26.143438 342.587644 37.401097'>
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">  (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))
+end</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">flat ravels and catenates the nine gradients in layout order, as ⊃,/,¨ does; the result is a gradient in the layout of p.</p></div>
+</div></section>
+<section class="row" id="r27"><h2><span class="n">27</span>Adam<span class="dy">L29</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:457px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='342.587644pt' height='37.401097pt' viewBox='.288917 -26.143438 342.587644 37.401097'>
 <defs>
 <path id='f27-g6-112' d='M4.224159 11.556663C4.533001 11.556663 4.542964 11.5467 4.64259 11.35741L10.092154-.019925C10.161893-.14944 10.161893-.169365 10.161893-.199253C10.161893-.308842 10.082192-.398506 9.96264-.398506C9.833126-.398506 9.793275-.308842 9.743462-.199253L4.60274 10.520548L2.480697 5.579078L1.09589 6.645081L1.24533 6.804483L1.952677 6.266501L4.224159 11.556663Z'/>
 <path id='f27-g3-65' d='M1.436613-.836862C1.192528-.460274 .969365-.278954 .557908-.251059C.488169-.244085 .397509-.244085 .397509-.104608C.397509-.027895 .460274 0 .495143 0C.676463 0 .9066-.027895 1.094894-.027895C1.318057-.027895 1.603985 0 1.8132 0C1.84807 0 1.952677 0 1.952677-.153425C1.952677-.244085 1.862017-.251059 1.834122-.251059C1.778331-.258032 1.527273-.27198 1.527273-.460274C1.527273-.54396 1.597011-.662516 1.63188-.72528L2.189788-1.590037H4.184309L4.351681-.432379C4.323786-.36264 4.281943-.251059 3.870486-.251059C3.7868-.251059 3.689166-.251059 3.689166-.097634C3.689166-.069738 3.710087 0 3.800747 0C4.002989 0 4.498132-.027895 4.700374-.027895C4.825903-.027895 4.986301-.020922 5.111831-.020922C5.23736-.013948 5.383811 0 5.50934 0C5.6 0 5.648817-.055791 5.648817-.146451C5.648817-.251059 5.565131-.251059 5.453549-.251059C5.049066-.251059 5.035118-.306849 5.014197-.474222L4.400498-4.777086C4.379577-4.923537 4.365629-4.972354 4.233126-4.972354S4.05878-4.909589 3.996015-4.811955L1.436613-.836862ZM2.357161-1.841096L3.821669-4.121544L4.14944-1.841096H2.357161Z'/>
@@ -5454,7 +5628,9 @@ end</pre></td><td class='n'>flat ravels and catenates the nine gradients in layo
 <use x='79.37906' y='8.260649' xlink:href='#f27-g2-34'/>
 <use x='84.024819' y='9.755029' xlink:href='#f27-g3-65'/>
 </g>
-</svg></td><td class='dy'>ADAM←{(t lr g)←⍵ ⋄ M∘←(B1×M)+(1-B1)×g ⋄ V∘←(B2×V)+(1-B2)×g*2 ⋄ P∘←P-lr×(M÷1-B1*t)÷EPSA+(V÷1-B2*t)*0.5}</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='284' height='76' viewBox='-.318804 -54.338321 213.766383 56.828981'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">ADAM←{(t lr g)←⍵ ⋄ M∘←(B1×M)+(1-B1)×g ⋄ V∘←(B2×V)+(1-B2)×g*2 ⋄ P∘←P-lr×(M÷1-B1*t)÷EPSA+(V÷1-B2*t)*0.5}</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:285px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='213.766383pt' height='56.828981pt' viewBox='-.318804 -54.338321 213.766383 56.828981'>
 <defs>
 <path id='x27-g4-116' d='M1.715567-2.75467H2.426899C2.559402-2.75467 2.650062-2.75467 2.650062-2.908095C2.650062-3.005729 2.559402-3.005729 2.440847-3.005729H1.778331L2.036364-4.037858C2.043337-4.072727 2.057285-4.107597 2.057285-4.135492C2.057285-4.261021 1.959651-4.358655 1.820174-4.358655C1.645828-4.358655 1.54122-4.2401 1.492403-4.05878C1.443587-3.884433 1.534247-4.219178 1.227397-3.005729H.516065C.383562-3.005729 .292902-3.005729 .292902-2.852304C.292902-2.75467 .376588-2.75467 .502117-2.75467H1.164633L.753176-1.108842C.711333-.934496 .648568-.683437 .648568-.592777C.648568-.18132 .99726 .069738 1.39477 .069738C2.168867 .069738 2.608219-.9066 2.608219-.99726S2.517559-1.08792 2.496638-1.08792C2.412951-1.08792 2.405978-1.073973 2.350187-.955417C2.154919-.516065 1.799253-.125529 1.415691-.125529C1.26924-.125529 1.171606-.216189 1.171606-.467248C1.171606-.536986 1.199502-.683437 1.21345-.753176L1.715567-2.75467Z'/>
 <path id='x27-g0-108' d='M3.01868-6.665006C3.028643-6.694894 3.048568-6.774595 3.048568-6.794521C3.048568-6.884184 2.988792-6.914072 2.909091-6.914072C2.879203-6.914072 2.779577-6.90411 2.749689-6.894147L1.763387-6.814446C1.643836-6.804483 1.534247-6.794521 1.534247-6.60523C1.534247-6.495641 1.633873-6.495641 1.77335-6.495641C2.251557-6.495641 2.271482-6.425903 2.271482-6.326276C2.271482-6.296389 2.241594-6.166874 2.241594-6.156912L.996264-1.175592C.986301-1.135741 .936488-.936488 .936488-.787049C.936488-.259029 1.295143 .109589 1.77335 .109589C2.15193 .109589 2.351183-.159402 2.480697-.408468C2.650062-.757161 2.789539-1.39477 2.789539-1.424658C2.789539-1.524284 2.709838-1.524284 2.6401-1.524284C2.590286-1.524284 2.530511-1.524284 2.500623-1.474471L2.430884-1.225405C2.261519-.52802 2.072229-.109589 1.793275-.109589C1.534247-.109589 1.534247-.37858 1.534247-.518057C1.534247-.587796 1.534247-.737235 1.594022-.976339L3.01868-6.665006Z'/>
@@ -5567,11 +5743,14 @@ end</pre></td><td class='n'>flat ravels and catenates the nine gradients in layo
 <use x='37.26651' y='-4.113496' xlink:href='#x27-g2-48'/>
 <use x='40.061586' y='0' xlink:href='#x27-g5-41'/>
 </g>
-</svg><pre class='src'>m&#x27; = beta1 m + (1 - beta1) g
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">m&#x27; = beta1 m + (1 - beta1) g
 v&#x27; = beta2 v + (1 - beta2) (g × g)
 p&#x27; = p - (lr (m&#x27; / (1 - beta1^t))) / (SQRT (v&#x27; / (1 - beta2^t)) + epsilon_A)
-(p&#x27;, m&#x27;, v&#x27;)</pre></td><td class='n'>Pure: the three results are returned rather than assigned to globals. g*2 is g × g. The association is numpy&#x27;s, (α m̂)/(√v̂ + ε), because the goldens are numpy&#x27;s; the Dyalog&#x27;s is α (m̂/(ε + √v̂)).</td></tr>
-<tr><td>28<br><small>L30</small></td><td class='f'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='455' height='33' viewBox='.468244 -21.41985 342.408272 24.896744'>
+(p&#x27;, m&#x27;, v&#x27;)</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">Pure: the three results are returned rather than assigned to globals. g*2 is g × g. The association is numpy&#x27;s, (α m̂)/(√v̂ + ε), because the goldens are numpy&#x27;s; the Dyalog&#x27;s is α (m̂/(ε + √v̂)).</p></div>
+</div></section>
+<section class="row" id="r28"><h2><span class="n">28</span>The training loop<span class="dy">L30</span></h2><div class="grid">
+<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:457px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='342.408272pt' height='24.896744pt' viewBox='.468244 -21.41985 342.408272 24.896744'>
 <defs>
 <path id='f28-g0-0' d='M6.56538-2.291407C6.734745-2.291407 6.914072-2.291407 6.914072-2.49066S6.734745-2.689913 6.56538-2.689913H1.175592C1.006227-2.689913 .826899-2.689913 .826899-2.49066S1.006227-2.291407 1.175592-2.291407H6.56538Z'/>
 <path id='f28-g0-32' d='M9.046077-2.291407C9.225405-2.291407 9.404732-2.291407 9.404732-2.49066S9.225405-2.689913 9.046077-2.689913H1.643836C2.191781-3.108344 2.460772-3.516812 2.540473-3.646326C2.988792-4.333748 3.068493-4.961395 3.068493-4.971357C3.068493-5.090909 2.948941-5.090909 2.86924-5.090909C2.699875-5.090909 2.689913-5.070984 2.650062-4.891656C2.420922-3.915318 1.833126-3.088418 .707347-2.620174C.597758-2.580324 .557908-2.560399 .557908-2.49066S.607721-2.400996 .707347-2.361146C1.743462-1.932752 2.410959-1.155666 2.660025-.039851C2.689913 .079701 2.699875 .109589 2.86924 .109589C2.948941 .109589 3.068493 .109589 3.068493-.009963C3.068493-.029888 2.978829-.657534 2.560399-1.325031C2.361146-1.62391 2.072229-1.972603 1.643836-2.291407H9.046077Z'/>
@@ -5684,7 +5863,9 @@ p&#x27; = p - (lr (m&#x27; / (1 - beta1^t))) / (SQRT (v&#x27; / (1 - beta2^t)) +
 <use x='189.736406' y='1.494381' xlink:href='#f28-g2-115'/>
 <use x='193.99476' y='0' xlink:href='#f28-g3-41'/>
 </g>
-</svg></td><td class='dy'>losses←{l g←STEP(≢docs)|(⍵×BSZ)+⍳BSZ ⋄ ADAM(1+⍵)(LR0×1-⍵÷NSTEPS)g ⋄ l}¨⍳RUN</td><td class='x'><svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='465' height='52' viewBox='.936488 -35.566856 349.874191 39.043751'>
+</svg></div></div>
+<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">losses←{l g←STEP(≢docs)|(⍵×BSZ)+⍳BSZ ⋄ ADAM(1+⍵)(LR0×1-⍵÷NSTEPS)g ⋄ l}¨⍳RUN</div></div>
+<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:466px"><svg class='r' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='349.874191pt' height='39.043751pt' viewBox='.936488 -35.566856 349.874191 39.043751'>
 <defs>
 <path id='x28-g3-0' d='M6.56538-2.291407C6.734745-2.291407 6.914072-2.291407 6.914072-2.49066S6.734745-2.689913 6.56538-2.689913H1.175592C1.006227-2.689913 .826899-2.689913 .826899-2.49066S1.006227-2.291407 1.175592-2.291407H6.56538Z'/>
 <path id='x28-g3-41' d='M7.232877-3.257783C7.651308-2.899128 8.159402-2.6401 8.488169-2.49066C8.129514-2.331258 7.641345-2.072229 7.232877-1.723537H.9066C.737235-1.723537 .547945-1.723537 .547945-1.524284S.727273-1.325031 .896638-1.325031H6.784558C6.306351-.86675 5.788294 .009963 5.788294 .139477C5.788294 .249066 5.917808 .249066 5.977584 .249066C6.057285 .249066 6.127024 .249066 6.166874 .169365C6.37609-.209215 6.655044-.737235 7.302615-1.315068C7.990037-1.92279 8.657534-2.191781 9.175592-2.34122C9.344956-2.400996 9.354919-2.410959 9.374844-2.430884C9.39477-2.440847 9.39477-2.470735 9.39477-2.49066S9.39477-2.530511 9.384807-2.550436L9.354919-2.570361C9.334994-2.580324 9.325031-2.590286 9.135741-2.650062C7.790785-3.048568 6.794521-3.955168 6.236613-5.021171C6.127024-5.220423 6.117061-5.230386 5.977584-5.230386C5.917808-5.230386 5.788294-5.230386 5.788294-5.120797C5.788294-4.991283 6.296389-4.124533 6.784558-3.656289H.896638C.727273-3.656289 .547945-3.656289 .547945-3.457036S.737235-3.257783 .9066-3.257783H7.232877Z'/>
@@ -5891,10 +6072,13 @@ p&#x27; = p - (lr (m&#x27; / (1 - beta1^t))) / (SQRT (v&#x27; / (1 - beta2^t)) +
 <use x='247.587772' y='0' xlink:href='#x28-g5-41'/>
 <use x='251.462145' y='-8.069805' xlink:href='#x28-g7-1'/>
 </g>
-</svg><pre class='src'>learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)
+</svg></div><details class="src"><summary>ASCII source</summary><pre class="ascii">learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)
         (l, g) = step(p, keys(bsz, fn (i: ZZ32): ZZ32 =&gt; (s bsz + i) MOD corpus.size()))
-        (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))</pre></td><td class='n'>The driver keeps (p, m, v) as the loop&#x27;s three variables where the Dyalog&#x27;s ADAM updates globals; the loop, the prints and the timing around these lines are not shown.</td></tr>
-</table>
-<h2>Lines with no Dyalog counterpart</h2><ul>
+        (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))</pre></details></div>
+<div class="cell c-note"><div class="lab">Note</div><p class="note">The driver keeps (p, m, v) as the loop&#x27;s three variables where the Dyalog&#x27;s ADAM updates globals; the loop, the prints and the timing around these lines are not shown.</p></div>
+</div></section>
+<section class="row"><h2>Lines with no Dyalog counterpart</h2><ul>
 <li>the two <code>^T</code> declarations (a matrix, and every plane of a rank-3 array): the Dyalog's ⍉ is primitive; Fortress's <code>^T</code> is declared, in the model because an API cannot declare an exponent-shaped postfix operator (ledger row 133).</li>
-<li>the <code>run()</code> driver's prints and timing.</li></ul></body></html>
+<li>the <code>run()</code> driver's prints and timing.</li></ul></section>
+<footer>28 rows. Formulas typeset with LaTeX; Fortress typeset with Fortify (<code>bin/fortick</code>); both embedded as inline SVG, ids made unique per cell. Dyalog lines are plain text. Sources and renders: <code>explorations/run-c4/tour/</code>.</footer>
+</div></body></html>

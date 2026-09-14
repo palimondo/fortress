@@ -218,32 +218,92 @@ md += ['', '## Lines with no Dyalog counterpart', '',
  '- the `run()` driver\'s prints and timing.', '']
 open(f'{ROOT}/tour.md', 'w').write('\n'.join(md))
 
-# ---- tour.html (self-contained: SVGs inlined) ----
+# ---- tour.html (self-contained: SVGs inlined; round three's layout, the formula and the
+# Fortress side by side, the Dyalog and the note beneath; the renders take the theme's ink) ----
+NAMES = ['Hyperparameters', 'RMS normalisation of a vector', 'Softmax of a vector', 'The causal mask', 'Backward of the RMS normalisation', 'Backward of the softmax', 'The layout: shapes, counts, offsets', 'The flat parameter vector and the Adam state', 'Matrix i as a view of P', 'The corpus', 'The keys of a batch', 'The nine weight matrices', 'Embedding and two normalisations', 'Queries, keys, values, split into heads', 'Attention weights, heads applied to values', 'Output projection, normalisation, the MLP', 'Probabilities and loss', 'Backward: the loss and the output head', 'Backward: the MLP', 'Backward: the residual and the output projection', 'Backward: attention, values and scores', 'Backward: queries and keys, un-heading', 'Backward: the projections', 'Backward: the two normalisations', 'Backward: the embeddings', "The step's result", 'Adam', 'The training loop']
+assert len(NAMES) == len(rows)
+
 def svg(path, prefix):
     # the SVGs are inlined into one document, so their glyph ids (dvisvgm's g0-1, g1-2, ...) must be made
     # unique per cell: with the same id in several cells the browser draws every <use> from the first
     # definition and the text is garbled (the fault of round two's tour.html, reviews/run-c2-phase1.md)
-    if not os.path.exists(path): return '<em>not rendered</em>'
+    if not os.path.exists(path): return '<em>not rendered</em>', 0
     s = open(path).read()
-    s = s[s.index('<svg'):]
+    s = s[s.index('<svg'):].strip()
     s = s.replace("id='", f"id='{prefix}-").replace("href='#", f"href='#{prefix}-")
-    s = re.sub(r"<svg ([^>]*?)width='([\d.]+)pt' height='([\d.]+)pt'", lambda m: f"<svg {m.group(1)}width='{float(m.group(2))*1.33:.0f}' height='{float(m.group(3))*1.33:.0f}'", s, count=1)
-    return s
-h = ['<!DOCTYPE html><html><head><meta charset="utf-8"><title>Run C4: the guided tour</title>',
- '<style>body{font-family:system-ui,sans-serif;margin:20px;max-width:1500px} table{border-collapse:collapse;width:100%}',
- 'td,th{border:1px solid #bbb;padding:6px 8px;vertical-align:top} th{background:#f2f2f2;text-align:left}',
- 'td.dy{font-family:"DejaVu Sans Mono","APL385 Unicode",monospace;font-size:13px;white-space:pre-wrap;word-break:break-all;max-width:330px}',
- 'td.f svg,td.x svg{max-width:100%;height:auto} td.x{min-width:380px} td.f{min-width:260px} td.n{font-size:13px;max-width:260px}',
- 'pre.src{font-size:11px;color:#555;margin:6px 0 0 0;white-space:pre-wrap;word-break:break-all}</style></head><body>',
- '<h1>Run C4: the guided tour</h1>',
- '<p>One row per line of <code>microgpt_concise.dyalog</code>, in the order of the line-for-line table of <code>design.md</code>, the helper dfns included: the formula, the Dyalog line, the Fortress line or lines of <code>src/MicroGptFlat.fss</code> set by Fortify (verbatim; a <code>;</code> line of the source is shown one statement per line, and the ASCII source follows in grey), and a note where they differ. The by-eye test of round four is this table.</p>',
- '<table><tr><th>#</th><th>formula</th><th>Dyalog</th><th>Fortress (Fortify)</th><th>note</th></tr>']
+    s = s.replace('<svg ', "<svg class='r' ", 1)
+    m = re.search(r"width='([0-9.]+)pt'", s)
+    nat = round(float(m.group(1)) * 4.0 / 3.0) if m else 0
+    return s, nat
+
+CSS = """
+:root{
+  --bg:#faf9f7; --panel:#ffffff; --ink:#1c1b19; --muted:#6c6760;
+  --rule:#e2ddd5; --accent:#7a4b1e; --codebg:#f2efe9; --shadow:0 1px 2px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16161a; --panel:#1e1e24; --ink:#e8e5df; --muted:#9a938a;
+    --rule:#2e2e35; --accent:#e0a468; --codebg:#23232a; --shadow:0 1px 3px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16161a; --panel:#1e1e24; --ink:#e8e5df; --muted:#9a938a;
+  --rule:#2e2e35; --accent:#e0a468; --codebg:#23232a; --shadow:0 1px 3px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font-family:"DejaVu Serif",Georgia,"Times New Roman",serif; font-size:15px; line-height:1.55; margin:0;}
+.wrap{max-width:1180px; margin:0 auto; padding-block:32px 64px; padding-left:20px; padding-right:20px;}
+h1{font-size:1.9rem; line-height:1.2; margin:0 0 .6em; letter-spacing:-.01em;}
+.intro p{margin:0 0 1em; max-width:70ch;}
+.intro{border-bottom:1px solid var(--rule); padding-bottom:12px; margin-bottom:28px;}
+code{font-family:"DejaVu Sans Mono","Noto Sans Mono","Liberation Mono",ui-monospace,monospace; font-size:.86em; background:var(--codebg); padding:.08em .28em; border-radius:3px;}
+section.row{border-top:1px solid var(--rule); padding-top:14px; margin-top:22px;}
+section.row:first-of-type{border-top:none; margin-top:0;}
+h2{font-size:1.02rem; margin:0 0 12px; font-weight:600; letter-spacing:.01em;}
+h2 .n{display:inline-block; min-width:2.1em; color:var(--accent); font-family:"DejaVu Sans Mono",ui-monospace,monospace; font-size:.85em;}
+h2 .dy{color:var(--muted); font-weight:400; font-size:.85em; margin-left:.6em;}
+.grid{display:grid; gap:12px 22px; grid-template-columns:1fr;}
+@media (min-width:900px){
+  .grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-areas:"formula fortress" "dyalog note"; align-items:start;}
+  .c-formula{grid-area:formula} .c-dyalog{grid-area:dyalog} .c-fortress{grid-area:fortress} .c-note{grid-area:note}
+}
+.cell{min-width:0}
+.lab{font-family:"DejaVu Sans Mono",ui-monospace,monospace; font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin-bottom:5px;}
+/* rendered SVG panel: the TeX and Fortify strokes carry no colour of their own (dvisvgm emits
+   paths and rects without fill), so they take the ink of the theme */
+.render{background:var(--panel); border:1px solid var(--rule); border-radius:5px; padding:8px 10px; overflow-x:auto; box-shadow:var(--shadow); color:var(--ink);}
+.render svg{fill:currentColor}
+/* fit the cell, but never shrink a render below 80% of its natural size: below that the panel scrolls */
+svg.r{max-width:100%; min-width:calc(var(--nat, 0px) * .8); height:auto; display:block;}
+details.src{margin-top:4px} details.src summary{font-size:11px; color:var(--muted); cursor:pointer; font-style:italic}
+.apl, pre.ascii{font-family:"APL385 Unicode","BQN386 Unicode","APL333","DejaVu Sans Mono","Noto Sans Mono","Menlo","Consolas","Liberation Mono",ui-monospace,monospace; font-size:12.5px; line-height:1.65; background:var(--codebg); border:1px solid var(--rule); border-radius:5px; padding:8px 10px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; margin:0;}
+.note{margin:0;} .note.none{color:var(--muted); font-style:italic;}
+footer{margin-top:44px; padding-top:14px; border-top:1px solid var(--rule); color:var(--muted); font-size:12.5px;}
+"""
+
+h = ['<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">',
+ '<title>Run C4 tour</title>', '<style>' + CSS + '</style>', '</head><body><div class="wrap">',
+ '<h1>Run C4: the guided tour</h1>', '<div class="intro">',
+ '<p>One row per line of <code>microgpt_concise.dyalog</code>, in the order of the program, the helper dfns included: the formula, the Dyalog line, the Fortress line or lines of <code>src/MicroGptFlat.fss</code> set by Fortify (verbatim; a <code>;</code> line of the source is shown one statement per line; the ASCII source is under each render), and a note where they differ. Every Fortress snippet is checked against the source by the generator, <code>tour/mktour.py</code>. The by-eye test of round four is this page.</p>',
+ '</div>']
 for n, r in enumerate(rows, 1):
     code = '\n'.join(split_stmts(dedent(r['fortress'])))
-    h.append(f"<tr><td>{n}<br><small>{r['dy']}</small></td><td class='f'>{svg(f'{TOUR}/row{n:02d}_f.svg', f'f{n}')}</td><td class='dy'>{html.escape(r['dyalog'])}</td>"
-             f"<td class='x'>{svg(f'{TOUR}/row{n:02d}.svg', f'x{n}')}<pre class='src'>{html.escape(code)}</pre></td><td class='n'>{html.escape(r['note'])}</td></tr>")
-h += ['</table>', '<h2>Lines with no Dyalog counterpart</h2><ul>',
+    fs, fnat = svg(f'{TOUR}/row{n:02d}_f.svg', f'f{n}')
+    xs, xnat = svg(f'{TOUR}/row{n:02d}.svg', f'x{n}')
+    note = html.escape(r['note']) if r['note'].strip() else ''
+    ncls = 'note' if note else 'note none'
+    if not note: note = 'none'
+    h.append(f'<section class="row" id="r{n:02d}"><h2><span class="n">{n}</span>{html.escape(NAMES[n-1])}<span class="dy">{r["dy"]}</span></h2><div class="grid">')
+    h.append(f'<div class="cell c-formula"><div class="lab">Formula</div><div class="render" style="--nat:{fnat}px">{fs}</div></div>')
+    h.append(f'<div class="cell c-dyalog"><div class="lab">Dyalog</div><div class="apl">{html.escape(r["dyalog"])}</div></div>')
+    h.append(f'<div class="cell c-fortress"><div class="lab">Fortress</div><div class="render" style="--nat:{xnat}px">{xs}</div><details class="src"><summary>ASCII source</summary><pre class="ascii">{html.escape(code)}</pre></details></div>')
+    h.append(f'<div class="cell c-note"><div class="lab">Note</div><p class="{ncls}">{note}</p></div>')
+    h.append('</div></section>')
+h += ['<section class="row"><h2>Lines with no Dyalog counterpart</h2><ul>',
  '<li>the two <code>^T</code> declarations (a matrix, and every plane of a rank-3 array): the Dyalog\'s ⍉ is primitive; Fortress\'s <code>^T</code> is declared, in the model because an API cannot declare an exponent-shaped postfix operator (ledger row 133).</li>',
- '<li>the <code>run()</code> driver\'s prints and timing.</li></ul></body></html>']
+ '<li>the <code>run()</code> driver\'s prints and timing.</li></ul></section>',
+ f'<footer>{len(rows)} rows. Formulas typeset with LaTeX; Fortress typeset with Fortify (<code>bin/fortick</code>); both embedded as inline SVG, ids made unique per cell. Dyalog lines are plain text. Sources and renders: <code>explorations/run-c4/tour/</code>.</footer>',
+ '</div></body></html>']
 open(f'{ROOT}/tour.html', 'w').write('\n'.join(h))
 print('tour.md and tour.html written; html', os.path.getsize(f'{ROOT}/tour.html'), 'bytes')
