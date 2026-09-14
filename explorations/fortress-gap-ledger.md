@@ -11,7 +11,7 @@
      synthesis run-c4 (run-c4/gaps.md, probes in run-c4/probes/) and the APL
      side quest (apl/gaps.md rows 1-85, six rungs, probes in apl/rung-1 ...
      apl/rung-6 and, for the retired first library, apl/v1-probes/; that file's
-     rows 86-93, from the microGPT rung, entered the same day as 257-264 with
+     rows 86-93, from the microGPT rung, entered the same day as 257-265 with
      their reproducers as the workers left them beside apl/microgpt/probes/).
      Every row below was re-run here; commands and full output in
      explorations/gap-ledger-probes/transcript.txt, for the run-c merge
@@ -234,6 +234,7 @@ the interpreter reports that sentence — a **design limit**.
 | 61 | `spawn` and `.val()` work on the interpreter path | POSITIVE-VERIFIED | — | `appendices/grammars/concrete-syntax.tex:982` | `compiler-probes/p32.fss` run interpreted | ours | `p32 42`. Contrast row 74. |
 | 111 | `for c <- s` over a `String` is a **parallel, unordered** generator: at one thread it silently prints the string backwards | NEGATIVE-VERIFIED | design limit | `basic/expressions/for.tex:28-32` — "the programmer must assume that each loop iteration will occur independently in parallel unless every generator is explicitly \VAR{sequential}" | `run-b2/probes/g4i_order.fss` | run-b2 | `for ch <- uchars` over `"abcde"` prints `edcba`; `for ch <- seq(uchars)` and `for i <- seq(0 # \|uchars\|)` print `abcde`. Specified behaviour, but a stable reversal rather than anything obviously parallel, which is how it slips past a reader. Any character-level pass — tokenising, building a vocabulary — must wrap the generator in `seq`. Row 59's trap family. |
 | 155 | a parallel `for d <- 0#bsz, h <- 0#nHead` whose iterations write disjoint blocks of shared matrices through views, with reads of shared matrices, gives the same results at `FORTRESS_THREADS=4` as at 1 | POSITIVE-VERIFIED | — | `basic/expressions/for.tex:28-32` | `run-c/checks/threads4.txt` against `threads1.txt` (the attention loops of `run-c/src/MicroGptFlat.fss`); `run-c3/probes/att_b.fss`, `lift_c.fss`, `run-c3/checks/threads1.txt` against `threads4.txt` | run-c, run-c3 | Verified here by diffing the two committed check outputs rather than by re-running the 855 s check: the only differing lines are the header (`threads 1` / `threads 4`), the six lines that carry an elapsed time, and the final total — every loss, gradient difference, Adam difference and finite difference is identical to the last digit, and both files show 36 PASS and 0 FAIL. So the library's parallel `SUM` and product associate the same way at both thread counts. Row 59's trap avoided by construction: nothing is accumulated across iterations; the products and softmaxes allocate per iteration and `assignInto` writes each cell once. Four threads: 2.6-3.0 s per batch-1 step against 7.7-7.9, 8.6 s per batch-4 step against 26.6, 353 s for the check against 855. Run C3's independent port extends the row to two more shapes, both re-run here at 1 and 4 threads, and was merged into it rather than entered: a parallel `for d <- 0#bsz, h <- 0#nHead` whose iterations each store a whole matrix into a slot of a shared `array[\Any\](bsz nHead)` (`att_b.fss:96-97`), and a parallel `for i <- 0#nr` writing rows of a shared matrix through `Row` views (`lift_c.fss:52`). At `FORTRESS_THREADS=4` against 1 the only differing lines of either probe are the timing lines — every reported sum and element identical to the last digit — and its check's two outputs agree likewise, both `36 PASS, 0 FAIL of 36`. The speed-up here: ten `rows(rmsn, x)` 1712 ms against 617 ms, and ten forward-and-backward repetitions of `att_b` 28.1 s against 12.5 s. |
+| 265 | the **frame stack is unsafe under the language's implicit parallelism**: the elements of a tuple expression are evaluated in parallel in separate implicit threads, so `¨` over a strand written as the tuple `(aplCall1(f, a), aplCall1(f, b), aplCall1(f, c))` pushes three frames at once onto the one stack; at `FORTRESS_THREADS=4` the model dies reading a frame before it is written ("Access to uninitialized element 1 of array PrimitiveArray[\Any,1024\]") and the check with "Index -1 out of bounds for length 1024"; at pool size 1 the implicit threads run in sequence and nothing shows | NEGATIVE-VERIFIED (the race), POSITIVE-VERIFIED (the fix) | design limit (of the frame-stack design, row 245, against the language's parallel evaluation) | `Specification/basic/expressions/tuple-expr.tex:23-24` (each element of a tuple is evaluated in parallel); `basic/expressions/operator-app.tex:59` (operands likewise) | `apl/microgpt/checks/model_run_threads4.out.0`, `apl/microgpt/checks/threads4_crash.txt` (the crashes); `apl/base/AplCore.fss` (`aplEachT2`, `aplEachT3` sequenced in a block); `apl/microgpt/checks/model_run_threads4.out`, `apl/microgpt/checks/threads4.txt` (after) | apl microgpt rung | The base's rung-4 comment assumed `FORTRESS_THREADS=1`; the assumption was never exercised because every rung ran at pool size 1. The fix sequences the two sites the base controls; the limit stands wherever the host evaluates two APL calls in parallel — the components of a tuple, the arguments of a call, the operands of an operator — and a program that puts two dfn applications in one such group still races. This program has no other such group |
 
 ## 8. Fortify typesetter
 
@@ -462,20 +463,20 @@ each against the same source run through the interpreter.
 
 | status | rows |
 |---|---|
-| POSITIVE-VERIFIED | 93 (+26 rows that carry both marks) |
-| NEGATIVE-VERIFIED | 135 (+26 rows that carry both marks) |
+| POSITIVE-VERIFIED | 93 (+27 rows that carry both marks) |
+| NEGATIVE-VERIFIED | 135 (+27 rows that carry both marks) |
 | NEGATIVE-BOUNDED | 5 (rows 90, 182, 186, 199, 261) |
 | CONTESTED | 1 (row 83), and row 258's type half |
 | RETIRED | 3 (rows 10, 32, 87) |
-| **total rows** | **263** |
+| **total rows** | **264** |
 
 Rows 21, 25, 66, 92, 95, 107, 115, 133, 142, 143, 145, 146, 149 and 164 record a paired
 positive and negative verdict about the same construct and are listed once, and so do
-the twelve APL rows 200, 203, 204, 209, 216, 221, 226, 227, 235, 250, 254 and 257, whose
+the twelve APL rows 200, 203, 204, 209, 216, 221, 226, 227, 235, 250, 254, 257 and 265, whose
 status cell names which half is which; row 52
 is positive with a standing caveat (row 22), and row 9 moved from NEGATIVE-BOUNDED
 to NEGATIVE-VERIFIED in an earlier merge because run-b tried the arrangement it
-listed as untried. The numbering runs 1-264 with 148 missing: run-c's row 148
+listed as untried. The numbering runs 1-265 with 148 missing: run-c's row 148
 (`label` as a parameter name) duplicated row 8 and was merged into its notes, and
 the gap is kept so that `run-c/gaps.md`'s numbering still resolves.
 

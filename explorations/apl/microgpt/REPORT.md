@@ -62,6 +62,10 @@ Five additions (`DESIGN.md`, "What the base gains", as corrected after the probe
 
 Step-1 loss `3.3659669475848517` against C4's `3.3659669475848504` and the golden's: a difference of 8.9e-16 in a 1e-12 tolerance, from `+/` over `vm×⍟…` folding in a different order from C4's `vm DOT log(…)`; the other four losses agree with C4's digit for digit. The check's 40 rows are the same rows with the same tolerances as C4's.
 
+## Pool size 4: what gave
+
+The first run of the check at pool size 4 died after 48 s with `Index -1 out of bounds for length 1024` (`checks/threads4_crash.txt`), and the model's own run with "Access to uninitialized element 1 of array PrimitiveArray[\Any,1024\]" (`checks/model_run_threads4.out.0`). The array is the base's frame stack (rung 4: every APL function value is a zero-parameter lambda over one mutable stack of frames), whose comment assumed `FORTRESS_THREADS=1`; no rung had run at any other pool size. The language evaluates the elements of a tuple expression in parallel in separate implicit threads (`Specification/basic/expressions/tuple-expr.tex:23`), and `¨` over a strand was written as the tuple of its three calls, so three pushes interleaved on one stack. The base now sequences those calls in a block (`aplEachT2`, `aplEachT3`), the model runs at pool size 4 (`checks/model_run_threads4.out`, the same five losses, 5.3 s a step), and rungs 4–6 re-run byte-identical. The limit stands: wherever the host evaluates two APL calls in parallel, tuple components, call arguments or operator operands, the stack is shared; this program has no other such group. Gap row 94 (ledger 265).
+
 ## Cost
 
 PENDING: filled in from checks/threads1.txt and checks/threads4.txt.

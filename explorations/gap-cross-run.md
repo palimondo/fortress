@@ -10,7 +10,7 @@
 
 Nine ports and rounds of microGPT (and its neighbours) have now been made in this tree,
 beside one exploration that is not a port at all, and each met a different subset of the
-same 263 language, library, interpreter and typesetter gaps. This file is the
+same 264 language, library, interpreter and typesetter gaps. This file is the
 cross-tabulation: one line per ledger row that at least
 one port reached, one column per port — `ours` (this repository's own rounds, reviews and probe
 arcs counted as one), `astra` (the independent Astra run), `blinded` (the blinded Fable
@@ -31,7 +31,7 @@ its own table records meeting again. So is `run-c4`, whose hits are its own four
 (175-178) and the seven rows its design note names as adopted or met (21, 102, 130, 131,
 133, 152, 161); rows 144 and 158 are marked *avoided* there because C4 exported a
 `transpose` function from the start rather than meeting the error again. The `apl`
-column is 103 hits: the 86 rows the side quest contributed (179-256 and, from its microGPT rung, 257-264) and the 17 existing
+column is 104 hits: the 87 rows the side quest contributed (179-256 and, from its microGPT rung, 257-265) and the 17 existing
 rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47, 54, 55,
 89, 97, 98, 109, 131, 132, 145, 147, 157, and 1, which row 263 reaches from a library).
 
@@ -300,6 +300,7 @@ rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47,
 | 262 | `wrapped` and `at` are keywords and cannot name a declaration, and a local whose spelling is an imported name  … | — | — | — | — | — | — | — | — | — | hit |
 | 263 | chained indexing on an array of arrays, `rs[k][j]` with `rs: Array[\Array[\RR64,ZZ32\],ZZ32\]`, fails with `Fa … | — | — | — | — | — | — | — | — | — | hit |
 | 264 | the reduction `+/` of the base and C4's `DOT` fold in different orders: the step-1 loss is `3.3659669475848517 … | — | — | — | — | — | — | — | — | — | hit |
+| 265 | the frame stack is unsafe under the language's implicit parallelism: the elements of a tuple expression are eval … | — | — | — | — | — | — | — | — | — | hit |
 
 ## Rows every port hit — the fix priorities
 
@@ -542,8 +543,8 @@ type (177), and the api's types not needing to be repeated in the component (178
 rows are marked *avoided*: C4 exported a `transpose` function from the start, so it never
 met 144 or 158 again.
 
-**The APL side quest** is not a port and its column reads differently: 103 hits, of which
-86 are rows nothing else in this tree could have found. They are not about writing a
+**The APL side quest** is not a port and its column reads differently: 104 hits, of which
+87 are rows nothing else in this tree could have found. They are not about writing a
 program in Fortress but about extending Fortress — the preparser's dead delimiter check
 (211), the positions where a gap cannot go (182, 186, 196, 202) and the one where it can
 (201), a name otherwise spelled out as a character class (194), hygiene enforced exactly
