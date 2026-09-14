@@ -1,0 +1,7 @@
+microgpt flat | params 4192 | corpus 2000 x 17 | batch 1, 5 steps
+step 1 loss 3.3659669475848513  (9171 ms)
+step 2 loss 3.424272783871772  (8430 ms)
+step 3 loss 3.177802125458053  (8667 ms)
+step 4 loss 3.066355684224198  (9040 ms)
+step 5 loss 3.2208830897506235  (8941 ms)
+EXIT=0
