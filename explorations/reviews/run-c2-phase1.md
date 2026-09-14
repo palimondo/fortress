@@ -37,13 +37,17 @@ goldens' own lengths with the four golden single-document losses compared.
 Three faults, none fatal, and all of the same family as round one's — a
 measurement quoted where the tree holds a different one.
 
-1. **The cost claim is contradicted by the run's own four check outputs.**
-   `gaps.md` row 165 and `design.md`'s "Numerics and cost" say the step is
-   "about 1.1×" round one's. On the run's own host, round one's check took
-   855 s at one thread and 353 s at four; round two's took 610 s and 247 s,
-   for the same work — round two is **1.40× faster**, not 1.1× slower. The
-   1.1× is an extrapolation from an isolated attention-block probe; the
-   whole-program numbers in `checks/` say the opposite and are not reconciled.
+1. **The cost claim rests on an unstated assumption about which host it ran
+   on, and the tree's own comparison points the other way.** `gaps.md` row 165
+   and `design.md`'s "Numerics and cost" say the step is "about 1.1×" round
+   one's. The four check outputs in `checks/` say round one took 855 s and
+   353 s and round two 610 s and 247 s for the same work — round two **1.4×
+   faster**. To get 1.1× slower, `design.md` compares its 5.4 s step against
+   the 4.15 s of the *round-one reviewer's* host, asserting that its own host
+   is "of the same speed" and that round one ran "on the slower host". Nothing
+   in the tree establishes either. The assumption may be right; it is stated
+   as fact, and the one comparison a reader can make unaided is the one that
+   is not drawn.
 2. **Row 165's cited outputs do not exist, and the ones that do disagree with
    it.** The row cites "outputs `.threads1.out`/`.threads4.out`"; no such file
    is in `probes/`. The committed `q03_heads.out` and `q03e_heads_rowsb.out`
@@ -107,10 +111,12 @@ FAIL: MicroGptFlat checks: 1 FAIL
 and exits **1** (`failcheck/fail_exit.txt`). This is what round one lacked and
 what the brief asked for; gap row 164 states it correctly.
 
-**Timing, against round one, on the run's own host.** Both rounds' checks do
-the same work (round one also ran the four single-document steps,
-`e412c81b7:…/MicroGptFlatCheck.fss:135-141`; round two reports four more lines
-of it).
+**Timing, round two against round one, as the tree records it.** Both rounds'
+checks do the same work (round one also ran the four single-document steps,
+`e412c81b7:…/MicroGptFlatCheck.fss:135-141`; round two only reports four more
+lines of it). Which physical host each blinded run had is not recorded
+anywhere I can read, so these are the numbers as committed, not a controlled
+comparison.
 
 | | round one | round two | ratio |
 |---|---|---|---|
@@ -122,7 +128,10 @@ of it).
 | first (warm-up) step, 1 thread | 14.1 s | 10.2 s | 0.72× |
 
 Round two is faster than round one on every one of these, by a consistent
-~1.4×. See §5 row 165 and §8.
+~1.4×, and the consistency across six independent quantities is itself weak
+evidence that the two runs sat on comparable hardware. `design.md` reads the
+same numbers the other way by assuming its host was the faster one round one's
+reviewer used. See §5 row 165 and §8.
 
 ## 2. Constraint compliance
 
@@ -204,15 +213,16 @@ checked; the one row whose note is silent where it should not be is row 21
 - **What is genuinely built versus wrapped.** Wrapped: `DOT` (2261),
   `t()` behind `transpose` (2559), the matrix and vector products (2621-2653,
   2261-2276), `+`/`-` on equal-shaped `Vector`s and `Matrix`es (2192-2194,
-  2500-2502), `scale` — reached through the juxtaposition operators, so
-  `beta1 m` and `lr (…)` are the library's (2274, 2651). Built: everything in
+  2500-2502), `scale` — reached through the scalar juxtapositions
+  (`opr juxtaposition(other: T, me: Vector) = me.scale(other)` at 2276,
+  the matrix pair at 2634/2641), so `beta1 m` and `lr (…)` are the library's. Built: everything in
   the "Absent" table, and I could not find a shipped counterpart for any of it.
   One inaccuracy in the survey: the `Vector` row says "`pmul` is the
   elementwise product `×` wraps" — it is not; `opr ×` is
   `a.ivmap(fn (i, e) => e b[i])` (`FlatArrays.fss:26`), because `pmul` exists
   only on `Vector` (2198) and the declaration has to serve three ranks.
   `pmul` is not called anywhere in `run-c/src`.
-- **The `.fsi` files.** `FlatArrays.fsi` declares 44 members; four of them
+- **The `.fsi` files.** `FlatArrays.fsi` declares 42 names; four of them
   (`vec`, `row`, `row3`, `plane`) are used only inside the component. `FlatData.fsi`
   declares six; `parseFloat` is used only inside. `MicroGptFlat.fsi` declares
   twelve and the check uses six; `matName`, `matShape`, `matCount`,
@@ -228,8 +238,9 @@ checked; the one row whose note is silent where it should not be is row 21
 - **Names.** Round one's `kk`/`vv` are gone — the heads are `q, k, v`,
   `qh, kh, vh`, which is the Dyalog's naming. `h` and `u` are one-letter local
   functions, as in the Dyalog (`h←{…}`, `u←{…}`). `pm`/`pp` in the check's
-  finite differences still read as "p minus"/"p plus" and are fine here because
-  the round-one collision with the probability matrix is gone with `smRowsB`.
+  finite differences read as "p minus"/"p plus", and the round-one clash — `pm`
+  also meaning the probability matrix inside `smRowsB` — is gone with that
+  function.
   `m'`, `v'`, `p'` in `adam` follow the formula. No complaint.
 - **The check still carries two literals** where the goldens hold the values:
   `464` (`:58`) and `4192` (`:35, 55, 56`). Round one's review said so; it is
@@ -271,7 +282,7 @@ production).
 | which lift form is cheaper | "(b) is the cheapest … 12.6 s against 13.6 s at one thread" — `q03e` (form b) under `q03` (form a), the reason (b) is shipped (`design.md`) | the two outputs order the other way: `q03e` 28794 ms against `q03` 26030 ms. The shipped choice may still be right; the committed evidence does not show it |
 | the four-thread figures | 4.9 s against 3.1 s | no four-thread output is committed |
 | `q03b`, `q03c`, `q03d` ("no faster") | cited as reproducers | no output committed for any of the three |
-| the whole step | "about 1.1× round one's" | round two's check is 0.71× round one's at one thread and 0.70× at four, on the same host, for the same work (§1). Every step timing in `checks/round2_threads1.txt` is below the corresponding one in `checks/threads1.txt` |
+| the whole step | "about 1.1× round one's" | round two's check is 0.71× round one's at one thread and 0.70× at four for the same work (§1); every step timing in `checks/round2_threads1.txt` is below the corresponding one in `checks/threads1.txt`. The 1.1× holds only if round two ran on a host 1.8× faster than round one's, which the note assumes and does not mark as an assumption |
 
 The measurement the row reports may well be right about the attention block in
 isolation — the two `.out` files do show (A) dearer than (B), which is the
@@ -346,7 +357,7 @@ Fortress cell on `<br>`, stripped the backticks and matched against
 Dyalog counterpart" list is honest (the two `^T` declarations, `corpus()`,
 `nDocs()`, `run()`'s prints).
 
-**The by-eye test, row by row.** For 21 of the 28 rows the Fortress line reads
+**The by-eye test, row by row.** For 20 of the 28 rows the Fortress line reads
 beside its formula and its Dyalog without effort — most convincingly the whole
 backward pass, rows 18–26, where e.g. row 20's
 `dX₂ = dX₄ + rows(rmsn_b, dX₃, x₂)` sits beside
@@ -354,19 +365,19 @@ backward pass, rows 18–26, where e.g. row 20's
 `dX_2 = dX_4 + \mathrm{rmsn}_b(dX_3, X_2)` and the three are the same
 sentence; and row 15, the attention line the brief named as the judge, where
 `a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))` is one line against
-`A←sm⍤1⊢MK+⍤2⊢(Qh+.×⍤2⊢⍉⍤2⊢Kh)÷HD*0.5`. Seven rows do not pass, and the
-reasons are three:
+`A←sm⍤1⊢MK+⍤2⊢(Qh+.×⍤2⊢⍉⍤2⊢Kh)÷HD*0.5`. Eight rows do not pass, for three
+reasons:
 
 | row | why it does not read |
 |---|---|
-| 21 (L23) | **rendering fault, unremarked.** `/ SQRT (1.0 headDim)` is set as `= ᵖ⁄(1.0 headDim)` with an overline: the `/` prints as `=` and the radical sign as a `p`. The rendered line is not the formula it stands beside, and this is the one row whose note column is empty |
+| 21 (L23) | **rendering fault, unremarked.** `/ SQRT (1.0 headDim)` is set as `= ᵖ⁄(1.0 headDim)` with an overline: the `/` prints as `=` and the radical sign as a `p`. The rendered line is not the formula it stands beside. Rows 21, 23 and 24 carry no note at all; 21 is the one that needed one |
 | 27 (L29) | **rendering fault, unremarked.** Adam. Each primed name is set as a superscript zero (`m'` → `m⁰`) and the following `=` as `/`, so the three lines render as `m⁰/ β₁m + (1−β₁)g` and `p⁰/ p − (lr(m⁰(1−β₁ᵗ))) = (√v⁰(1−β₂ᵗ) + ε_A)` — the update reads as an equation and the inner division is gone. This is the row whose note is specifically about the association of the divisions |
 | 28 (L30) | same fault: `=` for `/` and `/` for `=` throughout, and the lambda's `=>` vanishes |
 | 25 (L27) | **rendering fault.** `transpose(onehot(ids, vocabSize))` is set as `transpose_onehot(ids, vocabSize)` — the nesting, which is the whole content of the note, is lost |
 | 15 (L17) | partial: the attention line reads, but `SQRT (1.0 headDim)` again loses its radical, so `÷HD*0.5` has no visible counterpart |
 | 1, 7, 8 (L6, L9, L10) | **scale.** These rows' Fortress is five to seven lines long, and the SVG is fitted to the column width, so the Fortify setting is printed smaller than the grey ASCII underneath it and is read only by squinting. The comparison in these rows is done on the ASCII |
 
-None of the seven is a missing row or a hidden formula: no row hides its
+None of the eight is a missing row or a hidden formula: no row hides its
 formula behind a helper call, which was the risk the brief named, and rows 2–6
 show `rmsn`, `sm`, `rmsn_b`, `sm_b` open at vector level exactly as the dfns.
 The faults are all in the Fortify → LaTeX → SVG path, which the brief
@@ -381,15 +392,15 @@ against.
 
 ## 8. What a reader of the design note cannot tell
 
-- **That round two is the faster program.** "Numerics and cost" compares its
-  own 5.4–5.8 s step against "round one's 4.15 s on the reviewer's host of the
-  same speed" and invokes a 1.8× host factor, then reports "610 s at one
-  thread and 247 s at four against round one's 855 and 353 **on the slower
-  host**". Round one's 855 s output is in the same directory and nothing
-  establishes that its host was slower; read straight, the four files say
-  round two is 1.4× faster at both thread counts. The design note's own
-  conclusion — "the step is about 1.1× round one's" — is the one number in it
-  that its evidence contradicts.
+- **Which host it ran on, and therefore whether round two is faster or
+  slower.** "Numerics and cost" compares its own 5.4–5.8 s step against
+  "round one's 4.15 s on the reviewer's host of the same speed", invokes a
+  1.8× host factor from row 154, and reports "610 s at one thread and 247 s at
+  four against round one's 855 and 353 **on the slower host**". Round one's
+  855 s output is in the same directory; nothing in the tree says whose host
+  either run had. Read straight, the four files say round two is 1.4× faster
+  at both thread counts; read with the note's assumption, 1.3× slower. A
+  reader is given the conclusion and not the choice.
 - **That the 5.8 s has no witness.** `checks/round2_threads1.txt` records
   10174, 5406, 5445, 5397, 5414 ms. The range "5.4–5.8" has no upper end in
   the tree.
@@ -410,27 +421,33 @@ against.
   section does not carry the ulp figure the review established, and a reader of
   round two alone still cannot tell how good the parse is. (It is in the
   "After the review" section, two screens up.)
-- **That four `.fsi` names and six model names cross no boundary.**
+- **That four vocabulary names, one loader name and six model names cross no
+  boundary**, so three of the `.fsi` files declare more than their callers use.
 
 ## 9. Closing
 
 Run C2 met its brief. The compute side is now Fortress rather than APL
 vocabulary with Fortress loops inside: four vector functions written once with
-no subscript and lifted by one operation; thirteen elementwise operators that
-one declaration each serves three ranks with; an attention block that is six
+no subscript and lifted by one operation; thirteen elementwise operators, each
+one declaration serving all three ranks; an attention block that is six
 lines in one-to-one correspondence with the Dyalog's four and contains no loop;
 a model of 82 lines with zero subscripts, and every one of the 40 checks still
 passing to the last digit at one thread and at four. The strongest single thing
 in it is the row lift over a six-line `Vector` view, because it is what turns
-`rmsn⍤1` from a paragraph into `rows(rmsn, x)` and it cost 24 lines to build;
+`rmsn⍤1` from a paragraph into `rows(rmsn, x)`, and it cost 24 lines of lift
+over two six-line views to build;
 the second is the discipline of the tour, whose every snippet is verbatim
 source and whose 28 rows are a claim a reader can check by eye in ten minutes.
 
 The weakest point is the cost story: gap row 165 and the design note's cost
-paragraph state a 1.1× slowdown that the four check outputs in the same commit
-refute — round two is 1.4× faster — while the probe outputs the row cites
-either do not exist under the names given or record numbers twice those quoted.
-The second weakest is the tour's silence where Fortify fails: four rows,
-including both Adam lines, render as mathematics that is not what the source
-says, and the brief's instruction for exactly that case ("say so in the note")
-is the one instruction of the six that was not followed.
+paragraph state a 1.1× slowdown that follows only from an unmarked assumption
+about which host the run had, while the four check outputs sitting in the same
+commit, compared with each other, say round two is 1.4× faster — and the probe
+outputs the row cites either do not exist under the names given, or record
+numbers twice those quoted, or order the two lift forms the opposite way.
+The second weakest is the tour's silence where Fortify fails: four rows (21,
+25, 27, 28 — among them Adam and the driver) render as mathematics that is not
+what the source says — one with no note at all and three with notes that
+discuss the very thing the render loses — and the brief's
+instruction for exactly that case — "if a line does not render, say so in the
+note and show the ASCII" — is followed by half, the ASCII and not the note.
