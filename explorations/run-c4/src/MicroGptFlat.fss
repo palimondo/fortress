@@ -14,9 +14,9 @@ import FlatData.{...}
 import System.{...}
 
 (* --------------------------------------------------- hyperparameters ---- *)
-nEmbd = 16; blockSize = 16; nHead = 4; headDim = 4; vocabSize = 27; bosId = 26
-epsilon = 10.0^(-5); lr0 = 0.01; beta1 = 0.85; beta2 = 0.99; epsilon_A = 10.0^(-8); nSteps = 1000
-corpusPath = "../../apl/reference/dzaima/docs.txt"; weightsDir = "../../apl/reference/dzaima/w"
+(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)
+(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)
+(corpusPath, weightsDir) = ("../../apl/reference/dzaima/docs.txt", "../../apl/reference/dzaima/w")
 
 (* ^T on a matrix and on every plane of a rank-3 array, declared here and not
    in the vocabulary because an API cannot declare a postfix operator (row 133) *)

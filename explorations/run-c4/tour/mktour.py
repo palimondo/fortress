@@ -12,10 +12,9 @@ ENV = 'source /home/user/fortress/experiment/env.sh; '
 rows = [
  dict(dy='L6', dyalog='⎕IO←0 ⋄ NE BLK NH HD VS BOS←16 16 4 4 27 26 ⋄ EPS LR0 B1 B2 EPSA←1E¯5 0.01 0.85 0.99 1E¯8',
   tex=r'NE{=}16,\ BLK{=}16,\ NH{=}4,\ HD{=}4,\ VS{=}27,\ BOS{=}26;\ \varepsilon{=}10^{-5},\ \alpha_0{=}0.01,\ \beta_1{=}0.85,\ \beta_2{=}0.99,\ \varepsilon_A{=}10^{-8}',
-  fortress=['nEmbd = 16; blockSize = 16; nHead = 4; headDim = 4; vocabSize = 27; bosId = 26',
-            'epsilon = 10.0^(-5); lr0 = 0.01; beta1 = 0.85; beta2 = 0.99; epsilon_A = 10.0^(-8); nSteps = 1000'],
-  split=False,
-  note='Index origin is 0 on both sides. One declaration per constant, untyped (each takes its literal\'s type), six to a line as the Dyalog strands six: the semicolon separates top-level declarations as it separates statements (probes/semicolon). The driver\'s NSTEPS joins the second line; the two file paths, which the Dyalog reads "however you like", are a third line not shown.'),
+  fortress=['(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)',
+            '(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)'],
+  note='Index origin is 0 on both sides. A strand assignment is a tuple binding, untyped (ledger row 152), and that is what the APL sub-language expands a strand to (an APL strand is a Fortress tuple, rung 5); six untyped declarations to a line, semicolon-separated, also bind (gap row 175) but have no glyph behind them. The driver\'s NSTEPS joins the second tuple; the two file paths, which the Dyalog reads "however you like", are a third line not shown.'),
  dict(dy='L7', dyalog='rmsn←{⍵÷(EPS+(+/⍵*2)÷≢⍵)*0.5}',
   tex=r'\mathrm{rmsn}(x) = \frac{x}{\sqrt{\varepsilon + \frac{1}{n}\sum_i x_i^2}},\quad n = |x|',
   fortress=['rmsn(x: Array[\\RR64,ZZ32\\]): Array[\\RR64,ZZ32\\] = x / SQRT (epsilon + (x DOT x) / |x|)'],

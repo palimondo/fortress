@@ -36,6 +36,8 @@ Written by the coordinating session itself, the same day, in the common format o
 
 8. **19:47 to 19:56, the checks end.** Pool size 1: 40 of 40, 873 s. Read against C2's re-run on this host (941 s, `reviews/run-c2-review-probes/`), this is C2's cost, and Phase 2's "1.45×" for the rank-3 attention is found to have mixed hosts; on one host it is 2.1×. Pool size 4 started under a monitor, 40 of 40, 396 s, values identical. The numbers filled into the design note, the addendum and the handover; the probe worker launched.
 
+9. **After 19:56, Pavol's questions.** The type-annotation probe (delegation 4) answers the question of which annotations are necessary. Pavol's remark that the typed hyperparameter lines and the tuple trick were both ugly leads to a ten-second probe of six untyped declarations to a line, semicolon-separated (`probes/semicolon`), adopted into the model, smoke-tested to the same losses and put through the check; then set aside when Pavol recalls that the APL sub-language expands a strand assignment to a tuple binding, which is C2's form, so the model is reverted to it (byte-identical to the checked source) and the semicolon variant's own check output is kept as evidence beside its probe. The finding stays as gap row 175.
+
 ## Dead ends
 
 | attempt | why it was dropped | evidence |
@@ -45,6 +47,7 @@ Written by the coordinating session itself, the same day, in the common format o
 | a `setsid nohup` script detached from the tool call | died when the tool call ended; the harness reclaims what a call leaves behind | `threads1.txt` with only the header, 19:31 |
 | a Bash `run_in_background` run of both checks | the tool's ten-minute ceiling is under the pool-size-1 run's 14 min | stopped at 19:31 before it could be cut off |
 | C2's five-column table page for C4's tour | the renders shrink below legibility; Pavol's feedback at 19:41 | the first `tour.html`, commit 74514646f, superseded by d7d98231c |
+| the hyperparameters as six untyped semicolon-separated declarations to a line | binds and passes the check, but the APL sub-language expands a strand assignment to a tuple binding, so the tuple form is the target's; kept as gap row 175 | `run-c4/probes/semicolon/`, its `threads1.txt` |
 | the always-light render panel of C3's page | it defeats the dark theme; the strokes carry no colour of their own, so `currentColor` does it | `run-c3/probes/tour/build_tour.py` before and after |
 
 ## Delegations
