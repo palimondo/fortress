@@ -1,0 +1,10 @@
+(* g143: the wildcard _ in a tuple BINDING, as opposed to a tuple assignment
+   (run-c/probes/p07b_tupleassign.fss, a syntax error) *)
+component g143_wild
+export Executable
+pair(): (RR64, RR64) = (1.5, 2.5)
+run(): () = do
+    (a, _) = pair()
+    println "g143: tuple binding with wildcard: a = " a
+  end
+end

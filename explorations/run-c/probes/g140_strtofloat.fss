@@ -1,0 +1,10 @@
+(* g140: the library's strToFloat is a quick-and-dirty routine: 10^k in ZZ32
+   overflows on a 17-digit mantissa, and a sign is not handled *)
+component g140_strtofloat
+export Executable
+run(): () = do
+    println "(1) strToFloat \"1.5\" = " (strToFloat "1.5")
+    println "(2) strToFloat \"-1.5\" = " (strToFloat "-1.5")
+    println "(3) strToFloat \"0.07696138795865093\" = " (strToFloat "0.07696138795865093")
+  end
+end

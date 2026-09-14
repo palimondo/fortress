@@ -1,0 +1,17 @@
+(* g146: a ZZ64 variable initialised from an integer literal wraps at 32 bits;
+   initialised from a ZZ64 expression it does not *)
+component g146_zz64
+export Executable
+run(): () = do
+    a: ZZ64 := 0
+    for k <- seq(0#17) do a := 10 a + 7 end
+    println "(1) init from literal 0, 17 x (10 a + 7): " a
+    b: ZZ64 := |\ 0.0 /|
+    for k <- seq(0#17) do b := 10 b + 7 end
+    println "(2) init from a ZZ64 (floor), same loop:   " b
+    c: ZZ64 := |\ 0.0 /|
+    for k <- seq(0#17) do c := (10 c) + (|\ 7.0 /|) end
+    println "(3) all-ZZ64 operands:                    " c
+    println "(4) 1.0 c = " (1.0 c)
+  end
+end

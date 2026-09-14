@@ -1,0 +1,14 @@
+(* g144: a function call immediately followed by a postfix operator is the
+   static error of ledger row 4; binding the result first works *)
+component g144_callsuper
+export Executable
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+mk(n: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](n, 2).fill(fn (i: ZZ32, j: ZZ32): RR64 => 10.0 i + j)
+run(): () = do
+    a = mk(3)
+    (r1, c1) = (a^T).sizes
+    println "(1) bound first: (a^T).sizes = " r1 " " c1
+    (r2, c2) = (mk(3)^T).sizes
+    println "(2) call then ^T: " r2 " " c2
+  end
+end

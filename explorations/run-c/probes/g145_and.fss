@@ -1,0 +1,10 @@
+(* g145: AND evaluates both operands; AND: is the short-circuit form *)
+component g145_and
+export Executable
+run(): () = do
+    s = "ab"
+    i = 2
+    println "(1) AND: with i = |s|: " ((i < |s|) AND: (s[i] = 'e'))
+    println "(2) AND  with i = |s|: " ((i < |s|) AND (s[i] = 'e'))
+  end
+end

@@ -103,8 +103,8 @@ run(): () = do
     report("loader: max |P - P0| over 4192", maxAbsDiff(p0, readVector(goldensDir "/P0.txt", 4192)), 0.0)
     rows = readLines(goldensDir "/corpus_first16.txt")
     corpusDiff = BIG MAX[d <- 0#16] do
-        nums = numbersOf(rows[d])           (* name len t0 .. t16 : the name is not a number, skip it *)
-        BIG MAX[j <- 0#17] |nums[2 + j] - (1.0 tokenAt(d, j))| MAX |nums[1] - (1.0 docLength(d))|
+        nums = numbersOf(rows[d].beyond(' '))   (* the line is: name len t0 .. t16; nums[0] is len *)
+        (BIG MAX[j <- 0#17] |nums[1 + j] - (1.0 tokenAt(d, j))|) MAX |nums[0] - (1.0 docLength(d))|
       end
     report("corpus: max |row - golden| over documents 0..15", corpusDiff, 0.0)
     (* 1. batch 1, five Adam steps from the committed weights on documents 0..4 *)
@@ -141,7 +141,7 @@ run(): () = do
     report("batch 4 loss vs token-weighted mean of single-document losses " weighted, |l4 - weighted|, tolLoss)
     (* 3. finite differences at the eleven golden indices, central, eps 1e-6 *)
     eps = 10.0^(-6)
-    checkFd(label: String, path: String, bk: Array[\ZZ32,ZZ32\], g: Array[\RR64,ZZ32\]): () = do
+    checkFd(tag: String, path: String, bk: Array[\ZZ32,ZZ32\], g: Array[\RR64,ZZ32\]): () = do
         fdRows = readLines(path)
         worst: RR64 := 0.0
         for r <- seq(0#|fdRows|) do
@@ -154,9 +154,9 @@ run(): () = do
             fd = (lp - lm) / (2 eps)
             diff = |fd - g[idx]|
             worst := worst MAX diff
-            report(label " P[" idx "] backprop " g[idx] " fd " fd " (golden fd " nums[2] ")", diff, tolFd)
+            report(tag " P[" idx "] backprop " g[idx] " fd " fd " (golden fd " nums[2] ")", diff, tolFd)
         end
-        report(label " worst |fd - backprop|", worst, tolFd)
+        report(tag " worst |fd - backprop|", worst, tolFd)
       end
     checkFd("fd doc 0", goldensDir "/fd_doc0.txt", keys(1, fn (i: ZZ32): ZZ32 => 0), g0)
     checkFd("fd batch 4", goldensDir "/fd_batch4.txt", keys(4, fn (i: ZZ32): ZZ32 => i), g4)

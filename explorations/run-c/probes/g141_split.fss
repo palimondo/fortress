@@ -1,0 +1,11 @@
+(* g141: String.split() is the rope's structural subdivision, not a tokenizer *)
+component g141_split
+export Executable
+run(): () = do
+    s = "a b  c"
+    n = SUM[piece <- s.split()] 1
+    println "(1) pieces of \"a b  c\".split(): " n
+    for piece <- seq(s.split()) do println "  [" piece "]" end
+    println "(2) |s| = " |s| "  s[2] = '" s[2] "'"
+  end
+end

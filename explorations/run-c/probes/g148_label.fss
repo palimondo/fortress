@@ -1,0 +1,7 @@
+(* g148: label is a reserved word; the diagnostic for using it as a parameter
+   name is about the label expression, not about the name *)
+component g148_label
+export Executable
+show(label: String, x: RR64): () = println label ": " x
+run(): () = show("g148", 1.0)
+end

@@ -1,0 +1,16 @@
+(* g147: inside an object extending Matrix, a parameter named t collides with
+   the inherited transpose method t() (ledger row 92's rule) *)
+component g147_param_t
+export Executable
+object Wrap[\nat r, nat c\](base: Matrix[\RR64,r,c\]) extends Matrix[\RR64,r,c\]
+    get(t:(ZZ32,ZZ32)): RR64 = base.get(t)
+    put(t:(ZZ32,ZZ32), x: RR64): () = base.put(t, x)
+    init0(t:(ZZ32,ZZ32), x: RR64): () = base.init0(t, x)
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+run(): () = do
+    m = array[\RR64\](2, 2).fill(1.0)
+    w = Wrap(m)
+    println "g147: " w[1,1]
+  end
+end
