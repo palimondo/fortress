@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{tabular}{l}
+1 `rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsRms + (SUM[t <- x] t^2) / (|x|))` \\[4pt]
+2 `sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM[t <- e] t) end` \\[4pt]
+3 `rmsn_b(dy, x) = do r = SQRT (epsRms + (SUM[u <- x] u^2) / (|x|)); y = x / r; (dy - y ((y DOT dy) / (|y|))) / r end` \\[4pt]
+4 `sm_b(p, dy) = p × (dy - (p DOT dy))` \\[4pt]
+5 `xp = rows(rmsn, x); x1 = rows(rmsn, xp)` \\[4pt]
+6 `xp = rmsn ROWS x` \\[4pt]
+7 `a = rows(sm, causalMask + (qh (kh^T)) / SQRT (1.0 headDim))` \\[4pt]
+8 `dX2 = dX4 + rows(rmsn_b, dX3, x2)` \\[4pt]
+9 `p' = p - (lr mHat) / (SQRT vHat + epsAdam)` \\[4pt]
+10 `dM0 = (dX4 f2) × (m0 > 0.0)` \\[4pt]
+11 `loss = -(vm DOT log(pick(pr, tg))) / nv` \\[4pt]
+12 `opr +[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e + s)` \\[4pt]
+13 `mr = 0.0 MAX m0` \\[4pt]
+14 `(loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))` \\[4pt]
+15 `epsilon epsA eps beta1 lr0 m' dX4 x1 headDim nEmbd alpha epsilonAdam mHat vHat`
+\end{tabular}
+\end{preview}
+\end{document}

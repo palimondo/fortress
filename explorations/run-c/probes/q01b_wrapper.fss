@@ -1,0 +1,41 @@
+(* q01b_wrapper: the elementwise algebra carried by a thin wrapper type of our
+   own, form (ii) of the round-two comparison.  Every operator is a functional
+   method of the wrapper, and everything the library already gives its arrays
+   (the product, the transpose, |x|, SUM over the elements) must be re-exported
+   by hand, one method each. *)
+component q01b_wrapper
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+
+object Arr[\I\](a: Array[\RR64,I\])
+    getter asString(): String = a.asString
+    opr +(self, s: RR64): Arr[\I\] = Arr[\I\](a.map[\RR64\](fn (e: RR64): RR64 => e + s))
+    opr +(self, o: Arr[\I\]): Arr[\I\] = Arr[\I\](a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e + o.a[i]))
+    opr -(self, s: RR64): Arr[\I\] = Arr[\I\](a.map[\RR64\](fn (e: RR64): RR64 => e - s))
+    opr -(self, o: Arr[\I\]): Arr[\I\] = Arr[\I\](a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e - o.a[i]))
+    opr ×(self, o: Arr[\I\]): Arr[\I\] = Arr[\I\](a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e o.a[i]))
+    opr /(self, s: RR64): Arr[\I\] = Arr[\I\](a.map[\RR64\](fn (e: RR64): RR64 => e / s))
+    opr /(self, o: Arr[\I\]): Arr[\I\] = Arr[\I\](a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e / o.a[i]))
+    opr SQRT(self): Arr[\I\] = Arr[\I\](a.map[\RR64\](fn (e: RR64): RR64 => SQRT e))
+    (* re-exports of what the bare array already had *)
+    opr juxtaposition(self, s: RR64): Arr[\I\] = Arr[\I\](a.map[\RR64\](fn (e: RR64): RR64 => e s))
+end
+scaled[\I\](s: RR64, x: Arr[\I\]): Arr[\I\] = x s
+
+run(): () = do
+    v = Arr[\ZZ32\](vec(4, fn (i: ZZ32): RR64 => 1.0 i))
+    w = Arr[\ZZ32\](vec(4, fn (i: ZZ32): RR64 => 2.0))
+    m = Arr[\(ZZ32,ZZ32)\](mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j)))
+    println "(1) v + 1.0 = " (v + 1.0)
+    println "(2) v × w = " (v × w)
+    println "(3) m + m = " (m + m)
+    println "(4) m / 2.0 = " (m / 2.0)
+    lr = 0.1
+    eps = 10.0^(-8)
+    p' = v - scaled(lr, v / 0.5) / (SQRT (w / 2.0) + eps)
+    println "(5) adam-shaped = " p'
+    (* what the wrapper does NOT have without more lines: v DOT w, m.t(), |v|, m m, SUM[t <- v] t *)
+  end
+end

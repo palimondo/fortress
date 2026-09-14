@@ -1,0 +1,16 @@
+(* q04g_juxtsuper: a b^T and a^T b^T without parentheses, beside (a (b^T)). *)
+component q04g_juxtsuper
+export Executable
+
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+
+run(): () = do
+    a = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    b = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i + 2 j))
+    println "(1) a (b^T) = " (a (b^T))
+    println "(2) a b^T = " (a b^T)
+    println "(3) a^T b = " (a^T b)
+    println "(4) (a b^T) / 2.0 + a b^T = " ((a b^T) / 2.0 + a b^T)
+  end
+end

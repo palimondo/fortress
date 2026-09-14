@@ -1,0 +1,24 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{tabular}{l}
+algebra (i), on the library's arrays, one declaration for every rank: \\[2pt]
+`opr +[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e + s)` \\[6pt]
+algebra (ii), a wrapper carrying it as a functional method, plus one re-export per hidden library operation: \\[2pt]
+`opr +(self, s: RR64): Arr[\I\] = Arr[\I\](a.map[\RR64\](fn (e: RR64): RR64 => e + s))` \\[2pt]
+`opr juxtaposition(self, s: RR64): Arr[\I\] = Arr[\I\](a.map[\RR64\](fn (e: RR64): RR64 => e s))` \\[6pt]
+row scaling, rejected at declaration beside the generic × (gap row 159): \\[2pt]
+`dL = (vm / nv) × (pr - onehot(tg, vocabSize))` \\[6pt]
+row scaling, shipped, as the formula's diagonal: \\[2pt]
+`dL = diag(vm / nv) (pr - onehot(tg, vocabSize))` \\[6pt]
+the row lift, form (b), shipped: \\[2pt]
+`rows(f, m) = do (n, d) = m.sizes; out = array[\RR64\](n, d); for i <- 0#n do (row(out, i)).assign(f(row(m, i))) end; out end` \\[6pt]
+attention (A), shipped, against (B), round one's loop: \\[2pt]
+`a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim)); hc = u(a vh)` \\[2pt]
+`for d <- 0#bsz, h <- 0#nHead do ah = headCell(att, d, h); assignInto(ah, rows(sm, (qh kh^T) / SQRT (1.0 headDim) + mask)); assignInto(head(hc, d, h), ah vh) end`
+\end{tabular}
+\end{preview}
+\end{document}

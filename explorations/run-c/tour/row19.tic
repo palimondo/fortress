@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`gF2 = dX4^T mr
+dM0 = (dX4 f2) × (m0 > 0.0)
+gF1 = dM0^T x3
+dX3 = dM0 f1`
+\end{preview}
+\end{document}

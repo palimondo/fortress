@@ -1,0 +1,209 @@
+(* q03_heads: the attention block in two forms.  (A) the per-head cells as
+   values -- a rank-3 view over the (doc.pos x heads.dim) activation, with the
+   Dyalog's +.×⍤2, ⍉⍤2, MK+⍤2 and sm⍤1 as one operator or lift each, so the
+   line A←sm⍤1⊢MK+⍤2⊢(Qh+.×⍤2⊢⍉⍤2⊢Kh)÷HD*0.5 is one Fortress line; nothing is
+   copied but the products' results.  (B) round one's loop over (doc, head)
+   with block views.  Both forward and the three backward products, compared
+   to the last digit, then timed on the model's shape. *)
+component q03_heads
+export Executable
+import NatReflect.{...}
+import System.{...}
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+zerosM(r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(0.0)
+arr3(a: ZZ32, b: ZZ32, c: ZZ32, f: (ZZ32,ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = array[\RR64\](a,b,c).fill(f)
+
+(* ---- the elementwise algebra, generic in the index type (q01) ---- *)
+opr -[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e - s)
+opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e / s)
+opr ×[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\] = a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e b[i])
+exp[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => exp(e))
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+
+(* ---- row views and the row lift, over a matrix and over a rank-3 array ---- *)
+object Row[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, x: RR64): () = base.put((i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+row[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Array[\RR64,ZZ32\] = Row[\r,c\](m, i)
+object Row3[\nat a, nat b, nat c\](base: Array3[\RR64,0,a,0,b,0,c\], p: ZZ32, i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get((p, i, j))
+    put(j: ZZ32, x: RR64): () = base.put((p, i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((p, i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+row3[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], p: ZZ32, i: ZZ32): Array[\RR64,ZZ32\] = Row3[\a,b,c\](t, p, i)
+nth[\nat s\](v: Vector[\RR64,s\], j: ZZ32): RR64 = v[j]
+
+rows[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = m.sizes
+    rs = array[\Any\](n).fill(fn (i: ZZ32): Any => f(row(m, i)))
+    mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => nth(rs[i], j))
+  end
+rows[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (np, n, d) = t.sizes
+    rs = array[\Any\](np n).fill(fn (k: ZZ32): Any => f(row3(t, k DIV n, k MOD n)))
+    arr3(np, n, d, fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => nth(rs[p n + i], j))
+  end
+rows[\nat r, nat c, nat r2, nat c2\](f: Any, x: Matrix[\RR64,r,c\], y: Matrix[\RR64,r2,c2\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = x.sizes
+    rs = array[\Any\](n).fill(fn (i: ZZ32): Any => f(row(x, i), row(y, i)))
+    mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => nth(rs[i], j))
+  end
+rows[\nat a, nat b, nat c, nat a2, nat b2, nat c2\](f: Any, x: Array3[\RR64,0,a,0,b,0,c\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (np, n, d) = x.sizes
+    rs = array[\Any\](np n).fill(fn (k: ZZ32): Any => f(row3(x, k DIV n, k MOD n), row3(y, k DIV n, k MOD n)))
+    arr3(np, n, d, fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => nth(rs[p n + i], j))
+  end
+
+(* ---- (A) the per-head cells as a rank-3 view; heads and unheads are inverse views ---- *)
+(* plane d nh + h, row i, column j of the view is base[d p + i, h k + j] *)
+object Heads[\nat br, nat bc, nat a, nat b, nat c\](base: Matrix[\RR64,br,bc\], p: ZZ32, nh: ZZ32, k: ZZ32)
+        extends Array3[\RR64,0,a,0,b,0,c\]
+    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (q, i, j) = ix; base.get((q DIV nh) p + i, (q MOD nh) k + j) end
+    put(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.put(((q DIV nh) p + i, (q MOD nh) k + j), x) end
+    init0(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.init0(((q DIV nh) p + i, (q MOD nh) k + j), x) end
+    replica[\U\](): Array3[\U,0,a,0,b,0,c\] = array3[\U,a,b,c\]()
+end
+headsOf[\nat br, nat bc, nat a, nat b, nat c\](base: Matrix[\RR64,br,bc\], p: ZZ32, nh: ZZ32, k: ZZ32, _: N[\a\], _: N[\b\], _: N[\c\]): Array3[\RR64,0,a,0,b,0,c\] =
+    Heads[\br,bc,a,b,c\](base, p, nh, k)
+heads[\nat br, nat bc\](base: Matrix[\RR64,br,bc\], p: ZZ32, nh: ZZ32, k: ZZ32): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (nr, nc) = base.sizes
+    headsOf(base, p, nh, k, reflect((nr DIV p) nh), reflect(p), reflect(k))
+  end
+(* a rank-3 array of planes (d nh + h) x p x k seen as the (d p + i, h k + j) matrix *)
+object Unheads[\nat a, nat b, nat c, nat r, nat cc\](base: Array3[\RR64,0,a,0,b,0,c\], nh: ZZ32)
+        extends Matrix[\RR64,r,cc\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get(((i DIV b) nh + (j DIV c), i MOD b, j MOD c)) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put(((i DIV b) nh + (j DIV c), i MOD b, j MOD c), x) end
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0(((i DIV b) nh + (j DIV c), i MOD b, j MOD c), x) end
+    replica[\U\](): Array2[\U,0,r,0,cc\] = array2[\U,r,cc\]()
+end
+unheadsOf[\nat a, nat b, nat c, nat r, nat cc\](base: Array3[\RR64,0,a,0,b,0,c\], nh: ZZ32, _: N[\r\], _: N[\cc\]): Matrix[\RR64,r,cc\] =
+    Unheads[\a,b,c,r,cc\](base, nh)
+unheads[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], nh: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (np, p, k) = t.sizes
+    unheadsOf(t, nh, reflect((np DIV nh) p), reflect(nh k))
+  end
+(* ⍉⍤2 : every plane transposed, as a view *)
+object T3[\nat a, nat b, nat c\](base: Array3[\RR64,0,a,0,b,0,c\]) extends Array3[\RR64,0,a,0,c,0,b\]
+    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (p, i, j) = ix; base.get((p, j, i)) end
+    put(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (p, i, j) = ix; base.put((p, j, i), x) end
+    init0(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (p, i, j) = ix; base.init0((p, j, i), x) end
+    replica[\U\](): Array3[\U,0,a,0,c,0,b\] = array3[\U,a,c,b\]()
+end
+opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\] = T3[\a,b,c\](t)
+(* a plane as a matrix view, for the batched product *)
+object Plane[\nat a, nat b, nat c\](base: Array3[\RR64,0,a,0,b,0,c\], p: ZZ32) extends Matrix[\RR64,b,c\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get((p, i, j)) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put((p, i, j), x) end
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0((p, i, j), x) end
+    replica[\U\](): Array2[\U,0,b,0,c\] = array2[\U,b,c\]()
+end
+plane[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], p: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = Plane[\a,b,c\](t, p)
+(* +.×⍤2 : the library product on each pair of planes *)
+opr juxtaposition[\nat a, nat b, nat c, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a,0,b,0,c\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (np, n, d) = x.sizes
+    (yp, yn, yd) = y.sizes
+    out = array[\RR64\](np, n, yd).fill(0.0)
+    for p <- 0#np do (plane(out, p)).assign((plane(x, p)) (plane(y, p))) end
+    out
+  end
+(* MK +⍤2 : a matrix added to every plane *)
+opr +[\nat r, nat c, nat a, nat b, nat d\](m: Matrix[\RR64,r,c\], t: Array3[\RR64,0,a,0,b,0,d\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] =
+    t.ivmap[\RR64\](fn (ix: (ZZ32,ZZ32,ZZ32), e: RR64): RR64 => do (p, i, j) = ix; m[i,j] + e end)
+
+(* ---- (B) round one's loop over (doc, head) with block views ---- *)
+object Block[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32)
+        extends Matrix[\RR64,r,c\]
+    get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij; base.get(r0 + i, c0 + j) end
+    put(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.put((r0 + i, c0 + j), x) end
+    init0(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.init0((r0 + i, c0 + j), x) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+blockOf[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] =
+    Block[\br,bc,r,c\](base, r0, c0)
+block[\nat br, nat bc\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, nr: ZZ32, nc: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    blockOf(base, r0, c0, reflect(nr), reflect(nc))
+assignInto[\nat r, nat c, nat p, nat q\](dest: Matrix[\RR64,r,c\], src: Matrix[\RR64,p,q\]): () = do
+    dest.assign(fn (i: ZZ32, j: ZZ32): RR64 => src[i,j])
+  end
+
+(* ---- the two vector functions and the test ---- *)
+sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM[t <- e] t) end
+sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
+
+maxDiff[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): RR64 = do
+    (nr, nc) = a.sizes
+    BIG MAX[i <- 0#nr, j <- 0#nc] |a[i,j] - b[i,j]|
+  end
+
+(* both forms on (bsz docs, p positions, nh heads, hd per head); returns the three max differences *)
+compare(bsz: ZZ32, p: ZZ32, nh: ZZ32, hd: ZZ32, reps: ZZ32): () = do
+    n = bsz p
+    ne = nh hd
+    q = mat(n, ne, fn (i: ZZ32, j: ZZ32): RR64 => 0.1 ((3 i + 7 j) MOD 11) - 0.5)
+    k = mat(n, ne, fn (i: ZZ32, j: ZZ32): RR64 => 0.1 ((5 i + 2 j) MOD 13) - 0.6)
+    v = mat(n, ne, fn (i: ZZ32, j: ZZ32): RR64 => 0.1 ((2 i + 3 j) MOD 7) - 0.3)
+    dH = mat(n, ne, fn (i: ZZ32, j: ZZ32): RR64 => 0.1 ((i + 5 j) MOD 9) - 0.4)
+    mask = mat(p, p, fn (i: ZZ32, j: ZZ32): RR64 => if j > i then -(10.0^10) else 0.0 end)
+    scale = SQRT (1.0 hd)
+    (* (A) *)
+    tA0 = nanoTime()
+    hcA = zerosM(n, ne)
+    dQA = zerosM(n, ne)
+    dKA = zerosM(n, ne)
+    dVA = zerosM(n, ne)
+    for rep <- seq(0#reps) do
+        h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, p, nh, hd)
+        u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nh)
+        (qh, kh, vh) = (h(q), h(k), h(v))
+        a = rows(sm, mask + (qh (kh^T)) / scale)
+        hc = u(a vh)
+        dh = h(dH)
+        dVh = (a^T) dh
+        dS = rows(sm_b, a, dh (vh^T)) / scale
+        dQh = dS kh
+        dKh = (dS^T) qh
+        (dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))
+        assignInto(hcA, hc); assignInto(dQA, dQ); assignInto(dKA, dK); assignInto(dVA, dV)
+    end
+    tA1 = nanoTime()
+    (* (B) *)
+    hcB = zerosM(n, ne)
+    dQB = zerosM(n, ne)
+    dKB = zerosM(n, ne)
+    dVB = zerosM(n, ne)
+    for rep <- seq(0#reps) do
+        att = zerosM(bsz nh p, p)
+        for d <- 0#bsz, hh <- 0#nh do
+            qh = block(q, d p, hh hd, p, hd); kh = block(k, d p, hh hd, p, hd); vh = block(v, d p, hh hd, p, hd)
+            ah = block(att, (d nh + hh) p, 0, p, p)
+            assignInto(ah, rows(sm, (qh (kh^T)) / scale + mask))
+            assignInto(block(hcB, d p, hh hd, p, hd), ah vh)
+        end
+        for d <- 0#bsz, hh <- 0#nh do
+            ah = block(att, (d nh + hh) p, 0, p, p); dh = block(dH, d p, hh hd, p, hd)
+            qh = block(q, d p, hh hd, p, hd); kh = block(k, d p, hh hd, p, hd); vh = block(v, d p, hh hd, p, hd)
+            assignInto(block(dVB, d p, hh hd, p, hd), (ah^T) dh)
+            dS = rows(sm_b, ah, dh (vh^T)) / scale
+            assignInto(block(dQB, d p, hh hd, p, hd), dS kh)
+            assignInto(block(dKB, d p, hh hd, p, hd), (dS^T) qh)
+        end
+    end
+    tB1 = nanoTime()
+    println "shape docs " bsz " pos " p " heads " nh " dim " hd ", " reps " reps: (A) " ((tA1 - tA0) DIV 1000000) " ms  (B) " ((tB1 - tA1) DIV 1000000) " ms"
+    println "  max |A - B|: hc " (maxDiff(hcA, hcB)) "  dQ " (maxDiff(dQA, dQB)) "  dK " (maxDiff(dKA, dKB)) "  dV " (maxDiff(dVA, dVB))
+    if bsz p <= 6 then println "  hc (A) = " hcA end
+  end
+
+run(): () = do
+    println "threads " (getProperty("fortress.threads", "?"))
+    compare(2, 3, 2, 2, 1)
+    compare(4, 16, 4, 4, 3)
+  end
+end

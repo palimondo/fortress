@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))
+hc = u(a vh)`
+\end{preview}
+\end{document}

@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`loadParams(dir: String): Array[\RR64,ZZ32\] = do
+    w(i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); readMatrix(dir "/" matName(i) ".txt", r, c) end
+    flat(w(0), w(1), w(2), w(3), w(4), w(5), w(6), w(7), w(8))
+  end`
+\end{preview}
+\end{document}

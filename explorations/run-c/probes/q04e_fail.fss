@@ -1,0 +1,17 @@
+(* q04e_fail: a non-zero exit for the check's verdict line -- what fail() and
+   an uncaught exception do to the process exit status, and the spelling of a
+   division by a length. *)
+component q04e_fail
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+
+run(): () = do
+    x = vec(4, fn (i: ZZ32): RR64 => 1.0 i)
+    println "(1) (x DOT x) / (|x|) = " ((x DOT x) / (|x|))
+    println "(2) (x DOT x) / |x| = " ((x DOT x) / |x|)
+    println "(3) about to fail"
+    fail("checks FAILED")
+    println "(4) not reached"
+  end
+end

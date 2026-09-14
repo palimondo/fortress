@@ -1,0 +1,9 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+$\displaystyle \mathrm{rmsn}_b(dy, x) = \frac{dy - y\,\frac{y \cdot dy}{n}}{r},\quad y = \frac{x}{r},\quad r = \sqrt{\varepsilon + \tfrac{1}{n}\textstyle\sum_i x_i^2}$
+\end{preview}
+\end{document}

@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`m' = beta1 m + (1 - beta1) g
+v' = beta2 v + (1 - beta2) (g × g)
+p' = p - (lr (m' / (1 - beta1^t))) / (SQRT (v' / (1 - beta2^t)) + epsilon_A)
+(p', m', v')`
+\end{preview}
+\end{document}

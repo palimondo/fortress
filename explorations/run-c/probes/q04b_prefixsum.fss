@@ -1,0 +1,14 @@
+(* q04b_prefixsum: SUM v and BIG MAX v on a library vector, the prefix form
+   reductions.tex:80-88 makes equivalent to SUM[x <- v] x (row 102 says the
+   prefix BIG MAX fails on a vector). *)
+component q04b_prefixsum
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+
+run(): () = do
+    v = vec(4, fn (i: ZZ32): RR64 => 1.0 i)
+    println "(1) SUM[t <- v] t = " (SUM[t <- v] t)
+    println "(2) SUM v = " (SUM v)
+  end
+end

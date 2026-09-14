@@ -1,0 +1,37 @@
+(* q04a_varargs: the gradient as one ravel-and-catenate of nine matrices,
+   the Dyalog's ⊃,/,¨ -- a varargs function over runtime-typed matrices;
+   and the spelling of a transposed operand: a^T b without parentheses, and
+   a parenthesised call (f(x))^T (row 144 forbids f(x)^T). *)
+component q04a_varargs
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+zeros(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(0.0)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+
+flat(ms: Array[\RR64,(ZZ32,ZZ32)\]...): Array[\RR64,ZZ32\] = do
+    out = zeros(SUM[m <- ms] |m|)
+    off: ZZ32 := 0
+    for m <- seq(ms) do
+        (r, c) = m.sizes
+        for i <- 0#r, j <- 0#c do out[off + i c + j] := m[i,j] end
+        off += r c
+    end
+    out
+  end
+onehot(ks: Array[\ZZ32,ZZ32\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|ks|, width, fn (i: ZZ32, j: ZZ32): RR64 => if ks[i] = j then 1.0 else 0.0 end)
+
+run(): () = do
+    a = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    b = mat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 10.0 + 2 i + j)
+    println "(1) flat(a, b) = " (flat(a, b))
+    println "(2) |flat(a, b, a)| = " (|flat(a, b, a)|)
+    println "(3) a^T b = " (a^T b)
+    println "(4) (a^T) b = " ((a^T) b)
+    ks = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => 2 i)
+    dx = mat(3, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i + j))
+    println "(5) (onehot(ks, 5))^T dx = " ((onehot(ks, 5))^T dx)
+  end
+end

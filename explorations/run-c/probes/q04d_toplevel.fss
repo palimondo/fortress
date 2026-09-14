@@ -1,0 +1,16 @@
+(* q04d_toplevel: the Dyalog's one-line hyperparameter binding as a top-level
+   tuple binding, typed and untyped. *)
+component q04d_toplevel
+export Executable
+
+(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)
+(epsRms, lr0, beta1, beta2, epsAdam) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8))
+(a: ZZ32, b: RR64) = (3, 2.5)
+
+run(): () = do
+    println "(1) " nEmbd " " blockSize " " nHead " " headDim " " vocabSize " " bosId
+    println "(2) " epsRms " " lr0 " " beta1 " " beta2 " " epsAdam
+    println "(3) " a " " b "  1.0 headDim = " (1.0 headDim) "  SQRT (1.0 headDim) = " (SQRT (1.0 headDim))
+    println "(4) lr0 (1 - (1.0 3) / 1000) = " (lr0 (1 - (1.0 3) / 1000))
+  end
+end

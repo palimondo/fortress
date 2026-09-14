@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`(gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1)
+dX1 = dQ wq + dK wk + dV wv`
+\end{preview}
+\end{document}

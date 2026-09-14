@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
+    bsz = |b|
+    n = bsz blockSize
+    toks = gather(corpusTokens, b)
+    ids = ravel(block(toks, 0, 0, bsz, blockSize))
+tg = ravel(block(toks, 0, 1, bsz, blockSize))
+    vm = ravel(valid(gather(corpusLengths, b), blockSize))
+nv = SUM vm
+pos = keys(n, fn (r: ZZ32): ZZ32 => r MOD blockSize)`
+\end{preview}
+\end{document}
