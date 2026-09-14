@@ -68,7 +68,17 @@ The first run of the check at pool size 4 died after 48 s with `Index -1 out of 
 
 ## Cost
 
-PENDING: filled in from checks/threads1.txt and checks/threads4.txt.
+The container was restarted between C4's measurements (run-c4/design.md, 873 s and 396 s) and this rung's quiet runs, and the new host is about 1.6× faster, so C4's check was re-run on it (`run-c4/checks/rerun-post-restart/`); the comparison is between runs on the same host, nothing else running. The first pool-1 run of this rung (`checks/threads1.txt`, 973 s) had the ledger merge's reproducers running alongside and is kept for its verdict only.
+
+| this host, after the restart | C4 (`run-c4/checks/rerun-post-restart`) | APL (`checks/threads1_quiet.txt`, `threads4.txt`) | ratio |
+|---|---|---|---|
+| check, pool size 1 | 528 s | 593 s | 1.12 |
+| check, pool size 4 | C4P4 s | 419 s | C4R4 |
+| batch-1 step, pool size 1 | 4.8 s | 5.1 s | 1.06 |
+| batch-4 step, pool size 1 | 16.6 s | 19.1 s | 1.15 |
+| batch-1 step, pool size 4 | C4S4 s | 3.0 s | — |
+
+The sub-language costs about 1.1× the hand-written program on the whole check, which is the first measurement of the rank operator's general route over rows and planes (rung 6 had priced only the per-element route, at 3.8×): one frame push per row or plane and one fresh array per `⍤` result, where C4 returns views, add about a tenth on top of a step that is dominated by the matrix products both programs do through the same `DOT`. The design's expectation, a cost near C4's rather than a multiple of it, holds.
 
 ## Gap rows
 
