@@ -1,0 +1,14 @@
+(* g29: ledger row 147's second half, re-verified in this merge. A local
+   named big in a top-level function collides with the functional method
+   big of ZZ (FortressLibrary.fsi:530); a local named t does not, since t()
+   is a method of Matrix, not a functional method. *)
+component g29
+export Executable
+
+f(x: ZZ32): ZZ32 = do
+    big: ZZ32 = 10 x
+    big + 1
+  end
+
+run(): () = println("g29: f(4) = " f(4))
+end

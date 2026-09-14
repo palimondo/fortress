@@ -1,0 +1,749 @@
+--- [0] line29 2026-09-14T02:13:16.373Z Bash
+git status --short | head -20 && git branch --show-current && git log --oneline -3
+--- [1] line38 2026-09-14T02:13:21.896Z Bash
+git pull origin claude/worker-brief-fable-vnnuv8 2>&1 | tail -5 && git log --oneline -3
+--- [2] line42 2026-09-14T02:13:27.295Z Bash
+cat /home/user/fortress/experiment/RUN_C_BRIEF.md
+--- [3] line52 2026-09-14T02:13:30.679Z Bash
+cat /home/user/fortress/experiment/setup.sh; echo ----; cat /home/user/fortress/experiment/env.sh 2>/dev/null
+--- [4] line56 2026-09-14T02:13:33.932Z Bash
+bash experiment/setup.sh > /tmp/claude-0/-home-user-fortress/e565ca96-7661-4959-859b-8d30b8c390a8/scratchpad/setup.out 2>&1
+--- [5] line62 2026-09-14T02:13:37.967Z ToolSearch
+{"query": "select:Monitor", "max_results": 1}
+--- [6] line69 2026-09-14T02:13:41.486Z Bash
+cat /tmp/claude-0/-home-user-fortress/e565ca96-7661-4959-859b-8d30b8c390a8/scratchpad/setup.out
+--- [7] line79 2026-09-14T02:13:45.670Z Monitor
+F=/tmp/claude-0/-home-user-fortress/e565ca96-7661-4959-859b-8d30b8c390a8/scratchpad/setup.out
+n=3
+while true; do
+  total=$(wc -l < "$F")
+  if [ "$total" -gt "$n" ]; then
+    sed -n "$((n+1)),${total}p" "$F"
+    n=$total
+  fi
+  if grep -q 'SETUP RESULT' "$F"; then exit 0; fi
+  sleep 2
+done
+--- [8] line96 2026-09-14T02:14:49.991Z Bash
+cat /tmp/claude-0/-home-user-fortress/e565ca96-7661-4959-859b-8d30b8c390a8/scratchpad/setup.out
+--- [9] line116 2026-09-14T02:15:22.375Z Bash
+cat explorations/protocol.md
+--- [10] line122 2026-09-14T02:15:27.729Z Bash
+cat explorations/apl/reference/hsu-flat/HANDOVER-HSU.md
+--- [11] line124 2026-09-14T02:15:28.332Z Bash
+cat -n explorations/apl/reference/hsu-flat/microgpt_concise.dyalog
+--- [12] line126 2026-09-14T02:15:29.211Z Bash
+cat -n explorations/apl/reference/hsu-flat/microgpt_flat.apl
+--- [13] line128 2026-09-14T02:15:29.876Z Bash
+cat -n explorations/apl/reference/hsu-flat/microgpt_flat.py
+--- [14] line138 2026-09-14T02:15:36.269Z Bash
+wc -l explorations/fortress-gap-ledger.md; grep -n '^#' explorations/fortress-gap-ledger.md
+--- [15] line140 2026-09-14T02:15:38.387Z Bash
+ls -la experiment/run-c-goldens/; cat experiment/run-c-goldens/README.md; echo ----; python3 -c "
+import json; g=json.load(open('experiment/run-c-goldens/goldens.json'))
+print('top keys:', list(g.keys()))
+for k,v in g.items():
+    if isinstance(v,(list,dict)): print(k, type(v).__name__, len(v))
+    else: print(k, repr(v)[:200])
+print(json.dumps(g['layout'], indent=1)[:3000])
+"
+--- [16] line141 2026-09-14T02:15:39.094Z Bash
+cat explorations/repo-internals.md
+--- [17] line142 2026-09-14T02:15:40.051Z Bash
+cat -n explorations/apl/base/AplCore.fsi; echo =====; cat -n explorations/apl/base/AplCore.fss
+--- [18] line159 2026-09-14T02:15:52.172Z Bash
+sed -n '1,160p' explorations/fortress-gap-ledger.md
+--- [19] line161 2026-09-14T02:15:52.555Z Bash
+sed -n '160,325p' explorations/fortress-gap-ledger.md
+--- [20] line163 2026-09-14T02:15:53.619Z Bash
+cat -n explorations/apl/base/AplCore.fsi | sed -n '36,400p'
+--- [21] line165 2026-09-14T02:15:55.418Z Bash
+grep -n 'object Apl\|^object\|^trait\|^value object\|Rank1\|Rank2\|Rank3\|Array3\|Matrix\[' explorations/apl/base/AplCore.fss | head -80; echo; wc -l explorations/apl/base/AplCore.fss
+--- [22] line167 2026-09-14T02:15:57.852Z Bash
+grep -n 'Array3\|^trait Rank\|trait Vector\|trait Matrix\|trait Array\b\|trait Array\[\|object Array\|trait Indexed\|trait StandardImmutableArrayOps\|trait StandardMutableArrayOps\|^array\|^vector\|^matrix\|^identity\|^trait ArrayOps\|ArrayWithExtent\|ImmutableArrayWithExtent' Library/FortressLibrary.fss | head -80
+--- [23] line177 2026-09-14T02:16:09.820Z Bash
+sed -n '23,63p' explorations/fortress-gap-ledger.md
+--- [24] line179 2026-09-14T02:16:10.119Z Bash
+sed -n '74,109p' explorations/fortress-gap-ledger.md
+--- [25] line181 2026-09-14T02:16:10.932Z Bash
+sed -n '110,128p' explorations/fortress-gap-ledger.md
+--- [26] line183 2026-09-14T02:16:11.807Z Bash
+sed -n '129,159p' explorations/fortress-gap-ledger.md
+--- [27] line185 2026-09-14T02:16:12.746Z Bash
+sed -n '246,276p' explorations/fortress-gap-ledger.md
+--- [28] line187 2026-09-14T02:16:14.058Z Bash
+sed -n '1,60p' explorations/apl/base/AplCore.fss; echo '.....'; sed -n '340,420p' explorations/apl/base/AplCore.fss
+--- [29] line189 2026-09-14T02:16:15.139Z Bash
+sed -n '1585,1660p' Library/FortressLibrary.fss; echo '.....'; sed -n '2189,2260p' Library/FortressLibrary.fss
+--- [30] line191 2026-09-14T02:16:15.871Z Bash
+sed -n '2497,2660p' Library/FortressLibrary.fss
+--- [31] line193 2026-09-14T02:16:16.604Z Bash
+sed -n '2656,2830p' Library/FortressLibrary.fss
+--- [32] line204 2026-09-14T02:16:36.339Z Bash
+sed -n '64,73p;170,177p;236,245p' explorations/fortress-gap-ledger.md
+--- [33] line206 2026-09-14T02:16:38.297Z Bash
+ls Library/ | head -80; echo ----; grep -n 'strToFloat\|strToInt\|readLine\|FileReadStream\|FileWriteStream\|trait ReadStream\|opr BIG ||' Library/FortressLibrary.fsi Library/File.fsi Library/FileSupport.fsi 2>/dev/null | head -40
+--- [34] line208 2026-09-14T02:16:40.487Z Bash
+ls -la explorations/apl/reference/dzaima/ explorations/apl/reference/dzaima/w/ 2>/dev/null; echo ----; head -c 300 explorations/apl/reference/dzaima/w/wte.txt; echo; echo ----; wc -l explorations/apl/reference/dzaima/w/*.txt; echo ----; head -5 explorations/apl/reference/dzaima/docs.txt; wc -l explorations/apl/reference/dzaima/docs.txt
+--- [35] line210 2026-09-14T02:16:41.303Z Bash
+sed -n '1886,1960p' Library/FortressLibrary.fss
+--- [36] line212 2026-09-14T02:16:42.368Z Bash
+grep -n 'AplPlane\|AplPerm102\|Array3' explorations/apl/base/AplCore.fss | head -30
+--- [37] line214 2026-09-14T02:16:45.304Z Bash
+grep -n '^opr SQRT\|^exp\|^log\|^opr MAX\|^opr MIN\|^opr |\\\\\|^floor\|^ceiling\|^truncate\|^narrow\|^opr BIG MAX\|^opr SUM\|^opr BIG +\|^opr \^\|^opr EXP\|^opr LOG\|^ln\|^opr e\b' Library/FortressLibrary.fsi | head -40; echo ----; grep -n 'SQRT\|exp(\| log(\|\bln\b' Library/FortressLibrary.fsi | head -30
+--- [38] line216 2026-09-14T02:16:47.367Z Bash
+ls explorations/apl/ explorations/apl/base/ explorations/apl/reference/ 2>/dev/null; echo ----; ls explorations/ | head -60; echo ----; grep -n 'JAVA_FLAGS\|Xmx\|FORTRESS_THREADS' bin/fortress | head
+--- [39] line218 2026-09-14T02:16:51.602Z Bash
+python3 -c "
+import json; g=json.load(open('experiment/run-c-goldens/goldens.json'))
+print(json.dumps(g['config'], indent=1)); print(json.dumps(g['vocabulary'])[:300])
+c=g['corpus']; print(list(c.keys()))
+for k,v in c.items():
+    if isinstance(v,list): print(k, len(v), v[:3])
+    else: print(k, str(v)[:200])
+b=g['batch1_five_steps']; print(list(b.keys())); print(b['losses'] if 'losses' in b else b)
+s=g['batch1_step0']; print({k:(v if not isinstance(v,list) else ('list',len(v))) for k,v in s.items()})
+b4=g['batch4_first_batch']; print(b4)
+fd=g['finite_differences']; print({k:(v if not isinstance(v,list) else ('list',len(v), v[:2])) for k,v in fd.items()})
+ip=g['initial_parameters']; print({k:(v if not isinstance(v,list) else ('list',len(v), v[:3])) for k,v in ip.items()})
+"
+--- [40] line229 2026-09-14T02:19:19.445Z Bash
+grep -n '^reflect\|^trait N\[\|^object N\[\|NatReflect\|^__reflect' Library/FortressLibrary.fsi Library/FortressLibrary.fss | head; ls Library/ | sed -n '80,120p'; echo ---- split/char; grep -n 'split\|codePoint\|toChar\|charToInt\|opr \[i:ZZ32\]' Library/FortressLibrary.fsi Library/FlatString.fsi | head -20; echo ---- lines/eof; sed -n '30,50p;75,95p' Library/File.fsi
+--- [41] line231 2026-09-14T02:19:22.946Z Bash
+grep -n '^trait Array1\|^trait Array2\|^trait ReadableArray1\|^trait StandardMutableArrayType\|^trait Char\b\|^trait Char \|^value object Char\|^object Char' Library/FortressLibrary.fsi | head; echo ---- vector scalar ops; sed -n '2256,2285p' Library/FortressLibrary.fss; echo ---- MAX/floor; grep -n 'opr MAX(self\|opr MIN(self\|opr |\\\\ \|floor\|opr \^(self' Library/FortressLibrary.fsi | head -12
+--- [42] line233 2026-09-14T02:19:25.318Z Bash
+grep -ln 'export Executable' ProjectFortress/tests/*.fss | head -3; grep -l 'export {' ProjectFortress/tests/*.fss | head -5; for f in $(grep -l 'export {' ProjectFortress/tests/*.fss | head -3); do echo "== $f"; grep -n 'export\|^import\|^component' $f; done; ls ProjectFortress/tests/*.fsi | head -5
+--- [43] line235 2026-09-14T02:19:27.860Z Bash
+sed -n '290,335p' Library/FortressLibrary.fsi; grep -n 'e-\|E-' explorations/apl/reference/dzaima/w/*.txt | head -3; grep -c '' explorations/apl/reference/dzaima/w/mlp_fc2.txt; awk '{print NF}' explorations/apl/reference/dzaima/w/mlp_fc2.txt | sort -u; awk '{print NF}' explorations/apl/reference/dzaima/w/wte.txt | sort -u
+--- [44] line246 2026-09-14T02:19:52.561Z Bash
+ls ProjectFortress/LibraryBuiltin/ | head -30; echo ----; cat ProjectFortress/LibraryBuiltin/NatReflect.fsi 2>/dev/null || find . -name 'NatReflect.fs*' -not -path '*/build/*' | head
+--- [45] line248 2026-09-14T02:19:53.361Z Bash
+sed -n '2286,2340p' Library/FortressLibrary.fsi; echo ---- Char; grep -n 'trait Char' Library/FortressLibrary.fsi; sed -n "$(grep -n '^trait Char' Library/FortressLibrary.fsi | head -1 | cut -d: -f1),+40p" Library/FortressLibrary.fsi | grep -n 'codePoint\|opr\|toInt\|ZZ32' | head -20
+--- [46] line250 2026-09-14T02:19:56.403Z Bash
+grep -n -i 'export' Specification/appendices/grammars/concrete-syntax.tex | head -10; echo ----; grep -rl 'export' ProjectFortress/tests/*.fss | xargs grep -l 'import' | head -5; echo ----; grep -rh '^export' ProjectFortress/tests/*.fss ProjectFortress/demos/*.fss 2>/dev/null | sort | uniq -c | sort -rn | head -10; echo ----; ls ProjectFortress/test_library 2>/dev/null | head; echo ----; ls explorations/apl/rung-1 | head; grep -n '^export\|^import\|^component' explorations/apl/rung-1/*.fss | head -5
+--- [47] line260 2026-09-14T02:20:16.704Z Bash
+grep -n 'trait Char\b\|trait Char \|object Char\|Char extends' Library/FortressLibrary.fsi | head -5; n=$(grep -n 'trait Char' Library/FortressLibrary.fsi | head -1 | cut -d: -f1); [ -n "$n" ] && sed -n "${n},$((n+45))p" Library/FortressLibrary.fsi | grep -n 'codePoint\|getter\|opr\|ZZ32' | head -20; echo ---- readme; grep -n -i 'fortress \|cd \|source.path\|run' explorations/apl/README.md | head -20
+--- [48] line262 2026-09-14T02:20:37.467Z Bash
+mkdir -p explorations/run-c/probes && cat > explorations/run-c/probes/p01_views.fss <<'EOF'
+(* p01_views: a flat RR64 vector, a zero-copy Matrix view over a slice of it
+   (runtime shape via reflect/N), library matmul, transpose, a user ^T, and
+   the elementwise matrix operations the step needs. *)
+component p01_views
+export Executable
+
+(* matrix i as a view of the flat vector: rows x cols starting at off, row-major *)
+object PView[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32)
+        extends Matrix[\RR64,r,c\]
+    get(t:(ZZ32,ZZ32)): RR64 = do (i,j) = t; base.get(off + i c + j) end
+    put(t:(ZZ32,ZZ32), v: RR64): () = do (i,j) = t; base.put(off + i c + j, v) end
+    init0(t:(ZZ32,ZZ32), v: RR64): () = do (i,j) = t; base.init0(off + i c + j, v) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+pview[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32,
+--- [49] line264 2026-09-14T02:20:51.082Z Bash
+cat > explorations/run-c/probes/p02_loaders.fss <<'EOF'
+(* p02_loaders: what the two loaders need -- reading lines from a file,
+   splitting a line on spaces, the high minus, strToFloat, and characters to
+   small integers. *)
+component p02_loaders
+export Executable
+import File.{...}
+
+run(): () = do
+    println "(1) strToFloat: " (strToFloat "0.07696138795865093") " " (strToFloat "-0.04273180935726127") " " (strToFloat "1.0")
+    s = "¯0.0427 0.0769  3.5"
+    println "(2) split:"
+    for t <- seq(s.split()) do println "  [" t "] len " |t| end
+    t0 = "¯0.0427"
+    println "(3) t0[0] = '¯' ? " (t0[0] = '¯') "  rest = " (t0[1#(|t0| - 1)]) "  rest2 = " (t0.allButFirst())
+    println "(4) parsed: " (-(strToFloat (t0.allButFirst())))
+    uchars = "abcdefghijklmnopqrstuvwxyz"
+    println "(5) indexOf 'c' = " (uchars.indexOf('c')) " get = " (uchars.indexOf('c').get)
+    f = FileReadStream("exp
+--- [50] line274 2026-09-14T02:21:47.601Z Bash
+grep -n 'OpHeader\|OpDecl\|OpDef\|PostfixOp\|opr.*StaticParams\|StaticParams.*opr' Specification/appendices/grammars/concrete-syntax.tex | head -20; echo ----; sed -n '80,100p' Specification/basic/operators/opr-overview.tex; echo ---- postfix def examples; grep -rn 'opr (.*)\^\|opr \[\\\\nat' Library/*.fss explorations/apl/base/AplCore.fss | head -8; grep -rn 'opr (' explorations/gap-ledger-probes/g14.fss explorations/gap-ledger-probes/g17.fss 2>/dev/null | head
+--- [51] line276 2026-09-14T02:21:49.223Z Bash
+sed -n '4170,4200p' Library/FortressLibrary.fss; echo ---- Char; grep -n 'codePoint\|trait Char' Library/*.fsi ProjectFortress/LibraryBuiltin/*.fsi | head -12
+--- [52] line278 2026-09-14T02:21:54.458Z Bash
+cat > explorations/run-c/probes/p03_zz64.fss <<'EOF'
+(* p03_zz64: exact mantissa accumulation in ZZ64 and its conversion to RR64 *)
+component p03_zz64
+export Executable
+run(): () = do
+    m: ZZ64 := 0
+    for k <- seq(0#17) do m := 10 m + 7 end
+    println "(1) ZZ64 17 sevens: " m
+    r: RR64 = 1.0 m
+    println "(2) as RR64: " r "  /10^17 = " (r / (10.0^17))
+    big: RR64 = 10.0^22
+    println "(3) 10.0^22 = " big "  10.0^23 = " (10.0^23)
+    d = '7'
+    println "(4) char '7' = " d
+    println "(5) ZZ64 literal check: " (12345678901234567 + 0)
+    println "done"
+  end
+end
+EOF
+cd /home/user/fortress && source experiment/env.sh && ./bin/fortress explorations/run-c/probes/p03_zz64.fss 2>&1 | head -30
+--- [53] line288 2026-09-14T02:22:11.071Z Bash
+sed -n '715,740p' Specification/appendices/grammars/concrete-syntax.tex; grep -n 'big\b' Library/FortressLibrary.fsi | head -3
+--- [54] line290 2026-09-14T02:22:12.429Z Bash
+source experiment/env.sh && sed -i 's/big: RR64 = 10.0^22/b22: RR64 = 10.0^22/; s/" big "/" b22 "/' explorations/run-c/probes/p03_zz64.fss && ./bin/fortress explorations/run-c/probes/p03_zz64.fss 2>&1 | head -20
+--- [55] line291 2026-09-14T02:22:17.059Z Bash
+source experiment/env.sh && for v in a b; do
+if [ $v = a ]; then decl='opr [\nat r, nat c\](m: Matrix[\RR64,r,c\])^T: Matrix[\RR64,c,r\] = m.t()'; else decl='opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()'; fi
+cat > explorations/run-c/probes/p04${v}_transpose.fss <<EOF
+component p04${v}_transpose
+export Executable
+$decl
+run(): () = do
+    m = array[\RR64\](2,3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 10.0 i + j)
+    t = m^T
+    (r, c) = t.sizes
+    println "p04$v: m^T sizes " r "x" c " t[2,1] = " t[2,1]
+  end
+end
+EOF
+echo "== variant $v: $decl"; ./bin/fortress explorations/run-c/probes/p04${v}_transpose.fss 2>&1 | head -4; done
+--- [56] line293 2026-09-14T02:22:19.501Z Bash
+source experiment/env.sh && sed -i 's/^opr \[\\nat r, nat c\\\](m: Matrix\[\\RR64,r,c\\\])^T.*$//; s/a^T/a.t()/g' explorations/run-c/probes/p01_views.fss && grep -n 'opr\|\^T' explorations/run-c/probes/p01_views.fss; ./bin/fortress explorations/run-c/probes/p01_views.fss 2>&1 | head -90
+--- [57] line296 2026-09-14T02:22:35.559Z Bash
+cat > explorations/run-c/probes/p02_loaders.fss <<'EOF'
+(* p02_loaders: what the two loaders need -- reading lines from a file,
+   splitting a line on spaces, the high minus, a float parser (the library's
+   strToFloat overflows ZZ32 on a 17-digit mantissa), and characters to small
+   integers. *)
+component p02_loaders
+export Executable
+import File.{...}
+
+(* decimal digits, optional '.', optional e/E exponent; leading '-' or '¯' *)
+parseFloat(s: String): RR64 = do
+    neg = (s[0] = '-') OR (s[0] = '¯')
+    start = if neg then 1 else 0 end
+    m: ZZ64 := 0
+    scale: ZZ32 := 0          (* digits after the point *)
+    ex: ZZ32 := 0
+    i: ZZ32 := start
+    seenPoint: Boolean := false
+    n = |s|
+    while (i < n) AND (s[i] =/= 'e') AND (s[i] =/= 'E') do
+        c = s[i]
+        if c = '.' then seenPoint := true
+        else
+            m := 10 m + (c.codePoint - '0'.codePoint)
+           
+--- [58] line308 2026-09-14T02:23:24.645Z Bash
+source experiment/env.sh && python3 - <<'EOF'
+import re
+p='explorations/run-c/probes/p01_views.fss'
+s=open(p).read()
+s=s.replace('export Executable\n','export Executable\nimport NatReflect.{...}\n',1)
+s=s.replace('mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64)', 'opr (m: Matrix[\\RR64,r,c\\])^T[\\nat r, nat c\\]: Matrix[\\RR64,c,r\\] = m.t()\n\n(* a (rows x cols) block of a matrix, at row offset r0 and column offset c0 *)\nobject Block[\\nat br, nat bc, nat r, nat c\\](base: Matrix[\\RR64,br,bc\\], r0: ZZ32, c0: ZZ32)\n        extends Matrix[\\RR64,r,c\\]\n    get(t:(ZZ32,ZZ32)): RR64 = do (i,j) = t; base.get(r0 + i, c0 + j) end\n    put(t:(ZZ32,ZZ32), v: RR64): () = do (i,j) = t; base.put((r0 + i, c0 + j), v) end\n    init0(t:(ZZ32,ZZ32), v: RR64): () = do (i,j) = t; base.init0((r0 + i, c0 + j), v) end\n    replica[\\U\\](): Array2[\\U,0,r,0,c\\] = array2[\\U,r,c\\]()\nend\nblock0[\\nat 
+--- [59] line309 2026-09-14T02:23:28.338Z Bash
+source experiment/env.sh && python3 - <<'EOF'
+p='explorations/run-c/probes/p02_loaders.fss'
+s=open(p).read()
+s=s.replace("    m: ZZ64 := 0\n","    m: RR64 := 0.0\n")
+s=s.replace("m := 10 m + (c.codePoint - '0'.codePoint)","m := 10.0 m + (c.codePoint - '0'.codePoint)")
+s=s.replace("while (i < n) AND (s[i] =/= 'e') AND (s[i] =/= 'E') do","while (i < n) AND: ((s[i] =/= 'e') AND (s[i] =/= 'E')) do")
+s=s.replace("    mag: RR64 = 1.0 m\n","    mag: RR64 = m\n")
+open(p,'w').write(s)
+EOF
+./bin/fortress explorations/run-c/probes/p02_loaders.fss 2>&1 | head -40
+--- [60] line312 2026-09-14T02:23:42.660Z Bash
+source experiment/env.sh && cat > explorations/run-c/probes/p05_mmtime.fss <<'EOF'
+(* p05_mmtime: the library's Matrix product against a hand-written one, on
+   the step's three shapes, at batch 4 (N = 64 rows). *)
+component p05_mmtime
+export Executable
+import System.{...}
+
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+
+(* hand product: one SUM per cell *)
+mmSum[\nat n, nat m, nat p\](a: Matrix[\RR64,n,m\], b: Matrix[\RR64,m,p\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (ar, ac) = a.sizes
+    (br, bc) = b.sizes
+    mat(ar, bc, fn (i: ZZ32, j: ZZ32): RR64 => SUM[k <- 0#ac] a[i,k] b[k,j])
+  end
+(* hand product: sequential inner loop *)
+mmLoop[\nat n, nat m, nat p\](a: Matrix[\RR64,n,m\], b: Matrix[\RR64,m,p\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (ar, ac) = a.sizes
+    (br, bc) = b.sizes
+    mat(ar, bc, fn (i: ZZ32, j: ZZ32): RR64 => do
+   
+--- [61] line313 2026-09-14T02:23:51.404Z Bash
+source experiment/env.sh && mkdir -p explorations/run-c/probes/api && cd explorations/run-c/probes/api && cat > Prog.fsi <<'EOF'
+api Prog
+stepish(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\])
+mkp(n: ZZ32): Array[\RR64,ZZ32\]
+EOF
+cat > Prog.fss <<'EOF'
+component Prog
+export Prog
+export Executable
+
+inner[\nat s, nat k\](p: Vector[\RR64,s\], b: Vector[\ZZ32,k\]): RR64 = SUM[i <- 0#|b|] p[b[i]]
+
+mkp(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(fn (i: ZZ32): RR64 => 0.5 i)
+stepish(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
+    l = inner(p, b)
+    (l, p.map[\RR64\](fn (x: RR64): RR64 => 2.0 x))
+  end
+
+run(): () = do
+    p = mkp(5)
+    b = array[\ZZ32\](2).fill(fn (i: ZZ32): ZZ32 => i + 2)
+    (l, g) = stepish(p, b)
+    println "Prog.run: l = " l " g = " g
+  end
+end
+EOF
+cat > Chk.fss <<'EOF'
+component Chk
+export Executable
+
+--- [62] line325 2026-09-14T02:24:52.754Z Bash
+cd /home/user/fortress && source experiment/env.sh && sed -i 's/get(t:(ZZ32,ZZ32)): RR64 = do (i,j) = t;/get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij;/; s/put(t:(ZZ32,ZZ32), v: RR64): () = do (i,j) = t;/put(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij;/; s/init0(t:(ZZ32,ZZ32), v: RR64): () = do (i,j) = t;/init0(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij;/' explorations/run-c/probes/p01_views.fss && grep -c 'ij:' explorations/run-c/probes/p01_views.fss && ./bin/fortress explorations/run-c/probes/p01_views.fss 2>&1 | head -120
+--- [63] line327 2026-09-14T02:25:00.890Z Bash
+source experiment/env.sh && python3 - <<'EOF'
+p='explorations/run-c/probes/p02_loaders.fss'
+s=open(p).read()
+tok='''
+(* parse every space-separated number on a line into out[off..], return the count *)
+parseRow[\\nat s\\](line: String, out: Vector[\\RR64,s\\], off: ZZ32): ZZ32 = do
+    n = |line|
+    i: ZZ32 := 0
+    k: ZZ32 := 0
+    while i < n do
+        if line[i] = ' ' then i += 1
+        else
+            j: ZZ32 := i
+            while (j < n) AND: (line[j] =/= ' ') do j += 1 end
+            out[off + k] := parseFloat(line[i # (j - i)])
+            k += 1
+            i := j
+        end
+    end
+    k
+  end
+
+run(): () = do'''
+s=s.replace('\nrun(): () = do', tok, 1)
+s=s.replace('''    n: ZZ32 := 0
+    first: RR64 := 0.0
+    for t <- seq(r0.split()) do
+        if |t| > 0 then
+            v = parseFloat t
+            if n = 0 then first := v end
+            n += 1
+        end
+    end
+    
+--- [64] line328 2026-09-14T02:25:04.069Z Bash
+cd /home/user/fortress/explorations/run-c/probes/api && source /home/user/fortress/experiment/env.sh && printf 'api Prog\nstepish(p: Array[\\RR64,ZZ32\\], b: Array[\\ZZ32,ZZ32\\]): (RR64, Array[\\RR64,ZZ32\\])\nmkp(n: ZZ32): Array[\\RR64,ZZ32\\]\nend\n' > Prog.fsi && cat Prog.fsi && echo "== Prog.fss:" && ../../../../bin/fortress Prog.fss 2>&1 | head -8; echo "== Chk.fss:"; ../../../../bin/fortress Chk.fss 2>&1 | head -12; cd /home/user/fortress
+--- [65] line330 2026-09-14T02:25:13.530Z Bash
+mkdir -p explorations/run-c/goldens && cat > explorations/run-c/goldens/extract_goldens.py <<'EOF'
+#!/usr/bin/env python3
+"""Write the parts of experiment/run-c-goldens/goldens.json that the Fortress
+check component reads as plain text, one value per line, Python repr (shortest
+round-trip) so every double reloads exactly.
+
+Usage: python3 extract_goldens.py <repo root>   (writes into this directory)
+"""
+import json, os, sys
+root = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), '..', '..', '..')
+g = json.load(open(os.path.join(root, 'experiment', 'run-c-goldens', 'goldens.json')))
+here = os.path.dirname(os.path.abspath(__file__))
+
+def lines(name, vals):
+    with open(os.path.join(here, name), 'w') as f:
+        for v in vals: f.write(repr(v) + '\n')
+
+lines('P0.txt', g['initial_parameters']['P0'])
+lines('grad_step0.txt', g['batch1_step0']['gradient'])
+lines('P
+--- [66] line342 2026-09-14T02:27:55.782Z Bash
+sed -n '1435,1440p' Library/FortressLibrary.fsi; grep -n 'assign(f\|fill(f' Library/FortressLibrary.fss | sed -n '1,12p'; grep -n 'opr DIV\|opr MOD\|opr REM' Library/FortressLibrary.fsi | head -4
+--- [67] line344 2026-09-14T02:28:19.038Z Bash
+source experiment/env.sh && cat > explorations/run-c/probes/p06_idioms.fss <<'EOF'
+(* p06_idioms: the remaining idioms the program leans on *)
+component p06_idioms
+export Executable
+import NatReflect.{...}
+
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+
+object Block[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32)
+        extends Matrix[\RR64,r,c\]
+    get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij; base.get(r0 + i, c0 + j) end
+    put(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij; base.put((r0 + i, c0 + j), v) end
+    init0(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij; base.init0((r0 + i, c0 + j), v) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+block0[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\]
+--- [68] line355 2026-09-14T02:28:35.600Z Bash
+source experiment/env.sh && sed -i 's/    (p, m, _) := three()/    v0: Array[\\RR64,ZZ32\\] := vec(1, fn (i: ZZ32): RR64 => 0.0)\n    (p, m, v0) := three()/' explorations/run-c/probes/p06_idioms.fss && sed -n '43,46p' explorations/run-c/probes/p06_idioms.fss && ./bin/fortress explorations/run-c/probes/p06_idioms.fss 2>&1 | head -40
+--- [69] line356 2026-09-14T02:28:39.922Z Bash
+source experiment/env.sh && cat > explorations/run-c/probes/p07a_tupleassign.fss <<'EOF'
+component p07a_tupleassign
+export Executable
+pair(): (RR64, RR64) = (1.5, 2.5)
+run(): () = do
+    a: RR64 := 0.0
+    b: RR64 := 0.0
+    (a, b) := pair()
+    println "p07a: tuple assign from a call: " a " " b
+    (a, b) := (b, a)
+    println "p07a: swap: " a " " b
+  end
+end
+EOF
+cat > explorations/run-c/probes/p07b_tupleassign.fss <<'EOF'
+component p07b_tupleassign
+export Executable
+pair(): (RR64, RR64) = (1.5, 2.5)
+run(): () = do
+    a: RR64 := 0.0
+    b: RR64 := 0.0
+    (a, _) := pair()
+    println "p07b: tuple assign with wildcard: " a " " b
+  end
+end
+EOF
+for v in a b; do echo "== p07$v"; ./bin/fortress explorations/run-c/probes/p07${v}_tupleassign.fss 2>&1 | head -4; done
+--- [70] line363 2026-09-14T02:29:04.446Z Bash
+source experiment/env.sh && sed -i 's/^shapesLit: ZZ32\[9\] = .*$/shapesLit = array[\\ZZ32\\](9).fill(fn (i: ZZ32): ZZ32 => if (i = 0) OR (i = 2) then 27 elif i = 7 then 64 else 16 end)/' explorations/run-c/probes/p06_idioms.fss && ./bin/fortress explorations/run-c/probes/p06_idioms.fss 2>&1 | head -40
+--- [71] line364 2026-09-14T02:29:07.992Z Bash
+source experiment/env.sh && for v in a b c; do
+case $v in
+ a) decl='shp: Vector[\ZZ32,9\] = [27 16 27 16 16 16 16 64 16]';;
+ b) decl='shp: RR64[9] = [27.0 16.0 27.0 16.0 16.0 16.0 16.0 64.0 16.0]';;
+ c) decl='shp: ZZ32[9] = [27, 16, 27, 16, 16, 16, 16, 64, 16]';;
+esac
+cat > explorations/run-c/probes/p08${v}_literal.fss <<EOF
+component p08${v}_literal
+export Executable
+$decl
+run(): () = println "p08$v: " shp " shp[7] = " shp[7]
+end
+EOF
+echo "== $v: $decl"; ./bin/fortress explorations/run-c/probes/p08${v}_literal.fss 2>&1 | head -3; done
+--- [72] line376 2026-09-14T02:29:40.359Z Bash
+source experiment/env.sh && sed -i 's/    p := p - 0.1 (m \/ (SQRT (m pmul m) + 1.0))/    p := p - 0.1 (m \/ ((SQRT (m.pmul(m))) + 1.0))/' explorations/run-c/probes/p06_idioms.fss && sed -n '42p' explorations/run-c/probes/p06_idioms.fss && ./bin/fortress explorations/run-c/probes/p06_idioms.fss 2>&1 | head -40
+--- [73] line377 2026-09-14T02:29:43.146Z Bash
+source experiment/env.sh && cat > explorations/run-c/probes/p08d_literal.fss <<'EOF'
+component p08d_literal
+export Executable
+run(): () = do
+    shp: ZZ32[9] = [27 16 27 16 16 16 16 64 16]
+    println "p08d (in a function body): " shp " shp[7] = " shp[7]
+    w: RR64[3] = [1.5 2.5 3.5]
+    println "p08d floats: " w " |w| = " |w|
+  end
+end
+EOF
+./bin/fortress explorations/run-c/probes/p08d_literal.fss 2>&1 | head -6
+--- [74] line384 2026-09-14T02:33:34.002Z Bash
+mkdir -p explorations/run-c/src explorations/run-c/checks && cat > explorations/run-c/src/MicroGptFlat.fsi <<'EOF'
+(* MicroGptFlat -- Karpathy's microGPT in native Fortress arrays, the data laid
+   out after Hsu's "Designing Your Data": one flat parameter vector whose nine
+   matrices are views, one integer corpus matrix, one pure step, Adam as
+   whole-vector expressions.  See explorations/run-c/design.md. *)
+api MicroGptFlat
+
+(* the layout: nine matrices, row-major, in this order inside the flat vector *)
+matName(i: ZZ32): String
+matRows(i: ZZ32): ZZ32
+matCols(i: ZZ32): ZZ32
+matCount(i: ZZ32): ZZ32
+matOffset(i: ZZ32): ZZ32
+nParams(): ZZ32
+
+(* the corpus, loaded once at component initialisation *)
+nDocs(): ZZ32
+docLength(d: ZZ32): ZZ32
+tokenAt(d: ZZ32, j: ZZ32): ZZ32
+
+(* the committed weights, in layout order, as one flat vector *)
+loadParams(dir: String): Array[\RR64,ZZ32\]
+zeros(n: ZZ
+--- [75] line394 2026-09-14T02:34:03.155Z Bash
+grep -o 'e¯[0-9]*' explorations/apl/reference/dzaima/w/*.txt | wc -l; grep -o 'e[0-9]' explorations/apl/reference/dzaima/w/*.txt | wc -l; python3 - <<'EOF'
+p='explorations/run-c/src/MicroGptFlat.fss'
+s=open(p).read()
+old="    if i < n then ex := strToInt(s[(i+1) # (n - i - 1)]) end\n"
+new="""    if i < n then
+        eneg = (s[i+1] = '-') OR (s[i+1] = '¯')
+        j = if eneg OR (s[i+1] = '+') then i + 2 else i + 1 end
+        ex := strToInt(s[j # (n - j)])
+        if eneg then ex := -ex end
+    end
+"""
+assert old in s
+s=s.replace(old,new)
+open(p,'w').write(s)
+EOF
+cd explorations/run-c/src && source /home/user/fortress/experiment/env.sh && time ../../../bin/fortress MicroGptFlat.fss 2>&1 | head -30; cd /home/user/fortress
+--- [76] line396 2026-09-14T02:34:36.559Z Bash
+cat > explorations/run-c/src/MicroGptFlatCheck.fss <<'EOF'
+(* MicroGptFlatCheck -- the standard of success for Run C, one line per check
+   with the measured difference and PASS or FAIL, against the goldens in
+   explorations/run-c/goldens (extracted from experiment/run-c-goldens/goldens.json).
+   Run from explorations/run-c/src:  ../../../bin/fortress MicroGptFlatCheck.fss *)
+component MicroGptFlatCheck
+export Executable
+import MicroGptFlat.{...}
+import File.{...}
+import System.{...}
+
+goldensDir: String = "../goldens"
+tolLoss: RR64 = 10.0^(-12)
+tolGrad: RR64 = 10.0^(-12)
+tolFd: RR64 = 10.0^(-8)
+
+(* Python repr floats, one per line *)
+parseNum(s: String): RR64 = do
+    neg = (s[0] = '-') OR (s[0] = '¯')
+    m: RR64 := 0.0
+    scale: ZZ32 := 0
+    ex: ZZ32 := 0
+    i: ZZ32 := if neg then 1 else 0 end
+    seenPoint: Boolean := false
+    n = |s|
+    while (i < n) AND: ((s[i] =/= 'e') AND (s
+--- [77] line406 2026-09-14T02:34:49.880Z Bash
+sed -n '287p' explorations/run-c/src/MicroGptFlat.fss | cut -c1-120; sed -n '287p' explorations/run-c/src/MicroGptFlat.fss | cut -c35-49; grep -c 'E¯\|e¯' explorations/apl/reference/dzaima/w/*.txt | head -3; grep -o '[0-9]e[¯0-9-]*' explorations/apl/reference/dzaima/w/wte.txt | head -3
+--- [78] line413 2026-09-14T02:35:07.979Z Bash
+python3 - <<'EOF'
+p='explorations/run-c/src/MicroGptFlat.fss'
+s=open(p).read()
+old="""    assignInto(view(g, 0), (onehot(ids, vocabSize)^T) dX)
+    assignInto(view(g, 1), (onehot(pos, blockSize)^T) dX)
+"""
+new="""    ohIds = onehot(ids, vocabSize); ohPos = onehot(pos, blockSize)
+    assignInto(view(g, 0), (ohIds^T) dX)
+    assignInto(view(g, 1), (ohPos^T) dX)
+"""
+assert old in s
+open(p,'w').write(s.replace(old,new))
+EOF
+cd explorations/run-c/src && source /home/user/fortress/experiment/env.sh && time ../../../bin/fortress MicroGptFlat.fss 2>&1 | head -30; cd /home/user/fortress
+--- [79] line423 2026-09-14T02:36:27.442Z Bash
+cd /home/user/fortress/explorations/run-c/src && source /home/user/fortress/experiment/env.sh && FORTRESS_THREADS=1 ../../../bin/fortress MicroGptFlatCheck.fss > ../checks/threads1.txt 2>&1; echo "exit $?" >> ../checks/threads1.txt
+--- [80] line424 2026-09-14T02:36:27.879Z Bash
+nproc; free -g | head -2; cat /home/user/fortress/experiment/env.sh | grep JAVA_FLAGS
+--- [81] line425 2026-09-14T02:36:28.602Z Bash
+git status --short | head -30
+--- [82] line434 2026-09-14T02:37:26.655Z Bash
+git add explorations/run-c/src explorations/run-c/goldens explorations/run-c/probes && git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit -q -F - <<'EOF'
+Run C: microGPT in native Fortress arrays with Hsu's flat data layout
+
+One flat RR64 parameter vector with the nine matrices as zero-copy Matrix
+views (PView over a slice, shape via NatReflect), the corpus as one
+BOS-padded integer matrix plus a length vector, one pure step from batch
+keys to (loss, flat gradient) with the backward pass written under the
+forward pass, masks as arithmetic, scatter-adds as one-hot products, and
+Adam as whole-vector expressions.  Attention runs per document and head
+over Block views of the (doc.pos x 16) activations.
+
+The five-step batch-1 training reproduces the golden losses.  Also: the
+API, the check component for the standard of success, the golden
+extraction script and its text out
+--- [83] line435 2026-09-14T02:37:28.968Z Bash
+grep -n 'AssignLeft\|Assignment\b' Specification/appendices/grammars/concrete-syntax.tex | head -8; echo ----; grep -rn 'AND:\|conditional' Specification/basic/operators/*.tex Specification/basic/expressions/*.tex 2>/dev/null | grep -i 'AND:\|\\\\wedge:' | head -5; ls Specification/basic/operators/ Specification/basic/expressions/ | tr '\n' ' '
+--- [84] line438 2026-09-14T02:37:31.542Z Bash
+grep -n '^t(\|^t\b\|^t:' Library/*.fss ProjectFortress/LibraryBuiltin/*.fss | head; echo ---- fsi; grep -n '^t(\|^t:\|^t\[' Library/*.fsi ProjectFortress/LibraryBuiltin/*.fsi | head; echo ---- split impl; grep -n 'split()' Library/FlatString.fss | head -3
+--- [85] line440 2026-09-14T02:37:36.621Z Bash
+source experiment/env.sh && cat > explorations/run-c/probes/g146_zz64.fss <<'EOF'
+(* g146: a ZZ64 variable initialised from an integer literal wraps at 32 bits;
+   initialised from a ZZ64 expression it does not *)
+component g146_zz64
+export Executable
+run(): () = do
+    a: ZZ64 := 0
+    for k <- seq(0#17) do a := 10 a + 7 end
+    println "(1) init from literal 0, 17 x (10 a + 7): " a
+    b: ZZ64 := |\ 0.0 /|
+    for k <- seq(0#17) do b := 10 b + 7 end
+    println "(2) init from a ZZ64 (floor), same loop:   " b
+    c: ZZ64 := |\ 0.0 /|
+    for k <- seq(0#17) do c := (10 c) + (|\ 7.0 /|) end
+    println "(3) all-ZZ64 operands:                    " c
+    println "(4) 1.0 c = " (1.0 c)
+  end
+end
+EOF
+./bin/fortress explorations/run-c/probes/g146_zz64.fss 2>&1 | head -8
+--- [86] line451 2026-09-14T02:37:52.949Z Bash
+cat explorations/run-c/checks/threads1.txt | head -40
+--- [87] line457 2026-09-14T02:38:10.308Z Bash
+sed -i 's/checkFd(label: String,/checkFd(tag: String,/; s/report(label " P\[/report(tag " P[/; s/report(label " worst/report(tag " worst/' explorations/run-c/src/MicroGptFlatCheck.fss && grep -n 'label' explorations/run-c/src/MicroGptFlatCheck.fss; echo "renamed"
+--- [88] line459 2026-09-14T02:38:24.796Z Bash
+source experiment/env.sh && cat > explorations/run-c/probes/g140_strtofloat.fss <<'EOF'
+(* g140: the library's strToFloat is a quick-and-dirty routine: 10^k in ZZ32
+   overflows on a 17-digit mantissa, and a sign is not handled *)
+component g140_strtofloat
+export Executable
+run(): () = do
+    println "(1) strToFloat \"1.5\" = " (strToFloat "1.5")
+    println "(2) strToFloat \"-1.5\" = " (strToFloat "-1.5")
+    println "(3) strToFloat \"0.07696138795865093\" = " (strToFloat "0.07696138795865093")
+  end
+end
+EOF
+cat > explorations/run-c/probes/g141_split.fss <<'EOF'
+(* g141: String.split() is the rope's structural subdivision, not a tokenizer *)
+component g141_split
+export Executable
+run(): () = do
+    s = "a b  c"
+    n = SUM[piece <- s.split()] 1
+    println "(1) pieces of \"a b  c\".split(): " n
+    for piece <- seq(s.split()) do println "  [" piece "]" end
+    println "(2) |s| = " |s| "
+--- [89] line470 2026-09-14T02:39:33.966Z Bash
+cd /home/user/fortress/explorations/run-c/src && source /home/user/fortress/experiment/env.sh && FORTRESS_THREADS=1 ../../../bin/fortress MicroGptFlatCheck.fss > ../checks/threads1.txt 2>&1
+--- [90] line472 2026-09-14T02:39:36.659Z Bash
+sed -n '908,922p' Specification/appendices/grammars/concrete-syntax.tex; echo ----; grep -n 'AND:\|\\\\wedge:\|short-circuit\|conditional' Specification/basic/operators/conditionalops.tex | head -6; echo ----; grep -n 'label' Specification/fortress/fortress-keywords.tex | head -3; grep -n 'LocalVarDecl\|Unpasting\|BindId\b' Specification/appendices/grammars/concrete-syntax.tex | head -6
+--- [91] line474 2026-09-14T02:39:41.071Z Bash
+source experiment/env.sh && cat > explorations/run-c/probes/g143_wild.fss <<'EOF'
+(* g143: the wildcard _ in a tuple BINDING, as opposed to a tuple assignment
+   (run-c/probes/p07b_tupleassign.fss, a syntax error) *)
+component g143_wild
+export Executable
+pair(): (RR64, RR64) = (1.5, 2.5)
+run(): () = do
+    (a, _) = pair()
+    println "g143: tuple binding with wildcard: a = " a
+  end
+end
+EOF
+cat > explorations/run-c/probes/g148_label.fss <<'EOF'
+(* g148: label is a reserved word; the diagnostic for using it as a parameter
+   name is about the label expression, not about the name *)
+component g148_label
+export Executable
+show(label: String, x: RR64): () = println label ": " x
+run(): () = show("g148", 1.0)
+end
+EOF
+for g in g143_wild g148_label; do echo "== $g"; ./bin/fortress explorations/run-c/probes/$g.fss 2>&1 | head -4; done
+--- [92] line485 2026-09-14T02:41:21.490Z Bash
+cat > explorations/run-c/design.md <<'EOF'
+# Run C: design notes
+
+microGPT (Karpathy's 243-line, one-layer, four-head character model) in native
+Fortress arrays, with the data laid out after Aaron Hsu's "Designing Your Data"
+(Functional Conf 2025), following
+`explorations/apl/reference/hsu-flat/microgpt_concise.dyalog` line for line.
+Interpreter path only; nothing outside `explorations/run-c/` was changed.
+The program is `src/MicroGptFlat.fss` with its API `src/MicroGptFlat.fsi`;
+the standard of success is `src/MicroGptFlatCheck.fss`, whose outputs at one
+and four threads are in `checks/`.
+
+## The layout
+
+| Hsu's tactic | Dyalog line | in the Fortress program |
+|---|---|---|
+| 2/8 aggregation, views | `P←⊃,/,¨…` / `v←{(⍵⊃SHP)⍴P[(⍵⊃OFF)+⍳⍵⊃CNT]}` | `p: Array[\RR64,ZZ32\]` of 4192 values; `view(p, i)` is a `PView`, a six-line object extending `Matrix[\RR64,r,c\]` whose `get`/`put` address 
+--- [93] line487 2026-09-14T02:42:14.679Z Bash
+cat > explorations/run-c/gaps.md <<'EOF'
+# Run C: new gap rows
+
+Rows for `explorations/fortress-gap-ledger.md`, in its column format,
+numbered from 140. Walk interpreter, JDK 25, `FORTRESS_THREADS=1` unless
+stated; reproducer paths are relative to `explorations/`. Rows that only
+repeat a ledger row are cited by number in the notes of the row they
+sharpen, not rewritten.
+
+| # | claim | status | class | spec citation | reproducer | found by | notes / workaround |
+|---|---|---|---|---|---|---|---|
+| 140 | the library's `strToFloat` mis-parses a sign and overflows on a long mantissa: `strToFloat "-1.5"` is `-28.5`, and a 17-digit mantissa dies with `Overflow of ZZ32 100000000000000000` | NEGATIVE-VERIFIED | library bug | — (the spec has no `strToFloat`; `Library/FortressLibrary.fss:4190-4196`, whose comment says "Quick and dirty implementation") | `run-c/probes/g140_strtofloat.fss` | run-c |
+--- [94] line497 2026-09-14T02:42:18.916Z Bash
+head -30 explorations/run-c/checks/threads1.txt
+--- [95] line503 2026-09-14T02:42:31.798Z Bash
+python3 - <<'EOF'
+p='explorations/run-c/src/MicroGptFlatCheck.fss'
+s=open(p).read()
+old="        nums = numbersOf(rows[d])           (* name len t0 .. t16 : the name is not a number, skip it *)\n"
+new="        nums = numbersOf(rows[d].beyond(' '))   (* the line is: name len t0 .. t16; nums[0] is len *)\n"
+assert old in s
+s=s.replace(old,new)
+s=s.replace("        BIG MAX[j <- 0#17] |nums[2 + j] - (1.0 tokenAt(d, j))| MAX |nums[1] - (1.0 docLength(d))|\n",
+            "        (BIG MAX[j <- 0#17] |nums[1 + j] - (1.0 tokenAt(d, j))|) MAX |nums[0] - (1.0 docLength(d))|\n")
+open(p,'w').write(s)
+EOF
+grep -n 'beyond\|nums\[1 + j\]' explorations/run-c/src/MicroGptFlatCheck.fss
+--- [96] line505 2026-09-14T02:42:33.450Z Bash
+cd /home/user/fortress/explorations/run-c/src && source /home/user/fortress/experiment/env.sh && FORTRESS_THREADS=1 ../../../bin/fortress MicroGptFlatCheck.fss > ../checks/threads1.txt 2>&1
+--- [97] line515 2026-09-14T02:42:42.889Z Monitor
+F=/home/user/fortress/explorations/run-c/checks/threads1.txt
+n=0
+while true; do
+  total=$(wc -l < "$F" 2>/dev/null || echo 0)
+  if [ "$total" -gt "$n" ]; then sed -n "$((n+1)),${total}p" "$F"; n=$total; fi
+  if grep -q '^total \|Turn on "-debug\|FailCalled\|Error\|bug!' "$F" 2>/dev/null; then sleep 2; total=$(wc -l < "$F"); [ "$total" -gt "$n" ] && sed -n "$((n+1)),${total}p" "$F"; exit 0; fi
+  sleep 5
+done
+--- [98] line516 2026-09-14T02:42:43.891Z Bash
+sed -n '/^step(p/,/^  end/p' explorations/run-c/src/MicroGptFlat.fss
+--- [99] line527 2026-09-14T02:42:54.754Z Bash
+grep -n -i 'AND:\|short-circuit\|strToFloat\|split()\|\blabel\b\|ZZ64\|wildcard\|top-level.*literal\|NatReflect\|N is undefined\|export Executable\|initialis' explorations/fortress-gap-ledger.md | cut -c1-220 | head -20
+--- [100] line545 2026-09-14T02:43:23.562Z Bash
+git add explorations/run-c/src explorations/run-c/probes explorations/run-c/design.md explorations/run-c/gaps.md explorations/run-c/README.md && git status --short | head && git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit -q -F - <<'EOF'
+Run C: check component fixes, gap-row reproducers, and the three documents
+
+The check component skips the document name in the corpus lines and no
+longer uses the reserved word label as a parameter name.  Standalone
+reproducers g140-g148 for the new ledger rows (strToFloat, split(),
+top-level array literals, the wildcard in assignments, a call before a
+superscript, AND versus AND:, ZZ64 initialised from a literal, parameter
+names that shadow inherited methods, the label diagnostic).  design.md
+(layout, line-for-line table, the rank-4 decision), gaps.md (rows 140-155)
+and README.md; the measured check outputs follow once the runs fi
+--- [101] line570 2026-09-14T02:43:53.511Z Bash
+git status --short; tail -3 explorations/run-c/checks/threads1.txt
+--- [102] line790 2026-09-14T02:57:03.246Z Bash
+tail -4 explorations/run-c/checks/threads1.txt; echo; grep -c PASS explorations/run-c/checks/threads1.txt; grep -c FAIL explorations/run-c/checks/threads1.txt; wc -l explorations/run-c/checks/threads1.txt
+--- [103] line799 2026-09-14T02:57:07.680Z Bash
+cd /home/user/fortress/explorations/run-c/src && source /home/user/fortress/experiment/env.sh && FORTRESS_THREADS=4 ../../../bin/fortress MicroGptFlatCheck.fss > ../checks/threads4.txt 2>&1
+--- [104] line801 2026-09-14T02:57:11.540Z Monitor
+F=/home/user/fortress/explorations/run-c/checks/threads4.txt
+n=0
+while true; do
+  total=$(wc -l < "$F" 2>/dev/null || echo 0)
+  if [ "$total" -gt "$n" ]; then sed -n "$((n+1)),${total}p" "$F" | grep --line-buffered -v 'PASS$' || true; n=$total; fi
+  if grep -q '^total \|Turn on "-debug\|FailCalled\|Error\|bug!' "$F" 2>/dev/null; then sleep 2; total=$(wc -l < "$F"); [ "$total" -gt "$n" ] && sed -n "$((n+1)),${total}p" "$F"; echo "PASS lines: $(grep -c 'PASS$' "$F")  FAIL lines: $(grep -c 'FAIL$' "$F")"; exit 0; fi
+  sleep 5
+done
+--- [105] line812 2026-09-14T02:57:40.470Z Bash
+python3 - <<'EOF'
+import re
+p='explorations/run-c/design.md'; s=open(p).read()
+old="""## Numerics
+
+The weights are parsed by accumulating the mantissa's digits in an `RR64`
+and dividing by an exact power of ten, which is within one or two units in
+the last place of Python's correctly rounded parse; the check component's
+first line measures the loaded vector against the goldens' `P0` (the
+difference is at that level). The reductions are the library's parallel
+`SUM`, so summation order differs from numpy's; the golden comparisons are
+at 1e-12 for losses, 1e-12 for the gradient and the Adam step, and 1e-8 for
+finite differences, against the measured values recorded in `checks/`.
+All arithmetic is `RR64`; care was needed that every value written into an
+`RR64` array is a float (`1.0 headDim`, `1.0` and `0.0` in the masks), since
+the walk path does not enforce a declared return type."""
+new="
+--- [106] line831 2026-09-14T03:03:20.853Z Bash
+grep -c 'PASS$' explorations/run-c/checks/threads4.txt; grep -c 'FAIL$' explorations/run-c/checks/threads4.txt; tail -1 explorations/run-c/checks/threads4.txt; echo ---- differences between the two runs, timings aside:; diff <(sed 's/ ([0-9]* ms)//' explorations/run-c/checks/threads1.txt) <(sed 's/ ([0-9]* ms)//' explorations/run-c/checks/threads4.txt); echo ---- timings; grep -o '([0-9]* ms)' explorations/run-c/checks/threads1.txt | tr '\n' ' '; echo; grep -o '([0-9]* ms)' explorations/run-c/checks/threads4.txt | tr '\n' ' '
+--- [107] line844 2026-09-14T03:03:41.949Z Bash
+python3 - <<'EOF'
+p='explorations/run-c/gaps.md'; s=open(p).read()
+old="| run-c | Row 59's trap avoided by construction: nothing is accumulated across iterations; the products and softmaxes allocate per iteration and `assignInto` writes each cell once. |"
+new="| run-c | The two check outputs differ only in their header and timing fields: every loss, gradient difference, Adam difference and finite difference is the same to the last digit, so the library's parallel `SUM` and product associate the same way at both thread counts. Row 59's trap avoided by construction: nothing is accumulated across iterations; the products and softmaxes allocate per iteration and `assignInto` writes each cell once. Four threads: 2.9 s per batch-1 step against 7.9, 8.6 s per batch-4 step against 26.6, 353 s for the check against 855. |"
+assert old in s; s=s.replace(old,new); open(p,'w').write(s)
+
+p='exploratio
