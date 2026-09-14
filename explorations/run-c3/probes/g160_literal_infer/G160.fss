@@ -1,0 +1,8 @@
+(* g160: an untyped array literal inside a body cannot infer its element type *)
+component G160
+export Executable
+run(): () = do
+    sc = [1.0 2.0 3.0]
+    println sc
+  end
+end
