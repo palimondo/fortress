@@ -117,21 +117,33 @@ corpus.
 ## Numerics
 
 The weights are parsed by accumulating the mantissa's digits in an `RR64`
-and dividing by an exact power of ten, which is within one or two units in
-the last place of Python's correctly rounded parse; the check component's
-first line measures the loaded vector against the goldens' `P0` (the
-difference is at that level). The reductions are the library's parallel
-`SUM`, so summation order differs from numpy's; the golden comparisons are
-at 1e-12 for losses, 1e-12 for the gradient and the Adam step, and 1e-8 for
-finite differences, against the measured values recorded in `checks/`.
+and dividing by an exact power of ten; the check's first line measures the
+loaded vector against the goldens' `P0` and finds no difference at all over
+the 4192 values, and the corpus rows for documents 0..15 match exactly.
+The reductions are the library's parallel `SUM`, so summation order differs
+from numpy's; the measured differences at one thread (`checks/threads1.txt`)
+are:
+
+| check | measured | bound |
+|---|---|---|
+| batch 1, five losses | 4.4e-16, 0, 0, 0, 0 | 1e-12 |
+| step 0 gradient, max over 4192 | 1.1e-16 | 1e-12 |
+| parameters after the first Adam step, max over 4192 | 8.3e-17 | 1e-12 |
+| zero gradient entries | 464, as recorded | exact |
+| batch 4 loss vs golden | 0 | 1e-12 |
+| batch 4 loss vs token-weighted mean of the four single losses | 0 | 1e-12 |
+| finite differences, document 0, worst of eleven | 3.1e-10 | 1e-8 |
+| finite differences, batch of four, worst of eleven | 3.68e-10 (the reference's worst is the same value) | 1e-8 |
+
 All arithmetic is `RR64`; care was needed that every value written into an
 `RR64` array is a float (`1.0 headDim`, `1.0` and `0.0` in the masks), since
 the walk path does not enforce a declared return type.
 
 ## Cost
 
-One thread, batch 1: about 8 s per step (forward and backward); batch 4:
-see `checks/threads1.txt` for the measured times. The library's product
+One thread: 7.8 to 8 s per batch-1 step (forward and backward; 14 s for
+the first, which pays the interpreter's warm-up), 26.6 s per batch-4 step;
+the whole check, 55 steps in all, 855 s. The library's product
 runs at roughly 24 µs per multiply-add (`probes/p05_mmtime.fss`), and a
 hand-written loop is no faster, so the step time is the interpreter's
 per-operation cost times the 190K (batch 1) to 750K (batch 4) multiply-adds
