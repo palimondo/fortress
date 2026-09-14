@@ -1,0 +1,20 @@
+(* q04f_callsuper: q04a found that (onehot(ks, 5))^T dx is rejected -- the
+   parenthesised call, row 4's workaround for f()[i], does not carry over to
+   the superscript.  Which spellings do work. *)
+component q04f_callsuper
+export Executable
+
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+transpose[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.t()
+onehot(ks: Array[\ZZ32,ZZ32\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|ks|, width, fn (i: ZZ32, j: ZZ32): RR64 => if ks[i] = j then 1.0 else 0.0 end)
+
+run(): () = do
+    ks = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => 2 i)
+    dx = mat(3, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i + j))
+    println "(1) transpose(onehot(ks, 5)) dx = " (transpose(onehot(ks, 5)) dx)
+    println "(2) (onehot(ks, 5)).t() dx = " ((onehot(ks, 5)).t() dx)
+    println "(3) ((onehot(ks, 5))^T) dx = " (((onehot(ks, 5))^T) dx)
+  end
+end

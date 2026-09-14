@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`dVh = a^T dh
+dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)`
+\end{preview}
+\end{document}

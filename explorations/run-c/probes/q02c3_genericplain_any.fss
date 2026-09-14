@@ -1,0 +1,17 @@
+(* q02c: can a function be passed as an argument -- the caller nat-generic or
+   plain, its parameter typed Any or as an arrow, the argument a plain function
+   or a nat-generic one.  One cell per component so each verdict is its own run. *)
+component q02c3_genericplain_any
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e / s)
+halfG[\nat s\](x: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = x / 2.0
+halfP(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / 2.0
+applyG[\nat s\](f: Any, v: Vector[\RR64,s\]): Any = f(v)
+
+run(): () = do
+    v = vec(3, fn (i: ZZ32): RR64 => 1.0 i)
+    println "(3a) generic caller with f: Any, plain argument: " (applyG(halfP, v))
+  end
+end

@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage{amsmath}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{5pt}
+\begin{document}
+\begin{preview}
+`gWTE = transpose(onehot(ids, vocabSize)) dX
+gWPE = transpose(onehot(pos, blockSize)) dX`
+\end{preview}
+\end{document}

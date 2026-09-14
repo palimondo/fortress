@@ -1,0 +1,114 @@
+(* q02_rowlift: the row lift in three forms, each applying a vector function to
+   every row of a matrix and stacking the results.  (a) apply to row views,
+   collect the results, stack by a fill, the rank of the result read off the
+   first result by overloading (the APL base's way); (b) a parallel for over
+   the rows writing through row views of a preallocated matrix; (c) a list
+   comprehension over the rows and a builder that stacks.  The function
+   parameter is typed Any here; q02b_arrow types it as an arrow. *)
+component q02_rowlift
+export Executable
+import System.{...}
+import List.{...}
+
+epsRms: RR64 = 10.0^(-5)
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+zerosM(r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(0.0)
+opr -[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e - s)
+opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e / s)
+opr ×[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\] = a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e b[i])
+exp[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => exp(e))
+
+(* a row of a matrix as a real Vector, zero-copy, readable and writable *)
+object Row[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, x: RR64): () = base.put((i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+row[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Array[\RR64,ZZ32\] = Row[\r,c\](m, i)
+nth[\nat s\](v: Vector[\RR64,s\], j: ZZ32): RR64 = v[j]
+
+(* the four vector-level functions of the model, no subscripts; their parameters
+   are runtime-sized arrays, not nat-generic Vectors, because a nat-generic function
+   passed as an argument to a nat-generic function crashes the interpreter (q02c) *)
+rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsRms + (SUM[t <- x] t^2) / (|x|))
+sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM[t <- e] t) end
+rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+    r = SQRT (epsRms + (SUM[u <- x] u^2) / (|x|))
+    y = x / r
+    (dy - y ((y DOT dy) / (|y|))) / r
+  end
+sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
+
+(* (a) collect and stack; the rank of the result is decided by the first result *)
+stack(r0: RR64, rs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\] = vec(|rs|, fn (i: ZZ32): RR64 => rs[i])
+stack[\nat s\](r0: Vector[\RR64,s\], rs: Array[\Any,ZZ32\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|rs|, |r0|, fn (i: ZZ32, j: ZZ32): RR64 => nth(rs[i], j))
+rowsA[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]): Any = do
+    (n, d) = m.sizes
+    rs = array[\Any\](n).fill(fn (i: ZZ32): Any => f(row(m, i)))
+    stack(rs[0], rs)
+  end
+rowsA[\nat r, nat c, nat p, nat q\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): Any = do
+    (n, d) = a.sizes
+    rs = array[\Any\](n).fill(fn (i: ZZ32): Any => f(row(a, i), row(b, i)))
+    stack(rs[0], rs)
+  end
+(* (b) a parallel for over the rows, writing through row views of a preallocated matrix *)
+rowsB[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = m.sizes
+    out = zerosM(n, d)
+    for i <- 0#n do row(out, i).assign(f(row(m, i))) end
+    out
+  end
+rowsB[\nat r, nat c, nat p, nat q\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = a.sizes
+    out = zerosM(n, d)
+    for i <- 0#n do row(out, i).assign(f(row(a, i), row(b, i))) end
+    out
+  end
+(* (c) a comprehension over the rows and a builder that stacks the list *)
+stackL(r0: RR64, rs: List[\Any\]): Array[\RR64,ZZ32\] = vec(|rs|, fn (i: ZZ32): RR64 => rs[i])
+stackL[\nat s\](r0: Vector[\RR64,s\], rs: List[\Any\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|rs|, |r0|, fn (i: ZZ32, j: ZZ32): RR64 => nth(rs[i], j))
+rowsC[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]): Any = do
+    (n, d) = m.sizes
+    rs = <|[\Any\] f(row(m, i)) | i <- 0#n |>
+    stackL(rs[0], rs)
+  end
+
+showM[\nat r, nat c\](name: String, m: Matrix[\RR64,r,c\]): () = do
+    (rows, cols) = m.sizes
+    println name " " rows "x" cols
+    for i <- seq(0#rows) do
+        line: String := "  "
+        for j <- seq(0#cols) do line := line " " m[i,j] end
+        println line
+    end
+  end
+
+run(): () = do
+    x = mat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i + j) - 1.5)
+    showM("x", x)
+    println "rmsn of row 1 directly: " (rmsn(row(x, 1)))
+    showM("(a) rowsA(rmsn, x)", rowsA(rmsn, x))
+    showM("(b) rowsB(rmsn, x)", rowsB(rmsn, x))
+    showM("(c) rowsC(rmsn, x)", rowsC(rmsn, x))
+    showM("(a) rowsA(sm, x)", rowsA(sm, x))
+    dy = mat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 0.5 - 0.25 j)
+    showM("(a) rowsA(rmsn_b, dy, x)", rowsA(rmsn_b, dy, x))
+    showM("(b) rowsB(rmsn_b, dy, x)", rowsB(rmsn_b, dy, x))
+    showM("(a) rowsA(sm_b, rowsA(sm, x), dy)", rowsA(sm_b, rowsA(sm, x), dy))
+    (* cost on the model's shape: 64 x 16, ten repetitions each *)
+    bigM = mat(64, 16, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((7 i + 3 j) MOD 11) - 5.0)
+    t0 = nanoTime()
+    for k <- seq(0#10) do ignore(rowsA(rmsn, bigM)) end
+    t1 = nanoTime()
+    for k <- seq(0#10) do ignore(rowsB(rmsn, bigM)) end
+    t2 = nanoTime()
+    for k <- seq(0#10) do ignore(rowsC(rmsn, bigM)) end
+    t3 = nanoTime()
+    println "10 x rmsn over 64x16: (a) " ((t1 - t0) DIV 1000000) " ms  (b) " ((t2 - t1) DIV 1000000) " ms  (c) " ((t3 - t2) DIV 1000000) " ms"
+  end
+end

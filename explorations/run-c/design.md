@@ -171,3 +171,259 @@ Two claims above are corrected by the Phase 1 review (`explorations/reviews/run-
 The loader claim in "Numerics" is circular: the weight files and the goldens' `P0` carry the same digit strings and are parsed by the same routine, so a difference of zero is forced. The review ran the routine against Python's correctly rounded parse over all 4192 values: 696 are one ulp off and 3 are two ulp off, worst 5.55e-17 (`run-c-review-probes/RvwParse.out`). That is below every tolerance the check uses, and the check results stand, but the sentence claimed more than it showed.
 
 The Blinding section's "no history was read" is not literally true: two `git log --oneline -3` calls were made in turn 1 while pulling, before the brief was read. They showed the brief's merge commit, the merge of main and the APL rungs, nothing from a prior Fortress microGPT run.
+
+
+## Round two
+
+The sections above are round one's notes and describe its program; the tree
+now carries round two, whose line-for-line record is `tour.md`/`tour.html`.
+Round one's sources stay in history.
+
+### What changed and why
+
+Round one's data side stood (one flat vector with nine views, the corpus as
+one matrix, keys, one-hot scatter-adds, masks as arithmetic, a pure step, Adam
+over three vectors); its compute side was APL vocabulary with Fortress loops
+inside: four row-wise functions with explicit `[i,j]` loops, elementwise
+helpers, and a model that called them in the Dyalog's order. Round two splits
+the program into three components and rewrites the compute side so that each
+line of the model reads as its formula first and as its Dyalog line second:
+
+- `src/FlatArrays.fss` (+`.fsi`), the vocabulary: the elementwise algebra as
+  operators with scalar extension, the views, the row lift, the batched
+  product, the key operations. Built against the survey below; nothing in the
+  inventory is rewritten.
+- `src/FlatData.fss` (+`.fsi`), the loaders: the float parser, the tokenizer,
+  files as lines, vectors and matrices, the corpus. The check and the model
+  share them, which removes round one's 29-line duplicate parser.
+- `src/MicroGptFlat.fss` (+`.fsi`), the model only: hyperparameters, the
+  layout table, `rmsn`, `sm`, `rmsn_b`, `sm_b` at vector level, `step`, `adam`,
+  the training loop. It contains no subscript.
+
+The check imports all three and gained an aggregate verdict line and a
+non-zero exit on any FAIL. The goldens did not change.
+
+### The shipped array algebra, surveyed before design
+
+`Library/FortressLibrary.fss` line numbers as of this tree; the `.fsi` declares the
+same members at 1460–1537 (`Vector`) and 1578–1640 (`Matrix`). Read before any
+line of round two was written; the vocabulary component rewrites nothing in it
+and declares once what the last block lists as absent.
+
+| family | member (line) | what it gives the program |
+|---|---|---|
+| `Generator[\E\]` (957) | `generate`, `SUM`/`PROD`/`BIG MAX`/`BIG MIN` over any generator (3041–3084), comprehensions, `for` | every reduction in the model: `SUM[t <- x] t^2`, `BIG MAX[t <- z] t`, `SUM v` in its prefix form (reductions.tex:80–88, verified in `probes/q04b`) |
+| `Indexed[\E,I\]` (1636) | `isEmpty`, `size`, `bounds` (1639–1645), `indexValuePairs` (1655), `reverse` (1660), `indices` (1667), `\|self\|` (1672), `opr[i]` (1675), `opr[r: Range]`, `opr[:]` (1690–1691), `ivmap`, `map` (1702–1703), `indexOf` (1707) | `map` and `ivmap` are the two skeletons every elementwise operator of the vocabulary is one line of; `\|x\|` is the row length in `rmsn` |
+| `ReadableArray[\E,I\]` (1802) | `get`, `init0`, `zeroIndices`, `offset`, `toIndex` (1830–1837, abstract), `opr[r]`, `ivmap`, `map`, `shift`, `fill(f)`, `fill(v)`, `copy`, `replica` (1840–1859), `opr =` (1861) | a view object implements `get`/`put`/`init0`/`replica` and inherits everything else — the six-line view idiom of round one |
+| `Array[\E,I\]` (1886) | `put` (1888), `opr[i] :=` (1889), `opr[r] :=` (1891), `assign(f)` (1912), `freeze` | `assign` writes a whole row or plane through a view; `opr[r] :=` is ranged assignment, unused |
+| `StandardImmutableArrayType` (1972), `StandardMutableArrayType` (1987) | `fill(f)`/`fill(v)` as a parallel `for i <- zeroIndices()` of `init0` (1974–1981); `assign(v: T)` and `assign(f)` likewise of `put` (1989–1996) | `array[\RR64\](n).fill(f)` is the only constructor the vocabulary needs; `fill` and `assign` are parallel by construction |
+| `array[\E\](n)`, `(n, m)`, `(n, m, p)` (1922–1926) | runtime-sized arrays that dispatch as `Vector`/`Matrix`/`Array3` (ledger row 57) through `reflect` (1929–1934) | the reflect idiom is also how every view of ours takes a runtime shape |
+| `Array1[\T,b0,s0\]` (2093) | `shift`, `opr[r]`, `opr[:]`, `subarray` (2100–2120), `replica`, `copy`, `freeze`, `map`, `ivmap` (2127–2137) | slices are zero-copy but extend `Array1`, not `Vector` (row 54), so no algebra applies to them |
+| `Vector[\T extends Number, s0\]` (2189) | `opr +(self, v)` (2192), `opr -(self, v)` (2194), unary `-` (2196), `scale(t)` (2197), `pmul(v)` (2198), `dot(v)` (2200); `__DefaultVector` (2204) is `mem`/`get`/`put`/`init0`/`replica` | `+`, `-` between vectors and `scale` by a scalar are used as they are; `pmul` is the elementwise product `×` wraps; `dot` is `DOT` |
+| top-level on vectors (2252–2281) | `vector[]()` factories; `pmul(a, b)` (2258); `opr DOT` and `opr juxtaposition` for vector·vector, vector·scalar, scalar·vector (2261–2276); `squaredNorm`, `‖v‖` (2279–2281) | `v DOT w` in the loss and in `rmsn_b`, `s v` for a scalar times a vector (Adam) |
+| `Array2[\T,b0,s0,b1,s1\]` (2289) | `size`, `sizes`, `bounds` (2293–2295), `\|self\|` (2314), `offset`, `toIndex` (2316–2328), `opr[x,y] :=` (2329), `opr[r: Range[(ZZ32,ZZ32)]]` (2330), `opr[:]` (2338), `opr[:, j]` → `Col`, `opr[i, :]` → `Row` (2359, 2363), `shift` (2367), `subarray` (2381), `replica`, `copy` (2389–2391), `put`, `get` (2393–2394), `t()` (2395), `map`, `ivmap` (2397–2399); pair-of-ranges subscripts are commented out (2342–2356, row 56) | `sizes` in every lift; `Row`/`Col` (2473–2495) are `Array1` views, not `Vector`s, hence the vocabulary's own `Row` |
+| `Matrix[\T extends Number, s0, s1\]` (2497) | `opr +(self, v)` (2500), `opr -(self, v)` (2502), unary `-` (2504), `scale(t1)` (2505), `mul` (2506–2547, a recursive partition with a sequential inner sum), `rmul`, `lmul` (2549–2554), `t()` (2559); `__DefaultMatrix` (2563); `TransposedMatrix` (2571–2591) with `replica`, `init0`, `put`, `get`, `t`, `add`, `subtract`, `negate`, `scale`, `rmul`, `lmul` | `+`/`-` between matrices, `t()` behind `^T`, the product behind every juxtaposition of two matrices |
+| top-level on matrices (2600–2653) | `array2`, `matrix` factories (2600–2615; the diagonal factory writes an integer `0`, row 51); `opr DOT`/`juxtaposition` for matrix·matrix, matrix·vector, vector·matrix, matrix·scalar, scalar·matrix (2621–2653) | `x1 (wq^T)`, `(dL^T) x4`, `s m` |
+| `Array3[\T,…\]` (2662) | `size`, `sizes`, `bounds` (2668–2670), `\|self\|` (2700), `offset`, `toIndex` (2703–2711), `put`, `get` (2715–2716), `opr[i,j,k] :=` (2718), `opr[r]`, `opr[:]` (2719–2727), `shift`, `subarray` (2729–2745), `zeroIndices`, `replica`, `copy`, `map`, `ivmap` (2752–2763); `array3` (2814–2818); `__DefaultArray3` (2780) | storage and `map`/`ivmap` only — no algebra, no product, no transpose, no `Rank3` counterpart of `Vector`/`Matrix` |
+| `Rank1`, `Rank2`, `Rank3` (1599–1605) | mutual exclusion | the reason `Vector`, `Matrix` and `Array3` overloads of one operator coexist (rows 33, 99) |
+| scalar `RR64` (`.fsi` 196, 298, 326–327) | `MAX`, `SQRT` as operators; `log`, `exp` as functional methods | the kernels the elementwise `SQRT`, `exp`, `log` and `MAX` lift |
+
+**How the library declares its operators**, and the pattern ours follow: a top-level
+`opr` generic in the element and the shape, e.g. `opr DOT[\T extends Number, nat n\](me: Vector[\T,n\], other: T)`
+(2267), one declaration per (operator, operand-shape pair), the body one
+method call. Round two's declarations are the same shape with one change: they
+are generic in the index type `I` of `Array[\RR64,I\]` rather than in a `nat`
+per rank, so one declaration serves vectors, matrices and rank-3 arrays
+(`probes/q01_algebra`).
+
+**Absent**, and declared once in the vocabulary:
+
+| absent | where the spec or the library promises or lacks it | declared as |
+|---|---|---|
+| elementwise product and quotient of two arrays | `Vector.pmul` exists (2198), `Matrix` has none (row 109), no `÷`/`×` anywhere | `opr ×`, `opr /` on `Array[\RR64,I\]` × `Array[\RR64,I\]` |
+| array by scalar `/` | promised, opr-overview.tex:143–147 ("Division of a matrix or vector by a scalar may be expressed using /"), not shipped | `opr /` on `(Array[\RR64,I\], RR64)` |
+| scalar extension of `+`, `-`, `MAX` | none | `(Array, RR64)` and `(RR64, Array)` pairs |
+| elementwise `SQRT`, `exp`, `log` | scalar only | `opr SQRT`, `exp`, `log` on `Array[\RR64,I\]` |
+| a comparison yielding a 0/1 array | none (a scalar comparison is a `Boolean`, row 41) | `opr >` on `(Array[\RR64,I\], RR64)` |
+| `^T` | promised, opr-overview.tex:87–91; only `.t()` ships (row 35) | `opr (m)^T = m.t()`, and on a rank-3 array as a plane-transposing view |
+| a row of a matrix as a `Vector` | `Row` (2484) extends `Array1` (row 54) | `Row`, six lines, and `Row3` for a rank-3 array |
+| a lift of a vector function over rows | none | `rows(f, m)` and `rows(f, a, b)` |
+| a batched product, a per-plane transpose, a matrix added to every plane | nothing above rank 2 | `opr juxtaposition` on two `Array3`s, `^T` on an `Array3`, `opr +(Matrix, Array3)` |
+| a matrix as a view of a slice of a vector; a block of a matrix; a matrix as head planes and back | `subarray` gives strided sub-blocks that are not `Matrix`es | `PView`, `Block`, `Heads`, `Unheads` |
+| rows at keys, one-hot, validity mask, ravel, pick, flat | none | `gather`, `onehot`, `valid`, `ravel`, `pick`, `flat` |
+
+
+### Alternatives before committing
+
+Each of the three places with materially different designs was tried in at
+least two forms on a probe (`probes/q*.fss`, outputs beside them, renders in
+`probes/render/`), compared beside its formula and its Dyalog line, and only
+then written into the program.
+
+**The row lift.** Three forms in `probes/q02_rowlift.fss`, all applying a
+vector function to every row of a matrix and stacking the results:
+(a) apply to row views, collect the results in an array, stack them by a
+`fill`; (b) a parallel `for` over the rows, each result written through a row
+view of a preallocated result; (c) a list comprehension over the rows and a
+builder that stacks the list. The APL base's variant of (a), which reads the
+result's rank off the first row's result by overloading, needs the function's
+result type open — `Any` — and `Any` in a `nat`-generic signature is an
+interpreter bug (`q02d_rankbyresult.fss`, gap row 157); it was dropped, and
+the model needs no scalar-valued row function anyway. All three forms read
+the same at the call, `xp = rows(rmsn, x)`, so the choice was made on cost
+and on what four threads do: (b) is the cheapest at one thread and at four in
+`probes/q03e_heads_rowsb.fss` against `q03_heads.fss`'s (a) (12.6 s against
+13.6 s at one thread, 4.9 s against 5.4 s at four, on the attention block),
+because it allocates the result uninitialised and writes each row once where
+(a) fills a second array from the collected rows; (c) collects into a list
+and pays the same second pass. (b) is shipped, monadic and dyadic, over a
+matrix and over a rank-3 array. What made any of them possible is the row
+view: a six-line object extending `Vector[\RR64,c\]` that reads and writes
+through the matrix, so `rmsn`, `sm`, `rmsn_b`, `sm_b` are written once on a
+vector, with no subscript, and lifted. Rejected on the way: passing the
+vector functions as `nat`-generic values, which crashes the interpreter (gap
+row 156) — they are written over runtime-sized arrays instead, which also
+removes every static parameter from the model.
+
+**The elementwise algebra.** (i) operators declared on the library's own
+arrays, one declaration per operator generic in the index type `I` of
+`Array[\RR64,I\]` (`probes/q01_algebra.fss`), against (ii) a thin wrapper
+type carrying the algebra as functional methods (`q01b_wrapper.fss`). Both
+work; both render the Adam update and the softmax as the formula
+(`probes/render/r01_lines.png`, `r02_names.png`). (i) costs thirteen one-line
+declarations for `+ - × / MAX > SQRT exp log` on vectors, matrices and
+rank-3 arrays together; (ii) costs the same declarations and, beyond them,
+one method per library operation the wrapper hides (`DOT`, the product,
+`.t()`, `|x|`, `SUM` over the elements, subscripting), and every value in the
+model would have to be wrapped and unwrapped at the views. (i) is shipped.
+A third form, the APL base's per-rank spelling (one declaration per operator
+per rank), was read and not tried: (i) subsumes it with a third of the lines
+(gap row 162). Two things (i) could not do: a row-scaling `×` on
+(vector, matrix) beside the generic `×` is rejected at declaration (gap
+row 159) — the model spells it `diag(v) m`, which is the formula's spelling
+anyway; and the postfix `^T` cannot be exported through an API (row 133), so
+the two `^T` declarations live in the model over the vocabulary's
+`transpose`.
+
+**The attention block.** (A) the per-head cells as values — a rank-3 view
+over the (doc·pos × heads·dim) activation, `+.×⍤2` as one `opr
+juxtaposition` over two rank-3 arrays, `⍉⍤2` as a plane-transposing view,
+`MK+⍤2` as one `opr +`, `sm⍤1` as the row lift over planes — against (B)
+round one's loop over (doc, head) with block views, both in
+`probes/q03_heads.fss` and its variants, compared to the last digit (every
+difference 0.0) and timed on the model's shape. The judge was how close
+`A←sm⍤1⊢MK+⍤2⊢(Qh+.×⍤2⊢⍉⍤2⊢Kh)÷HD*0.5` gets to one line: (A) is
+`a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))`, one line, and the
+Dyalog's four attention lines are six Fortress lines in one-to-one
+correspondence with no loop and no `assignInto`; (B) is two loops of five
+statements. Nothing is copied in (A) beyond what the Dyalog copies: `h` and
+`u` are views (the Dyalog's reshape copies), the products allocate their
+results. The price is measured in gap row 165: (A) costs 1.4× (B) at one
+thread and 1.6× at four on the attention block, because every read of a
+product goes through one more view level and a rank-3 `fill` costs more per
+element than a rank-2 one. Four variants of (A) were timed to make sure the
+price was the form's and not the spelling's: the batched product as a fill of
+sums (`q03b`, slower), `h`/`u` as copies (`q03c`, the same), both (`q03d`,
+slower), and the row lift in form (b) (`q03e`, 7% faster, shipped). (A) is
+shipped, at about 1.1× on a whole step.
+
+### The line budget
+
+Code lines, blank and comment-only lines excluded (a line with code and a
+trailing comment counts):
+
+| component | round one | round two |
+|---|---|---|
+| `MicroGptFlat.fss` (the model) | 273 (with the loaders and the vocabulary inside) | 82 |
+| `FlatArrays.fss` (the vocabulary) | — | 163 |
+| `FlatData.fss` (the loaders) | — | 101 |
+| `MicroGptFlatCheck.fss` | 151 | 87 |
+| total | 424 | 433 |
+
+The model was targeted at twice the Dyalog's 25 lines and is 82, of which the
+step is 30 against the Dyalog's 16 and the rest 52 against 9. What stops the
+rest shrinking, by line:
+
+- the two `^T` declarations: an API cannot declare a postfix operator (ledger
+  row 133, gap row 166), so they cannot live in the vocabulary;
+- `matName`, 3 lines: the Dyalog reads files by index (`⎕NREAD ⍵`); the
+  names are the honest price of a real loader;
+- `matShape`, 2 lines, instead of the Dyalog's one-line `SHP`: a typed array
+  literal at top level binds a tuple (row 142), so the shapes are a function;
+- `loadParams`, 4 lines: a comprehension over the nine reads is row 96
+  (`probes/q05b_listofmats.fss`), so the nine calls are spelled out;
+- `rmsn_b`, 5 lines against the dfn's one: a `do` block with the dfn's three
+  statements on their own lines; it could be one line and renders better as
+  five (the brief's own advice);
+- `corpus()` and `nDocs()`, 2 lines: accessors for the check and the driver,
+  where the Dyalog reads globals;
+- `adam`, 7 lines against 1: a two-line signature (three vectors in, three
+  out), three body lines, the result, `end`; the Dyalog mutates globals;
+- `run`, 12 lines against the driver's 1: three state variables, the loop,
+  and the prints and timing the demo owes its reader;
+- the four vector functions carry their `Array[\RR64,ZZ32\]` types, which
+  the Dyalog's dfns do not: two are one-liners regardless.
+
+Subscripts in the model (`[i]`, `[i,j]`, or any `[...]` that is not a static
+argument or a generator clause): **0**, counted by
+`grep -n "\[" src/MicroGptFlat.fss | grep -v "\[\\\\" | grep -v "SUM\[\|MAX\["`.
+The layout table and the head loops, where the brief allowed subscripts, need
+none: the layout is functions of the index and the head loops are gone.
+
+### What the language gave, what had to be built this time
+
+Given by the library, used unchanged: everything round one listed, and in
+addition the prefix reduction `SUM v` over a vector (gap row 160), varargs
+functions over runtime-typed matrices (row 161), top-level tuple bindings of
+the hyperparameters (row 163), `fail` as a non-zero exit (row 164),
+`map`/`ivmap` on every rank as the two skeletons of the algebra, `assign` on
+a view as the row write of the lift, `Array3` as the storage the rank-3 views
+sit on, and `Rank1`/`Rank2`/`Rank3`'s mutual exclusion as the reason the
+vocabulary's overloads coexist.
+
+Built in the vocabulary (163 lines, 14 `opr`, 10 view objects, the rest
+functions): thirteen elementwise operators generic in the index type; `Diag`
+and its product; `transpose` for both ranks; `PView`, `Block` (now generic in
+the element type, so the corpus matrix takes it), `RowView`, `Row3View`,
+`Ravel`, `HeadsView`, `UnheadsView`, `PlaneView`, `Transposed3`; the batched
+product and the plane-wise sum; the row lift in four overloads; `gather` for
+matrices and vectors, `onehot`, `valid`, `pick`, `flat`. Built in the loaders
+(101 lines): round one's parser, one tokenizer instead of three, `readLines`,
+`readVector`, `readMatrix`, `loadCorpus`. Built in the model: nothing but the
+model and the two `^T` lines.
+
+### Numerics and cost
+
+The check's measured differences are round one's to the last digit — gradient
+1.1e-16, parameters after Adam 8.3e-17, the five losses 4.4e-16 then exactly
+0, batch 4 exactly 0 against the golden and against the length-weighted mean
+(now weighted by the goldens' own lengths, and with the four golden
+single-document losses compared, two things the review found missing), worst
+finite differences 3.1e-10 and 3.7e-10 — though the summation orders differ
+(`SUM[t <- x] t^2` and `x DOT dy` are the library's parallel reductions where
+round one wrote index sums). Both thread counts agree with each other to the
+last digit, as in round one.
+
+Cost on this host: a batch-1 step is 5.4–5.8 s at one thread against round
+one's 4.15 s on the reviewer's host of the same speed (row 154 puts the two
+hosts at 1.8× apart), a batch-4 step 19 s; the check took 610 s at one
+thread and CHECK4 s at four, against round one's 855 and 353 on the slower
+host and 451 and 226 on the reviewer's. The difference is the attention form
+(gap row 165) and the lifts' row views; no speed work was done.
+
+### Blinding
+
+Nothing on the brief's excluded list was opened. Two things are recorded:
+
+- Before the brief was read, the pull step ran `git log --oneline -8`. Its
+  eight subject lines were this branch's: the round-two brief and its
+  preparation (three subjects that paraphrase the brief), the Phase 1 review
+  commit, the ledger merge, a "review probes in progress" marker, and one
+  subject from the excluded `process-records/` family: "Process record 09:
+  Run C (native arrays, Hsu layout) — 12 episodes, 18 dead ends, tokens and
+  wall time from the transcript". Nothing in it was used, and nothing else
+  of history was read.
+- `CLAUDE.md`, the ledger and the Phase 1 review cite excluded paths
+  (`microgpt-port.md`, `compiled-path-gaps.md`, `run-b/probes/…`,
+  `run-c-review-probes/`); none was followed. `explorations/apl/base/AplCore.fss`
+  and `.fsi` were read for the technique, as allowed, and not imported.

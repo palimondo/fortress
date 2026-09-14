@@ -1,0 +1,119 @@
+(* FlatData -- the loaders of Run C: a float parser (the library's strToFloat
+   mishandles a sign and overflows on a long mantissa, ledger row 140), a
+   whitespace tokenizer (String.split is a rope subdivision, row 141), text
+   files as lines, vectors and matrices, and the corpus as one padded integer
+   matrix with a length per document.  The check and the model share these. *)
+component FlatData
+export FlatData
+import File.{...}
+
+(* decimal digits, an optional '.', an optional e/E exponent; a leading '-' or '¯'.
+   Digits accumulate in an RR64 mantissa, so a 17-digit mantissa is within one
+   or two units in the last place of a correctly rounded parse, not exact. *)
+parseFloat(s: String): RR64 = do
+    neg = (s[0] = '-') OR (s[0] = '¯')
+    m: RR64 := 0.0
+    scale: ZZ32 := 0
+    ex: ZZ32 := 0
+    i: ZZ32 := if neg then 1 else 0 end
+    seenPoint: Boolean := false
+    n = |s|
+    while (i < n) AND: ((s[i] =/= 'e') AND (s[i] =/= 'E')) do
+        c = s[i]
+        if c = '.' then seenPoint := true
+        else
+            m := 10.0 m + (c.codePoint - '0'.codePoint)
+            if seenPoint then scale += 1 end
+        end
+        i += 1
+    end
+    if i < n then
+        eneg = (s[i+1] = '-') OR (s[i+1] = '¯')
+        j = if eneg OR (s[i+1] = '+') then i + 2 else i + 1 end
+        ex := strToInt(s[j # (n - j)])
+        if eneg then ex := -ex end
+    end
+    e10 = ex - scale
+    r = if e10 >= 0 then m (10.0^e10)
+        elif e10 >= -22 then m / (10.0^(-e10))
+        else (m / (10.0^22)) / (10.0^(-e10 - 22)) end
+    if neg then -r else r end
+  end
+
+(* the space-separated numbers of a line: one pass to count, one to parse *)
+numbersOf(line: String): Array[\RR64,ZZ32\] = do
+    n = |line|
+    cnt: ZZ32 := 0
+    i: ZZ32 := 0
+    while i < n do
+        if line[i] = ' ' then i += 1
+        else
+            cnt += 1
+            while (i < n) AND: (line[i] =/= ' ') do i += 1 end
+        end
+    end
+    out = array[\RR64\](cnt).fill(0.0)
+    k: ZZ32 := 0
+    i := 0
+    while i < n do
+        if line[i] = ' ' then i += 1
+        else
+            j: ZZ32 := i
+            while (j < n) AND: (line[j] =/= ' ') do j += 1 end
+            out[k] := parseFloat(line[i # (j - i)])
+            k += 1
+            i := j
+        end
+    end
+    out
+  end
+
+(* the non-empty lines of a text file: one pass to count, one to read *)
+readLines(path: String): Array[\String,ZZ32\] = do
+    f = FileReadStream(path)
+    cnt: ZZ32 := 0
+    line: String := f.readLine()
+    while |line| > 0 do cnt += 1; line := f.readLine() end
+    f.close()
+    g = FileReadStream(path)
+    out = array[\String\](cnt).fill("")
+    for i <- seq(0#cnt) do out[i] := g.readLine() end
+    g.close()
+    out
+  end
+(* one number per line *)
+readVector(path: String, n: ZZ32): Array[\RR64,ZZ32\] = do
+    f = FileReadStream(path)
+    v = array[\RR64\](n).fill(0.0)
+    for i <- seq(0#n) do v[i] := parseFloat(f.readLine()) end
+    f.close()
+    v
+  end
+(* one row per line, the numbers space-separated *)
+readMatrix(path: String, rows: ZZ32, cols: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do
+    f = FileReadStream(path)
+    m = array[\RR64\](rows, cols).fill(0.0)
+    for i <- seq(0#rows) do
+        nums = numbersOf(f.readLine())
+        if |nums| =/= cols then fail("row " i " of " path " has " (|nums|) " numbers, expected " cols) end
+        for j <- 0#cols do m[i, j] := nums[j] end
+    end
+    f.close()
+    m
+  end
+
+(* the corpus as one integer matrix (documents x width): pad, the characters
+   as 0..25, pad in every unused slot; and 1 + the name's length per document *)
+loadCorpus(path: String, width: ZZ32, pad: ZZ32): (Array[\ZZ32,(ZZ32,ZZ32)\], Array[\ZZ32,ZZ32\]) = do
+    names = readLines(path)
+    nd = |names|
+    tokm = array[\ZZ32\](nd, width).fill(pad)
+    len = array[\ZZ32\](nd).fill(0)
+    for d <- 0#nd do
+        name = names[d]
+        for j <- seq(0#|name|) do tokm[d, 1 + j] := name[j].codePoint - 'a'.codePoint end
+        len[d] := 1 + |name|
+    end
+    (tokm, len)
+  end
+end

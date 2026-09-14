@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+\begin{tabular}{l}
+1 `epsilon epsilon_A eps_A epsA m_hat mhat m_bar mask mk causalMask rmsnB smB rmsn_b x_p xp dXp` \\[4pt]
+2 `p' = p - (lr (m' / (1 - beta1^t))) / (SQRT (v' / (1 - beta2^t)) + epsA)` \\[4pt]
+3 `a = rows(sm, mask + (qh (kh^T)) / SQRT (1.0 headDim)); hc = u(a vh)` \\[4pt]
+4 `for d <- 0#bsz, h <- 0#nHead do ah = headCell(att, d, h); assignInto(ah, rows(sm, (qh (kh^T)) / SQRT (1.0 headDim) + mask)); assignInto(head(hc, d, h), ah vh) end` \\[4pt]
+5 `rows(f, m) = do (n, d) = m.sizes; rs = array[\Any\](n).fill(fn (i: ZZ32): Any => f(row(m, i))); mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => nth(rs[i], j)) end` \\[4pt]
+6 `rows(f, m) = do (n, d) = m.sizes; out = zerosM(n, d); for i <- 0#n do row(out, i).assign(f(row(m, i))) end; out end` \\[4pt]
+7 `rows(f, m) = do (n, d) = m.sizes; rs = <|[\Any\] f(row(m, i)) | i <- 0#n |>; stackL(rs[0], rs) end` \\[4pt]
+8 `v' = beta2 v + (1 - beta2) (g × g)` \\[4pt]
+9 `v' = beta2 v + (1 - beta2) g.pmul(g)` \\[4pt]
+10 `gWTE = transpose(onehot(ids, vocabSize)) dX`
+\end{tabular}
+\end{preview}
+\end{document}

@@ -1,0 +1,53 @@
+(* q01_algebra: the elementwise algebra as top-level opr on the library's own
+   arrays -- one declaration per operator, generic in the index type I, so a
+   Vector (I = ZZ32) and a Matrix (I = (ZZ32,ZZ32)) share it.  Form (i) of the
+   round-two comparison; q01b_wrapper is form (ii). *)
+component q01_algebra
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+
+(* scalar extension of + and - *)
+opr +[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e + s)
+opr +[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s + e)
+opr -[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e - s)
+opr -[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s - e)
+(* elementwise product and quotient; a scalar times an array is the library's juxtaposition *)
+opr ×[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\] = a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e b[i])
+opr /[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\] = a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e / b[i])
+opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e / s)
+opr MAX[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s MAX e)
+opr MAX[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e MAX s)
+(* a comparison on an array yields a 0/1 array *)
+opr >[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => if e > s then 1.0 else 0.0 end)
+opr SQRT[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => SQRT e)
+exp[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => exp(e))
+log[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => log(e))
+
+run(): () = do
+    v = vec(4, fn (i: ZZ32): RR64 => 1.0 i)
+    w = vec(4, fn (i: ZZ32): RR64 => 2.0)
+    m = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    println "(1) v + 1.0 = " (v + 1.0)
+    println "(2) 1.0 - v = " (1.0 - v)
+    println "(3) m + 1.0 = " (m + 1.0)
+    println "(4) v × w = " (v × w)
+    println "(5) m × m = " (m × m)
+    println "(6) v / w = " (v / w)
+    println "(7) m / 2.0 = " (m / 2.0)
+    println "(8) 0.0 MAX (m - 2.0) = " (0.0 MAX (m - 2.0))
+    println "(9) m > 2.0 = " (m > 2.0)
+    println "(10) SQRT v = " (SQRT v)
+    println "(11) exp(v) = " (exp(v)) "  exp(1.0) = " (exp(1.0))
+    println "(12) log(w) = " (log(w)) "  log(2.0) = " (log(2.0))
+    println "(13) library unchanged: v + w = " (v + w) "  2.0 v = " (2.0 v) "  m + m = " (m + m) "  v DOT w = " (v DOT w)
+    println "(14) results still dispatch as vectors and matrices: (v + 1.0) DOT w = " ((v + 1.0) DOT w) "  (m + 1.0) DOT (m.t()) = " ((m + 1.0) DOT (m.t()))
+    lr = 0.1
+    eps = 10.0^(-8)
+    p' = v - (lr (v / 0.5)) / (SQRT (w / 2.0) + eps)
+    println "(15) adam-shaped p - (lr mhat) / (SQRT vhat + eps) = " p'
+    println "(16) relu gate (m × m) × (m > 2.0) = " ((m × m) × (m > 2.0))
+    println "(17) x / SQRT (eps + (SUM[t <- v] t^2) / (|v|)) = " (v / SQRT (eps + (SUM[t <- v] t^2) / (|v|)))
+  end
+end

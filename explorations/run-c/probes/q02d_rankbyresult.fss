@@ -1,0 +1,34 @@
+(* q02d_rankbyresult: the APL base's rank-by-first-result lift needs the row
+   function's result type open (Any); can an arrow parameter with result Any
+   accept a function whose declared result is an array, and a scalar one? *)
+component q02d_rankbyresult
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e / s)
+object Row[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, x: RR64): () = base.put((i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+row[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Array[\RR64,ZZ32\] = Row[\r,c\](m, i)
+nth[\nat s\](v: Vector[\RR64,s\], j: ZZ32): RR64 = v[j]
+stack(r0: RR64, rs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\] = vec(|rs|, fn (i: ZZ32): RR64 => rs[i])
+stack[\nat s\](r0: Vector[\RR64,s\], rs: Array[\Any,ZZ32\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|rs|, |r0|, fn (i: ZZ32, j: ZZ32): RR64 => nth(rs[i], j))
+rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Any, m: Matrix[\RR64,r,c\]): Any = do
+    (n, d) = m.sizes
+    rs = array[\Any\](n).fill(fn (i: ZZ32): Any => f(row(m, i)))
+    stack(rs[0], rs)
+  end
+half(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / 2.0
+total(x: Array[\RR64,ZZ32\]): RR64 = SUM[t <- x] t
+
+run(): () = do
+    x = mat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i + j))
+    println "(1) a scalar-valued row function gives a vector: " (rows(total, x))
+    println "(2) a vector-valued row function gives a matrix: " (rows(half, x))
+  end
+end

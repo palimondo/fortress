@@ -1,0 +1,65 @@
+(* q04c_gather: the key vocabulary generic in the element type, so the same
+   gather serves the RR64 weight views and the ZZ32 corpus matrix: gather of
+   rows, a block of columns as a view, its ravel as a vector view, the one-hot
+   and the validity mask from integer keys. *)
+component q04c_gather
+export Executable
+import NatReflect.{...}
+
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+
+gather[\T extends Number, nat r, nat c, nat k\](m: Matrix[\T,r,c\], ks: Vector[\ZZ32,k\]): Array[\T,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    array[\T\](|ks|, cols).fill(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])
+  end
+gather[\T extends Number, nat s, nat k\](v: Vector[\T,s\], ks: Vector[\ZZ32,k\]): Array[\T,ZZ32\] =
+    array[\T\](|ks|).fill(fn (i: ZZ32): T => v[ks[i]])
+
+object Block[\T extends Number, nat br, nat bc, nat r, nat c\](base: Matrix[\T,br,bc\], r0: ZZ32, c0: ZZ32)
+        extends Matrix[\T,r,c\]
+    get(ij:(ZZ32,ZZ32)): T = do (i,j) = ij; base.get(r0 + i, c0 + j) end
+    put(ij:(ZZ32,ZZ32), x: T): () = do (i,j) = ij; base.put((r0 + i, c0 + j), x) end
+    init0(ij:(ZZ32,ZZ32), x: T): () = do (i,j) = ij; base.init0((r0 + i, c0 + j), x) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+blockOf[\T extends Number, nat br, nat bc, nat r, nat c\](base: Matrix[\T,br,bc\], r0: ZZ32, c0: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\T,r,c\] =
+    Block[\T,br,bc,r,c\](base, r0, c0)
+block[\T extends Number, nat br, nat bc\](base: Matrix[\T,br,bc\], r0: ZZ32, c0: ZZ32, rows: ZZ32, cols: ZZ32): Array[\T,(ZZ32,ZZ32)\] =
+    blockOf(base, r0, c0, reflect(rows), reflect(cols))
+
+(* row-major ravel of a matrix as a vector view *)
+object Ravel[\T extends Number, nat r, nat c\](base: Matrix[\T,r,c\]) extends Vector[\T, r c\]
+    get(k: ZZ32): T = base.get(k DIV c, k MOD c)
+    put(k: ZZ32, x: T): () = base.put((k DIV c, k MOD c), x)
+    init0(k: ZZ32, x: T): () = base.init0((k DIV c, k MOD c), x)
+    replica[\U\](): Array1[\U,0,r c\] = array1[\U,r c\]()
+end
+ravel[\T extends Number, nat r, nat c\](m: Matrix[\T,r,c\]): Array[\T,ZZ32\] = Ravel[\T,r,c\](m)
+
+onehot[\nat k\](ks: Vector[\ZZ32,k\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|ks|, width, fn (i: ZZ32, j: ZZ32): RR64 => if ks[i] = j then 1.0 else 0.0 end)
+valid[\nat k\](lens: Vector[\ZZ32,k\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|lens|, width, fn (i: ZZ32, j: ZZ32): RR64 => if j < lens[i] then 1.0 else 0.0 end)
+
+run(): () = do
+    tokm = array[\ZZ32\](4, 5).fill(fn (d: ZZ32, j: ZZ32): ZZ32 => 10 d + j)
+    lens = array[\ZZ32\](4).fill(fn (d: ZZ32): ZZ32 => d + 1)
+    b = array[\ZZ32\](2).fill(fn (i: ZZ32): ZZ32 => 3 - 2 i)
+    r = gather(tokm, b)
+    println "(1) gather(tokm, b) = " r
+    ids = ravel(block(r, 0, 0, 2, 4))
+    tg = ravel(block(r, 0, 1, 2, 4))
+    println "(2) ids = " ids "  |ids| = " (|ids|)
+    println "(3) tg = " tg
+    println "(4) gather(lens, b) = " (gather(lens, b))
+    vm = ravel(valid(gather(lens, b), 4))
+    println "(5) vm = " vm "  SUM = " (SUM[t <- vm] t)
+    w = mat(5, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j))
+    keys = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => 4 - i)
+    println "(6) gather(w, keys) = " (gather(w, keys))
+    oh = onehot(keys, 5)
+    println "(7) onehot(keys, 5) = " oh
+    println "(8) (oh.t()) DOT gather(w, keys) = " ((oh.t()) DOT (gather(w, keys)))
+    println "(9) ravel(w) DOT ravel(w) = " ((ravel(w)) DOT (ravel(w)))
+  end
+end

@@ -1,0 +1,21 @@
+(* q05_genericpair: two declarations of one operator that are both generic --
+   one in the index type I of Array[\RR64,I\], one in nats over Vector and
+   Matrix -- rejected at declaration although the second is more specific in
+   both positions.  Met in FlatArrays.fss when a row-scaling × was added
+   beside the elementwise ×. *)
+component q05_genericpair
+export Executable
+
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+opr ×[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\] = a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e b[i])
+opr ×[\nat s, nat r, nat c\](v: Vector[\RR64,s\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    m.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), e: RR64): RR64 => do (i, j) = ij; v[i] e end)
+
+run(): () = do
+    v = vec(2, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    m = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    println "v × v = " (v × v)
+    println "v × m = " (v × m)
+  end
+end

@@ -1,0 +1,31 @@
+(* q02b_arrow: can the lift's function parameter carry an arrow type, and can
+   an overloaded nat-generic function (rmsn) be passed as that argument? *)
+component q02b_arrow
+export Executable
+
+epsRms: RR64 = 10.0^(-5)
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e / s)
+object Row[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, x: RR64): () = base.put((i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+row[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Array[\RR64,ZZ32\] = Row[\r,c\](m, i)
+nth[\nat s\](v: Vector[\RR64,s\], j: ZZ32): RR64 = v[j]
+rmsn[\nat s\](x: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = x / SQRT (epsRms + (SUM[t <- x] t^2) / (|x|))
+
+rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = m.sizes
+    rs = array[\Any\](n).fill(fn (i: ZZ32): Any => f(row(m, i)))
+    mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => nth(rs[i], j))
+  end
+
+run(): () = do
+    x = mat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i + j) - 1.5)
+    println "(1) via a fn wrapper: " (rows(fn (r: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] => rmsn(r), x))
+    println "(2) the generic function itself: " (rows(rmsn, x))
+  end
+end

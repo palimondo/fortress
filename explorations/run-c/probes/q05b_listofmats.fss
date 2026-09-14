@@ -1,0 +1,14 @@
+(* q05b_listofmats: a list comprehension of matrices of different shapes with
+   the element type ascribed (ledger row 96 met again: the ascription does not
+   help).  Met in MicroGptFlat.fss's first loadParams. *)
+component q05b_listofmats
+export Executable
+import List.{...}
+
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+
+run(): () = do
+    ms = <|[\Array[\RR64,(ZZ32,ZZ32)\]\] mat(i + 1, 2, fn (r: ZZ32, c: ZZ32): RR64 => 1.0 (r + c)) | i <- 0#3 |>
+    println "|ms| = " (|ms|) "  total elements " (SUM[m <- ms] |m|)
+  end
+end
