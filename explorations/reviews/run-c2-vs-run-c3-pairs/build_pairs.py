@@ -185,7 +185,8 @@ h1{font-size:26px;margin:0 0 6px;letter-spacing:-.01em}
 h2{font-size:17px;margin:0 0 10px;font-weight:600;letter-spacing:-.005em}
 h2 .num{display:inline-block;min-width:1.6em;color:var(--accent);font-variant-numeric:tabular-nums}
 section{border-top:1px solid var(--rule);padding:24px 0 6px}
-table.map{border-collapse:collapse;width:100%;margin:0 0 30px;font-size:13.5px}
+.scroller{overflow-x:auto;margin:0 0 30px}
+table.map{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
 table.map th,table.map td{border-bottom:1px solid var(--rule);padding:6px 10px;text-align:left}
 table.map th{color:var(--muted);font-weight:600;white-space:nowrap}
 table.map td:nth-child(1),table.map td:nth-child(3),table.map td:nth-child(4),
@@ -199,16 +200,16 @@ table.map a{color:var(--accent);text-decoration:none}
   overflow-wrap:anywhere;margin:-2px 0 8px}
 .dy2 span{font-family:inherit;font-style:italic}
 .note{color:var(--muted);font-size:13px;margin:0 0 12px;max-width:80ch}
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-.panel{border:1px solid var(--rule);border-radius:7px;overflow:hidden;background:var(--card)}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.panel{min-width:0;border:1px solid var(--rule);border-radius:7px;overflow:hidden;background:var(--card)}
 .plabel{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
   padding:7px 12px;border-bottom:1px solid var(--rule)}
-.art{background:#ffffff;color:#000;padding:14px 14px 16px}
+.art{background:#ffffff;color:#000;padding:14px 14px 16px;overflow-x:auto}
 .art .f{padding-bottom:10px;margin-bottom:10px;border-bottom:1px dashed #d8d3cc}
 .art svg{display:block;max-width:100%;height:auto}
 .art svg .fml{opacity:.92}
 .cap{font-size:12px;color:var(--muted);padding:7px 12px;border-top:1px solid var(--rule)}
-@media (max-width:820px){ .pair{grid-template-columns:1fr} .wrap{padding:20px 14px 60px} }
+@media (max-width:820px){ .pair{grid-template-columns:minmax(0,1fr)} .wrap{padding:20px 14px 60px} }
 """
 
 doc = """<!DOCTYPE html>
@@ -222,8 +223,8 @@ above the Fortress line or lines set by Fortify (large). Left is round two
 (<code>explorations/run-c</code>), right round three (<code>explorations/run-c3</code>).
 Rows are matched by their Dyalog line, not by row number &mdash; the two tours cut the
 program differently.</p>
-<table class="map"><thead><tr><th>#</th><th>Dyalog line</th><th>C2</th><th>C3</th>
-<th>C2 lines</th><th>C3 lines</th></tr></thead><tbody>%s</tbody></table>
+<div class="scroller"><table class="map"><thead><tr><th>#</th><th>Dyalog line</th><th>C2</th><th>C3</th>
+<th>C2 lines</th><th>C3 lines</th></tr></thead><tbody>%s</tbody></table></div>
 %s
 </div></body></html>
 """ % (CSS, "\n".join(table_rows), "\n".join(rows_html))
