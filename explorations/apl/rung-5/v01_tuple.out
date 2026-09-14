@@ -1,0 +1,16 @@
+(a) tuple parameter, destructured in the body:
+  named+destructured: 1 | 0 1 2 | 0 1
+2 3
+(c) dispatch on tuple arity:
+  arity((1,2))   = arity 2
+  arity((1,2,3)) = arity 3
+(c) a tuple RESULT type:
+  showT(mk3(5)) = 5
+6
+7
+(b)/each over a tuple, operand a zero-parameter lambda:
+  eachT(sq, (2, v, m)) =
+4
+0 1 4
+0 1
+4 9

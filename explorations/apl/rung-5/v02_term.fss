@@ -1,0 +1,17 @@
+(* v02: the five new terminals of rungs 5 and 6 -- ¨ \ ⍀ ⍣ . -- and which of
+   them need the backtick escape.  See V02Syn.fsi. *)
+component v02_term
+import AplCore.{...}
+import V02Syn.{...}
+export Executable
+
+run(): () = do
+    println(("(a) each dyadic,  2 ×¨ 3      = " v02⦇ 2 ׸ 3 ⦈))
+    println(("(b) each monadic, ÷¨ 4        = " v02⦇ ÷¨ 4 ⦈))
+    println(("(d) escaped \\ ,   ⌈\\ 1 5 3    = " v02⦇ ⌈\ 1 5 3 ⦈))
+    println(("(e) ⍀ ,           ×⍀ 2 3      = " v02⦇ ×⍀ 2 3 ⦈))
+    println(("(f) ⍣ ,           ÷⍣2⊢4       = " v02⦇ ÷⍣2⊢4 ⦈))
+    println(("(g) bare . ,      2∘.×3       = " v02⦇ 2∘.×3 ⦈))
+    println(("(h) escaped . ,   2∘.⌈3       = " v02⦇ 2∘.⌈3 ⦈))
+  end
+end

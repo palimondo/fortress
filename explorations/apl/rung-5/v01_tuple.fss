@@ -1,0 +1,61 @@
+(* v01: a STRAND OF ARRAYS as a Fortress tuple (rung-5/DESIGN.md, "Strands of
+   arrays are tuples").  The design leaves three things open and marks them
+   "probe which the interpreter accepts and record it":
+
+     (a) can a library function take a tuple parameter at all, and can it be
+         written as a PATTERN in the parameter list -- `f(g, (a, b, c))`?
+     (b) can it be destructured inside the body -- `(a, b, c) = t`?
+     (c) does an overload family dispatch on tuple ARITY: a two-element and a
+         three-element member side by side?  And does a tuple RESULT type
+         dispatch, or is it row 67's `Any` all over again?
+
+   Everything here is declared LOCALLY, so the probe costs one run and no
+   library edit. *)
+component v01_tuple
+import AplCore.{...}
+export Executable
+
+(* (a) a tuple parameter, named *)
+t3named(t: (Any, Any, Any)): String = do
+    (a, b, c) = t
+    ("named+destructured: " aplShow(a) " | " aplShow(b) " | " aplShow(c))
+  end
+
+(* (a) the same as a PATTERN in the parameter list -- a Syntax Error at the
+   opening parenthesis of the pattern (v01_tuple.out.0, `v01_tuple.fss:25:24:
+   Syntax Error`), so the destructuring has to happen in the body. *)
+
+(* (c) overloading on tuple arity *)
+arity(t: (Any, Any)): String = "arity 2"
+arity(t: (Any, Any, Any)): String = "arity 3"
+
+(* (c) a tuple RESULT type *)
+mk3(x: RR64): (Any, Any, Any) = (x, x + 1.0, x + 2.0)
+
+(* the each itself, over a tuple of three *)
+eachT(f: Any, t: (Any, Any, Any)): (Any, Any, Any) = do
+    (a, b, c) = t
+    (aplCall1(f, a), aplCall1(f, b), aplCall1(f, c))
+  end
+
+(* and the display of a tuple result *)
+showT(t: (Any, Any, Any)): String = do
+    (a, b, c) = t
+    ((aplShow(a) // aplShow(b)) // aplShow(c))
+  end
+
+run(): () = do
+    v = aplVec(3, fn (i: ZZ32): RR64 => 1.0 i)
+    m = aplMat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    println("(a) tuple parameter, destructured in the body:")
+    println(("  " t3named((1.0, v, m))))
+    println("(c) dispatch on tuple arity:")
+    println(("  arity((1,2))   = " arity((1.0, 2.0))))
+    println(("  arity((1,2,3)) = " arity((1.0, 2.0, 3.0))))
+    println("(c) a tuple RESULT type:")
+    println(("  showT(mk3(5)) = " showT(mk3(5.0))))
+    println("(b)/each over a tuple, operand a zero-parameter lambda:")
+    sq = fn (): Any => aplOmega() × aplOmega()
+    println(("  eachT(sq, (2, v, m)) =" // showT(eachT(sq, (2.0, v, m)))))
+  end
+end
