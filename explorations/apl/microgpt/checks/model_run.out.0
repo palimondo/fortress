@@ -1,0 +1,11 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress16998132070178005546rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress16998132070178005546rats/com/sun/fortress/parser/templateparser/TemplateParser456.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/apl/microgpt/MicroGptApl.fss:53:6-8:
+    Variable rows is already declared.
+
+real	0m14.998s
+user	0m27.949s
+sys	0m1.250s
