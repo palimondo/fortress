@@ -12,9 +12,11 @@ found wrong in the source tables. Companion to the ledger's own closing section
 - **Run C4** (`explorations/run-c4/gaps.md`, four rows numbered 175-178 as
   candidates): entered as **175-178**, the numbers unchanged. Row 175 into the
   ledger's section 1, 176 and 177 into section 3, 178 into section 13.
-- **The APL side quest** (`explorations/apl/gaps.md`, 85 rows over six rungs):
+- **The APL side quest** (`explorations/apl/gaps.md`, rows 1-85, six rungs):
   **78 entered as 179-256**, **7 folded** into existing ledger rows. The map is
-  at the top of `apl/gaps.md`.
+  at the top of `apl/gaps.md`. That file grew while this merge ran: its rows 86
+  on are the microGPT rung's and are **not** merged here; the ledger's numbering
+  is left ready to continue at **257**.
 
 The folds, each because the APL row is the same claim as a row the ledger
 already had, with its evidence added to that row's notes:
@@ -226,3 +228,80 @@ header comment, the counts and the closing section), `gap-cross-run.md` (the
 `apl/gaps.md` and of `run-c4/gaps.md` giving the map to the ledger's numbers.
 Nothing outside `explorations/` was touched, and neither `apl/base/` nor
 `apl/microgpt/`.
+
+## Note on the three output files in this directory
+
+`*.out` is gitignored at the repository root (`.gitignore:46`); the probe
+outputs under `explorations/apl/` are tracked because they were force-added, and
+no earlier merge kept an `.out` in `gap-ledger-probes/` at all — their outputs
+live in `transcript.txt`. The three files this merge wrote here
+(`a01_any_result.out`, `p12a_oprword.rerun.out`, `q10_canary.rerun.out`) need
+`git add -f` to be committed. Their contents are reproduced below so that
+nothing is lost if they are not.
+
+### `a01_any_result.out`
+
+```
+(a) the same two members with an Object result:
+  objres(f, v) = 1.5   objres(f, m) = 2.5
+(b) the two members with an Any result:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:25:34-44:
+Failed to find any matching overload, args = (FnExpr at /home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:21.9 ()->Any /home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:21:9-26:4,__DefaultVector[\RR64,2\]), overload = {
+	anyres[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):Any/home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:12:1-59
+	anyres[\nat r,nat c\](f:()->Any,m:Matrix[\FortressLibrary.RR64,r,c\]):Any/home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:13:1-69}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:25:34-44:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+```
+
+### `p12a_oprword.rerun.out`
+
+```
+nonterminal WE:              Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal AB:              Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal ABC:             Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal AA:              Ok
+nonterminal AAA:             Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal A_B:             Turn on "-debug interpreter" for Java-level stack trace.
+nonterminal Ab:              Ok
+nonterminal AbC:             Ok
+nonterminal A:               Ok
+nonterminal W2:              Ok
+nonterminal AB2:             Ok
+```
+
+### `q10_canary.rerun.out`
+
+```
+=== baselines ===
+Regex.fsi as shipped               Ok 
+base/AplSyntax.fsi                 Ok 
+rung-1/p08a_g.fsi (one escaped +)  /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/apl-v1/explorations/apl/v1/rung-1/p08a_g.fsi:5:1-2:     Unmatched delimiter "api". 
+
+=== one escape, with one construct of Regex.fsi above it ===
+nothing above it                   REJECTED   (the escape was seen)
+^ (Regex.fsi:116)                  REJECTED   (the escape was seen)
+$ (Regex.fsi:117)                  REJECTED   (the escape was seen)
+. (Regex.fsi:119)                  REJECTED   (the escape was seen)
+_ as any character                 REJECTED   (the escape was seen)
+pling-escaped # (\#)               REJECTED   (the escape was seen)
+a class [A:Za:z0:9~!@%&]           Ok         (the escape went unchecked)
+a bare # after a terminal          REJECTED   (the escape was seen)
+an escaped : (`:)                  REJECTED   (the escape was seen)
+an APL glyph (the rung-1 recipe)   Ok         (the escape went unchecked)
+
+=== which token of Regex.fsi:93 stops the scan ===
+a plain template                   REPORTED   (the scan survived it)
+a list literal <| … |>           REPORTED   (the scan survived it)
+the splice ** alone                silent     (the scan died on it)
+<| xs** |> as in Regex.fsi         silent     (the scan died on it)
+```

@@ -229,15 +229,15 @@ rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47,
 | 191 | `fortress parse FILE` checks the preparser and parser in ~0.6 s — the only fast check for a grammar api — but it … | — | — | — | — | — | — | — | — | — | hit |
 | 192 | Dyalog's matrix display falls out of the library: `BIG \|\|\|` per row, `BIG //` per matrix, each column padded … | — | — | — | — | — | — | — | — | — | hit |
 | 193 | a nonterminal's name may not be a word of two or more uppercase letters: such a word is an operator, not an iden … | — | — | — | — | — | — | — | — | — | hit |
-| 194 | a bare identifier can be a terminal of a sub-grammar after all — not by splicing an `Id` gap (gap row 4) but by … | — | — | — | — | — | — | — | — | — | hit |
+| 194 | a bare identifier can be a terminal of a sub-grammar after all — not by splicing an `Id` gap (gap row 182) but b … | — | — | — | — | — | — | — | — | — | hit |
 | 195 | with the name spelled, APL's assignment arrow works at user level: `v ← 9 2 6` is the book's own line, its value … | — | — | — | — | — | — | — | — | — | hit |
-| 196 | a template cannot expand to a declaration either, and the reason is sharper than gap row 8's: the template parse … | — | — | — | — | — | — | — | — | — | hit |
+| 196 | a template cannot expand to a declaration either, and the reason is sharper than gap row 186's: the template par … | — | — | — | — | — | — | — | — | — | hit |
 | 197 | a `*`-repeated gap spliced with `` carries a list of arbitrary arity into the expansion, so a `;`-separated inde … | — | — | — | — | — | — | — | — | — | hit |
 | 198 | an enclosure and a vector of coordinate vectors in an index position can be absorbed by the grammar, so APL's sc … | — | — | — | — | — | — | — | — | — | hit |
 | 199 | the flat carrier's wall is the element type: `AplArr`'s elements are `RR64`, so no element can be an array, and … | — | — | — | — | — | — | — | — | — | hit |
 | 200 | a string literal has no `\u` escape (only `\b \t \n \f \r \" \\` and the curly quotes), so a glyph has to stand … | — | — | — | — | — | — | — | — | — | hit |
 | 201 | an `Id` gap does work spliced into a lambda parameter, the one binding position the design has, and the name is … | — | — | — | — | — | — | — | — | — | hit |
-| 202 | a name cannot be read through a gap, in any position: sharpening gap row 4 with a third distinct failure. As the … | — | — | — | — | — | — | — | — | — | hit |
+| 202 | a name cannot be read through a gap, in any position: sharpening gap row 182 with a third distinct failure. As t … | — | — | — | — | — | — | — | — | — | hit |
 | 203 | a terminal that is a valid identifier becomes a keyword of the whole language: it is made a `KeywordSymbol` and … | — | — | — | — | — | — | — | — | — | hit |
 | 204 | hygiene is implemented, and it is exactly what forbids an expander-written preamble: a binder written as a liter … | — | — | — | — | — | — | — | — | — | hit |
 | 205 | a template can expand to an assignment after all, if the left of `:=` is a literal name of the template rather t … | — | — | — | — | — | — | — | — | — | hit |
@@ -273,10 +273,10 @@ rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47,
 | 235 | a gap is greedy inside a delimited rule as well: `( a:AplE SPACE , SPACE b:AplE ) ⍴ r` never matches once the gr … | — | — | — | — | — | — | — | — | — | hit |
 | 236 | a rule whose left argument is parenthesised must stand above the plain rule for the same glyph: below it, `AplAt … | — | — | — | — | — | — | — | — | — | hit |
 | 237 | a component-level `opr` whose parameter types are exactly a library operator's but whose result type differs is … | — | — | — | — | — | — | — | — | — | hit |
-| 238 | row 52 widens with the glyph set: a line break fails to separate two statements whenever the next line begins wi … | — | — | — | — | — | — | — | — | — | hit |
+| 238 | row 228 widens with the glyph set: a line break fails to separate two statements whenever the next line begins w … | — | — | — | — | — | — | — | — | — | hit |
 | 239 | a use of the expander cannot be an operand of a juxtaposition: `("" apl⦇ 5 ⦈)` is `Variable apl is not defined`, … | — | — | — | — | — | — | — | — | — | hit |
 | 240 | an overloaded function whose declared RESULT type is `Any` does not dispatch: every call is `Failed to find any … | — | — | — | — | — | — | — | — | — | hit |
-| 241 | rows 52 and 63 widen once more: a line break does not separate two statements when the next line can continue th … | — | — | — | — | — | — | — | — | — | hit |
+| 241 | rows 228 and 238 widen once more: a line break does not separate two statements when the next line can continue … | — | — | — | — | — | — | — | — | — | hit |
 | 242 | `_` is not accepted by an `Id` gap: `_ ← e`, APL's throw-away name, is a Syntax Error where the same line with a … | — | — | — | — | — | — | — | — | — | hit |
 | 243 | a name in a template is a free Fortress identifier, and an unbound one is rejected before anything runs — a stat … | — | — | — | — | — | — | — | — | — | hit |
 | 244 | a line break inside a production's symbol sequence is not optional whitespace: it is a required line break at th … | — | — | — | — | — | — | — | — | — | hit |
@@ -288,9 +288,9 @@ rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47,
 | 250 | `\` and `.` are plain items of a production and REFUSE the backtick escape: neither is one of the macro language … | — | — | — | — | — | — | — | — | — | hit |
 | 251 | a tuple PATTERN in a parameter list is a Syntax Error: `f(g, (a, b, c): (Any, Any, Any))` does not parse, while … | — | — | — | — | — | — | — | — | — | hit |
 | 252 | tuples carry a strand of arrays: an overload family DISPATCHES on tuple arity, a tuple is a legal RESULT type of … | — | — | — | — | — | — | — | — | — | hit |
-| 253 | rows 52, 63 and 68 widen once more: a line break does not separate two NAMES either, so a strand rule over every … | — | — | — | — | — | — | — | — | — | hit |
+| 253 | rows 228, 238 and 241 widen once more: a line break does not separate two NAMES either, so a strand rule over ev … | — | — | — | — | — | — | — | — | — | hit |
 | 254 | the shipped library's `opr DOT` IS APL's inner product and works on runtime-built arrays in all four rank pairs … | — | — | — | — | — | — | — | — | — | hit |
-| 255 | row 41 reaches the assemblers: a comparison of two SCALARS is the host's `Boolean` and not APL's 0/1, so a dfn o … | — | — | — | — | — | — | — | — | — | hit |
+| 255 | row 218 reaches the assemblers: a comparison of two SCALARS is the host's `Boolean` and not APL's 0/1, so a dfn … | — | — | — | — | — | — | — | — | — | hit |
 | 256 | a direct grammar rule that reaches a typed library entry costs 3.8x less than the same function through `aplCall … | — | — | — | — | — | — | — | — | — | hit |
 
 ## Rows every port hit — the fix priorities

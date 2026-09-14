@@ -8,7 +8,7 @@
 
 # APL in Fortress: gap rows
 
-**Merged into `explorations/fortress-gap-ledger.md` on 2026-09-14** (the merge's
+**Rows 1-85 merged into `explorations/fortress-gap-ledger.md` on 2026-09-14** (the merge's
 notes and re-run commands are in `explorations/gap-ledger-probes/apl-merge/MERGE.md`).
 The map from this table to the ledger, rows in order: 1-35 → 179-213; **36 → 97
 (folded)**; 37-44 → 214-221; **45 → 44 (folded)**; 46-55 → 222-231; **56 → 145
@@ -17,7 +17,9 @@ The map from this table to the ledger, rows in order: 1-35 → 179-213; **36 →
 83-85 → 254-256. A folded row's claim was already a ledger row and its evidence is
 recorded in that row's notes. Rows about the syntax-extension mechanism are in the
 ledger's new section 16; the rest are in the section their subject belongs to.
-This file is not edited from the ledger and keeps its own numbering.
+This file is not edited from the ledger and keeps its own numbering. The microGPT
+rung's rows (86 on) were written after that merge and are **not** in the ledger yet;
+they follow in a second pass, continuing the ledger's numbering from 257.
 
 ## Rung 1 — "It's arrays all the way down"
 

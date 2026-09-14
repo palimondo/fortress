@@ -1,0 +1,19 @@
+(a) the same two members with an Object result:
+  objres(f, v) = 1.5   objres(f, m) = 2.5
+(b) the two members with an Any result:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:25:34-44:
+Failed to find any matching overload, args = (FnExpr at /home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:21.9 ()->Any /home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:21:9-26:4,__DefaultVector[\RR64,2\]), overload = {
+	anyres[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):Any/home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:12:1-59
+	anyres[\nat r,nat c\](f:()->Any,m:Matrix[\FortressLibrary.RR64,r,c\]):Any/home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:13:1-69}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/gap-ledger-probes/apl-merge/a01_any_result.fss:25:34-44:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
