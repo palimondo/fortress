@@ -3,10 +3,12 @@
      aliases-units-report.md, microgpt2-sigma.md, microgpt2-named-spaces.md,
      compiled-path-gaps.md), the blinded run (blinded-fable/notes/gaps.md),
      Astra's run (astra/worker/), the three reviews, and the two microGPT ports
-     run-b (run-b/gaps.md, incl. probes/worker/) and run-b2 (run-b2/gaps.md).
+     run-b (run-b/gaps.md, incl. probes/worker/) and run-b2 (run-b2/gaps.md),
+     and the third microGPT port run-c (run-c/gaps.md, probes in run-c/probes/).
      Every row below was re-run here; commands and full output in
-     explorations/gap-ledger-probes/transcript.txt. Walk interpreter, JDK 25,
-     FORTRESS_THREADS=1 unless stated. -->
+     explorations/gap-ledger-probes/transcript.txt, and for the run-c merge
+     (2026-09-14) in explorations/gap-ledger-probes/g29-run-c/. Walk interpreter,
+     JDK 25, FORTRESS_THREADS=1 unless stated. -->
 
 # Fortress gap ledger
 
@@ -31,7 +33,7 @@ Reproducer paths are relative to `explorations/`; `gNN` means `gap-ledger-probes
 | 5 | U+2211 `∑` lexes as a prefix operator, never as an accumulator; only ASCII `SUM` is a big operator | NEGATIVE-VERIFIED | implementation gap | `basic/expressions/reductions.tex:20` (`Accumulator ::= Σ ∣ Π ∣ BIG (Encloser ∣ Op)`) | `sum-probes/p13_unicode_sigma.fss` | ours | `Operator prefix SUM is not defined.` Fortify renders ASCII `SUM` as `Σ`, so the *rendered* form is unaffected. |
 | 6 | a reduction is a `FlowExpr`: it cannot be an operand of an infix operator without parentheses | NEGATIVE-VERIFIED | design limit | `appendices/grammars/concrete-syntax.tex:971-974` | `g07` | ours | `2.0 / SUM[u <- e] u` → `Syntax Error`; `2.0 / (SUM[u <- e] u)` is required. |
 | 7 | an all-uppercase word with ≥2 distinct letters (`BOS`, `GPT`) is an **operator word**, not an identifier | NEGATIVE-VERIFIED | design limit | `basic/lexical-structure.tex:1167-1172` | `fable-review-probes/RvwNameKeywords.fss` | blinded | `Operator prefix BOS is not defined.` Rename. |
-| 8 | `value`, `at`, `type`, `unit`, `of`, `most` … are reserved words | NEGATIVE-VERIFIED | design limit | `basic/lexical-structure.tex:776-777` + `fortress/fortress-keywords.tex` (86 reserved words) | `g08` | blinded | `value = 3` → `Syntax Error`. |
+| 8 | `value`, `at`, `type`, `unit`, `of`, `most`, `label` … are reserved words | NEGATIVE-VERIFIED | design limit (the `label` diagnostic: implementation gap) | `basic/lexical-structure.tex:776-777` + `fortress/fortress-keywords.tex` (86 reserved words; `label` is at `:23`) | `g08`; `run-c/probes/g148_label.fss` | blinded, run-c | `value = 3` → `Syntax Error`. Run C's row 148 is merged here, so the ledger's numbering skips 148 and `run-c/gaps.md`'s row 148 resolves to this row: a *parameter* named `label` is rejected twice with `Missing label from a label expression.`, at the parameter's own position (`5:6-9`) and at its use (`5:44-47`) — a message about the `label` expression rather than about the name, which is the part worth recording. Workaround: rename (`tag`). |
 | 9 | a two-line `a \|\| b` does not parse, with the `\|\|` at the end of the first line or at the start of the second: the lexer takes a run of vertical lines as an encloser, not as a continued infix operator | NEGATIVE-VERIFIED | design limit | `basic/lexical-structure.tex:1176-1178` (a run of ≥2 vertical lines is a base operator); `basic/operators/enclosingops.tex:24-33` (the fixity table's *line break* row: no whitespace before ⇒ right encloser) | `fable-review-probes/RvwBarEnd.fss`; `g26` (leading form) | blinded, run-b | `Unmatched delimiter "component"` for the trailing form; `Syntax Error` at the `\|\|` for the leading form. run-b's 9′ closed this row's "not tried": the leading form now is tried, and both fail. The workaround is to parenthesise the whole expression, which allows a break anywhere inside it (`run-b/probes/c17_bar_continuation.fss`: `<\|[\String\] "a", "b" \|> \|\|` / `<\|[\String\] "c" \|>` inside parentheses prints `<\|a, b, c\|>`). |
 | 10 | `do … end` **is** allowed as a comprehension body | RETIRED | — | — | `g11` | blinded (claimed the opposite) | `<\|[\ZZ32\] do i + 1 end \| i <- 0#3 \|>` prints `<\|1, 2, 3\|>`. Falsifies half of blinded gap #14; the `\|\|` half (row 9) stands. |
 | 11 | objects may not declare varargs constructor parameters | NEGATIVE-VERIFIED | design limit | `basic/objects.tex:66` ("varargs parameters are eliminated"); `fortress/preamble.tex:63` | `fable-review-probes/RvwVarargsObj.fss` | blinded | `Varargs parameters of objects are not allowed.` Use a factory function (varargs *functions* work — `spec-probes/p12_multifix.fss`). |
@@ -154,6 +156,7 @@ the interpreter reports that sentence — a **design limit**.
 | 108 | matrix unpasting is not implemented, in either spelling | NEGATIVE-VERIFIED | design limit (spec-declared not-yet-supported) | `basic/matrix-unpasting.tex:15` (`\note{Matrix unpasting is not yet supported.}`) | `run-b/probes/c02_pasting.fss`; `run-b2/probes/g1d_unpaste1.fss`, `g1d_unpaste2.fss` | run-b, run-b2 | `Matrix unpasting is not yet implemented.` for `[ q1 q2 q3 q4 ] = Q` and for the extent-annotated `[ A[2 BY 2] B[2 BY 2] ; C[2 BY 2] D[2 BY 2] ] = Q`. run-b classified it as a design limit and run-b2 as an implementation gap; the spec's own note settles it, as it settles row 26. Workaround: `hsplit` by `fill`. |
 | 109 | `Matrix` has no elementwise product, though `Vector` has `pmul` | NEGATIVE-VERIFIED | library gap vs spec (`opr-overview.tex` promises no Hadamard product either — a design gap rather than a broken promise) | — (`Library/FortressLibrary.fsi:1578-1588` against `:1467`) | `g23` | run-b | `u.pmul(v) = [0#2][ 3.0 8.0 ]`, then `Cannot find definition for method pmul given receiver __DefaultMatrix[\RR64,2,2\]`. Workaround: a user `ODOT` (⊙) on the carrier, or `ivmap`. |
 | 110 | a user object may declare `opr [_: TrivialOpenRange, c: Range[\ZZ32\]]` and be called as `Q[:, c]`, with `c.lower`, `c.upper` and `\|c\|` giving the bounds | POSITIVE-VERIFIED | — | `advanced/subscripting.tex` | `run-b/probes/c16_model_spellings.fss` (2), (4) | run-b | `(2) Q[:, 1#2] = columns [1,2]`; `(4) range 2#3: lower 2  upper 4  \|c\| = 3`. The column-block spelling the shipped library does not provide (row 56); `c.lower` is reached by dynamic lookup, the declared `Range[\ZZ32\]` does not provide it. |
+| 142 | a typed array literal as a **top-level** declaration is bound as a tuple — `shp: Vector[\ZZ32,9\] = [27 16 27 …]` fails with `Type mismatch binding (27,16,…): (Int,…) to shp (type Vector[\ZZ32,9\])` — while the same declaration inside a function body works | NEGATIVE-VERIFIED + POSITIVE-VERIFIED | implementation gap | `basic/expressions/aggregate.tex:27`; `basic/declarations.tex` (top-level variable declarations) | `run-c/probes/p08a_literal.fss`, `p08b_literal.fss` (fail: `Vector[\ZZ32,9\]`, `RR64[9]`), `p08c_literal.fss` (commas: `Operator [_] is not defined.`), `p08d_literal.fss` (works in a function body) | run-c | Re-run here: `p08a` gives `Type mismatch binding (27,16,27,16,16,16,16,64,16): (Int,Int,…) (type (Int,Int,…)) to shp (type Vector[\ZZ32,9\])`, `p08b` the same with `Array1[\RR64,0,9\]` on the right and `FloatLiteral`s on the left, `p08c` `Operator [_] is not defined.`, and `p08d` prints `[0#9][ 27 16 27 16 16 16 16 64 16 ] shp[7] = 64` from inside a function body. At top level the literal never reaches array construction: it is evaluated as a tuple and then bound. Rows 49, 104 and 105 are the function-body family. Workaround: `array[\ZZ32\](9).fill(fn …)` at top level, or move the literal into a function. |
 | 150 | a six-line object extending `Matrix[\RR64,r,c\]` over a **slice of a `Vector`**, its shape taken from `reflect(rows)`/`reflect(cols)` through a hoisted generic (`FortressLibrary.fss:1922-1931`'s own idiom), is a full `Matrix`: the library product in both spellings, `.t()`, `+`, scalar scaling, `map`, `ivmap` and writes that reach the vector | POSITIVE-VERIFIED | — | `basic/traits.tex:231-235` (as row 55) | `run-c/probes/p01_views.fss` (`PView`, and `Block`, a view of a sub-block of a matrix) | run-c | Re-run here, all nineteen numbered lines: `a DOT b` and the juxtaposition `a b` agree (`28.0 31.0 / 100.0 112.0`), `.t()` and the user `^T` of row 149 agree, `a + a`, `2.0 a`, `map`, `ivmap` all print, `p[5] after a[1,2] := 55.0 : 55.0` shows the write reaching the base vector, and the `Block` half writes through two levels (`m[3,2] … : -2.0`). Row 55 (a `Vector` view of a row) taken to rank 2 and to shapes known only at run time. `-` and `Matrix.assign` are not in this probe; they are exercised by `run-c/src/MicroGptFlat.fss`, which ran here (row 152). Needs `import NatReflect.{...}` for `N[\n\]` (`N is undefined.` otherwise), even though `reflect` itself is in scope. Every parameter access and every gradient write in that program goes through such a view. |
 
 ## 7. Parallelism and mutation
@@ -267,7 +270,7 @@ each against the same source run through the interpreter.
 
 | # | claim | status | class | reproducer | found by | why unsettled |
 |---|---|---|---|---|---|---|
-| 83 | `nat`-generic functions mis-unify on a second instantiation when called through an exported API | CONTESTED | implementation gap (claimed) | none saved — blinded's evidence is a transcript timestamp (`17:29`, the `src/MicroGPT.fsi` attempt) | blinded | No minimal reproducer survives, and building an API + component pair here did not isolate it. Kept so it is not re-derived from scratch; needs a fresh `.fsi`/`.fss` pair before it can be classified. run-b2's `apix` probes (rows 132, 133) build an API + component pair whose operators are functional methods and do not reproduce it — but they use no `nat` parameters, so the claim is still untested rather than falsified. |
+| 83 | `nat`-generic functions mis-unify on a second instantiation when called through an exported API | CONTESTED | implementation gap (claimed) | none saved — blinded's evidence is a transcript timestamp (`17:29`, the `src/MicroGPT.fsi` attempt) | blinded | No minimal reproducer survives, and building an API + component pair here did not isolate it. Kept so it is not re-derived from scratch; needs a fresh `.fsi`/`.fss` pair before it can be classified. run-b2's `apix` probes (rows 132, 133) build an API + component pair whose operators are functional methods and do not reproduce it — but they use no `nat` parameters, so the claim is still untested rather than falsified. Run C's `run-c/probes/api/` pair (row 151) does use `nat` generics — behind runtime-sized API signatures — at two different sizes, and does not reproduce it either; what remains untested is a `nat` static parameter appearing in the API's own signatures. |
 
 ## Disagreements resolved
 
@@ -321,19 +324,23 @@ each against the same source run through the interpreter.
 
 | status | rows |
 |---|---|
-| POSITIVE-VERIFIED | 38 (+7 rows that carry both marks) |
-| NEGATIVE-VERIFIED | 89 (+7 rows that carry both marks) |
+| POSITIVE-VERIFIED | 43 (+12 rows that carry both marks) |
+| NEGATIVE-VERIFIED | 94 (+12 rows that carry both marks) |
 | NEGATIVE-BOUNDED | 1 (row 90) |
 | CONTESTED | 1 (row 83) |
 | RETIRED | 3 (rows 10, 32, 87) |
-| **total rows** | **139** |
+| **total rows** | **154** |
 
-Rows 21, 25, 66, 92, 95, 107 and 115 record a paired positive and negative verdict
-about the same construct and are listed once; row 52 is positive with a standing
-caveat (row 22), and row 9 moved from NEGATIVE-BOUNDED to NEGATIVE-VERIFIED in this
-merge because run-b tried the arrangement it listed as untried.
+Rows 21, 25, 66, 92, 95, 107, 115, 142, 143, 145, 146 and 149 record a paired
+positive and negative verdict about the same construct and are listed once; row 52
+is positive with a standing caveat (row 22), and row 9 moved from NEGATIVE-BOUNDED
+to NEGATIVE-VERIFIED in the previous merge because run-b tried the arrangement it
+listed as untried. The numbering runs 1-155 with 148 missing: run-c's row 148
+(`label` as a parameter name) duplicated row 8 and was merged into its notes, and
+the gap is kept so that `run-c/gaps.md`'s numbering still resolves.
 
-By class (rows 26, 30 and 91 carry two classes, so these sum to more than 139):
-implementation gap 44 · design limit 27 (five of them library-design choices) ·
-library gap vs spec 17 · library bug 4 · typesetter 3 · packaging 2 ·
-no gap class, i.e. capability rows 40 · retired/contested 4.
+By class (rows 26, 30 and 91 carry two classes, so these sum to more than 154):
+implementation gap 47 · design limit 31 (five of them library-design choices) ·
+library gap vs spec 17 · library bug 5 · deliberate 2 (rows 141, 145) ·
+typesetter 3 · packaging 2 · no gap class, i.e. capability rows 45 ·
+retired/contested 4.
