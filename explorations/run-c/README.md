@@ -25,7 +25,9 @@ Fortress, line for line against the Dyalog and the formulas.
   check outputs; `checks/threads1.txt`, `threads4.txt` are round one's.
 - `tour.md`, `tour.html`, `tour/`: the guided tour — for every line of the
   Dyalog, the formula, the Dyalog line, the Fortress line rendered by Fortify,
-  and a note where they differ.
+  and a note where they differ; `tour/mktour.py` (with `tour/render.sh`)
+  rebuilds both files and the SVGs from the rows it holds, checking every
+  Fortress snippet verbatim against the source.
 - `design.md`: round one's design notes and the "Round two" section — the
   survey of the shipped array algebra, the alternatives tried and rejected,
   the line budget, the subscript count, what the language gave and what had
@@ -55,6 +57,7 @@ training.
 To regenerate the text goldens:
 `python3 explorations/run-c/goldens/extract_goldens.py <repo root>`.
 
-Reproducers for the gap rows: `./bin/fortress explorations/run-c/probes/<name>.fss`
-from the repository root (the API probes run from `probes/api/` and
-`probes/api2/`); each probe's output is committed beside it as `.out`.
+Reproducers for the gap rows: `probes/runprobe.sh probes/<name>.fss [threads]`
+runs one from its own directory and saves its output beside it as `.out`
+(the API probes run from `probes/api/` and `probes/api2/`); every probe's
+output is committed.

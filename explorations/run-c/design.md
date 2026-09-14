@@ -176,8 +176,9 @@ The Blinding section's "no history was read" is not literally true: two `git log
 ## Round two
 
 The sections above are round one's notes and describe its program; the tree
-now carries round two, whose line-for-line record is `tour.md`/`tour.html`.
-Round one's sources stay in history.
+now carries round two, whose line-for-line record is `tour.md`/`tour.html`
+(rebuilt by `tour/mktour.py`, which checks every Fortress snippet against the
+source). Round one's sources stay in history.
 
 ### What changed and why
 
