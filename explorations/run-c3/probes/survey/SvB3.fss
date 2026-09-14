@@ -1,0 +1,11 @@
+component SvB3
+export Executable
+
+opr ×[\nat r, nat c\](x: Matrix[\RR64,r,c\], y: Matrix[\RR64,r,c\]): Array2[\RR64,0,r,0,c\] =
+  x.ivmap[\RR64\](fn (i:(ZZ32,ZZ32), e:RR64):RR64 => e y.get(i))
+
+run(): () = do
+  p: Matrix[\RR64,2,3\] = matrix[\RR64,2,3\]().fill(fn (t:(ZZ32,ZZ32)):RR64 => do (i,j) = t; 1.0 + 3 i + j end)
+  println("p × p: OK " (p × p))
+end
+end

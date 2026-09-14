@@ -1,0 +1,16 @@
+component SvF5
+export Executable
+
+opr SQRT[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] =
+  x.map[\RR64\](fn (e:RR64):RR64 => SQRT e)
+
+exp[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] =
+  x.map[\RR64\](fn (e:RR64):RR64 => exp e)
+
+run(): () = do
+  v: Vector[\RR64,3\] = vector[\RR64,3\](fn (i:ZZ32):RR64 => 1.0 + i)
+  println("SQRT v: OK " (SQRT v))
+  println("exp v: OK " (exp v))
+  println("SQRT 4.0: OK " (SQRT 4.0))
+end
+end

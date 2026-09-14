@@ -1,0 +1,9 @@
+component SvE2
+export Executable
+
+run(): () = do
+  a = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 1.0 + i)
+  m = array[\RR64\](2,3).fill(fn (t:(ZZ32,ZZ32)):RR64 => do (i,j) = t; 1.0 + 3 i + j end)
+  println("1.0 + a: OK " (1.0 + a))
+end
+end

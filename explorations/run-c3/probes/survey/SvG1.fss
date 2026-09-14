@@ -1,0 +1,9 @@
+component SvG1
+export Executable
+
+run(): () = do
+  z = array[\ZZ32\](3).fill(fn (i:ZZ32):ZZ32 => i + 1)
+  println("ZZ32 array: OK " z)
+  println("z + z: OK " (z + z))
+end
+end

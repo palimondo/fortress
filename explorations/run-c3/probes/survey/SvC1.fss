@@ -1,0 +1,13 @@
+component SvC1
+export Executable
+
+opr >[\nat n\](x: Vector[\RR64,n\], s: RR64): Vector[\RR64,n\] =
+  x.map[\RR64\](fn (e:RR64):RR64 => if e > s then 1.0 else 0.0 end)
+
+run(): () = do
+  v: Vector[\RR64,3\] = vector[\RR64,3\](fn (i:ZZ32):RR64 => 1.0 + i)
+  println("v > 2.0: OK " (v > 2.0))
+  println("scalar 3.0 > 2.0: OK " (3.0 > 2.0))
+  println("ZZ32 3 > 2: OK " (3 > 2))
+end
+end

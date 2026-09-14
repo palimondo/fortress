@@ -1,0 +1,16 @@
+component SvF4
+export Executable
+
+opr +[\nat n\](x: Vector[\RR64,n\], s: RR64): Vector[\RR64,n\] =
+  x.map[\RR64\](fn (e:RR64):RR64 => e + s)
+opr +[\nat n\](s: RR64, x: Vector[\RR64,n\]): Vector[\RR64,n\] =
+  x.map[\RR64\](fn (e:RR64):RR64 => s + e)
+
+run(): () = do
+  v: Vector[\RR64,3\] = vector[\RR64,3\](fn (i:ZZ32):RR64 => 1.0 + i)
+  println("v + 1.0: OK " (v + 1.0))
+  println("1.0 + v: OK " (1.0 + v))
+  println("v + v: OK " (v + v))
+  println("1.0 + 2.0: OK " (1.0 + 2.0))
+end
+end

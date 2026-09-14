@@ -1,0 +1,15 @@
+component SvB1
+export Executable
+
+opr ×[\nat n\](x: Vector[\RR64,n\], y: Vector[\RR64,n\]): Array[\RR64,ZZ32\] =
+  x.ivmap[\RR64\](fn (i:ZZ32, e:RR64):RR64 => e y.get(i))
+
+run(): () = do
+  a = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 1.0 + i)
+  b = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 10.0 + i)
+  v: Vector[\RR64,3\] = vector[\RR64,3\](fn (i:ZZ32):RR64 => 1.0 + i)
+  w: Vector[\RR64,3\] = vector[\RR64,3\](fn (i:ZZ32):RR64 => 10.0 + i)
+  println("v × w: OK " (v × w))
+  println("a × b: OK " (a × b))
+end
+end

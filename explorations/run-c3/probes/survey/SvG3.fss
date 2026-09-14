@@ -1,0 +1,21 @@
+component SvG3
+export Executable
+
+run(): () = do
+  z = array[\ZZ32\](3).fill(fn (i:ZZ32):ZZ32 => i + 1)
+  typecase z of
+    v:AnyVector => println("ZZ32 array IS a Vector: OK")
+    else => println("ZZ32 array is NOT a Vector: OK")
+  end
+  a = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 1.0 + i)
+  typecase a of
+    v:AnyVector => println("RR64 array IS a Vector: OK")
+    else => println("RR64 array is NOT a Vector: OK")
+  end
+  s = array[\String\](2).fill(fn (i:ZZ32):String => "x")
+  typecase s of
+    v:AnyVector => println("String array IS a Vector: OK")
+    else => println("String array is NOT a Vector: OK")
+  end
+end
+end

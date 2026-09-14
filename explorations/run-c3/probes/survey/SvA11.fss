@@ -1,0 +1,11 @@
+component SvA11
+export Executable
+
+run(): () = do
+  a = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 1.0 + i)
+  b = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 10.0 + i)
+  m = array[\RR64\](2,3).fill(fn (t:(ZZ32,ZZ32)):RR64 => do (i,j) = t; 1.0 + 3 i + j end)
+  m2 = array[\RR64\](3,2).fill(fn (t:(ZZ32,ZZ32)):RR64 => do (i,j) = t; 1.0 + 2 i + j end)
+  println("m m2: OK " (m m2))
+end
+end

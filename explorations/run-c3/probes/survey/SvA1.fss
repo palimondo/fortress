@@ -1,0 +1,18 @@
+component SvA1
+export Executable
+
+run(): () = do
+  a = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 1.0 + i)
+  m = array[\RR64\](2,3).fill(fn (t:(ZZ32,ZZ32)):RR64 => do (i,j) = t; 1.0 + 3 i + j end)
+  v = vector[\RR64,3\](fn (i:ZZ32):RR64 => 1.0 + i)
+  q = matrix[\RR64,2,3\]().fill(fn (t:(ZZ32,ZZ32)):RR64 => do (i,j) = t; 1.0 + 3 i + j end)
+  println("array1: OK " a)
+  println("array2: OK " m)
+  println("vector: OK " v)
+  println("matrix: OK " q)
+  println("|a|: OK " |a|)
+  println("a[0]: OK " a[0])
+  println("m[1,2]: OK " m[1,2])
+  println("a.copy: OK " a.copy())
+end
+end

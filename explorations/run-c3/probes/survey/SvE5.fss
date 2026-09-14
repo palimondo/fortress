@@ -1,0 +1,12 @@
+component SvE5
+export Executable
+
+run(): () = do
+  a = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 1.0 + i)
+  m = array[\RR64\](2,3).fill(fn (t:(ZZ32,ZZ32)):RR64 => do (i,j) = t; 1.0 + 3 i + j end)
+  r = m[0,:]
+  v2 = vector[\RR64,3\](fn (i:ZZ32):RR64 => r[i])
+  println("Row->Vector: OK " (v2 + a))
+  println("r.map: OK " r.map[\RR64\](fn (x:RR64):RR64 => 2.0 x))
+end
+end

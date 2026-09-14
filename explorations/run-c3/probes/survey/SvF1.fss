@@ -1,0 +1,11 @@
+component SvF1
+export Executable
+
+opr ×[\nat n\](x: Vector[\RR64,n\], y: Vector[\RR64,n\]): Vector[\RR64,n\] =
+  x.ivmap[\RR64\](fn (i:ZZ32, e:RR64):RR64 => e y.get(i))
+
+run(): () = do
+  v: Vector[\RR64,3\] = vector[\RR64,3\](fn (i:ZZ32):RR64 => 1.0 + i)
+  println("v × v × v: OK " (v × v × v))
+end
+end

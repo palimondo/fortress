@@ -1,0 +1,8 @@
+component SvG2
+export Executable
+
+run(): () = do
+  q = matrix[\RR64,3,3\](2.0)
+  println("matrix(v) is v.I: OK " q)
+end
+end

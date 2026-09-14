@@ -1,0 +1,11 @@
+component SvE4
+export Executable
+
+run(): () = do
+  a = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 1.0 + i)
+  m = array[\RR64\](2,3).fill(fn (t:(ZZ32,ZZ32)):RR64 => do (i,j) = t; 1.0 + 3 i + j end)
+  println("m + m: OK " (m + m))
+  println("m.map: OK " m.map[\RR64\](fn (x:RR64):RR64 => 2.0 x))
+  println("-m: OK " (-m))
+end
+end

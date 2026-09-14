@@ -1,0 +1,12 @@
+component SvF3
+export Executable
+
+opr ⊕[\T extends Number, nat n\](x: Vector[\T,n\], y: Vector[\T,n\]): Vector[\T,n\]
+  where { T extends Number } =
+  x.ivmap[\T\](fn (i:ZZ32, e:T):T => e + y.get(i))
+
+run(): () = do
+  v: Vector[\RR64,3\] = vector[\RR64,3\](fn (i:ZZ32):RR64 => 1.0 + i)
+  println("v ⊕ v: OK " (v ⊕ v))
+end
+end
