@@ -149,6 +149,13 @@ attnB3(): (Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ
     (att, hc, dS, dQ, dK, dV)
   end
 
+(* forward only, the fill-assembled lift, for the cells/cellsW comparison *)
+attnBF(): (Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\]) = do
+    att = cells(scores, q, k)
+    hc  = cells(weigh, att, v)
+    (att, hc)
+  end
+
 (* the write-through variant of the forward, for the copy comparison *)
 attnBW(): (Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\]) = do
     att = cellsW(scores, q, k)
@@ -174,6 +181,16 @@ run(): () = do
     println "-- write-through cellsW, forward only --"
     (aw, hw) = attnBW()
     println "att sum " sumOf(aw) "  hc  sum " sumOf(hw) "  hc[5,7] " hw[5,7]
+    tf = nanoTime()
+    for r <- seq(0#10) do
+        (af, hf) = attnBF()
+    end
+    println "  forward only, cells (fill assembly)    " ((nanoTime() - tf) DIV 1000000) " ms / 10 reps"
+    tw = nanoTime()
+    for r <- seq(0#10) do
+        (aw2, hw2) = attnBW()
+    end
+    println "  forward only, cellsW (write-through)   " ((nanoTime() - tw) DIV 1000000) " ms / 10 reps"
     t0 = nanoTime()
     for r <- seq(0#10) do
         (a2, h2, s2, q2, k2, v2) = attnB()

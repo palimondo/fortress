@@ -1,0 +1,8 @@
+(* g2d: BIG MAX in prefix form over an array *)
+component alg_g2d
+export Executable
+run(): () = do
+    v = array[\RR64\](6).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    println "(7) BIG MAX v = " (BIG MAX v)
+  end
+end

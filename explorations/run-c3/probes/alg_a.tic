@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`m' = beta1 m + (1 - beta1) g`
+
+`v' = beta2 v + (1 - beta2) (g × g)`
+
+`p' = p - lr (m' / (1 - beta1^t)) / (SQRT (v' / (1 - beta2^t)) + epsAdam)`
+
+`e = exp(z - (BIG MAX[t <- z] t))`
+
+`sm = e / (SUM[t <- e] t)`
+
+`rn = x / SQRT (eps + (x DOT x) / |x|)`
+
+`mr = 0.0 MAX m0`
+
+`dM0 = (dX4 f2) × (m0 > 0.0)`
+
+`x2 = xp + hc (wo^T)`
+
+\end{preview}\end{document}

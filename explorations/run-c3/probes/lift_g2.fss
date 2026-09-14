@@ -1,0 +1,14 @@
+(* lift_g2: is a top-level nat-generic function acceptable where an
+   Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\] argument is expected? *)
+component lift_g2
+export Executable
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+dblG[\nat n\](v: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => 2.0 v[j])
+dblC(v: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => 2.0 v[j])
+applyIt(f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = f(v)
+run(): () = do
+    v = vec(3, fn (j: ZZ32): RR64 => 1.0 + j)
+    println "(non-generic) " applyIt(dblC, v)
+    println "(nat-generic) " applyIt(dblG, v)
+  end
+end

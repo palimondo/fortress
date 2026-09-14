@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`for d <- 0#bsz, h <- 0#nHead do`
+
+`    qh = head(q, d, h); kh = head(kk, d, h); vh = head(vv, d, h)`
+
+`    ah = headCell(att, d, h)`
+
+`    assignInto(ah, smRows((qh (kh^T)) / (SQRT (1.0 headDim)) + causalMask))`
+
+`    assignInto(head(hc, d, h), ah vh)`
+
+`end`
+
+`for d <- 0#bsz, h <- 0#nHead do`
+
+`    ah = headCell(att, d, h); dh = head(dH, d, h)`
+
+`    assignInto(head(dV, d, h), (ah^T) dh)`
+
+`    dS = smRowsB(ah, dh (vh^T)) / (SQRT (1.0 headDim))`
+
+`    assignInto(head(dQ, d, h), dS kh)`
+
+`    assignInto(head(dK, d, h), (dS^T) qh)`
+
+`end`
+
+\end{preview}\end{document}

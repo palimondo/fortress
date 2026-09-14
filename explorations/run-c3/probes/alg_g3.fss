@@ -1,0 +1,20 @@
+(* g3: a user opr / on (Vector,RR64) beside the library's / on numbers, in
+   one expression -- the rmsnorm line, whose inner / is scalar. *)
+component alg_g3
+export Executable
+vecOf(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+opr /[\nat n\](v: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => x / s)
+opr SQRT[\nat n\](v: Vector[\RR64,n\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => SQRT x)
+eps: RR64 = 10.0^(-5)
+show[\nat n\](v: Vector[\RR64,n\]): String = BIG |||[i <- seq(0#|v|)] ("" v[i])
+run(): () = do
+    x = vecOf(6, fn (i: ZZ32): RR64 => 1.0 i - 2.0)
+    println "(1) x DOT x = " (x DOT x) "   |x| = " |x|
+    println "(2) RR64 / ZZ32 with no widening: (x DOT x) / |x| = " ((x DOT x) / |x|)
+    println "(3) with 1.0 |x|: " ((x DOT x) / (1.0 |x|))
+    println "(4) rmsnorm = " show(x / SQRT (eps + (x DOT x) / |x|))
+    println "(5) scalar / still scalar: 7.0 / 2.0 = " (7.0 / 2.0) "  7 / 2 = " (7 / 2)
+  end
+end

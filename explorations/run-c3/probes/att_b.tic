@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`att = cells(fn (qc, kc) => smRows((qc (kc^T)) / (SQRT (1.0 headDim)) + causalMask), q, k)`
+
+`hc  = cells(fn (ac, vc) => ac vc, att, v)`
+
+`dV  = cells(fn (ac, dc) => (ac^T) dc, att, dH)`
+
+`dS  = cells(fn (ac, dc) => smRowsB(ac, dc), att, cells(fn (dc, vc) => dc (vc^T), dH, v)) / (SQRT (1.0 headDim))`
+
+`dQ  = cells(fn (sc, kc) => sc kc, dS, k)`
+
+`dK  = cells(fn (sc, qc) => (sc^T) qc, dS, q)`
+
+\end{preview}\end{document}

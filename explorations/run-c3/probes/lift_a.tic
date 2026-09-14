@@ -1,0 +1,29 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`(* form A: stack by first result *)`
+
+`rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do`
+
+`    (nr, nc) = m.sizes`
+
+`    rs = array[\Any\](nr)`
+
+`    for i <- 0#nr do rs[i] := f(Row[\r,c\](m, i)) end`
+
+`    mat(nr, lenOf(rs[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(rs[u], w))`
+
+`  end`
+
+`rmsn(a: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = a / SQRT (epsRms + (a DOT a) / (1.0 |a|))`
+
+`sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[u <- z] u)); e / (SUM[u <- e] u) end`
+
+`xp = rows(rmsn, x)`
+
+`dX2 = dX4 + rows(rmsnB, dX3, x2)`
+
+\end{preview}\end{document}

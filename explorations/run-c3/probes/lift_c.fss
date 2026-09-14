@@ -95,6 +95,9 @@ run(): () = do
     sv = rows(fn (r: Array[\RR64,ZZ32\]): RR64 => sumV(r), x)
     println "(7) scalar-result overload: |sv| = " |sv| "  sv[5] = " sv[5]
 
+    (* warm-up: the walk interpreter's first passes are up to 2x slower *)
+    for k <- seq(0#5) do rows(rmsn, x) end
+    for k <- seq(0#5) do rows(sm, x) end
     t0 = nanoTime()
     for k <- seq(0#10) do rows(rmsn, x) end
     t1 = nanoTime()

@@ -1,0 +1,11 @@
+(* g1: DOT on a runtime-built rank-1 array *)
+component alg_g1
+export Executable
+run(): () = do
+    x = array[\RR64\](6).fill(fn (i: ZZ32): RR64 => 1.0 i - 2.0)
+    println "(1) x DOT x = " (x DOT x)
+    println "(2) squaredNorm(x) = " squaredNorm(x)
+    println "(3) x.dot(x) = " x.dot(x)
+    println "(4) |x| (length) = " |x|
+  end
+end

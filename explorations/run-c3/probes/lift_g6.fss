@@ -1,0 +1,15 @@
+(* lift_g6: an array literal whose elements are matrices, inside a function
+   body (ledger row 142: at top level such a literal is bound as a tuple). *)
+component lift_g6
+export Executable
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+k(s: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = mat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 s + 0.1 i + 0.01 j)
+nth2(m: Array[\RR64,(ZZ32,ZZ32)\], i: ZZ32, j: ZZ32): RR64 = m[i,j]
+run(): () = do
+    a = k(1); b = k(2); c = k(3)
+    ms = [a b c]
+    println "(g6 untyped) |ms| = " |ms| "  ms[1][0,0] via reader = " nth2(ms[1], 0, 0)
+    ns: Array[\Any,ZZ32\] = [a b c]
+    println "(g6 typed Any) ns[2][1,1] = " nth2(ns[2], 1, 1)
+  end
+end

@@ -1,0 +1,12 @@
+(* lift_g6b: the same literal declared Array[\Any,ZZ32\] *)
+component lift_g6b
+export Executable
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+k(s: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = mat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 s + 0.1 i + 0.01 j)
+nth2(m: Array[\RR64,(ZZ32,ZZ32)\], i: ZZ32, j: ZZ32): RR64 = m[i,j]
+run(): () = do
+    a = k(1); b = k(2); c = k(3)
+    ns: Array[\Any,ZZ32\] = [a b c]
+    println "(g6b typed Any) ns[2][1,1] = " nth2(ns[2], 1, 1)
+  end
+end

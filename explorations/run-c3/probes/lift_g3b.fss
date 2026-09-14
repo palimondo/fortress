@@ -1,0 +1,15 @@
+(* lift_g3: can an operator be passed as a function value? *)
+component lift_g3b
+export Executable
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+opr ×[\nat n, nat m\](a: Vector[\RR64,n\], b: Vector[\RR64,m\]): Array[\RR64,ZZ32\] =
+    vec(|a|, fn (j: ZZ32): RR64 => a[j] b[j])
+applyIt(f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\],
+        a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = f(a, b)
+run(): () = do
+    a = vec(3, fn (j: ZZ32): RR64 => 1.0 + j)
+    b = vec(3, fn (j: ZZ32): RR64 => 2.0 + j)
+    println "(0) infix works: " (a × b)
+    println "(1) (×) as a value: " applyIt((×), a, b)
+  end
+end

@@ -1,0 +1,43 @@
+(* g5: precedence and associativity of the Adam update line, and the numbers
+   against numpy's p - lr*(m/(1-b1**t))/(np.sqrt(v/(1-b2**t))+eps). *)
+component alg_g5
+export Executable
+vecOf(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+opr ×[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    vecOf(|a|, fn (i: ZZ32): RR64 => a[i] b[i])
+opr /[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] =
+    vecOf(|a|, fn (i: ZZ32): RR64 => a[i] / b[i])
+opr /[\nat n\](v: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => x / s)
+opr +[\nat n\](v: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => x + s)
+opr SQRT[\nat n\](v: Vector[\RR64,n\]): Array[\RR64,ZZ32\] =
+    v.map[\RR64\](fn (x: RR64): RR64 => SQRT x)
+show[\nat n\](v: Vector[\RR64,n\]): String = BIG |||[i <- seq(0#|v|)] ("" v[i])
+beta1: RR64 = 0.85
+beta2: RR64 = 0.99
+epsAdam: RR64 = 10.0^(-8)
+run(): () = do
+    p = vecOf(3, fn (i: ZZ32): RR64 => 0.1 (1.0 (i + 1)))
+    m = vecOf(3, fn (i: ZZ32): RR64 => 0.01 (1.0 (i + 1)))
+    v = vecOf(3, fn (i: ZZ32): RR64 => 0.001 (1.0 (i + 1)))
+    g = vecOf(3, fn (i: ZZ32): RR64 => 0.5 - 0.1 (1.0 i))
+    t = 3
+    lr: RR64 = 0.01
+    m' = beta1 m + (1 - beta1) g
+    v' = beta2 v + (1 - beta2) (g × g)
+    println "m' = " show(m')
+    println "v' = " show(v')
+    (* (a) fully parenthesised, run-c's spelling *)
+    pa = p - (lr (m' / (1 - beta1^t))) / ((SQRT (v' / (1 - beta2^t))) + epsAdam)
+    println "(a) fully parenthesised: " show(pa)
+    (* (b) the wanted spelling: juxtaposition and prefix SQRT unparenthesised *)
+    pb = p - lr (m' / (1 - beta1^t)) / (SQRT (v' / (1 - beta2^t)) + epsAdam)
+    println "(b) as wanted:           " show(pb)
+    (* what the two readings of the denominator would give *)
+    d1 = (SQRT (v' / (1 - beta2^t))) + epsAdam
+    d2 = SQRT ((v' / (1 - beta2^t)) + epsAdam)
+    println "(c) (SQRT d) + eps = " show(d1)
+    println "(d) SQRT (d + eps) = " show(d2)
+  end
+end

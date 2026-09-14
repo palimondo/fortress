@@ -1,0 +1,15 @@
+(* lift_g6c: an array literal of SCALARS in a body (row 142's positive half),
+   and the working spelling for an array of matrices: array[\Any\](3). *)
+component lift_g6c
+export Executable
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+k(s: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = mat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 s + 0.1 i + 0.01 j)
+nth2(m: Array[\RR64,(ZZ32,ZZ32)\], i: ZZ32, j: ZZ32): RR64 = m[i,j]
+run(): () = do
+    sc: Vector[\RR64,3\] = [1.0 2.0 3.0]
+    println "(g6c scalars) sc[1] = " sc[1]
+    ms = array[\Any\](3)
+    ms[0] := k(1); ms[1] := k(2); ms[2] := k(3)
+    println "(g6c generic array) ms[2][1,1] = " nth2(ms[2], 1, 1)
+  end
+end

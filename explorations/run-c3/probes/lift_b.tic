@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`(* form B: a generator of row views, a list comprehension, a stack *)`
+
+`rowsOf[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Generator[\Array[\RR64,ZZ32\]\] = do`
+
+`    (nr, nc) = m.sizes`
+
+`    (0#nr).map[\Array[\RR64,ZZ32\]\](fn (i: ZZ32): Array[\RR64,ZZ32\] => Row[\r,c\](m, i))`
+
+`  end`
+
+`stack[\E\](ls: List[\E\]): Array[\RR64,(ZZ32,ZZ32)\] =`
+
+`        mat(|ls|, lenOf(ls[0]), fn (u: ZZ32, w: ZZ32): RR64 => nth(ls[u], w))`
+
+`rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]):`
+
+`        Array[\RR64,(ZZ32,ZZ32)\] = stack(<| f(rw) | rw <- rowsOf(m) |>)`
+
+`rmsn(a: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = a / SQRT (epsRms + (a DOT a) / (1.0 |a|))`
+
+`sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[u <- z] u)); e / (SUM[u <- e] u) end`
+
+`xp = rows(rmsn, x)`
+
+`dX2 = dX4 + rows(rmsnB, dX3, x2)`
+
+\end{preview}\end{document}

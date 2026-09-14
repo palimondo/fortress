@@ -1,0 +1,14 @@
+(* lift_g4: a parenthesised call followed by the user postfix ^T
+   (ledger row 144 says the unparenthesised form is a static error). *)
+component lift_g4
+export Executable
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+onehot(idx: Array[\RR64,ZZ32\], v: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|idx|, v, fn (i: ZZ32, j: ZZ32): RR64 => if idx[i] = (1.0 j) then 1.0 else 0.0 end)
+ks: Array[\RR64,ZZ32\] = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 i)
+run(): () = do
+    t1 = (onehot(ks, 5))^T
+    println "(g4) (onehot(ks,5))^T sizes = " t1.sizes " t1[1,1] = " t1[1,1]
+  end
+end

@@ -1,0 +1,14 @@
+(* lift_g8: user exp/log on Vector[\RR64,n\] beside the library's scalar
+   exp/log, both called in the same component. *)
+component lift_g8
+export Executable
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+exp[\nat n\](v: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => exp(v[j]))
+log[\nat n\](v: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|v|, fn (j: ZZ32): RR64 => log(v[j]))
+run(): () = do
+    v = vec(3, fn (j: ZZ32): RR64 => 1.0 + j)
+    println "(g8) exp(2.0) = " exp(2.0) "   log(2.0) = " log(2.0)
+    println "(g8) exp(v) = " exp(v)
+    println "(g8) log(v) = " log(v)
+  end
+end

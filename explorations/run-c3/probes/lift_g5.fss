@@ -1,0 +1,13 @@
+(* lift_g5: a nine-tuple binding from a function returning nine matrices *)
+component lift_g5
+export Executable
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+nine(): (Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\]) = do
+    k(s: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = mat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 s + 0.1 i + 0.01 j)
+    (k(1), k(2), k(3), k(4), k(5), k(6), k(7), k(8), k(9))
+  end
+run(): () = do
+    (a, b, c, d, e, f, g, h, i) = nine()
+    println "(g5) a[0,0] = " a[0,0] "  e[0,0] = " e[0,0] "  i[1,1] = " i[1,1]
+  end
+end

@@ -95,6 +95,9 @@ run(): () = do
     report("(8) stack(<| y | y <- rowsOf(x).map(rmsn) |>)",
            stack(<| y | y <- rowsOf(x).map[\Array[\RR64,ZZ32\]\](rmsn) |>))
 
+    (* warm-up: the walk interpreter's first passes are up to 2x slower *)
+    for k <- seq(0#5) do rows(rmsn, x) end
+    for k <- seq(0#5) do rows(sm, x) end
     t0 = nanoTime()
     for k <- seq(0#10) do rows(rmsn, x) end
     t1 = nanoTime()

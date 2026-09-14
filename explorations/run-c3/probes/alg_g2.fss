@@ -1,0 +1,11 @@
+(* g2: reductions with a runtime array as the generator *)
+component alg_g2
+export Executable
+run(): () = do
+    v = array[\RR64\](6).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    println "(1) SUM[t <- v] t = " (SUM[t <- v] t)
+    println "(2) BIG MAX[t <- v] t = " (BIG MAX[t <- v] t)
+    println "(3) SUM[i <- 0#|v|] v[i] = " (SUM[i <- 0#|v|] v[i])
+    println "(4) BIG MAX[i <- 0#|v|] v[i] = " (BIG MAX[i <- 0#|v|] v[i])
+  end
+end

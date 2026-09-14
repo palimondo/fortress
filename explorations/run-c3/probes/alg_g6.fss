@@ -1,0 +1,6 @@
+(* g6 side check: is division sign U+00F7 accepted as a user operator name? *)
+component alg_g6
+export Executable
+opr ÷(a: RR64, b: RR64): RR64 = a / b
+run(): () = println "(1) 7.0 ÷ 2.0 = " (7.0 ÷ 2.0)
+end

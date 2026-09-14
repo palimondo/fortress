@@ -1,0 +1,8 @@
+(* g2b: the prefix reduction form and a .sum() method, each expected to fail *)
+component alg_g2b
+export Executable
+run(): () = do
+    v = array[\RR64\](6).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    println "(5) SUM v = " (SUM v)
+  end
+end

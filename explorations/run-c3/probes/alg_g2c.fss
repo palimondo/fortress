@@ -1,0 +1,8 @@
+(* g2c: v.sum() *)
+component alg_g2c
+export Executable
+run(): () = do
+    v = array[\RR64\](6).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    println "(6) v.sum() = " v.sum()
+  end
+end

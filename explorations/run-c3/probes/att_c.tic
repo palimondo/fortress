@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}\begin{preview}
+
+`(qh, kh, vh, dHh) = (heads(q), heads(k), heads(v), heads(dH))`
+
+`att = cells(fn (qc, kc) => smRows((qc (kc^T)) / (SQRT (1.0 headDim)) + causalMask), qh, kh)`
+
+`hc  = unheads(cells(fn (ac, vc) => ac vc, att, vh))`
+
+`dV  = unheads(cells(fn (ac, dc) => (ac^T) dc, att, dHh))`
+
+`dS  = cells(fn (ac, dc) => smRowsB(ac, dc), att, cells(fn (dc, vc) => dc (vc^T), dHh, vh)) / (SQRT (1.0 headDim))`
+
+`dQ  = unheads(cells(fn (sc, kc) => sc kc, dS, kh))`
+
+`dK  = unheads(cells(fn (sc, qc) => (sc^T) qc, dS, qh))`
+
+\end{preview}\end{document}

@@ -1,0 +1,10 @@
+(* lift_g7: several declarations on one line, at top level and in a do block *)
+component lift_g7
+export Executable
+nEmbd: ZZ32 = 16; blockSize: ZZ32 = 16; nHead: ZZ32 = 4
+run(): () = do
+    a: ZZ32 = 1; b: ZZ32 = 2; c = 3.0
+    println "(g7 top level) " nEmbd " " blockSize " " nHead
+    println "(g7 in a block) " a " " b " " c
+  end
+end

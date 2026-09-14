@@ -1,0 +1,112 @@
+(* alg_a2 -- every overload of form A exercised at run time, one line each,
+   so that acceptance is not merely "it compiled". *)
+component alg_a2
+export Executable
+
+vecOf(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+matOf(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] =
+    array[\RR64\](r,c).fill(f)
+zipV[\nat s, nat t\](f: (RR64,RR64)->RR64, a: Vector[\RR64,s\], b: Vector[\RR64,t\]):
+        Array[\RR64,ZZ32\] = vecOf(|a|, fn (i: ZZ32): RR64 => f(a[i], b[i]))
+zipM[\nat r, nat c, nat p, nat q\](f: (RR64,RR64)->RR64, a: Matrix[\RR64,r,c\],
+        b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = a.sizes
+    matOf(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => f(a[i,j], b[i,j]))
+  end
+mulS(x: RR64, y: RR64): RR64 = x y
+divS(x: RR64, y: RR64): RR64 = x / y
+maxS(x: RR64, y: RR64): RR64 = if x > y then x else y end
+gtS(x: RR64, y: RR64): RR64 = if x > y then 1.0 else 0.0 end
+eqS(x: RR64, y: RR64): RR64 = if x = y then 1.0 else 0.0 end
+
+(* Hadamard *)
+opr ×[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = zipV(mulS, a, b)
+opr ×[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = zipM(mulS, a, b)
+
+(* elementwise / with scalar extension in both orders *)
+opr /[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = zipV(divS, a, b)
+opr /[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = zipM(divS, a, b)
+opr /[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => x / a)
+opr /[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => x / a)
+opr /[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => a / x)
+opr /[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => a / x)
+
+(* + and - between an array and a scalar, both orders (array+array is the library's) *)
+opr +[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => x + a)
+opr +[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => a + x)
+opr +[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => x + a)
+opr +[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => a + x)
+opr -[\nat s\](v: Vector[\RR64,s\], a: RR64): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => x - a)
+opr -[\nat s\](a: RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => a - x)
+opr -[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => x - a)
+opr -[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => a - x)
+
+(* elementwise SQRT, exp, log *)
+opr SQRT[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => SQRT x)
+opr SQRT[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => SQRT x)
+exp[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => exp x)
+exp[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => exp x)
+log[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = v.map[\RR64\](fn (x: RR64): RR64 => log x)
+log[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => log x)
+
+(* MAX with a scalar, both orders, and between two matrices *)
+opr MAX[\nat r, nat c\](a: RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => maxS(a, x))
+opr MAX[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => maxS(x, a))
+opr MAX[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = zipM(maxS, a, b)
+
+(* comparisons against a scalar yield a 0/1 matrix *)
+opr >[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => gtS(x, a))
+opr =[\nat r, nat c\](m: Matrix[\RR64,r,c\], a: RR64): Array[\RR64,(ZZ32,ZZ32)\] = m.map[\RR64\](fn (x: RR64): RR64 => eqS(x, a))
+
+(* the transpose postfix of gap row 149 *)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+
+showV[\nat s\](v: Vector[\RR64,s\]): String = BIG |||[i <- seq(0#|v|)] ("" v[i])
+showM[\nat r, nat c\](m: Matrix[\RR64,r,c\]): String = do
+    (rows, cols) = m.sizes
+    BIG |||[i <- seq(0#rows), j <- seq(0#cols)] ("" m[i,j])
+  end
+run(): () = do
+    v = vecOf(3, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    w = vecOf(3, fn (i: ZZ32): RR64 => 2.0)
+    mx = matOf(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j) - 1.0)
+    nx = matOf(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 2.0)
+    println "x  V*V   v × w        = " showV(v × w)
+    println "x  M*M   mx × nx      = " showM(mx × nx)
+    println "/  V/V   v / w        = " showV(v / w)
+    println "/  M/M   mx / nx      = " showM(mx / nx)
+    println "/  V/s   v / 2.0      = " showV(v / 2.0)
+    println "/  M/s   mx / 2.0     = " showM(mx / 2.0)
+    println "/  s/V   2.0 / v      = " showV(2.0 / v)
+    println "/  s/M   2.0 / mx     = " showM(2.0 / mx)
+    println "+  V+s   v + 1.0      = " showV(v + 1.0)
+    println "+  s+V   1.0 + v      = " showV(1.0 + v)
+    println "+  M+s   mx + 1.0     = " showM(mx + 1.0)
+    println "+  s+M   1.0 + mx     = " showM(1.0 + mx)
+    println "-  V-s   v - 1.0      = " showV(v - 1.0)
+    println "-  s-V   1.0 - v      = " showV(1.0 - v)
+    println "-  M-s   mx - 1.0     = " showM(mx - 1.0)
+    println "-  s-M   1.0 - mx     = " showM(1.0 - mx)
+    println "+  V+V   v + w        = " showV(v + w)
+    println "+  M+M   mx + nx      = " showM(mx + nx)
+    println "SQRT V   SQRT v       = " showV(SQRT v)
+    println "SQRT M   SQRT nx      = " showM(SQRT nx)
+    println "exp  V   exp(v)       = " showV(exp(v))
+    println "exp  M   exp(nx)      = " showM(exp(nx))
+    println "log  V   log(v)       = " showV(log(v))
+    println "log  M   log(nx)      = " showM(log(nx))
+    println "MAX s,M  0.0 MAX mx   = " showM(0.0 MAX mx)
+    println "MAX M,s  mx MAX 0.0   = " showM(mx MAX 0.0)
+    println "MAX M,M  mx MAX nx    = " showM(mx MAX nx)
+    println ">   M,s  mx > 0.0     = " showM(mx > 0.0)
+    println "=   M,s  mx = 1.0     = " showM(mx = 1.0)
+    println "jux s V  2.0 v        = " showV(2.0 v)
+    println "jux V s  v 2.0        = " showV(v 2.0)
+    println "jux s M  2.0 mx       = " showM(2.0 mx)
+    println "jux M s  mx 2.0       = " showM(mx 2.0)
+    println "jux M M  mx nx        = " showM(mx nx)
+    println "DOT V V  v DOT w      = " (v DOT w)
+    println "^T       (mx^T)       = " showM(mx^T)
+    println "library scalars still: 3.0 / 2.0 = " (3.0 / 2.0) "  SQRT 9.0 = " (SQRT 9.0) "  2.0 MAX 5.0 = " (2.0 MAX 5.0) "  1.0 > 0.0 = " (1.0 > 0.0) "  1.0 = 1.0 = " (1.0 = 1.0) "  exp 0.0 = " exp(0.0) "  log 1.0 = " log(1.0)
+  end
+end
