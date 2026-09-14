@@ -21,6 +21,16 @@ The model reads as Fortress, corresponds line for line to the Dyalog and to the 
 
 Rendering: `bin/fortick` turns a `.tic` file with backtick-quoted Fortress into `.tex`; `TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex -interaction=nonstopmode` produces the `.dvi`; `dvisvgm --no-fonts --exact-bbox` the SVG. `Fortify/fortify-doc.txt` documents the notation, and `experiment/setup.sh`'s render stage runs the pipeline once on a one-line excerpt so you have a working example. Multi-line definitions render better as several short lines than as one long one; if a line does not render, say so in the note and show the ASCII.
 
+## Alternatives before committing
+
+Do not claim a form after the first one that works. Three places have materially different designs, and each is to be tried in at least two forms on a small probe, rendered, and compared side by side with its formula and its Dyalog line before the program is rewritten:
+
+- **The row lift.** At least two of: a function that applies a vector function to each row view and stacks the results, deciding the result rank by overloading on the first row's result (the APL base's way); a generator of row views consumed by a comprehension or a `BIG` operator, with a builder that stacks; a `for` over rows writing into a preallocated matrix. Judge by how `rmsn` and `sm` read once lifted, and by what the four-thread run does to each.
+- **The elementwise algebra.** Operators declared on the shipped `Vector`/`Matrix` families with scalar extension, against a thin wrapper type of your own that carries the algebra. Judge by whether a formula such as the Adam update or the softmax reads as the formula, and by what each costs in declarations.
+- **The attention block.** The head loop over block views as in round one, against a form that makes the per-head cells values (a rank-3 array per document, or a tuple of head matrices) and applies the products to them. Judge by how close `A←sm⍤1⊢MK+⍤2⊢(Qh+.×⍤2⊢⍉⍤2⊢Kh)÷HD*0.5` gets to one line, and by whether anything is copied.
+
+Keep the probes in `probes/` with their outputs and renders. Record the rejected form of each in `design.md`'s round-two section with the reason, in a sentence or two. Bounded: probes of a few lines each, not two programs.
+
 ## Standard of success
 
 Unchanged from round one, and re-run after the rewrite: `src/MicroGptFlatCheck.fss` with every line PASS at `FORTRESS_THREADS=1` and at 4, outputs saved as `checks/round2_threads1.txt` and `checks/round2_threads4.txt`. Add to the check an aggregate verdict line and a non-zero exit on any FAIL, which round one lacked. The goldens do not change.
@@ -42,4 +52,4 @@ Turn 1 is environment setup and nothing else: `bash experiment/setup.sh` in the 
     Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
     Claude-Session: <your session URL>
 
-No model identifier anywhere else in files. Delegate only mechanical work such as re-running the check; the point is one focused context. Round one took 50 minutes; the check alone takes about 15 at one thread and 6 at four, so run it in the background while you write the tour.
+No model identifier anywhere else in files. Delegate only mechanical work such as re-running the check; the point is one focused context. Round one took 50 minutes; the alternatives add to that; the check alone takes about 15 at one thread and 6 at four, so run it in the background while you write the tour.
