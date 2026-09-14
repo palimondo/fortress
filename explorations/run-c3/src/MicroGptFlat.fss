@@ -37,42 +37,48 @@ matRows(i: ZZ32): ZZ32 = if (i = 0) OR (i = 2) then vocabSize elif i = 7 then 4 
 matCols(i: ZZ32): ZZ32 = if i = 8 then 4 nEmbd else nEmbd end
 matOffset(i: ZZ32): ZZ32 = SUM[j <- 0#i] matRows(j) matCols(j)
 nParams(): ZZ32 = matOffset(9)
-(* matrix i as a zero-copy view of p; all nine *)
-mat(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = view(p, matOffset(i), matRows(i), matCols(i))
-mats(p: Array[\RR64,ZZ32\]) = (mat(p,0), mat(p,1), mat(p,2), mat(p,3), mat(p,4), mat(p,5), mat(p,6), mat(p,7), mat(p,8))
+(* matrix i as a zero-copy view of p, and all nine: v¨⍳9 *)
+view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = view(p, matOffset(i), matRows(i), matCols(i))
+views(p: Array[\RR64,ZZ32\]) = (view(p,0), view(p,1), view(p,2), view(p,3), view(p,4), view(p,5), view(p,6), view(p,7), view(p,8))
 (* the nine gradient matrices back into one flat vector: ⊃,/,¨ *)
-flat(gs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\] = do
+flat(g0: Array[\RR64,(ZZ32,ZZ32)\], g1: Array[\RR64,(ZZ32,ZZ32)\], g2: Array[\RR64,(ZZ32,ZZ32)\], g3: Array[\RR64,(ZZ32,ZZ32)\], g4: Array[\RR64,(ZZ32,ZZ32)\],
+     g5: Array[\RR64,(ZZ32,ZZ32)\], g6: Array[\RR64,(ZZ32,ZZ32)\], g7: Array[\RR64,(ZZ32,ZZ32)\], g8: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,ZZ32\] = do
     g = zeros(nParams())
-    for i <- 0#9 do mat(g, i).assign(gs[i]) end
+    view(g,0).assign(g0); view(g,1).assign(g1); view(g,2).assign(g2); view(g,3).assign(g3); view(g,4).assign(g4)
+    view(g,5).assign(g5); view(g,6).assign(g6); view(g,7).assign(g7); view(g,8).assign(g8)
     g
   end
+(* the transpose operator lives here and not in the vocabulary: an api file
+   cannot declare a postfix ^T (Run C3 gap row) *)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
 
 (* ------------------------------------- the row-level functions, once ---- *)
 rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsRms + (x DOT x) / |x|)
-sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX z)); e / (SUM e) end
+sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
 rmsnB(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
     r = SQRT (epsRms + (x DOT x) / |x|); y = x / r
     (dy - y ((y DOT dy) / |y|)) / r
   end
 smB(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
 (* the causal mask, additive: ¯1E10 above the diagonal *)
-causalMask: Array[\RR64,(ZZ32,ZZ32)\] = -(10.0^10) (upper(blockSize))
-(* the per-head cells: rows 16d.., columns of head h *)
+causalMask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i, j) => if j > i then -(10.0^10) else 0.0 end)
+(* f⍤2 over the per-head cells: rows 16d.., the columns of head h *)
 heads(f: (Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\]) -> Array[\RR64,(ZZ32,ZZ32)\],
-      a: Array[\RR64,(ZZ32,ZZ32)\], b: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] =
-    cells(f, a, b, blockSize, nHead)
+      a: Array[\RR64,(ZZ32,ZZ32)\], b: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = cells(f, a, b, blockSize, nHead)
+heads(f: (Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\], Array[\RR64,(ZZ32,ZZ32)\]) -> Array[\RR64,(ZZ32,ZZ32)\],
+      a: Array[\RR64,(ZZ32,ZZ32)\], b: Array[\RR64,(ZZ32,ZZ32)\], c: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = cells(f, a, b, c, blockSize, nHead)
 
 corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)
 
 (* ------------------- the step: keys -> (loss, flat gradient). Pure. ----- *)
 step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
     ids = corpus.tokens(b, 0); tg = corpus.tokens(b, 1); vm = corpus.valid(b); nv = SUM vm; pos = corpus.positions(b)
-    (wte, wpe, lm, wq, wk, wv, wo, f1, f2) = mats(p)
+    (wte, wpe, lm, wq, wk, wv, wo, f1, f2) = views(p)
     (* -- forward, all (doc,pos) rows at once -- *)
     x = gather(wte, ids) + gather(wpe, pos)
     xp = rows(rmsn, x); x1 = rows(rmsn, xp)
     q = x1 (wq^T); k = x1 (wk^T); v = x1 (wv^T)
-    att = heads(fn (qc, kc) => rows(sm, (qc (kc^T)) / SQRT headDim + causalMask), q, k)
+    att = heads(fn (qc, kc) => rows(sm, (qc (kc^T)) / SQRT (1.0 headDim) + causalMask), q, k)
     hc = heads(fn (ac, vc) => ac vc, att, v)
     x2 = xp + hc (wo^T); x3 = rows(rmsn, x2); m0 = x3 (f1^T); mr = 0.0 MAX m0; x4 = x2 + mr (f2^T)
     pr = rows(sm, x4 (lm^T)); loss = -(vm DOT log(pick(pr, tg))) / nv
@@ -81,12 +87,12 @@ step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) =
     gF2 = (dX4^T) mr; dM0 = (dX4 f2) × (m0 > 0.0); gF1 = (dM0^T) x3; dX3 = dM0 f1
     dX2 = dX4 + rows(rmsnB, dX3, x2); gWO = (dX2^T) hc; dH = dX2 wo
     dV = heads(fn (ac, dc) => (ac^T) dc, att, dH)
-    dS = heads(fn (ac, dc) => rows(smB, ac, dc), att, heads(fn (dc, vc) => dc (vc^T), dH, v)) / SQRT headDim
+    dS = heads(fn (ac, dc, vc) => rows(smB, ac, dc (vc^T)), att, dH, v) / SQRT (1.0 headDim)
     dQ = heads(fn (sc, kc) => sc kc, dS, k); dK = heads(fn (sc, qc) => (sc^T) qc, dS, q)
     gWQ = (dQ^T) x1; gWK = (dK^T) x1; gWV = (dV^T) x1; dX1 = dQ wq + dK wk + dV wv
     dXp = dX2 + rows(rmsnB, dX1, xp); dX = rows(rmsnB, dXp, x)
-    gWTE = (onehot(ids, vocabSize))^T dX; gWPE = (onehot(pos, blockSize))^T dX
-    (loss, flat([gWTE gWPE gLM gWQ gWK gWV gWO gF1 gF2]))
+    yi = onehot(ids, vocabSize); yp = onehot(pos, blockSize); gWTE = (yi^T) dX; gWPE = (yp^T) dX
+    (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))
   end
 
 (* --------------------- Adam: three whole-vector expressions over P, M, V -- *)

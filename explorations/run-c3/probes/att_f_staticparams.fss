@@ -1,0 +1,10 @@
+(* att_f_staticparams -- static parameters after the value parameters of an
+   ordinary function.  Only the postfix `opr` form allows that placement. *)
+component att_f_staticparams
+export Executable
+sumOf(m: Matrix[\RR64,r,c\])[\nat r, nat c\]: RR64 = do
+    (rows, cols) = m.sizes
+    SUM[i <- 0#rows, j <- 0#cols] m[i,j]
+  end
+run(): () = println "sum " sumOf(array[\RR64\](2,2).fill(1.0))
+end

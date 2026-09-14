@@ -103,23 +103,23 @@ loadParams(dir: String, name: ZZ32 -> String, count: ZZ32, total: ZZ32): Array[\
 (* the corpus: one document per line, interned a..z; the token matrix has
    width block+1, BOS before and after each document and in every unused
    slot, and a length per document (its characters plus the leading BOS) *)
-object Corpus(tokm: Array[\ZZ32,(ZZ32,ZZ32)\], len: Array[\ZZ32,ZZ32\], block: ZZ32)
+object Corpus(tokm: Array[\ZZ32,(ZZ32,ZZ32)\], len: Array[\ZZ32,ZZ32\], blk: ZZ32)
     size(): ZZ32 = |len|
     length(d: ZZ32): ZZ32 = len[d]
     token(d: ZZ32, j: ZZ32): ZZ32 = tokm[d, j]
     (* the keys of a batch b of documents, one row per (document, position):
        the tokens at position + off, the positions, and the 0/1 validity mask *)
     tokens(b: Array[\ZZ32,ZZ32\], off: ZZ32): Array[\ZZ32,ZZ32\] =
-        keys(|b| block, fn (r: ZZ32): ZZ32 => tokm[b[r DIV block], (r MOD block) + off])
+        keys(|b| blk, fn (r: ZZ32): ZZ32 => tokm[b[r DIV blk], (r MOD blk) + off])
     positions(b: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\] =
-        keys(|b| block, fn (r: ZZ32): ZZ32 => r MOD block)
+        keys(|b| blk, fn (r: ZZ32): ZZ32 => r MOD blk)
     valid(b: Array[\ZZ32,ZZ32\]): Array[\RR64,ZZ32\] =
-        vec(|b| block, fn (r: ZZ32): RR64 => if (r MOD block) < len[b[r DIV block]] then 1.0 else 0.0 end)
+        vec(|b| blk, fn (r: ZZ32): RR64 => if (r MOD blk) < len[b[r DIV blk]] then 1.0 else 0.0 end)
 end
-loadCorpus(path: String, block: ZZ32, bos: ZZ32): Corpus = do
+loadCorpus(path: String, blk: ZZ32, bos: ZZ32): Corpus = do
     names = readLines(path)
-    tokm = array[\ZZ32\](|names|, block + 1).fill(bos)
+    tokm = array[\ZZ32\](|names|, blk + 1).fill(bos)
     for d <- seq(0#|names|), j <- seq(0#|names[d]|) do tokm[d, 1 + j] := names[d][j].codePoint - 'a'.codePoint end
-    Corpus(tokm, keys(|names|, fn (d: ZZ32): ZZ32 => 1 + |names[d]|), block)
+    Corpus(tokm, keys(|names|, fn (d: ZZ32): ZZ32 => 1 + |names[d]|), blk)
   end
 end

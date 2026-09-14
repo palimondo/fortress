@@ -1,0 +1,7 @@
+(* att_e_typedef -- the `typedef` spelling, for the record. *)
+component att_e_typedef
+export Executable
+typedef Cell = Array[\RR64,(ZZ32,ZZ32)\]
+mk(r: ZZ32, c: ZZ32): Cell = array[\RR64\](r,c).fill(0.0)
+run(): () = println "cell " (mk(2,2))[0,0]
+end

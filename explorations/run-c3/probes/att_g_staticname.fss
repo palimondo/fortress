@@ -1,0 +1,14 @@
+(* att_g_staticname -- a top-level value named q against a nat static
+   parameter named q, round one's own spelling of assignInto. *)
+component att_g_staticname
+export Executable
+q: Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](2,2).fill(1.0)
+assignInto[\nat r, nat c, nat p, nat q\](dest: Matrix[\RR64,r,c\], src: Matrix[\RR64,p,q\]): () = do
+    dest.assign(fn (i: ZZ32, j: ZZ32): RR64 => src[i,j])
+  end
+run(): () = do
+    d = array[\RR64\](2,2).fill(0.0)
+    assignInto(d, q)
+    println "d[0,0] " d[0,0]
+  end
+end
