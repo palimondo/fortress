@@ -408,8 +408,9 @@ last digit, as in round one.
 Cost on this host: a batch-1 step is 5.4–5.8 s at one thread against round
 one's 4.15 s on the reviewer's host of the same speed (row 154 puts the two
 hosts at 1.8× apart), a batch-4 step 19 s; the check took 610 s at one
-thread and CHECK4 s at four, against round one's 855 and 353 on the slower
-host and 451 and 226 on the reviewer's. The difference is the attention form
+thread and 247 s at four (2.0 s per batch-1 step and 7.0 s per batch-4 step
+there), against round one's 855 and 353 on the slower host and 451 and 226 on
+the reviewer's; the two outputs are identical apart from their timing fields. The difference is the attention form
 (gap row 165) and the lifts' row views; no speed work was done.
 
 ### Blinding
