@@ -24,8 +24,9 @@ cd explorations/run-c/src
 FORTRESS_THREADS=4 ../../../bin/fortress MicroGptFlatCheck.fss > ../checks/threads4.txt 2>&1
 ```
 
-The check takes 855 s at one thread (55 steps: every finite difference is
-two full steps); the timings are in its output.
+The check takes 855 s at one thread and 353 s at four (55 steps: every
+finite difference is two full steps); the timings are in its output, and
+the two outputs agree to the last digit.
 Bounded by construction: five steps, batches of at most four, no training.
 
 To regenerate the text goldens:

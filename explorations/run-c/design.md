@@ -143,7 +143,10 @@ the walk path does not enforce a declared return type.
 
 One thread: 7.8 to 8 s per batch-1 step (forward and backward; 14 s for
 the first, which pays the interpreter's warm-up), 26.6 s per batch-4 step;
-the whole check, 55 steps in all, 855 s. The library's product
+the whole check, 55 steps in all, 855 s. Four threads: 2.6 to 3.0 s per
+batch-1 step, 8.6 s per batch-4 step, 353 s for the check, with every
+measured value identical to the one-thread run to the last digit. The
+library's product
 runs at roughly 24 µs per multiply-add (`probes/p05_mmtime.fss`), and a
 hand-written loop is no faster, so the step time is the interpreter's
 per-operation cost times the 190K (batch 1) to 750K (batch 4) multiply-adds
