@@ -1,0 +1,8 @@
+the three spellings agree: 1.0
+16x16 by 16x16, 200 products each:
+  A+.×B          (direct)  : 21.978542737 s
+  the hand-written loop     : 33.706423106 s
+  A{⍺+⍵}.{⍺×⍵}B  (general) : 89.261450231 s
+  general / direct         : 4.061299754907404
+  general / hand loop      : 2.6482029834577965
+  direct (DOT) / hand loop : 0.6520579970138585

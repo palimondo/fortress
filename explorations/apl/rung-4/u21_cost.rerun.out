@@ -1,0 +1,13 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11008149832532356539rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11008149832532356539rats/com/sun/fortress/parser/templateparser/TemplateParser456.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+scalars, 100000 calls each:
+  1+2      : 1.187241497 s
+  1 {⍺+⍵} 2: 4.232522035 s
+  ratio    : 3.56500513644024
+100-element vectors, 10000 calls each:
+  v+v      : 26.99498706 s
+  v {⍺+⍵} v: 27.094120599 s
+  ratio    : 1.0036722943700496
