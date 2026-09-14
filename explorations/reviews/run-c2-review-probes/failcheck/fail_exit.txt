@@ -1,0 +1,22 @@
+MicroGptFlat checks | threads 1 | tolerances: loss 1.0E-12 grad 1.0E-12 fd 1.0E-8
+loader: max |P - P0| over 4192 (same parser on both sides): diff 0.0 PASS
+corpus: max |row - golden| over documents 0..15 [tolerance deliberately -1.0]: diff 0.0 FAIL
+total 12 s
+verdict: 1 PASS, 1 FAIL
+FAIL: MicroGptFlat checks: 1 FAIL
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/explorations/reviews/run-c2-review-probes/failcheck/MicroGptFlatCheck.fss:44:26-70:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+EXIT=1

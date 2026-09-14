@@ -1,0 +1,46 @@
+(* MicroGptFlatCheck -- the standard of success for Run C, one line per check
+   with the measured difference and PASS or FAIL, against the goldens in
+   explorations/run-c/goldens (extracted from experiment/run-c-goldens/goldens.json),
+   an aggregate verdict line, and a non-zero exit on any FAIL.
+   Run from explorations/run-c/src:  ../../../bin/fortress MicroGptFlatCheck.fss *)
+component MicroGptFlatCheck
+export Executable
+import MicroGptFlat.{...}
+import FlatArrays.{...}
+import FlatData.{...}
+import System.{...}
+
+goldensDir: String = "/home/user/fortress/explorations/run-c/goldens"
+tolLoss: RR64 = 10.0^(-12)
+tolGrad: RR64 = 10.0^(-12)
+tolFd: RR64 = 10.0^(-8)
+
+passes: ZZ32 := 0
+failures: ZZ32 := 0
+report(name: String, diff: RR64, tol: RR64): () = do
+    ok = diff <= tol
+    if ok then passes += 1 else failures += 1 end
+    println name ": diff " diff " " (if ok then "PASS" else "FAIL" end)
+  end
+maxAbsDiff[\nat n, nat m\](a: Vector[\RR64,n\], b: Vector[\RR64,m\]): RR64 =
+    BIG MAX[i <- 0#|a|] |a[i] - b[i]|
+
+run(): () = do
+    println "MicroGptFlat checks | threads " (getProperty("fortress.threads", "?")) " | tolerances: loss " tolLoss " grad " tolGrad " fd " tolFd
+    wall0 = nanoTime()
+    p0 = loadParams("/home/user/fortress/explorations/apl/reference/dzaima/w")
+    (tokens, lengths) = corpus()
+    (* 0. the loaders against the goldens' P0 (the same digit strings through the
+       same parser, so a difference of zero is forced) and the corpus rows *)
+    report("loader: max |P - P0| over 4192 (same parser on both sides)", maxAbsDiff(p0, readVector(goldensDir "/P0.txt", 4192)), 0.0)
+    rows16 = readLines(goldensDir "/corpus_first16.txt")
+    corpusDiff = BIG MAX[d <- 0#16] do
+        nums = numbersOf(rows16[d].beyond(' '))   (* the line is: name len t0 .. t16; nums[0] is len *)
+        (BIG MAX[j <- 0#17] |nums[1 + j] - (1.0 tokens[d, j])|) MAX |nums[0] - (1.0 lengths[d])|
+      end
+    report("corpus: max |row - golden| over documents 0..15 [tolerance deliberately -1.0]", corpusDiff, -1.0)
+    println "total " ((nanoTime() - wall0) DIV 1000000000) " s"
+    println "verdict: " passes " PASS, " failures " FAIL"
+    if failures > 0 then fail("MicroGptFlat checks: " failures " FAIL") end
+  end
+end
