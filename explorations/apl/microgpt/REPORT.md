@@ -73,12 +73,12 @@ The container was restarted between C4's measurements (run-c4/design.md, 873 s a
 | this host, after the restart | C4 (`run-c4/checks/rerun-post-restart`) | APL (`checks/threads1_quiet.txt`, `threads4.txt`) | ratio |
 |---|---|---|---|
 | check, pool size 1 | 528 s | 593 s | 1.12 |
-| check, pool size 4 | C4P4 s | 419 s | C4R4 |
+| check, pool size 4 | 263 s | 391 s | 1.49 |
 | batch-1 step, pool size 1 | 4.8 s | 5.1 s | 1.06 |
 | batch-4 step, pool size 1 | 16.6 s | 19.1 s | 1.15 |
-| batch-1 step, pool size 4 | C4S4 s | 3.0 s | — |
+| batch-1 step, pool size 4 | 2.0 s | 3.0 s | — |
 
-The sub-language costs about 1.1× the hand-written program on the whole check, which is the first measurement of the rank operator's general route over rows and planes (rung 6 had priced only the per-element route, at 3.8×): one frame push per row or plane and one fresh array per `⍤` result, where C4 returns views, add about a tenth on top of a step that is dominated by the matrix products both programs do through the same `DOT`. The design's expectation, a cost near C4's rather than a multiple of it, holds.
+The sub-language costs about 1.1× the hand-written program on the whole check at pool size 1 and about 1.5× at pool size 4: the base's general route over rows and planes is written as `while` loops, because its frame stack cannot be pushed from parallel iterations (gap row 94), so it gains nothing from the pool where C4's `rows` lifts are parallel `for` loops. At pool size 1 the story is the one the design expected: which is the first measurement of the rank operator's general route over rows and planes (rung 6 had priced only the per-element route, at 3.8×): one frame push per row or plane and one fresh array per `⍤` result, where C4 returns views, add about a tenth on top of a step that is dominated by the matrix products both programs do through the same `DOT`. The design's expectation, a cost near C4's rather than a multiple of it, holds at pool size 1; the pool-4 gap is the price of the frame stack, stated once more.
 
 ## Gap rows
 

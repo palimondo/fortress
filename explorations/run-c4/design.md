@@ -66,7 +66,7 @@ Pavol asked whether the model's annotations are necessary, given that the interp
 
 The flat-style program `explorations/apl/reference/hsu-flat/microgpt_concise.dyalog` maps onto C4 as follows, and the program-specific APL design (`explorations/apl/microgpt/DESIGN.md`) starts from this table: `h` and `u` are `heads` and `unheads`; `+.×⍤2` is the batched juxtaposition; `⍉⍤2` is `^T` on an `Array3`; `MK+⍤2` is `mask + t`; `sm⍤1` and `rmsn⍤1` are `rows`; `×⍤0 1` is `diag`; `⌷⍤0 1` is `pick`; `∘.=` is `onehot`; `⊃,/,¨` is `flat`; `v¨⍳9` is the strand of `view(p, i)`; `TOKM[b;]`, `LEN[b]∘.>⍳BLK` and `N⍴⍳BLK` are the corpus object's methods; `⎕NREAD` is `loadParams`; `M∘←`, `V∘←`, `P∘←` are the returned triple of `adam`.
 
-Done (2026-09-14, later the same day): `explorations/apl/microgpt/` holds the program in the sub-language and its report; it passes this check at both pool sizes with identical values, at 593 s and 419 s against the 873 s and 396 s above, so the general per-row and per-plane route of the rank operator costs about 1.1× (528 s against 593 s on the restarted container, `checks/rerun-post-restart/`) over the hand-written C4 on this check. What gave at pool size 4 was the frame stack (ledger row 265).
+Done (2026-09-14, later the same day): `explorations/apl/microgpt/` holds the program in the sub-language and its report; it passes this check at both pool sizes with identical values, at 593 s and 391 s against the 873 s and 396 s above, so the general per-row and per-plane route of the rank operator costs about 1.1× (528 s against 593 s on the restarted container, `checks/rerun-post-restart/`) over the hand-written C4 on this check. What gave at pool size 4 was the frame stack (ledger row 265).
 
 ## Process
 
