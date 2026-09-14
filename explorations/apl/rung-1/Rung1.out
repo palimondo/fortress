@@ -1,6 +1,6 @@
 Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
-Processing /tmp/fortress10177901297751942256rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
-Note: /tmp/fortress10177901297751942256rats/com/sun/fortress/parser/templateparser/TemplateParser164.java uses unchecked or unsafe operations.
+Processing /tmp/fortress2592900813673723611rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress2592900813673723611rats/com/sun/fortress/parser/templateparser/TemplateParser253.java uses unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 
 === examples of the chapter, against the book's printed output ===

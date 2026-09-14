@@ -1,0 +1,50 @@
+(* u19: Rung4.out.0 -- the chapter's `sum` dfn parses when every body line
+   carries a trailing comment (Ex 9) and fails when the comments are dropped
+   (Ex 10):
+
+     Rung4.fss:117:47: Syntax Error
+
+   Both the default-⍺ rule and the guard rule have three variants -- comment,
+   ⋄, and line break -- and only the line-break ones were untested.  Four cases,
+   simplest first, so that the first failure names the rule.
+
+   The answer (u19_break.out.0, `u19_break.fss:31:24: Syntax Error`) is that the
+   rules are sound and the trap is gap row 52's, one construct further: the gap
+   before a line break is GREEDY across it, so a guard's value followed by a
+   line whose first token can continue it swallows that line.  `{⍵>2: 42 (break)
+   ¯99}` reads `42 ¯99` as one strand and then has no statement left; `⍺ ← 0
+   (break) 0=≢⍵:⍺` reads `0 0=≢⍵` as one expression and then fails at the colon.
+   A body line separated by ⋄, or by the book's own trailing comment, parses;
+   so does a line break above a line that begins with a NAME.
+
+   (a) a plain binding separated by a line break inside a dfn  (the control)
+   (b) the default ⍺ separated by a line break, above a name
+   (c) a guard separated by ⋄, and by a line break above a name
+   (d) the chapter's sum, comments and all *)
+component u19_break
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+p(id: String, got: String): () = println(("  " id " = " got))
+
+run(): () = do
+    p("(a) {a ← 1 (break) a+⍵} 5",
+      aplShow(apl⦇ {a ← 1
+                    a+⍵} 5 ⦈))
+    p("(b) {⍺ ← 7 (break) ⍺+⍵} 5",
+      aplShow(apl⦇ {⍺ ← 7
+                    ⍺+⍵} 5 ⦈))
+    p("(c1) {⍵>2: 42 ⋄ ¯99} 3", aplShow(apl⦇ {⍵>2: 42 ⋄ ¯99} 3 ⦈))
+    p("(c2) {⍵>2: 42 (break) a} 3",
+      aplShow(apl⦇ {a ← ¯99 ⋄ ⍵>2: 42
+                    a} 3 ⦈))
+    p("(d) the chapter's sum, with its comments",
+      aplShow(apl⦇ sum ← {
+                       ⍺ ← 0       ⍝ Initialise the accumulator
+                       0=≢⍵:⍺      ⍝ If right arg empty vector, return accumulator
+                       (⍺+⊃⍵)∇1↓⍵  ⍝ Add head to accumulator, recurse over tail
+                   } ⋄
+                   sum ⍳10 ⦈))
+  end
+end

@@ -1,0 +1,44 @@
+(* u15: after u14 the rank operator still failed to dispatch with an
+   arrow-typed function parameter, so the remaining suspects were the api's
+   `Any` as a RESULT type and the number of members in the family.  Two more
+   temporary families in base/AplCore separate them:
+
+     aplTstD[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): Any     = "D: rank 1"
+     aplTstD[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): Any = "D: rank 2"
+     aplTstE(f: ()->Any, x: RR64): String                        = "E: rank 0"
+     aplTstE[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): String   = "E: rank 1"
+     aplTstE[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): String = "E: rank 2"
+     aplTstE[\nat a, nat b, nat c\](f: ()->Any, t: Array3[…]): String   = "E: rank 3"
+
+   D is two members with an `Any` RESULT; E is four members, the shape of
+   aplRank1, with a String result.  E dispatches and D does not
+   (u15_any.out.0):
+
+     Failed to find any matching overload, args = (FnExpr … ()->Any …,
+     __DefaultMatrix[\RR64,2,2\]), overload = {
+       aplTstD[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):Any …
+       aplTstD[\nat r,nat c\](f:()->Any,m:Matrix[\FortressLibrary.RR64,r,c\]):Any …}
+
+   -- note `Any` printed UNQUALIFIED where every other type is qualified.  So
+   the api's `Any` is the obstacle, in the RESULT as well as in a parameter,
+   and the last question is whether `Object` serves instead: D is re-declared
+   with an Object result, returning an RR64 from one member and an array from
+   the other. *)
+component u15_any
+import AplCore.{...}
+export Executable
+
+run(): () = do
+    m = aplMat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    v = aplVec(2, fn (i: ZZ32): RR64 => 1.0 i)
+    t = aplReshape3(2.0, 2.0, 2.0, aplIota(8.0))
+    f = fn (): Any => 1.0
+    println("(e) four members, String result:")
+    println(("  aplTstE(f, 1.0) = " aplTstE(f, 1.0) ", aplTstE(f, v) = " aplTstE(f, v)))
+    println(("  aplTstE(f, m) = " aplTstE(f, m) ", aplTstE(f, t) = " aplTstE(f, t)))
+    println("(d) two members, Any result -- u15_any.out.0:")
+    println("  Failed to find any matching overload (the verbatim text is in the header)")
+    println("(f) the same two members with an Object result, returning an RR64 and an array:")
+    println(("  aplTstD(f, v) = " aplShow(aplTstD(f, v)) ", aplTstD(f, m) = " aplShow(aplTstD(f, m))))
+  end
+end

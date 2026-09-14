@@ -1,0 +1,36 @@
+(* u14: u13 showed that eleven signatures declared LOCALLY dispatch on a
+   function value and the same eleven declared in AplCore's api do not.  This
+   asks which spelling of the function parameter crosses the api boundary:
+   Any, an arrow type, or Object.  The three families were three TEMPORARY
+   declarations in base/AplCore, removed once the answer was in:
+
+     aplTstA[\nat s\](f: Any, v: Vector[\RR64,s\]): String = "A: rank 1"
+     aplTstA[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): String = "A: rank 2"
+     aplTstB[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): String = "B: rank 1"
+     aplTstB[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): String = "B: rank 2"
+     aplTstC[\nat s\](f: Object, v: Vector[\RR64,s\]): String = "C: rank 1"
+     aplTstC[\nat r, nat c\](f: Object, m: Matrix[\RR64,r,c\]): String = "C: rank 2"
+
+   with the same six lines in the api.  The answer: B dispatches and C is
+   "Failed to find any matching overload" -- a function value is not an Object.
+   The run died at C, so A was never reached here; what pinned the cause was
+   u15, which shows that `Any` as the RESULT type is the obstacle and that the
+   parameter may be `Any` or an arrow.  The three families were removed again,
+   so this file no longer runs against the current base; u14_api.out.0 is its
+   run. *)
+component u14_api
+import AplCore.{...}
+export Executable
+
+run(): () = do
+    m = aplMat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    v = aplVec(2, fn (i: ZZ32): RR64 => 1.0 i)
+    f = fn (): Any => 1.0
+    println("(b) an arrow-typed parameter:")
+    println(("  aplTstB(f, v) = " aplTstB(f, v) ", aplTstB(f, m) = " aplTstB(f, m)))
+    println("(c) an Object parameter:")
+    println(("  aplTstC(f, m) = " aplTstC(f, m)))
+    println("(a) an Any parameter:")
+    println(("  aplTstA(f, m) = " aplTstA(f, m)))
+  end
+end

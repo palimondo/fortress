@@ -603,27 +603,27 @@ aplLog[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,(ZZ32,
     FIRST cell's result (u09); a later cell of a different shape is APL's
     LENGTH ERROR, a contract violation.  The result type is Any because the
     rank is a run-time fact -- the caller's aplShow dispatches on it. **)
-aplRank1(f: Any, x: RR64): Any
-aplRank1[\nat s\](f: Any, v: Vector[\RR64,s\]): Any
-aplRank1[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Any
-aplRank1[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): Any
-aplRank2[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Any
-aplRank2[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): Any
-aplRank1[\nat s, nat t\](f: Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Any
-aplRank1[\nat s\](f: Any, l: RR64, r: Vector[\RR64,s\]): Any
-aplRank1[\nat s, nat r2, nat c2\](f: Any, l: Vector[\RR64,s\], m: Matrix[\RR64,r2,c2\]): Any
-aplRank1[\nat r2, nat c2\](f: Any, l: RR64, m: Matrix[\RR64,r2,c2\]): Any
-aplRank1[\nat p, nat q, nat r2, nat c2\](f: Any, a: Matrix[\RR64,p,q\],
-        b: Matrix[\RR64,r2,c2\]): Any
-aplRank1[\nat s, nat a, nat b, nat c\](f: Any, l: Vector[\RR64,s\],
-        t: Array3[\RR64,0,a,0,b,0,c\]): Any
-aplRank1[\nat a, nat b, nat c\](f: Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Any
-aplRank2[\nat p, nat q, nat r2, nat c2\](f: Any, a: Matrix[\RR64,p,q\],
-        b: Matrix[\RR64,r2,c2\]): Any
-aplRank2[\nat p, nat q, nat a, nat b, nat c\](f: Any, l: Matrix[\RR64,p,q\],
-        t: Array3[\RR64,0,a,0,b,0,c\]): Any
-aplRank2[\nat a, nat b, nat c\](f: Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Any
-aplRank2[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: Any,
-        x: Array3[\RR64,0,a1,0,b1,0,c1\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Any
+aplRank1(f: ()->Any, x: RR64): Object
+aplRank1[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): Object
+aplRank1[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): Object
+aplRank1[\nat a, nat b, nat c\](f: ()->Any, t: Array3[\RR64,0,a,0,b,0,c\]): Object
+aplRank2[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): Object
+aplRank2[\nat a, nat b, nat c\](f: ()->Any, t: Array3[\RR64,0,a,0,b,0,c\]): Object
+aplRankD1[\nat s, nat t\](f: ()->Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Object
+aplRankD1[\nat s\](f: ()->Any, l: RR64, r: Vector[\RR64,s\]): Object
+aplRankD1[\nat s, nat r2, nat c2\](f: ()->Any, l: Vector[\RR64,s\], m: Matrix[\RR64,r2,c2\]): Object
+aplRankD1[\nat r2, nat c2\](f: ()->Any, l: RR64, m: Matrix[\RR64,r2,c2\]): Object
+aplRankD1[\nat p, nat q, nat r2, nat c2\](f: ()->Any, a: Matrix[\RR64,p,q\],
+        b: Matrix[\RR64,r2,c2\]): Object
+aplRankD1[\nat s, nat a, nat b, nat c\](f: ()->Any, l: Vector[\RR64,s\],
+        t: Array3[\RR64,0,a,0,b,0,c\]): Object
+aplRankD1[\nat a, nat b, nat c\](f: ()->Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Object
+aplRankD2[\nat p, nat q, nat r2, nat c2\](f: ()->Any, a: Matrix[\RR64,p,q\],
+        b: Matrix[\RR64,r2,c2\]): Object
+aplRankD2[\nat p, nat q, nat a, nat b, nat c\](f: ()->Any, l: Matrix[\RR64,p,q\],
+        t: Array3[\RR64,0,a,0,b,0,c\]): Object
+aplRankD2[\nat a, nat b, nat c\](f: ()->Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Object
+aplRankD2[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: ()->Any,
+        x: Array3[\RR64,0,a1,0,b1,0,c1\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Object
 
 end

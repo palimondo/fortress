@@ -1,0 +1,50 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress459287467761091137rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress459287467761091137rats/com/sun/fortress/parser/templateparser/TemplateParser497.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8195633324689058238rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8195633324689058238rats/com/sun/fortress/parser/templateparser/TemplateParser746.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(a) a dfn:
+  {⍵+1} 41             = 42
+  32 {⍺+⍵} 98          = 130
+  f ← {⍵×2} ⋄ f 21     = 42
+(b) ⍺ ⍵ as operands, a dfn in a dfn:
+  {⍵≡⊖⍵} 1 2 3 2 1     = 1
+  1 {⍺+{⍵×10} ⍵} 2     = 21
+(c) the default ⍺ and the guard:
+  {⍺ ← ¯99 ⋄ ⍺+⍵} 99   = 0
+  57 {⍺ ← ¯99 ⋄ ⍺+⍵}99 = 156
+  {⍵>2: 42 ⋄ ¯99} 3    = 42
+  {⍵>2: 42 ⋄ ¯99} 1    = ¯99
+(d) ∇ and a named function:
+  sum ← {⍺←0 ⋄ 0=≢⍵:⍺ ⋄ (⍺+⊃⍵)∇1↓⍵} ⋄ sum ⍳10 = 45
+  100 sum ⍳10          = 145
+(e) the rank operator:
+  ⌽⍤1⊢2 3⍴⍳6           = 2 1 0
+5 4 3
+  (⌽⍤1)2 3⍴⍳6          = 2 1 0
+5 4 3
+  ⍉⍤2⊢2 3⍴⍳6           = 0 3
+1 4
+2 5
+  {+/⍵}⍤1⊢2 3⍴⍳6       = 3 12
+  0 1 2 +⍤1⊢2 3⍴⍳6     = 0 2 4
+3 5 7
+  (2 3⍴⍳6)(+⍤1)2 3⍴⍳6  = 0 2  4
+6 8 10
+(f) ∘ ⊢ ⊣:
+  relu ← 0∘⌈ ⋄ relu ¯2 ¯1 0 1 2 = 0 0 0 1 2
+  ⊢1 2 3               = 1 2 3
+  1 2 3⊣4 5 6          = 1 2 3
+(g) rank 3 and dyadic ⊃:
+  2 3 4⍴⍳24 : ⍴        = 2 3 4
+  three bindings        = 2 3 4
+  (a,b,a)⍴⍳24 : ⍴       = 2 3 2
+  ⍴1 0 2⍉2 3 4⍴⍳24     = 3 2 4
+  1⊃¯99 42             = 42
+(h) a multi-line dfn opening with a comment:
+  MyFirstFunction      = 130

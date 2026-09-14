@@ -82,7 +82,36 @@ grammar AplG extends { Expression, Literal, Identifier }
        lambda parameter of the same name is "Variable v is already declared"
        (row 29, s05_rebind.out). *)
     AplStm :Expr:=
-        n:Id SPACE ← SPACE e:AplE SPACE ⍝ c:AplLn SPACE r:AplStm
+      (* ---- rung 4.  A dfn's body is this same statement chain, so the three
+              shapes a dfn adds are three groups of alternatives here, all of
+              them ABOVE the binding rule: a line that is nothing but a comment
+              (the chapter's dfns open with one); the default left argument
+              `⍺ ← e`, which is not a binding at all but a call on the frame
+              stack, and which must stand above the binding rule because ⍺ is
+              not an Id (rung-4/u05_glyphid.out.0); and the GUARD `c: e`, whose
+              else branch is the rest of the body -- exactly APL's own flow.
+              The guard's colon needs the backtick escape (rung-4/u06_guard.out),
+              and the guard rules must stand above the bare-expression rules:
+              below them `0=≢⍵` would match as a whole statement, the `:` would
+              be left over, and PEG does not re-enter a nonterminal that has
+              already succeeded (gap row 60). ---- *)
+        ⍝ c:AplLn
+        r:AplStm                                      => <[ (r) ]>
+      | ⍺ SPACE ← SPACE e:AplE SPACE ⍝ c:AplLn SPACE r:AplStm
+            => <[ (fn _ => (r))(aplDefaultAlpha((e))) ]>
+      | ⍺ SPACE ← SPACE e:AplE SPACE ⋄ SPACE r:AplStm
+            => <[ (fn _ => (r))(aplDefaultAlpha((e))) ]>
+      | ⍺ SPACE ← SPACE e:AplE
+        r:AplStm
+            => <[ (fn _ => (r))(aplDefaultAlpha((e))) ]>
+      | c:AplE SPACE `: SPACE e:AplE SPACE ⍝ m:AplLn SPACE r:AplStm
+            => <[ if aplTruthy((c)) then (e) else (r) end ]>
+      | c:AplE SPACE `: SPACE e:AplE SPACE ⋄ SPACE r:AplStm
+            => <[ if aplTruthy((c)) then (e) else (r) end ]>
+      | c:AplE SPACE `: SPACE e:AplE
+        r:AplStm
+            => <[ if aplTruthy((c)) then (e) else (r) end ]>
+      | n:Id SPACE ← SPACE e:AplE SPACE ⍝ c:AplLn SPACE r:AplStm
             => <[ (fn n => (r))((e)) ]>
       | n:Id SPACE ← SPACE e:AplE SPACE ⋄ SPACE r:AplStm
             => <[ (fn n => (r))((e)) ]>
@@ -93,6 +122,12 @@ grammar AplG extends { Expression, Literal, Identifier }
       | s:AplE SPACE ⋄ SPACE r:AplStm         => <[ (fn _ => (r))((s)) ]>
       | s:AplE
         r:AplStm                              => <[ (fn _ => (r))((s)) ]>
+      (* rung 4: the LAST statement of a dfn body may carry the book's trailing
+         comment, which the top-level expander rule catches for a whole block
+         but which has no production inside the braces.  It stands above the
+         bare `s:AplE` because that alternative would match and leave the
+         comment for the closing brace. *)
+      | s:AplE SPACE ⍝ c:AplLn                => <[ (s) ]>
       | s:AplE                                => <[ (s) ]>
 
     AplE :Expr:=
@@ -120,6 +155,21 @@ grammar AplG extends { Expression, Literal, Identifier }
       | a:AplNum SPACE b:AplNum SPACE ⌷ SPACE r:AplE => <[ aplSquad2((a), (b), (r)) ]>
       | a:AplNum SPACE ⌷ SPACE r:AplE                => <[ aplSquad1((a), (r)) ]>
 
+      (* ---- rung 4: rank 3.  The same trick as the two-axis reshape, one
+              axis further: the grammar counts the atoms it can see, so
+              `(a,b,c)⍴x` and `2 3 4⍴x` fire aplReshape3 and the rank of the
+              result is fixed at expansion.  Both stand above the two-atom
+              rules, which would otherwise match the first two atoms and then
+              fail on the comma.  `1 0 2⍉t` reads its three numerals the same
+              way and hands them to aplPerm, whose contract refuses every other
+              permutation. ---- *)
+      | ( SPACE a:AplAtom SPACE , SPACE b:AplAtom SPACE , SPACE c:AplAtom SPACE ) SPACE ⍴ SPACE r:AplE
+            => <[ aplReshape3((a), (b), (c), (r)) ]>
+      | a:AplNum SPACE b:AplNum SPACE c:AplNum SPACE ⍴ SPACE r:AplE
+            => <[ aplReshape3((a), (b), (c), (r)) ]>
+      | a:AplNum SPACE b:AplNum SPACE c:AplNum SPACE ⍉ SPACE r:AplE
+            => <[ aplPerm((a), (b), (c), (r)) ]>
+
       (* ---- dyadic ⍴: the rank of the result is fixed HERE, at expansion.
               `(a,b)⍴x` is the same rule with an EXPRESSION shape, and its two
               gaps must be ATOMS: an AplE gap eats the comma as a catenation and
@@ -137,15 +187,61 @@ grammar AplG extends { Expression, Literal, Identifier }
       | a:AplNum SPACE b:AplNum SPACE ↑ SPACE r:AplE => <[ aplTake((a), (b), (r)) ]>
       | a:AplNum SPACE b:AplNum SPACE ↓ SPACE r:AplE => <[ aplDrop((a), (b), (r)) ]>
 
-      (* ---- Commute ⍨.  The glyph is looked up in AplDy, whose alternatives are
-              host LAMBDAS, and the two arguments are handed over swapped; the
-              monadic form f⍨r is r f r.  An untyped lambda DOES dispatch on the
-              arguments' ranks at the call (rung-3/t01_ops.out (f)), so one
-              alternative per glyph serves every rank.  These rules stand above
-              the plain dyadic ones so that the glyph is read as an operand
-              before it is read as an operator. ---- *)
-      | l:AplAtom SPACE f:AplDy ⍨ SPACE r:AplE => <[ (f)((r), (l)) ]>
-      | f:AplDy ⍨ SPACE r:AplE                 => <[ (f)((r), (r)) ]>
+      (* ---- rung 4: the rank operator ⍤.  The rank is read off the SOURCE, as
+              a reshape's is, so `1` and `2` are terminals and the monadic and
+              dyadic forms name different library functions.  Two spellings per
+              valence: the book's `f⍤1⊢r`, where ⊢ separates the operator from
+              its argument, and the parenthesised `(f⍤1)r`, which is what the
+              microGPT program writes.  These stand above ⍨ and above the calls
+              so that the glyph is read as an OPERAND before it is read as an
+              operator. ---- *)
+      | l:AplAtom SPACE ( SPACE f:AplFnD ⍤ 1 SPACE ) SPACE r:AplE
+            => <[ aplRankD1((f), (l), (r)) ]>
+      | l:AplAtom SPACE ( SPACE f:AplFnD ⍤ 2 SPACE ) SPACE r:AplE
+            => <[ aplRankD2((f), (l), (r)) ]>
+      | l:AplAtom SPACE f:AplFnD ⍤ 1 SPACE ⊢ SPACE r:AplE
+            => <[ aplRankD1((f), (l), (r)) ]>
+      | l:AplAtom SPACE f:AplFnD ⍤ 2 SPACE ⊢ SPACE r:AplE
+            => <[ aplRankD2((f), (l), (r)) ]>
+      | ( SPACE f:AplFnM ⍤ 1 SPACE ) SPACE r:AplE => <[ aplRank1((f), (r)) ]>
+      | ( SPACE f:AplFnM ⍤ 2 SPACE ) SPACE r:AplE => <[ aplRank2((f), (r)) ]>
+      | f:AplFnM ⍤ 1 SPACE ⊢ SPACE r:AplE         => <[ aplRank1((f), (r)) ]>
+      | f:AplFnM ⍤ 2 SPACE ⊢ SPACE r:AplE         => <[ aplRank2((f), (r)) ]>
+
+      (* ---- rung 4: ∘ with a bound left argument.  `relu ← 0∘⌈` is a FUNCTION
+              value, so the rule expands to a closure over the frame stack and
+              not to a call. ---- *)
+      | a:AplAtom SPACE ∘ SPACE g:AplFnD => <[ aplBindLeft((g), (a)) ]>
+
+      (* ---- Commute ⍨.  The glyph is looked up in AplDy, whose alternatives
+              are host lambdas -- as of rung 4 ZERO-PARAMETER lambdas over the
+              frame stack -- so the two arguments are handed over swapped by
+              aplCall, which pushes them.  The monadic form f⍨r is r f r.  The
+              operand may now also be a dfn or a named function.  These rules
+              stand above the plain dyadic ones so that the glyph is read as an
+              operand before it is read as an operator. ---- *)
+      | l:AplAtom SPACE f:AplFnD ⍨ SPACE r:AplE => <[ aplCall((f), (r), (l)) ]>
+      | f:AplFnD ⍨ SPACE r:AplE                 => <[ aplCall((f), (r), (r)) ]>
+
+      (* ---- rung 4: ∇ is the function the current frame is running ---- *)
+      | l:AplAtom SPACE ∇ SPACE r:AplE => <[ aplCall(aplSelf(), (l), (r)) ]>
+      | ∇ SPACE r:AplE                 => <[ aplCall1(aplSelf(), (r)) ]>
+
+      (* ---- rung 4: applying a dfn or a named function.  The operand is
+              AplUser -- a dfn or a name -- and NOT AplFnD: were the glyph
+              tables admitted here, these two rules would stand above the plain
+              dyadic and monadic glyph rules and shadow every one of them, and
+              rungs 1-3 would pay a frame push per primitive.  A glyph used
+              directly still expands to the host operator itself. ---- *)
+      | l:AplAtom SPACE f:AplUser SPACE r:AplE => <[ aplCall((f), (l), (r)) ]>
+      | f:AplUser SPACE r:AplE                 => <[ aplCall1((f), (r)) ]>
+
+      (* ---- rung 4: ⊢ Right and ⊣ Left, and dyadic ⊃ Pick from a vector ---- *)
+      | l:AplAtom SPACE ⊢ SPACE r:AplE => <[ (r) ]>
+      | l:AplAtom SPACE ⊣ SPACE r:AplE => <[ (l) ]>
+      | ⊢ SPACE r:AplE                 => <[ (r) ]>
+      | ⊣ SPACE r:AplE                 => <[ (r) ]>
+      | l:AplAtom SPACE ⊃ SPACE r:AplE => <[ aplPickAt((l), (r)) ]>
 
       (* ---- dyadic glyphs.  Each expands to the host operator of the same
               shape; ⌈ and ⌊ are enclosers in the host table and cannot be
@@ -236,45 +332,126 @@ grammar AplG extends { Expression, Literal, Identifier }
       | ⍟ SPACE r:AplE  => <[ aplLog((r)) ]>
       | `| SPACE r:AplE => <[ aplAbs((r)) ]>
       | `* SPACE r:AplE => <[ * (r) ]>
+      (* a dfn standing on its own is a VALUE: `sum ← {…}` is the ordinary
+         binding rule with this alternative on its right *)
+      | d:AplDfn       => <[ (d) ]>
       | a:AplAtom      => <[ (a) ]>
 
-    (* ---- the glyph table the operators read.  Each alternative is an untyped
-            host lambda, so a glyph handed to ⍨ (and, in the rungs to come, to
-            / ¨ ⍤ ∘. and .) is a VALUE, while a glyph used directly still expands
-            to the operator itself.  The lambda keeps APL's rank polymorphism:
-            the ranks are resolved at the call, not here. ---- *)
+    (* ---- the glyph tables the operators read.  Each alternative is a host
+            lambda -- as of rung 4 a ZERO-PARAMETER lambda that reads ⍺ and ⍵
+            off the frame stack, which is the shape EVERY APL function value
+            now has, dfns included (rung-4/u04_frame.out).  A glyph used
+            directly still expands to the operator itself; it is only as an
+            OPERAND of ⍨ ⍤ ∘ that it becomes a value.  The lambda keeps APL's
+            rank polymorphism: the overload is chosen from the arguments at the
+            call, not here.  The result is ascribed `: Any` so that the value's
+            type is ()->Any, which is what the rank operator's parameter wants
+            (rung-4/u14_api.out.0). ---- *)
     AplDy :Expr:=
-        × => <[ fn (x, y) => x × y ]>
-      | ÷ => <[ fn (x, y) => x ÷ y ]>
-      | `+ => <[ fn (x, y) => x + y ]>
-      | - => <[ fn (x, y) => x - y ]>
-      | `* => <[ fn (x, y) => x * y ]>
-      | ⌈ => <[ fn (x, y) => x MAX y ]>
-      | ⌊ => <[ fn (x, y) => x MIN y ]>
-      | = => <[ fn (x, y) => x = y ]>
-      | ≠ => <[ fn (x, y) => x ≠ y ]>
-      | ≤ => <[ fn (x, y) => x ≤ y ]>
-      | < => <[ fn (x, y) => x < y ]>
-      | ≥ => <[ fn (x, y) => x ≥ y ]>
-      | > => <[ fn (x, y) => x > y ]>
-      | ∧ => <[ fn (x, y) => x ∧ y ]>
-      | ∨ => <[ fn (x, y) => x ∨ y ]>
-      | ≡ => <[ fn (x, y) => x ≡ y ]>
-      | ⊖ => <[ fn (x, y) => x ⊖ y ]>
-      | ↑ => <[ fn (x, y) => aplTake(x, y) ]>
-      | ↓ => <[ fn (x, y) => aplDrop(x, y) ]>
-      | ⌽ => <[ fn (x, y) => aplRotate(x, y) ]>
-      | ⍳ => <[ fn (x, y) => aplIndexOf(x, y) ]>
-      | ⍸ => <[ fn (x, y) => aplBin(x, y) ]>
-      | ∊ => <[ fn (x, y) => aplIn(x, y) ]>
-      | ∪ => <[ fn (x, y) => aplUnion(x, y) ]>
-      | ∩ => <[ fn (x, y) => aplIntersect(x, y) ]>
-      | ~ => <[ fn (x, y) => aplWithout(x, y) ]>
-      | , => <[ fn (x, y) => aplCat(x, y) ]>
-      | ⍪ => <[ fn (x, y) => aplCatFirst(x, y) ]>
-      | ⍟ => <[ fn (x, y) => aplLog(x, y) ]>
-      | `| => <[ fn (x, y) => aplResidue(x, y) ]>
-      | ⍴ => <[ fn (x, y) => aplReshapeV(x, y) ]>
+        × => <[ fn (): Any => aplAlpha() × aplOmega() ]>
+      | ÷ => <[ fn (): Any => aplAlpha() ÷ aplOmega() ]>
+      | `+ => <[ fn (): Any => aplAlpha() + aplOmega() ]>
+      | - => <[ fn (): Any => aplAlpha() - aplOmega() ]>
+      | `* => <[ fn (): Any => aplAlpha() * aplOmega() ]>
+      | ⌈ => <[ fn (): Any => aplAlpha() MAX aplOmega() ]>
+      | ⌊ => <[ fn (): Any => aplAlpha() MIN aplOmega() ]>
+      | = => <[ fn (): Any => aplAlpha() = aplOmega() ]>
+      | ≠ => <[ fn (): Any => aplAlpha() ≠ aplOmega() ]>
+      | ≤ => <[ fn (): Any => aplAlpha() ≤ aplOmega() ]>
+      | < => <[ fn (): Any => aplAlpha() < aplOmega() ]>
+      | ≥ => <[ fn (): Any => aplAlpha() ≥ aplOmega() ]>
+      | > => <[ fn (): Any => aplAlpha() > aplOmega() ]>
+      | ∧ => <[ fn (): Any => aplAlpha() ∧ aplOmega() ]>
+      | ∨ => <[ fn (): Any => aplAlpha() ∨ aplOmega() ]>
+      | ≡ => <[ fn (): Any => aplAlpha() ≡ aplOmega() ]>
+      | ⊖ => <[ fn (): Any => aplAlpha() ⊖ aplOmega() ]>
+      | ↑ => <[ fn (): Any => aplTake(aplAlpha(), aplOmega()) ]>
+      | ↓ => <[ fn (): Any => aplDrop(aplAlpha(), aplOmega()) ]>
+      | ⌽ => <[ fn (): Any => aplRotate(aplAlpha(), aplOmega()) ]>
+      | ⍳ => <[ fn (): Any => aplIndexOf(aplAlpha(), aplOmega()) ]>
+      | ⍸ => <[ fn (): Any => aplBin(aplAlpha(), aplOmega()) ]>
+      | ∊ => <[ fn (): Any => aplIn(aplAlpha(), aplOmega()) ]>
+      | ∪ => <[ fn (): Any => aplUnion(aplAlpha(), aplOmega()) ]>
+      | ∩ => <[ fn (): Any => aplIntersect(aplAlpha(), aplOmega()) ]>
+      | ~ => <[ fn (): Any => aplWithout(aplAlpha(), aplOmega()) ]>
+      | , => <[ fn (): Any => aplCat(aplAlpha(), aplOmega()) ]>
+      | ⍪ => <[ fn (): Any => aplCatFirst(aplAlpha(), aplOmega()) ]>
+      | ⍟ => <[ fn (): Any => aplLog(aplAlpha(), aplOmega()) ]>
+      | `| => <[ fn (): Any => aplResidue(aplAlpha(), aplOmega()) ]>
+      | ⍴ => <[ fn (): Any => aplReshapeV(aplAlpha(), aplOmega()) ]>
+      | ⊃ => <[ fn (): Any => aplPickAt(aplAlpha(), aplOmega()) ]>
+
+    (* ---- rung 4: the same table for the MONADIC glyphs, which an operator
+            needs as soon as `⌽⍤1⊢m` or `,⍤2⊢t` is written ---- *)
+    AplMo :Expr:=
+        ⍉ => <[ fn (): Any => aplTrans(aplOmega()) ]>
+      | ⌽ => <[ fn (): Any => aplRev(aplOmega()) ]>
+      | ⊖ => <[ fn (): Any => ⊖ aplOmega() ]>
+      | , => <[ fn (): Any => aplRavel(aplOmega()) ]>
+      | ⍴ => <[ fn (): Any => aplShapeOf(aplOmega()) ]>
+      | ⍳ => <[ fn (): Any => aplIota(aplOmega()) ]>
+      | ≢ => <[ fn (): Any => ≢ aplOmega() ]>
+      | ⊃ => <[ fn (): Any => ⊃ aplOmega() ]>
+      | - => <[ fn (): Any => - aplOmega() ]>
+      | ÷ => <[ fn (): Any => ÷ aplOmega() ]>
+      | × => <[ fn (): Any => × aplOmega() ]>
+      | `* => <[ fn (): Any => * aplOmega() ]>
+      | ⍟ => <[ fn (): Any => aplLog(aplOmega()) ]>
+      | ⌈ => <[ fn (): Any => aplCeil(aplOmega()) ]>
+      | ⌊ => <[ fn (): Any => aplFloor(aplOmega()) ]>
+      | ~ => <[ fn (): Any => aplNot(aplOmega()) ]>
+      | ∊ => <[ fn (): Any => aplEnlist(aplOmega()) ]>
+      | ∪ => <[ fn (): Any => aplUnique(aplOmega()) ]>
+      | ⍋ => <[ fn (): Any => aplGradeUp(aplOmega()) ]>
+      | ⍒ => <[ fn (): Any => aplGradeDown(aplOmega()) ]>
+      | ⍸ => <[ fn (): Any => aplWhere(aplOmega()) ]>
+      | ⍪ => <[ fn (): Any => aplTable(aplOmega()) ]>
+      | `| => <[ fn (): Any => aplAbs(aplOmega()) ]>
+      | `+ => <[ fn (): Any => aplOmega() ]>
+
+    (* ---- rung 4: the dfn itself.  `{ b }` is a zero-parameter lambda over the
+            statement chain; ⍺ and ⍵ inside it are frame reads, so nothing is
+            bound and dfns nest to any depth (u01-u04).  The braces need the
+            backtick escape. ---- *)
+    AplDfn :Expr:=
+        `{ SPACE b:AplStm SPACE `} => <[ fn (): Any => (b) ]>
+
+    (* ---- rung 4: a function value that is not a glyph -- a dfn or a name
+            from the closed function-name set.  This is what the two CALL rules
+            read; AplFnD and AplFnM, which the operators read, add the glyph
+            tables to it.  The grammar knows a function's valence from where it
+            stands, and a dfn or a name takes either. ---- *)
+    AplUser :Expr:=
+        d:AplDfn   => <[ (d) ]>
+      | n:AplFnName => <[ (n) ]>
+
+    AplFnD :Expr:=
+        d:AplDfn    => <[ (d) ]>
+      | n:AplFnName => <[ (n) ]>
+      | g:AplDy     => <[ (g) ]>
+
+    AplFnM :Expr:=
+        d:AplDfn    => <[ (d) ]>
+      | n:AplFnName => <[ (n) ]>
+      | g:AplMo     => <[ (g) ]>
+
+    (* ---- rung 4: THE CLOSED FUNCTION-NAME SET, disjoint from AplName and
+            spelled the same way, one character class per letter with the NOT
+            predicate ending the name.  Longer names first, so that `foo` is not
+            read as `f`. ---- *)
+    AplFnName :Expr:=
+        [M]# [y]# [F]# [i]# [r]# [s]# [t]# [F]# [u]# [n]# [c]# [t]# [i]# [o]# [n]# NOT [A:Za:z0:9] => <[ (MyFirstFunction) ]>
+      | [P]# [a]# [l]# [i]# [n]# [i]# [s]# [h]# NOT [A:Za:z0:9] => <[ (Palinish) ]>
+      | [r]# [m]# [s]# [n]# [o]# [r]# [m]# NOT [A:Za:z0:9]      => <[ (rmsnorm) ]>
+      | [s]# [o]# [f]# [t]# [m]# [a]# [x]# NOT [A:Za:z0:9]      => <[ (softmax) ]>
+      | [r]# [e]# [l]# [u]# NOT [A:Za:z0:9]                     => <[ (relu) ]>
+      | [S]# [u]# [m]# NOT [A:Za:z0:9]                          => <[ (Sum) ]>
+      | [s]# [u]# [m]# NOT [A:Za:z0:9]                          => <[ (sum) ]>
+      | [f]# [o]# [o]# NOT [A:Za:z0:9]                          => <[ (foo) ]>
+      | [f]# [a]# [c]# [t]# NOT [A:Za:z0:9]                      => <[ (fact) ]>
+      | [s]# [q]# NOT [A:Za:z0:9]                               => <[ (sq) ]>
+      | [f]# NOT [A:Za:z0:9]                                    => <[ (f) ]>
+      | [g]# NOT [A:Za:z0:9]                                    => <[ (g) ]>
 
     (* ---- bracket indexing: six shapes, six productions.  A repeated gap does
             splice as a list (apl/gaps.md row 19), so the ;-list could have any
@@ -302,7 +479,11 @@ grammar AplG extends { Expression, Literal, Identifier }
        load-bearing because an undelimited Expr gap is greedy (gaps row 5) and an
        Id gap is not an expression at all (gaps row 4) *)
     AplBase :Expr:=
-        ⍬                        => <[ aplZilde() ]>
+      (* rung 4: ⍺ and ⍵ are frame reads.  Neither is a legal Fortress
+         identifier (u05_glyphid.out.0) and both are sub-grammar terminals. *)
+        ⍺                        => <[ aplAlpha() ]>
+      | ⍵                        => <[ aplOmega() ]>
+      | ⍬                        => <[ aplZilde() ]>
       | ⍎ ( SPACE e:Expr SPACE ) => <[ (e) ]>
       | ( SPACE e:AplE SPACE )   => <[ (e) ]>
       | c:AplName                => <[ (c) ]>
@@ -317,7 +498,18 @@ grammar AplG extends { Expression, Literal, Identifier }
        identifier becomes a keyword of the whole language and then Id excludes it.
        The NOT predicate ends the name, and the longer names come first. *)
     AplName :Expr:=
-        [s]# [e]# [l]# [e]# [c]# [t]# NOT [A:Za:z0:9] => <[ (select) ]>
+        [a]# [n]# [s]# [w]# [e]# [r]# NOT [A:Za:z0:9] => <[ (answer) ]>
+      | [t]# [o]# [t]# [a]# [l]# NOT [A:Za:z0:9]      => <[ (total) ]>
+      | [r]# [e]# [v]# NOT [A:Za:z0:9]                => <[ (rev) ]>
+      | [n]# [h]# NOT [A:Za:z0:9]                     => <[ (nh) ]>
+      | [h]# [d]# NOT [A:Za:z0:9]                     => <[ (hd) ]>
+      | [n]# [e]# NOT [A:Za:z0:9]                     => <[ (ne) ]>
+      | [e]# NOT [A:Za:z0:9]                          => <[ (e) ]>
+      | [x]# NOT [A:Za:z0:9]                          => <[ (x) ]>
+      | [y]# NOT [A:Za:z0:9]                          => <[ (y) ]>
+      | [t]# NOT [A:Za:z0:9]                          => <[ (t) ]>
+      | [p]# NOT [A:Za:z0:9]                          => <[ (p) ]>
+      | [s]# [e]# [l]# [e]# [c]# [t]# NOT [A:Za:z0:9] => <[ (select) ]>
       | [s]# [i]# [m]# [p]# [l]# [e]# NOT [A:Za:z0:9] => <[ (simple) ]>
       | [m]# [i]# [n]# [i]# [d]# [x]# NOT [A:Za:z0:9] => <[ (minidx) ]>
       | [l]# [i]# [m]# [i]# [t]# [s]# NOT [A:Za:z0:9] => <[ (limits) ]>

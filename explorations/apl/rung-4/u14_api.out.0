@@ -1,0 +1,19 @@
+(b) an arrow-typed parameter:
+  aplTstB(f, v) = B: rank 1, aplTstB(f, m) = B: rank 2
+(c) an Object parameter:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-4/u14_api.fss:17:35-46:
+Failed to find any matching overload, args = (FnExpr at /home/user/fortress/explorations/apl/rung-4/u14_api.fss:13.9 ()->Any /home/user/fortress/explorations/apl/rung-4/u14_api.fss:13:9-20:4,__DefaultMatrix[\RR64,2,2\]), overload = {
+	aplTstC[\nat s\](f:FortressBuiltin.Object,v:Vector[\FortressLibrary.RR64,s\]):FortressLibrary.String/home/user/fortress/explorations/apl/base/AplCore.fss:1634:1-70
+	aplTstC[\nat r,nat c\](f:FortressBuiltin.Object,m:Matrix[\FortressLibrary.RR64,r,c\]):FortressLibrary.String/home/user/fortress/explorations/apl/base/AplCore.fss:1635:1-80}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/rung-4/u14_api.fss:17:35-46:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

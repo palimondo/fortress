@@ -1,0 +1,20 @@
+(e) four members, String result:
+  aplTstE(f, 1.0) = E: rank 0, aplTstE(f, v) = E: rank 1
+  aplTstE(f, m) = E: rank 2, aplTstE(f, t) = E: rank 3
+(d) two members, Any result:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-4/u15_any.fss:28:35-46:
+Failed to find any matching overload, args = (FnExpr at /home/user/fortress/explorations/apl/rung-4/u15_any.fss:23.9 ()->Any /home/user/fortress/explorations/apl/rung-4/u15_any.fss:23:9-29:4,__DefaultMatrix[\RR64,2,2\]), overload = {
+	aplTstD[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1631:1-68
+	aplTstD[\nat r,nat c\](f:()->Any,m:Matrix[\FortressLibrary.RR64,r,c\]):Any/home/user/fortress/explorations/apl/base/AplCore.fss:1632:1-77}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/rung-4/u15_any.fss:28:35-46:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

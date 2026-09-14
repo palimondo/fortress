@@ -1,0 +1,226 @@
+=== examples of the chapter, against the book's printed output ===
+
+SKIP  Ex 1   out of scope: ⎕IO ← 0, ]box and ]rows: a ⎕ system name and two Dyalog user commands
+SKIP  Ex 2   out of scope: assert ← {⍺ ← 'assertion failure' ⋄ 0∊⍵: ⍺ ⎕signal 8 ⋄ shy ← 0}: a character vector and ⎕signal
+PASS  Ex 3   MyFirstFunction ← {⍝ Add left and right ⋄ ⍺+⍵}   (the book's ]dinput dfn; the value is the appended 0)
+        want |0|
+        got  |0|
+PASS  Ex 4   32 MyFirstFunction 98
+        want |130|
+        got  |130|
+PASS  Ex 5   Sum ← {⍝ Add left and right ⋄ total ← ⍺+⍵ ⋄ total}   (definition)
+        want |0|
+        got  |0|
+PASS  Ex 6   32 Sum 98
+        want |130|
+        got  |130|
+PASS  Ex 7a  {⍺ ← ¯99 ⋄ ⍺+⍵} 99
+        want |0|
+        got  |0|
+PASS  Ex 7b  57 {⍺ ← ¯99 ⋄ ⍺+⍵} 99
+        want |156|
+        got  |156|
+PASS  Ex 8   {⍺ ← ¯99 ⋄ ⍺ ← ¯999999 ⋄ ⍺+⍵} 99   (only the first ⍺ ← counts)
+        want |0|
+        got  |0|
+PASS  Ex 9   sum ← {⍺ ← 0 ⋄ 0=≢⍵:⍺ ⋄ (⍺+⊃⍵)∇1↓⍵}   (definition: a guard, a default ⍺ and ∇)
+        want |0|
+        got  |0|
+PASS  Ex 10a  sum ⍳10
+        want |45|
+        got  |45|
+PASS  Ex 10b  100 sum ⍳10
+        want |145|
+        got  |145|
+PASS  Ex 11  Palinish ← {rev ← ⊖⍵ ⋄ rev≡⍵: 1 ⋄ 0}   (definition)
+        want |0|
+        got  |0|
+PASS  Ex 12a  Palinish 1 2 3 2 1
+        want |1|
+        got  |1|
+PASS  Ex 12b  Palinish 1 2 3 4 5
+        want |0|
+        got  |0|
+PASS  Ex 12c  Palinish 3
+        want |1|
+        got  |1|
+PASS  Ex 13  {⍵≡⊖⍵} 1 2 3 2 1 ⍝ Anonymous (unnamed) version
+        want |1|
+        got  |1|
+SKIP  Ex 14  out of scope: foo ← {47>flerp ⍵: 92+flumm ⍵ ⋄ 57+8}: flerp and flumm are never defined, and a name in a template is a FREE Fortress identifier -- an unbound one is rejected before anything runs (row 70, u19_free.out.0)
+PASS  Ex 15  foo ← {answer ← ⍵ ⋄ a ← {⍵:42 ⋄ ¯99} answer ⋄ ⍝ … ⋄ a}   (definition; `a` appended)
+        want |0|
+        got  |0|
+PASS  Ex 16  foo ← {answer ← ⍵ ⋄ a ← answer⊃¯99 42 ⋄ ⍝ … ⋄ a}   (definition; ⎕IO←0 dropped, `a` appended)
+        want |0|
+        got  |0|
+SKIP  Ex 17  out of scope: {a←¯99} inside a dfn that already bound a: an APL name is a lambda parameter and a nested one of the same name is `Variable a is already declared` (row 29)
+SKIP  Ex 18  out of scope: foo ⍬ ⍝ Note: 45, not ¯99: it needs Ex 17's foo
+SKIP  Ex 19  out of scope: a +← 45: modified assignment reaches an outer name, which a lambda parameter cannot (row 29)
+SKIP  Ex 20  out of scope: ⎕ ← r ← foo ⍬ ⋄ assert r=90: a ⎕ system name, a second binding target, and Ex 2's assert
+SKIP  Ex 21  out of scope: a ⊢← ¯99: set assignment, the same gap as Ex 19
+SKIP  Ex 22  out of scope: ⎕ ← r ← foo ⍬ ⋄ assert r=¯99: as Ex 20
+PASS  Ex 23  foo ← {a ← 3 3⍴1 ⋄ x ← {a[1;1] ← 0}⍬ ⋄ a}   (definition; `x` for the book's `_`)
+        want |0|
+        got  |0|
+SKIP  Ex 24  out of scope: ⎕ ← r ← foo ⍬ ⋄ assert r≡3 3⍴1 1 1 1 0 1 1 1 1: as Ex 20; the matrix it prints is checked as X16 below
+SKIP  Ex 25  out of scope: 2 (+/) ⍳10: an n-wise reduction, which is the reduce operator with a left argument (rung 5)
+SKIP  Ex 26  out of scope: sumred ← +/: a derived function as a value, i.e. a tacit definition (rung 7)
+SKIP  Ex 27  out of scope: foldl ← {⍺ ← ⊃0⍴⍵ ⋄ ↑⍺⍺⍨/(⌽⍵),⊂⍺}: a direct OPERATOR (⍺⍺), and ⊂ makes a nested array
+SKIP  Ex 28  out of scope: +foldl ⍳10 and -foldl ⍳10: they need Ex 27's dop
+SKIP  Ex 29  out of scope: 99 +foldl ⍳10: as Ex 28
+
+checks passed: 18 of 18, over 14 of the chapter's 29 examples
+
+=== beyond the chapter: what the microGPT program needs from this rung ===
+
+PASS  X1   2 3 4⍴⍳24                  (a rank-3 array, the APL display)
+        want |0 1  2  3
+4 5  6  7
+8 9 10 11
+
+12 13 14 15
+16 17 18 19
+20 21 22 23|
+        got  |0 1  2  3
+4 5  6  7
+8 9 10 11
+
+12 13 14 15
+16 17 18 19
+20 21 22 23|
+PASS  X2   (≢t),(⍴t),(⊃t)             (tally, shape and first of a rank-3 array)
+        want |2 2 3 4 0|
+        got  |2 2 3 4 0|
+PASS  X3   ,t                         (ravel of a rank-3 array)
+        want |0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23|
+        got  |0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23|
+PASS  X4   2 12⍴t ⋄ 6⍴t               (rank 3 reshaped down to a matrix and a vector)
+        want |0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 0 1 2 3 4 5|
+        got  |0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 0 1 2 3 4 5|
+PASS  X5   ⍴1 0 2⍉t                   (the axis permutation the program writes)
+        want |3 2 4|
+        got  |3 2 4|
+PASS  X6   1 0 2⍉t                    (… and its value)
+        want | 0  1  2  3
+12 13 14 15
+
+ 4  5  6  7
+16 17 18 19
+
+ 8  9 10 11
+20 21 22 23|
+        got  | 0  1  2  3
+12 13 14 15
+
+ 4  5  6  7
+16 17 18 19
+
+ 8  9 10 11
+20 21 22 23|
+PASS  X7   ⊃t÷2 ⋄ ⍴t+t ⋄ ,t>20        (elementwise arithmetic and comparison on rank 3)
+        want |0 2 3 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1|
+        got  |0 2 3 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1|
+PASS  X8   ⍴t÷2 3 4⍴1+⍳24             (two rank-3 arrays elementwise)
+        want |2 3 4|
+        got  |2 3 4|
+PASS  X9   (nh,hd,ne)⍴⍳24             (the three-atom reshape, shape from names)
+        want |2 3 4|
+        got  |2 3 4|
+PASS  X10  ,⍤2⊢t                      (ravel each plane: rank 3 -> matrix)
+        want | 0  1  2  3  4  5  6  7  8  9 10 11
+12 13 14 15 16 17 18 19 20 21 22 23|
+        got  | 0  1  2  3  4  5  6  7  8  9 10 11
+12 13 14 15 16 17 18 19 20 21 22 23|
+PASS  X11  ⍴⍉⍤2⊢t                     (transpose each plane: rank 3 -> rank 3)
+        want |2 4 3|
+        got  |2 4 3|
+PASS  X12  the program's own chain, there and back: (n,ne)⍴1 0 2⍉1 0 2⍉(n,nh,hd)⍴,q
+        want | 0  1  2  3  4  5  6  7  8  9 10 11
+12 13 14 15 16 17 18 19 20 21 22 23|
+        got  | 0  1  2  3  4  5  6  7  8  9 10 11
+12 13 14 15 16 17 18 19 20 21 22 23|
+PASS  X13  +/⍤1⊢m and ⌽⍤1⊢m           (the rank operator over a matrix, both result ranks)
+        want |3 12 2 1 0 5 4 3|
+        got  |3 12 2 1 0 5 4 3|
+PASS  X14  (⌽⍤1)m                     (the parenthesised spelling)
+        want |2 1 0
+5 4 3|
+        got  |2 1 0
+5 4 3|
+PASS  X15  0 1 2 +⍤1⊢m                (a dyadic rank operator, a vector left argument)
+        want |0 2 4
+3 5 7|
+        got  |0 2 4
+3 5 7|
+PASS  X16  m {⍺+⍵}⍤1⊢m               (a dyadic dfn under ⍤1, frames paired)
+        want |0 2  4
+6 8 10|
+        got  |0 2  4
+6 8 10|
+PASS  X17  p +⍤2⊢t                    (a matrix left argument against every plane)
+        want |2 3 4|
+        got  |2 3 4|
+PASS  X18  relu ← 0∘⌈ ⋄ relu m        (∘ with a bound left argument, on a matrix)
+        want |0 0 0
+1 2 3|
+        got  |0 0 0
+1 2 3|
+PASS  X19  softmax ← {e ← *⍵-⌈/⍵ ⋄ e÷+/e} ⋄ softmax 0 1 2   (adaptation 5)
+        want |0.09003057317038046 0.24472847105479764 0.6652409557748218|
+        got  |0.09003057317038046 0.24472847105479764 0.6652409557748218|
+PASS  X20  rmsnorm ← {⍵÷(0.00001+(+/⍵*2)÷≢⍵)*0.5} ⋄ ⌊0.5+1000×rmsnorm⍤1⊢m   (rounded to 3 places)
+        want |  0 775 1549
+735 980 1225|
+        got  |  0 775 1549
+735 980 1225|
+PASS  X21  fact ← {⍺ ← 1 ⋄ ⍵=0: ⍺ ⋄ (⍺×⍵)∇⍵-1} ⋄ fact 10   (∇ with a default ⍺)
+        want |3628800|
+        got  |3628800|
+PASS  X22  sign ← {⍵<0: ¯1 ⋄ ⍵=0: 0 ⋄ 1} over ¯5 0 7      (a guard chain)
+        want |¯1 0 1|
+        got  |¯1 0 1|
+PASS  X23  2 {⍺×{⍵+1} ⍵} 4            (a dfn inside a dfn, with its own ⍵)
+        want |10|
+        got  |10|
+PASS  X24  Ex 15's foo applied: foo 1 and foo 0
+        want |42 ¯99|
+        got  |42 ¯99|
+PASS  X25  Ex 16's foo applied: foo 1 and foo 0
+        want |42 ¯99|
+        got  |42 ¯99|
+PASS  X26  Ex 23's foo applied: foo ⍬   (the matrix Ex 24 prints)
+        want |1 1 1
+1 0 1
+1 1 1|
+        got  |1 1 1
+1 0 1
+1 1 1|
+PASS  X27  ⊢ and ⊣                     (Right and Left, both valences)
+        want |1 2 3 4 1 2|
+        got  |1 2 3 4 1 2|
+PASS  X28  {⍺+⍵} 1                     (⍺ in a monadic call: APL's VALUE ERROR)
+        want |CallerViolation|
+        got  |CallerViolation|
+PASS  X29  {(⊃⍵)↑⍵}⍤1⊢m                (cells of different shapes: APL's LENGTH ERROR)
+        want |CallerViolation|
+        got  |CallerViolation|
+PASS  X30  0 2 1⍉t                     (a permutation other than 1 0 2)
+        want |CallerViolation|
+        got  |CallerViolation|
+PASS  X31  sq ← {⍵×⍵} ⋄ sq⍤1⊢m         (a NAMED dfn as the operand of ⍤)
+        want |0  1  4
+9 16 25|
+        got  |0  1  4
+9 16 25|
+
+beyond-chapter checks passed: 31 of 31
+
+=== what rung 4 does not carry over from APL ===
+
+SKIP  ⍺⍺ ⍵⍵ ∇∇  out of scope: a direct OPERATOR takes its operands as names, and a name in a template is a free Fortress identifier: rung 5 or 6
+SKIP  f⍤0 and f⍤3  out of scope: only ⍤1 and ⍤2 have rules; the rank is a terminal of the grammar, not a value
+SKIP  +/⍤1⊢m  out of scope: a REDUCTION is not a member of the glyph tables, so it cannot be an operand of ⍤; the dfn {+/⍵} is (X13)
+SKIP  0 2 1⍉t  out of scope: every axis permutation but 1 0 2 is a contract violation (X30); monadic ⍉ on rank 3 has no rule at all
+SKIP  a dfn's last statement  out of scope: a dfn whose body ends with a binding has no production, as at the top level (rung 2); the chapter's Ex 15 and Ex 16 get their bound name appended
+SKIP  ⍵ in a nested dfn  out of scope: APL's own rule that ⍺ ⍵ are never inherited is free here: a nested dfn's ⍵ is its own because its call pushed its own frame (X23)

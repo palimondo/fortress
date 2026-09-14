@@ -1,0 +1,20 @@
+(* u20: what happens to a function NAME that is never bound -- the chapter's
+   Ex 14, `foo ← {47>flerp ⍵: 92+flumm ⍵ ⋄ 57+8}`, which the book only ever
+   assigns, flerp and flumm being undefined.  A name in a template is written
+   as a free Fortress identifier that resolves at the use site (gaps row 24),
+   so the question is whether an unbound one is a run-time or a compile-time
+   failure, and whether it fails even when the branch that uses it is never
+   taken.  `g` is a member of AplFnName and is bound nowhere.
+
+   THIS VERSION IS THE ONE THAT RUNS: `g` bound first.  The unbound version,
+   the same file with the binding removed, is u20_free.out.0. *)
+component u20_free
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+run(): () = do
+    println(("foo ← {47>g ⍵: 92 ⋄ 57+8} ⋄ foo 1 = "
+             aplShow(apl⦇ g ← {⍵×0} ⋄ foo ← {47>g ⍵: 92 ⋄ 57+8} ⋄ foo 1 ⦈)))
+  end
+end

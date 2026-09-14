@@ -1,0 +1,17 @@
+(a) a LOCAL family with an Any result:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/rung-4/u16_res.fss:27:75-82:
+Failed to find any matching overload, args = (FnExpr at /home/user/fortress/explorations/apl/rung-4/u16_res.fss:25.9 ()->Any /home/user/fortress/explorations/apl/rung-4/u16_res.fss:25:9-30:4,__DefaultMatrix[\RR64,2,2\]), overload = {
+	loc[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):Any/home/user/fortress/explorations/apl/rung-4/u16_res.fss:19:1-56
+	loc[\nat r,nat c\](f:()->Any,m:Matrix[\FortressLibrary.RR64,r,c\]):Any/home/user/fortress/explorations/apl/rung-4/u16_res.fss:20:1-74}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/rung-4/u16_res.fss:27:75-82:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

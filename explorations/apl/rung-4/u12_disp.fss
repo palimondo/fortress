@@ -1,0 +1,67 @@
+(* u12: u11 (f) failed at the first use of the rank operator --
+
+     Failed to find any matching overload, args = (FnExpr … ()->Any …,
+     __DefaultMatrix[\RR64,3,4\]), overload = { aplRank1(f:Any,x:RR64) … }
+
+   although u09 passed a lambda to an `f: Any` parameter of an overloaded
+   function and it dispatched.  The two differ in three ways: the lambda takes
+   ZERO parameters here and one there, it stands FIRST here and second there,
+   and the discriminating parameter is the second one here.  This probe asks
+   which of the three is the obstacle, and whether an ARROW-typed parameter
+   dispatches where Any does not.
+
+   (a) g(f: Any, …) with a zero-parameter lambda first -- the reproduction
+   (b) g(f: ()->Any, …) with the same call
+   (c) g(f: Any, …) with a ONE-parameter lambda, to separate arity from position
+   (d) g(x: RR64/Vector/Matrix, f: Any) -- the lambda second, as in u09
+   (e) a family with BOTH arities, whose 3-argument member uses `r` as a value
+       parameter name while the 2-argument member uses `r` as a nat parameter
+   (f) the same family with the value parameter renamed *)
+component u12_disp
+import AplCore.{...}
+export Executable
+
+ga(f: Any, x: RR64): String = "a: rank 0"
+ga[\nat s\](f: Any, v: Vector[\RR64,s\]): String = "a: rank 1"
+ga[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): String = "a: rank 2"
+
+gb(f: ()->Any, x: RR64): String = "b: rank 0"
+gb[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): String = "b: rank 1"
+gb[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): String = "b: rank 2"
+
+gc(f: Any, x: RR64): String = "c: rank 0"
+gc[\nat s\](f: Any, v: Vector[\RR64,s\]): String = "c: rank 1"
+gc[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): String = "c: rank 2"
+
+gd(x: RR64, f: Any): String = "d: rank 0"
+gd[\nat s\](v: Vector[\RR64,s\], f: Any): String = "d: rank 1"
+gd[\nat r, nat c\](m: Matrix[\RR64,r,c\], f: Any): String = "d: rank 2"
+
+(* (e) the mixed-arity family: `r` is a nat parameter above and a value
+   parameter below, exactly as aplRank1 had it *)
+ge[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): String = "e: rank 2"
+ge[\nat s\](f: Any, l: RR64, r: Vector[\RR64,s\]): String = "e: dyadic"
+
+(* (f) the same, with the value parameter renamed out of the way *)
+gf[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): String = "f: rank 2"
+gf[\nat s\](f: Any, lv: RR64, rv: Vector[\RR64,s\]): String = "f: dyadic"
+
+run(): () = do
+    m = aplMat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    v = aplVec(3, fn (i: ZZ32): RR64 => 1.0 i)
+    z = fn (): Any => 1.0
+    o = fn (x: Any): Any => x
+    println("(b) an arrow-typed parameter, zero-parameter lambda first:")
+    println(("  gb(z, 1.0) = " gb(z, 1.0) ", gb(z, v) = " gb(z, v) ", gb(z, m) = " gb(z, m)))
+    println("(c) an Any parameter, ONE-parameter lambda first:")
+    println(("  gc(o, m) = " gc(o, m)))
+    println("(d) an Any parameter, the lambda second:")
+    println(("  gd(m, z) = " gd(m, z)))
+    println("(a) an Any parameter, zero-parameter lambda first (the reproduction):")
+    println(("  ga(z, m) = " ga(z, m)))
+    println("(f) mixed arity, the value parameter renamed:")
+    println(("  gf(z, m) = " gf(z, m) ", gf(z, 1.0, v) = " gf(z, 1.0, v)))
+    println("(e) mixed arity, `r` both a nat and a value parameter:")
+    println(("  ge(z, m) = " ge(z, m) ", ge(z, 1.0, v) = " ge(z, 1.0, v)))
+  end
+end

@@ -332,6 +332,192 @@ Both disappear when the ascription is replaced by a call to a typed helper
 (`aplNth`), which is the same rank dispatch again. So `asif` is a worse way to
 reach a value's rank than an overload is.
 
+## u10 — a value whose static type is `Any`
+
+**Question.** The frame stack stores ⍺ and ⍵ as `Any`, so every dfn body and
+every glyph lambda applies a library function to an `Any`. u09 showed that a
+function's RESULT dispatches; does a declared `Any`?
+
+**Answer.** Yes, everywhere it was asked: `aplShow`, `aplSumLast`, `aplRev`, the
+operators `÷` and `+` over mixed ranks, a zero-parameter lambda held as `Any`
+and called, a `requires` contract on a zero-argument reader (APL's VALUE ERROR
+as a `CallerViolation`), and `(fn _ => r)(e)` where `e` is a call returning `()`
+— the shape the default-⍺ rule wants.
+
+**Running output** (`u10_any.out`): all seven parts. `fail[\T\](s)` also works
+but PRINTS `FAIL: <message>` before it throws, so the library uses contracts and
+not `fail`.
+
+## u11 — the rung-4 library, called directly
+
+The library half with no grammar in the way: the frame stack, ⍺ ⍵ ∇, the default
+⍺, `aplBindLeft`, `aplTruthy`, the rank-3 carrier (build, show, `≢ ⍴ , ⊃`,
+reshape in and out, `1 0 2⍉`), elementwise arithmetic on rank 3, the rank
+operator in both valences over a matrix and over a rank-3 array, and a LENGTH
+ERROR from cells of different shapes.
+
+**Running output** (`u11_lib.out`) — everything passes, `sum ⍳10` = 45,
+`100 sum ⍳10` = 145, frame depth back to 0, `0∘⌈` over `¯2 ¯1 0 1 2` = `0 0 0 1 2`.
+Three recorded failures on the way: `.out.0` is the first run of the rank
+operator, `.out.1` the same after the function parameter was given an arrow
+type, `.out.2` after the dyadic overloads were given their own name — the same
+"Failed to find any matching overload" each time, which is what sent the hunt to
+u12–u16.
+
+## u12 — `Any`, arrows, and the position of the function parameter
+
+**Question.** u11's failure was `aplRank1(f, m)` with `f` a zero-parameter
+lambda. u09 had passed a lambda to an `f: Any` parameter of an overloaded
+function and it dispatched. Which of the three differences — zero parameters,
+first position, or a discriminating SECOND parameter — is the obstacle?
+
+**Answer.** None of them. A local family `g(f: Any, x: RR64) / (f: Any, v: Vector)
+/ (f: Any, m: Matrix)` dispatches on a zero-parameter lambda in first position,
+and so does the arrow-typed spelling, the one-parameter lambda, the
+lambda-second spelling, and a mixed-arity family whose `r` is a nat parameter
+above and a value parameter below (`u12_disp.out`).
+
+## u13 — the same eleven signatures, local and imported
+
+**Question.** Then is it the family itself?
+
+**Answer.** The eleven signatures of `aplRank1` declared LOCALLY dispatch; the
+same eleven imported from `AplCore` do not (`u13_rank.out.0`). The candidate
+list the interpreter prints has one tell: every type is printed qualified
+(`FortressLibrary.RR64`, `Vector[\FortressLibrary.RR64,s\]`) except `Any`,
+which is printed bare. `u13_rank.out` is the same file against the fixed library.
+
+## u14 — which spelling of a function parameter crosses an api
+
+**Question.** Does a function parameter have to be `Any`?
+
+**Answer.** No: an arrow type works. Three temporary families in `base/AplCore`
+(quoted in the probe's header) asked it; `()->Any` dispatches, `Object` does not
+— a closure is not an `Object` —
+
+```
+Failed to find any matching overload, args = (FnExpr … ()->Any …,
+__DefaultMatrix[\RR64,2,2\]), overload = {
+  aplTstC[\nat s\](f:FortressBuiltin.Object,v:Vector[\FortressLibrary.RR64,s\])…
+```
+
+(`u14_api.out.0`). The `Any` family of that probe was never reached in the run:
+what pinned the cause was u15.
+
+## u15 — `Any` as a RESULT type
+
+**Question.** With an arrow-typed parameter the rank operator still would not
+dispatch. Two suspects were left: the size of the family, and `Any` as the
+declared RESULT.
+
+**Answer.** The result. Four members with a `String` result dispatch over all
+four ranks; two members with an `Any` result do not (`u15_any.out.0`):
+
+```
+Failed to find any matching overload, args = (FnExpr … ()->Any …,
+__DefaultMatrix[\RR64,2,2\]), overload = {
+  aplTstD[\nat s\](f:()->Any,v:Vector[\FortressLibrary.RR64,s\]):Any …
+  aplTstD[\nat r,nat c\](f:()->Any,m:Matrix[\FortressLibrary.RR64,r,c\]):Any …}
+```
+
+## u16 — is it the api boundary, and what serves instead
+
+**Answer.** It is not the api boundary: a LOCAL family with an `Any` result
+fails in exactly the same way (`u16_res.out.0`). `Object` as the result type
+dispatches and carries both an `RR64` and an array (`u16_res.out`), so
+`aplRank1`, `aplRank2`, `aplRankD1`, `aplRankD2`, `aplAsm1` and `aplAsm2` are
+declared `: Object`. Gap row 67.
+
+## u17 — the rung-4 grammar, one line per rule
+
+Dfns as values and as calls, ⍺ ⍵ in operand positions, a dfn inside a dfn, the
+default ⍺, guards, ∇ recursion, a named function, the rank operator in both
+spellings and both valences, `∘`, `⊢`, `⊣`, `(a,b,c)⍴x`, `2 3 4⍴x`, `1 0 2⍉t`,
+dyadic `⊃`, and a multi-line dfn opening with a comment line — all pass
+(`u17_gram.out`).
+
+Two findings on the way, both about LINE BREAKS in a production.
+
+`u17_gram.out.0`/`.1`: `(a,b,c)⍴x` written as a rule that breaks between `)` and
+`SPACE ⍴` never matches, and `u17_gram.out.4`: the `MyFirstFunction` alternative
+of `AplFnName` written with its `NOT [A:Za:z0:9]` on the next line never matches
+either. Both work on one line. A line break inside a production's symbol
+sequence is therefore not optional whitespace — it is a required line break at
+the use site, which is exactly what rung 2's two spellings of every statement
+rule (one with `⋄`, one with a line break) were written for. Gap row 71.
+
+`u17_gram.out.3`: a dfn bound on one line and applied on the next swallows the
+next line — the monadic call rule reads `{…}` as the function and the whole
+following line as its argument. Gap row 68.
+
+## u18 — the constructs the chapter's later examples need
+
+`_ ← {…}⍬`, the chapter's throw-away name, is a **Syntax Error**: the `Id` gap
+of the binding rule does not accept the underscore (`u18_gram.out.1`,
+`u18_gram.fss:27:34: Syntax Error`, where the same line with `x` in place of `_`
+runs). The reported column is the reshape three tokens earlier — the
+furthest-failure position is not the offending one. Gap row 69.
+
+Everything else passes (`u18_gram.out`): an inner dfn that mutates an array
+bound in the enclosing dfn, an inner dfn with a guard applied to a name, `i⊃v`,
+a guard chain, `softmax` as two statements, `rmsnorm` through `⍤1`, `,⍤2⊢t`,
+`⍉⍤2⊢t`, `(a,b)⍴t` from rank 3, `÷` on rank 3, and a dfn whose body calls a dfn
+with its own `⍵`.
+
+## u19 — which statement separators work inside a dfn
+
+**Question.** The chapter's `sum` parses with the book's trailing comments on
+every body line (Ex 9) and fails without them (`Rung4.out.0`,
+`Rung4.fss:117:47: Syntax Error`). Which rule is at fault?
+
+**Answer.** None: the trap is gap row 52's, one construct further. The gap
+before a line break is greedy across it, so a statement followed by a line whose
+first token can continue it is swallowed. `{⍵>2: 42 ⟨break⟩ ¯99}` reads `42 ¯99`
+as one strand and then has no statement left (`u19_break.out.0`,
+`u19_break.fss:31:24: Syntax Error`); `⍺ ← 0 ⟨break⟩ 0=≢⍵:⍺` reads `0 0=≢⍵` as
+one expression and then fails at the colon. A body line separated by `⋄`, or by
+the book's own trailing comment, parses, and so does a line break above a line
+that begins with a NAME (`u19_break.out`).
+
+## u20 — a function name that is never bound
+
+**Question.** The chapter's Ex 14 assigns `foo ← {47>flerp ⍵: 92+flumm ⍵ ⋄ 57+8}`
+over two names it never defines. A name in a template is a free Fortress
+identifier; is an unbound one a run-time or a compile-time failure?
+
+**Answer.** Compile-time, and reported against the GRAMMAR api rather than the
+use site (`u20_free.out.0`):
+
+```
+/home/user/fortress/explorations/apl/base/AplSyntax.fsi:1:2:
+    Variable g is not defined.
+```
+
+Nothing runs. With `g` bound first, the same line runs and prints 92
+(`u20_free.out`). So Ex 14 is out of scope for the rung. Gap row 70.
+
+## u21 — what a dfn call costs
+
+**Question.** u04 measured the frame stack against a two-parameter host lambda
+(about 4×). What does the shipped expansion cost against the same primitive
+written directly?
+
+**Answer** (`u21_cost.out`), `nanoTime()`, one run each:
+
+```
+scalars, 100000 calls each:
+  1+2      : 0.569982363 s
+  1 {⍺+⍵} 2: 2.009266533 s
+  ratio    : 3.5251380804567107
+100-element vectors, 10000 calls each:
+  v+v      : 16.35753919 s
+  v {⍺+⍵} v: 16.260407055 s
+  ratio    : 0.9940619347524241
+```
+
+3.5× on scalars, nothing measurable on 100-element vectors: the array work
+swamps the closure and the frame push, which is the case the program is made of.
+
 ## Files
 
 | probe | question | sources | outputs |
@@ -345,3 +531,15 @@ reach a value's rank than an overload is.
 | u07 | rank 3 | `u07_rank3.fss` | `u07_rank3.out` |
 | u08 | planes and a permuted view | `u08_plane.fss` | `u08_plane.out`, `.out.0` |
 | u09 | dispatch on a result | `u09_result.fss` | `u09_result.out`, `.out.0`, `.out.1` |
+| u10 | a value of static type `Any` | `u10_any.fss` | `u10_any.out` |
+| u11 | the rung-4 library, called directly | `u11_lib.fss` | `u11_lib.out`, `.out.0`-`.out.2` |
+| u12 | `Any`, arrows, parameter position | `u12_disp.fss` | `u12_disp.out`, `.out.0` |
+| u13 | the same family local and imported | `u13_rank.fss` | `u13_rank.out`, `.out.0` |
+| u14 | which function parameter crosses an api | `u14_api.fss` | `u14_api.out.0` |
+| u15 | `Any` as a result type | `u15_any.fss` | `u15_any.out`, `.out.0` |
+| u16 | local `Any` result; `Object` instead | `u16_res.fss` | `u16_res.out`, `.out.0` |
+| u17 | the rung-4 grammar | `u17_gram.fss` | `u17_gram.out`, `.out.0`-`.out.4` |
+| u18 | the later chapter constructs | `u18_gram.fss` | `u18_gram.out`, `.out.0`, `.out.1` |
+| u19 | statement separators inside a dfn | `u19_break.fss` | `u19_break.out`, `.out.0` |
+| u20 | an unbound function name | `u20_free.fss` | `u20_free.out`, `.out.0` |
+| u21 | the cost of a dfn call | `u21_cost.fss` | `u21_cost.out` |

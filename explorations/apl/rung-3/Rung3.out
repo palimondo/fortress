@@ -1,3 +1,8 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress4600775578146329345rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress4600775578146329345rats/com/sun/fortress/parser/templateparser/TemplateParser253.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
 === examples of the chapter, against the book's printed output ===
 
 SKIP  Ex 1   out of scope: ⎕IO ← 0, ]box and ]rows: a ⎕ system name and two Dyalog user commands

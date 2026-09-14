@@ -1,0 +1,12 @@
+(b) an arrow-typed parameter, zero-parameter lambda first:
+  gb(z, 1.0) = b: rank 0, gb(z, v) = b: rank 1, gb(z, m) = b: rank 2
+(c) an Any parameter, ONE-parameter lambda first:
+  gc(o, m) = c: rank 2
+(d) an Any parameter, the lambda second:
+  gd(m, z) = d: rank 2
+(a) an Any parameter, zero-parameter lambda first (the reproduction):
+  ga(z, m) = a: rank 2
+(f) mixed arity, the value parameter renamed:
+  gf(z, m) = f: rank 2, gf(z, 1.0, v) = f: dyadic
+(e) mixed arity, `r` both a nat and a value parameter:
+  ge(z, m) = e: rank 2, ge(z, 1.0, v) = e: dyadic

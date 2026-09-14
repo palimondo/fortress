@@ -1171,9 +1171,9 @@ end
 
 aplCall(f: Any, l: Any, r: Any): Any = do
     AplFrames.push(f, l, r)
-    v = f()
-    AplFrames.pop()
-    v
+    (* the pop is in a finally so that a contract violation inside the body
+       (APL's VALUE ERROR on ⍺, a LENGTH ERROR) leaves no stale frame behind *)
+    try f() finally AplFrames.pop() end
   end
 aplCall1(f: Any, r: Any): Any = aplCall(f, AplNoAlpha, r)
 aplHasAlpha(): Boolean = typecase AplFrames.topA() of AplNoAlpha => false; else => true end
@@ -1472,7 +1472,7 @@ aplAsm1From[\nat p, nat q\](r0: Matrix[\RR64,p,q\], rs: Array[\Any,ZZ32\]):
         Array[\RR64,(ZZ32,ZZ32,ZZ32)\] requires { aplSameSig(rs) } =
     aplArr3(|rs|, aplRowsOf(r0), aplColsOf(r0),
             fn (i: ZZ32, j: ZZ32, k: ZZ32): RR64 => aplNth2(rs[i], j, k))
-aplAsm1(rs: Array[\Any,ZZ32\]): Any = aplAsm1From(rs[0], rs)
+aplAsm1(rs: Array[\Any,ZZ32\]): Object = aplAsm1From(rs[0], rs)
 
 aplAsm2From(r0: RR64, rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Array[\RR64,(ZZ32,ZZ32)\]
         requires { aplSameSig(rs) } =
@@ -1480,13 +1480,13 @@ aplAsm2From(r0: RR64, rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Array[\RR64,(Z
 aplAsm2From[\nat s\](r0: Vector[\RR64,s\], rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32):
         Array[\RR64,(ZZ32,ZZ32,ZZ32)\] requires { aplSameSig(rs) } =
     aplArr3(d0, d1, |r0|, fn (i: ZZ32, j: ZZ32, k: ZZ32): RR64 => aplNth(rs[(i d1) + j], k))
-aplAsm2(rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Any = aplAsm2From(rs[0], rs, d0, d1)
+aplAsm2(rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Object = aplAsm2From(rs[0], rs, d0, d1)
 
 (* monadic f⍤1 : the cells are the rows.  A vector IS one cell, so f⍤1 on a
    vector is f on the vector. *)
-aplRank1(f: Any, x: RR64): Any = aplCall1(f, x)
-aplRank1[\nat s\](f: Any, v: Vector[\RR64,s\]): Any = aplCall1(f, v)
-aplRank1[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Any = do
+aplRank1(f: ()->Any, x: RR64): Object = aplCall1(f, x)
+aplRank1[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): Object = aplCall1(f, v)
+aplRank1[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): Object = do
     rows = aplRowsOf(m)
     rs = array[\Any\](rows)
     i: ZZ32 := 0
@@ -1496,7 +1496,7 @@ aplRank1[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Any = do
     end
     aplAsm1(rs)
   end
-aplRank1[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): Any = do
+aplRank1[\nat a, nat b, nat c\](f: ()->Any, t: Array3[\RR64,0,a,0,b,0,c\]): Object = do
     (d0, d1, d2) = t.sizes
     rs = array[\Any\](d0 d1)
     i: ZZ32 := 0
@@ -1512,8 +1512,8 @@ aplRank1[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): Any = do
   end
 
 (* monadic f⍤2 : the cells are the planes; a matrix is one cell *)
-aplRank2[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Any = aplCall1(f, m)
-aplRank2[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): Any = do
+aplRank2[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): Object = aplCall1(f, m)
+aplRank2[\nat a, nat b, nat c\](f: ()->Any, t: Array3[\RR64,0,a,0,b,0,c\]): Object = do
     d0 = aplD0(t)
     rs = array[\Any\](d0)
     i: ZZ32 := 0
@@ -1526,9 +1526,9 @@ aplRank2[\nat a, nat b, nat c\](f: Any, t: Array3[\RR64,0,a,0,b,0,c\]): Any = do
 
 (* dyadic l f⍤1 r : cells paired by position when the frames agree, and a left
    argument of the cell rank itself paired with every right cell *)
-aplRank1[\nat s, nat t\](f: Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Any = aplCall(f, l, r)
-aplRank1[\nat s\](f: Any, l: RR64, r: Vector[\RR64,s\]): Any = aplCall(f, l, r)
-aplRank1[\nat s, nat r2, nat c2\](f: Any, l: Vector[\RR64,s\], m: Matrix[\RR64,r2,c2\]): Any = do
+aplRankD1[\nat s, nat t\](f: ()->Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Object = aplCall(f, l, r)
+aplRankD1[\nat s\](f: ()->Any, l: RR64, r: Vector[\RR64,s\]): Object = aplCall(f, l, r)
+aplRankD1[\nat s, nat r2, nat c2\](f: ()->Any, l: Vector[\RR64,s\], m: Matrix[\RR64,r2,c2\]): Object = do
     rows = aplRowsOf(m)
     rs = array[\Any\](rows)
     i: ZZ32 := 0
@@ -1538,7 +1538,7 @@ aplRank1[\nat s, nat r2, nat c2\](f: Any, l: Vector[\RR64,s\], m: Matrix[\RR64,r
     end
     aplAsm1(rs)
   end
-aplRank1[\nat r2, nat c2\](f: Any, l: RR64, m: Matrix[\RR64,r2,c2\]): Any = do
+aplRankD1[\nat r2, nat c2\](f: ()->Any, l: RR64, m: Matrix[\RR64,r2,c2\]): Object = do
     rows = aplRowsOf(m)
     rs = array[\Any\](rows)
     i: ZZ32 := 0
@@ -1548,8 +1548,8 @@ aplRank1[\nat r2, nat c2\](f: Any, l: RR64, m: Matrix[\RR64,r2,c2\]): Any = do
     end
     aplAsm1(rs)
   end
-aplRank1[\nat p, nat q, nat r2, nat c2\](f: Any, a: Matrix[\RR64,p,q\],
-        b: Matrix[\RR64,r2,c2\]): Any requires { aplRowsOf(a) = aplRowsOf(b) } = do
+aplRankD1[\nat p, nat q, nat r2, nat c2\](f: ()->Any, a: Matrix[\RR64,p,q\],
+        b: Matrix[\RR64,r2,c2\]): Object requires { aplRowsOf(a) = aplRowsOf(b) } = do
     rows = aplRowsOf(a)
     rs = array[\Any\](rows)
     i: ZZ32 := 0
@@ -1559,8 +1559,8 @@ aplRank1[\nat p, nat q, nat r2, nat c2\](f: Any, a: Matrix[\RR64,p,q\],
     end
     aplAsm1(rs)
   end
-aplRank1[\nat s, nat a, nat b, nat c\](f: Any, l: Vector[\RR64,s\],
-        t: Array3[\RR64,0,a,0,b,0,c\]): Any = do
+aplRankD1[\nat s, nat a, nat b, nat c\](f: ()->Any, l: Vector[\RR64,s\],
+        t: Array3[\RR64,0,a,0,b,0,c\]): Object = do
     (d0, d1, d2) = t.sizes
     rs = array[\Any\](d0 d1)
     i: ZZ32 := 0
@@ -1574,7 +1574,7 @@ aplRank1[\nat s, nat a, nat b, nat c\](f: Any, l: Vector[\RR64,s\],
     end
     aplAsm2(rs, d0, d1)
   end
-aplRank1[\nat a, nat b, nat c\](f: Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Any = do
+aplRankD1[\nat a, nat b, nat c\](f: ()->Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Object = do
     (d0, d1, d2) = t.sizes
     rs = array[\Any\](d0 d1)
     i: ZZ32 := 0
@@ -1590,10 +1590,10 @@ aplRank1[\nat a, nat b, nat c\](f: Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
   end
 
 (* dyadic l f⍤2 r *)
-aplRank2[\nat p, nat q, nat r2, nat c2\](f: Any, a: Matrix[\RR64,p,q\],
-        b: Matrix[\RR64,r2,c2\]): Any = aplCall(f, a, b)
-aplRank2[\nat p, nat q, nat a, nat b, nat c\](f: Any, l: Matrix[\RR64,p,q\],
-        t: Array3[\RR64,0,a,0,b,0,c\]): Any = do
+aplRankD2[\nat p, nat q, nat r2, nat c2\](f: ()->Any, a: Matrix[\RR64,p,q\],
+        b: Matrix[\RR64,r2,c2\]): Object = aplCall(f, a, b)
+aplRankD2[\nat p, nat q, nat a, nat b, nat c\](f: ()->Any, l: Matrix[\RR64,p,q\],
+        t: Array3[\RR64,0,a,0,b,0,c\]): Object = do
     d0 = aplD0(t)
     rs = array[\Any\](d0)
     i: ZZ32 := 0
@@ -1603,7 +1603,7 @@ aplRank2[\nat p, nat q, nat a, nat b, nat c\](f: Any, l: Matrix[\RR64,p,q\],
     end
     aplAsm1(rs)
   end
-aplRank2[\nat a, nat b, nat c\](f: Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Any = do
+aplRankD2[\nat a, nat b, nat c\](f: ()->Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]): Object = do
     d0 = aplD0(t)
     rs = array[\Any\](d0)
     i: ZZ32 := 0
@@ -1613,8 +1613,8 @@ aplRank2[\nat a, nat b, nat c\](f: Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,c\]):
     end
     aplAsm1(rs)
   end
-aplRank2[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: Any,
-        x: Array3[\RR64,0,a1,0,b1,0,c1\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Any
+aplRankD2[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: ()->Any,
+        x: Array3[\RR64,0,a1,0,b1,0,c1\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Object
         requires { aplD0(x) = aplD0(y) } = do
     d0 = aplD0(x)
     rs = array[\Any\](d0)
