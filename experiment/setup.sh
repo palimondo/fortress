@@ -68,7 +68,16 @@ if not any(x.get('command') == h['command'] for g in stop for x in g.get('hooks'
     stop.append({'hooks': [h]})
 json.dump(d, open(p, 'w'), indent=2); print('hook registered in', p)
 PY
-  [ -n '${SETUP_DRY_PUSH:-}' ] || { '$TB_DIR/scripts/backup.sh'; git -C '$TB_DIR' log --oneline -1 | grep -q 'Transcript snapshot' && git -C '$TB_DIR' status -sb | head -1 | grep -qv ahead; }
+  [ -n '${SETUP_DRY_PUSH:-}' ] || {
+    # The hook may already be armed from an earlier session and be mid-push when
+    # this stage runs (its lock makes backup.sh exit at once), so wait for the
+    # lock, take one snapshot, and give the push up to 60 s before judging.
+    for i in \$(seq 60); do [ -e '$TB_DIR/.backup.lock' ] || break; sleep 1; done
+    '$TB_DIR/scripts/backup.sh'
+    git -C '$TB_DIR' log --oneline -1 | grep -q 'Transcript snapshot' || exit 1
+    for i in \$(seq 60); do git -C '$TB_DIR' status -sb | head -1 | grep -q ahead || exit 0; sleep 1; done
+    exit 1
+  }
 "
 
 log "---- setup summary ----"; for s in "${SUMMARY[@]}"; do log "$s"; done
