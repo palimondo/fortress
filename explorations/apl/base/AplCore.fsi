@@ -626,4 +626,112 @@ aplRankD2[\nat a, nat b, nat c\](f: ()->Any, l: RR64, t: Array3[\RR64,0,a,0,b,0,
 aplRankD2[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: ()->Any,
         x: Array3[\RR64,0,a1,0,b1,0,c1\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Object
 
+
+(* ==================================================== rung 5: iteration ==
+   A strand of arrays is a Fortress TUPLE: `wq wk wv` is `(wq, wk, wv)` and
+   `a b c ← …` is a lambda of three parameters applied to it (../rung-5/v01,
+   v03).  A tuple PATTERN in a parameter list is a Syntax Error, so the tuple
+   each and the tuple display take the elements one by one -- the grammar
+   already counts the names, as it counts the numerals of a reshape (row 47).
+
+   Each `¨`, a general `f/ f⌿ f\ f⍀` through aplCall, the direct scans, and the
+   power operator `⍣`.  A cell result of `¨` that is not a scalar would be APL's
+   NESTED array, which this base does not have: aplAsmV / aplAsmM refuse it by
+   contract.  The families that may return any rank are declared `: Object`,
+   for row 67's reason. **)
+
+(** ¨ Each: monadic over rank 0, 1 and 2, dyadic over the five shapes with
+    APL's scalar extension. **)
+aplIsScalar(x: Any): Boolean
+aplAllScalar(rs: Array[\Any,ZZ32\]): Boolean
+aplAsmV(rs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\]
+aplAsmM(rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Array[\RR64,(ZZ32,ZZ32)\]
+aplEach(f: Any, x: RR64): Object
+aplEach[\nat s\](f: Any, v: Vector[\RR64,s\]): Object
+aplEach[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object
+aplEach(f: Any, l: RR64, r: RR64): Object
+aplEach[\nat s, nat t\](f: Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Object
+aplEach[\nat s\](f: Any, l: RR64, r: Vector[\RR64,s\]): Object
+aplEach[\nat s\](f: Any, l: Vector[\RR64,s\], r: RR64): Object
+aplEach[\nat r, nat c\](f: Any, l: RR64, m: Matrix[\RR64,r,c\]): Object
+aplEach[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\], l: RR64): Object
+aplEach[\nat r, nat c, nat p, nat q\](f: Any, a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Object
+
+(** ¨ over a name strand, and the display of one. **)
+aplEachT2(f: Any, a: Any, b: Any): (Any, Any)
+aplEachT3(f: Any, a: Any, b: Any, c: Any): (Any, Any, Any)
+aplShowT(t: (Any, Any)): String
+aplShowT(t: (Any, Any, Any)): String
+
+(** ⍨ as a function VALUE: monadic `f⍨` is `⍵ f ⍵`, dyadic swaps, and `a f⍨`
+    binds the RIGHT argument, which is what `2÷⍨` is. **)
+aplCommute(f: Any): ()->Any
+aplCommuteD(f: Any): ()->Any
+aplBindRight(f: Any, a: Any): ()->Any
+
+(** f/ and f⌿ with any operand, a foldR through aplCall.  An empty argument has
+    no identity for a general operand: DOMAIN ERROR, as a contract. **)
+aplFoldLast(f: Any, x: RR64): Object
+aplFoldLast[\nat s\](f: Any, v: Vector[\RR64,s\]): Object
+aplFoldLast[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object
+aplFoldFirst(f: Any, x: RR64): Object
+aplFoldFirst[\nat s\](f: Any, v: Vector[\RR64,s\]): Object
+aplFoldFirst[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object
+
+(** -⌿ , the one direct reduction rungs 1 and 3 left out. **)
+aplDifFirst(x: RR64): RR64
+aplDifFirst[\nat s\](v: Vector[\RR64,s\]): RR64
+aplDifFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\]
+
+(** Scans.  Element k is the REDUCTION of the first k+1 items, so -\1 2 3 is
+    1 ¯1 2; `\` is the last axis and `⍀` the first. **)
+aplScanWith[\nat s\](f: (RR64,RR64)->RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplScanRows[\nat r, nat c\](f: (RR64,RR64)->RR64, m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplScanCols[\nat r, nat c\](f: (RR64,RR64)->RR64, m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplSumScanLast(x: RR64): RR64
+aplSumScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplSumScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplSumScanFirst(x: RR64): RR64
+aplSumScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplSumScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplProdScanLast(x: RR64): RR64
+aplProdScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplProdScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplProdScanFirst(x: RR64): RR64
+aplProdScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplProdScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplMaxScanLast(x: RR64): RR64
+aplMaxScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplMaxScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplMaxScanFirst(x: RR64): RR64
+aplMaxScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplMaxScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplMinScanLast(x: RR64): RR64
+aplMinScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplMinScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplMinScanFirst(x: RR64): RR64
+aplMinScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplMinScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplDifScanLast(x: RR64): RR64
+aplDifScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplDifScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplDifScanFirst(x: RR64): RR64
+aplDifScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\]
+aplDifScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplScanLast(f: Any, x: RR64): Object
+aplScanLast[\nat s\](f: Any, v: Vector[\RR64,s\]): Object
+aplScanLast[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object
+aplScanFirst(f: Any, x: RR64): Object
+aplScanFirst[\nat s\](f: Any, v: Vector[\RR64,s\]): Object
+aplScanFirst[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object
+
+(** ⍣ Power: with a count, and with a stop function called with the NEW value
+    as ⍺ and the old one as ⍵. **)
+aplNoFixedPoint(): Any
+aplPower(f: Any, n: RR64, x: Any): Object
+aplPowerUntil(f: Any, g: Any, x: Any): Object
+
 end

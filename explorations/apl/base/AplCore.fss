@@ -1626,4 +1626,355 @@ aplRankD2[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: ()->Any,
     aplAsm1(rs)
   end
 
+
+(* ================================================== rung 5: iteration ==
+   Four mechanisms arrive here, and only the first is new in kind.
+
+   (1) A STRAND OF ARRAYS IS A FORTRESS TUPLE.  APL writes a list of three
+       matrices as `wq wk wv` and takes it apart with `a b c ← …`; Fortress has
+       the tuple for exactly that, and the grammar reads the length off the
+       source as it reads the rank of a reshape.  No nested APL array is ever
+       built.  A tuple PATTERN in a parameter list is a Syntax Error
+       (../rung-5/v01_tuple.out.0), so a tuple parameter is destructured in the
+       BODY; a lambda of two or three parameters applied to one tuple-valued
+       expression is what a destructuring binding expands to, and that works
+       (v03_destr.out).  Overloading DOES dispatch on tuple arity (v01), but the
+       tuple each and the tuple display carry their own names anyway, because
+       the grammar already knows which it is looking at.
+
+   (2) EACH ¨ over a simple array is the rank operator's assemble-by-first-result
+       with the cells one element deep -- except that a cell result which is not
+       a scalar is APL's NESTED array, which this base does not have, so it is a
+       contract violation and says so.
+
+   (3) A GENERAL f/ f⌿ f\ f⍀ folds and scans through aplCall, right to left, as
+       APL does.  The direct rules of rungs 1 and 3 keep the shipped SUM / PROD /
+       BIG MAX; these are the fallback for every other operand.
+
+   (4) POWER ⍣ with a count, and with a stop function that is called with the
+       NEW value as ⍺ and the old one as ⍵.  A stop function that never fires is
+       a contract violation after a million steps rather than a hang. *)
+
+(* ------------------------------------------------------- ¨ Each ---------- *)
+(* A cell result that is not a scalar would be APL's nested array.  This base
+   has none, so aplAsmV and aplAsmM refuse it by contract. *)
+aplIsScalar(x: Any): Boolean = typecase x of RR64 => true; else => false end
+aplAllScalar(rs: Array[\Any,ZZ32\]): Boolean = do
+    ok: Boolean := true
+    k: ZZ32 := 0
+    while k < |rs| do
+        (if NOT aplIsScalar(rs[k]) then ok := false end)
+        k := k + 1
+    end
+    ok
+  end
+aplAsmV(rs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\] requires { aplAllScalar(rs) } =
+    aplVec(|rs|, fn (i: ZZ32): RR64 => aplScalOf(rs[i]))
+aplAsmM(rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Array[\RR64,(ZZ32,ZZ32)\]
+        requires { aplAllScalar(rs) } =
+    aplMat(d0, d1, fn (i: ZZ32, j: ZZ32): RR64 => aplScalOf(rs[(i d1) + j]))
+
+aplEach(f: Any, x: RR64): Object = aplCall1(f, x)
+aplEach[\nat s\](f: Any, v: Vector[\RR64,s\]): Object = do
+    rs = array[\Any\](|v|)
+    i: ZZ32 := 0
+    while i < |v| do rs[i] := aplCall1(f, v[i]); i := i + 1 end
+    aplAsmV(rs)
+  end
+aplEach[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object = do
+    (rows, cols) = m.sizes
+    rs = array[\Any\](rows cols)
+    i: ZZ32 := 0
+    while i < rows do
+        j: ZZ32 := 0
+        while j < cols do rs[(i cols) + j] := aplCall1(f, m[i,j]); j := j + 1 end
+        i := i + 1
+    end
+    aplAsmM(rs, rows, cols)
+  end
+
+(* dyadic l f¨ r, with APL's scalar extension on either side *)
+aplEach(f: Any, l: RR64, r: RR64): Object = aplCall(f, l, r)
+aplEach[\nat s, nat t\](f: Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Object
+        requires { |l| = |r| } = do
+    rs = array[\Any\](|l|)
+    i: ZZ32 := 0
+    while i < |l| do rs[i] := aplCall(f, l[i], r[i]); i := i + 1 end
+    aplAsmV(rs)
+  end
+aplEach[\nat s\](f: Any, l: RR64, r: Vector[\RR64,s\]): Object = do
+    rs = array[\Any\](|r|)
+    i: ZZ32 := 0
+    while i < |r| do rs[i] := aplCall(f, l, r[i]); i := i + 1 end
+    aplAsmV(rs)
+  end
+aplEach[\nat s\](f: Any, l: Vector[\RR64,s\], r: RR64): Object = do
+    rs = array[\Any\](|l|)
+    i: ZZ32 := 0
+    while i < |l| do rs[i] := aplCall(f, l[i], r); i := i + 1 end
+    aplAsmV(rs)
+  end
+aplEach[\nat r, nat c\](f: Any, l: RR64, m: Matrix[\RR64,r,c\]): Object = do
+    (rows, cols) = m.sizes
+    rs = array[\Any\](rows cols)
+    i: ZZ32 := 0
+    while i < rows do
+        j: ZZ32 := 0
+        while j < cols do rs[(i cols) + j] := aplCall(f, l, m[i,j]); j := j + 1 end
+        i := i + 1
+    end
+    aplAsmM(rs, rows, cols)
+  end
+aplEach[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\], l: RR64): Object = do
+    (rows, cols) = m.sizes
+    rs = array[\Any\](rows cols)
+    i: ZZ32 := 0
+    while i < rows do
+        j: ZZ32 := 0
+        while j < cols do rs[(i cols) + j] := aplCall(f, m[i,j], l); j := j + 1 end
+        i := i + 1
+    end
+    aplAsmM(rs, rows, cols)
+  end
+aplEach[\nat r, nat c, nat p, nat q\](f: Any, a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Object requires { (aplRowsOf(a) = aplRowsOf(b)) AND (aplColsOf(a) = aplColsOf(b)) } = do
+    (rows, cols) = a.sizes
+    rs = array[\Any\](rows cols)
+    i: ZZ32 := 0
+    while i < rows do
+        j: ZZ32 := 0
+        while j < cols do rs[(i cols) + j] := aplCall(f, a[i,j], b[i,j]); j := j + 1 end
+        i := i + 1
+    end
+    aplAsmM(rs, rows, cols)
+  end
+
+(* ------------------------------------------ ¨ over a strand of arrays ----- *)
+(* The grammar counts the names, as it counts the numerals of a reshape, so
+   these take the elements one by one and hand back a tuple. *)
+aplEachT2(f: Any, a: Any, b: Any): (Any, Any) = (aplCall1(f, a), aplCall1(f, b))
+aplEachT3(f: Any, a: Any, b: Any, c: Any): (Any, Any, Any) =
+    (aplCall1(f, a), aplCall1(f, b), aplCall1(f, c))
+aplShowT(t: (Any, Any)): String = do (a, b) = t; ((aplShow(a) // "") // aplShow(b)) end
+aplShowT(t: (Any, Any, Any)): String = do
+    (a, b, c) = t
+    ((((aplShow(a) // "") // aplShow(b)) // "") // aplShow(c))
+  end
+
+(* ---------------------------------------------- ⍨ as a function VALUE ----- *)
+(* f⍨ monadic is ⍵ f ⍵; f⍨ dyadic swaps; a f⍨ binds the RIGHT argument, which
+   is what `2÷⍨` is. *)
+aplCommute(f: Any): ()->Any = fn (): Any => aplCall(f, aplOmega(), aplOmega())
+aplCommuteD(f: Any): ()->Any = fn (): Any => aplCall(f, aplOmega(), aplAlpha())
+aplBindRight(f: Any, a: Any): ()->Any = fn (): Any => aplCall(f, aplOmega(), a)
+
+(* --------------------------------------- f/ and f⌿ with any operand ------- *)
+(* APL's reduce is a foldR: 1-2-3 is 1-(2-3).  An empty argument has no
+   identity to fall back on for a general operand, so it is a DOMAIN ERROR. *)
+aplFoldLast(f: Any, x: RR64): Object = x
+aplFoldLast[\nat s\](f: Any, v: Vector[\RR64,s\]): Object requires { |v| > 0 } = do
+    acc: Any := v[|v| - 1]
+    j: ZZ32 := |v| - 2
+    while j >= 0 do acc := aplCall(f, v[j], acc); j := j - 1 end
+    acc
+  end
+aplFoldLast[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object
+        requires { aplColsOf(m) > 0 } = do
+    (rows, cols) = m.sizes
+    rs = array[\Any\](rows)
+    i: ZZ32 := 0
+    while i < rows do
+        acc: Any := m[i, cols - 1]
+        j: ZZ32 := cols - 2
+        while j >= 0 do acc := aplCall(f, m[i,j], acc); j := j - 1 end
+        rs[i] := acc
+        i := i + 1
+    end
+    aplAsm1(rs)
+  end
+aplFoldFirst(f: Any, x: RR64): Object = x
+aplFoldFirst[\nat s\](f: Any, v: Vector[\RR64,s\]): Object requires { |v| > 0 } =
+    aplFoldLast(f, v)
+aplFoldFirst[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object
+        requires { aplRowsOf(m) > 0 } = do
+    (rows, cols) = m.sizes
+    rs = array[\Any\](cols)
+    k: ZZ32 := 0
+    while k < cols do
+        acc: Any := m[rows - 1, k]
+        i: ZZ32 := rows - 2
+        while i >= 0 do acc := aplCall(f, m[i,k], acc); i := i - 1 end
+        rs[k] := acc
+        k := k + 1
+    end
+    aplAsm1(rs)
+  end
+
+(* -/ along the FIRST axis, the one reduction rung 1 and rung 3 left out *)
+aplDifFirst(x: RR64): RR64 = x
+aplDifFirst[\nat s\](v: Vector[\RR64,s\]): RR64 = aplDifLast(v)
+aplDifFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (rows, cols) = m.sizes
+    aplVec(cols, fn (k: ZZ32): RR64 => do
+        acc: RR64 := m[rows - 1, k]
+        i: ZZ32 := rows - 2
+        while i >= 0 do acc := m[i,k] - acc; i := i - 1 end
+        acc
+      end)
+  end
+
+(* ------------------------------------------------------- scans ----------- *)
+(* APL's scan: element k is the REDUCTION of the first k+1 items, so it is a
+   right fold per prefix and -\1 2 3 is 1 ¯1 2, not 1 ¯1 ¯4.  That is
+   quadratic for a non-associative operand, and it is APL's own definition. *)
+aplScanWith[\nat s\](f: (RR64,RR64)->RR64, v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] =
+    aplVec(|v|, fn (k: ZZ32): RR64 => do
+        acc: RR64 := v[k]
+        j: ZZ32 := k - 1
+        while j >= 0 do acc := f(v[j], acc); j := j - 1 end
+        acc
+      end)
+aplScanRows[\nat r, nat c\](f: (RR64,RR64)->RR64, m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    aplMat(rows, cols, fn (i: ZZ32, k: ZZ32): RR64 => do
+        acc: RR64 := m[i,k]
+        j: ZZ32 := k - 1
+        while j >= 0 do acc := f(m[i,j], acc); j := j - 1 end
+        acc
+      end)
+  end
+aplScanCols[\nat r, nat c\](f: (RR64,RR64)->RR64, m: Matrix[\RR64,r,c\]):
+        Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    aplMat(rows, cols, fn (k: ZZ32, j: ZZ32): RR64 => do
+        acc: RR64 := m[k,j]
+        i: ZZ32 := k - 1
+        while i >= 0 do acc := f(m[i,j], acc); i := i - 1 end
+        acc
+      end)
+  end
+
+aplSumScanLast(x: RR64): RR64 = x
+aplSumScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplAddS, v)
+aplSumScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanRows(aplAddS, m)
+aplSumScanFirst(x: RR64): RR64 = x
+aplSumScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplAddS, v)
+aplSumScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanCols(aplAddS, m)
+
+aplProdScanLast(x: RR64): RR64 = x
+aplProdScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplMulS, v)
+aplProdScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanRows(aplMulS, m)
+aplProdScanFirst(x: RR64): RR64 = x
+aplProdScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplMulS, v)
+aplProdScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanCols(aplMulS, m)
+
+aplMaxScanLast(x: RR64): RR64 = x
+aplMaxScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplMaxS, v)
+aplMaxScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanRows(aplMaxS, m)
+aplMaxScanFirst(x: RR64): RR64 = x
+aplMaxScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplMaxS, v)
+aplMaxScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanCols(aplMaxS, m)
+
+aplMinScanLast(x: RR64): RR64 = x
+aplMinScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplMinS, v)
+aplMinScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanRows(aplMinS, m)
+aplMinScanFirst(x: RR64): RR64 = x
+aplMinScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplMinS, v)
+aplMinScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanCols(aplMinS, m)
+
+aplDifScanLast(x: RR64): RR64 = x
+aplDifScanLast[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplSubS, v)
+aplDifScanLast[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanRows(aplSubS, m)
+aplDifScanFirst(x: RR64): RR64 = x
+aplDifScanFirst[\nat s\](v: Vector[\RR64,s\]): Array[\RR64,ZZ32\] = aplScanWith(aplSubS, v)
+aplDifScanFirst[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplScanCols(aplSubS, m)
+
+(* the general scan, through aplCall *)
+aplScanLast(f: Any, x: RR64): Object = x
+aplScanLast[\nat s\](f: Any, v: Vector[\RR64,s\]): Object = do
+    rs = array[\Any\](|v|)
+    k: ZZ32 := 0
+    while k < |v| do
+        acc: Any := v[k]
+        j: ZZ32 := k - 1
+        while j >= 0 do acc := aplCall(f, v[j], acc); j := j - 1 end
+        rs[k] := acc
+        k := k + 1
+    end
+    aplAsmV(rs)
+  end
+aplScanLast[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object = do
+    (rows, cols) = m.sizes
+    rs = array[\Any\](rows cols)
+    i: ZZ32 := 0
+    while i < rows do
+        k: ZZ32 := 0
+        while k < cols do
+            acc: Any := m[i,k]
+            j: ZZ32 := k - 1
+            while j >= 0 do acc := aplCall(f, m[i,j], acc); j := j - 1 end
+            rs[(i cols) + k] := acc
+            k := k + 1
+        end
+        i := i + 1
+    end
+    aplAsmM(rs, rows, cols)
+  end
+aplScanFirst(f: Any, x: RR64): Object = x
+aplScanFirst[\nat s\](f: Any, v: Vector[\RR64,s\]): Object = aplScanLast(f, v)
+aplScanFirst[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object = do
+    (rows, cols) = m.sizes
+    rs = array[\Any\](rows cols)
+    k: ZZ32 := 0
+    while k < rows do
+        j: ZZ32 := 0
+        while j < cols do
+            acc: Any := m[k,j]
+            i: ZZ32 := k - 1
+            while i >= 0 do acc := aplCall(f, m[i,j], acc); i := i - 1 end
+            rs[(k cols) + j] := acc
+            j := j + 1
+        end
+        k := k + 1
+    end
+    aplAsmM(rs, rows, cols)
+  end
+
+(* ------------------------------------------------------- ⍣ Power --------- *)
+(* f⍣n applies f n times; f⍣g applies f until g is true of the NEW value as ⍺
+   and the old one as ⍵.  A stop function that never fires is a contract
+   violation after a million steps, not a hang. *)
+aplNoFixedPoint(): Any requires { false } = 0.0
+aplPower(f: Any, n: RR64, x: Any): Object requires { n >= 0.0 } = do
+    cur: Any := x
+    k: ZZ32 := 0
+    steps = aplInt(n)
+    while k < steps do cur := aplCall1(f, cur); k := k + 1 end
+    cur
+  end
+aplPowerUntil(f: Any, g: Any, x: Any): Object = do
+    cur: Any := x
+    done: Boolean := false
+    k: ZZ32 := 0
+    while NOT done do
+        nxt = aplCall1(f, cur)
+        if aplTruthy(aplCall(g, nxt, cur)) then cur := nxt; done := true
+        else cur := nxt; k := k + 1
+             (if k > 1000000 then cur := aplNoFixedPoint(); done := true end)
+        end
+    end
+    cur
+  end
+
 end
