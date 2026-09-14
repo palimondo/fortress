@@ -1,5 +1,10 @@
 # Run C4: gap rows
 
+**Merged into `explorations/fortress-gap-ledger.md` on 2026-09-14 as rows 175-178,
+the numbers below unchanged** (the merge's notes are in
+`explorations/gap-ledger-probes/apl-merge/MERGE.md`; the ledger settles row 177's
+class from the grammar and drops the "or").
+
 Rows found while merging rounds two and three and answering Pavol's questions afterwards; reproducers under `probes/`. Numbered from 175 as candidates for the ledger; the ledger merge assigns the final numbers.
 
 | # | finding | status | class | spec | reproducer | notes |

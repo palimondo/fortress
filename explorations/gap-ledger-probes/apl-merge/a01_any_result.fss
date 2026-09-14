@@ -1,0 +1,27 @@
+(* a01 -- written in the APL ledger merge (2026-09-14) to re-establish apl
+   gaps.md row 67 (ledger row 240) on the current base.  The rung-4 probes that
+   row cites, apl/rung-4/u15_any.fss and u16_res.fss, call temporary families
+   (aplTstD/aplTstE/aplTstF) that were declared in apl/base/AplCore.fss for
+   that rung and removed afterwards, so neither runs today: both stop at
+   "Variable aplTstE/aplTstF is not defined."  The claim needs no APL at all --
+   this is u16_res's LOCAL half in plain Fortress, with the Object-result
+   control beside it. *)
+component a01_any_result
+export Executable
+
+anyres[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): Any = 1.5
+anyres[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): Any = 2.5
+
+objres[\nat s\](f: ()->Any, v: Vector[\RR64,s\]): Object = 1.5
+objres[\nat r, nat c\](f: ()->Any, m: Matrix[\RR64,r,c\]): Object = 2.5
+
+run(): () = do
+    v: Vector[\RR64,2\] = array[\RR64\](2).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    m: Matrix[\RR64,2,2\] = array[\RR64\](2,2).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    f = fn (): Any => 1.0
+    println("(a) the same two members with an Object result:")
+    println(("  objres(f, v) = " objres(f, v) "   objres(f, m) = " objres(f, m)))
+    println("(b) the two members with an Any result:")
+    println(("  anyres(f, v) = " anyres(f, v)))
+  end
+end
