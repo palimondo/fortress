@@ -1,0 +1,86 @@
+(* p02_loaders: what the two loaders need -- reading lines from a file,
+   splitting a line on spaces, the high minus, a float parser (the library's
+   strToFloat overflows ZZ32 on a 17-digit mantissa), and characters to small
+   integers. *)
+component p02_loaders
+export Executable
+import File.{...}
+
+(* decimal digits, optional '.', optional e/E exponent; leading '-' or '¯' *)
+parseFloat(s: String): RR64 = do
+    neg = (s[0] = '-') OR (s[0] = '¯')
+    start = if neg then 1 else 0 end
+    m: RR64 := 0.0
+    scale: ZZ32 := 0          (* digits after the point *)
+    ex: ZZ32 := 0
+    i: ZZ32 := start
+    seenPoint: Boolean := false
+    n = |s|
+    while (i < n) AND: ((s[i] =/= 'e') AND (s[i] =/= 'E')) do
+        c = s[i]
+        if c = '.' then seenPoint := true
+        else
+            m := 10.0 m + (c.codePoint - '0'.codePoint)
+            if seenPoint then scale += 1 end
+        end
+        i += 1
+    end
+    if i < n then ex := strToInt(s[(i+1) # (n - i - 1)]) end
+    e10 = ex - scale
+    mag: RR64 = m
+    r = if e10 >= 0 then mag (10.0^e10)
+        elif e10 >= -22 then mag / (10.0^(-e10))
+        else (mag / (10.0^22)) / (10.0^(-e10 - 22)) end
+    if neg then -r else r end
+  end
+
+(* parse every space-separated number on a line into out[off..], return the count *)
+parseRow[\nat s\](line: String, out: Vector[\RR64,s\], off: ZZ32): ZZ32 = do
+    n = |line|
+    i: ZZ32 := 0
+    k: ZZ32 := 0
+    while i < n do
+        if line[i] = ' ' then i += 1
+        else
+            j: ZZ32 := i
+            while (j < n) AND: (line[j] =/= ' ') do j += 1 end
+            out[off + k] := parseFloat(line[i # (j - i)])
+            k += 1
+            i := j
+        end
+    end
+    k
+  end
+
+run(): () = do
+    println "(1) parseFloat: " (parseFloat "0.07696138795865093") " " (parseFloat "¯0.04273180935726127") " " (parseFloat "-1.5") " " (parseFloat "1e-05") " " (parseFloat "3.6822056515006807e-10") " " (parseFloat "0.0") " " (parseFloat "12")
+    s = "¯0.0427 0.0769  3.5"
+    o2 = array[\RR64\](5).fill(9.0)
+    n2 = parseRow(s, o2, 0)
+    println "(2) tokens: " n2 " -> " o2
+    uchars = "abcdefghijklmnopqrstuvwxyz"
+    println "(5) 'c'.codePoint - 'a'.codePoint = " ('c'.codePoint - 'a'.codePoint)
+    f = FileReadStream("explorations/apl/reference/dzaima/docs.txt")
+    l1 = f.readLine()
+    l2 = f.readLine()
+    println "(6) lines: [" l1 "] [" l2 "] |l1| = " |l1|
+    f.close()
+    g = FileReadStream("explorations/apl/reference/dzaima/w/wte.txt")
+    r0 = g.readLine()
+    g.close()
+    out = array[\RR64\](40).fill(0.0)
+    n = parseRow(r0, out, 3)
+    println "(7) wte row 0: " n " numbers, out[3] = " out[3] " out[18] = " out[18] " out[19] = " out[19]
+    tokm = array[\ZZ32\](3, 5).fill(fn (i: ZZ32, j: ZZ32): ZZ32 => 10 i + j)
+    len = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => i + 1)
+    println "(8) tokm[2,3] = " tokm[2,3] "  len[2] = " len[2]
+    ids = array[\ZZ32\](2)
+    ids[0] := 7; ids[1] := 9
+    println "(9) ids = " ids
+    p = array[\RR64\](10).fill(fn (k: ZZ32): RR64 => 0.5 k)
+    println "(10) p[ids[1]] = " p[ids[1]]
+    println "(11) 1.0 len[2] = " (1.0 len[2])
+    println "(12) 7 / 2 = " (7 / 2) "  7.0 / 2 = " (7.0 / 2)
+    println "done"
+  end
+end

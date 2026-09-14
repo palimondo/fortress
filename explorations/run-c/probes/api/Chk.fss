@@ -1,0 +1,15 @@
+component Chk
+export Executable
+import Prog.{...}
+run(): () = do
+    p = mkp(6)
+    b = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => i + 1)
+    (l, g) = stepish(p, b)
+    println "Chk.run: l = " l " g = " g
+    (* second instantiation, different sizes, same nat-generic inner *)
+    p2 = mkp(9)
+    b2 = array[\ZZ32\](2).fill(fn (i: ZZ32): ZZ32 => 8 - i)
+    (l2, g2) = stepish(p2, b2)
+    println "Chk.run: l2 = " l2 " |g2| = " |g2|
+  end
+end

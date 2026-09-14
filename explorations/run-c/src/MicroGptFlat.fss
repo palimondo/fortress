@@ -1,0 +1,319 @@
+(* MicroGptFlat -- microGPT in native Fortress arrays, data designed after Hsu.
+   Reference: explorations/apl/reference/hsu-flat/microgpt_concise.dyalog,
+   followed line for line; the design notes are explorations/run-c/design.md.
+   Run from explorations/run-c/src (the corpus and weight paths are relative). *)
+component MicroGptFlat
+export MicroGptFlat
+export Executable
+import NatReflect.{...}
+import File.{...}
+import System.{...}
+
+(* --------------------------------------------------- hyperparameters ---- *)
+nEmbd: ZZ32 = 16
+blockSize: ZZ32 = 16
+nHead: ZZ32 = 4
+headDim: ZZ32 = 4
+vocabSize: ZZ32 = 27
+bosId: ZZ32 = 26
+epsRms: RR64 = 10.0^(-5)
+lr0: RR64 = 0.01
+beta1: RR64 = 0.85
+beta2: RR64 = 0.99
+epsAdam: RR64 = 10.0^(-8)
+scheduleLength: ZZ32 = 1000
+
+corpusPath: String = "../../apl/reference/dzaima/docs.txt"
+weightsDir: String = "../../apl/reference/dzaima/w"
+
+(* --------------------------------------------- array constructors ------- *)
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+zeros(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(0.0)
+keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+zerosM(r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(0.0)
+
+(* --------------------------------- tactic 2/8: one vector, nine views --- *)
+matName(i: ZZ32): String =
+    if i = 0 then "wte" elif i = 1 then "wpe" elif i = 2 then "lm_head"
+    elif i = 3 then "attn_wq" elif i = 4 then "attn_wk" elif i = 5 then "attn_wv"
+    elif i = 6 then "attn_wo" elif i = 7 then "mlp_fc1" else "mlp_fc2" end
+matRows(i: ZZ32): ZZ32 = if (i = 0) OR (i = 2) then vocabSize elif i = 7 then 4 nEmbd else nEmbd end
+matCols(i: ZZ32): ZZ32 = if i = 8 then 4 nEmbd else nEmbd end
+matCount(i: ZZ32): ZZ32 = matRows(i) matCols(i)
+matOffset(i: ZZ32): ZZ32 = SUM[j <- 0#i] matCount(j)
+nParams(): ZZ32 = SUM[j <- 0#9] matCount(j)
+
+(* matrix i as a zero-copy view of the flat vector: rows x cols at off, row-major *)
+object PView[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32)
+        extends Matrix[\RR64,r,c\]
+    get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij; base.get(off + i c + j) end
+    put(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.put(off + i c + j, x) end
+    init0(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.init0(off + i c + j, x) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+viewOf[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] =
+    PView[\s,r,c\](base, off)
+view[\nat s\](p: Vector[\RR64,s\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    viewOf(p, matOffset(i), reflect(matRows(i)), reflect(matCols(i)))
+
+(* a (rows x cols) block of a matrix at (r0, c0): the per-document, per-head
+   slice of a (doc.pos x 16) activation, zero-copy, readable and writable *)
+object Block[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32)
+        extends Matrix[\RR64,r,c\]
+    get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij; base.get(r0 + i, c0 + j) end
+    put(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.put((r0 + i, c0 + j), x) end
+    init0(ij:(ZZ32,ZZ32), x: RR64): () = do (i,j) = ij; base.init0((r0 + i, c0 + j), x) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+blockOf[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] =
+    Block[\br,bc,r,c\](base, r0, c0)
+block[\nat br, nat bc\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, rows: ZZ32, cols: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    blockOf(base, r0, c0, reflect(rows), reflect(cols))
+(* head h of document d in a (doc.pos x 16) activation, and head-cell (d,h) of
+   the stacked attention matrices *)
+head[\nat br, nat bc\](a: Matrix[\RR64,br,bc\], d: ZZ32, h: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    block(a, d blockSize, h headDim, blockSize, headDim)
+headCell[\nat br, nat bc\](a: Matrix[\RR64,br,bc\], d: ZZ32, h: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    block(a, (d nHead + h) blockSize, 0, blockSize, blockSize)
+assignInto[\nat r, nat c, nat p, nat q\](dest: Matrix[\RR64,r,c\], src: Matrix[\RR64,p,q\]): () = do
+    dest.assign(fn (i: ZZ32, j: ZZ32): RR64 => src[i,j])
+  end
+
+(* ------------------------------------------------ the array vocabulary -- *)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+opr /[\nat r, nat c\](m: Matrix[\RR64,r,c\], s: RR64): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    mat(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => m[i,j] / s)
+  end
+opr /[\nat n\](a: Vector[\RR64,n\], b: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|a|, fn (i: ZZ32): RR64 => a[i] / b[i])
+opr /[\nat n\](a: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] = vec(|a|, fn (i: ZZ32): RR64 => a[i] / s)
+opr +[\nat n\](a: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] = vec(|a|, fn (i: ZZ32): RR64 => a[i] + s)
+opr SQRT[\nat n\](a: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|a|, fn (i: ZZ32): RR64 => SQRT (a[i]))
+
+(* rows of m at the keys: wte[ids;] *)
+gather[\nat r, nat c, nat k\](m: Matrix[\RR64,r,c\], ks: Vector[\ZZ32,k\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    mat(|ks|, cols, fn (i: ZZ32, j: ZZ32): RR64 => m[ks[i], j])
+  end
+(* tactic 10: keys -> one-hot: ids∘.=⍳VS *)
+onehot[\nat k\](ks: Vector[\ZZ32,k\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|ks|, width, fn (i: ZZ32, j: ZZ32): RR64 => if ks[i] = j then 1.0 else 0.0 end)
+(* row i of m times v[i]: v ×⍤0 1⊢m *)
+scaleRows[\nat n, nat r, nat c\](v: Vector[\RR64,n\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = m.sizes
+    mat(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => v[i] m[i,j])
+  end
+hadamard[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (rows, cols) = a.sizes
+    mat(rows, cols, fn (i: ZZ32, j: ZZ32): RR64 => a[i,j] b[i,j])
+  end
+relu[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    m.map[\RR64\](fn (x: RR64): RR64 => 0.0 MAX x)
+positive[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    m.map[\RR64\](fn (x: RR64): RR64 => if x > 0.0 then 1.0 else 0.0 end)
+
+(* rmsn⍤1: each row divided by sqrt(mean of squares + eps) *)
+rmsnRows[\nat r, nat c\](x: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = x.sizes
+    rr = vec(n, fn (i: ZZ32): RR64 => SQRT ((SUM[j <- 0#d] (x[i,j])^2) / d + epsRms))
+    mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => x[i,j] / rr[i])
+  end
+(* dy rmsn_b x: with y = x/r, (dy - y mean(y dy)) / r *)
+rmsnRowsB[\nat r, nat c, nat p, nat q\](dy: Matrix[\RR64,r,c\], x: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = x.sizes
+    rr = vec(n, fn (i: ZZ32): RR64 => SQRT ((SUM[j <- 0#d] (x[i,j])^2) / d + epsRms))
+    y = mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => x[i,j] / rr[i])
+    yd = vec(n, fn (i: ZZ32): RR64 => (SUM[j <- 0#d] y[i,j] dy[i,j]) / d)
+    mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => (dy[i,j] - y[i,j] yd[i]) / rr[i])
+  end
+(* sm⍤1: softmax of each row *)
+smRows[\nat r, nat c\](z: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = z.sizes
+    mx = vec(n, fn (i: ZZ32): RR64 => BIG MAX[j <- 0#d] z[i,j])
+    e = mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => exp(z[i,j] - mx[i]))
+    sums = vec(n, fn (i: ZZ32): RR64 => SUM[j <- 0#d] e[i,j])
+    mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => e[i,j] / sums[i])
+  end
+(* p sm_b dy: p (dy - sum(p dy)) per row *)
+smRowsB[\nat r, nat c, nat p, nat q\](pm: Matrix[\RR64,r,c\], dy: Matrix[\RR64,p,q\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = pm.sizes
+    pd = vec(n, fn (i: ZZ32): RR64 => SUM[j <- 0#d] pm[i,j] dy[i,j])
+    mat(n, d, fn (i: ZZ32, j: ZZ32): RR64 => pm[i,j] (dy[i,j] - pd[i]))
+  end
+(* tactic 9: the causal mask as an additive matrix, ¯1E10 above the diagonal *)
+causalMask: Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 => if j > i then -(10.0^10) else 0.0 end)
+
+(* --------------------------------------------------- the loaders -------- *)
+(* decimal digits, optional '.', optional e/E exponent; leading '-' or '¯' *)
+parseFloat(s: String): RR64 = do
+    neg = (s[0] = '-') OR (s[0] = '¯')
+    m: RR64 := 0.0
+    scale: ZZ32 := 0
+    ex: ZZ32 := 0
+    i: ZZ32 := if neg then 1 else 0 end
+    seenPoint: Boolean := false
+    n = |s|
+    while (i < n) AND: ((s[i] =/= 'e') AND (s[i] =/= 'E')) do
+        c = s[i]
+        if c = '.' then seenPoint := true
+        else
+            m := 10.0 m + (c.codePoint - '0'.codePoint)
+            if seenPoint then scale += 1 end
+        end
+        i += 1
+    end
+    if i < n then
+        eneg = (s[i+1] = '-') OR (s[i+1] = '¯')
+        j = if eneg OR (s[i+1] = '+') then i + 2 else i + 1 end
+        ex := strToInt(s[j # (n - j)])
+        if eneg then ex := -ex end
+    end
+    e10 = ex - scale
+    r = if e10 >= 0 then m (10.0^e10)
+        elif e10 >= -22 then m / (10.0^(-e10))
+        else (m / (10.0^22)) / (10.0^(-e10 - 22)) end
+    if neg then -r else r end
+  end
+(* every space-separated number on a line goes to out[off..]; returns the count *)
+parseRow[\nat s\](line: String, out: Vector[\RR64,s\], off: ZZ32): ZZ32 = do
+    n = |line|
+    i: ZZ32 := 0
+    k: ZZ32 := 0
+    while i < n do
+        if line[i] = ' ' then i += 1
+        else
+            j: ZZ32 := i
+            while (j < n) AND: (line[j] =/= ' ') do j += 1 end
+            out[off + k] := parseFloat(line[i # (j - i)])
+            k += 1
+            i := j
+        end
+    end
+    k
+  end
+(* the nine text files, one row per line, straight into the flat vector *)
+loadParams(dir: String): Array[\RR64,ZZ32\] = do
+    p = zeros(nParams())
+    for i <- seq(0#9) do
+        f = FileReadStream(dir "/" matName(i) ".txt")
+        for r <- seq(0#matRows(i)) do
+            k = parseRow(f.readLine(), p, matOffset(i) + r matCols(i))
+            if k =/= matCols(i) then fail("row " r " of " matName(i) " has " k " numbers, expected " matCols(i)) end
+        end
+        f.close()
+    end
+    p
+  end
+
+(* tactic 3/5: the corpus as one padded integer matrix (docs x 17), BOS before
+   and after each name and in every unused slot, plus a length per document *)
+countLines(path: String): ZZ32 = do
+    f = FileReadStream(path)
+    n: ZZ32 := 0
+    line: String := f.readLine()
+    while |line| > 0 do n += 1; line := f.readLine() end
+    f.close()
+    n
+  end
+loadCorpus(path: String): (Array[\ZZ32,(ZZ32,ZZ32)\], Array[\ZZ32,ZZ32\]) = do
+    nd = countLines(path)
+    tokm = array[\ZZ32\](nd, blockSize + 1).fill(bosId)
+    len = array[\ZZ32\](nd).fill(0)
+    f = FileReadStream(path)
+    for d <- seq(0#nd) do
+        name = f.readLine()
+        for j <- seq(0#|name|) do tokm[d, 1 + j] := name[j].codePoint - 'a'.codePoint end
+        len[d] := 1 + |name|
+    end
+    f.close()
+    (tokm, len)
+  end
+(corpusTokens, corpusLengths) = loadCorpus(corpusPath)
+nDocs(): ZZ32 = |corpusLengths|
+docLength(d: ZZ32): ZZ32 = corpusLengths[d]
+tokenAt(d: ZZ32, j: ZZ32): ZZ32 = corpusTokens[d, j]
+
+(* ------------------------- the step: keys -> (loss, flat gradient). Pure. -- *)
+step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
+    bsz = |b|
+    n = bsz blockSize
+    ids = keys(n, fn (r: ZZ32): ZZ32 => corpusTokens[b[r DIV blockSize], r MOD blockSize])
+    tg = keys(n, fn (r: ZZ32): ZZ32 => corpusTokens[b[r DIV blockSize], (r MOD blockSize) + 1])
+    vm = vec(n, fn (r: ZZ32): RR64 => if (r MOD blockSize) < corpusLengths[b[r DIV blockSize]] then 1.0 else 0.0 end)
+    nv = SUM[r <- 0#n] vm[r]
+    pos = keys(n, fn (r: ZZ32): ZZ32 => r MOD blockSize)
+    wte = view(p, 0); wpe = view(p, 1); lm = view(p, 2)
+    wq = view(p, 3); wk = view(p, 4); wv = view(p, 5); wo = view(p, 6)
+    f1 = view(p, 7); f2 = view(p, 8)
+    (* -- forward, all (doc,pos) rows at once -- *)
+    x = gather(wte, ids) + gather(wpe, pos)
+    xp = rmsnRows(x); x1 = rmsnRows(xp)
+    q = x1 (wq^T); kk = x1 (wk^T); vv = x1 (wv^T)
+    att = zerosM(bsz nHead blockSize, blockSize)
+    hc = zerosM(n, nEmbd)
+    for d <- 0#bsz, h <- 0#nHead do
+        qh = head(q, d, h); kh = head(kk, d, h); vh = head(vv, d, h)
+        ah = headCell(att, d, h)
+        assignInto(ah, smRows((qh (kh^T)) / (SQRT (1.0 headDim)) + causalMask))
+        assignInto(head(hc, d, h), ah vh)
+    end
+    x2 = xp + hc (wo^T)
+    x3 = rmsnRows(x2); m0 = x3 (f1^T); mr = relu(m0)
+    x4 = x2 + mr (f2^T)
+    pr = smRows(x4 (lm^T))
+    loss = -(SUM[r <- 0#n] vm[r] (log(pr[r, tg[r]]))) / nv
+    (* -- backward, one line under each forward line, bottom-up -- *)
+    g = zeros(nParams())
+    dL = scaleRows(vm / nv, pr - onehot(tg, vocabSize))
+    assignInto(view(g, 2), (dL^T) x4); dX4 = dL lm
+    assignInto(view(g, 8), (dX4^T) mr); dM0 = hadamard(dX4 f2, positive(m0))
+    assignInto(view(g, 7), (dM0^T) x3); dX3 = dM0 f1
+    dX2 = dX4 + rmsnRowsB(dX3, x2)
+    assignInto(view(g, 6), (dX2^T) hc); dH = dX2 wo
+    dQ = zerosM(n, nEmbd); dK = zerosM(n, nEmbd); dV = zerosM(n, nEmbd)
+    for d <- 0#bsz, h <- 0#nHead do
+        ah = headCell(att, d, h); dh = head(dH, d, h)
+        qh = head(q, d, h); kh = head(kk, d, h); vh = head(vv, d, h)
+        assignInto(head(dV, d, h), (ah^T) dh)
+        dS = smRowsB(ah, dh (vh^T)) / (SQRT (1.0 headDim))
+        assignInto(head(dQ, d, h), dS kh)
+        assignInto(head(dK, d, h), (dS^T) qh)
+    end
+    assignInto(view(g, 3), (dQ^T) x1); assignInto(view(g, 4), (dK^T) x1); assignInto(view(g, 5), (dV^T) x1)
+    dX1 = dQ wq + dK wk + dV wv
+    dXp = dX2 + rmsnRowsB(dX1, xp); dX = rmsnRowsB(dXp, x)
+    ohIds = onehot(ids, vocabSize); ohPos = onehot(pos, blockSize)
+    assignInto(view(g, 0), (ohIds^T) dX)
+    assignInto(view(g, 1), (ohPos^T) dX)
+    (loss, g)
+  end
+
+(* --------------------- Adam: three whole-vector expressions over P, M, V -- *)
+adam(p: Array[\RR64,ZZ32\], m: Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\],
+     g: Array[\RR64,ZZ32\], tstep: ZZ32, lr: RR64):
+    (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) = do
+    m' = beta1 m + (1 - beta1) g
+    v' = beta2 v + (1 - beta2) (g.pmul(g))
+    p' = p - (lr (m' / (1 - beta1^tstep))) / ((SQRT (v' / (1 - beta2^tstep))) + epsAdam)
+    (p', m', v')
+  end
+learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / scheduleLength)
+
+(* --------------------------------------------------- training ----------- *)
+run(): () = do
+    println "microgpt flat | params " nParams() " | corpus " nDocs() " x " (blockSize + 1) " | batch 1, 5 steps"
+    bsz = 1
+    p: Array[\RR64,ZZ32\] := loadParams(weightsDir)
+    m: Array[\RR64,ZZ32\] := zeros(nParams())
+    v: Array[\RR64,ZZ32\] := zeros(nParams())
+    for s <- seq(0#5) do
+        b = keys(bsz, fn (i: ZZ32): ZZ32 => (s bsz + i) MOD nDocs())
+        t0 = nanoTime()
+        (l, g) = step(p, b)
+        (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))
+        println "step " (s + 1) " loss " l "  (" ((nanoTime() - t0) DIV 1000000) " ms)"
+    end
+  end
+end

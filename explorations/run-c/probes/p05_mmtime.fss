@@ -1,0 +1,51 @@
+(* p05_mmtime: the library's Matrix product against a hand-written one, on
+   the step's three shapes, at batch 4 (N = 64 rows). *)
+component p05_mmtime
+export Executable
+import System.{...}
+
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+
+(* hand product: one SUM per cell *)
+mmSum[\nat n, nat m, nat p\](a: Matrix[\RR64,n,m\], b: Matrix[\RR64,m,p\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (ar, ac) = a.sizes
+    (br, bc) = b.sizes
+    mat(ar, bc, fn (i: ZZ32, j: ZZ32): RR64 => SUM[k <- 0#ac] a[i,k] b[k,j])
+  end
+(* hand product: sequential inner loop *)
+mmLoop[\nat n, nat m, nat p\](a: Matrix[\RR64,n,m\], b: Matrix[\RR64,m,p\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (ar, ac) = a.sizes
+    (br, bc) = b.sizes
+    mat(ar, bc, fn (i: ZZ32, j: ZZ32): RR64 => do
+        acc: RR64 := 0.0
+        for k <- seq(0#ac) do acc += a[i,k] b[k,j] end
+        acc
+      end)
+  end
+
+time(name: String, f: () -> RR64): () = do
+    t0 = nanoTime()
+    v = f()
+    t1 = nanoTime()
+    println name ": " ((t1 - t0) / 1000000) " ms  (check " v ")"
+  end
+
+run(): () = do
+    a = mat(64, 16, fn (i: ZZ32, j: ZZ32): RR64 => 0.01 (i + 2 j))
+    w = mat(16, 16, fn (i: ZZ32, j: ZZ32): RR64 => 0.02 (i - j))
+    f1 = mat(64, 16, fn (i: ZZ32, j: ZZ32): RR64 => 0.01 (i - 3 j))
+    x = mat(64, 64, fn (i: ZZ32, j: ZZ32): RR64 => 0.001 (i + j))
+    for rep <- seq(0#2) do
+        time("64x16 . 16x16 DOT ", fn (): RR64 => do r = a DOT w; r[63,15] end)
+        time("64x16 . 16x16 juxt", fn (): RR64 => do r = a w; r[63,15] end)
+        time("64x16 . 16x16 sum ", fn (): RR64 => do r = mmSum(a, w); r[63,15] end)
+        time("64x16 . 16x16 loop", fn (): RR64 => do r = mmLoop(a, w); r[63,15] end)
+        time("64x16 . (64x16)^T DOT ", fn (): RR64 => do r = a DOT (f1.t()); r[63,63] end)
+        time("64x16 . (64x16)^T loop", fn (): RR64 => do r = mmLoop(a, f1.t()); r[63,63] end)
+        time("64x64 . 64x16 DOT ", fn (): RR64 => do r = x DOT f1; r[63,15] end)
+        time("64x64 . 64x16 loop", fn (): RR64 => do r = mmLoop(x, f1); r[63,15] end)
+        time("(64x16)^T . 64x16 DOT ", fn (): RR64 => do r = (a.t()) DOT f1; r[15,15] end)
+        time("(64x16)^T . 64x16 loop", fn (): RR64 => do r = mmLoop(a.t(), f1); r[15,15] end)
+    end
+  end
+end

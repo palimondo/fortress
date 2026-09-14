@@ -1,0 +1,10 @@
+component p04b_transpose
+export Executable
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+run(): () = do
+    m = array[\RR64\](2,3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 10.0 i + j)
+    t = m^T
+    (r, c) = t.sizes
+    println "p04b: m^T sizes " r "x" c " t[2,1] = " t[2,1]
+  end
+end

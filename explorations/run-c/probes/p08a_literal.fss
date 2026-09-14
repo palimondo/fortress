@@ -1,0 +1,5 @@
+component p08a_literal
+export Executable
+shp: Vector[\ZZ32,9\] = [27 16 27 16 16 16 16 64 16]
+run(): () = println "p08a: " shp " shp[7] = " shp[7]
+end

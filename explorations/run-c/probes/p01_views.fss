@@ -1,0 +1,87 @@
+(* p01_views: a flat RR64 vector, a zero-copy Matrix view over a slice of it
+   (runtime shape via reflect/N), library matmul, transpose, a user ^T, and
+   the elementwise matrix operations the step needs. *)
+component p01_views
+export Executable
+import NatReflect.{...}
+
+(* matrix i as a view of the flat vector: rows x cols starting at off, row-major *)
+object PView[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32)
+        extends Matrix[\RR64,r,c\]
+    get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij; base.get(off + i c + j) end
+    put(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij; base.put(off + i c + j, v) end
+    init0(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij; base.init0(off + i c + j, v) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+pview[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] =
+    PView[\s,r,c\](base, off)
+view[\nat s\](base: Vector[\RR64,s\], off: ZZ32, rows: ZZ32, cols: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    pview(base, off, reflect(rows), reflect(cols))
+
+
+
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+
+(* a (rows x cols) block of a matrix, at row offset r0 and column offset c0 *)
+object Block[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32)
+        extends Matrix[\RR64,r,c\]
+    get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij; base.get(r0 + i, c0 + j) end
+    put(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij; base.put((r0 + i, c0 + j), v) end
+    init0(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij; base.init0((r0 + i, c0 + j), v) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+block0[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] =
+    Block[\br,bc,r,c\](base, r0, c0)
+block[\nat br, nat bc\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, rows: ZZ32, cols: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    block0(base, r0, c0, reflect(rows), reflect(cols))
+
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+
+showM[\nat r, nat c\](name: String, m: Matrix[\RR64,r,c\]): () = do
+    (rows, cols) = m.sizes
+    println name " " rows "x" cols
+    for i <- seq(0#rows) do
+        line: String := "  "
+        for j <- seq(0#cols) do line := line " " m[i,j] end
+        println line
+    end
+  end
+
+run(): () = do
+    p = vec(12, fn (k: ZZ32): RR64 => 1.0 k)
+    a = view(p, 0, 2, 3)          (* rows 0..1 of a 2x3 at offset 0: [0 1 2; 3 4 5] *)
+    b = view(p, 6, 3, 2)          (* a 3x2 at offset 6: [6 7; 8 9; 10 11] *)
+    showM("a", a)
+    showM("b", b)
+    (ar, ac) = a.sizes
+    println "(1) sizes " ar " " ac
+    showM("(2) a DOT b", a DOT b)          (* [(0*6+1*8+2*10)=28, (0*7+1*9+2*11)=31; 6*6+... ] *)
+    showM("(3) a b juxtaposed", a b)
+    showM("(4) a.t()", a.t())
+    showM("(5) a.t()", a.t())
+    showM("(6) b^T juxtaposed: a (b^T)?? shapes 2x3 . 2x3 no; use a (a^T)", a (a^T))
+    showM("(7) a + a", a + a)
+    showM("(8) 2.0 a", 2.0 a)
+    showM("(9) a.map", a.map[\RR64\](fn (x: RR64): RR64 => x x))
+    showM("(10) ivmap", a.ivmap[\RR64\](fn (t:(ZZ32,ZZ32), x: RR64): RR64 => do (i,j) = t; x + 100 i + 10 j end))
+    (* write through the view *)
+    a[1,2] := 55.0
+    println "(11) p[5] after a[1,2] := 55.0 : " p[5]
+    (* view into a Matrix already built from array[\RR64\](r,c) *)
+    m = mat(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 10.0 i + j)
+    showM("(12) m", m)
+    showM("(13) m (a^T)", m (a^T))
+    h = block(m, 1, 1, 2, 2)
+    showM("(16) block(m,1,1,2,2)", h)
+    showM("(17) h (h^T)", h (h^T))
+    h[0,0] := -1.0
+    println "(18) m[1,1] after h[0,0] := -1 : " m[1,1]
+    hm = block(m, 2, 0, 2, 3)
+    hm[1,2] := -2.0
+    println "(19) m[3,2] after write through second block: " m[3,2]
+    println "(14) SQRT 2.0 = " (SQRT 2.0) "  exp 1.0 = " (exp 1.0) "  log 2.0 = " (log 2.0) "  10.0^(-5) = " (10.0^(-5)) "  0.0 MAX (-3.0) = " (0.0 MAX (-3.0)) " " (0.0 MAX 3.0)
+    println "(15) -(10.0^10) = " (-(10.0^10))
+    println "done"
+  end
+end

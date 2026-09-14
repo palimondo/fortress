@@ -1,0 +1,10 @@
+component p07b_tupleassign
+export Executable
+pair(): (RR64, RR64) = (1.5, 2.5)
+run(): () = do
+    a: RR64 := 0.0
+    b: RR64 := 0.0
+    (a, _) := pair()
+    println "p07b: tuple assign with wildcard: " a " " b
+  end
+end

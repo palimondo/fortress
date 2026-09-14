@@ -1,0 +1,5 @@
+component p08c_literal
+export Executable
+shp: ZZ32[9] = [27, 16, 27, 16, 16, 16, 16, 64, 16]
+run(): () = println "p08c: " shp " shp[7] = " shp[7]
+end

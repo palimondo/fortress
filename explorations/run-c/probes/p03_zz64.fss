@@ -1,0 +1,17 @@
+(* p03_zz64: exact mantissa accumulation in ZZ64 and its conversion to RR64 *)
+component p03_zz64
+export Executable
+run(): () = do
+    m: ZZ64 := 0
+    for k <- seq(0#17) do m := 10 m + 7 end
+    println "(1) ZZ64 17 sevens: " m
+    r: RR64 = 1.0 m
+    println "(2) as RR64: " r "  /10^17 = " (r / (10.0^17))
+    b22: RR64 = 10.0^22
+    println "(3) 10.0^22 = " b22 "  10.0^23 = " (10.0^23)
+    d = '7'
+    println "(4) char '7' = " d
+    println "(5) ZZ64 literal check: " (12345678901234567 + 0)
+    println "done"
+  end
+end

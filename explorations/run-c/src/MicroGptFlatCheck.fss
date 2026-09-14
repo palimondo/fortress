@@ -1,0 +1,165 @@
+(* MicroGptFlatCheck -- the standard of success for Run C, one line per check
+   with the measured difference and PASS or FAIL, against the goldens in
+   explorations/run-c/goldens (extracted from experiment/run-c-goldens/goldens.json).
+   Run from explorations/run-c/src:  ../../../bin/fortress MicroGptFlatCheck.fss *)
+component MicroGptFlatCheck
+export Executable
+import MicroGptFlat.{...}
+import File.{...}
+import System.{...}
+
+goldensDir: String = "../goldens"
+tolLoss: RR64 = 10.0^(-12)
+tolGrad: RR64 = 10.0^(-12)
+tolFd: RR64 = 10.0^(-8)
+
+(* Python repr floats, one per line *)
+parseNum(s: String): RR64 = do
+    neg = (s[0] = '-') OR (s[0] = '¯')
+    m: RR64 := 0.0
+    scale: ZZ32 := 0
+    ex: ZZ32 := 0
+    i: ZZ32 := if neg then 1 else 0 end
+    seenPoint: Boolean := false
+    n = |s|
+    while (i < n) AND: ((s[i] =/= 'e') AND (s[i] =/= 'E')) do
+        c = s[i]
+        if c = '.' then seenPoint := true
+        else
+            m := 10.0 m + (c.codePoint - '0'.codePoint)
+            if seenPoint then scale += 1 end
+        end
+        i += 1
+    end
+    if i < n then
+        eneg = (s[i+1] = '-') OR (s[i+1] = '¯')
+        j = if eneg OR (s[i+1] = '+') then i + 2 else i + 1 end
+        ex := strToInt(s[j # (n - j)])
+        if eneg then ex := -ex end
+    end
+    e10 = ex - scale
+    r = if e10 >= 0 then m (10.0^e10)
+        elif e10 >= -22 then m / (10.0^(-e10))
+        else (m / (10.0^22)) / (10.0^(-e10 - 22)) end
+    if neg then -r else r end
+  end
+(* the tokens of a line, as numbers *)
+numbersOf(line: String): Array[\RR64,ZZ32\] = do
+    n = |line|
+    cnt: ZZ32 := 0
+    i: ZZ32 := 0
+    while i < n do
+        if line[i] = ' ' then i += 1
+        else
+            cnt += 1
+            while (i < n) AND: (line[i] =/= ' ') do i += 1 end
+        end
+    end
+    out = zeros(cnt)
+    k: ZZ32 := 0
+    i := 0
+    while i < n do
+        if line[i] = ' ' then i += 1
+        else
+            j: ZZ32 := i
+            while (j < n) AND: (line[j] =/= ' ') do j += 1 end
+            out[k] := parseNum(line[i # (j - i)])
+            k += 1
+            i := j
+        end
+    end
+    out
+  end
+readVector(path: String, n: ZZ32): Array[\RR64,ZZ32\] = do
+    f = FileReadStream(path)
+    v = zeros(n)
+    for i <- seq(0#n) do v[i] := parseNum(f.readLine()) end
+    f.close()
+    v
+  end
+readLines(path: String): Array[\String,ZZ32\] = do
+    f = FileReadStream(path)
+    cnt: ZZ32 := 0
+    line: String := f.readLine()
+    while |line| > 0 do cnt += 1; line := f.readLine() end
+    f.close()
+    g = FileReadStream(path)
+    out = array[\String\](cnt).fill("")
+    for i <- seq(0#cnt) do out[i] := g.readLine() end
+    g.close()
+    out
+  end
+
+maxAbsDiff[\nat n, nat m\](a: Vector[\RR64,n\], b: Vector[\RR64,m\]): RR64 =
+    BIG MAX[i <- 0#|a|] |a[i] - b[i]|
+report(name: String, diff: RR64, tol: RR64): () =
+    println name ": diff " diff " " (if diff <= tol then "PASS" else "FAIL" end)
+
+run(): () = do
+    println "MicroGptFlat checks | threads " (getProperty("fortress.threads", "?")) " | tolerances: loss " tolLoss " grad " tolGrad " fd " tolFd
+    wall0 = nanoTime()
+    p0 = loadParams("../../apl/reference/dzaima/w")
+    (* 0. the loaders against the goldens' P0 and corpus rows *)
+    report("loader: max |P - P0| over 4192", maxAbsDiff(p0, readVector(goldensDir "/P0.txt", 4192)), 0.0)
+    rows = readLines(goldensDir "/corpus_first16.txt")
+    corpusDiff = BIG MAX[d <- 0#16] do
+        nums = numbersOf(rows[d])           (* name len t0 .. t16 : the name is not a number, skip it *)
+        BIG MAX[j <- 0#17] |nums[2 + j] - (1.0 tokenAt(d, j))| MAX |nums[1] - (1.0 docLength(d))|
+      end
+    report("corpus: max |row - golden| over documents 0..15", corpusDiff, 0.0)
+    (* 1. batch 1, five Adam steps from the committed weights on documents 0..4 *)
+    losses = readVector(goldensDir "/losses_batch1_5steps.txt", 5)
+    p: Array[\RR64,ZZ32\] := p0
+    m: Array[\RR64,ZZ32\] := zeros(nParams())
+    v: Array[\RR64,ZZ32\] := zeros(nParams())
+    g0 = zeros(nParams())
+    for s <- seq(0#5) do
+        b = keys(1, fn (i: ZZ32): ZZ32 => s)
+        t0 = nanoTime()
+        (l, g) = step(p, b)
+        if s = 0 then g0.assign(fn (i: ZZ32): RR64 => g[i]) end
+        (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))
+        if s = 0 then
+            report("step 0 batch 1: max |gradient - golden| over 4192", maxAbsDiff(g0, readVector(goldensDir "/grad_step0.txt", 4192)), tolGrad)
+            report("step 0 batch 1: max |P after Adam - golden| over 4192", maxAbsDiff(p, readVector(goldensDir "/P_after_adam.txt", 4192)), tolGrad)
+            zeroCount = SUM[i <- 0#nParams()] (if g0[i] = 0.0 then 1 else 0 end)
+            report("step 0 batch 1: zero gradient entries - 464", |1.0 zeroCount - 464.0|, 0.0)
+        end
+        report("batch 1 step " (s + 1) " loss " l " vs " losses[s] " (" ((nanoTime() - t0) DIV 1000000) " ms)", |l - losses[s]|, tolLoss)
+    end
+    (* 2. batch 4 on documents 0..3 from the initial weights *)
+    b4 = readVector(goldensDir "/batch4.txt", 9)      (* loss, 4 single losses, 4 lengths *)
+    t4 = nanoTime()
+    (l4, g4) = step(p0, keys(4, fn (i: ZZ32): ZZ32 => i))
+    report("batch 4 loss " l4 " vs golden " b4[0] " (" ((nanoTime() - t4) DIV 1000000) " ms)", |l4 - b4[0]|, tolLoss)
+    singles = zeros(4)
+    for d <- seq(0#4) do
+        (ld, gd) = step(p0, keys(1, fn (i: ZZ32): ZZ32 => d))
+        singles[d] := ld
+    end
+    weighted = (SUM[d <- 0#4] singles[d] (1.0 docLength(d))) / (SUM[d <- 0#4] 1.0 docLength(d))
+    report("batch 4 loss vs token-weighted mean of single-document losses " weighted, |l4 - weighted|, tolLoss)
+    (* 3. finite differences at the eleven golden indices, central, eps 1e-6 *)
+    eps = 10.0^(-6)
+    checkFd(label: String, path: String, bk: Array[\ZZ32,ZZ32\], g: Array[\RR64,ZZ32\]): () = do
+        fdRows = readLines(path)
+        worst: RR64 := 0.0
+        for r <- seq(0#|fdRows|) do
+            nums = numbersOf(fdRows[r])
+            idx = strToInt("" (|\ nums[0] /|))
+            pp = p0.copy(); pp[idx] := p0[idx] + eps
+            pm = p0.copy(); pm[idx] := p0[idx] - eps
+            (lp, gp) = step(pp, bk)
+            (lm, gm) = step(pm, bk)
+            fd = (lp - lm) / (2 eps)
+            diff = |fd - g[idx]|
+            worst := worst MAX diff
+            report(label " P[" idx "] backprop " g[idx] " fd " fd " (golden fd " nums[2] ")", diff, tolFd)
+        end
+        report(label " worst |fd - backprop|", worst, tolFd)
+      end
+    checkFd("fd doc 0", goldensDir "/fd_doc0.txt", keys(1, fn (i: ZZ32): ZZ32 => 0), g0)
+    checkFd("fd batch 4", goldensDir "/fd_batch4.txt", keys(4, fn (i: ZZ32): ZZ32 => i), g4)
+    println "total " ((nanoTime() - wall0) DIV 1000000000) " s"
+  end
+end

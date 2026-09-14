@@ -1,0 +1,64 @@
+(* p06_idioms: the remaining idioms the program leans on *)
+component p06_idioms
+export Executable
+import NatReflect.{...}
+
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+
+object Block[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32)
+        extends Matrix[\RR64,r,c\]
+    get(ij:(ZZ32,ZZ32)): RR64 = do (i,j) = ij; base.get(r0 + i, c0 + j) end
+    put(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij; base.put((r0 + i, c0 + j), v) end
+    init0(ij:(ZZ32,ZZ32), v: RR64): () = do (i,j) = ij; base.init0((r0 + i, c0 + j), v) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+block0[\nat br, nat bc, nat r, nat c\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] =
+    Block[\br,bc,r,c\](base, r0, c0)
+block[\nat br, nat bc\](base: Matrix[\RR64,br,bc\], r0: ZZ32, c0: ZZ32, rows: ZZ32, cols: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    block0(base, r0, c0, reflect(rows), reflect(cols))
+
+(* elementwise vector operators for Adam *)
+opr /[\nat n\](a: Vector[\RR64,n\], b: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|a|, fn (i: ZZ32): RR64 => a[i] / b[i])
+opr /[\nat n\](a: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] = vec(|a|, fn (i: ZZ32): RR64 => a[i] / s)
+opr +[\nat n\](a: Vector[\RR64,n\], s: RR64): Array[\RR64,ZZ32\] = vec(|a|, fn (i: ZZ32): RR64 => a[i] + s)
+opr SQRT[\nat n\](a: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = vec(|a|, fn (i: ZZ32): RR64 => SQRT (a[i]))
+
+shapesLit = array[\ZZ32\](9).fill(fn (i: ZZ32): ZZ32 => if (i = 0) OR (i = 2) then 27 elif i = 7 then 64 else 16 end)
+
+three(): (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) =
+    (vec(3, fn (i: ZZ32): RR64 => 1.0 i), vec(3, fn (i: ZZ32): RR64 => 2.0 i), vec(3, fn (i: ZZ32): RR64 => 3.0 i))
+
+locals(): RR64 = do
+    k = 1.0; q = 2.0; a = 3.0; x = 4.0; s = 5.0; e = 6.0; m = 7.0; v = 8.0; p = 9.0; g = 10.0; r = 11.0; d = 12.0; n = 13.0; b = 14.0; h = 15.0; i = 16.0; j = 17.0; c = 18.0; f = 19.0; l = 20.0; u = 21.0; w = 22.0; y = 23.0; z = 24.0; o = 25.0
+    k + q + a + x + s + e + m + v + p + g + r + d + n + b + h + i + j + c + f + l + u + w + y + z + o
+  end
+
+run(): () = do
+    println "(a) 37 DIV 16 = " (37 DIV 16) "  37 MOD 16 = " (37 MOD 16)
+    p: Array[\RR64,ZZ32\] := vec(3, fn (i: ZZ32): RR64 => 1.0 i + 1)
+    m: Array[\RR64,ZZ32\] := vec(3, fn (i: ZZ32): RR64 => 0.0)
+    m := 0.5 m + 0.5 p
+    p := p - 0.1 (m / ((SQRT (m.pmul(m))) + 1.0))
+    println "(b) vector vars: p = " p " m = " m
+    v0: Array[\RR64,ZZ32\] := vec(1, fn (i: ZZ32): RR64 => 0.0)
+    (p, m, v0) := three()
+    println "(b2) tuple assign: p = " p " m = " m
+    println "(c) literal: " shapesLit " " shapesLit[7]
+    base = mat(4, 4, fn (i: ZZ32, j: ZZ32): RR64 => 0.0)
+    for bb <- 0#2, hh <- 0#2 do
+        blk = block(base, 2 bb, 2 hh, 2, 2)
+        prod = mat(2, 2, fn (i: ZZ32, j: ZZ32): RR64 => 100 bb + 10 hh + 2 i + j)
+        blk.assign(fn (i: ZZ32, j: ZZ32): RR64 => prod[i,j])
+    end
+    println "(d,g) assign through blocks in a nested for: " base
+    z = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 i - j)
+    println "(e) SUM row 1 = " (SUM[j <- 0#3] z[1,j]) "  BIG MAX row 1 = " (BIG MAX[j <- 0#3] z[1,j]) "  SUM with (z)^2: " (SUM[j <- 0#3] (z[1,j])^2)
+    t: ZZ32 = 3
+    println "(h) 0.85^t = " (0.85^t) "  0.85^1 = " (0.85^1) " 1 - 0.85^t = " (1 - 0.85^t)
+    println "(i) locals sum = " locals()
+    println "(j) exp(-1e10) = " (exp(-(10.0^10) - 3.0)) "  log 1e-300: " (log (10.0^(-300)))
+    println "(k) vm as Boolean arithmetic: " (if 3 < 5 then 1.0 else 0.0 end)
+    println "done"
+  end
+end

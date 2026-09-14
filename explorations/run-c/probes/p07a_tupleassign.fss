@@ -1,0 +1,12 @@
+component p07a_tupleassign
+export Executable
+pair(): (RR64, RR64) = (1.5, 2.5)
+run(): () = do
+    a: RR64 := 0.0
+    b: RR64 := 0.0
+    (a, b) := pair()
+    println "p07a: tuple assign from a call: " a " " b
+    (a, b) := (b, a)
+    println "p07a: swap: " a " " b
+  end
+end

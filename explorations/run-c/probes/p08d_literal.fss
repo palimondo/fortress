@@ -1,0 +1,9 @@
+component p08d_literal
+export Executable
+run(): () = do
+    shp: ZZ32[9] = [27 16 27 16 16 16 16 64 16]
+    println "p08d (in a function body): " shp " shp[7] = " shp[7]
+    w: RR64[3] = [1.5 2.5 3.5]
+    println "p08d floats: " w " |w| = " |w|
+  end
+end

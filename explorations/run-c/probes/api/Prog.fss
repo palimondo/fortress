@@ -1,0 +1,19 @@
+component Prog
+export Prog
+export Executable
+
+inner[\nat s, nat k\](p: Vector[\RR64,s\], b: Vector[\ZZ32,k\]): RR64 = SUM[i <- 0#|b|] p[b[i]]
+
+mkp(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(fn (i: ZZ32): RR64 => 0.5 i)
+stepish(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
+    l = inner(p, b)
+    (l, p.map[\RR64\](fn (x: RR64): RR64 => 2.0 x))
+  end
+
+run(): () = do
+    p = mkp(5)
+    b = array[\ZZ32\](2).fill(fn (i: ZZ32): ZZ32 => i + 2)
+    (l, g) = stepish(p, b)
+    println "Prog.run: l = " l " g = " g
+  end
+end
