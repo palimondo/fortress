@@ -80,13 +80,24 @@ Taken: B. Six lines, one per Dyalog line, no index arithmetic in the model, and 
 
 The weights are parsed by the same routine as round one (mantissa digits accumulated in an `RR64`, divided by an exact power of ten; the review of round one measured it at one ulp off Python's parse on 696 of 4192 values, well inside every tolerance). The reductions are the library's parallel `SUM`, the products the library's. One thread (`checks/threads1.txt`):
 
-CHECKS_TABLE
+| check | measured | bound |
+|---|---|---|
+| loader, max over 4192, and the corpus rows 0..15 | 0, 0 | exact |
+| batch 1, five losses | 4.4e-16, 0, 0, 0, 0 | 1e-12 |
+| step 0 gradient, max over 4192 | 1.1e-16 | 1e-12 |
+| parameters after the first Adam step, max over 4192 | 8.3e-17 | 1e-12 |
+| zero gradient entries | 464, as recorded | exact |
+| batch 4 loss vs golden, and vs the token-weighted mean of the four single losses | 0, 0 | 1e-12 |
+| finite differences, document 0, worst of eleven | 3.1e-10 | 1e-8 |
+| finite differences, batch of four, worst of eleven | 3.68e-10 | 1e-8 |
+
+The measured values are the same as round one's to the digit: the same library products and reductions in the same order, so the same rounding. 36 of 36 PASS, verdict line printed, exit status 0.
 
 Four threads (`checks/threads4.txt`): every measured value identical to the one-thread run.
 
 ## Cost
 
-One thread: STEP1 per batch-1 step after the first, BATCH4 per batch-4 step, TOTAL1 for the whole check of 55 steps. Round one: 7.8 to 8 s, 26.6 s, 855 s. Four threads: STEP4 per batch-1 step, TOTAL4 for the check; round one 2.6 to 3.0 s and 353 s. The speed-up over round one at one thread comes from the row lift and the elementwise operators doing one pass per operation where round one's helpers did several (a `vec` of row norms and then a `mat`, twice per `rmsnRowsB`), and from `cells` building each per-head result once. No speed work was done beyond choosing between the probed forms.
+One thread: 3.7 s per batch-1 step after the first (7.0 s, which pays the interpreter's warm-up), 13.5 s per batch-4 step, 420 s for the whole check of 55 steps. Round one: 7.8 to 8 s, 26.6 s, 855 s. Four threads: STEP4 per batch-1 step, TOTAL4 for the check; round one 2.6 to 3.0 s and 353 s. The speed-up over round one at one thread comes from the row lift and the elementwise operators doing one pass per operation where round one's helpers did several (a `vec` of row norms and then a `mat`, twice per `rmsnRowsB`), and from `cells` building each per-head result once. No speed work was done beyond choosing between the probed forms.
 
 ## What the language gave, what had to be built
 
