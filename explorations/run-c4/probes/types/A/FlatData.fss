@@ -1,0 +1,125 @@
+(* FlatData -- the loaders and the corpus for MicroGptFlat (Run C4).
+   The weights are nine text files, one matrix row per line, read straight
+   into one flat vector in layout order; the corpus is one padded integer
+   matrix (documents x block+1) with a length per document (Hsu's tactics
+   3 and 5). The float parser is here because the library's strToFloat
+   mis-parses a sign and overflows on a 17-digit mantissa (ledger row 140)
+   and String.split is not a tokenizer (row 141). *)
+component FlatData
+export FlatData
+import FlatArrays.{...}
+import File.{...}
+
+(* decimal digits, optional '.', optional e/E exponent; leading '-' or '¯' *)
+parseFloat(s: String): RR64 = do
+    neg = (s[0] = '-') OR (s[0] = '¯')
+    m: RR64 := 0.0
+    scale: ZZ32 := 0
+    ex: ZZ32 := 0
+    i: ZZ32 := if neg then 1 else 0 end
+    seenPoint: Boolean := false
+    n = |s|
+    while (i < n) AND: ((s[i] =/= 'e') AND (s[i] =/= 'E')) do
+        c = s[i]
+        if c = '.' then seenPoint := true
+        else
+            m := 10.0 m + (c.codePoint - '0'.codePoint)
+            if seenPoint then scale += 1 end
+        end
+        i += 1
+    end
+    if i < n then
+        eneg = (s[i+1] = '-') OR (s[i+1] = '¯')
+        j = if eneg OR (s[i+1] = '+') then i + 2 else i + 1 end
+        ex := strToInt(s[j # (n - j)])
+        if eneg then ex := -ex end
+    end
+    e10 = ex - scale
+    r = if e10 >= 0 then m (10.0^e10)
+        elif e10 >= -22 then m / (10.0^(-e10))
+        else (m / (10.0^22)) / (10.0^(-e10 - 22)) end
+    if neg then -r else r end
+  end
+
+(* the space-separated numbers of a line, into out[off..]; returns how many *)
+parseRow[\nat s\](line: String, out: Vector[\RR64,s\], off: ZZ32): ZZ32 = do
+    n = |line|
+    i: ZZ32 := 0
+    k: ZZ32 := 0
+    while i < n do
+        if line[i] = ' ' then i += 1
+        else
+            j: ZZ32 := i
+            while (j < n) AND: (line[j] =/= ' ') do j += 1 end
+            out[off + k] := parseFloat(line[i # (j - i)])
+            k += 1
+            i := j
+        end
+    end
+    k
+  end
+(* the numbers of a line as a vector (two scans: count, then fill) *)
+numbersOf(line: String): Array[\RR64,ZZ32\] = do
+    cnt = parseRow(line, zeros(|line|), 0)
+    out = zeros(cnt)
+    parseRow(line, out, 0)
+    out
+  end
+(* the lines of a file, up to the first empty one *)
+readLines(path: String): Array[\String,ZZ32\] = do
+    f = FileReadStream(path)
+    cnt: ZZ32 := 0
+    line: String := f.readLine()
+    while |line| > 0 do cnt += 1; line := f.readLine() end
+    f.close()
+    g = FileReadStream(path)
+    out = array[\String\](cnt).fill("")
+    for i <- seq(0#cnt) do out[i] := g.readLine() end
+    g.close()
+    out
+  end
+(* one number per line *)
+readVector(path: String, n: ZZ32): Array[\RR64,ZZ32\] = do
+    f = FileReadStream(path)
+    v = zeros(n)
+    for i <- seq(0#n) do v[i] := parseFloat(f.readLine()) end
+    f.close()
+    v
+  end
+
+(* the weights: files name(0) .. name(count-1) under dir, every line's numbers
+   appended in order into one vector of `total` values -- the layout is the
+   caller's table, the loader only concatenates *)
+loadParams(dir: String, name: ZZ32 -> String, count: ZZ32, total: ZZ32): Array[\RR64,ZZ32\] = do
+    p = zeros(total)
+    off: ZZ32 := 0
+    for i <- seq(0#count) do
+        for line <- seq(readLines(dir "/" name(i) ".txt")) do off += parseRow(line, p, off) end
+    end
+    if off =/= total then fail("loaded " off " numbers, the layout has " total) end
+    p
+  end
+
+(* the corpus: one document per line, interned a..z; the token matrix has
+   width block+1, BOS before and after each document and in every unused
+   slot, and a length per document (its characters plus the leading BOS) *)
+object Corpus(tokm: Array[\ZZ32,(ZZ32,ZZ32)\], len: Array[\ZZ32,ZZ32\], blk: ZZ32)
+    size(): ZZ32 = |len|
+    length(d: ZZ32): ZZ32 = len[d]
+    token(d: ZZ32, j: ZZ32): ZZ32 = tokm[d, j]
+    (* the keys of a batch b of documents, one row per (document, position):
+       the tokens at position + off, the positions, and the 0/1 validity mask *)
+    tokens(b: Array[\ZZ32,ZZ32\], off: ZZ32): Array[\ZZ32,ZZ32\] =
+        keys(|b| blk, fn (r: ZZ32): ZZ32 => tokm[b[r DIV blk], (r MOD blk) + off])
+    positions(b: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\] =
+        keys(|b| blk, fn (r: ZZ32): ZZ32 => r MOD blk)
+    valid(b: Array[\ZZ32,ZZ32\]): Array[\RR64,ZZ32\] =
+        vec(|b| blk, fn (r: ZZ32): RR64 => if (r MOD blk) < len[b[r DIV blk]] then 1.0 else 0.0 end)
+end
+loadCorpus(path: String, blk: ZZ32, bos: ZZ32): Corpus = do
+    names = readLines(path)
+    tokm = array[\ZZ32\](|names|, blk + 1).fill(bos)
+    for d <- seq(0#|names|), j <- seq(0#|names[d]|) do tokm[d, 1 + j] := names[d][j].codePoint - 'a'.codePoint end
+    Corpus(tokm, keys(|names|, fn (d: ZZ32): ZZ32 => 1 + |names[d]|), blk)
+  end
+end

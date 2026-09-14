@@ -1,0 +1,189 @@
+(* FlatArrays -- the array vocabulary of Run C4: what the shipped
+   Vector/Matrix algebra lacks, declared once in the library's own style over
+   the library's own arrays.  Round two's vocabulary (explorations/run-c/src)
+   less the block, ravel, vector-gather and validity pieces that the corpus
+   object of FlatData makes unnecessary; the inventory it was built against
+   is round three's survey (explorations/run-c3/survey.md).  Views take their
+   shapes at run time through the library's own reflect idiom
+   (FortressLibrary.fss:1922-1934). *)
+component FlatArrays
+export FlatArrays
+import NatReflect.{...}
+
+(* ------------------------------------------------------- constructors ---- *)
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+zeros(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(0.0)
+keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).fill(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+
+(* ------------------------------------------- the elementwise algebra ----- *)
+(* One declaration per operator, generic in the index type I, so a vector
+   (I = ZZ32), a matrix ((ZZ32,ZZ32)) and a rank-3 array share it.  A scalar
+   times an array is the library's juxtaposition and is not redeclared;
+   + and - between two arrays of one shape are the library's. *)
+opr +[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e + s)
+opr +[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s + e)
+opr -[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e - s)
+opr -[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s - e)
+opr ×[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\] = a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e b[i])
+opr /[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\] = a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e / b[i])
+opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e / s)
+opr MAX[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s MAX e)
+opr MAX[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e MAX s)
+(* a comparison on an array is a 0/1 array *)
+opr >[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => if e > s then 1.0 else 0.0 end)
+opr SQRT[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => SQRT e)
+exp[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => exp(e))
+log[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => log(e))
+(* diag(v) m scales the rows of m: the Dyalog's v ×⍤0 1 m.  A diagonal is its
+   own object, so its product is one declaration that never forms the matrix. *)
+object Diag[\nat s\](d: Vector[\RR64,s\]) end
+diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\] = Diag[\s\](v)
+opr juxtaposition[\nat s, nat r, nat c\](dg: Diag[\s\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    m.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), e: RR64): RR64 => do (i, j) = ij; dg.d[i] e end)
+
+(* ----------------------------------------------------- transposes -------- *)
+(* as functions: an API cannot declare a postfix operator (ledger row 133), so
+   the model declares ^T itself over these; and a call result may not be
+   followed by ^T at all (rows 144, 158) *)
+transpose[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Matrix[\RR64,c,r\] = m.t()
+transpose[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): Array3[\RR64,0,a,0,c,0,b\] = Transposed3[\a,b,c\](t)
+
+(* ------------------------------------------------------------ views ----- *)
+(* the (nr x nc) matrix at off in a flat vector, row-major *)
+object PView[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32) extends Matrix[\RR64,r,c\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get(off + i c + j) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put(off + i c + j, x) end
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0(off + i c + j, x) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+viewN[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] =
+    PView[\s,r,c\](base, off)
+view[\nat s\](p: Vector[\RR64,s\], off: ZZ32, nr: ZZ32, nc: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    viewN(p, off, reflect(nr), reflect(nc))
+
+(* a row of a matrix, and a row of a plane of a rank-3 array, as a Vector *)
+object RowView[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, x: RR64): () = base.put((i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+row[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Array[\RR64,ZZ32\] = RowView[\r,c\](m, i)
+object Row3View[\nat a, nat b, nat c\](base: Array3[\RR64,0,a,0,b,0,c\], p: ZZ32, i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get((p, i, j))
+    put(j: ZZ32, x: RR64): () = base.put((p, i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((p, i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+row3[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], p: ZZ32, i: ZZ32): Array[\RR64,ZZ32\] = Row3View[\a,b,c\](t, p, i)
+
+(* a (docs.positions x heads.dim) activation as docs.heads planes of positions x dim:
+   plane d nh + h, row i, column j is base[d p + i, h k + j]; and the inverse *)
+object HeadsView[\nat br, nat bc, nat a, nat b, nat c\](base: Matrix[\RR64,br,bc\], p: ZZ32, nh: ZZ32, k: ZZ32)
+        extends Array3[\RR64,0,a,0,b,0,c\]
+    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (q, i, j) = ix; base.get((q DIV nh) p + i, (q MOD nh) k + j) end
+    put(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.put(((q DIV nh) p + i, (q MOD nh) k + j), x) end
+    init0(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.init0(((q DIV nh) p + i, (q MOD nh) k + j), x) end
+    replica[\U\](): Array3[\U,0,a,0,b,0,c\] = array3[\U,a,b,c\]()
+end
+headsN[\nat br, nat bc, nat a, nat b, nat c\](base: Matrix[\RR64,br,bc\], p: ZZ32, nh: ZZ32, k: ZZ32, _: N[\a\], _: N[\b\], _: N[\c\]): Array3[\RR64,0,a,0,b,0,c\] =
+    HeadsView[\br,bc,a,b,c\](base, p, nh, k)
+heads[\nat br, nat bc\](base: Matrix[\RR64,br,bc\], p: ZZ32, nh: ZZ32, k: ZZ32): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (nr, nc) = base.sizes
+    headsN(base, p, nh, k, reflect((nr DIV p) nh), reflect(p), reflect(k))
+  end
+object UnheadsView[\nat a, nat b, nat c, nat r, nat cc\](base: Array3[\RR64,0,a,0,b,0,c\], nh: ZZ32)
+        extends Matrix[\RR64,r,cc\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get(((i DIV b) nh + (j DIV c), i MOD b, j MOD c)) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put(((i DIV b) nh + (j DIV c), i MOD b, j MOD c), x) end
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0(((i DIV b) nh + (j DIV c), i MOD b, j MOD c), x) end
+    replica[\U\](): Array2[\U,0,r,0,cc\] = array2[\U,r,cc\]()
+end
+unheadsN[\nat a, nat b, nat c, nat r, nat cc\](base: Array3[\RR64,0,a,0,b,0,c\], nh: ZZ32, _: N[\r\], _: N[\cc\]): Matrix[\RR64,r,cc\] =
+    UnheadsView[\a,b,c,r,cc\](base, nh)
+unheads[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], nh: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (np, p, k) = t.sizes
+    unheadsN(t, nh, reflect((np DIV nh) p), reflect(nh k))
+  end
+(* a plane of a rank-3 array as a matrix, and every plane transposed *)
+object PlaneView[\nat a, nat b, nat c\](base: Array3[\RR64,0,a,0,b,0,c\], p: ZZ32) extends Matrix[\RR64,b,c\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get((p, i, j)) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put((p, i, j), x) end
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0((p, i, j), x) end
+    replica[\U\](): Array2[\U,0,b,0,c\] = array2[\U,b,c\]()
+end
+plane[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\], p: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = PlaneView[\a,b,c\](t, p)
+object Transposed3[\nat a, nat b, nat c\](base: Array3[\RR64,0,a,0,b,0,c\]) extends Array3[\RR64,0,a,0,c,0,b\]
+    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (p, i, j) = ix; base.get((p, j, i)) end
+    put(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (p, i, j) = ix; base.put((p, j, i), x) end
+    init0(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (p, i, j) = ix; base.init0((p, j, i), x) end
+    replica[\U\](): Array3[\U,0,a,0,c,0,b\] = array3[\U,a,c,b\]()
+end
+
+(* ------------------------------------------------- rank-3 algebra -------- *)
+(* +.×⍤2 : the library product on every pair of planes *)
+opr juxtaposition[\nat a, nat b, nat c, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a,0,b,0,c\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (np, n, d) = x.sizes
+    (yp, yn, yd) = y.sizes
+    out = array[\RR64\](np, n, yd)
+    for p <- 0#np do (plane(out, p)).assign((plane(x, p)) (plane(y, p))) end
+    out
+  end
+(* m +⍤2 t : a matrix added to every plane *)
+opr +[\nat r, nat c, nat a, nat b, nat d\](m: Matrix[\RR64,r,c\], t: Array3[\RR64,0,a,0,b,0,d\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] =
+    t.ivmap[\RR64\](fn (ix: (ZZ32,ZZ32,ZZ32), e: RR64): RR64 => do (p, i, j) = ix; m[i,j] + e end)
+
+(* -------------------------------------------------- the row lift --------- *)
+(* f⍤1 : f on every row of m, the results stacked; the dyadic form pairs the
+   rows of two matrices; over a rank-3 array the rows are those of every plane.
+   A parallel for over the rows, each written through a row view. *)
+rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = m.sizes
+    out = array[\RR64\](n, d)
+    for i <- 0#n do (row(out, i)).assign(f(row(m, i))) end
+    out
+  end
+rows[\nat r, nat c, nat r2, nat c2\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], x: Matrix[\RR64,r,c\], y: Matrix[\RR64,r2,c2\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = x.sizes
+    out = array[\RR64\](n, d)
+    for i <- 0#n do (row(out, i)).assign(f(row(x, i), row(y, i))) end
+    out
+  end
+rows[\nat a, nat b, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], t: Array3[\RR64,0,a,0,b,0,c\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (np, n, d) = t.sizes
+    out = array[\RR64\](np, n, d)
+    for p <- 0#np, i <- 0#n do (row3(out, p, i)).assign(f(row3(t, p, i))) end
+    out
+  end
+rows[\nat a, nat b, nat c, nat a2, nat b2, nat c2\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], x: Array3[\RR64,0,a,0,b,0,c\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (np, n, d) = x.sizes
+    out = array[\RR64\](np, n, d)
+    for p <- 0#np, i <- 0#n do (row3(out, p, i)).assign(f(row3(x, p, i), row3(y, p, i))) end
+    out
+  end
+
+(* ----------------------------------------------------------- keys -------- *)
+(* the rows of m at the keys: m[ks;]; the elements of v at the keys: v[ks] *)
+gather[\T extends Number, nat r, nat c, nat k\](m: Matrix[\T,r,c\], ks: Vector[\ZZ32,k\]): Array[\T,(ZZ32,ZZ32)\] = do
+    (nr, nc) = m.sizes
+    array[\T\](|ks|, nc).fill(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])
+  end
+(* ks ∘.= ⍳width, as 0/1 *)
+onehot[\nat k\](ks: Vector[\ZZ32,k\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|ks|, width, fn (i: ZZ32, j: ZZ32): RR64 => if ks[i] = j then 1.0 else 0.0 end)
+(* ks ⌷⍤0 1 m : element ks[i] of row i *)
+pick[\nat r, nat c, nat k\](m: Matrix[\RR64,r,c\], ks: Vector[\ZZ32,k\]): Array[\RR64,ZZ32\] =
+    vec(|ks|, fn (i: ZZ32): RR64 => m[i, ks[i]])
+(* ⊃,/,¨ : the matrices ravelled and catenated into one vector, in order *)
+flat(ms: Array[\RR64,(ZZ32,ZZ32)\]...): Array[\RR64,ZZ32\] = do
+    out = zeros(SUM[m <- ms] |m|)
+    off: ZZ32 := 0
+    for m <- seq(ms) do
+        (nr, nc) = m.sizes
+        for i <- 0#nr, j <- 0#nc do out[off + i nc + j] := m[i,j] end
+        off += nr nc
+    end
+    out
+  end
+end
