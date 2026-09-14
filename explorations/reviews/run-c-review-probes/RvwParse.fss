@@ -1,0 +1,41 @@
+(* Reviewer probe: the run's parseFloat (copied verbatim from
+   explorations/run-c/src/MicroGptFlat.fss:150-178) on four weight-file
+   tokens, against Python's correctly rounded float() of the same digits. *)
+component RvwParse
+export Executable
+parseFloat(s: String): RR64 = do
+    neg = (s[0] = '-') OR (s[0] = '¯')
+    m: RR64 := 0.0
+    scale: ZZ32 := 0
+    ex: ZZ32 := 0
+    i: ZZ32 := if neg then 1 else 0 end
+    seenPoint: Boolean := false
+    n = |s|
+    while (i < n) AND: ((s[i] =/= 'e') AND (s[i] =/= 'E')) do
+        c = s[i]
+        if c = '.' then seenPoint := true
+        else
+            m := 10.0 m + (c.codePoint - '0'.codePoint)
+            if seenPoint then scale += 1 end
+        end
+        i += 1
+    end
+    if i < n then
+        eneg = (s[i+1] = '-') OR (s[i+1] = '¯')
+        j = if eneg OR (s[i+1] = '+') then i + 2 else i + 1 end
+        ex := strToInt(s[j # (n - j)])
+        if eneg then ex := -ex end
+    end
+    e10 = ex - scale
+    r = if e10 >= 0 then m (10.0^e10)
+        elif e10 >= -22 then m / (10.0^(-e10))
+        else (m / (10.0^22)) / (10.0^(-e10 - 22)) end
+    if neg then -r else r end
+  end
+run(): () = do
+    println "token 0.20683639988133196  python 0.20683639988133196  parseFloat " (parseFloat "0.20683639988133196")
+    println "token 0.0018616970326810873 python 0.0018616970326810873 parseFloat " (parseFloat "0.0018616970326810873")
+    println "token ¯0.22538753716769877 python -0.22538753716769877 parseFloat " (parseFloat "¯0.22538753716769877")
+    println "token ¯0.04273180935726127 python -0.04273180935726127 parseFloat " (parseFloat "¯0.04273180935726127")
+  end
+end

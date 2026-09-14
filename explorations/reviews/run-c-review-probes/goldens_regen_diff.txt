@@ -1,0 +1,8 @@
+IDENTICAL P0.txt
+IDENTICAL P_after_adam.txt
+IDENTICAL batch4.txt
+IDENTICAL corpus_first16.txt
+IDENTICAL fd_batch4.txt
+IDENTICAL fd_doc0.txt
+IDENTICAL grad_step0.txt
+IDENTICAL losses_batch1_5steps.txt
