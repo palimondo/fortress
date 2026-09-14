@@ -59,7 +59,7 @@ Written by the coordinating session itself, the same day, in the common format o
 
 ## Delegation and its cost
 
-FILL at the close.
+Four workers, about 1.1 million tokens between them (FILL exact), against the main thread's FILL output tokens. Every delegation delivered: the inventory's 65 rows were the design's citations; the probes turned the design's five open items into answers before any base line was written, and caught the two mistakes the design would otherwise have shipped (the wider tuple reading that broke rung 5, the sign of the mask was caught by the inventory pass); the component came back matching the design's table line for line after one failed run; the merge re-ran 74 rung probes and 49 retired-base checks and found six wrong citations in the source rows. The two full check runs stayed in this thread under the `Monitor` tool, as record 12's lesson says, and cost nothing but wall time. What delegation cost was timing: the merge worker's reproducers ran alongside the first pool-1 check and the component worker's model run, which is why the pool-1 check was run twice (FILL) and the report's cost row is from the quiet run.
 
 ## Gaps found
 
@@ -67,4 +67,4 @@ FILL at the close.
 
 ## Findings
 
-FILL at the close.
+The flat-style microGPT is APL text inside Fortress for 19 of its 25 lines, and the expansion of that text is C4's program: every `+.×` is the shipped `DOT`, every `⍤1` is C4's `rows`, the rank-3 attention block is C4's batched juxtaposition through `aplRankD2`, `⊃,/,¨` is C4's `flat`, and the strand of nine views is C4's tuple binding. The six host lines are the six things the sub-language was never given: a top-level statement, a nested array, a system function, characters, rank 4, a write to an outer name. Each of the five base additions was one grammar rule or one library overload; the name lines, 96 of them, were the largest change, and they are the price of the closed name sets (row 194) paid once more. The cost: FILL against C4's 873 s and 396 s, which prices the general per-plane and per-row route of the rank operator for the first time (rung 6 had only priced per-element frame pushes, row 256). The ledger grew from 174 to 263 rows in one day, 42 of them in a section the ledger had not had, on extending Fortress rather than writing in it. What the rung did not do: rungs 7 and 8 (tacit, nested arrays) stay unbuilt by decision, the program's one tacit form rewritten as a dfn; the feasibility table at the end of `apl-probes/REPORT.md` (about twenty rows) is still unmerged, as the merge worker noted.
