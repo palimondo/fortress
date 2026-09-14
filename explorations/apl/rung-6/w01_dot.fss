@@ -1,0 +1,38 @@
+(* w01: does the SHIPPED library's DOT do the inner product for us?
+   `FortressLibrary.fsi:1508` declares `opr DOT(Vector[\T,n\], Vector[\T,n\]): T`
+   and `:1614-1631` the three matrix forms, all with the shared extent as ONE
+   nat -- which is the question: rung 1's row 37 says the nat is inferred from a
+   runtime-built array, but a matrix product needs two DIFFERENT arrays to agree
+   on one nat, and nothing at run time checks that.  Also `Vector.dot` as a
+   method, and `Matrix.t()` beside it.
+
+   If DOT works, the direct `+.×` of rung 6 is one line per rank pair; if it
+   does not, it is the textbook triple loop. *)
+component w01_dot
+import AplCore.{...}
+export Executable
+
+run(): () = do
+    a = aplVec(3, fn (i: ZZ32): RR64 => 1.0 (i + 1))       (* 1 2 3 *)
+    b = aplVec(3, fn (i: ZZ32): RR64 => 1.0 (i + 4))       (* 4 5 6 *)
+    m = aplMat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((3 i) + j))
+    n = aplMat(3, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 ((2 i) + j))
+    println("(a) Vector DOT Vector, expected 32:")
+    println(("  " aplShow(a DOT b)))
+    println("(b) Vector.dot as a method, expected 32:")
+    println(("  " aplShow(a.dot(b))))
+    println("(c) Matrix DOT Matrix, 2x3 by 3x2, expected 10 13 / 28 40:")
+    println(("  " aplShow(m DOT n)))
+    println("(d) Matrix DOT Vector, 2x3 by 3, expected 8 26:")
+    println(("  " aplShow(m DOT a)))
+    println("(e) Vector DOT Matrix, 3 by 3x2, expected 16 22:")
+    println(("  " aplShow(a DOT n)))
+    (* (f) a MISMATCHED matrix product, 2x3 by 2x3, was asked here too: the
+       shared nat DOES catch it, at the dispatch, and the failure is
+       `Failed to find any matching overload, args =
+       (__DefaultMatrix[\RR64,2,3\],__DefaultMatrix[\RR64,2,3\])`, a
+       ProgramError that `catch e Exception` does not catch (w01_dot.out.0).
+       So the LENGTH ERROR has to be a `requires` contract of aplMatMul, above
+       DOT, if it is to be catchable. *)
+  end
+end

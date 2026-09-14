@@ -1,6 +1,11 @@
 Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
-Processing /tmp/fortress414890858786355133rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
-Note: /tmp/fortress414890858786355133rats/com/sun/fortress/parser/templateparser/TemplateParser46.java uses unchecked or unsafe operations.
+Processing /tmp/fortress7118356981177368965rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7118356981177368965rats/com/sun/fortress/parser/templateparser/TemplateParser91.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress5937306955272886209rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress5937306955272886209rats/com/sun/fortress/parser/templateparser/TemplateParser137.java uses unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 
 (0) rung 3's own commute, to show the copied grammar works

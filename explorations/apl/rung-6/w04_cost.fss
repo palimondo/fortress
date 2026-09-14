@@ -1,0 +1,47 @@
+(* w04: what the DIRECT `+.×` rule buys over the general `{⍺+⍵}.{⍺×⍵}` on the
+   product the microGPT programs are made of -- 16x16 by 16x16.  Three
+   spellings of the same answer:
+
+     A+.×B                 the direct rule, aplMatMul's own SUM over the shared
+                           axis, one typed loop and no frame push
+     aplDotMul(A, B)       the SHIPPED library's `opr DOT` (w01), copied back
+                           into a fresh matrix so the result type matches
+     A{⍺+⍵}.{⍺×⍵}B         the general rule: one aplCall per multiply and one
+                           per addition, so 16^3 + 16^3 frame pushes.  It is
+                           called here as aplInner(add, mul, a, b), which is
+                           exactly what the grammar expands that source to
+                           (w03_gram.out (d)); the probe imports no grammar, so
+                           it costs one run and no parser regeneration.
+
+   nanoTime(), FORTRESS_THREADS=1, one run each, so the ratios are indicative
+   and not a benchmark. *)
+component w04_cost
+import AplCore.{...}
+export Executable
+
+run(): () = do
+    a = aplMat(16, 16, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (((3 i) + j) MOD 7))
+    b = aplMat(16, 16, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (((5 i) + (2 j)) MOD 9))
+    add = fn (): Any => aplAlpha() + aplOmega()
+    mul = fn (): Any => aplAlpha() × aplOmega()
+    println(("the three spellings agree: "
+             ((aplMatMul(a, b) ≡ aplLoopMul(a, b))
+              MIN (aplMatMul(a, b) ≡ aplInner(add, mul, a, b)))))
+
+    reps = 200
+    t0 = nanoTime()
+    for i <- seq(0 # reps) do aplMatMul(a, b) end
+    t1 = nanoTime()
+    for i <- seq(0 # reps) do aplLoopMul(a, b) end
+    t2 = nanoTime()
+    for i <- seq(0 # reps) do aplInner(add, mul, a, b) end
+    t3 = nanoTime()
+    println(("16x16 by 16x16, " reps " products each:"))
+    println(("  A+.×B          (direct)  : " ((t1 - t0) / 1000000000.0) " s"))
+    println(("  the hand-written loop     : " ((t2 - t1) / 1000000000.0) " s"))
+    println(("  A{⍺+⍵}.{⍺×⍵}B  (general) : " ((t3 - t2) / 1000000000.0) " s"))
+    println(("  general / direct         : " (((t3 - t2) 1.0) / ((t1 - t0) 1.0))))
+    println(("  general / hand loop      : " (((t3 - t2) 1.0) / ((t2 - t1) 1.0))))
+    println(("  direct (DOT) / hand loop : " (((t1 - t0) 1.0) / ((t2 - t1) 1.0))))
+  end
+end

@@ -1,0 +1,41 @@
+(* v07: what a NAME STRAND may be built from.  The rung-5 design says
+   `AplTuple :Expr:= a:AplName SPACE b:AplName SPACE c:AplName | …`, i.e. any
+   two or three ordinary names side by side.  That rule is unusable, and this
+   probe says why and what replaces it.
+
+   SPACE is optional whitespace and crosses a LINE BREAK (gaps row 68), so over
+   AplName two ordinary names on consecutive lines merge into one strand.  Rung
+   3's Ex 34 is exactly that shape --
+
+       abv ← 7.0 4.5 8.3 0.0
+       bin ← 1+limits⍸abv
+       bin
+
+   -- and with an AplName-based strand its last two lines are read as
+   `1+limits⍸(abv bin)`, after which the block has no final statement:
+   v07_tuple.out.0, `Rung3.fss:176:43: Syntax Error`, and the same shape inside
+   a dfn body is v07_tuple.out.1, `Rung4.fss:292:31: Syntax Error`.
+
+   The strand therefore reads a THIRD closed name set, AplTName, disjoint from
+   every name rungs 1-4 use.  The trap still applies inside that set -- two
+   strand names on consecutive lines are one strand -- which is (c) below. *)
+component v07_tuple
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+run(): () = do
+    println("(a) rung 3's Ex 34 shape: three ordinary names, one per line")
+    println(("  " aplShow(apl⦇ limits ← 1.2 6.9 7.5 8.5
+                               abv ← 7.0 4.5 8.3 0.0
+                               bin ← 1+limits⍸abv
+                               bin ⦈)))
+    println("(b) a strand of AplTName, on one line")
+    println(("  Q K Vv as a tuple:" //
+             aplShowT(apl⦇ Q ← 1 ⋄ K ← 2 ⋄ Vv ← 3 ⋄ Q K Vv ⦈)))
+    println(("  Q K   as a tuple:" //
+             aplShowT(apl⦇ Q ← 1 ⋄ K ← 2 ⋄ Q K ⦈)))
+    println("(c) a single strand name still reads as a name")
+    println(("  " aplShow(apl⦇ Q ← 1 ⋄ K ← 2 ⋄ Q+K ⦈)))
+  end
+end

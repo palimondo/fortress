@@ -1,0 +1,8 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11471573796444168801rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11471573796444168801rats/com/sun/fortress/parser/templateparser/TemplateParser354.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(a) Blk ← 4 ⋄ Blk            = 4
+(b) Blk ← 4 ⋄ {⍵×2}⍣Blk⊢1    = 16
+(c) Q ← 2 ⋄ K ← 3 ⋄ Q+K      = 5

@@ -643,6 +643,7 @@ aplRankD2[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: ()->Any,
 (** ¨ Each: monadic over rank 0, 1 and 2, dyadic over the five shapes with
     APL's scalar extension. **)
 aplIsScalar(x: Any): Boolean
+aplScalarOf(x: Any): RR64
 aplAllScalar(rs: Array[\Any,ZZ32\]): Boolean
 aplAsmV(rs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\]
 aplAsmM(rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Array[\RR64,(ZZ32,ZZ32)\]
@@ -733,5 +734,97 @@ aplScanFirst[\nat r, nat c\](f: Any, m: Matrix[\RR64,r,c\]): Object
 aplNoFixedPoint(): Any
 aplPower(f: Any, n: RR64, x: Any): Object
 aplPowerUntil(f: Any, g: Any, x: Any): Object
+
+
+(* ===================================================== rung 6: products ==
+   Outer product ∘.g , inner product f.g , and the two-rank ⍤0 1 .
+
+   `+.×` is matrix multiplication and the SHIPPED library already has it: `opr
+   DOT` over all four rank pairs, working on runtime-built arrays
+   (../rung-6/w01_dot.out).  A mismatched product is caught by DOT's own shared
+   nat, but as `Failed to find any matching overload`, a ProgramError no catch
+   clause takes (w01_dot.out.0), so APL's LENGTH ERROR is a `requires` above it.
+   aplMatMul IS the shipped DOT, with the contract above it; aplLoopMul is the
+   textbook triple loop, kept only so that ../rung-6/w04_cost.out can price
+   the one against the other. **)
+
+(** ∘.g : the result's shape is (⍴⍺),(⍴⍵), so (V,V) is a matrix, (s,V) and
+    (V,s) vectors, (s,s) a scalar.  Eight glyphs get a direct typed entry
+    through the shared aplOuterWith; everything else goes through aplCall. **)
+aplOuterWith[\nat s, nat t\](f: (RR64,RR64)->RR64, l: Vector[\RR64,s\], r: Vector[\RR64,t\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplOuterWith[\nat t\](f: (RR64,RR64)->RR64, l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplOuterWith[\nat s\](f: (RR64,RR64)->RR64, l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\]
+aplOuterWith(f: (RR64,RR64)->RR64, l: RR64, r: RR64): RR64
+aplOuterMul[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplOuterMul[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplOuterMul[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\]
+aplOuterMul(l: RR64, r: RR64): RR64
+aplOuterEq[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplOuterEq[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplOuterEq[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\]
+aplOuterEq(l: RR64, r: RR64): RR64
+aplOuterNe[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplOuterNe[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplOuterNe[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\]
+aplOuterNe(l: RR64, r: RR64): RR64
+aplOuterLt[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplOuterLt[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplOuterLt[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\]
+aplOuterLt(l: RR64, r: RR64): RR64
+aplOuterLe[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplOuterLe[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplOuterLe[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\]
+aplOuterLe(l: RR64, r: RR64): RR64
+aplOuterGt[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplOuterGt[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplOuterGt[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\]
+aplOuterGt(l: RR64, r: RR64): RR64
+aplOuterGe[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplOuterGe[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplOuterGe[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\]
+aplOuterGe(l: RR64, r: RR64): RR64
+aplOuterRes[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\]
+aplOuterRes[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplOuterRes[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\]
+aplOuterRes(l: RR64, r: RR64): RR64
+aplOuter(f: Any, l: RR64, r: RR64): Object
+aplOuter[\nat t\](f: Any, l: RR64, r: Vector[\RR64,t\]): Object
+aplOuter[\nat s\](f: Any, l: Vector[\RR64,s\], r: RR64): Object
+aplOuter[\nat s, nat t\](f: Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Object
+
+(** +.× over the four rank pairs; the `requires` is APL's LENGTH ERROR. **)
+aplMatMul[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): RR64
+aplMatMul[\nat r, nat c, nat t\](m: Matrix[\RR64,r,c\], v: Vector[\RR64,t\]): Array[\RR64,ZZ32\]
+aplMatMul[\nat s, nat r, nat c\](v: Vector[\RR64,s\], m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\]
+aplMatMul[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+aplLoopMul[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): RR64
+aplLoopMul[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+
+(** +.= , a count of equal positions along the shared axis. **)
+aplInnerPlusEq[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): RR64
+aplInnerPlusEq[\nat r, nat c, nat t\](m: Matrix[\RR64,r,c\], v: Vector[\RR64,t\]):
+        Array[\RR64,ZZ32\]
+aplInnerPlusEq[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\]
+
+(** The general l f.g r : the g-products along the shared axis, then f folded
+    right to left, both through aplCall. **)
+aplInnerCell(f: Any, g: Any, xs: Array[\Any,ZZ32\]): Any
+aplInner[\nat s, nat t\](f: Any, g: Any, a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Object
+aplInner[\nat r, nat c, nat t\](f: Any, g: Any, m: Matrix[\RR64,r,c\], v: Vector[\RR64,t\]): Object
+aplInner[\nat s, nat r, nat c\](f: Any, g: Any, v: Vector[\RR64,s\], m: Matrix[\RR64,r,c\]): Object
+aplInner[\nat r, nat c, nat p, nat q\](f: Any, g: Any, a: Matrix[\RR64,r,c\],
+        b: Matrix[\RR64,p,q\]): Object
+
+(** ⍤0 1 : the left argument's cells are scalars, the right argument's cell is
+    the whole of a vector or one row of a matrix. **)
+aplRankD01[\nat s\](f: ()->Any, l: RR64, r: Vector[\RR64,s\]): Object
+aplRankD01[\nat s, nat t\](f: ()->Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Object
+aplRankD01[\nat s, nat r2, nat c2\](f: ()->Any, l: Vector[\RR64,s\], m: Matrix[\RR64,r2,c2\]):
+        Object
+aplRankD01[\nat r2, nat c2\](f: ()->Any, l: RR64, m: Matrix[\RR64,r2,c2\]): Object
 
 end

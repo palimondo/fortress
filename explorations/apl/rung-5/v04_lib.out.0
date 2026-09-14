@@ -1,0 +1,18 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:330:5-28: and
+/home/user/fortress/explorations/apl/base/AplCore.fss:1366:1-1367:64:
+
+AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:330:5-28 and
++[\nat a,nat b,nat c\](t:Array3[\FortressLibrary.RR64,0,a,0,b,0,c\],s:FortressLibrary.RR64):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/base/AplCore.fss:1366:1-1367:64 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:330:5-28:
+/home/user/fortress/explorations/apl/rung-5/v04_lib.fss:17:48:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

@@ -1,0 +1,244 @@
+(* Rung6 -- every example of "Products"
+   (https://xpqz.github.io/learnapl/products.html) that the base reaches,
+   written inside apl⦇ … ⦈ and checked against the book's printed output as
+   extracted in ../goldens/ch6-products.md, followed by the section the microGPT
+   programs need.
+
+   Index origin is 0, as the chapter's prelude sets it.
+
+   Run from this directory with ../base on the source path:
+
+     export FORTRESS_SOURCE_PATH=".:$FORTRESS_HOME/explorations/apl/base:\
+     $FORTRESS_HOME/ProjectFortress/LibraryBuiltin:$FORTRESS_HOME/Library:\
+     $FORTRESS_HOME/ProjectFortress/test_library"
+     $FORTRESS_HOME/bin/fortress Rung6.fss
+
+   Adaptations.  Rungs 4 and 5's all still apply; rung 6 adds:
+
+   (10) `]DISPLAY` is dropped: the book uses it only to show the boxed frame
+        around a matrix, and the values inside the frame are what is checked.
+   (11) Ex 6 writes `(2=+⌿0=x∘.|x)/x←⍳20`, an inline binding on the RIGHT of
+        the expression that uses it.  A binding is a statement here, so it is
+        written as two statements -- which is the same departure rung 4 recorded
+        for `e÷+/e←*⍵-⌈/⍵` inside softmax.
+   (12) Ex 17 builds its two matrices with `6?20`, which is random, and prints
+        them; as with rung 5's Ex 10, the matrices the book printed are in the
+        goldens, so they are bound literally. *)
+component Rung6
+
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+chk(id: String, src: String, got: String, want: String): ZZ32 = do
+    ok = (got = want)
+    println(((if ok then "PASS  " else "FAIL  " end) id "  " src))
+    println(("        want |" want "|"))
+    println(("        got  |" got "|"))
+    if ok then 1 else 0 end
+  end
+
+note(id: String, why: String): () = println(("SKIP  " id "  out of scope: " why))
+
+run(): () = do
+    score: ZZ32 := 0
+    tot: ZZ32 := 0
+
+    println("=== examples of the chapter, against the book's printed output ===")
+    println("")
+
+    note("Ex 1 ", "⎕IO ← 0, ]box on, ]rows on: a ⎕ system name and two Dyalog user commands")
+
+    score := score + chk("Ex 2 ", "∘.×⍨⍳10   (the times table)",
+                         aplShow(apl⦇ ∘.×⍨⍳10 ⦈),
+                         ((((((((("0 0  0  0  0  0  0  0  0  0"
+                          // "0 1  2  3  4  5  6  7  8  9")
+                          // "0 2  4  6  8 10 12 14 16 18")
+                          // "0 3  6  9 12 15 18 21 24 27")
+                          // "0 4  8 12 16 20 24 28 32 36")
+                          // "0 5 10 15 20 25 30 35 40 45")
+                          // "0 6 12 18 24 30 36 42 48 54")
+                          // "0 7 14 21 28 35 42 49 56 63")
+                          // "0 8 16 24 32 40 48 56 64 72")
+                          // "0 9 18 27 36 45 54 63 72 81"))
+    tot := tot + 1
+
+    score := score + chk("Ex 3 ", "∘.<⍨⍳10   (strictly upper triangular)",
+                         aplShow(apl⦇ ∘.<⍨⍳10 ⦈),
+                         ((((((((("0 1 1 1 1 1 1 1 1 1"
+                          // "0 0 1 1 1 1 1 1 1 1")
+                          // "0 0 0 1 1 1 1 1 1 1")
+                          // "0 0 0 0 1 1 1 1 1 1")
+                          // "0 0 0 0 0 1 1 1 1 1")
+                          // "0 0 0 0 0 0 1 1 1 1")
+                          // "0 0 0 0 0 0 0 1 1 1")
+                          // "0 0 0 0 0 0 0 0 1 1")
+                          // "0 0 0 0 0 0 0 0 0 1")
+                          // "0 0 0 0 0 0 0 0 0 0"))
+    tot := tot + 1
+
+    score := score + chk("Ex 4 ", "(⍳10) <⍤0 1 ⊢ ⍳10   (the same matrix through Rank)",
+                         aplShow(apl⦇ (⍳10) <⍤0 1 ⊢ ⍳10 ⦈),
+                         ((((((((("0 1 1 1 1 1 1 1 1 1"
+                          // "0 0 1 1 1 1 1 1 1 1")
+                          // "0 0 0 1 1 1 1 1 1 1")
+                          // "0 0 0 0 1 1 1 1 1 1")
+                          // "0 0 0 0 0 1 1 1 1 1")
+                          // "0 0 0 0 0 0 1 1 1 1")
+                          // "0 0 0 0 0 0 0 1 1 1")
+                          // "0 0 0 0 0 0 0 0 1 1")
+                          // "0 0 0 0 0 0 0 0 0 1")
+                          // "0 0 0 0 0 0 0 0 0 0"))
+    tot := tot + 1
+
+    note("Ex 5 ", "prod ← ∘.× ⋄ rank ← ×⍤0 1 ⋄ ]runtime -c …: a derived function as a VALUE (a tacit definition, rung 7) and a Dyalog user command")
+
+    (* Ex 6 -- adaptation 11: the inline binding on the right becomes a statement *)
+    score := score + chk("Ex 6 ", "(2=+⌿0=x∘.|x)/x←⍳20   (primes below 20; the binding written first)",
+                         aplShow(apl⦇ x ← ⍳20 ⋄ (2=+⌿0=x∘.|x)/x ⦈),
+                         "2 3 5 7 11 13 17 19")
+    tot := tot + 1
+
+    (* Ex 7 -- adaptation 10: ]DISPLAY dropped, the three values checked *)
+    score := score + chk("Ex 7a", "A ← 3 4⍴3 2 0 8 11 7 5 1 4 9 6 10",
+                         aplShow(apl⦇ A ← 3 4⍴3 2 0 8 11 7 5 1 4 9 6 10 ⋄ A ⦈),
+                         ((" 3 2 0  8" // "11 7 5  1") // " 4 9 6 10"))
+    score := score + chk("Ex 7b", "B ← 4 3⍴8 10 11 2 4 6 5 1 7 9 3 0",
+                         aplShow(apl⦇ B ← 4 3⍴8 10 11 2 4 6 5 1 7 9 3 0 ⋄ B ⦈),
+                         (((("8 10 11" // "2  4  6") // "5  1  7") // "9  3  0")))
+    score := score + chk("Ex 7c", "A +.× B",
+                         aplShow(apl⦇ A ← 3 4⍴3 2 0 8 11 7 5 1 4 9 6 10 ⋄
+                                      B ← 4 3⍴8 10 11 2 4 6 5 1 7 9 3 0 ⋄
+                                      A +.× B ⦈),
+                         (("100  62  45" // "136 146 198") // "170 112 140"))
+    tot := tot + 3
+
+    score := score + chk("Ex 8 ", "⎕ ← row0col0prod ← A[0;]×B[;0]   (⎕ ← dropped)",
+                         aplShow(apl⦇ A ← 3 4⍴3 2 0 8 11 7 5 1 4 9 6 10 ⋄
+                                      B ← 4 3⍴8 10 11 2 4 6 5 1 7 9 3 0 ⋄
+                                      row0col0prod ← A[0;]×B[;0] ⋄
+                                      row0col0prod ⦈), "24 4 0 72")
+    tot := tot + 1
+
+    score := score + chk("Ex 9 ", "+/row0col0prod",
+                         aplShow(apl⦇ A ← 3 4⍴3 2 0 8 11 7 5 1 4 9 6 10 ⋄
+                                      B ← 4 3⍴8 10 11 2 4 6 5 1 7 9 3 0 ⋄
+                                      row0col0prod ← A[0;]×B[;0] ⋄
+                                      +/row0col0prod ⦈), "100")
+    tot := tot + 1
+
+    score := score + chk("Ex 10", "+/A[0;]×B[;1]",
+                         aplShow(apl⦇ A ← 3 4⍴3 2 0 8 11 7 5 1 4 9 6 10 ⋄
+                                      B ← 4 3⍴8 10 11 2 4 6 5 1 7 9 3 0 ⋄
+                                      +/A[0;]×B[;1] ⦈), "62")
+    tot := tot + 1
+
+    note("Ex 11", "+/'GATTACA' = 'TATTCAG': two character vectors")
+    note("Ex 12", "'GATTACA' +.= 'TATTCAG': the same, as an inner product; the numeric +.= is checked as Z10 and Z11 below")
+
+    (* Ex 13, Ex 14 -- definitions; the book prints nothing, so `⋄ 0` is
+       appended (rung 4's adaptation 1) *)
+    score := score + chk("Ex 13", "data ← 19083 17341 19657 16896 16197 18256   (definition)",
+                         aplShow(apl⦇ data ← 19083 17341 19657 16896 16197 18256 ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    score := score + chk("Ex 14", "prob ← 1 1 1 0.75 0.5 0   (definition)",
+                         aplShow(apl⦇ prob ← 1 1 1 0.75 0.5 0 ⋄ 0 ⦈), "0")
+    tot := tot + 1
+
+    score := score + chk("Ex 15", "2×data+.×prob  ⍝ Same as 2× +/ data×prob",
+                         aplShow(apl⦇ data ← 19083 17341 19657 16896 16197 18256 ⋄
+                                      prob ← 1 1 1 0.75 0.5 0 ⋄
+                                      2×data+.×prob ⍝ Same as 2× +/ data×prob ⦈), "153703")
+    tot := tot + 1
+
+    note("Ex 16", "X ← {f←⍺⍺ ⋄ ⍺←⊢ ⋄ '(',⍺,(⎕CR'f'),⍵,')'}: a direct OPERATOR (⍺⍺), ⎕CR, and character vectors")
+
+    (* Ex 17 -- adaptation 12: the matrices the book printed, bound literally *)
+    score := score + chk("Ex 17a", "A ← 2 3⍴6?20   (the matrix the book printed)",
+                         aplShow(apl⦇ A ← 2 3⍴3 2 19 16 11 4 ⋄ A ⦈),
+                         (" 3  2 19" // "16 11  4"))
+    score := score + chk("Ex 17b", "B ← 3 2⍴6?20   (the matrix the book printed)",
+                         aplShow(apl⦇ B ← 3 2⍴18 17 9 7 3 1 ⋄ B ⦈),
+                         (("18 17" // " 9  7") // " 3  1"))
+    score := score + chk("Ex 17c", "A +.× B",
+                         aplShow(apl⦇ A ← 2 3⍴3 2 19 16 11 4 ⋄
+                                      B ← 3 2⍴18 17 9 7 3 1 ⋄
+                                      A +.× B ⦈),
+                         ("129  84" // "399 353"))
+    tot := tot + 3
+
+    note("Ex 18", "A +X.(×X) B: the eXplanation operator of Ex 16, spliced into both slots of an inner product")
+
+    println("")
+    println(("checks passed: " score " of " tot ", over 12 of the chapter's 18 examples"))
+    println("")
+    println("=== beyond the chapter: what the microGPT programs need from this rung ===")
+    println("")
+
+    bx: ZZ32 := 0
+
+    bx := bx + chk("Z1 ", "+.× in the other three rank pairs, against hand values",
+                 aplShow(apl⦇ A ← 3 4⍴3 2 0 8 11 7 5 1 4 9 6 10 ⋄
+                              ((1 2 3+.×1 2 3),(A+.×1 2 3 4)),1 2 3+.×A ⦈),
+                 "14 39 44 80 37 43 28 40")
+    bx := bx + chk("Z2 ", "⍴(Qh+.×⍤2⊢⍉⍤2⊢Kh)          (the program's attention score, shape)",
+                 aplShow(apl⦇ Qh ← 2 2 2⍴⍳8 ⋄ Kh ← 2 2 2⍴⍳8 ⋄ ⍴Qh+.×⍤2⊢⍉⍤2⊢Kh ⦈), "2 2 2")
+    bx := bx + chk("Z3 ", ",(Qh+.×⍤2⊢⍉⍤2⊢Kh)          (… and its values)",
+                 aplShow(apl⦇ Qh ← 2 2 2⍴⍳8 ⋄ Kh ← 2 2 2⍴⍳8 ⋄ ,Qh+.×⍤2⊢⍉⍤2⊢Kh ⦈),
+                 "1 3 3 13 41 59 59 85")
+    bx := bx + chk("Z4 ", "S←(Qh+.×⍤2⊢⍉⍤2⊢Kh)÷Hd*0.5   (the whole line, Hd ← 4)",
+                 aplShow(apl⦇ Qh ← 2 2 2⍴⍳8 ⋄ Kh ← 2 2 2⍴⍳8 ⋄ Hd ← 4 ⋄
+                              S ← (Qh+.×⍤2⊢⍉⍤2⊢Kh)÷Hd*0.5 ⋄
+                              ,S ⦈),
+                 "0.5 1.5 1.5 6.5 20.5 29.5 29.5 42.5")
+    bx := bx + chk("Z5 ", "ids∘.=⍳Vs                  (the one-hot matrix)",
+                 aplShow(apl⦇ ids ← 0 2 1 ⋄ Vs ← 3 ⋄ ids∘.=⍳Vs ⦈),
+                 (("1 0 0" // "0 0 1") // "0 1 0"))
+    bx := bx + chk("Z6 ", "(⍉ids∘.=⍳Vs)+.×dX          (the scatter-add)",
+                 aplShow(apl⦇ ids ← 0 2 1 ⋄ Vs ← 3 ⋄ dX ← 3 2⍴⍳6 ⋄
+                              (⍉ids∘.=⍳Vs)+.×dX ⦈),
+                 (("0 1" // "4 5") // "2 3"))
+    bx := bx + chk("Z7 ", "¯1000×~(⍳4)∘.≥⍳4          (the causal mask)",
+                 aplShow(apl⦇ ¯1000×~(⍳4)∘.≥⍳4 ⦈),
+                 ((("0 ¯1000 ¯1000 ¯1000" // "0     0 ¯1000 ¯1000")
+                   // "0     0     0 ¯1000") // "0     0     0     0"))
+    bx := bx + chk("Z8 ", "vm ×⍤0 1⊢Pr                (a scalar per row, through ⍤0 1)",
+                 aplShow(apl⦇ vm ← 10 100 ⋄ Pr ← 2 3⍴⍳6 ⋄ vm ×⍤0 1⊢Pr ⦈),
+                 ("  0  10  20" // "300 400 500"))
+    bx := bx + chk("Z9 ", "tg⌷⍤0 1⊢Pr                 (one element per row: ⌷ as a glyph value)",
+                 aplShow(apl⦇ tg ← 2 0 ⋄ Pr ← 2 3⍴⍳6 ⋄ tg⌷⍤0 1⊢Pr ⦈), "2 3")
+    bx := bx + chk("Z10", "1 2 3+.=1 9 3              (+.= on vectors)",
+                 aplShow(apl⦇ 1 2 3+.=1 9 3 ⦈), "2")
+    bx := bx + chk("Z11", "(2 2⍴1 2 3 4)+.=2 2⍴1 0 3 4  (+.= on matrices)",
+                 aplShow(apl⦇ (2 2⍴1 2 3 4)+.=2 2⍴1 0 3 4 ⦈), ("1 0" // "0 1"))
+    bx := bx + chk("Z12", "(A{⍺+⍵}.{⍺×⍵}B)≡A+.×B      (the general product equals the direct one)",
+                 aplShow(apl⦇ A ← 3 4⍴3 2 0 8 11 7 5 1 4 9 6 10 ⋄
+                              B ← 4 3⍴8 10 11 2 4 6 5 1 7 9 3 0 ⋄
+                              (A{⍺+⍵}.{⍺×⍵}B)≡A+.×B ⦈), "1")
+    bx := bx + chk("Z13", "1 2 3∘.{⍺+⍵}0 1 and ∘.{⍺+⍵}⍨1 2   (a dfn as the operand of ∘.)",
+                 aplShow(apl⦇ (,1 2 3∘.{⍺+⍵}0 1),,∘.{⍺+⍵}⍨1 2 ⦈), "1 2 2 3 3 4 2 3 3 4")
+    bx := bx + chk("Z14", "((⍳10)<⍤0 1⊢⍳10)≡∘.<⍨⍳10   (Ex 4 and Ex 3 are the same matrix)",
+                 aplShow(apl⦇ ((⍳10)<⍤0 1⊢⍳10)≡∘.<⍨⍳10 ⦈), "1")
+    bx := bx + chk("Z15", "2∘.×1 2 3 , 1 2 3∘.×2 , 2∘.×3   (the three lower-rank shapes)",
+                 aplShow(apl⦇ ((2∘.×1 2 3),(1 2 3∘.×2)),2∘.×3 ⦈), "2 4 6 2 4 6 6")
+    bx := bx + chk("Z16", "1 2 3∘.≠1 2 and 2 3∘.|4 5 6   (two more direct outer products)",
+                 aplShow(apl⦇ (,1 2 3∘.≠1 2),,2 3∘.|4 5 6 ⦈), "0 1 1 0 1 1 0 1 0 1 2 0")
+    lerr = try aplShow(apl⦇ A ← 3 4⍴⍳12 ⋄ A+.×A ⦈)
+           catch e CallerViolation => "CallerViolation" end
+    bx := bx + chk("Z17", "A+.×A  (3x4 by 3x4: APL's LENGTH ERROR)", lerr, "CallerViolation")
+
+    println("")
+    println(("beyond-chapter checks passed: " bx " of 17"))
+    println("")
+    println("=== what rung 6 does not carry over from APL ===")
+    println("")
+    note("prod ← ∘.×", "a derived function as a VALUE is a tacit definition; only `+.×` is a member of AplFnD, and only so that `+.×⍤2⊢` parses (rung 7)")
+    note("f.g with an array operand", "`⌷` and the eight direct outer glyphs are the only new members of the glyph tables; a NUMBER as an operand of ∘. or . has no rule")
+    note("∘.g on matrices", "the outer product is declared over rank 0 and rank 1 only, which is every shape the chapter and the two programs use")
+    note("f.g over rank 3", "only through ⍤2, which is how the program writes it (Z2-Z4); there is no rank-3 overload of aplMatMul itself")
+    note("⍤0 1 with a matrix left argument", "the left cells are scalars by construction, so the left argument is a scalar or a vector")
+    note("A +.× A", "a mismatched product is APL's LENGTH ERROR, a catchable contract violation; the shipped DOT's own shared nat catches it too, but as a ProgramError no catch clause takes (w01_dot.out.0)")
+end
+
+end

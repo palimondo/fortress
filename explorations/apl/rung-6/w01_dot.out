@@ -1,0 +1,11 @@
+(a) Vector DOT Vector, expected 32:
+  32
+(b) Vector.dot as a method, expected 32:
+  32
+(c) Matrix DOT Matrix, 2x3 by 3x2, expected 10 13 / 28 40:
+  10 13
+28 40
+(d) Matrix DOT Vector, 2x3 by 3, expected 8 26:
+  8 26
+(e) Vector DOT Matrix, 3 by 3x2, expected 16 22:
+  16 22

@@ -1,0 +1,21 @@
+(* v06: can an APL NAME be a word of two or more uppercase letters?  The
+   microGPT program writes `BLK` for the block count, and rung 5 needs it as
+   the right operand of ⍣.  AplSyntax's own header already warns that a
+   NONTERMINAL's name may not be such a word; this asks the same question of a
+   NAME, which is an ordinary Fortress variable.
+
+   v06_caps.out.0 is the answer: `BLK ← 4 ⋄ BLK` is a Syntax Error, because a
+   word of two or more uppercase letters is an OPERATOR in Fortress, not an Id,
+   so neither the binding's Id gap nor AplName's expansion can carry it.  The
+   mixed-case `Blk` in the same position runs. *)
+component v06_caps
+import AplCore.{...}
+import AplSyntax.{...}
+export Executable
+
+run(): () = do
+    println(("(a) Blk ← 4 ⋄ Blk            = " aplShow(apl⦇ Blk ← 4 ⋄ Blk ⦈)))
+    println(("(b) Blk ← 4 ⋄ {⍵×2}⍣Blk⊢1    = " aplShow(apl⦇ Blk ← 4 ⋄ {⍵×2}⍣Blk⊢1 ⦈)))
+    println(("(c) Q ← 2 ⋄ K ← 3 ⋄ Q+K      = " aplShow(apl⦇ Q ← 2 ⋄ K ← 3 ⋄ Q+K ⦈)))
+  end
+end

@@ -1,8 +1,3 @@
-Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
-Processing /tmp/fortress16615659011244821718rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
-Note: /tmp/fortress16615659011244821718rats/com/sun/fortress/parser/templateparser/TemplateParser253.java uses unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
-
 === examples of the chapter, against the book's printed output ===
 
 SKIP  Ex 1   out of scope: ⎕IO ← 0 is a ⎕ system name; realised instead as the library's index origin 0

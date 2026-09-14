@@ -1658,7 +1658,13 @@ aplRankD2[\nat a1, nat b1, nat c1, nat a2, nat b2, nat c2\](f: ()->Any,
 (* ------------------------------------------------------- ¨ Each ---------- *)
 (* A cell result that is not a scalar would be APL's nested array.  This base
    has none, so aplAsmV and aplAsmM refuse it by contract. *)
-aplIsScalar(x: Any): Boolean = typecase x of RR64 => true; else => false end
+(* A cell result is a scalar if it is an RR64 -- or a host BOOLEAN, because a
+   comparison of two SCALARS is the host's Boolean and not APL's 0/1 (row 41),
+   so `{⍺<⍵}` as the operand of ¨ or ∘. hands one back. *)
+aplIsScalar(x: Any): Boolean =
+    typecase x of RR64 => true; Boolean => true; else => false end
+aplScalarOf(x: Any): RR64 =
+    typecase x of Boolean => (if x then 1.0 else 0.0 end); else => aplScalOf(x) end
 aplAllScalar(rs: Array[\Any,ZZ32\]): Boolean = do
     ok: Boolean := true
     k: ZZ32 := 0
@@ -1669,10 +1675,10 @@ aplAllScalar(rs: Array[\Any,ZZ32\]): Boolean = do
     ok
   end
 aplAsmV(rs: Array[\Any,ZZ32\]): Array[\RR64,ZZ32\] requires { aplAllScalar(rs) } =
-    aplVec(|rs|, fn (i: ZZ32): RR64 => aplScalOf(rs[i]))
+    aplVec(|rs|, fn (i: ZZ32): RR64 => aplScalarOf(rs[i]))
 aplAsmM(rs: Array[\Any,ZZ32\], d0: ZZ32, d1: ZZ32): Array[\RR64,(ZZ32,ZZ32)\]
         requires { aplAllScalar(rs) } =
-    aplMat(d0, d1, fn (i: ZZ32, j: ZZ32): RR64 => aplScalOf(rs[(i d1) + j]))
+    aplMat(d0, d1, fn (i: ZZ32, j: ZZ32): RR64 => aplScalarOf(rs[(i d1) + j]))
 
 aplEach(f: Any, x: RR64): Object = aplCall1(f, x)
 aplEach[\nat s\](f: Any, v: Vector[\RR64,s\]): Object = do
@@ -1975,6 +1981,263 @@ aplPowerUntil(f: Any, g: Any, x: Any): Object = do
         end
     end
     cur
+  end
+
+
+(* ==================================================== rung 6: products ==
+   Two operators and one rank pair.
+
+   (1) OUTER PRODUCT ∘.g : every element of ⍺ against every element of ⍵, so the
+       result's shape is (⍴⍺),(⍴⍵).  The eight glyphs the chapter and the two
+       microGPT programs use get a direct, typed entry through one shared
+       aplOuterWith; every other operand goes through aplCall, and a cell result
+       that is not a scalar is APL's nested array and a contract violation, as
+       rung 5's each is.
+
+   (2) INNER PRODUCT f.g : `+.×` is matrix multiplication, and the SHIPPED
+       library already has it -- `opr DOT` over all four rank pairs
+       (FortressLibrary.fsi:1508, 1614-1631), and it works on runtime-built
+       arrays (../rung-6/w01_dot.out).  So aplMatMul is one line per rank pair
+       with a `requires` on the shared extent: DOT's own shared nat does catch a
+       mismatch, but as `Failed to find any matching overload`, a ProgramError
+       that no catch clause takes (w01_dot.out.0), and APL's LENGTH ERROR should
+       be catchable.  `+.=` is a second direct entry, and every other pair of
+       operands folds and multiplies through aplCall.
+
+   (3) ⍤0 1 : the left argument's cells are scalars and the right argument's is
+       the whole of it (a vector) or one row (a matrix).  Same
+       assemble-by-first-result as rung 4's ⍤. *)
+
+(* ------------------------------------------------- ∘.g outer product ----- *)
+aplOuterWith[\nat s, nat t\](f: (RR64,RR64)->RR64, l: Vector[\RR64,s\], r: Vector[\RR64,t\]):
+        Array[\RR64,(ZZ32,ZZ32)\] =
+    aplMat(|l|, |r|, fn (i: ZZ32, j: ZZ32): RR64 => f(l[i], r[j]))
+aplOuterWith[\nat t\](f: (RR64,RR64)->RR64, l: RR64, r: Vector[\RR64,t\]):
+        Array[\RR64,ZZ32\] = aplVec(|r|, fn (j: ZZ32): RR64 => f(l, r[j]))
+aplOuterWith[\nat s\](f: (RR64,RR64)->RR64, l: Vector[\RR64,s\], r: RR64):
+        Array[\RR64,ZZ32\] = aplVec(|l|, fn (i: ZZ32): RR64 => f(l[i], r))
+aplOuterWith(f: (RR64,RR64)->RR64, l: RR64, r: RR64): RR64 = f(l, r)
+
+aplOuterMul[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplOuterWith(aplMulS, l, r)
+aplOuterMul[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = aplOuterWith(aplMulS, l, r)
+aplOuterMul[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\] = aplOuterWith(aplMulS, l, r)
+aplOuterMul(l: RR64, r: RR64): RR64 = aplMulS(l, r)
+
+aplOuterEq[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplOuterWith(aplEqS, l, r)
+aplOuterEq[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = aplOuterWith(aplEqS, l, r)
+aplOuterEq[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\] = aplOuterWith(aplEqS, l, r)
+aplOuterEq(l: RR64, r: RR64): RR64 = aplEqS(l, r)
+
+aplOuterNe[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplOuterWith(aplNeS, l, r)
+aplOuterNe[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = aplOuterWith(aplNeS, l, r)
+aplOuterNe[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\] = aplOuterWith(aplNeS, l, r)
+aplOuterNe(l: RR64, r: RR64): RR64 = aplNeS(l, r)
+
+aplOuterLt[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplOuterWith(aplLtS, l, r)
+aplOuterLt[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = aplOuterWith(aplLtS, l, r)
+aplOuterLt[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\] = aplOuterWith(aplLtS, l, r)
+aplOuterLt(l: RR64, r: RR64): RR64 = aplLtS(l, r)
+
+aplOuterLe[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplOuterWith(aplLeS, l, r)
+aplOuterLe[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = aplOuterWith(aplLeS, l, r)
+aplOuterLe[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\] = aplOuterWith(aplLeS, l, r)
+aplOuterLe(l: RR64, r: RR64): RR64 = aplLeS(l, r)
+
+aplOuterGt[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplOuterWith(aplGtS, l, r)
+aplOuterGt[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = aplOuterWith(aplGtS, l, r)
+aplOuterGt[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\] = aplOuterWith(aplGtS, l, r)
+aplOuterGt(l: RR64, r: RR64): RR64 = aplGtS(l, r)
+
+aplOuterGe[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplOuterWith(aplGeS, l, r)
+aplOuterGe[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = aplOuterWith(aplGeS, l, r)
+aplOuterGe[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\] = aplOuterWith(aplGeS, l, r)
+aplOuterGe(l: RR64, r: RR64): RR64 = aplGeS(l, r)
+
+aplOuterRes[\nat s, nat t\](l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    aplOuterWith(aplResS, l, r)
+aplOuterRes[\nat t\](l: RR64, r: Vector[\RR64,t\]): Array[\RR64,ZZ32\] = aplOuterWith(aplResS, l, r)
+aplOuterRes[\nat s\](l: Vector[\RR64,s\], r: RR64): Array[\RR64,ZZ32\] = aplOuterWith(aplResS, l, r)
+aplOuterRes(l: RR64, r: RR64): RR64 = aplResS(l, r)
+
+(* the general ∘.g , through aplCall; a cell result that is not a scalar is
+   APL's nested array, which aplAsmV / aplAsmM refuse by contract *)
+aplOuter(f: Any, l: RR64, r: RR64): Object = aplCall(f, l, r)
+aplOuter[\nat t\](f: Any, l: RR64, r: Vector[\RR64,t\]): Object = do
+    rs = array[\Any\](|r|)
+    j: ZZ32 := 0
+    while j < |r| do rs[j] := aplCall(f, l, r[j]); j := j + 1 end
+    aplAsmV(rs)
+  end
+aplOuter[\nat s\](f: Any, l: Vector[\RR64,s\], r: RR64): Object = do
+    rs = array[\Any\](|l|)
+    i: ZZ32 := 0
+    while i < |l| do rs[i] := aplCall(f, l[i], r); i := i + 1 end
+    aplAsmV(rs)
+  end
+aplOuter[\nat s, nat t\](f: Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Object = do
+    rs = array[\Any\](|l| |r|)
+    i: ZZ32 := 0
+    while i < |l| do
+        j: ZZ32 := 0
+        while j < |r| do rs[(i |r|) + j] := aplCall(f, l[i], r[j]); j := j + 1 end
+        i := i + 1
+    end
+    aplAsmM(rs, |l|, |r|)
+  end
+
+(* ------------------------------------------------ +.× inner product ------ *)
+(* The shipped DOT does all four rank pairs on runtime-built arrays (w01), so
+   these are one line each; the `requires` is APL's LENGTH ERROR, which DOT's
+   own dispatch failure is not (w01_dot.out.0). *)
+aplMatMul[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): RR64
+        requires { |a| = |b| } = a DOT b
+aplMatMul[\nat r, nat c, nat t\](m: Matrix[\RR64,r,c\], v: Vector[\RR64,t\]):
+        Array[\RR64,ZZ32\] requires { aplColsOf(m) = |v| } = do
+    w = m DOT v
+    aplVec(aplRowsOf(m), fn (i: ZZ32): RR64 => w[i])
+  end
+aplMatMul[\nat s, nat r, nat c\](v: Vector[\RR64,s\], m: Matrix[\RR64,r,c\]):
+        Array[\RR64,ZZ32\] requires { |v| = aplRowsOf(m) } = do
+    w = v DOT m
+    aplVec(aplColsOf(m), fn (j: ZZ32): RR64 => w[j])
+  end
+aplMatMul[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\] requires { aplColsOf(a) = aplRowsOf(b) } = do
+    m = a DOT b
+    aplMat(aplRowsOf(a), aplColsOf(b), fn (i: ZZ32, j: ZZ32): RR64 => m[i,j])
+  end
+
+(* the textbook triple loop, kept only so that w04 can price the shipped DOT
+   against writing the product by hand *)
+aplLoopMul[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): RR64
+        requires { |a| = |b| } = SUM[ k <- seq(0 # |a|) ] a[k] b[k]
+aplLoopMul[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\] requires { aplColsOf(a) = aplRowsOf(b) } = do
+    k = aplColsOf(a)
+    aplMat(aplRowsOf(a), aplColsOf(b),
+           fn (i: ZZ32, j: ZZ32): RR64 => SUM[ t <- seq(0 # k) ] a[i,t] b[t,j])
+  end
+
+(* +.= : a count of equal positions along the shared axis *)
+aplInnerPlusEq[\nat s, nat t\](a: Vector[\RR64,s\], b: Vector[\RR64,t\]): RR64
+        requires { |a| = |b| } = SUM[ k <- seq(0 # |a|) ] aplEqS(a[k], b[k])
+aplInnerPlusEq[\nat r, nat c, nat t\](m: Matrix[\RR64,r,c\], v: Vector[\RR64,t\]):
+        Array[\RR64,ZZ32\] requires { aplColsOf(m) = |v| } = do
+    cols = aplColsOf(m)
+    aplVec(aplRowsOf(m),
+           fn (i: ZZ32): RR64 => SUM[ k <- seq(0 # cols) ] aplEqS(m[i,k], v[k]))
+  end
+aplInnerPlusEq[\nat r, nat c, nat p, nat q\](a: Matrix[\RR64,r,c\], b: Matrix[\RR64,p,q\]):
+        Array[\RR64,(ZZ32,ZZ32)\] requires { aplColsOf(a) = aplRowsOf(b) } = do
+    k = aplColsOf(a)
+    aplMat(aplRowsOf(a), aplColsOf(b),
+           fn (i: ZZ32, j: ZZ32): RR64 => SUM[ t <- seq(0 # k) ] aplEqS(a[i,t], b[t,j]))
+  end
+
+(* the general l f.g r : the g-products along the shared axis, then f folded
+   right to left, both through aplCall *)
+aplInnerCell(f: Any, g: Any, xs: Array[\Any,ZZ32\]): Any = do
+    acc: Any := xs[|xs| - 1]
+    t: ZZ32 := |xs| - 2
+    while t >= 0 do acc := aplCall(f, xs[t], acc); t := t - 1 end
+    acc
+  end
+aplInner[\nat s, nat t\](f: Any, g: Any, a: Vector[\RR64,s\], b: Vector[\RR64,t\]): Object
+        requires { |a| = |b| } = do
+    xs = array[\Any\](|a|)
+    k: ZZ32 := 0
+    while k < |a| do xs[k] := aplCall(g, a[k], b[k]); k := k + 1 end
+    aplInnerCell(f, g, xs)
+  end
+aplInner[\nat r, nat c, nat t\](f: Any, g: Any, m: Matrix[\RR64,r,c\], v: Vector[\RR64,t\]):
+        Object requires { aplColsOf(m) = |v| } = do
+    rows = aplRowsOf(m)
+    cols = aplColsOf(m)
+    rs = array[\Any\](rows)
+    i: ZZ32 := 0
+    while i < rows do
+        xs = array[\Any\](cols)
+        k: ZZ32 := 0
+        while k < cols do xs[k] := aplCall(g, m[i,k], v[k]); k := k + 1 end
+        rs[i] := aplInnerCell(f, g, xs)
+        i := i + 1
+    end
+    aplAsmV(rs)
+  end
+aplInner[\nat s, nat r, nat c\](f: Any, g: Any, v: Vector[\RR64,s\], m: Matrix[\RR64,r,c\]):
+        Object requires { |v| = aplRowsOf(m) } = do
+    rows = aplRowsOf(m)
+    cols = aplColsOf(m)
+    rs = array[\Any\](cols)
+    j: ZZ32 := 0
+    while j < cols do
+        xs = array[\Any\](rows)
+        k: ZZ32 := 0
+        while k < rows do xs[k] := aplCall(g, v[k], m[k,j]); k := k + 1 end
+        rs[j] := aplInnerCell(f, g, xs)
+        j := j + 1
+    end
+    aplAsmV(rs)
+  end
+aplInner[\nat r, nat c, nat p, nat q\](f: Any, g: Any, a: Matrix[\RR64,r,c\],
+        b: Matrix[\RR64,p,q\]): Object requires { aplColsOf(a) = aplRowsOf(b) } = do
+    n = aplRowsOf(a)
+    k = aplColsOf(a)
+    p2 = aplColsOf(b)
+    rs = array[\Any\](n p2)
+    i: ZZ32 := 0
+    while i < n do
+        j: ZZ32 := 0
+        while j < p2 do
+            xs = array[\Any\](k)
+            t: ZZ32 := 0
+            while t < k do xs[t] := aplCall(g, a[i,t], b[t,j]); t := t + 1 end
+            rs[(i p2) + j] := aplInnerCell(f, g, xs)
+            j := j + 1
+        end
+        i := i + 1
+    end
+    aplAsmM(rs, n, p2)
+  end
+
+(* ------------------------------------------------------- ⍤0 1 ------------ *)
+(* The left argument's cells are SCALARS and the right argument's cell is the
+   whole of a vector or one row of a matrix.  Assembled by the first cell's
+   result, as rung 4's ⍤ is. *)
+aplRankD01[\nat s\](f: ()->Any, l: RR64, r: Vector[\RR64,s\]): Object = aplCall(f, l, r)
+aplRankD01[\nat s, nat t\](f: ()->Any, l: Vector[\RR64,s\], r: Vector[\RR64,t\]): Object = do
+    rs = array[\Any\](|l|)
+    i: ZZ32 := 0
+    while i < |l| do rs[i] := aplCall(f, l[i], r); i := i + 1 end
+    aplAsm1(rs)
+  end
+aplRankD01[\nat s, nat r2, nat c2\](f: ()->Any, l: Vector[\RR64,s\], m: Matrix[\RR64,r2,c2\]):
+        Object requires { |l| = aplRowsOf(m) } = do
+    rows = aplRowsOf(m)
+    rs = array[\Any\](rows)
+    i: ZZ32 := 0
+    while i < rows do
+        rs[i] := aplCall(f, l[i], AplRow[\r2,c2\](m, i))
+        i := i + 1
+    end
+    aplAsm1(rs)
+  end
+aplRankD01[\nat r2, nat c2\](f: ()->Any, l: RR64, m: Matrix[\RR64,r2,c2\]): Object = do
+    rows = aplRowsOf(m)
+    rs = array[\Any\](rows)
+    i: ZZ32 := 0
+    while i < rows do
+        rs[i] := aplCall(f, l, AplRow[\r2,c2\](m, i))
+        i := i + 1
+    end
+    aplAsm1(rs)
   end
 
 end

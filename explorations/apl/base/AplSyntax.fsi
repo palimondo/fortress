@@ -111,6 +111,26 @@ grammar AplG extends { Expression, Literal, Identifier }
       | c:AplE SPACE `: SPACE e:AplE
         r:AplStm
             => <[ if aplTruthy((c)) then (e) else (r) end ]>
+      (* ---- rung 5: DESTRUCTURING.  APL's `a b c ← e` takes a strand of
+              arrays apart; a strand of arrays is a Fortress TUPLE here, so the
+              binding is a lambda of two or three parameters applied to one
+              tuple-valued expression (rung-5/v03_destr.out).  These stand above
+              the single-name binding, longest first; `_` is still not an Id
+              (row 69), so a throw-away element has to be named. ---- *)
+      | a:Id SPACE b:Id SPACE c:Id SPACE ← SPACE e:AplE SPACE ⍝ m:AplLn SPACE r:AplStm
+            => <[ (fn (a, b, c) => (r))((e)) ]>
+      | a:Id SPACE b:Id SPACE c:Id SPACE ← SPACE e:AplE SPACE ⋄ SPACE r:AplStm
+            => <[ (fn (a, b, c) => (r))((e)) ]>
+      | a:Id SPACE b:Id SPACE c:Id SPACE ← SPACE e:AplE
+        r:AplStm
+            => <[ (fn (a, b, c) => (r))((e)) ]>
+      | a:Id SPACE b:Id SPACE ← SPACE e:AplE SPACE ⍝ m:AplLn SPACE r:AplStm
+            => <[ (fn (a, b) => (r))((e)) ]>
+      | a:Id SPACE b:Id SPACE ← SPACE e:AplE SPACE ⋄ SPACE r:AplStm
+            => <[ (fn (a, b) => (r))((e)) ]>
+      | a:Id SPACE b:Id SPACE ← SPACE e:AplE
+        r:AplStm
+            => <[ (fn (a, b) => (r))((e)) ]>
       | n:Id SPACE ← SPACE e:AplE SPACE ⍝ c:AplLn SPACE r:AplStm
             => <[ (fn n => (r))((e)) ]>
       | n:Id SPACE ← SPACE e:AplE SPACE ⋄ SPACE r:AplStm
@@ -195,6 +215,17 @@ grammar AplG extends { Expression, Literal, Identifier }
               microGPT program writes.  These stand above ⍨ and above the calls
               so that the glyph is read as an OPERAND before it is read as an
               operator. ---- *)
+      (* ---- rung 6: ⍤ with TWO ranks.  `0 1` pairs every scalar of ⍺ with the
+              whole of ⍵ (a vector) or with one row of it (a matrix), and the
+              outer product is a special case of it.  Both numerals are
+              terminals, as the one-numeral ranks are, and these rules stand
+              above them: `⍤ 0` matches neither `⍤ 1` nor `⍤ 2`, so the order is
+              for reading and not for correctness. ---- *)
+      | l:AplAtom SPACE f:AplFnD ⍤ 0 SPACE 1 SPACE ⊢ SPACE r:AplE
+            => <[ aplRankD01((f), (l), (r)) ]>
+      | l:AplAtom SPACE ( SPACE f:AplFnD ⍤ 0 SPACE 1 SPACE ) SPACE r:AplE
+            => <[ aplRankD01((f), (l), (r)) ]>
+
       | l:AplAtom SPACE ( SPACE f:AplFnD ⍤ 1 SPACE ) SPACE r:AplE
             => <[ aplRankD1((f), (l), (r)) ]>
       | l:AplAtom SPACE ( SPACE f:AplFnD ⍤ 2 SPACE ) SPACE r:AplE
@@ -207,6 +238,75 @@ grammar AplG extends { Expression, Literal, Identifier }
       | ( SPACE f:AplFnM ⍤ 2 SPACE ) SPACE r:AplE => <[ aplRank2((f), (r)) ]>
       | f:AplFnM ⍤ 1 SPACE ⊢ SPACE r:AplE         => <[ aplRank1((f), (r)) ]>
       | f:AplFnM ⍤ 2 SPACE ⊢ SPACE r:AplE         => <[ aplRank2((f), (r)) ]>
+
+      (* ---- rung 5: ⍣ Power.  The count is read off the SOURCE, as ⍤'s rank
+              is, but it may be a NAME as well as a numeral (the program writes
+              `step⍣BLK⊢…`), so the gap is an atom.  With a FUNCTION right
+              operand ⍣ is a while-loop: f is applied until the condition is
+              true of the new value as ⍺ and the old one as ⍵.  The count rules
+              stand first: an atom is not a glyph, so the two cannot collide.
+              The last form is the book's own `2÷⍨⍣=10`, which has no ⊢. ---- *)
+      | f:AplFnM ⍣ SPACE n:AplAtom SPACE ⊢ SPACE r:AplE
+            => <[ aplPower((f), (n), (r)) ]>
+      | ( SPACE f:AplFnM ⍣ SPACE n:AplAtom SPACE ) SPACE r:AplE
+            => <[ aplPower((f), (n), (r)) ]>
+      | f:AplFnM ⍣ SPACE g:AplFnD SPACE ⊢ SPACE r:AplE
+            => <[ aplPowerUntil((f), (g), (r)) ]>
+      | f:AplFnM ⍣ SPACE g:AplFnD SPACE r:AplE
+            => <[ aplPowerUntil((f), (g), (r)) ]>
+
+      (* ---- rung 5: ¨ Each.  The first two alternatives read a NAME STRAND --
+              two or three names, which is a Fortress tuple -- and hand the
+              elements over one by one, so no overload has to tell a tuple from
+              an array.  They stand above the general rules, which would
+              otherwise take the strand through AplTuple and hand aplEach a
+              tuple.  The dyadic rule stands above the monadic one and both
+              above the calls. ---- *)
+      | f:AplFnM ¨ SPACE a:AplTName SPACE b:AplTName SPACE c:AplTName
+            => <[ aplEachT3((f), (a), (b), (c)) ]>
+      | f:AplFnM ¨ SPACE a:AplTName SPACE b:AplTName
+            => <[ aplEachT2((f), (a), (b)) ]>
+      | l:AplAtom SPACE f:AplFnD ¨ SPACE r:AplE => <[ aplEach((f), (l), (r)) ]>
+      | f:AplFnM ¨ SPACE r:AplE                 => <[ aplEach((f), (r)) ]>
+
+      (* ---- rung 6: OUTER PRODUCT ∘.g .  The dot is a plain item: `.` is not
+              one of the macro language's SpecialChars and the backtick escape
+              is a Syntax Error for it (rung-5/v02_term.out.1).  Eight glyphs
+              get a direct rule that reaches a typed library entry with no frame
+              push; every other operand goes through aplCall.  The commuted
+              forms come first because `∘.×⍨⍳10` has no left atom at all.  All
+              of them stand ABOVE rung 4's `a∘g` bind rule, which would
+              otherwise take the `∘`; in fact it cannot, because AplDy has no
+              `.`, but the order is the design's and costs nothing. ---- *)
+      | ∘ . × ⍨ SPACE r:AplE  => <[ aplOuterMul((r), (r)) ]>
+      | ∘ . = ⍨ SPACE r:AplE  => <[ aplOuterEq((r), (r)) ]>
+      | ∘ . ≠ ⍨ SPACE r:AplE  => <[ aplOuterNe((r), (r)) ]>
+      | ∘ . < ⍨ SPACE r:AplE  => <[ aplOuterLt((r), (r)) ]>
+      | ∘ . ≤ ⍨ SPACE r:AplE  => <[ aplOuterLe((r), (r)) ]>
+      | ∘ . > ⍨ SPACE r:AplE  => <[ aplOuterGt((r), (r)) ]>
+      | ∘ . ≥ ⍨ SPACE r:AplE  => <[ aplOuterGe((r), (r)) ]>
+      | ∘ . `| ⍨ SPACE r:AplE => <[ aplOuterRes((r), (r)) ]>
+      | ∘ . g:AplFnD ⍨ SPACE r:AplE => <[ aplOuter((g), (r), (r)) ]>
+      | l:AplAtom SPACE ∘ . × SPACE r:AplE  => <[ aplOuterMul((l), (r)) ]>
+      | l:AplAtom SPACE ∘ . = SPACE r:AplE  => <[ aplOuterEq((l), (r)) ]>
+      | l:AplAtom SPACE ∘ . ≠ SPACE r:AplE  => <[ aplOuterNe((l), (r)) ]>
+      | l:AplAtom SPACE ∘ . < SPACE r:AplE  => <[ aplOuterLt((l), (r)) ]>
+      | l:AplAtom SPACE ∘ . ≤ SPACE r:AplE  => <[ aplOuterLe((l), (r)) ]>
+      | l:AplAtom SPACE ∘ . > SPACE r:AplE  => <[ aplOuterGt((l), (r)) ]>
+      | l:AplAtom SPACE ∘ . ≥ SPACE r:AplE  => <[ aplOuterGe((l), (r)) ]>
+      | l:AplAtom SPACE ∘ . `| SPACE r:AplE => <[ aplOuterRes((l), (r)) ]>
+      | l:AplAtom SPACE ∘ . g:AplFnD SPACE r:AplE => <[ aplOuter((g), (l), (r)) ]>
+
+      (* ---- rung 6: INNER PRODUCT f.g .  `+.×` is matrix multiplication and
+              gets a direct rule; so does `+.=`.  The general rule reads two
+              AplFnD operands, and it must stand BELOW the `+.×` rule: AplFnD's
+              own first alternative is `+.×`, so at the `+` of `A +.× B` it
+              succeeds, is memoized, and the general rule then looks for a `.`
+              that is not there (row 60). ---- *)
+      | l:AplAtom SPACE `+ . × SPACE r:AplE => <[ aplMatMul((l), (r)) ]>
+      | l:AplAtom SPACE `+ . = SPACE r:AplE => <[ aplInnerPlusEq((l), (r)) ]>
+      | l:AplAtom SPACE f:AplFnD . g:AplFnD SPACE r:AplE
+            => <[ aplInner((f), (g), (l), (r)) ]>
 
       (* ---- rung 4: ∘ with a bound left argument.  `relu ← 0∘⌈` is a FUNCTION
               value, so the rule expands to a closure over the frame stack and
@@ -299,6 +399,32 @@ grammar AplG extends { Expression, Literal, Identifier }
       | ⌊ ⌿ SPACE r:AplE  => <[ aplMinFirst((r)) ]>
       | ⌈ ⌿ SPACE r:AplE  => <[ aplMaxFirst((r)) ]>
       | × ⌿ SPACE r:AplE  => <[ aplProdFirst((r)) ]>
+      | - ⌿ SPACE r:AplE  => <[ aplDifFirst((r)) ]>
+
+      (* ---- rung 5: SCANS.  `\` is the last axis and `⍀` the first; element k
+              of a scan is the REDUCTION of the first k+1 items, so -\1 2 3 is
+              1 ¯1 2.  Neither `\` nor `⍀` takes the backtick escape -- neither
+              is one of the macro language's SpecialChars, and the escape is a
+              Syntax Error for `\` (rung-5/v02_term.out.0). ---- *)
+      | `+ \ SPACE r:AplE => <[ aplSumScanLast((r)) ]>
+      | × \ SPACE r:AplE  => <[ aplProdScanLast((r)) ]>
+      | ⌈ \ SPACE r:AplE  => <[ aplMaxScanLast((r)) ]>
+      | ⌊ \ SPACE r:AplE  => <[ aplMinScanLast((r)) ]>
+      | - \ SPACE r:AplE  => <[ aplDifScanLast((r)) ]>
+      | `+ ⍀ SPACE r:AplE => <[ aplSumScanFirst((r)) ]>
+      | × ⍀ SPACE r:AplE  => <[ aplProdScanFirst((r)) ]>
+      | ⌈ ⍀ SPACE r:AplE  => <[ aplMaxScanFirst((r)) ]>
+      | ⌊ ⍀ SPACE r:AplE  => <[ aplMinScanFirst((r)) ]>
+      | - ⍀ SPACE r:AplE  => <[ aplDifScanFirst((r)) ]>
+
+      (* ---- rung 5: the GENERAL f/ f⌿ f\ f⍀ , below every direct rule above,
+              so that `+/` keeps the shipped SUM and only a dfn or a glyph the
+              direct rules do not name reaches aplCall.  A glyph is not an
+              atom, so these cannot mask compress below them either. ---- *)
+      | f:AplFnD / SPACE r:AplE  => <[ aplFoldLast((f), (r)) ]>
+      | f:AplFnD ⌿ SPACE r:AplE  => <[ aplFoldFirst((f), (r)) ]>
+      | f:AplFnD \ SPACE r:AplE => <[ aplScanLast((f), (r)) ]>
+      | f:AplFnD ⍀ SPACE r:AplE  => <[ aplScanFirst((f), (r)) ]>
 
       (* ---- Compress and Replicate.  A glyph is not an atom, so these cannot
               mask the reductions above them. ---- *)
@@ -380,6 +506,8 @@ grammar AplG extends { Expression, Literal, Identifier }
       | `| => <[ fn (): Any => aplResidue(aplAlpha(), aplOmega()) ]>
       | ⍴ => <[ fn (): Any => aplReshapeV(aplAlpha(), aplOmega()) ]>
       | ⊃ => <[ fn (): Any => aplPickAt(aplAlpha(), aplOmega()) ]>
+      (* rung 6: ⌷ as a glyph VALUE, for `tg⌷⍤0 1⊢Pr` *)
+      | ⌷ => <[ fn (): Any => aplSquad1(aplAlpha(), aplOmega()) ]>
 
     (* ---- rung 4: the same table for the MONADIC glyphs, which an operator
             needs as soon as `⌽⍤1⊢m` or `,⍤2⊢t` is written ---- *)
@@ -426,12 +554,21 @@ grammar AplG extends { Expression, Literal, Identifier }
       | n:AplFnName => <[ (n) ]>
 
     AplFnD :Expr:=
-        d:AplDfn    => <[ (d) ]>
+      (* rung 6: `+.×` as a function VALUE, so that `Qh+.×⍤2⊢⍉⍤2⊢Kh` reaches
+         rung 4's aplRankD2 with matrix cells.  It must stand FIRST: below
+         AplDy the `+` alone would match and the `.×` would be left over. *)
+        `+ . × => <[ fn (): Any => aplMatMul(aplAlpha(), aplOmega()) ]>
+      | d:AplDfn    => <[ (d) ]>
       | n:AplFnName => <[ (n) ]>
       | g:AplDy     => <[ (g) ]>
 
     AplFnM :Expr:=
-        d:AplDfn    => <[ (d) ]>
+      (* rung 5: a commuted glyph is a MONADIC function value.  `×⍨` is ⍵×⍵
+         and `2÷⍨` is ⍵÷2 -- the second binds the RIGHT argument, which is the
+         only way the book's `2÷⍨⍣=10` parses.  The atom form stands first. *)
+        a:AplAtom SPACE g:AplDy ⍨ => <[ aplBindRight((g), (a)) ]>
+      | g:AplDy ⍨   => <[ aplCommute((g)) ]>
+      | d:AplDfn    => <[ (d) ]>
       | n:AplFnName => <[ (n) ]>
       | g:AplMo     => <[ (g) ]>
 
@@ -442,6 +579,11 @@ grammar AplG extends { Expression, Literal, Identifier }
     AplFnName :Expr:=
         [M]# [y]# [F]# [i]# [r]# [s]# [t]# [F]# [u]# [n]# [c]# [t]# [i]# [o]# [n]# NOT [A:Za:z0:9] => <[ (MyFirstFunction) ]>
       | [P]# [a]# [l]# [i]# [n]# [i]# [s]# [h]# NOT [A:Za:z0:9] => <[ (Palinish) ]>
+      | [S]# [s]# [c]# [a]# [n]# NOT [A:Za:z0:9]                => <[ (Sscan) ]>
+      | [s]# [t]# [e]# [p]# NOT [A:Za:z0:9]                     => <[ (step) ]>
+      | [F]# [i]# [b]# NOT [A:Za:z0:9]                          => <[ (Fib) ]>
+      | [h]# NOT [A:Za:z0:9]                                    => <[ (h) ]>
+      | [u]# NOT [A:Za:z0:9]                                    => <[ (u) ]>
       | [r]# [m]# [s]# [n]# [o]# [r]# [m]# NOT [A:Za:z0:9]      => <[ (rmsnorm) ]>
       | [s]# [o]# [f]# [t]# [m]# [a]# [x]# NOT [A:Za:z0:9]      => <[ (softmax) ]>
       | [r]# [e]# [l]# [u]# NOT [A:Za:z0:9]                     => <[ (relu) ]>
@@ -486,8 +628,41 @@ grammar AplG extends { Expression, Literal, Identifier }
       | ⍬                        => <[ aplZilde() ]>
       | ⍎ ( SPACE e:Expr SPACE ) => <[ (e) ]>
       | ( SPACE e:AplE SPACE )   => <[ (e) ]>
+      (* rung 5: a NAME STRAND is a Fortress tuple.  It stands above the
+         single name, longest first, and cannot collide with a call, because
+         AplName and AplFnName are disjoint sets. *)
+      | t:AplTuple               => <[ (t) ]>
       | c:AplName                => <[ (c) ]>
       | s:AplStrand              => <[ (s) ]>
+
+    (* rung 5: two or three NAMES side by side are APL's strand of arrays, and
+       a Fortress tuple is exactly that.  A numeral strand stays a vector; only
+       names build a tuple.
+
+       The names come from a THIRD closed set, AplTName, and not from AplName.
+       Over AplName the rule is unusable: SPACE is optional whitespace and
+       crosses a line break (row 68), so two ordinary names on consecutive
+       lines -- `abv ← …` then `bin ← …` then `bin`, which is rung 3's Ex 34 --
+       merge into one strand and the block loses its last statement
+       (rung-5/v07_tuple.out.0, v07_tuple.out.1).  AplTName is disjoint from
+       every name rungs 1-4 use, and the same trap still applies INSIDE it: two
+       strand names on consecutive lines are one strand. *)
+    AplTuple :Expr:=
+        a:AplTName SPACE b:AplTName SPACE c:AplTName => <[ ((a), (b), (c)) ]>
+      | a:AplTName SPACE b:AplTName                  => <[ ((a), (b)) ]>
+
+    (* the names a STRAND may be built from; each is also an ordinary AplName
+       below, so `Q+K` still reads as two names and an addition *)
+    AplTName :Expr:=
+        [d]# [Q]# [h]# NOT [A:Za:z0:9] => <[ (dQh) ]>
+      | [d]# [K]# [h]# NOT [A:Za:z0:9] => <[ (dKh) ]>
+      | [d]# [V]# [h]# NOT [A:Za:z0:9] => <[ (dVh) ]>
+      | [w]# [q]# NOT [A:Za:z0:9]      => <[ (wq) ]>
+      | [w]# [k]# NOT [A:Za:z0:9]      => <[ (wk) ]>
+      | [w]# [v]# NOT [A:Za:z0:9]      => <[ (wv) ]>
+      | [V]# [v]# NOT [A:Za:z0:9]      => <[ (Vv) ]>
+      | [Q]# NOT [A:Za:z0:9]           => <[ (Q) ]>
+      | [K]# NOT [A:Za:z0:9]           => <[ (K) ]>
 
     (* THE CLOSED NAME SET (apl/gaps.md rows 24, 25).  A reference cannot be a
        gap -- a TemplateGapId inside a VarRef is never substituted -- so each name
@@ -498,7 +673,37 @@ grammar AplG extends { Expression, Literal, Identifier }
        identifier becomes a keyword of the whole language and then Id excludes it.
        The NOT predicate ends the name, and the longer names come first. *)
     AplName :Expr:=
-        [a]# [n]# [s]# [w]# [e]# [r]# NOT [A:Za:z0:9] => <[ (answer) ]>
+      (* rung 6's names.  HD, NE, VS and the rest of the program's all-capital
+         names cannot be APL names at all (row 78), so they are Hd, Ne, Vs. *)
+        [r]# [o]# [w]# [0]# [c]# [o]# [l]# [0]# [p]# [r]# [o]# [d]# NOT [A:Za:z0:9]
+            => <[ (row0col0prod) ]>
+      | [p]# [r]# [o]# [b]# NOT [A:Za:z0:9]           => <[ (prob) ]>
+      | [i]# [d]# [s]# NOT [A:Za:z0:9]                => <[ (ids) ]>
+      | [Q]# [h]# NOT [A:Za:z0:9]                     => <[ (Qh) ]>
+      | [K]# [h]# NOT [A:Za:z0:9]                     => <[ (Kh) ]>
+      | [H]# [d]# NOT [A:Za:z0:9]                     => <[ (Hd) ]>
+      | [V]# [s]# NOT [A:Za:z0:9]                     => <[ (Vs) ]>
+      | [P]# [r]# NOT [A:Za:z0:9]                     => <[ (Pr) ]>
+      | [v]# [m]# NOT [A:Za:z0:9]                     => <[ (vm) ]>
+      | [t]# [g]# NOT [A:Za:z0:9]                     => <[ (tg) ]>
+      | [d]# [X]# NOT [A:Za:z0:9]                     => <[ (dX) ]>
+      | [A]# NOT [A:Za:z0:9]                          => <[ (A) ]>
+      | [B]# NOT [A:Za:z0:9]                          => <[ (B) ]>
+      | [S]# NOT [A:Za:z0:9]                          => <[ (S) ]>
+      (* rung 5's names *)
+      | [m]# [y]# [s]# [u]# [m]# NOT [A:Za:z0:9]      => <[ (mysum) ]>
+      | [m]# [y]# [s]# [c]# [a]# [n]# NOT [A:Za:z0:9] => <[ (myscan) ]>
+      | [d]# [Q]# [h]# NOT [A:Za:z0:9]                => <[ (dQh) ]>
+      | [d]# [K]# [h]# NOT [A:Za:z0:9]                => <[ (dKh) ]>
+      | [d]# [V]# [h]# NOT [A:Za:z0:9]                => <[ (dVh) ]>
+      | [B]# [l]# [k]# NOT [A:Za:z0:9]                => <[ (Blk) ]>
+      | [w]# [q]# NOT [A:Za:z0:9]                     => <[ (wq) ]>
+      | [w]# [k]# NOT [A:Za:z0:9]                     => <[ (wk) ]>
+      | [w]# [v]# NOT [A:Za:z0:9]                     => <[ (wv) ]>
+      | [V]# [v]# NOT [A:Za:z0:9]                     => <[ (Vv) ]>
+      | [Q]# NOT [A:Za:z0:9]                          => <[ (Q) ]>
+      | [K]# NOT [A:Za:z0:9]                          => <[ (K) ]>
+      | [a]# [n]# [s]# [w]# [e]# [r]# NOT [A:Za:z0:9] => <[ (answer) ]>
       | [t]# [o]# [t]# [a]# [l]# NOT [A:Za:z0:9]      => <[ (total) ]>
       | [r]# [e]# [v]# NOT [A:Za:z0:9]                => <[ (rev) ]>
       | [n]# [h]# NOT [A:Za:z0:9]                     => <[ (nh) ]>
@@ -527,6 +732,8 @@ grammar AplG extends { Expression, Literal, Identifier }
       | [q]# NOT [A:Za:z0:9]                          => <[ (q) ]>
       | [a]# NOT [A:Za:z0:9]                          => <[ (a) ]>
       | [b]# NOT [A:Za:z0:9]                          => <[ (b) ]>
+      | [c]# NOT [A:Za:z0:9]                          => <[ (c) ]>
+      | [d]# NOT [A:Za:z0:9]                          => <[ (d) ]>
       | [w]# NOT [A:Za:z0:9]                          => <[ (w) ]>
 
     (* strand notation: 1 2 3 is one vector, 3 alone is a scalar.  The tail is a
