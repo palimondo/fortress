@@ -428,6 +428,8 @@ each against the same source run through the interpreter.
 | 282 | a **right-to-left APL sub-language** with strand notation, the real glyphs and `+/` reduce can be added as a user grammar and desugared onto that library | POSITIVE-VERIFIED | — | — | `apl-probes/e30_aplg.fsi` + `e30_aplg.fss` + `e30_apl.fss` + `e30_apl.out` | apl feasibility | Five nonterminals, 24 alternatives, no Fortress-level operator declarations at all; twelve expressions run. `apl⦇ 2 × 3 + 4 ⦈` = `14.0` — right to left, Fortress precedence suspended, because the dyadic production takes a *strand* on the left and the **whole rest** of the expression on the right, so there is no precedence table to fight. `apl⦇ 3 4 ⌈ 4 3 ⦈` = `4.0 4.0`, the glyph the host lexer calls an unmatched delimiter (row 280) used as a dyadic function. `apl⦇ 2 3 ⍴ ⍳ 6 ⦈` is the 2×3 matrix and `apl⦇ +/ ⍳ 5 ⦈` = `15.0`. Strand notation needs only the PEG's ordered choice: `AplStrand` is right-recursive over `LiteralExpr` and backtracks at the first glyph. Each glyph reduces to a `String` and two dispatchers in the *using* component do the work, which is legal only by row 270 and necessary by row 275. This row is the seed of the whole APL ladder (rows 179-265), whose `apl/base/AplSyntax.fsi` + `AplCore.fss` is this division of labour at scale. Re-run in this merge: output as committed. |
 | 284 | a host **`Expr` gap swallows a following terminal that is a Fortress operator**: a rule `y⦇ a:Expr ⋄ b:Expr ⦈` never matches because `⋄` is the host's DIAMOND operator (`Literal.rats:428`), so the first gap parses `a ⋄ b` as an operator application and the bracket is left as a call of an undefined `y`; `∘` (RING, `:403-405`) likewise; an APL glyph that is in no host operator table (`⍤`) separates cleanly. The ladder's base never met it because its separators stand between its own nonterminals | NEGATIVE-VERIFIED | design limit (a greedy `Expr` gap, row 5, meeting the host's operator table) | — (`ProjectFortress/src/com/sun/fortress/parser/Literal.rats:403-405`, `:428`) | `apl/probes-4b/y01_named.out.0`, `.out.1` (`Variable y4 is not defined.` / `Operator ? is not defined.`), `y01_named.fss` (the `⍤` separator) | apl rung 4b | Rule for a sub-language: a host `Expr` gap may only be followed by a terminal outside the host's operator table, or by one of the sub-language's own nonterminals |
 | 285 | a **typed lambda written whole inside one template** works and dispatches: hygiene renames the binder and its references together (`fn (w: Matrix): Matrix => (a) transpose(w)`), the lambda passed as an argument selects an arrow-typed overload of `rows` exactly as a hand-written one does (a scalar result type picks the `Vec -> RR64` member, a vector result type the `Vec -> Vec` member), and a **template-written free identifier naming a typed host function** does the same through the use-site resolution; the negative control stands: a binder in one template and its reference in another is `Variable w is not defined.` at the grammar api's line 1 | POSITIVE-VERIFIED (both mechanisms), NEGATIVE-VERIFIED (the split) | — | `Specification/basic/overloading.tex:170-175` | `apl/probes-4b/y01_named.fss` + `.out`, `y02_lambda.fss` + `.out`, `y03_lamfn.fss` + `.out`, `y04_split.fss` + `.out` (`Y01Syn.fsi:1:2: Variable w is not defined.`) | apl rung 4b | Sharpens ledger rows 204 (hygiene), 171 (arrow-typed dispatch) and 270 (use-site resolution) into the one rule the focused base is built on: a function crosses a rule boundary only as a name or as a lambda the rule writes whole. Also: the first template in this lineage carrying a full `[\ \]` type parses |
+| 286 | a **template that writes the host's caret drops its right operand silently**: `<[ (1.0 (l)) ^ (r) ]>` expands to `1.0 (l)` with no diagnostic, so `apl⦇ 10*10 ⦈` was `10.0`, `apl⦇ 2*3 ⦈` was `2.0`, and the causal mask came out `-10` instead of `-1E10`, which moved every loss from the seventh digit (step 1 `3.3659665281147144` against the golden `3.365966947584851`); the same rule through a one-line glue function `pow(b: RR64, e: ZZ32): RR64 = b^e` is exact | NEGATIVE-VERIFIED | implementation gap (the template translator; `^` is also the type-application and postfix-operator character, ledger rows 133, 144, 158) | — | `apl/mg/checks/model_run.out.1` (the wrong losses), `apl/mg/checks/model_run.out` (exact, through `pow`), `apl/mg/AplMg.fss` (`pow`), `apl/mg/AplMgSyntax.fsi` (the `*` rule) | apl rung 4b | Nothing in the ladder had put a host infix operator other than `+ - × ÷` inside a template, so nothing had caught it. Rule for a sub-language: no host caret in a template; call a function |
+| 287 | **rule order decides only inside an ordinary nonterminal**: two alternatives of one macro bracket name backtrack over the closing bracket, so a shorter alternative placed above a longer one still lets the longer match; inside a nonterminal PEG commits to the first alternative that succeeds (ledger row 60's greed), so the folded reduction `+/l×r` must stand above the plain `+/v` there | POSITIVE-VERIFIED (the bracket), NEGATIVE-VERIFIED (the nonterminal) | design limit (PEG) | — | `apl/probes-4b/y06_fold.fss` + `.out`, `.out.0` (the four false diagnoses of the grammar before ledger row 65's bare-bracket-as-argument fact was recognised as the cause) | apl rung 4b | Row 65 met again: a macro bracket used bare as a juxtaposed argument does not match its rule; parenthesised it does |
 
 ## Contested / unsettled
 
@@ -487,20 +489,20 @@ each against the same source run through the interpreter.
 
 | status | rows |
 |---|---|
-| POSITIVE-VERIFIED | 102 (+29 rows that carry both marks) |
-| NEGATIVE-VERIFIED | 144 (+29 rows that carry both marks) |
+| POSITIVE-VERIFIED | 102 (+30 rows that carry both marks) |
+| NEGATIVE-VERIFIED | 145 (+30 rows that carry both marks) |
 | NEGATIVE-BOUNDED | 5 (rows 90, 182, 186, 199, 261) |
 | CONTESTED | 1 (row 83), and row 258's type half |
 | RETIRED | 3 (rows 10, 32, 87) |
-| **total rows** | **284** |
+| **total rows** | **286** |
 
 Rows 21, 25, 66, 92, 95, 107, 115, 133, 142, 143, 145, 146, 149 and 164 record a paired
 positive and negative verdict about the same construct and are listed once, and so do
-the fifteen APL rows 200, 203, 204, 209, 216, 221, 226, 227, 235, 250, 254, 257, 265,
-280 and 285, whose status cell names which half is which; row 52
+the sixteen APL rows 200, 203, 204, 209, 216, 221, 226, 227, 235, 250, 254, 257, 265,
+280, 285 and 287, whose status cell names which half is which; row 52
 is positive with a standing caveat (row 22), and row 9 moved from NEGATIVE-BOUNDED
 to NEGATIVE-VERIFIED in an earlier merge because run-b tried the arrangement it
-listed as untried. The numbering runs 1-285 with 148 missing: run-c's row 148
+listed as untried. The numbering runs 1-287 with 148 missing: run-c's row 148
 (`label` as a parameter name) duplicated row 8 and was merged into its notes, and
 the gap is kept so that `run-c/gaps.md`'s numbering still resolves.
 
