@@ -496,8 +496,8 @@ each against the same source run through the interpreter.
 
 Rows 21, 25, 66, 92, 95, 107, 115, 133, 142, 143, 145, 146, 149 and 164 record a paired
 positive and negative verdict about the same construct and are listed once, and so do
-the fourteen APL rows 200, 203, 204, 209, 216, 221, 226, 227, 235, 250, 254, 257, 265
-and 280, whose status cell names which half is which; row 52
+the fifteen APL rows 200, 203, 204, 209, 216, 221, 226, 227, 235, 250, 254, 257, 265,
+280 and 285, whose status cell names which half is which; row 52
 is positive with a standing caveat (row 22), and row 9 moved from NEGATIVE-BOUNDED
 to NEGATIVE-VERIFIED in an earlier merge because run-b tried the arrangement it
 listed as untried. The numbering runs 1-285 with 148 missing: run-c's row 148
