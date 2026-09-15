@@ -1,0 +1,34 @@
+(* Time1: the row lift, diag and the batched product timed through FlatArrays at the model's batch-4 shapes; Time2 is the same body through FlatArrays2. *)
+component Time1
+import FlatArrays.{...}
+export Executable
+rmsnS(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (10.0^(-5) + (x DOT x) / |x|)
+smS(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
+smbS(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
+ms(t0: ZZ64, t1: ZZ64, reps: ZZ32): ZZ64 = (t1 - t0) DIV (1000000 reps)
+
+run(): () = do
+    (* the model's shapes at batch 4: 64 rows of 16, 16 attention planes of 16 x 16, the loss gradient 64 x 27 *)
+    m = array[\RR64\](64, 16).fill(fn (i: ZZ32, j: ZZ32): RR64 => 0.01 (3 i + j) - 4.0)
+    t = array[\RR64\](16, 16, 16).fill(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 0.005 (6 p + 3 i + j) - 2.0)
+    v = array[\RR64\](64).fill(fn (i: ZZ32): RR64 => 0.5 + 0.01 i)
+    g = array[\RR64\](64, 27).fill(fn (i: ZZ32, j: ZZ32): RR64 => 0.001 (i + j))
+    reps = 10
+    t0 = nanoTime()
+    for k <- seq(0#reps) do x = rows(rmsnS, m); end
+    t1 = nanoTime()
+    for k <- seq(0#reps) do x = rows(smbS, m, m); end
+    t2 = nanoTime()
+    for k <- seq(0#reps) do x = rows(smS, t); end
+    t3 = nanoTime()
+    for k <- seq(0#reps) do x = rows(smbS, t, t); end
+    t4 = nanoTime()
+    for k <- seq(0#reps) do x = diag(v) g; end
+    t5 = nanoTime()
+    for k <- seq(0#reps) do x = t (transpose(t)); end
+    t6 = nanoTime()
+    for k <- seq(0#reps) do x = (m + 1.0) × (m > 0.0); end
+    t7 = nanoTime()
+    println "rows(rmsn, 64x16) " ms(t0, t1, reps) " ms | rows(sm_b, 64x16, 64x16) " ms(t1, t2, reps) " ms | rows(sm, 16x16x16) " ms(t2, t3, reps) " ms | rows(sm_b, 16x16x16 x2) " ms(t3, t4, reps) " ms | diag(v64) g(64x27) " ms(t4, t5, reps) " ms | t t^T (16 planes) " ms(t5, t6, reps) " ms | (m + 1.0) × (m > 0.0) " ms(t6, t7, reps) " ms"
+  end
+end

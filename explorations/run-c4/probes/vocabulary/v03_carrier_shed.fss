@@ -1,0 +1,44 @@
+(* v03_carrier_shed: the trait route in its legal form -- a user carrier that
+   extends Matrix, keeps its own type through map/ivmap by overriding replica,
+   and carries the elementwise algebra as methods of a user trait.  What sheds
+   it: every library operation that allocates through matrix[\T,n,m\]() rather
+   than replica (the product mul, rmul, lmul; array[\RR64\](...)), and every
+   value that enters from outside (gather, onehot, loaders). *)
+component v03_carrier_shed
+export Executable
+
+trait IsHMat end
+trait Elementwise[\T\]
+    abstract opr ⊙(self, o: T): T
+    abstract opr +(self, s: RR64): T
+end
+object HMat[\nat r, nat c\](base: Matrix[\RR64,r,c\])
+        extends { Matrix[\RR64,r,c\], Elementwise[\HMat[\r,c\]\], IsHMat }
+    get(ij: (ZZ32,ZZ32)): RR64 = base.get(ij)
+    put(ij: (ZZ32,ZZ32), x: RR64): () = base.put(ij, x)
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = base.init0(ij, x)
+    replica[\U\](): Array2[\U,0,r,0,c\] = HMat[\r,c\](array2[\U,r,c\]())
+    opr ⊙(self, o: HMat[\r,c\]): HMat[\r,c\] =
+        HMat[\r,c\](base.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), e: RR64): RR64 => e o.get(ij)))
+    opr +(self, s: RR64): HMat[\r,c\] = HMat[\r,c\](base.map[\RR64\](fn (e: RR64): RR64 => e + s))
+end
+hmat[\nat r, nat c\](m: Matrix[\RR64,r,c\]): HMat[\r,c\] = HMat[\r,c\](m)
+kind(x: Object): String = typecase x of
+    IsHMat => "HMat (keeps the user trait)"
+    AnyMatrix => "a bare library Matrix (user trait shed)"
+    else => "something else"
+end
+
+run(): () = do
+    m = array[\RR64\](2, 2).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j + 1))
+    h = hmat(m)
+    println "(1) h = " h "  is " kind(h)
+    println "(2) h ⊙ h = " (h ⊙ h) "  is " kind(h ⊙ h)
+    println "(3) h + 1.0 = " (h + 1.0) "  is " kind(h + 1.0)
+    println "(4) h + h (library +, through ivmap and replica) is " kind(h + h)
+    println "(5) 2.0 h (library scale, through map) is " kind(2.0 h)
+    println "(6) h.t() is " kind(h.t())
+    println "(7) h h (library product, allocates matrix[\\T,n,m\\]()) is " kind(h h)
+    println "(8) so (h h) ⊙ h = " ((h h) ⊙ h)
+  end
+end

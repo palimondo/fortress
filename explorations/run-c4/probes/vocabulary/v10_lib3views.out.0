@@ -1,0 +1,28 @@
+(1) t[(1,0,0)#(1,2,3)] = [0#1,0#2,0#3]
+[ 6.0 9.0 ;;
+  7.0 10.0 ;;
+  8.0 11.0 ]
+(2) the plane subarray is NOT an AnyMatrix (rank 3 with a unit axis)
+(3) the row subarray is NOT an AnyVector: [0#1,0#1,0#3]
+[ 9.0 ;;
+  10.0 ;;
+  11.0 ]
+(4) m.t() = [0#3,0#2]
+[ 0.0 3.0
+  1.0 4.0
+  2.0 5.0 ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-c4/probes/vocabulary/v10_lib3views.fss:22:29-32:
+Cannot find definition for method t given receiver __DefaultArray3[\RR64,0,2,0,2,0,3\]
+Context:
+/home/user/fortress/explorations/run-c4/probes/vocabulary/v10_lib3views.fss:22:29-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit 1  (4 s)

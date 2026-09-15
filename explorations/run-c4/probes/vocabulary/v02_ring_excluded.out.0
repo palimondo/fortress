@@ -1,0 +1,21 @@
+(1) declared and built: h = [0#2,0#2]
+[ 1.0 2.0
+  3.0 4.0 ]
+(2) h × h (TIMES from MultiplicativeRing) = [0#2,0#2]
+[ 1.0 4.0
+  9.0 16.0 ]
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/explorations/run-c4/probes/vocabulary/v02_ring_excluded.fss:26:61:
+** bug! MethodClosure +(self:AdditiveGroup[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:330:5-28 has neither body nor def instanceof Method
+Context:
+/home/user/fortress/explorations/run-c4/probes/vocabulary/v02_ring_excluded.fss:26:61:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit 1  (19 s)

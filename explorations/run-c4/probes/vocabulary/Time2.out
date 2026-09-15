@@ -1,0 +1,2 @@
+rows(rmsn, 64x16) 180 ms | rows(sm_b, 64x16, 64x16) 227 ms | rows(sm, 16x16x16) 744 ms | rows(sm_b, 16x16x16 x2) 868 ms | diag(v64) g(64x27) 1417 ms | t t^T (16 planes) 1175 ms | (m + 1.0) × (m > 0.0) 35 ms
+exit 0  (50 s)

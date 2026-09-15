@@ -1,0 +1,15 @@
+(1) diagM(v) m [library product] = [0#3,0#2]
+[ 1.0 2.0
+  6.0 8.0
+  15.0 18.0 ]
+(2) diag(v) m  [FlatArrays' own opr] = [0#3,0#2]
+[ 1.0 2.0
+  6.0 8.0
+  15.0 18.0 ]
+(3) diagM(v) as a matrix = [0#3,0#3]
+[ 1.0 0.0 0.0
+  0.0 2.0 0.0
+  0.0 0.0 3.0 ]
+(4) n = 16: library product 94 ms/op, FlatArrays' row scaling 7 ms/op
+(4) n = 64: library product 1379 ms/op, FlatArrays' row scaling 22 ms/op
+exit 0  (94 s)

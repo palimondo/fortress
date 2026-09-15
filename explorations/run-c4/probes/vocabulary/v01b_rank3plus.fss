@@ -1,0 +1,11 @@
+(* v01b_rank3plus: does + reach rank 3?  Array3 extends no algebraic trait
+   (FortressLibrary.fsi:1652-1655), so t + t should find no declaration. *)
+component v01b_rank3plus
+export Executable
+
+run(): () = do
+    t = array[\RR64\](2, 2, 2).fill(fn (i: ZZ32, j: ZZ32, k: ZZ32): RR64 => 1.0 (4 i + 2 j + k))
+    println "(1) t = " t
+    println "(2) t + t = " (t + t)
+  end
+end

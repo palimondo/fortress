@@ -1,0 +1,24 @@
+(* v04_elemgeneric: the scalar extension declared once over the element type
+   through the algebraic bound, not once per element type:
+   opr +[\T extends Number, I\](a: Array[\T,I\], s: T).  Does one declaration
+   serve RR64 and ZZ32 arrays at every rank, and does it coexist with the
+   library's own opr +(x: Array[\ZZ32,ZZ32\], y: ZZ32) (FortressLibrary.fss:4493)? *)
+component v04_elemgeneric
+export Executable
+
+opr +[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e: T): T => e + s)
+opr ⊙[\T extends Number, I\](a: Array[\T,I\], b: Array[\T,I\]): Array[\T,I\] = a.ivmap[\T\](fn (i: I, e: T): T => e b[i])
+
+run(): () = do
+    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    kv = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => i + 1)
+    m = array[\RR64\](2, 2).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j + 1))
+    t = array[\RR64\](2, 2, 2).fill(fn (i: ZZ32, j: ZZ32, k: ZZ32): RR64 => 1.0 (4 i + 2 j + k))
+    println "(1) v + 1.5 = " (v + 1.5)
+    println "(2) m + 1.5 = " (m + 1.5)
+    println "(3) t + 1.5 = " (t + 1.5)
+    println "(4) k + 1 (ZZ32, beside the library's own) = " (kv + 1)
+    println "(5) v ⊙ v = " (v ⊙ v) "   t ⊙ t = " (t ⊙ t) "   k ⊙ k = " (kv ⊙ kv)
+    println "(6) v + 1 (integer literal into a T = RR64 slot) = " (v + 1)
+  end
+end

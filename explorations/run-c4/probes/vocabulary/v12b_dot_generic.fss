@@ -1,0 +1,16 @@
+(* v12b_dot_generic: v12's DOT declared generic in the element type,
+   opr DOT[\T extends Number\](a: Array[\T,ZZ32\], b: Array[\T,ZZ32\]): T,
+   beside the library's generic Vector DOT: row 159's rule (two generic
+   declarations, no excluding pair)?  Run cold (row 98). *)
+component v12b_dot_generic
+export Executable
+
+opr DOT[\T extends Number\](a: Array[\T,ZZ32\], b: Array[\T,ZZ32\]): T = SUM[(i, e) <- a.indexValuePairs] e b[i]
+
+run(): () = do
+    m = array[\RR64\](2, 3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j + 1))
+    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    r = m[1,:]
+    println "(1) r DOT r = " (r DOT r) "  v DOT v = " (v DOT v)
+  end
+end

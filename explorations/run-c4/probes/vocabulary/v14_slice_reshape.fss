@@ -1,0 +1,20 @@
+(* v14_slice_reshape: view(p, off, nr, nc) through the library alone.  A range
+   subscript of a flat vector is a real zero-copy slice, but it is rank 1 and
+   there is no reshape (grep: lib-grep.txt), so a matrix over a slice needs a
+   view object (row 150's PView). *)
+component v14_slice_reshape
+export Executable
+
+run(): () = do
+    p = array[\RR64\](10).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    s = p[4#6]
+    println "(1) p[4#6] = " s
+    typecase s of
+        AnyMatrix => println "(2) the slice IS an AnyMatrix"
+        AnyVector => println "(2) the slice is an AnyVector, rank 1, no reshape to 2 x 3"
+        else => println "(2) the slice is neither"
+    end
+    s[0] := 99.0
+    println "(3) after s[0] := 99.0, p[4] = " p[4] " (zero-copy)"
+  end
+end

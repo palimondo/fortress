@@ -1,0 +1,66 @@
+(* y05 -- the two TACIT patterns of the flat microGPT as grammar rules.
+
+   Dyalog L16  Q K Vv←X1∘(+.×⍉)¨wq wk wv        -> (X1 ⍉wq, X1 ⍉wk, X1 ⍉wv)
+   Dyalog L25  gWQ gWK gWV←X1∘(+.×⍨⍉)¨dQ dK dV  -> (⍉dQ +.× X1, …)
+
+   The universal base (../base) reads `X1∘(+.×⍉)` as a FUNCTION VALUE -- aplBindLeft
+   over the frame stack, `() -> Any` in and `Object` out -- and the microGPT rung
+   had to rewrite both lines as dfns.  The focused base writes the whole derived
+   function in ONE template instead, so the expansion is C4's own product and
+   nothing untyped crosses a rule boundary.  This probe asks whether that
+   expansion is well formed and equal to the hand-written product, for both
+   patterns and over a three-name strand.
+
+   It also settles the one mechanical doubt in the expansion: whether
+
+       ((X1)) (transpose((wq)))
+
+   -- two PARENTHESISED expressions side by side, neither of them a function --
+   reaches FlatArrays' / the library's juxtaposition product.  t7 writes it that
+   way, t8 writes it with the left operand bare (`(X1) transpose(wq)`), t9 binds
+   both to locals first.  Every macro line has the hand-written host product
+   beside it. *)
+component y05_tacit
+import FlatArrays.{...}
+import Y05Syn.{...}
+export Executable
+
+(* ---- the data: X1 is the (rows x Ne) activation, wq wk wv the (Ne x Ne)
+        weights of L16, dQ dK dV the (rows x Ne) gradients of L25 ---------- *)
+X1: Array[\RR64,(ZZ32,ZZ32)\] = mat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => sin(1.0 i + 0.3 j))
+wq: Array[\RR64,(ZZ32,ZZ32)\] = mat(5, 4, fn (i: ZZ32, j: ZZ32): RR64 => cos(0.7 i - 0.2 j))
+wk: Array[\RR64,(ZZ32,ZZ32)\] = mat(5, 4, fn (i: ZZ32, j: ZZ32): RR64 => sin(0.2 i + 0.9 j))
+wv: Array[\RR64,(ZZ32,ZZ32)\] = mat(5, 4, fn (i: ZZ32, j: ZZ32): RR64 => cos(1.1 i + 0.4 j))
+dQ: Array[\RR64,(ZZ32,ZZ32)\] = mat(3, 5, fn (i: ZZ32, j: ZZ32): RR64 => sin(0.5 i - 0.1 j))
+dK: Array[\RR64,(ZZ32,ZZ32)\] = mat(3, 5, fn (i: ZZ32, j: ZZ32): RR64 => cos(0.3 i + 0.6 j))
+dV: Array[\RR64,(ZZ32,ZZ32)\] = mat(3, 5, fn (i: ZZ32, j: ZZ32): RR64 => sin(0.8 i + 0.2 j))
+
+report(tag: String, m: Array[\RR64,(ZZ32,ZZ32)\]): () = do
+    (r, c) = m.sizes
+    println tag " shape " r " x " c "  [1,1] = " m[1,1] "  sum = " (SUM[i <- 0#r, j <- 0#c] m[i,j])
+  end
+
+run(): () = do
+    println "(A) L16: l∘(+.×⍉)¨ over a three-name strand"
+    (q, k, v) = t5⦇ X1∘(+.×⍉)¨wq wk wv ⦈
+    report("(1) macro t5 elem 0   ", q)
+    report("(1') host X1 ⍉wq      ", X1 transpose(wq))
+    report("(2) macro t5 elem 1   ", k)
+    report("(2') host X1 ⍉wk      ", X1 transpose(wk))
+    report("(3) macro t5 elem 2   ", v)
+    report("(3') host X1 ⍉wv      ", X1 transpose(wv))
+    println "(B) L25: l∘(+.×⍨⍉)¨ over a three-name strand -- the commuted train"
+    (gq, gk, gv) = t6⦇ X1∘(+.×⍨⍉)¨dQ dK dV ⦈
+    report("(4) macro t6 elem 0   ", gq)
+    report("(4') host (⍉dQ) X1    ", transpose(dQ) X1)
+    report("(5) macro t6 elem 1   ", gk)
+    report("(5') host (⍉dK) X1    ", transpose(dK) X1)
+    report("(6) macro t6 elem 2   ", gv)
+    report("(6') host (⍉dV) X1    ", transpose(dV) X1)
+    println "(C) the three ways a template can write ONE product"
+    report("(7) macro t7 ((l))((r))", t7⦇ X1⍤wq ⦈)
+    report("(8) macro t8 (l) r     ", t8⦇ X1⍤wq ⦈)
+    report("(9) macro t9 via locals", t9⦇ X1⍤wq ⦈)
+    println "done"
+  end
+end

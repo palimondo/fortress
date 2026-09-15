@@ -1,0 +1,45 @@
+(1) m[1,:] = [0#3][ 4.0 5.0 6.0 ]  |r| = 3  SUM r = 15.0  SUM[t <- r] t^2 = 77.0
+(2) generic scalar ops on the library row: r / 2.0 = [0#3][ 2.0 2.5 3.0 ]  SQRT r = [0#3][ 2.0 2.23606797749979 2.449489742783178 ]  r × r = [0#3][ 16.0 25.0 36.0 ]
+(3) rowsL(rmsn with a generator sum, m) = [0#2,0#3]
+[ 0.4629095539120194 0.9258191078240388 1.3887286617360581
+  0.7895418801448779 0.9869273501810975 1.184312820217317 ]
+(4) rows(rmsn with a generator sum, m) [FlatArrays, RowView] = [0#2,0#3]
+[ 0.4629095539120194 0.9258191078240388 1.3887286617360581
+  0.7895418801448779 0.9869273501810975 1.184312820217317 ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-c4/probes/vocabulary/v06_librow.fss:25:68:
+Failed to find any matching overload, args = (Row[\RR64,0,3\],Row[\RR64,0,3\]), overload = {
+	DOT(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:378:5-62)
+	DOT(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:563:5-567:6)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].DOT(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:620:5-23
+	DOT(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:660:5-661:74)
+	DOT(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:728:5-729:75)
+	DOT(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:782:5-783:83)
+	DOT(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:845:5-846:77)
+	DOT[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:Vector[\T,n\]):T/home/user/fortress/Library/FortressLibrary.fss:2261:1-2262:69
+	DOT[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:T):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2267:1-2268:73
+	DOT[\T extends FortressLibrary.Number,nat n\](other:T,me:Vector[\T,n\]):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2273:1-2274:74
+	DOT[\T extends FortressLibrary.Number,nat n,nat m,nat p\](me:Matrix[\T,n,m\],other:Matrix[\T,m,p\]):Matrix[\T,n,p\]/home/user/fortress/Library/FortressLibrary.fss:2621:1-2623:27
+	DOT[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],v:Vector[\T,m\]):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2631:1-2632:72
+	DOT[\T extends FortressLibrary.Number,nat n,nat m\](v:Vector[\T,n\],me:Matrix[\T,n,m\]):Vector[\T,m\]/home/user/fortress/Library/FortressLibrary.fss:2638:1-2639:72
+	DOT[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],other:T):Matrix[\T,n,m\]/home/user/fortress/Library/FortressLibrary.fss:2644:1-2645:77
+	DOT[\T extends FortressLibrary.Number,nat n,nat m\](other:T,me:Matrix[\T,n,m\]):Matrix[\T,n,m\]/home/user/fortress/Library/FortressLibrary.fss:2650:1-2651:77
+	DOT(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:620:5-23)
+	DOT(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:620:5-23)
+	DOT(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:620:5-23)
+	DOT(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:620:5-23)
+	DOT(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:107:5-108:76)
+	DOT(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:276:5-277:75)
+	DOT(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:410:5-411:75)}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/run-c4/probes/vocabulary/v06_librow.fss:25:68:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit 1  (4 s)

@@ -1,0 +1,20 @@
+(* v09_mapfn: the elementwise exp/log/SQRT without a declaration each --
+   passing the library's own scalar functions to map, and the constructors
+   vec/zeros/keys/mat as the library's array[\T\](...).fill(f) with untyped
+   lambdas. *)
+component v09_mapfn
+export Executable
+
+run(): () = do
+    v = array[\RR64\](3).fill(fn (i) => 1.0 (i + 1))
+    m = array[\RR64\](2, 2).fill(fn (i, j) => 1.0 (2 i + j + 1))
+    t = array[\RR64\](2, 2, 2).fill(fn (i, j, k) => 1.0 (4 i + 2 j + k))
+    z = array[\RR64\](3).fill(0.0)
+    ks = array[\ZZ32\](3).fill(fn (i) => 2 i)
+    println "(1) untyped fill lambdas at rank 1, 2, 3: " v " " m " " t "  zeros " z "  keys " ks
+    println "(2) v.map[\\RR64\\](exp) = " (v.map[\RR64\](exp))
+    println "(3) v.map[\\RR64\\](log) = " (v.map[\RR64\](log))
+    println "(4) v.map[\\RR64\\](fn (e) => SQRT e) = " (v.map[\RR64\](fn (e) => SQRT e))
+    println "(5) m.map[\\RR64\\](exp) = " (m.map[\RR64\](exp))
+  end
+end

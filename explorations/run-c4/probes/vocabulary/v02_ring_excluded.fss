@@ -1,0 +1,29 @@
+(* v02_ring_excluded: can a component supply the missing × by extending the
+   shipped algebraic trait?  A carrier that is both a Matrix and a
+   MultiplicativeRing contradicts Matrix's "excludes { AnyMultiplicativeRing }"
+   (FortressLibrary.fsi:1580).  Does the interpreter refuse the declaration,
+   or accept it and then get juxtaposition from two traits at once? *)
+component v02_ring_excluded
+export Executable
+
+object HMat[\nat r, nat c\](base: Matrix[\RR64,r,c\])
+        extends { Matrix[\RR64,r,c\], MultiplicativeRing[\HMat[\r,c\]\] }
+    getter one(): HMat[\r,c\] = HMat[\r,c\](base.map[\RR64\](fn (e: RR64): RR64 => 1.0))
+    get(ij: (ZZ32,ZZ32)): RR64 = base.get(ij)
+    put(ij: (ZZ32,ZZ32), x: RR64): () = base.put(ij, x)
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = base.init0(ij, x)
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+    opr TIMES(self, o: HMat[\r,c\]): HMat[\r,c\] =
+        HMat[\r,c\](base.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), e: RR64): RR64 => e o.get(ij)))
+end
+hmat[\nat r, nat c\](m: Matrix[\RR64,r,c\]): HMat[\r,c\] = HMat[\r,c\](m)
+
+run(): () = do
+    m = array[\RR64\](2, 2).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j + 1))
+    h = hmat(m)
+    println "(1) declared and built: h = " h
+    println "(2) h × h (TIMES from MultiplicativeRing) = " (h × h)
+    println "(3) h + h (from AdditiveGroup via Matrix) = " (h + h)
+    println "(4) h h : Matrix product or ring juxtaposition? = " (h h)
+  end
+end

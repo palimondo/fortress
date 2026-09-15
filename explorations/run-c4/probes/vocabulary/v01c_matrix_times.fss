@@ -1,0 +1,12 @@
+(* v01c_matrix_times: does × (TIMES) reach a matrix?  Matrix excludes
+   AnyMultiplicativeRing (FortressLibrary.fsi:1578-1580), so no TIMES is
+   inherited; the library's juxtaposition is the product, not Hadamard. *)
+component v01c_matrix_times
+export Executable
+
+run(): () = do
+    m = array[\RR64\](2, 2).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j + 1))
+    println "(1) m m (product) = " (m m)
+    println "(2) m × m = " (m × m)
+  end
+end

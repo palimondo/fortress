@@ -1,0 +1,118 @@
+(* y06 -- the FOLDED reduction, where its order matters, and the glue L13 needs.
+
+   (A) '+/l×r' expands to C4's 'DOT' (MicroGptFlat.fss:61) and the plain '+/v'
+   to the shipped 'SUM' (:52).  Both rules begin with the same two terminals, so
+   only their ORDER separates them.  The probe writes the pair twice: inside one
+   nonterminal 'Y6E' (s6), which is where the focused base puts it, and as two
+   alternatives of one macro bracket (s7), in the wrong order on purpose.
+   y06_fold.out.1 is the recorded run with Y6E's two alternatives reversed.
+   y06_fold.out.0 is the recorded run of '+/⍟vv', the one shape the terminal '/'
+   refuses.
+
+   (B) the glue of the focused base's L13, hand-written here exactly as
+   ../mg/AplMg.fss declares it, and checked against C4's own corpus object
+   (FlatData's 'Corpus.tokens', '.positions', '.valid') on a small synthetic
+   corpus.  These are the entries the glyph rules of L13 expand to:
+
+       ≢b            tally(b)
+       ⍳n            iota(n)
+       ,m            ravel(m)                  (a ZZ32 and an RR64 matrix)
+       Tokm[b;]      gather(Tokm, b)           (FlatArrays', generic in T)
+       R[;v]         cols(R, v)
+       Len[b]        gather(Len, b)            (the VECTOR overload, glue)
+       l∘.>r         outerGt(l, r)             (two ZZ32 vectors -> RR64 0/1)
+       ~l∘.≥r        outerLt(l, r)
+       1+⍳n          1 + iota(n)               (an opr + overload, glue)
+       n⍴v           cycle(n, v)
+
+   Checking them here, against C4's object, costs one probe run and takes the
+   whole of L13 out of the model's first run. *)
+component y06_fold
+import FlatArrays.{...}
+import FlatData.{...}
+import Y06Syn.{...}
+export Executable
+
+(* ---- (A)'s data ------------------------------------------------------- *)
+vv: Array[\RR64,ZZ32\] = vec(6, fn (i: ZZ32): RR64 => 1.0 + 0.5 i)
+ww: Array[\RR64,ZZ32\] = vec(6, fn (i: ZZ32): RR64 => 2.0 + 0.25 i)
+
+(* ---- (B) the glue, verbatim as AplMg declares it ----------------------- *)
+tally[\nat s\](v: Vector[\ZZ32,s\]): ZZ32 = |v|
+iota(n: ZZ32): Array[\ZZ32,ZZ32\] = keys(n, fn (i: ZZ32): ZZ32 => i)
+ravelZ[\nat r, nat c\](m: Matrix[\ZZ32,r,c\]): Array[\ZZ32,ZZ32\] = do
+    (nr, nc) = m.sizes
+    keys(nr nc, fn (i: ZZ32): ZZ32 => m[i DIV nc, i MOD nc])
+  end
+ravelR[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (nr, nc) = m.sizes
+    vec(nr nc, fn (i: ZZ32): RR64 => m[i DIV nc, i MOD nc])
+  end
+cols[\nat r, nat c, nat k\](m: Matrix[\ZZ32,r,c\], ks: Vector[\ZZ32,k\]): Array[\ZZ32,(ZZ32,ZZ32)\] = do
+    (nr, nc) = m.sizes
+    array[\ZZ32\](nr, |ks|).fill(fn (i: ZZ32, j: ZZ32): ZZ32 => m[i, ks[j]])
+  end
+gatherV[\nat s, nat k\](v: Vector[\ZZ32,s\], ks: Vector[\ZZ32,k\]): Array[\ZZ32,ZZ32\] =
+    keys(|ks|, fn (i: ZZ32): ZZ32 => v[ks[i]])
+outerGt[\nat s, nat k\](l: Vector[\ZZ32,s\], r: Vector[\ZZ32,k\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|l|, |r|, fn (i: ZZ32, j: ZZ32): RR64 => if l[i] > r[j] then 1.0 else 0.0 end)
+outerLt[\nat s, nat k\](l: Vector[\ZZ32,s\], r: Vector[\ZZ32,k\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    mat(|l|, |r|, fn (i: ZZ32, j: ZZ32): RR64 => if l[i] < r[j] then 1.0 else 0.0 end)
+cycle[\nat s\](n: ZZ32, v: Vector[\ZZ32,s\]): Array[\ZZ32,ZZ32\] =
+    keys(n, fn (i: ZZ32): ZZ32 => v[i MOD |v|])
+opr +[\I\](s: ZZ32, a: Array[\ZZ32,I\]): Array[\ZZ32,I\] = a.map[\ZZ32\](fn (e: ZZ32): ZZ32 => s + e)
+
+(* ---- (B)'s data: a three-document corpus of block 4, C4's own object ---- *)
+blk: ZZ32 = 4
+tokm: Array[\ZZ32,(ZZ32,ZZ32)\] = array[\ZZ32\](3, blk + 1).fill(fn (d: ZZ32, j: ZZ32): ZZ32 => 10 d + j)
+len: Array[\ZZ32,ZZ32\] = keys(3, fn (d: ZZ32): ZZ32 => 2 + d)
+corp: Corpus = Corpus(tokm, len, blk)
+bk: Array[\ZZ32,ZZ32\] = keys(2, fn (i: ZZ32): ZZ32 => 2 - i)   (* documents 2 and 1 *)
+
+showZ(tag: String, v: Array[\ZZ32,ZZ32\]): () = do
+    print tag " |" |v| "| "
+    for i <- seq(0#|v|) do print " " v[i] end
+    println ""
+  end
+showR(tag: String, v: Array[\RR64,ZZ32\]): () = do
+    print tag " |" |v| "| "
+    for i <- seq(0#|v|) do print " " v[i] end
+    println ""
+  end
+diffZ(a: Array[\ZZ32,ZZ32\], b: Array[\ZZ32,ZZ32\]): ZZ32 = BIG MAX[i <- 0#|a|] |a[i] - b[i]|
+diffR(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64 = BIG MAX[i <- 0#|a|] |a[i] - b[i]|
+
+run(): () = do
+    println "(A) the folded reduction: DOT above SUM, both in one bracket"
+    println "(1)  macro s6 +/vv        = " (s6⦇ +/vv ⦈)
+    println "(1') host SUM vv          = " (SUM vv)
+    println "(2)  macro s8 +/vv×ww     = " (s8⦇ +/vv×ww ⦈)
+    println "(2') host vv DOT ww       = " (vv DOT ww)
+    println "(3)  macro s8 +/vv×⍟ww    = " (s8⦇ +/vv×⍟ww ⦈)
+    println "(3') host vv DOT log(ww)  = " (vv DOT log(ww))
+    println "(3b) macro s2 ⍟ww[0]      = " (s2⦇ ⍟ww ⦈)[0]
+    println "(4)  macro s5 ×⍟vv[0]     = " (s5⦇ ×⍟vv ⦈)[0]
+    println "(4') host log(vv)[0]      = " (log(vv))[0]
+    println "(B) the glue of L13, against C4's Corpus on a 3-document corpus"
+    R = gather(tokm, bk)
+    ids = ravelZ(cols(R, iota(blk)))
+    tg = ravelZ(cols(R, 1 + iota(blk)))
+    vm = ravelR(outerGt(gatherV(len, bk), iota(blk)))
+    pos = cycle(tally(bk) blk, iota(blk))
+    showZ("(8)  glue ids          ", ids)
+    showZ("(8') corpus.tokens(b,0)", corp.tokens(bk, 0))
+    showZ("(9)  glue tg           ", tg)
+    showZ("(9') corpus.tokens(b,1)", corp.tokens(bk, 1))
+    showR("(10)  glue vm          ", vm)
+    showR("(10') corpus.valid(b)  ", corp.valid(bk))
+    showZ("(11)  glue pos         ", pos)
+    showZ("(11') corpus.positions ", corp.positions(bk))
+    println "(12) max |glue - corpus| : ids " diffZ(ids, corp.tokens(bk, 0)) " tg " diffZ(tg, corp.tokens(bk, 1)) " vm " diffR(vm, corp.valid(bk)) " pos " diffZ(pos, corp.positions(bk))
+    w4 = 1 + iota(4)
+    println "(13) tally(bk) = " tally(bk) " ; one plus iota 4 = " w4[0] " " w4[1] " " w4[2] " " w4[3]
+    o3 = outerLt(iota(3), iota(3))
+    println "(14) outerLt row 0 = " o3[0,0] " " o3[0,1] " " o3[0,2]
+    println "(15) -(1.0 10)^10 = " (-((1.0 10)^10)) " ; SQRT (1.0 4) = " (SQRT (1.0 4))
+    println "done"
+  end
+end

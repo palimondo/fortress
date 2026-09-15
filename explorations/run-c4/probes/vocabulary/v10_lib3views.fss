@@ -1,0 +1,24 @@
+(* v10_lib3views: what the library's own subarray machinery gives at rank 3
+   in place of plane/row3/transpose: t[(p,0,0)#(1,b,c)] is a rank-3 subarray,
+   never a Matrix, so the library product cannot take it and no t() exists. *)
+component v10_lib3views
+export Executable
+
+run(): () = do
+    t = array[\RR64\](2, 2, 3).fill(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 1.0 (6 p + 3 i + j))
+    pl = t[(1,0,0)#(1,2,3)]
+    println "(1) t[(1,0,0)#(1,2,3)] = " pl
+    typecase pl of
+        AnyMatrix => println "(2) the plane subarray IS an AnyMatrix"
+        else => println "(2) the plane subarray is NOT an AnyMatrix (rank 3 with a unit axis)"
+    end
+    rw = t[(1,1,0)#(1,1,3)]
+    typecase rw of
+        AnyVector => println "(3) the row subarray IS an AnyVector"
+        else => println "(3) the row subarray is NOT an AnyVector: " rw
+    end
+    m = array[\RR64\](2, 3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    println "(4) m.t() = " (m.t())
+    println "(5) t.t() = " (t.t())
+  end
+end

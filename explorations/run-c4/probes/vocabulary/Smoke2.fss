@@ -1,0 +1,47 @@
+(* Smoke2: the smoke against FlatArrays2.  Smoke1 is the same program against FlatArrays; their outputs are diffed. *)
+component Smoke2
+import FlatArrays2.{...}
+export Executable
+rmsnS(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (10.0^(-5) + (x DOT x) / |x|)
+smS(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
+smbS(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
+
+run(): () = do
+    v = array[\RR64\](4).fill(fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    w = array[\RR64\](4).fill(fn (i: ZZ32): RR64 => 0.5 i + 2.0)
+    m = array[\RR64\](4, 3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j) - 4.0)
+    t = array[\RR64\](2, 2, 3).fill(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 0.5 (6 p + 3 i + j) - 2.0)
+    u = array[\RR64\](2, 3, 2).fill(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 0.25 (6 p + 2 i + j))
+    ks = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => (3 - i) MOD 3)
+    println "(1) v + 1.5 = " (v + 1.5) "  1.5 + m = " (1.5 + m) "  t - 0.5 = " (t - 0.5) "  0.5 - v = " (0.5 - v)
+    println "(2) v × w = " (v × w) "  m × m = " (m × m) "  t × t = " (t × t)
+    println "(3) v / w = " (v / w) "  m / 2.0 = " (m / 2.0) "  0.0 MAX m = " (0.0 MAX m) "  m MAX 1.0 = " (m MAX 1.0)
+    println "(4) m > 0.0 = " (m > 0.0) "  SQRT w = " (SQRT w) "  exp(v) = " (exp(v)) "  log(w) = " (log(w))
+    println "(5) v DOT w = " (v DOT w) "  a row: rmsnS = " (rmsnS(v)) "  smS = " (smS(v)) "  smbS = " (smbS(smS(v), w))
+    println "(6) diag(v) m = " (diag(v) m)
+    println "(7) transpose(t) = " (transpose(t))
+    println "(8) MATRIX^T: " (m.t())
+    p = array[\RR64\](14).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    pv = view(p, 2, 3, 4)
+    println "(9) view(p, 2, 3, 4) = " pv "  pv (pv.t()) = " (pv (pv.t()))
+    pv[1, 2] := 99.0
+    println "(10) after pv[1,2] := 99.0, p = " p
+    act = array[\RR64\](4, 4).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (10 i + j))
+    h = heads(act, 2, 2, 2)
+    println "(11) heads(act, 2, 2, 2) = " h
+    println "(12) unheads(h, 2) = " (unheads(h, 2)) "  plane(h, 3) = " (plane(h, 3))
+    (plane(h, 3))[0, 1] := -1.0
+    println "(13) write through plane and heads: act = " act
+    println "(14) batched t u = " (t u)
+    println "(15) m3 + t = " (array[\RR64\](2, 3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 100.0 (i + 1) + j) + t)
+    println "(16) rows(rmsnS, m) = " (rows(rmsnS, m))
+    println "(17) rows(smbS, m, m) = " (rows(smbS, m, m))
+    println "(18) rows(smS, t) = " (rows(smS, t))
+    println "(19) rows(smbS, t, t) = " (rows(smbS, t, t))
+    println "(20) gather(m, ks) = " (gather(m, ks)) "  gather(act, ks) = " (gather(act, ks))
+    println "(21) onehot(ks, 5) = " (onehot(ks, 5)) "  pick(m, ks) = " (pick(m, ks))
+    println "(22) flat(m, act) = " (flat(m, act))
+    println "(23) a value keeps the library algebra: (m + 1.0) (m.t()) = " ((m + 1.0) (m.t())) "  (v + 1.0) + w = " ((v + 1.0) + w)
+    println "(24) integer keys carry the algebra too: ks + 1 = " (ks + 1) "  ks × ks = " (ks × ks)
+  end
+end

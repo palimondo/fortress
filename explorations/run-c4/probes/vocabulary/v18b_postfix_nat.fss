@@ -1,0 +1,21 @@
+(* v18b_postfix_nat: v18 with the rank-3 ^T over Array3[\RR64,0,a,0,b,0,c\]
+   as the model has it (Rank3, which Matrix's Rank2 excludes), calling
+   FlatArrays2's nat-free transpose.  Run cold (row 98).  Also: one and zero
+   on an RR64 value, for a 0/1 mask in the element type. *)
+component v18b_postfix_nat
+import FlatArrays2.{...}
+export Executable
+
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
+opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = transpose(t)
+
+run(): () = do
+    m = array[\RR64\](2, 3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    t = array[\RR64\](2, 2, 3).fill(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 1.0 (6 p + 3 i + j))
+    println "(1) m^T = " (m^T)
+    println "(2) t^T = " (t^T)
+    println "(3) (t^T)^T = " (do tt = t^T; tt^T end)
+    x = 2.5
+    println "(4) x.one = " x.one "  x.zero = " x.zero
+  end
+end

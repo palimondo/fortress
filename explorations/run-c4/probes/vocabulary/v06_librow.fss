@@ -1,0 +1,27 @@
+(* v06_librow: the row lift over the library's own row view m[i,:] (a Row
+   object extending Array1, FortressLibrary.fss:2484) instead of FlatArrays'
+   RowView (which extends Vector).  What survives: assign into out[i,:], the
+   index-generic scalar operators, SUM, |x|.  What does not (row 54): the
+   vector algebra, x DOT x, which is what the model's rmsn uses. *)
+component v06_librow
+import FlatArrays.{...}
+export Executable
+
+rowsL(f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = m.sizes
+    out = array[\RR64\](n, d)
+    for i <- 0#n do (out[i,:]).assign(f(m[i,:])) end
+    out
+  end
+
+run(): () = do
+    m = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j + 1))
+    r = m[1,:]
+    println "(1) m[1,:] = " r "  |r| = " (|r|) "  SUM r = " (SUM r) "  SUM[t <- r] t^2 = " (SUM[t <- r] t^2)
+    println "(2) generic scalar ops on the library row: r / 2.0 = " (r / 2.0) "  SQRT r = " (SQRT r) "  r × r = " (r × r)
+    rmsnS(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (10.0^(-5) + (SUM[t <- x] t^2) / |x|)
+    println "(3) rowsL(rmsn with a generator sum, m) = " (rowsL(rmsnS, m))
+    println "(4) rows(rmsn with a generator sum, m) [FlatArrays, RowView] = " (rows(rmsnS, m))
+    println "(5) now the DOT form on the library row: r DOT r = " (r DOT r)
+  end
+end

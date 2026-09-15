@@ -1,0 +1,19 @@
+(A) L16: l∘(+.×⍉)¨ over a three-name strand
+(1) macro t5 elem 0    shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+(1') host X1 ⍉wq       shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+(2) macro t5 elem 1    shape 3 x 5  [1,1] = 2.1612159905093518  sum = 21.01859792657633
+(2') host X1 ⍉wk       shape 3 x 5  [1,1] = 2.1612159905093518  sum = 21.01859792657633
+(3) macro t5 elem 2    shape 3 x 5  [1,1] = -0.5038013898551548  sum = -4.9000250687814635
+(3') host X1 ⍉wv       shape 3 x 5  [1,1] = -0.5038013898551548  sum = -4.9000250687814635
+(B) L25: l∘(+.×⍨⍉)¨ over a three-name strand -- the commuted train
+(4) macro t6 elem 0    shape 5 x 4  [1,1] = 0.9298553987114135  sum = 12.42786406270558
+(4') host (⍉dQ) X1     shape 5 x 4  [1,1] = 0.9298553987114135  sum = 12.42786406270558
+(5) macro t6 elem 1    shape 5 x 4  [1,1] = 1.1130727907331  sum = 1.0577063373041442
+(5') host (⍉dK) X1     shape 5 x 4  [1,1] = 1.1130727907331  sum = 1.0577063373041442
+(6) macro t6 elem 2    shape 5 x 4  [1,1] = 1.5957203111083624  sum = 30.384711460015822
+(6') host (⍉dV) X1     shape 5 x 4  [1,1] = 1.5957203111083624  sum = 30.384711460015822
+(C) the three ways a template can write ONE product
+(7) macro t7 ((l))((r)) shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+(8) macro t8 (l) r      shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+(9) macro t9 via locals shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+done

@@ -1,0 +1,28 @@
+(* v01a_libfree: what the shipped algebraic traits already give a runtime-built
+   array, with nothing declared.  Vector and Matrix extend AdditiveGroup, so
+   + - and unary - are theirs at rank 1 and 2; juxtaposition with a scalar is
+   the library's scale; juxtaposition of two arrays is the inner product. *)
+component v01a_libfree
+export Executable
+
+run(): () = do
+    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    m = array[\RR64\](2, 3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    t = array[\RR64\](2, 2, 2).fill(fn (i: ZZ32, j: ZZ32, k: ZZ32): RR64 => 1.0 (4 i + 2 j + k))
+    println "(1) v + v = " (v + v) "   v - v = " (v - v) "   -v = " (-v) "   v.zero = " v.zero
+    println "(2) m + m = " (m + m) "   m - m = " (m - m) "   -m = " (-m)
+    println "(3) 2.0 m = " (2.0 m) "   m 2.0 = " (m 2.0) "   2.0 v = " (2.0 v)
+    println "(4) m v-shaped product m (m.t()) = " (m (m.t())) "   v DOT v = " (v DOT v) "   v v = " (v v)
+    println "(5) m^2 via TIMES on Number: 2.0 × 3.0 = " (2.0 × 3.0) "   2.0 TIMES 3.0 = " (2.0 TIMES 3.0)
+    println "(6) rank 3 exists and maps: t.map = " (t.map[\RR64\](fn (e: RR64): RR64 => e + 0.5))
+    typecase m of
+        AnyMatrix => println "(7) a runtime-built rank-2 array IS an AnyMatrix"
+        else => println "(7) a runtime-built rank-2 array is NOT an AnyMatrix"
+    end
+    typecase t of
+        AnyMatrix => println "(8) rank 3 is an AnyMatrix (?)"
+        AnyVector => println "(8) rank 3 is an AnyVector (?)"
+        else => println "(8) rank 3 is neither AnyVector nor AnyMatrix: no algebraic trait reaches it"
+    end
+  end
+end

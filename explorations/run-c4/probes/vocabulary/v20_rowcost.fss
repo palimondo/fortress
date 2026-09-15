@@ -1,0 +1,60 @@
+(* v20_rowcost: Time2's row lift is 4-5x Time1's.  Which part: the library's
+   m[i,:] (a Row over a range subarray, FortressLibrary.fss:2363, built by
+   narrowToRange and four reflects per row) or the user DOT?  Three lifts over
+   one 64 x 16 matrix, same function:
+   (a) library m[i,:] both sides, user DOT (FlatArrays2's form);
+   (b) a six-line RowView extending Array1 both sides, user DOT (C4's view, my DOT);
+   (c) a six-line RowView extending Vector both sides, the library's DOT (C4's form). *)
+component v20_rowcost
+export Executable
+
+opr DOT(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64 = SUM[(i, e) <- a.indexValuePairs] e b[i]
+opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e / s)
+rmsnS(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (10.0^(-5) + (x DOT x) / |x|)
+
+object RowA[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Array1[\RR64,0,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, x: RR64): () = base.put((i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+object RowV[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
+    get(j: ZZ32): RR64 = base.get(i, j)
+    put(j: ZZ32, x: RR64): () = base.put((i, j), x)
+    init0(j: ZZ32, x: RR64): () = base.init0((i, j), x)
+    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
+end
+rowA[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Array[\RR64,ZZ32\] = RowA[\r,c\](m, i)
+rowV[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Array[\RR64,ZZ32\] = RowV[\r,c\](m, i)
+
+liftL(f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = m.sizes; out = array[\RR64\](n, d)
+    for i <- 0#n do (out[i,:]).assign(f(m[i,:])) end
+    out
+  end
+liftA(f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = m.sizes; out = array[\RR64\](n, d)
+    for i <- 0#n do (rowA(out, i)).assign(f(rowA(m, i))) end
+    out
+  end
+liftV(f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = m.sizes; out = array[\RR64\](n, d)
+    for i <- 0#n do (rowV(out, i)).assign(f(rowV(m, i))) end
+    out
+  end
+
+run(): () = do
+    m = array[\RR64\](64, 16).fill(fn (i: ZZ32, j: ZZ32): RR64 => 0.01 (3 i + j) - 4.0)
+    reps = 10
+    a = liftL(rmsnS, m); b = liftA(rmsnS, m); c = liftV(rmsnS, m)
+    println "(0) the three agree: " (a[5,7] = b[5,7]) " " (b[5,7] = c[5,7]) "  value " a[5,7]
+    t0 = nanoTime()
+    for k <- seq(0#reps) do x = liftL(rmsnS, m); end
+    t1 = nanoTime()
+    for k <- seq(0#reps) do x = liftA(rmsnS, m); end
+    t2 = nanoTime()
+    for k <- seq(0#reps) do x = liftV(rmsnS, m); end
+    t3 = nanoTime()
+    println "(1) library m[i,:] + user DOT " ((t1 - t0) DIV (1000000 reps)) " ms | RowView extends Array1 + user DOT " ((t2 - t1) DIV (1000000 reps)) " ms | RowView extends Vector + library DOT " ((t3 - t2) DIV (1000000 reps)) " ms"
+  end
+end

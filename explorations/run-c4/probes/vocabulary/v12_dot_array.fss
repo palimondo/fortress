@@ -1,0 +1,35 @@
+(* v12_dot_array: the one thing the library's row view m[i,:] lacks (row 54)
+   is the vector algebra; the model's rmsn and sm_b need only DOT of it.  A
+   non-generic opr DOT over Array[\RR64,ZZ32\] beside the library's generic
+   Vector DOT: accepted?  which one does a Vector pick?  and does it make the
+   library's Row, and the row of a plane view, enough for the row lift?  Run
+   cold (row 98). *)
+component v12_dot_array
+import FlatArrays.{...}
+export Executable
+
+opr DOT(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64 = SUM[(i, e) <- a.indexValuePairs] e b[i]
+
+rowsL(f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (n, d) = m.sizes
+    out = array[\RR64\](n, d)
+    for i <- 0#n do (out[i,:]).assign(f(m[i,:])) end
+    out
+  end
+rmsnD(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (10.0^(-5) + (x DOT x) / |x|)
+
+run(): () = do
+    m = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j + 1))
+    v = vec(3, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    r = m[1,:]
+    println "(1) r DOT r on the library Row = " (r DOT r) "   v DOT v on a Vector = " (v DOT v) "   r DOT v = " (r DOT v)
+    println "(2) rowsL(rmsn with DOT, m) = " (rowsL(rmsnD, m))
+    println "(3) rows(rmsn with DOT, m) [FlatArrays] = " (rows(rmsnD, m))
+    t = array[\RR64\](2, 2, 3).fill(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 1.0 (6 p + 3 i + j + 1))
+    pr = (plane(t, 1))[1,:]
+    println "(4) a row of a plane view, plane(t,1)[1,:] = " pr "  DOT itself = " (pr DOT pr)
+    (plane(t, 1))[0,:].assign(v)
+    println "(5) after plane(t,1)[0,:].assign(v), t = " t
+    println "(6) the library's v v and m v unchanged: " (v v) "  " (m v)
+  end
+end

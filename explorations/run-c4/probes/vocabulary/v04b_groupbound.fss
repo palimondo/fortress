@@ -1,0 +1,16 @@
+(* v04b_groupbound: the same declaration with the algebraic bound the spec
+   would suggest, T extends AdditiveGroup[\T\], instead of T extends Number.
+   RR64 extends AdditiveGroup[\Number\], not AdditiveGroup[\RR64\]
+   (FortressLibrary.fsi:273-276), so on paper RR64 does not satisfy it. *)
+component v04b_groupbound
+export Executable
+
+opr +[\T extends AdditiveGroup[\T\], I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e: T): T => e + s)
+
+run(): () = do
+    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    kv = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => i + 1)
+    println "(1) v + 1.5 = " (v + 1.5)
+    println "(2) kv + 1 = " (kv + 1)
+  end
+end

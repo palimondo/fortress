@@ -1,0 +1,9 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress6464850392326291293rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress6464850392326291293rats/com/sun/fortress/parser/templateparser/TemplateParser9.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/apl/probes-4b/y06_fold.fss:87:44:
+    Variable s6 is not defined.
+/home/user/fortress/explorations/apl/probes-4b/y06_fold.fss:89:44:
+    Variable s8 is not defined.

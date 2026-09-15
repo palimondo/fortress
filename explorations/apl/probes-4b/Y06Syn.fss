@@ -1,0 +1,4 @@
+(* the stub component the grammar api needs *)
+component Y06Syn
+export Y06Syn
+end

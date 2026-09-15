@@ -1,0 +1,14 @@
+(* v11_keys_subscript: gather as a subscript by an index vector, m[ks, :],
+   the APL m[ks;].  The library's Array2 subscripts take a Range or a
+   TrivialOpenRange per axis (FortressLibrary.fss:2341-2366, half of them
+   commented out), never an index vector. *)
+component v11_keys_subscript
+export Executable
+
+run(): () = do
+    m = array[\RR64\](4, 2).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j))
+    ks = array[\ZZ32\](2).fill(fn (i: ZZ32): ZZ32 => 3 - 2 i)
+    println "(1) a range slice works: m[1:2, :] ... via m[(1,0)#(2,2)] = " (m[(1,0)#(2,2)])
+    println "(2) m[ks, :] = " (m[ks, :])
+  end
+end

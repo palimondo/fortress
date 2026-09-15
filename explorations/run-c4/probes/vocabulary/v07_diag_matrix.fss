@@ -1,0 +1,37 @@
+(* v07_diag_matrix: diag(v) m without an opr juxtaposition of its own -- Diag
+   as a Matrix view (get(i,j) = d[i] if i = j else 0), so the product is the
+   library's.  Cost: the library product walks s x s x c against the row
+   scaling's s x c; measured at the model's shape (s = 16 rows of a
+   16 x 27 loss gradient per document, batch 1 and batch 4). *)
+component v07_diag_matrix
+import FlatArrays.{...}
+export Executable
+
+object DiagM[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; if i = j then d[i] else 0.0 end end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    replica[\U\](): Array2[\U,0,s,0,s\] = array2[\U,s,s\]()
+end
+diagM[\nat s\](v: Vector[\RR64,s\]): DiagM[\s\] = DiagM[\s\](v)
+
+run(): () = do
+    v = vec(3, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    m = mat(3, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j + 1))
+    println "(1) diagM(v) m [library product] = " (diagM(v) m)
+    println "(2) diag(v) m  [FlatArrays' own opr] = " (diag(v) m)
+    println "(3) diagM(v) as a matrix = " (diagM(v))
+    bench(n: ZZ32, reps: ZZ32): () = do
+        w = vec(n, fn (i: ZZ32): RR64 => 0.5 + 0.01 i)
+        g = mat(n, 27, fn (i: ZZ32, j: ZZ32): RR64 => 0.001 (i + j))
+        t0 = nanoTime()
+        for k <- seq(0#reps) do x = diagM(w) g; end
+        t1 = nanoTime()
+        for k <- seq(0#reps) do y = diag(w) g; end
+        t2 = nanoTime()
+        println "(4) n = " n ": library product " ((t1 - t0) DIV (1000000 reps)) " ms/op, FlatArrays' row scaling " ((t2 - t1) DIV (1000000 reps)) " ms/op"
+      end
+    bench(16, 200)
+    bench(64, 50)
+  end
+end

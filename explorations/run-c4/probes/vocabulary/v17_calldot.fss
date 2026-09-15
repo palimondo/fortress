@@ -1,0 +1,14 @@
+(* v17_calldot: transpose(m) exists because a call may not be followed by ^T
+   (rows 144, 158).  Is the library's own spelling, a dotted call on the
+   call's result, onehot(ks, 5).t(), accepted where onehot(ks, 5)^T is not? *)
+component v17_calldot
+import FlatArrays.{...}
+export Executable
+
+run(): () = do
+    ks = keys(3, fn (i: ZZ32): ZZ32 => 2 i)
+    dx = mat(3, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j + 1))
+    println "(1) onehot(ks, 5).t() dx = " (onehot(ks, 5).t() dx)
+    println "(2) transpose(onehot(ks, 5)) dx = " (transpose(onehot(ks, 5)) dx)
+  end
+end

@@ -1,0 +1,3 @@
+(0) the three agree: true true  value -1.0012495035259592
+(1) library m[i,:] + user DOT 162 ms | RowView extends Array1 + user DOT 32 ms | RowView extends Vector + library DOT 25 ms
+exit 0  (5 s)

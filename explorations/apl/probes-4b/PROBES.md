@@ -205,3 +205,122 @@ meet if both come from outside the macro (row 201's gap, or the use site's own
 declarations, row 270). A sub-language whose `⍵` is written by a rule other than
 the one that binds it is therefore not expressible; the binder and every one of
 its references must be written by a single template, which Q2a shows is enough.
+
+## y05, y06 -- the two rules the focused base adds (2026-09-15)
+
+Two more probes, against two more throw-away grammars (`Y05Syn.fsi`, `Y06Syn.fsi`,
+each with its five-line stub `.fss`), for the two mechanisms `../mg/DESIGN.md`
+rests on that rungs 1-6 never wrote: the **tacit trains** of Dyalog L16 and L25,
+and the **folded reduction** of L19. Same command line as y01-y04.
+
+| probe | question | verdict |
+|---|---|---|
+| `y05_tacit` | `l∘(+.×⍉)¨a b c` and `l∘(+.×⍨⍉)¨a b c` as one rule each, expanding to a TUPLE of products over FlatArrays | **yes**, to the last digit |
+| `y06_fold` | `+/l×r` to `DOT` above `+/v` to `SUM`; and the whole glue of L13 against C4's `Corpus` | **yes** for both patterns and all ten glue entries; two mechanical traps found |
+
+### y05 -- the tacit trains
+
+Rules (`Y05Syn.fsi`); the left operand and the three strand elements are closed
+name sets of the sub-language, never a host `Expr` gap, because the terminal that
+follows the left operand is `∘`, which is Fortress's RING/CIRC/COMPOSE:
+
+```
+t5⦇ l:Y5Name ∘ ( `+ . × ⍉ ) ¨ a:Y5T SPACE b:Y5T SPACE c:Y5T ⦈
+  => <[ (((l)) (transpose((a))), ((l)) (transpose((b))), ((l)) (transpose((c)))) ]>
+t6⦇ l:Y5Name ∘ ( `+ . × ⍨ ⍉ ) ¨ a:Y5T SPACE b:Y5T SPACE c:Y5T ⦈
+  => <[ ((transpose((a))) ((l)), (transpose((b))) ((l)), (transpose((c))) ((l))) ]>
+```
+
+`y05_tacit.out`, six macro lines beside six hand-written host lines, all equal:
+
+```
+(1) macro t5 elem 0    shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+(1') host X1 ⍉wq       shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+...
+(4) macro t6 elem 0    shape 5 x 4  [1,1] = 0.9298553987114135  sum = 12.42786406270558
+(4') host (⍉dQ) X1     shape 5 x 4  [1,1] = 0.9298553987114135  sum = 12.42786406270558
+...
+(7) macro t7 ((l))((r)) shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+(8) macro t8 (l) r      shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+(9) macro t9 via locals shape 3 x 5  [1,1] = 3.3856960348500054  sum = 10.09941473963524
+```
+
+So a derived function built from glyphs needs no function VALUE at all: one rule
+writes its whole body, and the whole body is C4's own product. (7)-(9) settle the
+one mechanical doubt: **two parenthesised expressions side by side,
+`((X1)) (transpose((wq)))`, are the juxtaposition product** -- neither is a
+function, so the host does not read it as an application. The bare and the
+via-locals spellings agree with it. This is what lets every `+.×` rule of the
+focused base expand to plain juxtaposition. Ran green on the first attempt, so
+there is no `y05_tacit.out.N`.
+
+### y06 -- the folded reduction, and the glue of L13
+
+```
+s6⦇ `+ / SPACE r:Y6N ⦈                          => <[ SUM (r) ]>
+s8⦇ `+ / SPACE l:Y6N SPACE × SPACE r:Y6N ⦈      => <[ (l) DOT (r) ]>
+```
+
+`y06_fold.out`, part (A):
+
+```
+(1)  macro s6 +/vv        = 13.5        (1') host SUM vv          = 13.5
+(2)  macro s8 +/vv×ww     = 37.625      (2') host vv DOT ww       = 37.625
+```
+
+Part (B) checks the ten glue entries of L13 against C4's own `Corpus` object
+(`FlatData`) on a synthetic three-document corpus, batch `2 1`:
+
+```
+(12) max |glue - corpus| : ids 0 tg 0 vm 0.0 pos 0
+(13) tally(bk) = 2 ; one plus iota 4 = 1 2 3 4
+(14) outerLt row 0 = 0.0 1.0 1.0
+(15) -(1.0 10)^10 = -1.0E10 ; SQRT (1.0 4) = 2.0
+```
+
+so `ravel(cols(gather(Tokm,b), iota(Blk)))` **is** `corpus.tokens(b,0)`,
+`ravel(outerGt(gather(Len,b), iota(Blk)))` **is** `corpus.valid(b)` and
+`cycle(tally(b) Blk, iota(Blk))` **is** `corpus.positions(b)`, exactly.  The
+`opr +[\I\](s: ZZ32, a: Array[\ZZ32,I\])` overload the glue adds for `1+⍳Blk`
+coexists with the library's and FlatArrays' `+`.
+
+### The three mechanical traps y06 cost, all recorded
+
+1. **A macro bracket must not stand bare as a juxtaposed argument.**
+   `println "…" s6⦇ +/vv ⦈` does not match the rule at all: the bracket is left
+   as a variable reference. `y06_fold.out.0`, the whole of it:
+
+   ```
+   /home/user/fortress/explorations/apl/probes-4b/y06_fold.fss:87:44:
+       Variable s6 is not defined.
+   /home/user/fortress/explorations/apl/probes-4b/y06_fold.fss:89:44:
+       Variable s8 is not defined.
+   ```
+
+   Parenthesising the use -- `println "…" (s6⦇ +/vv ⦈)` -- fixes every one of
+   them. The base never meets this because its blocks stand on the right-hand
+   side of a binding. Everything the probe tried before finding this (the two
+   rules inside one nonterminal, inside one bracket name, in both orders, with
+   and without a preceding glyph rule, with the escape first or last in the
+   nonterminal) failed with this same message or with a Syntax Error, and was
+   diagnosed as a grammar fault; it was not.
+
+2. **Everything that looked like a glyph restriction was trap 1.** While the
+   uses were bare, `+/⍟vv` and `+/vv×⍟ww` both died with a Syntax Error AT the
+   `⍟`, and four grammar shapes were tried to move it. With the uses
+   parenthesised the same rules parse both, and
+   `(s8⦇ +/vv×⍟ww ⦈)` equals `vv DOT log(ww)` to the last digit (line (3) of
+   `y06_fold.out`). So no glyph position is restricted, and the folded rule of
+   L19 may be written as `` `+ / SPACE l:AplAtom SPACE × SPACE r:AplE `` with the
+   `⍟` left to `AplE`, which is what `../mg/AplMgSyntax.fsi` does.
+
+3. **Rule order settles nothing at the bracket level.** The two reduction rules
+   were first written as two alternatives of ONE bracket name, the shorter above
+   the longer; `+/vv×ww` still reached the longer one, because the closing `⦈`
+   is part of each alternative and the parser backtracks over it. Order decides
+   only inside an ordinary nonterminal, where PEG commits to the first
+   alternative that succeeds and the caller cannot ask for another parse. That
+   is where the focused base puts the pair (`AplE`), as the ladder's base does.
+
+Both probes are cheap: y05 7.5 s, y06 about 10 s, each dominated by parser
+generation.

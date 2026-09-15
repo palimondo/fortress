@@ -1,0 +1,21 @@
+grep -n -i -E 'reshape|ravel|catenat|outer product|diag|onehot|one-hot' Library/FortressLibrary.fsi Library/FortressLibrary.fss ProjectFortress/LibraryBuiltin/*.fsi  (2026-09-15)
+Library/FortressLibrary.fsi:1965:(** A reduction performing String concatenation **)
+Library/FortressLibrary.fsi:1971:(** A reduction performing String concatenation with a space **)
+Library/FortressLibrary.fsi:1977:(** A reduction performing String concatenation with newline separation **)
+Library/FortressLibrary.fsi:1982:(** This operator performs string concatenation, first converting
+Library/FortressLibrary.fsi:1988:(** This operator performs string concatenation, first converting
+Library/FortressLibrary.fsi:1995:(** This operator performs string concatenation with newline
+Library/FortressLibrary.fsi:2347:        then concatenates with a whitespace separator unless one of the two arguments is
+Library/FortressLibrary.fsi:2358:    (** opr // concatenates with a single newline separator. **)
+Library/FortressLibrary.fsi:2364:    (** opr /// concatenates with a double newline separator **)
+Library/FortressLibrary.fss:3297:(** A reduction performing String concatenation **)
+Library/FortressLibrary.fss:3304:(** A reduction performing String concatenation with a space **)
+Library/FortressLibrary.fss:3311:(** A reduction performing String concatenation with newline separation **)
+Library/FortressLibrary.fss:3317:(** This operator performs string concatenation, first converting
+Library/FortressLibrary.fss:3326:(** This operator performs string concatenation, first converting
+Library/FortressLibrary.fss:3336:(** This operator performs string concatenation with newline
+Library/FortressLibrary.fss:4019:        to String and concatenates **)
+Library/FortressLibrary.fss:4085:(* Concatenates arguments with the given separator *)
+Library/FortressLibrary.fss:4134:print(a:Any):() = print("" a)           (* These use concatenation rather than .asString because the formulation *)
+Library/FortressLibrary.fss:4136:errorPrint(a:Any):() = errorPrint("" a)           (* These use concatenation rather than .asString because the formulation *)
+exit 0  (1 = no line matched; the 'outer' hits of a plain grep are the comprehension nesting at FortressLibrary.fsi:634-739 and Reduction.outer at :1744-1750)

@@ -1,0 +1,24 @@
+(* v05_rows_typecase: can the four rows overloads (two arities x two ranks)
+   be two declarations generic in the index type I, the rank told apart at
+   run time by a typecase?  The bodies stay two, because a generic I gives no
+   way to walk the rows of an Array[\RR64,I\]; the question is whether the api
+   surface can shrink.  The rank-2 and rank-3 bodies are FlatArrays' own,
+   reached through its api. *)
+component v05_rows_typecase
+import FlatArrays.{...}
+export Executable
+
+rowsG[\I\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], a: Array[\RR64,I\]): Array[\RR64,I\] =
+    typecase a of
+        AnyMatrix => rows(f, a)
+        else => rows(f, a)
+    end
+
+run(): () = do
+    m = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    t = array[\RR64\](2, 2, 3).fill(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 1.0 (6 p + 3 i + j))
+    half(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / 2.0
+    println "(1) rowsG over a matrix = " (rowsG(half, m))
+    println "(2) rowsG over rank 3 = " (rowsG(half, t))
+  end
+end

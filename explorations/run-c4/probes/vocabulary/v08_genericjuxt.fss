@@ -1,0 +1,18 @@
+(* v08_genericjuxt: one product declaration generic in the index type,
+   opr juxtaposition[\I\](x: Array[\RR64,I\], y: Array[\RR64,I\]), beside the
+   library's Matrix x Matrix product.  Is it rejected at declaration (row 159's
+   rule: two generic declarations with no excluding pair), and if not, which
+   one does m m pick for a runtime-built matrix?  Run cold (row 98). *)
+component v08_genericjuxt
+export Executable
+
+opr juxtaposition[\I\](x: Array[\RR64,I\], y: Array[\RR64,I\]): Array[\RR64,I\] =
+    x.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e y[i])
+
+run(): () = do
+    m = array[\RR64\](2, 2).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j + 1))
+    t = array[\RR64\](2, 2, 2).fill(fn (i: ZZ32, j: ZZ32, k: ZZ32): RR64 => 1.0 (4 i + 2 j + k))
+    println "(1) t t (rank 3, only the generic applies) = " (t t)
+    println "(2) m m = " (m m) "  (product [7 10; 15 22] or elementwise [1 4; 9 16]?)"
+  end
+end

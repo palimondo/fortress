@@ -1,0 +1,5 @@
+(* the stub component the grammar api needs: a grammar may be declared only in
+   an api, and an api still needs a component to be importable *)
+component AplMgSyntax
+export AplMgSyntax
+end

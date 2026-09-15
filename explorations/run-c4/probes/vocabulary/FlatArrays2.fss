@@ -1,0 +1,160 @@
+(* FlatArrays2 -- see FlatArrays2.fsi and REPORT.md.  Shapes of views are
+   taken at run time through the library's own reflect idiom
+   (FortressLibrary.fss:1922-1934); the row lift uses the library's row view
+   m[i,:] (FortressLibrary.fss:2363, a Row over a subarray). *)
+component FlatArrays2
+export FlatArrays2
+import NatReflect.{...}
+
+(* ------------------------------------------- the elementwise algebra ----- *)
+opr +[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e) => e + s)
+opr +[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\] = a.map[\T\](fn (e) => s + e)
+opr -[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e) => e - s)
+opr -[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\] = a.map[\T\](fn (e) => s - e)
+opr ×[\T extends Number, I\](a: Array[\T,I\], b: Array[\T,I\]): Array[\T,I\] = a.ivmap[\T\](fn (i, e) => e b[i])
+opr /[\T extends Number, I\](a: Array[\T,I\], b: Array[\T,I\]): Array[\T,I\] = a.ivmap[\T\](fn (i, e) => e / b[i])
+opr /[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e) => e / s)
+opr MAX[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\] = a.map[\T\](fn (e) => s MAX e)
+opr MAX[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e) => e MAX s)
+opr >[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\RR64,I\] = a.map[\RR64\](fn (e) => if e > s then 1.0 else 0.0 end)
+opr SQRT[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e) => SQRT e)
+exp[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](exp)
+log[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](log)
+opr DOT(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64 = SUM[(i, e) <- a.indexValuePairs] e b[i]
+
+(* diag(v) m: the product is the library's; a read-only Matrix view *)
+object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; if i = j then d[i] else 0.0 end end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    replica[\U\](): Array2[\U,0,s,0,s\] = array2[\U,s,s\]()
+end
+diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\] = Diag[\s\](v)
+
+(* ------------------------------------------------------------ views ----- *)
+object PView[\nat r, nat c\](base: Array[\RR64,ZZ32\], off: ZZ32) extends Matrix[\RR64,r,c\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get(off + i c + j) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put(off + i c + j, x) end
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0(off + i c + j, x) end
+    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()
+end
+viewN[\nat r, nat c\](base: Array[\RR64,ZZ32\], off: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] = PView[\r,c\](base, off)
+view(p: Array[\RR64,ZZ32\], off: ZZ32, nr: ZZ32, nc: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = viewN(p, off, reflect(nr), reflect(nc))
+
+(* plane d nh + h, row i, column j of the heads view is base[d p + i, h k + j] *)
+object HeadsView[\nat a, nat b, nat c\](base: Array[\RR64,(ZZ32,ZZ32)\], p: ZZ32, nh: ZZ32, k: ZZ32) extends Array3[\RR64,0,a,0,b,0,c\]
+    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (q, i, j) = ix; base.get((q DIV nh) p + i, (q MOD nh) k + j) end
+    put(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.put(((q DIV nh) p + i, (q MOD nh) k + j), x) end
+    init0(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.init0(((q DIV nh) p + i, (q MOD nh) k + j), x) end
+    replica[\U\](): Array3[\U,0,a,0,b,0,c\] = array3[\U,a,b,c\]()
+end
+headsN[\nat a, nat b, nat c\](base: Array[\RR64,(ZZ32,ZZ32)\], p: ZZ32, nh: ZZ32, k: ZZ32, _: N[\a\], _: N[\b\], _: N[\c\]): Array3[\RR64,0,a,0,b,0,c\] =
+    HeadsView[\a,b,c\](base, p, nh, k)
+heads(base: Array[\RR64,(ZZ32,ZZ32)\], p: ZZ32, nh: ZZ32, k: ZZ32): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (nr, nc) = base.sizes
+    headsN(base, p, nh, k, reflect((nr DIV p) nh), reflect(p), reflect(k))
+  end
+object UnheadsView[\nat r, nat cc\](base: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], nh: ZZ32, b: ZZ32, c: ZZ32) extends Matrix[\RR64,r,cc\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get(((i DIV b) nh + (j DIV c), i MOD b, j MOD c)) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put(((i DIV b) nh + (j DIV c), i MOD b, j MOD c), x) end
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0(((i DIV b) nh + (j DIV c), i MOD b, j MOD c), x) end
+    replica[\U\](): Array2[\U,0,r,0,cc\] = array2[\U,r,cc\]()
+end
+unheadsN[\nat r, nat cc\](base: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], nh: ZZ32, b: ZZ32, c: ZZ32, _: N[\r\], _: N[\cc\]): Matrix[\RR64,r,cc\] =
+    UnheadsView[\r,cc\](base, nh, b, c)
+unheads(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], nh: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (np, p, k) = t.sizes
+    unheadsN(t, nh, p, k, reflect((np DIV nh) p), reflect(nh k))
+  end
+object PlaneView[\nat b, nat c\](base: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], p: ZZ32) extends Matrix[\RR64,b,c\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get((p, i, j)) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put((p, i, j), x) end
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0((p, i, j), x) end
+    replica[\U\](): Array2[\U,0,b,0,c\] = array2[\U,b,c\]()
+end
+planeN[\nat b, nat c\](base: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], p: ZZ32, _: N[\b\], _: N[\c\]): Matrix[\RR64,b,c\] = PlaneView[\b,c\](base, p)
+plane(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], p: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do
+    (np, b, c) = t.sizes
+    planeN(t, p, reflect(b), reflect(c))
+  end
+object Transposed3[\nat a, nat b, nat c\](base: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]) extends Array3[\RR64,0,a,0,b,0,c\]
+    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (p, i, j) = ix; base.get((p, j, i)) end
+    put(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (p, i, j) = ix; base.put((p, j, i), x) end
+    init0(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (p, i, j) = ix; base.init0((p, j, i), x) end
+    replica[\U\](): Array3[\U,0,a,0,b,0,c\] = array3[\U,a,b,c\]()
+end
+transposeN[\nat a, nat b, nat c\](base: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], _: N[\a\], _: N[\b\], _: N[\c\]): Array3[\RR64,0,a,0,b,0,c\] = Transposed3[\a,b,c\](base)
+transpose(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (np, b, c) = t.sizes
+    transposeN(t, reflect(np), reflect(c), reflect(b))
+  end
+
+(* ------------------------------------------------- rank-3 algebra -------- *)
+opr juxtaposition(x: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], y: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do
+    (np, n, d) = x.sizes
+    (yp, yn, yd) = y.sizes
+    out = array[\RR64\](np, n, yd)
+    for p <- 0#np do (plane(out, p)).assign((plane(x, p)) (plane(y, p))) end
+    out
+  end
+opr +[\nat r, nat c\](m: Matrix[\RR64,r,c\], t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] =
+    t.ivmap[\RR64\](fn (ix, e) => do (p, i, j) = ix; m[i,j] + e end)
+
+(* -------------------------------------------------- the row lift --------- *)
+rows[\I\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], a: Array[\RR64,I\]): Array[\RR64,I\] =
+    typecase a of
+        AnyMatrix => do
+            (n, d) = a.sizes
+            out = array[\RR64\](n, d)
+            for i <- 0#n do (out[i,:]).assign(f(a[i,:])) end
+            out
+          end
+        else => do
+            (np, n, d) = a.sizes
+            out = array[\RR64\](np, n, d)
+            for p <- 0#np do
+                (po, pa) = (plane(out, p), plane(a, p))
+                for i <- 0#n do (po[i,:]).assign(f(pa[i,:])) end
+            end
+            out
+          end
+    end
+rows[\I\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], x: Array[\RR64,I\], y: Array[\RR64,I\]): Array[\RR64,I\] =
+    typecase x of
+        AnyMatrix => do
+            (n, d) = x.sizes
+            out = array[\RR64\](n, d)
+            for i <- 0#n do (out[i,:]).assign(f(x[i,:], y[i,:])) end
+            out
+          end
+        else => do
+            (np, n, d) = x.sizes
+            out = array[\RR64\](np, n, d)
+            for p <- 0#np do
+                (po, px, py) = (plane(out, p), plane(x, p), plane(y, p))
+                for i <- 0#n do (po[i,:]).assign(f(px[i,:], py[i,:])) end
+            end
+            out
+          end
+    end
+
+(* ----------------------------------------------------------- keys -------- *)
+gather[\T\](m: Array[\T,(ZZ32,ZZ32)\], ks: Array[\ZZ32,ZZ32\]): Array[\T,(ZZ32,ZZ32)\] = do
+    (nr, nc) = m.sizes
+    array[\T\](|ks|, nc).fill(fn (i, j) => m[ks[i], j])
+  end
+onehot(ks: Array[\ZZ32,ZZ32\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+    array[\RR64\](|ks|, width).fill(fn (i, j) => if ks[i] = j then 1.0 else 0.0 end)
+pick(m: Array[\RR64,(ZZ32,ZZ32)\], ks: Array[\ZZ32,ZZ32\]): Array[\RR64,ZZ32\] =
+    array[\RR64\](|ks|).fill(fn (i) => m[i, ks[i]])
+flat(ms: Array[\RR64,(ZZ32,ZZ32)\]...): Array[\RR64,ZZ32\] = do
+    out = array[\RR64\](SUM[m <- ms] |m|).fill(0.0)
+    off: ZZ32 := 0
+    for m <- seq(ms) do
+        (nr, nc) = m.sizes
+        for i <- 0#nr, j <- 0#nc do out[off + i nc + j] := m[i,j] end
+        off += nr nc
+    end
+    out
+  end
+end

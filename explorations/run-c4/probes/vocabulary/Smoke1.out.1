@@ -1,0 +1,169 @@
+(1) v + 1.5 = [0#4][ 2.5 3.5 4.5 5.5 ]  1.5 + m = [0#4,0#3]
+[ -2.5 -1.5 -0.5
+  0.5 1.5 2.5
+  3.5 4.5 5.5
+  6.5 7.5 8.5 ]  t - 0.5 = [0#2,0#2,0#3]
+[ -2.5 -1.0
+  0.5 2.0 ;;
+  -2.0 -0.5
+  1.0 2.5 ;;
+  -1.5 0.0
+  1.5 3.0 ]  0.5 - v = [0#4][ -0.5 -1.5 -2.5 -3.5 ]
+(2) v × w = [0#4][ 2.0 5.0 9.0 14.0 ]  m × m = [0#4,0#3]
+[ 16.0 9.0 4.0
+  1.0 0.0 1.0
+  4.0 9.0 16.0
+  25.0 36.0 49.0 ]  t × t = [0#2,0#2,0#3]
+[ 4.0 0.25
+  1.0 6.25 ;;
+  2.25 0.0
+  2.25 9.0 ;;
+  1.0 0.25
+  4.0 12.25 ]
+(3) v / w = [0#4][ 0.5 0.8 1.0 1.1428571428571428 ]  m / 2.0 = [0#4,0#3]
+[ -2.0 -1.5 -1.0
+  -0.5 0.0 0.5
+  1.0 1.5 2.0
+  2.5 3.0 3.5 ]  0.0 MAX m = [0#4,0#3]
+[ 0.0 0.0 0.0
+  0.0 0.0 1.0
+  2.0 3.0 4.0
+  5.0 6.0 7.0 ]  m MAX 1.0 = [0#4,0#3]
+[ 1.0 1.0 1.0
+  1.0 1.0 1.0
+  2.0 3.0 4.0
+  5.0 6.0 7.0 ]
+(4) m > 0.0 = [0#4,0#3]
+[ 0.0 0.0 0.0
+  0.0 0.0 1.0
+  1.0 1.0 1.0
+  1.0 1.0 1.0 ]  SQRT w = [0#4][ 1.4142135623730951 1.5811388300841898 1.7320508075688772 1.8708286933869707 ]  exp(v) = [0#4][ 2.718281828459045 7.38905609893065 20.085536923187668 54.598150033144236 ]  log(w) = [0#4][ 0.6931471805599453 0.9162907318741551 1.0986122886681098 1.252762968495368 ]
+(5) v DOT w = 30.0  a row: rmsnS = [0#4][ 0.3651481282381064 0.7302962564762128 1.0954443847143192 1.4605925129524255 ]  smS = [0#4][ 0.03205860328008499 0.08714431874203257 0.23688281808991013 0.6439142598879724 ]  smbS = [0#4][ -0.0399554825665521 -0.06503810283695446 -0.058350484054188925 0.1633440694576951 ]
+(6) diag(v) m = [0#4,0#3]
+[ -4.0 -3.0 -2.0
+  -2.0 0.0 2.0
+  6.0 9.0 12.0
+  20.0 24.0 28.0 ]
+(7) transpose(t) = [0#2,0#3,0#2]
+[ -2.0 -1.5 -1.0
+  1.0 1.5 2.0 ;;
+  -0.5 0.0 0.5
+  2.5 3.0 3.5 ]
+(8) MATRIX^T: [0#3,0#4]
+[ -4.0 -1.0 2.0 5.0
+  -3.0 0.0 3.0 6.0
+  -2.0 1.0 4.0 7.0 ]
+(9) view(p, 2, 3, 4) = [0#3,0#4]
+[ 2.0 3.0 4.0 5.0
+  6.0 7.0 8.0 9.0
+  10.0 11.0 12.0 13.0 ]  pv (pv.t()) = [0#3,0#3]
+[ 54.0 110.0 166.0
+  110.0 230.0 350.0
+  166.0 350.0 534.0 ]
+(10) after pv[1,2] := 99.0, p = [0#14][ 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 99.0 9.0 10.0 11.0 12.0 13.0 ]
+(11) heads(act, 2, 2, 2) = [0#4,0#2,0#2]
+[ 0.0 10.0
+  2.0 12.0
+  20.0 30.0
+  22.0 32.0 ;;
+  1.0 11.0
+  3.0 13.0
+  21.0 31.0
+  23.0 33.0 ]
+(12) unheads(h, 2) = [0#4,0#4]
+[ 0.0 1.0 2.0 3.0
+  10.0 11.0 12.0 13.0
+  20.0 21.0 22.0 23.0
+  30.0 31.0 32.0 33.0 ]  plane(h, 3) = [0#2,0#2]
+[ 22.0 23.0
+  32.0 33.0 ]
+(13) write through plane and heads: act = [0#4,0#4]
+[ 0.0 1.0 2.0 3.0
+  10.0 11.0 12.0 13.0
+  20.0 21.0 22.0 -1.0
+  30.0 31.0 32.0 33.0 ]
+(14) batched t u = [0#2,0#2,0#2]
+[ -1.75 0.5
+  9.5 18.5 ;;
+  -2.875 0.5
+  10.625 20.75 ]
+(15) m3 + t = [0#2,0#2,0#3]
+[ 98.0 199.5
+  101.0 202.5 ;;
+  99.5 201.0
+  102.5 204.0 ;;
+  101.0 202.5
+  104.0 205.5 ]
+(16) rows(rmsnS, m) = [0#4,0#3]
+[ -1.2865343763567105 -0.964900782267533 -0.6432671881783553
+  -1.2247356859083902 0.0 1.2247356859083902
+  0.6432671881783553 0.964900782267533 1.2865343763567105
+  0.8257227112462265 0.9908672534954719 1.1560117957447171 ]
+(17) rows(smbS, m, m) = [0#4,0#3]
+[ 132.0 96.0 62.0
+  3.0 -0.0 -1.0
+  -54.0 -78.0 -100.0
+  -525.0 -624.0 -721.0 ]
+(18) rows(smS, t) = [0#2,0#2,0#3]
+[ 0.1863237232258476 0.1863237232258476
+  0.1863237232258476 0.1863237232258476 ;;
+  0.3071958857184984 0.3071958857184984
+  0.3071958857184984 0.3071958857184984 ;;
+  0.506480391055654 0.506480391055654
+  0.506480391055654 0.506480391055654 ]
+(19) rows(smbS, t, t) = [0#2,0#2,0#3]
+[ 18.5 0.5
+  -6.25 -62.5 ;;
+  13.125 -0.0
+  -8.625 -73.5 ;;
+  8.25 0.0
+  -10.5 -84.0 ]
+(20) gather(m, ks) = [0#3,0#3]
+[ -4.0 -3.0 -2.0
+  2.0 3.0 4.0
+  -1.0 0.0 1.0 ]  gather(act, ks) = [0#3,0#4]
+[ 0.0 1.0 2.0 3.0
+  20.0 21.0 22.0 -1.0
+  10.0 11.0 12.0 13.0 ]
+(21) onehot(ks, 5) = [0#3,0#5]
+[ 1.0 0.0 0.0 0.0 0.0
+  0.0 0.0 1.0 0.0 0.0
+  0.0 1.0 0.0 0.0 0.0 ]  pick(m, ks) = [0#3][ -4.0 1.0 3.0 ]
+(22) flat(m, act) = [0#28][ -4.0 -3.0 -2.0 -1.0 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 0.0 1.0 2.0 3.0 10.0 11.0 12.0 13.0 20.0 21.0 22.0 -1.0 30.0 31.0 32.0 33.0 ]
+(23) a value keeps the library algebra: (m + 1.0) (m.t()) = [0#4,0#4]
+[ 20.0 2.0 -16.0 -34.0
+  -7.0 2.0 11.0 20.0
+  -34.0 2.0 38.0 74.0
+  -61.0 2.0 65.0 128.0 ]  (v + 1.0) + w = [0#4][ 4.0 5.5 7.0 8.5 ]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/run-c4/probes/vocabulary/Smoke1.fss:45:91:
+Failed to find any matching overload, args = (__DefaultVector[\ZZ32,3\],__DefaultVector[\ZZ32,3\]), overload = {
+	BY[\I\](a:Array[\FortressLibrary.RR64,I\],b:Array[\FortressLibrary.RR64,I\]):Array[\FortressLibrary.RR64,I\]/home/user/fortress/explorations/run-c4/src/FlatArrays.fss:28:1-121
+	BY(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:109:5-110:76)
+	BY(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:278:5-279:75)
+	BY(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+	BY(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:379:5-66)
+	BY(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:343:5-31)
+	BY(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:662:5-663:74)
+	BY(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:730:5-731:75)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:849:5-850:77)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:568:5-48)
+	BY(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:784:5-785:83)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].BY(self:MultiplicativeRing[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:343:5-31
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].BY(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:621:5-25}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/run-c4/probes/vocabulary/Smoke1.fss:45:91:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit 1  (3 s)

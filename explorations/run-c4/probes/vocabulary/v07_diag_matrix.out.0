@@ -1,0 +1,3 @@
+/home/user/fortress/explorations/run-c4/probes/vocabulary/v07_diag_matrix.fss:24:26-47:
+    Operator <|_|> is not defined.
+exit 255  (2 s)
