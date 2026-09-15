@@ -577,3 +577,12 @@ library side, the shipped `DOT` as a four-rank inner product (254) is the operat
 53's user carrier could not reach, and the `Any` result that kills dispatch (240) is row
 157 without a generic. The Meet Rule and its cache (97, 98) bit it as they bit the ports,
 from the cold-cache side.
+
+The eighteen rows the column gained on 2026-09-15, **266-283**, are older than the ladder:
+they come from the feasibility study that preceded it (`apl-probes/REPORT.md`, merged that
+day) and they are the floor the rungs stand on — that the mechanism runs at all (266),
+that the spec's own `syntax … = Expr` form does not (267), that a grammar may live only in
+an api (269), that a template's free names resolve at the use site (270) — together with
+the three unimplemented corners every later rung ran into (273, 274, 275) and the two
+halves of an APL, the library (281) and the grammar (282), that the six rungs then rebuilt
+at scale.
