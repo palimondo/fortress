@@ -1,0 +1,36 @@
+=== java run 1: Bench1Cell
+bench1 0.8646647302294265
+loop_ns 249860206
+--- process wall: .302340319 s
+=== java run 2: Bench1Cell
+bench1 0.8646647302294265
+loop_ns 249614669
+--- process wall: .296436869 s
+=== java run 3: Bench1Cell
+bench1 0.8646647302294265
+loop_ns 248163683
+--- process wall: .294153582 s
+=== java run 1: Bench1CellTx
+bench1 0.8646647302294265
+loop_ns 3381479743
+--- process wall: 3.435438678 s
+=== java run 2: Bench1CellTx
+bench1 0.8646647302294265
+loop_ns 3378640589
+--- process wall: 3.432438059 s
+=== java run 3: Bench1CellTx
+bench1 0.8646647302294265
+loop_ns 3420141080
+--- process wall: 3.470754162 s
+=== java run 1: Bench1BoxedDouble
+bench1 0.8646647302294265
+loop_ns 138586936
+--- process wall: .184746444 s
+=== java run 2: Bench1BoxedDouble
+bench1 0.8646647302294265
+loop_ns 150441855
+--- process wall: .193703985 s
+=== java run 3: Bench1BoxedDouble
+bench1 0.8646647302294265
+loop_ns 155888585
+--- process wall: .203227774 s

@@ -1,0 +1,30 @@
+=== fortress compile LibraryBuiltin/CompilerBuiltin.fss
+exit=0
+--- wall: 81.324822743 s
+bench1.jar
+fortress.AnyType.jar
+fortress.CompilerBuiltin.jar
+=== fortress compile ../Library/CompilerLibrary.fss
+exit=0
+--- wall: 13.713595048 s
+bench1.jar
+fortress.AnyType.jar
+fortress.CompilerBuiltin.jar
+fortress.CompilerLibrary.jar
+=== fortress compile ../Library/CompilerAlgebra.fss
+exit=0
+--- wall: 1.400302624 s
+CompilerAlgebra.jar
+bench1.jar
+fortress.AnyType.jar
+fortress.CompilerBuiltin.jar
+fortress.CompilerLibrary.jar
+=== fortress compile ../Library/CompilerSystem.fss
+exit=0
+--- wall: 1.464109010 s
+CompilerAlgebra.jar
+CompilerSystem.jar
+bench1.jar
+fortress.AnyType.jar
+fortress.CompilerBuiltin.jar
+fortress.CompilerLibrary.jar

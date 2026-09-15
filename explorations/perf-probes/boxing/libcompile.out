@@ -1,0 +1,11 @@
+=== fortress compile LibraryBuiltin/AnyType.fss
+--- wall: 19.072203390 s
+=== fortress compile LibraryBuiltin/CompilerBuiltin.fss
+--- wall: 79.462186257 s
+=== fortress compile ../Library/CompilerLibrary.fss
+--- wall: 14.503514849 s
+=== fortress compile ../Library/CompilerAlgebra.fss
+--- wall: 1.914702240 s
+=== fortress compile ../Library/CompilerSystem.fss
+--- wall: 1.733389052 s
+TOTAL: 117 s

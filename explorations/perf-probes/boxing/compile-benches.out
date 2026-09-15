@@ -1,0 +1,12 @@
+=== fortress compile bench1.fss
+exit=0
+--- wall: .708392949 s
+=== fortress compile bench2.fss
+exit=0
+--- wall: 1.547712892 s
+=== fortress compile bench1t.fss
+exit=0
+--- wall: 1.586010068 s
+=== fortress compile bench2t.fss
+exit=0
+--- wall: 1.695216459 s

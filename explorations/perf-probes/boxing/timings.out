@@ -1,0 +1,179 @@
+# host: Linux 6.18.44-fc-v33 x86_64
+# jdk: openjdk version "25.0.3" 2026-04-21
+# FORTRESS_THREADS=1  JAVA_FLAGS=-Xmx4g -Xss64m
+# date: 2026-09-15T21:29:45+00:00
+=== compiled fortress run 1: fortress run bench1t
+bench1t  0.8646647302294265
+loop_ns  9.236815673E9
+--- process wall: 9.545942088 s
+=== compiled fortress run 2: fortress run bench1t
+bench1t  0.8646647302294265
+loop_ns  9.344125242E9
+--- process wall: 9.640741798 s
+=== compiled fortress run 3: fortress run bench1t
+bench1t  0.8646647302294265
+loop_ns  9.635347969E9
+--- process wall: 9.857123106 s
+=== compiled fortress run 1: fortress run bench2t
+bench2t  1812692.3699162973
+loop_ns  1.536808266E9
+--- process wall: 1.935579624 s
+=== compiled fortress run 2: fortress run bench2t
+bench2t  1812692.3699162973
+loop_ns  1.657339528E9
+--- process wall: 1.976081821 s
+=== compiled fortress run 3: fortress run bench2t
+bench2t  1812692.3699162973
+loop_ns  1.592419953E9
+--- process wall: 1.945737645 s
+=== compiled fortress run 1: fortress run bench1a
+bench1a  0.0
+loop_ns  6.72877985E8
+--- process wall: .958020313 s
+=== compiled fortress run 2: fortress run bench1a
+bench1a  0.0
+loop_ns  6.27155916E8
+--- process wall: .974069695 s
+=== compiled fortress run 3: fortress run bench1a
+bench1a  0.0
+loop_ns  5.6695024E8
+--- process wall: .821590172 s
+=== compiled fortress run 1: fortress run bench1b
+bench1b  0.0
+loop_ns  6.352272241E9
+--- process wall: 6.673525877 s
+=== compiled fortress run 2: fortress run bench1b
+bench1b  0.0
+loop_ns  6.553190296E9
+--- process wall: 6.874768302 s
+=== compiled fortress run 3: fortress run bench1b
+bench1b  0.0
+loop_ns  6.569960792E9
+--- process wall: 6.907996078 s
+=== compiled fortress run 1: fortress run bench1c
+bench1c  2.000000000334037
+loop_ns  8.361677847E9
+--- process wall: 8.660351781 s
+=== compiled fortress run 2: fortress run bench1c
+bench1c  2.000000000334037
+loop_ns  7.824456907E9
+--- process wall: 8.113875836 s
+=== compiled fortress run 3: fortress run bench1c
+bench1c  2.000000000334037
+loop_ns  7.743883341E9
+--- process wall: 8.128953272 s
+=== compiled fortress (untimed source) run 1: fortress run bench1
+bench1  0.8646647302294265
+--- process wall: 9.928722243 s
+=== compiled fortress (untimed source) run 2: fortress run bench1
+bench1  0.8646647302294265
+--- process wall: 9.672543257 s
+=== compiled fortress (untimed source) run 3: fortress run bench1
+bench1  0.8646647302294265
+--- process wall: 9.791947275 s
+=== compiled fortress (untimed source) run 1: fortress run bench2
+bench2  1812692.3699162973
+--- process wall: 1.529485665 s
+=== compiled fortress (untimed source) run 2: fortress run bench2
+bench2  1812692.3699162973
+--- process wall: 1.474441087 s
+=== compiled fortress (untimed source) run 3: fortress run bench2
+bench2  1812692.3699162973
+--- process wall: 1.492171475 s
+=== java run 1: Bench1Prim
+bench1 0.8646647302294265
+loop_ns 59037154
+--- process wall: .095297653 s
+=== java run 2: Bench1Prim
+bench1 0.8646647302294265
+loop_ns 59779788
+--- process wall: .096927221 s
+=== java run 3: Bench1Prim
+bench1 0.8646647302294265
+loop_ns 60715582
+--- process wall: .098116054 s
+=== java run 1: Bench1Boxed
+bench1 0.8646647302294265
+loop_ns 145159018
+--- process wall: .186462910 s
+=== java run 2: Bench1Boxed
+bench1 0.8646647302294265
+loop_ns 141414333
+--- process wall: .187595788 s
+=== java run 3: Bench1Boxed
+bench1 0.8646647302294265
+loop_ns 139536408
+--- process wall: .180501119 s
+=== java run 1: Bench1BoxedLit
+bench1 0.8646647302294265
+loop_ns 2824090931
+--- process wall: 2.873297724 s
+=== java run 2: Bench1BoxedLit
+bench1 0.8646647302294265
+loop_ns 3117287748
+--- process wall: 3.167515823 s
+=== java run 3: Bench1BoxedLit
+bench1 0.8646647302294265
+loop_ns 3097604889
+--- process wall: 3.150244234 s
+=== java run 1: Bench1Full
+bench1 0.8646647302294265
+loop_ns 7726683307
+--- process wall: 7.781978897 s
+=== java run 2: Bench1Full
+bench1 0.8646647302294265
+loop_ns 8012289389
+--- process wall: 8.064712385 s
+=== java run 3: Bench1Full
+bench1 0.8646647302294265
+loop_ns 8083189853
+--- process wall: 8.138174193 s
+=== java run 1: Bench2Prim
+bench2 1812692.3699162973
+loop_ns 6907393
+--- process wall: .047089301 s
+=== java run 2: Bench2Prim
+bench2 1812692.3699162973
+loop_ns 7077645
+--- process wall: .046623163 s
+=== java run 3: Bench2Prim
+bench2 1812692.3699162973
+loop_ns 6966455
+--- process wall: .046956236 s
+=== java run 1: Bench2Obj
+bench2 1812692.3699162973
+loop_ns 27308806
+--- process wall: .070976746 s
+=== java run 2: Bench2Obj
+bench2 1812692.3699162973
+loop_ns 27448127
+--- process wall: .067439779 s
+=== java run 3: Bench2Obj
+bench2 1812692.3699162973
+loop_ns 26367415
+--- process wall: .064875406 s
+=== java run 1: Bench2Boxed
+bench2 1812692.3699162973
+loop_ns 46618882
+--- process wall: .088252388 s
+=== java run 2: Bench2Boxed
+bench2 1812692.3699162973
+loop_ns 41400279
+--- process wall: .078082195 s
+=== java run 3: Bench2Boxed
+bench2 1812692.3699162973
+loop_ns 45425243
+--- process wall: .089605866 s
+=== java run 1: Bench2BoxedLit
+bench2 1812692.3699162973
+loop_ns 351142571
+--- process wall: .395604621 s
+=== java run 2: Bench2BoxedLit
+bench2 1812692.3699162973
+loop_ns 403283495
+--- process wall: .455097563 s
+=== java run 3: Bench2BoxedLit
+bench2 1812692.3699162973
+loop_ns 388748175
+--- process wall: .447464268 s
+# done: 2026-09-15T21:32:18+00:00
