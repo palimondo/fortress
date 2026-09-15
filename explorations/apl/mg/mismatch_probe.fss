@@ -1,0 +1,86 @@
+(* mismatch_probe -- what the shared nats of FlatArrays2 buy at dispatch.  Every
+   declaration whose nats assert an agreement between two parameters is called
+   with shapes that do NOT agree, one case per run: the case number is the JVM
+   property mm (bin/fortress passes JAVA_FLAGS), so
+     JAVA_FLAGS="$JAVA_FLAGS -Dmm=1" bin/fortress mismatch_probe.fss
+   Case 0 runs the agreeing call of every one of them, so that the failures
+   below are known to be the mismatch and nothing else.  Case 1 wraps its
+   mismatched call in try/catch, to see whether the failure is an exception a
+   program can catch or a terminal error of the interpreter.
+   The five agreements: the batched product's plane count and inner size, the
+   two-argument row lift's shape (rank 2 and rank 3), the matrix onto the
+   planes, the diagonal against the row count, one key per row for pick. *)
+component mismatch_probe
+import FlatArrays2.{...}
+import System.{...}
+export Executable
+
+(* 4 planes of 2x3, and 4 planes of 3x2: these two agree *)
+a43(): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(mat(4, 6, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (6 i + j)), 2, 2, 3)
+(* 2 planes of 3x2 -- another plane count *)
+b32(): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(mat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (4 i + j)), 3, 2, 2)
+(* 4 planes of 2x2 -- the plane count agrees, the inner size does not *)
+c42(): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(mat(4, 4, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (4 i + j)), 2, 2, 2)
+g(x: Array[\RR64,ZZ32\], y: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x + (SUM y)
+
+run(): () = do
+    mm = getProperty("mm", "0")
+    println "mismatch_probe case " mm
+    m43 = mat(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    m53 = mat(5, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    d4 = vec(4, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    d5 = vec(5, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    k4 = keys(4, fn (i: ZZ32): ZZ32 => i MOD 3)
+    k5 = keys(5, fn (i: ZZ32): ZZ32 => i MOD 3)
+    if mm = "0" then
+        (* every agreeing call: the shapes agree and every one of them runs *)
+        p1 = (a43()) (transpose(a43()))
+        println "(0a) batched product, 4 planes 2x3 by 4 planes 3x2: " (p1.sizes)
+        p2 = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0) + a43()
+        println "(0b) matrix 2x3 onto 4 planes of 2x3: " p2[0,0,0]
+        p3 = rows(g, m43, m43)
+        println "(0c) dyadic rows, two 4x3 matrices: " p3[0,0]
+        p4 = rows(g, a43(), a43())
+        println "(0d) dyadic rows, two 4-plane 2x3 arrays: " p4[0,0,0]
+        p5 = diag(d4) m43
+        println "(0e) diag of 4 times a 4x3 matrix: " p5[3,2]
+        p6 = pick(m43, k4)
+        println "(0f) pick, 4 keys for 4 rows: " p6[3]
+    elif mm = "1" then
+        (* the batched product, 4 planes against 2 planes, inside try/catch *)
+        println "(1) batched product with 4 planes against 2 planes, in try/catch"
+        try
+            p = (a43()) (b32())
+            println "    no error: " (p.sizes)
+        catch e
+            Exception => println "    CAUGHT: " e
+        end
+        println "    after the try"
+    elif mm = "2" then
+        println "(2) batched product, plane counts agree (4), inner size 3 against 2"
+        p = (a43()) (c42())
+        println "    no error: " (p.sizes)
+    elif mm = "3" then
+        println "(3) dyadic rows at rank 2, a 4x3 matrix against a 5x3 matrix"
+        p = rows(g, m43, m53)
+        println "    no error: " p[0,0]
+    elif mm = "4" then
+        println "(4) dyadic rows at rank 3, 4 planes of 2x3 against 2 planes of 3x2"
+        p = rows(g, a43(), b32())
+        println "    no error: " p[0,0,0]
+    elif mm = "5" then
+        println "(5) a matrix 5x3 onto 4 planes of 2x3"
+        p = m53 + a43()
+        println "    no error: " p[0,0,0]
+    elif mm = "6" then
+        println "(6) a diagonal of 5 times a 4x3 matrix"
+        p = diag(d5) m43
+        println "    no error: " p[3,2]
+    elif mm = "7" then
+        println "(7) pick, 5 keys for a matrix of 4 rows"
+        p = pick(m43, k5)
+        println "    no error: " p[3]
+    end
+    println "done"
+  end
+end

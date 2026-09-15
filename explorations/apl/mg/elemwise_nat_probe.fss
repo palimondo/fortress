@@ -1,0 +1,18 @@
+(* elemwise_nat_probe -- can the elementwise product say that its two arrays
+   have the SAME SIZES, beside the index-generic declaration FlatArrays2 uses?
+   The sizes are not in the index type, so saying it means a rank-specialised
+   declaration, and this is that declaration standing beside the generic one in
+   ONE component, which is where the interpreter checks (ledger rows 159, 288).
+   Must be run cold (row 98). *)
+component elemwise_nat_probe
+export Executable
+
+opr ×[\T extends Number, I\](a: Array[\T,I\], b: Array[\T,I\]): Array[\T,I\] = a.ivmap[\T\](fn (i, e) => e b[i])
+opr ×[\T extends Number, nat n, nat d\](a: Matrix[\T,n,d\], b: Matrix[\T,n,d\]): Matrix[\T,n,d\] = a.ivmap[\T\](fn (i, e) => e b[i])
+
+run(): () = do
+    m = array[\RR64\](2,3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    p = m × m
+    println "both declarations accepted: " p[1,2]
+  end
+end

@@ -2,6 +2,12 @@
 
 # Worker notes: the focused base
 
+> These notes describe the base as it stood on C4's `FlatArrays`/`FlatData`.
+> The base was swapped onto its own vocabulary, `FlatArrays2`/`FlatData2` in
+> this directory, later the same day; what changed and what it was measured
+> against is `NOTES-swap.md` beside this file.  The numbers below were all
+> reproduced after the swap.
+
 ## State of the component
 
 `MicroGptApl.fss` runs. The five losses (`checks/model_run.out`, FORTRESS_THREADS=1,

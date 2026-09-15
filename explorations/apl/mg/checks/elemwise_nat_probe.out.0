@@ -1,0 +1,10 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/elemwise_nat_probe.fss:11:1-133: and
+/home/user/fortress/explorations/apl/mg/elemwise_nat_probe.fss:10:1-112:
+
+BY[\T extends FortressLibrary.Number,nat n,nat d\](a:Matrix[\T,n,d\],b:Matrix[\T,n,d\]):Matrix[\T,n,d\]/home/user/fortress/explorations/apl/mg/elemwise_nat_probe.fss:11:1-133 and
+BY[\T extends FortressLibrary.Number,I\](a:Array[\T,I\],b:Array[\T,I\]):Array[\T,I\]/home/user/fortress/explorations/apl/mg/elemwise_nat_probe.fss:10:1-112 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/explorations/apl/mg/elemwise_nat_probe.fss:11:1-133:
+/home/user/fortress/explorations/apl/mg/elemwise_nat_probe.fss:10:1-112:
+

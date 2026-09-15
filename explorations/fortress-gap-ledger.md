@@ -458,32 +458,89 @@ each against the same source run through the interpreter.
 
 ## Revival worklist, ordered by rows closed
 
+*Re-derived 2026-09-15 over rows 1-287 (286 rows; 148 is vacant). The previous
+derivation was made when the ledger stopped at 174 and cited no row above it;
+this one recounts every item against every row, not only against the 113 added
+since. Counting rule: a row is listed under an item when the change the item
+names would alter that row's verdict; a row that two items share is listed in
+both and says so; `CONTESTED` row 83 is listed under none. Ten items are marked
+**new**: they come from the item-by-item check in
+`explorations/reviews/fortress-characterized.md:240-259` (its N1-N10), whose
+counts are carried here with one correction, noted below the table. Where the
+ledger or that review gives the file and line a fix would go, the item cites it.*
+
 | fix | rows closed | evidence |
 |---|---|---|
-| 1. Compiler-path library parity — `CompilerLibrary` needs `List`, `array`, `exp`/`log`, generic reductions; plus the `\|\|\|` token, `IntLiteral` comparisons, `typecase` literal typing, `Label` codegen | 71-82 (12) | `compiler-probes/*` |
-| 2. Array construction and comprehension: element-type join in `LHSEvaluator` (including the silent `Array[\E,I\]` case), an `ArrayComprehension` case in the disambiguator and evaluator, `opr BIG [ ]` in the library, static args in array literals, and the `BOTTOM` empty element behind `BIG UNION` | 49, 50, 12, 96, 104, 135 (6) | `libvector-probes/p01`, `p06`, `p27`; `run-b/probes/c02f_silent_unbound`, `c18_map_of_shapes`; `run-b2/probes/g1e_bigunion1` |
-| 3. Unseal the linear-algebra layer: `comprises { RR64, ... }` in `FortressLibrary.fsi:276`, or relax the `[\T extends Number\]` bounds on the top-level `DOT`/`juxtaposition` operators | 22, 24, 52, 53, 58 (5) | `libvector-probes/p10`, `p30`, `p32`; `RvwTypePow` |
-| 4. Interpreter-library parity for the pieces the ports actually reached: the abstract `opr[Range]` on `ZeroIndexed`, the `BIG CUP` collision between `Set` and `Map`, the `StandardMax` bound on prefix `BIG MAX`, `Matrix.pmul`, and a shipped `TestSuite` | 100, 101, 102, 109, 123 (5) | `g22`, `g23`; `run-b/probes/c19_bigunion_collision`, `worker/w04_bigmax_lib`; `run-b2/probes/g1c_testsuite` |
-| 5. Implement the test-and-property chapter: `TestDecl`, `PropertyDecl` (top level and in an object), and the ordering check that also rejects a legal property | 121, 122, 125 and, with fix 4, 123 (4) | `run-b2/probes/g1c_testdecl`, `g1c_property*`, `g4g_prop_after` |
-| 6. Big operators as plain declarations (the spec form), which also lifts one-per-name and the two nullary collisions | 39, 40, 101, and the `except` workaround behind 41-42 (4) | `spec-probes/p11_bigspec`, `p6_sum`; `run-b/probes/c19_bigunion_collision` |
-| 7. Value-object semantics: give `FTypeObject` the constructor parameters unconditionally, and enforce immutability of `value` fields | 112, 113, 114 (3) | `run-b2/probes/g1a_varfield`, `g1a_equality2`, `g1a_equality3` |
-| 8. Make the shipped big operators element-driven instead of `Number`-sealed (relax `[\T extends Number\]`, drop `cast[\Number\]`, give `empty()` a type-directed identity) | 44, 45, 40 (partly), 53 with fix 3 (3) | `matrix-ad-probes/p10`, `libvector-probes/p29`, `spec-probes/p6_sum` |
-| 9. `Evaluator.mathItemApplication` must not strip the first subscript argument (`Evaluator.java:1052` + `1251-1252`) | 1, 2, 3 (3) | `g01`, `g02` — a one-line fix that also removes a silent wrong answer |
-| 10. Implement declaration-site covariance (bind where-clause variables in `extends`) | 17, 20, and most of 21's symptom load (3) | `spec-probes/p16_covar`, `p2_ascribe`, `p8_omit` |
-| 11. Fortify: guard nested subscripts, parse `opr ^(…)` as a declaration rather than a superscript, and fix the two-character off-by-one in rule (b) | 62, 63, 66 (3) | `g13`, `g14`, `g28` |
-| 12. Array pasting: seed `extentSums` with `-1` (`IUOTuple.java:112`) and remove the index swap in `IndexedArrayWrapper` (`:54`, `:79`) | 106, 107 (2) | `run-b2/probes/g1d_paste1`, `g1d_paste3`, `g1d_paste4`; `g18` |
-| 13. Object-expression scoping: `SObjectExpr` must set `inTraitOrObject` (`ExprDisambiguator.scala:329-348`), and `SyntaxChecker` must consult `inObject` inside a block (`:283-289`) | 127, 128 (2) | `run-b2/probes/g4b_two_same`, `g4b_pollute`, `g4b_capture` |
-| 14. Type aliases (`IndexBuilder.buildTypeAlias` + interpreter binding; the expansion already exists) and import aliasing | 18, 13 (2) | `alias-units-probes/p1`, `p10`, `p12`; `run-b2/probes/g1e_alias` |
-| 15. Put the spec's constants in the default library: `pi` as `RationalValueTimesPi`, `∞` under its own name and `INFINITY` | 94, 95 (2) | `run-b/probes/worker/w06_pi_bare`; `run-b2/probes/g4h_unicode`, `g4h_constants` |
-| 16. Restore the commented-out range subscripts and make views extend `Vector`/`Matrix` when `T extends Number` | 54, 56 (2) | `matrix-ad-probes/p03`, `p13` |
-| 17. Dimensions and units (parser bugs first, then `TaggedDimType` evaluation) | 26, 27 (2) | `alias-units-probes/q3`, `q8`, `q16`, `q18` |
-| 18. Run the overload check on the cached path too (`OverloadedFunction.java:545` is skipped on an `interpreter_parsed_cache` hit) | 98 (1) — and it makes every declaration-time verdict reproducible | `g25` |
-| 19. Parse a `MathItem` after a dotted primary (`Expression.rats:388-434`), so `x.v^T` needs no parentheses | 84 (1) | `run-b2/probes/g4a_base`; `run-b/probes/c20b_field_transpose` |
-| 20. Add the missing `/` to `AbsOpHeaderFront` (`Parameter.rats:171-172`), so an API can declare a postfix *exponent* operator (a plain postfix one already parses) | 133 (1) | `g27api/Core.fsi`; `run-b2/probes/apix/v2`; `run-c3/probes/g156_api_postfix` |
-| 21. Substitute an *unqualified* `true` for a missing `provided` guard (`DesugarerVisitor.java:1565-1569`) | 119 (1) | `run-b2/probes/g1b_ensures_bare` |
-| 22. Reduction variables (`acc += e`) — or, failing that, a diagnostic for unsynchronised mutation in a parallel `for` | 59 (1) | `matrix-ad-probes/p11` at 4 threads |
-| 23. Coercion declarations: wire `CoercionOracle` into both paths | 19 (1) | `spec-probes/p15_coertc` |
-| 24. Multifix dispatch | 29 (1) | `spec-probes/p13_multifix2` |
+| 1. **new** Syntax-extension mechanism — one heading over a dozen small fixes: the gap positions (`Transform.forVarRef`, and the template parser's `AssignLeft`, where a gap's text arrives null), the preparser's backtick and its dead delimiter check (`PreCompilation.rats:55`), the three corners whose implementations sit commented out beneath a throw (`ComposingSyntaxDefTranslator.java:489-490` and `:508-509`, `TemplateVarRewriter.java:122-147` with `Transform.java:752-762`), the diagnostics reported against the grammar api's line 1 and the missing-match message, terminal-as-keyword, `_` and the bare `[_]` class, `NOT` under a repetition, an expander in a juxtaposition, nine uses in one expression, the caret in a template, and the spec's own `syntax … = Expr` form | 181, 182, 186, 187, 196, 202, 203, 211, 213, 229, 230, 239, 242, 243, 257, 261, 267, 273, 274, 275, 286 (21) | section 16; `apl/v1-probes/`, `apl/rung-1` … `rung-6`, `apl-probes/`, `apl/microgpt/probes/`, `apl/probes-4b/` as cited per row. Whether to fix any of it is open (`microgpt-run-c-handover.md:35`); what a sub-language writer needs from these rows is written up instead, in `apl/lessons.md` |
+| 2. Compiler-path library parity — `CompilerLibrary` needs `List`, `array`, `exp`/`log`, generic reductions; plus the `\|\|\|` token, `IntLiteral` comparisons, `typecase` literal typing, `Label` codegen. The largest single item: about a 4,000-line porting job (`compiled-path-gaps.md:454-458`) | 71-82 (12) | `compiler-probes/*` |
+| 3. Array construction and comprehension: element-type join in `LHSEvaluator` (including the silent `Array[\E,I\]` case, `LHSEvaluator.java:113-200`), an `ArrayComprehension` case in the disambiguator and evaluator, `opr BIG [ ]` in the library, static args in array literals, the `BOTTOM` empty element behind `BIG UNION` (`Library/Map.fss:198`), and the top-level binding path, where a typed array literal is evaluated as a tuple and never reaches array construction. Several small fixes in one feature | 49, 50, 12, 96, 104, 135, 142 (7) | `libvector-probes/p01`, `p06`, `p27`; `run-b/probes/c02f_silent_unbound`, `c18_map_of_shapes`; `run-b2/probes/g1e_bigunion1`; `run-c/probes/p08a_literal`-`p08d` (142, new here) |
+| 4. Unseal the linear-algebra layer: `comprises { RR64, ... }` in `FortressLibrary.fsi:276`, or relax the `[\T extends Number\]` bounds on the top-level `DOT`/`juxtaposition` operators. One clause or one bound, then the fallout | 22, 24, 52, 53, 58 (5) | `libvector-probes/p10`, `p30`, `p32`; `RvwTypePow` |
+| 5. Interpreter-library parity for the pieces the ports actually reached: the abstract `opr[Range]` on `ZeroIndexed`, the `BIG CUP` collision between `Set` and `Map`, the `StandardMax` bound on prefix `BIG MAX`, `Matrix.pmul`, and a shipped `TestSuite`. Library declarations, no interpreter change | 100, 101, 102, 109, 123 (5) | `g22`, `g23`; `run-b/probes/c19_bigunion_collision`, `worker/w04_bigmax_lib`; `run-b2/probes/g1c_testsuite` |
+| 6. The spec's big-operator chapter: the single-declaration form (the desugarer emits a nullary operator reference), which also lifts one-per-name and the two nullary collisions; the `except { opr SUM }` spelling in the import grammar; and lexing `∑`/`∏` as accumulators rather than as prefix operators (`basic/expressions/reductions.tex:20`, row 5, new here). Three separate changes in one chapter | 5, 39, 40, 42, 101 (5; 101 shared with item 5) | `spec-probes/p11_bigspec`, `p6_sum`; `sum-probes/p20_except_spelling_sum`, `p13_unicode_sigma`; `run-b/probes/c19_bigunion_collision` |
+| 7. Implement the test-and-property chapter: `TestDecl`, `PropertyDecl` (top level and in an object), and the ordering check that also rejects a legal property | 121, 122, 125 and, with item 5, 123 (4) | `run-b2/probes/g1c_testdecl`, `g1c_property*`, `g4g_prop_after` |
+| 8. `Evaluator.mathItemApplication` must not strip the first subscript argument (`Evaluator.java:1052` + `1251-1252`). One line; it also removes a silent wrong answer, and row 263 is the same defect reached from inside a library | 1, 2, 3, 263 (4) | `g01`, `g02`; `apl/microgpt/probes/x03_lib.out.0` (263, new here) |
+| 9. Range subscripts and views: restore the commented-out reads (`FortressLibrary.fss:2341-2357` and `:2360-2366`), write the assignment forms that were never written at all (169), and make views extend `Vector`/`Matrix` when `T extends Number` — which a six-line user view already does at runtime sizes (226's positive half) | 54, 56, 169, 226 (4; 169 and 226 new here) | `matrix-ad-probes/p03`, `p13`; `run-c3/probes/lift_c3`; `apl/rung-2/s01_ix` (c), (d) |
+| 10. Value-object semantics: give `FTypeObject` the constructor parameters unconditionally, and enforce immutability of `value` fields | 112, 113, 114 (3) | `run-b2/probes/g1a_varfield`, `g1a_equality2`, `g1a_equality3` |
+| 11. Make the shipped big operators element-driven instead of `Number`-sealed (relax `[\T extends Number\]`, drop the `cast[\Number\]` at `FortressLibrary.fss:3041-3042`, give `empty()` (`:3029`) a type-directed identity) | 44, 45, 40 (partly, with item 6), 53 (with item 4) (3) | `matrix-ad-probes/p10`, `libvector-probes/p29`, `spec-probes/p6_sum`; `apl/rung-1/r14_nested` |
+| 12. Implement declaration-site covariance (bind where-clause variables in `extends`) | 17, 20, and most of 21's symptom load (3) | `spec-probes/p16_covar`, `p2_ascribe`, `p8_omit` |
+| 13. Fortify: guard nested subscripts, parse `opr ^(…)` as a declaration rather than a superscript, and fix the two-character off-by-one in rule (b). Three small fixes in `Fortify/fortify.el` | 62, 63, 66 (3) | `g13`, `g14`, `g28` |
+| 14. Array pasting, and unpasting: seed `extentSums` with `-1` (`IUOTuple.java:112`), remove the index swap in `IndexedArrayWrapper` (`:54`, `:79`), and build matrix unpasting, which the spec's own note says is not yet supported (108 is unbuilt, not broken) | 106, 107, 108 (3; 108 new here) | `run-b2/probes/g1d_paste1`, `g1d_paste3`, `g1d_paste4`; `g18`; `run-b2/probes/g1d_unpaste1`, `g1d_unpaste2` |
+| 15. Object-expression scoping: `SObjectExpr` must set `inTraitOrObject` (`ExprDisambiguator.scala:329-348`), and `SyntaxChecker` must consult `inObject` inside a block (`:283-289`) | 127, 128 (2) | `run-b2/probes/g4b_two_same`, `g4b_pollute`, `g4b_capture` |
+| 16. Type aliases (`IndexBuilder.buildTypeAlias` + interpreter binding; the expansion already exists) and import aliasing | 18, 13 (2) | `alias-units-probes/p1`, `p10`, `p12`; `run-b2/probes/g1e_alias` |
+| 17. Put the spec's constants in the default library: `pi` as `RationalValueTimesPi`, `∞` under its own name and `INFINITY` | 94, 95 (2) | `run-b/probes/worker/w06_pi_bare`; `run-b2/probes/g4h_unicode`, `g4h_constants` |
+| 18. Dimensions and units (parser bugs first, then `TaggedDimType` evaluation). A chapter the spec itself marks not yet supported (26) plus one null dereference in an optional clause's error path (27) | 26, 27 (2) | `alias-units-probes/q3`, `q8`, `q16`, `q18` |
+| 19. Coercion declarations: wire `CoercionOracle` into both paths. Row 146 is the same hole seen from the user's side — a `ZZ64` initialised from an integer literal holds a `ZZ32` and the arithmetic wraps silently at 2^31 | 19, 146 (2; 146 new here) | `spec-probes/p15_coertc`; `run-c/probes/g146_zz64`, `p03_zz64` |
+| 20. Postfix operator declaration headers: add the missing `/` to `AbsOpHeaderFront` (`Parameter.rats:171-172`) so an api can declare a postfix *exponent* operator, and lex `!:` so a postfix `!` needs no space before its return-type colon. Two characters, one file | 133, 90 (2; 90 new here) | `g27api/Core.fsi`; `run-b2/probes/apix/v2`, `g4a_postfix`, `g4a_postfix2`; `run-c3/probes/g156_api_postfix` |
+| 21. **new** `RR64 → ZZ32`: implement `truncate` (`FortressLibrary.fsi:332`) or `narrow` (`:529`, body at `.fss:762`), or give the floor bracket a working narrowing — declared in the api, missing at run time in both spellings | 188, 283 (2) | `apl/v1-probes/p01_numfmt`, `p01c_numfmt`; `apl-probes/d21_narrow` |
+| 22. **new** `Any` in generic signatures and results: the missing `AnyType` case in the signature visitor (an `InterpreterBug` before anything runs) and the failure of an overloaded family whose declared result is `Any` to dispatch at all | 157, 240 (2; 157 was under no item before) | `run-c/probes/q02c3_genericplain_any`, `q02d_rankbyresult`; `apl/rung-4/u15_any`, `u16_res`; `gap-ledger-probes/apl-merge/a01_any_result` |
+| 23. Ship the spec's algebra: the three matrix operators it promises (`M^T`, `M^k`, `‖M‖`) and the algebraic-constraints library it devotes 1894 lines to, every trait of which is present and commented out in `Library/incomplete/advanced/Fortress.Operators.fsi.INCOMPLETE`. A library project, and the natural companion to the complex-numbers goal | 35, 37 (2; both were under no item before) | `libvector-probes/p25_spec_gaps`, `p26_matrix_norm`; `spec-probes/p5_ring` |
+| 24. Run the checks the walk path skips: the overload check on a parsed-cache hit (`OverloadedFunction.java:545`), which is what makes a declaration-time verdict appear once per source version, and a function expression's declared result type, which is not enforced at all | 98, 153 (2; 153 new here) | `g25`; `run-c/probes/p06_idioms` (d), (g) |
+| 25. Tooling for a grammar: make `fortress parse` run the syntax-abstraction phase, so a component that uses an expander has a fast check (today it always fails, and the alternative is a 20-40 s Rats! regeneration per attempt); and put the syntax-abstraction tests in the suite — the nine `transformer/` examples are written in a dead spelling, `SyntaxAbstractionJUTestAll.java:36` + `:39` globs the top directory only, and `build.xml:1260` hangs off `testNightly` | 191, 268 (2; both new here) | `apl/v1-probes/p08a_pre`, `p08c_aplsyntax_pre`; `apl-probes/existing-tests/b_Syntax*.out` |
+| 26. Parse a `MathItem` after a dotted primary (`Expression.rats:388-434`), so `x.v^T` needs no parentheses | 84 (1) | `run-b2/probes/g4a_base`; `run-b/probes/c20b_field_transpose` |
+| 27. Substitute an *unqualified* `true` for a missing `provided` guard (`DesugarerVisitor.java:1565-1569`). One word | 119 (1) | `run-b2/probes/g1b_ensures_bare` |
+| 28. Reduction variables (`acc += e`) — or, failing that, a diagnostic for unsynchronised mutation in a parallel `for` | 59 (1) | `matrix-ad-probes/p11` at 4 threads |
+| 29. Multifix dispatch | 29 (1) | `spec-probes/p13_multifix2` |
+| 30. **new** `array3[\T,s0,s1,s2\](f)` declares its fill function as `(ZZ32,ZZ32)->T` — a two-argument function for a three-dimensional fill (`FortressLibrary.fss:2818`). One line | 247 (1) | `apl/rung-4/u07_rank3.out` (g) |
+| 31. **new** A dispatch failure as a catchable exception rather than a `ProgramError`, so a library can put a contract above a mismatched call instead of around it | 254 (1) | `apl/rung-6/w01_dot.out.0` |
+| 32. **new** `InterpreterBug` on a host-known operator applied to a user object that has no such definition, where a type error is owed (`** bug! Expect all oprefs to be top level EQV`) | 184 (1) | `apl/v1-probes/p06_cross.out.0`, `p10_eqv` |
+| 33. **new** The operator-word rule is looser than the spec's: the spec requires "at least two different letters", the implementation excludes only the two-character repeat and the `XX_` form, so `AAA` is an operator word (`NodeUtil.java:1460-1477`, reached from `Symbol.rats:108-116`) | 193 (1) | `apl/v1-probes/p12a_oprword.sh`, `p12_name.out.0` |
+| 34. **new** Tuple patterns in parameter lists: `f(g, (a, b, c): (Any, Any, Any))` is a Syntax Error, while the same tuple destructured in the body works | 251 (1) | `apl/rung-5/v01_tuple.out.0` |
+| 35. **new** `var p = e` is refused (`The type of p is required.`) though the grammar writes it untyped (`VarMayTypes`); the `:=` half of row 177 is the grammar's own refusal and stays | 177's implementation half (1) | `run-c4/probes/types/E2` |
+| 36. **new** The interpreter's leniency on a tuple declared `Object`: the spec admits a tuple type as a subtype of `Any` and of nothing else, and the walk interpreter accepts it both ways — settle it, in the interpreter or in the row | 258's contested half (1) | `apl/microgpt/probes/x03_lib` |
+| 37. `T[n]` with a `nat` parameter does not unify with a runtime-built array, though a literal size does and `Vector[\RR64,s\]` does (row 214) | 23 (1; under no item before) | `fable-review-probes/RvwNatArray` |
+| 38. The diagonal factory `matrix[\T,n,m\](v)` writes a literal integer `0` off the diagonal (`FortressLibrary.fss:2615-2616`) — fatal for a user element type, latent for `RR64`. One literal | 51 (1; under no item before) | `libvector-probes/p14_value_matrix` |
+| 39. `strToFloat` (`FortressLibrary.fss:4192-4197`, whose own comment says "Quick and dirty"): every character is treated as a digit, so a sign counts as -3, and `10^k` is `ZZ32` and overflows at the tenth digit. Rewrite the one-line body | 140 (1; under no item before) | `run-c/probes/g140_strtofloat` |
+| 40. Make a `nat`-generic function a value: passed as an argument it has no `FType`, so it can neither be checked against a parameter type nor key the callee's instantiation cache, and fails with three different diagnostics | 156 (1; under no item before) | `run-c/probes/q02c2_plaingeneric`, `q02c5_plainarrow_generic`, `q02c4_genericgeneric`, `q02b_arrow` |
+| 41. Overload resolution on an untyped lambda argument: two overloads differing only in the arrow type of a function parameter are resolved by a typed lambda and not by an untyped one, which silently takes the first declared — a silent wrong answer | 164 (1; under no item before) | `run-c3/probes/g158_untyped_overload/G158.fss` |
+| 42. `bin/fortress` hard-codes `-Xmx256m -Xss32m` unless `JAVA_FLAGS` is set. One environment variable | 67 (1; under no item before) | `g15` |
+
+**What the recount changed.** The list is 42 items: the previous derivation's 24,
+carried over and recounted; the ten the characterization named, entered where
+their counts place them — item 1 is its N1 and items 21, 22, 30-36 are N2-N10;
+and eight of this recount's own, items 23, 25, 37, 38, 39, 40, 41 and 42, which
+collect rows no item closed at all (35 and 37 from the spec's algebra, 191 and
+268 from the grammar tooling, and 23, 51, 67, 140, 156, 164 one apiece).
+Existing items gained eight rows between them: 142 (item 3), 5 (item 6), 263
+(item 8), 169 and 226 (item 9), 108 (item 14), 146 (item 19), 90 (item 20), 153
+(item 24). Nothing left an item. The items are renumbered by the recount, so an
+item number cited elsewhere (`fortress-characterized.md:230-239`,
+`gap-cross-run.md:354-356`) names the previous derivation's list, not this one;
+only item 20, the postfix-operator header, keeps its number, which is the one
+another entry of this ledger cites. Two corrections to the check in
+`fortress-characterized.md:240-259`, which this derivation otherwise follows:
+its N1 cell is priced at 20 rows and names 21, and its note under item 3
+("candidate rows 284, 287 of `vocabulary/REPORT.md:74-89`") uses that report's
+own numbering, not this ledger's — ledger rows 284 and 287 are rung 4b's, and
+nothing from `vocabulary/REPORT.md` is merged, so item 4 is unchanged here.
+
+**Rows no item closes, deliberately.** Row 83 is the one `CONTESTED` claim and
+has no reproducer here. Rows 8, 30, 91 and 165 carry a fixable diagnostic over a
+design limit — the `label` parameter message, the silent fallback when library
+generic code cannot see a top-level `opr`, and the two `** bug!` internal reports
+— and fixing those moves a symptom, not the limit, so they are not counted. The
+74 design limits and 103 capabilities of the kind table below are not worklist
+material by construction; the 20 never-built rows are, and all 20 are cited above
+(items 2, 4, 5, 7, 9, 11, 14, 17, 18, 23).
 
 ## Counts by status
 
@@ -512,6 +569,25 @@ choices, one of them undocumented) · library gap vs spec 18 · library bug 9 ·
 deliberate 3 (rows 141, 145, 174) · typesetter 3 · packaging 5 · spec divergence 1
 (row 193, beside its implementation gap) · no gap class, i.e. capability rows 97 ·
 retired/contested 4.
+
+### Counts by kind
+
+Method: one bucket per row, from the **first-named class** in its class cell —
+`implementation gap`, `library bug` and `typesetter` are defects (A);
+`design limit`, `deliberate` and `packaging` are limits (B); `library gap vs
+spec`, plus the two rows the spec itself declares not yet supported (26, 108),
+are never-built parts of the design (C); a row with no gap class, and the three
+`RETIRED` rows, are verified capabilities (D). Derived in
+`explorations/reviews/fortress-characterized.md:208-223` and re-derived here over
+the same table.
+
+| kind | count | where |
+|---|---|---|
+| A. defects the revival could fix | 88 (+1 contested, row 83) | all 88 are cited by the worklist above; row 83 is not |
+| B. design limits no fix changes | 74 | five carry a fixable half (8, 30, 91, 165, 177); only 177's has an item (35) |
+| C. never-built parts of the design | 20 | worklist items 2, 4, 5, 7, 9, 11, 14, 17, 18, 23 |
+| D. verified capabilities | 103 | 100 positive, 3 retired |
+| **total rows** | **286** | numbering 1-287, 148 vacant |
 
 **The Run C2 and Run C3 merge (2026-09-14).** Round two of Run C
 (`run-c/gaps.md`, rows 156-166, reproducers in `run-c/probes/`) and the

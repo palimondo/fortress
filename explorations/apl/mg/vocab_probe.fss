@@ -1,0 +1,61 @@
+(* vocab_probe -- every nat-shared declaration of FlatArrays2 called with
+   agreeing shapes, plus the constructors, the element-generic operators and
+   the two transposes.  Run from explorations/apl/mg. *)
+component vocab_probe
+import FlatArrays2.{...}
+export Executable
+
+run(): () = do
+    (* constructors *)
+    v = vec(4, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    z = zeros(3)
+    ks = keys(4, fn (i: ZZ32): ZZ32 => i MOD 3)
+    m = mat(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    println "(1) vec " v[3] " zeros " z[2] " keys " ks[3] " mat " m[3,2]
+    (* element-generic operators, RR64 and ZZ32 *)
+    le = log(exp(v))
+    println "(2) " ((v + 1.0)[0]) " " ((2.0 MAX v)[3]) " " ((v > 2.0)[0]) " " ((SQRT v)[3]) " " le[1]
+    println "(3) integer arrays " ((ks × ks)[3]) " " ((1 + ks)[0])
+    (* the diagonal: |d| = the row count of m *)
+    d4 = vec(4, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    dm = diag(d4) m
+    println "(4) diag(v) m " dm[0,0] " " dm[3,2] " (expect 0.0 and 44.0)"
+    (* transposes *)
+    mt = transpose(m)
+    println "(5) transpose(matrix) " mt[2,3] " (expect " m[3,2] ")"
+    t = heads(mat(4, 6, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (6 i + j)), 2, 2, 3)
+    tt = transpose(t)
+    println "(6) heads " t[0,1,2] " transpose(rank 3) " tt[0,2,1]
+    (* the batched product: same plane count, inner size shared *)
+    a = heads(mat(4, 6, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (6 i + j)), 2, 2, 3)     (* 4 planes 2x3 *)
+    b = transpose(a)                                                                (* 4 planes 3x2 *)
+    ab = a b
+    println "(7) batched product " (ab.sizes) " " ab[0,0,0] " " ab[3,1,1]
+    (* the plane-wise sum: the matrix's shape IS a plane's *)
+    pm = mat(2, 3, fn (i: ZZ32, j: ZZ32): RR64 => 100.0)
+    s = pm + a
+    println "(8) matrix onto planes " s[0,0,0] " " s[3,1,2]
+    (* the dyadic row lift at rank 2 and rank 3 *)
+    g(x: Array[\RR64,ZZ32\], y: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x + (SUM y)
+    r2 = rows(g, m, mat(4, 3, fn (i: ZZ32, j: ZZ32): RR64 => 1.0))
+    println "(9) dyadic rows, rank 2 " r2[0,0] " " r2[3,2]
+    r3 = rows(g, a, a)
+    println "(10) dyadic rows, rank 3 " r3[0,0,0] " " r3[3,1,2]
+    (* the monadic lift, both ranks, one declaration *)
+    h(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / (1.0 MAX (SUM x))
+    rm2 = rows(h, m); rm3 = rows(h, a)
+    println "(11) monadic rows " rm2[3,2] " " rm3[3,1,2]
+    (* pick: one key per row of m *)
+    k4 = keys(4, fn (i: ZZ32): ZZ32 => i MOD 3)
+    pk = pick(m, k4); gt = gather(m, k4); oh = onehot(k4, 3)
+    println "(12) pick " pk[3] " gather " gt[3,2] " onehot " oh[3,1]
+    (* the remaining views and flat *)
+    p = vec(12, fn (i: ZZ32): RR64 => 1.0 i)
+    w = view(p, 3, 3, 3)
+    pl = plane(a, 3); uh = unheads(a, 2)
+    println "(13) view " w[2,2] " plane " pl[1,2] " unheads " uh[1,5]
+    fl = flat(m, w)
+    println "(14) flat " fl[13] " " |fl|
+    println "done"
+  end
+end

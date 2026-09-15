@@ -3,7 +3,7 @@
    C4's Corpus object in ../probes-4b/y06_fold.out, part (B). *)
 component AplMg
 export AplMg
-import FlatArrays.{...}
+import FlatArrays2.{...}
 
 tally[\nat s\](v: Vector[\ZZ32,s\]): ZZ32 = |v|
 

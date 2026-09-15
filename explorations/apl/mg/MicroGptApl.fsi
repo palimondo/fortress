@@ -5,7 +5,7 @@
    name changed, so MicroGptAplCheck is MicroGptFlatCheck with one import line
    changed and its paths adjusted.  See DESIGN.md beside this file. *)
 api MicroGptApl
-import FlatData.{...}
+import FlatData2.{...}
 
 (* the layout: nine matrices, row-major, in this order inside the flat vector *)
 matName(i: ZZ32): String

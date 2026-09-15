@@ -1,0 +1,11 @@
+
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/FlatArrays2.fss:122:1-139:6: and
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fss:153:1-158:4:
+
+rows[\I\](f:Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]->Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],a:Array[\FortressLibrary.RR64,I\]):Array[\FortressLibrary.RR64,I\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:122:1-139:6 and
+rows[\nat a,nat b,nat c\](f:Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]->Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],t:Array3[\FortressLibrary.RR64,0,a,0,b,0,c\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/run-c4/src/FlatArrays.fss:153:1-158:4 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:122:1-139:6:
+/home/user/fortress/explorations/apl/mg/AplMgSyntax.fsi:1:1-3:
+

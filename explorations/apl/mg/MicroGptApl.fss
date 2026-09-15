@@ -3,8 +3,10 @@
    inside apl⦇ … ⦈ over AplMgSyntax + AplMg beside this file, expanding into what
    Run C4 writes by hand (explorations/run-c4/src/MicroGptFlat.fss).  The design,
    with the line-by-line table, is DESIGN.md beside this file; the probes that
-   settled its two mechanisms are ../probes-4b/PROBES.md.  C4's array vocabulary
-   FlatArrays and its loaders FlatData are imported unchanged, and every APL
+   settled its two mechanisms are ../probes-4b/PROBES.md.  The array vocabulary
+   is FlatArrays2 beside this file (C4's FlatArrays with the sizes in the types
+   and the habits of the vocabulary review removed, NOTES-swap.md) and the
+   loaders are FlatData2, C4's FlatData over it; every APL
    line expands to C4's own line -- no aplCall, no frame stack, no Any, no
    Object.  Run from explorations/apl/mg: the paths are relative. *)
 component MicroGptApl
@@ -12,8 +14,8 @@ export MicroGptApl
 export Executable
 import AplMg.{...}
 import AplMgSyntax.{...}
-import FlatArrays.{...}
-import FlatData.{...}
+import FlatArrays2.{...}
+import FlatData2.{...}
 import System.{...}
 
 (* ------------------------------------------------------------ L6: index
@@ -24,6 +26,14 @@ import System.{...}
 (Ne, Blk, Nh, Hd, Vs, Bos) = (16, 16, 4, 4, 27, 26)
 (Eps, Lr0, B1, B2, Epsa, Nsteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)
 (corpusPath, weightsDir) = ("../reference/dzaima/docs.txt", "../reference/dzaima/w")
+
+(* ^T on a matrix and on every plane of a rank-3 array, over FlatArrays2's two
+   transposes, declared here and not in the vocabulary because an api cannot
+   declare a postfix operator (gaps row 133); C4:23-24 verbatim.  The APL text
+   reaches the same two functions through the grammar's ⍉ rule, which writes a
+   call, because ^T may not follow one (rows 144, 158). *)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = transpose(m)
+opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\] = transpose(t)
 
 (* ------------------------------------------------------ L7, L8: the four
    vector functions are host, C4:27-34 verbatim -- a dfn body is out of the

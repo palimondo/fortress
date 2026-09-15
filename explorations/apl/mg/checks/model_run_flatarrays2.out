@@ -1,0 +1,16 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress1294968376281090257rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress1294968376281090257rats/com/sun/fortress/parser/templateparser/TemplateParser395.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress4686641872019026433rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress4686641872019026433rats/com/sun/fortress/parser/templateparser/TemplateParser593.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+microgpt apl (focused base) | params 4192 | corpus 2000 x 17 | batch 1, 5 steps
+step 1 loss 3.3659669475848513  (4491 ms)
+step 2 loss 3.424272783871772  (4427 ms)
+step 3 loss 3.177802125458053  (4066 ms)
+step 4 loss 3.066355684224198  (4401 ms)
+step 5 loss 3.2208830897506235  (4211 ms)

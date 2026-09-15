@@ -10,8 +10,8 @@
 component MicroGptAplCheck
 export Executable
 import MicroGptApl.{...}
-import FlatArrays.{...}
-import FlatData.{...}
+import FlatArrays2.{...}
+import FlatData2.{...}
 import System.{...}
 
 goldensDir: String = "../../run-c/goldens"

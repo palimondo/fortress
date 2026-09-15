@@ -1,11 +1,21 @@
-(* diag_fwd -- a throw-away diagnostic: the forward pass computed twice, once as
-   APL text over AplMgSyntax and once as C4's hand-written lines, compared
-   intermediate by intermediate.  Deleted once the model matches. *)
+(* diag_fwd -- the forward pass computed twice inside one component: once as APL
+   text over AplMgSyntax, once as C4's hand-written lines, compared intermediate
+   by intermediate.  Unchanged from the run that checked the focused base
+   against C4's FlatArrays (checks/diag_fwd.out) BUT FOR ITS TWO IMPORT LINES,
+   which now name this directory's vocabulary and loaders: so the C4 diff is the
+   previous run's values, which this run must reproduce digit for digit --
+   every maxdiff 0.0 here, and every printed sum equal to the FlatArrays run's.
+   The two vocabularies cannot both stand in one component, under aliases or
+   otherwise: FlatArrays2's index-generic monadic `rows` and FlatArrays' rank-3
+   `rows` are checked against each other as one overload family and rejected,
+   "have parameters with generic type, at least one pair of parameters must have
+   excluding types" (NOTES-swap.md).  An import alias renames the reference, not
+   the declaration. *)
 component diag_fwd
 import AplMg.{...}
 import AplMgSyntax.{...}
-import FlatArrays.{...}
-import FlatData.{...}
+import FlatArrays2.{...}
+import FlatData2.{...}
 import System.{...}
 export Executable
 

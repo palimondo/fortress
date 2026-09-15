@@ -1,0 +1,20 @@
+(* elemwise_rank_probe -- the other way to say it: no index-generic declaration
+   at all, one declaration per rank with SHARED nats, Vector, Matrix and Array3
+   excluding each other by rank (ledger row 214).  If this is accepted, the
+   elementwise product can carry its shape agreement at the price of three
+   declarations per operator instead of one.  Run cold (row 98). *)
+component elemwise_rank_probe
+export Executable
+
+opr ×[\T extends Number, nat s\](a: Vector[\T,s\], b: Vector[\T,s\]): Vector[\T,s\] = a.ivmap[\T\](fn (i, e) => e b[i])
+opr ×[\T extends Number, nat n, nat d\](a: Matrix[\T,n,d\], b: Matrix[\T,n,d\]): Matrix[\T,n,d\] = a.ivmap[\T\](fn (i, e) => e b[i])
+opr ×[\T extends Number, nat p, nat n, nat d\](a: Array3[\T,0,p,0,n,0,d\], b: Array3[\T,0,p,0,n,0,d\]): Array3[\T,0,p,0,n,0,d\] = a.ivmap[\T\](fn (i, e) => e b[i])
+
+run(): () = do
+    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    m = array[\RR64\](2,3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    t = array[\RR64\](2,2,3).fill(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 1.0 (6 p + 3 i + j))
+    vv = v × v; mm = m × m; tt = t × t
+    println "rank 1 " vv[2] " rank 2 " mm[1,2] " rank 3 " tt[1,1,2]
+  end
+end
