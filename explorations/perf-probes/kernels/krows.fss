@@ -1,0 +1,22 @@
+(* krows -- kernel (c): the row lift.  `rows(rmsn, m)` over a 16x16 matrix,
+   with C4's own rmsn (MicroGptFlat.fss:27) and C4's own `rows`
+   (FlatArrays.fss:141).  A batch-1 step runs this three times per forward
+   pass (xp, x1, x3) plus once per backward.  rmsn is
+   `x / SQRT (epsilon + (x DOT x) / |x|)`: a reduction, a scalar SQRT and an
+   elementwise divide over each of the 16 rows. *)
+component krows
+import FlatArrays.{...}
+export Executable
+run() = do
+  reps = 400
+  epsilon = 10.0^(-5)
+  rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)
+  m = mat(16, 16, fn (i: ZZ32, j: ZZ32): RR64 => (1.0 (((3 i) + j) MOD 7)) - 3.0)
+  t0 = nanoTime()
+  for r <- seq(0#reps) do rows(rmsn, m) end
+  t1 = nanoTime()
+  c = rows(rmsn, m)
+  println("krows " c[0,0] " " c[15,15])
+  println("loop_ns " (t1 - t0))
+end
+end

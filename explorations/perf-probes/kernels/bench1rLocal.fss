@@ -1,0 +1,19 @@
+(* bench1rLocal -- bench1r written the natural way, with the literals and the
+   tail-recursive chunk function local to run().  Kept as the reproducer for
+   the code generator's refusal: `Can't compile LetFn` (CodeGen.sayWhat,
+   CodeGen.java:1552).  It runs on the interpreter; it does not compile.
+   bench1r is the same program with a, b and chunk moved to component level. *)
+component bench1rLocal
+export Executable
+run() = do
+  a: RR64 = 0.9999999
+  b: RR64 = 0.0000001
+  chunk(n: ZZ32, acc: RR64): RR64 = if n = 0 then acc else chunk(n - 1, acc a + b) end
+  var s: RR64 := 0.0
+  t0 = nanoTime()
+  for i <- seq(1#20000) do s := chunk(1000, s) end
+  t1 = nanoTime()
+  println("bench1rLocal " s)
+  println("loop_ns " (t1 - t0))
+end
+end

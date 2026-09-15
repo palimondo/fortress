@@ -1,0 +1,233 @@
+# host: Linux 6.18.44-fc-v33 x86_64  cores: 4
+# jdk: openjdk version "25.0.3" 2026-04-21
+# FORTRESS_THREADS=1  JAVA_FLAGS=-Xmx4g -Xss64m
+# date: 2026-09-15T22:47:07+00:00
+=== interpreter run 1: bench1h
+bench1h 0.8646647302294265
+loop_ns 56655883731
+--- process wall: 59.054374494 s
+=== interpreter run 2: bench1h
+bench1h 0.8646647302294265
+loop_ns 52599015026
+--- process wall: 54.604678641 s
+=== interpreter run 3: bench1h
+bench1h 0.8646647302294265
+loop_ns 53422532946
+--- process wall: 55.361186431 s
+=== interpreter run 1: bench1r
+bench1r 0.8646647302294265
+loop_ns 44590995832
+--- process wall: 46.478439454 s
+=== interpreter run 2: bench1r
+bench1r 0.8646647302294265
+loop_ns 43062113169
+--- process wall: 45.087193352 s
+=== interpreter run 3: bench1r
+bench1r 0.8646647302294265
+loop_ns 45796286973
+--- process wall: 47.872906341 s
+=== interpreter run 1: kdot
+kdot 231145.26854219884
+loop_ns 4703831752
+--- process wall: 7.292300194 s
+=== interpreter run 2: kdot
+kdot 231145.26854219884
+loop_ns 4262984024
+--- process wall: 6.539936768 s
+=== interpreter run 3: kdot
+kdot 231145.26854219884
+loop_ns 4274078638
+--- process wall: 6.489114538 s
+=== interpreter run 1: kmat
+kmat 154.0 208.0
+loop_ns 10405409647
+--- process wall: 12.797425711 s
+=== interpreter run 2: kmat
+kmat 154.0 208.0
+loop_ns 9911098114
+--- process wall: 12.070015740 s
+=== interpreter run 3: kmat
+kmat 154.0 208.0
+loop_ns 10307807753
+--- process wall: 12.408877679 s
+=== interpreter run 1: krows
+krows -1.444628562098535 0.5298121992304703
+loop_ns 2801762619
+--- process wall: 5.139802344 s
+=== interpreter run 2: krows
+krows -1.444628562098535 0.5298121992304703
+loop_ns 2692038879
+--- process wall: 4.850163457 s
+=== interpreter run 3: krows
+krows -1.444628562098535 0.5298121992304703
+loop_ns 2879112388
+--- process wall: 5.028624995 s
+=== compiled run 1: bench1h
+bench1h  0.8646647302294265
+loop_ns  6.115467249E9
+--- process wall: 6.334377232 s
+=== compiled run 2: bench1h
+bench1h  0.8646647302294265
+loop_ns  5.961574049E9
+--- process wall: 6.172652275 s
+=== compiled run 3: bench1h
+bench1h  0.8646647302294265
+loop_ns  6.073179256E9
+--- process wall: 6.285632198 s
+=== compiled run 1: bench1r
+bench1r  0.8646647302294265
+loop_ns  4.20721525E8
+--- process wall: .653692776 s
+=== compiled run 2: bench1r
+bench1r  0.8646647302294265
+loop_ns  3.34116551E8
+--- process wall: .537527997 s
+=== compiled run 3: bench1r
+bench1r  0.8646647302294265
+loop_ns  4.3840052E8
+--- process wall: .639378225 s
+=== java run 1: Bench1HPrim
+bench1h 0.8646647302294265
+loop_ns 35703492
+--- process wall: .190469329 s
+=== java run 2: Bench1HPrim
+bench1h 0.8646647302294265
+loop_ns 43356583
+--- process wall: .228552517 s
+=== java run 3: Bench1HPrim
+bench1h 0.8646647302294265
+loop_ns 43629528
+--- process wall: .227599446 s
+=== java run 1: Bench1HBoxed
+bench1h 0.8646647302294265
+loop_ns 72019711
+--- process wall: .395656928 s
+=== java run 2: Bench1HBoxed
+bench1h 0.8646647302294265
+loop_ns 57322987
+--- process wall: .325308400 s
+=== java run 3: Bench1HBoxed
+bench1h 0.8646647302294265
+loop_ns 75029812
+--- process wall: .433975294 s
+=== java run 1: Bench1HBoxedSink
+bench1h 0.8646647302294265
+loop_ns 191898694
+--- process wall: .839941453 s
+=== java run 2: Bench1HBoxedSink
+bench1h 0.8646647302294265
+loop_ns 177121367
+--- process wall: .794720174 s
+=== java run 3: Bench1HBoxedSink
+bench1h 0.8646647302294265
+loop_ns 186760782
+--- process wall: .842996029 s
+=== java run 1: KDotPrim
+kdot 231145.26854219884
+loop_ns 783564
+--- process wall: .054141372 s
+=== java run 2: KDotPrim
+kdot 231145.26854219884
+loop_ns 787286
+--- process wall: .052745078 s
+=== java run 3: KDotPrim
+kdot 231145.26854219884
+loop_ns 657067
+--- process wall: .044495910 s
+=== java run 1: KDotBoxed
+kdot 231145.26854219884
+loop_ns 4909973
+--- process wall: .145634328 s
+=== java run 2: KDotBoxed
+kdot 231145.26854219884
+loop_ns 4660631
+--- process wall: .148051722 s
+=== java run 3: KDotBoxed
+kdot 231145.26854219884
+loop_ns 4960505
+--- process wall: .154480753 s
+=== java run 1: KDotGen
+kdot 231145.26854219884
+loop_ns 5363847
+--- process wall: .164007921 s
+=== java run 2: KDotGen
+kdot 231145.26854219884
+loop_ns 4939577
+--- process wall: .157039011 s
+=== java run 3: KDotGen
+kdot 231145.26854219884
+loop_ns 5397894
+--- process wall: .167246590 s
+=== java run 1: KMatPrim
+kmat 154.0 208.0
+loop_ns 717204
+--- process wall: .056023946 s
+=== java run 2: KMatPrim
+kmat 154.0 208.0
+loop_ns 715968
+--- process wall: .056989984 s
+=== java run 3: KMatPrim
+kmat 154.0 208.0
+loop_ns 786245
+--- process wall: .060145280 s
+=== java run 1: KMatBoxed
+kmat 154.0 208.0
+loop_ns 4807797
+--- process wall: .160779453 s
+=== java run 2: KMatBoxed
+kmat 154.0 208.0
+loop_ns 4684778
+--- process wall: .160062819 s
+=== java run 3: KMatBoxed
+kmat 154.0 208.0
+loop_ns 4560943
+--- process wall: .154233060 s
+=== java run 1: KMatGen
+kmat 154.0 208.0
+loop_ns 5425602
+--- process wall: .178983857 s
+=== java run 2: KMatGen
+kmat 154.0 208.0
+loop_ns 4219917
+--- process wall: .145581902 s
+=== java run 3: KMatGen
+kmat 154.0 208.0
+loop_ns 4759211
+--- process wall: .158431218 s
+=== java run 1: KRowsPrim
+krows -1.444628562098535 0.5298121992304703
+loop_ns 1105608
+--- process wall: .067258479 s
+=== java run 2: KRowsPrim
+krows -1.444628562098535 0.5298121992304703
+loop_ns 1125127
+--- process wall: .063534547 s
+=== java run 3: KRowsPrim
+krows -1.444628562098535 0.5298121992304703
+loop_ns 1087133
+--- process wall: .062135524 s
+=== java run 1: KRowsBoxed
+krows -1.444628562098535 0.5298121992304703
+loop_ns 2908486
+--- process wall: .113606302 s
+=== java run 2: KRowsBoxed
+krows -1.444628562098535 0.5298121992304703
+loop_ns 2864390
+--- process wall: .108009137 s
+=== java run 3: KRowsBoxed
+krows -1.444628562098535 0.5298121992304703
+loop_ns 2359346
+--- process wall: .090087885 s
+=== java run 1: KRowsGen
+krows -1.444628562098535 0.5298121992304703
+loop_ns 2669601
+--- process wall: .101764620 s
+=== java run 2: KRowsGen
+krows -1.444628562098535 0.5298121992304703
+loop_ns 3078540
+--- process wall: .113969223 s
+=== java run 3: KRowsGen
+krows -1.444628562098535 0.5298121992304703
+loop_ns 3000692
+--- process wall: .111549911 s
+# done: 2026-09-15T22:53:56+00:00

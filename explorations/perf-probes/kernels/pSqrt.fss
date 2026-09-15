@@ -1,0 +1,10 @@
+(* pSqrt -- the scalar pieces kernel (c) needs besides the arrays: SQRT, ^,
+   and juxtaposition on RR64. *)
+component pSqrt
+export Executable
+run() = do
+  e: RR64 = 10.0^(-5)
+  x: RR64 = 2.0
+  println("pSqrt " (SQRT (e + (x x) / 4.0)))
+end
+end

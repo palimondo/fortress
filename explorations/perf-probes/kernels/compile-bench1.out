@@ -1,0 +1,6 @@
+########## fortress compile bench1h.fss
+(exit 0; no output means clean)
+
+########## fortress compile bench1r.fss
+(exit 0; no output means clean)
+

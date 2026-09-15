@@ -1,0 +1,18 @@
+=== JFR, compiled: bench1h
+[0.473s][info][jfr,startup] Started recording 1. No limit specified, using maxsize=250MB as default.
+[0.473s][info][jfr,startup] 
+[0.473s][info][jfr,startup] Use jcmd 4799 JFR.dump name=1 to copy recording data to file.
+bench1h  0.8646647302294265
+loop_ns  7.265508154E9
+=== JFR, compiled: bench1r
+[0.264s][info][jfr,startup] Started recording 1. No limit specified, using maxsize=250MB as default.
+[0.264s][info][jfr,startup] 
+[0.264s][info][jfr,startup] Use jcmd 4842 JFR.dump name=1 to copy recording data to file.
+bench1r  0.8646647302294265
+loop_ns  4.37790901E8
+=== JFR, interpreter: krows
+[0.285s][info][jfr,startup] Started recording 1. No limit specified, using maxsize=250MB as default.
+[0.285s][info][jfr,startup] 
+[0.285s][info][jfr,startup] Use jcmd 4878 JFR.dump name=1 to copy recording data to file.
+krows -1.444628562098535 0.5298121992304703
+loop_ns 3398054646

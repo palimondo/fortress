@@ -1,0 +1,26 @@
+(* bench1r -- bench1 with the literals hoisted AND the accumulator immutable.
+   The compiled prelude has no SUM, no BIG operator and no user reduction
+   (gap-ledger row 74), and the recurrence acc <- acc a + b is sequential
+   anyway, so the immutable spelling is a tail-recursive function, not a
+   reduction.  The JVM does not eliminate tail calls, so 20 M frames fit on no
+   stack: the loop is 20000 chunks of 1000.  The `:=` survives on the chunk
+   boundary only -- 40000 transaction checks instead of 40 M, i.e. 0.1% of
+   bench1t's -- so this run measures the loop with the literal round-trip and
+   the transaction check both effectively removed.
+   `a`, `b` and `chunk` are component-level and not local because the code
+   generator cannot compile a local function: `Can't compile LetFn`
+   (CodeGen.java:1552 sayWhat), recorded in compile-bench1.out. *)
+component bench1r
+export Executable
+a: RR64 = 0.9999999
+b: RR64 = 0.0000001
+chunk(n: ZZ32, acc: RR64): RR64 = if n = 0 then acc else chunk(n - 1, acc a + b) end
+run() = do
+  var s: RR64 := 0.0
+  t0 = nanoTime()
+  for i <- seq(1#20000) do s := chunk(1000, s) end
+  t1 = nanoTime()
+  println("bench1r " s)
+  println("loop_ns " (t1 - t0))
+end
+end

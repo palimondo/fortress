@@ -1,0 +1,21 @@
+########## fortress compile pArray.fss
+/home/user/fortress/explorations/perf-probes/kernels/pArray.fss:6:6-9:
+    Array is undefined.
+File pArray.fss has 1 error.
+########## fortress run pArray
+Could not load pArray
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : pArray.class
+	... 4 more
+########## fortress compile pVector.fss
+/home/user/fortress/explorations/perf-probes/kernels/pVector.fss:5:6-10:
+    Vector is undefined.
+File pVector.fss has 1 error.
+########## fortress run pVector
+Could not load pVector
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : pVector.class
+	... 4 more
+########## fortress compile pSqrt.fss
+########## fortress run pSqrt
+pSqrt  1.0000049999875

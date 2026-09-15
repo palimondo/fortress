@@ -1,0 +1,5 @@
+--- bench1r: classes in the jar
+./bench1r$/=fn@21/!7-25.class
+./bench1r$a.class
+./bench1r$b.class
+./bench1r.class

@@ -1,0 +1,11 @@
+# Sizing runs: 20 reps of each kernel on the interpreter, used only to pick the
+# rep counts so each kernel runs for seconds.  JDK 25, FORTRESS_THREADS=1.
+=== calkdot   (20 reps)
+kdot 23114.526854219952
+loop_ns 548080359        -> 27.4 ms / rep  -> 200 reps ~ 5.5 s
+=== calkmat   (20 reps)
+kmat 154.0 208.0
+loop_ns 1226683023       -> 61.3 ms / rep  -> 200 reps ~ 12.3 s  (200 = w04_cost's count)
+=== calkrows  (20 reps)
+krows -1.444628562098535 0.5298121992304703
+loop_ns 281518326        -> 14.1 ms / rep  -> 400 reps ~ 5.6 s

@@ -1,0 +1,8 @@
+(* pArray -- does the compiler path have the Array trait and the array
+   constructor at all?  (gap-ledger row 72 recorded the constructor; this
+   probe asks about the type.) *)
+component pArray
+export Executable
+f(x: Array[\RR64,ZZ32\]): ZZ32 = 1
+run() = do a = array[\RR64\](4); println("pArray " f(a)) end
+end

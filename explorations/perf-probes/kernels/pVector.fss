@@ -1,0 +1,8 @@
+(* pVector -- does the compiler path have Vector / Matrix and DOT on them? *)
+component pVector
+export Executable
+run() = do
+  v: Vector[\RR64,4\] = vector[\RR64,4\](fn (i: ZZ32): RR64 => 1.0)
+  println("pVector " (v DOT v))
+end
+end

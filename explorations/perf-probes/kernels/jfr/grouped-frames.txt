@@ -1,0 +1,23 @@
+## compiled-bench1h.jfr  (5458 samples, last 7.27 s, thread 'ForkJoinPool')
+  4850   88.9%  transaction check (incl. its eager debug string)
+   344    6.3%  generator (countedseqloop subdivision)
+   125    2.3%  integer index boxing
+    87    1.6%  other (classload, JIT, GC, startup)
+    44    0.8%  closure / trait dispatch
+     6    0.1%  the program's own compiled code (arithmetic inlined into it)
+     2    0.0%  RR64 boxing + arithmetic
+
+## compiled-bench1r.jfr  (213 samples, last 0.44 s, thread 'ForkJoinPool')
+   139   65.3%  the program's own compiled code (arithmetic inlined into it)
+    57   26.8%  other (classload, JIT, GC, startup)
+     8    3.8%  transaction check (incl. its eager debug string)
+     5    2.3%  RR64 boxing + arithmetic
+     2    0.9%  closure / trait dispatch
+     2    0.9%  integer index boxing
+
+## interp-krows.jfr  (2628 samples, last 3.4 s, thread 'ForkJoinPool')
+  1144   43.5%  AST walk: eval, closures, env build
+   850   32.3%  environment lookup / balanced-tree maps
+   440   16.7%  other
+   136    5.2%  run-time type dispatch
+    58    2.2%  fork-join runtime

@@ -1,0 +1,19 @@
+(* bench1h -- bench1 with the two float literals hoisted into variables bound
+   once before the loop.  Everything else is bench1t character for character:
+   the same 20 M iterations, the same `for i <- seq(...)`, the same mutable
+   `:=` accumulator.  The single variable against bench1t is the literal:
+   whatever this run is faster by is the per-iteration FFloatLiteral decimal
+   round-trip the boxing probe charged 30% of the gap to. *)
+component bench1h
+export Executable
+run() = do
+  a: RR64 = 0.9999999
+  b: RR64 = 0.0000001
+  var acc: RR64 := 0.0
+  t0 = nanoTime()
+  for i <- seq(1#20000000) do acc := acc a + b end
+  t1 = nanoTime()
+  println("bench1h " acc)
+  println("loop_ns " (t1 - t0))
+end
+end

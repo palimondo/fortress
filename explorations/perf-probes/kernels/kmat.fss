@@ -1,0 +1,22 @@
+(* kmat -- kernel (b): 16x16 by 16x16, the shape every matrix product in a
+   batch-1 microGPT step has (blockSize = nEmbd = 16, so a step's activations
+   are 16 rows of 16: MicroGptFlat.fss:17).  The product is written as
+   juxtaposition, which is the shipped library's `opr juxtaposition` on
+   Matrix and the same entry point as `opr DOT` (FortressLibrary.fss:2621-2629)
+   -- the spelling MicroGptFlat uses (`x1 wq^T`).  200 products, the count and
+   shape of rung 6's explorations/apl/rung-6/w04_cost.fss. *)
+component kmat
+import FlatArrays.{...}
+export Executable
+run() = do
+  reps = 200
+  a = mat(16, 16, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (((3 i) + j) MOD 7))
+  b = mat(16, 16, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (((5 i) + (2 j)) MOD 9))
+  t0 = nanoTime()
+  for r <- seq(0#reps) do a b end
+  t1 = nanoTime()
+  c = a b
+  println("kmat " c[0,0] " " c[15,15])
+  println("loop_ns " (t1 - t0))
+end
+end

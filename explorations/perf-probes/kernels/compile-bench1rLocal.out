@@ -1,0 +1,14 @@
+### fortress compile bench1rLocal.fss -- the natural spelling, with the
+### literals and the tail-recursive chunk local to run().
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+/home/user/fortress/explorations/perf-probes/kernels/bench1rLocal.fss:11:3-12:6:
+    Can't compile LetFn at /home/user/fortress/explorations/perf-probes/kernels/bench1rLocal.fss:11.3
+	at com.sun.fortress.compiler.codegen.CodeGen.sayWhat(CodeGen.java:1552)
+	at com.sun.fortress.compiler.codegen.CodeGen.sayWhat(CodeGen.java:1557)
+	at com.sun.fortress.compiler.codegen.CodeGen.defaultCase(CodeGen.java:1669)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forNode(NodeAbstractVisitor_void.java:33)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forASTNode(NodeAbstractVisitor_void.java:37)
+
+### and the same program under the interpreter (it runs):
+bench1rLocal 0.8646647302294265
+loop_ns 48434978478

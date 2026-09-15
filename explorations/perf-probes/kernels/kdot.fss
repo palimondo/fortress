@@ -1,0 +1,23 @@
+(* kdot -- kernel (a): the flat-parameter dot product.  Two RR64 vectors of
+   4192 elements, which is exactly nParams() of MicroGptFlat (the nine weight
+   matrices of explorations/run-c4/src/MicroGptFlat.fss:17-18 laid end to end:
+   432+256+432+4*256+1024+1024).  Adam touches the flat parameter vector this
+   way once per step.  The vocabulary is C4's own FlatArrays, so the kernel is
+   the program's code, and `DOT` is the shipped library's Vector.dot.
+   The per-rep `:=` is 1/4192 of the element work and is not the subject. *)
+component kdot
+import FlatArrays.{...}
+export Executable
+run() = do
+  n = 4192
+  reps = 200
+  x = vec(n, fn (i: ZZ32): RR64 => (1.0 ((i MOD 17) + 1)) / 17.0)
+  y = vec(n, fn (i: ZZ32): RR64 => (1.0 ((i MOD 23) + 1)) / 23.0)
+  var s: RR64 := 0.0
+  t0 = nanoTime()
+  for r <- seq(0#reps) do s := s + (x DOT y) end
+  t1 = nanoTime()
+  println("kdot " s)
+  println("loop_ns " (t1 - t0))
+end
+end
