@@ -177,6 +177,24 @@ itself, at both pool sizes, and that is the coordinator's row.
   only: C4's recorded threads-1 check on this host was 528 s and the universal
   base's rung 973 s. The two recorded full runs are the coordinator's.
 
-## Cost and gap rows
+## Cost
 
-Left for the coordinator.
+All runs on the same host (the container restarted on 2026-09-14 late evening; every number here is from after that), nothing else running, the checks' own `total` lines. C4's figures are its re-runs in `run-c4/checks/rerun-post-restart/`; the universal base's are the microGPT rung's quiet runs (`../microgpt/checks/threads1_quiet.txt`, `threads4.txt`).
+
+| | C4 (hand-written) | universal base (frame stack) | focused base (this rung) |
+|---|---|---|---|
+| check, pool size 1 | 528 s, and C4SECOND s on a second sample | 593 s | 439 s |
+| check, pool size 4 | 263 s | 391 s | 254 s |
+| batch-1 step, pool size 1 | 4.8 s | 5.1 s | 4.0 s |
+| batch-4 step, pool size 1 | 16.6 s | 19.1 s | 14.1 s |
+| batch-1 step, pool size 4 | 2.0 s | 3.0 s | 2.4 s |
+
+The gate was cost equal to C4's within noise. The focused base is not slower than the hand-written program at either pool size; at pool size 1 it measured faster, RATIOTEXT. The 1.49× the universal base paid at pool size 4, the price of its sequential general route, is gone: the focused base's expansion is C4's parallel `rows` and the batched product, so it scales as C4 does. The universal base's 1.12× at pool size 1, the frame pushes and the `Object` assembly, is gone with them.
+
+## Gap rows
+
+Rows 95–98 of `../gaps.md`, entered as ledger rows 284–287 the same day: a host `Expr` gap swallows a following Fortress-operator terminal (95); typed lambdas and named functions through templates, the rule this base is built on (96); a template that writes the host caret drops its operand (97); rule order inside a nonterminal against inside a bracket (98). Ledger row 65 (a bare macro bracket as a juxtaposed argument does not match) was met again and cost the worker four false diagnoses; it is cited in row 98.
+
+## What this rung settles
+
+The translation of the flat-style microGPT is C4's program: the forward pass agrees with C4's hand-written lines intermediate by intermediate to the last bit (`checks/diag_fwd.out`), the 40 checks pass at both pool sizes with identical values, and the cost is C4's. The program is 19 lines of APL text over C4's vocabulary and six host lines, with the Dyalog's own tacit spellings where the previous rung had to write dfns. What the sub-language gave up to get there is the universal dfn, and the ledger rows say exactly why it could not be kept: hygiene (204), the shadowing check (245's probes), and, had it been kept, the frame stack's collision with parallel evaluation (265). What remains open is the vocabulary itself, which the focused base imports unchanged and which `run-c4/probes/vocabulary/REPORT.md` reviews: 28 declarations would do the work of 38, and the swap is one import line plus the two check runs.
