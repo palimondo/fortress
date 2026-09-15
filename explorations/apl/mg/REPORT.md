@@ -183,13 +183,13 @@ All runs on the same host (the container restarted on 2026-09-14 late evening; e
 
 | | C4 (hand-written) | universal base (frame stack) | focused base (this rung) |
 |---|---|---|---|
-| check, pool size 1 | 528 s, and C4SECOND s on a second sample | 593 s | 439 s |
+| check, pool size 1 | 528 s, and 444 s on a second sample | 593 s | 439 s |
 | check, pool size 4 | 263 s | 391 s | 254 s |
 | batch-1 step, pool size 1 | 4.8 s | 5.1 s | 4.0 s |
 | batch-4 step, pool size 1 | 16.6 s | 19.1 s | 14.1 s |
 | batch-1 step, pool size 4 | 2.0 s | 3.0 s | 2.4 s |
 
-The gate was cost equal to C4's within noise. The focused base is not slower than the hand-written program at either pool size; at pool size 1 it measured faster, RATIOTEXT. The 1.49× the universal base paid at pool size 4, the price of its sequential general route, is gone: the focused base's expansion is C4's parallel `rows` and the batched product, so it scales as C4 does. The universal base's 1.12× at pool size 1, the frame pushes and the `Object` assembly, is gone with them.
+The gate was cost equal to C4's within noise. The focused base is not slower than the hand-written program at either pool size; at pool size 1 its 439 s sits inside the host's own spread, C4's two samples being 528 s and 444 s, so the honest reading is equal within noise. The 1.49× the universal base paid at pool size 4, the price of its sequential general route, is gone: the focused base's expansion is C4's parallel `rows` and the batched product, so it scales as C4 does. The universal base's 1.12× at pool size 1, the frame pushes and the `Object` assembly, is gone with them.
 
 ## Gap rows
 
