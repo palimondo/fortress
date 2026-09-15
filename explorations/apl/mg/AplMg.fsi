@@ -12,9 +12,11 @@ tally[\nat s\](v: Vector[\ZZ32,s\]): ZZ32
 (* ⍳n as a ZZ32 index vector -- L7, L13, L20, L27 *)
 iota(n: ZZ32): Array[\ZZ32,ZZ32\]
 
-(* ,m over the corpus slice (ZZ32) and over the validity mask (RR64) -- L13 *)
-ravel[\nat r, nat c\](m: Matrix[\ZZ32,r,c\]): Array[\ZZ32,ZZ32\]
-ravel[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\]
+(* ,m over the corpus slice (ZZ32) and over the validity mask (RR64) -- L13.
+   ONE declaration, generic in the element type as FlatArrays' gather is: two
+   declarations differing only in ZZ32 against RR64 are rejected, "at least one
+   pair of parameters must have excluding types" (checks/model_run.out.0) *)
+ravel[\T extends Number, nat r, nat c\](m: Matrix[\T,r,c\]): Array[\T,ZZ32\]
 
 (* m[;ks] -- a column slice by a ZZ32 index vector -- L13 *)
 cols[\nat r, nat c, nat k\](m: Matrix[\ZZ32,r,c\], ks: Vector[\ZZ32,k\]): Array[\ZZ32,(ZZ32,ZZ32)\]
@@ -37,5 +39,13 @@ cycle[\nat s\](n: ZZ32, v: Vector[\ZZ32,s\]): Array[\ZZ32,ZZ32\]
 
 (* 1+⍳n -- an integer scalar added to an integer array, L13 *)
 opr +[\I\](s: ZZ32, a: Array[\ZZ32,I\]): Array[\ZZ32,I\]
+
+(* s*t -- a real raised to an integer power, L7's mask constant and L29's two
+   Adam corrections (MicroGptFlat.fss:79).  Written as a function because a
+   TEMPLATE that writes the host caret SILENTLY DROPS its right operand:
+   <[ (1.0 (l)) ^ (r) ]> expands to 1.0 (l), so 10*10 was 10.0 and the causal
+   mask was -10 instead of -1E10 (checks/model_run.out.1, diagnosed in
+   NOTES-worker.md) *)
+pow(b: RR64, e: ZZ32): RR64
 
 end

@@ -1,7 +1,7 @@
 (* FlatArrays2 -- see FlatArrays2.fsi and REPORT.md.  Shapes of views are
    taken at run time through the library's own reflect idiom
-   (FortressLibrary.fss:1922-1934).  FlatArrays2.libview.fss.txt is the
-   variant whose row lift uses the library's own row view m[i,:]. *)
+   (FortressLibrary.fss:1922-1934); the row lift uses the library's row view
+   m[i,:] (FortressLibrary.fss:2363, a Row over a subarray). *)
 component FlatArrays2
 export FlatArrays2
 import NatReflect.{...}
@@ -20,6 +20,7 @@ opr >[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\RR64,I\] = a.map[\RR
 opr SQRT[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e) => SQRT e)
 exp[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](exp)
 log[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](log)
+opr DOT(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64 = SUM[(i, e) <- a.indexValuePairs] e b[i]
 
 (* diag(v) m: the product is the library's; a read-only Matrix view *)
 object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\]
@@ -100,22 +101,12 @@ opr +[\nat r, nat c\](m: Matrix[\RR64,r,c\], t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]):
     t.ivmap[\RR64\](fn (ix, e) => do (p, i, j) = ix; m[i,j] + e end)
 
 (* -------------------------------------------------- the row lift --------- *)
-(* a row of a matrix as a Vector, so the vector functions apply to it; the
-   library's m[i,:] is an Array1, not a Vector (row 54), and five times slower
-   to build (v20_rowcost) *)
-object RowView[\nat r, nat c\](base: Matrix[\RR64,r,c\], i: ZZ32) extends Vector[\RR64,c\]
-    get(j: ZZ32): RR64 = base.get(i, j)
-    put(j: ZZ32, x: RR64): () = base.put((i, j), x)
-    init0(j: ZZ32, x: RR64): () = base.init0((i, j), x)
-    replica[\U\](): Array1[\U,0,c\] = array1[\U,c\]()
-end
-row[\nat r, nat c\](m: Matrix[\RR64,r,c\], i: ZZ32): Array[\RR64,ZZ32\] = RowView[\r,c\](m, i)
 rows[\I\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], a: Array[\RR64,I\]): Array[\RR64,I\] =
     typecase a of
         AnyMatrix => do
             (n, d) = a.sizes
             out = array[\RR64\](n, d)
-            for i <- 0#n do (row(out, i)).assign(f(row(a, i))) end
+            for i <- 0#n do (out[i,:]).assign(f(a[i,:])) end
             out
           end
         else => do
@@ -123,7 +114,7 @@ rows[\I\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], a: Array[\RR64,I\]): Arra
             out = array[\RR64\](np, n, d)
             for p <- 0#np do
                 (po, pa) = (plane(out, p), plane(a, p))
-                for i <- 0#n do (row(po, i)).assign(f(row(pa, i))) end
+                for i <- 0#n do (po[i,:]).assign(f(pa[i,:])) end
             end
             out
           end
@@ -133,7 +124,7 @@ rows[\I\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], x: 
         AnyMatrix => do
             (n, d) = x.sizes
             out = array[\RR64\](n, d)
-            for i <- 0#n do (row(out, i)).assign(f(row(x, i), row(y, i))) end
+            for i <- 0#n do (out[i,:]).assign(f(x[i,:], y[i,:])) end
             out
           end
         else => do
@@ -141,7 +132,7 @@ rows[\I\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array[\RR64,ZZ32\], x: 
             out = array[\RR64\](np, n, d)
             for p <- 0#np do
                 (po, px, py) = (plane(out, p), plane(x, p), plane(y, p))
-                for i <- 0#n do (row(po, i)).assign(f(row(px, i), row(py, i))) end
+                for i <- 0#n do (po[i,:]).assign(f(px[i,:], py[i,:])) end
             end
             out
           end

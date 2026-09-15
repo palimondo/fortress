@@ -227,10 +227,11 @@ grammar AplMgG extends { Expression, Literal, Identifier }
       (* ---- powers.  A half power is the shipped SQRT, over an integer or a
               real scale (MicroGptFlat.fss:59, :66) and over an array (:79); a
               square is the elementwise product C4 writes (:78); anything else
-              is the host caret (:79) ---- *)
+              is AplMg's pow, because a template that writes the host caret
+              silently drops its right operand (see AplMg.fsi) ---- *)
       | l:AplAtom SPACE `* 0 . 5   => <[ SQRT (1.0 (l)) ]>
       | l:AplAtom SPACE `* 2       => <[ ((l)) × ((l)) ]>
-      | l:AplAtom SPACE `* SPACE r:AplE => <[ (1.0 (l)) ^ (r) ]>
+      | l:AplAtom SPACE `* SPACE r:AplE => <[ pow(1.0 (l), (r)) ]>
 
       (* ---- the elementwise algebra.  Every remaining product in the program
               has a SCALAR on the left, which is the host's juxtaposition

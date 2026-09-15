@@ -1,0 +1,28 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress18389008325226708390rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress18389008325226708390rats/com/sun/fortress/parser/templateparser/TemplateParser397.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7489613379081868778rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7489613379081868778rats/com/sun/fortress/parser/templateparser/TemplateParser596.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/AplMg.fss:16:1-19:4: and
+/home/user/fortress/explorations/apl/mg/AplMg.fss:12:1-15:4:
+
+ravel[\nat r,nat c\](m:Matrix[\FortressLibrary.RR64,r,c\]):Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/mg/AplMg.fss:16:1-19:4 and
+ravel[\nat r,nat c\](m:Matrix[\FortressLibrary.ZZ32,r,c\]):Array[\FortressLibrary.ZZ32,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/mg/AplMg.fss:12:1-15:4 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/explorations/apl/mg/AplMg.fss:16:1-19:4:
+/home/user/fortress/explorations/apl/mg/AplMg.fss:12:1-15:4:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

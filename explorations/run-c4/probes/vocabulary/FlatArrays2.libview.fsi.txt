@@ -3,10 +3,7 @@
    a more general declaration.  The element type is generic by its bound where
    nothing forces RR64, the index type generic where nothing forces a rank,
    nat parameters appear only where a view object needs them, and the rank
-   dispatch of the row lift is one typecase.  The row lift's rows are a
-   private six-line view extending Vector (ledger row 226): the library's own
-   m[i,:] serves too (FlatArrays2.libview.fss.txt, Smoke2.libview.out) at five
-   times the cost (v20_rowcost).  What stays hand-written is what
+   dispatch of the row lift is one typecase.  What stays hand-written is what
    the shipped library does not have: reshape (view, heads, unheads), planes
    and plane transposes of a rank-3 array, a batched product, a plane-wise
    sum, a row lift, gather, outer-product equality, pick and ravel-catenate. *)
@@ -30,6 +27,9 @@ opr >[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\RR64,I\]
 opr SQRT[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\]
 exp[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\]
 log[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\]
+(* the inner product of any two rank-1 arrays, so the library's own row view
+   m[i,:] carries the vector functions *)
+opr DOT(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64
 
 (* diag(v) m: a diagonal is a Matrix view, so its product is the library's *)
 object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\] end
