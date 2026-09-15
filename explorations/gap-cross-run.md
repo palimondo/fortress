@@ -11,7 +11,7 @@
 
 Nine ports and rounds of microGPT (and its neighbours) have now been made in this tree,
 beside one exploration that is not a port at all, and each met a different subset of the
-same 282 language, library, interpreter and typesetter gaps. This file is the
+same 284 language, library, interpreter and typesetter gaps. This file is the
 cross-tabulation: one line per ledger row that at least
 one port reached, one column per port — `ours` (this repository's own rounds, reviews and probe
 arcs counted as one), `astra` (the independent Astra run), `blinded` (the blinded Fable
@@ -32,7 +32,7 @@ its own table records meeting again. So is `run-c4`, whose hits are its own four
 (175-178) and the seven rows its design note names as adopted or met (21, 102, 130, 131,
 133, 152, 161); rows 144 and 158 are marked *avoided* there because C4 exported a
 `transpose` function from the start rather than meeting the error again. The `apl`
-column is 122 hits: the 105 rows the quest contributed (179-256, its microGPT rung's
+column is 124 hits: the 105 rows the quest contributed (179-256, its microGPT rung's
 257-265, and the feasibility study's 266-283) and the 17 existing
 rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47, 54, 55,
 89, 97, 98, 109, 131, 132, 145, 147, 157, and 1, which row 263 reaches from a library).
@@ -321,6 +321,8 @@ rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47,
 | 281 | a complete APL array library — dynamic shape, eleven primitives including a user `BIG` reduction — runs on the … | — | — | — | — | — | — | — | — | — | hit |
 | 282 | a right-to-left APL sub-language with strand notation, the real glyphs and `+/` reduce can be added as a user … | — | — | — | — | — | — | — | — | — | hit |
 | 283 | there is no working `RR64 → ZZ32` conversion: the floor bracket yields a `ZZ64` whose declared `narrow` cannot … | — | — | — | — | — | — | — | — | — | hit |
+| 284 | a host `Expr` gap swallows a following terminal that is a Fortress operator: a rule `y⦇ a:Expr ⋄ b:Expr ⦈` nev … | — | — | — | — | — | — | — | — | — | hit |
+| 285 | a typed lambda written whole inside one template works and dispatches: hygiene renames the binder and its refe … | — | — | — | — | — | — | — | — | — | hit |
 
 ## Rows every port hit — the fix priorities
 
