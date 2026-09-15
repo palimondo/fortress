@@ -10,16 +10,18 @@
    forces RR64 (review probe v04, ledger row 287) and the index type is generic
    wherever nothing dispatches on rank (row 161).
    Against C4's FlatArrays (explorations/run-c4/src/FlatArrays.fsi): the 13
-   elementwise operators are element-generic, the nats that dispatched nothing
-   are gone from view, gather, onehot and the rank-3 spellings, the exported
-   row and row3 are gone (the row view is private here), and the monadic row
-   lift is one index-generic declaration with a typecase instead of two.
+   elementwise operators are element-generic and the two of them with two array
+   parameters state their shape agreement by rank, the nats that dispatched
+   nothing are gone from view, gather, onehot and the rank-3 spellings, the
+   exported row and row3 are gone (the row view is private here), and the
+   monadic row lift is one index-generic declaration with a typecase instead of
+   two.
    Kept from C4 and not from the sketch: the four constructors, because
    FlatData2, AplMg, the model and the check call them; the matrix transpose,
    because the grammar's ⍉ rule writes a call and a postfix ^T may not follow
    one (rows 144, 158, 293); and the Diag product operator, because the
    diagonal as a Matrix view costs 13-54x on its line (row 291).
-   35 declarations against C4's 38 and the sketch's 28. *)
+   39 declarations against C4's 38 and the sketch's 28. *)
 api FlatArrays2
 
 (* ------------------------------------------------------- constructors ----
@@ -31,21 +33,40 @@ keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\]
 mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\]
 
 (* ------------------------------------------- the elementwise algebra -----
-   One declaration per operator, generic in the element type by its bound and
-   in the index type: a vector (I = ZZ32), a matrix ((ZZ32,ZZ32)) and a rank-3
+   Eleven of the thirteen take ONE array and a scalar, or one array alone:
+   one declaration each, generic in the element type by its bound and in the
+   index type, so a vector (I = ZZ32), a matrix ((ZZ32,ZZ32)) and a rank-3
    array ((ZZ32,ZZ32,ZZ32)) of any element type of the numeric tower share it.
-   No nat here: the shared I asserts what a shared index type can assert, that
-   the two arrays are of one rank and one element type; the SIZES are not in
-   the index type, and stating them would mean one declaration per rank, which
-   the Meet Rule refuses beside the generic one (ledger row 159, NOTES-swap.md).
+   They carry no nat, because a lone array has no second shape to agree with.
+   × and the array-by-array / are the two with TWO array parameters, and their
+   two arrays must have ONE shape: they say so with shared nat names, as every
+   other agreement in this api does.  The sizes are not in the index type, so
+   saying it costs one declaration per rank -- the rank-specialised declaration
+   standing beside the index-generic one is refused by the Meet Rule
+   (elemwise_nat_probe.fss, checks/elemwise_nat_probe.out.0), the three ranks
+   alone are accepted and all three run (elemwise_rank_probe.fss,
+   checks/elemwise_rank_probe.out).  The results keep the loose Array type the
+   index-generic form had, as every other nat-typed declaration here does: the
+   nats are on the parameters, where the agreement is.
    + and - between two arrays of one shape stay the library's (AdditiveGroup),
    and a scalar times an array stays the library's juxtaposition. *)
 opr +[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\]
 opr +[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\]
 opr -[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\]
 opr -[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\]
-opr ×[\T extends Number, I\](a: Array[\T,I\], b: Array[\T,I\]): Array[\T,I\]
-opr /[\T extends Number, I\](a: Array[\T,I\], b: Array[\T,I\]): Array[\T,I\]
+(* the shared s: the two vectors are of ONE LENGTH *)
+opr ×[\T extends Number, nat s\](a: Vector[\T,s\], b: Vector[\T,s\]): Array[\T,ZZ32\]
+(* the shared n and d: the two matrices are of ONE SHAPE, n rows by d columns *)
+opr ×[\T extends Number, nat n, nat d\](a: Matrix[\T,n,d\], b: Matrix[\T,n,d\]): Array[\T,(ZZ32,ZZ32)\]
+(* the shared p, n and d: the same PLANE COUNT and the same plane shape *)
+opr ×[\T extends Number, nat p, nat n, nat d\](a: Array3[\T,0,p,0,n,0,d\], b: Array3[\T,0,p,0,n,0,d\]): Array[\T,(ZZ32,ZZ32,ZZ32)\]
+(* the shared s: the two vectors are of ONE LENGTH *)
+opr /[\T extends Number, nat s\](a: Vector[\T,s\], b: Vector[\T,s\]): Array[\T,ZZ32\]
+(* the shared n and d: the two matrices are of ONE SHAPE, n rows by d columns *)
+opr /[\T extends Number, nat n, nat d\](a: Matrix[\T,n,d\], b: Matrix[\T,n,d\]): Array[\T,(ZZ32,ZZ32)\]
+(* the shared p, n and d: the same PLANE COUNT and the same plane shape *)
+opr /[\T extends Number, nat p, nat n, nat d\](a: Array3[\T,0,p,0,n,0,d\], b: Array3[\T,0,p,0,n,0,d\]): Array[\T,(ZZ32,ZZ32,ZZ32)\]
+(* an array over a scalar: one array parameter, nothing to agree with, no nat *)
 opr /[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\]
 opr MAX[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\]
 opr MAX[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\]

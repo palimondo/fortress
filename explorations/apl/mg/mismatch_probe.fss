@@ -7,9 +7,12 @@
    below are known to be the mismatch and nothing else.  Case 1 wraps its
    mismatched call in try/catch, to see whether the failure is an exception a
    program can catch or a terminal error of the interpreter.
-   The five agreements: the batched product's plane count and inner size, the
+   The agreements: the batched product's plane count and inner size, the
    two-argument row lift's shape (rank 2 and rank 3), the matrix onto the
-   planes, the diagonal against the row count, one key per row for pick. *)
+   planes, the diagonal against the row count, one key per row for pick, and
+   -- cases 8 to 13, added when the elementwise × and / took shared nats -- the
+   one shape the two arrays of × and of / must have, at each of the three
+   ranks. *)
 component mismatch_probe
 import FlatArrays2.{...}
 import System.{...}
@@ -46,6 +49,18 @@ run(): () = do
         println "(0e) diag of 4 times a 4x3 matrix: " p5[3,2]
         p6 = pick(m43, k4)
         println "(0f) pick, 4 keys for 4 rows: " p6[3]
+        p7 = d4 × d4
+        println "(0g) elementwise ×, two vectors of 4: " p7[3]
+        p8 = m43 × m43
+        println "(0h) elementwise ×, two 4x3 matrices: " p8[3,2]
+        p9 = (a43()) × (a43())
+        println "(0i) elementwise ×, two 4-plane 2x3 arrays: " p9[3,1,2]
+        pa = d4 / d4
+        println "(0j) elementwise /, two vectors of 4: " pa[3]
+        pb = m43 / m43
+        println "(0k) elementwise /, two 4x3 matrices: " pb[3,2]
+        pc = (a43()) / (a43())
+        println "(0l) elementwise /, two 4-plane 2x3 arrays: " pc[3,1,2]
     elif mm = "1" then
         (* the batched product, 4 planes against 2 planes, inside try/catch *)
         println "(1) batched product with 4 planes against 2 planes, in try/catch"
@@ -80,6 +95,30 @@ run(): () = do
         println "(7) pick, 5 keys for a matrix of 4 rows"
         p = pick(m43, k5)
         println "    no error: " p[3]
+    elif mm = "8" then
+        println "(8) elementwise × at rank 1, a vector of 4 against a vector of 5"
+        p = d4 × d5
+        println "    no error: " p[3]
+    elif mm = "9" then
+        println "(9) elementwise × at rank 2, a 4x3 matrix against a 5x3 matrix"
+        p = m43 × m53
+        println "    no error: " p[3,2]
+    elif mm = "10" then
+        println "(10) elementwise × at rank 3, 4 planes of 2x3 against 2 planes of 3x2"
+        p = (a43()) × (b32())
+        println "    no error: " p[1,1,1]
+    elif mm = "11" then
+        println "(11) elementwise / at rank 1, a vector of 4 against a vector of 5"
+        p = d4 / d5
+        println "    no error: " p[3]
+    elif mm = "12" then
+        println "(12) elementwise / at rank 2, a 4x3 matrix against a 5x3 matrix"
+        p = m43 / m53
+        println "    no error: " p[3,2]
+    elif mm = "13" then
+        println "(13) elementwise / at rank 3, 4 planes of 2x3 against 2 planes of 3x2"
+        p = (a43()) / (b32())
+        println "    no error: " p[1,1,1]
     end
     println "done"
   end

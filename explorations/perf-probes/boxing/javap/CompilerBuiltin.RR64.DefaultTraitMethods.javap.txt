@@ -1,0 +1,854 @@
+Compiled from "/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss"
+public abstract class fortress.CompilerBuiltin$RR64$DefaultTraitMethods extends fortress.CompilerBuiltin$Number$DefaultTraitMethods implements fortress.CompilerBuiltin$RR64 {
+  public fortress.CompilerBuiltin$RR64$DefaultTraitMethods();
+    Code:
+         0: aload_0
+         1: invokespecial #11                 // Method fortress/CompilerBuiltin$Number$DefaultTraitMethods."<init>":()V
+         4: return
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 ^?0(fortress.AnyType$Any);
+    Code:
+         0: aload_1
+         1: instanceof    #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+         4: ifeq          18
+         7: aload_0
+         8: aload_1
+         9: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+        12: invokeinterface #18,  2           // InterfaceMethod fortress/CompilerBuiltin$RR64."^?0":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        17: areturn
+        18: aload_0
+        19: aload_1
+        20: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        23: invokeinterface #23,  2           // InterfaceMethod fortress/CompilerBuiltin$RR64."^?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        28: areturn
+        29: nop
+        30: nop
+        31: nop
+        32: athrow
+
+  public static fortress.CompilerBuiltin$String asString(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: invokestatic  #39                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleToString:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;
+         4: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FBoolean isNaN(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: aload_0
+         2: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         5: invokestatic  #49                 // Method fortress/CompilerBuiltin."=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: checkcast     #51                 // class com/sun/fortress/compiler/runtimeValues/FBoolean
+        11: invokestatic  #55                 // Method fortress/CompilerBuiltin."prefix NOT":(Lcom/sun/fortress/compiler/runtimeValues/FBoolean;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        14: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 |_|?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: invokestatic  #59                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleAbs:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         4: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 prefix -?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: invokestatic  #63                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleNeg:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         4: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 +?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #68                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleAdd:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 -?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #72                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleSub:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FBoolean \^?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #76                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleLT:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FBoolean \^=?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #80                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleLE:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FBoolean \_?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #84                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleGT:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FBoolean \_=?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #88                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleGE:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FBoolean =?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #92                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleEQ:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 juxtaposition?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #96                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleMul:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 DOT?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #96                 // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleMul:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 \|?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #101                // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleDiv:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 MIN?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokestatic  #105                // Method fortress/CompilerBuiltin."\\^=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         5: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+         8: ifeq          15
+        11: aload_0
+        12: goto          51
+        15: aload_1
+        16: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        19: aload_0
+        20: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        23: invokestatic  #105                // Method fortress/CompilerBuiltin."\\^=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        26: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        29: ifeq          36
+        32: aload_1
+        33: goto          51
+        36: aload_0
+        37: invokevirtual #112                // Method com/sun/fortress/compiler/runtimeValues/FRR64.isNaN:()Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        40: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        43: ifeq          50
+        46: aload_0
+        47: goto          51
+        50: aload_1
+        51: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 MAX?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokestatic  #116                // Method fortress/CompilerBuiltin."\\_=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         5: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+         8: ifeq          15
+        11: aload_0
+        12: goto          51
+        15: aload_1
+        16: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        19: aload_0
+        20: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        23: invokestatic  #116                // Method fortress/CompilerBuiltin."\\_=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        26: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        29: ifeq          36
+        32: aload_1
+        33: goto          51
+        36: aload_0
+        37: invokevirtual #112                // Method com/sun/fortress/compiler/runtimeValues/FRR64.isNaN:()Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        40: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        43: ifeq          50
+        46: aload_0
+        47: goto          51
+        50: aload_1
+        51: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 MINNUM?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokestatic  #105                // Method fortress/CompilerBuiltin."\\^=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         5: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+         8: ifeq          15
+        11: aload_0
+        12: goto          51
+        15: aload_1
+        16: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        19: aload_0
+        20: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        23: invokestatic  #105                // Method fortress/CompilerBuiltin."\\^=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        26: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        29: ifeq          36
+        32: aload_1
+        33: goto          51
+        36: aload_0
+        37: invokevirtual #112                // Method com/sun/fortress/compiler/runtimeValues/FRR64.isNaN:()Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        40: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        43: ifeq          50
+        46: aload_1
+        47: goto          51
+        50: aload_0
+        51: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 MAXNUM?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokestatic  #116                // Method fortress/CompilerBuiltin."\\_=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         5: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+         8: ifeq          15
+        11: aload_0
+        12: goto          51
+        15: aload_1
+        16: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        19: aload_0
+        20: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        23: invokestatic  #116                // Method fortress/CompilerBuiltin."\\_=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        26: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        29: ifeq          36
+        32: aload_1
+        33: goto          51
+        36: aload_0
+        37: invokevirtual #112                // Method com/sun/fortress/compiler/runtimeValues/FRR64.isNaN:()Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        40: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        43: ifeq          50
+        46: aload_1
+        47: goto          51
+        50: aload_0
+        51: areturn
+
+  public static \=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64? MINNUMMAX?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokestatic  #105                // Method fortress/CompilerBuiltin."\\^=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         5: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+         8: ifeq          19
+        11: aload_0
+        12: aload_1
+        13: invokestatic  #125                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".make:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        16: goto          67
+        19: aload_1
+        20: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        23: aload_0
+        24: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        27: invokestatic  #105                // Method fortress/CompilerBuiltin."\\^=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        30: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        33: ifeq          44
+        36: aload_1
+        37: aload_0
+        38: invokestatic  #125                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".make:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        41: goto          67
+        44: aload_1
+        45: invokevirtual #112                // Method com/sun/fortress/compiler/runtimeValues/FRR64.isNaN:()Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        48: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        51: ifeq          62
+        54: aload_0
+        55: aload_1
+        56: invokestatic  #125                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".make:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        59: goto          67
+        62: aload_1
+        63: aload_0
+        64: invokestatic  #125                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".make:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        67: areturn
+
+  public static \=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64? MINMAXNUM?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokestatic  #105                // Method fortress/CompilerBuiltin."\\^=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         5: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+         8: ifeq          19
+        11: aload_0
+        12: aload_1
+        13: invokestatic  #125                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".make:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        16: goto          67
+        19: aload_1
+        20: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        23: aload_0
+        24: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        27: invokestatic  #105                // Method fortress/CompilerBuiltin."\\^=":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        30: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        33: ifeq          44
+        36: aload_1
+        37: aload_0
+        38: invokestatic  #125                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".make:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        41: goto          67
+        44: aload_0
+        45: invokevirtual #112                // Method com/sun/fortress/compiler/runtimeValues/FRR64.isNaN:()Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        48: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        51: ifeq          62
+        54: aload_0
+        55: aload_1
+        56: invokestatic  #125                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".make:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        59: goto          67
+        62: aload_1
+        63: aload_0
+        64: invokestatic  #125                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".make:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        67: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 ^?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #131                // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doublePow:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 ^?0(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FZZ32);
+    Code:
+         0: aload_1
+         1: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+         4: iconst_2
+         5: invokestatic  #137                // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+         8: invokestatic  #141                // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        11: invokestatic  #145                // Method fortress/CompilerBuiltin."\\_":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        14: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        17: ifeq          96
+        20: aload_1
+        21: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+        24: iconst_2
+        25: invokestatic  #137                // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+        28: invokestatic  #141                // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        31: invokestatic  #149                // Method fortress/CompilerBuiltin.DIV:(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        34: astore_2
+        35: aload_2
+        36: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+        39: aload_2
+        40: invokestatic  #152                // Method fortress/CompilerBuiltin."+":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        43: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+        46: aload_1
+        47: invokestatic  #154                // Method fortress/CompilerBuiltin."=":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+        50: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+        53: ifeq          74
+        56: aload_0
+        57: aload_0
+        58: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        61: invokestatic  #157                // Method fortress/CompilerBuiltin.juxtaposition:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        64: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        67: aload_2
+        68: invokestatic  #160                // Method fortress/CompilerBuiltin."^":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        71: goto          93
+        74: aload_0
+        75: aload_0
+        76: aload_0
+        77: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        80: invokestatic  #157                // Method fortress/CompilerBuiltin.juxtaposition:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        83: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        86: aload_2
+        87: invokestatic  #160                // Method fortress/CompilerBuiltin."^":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        90: invokestatic  #157                // Method fortress/CompilerBuiltin.juxtaposition:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        93: goto          284
+        96: aload_1
+        97: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       100: iconst_2
+       101: invokestatic  #137                // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+       104: invokestatic  #141                // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       107: invokestatic  #154                // Method fortress/CompilerBuiltin."=":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+       110: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+       113: ifeq          127
+       116: aload_0
+       117: aload_0
+       118: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+       121: invokestatic  #157                // Method fortress/CompilerBuiltin.juxtaposition:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+       124: goto          284
+       127: aload_1
+       128: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       131: iconst_1
+       132: invokestatic  #137                // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+       135: invokestatic  #141                // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       138: invokestatic  #154                // Method fortress/CompilerBuiltin."=":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+       141: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+       144: ifeq          151
+       147: aload_0
+       148: goto          284
+       151: aload_1
+       152: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       155: iconst_0
+       156: invokestatic  #137                // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+       159: invokestatic  #141                // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       162: invokestatic  #154                // Method fortress/CompilerBuiltin."=":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+       165: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+       168: ifeq          183
+       171: ldc2_w        #163                // double 1.0d
+       174: invokestatic  #169                // Method com/sun/fortress/compiler/runtimeValues/FFloatLiteral.make:(D)Lcom/sun/fortress/compiler/runtimeValues/FFloatLiteral;
+       177: invokestatic  #173                // Method fortress/CompilerBuiltin.coerce_RR64:(Lfortress/CompilerBuiltin$FloatLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+       180: goto          284
+       183: aload_1
+       184: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       187: aload_1
+       188: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       191: invokestatic  #177                // Method fortress/CompilerBuiltin."prefix -":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       194: invokestatic  #154                // Method fortress/CompilerBuiltin."=":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+       197: invokevirtual #109                // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+       200: ifeq          258
+       203: ldc2_w        #163                // double 1.0d
+       206: invokestatic  #169                // Method com/sun/fortress/compiler/runtimeValues/FFloatLiteral.make:(D)Lcom/sun/fortress/compiler/runtimeValues/FFloatLiteral;
+       209: invokestatic  #173                // Method fortress/CompilerBuiltin.coerce_RR64:(Lfortress/CompilerBuiltin$FloatLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+       212: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+       215: aload_0
+       216: aload_1
+       217: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       220: iconst_2
+       221: invokestatic  #137                // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+       224: invokestatic  #141                // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       227: invokestatic  #149                // Method fortress/CompilerBuiltin.DIV:(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       230: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       233: invokestatic  #177                // Method fortress/CompilerBuiltin."prefix -":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       236: invokestatic  #160                // Method fortress/CompilerBuiltin."^":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+       239: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+       242: iconst_2
+       243: invokestatic  #137                // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+       246: invokestatic  #141                // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       249: invokestatic  #160                // Method fortress/CompilerBuiltin."^":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+       252: invokestatic  #180                // Method fortress/CompilerBuiltin."\\|":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+       255: goto          284
+       258: ldc2_w        #163                // double 1.0d
+       261: invokestatic  #169                // Method com/sun/fortress/compiler/runtimeValues/FFloatLiteral.make:(D)Lcom/sun/fortress/compiler/runtimeValues/FFloatLiteral;
+       264: invokestatic  #173                // Method fortress/CompilerBuiltin.coerce_RR64:(Lfortress/CompilerBuiltin$FloatLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+       267: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+       270: aload_0
+       271: aload_1
+       272: checkcast     #15                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       275: invokestatic  #177                // Method fortress/CompilerBuiltin."prefix -":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       278: invokestatic  #160                // Method fortress/CompilerBuiltin."^":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+       281: invokestatic  #180                // Method fortress/CompilerBuiltin."\\|":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+       284: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 \=|\|_\-|?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: invokestatic  #184                // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleCeiling:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         4: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 \=|\-_\||?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: invokestatic  #188                // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleFloor:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         4: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 prefix SQRT?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: invokestatic  #192                // Method native/com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleSQRT:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         4: areturn
+
+  public \=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64? MINNUMMAX?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #195                // Method "MINNUMMAX?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+         8: checkcast     #197                // class "AnyTuple?2?"
+        11: invokestatic  #201                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".castTo:(LAnyTuple?2?;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        14: areturn
+
+  public \=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64? MINNUMMAX?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #195                // Method "MINNUMMAX?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+         8: checkcast     #197                // class "AnyTuple?2?"
+        11: invokestatic  #201                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".castTo:(LAnyTuple?2?;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        14: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 |_|?0();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #205                // Method "|_|?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 |_|?0?();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #205                // Method "|_|?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean isNaN();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #208                // Method isNaN:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean isNaN?();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #208                // Method isNaN:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 juxtaposition?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #211                // Method "juxtaposition?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 juxtaposition?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #211                // Method "juxtaposition?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 prefix SQRT?0();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #214                // Method "prefix SQRT?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 prefix SQRT?0?();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #214                // Method "prefix SQRT?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 MAX?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #217                // Method "MAX?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 MAX?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #217                // Method "MAX?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public \=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64? MINMAXNUM?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #220                // Method "MINMAXNUM?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+         8: checkcast     #197                // class "AnyTuple?2?"
+        11: invokestatic  #201                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".castTo:(LAnyTuple?2?;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        14: areturn
+
+  public \=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64? MINMAXNUM?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #220                // Method "MINMAXNUM?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+         8: checkcast     #197                // class "AnyTuple?2?"
+        11: invokestatic  #201                // Method "\\=ConcreteTuple?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".castTo:(LAnyTuple?2?;)L\=Tuple?com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,com\|sun\|fortress\|compiler\|runtimeValues\|FRR64?;
+        14: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 MAXNUM?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #223                // Method "MAXNUM?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 MAXNUM?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #223                // Method "MAXNUM?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean \^=?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #226                // Method "\\^=?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean \^=?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #226                // Method "\\^=?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 ^?0(com.sun.fortress.compiler.runtimeValues.FZZ32);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #229                // Method "^?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 ^?0?(com.sun.fortress.compiler.runtimeValues.FZZ32);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #229                // Method "^?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 ^?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #232                // Method "^?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 ^?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #232                // Method "^?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public fortress.CompilerBuiltin$String asString();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #235                // Method asString:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lfortress/CompilerBuiltin$String;
+         7: areturn
+
+  public fortress.CompilerBuiltin$String asString?();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #235                // Method asString:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lfortress/CompilerBuiltin$String;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 -?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #238                // Method "-?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 -?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #238                // Method "-?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 \|?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #241                // Method "\\|?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 \|?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #241                // Method "\\|?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 prefix -?0();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #244                // Method "prefix -?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 prefix -?0?();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #244                // Method "prefix -?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 DOT?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #247                // Method "DOT?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 DOT?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #247                // Method "DOT?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 +?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #250                // Method "+?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 +?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #250                // Method "+?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 \=|\-_\||?0();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #253                // Method "\\=|\\-_\\||?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 \=|\-_\||?0?();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #253                // Method "\\=|\\-_\\||?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean \^?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #256                // Method "\\^?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean \^?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #256                // Method "\\^?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean =?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #259                // Method "=?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean =?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #259                // Method "=?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean \_?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #262                // Method "\\_?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean \_?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #262                // Method "\\_?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean \_=?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #265                // Method "\\_=?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FBoolean \_=?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #265                // Method "\\_=?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 MINNUM?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #268                // Method "MINNUM?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 MINNUM?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #268                // Method "MINNUM?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 \=|\|_\-|?0();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #271                // Method "\\=|\\|_\\-|?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 \=|\|_\-|?0?();
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: invokestatic  #271                // Method "\\=|\\|_\\-|?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         7: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 MIN?0(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #274                // Method "MIN?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 MIN?0?(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         4: aload_1
+         5: invokestatic  #274                // Method "MIN?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         8: areturn
+}

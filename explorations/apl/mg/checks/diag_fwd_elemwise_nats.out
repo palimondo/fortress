@@ -1,0 +1,23 @@
+Mk[0,1] -1.0E10 Mk[1,0] -0.0 maskC[0,1] -1.0E10
+apl 10*10 = 1.0E10 ; apl (-10*10) = -1.0E10 ; apl -10 = -10 ; apl 2*3 = 8.0
+mask      16x16 maxdiff 0.0 suma -1.2E12
+ids       |16| maxdiff 0
+tg        |16| maxdiff 0
+vm        |16| maxdiff 0.0
+pos       |16| maxdiff 0
+X         16x16 maxdiff 0.0 suma 6.2978731246561885
+Xp        16x16 maxdiff 0.0 suma 54.06587679064285
+X1        16x16 maxdiff 0.0 suma 54.086401103490374
+Q         16x16 maxdiff 0.0 suma -4.901605606626543
+K         16x16 maxdiff 0.0 suma 1.4403046505913844
+Vv        16x16 maxdiff 0.0 suma -7.89159398942143
+Qh        4x16x4 maxdiff 0.0 suma -4.9016056066265445
+A         4x16x16 maxdiff 0.0 suma 64.0
+Hc        16x16 maxdiff 0.0 suma -7.608753899844009
+X2        16x16 maxdiff 0.0 suma 51.916633536350226
+M0        16x64 maxdiff 0.0 suma -25.77367141662588
+Mr        16x64 maxdiff 0.0 suma 130.06753044957537
+X4        16x16 maxdiff 0.0 suma 51.22401202349069
+Pr        16x27 maxdiff 0.0 suma 16.0
+loss apl 3.3659669475848513 loss c4 3.3659669475848513 diff 0.0
+done

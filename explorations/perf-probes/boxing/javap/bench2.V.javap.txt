@@ -1,0 +1,75 @@
+Compiled from "/home/user/fortress/explorations/perf-probes/boxing/bench2.fss"
+public final class bench2$V extends fortress.CompilerBuiltin$Object$DefaultTraitMethods implements fortress.CompilerBuiltin$Object {
+  public final com.sun.fortress.compiler.runtimeValues.FRR64 \%data;
+
+  public static final com.sun.fortress.compiler.runtimeValues.RTTI RTTI;
+
+  public bench2$V(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: invokespecial #51                 // Method fortress/CompilerBuiltin$Object$DefaultTraitMethods."<init>":()V
+         4: aload_1
+         5: aload_0
+         6: swap
+         7: putfield      #18                 // Field "\\%data":Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        10: return
+
+  public bench2$V +?0(bench2$V);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #16                 // Method "+?0?":(Lbench2$V;)Lbench2$V;
+         5: areturn
+
+  public bench2$V +?0?(bench2$V);
+    Code:
+         0: aload_0
+         1: getfield      #18                 // Field "\\%data":Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         4: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         7: aload_1
+         8: invokevirtual #24                 // Method data:()Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        11: invokestatic  #30                 // Method fortress/CompilerBuiltin."+":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        14: invokestatic  #36                 // Method bench2.V:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lbench2$V;
+        17: areturn
+
+  public bench2$V DOT?0(bench2$V);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #42                 // Method "DOT?0?":(Lbench2$V;)Lbench2$V;
+         5: areturn
+
+  public bench2$V DOT?0?(bench2$V);
+    Code:
+         0: aload_0
+         1: getfield      #18                 // Field "\\%data":Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         4: checkcast     #20                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+         7: aload_1
+         8: invokevirtual #24                 // Method data:()Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        11: invokestatic  #45                 // Method fortress/CompilerBuiltin.juxtaposition:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        14: invokestatic  #36                 // Method bench2.V:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lbench2$V;
+        17: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 data();
+    Code:
+         0: aload_0
+         1: invokevirtual #48                 // Method "data?":()Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         4: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FRR64 data?();
+    Code:
+         0: aload_0
+         1: getfield      #18                 // Field "\\%data":Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+         4: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.RTTI getRTTI();
+    Code:
+         0: getstatic     #57                 // Field RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         3: areturn
+
+  static {};
+    Code:
+         0: getstatic     #63                 // Field bench2$V$RTTIc.ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         3: putstatic     #57                 // Field RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         6: return
+}

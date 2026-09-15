@@ -207,3 +207,474 @@ toplevel:
 
 ---- exit 1
 
+
+
+########################################################################
+# SECOND RUN, after the elementwise × and the array-by-array / took their
+# shared nats (three declarations each, one per rank).  The run above is the
+# first run and is kept unchanged; case 0 here has six more agreeing calls,
+# (0g) to (0l), and cases 8 to 13 are the new mismatches: a wrong-shape × and
+# a wrong-shape / at each of the three ranks.  Same conditions as above --
+# walk interpreter, JDK 25, FORTRESS_THREADS=1, this directory plus the
+# shipped libraries on the source path -- and every case was run twice, the
+# second run recorded (ledger row 98).
+########################################################################
+
+================ JAVA_FLAGS -Dmm=0
+mismatch_probe case 0
+(0a) batched product, 4 planes 2x3 by 4 planes 3x2: (4,2,2)
+(0b) matrix 2x3 onto 4 planes of 2x3: 1.0
+(0c) dyadic rows, two 4x3 matrices: 3.0
+(0d) dyadic rows, two 4-plane 2x3 arrays: 3.0
+(0e) diag of 4 times a 4x3 matrix: 44.0
+(0f) pick, 4 keys for 4 rows: 9.0
+(0g) elementwise ×, two vectors of 4: 16.0
+(0h) elementwise ×, two 4x3 matrices: 121.0
+(0i) elementwise ×, two 4-plane 2x3 arrays: 529.0
+(0j) elementwise /, two vectors of 4: 1.0
+(0k) elementwise /, two 4x3 matrices: 1.0
+(0l) elementwise /, two 4-plane 2x3 arrays: 1.0
+done
+---- exit 0
+
+================ JAVA_FLAGS -Dmm=1
+mismatch_probe case 1
+(1) batched product with 4 planes against 2 planes, in try/catch
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:68:18-29:
+Failed to find any matching overload, args = (HeadsView[\4,2,3\],HeadsView[\2,3,2\]), overload = {
+	juxtaposition(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:111:5-113:76)
+	juxtaposition(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:280:5-282:75)
+	juxtaposition(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:414:5-415:75)
+	juxtaposition(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:380:5-381:56)
+	juxtaposition(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:344:5-345:65)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:664:5-665:74)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:732:5-733:75)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:847:5-848:77)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:569:5-57)
+	juxtaposition(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:786:5-787:83)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition[\nat s,nat c\](dg:FlatArrays2.Diag[\s\],m:Matrix[\FortressLibrary.RR64,s,c\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:52:1-55:79
+	juxtaposition[\nat p,nat n,nat d,nat m\](x:Array3[\FortressLibrary.RR64,0,p,0,n,0,d\],y:Array3[\FortressLibrary.RR64,0,p,0,d,0,m\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:114:1-120:4
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].juxtaposition(self:MultiplicativeRing[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:344:5-345:65
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].juxtaposition(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:622:5-33
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:Vector[\T,n\]):T/home/user/fortress/Library/FortressLibrary.fss:2264:1-2265:67
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:T):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2270:1-2271:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](other:T,me:Vector[\T,n\]):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2276:1-2277:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m,nat p\](me:Matrix[\T,n,m\],other:Matrix[\T,m,p\]):Matrix[\T,n,p\]/home/user/fortress/Library/FortressLibrary.fss:2625:1-2630:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],v:Vector[\T,m\]):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2634:1-2637:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](v:Vector[\T,n\],me:Matrix[\T,n,m\]):Vector[\T,m\]/home/user/fortress/Library/FortressLibrary.fss:2641:1-2642:70
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],other:T):Matrix[\T,n,m\]/home/user/fortress/Library/FortressLibrary.fss:2647:1-2648:75
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](other:T,me:Matrix[\T,n,m\]):Matrix[\T,n,m\]/home/user/fortress/Library/FortressLibrary.fss:2653:1-2661:27
+	juxtaposition(a:Any,self:FortressLibrary.String):FortressLibrary.Stringfn meth(self 1):(Any,String)->String (/home/user/fortress/Library/FortressLibrary.fss:4048:5-59)
+	juxtaposition(self:FortressLibrary.String,b:Any):FortressLibrary.Stringfn meth(self 0):(String,Any)->String (/home/user/fortress/Library/FortressLibrary.fss:4050:5-4056:48)
+	juxtaposition(self:FortressLibrary.String,b:FortressLibrary.String):FortressLibrary.Stringfn meth(self 0):(String,String)->String (/home/user/fortress/Library/FortressLibrary.fss:4049:5-56)}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:68:18-29:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=2
+mismatch_probe case 2
+(2) batched product, plane counts agree (4), inner size 3 against 2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:76:14-25:
+Failed to find any matching overload, args = (HeadsView[\4,2,3\],HeadsView[\4,2,2\]), overload = {
+	juxtaposition(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:111:5-113:76)
+	juxtaposition(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:280:5-282:75)
+	juxtaposition(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:414:5-415:75)
+	juxtaposition(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:380:5-381:56)
+	juxtaposition(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:344:5-345:65)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:664:5-665:74)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:732:5-733:75)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:847:5-848:77)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:569:5-57)
+	juxtaposition(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:786:5-787:83)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition[\nat s,nat c\](dg:FlatArrays2.Diag[\s\],m:Matrix[\FortressLibrary.RR64,s,c\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:52:1-55:79
+	juxtaposition[\nat p,nat n,nat d,nat m\](x:Array3[\FortressLibrary.RR64,0,p,0,n,0,d\],y:Array3[\FortressLibrary.RR64,0,p,0,d,0,m\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:114:1-120:4
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].juxtaposition(self:MultiplicativeRing[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:344:5-345:65
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].juxtaposition(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:622:5-33
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:Vector[\T,n\]):T/home/user/fortress/Library/FortressLibrary.fss:2264:1-2265:67
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:T):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2270:1-2271:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](other:T,me:Vector[\T,n\]):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2276:1-2277:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m,nat p\](me:Matrix[\T,n,m\],other:Matrix[\T,m,p\]):Matrix[\T,n,p\]/home/user/fortress/Library/FortressLibrary.fss:2625:1-2630:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],v:Vector[\T,m\]):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2634:1-2637:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](v:Vector[\T,n\],me:Matrix[\T,n,m\]):Vector[\T,m\]/home/user/fortress/Library/FortressLibrary.fss:2641:1-2642:70
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],other:T):Matrix[\T,n,m\]/home/user/fortress/Library/FortressLibrary.fss:2647:1-2648:75
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](other:T,me:Matrix[\T,n,m\]):Matrix[\T,n,m\]/home/user/fortress/Library/FortressLibrary.fss:2653:1-2661:27
+	juxtaposition(a:Any,self:FortressLibrary.String):FortressLibrary.Stringfn meth(self 1):(Any,String)->String (/home/user/fortress/Library/FortressLibrary.fss:4048:5-59)
+	juxtaposition(self:FortressLibrary.String,b:Any):FortressLibrary.Stringfn meth(self 0):(String,Any)->String (/home/user/fortress/Library/FortressLibrary.fss:4050:5-4056:48)
+	juxtaposition(self:FortressLibrary.String,b:FortressLibrary.String):FortressLibrary.Stringfn meth(self 0):(String,String)->String (/home/user/fortress/Library/FortressLibrary.fss:4049:5-56)}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:76:14-25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=3
+mismatch_probe case 3
+(3) dyadic rows at rank 2, a 4x3 matrix against a 5x3 matrix
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:80:13-28:
+Failed to find any matching overload, args = (g(x:Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],y:Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]):Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\] (Array[\RR64,ZZ32\],Array[\RR64,ZZ32\])->Array[\RR64,ZZ32\] /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:27:1-82,__DefaultMatrix[\RR64,4,3\],__DefaultMatrix[\RR64,5,3\]), overload = {
+	rows[\I\](f:Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]->Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],a:Array[\FortressLibrary.RR64,I\]):Array[\FortressLibrary.RR64,I\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:137:1-154:6
+	rows[\nat n,nat d\](f:(Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\], Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\])->Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],x:Matrix[\FortressLibrary.RR64,n,d\],y:Matrix[\FortressLibrary.RR64,n,d\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:157:1-162:4
+	rows[\nat p,nat n,nat d\](f:(Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\], Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\])->Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],x:Array3[\FortressLibrary.RR64,0,p,0,n,0,d\],y:Array3[\FortressLibrary.RR64,0,p,0,n,0,d\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:163:1-171:4}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:80:13-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=4
+mismatch_probe case 4
+(4) dyadic rows at rank 3, 4 planes of 2x3 against 2 planes of 3x2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:84:13-32:
+Failed to find any matching overload, args = (g(x:Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],y:Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]):Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\] (Array[\RR64,ZZ32\],Array[\RR64,ZZ32\])->Array[\RR64,ZZ32\] /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:27:1-82,HeadsView[\4,2,3\],HeadsView[\2,3,2\]), overload = {
+	rows[\I\](f:Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\]->Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],a:Array[\FortressLibrary.RR64,I\]):Array[\FortressLibrary.RR64,I\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:137:1-154:6
+	rows[\nat n,nat d\](f:(Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\], Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\])->Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],x:Matrix[\FortressLibrary.RR64,n,d\],y:Matrix[\FortressLibrary.RR64,n,d\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:157:1-162:4
+	rows[\nat p,nat n,nat d\](f:(Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\], Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\])->Array[\FortressLibrary.RR64,FortressLibrary.ZZ32\],x:Array3[\FortressLibrary.RR64,0,p,0,n,0,d\],y:Array3[\FortressLibrary.RR64,0,p,0,n,0,d\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:163:1-171:4}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:84:13-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=5
+mismatch_probe case 5
+(5) a matrix 5x3 onto 4 planes of 2x3
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:88:13-14:
+Failed to find any matching overload, args = (__DefaultMatrix[\RR64,5,3\],HeadsView[\4,2,3\]), overload = {
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:330:5-28
+	+(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:376:5-58)
+	+(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:556:5-561:10)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].+(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:618:5-21
+	+(native Add)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:656:5-657:74)
+	+(native Add)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:724:5-725:75)
+	+(native Add)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:778:5-779:83)
+	+(native Add)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:841:5-842:77)
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].+(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress/Library/FortressLibrary.fss:2192:5-2193:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].+(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress/Library/FortressLibrary.fss:2500:5-2501:60
+	+(x:Array[\FortressLibrary.ZZ32,FortressLibrary.ZZ32\],y:FortressLibrary.ZZ32):Array[\FortressLibrary.ZZ32,FortressLibrary.ZZ32\] (Array[\ZZ32,ZZ32\],ZZ32)->Array[\ZZ32,ZZ32\] /home/user/fortress/Library/FortressLibrary.fss:4493:1-4497:2
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:330:5-28)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:618:5-21)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:618:5-21)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:618:5-21)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:618:5-21)
+	+(native Add)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:103:5-104:76)
+	+(native Add)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:272:5-273:75)
+	+(native Add)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:406:5-407:75)
+	+[\T extends FortressLibrary.Number,I\](a:Array[\T,I\],s:T):Array[\T,I\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:18:1-95
+	+[\T extends FortressLibrary.Number,I\](s:T,a:Array[\T,I\]):Array[\T,I\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:19:1-95
+	+[\nat p,nat n,nat d\](m:Matrix[\FortressLibrary.RR64,n,d\],t:Array3[\FortressLibrary.RR64,0,p,0,n,0,d\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:122:1-128:78}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:88:13-14:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=6
+mismatch_probe case 6
+(6) a diagonal of 5 times a 4x3 matrix
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:92:13-23:
+Failed to find any matching overload, args = (Diag[\5\],__DefaultMatrix[\RR64,4,3\]), overload = {
+	juxtaposition(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:111:5-113:76)
+	juxtaposition(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:280:5-282:75)
+	juxtaposition(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:414:5-415:75)
+	juxtaposition(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:380:5-381:56)
+	juxtaposition(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:344:5-345:65)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:664:5-665:74)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:732:5-733:75)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:847:5-848:77)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:569:5-57)
+	juxtaposition(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:786:5-787:83)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:622:5-33)
+	juxtaposition[\nat s,nat c\](dg:FlatArrays2.Diag[\s\],m:Matrix[\FortressLibrary.RR64,s,c\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:52:1-55:79
+	juxtaposition[\nat p,nat n,nat d,nat m\](x:Array3[\FortressLibrary.RR64,0,p,0,n,0,d\],y:Array3[\FortressLibrary.RR64,0,p,0,d,0,m\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:114:1-120:4
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].juxtaposition(self:MultiplicativeRing[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:344:5-345:65
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].juxtaposition(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:622:5-33
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:Vector[\T,n\]):T/home/user/fortress/Library/FortressLibrary.fss:2264:1-2265:67
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:T):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2270:1-2271:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](other:T,me:Vector[\T,n\]):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2276:1-2277:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m,nat p\](me:Matrix[\T,n,m\],other:Matrix[\T,m,p\]):Matrix[\T,n,p\]/home/user/fortress/Library/FortressLibrary.fss:2625:1-2630:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],v:Vector[\T,m\]):Vector[\T,n\]/home/user/fortress/Library/FortressLibrary.fss:2634:1-2637:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](v:Vector[\T,n\],me:Matrix[\T,n,m\]):Vector[\T,m\]/home/user/fortress/Library/FortressLibrary.fss:2641:1-2642:70
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],other:T):Matrix[\T,n,m\]/home/user/fortress/Library/FortressLibrary.fss:2647:1-2648:75
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](other:T,me:Matrix[\T,n,m\]):Matrix[\T,n,m\]/home/user/fortress/Library/FortressLibrary.fss:2653:1-2661:27
+	juxtaposition(a:Any,self:FortressLibrary.String):FortressLibrary.Stringfn meth(self 1):(Any,String)->String (/home/user/fortress/Library/FortressLibrary.fss:4048:5-59)
+	juxtaposition(self:FortressLibrary.String,b:Any):FortressLibrary.Stringfn meth(self 0):(String,Any)->String (/home/user/fortress/Library/FortressLibrary.fss:4050:5-4056:48)
+	juxtaposition(self:FortressLibrary.String,b:FortressLibrary.String):FortressLibrary.Stringfn meth(self 0):(String,String)->String (/home/user/fortress/Library/FortressLibrary.fss:4049:5-56)}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:92:13-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=7
+mismatch_probe case 7
+(7) pick, 5 keys for a matrix of 4 rows
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:96:13-24:
+Unification error: /home/user/fortress/explorations/apl/mg/FlatArrays2.fss:181:49-62:
+Cannot unify __DefaultVector[\ZZ32,5\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with Vector[\FortressLibrary.ZZ32,k\](class com.sun.fortress.nodes.TraitType) abm=c=(3,Any) k=(4,Any)
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:96:13-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=8
+mismatch_probe case 8
+(8) elementwise × at rank 1, a vector of 4 against a vector of 5
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:100:13:
+Failed to find any matching overload, args = (__DefaultVector[\RR64,4\],__DefaultVector[\RR64,5\]), overload = {
+	BY(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:109:5-110:76)
+	BY(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:278:5-279:75)
+	BY(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+	BY(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:379:5-66)
+	BY(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:343:5-31)
+	BY(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:662:5-663:74)
+	BY(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:730:5-731:75)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:849:5-850:77)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:568:5-48)
+	BY(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:784:5-785:83)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY[\T extends FortressLibrary.Number,nat s\](a:Vector[\T,s\],b:Vector[\T,s\]):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:27:1-28:59
+	BY[\T extends FortressLibrary.Number,nat n,nat d\](a:Matrix[\T,n,d\],b:Matrix[\T,n,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:29:1-30:74
+	BY[\T extends FortressLibrary.Number,nat p,nat n,nat d\](a:Array3[\T,0,p,0,n,0,d\],b:Array3[\T,0,p,0,n,0,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:31:1-32:53
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].BY(self:MultiplicativeRing[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:343:5-31
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].BY(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:621:5-25}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:100:13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=9
+mismatch_probe case 9
+(9) elementwise × at rank 2, a 4x3 matrix against a 5x3 matrix
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:104:13-14:
+Failed to find any matching overload, args = (__DefaultMatrix[\RR64,4,3\],__DefaultMatrix[\RR64,5,3\]), overload = {
+	BY(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:109:5-110:76)
+	BY(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:278:5-279:75)
+	BY(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+	BY(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:379:5-66)
+	BY(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:343:5-31)
+	BY(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:662:5-663:74)
+	BY(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:730:5-731:75)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:849:5-850:77)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:568:5-48)
+	BY(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:784:5-785:83)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY[\T extends FortressLibrary.Number,nat s\](a:Vector[\T,s\],b:Vector[\T,s\]):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:27:1-28:59
+	BY[\T extends FortressLibrary.Number,nat n,nat d\](a:Matrix[\T,n,d\],b:Matrix[\T,n,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:29:1-30:74
+	BY[\T extends FortressLibrary.Number,nat p,nat n,nat d\](a:Array3[\T,0,p,0,n,0,d\],b:Array3[\T,0,p,0,n,0,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:31:1-32:53
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].BY(self:MultiplicativeRing[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:343:5-31
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].BY(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:621:5-25}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:104:13-14:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=10
+mismatch_probe case 10
+(10) elementwise × at rank 3, 4 planes of 2x3 against 2 planes of 3x2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:108:14-17:
+Failed to find any matching overload, args = (HeadsView[\4,2,3\],HeadsView[\2,3,2\]), overload = {
+	BY(native Mul)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:109:5-110:76)
+	BY(native Mul)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:278:5-279:75)
+	BY(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+	BY(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:379:5-66)
+	BY(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:343:5-31)
+	BY(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:662:5-663:74)
+	BY(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:730:5-731:75)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:849:5-850:77)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:568:5-48)
+	BY(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:784:5-785:83)
+	BY(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:621:5-25)
+	BY[\T extends FortressLibrary.Number,nat s\](a:Vector[\T,s\],b:Vector[\T,s\]):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:27:1-28:59
+	BY[\T extends FortressLibrary.Number,nat n,nat d\](a:Matrix[\T,n,d\],b:Matrix[\T,n,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:29:1-30:74
+	BY[\T extends FortressLibrary.Number,nat p,nat n,nat d\](a:Array3[\T,0,p,0,n,0,d\],b:Array3[\T,0,p,0,n,0,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:31:1-32:53
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].BY(self:MultiplicativeRing[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:343:5-31
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].BY(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:621:5-25}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:108:14-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=11
+mismatch_probe case 11
+(11) elementwise / at rank 1, a vector of 4 against a vector of 5
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:112:13:
+Failed to find any matching overload, args = (__DefaultVector[\RR64,4\],__DefaultVector[\RR64,5\]), overload = {
+	/[\T extends FortressLibrary.Number,nat s\](a:Vector[\T,s\],b:Vector[\T,s\]):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:33:1-34:59
+	/[\T extends FortressLibrary.Number,nat n,nat d\](a:Matrix[\T,n,d\],b:Matrix[\T,n,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:35:1-36:74
+	/[\T extends FortressLibrary.Number,nat p,nat n,nat d\](a:Array3[\T,0,p,0,n,0,d\],b:Array3[\T,0,p,0,n,0,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:37:1-38:80
+	/[\T extends FortressLibrary.Number,I\](a:Array[\T,I\],s:T):Array[\T,I\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:39:1-95
+	/(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:382:5-58)
+	/(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:570:5-574:6)
+	/(self:(FortressLibrary.ZZ & {FortressBuiltin.BigNum, FortressLibrary.ZZ64, FortressLibrary.NN64}),other:FortressLibrary.ZZ):FortressLibrary.QQfn meth(self 0):(ZZ,ZZ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:851:5-858:6)}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:112:13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=12
+mismatch_probe case 12
+(12) elementwise / at rank 2, a 4x3 matrix against a 5x3 matrix
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:116:13-14:
+Failed to find any matching overload, args = (__DefaultMatrix[\RR64,4,3\],__DefaultMatrix[\RR64,5,3\]), overload = {
+	/[\T extends FortressLibrary.Number,nat s\](a:Vector[\T,s\],b:Vector[\T,s\]):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:33:1-34:59
+	/[\T extends FortressLibrary.Number,nat n,nat d\](a:Matrix[\T,n,d\],b:Matrix[\T,n,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:35:1-36:74
+	/[\T extends FortressLibrary.Number,nat p,nat n,nat d\](a:Array3[\T,0,p,0,n,0,d\],b:Array3[\T,0,p,0,n,0,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:37:1-38:80
+	/[\T extends FortressLibrary.Number,I\](a:Array[\T,I\],s:T):Array[\T,I\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:39:1-95
+	/(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:382:5-58)
+	/(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:570:5-574:6)
+	/(self:(FortressLibrary.ZZ & {FortressBuiltin.BigNum, FortressLibrary.ZZ64, FortressLibrary.NN64}),other:FortressLibrary.ZZ):FortressLibrary.QQfn meth(self 0):(ZZ,ZZ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:851:5-858:6)}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:116:13-14:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1
+
+================ JAVA_FLAGS -Dmm=13
+mismatch_probe case 13
+(13) elementwise / at rank 3, 4 planes of 2x3 against 2 planes of 3x2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/mismatch_probe.fss:120:14-17:
+Failed to find any matching overload, args = (HeadsView[\4,2,3\],HeadsView[\2,3,2\]), overload = {
+	/[\T extends FortressLibrary.Number,nat s\](a:Vector[\T,s\],b:Vector[\T,s\]):Array[\T,FortressLibrary.ZZ32\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:33:1-34:59
+	/[\T extends FortressLibrary.Number,nat n,nat d\](a:Matrix[\T,n,d\],b:Matrix[\T,n,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:35:1-36:74
+	/[\T extends FortressLibrary.Number,nat p,nat n,nat d\](a:Array3[\T,0,p,0,n,0,d\],b:Array3[\T,0,p,0,n,0,d\]):Array[\T,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:37:1-38:80
+	/[\T extends FortressLibrary.Number,I\](a:Array[\T,I\],s:T):Array[\T,I\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:39:1-95
+	/(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:382:5-58)
+	/(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:570:5-574:6)
+	/(self:(FortressLibrary.ZZ & {FortressBuiltin.BigNum, FortressLibrary.ZZ64, FortressLibrary.NN64}),other:FortressLibrary.ZZ):FortressLibrary.QQfn meth(self 0):(ZZ,ZZ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:851:5-858:6)}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/apl/mg/mismatch_probe.fss:120:14-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+---- exit 1

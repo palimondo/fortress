@@ -1,0 +1,11 @@
+3559:  public static com.sun.fortress.compiler.runtimeValues.FRR64 juxtaposition(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+3560-    Code:
+3561-         0: aload_0
+3562-         1: checkcast     #1089               // class fortress/CompilerBuiltin$RR64
+3563-         4: aload_1
+3564-         5: invokeinterface #1112,  2         // InterfaceMethod fortress/CompilerBuiltin$RR64."juxtaposition?0":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+3565-        10: areturn
+3566-
+3567-  public static com.sun.fortress.compiler.runtimeValues.FRR64 DOT(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+3568-    Code:
+3569-         0: aload_0

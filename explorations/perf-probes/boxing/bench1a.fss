@@ -1,0 +1,11 @@
+component bench1a
+export Executable
+run() = do
+  var acc: RR64 := 0.0
+  t0 = nanoTime()
+  for i <- seq(1#20000000) do () end
+  t1 = nanoTime()
+  println("bench1a " acc)
+  println("loop_ns " (t1 - t0))
+end
+end

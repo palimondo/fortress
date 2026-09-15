@@ -1,0 +1,53 @@
+Compiled from "/home/user/fortress/explorations/perf-probes/boxing/bench1.fss"
+public class bench1$\=fn@5\!7-28 extends \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,?? implements \=Arrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,?? {
+  public final com.sun.fortress.compiler.runtimeValues.MutableFValue acc;
+
+  public bench1$\=fn@5\!7-28(com.sun.fortress.compiler.runtimeValues.MutableFValue);
+    Code:
+         0: aload_0
+         1: invokespecial #14                 // Method "\\=AbstractArrow?com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32,??"."<init>":()V
+         4: aload_1
+         5: aload_0
+         6: swap
+         7: putfield      #16                 // Field acc:Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;
+        10: return
+
+  public com.sun.fortress.compiler.runtimeValues.FVoid apply(com.sun.fortress.compiler.runtimeValues.FZZ32);
+    Code:
+         0: invokestatic  #24                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+         3: ifeq          19
+         6: invokestatic  #28                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+         9: aload_0
+        10: getfield      #16                 // Field acc:Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;
+        13: invokevirtual #34                 // Method com/sun/fortress/runtimeSystem/Transaction.TXRead:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lcom/sun/fortress/compiler/runtimeValues/FValue;
+        16: goto          26
+        19: aload_0
+        20: getfield      #16                 // Field acc:Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;
+        23: invokevirtual #40                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.getValue:()Lcom/sun/fortress/compiler/runtimeValues/FValue;
+        26: checkcast     #42                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        29: checkcast     #42                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        32: ldc2_w        #43                 // double 0.9999999d
+        35: invokestatic  #50                 // Method com/sun/fortress/compiler/runtimeValues/FFloatLiteral.make:(D)Lcom/sun/fortress/compiler/runtimeValues/FFloatLiteral;
+        38: invokestatic  #56                 // Method fortress/CompilerBuiltin.coerce_RR64:(Lfortress/CompilerBuiltin$FloatLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        41: invokestatic  #60                 // Method fortress/CompilerBuiltin.juxtaposition:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        44: checkcast     #42                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        47: ldc2_w        #61                 // double 1.0E-7d
+        50: invokestatic  #50                 // Method com/sun/fortress/compiler/runtimeValues/FFloatLiteral.make:(D)Lcom/sun/fortress/compiler/runtimeValues/FFloatLiteral;
+        53: invokestatic  #56                 // Method fortress/CompilerBuiltin.coerce_RR64:(Lfortress/CompilerBuiltin$FloatLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        56: invokestatic  #65                 // Method fortress/CompilerBuiltin."+":(Lcom/sun/fortress/compiler/runtimeValues/FRR64;Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        59: invokestatic  #24                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+        62: ifeq          80
+        65: invokestatic  #28                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+        68: swap
+        69: aload_0
+        70: getfield      #16                 // Field acc:Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;
+        73: swap
+        74: invokevirtual #69                 // Method com/sun/fortress/runtimeSystem/Transaction.TXWrite:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;Lcom/sun/fortress/compiler/runtimeValues/FValue;)V
+        77: goto          88
+        80: aload_0
+        81: getfield      #16                 // Field acc:Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;
+        84: swap
+        85: invokevirtual #73                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.setValue:(Lcom/sun/fortress/compiler/runtimeValues/FValue;)V
+        88: invokestatic  #78                 // Method com/sun/fortress/compiler/runtimeValues/FVoid.make:()Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+        91: areturn
+}
