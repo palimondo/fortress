@@ -3,14 +3,15 @@
      explorations/astra/worker/main/ARTICLE.md, and the runs' own tables
      (run-b/gaps.md, run-b2/gaps.md, run-c/gaps.md, run-c/design.md,
      run-c3/gaps.md, run-c4/gaps.md with run-c4/design.md and the addendum to
-     reviews/run-c2-vs-run-c3.md, and apl/gaps.md). No new claims are made here;
+     reviews/run-c2-vs-run-c3.md, apl/gaps.md, and the closing table of
+     apl-probes/REPORT.md). No new claims are made here;
      every row is a row of explorations/fortress-gap-ledger.md. -->
 
 # Which gap each port hit
 
 Nine ports and rounds of microGPT (and its neighbours) have now been made in this tree,
 beside one exploration that is not a port at all, and each met a different subset of the
-same 264 language, library, interpreter and typesetter gaps. This file is the
+same 282 language, library, interpreter and typesetter gaps. This file is the
 cross-tabulation: one line per ledger row that at least
 one port reached, one column per port — `ours` (this repository's own rounds, reviews and probe
 arcs counted as one), `astra` (the independent Astra run), `blinded` (the blinded Fable
@@ -19,8 +20,8 @@ port after Hsu), `run-c2` (that port's second round, the same program rewritten 
 rank-generic algebra and a rank-3 attention block), `run-c3` (an independent third
 flat-array port), `run-c4` (the synthesis of C2 and C3, the APL round's target program)
 and `apl` (the APL-in-Fortress side quest, six rungs of a sub-language rather than a
-port: the column marks every row that quest contributed and every existing row its own
-table cites by number). **hit** means the port met the
+port, together with the feasibility study that preceded it: the column marks every row
+the quest contributed and every existing row its own tables cite by number). **hit** means the port met the
 gap and recorded it; **avoided (…)** means the port never met it because of a design
 choice, named in the parenthesis, that its own artifacts show; **—** means not reached.
 An `avoided` mark is a claim about the port's route, not about the gap: the gap is still
@@ -31,7 +32,8 @@ its own table records meeting again. So is `run-c4`, whose hits are its own four
 (175-178) and the seven rows its design note names as adopted or met (21, 102, 130, 131,
 133, 152, 161); rows 144 and 158 are marked *avoided* there because C4 exported a
 `transpose` function from the start rather than meeting the error again. The `apl`
-column is 104 hits: the 87 rows the side quest contributed (179-256 and, from its microGPT rung, 257-265) and the 17 existing
+column is 122 hits: the 105 rows the quest contributed (179-256, its microGPT rung's
+257-265, and the feasibility study's 266-283) and the 17 existing
 rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47, 54, 55,
 89, 97, 98, 109, 131, 132, 145, 147, 157, and 1, which row 263 reaches from a library).
 
@@ -301,6 +303,24 @@ rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47,
 | 263 | chained indexing on an array of arrays, `rs[k][j]` with `rs: Array[\Array[\RR64,ZZ32\],ZZ32\]`, fails with `Fa … | — | — | — | — | — | — | — | — | — | hit |
 | 264 | the reduction `+/` of the base and C4's `DOT` fold in different orders: the step-1 loss is `3.3659669475848517 … | — | — | — | — | — | — | — | — | — | hit |
 | 265 | the frame stack is unsafe under the language's implicit parallelism: the elements of a tuple expression are eval … | — | — | — | — | — | — | — | — | — | hit |
+| 266 | the Fortress syntax-abstraction mechanism runs on this tree: a user `grammar` declared in an api adds a new `E … | — | — | — | — | — | — | — | — | — | hit |
+| 267 | the spec's only normative declaration form for a domain-specific syntax, `syntax OpenExpander Id CloseExpander … | — | — | — | — | — | — | — | — | — | hit |
+| 268 | every `*Use.fss` in `ProjectFortress/syntax_abstraction_tests/transformer/` uses a dead spelling (`Expr \|Expr … | — | — | — | — | — | — | — | — | — | hit |
+| 269 | a grammar may be declared only in an api, never in a component | — | — | — | — | — | — | — | — | — | hit |
+| 270 | free identifiers inside a `<[ … ]>` template resolve at the use site, not in the grammar's api | — | — | — | — | — | — | — | — | — | hit |
+| 271 | an api that gives one of its own nonterminals an AST type must `import FortressAst.{...}`, or every AST-type a … | — | — | — | — | — | — | — | — | — | hit |
+| 272 | repetition `*`/`+` works and splices into a template with `**`, but only into a list literal that carries an  … | — | — | — | — | — | — | — | — | — | hit |
+| 273 | a `*`-bound gap used without the `**` splice crashes the generated parser with a raw Java cast error | — | — | — | — | — | — | — | — | — | hit |
+| 274 | `?` works on an unbound symbol, but a bound `?` pattern variable (a `Maybe`-typed gap) is unimplemented | — | — | — | — | — | — | — | — | — | hit |
+| 275 | `case g of … end` in a transformer dispatches only on `Cons(h,t)` and `Empty` over a repetition-bound list, ne … | — | — | — | — | — | — | — | — | — | hit |
+| 276 | a sub-grammar's terminals and character classes may be any characters, the APL functional-symbol block U+2336- … | — | — | — | — | — | — | — | — | — | hit |
+| 277 | `⦇` U+2987 and `⦈` U+2988 are unused in the parser, the operator table, the library and the specification, and … | — | — | — | — | — | — | — | — | — | hit |
+| 278 | the APL functional-symbol block U+2336-U+237A is not an operator character set, by specification as well as by … | — | — | — | — | — | — | — | — | — | hit |
+| 279 | monadic and dyadic declarations of the same shared glyph coexist: `∘ ⊂ ⊃ ⊖ × ÷` all take user operator declara … | — | — | — | — | — | — | — | — | — | hit |
+| 280 | `⌈ ⌉ ⌊ ⌋` are enclosers, not infix operators: `opr ⌈(x)` fails, and the right spelling is a bracketing declara … | — | — | — | — | — | — | — | — | — | hit |
+| 281 | a complete APL array library — dynamic shape, eleven primitives including a user `BIG` reduction — runs on the … | — | — | — | — | — | — | — | — | — | hit |
+| 282 | a right-to-left APL sub-language with strand notation, the real glyphs and `+/` reduce can be added as a user … | — | — | — | — | — | — | — | — | — | hit |
+| 283 | there is no working `RR64 → ZZ32` conversion: the floor bracket yields a `ZZ64` whose declared `narrow` cannot … | — | — | — | — | — | — | — | — | — | hit |
 
 ## Rows every port hit — the fix priorities
 
@@ -543,8 +563,8 @@ type (177), and the api's types not needing to be repeated in the component (178
 rows are marked *avoided*: C4 exported a `transpose` function from the start, so it never
 met 144 or 158 again.
 
-**The APL side quest** is not a port and its column reads differently: 104 hits, of which
-87 are rows nothing else in this tree could have found. They are not about writing a
+**The APL side quest** is not a port and its column reads differently: 122 hits, of which
+105 are rows nothing else in this tree could have found. They are not about writing a
 program in Fortress but about extending Fortress — the preparser's dead delimiter check
 (211), the positions where a gap cannot go (182, 186, 196, 202) and the one where it can
 (201), a name otherwise spelled out as a character class (194), hygiene enforced exactly

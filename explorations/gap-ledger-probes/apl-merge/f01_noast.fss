@@ -1,0 +1,9 @@
+component f01_noast
+import f01_noast_g.{...}
+import List.{...}
+export Executable
+sumOfN(xs: List[\ZZ32\]): ZZ32 = (SUM[ i <- seq(0 # |xs|) ] xs[i])
+run() = do
+    println(sumn⦇ 1 2 3 4 ⦈)
+end
+end

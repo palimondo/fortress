@@ -491,6 +491,8 @@ met were one unimplemented `?`-gap, one missing list-gap conversion, and
 
 ## New ledger rows
 
+*Merged into `explorations/fortress-gap-ledger.md` on 2026-09-15 as rows **266-283**, in this table's order: 266 the mechanism runs · 267 the spec's `syntax … = Expr` form · 268 the dead `transformer/` spelling · 269 grammars are api-only · 270 use-site resolution of template names · 271 the required `FortressAst` import · 272 the `**` splice · 273 a `*` gap without `**` · 274 a bound `?` gap · 275 `case … of` · 276 sub-grammar terminals and character classes · 277 `⦇ ⦈` · 278 the U+2336-U+237A block · 279 shared glyphs, both fixities · 280 `⌈ ⌋` as enclosers · 281 the library half · 282 the grammar half · 283 `narrow`. None folded; every reproducer was re-run first — `explorations/gap-ledger-probes/apl-merge/MERGE-feasibility.md`, which also lists the citation repairs made on the way (the `Syntax.rats` line numbers below run about ten lines short, and the `transformer/` family is nine files, not eight).*
+
 | claim | status | class | spec citation | reproducer | notes |
 |---|---|---|---|---|---|
 | the Fortress **syntax-abstraction mechanism works on this tree**: a user `grammar` in an api adds a new `Expr` form that a separate component uses | POSITIVE-VERIFIED | — | `advanced/domain-specific-languages.tex:15-16` is a stub referring to FOOL'09; the only `grammar` text in the spec is `library/apis/FortressSyntax.tex` | `apl-probes/a02_twice.fss`, `a02_twice_g.fsi`; existing `ProjectFortress/syntax_abstraction_tests/ForUse.fss` (`a01_existing_ForUse.out`) | `twice⦇ 21 ⦈` → `42`. Two Rats! parser generations at run time (~40 s); `javac` must be on the classpath. All 21 non-`SXX` tests in `syntax_abstraction_tests/` pass (`existing-tests/`). |
