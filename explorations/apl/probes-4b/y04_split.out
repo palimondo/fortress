@@ -1,0 +1,7 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress15485557001696946196rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress15485557001696946196rats/com/sun/fortress/parser/templateparser/TemplateParser15.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/apl/probes-4b/Y01Syn.fsi:1:2:
+    Variable w is not defined.

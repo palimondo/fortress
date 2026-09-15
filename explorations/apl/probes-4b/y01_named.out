@@ -1,0 +1,21 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress9887639961090841709rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress9887639961090841709rats/com/sun/fortress/parser/templateparser/TemplateParser15.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(A) the name through a closed-name nonterminal, spliced into a gap
+(1) macro y1 rmsn       shape 4 x 5  [2,3] = 0.40918699113560847  sum = 9.477580822311667
+(1') host rows(rmsn,xm) shape 4 x 5  [2,3] = 0.40918699113560847  sum = 9.477580822311667
+(2) macro y1 sm         shape 4 x 5  [2,3] = 0.14982413821876467  sum = 4.0
+(2') host rows(sm,xm)   shape 4 x 5  [2,3] = 0.14982413821876467  sum = 4.0
+(B) the name written LITERALLY in the calling template
+(3) macro y3            shape 4 x 5  [2,3] = 0.40918699113560847  sum = 9.477580822311667
+(3') host rows(rmsn,xm) shape 4 x 5  [2,3] = 0.40918699113560847  sum = 9.477580822311667
+(C) two arguments, the (Vec,Vec)->Vec overload
+(4) macro y2 rmsn_b     shape 4 x 5  [2,3] = 0.9948494685670661  sum = 3.2953775541486436
+(4') host rows(rmsn_b)  shape 4 x 5  [2,3] = 0.9948494685670661  sum = 3.2953775541486436
+(5) macro y2 sm_b       shape 4 x 5  [2,3] = -0.4058653480321332  sum = -23.948142122216034
+(5') host rows(sm_b)    shape 4 x 5  [2,3] = -0.4058653480321332  sum = -23.948142122216034
+(6) macro y4 literal    shape 4 x 5  [2,3] = 0.9948494685670661  sum = 3.2953775541486436
+(6') host rows(rmsn_b)  shape 4 x 5  [2,3] = 0.9948494685670661  sum = 3.2953775541486436
+done

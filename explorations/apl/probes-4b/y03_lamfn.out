@@ -1,0 +1,10 @@
+(1) a template-written typed lambda as the function argument of rows
+(1) macro bf, bare   shape 3 x 4  [1,1] = 11.5  sum = 141.0
+(2) macro bg, parens shape 3 x 4  [1,1] = 11.5  sum = 141.0
+(3) host lambda      shape 3 x 4  [1,1] = 11.5  sum = 141.0
+(4) host s + xm      shape 3 x 4  [1,1] = 11.5  sum = 141.0
+(2) the SAME lambda shape with a scalar result type, competing for
+    two rows declarations that differ only in the arrow type of f
+(5) macro bs, scalar result:  |sv| = 3  sv[1] = 17.0
+(6) host lambda, same:        |hv| = 3  hv[1] = 17.0
+done

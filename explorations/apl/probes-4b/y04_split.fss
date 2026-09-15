@@ -1,0 +1,32 @@
+(* y04 -- QUESTION 2, part three: THE NEGATIVE CONTROL.  The binder is written
+   by one template and the reference by ANOTHER, which is the ⍵ of a real dfn:
+   one rule builds the lambda, a second rule expands the glyph ⍵, inside the
+   first rule's gap, to the identifier the first rule bound.
+
+       om⦇ b:Ybody ⍤ r:Expr ⦈
+         => <[ (fn (w: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] => (b))((r)) ]>
+       Ybody :Expr:= ⍵ => <[ (w) ]>
+
+   Ledger row 204 predicts this cannot work: a binder written as a literal
+   identifier of a template is gensymmed, the free name of another template is
+   not, so the two never meet.  y02 shows the renaming is consistent WITHIN one
+   template; this probe is the boundary.  Its purpose is the exact failure text,
+   for the design to cite.
+
+   This probe is a SEPARATE FILE from y02 and y03 on purpose: an unbound free
+   name is a STATIC error against the whole component (ledger row 243), so it
+   would take the working probes down with it. *)
+component y04_split
+import FlatArrays.{...}
+import Y01Syn.{...}
+export Executable
+
+v: Array[\RR64,ZZ32\] = vec(4, fn (i: ZZ32): RR64 => 1.0 + (1.0 i))
+
+run(): () = do
+    println "the binder from om's template, the reference from Ybody's"
+    r = om⦇ ⍵ ⍤ v ⦈
+    println "  |r| = " |r| "  r[1] = " r[1]
+    println "done"
+  end
+end

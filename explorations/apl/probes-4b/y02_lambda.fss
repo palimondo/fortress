@@ -1,0 +1,42 @@
+(* y02 -- QUESTION 2, part one: a TYPED LAMBDA WRITTEN ENTIRELY INSIDE ONE
+   TEMPLATE, binder and reference both.
+
+   Ledger row 204 establishes that a binder written as a literal identifier of a
+   template is GENSYMMED, and that is what forbids an expander-written preamble:
+   the preamble's binder and another template's free reference never meet.  What
+   row 204 does not say is what happens when the binder and the reference are
+   written by the SAME template -- whether the renaming is consistent inside one
+   expansion.  That is the only case the ⍤-style rules of a host-code APL need,
+   because a dfn whose ⍵ is written by the rule that binds it is one template.
+
+   The rule under test is Y01Syn's bl:
+
+       bl⦇ a:Expr ⍤ r:Expr ⦈
+         => <[ (fn (w: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\]
+                   => (a) transpose(w))((r)) ]>
+
+   -- the binder w and the reference w are template text, (a) and (r) are gaps.
+   The expected value is am (3x4) times rm (2x4) transposed, a 3x2 matrix; the
+   hand-written lambda is printed beside it. *)
+component y02_lambda
+import FlatArrays.{...}
+import Y01Syn.{...}
+export Executable
+
+am: Array[\RR64,(ZZ32,ZZ32)\] = mat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => (1.0 i) + (0.5 j))
+rm: Array[\RR64,(ZZ32,ZZ32)\] = mat(2, 4, fn (i: ZZ32, j: ZZ32): RR64 => (2.0 i) - (0.25 j))
+
+report(tag: String, m: Array[\RR64,(ZZ32,ZZ32)\]): () = do
+    (r, c) = m.sizes
+    println tag " shape " r " x " c "  [1,1] = " m[1,1] "  sum = " (SUM[i <- 0#r, j <- 0#c] m[i,j])
+  end
+
+run(): () = do
+    println "(1) the lambda written by the template, binder and reference both"
+    report("(1) macro bl      ", bl⦇ am ⍤ rm ⦈)
+    report("(1') host lambda  ",
+           (fn (w: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] => am transpose(w))(rm))
+    report("(1'') host direct ", am transpose(rm))
+    println "done"
+  end
+end

@@ -1,0 +1,61 @@
+(* y03 -- QUESTION 2, part two: the template-written typed lambda passed as a
+   FUNCTION VALUE, to see whether it picks the arrow-typed overload that ledger
+   row 171 says a hand-written one picks.
+
+   Row 171's evidence is four `rows` declarations differing only in the arrow
+   type of the first parameter, each chosen correctly for a hand-written typed
+   lambda.  FlatArrays has four such declarations too (Vec->Vec over a matrix
+   and over a rank-3 array, (Vec,Vec)->Vec over both).  The question here is
+   whether a lambda ASSEMBLED BY THE EXPANDER carries the same declared
+   parameter and result types into the dispatch.
+
+   Two rules, because the lambda sits before a comma in the argument list and
+   the body of a Fortress fn could in principle eat it:
+
+       bf⦇ a:Expr ⍤ r:Expr ⦈  => <[ rows(fn (w: …): … => (a) + w, (r)) ]>
+       bg⦇ a:Expr ⍤ r:Expr ⦈  => <[ rows((fn (w: …): … => (a) + w), (r)) ]>
+
+   bf is the shape as asked, bg the same with the lambda parenthesised.
+
+   To make the ARROW TYPE the thing that decides, the probe adds one more `rows`
+   to the ones it imports, differing from FlatArrays' Vec->Vec-over-a-matrix
+   only in the arrow type of f -- run-c3 lift_c's scalar-result overload, which
+   is where row 171 got its verdict.  bs writes a lambda that differs from bf's
+   only in its declared result type; if the arrow type decides, bf lands in
+   FlatArrays' matrix-returning `rows` and bs in the local vector-returning
+   one. *)
+component y03_lamfn
+import FlatArrays.{...}
+import Y01Syn.{...}
+export Executable
+
+(* the fourth overload of row 171, declared here beside the three imported ones *)
+rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> RR64, m: Matrix[\RR64,r,c\]): Array[\RR64,ZZ32\] = do
+    (nr, nc) = m.sizes
+    vec(nr, fn (i: ZZ32): RR64 => f(row(m, i)))
+  end
+
+s: RR64 = 10.0
+xm: Array[\RR64,(ZZ32,ZZ32)\] = mat(3, 4, fn (i: ZZ32, j: ZZ32): RR64 => (1.0 i) + (0.5 j))
+
+report(tag: String, m: Array[\RR64,(ZZ32,ZZ32)\]): () = do
+    (r, c) = m.sizes
+    println tag " shape " r " x " c "  [1,1] = " m[1,1] "  sum = " (SUM[i <- 0#r, j <- 0#c] m[i,j])
+  end
+
+run(): () = do
+    println "(1) a template-written typed lambda as the function argument of rows"
+    report("(1) macro bf, bare  ", bf⦇ s ⍤ xm ⦈)
+    report("(2) macro bg, parens", bg⦇ s ⍤ xm ⦈)
+    report("(3) host lambda     ",
+           rows(fn (w: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] => s + w, xm))
+    report("(4) host s + xm     ", s + xm)
+    println "(2) the SAME lambda shape with a scalar result type, competing for"
+    println "    two rows declarations that differ only in the arrow type of f"
+    sv = bs⦇ s ⍤ xm ⦈
+    println "(5) macro bs, scalar result:  |sv| = " |sv| "  sv[1] = " sv[1]
+    hv = rows(fn (w: Array[\RR64,ZZ32\]): RR64 => s + (SUM w), xm)
+    println "(6) host lambda, same:        |hv| = " |hv| "  hv[1] = " hv[1]
+    println "done"
+  end
+end

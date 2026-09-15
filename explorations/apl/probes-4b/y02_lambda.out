@@ -1,0 +1,10 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress2976875738216986786rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress2976875738216986786rats/com/sun/fortress/parser/templateparser/TemplateParser15.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+(1) the lambda written by the template, binder and reference both
+(1) macro bl       shape 3 x 2  [1,1] = 10.75  sum = 22.5
+(1') host lambda   shape 3 x 2  [1,1] = 10.75  sum = 22.5
+(1'') host direct  shape 3 x 2  [1,1] = 10.75  sum = 22.5
+done

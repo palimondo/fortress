@@ -1,0 +1,60 @@
+(* y01 -- QUESTION 1: does a host function NAMED BY A TEMPLATE reach FlatArrays'
+   arrow-typed `rows` overloads?
+
+   This is ledger row 171's dispatch (four `rows` declarations that differ only
+   in the arrow type of the first parameter, each picked correctly for a
+   hand-written named function) reached through row 270's free-identifier
+   resolution (a name written in a template resolves at the USE SITE).  Row 171
+   was verified with a hand-written call; here every call is written by the
+   macro expander.
+
+   Two spellings of the name, because the base uses both: through a closed-name
+   nonterminal whose own template is <[ (rmsn) ]> and which is spliced into the
+   calling rule's gap (y1, y2), and written literally in the calling rule's
+   template (y3, y4).  Two arities, to reach the Vec->Vec overload and the
+   (Vec,Vec)->Vec overload.  Every macro line has the hand-written host call
+   beside it. *)
+component y01_named
+import FlatArrays.{...}
+import Y01Syn.{...}
+export Executable
+
+(* ---- the host functions the templates name, verbatim from run-c4's
+        MicroGptFlat.fss ---------------------------------------------------- *)
+epsilon: RR64 = 10.0^(-5)
+rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)
+sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
+rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+    r = SQRT (epsilon + (x DOT x) / |x|); y = x / r
+    (dy - y ((y DOT dy) / |y|)) / r
+  end
+sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
+
+(* ---- the data ---------------------------------------------------------- *)
+xm: Array[\RR64,(ZZ32,ZZ32)\] = mat(4, 5, fn (i: ZZ32, j: ZZ32): RR64 => sin(1.0 i + 0.3 j))
+ym: Array[\RR64,(ZZ32,ZZ32)\] = mat(4, 5, fn (i: ZZ32, j: ZZ32): RR64 => cos(0.7 i - 0.2 j))
+
+report(tag: String, m: Array[\RR64,(ZZ32,ZZ32)\]): () = do
+    (r, c) = m.sizes
+    println tag " shape " r " x " c "  [2,3] = " m[2,3] "  sum = " (SUM[i <- 0#r, j <- 0#c] m[i,j])
+  end
+
+run(): () = do
+    println "(A) the name through a closed-name nonterminal, spliced into a gap"
+    report("(1) macro y1 rmsn      ", y1⦇ rmsn ⍤ xm ⦈)
+    report("(1') host rows(rmsn,xm)", rows(rmsn, xm))
+    report("(2) macro y1 sm        ", y1⦇ sm ⍤ xm ⦈)
+    report("(2') host rows(sm,xm)  ", rows(sm, xm))
+    println "(B) the name written LITERALLY in the calling template"
+    report("(3) macro y3           ", y3⦇ xm ⦈)
+    report("(3') host rows(rmsn,xm)", rows(rmsn, xm))
+    println "(C) two arguments, the (Vec,Vec)->Vec overload"
+    report("(4) macro y2 rmsn_b    ", y2⦇ rmsn_b ⍤ ym ⍤ xm ⦈)
+    report("(4') host rows(rmsn_b) ", rows(rmsn_b, ym, xm))
+    report("(5) macro y2 sm_b      ", y2⦇ sm_b ⍤ ym ⍤ xm ⦈)
+    report("(5') host rows(sm_b)   ", rows(sm_b, ym, xm))
+    report("(6) macro y4 literal   ", y4⦇ ym ⍤ xm ⦈)
+    report("(6') host rows(rmsn_b) ", rows(rmsn_b, ym, xm))
+    println "done"
+  end
+end
