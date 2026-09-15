@@ -1,0 +1,7 @@
+<!-- The coordinator's knowledge base, created 2026-09-15 at Pavol's request after the coordinating session re-explained facts he already knew and missed facts already on record. Three files, each one line per entry, each entry with its source. This directory is read at every session start and after every compaction, before any work; it is updated in the same commit as the work that establishes a fact or takes a decision. -->
+
+# The coordinator's knowledge base
+
+Load order at session start and after a compaction: `CLAUDE.md` (auto-loaded) → `explorations/protocol.md` (how we work) → this directory (`FACTS.md`: what is established about the language, the library and the runtime; `POSITIONS.md`: what Pavol has decided, said, and already knows, so that it is not re-explained) → `explorations/microgpt-run-c-handover.md` (where the work stands) → the ledger and the reports only as a fact needs them.
+
+Rules for keeping it: a fact enters `FACTS.md` when it is established with a source (a ledger row, a file:line, a measured output), in the commit that establishes it; a position enters `POSITIONS.md` when Pavol states it, in the next commit, in his words or a close paraphrase with the date; nothing in either file is repeated to Pavol in chat unless he asks or the fact has changed; when an answer in chat would restate an entry here, the answer cites the entry and adds only what is new. Entries are never deleted; a superseded entry gets "superseded by …" appended.
