@@ -169,9 +169,13 @@ itself, at both pool sizes, and that is the coordinator's row.
   which is C4's own difference).
 - Forward pass against C4 line by line: **every intermediate 0.0**
   (`checks/diag_fwd.out`).
-- `MicroGptAplCheck.fss` copied here unchanged but for its header comment; the
-  smoke at `FORTRESS_THREADS=1` is `checks/check_smoke_threads1.out`. The two
-  recorded full runs are the coordinator's.
+- `MicroGptAplCheck.fss` copied here unchanged but for its header comment. The
+  smoke at `FORTRESS_THREADS=1` finished inside the 12-minute mark, in 454 s:
+  **40 PASS, 0 FAIL of 40 -- ALL PASS**
+  (`checks/check_smoke_threads1_complete_40of40.out`), with the step-0 gradient
+  at 1.11e-16 and P after Adam at 8.33e-17, exactly C4's own numbers. For scale
+  only: C4's recorded threads-1 check on this host was 528 s and the universal
+  base's rung 973 s. The two recorded full runs are the coordinator's.
 
 ## Cost and gap rows
 

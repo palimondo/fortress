@@ -2,12 +2,12 @@
 
    (A) '+/l×r' expands to C4's 'DOT' (MicroGptFlat.fss:61) and the plain '+/v'
    to the shipped 'SUM' (:52).  Both rules begin with the same two terminals, so
-   only their ORDER separates them.  The probe writes the pair twice: inside one
-   nonterminal 'Y6E' (s6), which is where the focused base puts it, and as two
-   alternatives of one macro bracket (s7), in the wrong order on purpose.
-   y06_fold.out.1 is the recorded run with Y6E's two alternatives reversed.
-   y06_fold.out.0 is the recorded run of '+/⍟vv', the one shape the terminal '/'
-   refuses.
+   only their ORDER separates them -- and only inside an ordinary nonterminal:
+   written as two alternatives of one macro BRACKET name, as they are here, the
+   closing bracket makes the parser backtrack and either order works.
+   y06_fold.out.0 is the recorded failed attempt: the same macro brackets used
+   BARE as juxtaposed arguments of println, which does not match the rules at
+   all.  See PROBES.md for the three traps this probe cost.
 
    (B) the glue of the focused base's L13, hand-written here exactly as
    ../mg/AplMg.fss declares it, and checked against C4's own corpus object
@@ -84,9 +84,9 @@ diffR(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64 = BIG MAX[i <- 0#|a|] 
 
 run(): () = do
     println "(A) the folded reduction: DOT above SUM, both in one bracket"
-    println "(1)  macro s6 +/vv        = " (s6⦇ +/vv ⦈)
+    println "(1)  macro s6 +/vv        = " s6⦇ +/vv ⦈
     println "(1') host SUM vv          = " (SUM vv)
-    println "(2)  macro s8 +/vv×ww     = " (s8⦇ +/vv×ww ⦈)
+    println "(2)  macro s8 +/vv×ww     = " s8⦇ +/vv×ww ⦈
     println "(2') host vv DOT ww       = " (vv DOT ww)
     println "(3)  macro s8 +/vv×⍟ww    = " (s8⦇ +/vv×⍟ww ⦈)
     println "(3') host vv DOT log(ww)  = " (vv DOT log(ww))

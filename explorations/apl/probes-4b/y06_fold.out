@@ -1,3 +1,13 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8008348808964994981rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8008348808964994981rats/com/sun/fortress/parser/templateparser/TemplateParser23.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress1667529084317429575rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress1667529084317429575rats/com/sun/fortress/parser/templateparser/TemplateParser35.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
 (A) the folded reduction: DOT above SUM, both in one bracket
 (1)  macro s6 +/vv        = 13.5
 (1') host SUM vv          = 13.5
