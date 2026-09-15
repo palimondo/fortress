@@ -12,7 +12,7 @@
 
 - DARPA's HPCS did not take Sun into phase three (2006) and the project lived on at Sun Labs until 2012. His reading: they did no work on performance, "mucked around with syntax", and the promise that a sufficiently advanced compiler would later make mathematical types fast was never true; the funding was pulled for good reason.
 - The compiled path is only about ten times the interpreter because numerics are boxed (`FRR64`, no `DADD`); "without unboxed doubles and arrays of doubles, what are we even doing here"; this goes on the priority list (2026-09-15). Measured the same evening (FACTS, execution model): boxing is about 2% of the gap to primitive Java; three cheap named costs are most of it, and unboxing stays the endgame after them. Pavol has not yet reacted to the measurement.
-- The type checker runs only on the compile path; he wants it usable on interpreter programs and considers that low-hanging fruit (2026-09-15; not a ledger row, see FACTS).
+- The type checker runs only on the compile path; he wants it usable on interpreter programs and considers that low-hanging fruit (2026-09-15). It is item 0.1 of `performance-roadmap.md` (2026-09-08), which the coordinator had not indexed; see FACTS, deficit.
 - Hsu's critique of language paradigms as accidental complexity; he is "coming around to his point of view".
 
 ## Decisions on record
@@ -23,6 +23,8 @@
 - Estimates in days or weeks are not accepted; sizes are given in the units the project has measured (a rung, a worker session, a check run).
 
 ## How he wants to be spoken to
+
+- 2026-09-15: "Drop the smart Alec essayist register before I blow a fuse": plain sentences, no framing flourishes, no closing lines that sum up in a phrase; advice as instructions, not as observations.
 
 - Plain register, short sentences, no essayist tone; label which part answers which question when several are asked; do not restate what is in this file or in FACTS.md; when a concept is new to him, define it (he asked for reshape, ravel, planes, gather, outer product, Ring, Field, nat parameters, matrix multiplication).
 - A decision made inside a worker's report and recorded in one line is a decision not made; flag it to him at the time.

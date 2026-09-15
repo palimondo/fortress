@@ -15,6 +15,12 @@
 - Implicit parallelism: `for` is parallel unless every generator is `seq`; the elements of a tuple and the operands of an operator are evaluated in parallel implicit threads (`tuple-expr.tex:23-24`, `operator-app.tex:59`; row 265). `FORTRESS_THREADS` sizes the work-stealing pool; there is no explicit threading in any of our programs.
 - Sizes in types (`nat` parameters) are "instantiated at runtime" by the specification (`trait-parameters.tex`, natparams); they check shapes when a value is made or passed; no optimization is built on them anywhere. A `nat`-typed parameter does not unify statically with a run-time-built array (row 23); the interpreter matches at dispatch, and a mismatch reads "Failed to find any matching overload", uncatchable (row 83). A literal size does unify (row 23's positive half).
 
+## Earlier performance work on record (missed by the coordinator on 2026-09-15 until Pavol pointed at it)
+
+- `explorations/performance-roadmap.md` (2026-09-08, a proposal, not approved): the measured start (interpreter ~1000× CPython on microGPT; compiler 7-9× the interpreter; both paths run the same object protocol, every `RR64` a heap object, no native double arithmetic emitted; the checker off in `walk`); Phase 0 item 0.1 is exactly "turn the static checker on for `walk`" with the fact that `Shell.java` has no switch for it; 0.2 a benchmark harness (microGPT forward, backward, Adam step, plus the two scalar benches, on interpreter, compiler and CPython); Route A (unbox by static type A1, `double[]` arrays A2, static overload resolution A3, `invokedynamic` dispatch A4); Route B Truffle.
+- `explorations/backend-options.md` (2026-08-23 conversation, recovered 09-08): Truffle on GraalVM ranked first among backends; the claims about tools unverified.
+- Deficit, recorded 2026-09-15: the coordinator told Pavol "the checker in the interpreter is not on record" and "boxing is an inference" when both were in `performance-roadmap.md`; cause: the knowledge base did not index the explorations directory's standalone notes, only the ledger, the handover and the run reports. Correction: every standalone note under `explorations/*.md` is listed in `INDEX.md` here with one line each, and a fact is searched there before it is called absent.
+
 ## The specification
 
 - The in-repo `Specification/` is the later draft with the implementers' notes; `Specification-1.0-frozen/` is 1.0. Searches are made in the draft.
@@ -47,6 +53,11 @@
 - The universal APL base's program (`apl/microgpt/`): 593 s / 391 s; the focused base's (`apl/mg/`): 439 s / 254 s on C4's vocabulary and 420 s / 263 s on its own `FlatArrays2`, forward pass identical to C4 bit for bit.
 - Host run-to-run spread is about 16%; comparisons need two samples or a same-host re-run.
 - The Bash tool's 10-minute ceiling kills long runs; check runs go under the `Monitor` tool (1800000 ms), sequential, nothing else running when a number is to be kept.
+
+## The container
+
+- The disk allowance fills with parser-generation temp directories: every run that imports a grammar generates a Rats! parser into a fresh `/tmp/fortress<random>rats` directory (`RatsUtil.getTempDir`, `syntax_abstractions/rats/RatsUtil.java:138-146`, via `IOUtil.createAndMarkTempDirectory`), 5.8 MB each, never deleted; 723 of them (4.2 GB) filled the allowance on 2026-09-15 and broke a worker's tool output mid-run ("no space left on device"). Deficit until fixed at the source (an edit under the sealed tree, or a `deleteOnExit`); mitigation in our tree: `experiment/env.sh` removes them when sourced, and `df` must be checked before any long run.
+- The Bash tool's 10-minute ceiling; `Monitor` for long runs (see the microGPT runs section).
 
 ## The ledger
 
