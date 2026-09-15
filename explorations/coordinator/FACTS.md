@@ -24,7 +24,8 @@
 
 - `Vector[\T extends Number, nat s0\]` and `Matrix[\T extends Number, nat s0, nat s1\]` are the only sized array traits; `Array3[\T, nat b0, nat s0, …\]` carries no algebraic trait (rows 284; `FortressLibrary.fsi:1460, 1578, 1652`).
 - `Vector` and `Matrix` inherit `+`, `-`, unary `-` and `zero` from `AdditiveGroup`, nothing else; `×` reaches no array by design because juxtaposition is the inner product and the array traits exclude `AnyMultiplicativeRing` (rows 64, 109, 285); a carrier that extends the ring is accepted unchecked, changes juxtaposition to elementwise and breaks `+` (vocabulary review v02, v02b).
-- The library's products are declared with shared `nat`s (`Matrix[\T,n,m\]` × `Matrix[\T,m,p\]`, `FortressLibrary.fsi:1508-1516`); C4's own products were not, which is habit; the focused base's vocabulary swap states them.
+- The library's products are declared with shared `nat`s (`Matrix[\T,n,m\]` × `Matrix[\T,m,p\]`, `FortressLibrary.fsi:1508-1516`); C4's own products were not, which is habit; the focused base's `FlatArrays2` states them (six declarations, 13 agreeing nats), and a wrong-shape call is refused at dispatch, uncatchable for an overloaded name (row 83), as a unification error naming the nat for an unoverloaded one (`apl/mg/checks/mismatch_probe.out`).
+- Two declarations of one name differing only in the element type, or a rank-specialised declaration beside an index-generic one, are refused at load ("at least one pair of parameters must have excluding types"; `apl/mg/checks/model_run.out.0`, `elemwise_nat_probe.out.0`); two apis' overloads of one name are checked as one family, so two vocabularies cannot stand in one component (`diag_fwd_two_vocabularies_rejected.out.0`).
 - The shipped `RR64` does not satisfy the specification's algebraic bound `T extends AdditiveGroup[\T\]` (vocabulary review, probe `v04b_groupbound.out.0`); `T extends Number` is the bound that works for every element type and rank (its candidate row, unmerged).
 - No trait for scalar extension ships; no reshape, plane, gather, outer product or ravel exists in the library (vocabulary review, section A).
 - An array is a trait with `get`/`put`; a view is an object implementing it over other storage, the language's own idiom; the library's row slice `m[i,:]` costs 5× a six-line user view; a diagonal as a `Matrix` view costs 13-54× the operator (vocabulary review v20, v07).
@@ -41,7 +42,7 @@
 ## The microGPT runs (numbers on the restarted container, the checks' own totals)
 
 - C4 (hand-written, `run-c4/`): 528 s and 444 s at pool 1 (two samples), 263 s at pool 4; 40 checks; the reference for every comparison.
-- The universal APL base's program (`apl/microgpt/`): 593 s / 391 s; the focused base's (`apl/mg/`): 439 s / 254 s, forward pass identical to C4 bit for bit.
+- The universal APL base's program (`apl/microgpt/`): 593 s / 391 s; the focused base's (`apl/mg/`): 439 s / 254 s on C4's vocabulary and 420 s / 263 s on its own `FlatArrays2`, forward pass identical to C4 bit for bit.
 - Host run-to-run spread is about 16%; comparisons need two samples or a same-host re-run.
 - The Bash tool's 10-minute ceiling kills long runs; check runs go under the `Monitor` tool (1800000 ms), sequential, nothing else running when a number is to be kept.
 

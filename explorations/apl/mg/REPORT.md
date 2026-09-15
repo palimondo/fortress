@@ -198,3 +198,16 @@ Rows 95–98 of `../gaps.md`, entered as ledger rows 284–287 the same day: a h
 ## What this rung settles
 
 The translation of the flat-style microGPT is C4's program: the forward pass agrees with C4's hand-written lines intermediate by intermediate to the last bit (`checks/diag_fwd.out`), the 40 checks pass at both pool sizes with identical values, and the cost is C4's. The program is 19 lines of APL text over C4's vocabulary and six host lines, with the Dyalog's own tacit spellings where the previous rung had to write dfns. What the sub-language gave up to get there is the universal dfn, and the ledger rows say exactly why it could not be kept: hygiene (204), the shadowing check (245's probes), and, had it been kept, the frame stack's collision with parallel evaluation (265). What remains open is the vocabulary itself, which the focused base imports unchanged and which `run-c4/probes/vocabulary/REPORT.md` reviews: 28 declarations would do the work of 38, and the swap is one import line plus the two check runs.
+
+## The vocabulary swap (2026-09-15, after the close)
+
+Pavol's decision after the Fable review of C4's vocabulary: the focused base gets its own, `FlatArrays2` and `FlatData2` beside it, derived from the review's sketch with the dimension equalities stated in the types (`NOTES-swap.md` has the declaration-by-declaration table). 35 declarations against C4's 38 (37 against 40 with the model's `^T` pair): element-generic in `T extends Number` wherever nothing forced `RR64`; six declarations with shared `nat` names where the algebra requires agreement (the batched product's plane count and inner size, the matrix-onto-planes `+`, the dyadic `rows` at both ranks, `Diag` times a matrix, `pick`), thirteen agreeing `nat`s where C4 had thirty agreeing on nothing; every `nat` that constrained nothing dropped; the four constructors, the matrix `transpose`, the `Diag` operator and the views kept, each for a reason the notes give. The elementwise `×` and `/` keep the index-generic form and so state no shape agreement: the interpreter refuses the rank-specialised declaration beside the generic one, and stating it would cost three declarations per operator (`checks/elemwise_nat_probe.out.0`, `elemwise_rank_probe.out`); that choice is open to Pavol. `run-c4/src` is no longer on the source path.
+
+What the shared names buy, measured (`mismatch_probe.fss`, `checks/mismatch_probe.out`): seven of seven wrong-shape calls refused at the call, six as "Failed to find any matching overload" naming the argument types, uncatchable (ledger row 83 confirmed), and one, `pick`, which is not overloaded, as a unification error that names the conflicting `nat` itself, a better diagnostic than row 83 records. The forward pass is byte-identical to the previous vocabulary's (`checks/diag_fwd_flatarrays2.out`); the five losses match to the last digit.
+
+| | C4 | focused base on FlatArrays | focused base on FlatArrays2 |
+|---|---|---|---|
+| check, pool size 1 | 528 s, 444 s | 439 s | 420 s (`checks/threads1_flatarrays2.txt`) |
+| check, pool size 4 | 263 s | 254 s | 263 s (`checks/threads4_flatarrays2.txt`) |
+
+Level within the host's spread at both pool sizes; the values of every check line identical across the three programs.

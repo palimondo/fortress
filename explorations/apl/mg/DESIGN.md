@@ -75,3 +75,7 @@ What this costs against the universal base: the grammar shrinks to the rules abo
 2. `AplMgSyntax.fsi` and `AplMg.fss/.fsi` here, each rule commented with the Dyalog line it serves.
 3. `MicroGptApl.fss/.fsi` here, the model run (five losses), the check smoke; the two full check runs stay with the coordinator under `Monitor`.
 4. `REPORT.md`: the correspondence table with the expansion column filled in from the rules, the departures (the two tacit spellings), the cost row, the gap rows if any.
+
+## After the swap (2026-09-15)
+
+The base no longer imports C4's `FlatArrays`; it stands on `FlatArrays2` and `FlatData2` in this directory (the report's last section, `NOTES-swap.md`). Everything above that says "C4's vocabulary imported unchanged" reads, after the swap, "the same vocabulary with the dimension equalities stated and the habits removed"; the expansion of every line is the same entry under the same name, and the checks say so.
