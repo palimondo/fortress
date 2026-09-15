@@ -10,6 +10,11 @@ codebase and produces documentation and experiments as we go; Pavol decides
 what gets committed. The full collaboration protocol — roles, tone, how work
 is presented, commit discipline, delegation — is in
 `explorations/protocol.md`; read it at session start.
+The coordinator's knowledge base — `explorations/coordinator/` (`FACTS.md`: what is
+established, with sources; `POSITIONS.md`: what Pavol has decided and already knows) — is
+read at session start and after every compaction, and updated in the same commit as the
+work that establishes a fact or takes a decision; the current state of the work is in
+`explorations/microgpt-run-c-handover.md`.
 
 ## Build and run (verified: Ubuntu 24.04 container, JDK 25 — current rung)
 

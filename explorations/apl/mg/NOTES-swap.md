@@ -171,21 +171,23 @@ path `.:$FORTRESS_HOME/ProjectFortress/LibraryBuiltin:$FORTRESS_HOME/Library:$FO
 | the model, five losses | `checks/model_run_flatarrays2.out` | identical to `checks/model_run.out` to the last digit |
 | the forward pass, APL against C4's lines | `checks/diag_fwd_flatarrays2.out` | byte-identical to `checks/diag_fwd.out`: every intermediate maxdiff 0.0, the loss diff 0.0, every printed sum equal |
 | the dimension mismatches | `checks/mismatch_probe.out` | 7 of 7 caught, terminal, exit 1 |
-| the check smoke | `checks/check_smoke_flatarrays2_threads1.out` | SMOKEVERDICT |
+| the check smoke | `checks/check_smoke_flatarrays2_threads1_40of40.out` | `VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS`, 427 s; every check line, every measured difference included, is IDENTICAL to the FlatArrays run (`checks/check_smoke_threads1_complete_40of40.out`, 454 s) with only the per-check times differing |
 
-Per-step times, ms (`checks/model_run_flatarrays2.out` against
-`checks/model_run.out`, the same host, one run each):
+Per-step times, ms.  The model was run twice (ledger row 98's discipline), the
+first run on a cold cache for every component in this directory:
 
-| step | FlatArrays2 | FlatArrays |
-|---|---|---|
-| 1 | 4491 | 4308 |
-| 2 | 4427 | 4001 |
-| 3 | 4066 | 3856 |
-| 4 | 4401 | 4223 |
-| 5 | 4211 | 4134 |
-| mean | **4319** | **4104** |
+| step | FlatArrays2, run 1 (cold) | FlatArrays2, run 2 | FlatArrays (`checks/model_run.out`) |
+|---|---|---|---|
+| 1 | 4491 | 3682 | 4308 |
+| 2 | 4427 | 3902 | 4001 |
+| 3 | 4066 | 3952 | 3856 |
+| 4 | 4401 | 3946 | 4223 |
+| 5 | 4211 | 3861 | 4134 |
+| mean | 4319 | **3869** | **4104** |
 
-One run each, so this is a difference of about 5 % against noise of the same
-order; the review measured the pieces that changed (the row lift about 2 %, the
-`diag` operator kept because dropping it costs 5 %).  The comparison that
-settles cost is the coordinator's two recorded check runs.
+The two runs of the same code differ by 10 %, which is the size of the effect
+being looked for, so these five steps say nothing about cost either way; the
+check smoke, 116 steps, ran 427 s against the FlatArrays run's 454 s.  The
+review measured the pieces that changed (the row lift about 2 %, the `diag`
+operator kept because dropping it costs 5 %).  The comparison that settles cost
+is the coordinator's two recorded check runs.
