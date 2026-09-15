@@ -487,8 +487,8 @@ each against the same source run through the interpreter.
 
 | status | rows |
 |---|---|
-| POSITIVE-VERIFIED | 102 (+28 rows that carry both marks) |
-| NEGATIVE-VERIFIED | 145 (+28 rows that carry both marks) |
+| POSITIVE-VERIFIED | 102 (+29 rows that carry both marks) |
+| NEGATIVE-VERIFIED | 144 (+29 rows that carry both marks) |
 | NEGATIVE-BOUNDED | 5 (rows 90, 182, 186, 199, 261) |
 | CONTESTED | 1 (row 83), and row 258's type half |
 | RETIRED | 3 (rows 10, 32, 87) |
