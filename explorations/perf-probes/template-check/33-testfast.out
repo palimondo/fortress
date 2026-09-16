@@ -280,3 +280,967 @@ testFast:
     [junit]   testMOMOS(com.sun.fortress.useful.UsefulJUTest) OK
     [junit]   testMOMO(com.sun.fortress.useful.UsefulJUTest) OK
     [junit] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 sec
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass  OK (time = 191654ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass2  OK (time = 363ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass2  OK (time = 938ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass3  OK (time = 307ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.seq  OK (time = 190553ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ae.fss  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass3  OK (time = 955ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass4  OK (time = 234ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass4  OK (time = 855ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass5  OK (time = 243ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17ddd  OK (time = 1939ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass5  OK (time = 828ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass6  OK (time = 286ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass6  OK (time = 756ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/Compiled2PreTest  OK (time = 66ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/ComparisonTest1  OK (time = 228680ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Compiled2PreTest  OK (time = 701ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17dddd  OK (time = 2621ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/VoidArrowTest  OK (time = 960ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/VoidArrowTest2  OK (time = 908ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17ddddd  OK (time = 1902ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.c  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/VoidArrowTest3  OK (time = 866ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ax.A  OK (time = 325ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/VoidTupleTest  OK (time = 812ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ax.A  OK (time = 962ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.e  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bl  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.l  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/EqualityTest1  OK (time = 292ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bd  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.w  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.c  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.x  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.m  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.n  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.d  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.j  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.s  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ag  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.b  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.x.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.h.fss  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/XXXMissinglink  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.a  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/EqualityTest1  OK (time = 762ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/ComparisonTest2  OK (time = 5498ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10  OK (time = 566ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0a  OK (time = 836ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Test1  OK (time = 676ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled10  OK (time = 784ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ae  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bo  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ap  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0b  OK (time = 907ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bx  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.m  Saw expected failure
+    [junit]  disambiguate /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.a.fsi  OK (time = 16ms)
+    [junit]  disambiguate /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.b  OK (time = 52ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Boolean1  OK (time = 998ms)
+    [junit]  disambiguate /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.e  OK (time = 64ms)
+    [junit]  disambiguate /home/user/fortress/ProjectFortress/compiler_tests/patternMatching1  OK (time = 442ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.s  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.aa.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.a  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.l  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ab  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0c  OK (time = 674ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled17  OK (time = 655ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0d  OK (time = 949ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17  OK (time = 844ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0e  OK (time = 672ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled17a  OK (time = 230ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17a  OK (time = 669ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0f  OK (time = 923ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled17b  OK (time = 335ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Boolean2  OK (time = 3640ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17b  OK (time = 680ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/toops  OK (time = 1070ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled17c  OK (time = 657ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17c  OK (time = 574ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ad  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.az  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.i  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.v  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.f  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled4  OK (time = 470ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled4  OK (time = 1593ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2  OK (time = 91ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/Char3  OK (time = 3671ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled2  OK (time = 852ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.a  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.aw  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.a  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.k  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ParametricFields  OK (time = 124ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Char3  OK (time = 937ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet0  OK (time = 359ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ParametricFields  OK (time = 935ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.d  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.u  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.i.fss  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet0  OK (time = 630ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.SingleInheritanceNotUsed  OK (time = 147ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet1  OK (time = 249ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.SingleInheritanceNotUsed  OK (time = 647ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.x  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet1  OK (time = 559ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.af  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet2  OK (time = 156ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bt  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.c  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.q.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.h  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.br  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet2  OK (time = 563ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled17d  OK (time = 168ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet3  OK (time = 170ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17d  OK (time = 539ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet3  OK (time = 521ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled17e  OK (time = 185ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet4  OK (time = 248ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17e  OK (time = 577ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet4  OK (time = 543ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled17h  OK (time = 105ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet9  OK (time = 417ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17h  OK (time = 552ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/Integer1  OK (time = 9855ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled17i  OK (time = 364ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet9  OK (time = 685ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled17i  OK (time = 719ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ab  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.h  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Integer1  OK (time = 905ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bo  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/whiledo  OK (time = 887ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/whileassigned  OK (time = 1000ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/whilefalse  OK (time = 690ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7  OK (time = 2749ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Char  OK (time = 1081ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled7  OK (time = 643ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/IGO3  OK (time = 869ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/MaybeTest7  OK (time = 812ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/Integer2  OK (time = 5304ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/MaybeTest8  OK (time = 860ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/IntegrationStats  OK (time = 2318ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Integer2  OK (time = 727ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/IntegrationStats  OK (time = 599ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/MaybeTest16  OK (time = 746ms)
+    [junit]  build /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.CompiledCoercions  OK (time = 658ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.a  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.z  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.af  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.j  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ad.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.aq  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.b  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/atomic0  OK (time = 813ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/atomic1  OK (time = 703ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.au  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bu  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.m  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ag.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.p  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.n  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.i  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.r  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/atomic2  OK (time = 778ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.j  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bk  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ar  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.DiamondOverriding  OK (time = 131ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.DiamondOverriding  OK (time = 567ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/NYI.Compiled5.n  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.k  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.c  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.b  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/atomic3  OK (time = 770ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ak  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.g  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.r.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bp  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.s  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/atomic4  OK (time = 862ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.c  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.c  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled11.b  Saw expected failure
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/VarianceTest1  OK (time = 54ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/VarianceTest2  OK (time = 52ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/VarianceTest3  OK (time = 16ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/VarianceTest4  OK (time = 95ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/VarianceTest5  OK (time = 57ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/VarianceTest6  OK (time = 36ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/VarianceTest7  OK (time = 45ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/VarianceTest8  OK (time = 35ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/VarianceTest9  OK (time = 14ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.h  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.al  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bq  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.y  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.o  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9  OK (time = 108ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/atomic5  OK (time = 1317ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled9  OK (time = 567ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/SingletonImportAndUse  OK (time = 67ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/SingletonImportAndUse  OK (time = 578ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/Integer3  OK (time = 6523ms)
+    [junit]  api /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.as  OK (time = 224ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/atomic6  OK (time = 1000ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ar  OK (time = 126ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Integer3  OK (time = 696ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ar  OK (time = 613ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bt  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled4.c  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.u  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/nestedTransactions0  OK (time = 1018ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.Print17  OK (time = 58ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.Print17  OK (time = 538ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.k  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.an  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/nestedTransactions1  OK (time = 888ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/nestedTransactions2  OK (time = 805ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds1  OK (time = 647ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds2  OK (time = 703ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds3  OK (time = 669ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/Integer4  OK (time = 4545ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds4  OK (time = 759ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Integer4  OK (time = 673ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds5  OK (time = 746ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/TreapAndTest  OK (time = 5137ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/U2  OK (time = 959ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/TreapAndTest  OK (time = 609ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ac  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.d  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.g  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.i  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bz  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bq  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.j  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/SingleInheritance  OK (time = 236ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/U3  OK (time = 872ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/SingleInheritance  OK (time = 558ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.v  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.x.fsi  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/OpParam3  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.a  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/EqualityTest5  OK (time = 712ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.Chain  OK (time = 661ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.Chain  OK (time = 572ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.av  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.j  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.y  Saw expected failure
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ag  OK (time = 16ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ah  OK (time = 48ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ai  OK (time = 25ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.aj  OK (time = 17ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ak  OK (time = 20ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload  OK (time = 1404ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.as  OK (time = 198ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.au  OK (time = 80ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.av  OK (time = 95ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.g  OK (time = 70ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.t  OK (time = 25ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.b  OK (time = 42ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.c  OK (time = 40ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.d  OK (time = 33ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.e  OK (time = 40ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.f  OK (time = 24ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.h  OK (time = 48ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.i  OK (time = 50ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload  OK (time = 596ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.j  OK (time = 60ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.k  OK (time = 33ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.m  OK (time = 23ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.p  OK (time = 23ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.t  OK (time = 139ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.v  OK (time = 46ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.x  OK (time = 269ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.e  OK (time = 178ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.o  OK (time = 33ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.p  OK (time = 34ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ah  OK (time = 39ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ai  OK (time = 65ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.aj  OK (time = 26ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ak  OK (time = 42ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.al  OK (time = 55ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.am  OK (time = 19ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bc  OK (time = 23ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bf  OK (time = 60ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bg  OK (time = 25ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bh  OK (time = 19ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bi  OK (time = 29ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bm  OK (time = 50ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload2  OK (time = 1255ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.br  OK (time = 58ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bs  OK (time = 22ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bu  OK (time = 271ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.a  OK (time = 42ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.o  OK (time = 22ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.r  OK (time = 52ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload2  OK (time = 605ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/IntegerChoose1  OK (time = 7295ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.u  OK (time = 543ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ad  OK (time = 21ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ae  OK (time = 19ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.af  OK (time = 106ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ag  OK (time = 63ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ah  OK (time = 47ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ai  OK (time = 63ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.al  OK (time = 66ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ao  OK (time = 54ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/IntegerChoose1  OK (time = 636ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ap  OK (time = 223ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.aq  OK (time = 94ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ar  OK (time = 133ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload3  OK (time = 1367ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.as  OK (time = 49ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.av  OK (time = 52ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.aw  OK (time = 16ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ax  OK (time = 47ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ay  OK (time = 77ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.az  OK (time = 17ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ba  OK (time = 68ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bb  OK (time = 28ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bc  OK (time = 21ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bd  OK (time = 23ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.be  OK (time = 20ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bf  OK (time = 17ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bg  OK (time = 61ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bl  OK (time = 53ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.f  OK (time = 114ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload3  OK (time = 720ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.g  OK (time = 57ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.PatternMatching.a  OK (time = 93ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.PatternMatching.b  OK (time = 93ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.PatternMatching.d  OK (time = 150ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled80  OK (time = 71ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.g  OK (time = 40ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.j  OK (time = 16ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.k  OK (time = 41ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.l  OK (time = 19ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.m  OK (time = 289ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.o  OK (time = 18ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.p  OK (time = 32ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.t  OK (time = 43ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.u  OK (time = 27ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.y  OK (time = 70ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ab  OK (time = 18ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ac  OK (time = 21ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload4  OK (time = 1283ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload4  OK (time = 573ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ah  OK (time = 1218ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ai  OK (time = 361ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.aj  OK (time = 51ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload5  OK (time = 1274ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.Comprehensions3  OK (time = 819ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.l  OK (time = 30ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.m  OK (time = 34ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.r  OK (time = 26ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload5  OK (time = 539ms)
+    [junit]  typecheck /home/user/fortress/ProjectFortress/compiler_tests/Compiled12  OK (time = 460ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.aj  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/../../Library/CompilerLibrary.fsi  OK (time = 0ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.z.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.aa  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bi  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.o  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.r  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.q  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.a0  OK (time = 562ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload6  OK (time = 1328ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.b0  OK (time = 581ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload6  OK (time = 543ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.a1  OK (time = 576ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/IntegerChoose2  OK (time = 7031ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.b1  OK (time = 657ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/IntegerChoose2  OK (time = 726ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload7  OK (time = 1364ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.c1  OK (time = 644ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.p  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled90  OK (time = 86ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload7  OK (time = 577ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled90  OK (time = 560ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled100  OK (time = 91ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/VarRefTest1  OK (time = 576ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled100  OK (time = 535ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/VarRefTest2  OK (time = 648ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled260  OK (time = 774ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/VarRefTest3  OK (time = 779ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/LotsOfStaticParams  OK (time = 177ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled260  OK (time = 581ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ab  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/LotsOfStaticParams  OK (time = 535ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled14  OK (time = 389ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/pfo1  OK (time = 604ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled14  OK (time = 563ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/OpParam4  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.ApplicationErrors  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.q  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.at  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.d  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.k  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.q  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled4.b  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.be  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.t  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/../LibraryBuiltin/CompilerBuiltin  OK (time = 558ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled16a  OK (time = 170ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/A.B  OK (time = 1132ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled16a  OK (time = 916ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled16b  OK (time = 203ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TestComparison3  OK (time = 1352ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled16b  OK (time = 546ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled16c  OK (time = 212ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled16c  OK (time = 560ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled16d  OK (time = 176ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled16d  OK (time = 534ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled16e  OK (time = 207ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled16e  OK (time = 557ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled16f  OK (time = 519ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/ShiftTest  OK (time = 9593ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled16f  OK (time = 579ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/ShiftTest  OK (time = 810ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled16  OK (time = 578ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled16  OK (time = 750ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.p  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.by  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.g  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bb  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.g  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.t  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.t  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.h  OK (time = 512ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.h  OK (time = 788ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.l  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.af.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.e  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.AsString  OK (time = 92ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.AsString  OK (time = 678ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.r  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.c  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/RecursiveApiTest3c  OK (time = 568ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/RecursiveApiTest3c  OK (time = 828ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.g  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bp  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.o  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bw  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.i  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bh  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0  OK (time = 1727ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled0  OK (time = 796ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1  OK (time = 50ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled1  OK (time = 726ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2PreTest  OK (time = 98ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled2PreTest  OK (time = 967ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.l  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.v.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6  OK (time = 534ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled6  OK (time = 1026ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.w.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.an  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.au  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.e  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.f  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.s  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.h  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.u  Saw expected failure
+    [junit]  parse /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ba  OK (time = 2ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.s.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.n  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.invariantInference  OK (time = 2853ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.invariantInference  OK (time = 799ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.invariantInference2  OK (time = 2474ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.invariantInference2  OK (time = 904ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/ShiftTest2  OK (time = 18588ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.Overriding  OK (time = 116ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/ShiftTest2  OK (time = 1006ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.Overriding  OK (time = 1013ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.q.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bm  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled11  OK (time = 893ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled11  OK (time = 623ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled11.a  OK (time = 145ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled11.a  OK (time = 688ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled11.c  OK (time = 200ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled11.c  OK (time = 971ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.Elif  OK (time = 699ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.Elif  OK (time = 878ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.f  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.e  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.o  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.Comprehensions1  OK (time = 1794ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.Comprehensions1  OK (time = 884ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bs  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.z  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.f  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.v  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.b  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.ForLoops  OK (time = 98ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/AverageTest  OK (time = 8977ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.ForLoops  OK (time = 787ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.k  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.MultipleOverriding  OK (time = 115ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/AverageTest  OK (time = 990ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/Pattern1  OK (time = 185ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.MultipleOverriding  OK (time = 939ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5  OK (time = 447ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Pattern1  OK (time = 822ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/Pattern2  OK (time = 330ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TestComparison3  OK (time = 34707ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled5  OK (time = 979ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Pattern2  OK (time = 896ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.Binding  OK (time = 636ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/Pattern3  OK (time = 435ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/deterministicRandomTest  OK (time = 1355ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Pattern3  OK (time = 832ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.Binding  OK (time = 1172ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.n.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.r  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/Getter1  OK (time = 408ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3  OK (time = 448ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Arrow0  OK (time = 2014ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled3  OK (time = 748ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/../LibraryBuiltin/CompilerBuiltin.fsi  OK (time = 0ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Getter1  OK (time = 946ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.at  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.l  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.k  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/Getter2  OK (time = 436ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.SimpleOverriding  OK (time = 212ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.SimpleOverriding  OK (time = 646ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.h  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.y  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.f  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.n  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/Getter2  OK (time = 744ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inherit2  OK (time = 742ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Arrow1  OK (time = 2369ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inherit2  OK (time = 930ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inheritFunc  OK (time = 383ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inheritFunc  OK (time = 1069ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Arrow2  OK (time = 2324ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/library_tests/MaybeTest9  OK (time = 3611ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inheritFuncPartiallyGeneric  OK (time = 702ms)
+    [junit]  link /home/user/fortress/ProjectFortress/library_tests/MaybeTest9  OK (time = 918ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/U1  OK (time = 1347ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inheritFuncPartiallyGeneric  OK (time = 818ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/ComparisonTest1 (1427ms) Passed
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inheritFuncFullyGeneric  OK (time = 1427ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/ArrowRTTI  OK (time = 1679ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/ComparisonTest2 (1253ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inheritFuncFullyGeneric  OK (time = 1218ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.b  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.y  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/EmptyDoEnd  OK (time = 104ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/ArrowRTTI2  OK (time = 1542ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Test1 (775ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/EmptyDoEnd  OK (time = 812ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled15.c  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bv  Saw expected failure
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Boolean1 (575ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Boolean2 (616ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/ArrowRTTI3  OK (time = 1964ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled13  OK (time = 1897ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Integer1 (1234ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Integer2 (1031ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled13a  OK (time = 1478ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Integer3 (980ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled13b  OK (time = 1769ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Integer4 (1062ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/ArrowRTTI4  OK (time = 3720ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.PatternMatching.c.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.m  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.n  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.i  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.an  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bj  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.bn  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.u  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.e  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled4.a  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.q  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.d  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.w.fsi  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.h  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.q  Saw expected failure
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/IntegerChoose1 (1317ms) Passed
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/SingleInheritanceAbstract  OK (time = 375ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Go0a  OK (time = 1462ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/IntegerChoose2 (1363ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/SingleInheritanceAbstract  OK (time = 1332ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Go1a  OK (time = 1371ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/MultipleInheritanceAbstract  OK (time = 402ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/ShiftTest (723ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Go0b  OK (time = 1034ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/MultipleInheritanceAbstract  OK (time = 1251ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Go1b  OK (time = 1152ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritanceAbstract  OK (time = 779ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/ShiftTest2 (2068ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritanceAbstract  OK (time = 943ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Go1c  OK (time = 1371ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance1  OK (time = 702ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/AverageTest (1554ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenObjClosure  OK (time = 991ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Pattern1 (883ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance1  OK (time = 1477ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Pattern2 (498ms) Passed
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance2  OK (time = 814ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Pattern3 (890ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Getter1 (684ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/Getter2 (704ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance2  OK (time = 1594ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance3  OK (time = 1003ms)
+    [junit]  run /home/user/fortress/ProjectFortress/library_tests/MaybeTest9 (1568ms) Passed
+    [junit] Tests run: 55, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 356.236 sec
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance3  OK (time = 1027ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance4  OK (time = 655ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance4  OK (time = 731ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance5  OK (time = 482ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/Char2  OK (time = 7745ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance5  OK (time = 963ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Char2  OK (time = 777ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance6  OK (time = 524ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance6  OK (time = 578ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.n  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.b  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.s  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.x  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.s  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled2.p  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.o  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.j  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.w  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.RedundantOverriding  OK (time = 188ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.RedundantOverriding  OK (time = 576ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.am  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ae  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.e  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TestComparison1  OK (time = 1976ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TestComparison1  OK (time = 622ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inherit  OK (time = 1092ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet5  OK (time = 315ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inherit  OK (time = 563ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ao  Saw expected failure
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet5  OK (time = 539ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet6  OK (time = 318ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled15  OK (time = 449ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet6  OK (time = 537ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled15  OK (time = 557ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet8  OK (time = 246ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled15a  OK (time = 476ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet8  OK (time = 557ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled15a  OK (time = 558ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Afm0  OK (time = 649ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled15b  OK (time = 672ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Afm1  OK (time = 782ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled15b  OK (time = 560ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled15c  OK (time = 315ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Afm2  OK (time = 817ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled15c  OK (time = 584ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.aq  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.z  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.r  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/XXXMissingcompile  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ap  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.aa  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.d.fsi  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.f  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled70  OK (time = 185ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Afm3  OK (time = 809ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled70  OK (time = 537ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.ao  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ac  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ac  OK (time = 497ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TestComparison2  OK (time = 1267ms)
+    [junit]  link /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ac  OK (time = 533ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TestComparison2  OK (time = 574ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/../../Library/CompilerLibrary  OK (time = 516ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled0.d  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled3.q  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.f.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.p  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.bn  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.w  Saw expected failure
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.seq (382ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17ddd (797ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17dddd (884ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17ddddd (819ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ax.A (367ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled10 (637ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/Funmet0  OK (time = 4675ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/ThrowTest1  OK (time = 65ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17 (648ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/ThrowTest1  OK (time = 630ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17a (704ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17b (638ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/ATrait  OK (time = 1356ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17c (673ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled4 (367ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled2 (360ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.ParametricFields (375ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/ASingleton  OK (time = 1428ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.SingleInheritanceNotUsed (359ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17d (730ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/WithFields  OK (time = 1334ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17e (593ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17h (633ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/MethodAccess  OK (time = 1512ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled17i (568ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/MethodAccess2  OK (time = 1760ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/MethodAccess3  OK (time = 2053ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/FieldAccess  OK (time = 1299ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric  OK (time = 152ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric  OK (time = 555ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric2  OK (time = 155ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric2  OK (time = 568ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric3  OK (time = 167ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric3  OK (time = 542ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric4  OK (time = 200ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric4  OK (time = 534ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric5  OK (time = 253ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled7 (8438ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric5  OK (time = 567ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric6  OK (time = 364ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric6  OK (time = 536ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric7  OK (time = 293ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric7  OK (time = 532ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric8  OK (time = 271ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric8  OK (time = 535ms)
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/EqualityTest9  OK (time = 711ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/IntegrationStats (4003ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.CompiledCoercions (300ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.DiamondOverriding (303ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9 (457ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/SingletonImportAndUse (340ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.ar (281ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.Print17 (268ms) Passed
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/CompileMath  OK (time = 2624ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/TreapAndTest (559ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/SingleInheritance (283ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled0 (250ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/CompileMath  OK (time = 725ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/ThrowTest2  OK (time = 50ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled10.Chain (314ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.a0 (273ms) Passed
+    [junit]  link /home/user/fortress/ProjectFortress/other_compiler_tests/ThrowTest2  OK (time = 630ms)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.b0 (334ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.a1 (415ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass (676ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.b1 (571ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass2 (602ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.c1 (564ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass3 (648ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled90 (618ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass4 (610ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled100 (305ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass5 (648ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled260 (466ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass6 (603ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled14 (627ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Compiled2PreTest (309ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled16a (619ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/VoidArrowTest (752ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled16b (655ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/VoidArrowTest2 (380ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled16c (584ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/VoidArrowTest3 (648ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled16d (641ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/VoidTupleTest (659ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled16e (642ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/EqualityTest1 (746ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled16f (683ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0a (406ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0b (412ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled16 (647ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0c (374ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.h (378ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0d (336ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.AsString (371ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0e (354ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/RecursiveApiTest3c (351ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Gt0f (388ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled0 (325ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled1 (370ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/toops (596ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled2PreTest (312ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Char3 (393ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled6 (564ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet0 (665ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.invariantInference (881ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet1 (715ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet2 (683ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.invariantInference2 (950ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.Overriding (377ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet3 (634ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled11 (596ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet4 (665ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled11.a (430ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet9 (628ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled11.c (407ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/whiledo (404ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.Elif (414ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/whileassigned (404ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.Comprehensions1 (638ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/whilefalse (405ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Char (491ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled7.ForLoops (627ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.MultipleOverriding (425ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/IGO3 (625ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled5 (465ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/MaybeTest7 (625ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.Binding (523ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/MaybeTest8 (706ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled3 (493ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.SimpleOverriding (312ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/MaybeTest16 (674ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inherit2 (638ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/atomic0 (431ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inheritFunc (384ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/atomic1 (373ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inheritFuncPartiallyGeneric (680ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/atomic2 (759ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inheritFuncFullyGeneric (777ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/atomic3 (754ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/EmptyDoEnd (331ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/atomic4 (744ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled13 (698ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled13a (660ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/atomic5 (802ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled13b (637ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/atomic6 (718ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/SingleInheritanceAbstract (362ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/nestedTransactions0 (378ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/MultipleInheritanceAbstract (387ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritanceAbstract (419ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/nestedTransactions1 (692ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance1 (325ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/nestedTransactions2 (699ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance2 (399ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance3 (378ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds1 (586ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance4 (391ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance5 (398ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds2 (627ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/DiamondInheritance6 (384ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds3 (626ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled9.RedundantOverriding (403ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled12.inherit (415ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds4 (591ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled15 (681ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleBounds5 (638ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled15a (679ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/U2 (693ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled15b (633ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/U3 (607ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled15c (671ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/EqualityTest5 (686ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled70 (346ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload (354ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/Compiled6.ac (370ms) Passed
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.e  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.a  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.p  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXCompoundComponent.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.c  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.k  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.h  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.i  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.b  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXCompoundComponent2.fss  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.ac  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.ad  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.n  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.d  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.j  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.f  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.ah  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.af  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.l  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.s  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.ab  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.ai  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.x  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.o  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.ae  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.z  Saw expected failure
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload2 (343ms) Passed
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.aj  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.ak  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.w  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.aa  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.v  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.m  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.q  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.r  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.u  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.t  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXCompoundAPI.fsi  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.g  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.ag  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/parser_tests/XXXPreparser.y  Saw expected failure
+    [junit] Tests run: 642, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 427.959 sec
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload3 (289ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload4 (265ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload5 (268ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload6 (245ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/SimpleOverload7 (267ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/VarRefTest1 (262ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/VarRefTest2 (304ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/VarRefTest3 (299ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/LotsOfStaticParams (468ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/pfo1 (266ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/A.B (265ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TestComparison3 (314ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/deterministicRandomTest (542ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Arrow0 (463ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Arrow1 (457ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Arrow2 (468ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/U1 (472ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/ArrowRTTI (474ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/ArrowRTTI2 (462ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/ArrowRTTI3 (517ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/ArrowRTTI4 (536ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Go0a (267ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Go1a (288ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Go0b (265ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Go1b (457ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Go1c (463ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenObjClosure (472ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Char2 (335ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TestComparison1 (326ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet5 (513ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet6 (496ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/GenMet8 (518ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Afm0 (287ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Afm1 (289ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Afm2 (309ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Afm3 (416ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TestComparison2 (603ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/Funmet0 (489ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/ThrowTest1 (400ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/ATrait (453ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/ASingleton (481ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/WithFields (404ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/MethodAccess (464ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/MethodAccess2 (579ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/MethodAccess3 (537ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/FieldAccess (580ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric (859ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric2 (959ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric3 (836ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric4 (861ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric5 (833ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric6 (956ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric7 (1021ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastGeneric8 (1022ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/EqualityTest9 (907ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/CompileMath (553ms) Passed
+    [junit]  run /home/user/fortress/ProjectFortress/other_compiler_tests/ThrowTest2 (549ms) Passed
+    [junit] Tests run: 263, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 456.069 sec
+   [delete] Deleting directory /home/user/fortress/ProjectFortress/test-tmp
+
+BUILD SUCCESSFUL
+Total time: 7 minutes 37 seconds

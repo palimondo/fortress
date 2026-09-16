@@ -1,0 +1,2 @@
+RESTORE EXACT: all 50 class files byte-identical
+ M explorations/perf-probes/template-check/33-testfast.out
