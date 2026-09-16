@@ -1,0 +1,5 @@
+component m04
+import MatrixC.{...}
+export Executable
+run():() = println(m4⦇ 21 ⦈)
+end

@@ -1,0 +1,11 @@
+component m05
+import MatrixC.{...}
+export Executable
+run():() = do
+    x: ZZ32 = m1⦇ ⦈          (* the SAME unparenthesized template, bound, not juxtaposed *)
+    println(x)
+    println((m1⦇ ⦈))          (* the same, parenthesized AT THE USE SITE *)
+    y: ZZ32 = m4⦇ 21 ⦈
+    println(y)
+end
+end

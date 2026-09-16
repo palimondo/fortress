@@ -1,0 +1,282 @@
+Buildfile: /home/user/fortress/build.xml
+
+testFast:
+   [delete] Deleting directory /home/user/fortress/ProjectFortress/test-caches
+    [junit] /home/user/fortress/ProjectFortress/other_compiler_tests
+    [junit] Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0abed559c_16
+    [junit] /home/user/fortress/ProjectFortress/library_tests
+    [junit] Running com.sun.fortress.compiler.EmptyCompilerInvocationJUTest
+    [junit] Not compiling file XXX5a.test.disabled
+    [junit] Not compiling file Compiled14.test.disabled
+    [junit] Not compiling file XXX6o.test.NYI
+    [junit] Running com.sun.fortress.tests.unit_tests.LibraryJUTest
+    [junit] Running com.sun.fortress.tests.unit_tests.OtherCompilerJUTest
+    [junit] Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0abed55ac_16
+    [junit] /home/user/fortress/ProjectFortress/compiler_tests
+    [junit] Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0abed55be_16
+    [junit] Not compiling file calibrate_tests.py
+    [junit] Not compiling file XXX5a.twice.test.disabled
+    [junit] Not compiling file Compiled5.timing.not
+    [junit] Running com.sun.fortress.tests.unit_tests.CompilerJUTest
+    [junit] /home/user/fortress/ProjectFortress/parser_tests
+    [junit] Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0abed55be_16
+    [junit]   testCompileNothing(com.sun.fortress.compiler.EmptyCompilerInvocationJUTest) OK
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.634 sec
+    [junit] Running com.sun.fortress.compiler.NamingCzarJUTest
+    [junit]   testNameMangling(com.sun.fortress.compiler.NamingCzarJUTest) OK
+    [junit]   testForeign(com.sun.fortress.compiler.NamingCzarJUTest) OK
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.508 sec
+    [junit] Running com.sun.fortress.compiler.typechecker.StaticTypeReplacerJUTest
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.737 sec
+    [junit] Running com.sun.fortress.interpreter.evaluator.OverloadJUTest
+    [junit]   testOverloadSucceed(com.sun.fortress.interpreter.evaluator.OverloadJUTest) OK
+    [junit]   testOverloadFail(com.sun.fortress.interpreter.evaluator.OverloadJUTest) OK
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.393 sec
+    [junit] Running com.sun.fortress.interpreter.evaluator.types.IntNatJUTest
+    [junit]   testGetNumber(com.sun.fortress.interpreter.evaluator.types.IntNatJUTest) OK
+    [junit]   testMakeLong(com.sun.fortress.interpreter.evaluator.types.IntNatJUTest) OK
+    [junit]   testEqualsObject(com.sun.fortress.interpreter.evaluator.types.IntNatJUTest) OK
+    [junit]   testGetValue(com.sun.fortress.interpreter.evaluator.types.IntNatJUTest) OK
+    [junit]   testHashCode(com.sun.fortress.interpreter.evaluator.types.IntNatJUTest) OK
+    [junit]   testToString(com.sun.fortress.interpreter.evaluator.types.IntNatJUTest) OK
+    [junit] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.078 sec
+    [junit] Running com.sun.fortress.interpreter.evaluator.types.TypeRangeJUTest
+    [junit]   testHashCode(com.sun.fortress.interpreter.evaluator.types.TypeRangeJUTest) OK
+    [junit]   testGetEvaluatedBase(com.sun.fortress.interpreter.evaluator.types.TypeRangeJUTest) OK
+    [junit]   testGetEvaluatedSize(com.sun.fortress.interpreter.evaluator.types.TypeRangeJUTest) OK
+    [junit]   testCompatible(com.sun.fortress.interpreter.evaluator.types.TypeRangeJUTest) OK
+    [junit]   testEqualsObject(com.sun.fortress.interpreter.evaluator.types.TypeRangeJUTest) OK
+    [junit]   testToString(com.sun.fortress.interpreter.evaluator.types.TypeRangeJUTest) OK
+    [junit] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 sec
+    [junit] Running com.sun.fortress.nodes_util.ModifiersJUTest
+    [junit]   testModifierNames(com.sun.fortress.nodes_util.ModifiersJUTest) OK
+    [junit]   testThoroughSimples(com.sun.fortress.nodes_util.ModifiersJUTest) OK
+    [junit]   testRandomly(com.sun.fortress.nodes_util.ModifiersJUTest) OK
+    [junit] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 sec
+    [junit] Running com.sun.fortress.nodes_util.NodeFactoryJUTest
+    [junit]   testMakeAPIName(com.sun.fortress.nodes_util.NodeFactoryJUTest) OK
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.425 sec
+    [junit] Running com.sun.fortress.parser_util.IdentifierUtilJUTest
+    [junit] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.337 sec
+    [junit] Running com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest
+    [junit]   testImplies(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testIsOperator(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testAllPrecedence(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testEqPrecedences(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testOrdPrecedences(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testIsChain(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testLBrak(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testRBrak(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testEBrak(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testBraks(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testManiaLeft(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testManiaRight(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testManiaPair(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit]   testEnclNotOp(com.sun.fortress.parser_util.precedence_resolver.PrecedenceMapJUTest) OK
+    [junit] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.56 sec
+    [junit] Running com.sun.fortress.runtimeSystem.BAlongTreeJUTest
+    [junit] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 sec
+    [junit] Running com.sun.fortress.runtimeSystem.InstantiationMapJUTest
+    [junit] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 sec
+    [junit] Running com.sun.fortress.runtimeSystem.NamingJUTest
+    [junit]   testFortressMangleNoChange(com.sun.fortress.runtimeSystem.NamingJUTest) OK
+    [junit]   testFortressMangleNoNest(com.sun.fortress.runtimeSystem.NamingJUTest) OK
+    [junit]   testFortressMangleNest(com.sun.fortress.runtimeSystem.NamingJUTest) OK
+    [junit]   testMangle(com.sun.fortress.runtimeSystem.NamingJUTest) OK
+    [junit]   testUnmangle(com.sun.fortress.runtimeSystem.NamingJUTest) OK
+    [junit]   testCat2(com.sun.fortress.runtimeSystem.NamingJUTest) OK
+    [junit]   testCat3(com.sun.fortress.runtimeSystem.NamingJUTest) OK
+    [junit]   testRemoveNthSigParameter(com.sun.fortress.runtimeSystem.NamingJUTest) OK
+    [junit] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.16 sec
+    [junit] Running com.sun.fortress.scala_src.overloading.OverloadingJUTest
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.927 sec
+    [junit] Running com.sun.fortress.scala_src.typechecker.ConstraintJUTest
+    [junit] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.98 sec
+    [junit] Running com.sun.fortress.scala_src.typechecker.FormulaJUTest
+    [junit] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.102 sec
+    [junit] Running com.sun.fortress.scala_src.types.TypeAnalyzerJUTest
+    [junit] *********OR(AND(Oo,Oo),AND(Pp,Pp))
+    [junit] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.032 sec
+    [junit] Running com.sun.fortress.scala_src.types.TypeSchemaAnalyzerJUTest
+    [junit] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.665 sec
+    [junit] Running com.sun.fortress.scala_src.useful.ListsJUTest
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.138 sec
+    [junit] Running com.sun.fortress.scala_src.useful.OptionsJUTest
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.2 sec
+    [junit] Running com.sun.fortress.scala_src.useful.STypesUtilJUTest
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.503 sec
+    [junit] Running com.sun.fortress.syntax_abstractions.SyntaxAbstractionJUTest
+    [junit]  compile /home/user/fortress/ProjectFortress/other_compiler_tests/TupleCastPass  OK (time = 31168ms)
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled1.aa  Saw expected failure
+    [junit]  compile /home/user/fortress/ProjectFortress/compiler_tests/Compiled5.seq  OK (time = 1442ms)
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.074 sec
+    [junit] Running com.sun.fortress.syntax_abstractions.phases.TemplateVarRewriterJUTest
+    [junit] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.46 sec
+    [junit] Running com.sun.fortress.syntax_abstractions.util.FortressTypeToJavaTypeJUTest
+    [junit] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 sec
+    [junit] Running com.sun.fortress.tests.unit_tests.ASTJUTest
+    [junit]   testWhite(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testExpect(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testEnquote(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testExpectPrefix(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testString(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testInt(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testReadSpan(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testMakeEmptyContract(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testWriteList(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testWriteOptionList(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testWriteMess(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testWriteBigMess(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit]   testDequote(com.sun.fortress.tests.unit_tests.ASTJUTest) OK
+    [junit] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.527 sec
+    [junit] Running com.sun.fortress.tests.unit_tests.ConstructorsJUTest
+    [junit]   testSourceLoc(com.sun.fortress.tests.unit_tests.ConstructorsJUTest) OK
+    [junit]   testSpan(com.sun.fortress.tests.unit_tests.ConstructorsJUTest) OK
+    [junit]   testId(com.sun.fortress.tests.unit_tests.ConstructorsJUTest) OK
+    [junit]   testAPIName(com.sun.fortress.tests.unit_tests.ConstructorsJUTest) OK
+    [junit]   testLiterals(com.sun.fortress.tests.unit_tests.ConstructorsJUTest) OK
+    [junit]   testVarRef(com.sun.fortress.tests.unit_tests.ConstructorsJUTest) OK
+    [junit]   testTuples(com.sun.fortress.tests.unit_tests.ConstructorsJUTest) OK
+    [junit]   testVoid(com.sun.fortress.tests.unit_tests.ConstructorsJUTest) OK
+    [junit] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.669 sec
+    [junit] Running com.sun.fortress.tests.unit_tests.ObjectUID_JUTest
+    [junit]   testUID(com.sun.fortress.tests.unit_tests.ObjectUID_JUTest) OK
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.448 sec
+    [junit] Running com.sun.fortress.tests.unit_tests.ParserJUTest
+    [junit] Tests run: 188, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.22 sec
+    [junit] Running com.sun.fortress.tests.unit_tests.TransactionJUTest
+    [junit]   testReadSet(com.sun.fortress.tests.unit_tests.TransactionJUTest) OK
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.058 sec
+    [junit] Running com.sun.fortress.useful.ABoundingMapJUTest
+    [junit]   testABoundingMapMapOfTULatticeOpsOfU(com.sun.fortress.useful.ABoundingMapJUTest) OK
+    [junit]   testJoinPut(com.sun.fortress.useful.ABoundingMapJUTest) OK
+    [junit]   testDual(com.sun.fortress.useful.ABoundingMapJUTest) OK
+    [junit]   testMeetPut(com.sun.fortress.useful.ABoundingMapJUTest) OK
+    [junit] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 sec
+    [junit] Running com.sun.fortress.useful.AQListJUTest
+    [junit]   testAddMore(com.sun.fortress.useful.AQListJUTest) OK
+    [junit]   testMore(com.sun.fortress.useful.AQListJUTest) OK
+    [junit]   testAddI(com.sun.fortress.useful.AQListJUTest) OK
+    [junit]   testOne(com.sun.fortress.useful.AQListJUTest) OK
+    [junit] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.159 sec
+    [junit] Running com.sun.fortress.useful.BA2JUTest
+    [junit]   testEmpty(com.sun.fortress.useful.BA2JUTest) OK
+    [junit]   testOne(com.sun.fortress.useful.BA2JUTest) OK
+    [junit]   testTwo(com.sun.fortress.useful.BA2JUTest) OK
+    [junit]   testThree(com.sun.fortress.useful.BA2JUTest) OK
+    [junit]   testSeven(com.sun.fortress.useful.BA2JUTest) OK
+    [junit]   testSevenDupe(com.sun.fortress.useful.BA2JUTest) OK
+    [junit]   test8(com.sun.fortress.useful.BA2JUTest) OK
+    [junit]   test8Dupes(com.sun.fortress.useful.BA2JUTest) OK
+    [junit] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.097 sec
+    [junit] Running com.sun.fortress.useful.BASetJUTest
+    [junit]   testRemoveIterator(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testEmpty(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testOne(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testAddsDescending(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testAddsDeletesAscending(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testAddsDeletesDescending(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testAddsDeletesRandom(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testUnionRandom(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testIntersectionRandom(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testDifferenceRandom(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testToArray(com.sun.fortress.useful.BASetJUTest) OK
+    [junit]   testAddsAscending(com.sun.fortress.useful.BASetJUTest) OK
+    [junit] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.737 sec
+    [junit] Running com.sun.fortress.useful.BATJUTest
+    [junit]   testAddsDescending(com.sun.fortress.useful.BATJUTest) OK
+    [junit]   testEmpty(com.sun.fortress.useful.BATJUTest) OK
+    [junit]   testOne(com.sun.fortress.useful.BATJUTest) OK
+    [junit]   testTwo(com.sun.fortress.useful.BATJUTest) OK
+    [junit]   testThree(com.sun.fortress.useful.BATJUTest) OK
+    [junit]   testSeven(com.sun.fortress.useful.BATJUTest) OK
+    [junit]   testSevenDupe(com.sun.fortress.useful.BATJUTest) OK
+    [junit]   testAddsDeletesRandom(com.sun.fortress.useful.BATJUTest) OK
+    [junit] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.93 sec
+    [junit] Running com.sun.fortress.useful.BalancedApplicativeTreeEquivalenceClasssesJUTest
+    [junit]   testOne(com.sun.fortress.useful.BalancedApplicativeTreeEquivalenceClasssesJUTest) OK
+    [junit]   testTwo(com.sun.fortress.useful.BalancedApplicativeTreeEquivalenceClasssesJUTest) OK
+    [junit]   testThree(com.sun.fortress.useful.BalancedApplicativeTreeEquivalenceClasssesJUTest) OK
+    [junit]   testSeven(com.sun.fortress.useful.BalancedApplicativeTreeEquivalenceClasssesJUTest) OK
+    [junit]   testSevenDupe(com.sun.fortress.useful.BalancedApplicativeTreeEquivalenceClasssesJUTest) OK
+    [junit]   test8(com.sun.fortress.useful.BalancedApplicativeTreeEquivalenceClasssesJUTest) OK
+    [junit]   test8Dupes(com.sun.fortress.useful.BalancedApplicativeTreeEquivalenceClasssesJUTest) OK
+    [junit]   testEmpty(com.sun.fortress.useful.BalancedApplicativeTreeEquivalenceClasssesJUTest) OK
+    [junit] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.801 sec
+    [junit] Running com.sun.fortress.useful.BitsJUTest
+    [junit]   testMask(com.sun.fortress.useful.BitsJUTest) OK
+    [junit]   testCeilLogTwo(com.sun.fortress.useful.BitsJUTest) OK
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.03 sec
+    [junit] Running com.sun.fortress.useful.GHashMapJUTest
+    [junit]   testEntrySet(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testGHashMap(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testContainsKey(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testKeySet(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testClear(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testContainsValue(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testPut(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testIsEmpty(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testPutAll(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testGet(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testRemove(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testSize(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit]   testValues(com.sun.fortress.useful.GHashMapJUTest) OK
+    [junit] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.164 sec
+    [junit] Running com.sun.fortress.useful.LatticeIntervalMapJUTest
+    [junit]   testDualPutMeet(com.sun.fortress.useful.LatticeIntervalMapJUTest) OK
+    [junit]   testPutJoin(com.sun.fortress.useful.LatticeIntervalMapJUTest) OK
+    [junit]   testPutMeet(com.sun.fortress.useful.LatticeIntervalMapJUTest) OK
+    [junit]   testPutGet(com.sun.fortress.useful.LatticeIntervalMapJUTest) OK
+    [junit]   testDualPutJoin(com.sun.fortress.useful.LatticeIntervalMapJUTest) OK
+    [junit] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.035 sec
+    [junit] Running com.sun.fortress.useful.ListJUTest
+    [junit]   testReverse(com.sun.fortress.useful.ListJUTest) OK
+    [junit]   testContains(com.sun.fortress.useful.ListJUTest) OK
+    [junit]   testMake(com.sun.fortress.useful.ListJUTest) OK
+    [junit]   testFromJavaList(com.sun.fortress.useful.ListJUTest) OK
+    [junit]   testSize(com.sun.fortress.useful.ListJUTest) OK
+    [junit]   testMap(com.sun.fortress.useful.ListJUTest) OK
+    [junit]   testToArray(com.sun.fortress.useful.ListJUTest) OK
+    [junit]   testToJavaList(com.sun.fortress.useful.ListJUTest) OK
+    [junit] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.11 sec
+    [junit] Running com.sun.fortress.useful.Memo2JUTest
+    [junit]   testMake(com.sun.fortress.useful.Memo2JUTest) OK
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.03 sec
+    [junit] Running com.sun.fortress.useful.PathJUTest
+    [junit] java.io.FileNotFoundException: File tests/ProjectFortress/a/b/c/d/e.f not found in directories [., ..]
+    [junit] java.io.FileNotFoundException: File thisfileismissing not found in directories [., ..]
+    [junit] nosub
+    [junit] 25.0.3
+    [junit] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.135 sec
+    [junit] Path is /usr/lib/jvm/java-25-openjdk-amd64/bin:/root/.local/bin:/root/.cargo/bin:/usr/local/go/bin:/opt/node22/bin:/opt/maven/bin:/opt/gradle/bin:/opt/rbenv/bin:/root/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    [junit] /root is home
+    [junit] 25.0.325.0.3 25.0.3
+    [junit] java.io.FileNotFoundException: File . not found in directories [., ..]
+    [junit] Running com.sun.fortress.useful.PureListJUTest
+    [junit]   testIterator(com.sun.fortress.useful.PureListJUTest) OK
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 sec
+    [junit] Running com.sun.fortress.useful.TrieMapJUTest
+    [junit]   testEmpty(com.sun.fortress.useful.TrieMapJUTest) OK
+    [junit]   testScrewsMap(com.sun.fortress.useful.TrieMapJUTest) OK
+    [junit]   testBothMap(com.sun.fortress.useful.TrieMapJUTest) OK
+    [junit]   testAnimalsMap(com.sun.fortress.useful.TrieMapJUTest) OK
+    [junit]   testPermutationsScrew(com.sun.fortress.useful.TrieMapJUTest) OK
+    [junit]   testPermutationsAnimals(com.sun.fortress.useful.TrieMapJUTest) OK
+    [junit] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.09 sec
+    [junit] Running com.sun.fortress.useful.UsefulJUTest
+    [junit]   testSetProductSetOfListOfTSetOfT(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testSetProductSetOfTSetOfUFn2OfTUV(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testSingleton(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testListInParens(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testListInCurlies(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testListInDelimiters(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testListsInParens(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testDottedList(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testConcat(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testUnion(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testCountMatch(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testReplaceCount(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testHashBijection(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testMOMOS(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit]   testMOMO(com.sun.fortress.useful.UsefulJUTest) OK
+    [junit] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 sec

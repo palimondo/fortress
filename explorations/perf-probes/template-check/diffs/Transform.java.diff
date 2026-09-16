@@ -1,0 +1,33 @@
+--- ProjectFortress/src/com/sun/fortress/syntax_abstractions/phases/Transform.java	2026-08-18 21:03:01.898345939 +0000
++++ explorations/perf-probes/template-check/shadow-src/com/sun/fortress/syntax_abstractions/phases/Transform.java	2026-09-16 20:04:29.562657088 +0000
+@@ -551,7 +551,20 @@
+         Node n = ((Node) lookupVariable(gapId_result, templateParams_result).get_object());
+         // Debug.debug( Debug.Type.SYNTAX, 3, "Hash code for ", n, " is ", n.generateHashCode() );
+         Debug.debug(Debug.Type.SYNTAX, 3, "Result for gapid ", gapId_result, " is ", n.getClass(), " ", n);
+-        return n;
++        return carryParentheses(that, n);
++    }
++
++    /* A substituted node inherits the parenthesization of the node it replaces:
++     * the gap or the macro invocation was written parenthesized, so its
++     * expansion is parenthesized too.
++     */
++    private static Node carryParentheses(Object replaced, Node result) {
++        if (replaced instanceof Expr && result instanceof Expr &&
++            NodeUtil.isParenthesized((Expr) replaced) &&
++            !NodeUtil.isParenthesized((Expr) result)) {
++            return ExprFactory.makeInParentheses((Expr) result);
++        }
++        return result;
+     }
+ 
+     /* return the value for a bound variable, and/or return a new Curried object
+@@ -649,7 +662,7 @@
+         Debug.debug(Debug.Type.SYNTAX, 2, "Invoking transformer ", that.getSyntaxTransformer());
+         Node transformed = transformer.accept(new TransformerEvaluator(this.transformers, evaluated));
+         checkFullyTransformed(transformed);
+-        return transformed;
++        return carryParentheses(that, transformed);
+     }
+ 
+     private Node curry(String original, Map<String, Level> vars, List<String> parameters) {

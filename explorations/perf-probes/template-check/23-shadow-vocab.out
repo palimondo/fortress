@@ -1,0 +1,77 @@
+$ fortress compile VocabC.fss
+### rc=0
+
+############ rule dblq (grammar api imports VocabC) ############
+    Expr |:= dblq⦇ a:Expr ⦈ => <[ (mydoublec(a)) ]>
+$ fortress compile G_dblq.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8981382822125663001rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8981382822125663001rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile u_dblq.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress5292668027747744683rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress5292668027747744683rats/com/sun/fortress/parser/templateparser/TemplateParser2.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/u_dblq.fss:5:26:
+    Argument to function must be parenthesized.
+File u_dblq.fss has 1 error.
+### rc=255
+$ fortress run u_dblq
+Could not load u_dblq
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : u_dblq.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+### rc=1
+
+############ rule lamq (grammar api imports VocabC) ############
+    Expr |:= lamq⦇ a:Expr ⦈ => <[ ((fn (w: ZZ32): ZZ32 => (a) + w)(10)) ]>
+$ fortress compile G_lamq.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress5348031509274554799rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress5348031509274554799rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile u_lamq.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress16979453064353807744rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress16979453064353807744rats/com/sun/fortress/parser/templateparser/TemplateParser2.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run u_lamq
+31
+### rc=0
+
+############ rule appq (grammar api imports VocabC) ############
+    Expr |:= appq⦇ a:Expr ⦈ => <[ (applytoc(fn (w: ZZ32): ZZ32 => (a) + w, 3)) ]>
+$ fortress compile G_appq.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress14802519254512868175rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress14802519254512868175rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile u_appq.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress4474285219860615474rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress4474285219860615474rats/com/sun/fortress/parser/templateparser/TemplateParser2.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run u_appq
+24
+### rc=0

@@ -1,0 +1,159 @@
+$ fortress compile MatrixC.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11765746280823037125rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11765746280823037125rats/com/sun/fortress/parser/templateparser/TemplateParser9.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+
+$ fortress compile m01.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress4457201934999532714rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress4457201934999532714rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/MatrixC.fsi:1:1:
+    Argument to function must be parenthesized.
+File m01.fss has 1 error.
+### rc=255
+$ fortress run m01
+Could not load m01
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : m01.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+### rc=1
+
+$ fortress compile m02.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8910168082712672592rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8910168082712672592rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/m02.fss:4:24:
+    Argument to function must be parenthesized.
+File m02.fss has 1 error.
+### rc=255
+$ fortress run m02
+Could not load m02
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : m02.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+### rc=1
+
+$ fortress compile m03.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress15933951888684021164rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress15933951888684021164rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run m03
+42
+### rc=0
+
+$ fortress compile m04.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress15063656598900547249rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress15063656598900547249rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/MatrixC.fsi:1:3-27:
+    Argument to function must be parenthesized.
+File m04.fss has 1 error.
+### rc=255
+$ fortress run m04
+Could not load m04
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : m04.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+### rc=1
+
+$ fortress compile m05.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8779079052062136924rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8779079052062136924rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/MatrixC.fsi:1:1:
+    Argument to function must be parenthesized.
+File m05.fss has 1 error.
+### rc=255
+$ fortress run m05
+Could not load m05
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : m05.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+### rc=1
+
+$ fortress compile m06.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress189936420827539400rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress189936420827539400rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run m06
+42
+### rc=0
+
+$ fortress compile m07.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress5861735861985462774rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress5861735861985462774rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/MatrixC.fsi:1:1:
+    Argument to function must be parenthesized.
+File m07.fss has 1 error.
+### rc=255
+$ fortress run m07
+Could not load m07
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : m07.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+### rc=1

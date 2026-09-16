@@ -1,0 +1,51 @@
+$ fortress compile TwiceP.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11736594428442954706rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11736594428442954706rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile a02p_twice.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress12628528374551815454rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress12628528374551815454rats/com/sun/fortress/parser/templateparser/TemplateParser2.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run a02p_twice
+42
+6
+### rc=0
+
+$ fortress compile UseFnP.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress3409233942880138101rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress3409233942880138101rats/com/sun/fortress/parser/templateparser/TemplateParser7.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile a03p_usefn.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress1156416091737663365rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress1156416091737663365rats/com/sun/fortress/parser/templateparser/TemplateParser4.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/a03p_usefn.fss:10:19:
+    Argument to function must be parenthesized.
+File a03p_usefn.fss has 1 error.
+### rc=255
+$ fortress run a03p_usefn
+Could not load a03p_usefn
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : a03p_usefn.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+### rc=1

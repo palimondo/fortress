@@ -1,0 +1,86 @@
+$ fortress compile MatrixC.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7256537831989146087rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7256537831989146087rats/com/sun/fortress/parser/templateparser/TemplateParser9.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+
+$ fortress compile m01.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress25745435609522368rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress25745435609522368rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run m01
+42
+### rc=0
+
+$ fortress compile m02.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress591467158621221795rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress591467158621221795rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run m02
+21
+### rc=0
+
+$ fortress compile m03.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress14611603215425547973rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress14611603215425547973rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run m03
+42
+### rc=0
+
+$ fortress compile m04.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress14402873710239251663rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress14402873710239251663rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run m04
+42
+### rc=0
+
+$ fortress compile m05.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7986524283627280442rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7986524283627280442rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run m05
+42
+42
+42
+### rc=0
+
+$ fortress compile m06.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress14891752821495644666rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress14891752821495644666rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run m06
+42
+### rc=0
+
+$ fortress compile m07.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress17148169713976028065rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress17148169713976028065rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run m07
+42
+### rc=0

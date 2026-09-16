@@ -1,0 +1,19 @@
+--- ProjectFortress/src/com/sun/fortress/nodes_util/ExprFactory.java	2026-08-18 21:03:01.702345933 +0000
++++ explorations/perf-probes/template-check/shadow-src/com/sun/fortress/nodes_util/ExprFactory.java	2026-09-16 20:04:09.715573318 +0000
+@@ -1978,12 +1978,14 @@
+                                      e.getStaticArgs());
+         }
+         public Expr forTemplateGapExpr(TemplateGapExpr e) {
+-            return new TemplateGapExpr(NodeFactory.makeExprInfo(NodeUtil.getSpan(e)),
++            return new TemplateGapExpr(NodeFactory.makeExprInfo(NodeUtil.getSpan(e), true),
+                                        e.getGapId(), e.getTemplateParams());
+         }
+ 
+         public Expr for_SyntaxTransformationExpr(_SyntaxTransformationExpr e){
+-            return e;
++            return new _SyntaxTransformationExpr(NodeFactory.makeExprInfo(NodeUtil.getSpan(e), true),
++                                                 e.getVariables(), e.getSyntaxParameters(),
++                                                 e.getSyntaxTransformer());
+         }
+ 
+         public Expr defaultCase(Node x) {

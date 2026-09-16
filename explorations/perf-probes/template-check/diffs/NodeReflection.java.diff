@@ -1,0 +1,20 @@
+--- ProjectFortress/src/com/sun/fortress/nodes_util/NodeReflection.java	2026-08-18 21:03:01.710345933 +0000
++++ explorations/perf-probes/template-check/extra-src/com/sun/fortress/nodes_util/NodeReflection.java	2026-09-16 20:28:03.474430999 +0000
+@@ -236,6 +236,17 @@
+         else {
+             fields = cl.getDeclaredFields();
+             handleFields(fields, fal);
++            // MEASUREMENT ONLY (template-check probe): also print/read the
++            // inherited _info of a template gap, so that its parenthesized
++            // flag survives the api cache.  Not part of the plan's four edits.
++            icl = cl.getSuperclass();
++            while (icl != ASTNodeInfo.class &&
++                   icl != Object.class &&
++                   icl != SpanInfo.class &&
++                   icl != InfoNode.class) {
++                handleFields(icl.getDeclaredFields(), fal);
++                icl = icl.getSuperclass();
++            }
+         }
+         Field[] ifields = new Field[fal.size()];
+         ifields = fal.toArray(ifields);

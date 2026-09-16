@@ -1,0 +1,913 @@
+. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/XmlUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress10796207381950851043rats/com/sun/fortress/parser/templateparser/TemplateParser69.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress10796207381950851043rats/com/sun/fortress/parser/templateparser/TemplateParser69.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress13561454184252979321rats/com/sun/fortress/parser/templateparser/TemplateParser75.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress13561454184252979321rats/com/sun/fortress/parser/templateparser/TemplateParser75.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress13010990210585326954rats/com/sun/fortress/parser/templateparser/TemplateParser115.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress13010990210585326954rats/com/sun/fortress/parser/templateparser/TemplateParser115.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress10796207381950851043rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress13561454184252979321rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress13010990210585326954rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/SyntaxNodesUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress10816801828086141302rats/com/sun/fortress/parser/templateparser/TemplateParser126.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress10816801828086141302rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/TypecaseUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress5257608334899471693rats/com/sun/fortress/parser/templateparser/TemplateParser134.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress5257608334899471693rats/com/sun/fortress/parser/templateparser/TemplateParser134.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress15221865102806919680rats/com/sun/fortress/parser/templateparser/TemplateParser141.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress15221865102806919680rats/com/sun/fortress/parser/templateparser/TemplateParser141.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress5257608334899471693rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress15221865102806919680rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/LocalFnUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress6323256025194931454rats/com/sun/fortress/parser/templateparser/TemplateParser151.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress6323256025194931454rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/ForUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress13631004354247039942rats/com/sun/fortress/parser/templateparser/TemplateParser174.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress13631004354247039942rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F.  /home/user/fortress/ProjectFortress/syntax_abstraction_tests/SXXKeywordNotIdUse.fss  OK
+. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/OrUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress13468891532267866859rats/com/sun/fortress/parser/templateparser/TemplateParser195.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress13468891532267866859rats/com/sun/fortress/parser/templateparser/TemplateParser195.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress17155624228596262433rats/com/sun/fortress/parser/templateparser/TemplateParser202.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress17155624228596262433rats/com/sun/fortress/parser/templateparser/TemplateParser202.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress13468891532267866859rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress17155624228596262433rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/GeneratorClauseUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress2474270842121751365rats/com/sun/fortress/parser/templateparser/TemplateParser234.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress2474270842121751365rats/com/sun/fortress/parser/templateparser/TemplateParser234.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress3338858842806882272rats/com/sun/fortress/parser/templateparser/TemplateParser259.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress3338858842806882272rats/com/sun/fortress/parser/templateparser/TemplateParser259.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress2474270842121751365rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress3338858842806882272rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/DoubleCaseUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress1515802203931523098rats/com/sun/fortress/parser/templateparser/TemplateParser289.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress11394890699646965764rats/com/sun/fortress/parser/templateparser/TemplateParser293.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress1515802203931523098rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress11394890699646965764rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/ImportEmptyApiWhichImportsNonEmptyApiUse 
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress1223175042469757129rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/CaseUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress3703216426977120740rats/com/sun/fortress/parser/templateparser/TemplateParser299.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress3703216426977120740rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F.  /home/user/fortress/ProjectFortress/syntax_abstraction_tests/SXXGrammarExtendsNonExistingGrammarUse.fss  OK
+. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/LetCCUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress16128974402318117441rats/com/sun/fortress/parser/templateparser/TemplateParser302.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress17844644548792946873rats/com/sun/fortress/parser/templateparser/TemplateParser304.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress16128974402318117441rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress17844644548792946873rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/CatchUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress5083648162430886047rats/com/sun/fortress/parser/templateparser/TemplateParser315.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress5083648162430886047rats/com/sun/fortress/parser/templateparser/TemplateParser315.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress5083648162430886047rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/LabelUse 
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress8965304395254009433rats/com/sun/fortress/parser/templateparser/TemplateParser323.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/user/fortress/ProjectFortress/test-tmp/fortress8965304395254009433rats/com/sun/fortress/parser/templateparser/TemplateParser323.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/ProjectFortress/test-tmp/fortress8965304395254009433rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F. interpret /home/user/fortress/ProjectFortress/syntax_abstraction_tests/ImportApiEmptyApiWhichImportsNonEmptyApiUse 
+ UNEXPECTED exception 
+edu.rice.cs.plt.tuple.OptionUnwrapException
+	at edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseClauses(CaseExprDesugarer.java:57)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:97)
+	at com.sun.fortress.compiler.desugarer.CaseExprDesugarer.forCaseExpr(CaseExprDesugarer.java:36)
+	at com.sun.fortress.nodes.CaseExpr.accept(CaseExpr.java:79)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnOptionOfExpr(NodeUpdateVisitor.java:11187)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:4529)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forFnDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:63)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:5949)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitTypeHeader(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitTypeHeader.accept(TraitTypeHeader.java:53)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:4511)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forObjectDecl(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.ObjectDecl.accept(ObjectDecl.java:39)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfDecl(NodeUpdateVisitor.java:11063)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:4443)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forComponent(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.Component.accept(Component.java:48)
+	at com.sun.fortress.compiler.Desugarer.desugarComponent(Desugarer.java:126)
+	at com.sun.fortress.compiler.Desugarer.desugarComponents(Desugarer.java:106)
+	at com.sun.fortress.compiler.phases.DesugarPhase.execute(DesugarPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.repository.GraphRepository.getLinkedComponent(GraphRepository.java:886)
+	at com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest.justTheTest(FileTests.java:719)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:322)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at junit.textui.TestRunner.doRun(TestRunner.java:116)
+	at junit.textui.TestRunner.start(TestRunner.java:172)
+	at junit.textui.TestRunner.main(TestRunner.java:138)
+F.  /home/user/fortress/ProjectFortress/syntax_abstraction_tests/SXXSyntaxGrammarImportsUse.fss  OK
+
+Time: 95.645
+There were 14 failures:
+1) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/XmlUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/XmlUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+2) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/SyntaxNodesUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/SyntaxNodesUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+3) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/TypecaseUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/TypecaseUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+4) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/LocalFnUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/LocalFnUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+5) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/ForUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/ForUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+6) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/OrUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/OrUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+7) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/GeneratorClauseUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/GeneratorClauseUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+8) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/DoubleCaseUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/DoubleCaseUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+9) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/ImportEmptyApiWhichImportsNonEmptyApiUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/ImportEmptyApiWhichImportsNonEmptyApiUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+10) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/CaseUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/CaseUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+11) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/LetCCUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/LetCCUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+12) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/CatchUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/CatchUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+13) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/LabelUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/LabelUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+14) /home/user/fortress/ProjectFortress/syntax_abstraction_tests/ImportApiEmptyApiWhichImportsNonEmptyApiUse(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress/ProjectFortress/syntax_abstraction_tests/ImportApiEmptyApiWhichImportsNonEmptyApiUse
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:427)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:354)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+
+FAILURES!!!
+Tests run: 17,  Failures: 14,  Errors: 0
+

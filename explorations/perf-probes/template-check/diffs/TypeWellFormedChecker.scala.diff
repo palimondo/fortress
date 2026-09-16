@@ -1,0 +1,11 @@
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala	2026-08-18 21:03:01.850345938 +0000
++++ explorations/perf-probes/template-check/shadow-src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala	2026-09-16 20:03:49.007573791 +0000
+@@ -163,6 +163,8 @@
+       case SDimUnaryOp(_, dimVal, op) =>
+       case SDimBinaryOp(_, left, right, op) =>
+       */
++      // A parsed template body is quoted syntax, not code: do not descend.
++      case _:NodeTransformer =>
+       case _ => super.walk(node)
+     }
+     node

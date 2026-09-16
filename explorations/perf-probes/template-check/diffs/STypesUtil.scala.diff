@@ -1,0 +1,17 @@
+--- ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala	2026-08-19 05:50:26.445992455 +0000
++++ explorations/perf-probes/template-check/shadow-src/com/sun/fortress/scala_src/useful/STypesUtil.scala	2026-09-16 20:04:01.227573512 +0000
+@@ -1939,9 +1939,12 @@
+     var result = false
+     object outFinder extends Walker {
+       override def walk(node: Any) =
+-        if (node.isInstanceOf[OutAfterTypeChecking])
++        // A parsed template body is quoted syntax, not code: do not descend.
++        if (node.isInstanceOf[NodeTransformer]) node
++        else if (node.isInstanceOf[OutAfterTypeChecking]) {
+           result = true
+-        else super.walk(node)
++          node
++        } else super.walk(node)
+     }
+     outFinder(ast)
+     result

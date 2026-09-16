@@ -1,0 +1,8 @@
+component m06
+import MatrixC.{...}
+export Executable
+run():() = do
+    x: ZZ32 = m1⦇ ⦈     (* unparenthesized template, bound to a variable *)
+    println(x)
+end
+end

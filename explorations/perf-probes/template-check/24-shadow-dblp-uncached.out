@@ -1,0 +1,42 @@
+############ rule dblp, api analysed in-process ############
+    Expr |:= dblp⦇ a:Expr ⦈ => <[ (mydoublec(a)) ]>
+$ fortress compile u_dblp.fss   # the api is analysed in this same process
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress12149675551280873704rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress12149675551280873704rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11731610343798709831rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11731610343798709831rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile G_dblp.fss   # the stub, for the runtime
+### rc=0
+$ fortress run u_dblp
+42
+### rc=0
+
+############ rule dblq, api analysed in-process ############
+    Expr |:= dblq⦇ a:Expr ⦈ => <[ (mydoublec(a)) ]>
+$ fortress compile VocabC.fss
+### rc=0
+$ fortress compile u_dblq.fss   # the api is analysed in this same process
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress8661771085123481459rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress8661771085123481459rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress12032690367498733395rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress12032690367498733395rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile G_dblq.fss   # the stub, for the runtime
+### rc=0
+$ fortress run u_dblq
+42
+### rc=0
+

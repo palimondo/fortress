@@ -1,0 +1,75 @@
+############ rule dblp ############
+    Expr |:= dblp⦇ a:Expr ⦈ => <[ (mydoublec(a)) ]>
+$ fortress compile G_dblp.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress3907524105975848328rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress3907524105975848328rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile u_dblp.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress16433929134782425723rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress16433929134782425723rats/com/sun/fortress/parser/templateparser/TemplateParser2.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/u_dblp.fss:6:26:
+    Argument to function must be parenthesized.
+File u_dblp.fss has 1 error.
+### rc=255
+$ fortress run u_dblp
+Could not load u_dblp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : u_dblp.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+### rc=1
+
+############ rule lamp ############
+    Expr |:= lamp⦇ a:Expr ⦈ => <[ ((fn (w: ZZ32): ZZ32 => (a) + w)(10)) ]>
+$ fortress compile G_lamp.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress5162423817866463029rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress5162423817866463029rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile u_lamp.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress1784883517216245925rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress1784883517216245925rats/com/sun/fortress/parser/templateparser/TemplateParser2.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run u_lamp
+31
+### rc=0
+
+############ rule app ############
+    Expr |:= app⦇ a:Expr ⦈ => <[ (applytoc(fn (w: ZZ32): ZZ32 => (a) + w, 3)) ]>
+$ fortress compile G_app.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress7708425259116033293rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress7708425259116033293rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress compile u_app.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress17334282546125771755rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress17334282546125771755rats/com/sun/fortress/parser/templateparser/TemplateParser2.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0
+$ fortress run u_app
+24
+### rc=0
+
