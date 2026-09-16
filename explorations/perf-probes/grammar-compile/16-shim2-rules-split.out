@@ -1,0 +1,171 @@
+############ rule dblp ############
+    Expr |:= dblp⦇ a:Expr ⦈ => <[ (mydoublec(a)) ]>
+$ $FORTRESS_HOME/bin/fortress compile G_dblp.fss
+Exception in thread "main" java.lang.ClassCastException: class scala.runtime.BoxedUnit cannot be cast to class com.sun.fortress.nodes.AbstractNode (scala.runtime.BoxedUnit and com.sun.fortress.nodes.AbstractNode are in unnamed module of loader 'app')
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1685)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1689)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1695)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.$anonfun$walk$1(FortressAst.scala:2010)
+	at scala.collection.immutable.List.map(List.scala:236)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:2010)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1967)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.$anonfun$walk$1(FortressAst.scala:2010)
+	at scala.collection.immutable.List.map(List.scala:236)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:2010)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1971)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.$anonfun$walk$1(FortressAst.scala:2010)
+	at scala.collection.immutable.List.map(List.scala:236)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:2010)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:2007)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.apply(FortressAst.scala:1583)
+	at com.sun.fortress.scala_src.nodes.Walker.apply$(FortressAst.scala:1583)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.apply(STypesUtil.scala:1940)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.assertAfterTypeChecking(STypesUtil.scala:1946)
+	at com.sun.fortress.scala_src.useful.STypesUtil.assertAfterTypeChecking(STypesUtil.scala)
+	at com.sun.fortress.compiler.StaticChecker.checkCompilationUnit(StaticChecker.java:264)
+	at com.sun.fortress.compiler.StaticChecker.checkApis(StaticChecker.java:126)
+	at com.sun.fortress.compiler.phases.TypeCheckPhase.execute(TypeCheckPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseApis(GraphRepository.java:735)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:492)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+### rc=1
+$ $FORTRESS_HOME/bin/fortress compile u_dblp.fss
+Exception in thread "main" java.lang.ClassCastException: class scala.runtime.BoxedUnit cannot be cast to class com.sun.fortress.nodes.AbstractNode (scala.runtime.BoxedUnit and com.sun.fortress.nodes.AbstractNode are in unnamed module of loader 'app')
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1685)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1689)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1695)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.$anonfun$walk$1(FortressAst.scala:2010)
+	at scala.collection.immutable.List.map(List.scala:236)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:2010)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1967)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.$anonfun$walk$1(FortressAst.scala:2010)
+	at scala.collection.immutable.List.map(List.scala:236)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:2010)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1971)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.$anonfun$walk$1(FortressAst.scala:2010)
+	at scala.collection.immutable.List.map(List.scala:236)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:2010)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:2007)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.apply(FortressAst.scala:1583)
+	at com.sun.fortress.scala_src.nodes.Walker.apply$(FortressAst.scala:1583)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.apply(STypesUtil.scala:1940)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.assertAfterTypeChecking(STypesUtil.scala:1946)
+	at com.sun.fortress.scala_src.useful.STypesUtil.assertAfterTypeChecking(STypesUtil.scala)
+	at com.sun.fortress.compiler.StaticChecker.checkCompilationUnit(StaticChecker.java:264)
+	at com.sun.fortress.compiler.StaticChecker.checkApis(StaticChecker.java:126)
+	at com.sun.fortress.compiler.phases.TypeCheckPhase.execute(TypeCheckPhase.java:43)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseApis(GraphRepository.java:735)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:492)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+### rc=1
+$ $FORTRESS_HOME/bin/fortress run u_dblp
+Could not load u_dblp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+### rc=1
+
+############ rule lamp ############
+    Expr |:= lamp⦇ a:Expr ⦈ => <[ ((fn (w: ZZ32): ZZ32 => (a) + w)(10)) ]>
+$ $FORTRESS_HOME/bin/fortress compile G_lamp.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_lamp.fsi:1:10-12:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_lamp.fsi:1:17-19:
+    Unbound type: ZZ32
+File G_lamp.fss has 2 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress compile u_lamp.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_lamp.fsi:1:10-12:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_lamp.fsi:1:17-19:
+    Unbound type: ZZ32
+File u_lamp.fss has 2 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress run u_lamp
+Could not load u_lamp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+### rc=1
+
+############ rule app ############
+    Expr |:= app⦇ a:Expr ⦈ => <[ (applytoc(fn (w: ZZ32): ZZ32 => (a) + w, 3)) ]>
+$ $FORTRESS_HOME/bin/fortress compile G_app.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_app.fsi:1:18-20:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_app.fsi:1:25-27:
+    Unbound type: ZZ32
+File G_app.fss has 2 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress compile u_app.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_app.fsi:1:18-20:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_app.fsi:1:25-27:
+    Unbound type: ZZ32
+File u_app.fss has 2 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress run u_app
+Could not load u_app
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+### rc=1
+

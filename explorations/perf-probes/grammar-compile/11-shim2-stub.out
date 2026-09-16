@@ -1,0 +1,7 @@
+$ (with FortressLibrary AND List shadowed) $FORTRESS_HOME/bin/fortress compile TwiceC.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress18043804735557795265rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress18043804735557795265rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+### rc=0  22s

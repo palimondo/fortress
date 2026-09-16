@@ -1,0 +1,9 @@
+(* control: no grammar, no macro call -- only the IMPORT the grammar api needs.
+   If this fails the same way, the failure is the api graph, not the mechanism. *)
+component c02_importsyntax
+import FortressSyntax.{Expression}
+export Executable
+
+run():() = println(21 + 21)
+
+end

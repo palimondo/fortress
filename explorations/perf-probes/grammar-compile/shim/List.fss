@@ -1,0 +1,9 @@
+component List
+export List
+trait List[\E\] extends Object
+    getter size(): ZZ32 = 0
+end
+object NilList[\E\] extends List[\E\] end
+emptyList[\E\](): List[\E\] = NilList[\E\]
+opr <|[\E\] xs: E... |>: List[\E\] = NilList[\E\]
+end

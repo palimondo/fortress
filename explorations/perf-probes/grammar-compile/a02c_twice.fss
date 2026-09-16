@@ -1,0 +1,11 @@
+(* the using program: ZZ32 arithmetic and println only *)
+component a02c_twice
+import TwiceC.{...}
+export Executable
+
+run():() = do
+    println(twicec⦇ 21 ⦈)
+    println(twicec⦇ 1 + 2 ⦈)
+end
+
+end

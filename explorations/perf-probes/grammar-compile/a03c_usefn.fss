@@ -1,0 +1,16 @@
+(* the using program: mydoublec and applytoc are declared HERE, nowhere else *)
+component a03c_usefn
+import UseFnC.{...}
+export Executable
+
+mydoublec(x: ZZ32): ZZ32 = 2 x
+
+applytoc(f: ZZ32 -> ZZ32, x: ZZ32): ZZ32 = f(x)
+
+run():() = do
+    println(dblc⦇ 21 ⦈)
+    println(lamc⦇ 5 ⦈)
+    println(apc⦇ 100 ⦈)
+end
+
+end

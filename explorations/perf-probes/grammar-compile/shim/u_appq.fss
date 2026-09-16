@@ -1,0 +1,6 @@
+component u_appq
+import G_appq.{...}
+import VocabC.{...}
+export Executable
+run():() = println(appq⦇ 21 ⦈)
+end

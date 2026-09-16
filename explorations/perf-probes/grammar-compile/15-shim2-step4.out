@@ -1,0 +1,42 @@
+$ $FORTRESS_HOME/bin/fortress compile TwiceP.fss
+### rc=0
+$ $FORTRESS_HOME/bin/fortress compile a02p_twice.fss
+### rc=0
+$ $FORTRESS_HOME/bin/fortress run a02p_twice
+42
+6
+### rc=0
+
+$ $FORTRESS_HOME/bin/fortress compile UseFnP.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/UseFnP.fsi:1:10-12:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/UseFnP.fsi:1:17-19:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/UseFnP.fsi:1:18-20:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/UseFnP.fsi:1:25-27:
+    Unbound type: ZZ32
+File UseFnP.fss has 4 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress compile a03p_usefn.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/UseFnP.fsi:1:10-12:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/UseFnP.fsi:1:17-19:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/UseFnP.fsi:1:18-20:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/UseFnP.fsi:1:25-27:
+    Unbound type: ZZ32
+File a03p_usefn.fss has 4 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress run a03p_usefn
+Could not load a03p_usefn
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : a03p_usefn.class
+### rc=1
+

@@ -1,0 +1,10 @@
+$ (in ProjectFortress) ../bin/fortress compile LibraryBuiltin/AnyType.fss
+### rc=0  1s
+$ (in ProjectFortress) ../bin/fortress compile LibraryBuiltin/CompilerBuiltin.fss
+### rc=0  98s
+$ (in ProjectFortress) ../bin/fortress compile ../Library/CompilerLibrary.fss
+### rc=0  16s
+$ (in ProjectFortress) ../bin/fortress compile ../Library/CompilerAlgebra.fss
+### rc=0  1s
+$ (in ProjectFortress) ../bin/fortress compile ../Library/CompilerSystem.fss
+### rc=0  1s

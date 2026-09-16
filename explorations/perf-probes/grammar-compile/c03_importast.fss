@@ -1,0 +1,9 @@
+(* control, one link further down: FortressSyntax imports FortressAst, and
+   FortressAst.fsi:6 imports FortressLibrary. *)
+component c03_importast
+import FortressAst.{...}
+export Executable
+
+run():() = println(21 + 21)
+
+end

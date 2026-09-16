@@ -1,0 +1,15 @@
+component a03p_usefn
+import UseFnP.{...}
+export Executable
+
+mydoublec(x: ZZ32): ZZ32 = 2 x
+
+applytoc(f: ZZ32 -> ZZ32, x: ZZ32): ZZ32 = f(x)
+
+run():() = do
+    println(dblp⦇ 21 ⦈)
+    println(lamp⦇ 5 ⦈)
+    println(app⦇ 100 ⦈)
+end
+
+end

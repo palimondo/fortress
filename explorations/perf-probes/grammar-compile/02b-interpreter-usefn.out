@@ -1,0 +1,15 @@
+$ $FORTRESS_HOME/bin/fortress a03c_usefn.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress6928082494547303207rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress6928082494547303207rats/com/sun/fortress/parser/templateparser/TemplateParser7.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress6993849367241281391rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress6993849367241281391rats/com/sun/fortress/parser/templateparser/TemplateParser11.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+42
+15
+103
+### rc=0

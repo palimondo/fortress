@@ -1,0 +1,6 @@
+component u_dblq
+import G_dblq.{...}
+import VocabC.{...}
+export Executable
+run():() = println(dblq⦇ 21 ⦈)
+end

@@ -1,0 +1,10 @@
+component a02p_twice
+import TwiceP.{...}
+export Executable
+
+run():() = do
+    println(twicep⦇ 21 ⦈)
+    println(twicep⦇ 1 + 2 ⦈)
+end
+
+end

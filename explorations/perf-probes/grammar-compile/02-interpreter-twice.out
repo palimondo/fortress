@@ -1,0 +1,14 @@
+$ cd explorations/perf-probes/grammar-compile && $FORTRESS_HOME/bin/fortress a02c_twice.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11839168230895647605rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress11839168230895647605rats/com/sun/fortress/parser/templateparser/TemplateParser3.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress2787001357074708124rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/fortress2787001357074708124rats/com/sun/fortress/parser/templateparser/TemplateParser5.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+42
+6
+### rc=0

@@ -1,0 +1,11 @@
+(* control: the same arithmetic and printing, WITHOUT any grammar --
+   proves the compiler world in this cache is healthy *)
+component c01_plain
+export Executable
+
+run():() = do
+    println(21 + 21)
+    println((1 + 2) + (1 + 2))
+end
+
+end

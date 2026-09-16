@@ -1,0 +1,57 @@
+=== errors by file where raised ===
+   1126 Library/FortressLibrary.fsi
+    203 Library/FortressAst.fsi
+     10 Library/List.fsi
+      2 Library/FlatString.fsi
+      1 Library/Stream.fsi
+
+=== errors by message kind ===
+   1313 Type name may refer to: <two preludes>
+     14 Char is undefined.
+      4 Maybe is undefined.
+      2 HasRank is undefined.
+      1 UnsignedLong is undefined.
+      1 MonoidReduction is undefined.
+      1 Long is undefined.
+      1 LexicographicOrder is undefined.
+      1 Int is undefined.
+      1 Float is undefined.
+      1 Comprehension is undefined.
+      1 BigReduction is undefined.
+      1 BigNum is undefined.
+
+=== the 'may refer to' names ===
+    306 String
+    274 ZZ32
+    155 Number
+     77 Generator
+     63 RR64
+     61 ZZ64
+     51 Range
+     41 TotalComparison
+     41 Comparison
+     40 NN64
+     39 Matrix
+     32 Reduction
+     22 UncheckedException
+     21 Condition
+     15 ZZ
+     12 CheckedException
+      9 SequentialGenerator
+      9 LessThan
+      7 GreaterThan
+      6 Unordered
+
+=== the 'is undefined' names ===
+     14 Char
+      4 Maybe
+      2 HasRank
+      1 UnsignedLong
+      1 MonoidReduction
+      1 Long
+      1 LexicographicOrder
+      1 Int
+      1 Float
+      1 Comprehension
+      1 BigReduction
+      1 BigNum

@@ -1,0 +1,74 @@
+$ $FORTRESS_HOME/bin/fortress compile VocabC.fss
+### rc=0
+
+############ rule dblq (grammar api imports VocabC) ############
+    Expr |:= dblq⦇ a:Expr ⦈ => <[ (mydoublec(a)) ]>
+$ $FORTRESS_HOME/bin/fortress compile G_dblq.fss
+Exception in thread "main" java.lang.ClassCastException: class scala.runtime.BoxedUnit cannot be cast to class com.sun.fortress.nodes.AbstractNode (scala.runtime.BoxedUnit and com.sun.fortress.nodes.AbstractNode are in unnamed module of loader 'app')
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1685)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1689)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1695)
+### rc=1
+$ $FORTRESS_HOME/bin/fortress compile u_dblq.fss
+Exception in thread "main" java.lang.ClassCastException: class scala.runtime.BoxedUnit cannot be cast to class com.sun.fortress.nodes.AbstractNode (scala.runtime.BoxedUnit and com.sun.fortress.nodes.AbstractNode are in unnamed module of loader 'app')
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1685)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1689)
+	at com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1584)
+	at com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1944)
+	at com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1695)
+### rc=1
+$ $FORTRESS_HOME/bin/fortress run u_dblq
+Could not load u_dblq
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+### rc=1
+
+############ rule lamq (grammar api imports VocabC) ############
+    Expr |:= lamq⦇ a:Expr ⦈ => <[ ((fn (w: ZZ32): ZZ32 => (a) + w)(10)) ]>
+$ $FORTRESS_HOME/bin/fortress compile G_lamq.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_lamq.fsi:1:10-12:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_lamq.fsi:1:17-19:
+    Unbound type: ZZ32
+File G_lamq.fss has 2 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress compile u_lamq.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_lamq.fsi:1:10-12:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_lamq.fsi:1:17-19:
+    Unbound type: ZZ32
+File u_lamq.fss has 2 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress run u_lamq
+Could not load u_lamq
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+### rc=1
+
+############ rule appq (grammar api imports VocabC) ############
+    Expr |:= appq⦇ a:Expr ⦈ => <[ (applytoc(fn (w: ZZ32): ZZ32 => (a) + w, 3)) ]>
+$ $FORTRESS_HOME/bin/fortress compile G_appq.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_appq.fsi:1:18-20:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_appq.fsi:1:25-27:
+    Unbound type: ZZ32
+File G_appq.fss has 2 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress compile u_appq.fss
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_appq.fsi:1:18-20:
+    Unbound type: ZZ32
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/G_appq.fsi:1:25-27:
+    Unbound type: ZZ32
+File u_appq.fss has 2 errors.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress run u_appq
+Could not load u_appq
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+### rc=1

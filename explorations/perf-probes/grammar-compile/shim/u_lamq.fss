@@ -1,0 +1,6 @@
+component u_lamq
+import G_lamq.{...}
+import VocabC.{...}
+export Executable
+run():() = println(lamq⦇ 21 ⦈)
+end

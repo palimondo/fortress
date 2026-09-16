@@ -1,0 +1,5 @@
+component m07
+import MatrixC.{...}
+export Executable
+run():() = println((m1⦇ ⦈))    (* unparenthesized template, parenthesized at the USE SITE *)
+end

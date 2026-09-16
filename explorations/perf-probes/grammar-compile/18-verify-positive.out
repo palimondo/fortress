@@ -1,0 +1,20 @@
+# re-verification from wiped analysis caches and with both jars removed
+$ $FORTRESS_HOME/bin/fortress compile TwiceP.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress11659588037294516242rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+### rc=0
+$ $FORTRESS_HOME/bin/fortress compile a02p_twice.fss
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/fortress2534122325827098272rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+### rc=0
+$ $FORTRESS_HOME/bin/fortress run a02p_twice
+42
+6
+### rc=0
+$ unzip -l bytecode_cache/a02p_twice.jar
+Archive:  default_repository/caches/bytecode_cache/a02p_twice.jar
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+     1121  2026-09-16 05:04   a02p_twice.class
+---------                     -------
+     1121                     1 file

@@ -1,0 +1,34 @@
+$ $FORTRESS_HOME/bin/fortress compile m05.fss    # unparenthesized template NOT in argument position
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/MatrixC.fsi:1:1:
+    Argument to function must be parenthesized.
+File m05.fss has 1 error.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress run m05
+Could not load m05
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+### rc=1
+$ $FORTRESS_HOME/bin/fortress compile m06.fss
+run():() = do
+    x: ZZ32 = m1⦇ ⦈     (* unparenthesized template, bound to a variable *)
+### rc=0
+$ $FORTRESS_HOME/bin/fortress run m06
+42
+### rc=0
+
+$ $FORTRESS_HOME/bin/fortress compile m07.fss
+run():() = println((m1⦇ ⦈))    (* unparenthesized template, parenthesized at the USE SITE *)
+end
+/home/user/fortress/explorations/perf-probes/grammar-compile/shim/MatrixC.fsi:1:1:
+    Argument to function must be parenthesized.
+File m07.fss has 1 error.
+### rc=255
+$ $FORTRESS_HOME/bin/fortress run m07
+Could not load m07
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+### rc=1
+
