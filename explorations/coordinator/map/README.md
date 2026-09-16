@@ -16,13 +16,15 @@ Shadow: a prototype of a sealed-tree edit made by compiling edited copies of the
 
 Sealed tree: everything outside `explorations/` and `research/`, unchanged by the revival except the build ladder; opening it is the phase boundary Pavol has deferred.
 
-## 1. The four surveys
+## 1. The five surveys
 
 `modules-and-phases.md`: the 22 packages with sizes, the import graph, the dead modules, the two pipelines phase by phase, the cache, the runtime, native interop, and the one-table divergence of the paths (B.14).
 
 `spec-to-implementation.md`: the 53 chapters of the July 2012 draft, a table of about 110 features with the parser rule, checker class, interpreter, codegen and prelude location of each, and the layered picture of the numeric tower (§4).
 
 `test-coverage.md`: the census of every test corpus and JUnit class, what the 1,377 and 382 are made of, the two corpora that never meet, the blind spots by module, and the loop timings.
+
+`dormant-code.md` (part five, added at Pavol's request): the census of what is present, carries a design, and does not run: commented-out library declarations and `Library/incomplete/`, commented-out visitors and off-by-default flags in the source, commented-out test halves and the aspirational directories, the spec's genuinely dormant text and its 62 "not yet supported" notes, the papers; each item judged finished-unwired, sketch, superseded or unknown, and tied to a path step.
 
 `design-intent-sources.md`: the five places rationale is written (in-repo papers, the Steele corpus, our extracts, the spec's draft-only notes and Internal Document, source comments and commits), and a table by design area of what intent the spec leaves unstated.
 
@@ -49,6 +51,8 @@ The interpreter's tower is `Equality` → `StandardPartialOrder` → `AdditiveGr
 Of the eight mechanisms the tower stands on, the compiler path lacks `nat`/`int`/`bool` parameters (checker, `STypesUtil.scala:550-557`) and where clauses (checker partial, codegen refuses at `CodeGen.java:2937, :4076, :4983`), and it alone has coercion (§4.1).
 
 The gate is strong where the 2012 team spent its last two years (codegen, the compiler front end, diagnostics) and blind where the team stopped: the bytecode optimizer (zero tests), syntax abstraction (one file), the cache round trip (not asserted), concurrency (every shard runs one thread), the linker, the unparser (`test-coverage.md` C.3).
+
+Contravariance in overloaded dispatch is switched off on every compiled program by a property that defaults true (`fortress.disable.contravariance`, `ProjectProperties.java:327-328`), the 2012 retreat of commit `c35aac139` still in force (`dormant-code.md` §2.2).
 
 The spec's rationale exists only in the draft build (230 `\note{}` boxes and the Internal Document appendix, suppressed by `\ifrelease`), and its deepest layer, 27 named email threads, is not in the repository (`design-intent-sources.md` header, §4).
 
@@ -82,6 +86,8 @@ Mechanisms: whether `fortress build` replaces the hand-ordered compile recipe (n
 
 Record: surface the spec's draft-only notes and Internal Document as a revival document; make `Papers/Implementation` buildable (its `FortressEncodings.tex` was never committed); pursue the lost email threads; read the not-working test directories as an intent source (`design-intent-sources.md`).
 
+Dormant code (`dormant-code.md`): uncomment `CompilerAlgebra` into the compiler prelude (`WellKnownNames.java:124`) and see what the 1,377 say; read `Fortress.Operators.fsi.INCOMPLETE` (1,329 lines) as the design document for step 2's algebra; put `Library/incomplete/`'s unit libraries on the source path to see what the interpreter says; turn ENVGEN on with the repair its comment proposes; set `fortress.disable.contravariance` false to see what fails; restore `ASTJUTest.testFile` with a committed data file; rewrite `TestTask`'s multi-threaded half against `java.util.concurrent`; keep, wire or remove the six unwired library apis and `BirdyLib/`.
+
 Ledger: the FACTS line on the frozen spec (corrected in this commit, see FACTS); the ledger's byte-identical convention narrowed to name its two exceptions; the wording "partial" for the locality stubs; the where-clause row.
 
 ## 5. The gaps on the path, in dependency order
@@ -93,6 +99,8 @@ The path has a trunk and one optional branch. Each step names what it needs from
 ### Step 0. Make the gate see the path (no sealed-tree edit)
 
 Needs: nothing. Unblocks: every later step, because each of them touches a layer the gate is blind to.
+
+Dormant pieces that belong here (`dormant-code.md` §3.1): `ASTJUTest.testFile` is the round-trip test, off only because its data file is missing; `TestTask`'s multi-threaded half calls a method commented out with the jsr166y retirement and needs a rewrite, not a restore.
 
 What: a compile-and-run test for a `nat`-parameterised program on the compiler path (none exists; the five `nat` files in the corpus stop at `typecheck` or assert unrelated errors, `test-coverage.md` C.2); the api-cache round-trip assertion (`ASTJUTest.java:654`, commented out; the site where the `NodeReflection` defect hid); a differential check that runs the three kernels and the C4 program on both paths and compares output (nothing like it exists, `test-coverage.md` B). The last one is the inner loop of the whole project and can live in `explorations/` as a script until Pavol adds a target.
 
@@ -113,6 +121,8 @@ Skip it and: arrays on the compiler path carry no static shape; the vocabulary's
 Needs: step 1 (the array traits carry `nat` dimensions; `Matrix[\T, nat s0, nat s1\]` is the compiler prelude's only `nat` declaration today, `Library/CompilerLibrary.fss:512`). Unblocks: the kernels compile at all (303, 305); every later measurement.
 
 Two routes, Pavol's deferred decision ("fleshing out the standard library", POSITIONS): (a) the interpreter's library becomes the prelude: it disambiguates cleanly, then raises 92 checker errors in the tower under the exclusion rules and needs its 108 `builtinPrimitive` bindings redone as `import java` (rows 308, 309; `perf-probes/prelude/REPORT.md`); (b) the compiler library grows `AdditiveGroup`/`MultiplicativeRing` above `Number`, then `Array`/`Vector`/`Matrix`/`Array3` and generic reductions (rows 71-82, 305; worklist item 2, about 4,000 lines by the earlier estimate of `compiled-path-gaps.md:454-458`; `GeneratorLibrary.fss` is the candidate seed for reductions).
+
+Dormant pieces that belong here (`dormant-code.md` §1): `CompilerAlgebra` is one commented line out of the prelude and is what `GeneratorLibrary` (a finished generator and reduction protocol, not a stub) imports first; the `Maybe`/`Condition`/`Nothing` protocol sits commented in `CompilerLibrary.fsi:168-204`; `Fortress.Operators.fsi.INCOMPLETE` (1,329 lines) and `Fortress.Number` under `Library/incomplete/` are the original team's own draft of the algebra layer above `Number`, with `Field`; the 19 `IntLiteral` operators in `FortressBuiltin.fss:483-525` wait on coercion. Route (b) starts from these, not from a blank file.
 
 The representation decision belongs here, not later: whether an `Array[\RR64,...\]` is backed by `double[]` or by boxed values is fixed by the type's declaration and its natives (rows 303, 306; `performance-roadmap.md` A1/A2; the order on record is "G2 with unboxing designed in", FACTS). Doing step 2 boxed and step 4 unboxed is the same library written twice.
 
@@ -135,6 +145,8 @@ Skip it and: step 2 lands and the program still does not compile, for reasons th
 Needs: step 2's representation decision for the third item; nothing for the first two. Unblocks: a compiled microGPT that is faster than the interpreter by more than the JIT alone.
 
 Rows: 302 (`BaseTask.inATransaction()` builds a debug string before reading its flag, `BaseTask.java:246-249`, 88.9% of samples in the compiled loop; one line), 303 (`FFloatLiteral` keeps its value as a `String` and re-parses it per iteration, 35%), 306 (unbox by static type, back arrays with `double[]`; the remaining ~6× on array code). The bytecode optimizer (43 files, zero tests, `RemoveLiteralCoercions` among them) is an untested lever, not a plan; `compiler/optimization/Unbox.java` is the original team's unfinished sketch of the same idea (`modules-and-phases.md` A.5).
+
+Dormant pieces that belong here (`dormant-code.md` §2): the 226 tests behind `fortress.unittests.noopt` are the optimizer's only exercise; `fortress.disable.contravariance` decides which overload a compiled call reaches and has been true since 2012; `Unbox.java` is a taxonomy with no analysis behind it, a sketch.
 
 Note on the duplicate runtimes: row 302 is in `runtimeSystem/`, the compiled world's runtime; the interpreter's `evaluator/tasks/` has its own `BaseTask` and is untouched by that fix.
 
