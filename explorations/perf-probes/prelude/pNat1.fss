@@ -1,0 +1,7 @@
+component pNat1
+export Executable
+(* a nat-kinded static parameter, inferred from the argument type *)
+object Box[\nat k\](v: ZZ32) end
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+run() = println(unbox(Box[\3\](7)))
+end

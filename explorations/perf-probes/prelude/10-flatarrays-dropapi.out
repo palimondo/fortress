@@ -1,0 +1,114 @@
+########## java -Dprobe.dropApiErrors WorldFlip explorations/run-c4/src/FlatArrays.fss   (INTERPRETER prelude, api typecheck errors DISCARDED, run on to DESUGAR/CODEGEN)
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[explorations/run-c4/src/FlatArrays.fss]
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=12
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=4
+@@PROBE checkApi NatReflect
+@@PROBE checkApi NatReflect -> errors=0
+@@PROBE checkApi FlatArrays
+@@PROBE OverloadingChecker CRASHED on FlatArrays : java.lang.Error: Not yet implemented
+@@PROBE    at com.sun.fortress.useful.NI.nyi(NI.java:52)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.makeInferenceArg(STypesUtil.scala:557)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.$anonfun$inferStaticParamsHelper$4(STypesUtil.scala:966)
+@@PROBE    at scala.collection.immutable.List.map(List.scala:236)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.inferStaticParamsHelper(STypesUtil.scala:966)
+@@PROBE    at com.sun.fortress.scala_src.types.TypeSchemaAnalyzer.subEDsolution(TypeSchemaAnalyzer.scala:194)
+@@PROBE checkApi FlatArrays -> errors=0
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=18
+@@PROBE checkApi FortressLibrary
+@@PROBE checkApi FortressLibrary -> errors=108
+@@PROBE checkComponent FlatArrays
+Exception in thread "main" java.lang.Error: Not yet implemented
+	at com.sun.fortress.useful.NI.nyi(NI.java:52)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.makeInferenceArg(STypesUtil.scala:557)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.$anonfun$inferStaticParamsHelper$4(STypesUtil.scala:966)
+	at scala.collection.immutable.List.map(List.scala:240)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.inferStaticParamsHelper(STypesUtil.scala:966)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.inferStaticParams(STypesUtil.scala:930)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.recurOnArgs$1(Functionals.scala:224)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplicableWithInference(Functionals.scala:262)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplicableWithInference$(Functionals.scala:175)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkApplicableWithInference(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplicable(Functionals.scala:161)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplicable$(Functionals.scala:125)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkApplicable(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.$anonfun$checkApplication$4(Functionals.scala:440)
+	at scala.collection.immutable.List.map(List.scala:240)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplication(Functionals.scala:440)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplication$(Functionals.scala:429)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkApplication(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkExprFunctionals(Functionals.scala:752)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkExprFunctionals$(Functionals.scala:548)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkExprFunctionals(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.checkExpr(Dispatch.scala:89)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.checkExpr$(Dispatch.scala:80)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkExpr(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.checkExpr(STypeChecker.scala:467)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.checkExpr(STypeChecker.scala:450)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.checkExpr(STypeChecker.scala:491)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkExprFunctionals(Functionals.scala:785)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkExprFunctionals$(Functionals.scala:548)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkExprFunctionals(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.checkExpr(Dispatch.scala:86)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.checkExpr$(Dispatch.scala:80)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkExpr(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.checkExpr(STypeChecker.scala:500)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.checkExprIfCheckable(STypeChecker.scala:508)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.$anonfun$partitionArgs$1(Functionals.scala:96)
+	at scala.collection.immutable.List.map(List.scala:236)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.partitionArgs(Functionals.scala:96)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.partitionArgs$(Functionals.scala:95)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.partitionArgs(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplication(Functionals.scala:437)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplication$(Functionals.scala:429)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkApplication(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplication(Functionals.scala:414)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplication$(Functionals.scala:406)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkApplication(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkExprFunctionals(Functionals.scala:595)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkExprFunctionals$(Functionals.scala:548)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkExprFunctionals(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.checkExpr(Dispatch.scala:88)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.checkExpr$(Dispatch.scala:80)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkExpr(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.checkExpr(STypeChecker.scala:467)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.checkExpr(STypeChecker.scala:450)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.checkExpr(STypeChecker.scala:491)
+	at com.sun.fortress.scala_src.typechecker.impls.Decls.checkDecls(Decls.scala:214)
+	at com.sun.fortress.scala_src.typechecker.impls.Decls.checkDecls$(Decls.scala:75)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkDecls(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.check(Dispatch.scala:65)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.check$(Dispatch.scala:59)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.check(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Decls.$anonfun$checkDecls$1(Decls.scala:79)
+	at scala.collection.immutable.List.map(List.scala:240)
+	at com.sun.fortress.scala_src.typechecker.impls.Decls.checkDecls(Decls.scala:79)
+	at com.sun.fortress.scala_src.typechecker.impls.Decls.checkDecls$(Decls.scala:75)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkDecls(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.check(Dispatch.scala:62)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.check$(Dispatch.scala:59)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.check(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.typeCheck(STypeChecker.scala:421)
+	at com.sun.fortress.compiler.StaticChecker.checkCompilationUnit(StaticChecker.java:258)
+	at com.sun.fortress.compiler.StaticChecker.checkComponents(StaticChecker.java:160)
+	at com.sun.fortress.compiler.phases.TypeCheckPhase.execute(TypeCheckPhase.java:49)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at WorldFlip.main(WorldFlip.java:42)
+exit=1
+ELAPSED 11 s

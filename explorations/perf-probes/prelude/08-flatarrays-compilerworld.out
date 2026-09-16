@@ -1,0 +1,157 @@
+########## ./bin/fortress compile explorations/run-c4/src/FlatArrays.fss   (COMPILER world, as shipped)
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:9:32-35:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:10:17-20:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:11:33-36:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:12:48-51:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:15:15-18:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:15:42-45:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:16:24-27:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:16:42-45:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:17:15-18:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:17:42-45:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:18:24-27:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:18:42-45:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:19:15-18:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:19:35-38:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:19:53-56:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:20:15-18:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:20:35-38:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:20:53-56:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:21:15-18:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:21:42-45:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:22:26-29:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:22:44-47:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:23:17-20:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:23:44-47:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:24:15-18:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:24:42-45:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:25:18-21:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:25:36-39:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:26:13-16:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:26:31-34:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:27:13-16:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:27:31-34:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:29:25-29:
+    Vector is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:30:18-22:
+    Vector is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:31:81-84:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:37:37-41:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:37:66-70:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:40:18-22:
+    Vector is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:40:68-71:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:41:54-57:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:42:32-36:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:42:79-82:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:43:82-85:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:44:35-39:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:44:74-77:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:45:33-37:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:45:71-74:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:48:69-73:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:48:100-104:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:48:132-135:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:49:70-74:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:49:99-102:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:52:25-28:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:52:47-50:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:52:91-94:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:53:42-45:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:53:62-65:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:53:85-88:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:53:154-157:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:54:32-35:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:54:54-57:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:54:77-81:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:54:106-109:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:55:57-60:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:55:77-80:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:55:100-103:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:55:123-127:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:55:154-158:
+    Array3 is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:55:186-189:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:58:73-77:
+    Vector is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:58:92-95:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:59:21-25:
+    Vector is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:59:53-56:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:60:56-60:
+    Vector is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:60:75-78:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:61:10-13:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:61:41-44:
+    Array is undefined.
+File FlatArrays.fss has 77 errors.
+exit=255

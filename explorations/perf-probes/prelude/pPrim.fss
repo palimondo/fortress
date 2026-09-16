@@ -1,0 +1,7 @@
+component pPrim
+export Executable
+(* the interpreter's native-binding idiom, verbatim in shape:
+   FortressLibrary.fss binds 108 declarations this way *)
+negate(x: ZZ32): ZZ32 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Negate")
+run() = println(negate(3))
+end

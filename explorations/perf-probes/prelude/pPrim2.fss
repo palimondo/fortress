@@ -1,0 +1,8 @@
+component pPrim2
+export Executable
+(* give builtinPrimitive a Fortress body so the front end accepts it, and see
+   whether the code generator does anything special with the class-name string *)
+builtinPrimitive[\T\](javaClass: String): T = throw NotFound
+negate(x: ZZ32): ZZ32 = builtinPrimitive[\ZZ32\]("com.sun.fortress.interpreter.glue.prim.Int$Negate")
+run() = println(negate(3))
+end

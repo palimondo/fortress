@@ -1,0 +1,49 @@
+########## ./bin/fortress compile pNat1.fss   (COMPILER world)
+Exception in thread "main" java.lang.Error: Not yet implemented
+	at com.sun.fortress.useful.NI.nyi(NI.java:52)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.makeInferenceArg(STypesUtil.scala:557)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.$anonfun$inferStaticParamsHelper$4(STypesUtil.scala:966)
+	at scala.collection.immutable.List.map(List.scala:236)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.inferStaticParamsHelper(STypesUtil.scala:966)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.inferStaticParams(STypesUtil.scala:930)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.recurOnArgs$1(Functionals.scala:224)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplicableWithInference(Functionals.scala:262)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplicableWithInference$(Functionals.scala:175)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkApplicableWithInference(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Functionals.checkApplicable(Functionals.scala:161)
+exit=1
+---------- ./bin/fortress run pNat1
+Could not load pNat1
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+
+########## ./bin/fortress compile pNat2.fss   (COMPILER world)
+Exception in thread "main" java.lang.ClassCastException: class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.IntArg.accept(IntArg.java:56)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recur(NodeUpdateVisitor.java:11045)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.recurOnListOfStaticArg(NodeUpdateVisitor.java:11415)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitType(NodeUpdateVisitor.java:5134)
+	at com.sun.fortress.nodes.NodeUpdateVisitor.forTraitType(NodeUpdateVisitor.java:29)
+	at com.sun.fortress.nodes.TraitType.accept(TraitType.java:55)
+	at com.sun.fortress.compiler.typechecker.StaticTypeReplacer.replaceIn(StaticTypeReplacer.java:102)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.relativizer$1(STypesUtil.scala:1542)
+	at com.sun.fortress.scala_src.useful.STypesUtil$.$anonfun$gatherMethods$1(STypesUtil.scala:1548)
+exit=1
+---------- ./bin/fortress run pNat2
+Could not load pNat2
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+
+########## ./bin/fortress compile pNat3.fss   (COMPILER world)
+exit=0
+---------- ./bin/fortress run pNat3
+7
+

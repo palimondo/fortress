@@ -1,0 +1,15 @@
+########## fortress compile LibraryBuiltin/AnyType.fss
+exit=0
+ELAPSED 14 s
+########## fortress compile LibraryBuiltin/CompilerBuiltin.fss
+exit=0
+ELAPSED 77 s
+########## fortress compile ../Library/CompilerLibrary.fss
+exit=0
+ELAPSED 12 s
+########## fortress compile ../Library/CompilerAlgebra.fss
+exit=0
+ELAPSED 1 s
+########## fortress compile ../Library/CompilerSystem.fss
+exit=0
+ELAPSED 2 s

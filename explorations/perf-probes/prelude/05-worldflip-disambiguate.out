@@ -1,0 +1,4 @@
+########## java WorldFlip -stop disambiguate Library/FortressLibrary.fss
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=disambiguate  target=[Library/FortressLibrary.fss]
+### rc=0
+exit=0

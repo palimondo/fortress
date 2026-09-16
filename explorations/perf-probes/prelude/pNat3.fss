@@ -1,0 +1,7 @@
+component pNat3
+export Executable
+(* type-kinded static parameter, inferred -- the control *)
+object Box[\T\](v: T) end
+unbox[\T\](b: Box[\T\]): T = b.v
+run() = println(unbox(Box[\ZZ32\](7)))
+end

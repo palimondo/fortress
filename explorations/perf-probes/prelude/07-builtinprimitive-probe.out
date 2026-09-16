@@ -1,0 +1,39 @@
+########## ./bin/fortress compile explorations/perf-probes/prelude/pPrim.fss   (compiler world, builtinPrimitive as written in FortressLibrary)
+/home/user/fortress/explorations/perf-probes/prelude/pPrim.fss:5:25-39:
+    Variable builtinPrimitive is not defined.
+File pPrim.fss has 1 error.
+exit=255
+
+########## ./bin/fortress compile explorations/perf-probes/prelude/pPrim2.fss   (compiler world, builtinPrimitive given a local Fortress body)
+exit=0
+
+########## ./bin/fortress run pPrim2
+FortressException: class fortress.CompilerLibrary$NotFound with string Not found
+	at pPrim2?$\=builtinPrimitive?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32??$\=?Arrow?fortress\|CompilerBuiltin\%String,T?.the_function(Unknown Source)
+	at pPrim2?$\=builtinPrimitive?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32??$\=?Arrow?fortress\|CompilerBuiltin\%String,T?.apply(Unknown Source)
+	at pPrim2.negate(/home/user/fortress/explorations/perf-probes/prelude/pPrim2.fss:6)
+	at pPrim2.run(/home/user/fortress/explorations/perf-probes/prelude/pPrim2.fss:7)
+	at pPrim2.compute(/home/user/fortress/explorations/perf-probes/prelude/pPrim2.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+exit=1
+
+########## ./bin/fortress explorations/perf-probes/prelude/pPrim.fss   (interpreter, same file)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/perf-probes/prelude/pPrim.fss:5:1-93:
+Arity of type 1 does not match native arity 0
+Context:
+/home/user/fortress/explorations/perf-probes/prelude/pPrim.fss:5:1-93:
+/home/user/fortress/explorations/perf-probes/prelude/pPrim.fss:5:1-93:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=0

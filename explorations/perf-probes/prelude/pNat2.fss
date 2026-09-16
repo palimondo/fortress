@@ -1,0 +1,7 @@
+component pNat2
+export Executable
+(* the same, with the static argument written out -- no inference needed *)
+object Box[\nat k\](v: ZZ32) end
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+run() = println(unbox[\3\](Box[\3\](7)))
+end
