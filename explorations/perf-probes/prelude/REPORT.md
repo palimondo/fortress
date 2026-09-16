@@ -439,6 +439,20 @@ this order:
 
 And only then would we learn what DESUGAR and CODEGEN make of it.
 
+
+## Candidate gap-ledger rows
+
+This report carried no candidate table; the merge of 2026-09-16 wrote four rows from its findings and entered them with these, the ledger's final, numbers (`explorations/gap-ledger-probes/probes-merge/MERGE.md` has the wording and the classes).
+
+| row | the finding it carries | from |
+|---|---|---|
+| 307 | the compile path's type checker does not implement `nat`-kinded static parameters at all — `nyi` when inferred, `ClassCastException` when written out — while the interpreter runs all three spellings; 81 declarations of `FortressLibrary.fss` and 58 of its api depend on them, `CompilerLibrary.fss` on one, declared empty | §2's crash, `11-nat-inference-probe.out`, `13-nat-interpreter.out` |
+| 308 | with the interpreter's prelude made the compiler's, DISAMBIGUATE passes with zero errors and TYPECHECK reports 92 errors at 95 locations in the library's own apis, the comparison and numeric tower under the `comprises`/exclusion rules | §2, `05-`, `06-`, `06b-` |
+| 309 | `builtinPrimitive` is an interpreter mechanism with no compiled-path counterpart and is the only genuinely codegen-specific thing in the file — 211 of 4,518 lines, 4.7 %, with about 79 of the 108 bindings already answered by a `nativeHelpers/` method under another name | §3, `07-builtinprimitive-probe.out` |
+| 310 | plain-Fortress library code passes the compile path's name resolution and type rules as long as it stays away from `nat` parameters: `FlatArrays.fsi` checks with zero errors of its own | §4, `09-flatarrays-worldflip.out`, `10-flatarrays-dropapi.out` |
+
+Two findings of this report were **folded into other rows rather than entered**: §1's 1,417 disambiguation errors (both preludes in scope, which the report itself calls an artifact) into row 288, the same collision reached by `perf-probes/grammar-compile/`; and §4's `FlatArrays` in the compiler's world, 77 errors, into row 305, the kernels probe's row for the same fact.
+
 ---
 
 ## Artifacts

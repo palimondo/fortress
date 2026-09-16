@@ -4,14 +4,16 @@
      (run-b/gaps.md, run-b2/gaps.md, run-c/gaps.md, run-c/design.md,
      run-c3/gaps.md, run-c4/gaps.md with run-c4/design.md and the addendum to
      reviews/run-c2-vs-run-c3.md, apl/gaps.md, and the closing table of
-     apl-probes/REPORT.md). No new claims are made here;
+     apl-probes/REPORT.md, and the five probe reports merged as rows 288-310:
+     run-c4/probes/vocabulary/REPORT.md and the four under perf-probes/).
+     No new claims are made here;
      every row is a row of explorations/fortress-gap-ledger.md. -->
 
 # Which gap each port hit
 
 Nine ports and rounds of microGPT (and its neighbours) have now been made in this tree,
 beside one exploration that is not a port at all, and each met a different subset of the
-same 286 language, library, interpreter and typesetter gaps. This file is the
+same 309 language, library, interpreter and typesetter gaps. This file is the
 cross-tabulation: one line per ledger row that at least
 one port reached, one column per port — `ours` (this repository's own rounds, reviews and probe
 arcs counted as one), `astra` (the independent Astra run), `blinded` (the blinded Fable
@@ -30,8 +32,11 @@ ledger is where the evidence for each row lives. The `run-c2` and `run-c3` colum
 read the same way: a `hit` is a row the ledger's `found by` credits to that run, or one
 its own table records meeting again. So is `run-c4`, whose hits are its own four rows
 (175-178) and the seven rows its design note names as adopted or met (21, 102, 130, 131,
-133, 152, 161); rows 144 and 158 are marked *avoided* there because C4 exported a
-`transpose` function from the start rather than meeting the error again. The `apl`
+133, 152, 161), together with the ten rows of the vocabulary review of its own array api
+(292-301), whose `found by` is Run C4's; rows 144 and 158 are marked *avoided* there
+because C4 exported a `transpose` function from the start rather than meeting the error
+again. The thirteen rows of the four `perf-probes/` reports (288-291, 302-310) are marked
+`ours`: they probe the two execution paths rather than a port. The `apl`
 column is 126 hits: the 105 rows the quest contributed (179-256, its microGPT rung's
 257-265, and the feasibility study's 266-283) and the 17 existing
 rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47, 54, 55,
@@ -325,6 +330,29 @@ rows its notes cite or that a folded APL row was merged into (7, 23, 30, 44, 47,
 | 285 | a typed lambda written whole inside one template works and dispatches: hygiene renames the binder and its refe … | — | — | — | — | — | — | — | — | — | hit |
 | 286 | a template that writes the host's caret drops its right operand silently: `<[ (1.0 (l)) ^ (r) ]>` expands to ` … | — | — | — | — | — | — | — | — | — | hit |
 | 287 | rule order decides only inside an ordinary nonterminal: two alternatives of one macro bracket name backtrack o … | — | — | — | — | — | — | — | — | — | hit |
+| 288 | a program that imports a user grammar cannot be `fortress compile`d: the compile path's phase list contains GR … | hit | — | — | — | — | — | — | — | — | — |
+| 289 | with that api graph supplied, a user grammar does compile to bytecode and run: the grammar api's stub compiles … | hit | — | — | — | — | — | — | — | — | — |
+| 290 | an expansion arrives unparenthesized unless the template text itself writes the parentheses, and the compiler' … | hit | — | — | — | — | — | — | — | — | — |
+| 291 | the type checker has no rules for template ASTs, so the two mechanisms the APL base is built on do not survive … | hit | — | — | — | — | — | — | — | — | — |
+| 292 | rank 3 carries no algebraic trait: `Array3` extends `Indexed1`/`Indexed2`/`Indexed3`, `Rank3` and `StandardMut … | — | — | — | — | — | — | — | — | hit | — |
+| 293 | `×` reaches no array by design: `Vector` and `Matrix` are declared `excludes { AnyMultiplicativeRing }` becaus … | — | — | — | — | — | — | — | — | hit | — |
+| 294 | a user carrier cannot keep a user trait through the library's algebra: an object extending `Matrix` and a user … | — | — | — | — | — | — | — | — | hit | — |
+| 295 | one declaration generic in the element type by its bound serves every element type and rank: `opr +[\T extends … | — | — | — | — | — | — | — | — | hit | — |
+| 296 | a user generic declaration beside a library generic declaration of the same operator is accepted and dispatche … | — | — | — | — | — | — | — | — | hit | — |
+| 297 | `Array[\RR64,(ZZ32,ZZ32,ZZ32)\] cannot join an overload family with `Matrix[\RR64,r,c\]`: the model's `^T` pai … | — | — | — | — | — | — | — | — | hit | — |
+| 298 | the library's own row view costs five times a six-line user view on a row lift: `m[i,:]` (a `Row` over a range … | — | — | — | — | — | — | — | — | hit | — |
+| 299 | a diagonal as a `Matrix` view makes `diag(v) m` the library's product, at 13-54×: `object Diag[\nat s\](d: Vec … | — | — | — | — | — | — | — | — | hit | — |
+| 300 | a library scalar function is a value that `map` takes: `v.map[\RR64\](exp)`, `v.map[\RR64\](log)` and `m.map[\ … | — | — | — | — | — | — | — | — | hit | — |
+| 301 | a dotted method call may follow a call where a postfix operator may not: `onehot(ks, 5).t() dx` runs, where `o … | — | — | — | — | — | — | — | — | hit | — |
+| 302 | the compiled path's 20 M-iteration scalar `RR64` loop (`bench1`) runs 156× slower than the same loop over prim … | hit | — | — | — | — | — | — | — | — | — |
+| 303 | bench1 rewritten as microGPT-shaped code would write it — the two float literals bound once before the loop, t … | hit | — | — | — | — | — | — | — | — | — |
+| 304 | the code generator cannot compile a local function: `Can't compile LetFn` (`CodeGen.sayWhat`, `CodeGen.java:15 … | hit | — | — | — | — | — | — | — | — | — |
+| 305 | G2 is wider than row 72 recorded: the compiler path has no `RR64` array type, not merely no `array[\T\]` const … | hit | — | — | — | — | — | — | — | — | — |
+| 306 | in Java over the runtime's own box shape, boxing costs 6.3× (a 4192-element dot product), 6.5× (a 16×16 matrix … | hit | — | — | — | — | — | — | — | — | — |
+| 307 | the compile path's type checker does not implement `nat`-kinded static parameters at all: `STypesUtil.makeInfe … | hit | — | — | — | — | — | — | — | — | — |
+| 308 | with the interpreter's prelude made the compiler's prelude — the compiler's phase order over `FortressLibrary` … | hit | — | — | — | — | — | — | — | — | — |
+| 309 | `builtinPrimitive` is an interpreter mechanism with no compiled-path counterpart, and it is the only genuinely … | hit | — | — | — | — | — | — | — | — | — |
+| 310 | plain-Fortress library code passes the compile path's name resolution and its type rules, as long as it stays … | hit | — | — | — | — | — | — | — | — | — |
 
 ## Rows every port hit — the fix priorities
 
@@ -590,3 +618,18 @@ an api (269), that a template's free names resolve at the use site (270) — tog
 the three unimplemented corners every later rung ran into (273, 274, 275) and the two
 halves of an APL, the library (281) and the grammar (282), that the six rungs then rebuilt
 at scale.
+
+## The probe merge — the two execution paths, and C4's vocabulary reviewed
+
+The twenty-three rows of 2026-09-16, **288-310**, come from five probes rather than from
+a port, and they split by column. Ten are in the `run-c4` column (292-301): the
+vocabulary review asked whether Run C4's forty array declarations are habit or limit, and
+the answer is thirty forced in count, the habits in their shapes — which is a finding
+about the library the ports all stood on, not about C4's program. Thirteen are `ours`
+(288-291, 302-310) and none of them is about writing Fortress at all: they are about the
+two execution paths. Four ask whether `fortress compile` runs a user grammar (288-291),
+three measure where the compiled path and the interpreter spend their time (302, 303,
+306), and four ask why the compiler needs its own library (307-310); the two view-cost
+rows 298 and 299 are the vocabulary review's and sit in the `run-c4` column with the rest
+of it. The ports could not have found any of
+them: every one of the nine ran on the walk interpreter.

@@ -252,6 +252,13 @@ In the ledger's eight-column format
 The first is the row this probe was sent to get; the other three are what it
 found behind the first and are offered separately so the headline row stays
 about the headline fact.
+The numbers below are the ledger's final numbers: the merge of 2026-09-16
+(`explorations/gap-ledger-probes/probes-merge/MERGE.md`) kept 288-291 as drafted here,
+because `reviews/template-checking-plan.md` and the handover already cite them, and
+numbered the other four reports' candidates from 292. Rows 288 and 289 are in the
+ledger's section 10 (the compile path), 290 and 291 in section 16 (the mechanism);
+row 288's class was written there as an implementation gap first, so that it buckets
+as a defect the revival could fix.
 
 | # | claim | status | class | spec citation | reproducer | found by | notes / workaround |
 |---|---|---|---|---|---|---|---|
