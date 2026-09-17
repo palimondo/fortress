@@ -1,0 +1,57 @@
+/home/user/fortress/Library/IntMap.fsi:33:31-34:
+    Maybe is undefined.
+/home/user/fortress/Library/IntMap.fsi:35:25-28:
+    Maybe is undefined.
+/home/user/fortress/Library/IntMap.fsi:37:32-35:
+    Maybe is undefined.
+/home/user/fortress/Library/IntMap.fsi:38:25-28:
+    Maybe is undefined.
+/home/user/fortress/Library/IntMap.fsi:40:32-35:
+    Maybe is undefined.
+/home/user/fortress/Library/IntMap.fsi:45:28-31:
+    Maybe is undefined.
+/home/user/fortress/Library/IntMap.fsi:45:44-47:
+    Maybe is undefined.
+/home/user/fortress/Library/IntMap.fsi:51:53-56:
+    Maybe is undefined.
+/home/user/fortress/Library/IntMap.fsi:54:52-55:
+    Maybe is undefined.
+/home/user/fortress/Library/IntMap.fsi:67:25-27:
+    Just is undefined.
+/home/user/fortress/Library/IntMap.fsi:68:32-34:
+    Just is undefined.
+/home/user/fortress/Library/IntMap.fsi:69:25-27:
+    Just is undefined.
+/home/user/fortress/Library/IntMap.fsi:70:32-34:
+    Just is undefined.
+/home/user/fortress/Library/IntMap.fsi:86:23-34:
+    Comprehension is undefined.
+/home/user/fortress/Library/IntMap.fsi:90:25-36:
+    Comprehension is undefined.
+/home/user/fortress/Library/List.fsi:55:34-39:
+    HasRank is undefined.
+/home/user/fortress/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress/Library/List.fsi:68:28-33:
+    HasRank is undefined.
+/home/user/fortress/Library/List.fsi:74:17-20:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:75:18-21:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:76:25-28:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:77:26-29:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+/home/user/fortress/Library/Shuffle.fsi:20:17-20:
+    Array is undefined.
+/home/user/fortress/Library/Shuffle.fsi:23:17-29:
+    ImmutableArray is undefined.
+/home/user/fortress/Library/Shuffle.fsi:23:44-56:
+    ImmutableArray is undefined.
+File IntMapTest.fss has 28 errors.

@@ -1,0 +1,19 @@
+/home/user/fortress/ProjectFortress/tests/EqualityOverloadBug.fss:16:27-29:
+    Function body has type String, but declared return type is Bar.
+/home/user/fortress/ProjectFortress/tests/EqualityOverloadBug.fss:21:3-22:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (Bar, Bar, String).
+    - Boolean->() is not applicable to an argument of type (Bar, Bar, String).
+/home/user/fortress/ProjectFortress/tests/EqualityOverloadBug.fss:22:3-21:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, IntLiteral, String).
+/home/user/fortress/ProjectFortress/tests/EqualityOverloadBug.fss:23:3-25:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (FloatLiteral, FloatLiteral, String).
+    - Boolean->() is not applicable to an argument of type (FloatLiteral, FloatLiteral, String).
+/home/user/fortress/ProjectFortress/tests/EqualityOverloadBug.fss:24:3-33:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+File EqualityOverloadBug.fss has 5 errors.

@@ -1,0 +1,43 @@
+. link library_tests/EqualityRung1 /home/user/fortress/ProjectFortress/library_tests/EqualityRung1.fss:25:21-27:
+    Equality is undefined.
+/home/user/fortress/ProjectFortress/library_tests/EqualityRung1.fss:29:22-28:
+    Equality is undefined.
+File EqualityRung1.fss has 2 errors.
+ FAIL
+F. run library_tests/EqualityRung1 (178ms) Could not load EqualityRung1
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : EqualityRung1.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+Failed to satisfy default check run_out_contains=PASS
+F
+Time: 3.125
+There were 2 failures:
+1) library_tests/EqualityRung1(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:405)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:898)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+2) library_tests/EqualityRung1(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest library_tests/EqualityRung1
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:575)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:898)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 2,  Failures: 2,  Errors: 0
+

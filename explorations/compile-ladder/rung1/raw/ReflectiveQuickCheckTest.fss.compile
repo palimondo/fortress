@@ -1,0 +1,783 @@
+/home/user/fortress/Library/CovariantCollection.fsi:23:25-37:
+    ImmutableArray is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:24:16-19:
+    Array is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:25:24-27:
+    Array is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:45:33-46:
+    MonoidReduction is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:53:5-16:
+    Comprehension is undefined.
+/home/user/fortress/Library/List.fsi:55:34-39:
+    HasRank is undefined.
+/home/user/fortress/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress/Library/List.fsi:68:28-33:
+    HasRank is undefined.
+/home/user/fortress/Library/List.fsi:74:17-20:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:75:18-21:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:76:25-28:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:77:26-29:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+/home/user/fortress/Library/Map.fsi:32:20-23:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:37:15-18:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:39:22-25:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:40:16-19:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:42:22-25:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:58:18-21:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:58:32-35:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:83:46-49:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:84:46-49:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:85:47-50:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:93:38-41:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:104:29-40:
+    Comprehension is undefined.
+/home/user/fortress/Library/Map.fsi:108:30-41:
+    Comprehension is undefined.
+/home/user/fortress/Library/Map.fsi:112:30-41:
+    Comprehension is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:39:24-29:
+    Indexed is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:149:27:
+    QQ is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:151:30:
+    QQ is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:152:17:
+    QQ is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:179:29-31:
+    Char is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:181:30-32:
+    Char is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:182:17-19:
+    Char is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:185:40-42:
+    Char is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:187:16-18:
+    Char is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:188:34-36:
+    Char is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:198:50-53:
+    Maybe is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:200:30-33:
+    Maybe is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:201:15-20:
+    Nothing is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:202:17-19:
+    Just is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:203:14-19:
+    Nothing is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:203:40-43:
+    Maybe is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:204:16-18:
+    Just is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:204:39-42:
+    Maybe is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:228:50-57:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/QuickCheck.fsi:230:30-37:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/QuickCheck.fsi:231:17-24:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/QuickCheck.fsi:451:44-51:
+    AnyMatrix is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:451:55-62:
+    AnyVector is undefined.
+/home/user/fortress/Library/QuickCheck.fsi:451:66-85:
+    AnyMultiplicativeRing is undefined.
+/home/user/fortress/Library/QuickSort.fsi:16:39-42:
+    Array is undefined.
+/home/user/fortress/Library/QuickSort.fsi:17:39-42:
+    Array is undefined.
+/home/user/fortress/Library/QuickSort.fsi:18:52-55:
+    Array is undefined.
+/home/user/fortress/Library/Random.fsi:24:67-72:
+    Indexed is undefined.
+/home/user/fortress/Library/Random.fsi:27:20-23:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:31:28-31:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:35:28-31:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:38:21-24:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:45:25-36:
+    ReadableArray is undefined.
+/home/user/fortress/Library/Random.fsi:51:57-68:
+    ReadableArray is undefined.
+/home/user/fortress/Library/Random.fsi:87:29-34:
+    Indexed is undefined.
+/home/user/fortress/Library/Random.fsi:128:21-27:
+    Integral is undefined.
+/home/user/fortress/Library/Random.fsi:128:58-61:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:130:29-35:
+    Integral is undefined.
+/home/user/fortress/Library/Random.fsi:130:66-69:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:132:29-35:
+    Integral is undefined.
+/home/user/fortress/Library/Random.fsi:132:66-69:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:134:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/Random.fsi:134:59-62:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:138:34-40:
+    Integral is undefined.
+/home/user/fortress/Library/Random.fsi:145:20-23:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:146:19-22:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:147:19-22:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:148:21-24:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:159:20-23:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:160:19-22:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:161:19-22:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:162:21-24:
+    Maybe is undefined.
+/home/user/fortress/Library/Random.fsi:174:19-21:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:175:19-21:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:189:19-21:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:190:19-21:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:195:20-25:
+    Indexed is undefined.
+/home/user/fortress/Library/Random.fsi:212:15-19:
+    Vector is undefined.
+/home/user/fortress/Library/Random.fsi:217:19-21:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:218:19-21:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:221:12-16:
+    Vector is undefined.
+/home/user/fortress/Library/Random.fsi:224:20-25:
+    Indexed is undefined.
+/home/user/fortress/Library/Random.fsi:232:19-21:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:233:19-21:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:238:20-25:
+    Indexed is undefined.
+/home/user/fortress/Library/Random.fsi:240:26-31:
+    Indexed is undefined.
+/home/user/fortress/Library/Random.fsi:247:22-26:
+    Vector is undefined.
+/home/user/fortress/Library/Random.fsi:261:20-26:
+    Integral is undefined.
+/home/user/fortress/Library/Random.fsi:261:57-59:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:262:20-26:
+    Integral is undefined.
+/home/user/fortress/Library/Random.fsi:262:57-59:
+    Just is undefined.
+/home/user/fortress/Library/Random.fsi:266:25-31:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:14:26-32:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:16:29-35:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:18:29-35:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:20:31-37:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:22:31-37:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:24:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:26:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:28:25-31:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:28:97-100:
+    Maybe is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:30:21-27:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:32:21-27:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:32:46-52:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:34:21-27:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:34:46-52:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:34:71-77:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:36:21-27:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:38:21-27:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:38:46-52:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:40:21-27:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:40:46-52:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:40:71-77:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:42:27-34:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:42:49-56:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:42:68-75:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:44:30-36:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:44:54-61:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:46:26-33:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:46:39-46:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:51:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:51:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:53:26-32:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:53:51-57:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:54:13-25:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:61:29-40:
+    RangeWithLeft is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:62:29-41:
+    RangeWithRight is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:63:26-38:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:63:44-56:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:64:44-56:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:70:32-38:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:70:57-63:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:83:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:83:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:83:72-78:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:85:26-32:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:85:51-57:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:86:19-25:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:87:13-28:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:96:37-48:
+    RangeWithLeft is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:97:37-49:
+    RangeWithRight is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:98:26-41:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:98:47-62:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:99:47-62:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:105:32-38:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:105:57-63:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:106:19-25:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:121:37-43:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:122:33-43:
+    PartialRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:125:35-41:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:126:40-47:
+    OpenRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:135:20-27:
+    OpenRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:141:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:141:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:143:31-37:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:143:56-62:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:144:15-22:
+    OpenRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:155:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:155:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:155:72-78:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:157:31-37:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:157:56-62:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:158:19-25:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:159:15-22:
+    OpenRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:172:17-23:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:174:40-46:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:175:33-46:
+    RangeWithExtent is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:178:37-43:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:180:9-18:
+    ExtentRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:182:22-24:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:191:26-33:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:198:30-36:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:200:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:200:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:202:33-39:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:202:58-64:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:203:15-24:
+    ExtentRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:206:22-24:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:215:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:215:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:215:72-78:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:218:33-39:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:218:58-64:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:219:19-25:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:220:15-24:
+    ExtentRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:224:22-24:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:235:37-43:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:236:33-43:
+    BoundedRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:244:38-44:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:245:40-51:
+    RangeWithLeft is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:249:35-41:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:251:9-16:
+    LeftRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:253:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:267:28-34:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:269:33-39:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:271:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:271:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:273:31-37:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:273:56-62:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:274:15-22:
+    LeftRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:277:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:282:16-26:
+    BoundedRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:286:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:286:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:286:72-78:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:288:31-37:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:288:56-62:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:289:19-25:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:290:15-22:
+    LeftRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:294:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:300:16-26:
+    BoundedRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:304:39-45:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:305:40-52:
+    RangeWithRight is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:311:9-17:
+    RightRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:313:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:327:29-35:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:329:34-40:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:331:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:331:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:333:32-38:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:333:57-63:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:334:15-23:
+    RightRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:337:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:342:16-26:
+    BoundedRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:346:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:346:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:346:72-78:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:349:32-38:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:349:57-63:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:350:19-25:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:351:15-23:
+    RightRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:355:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:361:16-26:
+    BoundedRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:366:34-40:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:369:9-16:
+    FullRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:370:22-24:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:381:14-21:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:383:20-23:
+    Maybe is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:386:30-36:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:386:55-61:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:387:15-22:
+    FullRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:387:53-67:
+    DelegatedIndexed is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:390:22-24:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:397:14-26:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:398:24-27:
+    Maybe is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:403:30-36:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:403:55-61:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:404:19-25:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:405:15-22:
+    FullRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:405:59-73:
+    DelegatedIndexed is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:409:22-24:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:416:14-29:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/Library/RangeInternals.fsi:417:26-29:
+    Maybe is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:420:41-47:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:421:37-51:
+    CompactFullRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:425:31-36:
+    Indexed is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:426:23-28:
+    Indexed is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:430:20-23:
+    Maybe is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:435:45-51:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:439:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:440:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:447:45-51:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:451:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:452:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:458:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:458:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:460:38-44:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:460:63-69:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:461:15-29:
+    CompactFullRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:468:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:469:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:476:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:476:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:476:72-78:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:479:38-44:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:479:63-69:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:480:19-25:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:481:15-29:
+    CompactFullRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:488:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:489:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:497:41-47:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:498:37-51:
+    StridedFullRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:501:31-36:
+    Indexed is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:502:23-28:
+    Indexed is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:506:20-23:
+    Maybe is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:510:45-51:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:513:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:514:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:521:45-51:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:524:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:525:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:532:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:532:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:534:38-44:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:534:63-69:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:535:15-29:
+    StridedFullRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:540:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:541:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:549:22-28:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:549:47-53:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:549:72-78:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:551:38-44:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:551:63-69:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:552:19-25:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:555:15-29:
+    StridedFullRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:560:20-22:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:561:21-23:
+    Just is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:570:28-34:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:572:33-39:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:574:24-30:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:574:49-55:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:576:24-30:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:576:49-55:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:576:74-80:
+    Integral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:580:24-33:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:582:24-33:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:582:47-56:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:584:24-33:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:584:47-56:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:584:70-79:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:587:26-35:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:589:26-35:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:589:49-58:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:591:26-35:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:591:49-58:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:591:72-81:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:594:23-32:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:594:50-57:
+    LeftRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:596:23-32:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:596:46-55:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:596:85-92:
+    LeftRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:598:23-32:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:598:46-55:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:598:69-78:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:598:120-127:
+    LeftRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:600:25-34:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:600:52-61:
+    ExtentRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:602:25-34:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:602:48-57:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:602:87-96:
+    ExtentRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:604:25-34:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:604:48-57:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:604:71-80:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:604:122-131:
+    ExtentRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:606:24-33:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:606:51-59:
+    RightRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:608:24-33:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:608:47-56:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:608:86-94:
+    RightRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:610:24-33:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:610:47-56:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:610:70-79:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:610:121-129:
+    RightRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:612:28-37:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:614:28-37:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:614:51-60:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:616:28-37:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:616:51-60:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:616:74-83:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:618:23-32:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:618:50-57:
+    OpenRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:620:23-32:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:620:46-55:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:620:85-92:
+    OpenRange is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:622:23-32:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:622:46-55:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:622:69-78:
+    AnyIntegral is undefined.
+/home/user/fortress/Library/RangeInternals.fsi:622:120-127:
+    OpenRange is undefined.
+/home/user/fortress/Library/Reflect.fsi:76:29-32:
+    Maybe is undefined.
+/home/user/fortress/Library/Reflect.fsi:96:47-50:
+    Maybe is undefined.
+/home/user/fortress/Library/Reflect.fsi:130:32-41:
+    ZeroIndexed is undefined.
+/home/user/fortress/Library/ReflectiveQuickCheck.fsi:64:9-12:
+    Maybe is undefined.
+/home/user/fortress/Library/ReflectiveQuickCheck.fsi:70:39-42:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:25:17-26:
+    ZeroIndexed is undefined.
+/home/user/fortress/Library/Set.fsi:28:14-17:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:29:14-17:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:32:21-24:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:33:21-24:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:56:51-62:
+    Comprehension is undefined.
+/home/user/fortress/Library/Set.fsi:59:55-65:
+    BigReduction is undefined.
+/home/user/fortress/Library/Set.fsi:62:27-51:
+    CommutativeMonoidReduction is undefined.
+/home/user/fortress/Library/Set.fsi:65:9-19:
+    BigReduction is undefined.
+File ReflectiveQuickCheckTest.fss has 391 errors.

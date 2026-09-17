@@ -1,0 +1,43 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component EqualityRung1
+export Executable
+
+(*) Rung 1 of the compile-path ladder: user objects that extend Equality and
+(*) supply their own opr =.  The interpreter declares Equality at
+(*) Library/FortressLibrary.fss:100 and it is in the interpreter's implicit
+(*) prelude; the compiler world declares it in Library/CompilerAlgebra.fsi, so
+(*) this program compiles only when CompilerAlgebra is implicitly imported.
+(*)
+(*) Same and Other answer their own opr = with a constant, so a run that prints
+(*) PASS shows the declared opr = was called and not identity: Other is not
+(*) equal to itself.
+(*)
+(*) The companion operator =/= is deliberately not exercised here.  The compiler
+(*) world declares =/= per builtin type only and has no opr =/=(Any, Any), so a
+(*) user type meets "Could not check call to operator NE"; that is a separate
+(*) missing name and a separate rung.
+
+object Same extends Equality[\Same\]
+    opr =(self, _: Same): Boolean = true
+end
+
+object Other extends Equality[\Other\]
+    opr =(self, _: Other): Boolean = false
+end
+
+run(): () = do
+    ok: Boolean = (Same = Same) AND (NOT (Other = Other))
+    println(if ok then "PASS" else "FAIL")
+end
+
+end
