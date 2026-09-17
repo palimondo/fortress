@@ -217,7 +217,7 @@ def main():
         for r in rows:
             fh.write("\t".join([r["corpus"], r["file"], r["xxx"], r["phase"], r["secs"],
                                 r["missing"], r["node"], r["call"],
-                                " ".join(r["all_missing"]), " ".join(r["imported_missing"]),
+                                " ; ".join(r["all_missing"]), " ; ".join(r["imported_missing"]),
                                 r["first_error"].replace("\t", " ")]) + "\n")
 
     out = []

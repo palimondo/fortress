@@ -80,6 +80,18 @@ Of the 381 interpreter tests, 55 are `XXX` expected-failure files. Their phases:
 
 parse 1, disambiguate 8, typecheck 36, codegen 2, link 1, run 4, pass 3.
 
+## What the baseline says
+
+Fifty-six of the 381 interpreter tests compile, link and run clean on the
+compiler path today, and three of the 29 compiler-side library tests do.
+
+Two hundred and eighty-nine of the 381 stop before codegen is reached: 148 on a
+name the compiler world does not bind, 141 in the checker. Twenty-one reach
+codegen and are refused there, fourteen stop at run or link.
+
+So the gap measured here is a library and checker gap, not a codegen gap, which
+is the same reading `compiled-path-gaps.md` reached from a different corpus.
+
 ## Missing names, ranked
 
 This is the ranking the baseline exists for: it says which library names to add
@@ -151,13 +163,12 @@ errors located in the test file. This is what the programs themselves ask for.
 
 | files | name |
 |---|---|
-| 8 | `BIG` |
 | 7 | `Nothing` |
 | 6 | `Just` |
 | 6 | `Thread` |
 | 5 | `MOD` |
 | 5 | `builtinPrimitive` |
-| 5 | `+` |
+| 5 | `BIG +` |
 | 4 | `Array1` |
 | 4 | `Array2` |
 | 4 | `LSHIFT` |
@@ -169,7 +180,6 @@ errors located in the test file. This is what the programs themselves ask for.
 | 4 | `RSHIFT` |
 | 4 | `GCD` |
 | 4 | `LCM` |
-| 4 | `prefix` |
 | 3 | `big` |
 | 3 | `widen` |
 | 3 | `unsigned` |
@@ -196,12 +206,12 @@ errors located in the test file. This is what the programs themselves ask for.
 | 2 | `MINUS_UP` |
 | 2 | `DOT_UP` |
 | 2 | `SLASH_UP` |
-| 2 | `SQRT_UP` |
+| 2 | `prefix SQRT_UP` |
 | 2 | `PLUS_DOWN` |
 | 2 | `MINUS_DOWN` |
 | 2 | `DOT_DOWN` |
 | 2 | `SLASH_DOWN` |
-| 2 | `SQRT_DOWN` |
+| 2 | `prefix SQRT_DOWN` |
 | 2 | `printTaskTrace` |
 | 1 | `sequential` |
 | 1 | `Integral` |
@@ -231,9 +241,9 @@ errors located in the test file. This is what the programs themselves ask for.
 | 1 | `acos` |
 | 1 | `atan2` |
 | 1 | `exp` |
-| 1 | `\|\|` |
-| 1 | `juxtaposition` |
-| 1 | `MIN` |
+| 1 | `BIG \|\|` |
+| 1 | `BIG juxtaposition` |
+| 1 | `BIG MIN` |
 | 1 | `Indexed` |
 | 1 | `HasRank` |
 | 1 | `ReadableArray1` |
@@ -410,6 +420,10 @@ Comparison1.fss
 Comparison2.fss
 VarRefTest.fss
 ```
+
+`XXXgenericMethod1-3` are expected-failure tests on the interpreter that compile
+and run clean on the compiler path. The compiler world does not reproduce the
+generic-method defect the interpreter has.
 
 ## The ladder table
 

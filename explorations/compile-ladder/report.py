@@ -107,6 +107,18 @@ w("")
 xc = collections.Counter(r["phase"] for r in rows if r["XXX"] == "yes")
 w(", ".join("%s %d" % (p, xc[p]) for p in ORDER if xc[p]) + ".")
 w("")
+w("## What the baseline says")
+w("")
+w("Fifty-six of the 381 interpreter tests compile, link and run clean on the")
+w("compiler path today, and three of the 29 compiler-side library tests do.")
+w("")
+w("Two hundred and eighty-nine of the 381 stop before codegen is reached: 148 on a")
+w("name the compiler world does not bind, 141 in the checker. Twenty-one reach")
+w("codegen and are refused there, fourteen stop at run or link.")
+w("")
+w("So the gap measured here is a library and checker gap, not a codegen gap, which")
+w("is the same reading `compiled-path-gaps.md` reached from a different corpus.")
+w("")
 w("## Missing names, ranked")
 w("")
 w("This is the ranking the baseline exists for: it says which library names to add")
@@ -129,7 +141,7 @@ def multi(col, corpus, top=None):
     c = collections.Counter()
     for r in rows:
         if r["corpus"] == corpus:
-            for n in r[col].split():
+            for n in [x for x in r[col].split(" ; ") if x]:
                 c[n] += 1
     items = c.most_common(top) if top else c.most_common()
     return table(["files", "name"], [[str(k), "`%s`" % esc(n)] for n, k in items])
@@ -195,6 +207,10 @@ for corpus in ["tests", "not_working_library_tests"]:
         w(x)
     w("```")
     w("")
+w("`XXXgenericMethod1-3` are expected-failure tests on the interpreter that compile")
+w("and run clean on the compiler path. The compiler world does not reproduce the")
+w("generic-method defect the interpreter has.")
+w("")
 w("## The ladder table")
 w("")
 w("One row per file. `secs` is the wall time of the compile step. The first error")

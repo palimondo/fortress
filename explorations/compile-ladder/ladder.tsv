@@ -31,7 +31,7 @@ not_working_library_tests	VarRefTest.fss		pass	2
 tests	AfterTypeChecking.fss		typecheck	2	Array1			Array1		Unbound type: CompilerLibrary.Array1
 tests	AliasedGetterTest.fss		typecheck	3			assert			Could not check call to function assert
 tests	AlsoDo.fss		typecheck	2						Missing parameter type for x
-tests	ArrayListQuick.fss		disambiguate	2	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	ArrayListQuick.fss		disambiguate	2	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	AsExprSimple.fss		pass	2						
 tests	BadBounds.fss		disambiguate	2	sequential			sequential		Variable sequential is not defined.
 tests	BadEncloser.fss		pass	2						
@@ -44,44 +44,44 @@ tests	BuiltinBound.fss		pass	3
 tests	CharacterTest.fss		disambiguate	3	Char			Char		Char is undefined.
 tests	ColonOperator.fss		typecheck	2	Array2			Array2		Unbound type: CompilerLibrary.Array2
 tests	ConditionalOpTruncation.fss		typecheck	2			assert			Could not check call to function assert
-tests	CovCollTest.fss		disambiguate	2	ImmutableArray				ImmutableArray Array MonoidReduction Comprehension Char Maybe HasRank LexicographicOrder BigReduction	ImmutableArray is undefined.
-tests	CovariantTest.fss		disambiguate	2	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	CovCollTest.fss		disambiguate	2	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; Maybe ; HasRank ; LexicographicOrder ; BigReduction	ImmutableArray is undefined.
+tests	CovariantTest.fss		disambiguate	2	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	DivPrecedence.fss		typecheck	2			/			Could not check call to operator /
 tests	EqualityOverloadBug.fss		disambiguate	1	Equality			Equality		Equality is undefined.
 tests	Exception.fss		typecheck	2			assert			Could not check call to function assert
 tests	ExceptionScoping.fss		disambiguate	2	Nothing			Nothing		Function Nothing is not defined.
-tests	FileConversion.fss		disambiguate	2	Equality				Equality ImmutableArray Array MonoidReduction Comprehension Char Maybe HasRank LexicographicOrder BigReduction ZeroIndexed StandardTotalOrder CommutativeMonoidReduction	Equality is undefined.
-tests	FileReadWrite.fss		disambiguate	1	Char				Char Maybe	Char is undefined.
+tests	FileConversion.fss		disambiguate	2	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; Maybe ; HasRank ; LexicographicOrder ; BigReduction ; ZeroIndexed ; StandardTotalOrder ; CommutativeMonoidReduction	Equality is undefined.
+tests	FileReadWrite.fss		disambiguate	1	Char				Char ; Maybe	Char is undefined.
 tests	FuncOfFuncTest.fss		typecheck	2						No such method Left[\A,B\].unLeft.
-tests	FunctionalMethodAsUnifyParam.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	FunctionalMethodAsUnifyParam.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	GS0.fss		pass	2						
 tests	GS1.fss		pass	2						
 tests	GS2.fss		typecheck	1						Must provide type for initializer List(n)
 tests	GS3.fss		disambiguate	1	Equality			Equality		Equality is undefined.
-tests	Generator2Test.fss		disambiguate	2	ActualReduction				ActualReduction Generator2 HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	ActualReduction is undefined.
-tests	GeneratorNullPointer.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension ZeroIndexed Maybe StandardTotalOrder BigReduction CommutativeMonoidReduction	Equality is undefined.
+tests	Generator2Test.fss		disambiguate	2	ActualReduction				ActualReduction ; Generator2 ; HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	ActualReduction is undefined.
+tests	GeneratorNullPointer.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; StandardTotalOrder ; BigReduction ; CommutativeMonoidReduction	Equality is undefined.
 tests	GenericFnWithExcludes.fss		typecheck	1						non-type where clause bindings: Not yet implemented
-tests	HeapTest.fss		disambiguate	1	Maybe				Maybe CommutativeMonoidReduction HasRank LexicographicOrder Comprehension BigReduction MonoidReduction	Maybe is undefined.
+tests	HeapTest.fss		disambiguate	1	Maybe				Maybe ; CommutativeMonoidReduction ; HasRank ; LexicographicOrder ; Comprehension ; BigReduction ; MonoidReduction	Maybe is undefined.
 tests	ImplicitBlocks.fss		typecheck	2			juxtaposition			Could not check call to operator juxtaposition
 tests	ImportNonparamObject.fss		typecheck	1			assert			Could not check call to function assert
 tests	InferTest.fss		typecheck	2			juxtaposition			Could not check call to operator juxtaposition
 tests	InheritedMethod.fss		pass	2						
 tests	InheritedOverload2.fss		pass	2						
 tests	InitOrderWithMutable.fss		codegen	1		VarDecl (var cvar:String)=avar mutable bindings not yet handled.				VarDecl (var cvar:String)=avar mutable bindings not yet handled.
-tests	IntMapTest.fss		disambiguate	1	Equality				Equality Maybe Just Comprehension HasRank LexicographicOrder BigReduction MonoidReduction Array ImmutableArray	Equality is undefined.
+tests	IntMapTest.fss		disambiguate	1	Equality				Equality ; Maybe ; Just ; Comprehension ; HasRank ; LexicographicOrder ; BigReduction ; MonoidReduction ; Array ; ImmutableArray	Equality is undefined.
 tests	LabelTest.fss		typecheck	1						Function body has type OR((),T), but declared return type is T.
 tests	LineTerminatingComments.fss		pass	2						
-tests	ListNullPointer.fss		disambiguate	1	ImmutableArray				ImmutableArray Array MonoidReduction Comprehension Equality ZeroIndexed HasRank Maybe BigReduction	ImmutableArray is undefined.
-tests	ListTest.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	ListNullPointer.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Equality ; ZeroIndexed ; HasRank ; Maybe ; BigReduction	ImmutableArray is undefined.
+tests	ListTest.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	LocalVar.fss		typecheck	1						Missing parameter type for x
-tests	LongStringTests.fss		disambiguate	1	Char				Char Maybe HasRank LexicographicOrder Comprehension BigReduction MonoidReduction ImmutableArray	Char is undefined.
+tests	LongStringTests.fss		disambiguate	1	Char				Char ; Maybe ; HasRank ; LexicographicOrder ; Comprehension ; BigReduction ; MonoidReduction ; ImmutableArray	Char is undefined.
 tests	MapExprTest.fss		codegen	2		Can't compile VarArgs				Can't compile VarArgs yet
-tests	MapTest.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension Maybe ZeroIndexed StandardTotalOrder BigReduction CommutativeMonoidReduction	Equality is undefined.
+tests	MapTest.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Maybe ; ZeroIndexed ; StandardTotalOrder ; BigReduction ; CommutativeMonoidReduction	Equality is undefined.
 tests	Mutable.fss		codegen	1		Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException				Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
 tests	NatParamOverloading.fss		typecheck	1						head of empty list
 tests	NatReflectTest.fss		codegen	2		Only handling some static args of generic types				Only handling some static args of generic types
-tests	NumberPrintTest.fss		disambiguate	1	big			big widen unsigned LSHIFT narrow		Variable big is not defined.
-tests	NumeralTest.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension ZeroIndexed Maybe StandardTotalOrder BigReduction CommutativeMonoidReduction	Equality is undefined.
+tests	NumberPrintTest.fss		disambiguate	1	big			big ; widen ; unsigned ; LSHIFT ; narrow		Variable big is not defined.
+tests	NumeralTest.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; StandardTotalOrder ; BigReduction ; CommutativeMonoidReduction	Equality is undefined.
 tests	ObjectDefVars.fss		typecheck	1						Must provide type for initializer List(z)
 tests	ObjectExprWithFunctionalMethod.fss		codegen	2		emitDesc of type t failed				emitDesc of type t failed
 tests	ObjectFieldShadowing.fss		typecheck	1			assert			Could not check call to function assert
@@ -94,31 +94,31 @@ tests	OverloadConstructor2.fss		typecheck	2			=			Could not check call to operat
 tests	OverloadConstructor3.fss		typecheck	1			=			Could not check call to operator =
 tests	OverloadWithSuperExcludes.fss		codegen	3		VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.				VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
 tests	ParamRef.fss		disambiguate	0	ImmutableArray				ImmutableArray	ImmutableArray is undefined.
-tests	PureListQuick.fss		disambiguate	1	ImmutableArray				ImmutableArray Array MonoidReduction Comprehension Equality ZeroIndexed HasRank Maybe BigReduction	ImmutableArray is undefined.
-tests	QuickCheckTest.fss		disambiguate	3	Equality				Equality ImmutableArray Array MonoidReduction Comprehension HasRank LexicographicOrder Maybe BigReduction Indexed QQ Char Nothing Just AnyMatrix AnyVector AnyMultiplicativeRing StandardTotalOrder ReadableArray Integral Vector RangeWithLeft RangeWithRight PartialRange OpenRange RangeWithExtent ExtentRange BoundedRange LeftRange RightRange FullRange DelegatedIndexed CompactFullRange StridedFullRange AnyIntegral ZeroIndexed CommutativeMonoidReduction	Equality is undefined.
-tests	RandomTest.fss		disambiguate	2	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction Indexed ReadableArray Integral Just Vector RangeWithLeft RangeWithRight PartialRange OpenRange RangeWithExtent ExtentRange BoundedRange LeftRange RightRange FullRange DelegatedIndexed CompactFullRange StridedFullRange AnyIntegral	HasRank is undefined.
-tests	RangePrototype.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction Integral RangeWithLeft RangeWithRight PartialRange OpenRange RangeWithExtent ExtentRange Just BoundedRange LeftRange RightRange FullRange DelegatedIndexed CompactFullRange Indexed StridedFullRange AnyIntegral	HasRank is undefined.
-tests	RangeTest.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
-tests	RationalTest.fss		disambiguate	5	big			big numerator denominator floor ceiling truncate round simplestRationalBetween		Variable big is not defined.
-tests	ReflectTest.fss		disambiguate	2	Equality				Equality ImmutableArray Array MonoidReduction Comprehension HasRank LexicographicOrder Maybe BigReduction StandardTotalOrder ZeroIndexed CommutativeMonoidReduction	Equality is undefined.
-tests	ReflectiveQuickCheckTest.fss		disambiguate	2	Equality				Equality ImmutableArray Array MonoidReduction Comprehension HasRank LexicographicOrder Maybe BigReduction Indexed QQ Char Nothing Just AnyMatrix AnyVector AnyMultiplicativeRing StandardTotalOrder ReadableArray Integral Vector RangeWithLeft RangeWithRight PartialRange OpenRange RangeWithExtent ExtentRange BoundedRange LeftRange RightRange FullRange DelegatedIndexed CompactFullRange StridedFullRange AnyIntegral ZeroIndexed CommutativeMonoidReduction	Equality is undefined.
-tests	Region.fss		disambiguate	1	array1			array1 Nothing Just region Global isShared localize here		Function array1 is not defined.
-tests	ReplicaTest.fss		disambiguate	1	Array1			Array1 Array2 Array3		Array1 is undefined.
-tests	Reversals.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
-tests	SetMapImport.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension Maybe ZeroIndexed StandardTotalOrder BigReduction CommutativeMonoidReduction	Equality is undefined.
-tests	SetTest.fss		disambiguate	2	Equality				Equality ImmutableArray Array MonoidReduction Comprehension ZeroIndexed Maybe StandardTotalOrder BigReduction CommutativeMonoidReduction	Equality is undefined.
-tests	ShuffleTest.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction Array StandardTotalOrder ImmutableArray	HasRank is undefined.
-tests	SkipListTest.fss		disambiguate	1	ImmutableArray				ImmutableArray Array MonoidReduction Comprehension Equality ZeroIndexed HasRank Maybe BigReduction	ImmutableArray is undefined.
+tests	PureListQuick.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Equality ; ZeroIndexed ; HasRank ; Maybe ; BigReduction	ImmutableArray is undefined.
+tests	QuickCheckTest.fss		disambiguate	3	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; Indexed ; QQ ; Char ; Nothing ; Just ; AnyMatrix ; AnyVector ; AnyMultiplicativeRing ; StandardTotalOrder ; ReadableArray ; Integral ; Vector ; RangeWithLeft ; RangeWithRight ; PartialRange ; OpenRange ; RangeWithExtent ; ExtentRange ; BoundedRange ; LeftRange ; RightRange ; FullRange ; DelegatedIndexed ; CompactFullRange ; StridedFullRange ; AnyIntegral ; ZeroIndexed ; CommutativeMonoidReduction	Equality is undefined.
+tests	RandomTest.fss		disambiguate	2	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction ; Indexed ; ReadableArray ; Integral ; Just ; Vector ; RangeWithLeft ; RangeWithRight ; PartialRange ; OpenRange ; RangeWithExtent ; ExtentRange ; BoundedRange ; LeftRange ; RightRange ; FullRange ; DelegatedIndexed ; CompactFullRange ; StridedFullRange ; AnyIntegral	HasRank is undefined.
+tests	RangePrototype.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction ; Integral ; RangeWithLeft ; RangeWithRight ; PartialRange ; OpenRange ; RangeWithExtent ; ExtentRange ; Just ; BoundedRange ; LeftRange ; RightRange ; FullRange ; DelegatedIndexed ; CompactFullRange ; Indexed ; StridedFullRange ; AnyIntegral	HasRank is undefined.
+tests	RangeTest.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
+tests	RationalTest.fss		disambiguate	5	big			big ; numerator ; denominator ; floor ; ceiling ; truncate ; round ; simplestRationalBetween		Variable big is not defined.
+tests	ReflectTest.fss		disambiguate	2	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; StandardTotalOrder ; ZeroIndexed ; CommutativeMonoidReduction	Equality is undefined.
+tests	ReflectiveQuickCheckTest.fss		disambiguate	2	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; Indexed ; QQ ; Char ; Nothing ; Just ; AnyMatrix ; AnyVector ; AnyMultiplicativeRing ; StandardTotalOrder ; ReadableArray ; Integral ; Vector ; RangeWithLeft ; RangeWithRight ; PartialRange ; OpenRange ; RangeWithExtent ; ExtentRange ; BoundedRange ; LeftRange ; RightRange ; FullRange ; DelegatedIndexed ; CompactFullRange ; StridedFullRange ; AnyIntegral ; ZeroIndexed ; CommutativeMonoidReduction	Equality is undefined.
+tests	Region.fss		disambiguate	1	array1			array1 ; Nothing ; Just ; region ; Global ; isShared ; localize ; here		Function array1 is not defined.
+tests	ReplicaTest.fss		disambiguate	1	Array1			Array1 ; Array2 ; Array3		Array1 is undefined.
+tests	Reversals.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
+tests	SetMapImport.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Maybe ; ZeroIndexed ; StandardTotalOrder ; BigReduction ; CommutativeMonoidReduction	Equality is undefined.
+tests	SetTest.fss		disambiguate	2	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; StandardTotalOrder ; BigReduction ; CommutativeMonoidReduction	Equality is undefined.
+tests	ShuffleTest.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction ; Array ; StandardTotalOrder ; ImmutableArray	HasRank is undefined.
+tests	SkipListTest.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Equality ; ZeroIndexed ; HasRank ; Maybe ; BigReduction	ImmutableArray is undefined.
 tests	Spawn1.fss		disambiguate	1	Thread			Thread		Thread is undefined.
 tests	Spawn2.fss		disambiguate	1	Thread			Thread		Thread is undefined.
 tests	Spawn3.fss		disambiguate	0	Thread			Thread		Thread is undefined.
 tests	Spawn4.fss		disambiguate	1	Thread			Thread		Thread is undefined.
 tests	Spawn5.fss		disambiguate	1	Thread			Thread		Thread is undefined.
 tests	Spawn6.fss		disambiguate	1	Thread			Thread		Thread is undefined.
-tests	StringTests.fss		disambiguate	2	Equality				Equality ImmutableArray Array MonoidReduction Comprehension Char HasRank LexicographicOrder Maybe BigReduction ZeroIndexed StandardTotalOrder CommutativeMonoidReduction	Equality is undefined.
+tests	StringTests.fss		disambiguate	2	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; StandardTotalOrder ; CommutativeMonoidReduction	Equality is undefined.
 tests	SubscriptedExpr.fss		disambiguate	2	array1			array1		Function array1 is not defined.
 tests	TestCompiledEnvironments.fss		pass	3						
-tests	TestCompiledImports.fss		disambiguate	2	Equality				Equality ImmutableArray Array MonoidReduction Comprehension HasRank LexicographicOrder Maybe BigReduction ZeroIndexed StandardTotalOrder CommutativeMonoidReduction	Equality is undefined.
+tests	TestCompiledImports.fss		disambiguate	2	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; StandardTotalOrder ; CommutativeMonoidReduction	Equality is undefined.
 tests	TestCompiledNestedImports.fss		pass	2						
 tests	TimingTests.fss		typecheck	2						Missing parameter type for x
 tests	ToTheEOLComment.fss		pass	2						
@@ -127,13 +127,13 @@ tests	TransitiveImportMethodLookup.fss		disambiguate	1	Char			Char		Char is unde
 tests	TreapTest.fss		link	3						Treap$Treap
 tests	TupleBinding.fss		codegen	1		VarDecl (key:String,val:ZZ32)=TupleExpr at tupled lhs not handled.				VarDecl (key:String,val:ZZ32)=TupleExpr at tupled lhs not handled.
 tests	TupleBinding2.fss		typecheck	2			assert			Could not check call to function assert
-tests	TypeImportBug.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension ZeroIndexed Maybe StandardTotalOrder BigReduction CommutativeMonoidReduction	Equality is undefined.
+tests	TypeImportBug.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; StandardTotalOrder ; BigReduction ; CommutativeMonoidReduction	Equality is undefined.
 tests	UnderscoreId.fss		pass	1						
 tests	UnnamedParam.fss		typecheck	2						Function body has type (), but declared return type is ZZ64.
-tests	UnsignedTest.fss		disambiguate	2	unsigned			unsigned LSHIFT RSHIFT REM MOD GCD LCM narrow widen partitionL signed		Variable unsigned is not defined.
+tests	UnsignedTest.fss		disambiguate	2	unsigned			unsigned ; LSHIFT ; RSHIFT ; REM ; MOD ; GCD ; LCM ; narrow ; widen ; partitionL ; signed		Variable unsigned is not defined.
 tests	Variable.VarWTypes.fss		typecheck	1			assert			Could not check call to function assert
 tests	Wildcards.fss		typecheck	1						Must provide type for initializer List(tmp2)
-tests	WordCountSmall.fss		disambiguate	2	Equality				Equality ImmutableArray Array MonoidReduction Comprehension Char Maybe HasRank LexicographicOrder BigReduction ZeroIndexed StandardTotalOrder CommutativeMonoidReduction	Equality is undefined.
+tests	WordCountSmall.fss		disambiguate	2	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; Maybe ; HasRank ; LexicographicOrder ; BigReduction ; ZeroIndexed ; StandardTotalOrder ; CommutativeMonoidReduction	Equality is undefined.
 tests	XXXAlsoEE.fss	yes	typecheck	1						Unmatched delimiter "component".
 tests	XXXAsExpr.fss	yes	typecheck	1						Expression has type IntLiteral, but ascripted type is String.
 tests	XXXExitWithoutEnclosingLabel.fss	yes	typecheck	1						Could not find 'label' with name: quit
@@ -180,7 +180,7 @@ tests	XXXmutableWithoutType.fss	yes	typecheck	1						The type of x is required.
 tests	XXXmutation1.fss	yes	typecheck	1						Could not assign an expression of type String to variable n of type ZZ32.
 tests	XXXmutation2.fss	yes	typecheck	1						Could not assign an expression of type String to variable field of type ZZ32.
 tests	XXXnoclassNativeFn.fss	yes	disambiguate	1	builtinPrimitive			builtinPrimitive		Variable builtinPrimitive is not defined.
-tests	XXXnonBooleanCond.fss	yes	disambiguate	1	Char				Char Maybe	Char is undefined.
+tests	XXXnonBooleanCond.fss	yes	disambiguate	1	Char				Char ; Maybe	Char is undefined.
 tests	XXXoutcome.fss	yes	typecheck	1						Invalid variable name: 'outcome' is a reserved word.
 tests	XXXoverloadTest5.fss	yes	typecheck	1						
 tests	XXXseqLoopError.fss	yes	typecheck	2						O has no getter called nonexistentfield
@@ -189,7 +189,7 @@ tests	XXXtupleTypeParam3.fss	yes	typecheck	1						Ill-formed type: A[\(ZZ32, ZZ3
 tests	XXXtypeParamShadowing.fss	yes	run	2						This program should be failed with a shadowing bug.
 tests	XXXtypecaseTest.fss	yes	run	1						FortressException: class fortress.CompilerLibrary$MatchFailure with string Match failure
 tests	XXXvarargsObject.fss	yes	typecheck	0						Varargs parameters of objects are not allowed.
-tests	abortBlock.fss		disambiguate	1	printThreadInfo			printThreadInfo abort		Variable printThreadInfo is not defined.
+tests	abortBlock.fss		disambiguate	1	printThreadInfo			printThreadInfo ; abort		Variable printThreadInfo is not defined.
 tests	abortTest.fss		disambiguate	1	TryAtomicFailure			TryAtomicFailure		TryAtomicFailure is undefined.
 tests	ampersand.fss		typecheck	2			assert			Could not check call to function assert
 tests	anyLenArray.fss		disambiguate	1	Array			Array		Array is undefined.
@@ -200,7 +200,7 @@ tests	arrayTest1.fss		typecheck	1						head of empty list
 tests	arrayTest2.fss		typecheck	1						head of empty list
 tests	arrayTest3.fss		typecheck	1						head of empty list
 tests	arrayWithTrailingSpaces.fss		typecheck	1						head of empty list
-tests	asifTest.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	asifTest.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	atomic0.fss		pass	1						
 tests	atomic1.fss		typecheck	2						Could not check method invocation Range.loop
 tests	atomic2.fss		pass	2						
@@ -211,14 +211,14 @@ tests	atomicArrayOps.fss		disambiguate	1	Array			Array		Array is undefined.
 tests	atomicExpr.fss		typecheck	2						Non-last expression in a block has type ((), ()), but it must have () type.
 tests	atomicList.fss		typecheck	2						Invalid comprises clause: CompilerBuiltin.Exception has a comprises clause
 tests	atomicTest.fss		pass	2						
-tests	atomicsets.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension ZeroIndexed Maybe StandardTotalOrder BigReduction CommutativeMonoidReduction	Equality is undefined.
-tests	bigEncloserCall.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	atomicsets.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; StandardTotalOrder ; BigReduction ; CommutativeMonoidReduction	Equality is undefined.
+tests	bigEncloserCall.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	bogusNatParams.fss		typecheck	1						head of empty list
-tests	booleanGuard.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
-tests	buffons.fss		disambiguate	1	ceiling			ceiling floor		Variable ceiling is not defined.
+tests	booleanGuard.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
+tests	buffons.fss		disambiguate	1	ceiling			ceiling ; floor		Variable ceiling is not defined.
 tests	caseTest.fss		typecheck	2						Not yet implemented
-tests	caseWithSemicolons.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension HasRank LexicographicOrder Maybe BigReduction ZeroIndexed StandardTotalOrder CommutativeMonoidReduction	Equality is undefined.
-tests	chain0.fss		disambiguate	1	MOD			MOD GCD LCM		Operator MOD is not defined.
+tests	caseWithSemicolons.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; StandardTotalOrder ; CommutativeMonoidReduction	Equality is undefined.
+tests	chain0.fss		disambiguate	1	MOD			MOD ; GCD ; LCM		Operator MOD is not defined.
 tests	chain2.fss		run	3						FortressException: class fortress.CompilerBuiltin$CompilerFailureDetectedAtRunTime with string Compiler failure detected at runtime
 tests	commonSuper.fss		typecheck	2						You should be able to call methods on this type,OR(B,C)but this is not yet implemented.: Not yet implemented
 tests	compoundArray.fss		disambiguate	1	//			//		Operator // is not defined.
@@ -238,11 +238,11 @@ tests	doubledOverloading2.fss		typecheck	1						Non-last expression in a block h
 tests	doubledOverloading3.fss		pass	2						
 tests	emptyLoop.fss		pass	2						
 tests	emptySubscripting.fss		typecheck	1			assert			Could not check call to function assert
-tests	errIN.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	errIN.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	executable_component.fss		pass	1						
 tests	exitType.fss		typecheck	1						Function body has type ZZ32, but declared return type is ().
 tests	expTest.fss		typecheck	2			^			Could not check call to operator ^
-tests	explicitStaticArgsToAggregates.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension HasRank LexicographicOrder Maybe BigReduction ZeroIndexed StandardTotalOrder CommutativeMonoidReduction	Equality is undefined.
+tests	explicitStaticArgsToAggregates.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; StandardTotalOrder ; CommutativeMonoidReduction	Equality is undefined.
 tests	extendAny.fss		disambiguate	1						Type name may refer to: Infinity, CompilerBuiltin.Infinity
 tests	extendException.fss		disambiguate	1						Type name may refer to: Infinity, CompilerBuiltin.Infinity
 tests	extendNumber.fss		disambiguate	1						Type name may refer to: Infinity, CompilerBuiltin.Infinity
@@ -275,38 +275,38 @@ tests	ifGetter.fss		pass	1
 tests	ifTest.fss		pass	1						
 tests	immutable.fss		codegen	2		Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException				Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
 tests	immutableTopLevel.fss		codegen	2		VarDecl (var effects:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.				VarDecl (var effects:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
-tests	importBig.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	importBig.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	infixBars.fss		typecheck	1			assert			Could not check call to function assert
 tests	initOrder.fss		pass	2						
 tests	instantiateNatParam.fss		typecheck	2						class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
 tests	intDivisionTest.fss		typecheck	1			/			Could not check call to operator /
-tests	intPrim.fss		disambiguate	1	REM			REM MOD ? GCD LCM LSHIFT RSHIFT		Operator REM is not defined.
-tests	juxtTwice.fss		disambiguate	2	sin			sin log		Variable sin is not defined.
+tests	intPrim.fss		disambiguate	1	REM			REM ; MOD ; ? ; GCD ; LCM ; LSHIFT ; RSHIFT		Operator REM is not defined.
+tests	juxtTwice.fss		disambiguate	2	sin			sin ; log		Variable sin is not defined.
 tests	labelExit.fss		disambiguate	1	array1			array1		Function array1 is not defined.
 tests	letRecTest.fss		typecheck	1						Missing parameter type for x
 tests	litCoercion.fss		typecheck	2						Function body has type ZZ64, but declared return type is ().
-tests	longPrim.fss		disambiguate	1	widen			widen REM MOD ? GCD LCM LSHIFT RSHIFT		Variable widen is not defined.
-tests	mapCombine.fss		disambiguate	2	Equality				Equality ImmutableArray Array MonoidReduction Comprehension Maybe ZeroIndexed StandardTotalOrder BigReduction CommutativeMonoidReduction	Equality is undefined.
+tests	longPrim.fss		disambiguate	1	widen			widen ; REM ; MOD ; ? ; GCD ; LCM ; LSHIFT ; RSHIFT		Variable widen is not defined.
+tests	mapCombine.fss		disambiguate	2	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Maybe ; ZeroIndexed ; StandardTotalOrder ; BigReduction ; CommutativeMonoidReduction	Equality is undefined.
 tests	matchingCharacterMarks.fss		pass	1						
 tests	matchingStringMarks.fss		pass	2						
-tests	matrixOps.fss		disambiguate	1	matrix			matrix array2 vector		Function matrix is not defined.
-tests	maybeTest.fss		disambiguate	1	Nothing			Nothing Just NOTIN		Function Nothing is not defined.
-tests	mixedTypeAnnotation.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	matrixOps.fss		disambiguate	1	matrix			matrix ; array2 ; vector		Function matrix is not defined.
+tests	maybeTest.fss		disambiguate	1	Nothing			Nothing ; Just ; NOTIN		Function Nothing is not defined.
+tests	mixedTypeAnnotation.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	multiGenFor.fss		disambiguate	1	matrix			matrix		Function matrix is not defined.
-tests	naiveSeq.fss		disambiguate	1	partition			partition BIG +		Variable partition is not defined.
+tests	naiveSeq.fss		disambiguate	1	partition			partition ; BIG +		Variable partition is not defined.
 tests	natInference0.fss		typecheck	2						class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
-tests	nativeArrayTest.fss		disambiguate	1	Array1				Array1 ImmutableArray1	Array1 is undefined.
-tests	nativeImmutableArrayTest.fss		disambiguate	1	Array1				Array1 ImmutableArray1	Array1 is undefined.
+tests	nativeArrayTest.fss		disambiguate	1	Array1				Array1 ; ImmutableArray1	Array1 is undefined.
+tests	nativeImmutableArrayTest.fss		disambiguate	1	Array1				Array1 ; ImmutableArray1	Array1 is undefined.
 tests	nativeTestFn.fss		disambiguate	1	builtinPrimitive			builtinPrimitive		Variable builtinPrimitive is not defined.
-tests	naturalsTest.fss		disambiguate	1	Nothing			Nothing Just NOTIN		Function Nothing is not defined.
+tests	naturalsTest.fss		disambiguate	1	Nothing			Nothing ; Just ; NOTIN		Function Nothing is not defined.
 tests	neOperator.fss		typecheck	2			NE			Could not check call to operator NE
 tests	nestedInst.fss		pass	2						
 tests	nestedOutcome.fss		typecheck	1						Variable 'outcome' not found.
-tests	nestedTransactions1.fss		disambiguate	1	recordTime			recordTime printTime		Variable recordTime is not defined.
-tests	nestedTransactions2.fss		disambiguate	1	recordTime			recordTime printTime		Variable recordTime is not defined.
+tests	nestedTransactions1.fss		disambiguate	1	recordTime			recordTime ; printTime		Variable recordTime is not defined.
+tests	nestedTransactions2.fss		disambiguate	1	recordTime			recordTime ; printTime		Variable recordTime is not defined.
 tests	nestedTransactions3.fss		disambiguate	1	TryAtomicFailure			TryAtomicFailure		TryAtomicFailure is undefined.
-tests	nestedTransactions4.fss		disambiguate	1	recordTime			recordTime printTime		Variable recordTime is not defined.
-tests	newASCIIshorthands.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	nestedTransactions4.fss		disambiguate	1	recordTime			recordTime ; printTime		Variable recordTime is not defined.
+tests	newASCIIshorthands.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	newlineTest.fss		typecheck	1						The typecase clause, (ZZ32, RR64), is unreachable.
 tests	nullaryOverload.fss		pass	2						
 tests	objectCC.fss		typecheck	2			assert			Could not check call to function assert
@@ -329,7 +329,7 @@ tests	objectTest8.fss		typecheck	2						Right-hand side has type T, but declared
 tests	objectZZ.fss		disambiguate	1	Rank			Rank		Rank is undefined.
 tests	oddJuxt.fss		disambiguate	1	HasRank				HasRank	HasRank is undefined.
 tests	operatorSynonym.fss		typecheck	1			assert			Could not check call to function assert
-tests	oprTests.fss		disambiguate	1	sin			sin log atan		Variable sin is not defined.
+tests	oprTests.fss		disambiguate	1	sin			sin ; log ; atan		Variable sin is not defined.
 tests	overloadGenericNon.fss		disambiguate	1	//			//		Operator // is not defined.
 tests	overloadTest1.fss		codegen	3		VarDecl (var a1c:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.				VarDecl (var a1c:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
 tests	overloadTest2.fss		codegen	2		VarDecl (var a1c:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.				VarDecl (var a1c:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
@@ -337,16 +337,16 @@ tests	overloadTest3.fss		typecheck	1						Missing parameter type for x
 tests	overloadTest6.fss		typecheck	2			a			Could not check call to function a
 tests	overloadTest7.fss		codegen	3		VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.				VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
 tests	overloadTest8.fss		codegen	2		VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.				VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
-tests	parametricListCompr.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension HasRank LexicographicOrder Maybe BigReduction ZeroIndexed StandardTotalOrder CommutativeMonoidReduction	Equality is undefined.
-tests	parametricManiaCompr.fss		disambiguate	2	Equality				Equality ImmutableArray Array MonoidReduction Comprehension HasRank LexicographicOrder Maybe BigReduction StandardTotalOrder ZeroIndexed CommutativeMonoidReduction	Equality is undefined.
+tests	parametricListCompr.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; StandardTotalOrder ; CommutativeMonoidReduction	Equality is undefined.
+tests	parametricManiaCompr.fss		disambiguate	2	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; StandardTotalOrder ; ZeroIndexed ; CommutativeMonoidReduction	Equality is undefined.
 tests	postfixTest.fss		typecheck	1			assert			Could not check call to function assert
 tests	precedence.fss		run	2						FortressException: class fortress.CompilerBuiltin$CompilerFailureDetectedAtRunTime with string Compiler failure detected at runtime
 tests	primOverloadTest.fss		disambiguate	1	Array1			Array1		Array1 is undefined.
 tests	primeCharacter.fss		pass	1						
 tests	printTests.fss		typecheck	1			print			Could not check call to function print
-tests	quicksortTest.fss		disambiguate	2	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction Array StandardTotalOrder	HasRank is undefined.
+tests	quicksortTest.fss		disambiguate	2	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction ; Array ; StandardTotalOrder	HasRank is undefined.
 tests	rangeOperators.fss		typecheck	3			juxtaposition			Could not check call to operator juxtaposition
-tests	realArith.fss		disambiguate	2	PLUS_UP			PLUS_UP MINUS_UP DOT_UP SLASH_UP prefix SQRT_UP PLUS_DOWN MINUS_DOWN DOT_DOWN SLASH_DOWN prefix SQRT_DOWN sin cos tan asin acos atan atan2 log exp floor ceiling truncate Just Nothing		Operator PLUS_UP is not defined.
+tests	realArith.fss		disambiguate	2	PLUS_UP			PLUS_UP ; MINUS_UP ; DOT_UP ; SLASH_UP ; prefix SQRT_UP ; PLUS_DOWN ; MINUS_DOWN ; DOT_DOWN ; SLASH_DOWN ; prefix SQRT_DOWN ; sin ; cos ; tan ; asin ; acos ; atan ; atan2 ; log ; exp ; floor ; ceiling ; truncate ; Just ; Nothing		Operator PLUS_UP is not defined.
 tests	restTest.fss		disambiguate	1	BIG +			BIG +		Operator BIG + is not defined.
 tests	restTest2.fss		disambiguate	1	BIG +			BIG +		Operator BIG + is not defined.
 tests	restTest2a.fss		disambiguate	1	BIG +			BIG +		Operator BIG + is not defined.
@@ -356,18 +356,18 @@ tests	roundBug.fss		disambiguate	1	round			round		Variable round is not defined.
 tests	rshiftbug.fss		disambiguate	1	RSHIFT			RSHIFT		Operator RSHIFT is not defined.
 tests	scopeSharing.fss		codegen	2		Can't compile ObjectExpr				Can't compile ObjectExpr at /home/user/fortress/ProjectFortress/tests/scopeSharing.fss:27.6
 tests	seqLoop.fss		disambiguate	2	vector			vector		Function vector is not defined.
-tests	sequivTest.fss		disambiguate	1	BIG ||			BIG || Nothing Just		Operator BIG || is not defined.
+tests	sequivTest.fss		disambiguate	1	BIG ||			BIG || ; Nothing ; Just		Operator BIG || is not defined.
 tests	setMakerTest0.fss		disambiguate	1	ImmutableArray				ImmutableArray	ImmutableArray is undefined.
-tests	setSum.fss		disambiguate	1	Equality				Equality ImmutableArray Array MonoidReduction Comprehension HasRank LexicographicOrder Maybe BigReduction ZeroIndexed StandardTotalOrder CommutativeMonoidReduction	Equality is undefined.
+tests	setSum.fss		disambiguate	1	Equality				Equality ; ImmutableArray ; Array ; MonoidReduction ; Comprehension ; HasRank ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; StandardTotalOrder ; CommutativeMonoidReduction	Equality is undefined.
 tests	setterTest.fss		disambiguate	1	array1			array1		Function array1 is not defined.
 tests	sideEffUpdate.fss		typecheck	1						head of empty list
-tests	simpleBig.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
+tests	simpleBig.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
 tests	simpleExp.fss		typecheck	2						Right-hand side has type NN64, but declared type is RR64.
-tests	simpleSum.fss		disambiguate	2	BIG +			BIG + MOD ? BIG juxtaposition BIG MIN		Operator BIG + is not defined.
+tests	simpleSum.fss		disambiguate	2	BIG +			BIG + ; MOD ; ? ; BIG juxtaposition ; BIG MIN		Operator BIG + is not defined.
 tests	simplify1.fss		codegen	2		Can't compile LetFn				Can't compile LetFn at /home/user/fortress/ProjectFortress/tests/simplify1.fss:29.3
-tests	singleArgInference.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
-tests	sparseMatrix.fss		disambiguate	1	Array				Array Vector Array1	Array is undefined.
-tests	spuriousSelf.fss		disambiguate	1	Indexed			Indexed HasRank ReadableArray1 DelegatedIndexed		Indexed is undefined.
+tests	singleArgInference.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
+tests	sparseMatrix.fss		disambiguate	1	Array				Array ; Vector ; Array1	Array is undefined.
+tests	spuriousSelf.fss		disambiguate	1	Indexed			Indexed ; HasRank ; ReadableArray1 ; DelegatedIndexed		Indexed is undefined.
 tests	stringJuxt.fss		disambiguate	1	IndexOutOfBounds			IndexOutOfBounds		IndexOutOfBounds is undefined.
 tests	subArray.fss		disambiguate	1	Array			Array		Array is undefined.
 tests	taskTrace2.fss		disambiguate	1	printTaskTrace			printTaskTrace		Variable printTaskTrace is not defined.
@@ -375,7 +375,7 @@ tests	taskTrace3.fss		disambiguate	1	printTaskTrace			printTaskTrace		Variable p
 tests	testCharLiteral.fss		typecheck	2			assert			Could not check call to function assert
 tests	testParen.fss		run	1						FortressException: class fortress.CompilerBuiltin$CompilerFailureDetectedAtRunTime with string Compiler failure detected at runtime
 tests	testPrim.fss		disambiguate	2	builtinPrimitive			builtinPrimitive		Variable builtinPrimitive is not defined.
-tests	testRR32.fss		disambiguate	1	narrow			narrow PLUS_UP MINUS_UP DOT_UP SLASH_UP prefix SQRT_UP PLUS_DOWN MINUS_DOWN DOT_DOWN SLASH_DOWN prefix SQRT_DOWN floor ceiling truncate Just Nothing		Variable narrow is not defined.
+tests	testRR32.fss		disambiguate	1	narrow			narrow ; PLUS_UP ; MINUS_UP ; DOT_UP ; SLASH_UP ; prefix SQRT_UP ; PLUS_DOWN ; MINUS_DOWN ; DOT_DOWN ; SLASH_DOWN ; prefix SQRT_DOWN ; floor ; ceiling ; truncate ; Just ; Nothing		Variable narrow is not defined.
 tests	testRecImport.fss		typecheck	2			assert			Could not check call to function assert
 tests	testTest1.fss		typecheck	2			assert			Could not check call to function assert
 tests	testTest2.fss		typecheck	2						Cannot infer type for function fact(x:ZZ32) because it has reference cycle: fact(x:ZZ32), fact(x:ZZ32)
@@ -403,9 +403,9 @@ tests	typecaseTest.fss		typecheck	2						The typecase clause, ZZ32, is unreachab
 tests	typecaseVarTest.fss		typecheck	1						The typecase clause, ZZ32, is unreachable.
 tests	unicodeTest.fss		codegen	2		VarDecl (??:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.				VarDecl (??:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
 tests	varTest.fss		pass	1						
-tests	vectorOps.fss		disambiguate	1	||_||			||_|| vector pmul		Operator ||_|| is not defined.
-tests	whereTest.fss		disambiguate	1	HasRank				HasRank LexicographicOrder Maybe Comprehension BigReduction MonoidReduction	HasRank is undefined.
-tests	whileTest.fss		disambiguate	1	ReadableArray			ReadableArray Maybe		ReadableArray is undefined.
+tests	vectorOps.fss		disambiguate	1	||_||			||_|| ; vector ; pmul		Operator ||_|| is not defined.
+tests	whereTest.fss		disambiguate	1	HasRank				HasRank ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	HasRank is undefined.
+tests	whileTest.fss		disambiguate	1	ReadableArray			ReadableArray ; Maybe		ReadableArray is undefined.
 tests	wrapZZ.fss		disambiguate	1	//			//		Operator // is not defined.
 tests	wrongOverload.fss		typecheck	2						Not in the trait table: CompilerLibrary.Array2
-tests	zeno.fss		disambiguate	1	Array1				Array1 Array	Array1 is undefined.
+tests	zeno.fss		disambiguate	1	Array1				Array1 ; Array	Array1 is undefined.
