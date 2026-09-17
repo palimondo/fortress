@@ -42,6 +42,12 @@ Step 6: the codegen holes the program hits (local functions first, ledger 304); 
 
 Step 7: the three kernels and C4 compile and run; the differential check against the interpreter passes; then the timing against the Java baseline (written any time, in parallel).
 
-## Stop conditions for autonomous work
+## Stop conditions for autonomous work (widened 2026-09-17 on Pavol's word)
 
-A rung's gate is red twice: revert, record, stop. The next name needs an edit outside `Library/`, `LibraryBuiltin/` or the two runtime files: stop and report. Disk under 500 MB after sweeping `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`: stop.
+Any source in the tree may be edited under the rule above; which file it is in is not a decision. What stops the climb: a design fork (the array representation, boxed against `double[]`/`int[]`; the library route, the interpreter's library as prelude against growing the compiler library beyond what one rung needs; any change of semantics against the spec; deleting a test to get green); a rung's gate red twice after one repair (revert, record, continue with the next name); disk under 500 MB after sweeping `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`; a permission denied.
+
+Steps 3 and 4 are therefore one climb: a rung takes whatever the blocking name needs, library, checker or codegen. Rung 1 is the `Equality` knot: the duplicated prelude list (`WellKnownNames.java:124`, `TopLevelEnv.java:967-976`), the checker's `comprises T` kind-environment defect (`TypeAnalyzer.scala:764-766`), the private `Equality` in `library_tests/MaybeTest9.fss`.
+
+## Refused rungs
+
+Rung 1, `Equality`, 2026-09-17, under the old boundary: recorded in `compile-ladder/rung1/REPORT.md`; re-opened under the widened rule.
