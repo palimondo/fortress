@@ -1,0 +1,11 @@
+component BigLit
+export Executable
+(* Rung 6, the getter's own boundary: a literal of bitLength > 64 keeps its
+   decimal string in FIntLiteral.largerVal, and asZZ64 refuses it.  asZZ would
+   not; see REPORT.md, "Why asZZ64 and not asZZ". *)
+run() = do
+  a = 18446744073709551616
+  b = 5
+  println("BigLit " (a < b))
+end
+end

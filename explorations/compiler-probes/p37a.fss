@@ -1,0 +1,13 @@
+component p37a
+export Executable
+(* Ledger row 317, the same wrap reached through a declared binding: the coercion
+   ZZ64.coerce(x: IntLiteral) = x.asZZ64 reads a value the code generator has
+   already wrapped, so annotating the binding is not a workaround, and this
+   half of the divergence predates the rung that gave IntLiteral's comparisons
+   bodies. *)
+run() = do
+  a: ZZ64 = 4294967295   (* 2^32 - 1, bitLength 32 *)
+  b: ZZ64 = 5
+  println("p37a a<b " (a < b))
+end
+end

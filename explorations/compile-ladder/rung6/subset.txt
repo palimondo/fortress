@@ -1,0 +1,7 @@
+tests/testParen.fss
+tests/chain2.fss
+tests/tupleTest1.fss
+tests/XXXcaseTest.fss
+tests/precedence.fss
+tests/forFnDecl.fss
+tests/ampersand.fss

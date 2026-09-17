@@ -1,0 +1,92 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component IntLiteralRung6
+export Executable
+
+(*) Rung 6 of the compile-path ladder: the comparing operators of IntLiteral
+(*) and MIN and MAX, which the compiler world declares and then refuses at
+(*) run time.
+(*)
+(*) A binding written without a declared type from an integer literal keeps
+(*) the static type IntLiteral on the compile path, and every operator
+(*) applied to it resolves to trait IntLiteral's own declaration rather than
+(*) to a coerced ZZ32 or ZZ64 one.  Those declarations exist -- 33 of them,
+(*) ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:378-410 -- and every
+(*) body is "throw CompilerFailureDetectedAtRunTime" (.fss:816-848).  Such a
+(*) program therefore compiles clean, links clean, and dies on its first
+(*) comparison.  That is gap-ledger row 80.
+(*)
+(*) The interpreter does not have this trap, and its IntLiteral shows where
+(*) the line belongs.  ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:472-481
+(*) keeps the comparing family live, with real bodies over cmp; :483-525
+(*) comments out the arithmetic family under the note "Do not enable these
+(*) until coercion is implemented; doing so will cause all our arithmetic to
+(*) occur on IntLiterals."  This rung draws that same line in the compiler
+(*) world: bodies for the comparisons, nothing touched in the arithmetic.
+(*)
+(*) MIN and MAX belong on the comparing side.  The interpreter gets them for
+(*) free because its IntLiteral extends ZZ32; the compiler world's extends
+(*) Number and Equality only, so they need bodies of their own, and they can
+(*) have them, because each returns one of its two operands and so needs no
+(*) way to build a new IntLiteral.  That is exactly what separates this rung
+(*) from the arithmetic family, whose results are new values.
+(*)
+(*) This test pins the eight operators the blocked programs of
+(*) ProjectFortress/tests/ reach: the six comparisons, MIN and MAX.  Every
+(*) operand is computed at run time by pick(), not written twice as a
+(*) literal, so a body that returned a constant or compared boxes would not
+(*) pass.  MIN and MAX are checked through asZZ32 against a ZZ32, so their
+(*) values are pinned by ZZ32's equality and not by the IntLiteral equality
+(*) this same test is checking.
+
+(*) Returns 4 or 9 as an IntLiteral, chosen at run time.
+pick(b: Boolean): IntLiteral = if b then 4 else 9 end
+
+run():() = do
+    small = pick(true)
+    large = pick(false)
+    alsoSmall = pick(true)
+
+    assert(small < large, "IntLiteral <: small < large is false")
+    deny(large < small, "IntLiteral <: large < small is true")
+    deny(small < alsoSmall, "IntLiteral <: small < alsoSmall is true")
+
+    assert(small <= large, "IntLiteral <=: small <= large is false")
+    assert(small <= alsoSmall, "IntLiteral <=: small <= alsoSmall is false")
+    deny(large <= small, "IntLiteral <=: large <= small is true")
+
+    assert(large > small, "IntLiteral >: large > small is false")
+    deny(small > large, "IntLiteral >: small > large is true")
+    deny(small > alsoSmall, "IntLiteral >: small > alsoSmall is true")
+
+    assert(large >= small, "IntLiteral >=: large >= small is false")
+    assert(small >= alsoSmall, "IntLiteral >=: small >= alsoSmall is false")
+    deny(small >= large, "IntLiteral >=: small >= large is true")
+
+    assert(small = alsoSmall, "IntLiteral =: small = alsoSmall is false")
+    deny(small = large, "IntLiteral =: small = large is true")
+
+    assert(small =/= large, "IntLiteral =/=: small =/= large is false")
+    deny(small =/= alsoSmall, "IntLiteral =/=: small =/= alsoSmall is true")
+
+    assert((small MIN large).asZZ32, 4, "IntLiteral MIN: small MIN large")
+    assert((large MIN small).asZZ32, 4, "IntLiteral MIN: large MIN small")
+    assert((small MIN alsoSmall).asZZ32, 4, "IntLiteral MIN: small MIN alsoSmall")
+
+    assert((small MAX large).asZZ32, 9, "IntLiteral MAX: small MAX large")
+    assert((large MAX small).asZZ32, 9, "IntLiteral MAX: large MAX small")
+    assert((large MAX large).asZZ32, 9, "IntLiteral MAX: large MAX large")
+
+    println "PASS"
+end
+
+end

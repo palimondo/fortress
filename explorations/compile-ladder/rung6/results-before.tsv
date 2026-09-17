@@ -1,0 +1,7 @@
+tests/testParen.fss	testParen	0	1
+tests/chain2.fss	chain2	0	1
+tests/tupleTest1.fss	tupleTest1	0	1
+tests/XXXcaseTest.fss	XXXcaseTest	0	1
+tests/precedence.fss	precedence	0	1
+tests/forFnDecl.fss	forFnDecl	0	1
+tests/ampersand.fss	ampersand	0	1

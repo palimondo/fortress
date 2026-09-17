@@ -1,0 +1,16 @@
+component p37
+export Executable
+(* Ledger row 317: an integer literal whose bitLength is exactly 32 or exactly 64 is
+   carried to the compiled path through BigInteger.intValue()/longValue() in
+   CodeGen.forIntLiteralExpr, which wraps it negative.  The comparing operators
+   of IntLiteral read the wrapped value through asZZ64 and answer the opposite
+   of the interpreter, silently. *)
+run() = do
+  a = 18446744073709551615   (* 2^64 - 1, bitLength 64 *)
+  b = 4294967295             (* 2^32 - 1, bitLength 32 *)
+  c = 5
+  println("p37 a<c " (a < c))
+  println("p37 b<c " (b < c))
+  println("p37 a<b " (a < b))
+end
+end

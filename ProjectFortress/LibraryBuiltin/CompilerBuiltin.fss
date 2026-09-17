@@ -829,19 +829,19 @@ trait IntLiteral extends { Number, Equality[\IntLiteral\] } excludes {ZZ32, ZZ64
     opr BOXCROSS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr DOTCROSS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr DIV(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr <(self, other:IntLiteral): Boolean = throw CompilerFailureDetectedAtRunTime
-    opr <=(self, other:IntLiteral): Boolean = throw CompilerFailureDetectedAtRunTime
-    opr >(self, other:IntLiteral): Boolean = throw CompilerFailureDetectedAtRunTime
-    opr >=(self, other:IntLiteral): Boolean = throw CompilerFailureDetectedAtRunTime
-    opr =(self, other:IntLiteral): Boolean = throw CompilerFailureDetectedAtRunTime
-    opr =/=(self, other:IntLiteral): Boolean = throw CompilerFailureDetectedAtRunTime
+    opr <(self, other:IntLiteral): Boolean = self.asZZ64 < other.asZZ64
+    opr <=(self, other:IntLiteral): Boolean = self.asZZ64 <= other.asZZ64
+    opr >(self, other:IntLiteral): Boolean = self.asZZ64 > other.asZZ64
+    opr >=(self, other:IntLiteral): Boolean = self.asZZ64 >= other.asZZ64
+    opr =(self, other:IntLiteral): Boolean = self.asZZ64 = other.asZZ64
+    opr =/=(self, other:IntLiteral): Boolean = self.asZZ64 =/= other.asZZ64
     opr juxtaposition(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr BITNOT(self): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr BITAND(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr BITOR(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr BITXOR(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr MIN(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr MAX(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
+    opr MIN(self, other:IntLiteral): IntLiteral = if self <= other then self else other end
+    opr MAX(self, other:IntLiteral): IntLiteral = if self <= other then other else self end
     opr MINMAX(self, other:IntLiteral): (IntLiteral, IntLiteral) = throw CompilerFailureDetectedAtRunTime
     opr CHOOSE(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     even(self): Boolean = throw CompilerFailureDetectedAtRunTime
