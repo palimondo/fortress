@@ -1,0 +1,17 @@
+/home/user/fortress/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress/Library/List.fsi:74:17-20:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:75:18-21:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:76:25-28:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:77:26-29:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+File newASCIIshorthands.fss has 8 errors.

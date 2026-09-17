@@ -1,0 +1,52 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component HasRankRung2
+export Executable
+
+(*) Rung 2 of the compile-path ladder: HasRank, the rank marker trait.  The
+(*) interpreter declares it at Library/FortressLibrary.fsi:1058 (implementation
+(*) Library/FortressLibrary.fss:1584) and it is in the interpreter's implicit
+(*) prelude; the compiler world declares it nowhere, so every compilation that
+(*) reaches Library/List.fsi:55 stops with "HasRank is undefined."
+(*)
+(*) The two uses the blocked libraries make of the name are both exercised here.
+(*) Library/List.fsi:55,68 names HasRank only in excludes clauses, so Unranked
+(*) stands for AnyList and List.  Library/FortressLibrary.fss:1584 declares
+(*) rank() abstract and the array traits answer it, so Ranked2 stands for an
+(*) array trait and rankOf takes HasRank as a type.
+(*)
+(*) The trait's own opr =(self, other:HasRank) is deliberately not exercised
+(*) here: it is a second declaration with its own overload question, and the
+(*) name this rung is measured by is HasRank itself.
+
+trait Ranked2 extends HasRank
+    rank(): ZZ32 = 2
+end
+
+object Grid extends Ranked2 end
+
+trait Unranked excludes { HasRank }
+    tag(): ZZ32
+end
+
+object Tape extends Unranked
+    tag(): ZZ32 = 7
+end
+
+rankOf(x: HasRank): ZZ32 = x.rank()
+
+run(): () = do
+    ok: Boolean = (rankOf(Grid) = 2) AND (Tape.tag() = 7)
+    println(if ok then "PASS" else "FAIL")
+end
+
+end

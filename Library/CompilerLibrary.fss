@@ -507,6 +507,20 @@ randomZZ32(x:ZZ32): ZZ32 = jRandomInt(0,x)
 *)
 
 (************************************************************
+ * Array support
+ ************************************************************)
+
+(*) The rank marker trait, the compiler world's copy of Library/FortressLibrary.fsi:1058.
+(*) Two departures from the interpreter's text.  Its excludes clause also names AnyMaybe,
+(*) which the compiler world does not declare, so the exclusion has no referent here.
+(*) Its opr =(self, other:HasRank): Boolean = false is not redeclared, so HasRank takes
+(*) the opr = that CompilerAlgebra.Equality supplies.
+
+trait HasRank extends Equality[\HasRank\] excludes { Number }
+  rank(): ZZ32
+end
+
+(************************************************************
  * Matrices (stub)
  ************************************************************)
 trait Matrix[\T, nat s0, nat s1\] extends Object end

@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/oddJuxt.fss:22:9-21:
+    Function Nothing is not defined.
+/home/user/fortress/ProjectFortress/tests/oddJuxt.fss:24:13-25:
+    Function Nothing is not defined.
+File oddJuxt.fss has 2 errors.
