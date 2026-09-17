@@ -36,6 +36,7 @@ trait String extends StandardTotalOrder[\String\]
     abstract opr |self| : ZZ32
     abstract opr || (self, b:Object): String
     abstract opr ||| (self, b:Object): String
+    opr //(self, b:Object): String
     abstract opr juxtaposition(self, b:Object): String
     abstract opr[i:ZZ32] : Character
     abstract substring(lo:ZZ32, hi:ZZ32): String

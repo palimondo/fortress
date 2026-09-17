@@ -1,0 +1,4 @@
+tests/OverloadBuiltinParam.fss
+tests/compoundArray.fss
+tests/overloadGenericNon.fss
+tests/wrapZZ.fss

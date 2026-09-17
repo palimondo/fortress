@@ -1,0 +1,73 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component LineConcatRung5
+export Executable
+
+(*) Rung 5 of the compile-path ladder: the operator // on String, which
+(*) concatenates with a single newline separator.
+(*)
+(*) The interpreter declares it as a functional method of String at
+(*) Library/FortressLibrary.fsi:2358-2362, implemented at
+(*) Library/FortressLibrary.fss:4057-4060 as self || newline || a.  The
+(*) compiler world's String trait declared ||, ||| and juxtaposition
+(*) (ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37-38 and :40,
+(*) bodies at .fss:382-383 and :417-418) and nothing named //, so every
+(*) compilation that wrote x // y stopped at disambiguation with
+(*) "Operator // is not defined."  This test is what // was added for:
+(*) CompilerBuiltin.fsi:39 and .fss:385.
+(*)
+(*) Only the infix form is exercised.  The interpreter also carries the
+(*) prefix and postfix forms (opr //(self) at Library/FortressLibrary.fss:4057
+(*) and the top-level opr (x:Any)// at :4206) and the doubled ///; no program in
+(*) ProjectFortress/tests/ reaches them, so they are not this rung's name.
+(*)
+(*) The separator is pinned four ways, so that a body concatenating with the
+(*) wrong character would not pass: the joined string is exactly one character
+(*) longer than its two halves, each half comes back out of a substring, the
+(*) whole equals its halves joined by the character with code point 10, and
+(*) the space and the empty separator are denied.  The newline is built with
+(*) makeCharacter(10) (CompilerBuiltin.fsi:481) rather than written as a
+(*) string escape, so that the test pins the operator and not the lexer.
+(*)
+(*) The four blocked programs write the left operand as a juxtaposition,
+(*) "z = " z.n // "w = " w.n .  This test writes || there instead, because
+(*) juxtaposition inserts a space on the compiled path (gap ledger row 76)
+(*) and that difference is not this rung's.  The right operand is exercised
+(*) at Object, which is the position the blocked programs put a ZZ32 in.
+
+run(): () = do
+    nl: String = makeCharacter(10).asString
+    one: String = "one"
+    two: String = "two"
+    joined: String = one // two
+
+    (*) exactly one character sits between the two halves
+    assert(|joined|, |one| + |two| + 1, "one // two is not one character longer than its halves")
+    assert(joined.substring(0, 3), "one", "the left half of one // two is wrong")
+    assert(joined.substring(4, 7), "two", "the right half of one // two is wrong")
+
+    (*) and that character is the newline, not a space and not nothing
+    assert(joined, one || nl || two, "one // two is not one, newline, two")
+    deny(joined, "one two", "the separator of // must not be a space")
+    deny(joined, "onetwo", "// must insert a separator")
+
+    (*) the right operand at Object, the position the blocked programs
+    (*) put a ZZ32 in
+    n: ZZ32 = 35
+    counted: String = ("z = " || n) // ("w = " || 12)
+    assert(counted, ("z = " || n) || nl || ("w = " || 12), "the Object form of // is wrong")
+    assert(|counted|, 13, "(z = 35) // (w = 12) is not 13 characters")
+
+    println("PASS")
+end
+
+end

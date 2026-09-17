@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/compoundArray.fss:19:29:
+    Operator // is not defined.
+/home/user/fortress/ProjectFortress/tests/compoundArray.fss:35:29:
+    Operator // is not defined.
+File compoundArray.fss has 2 errors.

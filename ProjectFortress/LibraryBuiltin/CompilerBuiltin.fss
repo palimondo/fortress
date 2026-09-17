@@ -382,6 +382,7 @@ trait String extends { StandardTotalOrder[\String\] }
     opr ||(self, b:Object): String
     opr |||(self, b:Object): String
     opr juxtaposition(self, b:Object): String = self ||| b
+    opr //(self, b:Object): String = self || makeCharacter(10).asString || b
     opr [i:ZZ32] : Character
     substring(lo:ZZ32, hi:ZZ32): String
     opr ^(self, n: ZZ32): String
