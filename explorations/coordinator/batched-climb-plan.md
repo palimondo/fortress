@@ -1,147 +1,147 @@
-<!-- The design for the next ladder climb, written 2026-09-17 by the coordinating session on Pavol's request after the eight-rung climb of the same day cost 8h37m and was measured in `iteration-cost.md`. It replaces the per-rung serial loop that `ladder-workflow.js` implements today. Design only: nothing here is implemented, and the gate policy in section 5 depends on a probe that is still running. One line per paragraph. -->
+<!-- The design for the next ladder climb, written 2026-09-17 by the coordinating session on Pavol's request after the eight-rung climb of the same day cost 8h37m and was measured in `iteration-cost.md`. Revised the same day after an independent worker attacked it (`batched-climb-review.md`, fourteen findings) and after Pavol clarified what his test-first order fixes and what it leaves open. It replaces the per-rung serial loop that `ladder-workflow.js` implements today. Design only: nothing here is implemented, and one number in section 5 depends on a probe that is still running. One line per paragraph. -->
 
 # The batched climb
 
 ## 1. The problem this solves
 
-The eight-rung climb of 2026-09-17 took 8h37m, every minute of it serial, with 36 agents and no two ever overlapping (`iteration-cost.md` section A).
+The eight-rung climb of 2026-09-17 took 8h37m, every minute of it serial, 36 agents and no two ever overlapping (`iteration-cost.md` section A).
 
-The full gate, `ant testFast` plus `ant testSystem`, is 582 seconds and it ran inside every rung: 130.5 minutes, 25.2% of the climb, of which 41.0 minutes provably produced no information.
+The full gate, `ant testFast` plus `ant testSystem`, is 582 seconds and it ran inside every rung.
 
-Two structural facts follow from the measurements and together they decide the design.
+The gate saturates the machine: `testFast` is four parallel tracks on four cores and its wall is set by one suite, `OtherCompilerJUTest` at 439.6 s, so two rungs gating at once makes their walls add rather than overlap (`iteration-cost.md` D-T5).
 
-The gate saturates the machine: `testFast` is four parallel tracks on four cores and its wall is set by one suite, `OtherCompilerJUTest` at 439.6 s, so running two rungs' gates at once makes their walls add rather than overlap (`iteration-cost.md` section D-T5).
+So parallel rungs are worthless while each rung ends in its own gate, and become worthwhile the moment the gate is lifted out of the rung: with it gone, `implement` stops being 76% tool time and what remains is small enough that several rungs fit on the box at once.
 
-Therefore parallel rungs are worthless as long as each rung ends in its own gate, and become worthwhile the moment the gate is lifted out of the rung: with the gate removed, `implement` stops being 76% tool time and the remaining work — a cache rebuild, one test, one ladder subset — is small enough that several rungs genuinely fit on the box at once.
+The design is that one move. Everything else in this file is the bookkeeping that makes it safe, and most of it was written by having the first draft attacked.
 
-The design is that one move: the gate is paid once per batch instead of once per rung, and everything else follows from having made room for it.
+## 2. Batch size and concurrency are different numbers
 
-## 2. The shape
+The workflow harness caps concurrent `agent()` calls at the core count minus two, and `nproc` is 4 here, so **at most two agents run at once** (`batched-climb-review.md` finding 1; read from the harness's documented rule, not yet measured).
+
+That cap governs the width of a scatter, not the size of a batch. A batch of four rungs runs as two waves of two workers and is still gated once.
+
+Therefore batch size k stays 4, chosen for gate amortisation, and the scatter simply takes two waves. The saving that motivates the design is untouched by the cap; what the cap doubles is the scatter's wall.
+
+Before section 9's estimate is trusted, the cap should be measured directly: a throwaway workflow of four trivial agents, with their start timestamps read out of `journal.jsonl` by the same parse `iteration-cost.md` used. That is the one cheap experiment this design still owes.
+
+## 3. The shape
 
 ```
         ┌── BATCH PLANNER (1 agent, serial) ──────┐
         │ ladder ranking + ledger rows            │
-        │ picks k rungs and proves independence   │
-        │ emits k briefs and the batch's manifest │
+        │ picks k rungs, writes the manifest      │
         └───────────────┬─────────────────────────┘
-                        │ scatter
+                        │ scatter, two at a time
           ┌──────┬──────┴──────┬──────┐
           ▼      ▼             ▼      ▼
-        rung A  rung B       rung C  rung D      one git worktree each:
-          │      │             │      │          failing test first, then the
-          │      │             │      │          edit, minimal rebuild, its own
-          │      │             │      │          test green, its own ladder subset
-          └──────┴──────┬──────┴──────┘          NO full gate
-                        │ scatter
+        rung A  rung B       rung C  rung D    own worktree, seeded by COPY:
+          │      │             │      │        failing test first and OBSERVED
+          │      │             │      │        failing, then the edit, rebuild,
+          │      │             │      │        its test green, its ladder subset.
+          └──────┴──────┬──────┴──────┘        Record lines go to a fragment file.
+                        │ scatter, two at a time
           ┌──────┬──────┴──────┬──────┐
           ▼      ▼             ▼      ▼
-       skeptic skeptic      skeptic skeptic      one per rung, reads that rung's
-          │      │             │      │          worktree only: diff, test, subset,
-          │      │             │      │          report. Approves, or refuses once
-          │      │             │      │          into a repair inside that worktree.
+       skeptic skeptic      skeptic skeptic    one rung each: the diff, the
+          │      │             │      │        recorded failure, the test, the
+          │      │             │      │        subset. Approve, or one repair.
           └──────┴──────┬──────┴──────┘
                         │ gather
                         ▼
-                 MERGE the approved rungs onto the work branch
+              MERGE approved rungs on local refs
+              apply each rung's record fragment
                         ▼
-                 ONE FULL GATE   ◄── the only 582 s in the batch
+              MERGED-DIFF REVIEW (1 agent)
+              re-checks rules 1-2 against the real hunks
                         ▼
-            green → k commits, push, fast-forward main
-            red   → bisect by dropping one rung, re-gate
+              ONE FULL GATE   ◄── the only 582 s in the batch
+                        ▼
+         green → k commits, push, fast-forward main
+         red   → the drop stage of section 7
 ```
 
-The skeptics run before the merge, not after, so a refused rung never costs gate time and a repair happens in its own worktree in parallel with the other rungs' skeptics.
+The skeptics run before the merge, so a refused rung never costs gate time and its repair happens in its own worktree while the other rungs are being judged.
 
-## 3. What makes a batch
+## 4. The worktree, and the two traps in it
 
-A batch is a set of rungs that can be built and judged independently, and the batch planner must prove that before the scatter, not assume it.
+A rung's worktree is seeded by **copying** `ProjectFortress/build` (`cp -a`, about 1 s, 40 MB), never by symlinking it.
 
-Rule 1, disjoint declarations: no two rungs in a batch may add or change the same declaration, the same trait body, or the same operator.
+A symlink is the trap: `ProjectProperties.FORTRESS_AUTOHOME` is derived through `getCanonicalPath()` (`ProjectProperties.java:35-50`) and nothing sets `fortress.autohome`, so a symlinked build makes `AUTOHOME`, `BASEDIR`, `ROOTDIR` and `CACHES` all resolve to the **main tree**, and the worktree's compiler silently reads and writes the main tree's caches — demonstrated by the main-tree api hashes that appeared in a supposedly private cache (`batched-climb-review.md` finding 2).
 
-Rule 2, no content dependency: a rung whose declaration refers to another rung's declaration goes in a later batch — of the eight rungs climbed, exactly one pair was so coupled, rung 2's `trait HasRank extends Equality[\HasRank\]` needing rung 1's `Equality` in the prelude.
+The second trap is that a worktree cannot be given a warm analysed cache at all: `NamingCzar.deCaseName` (`compiler/NamingCzar.java:243-245`) names every entry `<ApiName>-<hex of sourcePath.hashCode()>`, so a cache built at one path is unusable at another.
 
-Rule 3, at most one rung per batch may touch `.java` or `.scala`, because that forces `ant compileAll`, which empties the bytecode cache for every worktree and serialises what the batch exists to parallelise.
+A worktree therefore starts cold and pays a five-component library build before its first rung command: 145 s measured, of which `AnyType` 21, `CompilerBuiltin` 104, `CompilerLibrary` 17, `CompilerAlgebra` 2, `CompilerSystem` 1 (`batched-climb-review.md` finding 2).
 
-Rule 4, size: k is four unless the planner argues otherwise; four is the core count and the point past which the worktrees contend for the same four cores during their rebuilds.
+This retires the minimal-rebuild idea as a source of much saving: `CompilerBuiltin` is 104 of the 145 seconds, so skipping `AnyType` is worth 21 s and not the 103 that `iteration-cost.md` D3 suggested.
 
-The inputs for all of this already exist and no new ledger is needed: the ladder's first-stop ranking says which missing name blocks how many files, the gap ledger says what each name is, and the conflict check in rules 1 and 2 is textual.
+Each worker also gets its own `java.io.tmpdir` and its own ladder root: `experiment/env.sh` unconditionally `rm -rf /tmp/fortress*rats` on every source, which with parallel workers deletes a live Rats! directory belonging to another, and `run-ladder.sh:23` defaults to one fixed shared root whose cache pruning would corrupt parallel runs (`batched-climb-review.md`).
 
-What is new is the batch manifest: the k names, the file each will touch, the evidence each must produce, and the planner's written argument that rules 1 to 3 hold. It is the artifact a reviewer can refuse.
+## 5. What makes a batch
 
-## 4. What each stage does
+Rule 1, disjoint declarations: no two rungs may add or change the same declaration, trait body or operator.
 
-**Batch planner.** Reads the current ladder ranking and the ledger, picks k names off the top that satisfy rules 1 to 4, and writes one brief per rung plus the manifest. It does not edit source. It is the only serial stage.
+Rule 2, no content dependency: of the eight rungs climbed there were two coupled pairs, not one — rung 2's `HasRank` needs rung 1's `Equality`, and rungs 6 and 7 rewrite the same `IntLiteral` block of `CompilerBuiltin.fss`.
 
-**Rung worker** (k in parallel, one worktree each). Writes the failing test first, into `ProjectFortress/library_tests/` or `compiler_tests/` per the rule in `PLAN.md`. Makes the edit, as small as the test needs. Rebuilds only what the edit requires (section 5). Runs its own new test, and the ladder subset for the files its name was blocking, before and after. Commits on its own branch `rung/<name>`. Writes `explorations/compile-ladder/<name>/REPORT.md`. It never runs the full gate.
+Rule 3, at most one rung per batch may touch `.java` or `.scala`. The reason is not cache clearing, which is per-basedir and cannot cross worktrees (`build.xml:22, 42, 356-360`), but that `compileAll`'s scalac step has no uptodate guard (`build.xml:547-568`), so it is a full rebuild wherever it runs.
 
-**Skeptic** (k in parallel, one per rung). Reads that rung's worktree: the diff, the new test, the subset before and after, the report. Judges whether the rung's claim is true and whether the record is honest. It may refuse, once, into a repair inside that worktree; a second refusal drops the rung from the batch and it is recorded, not retried. It does not run the full gate and does not see the other rungs.
+Rule 4, k = 4, for gate amortisation; see section 2 on why the agent cap does not set it.
 
-**Gather and gate.** The approved rungs' branches are merged onto the work branch locally, in manifest order. The full gate runs once on the merged tree, with its complete output captured to a file and the per-suite summaries grepped from that file — never piped through `tail`, which is what cost 21.7 minutes last time. `TEST-RESULTS` is wiped immediately before the run so the record cannot be mistaken for a stale one.
+Rules 1 and 2 are checked by the planner against edits that do not exist yet, so they are re-checked after the fact by the merged-diff reviewer against the real hunks. Rung 1 is the model case: it was forced into `library_tests/MaybeTest9.fss`, which no plan predicted.
 
-**Commit.** Green means the k commits are pushed as k commits with their ledger and knowledge-base lines, the branch is pushed and main fast-forwarded. This assembly happens on local refs before any push, so nothing here rewrites published history.
+The merge question is settled and it favours the design: replaying the eight real rungs off a common base gives **0 conflicts in 21 source-file pairs**, including the three rungs that all edit `CompilerLibrary.fss` at lines 506, 87 and 474 (`batched-climb-review.md` finding 3).
 
-## 5. The gate policy, and the one open question
+## 6. The record files leave the rung worker
 
-The gate on the merged tree is the full pair today: `ant testFast` and `ant testSystem`.
+`PLAN.md` requires the FACTS line, the ledger note and the handover line in the same commit as the work, and that is exactly what makes parallel rungs conflict: **28 of 28 pairs conflict on `FACTS.md`, 28 of 28 on the handover, 15 of 28 on the ledger** (`batched-climb-review.md` finding 3).
 
-Whether `ant testSystem` is needed at all for a batch that touches only compiler-world files is an open question this plan does not answer.
+So a rung worker does not edit those three files. It writes its lines to `explorations/compile-ladder/<name>/record.md`, and the gather stage applies each fragment and stages it into that rung's own commit.
 
-The two worlds are separate on paper — the interpreter loads `FortressLibrary` and `FortressBuiltin`, the compiler loads `CompilerLibrary`, `CompilerBuiltin`, `CompilerAlgebra` and `CompilerSystem`, with `AnyType` the file both share (`FACTS.md`, execution model) — and six of the eight rungs just climbed touched only compiler-world files.
+The requirement is unchanged — every rung still lands with its record in its own commit. Only the moment of writing moves.
 
-If that separation is clean, dropping `testSystem` from a compiler-world-only batch is not a trade against rigor but a proof that 382 tests and 147.6 seconds cannot be affected; if it is not clean, the pair stays whole.
+## 7. Validity, and what it costs
 
-The two readings are on record and they disagree: `iteration-cost.md` section D-T1 treats `testSystem` as guarding five of the eight rungs, which assumes the interpreter loads those sources. Settling this is a prerequisite for section 5 and is the follow-up question for the probe now running.
+Every rung still writes its test first, and this design makes the discipline checkable rather than assumed: the worker runs the new test **before** the edit exists, records the failure output in its report, then makes the edit, then records the pass. A rung whose report has no recorded failure is refused. This is the part of Pavol's order of 2026-09-17 that is load-bearing (`POSITIONS.md`), together with the rule that the check is permanent: a one-off proof that leaves nothing in the corpus is not an acceptable result.
 
-The same question has a smaller second half: `testFast`'s four tracks include 417 tests that run in 49.6 s away from the three big suites, and whether a library-only batch can reach them is decided by the same dependency answer.
+Whether the suite runs per edit or per landed batch is an engineering choice and per batch is in line with that order, confirmed by Pavol on 2026-09-17.
 
-Until it is settled the gate is the full pair, which costs 582 s per batch instead of per rung and is already the win.
+Two checks that the first draft lost, and how they come back. Today's skeptic judges a tree that has been gated, because the gate is one of its checks; in the batch it judges an ungated rung, so it is approving on the rung's own recorded failure, test and subset alone. And nobody in the first draft ever read the merged diff. The merged-diff reviewer in section 3 restores the second, and the first is the deliberate trade: the gate moves from before the skeptic to after it, and a rung that passes its own test but breaks the suite is caught by the batch gate rather than by its own.
 
-The minimal rebuild each rung worker performs is likewise deferred to the probe: measured today is five components at 110-162 s against three at 24.6-30.4 s, with the per-component split not yet taken (`iteration-cost.md` section D3).
+The gate still runs on exactly the tree that is committed, and it now also exercises the k rungs together, an interaction the per-rung loop never tested.
 
-## 6. How validity is kept
+**The drop stage, when the gate is red.** The failing suite does not name the rung, so: re-gate with the last-merged rung dropped; if still red, drop the next, and so on in reverse merge order. Terminates after at most k gates. If the gate is green only with two or more rungs dropped, those rungs interact and both are recorded as a coupled pair and returned to the ranking, which is the case a single-drop search cannot resolve. A dropped rung is recorded with the failure and is not retried inside the same batch.
 
-Every rung still adds a failing test before its edit, and that test is in the corpus from then on: the test-first gate of `PLAN.md` is untouched.
+`PLAN.md`'s stop condition "a rung's gate red twice after one repair" is restated for the batch, since a rung no longer has its own gate: **a batch red twice after one drop-and-repair cycle stops the climb.** The other stop conditions are unchanged — a design fork, disk under 500 MB after sweeping, a permission denial.
 
-Every rung is still judged by a skeptic that did not write it, on the rung's own evidence, with one repair and no more.
+## 8. Prompts: one shared prefix
 
-The full gate still runs on exactly the tree that is committed, and it is now a stronger check than before, because it exercises the k rungs together — an interaction the per-rung loop never tested until some later rung happened to run.
-
-What the batch gives up is attribution when the gate is red: the failing suite does not name the rung. Two things blunt it. Each rung's own test passed before the merge, so a red gate is an interaction or a regression outside that test rather than a rung failing on its own terms. And the culprit is found by dropping one rung and re-gating, at most k extra gates, paid only when something is actually broken.
-
-A rung dropped this way is recorded with the failure and returns to the ranking; it is not retried inside the same batch.
-
-The stop conditions of `PLAN.md` are unchanged and still stop the whole climb: a design fork, a gate red twice after one repair, disk under 500 MB after sweeping, a permission denial.
-
-## 7. Prompts: one shared prefix
-
-Every agent in a batch opens with the same block, byte-identical and in the same order: the rules, the relevant FACTS lines, the PLAN rule for edits, the batch manifest, the current state of the branch, and the exact commands with their expected durations.
+Every agent in a batch opens with the same block, byte-identical and in the same order: the rules, the relevant FACTS lines, the `PLAN.md` edit rule, the batch manifest, the state of the branch, and the exact commands with their expected durations.
 
 Only the tail differs, and it is the one rung's brief.
 
-This is worth doing twice over. It removes the roughly 417 tool calls the last climb spent re-deriving the record — the gap ledger read 110 times across 32 of 36 agents, `git status` 88 times, `FACTS.md` 71 times (`iteration-cost.md` section C). And an identical prefix is what lets parallel agents share a cached one, which a per-agent prefix assembled by each agent's own reading cannot do.
-
-The saving on the first count is bounded above by about 57 minutes and is not a measurement; see the coordinator's note in `iteration-cost.md` section A on why that slope is a ceiling.
-
-## 8. What this does not change
-
-The sealed-tree rule, the test-first gate, the commit discipline including the knowledge-base line in the same commit, the footer, the push and the fast-forward of main.
-
-The design forks that stop the climb and belong to Pavol: the array representation, the library route, any change of semantics against the spec, deleting a test to get green.
-
-`ladder-workflow.js` itself, which is not edited until this plan has been attacked and revised.
+This removes the roughly 417 tool calls the last climb spent re-deriving the record (`iteration-cost.md` section C), and an identical prefix is what lets parallel agents share a cached one. The first saving is bounded above by about 57 minutes and is a ceiling, not a measurement; see the coordinator's note in `iteration-cost.md` section A.
 
 ## 9. What it is expected to buy
 
-Measured, and therefore firm: the gate falls from 130.5 minutes over eight rungs to 582 s per batch, which for batches of four is 19.4 minutes over the same eight rungs.
+Measured, and firm: against the honest baseline of one gate per rung, 8 × 582 s = 77.6 minutes, batches of four cost two gates, 19.4 minutes. **The saving is 58.2 minutes.** The 130.5-minute figure is what the last climb actually spent including redundancy the free fixes remove, and comparing against it would overstate this design's contribution.
 
-Arithmetic on measured parts, and therefore an estimate rather than a measurement: with the gate lifted out, a rung worker's remaining tool time is a rebuild plus one test plus one subset, and four of them fit the four cores, so a batch of four should cost roughly one rung's old wall rather than four.
+Estimate, not measurement: with the gate lifted out, a rung worker's tool time is the 145 s cold seed plus a rebuild, its test and its subset; two run at a time; so eight rungs take four waves of workers and four of skeptics. Coarsely that is a climb of about two hours against 8h37m, and every term in it is an estimate built on measured parts.
 
-Not estimated here at all: what the probe now running may remove from the gate itself, and what the minimal rebuild recipe removes from each rung worker.
+Not estimated: what the probe now running removes from the gate itself.
 
-## 10. What must be settled before this is built
+## 10. The one number still open
 
-The dependency question of section 5, from the probe now running.
+Whether `ant testSystem` is needed for a batch that touches only compiler-world files.
 
-The minimal rebuild recipe, from the same probe.
+The worlds are separate on paper — the interpreter loads `FortressLibrary` and `FortressBuiltin`, the compiler loads `CompilerLibrary`, `CompilerBuiltin`, `CompilerAlgebra` and `CompilerSystem`, with `AnyType` shared (`FACTS.md`, execution model) — and six of the eight rungs touched `Library/` or `LibraryBuiltin/` files.
 
-Whether merging k rung branches onto the work branch produces conflicts often enough to matter, which is a question about how often two rungs touch the same file even under rule 1, and is unmeasured.
+If the separation is clean, dropping `testSystem` from such a batch is a proof that 382 tests and 147.6 s cannot be affected, not a trade against rigor. If it is not, the pair stays whole. Until the probe answers, the gate is the full pair, which is already the win.
+
+The second half of that question — whether `testFast`'s 417 miscellaneous tests, 49.6 s away from the three big suites, can also be skipped — is not actionable without a `build.xml` change, because that track is not a target of its own (`build.xml:960-991`), and such a change would itself have to be gated.
+
+## 11. What this does not change
+
+The sealed-tree rule, the test-first discipline of section 7, the commit discipline including the record in the same commit, the footer, the push and the fast-forward of main.
+
+The design forks that stop the climb and belong to Pavol: the array representation, the library route, any change of semantics against the spec, deleting a test to get green.
+
+`ladder-workflow.js`, which is not edited until the agent cap of section 2 has been measured.
