@@ -1,4 +1,4 @@
-<!-- The design for the next ladder climb, written 2026-09-17 by the coordinating session on Pavol's request after the eight-rung climb of the same day cost 8h37m and was measured in `iteration-cost.md`. Revised the same day after an independent worker attacked it (`batched-climb-review.md`, fourteen findings) and after Pavol clarified what his test-first order fixes and what it leaves open. It replaces the per-rung serial loop that `ladder-workflow.js` implements today. Design only: nothing here is implemented, and one number in section 5 depends on a probe that is still running. One line per paragraph. -->
+<!-- The design for the next ladder climb, written 2026-09-17 by the coordinating session on Pavol's request after the eight-rung climb of the same day cost 8h37m and was measured in `iteration-cost.md`. Revised the same day after an independent worker attacked it (`batched-climb-review.md`, fourteen findings) and after Pavol clarified what his test-first order fixes and what it leaves open. It replaces the per-rung serial loop that `ladder-workflow.js` implements today. Revised again the same day when Pavol asked that the failure-mode question become a standing part of the skeptic's brief rather than a one-off review. Design only: nothing here is implemented, and the one number still open is in section 10. One line per paragraph. -->
 
 # The batched climb
 
@@ -46,7 +46,9 @@ Before section 9's estimate is trusted, the cap should be measured directly: a t
           ▼      ▼             ▼      ▼
        skeptic skeptic      skeptic skeptic    one rung each: the diff, the
           │      │             │      │        recorded failure, the test, the
-          │      │             │      │        subset. Approve, or one repair.
+          │      │             │      │        subset, plus its OWN walk-vs-
+          │      │             │      │        compiled differential. Approve,
+          │      │             │      │        or one repair.
           └──────┴──────┬──────┴──────┘
                         │ gather
                         ▼
@@ -60,10 +62,28 @@ Before section 9's estimate is trusted, the cap should be measured directly: a t
               ONE FULL GATE   ◄── the only 582 s in the batch
                         ▼
          green → k commits, push, fast-forward main
-         red   → the drop stage of section 7
+         red   → diagnose and repair on the merged tree (section 7)
 ```
 
 The skeptics run before the merge, so a refused rung never costs gate time and its repair happens in its own worktree while the other rungs are being judged.
+
+### What each stage does
+
+**Batch planner**, serial, the only stage that is. Reads the ladder ranking and the ledger, picks k names satisfying the rules of section 5, writes one brief per rung and the manifest. It does not edit source.
+
+**Rung worker**, k of them, one worktree each, two at a time. Writes the failing test first into `library_tests/` or `compiler_tests/` per `PLAN.md`, **runs it and records the failure output** before the edit exists. Makes the edit, as small as the test needs. Rebuilds. Runs its test, and the ladder subset for the files its name was blocking, before and after. Greps both corpora for a competing declaration of every name it adds. Writes its record lines to `compile-ladder/<name>/record.md` and its report to `compile-ladder/<name>/REPORT.md`. It never runs the full gate.
+
+**Skeptic**, k of them, one rung each, two at a time. Reads that rung's worktree: the diff, the recorded failure, the test, the subset, the report. Judges whether the claim is true and the record honest. One refusal into a repair in that worktree; a second drops the rung, recorded and not retried. It does not run the full gate and does not see the other rungs.
+
+**The skeptic's required differential.** Not optional, and not satisfied by reading the rung's own test. For every construct the rung touches, the skeptic writes its own small program, runs it under `walk` and under `fortress compile` plus `run`, and compares the answers. This encodes what the climb already showed: four of the 26 items the skeptics raised came from differential probes they invented on their own initiative, and those four were the highest-value findings of the eight rungs (`batched-climb-review.md`). Requiring the best thing the skeptics did spontaneously is the cheapest quality gain in this loop.
+
+**The failure-mode question, asked explicitly.** Where a rung replaces a throwing stub, an error or any other loud failure with a computed value, the skeptic must establish what that value is and whether the interpreter agrees. A loud failure becoming a silent wrong answer is a regression even when the underlying defect predates the rung, and it is exactly what rungs 6 and 7 landed: before them a program using an integer literal of bit length exactly 32 or 64 threw, after them it quietly returns the opposite of `walk` (ledger rows 317 and 318, probes `compiler-probes/p37.fss` and `p37a.fss`). Both recorded it and proceeded.
+
+A silent divergence from the interpreter is a change of semantics, which `PLAN.md`'s stop conditions already reserve for Pavol, so this clause needs no new authority — only the observation that recording is not reporting. **A rung that introduces one stops and reports rather than landing.**
+
+**Gather and gate.** Merge the approved rungs on local refs in manifest order, apply each rung's record fragment into its own commit, run the merged-diff review, then the gate once, with its full output captured to a file and the per-suite summaries grepped from that file, never piped through `tail`, and with `TEST-RESULTS` wiped immediately before the run.
+
+**Commit.** Green means k commits pushed with their records, the branch pushed and main fast-forwarded. An approval that carried required corrections is a checklist this stage must close before it commits.
 
 ## 4. The worktree, and the two traps in it
 
