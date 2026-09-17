@@ -1,0 +1,8 @@
+tests/InitOrderWithMutable.fss
+tests/OverloadWithSuperExcludes.fss
+tests/immutableTopLevel.fss
+tests/overloadTest1.fss
+tests/overloadTest2.fss
+tests/overloadTest7.fss
+tests/overloadTest8.fss
+tests/unicodeTest.fss

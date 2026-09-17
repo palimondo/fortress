@@ -293,6 +293,38 @@ public abstract class VarCodeGen {
 
     }
 
+    /** A mutable variable declared at the top level of a component.  Like
+     * StaticBinding it lives in the singleton field of its own inner class,
+     * but that field is not final, so it can be written after the class's
+     * <clinit> has run.  A separate class rather than a flag on StaticBinding,
+     * so that assignment to an immutable top-level variable keeps failing.
+     */
+    public static class MutableStaticBinding extends NeedsType {
+
+        public MutableStaticBinding(IdOrOp id, Type fortressType, String owner, String name, String desc) {
+            super(id, fortressType, owner, name, desc);
+        }
+
+        public void pushValue(CodeGenMethodVisitor mv) {
+            mv.visitFieldInsn(Opcodes.GETSTATIC, packageAndClassName, objectFieldName, classDesc);
+        }
+
+        public void assignValue(CodeGenMethodVisitor mv) {
+            // The value to assign is already on the stack.
+            mv.visitFieldInsn(Opcodes.PUTSTATIC, packageAndClassName, objectFieldName, classDesc);
+        }
+
+        public String toString() {
+            return "VarCodeGen[MutableStaticBinding] " + name + ":" + fortressType;
+        }
+
+        @Override
+        public void outOfScope(CodeGenMethodVisitor mv) {
+            // never happens
+        }
+
+    }
+
     /** Function parameter.  Since function parameters are immutable
      * in Fortress, we assume that we won't need other special
      * provisions for them (we'll simply copy references where

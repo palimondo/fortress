@@ -5854,13 +5854,17 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     }
 
     /** Supposed to be called with nested codegen context. */
-    private void generateVarDeclInnerClass(VarDecl x, String classFile, String tyName, Expr exp) {
+    private void generateVarDeclInnerClass(VarDecl x, String classFile, String tyName, Expr exp,
+                                           boolean isMutable) {
         String tyDesc = Naming.internalToDesc(tyName);
+        // A mutable variable is assigned from outside the class that declares
+        // it, which the JVM permits only on a non-final field.
+        int fieldAccess = ACC_PUBLIC + ACC_STATIC + (isMutable ? 0 : ACC_FINAL);
         cw = new CodeGenClassWriter(ClassWriter.COMPUTE_FRAMES, cw);
         cw.visitSource(NodeUtil.getSpan(x).begin.getFileName(), null);
         cw.visit( InstantiatingClassloader.JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER + ACC_FINAL,
                   classFile, null, NamingCzar.internalSingleton, null );
-        cw.visitField(ACC_PUBLIC + ACC_STATIC + ACC_FINAL,
+        cw.visitField(fieldAccess,
                       NamingCzar.SINGLETON_FIELD_NAME, tyDesc, null, null);
         mv = cw.visitCGMethod(ACC_STATIC,
                             "<clinit>", Naming.voidToVoid, null, null);
@@ -5887,20 +5891,22 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             return;
         }
         LValue lv = lhs.get(0);
-        if (lv.isMutable()) {
-            throw sayWhat(v,"VarDecl "+v+" mutable bindings not yet handled.");
-        }
         Id var = lv.getName();
         Type ty = (Type)lv.getIdType().unwrap();
         Expr exp = oinit.unwrap();
+        boolean isMutable = lv.isMutable();
         String classFile = NamingCzar.jvmClassForToplevelDecl(var, packageAndClassName);
         String tyName = NamingCzar.jvmBoxedTypeName(ty, thisApi());
+        String tyDesc = Naming.internalToDesc(tyName);
         debug("VarDeclPrePass ", var, " : ", ty, " = ", exp);
-        new CodeGen(this).generateVarDeclInnerClass(v, classFile, tyName, exp);
+        new CodeGen(this).generateVarDeclInnerClass(v, classFile, tyName, exp, isMutable);
 
         addStaticVar(
-            new VarCodeGen.StaticBinding(var, ty, classFile,
-                                         NamingCzar.SINGLETON_FIELD_NAME, Naming.internalToDesc(tyName)));
+            isMutable
+                ? new VarCodeGen.MutableStaticBinding(var, ty, classFile,
+                                                      NamingCzar.SINGLETON_FIELD_NAME, tyDesc)
+                : new VarCodeGen.StaticBinding(var, ty, classFile,
+                                               NamingCzar.SINGLETON_FIELD_NAME, tyDesc));
     }
 
     public void forVarRef(VarRef v) {

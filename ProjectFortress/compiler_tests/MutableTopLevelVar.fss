@@ -1,0 +1,42 @@
+(*******************************************************************************
+    Copyright 2026, the Fortress revival.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+(* Rung 3 of explorations/coordinator/PLAN.md: a mutable variable declared at
+   the top level of a component, written and read.
+
+   Both spellings the blocked programs use are exercised: `var v: T = e`
+   (ProjectFortress/tests/overloadTest1.fss:18) and `v: T := e`
+   (ProjectFortress/tests/overloadTest7.fss:31).  A local mutable variable is
+   not exercised; the code generator already handles those
+   (CodeGen.forLocalVarDecl, VarCodeGen.LocalMutableVar). *)
+
+component MutableTopLevelVar
+export Executable
+
+var counter: ZZ32 = 0
+
+other: ZZ32 := 10
+
+bump(): () = counter := counter + 1
+
+run(): () = do
+    bump()
+    bump()
+    bump()
+    other := other + counter
+    if counter = 3 AND other = 13 then
+        println("PASS")
+    else
+        println("FAIL")
+    end
+  end
+
+end
