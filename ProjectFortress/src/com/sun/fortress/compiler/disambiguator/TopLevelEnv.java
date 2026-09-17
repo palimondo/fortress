@@ -973,6 +973,13 @@ public class TopLevelEnv extends NameEnv {
             } else if (name.getText().equals(WellKnownNames.fortressLibrary()) && import_library) {
                 // FortressLibrary is only imported implicitly if nothing from it is imported explicitly
                 result.put(name, index);
+            } else if (WellKnownNames.areCompilerLibraries() &&
+                       name.getText().equals(WellKnownNames.compilerAlgebra())) {
+                // CompilerAlgebra declares Equality and StandardTotalOrder, which the
+                // compiler world's numeric traits already extend.  It is in the compiler
+                // world's default library list (WellKnownNames.useCompilerLibraries), so
+                // it is implicitly imported too.
+                result.put(name, index);
             }
         }
 

@@ -131,11 +131,15 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       case SUnionType(_, elements) => elements.foreach(walk)
       case _:LabelType => // OK
       case _:DimBase => // OK
-      case SFunctionalRef(_, args, _, _, _, io, o, t, _) =>
+      case SFunctionalRef(_, args, _, _, _, _, _, _, _) =>
+        // Only the static arguments are written at the reference site.  The two
+        // overloading lists and the overloading type are assembled by overload
+        // resolution out of the declared types of every functional of this name in
+        // the environment, and a generic declaration contributes its own static
+        // parameters free: they are not in this compilation unit's kind environment,
+        // so checking them here either reports them unbound or fails the kind-env
+        // lookup outright.  Each declaration is checked where it is declared.
         walk(args)
-        walk(io)
-        walk(o)
-        walk(t)
       case SMethodInvocation(_, getObj, getMethod, getStaticArgs, getArg, getOverloadingType, _) =>
         walk(getObj)
         walk(getMethod)

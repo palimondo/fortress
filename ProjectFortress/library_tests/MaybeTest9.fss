@@ -12,10 +12,6 @@
 component MaybeTest9
 export Executable
 
-trait Equality[\T\] comprises T
-    opr =(self, other:T): Boolean = self SEQV other
-end
-
 object Baz extends Equality[\Baz\]
   getter asString() = "Baz"
 end

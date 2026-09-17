@@ -1,8 +1,8 @@
-. link library_tests/EqualityRung1  OK (time = 2767ms)
-. run library_tests/EqualityRung1 (330ms) PASS
+. link library_tests/EqualityRung1  OK (time = 2760ms)
+. run library_tests/EqualityRung1 (335ms) PASS
 Passed
 
-Time: 3.103
+Time: 3.102
 
 OK (2 tests)
 

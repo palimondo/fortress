@@ -121,7 +121,7 @@ public class WellKnownNames {
         _defaultLibrary =
             new String[] { fortressLibrary(),
 			   fortressBuiltin(),
-			   //			   compilerAlgebra(),
+			   compilerAlgebra(),
 			   anyTypeLibrary() };
     }
 
