@@ -92,6 +92,11 @@ codegen and are refused there, fourteen stop at run or link.
 So the gap measured here is a library and checker gap, not a codegen gap, which
 is the same reading `compiled-path-gaps.md` reached from a different corpus.
 
+The `not_working_library_tests` corpus is unlike the interpreter corpus: it
+stops at parse, not at names. Thirteen of its fourteen parse failures are a
+Rats! `Syntax Error`, and ten of those point at a `trait ... comprises Self`
+declaration (for example `not_working_library_tests/MaybeTest1.fss:15`).
+
 ## Missing names, ranked
 
 This is the ranking the baseline exists for: it says which library names to add
@@ -872,6 +877,8 @@ outputs) and `|` escaped.
   evidence for route (a) but does not settle it.
 - Which of the ranked names to add first, and in what grouping.
 - Whether `comprises Self` should parse. Fourteen of the 29
-  `not_working_library_tests` stop at parse, twelve of them on that one clause.
+  `not_working_library_tests` stop at parse; thirteen of those are a Rats!
+  `Syntax Error`, and in ten of the thirteen the line the parser points at is a
+  `trait ... comprises Self` declaration.
 - Whether this ladder becomes a checked-in target or stays a script under
   `explorations/`.
