@@ -1,0 +1,49 @@
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:90:5-43:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:91:5-51:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:95:5-44:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:96:5-47:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:99:5-43:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:100:5-56:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:103:5-51:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:104:5-52:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:109:5-56:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:110:5-51:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:115:5-43:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:116:5-49:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+File objectCC_immutable.fss has 12 errors.

@@ -1,0 +1,75 @@
+/home/user/fortress/ProjectFortress/tests/realArith.fss:41:12-17:
+    Operator PLUS_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:42:12-18:
+    Operator MINUS_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:43:12-16:
+    Operator DOT_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:44:12-18:
+    Operator SLASH_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:45:10-15:
+    Operator prefix SQRT_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:46:12-19:
+    Operator PLUS_DOWN is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:47:12-20:
+    Operator MINUS_DOWN is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:48:12-18:
+    Operator DOT_DOWN is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:49:12-20:
+    Operator SLASH_DOWN is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:50:10-17:
+    Operator prefix SQRT_DOWN is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:54:10-11:
+    Variable sin is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:55:10-11:
+    Variable sin is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:56:10-11:
+    Variable cos is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:57:10-11:
+    Variable tan is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:58:10-11:
+    Variable tan is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:59:10-12:
+    Variable asin is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:60:10-12:
+    Variable acos is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:61:10-12:
+    Variable atan is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:62:10-13:
+    Variable atan2 is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:64:10-11:
+    Variable log is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:65:10-11:
+    Variable exp is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:66:10-13:
+    Variable floor is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:68:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:70:10-16:
+    Variable truncate is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:71:10-13:
+    Variable floor is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:73:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:75:10-16:
+    Variable truncate is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:82:10-12:
+    Variable Just is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:82:21-23:
+    Variable Just is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:83:10-12:
+    Variable Just is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:83:19-21:
+    Variable Just is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:85:19-28:
+    Function Just is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:86:26-38:
+    Function Nothing is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:87:21-33:
+    Function Nothing is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:89:24-33:
+    Function Just is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:90:31-40:
+    Function Just is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:91:26-38:
+    Function Nothing is not defined.
+File realArith.fss has 37 errors.

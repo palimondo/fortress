@@ -1,0 +1,21 @@
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar2.fss:32:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar2.fss:36:5-66:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar2.fss:37:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar2.fss:39:5-66:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar2.fss:40:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+File objectCC_mutVar2.fss has 5 errors.

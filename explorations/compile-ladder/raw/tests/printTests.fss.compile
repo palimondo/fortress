@@ -1,0 +1,37 @@
+/home/user/fortress/ProjectFortress/tests/printTests.fss:19:5-12:
+    Could not check call to function print
+    - Object->() is not applicable to an argument of type ().
+/home/user/fortress/ProjectFortress/tests/printTests.fss:22:5-15:
+    Could not check call to function print
+    - Object->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/printTests.fss:23:5-19:
+    Could not check call to function print
+    - Object->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/printTests.fss:24:5-22:
+    Could not check call to function print
+    - Object->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/printTests.fss:25:5-25:
+    Could not check call to function print
+    - Object->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/printTests.fss:26:5-28:
+    Could not check call to function print
+    - Object->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/printTests.fss:28:5-14:
+    Could not check call to function println
+    - (Any, Any)->() is not applicable to an argument of type ().
+    - (Any, Any, Any)->() is not applicable to an argument of type ().
+    - (Any, Any, Any, Any)->() is not applicable to an argument of type ().
+    - Object->() is not applicable to an argument of type ().
+/home/user/fortress/ProjectFortress/tests/printTests.fss:34:5-27:
+    Could not check call to function println
+    - (Any, Any)->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+    - (Any, Any, Any)->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+    - (Any, Any, Any, Any)->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+    - Object->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/printTests.fss:35:5-30:
+    Could not check call to function println
+    - (Any, Any)->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+    - (Any, Any, Any)->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+    - (Any, Any, Any, Any)->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+    - Object->() is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+File printTests.fss has 9 errors.

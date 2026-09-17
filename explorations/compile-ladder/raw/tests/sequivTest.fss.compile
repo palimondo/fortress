@@ -1,0 +1,13 @@
+/home/user/fortress/ProjectFortress/tests/sequivTest.fss:17:15-19:
+    Operator BIG || is not defined.
+/home/user/fortress/ProjectFortress/tests/sequivTest.fss:24:15-19:
+    Operator BIG || is not defined.
+/home/user/fortress/ProjectFortress/tests/sequivTest.fss:103:9-21:
+    Function Nothing is not defined.
+/home/user/fortress/ProjectFortress/tests/sequivTest.fss:104:10-19:
+    Function Just is not defined.
+/home/user/fortress/ProjectFortress/tests/sequivTest.fss:108:14-23:
+    Function Just is not defined.
+/home/user/fortress/ProjectFortress/tests/sequivTest.fss:114:14-23:
+    Function Just is not defined.
+File sequivTest.fss has 6 errors.

@@ -1,0 +1,15 @@
+/home/user/fortress/ProjectFortress/tests/testRecImport.fss:34:5-42:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/testRecImport.fss:35:5-45:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/testRecImport.fss:36:5-58:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/testRecImport.fss:37:12-33:
+    No such method RecA.Odd.anEven.
+File testRecImport.fss has 4 errors.

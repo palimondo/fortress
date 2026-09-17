@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/naiveSeq.fss:33:30-37:
+    Variable partition is not defined.
+/home/user/fortress/ProjectFortress/tests/naiveSeq.fss:46:10-11:
+    Operator BIG + is not defined.
+File naiveSeq.fss has 2 errors.

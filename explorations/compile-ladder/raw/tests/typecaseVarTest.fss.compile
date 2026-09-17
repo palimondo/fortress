@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/typecaseVarTest.fss:18:7-Compiler internal generated.:0:0:
+    The typecase clause, ZZ32, is unreachable.
+File typecaseVarTest.fss has 1 error.

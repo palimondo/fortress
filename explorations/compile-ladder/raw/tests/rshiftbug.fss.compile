@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/rshiftbug.fss:18:11-15:
+    Operator RSHIFT is not defined.
+/home/user/fortress/ProjectFortress/tests/rshiftbug.fss:23:32-36:
+    Operator RSHIFT is not defined.
+File rshiftbug.fss has 2 errors.

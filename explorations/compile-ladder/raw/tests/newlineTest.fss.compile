@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/newlineTest.fss:19:5-17:24:
+    The typecase clause, (ZZ32, RR64), is unreachable.
+/home/user/fortress/ProjectFortress/tests/newlineTest.fss:19:29-17:24:
+    The typecase clause, (RR64, ZZ32), is unreachable.
+File newlineTest.fss has 2 errors.

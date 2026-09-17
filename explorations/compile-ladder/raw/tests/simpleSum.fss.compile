@@ -1,0 +1,31 @@
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:21:10-11:
+    Operator BIG + is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:23:10-11:
+    Operator BIG + is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:25:10-11:
+    Operator BIG + is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:27:10-11:
+    Operator BIG + is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:30:31-32:
+    Operator MOD is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:31:10-11:
+    Operator BIG + is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:34:10-11:
+    Operator BIG + is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:34:26-31:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:37:10-11:
+    Operator BIG + is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:40:10-11:
+    Operator BIG + is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:43:10-12:
+    Operator BIG juxtaposition is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:46:10-12:
+    Operator BIG juxtaposition is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:49:10-12:
+    Operator BIG juxtaposition is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:53:10-16:
+    Operator BIG MIN is not defined.
+/home/user/fortress/ProjectFortress/tests/simpleSum.fss:57:11-17:
+    Operator BIG MIN is not defined.
+File simpleSum.fss has 15 errors.

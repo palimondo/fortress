@@ -1,0 +1,37 @@
+/home/user/fortress/ProjectFortress/tests/simpleExp.fss:18:14-43:
+    Right-hand side has type NN64, but declared type is RR64.
+/home/user/fortress/ProjectFortress/tests/simpleExp.fss:19:14-33:
+    Right-hand side has type NN64, but declared type is RR64.
+/home/user/fortress/ProjectFortress/tests/simpleExp.fss:20:14-39:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (FloatLiteral, NN64).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (FloatLiteral, NN64).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (FloatLiteral, NN64).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (FloatLiteral, NN64).
+    - (String, Object)->String is not applicable to an argument of type (FloatLiteral, NN64).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (FloatLiteral, NN64).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (FloatLiteral, NN64).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (FloatLiteral, NN64).
+/home/user/fortress/ProjectFortress/tests/simpleExp.fss:22:6:
+    Could not check call to operator NE
+    - (Character, Character)->Boolean is not applicable to an argument of type (RR64, RR64).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (RR64, RR64).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (RR64, RR64).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (RR64, RR64).
+    - (String, String)->Boolean is not applicable to an argument of type (RR64, RR64).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (RR64, RR64).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (RR64, RR64).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (RR64, RR64).
+/home/user/fortress/ProjectFortress/tests/simpleExp.fss:22:6:
+    Filter expressions in generator clauses must have type Boolean, but OpExpr at /home/user/fortress/ProjectFortress/tests/simpleExp.fss:22.6 was not well typed.
+/home/user/fortress/ProjectFortress/tests/simpleExp.fss:23:10-14:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (RR64, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (RR64, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (RR64, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (RR64, String).
+    - (String, Object)->String is not applicable to an argument of type (RR64, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (RR64, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (RR64, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (RR64, String).
+File simpleExp.fss has 6 errors.

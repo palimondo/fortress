@@ -1,0 +1,44 @@
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:90:46-50:
+    Could not check call to function foo
+    - ()->String is not applicable to an argument of type IntLiteral.
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:123:5-66:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:124:5-79:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:125:5-79:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:126:5-67:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:127:5-61:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:135:5-66:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:136:5-79:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:137:5-79:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:138:5-71:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:139:5-66:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+File objectCC_shadowTest.fss has 11 errors.

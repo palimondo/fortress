@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/nestedTransactions2.fss:46:5-13:
+    Variable recordTime is not defined.
+/home/user/fortress/ProjectFortress/tests/nestedTransactions2.fss:48:5-12:
+    Variable printTime is not defined.
+File nestedTransactions2.fss has 2 errors.

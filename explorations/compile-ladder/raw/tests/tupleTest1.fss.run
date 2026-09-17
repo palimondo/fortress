@@ -1,0 +1,11 @@
+FortressException: class fortress.CompilerBuiltin$CompilerFailureDetectedAtRunTime with string Compiler failure detected at runtime
+	at fortress.CompilerBuiltin$IntLiteral$DefaultTraitMethods.MIN?0(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:842)
+	at fortress.CompilerBuiltin$IntLiteral$DefaultTraitMethods.MIN?0(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin.MIN(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at tupleTest1.run(/home/user/fortress/ProjectFortress/tests/tupleTest1.fss:19)
+	at tupleTest1.compute(/home/user/fortress/ProjectFortress/tests/tupleTest1.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)

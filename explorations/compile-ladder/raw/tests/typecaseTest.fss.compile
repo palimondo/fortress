@@ -1,0 +1,9 @@
+/home/user/fortress/ProjectFortress/tests/typecaseTest.fss:18:7-Compiler internal generated.:0:0:
+    The typecase clause, ZZ32, is unreachable.
+/home/user/fortress/ProjectFortress/tests/typecaseTest.fss:29:5-28:32:
+    The typecase clause, (Number, Number, Number), is unreachable.
+/home/user/fortress/ProjectFortress/tests/typecaseTest.fss:44:11-Compiler internal generated.:0:0:
+    The typecase clause, String, is unreachable.
+/home/user/fortress/ProjectFortress/tests/typecaseTest.fss:45:13-Compiler internal generated.:0:0:
+    The typecase clause, ZZ32, is unreachable.
+File typecaseTest.fss has 4 errors.

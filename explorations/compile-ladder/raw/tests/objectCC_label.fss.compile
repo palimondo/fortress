@@ -1,0 +1,61 @@
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:157:5-46:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:160:5-46:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:163:5-45:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:166:5-52:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:169:5-51:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:172:5-48:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:175:5-47:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:177:5-69:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:178:5-69:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:179:5-69:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:186:5-53:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:189:5-53:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:193:5-47:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:197:5-51:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_label.fss:201:5-37:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String).
+File objectCC_label.fss has 15 errors.

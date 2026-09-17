@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/whileTest.fss:16:15-26:
+    ReadableArray is undefined.
+/home/user/fortress/ProjectFortress/tests/whileTest.fss:16:52-55:
+    Maybe is undefined.
+File whileTest.fss has 2 errors.
