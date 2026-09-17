@@ -1,0 +1,129 @@
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:22:10-23:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:22.12: Loose operators LEXICO and =.
+  RealExpr: expr = U
+  LooseInfix: op = LEXICO
+  RealExpr: expr = U
+  LooseInfix: op = =
+  RealExpr: expr = U
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:23:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:23.14: Loose operators LEXICO and =.
+  RealExpr: expr = U
+  LooseInfix: op = LEXICO
+  RealExpr: expr = L
+  LooseInfix: op = =
+  RealExpr: expr = U
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:24:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:24.14: Loose operators LEXICO and =.
+  RealExpr: expr = U
+  LooseInfix: op = LEXICO
+  RealExpr: expr = G
+  LooseInfix: op = =
+  RealExpr: expr = U
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:25:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:25.14: Loose operators LEXICO and =.
+  RealExpr: expr = U
+  LooseInfix: op = LEXICO
+  RealExpr: expr = E
+  LooseInfix: op = =
+  RealExpr: expr = U
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:26:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:26.14: Loose operators LEXICO and =.
+  RealExpr: expr = L
+  LooseInfix: op = LEXICO
+  RealExpr: expr = U
+  LooseInfix: op = =
+  RealExpr: expr = L
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:27:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:27.14: Loose operators LEXICO and =.
+  RealExpr: expr = L
+  LooseInfix: op = LEXICO
+  RealExpr: expr = L
+  LooseInfix: op = =
+  RealExpr: expr = L
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:28:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:28.14: Loose operators LEXICO and =.
+  RealExpr: expr = L
+  LooseInfix: op = LEXICO
+  RealExpr: expr = G
+  LooseInfix: op = =
+  RealExpr: expr = L
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:29:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:29.14: Loose operators LEXICO and =.
+  RealExpr: expr = L
+  LooseInfix: op = LEXICO
+  RealExpr: expr = E
+  LooseInfix: op = =
+  RealExpr: expr = L
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:30:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:30.14: Loose operators LEXICO and =.
+  RealExpr: expr = G
+  LooseInfix: op = LEXICO
+  RealExpr: expr = U
+  LooseInfix: op = =
+  RealExpr: expr = G
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:31:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:31.14: Loose operators LEXICO and =.
+  RealExpr: expr = G
+  LooseInfix: op = LEXICO
+  RealExpr: expr = L
+  LooseInfix: op = =
+  RealExpr: expr = G
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:32:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:32.14: Loose operators LEXICO and =.
+  RealExpr: expr = G
+  LooseInfix: op = LEXICO
+  RealExpr: expr = G
+  LooseInfix: op = =
+  RealExpr: expr = G
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:33:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:33.14: Loose operators LEXICO and =.
+  RealExpr: expr = G
+  LooseInfix: op = LEXICO
+  RealExpr: expr = E
+  LooseInfix: op = =
+  RealExpr: expr = G
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:34:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:34.14: Loose operators LEXICO and =.
+  RealExpr: expr = E
+  LooseInfix: op = LEXICO
+  RealExpr: expr = U
+  LooseInfix: op = =
+  RealExpr: expr = U
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:35:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:35.14: Loose operators LEXICO and =.
+  RealExpr: expr = E
+  LooseInfix: op = LEXICO
+  RealExpr: expr = L
+  LooseInfix: op = =
+  RealExpr: expr = L
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:36:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:36.14: Loose operators LEXICO and =.
+  RealExpr: expr = E
+  LooseInfix: op = LEXICO
+  RealExpr: expr = G
+  LooseInfix: op = =
+  RealExpr: expr = G
+/home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:37:12-25:
+    Resolution of operator property failed for:
+    /home/user/fortress/ProjectFortress/not_working_library_tests/Comparison.fss:37.14: Loose operators LEXICO and =.
+  RealExpr: expr = E
+  LooseInfix: op = LEXICO
+  RealExpr: expr = E
+  LooseInfix: op = =
+  RealExpr: expr = E
+File Comparison.fss has 16 errors.

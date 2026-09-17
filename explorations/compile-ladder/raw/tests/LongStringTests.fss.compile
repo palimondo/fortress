@@ -1,0 +1,41 @@
+/home/user/fortress/Library/File.fsi:41:16-18:
+    Char is undefined.
+/home/user/fortress/Library/File.fsi:84:35-37:
+    Char is undefined.
+/home/user/fortress/Library/File.fsi:85:29-31:
+    Char is undefined.
+/home/user/fortress/Library/File.fsi:108:13-15:
+    Char is undefined.
+/home/user/fortress/Library/FileSupport.fsi:49:16-18:
+    Char is undefined.
+/home/user/fortress/Library/FileSupport.fsi:99:35-37:
+    Char is undefined.
+/home/user/fortress/Library/FileSupport.fsi:113:49-52:
+    Maybe is undefined.
+/home/user/fortress/Library/FlatString.fsi:19:20-22:
+    Char is undefined.
+/home/user/fortress/Library/FlatString.fsi:22:24-26:
+    Char is undefined.
+/home/user/fortress/Library/List.fsi:55:34-39:
+    HasRank is undefined.
+/home/user/fortress/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress/Library/List.fsi:68:28-33:
+    HasRank is undefined.
+/home/user/fortress/Library/List.fsi:74:17-20:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:75:18-21:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:76:25-28:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:77:26-29:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+/home/user/fortress/Library/System.fsi:26:8-20:
+    ImmutableArray is undefined.
+File LongStringTests.fss has 20 errors.

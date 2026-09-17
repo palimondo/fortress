@@ -1,0 +1,95 @@
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:93:22-37:
+    Ill-formed type: TestReduction[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:131:21-37:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:159:42-63:
+    Ill-formed type: TestGenerator[\(E1, G2)\]
+    The static argument (E1, G2) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:191:21-37:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:195:52-73:
+    Ill-formed type: TestGenerator[\(E2, F1)\]
+    The static argument (E2, F1) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:207:21-37:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:222:21-37:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:322:39-61:
+    Ill-formed type: TestGenerator[\(E12, F8)\]
+    The static argument (E12, F8) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:338:12-44:
+    Ill-formed type: TestSequentialGenerator[\(E13, F9)\]
+    The static argument (E13, F9) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:343:45-78:
+    Ill-formed type: TestSequentialGenerator[\(E14, F10)\]
+    The static argument (E14, F10) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:356:24-40:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:362:23-39:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:363:57-73:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:368:71-87:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:371:24-40:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:375:92-108:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:378:24-40:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:383:23-39:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:384:66-82:
+    Ill-formed type: TestCondition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:425:44-67:
+    Ill-formed type: TestGenerator[\(E18, G14)\]
+    The static argument (E18, G14) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:426:25-48:
+    Ill-formed type: TestGenerator[\(E18, G14)\]
+    The static argument (E18, G14) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:426:55-104:
+    No such method TestGenerator[\G14\].map.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:426:62-69:
+    Ill-formed type: TestGenerator[\(E18, G14)\]
+    The static argument (E18, G14) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:428:54-87:
+    Ill-formed type: TestSequentialGenerator[\(E18, G17)\]
+    The static argument (E18, G17) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:429:25-58:
+    Ill-formed type: TestSequentialGenerator[\(E18, G17)\]
+    The static argument (E18, G17) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:429:65-114:
+    No such method TestSequentialGenerator[\G17\].map.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:429:72-79:
+    Ill-formed type: TestSequentialGenerator[\(E18, G17)\]
+    The static argument (E18, G17) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:468:14-29:
+    Ill-formed type: TestNothingObject[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:468:14-29:
+    Ill-formed type: TestNothingObject[\(E18, G14)\]
+    The static argument (E18, G14) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:468:14-29:
+    Ill-formed type: TestNothingObject[\(E18, G17)\]
+    The static argument (E18, G17) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest5.fss:612:32-61:
+    Ill-formed type: CommutativeMonoidReduction[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+Type checker generated.:0:0:
+    Ill-formed type: TestSequentialGenerator[\(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+File GenTest5.fss has 32 errors.

@@ -1,0 +1,7 @@
+/home/user/fortress/ProjectFortress/tests/ho.fss:17:25:
+    Right-hand side has type IntLiteral, but declared type is Matrix[\ZZ32,n,1\].
+/home/user/fortress/ProjectFortress/tests/ho.fss:19:7-25:
+    No such method Matrix[\ZZ32,n,1\]._[_]:=.
+    /home/user/fortress/ProjectFortress/tests/ho.fss:18:9-18:
+      Possibly because i: ZZ32 after argument inference
+File ho.fss has 2 errors.

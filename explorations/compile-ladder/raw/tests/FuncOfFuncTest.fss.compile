@@ -1,0 +1,13 @@
+/home/user/fortress/ProjectFortress/tests/FuncOfFuncTest.fss:28:73-82:
+    No such method Left[\A,B\].unLeft.
+/home/user/fortress/ProjectFortress/tests/FuncOfFuncTest.fss:29:76-86:
+    No such method Right[\A,B\].unRight.
+/home/user/fortress/ProjectFortress/tests/FuncOfFuncTest.fss:36:11-48:
+    Could not check call to function either
+    - [\A extends Object, B extends Object, R extends Object\](Left[\A,B\], A->R, B->R)->R is not applicable to any type of the form (Either[\ZZ32,RR64\], ZZ32->ZZ32, _->_).
+    - [\A extends Object, B extends Object, R extends Object\](Right[\A,B\], A->R, B->R)->R is not applicable to any type of the form (Either[\ZZ32,RR64\], ZZ32->ZZ32, _->_).
+/home/user/fortress/ProjectFortress/tests/FuncOfFuncTest.fss:37:11-50:
+    Could not check call to function either
+    - [\A extends Object, B extends Object, R extends Object\](Left[\A,B\], A->R, B->R)->R is not applicable to any type of the form (Either[\ZZ32,RR64\], _->_, RR64->RR64).
+    - [\A extends Object, B extends Object, R extends Object\](Right[\A,B\], A->R, B->R)->R is not applicable to any type of the form (Either[\ZZ32,RR64\], _->_, RR64->RR64).
+File FuncOfFuncTest.fss has 4 errors.

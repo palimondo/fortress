@@ -1,0 +1,11 @@
+/home/user/fortress/ProjectFortress/tests/InferTest.fss:18:24-26:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Number, Number).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Number, Number).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Number, Number).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Number, Number).
+    - (String, Object)->String is not applicable to an argument of type (Number, Number).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Number, Number).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Number, Number).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Number, Number).
+File InferTest.fss has 1 error.

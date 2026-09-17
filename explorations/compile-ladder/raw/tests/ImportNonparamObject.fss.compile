@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/ImportNonparamObject.fss:17:3-62:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+File ImportNonparamObject.fss has 1 error.

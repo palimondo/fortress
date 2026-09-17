@@ -1,0 +1,69 @@
+phase counts: not_working_library_tests (29 files)
+  parse            14
+  disambiguate      9
+  typecheck         2
+  link              1
+  pass              3
+
+phase counts: tests (71 files)
+  disambiguate     31
+  typecheck        24
+  codegen           7
+  pass              9
+
+missing names: not_working_library_tests
+
+unapplicable calls: not_working_library_tests
+     1  testFail
+
+codegen refusals: not_working_library_tests
+
+pass: not_working_library_tests
+  Comparison1.fss
+  Comparison2.fss
+  VarRefTest.fss
+
+missing names: tests
+     8  Equality
+     7  HasRank
+     4  ImmutableArray
+     3  Char
+     2  big
+     1  Array1
+     1  sequential
+     1  Integral
+     1  ||_||
+     1  Array2
+     1  Nothing
+     1  ActualReduction
+     1  Maybe
+     1  //
+
+unapplicable calls: tests
+     5  assert
+     2  juxtaposition
+     2  =
+     1  <
+     1  /
+
+codegen refusals: tests
+     1  VarDecl (var cvar:String)=avar mutable bindings not yet handled.
+     1  Can't compile VarArgs
+     1  Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
+     1  Only handling some static args of generic types
+     1  emitDesc of type t failed
+     1  emitDesc of type Object failed
+     1  VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
+
+pass: tests
+  AsExprSimple.fss
+  BadEncloser.fss
+  BuiltinBound.fss
+  GS0.fss
+  GS1.fss
+  InheritedMethod.fss
+  InheritedOverload2.fss
+  LineTerminatingComments.fss
+  OverloadConstructor1.fss
+
+unclassified first-error lines

@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/tests/XXXflatTest.fss:27:9-61:
+    Could not check call to function takesFour
+    - (ZZ32, ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type ((), (ZZ32, ZZ32), (), (ZZ32, ZZ32), ()).
+File XXXflatTest.fss has 1 error.

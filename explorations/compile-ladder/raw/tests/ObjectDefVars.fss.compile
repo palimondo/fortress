@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/ObjectDefVars.fss:17:3-33:
+    Must provide type for initializer List(z)
+File ObjectDefVars.fss has 1 error.

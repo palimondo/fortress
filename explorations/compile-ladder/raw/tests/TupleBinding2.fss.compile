@@ -1,0 +1,9 @@
+/home/user/fortress/ProjectFortress/tests/TupleBinding2.fss:22:4-37:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/TupleBinding2.fss:23:4-29:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+File TupleBinding2.fss has 2 errors.

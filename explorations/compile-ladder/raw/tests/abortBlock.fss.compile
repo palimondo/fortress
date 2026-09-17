@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/abortBlock.fss:22:21-34:
+    Variable printThreadInfo is not defined.
+/home/user/fortress/ProjectFortress/tests/abortBlock.fss:23:21-24:
+    Variable abort is not defined.
+File abortBlock.fss has 2 errors.

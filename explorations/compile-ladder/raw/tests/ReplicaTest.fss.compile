@@ -1,0 +1,7 @@
+/home/user/fortress/ProjectFortress/tests/ReplicaTest.fss:17:15-19:
+    Array1 is undefined.
+/home/user/fortress/ProjectFortress/tests/ReplicaTest.fss:19:16-20:
+    Array2 is undefined.
+/home/user/fortress/ProjectFortress/tests/ReplicaTest.fss:21:16-20:
+    Array3 is undefined.
+File ReplicaTest.fss has 3 errors.

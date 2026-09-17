@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXimmutable0.fss:19:5:
+    Variable x is already declared.
+/home/user/fortress/ProjectFortress/tests/XXXimmutable0.fss:21:5:
+    Variable x is already declared.
+File XXXimmutable0.fss has 2 errors.

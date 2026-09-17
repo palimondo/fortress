@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/EqualityOverloadBug.fss:15:20-26:
+    Equality is undefined.
+File EqualityOverloadBug.fss has 1 error.

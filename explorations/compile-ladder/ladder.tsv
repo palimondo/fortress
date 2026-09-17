@@ -1,0 +1,101 @@
+corpus	file	XXX	phase	secs	missing_name	codegen_node	unapplicable_call	first_error
+not_working_library_tests	Comparison.fss		parse	1				Resolution of operator property failed for:
+not_working_library_tests	Comparison1.fss		pass	6				
+not_working_library_tests	Comparison1a.fss		disambiguate	1				Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+not_working_library_tests	Comparison1d.fss		parse	1				Syntax Error
+not_working_library_tests	Comparison2.fss		pass	5				
+not_working_library_tests	Comparison3.fss		disambiguate	1				Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+not_working_library_tests	ComparisonLibrary.fsi		disambiguate	1				Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+not_working_library_tests	ComparisonLibrary.fss		disambiguate	1				Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+not_working_library_tests	EqualityBug2.fss		parse	1				Syntax Error
+not_working_library_tests	EqualityBug3.fss		parse	1				Syntax Error
+not_working_library_tests	FailInference2.fss		typecheck	1			testFail	Could not check call to function testFail
+not_working_library_tests	GenTest3.fss		disambiguate	1				Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	GenTest4.fss		disambiguate	2				Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	GenTest5.fss		typecheck	6				Ill-formed type: TestReduction[\()\]
+not_working_library_tests	GenTest8.fss		link	43				java.lang.Error: java.lang.Error: Unable to read serialized data for GeneratorLibrary$CommutativeMonoidReduction??, recommend you delete the Fortress bytecode cache and relink
+not_working_library_tests	HelperTest1.fss		disambiguate	1				Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	HelperTest2.fss		disambiguate	2				Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	HelperTest3.fss		disambiguate	2				Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	MatchErrorBug.fsi		parse	1				Syntax Error
+not_working_library_tests	MatchErrorBug.fss		parse	1				Syntax Error
+not_working_library_tests	MatchErrorBug1.fsi		parse	1				Syntax Error
+not_working_library_tests	MatchErrorBug1.fss		parse	2				Syntax Error
+not_working_library_tests	MatchErrorBug2.fsi		parse	1				Syntax Error
+not_working_library_tests	MatchErrorBug2.fss		parse	1				Syntax Error
+not_working_library_tests	MaybeTest1.fss		parse	1				Syntax Error
+not_working_library_tests	MaybeTest10.fss		parse	1				Syntax Error
+not_working_library_tests	MaybeTest2.fss		parse	1				Syntax Error
+not_working_library_tests	MaybeTest5.fss		parse	2				Syntax Error
+not_working_library_tests	VarRefTest.fss		pass	2				
+tests	AfterTypeChecking.fss		typecheck	2	Array1			Unbound type: CompilerLibrary.Array1
+tests	AliasedGetterTest.fss		typecheck	3			assert	Could not check call to function assert
+tests	AlsoDo.fss		typecheck	2				Missing parameter type for x
+tests	ArrayListQuick.fss		disambiguate	2	HasRank			HasRank is undefined.
+tests	AsExprSimple.fss		pass	2				
+tests	BadBounds.fss		disambiguate	2	sequential			Variable sequential is not defined.
+tests	BadEncloser.fss		pass	2				
+tests	BigNum.fss		disambiguate	2	big			Variable big is not defined.
+tests	BitTwiddle.fss		disambiguate	1	Integral			Integral is undefined.
+tests	BoolMethodParamBug.fss		typecheck	2				class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.BoolExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.BoolExpr are in unnamed module of loader 'app')
+tests	BooleanOps.fss		typecheck	4			<	Could not check call to operator <
+tests	Brackets.fss		disambiguate	2	||_||			Operator ||_|| is not defined.
+tests	BuiltinBound.fss		pass	3				
+tests	CharacterTest.fss		disambiguate	3	Char			Char is undefined.
+tests	ColonOperator.fss		typecheck	2	Array2			Unbound type: CompilerLibrary.Array2
+tests	ConditionalOpTruncation.fss		typecheck	2			assert	Could not check call to function assert
+tests	CovCollTest.fss		disambiguate	2	ImmutableArray			ImmutableArray is undefined.
+tests	CovariantTest.fss		disambiguate	2	HasRank			HasRank is undefined.
+tests	DivPrecedence.fss		typecheck	2			/	Could not check call to operator /
+tests	EqualityOverloadBug.fss		disambiguate	1	Equality			Equality is undefined.
+tests	Exception.fss		typecheck	2			assert	Could not check call to function assert
+tests	ExceptionScoping.fss		disambiguate	2	Nothing			Function Nothing is not defined.
+tests	FileConversion.fss		disambiguate	2	Equality			Equality is undefined.
+tests	FileReadWrite.fss		disambiguate	1	Char			Char is undefined.
+tests	FuncOfFuncTest.fss		typecheck	2				No such method Left[\A,B\].unLeft.
+tests	FunctionalMethodAsUnifyParam.fss		disambiguate	1	HasRank			HasRank is undefined.
+tests	GS0.fss		pass	2				
+tests	GS1.fss		pass	2				
+tests	GS2.fss		typecheck	1				Must provide type for initializer List(n)
+tests	GS3.fss		disambiguate	1	Equality			Equality is undefined.
+tests	Generator2Test.fss		disambiguate	2	ActualReduction			ActualReduction is undefined.
+tests	GeneratorNullPointer.fss		disambiguate	1	Equality			Equality is undefined.
+tests	GenericFnWithExcludes.fss		typecheck	1				non-type where clause bindings: Not yet implemented
+tests	HeapTest.fss		disambiguate	1	Maybe			Maybe is undefined.
+tests	ImplicitBlocks.fss		typecheck	2			juxtaposition	Could not check call to operator juxtaposition
+tests	ImportNonparamObject.fss		typecheck	1			assert	Could not check call to function assert
+tests	InferTest.fss		typecheck	2			juxtaposition	Could not check call to operator juxtaposition
+tests	InheritedMethod.fss		pass	2				
+tests	InheritedOverload2.fss		pass	2				
+tests	InitOrderWithMutable.fss		codegen	1		VarDecl (var cvar:String)=avar mutable bindings not yet handled.		VarDecl (var cvar:String)=avar mutable bindings not yet handled.
+tests	IntMapTest.fss		disambiguate	1	Equality			Equality is undefined.
+tests	LabelTest.fss		typecheck	1				Function body has type OR((),T), but declared return type is T.
+tests	LineTerminatingComments.fss		pass	2				
+tests	ListNullPointer.fss		disambiguate	1	ImmutableArray			ImmutableArray is undefined.
+tests	ListTest.fss		disambiguate	1	HasRank			HasRank is undefined.
+tests	LocalVar.fss		typecheck	1				Missing parameter type for x
+tests	LongStringTests.fss		disambiguate	1	Char			Char is undefined.
+tests	MapExprTest.fss		codegen	2		Can't compile VarArgs		Can't compile VarArgs yet
+tests	MapTest.fss		disambiguate	1	Equality			Equality is undefined.
+tests	Mutable.fss		codegen	1		Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException		Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
+tests	NatParamOverloading.fss		typecheck	1				head of empty list
+tests	NatReflectTest.fss		codegen	2		Only handling some static args of generic types		Only handling some static args of generic types
+tests	NumberPrintTest.fss		disambiguate	1	big			Variable big is not defined.
+tests	NumeralTest.fss		disambiguate	1	Equality			Equality is undefined.
+tests	ObjectDefVars.fss		typecheck	1				Must provide type for initializer List(z)
+tests	ObjectExprWithFunctionalMethod.fss		codegen	2		emitDesc of type t failed		emitDesc of type t failed
+tests	ObjectFieldShadowing.fss		typecheck	1			assert	Could not check call to function assert
+tests	ObjectParams.fss		typecheck	1				Must provide type for initializer List(y)
+tests	ObjectToStringTest.fss		codegen	2		emitDesc of type Object failed		emitDesc of type Object failed
+tests	OpenRangeCase.fss		typecheck	1				Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+tests	OverloadBuiltinParam.fss		disambiguate	1	//			Operator // is not defined.
+tests	OverloadConstructor1.fss		pass	2				
+tests	OverloadConstructor2.fss		typecheck	2			=	Could not check call to operator =
+tests	OverloadConstructor3.fss		typecheck	1			=	Could not check call to operator =
+tests	OverloadWithSuperExcludes.fss		codegen	3		VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.		VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
+tests	ParamRef.fss		disambiguate	0	ImmutableArray			ImmutableArray is undefined.
+tests	PureListQuick.fss		disambiguate	1	ImmutableArray			ImmutableArray is undefined.
+tests	QuickCheckTest.fss		disambiguate	3	Equality			Equality is undefined.
+tests	RandomTest.fss		disambiguate	2	HasRank			HasRank is undefined.
+tests	RangePrototype.fss		disambiguate	1	HasRank			HasRank is undefined.
+tests	RangeTest.fss		disambiguate	1	HasRank			HasRank is undefined.

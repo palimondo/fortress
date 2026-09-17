@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/Variable.VarWTypes.fss:18:3-18:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral).
+File Variable.VarWTypes.fss has 1 error.

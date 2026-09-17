@@ -1,0 +1,31 @@
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:28:25-26:
+    Operator REM is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:29:25-26:
+    Operator MOD is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:31:26-27:
+    Operator REM is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:32:26-27:
+    Operator MOD is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:33:25-30:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:34:26-31:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:35:25-30:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:36:26-31:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:37:29-34:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:38:25-30:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:39:29-34:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:40:24-25:
+    Operator GCD is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:41:24-25:
+    Operator LCM is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:47:23-27:
+    Operator LSHIFT is not defined.
+/home/user/fortress/ProjectFortress/tests/intPrim.fss:48:24-28:
+    Operator RSHIFT is not defined.
+File intPrim.fss has 15 errors.

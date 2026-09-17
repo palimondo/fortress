@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/infixBars.fss:15:9-29:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String).
+    - Boolean->() is not applicable to an argument of type (String, String).
+File infixBars.fss has 1 error.

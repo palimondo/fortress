@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/buffons.fss:31:16-21:
+    Variable ceiling is not defined.
+/home/user/fortress/ProjectFortress/tests/buffons.fss:31:44-47:
+    Variable floor is not defined.
+File buffons.fss has 2 errors.

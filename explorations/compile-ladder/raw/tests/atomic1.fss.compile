@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/tests/atomic1.fss:17:8-19:
+    Could not check method invocation Range.loop
+    - ZZ32->()->() is not applicable to any type of the form _->_.
+File atomic1.fss has 1 error.

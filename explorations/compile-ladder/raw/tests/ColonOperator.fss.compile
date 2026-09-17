@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/ColonOperator.fss:16:6-17:
+    Unbound type: CompilerLibrary.Array2
+/home/user/fortress/ProjectFortress/tests/ColonOperator.fss:16:6-17:
+    Unknown type: CompilerLibrary.Array2
+File ColonOperator.fss has 2 errors.

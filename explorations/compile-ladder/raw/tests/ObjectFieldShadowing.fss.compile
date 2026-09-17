@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/ObjectFieldShadowing.fss:22:12-30:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral).
+File ObjectFieldShadowing.fss has 1 error.

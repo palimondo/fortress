@@ -1,0 +1,15 @@
+/home/user/fortress/ProjectFortress/tests/intDivisionTest.fss:16:10-12:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/intDivisionTest.fss:16:15-17:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/intDivisionTest.fss:17:3-19:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/intDivisionTest.fss:18:3-23:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+File intDivisionTest.fss has 4 errors.

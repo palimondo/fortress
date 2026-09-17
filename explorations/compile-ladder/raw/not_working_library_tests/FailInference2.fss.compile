@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/not_working_library_tests/FailInference2.fss:26:9-34:
+    Could not check call to function testFail
+    - Could not infer static argument T extends Any without context.
+File FailInference2.fss has 1 error.

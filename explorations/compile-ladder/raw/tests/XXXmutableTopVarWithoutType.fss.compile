@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXmutableTopVarWithoutType.fss:15:6:
+    The type of x is required.
+/home/user/fortress/ProjectFortress/tests/XXXmutableTopVarWithoutType.fss:15:9:
+    The type of y is required.
+File XXXmutableTopVarWithoutType.fss has 2 errors.

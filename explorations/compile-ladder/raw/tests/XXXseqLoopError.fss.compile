@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXseqLoopError.fss:24:9-25:
+    O has no getter called nonexistentfield
+    /home/user/fortress/ProjectFortress/tests/XXXseqLoopError.fss:22:7-23:
+      Possibly because i: ZZ32 after argument inference
+File XXXseqLoopError.fss has 1 error.

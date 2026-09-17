@@ -1,0 +1,27 @@
+/home/user/fortress/ProjectFortress/tests/Exception.fss:33:5-59:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+/home/user/fortress/ProjectFortress/tests/Exception.fss:54:5-50:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+/home/user/fortress/ProjectFortress/tests/Exception.fss:73:5-65:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+/home/user/fortress/ProjectFortress/tests/Exception.fss:81:5-63:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+/home/user/fortress/ProjectFortress/tests/Exception.fss:97:5-49:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+/home/user/fortress/ProjectFortress/tests/Exception.fss:109:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (String, String, String).
+    - Boolean->() is not applicable to an argument of type (String, String, String).
+/home/user/fortress/ProjectFortress/tests/Exception.fss:125:14-131:2:
+    Function body has type OR((),ZZ32), but declared return type is ().
+File Exception.fss has 7 errors.

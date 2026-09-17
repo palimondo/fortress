@@ -1,0 +1,6 @@
+/home/user/fortress/ProjectFortress/tests/XXXoverloadTest5.fss:21:1-24:2:
+/home/user/fortress/ProjectFortress/tests/XXXoverloadTest5.fss:26:1-28:2:
+    Invalid overloading of a in component XXXoverloadTest5:
+     (S, T)->() @ /home/user/fortress/ProjectFortress/tests/XXXoverloadTest5.fss:21:1-24:2
+ and (T, S)->() @ /home/user/fortress/ProjectFortress/tests/XXXoverloadTest5.fss:26:1-28:2
+File XXXoverloadTest5.fss has 1 error.

@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/tests/XXXgenericTest6.fss:37:7-43:
+    Could not check call to function End
+    - [\String\]String->End[\String\] is not applicable to an argument of type (String, String).
+File XXXgenericTest6.fss has 1 error.

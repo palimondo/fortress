@@ -1,0 +1,284 @@
+not_working_library_tests	Comparison.fss	Comparison	255		1	
+not_working_library_tests	Comparison1.fss	Comparison1	0	0	6	0
+not_working_library_tests	Comparison1a.fss	Comparison1a	255		1	
+not_working_library_tests	Comparison1d.fss	Comparison1d	255		1	
+not_working_library_tests	Comparison2.fss	Comparison2	0	0	5	1
+not_working_library_tests	Comparison3.fss	Comparison3	255		1	
+not_working_library_tests	ComparisonLibrary.fsi	ComparisonLibrary	255		1	
+not_working_library_tests	ComparisonLibrary.fss	ComparisonLibrary	255		1	
+not_working_library_tests	EqualityBug2.fss	EqualityBug2	255		1	
+not_working_library_tests	EqualityBug3.fss	EqualityBug3	255		1	
+not_working_library_tests	FailInference2.fss	FailInference2	255		1	
+not_working_library_tests	GenTest3.fss	GenTest3	255		1	
+not_working_library_tests	GenTest4.fss	GenTest4	255		2	
+not_working_library_tests	GenTest5.fss	GenTest5	255		6	
+not_working_library_tests	GenTest8.fss	GenTest8	0	1	43	1
+not_working_library_tests	HelperTest1.fss	HelperTest1	255		1	
+not_working_library_tests	HelperTest2.fss	HelperTest2	255		2	
+not_working_library_tests	HelperTest3.fss	HelperTest3	255		2	
+not_working_library_tests	MatchErrorBug.fsi	MatchErrorBug	255		1	
+not_working_library_tests	MatchErrorBug.fss	MatchErrorBug	255		1	
+not_working_library_tests	MatchErrorBug1.fsi	MatchErrorBug1	255		1	
+not_working_library_tests	MatchErrorBug1.fss	MatchErrorBug1	255		2	
+not_working_library_tests	MatchErrorBug2.fsi	MatchErrorBug2	255		1	
+not_working_library_tests	MatchErrorBug2.fss	MatchErrorBug2	255		1	
+not_working_library_tests	MaybeTest1.fss	MaybeTest1	255		1	
+not_working_library_tests	MaybeTest10.fss	MaybeTest10	255		1	
+not_working_library_tests	MaybeTest2.fss	MaybeTest2	255		1	
+not_working_library_tests	MaybeTest5.fss	MaybeTest5	255		2	
+not_working_library_tests	VarRefTest.fss	VarRefTest	0	0	2	0
+tests	AfterTypeChecking.fss	AfterTypeChecking	255		2	
+tests	AliasedGetterTest.fss	AliasedGetterTest	255		3	
+tests	AlsoDo.fss	AlsoDo	255		2	
+tests	ArrayListQuick.fss	ArrayListQuick	255		2	
+tests	AsExprSimple.fss	AsExprSimple	0	0	2	0
+tests	BadBounds.fss	BadBounds	255		2	
+tests	BadEncloser.fss	BadEncloser	0	0	2	1
+tests	BigNum.fss	BigNum	255		2	
+tests	BitTwiddle.fss	BitTwiddle	255		1	
+tests	BoolMethodParamBug.fss	BoolMethodParamBug	1		2	
+tests	BooleanOps.fss	BooleanOps	255		4	
+tests	Brackets.fss	Brackets	255		2	
+tests	BuiltinBound.fss	BuiltinBound	0	0	3	1
+tests	CharacterTest.fss	CharacterTest	255		3	
+tests	ColonOperator.fss	ColonOperator	255		2	
+tests	ConditionalOpTruncation.fss	ConditionalOpTruncation	255		2	
+tests	CovCollTest.fss	CovCollTest	255		2	
+tests	CovariantTest.fss	CovariantTest	255		2	
+tests	DivPrecedence.fss	DivPrecedence	255		2	
+tests	EqualityOverloadBug.fss	EqualityOverloadBug	255		1	
+tests	Exception.fss	Exception	255		2	
+tests	ExceptionScoping.fss	ExceptionScoping	255		2	
+tests	FileConversion.fss	FileConversion	255		2	
+tests	FileReadWrite.fss	FileReadWrite	255		1	
+tests	FuncOfFuncTest.fss	FuncOfFuncTest	255		2	
+tests	FunctionalMethodAsUnifyParam.fss	FunctionalMethodAsUnifyParam	255		1	
+tests	GS0.fss	GS0	0	0	2	0
+tests	GS1.fss	GS1	0	0	2	0
+tests	GS2.fss	GS2	255		1	
+tests	GS3.fss	GS3	255		1	
+tests	Generator2Test.fss	Generator2Test	255		2	
+tests	GeneratorNullPointer.fss	GeneratorNullPointer	255		1	
+tests	GenericFnWithExcludes.fss	GenericFnWithExcludes	1		1	
+tests	HeapTest.fss	HeapTest	255		1	
+tests	ImplicitBlocks.fss	ImplicitBlocks	255		2	
+tests	ImportNonparamObject.fss	ImportNonparamObject	255		1	
+tests	InferTest.fss	InferTest	255		2	
+tests	InheritedMethod.fss	InheritedMethod	0	0	2	1
+tests	InheritedOverload2.fss	InheritedOverload2	0	0	2	0
+tests	InitOrderWithMutable.fss	InitOrderWithMutable	1		1	
+tests	IntMapTest.fss	IntMapTest	255		1	
+tests	LabelTest.fss	LabelTest	255		1	
+tests	LineTerminatingComments.fss	LineTerminatingComments	0	0	2	0
+tests	ListNullPointer.fss	ListNullPointer	255		1	
+tests	ListTest.fss	ListTest	255		1	
+tests	LocalVar.fss	LocalVar	255		1	
+tests	LongStringTests.fss	LongStringTests	255		1	
+tests	MapExprTest.fss	MapExprTest	1		2	
+tests	MapTest.fss	MapTest	255		1	
+tests	Mutable.fss	Mutable	1		1	
+tests	NatParamOverloading.fss	NatParamOverloading	1		1	
+tests	NatReflectTest.fss	NatReflectTest	1		2	
+tests	NumberPrintTest.fss	NumberPrintTest	255		1	
+tests	NumeralTest.fss	NumeralTest	255		1	
+tests	ObjectDefVars.fss	ObjectDefVars	255		1	
+tests	ObjectExprWithFunctionalMethod.fss	ObjectExprWithFunctionalMethod	1		2	
+tests	ObjectFieldShadowing.fss	ObjectFieldShadowing	255		1	
+tests	ObjectParams.fss	ObjectParams	255		1	
+tests	ObjectToStringTest.fss	ObjectToStringTest	1		2	
+tests	OpenRangeCase.fss	OpenRangeCase	255		1	
+tests	OverloadBuiltinParam.fss	OverloadBuiltinParam	255		1	
+tests	OverloadConstructor1.fss	OverloadConstructor1	0	0	2	0
+tests	OverloadConstructor2.fss	OverloadConstructor2	255		2	
+tests	OverloadConstructor3.fss	OverloadConstructor3	255		1	
+tests	OverloadWithSuperExcludes.fss	OverloadWithSuperExcludes	1		3	
+tests	ParamRef.fss	ParamRef	255		0	
+tests	PureListQuick.fss	PureListQuick	255		1	
+tests	QuickCheckTest.fss	QuickCheckTest	255		3	
+tests	RandomTest.fss	RandomTest	255		2	
+tests	RangePrototype.fss	RangePrototype	255		1	
+tests	RangeTest.fss	RangeTest	255		1	
+tests	RationalTest.fss	RationalTest	255		5	
+tests	ReflectTest.fss	ReflectTest	255		2	
+tests	ReflectiveQuickCheckTest.fss	ReflectiveQuickCheckTest	255		2	
+tests	Region.fss	Region	255		1	
+tests	ReplicaTest.fss	ReplicaTest	255		1	
+tests	Reversals.fss	Reversals	255		1	
+tests	SetMapImport.fss	SetMapImport	255		1	
+tests	SetTest.fss	SetTest	255		2	
+tests	ShuffleTest.fss	ShuffleTest	255		1	
+tests	SkipListTest.fss	SkipListTest	255		1	
+tests	Spawn1.fss	Spawn1	255		1	
+tests	Spawn2.fss	Spawn2	255		1	
+tests	Spawn3.fss	Spawn3	255		0	
+tests	Spawn4.fss	Spawn4	255		1	
+tests	Spawn5.fss	Spawn5	255		1	
+tests	Spawn6.fss	Spawn6	255		1	
+tests	StringTests.fss	StringTests	255		2	
+tests	SubscriptedExpr.fss	SubscriptedExpr	255		2	
+tests	TestCompiledEnvironments.fss	TestCompiledEnvironments	0	0	3	0
+tests	TestCompiledImports.fss	TestCompiledImports	255		2	
+tests	TestCompiledNestedImports.fss	TestCompiledNestedImports	0	0	2	1
+tests	TimingTests.fss	TimingTests	255		2	
+tests	ToTheEOLComment.fss	ToTheEOLComment	0	0	2	0
+tests	TransactionalArrayShakedown.fss	TransactionalArrayShakedown	255		2	
+tests	TransitiveImportMethodLookup.fss	TransitiveImportMethodLookup	255		1	
+tests	TreapTest.fss	TreapTest	0	1	3	1
+tests	TupleBinding.fss	TupleBinding	1		1	
+tests	TupleBinding2.fss	TupleBinding2	255		2	
+tests	TypeImportBug.fss	TypeImportBug	255		1	
+tests	UnderscoreId.fss	UnderscoreId	0	0	1	0
+tests	UnnamedParam.fss	UnnamedParam	255		2	
+tests	UnsignedTest.fss	UnsignedTest	255		2	
+tests	Variable.VarWTypes.fss	Variable.VarWTypes	255		1	
+tests	Wildcards.fss	Wildcards	255		1	
+tests	WordCountSmall.fss	WordCountSmall	255		2	
+tests	XXXAlsoEE.fss	XXXAlsoEE	255		1	
+tests	XXXAsExpr.fss	XXXAsExpr	255		1	
+tests	XXXExitWithoutEnclosingLabel.fss	XXXExitWithoutEnclosingLabel	255		1	
+tests	XXXExportsEE.fss	XXXExportsEE	255		0	
+tests	XXXGenericOverload.fss	XXXGenericOverload	0	0	2	1
+tests	XXXGenericOverload2.fss	XXXGenericOverload2	0	1	1	1
+tests	XXXGenericOverload3.fss	XXXGenericOverload3	255		2	
+tests	XXXHashtable.fss	XXXHashtable	255		1	
+tests	XXXImportImportCollision.fss	XXXImportImportCollision	255		1	
+tests	XXXImportImportCollision2.fss	ImportImportCollision	1		0	
+tests	XXXImportLocalCollision.fss	ImportLocalCollision	1		1	
+tests	XXXImportNonExistingAPI.fss	XXXImportNonExistingAPI	255		0	
+tests	XXXInheritedOverload.fss	XXXInheritedOverload	255		2	
+tests	XXXLabelShadowing.fss	XXXLabelShadowing	255		1	
+tests	XXXLetRecTest.fss	XXXLetRecTest	255		1	
+tests	XXXNonValueOfValue.fss	XXXNonValueOfValue	255		1	
+tests	XXXTypeError.fss	XXXTypeError	255		1	
+tests	XXXUnimplementedMethod.fss	XXXUnimplementedMethod	255		1	
+tests	XXXWildcardField.fss	XXXWildcardField	255		1	
+tests	XXXarityTestFn.fss	XXXarityTestFn	255		1	
+tests	XXXbroken.fss	XXXbroken	255		1	
+tests	XXXcaseTest.fss	XXXcaseTest	0	1	2	1
+tests	XXXextendBoolean.fss	XXXextendBoolean	255		2	
+tests	XXXextendFloatLiteral.fss	XXXextendFloatLiteral	255		1	
+tests	XXXextendIntLiteral.fss	XXXextendIntLiteral	255		2	
+tests	XXXextendObject.fss	XXXextendObject	255		1	
+tests	XXXextendOprParam2.fss	XXXextendOprParam2	255		1	
+tests	XXXfailTestFn.fss	XXXfailTestFn	255		1	
+tests	XXXflatTest.fss	XXXflatTest	255		2	
+tests	XXXgenericMethod1.fss	XXXgenericMethod1	0	0	2	0
+tests	XXXgenericMethod2.fss	XXXgenericMethod2	0	0	1	1
+tests	XXXgenericMethod3.fss	XXXgenericMethod3	0	0	1	0
+tests	XXXgenericTest6.fss	XXXgenericTest6	255		2	
+tests	XXXimmutable0.fss	XXXimmutable0	255		1	
+tests	XXXimmutable1.fss	XXXimmutable1	1		1	
+tests	XXXimmutable2.fss	XXXimmutable2	1		2	
+tests	XXXimmutableTopLevel.fss	XXXimmutableTopLevel	255		1	
+tests	XXXlabelExit.fss	XXXlabelExit	255		1	
+tests	XXXlabelExit2.fss	XXXlabelExit2	255		1	
+tests	XXXlabelExit3.fss	XXXlabelExit3	255		1	
+tests	XXXloopError.fss	XXXloopError	255		2	
+tests	XXXmutableTopVarWithoutType.fss	XXXmutableTopVarWithoutType	255		1	
+tests	XXXmutableWithoutType.fss	XXXmutableWithoutType	255		1	
+tests	XXXmutation1.fss	XXXmutation1	255		1	
+tests	XXXmutation2.fss	XXXmutation2	255		1	
+tests	XXXnoclassNativeFn.fss	XXXnoclassNativeFn	255		1	
+tests	XXXnonBooleanCond.fss	XXXnonBooleanCond	255		1	
+tests	XXXoutcome.fss	XXXoutcome	255		1	
+tests	XXXoverloadTest5.fss	XXXoverloadTest5	255		1	
+tests	XXXseqLoopError.fss	XXXseqLoopError	255		2	
+tests	XXXsubtypeRuleResultFail.fss	XXXsubtypeRuleResultFail	255		2	
+tests	XXXtupleTypeParam3.fss	XXXtupleTypeParam3	255		1	
+tests	XXXtypeParamShadowing.fss	XXXtypeParamShadowing	0	0	2	0
+tests	XXXtypecaseTest.fss	XXXtypecaseTest	0	1	1	1
+tests	XXXvarargsObject.fss	XXXvarargsObject	255		0	
+tests	abortBlock.fss	abortBlock	255		1	
+tests	abortTest.fss	abortTest	255		1	
+tests	ampersand.fss	ampersand	255		2	
+tests	anyLenArray.fss	anyLenArray	255		1	
+tests	array3test.fss	array3test	1		1	
+tests	arrayBig.fss	arrayBig	1		2	
+tests	arrayTest0.fss	arrayTest0	255		1	
+tests	arrayTest1.fss	arrayTest1	1		1	
+tests	arrayTest2.fss	arrayTest2	1		1	
+tests	arrayTest3.fss	arrayTest3	1		1	
+tests	arrayWithTrailingSpaces.fss	arrayWithTrailingSpaces	1		1	
+tests	asifTest.fss	asifTest	255		1	
+tests	atomic0.fss	atomic0	0	0	1	1
+tests	atomic1.fss	atomic1	255		2	
+tests	atomic2.fss	atomic2	0	0	2	1
+tests	atomic3.fss	atomic3	0	0	2	0
+tests	atomic4.fss	atomic4	0	0	2	1
+tests	atomic5.fss	atomic5	255		1	
+tests	atomicArrayOps.fss	atomicArrayOps	255		1	
+tests	atomicExpr.fss	atomicExpr	255		2	
+tests	atomicList.fss	atomicList	255		2	
+tests	atomicTest.fss	atomicTest	0	0	2	1
+tests	atomicsets.fss	atomicsets	255		1	
+tests	bigEncloserCall.fss	bigEncloserCall	255		1	
+tests	bogusNatParams.fss	bogusNatParams	1		1	
+tests	booleanGuard.fss	booleanGuard	255		1	
+tests	buffons.fss	buffons	255		1	
+tests	caseTest.fss	caseTest	1		2	
+tests	caseWithSemicolons.fss	caseWithSemicolons	255		1	
+tests	chain0.fss	chain0	255		1	
+tests	chain2.fss	chain2	0	1	3	0
+tests	commonSuper.fss	commonSuper	1		2	
+tests	compoundArray.fss	compoundArray	255		1	
+tests	conditionalExtension.fss	conditionalExtension	255		1	
+tests	conditionalGenerator.fss	conditionalGenerator	255		1	
+tests	conditionalOp.fss	conditionalOp	255		1	
+tests	contracts1.fss	contracts1	255		2	
+tests	controlZ.fss	controlZ	0	0	1	0
+tests	deepHierarchy.fss	deepHierarchy	0	0	2	0
+tests	dimensionUnitDecl.fss	dimensionUnitDecl	1		1	
+tests	disp0.fss	disp0	255		2	
+tests	disp1.fss	disp1	255		1	
+tests	disp2.fss	disp2	0	0	2	1
+tests	doubleSelf.fss	doubleSelf	0	0	1	0
+tests	doubledOverloading.fss	doubledOverloading	0	0	2	0
+tests	doubledOverloading2.fss	doubledOverloading2	255		1	
+tests	doubledOverloading3.fss	doubledOverloading3	0	0	2	0
+tests	emptyLoop.fss	emptyLoop	0	0	2	0
+tests	emptySubscripting.fss	emptySubscripting	255		1	
+tests	errIN.fss	errIN	255		1	
+tests	executable_component.fss	executable_component	0	0	1	1
+tests	exitType.fss	exitType	255		1	
+tests	expTest.fss	expTest	255		2	
+tests	explicitStaticArgsToAggregates.fss	explicitStaticArgsToAggregates	255		1	
+tests	extendAny.fss	extendAny	255		1	
+tests	extendException.fss	extendException	255		1	
+tests	extendNumber.fss	extendNumber	255		1	
+tests	extendObject.fss	extendObject	0	0	1	0
+tests	fib.fss	fib	255		2	
+tests	fib13.fss	fib13	255		1	
+tests	fmTest1.fss	fmTest1	0	0	2	0
+tests	fmTest2.fss	fmTest2	0	0	2	0
+tests	fmTest3.fss	fmTest3	0	0	3	1
+tests	fmTest4.fss	fmTest4	0	0	1	1
+tests	fmTest5.fss	fmTest5	0	0	2	0
+tests	forFnDecl.fss	forFnDecl	0	1	2	1
+tests	forTest.fss	forTest	0	0	1	0
+tests	forTest2.fss	forTest2	0	0	2	0
+tests	formatTest.fss	formatTest	255		1	
+tests	funny.fss	funny	1		3	
+tests	generatedExpr.fss	generatedExpr	255		1	
+tests	generatorTest.fss	generatorTest	255		1	
+tests	genericMethod0.fss	genericMethod0	255		1	
+tests	genericMethod1.fss	genericMethod1	1		1	
+tests	genericMethod4.fss	genericMethod4	0	0	1	0
+tests	genericTest1.fss	genericTest1	0	1	2	1
+tests	genericTest2.fss	genericTest2	0	1	2	0
+tests	genericTest3.fss	genericTest3	255		2	
+tests	genericTest4.fss	genericTest4	255		1	
+tests	genericTest5.fss	genericTest5	0	0	2	1
+tests	han.fss	han	0	0	1	1
+tests	ho.fss	ho	255		1	
+tests	ifGetter.fss	ifGetter	0	0	1	1
+tests	ifTest.fss	ifTest	0	0	1	0
+tests	immutable.fss	immutable	1		2	
+tests	immutableTopLevel.fss	immutableTopLevel	1		2	
+tests	importBig.fss	importBig	255		1	
+tests	infixBars.fss	infixBars	255		1	
+tests	initOrder.fss	initOrder	0	0	2	0
+tests	instantiateNatParam.fss	instantiateNatParam	1		2	
+tests	intDivisionTest.fss	intDivisionTest	255		1	
+tests	intPrim.fss	intPrim	255		1	
+tests	juxtTwice.fss	juxtTwice	255		2	
+tests	labelExit.fss	labelExit	255		1	
