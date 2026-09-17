@@ -1,0 +1,246 @@
+#!/usr/bin/env python3
+"""Write REPORT.md from ladder.tsv. Re-running after a library or checker change
+produces a report whose tables diff line by line against this baseline."""
+import os, collections, csv, datetime
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+rows = list(csv.DictReader(open(os.path.join(ROOT, "ladder.tsv")), delimiter="\t"))
+ORDER = ["parse", "disambiguate", "typecheck", "codegen", "link", "run", "pass"]
+
+def esc(s):
+    return s.replace("|", "\\|").replace("\n", " ")
+
+def counts(corpus):
+    return collections.Counter(r["phase"] for r in rows if r["corpus"] == corpus)
+
+def rank(corpus, key, pred=lambda r: True):
+    c = collections.Counter()
+    for r in rows:
+        if r["corpus"] == corpus and pred(r) and r[key]:
+            c[r[key]] += 1
+    return c.most_common()
+
+def table(header, lines):
+    out = ["| " + " | ".join(header) + " |",
+           "|" + "|".join(["---"] * len(header)) + "|"]
+    out += ["| " + " | ".join(lines_) + " |" for lines_ in lines]
+    return "\n".join(out)
+
+L = []
+w = L.append
+
+w("# Compile-path ladder baseline")
+w("")
+w("Every interpreter test program and every file of the 2012 team's compiler-side")
+w("library tests, pushed through the compiler path unchanged, with the phase each")
+w("one reaches recorded.")
+w("")
+w("Corpora: `ProjectFortress/tests/` (381 `.fss`; `concurrentPrinting.sh` and the")
+w("four data files are not programs and are skipped) and")
+w("`ProjectFortress/not_working_library_tests/` (29 files, 24 `.fss` and 5 `.fsi`).")
+w("")
+w("No file was modified. The run used a private cache tree and a private")
+w("`java.io.tmpdir`; `default_repository/caches` was not touched.")
+w("")
+w("## Reproducing")
+w("")
+w("```")
+w("bash explorations/compile-ladder/run-ladder.sh   # writes results.tsv and raw/")
+w("python3 explorations/compile-ladder/classify.py  # writes ladder.tsv and summary.txt")
+w("python3 explorations/compile-ladder/report.py    # writes REPORT.md")
+w("```")
+w("")
+w("The driver sources `experiment/env.sh`, then redirects the cache tree with the")
+w("`fortress.caches` system property and the `FORTRESS_CACHES` environment variable.")
+w("`bin/fortress` and `bin/run` pass `$JAVA_FLAGS` straight to the JVM and set")
+w("nothing cache-related themselves, and `ProjectProperties.java:283` reads")
+w("`fortress.caches` through `searchDef`, which consults the system property first,")
+w("the environment variable second and the repository `configuration` files last")
+w("(`ProjectProperties.java:261-269`); this is the same mechanism the parallel test")
+w("tracks use at `build.xml:941-943`.")
+w("")
+w("Before the ladder the driver compiles the compiler-world library in the order")
+w("`explorations/repo-internals.md` gives (`LibraryBuiltin/AnyType.fss`,")
+w("`LibraryBuiltin/CompilerBuiltin.fss`, `Library/CompilerLibrary.fss`,")
+w("`Library/CompilerAlgebra.fss`, `Library/CompilerSystem.fss`) and then requires")
+w("`library_tests/Integer1.fss` to compile and print `PASS`. It refuses to start")
+w("otherwise.")
+w("")
+w("Per file: `fortress compile <path>` with a 120 s timeout, then, when that exits 0")
+w("and the file is a `.fss`, `fortress run <component>` with a 60 s timeout. Raw")
+w("stdout+stderr of both are under `raw/<corpus>/<file>.{compile,run}`.")
+w("")
+w("## How the phase is decided")
+w("")
+w("| phase | decided from |")
+w("|---|---|")
+w("| parse | a Rats! `Syntax Error`, or the precedence resolver's `Resolution of operator ... failed` |")
+w("| disambiguate | `X is undefined.` (`TypeDisambiguator.java:363,380`), `Variable/Function/Operator X is not defined.` (`ExprDisambiguator.scala:450,475,500`), `Type name may refer to: ...`, or `Could not find an implementation for API X` (`GraphRepository.java:417`) |")
+w("| typecheck | `Unbound type: X` / `Unknown type: X` (`TypeWellFormedChecker.scala:95,119`), `Could not check call to ...`, `Ill-formed type`, and every other located error the phases past disambiguation report |")
+w("| codegen | `Can't compile <Node>` from `CodeGen.sayWhat` (`CodeGen.java:1550-1562`, reached through `CodeGen.defaultCase`, `CodeGen.java:1668-1670`), or any other `CompilerError` raised from the codegen packages |")
+w("| link | `fortress run` fails to load or link the compiled component (`NoClassDefFoundError`, `Unable to read serialized data ...`) |")
+w("| run | `fortress run` throws, or exits non-zero, or prints `fail`/`FAIL` |")
+w("| pass | exit 0, no `fail`/`FAIL` in the output, no exception |")
+w("")
+w("`pass` is the interpreter suite's own success criterion (`FileTests.java:367-371`);")
+w("an `.fsi` has nothing to run, so it is `pass` when it compiles.")
+w("")
+w("A compile that dies with an exception is attributed by its stack: every compiler")
+w("phase runs through `compiler/phases/<Name>Phase.execute` (`Phase.java:52`), so the")
+w("topmost such frame names the phase. `DesugarPhase` and `PreTypeCheckDesugarPhase`")
+w("are folded into `typecheck`, `OverloadRewritingPhase` into `codegen`.")
+w("")
+w("Files whose name starts with `XXX` are expected-failure tests on the interpreter")
+w("(`FileTests.java:336`). They were run unchanged and are marked in the table; their")
+w("phase is what the compiler path does with them, not a pass/fail verdict.")
+w("")
+w("## Counts per phase")
+w("")
+lines = []
+for p in ORDER:
+    lines.append([p, str(counts("tests")[p]), str(counts("not_working_library_tests")[p])])
+lines.append(["**total**", "**381**", "**29**"])
+w(table(["phase", "tests", "not_working_library_tests"], lines))
+w("")
+w("Of the 381 interpreter tests, 55 are `XXX` expected-failure files. Their phases:")
+w("")
+xc = collections.Counter(r["phase"] for r in rows if r["XXX"] == "yes")
+w(", ".join("%s %d" % (p, xc[p]) for p in ORDER if xc[p]) + ".")
+w("")
+w("## Missing names, ranked")
+w("")
+w("This is the ranking the baseline exists for: it says which library names to add")
+w("first. Three cuts of the same data.")
+w("")
+w("### The name the file stops on (first error)")
+w("")
+w("Counted once per file. A name reported inside an imported api counts here too,")
+w("because that is what stops the file.")
+w("")
+r1 = rank("tests", "missing_name")
+w(table(["files", "name"], [[str(k), "`%s`" % esc(n)] for n, k in r1]))
+w("")
+w("`not_working_library_tests` contributes no rows here: its nine disambiguate")
+w("failures are all the ambiguity `Type name may refer to: ...`, not a missing name.")
+w("")
+w("### Names reported inside the test file itself")
+w("")
+def multi(col, corpus, top=None):
+    c = collections.Counter()
+    for r in rows:
+        if r["corpus"] == corpus:
+            for n in r[col].split():
+                c[n] += 1
+    items = c.most_common(top) if top else c.most_common()
+    return table(["files", "name"], [[str(k), "`%s`" % esc(n)] for n, k in items])
+
+w("Counted once per file, over every error the compile reported, restricted to")
+w("errors located in the test file. This is what the programs themselves ask for.")
+w("")
+w(multi("own_missing", "tests"))
+w("")
+w("### Names reported inside an imported api (cascade)")
+w("")
+w("Counted once per file, over errors located in `Library/`, `LibraryBuiltin/` or")
+w("`test_library/` rather than in the test. Top 40.")
+w("")
+w(multi("imported_missing", "tests", 40))
+w("")
+w("The cascade cut is the larger signal. An interpreter test that writes")
+w("`import List.{...}` drags `Library/List.fsi` into the compiler world, and that")
+w("file alone fails on `HasRank`, `LexicographicOrder`, `ZeroIndexed`,")
+w("`StandardTotalOrder` and the reduction traits. Adding the names the test files")
+w("themselves use would not move most of these files; making the interpreter's own")
+w("api files typecheck against the compiler prelude would.")
+w("")
+w("## Calls the checker could not resolve")
+w("")
+w("Not missing names — the name exists, no overload applies. Ranked by files.")
+w("")
+r3 = rank("tests", "unapplicable_call")
+w(table(["files", "call"], [[str(k), "`%s`" % esc(n)] for n, k in r3]))
+w("")
+w("`assert` leads because the interpreter's `assert` lives in `FortressLibrary`")
+w("with signatures the compiler prelude does not carry.")
+w("")
+w("## Codegen refusals, ranked")
+w("")
+r4 = collections.Counter()
+for r in rows:
+    if r["phase"] == "codegen" and r["codegen_node"]:
+        k = r["codegen_node"]
+        import re as _re
+        m = _re.match(r"^VarDecl .* mutable bindings not yet handled\.?$", k)
+        if m: k = "VarDecl mutable bindings not yet handled"
+        m = _re.match(r"^emitDesc of type .* failed$", k)
+        if m: k = "emitDesc of type <T> failed"
+        m = _re.match(r"^Can't compile (\w+)", k)
+        if m: k = "Can't compile " + m.group(1)
+        r4[k] += 1
+w(table(["files", "refusal"], [[str(k), "`%s`" % esc(n)] for n, k in r4.most_common()]))
+w("")
+w("Twenty-one files reach codegen and are refused there. `Can't compile <Node>` is")
+w("the `defaultCase` refusal; the others are explicit `CompilerError`s raised inside")
+w("`CodeGen`, `OverloadSet` and `NamingCzar`.")
+w("")
+w("## Files that pass unchanged")
+w("")
+for corpus in ["tests", "not_working_library_tests"]:
+    p = [r["file"] + ("  (XXX)" if r["XXX"] == "yes" else "") for r in rows
+         if r["corpus"] == corpus and r["phase"] == "pass"]
+    w("`%s` — %d files:" % (corpus, len(p)))
+    w("")
+    w("```")
+    for x in p:
+        w(x)
+    w("```")
+    w("")
+w("## The ladder table")
+w("")
+w("One row per file. `secs` is the wall time of the compile step. The first error")
+w("line is verbatim, with the absolute source spans stripped (they are in the raw")
+w("outputs) and `|` escaped.")
+w("")
+hdr = ["corpus", "file", "XXX", "phase", "secs", "missing name", "first error"]
+body = []
+for r in rows:
+    body.append([r["corpus"].replace("not_working_library_tests", "nwlt"),
+                 r["file"], r["XXX"], r["phase"], r["secs"],
+                 ("`%s`" % esc(r["missing_name"])) if r["missing_name"] else "",
+                 esc(r["first_error"])])
+w(table(hdr, body))
+w("")
+w("## Not verified")
+w("")
+w("- The phase attribution is read off the error text and, for crashes, off the")
+w("  `compiler/phases/*Phase.execute` stack frame. The compiler was not instrumented")
+w("  to report its phase, so a message whose wording does not match the table above")
+w("  is attributed by the fallback rule (any located error past disambiguation is")
+w("  `typecheck`). Three files exercised that fallback: `typeTests.fss`,")
+w("  `typecaseBlockTest.fss`, `typecaseVarTest.fss`.")
+w("- Only the first error of each file is ranked in the primary table. A file that")
+w("  stops on one name may need several.")
+w("- `fortress link` was not run between compile and run. The harness's own")
+w("  `.test` files do run it (`library_tests/Integer.test`), so a file recorded here")
+w("  as `link` or `run` might behave differently under the harness's sequence.")
+w("- The four `link` failures were not investigated for cache staleness. The cache")
+w("  was pruned back to the library's own entries every 25 files, which is not the")
+w("  same as a fresh cache per file.")
+w("- Nothing here says whether a file that passes on the compiler path computes the")
+w("  same answer as on the interpreter. No test in the tree compares the two paths")
+w("  (`test-coverage.md` B).")
+w("- Wall times are from a single run on a busy host and are not a benchmark.")
+w("")
+w("## Decisions not made")
+w("")
+w("- Whether the prelude grows (route b) or the interpreter library becomes the")
+w("  prelude (route a) — `map/README.md` step 2. The cascade ranking above is")
+w("  evidence for route (a) but does not settle it.")
+w("- Which of the ranked names to add first, and in what grouping.")
+w("- Whether `comprises Self` should parse. Fourteen of the 29")
+w("  `not_working_library_tests` stop at parse, twelve of them on that one clause.")
+w("- Whether this ladder becomes a checked-in target or stays a script under")
+w("  `explorations/`.")
+
+open(os.path.join(ROOT, "REPORT.md"), "w").write("\n".join(L) + "\n")
+print("wrote REPORT.md, %d rows" % len(rows))

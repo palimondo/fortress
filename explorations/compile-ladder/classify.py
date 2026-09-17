@@ -26,7 +26,7 @@ import os, re, sys, collections
 ROOT = os.path.dirname(os.path.abspath(__file__))
 RAW = os.path.join(ROOT, "raw")
 
-LOC = re.compile(r"^.*\.fs[si]:\d+:[\d:\-]*:?\s*$")
+LOC = re.compile(r"^.*\.fs[si]:\d+:.*:$")
 
 def first_error(text):
     """The first error message line, verbatim (without its location header)."""
@@ -97,6 +97,9 @@ def classify_compile(rc, text):
     # Scala checker: those are the phases that report located errors past
     # disambiguation (PhaseOrder.java; StaticChecker.java:275).
     if rc != 0 and any(LOC.match(l.strip()) for l in text.splitlines()):
+        return "typecheck", err
+    # a phase-reported error with no location (e.g. the desugarer's refusals)
+    if rc != 0 and re.search(r"^File .+ has \d+ error", text, re.M):
         return "typecheck", err
     if rc != 0:
         return "compile-other", err
@@ -191,16 +194,30 @@ def main():
             m3 = CALL.match(err)
             if m3:
                 call = m3.group(1)
-            rows.append(dict(corpus=corpus, file=base, xxx=("yes" if base.startswith("XXX") else ""),
+            own, imported = [], []
+            lines = ctext.splitlines()
+            for i, ln in enumerate(lines):
+                loc = ln.strip()
+                if not LOC.match(loc) or i + 1 >= len(lines):
+                    continue
+                n2 = missing_name(lines[i + 1].strip())
+                if not n2:
+                    continue
+                tgt = own if ("/%s/%s:" % (corpus, base)) in loc else imported
+                if n2 not in tgt:
+                    tgt.append(n2)
+            allnames = own
+            rows.append(dict(all_missing=allnames, imported_missing=imported, corpus=corpus, file=base, xxx=("yes" if base.startswith("XXX") else ""),
                              phase=phase, secs=ct, missing=name, node=norm(node), call=call,
                              first_error=norm(err)))
 
     rows.sort(key=lambda r: (r["corpus"], r["file"]))
     with open(os.path.join(ROOT, "ladder.tsv"), "w") as fh:
-        fh.write("corpus\tfile\tXXX\tphase\tsecs\tmissing_name\tcodegen_node\tunapplicable_call\tfirst_error\n")
+        fh.write("corpus\tfile\tXXX\tphase\tsecs\tmissing_name\tcodegen_node\tunapplicable_call\town_missing\timported_missing\tfirst_error\n")
         for r in rows:
             fh.write("\t".join([r["corpus"], r["file"], r["xxx"], r["phase"], r["secs"],
                                 r["missing"], r["node"], r["call"],
+                                " ".join(r["all_missing"]), " ".join(r["imported_missing"]),
                                 r["first_error"].replace("\t", " ")]) + "\n")
 
     out = []
@@ -215,8 +232,24 @@ def main():
         out.append("")
     for corpus in sorted({r["corpus"] for r in rows}):
         sub = [r for r in rows if r["corpus"] == corpus]
-        out.append("missing names: %s" % corpus)
+        out.append("missing names (file stops on it): %s" % corpus)
         for n, k in collections.Counter(r["missing"] for r in sub if r["missing"]).most_common():
+            out.append("  %4d  %s" % (k, n))
+        out.append("")
+        out.append("missing names (named anywhere IN THE TEST FILE ITSELF): %s" % corpus)
+        cnt = collections.Counter()
+        for r in sub:
+            for n in r["all_missing"]:
+                cnt[n] += 1
+        for n, k in cnt.most_common():
+            out.append("  %4d  %s" % (k, n))
+        out.append("")
+        out.append("missing names (reported inside an IMPORTED api/component, cascade): %s" % corpus)
+        cnt2 = collections.Counter()
+        for r in sub:
+            for n in r["imported_missing"]:
+                cnt2[n] += 1
+        for n, k in cnt2.most_common(40):
             out.append("  %4d  %s" % (k, n))
         out.append("")
         out.append("unapplicable calls: %s" % corpus)

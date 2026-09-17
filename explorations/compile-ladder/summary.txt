@@ -5,13 +5,20 @@ phase counts: not_working_library_tests (29 files)
   link              1
   pass              3
 
-phase counts: tests (71 files)
-  disambiguate     31
-  typecheck        24
-  codegen           7
-  pass              9
+phase counts: tests (381 files)
+  parse             1
+  disambiguate    148
+  typecheck       141
+  codegen          21
+  link              4
+  run              10
+  pass             56
 
-missing names: not_working_library_tests
+missing names (file stops on it): not_working_library_tests
+
+missing names (named anywhere IN THE TEST FILE ITSELF): not_working_library_tests
+
+missing names (reported inside an IMPORTED api/component, cascade): not_working_library_tests
 
 unapplicable calls: not_working_library_tests
      1  testFail
@@ -23,37 +30,215 @@ pass: not_working_library_tests
   Comparison2.fss
   VarRefTest.fss
 
-missing names: tests
-     8  Equality
-     7  HasRank
-     4  ImmutableArray
-     3  Char
-     2  big
-     1  Array1
+missing names (file stops on it): tests
+    23  Equality
+    21  HasRank
+     7  Array1
+     6  Char
+     6  ImmutableArray
+     6  Thread
+     5  Array
+     5  builtinPrimitive
+     4  //
+     4  array1
+     4  BIG +
+     3  big
+     3  Array2
+     3  Nothing
+     3  TryAtomicFailure
+     3  matrix
+     3  recordTime
+     2  ||_||
+     2  unsigned
+     2  printThreadInfo
+     2  array
+     2  sin
+     2  printTaskTrace
      1  sequential
      1  Integral
-     1  ||_||
-     1  Array2
-     1  Nothing
      1  ActualReduction
      1  Maybe
-     1  //
+     1  ThisShouldBeANonExistingAPI
+     1  inc2
+     1  f
+     1  ceiling
+     1  MOD
+     1  SumReduction
+     1  VoidReduction
+     1  REM
+     1  widen
+     1  partition
+     1  Rank
+     1  PLUS_UP
+     1  round
+     1  RSHIFT
+     1  vector
+     1  BIG ||
+     1  Indexed
+     1  IndexOutOfBounds
+     1  narrow
+     1  AnyIntegral
+     1  ReadableArray
+
+missing names (named anywhere IN THE TEST FILE ITSELF): tests
+     7  Nothing
+     6  Just
+     6  Thread
+     5  MOD
+     5  builtinPrimitive
+     5  BIG +
+     4  Array1
+     4  Array2
+     4  LSHIFT
+     4  //
+     4  floor
+     4  ceiling
+     4  array1
+     4  Array
+     4  RSHIFT
+     4  GCD
+     4  LCM
+     3  big
+     3  widen
+     3  unsigned
+     3  narrow
+     3  truncate
+     3  REM
+     3  TryAtomicFailure
+     3  ?
+     3  sin
+     3  log
+     3  matrix
+     3  vector
+     3  recordTime
+     3  printTime
+     2  ||_||
+     2  Char
+     2  Equality
+     2  round
+     2  printThreadInfo
+     2  array
+     2  NOTIN
+     2  atan
+     2  PLUS_UP
+     2  MINUS_UP
+     2  DOT_UP
+     2  SLASH_UP
+     2  prefix SQRT_UP
+     2  PLUS_DOWN
+     2  MINUS_DOWN
+     2  DOT_DOWN
+     2  SLASH_DOWN
+     2  prefix SQRT_DOWN
+     2  printTaskTrace
+     1  sequential
+     1  Integral
+     1  numerator
+     1  denominator
+     1  simplestRationalBetween
+     1  region
+     1  Global
+     1  isShared
+     1  localize
+     1  here
+     1  Array3
+     1  partitionL
+     1  signed
+     1  ThisShouldBeANonExistingAPI
+     1  inc2
+     1  f
+     1  abort
+     1  SumReduction
+     1  VoidReduction
+     1  array2
+     1  partition
+     1  Rank
+     1  cos
+     1  tan
+     1  asin
+     1  acos
+     1  atan2
+     1  exp
+     1  BIG ||
+     1  BIG juxtaposition
+     1  BIG MIN
+     1  Indexed
+     1  HasRank
+     1  ReadableArray1
+     1  DelegatedIndexed
+     1  IndexOutOfBounds
+     1  AnyIntegral
+     1  pmul
+     1  ReadableArray
+     1  Maybe
+
+missing names (reported inside an IMPORTED api/component, cascade): tests
+    50  Maybe
+    48  Comprehension
+    48  BigReduction
+    48  MonoidReduction
+    41  HasRank
+    37  LexicographicOrder
+    29  ImmutableArray
+    29  Array
+    24  Equality
+    23  ZeroIndexed
+    22  StandardTotalOrder
+    21  CommutativeMonoidReduction
+    10  Char
+     5  Just
+     4  Indexed
+     4  Integral
+     4  Vector
+     4  RangeWithLeft
+     4  RangeWithRight
+     4  PartialRange
+     4  OpenRange
+     4  RangeWithExtent
+     4  ExtentRange
+     4  BoundedRange
+     4  LeftRange
+     4  RightRange
+     4  FullRange
+     4  DelegatedIndexed
+     4  CompactFullRange
+     4  StridedFullRange
+     4  AnyIntegral
+     4  Array1
+     3  ReadableArray
+     2  QQ
+     2  Nothing
+     2  AnyMatrix
+     2  AnyVector
+     2  AnyMultiplicativeRing
+     2  ImmutableArray1
+     1  ActualReduction
 
 unapplicable calls: tests
-     5  assert
-     2  juxtaposition
+    24  assert
+     4  juxtaposition
+     2  /
      2  =
+     2  ^
      1  <
-     1  /
+     1  takesFour
+     1  End
+     1  ->
+     1  f
+     1  NE
+     1  foo
+     1  a
+     1  print
 
 codegen refusals: tests
-     1  VarDecl (var cvar:String)=avar mutable bindings not yet handled.
+     8  VarDecl mutable bindings not yet handled
+     4  Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
+     2  emitDesc of type <T> failed
+     2  Can't compile LetFn
+     2  Can't compile ObjectExpr
      1  Can't compile VarArgs
-     1  Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
      1  Only handling some static args of generic types
-     1  emitDesc of type t failed
-     1  emitDesc of type Object failed
-     1  VarDecl (x:ZZ32)=_RewriteFnApp at mutable bindings not yet handled.
+     1  VarDecl (key:String,val:ZZ32)=TupleExpr at tupled lhs not handled.
 
 pass: tests
   AsExprSimple.fss
@@ -65,5 +250,52 @@ pass: tests
   InheritedOverload2.fss
   LineTerminatingComments.fss
   OverloadConstructor1.fss
+  TestCompiledEnvironments.fss
+  TestCompiledNestedImports.fss
+  ToTheEOLComment.fss
+  UnderscoreId.fss
+  XXXgenericMethod1.fss  (XXX)
+  XXXgenericMethod2.fss  (XXX)
+  XXXgenericMethod3.fss  (XXX)
+  atomic0.fss
+  atomic2.fss
+  atomic3.fss
+  atomic4.fss
+  atomicTest.fss
+  controlZ.fss
+  deepHierarchy.fss
+  doubleSelf.fss
+  doubledOverloading.fss
+  doubledOverloading3.fss
+  emptyLoop.fss
+  executable_component.fss
+  extendObject.fss
+  fmTest1.fss
+  fmTest2.fss
+  fmTest3.fss
+  fmTest4.fss
+  fmTest5.fss
+  forTest.fss
+  forTest2.fss
+  genericMethod4.fss
+  genericTest5.fss
+  han.fss
+  ifGetter.fss
+  ifTest.fss
+  initOrder.fss
+  matchingCharacterMarks.fss
+  matchingStringMarks.fss
+  nestedInst.fss
+  nullaryOverload.fss
+  objectTest1.fss
+  objectTest2.fss
+  objectTest3.fss
+  primeCharacter.fss
+  returnAndMutateTuple.fss
+  testerTest.fss
+  traitTest1.fss
+  tupleTest2.fss
+  typecaseSelf.fss
+  varTest.fss
 
 unclassified first-error lines
