@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/restTest.fss:15:18-23:
+    Could not check call to operator BIG +
+    - ()->ReductionZZ32 is not applicable to an argument of type ZZ32.
+    - GeneratorZZ32->ZZ32 is not applicable to an argument of type ZZ32.
+File restTest.fss has 1 error.

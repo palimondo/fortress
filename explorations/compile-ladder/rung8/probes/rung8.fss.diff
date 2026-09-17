@@ -1,0 +1,12 @@
+--- /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/rung8-plan/CompilerLibrary.fss.orig	2026-09-17 13:32:45.848215225 +0000
++++ Library/CompilerLibrary.fss	2026-09-17 13:32:45.862490961 +0000
+@@ -474,6 +474,9 @@
+ opr BIG ||(): StringConcatenation = StringConcatenation
+ *)
+ 
++opr BIG +(): ReductionZZ32 = ZZ32Addition
++opr BIG +(g: GeneratorZZ32): ZZ32 = __bigOperator(ZZ32Addition, fn(r, b) => g.generate(r, b))
++
+ opr BIG MAX(): ReductionZZ32 = ZZ32Max
+ opr BIG MAX(g: GeneratorZZ32): ZZ32 = __bigOperator(ZZ32Max, fn(r, b) => g.generate(r, b))
+ 

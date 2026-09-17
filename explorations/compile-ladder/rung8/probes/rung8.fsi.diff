@@ -1,0 +1,12 @@
+--- /tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/rung8-plan/CompilerLibrary.fsi.orig	2026-09-17 13:32:45.846366306 +0000
++++ Library/CompilerLibrary.fsi	2026-09-17 13:32:45.862242754 +0000
+@@ -175,6 +175,9 @@
+ opr BIG ||(): ReductionString
+ *)
+ 
++opr BIG +(): ReductionZZ32
++opr BIG +(g: GeneratorZZ32): ZZ32
++
+ opr BIG MAX(): ReductionZZ32
+ opr BIG MAX(g: GeneratorZZ32): ZZ32
+ 

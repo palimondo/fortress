@@ -175,6 +175,9 @@ opr #(lo:ZZ32, sz:ZZ32): Range
 opr BIG ||(): ReductionString
 *)
 
+opr BIG +(): ReductionZZ32
+opr BIG +(g: GeneratorZZ32): ZZ32
+
 opr BIG MAX(): ReductionZZ32
 opr BIG MAX(g: GeneratorZZ32): ZZ32
 

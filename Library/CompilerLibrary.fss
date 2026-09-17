@@ -474,6 +474,9 @@ end
 opr BIG ||(): StringConcatenation = StringConcatenation
 *)
 
+opr BIG +(): ReductionZZ32 = ZZ32Addition
+opr BIG +(g: GeneratorZZ32): ZZ32 = __bigOperator(ZZ32Addition, fn(r, b) => g.generate(r, b))
+
 opr BIG MAX(): ReductionZZ32 = ZZ32Max
 opr BIG MAX(g: GeneratorZZ32): ZZ32 = __bigOperator(ZZ32Max, fn(r, b) => g.generate(r, b))
 

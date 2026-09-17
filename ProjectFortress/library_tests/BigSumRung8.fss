@@ -1,0 +1,70 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component BigSumRung8
+export Executable
+
+(*) Rung 8 of the compile-path ladder: the accumulator SUM, which the parser
+(*) names "BIG +" and which the compiler world's prelude does not declare.
+(*)
+(*) The parser turns the source token SUM into the operator name "BIG +"
+(*) (ProjectFortress/src/com/sun/fortress/parser/Symbol.rats:253), and the
+(*) reduction desugaring rewrites the bracketed form into a call to
+(*) __bigOperator with that operator's nullary form as the reduction object.
+(*) The interpreter declares it as opr SUM at Library/FortressLibrary.fsi:1820
+(*) and 1822.  The compiler world declares no form of it, so every program
+(*) that writes SUM stops in disambiguation with "Operator BIG + is not
+(*) defined."  Four files of ProjectFortress/tests/ stop there.
+(*)
+(*) Nothing else is missing.  Library/CompilerLibrary.fss already carries the
+(*) whole machinery this needs: trait ReductionZZ32 (:453), the object
+(*) ZZ32Addition (:463) with empty() = 0 and join(a,b) = a + b, which is
+(*) declared and used by nothing; __bigOperator and __generate (:330-343);
+(*) the parallel and sequential gen/seqgen walks (:383-420); Range with
+(*) opr # and opr : (:445-446); and the live pair of declarations
+(*) opr BIG MAX() and opr BIG MAX(g: GeneratorZZ32) at :477-478, which is
+(*) the shape this rung copies.  compiler_tests/Compiled18.fss exercises the
+(*) same desugaring end to end through a reduction it declares itself.
+(*)
+(*) This test pins both forms: the bracketed form over a generator with and
+(*) without a filter, the unary form applied to a generator directly, and the
+(*) empty generator, whose answer is the reduction's identity and not a
+(*) failure.  Every bound is computed at run time rather than written as a
+(*) literal, so a body that answered a constant would not pass.
+
+(*) The generator bounds, computed rather than written.
+ten(): ZZ32 = do n: ZZ32 = 5; n + n end
+zero(): ZZ32 = 0
+
+run():() = do
+    lo: ZZ32 = zero()
+    n: ZZ32 = ten()
+    half: ZZ32 = 5
+
+    s0 = SUM [x <- lo#n] x
+    assert(s0, 45, "SUM [x <- 0#10] x")
+
+    s1 = SUM [x <- lo#n] (x + x)
+    assert(s1, 90, "SUM [x <- 0#10] (x + x)")
+
+    s2 = SUM (lo#n)
+    assert(s2, 45, "SUM (0#10)")
+
+    s3 = SUM [x <- lo#zero()] x
+    assert(s3, 0, "SUM over an empty generator is the identity 0")
+
+    s4 = SUM [x <- lo#n, x < half] x
+    assert(s4, 10, "SUM [x <- 0#10, x < 5] x")
+
+    println "PASS"
+end
+
+end
