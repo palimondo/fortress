@@ -108,9 +108,13 @@ Two checks that the first draft lost, and how they come back. Today's skeptic ju
 
 The gate still runs on exactly the tree that is committed, and it now also exercises the k rungs together, an interaction the per-rung loop never tested.
 
-**The drop stage, when the gate is red.** The failing suite does not name the rung, so: re-gate with the last-merged rung dropped; if still red, drop the next, and so on in reverse merge order. Terminates after at most k gates. If the gate is green only with two or more rungs dropped, those rungs interact and both are recorded as a coupled pair and returned to the ranking, which is the case a single-drop search cannot resolve. A dropped rung is recorded with the failure and is not retried inside the same batch.
+**When the gate is red, diagnose it, do not bisect it.** Corrected by Pavol on 2026-09-17, against a first draft that dropped rungs one at a time in reverse merge order: walking commits backwards does not tell you what broke, and the goal is one tree with everything running, not the largest subset that happens to be green.
 
-`PLAN.md`'s stop condition "a rung's gate red twice after one repair" is restated for the batch, since a rung no longer has its own gate: **a batch red twice after one drop-and-repair cycle stops the climb.** The other stop conditions are unchanged — a design fork, disk under 500 MB after sweeping, a permission denial.
+So the red gate opens a repair stage on the merged tree, with the same standing as a rung's own repair: read the failing tests, find the cause, fix it there, re-gate. The failing test names what broke, which is the evidence a bisect does not produce.
+
+Dropping a rung is the retreat, not the method: it happens only when the repair stage concludes that a rung's approach is wrong rather than its code, and then that rung is recorded with the reason and returns to the ranking.
+
+`PLAN.md`'s stop condition "a rung's gate red twice after one repair" is restated for the batch, since a rung no longer has its own gate: **a batch still red after one repair stops the climb**, and what is recorded is the failing tests and the diagnosis, not a subset that passed.
 
 ## 8. Prompts: one shared prefix
 
