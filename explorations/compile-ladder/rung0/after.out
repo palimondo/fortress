@@ -1,0 +1,31 @@
+# host: Linux 6.18.44-fc-v33 x86_64  cores: 4
+# jdk: openjdk version "25.0.3" 2026-04-21
+# FORTRESS_THREADS=1  JAVA_FLAGS=-Xmx4g -Xss64m
+# date: 2026-09-17T02:28:47+00:00
+########## fortress compile bench1t.fss
+########## fortress compile bench1h.fss
+=== compiled run 1: bench1t
+bench1t  0.8646647302294265
+loop_ns  7.38400726E8
+--- process wall: 1.006614283 s
+=== compiled run 2: bench1t
+bench1t  0.8646647302294265
+loop_ns  7.26126649E8
+--- process wall: .990205604 s
+=== compiled run 3: bench1t
+bench1t  0.8646647302294265
+loop_ns  7.42314944E8
+--- process wall: .992586043 s
+=== compiled run 1: bench1h
+bench1h  0.8646647302294265
+loop_ns  7.28718728E8
+--- process wall: .979568382 s
+=== compiled run 2: bench1h
+bench1h  0.8646647302294265
+loop_ns  7.12783946E8
+--- process wall: .964092029 s
+=== compiled run 3: bench1h
+bench1h  0.8646647302294265
+loop_ns  7.34297849E8
+--- process wall: .990190410 s
+# done: 2026-09-17T02:28:56+00:00

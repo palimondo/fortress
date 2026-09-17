@@ -245,7 +245,7 @@ public abstract class BaseTask extends FortressExecutable {
 
     public static boolean inATransaction() {
         FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
-        debug("inATransaction: ftr = " + ftr + " task = " + ftr.getTask());
+        if (debug) debug("inATransaction: ftr = " + ftr + " task = " + ftr.getTask());
 
         if (ftr.getTask() != null) 
             if (ftr.getTask().transaction() != null)

@@ -16,14 +16,21 @@ import com.sun.fortress.compiler.runtimeValues.FIntLiteral.RTTIc;
 public final class FFloatLiteral extends fortress.CompilerBuiltin.FloatLiteral.DefaultTraitMethods
         implements fortress.CompilerBuiltin.FloatLiteral {
 
-    private String val;
+    /* The literal as written, when this value came from source text; null when
+       it was built from a double.  dval is the same number as a primitive and
+       is what asRR64 hands out, so the decimal round trip happens at most once
+       per literal instead of once per use. */
+    private final String val;
+    private final double dval;
 
     private FFloatLiteral(String val) {
         this.val = val;
+        this.dval = Double.valueOf(val);
     }
 
     private FFloatLiteral(double val) {
-        this(new Double(val).toString());
+        this.val = null;
+        this.dval = val;
     }
 
     public static FFloatLiteral make(float x) {
@@ -39,7 +46,7 @@ public final class FFloatLiteral extends fortress.CompilerBuiltin.FloatLiteral.D
     }
 
     public String toString() {
-        return val;
+        return val != null ? val : Double.toString(dval);
     }
 
     public FJavaString asString() {
@@ -51,12 +58,14 @@ public final class FFloatLiteral extends fortress.CompilerBuiltin.FloatLiteral.D
     }
 
     public FRR64 asRR64() {
-        return FRR64.make(Double.valueOf(val));
+        return FRR64.make(dval);
     }
 
 
     public FRR32 asRR32() {
-        return FRR32.make(Float.valueOf(val));
+        /* The written text, where there is one, rounds to the nearest float in
+           one step; the double-built path narrows the double it already holds. */
+        return val != null ? FRR32.make(Float.valueOf(val)) : FRR32.make((float) dval);
     }
     
     @Override
