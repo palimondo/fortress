@@ -1,0 +1,28 @@
+. link library_tests/IntLiteralArithRung7  OK (time = 2855ms)
+. run library_tests/IntLiteralArithRung7 (371ms) FortressException: class fortress.CompilerBuiltin$CompilerFailureDetectedAtRunTime with string Compiler failure detected at runtime
+	at fortress.CompilerBuiltin$IntLiteral$DefaultTraitMethods.+?0(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:820)
+	at fortress.CompilerBuiltin$IntLiteral$DefaultTraitMethods.+?0(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin.+(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at IntLiteralArithRung7.run(/home/user/fortress/ProjectFortress/library_tests/IntLiteralArithRung7.fss:58)
+	at IntLiteralArithRung7.compute(/home/user/fortress/ProjectFortress/library_tests/IntLiteralArithRung7.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Failed to satisfy default check run_out_contains=PASS
+F
+Time: 3.234
+There was 1 failure:
+1) library_tests/IntLiteralArithRung7(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest library_tests/IntLiteralArithRung7
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:575)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:898)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+

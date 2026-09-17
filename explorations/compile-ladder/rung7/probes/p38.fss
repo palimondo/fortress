@@ -1,0 +1,23 @@
+component p38
+import java com.sun.fortress.nativeHelpers.{simpleIntLiteralArith.add => jILAdd,
+                                            simpleIntLiteralArith.sub => jILSub,
+                                            simpleIntLiteralArith.mul => jILMul,
+                                            simpleIntLiteralArith.neg => jILNeg}
+export Executable
+
+run(): () = do
+    a = 3
+    b = 4
+    sum = jILAdd(a, b)
+    dif = jILSub(a, b)
+    prod = jILMul(a, b)
+    negd = jILNeg(a)
+    chained = jILSub(jILAdd(a, b), a)
+    println sum.asZZ32
+    println dif.asZZ32
+    println prod.asZZ32
+    println negd.asZZ32
+    println chained.asZZ32
+    println sum
+end
+end

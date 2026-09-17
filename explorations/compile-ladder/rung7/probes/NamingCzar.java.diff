@@ -1,0 +1,11 @@
+--- ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java	2026-08-18 21:09:22.280632453 +0000
++++ explorations/compile-ladder/rung7/probes/shadow-src/com/sun/fortress/compiler/NamingCzar.java	2026-09-17 12:37:37.686694523 +0000
+@@ -340,6 +340,8 @@
+                     return NodeFactory.makeTraitType(span, false, NodeFactory.makeId(span, fortLib, "StringVector"));
+                 } else if (s.equals("Lcom/sun/fortress/compiler/runtimeValues/FZZ;")) {
+                     return NodeFactory.makeTraitType(span, false, NodeFactory.makeId(span, fortLib, "ZZ"));
++                } else if (s.equals("Lfortress/CompilerBuiltin$IntLiteral;")) {
++                    return NodeFactory.makeTraitType(span, false, NodeFactory.makeId(span, fortLib, "IntLiteral"));
+                 } else throw new Error("Unhandled case in import of native method dealing in implementation types, native type is " + s);
+             }
+         }

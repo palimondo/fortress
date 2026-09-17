@@ -1,0 +1,75 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component IntLiteralArithRung7
+export Executable
+
+(*) Rung 7 of the compile-path ladder: the arithmetic operators of IntLiteral
+(*) that the compiler world declares and then refuses at run time.
+(*)
+(*) A binding written without a declared type from an integer literal keeps
+(*) the static type IntLiteral on the compile path, so every operator applied
+(*) to it resolves to trait IntLiteral's own declaration rather than to a
+(*) coerced ZZ32 or ZZ64 one.  Rung 6 gave the six comparisons plus MIN and
+(*) MAX real bodies, because each of those either returns a Boolean or returns
+(*) one of its two operands.  The arithmetic family was left out of that rung
+(*) for one reason: each of its operators returns a new IntLiteral, and the
+(*) compiler world has getters out of IntLiteral and no way into it, so the
+(*) bodies at ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:816-848 are
+(*) still "throw CompilerFailureDetectedAtRunTime".
+(*)
+(*) The declarations are the published api's, not a local invention:
+(*) Specification/library/apis/CompilerBuiltin.tex:374-383 carries the unary
+(*) and additive operators of IntLiteral with IntLiteral results.
+(*)
+(*) This test pins the four operators the blocked programs of
+(*) ProjectFortress/tests/ reach -- juxtaposition, unary -, binary - and its
+(*) additive partner + -- and pins one chained expression, which shows that
+(*) the value a body returns is a usable IntLiteral and not merely something
+(*) that prints.
+(*)
+(*) Every operand is computed at run time by pick(), not written twice as a
+(*) literal, and every expected value is computed on the ZZ32 side by pickZZ32
+(*) and ZZ32's own arithmetic, which has had real bodies all along.  So a body
+(*) that returned a constant, or one that returned its own operand, would not
+(*) pass.
+
+(*) Returns 4 or 9 as an IntLiteral, chosen at run time.
+pick(b: Boolean): IntLiteral = if b then 4 else 9 end
+
+(*) The same two values as ZZ32, for the expected sides.
+pickZZ32(b: Boolean): ZZ32 = if b then 4 else 9 end
+
+run():() = do
+    four = pick(true)
+    nine = pick(false)
+
+    four32 = pickZZ32(true)
+    nine32 = pickZZ32(false)
+
+    assert((four + nine).asZZ32, four32 + nine32, "IntLiteral +: four + nine")
+    assert((nine + four).asZZ32, nine32 + four32, "IntLiteral +: nine + four")
+
+    assert((nine - four).asZZ32, nine32 - four32, "IntLiteral -: nine - four")
+    assert((four - nine).asZZ32, four32 - nine32, "IntLiteral -: four - nine")
+
+    assert((- four).asZZ32, - four32, "IntLiteral - unary: - four")
+    assert((- nine).asZZ32, - nine32, "IntLiteral - unary: - nine")
+
+    assert((four nine).asZZ32, four32 nine32, "IntLiteral juxtaposition: four nine")
+    assert((nine four).asZZ32, nine32 four32, "IntLiteral juxtaposition: nine four")
+
+    assert(((four + nine) - four).asZZ32, nine32, "IntLiteral chained: (four + nine) - four")
+
+    println "PASS"
+end
+
+end

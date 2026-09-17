@@ -1,0 +1,3 @@
+tests/precedence.fss
+tests/forFnDecl.fss
+tests/ampersand.fss

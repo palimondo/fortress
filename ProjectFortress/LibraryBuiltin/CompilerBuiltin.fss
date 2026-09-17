@@ -321,6 +321,11 @@ import java com.sun.fortress.nativeHelpers.{simpleArbitraryPrecisionArith.parse 
                                             simpleArbitraryPrecisionArith.makeZZfromNN32 => jMakeZZfromNN32,
                                             simpleArbitraryPrecisionArith.makeZZfromNN64 => jMakeZZfromNN64
                                             }
+import java com.sun.fortress.nativeHelpers.{simpleIntLiteralArith.add => jIntLiteralAdd,
+                                            simpleIntLiteralArith.sub => jIntLiteralSub,
+                                            simpleIntLiteralArith.mul => jIntLiteralMul,
+                                            simpleIntLiteralArith.neg => jIntLiteralNeg
+                                            }
                                        
 import AnyType.{Any}
 (*) import CompilerAlgebra.{ Equality, StandardTotalOrder, Comparison, LessThan, EqualTo, GreaterThan }
@@ -814,13 +819,13 @@ trait IntLiteral extends { Number, Equality[\IntLiteral\] } excludes {ZZ32, ZZ64
     getter asRR64(): RR64
 
     opr |self| : IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr -(self): IntLiteral = throw CompilerFailureDetectedAtRunTime
+    opr -(self): IntLiteral = jIntLiteralNeg(self)
     opr BOXMINUS(self): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr DOTMINUS(self): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr +(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
+    opr +(self, other:IntLiteral): IntLiteral = jIntLiteralAdd(self, other)
     opr BOXPLUS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr DOTPLUS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr -(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
+    opr -(self, other:IntLiteral): IntLiteral = jIntLiteralSub(self, other)
     opr BOXMINUS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr DOTMINUS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr DOT(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
@@ -835,7 +840,7 @@ trait IntLiteral extends { Number, Equality[\IntLiteral\] } excludes {ZZ32, ZZ64
     opr >=(self, other:IntLiteral): Boolean = self.asZZ64 >= other.asZZ64
     opr =(self, other:IntLiteral): Boolean = self.asZZ64 = other.asZZ64
     opr =/=(self, other:IntLiteral): Boolean = self.asZZ64 =/= other.asZZ64
-    opr juxtaposition(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
+    opr juxtaposition(self, other:IntLiteral): IntLiteral = jIntLiteralMul(self, other)
     opr BITNOT(self): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr BITAND(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
     opr BITOR(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime

@@ -1,0 +1,8 @@
+. link library_tests/IntLiteralArithRung7  OK (time = 4847ms)
+. run library_tests/IntLiteralArithRung7 (374ms) PASS
+Passed
+
+Time: 5.23
+
+OK (2 tests)
+

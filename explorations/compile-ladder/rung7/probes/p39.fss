@@ -1,0 +1,11 @@
+component p39
+export Executable
+(*) Ledger row 317 through the arithmetic of rung 7: a literal of bitLength
+(*) exactly 32 is wrapped negative by CodeGen.forIntLiteralExpr, so the body
+(*) this rung wrote adds to -1 rather than to 4294967295.
+run(): () = do
+    a = 4294967295
+    b = 1
+    println (a + b)
+end
+end
