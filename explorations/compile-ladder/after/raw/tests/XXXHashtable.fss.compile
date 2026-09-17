@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXHashtable.fss:30:3-19:
+    The return type of put is required.
+/home/user/fortress/ProjectFortress/tests/XXXHashtable.fss:46:3-47:1:
+    The return type of _[_]:= is required.
+File XXXHashtable.fss has 2 errors.

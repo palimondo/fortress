@@ -1,0 +1,21 @@
+/home/user/fortress/ProjectFortress/tests/EqualityOverloadBug.fss:16:27-29:
+    Function body has type String, but declared return type is Bar.
+/home/user/fortress/ProjectFortress/tests/EqualityOverloadBug.fss:21:3-22:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (Bar, Bar, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (Bar, Bar, String).
+    - (String, String)->() is not applicable to an argument of type (Bar, Bar, String).
+    - (String, String, String)->() is not applicable to an argument of type (Bar, Bar, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (Bar, Bar, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (Bar, Bar, String).
+    - Boolean->() is not applicable to an argument of type (Bar, Bar, String).
+/home/user/fortress/ProjectFortress/tests/EqualityOverloadBug.fss:23:3-25:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (FloatLiteral, FloatLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (FloatLiteral, FloatLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (FloatLiteral, FloatLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (FloatLiteral, FloatLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (FloatLiteral, FloatLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (FloatLiteral, FloatLiteral, String).
+    - Boolean->() is not applicable to an argument of type (FloatLiteral, FloatLiteral, String).
+File EqualityOverloadBug.fss has 3 errors.

@@ -1,0 +1,117 @@
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:23:32-34:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Op, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Op, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Op, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Op, String).
+    - (String, Object)->String is not applicable to an argument of type (Op, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Op, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Op, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Op, String).
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:24:32-34:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Op, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Op, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Op, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Op, String).
+    - (String, Object)->String is not applicable to an argument of type (Op, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Op, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Op, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Op, String).
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:25:33-36:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Op, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Op, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Op, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Op, String).
+    - (String, Object)->String is not applicable to an argument of type (Op, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Op, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Op, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Op, String).
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:35:22-24:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Op, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Op, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Op, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Op, String).
+    - (String, Object)->String is not applicable to an argument of type (Op, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Op, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Op, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Op, String).
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:36:22-24:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Op, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Op, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Op, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Op, String).
+    - (String, Object)->String is not applicable to an argument of type (Op, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Op, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Op, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Op, String).
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:37:23-26:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Op, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Op, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Op, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Op, String).
+    - (String, Object)->String is not applicable to an argument of type (Op, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Op, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Op, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Op, String).
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:43:23-25:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Op, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Op, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Op, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Op, String).
+    - (String, Object)->String is not applicable to an argument of type (Op, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Op, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Op, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Op, String).
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:44:23-25:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Op, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Op, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Op, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Op, String).
+    - (String, Object)->String is not applicable to an argument of type (Op, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Op, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Op, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Op, String).
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:45:24-27:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Op, String).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Op, String).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Op, String).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Op, String).
+    - (String, Object)->String is not applicable to an argument of type (Op, String).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Op, String).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Op, String).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Op, String).
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:85:17-32:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:86:13-32:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:87:13-32:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:88:17-32:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:96:14-29:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:97:14-29:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:101:14-29:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:102:14-29:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:106:15-30:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:107:15-30:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:108:15-31:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:114:13-29:
+    Op has no getter called toString
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:115:13-29:
+    Op has no getter called toString
+File rangeOperators.fss has 22 errors.

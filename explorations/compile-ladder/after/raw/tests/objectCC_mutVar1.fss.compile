@@ -1,0 +1,46 @@
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar1.fss:31:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar1.fss:35:5-66:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar1.fss:36:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar1.fss:38:5-66:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_mutVar1.fss:39:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (String, String, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+File objectCC_mutVar1.fss has 5 errors.

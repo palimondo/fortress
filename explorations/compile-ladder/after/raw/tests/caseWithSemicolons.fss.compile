@@ -1,0 +1,45 @@
+/home/user/fortress/Library/CovariantCollection.fsi:23:25-37:
+    ImmutableArray is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:24:16-19:
+    Array is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:25:24-27:
+    Array is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:45:33-46:
+    MonoidReduction is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:53:5-16:
+    Comprehension is undefined.
+/home/user/fortress/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress/Library/List.fsi:74:17-20:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:75:18-21:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:76:25-28:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:77:26-29:
+    Maybe is undefined.
+/home/user/fortress/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+/home/user/fortress/Library/Set.fsi:25:17-26:
+    ZeroIndexed is undefined.
+/home/user/fortress/Library/Set.fsi:28:14-17:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:29:14-17:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:32:21-24:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:33:21-24:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:56:51-62:
+    Comprehension is undefined.
+/home/user/fortress/Library/Set.fsi:59:55-65:
+    BigReduction is undefined.
+/home/user/fortress/Library/Set.fsi:62:27-51:
+    CommutativeMonoidReduction is undefined.
+/home/user/fortress/Library/Set.fsi:65:9-19:
+    BigReduction is undefined.
+File caseWithSemicolons.fss has 22 errors.

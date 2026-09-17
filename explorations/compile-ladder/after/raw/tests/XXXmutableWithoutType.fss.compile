@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXmutableWithoutType.fss:16:8:
+    The type of x is required.
+/home/user/fortress/ProjectFortress/tests/XXXmutableWithoutType.fss:16:11:
+    The type of y is required.
+File XXXmutableWithoutType.fss has 2 errors.

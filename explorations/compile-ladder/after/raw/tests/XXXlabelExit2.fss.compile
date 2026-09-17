@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/XXXlabelExit2.fss:19:18-28:
+    Exit occurs outside of a label.
+File XXXlabelExit2.fss has 1 error.

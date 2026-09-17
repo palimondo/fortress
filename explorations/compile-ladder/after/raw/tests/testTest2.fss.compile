@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/testTest2.fss:15:1-17:2:
+    Cannot infer type for function fact(x:ZZ32) because it has reference cycle: fact(x:ZZ32), fact(x:ZZ32)
+File testTest2.fss has 1 error.

@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/BadBounds.fss:33:16-24:
+    Variable sequential is not defined.
+/home/user/fortress/ProjectFortress/tests/BadBounds.fss:53:18-26:
+    Variable sequential is not defined.
+File BadBounds.fss has 2 errors.

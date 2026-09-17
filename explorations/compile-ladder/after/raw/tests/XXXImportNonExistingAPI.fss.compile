@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/tests/XXXImportNonExistingAPI.fss:14:8-34:
+    Could not find an implementation for API ThisShouldBeANonExistingAPI on path
+    /home/user/fortress/ProjectFortress/tests:.:/home/user/fortress/ProjectFortress/LibraryBuiltin:/home/user/fortress/Library:/home/user/fortress/ProjectFortress/test_library
+File XXXImportNonExistingAPI.fss has 1 error.

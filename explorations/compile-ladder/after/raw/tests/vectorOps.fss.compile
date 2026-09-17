@@ -1,0 +1,9 @@
+/home/user/fortress/ProjectFortress/tests/vectorOps.fss:18:14-18:
+    Operator ||_|| is not defined.
+/home/user/fortress/ProjectFortress/tests/vectorOps.fss:20:8-21:
+    Function vector is not defined.
+/home/user/fortress/ProjectFortress/tests/vectorOps.fss:21:9-22:
+    Function vector is not defined.
+/home/user/fortress/ProjectFortress/tests/vectorOps.fss:31:8-10:
+    Variable pmul is not defined.
+File vectorOps.fss has 4 errors.

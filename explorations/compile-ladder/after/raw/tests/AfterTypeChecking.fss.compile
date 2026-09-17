@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/AfterTypeChecking.fss:15:6-11:
+    Unbound type: CompilerLibrary.Array1
+/home/user/fortress/ProjectFortress/tests/AfterTypeChecking.fss:15:6-11:
+    Unknown type: CompilerLibrary.Array1
+File AfterTypeChecking.fss has 2 errors.

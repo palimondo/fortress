@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/typecaseBlockTest.fss:19:7-Compiler internal generated.:0:0:
+    The typecase clause, ZZ32, is unreachable.
+File typecaseBlockTest.fss has 1 error.

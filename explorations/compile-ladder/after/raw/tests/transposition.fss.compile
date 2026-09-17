@@ -1,0 +1,9 @@
+/home/user/fortress/ProjectFortress/tests/transposition.fss:15:20-22:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Number, IntLiteral).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Number, IntLiteral).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Number, IntLiteral).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (Number, IntLiteral).
+    - (String, ZZ32)->String is not applicable to an argument of type (Number, IntLiteral).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Number, IntLiteral).
+File transposition.fss has 1 error.

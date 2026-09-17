@@ -1,0 +1,20 @@
+/home/user/fortress/ProjectFortress/tests/GS3.fss:22:15-35:
+    Could not check call to operator =
+    - ((Comparison & {Unordered, TotalComparison}), Comparison)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - ((CompilerAlgebra.Equality[\T\] & {T}), T)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - ((TotalComparison & {LessThan, EqualTo, GreaterThan}), TotalComparison)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (Boolean, Boolean)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (Character, Character)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (G[\T\], G[\T\])->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (GeneratorZZ32, GeneratorZZ32)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (RR64, RR64)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (String, String)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (G[\String\], G[\ZZ32\]).
+/home/user/fortress/ProjectFortress/tests/GS3.fss:22:15-35:
+    Filter expressions in generator clauses must have type Boolean, but OpExpr at /home/user/fortress/ProjectFortress/tests/GS3.fss:22.15 was not well typed.
+File GS3.fss has 2 errors.

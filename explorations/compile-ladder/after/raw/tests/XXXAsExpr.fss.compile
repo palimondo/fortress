@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/XXXAsExpr.fss:16:18:
+    Expression has type IntLiteral, but ascripted type is String.
+File XXXAsExpr.fss has 1 error.

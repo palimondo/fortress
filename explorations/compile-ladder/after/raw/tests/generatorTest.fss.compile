@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/generatorTest.fss:29:11-21:
+    Variable SumReduction is not defined.
+/home/user/fortress/ProjectFortress/tests/generatorTest.fss:30:11-21:
+    Variable SumReduction is not defined.
+File generatorTest.fss has 2 errors.

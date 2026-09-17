@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/TransactionalArrayShakedown.fss:15:8-11:
+    Array is undefined.
+/home/user/fortress/ProjectFortress/tests/TransactionalArrayShakedown.fss:24:8-11:
+    Array is undefined.
+File TransactionalArrayShakedown.fss has 2 errors.

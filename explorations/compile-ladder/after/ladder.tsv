@@ -1,0 +1,411 @@
+corpus	file	XXX	phase	secs	missing_name	codegen_node	unapplicable_call	own_missing	imported_missing	first_error
+not_working_library_tests	Comparison.fss		parse	1						Resolution of operator property failed for:
+not_working_library_tests	Comparison1.fss		pass	8						
+not_working_library_tests	Comparison1a.fss		disambiguate	1						Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+not_working_library_tests	Comparison1d.fss		parse	1						Syntax Error
+not_working_library_tests	Comparison2.fss		pass	7						
+not_working_library_tests	Comparison3.fss		disambiguate	1						Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+not_working_library_tests	ComparisonLibrary.fsi		disambiguate	1						Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+not_working_library_tests	ComparisonLibrary.fss		disambiguate	1						Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+not_working_library_tests	EqualityBug2.fss		parse	1						Syntax Error
+not_working_library_tests	EqualityBug3.fss		parse	1						Syntax Error
+not_working_library_tests	FailInference2.fss		typecheck	1			testFail			Could not check call to function testFail
+not_working_library_tests	GenTest3.fss		disambiguate	2						Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	GenTest4.fss		disambiguate	1						Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	GenTest5.fss		typecheck	6						Ill-formed type: TestReduction[\()\]
+not_working_library_tests	GenTest8.fss		link	44						java.lang.Error: java.lang.Error: Unable to read serialized data for GeneratorLibrary$CommutativeMonoidReduction??, recommend you delete the Fortress bytecode cache and relink
+not_working_library_tests	HelperTest1.fss		disambiguate	2						Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	HelperTest2.fss		disambiguate	1						Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	HelperTest3.fss		disambiguate	2						Type name may refer to: Generator, CompilerBuiltin.Generator
+not_working_library_tests	MatchErrorBug.fsi		parse	1						Syntax Error
+not_working_library_tests	MatchErrorBug.fss		parse	1						Syntax Error
+not_working_library_tests	MatchErrorBug1.fsi		parse	1						Syntax Error
+not_working_library_tests	MatchErrorBug1.fss		parse	1						Syntax Error
+not_working_library_tests	MatchErrorBug2.fsi		parse	1						Syntax Error
+not_working_library_tests	MatchErrorBug2.fss		parse	1						Syntax Error
+not_working_library_tests	MaybeTest1.fss		parse	1						Syntax Error
+not_working_library_tests	MaybeTest10.fss		parse	1						Syntax Error
+not_working_library_tests	MaybeTest2.fss		parse	1						Syntax Error
+not_working_library_tests	MaybeTest5.fss		parse	1						Syntax Error
+not_working_library_tests	VarRefTest.fss		pass	1						
+tests	AfterTypeChecking.fss		typecheck	2	Array1			Array1		Unbound type: CompilerLibrary.Array1
+tests	AliasedGetterTest.fss		pass	2						
+tests	AlsoDo.fss		typecheck	1						Missing parameter type for x
+tests	ArrayListQuick.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	AsExprSimple.fss		pass	2						
+tests	BadBounds.fss		disambiguate	1	sequential			sequential		Variable sequential is not defined.
+tests	BadEncloser.fss		pass	2						
+tests	BigNum.fss		disambiguate	1	big			big		Variable big is not defined.
+tests	BitTwiddle.fss		disambiguate	1	Integral			Integral		Integral is undefined.
+tests	BoolMethodParamBug.fss		typecheck	2						class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.BoolExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.BoolExpr are in unnamed module of loader 'app')
+tests	BooleanOps.fss		typecheck	3			<			Could not check call to operator <
+tests	Brackets.fss		disambiguate	1	||_||			||_||		Operator ||_|| is not defined.
+tests	BuiltinBound.fss		pass	2						
+tests	CharacterTest.fss		disambiguate	2	Char			Char		Char is undefined.
+tests	ColonOperator.fss		typecheck	1	Array2			Array2		Unbound type: CompilerLibrary.Array2
+tests	ConditionalOpTruncation.fss		codegen	2		java.util.zip.ZipException: duplicate entry: ConditionalOpTruncation$\=fn@20\!15.class				java.util.zip.ZipException: duplicate entry: ConditionalOpTruncation$\=fn@20\!15.class
+tests	CovCollTest.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; Maybe ; LexicographicOrder ; BigReduction	ImmutableArray is undefined.
+tests	CovariantTest.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	DivPrecedence.fss		typecheck	2			/			Could not check call to operator /
+tests	EqualityOverloadBug.fss		typecheck	2						Function body has type String, but declared return type is Bar.
+tests	Exception.fss		typecheck	2						Function body has type OR((),ZZ32), but declared return type is ().
+tests	ExceptionScoping.fss		disambiguate	1	Nothing			Nothing		Function Nothing is not defined.
+tests	FileConversion.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; Maybe ; LexicographicOrder ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	FileReadWrite.fss		disambiguate	2	Char				Char ; Maybe	Char is undefined.
+tests	FuncOfFuncTest.fss		typecheck	1						No such method Left[\A,B\].unLeft.
+tests	FunctionalMethodAsUnifyParam.fss		disambiguate	2	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	GS0.fss		pass	1						
+tests	GS1.fss		pass	2						
+tests	GS2.fss		typecheck	1						Must provide type for initializer List(n)
+tests	GS3.fss		typecheck	3			=			Could not check call to operator =
+tests	Generator2Test.fss		disambiguate	1	ActualReduction				ActualReduction ; Generator2 ; LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	ActualReduction is undefined.
+tests	GeneratorNullPointer.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; BigReduction ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	GenericFnWithExcludes.fss		typecheck	1						non-type where clause bindings: Not yet implemented
+tests	HeapTest.fss		disambiguate	2	Maybe				Maybe ; CommutativeMonoidReduction ; LexicographicOrder ; Comprehension ; BigReduction ; MonoidReduction	Maybe is undefined.
+tests	ImplicitBlocks.fss		typecheck	1			juxtaposition			Could not check call to operator juxtaposition
+tests	ImportNonparamObject.fss		link	2						java.lang.NoClassDefFoundError
+tests	InferTest.fss		typecheck	2			juxtaposition			Could not check call to operator juxtaposition
+tests	InheritedMethod.fss		pass	2						
+tests	InheritedOverload2.fss		pass	2						
+tests	InitOrderWithMutable.fss		pass	1						
+tests	IntMapTest.fss		disambiguate	2	Maybe				Maybe ; Just ; Comprehension ; LexicographicOrder ; BigReduction ; MonoidReduction ; Array ; ImmutableArray	Maybe is undefined.
+tests	LabelTest.fss		typecheck	1						Function body has type OR((),T), but declared return type is T.
+tests	LineTerminatingComments.fss		pass	1						
+tests	ListNullPointer.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; BigReduction	ImmutableArray is undefined.
+tests	ListTest.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	LocalVar.fss		typecheck	1						Missing parameter type for x
+tests	LongStringTests.fss		disambiguate	2	Char				Char ; Maybe ; LexicographicOrder ; Comprehension ; BigReduction ; MonoidReduction ; ImmutableArray	Char is undefined.
+tests	MapExprTest.fss		codegen	1		Can't compile VarArgs				Can't compile VarArgs yet
+tests	MapTest.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Maybe ; ZeroIndexed ; BigReduction ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	Mutable.fss		codegen	2		Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException				Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
+tests	NatParamOverloading.fss		typecheck	1						head of empty list
+tests	NatReflectTest.fss		codegen	2		Only handling some static args of generic types				Only handling some static args of generic types
+tests	NumberPrintTest.fss		disambiguate	1	big			big ; widen ; unsigned ; LSHIFT ; narrow		Variable big is not defined.
+tests	NumeralTest.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; BigReduction ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	ObjectDefVars.fss		typecheck	2						Must provide type for initializer List(z)
+tests	ObjectExprWithFunctionalMethod.fss		codegen	1		emitDesc of type t failed				emitDesc of type t failed
+tests	ObjectFieldShadowing.fss		pass	2						
+tests	ObjectParams.fss		typecheck	1						Must provide type for initializer List(y)
+tests	ObjectToStringTest.fss		codegen	2		emitDesc of type Object failed				emitDesc of type Object failed
+tests	OpenRangeCase.fss		typecheck	1						Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+tests	OverloadBuiltinParam.fss		typecheck	2						Not yet implemented
+tests	OverloadConstructor1.fss		pass	2						
+tests	OverloadConstructor2.fss		typecheck	2			=			Could not check call to operator =
+tests	OverloadConstructor3.fss		typecheck	1			=			Could not check call to operator =
+tests	OverloadWithSuperExcludes.fss		pass	3						
+tests	ParamRef.fss		disambiguate	1	ImmutableArray				ImmutableArray	ImmutableArray is undefined.
+tests	PureListQuick.fss		disambiguate	2	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; BigReduction	ImmutableArray is undefined.
+tests	QuickCheckTest.fss		disambiguate	2	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; Maybe ; BigReduction ; Indexed ; QQ ; Char ; Nothing ; Just ; AnyMatrix ; AnyVector ; AnyMultiplicativeRing ; ReadableArray ; Integral ; Vector ; RangeWithLeft ; RangeWithRight ; PartialRange ; OpenRange ; RangeWithExtent ; ExtentRange ; BoundedRange ; LeftRange ; RightRange ; FullRange ; DelegatedIndexed ; CompactFullRange ; StridedFullRange ; AnyIntegral ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	RandomTest.fss		disambiguate	2	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction ; Indexed ; ReadableArray ; Integral ; Just ; Vector ; RangeWithLeft ; RangeWithRight ; PartialRange ; OpenRange ; RangeWithExtent ; ExtentRange ; BoundedRange ; LeftRange ; RightRange ; FullRange ; DelegatedIndexed ; CompactFullRange ; StridedFullRange ; AnyIntegral	LexicographicOrder is undefined.
+tests	RangePrototype.fss		disambiguate	2	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction ; Integral ; RangeWithLeft ; RangeWithRight ; PartialRange ; OpenRange ; RangeWithExtent ; ExtentRange ; Just ; BoundedRange ; LeftRange ; RightRange ; FullRange ; DelegatedIndexed ; CompactFullRange ; Indexed ; StridedFullRange ; AnyIntegral	LexicographicOrder is undefined.
+tests	RangeTest.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	RationalTest.fss		disambiguate	6	big			big ; numerator ; denominator ; floor ; ceiling ; truncate ; round ; simplestRationalBetween		Variable big is not defined.
+tests	ReflectTest.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	ReflectiveQuickCheckTest.fss		disambiguate	3	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; Maybe ; BigReduction ; Indexed ; QQ ; Char ; Nothing ; Just ; AnyMatrix ; AnyVector ; AnyMultiplicativeRing ; ReadableArray ; Integral ; Vector ; RangeWithLeft ; RangeWithRight ; PartialRange ; OpenRange ; RangeWithExtent ; ExtentRange ; BoundedRange ; LeftRange ; RightRange ; FullRange ; DelegatedIndexed ; CompactFullRange ; StridedFullRange ; AnyIntegral ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	Region.fss		disambiguate	1	array1			array1 ; Nothing ; Just ; region ; Global ; isShared ; localize ; here		Function array1 is not defined.
+tests	ReplicaTest.fss		disambiguate	1	Array1			Array1 ; Array2 ; Array3		Array1 is undefined.
+tests	Reversals.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	SetMapImport.fss		disambiguate	2	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Maybe ; ZeroIndexed ; BigReduction ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	SetTest.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; BigReduction ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	ShuffleTest.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction ; Array ; ImmutableArray	LexicographicOrder is undefined.
+tests	SkipListTest.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; BigReduction	ImmutableArray is undefined.
+tests	Spawn1.fss		disambiguate	1	Thread			Thread		Thread is undefined.
+tests	Spawn2.fss		disambiguate	2	Thread			Thread		Thread is undefined.
+tests	Spawn3.fss		disambiguate	1	Thread			Thread		Thread is undefined.
+tests	Spawn4.fss		disambiguate	1	Thread			Thread		Thread is undefined.
+tests	Spawn5.fss		disambiguate	1	Thread			Thread		Thread is undefined.
+tests	Spawn6.fss		disambiguate	1	Thread			Thread		Thread is undefined.
+tests	StringTests.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	SubscriptedExpr.fss		disambiguate	1	array1			array1		Function array1 is not defined.
+tests	TestCompiledEnvironments.fss		pass	3						
+tests	TestCompiledImports.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	TestCompiledNestedImports.fss		pass	2						
+tests	TimingTests.fss		typecheck	2						Missing parameter type for x
+tests	ToTheEOLComment.fss		pass	1						
+tests	TransactionalArrayShakedown.fss		disambiguate	1	Array			Array		Array is undefined.
+tests	TransitiveImportMethodLookup.fss		disambiguate	1	Char			Char		Char is undefined.
+tests	TreapTest.fss		link	3						Treap$Treap
+tests	TupleBinding.fss		codegen	2		VarDecl (key:String,val:ZZ32)=TupleExpr at tupled lhs not handled.				VarDecl (key:String,val:ZZ32)=TupleExpr at tupled lhs not handled.
+tests	TupleBinding2.fss		codegen	2		VarDecl (key:String,val:ZZ32)=Do at tupled lhs not handled.				VarDecl (key:String,val:ZZ32)=Do at tupled lhs not handled.
+tests	TypeImportBug.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; BigReduction ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	UnderscoreId.fss		pass	1						
+tests	UnnamedParam.fss		typecheck	2						Function body has type (), but declared return type is ZZ64.
+tests	UnsignedTest.fss		disambiguate	2	unsigned			unsigned ; LSHIFT ; RSHIFT ; REM ; MOD ; GCD ; LCM ; narrow ; widen ; partitionL ; signed		Variable unsigned is not defined.
+tests	Variable.VarWTypes.fss		codegen	2		VarDecl (a:ZZ32,b:ZZ32,c:ZZ32)=TupleExpr at tupled lhs not handled.				VarDecl (a:ZZ32,b:ZZ32,c:ZZ32)=TupleExpr at tupled lhs not handled.
+tests	Wildcards.fss		typecheck	1						Must provide type for initializer List(tmp2)
+tests	WordCountSmall.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; Maybe ; LexicographicOrder ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	XXXAlsoEE.fss	yes	typecheck	1						Unmatched delimiter "component".
+tests	XXXAsExpr.fss	yes	typecheck	2						Expression has type IntLiteral, but ascripted type is String.
+tests	XXXExitWithoutEnclosingLabel.fss	yes	typecheck	1						Could not find 'label' with name: quit
+tests	XXXExportsEE.fss	yes	parse	1						Syntax Error
+tests	XXXGenericOverload.fss	yes	run	2						FAIL: should have failed in generic overloading of f
+tests	XXXGenericOverload2.fss	yes	link	2						java.lang.Error: java.lang.Error: Unable to read serialized data for XXXGenericOverload2?$\=f{_|ProjectFortress|tests|XXXGenericOverload2\,fss\!24\!1-32,_|ProjectFortress|tests|XXXGenericOverload2\,fss\!25\!1-33}???$\=?Intersection?Arrow?Tuple?U,V,XXXGenericOverload2\%B?,fortress\|CompilerBuiltin\%IntLiteral?,Arrow?Tuple?V,U,XXXGenericOverload2\%A?,fortress\|CompilerBuiltin\%IntLiteral??, recommend you delete the Fortress bytecode cache and relink
+tests	XXXGenericOverload3.fss	yes	typecheck	3						
+tests	XXXHashtable.fss	yes	typecheck	1						The return type of put is required.
+tests	XXXImportImportCollision.fss	yes	disambiguate	1						Type name may refer to: U, TestImports2.U, TestImports1.U
+tests	XXXImportImportCollision2.fss	yes	typecheck	0						Component/API names must match their enclosing file names.
+tests	XXXImportLocalCollision.fss	yes	typecheck	1						Component/API names must match their enclosing file names.
+tests	XXXImportNonExistingAPI.fss	yes	disambiguate	1	ThisShouldBeANonExistingAPI			ThisShouldBeANonExistingAPI		Could not find an implementation for API ThisShouldBeANonExistingAPI on path
+tests	XXXInheritedOverload.fss	yes	typecheck	1						No such method O.b.
+tests	XXXLabelShadowing.fss	yes	typecheck	1						Label blah is already declared.
+tests	XXXLetRecTest.fss	yes	disambiguate	1	inc2			inc2		Variable inc2 is not defined.
+tests	XXXNonValueOfValue.fss	yes	disambiguate	1	f			f		Variable f is not defined.
+tests	XXXTypeError.fss	yes	typecheck	1						Right-hand side has type String, but declared type is ZZ32.
+tests	XXXUnimplementedMethod.fss	yes	typecheck	1						No such method O.b.
+tests	XXXWildcardField.fss	yes	typecheck	1						Fields or top-level declarations in APIs cannot be named '_'.
+tests	XXXarityTestFn.fss	yes	disambiguate	1	builtinPrimitive			builtinPrimitive		Variable builtinPrimitive is not defined.
+tests	XXXbroken.fss	yes	typecheck	2						Function body has type ZZ32, but declared return type is ().
+tests	XXXcaseTest.fss	yes	run	2						FortressException: class fortress.CompilerLibrary$MatchFailure with string Match failure
+tests	XXXextendBoolean.fss	yes	typecheck	3						The inherited abstract method abstract getter isEmpty:Boolean from the trait Condition[\()\]
+tests	XXXextendFloatLiteral.fss	yes	typecheck	1						The inherited abstract method abstract getter asRR32:RR32 from the trait FloatLiteral
+tests	XXXextendIntLiteral.fss	yes	typecheck	1						The inherited abstract method abstract getter asNN32:NN32 from the trait IntLiteral
+tests	XXXextendObject.fss	yes	typecheck	1						Invalid type in extends clause: Foo
+tests	XXXextendOprParam2.fss	yes	typecheck	2						The inherited abstract method OPLUS(self:Altoid[\T,OPLUS\],other:T):T from the trait Altoid[\Chicken,EGG\]
+tests	XXXfailTestFn.fss	yes	disambiguate	1	builtinPrimitive			builtinPrimitive		Variable builtinPrimitive is not defined.
+tests	XXXflatTest.fss	yes	typecheck	2			takesFour			Could not check call to function takesFour
+tests	XXXgenericMethod1.fss	yes	pass	2						
+tests	XXXgenericMethod2.fss	yes	pass	1						
+tests	XXXgenericMethod3.fss	yes	pass	1						
+tests	XXXgenericTest6.fss	yes	typecheck	1			End			Could not check call to function End
+tests	XXXimmutable0.fss	yes	typecheck	1						Variable x is already declared.
+tests	XXXimmutable1.fss	yes	codegen	2		Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException				Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
+tests	XXXimmutable2.fss	yes	codegen	1		Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException				Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
+tests	XXXimmutableTopLevel.fss	yes	typecheck	2						Cannot infer type for variable e because it has reference cycle: e, w, e
+tests	XXXlabelExit.fss	yes	typecheck	1						Could not find 'label' with name: wilma
+tests	XXXlabelExit2.fss	yes	typecheck	1						Exit occurs outside of a label.
+tests	XXXlabelExit3.fss	yes	typecheck	2						Could not find 'label' with name: wilma
+tests	XXXloopError.fss	yes	typecheck	1						O has no getter called nonexistentfield
+tests	XXXmutableTopVarWithoutType.fss	yes	typecheck	1						The type of x is required.
+tests	XXXmutableWithoutType.fss	yes	typecheck	1						The type of x is required.
+tests	XXXmutation1.fss	yes	typecheck	1						Could not assign an expression of type String to variable n of type ZZ32.
+tests	XXXmutation2.fss	yes	typecheck	2						Could not assign an expression of type String to variable field of type ZZ32.
+tests	XXXnoclassNativeFn.fss	yes	disambiguate	1	builtinPrimitive			builtinPrimitive		Variable builtinPrimitive is not defined.
+tests	XXXnonBooleanCond.fss	yes	disambiguate	1	Char				Char ; Maybe	Char is undefined.
+tests	XXXoutcome.fss	yes	typecheck	1						Invalid variable name: 'outcome' is a reserved word.
+tests	XXXoverloadTest5.fss	yes	typecheck	1						
+tests	XXXseqLoopError.fss	yes	typecheck	2						O has no getter called nonexistentfield
+tests	XXXsubtypeRuleResultFail.fss	yes	typecheck	2						
+tests	XXXtupleTypeParam3.fss	yes	typecheck	2						Ill-formed type: A[\(ZZ32, ZZ32)\]
+tests	XXXtypeParamShadowing.fss	yes	run	1						This program should be failed with a shadowing bug.
+tests	XXXtypecaseTest.fss	yes	run	2						FortressException: class fortress.CompilerLibrary$MatchFailure with string Match failure
+tests	XXXvarargsObject.fss	yes	typecheck	1						Varargs parameters of objects are not allowed.
+tests	abortBlock.fss		disambiguate	1	printThreadInfo			printThreadInfo ; abort		Variable printThreadInfo is not defined.
+tests	abortTest.fss		disambiguate	1	TryAtomicFailure			TryAtomicFailure		TryAtomicFailure is undefined.
+tests	ampersand.fss		pass	2						
+tests	anyLenArray.fss		disambiguate	2	Array			Array		Array is undefined.
+tests	array3test.fss		typecheck	1						head of empty list
+tests	arrayBig.fss		typecheck	2						head of empty list
+tests	arrayTest0.fss		disambiguate	1	Array1			Array1		Array1 is undefined.
+tests	arrayTest1.fss		typecheck	1						head of empty list
+tests	arrayTest2.fss		typecheck	1						head of empty list
+tests	arrayTest3.fss		typecheck	2						head of empty list
+tests	arrayWithTrailingSpaces.fss		typecheck	1						head of empty list
+tests	asifTest.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	atomic0.fss		pass	2						
+tests	atomic1.fss		typecheck	2						Could not check method invocation Range.loop
+tests	atomic2.fss		pass	2						
+tests	atomic3.fss		pass	2						
+tests	atomic4.fss		pass	2						
+tests	atomic5.fss		disambiguate	1	printThreadInfo			printThreadInfo		Variable printThreadInfo is not defined.
+tests	atomicArrayOps.fss		disambiguate	1	Array			Array		Array is undefined.
+tests	atomicExpr.fss		typecheck	3						Non-last expression in a block has type ((), ()), but it must have () type.
+tests	atomicList.fss		typecheck	2						Invalid comprises clause: CompilerBuiltin.Exception has a comprises clause
+tests	atomicTest.fss		pass	2						
+tests	atomicsets.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; ZeroIndexed ; Maybe ; BigReduction ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	bigEncloserCall.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	bogusNatParams.fss		typecheck	1						head of empty list
+tests	booleanGuard.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	buffons.fss		disambiguate	2	ceiling			ceiling ; floor		Variable ceiling is not defined.
+tests	caseTest.fss		typecheck	2						Not yet implemented
+tests	caseWithSemicolons.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	chain0.fss		disambiguate	1	MOD			MOD ; GCD ; LCM		Operator MOD is not defined.
+tests	chain2.fss		pass	4						
+tests	commonSuper.fss		typecheck	2						You should be able to call methods on this type,OR(B,C)but this is not yet implemented.: Not yet implemented
+tests	compoundArray.fss		typecheck	2						head of empty list
+tests	conditionalExtension.fss		typecheck	1						Cyclic type hierarchy: Type RationalQuantity transitively extends itself.
+tests	conditionalGenerator.fss		disambiguate	1	array			array		Function array is not defined.
+tests	conditionalOp.fss		typecheck	2			->			Could not check call to operator ->
+tests	contracts1.fss		typecheck	1						Missing parameter type for n
+tests	controlZ.fss		pass	1						
+tests	deepHierarchy.fss		pass	2						
+tests	dimensionUnitDecl.fss		typecheck	1						Not yet implemented: class com.sun.fortress.nodes.DimDecl
+tests	disp0.fss		typecheck	2						
+tests	disp1.fss		typecheck	2						
+tests	disp2.fss		run	2						f FAIL
+tests	doubleSelf.fss		pass	2						
+tests	doubledOverloading.fss		pass	2						
+tests	doubledOverloading2.fss		typecheck	1						Non-last expression in a block has type Boolean, but it must have () type.
+tests	doubledOverloading3.fss		pass	1						
+tests	emptyLoop.fss		pass	2						
+tests	emptySubscripting.fss		pass	1						
+tests	errIN.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	executable_component.fss		pass	1						
+tests	exitType.fss		typecheck	2						Function body has type ZZ32, but declared return type is ().
+tests	expTest.fss		typecheck	2			^			Could not check call to operator ^
+tests	explicitStaticArgsToAggregates.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	extendAny.fss		disambiguate	1						Type name may refer to: Infinity, CompilerBuiltin.Infinity
+tests	extendException.fss		disambiguate	1						Type name may refer to: Infinity, CompilerBuiltin.Infinity
+tests	extendNumber.fss		disambiguate	1						Type name may refer to: Infinity, CompilerBuiltin.Infinity
+tests	extendObject.fss		pass	1						
+tests	fib.fss		pass	2						
+tests	fib13.fss		disambiguate	1	unsigned			unsigned		Variable unsigned is not defined.
+tests	fmTest1.fss		pass	2						
+tests	fmTest2.fss		pass	3						
+tests	fmTest3.fss		pass	3						
+tests	fmTest4.fss		pass	2						
+tests	fmTest5.fss		pass	2						
+tests	forFnDecl.fss		pass	2						
+tests	forTest.fss		pass	1						
+tests	forTest2.fss		pass	1						
+tests	formatTest.fss		disambiguate	1	Char				Char	Char is undefined.
+tests	funny.fss		codegen	3		Can't compile LetFn				Can't compile LetFn at /home/user/fortress/ProjectFortress/tests/funny.fss:29.3
+tests	generatedExpr.fss		disambiguate	1	array			array		Function array is not defined.
+tests	generatorTest.fss		disambiguate	1	SumReduction			SumReduction		Variable SumReduction is not defined.
+tests	genericMethod0.fss		disambiguate	2	VoidReduction			VoidReduction		Variable VoidReduction is not defined.
+tests	genericMethod1.fss		typecheck	1						head of empty list
+tests	genericMethod4.fss		pass	1						
+tests	genericTest1.fss		link	2						java.lang.NoClassDefFoundError
+tests	genericTest2.fss		link	2						java.lang.NoClassDefFoundError
+tests	genericTest3.fss		typecheck	3			juxtaposition			Could not check call to operator juxtaposition
+tests	genericTest4.fss		typecheck	2			f			Could not check call to function f
+tests	genericTest5.fss		pass	2						
+tests	han.fss		pass	1						
+tests	ho.fss		typecheck	2						Right-hand side has type IntLiteral, but declared type is Matrix[\ZZ32,n,1\].
+tests	ifGetter.fss		pass	1						
+tests	ifTest.fss		pass	1						
+tests	immutable.fss		codegen	1		Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException				Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
+tests	immutableTopLevel.fss		pass	3						
+tests	importBig.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	infixBars.fss		pass	2						
+tests	initOrder.fss		pass	2						
+tests	instantiateNatParam.fss		typecheck	2						class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+tests	intDivisionTest.fss		typecheck	1			/			Could not check call to operator /
+tests	intPrim.fss		disambiguate	1	REM			REM ; MOD ; ? ; GCD ; LCM ; LSHIFT ; RSHIFT		Operator REM is not defined.
+tests	juxtTwice.fss		disambiguate	1	sin			sin ; log		Variable sin is not defined.
+tests	labelExit.fss		disambiguate	2	array1			array1		Function array1 is not defined.
+tests	letRecTest.fss		typecheck	1						Missing parameter type for x
+tests	litCoercion.fss		typecheck	2						Function body has type ZZ64, but declared return type is ().
+tests	longPrim.fss		disambiguate	2	widen			widen ; REM ; MOD ; ? ; GCD ; LCM ; LSHIFT ; RSHIFT		Variable widen is not defined.
+tests	mapCombine.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Maybe ; ZeroIndexed ; BigReduction ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	matchingCharacterMarks.fss		pass	1						
+tests	matchingStringMarks.fss		pass	1						
+tests	matrixOps.fss		disambiguate	2	matrix			matrix ; array2 ; vector		Function matrix is not defined.
+tests	maybeTest.fss		disambiguate	1	Nothing			Nothing ; Just ; NOTIN		Function Nothing is not defined.
+tests	mixedTypeAnnotation.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	multiGenFor.fss		disambiguate	1	matrix			matrix		Function matrix is not defined.
+tests	naiveSeq.fss		disambiguate	2	partition			partition		Variable partition is not defined.
+tests	natInference0.fss		typecheck	1						class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+tests	nativeArrayTest.fss		disambiguate	1	Array1				Array1 ; ImmutableArray1	Array1 is undefined.
+tests	nativeImmutableArrayTest.fss		disambiguate	1	Array1				Array1 ; ImmutableArray1	Array1 is undefined.
+tests	nativeTestFn.fss		disambiguate	1	builtinPrimitive			builtinPrimitive		Variable builtinPrimitive is not defined.
+tests	naturalsTest.fss		disambiguate	2	Nothing			Nothing ; Just ; NOTIN		Function Nothing is not defined.
+tests	neOperator.fss		typecheck	2			NE			Could not check call to operator NE
+tests	nestedInst.fss		pass	2						
+tests	nestedOutcome.fss		typecheck	2						Variable 'outcome' not found.
+tests	nestedTransactions1.fss		disambiguate	1	recordTime			recordTime ; printTime		Variable recordTime is not defined.
+tests	nestedTransactions2.fss		disambiguate	1	recordTime			recordTime ; printTime		Variable recordTime is not defined.
+tests	nestedTransactions3.fss		disambiguate	1	TryAtomicFailure			TryAtomicFailure		TryAtomicFailure is undefined.
+tests	nestedTransactions4.fss		disambiguate	2	recordTime			recordTime ; printTime		Variable recordTime is not defined.
+tests	newASCIIshorthands.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	newlineTest.fss		typecheck	1						The typecase clause, (ZZ32, RR64), is unreachable.
+tests	nullaryOverload.fss		pass	2						
+tests	objectCC.fss		codegen	3		Can't compile ObjectExpr				Can't compile ObjectExpr at /home/user/fortress/ProjectFortress/tests/objectCC.fss:30.17
+tests	objectCC_immutable.fss		codegen	3		Can't compile ObjectExpr				Can't compile ObjectExpr at /home/user/fortress/ProjectFortress/tests/objectCC_immutable.fss:62.17
+tests	objectCC_label.fss		codegen	4		Can't compile Label				Can't compile Label at /home/user/fortress/ProjectFortress/tests/objectCC_label.fss:123.18
+tests	objectCC_multi_objExpr_mutVar1.fss		typecheck	6			assert			Could not check call to function assert
+tests	objectCC_multi_objExpr_mutVar2.fss		typecheck	6			assert			Could not check call to function assert
+tests	objectCC_mutVar1.fss		typecheck	3			assert			Could not check call to function assert
+tests	objectCC_mutVar2.fss		typecheck	3			assert			Could not check call to function assert
+tests	objectCC_mutable.fss		codegen	4		Can't compile ObjectExpr				Can't compile ObjectExpr at /home/user/fortress/ProjectFortress/tests/objectCC_mutable.fss:63.17
+tests	objectCC_shadowTest.fss		typecheck	1			foo			Could not check call to function foo
+tests	objectCC_staticParams.fss		typecheck	2						class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.BoolExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.BoolExpr are in unnamed module of loader 'app')
+tests	objectExprMystery.fss		disambiguate	1	Array2			Array2		Array2 is undefined.
+tests	objectTest1.fss		pass	2						
+tests	objectTest2.fss		pass	2						
+tests	objectTest3.fss		pass	2						
+tests	objectTest4.fss		typecheck	1						Missing parameter type for g'
+tests	objectTest7.fss		codegen	2		Can't compile ObjectExpr				Can't compile ObjectExpr at /home/user/fortress/ProjectFortress/tests/objectTest7.fss:26.17
+tests	objectTest8.fss		typecheck	2						Right-hand side has type T, but declared type is U.
+tests	objectZZ.fss		disambiguate	1	Rank			Rank		Rank is undefined.
+tests	oddJuxt.fss		disambiguate	2	Nothing			Nothing		Function Nothing is not defined.
+tests	operatorSynonym.fss		pass	1						
+tests	oprTests.fss		disambiguate	1	sin			sin ; log ; atan		Variable sin is not defined.
+tests	overloadGenericNon.fss		typecheck	2						Cannot infer type for function +(s:WrapZZ, o:WrapZZ) because it has reference cycle: +(s:WrapZZ, o:WrapZZ), +(s:WrapZZ, o:WrapZZ)
+tests	overloadTest1.fss		pass	3						
+tests	overloadTest2.fss		pass	2						
+tests	overloadTest3.fss		typecheck	1						Missing parameter type for x
+tests	overloadTest6.fss		typecheck	2			a			Could not check call to function a
+tests	overloadTest7.fss		pass	3						
+tests	overloadTest8.fss		pass	3						
+tests	parametricListCompr.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	parametricManiaCompr.fss		disambiguate	2	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	postfixTest.fss		pass	1						
+tests	precedence.fss		pass	1						
+tests	primOverloadTest.fss		disambiguate	1	Array1			Array1		Array1 is undefined.
+tests	primeCharacter.fss		pass	1						
+tests	printTests.fss		typecheck	1			print			Could not check call to function print
+tests	quicksortTest.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction ; Array	LexicographicOrder is undefined.
+tests	rangeOperators.fss		typecheck	4			juxtaposition			Could not check call to operator juxtaposition
+tests	realArith.fss		disambiguate	2	PLUS_UP			PLUS_UP ; MINUS_UP ; DOT_UP ; SLASH_UP ; prefix SQRT_UP ; PLUS_DOWN ; MINUS_DOWN ; DOT_DOWN ; SLASH_DOWN ; prefix SQRT_DOWN ; sin ; cos ; tan ; asin ; acos ; atan ; atan2 ; log ; exp ; floor ; ceiling ; truncate ; Just ; Nothing		Operator PLUS_UP is not defined.
+tests	restTest.fss		typecheck	1			BIG +			Could not check call to operator BIG +
+tests	restTest2.fss		typecheck	2			BIG +			Could not check call to operator BIG +
+tests	restTest2a.fss		typecheck	1			BIG +			Could not check call to operator BIG +
+tests	returnAndMutateTuple.fss		pass	2						
+tests	rightOverload.fss		disambiguate	1	Array2			Array2		Array2 is undefined.
+tests	roundBug.fss		disambiguate	1	round			round		Variable round is not defined.
+tests	rshiftbug.fss		disambiguate	1	RSHIFT			RSHIFT		Operator RSHIFT is not defined.
+tests	scopeSharing.fss		codegen	3		Can't compile ObjectExpr				Can't compile ObjectExpr at /home/user/fortress/ProjectFortress/tests/scopeSharing.fss:27.6
+tests	seqLoop.fss		disambiguate	1	vector			vector		Function vector is not defined.
+tests	sequivTest.fss		disambiguate	2	BIG ||			BIG || ; Nothing ; Just		Operator BIG || is not defined.
+tests	setMakerTest0.fss		disambiguate	1	ImmutableArray				ImmutableArray	ImmutableArray is undefined.
+tests	setSum.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; Maybe ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	setterTest.fss		disambiguate	1	array1			array1		Function array1 is not defined.
+tests	sideEffUpdate.fss		typecheck	1						head of empty list
+tests	simpleBig.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	simpleExp.fss		typecheck	3						Right-hand side has type ZZ32, but declared type is RR64.
+tests	simpleSum.fss		disambiguate	1	MOD			MOD ; ? ; BIG juxtaposition ; BIG MIN		Operator MOD is not defined.
+tests	simplify1.fss		codegen	2		Can't compile LetFn				Can't compile LetFn at /home/user/fortress/ProjectFortress/tests/simplify1.fss:29.3
+tests	singleArgInference.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	sparseMatrix.fss		disambiguate	1	Array				Array ; Vector ; Array1	Array is undefined.
+tests	spuriousSelf.fss		disambiguate	1	Indexed			Indexed ; ReadableArray1 ; DelegatedIndexed		Indexed is undefined.
+tests	stringJuxt.fss		disambiguate	2	IndexOutOfBounds			IndexOutOfBounds		IndexOutOfBounds is undefined.
+tests	subArray.fss		disambiguate	1	Array			Array		Array is undefined.
+tests	taskTrace2.fss		disambiguate	1	printTaskTrace			printTaskTrace		Variable printTaskTrace is not defined.
+tests	taskTrace3.fss		disambiguate	1	printTaskTrace			printTaskTrace		Variable printTaskTrace is not defined.
+tests	testCharLiteral.fss		pass	2						
+tests	testParen.fss		pass	2						
+tests	testPrim.fss		disambiguate	2	builtinPrimitive			builtinPrimitive		Variable builtinPrimitive is not defined.
+tests	testRR32.fss		disambiguate	1	narrow			narrow ; PLUS_UP ; MINUS_UP ; DOT_UP ; SLASH_UP ; prefix SQRT_UP ; PLUS_DOWN ; MINUS_DOWN ; DOT_DOWN ; SLASH_DOWN ; prefix SQRT_DOWN ; floor ; ceiling ; truncate ; Just ; Nothing		Variable narrow is not defined.
+tests	testRecImport.fss		typecheck	2						No such method RecA.Odd.anEven.
+tests	testTest1.fss		typecheck	3						Component testTest1 exports API Executable
+tests	testTest2.fss		typecheck	2						Cannot infer type for function fact(x:ZZ32) because it has reference cycle: fact(x:ZZ32), fact(x:ZZ32)
+tests	testTransient.fss		typecheck	1						Must provide type for initializer List(x)
+tests	testerTest.fss		pass	2						
+tests	tparams0.fss		typecheck	1						class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+tests	tparams1.fss		typecheck	2						class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+tests	tparams2.fss		typecheck	1						class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+tests	trailingSemicolon.fss		typecheck	1						Must provide type for initializer List(x)
+tests	traitTest1.fss		pass	2						
+tests	transactionalFork.fss		disambiguate	1	matrix			matrix		Function matrix is not defined.
+tests	transposition.fss		typecheck	2			^			Could not check call to operator ^
+tests	treeTest.fss		typecheck	7						No such method Tree.minimum.
+tests	tryatomicTest.fss		disambiguate	1	TryAtomicFailure			TryAtomicFailure		TryAtomicFailure is undefined.
+tests	tupleInfer.fss		disambiguate	1	AnyIntegral			AnyIntegral		AnyIntegral is undefined.
+tests	tupleTest1.fss		pass	2						
+tests	tupleTest2.fss		pass	2						
+tests	tupleTest3.fss		typecheck	2						Cannot infer type for function fib(x:ZZ32) because it has reference cycle: fib(x:ZZ32), fib(x:ZZ32)
+tests	tupleTypeParam.fss		typecheck	1						Ill-formed type: Obj[\(ZZ32, ZZ32)\]
+tests	tupleTypeParam2.fss		typecheck	2						Ill-formed type: A[\(ZZ32, ZZ32)\]
+tests	typeTests.fss		typecheck	1						Desugaring MatrixType at /home/user/fortress/ProjectFortress/tests/typeTests.fss:58.7 to TraitType is not yet supported.
+tests	typecaseBlockTest.fss		typecheck	1						The typecase clause, ZZ32, is unreachable.
+tests	typecaseSelf.fss		pass	2						
+tests	typecaseTest.fss		typecheck	2						The typecase clause, ZZ32, is unreachable.
+tests	typecaseVarTest.fss		typecheck	1						The typecase clause, ZZ32, is unreachable.
+tests	unicodeTest.fss		pass	2						
+tests	varTest.fss		pass	2						
+tests	vectorOps.fss		disambiguate	1	||_||			||_|| ; vector ; pmul		Operator ||_|| is not defined.
+tests	whereTest.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Maybe ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	whileTest.fss		disambiguate	1	ReadableArray			ReadableArray ; Maybe		ReadableArray is undefined.
+tests	wrapZZ.fss		typecheck	2						Cannot infer type for functional method WrapZZ.+(self:WrapZZ, o:WrapZZ) because it has reference cycle: WrapZZ.+(self:WrapZZ, o:WrapZZ), WrapZZ.+(self:WrapZZ, o:WrapZZ)
+tests	wrongOverload.fss		typecheck	2						Not in the trait table: CompilerLibrary.Array2
+tests	zeno.fss		disambiguate	1	Array1				Array1 ; Array	Array1 is undefined.

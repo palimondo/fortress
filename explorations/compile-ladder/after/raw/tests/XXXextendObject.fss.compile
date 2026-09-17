@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/XXXextendObject.fss:20:29-30:
+    Invalid type in extends clause: Foo
+File XXXextendObject.fss has 1 error.

@@ -1,0 +1,9 @@
+/home/user/fortress/ProjectFortress/tests/fib13.fss:30:24-30:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/fib13.fss:31:24-30:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/fib13.fss:32:24-30:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/fib13.fss:33:24-30:
+    Variable unsigned is not defined.
+File fib13.fss has 4 errors.

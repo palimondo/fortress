@@ -1,0 +1,105 @@
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:23:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:23:46-49:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:24:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:24:44-47:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:25:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:25:39-42:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:26:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:26:42-45:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:27:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:27:40-43:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:28:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:28:32-33:
+    Operator REM is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:28:40-43:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:29:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:29:32-33:
+    Operator MOD is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:29:40-43:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:30:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:30:41-44:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:31:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:31:33-34:
+    Operator REM is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:31:41-44:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:32:19-22:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:32:33-34:
+    Operator MOD is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:32:41-44:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:33:25-30:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:33:33-36:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:34:28-33:
+    Operator ? is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:34:36-39:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:35:18-21:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:35:31-32:
+    Operator GCD is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:35:42-45:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:36:18-21:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:36:31-32:
+    Operator LCM is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:36:42-45:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:37:21-24:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:37:42-45:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:38:18-21:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:38:37-40:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:39:17-20:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:39:35-38:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:40:18-21:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:40:37-40:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:41:25-28:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:41:35-38:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:42:18-21:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:42:28-32:
+    Operator LSHIFT is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:42:38-41:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:43:18-21:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:43:29-33:
+    Operator RSHIFT is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:43:39-42:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:44:15-18:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/longPrim.fss:44:34-37:
+    Variable widen is not defined.
+File longPrim.fss has 52 errors.

@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXImportImportCollision2.fss:12:11-31:
+    Component/API names must match their enclosing file names.
+    File name: /home/user/fortress/ProjectFortress/tests/XXXImportImportCollision2.fss
+    Component/API name: ImportImportCollision
+Turn on "-debug interpreter" for Java-level stack trace.

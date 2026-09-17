@@ -1,0 +1,25 @@
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:53:20-30:
+    No such method Tree.minimum.
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:53:38-54:
+    No such method Tree.deleteMinimum.
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:83:4-99:5:
+    Cannot infer type for method Tree.concat3(v:ZZ32, t1:Tree, t2:Tree) because it has reference cycle: Tree.concat3(v:ZZ32, t1:Tree, t2:Tree), Tree.concat3(v:ZZ32, t1:Tree, t2:Tree)
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:103:21-23:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:109:22-24:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:200:12-38:
+    Tree has no getter called getRightChild
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:208:39-51:
+    No such method Tree.delete.
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:209:46-59:
+    No such method Tree.delete.
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:216:23-32:
+    No such method Tree.minimum.
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:222:35-47:
+    No such method Tree.minimum.
+/home/user/fortress/ProjectFortress/tests/treeTest.fss:241:12-24:
+    No such method Tree.delete.
+File treeTest.fss has 11 errors.

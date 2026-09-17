@@ -1,0 +1,7 @@
+/home/user/fortress/ProjectFortress/tests/intDivisionTest.fss:16:10-12:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/intDivisionTest.fss:16:15-17:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+File intDivisionTest.fss has 2 errors.

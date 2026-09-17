@@ -1,0 +1,16 @@
+/home/user/fortress/ProjectFortress/tests/disp0.fss:17:3-39:
+/home/user/fortress/ProjectFortress/tests/disp0.fss:22:2-51:
+    Invalid overloading of f in component disp0:
+     (A, ZZ32)->String @ /home/user/fortress/ProjectFortress/tests/disp0.fss:17:3-39
+ and (B, Number)->String @ /home/user/fortress/ProjectFortress/tests/disp0.fss:22:2-51
+/home/user/fortress/ProjectFortress/tests/disp0.fss:17:3-39:
+/home/user/fortress/ProjectFortress/tests/disp0.fss:22:2-51:
+    Invalid overloading of f in trait B:
+     (A, ZZ32)->String @ /home/user/fortress/ProjectFortress/tests/disp0.fss:17:3-39
+ and (B, Number)->String @ /home/user/fortress/ProjectFortress/tests/disp0.fss:22:2-51
+/home/user/fortress/ProjectFortress/tests/disp0.fss:18:3-33:
+/home/user/fortress/ProjectFortress/tests/disp0.fss:23:2-45:
+    Invalid overloading of g in trait B:
+     (A, ZZ32)->String @ /home/user/fortress/ProjectFortress/tests/disp0.fss:18:3-33
+ and (B, Number)->String @ /home/user/fortress/ProjectFortress/tests/disp0.fss:23:2-45
+File disp0.fss has 3 errors.

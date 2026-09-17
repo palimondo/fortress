@@ -1,0 +1,79 @@
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:15:7-15:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:18:29-37:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:19:21-28:
+    Type name may refer to: ComparisonLibrary.Unordered, CompilerBuiltin.Unordered
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:19:32-45:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:21:28-36:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:21:41-49:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:22:32-40:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:22:45-53:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:23:27-35:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:23:40-48:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:24:31-39:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:24:44-52:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:25:25-33:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:27:23-31:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:29:25-33:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:29:38-46:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:30:23-31:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:31:23-31:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:32:24-32:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:33:24-32:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:36:8-15:
+    Type name may refer to: ComparisonLibrary.Unordered, CompilerBuiltin.Unordered
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:36:26-34:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:38:7-20:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:40:19-27:
+    Type name may refer to: ComparisonLibrary.Comparison, CompilerBuiltin.Comparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:41:21-27:
+    Type name may refer to: ComparisonLibrary.LessThan, CompilerBuiltin.LessThan
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:41:31-36:
+    Type name may refer to: ComparisonLibrary.EqualTo, CompilerBuiltin.EqualTo
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:41:40-49:
+    Type name may refer to: ComparisonLibrary.GreaterThan, CompilerBuiltin.GreaterThan
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:42:28-41:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:42:46-59:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:43:32-45:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:43:50-63:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:44:25-38:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:44:43-56:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:47:8-14:
+    Type name may refer to: ComparisonLibrary.LessThan, CompilerBuiltin.LessThan
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:47:25-38:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:49:8-17:
+    Type name may refer to: ComparisonLibrary.GreaterThan, CompilerBuiltin.GreaterThan
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:49:28-41:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:51:8-13:
+    Type name may refer to: ComparisonLibrary.EqualTo, CompilerBuiltin.EqualTo
+/home/user/fortress/ProjectFortress/not_working_library_tests/ComparisonLibrary.fsi:51:24-37:
+    Type name may refer to: ComparisonLibrary.TotalComparison, CompilerBuiltin.TotalComparison
+File ComparisonLibrary.fsi has 39 errors.

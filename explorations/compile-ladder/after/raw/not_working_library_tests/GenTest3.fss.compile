@@ -1,0 +1,13 @@
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:15:7-14:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:16:30-37:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:20:7-14:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:20:32-39:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:22:24-31:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:29:34-41:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+File GenTest3.fss has 6 errors.

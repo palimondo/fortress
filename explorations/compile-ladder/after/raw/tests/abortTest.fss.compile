@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/abortTest.fss:26:13-27:
+    TryAtomicFailure is undefined.
+File abortTest.fss has 1 error.

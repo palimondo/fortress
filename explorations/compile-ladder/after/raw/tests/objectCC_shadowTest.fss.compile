@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/tests/objectCC_shadowTest.fss:90:46-50:
+    Could not check call to function foo
+    - ()->String is not applicable to an argument of type IntLiteral.
+File objectCC_shadowTest.fss has 1 error.

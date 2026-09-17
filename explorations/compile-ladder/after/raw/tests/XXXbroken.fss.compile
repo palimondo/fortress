@@ -1,0 +1,7 @@
+/home/user/fortress/ProjectFortress/tests/XXXbroken.fss:17:4-21:5:
+    Function body has type ZZ32, but declared return type is ().
+/home/user/fortress/ProjectFortress/tests/XXXbroken.fss:18:15-19:
+    Right-hand side has type String, but declared type is ZZ32.
+/home/user/fortress/ProjectFortress/tests/XXXbroken.fss:19:13:
+    Right-hand side has type IntLiteral, but declared type is ().
+File XXXbroken.fss has 3 errors.

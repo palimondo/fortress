@@ -1,0 +1,231 @@
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:52:7-14:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:57:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:75:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:82:24-31:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:85:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:97:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:97:40-47:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:103:20-27:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:103:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:131:19-26:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:131:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:143:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:153:7-24:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:153:42-49:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:154:51-58:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:155:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:156:24-41:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:159:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:159:40-47:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:161:21-38:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:166:18-25:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:166:35-42:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:168:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:180:7-14:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:180:42-59:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:188:31-38:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:190:24-31:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:201:21-28:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:204:24-31:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:206:33-40:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:208:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:208:40-47:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:210:19-26:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:210:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:211:15-22:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:211:45-52:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:216:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:231:44-51:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:249:21-28:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:253:19-26:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:253:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:258:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:281:21-28:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:285:19-26:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:285:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:289:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:307:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:308:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:310:54-61:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:312:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:313:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:319:40-47:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:339:43-60:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:340:43-60:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:341:46-63:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:345:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:346:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:347:22-29:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:350:21-28:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:352:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:354:21-28:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:356:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:359:37-44:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:359:59-66:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:363:41-58:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:363:73-80:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:364:41-58:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:369:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:370:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:371:22-29:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:374:21-28:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:375:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:381:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:387:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:388:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:389:20-27:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:389:37-44:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:390:35-42:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:393:40-47:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:393:62-69:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:396:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:399:23-40:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:403:32-49:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:409:13-30:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:409:45-62:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:410:43-60:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:414:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:416:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:417:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:421:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:426:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:426:57-64:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:429:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:433:13-30:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:433:42-59:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:434:41-58:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:439:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:440:16-23:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:441:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:442:21-28:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:443:24-31:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:444:20-27:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:444:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:447:39-46:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:491:34-41:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:492:17-34:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:496:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:511:7-14:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:512:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:517:33-40:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:517:57-64:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:518:20-27:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:528:30-37:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:530:23-30:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress/ProjectFortress/not_working_library_tests/HelperTest1.fss:538:57-64:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+File HelperTest1.fss has 115 errors.

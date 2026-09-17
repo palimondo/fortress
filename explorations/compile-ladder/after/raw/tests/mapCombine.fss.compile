@@ -1,0 +1,57 @@
+/home/user/fortress/Library/CovariantCollection.fsi:23:25-37:
+    ImmutableArray is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:24:16-19:
+    Array is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:25:24-27:
+    Array is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:45:33-46:
+    MonoidReduction is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:53:5-16:
+    Comprehension is undefined.
+/home/user/fortress/Library/Map.fsi:32:20-23:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:37:15-18:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:39:22-25:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:40:16-19:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:42:22-25:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:58:18-21:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:58:32-35:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:83:46-49:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:84:46-49:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:85:47-50:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:93:38-41:
+    Maybe is undefined.
+/home/user/fortress/Library/Map.fsi:104:29-40:
+    Comprehension is undefined.
+/home/user/fortress/Library/Map.fsi:108:30-41:
+    Comprehension is undefined.
+/home/user/fortress/Library/Map.fsi:112:30-41:
+    Comprehension is undefined.
+/home/user/fortress/Library/Set.fsi:25:17-26:
+    ZeroIndexed is undefined.
+/home/user/fortress/Library/Set.fsi:28:14-17:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:29:14-17:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:32:21-24:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:33:21-24:
+    Maybe is undefined.
+/home/user/fortress/Library/Set.fsi:56:51-62:
+    Comprehension is undefined.
+/home/user/fortress/Library/Set.fsi:59:55-65:
+    BigReduction is undefined.
+/home/user/fortress/Library/Set.fsi:62:27-51:
+    CommutativeMonoidReduction is undefined.
+/home/user/fortress/Library/Set.fsi:65:9-19:
+    BigReduction is undefined.
+File mapCombine.fss has 28 errors.

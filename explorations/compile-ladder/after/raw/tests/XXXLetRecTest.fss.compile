@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXLetRecTest.fss:16:14-16:
+    Variable inc2 is not defined.
+/home/user/fortress/ProjectFortress/tests/XXXLetRecTest.fss:16:19-21:
+    Variable inc2 is not defined.
+File XXXLetRecTest.fss has 2 errors.

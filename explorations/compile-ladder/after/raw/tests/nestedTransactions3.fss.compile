@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/nestedTransactions3.fss:27:11-25:
+    TryAtomicFailure is undefined.
+File nestedTransactions3.fss has 1 error.

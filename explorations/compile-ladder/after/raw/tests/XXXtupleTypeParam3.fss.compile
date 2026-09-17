@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/tests/XXXtupleTypeParam3.fss:19:18-34:
+    Ill-formed type: A[\(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+File XXXtupleTypeParam3.fss has 1 error.

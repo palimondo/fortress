@@ -1,0 +1,15 @@
+/home/user/fortress/ProjectFortress/tests/matrixOps.fss:25:20-35:
+    Function matrix is not defined.
+/home/user/fortress/ProjectFortress/tests/matrixOps.fss:26:20-35:
+    Function matrix is not defined.
+/home/user/fortress/ProjectFortress/tests/matrixOps.fss:27:20-35:
+    Function array2 is not defined.
+/home/user/fortress/ProjectFortress/tests/matrixOps.fss:28:20-35:
+    Function array2 is not defined.
+/home/user/fortress/ProjectFortress/tests/matrixOps.fss:29:20-35:
+    Function array2 is not defined.
+/home/user/fortress/ProjectFortress/tests/matrixOps.fss:30:18-31:
+    Function vector is not defined.
+/home/user/fortress/ProjectFortress/tests/matrixOps.fss:31:18-31:
+    Function vector is not defined.
+File matrixOps.fss has 7 errors.

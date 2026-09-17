@@ -1,0 +1,16 @@
+/home/user/fortress/ProjectFortress/tests/atomicList.fss:24:1-49:
+    Invalid comprises clause: CompilerBuiltin.Exception has a comprises clause
+    but its immediate subtype ListError is not eligible to extend it.
+/home/user/fortress/ProjectFortress/tests/atomicList.fss:24:38-45:
+    Type ListError excludes CompilerBuiltin.Exception but it extends CompilerBuiltin.Exception.
+/home/user/fortress/ProjectFortress/tests/atomicList.fss:36:24-48:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (String, ()).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (String, ()).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (String, ()).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (String, ()).
+    - (String, Object)->String is not applicable to an argument of type (String, ()).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (String, ()).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (String, ()).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (String, ()).
+File atomicList.fss has 3 errors.

@@ -1,0 +1,21 @@
+/home/user/fortress/ProjectFortress/tests/disp1.fss:17:3-39:
+/home/user/fortress/ProjectFortress/tests/disp1.fss:22:2-51:
+    Invalid overloading of f in component disp1:
+     [\T extends Object\](A[\T\], ZZ32)->String @ /home/user/fortress/ProjectFortress/tests/disp1.fss:17:3-39
+ and [\T extends Object\](B[\T\], Number)->String @ /home/user/fortress/ProjectFortress/tests/disp1.fss:22:2-51
+/home/user/fortress/ProjectFortress/tests/disp1.fss:17:3-39:
+/home/user/fortress/ProjectFortress/tests/disp1.fss:22:2-51:
+    Invalid overloading of f in trait B:
+     (A[\T\], ZZ32)->String @ /home/user/fortress/ProjectFortress/tests/disp1.fss:17:3-39
+ and (B[\T\], Number)->String @ /home/user/fortress/ProjectFortress/tests/disp1.fss:22:2-51
+/home/user/fortress/ProjectFortress/tests/disp1.fss:18:3-36:
+/home/user/fortress/ProjectFortress/tests/disp1.fss:23:2-48:
+    Invalid overloading of g in component disp1:
+     [\T extends Object\](A[\T\], T)->String @ /home/user/fortress/ProjectFortress/tests/disp1.fss:18:3-36
+ and [\T extends Object\](B[\T\], Any)->String @ /home/user/fortress/ProjectFortress/tests/disp1.fss:23:2-48
+/home/user/fortress/ProjectFortress/tests/disp1.fss:18:3-36:
+/home/user/fortress/ProjectFortress/tests/disp1.fss:23:2-48:
+    Invalid overloading of g in trait B:
+     (A[\T\], T)->String @ /home/user/fortress/ProjectFortress/tests/disp1.fss:18:3-36
+ and (B[\T\], Any)->String @ /home/user/fortress/ProjectFortress/tests/disp1.fss:23:2-48
+File disp1.fss has 4 errors.

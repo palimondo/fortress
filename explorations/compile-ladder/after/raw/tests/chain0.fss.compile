@@ -1,0 +1,19 @@
+/home/user/fortress/ProjectFortress/tests/chain0.fss:28:6-7:
+    Operator MOD is not defined.
+/home/user/fortress/ProjectFortress/tests/chain0.fss:29:7-8:
+    Operator MOD is not defined.
+/home/user/fortress/ProjectFortress/tests/chain0.fss:30:6-7:
+    Operator MOD is not defined.
+/home/user/fortress/ProjectFortress/tests/chain0.fss:31:7-8:
+    Operator MOD is not defined.
+/home/user/fortress/ProjectFortress/tests/chain0.fss:33:8-9:
+    Operator GCD is not defined.
+/home/user/fortress/ProjectFortress/tests/chain0.fss:34:8-9:
+    Operator GCD is not defined.
+/home/user/fortress/ProjectFortress/tests/chain0.fss:36:7-8:
+    Operator LCM is not defined.
+/home/user/fortress/ProjectFortress/tests/chain0.fss:37:7-8:
+    Operator LCM is not defined.
+/home/user/fortress/ProjectFortress/tests/chain0.fss:38:7-8:
+    Operator LCM is not defined.
+File chain0.fss has 9 errors.

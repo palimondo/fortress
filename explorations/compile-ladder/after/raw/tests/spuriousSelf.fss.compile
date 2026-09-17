@@ -1,0 +1,13 @@
+/home/user/fortress/ProjectFortress/tests/spuriousSelf.fss:27:27-32:
+    Indexed is undefined.
+/home/user/fortress/ProjectFortress/tests/spuriousSelf.fss:28:20-30:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/ProjectFortress/tests/spuriousSelf.fss:39:26-38:
+    ReadableArray1 is undefined.
+/home/user/fortress/ProjectFortress/tests/spuriousSelf.fss:42:47-59:
+    ReadableArray1 is undefined.
+/home/user/fortress/ProjectFortress/tests/spuriousSelf.fss:44:28-42:
+    DelegatedIndexed is undefined.
+/home/user/fortress/ProjectFortress/tests/spuriousSelf.fss:52:9-19:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+File spuriousSelf.fss has 6 errors.

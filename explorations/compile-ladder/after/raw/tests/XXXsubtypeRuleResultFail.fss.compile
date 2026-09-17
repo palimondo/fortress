@@ -1,0 +1,6 @@
+/home/user/fortress/ProjectFortress/tests/XXXsubtypeRuleResultFail.fss:29:1-22:
+/home/user/fortress/ProjectFortress/tests/XXXsubtypeRuleResultFail.fss:30:1-23:
+    For g,
+the return type of (T, S, S)->T @ /home/user/fortress/ProjectFortress/tests/XXXsubtypeRuleResultFail.fss:30:1-23 should be a subtype of the
+    return type of (T, T, S)->S @ /home/user/fortress/ProjectFortress/tests/XXXsubtypeRuleResultFail.fss:29:1-22
+File XXXsubtypeRuleResultFail.fss has 1 error.

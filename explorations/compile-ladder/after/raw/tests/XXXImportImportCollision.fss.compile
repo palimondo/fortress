@@ -1,0 +1,9 @@
+/home/user/fortress/ProjectFortress/tests/XXXImportImportCollision.fss:17:7:
+    Type name may refer to: U, TestImports2.U, TestImports1.U
+/home/user/fortress/ProjectFortress/tests/XXXImportImportCollision.fss:21:8:
+    Type name may refer to: V, TestImports1.V, TestImports2.V
+/home/user/fortress/ProjectFortress/tests/XXXImportImportCollision.fss:21:18:
+    Type name may refer to: U, TestImports2.U, TestImports1.U
+/home/user/fortress/ProjectFortress/tests/XXXImportImportCollision.fss:27:18:
+    Type name may refer to: TestImports1.T, TestImports2.T
+File XXXImportImportCollision.fss has 4 errors.
