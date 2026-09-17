@@ -24,6 +24,12 @@ Therefore batch size k stays 4, chosen for gate amortisation, and the scatter si
 
 Before section 9's estimate is trusted, the cap should be measured directly: a throwaway workflow of four trivial agents, with their start timestamps read out of `journal.jsonl` by the same parse `iteration-cost.md` used. That is the one cheap experiment this design still owes.
 
+Decided 2026-09-17: a climb runs at k = 4 without waiting for that measurement, and the probe is still owed.
+
+The reason they are separable is the distinction this section opens with. Nothing in a batch's correctness depends on the cap, and neither does the saving section 9 calls firm, which is arithmetic over gate runs: k rungs, one gate instead of k. What the cap sets is only how many waves the scatter takes, so an unmeasured cap makes section 9's *wall-clock estimate* unbacked and leaves everything else standing.
+
+So the probe is run for the estimate's sake, not as a precondition, and it is run when no climb is in flight, because four agents launched beside a running batch would contend for the very cap they are measuring and would perturb both. This batch's `journal.jsonl` establishes only that the cap is at least 2, which is all two simultaneous agents can show.
+
 ## 3. The shape
 
 ```
@@ -95,7 +101,11 @@ So where the specification settles a divergence but the repair lies outside the 
 
 The last climb took the fourth path correctly and was let down only at the reporting step, which is the coordinator's and is fixed by the clause above.
 
-**Gather and gate.** Merge the approved rungs on local refs in manifest order, apply each rung's record fragment into its own commit, run the merged-diff review, then the gate once, with its full output captured to a file and the per-suite summaries grepped from that file, never piped through `tail`, and with `TEST-RESULTS` wiped immediately before the run.
+**Gather and gate.** Take each approved rung's changes from its worktree's working tree in manifest order, compose one commit per rung carrying that rung's edit, test, report and record fragment together, run the merged-diff review, then the gate once, with its full output captured to a file and the per-suite summaries grepped from that file, never piped through `tail`, and with `TEST-RESULTS` wiped immediately before the run.
+
+Corrected 2026-09-17, during the first trial of this design: this paragraph read "merge the approved rungs on local refs", which contradicts the clause below it and `PLAN.md`, and `batched-climb-review.md:173` had already flagged that a plain merge cannot yield k clean rung commits.
+
+The three constraints fix the method between them and leave no choice: a rung worker is forbidden to commit, so its branch carries no ref to merge; `PLAN.md` requires the edit, the test and the record in **one** commit per rung, while §6 moves the record out of the worker, so the two halves are only ever brought together at the gather; and history is never rewritten, so a merge commit or a rebase to reshape what arrived is not available. Composition at the gather is what satisfies all three; a ref merge satisfies none of them.
 
 **Commit.** Green means k commits pushed with their records, the branch pushed and main fast-forwarded. An approval that carried required corrections is a checklist this stage must close before it commits.
 
