@@ -43,7 +43,7 @@ A3 **Static overload resolution.** Where the checker decides the overload, emit 
 
 A4 **Dynamic dispatch through `invokedynamic`.** For the calls the static types do not decide, an inline-cached call site over run-time type tags replaces the 2012 generated type-test chains. Behind the call site, one generic run-time dispatcher per operator, on the pattern of Clojure's `MultiFn` (a method table, a best-match search over the subtype relation, a cache keyed by the tuple of argument types, invalidated when a component links in new overloads), with the match relation upgraded to Fortress's type lattice and the call-time ambiguity check dropped because the checker excludes ambiguity statically. This is the one piece Scala never needed and the piece that ate the 2012 team; `invokedynamic` (JDK 7) and default methods on interfaces (JDK 8) arrived after their design was fixed. Where a trait is sealed by `comprises`, the overload set is closed and the dispatcher can be compiled to a direct call or a fixed decision tree (Dylan's sealing, Vortex's class hierarchy analysis).
 
-A5 **Loop lowering.** Recognize a generator over a known range and a known monoid reduction, and emit a sequential counted loop; fork-join only above a size threshold, with the reduction's declared algebra licensing the split. Scala's closure inliner and Java's parallel-stream splitting are the worked examples. This is where bounds-check elimination and SIMD then come free from HotSpot.
+A5 **Loop lowering.** Recognize a generator over a known range and a known monoid reduction, and emit a sequential counted loop; fork-join only above a size threshold, with the reduction's declared algebra licensing the split. Scala's closure inliner and Java's parallel-stream splitting are the worked examples. This is where bounds-check elimination and SIMD then come free from HotSpot, for floating-point loops only; checked integer arithmetic keeps integer loops scalar until one of the remedies in the corrections below applies.
 
 A6 **Generic reductions in the compiler library** (gaps G1, G4, G3): `Σ`, `BIG MAX`, comprehensions, `exp`/`log`. About 4,000 lines of library over generic traits the builtin layer already declares.
 
@@ -86,6 +86,18 @@ Each technique in the routes has a worked example to read before implementing. N
 - **Route B.** TruffleRuby, GraalPy and Espresso as the reference interpreters; PyPy's meta-tracing as the one genuine sibling of the derive-the-JIT approach.
 
 ## Corrections recorded on the way
+
+- **Checked integer arithmetic blocks A5's SIMD claim on integer loops.** Recorded 2026-09-17, after the rung 6 skeptic's overflow finding sent me to read how the compiler world spells `+`.
+
+The compiler world binds `+` on `ZZ32` to `jIntOverflowingAdd` (`LibraryBuiltin/CompilerBuiltin.fss:625`), which tests the sign bits and throws `IntegerOverflow`; `BOXPLUS` on the next line is `jIntWrappingAdd`, and a saturating family sits beside both in `nativeHelpers/simpleIntArith.java`. Trapping by default with an explicit wrapping operator is the design Swift shipped two years after this tree stopped, and the spec carries `BOXPLUS` as a ring operator on the integers (`Specification/basic-lib/basic-integers.tex:114-117`), so it is design intent and not an implementation accident. Fortress also has the saturating family, which Swift does not, and its overflow is a catchable exception where Swift's is a hard stop.
+
+The cost is not the test itself, which is two bit operations and a branch that is never taken. The cost is that the branch is a side exit from the loop body, and HotSpot's SuperWord pass vectorizes only counted loops with no control flow inside them, so an integer loop whose body can raise `IntegerOverflow` stays scalar however well it is written.
+
+Scope, stated so this is not read as worse than it is: microGPT's hot arithmetic is `RR64`, and IEEE addition does not trap, so the driver program's inner loops are untouched by this. What it touches is integer work, which is indices, counters, `ZZ32` reductions, and the address arithmetic A2 introduces.
+
+Four ways out, cheapest first, none of them measured yet. Let the JIT's range analysis fold the check away where the loop bounds are known, which is the argument for replacing the hand-written sign test with `Math.addExact`, because C2 has an overflow node for that one that it can reason about and can compile the failure path as an uncommon trap rather than as real code in the loop. Use `BOXPLUS` where the declared algebra or a `nat` bound proves the range cannot be left, which is what the operator exists for. Accumulate in a wider type so overflow is impossible inside the loop and check once on the way out. Drop the check only where the checker proved the bound, never as a default, because the default is the language's promise.
+
+Measure before acting: the claim that the check blocks vectorization is read off HotSpot's documented SuperWord restrictions, not off a disassembly of this tree, and 0.2's harness is where it gets settled.
 
 - The runtime-instantiation notes under `Papers/RuntimeInstantiation` are about when a generic function's type parameters may be instantiated at run time under the return-type rule, a soundness question; they are not an optimization plan. Boxing and unspecialized generics were not on the 2012 team's worklist at all.
 
