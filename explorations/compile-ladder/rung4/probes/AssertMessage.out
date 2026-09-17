@@ -1,0 +1,11 @@
+FAIL:  3 =/= 4; n is not 4
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  3 =/= 4; n is not 4
+	at fortress.CompilerLibrary.fail(/home/user/fortress/Library/CompilerLibrary.fss:75)
+	at fortress.CompilerLibrary.assert(/home/user/fortress/Library/CompilerLibrary.fss:104)
+	at AssertMessage.run(/home/user/fortress/explorations/compile-ladder/rung4/probes/AssertMessage.fss:11)
+	at AssertMessage.compute(/home/user/fortress/explorations/compile-ladder/rung4/probes/AssertMessage.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)

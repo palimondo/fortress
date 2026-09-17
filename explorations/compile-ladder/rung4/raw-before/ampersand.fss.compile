@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/ampersand.fss:19:3-20:1:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+File ampersand.fss has 1 error.

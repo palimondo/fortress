@@ -1,0 +1,16 @@
+component VarArgCoerce
+export Executable
+
+(*) Probe: does a vararg parameter typecheck against a call whose earlier
+(*) arguments need a coercion?  The rung declares no assert(x, y, failMsg: ...)
+(*) because of this.
+
+chk(x: ZZ32, y: ZZ32, failMsg: String...): () = println("chk")
+
+run(): () = do
+    n: ZZ32 = 3
+    chk(n, 3, "a ", "b")
+    println("PASS")
+end
+
+end

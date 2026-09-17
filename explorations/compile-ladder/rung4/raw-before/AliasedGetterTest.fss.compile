@@ -1,0 +1,13 @@
+/home/user/fortress/ProjectFortress/tests/AliasedGetterTest.fss:23:5-32:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/AliasedGetterTest.fss:24:5-25:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/AliasedGetterTest.fss:25:5-32:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral).
+File AliasedGetterTest.fss has 3 errors.

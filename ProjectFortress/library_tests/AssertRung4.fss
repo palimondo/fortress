@@ -1,0 +1,80 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component AssertRung4
+export Executable
+
+(*) Rung 4 of the compile-path ladder: the comparing forms of assert and deny.
+(*) The interpreter declares assert(x:Any, y:Any, failMsg:Any...) and the
+(*) matching deny at Library/FortressLibrary.fsi:234 and :236 (implementation
+(*) Library/FortressLibrary.fss:296 and :306).  The compiler world declares
+(*) only assert(Boolean) and assert(Boolean, String) at
+(*) Library/CompilerLibrary.fsi:35-36; the comparing form sits commented out at
+(*) Library/CompilerLibrary.fss:89-95, so every compilation that writes
+(*) assert(x, y) or assert(x, y, msg) stops at typecheck with
+(*) "Could not check call to function assert".
+(*)
+(*) The shapes exercised here are the shapes the blocked programs call, read
+(*) off explorations/compile-ladder/raw/tests/: (ZZ32, ZZ32) with an IntLiteral
+(*) on either side, (ZZ32, ZZ32, String), (String, String),
+(*) (String, String, String) and (Character, Character, String), plus deny at
+(*) the same shapes that need the negative direction.
+(*)
+(*) The vararg form assert(x, y, failMsg: Any...) is deliberately not exercised
+(*) and not declared: a vararg parameter does not typecheck against a call whose
+(*) arguments need a coercion, so the four programs that write
+(*) assert(3, o.foo(), "msg ", o.foo(), " instead of 3.") stay blocked and are
+(*) a later rung.
+(*)
+(*) Both directions are pinned.  Every assert here is given equal arguments and
+(*) every deny unequal ones, so a run that prints PASS shows the comparison was
+(*) made and came out right; the values are freshly computed rather than
+(*) written twice, so an identity comparison on boxed values would not pass.
+
+(*) The Character arguments go through a named String rather than through
+(*) twice("ab")[1] directly: a subscript written straight after a function call
+(*) is read as an enclosing operator by the compiler world's parser and the
+(*) whole file stops with "Item at this location must be an expression, not an
+(*) operator."  That is a separate defect and not this rung's name.
+
+bump(n: ZZ32): ZZ32 = n + 1
+
+twice(s: String): String = s || s
+
+run(): () = do
+    four: ZZ32 = bump(3)
+    abab: String = twice("ab")
+    second: Character = abab[1]
+
+    (*) assert(ZZ32, ZZ32), with the literal coerced on either side
+    assert(four, 4)
+    assert(4, four)
+    assert(bump(4), bump(4))
+
+    (*) assert(ZZ32, ZZ32, String)
+    assert(four, 4, "bump(3) is not 4")
+
+    (*) assert(String, String) and assert(String, String, String)
+    assert(abab, "abab")
+    assert(abab, "abab", "twice(ab) is not abab")
+
+    (*) assert(Character, Character, String)
+    assert(second, 'b', "the second character of abab is not b")
+
+    (*) deny at the shapes that need the negative direction
+    deny(four, 5, "4 must not be 5")
+    deny(abab, "ab", "abab must not be ab")
+    deny(second, 'a', "the second character of abab must not be a")
+
+    println("PASS")
+end
+
+end

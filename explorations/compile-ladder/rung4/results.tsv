@@ -1,0 +1,24 @@
+tests/AliasedGetterTest.fss	AliasedGetterTest	0	0
+tests/ConditionalOpTruncation.fss	ConditionalOpTruncation	1	
+tests/Exception.fss	Exception	255	
+tests/ImportNonparamObject.fss	ImportNonparamObject	0	1
+tests/ObjectFieldShadowing.fss	ObjectFieldShadowing	0	0
+tests/TupleBinding2.fss	TupleBinding2	1	
+tests/Variable.VarWTypes.fss	Variable.VarWTypes	1	
+tests/ampersand.fss	ampersand	0	1
+tests/emptySubscripting.fss	emptySubscripting	0	0
+tests/fib.fss	fib	0	0
+tests/infixBars.fss	infixBars	0	0
+tests/objectCC.fss	objectCC	1	
+tests/objectCC_immutable.fss	objectCC_immutable	1	
+tests/objectCC_label.fss	objectCC_label	1	
+tests/objectCC_multi_objExpr_mutVar1.fss	objectCC_multi_objExpr_mutVar1	255	
+tests/objectCC_multi_objExpr_mutVar2.fss	objectCC_multi_objExpr_mutVar2	255	
+tests/objectCC_mutVar1.fss	objectCC_mutVar1	255	
+tests/objectCC_mutVar2.fss	objectCC_mutVar2	255	
+tests/objectCC_mutable.fss	objectCC_mutable	1	
+tests/operatorSynonym.fss	operatorSynonym	0	0
+tests/postfixTest.fss	postfixTest	0	0
+tests/testCharLiteral.fss	testCharLiteral	0	0
+tests/testRecImport.fss	testRecImport	255	
+tests/testTest1.fss	testTest1	255	

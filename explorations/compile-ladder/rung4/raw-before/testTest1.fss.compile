@@ -1,0 +1,9 @@
+/home/user/fortress/ProjectFortress/tests/testTest1.fss:27:3-37:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+/home/user/fortress/ProjectFortress/tests/testTest1.fss:28:3-38:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, IntLiteral, String).
+File testTest1.fss has 2 errors.

@@ -87,26 +87,59 @@ assert(flag: Boolean, failMsg: String): () =
         fail(failMsg)
     end
 
-(*
-assert(x: Any, y: Any, failMsg: Any...): () =
+(*) The comparing forms of assert.  The interpreter's library writes one
+(*) generic assert(x: Any, y: Any, failMsg: Any...); that form cannot be used
+(*) here, because opr === on Any is reference identity in the compiler world
+(*) and an Any parameter suppresses the IntLiteral coercion that a call such as
+(*) assert(n, 4) needs.  The messages are built with || rather than with
+(*) juxtaposition, which inserts a space on the compiled path.
+
+assert(x: ZZ32, y: ZZ32): () =
     if x =/= y then
-        msg = x.asDebugString " =/= " y.asDebugString "; " (BIG || failMsg)  (* use || here instead of loose juxt *)
-        fail(msg)
+        fail(debugString(x) || " =/= " || debugString(y))
     end
-*)
+
+assert(x: ZZ32, y: ZZ32, failMsg: String): () =
+    if x =/= y then
+        fail(debugString(x) || " =/= " || debugString(y) || "; " || failMsg)
+    end
+
+assert(x: String, y: String): () =
+    if x =/= y then
+        fail(debugString(x) || " =/= " || debugString(y))
+    end
+
+assert(x: String, y: String, failMsg: String): () =
+    if x =/= y then
+        fail(debugString(x) || " =/= " || debugString(y) || "; " || failMsg)
+    end
+
+assert(x: Character, y: Character, failMsg: String): () =
+    if x =/= y then
+        fail(debugString(x) || " =/= " || debugString(y) || "; " || failMsg)
+    end
 
 
 deny(flag: Boolean): () = assert(NOT flag)
 
 deny(flag: Boolean, failMsg: String): () = assert(NOT flag, failMsg)
 
-(*
-deny(x: Any, y: Any, failMsg: Any...): () =
+(*) The comparing forms of deny, at the shapes the corpus calls.
+
+deny(x: ZZ32, y: ZZ32, failMsg: String): () =
     if x = y then
-        msg = x.asDebugString " = " y.asDebugString "; " (BIG || failMsg)
-        fail(msg)
+        fail(debugString(x) || " = " || debugString(y) || "; " || failMsg)
     end
-*)
+
+deny(x: String, y: String, failMsg: String): () =
+    if x = y then
+        fail(debugString(x) || " = " || debugString(y) || "; " || failMsg)
+    end
+
+deny(x: Character, y: Character, failMsg: String): () =
+    if x = y then
+        fail(debugString(x) || " = " || debugString(y) || "; " || failMsg)
+    end
 
 debugString(x: Any): String = "<function or long tuple>"
 debugString(x: Object): String = x.asString

@@ -1,0 +1,9 @@
+/home/user/fortress/ProjectFortress/tests/testCharLiteral.fss:20:5-40:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (Character, Character, String).
+    - Boolean->() is not applicable to an argument of type (Character, Character, String).
+/home/user/fortress/ProjectFortress/tests/testCharLiteral.fss:21:5-39:
+    Could not check call to function deny
+    - (Boolean, String)->() is not applicable to an argument of type (Character, Character, String).
+    - Boolean->() is not applicable to an argument of type (Character, Character, String).
+File testCharLiteral.fss has 2 errors.

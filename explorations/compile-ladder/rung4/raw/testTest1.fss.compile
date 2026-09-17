@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/testTest1.fss:12:11-19:
+    Component testTest1 exports API Executable
+    but does not define all declarations in Executable.
+    Missing declarations: {run():() at /home/user/fortress/Library/Executable.fsi:16:3-17:1}
+File testTest1.fss has 1 error.

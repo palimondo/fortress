@@ -1,0 +1,14 @@
+component AssertMessage
+export Executable
+
+(*) Probe: what does a failing comparing assert print?  The compiler world has
+(*) no x.asDebugString, so the bodies render both values with the component's
+(*) own debugString; this checks that debugString(ZZ32) is the value and not
+(*) the "<function or long tuple>" fallback.
+
+run(): () = do
+    n: ZZ32 = 3
+    assert(n, 4, "n is not 4")
+end
+
+end

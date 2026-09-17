@@ -34,8 +34,28 @@ fail(s: String): Zilch
 
 assert(flag: Boolean): ()
 assert(flag: Boolean, failMsg: String): ()
+
+(** These versions of %assert% compare their first two arguments and fail when
+    the two are unequal, reporting both values and, where it is given, the
+    failure message.  They are declared at the types the compiler world has
+    equality on rather than at %Any%: the generic form of the interpreter's
+    library cannot be written here, because %opr ===% on %Any% is reference
+    identity and an %Any% parameter suppresses the coercion from %IntLiteral%
+    that a call such as %assert(n, 4)% needs. *)
+assert(x: ZZ32, y: ZZ32): ()
+assert(x: ZZ32, y: ZZ32, failMsg: String): ()
+assert(x: String, y: String): ()
+assert(x: String, y: String, failMsg: String): ()
+assert(x: Character, y: Character, failMsg: String): ()
+
 deny(flag: Boolean): ()
 deny(flag: Boolean, failMsg: String): ()
+
+(** These versions of %deny% compare their first two arguments and fail when
+    the two are equal. *)
+deny(x: ZZ32, y: ZZ32, failMsg: String): ()
+deny(x: String, y: String, failMsg: String): ()
+deny(x: Character, y: Character, failMsg: String): ()
 
 debugString(x: Any): String
 

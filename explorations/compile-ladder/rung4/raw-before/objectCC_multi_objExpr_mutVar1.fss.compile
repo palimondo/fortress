@@ -1,0 +1,45 @@
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:44:5-79:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:49:5-67:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:50:5-79:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:52:5-67:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:53:5-79:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:58:5-67:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:59:5-79:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:61:5-67:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:62:5-79:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:65:5-66:37:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC_multi_objExpr_mutVar1.fss:69:5-70:37:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, ZZ32, String, ZZ32, String).
+File objectCC_multi_objExpr_mutVar1.fss has 11 errors.

@@ -1,0 +1,4 @@
+/home/user/fortress/explorations/compile-ladder/rung4/probes/VarArgCoerce.fss:12:5-23:
+    Could not check call to function chk
+    - (ZZ32, ZZ32, (String...))->() is not applicable to an argument of type (ZZ32, IntLiteral, String, String).
+File VarArgCoerce.fss has 1 error.

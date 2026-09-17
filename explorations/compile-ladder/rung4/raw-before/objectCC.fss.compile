@@ -1,0 +1,17 @@
+/home/user/fortress/ProjectFortress/tests/objectCC.fss:42:5-42:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC.fss:43:5-46:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC.fss:48:5-55:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+/home/user/fortress/ProjectFortress/tests/objectCC.fss:49:5-46:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32, String).
+File objectCC.fss has 4 errors.

@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/Exception.fss:125:14-131:2:
+    Function body has type OR((),ZZ32), but declared return type is ().
+File Exception.fss has 1 error.

@@ -1,0 +1,17 @@
+/home/user/fortress/ProjectFortress/tests/operatorSynonym.fss:18:3-21:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/operatorSynonym.fss:19:3-21:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ32, ZZ32).
+    - Boolean->() is not applicable to an argument of type (ZZ32, ZZ32).
+/home/user/fortress/ProjectFortress/tests/operatorSynonym.fss:20:3-23:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/operatorSynonym.fss:21:3-29:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+    - Boolean->() is not applicable to an argument of type (IntLiteral, IntLiteral).
+File operatorSynonym.fss has 4 errors.
