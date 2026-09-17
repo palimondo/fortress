@@ -37,8 +37,10 @@ Before section 9's estimate is trusted, the cap should be measured directly: a t
         rung A  rung B       rung C  rung D    own worktree, seeded by COPY:
           │      │             │      │        failing test first and OBSERVED
           │      │             │      │        failing, then the edit, rebuild,
-          │      │             │      │        its test green, its ladder subset.
-          └──────┴──────┬──────┴──────┘        Record lines go to a fragment file.
+          │      │             │      │        its test green, its ladder subset,
+          │      │             │      │        and a grep of both corpora for a
+          │      │             │      │        competing declaration of each name
+          └──────┴──────┬──────┴──────┘        it adds. Record lines to a fragment.
                         │ scatter, two at a time
           ┌──────┬──────┴──────┬──────┐
           ▼      ▼             ▼      ▼
@@ -53,6 +55,7 @@ Before section 9's estimate is trusted, the cap should be measured directly: a t
                         ▼
               MERGED-DIFF REVIEW (1 agent)
               re-checks rules 1-2 against the real hunks
+              AND reviews the folded record as a whole
                         ▼
               ONE FULL GATE   ◄── the only 582 s in the batch
                         ▼
@@ -98,13 +101,21 @@ So a rung worker does not edit those three files. It writes its lines to `explor
 
 The requirement is unchanged — every rung still lands with its record in its own commit. Only the moment of writing moves.
 
+Moving them opens one gap that the gate never covered and the rung's skeptic now cannot: five of the 26 items the climb's skeptics raised were about the record *after* folding — where a line belongs, that rows are never renumbered, that the ledger's own totals were left stale, a stale `PLAN.md`, the handover's consistency across rungs (`batched-climb-review.md`). A rung's skeptic cannot see those files any more, so the merged-diff reviewer is briefed to review the folded record as a whole, not only the source hunks.
+
+A second defect of the current loop, which the batch does not cause and should not inherit: two corrections a skeptic named *inside an approval* were never made — `FACTS.md:84` and `rung3/REPORT.md:51` still read "48 suites" against the skeptic's own count of 47, and `rung7:verify`'s requested ledger sentence about a second literal-wrap mechanism was never written. An approval carrying required corrections must name them as a checklist the commit stage is required to close, the way the `<short hash>` placeholders were closed by follow-up commits.
+
 ## 7. Validity, and what it costs
 
 Every rung still writes its test first, and this design makes the discipline checkable rather than assumed: the worker runs the new test **before** the edit exists, records the failure output in its report, then makes the edit, then records the pass. A rung whose report has no recorded failure is refused. This is the part of Pavol's order of 2026-09-17 that is load-bearing (`POSITIONS.md`), together with the rule that the check is permanent: a one-off proof that leaves nothing in the corpus is not an acceptable result.
 
 Whether the suite runs per edit or per landed batch is an engineering choice and per batch is in line with that order, confirmed by Pavol on 2026-09-17.
 
-Two checks that the first draft lost, and how they come back. Today's skeptic judges a tree that has been gated, because the gate is one of its checks; in the batch it judges an ungated rung, so it is approving on the rung's own recorded failure, test and subset alone. And nobody in the first draft ever read the merged diff. The merged-diff reviewer in section 3 restores the second, and the first is the deliberate trade: the gate moves from before the skeptic to after it, and a rung that passes its own test but breaks the suite is caught by the batch gate rather than by its own.
+The skeptic's judgement is unchanged by the batch, and this was measured rather than argued (`batched-climb-review.md`, "What the skeptics actually caught"). Across nine skeptic runs there was one refusal and 26 further named items, and **not one of them was load-bearing on a suite failure** — because the suite never failed: 25 gate runs, zero failures, no `BUILD FAILED` and no `Tests expected to pass are failing!` in any of the 36 transcripts. The one refusal, `rung6:verify`, said in terms that all five of its checks held and refused anyway, on a probe it wrote itself and on what the record did not say. What the skeptics actually stand on is the diff and source reads (8 items), the record (7), probes they invent themselves (4, and these were the climb's highest-value findings), the ladder subset (4) and the rung's report (2). The suite result appears once, as a check on the shape of the output rather than on a failure. So the gate is not a check the skeptic uses; it is one it happened to hold. Moving it later moves a check, not a judgement.
+
+One class of catch did depend on running everything, and it belonged to the *implementer*, not the skeptic: rung 1's first attempt found that `library_tests/MaybeTest9.fss` declares its own `trait Equality`, which only a full run reveals. One occurrence in nine attempts. It is covered without a gate by a step two skeptics invented on their own: grep both corpora for a competing declaration of every name the rung adds. That becomes a required step of the rung worker in section 3 and a required check of its skeptic, and it costs seconds rather than 582.
+
+What the first draft genuinely lost is that nobody read the merged diff, and the merged-diff reviewer in section 3 restores it.
 
 The gate still runs on exactly the tree that is committed, and it now also exercises the k rungs together, an interaction the per-rung loop never tested.
 

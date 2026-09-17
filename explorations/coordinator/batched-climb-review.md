@@ -189,3 +189,93 @@ The conditions: k is set by the harness cap, not by `nproc`, and that cap must b
 With those, the design does what it says and the wall falls by something under half of what section 9 claims.
 
 The one item that is not mine to fix is the fork in finding 6: per-edit suite-green is on record as Pavol's accepted order and the batch moves it to per-batch. That is his call, and section 8 currently states it as unchanged rather than putting it to him.
+
+<!-- Appended 2026-09-17 on the coordinating session's follow-up, after Pavol pushed back on finding 4: his argument is that the batch's skeptic is not weakened but split, because the skeptic's judgement was always about the rung's own change and the suite was merely a run it happened to have in hand. He asked for evidence rather than argument. What follows is the first climb's nine skeptic runs read out of the workflow transcripts, case by case, classified by the evidence each objection actually rested on. Same constraints: nothing committed, no plan or source edited, no gate run. -->
+
+# What the skeptics actually caught, 2026-09-17
+
+## Sources for this section
+
+The workflow transcripts at `/root/.claude/projects/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/subagents/workflows/wf_73833dfb-d25/`: `journal.jsonl` carries each agent's returned verdict object verbatim, and the 36 `agent-<id>.jsonl` files carry every tool result. The other side of the record is the eight rung commits and `explorations/compile-ladder/rung<N>/REPORT.md`.
+
+Nine skeptic runs exist: `rung1:verify` through `rung8:verify`, plus `rung6:verify2` after the one repair. Eight approved, one refused.
+
+## 1. The refusals, and what they rested on
+
+**One refusal in nine runs: `rung6:verify`.** Its own opening sentence is the load-bearing evidence for this whole section: "All five checks hold on the evidence, and I verified each myself rather than reading the worker's artifacts", followed by "I refuse the commit as it stands anyway, over what the record says and does not say". Check 3, the gate, is recorded in that same verdict as 47 `Tests run:` lines summing 1,389 and four system shards summing 382, every line `Failures: 0, Errors: 0`. The refusal is made with a green suite in hand and against it.
+
+Its three grounds, with the evidence each used:
+
+R1, the substantive one: giving `IntLiteral`'s comparisons bodies turns a loud `CompilerFailureDetectedAtRunTime` into a silent wrong answer for a literal of bitLength exactly 64, because `CodeGen.forIntLiteralExpr` has already wrapped the value negative. Evidence: **a probe the skeptic wrote and ran itself**, `a = 18446744073709551615; b = 5; println (a < b)`, `false` under `walk` and `true` compiled, plus the absence of that fact from the ledger, FACTS, the handover and the rung's report. Load-bearing: the probe.
+
+R2: the rung's report justifies `asZZ64` as "the widest integer getter ... that has a full comparison family under it (`.fsi:379-384`)", and the tree contradicts both halves — `CompilerBuiltin.fsi:374` declares `abstract getter asZZ(): ZZ`, the cited lines are operator declarations, and `trait ZZ` carries the whole comparison family. Evidence: **reading the source against the report's claim**. Load-bearing: the source read.
+
+R3: the handover says "the other four wait on the arithmetic family"; `XXXcaseTest` does not, and the report and the FACTS line say so correctly, so three records of one run disagree. Evidence: **the record**, corroborated by the ladder subset.
+
+None of the three rests on the suite. Two rest on artifacts the batch's skeptic still holds — the diff, the source, the report — and one on a probe the skeptic can write in its own worktree with no gate anywhere near it.
+
+**The repair acted on all three**, and `rung6:verify2` confirms each by re-running it: ledger row 317 was added, the `asZZ64` justification was rewritten as open and unmeasured, and the handover sentence was corrected.
+
+## 2. Near misses: what the approvals named anyway
+
+The nine runs name **26 items** beyond the bare approval. Classified by the evidence that is load-bearing for each: the diff or a source read **8**, the record (ledger, FACTS, handover, `PLAN.md`) **7**, a probe the skeptic wrote itself **4**, the ladder subset **4**, the rung's own report **2**, the full suite result **1**.
+
+The four probe-driven ones are the highest-value findings the skeptics produced, and all four are compiled-against-interpreter differentials the skeptic invented: `rung4:verify` (d) re-ran `probes/AssertMessage.fss` to prove the new comparing `assert` bodies genuinely compare rather than being no-ops the positive-only test could not distinguish; `rung6:verify` R1 and `rung6:verify2` [1] are the bitLength-64 wrap; `rung7:verify` [1] is a **wider, previously unrecorded divergence of the same shape**, found by probing `a = 2147483647; b = 2; println (a b)` and `println (a + a)`, which print `4294967294` compiled and `-2` under `walk`, a different mechanism from row 317 because nothing is wrapped by the code generator at bitLength 31.
+
+The seven record-driven ones are `rung1:verify` [1] and [2], `rung3:verify`'s placeholder item, `rung6:verify` R3, and `rung6:verify2` [3] [4] [5]. Five of them are about the *shared* files as a whole — a `fixed <short hash>` placeholder, a stale `PLAN.md` claim, ledger totals still reading "total rows 309" seven rows later, a handover paragraph that says "not yet committed" in five places. They are not about the rung's own lines; they are about the state of the record after the rung is folded into it.
+
+The one suite-driven item is `rung3:verify`'s required correction: the rung's own FACTS line and report claim "`ant testFast` (48 suites)" where the skeptic's own run counted 47. It is a catch about the *shape* of the suite result, not about a failure.
+
+`rung1:verify` used the suite result one more way, in a check that passed rather than a named item: it confirmed no suite had shrunk against the last committed baseline — `CompilerJUTest` 642 = 642, `OtherCompilerJUTest` 263 = 263, `SystemJUTest` 382 = 382, `LibraryJUTest` 55 → 57, the +2 being the new test — so that nothing had been silently dropped.
+
+**Two of the skeptics' named corrections never reached the commit.** `FACTS.md:84` still reads "48 suites" and the committed `rung3/REPORT.md:51` still reads "48 `Tests run:` lines"; and `rung7:verify`'s requested sentence on the `4294967294` divergence was never written — `grep -c 4294967294` over the ledger and `FACTS.md` returns 0 in both. By contrast the `<short hash>` placeholders were all closed, by five follow-up commits (`8bb4ab0de`, `9b1da0a07`, `386053b3d`, `b45ac2982`, `0be58b257`). So an approval that names a required correction is not a reliable instrument today, which is a defect of the current loop and not of the batch.
+
+## 3. Did the suite ever go red?
+
+**No. Not once, at any stage, in any rung of the climb.**
+
+Scanned every tool result in all 36 agent transcripts for a standalone `BUILD FAILED` line and for `Tests expected to pass are failing!`, which is the message `testFast` raises on failure (`build.xml:993`): **0 and 0**. Every `BUILD FAILED` string that matches a loose grep is the literal text `LIBRARY BUILD FAILED on $f` inside the subset driver being printed to a terminal, never an ant failure.
+
+Every `Tests run: 2, Failures: 2` and `Failures: 1` in the transcripts is a rung's own new test failing **before** its edit — the test-first evidence the workers were told to capture.
+
+The gate ran 25 times during the climb — `ant testFast` 14, `ant testSystem` 11 (`iteration-cost.md` section B) — and produced zero failures on all 25.
+
+**The one time a red suite was load-bearing in this whole story, it was outside the climb and it was the implementer, not the skeptic, who held it.** The refused first attempt at rung 1, commit `b014ff80d`, records at `rung1/REPORT.md:81` of that revision: "`ant testFast` with both lines in place: 47 suites, **4 failures**, 0 errors" — three from `library_tests/MaybeTest9.fss` declaring its own `trait Equality` that now collides with the newly implicit `CompilerAlgebra.Equality`, and one from `compiler_tests/Compiled9.ai` on a checker defect. That red run is what produced the two facts; the climb's `rung1:implement` agent read that report and applied the resulting four edits with no red run of its own.
+
+So: in nine skeptic runs the deferred interaction check caught nothing, because there was nothing to catch; in one earlier rung attempt outside the climb, the same check caught a real cross-rung breakage. One occurrence in the nine rung attempts on record.
+
+## 4. Would the batch have caught the same things, at the same point?
+
+The 26 items and the one refusal, mapped onto the revised plan's stages.
+
+The diff, source-read, report and probe items — 14 of the 26, and all three of `rung6:verify`'s grounds — are caught by **the rung's own skeptic, at the same point**. Everything they use is inside one worktree: the diff, the sources, the recorded failure, the rung's report, and a probe the skeptic writes and runs itself. Nothing about them needs a gate to have run.
+
+The four ladder-subset items are caught by **the rung's own skeptic, at the same point**, and slightly better: in the batch a rung's "before" subset is taken at the common base rather than after the previous rung, so the comparison has one variable in it instead of two.
+
+The seven record items split. The two that are about the rung's own lines are caught by the rung's skeptic reading its fragment. The five that are about the shared files' state after folding — placement beside the previous rung's line, no renumbering, the ledger's own totals, a stale `PLAN.md`, the handover's cross-rung consistency — **cannot be caught by the rung's skeptic at all under section 6**, because the shared files are not in its worktree. They have to move to the merged-diff reviewer. The plan's section 3 diagram gives that agent one job, "re-checks rules 1-2 against the real hunks", and does not give it the record. **That is a gap: five of the 26 observed catches fall between the two stages as the plan is currently written.** The smallest fix is one clause — the merged-diff reviewer also checks the applied record fragments against the shared files, which is exactly the check `rung1:verify` and `rung6:verify2` were performing.
+
+The one suite-shape item, `rung3`'s 48 against 47, **disappears rather than moves**: the claim it corrects is a rung worker's claim about a gate it ran, and in the batch the rung worker runs no gate and makes no such claim.
+
+`rung1:verify`'s no-suite-shrank check **moves to the batch gate and is better there**, because it compares the merged tree against the last committed baseline, which is the comparison that matters, instead of comparing an intermediate tree.
+
+The MaybeTest9 class — a rung that breaks a test belonging to nobody in the batch — is the one case the batch genuinely handles worse, and it is worth stating exactly. In the serial loop the implementer's own gate went red and the implementer fixed the cause inside the rung. In the batch the rung worker runs no gate, its skeptic sees no gate, and the merged-diff reviewer would have to guess that some test declares a competing name; so **the batch gate catches it, red, with no attribution**, and the section 7 drop stage then drops rungs one at a time. In that case the batch pays a 582 s red gate plus up to k re-gates, and the dropped rung returns to the ranking unfixed rather than being repaired in place.
+
+That class is cheap to cover without a gate, and the skeptics were already covering it by hand. `rung5:verify`'s regression entry reads "None ... no file under Library/, ProjectFortress/LibraryBuiltin/, library_tests/, not_working_library_tests/, compiler_tests/ or other_compiler_tests/ declares `//` apart from the interpreter's own Library/FortressLibrary", and `rung2:verify` did the same: "no file under tests/, test_library/, compiler_tests/, other_compiler_tests/, library_tests/ or not_working_library_tests/ declares a `HasRank` of its own, so the MaybeTest9 collision of rung 1 has no path here". **A grep of the corpora for a competing declaration of every name the rung adds, made a required step of the rung worker and re-checked by its skeptic, covers the one class of catch that needed the suite, in seconds rather than in 582.** That is the smallest fix, and it is a practice two of the nine skeptics already invented.
+
+## 5. The judgement on the split-versus-weakening question
+
+On this evidence Pavol is right, and finding 4 of the review above overstated the loss.
+
+**No catch in the nine skeptic runs was load-bearing on a suite failure, because there was no suite failure in 25 gate runs.** Every objection any skeptic made — the one refusal and all 26 named items — rests on the diff, the source, the rung's report, the record, the ladder subset, or a probe the skeptic wrote itself. The refusing skeptic said so in terms: all five checks held, including the green gate, and it refused on what the record said and did not say.
+
+**The class of catch that genuinely needs the suite result in hand while judging one rung did not occur.** The nearest thing is `rung3`'s 47-against-48, which is a check on a claim about the gate rather than on the gate, and which the batch removes by removing the claim.
+
+So the suite result was, in nine runs, exactly what Pavol calls it: a run the skeptic happened to have in hand, used once for a count and once to prove no suite had shrunk, and never the ground of a judgement. The judgement was about the rung's own change every time.
+
+Two qualifications, both of which the plan should carry rather than the concession the plan makes now.
+
+First, "does this break anything else" was never the skeptic's judgement, but it was sometimes the **implementer's**, and that is where the real trade sits: the refused rung-1 attempt found MaybeTest9 and Compiled9 through its own red gate. One occurrence in nine rung attempts. The corpus grep above covers it; without the grep, the batch pays a red gate and a drop instead of an in-rung repair.
+
+Second, five of the 26 catches are about the shared record after folding, and under section 6 they have no owner. That is a gap introduced by moving the record files out of the rung worker, not by moving the gate, and it is fixed by one clause in the merged-diff reviewer's brief.
+
+With those two, section 7's sentence "the first is the deliberate trade" can be replaced by something the evidence supports: the skeptic's judgement is unchanged, because it never rested on the suite; what moves later is a check the skeptic held but did not use, and the one class of failure that check covered is covered more cheaply by a grep the skeptics were already running.
