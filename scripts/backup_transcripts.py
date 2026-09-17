@@ -26,6 +26,12 @@ JSONL already stubs oversized outputs with a path + 2KB preview
 ("<persisted-output>"), and the sidecar otherwise holds only cached page
 images of the redacted decks.
 
+A transcript larger than PART_LIMIT (64 MiB) is written as
+<session-id>.jsonl.parts/000.jsonl, 001.jsonl, ... cut at line boundaries;
+GitHub rejects any single blob over 100 MiB, which silently stopped every
+push from 2026-09-14 to 2026-09-17. Reassemble with
+`cat <session-id>.jsonl.parts/*.jsonl`.
+
 A possibly-incomplete final line (the session appends live) is dropped if it
 fails to parse AND has no trailing newline; the next snapshot picks it up.
 
@@ -46,6 +52,9 @@ REDACT_HANDOVER = ("[transcript-backup redaction: HANDOVER.md contents "
                    "({n} chars) - standing rule: HANDOVER.md stays "
                    "uncommitted. Set KEEP_HANDOVER=1 to retain.]")
 PDF_MARKER = "PDF pages extracted"
+# GitHub refuses any blob over 100 MiB, so a transcript past this size is
+# written as <name>.jsonl.parts/NNN.jsonl (see write_snapshot).
+PART_LIMIT = 64 * 1024 * 1024
 
 
 def iter_lines(path):
@@ -129,11 +138,50 @@ def process_file(src, dst, keep_handover):
                                     separators=(",", ":"))
                          if changed else raw)
     new = ("\n".join(out_lines) + "\n") if out_lines else ""
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    if dst.exists() and dst.read_text(encoding="utf-8") == new:
-        return False
-    dst.write_text(new, encoding="utf-8")
-    return True
+    return write_snapshot(dst, new.encode("utf-8"))
+
+
+def split_parts(data, limit):
+    """Cut bytes at newline boundaries into chunks of at most `limit` bytes.
+
+    Cut points depend only on the bytes before them, so as the transcript
+    grows by appends every part but the last is byte-identical to the previous
+    snapshot's and git stores it once."""
+    parts, start = [], 0
+    while len(data) - start > limit:
+        cut = data.rfind(b"\n", start, start + limit)
+        cut = start + limit if cut < start else cut + 1  # one giant line: hard cut
+        parts.append(data[start:cut])
+        start = cut
+    parts.append(data[start:])
+    return parts
+
+
+def write_snapshot(dst, data):
+    """Write `data` as `dst`, or as `dst.parts/NNN.jsonl` when it exceeds
+    PART_LIMIT. Returns True when anything on disk changed. Reassemble with
+    `cat <name>.jsonl.parts/*.jsonl`."""
+    parts_dir = dst.with_name(dst.name + ".parts")
+    if len(data) <= PART_LIMIT:
+        targets = {dst: data}
+    else:
+        targets = {parts_dir / f"{i:03d}.jsonl": chunk
+                   for i, chunk in enumerate(split_parts(data, PART_LIMIT))}
+    changed = False
+    for stale in ([dst] if len(data) > PART_LIMIT else []) + \
+            (sorted(parts_dir.glob("*.jsonl")) if parts_dir.is_dir() else []):
+        if stale not in targets and stale.exists():
+            stale.unlink()
+            changed = True
+    if parts_dir.is_dir() and not any(parts_dir.iterdir()):
+        parts_dir.rmdir()
+    for path, content in targets.items():
+        if path.exists() and path.read_bytes() == content:
+            continue
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(content)
+        changed = True
+    return changed
 
 
 def main():

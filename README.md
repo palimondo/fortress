@@ -9,6 +9,11 @@ merges into `main`; the large JSONL blobs live only in this branch's history.
 
 ```
 projects/<project-slug>/<session-id>.jsonl        main session transcript
+projects/<project-slug>/<session-id>.jsonl.parts/  the same, cut at line
+    000.jsonl, 001.jsonl, ...                     boundaries into 64 MiB parts
+                                                  once it outgrows GitHub's
+                                                  100 MiB blob limit;
+                                                  `cat *.parts/*.jsonl` rejoins
 projects/<project-slug>/<session-id>/subagents/   delegated-agent transcripts
     agent-<id>.jsonl                              each subagent's own transcript
     agent-<id>.meta.json                          prompt, timing, token counts
