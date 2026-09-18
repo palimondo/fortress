@@ -22,6 +22,21 @@ worktrees per `remote-container.md` § Setting up a batch's worktrees, then
 coordinator's: every divergence that lands unrepaired and every decision a judge took under
 a silent specification, from the returned `forPavol` fields.
 
+The launch, step by step, once Pavol says go (he approved the plan on 2026-09-18 evening
+and asked for a compaction first): (1) `git status` clean on `main`, `main` = `origin/main`
+= the container branch; `df -h` over 5 GB; no `/home/user/fortress-r1` or `-r2` and no
+`wip/` branch yet, local or remote. (2) The worktree recipe in `remote-container.md`, which
+also pushes the two empty `wip/` branches; `BASE` is `main`'s short hash at that moment.
+(3) `Workflow({scriptPath: '/home/user/fortress/explorations/coordinator/repair-batch-workflow.js',
+args: {base: BASE}})` — it returns at once with a run id and transcript dir under
+`~/.claude/projects/-home-user-fortress/<session>/subagents/workflows/<run>/`. (4) A
+`send_later` check-in every 30 minutes until the completion notice: each check-in is a
+turn, so the Stop hook snapshots the agents' transcripts; at each one, look at
+`git fetch origin 'refs/heads/wip/*'` and `git log origin/wip/…` for the milestones, and at
+the `journal.jsonl` in the run's transcript dir, and say nothing unless something is wrong.
+(5) On completion, the report to Pavol above; the workflow's own return value carries every
+stage's structured result. Do not resume a dead run from another session; relaunch.
+
 The work moved into the blinded run's container on 2026-09-18, which already had the
 checkout and toolchain. Branch `main`; the infrastructure's branch name for this container,
 `claude/worker-brief-fable-vnnuv8`, is pinned to the same commit. This session is
