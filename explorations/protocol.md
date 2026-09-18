@@ -110,8 +110,17 @@ but if one seems to conflict with something Pavol says, his words win.
 - Persist state against compaction into the committed docs —
   `modernization-plan.md`, `repo-internals.md`, `CLAUDE.md`, and this file —
   rather than relying on conversation memory.
-- Session transcripts are archived on the orphan `transcripts` branch via
-  `scripts/backup.sh`.
+- Session transcripts are archived on the orphan branches `transcripts` (the
+  coordinating sessions) and `transcripts-blinded` (the blinded runs' own
+  container) by a `Stop` hook running `scripts/backup.sh` from a worktree of
+  that branch. The hook fires on the main session's Stop, not on an agent's, so
+  a session inside one long turn is not being backed up; it also swallows every
+  error, so a failed push is silent.
+- **`explorations/coordinator/remote-container.md`** is the operating manual for
+  this: what is where, re-arming in a fresh container, reading another
+  session's transcript, the three traps that have cost us work, and the recovery
+  procedure for a session whose container died. Read it before relying on the
+  backup or recovering a lost session.
 
 ## 6. Engineering method
 
