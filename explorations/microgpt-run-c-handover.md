@@ -21,8 +21,10 @@ The work moved into the blinded run's container on 2026-09-18, which already had
 checkout and toolchain. Branch `main`; the infrastructure's branch name for this container,
 `claude/worker-brief-fable-vnnuv8`, is pinned to the same commit. This session is
 `fe616d40-…` and its transcripts go to `transcripts-blinded`. The dead session
-(`bdff267d-…`, branch `transcripts`) is materialised at `/home/user/fortress-transcripts`,
-complete to its last record 2026-09-17T20:31:14Z; nothing after that exists. The backup was
+(`bdff267d-…`, branch `transcripts`) is complete to its last record
+2026-09-17T20:31:14Z and nothing after that exists; it was materialised in this container
+at `/home/user/fortress-transcripts`, which is a local worktree, not a durable path —
+recreate it anywhere with `git worktree add /home/user/fortress-transcripts transcripts`. The backup was
 repaired first — workflow-agent transcripts were outside its globs. Detail, and the recovery
 procedure if it happens again: `coordinator/remote-container.md`.
 
