@@ -1,0 +1,8 @@
+component r2h
+export Executable
+(*) Repair R2: the same idiom at ZZ64, Library/CompilerLibrary.fss:571's form.
+run() = do
+    a: ZZ64 = 8000'0000'0000'0000_16
+    println("r2h ZZ64 8000'0000'0000'0000_16 " a.asString)
+end
+end

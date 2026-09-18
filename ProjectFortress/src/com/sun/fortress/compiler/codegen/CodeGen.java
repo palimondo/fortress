@@ -3859,9 +3859,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     public void forIntLiteralExpr(IntLiteralExpr x) {
         debug("forIntLiteral ", x);
         BigInteger bi = x.getIntVal();
-        // This might not work.
+        // bitLength() counts no sign bit, so l <= 31 is exactly the int range
+        // and l <= 63 exactly the long range, for both signs.
         int l = bi.bitLength();
-        if (l <= 32) {
+        if (l <= 31) {
             int y = bi.intValue();
             addLineNumberInfo(x);
             pushInteger(y);
@@ -3871,7 +3872,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                     NamingCzar.internalFortressIntLiteral, NamingCzar.make,
                     Naming.makeMethodDesc(NamingCzar.descInt,
                                               NamingCzar.descFortressIntLiteral));
-        } else if (l <= 64) {
+        } else if (l <= 63) {
             long yy = bi.longValue();
             addLineNumberInfo(x);
             mv.visitLdcInsn(yy);

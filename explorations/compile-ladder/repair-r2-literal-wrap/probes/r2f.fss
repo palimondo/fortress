@@ -1,0 +1,11 @@
+component r2f
+export Executable
+(*) Repair R2: a numeral of bit length exactly 64 at ZZ64, which is genuinely
+(*) out of ZZ64's range.  asZZ64 tests `largerVal = null` before narrowing, so
+(*) once the code generator stops wrapping the numeral into a long the check
+(*) sees the decimal string and raises the range error the value deserves.
+run() = do
+    z: ZZ64 = 18446744073709551615    (*) 2^64 - 1, out of range for ZZ64
+    println("r2f ZZ64 2^64-1 " z.asString)
+end
+end

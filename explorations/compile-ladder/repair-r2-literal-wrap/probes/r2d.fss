@@ -1,0 +1,12 @@
+component r2d
+export Executable
+(*) Repair R2, the second half of the wrap's reach: asNN32's range check was
+(*) `0 <= (smallerVal BITAND 0xFFFFFFFF) AND (smallerVal BITAND 0xFFFFFFFF) <=
+(*) 0xFFFFFFFF`, which is vacuous -- masking a long to its low 32 bits always
+(*) lands in that interval -- so a numeral far above NN32's range was truncated
+(*) to its low 32 bits and no diagnostic was raised.  2^32 at NN32 is 0.
+run() = do
+    n: NN32 = 4294967296              (*) 2^32, one above the largest NN32
+    println("r2d NN32 2^32 " n.asString)
+end
+end
