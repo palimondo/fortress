@@ -29,6 +29,8 @@
 - 2026-09-17, clarified by Pavol when the batched-climb design asked whether that sentence fixed the gate's frequency: it does not. What it fixes is test-driven discipline and the permanence of checks — the worker writes the test first, **verifies that it actually fails**, then makes the fix, then proves it passes, and the test stays in the corpus from then on. The unacceptable process it rules out is the one-off validation script: proving once, by hand, that the interpreter and the compiler agree on a program and then going ahead without leaving a permanent check in the gate. Whether the suite is run per edit or per landed batch is an engineering choice, and per-batch is in line with the rule.
 - Estimates in days or weeks are not accepted; sizes are given in the units the project has measured (a rung, a worker session, a check run).
 
+- 2026-09-18, after the coordinating session's container died: the work continues in the blinded run's container, on `main`, with the infrastructure's branch name pinned to it. Transcripts stay on `transcripts-blinded` — "Why would I force it to switch to transcripts? I think it would just unnecessarily complicate the matters" — and the two lineages are joined at analysis time. The backup is repaired before anything else runs. The repair batch is re-run from the start, since recovering the dead run's agent state is not available. The recovery procedure is documented as a lesson about Claude Code in a remote container, kept with the backup documentation, not in the gap ledger.
+
 ## How he wants to be spoken to
 
 - 2026-09-15: "Drop the smart Alec essayist register before I blow a fuse": plain sentences, no framing flourishes, no closing lines that sum up in a phrase; advice as instructions, not as observations.
