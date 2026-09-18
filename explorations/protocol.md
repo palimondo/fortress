@@ -61,7 +61,10 @@ but if one seems to conflict with something Pavol says, his words win.
 
 - Work branch: `claude/handover-reading-vn8zgr`. Never push to a different
   branch without explicit permission (the `transcripts` orphan branch and
-  the `main` fast-forward below are the two standing exceptions).
+  the `main` fast-forward below are the two standing exceptions; a third,
+  2026-09-18 **(P)**: agents of a Workflow batch commit and push to their own
+  `wip/<slug>` branch as they work, so a dead container loses nothing —
+  "perfectly reasonable. I'm giving you my explicit yes").
 - **(P)** Standing order — fast-forward `main` after every working-branch
   push: `git push origin claude/handover-reading-vn8zgr:main`. Established
   2026-08-19 ("If green, fast-forward main and proceed to JDK 11") for

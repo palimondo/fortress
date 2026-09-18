@@ -48,6 +48,8 @@ Two repairs are owed. Everything else the review found is a record defect, a pro
 
 **Shadow first**, per `PLAN.md`: both edits are in Java, so `perf-probes/template-check/run-all.sh` is the recipe.
 
+**The first launch died with its container** on 2026-09-17, mid-scatter, with every worktree dirty and uncommitted; the four agents' work was lost (`remote-container.md` § The 2026-09-17 incident). The re-run of 2026-09-18 is `coordinator/repair-batch-workflow.js`, whole: workers commit and push to `wip/repair-r1-atomic-static` and `wip/repair-r2-literal-wrap` as they go; a judge on the session's model is escalated only on a refusal, a stop or a red gate; gather, review, gate and commit are stages of the script. The design is in `batched-climb-plan.md` § 3, "Revised 2026-09-18". Launch: the two worktrees created from the commit `main` is at (recipe in `remote-container.md`), then `Workflow({scriptPath: 'explorations/coordinator/repair-batch-workflow.js', args: {base: '<that commit>'}})`, on Pavol's word.
+
 ## What the briefs must carry that the last climb's did not
 
 This is the systemic fix Pavol asked for, and it is the reason the review found what it found.

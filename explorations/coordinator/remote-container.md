@@ -81,6 +81,39 @@ megabytes per commit: 21.3 GiB of loose objects by 2026-09-17, which packed down
 to 609 MB. `backup.sh` now ends with `git -c gc.auto=1000 gc --auto`. Unrelated
 but same symptom: the Rats! temp directories in `FACTS.md` § The container.
 
+**Worktree state that is never committed.** The first repair batch forbade its
+workers to commit, so that the gather could compose one clean commit per rung;
+when the container died every worktree was dirty and four agents' work went
+with it. The transcript backup does not cover this: it copies JSONL, not trees,
+and it fires only at the main session's Stop. The fix is in the workflow design
+(`batched-climb-plan.md` §3, revised 2026-09-18): each worker's worktree is on
+its own `wip/<slug>` branch, pushed at every milestone, and the gather composes
+from the branch's net change instead of the dirty tree. Two rules follow for
+any long run: nothing that takes hours lives only on disk, and the coordinator
+takes a turn every half hour or so (`send_later`) so that the Stop hook fires
+and the agents' transcripts are snapshotted while they run.
+
+## Setting up a batch's worktrees
+
+The workflow script cannot touch the filesystem before its first agent runs, so
+the coordinator creates the worktrees and pushes the empty branches first, from
+the commit `main` is at, which is then the script's `args.base`:
+
+```sh
+cd /home/user/fortress && BASE=$(git rev-parse --short HEAD)
+for r in r1-atomic-static r2-literal-wrap; do
+  git worktree add -b wip/repair-$r /home/user/fortress-${r%%-*} main
+  cp -a ProjectFortress/build /home/user/fortress-${r%%-*}/ProjectFortress/   # javac incremental; scalac rebuilds anyway
+  mkdir -p /home/user/fortress-${r%%-*}/tmp
+  git push -u origin wip/repair-$r
+done
+```
+
+Copy the build, never symlink it: a symlinked build makes `ProjectProperties`
+resolve every cache path to the main tree (`batched-climb-plan.md` §4). After
+the batch lands, the commit stage removes the worktrees and local branches; the
+remote `wip/` branches are deleted in the GitHub UI.
+
 ## The branch trap
 
 The infrastructure clones the branch the session was created from. If work

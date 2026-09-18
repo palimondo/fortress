@@ -1,21 +1,37 @@
-// Recovered verbatim on 2026-09-18 from the Workflow tool_use record of
-// 2026-09-17T19:26:42Z in the dead coordinating session's transcript
-// (`transcripts` branch, session bdff267d-..., part 001.jsonl): the script that
-// launched `fortress-repair-batch`, the run that died with its container.
+// The repair batch, whole: explorations/coordinator/REPAIR-BATCH.md is the
+// standard, batched-climb-plan.md the design. The scatter (rung -> skeptic ->
+// repair -> skeptic2 per rung) is the script recovered on 2026-09-18 from the
+// dead coordinating session's transcript (session bdff267d-..., launched
+// 2026-09-17T19:26:42Z, died with its container); the four stages below the
+// scatter (gather, review, gate, commit) were written in on 2026-09-18, since
+// a run cannot be resumed from another session. Three things changed at the
+// same time, each on Pavol's word that day: workers commit and push to their
+// own wip/ branch as they go, so a dead container loses nothing; a judge is
+// escalated to the session's model (Fable when the credits allow) only when a
+// skeptic refuses, a worker stops, or the gate is red; every other agent is
+// pinned to Opus.
 //
-// INCOMPLETE BY DESIGN AS LAUNCHED. It ends at the scatter: per rung it runs
-// rung -> skeptic -> repair -> skeptic2 and returns. The four stages that were
-// to follow (gather, gate, commit, ledger) were to be added by resuming the run
-// from its run ID, which cannot be done from another session. Write them into
-// this file before launching it again. Standard: explorations/coordinator/REPAIR-BATCH.md.
+// Launch: Workflow({scriptPath, args: {base: '<commit main is at>'}}). The
+// worktrees must exist before launch (remote-container.md, "Setting up a batch's worktrees").
 export const meta = {
   name: 'fortress-repair-batch',
-  description: 'Two Fortress repair rungs in isolated worktrees, each judged by its own skeptic before the merge',
+  description: 'Two Fortress repair rungs in isolated worktrees, each judged by its own skeptic, gathered, reviewed, gated once and pushed',
   phases: [
-    { title: 'Rung', detail: 'test-first repair in an isolated worktree; never runs the full gate' },
+    { title: 'Rung', detail: 'test-first repair in an isolated worktree, committed and pushed to wip/ as it goes; never runs the full gate' },
     { title: 'Skeptic', detail: 'independent judgement with its own walk-vs-compiled differential; one repair round allowed' },
+    { title: 'Judge', detail: 'the session model, only on a refusal, a stop or a red gate: reads the two reports and the diff, decides, writes the decision' },
+    { title: 'Gather', detail: 'net change of each approved branch applied to main, record folded, one local commit per rung' },
+    { title: 'Review', detail: 'the merged diff against the batch rules and the folded record as a whole' },
+    { title: 'Gate', detail: 'ant compileAll, the library-order rebuild, testFast and testSystem, once, in the main tree' },
+    { title: 'Commit', detail: 'hashes into the ledger notes, push main, fast-forward the container branch, remove the worktrees' },
   ],
 }
+
+const OPUS = 'opus'   // every worker, skeptic, gather, review and gate agent; the judge inherits the session's model
+const BASE = args && args.base
+if (!BASE) throw new Error('args.base is required: the commit both wip/ branches were cut from')
+const CONTAINER_BRANCH = 'claude/worker-brief-fable-vnnuv8'   // this container's infrastructure branch; kept at main
+const MAIN = '/home/user/fortress'
 
 // ---------------------------------------------------------------------------
 // The shared prefix. batched-climb-plan.md section 8: every agent in a batch
@@ -32,10 +48,10 @@ const PREFIX = [
 '',
 'Two rungs, run in parallel in separate worktrees, gated once together after the merge:',
 '',
-'- R1, slug repair-r1-atomic-static, worktree /home/user/fortress-r1, branch repair/r1-atomic-static: a top-level mutable variable compiled by rung 3 is outside the transaction. Edits VarCodeGen.java and CodeGen.java around :5862.',
-'- R2, slug repair-r2-literal-wrap, worktree /home/user/fortress-r2, branch repair/r2-literal-wrap: the code generator wraps an integer literal of bit length exactly 32 or exactly 64 negative. Edits CodeGen.java at :3864 and :3874, and runtimeValues/FIntLiteral.java.',
+'- R1, slug repair-r1-atomic-static, worktree /home/user/fortress-r1, branch wip/repair-r1-atomic-static: a top-level mutable variable compiled by rung 3 is outside the transaction. Edits VarCodeGen.java and CodeGen.java around :5862.',
+'- R2, slug repair-r2-literal-wrap, worktree /home/user/fortress-r2, branch wip/repair-r2-literal-wrap: the code generator wraps an integer literal of bit length exactly 32 or exactly 64 negative. Edits CodeGen.java at :3864 and :3874, and runtimeValues/FIntLiteral.java.',
 '',
-'Both branches are off 3d675af85 on claude/handover-reading-vn8zgr. Both rungs touch CodeGen.java, in regions far apart; the merge is the coordinator, not yours.',
+'Both branches are off ' + BASE + ' on main. Both rungs touch CodeGen.java, in regions far apart; the merge is the coordinator, not yours.',
 '',
 '## Your worktree',
 '',
@@ -98,7 +114,12 @@ const PREFIX = [
 '',
 'Do NOT run ant testFast or ant testSystem. The batch is gated once, after the merge, by the coordinator. Running the gate here costs 582 s and buys nothing: across nine skeptic runs of the last climb, not one of the 26 findings was load-bearing on a suite failure.',
 '',
-'Do NOT commit and do NOT push. Leave your worktree dirty. The coordinator reviews every line before anything is committed.',
+'## Commit and push as you go - on your own branch only',
+'',
+'Your worktree is on its own wip/ branch, cut from ' + BASE + ' and already pushed. Commit on it at every milestone and push after every commit with git push -u origin <your branch>: after the failing test is written and its failure captured; after the edit and the recorded pass; after REPORT.md and record.md; after anything else worth not losing. The batch of 2026-09-17 kept every worktree dirty and lost all of it when the container died; this is the insurance against that, and nothing else. Write plain messages that say what state the commit captures; the landed commit is composed by the coordinator from your branch\'s net change, so your commits are not history that must be shaped. Never commit to main, never push to any branch but your own, never force-push, and never put a model identifier in a commit message. End every commit message with exactly these two lines:',
+'',
+'    Co-Authored-By: Claude <noreply@anthropic.com>',
+'    Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB',
 '',
 '## Register',
 '',
@@ -227,27 +248,99 @@ JSON.stringify(workerReport, null, 2),
 '',
 'Approve, or refuse with the one thing that must change. If you approve WITH required corrections, list them precisely: an approval carrying corrections becomes a checklist the commit stage is required to close, and two such corrections from the last climb were simply never made. Do not pad the list with preferences; name what must change and why.',
 '',
-'Write your findings to explorations/compile-ladder/' + rung.slug + '/SKEPTIC.md in that worktree, and your probes under explorations/compile-ladder/' + rung.slug + '/probes/skeptic/. Do not edit the worker\'s source changes yourself, do not run ant testFast or ant testSystem, do not commit and do not push.',
+'Write your findings to explorations/compile-ladder/' + rung.slug + '/SKEPTIC.md in that worktree, and your probes under explorations/compile-ladder/' + rung.slug + '/probes/skeptic/. Do not edit the worker\'s source changes yourself and do not run ant testFast or ant testSystem. Commit SKEPTIC.md and your probes on the rung\'s branch, ' + rung.branch + ', with the footer the shared prefix gives, and push it; touch nothing else in the commit. The worker\'s own commits are on that branch, so git log ' + BASE + '..HEAD shows its milestones and git diff ' + BASE + '...HEAD its net change.',
 '',
   ].join('\n')
 }
 
-function repairPrompt(rung, verdict) {
+function repairPrompt(rung, verdict, decision) {
   return [
 '',
 '---',
 '',
 '# Your role: rung worker, repair round for ' + rung.id + ', ' + rung.slug,
 '',
-'You did this rung. Your skeptic refused it. This is your ONE repair round in the same worktree, ' + rung.path + '; a second refusal drops the rung from the batch.',
+(verdict
+  ? 'You did this rung. Your skeptic refused it. This is your ONE repair round in the same worktree, ' + rung.path + '; a second refusal drops the rung from the batch.'
+  : 'You did this rung and stopped on what you took for a stop condition. The judge has ruled that it is not one, and this is the continuation in the same worktree, ' + rung.path + '.'),
 '',
-'The skeptic\'s verdict:',
+(verdict ? 'The skeptic\'s verdict:\n\n' + JSON.stringify(verdict, null, 2) + '\n' : ''),
+'The judge\'s decision, which you execute:',
 '',
-JSON.stringify(verdict, null, 2),
+JSON.stringify(decision, null, 2),
 '',
-'Read its full findings in explorations/compile-ladder/' + rung.slug + '/SKEPTIC.md. Fix what it named. If you believe the skeptic is wrong, do not simply restate your position: check its claim against the primary source, and if it is wrong say so in REPORT.md with the file:line that settles it. Re-run the test and re-capture the output, update REPORT.md and record.md, and do not run the full gate.',
+'Read the judge\'s full reasoning in explorations/compile-ladder/' + rung.slug + '/JUDGE.md' + (verdict ? ' and the skeptic\'s findings in SKEPTIC.md beside it' : '') + '. Carry out the judge\'s instructions in order. Where an instruction turns out wrong against a primary source, do what the source says, and say so in REPORT.md with the file:line that settles it - the judge read the two reports and the diff, not the whole tree. Re-run the test and re-capture the output, update REPORT.md and record.md, commit and push on your branch, and do not run the full gate.',
 '',
   ].join('\n')
+}
+
+// ---------------------------------------------------------------------------
+// The judge. Escalated to the session's model (no model override) at three
+// points only: a skeptic's refusal, a worker's stop, a red gate or a blocking
+// review on the merged tree. It does not build or test; it reads what the two
+// Opus agents already wrote, rules on it, and writes instructions the next
+// Opus agent executes. Its context is assembled here from the structured
+// outputs so it does not have to gather it by tool calls.
+// ---------------------------------------------------------------------------
+
+function judgeRole(kind, rung, worker, verdict, extra) {
+  const inWorktree = (kind === 'refusal' || kind === 'stop')
+  const where = inWorktree ? rung.path : MAIN
+  const outFile = inWorktree
+    ? 'explorations/compile-ladder/' + rung.slug + '/JUDGE.md'
+    : 'explorations/compile-ladder/repair-batch/JUDGE-' + kind + '.md'
+  const question = {
+    refusal: 'The rung worker landed and its skeptic refused. Decide what the repair is: which of the two is right on each point, by citation, and exactly what the repair round must do. If the skeptic is wrong on its refusal ground, the repair round is a report-only repair that settles it, and you say so.',
+    stop: 'The rung worker stopped, reporting a stop condition. Decide whether it is genuinely one of the reserved forks that reach Pavol (the array representation, the library route, a change of semantics against what the specification does say, deleting a test) - for R2, the one named stop in its tail - or a silent specification that rule 4 says to think harder about. If the latter, derive the candidate behaviours with their costs and decide, and the instructions are the continuation. If the former, write what reaches Pavol: the fork, the candidates, what each costs, and your recommendation.',
+    review: 'The merged-diff review found something blocking in the source hunks after the gather. Diagnose it holistically on the merged tree and decide the repair; do not bisect rungs.',
+    gate: 'The gate is red on the merged tree. Read the failing tests and their output, find the cause across the merged change as a whole, and decide the repair. Pavol\'s standing rule: identify the source of the conflict holistically and rework that part in the merged batch; dropping a rung is the retreat, taken only when its approach is wrong rather than its code, and then it is recorded and returned to the ranking.',
+  }[kind]
+  return [
+'',
+'---',
+'',
+'# Your role: judge (' + kind + ')' + (rung ? ' for ' + rung.id + ', ' + rung.slug : ''),
+'',
+'You are the escalation point of this batch, invoked only here. You did not do the work and you are not repeating it: no build, no test run, no ladder subset. You read, you rule, and you write instructions that an Opus worker executes. The rules above about never touching the main tree and never running the gate were written for the rung workers; you write one file and commit it, nothing else.',
+'',
+question,
+'',
+'## What is already known',
+'',
+(worker ? 'The worker\'s structured report:\n\n' + JSON.stringify(worker, null, 2) + '\n' : ''),
+(verdict ? 'The skeptic\'s structured verdict:\n\n' + JSON.stringify(verdict, null, 2) + '\n' : ''),
+(extra ? 'The stage that escalated to you returned:\n\n' + JSON.stringify(extra, null, 2) + '\n' : ''),
+'## What to read, and no more than this unless a ruling needs it',
+'',
+inWorktree
+  ? '1. The net change: git -C ' + rung.path + ' diff ' + BASE + '...HEAD, and the milestones: git log ' + BASE + '..HEAD.\n2. explorations/compile-ladder/' + rung.slug + '/REPORT.md and record.md in that worktree' + (verdict ? ', and SKEPTIC.md beside them' : '') + '.\n3. Every specification passage the two cite, by file:line with sed -n, in Specification/ under that worktree - the prose chapters, not library/apis/.\n4. The precedents both name, at the cited lines.\n5. explorations/coordinator/map/spec-to-implementation.md only if the question is where a fix belongs.'
+  : '1. The composed commits: git -C ' + MAIN + ' log ' + BASE + '..HEAD and git diff ' + BASE + '...HEAD.\n2. The stage\'s outputs named above, and for a red gate the failing tests\' own output under ProjectFortress/TEST-RESULTS/ and the gate files under explorations/compile-ladder/repair-batch/gate/.\n3. Each rung\'s REPORT.md, SKEPTIC.md and record.md under explorations/compile-ladder/<slug>/.\n4. The specification passages the reports cite, by file:line.',
+'',
+'## How to rule',
+'',
+'Rule 4 of the shared prefix governs: the interpreter is evidence, not an oracle, and the specification answers a divergence; a silent specification is the reason to think harder, not to stop, except where the silence falls exactly on the point at issue and PLAN.md names it a fork. Rule holistically: the goal is one tree with everything running, not the largest subset that happens to be green. Every point in your ruling is a citation, file:line, that the repair worker can check. Say which claims of the worker and of the skeptic were right and which were wrong. If you take a decision under a silent specification, say that you did and what the alternatives were: it is reported to Pavol out of the loop.',
+'',
+'Write the full ruling to ' + outFile + ' in ' + where + (inWorktree
+  ? ', commit it on the rung\'s branch ' + rung.branch + ' with the footer the shared prefix gives, and push it.'
+  : ', and commit it locally on main with that footer; do not push.'),
+'',
+'Return the structured decision the tool requires. Your instructions are numbered steps the repair worker executes in order, each concrete enough to be done without re-deriving your reasoning.',
+'',
+  ].join('\n')
+}
+
+const JUDGE_SCHEMA = {
+  type: 'object',
+  properties: {
+    kind: { type: 'string' },
+    decision: { type: 'string', enum: ['repair', 'drop', 'stop'], description: 'repair: the next Opus worker executes the instructions; drop: the rung\'s approach is wrong and it returns to the ranking; stop: a reserved fork, this reaches Pavol' },
+    instructions: { type: 'array', items: { type: 'string' }, description: 'numbered steps for the repair worker, each with the file:line it rests on; empty unless repair' },
+    ruling: { type: 'string', description: 'which claims of the worker and the skeptic were right and wrong, by citation' },
+    specRuling: { type: 'string', description: 'what the specification settles here and how, or that it is silent and what was decided under the silence' },
+    forPavol: { type: 'string', description: 'what must reach Pavol out of the loop: a fork with its candidates and costs, a divergence that lands unrepaired, a decision taken under a silent specification; empty if nothing' },
+    summary: { type: 'string', description: 'at most 10 lines' },
+  },
+  required: ['kind', 'decision', 'instructions', 'ruling', 'summary'],
 }
 
 // ---------------------------------------------------------------------------
@@ -289,11 +382,178 @@ const SKEPTIC_SCHEMA = {
 }
 
 const RUNGS = [
-  { id: 'R1', slug: 'repair-r1-atomic-static', path: '/home/user/fortress-r1', tail: R1_TAIL },
-  { id: 'R2', slug: 'repair-r2-literal-wrap',  path: '/home/user/fortress-r2', tail: R2_TAIL },
+  { id: 'R1', slug: 'repair-r1-atomic-static', path: '/home/user/fortress-r1', branch: 'wip/repair-r1-atomic-static', tail: R1_TAIL },
+  { id: 'R2', slug: 'repair-r2-literal-wrap',  path: '/home/user/fortress-r2', branch: 'wip/repair-r2-literal-wrap',  tail: R2_TAIL },
 ]
 
-log('Repair batch: 2 rungs, each judged by its own skeptic before the merge. The gate runs once, later, in the main tree.')
+// ---------------------------------------------------------------------------
+// The four stages below the scatter, written 2026-09-18. All in the main tree,
+// all Opus except the judge. batched-climb-plan.md section 3, "Gather and
+// gate" and "Commit", as corrected on 2026-09-17: the landed commit is composed
+// at the gather from each branch's net change, never merged.
+// ---------------------------------------------------------------------------
+
+const MAIN_TREE_ROLE = [
+'',
+'---',
+'',
+'You work in the MAIN tree, ' + MAIN + ', on branch main. The rule in the shared prefix about never touching it was written for the rung workers, whose stage is over; the wip/ worktrees are now read-only history to you. Source experiment/env.sh in every shell; do not export TMPDIR or JAVA_FLAGS beyond what it sets. The batch base is ' + BASE + '. Commit locally with the footer the shared prefix gives; push only if your role below says so.',
+'',
+].join('\n')
+
+function gatherRole(approved) {
+  return MAIN_TREE_ROLE + [
+'# Your role: gather',
+'',
+'Compose one clean local commit per approved rung on main, in this order: ' + approved.map(r => r.rung).join(', ') + '. Nothing is merged: each rung\'s branch stays as it is and is never a parent of anything on main.',
+'',
+'Preconditions, checked first and reported if they fail: git status --porcelain is empty; ' + BASE + ' is an ancestor of HEAD (git merge-base --is-ancestor).',
+'',
+'For each rung, in order:',
+'',
+'1. Its net change: git diff ' + BASE + '...<branch> > <scratch>/<slug>.patch, then git apply --3way --index <patch>. A hunk that fails in a file the other rung also touched is the conflict this stage exists to see: if the two hunks are in unrelated regions, resolve it by hand from both sides and say so; if both changed the same logic, do NOT guess - leave the tree clean (git checkout -- . && git clean -fd on the touched paths), and return with the conflict named.',
+'2. Fold its record: explorations/compile-ladder/<slug>/record.md (now in the tree) carries finished prose for three places. The FACTS.md line goes into explorations/coordinator/FACTS.md under "The compile-path ladder baseline", after the last rung entry, as one bullet with its source. The ledger note is APPENDED to the notes of the row it names in explorations/fortress-gap-ledger.md - rows are never renumbered, moved or deleted; where the note needs the landed commit\'s hash write the literal placeholder <short hash>, which the commit stage replaces. The handover state line goes into the first section of explorations/microgpt-run-c-handover.md ("Where the work stands"). If record.md also amends row 317 (R2 does), apply that amendment to the row\'s text as written.',
+'3. Close every requiredCorrections item of that rung\'s skeptic verdicts, listed below; each is a checklist item and the last climb left two of them unmade.',
+'4. One commit: the applied source, the tests, the rung\'s explorations/compile-ladder/<slug>/ directory (REPORT.md, record.md, SKEPTIC.md, JUDGE.md if any, probes), and the three record files. Title line: what the repair does, in the plain register; body: the two or three sentences of record.md that say why; footer as given. Do not push.',
+'',
+'The rungs and their verdicts:',
+'',
+JSON.stringify(approved.map(r => ({ rung: r.rung, slug: r.slug, branch: r.branch, requiredCorrections: [].concat((r.firstVerdict && r.firstVerdict.requiredCorrections) || [], (r.verdict && r.verdict.requiredCorrections) || []) })), null, 2),
+'',
+'Return the structured result the tool requires: the commit hash per rung, the conflicts met and how each was resolved, and the corrections closed, by item.',
+'',
+  ].join('\n')
+}
+
+const GATHER_SCHEMA = {
+  type: 'object',
+  properties: {
+    commits: { type: 'array', items: { type: 'object', properties: { rung: { type: 'string' }, hash: { type: 'string' }, files: { type: 'array', items: { type: 'string' } } }, required: ['rung', 'hash'] } },
+    conflicts: { type: 'array', items: { type: 'string' }, description: 'each hunk that did not apply cleanly, the file, and how it was resolved or that it was not' },
+    unresolved: { type: 'boolean', description: 'true if a conflict was left unresolved and the tree was returned to clean' },
+    correctionsClosed: { type: 'array', items: { type: 'string' } },
+    summary: { type: 'string' },
+  },
+  required: ['commits', 'conflicts', 'unresolved', 'summary'],
+}
+
+function reviewRole(gather) {
+  return MAIN_TREE_ROLE + [
+'# Your role: merged-diff reviewer',
+'',
+'The rungs were judged one at a time in their own worktrees; nobody has yet read the two changes together, and the rung skeptics could not see the three record files, which were folded after them. You read both.',
+'',
+'The composed commits: git log ' + BASE + '..HEAD; the whole change: git diff ' + BASE + '...HEAD. The gather stage returned:',
+'',
+JSON.stringify(gather, null, 2),
+'',
+'Check, and cite file:line for every finding:',
+'1. Batch rule 1 against the real hunks: no two rungs add or change the same declaration, method, trait body or operator. Rule 2: neither rung\'s edit depends on the other\'s for its meaning or its test.',
+'2. Each commit carries its edit, its test and its record together, and nothing of the other rung.',
+'3. The folded record as a whole: every FACTS line true as written and sourced; every ledger note appended to an existing row with no row renumbered, moved or deleted, and the ledger\'s own counts still right; the handover\'s first section consistent; the row-317 amendment (R2) applied as the brief listed it.',
+'4. Every requiredCorrections item the gather says it closed is actually closed.',
+'5. Footers present and exact; no model identifier anywhere in the commits.',
+'6. The one wording change REPAIR-BATCH.md orders: the ladder driver\'s documentation (explorations/compile-ladder/, README or the driver\'s header) no longer states "output byte-identical to walk" as the criterion without the qualification that the specification wins where it settles a divergence. If neither rung did it, do it now as one small commit of your own and say so.',
+'',
+'Two kinds of finding. A record-only or mechanical defect you fix yourself, in one local commit titled "Fold the review\'s corrections", listed in your return. A defect in the source hunks - a rule broken, an edit that is not what its report says, an interaction between the two rungs - you do NOT fix; you return it as blocking, precisely enough that a judge can rule on it from your words and the diff. Do not run the gate.',
+'',
+  ].join('\n')
+}
+
+const REVIEW_SCHEMA = {
+  type: 'object',
+  properties: {
+    approved: { type: 'boolean', description: 'true if nothing blocking remains after your own record fixes' },
+    blocking: { type: 'array', items: { type: 'string' }, description: 'source-level findings, each with file:line and which rule or claim it breaks' },
+    fixed: { type: 'array', items: { type: 'string' }, description: 'record or mechanical defects you fixed, and the commit hash' },
+    summary: { type: 'string' },
+  },
+  required: ['approved', 'blocking', 'fixed', 'summary'],
+}
+
+const GATE_ROLE = MAIN_TREE_ROLE + [
+'# Your role: the gate',
+'',
+'Run the full gate once on the tree as it stands, exactly, and report what it says. You change no source. Both rungs are in .java, so the order is:',
+'',
+'1. df -h / first; if under 1 GB free, sweep /tmp/fortress*rats, ProjectFortress/test-tmp and ProjectFortress/test-caches and check again; if still under 500 MB, stop and report.',
+'2. rm -rf ProjectFortress/TEST-RESULTS. Then ant compileAll, in the background with all output to explorations/compile-ladder/repair-batch/gate/compileAll.out, polled until done; BUILD SUCCESSFUL must appear at its end.',
+'3. The library-order bytecode-cache rebuild, the five fortress compile commands of the shared prefix, output to gate/library.out.',
+'4. ant testFast, in the background, all output to gate/testFast.out, polled; then ant testSystem the same way to gate/testSystem.out. Never both at once; never pipe either through tail.',
+'5. From the two files, grep the per-suite summaries: for testFast every "Tests run:" line with its Failures and Errors, and "Tests expected to pass are failing" if present; for testSystem the pass/fail/skip counts. Green means zero failures and zero errors in every suite of testFast and 0 fail / 0 skip in testSystem, and BUILD SUCCESSFUL on both.',
+'',
+'Write gate/summary.md with the counts, the failing tests by name if any, and the wall time of each step, and commit it locally (only that file). Return the structured result. If red, name every failing test and copy the first failure\'s output lines into the result; the judge reads them.',
+'',
+].join('\n')
+
+const GATE_SCHEMA = {
+  type: 'object',
+  properties: {
+    green: { type: 'boolean' },
+    compileAll: { type: 'string', description: 'BUILD SUCCESSFUL or the first error' },
+    testFast: { type: 'string', description: 'suites, tests, failures, errors' },
+    testSystem: { type: 'string', description: 'pass, fail, skip' },
+    failing: { type: 'array', items: { type: 'string' }, description: 'failing test names with the key output line each' },
+    stopped: { type: 'boolean', description: 'true if the gate could not be run (disk, build failure before tests)' },
+    summary: { type: 'string' },
+  },
+  required: ['green', 'failing', 'stopped', 'summary'],
+}
+
+function mergedRepairRole(decision, kind) {
+  return MAIN_TREE_ROLE + [
+'# Your role: repair on the merged tree (' + kind + ')',
+'',
+'The judge has ruled on the merged tree; you execute the ruling. Its decision:',
+'',
+JSON.stringify(decision, null, 2),
+'',
+'Its full reasoning is in explorations/compile-ladder/repair-batch/JUDGE-' + kind + '.md. Carry out the instructions in order. Where one turns out wrong against a primary source, do what the source says and record the deviation in explorations/compile-ladder/repair-batch/REPAIR-' + kind + '.md with the file:line that settles it. Rebuild what the edit needs (ant compileAll for Java, then the library-order rebuild), run the tests the ruling names, and commit locally, one commit, with the record files updated where the ruling says. Do not run the full gate; the gate stage runs it after you. Do not push.',
+'',
+  ].join('\n')
+}
+
+function commitRole(gather, gate) {
+  return MAIN_TREE_ROLE + [
+'# Your role: commit',
+'',
+'The gate is green on the tree as it stands. Land it.',
+'',
+'1. Replace every literal <short hash> placeholder in the ledger, FACTS and the handover with the hash of the commit it refers to, from the gather stage\'s result below, in one small commit "Record the landed commits\' hashes". grep -rn "<short hash>" explorations/ afterwards must be empty.',
+'2. Verify every commit since ' + BASE + ' ends with the two footer lines and contains no model identifier (git log ' + BASE + '..HEAD --format=%B).',
+'3. git push origin main; then git push origin main:' + CONTAINER_BRANCH + ' so the container\'s own branch stays at main. Retry a failed push up to four times with 2, 4, 8, 16 seconds between.',
+'4. For each wip/ branch: confirm git -C <worktree> status -sb shows nothing ahead of its origin; then git worktree remove <worktree> and git branch -D <branch>. Leave the remote wip/ branches: the proxy refuses branch deletion from here, and Pavol removes them in the GitHub UI.',
+'',
+'The gather stage returned:',
+'',
+JSON.stringify(gather, null, 2),
+'',
+'The gate stage returned:',
+'',
+JSON.stringify(gate, null, 2),
+'',
+'Return the structured result: the hash main is at on origin, the commits pushed, and what was cleaned up.',
+'',
+  ].join('\n')
+}
+
+const COMMIT_SCHEMA = {
+  type: 'object',
+  properties: {
+    mainHead: { type: 'string' },
+    pushed: { type: 'array', items: { type: 'string' } },
+    containerBranchAtMain: { type: 'boolean' },
+    cleanedUp: { type: 'array', items: { type: 'string' } },
+    summary: { type: 'string' },
+  },
+  required: ['mainHead', 'pushed', 'containerBranchAtMain', 'summary'],
+}
+
+// ---------------------------------------------------------------------------
+// The run.
+// ---------------------------------------------------------------------------
+
+log('Repair batch: 2 rungs, each judged by its own skeptic before the merge; then gather, review, one gate, commit. Base ' + BASE + '.')
 
 const results = await pipeline(
   RUNGS,
@@ -303,53 +563,145 @@ const results = await pipeline(
     label: 'rung:' + rung.id,
     phase: 'Rung',
     schema: RUNG_SCHEMA,
+    model: OPUS,
   }),
 
-  // Stage 2: the skeptic, with one repair round.
+  // Stage 2: the skeptic, with one repair round; the judge on a stop or a refusal.
   async (worker, rung) => {
-    if (!worker) return { rung: rung.id, slug: rung.slug, state: 'worker-died', worker: null, verdict: null }
+    const out = (state, extra) => Object.assign({ rung: rung.id, slug: rung.slug, branch: rung.branch, state }, extra)
+    if (!worker) return out('worker-died', { worker: null, verdict: null })
+
+    let judgeOnStop = null
     if (worker.stopped) {
-      log(rung.id + ' stopped and is reporting: ' + (worker.stopReason || '(no reason given)'))
-      return { rung: rung.id, slug: rung.slug, state: 'stopped', worker, verdict: null }
+      log(rung.id + ' stopped and is reporting: ' + (worker.stopReason || '(no reason given)') + '; the judge decides whether it is a fork')
+      judgeOnStop = await agent(PREFIX + judgeRole('stop', rung, worker, null, null), {
+        label: 'judge:' + rung.id + ':stop',
+        phase: 'Judge',
+        schema: JUDGE_SCHEMA,
+      })
+      if (!judgeOnStop || judgeOnStop.decision !== 'repair') {
+        return out('stopped', { worker, verdict: null, judge: judgeOnStop })
+      }
+      const resumed = await agent(PREFIX + RUNG_ROLE + rung.tail + repairPrompt(rung, null, judgeOnStop), {
+        label: 'resume:' + rung.id,
+        phase: 'Rung',
+        schema: RUNG_SCHEMA,
+        model: OPUS,
+      })
+      if (!resumed || resumed.stopped || !resumed.landed) {
+        return out('stopped', { worker: resumed || worker, verdict: null, judge: judgeOnStop })
+      }
+      worker = resumed
     }
 
-    let verdict = await agent(PREFIX + skepticRole(rung, worker, 1), {
+    const verdict = await agent(PREFIX + skepticRole(rung, worker, 1), {
       label: 'skeptic:' + rung.id,
       phase: 'Skeptic',
       schema: SKEPTIC_SCHEMA,
+      model: OPUS,
     })
 
     if (verdict && verdict.approved) {
-      return { rung: rung.id, slug: rung.slug, state: 'approved', worker, verdict, repaired: false }
+      return out('approved', { worker, verdict, repaired: false, judge: judgeOnStop })
     }
 
-    log(rung.id + ' refused by its skeptic; one repair round: ' + ((verdict && verdict.refusalReason) || 'no reason returned'))
+    log(rung.id + ' refused by its skeptic: ' + ((verdict && verdict.refusalReason) || 'no reason returned') + '; the judge rules before the one repair round')
 
-    const repaired = await agent(PREFIX + RUNG_ROLE + rung.tail + repairPrompt(rung, verdict), {
+    const decision = await agent(PREFIX + judgeRole('refusal', rung, worker, verdict, null), {
+      label: 'judge:' + rung.id,
+      phase: 'Judge',
+      schema: JUDGE_SCHEMA,
+    })
+    if (!decision || decision.decision === 'drop') {
+      return out('dropped', { worker, verdict, firstVerdict: verdict, judge: decision, repaired: false })
+    }
+    if (decision.decision === 'stop') {
+      return out('stopped', { worker, verdict, firstVerdict: verdict, judge: decision, repaired: false })
+    }
+
+    const repaired = await agent(PREFIX + RUNG_ROLE + rung.tail + repairPrompt(rung, verdict, decision), {
       label: 'repair:' + rung.id,
       phase: 'Rung',
       schema: RUNG_SCHEMA,
+      model: OPUS,
     })
 
     const verdict2 = await agent(PREFIX + skepticRole(rung, repaired || worker, 2), {
       label: 'skeptic2:' + rung.id,
       phase: 'Skeptic',
       schema: SKEPTIC_SCHEMA,
+      model: OPUS,
     })
 
-    return {
-      rung: rung.id,
-      slug: rung.slug,
-      state: (verdict2 && verdict2.approved) ? 'approved-after-repair' : 'dropped',
+    return out((verdict2 && verdict2.approved) ? 'approved-after-repair' : 'dropped', {
       worker: repaired || worker,
       verdict: verdict2,
       firstVerdict: verdict,
+      judge: decision,
       repaired: true,
-    }
+    })
   },
 )
 
-return {
-  batch: 'repair',
-  rungs: results.filter(Boolean),
+const rungs = results.filter(Boolean)
+const approved = rungs.filter(r => r.state === 'approved' || r.state === 'approved-after-repair')
+const report = { batch: 'repair', base: BASE, rungs }
+
+if (approved.length === 0) {
+  log('No rung approved; nothing to gather. ' + rungs.map(r => r.rung + ': ' + r.state).join(', '))
+  return Object.assign(report, { landed: false, reason: 'no rung approved' })
 }
+log('Approved: ' + approved.map(r => r.rung + ' (' + r.state + ')').join(', ') + '. Gathering onto main.')
+
+// Gather: one composed local commit per approved rung.
+const gather = await agent(PREFIX + gatherRole(approved), { label: 'gather', phase: 'Gather', schema: GATHER_SCHEMA, model: OPUS })
+report.gather = gather
+if (!gather || gather.unresolved) {
+  log('Gather stopped: ' + ((gather && gather.summary) || 'agent died'))
+  return Object.assign(report, { landed: false, reason: 'gather unresolved' })
+}
+
+// Review: the merged diff and the folded record as a whole. A blocking finding goes to the judge once.
+let review = await agent(PREFIX + reviewRole(gather), { label: 'review', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS })
+report.review = review
+if (review && !review.approved && review.blocking && review.blocking.length) {
+  log('Review found blocking: ' + review.blocking.length + ' item(s); the judge rules')
+  const decision = await agent(PREFIX + judgeRole('review', null, null, null, review), { label: 'judge:review', phase: 'Judge', schema: JUDGE_SCHEMA })
+  report.reviewJudge = decision
+  if (!decision || decision.decision !== 'repair') {
+    return Object.assign(report, { landed: false, reason: 'review blocking, judge did not order a repair' })
+  }
+  await agent(PREFIX + mergedRepairRole(decision, 'review'), { label: 'repair:review', phase: 'Review', schema: RUNG_SCHEMA, model: OPUS })
+  review = await agent(PREFIX + reviewRole(gather), { label: 'review2', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS })
+  report.review2 = review
+  if (!review || !review.approved) {
+    return Object.assign(report, { landed: false, reason: 'review still blocking after one repair' })
+  }
+}
+
+// Gate: once; red goes to the judge and one repair on the merged tree; red again stops the batch.
+let gate = await agent(PREFIX + GATE_ROLE, { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS })
+report.gate = gate
+if (!gate || gate.stopped) {
+  return Object.assign(report, { landed: false, reason: 'gate could not run' })
+}
+if (!gate.green) {
+  log('Gate red: ' + gate.failing.length + ' failing; the judge diagnoses on the merged tree')
+  const decision = await agent(PREFIX + judgeRole('gate', null, null, null, gate), { label: 'judge:gate', phase: 'Judge', schema: JUDGE_SCHEMA })
+  report.gateJudge = decision
+  if (!decision || decision.decision !== 'repair') {
+    return Object.assign(report, { landed: false, reason: 'gate red, judge did not order a repair' })
+  }
+  await agent(PREFIX + mergedRepairRole(decision, 'gate'), { label: 'repair:gate', phase: 'Gate', schema: RUNG_SCHEMA, model: OPUS })
+  gate = await agent(PREFIX + GATE_ROLE, { label: 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS })
+  report.gate2 = gate
+  if (!gate || !gate.green) {
+    log('Gate red after one repair: the batch stops here, nothing pushed; the failing tests and the diagnosis are the record')
+    return Object.assign(report, { landed: false, reason: 'gate red twice' })
+  }
+}
+
+// Commit: hashes into the notes, push, fast-forward the container branch, clean up.
+const commit = await agent(PREFIX + commitRole(gather, gate), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS })
+report.commit = commit
+return Object.assign(report, { landed: !!(commit && commit.pushed && commit.pushed.length) })

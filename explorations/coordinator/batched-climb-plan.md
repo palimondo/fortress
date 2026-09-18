@@ -26,6 +26,8 @@ Before section 9's estimate is trusted, the cap should be measured directly: a t
 
 Decided 2026-09-17: a climb runs at k = 4 without waiting for that measurement, and the probe is still owed.
 
+Measured 2026-09-18, with no climb in flight: **the cap is 2.** Four one-command agents launched in one `parallel()`: agents 0 and 1 started at 19:14:08, agents 2 and 3 at 19:14:31, after the first pair had finished at 19:14:23 (`FACTS.md` § The container). The same probe showed `model: 'opus'` resolving to `claude-opus-5`, and that a subagent's floor is about 45k tokens before it does anything (183k for the four).
+
 The reason they are separable is the distinction this section opens with. Nothing in a batch's correctness depends on the cap, and neither does the saving section 9 calls firm, which is arithmetic over gate runs: k rungs, one gate instead of k. What the cap sets is only how many waves the scatter takes, so an unmeasured cap makes section 9's *wall-clock estimate* unbacked and leaves everything else standing.
 
 So the probe is run for the estimate's sake, not as a precondition, and it is run when no climb is in flight, because four agents launched beside a running batch would contend for the very cap they are measuring and would perturb both. This batch's `journal.jsonl` establishes only that the cap is at least 2, which is all two simultaneous agents can show.
@@ -109,6 +111,14 @@ The three constraints fix the method between them and leave no choice: a rung wo
 
 **Commit.** Green means k commits pushed with their records, the branch pushed and main fast-forwarded. An approval that carried required corrections is a checklist this stage must close before it commits.
 
+**Revised 2026-09-18, after the first trial died with its container** (`remote-container.md` § The 2026-09-17 incident), on Pavol's word, three changes; `repair-batch-workflow.js` is the implementation:
+
+*Workers commit and push as they go.* The first trial forbade commits so that the gather could compose one clean commit per rung, and every worktree was dirty when the container died; four agents' work was lost. The ban protected the commit shape, not the tree, and the shape never needed it: a rung's worktree is on its own branch, `wip/<slug>`, cut from the batch base and pushed, and the worker, its skeptic and its repair round commit there at every milestone and push after every commit. The gather takes each approved branch's net change against the base (`git diff BASE...wip/<slug>`, applied with `--3way`), folds the record, and composes the one commit per rung as before; the wip/ branch is never merged and never a parent of anything on main, so nothing is rewritten. After the push the worktrees and local branches are removed; the remote wip/ branches stay until Pavol deletes them in the GitHub UI, because the proxy refuses branch deletion from a container. Pushing to `wip/*` is a standing permission for workflow agents (`protocol.md` §4).
+
+*A judge, escalated sparingly.* Every worker, skeptic, gather, review and gate agent is pinned to Opus. A judge inherits the session's model — Fable when the credits allow, Opus when they do not, without editing the script — and is invoked at exactly three points, none on the happy path: after a skeptic's refusal, before the repair round; when a worker stops on what it takes for a stop condition; and when the merged-diff review or the gate is red on the merged tree. It does not build or test. Its context is assembled by the script from the two structured outputs it already holds, it reads three things (the net diff, the report, the skeptic's findings) plus the specification passages they cite, and it returns numbered instructions that an Opus repair worker executes, or `drop`, or `stop` for a reserved fork with what reaches Pavol already written. The reasoning: the last climb's local decisions were made in exactly the moment a worker was told it was wrong and redesigned under pressure, which is where the expensive model earns its cost; a Fable pass before every edit would cost a Fable agent per rung whether or not anything went wrong.
+
+*The tail stages exist in the script.* Gather, review, gate and commit are stages of the one script rather than additions to be made by resuming a run: `resumeFromRunId` is same-session-only, and a design that leaves the tail to a later resume cannot be finished from a new session (`remote-container.md` § Recovering).
+
 ## 4. The worktree, and the two traps in it
 
 A rung's worktree is seeded by **copying** `ProjectFortress/build` (`cp -a`, about 1 s, 40 MB), never by symlinking it.
@@ -179,6 +189,8 @@ Only the tail differs, and it is the one rung's brief.
 
 This removes the roughly 417 tool calls the last climb spent re-deriving the record (`iteration-cost.md` section C), and an identical prefix is what lets parallel agents share a cached one. The first saving is bounded above by about 57 minutes and is a ceiling, not a measurement; see the coordinator's note in `iteration-cost.md` section A.
 
+Corrected 2026-09-18: the second claim is wrong for this harness. A prompt cache read lands only at a `cache_control` breakpoint a previous request wrote, and the harness places those, not the script; a shared prefix inside one message with a differing tail is not a boundary. The probe of that day measured it: agent 0 wrote 44,032 tokens and read 0; agents 1–3 each read 33,022 (the system prompt and tools, identical for every subagent) and wrote 11,010 (the first user message — the injected `CLAUDE.md` and our prompt — rewritten because the prompt differed by one digit). So the prefix buys the discipline and the removed tool calls, not the cache; the roughly 7k tokens of prefix are rewritten once per agent, against agent totals of 150–260k, which is not worth engineering around.
+
 ## 9. What it is expected to buy
 
 Measured, and firm: against the honest baseline of one gate per rung, 8 × 582 s = 77.6 minutes, batches of four cost two gates, 19.4 minutes. **The saving is 58.2 minutes.** The 130.5-minute figure is what the last climb actually spent including redundancy the free fixes remove, and comparing against it would overstate this design's contribution.
@@ -203,4 +215,4 @@ The sealed-tree rule, the test-first discipline of section 7, the commit discipl
 
 The design forks that stop the climb and belong to Pavol: the array representation, the library route, any change of semantics against the spec, deleting a test to get green.
 
-`ladder-workflow.js`, which is not edited until the agent cap of section 2 has been measured.
+`ladder-workflow.js`, which is not edited until the agent cap of section 2 has been measured. Measured 2026-09-18 (cap 2); the edit, when a library climb is next wanted, follows `repair-batch-workflow.js`'s shape.

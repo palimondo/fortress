@@ -11,11 +11,16 @@ those two became the **repair batch**, `coordinator/REPAIR-BATCH.md`, which is t
 work and is written to be run cold.
 
 The batch was launched once, 2026-09-17 19:26, and died with its container mid-run; its
-agents' results are not recoverable, so it is **re-run from the start**. One step first:
-the launched script, recovered verbatim as `coordinator/repair-batch-workflow.js`, ends at
-the scatter (per rung: rung → skeptic → repair → skeptic2). The four stages that were to
-follow (gather, gate, commit, ledger) were to be added by resuming the run, which cannot
-be done from another session — write them into the script instead.
+agents' results are not recoverable, so it is **re-run from the start**. The script for
+that, `coordinator/repair-batch-workflow.js`, is complete as of 2026-09-18 evening: the
+recovered scatter (per rung: rung → skeptic → repair → skeptic2) plus gather, review, gate
+and commit, with workers committing and pushing to `wip/` branches as they go and a judge
+on the session's model escalated only on a refusal, a stop or a red gate
+(`batched-climb-plan.md` §3, revised 2026-09-18). Launch, on Pavol's word: create the two
+worktrees per `remote-container.md` § Setting up a batch's worktrees, then
+`Workflow({scriptPath, args: {base}})`. The batch's report to Pavol afterwards is the
+coordinator's: every divergence that lands unrepaired and every decision a judge took under
+a silent specification, from the returned `forPavol` fields.
 
 The work moved into the blinded run's container on 2026-09-18, which already had the
 checkout and toolchain. Branch `main`; the infrastructure's branch name for this container,
