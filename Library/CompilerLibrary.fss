@@ -566,9 +566,9 @@ trait Matrix[\T, nat s0, nat s1\] extends Object end
  * Number properties
  ************************************************************)
 
-ZZ32_MIN: ZZ32 = 8000'0000_16
+ZZ32_MIN: ZZ32 = -7FFF'FFFF_16 - 1
 ZZ32_MAX: ZZ32 = 7FFF'FFFF_16
-ZZ64_MIN: ZZ64 = 8000'0000'0000'0000_16
+ZZ64_MIN: ZZ64 = -7FFF'FFFF'FFFF'FFFF_16 - 1
 ZZ64_MAX: ZZ64 = 7FFF'FFFF'FFFF'FFFF_16
 NN32_MIN: NN32 = 0000'0000_16
 NN32_MAX: NN32 = FFFF'FFFF_16

@@ -1,0 +1,18 @@
+component r2i
+export Executable
+(*) Repair R2: the legal spelling of the two values the bit-pattern idiom was
+(*) reaching for.  Library/FortressLibrary.fss:703 writes the ZZ64 minimum as
+(*) `-9223372036854775807 - 1`, a numeral in range and then one subtraction;
+(*) that is the spelling used for ZZ32_MIN and ZZ64_MIN, and a signed numeral
+(*) of the same magnitude is the spelling used for Integer3's twiceHuge.
+run() = do
+    zz32min: ZZ32 = -7FFF'FFFF_16 - 1
+    zz64min: ZZ64 = -7FFF'FFFF'FFFF'FFFF_16 - 1
+    tw32: ZZ32 = -60000000_16
+    tw64: ZZ64 = -6000000000000000_16
+    println("r2i ZZ32_MIN " zz32min.asString)
+    println("r2i ZZ64_MIN " zz64min.asString)
+    println("r2i twiceHuge32 " tw32.asString)
+    println("r2i twiceHuge64 " tw64.asString)
+end
+end
