@@ -1,0 +1,12 @@
+component r2b
+export Executable
+(*) Repair R2: the same two numerals at the unsigned types, whose getters
+(*) asNN32 and asNN64 read the wrapped two's-complement pattern today and are
+(*) therefore coupled to the wrap.
+run() = do
+    n32: NN32 = 4294967295            (*) 2^32 - 1, the largest NN32
+    n64: NN64 = 18446744073709551615  (*) 2^64 - 1, the largest NN64
+    println("r2b NN32 2^32-1 " n32.asString)
+    println("r2b NN64 2^64-1 " n64.asString)
+end
+end

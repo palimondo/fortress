@@ -1,0 +1,10 @@
+component r2c
+export Executable
+(*) Repair R2: the defeated ZZ32 diagnostic.  asZZ32's range check is applied
+(*) to the already-wrapped value, so a numeral far outside ZZ32 passes it as -1
+(*) instead of raising "Not in range for ZZ32".
+run() = do
+    a: ZZ32 = 4294967295
+    println("r2c ZZ32 2^32-1 " a.asString)
+end
+end

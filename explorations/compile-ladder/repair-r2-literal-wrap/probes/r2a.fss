@@ -1,0 +1,17 @@
+component r2a
+export Executable
+(*) Repair R2, ledger row 317: a numeral whose bitLength is exactly 32 or
+(*) exactly 64 is carried into the compiled world through BigInteger.intValue()
+(*) / longValue() by CodeGen.forIntLiteralExpr, which wraps it negative.  This
+(*) probe reads both boundary numerals at the two types that render an exact
+(*) integer: ZZ, which the specification defines as all the finite integers,
+(*) and ZZ64.
+run() = do
+    z32: ZZ = 4294967295              (*) 2^32 - 1, bitLength 32
+    z64: ZZ = 18446744073709551615    (*) 2^64 - 1, bitLength 64
+    l32: ZZ64 = 4294967295            (*) 2^32 - 1 fits in ZZ64
+    println("r2a ZZ   2^32-1 " z32.asString)
+    println("r2a ZZ   2^64-1 " z64.asString)
+    println("r2a ZZ64 2^32-1 " l32.asString)
+end
+end
