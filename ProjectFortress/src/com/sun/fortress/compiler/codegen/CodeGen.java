@@ -4633,6 +4633,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 result.put(name, new VarCodeGen.MutableTaskVarCodeGen((VarCodeGen.MutableTaskVarCodeGen) v,
                                                                       taskClass,
                                                                       thisApi(), cw, mv));
+            else if (v.isAMutableStaticBinding())
+                result.put(name, new VarCodeGen.MutableTaskVarCodeGen((VarCodeGen.MutableStaticBinding) v,
+                                                                      taskClass,
+                                                                      thisApi(), cw, mv));
             else result.put(name, new VarCodeGen.TaskVarCodeGen(v, taskClass, thisApi(), cw));
         }
         return result;
@@ -4738,7 +4742,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         String result = "(";
 
         for (VarCodeGen v : freeVars) {
-            if (v.isAMutableLocalVar()  || v.isAMutableTaskVar())
+            if (v.isAMutableLocalVar()  || v.isAMutableTaskVar() || v.isAMutableStaticBinding())
                 result = result + NamingCzar.descFortressMutableFValueInternal;
             else result = result + NamingCzar.jvmBoxedTypeDesc(v.fortressType, thisApi());
         }
@@ -4794,7 +4798,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             // Push the free variables in order.
             for (VarCodeGen v : freeVars) {
                 v.pushHandle(mv);
-                if (!(v.isAMutableLocalVar()  || v.isAMutableTaskVar()))
+                if (!(v.isAMutableLocalVar()  || v.isAMutableTaskVar() || v.isAMutableStaticBinding()))
                     conditionallyCastParameter((Expr)null, v.fortressType);
             }
             mv.visitMethodInsn(INVOKESPECIAL, cname, "<init>", sig);
@@ -5856,16 +5860,19 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     /** Supposed to be called with nested codegen context. */
     private void generateVarDeclInnerClass(VarDecl x, String classFile, String tyName, Expr exp,
                                            boolean isMutable) {
-        String tyDesc = Naming.internalToDesc(tyName);
-        // A mutable variable is assigned from outside the class that declares
-        // it, which the JVM permits only on a non-final field.
-        int fieldAccess = ACC_PUBLIC + ACC_STATIC + (isMutable ? 0 : ACC_FINAL);
+        // A mutable variable's singleton field holds a MutableFValue cell and
+        // the value lives in the cell, so the field is written only here in
+        // <clinit> and stays final (VarCodeGen.MutableStaticBinding).
+        String fieldDesc = isMutable
+            ? NamingCzar.descFortressMutableFValueInternal
+            : Naming.internalToDesc(tyName);
+        int fieldAccess = ACC_PUBLIC + ACC_STATIC + ACC_FINAL;
         cw = new CodeGenClassWriter(ClassWriter.COMPUTE_FRAMES, cw);
         cw.visitSource(NodeUtil.getSpan(x).begin.getFileName(), null);
         cw.visit( InstantiatingClassloader.JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER + ACC_FINAL,
                   classFile, null, NamingCzar.internalSingleton, null );
         cw.visitField(fieldAccess,
-                      NamingCzar.SINGLETON_FIELD_NAME, tyDesc, null, null);
+                      NamingCzar.SINGLETON_FIELD_NAME, fieldDesc, null, null);
         mv = cw.visitCGMethod(ACC_STATIC,
                             "<clinit>", Naming.voidToVoid, null, null);
         exp.accept(this);
@@ -5874,8 +5881,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 tyName.startsWith(Naming.ARROW_OX)   ) {
             InstantiatingClassloader.generalizedCastTo(mv, tyName);
         }
+        if (isMutable) {
+            mv.visitMethodInsn(INVOKESTATIC,
+                               "com/sun/fortress/compiler/runtimeValues/MutableFValue",
+                               "make",
+                               "(Lcom/sun/fortress/compiler/runtimeValues/FValue;)Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;");
+        }
         mv.visitFieldInsn(PUTSTATIC, classFile,
-                          NamingCzar.SINGLETON_FIELD_NAME, tyDesc);
+                          NamingCzar.SINGLETON_FIELD_NAME, fieldDesc);
         voidEpilogue();
         cw.dumpClass( classFile );
     }
@@ -5904,7 +5917,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         addStaticVar(
             isMutable
                 ? new VarCodeGen.MutableStaticBinding(var, ty, classFile,
-                                                      NamingCzar.SINGLETON_FIELD_NAME, tyDesc)
+                                                      NamingCzar.SINGLETON_FIELD_NAME, tyName)
                 : new VarCodeGen.StaticBinding(var, ty, classFile,
                                                NamingCzar.SINGLETON_FIELD_NAME, tyDesc));
     }

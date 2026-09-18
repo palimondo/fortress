@@ -1,0 +1,33 @@
+Recorded after the edit. ant compileAll BUILD SUCCESSFUL (tmp/build-after-edit.log:879);
+caches wiped and rebuilt in library order (tmp/cache-after-edit.log), then each test recompiled.
+
+FORTRESS_THREADS=1 run=1 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=1 run=2 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=1 run=3 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=1 run=4 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=1 run=5 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=1 run=1 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=1 run=2 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=1 run=3 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=1 run=4 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=1 run=5 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=1 run=1 MutableTopLevelVar: PASS
+FORTRESS_THREADS=1 run=2 MutableTopLevelVar: PASS
+FORTRESS_THREADS=1 run=3 MutableTopLevelVar: PASS
+FORTRESS_THREADS=1 run=4 MutableTopLevelVar: PASS
+FORTRESS_THREADS=1 run=5 MutableTopLevelVar: PASS
+FORTRESS_THREADS=4 run=1 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=4 run=2 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=4 run=3 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=4 run=4 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=4 run=5 MutableTopLevelVarInLoop: PASS
+FORTRESS_THREADS=4 run=1 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=4 run=2 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=4 run=3 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=4 run=4 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=4 run=5 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=4 run=1 MutableTopLevelVar: PASS
+FORTRESS_THREADS=4 run=2 MutableTopLevelVar: PASS
+FORTRESS_THREADS=4 run=3 MutableTopLevelVar: PASS
+FORTRESS_THREADS=4 run=4 MutableTopLevelVar: PASS
+FORTRESS_THREADS=4 run=5 MutableTopLevelVar: PASS

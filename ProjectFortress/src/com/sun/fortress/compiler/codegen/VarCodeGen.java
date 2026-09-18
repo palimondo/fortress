@@ -30,6 +30,7 @@ import com.sun.fortress.nodes.Type;
 import com.sun.fortress.nodes_util.NodeFactory;
 // import com.sun.fortress.nodes_util.NodeUtil;
 import com.sun.fortress.nodes_util.Span;
+import com.sun.fortress.runtimeSystem.InstantiatingClassloader;
 import com.sun.fortress.runtimeSystem.InstantiationMap;
 import com.sun.fortress.runtimeSystem.Naming;
 import com.sun.fortress.useful.Debug;
@@ -82,6 +83,10 @@ public abstract class VarCodeGen {
 
     public boolean isAMutableTaskVar() {
         if (this instanceof MutableTaskVarCodeGen) return true; else return false;
+    }
+
+    public boolean isAMutableStaticBinding() {
+        if (this instanceof MutableStaticBinding) return true; else return false;
     }
 
     /** Generate code to push the value of this variable onto the Java stack.
@@ -295,23 +300,98 @@ public abstract class VarCodeGen {
 
     /** A mutable variable declared at the top level of a component.  Like
      * StaticBinding it lives in the singleton field of its own inner class,
-     * but that field is not final, so it can be written after the class's
-     * <clinit> has run.  A separate class rather than a flag on StaticBinding,
-     * so that assignment to an immutable top-level variable keeps failing.
+     * but that field holds a MutableFValue cell rather than the value, so that
+     * reads and writes can go through the current transaction exactly as
+     * LocalMutableVar and MutableTaskVarCodeGen do, and so that a nested
+     * code-generation context captures the cell rather than a copy of the
+     * value.  A separate class rather than a flag on StaticBinding, so that
+     * assignment to an immutable top-level variable keeps failing.
      */
     public static class MutableStaticBinding extends NeedsType {
 
-        public MutableStaticBinding(IdOrOp id, Type fortressType, String owner, String name, String desc) {
-            super(id, fortressType, owner, name, desc);
+        /** Internal name of the variable's declared type, for the cast after
+         *  reading the cell. */
+        private final String typeInternalName;
+
+        public MutableStaticBinding(IdOrOp id, Type fortressType, String owner, String name,
+                                    String typeInternalName) {
+            super(id, fortressType, owner, name, NamingCzar.descFortressMutableFValueInternal);
+            this.typeInternalName = typeInternalName;
+        }
+
+        private void pushCell(CodeGenMethodVisitor mv) {
+            mv.visitFieldInsn(Opcodes.GETSTATIC, packageAndClassName, objectFieldName, classDesc);
         }
 
         public void pushValue(CodeGenMethodVisitor mv) {
-            mv.visitFieldInsn(Opcodes.GETSTATIC, packageAndClassName, objectFieldName, classDesc);
+            Label atomicEnd = new Label();
+            Label end = new Label();
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                               "com/sun/fortress/runtimeSystem/BaseTask",
+                               "inATransaction",
+                               "()Z");
+            mv.visitJumpInsn(Opcodes.IFEQ, atomicEnd);
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                               "com/sun/fortress/runtimeSystem/BaseTask",
+                               "getCurrentTransaction",
+                               "()Lcom/sun/fortress/runtimeSystem/Transaction;");
+            pushCell(mv);
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
+                               "com/sun/fortress/runtimeSystem/Transaction",
+                               "TXRead",
+                               "(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+            mv.visitJumpInsn(Opcodes.GOTO, end);
+            mv.visitLabel(atomicEnd);
+
+            pushCell(mv);
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
+                               "com/sun/fortress/compiler/runtimeValues/MutableFValue",
+                               "getValue",
+                               "()Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+            mv.visitLabel(end);
+            InstantiatingClassloader.generalizedCastTo(mv, typeInternalName);
         }
 
         public void assignValue(CodeGenMethodVisitor mv) {
             // The value to assign is already on the stack.
-            mv.visitFieldInsn(Opcodes.PUTSTATIC, packageAndClassName, objectFieldName, classDesc);
+            Label atomicEnd = new Label();
+            Label end = new Label();
+
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                               "com/sun/fortress/runtimeSystem/BaseTask",
+                               "inATransaction",
+                               "()Z");
+            mv.visitJumpInsn(Opcodes.IFEQ, atomicEnd);
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                               "com/sun/fortress/runtimeSystem/BaseTask",
+                               "getCurrentTransaction",
+                               "()Lcom/sun/fortress/runtimeSystem/Transaction;");
+            mv.visitInsn(Opcodes.SWAP);
+            pushCell(mv);
+            mv.visitInsn(Opcodes.SWAP);
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
+                               "com/sun/fortress/runtimeSystem/Transaction",
+                               "TXWrite",
+                               "(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;Lcom/sun/fortress/compiler/runtimeValues/FValue;)V");
+            mv.visitJumpInsn(Opcodes.GOTO, end);
+            mv.visitLabel(atomicEnd);
+
+            pushCell(mv);
+            mv.visitInsn(Opcodes.SWAP);
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
+                               "com/sun/fortress/compiler/runtimeValues/MutableFValue",
+                               "setValue",
+                               "(Lcom/sun/fortress/compiler/runtimeValues/FValue;)V");
+            mv.visitLabel(end);
+        }
+
+        public void pushHandle(CodeGenMethodVisitor mv) {
+            pushCell(mv);
+        }
+
+        public void assignHandle(CodeGenMethodVisitor mv) {
+            throw new CompilerError(errorMsg("Invalid assignment to the cell of top-level variable ",
+                                             name, ": ", fortressType));
         }
 
         public String toString() {
@@ -537,6 +617,16 @@ public abstract class VarCodeGen {
             this.ifNone = ifNone;
 
             cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL, lmv.name,
+                          "Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;",
+                          null, null);
+        }
+
+        public MutableTaskVarCodeGen(MutableStaticBinding msb, String taskClass, APIName ifNone,
+                                     ClassVisitor cw, CodeGenMethodVisitor mv) {
+            super(msb.getName(), msb.fortressType);
+            this.taskClass = taskClass;
+            this.ifNone = ifNone;
+            cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL, msb.getName(),
                           "Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;",
                           null, null);
         }

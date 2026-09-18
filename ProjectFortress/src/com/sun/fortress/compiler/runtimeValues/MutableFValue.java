@@ -17,6 +17,12 @@ public class MutableFValue {
 
     volatile FValue value;
 
+    public static MutableFValue make(FValue v) {
+        MutableFValue result = new MutableFValue();
+        result.value = v;
+        return result;
+    }
+
     public FValue getValue() {
         return value;
     }
