@@ -177,3 +177,31 @@ conversation through 20:31.
 Recovery was carried out in the blinded run's container, which already had the
 checkout and the toolchain: fast-forward to `main`, fix the backup, materialise
 the other lineage's transcripts, then re-run the batch from its recorded brief.
+
+## The 2026-09-18 restart
+
+The repair batch's re-run was launched at 22:57 UTC (run `wf_9777a563-c5e`,
+session `fe616d40-…`). At about 23:22, 25 minutes in, the VM was restarted:
+the two agents' last records are 23:22:20 and 23:22:23, a test's output file
+was still being written at 23:22:29, and `uptime` read 0 minutes at 23:23:29
+on a kernel whose build string had changed (fc-v33 to fc-v37). One JVM was
+running across both worktrees at that moment, on 16 GB with no swap, so the
+load was not the cause; a platform restart is the only reading the record
+supports.
+
+What it cost: the two rung agents' working context, 25 minutes of two workers.
+What it did not cost: the disk survived, so the worktrees, their uncommitted
+edits, their `tmp/` logs and the agents' transcripts were all there afterwards
+and the transcripts were snapshotted at the next Stop; and the `wip/` branches
+held every milestone pushed before the restart — R1's two failing tests with
+their recorded failure (23:12) and its fix with the recorded pass (23:21), R2's
+failing test with its recorded failure (23:12). The batch was relaunched at
+23:28 (run `wf_aabc0cb2-d31`) from the same base, and the shared prefix gained
+a clause telling a worker whose branch already carries commits to read them
+and continue, verifying rather than redoing.
+
+Two properties of the harness, learned here: a `Workflow` run does not survive
+a VM restart even when the session does — its agents are gone, the harness
+lists them as stopped, and `resumeFromRunId` holds nothing for an agent that
+never finished, so the answer is a relaunch; and a `send_later` reminder is
+server-side and does survive, so it is deleted or re-armed to fit the relaunch.

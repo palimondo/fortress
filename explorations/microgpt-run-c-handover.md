@@ -22,6 +22,12 @@ worktrees per `remote-container.md` § Setting up a batch's worktrees, then
 coordinator's: every divergence that lands unrepaired and every decision a judge took under
 a silent specification, from the returned `forPavol` fields.
 
+Launched 2026-09-18 22:57 UTC on Pavol's go, base `49ee5e91`, run `wf_9777a563-c5e`. The VM
+was restarted by the platform at 23:22 with the disk intact, and the batch was relaunched at
+23:28 from the same base as run `wf_aabc0cb2-d31`, its workers continuing from what their
+`wip/` branches already held (`remote-container.md` § The 2026-09-18 restart). The next event
+is its completion notice or a check-in that finds something wrong; the report to Pavol follows.
+
 The launch, step by step, once Pavol says go (he approved the plan on 2026-09-18 evening
 and asked for a compaction first): (1) `git status` clean on `main`, `main` = `origin/main`
 = the container branch; `df -h` over 5 GB; no `/home/user/fortress-r1` or `-r2` and no
