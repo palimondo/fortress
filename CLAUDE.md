@@ -13,11 +13,8 @@ is presented, commit discipline, delegation — is in
 The coordinator's knowledge base — `explorations/coordinator/` (`FACTS.md`: what is
 established, with sources; `POSITIONS.md`: what Pavol has decided and already knows) — is
 read at session start and after every compaction, and updated in the same commit as the
-work that establishes a fact or takes a decision; the current state of the work and the
-next actions are in `explorations/coordinator/STATE.md`.
-How this work survives its container — the transcript backup, re-arming it in a fresh
-container, and recovering a session whose container died —
-is `explorations/coordinator/remote-container.md`.
+work that establishes a fact or takes a decision; the current state of the work is in
+`explorations/microgpt-run-c-handover.md`.
 
 ## Build and run (verified: Ubuntu 24.04 container, JDK 25 — current rung)
 

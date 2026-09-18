@@ -1,6 +1,30 @@
-<!-- Handover note written by the coordinating session on 2026-09-14 and rewritten the same day after Runs C2 and C3 were integrated, so that the state of the C series and the APL side quest survives context compaction. Read this before touching either. Facts cite their files. -->
+<!-- Handover note written by the coordinating session on 2026-09-14 and rewritten the same day after Runs C2 and C3 were integrated, so that the state of the C series and the APL side quest survives context compaction. Read this before touching either. Facts cite their files. The first section, added 2026-09-18, is where the work stands overall; the C series and the APL quest below it are parked. -->
 
 # The C series and the APL side quest: state and what comes next
+
+## Where the work stands — 2026-09-18
+
+The live thread is the compile-path ladder (`coordinator/PLAN.md`). Eight rungs were
+climbed on 2026-09-17; the conformance review (`reviews/rung-conformance-1-4.md`,
+`-5-8.md`) found rung 3 a specification violation and rung 7 an unargued deviation, and
+those two became the **repair batch**, `coordinator/REPAIR-BATCH.md`, which is the next
+work and is written to be run cold.
+
+The batch was launched once, 2026-09-17 19:26, and died with its container mid-run; its
+agents' results are not recoverable, so it is **re-run from the start**. One step first:
+the launched script, recovered verbatim as `coordinator/repair-batch-workflow.js`, ends at
+the scatter (per rung: rung → skeptic → repair → skeptic2). The four stages that were to
+follow (gather, gate, commit, ledger) were to be added by resuming the run, which cannot
+be done from another session — write them into the script instead.
+
+The work moved into the blinded run's container on 2026-09-18, which already had the
+checkout and toolchain. Branch `main`; the infrastructure's branch name for this container,
+`claude/worker-brief-fable-vnnuv8`, is pinned to the same commit. This session is
+`fe616d40-…` and its transcripts go to `transcripts-blinded`. The dead session
+(`bdff267d-…`, branch `transcripts`) is materialised at `/home/user/fortress-transcripts`,
+complete to its last record 2026-09-17T20:31:14Z; nothing after that exists. The backup was
+repaired first — workflow-agent transcripts were outside its globs. Detail, and the recovery
+procedure if it happens again: `coordinator/remote-container.md`.
 
 ## Read first
 
