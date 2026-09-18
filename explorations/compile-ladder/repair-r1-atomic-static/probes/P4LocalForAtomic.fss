@@ -1,0 +1,10 @@
+component P4LocalForAtomic
+export Executable
+run(): () = do
+    var counter: ZZ32 := 0
+    for i <- 1#10 do
+        atomic do counter := counter + 1 end
+    end
+    println("counter = " counter)
+  end
+end

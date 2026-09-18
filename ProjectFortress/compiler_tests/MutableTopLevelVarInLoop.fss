@@ -1,0 +1,52 @@
+(*******************************************************************************
+    Copyright 2026, the Fortress revival.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+(* Assignment to a mutable variable declared at the top level of a component,
+   written from inside a nested code-generation context: the body of a `for`
+   loop, and an arm of a parallel `do ... also do ... end`.
+
+   Specification/basic/expressions/bindings.tex:57-59 -- "Assigning a left-hand
+   variable simply changes the binding for the variable's location to contain
+   the new value" -- and Specification/basic/expressions/var-ref.tex:26-30 -- an
+   identifier reference "evaluates to the value of the name in the enclosing
+   scope" and "performs a memory read operation".  There is one location per
+   declaration, so the write made inside the loop body must be the value the
+   read after the loop obtains.
+
+   This is deterministic and does not depend on the thread count. *)
+
+component MutableTopLevelVarInLoop
+export Executable
+
+inLoop: ZZ32 := 0
+
+inArmA: ZZ32 := 0
+
+inArmB: ZZ32 := 0
+
+run(): () = do
+    for i <- 1#10 do
+        inLoop := inLoop + 1
+    end
+    do
+        inArmA := 7
+    also do
+        inArmB := 9
+    end
+    if inLoop = 10 AND inArmA = 7 AND inArmB = 9 then
+        println("PASS")
+    else
+        println("FAIL: inLoop = " inLoop " (expected 10), inArmA = " inArmA
+                " (expected 7), inArmB = " inArmB " (expected 9)")
+    end
+  end
+
+end

@@ -1,0 +1,10 @@
+component P2For
+export Executable
+counter: ZZ32 := 0
+run(): () = do
+    for i <- 1#10 do
+        counter := counter + 1
+    end
+    println("counter = " counter)
+  end
+end

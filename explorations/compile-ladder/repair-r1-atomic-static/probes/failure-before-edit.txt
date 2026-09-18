@@ -1,0 +1,21 @@
+Recorded on the tree at 49ee5e91, before any source edit.
+git status (source tree): 0 modified files under ProjectFortress/src
+
+=== ant compileAll: BUILD SUCCESSFUL (tmp/build-baseline.log) ===
+
+--- fortress compile MutableTopLevelVarInLoop.fss ---
+compile exit=0
+--- fortress compile AtomicTopLevelVar.fss ---
+compile exit=0
+FORTRESS_THREADS=1 run=1 MutableTopLevelVarInLoop: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)
+FORTRESS_THREADS=1 run=2 MutableTopLevelVarInLoop: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)
+FORTRESS_THREADS=1 run=3 MutableTopLevelVarInLoop: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)
+FORTRESS_THREADS=1 run=1 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=1 run=2 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=1 run=3 AtomicTopLevelVar: PASS
+FORTRESS_THREADS=4 run=1 MutableTopLevelVarInLoop: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)
+FORTRESS_THREADS=4 run=2 MutableTopLevelVarInLoop: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)
+FORTRESS_THREADS=4 run=3 MutableTopLevelVarInLoop: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)
+FORTRESS_THREADS=4 run=1 AtomicTopLevelVar: FAIL: counter =  34714  expected  40000
+FORTRESS_THREADS=4 run=2 AtomicTopLevelVar: FAIL: counter =  31161  expected  40000
+FORTRESS_THREADS=4 run=3 AtomicTopLevelVar: FAIL: counter =  38026  expected  40000

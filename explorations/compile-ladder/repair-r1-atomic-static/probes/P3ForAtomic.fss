@@ -1,0 +1,10 @@
+component P3ForAtomic
+export Executable
+counter: ZZ32 := 0
+run(): () = do
+    for i <- 1#10 do
+        atomic do counter := counter + 1 end
+    end
+    println("counter = " counter)
+  end
+end

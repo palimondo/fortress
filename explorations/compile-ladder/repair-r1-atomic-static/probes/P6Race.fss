@@ -1,0 +1,13 @@
+component P6Race
+export Executable
+counter: ZZ32 := 0
+bump(): () = atomic do counter := counter + 1 end
+run(): () = do
+    do
+        for i <- 1#20000 do bump() end
+    also do
+        for i <- 1#20000 do bump() end
+    end
+    println("counter = " counter)
+  end
+end
