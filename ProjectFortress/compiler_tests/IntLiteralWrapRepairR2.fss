@@ -31,9 +31,10 @@ export Executable
 (*)
 (*) The NN32 and NN64 checks pass before the repair as well as after: the
 (*) getters asNN32 and asNN64 read the wrapped two's-complement pattern, which
-(*) is the right unsigned value.  They are here because the repair breaks them
-(*) unless those two getters learn to read the decimal string that a numeral of
-(*) bit length 64 carries once the split is exact.
+(*) is the right unsigned value.  The NN64 check is here because the repair
+(*) breaks asNN64 unless it learns to read the decimal string that a numeral of
+(*) bit length 64 carries once the split is exact; the NN32 check guards a
+(*) getter whose range check accepted every value before the repair.
 
 run(): () = do
     (*) ZZ, the type the specification defines as all the finite integers.

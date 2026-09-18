@@ -174,13 +174,19 @@ compiled run; it does not create any.
 
 The complete blast radius was measured rather than guessed: every numeral in the corpora
 and the libraries whose value has bit length exactly 32 or exactly 64 was enumerated by
-value, in every radix (`probes/boundary-numerals.txt`).  Twelve sites are in range for
-their annotated type (`NN32_MAX`, `NN64_MAX`, `ShiftTest.fss:32-33`, `NN32.fss:43,46`,
-`NN64.fss:45,46,48`, `ZZ.fss:44`, `AverageTest.fss:118`, `ShiftTest2.fss:194`) and are
-now correct where they had been right only by the wrap's accident.  Five are out of range:
-the four above plus `library_tests/ChooseTest3.fss:125`, which is in no `.test` file
-(`LibraryJUTest.java:36` sweeps `.test` files only), so it is not gated and is left for the
-record rather than edited unverified.
+value, in every radix (`probes/boundary-numerals.txt`).  Eighteen of those lines are on the
+compile path.  Twelve are in range for their annotated type (`CompilerLibrary.fss:574,576`
+`NN32_MAX` and `NN64_MAX`, `ShiftTest.fss:32,33`, `NN32.fss:43,46`, `NN64.fss:45,46,48`,
+`ZZ.fss:44`, `AverageTest.fss:118`, `ShiftTest2.fss:194`) and are now correct where they had
+been right only by the wrap's accident.  Six are out of range: the five repaired here
+(`CompilerLibrary.fss:569,571`, `Integer3.fss:46`, `Integer4.fss:46`,
+`IntegerChoose2.fss:114`) and `library_tests/ChooseTest3.fss:125`, which is in no `.test`
+file (`LibraryJUTest.java:36` sweeps `.test` files only), so it is not gated and is left for
+the record rather than edited unverified.  The remaining lines the enumeration shows are in
+the interpreter-only libraries `Library/QuickCheck.fss` and `Library/Random.fss`, which are
+not part of the compile-path prelude, in `ProjectFortress/tests/`, whose two hits are
+untyped comparisons of the same numeral to itself (`NumeralTest.fss:44-45`) and numerals
+inside string literals, and in this rung's own test.
 
 ### The four repairs, and why each is the smallest faithful one
 
@@ -327,8 +333,9 @@ The intermediate state, part one only: `probes/junit-codegen-only.out` — `Not 
 NN64: 18446744073709551615` from `FIntLiteral.asNN64`, which is the coupling the brief
 predicted, measured.
 
-Pass: `probes/junit-after.out` and `probes/junit-repaired.out` — `. run
-compiler_tests/IntLiteralWrapRepairR2 (276ms) PASS`, `OK (2 tests)`.
+Pass: `probes/junit-after.out` (part one), `probes/junit-repaired.out` (after the four
+further repairs) and `probes/junit-final.out` (the tree as it is left) — `. run
+compiler_tests/IntLiteralWrapRepairR2 (430ms) PASS`, `OK (2 tests)`.
 
 The corpus differential: `probes/integer-test-before.out` (`OK (27 tests)`),
 `probes/integer-test-after.out` (part one only: four failures), `probes/integer-test-repaired.out`
