@@ -1,0 +1,64 @@
+--- /home/user/fortress/Library/FortressLibrary.fss	2026-09-08 16:43:01.959030498 +0000
++++ src/FortressLibrary.fss	2026-09-19 18:43:47.108942621 +0000
+@@ -324,8 +324,11 @@
+ * Numeric hierarchy
+ ************************************************************)
+ 
++(** Place holder for exclusions of AdditiveGroup **)
++trait AnyAdditiveGroup end
++
+ (** Additive group making use of +.  Must define + and either unary or binary -. **)
+-trait AdditiveGroup[\T extends AdditiveGroup[\T\]\]
++trait AdditiveGroup[\T extends AdditiveGroup[\T\]\] extends AnyAdditiveGroup
+     getter zero(): T = self - self
+     opr +(self, other: T): T
+     opr -(self, other: T): T = self + (-other)
+@@ -606,7 +609,7 @@
+     denominator(self):ZZ = den
+ end
+ 
+-trait AnyIntegral extends { QQ } end
++trait AnyIntegral extends { QQ } comprises { ZZ } end
+ 
+ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
+     getter zero(): I
+@@ -2663,7 +2666,7 @@
+     extends { Indexed1[\s0\], Indexed2[\s1\], Indexed3[\s2\], Rank3,
+               StandardMutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,
+                                         (ZZ32,ZZ32,ZZ32)\] }
+-    excludes { Number, String }
++    excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
+ 
+     getter size():ZZ32 = s0 s1 s2
+     getter sizes():(ZZ32,ZZ32,ZZ32) = (s0, s1, s2)
+--- /home/user/fortress/Library/FortressLibrary.fsi	2026-09-08 16:43:01.959030498 +0000
++++ src/FortressLibrary.fsi	2026-09-19 18:43:47.109509123 +0000
+@@ -249,7 +249,9 @@
+ 
+ (** Additive group making use of %+%.  Must define %+% and
+     either unary or binary %-%. **)
+-trait AdditiveGroup[\T extends AdditiveGroup[\T\]\]
++trait AnyAdditiveGroup end
++
++trait AdditiveGroup[\T extends AdditiveGroup[\T\]\] extends AnyAdditiveGroup
+     getter zero(): T
+     abstract opr +(self, other: T): T
+     opr -(self, other: T): T
+@@ -403,7 +405,7 @@
+     opr MAXNUM(self, other:QQ):QQ
+ end
+ 
+-trait AnyIntegral extends { QQ } end
++trait AnyIntegral extends { QQ } comprises { ZZ } end
+ 
+ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
+     getter zero(): I
+@@ -1653,7 +1655,7 @@
+     extends { Indexed1[\s0\], Indexed2[\s1\], Indexed3[\s2\], Rank3,
+               StandardMutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,
+                                         (ZZ32,ZZ32,ZZ32)\] }
+-    excludes { Number, String }
++    excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
+ 
+     getter size():ZZ32
+     getter sizes():(ZZ32,ZZ32,ZZ32)

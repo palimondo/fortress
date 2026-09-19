@@ -1,0 +1,17 @@
+com.sun.fortress.exceptions.ProgramError: explorations/run-c4/cold-cache/operators/D/probes/PplusN2c/FortressLibrary.fss:4496:1-4500:2: and
+explorations/run-c4/cold-cache/operators/D/probes/PplusN2c/PlusLibN2.fss:3:1-101:
+
++[\I\](a:Array[\FortressLibrary.RR64,I\],s:FortressLibrary.RR64):Array[\FortressLibrary.RR64,I\]explorations/run-c4/cold-cache/operators/D/probes/PplusN2c/PlusLibN2.fss:3:1-101 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/run-c4/cold-cache/operators/D/probes/PplusN2c/FortressLibrary.fss:4496:1-4500:2:
+explorations/run-c4/cold-cache/operators/D/probes/PplusN2c/UserPlusLibN2.fss:7:88:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

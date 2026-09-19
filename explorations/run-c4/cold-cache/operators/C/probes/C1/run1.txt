@@ -1,0 +1,4 @@
+plus: 3.0 3.0 3 3 4.0 3.5
+minus: 1.5 0.0 1 0.0
+max: 2.0 0.0 1 0.0 3.0
+product still a Matrix: 5.0  sum with library +: 4.0

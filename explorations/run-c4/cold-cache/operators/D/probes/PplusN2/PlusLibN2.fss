@@ -1,0 +1,6 @@
+component PlusLibN2
+export PlusLibN2
+opr +[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e + s)
+opr +[\nat r, nat c, nat a, nat b, nat d\](m: Matrix[\RR64,r,c\], t: Array3[\RR64,0,a,0,b,0,d\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = t.ivmap[\RR64\](fn (ix: (ZZ32,ZZ32,ZZ32), e: RR64): RR64 => do (p, i, j) = ix; m[i,j] + e end)
+zerosM(r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i - j))
+end

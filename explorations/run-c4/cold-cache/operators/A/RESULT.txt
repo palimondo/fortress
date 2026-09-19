@@ -1,0 +1,15 @@
+Route A (the causal mask as a view object; plane-wise + over CausalMask[\s\]): NOT BUILDABLE.
+Cold first run of MicroGptFlatCheck (run1.txt): dies before the first check at
+FlatArrays.fss:24 (the scalar + (a: Array[\RR64,I\], s: RR64)) against AdditiveGroup.+
+(FortressLibrary.fss:330). Mechanism: the two user + declarations make the imported name an
+overloaded set; the importing component merges it with the library's functional methods
+(DesugarerVisitor.injectAtTopLevel; BuildTopLevelEnvironments.java:166 flags only a SINGLE
+imported function guaranteedOK) and checks every unflagged member; the object-typed
+declaration passes (an object excludes the library's T) but the trait-typed scalar one is
+checked and refused. So "any number with an object-typed operand pass" (review, F1/F2) holds
+only when EVERY declaration of the name has an object operand; a mask object cannot shield
+x + epsilon_A. The diff (A.diff, 55 changed lines, model line 29 ->
+`mask: Array[\RR64,(ZZ32,ZZ32)\] = causalMask(blockSize)`, lines 40-98 byte-identical) is
+kept for the record. The APL base is moot for the same reason; there the mask is built in the
+APL text itself (MicroGptApl.fss:43, through the grammar's L7 rule, AplMgSyntax.fsi:180-181),
+so the object could only have entered through that rule's expansion.

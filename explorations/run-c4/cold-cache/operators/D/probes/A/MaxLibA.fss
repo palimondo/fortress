@@ -1,0 +1,6 @@
+component MaxLibA
+export MaxLibA
+opr MAX[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s MAX e)
+opr MAX[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e MAX s)
+zerosM(r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i - j))
+end

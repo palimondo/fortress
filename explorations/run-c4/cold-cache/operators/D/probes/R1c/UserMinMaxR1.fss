@@ -1,0 +1,8 @@
+component UserMinMaxR1
+export Executable
+import MinMaxR1.{...}
+run(): () = do
+    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    println "minmax: " ((v MINMAX 1.0)[0]) " " ((1.0 MINMAX v)[0]) " " (1.0 MINMAX 1.0)
+end
+end

@@ -1,0 +1,20 @@
+Route D (exclusion declared in a copy of the library, in the library's own patterns; C4 with
+the three unused declarations dropped and Diag a Matrix view; zero model lines changed):
+NOT SUFFICIENT ALONE.  Cold first run of MicroGptFlatCheck under the D shim (run1.txt) dies
+at FlatArrays.fss:24, the scalar + (a: Array[\RR64,I\], s: RR64), against the library's own
+GROUND `opr +(x: Array[\ZZ32,ZZ32\], y: ZZ32)` (tree :4493, shim :4496).  The library's method
+AdditiveGroup.+ is no longer the partner: the tower closure cured that pair.
+
+What the probes established (probes/<name>/run1.txt, each on a fresh cache):
+  Z1      ZZ32 pair of MINMAX in a user api, plain library        green  <- ZZ32's closed comprises
+  R1      RR64 pair of MINMAX, plain library                       refused vs StandardMinMax.MINMAX :259
+  R1c     R1 + `AnyIntegral comprises { ZZ }`                       green  <- the closure alone cures a method pair
+  Ac      review's A (MAX pair, [\I\]) + closure                   refused vs ground MAX :4511 (shim :4514)
+  Pjuxt2c review's Pjuxt2 + closure + Array3 excludes              green  <- the AnyMultiplicativeRing pattern applied to Array3
+  PplusN2c review's PplusN2 + closure + Array3 excludes            refused vs ground + :4493 (shim :4496)
+The residual blocker is the concrete element type of the library's scalar block: two
+instantiations of Array over different element types are neither ordered nor excluding in the
+interpreter (row 97), and RR64/ZZ32 are ordered (ZZ32 <: ZZ64 <: ZZ <: ... <: QQ <: RR64), so
+no clause can separate `(Array[\RR64,I\], RR64)` from `(Array[\ZZ32,ZZ32\], ZZ32)`.  The
+block itself has to become generic over the element type, which is route C; route C needs
+route D's closure to load beside AdditiveGroup.+ (C1: green).

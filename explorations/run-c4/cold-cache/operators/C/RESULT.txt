@@ -1,0 +1,17 @@
+Route C (the scalar extension in the library, with route D's clauses): GREEN COLD.
+run1.txt: first run of MicroGptFlatCheck from an empty private FORTRESS_CACHES under the shim
+library in src/ (C.library.diff: 56 changed lines = D's 15 + the :4493-4517 block rewritten as
+eight generic `[\T extends Number, I\]` declarations, + - MIN MAX, both orders, .fsi mirrored):
+40 PASS, 0 FAIL; output identical to explorations/run-c4/checks/threads1.txt with the timing
+lines masked (compare.sh).  C4's diff (C.c4.diff, 35 changed lines): FlatArrays loses its six
+scalar declarations and the Diag product (the library's now); Diag is a Matrix view; the
+plane-wise + and the batched juxtaposition stay, one declaration each; MicroGptFlat.fss: 0 lines.
+probes/C1/run1.txt: the shim library loads and serves ZZ32 and RR64, both orders, matrix and
+vector, and the library's own + and product still work on the results.
+Under the sealed tree this is an edit of Library/FortressLibrary.{fss,fsi}: PLAN.md's rule
+needs the failing test first, in ProjectFortress/library_tests/ (a program calling
+`v + 1.0`, `1.0 MAX m`, `iv + 1` and, for the closure, two user declarations of one library
+operator name over RR64 arrays, printing PASS), verified red on the sealed tree, then the
+gate green: every one of the 382 testSystem programs loads this library, so a load-time
+regression is caught there; no test in ProjectFortress/tests names PREFIX_SUM/SUFFIX_SUM or
+adds a literal to a ZZ32 array, so the block's behaviour has no assertion today.

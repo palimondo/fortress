@@ -1,0 +1,5 @@
+component MinMaxR1
+export MinMaxR1
+opr MINMAX(x: Array[\RR64,ZZ32\], y: RR64): Array[\RR64,ZZ32\] = x.map[\RR64\](fn (e: RR64): RR64 => e MAX y)
+opr MINMAX(y: RR64, x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x.map[\RR64\](fn (e: RR64): RR64 => y MAX e)
+end

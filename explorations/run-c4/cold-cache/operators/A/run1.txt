@@ -1,0 +1,18 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:330:5-28: and
+explorations/run-c4/cold-cache/operators/A/src/FlatArrays.fss:24:1-101:
+
+AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:330:5-28 and
++[\I\](a:Array[\FortressLibrary.RR64,I\],s:FortressLibrary.RR64):Array[\FortressLibrary.RR64,I\]explorations/run-c4/cold-cache/operators/A/src/FlatArrays.fss:24:1-101 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:330:5-28:
+explorations/run-c4/cold-cache/operators/A/src/MicroGptFlatCheck.fss:38:37:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

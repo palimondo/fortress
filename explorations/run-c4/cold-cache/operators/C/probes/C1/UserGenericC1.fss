@@ -1,0 +1,13 @@
+component UserGenericC1
+export Executable
+run(): () = do
+    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    iv = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => i)
+    m = array[\RR64\](3,2).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i - j))
+    println "plus: " ((v + 1.0)[2]) " " ((1.0 + v)[2]) " " ((iv + 1)[2]) " " ((1 + iv)[2]) " " ((v + v)[2]) " " (1.5 + 2.0)
+    println "minus: " ((v - 0.5)[2]) " " ((2.0 - v)[2]) " " ((iv - 1)[2]) " " ((v - v)[2])
+    println "max: " ((0.0 MAX m)[2,0]) " " ((m MAX 0.0)[0,1]) " " ((iv MAX 1)[0]) " " ((m MIN 0.0)[2,0]) " " (2.0 MAX 3.0)
+    mr = 0.0 MAX m
+    println "product still a Matrix: " ((mr mr.t())[2,2]) "  sum with library +: " ((mr + mr)[2,0])
+end
+end
