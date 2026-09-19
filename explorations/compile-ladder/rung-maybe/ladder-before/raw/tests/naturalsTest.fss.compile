@@ -1,0 +1,19 @@
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:16:7-19:
+    Function Nothing is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:17:7-19:
+    Function Just is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:26:13-25:
+    Function Nothing is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:28:11-20:
+    Function Just is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:29:13-25:
+    Function Just is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:30:11-23:
+    Function Just is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:33:13-16:
+    Operator NOTIN is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:35:16-19:
+    Operator NOTIN is not defined.
+Compiler internal generated.:0:0:
+    Variable __cond is not defined.
+File naturalsTest.fss has 9 errors.

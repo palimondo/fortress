@@ -1,0 +1,4 @@
+=== fortress compile library_tests/MaybeRungM.fss (after the edit, from a cache rebuilt from scratch 2026-09-19) ===
+compile-rc=0
+PASS
+run-rc=0

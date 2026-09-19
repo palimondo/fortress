@@ -1,0 +1,6 @@
+tests	ExceptionScoping.fss	ExceptionScoping	255		2	
+tests	oddJuxt.fss	oddJuxt	255		2	
+tests	maybeTest.fss	maybeTest	255		1	
+tests	naturalsTest.fss	naturalsTest	255		2	
+tests	HeapTest.fss	HeapTest	255		2	
+tests	IntMapTest.fss	IntMapTest	255		2	

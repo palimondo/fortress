@@ -1,0 +1,19 @@
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:16:7-19:
+    Function Nothing is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:17:7-19:
+    Function Just is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:26:13-25:
+    Function Nothing is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:28:11-20:
+    Function Just is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:29:12-24:
+    Function Just is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:30:11-23:
+    Function Just is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:33:13-16:
+    Operator NOTIN is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:35:16-19:
+    Operator NOTIN is not defined.
+Compiler internal generated.:0:0:
+    Variable __cond is not defined.
+File maybeTest.fss has 9 errors.

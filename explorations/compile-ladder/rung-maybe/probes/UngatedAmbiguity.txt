@@ -1,0 +1,19 @@
+Measured 2026-09-19: the effect of this rung's declarations on the seven ungated
+not_working_library_tests/ components that declare Maybe, Just and NothingObject
+themselves.  'baseline' is the error count recorded in
+explorations/compile-ladder/after/raw/not_working_library_tests/<f>.fss.compile;
+'now' is a fresh compile in this worktree with the edit in place.
+
+file           baseline   now    new-ambig  first error now
+GenTest3       6          13     7          Type name may refer to: Generator, CompilerBuiltin.Generator
+GenTest4       122        131    9          Type name may refer to: Generator, CompilerBuiltin.Generator
+HelperTest1    115        127    12         Type name may refer to: Generator, CompilerBuiltin.Generator
+HelperTest2    115        127    12         Type name may refer to: Generator, CompilerBuiltin.Generator
+HelperTest3    115        127    12         Type name may refer to: Generator, CompilerBuiltin.Generator
+MaybeTest1     1          1      0          Syntax Error (line 15, before name resolution)
+MaybeTest2     1          1      0          Syntax Error (line 15, before name resolution)
+
+Every new error is of the form "Type name may refer to: X, CompilerLibrary.X",
+the shape these files already carried for Generator and Condition against
+CompilerBuiltin.  None of the seven compiles before or after, and none is gated
+(explorations/coordinator/map/test-coverage.md:32).  Full captures: tmp/ungated/.

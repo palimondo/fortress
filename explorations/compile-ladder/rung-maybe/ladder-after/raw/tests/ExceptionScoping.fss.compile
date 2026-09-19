@@ -1,0 +1,3 @@
+/home/user/fortress-maybe/ProjectFortress/tests/ExceptionScoping.fss:31:13-26:
+    Unexpected type for a singleton object reference.
+File ExceptionScoping.fss has 1 error.

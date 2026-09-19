@@ -1,0 +1,5 @@
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/DualNothing.fss:8:55-65:
+    Incorrect number of static arguments for type 'NothingD': provided 1, expected 0
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/DualNothing.fss:16:14-20:
+    Incorrect number of static arguments for type 'NothingD': provided 1, expected 0
+File DualNothing.fss has 2 errors.
