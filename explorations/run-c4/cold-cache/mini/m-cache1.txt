@@ -1,0 +1,14 @@
+CovariantCollection-44e576d.tfs
+FlatString-2db02604.tfs
+FortressBuiltin-6ca8efdc.tfs
+FortressLibrary-34d14513.tfs
+List-2d224938.tfs
+MaxProbe-1cd605cb.tfs
+NatReflect-5c320e75.tfs
+NativeArray-25f54e39.tfs
+OneShotFlag-25ffeee2.tfs
+RangeInternals-56230533.tfs
+Stream-50935e9a.tfs
+String-3a06beab.tfs
+TypeProxy-54fd43aa.tfs
+Writer-72dd020d.tfs

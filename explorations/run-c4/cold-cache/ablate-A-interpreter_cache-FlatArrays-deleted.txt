@@ -1,0 +1,22 @@
+MicroGptFlat checks (Run C4) | threads 1 | tolerances: loss 1.0E-12 grad 1.0E-12 fd 1.0E-8
+loader: max |P - P0| over 4192: diff 0.0 PASS
+corpus: max |row - golden| over documents 0..15: diff 0.0 PASS
+step 0 batch 1: max |gradient - golden| over 4192: diff 1.1102230246251565E-16 PASS
+step 0 batch 1: max |P after Adam - golden| over 4192: diff 8.326672684688674E-17 PASS
+step 0 batch 1: zero gradient entries - 464: diff 0.0 PASS
+batch 1 step 1 loss 3.3659669475848513 vs 3.365966947584851 (16339 ms): diff 4.440892098500626E-16 PASS
+batch 1 step 2 loss 3.424272783871772 vs 3.424272783871772 (7878 ms): diff 0.0 PASS
+batch 1 step 3 loss 3.177802125458053 vs 3.177802125458053 (7665 ms): diff 0.0 PASS
+batch 1 step 4 loss 3.066355684224198 vs 3.066355684224198 (7687 ms): diff 0.0 PASS
+batch 1 step 5 loss 3.2208830897506235 vs 3.2208830897506235 (7717 ms): diff 0.0 PASS
+batch 4 loss 3.28664155669517 vs golden 3.28664155669517 (27267 ms): diff 0.0 PASS
+batch 4: single-document loss 3.3659669475848513 vs golden 3.365966947584851 (document 0): diff 4.440892098500626E-16 PASS
+batch 4: single-document loss 3.426576395687917 vs golden 3.426576395687917 (document 1): diff 0.0 PASS
+batch 4: single-document loss 3.181956443648965 vs golden 3.1819564436489656 (document 2): diff 4.440892098500626E-16 PASS
+batch 4: single-document loss 3.098249425325908 vs golden 3.098249425325908 (document 3): diff 0.0 PASS
+batch 4 loss vs token-weighted mean of single-document losses 3.28664155669517: diff 0.0 PASS
+fd doc 0 P[17] backprop 0.0 fd 0.0 (golden fd 0.0): diff 0.0 PASS
+fd doc 0 P[500] backprop -0.09262792010673876 fd -0.09262792022290967 (golden fd -0.09262792000086506): diff 1.1617090622806359E-10 PASS
+fd doc 0 P[1000] backprop -7.907983194362436E-7 fd -7.907008381380365E-7 (golden fd -7.907008381380365E-7): diff 9.748129820713602E-11 PASS
+fd doc 0 P[1300] backprop 1.3868449017482692E-4 fd 1.3868439729947113E-4 (golden fd 1.3868439729947113E-4): diff 9.287535578930348E-11 PASS
+fd doc 0 P[1500] backprop -3.4529571739452285E-5 fd -3.4529490378076844E-5 (golden fd -3.4529490378076844E-5): diff 8.13613754412643E-11 PASS

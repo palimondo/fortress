@@ -1,0 +1,8 @@
+component MaxUser
+export Executable
+import MaxLib.{...}
+run(): () = do
+    println (2.0 MAX 3.0)
+    println ((1.0 MAX zeros(3))[0])
+  end
+end

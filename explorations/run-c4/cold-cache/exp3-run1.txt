@@ -1,0 +1,28 @@
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/cold-cache/tmp/fortress15960401441178419300rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/cold-cache/tmp/fortress15960401441178419300rats/com/sun/fortress/parser/templateparser/TemplateParser395.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/cold-cache/tmp/fortress3100708264592406003rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/cold-cache/tmp/fortress3100708264592406003rats/com/sun/fortress/parser/templateparser/TemplateParser593.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/apl/mg/FlatArrays2.fss:40:1-99: and
+/home/user/fortress/Library/FortressLibrary.fss:280:5-71:
+
+MAX[\T extends FortressLibrary.Number,I\](s:T,a:Array[\T,I\]):Array[\T,I\]/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:40:1-99 and
+StandardTotalOrder[\T extends StandardTotalOrder[\T\]\](uninstantiated)[\T extends StandardTotalOrder[\T\]\].MAX(self:StandardTotalOrder[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:280:5-71 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/explorations/apl/mg/FlatArrays2.fss:40:1-99:
+/home/user/fortress/explorations/apl/mg/MicroGptAplCheck.fss:40:71-72:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

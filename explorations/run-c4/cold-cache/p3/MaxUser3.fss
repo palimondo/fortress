@@ -1,0 +1,10 @@
+component MaxUser3
+export Executable
+import MaxLib3.{...}
+biggest(a: Array[\RR64,ZZ32\]): RR64 = BIG MAX[i <- 0#|a|] |a[i]|
+run(): () = do
+    println (2.0 MAX 3.0)
+    println (biggest(zeros(3)))
+    println ((1.0 MAX zeros(3))[0])
+  end
+end
