@@ -198,7 +198,8 @@ their recorded failure (23:12) and its fix with the recorded pass (23:21), R2's
 failing test with its recorded failure (23:12). The batch was relaunched at
 23:28 (run `wf_aabc0cb2-d31`) from the same base, and the shared prefix gained
 a clause telling a worker whose branch already carries commits to read them
-and continue, verifying rather than redoing.
+and continue, verifying rather than redoing. The relaunched batch landed at 03:22, so the
+restart cost 25 minutes of two workers and nothing else.
 
 Two properties of the harness, learned here: a `Workflow` run does not survive
 a VM restart even when the session does — its agents are gone, the harness

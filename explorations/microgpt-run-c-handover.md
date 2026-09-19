@@ -7,26 +7,26 @@
 The live thread is the compile-path ladder (`coordinator/PLAN.md`). Eight rungs were
 climbed on 2026-09-17; the conformance review (`reviews/rung-conformance-1-4.md`,
 `-5-8.md`) found rung 3 a specification violation and rung 7 an unargued deviation, and
-those two became the **repair batch**, `coordinator/REPAIR-BATCH.md`, which is the next
-work and is written to be run cold.
+those two became the **repair batch**, `coordinator/REPAIR-BATCH.md`, landed on
+2026-09-19 (next paragraph).
 
-The batch was launched once, 2026-09-17 19:26, and died with its container mid-run; its
-agents' results are not recoverable, so it is **re-run from the start**. The script for
-that, `coordinator/repair-batch-workflow.js`, is complete as of 2026-09-18 evening: the
-recovered scatter (per rung: rung → skeptic → repair → skeptic2) plus gather, review, gate
-and commit, with workers committing and pushing to `wip/` branches as they go and a judge
-on the session's model escalated only on a refusal, a stop or a red gate
-(`batched-climb-plan.md` §3, revised 2026-09-18). Launch, on Pavol's word: create the two
-worktrees per `remote-container.md` § Setting up a batch's worktrees, then
-`Workflow({scriptPath, args: {base}})`. The batch's report to Pavol afterwards is the
-coordinator's: every divergence that lands unrepaired and every decision a judge took under
-a silent specification, from the returned `forPavol` fields.
-
-Launched 2026-09-18 22:57 UTC on Pavol's go, base `49ee5e91`, run `wf_9777a563-c5e`. The VM
-was restarted by the platform at 23:22 with the disk intact, and the batch was relaunched at
-23:28 from the same base as run `wf_aabc0cb2-d31`, its workers continuing from what their
-`wip/` branches already held (`remote-container.md` § The 2026-09-18 restart). The next event
-is its completion notice or a check-in that finds something wrong; the report to Pavol follows.
+The batch **landed on `main` on 2026-09-19 at 03:22 UTC**: seven commits `42d51c47..63db7a691`
+off the base `49ee5e91` (R1, R2, the review's corrections, the ladder-criterion wording, the
+gate summary, the hashes, three preserved drivers), gate green on the merged tree (`ant
+compileAll`; `testFast` 1401 tests, 0 failures; `testSystem` 382, 0 failures; 739 s), the
+container branch fast-forwarded to it, worktrees and local `wip/` branches removed. The script
+`coordinator/repair-batch-workflow.js` ran it whole as run `wf_aabc0cb2-d31`: first launched
+22:57 on Pavol's go, cut at 23:22 by a platform restart of the VM, relaunched 23:28 from the
+`wip/` branches (`remote-container.md` § The 2026-09-18 restart). R2 was approved by its
+skeptic at once; R1 was refused on a regression its cell introduced (a `StackOverflowError`
+through the runtime's eager debug messages), the judge on the session's model ruled repair,
+and the second skeptic approved the repaired rung. Cost: 11 agents, 2.6 M subagent tokens,
+955 tool calls, 3 h 55 min from relaunch to landing. Ten ledger rows opened, 319-328. The
+report to Pavol was given on 2026-09-19. What waits on him: the thread count of the
+compiler-test gate (`compile-ladder/repair-r1-atomic-static/record.md` § One decision about
+the gate), the default `asString` rendering (row 321, a decision under a silent specification
+the batch did not take), and the deletion of the two remote `wip/` branches in the GitHub UI.
+The next work is his call, from `coordinator/PLAN.md`.
 
 R1 of the repair batch was built on `wip/repair-r1-atomic-static` (base
 `49ee5e91`), refused once by its skeptic and repaired in the same worktree, and
