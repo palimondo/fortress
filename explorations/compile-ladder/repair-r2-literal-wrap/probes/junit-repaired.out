@@ -1,0 +1,8 @@
+. link compiler_tests/IntLiteralWrapRepairR2  OK (time = 5906ms)
+. run compiler_tests/IntLiteralWrapRepairR2 (573ms) PASS
+Passed
+
+Time: 6.494
+
+OK (2 tests)
+

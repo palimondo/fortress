@@ -76,17 +76,22 @@ public final class FIntLiteral extends fortress.CompilerBuiltin.IntLiteral.Defau
         throw outOfRange("ZZ64");
     }
 
-    // This is a cheap fix. Problem in codeGen.forIntLiteral.
     public FNN32 asNN32() {
-        if (0 <= (smallerVal & 0x00000000FFFFFFFFL) && (smallerVal & 0x00000000FFFFFFFFL) <= 0x00000000FFFFFFFFL) 
-    	    return FNN32.make((int)smallerVal);
-    	throw outOfRange("NN32");
+        if (largerVal == null && 0 <= smallerVal && smallerVal <= 0x00000000FFFFFFFFL)
+            return FNN32.make((int)smallerVal);
+        throw outOfRange("NN32");
     }
 
     public FNN64 asNN64() {
-        if (largerVal == null) 
-    	    return FNN64.make((long)smallerVal);
-    	throw outOfRange("NN64");
+        if (largerVal == null) {
+            if (0 <= smallerVal) return FNN64.make(smallerVal);
+        } else {
+            // A numeral of bit length exactly 64 arrives as a decimal string,
+            // and its unsigned value is in range for NN64.
+            BigInteger v = new BigInteger(largerVal);
+            if (v.signum() >= 0 && v.bitLength() <= 64) return FNN64.make(v.longValue());
+        }
+        throw outOfRange("NN64");
     }
     
     public FZZ asZZ() {

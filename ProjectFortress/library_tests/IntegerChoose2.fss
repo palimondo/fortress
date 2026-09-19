@@ -53,6 +53,7 @@ run(): () = do
   sixtyone: ZZ64 = 61
   eighty: ZZ64 = 80
   eightyone: ZZ64 = 81
+  fastSlowBoundary: ZZ64 = 3037000500
 
   assert(zero CHOOSE zero = 1)
 
@@ -111,7 +112,7 @@ run(): () = do
   (*) These are the points that separate use of the fast algorithm from th
   (*) slow, cautious algorithm.  Check a range -3:3 around them.
   for j <- seq(-3:3) do
-    verifyChoose(3037000500+j, 2)
+    verifyChoose(fastSlowBoundary+j, 2)
     verifyChoose(2642246+j, 3)
     verifyChoose(86251+j, 4)
     verifyChoose(11724+j, 5)

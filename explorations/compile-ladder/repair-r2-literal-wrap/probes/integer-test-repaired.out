@@ -1,0 +1,41 @@
+. compile library_tests/Integer1  OK (time = 15201ms)
+. link library_tests/Integer1  OK (time = 2990ms)
+. compile library_tests/Integer2  OK (time = 8701ms)
+. link library_tests/Integer2  OK (time = 750ms)
+. compile library_tests/Integer3  OK (time = 10752ms)
+. link library_tests/Integer3  OK (time = 715ms)
+. compile library_tests/Integer4  OK (time = 7341ms)
+. link library_tests/Integer4  OK (time = 666ms)
+. compile library_tests/IntegerChoose1  OK (time = 8544ms)
+. link library_tests/IntegerChoose1  OK (time = 664ms)
+. compile library_tests/IntegerChoose2  OK (time = 11633ms)
+. link library_tests/IntegerChoose2  OK (time = 866ms)
+. compile library_tests/ShiftTest  OK (time = 15965ms)
+. link library_tests/ShiftTest  OK (time = 691ms)
+. compile library_tests/ShiftTest2  OK (time = 14252ms)
+. link library_tests/ShiftTest2  OK (time = 669ms)
+. compile library_tests/AverageTest  OK (time = 7487ms)
+. link library_tests/AverageTest  OK (time = 654ms)
+. run library_tests/Integer1 (1400ms) PASS
+Passed
+. run library_tests/Integer2 (771ms) PASS
+Passed
+. run library_tests/Integer3 (734ms) PASS
+Passed
+. run library_tests/Integer4 (912ms) PASS
+Passed
+. run library_tests/IntegerChoose1 (918ms) PASS
+Passed
+. run library_tests/IntegerChoose2 (895ms) PASS
+Passed
+. run library_tests/ShiftTest (438ms) PASS
+Passed
+. run library_tests/ShiftTest2 (1484ms) PASS
+Passed
+. run library_tests/AverageTest (1027ms) PASS
+Passed
+
+Time: 117.15
+
+OK (27 tests)
+

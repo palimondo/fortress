@@ -1,0 +1,16 @@
+component s3
+export Executable
+(*) Skeptic probe s3, the failure-mode question.  simpleIntLiteralArith.fromBigInteger
+(*) (:31) sends any result of bit length >= 64 to the string branch, so an
+(*) IntLiteral sum of bit length exactly 64 was string-carried BEFORE this rung
+(*) as well as after -- and the old asNN64 threw for every string-carried value.
+(*) So this is the one place the rung turns a loud failure into a quiet value.
+run() = do
+    x = 9223372036854775807          (*) 2^63 - 1, bit length 63
+    n: NN64 = x + x + 1              (*) 2^64 - 1, bit length 64, string-carried
+    m: NN64 = 18446744073709551615
+    println("s3 NN64 from IntLiteral arithmetic, rendered " n.asString)
+    println("s3 equals the numeral 2^64-1 " (n = m).asString)
+    println("s3 one less than it          " (n = (m - 1)).asString)
+end
+end

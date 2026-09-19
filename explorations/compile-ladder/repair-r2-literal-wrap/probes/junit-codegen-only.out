@@ -1,0 +1,40 @@
+. link compiler_tests/IntLiteralWrapRepairR2  OK (time = 136793ms)
+. run compiler_tests/IntLiteralWrapRepairR2 (341ms) java.lang.Error: java.lang.Error: Not in range for NN64: 18446744073709551615
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:562)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at IntLiteralWrapRepairR2.main(/home/user/fortress-r2/ProjectFortress/compiler_tests/IntLiteralWrapRepairR2.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.Error: Not in range for NN64: 18446744073709551615
+	at com.sun.fortress.compiler.runtimeValues.FIntLiteral.outOfRange(FIntLiteral.java:64)
+	at com.sun.fortress.compiler.runtimeValues.FIntLiteral.asNN64(FIntLiteral.java:89)
+	at fortress.CompilerBuiltin.coerce_NN64(/home/user/fortress-r2/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:747)
+	at IntLiteralWrapRepairR2.run(/home/user/fortress-r2/ProjectFortress/compiler_tests/IntLiteralWrapRepairR2.fss:68)
+	at IntLiteralWrapRepairR2.compute(/home/user/fortress-r2/ProjectFortress/compiler_tests/IntLiteralWrapRepairR2.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Failed to satisfy default check run_out_contains=PASS
+F
+Time: 137.141
+There was 1 failure:
+1) compiler_tests/IntLiteralWrapRepairR2(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/IntLiteralWrapRepairR2
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:575)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:898)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+

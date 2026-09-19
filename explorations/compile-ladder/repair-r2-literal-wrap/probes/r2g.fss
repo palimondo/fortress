@@ -1,0 +1,14 @@
+component r2g
+export Executable
+(*) Repair R2: the bit-pattern idiom.  Library/CompilerLibrary.fss:569,571 and
+(*) library_tests/Integer3.fss:46 and Integer4.fss:46 write a radix-16 numeral
+(*) whose value is outside the annotated signed type and mean the two's
+(*) complement pattern.  Specification/basic/expressions/literals.tex:104-108
+(*) gives such a numeral the type NaturalNumeralWithExplicitRadix[[n,r,v]] over
+(*) the value v interpreted in radix r, so the value is 2^31, not -2^31.  This
+(*) probe asks the interpreter what it does with the idiom.
+run() = do
+    a: ZZ32 = 8000'0000_16
+    println("r2g ZZ32 8000'0000_16 " a.asString)
+end
+end

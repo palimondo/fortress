@@ -1,0 +1,75 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component IntLiteralWrapRepairR2
+export Executable
+
+(*) The value a numeral of bit length exactly 32 or exactly 64 arrives with on
+(*) the compile path.  CodeGen.forIntLiteralExpr split the numeral's BigInteger
+(*) on bitLength() <= 32 and bitLength() <= 64, and bitLength counts no sign
+(*) bit, so those two widths went through intValue() and longValue() and
+(*) arrived wrapped negative: 4294967295 and 18446744073709551615 both became
+(*) -1.
+(*)
+(*) Specification/basic/expressions/literals.tex:83-85 gives a numeral of
+(*) digits the value of the numeral interpreted in radix ten, with nothing
+(*) bounding it; Specification/basic-lib/basic-integers.tex:369-370 and
+(*) :400-401 give wrapping and saturating their own operator spellings and say
+(*) the ordinary operations never need to wrap or saturate.
+(*)
+(*) Every expected value is computed at run time from numerals of bit length
+(*) 16, 17, 31, 33 and 63, which no branch of the split ever mis-read, so a
+(*) repair that returned a constant would not pass.
+(*)
+(*) The NN32 and NN64 checks pass before the repair as well as after: the
+(*) getters asNN32 and asNN64 read the wrapped two's-complement pattern, which
+(*) is the right unsigned value.  The NN64 check is here because the repair
+(*) breaks asNN64 unless it learns to read the decimal string that a numeral of
+(*) bit length 64 carries once the split is exact; the NN32 check guards a
+(*) getter whose range check accepted every value before the repair.
+
+run(): () = do
+    (*) ZZ, the type the specification defines as all the finite integers.
+    lo: ZZ = 65535                    (*) 2^16 - 1, bit length 16
+    hi: ZZ = 65537                    (*) 2^16 + 1, bit length 17
+    up: ZZ = 4294967297               (*) 2^32 + 1, bit length 33
+    m32: ZZ = lo hi                   (*) 2^32 - 1, computed
+    m64: ZZ = (lo hi) up              (*) 2^64 - 1, computed
+    a32: ZZ = 4294967295              (*) 2^32 - 1, the numeral
+    a64: ZZ = 18446744073709551615    (*) 2^64 - 1, the numeral
+    assert(a32 = m32, "ZZ from the 32-bit numeral: " || a32.asString || " should be " || m32.asString)
+    assert(a64 = m64, "ZZ from the 64-bit numeral: " || a64.asString || " should be " || m64.asString)
+
+    (*) ZZ64, reached by the coercion ZZ64.coerce(x: IntLiteral) = x.asZZ64.
+    h64: ZZ64 = 2147483647            (*) 2^31 - 1, bit length 31
+    one64: ZZ64 = 1
+    l32: ZZ64 = 4294967295
+    assert(l32 = h64 + h64 + one64, "ZZ64 from the 32-bit numeral: " || l32.asString)
+
+    (*) NN32 and NN64, the two getters coupled to the wrap.  Their messages
+    (*) carry no rendering of the value: NN32.asString is shadowed by the
+    (*) runtime class's own signed asString, and the NN64 helper behind
+    (*) NN64.asString is Long.toString, so neither renders a value above its
+    (*) signed half correctly.
+    h32u: NN32 = 2147483647
+    one32u: NN32 = 1
+    n32: NN32 = 4294967295
+    assert(n32 = h32u + h32u + one32u, "NN32 from the 32-bit numeral")
+
+    h64u: NN64 = 9223372036854775807  (*) 2^63 - 1, bit length 63
+    one64u: NN64 = 1
+    n64: NN64 = 18446744073709551615
+    assert(n64 = h64u + h64u + one64u, "NN64 from the 64-bit numeral")
+
+    println "PASS"
+end
+
+end

@@ -1,0 +1,99 @@
+Every numeral in the corpora and the libraries whose VALUE has bit length exactly
+32 or exactly 64 -- the numerals CodeGen.forIntLiteralExpr's old split mis-read.
+Enumerated by value in every radix; a decimal-only grep misses the radix-16 half,
+which is where the four Integer.test failures were.
+roots: ProjectFortress/tests Library ProjectFortress/LibraryBuiltin ProjectFortress/compiler_tests ProjectFortress/library_tests ProjectFortress/linker_tests ProjectFortress/not_working_compiler_tests ProjectFortress/not_working_library_tests ProjectFortress/not_working_static_tests ProjectFortress/obsolete_interpreter_tests ProjectFortress/other_compiler_tests ProjectFortress/parser_tests ProjectFortress/syntax_abstraction_tests
+
+## Library/CompilerLibrary.fss
+   : 574 bitlen 32  FFFF'FFFF_16               = 4294967295            | NN32_MAX: NN32 = FFFF'FFFF_16
+   : 576 bitlen 64  FFFF'FFFF'FFFF'FFFF_16     = 18446744073709551615  | NN64_MAX: NN64 = FFFF'FFFF'FFFF'FFFF_16
+
+## Library/QuickCheck.fss
+   :  43 bitlen 32  4294967295                 = 4294967295            | narrow((self.g'.random() BITAND 4294967295 (* 2^32-1 *)) - 2147483648 (* 2^31 *))
+   :  43 bitlen 32  2147483648                 = 2147483648            | narrow((self.g'.random() BITAND 4294967295 (* 2^32-1 *)) - 2147483648 (* 2^31 *))
+   : 286 bitlen 32  4294967295                 = 4294967295            | y = widen(c.random()) BITAND 4294967295 (* 2^32-1 *)
+   : 294 bitlen 32  4294967295                 = 4294967295            | narrow((obj BITAND 4294967295 (* 2^32-1 *)) - 2147483648 (* 2^31 *)))
+   : 294 bitlen 32  2147483648                 = 2147483648            | narrow((obj BITAND 4294967295 (* 2^32-1 *)) - 2147483648 (* 2^31 *)))
+   : 306 bitlen 32  4294967295                 = 4294967295            | y = widen(c.random()) BITAND 4294967295 (* 2^32-1 *)
+   : 311 bitlen 32  4294967295                 = 4294967295            | y = widen(c.random()) BITAND 4294967295 (* 2^32-1 *)
+   : 312 bitlen 32  4294967295                 = 4294967295            | z = widen(c.random()) BITAND 4294967295 (* 2^32-1 *)
+   : 319 bitlen 32  2147483648                 = 2147483648            | if -2147483648 <= obj < 2147483648 then
+   : 319 bitlen 32  2147483648                 = 2147483648            | if -2147483648 <= obj < 2147483648 then
+   : 323 bitlen 32  4294967295                 = 4294967295            | g.perturbed(1, narrow((obj BITAND 4294967295 (* 2^32-1 *)) -
+   : 324 bitlen 32  2147483648                 = 2147483648            | 2147483648 (* 2^31 *))))
+
+## Library/Random.fss
+   : 208 bitlen 32  4294967295                 = 4294967295            | bits := ((bits RSHIFT 20) BITAND 4294967295 (* 2^32-1 *)) - 2147483648 (* 2^31 *)
+   : 208 bitlen 32  2147483648                 = 2147483648            | bits := ((bits RSHIFT 20) BITAND 4294967295 (* 2^32-1 *)) - 2147483648 (* 2^31 *)
+   : 324 bitlen 32  4294967295                 = 4294967295            | getter max(): Just[\ZZ64\] = just 4294967295 (* 2^32-1 *)
+   : 327 bitlen 32  4294967295                 = 4294967295            | var state: ZZ64 = seed BITAND 4294967295 (* 2^32-1 *)
+   : 330 bitlen 32  4294967295                 = 4294967295            | state := seedvec[0] BITAND 4294967295 (* 2^32-1 *)
+   : 336 bitlen 32  4294967295                 = 4294967295            | state := (1812433253 (state BITXOR (state RSHIFT 30)) + 1) BITAND 4294967295 (* 2^32-1 *)
+   : 344 bitlen 32  4294967295                 = 4294967295            | newseed := (1812433253 widen(newseed BITXOR p) + 1) BITAND 4294967295 (* 2^32-1 *)
+   : 355 bitlen 32  2567483615                 = 2567483615            | MersenneTwister[\ZZ64,32,624\](seed, 2567483615, 397, 31, 11, 7, 15, 18,
+   : 356 bitlen 32  2636928640                 = 2636928640            | 2636928640, 4022730752)
+   : 356 bitlen 32  4022730752                 = 4022730752            | 2636928640, 4022730752)
+
+## ProjectFortress/compiler_tests/IntLiteralWrapRepairR2.fss
+   :  19 bitlen 32  4294967295                 = 4294967295            | (*) arrived wrapped negative: 4294967295 and 18446744073709551615 both became
+   :  19 bitlen 64  18446744073709551615       = 18446744073709551615  | (*) arrived wrapped negative: 4294967295 and 18446744073709551615 both became
+   :  45 bitlen 32  4294967295                 = 4294967295            | a32: ZZ = 4294967295              (*) 2^32 - 1, the numeral
+   :  46 bitlen 64  18446744073709551615       = 18446744073709551615  | a64: ZZ = 18446744073709551615    (*) 2^64 - 1, the numeral
+   :  53 bitlen 32  4294967295                 = 4294967295            | l32: ZZ64 = 4294967295
+   :  63 bitlen 32  4294967295                 = 4294967295            | n32: NN32 = 4294967295
+   :  68 bitlen 64  18446744073709551615       = 18446744073709551615  | n64: NN64 = 18446744073709551615
+
+## ProjectFortress/library_tests/AverageTest.fss
+   : 118 bitlen 32  9387'5641_16               = 2475120193            | var unsignedIntSeed: NN32 = 9387'5641_16
+
+## ProjectFortress/library_tests/ChooseTest3.fss
+   : 125 bitlen 32  3037000500                 = 3037000500            | verifyChoose(3037000500+j, 2)
+
+## ProjectFortress/library_tests/IntegerChoose2.fss
+   :  56 bitlen 32  3037000500                 = 3037000500            | fastSlowBoundary: ZZ64 = 3037000500
+
+## ProjectFortress/library_tests/NN32.fss
+   :  43 bitlen 32  A0000000_16                = 2684354560            | twiceHuge: NN32 = A0000000_16
+   :  46 bitlen 32  FFFFFFFF_16                = 4294967295            | maxValue: NN32 = FFFFFFFF_16
+
+## ProjectFortress/library_tests/NN64.fss
+   :  45 bitlen 64  FFFFFFFFFFFF0000_16        = 18446744073709486080  | bigValue: NN64 = FFFFFFFFFFFF0000_16
+   :  46 bitlen 64  FFFFFFFFFFFFFFFF_16        = 18446744073709551615  | maxValue: NN64 = FFFFFFFFFFFFFFFF_16
+   :  48 bitlen 64  FFFFFFFFFFFFFFFD_16        = 18446744073709551613  | nValue: NN64 = FFFFFFFFFFFFFFFD_16
+
+## ProjectFortress/library_tests/ShiftTest.fss
+   :  32 bitlen 32  8000'0000_16               = 2147483648            | mostnegUnsignedInt: NN32 = 8000'0000_16
+   :  33 bitlen 64  8000'0000'0000'0000_16     = 9223372036854775808   | mostnegUnsignedLong: NN64 = 8000'0000'0000'0000_16
+
+## ProjectFortress/library_tests/ShiftTest2.fss
+   : 194 bitlen 32  9387'5641_16               = 2475120193            | var unsignedIntSeed: NN32 = 9387'5641_16
+
+## ProjectFortress/library_tests/ZZ.fss
+   :  44 bitlen 64  FFFFFFFFFFFFFFFF_16        = 18446744073709551615  | maxValue: ZZ = FFFFFFFFFFFFFFFF_16
+
+## ProjectFortress/tests/NumberPrintTest.fss
+   :  56 bitlen 32  2147483648                 = 2147483648            | assert("" (unsigned(1) LSHIFT 31), "2147483648")
+
+## ProjectFortress/tests/NumeralTest.fss
+   :  44 bitlen 32  DEAD'BEEF_16               = 3735928559            | assert(DEAD'BEEF_16, DEADBEEF_16)
+   :  44 bitlen 32  DEADBEEF_16                = 3735928559            | assert(DEAD'BEEF_16, DEADBEEF_16)
+   :  45 bitlen 32  DE'AD'BE'EF_16             = 3735928559            | assert(DE'AD'BE'EF_16, DEADBEEF_16)
+   :  45 bitlen 32  DEADBEEF_16                = 3735928559            | assert(DE'AD'BE'EF_16, DEADBEEF_16)
+
+## ProjectFortress/tests/formatTest.fss
+   :  29 bitlen 32  2147483648                 = 2147483648            | assert(radix(10, (-2) DOT 1024 DOT 1024 DOT 1024),"-2147483648")
+
+
+## The five sites that were OUT OF RANGE for their annotated type
+## (as they read at 49ee5e91, before this rung; the scan above is of the repaired tree,
+##  where four of them no longer hold a boundary numeral at all)
+
+  Library/CompilerLibrary.fss:569    ZZ32_MIN: ZZ32 = 8000'0000_16               = 2147483648           outside ZZ32
+  Library/CompilerLibrary.fss:571    ZZ64_MIN: ZZ64 = 8000'0000'0000'0000_16     = 9223372036854775808  outside ZZ64
+  ProjectFortress/library_tests/Integer3.fss:46   twiceHuge: ZZ32 = A0000000_16          = 2684354560           outside ZZ32
+  ProjectFortress/library_tests/Integer4.fss:46   twiceHuge: ZZ64 = A000000000000000_16  = 11529215046068469760 outside ZZ64
+  ProjectFortress/library_tests/IntegerChoose2.fss:114  verifyChoose(3037000500+j, 2)    = 3037000500           outside ZZ32 (j is a ZZ32)
+  ProjectFortress/library_tests/ChooseTest3.fss:125     verifyChoose(3037000500+j, 2)    = 3037000500           outside ZZ32 -- in no .test file, not gated, not edited
+
+## Every other site listed above is IN RANGE for its annotated type and was right only
+## by the wrap's accident; those are now right for the right reason.

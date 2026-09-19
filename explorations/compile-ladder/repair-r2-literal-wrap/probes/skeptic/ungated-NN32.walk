@@ -1,0 +1,16 @@
+/home/user/fortress-r2/ProjectFortress/library_tests/NN32.fss:51:16-21:
+    Operator ? is not defined.
+/home/user/fortress-r2/ProjectFortress/library_tests/NN32.fss:52:16-21:
+    Operator ? is not defined.
+/home/user/fortress-r2/ProjectFortress/library_tests/NN32.fss:53:17-23:
+    Operator ? is not defined.
+/home/user/fortress-r2/ProjectFortress/library_tests/NN32.fss:54:17-23:
+    Operator ? is not defined.
+/home/user/fortress-r2/ProjectFortress/library_tests/NN32.fss:60:17-23:
+    Operator BOXCROSS is not defined.
+/home/user/fortress-r2/ProjectFortress/library_tests/NN32.fss:61:17-23:
+    Operator DOTCROSS is not defined.
+/home/user/fortress-r2/ProjectFortress/library_tests/NN32.fss:85:19-24:
+    Operator ? is not defined.
+/home/user/fortress-r2/ProjectFortress/library_tests/NN32.fss:86:19-24:
+    Operator ? is not defined.

@@ -1,0 +1,14 @@
+component r2e
+export Executable
+(*) Repair R2, the two mechanisms that carry literal arithmetic on the compile
+(*) path: INTEGERLITERALFOLDING folds a whole literal expression exactly before
+(*) the type checker runs, while arithmetic through two bindings runs rung 7's
+(*) IntLiteral helpers on the emitted values.  The first prints the true sum
+(*) today; the second does not.
+run() = do
+    println (4294967295 + 1)
+    a = 4294967295
+    b = 1
+    println (a + b)
+end
+end

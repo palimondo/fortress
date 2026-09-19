@@ -41,8 +41,9 @@ had turned a working program into a `StackOverflowError` for any value whose
 type has no `asString` of its own. Three gated tests in `compiler_tests/`:
 `MutableTopLevelVarInLoop` and `AtomicTopLevelObjectVar`, both deterministic and
 both failing at one thread on the tree each guards, and `AtomicTopLevelVar`
-under contention. Six verified ledger rows are owed by this rung and are written
-out in `explorations/compile-ladder/repair-r1-atomic-static/record.md`: the
+under contention. Six verified ledger rows are owed by this rung, folded into the
+gap ledger as rows 319-324 at the gather stage and written out in
+`explorations/compile-ladder/repair-r1-atomic-static/record.md`: the
 mutable object field inside `atomic`, a top-level variable exported through an
 api, the `asString` cycle (with three candidate fixes and a silent specification
 — a decision for Pavol), `atomic` as a `do … also` arm's trailing expression,
@@ -55,6 +56,43 @@ neither runtime file (`git diff --stat 49ee5e91
 origin/wip/repair-r2-literal-wrap -- ProjectFortress/src`: `CodeGen.java`,
 `FIntLiteral.java`, `Library/CompilerLibrary.fss`), so the two rungs' edits do
 not overlap outside `CodeGen.java`, where they are 2,000 lines apart.
+
+Repair R2 of the repair batch, the integer-literal wrap in the code generator,
+landed in its worktree on 2026-09-18 after the batch's first container died, and
+on `main` as one commit composed at the gather stage of 2026-09-19, of which
+that branch is not a parent: `CodeGen.forIntLiteralExpr`'s two bounds become
+`bitLength() <= 31` and `<= 63`, exact for both signs, and `FIntLiteral.asNN64`
+learns to read the decimal string a numeral of bit length 64 now keeps while
+`asNN32`'s vacuous mask-and-compare range check is made to mean what it says,
+with the new test `compiler_tests/IntLiteralWrapRepairR2` passing and `p37a`,
+`p39`, `r2a` and `r2e` now answering compiled what they answer under `walk`
+(`p37` does not: it raises `Not in range for ZZ64` where `walk` prints `false`,
+because `IntLiteral` comparison is performed at `ZZ64` — ledger row 328, opened
+for it, where before the repair it answered `true` silently) (ledger row 317
+repaired and amended, `compile-ladder/repair-r2-literal-wrap/REPORT.md`). The
+rung is larger than its brief because part one turned
+`library_tests/Integer.test` from green to four failures, all of one kind: a
+radix numeral whose value is outside the annotated signed type, written to mean
+a two's-complement bit pattern, which
+`Specification/basic/expressions/literals.tex:104-108` does not permit and the
+interpreter has always refused (`probes/r2g`, `r2h`), so the repair makes the
+two paths agree rather than breaking correct programs. Four such sites are
+repaired with it — `Library/CompilerLibrary.fss:569,571`, where `ZZ32_MIN` and
+`ZZ64_MIN` become a numeral in range and one subtraction in the spelling of
+`Library/FortressLibrary.fss:703`, and `library_tests/Integer3.fss:46` and
+`Integer4.fss:46`, where `twiceHuge` becomes the negative numeral of the same
+bit pattern and so the same value — all value-preserving, plus
+`library_tests/IntegerChoose2.fss`, which binds `3037000500` at `ZZ64` and
+thereby tests the boundary its comment names instead of a negative `i`.
+`Integer.test` is `OK (27 tests)` again. The rung tested the batch's named stop
+condition and it is not met: the branch in `forIntLiteralExpr` chooses an
+overload of `FIntLiteral.make`, never a type, so the fork over which number type
+an untyped numeral's arithmetic happens at is untouched. Four new ledger rows
+are owed and are folded at the gather stage as 325-328 (the static-versus-dynamic range diagnostic, the signed
+rendering of `NN32`/`NN64`, the ungated `ChooseTest3.fss:125`, and `IntLiteral`
+comparison at `ZZ64`) and the ladder has no subset to run, because every file of
+the ladder corpus holding a boundary numeral already fails at compile with
+return code 255 (`compile-ladder/results.tsv`).
 
 The launch, step by step, once Pavol says go (he approved the plan on 2026-09-18 evening
 and asked for a compaction first): (1) `git status` clean on `main`, `main` = `origin/main`

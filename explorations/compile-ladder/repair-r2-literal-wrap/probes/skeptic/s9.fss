@@ -1,0 +1,18 @@
+component s9
+export Executable
+(*) Skeptic probe s9.  Specification/basic-lib/basic-integers.tex:571-573
+(*) states the property FORALL (m,n: ZZ) (m CHOOSE n) + (m CHOOSE (n+1)) =
+(*) ((m+1) CHOOSE (n+1)), quantified over ZZ and so over negative m.  This
+(*) reads the three terms of that property at m = -1, n = 0 on both paths.
+run() = do
+    zero: ZZ64 = 0
+    one: ZZ64 = 1
+    m1: ZZ64 = -1
+    println("s9 (-1) CHOOSE 0 " (m1 CHOOSE zero).asString)
+    println("s9 (-1) CHOOSE 1 " (m1 CHOOSE one).asString)
+    println("s9 ( 0) CHOOSE 1 " (zero CHOOSE one).asString)
+    println("s9 ( 1) CHOOSE 0 " (one CHOOSE zero).asString)
+    println("s9 property LHS  " ((m1 CHOOSE zero) + (m1 CHOOSE one)).asString)
+    println("s9 property RHS  " (zero CHOOSE one).asString)
+end
+end

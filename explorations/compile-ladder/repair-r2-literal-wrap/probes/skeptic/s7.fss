@@ -1,0 +1,12 @@
+component s7
+export Executable
+(*) Skeptic probe s7.  s1 showed walk refusing one of its five lines; this
+(*) isolates which.  -2147483648 is in range for ZZ32 and the specification
+(*) gives the numeral 2147483648 the value 2^31 with a unary negation applied
+(*) (Specification/basic/expressions/literals.tex:83-86), so ZZ32's minimum is
+(*) a legal ZZ32 declaration.
+run() = do
+    d: ZZ32 = -2147483648
+    println("s7 ZZ32 -2^31 " d.asString)
+end
+end

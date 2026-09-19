@@ -1,0 +1,17 @@
+component s6
+export Executable
+(*) Skeptic probe s6.  The rung bound 3037000500 at ZZ64 in IntegerChoose2 so
+(*) that the loop exercises the fast/slow boundary its comment names instead of
+(*) the wrapped negative -1257966796.  This computes the binomial coefficient
+(*) at the boundary and at the value the wrap had been substituting, so that
+(*) "the test was never testing what it says" is checked rather than asserted.
+run() = do
+    b: ZZ64 = 3037000500
+    w: ZZ64 = -1257966796
+    two: ZZ64 = 2
+    println("s6 3037000500 CHOOSE 2 " (b CHOOSE two).asString)
+    println("s6 -1257966796 CHOOSE 2 " (w CHOOSE two).asString)
+    assert((b CHOOSE two) = (b (b - 1)) DIV two, "boundary CHOOSE disagrees with i(i-1)/2")
+    println("s6 PASS")
+end
+end

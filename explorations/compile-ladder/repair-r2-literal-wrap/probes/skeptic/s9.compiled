@@ -1,0 +1,6 @@
+s9 (-1) CHOOSE 0  0
+s9 (-1) CHOOSE 1  0
+s9 ( 0) CHOOSE 1  0
+s9 ( 1) CHOOSE 0  1
+s9 property LHS   0
+s9 property RHS   0

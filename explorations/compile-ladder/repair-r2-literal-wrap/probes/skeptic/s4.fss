@@ -1,0 +1,19 @@
+component s4
+export Executable
+(*) Skeptic probe s4.  The rung rewrote the prelude's ZZ32_MIN and ZZ64_MIN as
+(*) -7FFF'FFFF_16 - 1.  Whether that is -2^31 or -2^31+2 depends on how the
+(*) unary minus binds, and a wrong value here would be a silent one.  This
+(*) reads the prelude's own bindings, not a re-spelling of them in a user
+(*) component, and checks them against an independently written value.
+run() = do
+    println("s4 ZZ32_MIN " ZZ32_MIN.asString)
+    println("s4 ZZ32_MAX " ZZ32_MAX.asString)
+    println("s4 ZZ64_MIN " ZZ64_MIN.asString)
+    println("s4 ZZ64_MAX " ZZ64_MAX.asString)
+    assert(ZZ32_MIN = -2147483647 - 1, "ZZ32_MIN is not -2^31: " ZZ32_MIN.asString)
+    assert(ZZ64_MIN = -9223372036854775807 - 1, "ZZ64_MIN is not -2^63: " ZZ64_MIN.asString)
+    assert(ZZ32_MIN < ZZ32_MAX, "ZZ32_MIN >= ZZ32_MAX")
+    assert(ZZ64_MIN < ZZ64_MAX, "ZZ64_MIN >= ZZ64_MAX")
+    println("s4 PASS")
+end
+end
