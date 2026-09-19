@@ -1,0 +1,13 @@
+(*) Skeptic probe 3: the dummy parameter is declared Any on both paths.  The
+(*) corpus passes float and integer literals; these are the other kinds.
+component SkepticArgTypes
+export Executable
+run():() = do
+    x: ZZ32 = 7
+    recordTime("a string")
+    printTime(true)
+    recordTime(x)
+    printTime(x)
+    println("ARGS OK")
+end
+end

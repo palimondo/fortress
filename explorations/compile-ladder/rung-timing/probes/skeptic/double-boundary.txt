@@ -1,0 +1,17 @@
+### Where java.lang.Double.toString switches to scientific notation, measured on
+### this worktree's JDK (openjdk 25, /usr/lib/jvm/java-25-openjdk-amd64).
+### Source: DoubleToStringBoundary.java in this directory.
+$ java DoubleToStringBoundary.java
+1.0E7                 <- 10000000.00
+9999999.0             <- 9999999.000
+9999999.0             <- 9999999.000
+0.001                 <- 0.001000000000
+9.999E-4              <- 0.0009999000000
+0.0                   <- 0.000000000
+0.001338              <- 0.001338000000      (1338 ns, the shortest interval my probe 2 measured)
+9.99E-4               <- 0.0009990000000     (999 ns)
+1.0174680816587E7     <- 10174680.82         (the value probe 1 printed)
+
+### So printTime's "Operation took " || (e / 1000000.0) || "ms" renders in
+### scientific notation for any interval >= 1.0e7 ms (2.78 hours) and for any
+### non-zero interval < 1.0e-3 ms (1000 ns), and prints "0.0ms" for exactly 0.

@@ -1,0 +1,33 @@
+### skeptic walk (interpreter) runs, FORTRESS_HOME=/home/user/fortress-time FORTRESS_THREADS=1 2026-09-19T09:42:57+00:00
+=== walk SkepticNoRecord.fss
+before
+Operation took 10147559ms
+after
+--- exit=0
+=== walk SkepticShortInterval.fss
+Operation took 0ms
+Operation took 0ms
+Operation took 0ms
+Operation took 0ms
+Operation took 0ms
+Operation took 0ms
+Operation took 0ms
+Operation took 0ms
+SHORT DONE
+--- exit=0
+=== walk SkepticArgTypes.fss
+Operation took 0ms
+Operation took 0ms
+ARGS OK
+--- exit=0
+=== walk SkepticNested.fss
+outer started
+inner started
+Operation took 0ms
+Operation took 4ms
+NESTED OK
+--- exit=0
+=== walk SkepticAtomic.fss
+Operation took 1ms
+ATOMIC OK
+--- exit=0

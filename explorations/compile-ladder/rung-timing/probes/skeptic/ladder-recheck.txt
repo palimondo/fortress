@@ -1,0 +1,20 @@
+### skeptic's own re-run of the ladder claim, shared cache, 2026-09-19T09:45:25+00:00
+=== compile tests/nestedTransactions1.fss
+--- compile exit=0
+=== run nestedTransactions1
+Starting test
+Operation took 394.369964ms
+--- run exit=0
+=== compile tests/nestedTransactions2.fss
+--- compile exit=0
+=== run nestedTransactions2
+Starting test
+Operation took 338.381048ms
+--- run exit=0
+=== compile tests/nestedTransactions4.fss
+--- compile exit=0
+=== run nestedTransactions4
+Starting test
+Operation took 372.79563ms
+--- run exit=0
+### done 2026-09-19T09:45:34+00:00

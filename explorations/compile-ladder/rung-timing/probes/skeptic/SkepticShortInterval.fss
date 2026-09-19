@@ -1,0 +1,24 @@
+(*) Skeptic probe 2: eight back-to-back record/report pairs, to see how the two
+(*) paths render an interval far below one millisecond.
+component SkepticShortInterval
+export Executable
+run():() = do
+    recordTime(0)
+    printTime(0)
+    recordTime(0)
+    printTime(0)
+    recordTime(0)
+    printTime(0)
+    recordTime(0)
+    printTime(0)
+    recordTime(0)
+    printTime(0)
+    recordTime(0)
+    printTime(0)
+    recordTime(0)
+    printTime(0)
+    recordTime(0)
+    printTime(0)
+    println("SHORT DONE")
+end
+end

@@ -1,0 +1,45 @@
+### skeptic compiled-path runs, FORTRESS_HOME=/home/user/fortress-time FORTRESS_THREADS=1 2026-09-19T09:43:26+00:00
+### git rev 864dae425, library diff:
+=== compile SkepticNoRecord.fss
+--- compile exit=0
+=== run SkepticNoRecord
+before
+Operation took 1.0174680816587E7ms
+after
+--- run exit=0
+=== compile SkepticShortInterval.fss
+--- compile exit=0
+=== run SkepticShortInterval
+Operation took 4.882033ms
+Operation took 0.007399ms
+Operation took 0.001975ms
+Operation took 0.001346ms
+Operation took 0.001338ms
+Operation took 0.001424ms
+Operation took 0.001387ms
+Operation took 0.001339ms
+SHORT DONE
+--- run exit=0
+=== compile SkepticArgTypes.fss
+--- compile exit=0
+=== run SkepticArgTypes
+Operation took 51.629074ms
+Operation took 0.007279ms
+ARGS OK
+--- run exit=0
+=== compile SkepticNested.fss
+--- compile exit=0
+=== run SkepticNested
+outer started
+inner started
+Operation took 0.043817ms
+Operation took 1.140911ms
+NESTED OK
+--- run exit=0
+=== compile SkepticAtomic.fss
+--- compile exit=0
+=== run SkepticAtomic
+Operation took 8.541542ms
+ATOMIC OK
+--- run exit=0
+### done 2026-09-19T09:43:38+00:00
