@@ -30,7 +30,7 @@ is its completion notice or a check-in that finds something wrong; the report to
 
 R1 of the repair batch was built on `wip/repair-r1-atomic-static` (base
 `49ee5e91`), refused once by its skeptic and repaired in the same worktree, and
-is landed on `main` as one commit composed at the gather stage of 2026-09-19, of
+is landed on `main` as one commit composed at the gather stage of 2026-09-19, `42d51c47`, of
 which that branch is not a parent: a top-level mutable variable is now in the
 transaction on the compiled path, the cell's payload is widened to
 `fortress.AnyType.Any`, the top-level variable bindings are registered before
@@ -59,7 +59,7 @@ not overlap outside `CodeGen.java`, where they are 2,000 lines apart.
 
 Repair R2 of the repair batch, the integer-literal wrap in the code generator,
 landed in its worktree on 2026-09-18 after the batch's first container died, and
-on `main` as one commit composed at the gather stage of 2026-09-19, of which
+on `main` as one commit composed at the gather stage of 2026-09-19, `6a63980b`, of which
 that branch is not a parent: `CodeGen.forIntLiteralExpr`'s two bounds become
 `bitLength() <= 31` and `<= 63`, exact for both signs, and `FIntLiteral.asNN64`
 learns to read the decimal string a numeral of bit length 64 now keeps while
