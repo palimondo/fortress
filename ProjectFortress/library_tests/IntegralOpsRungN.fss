@@ -39,7 +39,21 @@ export Executable
 (*) are commented out at :87-91 and recorded as dormant with an unknown status
 (*) in explorations/coordinator/map/dormant-code.md:314; a probe of this rung
 (*) shows the catch does work, so the division-by-zero behaviour of MOD and
-(*) REM is pinned here beside DIV's.
+(*) REM is pinned here beside DIV's.  shouldOverflow is Integer3.fss:17-24
+(*) verbatim.
+(*)
+(*) The divisor -1 and the type minimum are covered for REM, MOD and GCD on
+(*) both ZZ32 and ZZ64, together with the two boundary cases whose true result
+(*) is 2^31 and so does overflow.
+
+shouldOverflow(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
 
 shouldDivideByZero(f: () -> ZZ32): Boolean =
   try
@@ -70,6 +84,9 @@ run(): () = do
   mSix: ZZ32 = -6
   mEight: ZZ32 = -8
   mSixteen: ZZ32 = -16
+  mOne: ZZ32 = -1
+  maxValue: ZZ32 = 7FFFFFFF_16
+  minValue: ZZ32 = -maxValue - 1
 
   (*) REM, the remainder of the truncating division: basic-integers.tex:465-468,
   (*) column two, with the prose at :447-448.  The sign of the result follows
@@ -120,6 +137,27 @@ run(): () = do
   assert(shouldDivideByZero(fn () => eight MOD zero), "+8 MOD 0")
   assert(shouldDivideByZero(fn () => mEight MOD zero), "-8 MOD 0")
   assert(shouldDivideByZero(fn () => zero MOD zero), "0 MOD 0")
+
+  (*) The divisor -1.  basic-integers.tex:484 defines m REM n as m - n (m DIV n),
+  (*) which is zero for every m when n is -1, and :465-468 give MOD a value in
+  (*) every sign combination; :523-524 make GCD nonnegative with 0 GCD n = n.
+  assert(zero REM mOne, 0, "0 REM -1")
+  assert(zero MOD mOne, 0, "0 MOD -1")
+  assert(zero GCD mOne, 1, "0 GCD -1")
+  assert(eight REM mOne, 0, "+8 REM -1")
+  assert(mEight MOD mOne, 0, "-8 MOD -1")
+
+  (*) The same at the type minimum, and the ordinary divisors there.
+  assert(minValue REM mOne, 0, "MIN REM -1")
+  assert(minValue MOD mOne, 0, "MIN MOD -1")
+  assert(minValue GCD mOne, 1, "MIN GCD -1")
+  assert(minValue REM three, -2, "MIN REM +3")
+  assert(minValue MOD three, 1, "MIN MOD +3")
+  assert(minValue GCD two, 2, "MIN GCD +2")
+
+  (*) The boundary cases whose true result is 2^31, which no ZZ32 holds.
+  assert(shouldOverflow(fn () => minValue LCM mOne), "MIN LCM -1 overflows")
+  assert(shouldOverflow(fn () => minValue GCD zero), "MIN GCD 0 overflows")
 
   (*) GCD: the two rows of chain0.fss:33-34, then the cases the prose at
   (*) basic-integers.tex:523-525 settles -- the result is always nonnegative,
@@ -181,6 +219,10 @@ run(): () = do
   threeBillionL: ZZ64 = 3000000000
   twoToFortyL: ZZ64 = 1099511627776
   mTwoToFortyL: ZZ64 = -1099511627776
+  zeroL: ZZ64 = 0
+  mOneL: ZZ64 = -1
+  maxL: ZZ64 = 7FFFFFFFFFFFFFFF_16
+  minL: ZZ64 = -maxL - 1
 
   assert((tenBillionL REM sevenL).asString, "4", "ZZ64 +10^10 REM +7")
   assert((mTenBillionL REM sevenL).asString, "-4", "ZZ64 -10^10 REM +7")
@@ -198,6 +240,14 @@ run(): () = do
   assert((twoToFortyL RSHIFT fortyL).asString, "1", "ZZ64 2^40 RSHIFT 40")
   assert((mTwoToFortyL RSHIFT fortyL).asString, "-1", "ZZ64 -2^40 RSHIFT 40 sign-extends")
   assert((twoToFortyL RSHIFT fortyL).asString, (twoToFortyL >> fortyL).asString, "ZZ64 RSHIFT is >>")
+
+  (*) The divisor -1 and the type minimum on ZZ64.
+  assert((zeroL REM mOneL).asString, "0", "ZZ64 0 REM -1")
+  assert((zeroL MOD mOneL).asString, "0", "ZZ64 0 MOD -1")
+  assert((zeroL GCD mOneL).asString, "1", "ZZ64 0 GCD -1")
+  assert((minL REM mOneL).asString, "0", "ZZ64 MIN REM -1")
+  assert((minL MOD mOneL).asString, "0", "ZZ64 MIN MOD -1")
+  assert((minL GCD mOneL).asString, "1", "ZZ64 MIN GCD -1")
 
   println("PASS")
 end
