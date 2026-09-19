@@ -2,7 +2,7 @@
 
 # The C series and the APL side quest: state and what comes next
 
-## Where the work stands — 2026-09-18
+## Where the work stands — 2026-09-19
 
 The live thread is the compile-path ladder (`coordinator/PLAN.md`). Eight rungs were
 climbed on 2026-09-17; the conformance review (`reviews/rung-conformance-1-4.md`,

@@ -252,7 +252,7 @@ I did not re-run the ladder subset. The two files this round edits are runtime c
     ProjectFortress/compiler_tests/AtomicTopLevelObjectVar.fss      (new this round, 45 lines)
     ProjectFortress/compiler_tests/AtomicTopLevelObjectVar.test     (new this round)
 
-Line ranges in the two `.java` files under `codegen/` are of the landed state. `VarCodeGen.java` also carries the twelve emitted descriptors that moved from `FValue` to `Any`, at `:342,350,375,384,500,508,536,545,673,685,717,728` in the base numbering.
+Line ranges in the two `.java` files under `codegen/` are of the state this rung landed in its own worktree. R2 of the same batch was folded after R1 and adds one net line at `CodeGen.java:3873`, so every `CodeGen.java` citation above that line -- in this file, in `record.md`, in `SKEPTIC.md` and in `JUDGE.md` -- is one lower than the merged tree; the copies folded into `FACTS.md` and the gap ledger were corrected at the review stage, these four were left as their authors wrote them. `VarCodeGen.java` is untouched by R2, so its numbers stand. `VarCodeGen.java` also carries the twelve emitted descriptors that moved from `FValue` to `Any`, at `:342,350,375,384,500,508,536,545,673,685,717,728` in the base numbering.
 
 The `Transaction.java` payload-type citation above was off by one throughout in the first write-up of this section, and the skeptic's second judgement required it corrected; it is now the complete set of lines in that file that name `Any` at `HEAD` (`grep -n '\bAny\b'`), which is a superset of the thirteen positions the skeptic named and agrees with them. The `MutableFValue.java` entry cited `:42`, the file's closing brace, where the `toString` change is at `:38-39`. Corrected at the gather stage, 2026-09-19.
 

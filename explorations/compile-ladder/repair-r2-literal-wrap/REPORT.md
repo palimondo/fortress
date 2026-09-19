@@ -352,8 +352,9 @@ numeral now raises where it returned the `BOGUS` sentinel's low half
 | `r2c`, `r2d`, `r2f` out-of-range coercions | walk refuses; compiled silently truncates | walk refuses; compiled raises `Not in range for ...` | the paths now agree in outcome and differ only in whether the diagnostic is static or dynamic; recorded, not repaired |
 | `p37` comparison of a numeral of bit length 64 | walk three `false` lines; compiled `true` | walk unchanged; compiled raises `Not in range for ZZ64: 18446744073709551615` | `literals.tex:83-86`: against the compiled run both before and after -- a quiet wrong answer became a loud one, and the comparison site is ledger row 328, outside this rung |
 
-`r2b` is the one divergence this rung leaves: the compiled `NN32` and `NN64` hold the right
-value — `IntLiteralWrapRepairR2.fss:64,69` assert `n32 = h32u + h32u + one32u` and `n64 =
+`r2b` is the one divergence this rung leaves unchanged; `p37` and the `r2c`/`r2d`/`r2f`
+class it changes without closing, as the table above records.  The compiled `NN32` and
+`NN64` hold the right value — `IntLiteralWrapRepairR2.fss:64,69` assert `n32 = h32u + h32u + one32u` and `n64 =
 h64u + h64u + one64u` and both pass — but render it signed, because `FNN32.toString` and
 `FNN64.toString` are `String.valueOf(val)` over a signed `int` and `long`
 (`runtimeValues/FNN32.java:19-20`, `FNN64.java:20`).  That is a rendering defect in the
