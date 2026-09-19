@@ -178,6 +178,19 @@ Recovery was carried out in the blinded run's container, which already had the
 checkout and the toolchain: fast-forward to `main`, fix the backup, materialise
 the other lineage's transcripts, then re-run the batch from its recorded brief.
 
+## The 2026-09-19 interrupt
+
+A Workflow run lives inside the coordinating session's turn structure even though
+it is reported as a background task: when Pavol interrupted the session's turn at
+07:46:42 UTC, eleven seconds after a scheduled check-in had started it, both rung
+agents of climb batch 1 stopped at that second and the harness forgot the task
+(`TaskGet` returned not found). An `Agent`-tool worker launched afterwards was
+unaffected. Recovery was the same as after the VM restart: the `wip/` branches
+and the worktrees held everything pushed and everything on disk, and the batch
+was relaunched from the same base with the same command. Two consequences: a
+check-in that fires during a batch should be left to finish its turn, and a
+Workflow run is never resumed after such a death, only relaunched.
+
 ## The 2026-09-18 restart
 
 The repair batch's re-run was launched at 22:57 UTC (run `wf_9777a563-c5e`,
