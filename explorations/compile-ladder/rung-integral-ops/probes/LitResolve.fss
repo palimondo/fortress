@@ -1,0 +1,24 @@
+component LitResolve
+export Executable
+
+(*) Probe: which overload a named operator call resolves to when one or both
+(*) operands are integer literals.  CMP is declared on ZZ32 and on no other
+(*) numeric trait (CompilerBuiltin.fsi:223), so "3 CMP 4" has one candidate
+(*) reachable by coercion.  DIV is declared on ZZ32, ZZ64, NN32, NN64 and on
+(*) IntLiteral, where rung 7 left the body as a run-time throw
+(*) (CompilerBuiltin.fss:818), so a literal-literal DIV that throws tells us
+(*) IntLiteral's own overload won, and one that answers tells us a coerced
+(*) numeric overload won.
+
+run():() = do
+    i: ZZ32 = 7
+    j: ZZ32 = 3
+    println("ZZ32 DIV ZZ32: " || (i DIV j).asString)
+    println("ZZ32 DIV literal: " || (i DIV 3).asString)
+    println("literal DIV ZZ32: " || (7 DIV j).asString)
+    println("ZZ32 >> literal: " || (i >> 1).asString)
+    println("literal CMP literal: ok")
+    ignore(3 CMP 4)
+    println("literal DIV literal: " || (7 DIV 3).asString)
+  end
+end
