@@ -11,24 +11,17 @@ zeros(n: ZZ32): Array[\RR64,ZZ32\]
 keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\]
 mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\]
 
-(* the elementwise algebra, one declaration per operator for every rank *)
-opr +[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\]
-opr +[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\]
-opr -[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\]
-opr -[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\]
+(* the elementwise algebra beyond the library's + - MIN MAX scalar extension, one declaration per operator for every rank *)
 opr ×[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\]
 opr /[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\]
 opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\]
-opr MAX[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\]
-opr MAX[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\]
 opr >[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\]
 opr SQRT[\I\](a: Array[\RR64,I\]): Array[\RR64,I\]
 exp[\I\](a: Array[\RR64,I\]): Array[\RR64,I\]
 log[\I\](a: Array[\RR64,I\]): Array[\RR64,I\]
-(* diag(v) m scales the rows of m without forming the diagonal matrix *)
-object Diag[\nat s\](d: Vector[\RR64,s\]) end
+(* diag(v) m scales the rows of m: a read-only Matrix view, the product the library's *)
+object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\] end
 diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\]
-opr juxtaposition[\nat s, nat r, nat c\](dg: Diag[\s\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\]
 
 (* transposes, as views: of a matrix, and of every plane of a rank-3 array.
    Functions, because an API cannot declare a postfix operator (ledger row 133);

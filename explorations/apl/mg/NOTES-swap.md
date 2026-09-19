@@ -226,6 +226,19 @@ declaration nobody had touched (`MAX` against the library's
 run of the same file was green both times.  Ledger row 98, again: run twice
 before believing.
 
+Corrected 2026-09-19: the conflict was not bogus and "run twice" was not the
+answer.  The interpreter's verdict was right -- the pairs are illegal
+overloadings under `Specification/basic/overloading.tex:100-105` and the Meet
+Rule of `advanced/overloading.tex:247-262` -- and the cache hid it, because a
+component is written to `interpreter_cache` before the check runs on it and is
+never re-checked (ledger rows 341, 342).  The repair is in the standard library,
+commit 02d09a39f: `FlatArrays2` no longer declares the scalar extension of
+`+`, `-` and `MAX`, nor the `Diag` product, all of which the library now
+serves, and `Diag` is a read-only `Matrix` view.  The check is 40 PASS at the
+FIRST run of an empty cache, at one and at four threads, every non-timing line
+identical to `checks/threads1_flatarrays2.txt` and `checks/threads4_flatarrays2.txt`
+(`../../run-c4/cold-cache/repair/MicroGptAplCheck-threads{1,4}.txt`).
+
 Per-step times, ms.  The model was run twice (ledger row 98's discipline), the
 first run on a cold cache for every component in this directory:
 

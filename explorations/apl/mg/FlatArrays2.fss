@@ -15,10 +15,6 @@ keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).fill(f)
 mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
 
 (* ------------------------------------------- the elementwise algebra ----- *)
-opr +[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e) => e + s)
-opr +[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\] = a.map[\T\](fn (e) => s + e)
-opr -[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e) => e - s)
-opr -[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\] = a.map[\T\](fn (e) => s - e)
 (* × and the array-by-array / are the two of the thirteen with two array
    parameters: their two arrays must have ONE shape, and the shared nats say so,
    one declaration per rank because the sizes are not in the index type (the
@@ -37,20 +33,21 @@ opr /[\T extends Number, nat n, nat d\](a: Matrix[\T,n,d\], b: Matrix[\T,n,d\]):
 opr /[\T extends Number, nat p, nat n, nat d\](a: Array3[\T,0,p,0,n,0,d\], b: Array3[\T,0,p,0,n,0,d\]): Array[\T,(ZZ32,ZZ32,ZZ32)\] = a.ivmap[\T\](fn (i, e) => e / b[i])
 (* an array over a scalar: one array parameter, nothing to agree with, no nat *)
 opr /[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e) => e / s)
-opr MAX[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\] = a.map[\T\](fn (e) => s MAX e)
-opr MAX[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\] = a.map[\T\](fn (e) => e MAX s)
 opr >[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\RR64,I\] = a.map[\RR64\](fn (e) => if e > s then 1.0 else 0.0 end)
 opr SQRT[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e) => SQRT e)
 exp[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](exp)
 log[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](log)
 
 (* ----------------------------------------------------- the diagonal ------ *)
-(* the s of the diagonal is the row count of the matrix: [\s, c\], not C4's
-   [\s, r, c\] *)
-object Diag[\nat s\](d: Vector[\RR64,s\]) end
+(* the s of the diagonal is the row count of the matrix; a read-only Matrix
+   view, so its product is the library's *)
+object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; if i = j then d[i] else 0.0 end end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    replica[\U\](): Array2[\U,0,s,0,s\] = array2[\U,s,s\]()
+end
 diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\] = Diag[\s\](v)
-opr juxtaposition[\nat s, nat c\](dg: Diag[\s\], m: Matrix[\RR64,s,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
-    m.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), e: RR64): RR64 => do (i, j) = ij; dg.d[i] e end)
 
 (* ------------------------------------------------------- transposes ------ *)
 transpose[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Matrix[\RR64,c,r\] = m.t()

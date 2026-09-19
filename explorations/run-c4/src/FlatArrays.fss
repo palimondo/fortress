@@ -20,27 +20,25 @@ mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array
 (* One declaration per operator, generic in the index type I, so a vector
    (I = ZZ32), a matrix ((ZZ32,ZZ32)) and a rank-3 array share it.  A scalar
    times an array is the library's juxtaposition and is not redeclared;
-   + and - between two arrays of one shape are the library's. *)
-opr +[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e + s)
-opr +[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s + e)
-opr -[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e - s)
-opr -[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s - e)
+   + and - between two arrays of one shape, and + - MIN MAX between an array
+   and a scalar, are the library's. *)
 opr ×[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\] = a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e b[i])
 opr /[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\]): Array[\RR64,I\] = a.ivmap[\RR64\](fn (i: I, e: RR64): RR64 => e / b[i])
 opr /[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e / s)
-opr MAX[\I\](s: RR64, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => s MAX e)
-opr MAX[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => e MAX s)
 (* a comparison on an array is a 0/1 array *)
 opr >[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => if e > s then 1.0 else 0.0 end)
 opr SQRT[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => SQRT e)
 exp[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => exp(e))
 log[\I\](a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => log(e))
-(* diag(v) m scales the rows of m: the Dyalog's v ×⍤0 1 m.  A diagonal is its
-   own object, so its product is one declaration that never forms the matrix. *)
-object Diag[\nat s\](d: Vector[\RR64,s\]) end
+(* diag(v) m scales the rows of m: the Dyalog's v ×⍤0 1 m.  A diagonal is a
+   read-only Matrix view, so its product is the library's. *)
+object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; if i = j then d[i] else 0.0 end end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    replica[\U\](): Array2[\U,0,s,0,s\] = array2[\U,s,s\]()
+end
 diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\] = Diag[\s\](v)
-opr juxtaposition[\nat s, nat r, nat c\](dg: Diag[\s\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
-    m.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), e: RR64): RR64 => do (i, j) = ij; dg.d[i] e end)
 
 (* ----------------------------------------------------- transposes -------- *)
 (* as functions: an API cannot declare a postfix operator (ledger row 133), so

@@ -1,0 +1,15 @@
+ant testSystem / ant testFast on the tree with the library edit and the two tests, caches wiped first (2026-09-19).
+
+testSystem, four shards:
+    [junit] Tests run: 98, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 96.184 sec
+    [junit] Tests run: 95, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 98.458 sec
+    [junit] Tests run: 96, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 121.832 sec
+    [junit] Tests run: 95, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 137.343 sec
+BUILD SUCCESSFUL
+  totals: 384 tests, 0 failures, 0 errors, 0 skipped (382 + the two new)
+
+testFast, 47 suites:
+  suites reporting: 47
+BUILD SUCCESSFUL
+Total time: 7 minutes 35 seconds
+  totals: 1409 tests, 0 failures, 0 errors, 0 skipped

@@ -49,11 +49,8 @@ mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\]
    index-generic form had, as every other nat-typed declaration here does: the
    nats are on the parameters, where the agreement is.
    + and - between two arrays of one shape stay the library's (AdditiveGroup),
-   and a scalar times an array stays the library's juxtaposition. *)
-opr +[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\]
-opr +[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\]
-opr -[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\]
-opr -[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\]
+   a scalar times an array stays the library's juxtaposition, and + - MIN MAX
+   between an array and a scalar are the library's scalar extension. *)
 (* the shared s: the two vectors are of ONE LENGTH *)
 opr ×[\T extends Number, nat s\](a: Vector[\T,s\], b: Vector[\T,s\]): Array[\T,ZZ32\]
 (* the shared n and d: the two matrices are of ONE SHAPE, n rows by d columns *)
@@ -68,8 +65,6 @@ opr /[\T extends Number, nat n, nat d\](a: Matrix[\T,n,d\], b: Matrix[\T,n,d\]):
 opr /[\T extends Number, nat p, nat n, nat d\](a: Array3[\T,0,p,0,n,0,d\], b: Array3[\T,0,p,0,n,0,d\]): Array[\T,(ZZ32,ZZ32,ZZ32)\]
 (* an array over a scalar: one array parameter, nothing to agree with, no nat *)
 opr /[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\]
-opr MAX[\T extends Number, I\](s: T, a: Array[\T,I\]): Array[\T,I\]
-opr MAX[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\T,I\]
 (* a comparison on an array is a 0/1 array, the APL convention *)
 opr >[\T extends Number, I\](a: Array[\T,I\], s: T): Array[\RR64,I\]
 opr SQRT[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\]
@@ -78,14 +73,11 @@ log[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\]
 
 (* ----------------------------------------------------- the diagonal ------
    diag(v) m scales the rows of m: the Dyalog's v ×⍤0 1 m.  The s of the
-   diagonal IS the row count of the matrix: the two nats of the product are
-   [\s, c\] and not C4's [\s, r, c\], so a diagonal of another length is not a
-   candidate at all.  The diagonal stays its own object and the product stays
-   an operator: as a Matrix view it needs no operator and costs 13x at n = 16
-   and 54x at n = 64 (review probe v07, ledger row 291). *)
-object Diag[\nat s\](d: Vector[\RR64,s\]) end
+   diagonal IS the row count of the matrix.  The diagonal is a read-only
+   Matrix view of its own s x s shape, so the product is the library's and
+   needs no declaration here. *)
+object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\] end
 diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\]
-opr juxtaposition[\nat s, nat c\](dg: Diag[\s\], m: Matrix[\RR64,s,c\]): Array[\RR64,(ZZ32,ZZ32)\]
 
 (* ------------------------------------------------------- transposes ------
    Functions, because an api cannot declare a postfix operator (row 133) and
