@@ -85,6 +85,12 @@ but if one seems to conflict with something Pavol says, his words win.
   quotations, never document reproductions.
 - Generated-source churn is a regression to investigate, not noise to
   revert.
+- **(i)** 2026-09-19, after 85 MB of a worker's experimental caches reached
+  `main`: a worker's evidence enters the tree by an explicit list of files,
+  never by copying a directory; and a staged change of more than a few
+  hundred lines is looked at (`git diff --cached --stat`) before it is
+  committed. `.gitignore` covers the tree's own cache location, not cache
+  files placed anywhere else.
 - Commit footer, exactly:
 
   ```
