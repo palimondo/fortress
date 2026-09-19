@@ -581,6 +581,29 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     opr BOXCROSS(self, other:ZZ64): ZZ64 = jLongWrappingMul(self,other)
     opr DOTCROSS(self, other:ZZ64): ZZ64 = jLongSaturatingMul(self,other)
     opr DIV(self, other:ZZ64): ZZ64 = jLongOverflowingDiv(self,other)
+    opr REM(self, other:ZZ64): ZZ64 = self - other (self DIV other)
+    opr MOD(self, other:ZZ64): ZZ64 = do
+        r = self REM other
+        if r = 0 then 0
+        elif other > 0 then (if self >= 0 then r else r + other end)
+        else (if self >= 0 then r + other else r end)
+        end
+      end
+    opr GCD(self, other:ZZ64): ZZ64 = do
+        var a: ZZ64 := self
+        var b: ZZ64 := other
+        var r: ZZ64 := 0
+        while b =/= 0 do
+            r := a REM b
+            a := b
+            b := r
+        end
+        if a < 0 then -a else a end
+      end
+    opr LCM(self, other:ZZ64): ZZ64 =
+        if (self = 0) OR (other = 0) then 0
+        else (|self| DIV (self GCD other)) DOT |other|
+        end
     opr <(self, other:ZZ64): Boolean = jLongLT(self,other)
     opr <=(self, other:ZZ64): Boolean = jLongLE(self,other)
     opr >(self, other:ZZ64): Boolean = jLongGT(self,other)
@@ -604,6 +627,8 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     opr <<<(self, other:ZZ64): ZZ64 = jLongShift(self,jLongLowHalfToInt(-64 MAX (other MIN 64)))
     opr <<<(self, other:NN32): ZZ64 = jLongShift(self,jMakeZZ32FromNN32(other MIN 64))
     opr <<<(self, other:NN64): ZZ64 = jLongShift(self,jLongLowHalfToInt(jMakeZZ64FromNN64(other MIN 64)))
+    opr LSHIFT(self, other:ZZ64): ZZ64 = self << other
+    opr RSHIFT(self, other:ZZ64): ZZ64 = self >> other
     opr MIN(self, other:ZZ64): ZZ64 = if self <= other then self else other end
     opr MAX(self, other:ZZ64): ZZ64 = if self >= other then self else other end
     opr MINMAX(self, other:ZZ64): (ZZ64, ZZ64) = if self <= other then (self, other) else (other, self) end
@@ -639,6 +664,29 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     opr BOXCROSS(self, other:ZZ32): ZZ32 = jIntWrappingMul(self,other)
     opr DOTCROSS(self, other:ZZ32): ZZ32 = jIntSaturatingMul(self,other)
     opr DIV(self, other:ZZ32): ZZ32 = jIntOverflowingDiv(self,other)
+    opr REM(self, other:ZZ32): ZZ32 = self - other (self DIV other)
+    opr MOD(self, other:ZZ32): ZZ32 = do
+        r = self REM other
+        if r = 0 then 0
+        elif other > 0 then (if self >= 0 then r else r + other end)
+        else (if self >= 0 then r + other else r end)
+        end
+      end
+    opr GCD(self, other:ZZ32): ZZ32 = do
+        var a: ZZ32 := self
+        var b: ZZ32 := other
+        var r: ZZ32 := 0
+        while b =/= 0 do
+            r := a REM b
+            a := b
+            b := r
+        end
+        if a < 0 then -a else a end
+      end
+    opr LCM(self, other:ZZ32): ZZ32 =
+        if (self = 0) OR (other = 0) then 0
+        else (|self| DIV (self GCD other)) DOT |other|
+        end
     opr <(self, other:ZZ32): Boolean = jIntLT(self,other)
     opr <=(self, other:ZZ32): Boolean = jIntLE(self,other)
     opr >(self, other:ZZ32): Boolean = jIntGT(self,other)
@@ -666,6 +714,8 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     opr <<<(self, other:ZZ64): ZZ32 = jIntShift(self,jLongLowHalfToInt(-32 MAX (other MIN 32)))
     opr <<<(self, other:NN32): ZZ32 = jIntShift(self,jMakeZZ32FromNN32(other MIN 32))
     opr <<<(self, other:NN64): ZZ32 = jIntShift(self,jLongLowHalfToInt(jMakeZZ64FromNN64(other MIN 32)))
+    opr LSHIFT(self, other:ZZ32): ZZ32 = self << other
+    opr RSHIFT(self, other:ZZ32): ZZ32 = self >> other
     opr MIN(self, other:ZZ32): ZZ32 = if self <= other then self else other end
     opr MAX(self, other:ZZ32): ZZ32 = if self >= other then self else other end
     opr MINMAX(self, other:ZZ32): (ZZ32, ZZ32) = if self <= other then (self, other) else (other, self) end

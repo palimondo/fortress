@@ -1,0 +1,20 @@
+component JuxtParen
+export Executable
+
+(*) Probe 5: the specification writes REM's defining property as
+(*) "m REM n = m - n(m DIV n)" (basic-lib/basic-integers.tex:481), with the
+(*) product spelled as a juxtaposition of a variable and a parenthesised
+(*) expression.  library_tests/Integer3.fss:67 juxtaposes two variables
+(*) ("seven five"), but nothing in the corpus juxtaposes a variable with a
+(*) parenthesised expression, and "b (e)" is also the spelling of a function
+(*) call.  This probe decides whether the body can be written in the
+(*) specification's spelling or has to use DOT, which on ZZ32 is the same
+(*) native (jIntOverflowingMul, CompilerBuiltin.fss:637 and :652).
+
+run(): () = do
+    a: ZZ32 = 8
+    b: ZZ32 = 3
+    println("a - b (a DIV b) = " || (a - b (a DIV b)).asString)
+    println("a - (b DOT (a DIV b)) = " || (a - (b DOT (a DIV b))).asString)
+  end
+end

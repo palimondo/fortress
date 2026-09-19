@@ -1,0 +1,287 @@
+(Api @"/home/user/fortress-ints/Library/CompilerAlgebra.fsi":12:1~28:2
+ _info=(SpanInfo)
+ _name=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])
+ _decls=[
+  (TraitDecl @14:1~31
+   _header=(TraitTypeHeader
+    _mods=""
+    _name=(Id @14:7~27 _info=(SpanInfo) _text="AllStandardTotalOrders")
+    _extendsClause=[
+     (TraitTypeWhere @14:1~31
+      _baseType=(TraitType
+       _info=(TypeInfo)
+       _name=(Id @"/home/user/fortress-ints/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi":17:7~11 _apiName=(Some _value=(APIName @"Type checker generated.":0:0 _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="Object"))
+      _info=(SpanInfo))])
+   _info=(SpanInfo)
+   _selfType=(Some _value=(TraitSelfType @"/home/user/fortress-ints/Library/CompilerAlgebra.fsi":14:7~27
+     _info=(TypeInfo)
+     _named=(TraitType
+      _info=(TypeInfo)
+      _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="AllStandardTotalOrders")))))
+  (TraitDecl @16:1~22:2
+   _comprisesClause=(Some _value=[
+     (VarType @16:89 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))])
+   _header=(TraitTypeHeader
+    _mods=""
+    _name=(Id @16:7~23 _info=(SpanInfo) _text="StandardTotalOrder")
+    _decls=[
+     (FnDecl @17:3~40
+      _header=(FnHeader
+       _mods="b"
+       _name=(NamedOp @17:16 _fixity=(InFixity) _info=(SpanInfo) _text="<")
+       _returnType=(Some _value=(TraitType @17:34~40
+         _info=(TypeInfo)
+         _name=(Id @"/home/user/fortress-ints/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi":454:7~12 _apiName=(Some _value=(APIName @"Type checker generated.":0:0 _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="Boolean")))
+       _params=[
+        (Param @"/home/user/fortress-ints/Library/CompilerAlgebra.fsi":17:18~40
+         _idType=(Some _value=(TraitSelfType @16:7~23
+           _info=(TypeInfo)
+           _named=(TraitType
+            _info=(TypeInfo)
+            _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="StandardTotalOrder")
+            _args=[
+             (TypeArg @16:27
+              _info=(SpanInfo)
+              _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])
+           _comprised=[
+            (VarType @16:89 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))]))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @17:18~40 _info=(SpanInfo) _text="self"))
+        (Param @17:24~27
+         _idType=(Some _value=(VarType @17:30 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @17:24~27 _info=(SpanInfo) _text="other"))])
+      _info=(SpanInfo)
+      _unambiguousName=(NamedOp @17:16 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|CompilerAlgebra.fsi:17:3-40"))
+     (FnDecl @18:3~40
+      _header=(FnHeader
+       _mods="b"
+       _name=(NamedOp @18:16 _fixity=(InFixity) _info=(SpanInfo) _text=">")
+       _returnType=(Some _value=(TraitType @18:34~40
+         _info=(TypeInfo)
+         _name=(Id @"/home/user/fortress-ints/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi":454:7~12 _apiName=(Some _value=(APIName @"Type checker generated.":0:0 _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="Boolean")))
+       _params=[
+        (Param @"/home/user/fortress-ints/Library/CompilerAlgebra.fsi":18:18~40
+         _idType=(Some _value=(TraitSelfType @16:7~23
+           _info=(TypeInfo)
+           _named=(TraitType
+            _info=(TypeInfo)
+            _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="StandardTotalOrder")
+            _args=[
+             (TypeArg @16:27
+              _info=(SpanInfo)
+              _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])
+           _comprised=[
+            (VarType @16:89 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))]))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @18:18~40 _info=(SpanInfo) _text="self"))
+        (Param @18:24~27
+         _idType=(Some _value=(VarType @18:30 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @18:24~27 _info=(SpanInfo) _text="other"))])
+      _info=(SpanInfo)
+      _unambiguousName=(NamedOp @18:16 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|CompilerAlgebra.fsi:18:3-40"))
+     (FnDecl @19:3~41
+      _header=(FnHeader
+       _mods="b"
+       _name=(NamedOp @19:16 _fixity=(InFixity) _info=(SpanInfo) _text="<=")
+       _returnType=(Some _value=(TraitType @19:35~41
+         _info=(TypeInfo)
+         _name=(Id @"/home/user/fortress-ints/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi":454:7~12 _apiName=(Some _value=(APIName @"Type checker generated.":0:0 _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="Boolean")))
+       _params=[
+        (Param @"/home/user/fortress-ints/Library/CompilerAlgebra.fsi":19:19~41
+         _idType=(Some _value=(TraitSelfType @16:7~23
+           _info=(TypeInfo)
+           _named=(TraitType
+            _info=(TypeInfo)
+            _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="StandardTotalOrder")
+            _args=[
+             (TypeArg @16:27
+              _info=(SpanInfo)
+              _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])
+           _comprised=[
+            (VarType @16:89 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))]))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @19:19~41 _info=(SpanInfo) _text="self"))
+        (Param @19:25~28
+         _idType=(Some _value=(VarType @19:31 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @19:25~28 _info=(SpanInfo) _text="other"))])
+      _info=(SpanInfo)
+      _unambiguousName=(NamedOp @19:16 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|CompilerAlgebra.fsi:19:3-41"))
+     (FnDecl @20:3~41
+      _header=(FnHeader
+       _mods="b"
+       _name=(NamedOp @20:16 _fixity=(InFixity) _info=(SpanInfo) _text=">=")
+       _returnType=(Some _value=(TraitType @20:35~41
+         _info=(TypeInfo)
+         _name=(Id @"/home/user/fortress-ints/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi":454:7~12 _apiName=(Some _value=(APIName @"Type checker generated.":0:0 _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="Boolean")))
+       _params=[
+        (Param @"/home/user/fortress-ints/Library/CompilerAlgebra.fsi":20:19~41
+         _idType=(Some _value=(TraitSelfType @16:7~23
+           _info=(TypeInfo)
+           _named=(TraitType
+            _info=(TypeInfo)
+            _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="StandardTotalOrder")
+            _args=[
+             (TypeArg @16:27
+              _info=(SpanInfo)
+              _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])
+           _comprised=[
+            (VarType @16:89 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))]))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @20:19~41 _info=(SpanInfo) _text="self"))
+        (Param @20:25~28
+         _idType=(Some _value=(VarType @20:31 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @20:25~28 _info=(SpanInfo) _text="other"))])
+      _info=(SpanInfo)
+      _unambiguousName=(NamedOp @20:16 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|CompilerAlgebra.fsi:20:3-41"))
+     (FnDecl @21:3~22:1
+      _header=(FnHeader
+       _mods="b"
+       _name=(NamedOp @21:16~18 _fixity=(InFixity) _info=(SpanInfo) _text="CMP")
+       _returnType=(Some _value=(TraitType @21:36~50
+         _info=(TypeInfo)
+         _name=(Id @"/home/user/fortress-ints/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi":688:7~20 _apiName=(Some _value=(APIName @"Type checker generated.":0:0 _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="TotalComparison")))
+       _params=[
+        (Param @"/home/user/fortress-ints/Library/CompilerAlgebra.fsi":21:20~22:1
+         _idType=(Some _value=(TraitSelfType @16:7~23
+           _info=(TypeInfo)
+           _named=(TraitType
+            _info=(TypeInfo)
+            _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="StandardTotalOrder")
+            _args=[
+             (TypeArg @16:27
+              _info=(SpanInfo)
+              _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])
+           _comprised=[
+            (VarType @16:89 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))]))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @21:20~22:1 _info=(SpanInfo) _text="self"))
+        (Param @21:26~29
+         _idType=(Some _value=(VarType @21:32 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @21:26~29 _info=(SpanInfo) _text="other"))])
+      _info=(SpanInfo)
+      _unambiguousName=(NamedOp @21:16~18 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|CompilerAlgebra.fsi:21:3-22:1"))]
+    _extendsClause=[
+     (TraitTypeWhere @16:40~51
+      _baseType=(TraitType @16:40~50
+       _info=(TypeInfo)
+       _name=(Id @16:40~46 _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="Equality")
+       _args=[
+        (TypeArg @16:50
+         _info=(SpanInfo)
+         _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])
+      _info=(SpanInfo))
+     (TraitTypeWhere @16:55~75
+      _baseType=(TraitType
+       _info=(TypeInfo)
+       _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="AllStandardTotalOrders"))
+      _info=(SpanInfo))]
+    _staticParams=[
+     (StaticParam @16:27
+      _info=(SpanInfo)
+      _kind=(KindType)
+      _name=(Id _info=(SpanInfo) _text="T")
+      _variance=0
+      _extendsClause=[
+       (TraitType @16:7~23
+        _info=(TypeInfo)
+        _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="StandardTotalOrder")
+        _args=[
+         (TypeArg @16:27
+          _info=(SpanInfo)
+          _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])])])
+   _info=(SpanInfo)
+   _selfType=(Some _value=(TraitSelfType @16:7~23
+     _info=(TypeInfo)
+     _named=(TraitType
+      _info=(TypeInfo)
+      _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="StandardTotalOrder")
+      _args=[
+       (TypeArg @16:27
+        _info=(SpanInfo)
+        _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])
+     _comprised=[
+      (VarType @16:89 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))])))
+  (TraitDecl @24:1~26:2
+   _comprisesClause=(Some _value=[
+     (VarType @24:31 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))])
+   _header=(TraitTypeHeader
+    _mods=""
+    _name=(Id @24:7~13 _info=(SpanInfo) _text="Equality")
+    _decls=[
+     (FnDecl @25:3~26:1
+      _header=(FnHeader
+       _mods=""
+       _name=(NamedOp @25:7 _fixity=(InFixity) _info=(SpanInfo) _text="=")
+       _returnType=(Some _value=(TraitType @25:25~31
+         _info=(TypeInfo)
+         _name=(Id @"/home/user/fortress-ints/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi":454:7~12 _apiName=(Some _value=(APIName @"Type checker generated.":0:0 _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="Boolean")))
+       _params=[
+        (Param @"/home/user/fortress-ints/Library/CompilerAlgebra.fsi":25:9~26:1
+         _idType=(Some _value=(TraitSelfType @24:7~13
+           _info=(TypeInfo)
+           _named=(TraitType
+            _info=(TypeInfo)
+            _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="Equality")
+            _args=[
+             (TypeArg @24:17
+              _info=(SpanInfo)
+              _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])
+           _comprised=[
+            (VarType @24:31 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))]))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @25:9~26:1 _info=(SpanInfo) _text="self"))
+        (Param @25:15~18
+         _idType=(Some _value=(VarType @25:21 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))
+         _info=(SpanInfo)
+         _mods=""
+         _name=(Id @25:15~18 _info=(SpanInfo) _text="other"))])
+      _info=(SpanInfo)
+      _unambiguousName=(NamedOp @25:7 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|CompilerAlgebra.fsi:25:3-26:1"))]
+    _extendsClause=[
+     (TraitTypeWhere @24:1~26:2
+      _baseType=(TraitType
+       _info=(TypeInfo)
+       _name=(Id @"/home/user/fortress-ints/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi":17:7~11 _apiName=(Some _value=(APIName @"Type checker generated.":0:0 _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="Object"))
+      _info=(SpanInfo))]
+    _staticParams=[
+     (StaticParam @"/home/user/fortress-ints/Library/CompilerAlgebra.fsi":24:17
+      _info=(SpanInfo)
+      _kind=(KindType)
+      _name=(Id _info=(SpanInfo) _text="T")
+      _variance=0
+      _extendsClause=[
+       (TraitType @24:7~13
+        _info=(TypeInfo)
+        _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="Equality")
+        _args=[
+         (TypeArg @24:17
+          _info=(SpanInfo)
+          _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])])])
+   _info=(SpanInfo)
+   _selfType=(Some _value=(TraitSelfType @24:7~13
+     _info=(TypeInfo)
+     _named=(TraitType
+      _info=(TypeInfo)
+      _name=(Id _apiName=(Some _value=(APIName @12:5~20 _info=(SpanInfo) _text="CompilerAlgebra" _ids=[(Id _info=(SpanInfo) _text="CompilerAlgebra")])) _info=(SpanInfo) _text="Equality")
+      _args=[
+       (TypeArg @24:17
+        _info=(SpanInfo)
+        _typeArg=(VarType _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T")))])
+     _comprised=[
+      (VarType @24:31 _info=(TypeInfo) _lexicalDepth=-2147483648 _name=(Id _info=(SpanInfo) _text="T"))])))])

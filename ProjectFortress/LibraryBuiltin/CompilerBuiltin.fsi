@@ -173,6 +173,10 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     opr BOXCROSS(self, other:ZZ64): ZZ64 
     opr DOTCROSS(self, other:ZZ64): ZZ64 
     opr DIV(self, other:ZZ64): ZZ64
+    opr REM(self, other:ZZ64): ZZ64
+    opr MOD(self, other:ZZ64): ZZ64
+    opr GCD(self, other:ZZ64): ZZ64
+    opr LCM(self, other:ZZ64): ZZ64
     opr BITNOT(self): ZZ64 
     opr BITAND(self, other:ZZ64): ZZ64 
     opr BITOR(self, other:ZZ64): ZZ64 
@@ -189,6 +193,8 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     opr <<<(self, other:ZZ64): ZZ64
     opr <<<(self, other:NN32): ZZ64
     opr <<<(self, other:NN64): ZZ64
+    opr LSHIFT(self, other:ZZ64): ZZ64
+    opr RSHIFT(self, other:ZZ64): ZZ64
     opr MIN(self, other:ZZ64): ZZ64 
     opr MAX(self, other:ZZ64): ZZ64 
     opr MINMAX(self, other:ZZ64): (ZZ64, ZZ64) 
@@ -228,6 +234,10 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     opr BOXCROSS(self, other:ZZ32): ZZ32
     opr DOTCROSS(self, other:ZZ32): ZZ32
     opr DIV(self, other:ZZ32): ZZ32
+    opr REM(self, other:ZZ32): ZZ32
+    opr MOD(self, other:ZZ32): ZZ32
+    opr GCD(self, other:ZZ32): ZZ32
+    opr LCM(self, other:ZZ32): ZZ32
     opr BITNOT(self): ZZ32 
     opr BITAND(self, other:ZZ32): ZZ32 
     opr BITOR(self, other:ZZ32): ZZ32 
@@ -244,6 +254,8 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     opr <<<(self, other:ZZ64): ZZ32
     opr <<<(self, other:NN32): ZZ32
     opr <<<(self, other:NN64): ZZ32
+    opr LSHIFT(self, other:ZZ32): ZZ32
+    opr RSHIFT(self, other:ZZ32): ZZ32
     opr MIN(self, other:ZZ32): ZZ32 
     opr MAX(self, other:ZZ32): ZZ32 
     opr MINMAX(self, other:ZZ32): (ZZ32, ZZ32)
