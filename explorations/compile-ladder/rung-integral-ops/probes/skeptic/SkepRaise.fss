@@ -1,0 +1,13 @@
+component SkepRaise
+export Executable
+
+(*) Skeptic's probe: the uncaught stack for 0 MOD -1 on the compiled path,
+(*) so the raising site is on the record rather than only the word THROWS.
+
+run(): () = do
+  zero: ZZ32 = 0
+  mOne: ZZ32 = -1
+  println("0 MOD -1 = " (zero MOD mOne))
+end
+
+end

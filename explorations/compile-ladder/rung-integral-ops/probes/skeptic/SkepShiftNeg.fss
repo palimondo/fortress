@@ -1,0 +1,31 @@
+component SkepShiftNeg
+export Executable
+
+(*) Skeptic's probe: shift counts outside 0..31, including NEGATIVE counts,
+(*) which rung N's row 331 covers only by the phrase "outside 0..31".
+
+tryZZ32(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    Exception => "THROWS"
+  end
+
+run(): () = do
+  three: ZZ32 = 3
+  mSixteen: ZZ32 = -16
+  mOne: ZZ32 = -1
+  mThirtyTwo: ZZ32 = -32
+  thirtyTwo: ZZ32 = 32
+  sixtyFour: ZZ32 = 64
+
+  println("3 LSHIFT -1 = "     tryZZ32(fn () => three LSHIFT mOne))
+  println("3 RSHIFT -1 = "     tryZZ32(fn () => three RSHIFT mOne))
+  println("3 LSHIFT -32 = "    tryZZ32(fn () => three LSHIFT mThirtyTwo))
+  println("3 LSHIFT 32 = "     tryZZ32(fn () => three LSHIFT thirtyTwo))
+  println("3 LSHIFT 64 = "     tryZZ32(fn () => three LSHIFT sixtyFour))
+  println("-16 RSHIFT 32 = "   tryZZ32(fn () => mSixteen RSHIFT thirtyTwo))
+  println("-16 RSHIFT -1 = "   tryZZ32(fn () => mSixteen RSHIFT mOne))
+end
+
+end

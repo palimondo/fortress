@@ -1,0 +1,35 @@
+component SkepZeroNegOne
+export Executable
+
+(*) Skeptic's probe: zero divided by minus one.  intOverflowingDiv's guard is
+(*) "if (b==(-1) && a==(-a))" (nativeHelpers/simpleIntArith.java:80), and
+(*) a==(-a) holds for a==0 as well as for ZZ32.MIN -- the same zero defect rung
+(*) N found in intOverflowingNeg and intOverflowingAbs, but in the DIV native,
+(*) which rung N's row 329 does not name and which its REM, MOD, GCD and LCM
+(*) are all written over.
+
+tryZZ32(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    Exception => "THROWS"
+  end
+
+run(): () = do
+  zero: ZZ32 = 0
+  mOne: ZZ32 = -1
+  one: ZZ32 = 1
+  five: ZZ32 = 5
+
+  println("0 DIV -1 = "   tryZZ32(fn () => zero DIV mOne))
+  println("0 REM -1 = "   tryZZ32(fn () => zero REM mOne))
+  println("0 MOD -1 = "   tryZZ32(fn () => zero MOD mOne))
+  println("0 GCD -1 = "   tryZZ32(fn () => zero GCD mOne))
+  println("0 LCM -1 = "   tryZZ32(fn () => zero LCM mOne))
+  println("5 GCD -1 = "   tryZZ32(fn () => five GCD mOne))
+  println("0 DIV 1 = "    tryZZ32(fn () => zero DIV one))
+  println("0 MOD 1 = "    tryZZ32(fn () => zero MOD one))
+  println("0 MOD -5 = "   tryZZ32(fn () => zero MOD five))
+end
+
+end

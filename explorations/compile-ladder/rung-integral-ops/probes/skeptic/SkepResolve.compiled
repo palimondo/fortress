@@ -1,0 +1,6 @@
+literal 17 MOD 5 =  2
+literal -17 MOD 5 =  3
+literal 17 GCD 51 =  17
+ZZ64 MOD ZZ32 =  4
+fn (i) => i MOD nc at 30 =  2
+fn (i) => i MOD nc at -30 =  5
