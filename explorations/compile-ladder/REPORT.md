@@ -54,6 +54,17 @@ stdout+stderr of both are under `raw/<corpus>/<file>.{compile,run}`.
 `pass` is the interpreter suite's own success criterion (`FileTests.java:367-371`);
 an `.fsi` has nothing to run, so it is `pass` when it compiles.
 
+Agreement with the interpreter is **not** the criterion, and "output
+byte-identical to `walk`" must not be read as one.  The interpreter is evidence,
+not an oracle: `coordinator/REPAIR-BATCH.md:65` counts 55 rows of
+`explorations/fortress-gap-ledger.md` that concern the interpreter, and records
+that the static checker never runs on that path.  Where a compiled run and
+`walk` disagree, the specification settles it, and it can settle it in either
+direction -- ledger row 322 against the compiled run, ledger row 323 against
+the interpreter.  Where the specification is silent the divergence is a question
+rather than a verdict.  This qualification was ordered by `REPAIR-BATCH.md:65`
+and written here by the review stage of the repair batch, 2026-09-19.
+
 A compile that dies with an exception is attributed by its stack: every compiler
 phase runs through `compiler/phases/<Name>Phase.execute` (`Phase.java:52`), so the
 topmost such frame names the phase. `DesugarPhase` and `PreTypeCheckDesugarPhase`

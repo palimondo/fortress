@@ -190,4 +190,6 @@ The re-run is a single run on a busy host; the wall times in `after/ladder.tsv` 
 
 Nothing here says whether a file that passes on the compiler path computes the same answer as on the interpreter. Rungs 6 and 7 checked that by hand for the five files they moved to `pass`; the other seventeen are `pass` by the interpreter suite's criterion, which is exit 0 with no `fail` in the output.
 
+Where a rung does check it and the two answers differ, the interpreter does not decide the case: the specification does, and it can settle it against `walk` as readily as against the compiled run -- ledger row 323 is an example of the first, row 322 of the second. So "output byte-identical to `walk`" is evidence of agreement and not this ladder's criterion, which is the phase table of `REPORT.md`. Added by the review stage of the repair batch, 2026-09-19, on the order in `coordinator/REPAIR-BATCH.md:65`.
+
 The new codegen refusal on `ConditionalOpTruncation.fss`, a `ZipException: duplicate entry` for a generated lambda class, is recorded here and not investigated. The file moved up, from the checker into codegen, so it is not a regression against the baseline, but the message is not one the baseline ever produced.
