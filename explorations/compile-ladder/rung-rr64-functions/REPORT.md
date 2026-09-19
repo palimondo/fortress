@@ -61,3 +61,122 @@ Neither passage constrains a return type or an argument type, so for the nine no
 **A fifth decision, about the natives' home.** The eleven new static methods went into `ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java`, the team's own file, rather than into a new file beside it as rung 7 did with `simpleIntLiteralArith.java`. The criterion is the one that made rung 7 split: its helper dealt in a Fortress type and needed a clause in `NamingCzar.fortressTypeForForeignJavaType` (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:341-343`). These eleven deal in `double` and `long`, which the generic path maps without a clause (`NamingCzar.java:441-446`, `s(Type.LONG_TYPE, fortLib, "ZZ64")` and `s(Type.DOUBLE_TYPE, fortLib, "RR64")`), and they are the same kind of one-line wrapper over `java.lang.Math` as the file's existing `doublePow`, `doubleSQRT`, `doubleFloor`, `doubleCeiling` and `doubleAbs`. A new file would have split the double primitives across two files with no criterion. Worth noting for the next rung that touches this: `doubleTruncate` and `doubleRound` are the first natives in the tree that take a `double` and return a `long`.
 
 **A sixth decision, about the test's assertions.** The comparing `assert` has no `RR64` form — rung 4 added `ZZ32`, `String` and `Character` only (`Library/CompilerLibrary.fsi:45-49`) — and this rung did not add one. The alternative, adding `assert(x: RR64, y: RR64)` and `assert(x: RR64, y: RR64, failMsg: String)` to `CompilerLibrary`, was rejected for two reasons: rung T of this batch is editing `CompilerLibrary` in the same wave, and batch rule 1 keeps the merge clean by keeping the rungs' declarations disjoint; and floating-point assertions want an epsilon rather than `=`, which a comparing `assert` cannot express. The test therefore uses the Boolean form over `opr =` for the exact cases and over a local `near` for the inexact ones, and `.asZZ32` into rung 4's `ZZ32` form for `round` and `truncate` — the same idiom as `ProjectFortress/library_tests/IntLiteralArithRung7.fss:58-70`.
+
+## 5. The edit
+
+Four files, 82 added lines and 3 removed.
+
+`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java:92-134`: eleven static methods, one line of body each — `doubleSin`, `doubleCos`, `doubleTan`, `doubleASin`, `doubleACos`, `doubleATan`, `doubleATan2`, `doubleLog`, `doubleExp` over `java.lang.Math`; `doubleTruncate(double a) { return (long) a; }`, the C cast the interpreter's `Float$Truncate` also uses (`Float.java:376-379`); and `doubleRound(double a) { return (long) Math.rint(a); }`. The capitalisation `ASin`/`ACos`/`ATan`/`ATan2` follows the interpreter's glue class names (`Float.java:318-338`); nothing in the file needed changing.
+
+`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:215-225`: eleven bindings appended to the `simpleDoubleArith` `import java` block, in the shape of the three already there (`.fss:212-214`). `floor` and `ceiling` needed none: `jDoubleFloor` and `jDoubleCeiling` were already bound and already used.
+
+`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:439-451`: thirteen declarations in `trait RR64`, replacing the two commented-out lines, in the order the interpreter's api declares them (`Library/FortressLibrary.fsi:319-332`) with `round` last, as `FortressBuiltin.fss:189` has it.
+
+`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:911-923`: the thirteen bodies, each a single native call, between the two enclosing operators and `opr SQRT`.
+
+Nothing else changed. No `NamingCzar` clause was needed, as predicted in section 4; `double` and `long` are mapped by the generic path at `ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:441-446`.
+
+## 6. The recorded failure, the recorded pass, and the differentials
+
+**The recorded failure**, captured before the edit existed: `probes/failure-before-edit.txt`. `fortress compile library_tests/RR64FunctionsRungF.fss` exits 255 with `File RR64FunctionsRungF.fss has 45 errors.`, every one of them `Variable <name> is not defined` naming one of the thirteen — the same diagnostic the seven blocked ladder files carry in `explorations/compile-ladder/after/raw/tests/`.
+
+**The recorded pass**: `probes/pass-after-edit.txt`. `fortress compile` exits 0 and `fortress run RR64FunctionsRungF` prints `PASS` and exits 0.
+
+The test is `ProjectFortress/library_tests/RR64FunctionsRungF.fss` with `RR64FunctionsRungF.test` (`tests=`, `link`, `run`, `run_out_contains=PASS` — the implemented key, `FileTests.java:147`, not the `run_out_WIcontains` that `Boolean.test` and the eight earlier rung `.test` files write; `FileTests.java:268-270` shows the default check is `stdout contains PASS` either way, so the test would be checked even under the unimplemented key). It carries 44 assertions over all thirteen methods. Every operand reaches a method through `rt(x: RR64): RR64 = if x < 0.0 then x else x end`, a branch taken at run time, so no operand arrives as a literal; and the nine transcendentals are pinned by identities — `sin²t + cos²t = 1`, `tan t = sin t / cos t`, `asin(sin t) = t`, `acos(cos t) = t`, `atan(tan t) = t`, `log(exp 1) = 1`, `atan 1 = π/4`, `atan2` once per quadrant — which a body returning a constant, or returning its own operand, cannot satisfy. The half-way cases the brief asked for are all four: `round(2.5) = 2`, `round(3.5) = 4`, `round(-2.5) = -2`, `round(-3.5) = -4`.
+
+**`exp` as a function value works on the compile path**, in both shapes: the local binding `expFn: RR64 -> RR64 = exp` and the pass `applyTo(exp, one)` where `applyTo(f: RR64 -> RR64, x: RR64): RR64 = f(x)`; `log` likewise. This is the shape the target program needs at `explorations/apl/mg/FlatArrays2.fss:44-45`, and it was the one part of the rung that could have turned out to be a codegen gap. It is not. What the test does **not** exercise is the harder form the program actually writes, `a.map[\RR64\](exp)` inside a component that also declares its own `exp` on `Array`, where the bare name is overloaded across a functional method and a generic top-level function; that is the array rung's business, behind the reserved array-representation fork.
+
+**Differential 1, `round` at an exact half, walk against the compiled path.** `probes/RoundHalfWalkProbe.fss` + `.out` (interpreter) and `probes/RoundHalfCompiledProbe.fss` + `.out` (compiled), the same ten values built the same way — with `SQRT`, so that the interpreter sees a `Float` and not a `FloatLiteral`, which is why `tests/roundBug.fss:19-22` builds its operand the same way.
+
+| | walk | compiled | `numbers.tex:470-477` |
+|---|---|---|---|
+| `round(2.5)` | **3** | **2** | 2 (the even one) |
+| `round(3.5)` | 4 | 4 | 4 |
+| `round(-2.5)` | -2 | -2 | -2 |
+| `round(-3.5)` | **-3** | **-4** | -4 (the even one) |
+| `truncate(2.5)` | 2 | 2 | 2 |
+| `truncate(-2.5)` | -2 | -2 | -2 |
+| `floor(2.5)` | 2.0 | 2.0 | 2, in ℤ |
+| `floor(-2.5)` | -3.0 | -3.0 | -3, in ℤ |
+| `ceiling(2.5)` | 3.0 | 3.0 | 3, in ℤ |
+| `ceiling(-2.5)` | -2.0 | -2.0 | -2, in ℤ |
+
+Two rows diverge, and the specification settles both against the interpreter: `Math.round` rounds an exact half toward positive infinity, so it is right at `3.5` and at `-2.5` by coincidence and wrong at `2.5` and `-3.5`. The interpreter is not merely wrong against the specification, it is inconsistent with itself: `Library/FortressLibrary.fss:589` gives ℚ a hand-written round-half-to-even body, and the gated interpreter test `ProjectFortress/tests/RationalTest.fss:428` asserts `round(15/6) = 2`, that is `round(2.5) = 2`, on ℚ. Provisional ledger row 329 records it; the repair is one token in `Float.java:384` and is outside this rung, which touches no interpreter-world file.
+
+(The compiled probe's output carries one extra space per line. That is gap ledger row 76 — string juxtaposition inserts spaces on the compiled path because `trait String`'s `opr juxtaposition(self, b:Object): String = self ||| b` uses the smart concatenation (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:400`, which is row 76's `:384` moved down by rungs 5 and 7) where `Library/FortressLibrary.fss:4050` uses `||` — and not an effect of this rung.)
+
+**Differential 2, the four rounding methods against their enclosing operators.** Four assertions in the test compare `floor(x)` with `⌊x⌋` and `ceiling(x)` with `⌈x⌉` at `2.5` and `-2.5`; all four hold. This is the identity `numbers.tex:464` and `:467` require ("likewise the enclosing operator"), and it is the reason section 4 (i) gives for the `RR64` return type.
+
+## 7. The ladder subset, before and after
+
+The driver is R1's restricted one, copied to `run-subset.sh` with `LADDER_ROOT` and `OUT` made overridable so that both runs stay inside this worktree (`tmp/ladder-before`, `tmp/ladder-after`, and the output directories `ladder-before/` and `ladder-after/`); the shared root of `explorations/compile-ladder/run-ladder.sh` was never used. `subset.txt` is the six files CLIMB-BATCH-1.md names plus `tests/RationalTest.fss`, which is the seventh and only other file whose recorded first error in `explorations/compile-ladder/after/raw/` names one of the thirteen (`ceiling`, `floor`, `round`, `truncate`). Each run built the compiler-world library into its own private cache from nothing, and each was preceded by the driver's own sanity check (`library_tests/Integer1` compiles and prints `PASS`).
+
+| file | before | after | where it stops now |
+|---|---|---|---|
+| `tests/buffons.fss` | 255, 2 errors, both undefined names | 255, 1 error | **typecheck**: `Could not check call to operator -`, `(RR64, RR64)->RR64 is not applicable to an argument of type (RR64, IntLiteral)` at `:24` — `random(2.0) - 1`, a float minus an integer literal |
+| `tests/roundBug.fss` | 255, 1 error, undefined `round` | 255, 1 error | **typecheck**: `Could not check call to operator SQRT`, `RR64->RR64 is not applicable to an argument of type ZZ32` at `:19` — `SQRT(a^2 + b^2)` on `ZZ32` |
+| `tests/juxtTwice.fss` | 255, 6 errors, all undefined names | 255, 1 error | **typecheck**: `Could not check call to operator /`, `(RR64, RR64)->RR64 … (FloatLiteral, IntLiteral)` at `:26` |
+| `tests/oprTests.fss` | 255, 5 errors, all undefined names | **1** | **typecheck**, and it crashes the compiler: `NoSuchElementException: head of empty list` at `scala_src/typechecker/impls/Misc.scala:876`, the catalogued array-literal defect, reached through `aa: ZZ32[3] = [1 2 3]` at `:60` |
+| `tests/realArith.fss` | 255, 37 errors | 255, 20 errors | disambiguate, unchanged phase: the ten IEEE directed-rounding operators (`PLUS_UP` … `SQRT_DOWN`), 10 errors, and `Just`/`Nothing`, which is rung M's subject, 10 errors |
+| `tests/testRR32.fss` | 255, 42 errors | 255, 36 errors | disambiguate, unchanged phase: `narrow` |
+| `tests/RationalTest.fss` | 255, 97 errors | 255, 49 errors | disambiguate, unchanged phase: `big`, and the rest of the rational vocabulary |
+
+All thirteen names are cleared in all seven files: the count of `is not defined` diagnostics naming one of them goes to zero everywhere. Three files advance a phase (`buffons`, `roundBug`, `juxtTwice`, disambiguate → typecheck), one advances into the next phase and crashes there on a defect it could not previously reach (`oprTests`; the same pattern rung 5 recorded for `compoundArray`, behind the reserved array-representation fork), and three keep their phase with 17, 6 and 48 fewer errors. **Nothing moved down, and the ladder's pass count does not move**: none of the seven reaches a run, because each carries at least one further blocker, and the two widest of those — the ten IEEE directed-rounding operators and the `IntLiteral`-against-`RR64` coercion that `random(2.0) - 1` needs — are their own rungs. `realArith.fss`'s other ten remaining errors are `Just` and `Nothing`, which rung M of this batch is adding.
+
+The `IntLiteral`-against-`RR64` gap is worth naming, because it is now the first blocker of three of the seven and it is one line of prelude: `trait RR64` has `coerce(x: FloatLiteral)` and `coerce(x: RR32)` (`CompilerBuiltin.fsi:414-415`) and **no** `coerce(x: IntLiteral)`, so `2.0 - 1`, `SQRT(a^2+b^2)` on `ZZ32` and `4.5 / 2` all fail to check. It was not taken here: it is not one of the thirteen, it is a new coercion declaration on the same trait body this rung edits (batch rule 1 makes that this rung's to take or to leave, and taking it would widen the rung past its brief), and its blast radius is every arithmetic expression in the compiler world, which wants its own before/after ladder.
+
+Three more files mention one of the thirteen without their recorded first error naming it — `tests/zeno.fss`, `tests/Brackets.fss` and `tests/sparseMatrix.fss` — and they were run as a second subset both ways, from the same pre-edit and post-edit private caches, to check that nothing moved down; results in `extra-before/` and `extra-after/`.
+
+`tests/zeno.fss` is the one corpus file that **declares** one of the thirteen names: `getter round(): ZZ32 = n` inside `object Frac` (`:53`), invoked dotted as `f.round()` (`:76`). A getter reached through dot notation does not compete with a functional method of `RR64`, and the file's first error is unchanged.
+
+The second subset's three files are **byte-identical before and after**: `tests/zeno.fss` stops on `Array1 is undefined.` in `Library/ChunkedSparseArray.fsi:14`, `tests/Brackets.fss` on `Operator ||_|| is not defined.` at `:75`, `tests/sparseMatrix.fss` on `Array is undefined.` in `Library/Sparse.fsi:15`. So nothing this rung adds reaches a file that was not already blocked on one of the thirteen names.
+
+## 8. The ledger rows this rung opens, and does not repair
+
+Two, written out in `record.md` in the ledger's column shape and numbered provisionally 329 and 330. Both are the brief's fourth case — the specification settles the divergence, the repair lies outside this rung — and both were measured both ways, not inferred.
+
+**329, the interpreter's `round` on a float.** The specification settles it against the interpreter, and the interpreter also contradicts itself: `trait QQ`'s `round` is round-half-to-even (`Library/FortressLibrary.fss:589`) while `object Float`'s goes through `Math.round` (`Float.java:382-385`). The fix is one token at `Float.java:384`; this rung touches no interpreter-world file, so it is not taken here.
+
+**330, `floor` and `ceiling` returning a float.** The specification settles it against both paths. The fix is an api change on both, which is a reserved stop, and it is a language decision for Pavol rather than a repair: either the float types follow `numbers.tex` into ℤ, and then the compiler prelude's `⌊…⌋` has to change with them, or the float-domain result is the design and the ℚ chapter never reached the real types.
+
+## 9. What was not done, and the decisions not taken
+
+`coerce(x: IntLiteral)` on `trait RR64` was not added, though it is now the first blocker of three of the seven subset files and is one line. Reasons in section 7; it is the natural next rung on this trait and it wants its own before/after.
+
+The ten IEEE directed-rounding operators (`PLUS_UP`, `MINUS_UP`, `DOT_UP`, `SLASH_UP`, `SQRT_UP` and their `_DOWN` partners, plus the seven `IEEE_*` forms the interpreter also has at `Library/FortressLibrary.fsi:299-316`) were not added: they are not among the thirteen, and they are half of `realArith.fss`'s remainder. They are cheaper than they look, though, and the next rung that wants them should know it. `java.lang.Math` has no directed-rounding arithmetic, but this repository already carries its own: `com.sun.fortress.numerics.DirectedRounding` (`ProjectFortress/src/com/sun/fortress/numerics/DirectedRounding.java`, pure Java, `addUp` at `:129`, `nextUp` at `:111`, the `*Down` forms written as `-op(-x, -y)` at `:126`), which the interpreter's glue calls directly (`Float.java:136-162`). So that rung is an `import java` block over that class plus the declarations, the same shape as this one — with one thing to check first: `DirectedRoundingTest` is one of the two test classes `explorations/coordinator/map/test-coverage.md:187` records as matching no green fileset, so the helper is unexercised by the gate.
+
+`e` and `pi` were not added as top-level constants and are not needed: `realArith.fss:13` imports them (`import Constants.{...}`, declared `pi : FloatLiteral` and `e : FloatLiteral` at `Library/Constants.fsi:16-17`) and they resolve on the compile path — neither appears among that file's remaining errors. This rung's own test declares its own two at `RR64`, because a `FloatLiteral` constant would need coercing at every use.
+
+`round`'s and `truncate`'s behaviour on NaN and on the infinities was not pinned by the test. `numbers.tex:479-481` says the four methods return the argument unchanged for `+∞`, `-∞` and `0/0` on ℚ* and ℚ#, which a `ZZ64`-returning method on a float type cannot do; `(long) Math.rint(NaN)` is `0` and `(long) Math.rint(+∞)` is `Long.MAX_VALUE`. That is the same question as row 330 and belongs with it rather than being settled unilaterally here.
+
+No form of `assert` was added at `RR64`, for the reasons in section 4; and the test file carries the corpus's `Copyright 2011, Oracle` header, as all eight earlier rung tests in `library_tests/` do (`AssertRung4.fss:1-10` and the rest). That header is factually an attribution of a 2026 file to Oracle. Following it keeps the corpus uniform and diverging in one file would settle nothing, so it was followed — but it is a batch-wide question rather than this rung's, and it is raised here rather than decided.
+
+The JUnit suite was not run. `LibraryJUTest` calls `Shell.resetRepository()` before it starts (`LibraryJUTest.java:32-34`), which would wipe `default_repository/caches` and cost the 165 s library rebuild, and the batch is gated once after the merge by the coordinator. The recorded pass is the same sequence the harness runs — `link`, `run`, stdout contains `PASS` — taken by hand and captured.
+
+## 10. How to reproduce, and what is in this directory
+
+```
+source experiment/env.sh
+export TMPDIR=$FORTRESS_HOME/tmp
+export JAVA_FLAGS="-Xmx4g -Xss64m -Djava.io.tmpdir=$FORTRESS_HOME/tmp"
+ant compileAll                                     # required: this rung edits .java
+rm -rf default_repository/caches/nativewrapper_cache
+cd ProjectFortress && for f in LibraryBuiltin/AnyType.fss LibraryBuiltin/CompilerBuiltin.fss \
+    ../Library/CompilerLibrary.fss ../Library/CompilerAlgebra.fss ../Library/CompilerSystem.fss ; do
+  ../bin/fortress compile "$f" ; done
+../bin/fortress compile library_tests/RR64FunctionsRungF.fss && ../bin/fortress run RR64FunctionsRungF
+```
+
+`ant compileAll` was 67 s on the baseline and 30 s after the edit (incremental javac, full scalac); the library-order rebuild was 196 s with a second agent on the machine (`probes/build-log-summary.txt`, `probes/rebuild.log`). The `nativewrapper_cache` wipe is not optional: `simpleDoubleArith`'s wrapper class is synthesized from the Java class and cached, and a stale one is what the run links against (the trap FACTS records from rung 7).
+
+- `probes/failure-before-edit.txt` — the recorded failure, 45 errors, before the edit existed.
+- `probes/pass-after-edit.txt` — the recorded pass, compile and run, exit 0, `PASS`.
+- `probes/RoundHalfWalkProbe.fss` + `.out`, `probes/RoundHalfCompiledProbe.fss` + `.out` — differential 1, the same ten values under `walk` and compiled.
+- `probes/subset-before-after.txt` — the ladder table of section 7 as captured, plus the three extra files.
+- `probes/compare-subset.sh` — the script that produced it.
+- `probes/build-log-summary.txt`, `probes/rebuild.log`, `probes/lib-baseline.log` — the builds.
+- `ladder-before/`, `ladder-after/` — the seven-file subset both ways: `results.tsv` and `raw/tests/*.compile`.
+- `extra-before/`, `extra-after/` — the three-file second subset both ways.
+- `run-subset.sh`, `subset.txt` — R1's restricted driver with `LADDER_ROOT` and `OUT` overridable, and the subset.
+
+`tmp/` is not committed: the first milestone commit of this branch added it with `git add -A` and it was removed from the index (`git rm -r --cached tmp`) in the third. Every worktree of this batch has a `tmp/` under the brief's `TMPDIR`, so the coordinator should expect the same on the other three branches; 47 MB of ladder caches and Rats! temporaries here.

@@ -1,0 +1,23 @@
+=== the seven-file subset, before and after the edit ===
+FILE               BEFORE   AFTER    first error after
+buffons.fss        crc=255  crc=255  Could not check call to operator -
+roundBug.fss       crc=255  crc=255  Could not check call to operator SQRT
+juxtTwice.fss      crc=255  crc=255  Could not check call to operator /
+oprTests.fss       crc=255  crc=1    Exception in thread "main" java.util.NoSuchElementException: head of empty list 	at scala.collection.immutable.Nil$.head(List.scala:652) 	at scala.collection.immutable.Nil$.head(List.scala:651) 
+realArith.fss      crc=255  crc=255  Operator PLUS_UP is not defined.
+testRR32.fss       crc=255  crc=255  Variable narrow is not defined.
+RationalTest.fss   crc=255  crc=255  Variable big is not defined.
+
+=== full before/after error counts ===
+buffons.fss        before: has 2 error      (2 undefined)  after: has 1 error      (0 undefined)
+roundBug.fss       before: has 1 error      (1 undefined)  after: has 1 error      (0 undefined)
+juxtTwice.fss      before: has 6 error      (6 undefined)  after: has 1 error      (0 undefined)
+oprTests.fss       before: has 5 error      (5 undefined)  after: -                (0 undefined)
+realArith.fss      before: has 37 error     (37 undefined)  after: has 20 error     (20 undefined)
+testRR32.fss       before: has 42 error     (42 undefined)  after: has 36 error     (36 undefined)
+RationalTest.fss   before: has 97 error     (97 undefined)  after: has 49 error     (49 undefined)
+
+=== the three extra files (mention a name, first error did not), before and after ===
+zeno.fss: byte-identical before and after :: Array1 is undefined.
+Brackets.fss: byte-identical before and after :: Operator ||_|| is not defined.
+sparseMatrix.fss: byte-identical before and after :: Array is undefined.

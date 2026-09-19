@@ -1,0 +1,54 @@
+=== ant compileAll, baseline (before the edit) ===
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/linker/HygienicRenamer.scala:113: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:77: warning: method + in class Int is deprecated (since 2.13.0): Adding a number and a String is deprecated. Use the string interpolation `s"$num$str"`
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:78: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:84: warning: method toIterable in class IterableOnceExtensionMethods is deprecated (since 2.13.0): Use .iterator.to(Iterable) instead
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:121: warning: method + in class Int is deprecated (since 2.13.0): Adding a number and a String is deprecated. Use the string interpolation `s"$num$str"`
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:122: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala:277: warning: method zipped in class Ops is deprecated (since 2.13.0): Use xs.lazyZip(ys)
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ConstraintFormula.scala:289: warning: method union in trait SeqOps is deprecated (since 2.13.0): Use `concat` instead
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:135: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:136: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:148: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:149: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:162: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:163: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:175: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:176: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+    [javac] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java:2883: warning: [removal] SecurityManager in java.lang has been deprecated and marked for removal
+    [javac] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java:2883: warning: [removal] getSecurityManager() in System has been deprecated and marked for removal
+BUILD SUCCESSFUL
+Total time: 1 minute 7 seconds
+
+=== ant compileAll, after the edit ===
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/linker/HygienicRenamer.scala:95: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/linker/HygienicRenamer.scala:99: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/linker/HygienicRenamer.scala:113: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:77: warning: method + in class Int is deprecated (since 2.13.0): Adding a number and a String is deprecated. Use the string interpolation `s"$num$str"`
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:78: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:84: warning: method toIterable in class IterableOnceExtensionMethods is deprecated (since 2.13.0): Use .iterator.to(Iterable) instead
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:121: warning: method + in class Int is deprecated (since 2.13.0): Adding a number and a String is deprecated. Use the string interpolation `s"$num$str"`
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:122: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala:277: warning: method zipped in class Ops is deprecated (since 2.13.0): Use xs.lazyZip(ys)
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ConstraintFormula.scala:289: warning: method union in trait SeqOps is deprecated (since 2.13.0): Use `concat` instead
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:135: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:136: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:148: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:149: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:162: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:163: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:175: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+     [java] /home/user/fortress-rr64/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:176: warning: method any2stringadd in object Predef is deprecated (since 2.13.0): Implicit injection of + is deprecated. Convert to String to call +
+BUILD SUCCESSFUL
+Total time: 30 seconds
+
+=== the library-order rebuild that followed (tmp/rebuild.log, also in probes/) ===
+=== ant compileAll 2026-09-19T07:30:32+00:00
+1
+=== wipe the stale native wrapper 2026-09-19T07:31:03+00:00
+=== LibraryBuiltin/AnyType.fss 2026-09-19T07:31:03+00:00
+=== LibraryBuiltin/CompilerBuiltin.fss 2026-09-19T07:31:25+00:00
+=== ../Library/CompilerLibrary.fss 2026-09-19T07:33:25+00:00
+=== ../Library/CompilerAlgebra.fss 2026-09-19T07:33:44+00:00
+=== ../Library/CompilerSystem.fss 2026-09-19T07:33:47+00:00
+=== LIBRARY DONE 2026-09-19T07:33:48+00:00

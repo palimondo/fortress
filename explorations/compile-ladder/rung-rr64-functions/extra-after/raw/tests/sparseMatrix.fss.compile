@@ -1,0 +1,15 @@
+/home/user/fortress-rr64/Library/Sparse.fsi:15:13-16:
+    Array is undefined.
+/home/user/fortress-rr64/Library/Sparse.fsi:15:37-40:
+    Array is undefined.
+/home/user/fortress-rr64/Library/Sparse.fsi:19:37-40:
+    Array is undefined.
+/home/user/fortress-rr64/Library/Sparse.fsi:20:11-15:
+    Vector is undefined.
+/home/user/fortress-rr64/Library/Sparse.fsi:24:37-41:
+    Array1 is undefined.
+/home/user/fortress-rr64/Library/Sparse.fsi:29:24-28:
+    Array1 is undefined.
+/home/user/fortress-rr64/Library/Sparse.fsi:35:24-28:
+    Array1 is undefined.
+File sparseMatrix.fss has 7 errors.
