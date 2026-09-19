@@ -1,0 +1,12 @@
+component BoxExplicit
+export Executable
+(*) B1 contrast: the same reference WITH its static argument.
+object Box[\T\]
+    getter tag(): ZZ32 = 1
+end
+run():() = do
+    b2 = Box[\ZZ32\]
+    print("BoxExplicit=")
+    println(b2.tag)
+end
+end

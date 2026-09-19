@@ -1,0 +1,9 @@
+component ArrB
+export Executable
+(*) B: closure whose declared return type EQUALS the body's type, at void.
+run():() = do
+    g = fn (x:ZZ32):Just[\()\] => Just[\()\](())
+    print("B=")
+    println(g(1).holds)
+end
+end

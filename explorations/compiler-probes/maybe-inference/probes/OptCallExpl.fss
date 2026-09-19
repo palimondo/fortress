@@ -1,0 +1,14 @@
+component OptCallExpl
+export Executable
+(*) B2c without a typecase: the same, static argument written out.
+trait Opt[\T\] comprises { Full[\T\], Empty[\T\] } end
+value object Full[\T\](x: T) extends Opt[\T\] end
+value object Empty[\T\] extends Opt[\T\] end
+
+f(o: Opt[\ZZ32\]): ZZ32 = 7
+
+run():() = do
+    print("OptCallExpl=")
+    println(f(Empty[\ZZ32\]))
+end
+end

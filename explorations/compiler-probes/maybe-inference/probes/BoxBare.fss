@@ -1,0 +1,13 @@
+component BoxBare
+export Executable
+(*) B1: a generic singleton object, referenced with NO static arguments,
+(*) where the expected type supplies them.
+object Box[\T\]
+    getter tag(): ZZ32 = 1
+end
+run():() = do
+    b: Box[\ZZ32\] = Box
+    print("BoxBare=")
+    println(b.tag)
+end
+end

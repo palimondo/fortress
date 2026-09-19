@@ -1,0 +1,18 @@
+component OptEmptyExpl3
+export Executable
+(*) B2c: contrast -- the same call with the static argument written out.
+trait Opt[\T\] comprises { Full[\T\], Empty[\T\] } end
+value object Full[\T\](x: T) extends Opt[\T\] end
+value object Empty[\T\] extends Opt[\T\] end
+
+f(o: Opt[\ZZ32\]): ZZ32 =
+    typecase o of
+        Full[\ZZ32\] => 1
+        else => 0
+    end
+
+run():() = do
+    print("OptEmptyExpl3=")
+    println(f(Empty[\ZZ32\]))
+end
+end

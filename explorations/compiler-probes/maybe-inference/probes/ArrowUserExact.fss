@@ -1,0 +1,21 @@
+component ArrowUserExact
+export Executable
+
+(*) Contrast: the same closure with the declared return type equal to the
+(*) body's type.
+
+trait Sup
+    m(): ZZ32
+end
+
+object Sub(v: ZZ32) extends Sup
+    m(): ZZ32 = v
+end
+
+run():() = do
+    g = fn (x: ZZ32): Sub => Sub(x)
+    print("exact=")
+    println(g(7).m())
+end
+
+end

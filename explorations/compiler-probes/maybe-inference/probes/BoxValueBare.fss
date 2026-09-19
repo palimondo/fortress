@@ -1,0 +1,12 @@
+component BoxValueBare
+export Executable
+(*) B1 as a value object, the shape the preludes use.
+value object Box[\T\]
+    getter tag(): ZZ32 = 1
+end
+run():() = do
+    b: Box[\ZZ32\] = Box
+    print("BoxValueBare=")
+    println(b.tag)
+end
+end

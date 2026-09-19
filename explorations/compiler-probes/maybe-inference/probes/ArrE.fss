@@ -1,0 +1,13 @@
+component ArrE
+export Executable
+(*) E: user-declared generic object at void, but the constructor parameter is
+(*) NOT of the static-parameter type, so the constructor arrow is not nullary.
+object Sub2[\T\](v: ZZ32)
+    getter tag(): ZZ32 = v
+end
+run():() = do
+    p = Sub2[\()\](3)
+    print("E=")
+    println(p.tag)
+end
+end

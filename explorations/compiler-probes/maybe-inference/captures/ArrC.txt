@@ -1,0 +1,8 @@
+=== fortress walk ===
+C=true
+walk-rc=0
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+C=true
+run-rc=0

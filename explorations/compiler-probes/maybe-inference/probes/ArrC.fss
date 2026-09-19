@@ -1,0 +1,9 @@
+component ArrC
+export Executable
+(*) C: closure widening Just[\ZZ32\] to Condition[\ZZ32\] -- widening, non-void static arg.
+run():() = do
+    g = fn (x:ZZ32):Condition[\ZZ32\] => Just[\ZZ32\](x)
+    print("C=")
+    println(g(1).holds)
+end
+end

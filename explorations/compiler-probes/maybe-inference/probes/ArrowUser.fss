@@ -1,0 +1,22 @@
+component ArrowUser
+export Executable
+
+(*) Minimal reproducer for the closure-return-type defect, using only
+(*) types declared in this component -- no prelude Maybe, no Condition.
+
+trait Sup
+    m(): ZZ32
+end
+
+object Sub(v: ZZ32) extends Sup
+    m(): ZZ32 = v
+end
+
+run():() = do
+    (*) declared return type is the supertype; body's type is the subtype
+    g = fn (x: ZZ32): Sup => Sub(x)
+    print("widened=")
+    println(g(7).m())
+end
+
+end

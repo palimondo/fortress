@@ -1,0 +1,10 @@
+component ArrI
+export Executable
+(*) I: a generic function instantiated at the void type whose parameter is
+(*) NOT of the static parameter's type. Control for ArrH.
+h2[\T extends Any\](x: ZZ32): ZZ32 = x
+run():() = do
+    print("I=")
+    println(h2[\()\](3))
+end
+end

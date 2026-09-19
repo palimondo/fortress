@@ -1,0 +1,18 @@
+component OptCoerceGen
+export Executable
+(*) B5: could a PARAMETRIC empty case reach the trait by coercion instead of
+(*) by subtyping, so that the bare spelling works?
+trait Opt[\T\] comprises { Full[\T\], Empty[\T\] }
+    coerce(_: EmptyG[\T\]) = Empty[\T\]
+end
+value object Full[\T\](x: T) extends Opt[\T\] end
+value object Empty[\T\] extends Opt[\T\] end
+value object EmptyG[\T\] end
+
+f(o: Opt[\ZZ32\]): ZZ32 = 7
+
+run():() = do
+    print("OptCoerceGen=")
+    println(f(EmptyG))
+end
+end

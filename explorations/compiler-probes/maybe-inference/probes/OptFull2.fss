@@ -1,0 +1,18 @@
+component OptFull2
+export Executable
+(*) B2a: static argument inferred from the constructor argument.
+trait Opt[\T\] comprises { Full[\T\], Empty[\T\] } end
+value object Full[\T\](x: T) extends Opt[\T\] end
+value object Empty[\T\] extends Opt[\T\] end
+
+f(o: Opt[\String\]): ZZ32 =
+    typecase o of
+        Full[\String\] => 1
+        else => 0
+    end
+
+run():() = do
+    print("OptFull2=")
+    println(f(Full("a")))
+end
+end

@@ -1,0 +1,22 @@
+=== fortress walk ===
+OptFull3=com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/maybe-probe/probes/OptFull3.fss:16:13-21:
+Unification error: Closure/Constructor for f param 1 (o:Opt[\ZZ32\]) got arg Full[\Int\] of type Full[\Int\]
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/maybe-probe/probes/OptFull3.fss:16:13-21:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk-rc=1
+=== fortress compile ===
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/maybe-probe/probes/OptFull3.fss:16:13-20:
+    Could not check call to function f
+    - Opt[\ZZ32\]->ZZ32 is not applicable to an argument of type Full[\IntLiteral\].
+File OptFull3.fss has 1 error.
+compile-rc=255

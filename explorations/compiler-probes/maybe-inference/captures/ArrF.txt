@@ -1,0 +1,9 @@
+=== fortress walk ===
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/maybe-probe/probes/ArrF.fss:6:9-25:
+    Function NothingObject is not defined.
+walk-rc=255
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+F=false
+run-rc=0

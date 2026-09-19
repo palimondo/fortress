@@ -1,0 +1,10 @@
+component GenFun
+export Executable
+(*) B3: the inference the checker is known to do -- a generic function's
+(*) static argument from the dynamic argument's type.
+g[\T\](x: T): T = x
+run():() = do
+    print("GenFun=")
+    println(g(3))
+end
+end

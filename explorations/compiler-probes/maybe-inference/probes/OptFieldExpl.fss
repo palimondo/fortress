@@ -1,0 +1,18 @@
+component OptFieldExpl
+export Executable
+(*) B2d contrast: the same field with the static argument written out.
+trait Opt[\T\] comprises { Full[\T\], Empty[\T\] } end
+value object Full[\T\](x: T) extends Opt[\T\] end
+value object Empty[\T\] extends Opt[\T\] end
+
+object Holder
+    v: Opt[\String\] = Empty[\String\]
+    getter tag(): ZZ32 = 1
+end
+
+run():() = do
+    h = Holder
+    print("OptFieldExpl=")
+    println(h.tag)
+end
+end

@@ -1,0 +1,12 @@
+component ArrD
+export Executable
+(*) D: a USER-declared generic object instantiated at the void type.
+object Sub[\T\](v: T)
+    getter tag(): ZZ32 = 1
+end
+run():() = do
+    p = Sub[\()\](())
+    print("D=")
+    println(p.tag)
+end
+end

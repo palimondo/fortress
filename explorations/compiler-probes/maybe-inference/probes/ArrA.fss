@@ -1,0 +1,9 @@
+component ArrA
+export Executable
+(*) A: Just at the void type, no closure at all.
+run():() = do
+    p = Just[\()\](())
+    print("A=")
+    println(p.holds)
+end
+end

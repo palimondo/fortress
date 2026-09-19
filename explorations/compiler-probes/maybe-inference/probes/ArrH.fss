@@ -1,0 +1,10 @@
+component ArrH
+export Executable
+(*) H: a generic FUNCTION whose parameter has the static parameter's type,
+(*) instantiated at the void type. Contrast to ArrG's generic OBJECT.
+h[\T extends Any\](x: T): ZZ32 = 1
+run():() = do
+    print("H=")
+    println(h[\()\](()))
+end
+end

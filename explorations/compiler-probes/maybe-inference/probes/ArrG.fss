@@ -1,0 +1,17 @@
+component ArrG
+export Executable
+(*) G: the same shape as Just, declared in this component: the static
+(*) parameter's bound is Any (which () satisfies) and the constructor
+(*) parameter has the static parameter's type.
+object Sub3[\T extends Any\](v: T)
+    getter tag(): ZZ32 = 1
+end
+run():() = do
+    p = Sub3[\()\](())
+    print("G=")
+    println(p.tag)
+    q = Sub3[\ZZ32\](5)
+    print("Gcontrast=")
+    println(q.tag)
+end
+end

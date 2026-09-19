@@ -1,0 +1,21 @@
+component ArrowGen
+export Executable
+
+(*) Same shape, but the body's type is a GENERIC object instantiated at a
+(*) type argument, and the declared return type is a generic supertype.
+
+trait Sup[\T\]
+    m(): ZZ32
+end
+
+object Sub[\T\](v: T) extends Sup[\T\]
+    m(): ZZ32 = 42
+end
+
+run():() = do
+    g = fn (x: ZZ32): Sup[\ZZ32\] => Sub[\ZZ32\](x)
+    print("gen=")
+    println(g(7).m())
+end
+
+end

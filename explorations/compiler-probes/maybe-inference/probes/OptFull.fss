@@ -1,0 +1,19 @@
+component OptFull
+export Executable
+(*) B2a: static argument inferred from a CONSTRUCTOR ARGUMENT -- the case
+(*) the checker is expected to get.
+trait Opt[\T\] comprises { Full[\T\], Empty[\T\] } end
+value object Full[\T\](x: T) extends Opt[\T\] end
+value object Empty[\T\] extends Opt[\T\] end
+
+f(o: Opt[\ZZ32\]): ZZ32 =
+    typecase o of
+        Full[\ZZ32\] => o.x
+        else => 0
+    end
+
+run():() = do
+    print("OptFull=")
+    println(f(Full(3)))
+end
+end

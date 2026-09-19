@@ -1,0 +1,18 @@
+component OptCoerce
+export Executable
+(*) B4: the specification's shape -- a NON-parametric empty case coerced into
+(*) the generic trait, which is what the compiler prelude now does for Maybe.
+trait Opt[\T\] comprises { Full[\T\], Empty[\T\] }
+    coerce(_: EmptyOne) = Empty[\T\]
+end
+value object Full[\T\](x: T) extends Opt[\T\] end
+value object Empty[\T\] extends Opt[\T\] end
+value object EmptyOne end
+
+f(o: Opt[\ZZ32\]): ZZ32 = 7
+
+run():() = do
+    print("OptCoerce=")
+    println(f(EmptyOne))
+end
+end

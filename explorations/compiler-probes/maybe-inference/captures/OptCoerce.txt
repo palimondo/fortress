@@ -1,0 +1,21 @@
+=== fortress walk ===
+OptCoerce=com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/maybe-probe/probes/OptCoerce.fss:16:13-22:
+Unification error: Closure/Constructor for f param 1 (o:Opt[\ZZ32\]) got arg EmptyOne of type EmptyOne
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/maybe-probe/probes/OptCoerce.fss:16:13-22:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk-rc=1
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+OptCoerce=7
+run-rc=0

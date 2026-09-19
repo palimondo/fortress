@@ -1,0 +1,18 @@
+component OptEmptyBare2
+export Executable
+(*) B2b: static argument to be inferred from the expected parameter type.
+trait Opt[\T\] comprises { Full[\T\], Empty[\T\] } end
+value object Full[\T\](x: T) extends Opt[\T\] end
+value object Empty[\T\] extends Opt[\T\] end
+
+f(o: Opt[\String\]): ZZ32 =
+    typecase o of
+        Full[\String\] => 1
+        else => 0
+    end
+
+run():() = do
+    print("OptEmptyBare2=")
+    println(f(Empty))
+end
+end

@@ -1,0 +1,8 @@
+component Sanity
+export Executable
+
+run():() = do
+    println("SANITY-OK")
+end
+
+end

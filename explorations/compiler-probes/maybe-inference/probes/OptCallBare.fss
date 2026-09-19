@@ -1,0 +1,14 @@
+component OptCallBare
+export Executable
+(*) B2b without a typecase: bare Empty against the expected parameter type.
+trait Opt[\T\] comprises { Full[\T\], Empty[\T\] } end
+value object Full[\T\](x: T) extends Opt[\T\] end
+value object Empty[\T\] extends Opt[\T\] end
+
+f(o: Opt[\ZZ32\]): ZZ32 = 7
+
+run():() = do
+    print("OptCallBare=")
+    println(f(Empty))
+end
+end

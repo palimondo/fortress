@@ -1,0 +1,10 @@
+component ArrF
+export Executable
+(*) F: the library's non-parametric-constructor generic object at void:
+(*) NothingObject[\()\] takes no constructor arguments.
+run():() = do
+    p = NothingObject[\()\]
+    print("F=")
+    println(p.holds)
+end
+end
