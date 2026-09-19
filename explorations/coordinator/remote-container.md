@@ -191,6 +191,15 @@ was relaunched from the same base with the same command. Two consequences: a
 check-in that fires during a batch should be left to finish its turn, and a
 Workflow run is never resumed after such a death, only relaunched.
 
+A compaction is not an interrupt. The eight-rung climb of 2026-09-17 (run
+`wf_73833dfb-d25`) ran through two manual `/compact` commands, at 10:47 and 14:25
+UTC, both issued between turns, and completed at 14:39 with all eight rungs;
+the evidence is the session's archived transcript (`bdff267d`, parts file
+`001.jsonl`: the compact boundaries, the first post-compaction turn declining to
+commit "the running workflow's rung 5", and the completion notification). So
+while a batch runs: compact freely between turns; do not send while a turn is
+in flight.
+
 ## The 2026-09-18 restart
 
 The repair batch's re-run was launched at 22:57 UTC (run `wf_9777a563-c5e`,
