@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"repair:N","workflowPhase":"Rung","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}

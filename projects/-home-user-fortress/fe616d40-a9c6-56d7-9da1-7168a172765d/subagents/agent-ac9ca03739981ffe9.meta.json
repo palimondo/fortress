@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","description":"Audit C4 for parallelism and shared writes","toolUseId":"toolu_01EeKYwypdLeookEyb5hgakJ","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
