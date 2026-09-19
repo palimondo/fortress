@@ -1,0 +1,10 @@
+component SkNothingAsString
+export Executable
+
+(*) Skeptic probe, the failure-mode question: asString on the bare Nothing.
+
+run():() = do
+    println(Nothing.asString)
+end
+
+end

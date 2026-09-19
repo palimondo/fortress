@@ -1,0 +1,37 @@
+=== fortress walk ===
+eq=true
+walk-rc=0
+=== fortress compile ===
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkEqAbs.fss:12:13-17:
+    Could not check call to operator =
+    - ((Comparison & {Unordered, TotalComparison}), Comparison)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - ((CompilerAlgebra.Equality[\T\] & {T}), T)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - ((TotalComparison & {LessThan, EqualTo, GreaterThan}), TotalComparison)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (Boolean, Boolean)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (Character, Character)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (GeneratorZZ32, GeneratorZZ32)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (RR64, RR64)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (String, String)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (Just[\ZZ32\], Just[\ZZ32\]).
+File SkEqAbs.fss has 1 error.
+compile-rc=255
+=== fortress run ===
+Could not load SkEqAbs
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkEqAbs.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-rc=1

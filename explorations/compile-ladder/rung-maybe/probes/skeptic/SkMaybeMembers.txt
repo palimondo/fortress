@@ -1,0 +1,32 @@
+=== fortress walk ===
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkMaybeMembers.fss:8:66-89:
+    Function NothingObject is not defined.
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkMaybeMembers.fss:31:56-72:
+    Function NothingObject is not defined.
+walk-rc=255
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+full.isEmpty=false
+empty.isEmpty=true
+full.nonEmpty=true
+empty.nonEmpty=false
+full.map=Just(8)
+empty.map=Nothing
+full.filter(true)=java.lang.AbstractMethodError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SkMaybeMembers.main(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkMaybeMembers.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.AbstractMethodError: Receiver class fortress.CompilerLibrary?$Just????$\=?Arrow?T,fortress\|CompilerLibrary\%Just?T?? does not define or inherit an implementation of the resolved method 'abstract fortress.CompilerLibrary$Just??? apply()' of interface \=Arrow??,fortress\|CompilerLibrary\%Just????. Selected method is 'abstract fortress.CompilerLibrary$Just??? \=AbstractArrow??,fortress\|CompilerLibrary\%Just????.apply()'.
+	at SkMaybeMembers$\=fn@29\!25-69.apply(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkMaybeMembers.fss)
+	at fortress.CompilerLibrary$\=Just?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.filter?(/home/user/fortress-maybe/Library/CompilerLibrary.fss:548)
+	at fortress.CompilerLibrary$\=Just?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.filter(/home/user/fortress-maybe/Library/CompilerLibrary.fss)
+run-rc=1

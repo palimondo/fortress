@@ -1,0 +1,52 @@
+component SkMaybeMembers
+export Executable
+
+(*) Skeptic probe: the copied members rung M's own test does not exercise --
+(*) map, filter, nest, cross, mapReduce, seq, reverse, isEmpty, nonEmpty --
+(*) on both cases.  A member-for-member copy can be wrong in exactly these.
+
+pick(b: Boolean): Maybe[\ZZ32\] = if b then Just[\ZZ32\](7) else NothingObject[\ZZ32\] end
+
+run():() = do
+    full = pick(true)
+    empty = pick(false)
+
+    print("full.isEmpty=")
+    println(full.isEmpty)
+    print("empty.isEmpty=")
+    println(empty.isEmpty)
+    print("full.nonEmpty=")
+    println(full.nonEmpty)
+    print("empty.nonEmpty=")
+    println(empty.nonEmpty)
+
+    print("full.map=")
+    println(full.map[\ZZ32\](fn (x:ZZ32):ZZ32 => x+1).asString)
+    print("empty.map=")
+    println(empty.map[\ZZ32\](fn (x:ZZ32):ZZ32 => x+1).asString)
+
+    print("full.filter(true)=")
+    println(full.filter(fn (x:ZZ32):Condition[\()\] => Just[\()\](())).asString)
+    print("full.filter(false)=")
+    println(full.filter(fn (x:ZZ32):Condition[\()\] => NothingObject[\()\]).asString)
+    print("empty.filter=")
+    println(empty.filter(fn (x:ZZ32):Condition[\()\] => Just[\()\](())).asString)
+
+    print("full.seq=")
+    println(full.seq().asString)
+    print("full.reverse=")
+    println(full.reverse.asString)
+    print("empty.reverse=")
+    println(empty.reverse.asString)
+
+    print("full.mapReduce=")
+    println(full.mapReduce[\ZZ32\](fn (x:ZZ32):ZZ32 => x, fn (a:ZZ32,b:ZZ32):ZZ32 => a+b, 0))
+    print("empty.mapReduce=")
+    println(empty.mapReduce[\ZZ32\](fn (x:ZZ32):ZZ32 => x, fn (a:ZZ32,b:ZZ32):ZZ32 => a+b, 0))
+
+    (*) BIG operators over a Condition are refused by the compiler world's
+    (*) __generate overloads (Boolean and GeneratorZZ32 only) -- pre-existing,
+    (*) not this rung's; captured separately in SkMaybeBigOp.txt.
+end
+
+end

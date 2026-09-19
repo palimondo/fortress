@@ -1,0 +1,24 @@
+=== fortress walk ===
+size=1
+get=7
+holds=true
+default=7
+asString=Just(7)
+gen=7
+reduce=7
+cond=14
+strAsString=Just(a)
+walk-rc=0
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+size=1
+get=7
+holds=true
+default=7
+asString=Just(7)
+gen=7
+reduce=7
+cond=14
+strAsString=Just(a)
+run-rc=0

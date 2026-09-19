@@ -1,0 +1,74 @@
+########## ExceptionScoping ##########
+/home/user/fortress-maybe/ProjectFortress/tests/ExceptionScoping.fss:31:13-26:
+    Unexpected type for a singleton object reference.
+File ExceptionScoping.fss has 1 error.
+compile-rc=255
+########## oddJuxt ##########
+/home/user/fortress-maybe/ProjectFortress/tests/oddJuxt.fss:22:9-21:
+    Unexpected type for a singleton object reference.
+File oddJuxt.fss has 1 error.
+compile-rc=255
+########## maybeTest ##########
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:33:13-16:
+    Operator NOTIN is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/maybeTest.fss:35:16-19:
+    Operator NOTIN is not defined.
+Compiler internal generated.:0:0:
+    Variable __cond is not defined.
+File maybeTest.fss has 3 errors.
+compile-rc=255
+########## naturalsTest ##########
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:33:13-16:
+    Operator NOTIN is not defined.
+/home/user/fortress-maybe/ProjectFortress/tests/naturalsTest.fss:35:16-19:
+    Operator NOTIN is not defined.
+Compiler internal generated.:0:0:
+    Variable __cond is not defined.
+File naturalsTest.fss has 3 errors.
+compile-rc=255
+########## HeapTest ##########
+/home/user/fortress-maybe/Library/Heap.fsi:71:17-41:
+    CommutativeMonoidReduction is undefined.
+/home/user/fortress-maybe/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-maybe/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress-maybe/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress-maybe/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+File HeapTest.fss has 5 errors.
+compile-rc=255
+########## IntMapTest ##########
+/home/user/fortress-maybe/Library/IntMap.fsi:86:23-34:
+    Comprehension is undefined.
+/home/user/fortress-maybe/Library/IntMap.fsi:90:25-36:
+    Comprehension is undefined.
+/home/user/fortress-maybe/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-maybe/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress-maybe/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress-maybe/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+/home/user/fortress-maybe/Library/Shuffle.fsi:20:17-20:
+    Array is undefined.
+/home/user/fortress-maybe/Library/Shuffle.fsi:23:17-29:
+    ImmutableArray is undefined.
+/home/user/fortress-maybe/Library/Shuffle.fsi:23:44-56:
+    ImmutableArray is undefined.
+File IntMapTest.fss has 9 errors.
+compile-rc=255
+########## SkImportList ##########
+/home/user/fortress-maybe/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-maybe/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress-maybe/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress-maybe/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+File SkImportList.fss has 4 errors.
+compile-rc=255
+########## DONE ##########

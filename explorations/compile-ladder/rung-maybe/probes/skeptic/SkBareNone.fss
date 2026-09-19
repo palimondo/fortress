@@ -1,0 +1,11 @@
+component SkBareNone
+export Executable
+
+(*) Skeptic control: the SHIPPED None, the object rung M copied Nothing from.
+(*) If None behaves the same, the behaviour is the precedent's, not the rung's.
+
+run():() = do
+    println(None.asString)
+end
+
+end

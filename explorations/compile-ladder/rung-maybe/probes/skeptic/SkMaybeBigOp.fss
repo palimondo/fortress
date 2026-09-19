@@ -1,0 +1,13 @@
+component SkMaybeBigOp
+export Executable
+
+(*) Skeptic probe: a BIG operator over a Maybe.  The interpreter accepts it;
+(*) the compiler world's __generate has overloads for Boolean and GeneratorZZ32
+(*) only, so this is refused there.  Pre-existing, shown here for the record.
+
+run():() = do
+    full = Just[\ZZ32\](7)
+    println(SUM[x <- full] x)
+end
+
+end

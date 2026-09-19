@@ -1,0 +1,29 @@
+=== fortress walk ===
+PASS
+walk-rc=0
+=== fortress compile ===
+/home/user/fortress-maybe/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-maybe/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress-maybe/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress-maybe/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+File SkImportList.fss has 4 errors.
+compile-rc=255
+=== fortress run ===
+Could not load SkImportList
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkImportList.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-rc=1

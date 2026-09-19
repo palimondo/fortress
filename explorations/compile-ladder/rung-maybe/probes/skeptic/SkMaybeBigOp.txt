@@ -1,0 +1,33 @@
+=== fortress walk ===
+7
+walk-rc=0
+=== fortress compile ===
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkMaybeBigOp.fss:10:13-28:
+    Could not check call to function __bigOperator
+    - (ReductionString, (ReductionString, String->String)->String)->String is not applicable to any type of the form (ReductionZZ32, _->_).
+    - (ReductionZZ32, (ReductionZZ32, ZZ32->ZZ32)->ZZ32)->ZZ32:
+      Compiler internal generated.:0:0-/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkMaybeBigOp.fss:10:24:
+          Could not check call to function __generate
+          - (Boolean, ReductionString, ()->String)->String is not applicable to any type of the form (Just[\ZZ32\], ReductionZZ32, _->_).
+          - (Boolean, ReductionZZ32, ()->ZZ32)->ZZ32 is not applicable to any type of the form (Just[\ZZ32\], ReductionZZ32, _->_).
+          - (GeneratorZZ32, ReductionString, ZZ32->String)->String is not applicable to any type of the form (Just[\ZZ32\], ReductionZZ32, _->_).
+          - (GeneratorZZ32, ReductionZZ32, ZZ32->ZZ32)->ZZ32 is not applicable to any type of the form (Just[\ZZ32\], ReductionZZ32, _->_).
+          /home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkMaybeBigOp.fss:10:13-28:
+            Possibly because (reduction?1, unit?2): (ReductionZZ32, ZZ32->ZZ32) after argument inference
+File SkMaybeBigOp.fss has 1 error.
+compile-rc=255
+=== fortress run ===
+Could not load SkMaybeBigOp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkMaybeBigOp.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-rc=1

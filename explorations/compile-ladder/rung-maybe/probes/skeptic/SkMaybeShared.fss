@@ -1,0 +1,32 @@
+component SkMaybeShared
+export Executable
+
+(*) Skeptic probe: the members of Just that BOTH preludes declare, so the
+(*) same source runs under walk and under the compiled path.
+
+run():() = do
+    j = Just[\ZZ32\](7)
+    print("size=")
+    println(j.size)
+    print("get=")
+    println(j.get)
+    print("holds=")
+    println(j.holds)
+    print("default=")
+    println(j.getDefault(3))
+    print("asString=")
+    println(j.asString)
+    for x <- j do
+        print("gen=")
+        println(x)
+    end
+    print("reduce=")
+    println(j.reduce(fn (a:ZZ32,b:ZZ32):ZZ32 => a+b, 0))
+    print("cond=")
+    println(j.cond[\ZZ32\](fn (x:ZZ32):ZZ32 => x+x, fn ():ZZ32 => 0))
+    js = Just[\String\]("a")
+    print("strAsString=")
+    println(js.asString)
+end
+
+end
