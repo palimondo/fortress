@@ -14,13 +14,13 @@ Both were landed by rung 3 (`4d419c9e8`) with `VarCodeGen.MutableStaticBinding`;
 
 The first launch of this batch died with its container 25 minutes in (`coordinator/REPAIR-BATCH.md`, "How it is run"), and this branch already carried two commits: `029b7454` (two failing tests and a capture of their failure) and `c40d7f87` (the edit, with a capture of the pass).
 
-I re-verified rather than trusted: I reverted the three edited source files to the batch base `49ee5e91`, ran `ant compileAll`, wiped `default_repository/caches` and rebuilt it in library order, and re-ran the tests -- reproducing the failure (`probes/probe-runs-preedit.txt`, `probes/differential-preedit.txt`, and the pre-edit half of `probes/failure-before-edit.txt`); then restored the edit and repeated the whole cycle.
+I re-verified rather than trusted: I reverted the edited source files to the batch base `49ee5e91`, ran `ant compileAll`, wiped `default_repository/caches` and rebuilt it in library order, and re-ran the tests -- reproducing the failure (`probes/probe-runs-preedit.txt`, `probes/differential-preedit.txt`, and the pre-edit half of `probes/failure-before-edit.txt`); then restored the edit and repeated the whole cycle.
 
 Two things did not survive that review, and both are in this rung's diff.
 
-**The inherited concurrent test's own comment was wrong about the gate, in the direction that mattered.** It stated that at the thread count "every gate target uses" the program passes whether or not the implementation is correct, citing the review's `FORTRESS_THREADS=1`. That pin is in the `testSystem` shards only (`build.xml:1184`), which run `SystemJUTest` -- the interpreter corpus -- and not `compiler_tests`. The target that runs `compiler_tests` is `CompilerJUTest` under the `fastTrack` macro (`build.xml:927-953`), which sets `FORTRESS_CACHES` and no thread count; the harness runs each program in a subprocess inheriting that environment (`ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:480-486`); and with `FORTRESS_THREADS` unset the count falls back to `availableProcessors/2` (`ProjectFortress/src/com/sun/fortress/runtimeSystem/FortressExecutable.java:37-44`). Measured: with the environment unset on this 4-processor container the unrepaired tree fails the test on every run (`probes/capture-preedit` rows `THREADS=default`). So the concurrent test is genuinely gateable, and I corrected the comment instead of weakening the test.
+**The inherited concurrent test's own comment was wrong about the gate, in the direction that mattered.** It stated that at the thread count "every gate target uses" the program passes whether or not the implementation is correct, citing the review's `FORTRESS_THREADS=1`. That pin is in the `testSystem` shards only (`build.xml:1184`), which run `SystemJUTest` -- the interpreter corpus -- and not `compiler_tests`. The target that runs `compiler_tests` is `CompilerJUTest` under the `fastTrack` macro (`build.xml:927-953`), which sets `FORTRESS_CACHES` and no thread count; the harness runs each program in a subprocess inheriting that environment (`ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:480-486`); and with `FORTRESS_THREADS` unset the count falls back to `availableProcessors/2` (`ProjectFortress/src/com/sun/fortress/runtimeSystem/FortressExecutable.java:37-44`). Measured: with the environment unset on this 4-processor container the unrepaired tree fails the test on every run (`probes/capture-base-tree.txt` and `probes/failure-before-edit.txt`, rows `THREADS=default`). So the concurrent test is genuinely gateable, and I corrected the comment instead of weakening the test.
 
-**The inherited deterministic test was racy and would have flaked in the gate.** Its loop body was a bare `inLoop := inLoop + 1` inside a *parallel* `for`, which is a data race by construction; once the repair let those writes reach the shared location, one run in nine gave 9 instead of 10 (`probes/capture-postedit`, `THREADS=default run=1`). The increment is now inside `atomic do ... end`, which is what `Specification/basic/memory-model.tex:69-75` requires of a program that wants a defined answer ("Updates to shared mutable locations must always be performed using an `atomic` expression"), and the expected values are then exact at any thread count.
+**The inherited deterministic test was racy and would have flaked in the gate.** Its loop body was a bare `inLoop := inLoop + 1` inside a *parallel* `for`, which is a data race by construction; once the repair let those writes reach the shared location, one run in nine gave 9 instead of 10 (`probes/capture-inherited-edit.txt`, `THREADS=default run=1`). The increment is now inside `atomic do ... end`, which is what `Specification/basic/memory-model.tex:69-75` requires of a program that wants a defined answer ("Updates to shared mutable locations must always be performed using an `atomic` expression"), and the expected values are then exact at any thread count.
 
 I also found and repaired a regression in the inherited edit, and a pre-existing defect next to it; that is the payload-type decision below.
 
@@ -30,21 +30,21 @@ I also found and repaired a regression in the inherited edit, and a pre-existing
 
 `map/modules-and-phases.md:421-437` places the transaction machinery in `runtimeSystem/` and states that tasks and transactions are implemented twice and independently -- `interpreter/evaluator/tasks/` and `transactions/` are a separate implementation -- so this repair is confined to the compiled world's copy and cannot be shared with the interpreter's.
 
-The storage decision for a variable is made in `CodeGen.forVarDecl`'s pre-pass (`CodeGen.java:5896-5923`), which emits a one-field singleton class per top-level declaration and registers either `StaticBinding` (immutable) or `MutableStaticBinding` (mutable); the read and write instruction sequences are `VarCodeGen`'s. That is where the fix belongs, and where it is.
+The storage decision for a variable is made in the top-level pre-pass (`CodeGen.forVarDeclPrePass` and `addTopLevelVarBinding`, `CodeGen.java:5908-5951`, driven from `forComponent:1857-1867`), which emits a one-field singleton class per top-level declaration and registers either `StaticBinding` (immutable) or `MutableStaticBinding` (mutable); the read and write instruction sequences are `VarCodeGen`'s. That is where the fix belongs, and where it is.
 
 `map/test-coverage.md:185-186` says the fork-join runtime and the transactions are "barely" and "effectively no[t]" covered, and names the two reasons: every `testSystem` shard pins one thread, and `TransactionJUTest`'s multi-threaded half is commented out (`TestTask.java:43-44`). It does not say anything about `compiler_tests`, and the measurement above is the missing line: that corpus does run its programs with more than one worker.
 
 ## Precedent search: the team solved this three times, two of them right
 
-`VarCodeGen.LocalMutableVar` (`VarCodeGen.java:451-548`) stores a *local* mutable variable in a `MutableFValue` cell and routes every read and write through the current transaction: `BaseTask.inATransaction()`, then `Transaction.TXRead`/`TXWrite` on the cell, otherwise the cell's own getter and setter.
+`VarCodeGen.LocalMutableVar` (`VarCodeGen.java:451-557`) stores a *local* mutable variable in a `MutableFValue` cell and routes every read and write through the current transaction: `BaseTask.inATransaction()`, then `Transaction.TXRead`/`TXWrite` on the cell, otherwise the cell's own getter and setter.
 
-`VarCodeGen.MutableTaskVarCodeGen` (`VarCodeGen.java:609-731`) does the same for such a variable once it has been captured by a generated task, holding the same cell in the task's field so that the location's identity survives the capture.
+`VarCodeGen.MutableTaskVarCodeGen` (`VarCodeGen.java:609-742`) does the same for such a variable once it has been captured by a generated task, holding the same cell in the task's field so that the location's identity survives the capture.
 
 `VarCodeGen.MutableFieldVar` (`VarCodeGen.java:202-231`) is the third and is the wrong one: a bare `GETFIELD`/`PUTFIELD` on a non-volatile field, with the author's own "URG, another case of meeting assumptions" comment. Rung 3 followed this one.
 
 The interpreter stores the same construct in a transactional cell: `BaseEnv.putVariable` wraps every variable in a `ReferenceCell` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java:595-609`), whose class comment is "What the interpreter stores mutable things (fields, variables) in" (`interpreter/env/ReferenceCell.java:26-28`) and which consults `FortressTaskRunner.getTransaction()`.
 
-The cell is not one implementation choice among several: the compiled world's STM keys its read and write sets by `MutableFValue` *identity* (`runtimeSystem/Transaction.java:27-28`) and commits by `key.setValue(val)` (`:246-252`), so a `MutableFValue` cell is the only representation of a memory location the transaction can hold. A variable that is not in a cell cannot be in a transaction, whatever the field's modifiers.
+The cell is not one implementation choice among several: the compiled world's STM keys its read and write sets by `MutableFValue` *identity* (`runtimeSystem/Transaction.java:27-28`) and commits by `key.setValue(val)` (`:231-252`), so a `MutableFValue` cell is the only representation of a memory location the transaction can hold. A variable that is not in a cell cannot be in a transaction, whatever the field's modifiers.
 
 ## What the specification requires
 
@@ -62,19 +62,19 @@ Both citations were read in full in the tree, not taken from the brief.
 
 ## The edit
 
-A mutable top-level variable's singleton field now holds a `MutableFValue` cell and the value lives in the cell (`CodeGen.generateVarDeclInnerClass`, `CodeGen.java:5861-5895`): the field's descriptor is the cell's, `<clinit>` evaluates the initializer and wraps it with `MutableFValue.make`, and the field is `ACC_FINAL` again because nothing but `<clinit>` writes it.
+A mutable top-level variable's singleton field now holds a `MutableFValue` cell and the value lives in the cell (`CodeGen.generateVarDeclInnerClass`, `CodeGen.java:5872-5906`): the field's descriptor is the cell's, `<clinit>` evaluates the initializer and wraps it with `MutableFValue.make`, and the field is `ACC_FINAL` again because nothing but `<clinit>` writes it.
 
 `VarCodeGen.MutableStaticBinding` (`VarCodeGen.java:310-399`) reads and writes through that cell exactly as `LocalMutableVar` does: `pushCell` is the `GETSTATIC` (`:322-324`), `pushValue` (`:326-353`) branches on `BaseTask.inATransaction()` to `Transaction.TXRead` or the cell's getter and then casts, `assignValue` (`:355-386`) branches the same way to `TXWrite` or the setter, and `pushHandle` (`:388-390`) hands out the cell so a nested context captures the location rather than the value.
 
-The cast after the read goes through `InstantiatingClassloader.generalizedCastTo` (`:352`) rather than a bare `CHECKCAST`, because the declared type may be a tuple or an arrow type, for which that helper emits a `castTo` call instead (`InstantiatingClassloader.java:2361-2394`); it is the same helper the surrounding `<clinit>` already uses for the same type name (`CodeGen.java:5880-5883`).
+The cast after the read goes through `InstantiatingClassloader.generalizedCastTo` (`:352`) rather than a bare `CHECKCAST`, because the declared type may be a tuple or an arrow type, for which that helper emits a `castTo` call instead (`InstantiatingClassloader.java:2358-2395`); it is the same helper the surrounding `<clinit>` already uses for the same type name (`CodeGen.java:5891-5894`).
 
-`assignHandle` throws a `CompilerError` (`:392-395`): the field is final, so rebinding the cell would be a compiler defect rather than a program error. It is unreachable on the paths that exist -- `generateTaskInit` and `generateFnExprInit` look the variable up again in the *child* context (`CodeGen.java:4662-4665`, `:4693-4696`), where it is a `MutableTaskVarCodeGen` -- and it is there so that a future path that reaches it says so instead of emitting a `PUTSTATIC` to a final field.
+`assignHandle` throws a `CompilerError` (`:392-395`): the field is final, so rebinding the cell would be a compiler defect rather than a program error. It is unreachable on the paths that exist -- `generateTaskInit` and `generateFnExprInit` look the variable up again in the *child* context (`CodeGen.java:4677-4680`, `:4708-4711`), where it is a `MutableTaskVarCodeGen` -- and it is there so that a future path that reaches it says so instead of emitting a `PUTSTATIC` to a final field.
 
-A top-level mutable variable that a nested context captures now becomes a `MutableTaskVarCodeGen` over the same cell (`CodeGen.createTaskLexEnvVariables:4636-4639`, constructor at `VarCodeGen.java:624-633`), and the three places that describe a captured mutable variable's type agree with it (`CodeGen.java:4745-4746`, `:4801-4802`).
+A top-level mutable variable that a nested context captures now becomes a `MutableTaskVarCodeGen` over the same cell (`CodeGen.createTaskLexEnvVariables:4647-4650`, constructor at `VarCodeGen.java:624-632`), and the three places that describe a captured mutable variable's type agree with it (`CodeGen.java:4756-4757`, `:4812-4813`).
 
 `MutableFValue.make` (`runtimeValues/MutableFValue.java:20-24`) is new: `<clinit>` has the value on the stack before the cell exists, and a static factory keeps that sequence one instruction long. A static `make` is this package's convention (`FZZ32.make`, `FJavaString.make`, and `NamingCzar.make` is the name the generator uses everywhere).
 
-`MutableFValue`'s payload and the transaction's read and write sets are typed `fortress.AnyType.Any`, the compiled world's top type, rather than `runtimeValues.FValue` (`MutableFValue.java:18-32`, `runtimeSystem/Transaction.java:28-29,145,153,227`), and the twelve emitted descriptors in `VarCodeGen` and the one in `CodeGen` name it through `NamingCzar.descFortressAny`. Why, below.
+`MutableFValue`'s payload and the transaction's read and write sets are typed `fortress.AnyType.Any`, the compiled world's top type, rather than `runtimeValues.FValue` (`MutableFValue.java:18-32`, `runtimeSystem/Transaction.java:20,27-28,144,152,226`), and the twelve emitted descriptors in `VarCodeGen` and the one in `CodeGen` name it through `NamingCzar.descFortressAny`. Why, below.
 
 ## The decisions
 
@@ -86,7 +86,7 @@ The same store already existed for *local* mutable variables, so I probed that a
 
 The alternatives were: (a) widen the payload to the language's top type; (b) keep `FValue` and fall back to the old bare-`PUTSTATIC` representation for the types that do not fit, keeping two representations and leaving `atomic` silently non-transactional for a variable of arrow type; (c) leave the regression and record it. I took (a). It is the only one of the three that gives `atomic.tex:38-42` for every type of variable, it removes rather than adds a special case, and as a side effect it fixes the pre-existing defect for local mutable variables of arrow type. Its cost is that it changes two runtime signatures, so every compiled class that mentions them must be rebuilt -- which the cache wipe in the recipe already does -- and that the verifier no longer type-checks the payload, since assignability to an interface is not checked at verification time; the probes do that instead.
 
-`fortress.AnyType.Any` rather than `java.lang.Object`: it is the type the language gives every value, `FValue` implements it (`FValue.java:13`), a generated arrow interface extends it (`InstantiatingClassloader.java:979-987`), and it says in the signature what the cell holds.
+`fortress.AnyType.Any` rather than `java.lang.Object`: it is the type the language gives every value, `FValue` implements it (`FValue.java:13`), a generated arrow interface extends it (`InstantiatingClassloader.java:979-987`, directly when its parameters are all objects and transitively otherwise), and it says in the signature what the cell holds.
 
 ### 2. `MutableFieldVar` is not repaired in this rung
 
@@ -94,13 +94,13 @@ The alternatives were: (a) widen the payload to the language's top type; (b) kee
 
 I decided against repairing it here, and this is a decision rather than an omission.
 
-The reason is not the size of the instruction sequence but what the field representation is attached to. `MutableFieldVar` is constructed for *every* `VarDecl` field of an object, mutable or not, because codegen cannot yet tell them apart -- the team's own comment is "TODO need to spot for 'final' fields. Right now we assume mutable, not final" (`CodeGen.java:4313`) -- and the field's descriptor is also written into the class's own `visitField` (`:4335-4338`), into the constructor's instance-field initialization, and into the getters. So the same edit would change the representation of every field of every compiled object, and would allocate one cell per field per object, for as long as that TODO stands.
+The reason is not the size of the instruction sequence but what the field representation is attached to. `MutableFieldVar` is constructed for *every* `VarDecl` field of an object, mutable or not, because codegen cannot yet tell them apart -- the team's own comment is "TODO need to spot for 'final' fields. Right now we assume mutable, not final" (`CodeGen.java:4326`) -- and the field's descriptor is also written into the class's own `visitField` (`:4343-4346`), into the constructor's instance-field initialization, and into the getters. So the same edit would change the representation of every field of every compiled object, and would allocate one cell per field per object, for as long as that TODO stands.
 
 The alternative was to repair it in the same rung and accept that blast radius on the strength of a probe that no gated test covers. Against it: this rung's test needs the variable case; the field case needs its own test, and it needs the `final`-field distinction first, or it pays a cell for every immutable field in the language. It is a verified ledger row with a named fix, which is what rungs 6 and 7 did with row 317.
 
 ### 3. The captured cell, not a re-resolved global
 
-A nested context could instead have re-resolved a top-level variable to its `GETSTATIC` and not captured it at all -- the singleton field is public and static, so a generated task can reach it directly -- which would have left `getFreeVars` (`CodeGen.java:4591-4610`) to exclude static bindings.
+A nested context could instead have re-resolved a top-level variable to its `GETSTATIC` and not captured it at all -- the singleton field is public and static, so a generated task can reach it directly -- which would have left `getFreeVars` (`CodeGen.java:4602-4621`) to exclude static bindings.
 
 I kept the capture and made it capture the cell, because that is what the file's two right precedents do for the same construct and because excluding static bindings from the free-variable set would change the generated shape for *immutable* top-level variables too, which are captured by value today and are correct that way. The narrower change is the one that leaves immutable variables alone.
 
@@ -137,19 +137,19 @@ An earlier capture of the same failure for the earlier form of the tests is in c
 
 ## The recorded pass
 
-`probes/pass-after-edit.txt`, same recipe on the landed tree: `ant compileAll` green (`tmp/build-pass-after-edit.log`), caches wiped and rebuilt in library order, 27 runs -- three programs, three thread settings, three runs each -- all PASS, including rung 3's own `MutableTopLevelVar`.
+`probes/pass-after-edit.txt`, same recipe on the landed tree: `ant compileAll` green -- the capture's own header line records it, and the build logs are left in the worktree's `tmp/`, uncommitted, because they are 176 KB of scalac deprecation warnings each -- caches wiped and rebuilt in library order, 27 runs -- three programs, three thread settings, three runs each -- all PASS, including rung 3's own `MutableTopLevelVar`.
 
 `P12Arrow`, `P15LocalArrow` and `P16LocalArrowTask` all print `f(1) = 3`: the regression is gone and the pre-existing defect for local mutable variables of arrow type is gone with it. `P10Field` still gives 37831 of 40000 at four threads, unchanged, as the `MutableFieldVar` decision says it should.
 
 ## The differentials
 
-**Every gated program that uses `atomic` on the compiled path**, before and after: `other_compiler_tests/atomic0` through `atomic6` and `nestedTransactions0` through `nestedTransactions3` -- eleven programs, gated through `atomicTest.test` by `OtherCompilerJUTest` -- each run at one and at four threads. All twenty-two runs PASS on the base tree and all twenty-two PASS after (`probes/differential-preedit.txt`, `probes/differential-any.txt`). These programs exercise `LocalMutableVar` and `MutableTaskVarCodeGen`, whose emitted descriptors this rung changed, so they are the check on the payload-type edit.
+**Every gated program that uses `atomic` on the compiled path**, before and after: `other_compiler_tests/atomic0` through `atomic6` and `nestedTransactions0` through `nestedTransactions3` -- eleven programs, gated through `atomicTest.test` by `OtherCompilerJUTest` -- each run at one and at four threads. All twenty-two runs PASS on the base tree and all twenty-two PASS on the landed tree (`probes/differential-preedit.txt`, `probes/differential-final.txt`; `-any.txt` is the same set on the intermediate state). These programs exercise `LocalMutableVar` and `MutableTaskVarCodeGen`, whose emitted descriptors this rung changed, so they are the check on the payload-type edit.
 
 **The interpreter, as evidence rather than oracle** (`probes/walk-differential.txt`): under `walk`, at one thread and at four, `MutableTopLevelVarInLoop` and `AtomicTopLevelVar` both print PASS. So the unrepaired compiled path diverged from the interpreter on both tests, the specification settles that divergence against the compiled run (`atomic.tex:38-42`, `bindings.tex:57-59`), and the repair removes it.
 
-`P10Field` under `walk` gives the exact 40000 at one thread and at four, while the compiled path gives 38910 at four. That is a live walk-vs-compiled divergence which the specification also settles against the compiled run, and whose repair is outside this rung: it is the ledger row owed below, and it is the case the brief calls legitimate -- land, and open a verified row naming the defect, the clause, the probes both ways, the location and the fix.
+`P10Field` under `walk` gives the exact 40000 at one thread and at four, while the compiled path gives 37831 at four on the landed tree. That is a live walk-vs-compiled divergence which the specification also settles against the compiled run, and whose repair is outside this rung: it is the ledger row owed below, and it is the case the brief calls legitimate -- land, and open a verified row naming the defect, the clause, the probes both ways, the location and the fix.
 
-**The type probes** (`probes/probe-types-*.txt`): a top-level mutable variable of an object type, of arrow type and of type `String`, and a local mutable variable of an object type, before and after. The arrow cases are the interesting ones and are discussed above; the rest are unchanged.
+**The type probes** (`probes/probe-types-preedit.txt` on the base tree, `-final.txt` on the landed one): a top-level mutable variable of an object type, of arrow type and of type `String`, and a local mutable variable of an object type, with the two local arrow probes added once the payload question appeared. The arrow cases are the interesting ones and are discussed above; the rest are unchanged.
 
 **A top-level variable exported through an api** does not link on the compiled path, before or after, mutable (`probes/P8*`) or immutable (`probes/P9*`): `NoClassDefFoundError: P8Api$shared`, from `Resource not found : P8Api$shared.class` (`probes/probe-runs2-preedit.txt`, `-final.txt`). The importing component resolves such a name to a singleton class in the *api's* namespace (`CodeGen.forVarRef:5926-5944` builds a `StaticBinding` from `jvmClassForToplevelDecl` on the *importing* component's package name, `:5940-5943`), which no component emits. This matters to the rung because the repair changes that singleton field's descriptor: had the import path worked, the reading side would have had to learn the new descriptor. It does not work, and did not before -- the two failures are the same class name in both states, with the programs compiled in each state first, at the end of `probes/probe-runs2-final.txt` -- so nothing regressed; the immutable probe is the control that shows mutability is not the cause. It is offered as a ledger row.
 
@@ -188,13 +188,13 @@ Abrupt completion of an `atomic` block by anything other than a `TransactionAbor
 
 ## Files changed
 
-    ProjectFortress/src/com/sun/fortress/compiler/codegen/VarCodeGen.java:85-90,310-399,624-633
+    ProjectFortress/src/com/sun/fortress/compiler/codegen/VarCodeGen.java:88-90,310-399,624-632
     ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1857-1867,4647-4650,4756-4757,4812-4813,5872-5906,5908-5951
     ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java:18-32,42
     ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:19-20,28-29,113-114,122-123,145,153-155,183,200,227,247,256,271
     ProjectFortress/compiler_tests/AtomicTopLevelVar.fss          (new, 69 lines)
     ProjectFortress/compiler_tests/AtomicTopLevelVar.test         (new)
-    ProjectFortress/compiler_tests/MutableTopLevelVarInLoop.fss   (new, 66 lines)
+    ProjectFortress/compiler_tests/MutableTopLevelVarInLoop.fss   (new, 65 lines)
     ProjectFortress/compiler_tests/MutableTopLevelVarInLoop.test  (new)
 
 Line ranges in the two `.java` files under `codegen/` are of the landed state. `VarCodeGen.java` also carries the twelve emitted descriptors that moved from `FValue` to `Any`, at `:342,350,375,384,500,508,536,545,673,685,717,728` in the base numbering.
