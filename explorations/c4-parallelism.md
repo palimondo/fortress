@@ -547,3 +547,15 @@ from loop parallelism.
 **6. `FORTRESS_LOOP_CHUNK` on the compiled path**, once C4 compiles: the knob is
 there (`FortressExecutable.java:53-57`) and defaults to 1. Sweep 1, 8, 64, 512 on
 one compiled kernel.
+
+## Measured, 2026-09-19, after the batch landed
+
+The measurements of §10 were run on the quiet box (`c4-parallelism/measurements/REPORT.md`, commit `cb55877df`). Two of this text's readings did not survive them and are corrected here rather than rewritten above.
+
+**§6's cost floor is real as a mechanism and negligible as a cost.** In the JFR profile of one four-thread check run, `ValueNode`, `CopyOnWriteArrayList`, `ReadSet` and `ReferenceCell` together are 0.8 % of 82,302 allocation samples (ranks 20, 22, 23, 29). The top three allocation sites are `BATreeNode` under `BATreeNode.add` (27.7 %), `BetterEnvWithTopLevel` under `extendAt` (14.8 %) and `Object[]` under `ArrayList.<init>` (11.0 %): environments and task machinery, which is what the earlier `krows` profile said (43.5 % AST walk, 32.3 % environment lookup). The one contended monitor is `Memo1C` under `FTypeTuple.make` (525 enters, 6.28 s), not `ReferenceCell`; JFR's monitor threshold was 10 ms, so the cells never blocked a thread that long, which does not say their monitor is free. So the next interpreter optimisation is not the transactional cells, and the compiled path's advantage in §8 stands for a different reason than §6 gave.
+
+**§7's shape reproduces, its seconds do not.** On this box, 1.6× slower than the one on record: totals 840 / 478 / 389 / 375 s at one to four threads; steady-state steps 2.580× at four threads against the record's 2.58×; the batch-4 step 2.58×; step 1 slower at every added thread, 13.5 → 18.4 → 22.5 → 26.2 s; nearly all of the gain is in by three threads.
+
+**§2's one foreclosed independence was the wrong direction.** Writing the three tuple bindings at `MicroGptFlat.fss:58` and `:68` out as separate statements made the four-thread run 9.6 % faster (375 → 339 s; steps 2-5 mean 2,926 → 2,701 ms; the batch-4 step 10,263 → 8,901 ms; step 1 unchanged; 40 of 40 checks pass with identical losses; diff in `measurements/tuple-split.diff`). The tuple parallelism of §3's throttled path costs more than it pays at this size. Whether C4 itself is edited is Pavol's call.
+
+**A defect found on the way**: `MicroGptFlatCheck` does not start from a cold interpreter cache. The first run dies in `Shell.walk` with an overload error between `FlatArrays.fss:31` (`MAX[\I\](s:RR64, a:Array[\RR64,I\])`) and `FortressLibrary.fss:280` (`StandardTotalOrder[\T\].MAX`), "at least one pair of parameters must have excluding types"; the failed run leaves `FlatArrays` in the interpreter cache, a cached component is not re-checked, and the second run succeeds. Every C4 number on record was taken warm. Under investigation for a ledger row.
