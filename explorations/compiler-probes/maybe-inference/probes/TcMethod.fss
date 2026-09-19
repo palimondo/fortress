@@ -1,0 +1,18 @@
+component TcMethod
+export Executable
+(*) T9: the same crash shape as a METHOD body rather than a function body.
+trait S comprises { A, B } end
+object A extends S end
+object B extends S end
+object H
+    g(o: S): ZZ32 =
+        typecase o of
+            A => 1
+            else => 0
+        end
+end
+run():() = do
+    print("TcMethod=")
+    println(H.g(A))
+end
+end

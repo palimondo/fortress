@@ -1,0 +1,94 @@
+=== fortress walk ===
+TcMethod=1
+walk-rc=0
+=== fortress compile ===
+Exception in thread "main" java.lang.Error: 
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/maybe-probe/probes/TcMethod.fss:9:9-12:10: Error trying to close method scope.
+[   L0
+,    L1
+,    L2
+,     LINENUMBER 9 L2
+,     ALOAD 1
+,     DUP
+,     INSTANCEOF TcMethod$A
+,     IFNE L3
+,     GOTO L4
+,    L3
+,     POP
+,    L5
+,     LINENUMBER 10 L5
+,     ICONST_1
+,    L6
+,     LINENUMBER 10 L6
+,     INVOKESTATIC com/sun/fortress/compiler/runtimeValues/FIntLiteral.make (I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+,     GOTO L7
+,    L4
+,     POP
+,    L8
+,     LINENUMBER 11 L8
+,     ICONST_0
+,    L9
+,     LINENUMBER 11 L9
+,     INVOKESTATIC com/sun/fortress/compiler/runtimeValues/FIntLiteral.make (I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+,     GOTO L7
+,     INVOKESTATIC com/sun/fortress/compiler/runtimeValues/FVoid.make ()Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+,    L7
+,     DUP
+,     INVOKESTATIC ConcreteTuple?fortress/CompilerBuiltin$IntLiteral?.isA (Ljava/lang/Object;)Z
+,     IFNE L10
+,     GOTO L11
+,    L10
+,     POP
+,    L12
+,     LINENUMBER 9 L12
+,     GETSTATIC TcMethod$CoercionDesugarer#0.ONLY : Lfortress/CompilerBuiltin$IntLiteral;
+,    L13
+,     LINENUMBER 9 L13
+,     INVOKESTATIC fortress/CompilerBuiltin.coerce_ZZ32 (Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+,     GOTO L14
+,    L11
+,     INVOKESTATIC com/sun/fortress/compiler/runtimeValues/FVoid.make ()Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+,    L14
+,    L15
+,     LOCALVARIABLE o LTcMethod$S; L1 L15 1
+,    L16
+,     LOCALVARIABLE self LTcMethod$H; L0 L16 0
+,     ARETURN
+,     MAXSTACK = 1
+,     MAXLOCALS = 1
+]
+	at com.sun.fortress.compiler.codegen.CodeGen.generateActualMethodCode(CodeGen.java:2802)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateFunctionalBody(CodeGen.java:2740)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnDecl(CodeGen.java:3007)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:71)
+	at com.sun.fortress.compiler.codegen.CodeGen.forObjectDeclPrePass(CodeGen.java:4379)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1875)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at org.objectweb.asm.Frame.merge(Frame.java:1281)
+	at org.objectweb.asm.Frame.merge(Frame.java:1256)
+	at org.objectweb.asm.MethodWriter.computeAllFrames(MethodWriter.java:1612)
+	at org.objectweb.asm.MethodWriter.visitMaxs(MethodWriter.java:1548)
+	at org.objectweb.asm.MethodVisitor.visitMaxs(MethodVisitor.java:787)
+	at com.sun.fortress.compiler.codegen.ManglingMethodVisitor.visitMaxs(ManglingMethodVisitor.java:49)
+	at org.objectweb.asm.MethodVisitor.visitMaxs(MethodVisitor.java:787)
+	at org.objectweb.asm.util.TraceMethodVisitor.visitMaxs(TraceMethodVisitor.java:304)
+	at org.objectweb.asm.MethodVisitor.visitMaxs(MethodVisitor.java:787)
+	at com.sun.fortress.compiler.codegen.CodeGenMethodVisitor.visitMaxs(CodeGenMethodVisitor.java:99)
+	at com.sun.fortress.compiler.codegen.CodeGen.methodReturnAndFinish(CodeGen.java:3408)
+	at com.sun.fortress.compiler.codegen.CodeGen.exitMethodScope(CodeGen.java:3045)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateActualMethodCode(CodeGen.java:2800)
+	... 18 more
+compile-rc=1

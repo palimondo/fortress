@@ -1,0 +1,16 @@
+component TcNoElse
+export Executable
+(*) T11: TcPlain with two typed clauses and no else.
+trait S comprises { A, B } end
+object A extends S end
+object B extends S end
+f(o: S): ZZ32 =
+    typecase o of
+        A => 1
+        B => 0
+    end
+run():() = do
+    print("TcNoElse=")
+    println(f(A))
+end
+end

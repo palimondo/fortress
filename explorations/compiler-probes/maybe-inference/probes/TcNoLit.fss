@@ -1,0 +1,17 @@
+component TcNoLit
+export Executable
+(*) T6: typecase as a function body, clause bodies already ZZ32 (no literal,
+(*) so no IntLiteral -> ZZ32 coercion around the result).
+trait S comprises { A, B } end
+object A extends S end
+object B extends S end
+f(o: S, z: ZZ32): ZZ32 =
+    typecase o of
+        A => z
+        else => z
+    end
+run():() = do
+    print("TcNoLit=")
+    println(f(A, 5))
+end
+end

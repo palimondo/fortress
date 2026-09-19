@@ -1,0 +1,16 @@
+component TcPlain
+export Executable
+(*) T1: typecase over a wholly NON-generic user hierarchy.
+trait S comprises { A, B } end
+object A extends S end
+object B extends S end
+f(o: S): ZZ32 =
+    typecase o of
+        A => 1
+        else => 0
+    end
+run():() = do
+    print("TcPlain=")
+    println(f(A))
+end
+end

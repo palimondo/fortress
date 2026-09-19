@@ -1,0 +1,15 @@
+component TcInRun
+export Executable
+(*) T5: the same typecase, inline in run()'s block instead of a function body.
+trait S comprises { A, B } end
+object A extends S end
+object B extends S end
+run():() = do
+    o: S = A
+    print("TcInRun=")
+    println(typecase o of
+        A => 1
+        else => 0
+    end)
+end
+end

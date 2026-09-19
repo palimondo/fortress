@@ -1,0 +1,8 @@
+=== fortress walk ===
+TcStr=a
+walk-rc=0
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+TcStr=a
+run-rc=0

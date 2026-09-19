@@ -1,0 +1,17 @@
+component TcInDo
+export Executable
+(*) T4: the same typecase as TcPlain, wrapped in a do block.
+trait S comprises { A, B } end
+object A extends S end
+object B extends S end
+f(o: S): ZZ32 = do
+    typecase o of
+        A => 1
+        else => 0
+    end
+  end
+run():() = do
+    print("TcInDo=")
+    println(f(A))
+end
+end

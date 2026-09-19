@@ -1,0 +1,16 @@
+component TcNonGenClause
+export Executable
+(*) T3: the same hierarchy, but the clause type is the non-generic object.
+trait S comprises { G[\ZZ32\], N } end
+object G[\T\](x: T) extends S end
+object N extends S end
+f(o: S): ZZ32 =
+    typecase o of
+        N => 1
+        else => 0
+    end
+run():() = do
+    print("TcNonGenClause=")
+    println(f(N))
+end
+end

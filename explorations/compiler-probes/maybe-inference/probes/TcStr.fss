@@ -1,0 +1,17 @@
+component TcStr
+export Executable
+(*) T8: the same shape with a String result, so the coercion is not the
+(*) integer-literal one.
+trait S comprises { A, B } end
+object A extends S end
+object B extends S end
+f(o: S): String =
+    typecase o of
+        A => "a"
+        else => "b"
+    end
+run():() = do
+    print("TcStr=")
+    println(f(A))
+end
+end

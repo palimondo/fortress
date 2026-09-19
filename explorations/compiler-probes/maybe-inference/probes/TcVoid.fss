@@ -1,0 +1,14 @@
+component TcVoid
+export Executable
+(*) T7: typecase as a function body returning () -- the shape the gated
+(*) compiler_tests use (Compiled5.o.fss:17, Compiled5.bi.fss:21).
+trait S comprises { A, B } end
+object A extends S end
+object B extends S end
+f(o: S): () =
+    typecase o of
+        A => println("TcVoid=A")
+        else => println("TcVoid=other")
+    end
+run():() = f(A)
+end

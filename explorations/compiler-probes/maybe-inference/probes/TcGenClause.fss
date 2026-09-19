@@ -1,0 +1,16 @@
+component TcGenClause
+export Executable
+(*) T2: same, but the clause type is a generic object declared here.
+trait S comprises { G[\ZZ32\], N } end
+object G[\T\](x: T) extends S end
+object N extends S end
+f(o: S): ZZ32 =
+    typecase o of
+        G[\ZZ32\] => 1
+        else => 0
+    end
+run():() = do
+    print("TcGenClause=")
+    println(f(N))
+end
+end
