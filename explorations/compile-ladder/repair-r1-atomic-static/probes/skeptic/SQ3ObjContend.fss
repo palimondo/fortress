@@ -1,0 +1,27 @@
+component SQ3ObjContend
+export Executable
+
+(* Skeptic, second judgement.  2000 transactional read-modify-writes of an
+   object-typed top-level variable from a parallel for loop.  Above one worker
+   this forces the abort and retry path (Transaction.java:128, :185, :240) and
+   commits (:249) with object values in the tables, and it checks the invariant
+   the rung claims for a type other than ZZ32: every increment is retained. *)
+
+object Box(n: ZZ32) end
+
+b: Box := Box(0)
+
+bump(): () = atomic do b := Box(b.n + 1) end
+
+run(): () = do
+    for i <- 1#2000 do
+        bump()
+    end
+    if b.n = 2000 then
+        println("PASS")
+    else
+        println("FAIL: b.n = " b.n " (expected 2000)")
+    end
+  end
+
+end

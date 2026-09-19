@@ -1,0 +1,27 @@
+# Second skeptic round, the two probes run by hand rather than through run-skeptic2.sh.
+# HEAD=03cb9a48, sources 5 files changed vs 49ee5e91, date 2026-09-19T02:2x+00:00, nproc=4,
+# JDK 25.0.4, JAVA_FLAGS='-Xmx4g -Xss64m', JAVA_TOOL_OPTIONS unset.
+
+SQ6OrphanTx -- does ledger row 324's mechanism survive a cross-thread read?
+  walk           THREADS=1 :: caught | throwing task reads g = 100 | other arm ran | other implicit thread reads g = 100
+  compile                  :: exit 0
+  run            THREADS=1 :: caught | throwing task reads g =  7  | other arm ran | other implicit thread reads g =  7
+  run            THREADS=4 :: caught | throwing task reads g =  7  | other arm ran | other implicit thread reads g =  7
+
+  Reading: the second implicit thread sees the aborted block's write too.  That does NOT
+  refute row 324's account, because a child task inherits its parent's transaction --
+  `BaseTask(BaseTask parent) { ... this.transaction = parent.transaction; }`,
+  runtimeSystem/BaseTask.java:83-86 -- so the inherited orphan is exactly what the child
+  reads through.  The probe therefore does not discriminate committed-write from orphaned
+  transaction; it adds the fact that the stale value propagates to inherited threads.
+
+SQ7ObjThrow -- the same abrupt atomic with an OBJECT-typed top-level variable.
+  walk           THREADS=1 :: caught | b.n after abrupt atomic = 100
+  compile                  :: exit 0
+  run            THREADS=1 :: caught | b.n after abrupt atomic =  7
+  run            THREADS=4 :: caught | b.n after abrupt atomic =  7
+
+  Reading: row 324 holds for an object type as well as for ZZ32, and this is the shape that
+  answers the failure-mode question -- on the pre-guard tree R1 landed it was a
+  StackOverflowError, and after the guards it is the quiet wrong value 7.
+  Specification/basic/expressions/atomic.tex:63-67 settles it against the compiled path.

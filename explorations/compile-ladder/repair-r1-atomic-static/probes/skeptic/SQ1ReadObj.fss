@@ -1,0 +1,25 @@
+component SQ1ReadObj
+export Executable
+
+(* Skeptic, second judgement.  The gated test AtomicTopLevelObjectVar only
+   WRITES an object-typed top-level variable inside atomic, which is
+   Transaction.TXWrite (Transaction.java:227).  Reading one inside atomic is a
+   different call site, TXRead (:162 and :166), and a different emitted
+   sequence (MutableStaticBinding.pushValue).  Both stringified their
+   arguments eagerly before the repair round's guards. *)
+
+object Box(n: ZZ32) end
+
+b: Box := Box(5)
+
+run(): () = do
+    var m: ZZ32 = 0
+    atomic do m := b.n end
+    if m = 5 then
+        println("PASS m = " m)
+    else
+        println("FAIL m = " m " (expected 5)")
+    end
+  end
+
+end

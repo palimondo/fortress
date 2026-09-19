@@ -1,0 +1,28 @@
+component SQ5ImmutableObj
+export Executable
+
+(* Skeptic, second judgement.  An IMMUTABLE top-level binding of object type
+   read inside atomic, beside a mutable one.  R1 changed the mutable
+   declaration's storage to a cell and left the immutable one a plain
+   GETSTATIC; this is the control that the immutable case still reads correctly
+   from inside a transaction. *)
+
+object Box(n: ZZ32) end
+
+k: Box = Box(9)
+b: Box := Box(1)
+
+run(): () = do
+    var m: ZZ32 = 0
+    atomic do
+        m := k.n + b.n
+        b := Box(m)
+    end
+    if b.n = 10 AND m = 10 then
+        println("PASS")
+    else
+        println("FAIL: b.n = " b.n " m = " m " (expected 10 and 10)")
+    end
+  end
+
+end

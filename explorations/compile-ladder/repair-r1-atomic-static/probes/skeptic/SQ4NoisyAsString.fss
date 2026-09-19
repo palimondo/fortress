@@ -1,0 +1,30 @@
+component SQ4NoisyAsString
+export Executable
+
+(* Skeptic, second judgement.  The direct test that the guards removed the
+   stringification, not merely the crash: the object's own asString prints a
+   marker, so every call to it is visible in the output.  A value whose type
+   HAS an asString never entered the recursion, so before the repair round this
+   program did not crash -- it just called asString on the transactional path.
+   Post-guard the only marker must be the one the program asks for. *)
+
+object Loud(n: ZZ32)
+    getter asString(): String = do
+        println("ASSTRING-CALLED")
+        "Loud"
+      end
+end
+
+b: Loud := Loud(1)
+
+run(): () = do
+    var m: ZZ32 = 0
+    atomic do
+        m := b.n
+        b := Loud(m + 1)
+    end
+    println("after atomic, b.n = " b.n)
+    println("explicit: " b.asString)
+  end
+
+end
