@@ -332,3 +332,7 @@ So every test the campaigns added to `main` is run by the gate, and none of them
 **One record defect found in passing**, not acted on: `rung3/REPORT.md` reports its two new cases as "the
 compiler-test suite goes 57 to 59". 57 → 59 is the `LibraryJUTest` range rung 2 had just left; rung 3's test
 is in `compiler_tests`, so the suite that moved is `CompilerJUTest`, 642 → 644. The total is unaffected.
+
+## Corrections, 2026-09-19, from `process-decisions-review-1.md`
+
+Section 4(c)'s "fifteen of the seventeen" pre-existing `run_out_WIcontains` files is eight (`Boolean`, `Comparison`, `Integer`, `MaybeGetter`, `Compiled12.mini`, `Afm`, `Go`, `Gt`) plus nine campaign files; all seventeen expected strings are `PASS`, so the inert line and the default assert the same thing. N's repair round added 19 assertion lines in 51, not eleven. The 85 pass count is four subset claims on a measured 81, not a measured set.
