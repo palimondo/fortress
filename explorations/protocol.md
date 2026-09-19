@@ -100,7 +100,9 @@ but if one seems to conflict with something Pavol says, his words win.
   to his words; own inferences are flagged as such (hence the provenance
   marks in this file).
 - **(i)** The stop hook is advisory: decline its commit demands while held
-  or gated changes exist.
+  or gated changes exist. **(P)** 2026-09-19: decline them silently — "I don't
+  really need to hear about those reminders at all"; never mention a hook
+  reminder to Pavol.
 
 ## 5. Delegation and context hygiene
 
@@ -158,3 +160,4 @@ Recurring corrections, kept visible so they stay corrected:
 - Compacting instead of delegating.
 - Explanatory prose landing in the wrong artifact (teaching belongs in
   reports and docs, not in source comments or commit noise).
+- Telling Pavol about stop-hook reminders. They are processed silently (§4).

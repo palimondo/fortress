@@ -1,0 +1,32 @@
+[T1] threads 1
+[T1] 1 disjoint parallel array writes: SUM = 1999000, expected 1999000
+[T1] 2 shared element, parallel for, no atomic: 2000, expected 2000
+[T1] 3 shared element, parallel for, atomic: 2000, expected 2000
+[T1] 4 shared element, seq for: 2000, expected 2000
+[T1] 5 shared variable, parallel for, no atomic: 2000, expected 2000
+[T1] 6 shared variable, parallel for, atomic: 2000, expected 2000
+[T1] 7 reduction SUM: 2000, expected 2000
+[T4 run1] threads 4
+[T4 run1] 1 disjoint parallel array writes: SUM = 1999000, expected 1999000
+[T4 run1] 2 shared element, parallel for, no atomic: 723, expected 2000
+[T4 run1] 3 shared element, parallel for, atomic: 2000, expected 2000
+[T4 run1] 4 shared element, seq for: 2000, expected 2000
+[T4 run1] 5 shared variable, parallel for, no atomic: 1077, expected 2000
+[T4 run1] 6 shared variable, parallel for, atomic: 2000, expected 2000
+[T4 run1] 7 reduction SUM: 2000, expected 2000
+[T4 run2] threads 4
+[T4 run2] 1 disjoint parallel array writes: SUM = 1999000, expected 1999000
+[T4 run2] 2 shared element, parallel for, no atomic: 1151, expected 2000
+[T4 run2] 3 shared element, parallel for, atomic: 2000, expected 2000
+[T4 run2] 4 shared element, seq for: 2000, expected 2000
+[T4 run2] 5 shared variable, parallel for, no atomic: 1887, expected 2000
+[T4 run2] 6 shared variable, parallel for, atomic: 2000, expected 2000
+[T4 run2] 7 reduction SUM: 2000, expected 2000
+[T4 run3] threads 4
+[T4 run3] 1 disjoint parallel array writes: SUM = 1999000, expected 1999000
+[T4 run3] 2 shared element, parallel for, no atomic: 1034, expected 2000
+[T4 run3] 3 shared element, parallel for, atomic: 2000, expected 2000
+[T4 run3] 4 shared element, seq for: 2000, expected 2000
+[T4 run3] 5 shared variable, parallel for, no atomic: 1572, expected 2000
+[T4 run3] 6 shared variable, parallel for, atomic: 2000, expected 2000
+[T4 run3] 7 reduction SUM: 2000, expected 2000

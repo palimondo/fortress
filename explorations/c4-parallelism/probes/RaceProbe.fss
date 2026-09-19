@@ -1,0 +1,38 @@
+(* RaceProbe -- what a parallel `for` does to a shared location, and what the
+   alternatives cost semantically.  Small on purpose: every loop is 2000
+   iterations.  Run at FORTRESS_THREADS=1 and =4 and compare. *)
+component RaceProbe
+export Executable
+import System.{...}
+
+run(): () = do
+    n = 2000
+    println "threads " (getProperty("fortress.threads", "?"))
+    (* 1. disjoint index per parallel iteration -- C4's shape *)
+    d = array[\ZZ32\](n).fill(0)
+    for i <- 0#n do d[i] := i end
+    println "1 disjoint parallel array writes: SUM = " (SUM[i <- 0#n] d[i]) ", expected " ((n (n-1)) DIV 2)
+    (* 2. one shared element, read-modify-write inside a PARALLEL for *)
+    s = array[\ZZ32\](1).fill(0)
+    for i <- 0#n do s[0] := s[0] + 1 end
+    println "2 shared element, parallel for, no atomic: " s[0] ", expected " n
+    (* 3. the same under atomic *)
+    t = array[\ZZ32\](1).fill(0)
+    for i <- 0#n do atomic do t[0] := t[0] + 1 end end
+    println "3 shared element, parallel for, atomic: " t[0] ", expected " n
+    (* 4. the same in a seq for *)
+    u = array[\ZZ32\](1).fill(0)
+    for i <- seq(0#n) do u[0] := u[0] + 1 end
+    println "4 shared element, seq for: " u[0] ", expected " n
+    (* 5. a shared mutable VARIABLE, parallel for *)
+    var c: ZZ32 = 0
+    for i <- 0#n do c += 1 end
+    println "5 shared variable, parallel for, no atomic: " c ", expected " n
+    (* 6. the same variable under atomic *)
+    var c2: ZZ32 = 0
+    for i <- 0#n do atomic do c2 += 1 end end
+    println "6 shared variable, parallel for, atomic: " c2 ", expected " n
+    (* 7. a reduction instead of a shared location *)
+    println "7 reduction SUM: " (SUM[i <- 0#n] 1) ", expected " n
+  end
+end

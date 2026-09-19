@@ -39,3 +39,4 @@
 - Plain register, short sentences, no essayist tone; label which part answers which question when several are asked; do not restate what is in this file or in FACTS.md; when a concept is new to him, define it (he asked for reshape, ravel, planes, gather, outer product, Ring, Field, nat parameters, matrix multiplication).
 - A decision made inside a worker's report and recorded in one line is a decision not made; flag it to him at the time.
 - He reads on an iOS client that sometimes shows stale state; an inventory of what is running answers "is anything in flight" from the tree, not from the UI.
+- 2026-09-19: the harness's stop-hook reminders about uncommitted or unpushed work are processed silently — "I don't really need to hear about those reminders at all"; while work is in flight they are declined without a word, and they are never mentioned to him.

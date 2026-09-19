@@ -1,0 +1,25 @@
+(* FlatShapeProbe -- the shape of FlatArrays.flat (run-c4/src/FlatArrays.fss:179-188):
+   an outer seq loop over blocks carrying a mutable offset, an inner PARALLEL
+   loop that only READS that offset and writes disjoint cells, and the offset
+   bumped after the inner loop.  If the inner parallel for did not join before
+   the `off += ...` statement, or if the read of `off` from parallel iterations
+   were unsafe, the output would be scrambled.  Run at 1 and 4 threads. *)
+component FlatShapeProbe
+export Executable
+import System.{...}
+
+run(): () = do
+    blocks = 8
+    width = 256
+    total = blocks width
+    println "threads " (getProperty("fortress.threads", "?"))
+    out = array[\ZZ32\](total).fill(-1)
+    off: ZZ32 := 0
+    for b <- seq(0#blocks) do
+        for i <- 0#width do out[off + i] := b width + i end
+        off += width
+    end
+    bad = SUM[k <- 0#total] (if out[k] = k then 0 else 1 end)
+    println "final off " off " (expected " total ") | cells wrong: " bad " of " total
+  end
+end

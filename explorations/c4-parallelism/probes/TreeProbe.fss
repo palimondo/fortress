@@ -1,0 +1,23 @@
+(* TreeProbe -- is the shape of a parallel reduction fixed by the index range
+   or by the scheduler?  Floating-point addition is not associative, so a
+   changed grouping shows up in the last bits.  Run at FORTRESS_THREADS=1 and
+   =4; if the parallel figures agree across thread counts but differ from the
+   sequential one, the tree is a property of the range, not of the pool. *)
+component TreeProbe
+export Executable
+import System.{...}
+
+run(): () = do
+    n = 4096
+    println "threads " (getProperty("fortress.threads", "?"))
+    v = array[\RR64\](n).fill(fn (i: ZZ32): RR64 => 1.0 / (1.0 (i + 1)))
+    println "par SUM  " (SUM[i <- 0#n] v[i])
+    println "seq SUM  " (SUM[i <- seq(0#n)] v[i])
+    println "par DOT  " (v DOT v)
+    println "par MAX  " (BIG MAX[i <- 0#n] v[i])
+    (* a two-generator parallel for writing disjoint cells, then a reduction *)
+    m = array[\RR64\](64, 64).fill(0.0)
+    for i <- 0#64, j <- 0#64 do m[i,j] := 1.0 / (1.0 (i 64 + j + 1)) end
+    println "par grid " (SUM[i <- 0#64, j <- 0#64] m[i,j])
+  end
+end

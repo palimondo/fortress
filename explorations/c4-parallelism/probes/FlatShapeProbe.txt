@@ -1,0 +1,8 @@
+[T1] threads 1
+[T1] final off 2048 (expected 2048) | cells wrong: 0 of 2048
+[T4 run1] threads 4
+[T4 run1] final off 2048 (expected 2048) | cells wrong: 0 of 2048
+[T4 run2] threads 4
+[T4 run2] final off 2048 (expected 2048) | cells wrong: 0 of 2048
+[T4 run3] threads 4
+[T4 run3] final off 2048 (expected 2048) | cells wrong: 0 of 2048
