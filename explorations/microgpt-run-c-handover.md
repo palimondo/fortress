@@ -28,6 +28,37 @@ the gate), the default `asString` rendering (row 321, a decision under a silent 
 the batch did not take), and the deletion of the two remote `wip/` branches in the GitHub UI.
 On 2026-09-19 Pavol gave the go for the next climb, leaving the queue decision to the coordinator: **batch 1 of the climb** (`coordinator/CLIMB-BATCH-1.md`: the `RR64` functions, `Maybe`, the named integral operators, `recordTime`/`printTime`, ranked by what the target program names; none of rows 319-328 is on the path) was launched by `coordinator/climb-batch-workflow.js` from the commit that carries this sentence; its landing paragraph follows when it lands.
 
+Climb batch 1 **landed on `main` on 2026-09-19 at 11:35 UTC**: six commits `b70ed4590..261fedd71`
+(F, M, N, T, the review's corrections, the gate summary), the four rungs cut from the base
+`cb242a2d8` and merged onto `9d053586b`, which leaves `main` twelve commits ahead of that base.
+Gate green on the merged tree (`ant compileAll`, which compiled the batch's one `.java` file;
+`testFast` 47 suites, 1,409 tests, 0 failures; `testSystem` 4 shards, 382 tests, 0 failures;
+830 s), the container branch fast-forwarded to it, worktrees and local `wip/` branches removed.
+The script `coordinator/climb-batch-workflow.js` ran it whole as run `wf_3b5a273c-a80`: first
+launched 07:15 as `wf_a29fd04b-a9a`, killed at 07:46 by a mid-turn interrupt with rungs F and M
+in flight, relaunched 08:24 from the `wip/` branches — both rungs verified their inherited work
+rather than redoing it, and that pass caught four probe captures that two ledger rows cite and
+that `.gitignore` had kept untracked. F, M and T were approved by their skeptics at once, each
+with corrections to the record only; N was refused on a defect its own test could not see
+(`0 REM -1`, `0 MOD -1`, `0 GCD -1` and the same three at the type minimum threw
+`IntegerOverflow` where the specification gives `0`, `0` and `1`), the judge on the session's
+model ruled repair and ruled that the guard belongs in the two `REM` bodies rather than in the
+native, and the second skeptic approved the repaired rung. Cost: 15 agents, 3.0 M subagent
+tokens, 1,110 tool calls, 3 h 11 min from relaunch to landing. Eight ledger rows opened,
+329-336, with appends to rows 71, 320 and 321; the ladder's pass count moves **81 → 85**
+(`nestedTransactions1`, `2`, `4` from rung T and `chain0` from rung N), subject to a full
+re-run. The report to Pavol was given on 2026-09-19. What waits on him: **row 330**, whether
+the float types' `floor` and `ceiling` return ℤ as `basic-lib/numbers.tex:457-462` says — which
+would make the compiler prelude's `⌊…⌋` change with them — or whether the float-domain result is
+the design and that chapter simply never reached the real types; the default `asString`
+rendering (row 321, still open from the repair batch, whose reach rung M extended to a second
+member-less prelude object and deliberately did not patch); the thread count of the
+compiler-test gate, still `FORTRESS_THREADS=1` and untouched by this batch; and the deletion of
+six remote `wip/` branches in the GitHub UI — this batch's four and the repair batch's two.
+Two divergences the specification settles against the compiled path land unrepaired, both
+`.java` and both under row 333: `0 DIV -1` throws where the answer is `0`, and so do `|0|` and
+`-0`, on `ZZ32` and `ZZ64`.
+
 R1 of the repair batch was built on `wip/repair-r1-atomic-static` (base
 `49ee5e91`), refused once by its skeptic and repaired in the same worktree, and
 is landed on `main` as one commit composed at the gather stage of 2026-09-19, `42d51c47`, of

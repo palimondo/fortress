@@ -68,6 +68,11 @@ One rung, not two, by batch rule 1: `floor`/`ceiling` (candidates.md's C) and th
 
 **New ledger rows** are numbered provisionally from 329 in each rung's record.md; the gather assigns final numbers in manifest order (F, M, N, T).
 
+Landed 2026-09-19 at 11:35 UTC as `b70ed4590..261fedd71` off `cb242a2d8`, run `wf_3b5a273c-a80`
+(relaunched at 08:24 after the 07:15 launch was cut at 07:46): all four rungs in, the gate green
+in 830 s, one refusal and one judge ruling on rung N, no gather conflict, the ladder's pass
+count 81 → 85, and ledger rows 329-336 opened in manifest order.
+
 ## What is NOT in this batch
 
 The two reserved forks, untouched: the array representation (`next-climb.md` §3a, the sketch that would let Pavol decide it is still unwritten) and the library route. `nat` checking (PLAN step 4), the one piece larger than a batch that no fork blocks. Rows 319-328, for the reasons above; row 320 is the next batch's `.java` candidate. `TryAtomicFailure` (one uncomment, three files to the codegen wall), `printThreadInfo`/`printTaskTrace`, `Char`, `widen`/`narrow`/`unsigned`/`signed`: the fork-free tail, for a later fill. The `asString` rendering (row 321) and the gate thread count: Pavol's.
@@ -75,3 +80,7 @@ The two reserved forks, untouched: the array representation (`next-climb.md` §3
 ## What may surface
 
 A rung that concludes its right shape changes a declared type the prelude already has, or renames or removes a declaration a gated test uses, stops: that is a change of api or a deleted test, both reserved. M is the rung most likely to meet it. A silent specification elsewhere is rule 4 of the prefix: think harder, decide, write it down; the coordinator reports every such decision to Pavol at landing.
+
+## At landing, 2026-09-19: what the run corrected in this record
+
+Kept as written above, corrected here (the rung records and `FACTS.md` carry the sources): §M's "clears `ExceptionScoping.fss` and `oddJuxt.fss` alone" did not happen, because the spelling the rung chose (the specification's non-parametric `Nothing`, ledger row 331) makes the corpus's `Nothing[\T\]` a static error, so `oddJuxt` goes from two errors to one and `ExceptionScoping` stays at one. §F cites `numbers.tex:920` for a commented-out "Real" section; the file has 566 lines and no such section, and the conclusion (no prose defines `exp`, `log` or the trigonometric functions) holds by the grep the rung re-ran. §N cites `basic-integers.tex:247-248` for `GCD`/`LCM`; that is the declaration listing, and the governing prose is `:518-529`. The `(api listing)` convention points at `Specification/library/apis/`, which is not in the tree (`FACTS.md`, specification section). "The harness runs two agents at a time, so the batch is two waves" was four waves, because a freed slot goes to the next rung's worker and not to the finished rung's skeptic (`FACTS.md`, ladder section, the scheduling bullet). The gate estimate "127 s of a 739 s gate" was 154 s of 830 s. The four-line provenance block was eight lines for F and eighteen for N, both splitting `deviation:` and saying so, and M's `problem:` and `deviation:` lines end in prose rather than a `file:line` or `none`; the skeptics accepted all three. Rows 329 and 330 were filed in ledger section 10 with the rest of the batch, and rung F's record argues for section 2; rows never move, and rows 337 and 338 were filed the same way for consistency; whether later interpreter defects found by compiled-path probes go to a feature section is Pavol's call.

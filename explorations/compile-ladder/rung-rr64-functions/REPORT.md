@@ -155,7 +155,7 @@ The second subset's three files are **byte-identical before and after**: `tests/
 
 ## 8. The ledger rows this rung opens, and does not repair
 
-Two, written out in `record.md` in the ledger's column shape and numbered provisionally 329 and 330. Both are the brief's fourth case — the specification settles the divergence, the repair lies outside this rung — and both were measured both ways, not inferred.
+Two, written out in `record.md` in the ledger's column shape and numbered 329 and 330 (provisional when written; the gather kept both numbers). Both are the brief's fourth case — the specification settles the divergence, the repair lies outside this rung — and both were measured both ways, not inferred.
 
 **329, the interpreter's `round` on a float.** The specification settles it against the interpreter **by way of the tower rather than directly**: `numbers.tex:470-472` states the rule of ℚ, the chapter has no section for the real types, and ℚ is a subtype of `RR64` (`Library/FortressLibrary.fsi:370`), so the clause does not descend to the float types of its own accord — what settles it is that the interpreter contradicts itself inside one tower, together with IEEE 754's default rounding mode. The self-contradiction: `trait QQ`'s `round` is round-half-to-even (`Library/FortressLibrary.fss:589`) while `object Float`'s goes through `Math.round` (`Float.java:382-385`). The fix is one token at `Float.java:384`; this rung touches no interpreter-world file, so it is not taken here.
 
