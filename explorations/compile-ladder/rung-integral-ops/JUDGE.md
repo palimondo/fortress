@@ -1,3 +1,5 @@
+<!-- Numbering note added at the merged-diff review of 2026-09-19: this file was written before the gather assigned final ledger numbers. Rung N's provisional 329, 330, 331 and 332 landed as **333, 334, 335 and 336**; in the ledger, 329 and 330 are rung F's. So "row 329" below (`:33`, `:55`) is row 333. The ruling text is left exactly as the judge wrote it. -->
+
 <!-- Judge's ruling on rung N (rung-integral-ops) of explorations/coordinator/CLIMB-BATCH-1.md, after the skeptic's refusal.  Written 2026-09-19 by the judge session, which did not do the work and ran nothing: every claim below was checked by reading the cited line in the landed tree, the specification's prose chapters, or the captured probe outputs.  One line per paragraph. -->
 
 # Judge: rung N, `rung-integral-ops`

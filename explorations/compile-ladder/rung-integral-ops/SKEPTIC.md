@@ -1,3 +1,5 @@
+<!-- Numbering note added at the merged-diff review of 2026-09-19: this file was written before the gather assigned final ledger numbers. Rung N's provisional 329, 330, 331 and 332 landed as **333, 334, 335 and 336**; in the ledger, 329 and 330 are rung F's and 331 and 332 are rung M's. So "Row 329" below (`:119`, `:176`) is row 333, "row 330" (`:50`, `:184`, `:186`, `:188`) is row 334, and "row 331" (`:41`, `:124`) is row 335. The verdict text is left exactly as the skeptic wrote it. -->
+
 <!-- Skeptic's judgement of rung N (rung-integral-ops) of explorations/coordinator/CLIMB-BATCH-1.md.  Written 2026-09-19 by the skeptic session, which did not do the work.  One line per paragraph. -->
 
 # Skeptic: rung N, `rung-integral-ops`

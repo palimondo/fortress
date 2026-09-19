@@ -1,3 +1,5 @@
+<!-- Numbering note added at the merged-diff review of 2026-09-19: this file was written before the gather assigned final ledger numbers, and every "row 329" below (`:185`, `:243`) means rung M's provisional first row, which landed as **row 331**. Row 329 in the ledger is rung F's. The verdict text is left exactly as the skeptic wrote it. -->
+
 # Skeptic: rung M, `rung-maybe`
 
 Verdict: **approved, with six required corrections**, all of them to the record
