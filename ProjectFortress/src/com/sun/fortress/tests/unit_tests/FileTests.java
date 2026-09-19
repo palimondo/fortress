@@ -152,6 +152,16 @@ public class FileTests {
                 any_check = true;
             }
 
+            what = pfx + which + "_WIcontains";
+            test = props.get(what);
+            test = ProjectProperties.get(test);
+            if (test != null && test.length() > 0) {
+                String wi_contents = contents.replaceAll("\\s+", " ").trim();
+                String wi_test = test.replaceAll("\\s+", " ").trim();
+                if (!wi_contents.contains(wi_test)) return what + "; expected\n" + test;
+                any_check = true;
+            }
+
             what = pfx + which + "_does_not_contain";
             test = props.get(what);
             test = ProjectProperties.get(test);

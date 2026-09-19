@@ -59,3 +59,6 @@
 /Specification/library/examples/
 /Specification/preliminaries/examples/
 /Documentation/Specification/Generated/
+
+# Gate and driver logs kept beside a run and never committed (climb-batch-workflow.js)
+/tmp/

@@ -923,7 +923,10 @@ testOtherCompiler, testCruiseControl
        (sysproperty for in-JVM code, environment variable for the fortress
        processes the tests fork), so tracks cannot corrupt each other or
        the tracked default_repository/caches. Per-suite resets are
-       disabled: each track starts cold in a fresh directory. -->
+       disabled: each track starts cold in a fresh directory.
+       FORTRESS_THREADS=1 is pinned here, as in systemShard below, so the
+       thread count the tests run at is a property of this target and not
+       of the shell that called ant. -->
   <macrodef name="fastTrack">
     <attribute name="id"/>
     <element name="tests" implicit="yes"/>
@@ -941,6 +944,7 @@ testOtherCompiler, testCruiseControl
         <sysproperty key="fortress.junit.reset" value="false"/>
         <sysproperty key="fortress.caches" value="${test.caches}/fast-@{id}"/>
         <env key="FORTRESS_CACHES" value="${test.caches}/fast-@{id}"/>
+        <env key="FORTRESS_THREADS" value="1"/>
         <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
         <jvmarg value="${bigStack}" />
         <formatter type="plain" usefile="true"/>
