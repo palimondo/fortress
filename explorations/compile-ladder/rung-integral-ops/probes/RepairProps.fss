@@ -1,0 +1,79 @@
+component RepairProps
+export Executable
+
+(*) Repair round: probes/skeptic/SkepProps.fss with the divisor -1 no longer
+(*) excluded, so the 25 operand pairs the guard in REM newly makes computable
+(*) are inside the count.  The properties are the defining ones:
+(*) basic-integers.tex:484 (m REM n = m - n(m DIV n)), the MOD sign and
+(*) magnitude that follow from :450-451 floor division, :523-529 (GCD and
+(*) LCM nonnegative and dividing / divisible), :544 (the lattice property).
+(*) Prints a count of violations per property; every count must be 0.
+(*)
+(*) The quotient is taken as 0 - a rather than a DIV b when b is -1, because
+(*) DIV itself still raises IntegerOverflow at (0, -1) on this path: that is
+(*) the unrepaired native defect of ledger row 329 (simpleIntArith.java:80),
+(*) which this rung's guard in REM routes around but does not fix.
+
+absOf(x: ZZ32): ZZ32 = if x < 0 then -x else x end
+
+run(): () = do
+  zero: ZZ32 = 0
+  var a: ZZ32 := -12
+  var b: ZZ32 := -7
+  var q: ZZ32 := 0
+  var r: ZZ32 := 0
+  var m: ZZ32 := 0
+  var g: ZZ32 := 0
+  var l: ZZ32 := 0
+  var pairs: ZZ32 := 0
+  var bad1: ZZ32 := 0
+  var bad2: ZZ32 := 0
+  var bad3: ZZ32 := 0
+  var bad4: ZZ32 := 0
+  var bad5: ZZ32 := 0
+  var bad6: ZZ32 := 0
+  var bad7: ZZ32 := 0
+  var bad8: ZZ32 := 0
+  while a <= 12 do
+    b := -7
+    while b <= 7 do
+      if b =/= 0 then
+        q := if b = -1 then (zero - a) else a DIV b end
+        r := a REM b
+        m := a MOD b
+        g := a GCD b
+        l := a LCM b
+        pairs := pairs + 1
+        if ((b DOT q) + r) =/= a then bad1 := bad1 + 1 end
+        if ((m > 0) AND (b < 0)) OR ((m < 0) AND (b > 0)) then bad2 := bad2 + 1 end
+        if absOf(m) >= absOf(b) then bad3 := bad3 + 1 end
+        if ((m - r) =/= 0) AND ((m - r) =/= b) then bad4 := bad4 + 1 end
+        if g < 0 then bad5 := bad5 + 1 end
+        if g =/= 0 then
+          if ((a REM g) =/= 0) OR ((b REM g) =/= 0) then bad5 := bad5 + 1 end
+        end
+        if l < 0 then bad6 := bad6 + 1 end
+        if l =/= 0 then
+          if ((l REM a) =/= 0) OR ((l REM b) =/= 0) then bad6 := bad6 + 1 end
+        end
+        if (g DOT l) =/= absOf(a DOT b) then bad7 := bad7 + 1 end
+        if a =/= 0 then
+          if ((a + (b DOT 3)) MOD b) =/= m then bad8 := bad8 + 1 end
+        end
+      end
+      b := b + 1
+    end
+    a := a + 1
+  end
+  println("pairs = " pairs)
+  println("bad REM identity = " bad1)
+  println("bad MOD sign = " bad2)
+  println("bad MOD magnitude = " bad3)
+  println("bad MOD-REM difference = " bad4)
+  println("bad GCD = " bad5)
+  println("bad LCM = " bad6)
+  println("bad lattice = " bad7)
+  println("bad MOD periodicity = " bad8)
+end
+
+end

@@ -581,7 +581,7 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     opr BOXCROSS(self, other:ZZ64): ZZ64 = jLongWrappingMul(self,other)
     opr DOTCROSS(self, other:ZZ64): ZZ64 = jLongSaturatingMul(self,other)
     opr DIV(self, other:ZZ64): ZZ64 = jLongOverflowingDiv(self,other)
-    opr REM(self, other:ZZ64): ZZ64 = self - other (self DIV other)
+    opr REM(self, other:ZZ64): ZZ64 = if other = -1 then 0 else self - other (self DIV other) end
     opr MOD(self, other:ZZ64): ZZ64 = do
         r = self REM other
         if r = 0 then 0
@@ -664,7 +664,7 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     opr BOXCROSS(self, other:ZZ32): ZZ32 = jIntWrappingMul(self,other)
     opr DOTCROSS(self, other:ZZ32): ZZ32 = jIntSaturatingMul(self,other)
     opr DIV(self, other:ZZ32): ZZ32 = jIntOverflowingDiv(self,other)
-    opr REM(self, other:ZZ32): ZZ32 = self - other (self DIV other)
+    opr REM(self, other:ZZ32): ZZ32 = if other = -1 then 0 else self - other (self DIV other) end
     opr MOD(self, other:ZZ32): ZZ32 = do
         r = self REM other
         if r = 0 then 0
