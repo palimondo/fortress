@@ -1,0 +1,39 @@
+component SkEdgeComp
+export Executable
+
+(*) Skeptic's differential 2, compiled side: what the four rounding methods and
+(*) the domain-restricted transcendentals answer at NaN, at the infinities,
+(*) and beyond the range of ZZ64.  The failure-mode question: every one of
+(*) these was a compile-time "Variable ... is not defined" before the rung.
+
+run():() = do
+    zero = SQRT(0.0)
+    one  = SQRT(1.0)
+    hund = SQRT(10000.0)
+    inf  = one / zero
+    nan  = zero / zero
+    huge  = exp(hund)
+    println("inf            = " inf)
+    println("nan            = " nan)
+    println("huge = exp 100  = " huge)
+    println("log(0)         = " log(zero))
+    println("log(-1)        = " log(-one))
+    println("asin(2)        = " asin(one + one))
+    println("acos(2)        = " acos(one + one))
+    println("floor(nan)     = " floor(nan))
+    println("ceiling(nan)   = " ceiling(nan))
+    println("floor(inf)     = " floor(inf))
+    println("ceiling(-inf)  = " ceiling(-inf))
+    println("truncate(nan)  = " truncate(nan))
+    println("round(nan)     = " round(nan))
+    println("truncate(inf)  = " truncate(inf))
+    println("round(inf)     = " round(inf))
+    println("truncate(-inf) = " truncate(-inf))
+    println("round(-inf)    = " round(-inf))
+    println("truncate(huge)  = " truncate(huge))
+    println("round(huge)     = " round(huge))
+    println("truncate(-huge) = " truncate(-huge))
+    println("round(-huge)    = " round(-huge))
+end
+
+end

@@ -436,8 +436,19 @@ trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
     opr ^(self, other:ZZ32): RR64
     opr |\self/|:RR64
     opr |/self\|:RR64
-(*    ceiling(self):RR64
-    floor(self):RR64 *)
+    sin(self):RR64
+    cos(self):RR64
+    tan(self):RR64
+    asin(self):RR64
+    acos(self):RR64
+    atan(self):RR64
+    atan2(self, x:RR64):RR64
+    log(self):RR64
+    exp(self):RR64
+    floor(self):RR64
+    ceiling(self):RR64
+    truncate(self):ZZ64
+    round(self):ZZ64
     opr SQRT(self):RR64
 end
 

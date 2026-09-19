@@ -1,0 +1,73 @@
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:16:14-18:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:17:14-18:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:19:14-18:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:20:14-18:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:21:16-20:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:22:16-20:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:23:17-21:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:24:16-20:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:25:16-20:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:26:17-21:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:27:17-21:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:28:18-22:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:29:18-22:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:30:20-24:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:30:34-38:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:44:14-18:
+    Variable narrow is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:53:12-17:
+    Operator PLUS_UP is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:54:12-18:
+    Operator MINUS_UP is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:55:12-16:
+    Operator DOT_UP is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:56:12-18:
+    Operator SLASH_UP is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:57:10-15:
+    Operator prefix SQRT_UP is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:58:12-19:
+    Operator PLUS_DOWN is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:59:12-20:
+    Operator MINUS_DOWN is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:60:12-18:
+    Operator DOT_DOWN is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:61:12-20:
+    Operator SLASH_DOWN is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:62:10-17:
+    Operator prefix SQRT_DOWN is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:82:10-12:
+    Variable Just is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:82:19-21:
+    Variable Just is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:83:10-12:
+    Variable Just is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:83:19-21:
+    Variable Just is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:85:19-28:
+    Function Just is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:86:26-38:
+    Function Nothing is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:87:21-33:
+    Function Nothing is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:89:24-33:
+    Function Just is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:90:31-40:
+    Function Just is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/testRR32.fss:91:26-38:
+    Function Nothing is not defined.
+File testRR32.fss has 36 errors.

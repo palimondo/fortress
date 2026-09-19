@@ -1,0 +1,118 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component RR64FunctionsRungF
+export Executable
+
+(*) The thirteen functional methods of trait RR64: exp, log, the six
+(*) trigonometric functions, atan2, floor, ceiling, round and truncate.
+(*)
+(*) Every operand reaches a method under test through rt, whose branch is
+(*) taken at run time, so no operand arrives as a literal.  The
+(*) transcendentals are pinned by identities rather than against printed
+(*) decimals, so a body that returned a constant, or that returned its own
+(*) operand, fails: sin^2 t + cos^2 t = 1, tan t = sin t / cos t,
+(*) asin(sin t) = t, acos(cos t) = t, atan(tan t) = t and log(exp 1) = 1.
+
+pi: RR64 = 3.141592653589793
+e: RR64 = 2.718281828459045
+epsilon: RR64 = 0.000000001
+
+(*) Returns its argument, through a branch taken at run time.
+rt(x: RR64): RR64 = if x < 0.0 then x else x end
+
+near(x: RR64, y: RR64): Boolean = |x - y| < epsilon
+
+(*) exp and log are reached by the target program as function values, through
+(*) Array.map; applyTo is the same shape.
+applyTo(f: RR64 -> RR64, x: RR64): RR64 = f(x)
+
+run():() = do
+    zero = rt(0.0)
+    one = rt(1.0)
+    three = rt(3.0)
+    four = rt(4.0)
+    quarterPi = pi / four
+    threeQuarterPi = (three DOT pi) / four
+
+    two32: ZZ32 = 2
+    three32: ZZ32 = 3
+    four32: ZZ32 = 4
+
+    (*) exp and log
+    assert(exp(zero) = one, "exp 0 = 1")
+    assert(log(one) = zero, "log 1 = 0")
+    assert(near(exp(one), e), "exp 1 = e")
+    assert(near(log(e), one), "log e = 1")
+    assert(near(log(exp(one)), one), "log(exp 1) = 1")
+
+    (*) the six trigonometric functions, by identity, at an angle in the
+    (*) principal range of both asin and acos
+    t = rt(0.7)
+    s = sin(t)
+    c = cos(t)
+    assert(near(s DOT s + c DOT c, one), "sin^2 t + cos^2 t = 1")
+    assert(near(tan(t), s / c), "tan t = sin t / cos t")
+    assert(near(asin(s), t), "asin(sin t) = t")
+    assert(near(acos(c), t), "acos(cos t) = t")
+    assert(near(atan(tan(t)), t), "atan(tan t) = t")
+    assert(near(atan(one), quarterPi), "atan 1 = pi/4")
+    assert(sin(zero) = zero, "sin 0 = 0")
+    assert(cos(zero) = one, "cos 0 = 1")
+    assert(tan(zero) = zero, "tan 0 = 0")
+    assert(asin(zero) = zero, "asin 0 = 0")
+    assert(near(acos(one), zero), "acos 1 = 0")
+    assert(atan(zero) = zero, "atan 0 = 0")
+
+    (*) atan2, one call per quadrant.  self is the y coordinate and the
+    (*) argument is the x coordinate.
+    assert(near(atan2(one, one), quarterPi), "atan2(1, 1) = pi/4")
+    assert(near(atan2(one, -one), threeQuarterPi), "atan2(1, -1) = 3pi/4")
+    assert(near(atan2(-one, -one), -threeQuarterPi), "atan2(-1, -1) = -3pi/4")
+    assert(near(atan2(-one, one), -quarterPi), "atan2(-1, 1) = -pi/4")
+
+    (*) floor and ceiling, which stay in RR64, as the enclosing operators of
+    (*) the same trait do
+    twoHalf = rt(2.5)
+    negTwoHalf = -twoHalf
+    assert(floor(twoHalf) = rt(2.0), "floor 2.5 = 2.0")
+    assert(ceiling(twoHalf) = rt(3.0), "ceiling 2.5 = 3.0")
+    assert(floor(negTwoHalf) = -rt(3.0), "floor -2.5 = -3.0")
+    assert(ceiling(negTwoHalf) = -rt(2.0), "ceiling -2.5 = -2.0")
+    assert(floor(twoHalf) = |\ twoHalf /|, "floor agrees with the floor brackets")
+    assert(ceiling(twoHalf) = |/ twoHalf \|, "ceiling agrees with the ceiling brackets")
+    assert(floor(negTwoHalf) = |\ negTwoHalf /|, "floor agrees with the floor brackets, negative")
+    assert(ceiling(negTwoHalf) = |/ negTwoHalf \|, "ceiling agrees with the ceiling brackets, negative")
+
+    (*) round sends an exact half to the even integer; truncate goes toward
+    (*) zero.  Both land in ZZ64.
+    threeHalf = rt(3.5)
+    assert(round(twoHalf).asZZ32, two32, "round 2.5 = 2")
+    assert(round(threeHalf).asZZ32, four32, "round 3.5 = 4")
+    assert(round(negTwoHalf).asZZ32, - two32, "round -2.5 = -2")
+    assert(round(-threeHalf).asZZ32, - four32, "round -3.5 = -4")
+    assert(round(rt(2.4)).asZZ32, two32, "round 2.4 = 2")
+    assert(round(rt(2.6)).asZZ32, three32, "round 2.6 = 3")
+    assert(truncate(rt(2.7)).asZZ32, two32, "truncate 2.7 = 2")
+    assert(truncate(-rt(2.7)).asZZ32, - two32, "truncate -2.7 = -2")
+    assert(truncate(twoHalf).asZZ32, two32, "truncate 2.5 = 2")
+    assert(truncate(negTwoHalf).asZZ32, - two32, "truncate -2.5 = -2")
+
+    (*) exp and log as function values
+    expFn: RR64 -> RR64 = exp
+    assert(near(expFn(one), e), "exp bound as a function value")
+    assert(near(applyTo(exp, one), e), "exp passed as a function value")
+    assert(near(applyTo(log, e), one), "log passed as a function value")
+
+    println "PASS"
+end
+
+end

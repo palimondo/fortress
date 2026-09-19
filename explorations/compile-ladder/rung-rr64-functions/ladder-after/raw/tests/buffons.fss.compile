@@ -1,0 +1,13 @@
+/home/user/fortress-rr64/ProjectFortress/tests/buffons.fss:24:15-24:
+    Could not check call to operator -
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (RR64, IntLiteral).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (RR64, IntLiteral).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (RR64, IntLiteral).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (RR64, IntLiteral).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (RR64, IntLiteral).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (RR64, IntLiteral).
+    - (ZZ32Vector, ZZ32)->ZZ32Vector is not applicable to an argument of type (RR64, IntLiteral).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (RR64, IntLiteral).
+    /home/user/fortress-rr64/ProjectFortress/tests/buffons.fss:23:8-20:
+      Possibly because i: ZZ32 after argument inference
+File buffons.fss has 1 error.

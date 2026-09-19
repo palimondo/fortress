@@ -1,0 +1,29 @@
+=== $ fortress compile ../explorations/compile-ladder/rung-rr64-functions/probes/skeptic/SkOverA.fss ; fortress run SkOverA   (2026-09-19T09:25:32+00:00) ===
+--- compile exit 0 ---
+own exp(3)     =  4
+prelude exp(1) =  2.718281828459045
+=== run exit 0 ===
+=== $ fortress compile ../explorations/compile-ladder/rung-rr64-functions/probes/skeptic/SkOverB.fss ; fortress run SkOverB   (2026-09-19T09:25:34+00:00) ===
+# CompilerBuiltin..RR64.exp(self:RR64):RR64
+# SkOverB..exp(x:RR64):RR64
+Likely bug in static analysis, apparently malformed overload set not rejected for
+CompilerBuiltin..RR64.exp(self:RR64):RR64
+Probable cause is a functional method and top level function with same signature.
+File SkOverB.fss has 1 error.
+--- compile exit 255 ---
+Could not load SkOverB
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+=== run exit 1 ===
+=== $ fortress compile ../explorations/compile-ladder/rung-rr64-functions/probes/skeptic/SkOverC.fss   (2026-09-19T09:26:01+00:00) ===
+# CompilerBuiltin..ZZ32.even(self:ZZ32):Boolean
+# SkOverC..even(x:ZZ32):Boolean
+Likely bug in static analysis, apparently malformed overload set not rejected for
+CompilerBuiltin..ZZ32.even(self:ZZ32):Boolean
+Probable cause is a functional method and top level function with same signature.
+File SkOverC.fss has 1 error.
+--- compile exit 255 ---
+=== $ fortress compile ../explorations/compile-ladder/rung-rr64-functions/probes/skeptic/SkOverD.fss   (2026-09-19T09:32:26+00:00) ===
+--- compile exit 0 ---

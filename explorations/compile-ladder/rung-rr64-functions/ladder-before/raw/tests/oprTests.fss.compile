@@ -1,0 +1,11 @@
+/home/user/fortress-rr64/ProjectFortress/tests/oprTests.fss:43:3-4:
+    Variable sin is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/oprTests.fss:59:13-14:
+    Variable sin is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/oprTests.fss:59:23-24:
+    Variable log is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/oprTests.fss:59:27-28:
+    Variable log is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/oprTests.fss:63:23-25:
+    Variable atan is not defined.
+File oprTests.fss has 5 errors.

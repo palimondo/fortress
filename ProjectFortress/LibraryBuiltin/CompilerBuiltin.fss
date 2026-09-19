@@ -211,7 +211,18 @@ import java com.sun.fortress.nativeHelpers.{simpleDoubleArith.floatToDouble => j
                                             simpleDoubleArith.doubleNanoTime => jNanoTime,
                                             simpleDoubleArith.doubleFloor => jDoubleFloor,
                                             simpleDoubleArith.doubleCeiling => jDoubleCeiling,
-                                            simpleDoubleArith.doubleSQRT => jDoubleSQRT}
+                                            simpleDoubleArith.doubleSQRT => jDoubleSQRT,
+                                            simpleDoubleArith.doubleSin => jDoubleSin,
+                                            simpleDoubleArith.doubleCos => jDoubleCos,
+                                            simpleDoubleArith.doubleTan => jDoubleTan,
+                                            simpleDoubleArith.doubleASin => jDoubleASin,
+                                            simpleDoubleArith.doubleACos => jDoubleACos,
+                                            simpleDoubleArith.doubleATan => jDoubleATan,
+                                            simpleDoubleArith.doubleATan2 => jDoubleATan2,
+                                            simpleDoubleArith.doubleLog => jDoubleLog,
+                                            simpleDoubleArith.doubleExp => jDoubleExp,
+                                            simpleDoubleArith.doubleTruncate => jDoubleTruncate,
+                                            simpleDoubleArith.doubleRound => jDoubleRound}
 import java com.sun.fortress.nativeHelpers.{simpleChar.charToString => jCharToString,
                                             simpleChar.charToExprString => jCharToExprString,
                                             simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType => jCodePoint,
@@ -897,6 +908,19 @@ trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
     
     opr |/self\| :RR64 = jDoubleCeiling(self)
     opr |\self/| :RR64 = jDoubleFloor(self)
+    sin(self):RR64 = jDoubleSin(self)
+    cos(self):RR64 = jDoubleCos(self)
+    tan(self):RR64 = jDoubleTan(self)
+    asin(self):RR64 = jDoubleASin(self)
+    acos(self):RR64 = jDoubleACos(self)
+    atan(self):RR64 = jDoubleATan(self)
+    atan2(self, x:RR64):RR64 = jDoubleATan2(self, x)
+    log(self):RR64 = jDoubleLog(self)
+    exp(self):RR64 = jDoubleExp(self)
+    floor(self):RR64 = jDoubleFloor(self)
+    ceiling(self):RR64 = jDoubleCeiling(self)
+    truncate(self):ZZ64 = jDoubleTruncate(self)
+    round(self):ZZ64 = jDoubleRound(self)
     opr SQRT(self):RR64 = jDoubleSQRT(self)
 
 end

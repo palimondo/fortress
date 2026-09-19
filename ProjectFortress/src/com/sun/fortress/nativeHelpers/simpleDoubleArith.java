@@ -89,4 +89,48 @@ public class simpleDoubleArith {
         return Math.ceil(a);
     }
 
+    public static double doubleSin(double a) {
+        return Math.sin(a);
+    }
+
+    public static double doubleCos(double a) {
+        return Math.cos(a);
+    }
+
+    public static double doubleTan(double a) {
+        return Math.tan(a);
+    }
+
+    public static double doubleASin(double a) {
+        return Math.asin(a);
+    }
+
+    public static double doubleACos(double a) {
+        return Math.acos(a);
+    }
+
+    public static double doubleATan(double a) {
+        return Math.atan(a);
+    }
+
+    public static double doubleATan2(double a, double b) {
+        return Math.atan2(a, b);
+    }
+
+    public static double doubleLog(double a) {
+        return Math.log(a);
+    }
+
+    public static double doubleExp(double a) {
+        return Math.exp(a);
+    }
+
+    public static long doubleTruncate(double a) {
+        return (long) a;
+    }
+
+    public static long doubleRound(double a) {
+        return (long) Math.rint(a);
+    }
+
 }

@@ -1,0 +1,27 @@
+component SkTransWalk
+export Executable
+
+(*) Skeptic's differential 1, walk side: the nine non-rounding methods and
+(*) atan2's argument order.  Operands are built with SQRT so the interpreter
+(*) sees a Float rather than a FloatLiteral.
+
+run() = do
+    one    = SQRT(1.0)
+    half   = SQRT(0.25)
+    t      = SQRT(0.49)
+    two    = SQRT(4.0)
+    println("sin(0.7)       = " sin(t))
+    println("cos(0.7)       = " cos(t))
+    println("tan(0.7)       = " tan(t))
+    println("asin(0.5)      = " asin(half))
+    println("acos(0.5)      = " acos(half))
+    println("atan(1.0)      = " atan(one))
+    println("exp(1.0)       = " exp(one))
+    println("log(2.0)       = " log(two))
+    println("atan2(1,-1)    = " atan2(one, -one))
+    println("atan2(-1,1)    = " atan2(-one, one))
+    println("atan2(0.5,1)   = " atan2(half, one))
+    println("atan2(1,0.5)   = " atan2(one, half))
+end
+
+end

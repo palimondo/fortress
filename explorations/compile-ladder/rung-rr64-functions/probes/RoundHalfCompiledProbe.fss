@@ -1,0 +1,22 @@
+component RoundHalfCompiledProbe
+export Executable
+
+(*) The compiled twin of RoundHalfWalkProbe.fss: the same ten values, the
+(*) same spellings, on the compile path with this rung's methods in place.
+
+run():() = do
+    twoHalf = SQRT(6.25)
+    threeHalf = SQRT(12.25)
+    println("round(2.5)     = " round(twoHalf))
+    println("round(3.5)     = " round(threeHalf))
+    println("round(-2.5)    = " round(-twoHalf))
+    println("round(-3.5)    = " round(-threeHalf))
+    println("truncate(2.5)  = " truncate(twoHalf))
+    println("truncate(-2.5) = " truncate(-twoHalf))
+    println("floor(2.5)     = " floor(twoHalf))
+    println("floor(-2.5)    = " floor(-twoHalf))
+    println("ceiling(2.5)   = " ceiling(twoHalf))
+    println("ceiling(-2.5)  = " ceiling(-twoHalf))
+end
+
+end

@@ -1,0 +1,30 @@
+component SkZeroWalk
+export Executable
+
+(*) Skeptic's differential 3, walk side: the half-way cases the rung's own
+(*) probe does not cover -- the ties at 0.5 and 1.5, where round-half-up and
+(*) round-half-to-even differ at a value whose even neighbour is zero -- and
+(*) exp and log used as function values, which the rung's test exercises only
+(*) on the compiled path.
+
+applyTo(f: RR64 -> RR64, x: RR64): RR64 = f(x)
+
+run() = do
+    q     = SQRT(0.25)
+    oneH  = SQRT(2.25)
+    twoH  = SQRT(6.25)
+    one   = SQRT(1.0)
+    println("round(0.5)     = " round(q))
+    println("round(-0.5)    = " round(-q))
+    println("round(1.5)     = " round(oneH))
+    println("round(-1.5)    = " round(-oneH))
+    println("truncate(0.5)  = " truncate(q))
+    println("truncate(-0.5) = " truncate(-q))
+    println("floor(-0.5)    = " floor(-q))
+    println("ceiling(-0.5)  = " ceiling(-q))
+    println("applyTo(exp,1) = " applyTo(exp, one))
+    println("applyTo(log,1) = " applyTo(log, one))
+    println("round(2.5) ck  = " round(twoH))
+end
+
+end

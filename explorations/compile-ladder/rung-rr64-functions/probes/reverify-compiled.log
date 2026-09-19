@@ -1,0 +1,13 @@
+=== reverify compiled (2026-09-19T08:27:41+00:00) ===
+--- compile exit 0 ---
+round(2.5)     =  2
+round(3.5)     =  4
+round(-2.5)    =  -2
+round(-3.5)    =  -4
+truncate(2.5)  =  2
+truncate(-2.5) =  -2
+floor(2.5)     =  2.0
+floor(-2.5)    =  -3.0
+ceiling(2.5)   =  3.0
+ceiling(-2.5)  =  -2.0
+=== run exit 0 ===

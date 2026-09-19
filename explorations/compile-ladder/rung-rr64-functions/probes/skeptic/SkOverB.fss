@@ -1,0 +1,15 @@
+component SkOverB
+export Executable
+
+(*) Skeptic's probe 3b: the same name at the same parameter type as the
+(*) prelude's new functional method, which is the shape that would make the
+(*) rung a regression for any program that already spells one of the thirteen.
+
+exp(x: RR64): RR64 = x + 1.0
+
+run():() = do
+    b = SQRT(1.0)
+    println("exp(1) = " exp(b))
+end
+
+end
