@@ -214,19 +214,24 @@ opr MAX(x: ZZ32Vector, y: ZZ32): ZZ32Vector
 (*)     opr IN(x:E, self):Boolean
 (*) end Condition
 
-(*) value trait Maybe[\T\] extends Condition[\T\]
-(*)         comprises { Just[\T\], NothingObject[\T\] }
-(*)     coerce(x: Nothing)
-(*)     opr SQCAP(self, o: Maybe[\T\]): Maybe[\T\]
-(*) end
+(************************************************************
+* Optional values
+************************************************************)
 
-(*) value object Just[\T\](x:T) extends Maybe[\T\] end
+value trait Maybe[\T extends Any\] extends { Condition[\T\] }
+        comprises { Just[\T\], NothingObject[\T\] }
+  coerce(_: Nothing)
+  getter isNothing(): Boolean
+(*)  opr SQCAP(self, other: Maybe[\T\]): Maybe[\T\]
+  seq(): Maybe[\T\]
+  abstract filter(f: T -> Condition[\()\]): Maybe[\T\]
+end
 
-(*) value object NothingObject[\T\] extends Maybe[\T\]
-(*)     coerce(x: Nothing)
-(*) end
+value object Just[\T extends Any\](x: T) extends Maybe[\T\] end
 
-(*) object Nothing end    
+value object NothingObject[\T extends Any\] extends Maybe[\T\] end
+
+value object Nothing end
 
 
 (************************************************************

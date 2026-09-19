@@ -1,0 +1,4 @@
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/NothingParameterised.fss:9:9-21:
+    Unexpected type for a singleton object reference.
+File NothingParameterised.fss has 1 error.
+compile-rc=255

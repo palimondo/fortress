@@ -520,6 +520,67 @@ end
 
 
 (************************************************************
+* Optional values
+************************************************************)
+
+value trait Maybe[\T extends Any\] extends { Condition[\T\] }
+        comprises { Just[\T\], NothingObject[\T\] }
+  coerce(_: Nothing) = NothingObject[\T\]
+  getter isEmpty(): Boolean = NOT self.holds
+  getter nonEmpty(): Boolean = self.holds
+  getter isNothing(): Boolean = NOT self.holds
+  getter reverse(): Maybe[\T\] = self
+(*)  opr SQCAP(self, other: Maybe[\T\]): Maybe[\T\]
+  seq(): Maybe[\T\] = self
+  filter(f: T -> Condition[\()\]): Maybe[\T\]
+end
+
+value object Just[\T extends Any\](x: T) extends Maybe[\T\]
+    getter asString(): String = "Just(" || debugString(x) || ")"
+    getter size(): ZZ32 = 1
+    getter get() = x
+    getter holds() = true
+    getDefault(_: T): T = x
+    generate[\G extends Any\](r: Reduction[\G\], body: T -> G): G = body(x)
+    map[\G extends Any\](f: T->G): Condition[\G\] = Just[\G\](f(x))
+    nest[\G extends Any\](f: T -> Generator[\G\]): Generator[\G\] = f(x)
+    nest[\G extends Any\](f: T -> SequentialGenerator[\G\]): SequentialGenerator[\G\] = f(x)
+    filter(f: T -> Condition[\()\]): Maybe[\T\] = if f(x).holds then self else NothingObject[\T\] end
+    cross[\G extends Any\](g: Generator[\G\]): Generator[\(T,G)\] =
+      g.map[\(T,G)\](fn (y:G):(T,G) => (x,y))
+    cross[\G extends Any\](g: SequentialGenerator[\G\]): SequentialGenerator[\(T,G)\] =
+      g.map[\(T,G)\](fn (y:G):(T,G) => (x,y))
+    mapReduce[\R extends Any\](body: T->R, _:(R,R)->R, id:R): R = body(x)
+    reduce(_:(T,T)->T, id:T):T = x
+    reduce(r: Reduction[\T\]):T = x
+    loop(f:T->()): () = f(x)
+    cond[\G extends Any\](t: T -> G, e: () -> G): G = t(x)
+end
+
+value object NothingObject[\T extends Any\] extends Maybe[\T\]
+    getter asString(): String = "Nothing"
+    getter size(): ZZ32 = 0
+    getter get() = throw NotFound
+    getter holds() = false
+    getDefault(defaultValue: T): T = defaultValue
+    generate[\G extends Any\](r: Reduction[\G\], body: T -> G): G = r.id
+    map[\G extends Any\](f: T->G): Condition[\G\] = NothingObject[\G\]
+    nest[\G extends Any\](f: T -> Generator[\G\]): Generator[\G\] = NothingObject[\G\]
+    nest[\G extends Any\](f: T -> SequentialGenerator[\G\]): SequentialGenerator[\G\] = NothingObject[\G\]
+    filter(f: T -> Condition[\()\]): Maybe[\T\] = self
+    cross[\G extends Any\](g: Generator[\G\]): Generator[\(T,G)\] = NothingObject[\(T,G)\]
+    cross[\G extends Any\](g: SequentialGenerator[\G\]): SequentialGenerator[\(T,G)\] = NothingObject[\(T,G)\]
+    mapReduce[\R extends Any\](body: T->R, _:(R,R)->R, id:R): R = id
+    reduce(_:(T,T)->T, id:T):T = id
+    reduce(r: Reduction[\T\]):T = r.id
+    loop(f:T->()): () = ()
+    cond[\G extends Any\](t: T -> G, e: () -> G): G = e()
+end
+
+value object Nothing end
+
+
+(************************************************************
 * Making vectors
 ************************************************************)
 

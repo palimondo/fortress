@@ -1,0 +1,23 @@
+(*) Probe: the three positions in which Specification/basic/exceptions.tex:122
+(*) and basic-lib/convenience.tex:49 use the unparameterised Nothing -- a
+(*) declared-type binding, a getter's default, and an argument -- and the
+(*) run-time identity of the coerced value.
+component MaybeCoercionSites
+export Executable
+
+object Holder
+    getter message(): Maybe[\String\] = Nothing
+end
+
+takes(m: Maybe[\ZZ32\]): ZZ32 = m.getDefault(11)
+
+run():() = do
+    binding: Maybe[\ZZ32\] = Nothing
+    assert(typecase binding of NothingObject[\ZZ32\] => "nothingObject"; else => "other" end,
+           "nothingObject", "a coerced Nothing is a NothingObject at run time")
+    assert(Holder.message.getDefault("none"), "none", "Nothing as a getter default")
+    assert(takes(Nothing), 11, "Nothing as an argument")
+    println "PASS"
+end
+
+end

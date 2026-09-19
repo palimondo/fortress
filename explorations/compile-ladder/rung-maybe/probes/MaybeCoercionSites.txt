@@ -1,0 +1,2 @@
+compile-rc=0
+PASS
