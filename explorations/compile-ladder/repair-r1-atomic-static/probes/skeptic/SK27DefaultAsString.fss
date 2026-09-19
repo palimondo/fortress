@@ -1,0 +1,10 @@
+component SK27DefaultAsString
+export Executable
+
+object Box(n: ZZ32) end
+
+run(): () = do
+    println(Box(1).asString)
+  end
+
+end

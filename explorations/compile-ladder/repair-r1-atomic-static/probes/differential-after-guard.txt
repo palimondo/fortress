@@ -1,0 +1,26 @@
+label=after-guard date=2026-09-19T01:49:52+00:00 nproc=4
+source vs 49ee5e91:  5 files changed, 213 insertions(+), 77 deletions(-)
+atomic0 THREADS=1 exit=0 :: PASS|
+atomic0 THREADS=4 exit=0 :: PASS|
+atomic1 THREADS=1 exit=0 :: PASS|
+atomic1 THREADS=4 exit=0 :: PASS|
+atomic2 THREADS=1 exit=0 :: count should be a multiple of 7 = 700|count should be a multiple of 9 = 900|PASS|
+atomic2 THREADS=4 exit=0 :: count should be a multiple of 7 = 679|count should be a multiple of 9 = 873|PASS|
+atomic3 THREADS=1 exit=0 :: count = 1000|PASS|
+atomic3 THREADS=4 exit=0 :: count = 1000|PASS|
+atomic4 THREADS=1 exit=0 :: count = 10|dracula = 55|PASS|
+atomic4 THREADS=4 exit=0 :: count = 10|dracula = 57|PASS|
+atomic5 THREADS=1 exit=0 :: PASS|
+atomic5 THREADS=4 exit=0 :: PASS|
+atomic6 THREADS=1 exit=0 :: Starting test|PASS|
+atomic6 THREADS=4 exit=0 :: Starting test|PASS|
+nestedTransactions0 THREADS=1 exit=0 :: Starting test|count = 2|PASS|
+nestedTransactions0 THREADS=4 exit=0 :: Starting test|count = 2|PASS|
+nestedTransactions1 THREADS=1 exit=0 :: Starting test|count = 25|PASS|
+nestedTransactions1 THREADS=4 exit=0 :: Starting test|count = 25|PASS|
+nestedTransactions2 THREADS=1 exit=0 :: Starting test|count = 25|PASS|
+nestedTransactions2 THREADS=4 exit=0 :: Starting test|count = 25|PASS|
+nestedTransactions3 THREADS=1 exit=0 :: Starting test|count = 9765625|PASS|
+nestedTransactions3 THREADS=4 exit=0 :: Starting test|count = 9765625|PASS|
+Compiled170 compile exit=1 :: Exception in thread "main" java.util.NoSuchElementException: head of empty list|	at scala.collection.immutable.Nil$.head(List.scala:652)|	at scala.collection.immutable.Nil$.head(List.scala:651)|	at co
+DIFFERENTIAL_DONE_after-guard

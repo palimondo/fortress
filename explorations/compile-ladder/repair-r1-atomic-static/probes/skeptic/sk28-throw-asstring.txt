@@ -1,0 +1,8 @@
+# SK28ThrowAsString: SK3Throw with an asString on the thrown object.  Isolates the asString
+# cycle (row 321) from the question of what an abrupt atomic does on the compiled path.
+# date=2026-09-19T01:54:10+00:00  src vs 49ee5e91: [ 5 files changed, 213 insertions(+), 77 deletions(-)]
+
+walk    SK28ThrowAsString :: caught|g after abrupt atomic = 100|g after plain write = 55|
+compile SK28ThrowAsString exit=0 :: |
+run     SK28ThrowAsString THREADS=1 exit=0 :: caught|g after abrupt atomic =  7|g after plain write =  55|
+run     SK28ThrowAsString THREADS=4 exit=0 :: caught|g after abrupt atomic =  7|g after plain write =  55|

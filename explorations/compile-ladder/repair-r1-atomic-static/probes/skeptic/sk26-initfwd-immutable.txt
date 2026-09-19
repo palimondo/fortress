@@ -1,0 +1,11 @@
+# SK26InitFwdImmutable: SK5InitFwd with the later top-level variable immutable
+# (d: ZZ32 = 5 in place of d: ZZ32 := 5).  Control for the row against walk:
+# does the interpreter's refusal depend on the later variable's mutability?
+# date=2026-09-19T01:52:05+00:00  src vs 49ee5e91: [ 5 files changed, 213 insertions(+), 77 deletions(-)]
+
+walk    SK26InitFwdImmutable :: a = 11 b = 10 c = 12 Holder.f = 5 d = 5|
+compile SK26InitFwdImmutable exit=0 :: |
+run     SK26InitFwdImmutable THREADS=1 :: a =  11  b =  10  c =  12  Holder.f =  5  d =  5|
+
+# and the mutable original again on this tree, for the pair:
+walk    SK5InitFwd :: com.sun.fortress.exceptions.ProgramError: /home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss:11:5-15:|Attempt to find type of uninitialized variable: thunk (IntLiteralExpr @"/home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss":14:12 _info=(ExprInfo) _intVal=5 _text="5")|Context:|/home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss:11:5-15:|/home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss:10:1-12:2:|/home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss:10:1-12:2:||Turn on "-debug interpreter" for Java-level stack trace.|java.lang.Throwable

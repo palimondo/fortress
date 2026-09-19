@@ -1,0 +1,24 @@
+component SK28ThrowAsString
+export Executable
+
+object Boom extends UncheckedException
+    getter asString(): String = "Boom"
+end
+
+g: ZZ32 := 100
+
+run(): () = do
+    try
+        atomic do
+            g := 7
+            throw Boom
+        end
+    catch e
+        Boom => println("caught")
+    end
+    println("g after abrupt atomic = " g)
+    g := 55
+    println("g after plain write = " g)
+  end
+
+end

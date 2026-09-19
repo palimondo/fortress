@@ -1,0 +1,9 @@
+# SK29ThrowLocalAsString: SK28 with a LOCAL mutable variable.  LocalMutableVar's storage and
+# its TXRead/TXWrite routing are untouched by R1, so this is the control that places the
+# non-reversion in forAtomicBlock's handler rather than in R1's binding.
+# date=2026-09-19T01:55:04+00:00  src vs 49ee5e91: [ 5 files changed, 213 insertions(+), 77 deletions(-)]
+
+walk    SK29ThrowLocalAsString :: caught|g after abrupt atomic = 100|g after plain write = 55|
+compile SK29ThrowLocalAsString exit=0 :: |
+run     SK29ThrowLocalAsString THREADS=1 exit=0 :: caught|g after abrupt atomic =  7|g after plain write =  55|
+run     SK29ThrowLocalAsString THREADS=4 exit=0 :: caught|g after abrupt atomic =  7|g after plain write =  55|
