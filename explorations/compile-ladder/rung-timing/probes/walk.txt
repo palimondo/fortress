@@ -1,0 +1,20 @@
+### walk (interpreter) runs, FORTRESS_THREADS=1 2026-09-19T09:06:56+00:00
+=== walk library_tests/TimingRungT.fss
+Operation took 33ms
+Operation took 5ms
+Operation took 0ms
+Operation took 0ms
+PASS
+--- exit=0
+=== walk tests/nestedTransactions1.fss
+Starting test
+Operation took 18ms
+--- exit=0
+=== walk tests/nestedTransactions2.fss
+Starting test
+Operation took 18ms
+--- exit=0
+=== walk tests/nestedTransactions4.fss
+Starting test
+Operation took 17ms
+--- exit=0

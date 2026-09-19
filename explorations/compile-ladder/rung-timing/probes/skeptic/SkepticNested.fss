@@ -1,0 +1,15 @@
+(*) Skeptic probe 4: the stored time is one global, so timed regions cannot
+(*) nest.  The outer printTime must report the interval since the inner one,
+(*) not since the outer recordTime.  Both paths should agree on that structure.
+component SkepticNested
+export Executable
+run():() = do
+    recordTime(0)
+    println("outer started")
+    recordTime(0)
+    println("inner started")
+    printTime(0)
+    printTime(0)
+    println("NESTED OK")
+end
+end

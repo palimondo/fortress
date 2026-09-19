@@ -1,0 +1,11 @@
+(*) Skeptic probe 1: printTime with no preceding recordTime.
+(*) The rung replaces a disambiguation error with a computed value; this is the
+(*) value that computation gives when the caller never recorded a start.
+component SkepticNoRecord
+export Executable
+run():() = do
+    println("before")
+    printTime(0)
+    println("after")
+end
+end

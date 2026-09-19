@@ -1,0 +1,11 @@
+### Probe 3: the only spelling of the export the checker accepts on both
+### sides -- 'var x: T' in the api and 'var x: T = e' in the component.
++var __globalTimeInformation: RR64
+-__globalTimeInformation: RR64 := 0.0
++var __globalTimeInformation: RR64 = 0.0
+### wiping this probe's and the test's cache entries
+### library rebuilt with the variable exported: OK
+### compiling a second component that reads the exported variable
+### running it
+java.lang.NoSuchFieldError
+Caused by: java.lang.NoSuchFieldError: Class fortress.CompilerLibrary$__globalTimeInformation does not have member field 'com.sun.fortress.compiler.runtimeValues.FRR64 ONLY'

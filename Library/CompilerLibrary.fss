@@ -604,6 +604,21 @@ randomZZ32(x:ZZ32): ZZ32 = jRandomInt(0,x)
 *)
 
 (************************************************************
+* Timing
+************************************************************)
+
+__globalTimeInformation: RR64 := 0.0
+
+recordTime(dummy: Any): () = do __globalTimeInformation := nanoTime() end
+
+printTime(dummy: Any): () = do
+    r: RR64 = nanoTime()
+    e: RR64 = r - __globalTimeInformation
+    __globalTimeInformation := r
+    println("Operation took " || (e / 1000000.0) || "ms")
+  end
+
+(************************************************************
  * Array support
  ************************************************************)
 

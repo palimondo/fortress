@@ -1,0 +1,26 @@
+### Probe 2: the stored time exported with the mutable api spelling the
+### specification requires (basic/components/source-code.tex:340-342).
+@@ -251,6 +251,7 @@ randomZZ32(x:ZZ32): ZZ32
+ * Timing
+ ************************************************************)
+ 
++var __globalTimeInformation: RR64
+ recordTime(dummy: Any): ()
+ printTime(dummy: Any): ()
+ 
+### LIBRARY BUILD FAILED:
+/home/user/fortress-time/Library/CompilerLibrary.fss:12:11-16:2:
+    The following declarations in API CompilerLibrary are not matched
+    by the declarations in component CompilerLibrary.
+    Unmatched declarations: {
+        (var __globalTimeInformation:RR64,
+         due to different modifiers)
+    }
+File CompilerLibrary.fss has 1 error.
+
+### compiling a second component that reads the exported variable
+### compile exit=0
+### running it
+java.lang.NoSuchFieldError
+Caused by: java.lang.NoSuchFieldError: Class fortress.CompilerLibrary$__globalTimeInformation does not have member field 'com.sun.fortress.compiler.runtimeValues.FRR64 ONLY'
+### restoring the api

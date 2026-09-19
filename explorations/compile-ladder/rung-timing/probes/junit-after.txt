@@ -1,0 +1,16 @@
+### FORTRESS_HOME=/home/user/fortress-time FORTRESS_THREADS=1 2026-09-19T09:15:10+00:00
+### git rev dd509621b, dirty:  M explorations/compile-ladder/rung-timing/probes/junit-after.txt ?? explorations/compile-ladder/rung-timing/probes/ReadStoredTime.fss ?? explorations/compile-ladder/rung-timing/probes/export-variable-2.txt ?? explorations/compile-ladder/rung-timing/probes/export-variable-3.txt ?? explorations/compile-ladder/rung-timing/probes/export-variable.txt ?? explorations/compile-ladder/rung-timing/raw/ ?? explorations/compile-ladder/rung-timing/results.tsv ?? tmp/ 
+### ../bin/fortress junit library_tests/TimingRungT.test
+. link library_tests/TimingRungT  OK (time = 119930ms)
+. run library_tests/TimingRungT (1244ms) Operation took 581.822329ms
+Operation took 138.007975ms
+Operation took 0.001982ms
+Operation took 0.087981ms
+PASS
+Passed
+
+Time: 121.182
+
+OK (2 tests)
+
+### junit exit=0

@@ -1,0 +1,16 @@
+(*) Skeptic probe 5: the record/report pair INSIDE an atomic block, so that the
+(*) new top-level mutable variable is written from within a transaction.  The
+(*) rung's own test only brackets an atomic block from outside.
+component SkepticAtomic
+export Executable
+run():() = do
+    var c: ZZ32 = 0
+    atomic do
+        recordTime(0)
+        c := c + 1
+        printTime(0)
+    end
+    assert(c, 1, "the atomic block did not run")
+    println("ATOMIC OK")
+end
+end
