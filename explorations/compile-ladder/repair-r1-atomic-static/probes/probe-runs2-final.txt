@@ -1,0 +1,52 @@
+label=final date=2026-09-19T00:42:04+00:00 nproc=4
+source vs 49ee5e91:  4 files changed, 191 insertions(+), 55 deletions(-)
+### P10Field: mutable object field inside atomic, two threads
+compile exit=0
+P10Field THREADS=1 run=1 :: n =  40000  expected 40000|
+P10Field THREADS=1 run=2 :: n =  40000  expected 40000|
+P10Field THREADS=4 run=1 :: n =  37441  expected 40000|
+P10Field THREADS=4 run=2 :: n =  36953  expected 40000|
+### P8/P9 below were run before being compiled in this state, so they report
+### 'Resource not found : P8Main.class' and say nothing; the section at the end
+### of this file is the one that counts.
+### P8 (mutable var exported through an api), full output
+Could not load P8Main
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : P8Main.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+P8Main exit=1
+### P9 (immutable var exported through an api), full output
+Could not load P9Main
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : P9Main.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+P9Main exit=1
+PROBES2_DONE_final
+
+### P8/P9 re-run on the landed tree, compiled in this state first
+compile P8Api.fsi exit=0
+compile P8Lib.fss exit=0
+compile P8Main.fss exit=0
+P8 run :: java.lang.NoClassDefFoundError|Caused by: java.lang.NoClassDefFoundError: P8Api$shared|Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: |
+compile P9Api.fsi exit=0
+compile P9Lib.fss exit=0
+compile P9Main.fss exit=0
+P9 run :: java.lang.NoClassDefFoundError|Caused by: java.lang.NoClassDefFoundError: P9Api$shared|Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: |

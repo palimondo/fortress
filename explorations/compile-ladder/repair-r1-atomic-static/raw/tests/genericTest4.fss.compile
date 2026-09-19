@@ -1,0 +1,5 @@
+/home/user/fortress-r1/ProjectFortress/tests/genericTest4.fss:16:19-21:
+    Could not check call to function f
+    - String->ZZ32 is not applicable to an argument of type T.
+    - ZZ32->ZZ32 is not applicable to an argument of type T.
+File genericTest4.fss has 1 error.

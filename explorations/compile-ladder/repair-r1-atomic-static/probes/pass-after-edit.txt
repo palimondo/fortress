@@ -1,33 +1,54 @@
-Recorded after the edit. ant compileAll BUILD SUCCESSFUL (tmp/build-after-edit.log:879);
-caches wiped and rebuilt in library order (tmp/cache-after-edit.log), then each test recompiled.
+label=pass-after-edit   date=2026-09-19T00:29:14+00:00   nproc=4   JDK=openjdk version "25.0.4" 2026-07-21
+source tree against the batch base 49ee5e91:
+ .../sun/fortress/runtimeSystem/Transaction.java    |  48 ++++-----
+ 4 files changed, 191 insertions(+), 55 deletions(-)
+ant compileAll: 1 BUILD SUCCESSFUL in tmp/build-pass-after-edit.log
+bytecode cache wiped and rebuilt in library order below.
+library LibraryBuiltin/AnyType.fss exit=0 elapsed=19s
+library LibraryBuiltin/CompilerBuiltin.fss exit=0 elapsed=103s
+library ../Library/CompilerLibrary.fss exit=0 elapsed=17s
+library ../Library/CompilerAlgebra.fss exit=0 elapsed=2s
+library ../Library/CompilerSystem.fss exit=0 elapsed=1s
 
-FORTRESS_THREADS=1 run=1 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=1 run=2 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=1 run=3 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=1 run=4 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=1 run=5 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=1 run=1 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=1 run=2 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=1 run=3 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=1 run=4 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=1 run=5 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=1 run=1 MutableTopLevelVar: PASS
-FORTRESS_THREADS=1 run=2 MutableTopLevelVar: PASS
-FORTRESS_THREADS=1 run=3 MutableTopLevelVar: PASS
-FORTRESS_THREADS=1 run=4 MutableTopLevelVar: PASS
-FORTRESS_THREADS=1 run=5 MutableTopLevelVar: PASS
-FORTRESS_THREADS=4 run=1 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=4 run=2 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=4 run=3 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=4 run=4 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=4 run=5 MutableTopLevelVarInLoop: PASS
-FORTRESS_THREADS=4 run=1 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=4 run=2 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=4 run=3 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=4 run=4 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=4 run=5 AtomicTopLevelVar: PASS
-FORTRESS_THREADS=4 run=1 MutableTopLevelVar: PASS
-FORTRESS_THREADS=4 run=2 MutableTopLevelVar: PASS
-FORTRESS_THREADS=4 run=3 MutableTopLevelVar: PASS
-FORTRESS_THREADS=4 run=4 MutableTopLevelVar: PASS
-FORTRESS_THREADS=4 run=5 MutableTopLevelVar: PASS
+=== the two gated tests (compiler_tests), each at three thread settings ===
+compile MutableTopLevelVarInLoop exit=0 
+compile AtomicTopLevelVar exit=0 
+compile MutableTopLevelVar exit=0 
+THREADS=default run=1 MutableTopLevelVarInLoop :: PASS|
+THREADS=default run=2 MutableTopLevelVarInLoop :: PASS|
+THREADS=default run=3 MutableTopLevelVarInLoop :: PASS|
+THREADS=default run=1 AtomicTopLevelVar :: PASS|
+THREADS=default run=2 AtomicTopLevelVar :: PASS|
+THREADS=default run=3 AtomicTopLevelVar :: PASS|
+THREADS=default run=1 MutableTopLevelVar :: PASS|
+THREADS=default run=2 MutableTopLevelVar :: PASS|
+THREADS=default run=3 MutableTopLevelVar :: PASS|
+THREADS=1 run=1 MutableTopLevelVarInLoop :: PASS|
+THREADS=1 run=2 MutableTopLevelVarInLoop :: PASS|
+THREADS=1 run=3 MutableTopLevelVarInLoop :: PASS|
+THREADS=1 run=1 AtomicTopLevelVar :: PASS|
+THREADS=1 run=2 AtomicTopLevelVar :: PASS|
+THREADS=1 run=3 AtomicTopLevelVar :: PASS|
+THREADS=1 run=1 MutableTopLevelVar :: PASS|
+THREADS=1 run=2 MutableTopLevelVar :: PASS|
+THREADS=1 run=3 MutableTopLevelVar :: PASS|
+THREADS=4 run=1 MutableTopLevelVarInLoop :: PASS|
+THREADS=4 run=2 MutableTopLevelVarInLoop :: PASS|
+THREADS=4 run=3 MutableTopLevelVarInLoop :: PASS|
+THREADS=4 run=1 AtomicTopLevelVar :: PASS|
+THREADS=4 run=2 AtomicTopLevelVar :: PASS|
+THREADS=4 run=3 AtomicTopLevelVar :: PASS|
+THREADS=4 run=1 MutableTopLevelVar :: PASS|
+THREADS=4 run=2 MutableTopLevelVar :: PASS|
+THREADS=4 run=3 MutableTopLevelVar :: PASS|
+
+=== probes: the cell's payload type (arrow values) and the object field ===
+--- P12Arrow compile exit=0
+P12Arrow run :: f(1) =  3  expected 3|
+--- P15LocalArrow compile exit=0
+P15LocalArrow run :: f(1) =  3  expected 3|
+--- P16LocalArrowTask compile exit=0
+P16LocalArrowTask run :: f(1) =  3  expected 3|
+P10Field THREADS=1 :: n =  40000  expected 40000|
+P10Field THREADS=4 :: n =  37831  expected 40000|
+FINAL_CAPTURE_DONE_pass-after-edit

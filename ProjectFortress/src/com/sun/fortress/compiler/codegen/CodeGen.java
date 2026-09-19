@@ -1855,6 +1855,17 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         /* Need wrappers for the API, too. */
 
         // Must process top-level values next to make sure fields end up in scope.
+        // Every top-level variable's binding is registered before any code is
+        // generated, because an initializer may refer to a variable declared
+        // later in the component; without this, generating that initializer
+        // reaches forVarRef's fresh-import path, which assumes the shape of an
+        // immutable variable's field.
+        for (Decl d : x.getDecls()) {
+            if (d instanceof VarDecl) {
+                this.addTopLevelVarBinding((VarDecl) d);
+            }
+        }
+
         for (Decl d : x.getDecls()) {
             if (d instanceof ObjectDecl) {
                 ObjectDecl od = (ObjectDecl) d;
@@ -5911,16 +5922,31 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         boolean isMutable = lv.isMutable();
         String classFile = NamingCzar.jvmClassForToplevelDecl(var, packageAndClassName);
         String tyName = NamingCzar.jvmBoxedTypeName(ty, thisApi());
-        String tyDesc = Naming.internalToDesc(tyName);
         debug("VarDeclPrePass ", var, " : ", ty, " = ", exp);
         new CodeGen(this).generateVarDeclInnerClass(v, classFile, tyName, exp, isMutable);
+    }
 
+    /** The binding for a top-level variable, registered for the whole component
+     *  before any initializer is generated.  Declarations that
+     *  forVarDeclPrePass does not generate a class for are skipped here and
+     *  rejected there. */
+    private void addTopLevelVarBinding(VarDecl v) {
+        List<LValue> lhs = v.getLhs();
+        if (lhs.size() != 1 || !v.getInit().isSome()) {
+            return;
+        }
+        LValue lv = lhs.get(0);
+        Id var = lv.getName();
+        Type ty = (Type)lv.getIdType().unwrap();
+        String classFile = NamingCzar.jvmClassForToplevelDecl(var, packageAndClassName);
+        String tyName = NamingCzar.jvmBoxedTypeName(ty, thisApi());
         addStaticVar(
-            isMutable
+            lv.isMutable()
                 ? new VarCodeGen.MutableStaticBinding(var, ty, classFile,
                                                       NamingCzar.SINGLETON_FIELD_NAME, tyName)
                 : new VarCodeGen.StaticBinding(var, ty, classFile,
-                                               NamingCzar.SINGLETON_FIELD_NAME, tyDesc));
+                                               NamingCzar.SINGLETON_FIELD_NAME,
+                                               Naming.internalToDesc(tyName)));
     }
 
     public void forVarRef(VarRef v) {
