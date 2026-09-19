@@ -1,0 +1,13 @@
+/home/user/fortress-rr64/ProjectFortress/tests/juxtTwice.fss:33:15-16:
+    Variable sin is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/juxtTwice.fss:33:25-26:
+    Variable log is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/juxtTwice.fss:33:29-30:
+    Variable log is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/juxtTwice.fss:34:18-19:
+    Variable sin is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/juxtTwice.fss:34:32-33:
+    Variable log is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/juxtTwice.fss:34:37-38:
+    Variable log is not defined.
+File juxtTwice.fss has 6 errors.

@@ -1,0 +1,195 @@
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:29:15-16:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:29:22-23:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:30:16-17:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:30:24-25:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:31:15-16:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:32:15-16:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:37:10-17:
+    Variable numerator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:37:26-27:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:38:10-17:
+    Variable numerator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:38:29-30:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:39:10-17:
+    Variable numerator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:39:29-30:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:40:10-17:
+    Variable numerator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:40:32-33:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:41:10-17:
+    Variable numerator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:41:26-27:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:42:10-17:
+    Variable numerator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:42:29-30:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:43:10-17:
+    Variable numerator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:43:29-30:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:44:10-17:
+    Variable numerator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:44:32-33:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:45:10-19:
+    Variable denominator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:45:28-29:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:46:10-19:
+    Variable denominator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:46:31-32:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:47:10-19:
+    Variable denominator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:47:31-32:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:48:10-19:
+    Variable denominator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:48:34-35:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:49:10-19:
+    Variable denominator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:49:28-29:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:50:10-19:
+    Variable denominator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:50:31-32:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:51:10-19:
+    Variable denominator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:51:31-32:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:52:10-19:
+    Variable denominator is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:52:34-35:
+    Variable big is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:395:10-13:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:396:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:397:10-16:
+    Variable truncate is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:398:10-13:
+    Variable round is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:399:21-24:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:400:21-26:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:401:10-13:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:402:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:403:10-16:
+    Variable truncate is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:404:10-13:
+    Variable round is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:405:21-24:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:406:21-26:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:407:10-13:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:408:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:409:10-16:
+    Variable truncate is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:410:10-13:
+    Variable round is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:411:21-24:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:412:21-26:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:413:10-13:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:414:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:415:10-16:
+    Variable truncate is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:416:10-13:
+    Variable round is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:417:21-24:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:418:21-26:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:419:10-13:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:420:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:421:10-16:
+    Variable truncate is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:422:10-13:
+    Variable round is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:423:20-23:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:424:20-25:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:425:10-13:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:426:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:427:10-16:
+    Variable truncate is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:428:10-13:
+    Variable round is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:429:20-23:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:430:20-25:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:431:10-13:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:432:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:433:10-16:
+    Variable truncate is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:434:10-13:
+    Variable round is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:435:20-23:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:436:20-25:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:437:10-13:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:438:10-15:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:439:10-16:
+    Variable truncate is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:440:10-13:
+    Variable round is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:441:20-23:
+    Variable floor is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:442:20-25:
+    Variable ceiling is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:713:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:714:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:715:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:716:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:717:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:718:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:719:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:720:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:721:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:722:10-31:
+    Variable simplestRationalBetween is not defined.
+/home/user/fortress-rr64/ProjectFortress/tests/RationalTest.fss:723:10-31:
+    Variable simplestRationalBetween is not defined.
+File RationalTest.fss has 97 errors.

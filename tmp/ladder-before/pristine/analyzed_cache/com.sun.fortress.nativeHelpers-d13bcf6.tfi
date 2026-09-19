@@ -1,0 +1,62 @@
+(Api @"com.sun.fortress.nativeHelpers":0:0
+ _info=(SpanInfo)
+ _name=(APIName @"/home/user/fortress-rr64/Library/CompilerSystem.fss":13:13~42 _info=(SpanInfo) _text="com.sun.fortress.nativeHelpers" _ids=[(Id _info=(SpanInfo) _text="com") (Id _info=(SpanInfo) _text="sun") (Id _info=(SpanInfo) _text="fortress") (Id _info=(SpanInfo) _text="nativeHelpers")])
+ _decls=[
+  (FnDecl @"systemOps\'2615'getArgs()Lcom/sun/fortress/compiler/runtimeValues/FStringVector;":0:0
+   _header=(FnHeader
+    _mods=""
+    _name=(Id _info=(SpanInfo) _text="systemOps.getArgs")
+    _returnType=(Some _value=(TraitType @"Internally generated library name, in source code NamingCzar.":0:0
+      _info=(TypeInfo)
+      _name=(Id _apiName=(Some _value=(APIName _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="StringVector"))))
+   _info=(SpanInfo)
+   _unambiguousName=(Id @"systemOps\'2615'getArgs()Lcom/sun/fortress/compiler/runtimeValues/FStringVector;":0:0 _info=(SpanInfo) _text="\'2615'systemOps\'2615'getArgs()Lcom/sun/fortress/compiler/runtimeValues/FStringVector;"))
+  (TraitDecl @"Lcom/sun/fortress/nativeHelpers/systemOps;":0:0
+   _header=(TraitTypeHeader
+    _mods=""
+    _name=(Id @"Internally generated ast node, compiler method ForeignJava.recurOnClass":0:0 _info=(SpanInfo) _text="systemOps")
+    _decls=[
+     (FnDecl @"systemOps\'2615'<init>()V":0:0
+      _header=(FnHeader
+       _mods=""
+       _name=(Id _info=(SpanInfo) _text="<init>")
+       _returnType=(Some _value=(TupleType @"Internally generated library name, in source code NamingCzar.":0:0
+         _info=(TypeInfo))))
+      _info=(SpanInfo)
+      _unambiguousName=(Id @"systemOps\'2615'<init>()V":0:0 _info=(SpanInfo) _text="\'2615'systemOps\'2615'<init>()V"))]
+    _extendsClause=[
+     (TraitTypeWhere @"Lcom/sun/fortress/nativeHelpers/systemOps;":0:0
+      _baseType=(TraitType
+       _info=(TypeInfo)
+       _name=(Id @"/home/user/fortress-rr64/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi":17:7~11 _apiName=(Some _value=(APIName @"Type checker generated.":0:0 _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="Object"))
+      _info=(SpanInfo))])
+   _info=(SpanInfo)
+   _selfType=(Some _value=(TraitSelfType @"Internally generated ast node, compiler method ForeignJava.recurOnClass":0:0
+     _info=(TypeInfo)
+     _named=(TraitType
+      _info=(TypeInfo)
+      _name=(Id _apiName=(Some _value=(APIName @"/home/user/fortress-rr64/Library/CompilerSystem.fss":13:13~42 _info=(SpanInfo) _text="com.sun.fortress.nativeHelpers" _ids=[(Id _info=(SpanInfo) _text="com") (Id _info=(SpanInfo) _text="sun") (Id _info=(SpanInfo) _text="fortress") (Id _info=(SpanInfo) _text="nativeHelpers")])) _info=(SpanInfo) _text="systemOps")))))
+  (FnDecl @"systemOps\'2615'getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;":0:0
+   _header=(FnHeader
+    _mods=""
+    _name=(Id _info=(SpanInfo) _text="systemOps.getProperty")
+    _returnType=(Some _value=(TraitType @"Internally generated library name, in source code NamingCzar.":0:0
+      _info=(TypeInfo)
+      _name=(Id _apiName=(Some _value=(APIName _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="JavaString")))
+    _params=[
+     (Param @"systemOps\'2615'getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;:0:0 p#0":0:0
+      _idType=(Some _value=(TraitType @"Internally generated library name, in source code NamingCzar.":0:0
+        _info=(TypeInfo)
+        _name=(Id _apiName=(Some _value=(APIName _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="JavaString")))
+      _info=(SpanInfo)
+      _mods=""
+      _name=(Id @"systemOps\'2615'getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;:0:0 p#0":0:0 _info=(SpanInfo) _text="p0"))
+     (Param @"systemOps\'2615'getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;:0:0 p#1":0:0
+      _idType=(Some _value=(TraitType @"Internally generated library name, in source code NamingCzar.":0:0
+        _info=(TypeInfo)
+        _name=(Id _apiName=(Some _value=(APIName _info=(SpanInfo) _text="CompilerBuiltin" _ids=[(Id _info=(SpanInfo) _text="CompilerBuiltin")])) _info=(SpanInfo) _text="JavaString")))
+      _info=(SpanInfo)
+      _mods=""
+      _name=(Id @"systemOps\'2615'getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;:0:0 p#1":0:0 _info=(SpanInfo) _text="p1"))])
+   _info=(SpanInfo)
+   _unambiguousName=(Id @"systemOps\'2615'getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;":0:0 _info=(SpanInfo) _text="\'2615'systemOps\'2615'getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"))])

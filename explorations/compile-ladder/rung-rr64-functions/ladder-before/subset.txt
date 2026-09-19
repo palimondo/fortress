@@ -1,0 +1,7 @@
+tests	buffons.fss
+tests	roundBug.fss
+tests	juxtTwice.fss
+tests	oprTests.fss
+tests	realArith.fss
+tests	testRR32.fss
+tests	RationalTest.fss

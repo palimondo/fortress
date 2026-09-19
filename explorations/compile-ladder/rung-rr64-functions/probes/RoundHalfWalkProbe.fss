@@ -1,0 +1,25 @@
+component RoundHalfWalkProbe
+export Executable
+
+(*) What the interpreter's round, floor, ceiling and truncate do at an exact
+(*) half.  Every operand is built with SQRT so that it is a Float and not a
+(*) FloatLiteral: the interpreter declares round only on object Float
+(*) (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:189), which is the
+(*) same reason roundBug.fss:19-22 builds its operand with SQRT.
+
+run() = do
+    twoHalf = SQRT(6.25)
+    threeHalf = SQRT(12.25)
+    println("round(2.5)     = " round(twoHalf))
+    println("round(3.5)     = " round(threeHalf))
+    println("round(-2.5)    = " round(-twoHalf))
+    println("round(-3.5)    = " round(-threeHalf))
+    println("truncate(2.5)  = " truncate(twoHalf))
+    println("truncate(-2.5) = " truncate(-twoHalf))
+    println("floor(2.5)     = " floor(twoHalf))
+    println("floor(-2.5)    = " floor(-twoHalf))
+    println("ceiling(2.5)   = " ceiling(twoHalf))
+    println("ceiling(-2.5)  = " ceiling(-twoHalf))
+end
+
+end
