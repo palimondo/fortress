@@ -1,0 +1,203 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component IntegralOpsRungN
+export Executable
+
+(*) The named integral operators MOD, REM, GCD, LCM, LSHIFT and RSHIFT on
+(*) ZZ32 and ZZ64.
+(*)
+(*) The expected values of REM and MOD are the specification's own example
+(*) table, Specification/basic-lib/basic-integers.tex:459-468, which gives all
+(*) four sign combinations of +8 and +3 for the truncating division and its
+(*) remainder REM and for the floor division and its remainder MOD; the four
+(*) MOD rows on +3 and +4 are the ones ProjectFortress/tests/chain0.fss:28-31
+(*) writes.  The three properties at :484-486 are checked as relations between
+(*) run-time values rather than against constants.  GCD's and LCM's expected
+(*) values are the prose at :523-530 -- both results nonnegative, GCD of two
+(*) zeroes zero, LCM zero when either argument is zero -- plus the five rows
+(*) of chain0.fss:33-38, and the lattice property at :544 as a run-time
+(*) identity.  No prose chapter names LSHIFT or RSHIFT, so they are checked
+(*) against the << and >> the same traits already declare, and against
+(*) constants so that the check is not vacuous if both were wrong.
+(*)
+(*) Every operand is a typed binding rather than a numeral in the expression,
+(*) which is how library_tests/Integer3.fss:36-50 does it: the
+(*) integer-literal folding phase (PhaseOrder.java:57, before TYPECHECK) folds
+(*) a binary operator whose two arguments are literals, so an operand written
+(*) as a numeral could be answered by the folder rather than by the prelude.
+(*)
+(*) shouldDivideByZero is Integer3.fss:26-33 verbatim.  Its five uses there
+(*) are commented out at :87-91 and recorded as dormant with an unknown status
+(*) in explorations/coordinator/map/dormant-code.md:314; a probe of this rung
+(*) shows the catch does work, so the division-by-zero behaviour of MOD and
+(*) REM is pinned here beside DIV's.
+
+shouldDivideByZero(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    DivisionByZero => true
+    Exception => false
+  end
+
+run(): () = do
+  zero: ZZ32 = 0
+  one: ZZ32 = 1
+  two: ZZ32 = 2
+  three: ZZ32 = 3
+  four: ZZ32 = 4
+  five: ZZ32 = 5
+  six: ZZ32 = 6
+  eight: ZZ32 = 8
+  fifteen: ZZ32 = 15
+  fortyEight: ZZ32 = 48
+  fiftyTwo: ZZ32 = 52
+  sixty: ZZ32 = 60
+  sixtyFive: ZZ32 = 65
+  mThree: ZZ32 = -3
+  mFour: ZZ32 = -4
+  mFive: ZZ32 = -5
+  mSix: ZZ32 = -6
+  mEight: ZZ32 = -8
+  mSixteen: ZZ32 = -16
+
+  (*) REM, the remainder of the truncating division: basic-integers.tex:459-468,
+  (*) column two.  The sign of the result follows the dividend.
+  assert(eight REM three, 2, "+8 REM +3")
+  assert(mEight REM three, -2, "-8 REM +3")
+  assert(eight REM mThree, 2, "+8 REM -3")
+  assert(mEight REM mThree, -2, "-8 REM -3")
+
+  (*) MOD, the remainder of the floor division: the same table, column three.
+  (*) The sign of the result follows the divisor.
+  assert(eight MOD three, 2, "+8 MOD +3")
+  assert(mEight MOD three, 1, "-8 MOD +3")
+  assert(eight MOD mThree, -1, "+8 MOD -3")
+  assert(mEight MOD mThree, -2, "-8 MOD -3")
+
+  (*) The four MOD rows of chain0.fss:28-31, and their REM partners.
+  assert(three MOD four, 3, "+3 MOD +4")
+  assert(mThree MOD four, 1, "-3 MOD +4")
+  assert(three MOD mFour, -1, "+3 MOD -4")
+  assert(mThree MOD mFour, -3, "-3 MOD -4")
+  assert(three REM four, 3, "+3 REM +4")
+  assert(mThree REM four, -3, "-3 REM +4")
+  assert(three REM mFour, 3, "+3 REM -4")
+  assert(mThree REM mFour, -3, "-3 REM -4")
+
+  (*) An exact division leaves zero either way, whatever the signs.
+  assert(six REM three, 0, "+6 REM +3")
+  assert(mSix REM three, 0, "-6 REM +3")
+  assert(six REM mThree, 0, "+6 REM -3")
+  assert(mSix REM mThree, 0, "-6 REM -3")
+  assert(six MOD three, 0, "+6 MOD +3")
+  assert(mSix MOD three, 0, "-6 MOD +3")
+  assert(six MOD mThree, 0, "+6 MOD -3")
+  assert(mSix MOD mThree, 0, "-6 MOD -3")
+
+  (*) The three properties at basic-integers.tex:484-486, as relations between
+  (*) values computed at run time.
+  assert((mEight + (three DOT three)) MOD three, mEight MOD three, "(m + k n) MOD n = m MOD n")
+  assert(eight REM three, eight REM mThree, "m REM n = m REM (-n)")
+  assert(mEight REM three, zero - (eight REM three), "(-m) REM n = -(m REM n)")
+
+  (*) DIV, REM and MOD all throw DivisionByZero on a zero divisor:
+  (*) basic-integers.tex:443-445 and :456.
+  assert(shouldDivideByZero(fn () => eight DIV zero), "+8 DIV 0")
+  assert(shouldDivideByZero(fn () => eight REM zero), "+8 REM 0")
+  assert(shouldDivideByZero(fn () => eight MOD zero), "+8 MOD 0")
+  assert(shouldDivideByZero(fn () => mEight MOD zero), "-8 MOD 0")
+  assert(shouldDivideByZero(fn () => zero MOD zero), "0 MOD 0")
+
+  (*) GCD: the two rows of chain0.fss:33-34, then the cases the prose at
+  (*) basic-integers.tex:523-526 settles -- the result is always nonnegative,
+  (*) and if either argument is zero the result is the other one.
+  assert(sixty GCD fortyEight, 12, "60 GCD 48")
+  assert(sixtyFive GCD fiftyTwo, 13, "65 GCD 52")
+  assert(four GCD six, 2, "4 GCD 6")
+  assert(mFour GCD six, 2, "-4 GCD 6")
+  assert(four GCD mSix, 2, "4 GCD -6")
+  assert(mFour GCD mSix, 2, "-4 GCD -6")
+  assert(zero GCD zero, 0, "0 GCD 0")
+  assert(zero GCD mFour, 4, "0 GCD -4")
+  assert(mFour GCD zero, 4, "-4 GCD 0")
+
+  (*) LCM: the three rows of chain0.fss:36-38, then the cases the prose at
+  (*) basic-integers.tex:527-530 settles.
+  assert(three LCM four, 12, "3 LCM 4")
+  assert(six LCM four, 12, "6 LCM 4")
+  assert(six LCM fifteen, 30, "6 LCM 15")
+  assert(zero LCM five, 0, "0 LCM 5")
+  assert(five LCM zero, 0, "5 LCM 0")
+  assert(one LCM mFive, 5, "1 LCM -5")
+  assert(mFive LCM one, 5, "-5 LCM 1")
+  assert(mFour LCM six, 12, "-4 LCM 6")
+  assert(mFour LCM mSix, 12, "-4 LCM -6")
+
+  (*) The lattice property at basic-integers.tex:544, which with nonnegative
+  (*) results holds up to the sign of the product.
+  p1: ZZ32 = sixty DOT fortyEight
+  p2: ZZ32 = sixtyFive DOT fiftyTwo
+  p3: ZZ32 = mFour DOT six
+  p4: ZZ32 = one DOT mFive
+  assert((sixty GCD fortyEight) DOT (sixty LCM fortyEight), |p1|, "GCD LCM = |a b| on 60, 48")
+  assert((sixtyFive GCD fiftyTwo) DOT (sixtyFive LCM fiftyTwo), |p2|, "GCD LCM = |a b| on 65, 52")
+  assert((mFour GCD six) DOT (mFour LCM six), |p3|, "GCD LCM = |a b| on -4, 6")
+  assert((one GCD mFive) DOT (one LCM mFive), |p4|, "GCD LCM = |a b| on 1, -5")
+
+  (*) LSHIFT and RSHIFT are names for the << and >> of the same trait.
+  assert(three LSHIFT four, 48, "3 LSHIFT 4")
+  assert(three LSHIFT four, three << four, "3 LSHIFT 4 is 3 << 4")
+  assert(fortyEight RSHIFT four, 3, "48 RSHIFT 4")
+  assert(fortyEight RSHIFT four, fortyEight >> four, "48 RSHIFT 4 is 48 >> 4")
+  assert(mSixteen RSHIFT two, -4, "-16 RSHIFT 2 sign-extends")
+  assert(mSixteen RSHIFT two, mSixteen >> two, "-16 RSHIFT 2 is -16 >> 2")
+  assert(mSixteen LSHIFT one, -32, "-16 LSHIFT 1")
+  assert(mSixteen LSHIFT one, mSixteen << one, "-16 LSHIFT 1 is -16 << 1")
+
+  (*) ZZ64, with values beyond the range of ZZ32.  There is no comparing
+  (*) assert at (ZZ64, ZZ64), so these go through the String form, which still
+  (*) reports both values when it fails.
+  oneL: ZZ64 = 1
+  twoL: ZZ64 = 2
+  sevenL: ZZ64 = 7
+  fortyL: ZZ64 = 40
+  mSevenL: ZZ64 = -7
+  tenBillionL: ZZ64 = 10000000000
+  mTenBillionL: ZZ64 = -10000000000
+  sevenAndAHalfBillionL: ZZ64 = 7500000000
+  threeBillionL: ZZ64 = 3000000000
+  twoToFortyL: ZZ64 = 1099511627776
+  mTwoToFortyL: ZZ64 = -1099511627776
+
+  assert((tenBillionL REM sevenL).asString, "4", "ZZ64 +10^10 REM +7")
+  assert((mTenBillionL REM sevenL).asString, "-4", "ZZ64 -10^10 REM +7")
+  assert((tenBillionL REM mSevenL).asString, "4", "ZZ64 +10^10 REM -7")
+  assert((mTenBillionL REM mSevenL).asString, "-4", "ZZ64 -10^10 REM -7")
+  assert((tenBillionL MOD sevenL).asString, "4", "ZZ64 +10^10 MOD +7")
+  assert((mTenBillionL MOD sevenL).asString, "3", "ZZ64 -10^10 MOD +7")
+  assert((tenBillionL MOD mSevenL).asString, "-3", "ZZ64 +10^10 MOD -7")
+  assert((mTenBillionL MOD mSevenL).asString, "-4", "ZZ64 -10^10 MOD -7")
+  assert((tenBillionL GCD sevenAndAHalfBillionL).asString, "2500000000", "ZZ64 GCD")
+  assert((mTenBillionL GCD sevenAndAHalfBillionL).asString, "2500000000", "ZZ64 GCD, negative")
+  assert((threeBillionL LCM twoL).asString, "3000000000", "ZZ64 LCM")
+  assert((oneL LSHIFT fortyL).asString, "1099511627776", "ZZ64 1 LSHIFT 40")
+  assert((oneL LSHIFT fortyL).asString, (oneL << fortyL).asString, "ZZ64 LSHIFT is <<")
+  assert((twoToFortyL RSHIFT fortyL).asString, "1", "ZZ64 2^40 RSHIFT 40")
+  assert((mTwoToFortyL RSHIFT fortyL).asString, "-1", "ZZ64 -2^40 RSHIFT 40 sign-extends")
+  assert((twoToFortyL RSHIFT fortyL).asString, (twoToFortyL >> fortyL).asString, "ZZ64 RSHIFT is >>")
+
+  println("PASS")
+end
+
+end

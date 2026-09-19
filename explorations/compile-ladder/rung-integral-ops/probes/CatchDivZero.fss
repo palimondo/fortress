@@ -1,0 +1,32 @@
+component CatchDivZero
+export Executable
+
+(*) Probe 4: does catching DivisionByZero work on the compiled path?
+(*) library_tests/Integer3.fss:26-33 declares shouldDivideByZero and
+(*) :87-91 has five uses of it commented out with no explanation;
+(*) explorations/coordinator/map/dormant-code.md:314 records them as dormant
+(*) with reason "no comment" and status "unknown".  The live sibling
+(*) shouldOverflow is exercised at :93-105 and passes, so the catch machinery
+(*) itself works for IntegerOverflow.  If it works for DivisionByZero too then
+(*) the division-by-zero behaviour of MOD and REM can be pinned in the gated
+(*) test rather than only in a probe.
+
+shouldDivideByZero(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    DivisionByZero => true
+    Exception => false
+  end
+
+run(): () = do
+    zero: ZZ32 = 0
+    seven: ZZ32 = 7
+    if shouldDivideByZero(fn () => seven DIV zero) then
+        println("CAUGHT DivisionByZero")
+    else
+        println("NOT CAUGHT")
+    end
+  end
+end
