@@ -324,8 +324,11 @@ end
 * Numeric hierarchy
 ************************************************************)
 
+(** Place holder for exclusions of AdditiveGroup **)
+trait AnyAdditiveGroup end
+
 (** Additive group making use of +.  Must define + and either unary or binary -. **)
-trait AdditiveGroup[\T extends AdditiveGroup[\T\]\]
+trait AdditiveGroup[\T extends AdditiveGroup[\T\]\] extends AnyAdditiveGroup
     getter zero(): T = self - self
     opr +(self, other: T): T
     opr -(self, other: T): T = self + (-other)
@@ -606,7 +609,7 @@ object Ratio(num: ZZ, den: ZZ) extends { QQ }
     denominator(self):ZZ = den
 end
 
-trait AnyIntegral extends { QQ } end
+trait AnyIntegral extends { QQ } comprises { ZZ } end
 
 trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
     getter zero(): I
@@ -2663,7 +2666,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
     extends { Indexed1[\s0\], Indexed2[\s1\], Indexed3[\s2\], Rank3,
               StandardMutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,
                                         (ZZ32,ZZ32,ZZ32)\] }
-    excludes { Number, String }
+    excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
 
     getter size():ZZ32 = s0 s1 s2
     getter sizes():(ZZ32,ZZ32,ZZ32) = (s0, s1, s2)
@@ -4490,29 +4493,15 @@ opr SUFFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\] = do
   result
 end
 
-opr +(x: Array[\ZZ32,ZZ32\], y: ZZ32): Array[\ZZ32,ZZ32\] = do
-  result = x.copy()
-  for i <- x.indices() do result[i] += y end
-  result
-end
-
-opr -(x: Array[\ZZ32,ZZ32\], y: ZZ32): Array[\ZZ32,ZZ32\] = do
-  result = x.copy()
-  for i <- x.indices() do result[i] -= y end
-  result
-end
-
-opr MIN(x: Array[\ZZ32,ZZ32\], y: ZZ32): Array[\ZZ32,ZZ32\] = do
-  result = x.copy()
-  for i <- x.indices() do result[i] MIN= y end
-  result
-end
-
-opr MAX(x: Array[\ZZ32,ZZ32\], y: ZZ32): Array[\ZZ32,ZZ32\] = do
-  result = x.copy()
-  for i <- x.indices() do result[i] MAX= y end
-  result
-end
+(*) Scalar extension: an array of numbers and one number, either way round.
+opr +[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e + y)
+opr +[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y + e)
+opr -[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e - y)
+opr -[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y - e)
+opr MIN[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e MIN y)
+opr MIN[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y MIN e)
+opr MAX[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e MAX y)
+opr MAX[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y MAX e)
 
 
 end

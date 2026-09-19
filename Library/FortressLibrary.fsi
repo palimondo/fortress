@@ -247,9 +247,12 @@ shouldRaise[\Ex extends Exception\] (expr: ()->()): ()
 * \subsection*{Numeric hierarchy}
 ************************************************************)
 
+(** Place holder for exclusions of AdditiveGroup **)
+trait AnyAdditiveGroup end
+
 (** Additive group making use of %+%.  Must define %+% and
     either unary or binary %-%. **)
-trait AdditiveGroup[\T extends AdditiveGroup[\T\]\]
+trait AdditiveGroup[\T extends AdditiveGroup[\T\]\] extends AnyAdditiveGroup
     getter zero(): T
     abstract opr +(self, other: T): T
     opr -(self, other: T): T
@@ -403,7 +406,7 @@ trait QQ extends { RR64, StandardPartialOrder[\QQ\] } comprises { ... }
     opr MAXNUM(self, other:QQ):QQ
 end
 
-trait AnyIntegral extends { QQ } end
+trait AnyIntegral extends { QQ } comprises { ZZ } end
 
 trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
     getter zero(): I
@@ -1653,7 +1656,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
     extends { Indexed1[\s0\], Indexed2[\s1\], Indexed3[\s2\], Rank3,
               StandardMutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,
                                         (ZZ32,ZZ32,ZZ32)\] }
-    excludes { Number, String }
+    excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
 
     getter size():ZZ32
     getter sizes():(ZZ32,ZZ32,ZZ32)
@@ -2534,10 +2537,14 @@ relationalPredicate[\E\](relation : (E, E) -> Boolean) : E -> RelationalPredicat
 
 opr PREFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\]
 opr SUFFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\]
-opr +(x: Array[\ZZ32,ZZ32\], y: ZZ32): Array[\ZZ32,ZZ32\]
-opr -(x: Array[\ZZ32,ZZ32\], y: ZZ32): Array[\ZZ32,ZZ32\]
-opr MIN(x: Array[\ZZ32,ZZ32\], y: ZZ32): Array[\ZZ32,ZZ32\]
-opr MAX(x: Array[\ZZ32,ZZ32\], y: ZZ32): Array[\ZZ32,ZZ32\]
+opr +[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr +[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr -[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr -[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr MIN[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr MIN[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr MAX[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr MAX[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
 
 
 end
