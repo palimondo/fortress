@@ -11,26 +11,38 @@
 
 (* A mutable variable declared at the top level of a component, incremented
    inside `atomic do ... end` by the two implicit threads of a
-   `do ... also do ... end` (Specification/basic/expressions/also.tex:17-21).
+   `do ... also do ... end`.
 
    Specification/basic/expressions/atomic.tex:38-42 requires the read and the
-   write of `counter` to appear to occur in a single atomic step with respect to
-   any action of a thread dynamically outside, so the two threads together must
-   perform exactly 2 * iterations increments.  The shape follows
-   compiler_tests/Compiled170.fss, which does the same with a local variable.
+   write of `counter` to appear to occur in a single atomic step with respect
+   to any action of a thread dynamically outside, so the two threads together
+   must perform exactly 2 * iterations increments.  atomic.tex:96-107 gives the
+   same shape as the chapter's own example: a loop body that reads and writes a
+   shared counter inside `atomic`, which "will appear to occur atomically with
+   respect to all other threads -- including both other iterations of the loop
+   body".
 
    The increment is in a top-level function rather than written out in the loop
-   body because a nested code-generation context captures the variable instead
-   of referring to it; that is the second half of this repair and
-   compiler_tests/MutableTopLevelVarInLoop.fss covers it.
+   body so that this program tests transaction membership alone; assignment
+   from inside a nested code-generation context is the other half of the same
+   repair and MutableTopLevelVarInLoop.fss covers it.
 
-   At FORTRESS_THREADS=1 the two arms run one after the other
-   (runtimeSystem/BaseTask.unsafeWorthSpawning, BaseTask.java:113-116, requires
-   numThreads > 1), so at the thread count every gate target uses this program
-   passes whether or not the implementation is correct.  It fails at
-   FORTRESS_THREADS=4; the captured runs and the reason the gate cannot raise
-   the thread count are in
-   explorations/compile-ladder/repair-r1-atomic-static/REPORT.md. *)
+   Thread count.  A program in this corpus cannot set its own thread count:
+   the count is read once from the environment (FORTRESS_THREADS,
+   runtimeSystem/FortressExecutable.java:37-44) and Java cannot set an
+   environment variable for its own process.  It does not need to.  The gate
+   target that runs compiler_tests is CompilerJUTest under the fastTrack macro
+   (build.xml:927-953), which sets FORTRESS_CACHES but no thread count, and
+   the harness runs each program in a subprocess that inherits that
+   environment (FileTests.java:480-486), so the count falls back to
+   availableProcessors/2 -- more than one worker on this machine, where the
+   unrepaired tree loses updates on every run.  The FORTRESS_THREADS=1 pin is
+   in the testSystem shards only (build.xml:1184) and those do not run
+   compiler_tests.  The residual limitation: the fallback yields one worker
+   where availableProcessors is 1 or 3, and there this program passes whether
+   or not the implementation is correct.  Recorded in
+   explorations/compile-ladder/repair-r1-atomic-static/REPORT.md with the runs
+   both ways. *)
 
 component AtomicTopLevelVar
 export Executable

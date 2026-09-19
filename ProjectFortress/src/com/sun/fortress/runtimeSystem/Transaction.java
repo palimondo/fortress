@@ -17,15 +17,15 @@ import java.util.Map.Entry;
 import java.util.Stack;
 
 import com.sun.fortress.compiler.runtimeValues.MutableFValue;
-import com.sun.fortress.compiler.runtimeValues.FValue;
+import fortress.AnyType.Any;
 
 public class Transaction {
 
     private Transaction parent;
     private static AtomicInteger global_lock = new AtomicInteger(0);
     private AtomicInteger snapshot;
-    Hashtable<MutableFValue, FValue> reads;
-    Hashtable<MutableFValue, FValue> writes;
+    Hashtable<MutableFValue, Any> reads;
+    Hashtable<MutableFValue, Any> writes;
     private Transaction topLevelTransaction;
     private static boolean debug = false;
     private static AtomicInteger counter = new AtomicInteger(0);
@@ -109,8 +109,8 @@ public class Transaction {
     private Transaction(Transaction parent) {
         this.parent = parent;
         this.snapshot = new AtomicInteger(parent.snapshot.get());
-        this.reads = new Hashtable<MutableFValue, FValue>();
-        this.writes = new Hashtable<MutableFValue, FValue>();
+        this.reads = new Hashtable<MutableFValue, Any>();
+        this.writes = new Hashtable<MutableFValue, Any>();
         this.topLevelTransaction = parent.topLevelTransaction;
         this.transactionNumber = counter.getAndIncrement();
     }
@@ -118,8 +118,8 @@ public class Transaction {
     private Transaction(int snapshot) {
         this.parent = null;
         this.snapshot = new AtomicInteger(snapshot);
-        this.reads = new Hashtable<MutableFValue, FValue>();
-        this.writes = new Hashtable<MutableFValue, FValue>();
+        this.reads = new Hashtable<MutableFValue, Any>();
+        this.writes = new Hashtable<MutableFValue, Any>();
         this.topLevelTransaction = this;
         this.transactionNumber = counter.getAndIncrement();
     }        
@@ -141,7 +141,7 @@ public class Transaction {
         return result;
     }
 
-    private FValue AncestrialWrite(MutableFValue v) {
+    private Any AncestrialWrite(MutableFValue v) {
         if (writes.containsKey(v))
             return writes.get(v);
         else if (parent == null)
@@ -149,15 +149,15 @@ public class Transaction {
         else return parent.AncestrialWrite(v);
     }
 
-    public FValue TXRead(MutableFValue v) {
+    public Any TXRead(MutableFValue v) {
 
-        FValue val = v.getValue();
+        Any val = v.getValue();
 
         while (snapshot.get() != global_lock.get()) {
             snapshot.set(TXValidate());
             val = v.getValue();
         }
-        FValue AncestrialValue = AncestrialWrite(v);
+        Any AncestrialValue = AncestrialWrite(v);
         if (AncestrialValue != null) {
             debug("TXRead: v = " + v + " ancestrial val = " + AncestrialValue );
             reads.put(v,AncestrialValue);
@@ -179,9 +179,9 @@ public class Transaction {
         int time = waitForGlobalLock();
         debug("TXValidateTopLevel: time = " + time);
 
-        for (Map.Entry<MutableFValue,FValue> entry : reads.entrySet()) {
+        for (Map.Entry<MutableFValue,Any> entry : reads.entrySet()) {
             MutableFValue key = entry.getKey();
-            FValue val = entry.getValue();
+            Any val = entry.getValue();
             debug("TXValidate: key = " + key + " val = " + val);
             if (key.getValue() != val)
                 TXAbort();
@@ -196,10 +196,10 @@ public class Transaction {
     public int TXValidateHelperNestedTransaction() {
         int time = waitForGlobalLock();
         debug("TXValidateNested: time = " + time);
-        for (Map.Entry<MutableFValue,FValue> entry : reads.entrySet()) {
+        for (Map.Entry<MutableFValue,Any> entry : reads.entrySet()) {
             MutableFValue key = entry.getKey();
-            FValue val = entry.getValue();
-            FValue ancestrialWrite = parent.AncestrialWrite(key);
+            Any val = entry.getValue();
+            Any ancestrialWrite = parent.AncestrialWrite(key);
             debug("TXValidateNested: key = " + key + " val = " + val + " ancestrialWrite = " + ancestrialWrite);
             if (ancestrialWrite == null) {
                 if (key.getValue() != val)
@@ -223,7 +223,7 @@ public class Transaction {
         return time;
     }
 
-    public void TXWrite(MutableFValue v, FValue f) {
+    public void TXWrite(MutableFValue v, Any f) {
         debug("TXWrite: v = " + v + " f = " + f + " reads.getValue = " + reads.get(v) + " writes.getValue = " + writes.get(v));
         writes.put(v, f);
     }
@@ -243,19 +243,19 @@ public class Transaction {
             
         if (this == topLevelTransaction) {
        
-            for (Map.Entry<MutableFValue,FValue> entry : writes.entrySet()) {
+            for (Map.Entry<MutableFValue,Any> entry : writes.entrySet()) {
                 MutableFValue key = entry.getKey();
-                FValue val = entry.getValue();
+                Any val = entry.getValue();
                 debug("TXCommitting:  time = " + time + " key = " + key + " val = " + val);
                 key.setValue(val);
             }
        
         } else {
 
-            for (Map.Entry<MutableFValue,FValue> entry : reads.entrySet()) {
+            for (Map.Entry<MutableFValue,Any> entry : reads.entrySet()) {
                 MutableFValue key = entry.getKey();
-                FValue val = entry.getValue();
-                FValue ancestrialValue = parent.AncestrialWrite(key);
+                Any val = entry.getValue();
+                Any ancestrialValue = parent.AncestrialWrite(key);
 
                 // This is subtle.  If the child read a value written by a grandparent, then it has to go in the 
                 // the parent's read set, because otherwise a cousin transaction could update the value written
@@ -267,9 +267,9 @@ public class Transaction {
             }
 
 
-            for (Map.Entry<MutableFValue,FValue> entry : writes.entrySet()) {
+            for (Map.Entry<MutableFValue,Any> entry : writes.entrySet()) {
                 MutableFValue key = entry.getKey();
-                FValue val = entry.getValue();
+                Any val = entry.getValue();
                 parent.writes.put(key, val);
                 debug("TXCommitting: write to parent: snapshot = " + snapshot.get() + " time = " + time + " key = " + key + " val = " + val);
             }

@@ -1,0 +1,13 @@
+(* The same question as P11Obj for a LOCAL mutable variable, which the tree
+   already stores in a MutableFValue cell (VarCodeGen.LocalMutableVar,
+   VarCodeGen.java:369-385).  It is the control: if this works, an FValue cell
+   already holds user objects today. *)
+component P14LocalObj
+export Executable
+object Box(n: ZZ32) end
+run(): () = do
+    var b: Box := Box(1)
+    b := Box(2)
+    println("b.n = " b.n " expected 2")
+  end
+end

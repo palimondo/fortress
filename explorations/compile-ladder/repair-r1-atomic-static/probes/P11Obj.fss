@@ -1,0 +1,14 @@
+(* A top-level mutable variable whose declared type is a user-defined object
+   type, written and read.  The repair stores such a variable's value in a
+   MutableFValue cell whose setter takes runtimeValues.FValue, which is an
+   abstract class (FValue.java:13), so this probe asks whether a compiled
+   user object is assignable to it. *)
+component P11Obj
+export Executable
+object Box(n: ZZ32) end
+b: Box := Box(1)
+run(): () = do
+    b := Box(2)
+    println("b.n = " b.n " expected 2")
+  end
+end

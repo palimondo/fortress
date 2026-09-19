@@ -1,0 +1,11 @@
+label=preedit date=2026-09-18T23:48:01+00:00
+source vs 49ee5e91: 
+--- P11Obj compile exit=0 :: |
+P11Obj run :: b.n =  2  expected 2|
+--- P12Arrow compile exit=0 :: |
+P12Arrow run :: f(1) =  3  expected 3|
+--- P13String compile exit=0 :: |
+P13String run :: s =  two  expected two|
+--- P14LocalObj compile exit=0 :: |
+P14LocalObj run :: b.n =  2  expected 2|
+PROBES3_DONE_preedit

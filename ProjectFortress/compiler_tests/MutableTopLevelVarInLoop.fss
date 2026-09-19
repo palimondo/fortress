@@ -18,10 +18,23 @@
    the new value" -- and Specification/basic/expressions/var-ref.tex:26-30 -- an
    identifier reference "evaluates to the value of the name in the enclosing
    scope" and "performs a memory read operation".  There is one location per
-   declaration, so the write made inside the loop body must be the value the
-   read after the loop obtains.
+   declaration, so a write made inside the loop body must be seen by the read
+   after the loop.
 
-   This is deterministic and does not depend on the thread count. *)
+   The loop body's increment is inside `atomic do ... end` because the loop is
+   a parallel generator: a bare `inLoop := inLoop + 1` there is a data race by
+   construction, which
+   Specification/basic/memory-model.tex:69-75 excludes from the programming
+   discipline ("Updates to shared mutable locations must always be performed
+   using an atomic expression"), and it made an earlier version of this test
+   flake -- one run in nine gave 9 instead of 10.  The two arms write distinct
+   variables once each, so they need no atomic.
+
+   With the increment inside `atomic` the expected values are exact at any
+   thread count, which is what makes this the deterministic half of the repair:
+   it fails on the unrepaired tree at one thread as well as at four, where the
+   write is lost outright rather than raced away.  The concurrent half is
+   compiler_tests/AtomicTopLevelVar.fss. *)
 
 component MutableTopLevelVarInLoop
 export Executable
@@ -34,7 +47,7 @@ inArmB: ZZ32 := 0
 
 run(): () = do
     for i <- 1#10 do
-        inLoop := inLoop + 1
+        atomic do inLoop := inLoop + 1 end
     end
     do
         inArmA := 7

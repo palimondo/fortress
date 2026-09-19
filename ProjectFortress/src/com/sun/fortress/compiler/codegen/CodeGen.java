@@ -5885,7 +5885,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             mv.visitMethodInsn(INVOKESTATIC,
                                "com/sun/fortress/compiler/runtimeValues/MutableFValue",
                                "make",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/FValue;)Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;");
+                               "(" + NamingCzar.descFortressAny + ")" +
+                               NamingCzar.descFortressMutableFValueInternal);
         }
         mv.visitFieldInsn(PUTSTATIC, classFile,
                           NamingCzar.SINGLETON_FIELD_NAME, fieldDesc);

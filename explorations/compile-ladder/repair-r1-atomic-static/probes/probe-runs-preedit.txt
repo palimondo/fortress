@@ -1,0 +1,29 @@
+label=preedit  date=2026-09-18T23:38:28+00:00  nproc=4
+source tree vs 49ee5e91: 
+--- P1Atomic compile exit=0 
+P1Atomic THREADS=1 exit=0 :: counter =  3|
+P1Atomic THREADS=4 exit=0 :: counter =  3|
+--- P2For compile exit=0 
+P2For THREADS=1 exit=0 :: counter =  0|
+P2For THREADS=4 exit=0 :: counter =  0|
+--- P3ForAtomic compile exit=0 
+P3ForAtomic THREADS=1 exit=0 :: counter =  0|
+P3ForAtomic THREADS=4 exit=0 :: counter =  0|
+--- P4LocalForAtomic compile exit=0 
+P4LocalForAtomic THREADS=1 exit=0 :: counter =  10|
+P4LocalForAtomic THREADS=4 exit=0 :: counter =  10|
+--- P5CallShape compile exit=0 
+P5CallShape THREADS=1 exit=0 :: counter =  20|
+P5CallShape THREADS=4 exit=0 :: counter =  19|
+--- P6Race compile exit=0 
+P6Race THREADS=1 exit=0 :: counter =  40000|
+P6Race THREADS=4 exit=0 :: counter =  33353|
+--- P8 compile P8Api.fsi exit=0 :: |
+--- P8 compile P8Lib.fss exit=0 :: |
+--- P8 compile P8Main.fss exit=0 :: |
+P8 run exit=1 :: java.lang.NoClassDefFoundError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+--- P9 compile P9Api.fsi exit=0 :: |
+--- P9 compile P9Lib.fss exit=0 :: |
+--- P9 compile P9Main.fss exit=0 :: |
+P9 run exit=1 :: java.lang.NoClassDefFoundError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+PROBES_DONE_preedit

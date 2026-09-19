@@ -1,0 +1,25 @@
+(* A mutable field of an object, incremented inside `atomic do ... end` by the
+   two implicit threads of a parallel `do ... also do ... end`.  The compiled
+   path stores such a field with a bare GETFIELD/PUTFIELD
+   (VarCodeGen.MutableFieldVar, VarCodeGen.java:197-230), so the read and the
+   write are not in the transaction.  This probe is the evidence for the ledger
+   row; repairing it is not in this rung (see REPORT.md, the MutableFieldVar
+   decision). *)
+component P10Field
+export Executable
+
+object Counter(var n: ZZ32)
+    bump(): () = atomic do n := n + 1 end
+end
+
+c = Counter(0)
+
+run(): () = do
+    do
+        for i <- 1#20000 do c.bump() end
+    also do
+        for i <- 1#20000 do c.bump() end
+    end
+    println("n = " c.n " expected 40000")
+  end
+end

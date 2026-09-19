@@ -10,5 +10,5 @@
 tests=MutableTopLevelVarInLoop
 link
 run
-run_out_WIcontains=PASS
+run_out_contains=PASS
 run_out_does_not_contain=FAIL

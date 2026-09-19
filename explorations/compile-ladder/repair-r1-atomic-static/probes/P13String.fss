@@ -1,0 +1,10 @@
+(* A top-level mutable variable of type String, the shape Compiled9.b.fss uses
+   (`var A: String = "A string"`, Compiled9.b.fss:32). *)
+component P13String
+export Executable
+var s: String = "one"
+run(): () = do
+    s := "two"
+    println("s = " s " expected two")
+  end
+end

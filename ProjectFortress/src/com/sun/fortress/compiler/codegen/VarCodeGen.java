@@ -339,7 +339,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                                "com/sun/fortress/runtimeSystem/Transaction",
                                "TXRead",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+                               "(" + NamingCzar.descFortressMutableFValueInternal + ")" + NamingCzar.descFortressAny);
             mv.visitJumpInsn(Opcodes.GOTO, end);
             mv.visitLabel(atomicEnd);
 
@@ -347,7 +347,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                                "com/sun/fortress/compiler/runtimeValues/MutableFValue",
                                "getValue",
-                               "()Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+                               "()" + NamingCzar.descFortressAny);
             mv.visitLabel(end);
             InstantiatingClassloader.generalizedCastTo(mv, typeInternalName);
         }
@@ -372,7 +372,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                                "com/sun/fortress/runtimeSystem/Transaction",
                                "TXWrite",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;Lcom/sun/fortress/compiler/runtimeValues/FValue;)V");
+                               "(" + NamingCzar.descFortressMutableFValueInternal + NamingCzar.descFortressAny + ")V");
             mv.visitJumpInsn(Opcodes.GOTO, end);
             mv.visitLabel(atomicEnd);
 
@@ -381,7 +381,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                                "com/sun/fortress/compiler/runtimeValues/MutableFValue",
                                "setValue",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/FValue;)V");
+                               "(" + NamingCzar.descFortressAny + ")V");
             mv.visitLabel(end);
         }
 
@@ -497,7 +497,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                                "com/sun/fortress/runtimeSystem/Transaction",
                                "TXWrite",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;Lcom/sun/fortress/compiler/runtimeValues/FValue;)V");
+                               "(" + NamingCzar.descFortressMutableFValueInternal + NamingCzar.descFortressAny + ")V");
             mv.visitJumpInsn(Opcodes.GOTO, end);
             mv.visitLabel(atomicEnd);
             mv.visitVarInsn(Opcodes.ALOAD, offset);
@@ -505,7 +505,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, 
                                "com/sun/fortress/compiler/runtimeValues/MutableFValue", 
                                "setValue",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/FValue;)V");
+                               "(" + NamingCzar.descFortressAny + ")V");
             mv.visitLabel(end);
         }
 
@@ -533,7 +533,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                                "com/sun/fortress/runtimeSystem/Transaction",
                                "TXRead",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+                               "(" + NamingCzar.descFortressMutableFValueInternal + ")" + NamingCzar.descFortressAny);
 
             mv.visitJumpInsn(Opcodes.GOTO, end);
             mv.visitLabel(atomicEnd);
@@ -542,7 +542,7 @@ public abstract class VarCodeGen {
             mv.visitVarInsn(Opcodes.ALOAD, offset);
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/MutableFValue", 
                                "getValue",
-                               "()Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+                               "()" + NamingCzar.descFortressAny);
             mv.visitLabel(end);
             mv.visitTypeInsn(Opcodes.CHECKCAST, NamingCzar.jvmTypeDesc(fortressType, ifNone, false));
         }
@@ -670,7 +670,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                                "com/sun/fortress/runtimeSystem/Transaction",
                                "TXWrite",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;Lcom/sun/fortress/compiler/runtimeValues/FValue;)V");
+                               "(" + NamingCzar.descFortressMutableFValueInternal + NamingCzar.descFortressAny + ")V");
             mv.visitJumpInsn(Opcodes.GOTO, end);
             mv.visitLabel(atomicEnd);
 
@@ -682,7 +682,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, 
                                "com/sun/fortress/compiler/runtimeValues/MutableFValue", 
                                "setValue",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/FValue;)V");
+                               "(" + NamingCzar.descFortressAny + ")V");
             mv.visitLabel(end);
 
         }
@@ -714,7 +714,7 @@ public abstract class VarCodeGen {
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                                "com/sun/fortress/runtimeSystem/Transaction",
                                "TXRead",
-                               "(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+                               "(" + NamingCzar.descFortressMutableFValueInternal + ")" + NamingCzar.descFortressAny);
 
             mv.visitJumpInsn(Opcodes.GOTO, end);
             mv.visitLabel(atomicEnd);
@@ -725,7 +725,7 @@ public abstract class VarCodeGen {
                               "Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;");
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/MutableFValue", 
                                "getValue",
-                               "()Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+                               "()" + NamingCzar.descFortressAny);
             mv.visitLabel(end);
             mv.visitTypeInsn(Opcodes.CHECKCAST, NamingCzar.jvmTypeDesc(fortressType, ifNone, false));
 
