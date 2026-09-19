@@ -107,6 +107,12 @@ but if one seems to conflict with something Pavol says, his words win.
 - Delegate by default. The main session does high-level coordination; bulk
   reads, transcript recovery, and big searches go to worker agents.
   Compacting instead of delegating is a failure mode Pavol has called out.
+- **(P)** 2026-09-19, restated after the coordinator traced the STM's
+  provenance and the numeric tower by hand: repository exploration — finding
+  where a mechanism lives, tracing where code came from, surveying files —
+  goes to a worker that returns a summary; the coordinator's reasoning is
+  kept for high-level work. And after a compaction `coordinator/FACTS.md`
+  is read whole, in one pass, never the tail alone.
 - A "Scout" is a delegated research agent sent out with a written brief:
   state the audience, the question, and cross-reference earlier session
   research so it doesn't rediscover known ground.
