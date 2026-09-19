@@ -1,0 +1,13 @@
+7 REM -1 (numeral) = 0
+7 MOD -1 (numeral) = 0
+7 GCD -1 (numeral) = 1
+7 LCM -1 (numeral) = -7
+-7 REM -1 (numeral) = 0
+-7 MOD -1 (numeral) = 0
+-7 MOD binding -1 = 0
+ZZ64 10^10 REM -1 = 0
+ZZ64 10^10 MOD -1 = 0
+ZZ64 10^10 GCD -1 = 1
+ZZ64 -10^10 MOD -1 = 0
+ZZ64 7 REM -1 = 0
+fn (i) => i MOD -1 at 30 = 0

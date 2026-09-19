@@ -1,0 +1,50 @@
+component SkepR2Cross
+export Executable
+
+(*) Skeptic's second-round probe.  The guard the repair adds returns a constant
+(*) without evaluating DIV, so the value it returns must be checked against the
+(*) UNGUARDED path rather than against itself.  basic-integers.tex:489 states
+(*) property FORALL (m, n) m REM n = m REM (-n), so m REM -1 must equal
+(*) m REM 1, which the guard does not intercept and which goes through DIV.
+(*) :490 states (-m) REM n = -(m REM n).  Both are checked here over a sweep
+(*) that includes the negative half the rung's fixed table samples at two
+(*) points.  Every count must be 0.  Run under walk and compiled.
+
+run(): () = do
+  mOne: ZZ32 = -1
+  one: ZZ32 = 1
+  zero: ZZ32 = 0
+  var m: ZZ32 := -60
+  var badSymmetry: ZZ32 := 0
+  var badNegation: ZZ32 := 0
+  var badModOne: ZZ32 := 0
+  var badPeriod: ZZ32 := 0
+  var nonZeroRem: ZZ32 := 0
+  var seen: ZZ32 := 0
+  while m <= 60 do
+    seen := seen + 1
+    (*) :489 -- the guard's answer must equal the unguarded answer at n = 1.
+    if (m REM mOne) =/= (m REM one) then badSymmetry := badSymmetry + 1 end
+    (*) :490 -- negating the dividend negates the remainder.  m = 0 is skipped
+    (*) because unary - on 0 itself throws IntegerOverflow on this path
+    (*) (simpleIntArith.java:85, ledger row 329), which is not what is under test.
+    if m =/= 0 then
+      if ((-m) REM mOne) =/= (zero - (m REM mOne)) then badNegation := badNegation + 1 end
+    end
+    (*) floor division by -1 is exact, so MOD must agree with MOD 1.
+    if (m MOD mOne) =/= (m MOD one) then badModOne := badModOne + 1 end
+    (*) :488 -- (m + k n) MOD n = m MOD n at n = -1, k = 7.
+    if ((m + (mOne DOT 7)) MOD mOne) =/= (m MOD mOne) then badPeriod := badPeriod + 1 end
+    (*) and the value itself, stated independently of the properties.
+    if (m REM mOne) =/= 0 then nonZeroRem := nonZeroRem + 1 end
+    m := m + 1
+  end
+  println("dividends = " seen)
+  println("bad REM(-n) symmetry = " badSymmetry)
+  println("bad REM negation = " badNegation)
+  println("bad MOD -1 vs MOD 1 = " badModOne)
+  println("bad MOD periodicity at -1 = " badPeriod)
+  println("nonzero REM -1 = " nonZeroRem)
+end
+
+end

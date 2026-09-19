@@ -1,0 +1,6 @@
+dividends =  121
+bad REM(-n) symmetry =  0
+bad REM negation =  0
+bad MOD -1 vs MOD 1 =  0
+bad MOD periodicity at -1 =  0
+nonzero REM -1 =  0
