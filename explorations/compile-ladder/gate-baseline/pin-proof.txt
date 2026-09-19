@@ -1,0 +1,17 @@
+Excerpt of 'ant -v testFast' run 2026-09-19 with FORTRESS_THREADS=4 exported in the calling shell, killed once the four fastTrack forks had started (the full 328 KB verbose log is not committed): every line naming FORTRESS_THREADS or FORTRESS_CACHES, in order; the fast-misc track forks a JVM per JUnit class and repeats its pair for each, so only the first two of those repetitions are kept here.
+
+1:shell FORTRESS_THREADS=4
+1219:    [junit] Setting environment variable: FORTRESS_CACHES=/home/user/fortress/ProjectFortress/test-caches/fast-compiler
+1220:    [junit] Setting environment variable: FORTRESS_CACHES=/home/user/fortress/ProjectFortress/test-caches/fast-library
+1221:    [junit] Setting environment variable: FORTRESS_THREADS=1
+1222:    [junit] Setting environment variable: FORTRESS_THREADS=1
+1224:    [junit] Setting environment variable: FORTRESS_CACHES=/home/user/fortress/ProjectFortress/test-caches/fast-othercompiler
+1225:    [junit] Setting environment variable: FORTRESS_THREADS=1
+1231:    [junit] Setting environment variable: FORTRESS_CACHES=/home/user/fortress/ProjectFortress/test-caches/fast-misc
+1232:    [junit] Setting environment variable: FORTRESS_THREADS=1
+1372:    [junit] Setting environment variable: FORTRESS_CACHES=/home/user/fortress/ProjectFortress/test-caches/fast-misc
+1373:    [junit] Setting environment variable: FORTRESS_THREADS=1
+1409:    [junit] Setting environment variable: FORTRESS_CACHES=/home/user/fortress/ProjectFortress/test-caches/fast-misc
+1410:    [junit] Setting environment variable: FORTRESS_THREADS=1
+1444:    [junit] Setting environment variable: FORTRESS_CACHES=/home/user/fortress/ProjectFortress/test-caches/fast-misc
+[... the same fast-misc pair repeated through line 3010 of the log ...]

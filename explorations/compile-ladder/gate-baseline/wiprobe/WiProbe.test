@@ -1,0 +1,4 @@
+tests=WiProbe
+link
+run
+run_out_WIcontains=NOT   PRESENT

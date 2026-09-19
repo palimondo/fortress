@@ -1,0 +1,6 @@
+component WiProbe
+export Executable
+
+run(): () = println "PASS"
+
+end

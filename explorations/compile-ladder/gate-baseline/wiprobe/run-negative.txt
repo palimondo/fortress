@@ -1,0 +1,21 @@
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/wiprobe
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ba958d48_16
+Not compiling file WiProbeRunner.class
+Not compiling file run-negative.txt
+Not compiling file WiProbeRunner.java
+. link /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/wiprobe/WiProbe  OK (time = 172824ms)
+. run /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/wiprobe/WiProbe (290ms) PASS
+Failed to satisfy run_out_WIcontains; expected
+NOT   PRESENT
+F
+Time: 173.124
+There was 1 failure:
+1) /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/wiprobe/WiProbe(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/wiprobe/WiProbe
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at WiProbeRunner.main(WiProbeRunner.java:5)
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
