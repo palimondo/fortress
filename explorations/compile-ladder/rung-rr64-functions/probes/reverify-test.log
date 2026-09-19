@@ -1,0 +1,5 @@
+=== reverify: fortress compile library_tests/RR64FunctionsRungF.fss  (2026-09-19T08:26:27+00:00) ===
+=== compile exit 0 ===
+=== fortress run RR64FunctionsRungF ===
+PASS
+=== run exit 0 ===
