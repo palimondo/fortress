@@ -1,0 +1,43 @@
+label=round2  date=2026-09-19T02:13:14+00:00  nproc=4  java=openjdk version "25.0.4" 2026-07-21
+HEAD=03cb9a48  src vs 49ee5e91: [ 5 files changed, 213 insertions(+), 77 deletions(-)]
+walk     SQ1ReadObj THREADS=1 exit=0 :: PASS m = 5|
+walk     SQ1ReadObj THREADS=4 exit=0 :: PASS m = 5|
+compile  SQ1ReadObj exit=0 :: |
+run      SQ1ReadObj THREADS=1 run1 exit=0 :: PASS m =  5|
+run      SQ1ReadObj THREADS=1 run2 exit=0 :: PASS m =  5|
+run      SQ1ReadObj THREADS=4 run1 exit=0 :: PASS m =  5|
+run      SQ1ReadObj THREADS=4 run2 exit=0 :: PASS m =  5|
+
+walk     SQ2NestedObj THREADS=1 exit=0 :: PASS|
+walk     SQ2NestedObj THREADS=4 exit=0 :: PASS|
+compile  SQ2NestedObj exit=0 :: |
+run      SQ2NestedObj THREADS=1 run1 exit=0 :: PASS|
+run      SQ2NestedObj THREADS=1 run2 exit=0 :: PASS|
+run      SQ2NestedObj THREADS=4 run1 exit=0 :: PASS|
+run      SQ2NestedObj THREADS=4 run2 exit=0 :: PASS|
+
+walk     SQ3ObjContend THREADS=1 exit=0 :: PASS|
+walk     SQ3ObjContend THREADS=4 exit=0 :: PASS|
+compile  SQ3ObjContend exit=0 :: |
+run      SQ3ObjContend THREADS=1 run1 exit=0 :: PASS|
+run      SQ3ObjContend THREADS=1 run2 exit=0 :: PASS|
+run      SQ3ObjContend THREADS=4 run1 exit=0 :: PASS|
+run      SQ3ObjContend THREADS=4 run2 exit=0 :: PASS|
+
+walk     SQ4NoisyAsString THREADS=1 exit=0 :: after atomic, b.n = 2|ASSTRING-CALLED|explicit: Loud|
+walk     SQ4NoisyAsString THREADS=4 exit=0 :: after atomic, b.n = 2|ASSTRING-CALLED|explicit: Loud|
+compile  SQ4NoisyAsString exit=0 :: |
+run      SQ4NoisyAsString THREADS=1 run1 exit=0 :: after atomic, b.n =  2|ASSTRING-CALLED|explicit:  Loud|
+run      SQ4NoisyAsString THREADS=1 run2 exit=0 :: after atomic, b.n =  2|ASSTRING-CALLED|explicit:  Loud|
+run      SQ4NoisyAsString THREADS=4 run1 exit=0 :: after atomic, b.n =  2|ASSTRING-CALLED|explicit:  Loud|
+run      SQ4NoisyAsString THREADS=4 run2 exit=0 :: after atomic, b.n =  2|ASSTRING-CALLED|explicit:  Loud|
+
+walk     SQ5ImmutableObj THREADS=1 exit=0 :: PASS|
+walk     SQ5ImmutableObj THREADS=4 exit=0 :: PASS|
+compile  SQ5ImmutableObj exit=0 :: |
+run      SQ5ImmutableObj THREADS=1 run1 exit=0 :: PASS|
+run      SQ5ImmutableObj THREADS=1 run2 exit=0 :: PASS|
+run      SQ5ImmutableObj THREADS=4 run1 exit=0 :: PASS|
+run      SQ5ImmutableObj THREADS=4 run2 exit=0 :: PASS|
+
+SKEPTIC2_DONE_round2

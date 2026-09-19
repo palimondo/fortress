@@ -1,0 +1,22 @@
+component SK20LocalTrait
+export Executable
+
+trait Shape
+    getter tag(): String
+end
+
+object Sq extends Shape
+    getter tag(): String = "Sq"
+end
+
+object Ci extends Shape
+    getter tag(): String = "Ci"
+end
+
+run(): () = do
+    var sh: Shape = Sq
+    atomic do sh := Ci end
+    println("sh = " sh.tag)
+  end
+
+end

@@ -1,0 +1,17 @@
+component SK4Nested
+export Executable
+
+g: ZZ32 := 0
+
+run(): () = do
+    atomic do
+        g := g + 1
+        atomic do
+            g := g + 10
+        end
+        g := g + 100
+    end
+    println("g = " g)
+  end
+
+end

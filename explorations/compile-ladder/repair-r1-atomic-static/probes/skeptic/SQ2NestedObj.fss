@@ -1,0 +1,31 @@
+component SQ2NestedObj
+export Executable
+
+(* Skeptic, second judgement.  Nested atomic over object-typed top-level
+   variables: exercises TXValidateHelperNestedTransaction (Transaction.java:198,
+   :203) and the inner transaction's commit into its parent's read and write
+   sets (:265, :274) with Fortress object values as keys and values.  Those four
+   sites were unguarded before the repair round and none of the rung's tests
+   reaches them with an object-typed value. *)
+
+object Box(n: ZZ32) end
+
+b: Box := Box(1)
+c: Box := Box(1)
+
+run(): () = do
+    atomic do
+        b := Box(2)
+        atomic do
+            c := Box(b.n + 10)
+        end
+        b := Box(b.n + 100)
+    end
+    if b.n = 102 AND c.n = 12 then
+        println("PASS")
+    else
+        println("FAIL: b.n = " b.n " (expected 102), c.n = " c.n " (expected 12)")
+    end
+  end
+
+end

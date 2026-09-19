@@ -1,0 +1,45 @@
+(*******************************************************************************
+    Copyright 2026, the Fortress revival.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+(* A mutable variable whose declared type is a user-defined object type,
+   assigned inside `atomic do ... end`: once at the top level of the component
+   and once as a local variable of a function.
+
+   Specification/basic/expressions/atomic.tex:38-42 requires the read and the
+   write to appear to occur in a single atomic step, and says nothing about the
+   type of the value, so a transactional read and write must work for a value
+   of any type.
+
+   `Box` deliberately declares no `asString` of its own, so its rendering falls
+   to the default `getter asString(): String = jAsString(self)` that
+   LibraryBuiltin/CompilerBuiltin.fss:338 gives `trait Object`.  Anything on the
+   transactional path that stringifies such a value therefore recurses; this
+   program is the gated check that nothing on that path does. *)
+
+component AtomicTopLevelObjectVar
+export Executable
+
+object Box(n: ZZ32) end
+
+b: Box := Box(1)
+
+run(): () = do
+    var c: Box = Box(1)
+    atomic do b := Box(3) end
+    atomic do c := Box(4) end
+    if b.n = 3 AND c.n = 4 then
+        println("PASS")
+    else
+        println("FAIL: b.n = " b.n " (expected 3), c.n = " c.n " (expected 4)")
+    end
+  end
+
+end

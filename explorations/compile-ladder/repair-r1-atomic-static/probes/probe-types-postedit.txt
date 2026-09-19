@@ -1,0 +1,11 @@
+label=postedit date=2026-09-18T23:54:04+00:00
+source vs 49ee5e91:  3 files changed, 125 insertions(+), 16 deletions(-)
+--- P11Obj compile exit=0 :: |
+P11Obj run :: b.n =  2  expected 2|
+--- P12Arrow compile exit=0 :: |
+P12Arrow run :: Exception in thread "main" java.lang.VerifyError: Bad type on operand stack|Exception Details:|  Location:|    P12Arrow.run()Lcom/sun/fortress/compiler/runtimeValues/FVoid; @21: invokevirtual|  Reason:|    Type 'P12Arrow$\=fn@8\!10-10\!4' (current frame, stack[2]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FValue'|  Current Frame:|    bci: @21|    flags: { }|    locals: { }|    stack: { 'com/sun/fortress/runtimeSystem/Transaction', 'com/sun/fortress/compiler/runtimeValues/Muta
+--- P13String compile exit=0 :: |
+P13String run :: s =  two  expected two|
+--- P14LocalObj compile exit=0 :: |
+P14LocalObj run :: b.n =  2  expected 2|
+PROBES3_DONE_postedit

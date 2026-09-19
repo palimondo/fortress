@@ -1,0 +1,10 @@
+component P1Atomic
+export Executable
+counter: ZZ32 := 0
+run(): () = do
+    atomic do counter := counter + 1 end
+    atomic do counter := counter + 1 end
+    atomic do counter := counter + 1 end
+    println("counter = " counter)
+  end
+end

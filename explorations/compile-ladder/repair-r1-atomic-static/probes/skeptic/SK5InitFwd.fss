@@ -1,0 +1,20 @@
+component SK5InitFwd
+export Executable
+
+a: ZZ32 := b + 1
+
+b: ZZ32 = 10
+
+c: ZZ32 = a + 1
+
+object Holder
+    f: ZZ32 = d
+end
+
+d: ZZ32 := 5
+
+run(): () = do
+    println("a = " a " b = " b " c = " c " Holder.f = " Holder.f " d = " d)
+  end
+
+end

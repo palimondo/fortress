@@ -1,0 +1,12 @@
+(* The control for P12Arrow: a LOCAL mutable variable of arrow type.  The tree
+   already stores a local mutable variable in a MutableFValue cell
+   (VarCodeGen.LocalMutableVar), so if this fails on the same VerifyError the
+   cell already cannot hold a closure and the hole is not this rung's. *)
+component P15LocalArrow
+export Executable
+run(): () = do
+    var f: ZZ32 -> ZZ32 := fn (x: ZZ32): ZZ32 => x + 1
+    f := fn (x: ZZ32): ZZ32 => x + 2
+    println("f(1) = " f(1) " expected 3")
+  end
+end

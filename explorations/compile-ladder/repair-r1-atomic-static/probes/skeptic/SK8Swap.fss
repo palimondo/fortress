@@ -1,0 +1,28 @@
+component SK8Swap
+export Executable
+
+x: ZZ32 := 0
+
+y: ZZ32 := 1000
+
+iters: ZZ32 = 5000
+
+move(): () = atomic do
+    x := x + 1
+    y := y - 1
+  end
+
+run(): () = do
+    do
+        for i <- 1#iters do move() end
+    also do
+        for i <- 1#iters do move() end
+    end
+    if (x + y) = 1000 AND x = 2 iters then
+        println("PASS")
+    else
+        println("FAIL: x = " x " y = " y " sum = " (x + y))
+    end
+  end
+
+end

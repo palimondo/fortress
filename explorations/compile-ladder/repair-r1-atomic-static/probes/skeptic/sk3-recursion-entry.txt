@@ -1,0 +1,35 @@
+# SK3Throw on the repaired tree (the guards are in), JAVA_FLAGS='-Xmx4g -Xss512k -XX:MaxJavaStackTraceDepth=0'.
+# 7995 frames; the first 13 and the last 12, which name where the recursion is entered.
+# Taken as probes/skeptic/sk25-recursion-entry.txt was taken.  SK3Throw still overflows after the
+# guards, and it does not enter through Transaction.java at all: the entry is FException.<init>
+# (FException.java:22-23), which builds its java.lang.Error message with v.asString() for the
+# thrown value.  object Boom extends UncheckedException end declares no asString, so that call is
+# CompilerBuiltin.fss:338's default and lands in the same cycle -- a second, pre-existing symptom
+# of the asString defect, on every Fortress throw of an object without its own asString.
+
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SK3Throw.main(/home/user/fortress-r1/ProjectFortress/skprobes/SK3Throw.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.StackOverflowError
+	  ... [7970 frames of the same cycle] ...
+	at com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java:40)
+	at native.com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-r1/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:338)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-r1/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at com.sun.fortress.compiler.runtimeValues.FException.<init>(FException.java:23)
+	at SK3Throw.run(/home/user/fortress-r1/ProjectFortress/skprobes/SK3Throw.fss:12)
+	at SK3Throw.compute(/home/user/fortress-r1/ProjectFortress/skprobes/SK3Throw.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)

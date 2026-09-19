@@ -1,0 +1,28 @@
+# SK25ObjNoAtomicVsAtomic on the landed tree, JAVA_FLAGS='-Xmx4g -Xss512k -XX:MaxJavaStackTraceDepth=0'.
+# 4391 frames; the first 10 and the last 12, which name where the recursion is entered.
+
+plain write ok, b.n =  2
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SK25ObjNoAtomicVsAtomic.main(/home/user/fortress-r1/ProjectFortress/skprobes/SK25ObjNoAtomicVsAtomic.fss)
+   ... 4360 frames of the same three-frame cycle ...
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-r1/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:338)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-r1/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at com.sun.fortress.compiler.runtimeValues.FValue.toString(FValue.java:26)
+	at java.base/java.lang.String.valueOf(String.java:4530)
+	at com.sun.fortress.compiler.runtimeValues.MutableFValue.toString(MutableFValue.java:39)
+	at java.base/java.lang.String.valueOf(String.java:4530)
+	at com.sun.fortress.runtimeSystem.Transaction.TXWrite(Transaction.java:227)
+	at SK25ObjNoAtomicVsAtomic.run(/home/user/fortress-r1/ProjectFortress/skprobes/SK25ObjNoAtomicVsAtomic.fss:11)
+	at SK25ObjNoAtomicVsAtomic.compute(/home/user/fortress-r1/ProjectFortress/skprobes/SK25ObjNoAtomicVsAtomic.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)

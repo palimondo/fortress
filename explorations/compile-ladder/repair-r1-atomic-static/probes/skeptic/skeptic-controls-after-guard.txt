@@ -1,0 +1,66 @@
+label=after-guard  date=2026-09-19T01:48:40+00:00  nproc=4
+src vs 49ee5e91: [ 5 files changed, 213 insertions(+), 77 deletions(-)]
+walk     SK12ArmAtomic exit=0 :: g = 3|
+compile  SK12ArmAtomic exit=0 :: |
+run      SK12ArmAtomic THREADS=1 exit=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)|	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)|	at java.base/java.util.concurrent.ForkJoinPo
+run      SK12ArmAtomic THREADS=4 exit=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)|	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)|	at java.base/java.util.concurrent.ForkJoinPo
+
+walk     SK13LocalArmAtomic exit=0 :: g = 3|
+compile  SK13LocalArmAtomic exit=0 :: |
+run      SK13LocalArmAtomic THREADS=1 exit=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)|	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)|	at java.base/java.util.concurrent.ForkJoinPo
+run      SK13LocalArmAtomic THREADS=4 exit=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)|	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)|	at java.base/java.util.concurrent.ForkJoinPo
+
+walk     SK14LocalTaskNest exit=0 :: g = 43|
+compile  SK14LocalTaskNest exit=0 :: |
+run      SK14LocalTaskNest THREADS=1 exit=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)|	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)|	at java.base/java.util.concurrent.ForkJoinPo
+run      SK14LocalTaskNest THREADS=4 exit=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)|	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)|	at java.base/java.util.concurrent.ForkJoinPo
+
+walk     SK15String exit=0 :: st = ab|
+compile  SK15String exit=0 :: |
+run      SK15String THREADS=1 exit=0 :: st =  a b|
+run      SK15String THREADS=4 exit=0 :: st =  a b|
+
+walk     SK16LocalString exit=0 :: st = ab|
+compile  SK16LocalString exit=0 :: |
+run      SK16LocalString THREADS=1 exit=0 :: st =  a b|
+run      SK16LocalString THREADS=4 exit=0 :: st =  a b|
+
+walk     SK17ZZ64 exit=0 :: n = 3|
+compile  SK17ZZ64 exit=0 :: |
+run      SK17ZZ64 THREADS=1 exit=0 :: n =  3|
+run      SK17ZZ64 THREADS=4 exit=0 :: n =  3|
+
+walk     SK18Trait exit=0 :: sh = Ci|
+compile  SK18Trait exit=0 :: |
+run      SK18Trait THREADS=1 exit=0 :: sh =  Ci|
+run      SK18Trait THREADS=4 exit=0 :: sh =  Ci|
+
+walk     SK19ThrowLocal exit=0 :: caught|g after abrupt atomic = 100|g after plain write = 55|
+compile  SK19ThrowLocal exit=0 :: |
+run      SK19ThrowLocal THREADS=1 exit=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)|	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)|	at java.base/java.util.concurrent.For
+run      SK19ThrowLocal THREADS=4 exit=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)|	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)|	at java.base/java.util.concurrent.For
+
+walk     SK1Tuple exit=0 :: p = (8,54)|
+compile  SK1Tuple exit=255 :: /home/user/fortress-r1/ProjectFortress/skprobes/SK1Tuple.fss:14:13-20:|    Could not check call to operator juxtaposition|    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (String, (ZZ32, ZZ32)).|    - (NN32, NN32)->NN32 is not applicable to an argument of type (String, (ZZ32, ZZ32)).|    - (NN64, NN64)->NN64 is not applicable to an argument of type (String, (ZZ32, ZZ32)).|    - (RR64, RR64)->RR64 is not applicable to an argument of type (String, (ZZ32, ZZ32)).|
+
+walk     SK20LocalTrait exit=0 :: sh = Ci|
+compile  SK20LocalTrait exit=0 :: |
+run      SK20LocalTrait THREADS=1 exit=0 :: sh =  Ci|
+run      SK20LocalTrait THREADS=4 exit=0 :: sh =  Ci|
+
+walk     SK21TraitNoAtomic exit=0 :: sh = Ci|
+compile  SK21TraitNoAtomic exit=0 :: |
+run      SK21TraitNoAtomic THREADS=1 exit=0 :: sh =  Ci|
+run      SK21TraitNoAtomic THREADS=4 exit=0 :: sh =  Ci|
+
+walk     SK24TraitAsString exit=0 :: sh = Ci|
+compile  SK24TraitAsString exit=0 :: |
+run      SK24TraitAsString THREADS=1 exit=0 :: sh =  Ci|
+run      SK24TraitAsString THREADS=4 exit=0 :: sh =  Ci|
+
+walk     SK25ObjNoAtomicVsAtomic exit=0 :: plain write ok, b.n = 2|atomic write ok, b.n = 3|
+compile  SK25ObjNoAtomicVsAtomic exit=0 :: |
+run      SK25ObjNoAtomicVsAtomic THREADS=1 exit=0 :: plain write ok, b.n =  2|atomic write ok, b.n =  3|
+run      SK25ObjNoAtomicVsAtomic THREADS=4 exit=0 :: plain write ok, b.n =  2|atomic write ok, b.n =  3|
+
+SKEPTIC_CONTROLS_DONE_after-guard

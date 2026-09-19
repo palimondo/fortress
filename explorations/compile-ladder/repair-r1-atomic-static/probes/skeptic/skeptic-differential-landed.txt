@@ -1,0 +1,55 @@
+label=landed  date=2026-09-19T00:53:13+00:00  nproc=4
+src vs 49ee5e91: [ 4 files changed, 191 insertions(+), 55 deletions(-)]
+walk     SK1Tuple THREADS=1 exit=1 :: null/home/user/fortress-r1/ProjectFortress/skprobes/SK1Tuple.fss:9:27:|    Syntax Error|Turn on "-debug interpreter" for Java-level stack trace.|java.lang.Throwable|	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)|	at com.sun.fortress.Shell.walk(Shell.java:1166)|	at com.sun.fortress.Shell.walk(Shell.java:1116)|	at com.sun.fortress.Shell.subMain(Shell.java:483)|	at com.sun.fortress.She
+walk     SK1Tuple THREADS=4 exit=1 :: null/home/user/fortress-r1/ProjectFortress/skprobes/SK1Tuple.fss:9:27:|    Syntax Error|Turn on "-debug interpreter" for Java-level stack trace.|java.lang.Throwable|	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)|	at com.sun.fortress.Shell.walk(Shell.java:1166)|	at com.sun.fortress.Shell.walk(Shell.java:1116)|	at com.sun.fortress.Shell.subMain(Shell.java:483)|	at com.sun.fortress.She
+compile  SK1Tuple exit=255 :: /home/user/fortress-r1/ProjectFortress/skprobes/SK1Tuple.fss:9:27:|    Syntax Error|File SK1Tuple.fss has 1 error.|
+
+walk     SK2Closure THREADS=1 exit=0 :: g = 7|
+walk     SK2Closure THREADS=4 exit=0 :: g = 7|
+compile  SK2Closure exit=0 :: |
+run      SK2Closure THREADS=1 exit=0 :: g =  7|
+run      SK2Closure THREADS=4 exit=0 :: g =  7|
+
+walk     SK3Throw THREADS=1 exit=0 :: caught|g after abrupt atomic = 100|g after plain write = 55|
+walk     SK3Throw THREADS=4 exit=0 :: caught|g after abrupt atomic = 100|g after plain write = 55|
+compile  SK3Throw exit=0 :: |
+run      SK3Throw THREADS=1 exit=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	
+run      SK3Throw THREADS=4 exit=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	
+
+walk     SK4Nested THREADS=1 exit=0 :: g = 111|
+walk     SK4Nested THREADS=4 exit=0 :: g = 111|
+compile  SK4Nested exit=0 :: |
+run      SK4Nested THREADS=1 exit=0 :: g =  111|
+run      SK4Nested THREADS=4 exit=0 :: g =  111|
+
+walk     SK5InitFwd THREADS=1 exit=1 :: com.sun.fortress.exceptions.ProgramError: /home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss:11:5-15:|Attempt to find type of uninitialized variable: thunk (IntLiteralExpr @"/home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss":14:12 _info=(ExprInfo) _intVal=5 _text="5")|Context:|/home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss:11:5-15:|/home/user/fortress-r1/Pr
+walk     SK5InitFwd THREADS=4 exit=1 :: com.sun.fortress.exceptions.ProgramError: /home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss:11:5-15:|Attempt to find type of uninitialized variable: thunk (IntLiteralExpr @"/home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss":14:12 _info=(ExprInfo) _intVal=5 _text="5")|Context:|/home/user/fortress-r1/ProjectFortress/skprobes/SK5InitFwd.fss:11:5-15:|/home/user/fortress-r1/Pr
+compile  SK5InitFwd exit=0 :: |
+run      SK5InitFwd THREADS=1 exit=0 :: a =  11  b =  10  c =  12  Holder.f =  5  d =  5|
+run      SK5InitFwd THREADS=4 exit=0 :: a =  11  b =  10  c =  12  Holder.f =  5  d =  5|
+
+walk     SK6Types THREADS=1 exit=0 :: n64 = 4294967297 r64 = 1.75 bl = true st = ab sh = Ci|
+walk     SK6Types THREADS=4 exit=0 :: n64 = 4294967297 r64 = 1.75 bl = true st = ab sh = Ci|
+compile  SK6Types exit=0 :: |
+run      SK6Types THREADS=1 exit=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	
+run      SK6Types THREADS=4 exit=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	
+
+walk     SK7TaskNest THREADS=1 exit=0 :: g = 43|
+walk     SK7TaskNest THREADS=4 exit=0 :: g = 43|
+compile  SK7TaskNest exit=0 :: |
+run      SK7TaskNest THREADS=1 exit=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java
+run      SK7TaskNest THREADS=4 exit=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java
+
+walk     SK8Swap THREADS=1 exit=0 :: PASS|
+walk     SK8Swap THREADS=4 exit=0 :: PASS|
+compile  SK8Swap exit=0 :: |
+run      SK8Swap THREADS=1 exit=0 :: PASS|
+run      SK8Swap THREADS=4 exit=0 :: PASS|
+
+walk     SK9While THREADS=1 exit=0 :: i = 5 acc = 10|
+walk     SK9While THREADS=4 exit=0 :: i = 5 acc = 10|
+compile  SK9While exit=0 :: |
+run      SK9While THREADS=1 exit=0 :: i =  5  acc =  10|
+run      SK9While THREADS=4 exit=0 :: i =  5  acc =  10|
+
+SKEPTIC_DONE_landed

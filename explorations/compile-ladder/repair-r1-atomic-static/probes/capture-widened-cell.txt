@@ -1,0 +1,43 @@
+FORTRESS_HOME=/home/user/fortress-r1
+nproc=4
+git status source: 4 modified
+ M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+ M ProjectFortress/src/com/sun/fortress/compiler/codegen/VarCodeGen.java
+ M ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java
+ M ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java
+library LibraryBuiltin/AnyType.fss exit=0 elapsed=20s
+library LibraryBuiltin/CompilerBuiltin.fss exit=0 elapsed=106s
+library ../Library/CompilerLibrary.fss exit=0 elapsed=17s
+library ../Library/CompilerAlgebra.fss exit=0 elapsed=2s
+library ../Library/CompilerSystem.fss exit=0 elapsed=2s
+compile MutableTopLevelVar exit=0 elapsed=3s
+compile MutableTopLevelVarInLoop exit=0 elapsed=3s
+compile AtomicTopLevelVar exit=0 elapsed=2s
+THREADS=default run=1 MutableTopLevelVarInLoop exit=0 ms=686 :: PASS|
+THREADS=default run=2 MutableTopLevelVarInLoop exit=0 ms=632 :: PASS|
+THREADS=default run=3 MutableTopLevelVarInLoop exit=0 ms=734 :: PASS|
+THREADS=default run=1 AtomicTopLevelVar exit=0 ms=969 :: PASS|
+THREADS=default run=2 AtomicTopLevelVar exit=0 ms=1170 :: PASS|
+THREADS=default run=3 AtomicTopLevelVar exit=0 ms=1117 :: PASS|
+THREADS=default run=1 MutableTopLevelVar exit=0 ms=297 :: PASS|
+THREADS=default run=2 MutableTopLevelVar exit=0 ms=317 :: PASS|
+THREADS=default run=3 MutableTopLevelVar exit=0 ms=290 :: PASS|
+THREADS=1 run=1 MutableTopLevelVarInLoop exit=0 ms=674 :: PASS|
+THREADS=1 run=2 MutableTopLevelVarInLoop exit=0 ms=623 :: PASS|
+THREADS=1 run=3 MutableTopLevelVarInLoop exit=0 ms=593 :: PASS|
+THREADS=1 run=1 AtomicTopLevelVar exit=0 ms=910 :: PASS|
+THREADS=1 run=2 AtomicTopLevelVar exit=0 ms=1095 :: PASS|
+THREADS=1 run=3 AtomicTopLevelVar exit=0 ms=959 :: PASS|
+THREADS=1 run=1 MutableTopLevelVar exit=0 ms=386 :: PASS|
+THREADS=1 run=2 MutableTopLevelVar exit=0 ms=376 :: PASS|
+THREADS=1 run=3 MutableTopLevelVar exit=0 ms=366 :: PASS|
+THREADS=4 run=1 MutableTopLevelVarInLoop exit=0 ms=729 :: PASS|
+THREADS=4 run=2 MutableTopLevelVarInLoop exit=0 ms=692 :: PASS|
+THREADS=4 run=3 MutableTopLevelVarInLoop exit=0 ms=599 :: PASS|
+THREADS=4 run=1 AtomicTopLevelVar exit=0 ms=1218 :: PASS|
+THREADS=4 run=2 AtomicTopLevelVar exit=0 ms=1176 :: PASS|
+THREADS=4 run=3 AtomicTopLevelVar exit=0 ms=1001 :: PASS|
+THREADS=4 run=1 MutableTopLevelVar exit=0 ms=273 :: PASS|
+THREADS=4 run=2 MutableTopLevelVar exit=0 ms=275 :: PASS|
+THREADS=4 run=3 MutableTopLevelVar exit=0 ms=281 :: PASS|
+CAPTURE_DONE_any

@@ -1,0 +1,23 @@
+component SK21TraitNoAtomic
+export Executable
+
+trait Shape
+    getter tag(): String
+end
+
+object Sq extends Shape
+    getter tag(): String = "Sq"
+end
+
+object Ci extends Shape
+    getter tag(): String = "Ci"
+end
+
+sh: Shape := Sq
+
+run(): () = do
+    sh := Ci
+    println("sh = " sh.tag)
+  end
+
+end

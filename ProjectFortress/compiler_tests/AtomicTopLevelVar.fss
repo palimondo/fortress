@@ -1,0 +1,67 @@
+(*******************************************************************************
+    Copyright 2026, the Fortress revival.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+(* A mutable variable declared at the top level of a component, incremented
+   inside `atomic do ... end` by the two implicit threads of a
+   `do ... also do ... end`.
+
+   Specification/basic/expressions/atomic.tex:38-42 requires the read and the
+   write of `counter` to appear to occur in a single atomic step with respect
+   to any action of a thread dynamically outside, so the two threads together
+   must perform exactly 2 * iterations increments.  atomic.tex:96-107 gives the
+   same shape as the chapter's own example: a loop body that reads and writes a
+   shared counter inside `atomic`, which "will appear to occur atomically with
+   respect to all other threads -- including both other iterations of the loop
+   body".
+
+   The increment is in a top-level function rather than written out in the loop
+   body so that this program tests transaction membership alone; assignment
+   from inside a nested code-generation context is the other half of the same
+   repair and MutableTopLevelVarInLoop.fss covers it.
+
+   Thread count.  A program in this corpus cannot set its own thread count:
+   the count is read once from the environment (FORTRESS_THREADS,
+   runtimeSystem/FortressExecutable.java:37-44) and Java cannot set an
+   environment variable for its own process.  Nor does the gate set one: the
+   fastTrack macro that runs compiler_tests sets FORTRESS_CACHES and no thread
+   count (build.xml:927-953), and the harness runs each program in a
+   subprocess that inherits the environment (FileTests.java:480-486), so the
+   count is whatever the shell that started ant had.  experiment/env.sh:6
+   exports FORTRESS_THREADS=1, and every run of this project is told to source
+   it, so in practice this program runs at one worker and passes whether or
+   not the implementation is correct.  The deterministic half of the repair,
+   MutableTopLevelVarInLoop.fss, fails at one thread as well and is what
+   carries the gate.  Runs both ways are in
+   explorations/compile-ladder/repair-r1-atomic-static/REPORT.md. *)
+
+component AtomicTopLevelVar
+export Executable
+
+counter: ZZ32 := 0
+
+iterations: ZZ32 = 20000
+
+bump(): () = atomic do counter := counter + 1 end
+
+run(): () = do
+    do
+        for i <- 1#iterations do bump() end
+    also do
+        for i <- 1#iterations do bump() end
+    end
+    if counter = 2 iterations then
+        println("PASS")
+    else
+        println("FAIL: counter = " counter " expected " (2 iterations))
+    end
+  end
+
+end

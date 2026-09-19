@@ -1,0 +1,5 @@
+component P8Main
+import P8Api.{...}
+export Executable
+run(): () = println("shared = " shared)
+end

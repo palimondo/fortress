@@ -1,0 +1,43 @@
+Recorded pass of the four compiler_tests programs of R1 after the repair round's
+debug guards on runtimeSystem/Transaction.java (14 sites) and BaseTask.java (8 sites).
+commit  = b9fcb2b9 plus the uncommitted guards
+date    = 2026-09-19T01:45:20+00:00   nproc=4   java=openjdk version "25.0.4" 2026-07-21
+src vs 49ee5e91: [ 5 files changed, 213 insertions(+), 77 deletions(-)]
+build   = ant compileAll (tmp/compileAll-guard.log, BUILD SUCCESSFUL), then
+          rm -rf default_repository/caches/* and the library-order rebuild
+          (tmp/cache-rebuild-guard.log: AnyType 19s, CompilerBuiltin 103s,
+          CompilerLibrary 17s, CompilerAlgebra 2s, CompilerSystem 1s)
+counts  = FORTRESS_THREADS=1, FORTRESS_THREADS unset (the harness's own case:
+          FortressExecutable.java:37-44 then falls back to availableProcessors/2
+          = 2 here), and FORTRESS_THREADS=4.  AtomicTopLevelVar three runs each.
+
+compile AtomicTopLevelObjectVar exit=0 :: |
+run     AtomicTopLevelObjectVar THREADS=1 run1 exit=0 :: PASS|
+run     AtomicTopLevelObjectVar THREADS=unset run1 exit=0 :: PASS|
+run     AtomicTopLevelObjectVar THREADS=4 run1 exit=0 :: PASS|
+
+compile AtomicTopLevelVar exit=0 :: |
+run     AtomicTopLevelVar THREADS=1 run1 exit=0 :: PASS|
+run     AtomicTopLevelVar THREADS=1 run2 exit=0 :: PASS|
+run     AtomicTopLevelVar THREADS=1 run3 exit=0 :: PASS|
+run     AtomicTopLevelVar THREADS=unset run1 exit=0 :: PASS|
+run     AtomicTopLevelVar THREADS=unset run2 exit=0 :: PASS|
+run     AtomicTopLevelVar THREADS=unset run3 exit=0 :: PASS|
+run     AtomicTopLevelVar THREADS=4 run1 exit=0 :: PASS|
+run     AtomicTopLevelVar THREADS=4 run2 exit=0 :: PASS|
+run     AtomicTopLevelVar THREADS=4 run3 exit=0 :: PASS|
+
+compile MutableTopLevelVarInLoop exit=0 :: |
+run     MutableTopLevelVarInLoop THREADS=1 run1 exit=0 :: PASS|
+run     MutableTopLevelVarInLoop THREADS=unset run1 exit=0 :: PASS|
+run     MutableTopLevelVarInLoop THREADS=4 run1 exit=0 :: PASS|
+
+compile MutableTopLevelVar exit=0 :: |
+run     MutableTopLevelVar THREADS=1 run1 exit=0 :: PASS|
+run     MutableTopLevelVar THREADS=unset run1 exit=0 :: PASS|
+run     MutableTopLevelVar THREADS=4 run1 exit=0 :: PASS|
+
+-- the new test under the interpreter, for the record (no .test walk line) --
+walk    AtomicTopLevelObjectVar :: PASS|
+
+CAPTURE_DONE

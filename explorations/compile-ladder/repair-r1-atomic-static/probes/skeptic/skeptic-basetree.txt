@@ -1,0 +1,130 @@
+skeptic independent base-tree reproduction  start=2026-09-19T00:58:49+00:00 nproc=4
+--- reverting the four edited sources to 49ee5e91 ---
+git diff 49ee5e91 -- ProjectFortress/src : []
+ant compileAll (base) exit=0 40s  tail: 1
+BUILD SUCCESSFUL
+  cache LibraryBuiltin/AnyType.fss exit=0 20s
+  cache LibraryBuiltin/CompilerBuiltin.fss exit=0 104s
+  cache ../Library/CompilerLibrary.fss exit=0 17s
+  cache ../Library/CompilerAlgebra.fss exit=0 2s
+  cache ../Library/CompilerSystem.fss exit=0 1s
+BASE compile MutableTopLevelVarInLoop exit=0 :: |
+BASE run     MutableTopLevelVarInLoop THREADS=1 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+BASE run     MutableTopLevelVarInLoop THREADS=4 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+BASE compile AtomicTopLevelVar exit=0 :: |
+BASE run     AtomicTopLevelVar THREADS=1 :: PASS|
+BASE run     AtomicTopLevelVar THREADS=4 :: FAIL: counter =  34104  expected  40000|
+BASE compile SK18Trait exit=0 :: |
+BASE run     SK18Trait THREADS=1 :: sh =  Ci|
+BASE run     SK18Trait THREADS=4 :: sh =  Ci|
+BASE compile SK21TraitNoAtomic exit=0 :: |
+BASE run     SK21TraitNoAtomic THREADS=1 :: sh =  Ci|
+BASE run     SK21TraitNoAtomic THREADS=4 :: sh =  Ci|
+BASE compile SK20LocalTrait exit=0 :: |
+BASE run     SK20LocalTrait THREADS=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE run     SK20LocalTrait THREADS=4 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE compile SK12ArmAtomic exit=0 :: |
+BASE run     SK12ArmAtomic THREADS=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE run     SK12ArmAtomic THREADS=4 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE compile SK13LocalArmAtomic exit=0 :: |
+BASE run     SK13LocalArmAtomic THREADS=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE run     SK13LocalArmAtomic THREADS=4 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE compile SK7TaskNest exit=0 :: |
+BASE run     SK7TaskNest THREADS=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE run     SK7TaskNest THREADS=4 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE compile SK15String exit=0 :: |
+BASE run     SK15String THREADS=1 :: st =  a b|
+BASE run     SK15String THREADS=4 :: st =  a b|
+BASE compile SK16LocalString exit=0 :: |
+BASE run     SK16LocalString THREADS=1 :: Exception in thread "main" java.lang.VerifyError: Bad type on operand stack|Exception Details:|  Location:|
+BASE run     SK16LocalString THREADS=4 :: Exception in thread "main" java.lang.VerifyError: Bad type on operand stack|Exception Details:|  Location:|
+BASE compile SK2Closure exit=0 :: |
+BASE run     SK2Closure THREADS=1 :: g =  0|
+BASE run     SK2Closure THREADS=4 :: g =  0|
+BASE compile SK5InitFwd exit=0 :: |
+BASE run     SK5InitFwd THREADS=1 :: a =  11  b =  10  c =  12  Holder.f =  5  d =  5|
+BASE run     SK5InitFwd THREADS=4 :: a =  11  b =  10  c =  12  Holder.f =  5  d =  5|
+BASE compile SK3Throw exit=0 :: |
+BASE run     SK3Throw THREADS=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE run     SK3Throw THREADS=4 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE compile SK19ThrowLocal exit=0 :: |
+BASE run     SK19ThrowLocal THREADS=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE run     SK19ThrowLocal THREADS=4 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+BASE compile SK1Tuple exit=255 :: /home/user/fortress-r1/ProjectFortress/skprobes/SK1Tuple.fss:14:13-20:|    Could not check call to operator juxtaposition|    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (String, (ZZ32, ZZ32)).|    - (NN32, NN32)->
+BASE compile SK17ZZ64 exit=0 :: |
+BASE run     SK17ZZ64 THREADS=1 :: n =  3|
+BASE run     SK17ZZ64 THREADS=4 :: n =  3|
+BASE compile SK4Nested exit=0 :: |
+BASE run     SK4Nested THREADS=1 :: g =  111|
+BASE run     SK4Nested THREADS=4 :: g =  111|
+BASE compile SK9While exit=0 :: |
+BASE run     SK9While THREADS=1 :: i =  5  acc =  10|
+BASE run     SK9While THREADS=4 :: i =  5  acc =  10|
+BASE compile SK8Swap exit=0 :: |
+BASE run     SK8Swap THREADS=1 :: PASS|
+BASE run     SK8Swap THREADS=4 :: FAIL: x =  9692  y =  -8877  sum =  815|
+--- restoring the landed sources ---
+git diff HEAD -- ProjectFortress/src : []
+ant compileAll (landed) exit=0 41s
+BUILD SUCCESSFUL
+  cache LibraryBuiltin/AnyType.fss exit=0 20s
+  cache LibraryBuiltin/CompilerBuiltin.fss exit=0 105s
+  cache ../Library/CompilerLibrary.fss exit=0 17s
+  cache ../Library/CompilerAlgebra.fss exit=0 1s
+  cache ../Library/CompilerSystem.fss exit=0 2s
+LANDED compile MutableTopLevelVarInLoop exit=0 :: |
+LANDED run     MutableTopLevelVarInLoop THREADS=1 :: PASS|
+LANDED run     MutableTopLevelVarInLoop THREADS=4 :: PASS|
+LANDED compile AtomicTopLevelVar exit=0 :: |
+LANDED run     AtomicTopLevelVar THREADS=1 :: PASS|
+LANDED run     AtomicTopLevelVar THREADS=4 :: PASS|
+LANDED compile SK18Trait exit=0 :: |
+LANDED run     SK18Trait THREADS=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED run     SK18Trait THREADS=4 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED compile SK21TraitNoAtomic exit=0 :: |
+LANDED run     SK21TraitNoAtomic THREADS=1 :: sh =  Ci|
+LANDED run     SK21TraitNoAtomic THREADS=4 :: sh =  Ci|
+LANDED compile SK20LocalTrait exit=0 :: |
+LANDED run     SK20LocalTrait THREADS=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED run     SK20LocalTrait THREADS=4 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED compile SK12ArmAtomic exit=0 :: |
+LANDED run     SK12ArmAtomic THREADS=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED run     SK12ArmAtomic THREADS=4 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED compile SK13LocalArmAtomic exit=0 :: |
+LANDED run     SK13LocalArmAtomic THREADS=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED run     SK13LocalArmAtomic THREADS=4 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED compile SK7TaskNest exit=0 :: |
+LANDED run     SK7TaskNest THREADS=1 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED run     SK7TaskNest THREADS=4 :: java.lang.VerifyError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED compile SK15String exit=0 :: |
+LANDED run     SK15String THREADS=1 :: st =  a b|
+LANDED run     SK15String THREADS=4 :: st =  a b|
+LANDED compile SK16LocalString exit=0 :: |
+LANDED run     SK16LocalString THREADS=1 :: st =  a b|
+LANDED run     SK16LocalString THREADS=4 :: st =  a b|
+LANDED compile SK2Closure exit=0 :: |
+LANDED run     SK2Closure THREADS=1 :: g =  7|
+LANDED run     SK2Closure THREADS=4 :: g =  7|
+LANDED compile SK5InitFwd exit=0 :: |
+LANDED run     SK5InitFwd THREADS=1 :: a =  11  b =  10  c =  12  Holder.f =  5  d =  5|
+LANDED run     SK5InitFwd THREADS=4 :: a =  11  b =  10  c =  12  Holder.f =  5  d =  5|
+LANDED compile SK3Throw exit=0 :: |
+LANDED run     SK3Throw THREADS=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED run     SK3Throw THREADS=4 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED compile SK19ThrowLocal exit=0 :: |
+LANDED run     SK19ThrowLocal THREADS=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED run     SK19ThrowLocal THREADS=4 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED compile SK1Tuple exit=255 :: /home/user/fortress-r1/ProjectFortress/skprobes/SK1Tuple.fss:14:13-20:|    Could not check call to operator juxtaposition|    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (String, (ZZ32, ZZ32)).|    - (NN32, NN32)->
+LANDED compile SK17ZZ64 exit=0 :: |
+LANDED run     SK17ZZ64 THREADS=1 :: n =  3|
+LANDED run     SK17ZZ64 THREADS=4 :: n =  3|
+LANDED compile SK4Nested exit=0 :: |
+LANDED run     SK4Nested THREADS=1 :: g =  111|
+LANDED run     SK4Nested THREADS=4 :: g =  111|
+LANDED compile SK9While exit=0 :: |
+LANDED run     SK9While THREADS=1 :: i =  5  acc =  10|
+LANDED run     SK9While THREADS=4 :: i =  5  acc =  10|
+LANDED compile SK8Swap exit=0 :: |
+LANDED run     SK8Swap THREADS=1 :: PASS|
+LANDED run     SK8Swap THREADS=4 :: PASS|
+SKEPTIC_BASETREE_DONE end=2026-09-19T01:07:05+00:00

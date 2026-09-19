@@ -1,0 +1,5 @@
+component P9Main
+import P9Api.{...}
+export Executable
+run(): () = println("shared = " shared)
+end

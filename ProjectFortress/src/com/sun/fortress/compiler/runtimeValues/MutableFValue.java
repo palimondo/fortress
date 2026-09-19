@@ -15,13 +15,19 @@ package com.sun.fortress.compiler.runtimeValues;
 
 public class MutableFValue {
 
-    volatile FValue value;
+    volatile fortress.AnyType.Any value;
 
-    public FValue getValue() {
+    public static MutableFValue make(fortress.AnyType.Any v) {
+        MutableFValue result = new MutableFValue();
+        result.value = v;
+        return result;
+    }
+
+    public fortress.AnyType.Any getValue() {
         return value;
     }
 
-    public void setValue(FValue v) {
+    public void setValue(fortress.AnyType.Any v) {
         value = v;
     }
     
@@ -30,7 +36,7 @@ public class MutableFValue {
     }
     
     public String toString() {
-        return "Mutable Value: " + value.asString().toString();
+        return "Mutable Value: " + String.valueOf(value);
     }
 
 }

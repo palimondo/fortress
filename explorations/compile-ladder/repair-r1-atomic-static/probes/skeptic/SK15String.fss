@@ -1,0 +1,11 @@
+component SK15String
+export Executable
+
+st: String := "a"
+
+run(): () = do
+    atomic do st := st "b" end
+    println("st = " st)
+  end
+
+end

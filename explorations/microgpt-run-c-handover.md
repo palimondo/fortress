@@ -28,6 +28,34 @@ was restarted by the platform at 23:22 with the disk intact, and the batch was r
 `wip/` branches already held (`remote-container.md` § The 2026-09-18 restart). The next event
 is its completion notice or a check-in that finds something wrong; the report to Pavol follows.
 
+R1 of the repair batch was built on `wip/repair-r1-atomic-static` (base
+`49ee5e91`), refused once by its skeptic and repaired in the same worktree, and
+is landed on `main` as one commit composed at the gather stage of 2026-09-19, of
+which that branch is not a parent: a top-level mutable variable is now in the
+transaction on the compiled path, the cell's payload is widened to
+`fortress.AnyType.Any`, the top-level variable bindings are registered before
+any initializer is generated, and all twenty-two eagerly built debug arguments
+in `runtimeSystem/Transaction.java` and `BaseTask.java` are guarded with `if
+(debug)` — the last of these because routing accesses through the transaction
+had turned a working program into a `StackOverflowError` for any value whose
+type has no `asString` of its own. Three gated tests in `compiler_tests/`:
+`MutableTopLevelVarInLoop` and `AtomicTopLevelObjectVar`, both deterministic and
+both failing at one thread on the tree each guards, and `AtomicTopLevelVar`
+under contention. Six verified ledger rows are owed by this rung and are written
+out in `explorations/compile-ladder/repair-r1-atomic-static/record.md`: the
+mutable object field inside `atomic`, a top-level variable exported through an
+api, the `asString` cycle (with three candidate fixes and a silent specification
+— a decision for Pavol), `atomic` as a `do … also` arm's trailing expression,
+`walk` rejecting a singleton field initializer that reads a later mutable
+top-level variable, and a Fortress exception thrown out of an `atomic` block
+leaving its writes visible. The batch's gate (`ant testFast` and `ant
+testSystem`, both required — `REPAIR-BATCH.md`, "The gate is the full pair") has
+not been run: it is the coordinator's, once, after the merge with R2. R2 touches
+neither runtime file (`git diff --stat 49ee5e91
+origin/wip/repair-r2-literal-wrap -- ProjectFortress/src`: `CodeGen.java`,
+`FIntLiteral.java`, `Library/CompilerLibrary.fss`), so the two rungs' edits do
+not overlap outside `CodeGen.java`, where they are 2,000 lines apart.
+
 The launch, step by step, once Pavol says go (he approved the plan on 2026-09-18 evening
 and asked for a compaction first): (1) `git status` clean on `main`, `main` = `origin/main`
 = the container branch; `df -h` over 5 GB; no `/home/user/fortress-r1` or `-r2` and no

@@ -1,0 +1,13 @@
+component P5CallShape
+export Executable
+counter: ZZ32 := 0
+bump(): () = atomic do counter := counter + 1 end
+run(): () = do
+    do
+        for i <- 1#10 do bump() end
+    also do
+        for i <- 1#10 do bump() end
+    end
+    println("counter = " counter)
+  end
+end

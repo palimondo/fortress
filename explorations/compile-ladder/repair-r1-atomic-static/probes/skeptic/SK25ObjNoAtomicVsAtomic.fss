@@ -1,0 +1,15 @@
+component SK25ObjNoAtomicVsAtomic
+export Executable
+
+object Box(n: ZZ32) end
+
+b: Box := Box(1)
+
+run(): () = do
+    b := Box(2)
+    println("plain write ok, b.n = " b.n)
+    atomic do b := Box(3) end
+    println("atomic write ok, b.n = " b.n)
+  end
+
+end

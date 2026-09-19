@@ -1,0 +1,8 @@
+# SK27DefaultAsString: println(Box(1).asString) for an object with no asString of
+# its own -- the user-level probe for the asString cycle (row 321).
+# date=2026-09-19T01:52:13+00:00  src vs 49ee5e91: [ 5 files changed, 213 insertions(+), 77 deletions(-)]
+
+walk    SK27DefaultAsString :: Box|
+compile SK27DefaultAsString exit=0 :: |
+run     SK27DefaultAsString THREADS=1 exit=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)|	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)|	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)|
+        [1037 lines of output]

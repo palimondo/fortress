@@ -1,0 +1,31 @@
+component SK6Types
+export Executable
+
+trait Shape
+    getter tag(): String
+end
+
+object Sq extends Shape
+    getter tag(): String = "Sq"
+end
+
+object Ci extends Shape
+    getter tag(): String = "Ci"
+end
+
+n64: ZZ64 := 1
+r64: RR64 := 1.5
+bl: Boolean := false
+st: String := "a"
+sh: Shape := Sq
+
+run(): () = do
+    atomic do n64 := n64 + 4294967296 end
+    atomic do r64 := r64 + 0.25 end
+    atomic do bl := NOT bl end
+    atomic do st := st "b" end
+    atomic do sh := Ci end
+    println("n64 = " n64 " r64 = " r64 " bl = " bl " st = " st " sh = " sh.tag)
+  end
+
+end

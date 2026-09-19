@@ -1,0 +1,3 @@
+/home/user/fortress-r1/ProjectFortress/tests/XXXimmutableTopLevel.fss:20:1:
+    Cannot infer type for variable e because it has reference cycle: e, w, e
+File XXXimmutableTopLevel.fss has 1 error.

@@ -1,0 +1,21 @@
+component SK7TaskNest
+export Executable
+
+g: ZZ32 := 0
+
+run(): () = do
+    do
+        do
+            atomic do g := g + 1 end
+        also do
+            atomic do g := g + 2 end
+        end
+    also do
+        for i <- 1#4 do
+            atomic do g := g + 10 end
+        end
+    end
+    println("g = " g)
+  end
+
+end

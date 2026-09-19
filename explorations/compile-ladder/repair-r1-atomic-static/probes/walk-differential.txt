@@ -1,0 +1,8 @@
+date=2026-09-19T00:22:01+00:00 nproc=4  interpreter (walk) runs
+walk THREADS=1 MutableTopLevelVarInLoop.fss exit=0 :: PASS|
+walk THREADS=1 AtomicTopLevelVar.fss exit=0 :: PASS|
+walk THREADS=1 P10Field.fss exit=0 :: n = 40000 expected 40000|
+walk THREADS=4 MutableTopLevelVarInLoop.fss exit=0 :: PASS|
+walk THREADS=4 AtomicTopLevelVar.fss exit=0 :: PASS|
+walk THREADS=4 P10Field.fss exit=0 :: n = 40000 expected 40000|
+WALK_DONE

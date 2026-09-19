@@ -1,0 +1,37 @@
+component SQ6OrphanTx
+export Executable
+
+(* Skeptic, second judgement.  Ledger row 324 claims a mechanism as well as a
+   measurement: that a Fortress exception out of an atomic block leaves the
+   transaction current on the task, so the later read finds the transaction's
+   own uncommitted write.  If that is right, a read from a DIFFERENT implicit
+   thread -- which has no transaction of its own -- must see the committed
+   value 100 while the throwing task sees 7.  If instead both see 7, the write
+   really did commit and the row's mechanism and its named fix are wrong. *)
+
+object Boom extends UncheckedException
+    getter asString(): String = "Boom"
+end
+
+g: ZZ32 := 100
+
+run(): () = do
+    try
+        atomic do
+            g := 7
+            throw Boom
+        end
+    catch e
+        Boom => println("caught")
+    end
+    println("throwing task reads g = " g)
+    var seen: ZZ32 = 0
+    do
+        seen := g
+      also do
+        println("other arm ran")
+    end
+    println("other implicit thread reads g = " seen)
+  end
+
+end

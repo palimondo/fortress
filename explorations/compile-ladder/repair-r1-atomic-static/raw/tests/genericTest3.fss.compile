@@ -1,0 +1,39 @@
+/home/user/fortress-r1/ProjectFortress/tests/genericTest3.fss:19:3-5:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (T, T).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (T, T).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (T, T).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (T, T).
+    - (String, Object)->String is not applicable to an argument of type (T, T).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (T, T).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (T, T).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (T, T).
+/home/user/fortress-r1/ProjectFortress/tests/genericTest3.fss:29:3-4:
+    Could not check call to operator +
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (FloatLiteral, ZZ32).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (FloatLiteral, ZZ32).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (FloatLiteral, ZZ32).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (FloatLiteral, ZZ32).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (FloatLiteral, ZZ32).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (FloatLiteral, ZZ32).
+    - (ZZ32Vector, ZZ32)->ZZ32Vector is not applicable to an argument of type (FloatLiteral, ZZ32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (FloatLiteral, ZZ32).
+/home/user/fortress-r1/ProjectFortress/tests/genericTest3.fss:42:6-21:
+    Could not check call to operator =
+    - ((Comparison & {Unordered, TotalComparison}), Comparison)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - ((CompilerAlgebra.Equality[\T\] & {T}), T)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - ((TotalComparison & {LessThan, EqualTo, GreaterThan}), TotalComparison)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (Boolean, Boolean)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (Character, Character)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (GeneratorZZ32, GeneratorZZ32)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (RR64, RR64)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (String, String)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (RR64, IntLiteral).
+/home/user/fortress-r1/ProjectFortress/tests/genericTest3.fss:43:3-15:
+    Non-last expression in a block has type RR64, but it must have () type.
+File genericTest3.fss has 4 errors.

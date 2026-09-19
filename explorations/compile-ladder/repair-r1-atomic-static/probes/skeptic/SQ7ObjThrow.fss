@@ -1,0 +1,33 @@
+component SQ7ObjThrow
+export Executable
+
+(* Skeptic, second judgement.  The failure-mode question, made concrete.  On the
+   tree R1 landed (before this round's guards) an object-typed top-level
+   variable inside atomic died with a StackOverflowError -- loud.  After the
+   guards the same shape with a throw out of the atomic block returns a value,
+   and the value is the one ledger row 324 records as wrong.  This program
+   measures which value, for an object type, and extends row 324's measurement
+   beyond ZZ32.  Boom carries its own asString so that the throw itself does not
+   enter the row-321 cycle. *)
+
+object Box(n: ZZ32) end
+
+object Boom extends UncheckedException
+    getter asString(): String = "Boom"
+end
+
+b: Box := Box(100)
+
+run(): () = do
+    try
+        atomic do
+            b := Box(7)
+            throw Boom
+        end
+    catch e
+        Boom => println("caught")
+    end
+    println("b.n after abrupt atomic = " b.n)
+  end
+
+end

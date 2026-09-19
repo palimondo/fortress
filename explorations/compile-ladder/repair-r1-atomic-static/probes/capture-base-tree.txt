@@ -1,0 +1,42 @@
+FORTRESS_HOME=/home/user/fortress-r1
+nproc=4
+git status source: 3 modified
+M  ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+M  ProjectFortress/src/com/sun/fortress/compiler/codegen/VarCodeGen.java
+M  ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java
+library LibraryBuiltin/AnyType.fss exit=0 elapsed=20s
+library LibraryBuiltin/CompilerBuiltin.fss exit=0 elapsed=103s
+library ../Library/CompilerLibrary.fss exit=0 elapsed=17s
+library ../Library/CompilerAlgebra.fss exit=0 elapsed=2s
+library ../Library/CompilerSystem.fss exit=0 elapsed=1s
+compile MutableTopLevelVar exit=0 elapsed=2s
+compile MutableTopLevelVarInLoop exit=0 elapsed=2s
+compile AtomicTopLevelVar exit=0 elapsed=3s
+THREADS=default run=1 MutableTopLevelVarInLoop exit=0 ms=490 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+THREADS=default run=2 MutableTopLevelVarInLoop exit=0 ms=496 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+THREADS=default run=3 MutableTopLevelVarInLoop exit=0 ms=499 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+THREADS=default run=1 AtomicTopLevelVar exit=0 ms=771 :: FAIL: counter =  38389  expected  40000|
+THREADS=default run=2 AtomicTopLevelVar exit=0 ms=738 :: FAIL: counter =  38795  expected  40000|
+THREADS=default run=3 AtomicTopLevelVar exit=0 ms=747 :: FAIL: counter =  38271  expected  40000|
+THREADS=default run=1 MutableTopLevelVar exit=0 ms=271 :: PASS|
+THREADS=default run=2 MutableTopLevelVar exit=0 ms=270 :: PASS|
+THREADS=default run=3 MutableTopLevelVar exit=0 ms=273 :: PASS|
+THREADS=1 run=1 MutableTopLevelVarInLoop exit=0 ms=484 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+THREADS=1 run=2 MutableTopLevelVarInLoop exit=0 ms=476 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+THREADS=1 run=3 MutableTopLevelVarInLoop exit=0 ms=520 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+THREADS=1 run=1 AtomicTopLevelVar exit=0 ms=707 :: PASS|
+THREADS=1 run=2 AtomicTopLevelVar exit=0 ms=709 :: PASS|
+THREADS=1 run=3 AtomicTopLevelVar exit=0 ms=715 :: PASS|
+THREADS=1 run=1 MutableTopLevelVar exit=0 ms=269 :: PASS|
+THREADS=1 run=2 MutableTopLevelVar exit=0 ms=282 :: PASS|
+THREADS=1 run=3 MutableTopLevelVar exit=0 ms=271 :: PASS|
+THREADS=4 run=1 MutableTopLevelVarInLoop exit=0 ms=498 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+THREADS=4 run=2 MutableTopLevelVarInLoop exit=0 ms=491 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+THREADS=4 run=3 MutableTopLevelVarInLoop exit=0 ms=493 :: FAIL: inLoop =  0  (expected 10), inArmA =  7  (expected 7), inArmB =  0  (expected 9)|
+THREADS=4 run=1 AtomicTopLevelVar exit=0 ms=832 :: FAIL: counter =  34619  expected  40000|
+THREADS=4 run=2 AtomicTopLevelVar exit=0 ms=788 :: FAIL: counter =  36771  expected  40000|
+THREADS=4 run=3 AtomicTopLevelVar exit=0 ms=887 :: FAIL: counter =  31867  expected  40000|
+THREADS=4 run=1 MutableTopLevelVar exit=0 ms=275 :: PASS|
+THREADS=4 run=2 MutableTopLevelVar exit=0 ms=267 :: PASS|
+THREADS=4 run=3 MutableTopLevelVar exit=0 ms=277 :: PASS|
+CAPTURE_DONE_preedit

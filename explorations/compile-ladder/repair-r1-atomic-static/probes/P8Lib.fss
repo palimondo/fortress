@@ -1,0 +1,4 @@
+component P8Lib
+export P8Api
+var shared: ZZ32 = 7
+end
