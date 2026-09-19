@@ -16,4 +16,4 @@ MaybeTest2     1          1      0          Syntax Error (line 15, before name r
 Every new error is of the form "Type name may refer to: X, CompilerLibrary.X",
 the shape these files already carried for Generator and Condition against
 CompilerBuiltin.  None of the seven compiles before or after, and none is gated
-(explorations/coordinator/map/test-coverage.md:32).  Full captures: tmp/ungated/.
+(explorations/coordinator/map/test-coverage.md:32).  Full captures: logs/ungated/.

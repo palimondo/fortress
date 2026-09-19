@@ -1,0 +1,263 @@
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:28:52-59:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:70:7-14:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:76:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:93:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:102:28-35:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:107:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:124:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:124:40-47:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:130:20-27:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:130:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:158:19-26:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:158:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:169:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:181:7-24:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:181:42-49:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:182:23-40:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:184:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:185:24-41:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:189:23-40:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:193:20-37:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:193:48-55:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:200:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:201:16-23:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:202:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:203:21-28:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:204:24-31:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:205:20-27:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:205:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:208:40-47:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:209:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:213:50-67:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:214:43-60:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:215:17-34:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:217:23-40:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:218:24-41:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:219:20-27:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:219:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:225:39-46:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:226:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:230:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:232:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:240:42-49:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:242:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:244:54-61:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:247:52-69:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:248:44-61:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:249:17-34:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:260:39-46:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:261:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:262:22-29:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:265:21-28:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:266:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:268:24-31:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:269:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:270:21-28:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:270:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:271:35-42:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:276:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:284:42-49:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:284:65-72:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:286:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:287:20-27:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:289:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:292:23-40:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:293:32-49:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:298:14-31:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:298:47-64:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:299:44-61:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:300:17-34:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:301:20-37:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:307:37-44:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:309:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:310:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:313:22-29:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:318:40-47:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:318:60-67:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:320:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:321:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:323:16-33:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:327:14-31:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:327:44-61:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:328:43-60:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:329:17-34:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:330:17-34:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:338:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:339:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:340:22-29:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:342:21-28:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:344:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:346:21-28:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:347:53-60:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:352:38-45:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:352:61-68:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:354:17-24:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:355:22-29:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:359:49-66:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:359:82-89:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:360:41-58:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:361:17-34:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:362:22-29:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:367:21-28:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:368:62-69:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:377:7-14:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:379:17-34:
+    Type name may refer to: SequentialGenerator, CompilerBuiltin.SequentialGenerator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:389:24-31:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:400:21-28:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:403:28-35:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:407:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:407:40-47:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:409:19-26:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:409:36-43:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:410:23-30:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:415:15-22:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:423:13-16:
+    Type name may refer to: Maybe, CompilerLibrary.Maybe
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:423:34-41:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:424:21-32:
+    Type name may refer to: NothingObject, CompilerLibrary.NothingObject
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:424:41-43:
+    Type name may refer to: Just, CompilerLibrary.Just
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:426:13-18:
+    Type name may refer to: Nothing, CompilerLibrary.Nothing
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:429:14-16:
+    Type name may refer to: Just, CompilerLibrary.Just
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:429:38-41:
+    Type name may refer to: Maybe, CompilerLibrary.Maybe
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:442:14-25:
+    Type name may refer to: NothingObject, CompilerLibrary.NothingObject
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:442:41-44:
+    Type name may refer to: Maybe, CompilerLibrary.Maybe
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:454:14-19:
+    Type name may refer to: Nothing, CompilerLibrary.Nothing
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:468:7-14:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:469:23-30:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:477:34-41:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:477:58-65:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:479:21-28:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:489:43-50:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:529:41-48:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/GenTest4.fss:557:40-47:
+    Type name may refer to: Reduction, CompilerBuiltin.Reduction
+File GenTest4.fss has 131 errors.
