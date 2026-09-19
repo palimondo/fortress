@@ -1,0 +1,47 @@
+Recorded failure of compiler_tests/AtomicTopLevelObjectVar on the LANDED tree of R1,
+before the Transaction.java / BaseTask.java debug guards of the repair round.
+commit  = 513a9216 (sources of 8b15d4af; 513a9216 adds JUDGE.md only)
+date    = 2026-09-19T01:40:21+00:00   nproc=4   java=openjdk version "25.0.4" 2026-07-21
+src vs 49ee5e91: [ 4 files changed, 191 insertions(+), 55 deletions(-)]
+recipe  = cd ProjectFortress && ../bin/fortress compile compiler_tests/AtomicTopLevelObjectVar.fss
+          then ../bin/fortress run AtomicTopLevelObjectVar at FORTRESS_THREADS=1 and =4
+build   = the worktree's landed build and library-order cache (MutableTopLevelVarInLoop prints PASS)
+
+compile AtomicTopLevelObjectVar exit=0
+
+
+run AtomicTopLevelObjectVar FORTRESS_THREADS=1 exit=1
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at AtomicTopLevelObjectVar.main(/home/user/fortress-r1/ProjectFortress/compiler_tests/AtomicTopLevelObjectVar.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.StackOverflowError
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-r1/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:338)
+  ... [1037 lines total; PASS lines: 0]
+
+run AtomicTopLevelObjectVar FORTRESS_THREADS=4 exit=1
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at AtomicTopLevelObjectVar.main(/home/user/fortress-r1/ProjectFortress/compiler_tests/AtomicTopLevelObjectVar.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.StackOverflowError
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-r1/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:338)
+  ... [1037 lines total; PASS lines: 0]
+
+CAPTURE_DONE
