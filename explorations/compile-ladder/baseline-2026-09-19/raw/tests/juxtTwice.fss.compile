@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/tests/juxtTwice.fss:26:7:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (FloatLiteral, IntLiteral).
+File juxtTwice.fss has 1 error.

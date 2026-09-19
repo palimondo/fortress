@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/overloadGenericNon.fss:23:1-45:
+    Cannot infer type for function +(s:WrapZZ, o:WrapZZ) because it has reference cycle: +(s:WrapZZ, o:WrapZZ), +(s:WrapZZ, o:WrapZZ)
+/home/user/fortress/ProjectFortress/tests/overloadGenericNon.fss:24:1-56:
+    Cannot infer type for function juxtaposition(s:WrapZZ, o:WrapZZ) because it has reference cycle: juxtaposition(s:WrapZZ, o:WrapZZ), juxtaposition(s:WrapZZ, o:WrapZZ)
+File overloadGenericNon.fss has 2 errors.

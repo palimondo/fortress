@@ -1,0 +1,9 @@
+/home/user/fortress/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+File simpleBig.fss has 4 errors.

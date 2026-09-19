@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/doubledOverloading2.fss:57:3-58:2:
+    Non-last expression in a block has type Boolean, but it must have () type.
+File doubledOverloading2.fss has 1 error.

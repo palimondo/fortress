@@ -1,0 +1,11 @@
+/home/user/fortress/ProjectFortress/tests/overloadTest6.fss:45:13-18:
+    Could not check call to function a
+    - (ZZ32, (ZZ32, ZZ32, ZZ32...)->ZZ32)->ZZ32 is not applicable to an argument of type (IntLiteral, IntLiteral).
+    - (ZZ32, ZZ32, (ZZ32...))->ZZ32 is not applicable to an argument of type (IntLiteral, IntLiteral).
+    - ZZ32->ZZ32 is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/overloadTest6.fss:50:11-16:
+    Could not check call to function a
+    - (ZZ32, (ZZ32, ZZ32, ZZ32...)->ZZ32)->ZZ32 is not applicable to an argument of type (IntLiteral, AND((ZZ32, (ZZ32, ZZ32, ZZ32...)->ZZ32)->ZZ32,(ZZ32, ZZ32, (ZZ32...))->ZZ32,ZZ32->ZZ32)).
+    - (ZZ32, ZZ32, (ZZ32...))->ZZ32 is not applicable to an argument of type (IntLiteral, AND((ZZ32, (ZZ32, ZZ32, ZZ32...)->ZZ32)->ZZ32,(ZZ32, ZZ32, (ZZ32...))->ZZ32,ZZ32->ZZ32)).
+    - ZZ32->ZZ32 is not applicable to an argument of type (IntLiteral, AND((ZZ32, (ZZ32, ZZ32, ZZ32...)->ZZ32)->ZZ32,(ZZ32, ZZ32, (ZZ32...))->ZZ32,ZZ32->ZZ32)).
+File overloadTest6.fss has 2 errors.

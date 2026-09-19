@@ -1,0 +1,4 @@
+/home/user/fortress/explorations/c4-parallelism/measurements/check_t1.txt:total 840 s
+/home/user/fortress/explorations/c4-parallelism/measurements/check_t2.txt:total 478 s
+/home/user/fortress/explorations/c4-parallelism/measurements/check_t3.txt:total 389 s
+/home/user/fortress/explorations/c4-parallelism/measurements/check_t4.txt:total 375 s

@@ -1,0 +1,29 @@
+FAIL: should have failed in generic overloading of f
+java.lang.Error: java.lang.Error: Unable to read serialized data for XXXGenericOverload2?$\=f{_|ProjectFortress|tests|XXXGenericOverload2\,fss\!24\!1-32,_|ProjectFortress|tests|XXXGenericOverload2\,fss\!25\!1-33}???$\=?Intersection?Arrow?Tuple?U,V,XXXGenericOverload2\%B?,fortress\|CompilerBuiltin\%IntLiteral?,Arrow?Tuple?V,U,XXXGenericOverload2\%A?,fortress\|CompilerBuiltin\%IntLiteral??, recommend you delete the Fortress bytecode cache and relink
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:562)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at XXXGenericOverload2.main(/home/user/fortress/ProjectFortress/tests/XXXGenericOverload2.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.Error: Unable to read serialized data for XXXGenericOverload2?$\=f{_|ProjectFortress|tests|XXXGenericOverload2\,fss\!24\!1-32,_|ProjectFortress|tests|XXXGenericOverload2\,fss\!25\!1-33}???$\=?Intersection?Arrow?Tuple?U,V,XXXGenericOverload2\%B?,fortress\|CompilerBuiltin\%IntLiteral?,Arrow?Tuple?V,U,XXXGenericOverload2\%A?,fortress\|CompilerBuiltin\%IntLiteral??, recommend you delete the Fortress bytecode cache and relink
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.xlationForFunctionOrGeneric(InstantiatingClassloader.java:2512)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.xlationForFunction(InstantiatingClassloader.java:2491)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:239)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at XXXGenericOverload2.run(/home/user/fortress/ProjectFortress/tests/XXXGenericOverload2.fss:28)
+	at XXXGenericOverload2.compute(/home/user/fortress/ProjectFortress/tests/XXXGenericOverload2.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: java.io.IOException: Resource not found : XXXGenericOverload2?$\=f{_|ProjectFortress|tests|XXXGenericOverload2\,fss\!24\!1-32,_|ProjectFortress|tests|XXXGenericOverload2\,fss\!25\!1-33}???$\=?Intersection?Arrow?Tuple?U,V,XXXGenericOverload2\%B?,fortress\|CompilerBuiltin\%IntLiteral?,Arrow?Tuple?V,U,XXXGenericOverload2\%A?,fortress\|CompilerBuiltin\%IntLiteral??.xlation
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.xlationForFunctionOrGeneric(InstantiatingClassloader.java:2508)
+	... 10 more

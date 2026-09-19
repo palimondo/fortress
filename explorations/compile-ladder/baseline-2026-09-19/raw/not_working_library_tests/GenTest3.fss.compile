@@ -1,0 +1,27 @@
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:15:7-14:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:16:30-37:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:20:7-14:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:20:32-39:
+    Type name may refer to: Generator, CompilerBuiltin.Generator
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:22:24-31:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:29:13-16:
+    Type name may refer to: Maybe, CompilerLibrary.Maybe
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:29:34-41:
+    Type name may refer to: Condition, CompilerBuiltin.Condition
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:30:21-32:
+    Type name may refer to: NothingObject, CompilerLibrary.NothingObject
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:30:41-43:
+    Type name may refer to: Just, CompilerLibrary.Just
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:33:14-16:
+    Type name may refer to: Just, CompilerLibrary.Just
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:33:38-41:
+    Type name may refer to: Maybe, CompilerLibrary.Maybe
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:38:14-25:
+    Type name may refer to: NothingObject, CompilerLibrary.NothingObject
+/home/user/fortress/ProjectFortress/not_working_library_tests/GenTest3.fss:38:41-44:
+    Type name may refer to: Maybe, CompilerLibrary.Maybe
+File GenTest3.fss has 13 errors.

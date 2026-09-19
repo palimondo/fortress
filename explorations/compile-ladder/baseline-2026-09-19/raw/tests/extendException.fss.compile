@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/extendException.fss:17:8-14:
+    Type name may refer to: Infinity, CompilerBuiltin.Infinity
+File extendException.fss has 1 error.

@@ -1,0 +1,17 @@
+/home/user/fortress/ProjectFortress/tests/OverloadConstructor2.fss:16:30-34:
+    Could not check call to operator =
+    - ((Comparison & {Unordered, TotalComparison}), Comparison)->Boolean is not applicable to an argument of type (T, T).
+    - ((CompilerAlgebra.Equality[\T\] & {T}), T)->Boolean is not applicable to an argument of type (T, T).
+    - ((TotalComparison & {LessThan, EqualTo, GreaterThan}), TotalComparison)->Boolean is not applicable to an argument of type (T, T).
+    - (Boolean, Boolean)->Boolean is not applicable to an argument of type (T, T).
+    - (Character, Character)->Boolean is not applicable to an argument of type (T, T).
+    - (GeneratorZZ32, GeneratorZZ32)->Boolean is not applicable to an argument of type (T, T).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (T, T).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (T, T).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (T, T).
+    - (RR64, RR64)->Boolean is not applicable to an argument of type (T, T).
+    - (String, String)->Boolean is not applicable to an argument of type (T, T).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (T, T).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (T, T).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (T, T).
+File OverloadConstructor2.fss has 1 error.

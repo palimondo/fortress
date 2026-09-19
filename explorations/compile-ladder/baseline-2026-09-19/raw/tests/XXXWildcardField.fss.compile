@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXWildcardField.fss:18:3-10:
+    Fields or top-level declarations in APIs cannot be named '_'.
+/home/user/fortress/ProjectFortress/tests/XXXWildcardField.fss:22:3:
+    Fields or top-level declarations in APIs cannot be named '_'.
+File XXXWildcardField.fss has 2 errors.

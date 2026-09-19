@@ -1,0 +1,19 @@
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+/home/user/fortress/ProjectFortress/tests/XXXextendFloatLiteral.fss:15:5-16:6:
+    The inherited abstract method abstract getter asRR32:RR32 from the trait FloatLiteral
+    has no concrete implementation in the object Mumble in component XXXextendFloatLiteral.
+/home/user/fortress/ProjectFortress/tests/XXXextendFloatLiteral.fss:15:5-16:6:
+    The inherited abstract method abstract getter asRR64:RR64 from the trait FloatLiteral
+    has no concrete implementation in the object Mumble in component XXXextendFloatLiteral.
+File XXXextendFloatLiteral.fss has 2 errors.

@@ -1,0 +1,10 @@
+
+This domain: Chicken
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Chicken is not a subtype of BottomType
+/home/user/fortress/ProjectFortress/tests/XXXextendOprParam2.fss:27:1-31:2:
+    The inherited abstract method OPLUS(self:Altoid[\T,OPLUS\],other:T):T from the trait Altoid[\Chicken,EGG\]
+    has no concrete implementation in the object Chicken in component XXXextendOprParam2.
+File XXXextendOprParam2.fss has 1 error.

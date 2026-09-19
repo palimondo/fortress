@@ -1,0 +1,55 @@
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+/home/user/fortress/ProjectFortress/tests/XXXextendIntLiteral.fss:15:5-16:6:
+    The inherited abstract method abstract getter asNN32:NN32 from the trait IntLiteral
+    has no concrete implementation in the object Mumble in component XXXextendIntLiteral.
+/home/user/fortress/ProjectFortress/tests/XXXextendIntLiteral.fss:15:5-16:6:
+    The inherited abstract method abstract getter asNN64:NN64 from the trait IntLiteral
+    has no concrete implementation in the object Mumble in component XXXextendIntLiteral.
+/home/user/fortress/ProjectFortress/tests/XXXextendIntLiteral.fss:15:5-16:6:
+    The inherited abstract method abstract getter asRR64:RR64 from the trait IntLiteral
+    has no concrete implementation in the object Mumble in component XXXextendIntLiteral.
+/home/user/fortress/ProjectFortress/tests/XXXextendIntLiteral.fss:15:5-16:6:
+    The inherited abstract method abstract getter asZZ32:ZZ32 from the trait IntLiteral
+    has no concrete implementation in the object Mumble in component XXXextendIntLiteral.
+/home/user/fortress/ProjectFortress/tests/XXXextendIntLiteral.fss:15:5-16:6:
+    The inherited abstract method abstract getter asZZ64:ZZ64 from the trait IntLiteral
+    has no concrete implementation in the object Mumble in component XXXextendIntLiteral.
+/home/user/fortress/ProjectFortress/tests/XXXextendIntLiteral.fss:15:5-16:6:
+    The inherited abstract method abstract getter asZZ:ZZ from the trait IntLiteral
+    has no concrete implementation in the object Mumble in component XXXextendIntLiteral.
+File XXXextendIntLiteral.fss has 6 errors.

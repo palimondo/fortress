@@ -1,0 +1,19 @@
+/home/user/fortress/Library/CovariantCollection.fsi:23:25-37:
+    ImmutableArray is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:24:16-19:
+    Array is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:25:24-27:
+    Array is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:45:33-46:
+    MonoidReduction is undefined.
+/home/user/fortress/Library/CovariantCollection.fsi:53:5-16:
+    Comprehension is undefined.
+/home/user/fortress/Library/PureList.fsi:41:42-51:
+    ZeroIndexed is undefined.
+/home/user/fortress/Library/PureList.fsi:86:20-31:
+    Comprehension is undefined.
+/home/user/fortress/Library/PureList.fsi:89:24-34:
+    BigReduction is undefined.
+/home/user/fortress/Library/PureList.fsi:102:28-41:
+    MonoidReduction is undefined.
+File SkipListTest.fss has 9 errors.

@@ -1,0 +1,13 @@
+/home/user/fortress/ProjectFortress/tests/subArray.fss:15:13-16:
+    Array is undefined.
+/home/user/fortress/ProjectFortress/tests/subArray.fss:15:35-45:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/ProjectFortress/tests/subArray.fss:24:14-17:
+    Array is undefined.
+/home/user/fortress/ProjectFortress/tests/subArray.fss:24:43-60:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+/home/user/fortress/ProjectFortress/tests/subArray.fss:33:14-17:
+    Array is undefined.
+/home/user/fortress/ProjectFortress/tests/subArray.fss:33:48-70:
+    Incorrect number of static arguments for type 'CompilerLibrary.Range': provided 1, expected 0
+File subArray.fss has 6 errors.

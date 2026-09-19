@@ -1,0 +1,80 @@
+jdk.JavaMonitorEnter {
+  startTime = 15:32:06.400 (2026-09-19)
+  duration = 13.1 ms
+  monitorClass = com.sun.fortress.useful.Memo1C (classLoader = app)
+  previousOwner = "ForkJoinPool-1-worker-8" (javaThreadId = 38)
+  address = 0x7F234C003550
+  eventThread = "ForkJoinPool-1-worker-4" (javaThreadId = 34)
+  stackTrace = [
+    com.sun.fortress.useful.Memo1C.make(Object) line: 33
+    com.sun.fortress.interpreter.evaluator.types.FTypeTuple.make(List) line: 53
+    com.sun.fortress.interpreter.evaluator.values.FTupleLike.type() line: 32
+    com.sun.fortress.interpreter.evaluator.types.FType.typeMatch(FValue) line: 111
+    com.sun.fortress.interpreter.evaluator.values.NonPrimitive.buildEnvFromParams(List, Environment) line: 242
+    ...
+  ]
+}
+
+jdk.JavaMonitorWait {
+  startTime = 15:31:20.217 (2026-09-19)
+  duration = 1 m 0 s
+  monitorClass = java.lang.ref.ReferenceQueue$Lock (classLoader = bootstrap)
+  notifier = N/A
+  timeout = 1 m 0 s
+  timedOut = true
+  address = 0x7F2384000F20
+  eventThread = "Common-Cleaner" (javaThreadId = 21)
+  stackTrace = [
+    java.lang.Object.wait0(long)
+    java.lang.Object.wait(long) line: 389
+    java.lang.ref.ReferenceQueue.remove0(long) line: 123
+    java.lang.ref.ReferenceQueue.remove(long) line: 201
+    jdk.internal.ref.CleanerImpl.run() line: 146
+    ...
+  ]
+}
+
+jdk.JavaMonitorEnter {
+  startTime = 15:32:31.042 (2026-09-19)
+  duration = 13.0 ms
+  monitorClass = com.sun.fortress.useful.Memo1C (classLoader = app)
+  previousOwner = "ForkJoinPool-1-worker-2" (javaThreadId = 32)
+  address = 0x7F233C21AF80
+  eventThread = "ForkJoinPool-1-worker-1" (javaThreadId = 31)
+  stackTrace = [
+    com.sun.fortress.useful.Memo1C.make(Object) line: 33
+    com.sun.fortress.interpreter.evaluator.types.FTypeTuple.make(List) line: 53
+    com.sun.fortress.interpreter.evaluator.values.FTupleLike.type() line: 32
+    com.sun.fortress.interpreter.evaluator.types.FType.typeMatch(FValue) line: 111
+    com.sun.fortress.interpreter.evaluator.values.NonPrimitive.buildEnvFromParams(List, Environment) line: 242
+    ...
+  ]
+}
+
+jdk.JavaMonitorEnter {
+  startTime = 15:32:31.483 (2026-09-19)
+  duration = 10.2 ms
+  monitorClass = com.sun.fortress.useful.Memo1C (classLoader = app)
+  previousOwner = "ForkJoinPool-1-worker-7" (javaThreadId = 37)
+  address = 0x7F233C21AF80
+  eventThread = "ForkJoinPool-1-worker-4" (javaThreadId = 34)
+  stackTrace = [
+    com.sun.fortress.useful.Memo1C.make(Object) line: 33
+    com.sun.fortress.interpreter.evaluator.types.FTypeTuple.make(List) line: 53
+    com.sun.fortress.interpreter.evaluator.values.FTupleLike.type() line: 32
+    com.sun.fortress.interpreter.evaluator.types.FType.typeMatch(FValue) line: 111
+    com.sun.fortress.interpreter.evaluator.values.NonPrimitive.buildEnvFromParams(List, Environment) line: 242
+    ...
+  ]
+}
+
+jdk.JavaMonitorEnter {
+  startTime = 15:32:33.243 (2026-09-19)
+  duration = 11.9 ms
+  monitorClass = com.sun.fortress.useful.Memo1C (classLoader = app)
+  previousOwner = "ForkJoinPool-1-worker-9" (javaThreadId = 39)
+  address = 0x7F233C21AF80
+  eventThread = "ForkJoinPool-1-worker-5" (javaThreadId = 35)
+  stackTrace = [
+    com.sun.fortress.useful.Memo1C.make(Object) line: 33
+    com.sun.fortress.interpreter.evaluator.types.FTypeTuple.make(List) line: 53

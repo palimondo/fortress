@@ -1,0 +1,48 @@
+/home/user/fortress/ProjectFortress/tests/expTest.fss:22:12-15:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (RR64, ZZ64).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (RR64, ZZ64).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (RR64, ZZ64).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (RR64, ZZ64).
+    - (String, ZZ32)->String is not applicable to an argument of type (RR64, ZZ64).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (RR64, ZZ64).
+/home/user/fortress/ProjectFortress/tests/expTest.fss:22:18-21:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/expTest.fss:23:12-15:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (ZZ64, ZZ64).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (ZZ64, ZZ64).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (ZZ64, ZZ64).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (ZZ64, ZZ64).
+    - (String, ZZ32)->String is not applicable to an argument of type (ZZ64, ZZ64).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ64, ZZ64).
+/home/user/fortress/ProjectFortress/tests/expTest.fss:24:18-21:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress/ProjectFortress/tests/expTest.fss:25:12-15:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (ZZ64, RR64).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (ZZ64, RR64).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (ZZ64, RR64).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (ZZ64, RR64).
+    - (String, ZZ32)->String is not applicable to an argument of type (ZZ64, RR64).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ64, RR64).
+/home/user/fortress/ProjectFortress/tests/expTest.fss:26:5-20:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (RR64, FloatLiteral).
+    - (Character, Character, String)->() is not applicable to an argument of type (RR64, FloatLiteral).
+    - (String, String)->() is not applicable to an argument of type (RR64, FloatLiteral).
+    - (String, String, String)->() is not applicable to an argument of type (RR64, FloatLiteral).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (RR64, FloatLiteral).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (RR64, FloatLiteral).
+    - Boolean->() is not applicable to an argument of type (RR64, FloatLiteral).
+/home/user/fortress/ProjectFortress/tests/expTest.fss:27:12-15:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (ZZ64, RR64).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (ZZ64, RR64).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (ZZ64, RR64).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (ZZ64, RR64).
+    - (String, ZZ32)->String is not applicable to an argument of type (ZZ64, RR64).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ64, RR64).
+File expTest.fss has 7 errors.

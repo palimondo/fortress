@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXmutation1.fss:20:14-18:
+    Could not assign an expression of type String to variable n of type ZZ32.
+/home/user/fortress/ProjectFortress/tests/XXXmutation1.fss:30:5-8:
+    The return type for f could not be inferred
+File XXXmutation1.fss has 2 errors.

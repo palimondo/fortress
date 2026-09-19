@@ -1,0 +1,61 @@
+/home/user/fortress/ProjectFortress/tests/BooleanOps.fss:49:24-26:
+    Could not check call to operator <
+    - ((Comparison & {Unordered, TotalComparison}), Comparison)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - ((CompilerAlgebra.StandardTotalOrder[\T\] & {T}), T)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (Character, Character)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (RR64, RR64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (String, String)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    /home/user/fortress/ProjectFortress/tests/BooleanOps.fss:49:11-53:
+      Possibly because (a, b): (Boolean, Boolean) after argument inference
+/home/user/fortress/ProjectFortress/tests/BooleanOps.fss:50:24-27:
+    Could not check call to operator <=
+    - ((Comparison & {Unordered, TotalComparison}), Comparison)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - ((CompilerAlgebra.StandardTotalOrder[\T\] & {T}), T)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (Character, Character)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (RR64, RR64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (String, String)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    /home/user/fortress/ProjectFortress/tests/BooleanOps.fss:50:11-53:
+      Possibly because (a, b): (Boolean, Boolean) after argument inference
+/home/user/fortress/ProjectFortress/tests/BooleanOps.fss:51:24-26:
+    Could not check call to operator >
+    - ((Comparison & {Unordered, TotalComparison}), Comparison)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - ((CompilerAlgebra.StandardTotalOrder[\T\] & {T}), T)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (Character, Character)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (RR64, RR64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (String, String)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    /home/user/fortress/ProjectFortress/tests/BooleanOps.fss:51:11-53:
+      Possibly because (a, b): (Boolean, Boolean) after argument inference
+/home/user/fortress/ProjectFortress/tests/BooleanOps.fss:52:24-27:
+    Could not check call to operator >=
+    - ((Comparison & {Unordered, TotalComparison}), Comparison)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - ((CompilerAlgebra.StandardTotalOrder[\T\] & {T}), T)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (Character, Character)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (RR64, RR64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (String, String)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    /home/user/fortress/ProjectFortress/tests/BooleanOps.fss:52:11-53:
+      Possibly because (a, b): (Boolean, Boolean) after argument inference
+File BooleanOps.fss has 4 errors.

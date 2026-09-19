@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/tests/roundBug.fss:19:19-21:
+    Could not check call to operator SQRT
+    - RR64->RR64 is not applicable to an argument of type ZZ32.
+File roundBug.fss has 1 error.

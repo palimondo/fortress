@@ -1,0 +1,5 @@
+JavaMonitorEnter/Wait durations recorded: 525
+min 10.000 ms, median 11.500 ms, max 20.300 ms, sum 6282.3 ms
+(the smallest recorded value is the event threshold in force: JFR's `profile`
+ settings record a monitor enter only when the thread blocked at least that long,
+ so a monitor that is taken constantly but never blocks does not appear at all.)

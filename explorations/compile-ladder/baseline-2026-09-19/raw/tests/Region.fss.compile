@@ -1,0 +1,35 @@
+/home/user/fortress/ProjectFortress/tests/Region.fss:16:11-23:
+    Function array1 is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:24:12-16:
+    Variable region is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:24:34-38:
+    Variable Global is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:26:40-44:
+    Variable region is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:27:16-20:
+    Variable region is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:27:36-40:
+    Variable Global is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:28:16-22:
+    Variable isShared is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:28:28-34:
+    Variable isShared is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:29:16-20:
+    Variable region is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:29:23-29:
+    Variable localize is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:29:46-48:
+    Variable here is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:30:20-26:
+    Variable isShared is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:30:40-46:
+    Variable isShared is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:30:49-55:
+    Variable localize is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:31:12-16:
+    Variable region is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:32:30-34:
+    Variable region is not defined.
+/home/user/fortress/ProjectFortress/tests/Region.fss:32:52-54:
+    Variable here is not defined.
+File Region.fss has 17 errors.

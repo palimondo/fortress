@@ -1,0 +1,13 @@
+/home/user/fortress/ProjectFortress/tests/nativeTestFn.fss:16:33-47:
+    Variable builtinPrimitive is not defined.
+/home/user/fortress/ProjectFortress/tests/nativeTestFn.fss:17:37-51:
+    Variable builtinPrimitive is not defined.
+/home/user/fortress/ProjectFortress/tests/nativeTestFn.fss:21:35-49:
+    Variable builtinPrimitive is not defined.
+/home/user/fortress/ProjectFortress/tests/nativeTestFn.fss:24:35-49:
+    Variable builtinPrimitive is not defined.
+/home/user/fortress/ProjectFortress/tests/nativeTestFn.fss:28:37-51:
+    Variable builtinPrimitive is not defined.
+/home/user/fortress/ProjectFortress/tests/nativeTestFn.fss:31:37-51:
+    Variable builtinPrimitive is not defined.
+File nativeTestFn.fss has 6 errors.

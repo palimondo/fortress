@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXLabelShadowing.fss:19:23-25:
+    Label blah is already declared.
+/home/user/fortress/ProjectFortress/tests/XXXLabelShadowing.fss:21:31-33:
+    Label blah is already declared.
+File XXXLabelShadowing.fss has 2 errors.

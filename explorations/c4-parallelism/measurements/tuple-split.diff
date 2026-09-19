@@ -1,0 +1,22 @@
+--- /home/user/fortress/explorations/run-c4/src/MicroGptFlat.fss	2026-09-18 12:47:03.265586456 +0000
++++ /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/measure/ts/explorations/run-c4/src/MicroGptFlat.fss	2026-09-19 14:59:01.969420596 +0000
+@@ -55,7 +55,8 @@
+     u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)
+     (* -- forward, all (doc, pos) rows at once -- *)
+     x = gather(wte, ids) + gather(wpe, pos); xp = rows(rmsn, x); x1 = rows(rmsn, xp)
+-    (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T); (qh, kh, vh) = (h(q), h(k), h(v))
++    q = x1 wq^T; k = x1 wk^T; v = x1 wv^T
++    qh = h(q); kh = h(k); vh = h(v)
+     a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim)); hc = u(a vh)
+     x2 = xp + hc wo^T; x3 = rows(rmsn, x2); m0 = x3 f1^T; mr = 0.0 MAX m0; x4 = x2 + mr f2^T
+     pr = rows(sm, x4 lm^T); loss = -(vm DOT log(pick(pr, tg))) / nv
+@@ -65,7 +66,8 @@
+     dX2 = dX4 + rows(rmsn_b, dX3, x2); gWO = dX2^T hc; dh = h(dX2 wo)
+     dVh = a^T dh; dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)
+     dQh = dS kh; dKh = dS^T qh; (dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))
+-    (gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1); dX1 = dQ wq + dK wk + dV wv
++    gWQ = dQ^T x1; gWK = dK^T x1; gWV = dV^T x1
++    dX1 = dQ wq + dK wk + dV wv
+     dXp = dX2 + rows(rmsn_b, dX1, xp); dX = rows(rmsn_b, dXp, x)
+     gWTE = transpose(onehot(ids, vocabSize)) dX; gWPE = transpose(onehot(pos, blockSize)) dX
+     (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))

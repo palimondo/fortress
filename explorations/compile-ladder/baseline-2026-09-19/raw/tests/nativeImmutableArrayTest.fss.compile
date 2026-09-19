@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fsi:14:46-50:
+    Array1 is undefined.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fsi:16:50-63:
+    ImmutableArray1 is undefined.
+File nativeImmutableArrayTest.fss has 2 errors.

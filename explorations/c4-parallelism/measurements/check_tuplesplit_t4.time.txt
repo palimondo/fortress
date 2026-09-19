@@ -1,0 +1,1 @@
+threads=4 variant=tuple-split wall=348.79 maxrssKB=1128964

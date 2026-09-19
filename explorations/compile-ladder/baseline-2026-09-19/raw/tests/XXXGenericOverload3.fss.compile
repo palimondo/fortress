@@ -1,0 +1,6 @@
+/home/user/fortress/ProjectFortress/tests/XXXGenericOverload3.fss:21:1-35:
+/home/user/fortress/ProjectFortress/tests/XXXGenericOverload3.fss:22:1-35:
+    Invalid overloading of f in component XXXGenericOverload3:
+     [\U extends Object, V extends U\](U, V)->IntLiteral @ /home/user/fortress/ProjectFortress/tests/XXXGenericOverload3.fss:21:1-35
+ and [\U extends Object, V extends U\](V, U)->IntLiteral @ /home/user/fortress/ProjectFortress/tests/XXXGenericOverload3.fss:22:1-35
+File XXXGenericOverload3.fss has 1 error.

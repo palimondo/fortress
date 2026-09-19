@@ -1,0 +1,7 @@
+/home/user/fortress/ProjectFortress/tests/maybeTest.fss:33:13-16:
+    Operator NOTIN is not defined.
+/home/user/fortress/ProjectFortress/tests/maybeTest.fss:35:16-19:
+    Operator NOTIN is not defined.
+Compiler internal generated.:0:0:
+    Variable __cond is not defined.
+File maybeTest.fss has 3 errors.

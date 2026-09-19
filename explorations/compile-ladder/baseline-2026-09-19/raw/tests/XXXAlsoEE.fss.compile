@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/XXXAlsoEE.fss:12:1-8:
+    Unmatched delimiter "component".
+/home/user/fortress/ProjectFortress/tests/XXXAlsoEE.fss:18:9-21:6:
+    Unmatched delimiters "also" and "end".
+File XXXAlsoEE.fss has 2 errors.

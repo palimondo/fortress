@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/tupleInfer.fss:16:41-50:
+    AnyIntegral is undefined.
+File tupleInfer.fss has 1 error.

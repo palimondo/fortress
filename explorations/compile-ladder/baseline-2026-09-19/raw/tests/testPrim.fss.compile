@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/testPrim.fss:19:32-46:
+    Variable builtinPrimitive is not defined.
+/home/user/fortress/ProjectFortress/tests/testPrim.fss:20:26-40:
+    Variable builtinPrimitive is not defined.
+File testPrim.fss has 2 errors.

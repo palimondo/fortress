@@ -1,0 +1,221 @@
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:17:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:18:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:19:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:20:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:21:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:22:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:23:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:24:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:25:16-22:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:26:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:27:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:28:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:29:18-24:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:86:11-17:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:86:25-31:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:86:38-44:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:87:11-17:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:87:29-35:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:87:42-48:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:88:11-17:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:88:31-37:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:88:44-50:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:92:11-17:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:92:31-37:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:92:44-50:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:93:11-17:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:93:31-37:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:94:11-17:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:94:31-37:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:98:21-27:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:98:34-40:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:99:21-27:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:99:34-40:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:104:11-15:
+    Variable narrow is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:104:18-21:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:105:11-15:
+    Variable narrow is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:105:18-21:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:106:11-15:
+    Variable narrow is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:106:18-21:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:107:16-22:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:108:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:109:24-30:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:110:11-19:
+    Variable partitionL is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:110:22-28:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:110:36-42:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:111:11-19:
+    Variable partitionL is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:112:11-15:
+    Variable signed is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:112:26-30:
+    Variable signed is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:112:37-41:
+    Variable signed is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:113:11-15:
+    Variable signed is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:113:25-29:
+    Variable signed is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:117:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:117:40-46:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:118:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:118:40-46:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:131:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:132:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:133:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:134:18-24:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:191:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:191:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:191:32-35:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:191:38-44:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:191:52-55:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:191:58-64:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:192:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:192:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:192:36-39:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:192:42-48:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:192:56-59:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:192:62-68:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:193:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:193:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:193:38-41:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:193:44-50:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:193:58-61:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:193:64-70:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:197:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:197:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:197:38-41:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:197:44-50:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:197:58-61:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:197:64-70:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:198:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:198:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:198:38-41:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:198:44-50:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:199:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:199:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:199:38-41:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:199:44-50:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:209:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:209:17-21:
+    Variable narrow is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:210:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:210:17-21:
+    Variable narrow is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:211:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:211:17-21:
+    Variable narrow is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:212:11-14:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:212:17-21:
+    Variable narrow is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:213:16-19:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:213:22-28:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:214:17-20:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:214:23-29:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:216:11-19:
+    Variable partitionL is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:217:11-19:
+    Variable partitionL is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:218:11-15:
+    Variable signed is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:218:26-30:
+    Variable signed is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:218:37-41:
+    Variable signed is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:219:11-15:
+    Variable signed is not defined.
+/home/user/fortress/ProjectFortress/tests/UnsignedTest.fss:219:25-29:
+    Variable signed is not defined.
+File UnsignedTest.fss has 110 errors.

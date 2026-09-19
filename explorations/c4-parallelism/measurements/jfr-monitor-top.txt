@@ -1,0 +1,15 @@
+events by type: JavaMonitorEnter 525, JavaMonitorWait 5
+530 events counted, 6282.3 ms total
+
+#     events    ms         class / top frame
+1     525       6282.3     com.sun.fortress.useful.Memo1C
+                             com.sun.fortress.useful.Memo1C.make(Object)  (525)
+2     4         0.0        java.lang.ref.ReferenceQueue$Lock
+                             java.lang.Object.wait0(long)  (4)
+3     1         0.0        java.util.TaskQueue
+                             java.lang.Object.wait0(long)  (1)
+
+ranked by ms instead:
+1     525       6282.3     com.sun.fortress.useful.Memo1C
+2     4         0.0        java.lang.ref.ReferenceQueue$Lock
+3     1         0.0        java.util.TaskQueue

@@ -1,0 +1,4 @@
+/home/user/fortress/ProjectFortress/tests/DivPrecedence.fss:18:15:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+File DivPrecedence.fss has 1 error.

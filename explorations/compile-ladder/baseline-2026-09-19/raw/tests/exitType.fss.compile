@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/exitType.fss:29:9-14:
+    Function body has type ZZ32, but declared return type is ().
+File exitType.fss has 1 error.

@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/atomicExpr.fss:19:4-50:
+    Non-last expression in a block has type ((), ()), but it must have () type.
+File atomicExpr.fss has 1 error.

@@ -1,0 +1,21 @@
+/home/user/fortress/ProjectFortress/tests/realArith.fss:41:12-17:
+    Operator PLUS_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:42:12-18:
+    Operator MINUS_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:43:12-16:
+    Operator DOT_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:44:12-18:
+    Operator SLASH_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:45:10-15:
+    Operator prefix SQRT_UP is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:46:12-19:
+    Operator PLUS_DOWN is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:47:12-20:
+    Operator MINUS_DOWN is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:48:12-18:
+    Operator DOT_DOWN is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:49:12-20:
+    Operator SLASH_DOWN is not defined.
+/home/user/fortress/ProjectFortress/tests/realArith.fss:50:10-17:
+    Operator prefix SQRT_DOWN is not defined.
+File realArith.fss has 10 errors.

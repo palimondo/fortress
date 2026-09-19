@@ -1,0 +1,21 @@
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:23:9-10:
+    Variable big is not defined.
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:52:13-16:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:53:13-19:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:54:13-16:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:54:19-25:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:55:13-19:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:55:22-25:
+    Variable widen is not defined.
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:56:14-20:
+    Variable unsigned is not defined.
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:58:14-18:
+    Variable narrow is not defined.
+/home/user/fortress/ProjectFortress/tests/NumberPrintTest.fss:58:28-32:
+    Variable narrow is not defined.
+File NumberPrintTest.fss has 10 errors.

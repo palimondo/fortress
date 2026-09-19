@@ -1,0 +1,7 @@
+/home/user/fortress/ProjectFortress/tests/stringJuxt.fss:39:5-19:
+    IndexOutOfBounds is undefined.
+/home/user/fortress/ProjectFortress/tests/stringJuxt.fss:45:5-19:
+    IndexOutOfBounds is undefined.
+/home/user/fortress/ProjectFortress/tests/stringJuxt.fss:57:5-19:
+    IndexOutOfBounds is undefined.
+File stringJuxt.fss has 3 errors.

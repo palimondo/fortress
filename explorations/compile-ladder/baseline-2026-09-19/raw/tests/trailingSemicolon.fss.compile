@@ -1,0 +1,3 @@
+/home/user/fortress/ProjectFortress/tests/trailingSemicolon.fss:23:3-7:
+    Must provide type for initializer List(x)
+File trailingSemicolon.fss has 1 error.

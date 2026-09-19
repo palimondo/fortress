@@ -1,0 +1,13 @@
+/home/user/fortress/ProjectFortress/tests/neOperator.fss:37:7:
+    Could not check call to operator NE
+    - (Character, Character)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (String, String)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (Boolean, Boolean).
+/home/user/fortress/ProjectFortress/tests/neOperator.fss:37:7:
+    Filter expressions in generator clauses must have type Boolean, but OpExpr at /home/user/fortress/ProjectFortress/tests/neOperator.fss:37.7 was not well typed.
+File neOperator.fss has 2 errors.

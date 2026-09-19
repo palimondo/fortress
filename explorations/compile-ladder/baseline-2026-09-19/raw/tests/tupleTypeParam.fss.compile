@@ -1,0 +1,10 @@
+/home/user/fortress/ProjectFortress/tests/tupleTypeParam.fss:18:8-9:
+    Ill-formed type: Obj[\(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/tests/tupleTypeParam.fss:18:34-43:
+    Ill-formed type: Tra[\(T, T)\]
+    The static argument (T, T) does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/tests/tupleTypeParam.fss:24:7-22:
+    Ill-formed type: Tra[\(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+File tupleTypeParam.fss has 3 errors.

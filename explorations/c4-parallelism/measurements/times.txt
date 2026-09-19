@@ -1,0 +1,4 @@
+threads=1 wall=845.91 maxrssKB=657928
+threads=2 wall=484.28 maxrssKB=974324
+threads=3 wall=395.70 maxrssKB=1100028
+threads=4 wall=382.78 maxrssKB=1133836

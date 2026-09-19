@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/sequivTest.fss:17:15-19:
+    Operator BIG || is not defined.
+/home/user/fortress/ProjectFortress/tests/sequivTest.fss:24:15-19:
+    Operator BIG || is not defined.
+File sequivTest.fss has 2 errors.

@@ -1,0 +1,11 @@
+/home/user/fortress/ProjectFortress/tests/ImplicitBlocks.fss:19:25-44:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (String, ()).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (String, ()).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (String, ()).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (String, ()).
+    - (String, Object)->String is not applicable to an argument of type (String, ()).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (String, ()).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (String, ()).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (String, ()).
+File ImplicitBlocks.fss has 1 error.

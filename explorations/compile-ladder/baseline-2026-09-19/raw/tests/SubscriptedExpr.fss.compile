@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/SubscriptedExpr.fss:17:22-35:
+    Function array1 is not defined.
+/home/user/fortress/ProjectFortress/tests/SubscriptedExpr.fss:18:20-33:
+    Function array1 is not defined.
+File SubscriptedExpr.fss has 2 errors.

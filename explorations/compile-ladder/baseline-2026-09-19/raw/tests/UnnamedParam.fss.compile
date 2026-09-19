@@ -1,0 +1,5 @@
+/home/user/fortress/ProjectFortress/tests/UnnamedParam.fss:21:21-29:
+    Function body has type (), but declared return type is ZZ64.
+/home/user/fortress/ProjectFortress/tests/UnnamedParam.fss:24:8-26:2:
+    Function body has type ZZ64, but declared return type is ().
+File UnnamedParam.fss has 2 errors.

@@ -1,0 +1,36 @@
+events by type: ObjectAllocationSample 82302
+82302 events counted, 523866.1 MB total
+
+#     events    MB         class / top frame
+1     22775     135455.6   com.sun.fortress.useful.BATreeNode
+                             com.sun.fortress.useful.BATreeNode.add(Object, Object, Comparator)  (10156)
+2     12142     82518.0    com.sun.fortress.interpreter.env.BetterEnvWithTopLevel
+                             com.sun.fortress.interpreter.env.BetterEnvWithTopLevel.extendAt(HasAt)  (10669)
+3     9023      60202.1    java.lang.Object[]
+                             java.util.ArrayList.<init>(int)  (8088)
+4     5729      36287.4    java.util.ArrayList$Itr
+                             java.util.ArrayList.iterator()  (5729)
+5     5174      32634.1    java.util.ArrayList
+                             com.sun.fortress.interpreter.evaluator.Evaluator.evalExprListParallel(List)  (2842)
+6     4947      34485.2    com.sun.fortress.interpreter.evaluator.tasks.TupleTask
+                             com.sun.fortress.interpreter.evaluator.Evaluator.evalExprListParallel(List)  (4915)
+7     4705      29593.2    com.sun.fortress.interpreter.evaluator.Evaluator
+                             com.sun.fortress.interpreter.evaluator.tasks.TupleTask.compute()  (2064)
+8     3871      26144.9    java.util.Collections$1
+                             java.util.Collections.singletonIterator(Object)  (3871)
+9     3464      21267.4    java.util.ArrayList$SubList
+                             java.util.ArrayList.subList(int, int)  (3464)
+10    1751      12081.6    com.sun.fortress.nodes_util.OprUtil$1
+                             com.sun.fortress.nodes_util.OprUtil.fixityDecorator(Fixity, String)  (1751)
+
+ranked by MB instead:
+1     22775     135455.6   com.sun.fortress.useful.BATreeNode
+2     12142     82518.0    com.sun.fortress.interpreter.env.BetterEnvWithTopLevel
+3     9023      60202.1    java.lang.Object[]
+4     5729      36287.4    java.util.ArrayList$Itr
+5     4947      34485.2    com.sun.fortress.interpreter.evaluator.tasks.TupleTask
+6     5174      32634.1    java.util.ArrayList
+7     4705      29593.2    com.sun.fortress.interpreter.evaluator.Evaluator
+8     3871      26144.9    java.util.Collections$1
+9     3464      21267.4    java.util.ArrayList$SubList
+10    1751      12081.6    com.sun.fortress.nodes_util.OprUtil$1

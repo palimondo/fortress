@@ -1,0 +1,271 @@
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: (()->G10, ()->G10)
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (()->G10, ()->G10) is not a subtype of BottomType
+
+This domain: ()->G12
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->G12 is not a subtype of BottomType
+
+This domain: ()->Gyy
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->Gyy is not a subtype of BottomType
+
+This domain: ()->G3
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->G3 is not a subtype of BottomType
+
+This domain: (Reduction[\R\], ()->R)
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (Reduction[\R\], ()->R) is not a subtype of BottomType
+
+This domain: (Reduction[\G11\], ()->G11)
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (Reduction[\G11\], ()->G11) is not a subtype of BottomType
+
+This domain: ()->()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->() is not a subtype of BottomType
+
+This domain: ()->()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->() is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()->SequentialGenerator[\G18\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->SequentialGenerator[\G18\] is not a subtype of BottomType
+
+This domain: ()->Generator[\G1\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->Generator[\G1\] is not a subtype of BottomType
+
+This domain: ()->SequentialGenerator[\G4\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->SequentialGenerator[\G4\] is not a subtype of BottomType
+
+This domain: ()->Generator[\G13\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->Generator[\G13\] is not a subtype of BottomType
+
+This domain: Generator[\G14\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Generator[\G14\] is not a subtype of BottomType
+
+This domain: SequentialGenerator[\G17\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain SequentialGenerator[\G17\] is not a subtype of BottomType
+
+This domain: SequentialGenerator[\F1\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain SequentialGenerator[\F1\] is not a subtype of BottomType
+
+This domain: Generator[\G2\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Generator[\G2\] is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: Reduction[\()\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Reduction[\()\] is not a subtype of BottomType
+
+This domain: (((), ())->(), ())
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (((), ())->(), ()) is not a subtype of BottomType
+
+This domain: (((), ())->(), ())
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (((), ())->(), ()) is not a subtype of BottomType
+
+This domain: Reduction[\()\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Reduction[\()\] is not a subtype of BottomType
+
+This domain: (()->R, (R, R)->R, R)
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (()->R, (R, R)->R, R) is not a subtype of BottomType
+
+This domain: (()->R, (R, R)->R, R)
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (()->R, (R, R)->R, R) is not a subtype of BottomType
+
+This domain: ()->Condition[\()\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->Condition[\()\] is not a subtype of BottomType
+
+This domain: ()->Condition[\()\]
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain ()->Condition[\()\] is not a subtype of BottomType
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method abstract getter isEmpty:Boolean from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method abstract getter nonEmpty:Boolean from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method abstract getter reverse:Condition[\E18\] from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method abstract getter reverse:Generator[\E1\] from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method abstract getter reverse:SequentialGenerator[\E2\] from the trait SequentialGenerator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method cond[\G10 extends Any\](t:E18->G10,e:()->G10):G10 from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method cross[\F1 extends Any\](g:SequentialGenerator[\F1\]):SequentialGenerator[\(E2, F1)\] from the trait SequentialGenerator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method cross[\G14 extends Any\](g:Generator[\G14\]):Generator[\(E18, G14)\] from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method cross[\G17 extends Any\](g:SequentialGenerator[\G17\]):SequentialGenerator[\(E18, G17)\] from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method cross[\G2 extends Any\](g:Generator[\G2\]):Generator[\(E1, G2)\] from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method filter(f:E1->Condition[\()\]):Generator[\E1\] from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method filter(f:E2->Condition[\()\]):SequentialGenerator[\E2\] from the trait SequentialGenerator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method generate[\G11 extends Any\](r:Reduction[\G11\],body:E18->G11):G11 from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method generate[\R extends Any\](r:Reduction[\R\],body:E1->R):R from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method getDefault(defaultValue:E18):E18 from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method loop(body:E1->()):() from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method loop(f:E18->()):() from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method mapReduce[\R extends Any\](body:E1->R,join:(R, R)->R,id:R):R from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method mapReduce[\R extends Any\](body:E18->R,_:(R, R)->R,id:R):R from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method map[\G12 extends Any\](f:E18->G12):Condition[\G12\] from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method map[\G3 extends Any\](f:E2->G3):SequentialGenerator[\G3\] from the trait SequentialGenerator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method map[\Gyy extends Any\](f:E1->Gyy):Generator[\Gyy\] from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method nest[\G1 extends Any\](f:E1->Generator[\G1\]):Generator[\G1\] from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method nest[\G13 extends Any\](f:E18->Generator[\G13\]):Generator[\G13\] from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method nest[\G18 extends Any\](f:E18->SequentialGenerator[\G18\]):SequentialGenerator[\G18\] from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method nest[\G4 extends Any\](f:E2->SequentialGenerator[\G4\]):SequentialGenerator[\G4\] from the trait SequentialGenerator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method reduce(_:(E18, E18)->E18,id:E18):E18 from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method reduce(join:(E1, E1)->E1,id:E1):E1 from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method reduce(r:Reduction[\E18\]):E18 from the trait Condition[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+/home/user/fortress/ProjectFortress/tests/XXXextendBoolean.fss:15:5-16:6:
+    The inherited abstract method reduce(r:Reduction[\E1\]):E1 from the trait Generator[\()\]
+    has no concrete implementation in the object Mumble in component XXXextendBoolean.
+File XXXextendBoolean.fss has 30 errors.

@@ -1,0 +1,8 @@
+/home/user/fortress/ProjectFortress/tests/wrapZZ.fss:18:3-41:
+    Cannot infer type for functional method WrapZZ.+(self:WrapZZ, o:WrapZZ) because it has reference cycle: WrapZZ.+(self:WrapZZ, o:WrapZZ), WrapZZ.+(self:WrapZZ, o:WrapZZ)
+/home/user/fortress/ProjectFortress/tests/wrapZZ.fss:19:3-51:
+    Cannot infer type for functional method WrapZZ.juxtaposition(self:WrapZZ, o:WrapZZ) because it has reference cycle: WrapZZ.juxtaposition(self:WrapZZ, o:WrapZZ), WrapZZ.juxtaposition(self:WrapZZ, o:WrapZZ)
+/home/user/fortress/ProjectFortress/tests/wrapZZ.fss:30:5:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+File wrapZZ.fss has 3 errors.
