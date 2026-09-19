@@ -113,6 +113,10 @@ but if one seems to conflict with something Pavol says, his words win.
   goes to a worker that returns a summary; the coordinator's reasoning is
   kept for high-level work. And after a compaction `coordinator/FACTS.md`
   is read whole, in one pass, never the tail alone.
+- **(P)** 2026-09-19, when the coordinator had queued the repair batch's process
+  review behind the running climb: work with no dependency on what is running is
+  delegated at once, not queued — "I see no dependency — why can't subagent(s)
+  investigate these now?"
 - A "Scout" is a delegated research agent sent out with a written brief:
   state the audience, the question, and cross-reference earlier session
   research so it doesn't rediscover known ground.
