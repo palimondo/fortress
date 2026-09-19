@@ -1,0 +1,38 @@
+skeptic independent base-tree reproduction  start=2026-09-19T01:09:01+00:00 nproc=4
+--- reverting the four edited sources to 49ee5e91 ---
+git diff 49ee5e91 -- ProjectFortress/src : []
+ant compileAll (base) exit=0 39s  tail: 1
+BUILD SUCCESSFUL
+  cache LibraryBuiltin/AnyType.fss exit=0 20s
+  cache LibraryBuiltin/CompilerBuiltin.fss exit=0 105s
+  cache ../Library/CompilerLibrary.fss exit=0 17s
+  cache ../Library/CompilerAlgebra.fss exit=0 2s
+  cache ../Library/CompilerSystem.fss exit=0 1s
+BASE compile SK25ObjNoAtomicVsAtomic exit=0 :: |
+BASE run     SK25ObjNoAtomicVsAtomic THREADS=1 :: plain write ok, b.n =  2|atomic write ok, b.n =  3|
+BASE run     SK25ObjNoAtomicVsAtomic THREADS=4 :: plain write ok, b.n =  2|atomic write ok, b.n =  3|
+BASE compile SK24TraitAsString exit=0 :: |
+BASE run     SK24TraitAsString THREADS=1 :: sh =  Ci|
+BASE run     SK24TraitAsString THREADS=4 :: sh =  Ci|
+BASE compile SK18Trait exit=0 :: |
+BASE run     SK18Trait THREADS=1 :: sh =  Ci|
+BASE run     SK18Trait THREADS=4 :: sh =  Ci|
+--- restoring the landed sources ---
+git diff HEAD -- ProjectFortress/src : []
+ant compileAll (landed) exit=0 41s
+BUILD SUCCESSFUL
+  cache LibraryBuiltin/AnyType.fss exit=0 20s
+  cache LibraryBuiltin/CompilerBuiltin.fss exit=0 103s
+  cache ../Library/CompilerLibrary.fss exit=0 17s
+  cache ../Library/CompilerAlgebra.fss exit=0 2s
+  cache ../Library/CompilerSystem.fss exit=0 1s
+LANDED compile SK25ObjNoAtomicVsAtomic exit=0 :: |
+LANDED run     SK25ObjNoAtomicVsAtomic THREADS=1 :: plain write ok, b.n =  2|java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|
+LANDED run     SK25ObjNoAtomicVsAtomic THREADS=4 :: plain write ok, b.n =  2|java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|
+LANDED compile SK24TraitAsString exit=0 :: |
+LANDED run     SK24TraitAsString THREADS=1 :: sh =  Ci|
+LANDED run     SK24TraitAsString THREADS=4 :: sh =  Ci|
+LANDED compile SK18Trait exit=0 :: |
+LANDED run     SK18Trait THREADS=1 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+LANDED run     SK18Trait THREADS=4 :: java.lang.StackOverflowError|	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)|	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)|
+SKEPTIC_BASETREE_DONE end=2026-09-19T01:15:31+00:00

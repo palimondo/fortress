@@ -1,0 +1,43 @@
+# SK13LocalArmAtomic (a LOCAL mutable variable; atomic in each arm of do...also) on the landed tree.
+# The same VerifyError appears for SK12ArmAtomic (top-level var) and SK7TaskNest, and on the base tree for all three.
+
+java.lang.VerifyError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SK13LocalArmAtomic.main(/home/user/fortress-r1/ProjectFortress/skprobes/SK13LocalArmAtomic.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.VerifyError: Inconsistent stackmap frames at branch target 5
+Exception Details:
+  Location:
+    SK13LocalArmAtomic$task0.compute()V @95: goto
+  Reason:
+    Current frame's stack size doesn't match stackmap.
+  Current Frame:
+    bci: @95
+    flags: { }
+    locals: { 'SK13LocalArmAtomic$task0' }
+    stack: { }
+  Stackmap Frame:
+    bci: @5
+    flags: { }
+    locals: { 'SK13LocalArmAtomic$task0' }
+    stack: { 'SK13LocalArmAtomic$task0' }
+  Bytecode:
+    0000000: 2a59 b800 19b8 001e b800 2299 0010 b800
+    0000010: 262a b400 14b6 002c a700 0a2a b400 14b6
+    0000020: 0032 c000 34c0 0034 05b8 003a b800 40b8
+    0000030: 0044 b800 2299 0012 b800 265f 2ab4 0014
+    0000040: 5fb6 0048 a700 0b2a b400 145f b600 4cb8
+    0000050: 0051 b800 54a7 000d 57b8 0057 b800 5aa7
+    0000060: ffa6 b500 5cb1                         
+  Exception Handler Table:
+    bci [5, 85] => handler: 88
+  Stackmap Table:
+    same_locals_1_stack_item_frame(@5,Object[#7])

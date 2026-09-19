@@ -1,0 +1,10 @@
+component SK16LocalString
+export Executable
+
+run(): () = do
+    var st: String = "a"
+    atomic do st := st "b" end
+    println("st = " st)
+  end
+
+end

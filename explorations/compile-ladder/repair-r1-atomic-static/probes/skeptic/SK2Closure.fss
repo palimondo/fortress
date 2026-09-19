@@ -1,0 +1,13 @@
+component SK2Closure
+export Executable
+
+g: ZZ32 := 0
+
+run(): () = do
+    bump = fn (k: ZZ32): () => (atomic do g := g + k end)
+    bump(3)
+    bump(4)
+    println("g = " g)
+  end
+
+end

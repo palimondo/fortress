@@ -1,0 +1,11 @@
+component SK17ZZ64
+export Executable
+
+n: ZZ64 := 1
+
+run(): () = do
+    atomic do n := n + 2 end
+    println("n = " n)
+  end
+
+end

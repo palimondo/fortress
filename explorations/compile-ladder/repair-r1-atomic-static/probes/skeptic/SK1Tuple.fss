@@ -1,0 +1,17 @@
+component SK1Tuple
+export Executable
+
+p: (ZZ32, ZZ32) := (1, 2)
+
+run(): () = do
+    p := (3, 4)
+    for i <- 1#5 do
+        atomic do
+            (u, v) = p
+            p := (u + 1, v + 10)
+        end
+    end
+    println("p = " p)
+  end
+
+end

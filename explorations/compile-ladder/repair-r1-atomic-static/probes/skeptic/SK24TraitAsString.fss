@@ -1,0 +1,24 @@
+component SK24TraitAsString
+export Executable
+
+trait Shape extends Object
+    getter tag(): String
+    getter asString(): String = self.tag
+end
+
+object Sq extends Shape
+    getter tag(): String = "Sq"
+end
+
+object Ci extends Shape
+    getter tag(): String = "Ci"
+end
+
+sh: Shape := Sq
+
+run(): () = do
+    atomic do sh := Ci end
+    println("sh = " sh.tag)
+  end
+
+end

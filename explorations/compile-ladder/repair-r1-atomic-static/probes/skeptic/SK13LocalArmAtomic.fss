@@ -1,0 +1,14 @@
+component SK13LocalArmAtomic
+export Executable
+
+run(): () = do
+    var g: ZZ32 = 0
+    do
+        atomic do g := g + 1 end
+    also do
+        atomic do g := g + 2 end
+    end
+    println("g = " g)
+  end
+
+end

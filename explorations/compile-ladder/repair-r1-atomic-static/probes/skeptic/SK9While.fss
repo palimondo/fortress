@@ -1,0 +1,16 @@
+component SK9While
+export Executable
+
+i: ZZ32 := 0
+
+acc: ZZ32 := 0
+
+run(): () = do
+    while i < 5 do
+        acc := acc + i
+        i := i + 1
+    end
+    println("i = " i " acc = " acc)
+  end
+
+end
