@@ -4,7 +4,7 @@
 
 ## The rule for every edit under the sealed tree
 
-Test first: a program that fails today is added to the compiler's own corpus (`ProjectFortress/library_tests/` for library rungs, `ProjectFortress/compiler_tests/` for checker and codegen rungs; a `.fss` that prints `PASS` plus a `.test` file naming `link`, `run`, `run_out_WIcontains=PASS`, the format of `library_tests/Boolean.test`).
+Test first: a program that fails today is added to the compiler's own corpus (`ProjectFortress/library_tests/` for library rungs, `ProjectFortress/compiler_tests/` for checker and codegen rungs; a `.fss` that prints `PASS` plus a `.test` file naming `link`, `run`, `run_out_contains=PASS`, the format of `library_tests/Boolean.test` except for its check line: `run_out_WIcontains`, which that file writes, is not implemented by the harness and silently falls back to the default check (FACTS, R1 of the repair batch, `FileTests.java:147`; corrected 2026-09-19).
 
 Then the edit, as small as the test needs.
 
@@ -33,6 +33,8 @@ Step 1, running: the ladder baseline, `explorations/compile-ladder/REPORT.md` (e
 Step 2: the two one-line runtime defects. `runtimeSystem/BaseTask.java:246-249`, `inATransaction()` builds its debug string before reading the flag (ledger 302, 88.9% of samples in the compiled loop); the float-literal `String` round trip per iteration (ledger 303). Test: the compiled scalar loop of `perf-probes/boxing/` timed before and after; correctness by the full suite. First commits under the sealed tree.
 
 Step 3: climb the ladder, library rungs only. Each rung: the top missing name from the ladder, its failing test, its declaration in `Library/CompilerLibrary.fss` or `LibraryBuiltin/CompilerBuiltin.fss` in the spec's spelling and from the team's drafts where they exist (`CompilerAlgebra` one uncommented line at `WellKnownNames.java:124`, `GeneratorLibrary.fss`, the `Maybe` blocks, `Library/incomplete/`), the check, the commit. The rung stops and reports when the next name needs the checker or the code generator. Automated by `coordinator/ladder-workflow.js`.
+
+Step 3, batch 1, launched 2026-09-19 (`coordinator/CLIMB-BATCH-1.md`, run by `coordinator/climb-batch-workflow.js`): four fork-free rungs ranked by what the target program names rather than by ladder file counts — the `RR64` functions (the one `.java` rung), `Maybe`/`Just`/`Nothing`, the named integral operators, `recordTime`/`printTime`. Rows 319-328 stay in the ledger: none is on the path; row 320 is the next batch's `.java` candidate.
 
 Step 4: `nat` static parameters in the checker (`reviews/nat-checking-plan.md`), shadow first; test: a `nat`-parameterised program compiled and run, plus the plan's five compiler tests.
 

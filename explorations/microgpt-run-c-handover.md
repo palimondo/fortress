@@ -26,7 +26,7 @@ report to Pavol was given on 2026-09-19. What waits on him: the thread count of 
 compiler-test gate (`compile-ladder/repair-r1-atomic-static/record.md` § One decision about
 the gate), the default `asString` rendering (row 321, a decision under a silent specification
 the batch did not take), and the deletion of the two remote `wip/` branches in the GitHub UI.
-The next work is his call, from `coordinator/PLAN.md`.
+On 2026-09-19 Pavol gave the go for the next climb, leaving the queue decision to the coordinator: **batch 1 of the climb** (`coordinator/CLIMB-BATCH-1.md`: the `RR64` functions, `Maybe`, the named integral operators, `recordTime`/`printTime`, ranked by what the target program names; none of rows 319-328 is on the path) was launched by `coordinator/climb-batch-workflow.js` from the commit that carries this sentence; its landing paragraph follows when it lands.
 
 R1 of the repair batch was built on `wip/repair-r1-atomic-static` (base
 `49ee5e91`), refused once by its skeptic and repaired in the same worktree, and
