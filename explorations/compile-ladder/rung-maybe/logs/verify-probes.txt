@@ -1,0 +1,81 @@
+########## TEST: library_tests/MaybeRungM ##########
+compile-rc=0
+PASS
+run-rc=0
+########## PROBE: OptionCoercion ##########
+compile-rc=0
+empty=None full=Some(7)
+PASS
+run-rc=0
+########## PROBE: MaybeCoercionSites ##########
+compile-rc=0
+PASS
+run-rc=0
+########## PROBE: NothingParameterised ##########
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/NothingParameterised.fss:9:9-21:
+    Unexpected type for a singleton object reference.
+File NothingParameterised.fss has 1 error.
+compile-rc=255
+Could not load NothingParameterised
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : NothingParameterised.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-rc=1
+########## PROBE: DualNothing ##########
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/DualNothing.fss:8:55-65:
+    Incorrect number of static arguments for type 'NothingD': provided 1, expected 0
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/DualNothing.fss:16:14-20:
+    Incorrect number of static arguments for type 'NothingD': provided 1, expected 0
+File DualNothing.fss has 2 errors.
+compile-rc=255
+Could not load DualNothing
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : DualNothing.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-rc=1
+########## PROBE: MaybeNegative ##########
+compile-rc=0
+FAIL:  for over Just(7) reached its body
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  for over Just(7) reached its body
+	at fortress.CompilerLibrary.fail(/home/user/fortress-maybe/Library/CompilerLibrary.fss:75)
+	at MaybeNegative$\=fn@15\!9-19.apply(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/MaybeNegative.fss:15)
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,java\|lang\|Object?.apply(Unknown Source)
+	at \=WrappedArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,??.apply(Unknown Source)
+	at fortress.CompilerLibrary$\=Just?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.loop?(/home/user/fortress-maybe/Library/CompilerLibrary.fss:556)
+	at fortress.CompilerLibrary$\=Just?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.loop(/home/user/fortress-maybe/Library/CompilerLibrary.fss)
+	at MaybeNegative.run(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/MaybeNegative.fss:15)
+	at MaybeNegative.compute(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/MaybeNegative.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+run-rc=1
+########## PROBE: WhereClauseNothing (compile) ##########
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/WhereClauseNothing.fss:12:33:
+    T is undefined.
+File WhereClauseNothing.fss has 1 error.
+compile-rc=255
+########## PROBE: WhereClauseNothing (walk) ##########
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/WhereClauseNothing.fss:12:33:
+    T is undefined.
+walk-rc=255
+########## ALL PROBES DONE ##########

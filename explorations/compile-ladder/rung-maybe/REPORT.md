@@ -9,7 +9,7 @@ deviation: nine, each listed in §7 below; the first is that the specification's
 
 This rung was relaunched. The branch `wip/rung-maybe` already carried three pushed commits from an earlier attempt of this same rung — `d5352bd21` (the failing test and one probe), `96aef343d` (the captured pre-edit failure), `f6b4a82e1` (the library edit, four more probes, the subset driver and both ladder runs) — and the worktree held an uncommitted REPORT.md, an uncommitted probe (`WhereClauseNothing`), the two ladder result directories and the earlier attempt's `tmp/` logs. No skeptic had seen any of it.
 
-Committed work was read and re-checked rather than redone. What was re-run in this session, from a bytecode cache **wiped and rebuilt from scratch** in library order (`logs/verify-rebuild.log`: AnyType 27 s, CompilerBuiltin 118 s, CompilerLibrary 33 s, CompilerAlgebra 2 s, CompilerSystem 1 s, all rc=0 — so the edited library is well-formed against an empty cache, not only against an incrementally patched one): the test, every probe, the `.test` file through the harness, and the ladder subset's "after" half. All of the earlier attempt's recorded results reproduced. `logs/verify-probes.log`, `logs/verify-gate-and-ladder.log`.
+Committed work was read and re-checked rather than redone. What was re-run in this session, from a bytecode cache **wiped and rebuilt from scratch** in library order (`logs/verify-rebuild.txt`: AnyType 27 s, CompilerBuiltin 118 s, CompilerLibrary 33 s, CompilerAlgebra 2 s, CompilerSystem 1 s, all rc=0 — so the edited library is well-formed against an empty cache, not only against an incrementally patched one): the test, every probe, the `.test` file through the harness, and the ladder subset's "after" half. All of the earlier attempt's recorded results reproduced. `logs/verify-probes.txt`, `logs/verify-gate-and-ladder.txt`.
 
 What the earlier attempt had wrong or missing, corrected here:
 
@@ -104,7 +104,7 @@ Shape 4 was copied member for member, because it is the one that runs. The names
 
 and, from the harness over the same `.test` file, `Failed to satisfy run_out_contains; expected PASS` and `Tests run: 2,  Failures: 2,  Errors: 0`.
 
-**Recorded pass**, re-run this session from a cache wiped and rebuilt from scratch: `probes/MaybeRungM-after.txt` — `compile-rc=0`, `PASS`, `run-rc=0` — and through the harness, `logs/verify-gate-and-ladder.log`, `. link library_tests/MaybeRungM OK` / `. run library_tests/MaybeRungM PASS` / `OK (2 tests)`.
+**Recorded pass**, re-run this session from a cache wiped and rebuilt from scratch: `probes/MaybeRungM-after.txt` — `compile-rc=0`, `PASS`, `run-rc=0` — and through the harness, `logs/verify-gate-and-ladder.txt`, `. link library_tests/MaybeRungM OK` / `. run library_tests/MaybeRungM PASS` / `OK (2 tests)`.
 
 **Differentials.**
 
