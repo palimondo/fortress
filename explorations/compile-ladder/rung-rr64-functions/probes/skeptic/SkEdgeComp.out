@@ -1,0 +1,24 @@
+=== $ fortress compile ../explorations/compile-ladder/rung-rr64-functions/probes/skeptic/SkEdgeComp.fss ; fortress run SkEdgeComp   (2026-09-19T09:24:57+00:00) ===
+--- compile exit 0 ---
+inf            =  Infinity
+nan            =  NaN
+huge = exp 100  =  2.6881171418161356E43
+log(0)         =  -Infinity
+log(-1)        =  NaN
+asin(2)        =  NaN
+acos(2)        =  NaN
+floor(nan)     =  NaN
+ceiling(nan)   =  NaN
+floor(inf)     =  Infinity
+ceiling(-inf)  =  -Infinity
+truncate(nan)  =  0
+round(nan)     =  0
+truncate(inf)  =  9223372036854775807
+round(inf)     =  9223372036854775807
+truncate(-inf) =  -9223372036854775808
+round(-inf)    =  -9223372036854775808
+truncate(huge)  =  9223372036854775807
+round(huge)     =  9223372036854775807
+truncate(-huge) =  -9223372036854775808
+round(-huge)    =  -9223372036854775808
+=== run exit 0 ===

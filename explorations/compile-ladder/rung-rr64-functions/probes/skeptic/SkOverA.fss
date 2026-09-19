@@ -1,0 +1,18 @@
+component SkOverA
+export Executable
+
+(*) Skeptic's probe 3a: a component that declares its own top-level function
+(*) named exp, at a parameter type the prelude's functional method does not
+(*) cover.  Before this rung the name exp was free in the compiler world; it
+(*) is now a functional method of trait RR64 and so visible at top level.
+
+exp(x: ZZ32): ZZ32 = x + 1
+
+run():() = do
+    a: ZZ32 = 3
+    b = SQRT(1.0)
+    println("own exp(3)     = " exp(a))
+    println("prelude exp(1) = " exp(b))
+end
+
+end

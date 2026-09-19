@@ -1,0 +1,16 @@
+component SkOverC
+export Executable
+
+(*) Skeptic's probe 3c, the control for 3b: the same clash against a
+(*) functional method the compiler prelude already carried before this rung
+(*) (even(self): Boolean on trait ZZ32, CompilerBuiltin.fsi:409 pre-edit).
+(*) If 3c fails the same way as 3b, the diagnostic 3b meets is pre-existing.
+
+even(x: ZZ32): Boolean = true
+
+run():() = do
+    a: ZZ32 = 3
+    println("even(3) = " even(a))
+end
+
+end

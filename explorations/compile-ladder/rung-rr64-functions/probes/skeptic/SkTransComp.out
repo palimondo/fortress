@@ -1,0 +1,15 @@
+=== $ fortress compile ../explorations/compile-ladder/rung-rr64-functions/probes/skeptic/SkTransComp.fss ; fortress run SkTransComp   (2026-09-19T09:24:14+00:00) ===
+--- compile exit 0 ---
+sin(0.7)       =  0.644217687237691
+cos(0.7)       =  0.7648421872844885
+tan(0.7)       =  0.8422883804630794
+asin(0.5)      =  0.5235987755982989
+acos(0.5)      =  1.0471975511965979
+atan(1.0)      =  0.7853981633974483
+exp(1.0)       =  2.718281828459045
+log(2.0)       =  0.6931471805599453
+atan2(1,-1)    =  2.356194490192345
+atan2(-1,1)    =  -0.7853981633974483
+atan2(0.5,1)   =  0.4636476090008061
+atan2(1,0.5)   =  1.1071487177940904
+=== run exit 0 ===

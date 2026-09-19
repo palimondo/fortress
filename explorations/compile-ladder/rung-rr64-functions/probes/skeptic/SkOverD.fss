@@ -1,0 +1,17 @@
+component SkOverD
+export Executable
+
+(*) Skeptic's probe 3d: a generic top-level function named exp whose bound is
+(*) the compiler world's marker trait Number, so that one instantiation --
+(*) exp[\RR64\] -- has the same signature as the new functional method.  The
+(*) target program's own exp takes Array[\T,I\] and so is not this shape, but
+(*) the array rung will want to know what the checker does with it.
+
+exp[\T extends Number\](a: T): ZZ32 = 1
+
+run():() = do
+    a: ZZ32 = 7
+    println("generic exp(7) = " exp[\ZZ32\](a))
+end
+
+end

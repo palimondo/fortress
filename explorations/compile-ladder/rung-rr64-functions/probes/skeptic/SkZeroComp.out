@@ -1,0 +1,14 @@
+=== $ fortress compile ../explorations/compile-ladder/rung-rr64-functions/probes/skeptic/SkZeroComp.fss ; fortress run SkZeroComp   (2026-09-19T09:29:29+00:00) ===
+--- compile exit 0 ---
+round(0.5)     =  0
+round(-0.5)    =  0
+round(1.5)     =  2
+round(-1.5)    =  -2
+truncate(0.5)  =  0
+truncate(-0.5) =  0
+floor(-0.5)    =  -1.0
+ceiling(-0.5)  =  -0.0
+applyTo(exp,1) =  2.718281828459045
+applyTo(log,1) =  0.0
+round(2.5) ck  =  2
+=== run exit 0 ===
