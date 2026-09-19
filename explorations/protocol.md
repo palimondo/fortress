@@ -125,6 +125,16 @@ but if one seems to conflict with something Pavol says, his words win.
   review behind the running climb: work with no dependency on what is running is
   delegated at once, not queued — "I see no dependency — why can't subagent(s)
   investigate these now?"
+- **(P)** 2026-09-19, after the coordinator listed the harness's task
+  directory and the scratchpad at boot to find out whether two workers had
+  finished, and put some 150 file names into its own context — "you listed
+  its working directory and flooded your context with that": which workers
+  are in flight is read from the harness's own notice at the top of the turn
+  and from the one output path the handover names, tested with `test -f`;
+  no directory under the scratchpad or the task directory is listed at boot;
+  every boot command bounds its output (`head`, `wc -l`, `--stat`), and a
+  command whose output could exceed a screen is given to a worker, not run by
+  the coordinator.
 - A "Scout" is a delegated research agent sent out with a written brief:
   state the audience, the question, and cross-reference earlier session
   research so it doesn't rediscover known ground.
