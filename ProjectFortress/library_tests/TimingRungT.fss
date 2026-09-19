@@ -1,0 +1,77 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component TimingRungT
+export Executable
+
+(*) recordTime and printTime on the bytecode path.  The interpreter's library
+(*) declares both at Library/FortressLibrary.fsi:2393-2394 over a top-level
+(*) mutable variable (Library/FortressLibrary.fss:4111-4118); the compiler
+(*) world's prelude declared neither, so ProjectFortress/tests/
+(*) nestedTransactions1.fss, 2.fss and 4.fss stopped in disambiguation with
+(*) "Variable recordTime is not defined."
+(*)
+(*) The two shapes pinned here are the two the corpus writes.  Those three
+(*) files call recordTime and printTime with a float literal argument, around
+(*) a body built of atomic blocks; the compiler world's nanoTime() is an RR64
+(*) (CompilerBuiltin.fsi:23) where the interpreter's is a ZZ64, so the stored
+(*) time and the elapsed interval are RR64 here.
+(*)
+(*) The argument is a dummy in both worlds: the parameter type is Any and the
+(*) value is never read.  Both literal kinds are passed below, a float literal
+(*) as the three corpus files write it and an integer literal, because an Any
+(*) parameter takes either without a coercion.
+(*)
+(*) The bounds and the comparison operands are computed rather than written,
+(*) so that no part of this test depends on integer-literal arithmetic.
+
+zero(): ZZ32 = 0
+one(): ZZ32 = 1
+five(): ZZ32 = do n: ZZ32 = 5; n end
+thousand(): ZZ32 = do n: ZZ32 = 1000; n end
+
+(*) Work with a duration: sequential by construction, so it cannot race and
+(*) its answer is exact at any thread count.
+countDown(n: ZZ32): ZZ32 = if n <= zero() then zero() else one() + countDown(n - one()) end
+
+run():() = do
+    (*) 1. The plain pair, with the float literal argument the corpus writes.
+    recordTime(6.0)
+    t0: RR64 = nanoTime()
+    a: ZZ32 = countDown(thousand())
+    assert(a, thousand(), "the timed work did not run")
+    t1: RR64 = nanoTime()
+    assert(t1 > t0, "nanoTime did not advance across the timed work")
+    printTime(6.0)
+
+    (*) 2. The pair around an atomic block, the shape nestedTransactions1.fss,
+    (*)    2.fss and 4.fss write, with an integer literal argument.
+    var count: ZZ32 = 0
+    recordTime(0)
+    atomic do
+        for i <- one() # five() do
+            atomic do count := count + one() end
+        end
+    end
+    printTime(0)
+    assert(count, five(), "the atomic block did not run")
+
+    (*) 3. Two reports in a row.  printTime re-records the time it read, so
+    (*)    the second reports the interval since the first and not since the
+    (*)    recordTime above it.
+    recordTime(0)
+    printTime(0)
+    printTime(0)
+
+    println "PASS"
+end
+
+end
