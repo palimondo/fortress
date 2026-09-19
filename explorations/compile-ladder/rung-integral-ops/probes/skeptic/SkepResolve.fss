@@ -1,0 +1,25 @@
+component SkepResolve
+export Executable
+
+(*) Skeptic's probe: name resolution the rung's own probes did not cover.
+(*) (1) a literal-literal MOD with no expected type at the call site;
+(*) (2) mixed ZZ64 / ZZ32 operands, which reach the ZZ64 overload only through
+(*)     ZZ64.coerce(x: ZZ32);
+(*) (3) MOD used where the target program uses it, inside a fn over ZZ32.
+
+f(g: ZZ32 -> ZZ32, x: ZZ32): ZZ32 = g(x)
+
+run(): () = do
+  nc: ZZ32 = 7
+  bigL: ZZ64 = 10000000000
+  small: ZZ32 = 7
+
+  println("literal 17 MOD 5 = " (17 MOD 5))
+  println("literal -17 MOD 5 = " (-17 MOD 5))
+  println("literal 17 GCD 51 = " (17 GCD 51))
+  println("ZZ64 MOD ZZ32 = " ((bigL MOD small).asString))
+  println("fn (i) => i MOD nc at 30 = " f(fn (i: ZZ32): ZZ32 => i MOD nc, 30))
+  println("fn (i) => i MOD nc at -30 = " f(fn (i: ZZ32): ZZ32 => i MOD nc, -30))
+end
+
+end

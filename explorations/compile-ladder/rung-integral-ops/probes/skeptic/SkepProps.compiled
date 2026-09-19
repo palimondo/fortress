@@ -1,0 +1,9 @@
+pairs =  325
+bad REM identity =  0
+bad MOD sign =  0
+bad MOD magnitude =  0
+bad MOD-REM difference =  0
+bad GCD =  0
+bad LCM =  0
+bad lattice =  0
+bad MOD periodicity =  0

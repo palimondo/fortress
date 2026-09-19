@@ -1,0 +1,23 @@
+component ShiftRange
+export Executable
+
+(*) The one place LSHIFT and RSHIFT diverge from the interpreter: a shift
+(*) count outside 0..31.  The interpreter's Int$LShift and Int$RShift saturate
+(*) (glue/prim/Int.java:173-183: out of range gives 0, or the sign bit for a
+(*) right shift), while the << and >> of trait ZZ32 mask the count modulo 32
+(*) (nativeHelpers/simpleIntArith.java:337-351).  No prose chapter names
+(*) LSHIFT or RSHIFT, so this records what each side does rather than which is
+(*) right.
+
+run(): () = do
+    three: ZZ32 = 3
+    mSixteen: ZZ32 = -16
+    thirtyThree: ZZ32 = 33
+    println("3 LSHIFT 33 = " || (three LSHIFT thirtyThree).asString)
+    println("3 RSHIFT 33 = " || (three RSHIFT thirtyThree).asString)
+    println("-16 RSHIFT 33 = " || (mSixteen RSHIFT thirtyThree).asString)
+    println("3 << 33 = " || (three << thirtyThree).asString)
+    println("3 >> 33 = " || (three >> thirtyThree).asString)
+    println("3 <<< 33 = " || (three <<< thirtyThree).asString)
+  end
+end

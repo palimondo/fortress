@@ -1,0 +1,38 @@
+component AbsZero
+export Executable
+
+(*) Probe 6, found by running this rung's test: |0| and -0 throw
+(*) IntegerOverflow on the compiled path, on ZZ32 and on ZZ64.  The guard in
+(*) all four natives is "a == (-a)"
+(*) (nativeHelpers/simpleIntArith.java:85, :90; simpleLongArith.java:94, :99),
+(*) which holds for zero as well as for the most negative value it is meant to
+(*) catch.  library_tests/Integer3.fss:96 asserts |minValue| overflows and
+(*) :58-59 assert |minusSix| and |six|, but no corpus file evaluates |0|.
+
+shouldOverflow32(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+shouldOverflow64(f: () -> ZZ64): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+run(): () = do
+    zero: ZZ32 = 0
+    zeroL: ZZ64 = 0
+    println("|0| on ZZ32 overflows: " || (if shouldOverflow32(fn () => |zero|) then "yes" else "no" end))
+    println("-0 on ZZ32 overflows:  " || (if shouldOverflow32(fn () => -zero) then "yes" else "no" end))
+    println("|0| on ZZ64 overflows: " || (if shouldOverflow64(fn () => |zeroL|) then "yes" else "no" end))
+    println("-0 on ZZ64 overflows:  " || (if shouldOverflow64(fn () => -zeroL) then "yes" else "no" end))
+  end
+end

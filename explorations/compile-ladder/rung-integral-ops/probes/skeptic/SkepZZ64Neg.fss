@@ -1,0 +1,82 @@
+component SkepZZ64Neg
+export Executable
+
+(*) Skeptic's probe: the same zero-over-minus-one case on ZZ64, and a
+(*) demonstration that one conditional inside REM's own body closes it without
+(*) touching any .java -- myRem/myMod/myGcd are written here exactly as the
+(*) prelude writes REM/MOD/GCD, plus the guard.
+
+tryZZ64(f: () -> ZZ64): String =
+  try
+    (f()).asString
+  catch e
+    Exception => "THROWS"
+  end
+
+tryZZ32(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    Exception => "THROWS"
+  end
+
+(*) the prelude's REM with a divisor-of-minus-one guard added
+myRem(a: ZZ32, b: ZZ32): ZZ32 = if b = -1 then 0 else a - b (a DIV b) end
+
+myMod(a: ZZ32, b: ZZ32): ZZ32 = do
+    r = myRem(a, b)
+    if r = 0 then 0
+    elif b > 0 then (if a >= 0 then r else r + b end)
+    else (if a >= 0 then r + b else r end)
+    end
+  end
+
+myGcd(a0: ZZ32, b0: ZZ32): ZZ32 = do
+    var a: ZZ32 := a0
+    var b: ZZ32 := b0
+    var r: ZZ32 := 0
+    while b =/= 0 do
+        r := myRem(a, b)
+        a := b
+        b := r
+    end
+    if a < 0 then -a else a end
+  end
+
+run(): () = do
+  zeroL: ZZ64 = 0
+  mOneL: ZZ64 = -1
+  maxL: ZZ64 = 7FFFFFFFFFFFFFFF_16
+  minL: ZZ64 = -maxL - 1
+
+  println("ZZ64 0 REM -1 = "   tryZZ64(fn () => zeroL REM mOneL))
+  println("ZZ64 0 MOD -1 = "   tryZZ64(fn () => zeroL MOD mOneL))
+  println("ZZ64 0 GCD -1 = "   tryZZ64(fn () => zeroL GCD mOneL))
+  println("ZZ64 MIN REM -1 = " tryZZ64(fn () => minL REM mOneL))
+  println("ZZ64 MIN MOD -1 = " tryZZ64(fn () => minL MOD mOneL))
+
+  maxValue: ZZ32 = 7FFFFFFF_16
+  minValue: ZZ32 = -maxValue - 1
+  zero: ZZ32 = 0
+  mOne: ZZ32 = -1
+  three: ZZ32 = 3
+  mThree: ZZ32 = -3
+  eight: ZZ32 = 8
+  mEight: ZZ32 = -8
+
+  println("guarded 0 REM -1 = "    tryZZ32(fn () => myRem(zero, mOne)))
+  println("guarded 0 MOD -1 = "    tryZZ32(fn () => myMod(zero, mOne)))
+  println("guarded 0 GCD -1 = "    tryZZ32(fn () => myGcd(zero, mOne)))
+  println("guarded MIN REM -1 = "  tryZZ32(fn () => myRem(minValue, mOne)))
+  println("guarded MIN MOD -1 = "  tryZZ32(fn () => myMod(minValue, mOne)))
+  println("guarded MIN GCD -1 = "  tryZZ32(fn () => myGcd(minValue, mOne)))
+  println("guarded 8 REM 3 = "     tryZZ32(fn () => myRem(eight, three)))
+  println("guarded -8 REM 3 = "    tryZZ32(fn () => myRem(mEight, three)))
+  println("guarded 8 REM -3 = "    tryZZ32(fn () => myRem(eight, mThree)))
+  println("guarded -8 REM -3 = "   tryZZ32(fn () => myRem(mEight, mThree)))
+  println("guarded -8 MOD 3 = "    tryZZ32(fn () => myMod(mEight, three)))
+  println("guarded 8 MOD -3 = "    tryZZ32(fn () => myMod(eight, mThree)))
+  println("guarded 8 REM 0 = "     tryZZ32(fn () => myRem(eight, zero)))
+end
+
+end

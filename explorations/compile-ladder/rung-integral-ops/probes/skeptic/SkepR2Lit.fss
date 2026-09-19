@@ -1,0 +1,57 @@
+component SkepR2Lit
+export Executable
+
+(*) Skeptic's second-round probe.  Everything that has been measured so far
+(*) writes the divisor as a typed binding.  The shape a program actually writes
+(*) is a numeral at the call site, and the folding phase does not fold MOD, REM,
+(*) GCD or LCM (IntegerLiteralFoldingVisitor.java:105-106), so the numeral has
+(*) to coerce to the trait before the new guard can be reached at all.  Also
+(*) checked: the mixed ZZ32/ZZ64 pair, which reaches the ZZ64 overload through
+(*) coerce, with -1 as the divisor.  Run under walk and compiled.
+
+tryZZ32(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    Exception => "THROWS"
+  end
+
+tryZZ64(f: () -> ZZ64): String =
+  try
+    (f()).asString
+  catch e
+    Exception => "THROWS"
+  end
+
+applyIt(g: ZZ32 -> ZZ32, x: ZZ32): ZZ32 = g(x)
+
+run(): () = do
+  seven: ZZ32 = 7
+  mSeven: ZZ32 = -7
+  sevenL: ZZ64 = 7
+  bigL: ZZ64 = 10000000000
+  mOne: ZZ32 = -1
+
+  (*) numeral divisor at the call site
+  println("7 REM -1 (numeral) = "  tryZZ32(fn () => seven REM (-1)))
+  println("7 MOD -1 (numeral) = "  tryZZ32(fn () => seven MOD (-1)))
+  println("7 GCD -1 (numeral) = "  tryZZ32(fn () => seven GCD (-1)))
+  println("7 LCM -1 (numeral) = "  tryZZ32(fn () => seven LCM (-1)))
+  println("-7 REM -1 (numeral) = " tryZZ32(fn () => mSeven REM (-1)))
+  println("-7 MOD -1 (numeral) = " tryZZ32(fn () => mSeven MOD (-1)))
+
+  (*) numeral dividend, bound divisor
+  println("-7 MOD binding -1 = "   tryZZ32(fn () => (-7) MOD mOne))
+
+  (*) mixed pair: ZZ64 dividend, ZZ32 divisor, through coerce
+  println("ZZ64 10^10 REM -1 = "   tryZZ64(fn () => bigL REM (-1)))
+  println("ZZ64 10^10 MOD -1 = "   tryZZ64(fn () => bigL MOD (-1)))
+  println("ZZ64 10^10 GCD -1 = "   tryZZ64(fn () => bigL GCD (-1)))
+  println("ZZ64 -10^10 MOD -1 = "  tryZZ64(fn () => (-bigL) MOD (-1)))
+  println("ZZ64 7 REM -1 = "       tryZZ64(fn () => sevenL REM (-1)))
+
+  (*) the target program's own shape, with a negative modulus
+  println("fn (i) => i MOD -1 at 30 = " tryZZ32(fn () => applyIt(fn (i: ZZ32): ZZ32 => i MOD mOne, 30)))
+end
+
+end

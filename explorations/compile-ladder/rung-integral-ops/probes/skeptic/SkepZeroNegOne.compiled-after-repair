@@ -1,0 +1,9 @@
+0 DIV -1 =  THROWS
+0 REM -1 =  0
+0 MOD -1 =  0
+0 GCD -1 =  1
+0 LCM -1 =  0
+5 GCD -1 =  1
+0 DIV 1 =  0
+0 MOD 1 =  0
+0 MOD -5 =  0

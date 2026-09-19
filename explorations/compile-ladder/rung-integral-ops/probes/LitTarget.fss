@@ -1,0 +1,23 @@
+component LitTarget
+export Executable
+
+(*) Probe 3: when a binary operator on two integer literals resolves by
+(*) coercion (probe LitResolve2: "3 << 4" is 48, not ambiguous), which trait's
+(*) overload wins, and does an expected type of ZZ32 at the call site get it?
+(*) This is the shape chain0.fss writes: t((3 MOD 4), 3) with
+(*) t(x:ZZ32, y:ZZ32) (ProjectFortress/tests/chain0.fss:17, :28).
+(*) ZZ32 coerces to ZZ64 but not the other way, so if ZZ64's overload won, a
+(*) ZZ32 parameter would reject the argument.
+
+t(x:ZZ32, y:ZZ32):() = if x = y then println "PASS" else println "FAIL" end
+u(x:ZZ64, y:ZZ64):() = if x = y then println "PASS64" else println "FAIL64" end
+
+run():() = do
+    t(3 << 4, 48)
+    u(3 << 4, 48)
+    v: ZZ32 = 3 << 4
+    println("bound as ZZ32: " || v.asString)
+    w: ZZ64 = 3 << 4
+    println("bound as ZZ64: " || w.asString)
+  end
+end

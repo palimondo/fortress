@@ -1,0 +1,48 @@
+component SkepR2Divisor
+export Executable
+
+(*) Skeptic's second-round probe.  The rung's test uses the type minimum only
+(*) as a DIVIDEND (IntegralOpsRungN.fss:151-160); nothing anywhere uses it as a
+(*) DIVISOR, and nothing exercises the new -1 guard from inside GCD's Euclid
+(*) loop.  Both are reached here.  Run under walk and compiled.
+
+tryZZ32(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    Exception => "THROWS"
+  end
+
+run(): () = do
+  maxValue: ZZ32 = 7FFFFFFF_16
+  minValue: ZZ32 = -maxValue - 1
+  five: ZZ32 = 5
+  mFive: ZZ32 = -5
+  zero: ZZ32 = 0
+
+  (*) MIN as divisor.  MOD's correction adds the divisor to the remainder,
+  (*) which is the one place the body can overflow if it is written wrongly.
+  println("5 REM MIN = "    tryZZ32(fn () => five REM minValue))
+  println("5 MOD MIN = "    tryZZ32(fn () => five MOD minValue))
+  println("-5 REM MIN = "   tryZZ32(fn () => mFive REM minValue))
+  println("-5 MOD MIN = "   tryZZ32(fn () => mFive MOD minValue))
+  println("MIN REM MIN = "  tryZZ32(fn () => minValue REM minValue))
+  println("MIN MOD MIN = "  tryZZ32(fn () => minValue MOD minValue))
+  println("MAX REM MIN = "  tryZZ32(fn () => maxValue REM minValue))
+  println("MAX MOD MIN = "  tryZZ32(fn () => maxValue MOD minValue))
+  println("0 REM MIN = "    tryZZ32(fn () => zero REM minValue))
+  println("0 MOD MIN = "    tryZZ32(fn () => zero MOD minValue))
+
+  (*) The Euclid loop reaches the divisor -1 on its way down; nothing else
+  (*) exercises the guard from inside GCD rather than at the call site.
+  println("5 GCD MIN = "    tryZZ32(fn () => five GCD minValue))
+  println("MIN GCD 5 = "    tryZZ32(fn () => minValue GCD five))
+  println("MAX GCD MIN = "  tryZZ32(fn () => maxValue GCD minValue))
+  println("MAX GCD -1 = "   tryZZ32(fn () => maxValue GCD (zero - 1)))
+  println("MIN GCD 0 = "    tryZZ32(fn () => minValue GCD zero))
+  println("0 GCD MIN = "    tryZZ32(fn () => zero GCD minValue))
+  println("MIN LCM 1 = "    tryZZ32(fn () => minValue LCM (zero + 1)))
+  println("5 LCM MIN = "    tryZZ32(fn () => five LCM minValue))
+end
+
+end

@@ -1,0 +1,41 @@
+component SkepBoundary
+export Executable
+
+(*) Skeptic's probe: the boundary values rung N's own test never reaches.
+(*) REM is written over DIV (CompilerBuiltin.fss:667), and DIV throws
+(*) IntegerOverflow at (ZZ32.MIN, -1) (simpleIntArith.java:80), although the
+(*) true remainder 0 is representable.  Run under walk and compiled.
+
+tryZZ32(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    Exception => "THROWS"
+  end
+
+run(): () = do
+  maxValue: ZZ32 = 7FFFFFFF_16
+  minValue: ZZ32 = -maxValue - 1
+  mOne: ZZ32 = -1
+  two: ZZ32 = 2
+  three: ZZ32 = 3
+  six: ZZ32 = 6
+  big1: ZZ32 = 100000
+  big2: ZZ32 = 99999
+
+  println("MIN REM -1 = "  tryZZ32(fn () => minValue REM mOne))
+  println("MIN MOD -1 = "  tryZZ32(fn () => minValue MOD mOne))
+  println("MIN GCD -1 = "  tryZZ32(fn () => minValue GCD mOne))
+  println("MIN LCM -1 = "  tryZZ32(fn () => minValue LCM mOne))
+  println("MIN REM 2 = "   tryZZ32(fn () => minValue REM two))
+  println("MIN MOD 2 = "   tryZZ32(fn () => minValue MOD two))
+  println("MIN GCD 2 = "   tryZZ32(fn () => minValue GCD two))
+  println("MIN GCD 6 = "   tryZZ32(fn () => minValue GCD six))
+  println("MIN MOD 3 = "   tryZZ32(fn () => minValue MOD three))
+  println("MIN REM 3 = "   tryZZ32(fn () => minValue REM three))
+  println("MAX LCM 2 = "   tryZZ32(fn () => maxValue LCM two))
+  println("100000 LCM 99999 = " tryZZ32(fn () => big1 LCM big2))
+  println("MIN GCD 0 = "   tryZZ32(fn () => minValue GCD (maxValue - maxValue)))
+end
+
+end

@@ -1,0 +1,64 @@
+component WalkIntegral
+export Executable
+
+(*) The interpreter's answers for the same operators, for the walk-against-
+(*) compiled differential.  The interpreter binds them to Int$Rem, Int$Mod,
+(*) Int$Gcd and Int$Lcm (Library/FortressLibrary.fss:666-676).
+
+run(): () = do
+  zero: ZZ32 = 0
+  two: ZZ32 = 2
+  three: ZZ32 = 3
+  four: ZZ32 = 4
+  five: ZZ32 = 5
+  six: ZZ32 = 6
+  eight: ZZ32 = 8
+  fifteen: ZZ32 = 15
+  one: ZZ32 = 1
+  fortyEight: ZZ32 = 48
+  sixty: ZZ32 = 60
+  mThree: ZZ32 = -3
+  mFour: ZZ32 = -4
+  mFive: ZZ32 = -5
+  mEight: ZZ32 = -8
+  mSixteen: ZZ32 = -16
+  k1: ZZ64 = 1
+  k2: ZZ64 = 2
+  k4: ZZ64 = 4
+  k33: ZZ64 = 33
+
+  println("8 REM 3 = "    (eight REM three))
+  println("-8 REM 3 = "   (mEight REM three))
+  println("8 REM -3 = "   (eight REM mThree))
+  println("-8 REM -3 = "  (mEight REM mThree))
+  println("8 MOD 3 = "    (eight MOD three))
+  println("-8 MOD 3 = "   (mEight MOD three))
+  println("8 MOD -3 = "   (eight MOD mThree))
+  println("-8 MOD -3 = "  (mEight MOD mThree))
+  println("3 MOD 4 = "    (three MOD four))
+  println("-3 MOD 4 = "   (mThree MOD four))
+  println("3 MOD -4 = "   (three MOD mFour))
+  println("-3 MOD -4 = "  (mThree MOD mFour))
+  println("0 GCD 0 = "    (zero GCD zero))
+  println("0 GCD -4 = "   (zero GCD mFour))
+  println("-4 GCD 0 = "   (mFour GCD zero))
+  println("-4 GCD 6 = "   (mFour GCD six))
+  println("60 GCD 48 = "  (sixty GCD fortyEight))
+  println("0 LCM 5 = "    (zero LCM five))
+  println("1 LCM -5 = "   (one LCM mFive))
+  println("-4 LCM 6 = "   (mFour LCM six))
+  println("3 LCM 4 = "    (three LCM four))
+  println("6 LCM 15 = "   (six LCM fifteen))
+  println("3 LSHIFT 4 = "     (three LSHIFT k4))
+  println("48 RSHIFT 4 = "    (fortyEight RSHIFT k4))
+  println("-16 RSHIFT 2 = "   (mSixteen RSHIFT k2))
+  println("-16 LSHIFT 1 = "   (mSixteen LSHIFT k1))
+  println("3 LSHIFT 33 = "    (three LSHIFT k33))
+  println("3 RSHIFT 33 = "    (three RSHIFT k33))
+  println("-16 RSHIFT 33 = "  (mSixteen RSHIFT k33))
+  println("|0| = "  |zero|)
+  println("-0 = "   (-zero))
+  println("3 << 33 (compiler world spells this LSHIFT) = " (three LSHIFT k33))
+end
+
+end

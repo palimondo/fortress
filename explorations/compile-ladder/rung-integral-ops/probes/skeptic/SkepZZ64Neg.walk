@@ -1,0 +1,28 @@
+ZZ64 0 REM -1 = 0
+ZZ64 0 MOD -1 = 0
+ZZ64 0 GCD -1 = -1
+ZZ64 MIN REM -1 = 0
+ZZ64 MIN MOD -1 = 0
+guarded 0 REM -1 = 0
+guarded 0 MOD -1 = 0
+guarded 0 GCD -1 = 1
+guarded MIN REM -1 = 0
+guarded MIN MOD -1 = 0
+guarded MIN GCD -1 = 1
+guarded 8 REM 3 = 2
+guarded -8 REM 3 = -2
+guarded 8 REM -3 = 2
+guarded -8 REM -3 = -2
+guarded -8 MOD 3 = 1
+guarded 8 MOD -3 = -1
+Exception in thread "main" java.lang.ArithmeticException
+[skeptic: 14 further frames of the outer trace elided]
+Caused by: java.lang.ArithmeticException: / by zero
+	at com.sun.fortress.interpreter.glue.prim.Int$Div.f(Int.java:120)
+	at com.sun.fortress.interpreter.glue.prim.Int$ZZ2Z.applyMethod(Int.java:82)
+	at com.sun.fortress.interpreter.glue.NativeMeth1.applyMethod(NativeMeth1.java:37)
+	at com.sun.fortress.interpreter.evaluator.values.MethodClosure.applyMethod(MethodClosure.java:86)
+	at com.sun.fortress.interpreter.evaluator.values.MethodClosure.applyInnerPossiblyGeneric(MethodClosure.java:129)
+	at com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.applyInnerPossiblyGeneric(OverloadedFunction.java:779)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+[skeptic: the remaining ~180 frames of the interpreter's own evaluator stack elided; the point is that a try / catch e / Exception => in Fortress does not see this at all]

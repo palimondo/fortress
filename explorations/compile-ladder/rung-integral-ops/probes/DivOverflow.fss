@@ -1,0 +1,16 @@
+component DivOverflow
+export Executable
+
+(*) The other failure point of DIV: the most negative ZZ32 divided by -1.
+
+opaque(x: ZZ32): ZZ32 = if x > 0 then x else (x + 1) - 1 end
+
+run():() = do
+    mostneg = opaque(-2147483648)
+    minusone = opaque(-1)
+    println("mostneg = " || mostneg.asString)
+    println("about to divide the most negative ZZ32 by -1")
+    println((mostneg DIV minusone).asString)
+    println("NOT REACHED")
+  end
+end

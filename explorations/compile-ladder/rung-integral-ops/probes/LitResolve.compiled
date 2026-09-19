@@ -1,0 +1,6 @@
+ZZ32 DIV ZZ32: 2
+ZZ32 DIV literal: 2
+literal DIV ZZ32: 2
+ZZ32 >> literal: 3
+literal CMP literal: ok
+literal DIV literal: 2
