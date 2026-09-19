@@ -1,23 +1,23 @@
-### FORTRESS_HOME=/home/user/fortress-time FORTRESS_THREADS=1 2026-09-19T08:47:56+00:00
-### git rev cb242a2d8, dirty: ?? ProjectFortress/library_tests/TimingRungT.fss ?? ProjectFortress/library_tests/TimingRungT.test ?? tmp/ 
+### FORTRESS_HOME=/home/user/fortress-time FORTRESS_THREADS=1 2026-09-19T09:02:07+00:00
+### git rev 2ad2d3ec5, dirty:  M ProjectFortress/library_tests/TimingRungT.fss  M explorations/compile-ladder/rung-timing/probes/junit-before.txt ?? explorations/compile-ladder/rung-timing/probes/junit-after.txt ?? explorations/compile-ladder/rung-timing/raw-before/ ?? explorations/compile-ladder/rung-timing/results-before.tsv ?? tmp/ 
 ### ../bin/fortress junit library_tests/TimingRungT.test
-. link library_tests/TimingRungT /home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:47:5-13:
+. link library_tests/TimingRungT /home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:54:5-13:
     Variable recordTime is not defined.
-/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:53:5-12:
+/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:60:5-12:
     Variable printTime is not defined.
-/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:58:5-13:
-    Variable recordTime is not defined.
-/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:64:5-12:
-    Variable printTime is not defined.
-/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:70:5-13:
+/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:65:5-13:
     Variable recordTime is not defined.
 /home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:71:5-12:
     Variable printTime is not defined.
-/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:72:5-12:
+/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:77:5-13:
+    Variable recordTime is not defined.
+/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:78:5-12:
+    Variable printTime is not defined.
+/home/user/fortress-time/ProjectFortress/library_tests/TimingRungT.fss:79:5-12:
     Variable printTime is not defined.
 File TimingRungT.fss has 7 errors.
  FAIL
-F. run library_tests/TimingRungT (193ms) Could not load TimingRungT
+F. run library_tests/TimingRungT (667ms) Could not load TimingRungT
 java.lang.ClassNotFoundException: IO Exception in reading class file: 
 	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
@@ -33,7 +33,7 @@ Caused by: java.io.IOException: Resource not found : TimingRungT.class
 Failed to satisfy run_out_contains; expected
 PASS
 F
-Time: 3.892
+Time: 122.783
 There were 2 failures:
 1) library_tests/TimingRungT(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
 	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:405)

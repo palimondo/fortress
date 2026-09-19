@@ -1,0 +1,16 @@
+### FORTRESS_HOME=/home/user/fortress-time FORTRESS_THREADS=1 2026-09-19T09:04:41+00:00
+### git rev 2ad2d3ec5, dirty:  M Library/CompilerLibrary.fsi  M Library/CompilerLibrary.fss  M ProjectFortress/library_tests/TimingRungT.fss  M explorations/compile-ladder/rung-timing/probes/junit-before.txt ?? explorations/compile-ladder/rung-timing/probes/junit-after.txt ?? explorations/compile-ladder/rung-timing/raw-before/ ?? explorations/compile-ladder/rung-timing/results-before.tsv ?? tmp/ 
+### ../bin/fortress junit library_tests/TimingRungT.test
+. link library_tests/TimingRungT  OK (time = 121257ms)
+. run library_tests/TimingRungT (609ms) Operation took 302.714574ms
+Operation took 18.425611ms
+Operation took 0.001898ms
+Operation took 0.04317ms
+PASS
+Passed
+
+Time: 121.873
+
+OK (2 tests)
+
+### junit exit=0

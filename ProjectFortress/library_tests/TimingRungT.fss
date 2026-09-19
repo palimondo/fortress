@@ -21,9 +21,16 @@ export Executable
 (*)
 (*) The two shapes pinned here are the two the corpus writes.  Those three
 (*) files call recordTime and printTime with a float literal argument, around
-(*) a body built of atomic blocks; the compiler world's nanoTime() is an RR64
-(*) (CompilerBuiltin.fsi:23) where the interpreter's is a ZZ64, so the stored
-(*) time and the elapsed interval are RR64 here.
+(*) a body built of atomic blocks.
+(*)
+(*) The two timestamps below are left unannotated on purpose.  The compiler
+(*) world's nanoTime() returns an RR64 (CompilerBuiltin.fsi:23) where the
+(*) interpreter's returns a ZZ64 (Library/FortressLibrary.fsi:2388), so a
+(*) written type would tie this file to one world; both worlds order their own
+(*) type, so the comparison below holds in each.  That difference is why the
+(*) stored time and the elapsed interval are RR64 in CompilerLibrary and ZZ64
+(*) in FortressLibrary.  With no type written, this same file runs on both
+(*) paths and is its own differential.
 (*)
 (*) The argument is a dummy in both worlds: the parameter type is Any and the
 (*) value is never read.  Both literal kinds are passed below, a float literal
@@ -45,10 +52,10 @@ countDown(n: ZZ32): ZZ32 = if n <= zero() then zero() else one() + countDown(n -
 run():() = do
     (*) 1. The plain pair, with the float literal argument the corpus writes.
     recordTime(6.0)
-    t0: RR64 = nanoTime()
+    t0 = nanoTime()
     a: ZZ32 = countDown(thousand())
     assert(a, thousand(), "the timed work did not run")
-    t1: RR64 = nanoTime()
+    t1 = nanoTime()
     assert(t1 > t0, "nanoTime did not advance across the timed work")
     printTime(6.0)
 
