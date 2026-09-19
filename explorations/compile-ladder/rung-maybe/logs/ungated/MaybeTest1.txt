@@ -1,0 +1,3 @@
+/home/user/fortress-maybe/ProjectFortress/not_working_library_tests/MaybeTest1.fss:15:38:
+    Syntax Error
+File MaybeTest1.fss has 1 error.

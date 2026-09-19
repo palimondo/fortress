@@ -1,0 +1,26 @@
+(*) Probe: can the compiler path express the specification's own declaration of
+(*) Nothing?  Specification/basic-lib/convenience.tex:49 writes
+(*)     object Nothing extends Maybe[\T\] excludes Just[\T\] where {T extends Object}
+(*) and this is that declaration, under local names so the prelude is untouched.
+component WhereClauseNothing
+export Executable
+
+trait MaybeW[\T extends Any\] comprises { NothingW, JustW[\T\] }
+    getter isNothingW(): Boolean
+end
+
+object NothingW extends MaybeW[\T\] where {T extends Object}
+    getter isNothingW(): Boolean = true
+end
+
+object JustW[\T extends Any\](just: T) extends MaybeW[\T\]
+    getter isNothingW(): Boolean = false
+end
+
+run():() = do
+    m: MaybeW[\ZZ32\] = NothingW
+    assert(m.isNothingW, "NothingW is a MaybeW[ZZ32]")
+    println "PASS"
+end
+
+end

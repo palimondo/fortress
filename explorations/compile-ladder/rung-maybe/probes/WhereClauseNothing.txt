@@ -1,0 +1,9 @@
+=== fortress compile ===
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/WhereClauseNothing.fss:12:33:
+    T is undefined.
+File WhereClauseNothing.fss has 1 error.
+compile-rc=255
+=== the same declaration on the interpreter path (walk) ===
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/WhereClauseNothing.fss:12:33:
+    T is undefined.
+walk-rc=255

@@ -1,0 +1,13 @@
+component SkOptionFilter
+export Executable
+
+(*) Skeptic control: the SAME call shape against the shipped Option/Some, the
+(*) declarations rung M copied.  If this fails too, the defect is pre-existing.
+
+run():() = do
+    full = Some[\ZZ32\](7)
+    print("filter(true)=")
+    println(full.filter(fn (x:ZZ32):Condition[\()\] => Some[\()\](())).asString)
+end
+
+end

@@ -1,0 +1,80 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component MaybeRungM
+export Executable
+
+(*) Both cases are chosen at run time, so a body that returned a constant or
+(*) returned its own argument would not pass.
+pick(b: Boolean): Maybe[\ZZ32\] = if b then Just[\ZZ32\](7) else NothingObject[\ZZ32\] end
+
+run():() = do
+    full = pick(true)
+    empty = pick(false)
+
+    (*) The empty case written as the unparameterised singleton and coerced
+    (*) into Maybe, which is how Specification/basic/exceptions.tex:122 spells
+    (*) the default of a Maybe field.
+    coerced: Maybe[\ZZ32\] = Nothing
+
+    assert(full.holds, "Just(7).holds")
+    deny(empty.holds, "NothingObject[ZZ32].holds")
+    deny(coerced.holds, "coerced Nothing.holds")
+
+    deny(full.isNothing, "Just(7).isNothing")
+    assert(empty.isNothing, "NothingObject[ZZ32].isNothing")
+    assert(coerced.isNothing, "coerced Nothing.isNothing")
+
+    assert(full.size, 1, "Just(7).size")
+    assert(empty.size, 0, "NothingObject[ZZ32].size")
+
+    assert(full.get, 7, "Just(7).get")
+    assert(full.getDefault(3), 7, "Just(7).getDefault(3)")
+    assert(empty.getDefault(3), 3, "NothingObject[ZZ32].getDefault(3)")
+    assert(coerced.getDefault(3), 3, "coerced Nothing.getDefault(3)")
+
+    (*) get on the empty case throws NotFound, as Condition declares.
+    caught: Boolean := false
+    try
+        ignore(empty.get)
+    catch e
+        NotFound => caught := true
+    end
+    assert(caught, "NothingObject[ZZ32].get did not throw NotFound")
+
+    (*) Dispatch through the trait's own method.
+    assert(full.cond[\ZZ32\](fn (x:ZZ32):ZZ32 => x, fn ():ZZ32 => 0), 7, "cond on Just(7)")
+    assert(empty.cond[\ZZ32\](fn (x:ZZ32):ZZ32 => x, fn ():ZZ32 => 0), 0, "cond on NothingObject")
+    assert(coerced.cond[\ZZ32\](fn (x:ZZ32):ZZ32 => x, fn ():ZZ32 => 0), 0, "cond on coerced Nothing")
+
+    (*) Dispatch on the run-time type.
+    assert(typecase full of Just[\ZZ32\] => "just"; else => "other" end,
+           "just", "typecase on Just(7)")
+    assert(typecase empty of Just[\ZZ32\] => "just"; else => "other" end,
+           "other", "typecase on NothingObject")
+
+    (*) A Maybe is a generator: the empty case yields nothing, the full case
+    (*) yields its one element.
+    for x <- empty do fail("NothingObject[ZZ32] generated an element") end
+    for x <- full do assert(x, 7, "for over Just(7)") end
+    for x <- coerced do fail("coerced Nothing generated an element") end
+
+    assert(full.reduce(fn (a:ZZ32, b:ZZ32):ZZ32 => a + b, 0), 7, "reduce over Just(7)")
+    assert(empty.reduce(fn (a:ZZ32, b:ZZ32):ZZ32 => a + b, 0), 0, "reduce over NothingObject")
+
+    assert(full.asString, "Just(7)", "Just(7).asString")
+    assert(empty.asString, "Nothing", "NothingObject[ZZ32].asString")
+    assert(coerced.asString, "Nothing", "coerced Nothing.asString")
+
+    println "PASS"
+end
+
+end

@@ -1,0 +1,16 @@
+component SkNothingParam
+export Executable
+
+(*) Skeptic probe: the corpus spelling of the empty case, run under BOTH paths.
+(*) ProjectFortress/tests/oddJuxt.fss:22,24 and tests/ExceptionScoping.fss:31
+(*) write exactly this.
+
+run():() = do
+    n = Nothing[\ZZ32\]
+    print("holds=")
+    println(n.holds)
+    print("asString=")
+    println(n.asString)
+end
+
+end

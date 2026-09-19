@@ -1,0 +1,11 @@
+=== compile LibraryBuiltin/AnyType.fss ===
+rc=0 elapsed=27s
+=== compile LibraryBuiltin/CompilerBuiltin.fss ===
+rc=0 elapsed=118s
+=== compile ../Library/CompilerLibrary.fss ===
+rc=0 elapsed=33s
+=== compile ../Library/CompilerAlgebra.fss ===
+rc=0 elapsed=2s
+=== compile ../Library/CompilerSystem.fss ===
+rc=0 elapsed=1s
+=== REBUILD DONE ===

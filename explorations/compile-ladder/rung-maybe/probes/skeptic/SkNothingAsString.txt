@@ -1,0 +1,42 @@
+=== fortress walk ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkNothingAsString.fss:7:13-27:
+Non-object receiver ObjectDecl Nothing at /home/user/fortress-maybe/Library/FortressLibrary.fss:1342.1:GenericSingleton trying to invoke method asString
+Context:
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkNothingAsString.fss:7:13-27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk-rc=1
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SkNothingAsString.main(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkNothingAsString.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.StackOverflowError
+	at com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java:40)
+	at native.com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-maybe/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:338)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-maybe/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at com.sun.fortress.compiler.runtimeValues.FValue.toString(FValue.java:26)
+	at com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java:40)
+	at native.com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-maybe/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:338)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-maybe/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+run-rc=1

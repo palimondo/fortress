@@ -1,0 +1,14 @@
+component SkIsNothing
+export Executable
+
+(*) Skeptic probe: isNothing, which Specification/basic-lib/convenience.tex:47
+(*) declares on trait Maybe.  The rung adds it to the compiler prelude; the
+(*) interpreter prelude (Library/FortressLibrary.fss:1306-1310) has no such member.
+
+run():() = do
+    j = Just[\ZZ32\](7)
+    print("isNothing=")
+    println(j.isNothing)
+end
+
+end

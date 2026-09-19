@@ -1,0 +1,32 @@
+=== fortress walk ===
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkOptionFilter.fss:8:12-21:
+    Function Some is not defined.
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkOptionFilter.fss:10:56-63:
+    Function Some is not defined.
+walk-rc=255
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+filter(true)=java.lang.AbstractMethodError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SkOptionFilter.main(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkOptionFilter.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.AbstractMethodError: Receiver class fortress.CompilerBuiltin?$Some????$\=?Arrow?E20,fortress\|CompilerBuiltin\%Some?E20?? does not define or inherit an implementation of the resolved method 'abstract fortress.CompilerBuiltin$Some??? apply()' of interface \=Arrow??,fortress\|CompilerBuiltin\%Some????. Selected method is 'abstract fortress.CompilerBuiltin$Some??? \=AbstractArrow??,fortress\|CompilerBuiltin\%Some????.apply()'.
+	at SkOptionFilter$\=fn@10\!25-69.apply(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkOptionFilter.fss)
+	at fortress.CompilerBuiltin$\=Some?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.filter?(/home/user/fortress-maybe/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:1333)
+	at fortress.CompilerBuiltin$\=Some?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.filter(/home/user/fortress-maybe/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at SkOptionFilter.run(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkOptionFilter.fss:10)
+	at SkOptionFilter.compute(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkOptionFilter.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+run-rc=1

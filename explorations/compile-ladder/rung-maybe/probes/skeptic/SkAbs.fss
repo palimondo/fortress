@@ -1,0 +1,14 @@
+component SkAbs
+export Executable
+
+(*) Skeptic probe: opr |self| on Just.  Live in the interpreter
+(*) (FortressLibrary.fss:1317), commented out on Option (CompilerBuiltin.fss:1314)
+(*) and therefore on the rung's Maybe (CompilerLibrary.fss:531).
+
+run():() = do
+    j = Just[\ZZ32\](7)
+    print("abs=")
+    println(|j|)
+end
+
+end

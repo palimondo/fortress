@@ -1,0 +1,15 @@
+component SkEqAbs
+export Executable
+
+(*) Skeptic probe: equality on Just.  The interpreter declares opr = on Just
+(*) (FortressLibrary.fss:1332) and AnyMaybe extends Equality (:1293).  The rung
+(*) copied Option/Some, whose opr = is commented out (CompilerBuiltin.fss:1327).
+
+run():() = do
+    a = Just[\ZZ32\](7)
+    b = Just[\ZZ32\](7)
+    print("eq=")
+    println(a = b)
+end
+
+end

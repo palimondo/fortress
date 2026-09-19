@@ -1,0 +1,12 @@
+component SkBareNothing
+export Executable
+
+(*) Skeptic probe, the failure-mode question: what the bare, unparameterised
+(*) Nothing does when it is NOT at a declared Maybe type.  Before this rung the
+(*) name was undefined on the compile path.
+
+run():() = do
+    println(Nothing)
+end
+
+end

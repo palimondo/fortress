@@ -1,0 +1,30 @@
+=== fortress walk ===
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkBareNone.fss:8:13-15:
+    Variable None is not defined.
+walk-rc=255
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SkBareNone.main(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkBareNone.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.StackOverflowError
+	at com.sun.fortress.compiler.runtimeValues.FValue.toString(FValue.java:26)
+	at com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java:40)
+	at native.com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-maybe/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:338)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-maybe/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at com.sun.fortress.compiler.runtimeValues.FValue.toString(FValue.java:26)
+	at com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java:40)
+	at native.com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-maybe/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:338)
+run-rc=1

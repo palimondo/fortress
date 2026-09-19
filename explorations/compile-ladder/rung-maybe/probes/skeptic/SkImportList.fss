@@ -1,0 +1,11 @@
+component SkImportList
+import List.{...}
+export Executable
+
+(*) Skeptic probe for gap-ledger row 71, which says CompilerLibrary has no
+(*) HasRank, LexicographicOrder or Maybe and therefore `import List` fails.
+(*) Rung M supplies Maybe; this records what row 71 now blocks on.
+
+run():() = println("PASS")
+
+end

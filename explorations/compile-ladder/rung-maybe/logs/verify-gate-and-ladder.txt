@@ -1,0 +1,30 @@
+########## JUNIT: library_tests/MaybeRungM.test ##########
+. link library_tests/MaybeRungM  OK (time = 3284ms)
+. run library_tests/MaybeRungM (817ms) PASS
+Passed
+
+Time: 4.108
+
+OK (2 tests)
+
+junit-rc=0
+########## LADDER SUBSET (after), fresh private root ##########
+=== ladder start 2026-09-19T08:30:47+00:00 ===
+du: cannot access '/home/user/fortress-maybe/tmp/ladder-verify/ladder-caches': No such file or directory
+-- disk free 26538300 KB, cache  MB
+library: LibraryBuiltin/AnyType.fss
+library: LibraryBuiltin/CompilerBuiltin.fss
+library: ../Library/CompilerLibrary.fss
+library: ../Library/CompilerAlgebra.fss
+library: ../Library/CompilerSystem.fss
+sanity ok: library_tests/Integer1 compiles and prints PASS
+tests/ExceptionScoping.fss crc=255 rrc= 2s
+tests/oddJuxt.fss crc=255 rrc= 2s
+tests/maybeTest.fss crc=255 rrc= 1s
+tests/naturalsTest.fss crc=255 rrc= 1s
+tests/HeapTest.fss crc=255 rrc= 2s
+tests/IntMapTest.fss crc=255 rrc= 1s
+=== ladder done 2026-09-19T08:34:12+00:00, 6 files ===
+-- disk free 26513384 KB, cache 12 MB
+ladder-rc=0
+########## DONE ##########

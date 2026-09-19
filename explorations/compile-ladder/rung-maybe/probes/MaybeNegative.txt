@@ -1,0 +1,17 @@
+compile-rc=0
+FAIL:  for over Just(7) reached its body
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  for over Just(7) reached its body
+	at fortress.CompilerLibrary.fail(/home/user/fortress-maybe/Library/CompilerLibrary.fss:75)
+	at MaybeNegative$\=fn@15\!9-19.apply(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/MaybeNegative.fss:15)
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,java\|lang\|Object?.apply(Unknown Source)
+	at \=WrappedArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,??.apply(Unknown Source)
+	at fortress.CompilerLibrary$\=Just?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.loop?(/home/user/fortress-maybe/Library/CompilerLibrary.fss:556)
+	at fortress.CompilerLibrary$\=Just?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.loop(/home/user/fortress-maybe/Library/CompilerLibrary.fss)
+	at MaybeNegative.run(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/MaybeNegative.fss:15)
+	at MaybeNegative.compute(/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/MaybeNegative.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+run-rc=1

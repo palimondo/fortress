@@ -1,0 +1,14 @@
+(*) Probe: what the corpus spelling of the empty case now reports.  The two
+(*) lines below are the ones ProjectFortress/tests/ExceptionScoping.fss:31 and
+(*) oddJuxt.fss:22 write.  Under the specification's non-parametric Nothing
+(*) they are a static error, and this records which one.
+component NothingParameterised
+export Executable
+
+run():() = do
+    t = Nothing[\ZZ32\]
+    ignore(Nothing[\ZZ32\].get)
+    println "PASS"
+end
+
+end

@@ -1,0 +1,24 @@
+=== fortress walk ===
+holds=false
+asString=Nothing
+walk-rc=0
+=== fortress compile ===
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkNothingParam.fss:9:9-21:
+    Unexpected type for a singleton object reference.
+File SkNothingParam.fss has 1 error.
+compile-rc=255
+=== fortress run ===
+Could not load SkNothingParam
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkNothingParam.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-rc=1

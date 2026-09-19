@@ -1,0 +1,28 @@
+(*) Probe: can one scope hold both spellings of the empty case -- a parametric
+(*) object and a non-parametric singleton of the same name?  The rung's decision
+(*) rests on the answer being no, so it is measured rather than asserted.  Local
+(*) names, so the prelude is untouched.
+component DualNothing
+export Executable
+
+trait MaybeD[\T extends Any\] comprises { JustD[\T\], NothingD[\T\] }
+    getter isNothingD(): Boolean
+end
+
+value object JustD[\T extends Any\](x: T) extends MaybeD[\T\]
+    getter isNothingD(): Boolean = false
+end
+
+value object NothingD[\T extends Any\] extends MaybeD[\T\]
+    getter isNothingD(): Boolean = true
+end
+
+(*) the same name again, non-parametric, as the specification declares it
+value object NothingD end
+
+run():() = do
+    assert(NothingD[\ZZ32\].isNothingD, "the parametric spelling")
+    println "PASS"
+end
+
+end

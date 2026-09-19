@@ -1,0 +1,18 @@
+component SkArrowSubtype
+export Executable
+
+(*) Skeptic probe, narrowing SkOptionFilter/SkMaybeMembers: is the
+(*) AbstractMethodError about filter, or about any closure whose declared
+(*) return type is a supertype of what its body returns?
+
+apply1(f: ZZ32 -> Condition[\()\], x: ZZ32): Boolean = f(x).holds
+
+run():() = do
+    g = fn (x:ZZ32):Condition[\()\] => Just[\()\](())
+    print("direct=")
+    println(g(1).holds)
+    print("throughParam=")
+    println(apply1(g, 1))
+end
+
+end

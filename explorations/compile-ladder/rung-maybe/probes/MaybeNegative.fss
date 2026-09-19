@@ -1,0 +1,24 @@
+(*) Probe: confirm the checks in library_tests/MaybeRungM.fss bite.  Each of the
+(*) four assertions below is deliberately false, and the run must stop on the
+(*) first of them rather than print PASS.
+component MaybeNegative
+export Executable
+
+pick(b: Boolean): Maybe[\ZZ32\] = if b then Just[\ZZ32\](7) else NothingObject[\ZZ32\] end
+
+run():() = do
+    full = pick(true)
+    empty = pick(false)
+    coerced: Maybe[\ZZ32\] = Nothing
+
+    (*) 1. the body of a for over a Just really executes
+    for x <- full do fail("for over Just(7) reached its body") end
+
+    (*) unreachable if 1 bites
+    assert(empty.getDefault(3), 7, "NEGATIVE: getDefault on NothingObject is not 7")
+    assert(coerced.holds, "NEGATIVE: coerced Nothing does not hold")
+    assert(full.asString, "Nothing", "NEGATIVE: Just(7).asString is not Nothing")
+    println "PASS"
+end
+
+end

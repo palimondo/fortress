@@ -1,0 +1,19 @@
+(*) Probe: does the shipped Option/None coercion of the compiler prelude work?
+(*) CompilerBuiltin.fsi:649-661 declares coerce(_: None) on value trait Option;
+(*) no gated test exercises it.  The Maybe design of this rung rests on that
+(*) mechanism, so it is measured before it is copied.
+component OptionCoercion
+export Executable
+
+run(): () = do
+    empty: Option[\ZZ32\] = None
+    full: Option[\ZZ32\] = Some[\ZZ32\](7)
+    assert(NOT empty.holds, "coerced None should not hold")
+    assert(full.holds, "Some should hold")
+    assert(empty.getDefault(3), 3, "getDefault on coerced None")
+    assert(full.get, 7, "get on Some")
+    println("empty=" || empty.asString || " full=" || full.asString)
+    println "PASS"
+end
+
+end

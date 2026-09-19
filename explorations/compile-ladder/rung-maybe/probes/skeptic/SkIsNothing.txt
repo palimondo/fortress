@@ -1,0 +1,21 @@
+=== fortress walk ===
+isNothing=com.sun.fortress.exceptions.ProgramError: /home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkIsNothing.fss:11:13-22:
+Cannot find definition for method isNothing given receiver Just[\ZZ32\]
+Context:
+/home/user/fortress-maybe/explorations/compile-ladder/rung-maybe/probes/skeptic/SkIsNothing.fss:11:13-22:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk-rc=1
+=== fortress compile ===
+compile-rc=0
+=== fortress run ===
+isNothing=false
+run-rc=0
