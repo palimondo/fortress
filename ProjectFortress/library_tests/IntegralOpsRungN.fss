@@ -16,13 +16,13 @@ export Executable
 (*) ZZ32 and ZZ64.
 (*)
 (*) The expected values of REM and MOD are the specification's own example
-(*) table, Specification/basic-lib/basic-integers.tex:459-468, which gives all
+(*) table, Specification/basic-lib/basic-integers.tex:465-468, which gives all
 (*) four sign combinations of +8 and +3 for the truncating division and its
 (*) remainder REM and for the floor division and its remainder MOD; the four
 (*) MOD rows on +3 and +4 are the ones ProjectFortress/tests/chain0.fss:28-31
-(*) writes.  The three properties at :484-486 are checked as relations between
+(*) writes.  The three properties at :488-490 are checked as relations between
 (*) run-time values rather than against constants.  GCD's and LCM's expected
-(*) values are the prose at :523-530 -- both results nonnegative, GCD of two
+(*) values are the prose at :523-529 -- both results nonnegative, GCD of two
 (*) zeroes zero, LCM zero when either argument is zero -- plus the five rows
 (*) of chain0.fss:33-38, and the lattice property at :544 as a run-time
 (*) identity.  No prose chapter names LSHIFT or RSHIFT, so they are checked
@@ -71,14 +71,16 @@ run(): () = do
   mEight: ZZ32 = -8
   mSixteen: ZZ32 = -16
 
-  (*) REM, the remainder of the truncating division: basic-integers.tex:459-468,
-  (*) column two.  The sign of the result follows the dividend.
+  (*) REM, the remainder of the truncating division: basic-integers.tex:465-468,
+  (*) column two, with the prose at :447-448.  The sign of the result follows
+  (*) the dividend.
   assert(eight REM three, 2, "+8 REM +3")
   assert(mEight REM three, -2, "-8 REM +3")
   assert(eight REM mThree, 2, "+8 REM -3")
   assert(mEight REM mThree, -2, "-8 REM -3")
 
-  (*) MOD, the remainder of the floor division: the same table, column three.
+  (*) MOD, the remainder of the floor division: the same table, column three,
+  (*) with the prose at :450-451.
   (*) The sign of the result follows the divisor.
   assert(eight MOD three, 2, "+8 MOD +3")
   assert(mEight MOD three, 1, "-8 MOD +3")
@@ -105,14 +107,14 @@ run(): () = do
   assert(six MOD mThree, 0, "+6 MOD -3")
   assert(mSix MOD mThree, 0, "-6 MOD -3")
 
-  (*) The three properties at basic-integers.tex:484-486, as relations between
+  (*) The three properties at basic-integers.tex:488-490, as relations between
   (*) values computed at run time.
   assert((mEight + (three DOT three)) MOD three, mEight MOD three, "(m + k n) MOD n = m MOD n")
   assert(eight REM three, eight REM mThree, "m REM n = m REM (-n)")
   assert(mEight REM three, zero - (eight REM three), "(-m) REM n = -(m REM n)")
 
   (*) DIV, REM and MOD all throw DivisionByZero on a zero divisor:
-  (*) basic-integers.tex:443-445 and :456.
+  (*) basic-integers.tex:439-440 and :459.
   assert(shouldDivideByZero(fn () => eight DIV zero), "+8 DIV 0")
   assert(shouldDivideByZero(fn () => eight REM zero), "+8 REM 0")
   assert(shouldDivideByZero(fn () => eight MOD zero), "+8 MOD 0")
@@ -120,7 +122,7 @@ run(): () = do
   assert(shouldDivideByZero(fn () => zero MOD zero), "0 MOD 0")
 
   (*) GCD: the two rows of chain0.fss:33-34, then the cases the prose at
-  (*) basic-integers.tex:523-526 settles -- the result is always nonnegative,
+  (*) basic-integers.tex:523-525 settles -- the result is always nonnegative,
   (*) and if either argument is zero the result is the other one.
   assert(sixty GCD fortyEight, 12, "60 GCD 48")
   assert(sixtyFive GCD fiftyTwo, 13, "65 GCD 52")
@@ -133,7 +135,7 @@ run(): () = do
   assert(mFour GCD zero, 4, "-4 GCD 0")
 
   (*) LCM: the three rows of chain0.fss:36-38, then the cases the prose at
-  (*) basic-integers.tex:527-530 settles.
+  (*) basic-integers.tex:527-529 settles.
   assert(three LCM four, 12, "3 LCM 4")
   assert(six LCM four, 12, "6 LCM 4")
   assert(six LCM fifteen, 30, "6 LCM 15")

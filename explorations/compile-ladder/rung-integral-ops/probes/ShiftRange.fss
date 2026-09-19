@@ -5,7 +5,7 @@ export Executable
 (*) count outside 0..31.  The interpreter's Int$LShift and Int$RShift saturate
 (*) (glue/prim/Int.java:173-183: out of range gives 0, or the sign bit for a
 (*) right shift), while the << and >> of trait ZZ32 mask the count modulo 32
-(*) (nativeHelpers/simpleIntArith.java:337-343).  No prose chapter names
+(*) (nativeHelpers/simpleIntArith.java:337-351).  No prose chapter names
 (*) LSHIFT or RSHIFT, so this records what each side does rather than which is
 (*) right.
 

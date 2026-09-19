@@ -6,8 +6,8 @@ export Executable
 (*) all four natives is "a == (-a)"
 (*) (nativeHelpers/simpleIntArith.java:85, :90; simpleLongArith.java:94, :99),
 (*) which holds for zero as well as for the most negative value it is meant to
-(*) catch.  library_tests/Integer3.fss:88 asserts |minValue| overflows and
-(*) :58-59 assert |six| and |minusSix|, but no corpus file evaluates |0|.
+(*) catch.  library_tests/Integer3.fss:96 asserts |minValue| overflows and
+(*) :58-59 assert |minusSix| and |six|, but no corpus file evaluates |0|.
 
 shouldOverflow32(f: () -> ZZ32): Boolean =
   try
