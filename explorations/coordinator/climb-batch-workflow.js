@@ -2,8 +2,9 @@
 //
 // Generalised 2026-09-19 from the script that ran climb batch 1, so that the
 // next batch is a MANIFEST CHANGE AND NOTHING ELSE: the coordinator replaces the
-// block marked "MANIFEST" below and launches. Batch 1's manifest is left in place
-// as the worked example.
+// block marked "MANIFEST" below and launches. Batch 1's manifest is kept below
+// the "END MANIFEST" line as BATCH_1_EXAMPLE, the worked example, which the
+// script does not use.
 //
 // The changes this revision carries are the six process decisions Pavol took on
 // 2026-09-19 (POSITIONS.md, "after climb batch 1 landed"), as
@@ -49,8 +50,10 @@ const MAIN = '/home/user/fortress'
 // FACTS.md, "The container"), and a freed slot goes to the next queued agent,
 // FIFO, not to the finished rung's skeptic (measured over batch 1's journal,
 // FACTS.md, "The compile-path ladder baseline", the bullet beginning "The
-// harness's freed slots go to the next worker"). Batch size k stays 4: the
-// saving is gate amortisation, not concurrency (batched-climb-plan.md section 2).
+// harness's freed slots go to the next worker"). Batch size k was 4 in batch 1
+// and is 3 here (batch-2-open-decisions.md A6: no fourth fork-free rung is clear
+// of W's traits); the saving is gate amortisation, not concurrency
+// (batched-climb-plan.md section 2).
 // One chain per rung was priced against batch 1's own agent walls and rejected -
 // it saves 0.3 minutes (process-decisions-review-1.md, decision 2(a)) - so it is
 // deliberately not implemented here. What IS taken from that finding is the
@@ -66,13 +69,95 @@ const MAIN = '/home/user/fortress'
 // expected to reach; anything else that moves down is red).
 // ===========================================================================
 
-const BATCH = 1
-const BATCH_RECORD = 'explorations/coordinator/CLIMB-BATCH-1.md'
-const BATCH_INTRO = 'This batch is the first ordinary batch of the ladder after the repair batch of 2026-09-19: four library rungs, chosen by what the target program (microGPT compiled to bytecode) names and by what the ladder blocks on.'
-const BATCH_OVERLAPS = 'F and N both edit CompilerBuiltin.fsi and .fss in different traits (RR64; ZZ32 and ZZ64); M may edit either prelude file; T edits CompilerLibrary.'
-const LEDGER_FROM = 329   // the first free ledger row number when the batch was planned
+const BATCH = 2
+const BATCH_RECORD = 'explorations/coordinator/CLIMB-BATCH-2.md'
+const BATCH_INTRO = 'This batch is the second ordinary batch of the ladder, after climb batch 1 of 2026-09-19: three small rungs run while the array design, the real path to microGPT, is written beside them - the exported-variable defect of ledger row 320 that both target programs will hit, the four integer conversions, and the TryAtomicFailure exception.'
+const BATCH_OVERLAPS = 'No two rungs edit the same file: X edits CodeGen.java and NamingCzar.java and no library file; W edits the bodies of ZZ32, ZZ64, NN32 and NN64 in CompilerBuiltin.fsi and .fss; B edits CompilerLibrary.fsi and .fss.'
+const LEDGER_FROM = 343   // the first free ledger row number when the batch was planned (the ledger's highest row is 342)
 
-const F_TAIL = [
+const X_TAIL = [
+"",
+"## Your rung: X - a top-level variable exported through an api links (ledger row 320)",
+"",
+"SLUG is rung-export-var. WORKTREE is /home/user/fortress-export, branch wip/rung-export-var.",
+"",
+"The problem (the batch record, section X): a variable declared at the top level of a component and exported through an api compiles and then does not run. The probe pair is explorations/compile-ladder/repair-r1-atomic-static/probes/P8Api.fsi (var shared: ZZ32), P8Lib.fss (exports it, var shared: ZZ32 = 7) and P8Main.fss (imports the api and prints it): fortress compile accepts all three and the run dies with NoClassDefFoundError: P8Api$shared (REPORT.md:159 in that directory, capture probes/probe-runs-preedit.txt); P9* is the immutable control and fails the same way. Both target programs export a variable from their api - corpus: Corpus at explorations/apl/mg/MicroGptApl.fsi:18 and explorations/run-c4/src/MicroGptFlat.fsi:16 - so this rung is on the path, not on the ladder: no file in ProjectFortress/tests/ has an api, and you move no ladder file.",
+"",
+"The specification: Specification/basic/components/source-code.tex:332-343 (an api's top-level variable declaration is satisfied by the component's, with the same type and the same mutability) and Specification/basic/components/initialization.tex:26-30 (an importing component sees the imported apis' declarations prepended to its own). Read both passages yourself, ten lines either side. There is no deviation to argue: the compiled path fails to do what both take for granted, and your spec: line cites them.",
+"",
+"The mechanism, which ledger row 320 (explorations/fortress-gap-ledger.md, the row's notes) reads from the tree and you verify before you edit: the reading side is CodeGen.forVarRef's fresh-import path, ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5953-5971, which builds the class name with NamingCzar.jvmClassForToplevelDecl(id, packageAndClassName) at :5967; that helper (ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:1653-1656) replaces its api argument by repairedApiName (:1673-1679), so the class asked for is named after the API, P8Api$shared. The writing side, forVarDeclPrePass:5924, emits the singleton under the declaring COMPONENT's name, P8Lib$shared. Nobody emits the api-named class. And the fix has two parts, not one: when the two names coincide, which is every prelude pair, the class exists and the run dies on the field instead - NoSuchFieldError ... FRR64 ONLY, explorations/compile-ladder/rung-timing/probes/export-variable-3.txt - because generateVarDeclInnerClass:5872-5881 gives a MUTABLE variable's field the MutableFValue cell descriptor while the fresh-import path always builds a plain VarCodeGen.StaticBinding with the declared type's descriptor (:5966-5970), unlike addTopLevelVarBinding:5934-5951, whose branch at :5945-5950 checks mutability. A fix of the class name alone moves the failure from one exception to the other and is not a landing.",
+"",
+"The precedent is the compiled path's own handling of exported FUNCTIONS, which do link across differing api and component names: find how forFnRef (CodeGen.java:3556) resolves an imported function to a class, what CodeGen.java:409-445 (exportedToUnambiguous, 'it looks like this information is currently unused') and the ???? comment at :6577-6582 were for, and what ProjectFortress/src/com/sun/fortress/linker/Linker.java:56-79 whoIsImplementingMyAPI answers, with its fallback to the api's own name at :72-76, which is exactly why the prelude pairs work today. Then decide where the variable's fix lives - the reader (name the class after the implementing component), the writer (emit the singleton under each exported api's name as well) or the link step - argue it from that precedent in REPORT.md, and count the callers of jvmClassForToplevelDecl (three: CodeGen.java:5924, :5942, :5967) as rule 2 asks. The interpreter is no precedent for a class name: it binds imports by environment (BuildApiEnvironment.java; explorations/coordinator/map/spec-to-implementation.md:153), and its own library exports no top-level variable.",
+"",
+"Your edit is in .java, so ant compileAll is required before your test can pass, then the full five-component library rebuild. Do not change any prelude declaration, do not touch the atomic rows 319, 322 and 324, and do not make CompilerLibrary export __globalTimeInformation.",
+"",
+"The test goes in ProjectFortress/compiler_tests/ as four files: ExportVarRungXApi.fsi declaring var shared: ZZ32 and an immutable fixed: ZZ32; ExportVarRungXLib.fss exporting the api and defining both (var x: T in the api with var x: T = e in the component is the one spelling the checker accepts on both sides; explorations/compile-ladder/rung-timing/probes/export-variable.txt and export-variable-2.txt are the two it refuses); ExportVarRungX.fss importing the api, reading both, assigning shared, reading it back and printing PASS; and ExportVarRungX.test in the form of ProjectFortress/compiler_tests/AtomicTopLevelVar.test (tests=ExportVarRungX, link, run, run_out_contains=PASS, run_out_does_not_contain=FAIL). The harness finds an imported api and its component beside the test by name, as ProjectFortress/compiler_tests/RecursiveApiTest3.test relies on with RecursiveApiTest3a.fsi and .fss beside it. Capture the NoClassDefFoundError before the edit. There is no ladder subset for you: run the P8/P9 probe pair before and after instead, and say so under step 7.",
+"",
+"This rung reads and writes R1's transactional cell from a second component (writesState): your skeptic runs every differential at FORTRESS_THREADS=1 and =4; run your own test both ways too.",
+"",
+].join('\n')
+
+const W_TAIL = [
+"",
+"## Your rung: W - widen, narrow, unsigned and signed on ZZ32, ZZ64, NN32 and NN64",
+"",
+"SLUG is rung-int-conversions. WORKTREE is /home/user/fortress-conv, branch wip/rung-int-conversions.",
+"",
+"The problem (the batch record, section W): the compiler prelude has none of widen, narrow, unsigned, signed (grep ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi yourself). On the ladder ProjectFortress/tests/fib13.fss:30-33 stops on unsigned(20) and nothing else (explorations/compile-ladder/baseline-2026-09-19/ladder.tsv:251); longPrim.fss:23-30 (widen), UnsignedTest.fss:17-23 (unsigned) and NumberPrintTest.fss:52-58 name them among other missing names and will not clear on you; the record says which name holds each. Every ingredient exists: ZZ64.asZZ32 (CompilerBuiltin.fsi:150, body .fss:575, jLongOverflowingToInt(self)), ZZ64.coerce(x: ZZ32) (.fsi:148, .fss:574, jIntToLong), NN64.coerce(x: NN32) (.fsi:326, .fss:809), the bit reinterpretations bitsAsNN64 (.fsi:152, .fss:577), bitsAsNN32 (.fsi:212, .fss:660), bitsAsZZ32 (.fsi:273, .fss:748) and bitsAsZZ64 (.fsi:331, .fss:812), and jLongOverflowingToUnsignedInt bound at .fss:85. So each of the four is one declaration and a one-line body per trait, in the bodies of trait ZZ32, ZZ64, NN32 and NN64 in CompilerBuiltin.fsi and .fss. Library only; no .java.",
+"",
+"The specification is silent on the four names: the only hits in the prose chapters are the widens coercion keyword (Specification/basic/conversions-coercions.tex:762-835, the automatic widening of numeric literals, a different mechanism), the fixed-size type names (Specification/basic/types-vals-vars.tex:512-513) and 'unsigned binary form' under integerLength (Specification/basic-lib/basic-integers.tex:802). Re-run that grep and cite it as your spec: none. What the specification does say about a result that does not fit: Specification/basic/operators/opr-overview.tex:172-176 (the wrapping and saturating forms 'do not overflow', so the ordinary forms may) and basic-integers.tex:368-370 (on ZZ the wrapping and saturating forms do the same thing because ZZ never needs to wrap). Read both passages.",
+"",
+"The precedent is the interpreter: declarations at Library/FortressLibrary.fsi:490-492 (ZZ32: widen, partitionL, unsigned), :431 (unsigned(self):NN64, in trait Integral, which is the api's spelling of what ZZ64's body binds), :529 (ZZ64: narrow), :457-458 (NN64: narrow, signed), and ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:105-107 (NN32: widen, signed); bodies at Library/FortressLibrary.fss:692-697, :762-765, :816-819 and ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:442-447, each a builtinPrimitive. Open the glue, because that is where the semantics are, under ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/: Int.java:221-223 ToLong is (long) x; NN32.java:237-240 ToUnsignedLong is Unsigned.toLong(x), zero-extension; ZZ32.java:213-216, NN32.java:231-234, Long.java:231-234 and UnsignedLong.java:224-227 return the bits unchanged (unsigned and signed reinterpret); Long.java:237-240 FromLong is Int.rc(x), and Int.rc (:239-245) raises error('Overflow of ZZ32') when the value does not fit; UnsignedLong.java:230-233 FromLong is (int) x, a silent truncation. Two answers in one library, and neither is a Fortress exception.",
+"",
+"The decision is yours and it must be argued: what narrow does when the value does not fit. The record's recommendation, which Pavol sees at landing: throw IntegerOverflow (CompilerBuiltin.fsi:741) on both the signed and the unsigned side - it is what this world's asZZ32 already does (ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java:94-98), what the interpreter does on the signed side, and the specification's pattern for an unrepresentable result; the unsigned side then deviates from the interpreter's (int) x, and you record the deviation. If you decide otherwise, say what the alternative costs. widen is sign-extension from ZZ32 and zero-extension from NN32; unsigned and signed reinterpret the bits, so unsigned(-1) is 4294967295 and signed of it is -1 again. Write the out-of-range cases into the test both ways, in the shouldOverflow shape of ProjectFortress/library_tests/Integer3.fss:17 and :93.",
+"",
+"Out of scope, by name: partitionL (FortressLibrary.fsi:491), partition (:1382), big, RR64.narrow(): RR32 (.fsi:362), and anything in trait RR64, trait IntLiteral or the tower. Do not add them even though UnsignedTest and NumberPrintTest would want them.",
+"",
+"The test goes in ProjectFortress/library_tests/: IntConversionsRungW.fss and IntConversionsRungW.test (tests=IntConversionsRungW, link, run, run_out_contains=PASS, the form of ProjectFortress/library_tests/IntegralOpsRungN.test): every direction on every type, widen of a negative ZZ32 and of an NN32 above 2^31, narrow in range both ways and out of range both ways, unsigned/signed round trips at -1 and at the type minimum, and the two identities of NumberPrintTest.fss:54-55, unsigned(widen(43)) and widen(unsigned(43)). Your ladder subset: fib13, longPrim, UnsignedTest, NumberPrintTest, before and after; only fib13 is expected to move.",
+"",
+].join('\n')
+
+const B_TAIL = [
+"",
+"## Your rung: B - TryAtomicFailure in the compiler library",
+"",
+"SLUG is rung-tryatomic. WORKTREE is /home/user/fortress-tryatomic, branch wip/rung-tryatomic.",
+"",
+"The problem (the batch record, section B): ProjectFortress/tests/abortTest.fss:26, nestedTransactions3.fss:27 and tryatomicTest.fss:23 each catch TryAtomicFailure around a tryatomic block and stop at disambiguate on that name alone (explorations/compile-ladder/baseline-2026-09-19/ladder.tsv:193, :307, :392).",
+"",
+"The specification: Specification/basic/expressions/atomic.tex:45-48 (a tryatomic expression acts exactly like atomic except that in certain circumstances it throws TryAtomicFailure and discards the effects of its body), Specification/advanced/parallelism-locality/transactions.tex:34-38 ('the checked exception TryAtomicFailure is thrown') and Specification/basic/exceptions.tex:67-80 (Exception comprises CheckedException and UncheckedException; a functional that may throw a checked exception lists it in its header). Read those lines yourself. So the object is a checked exception with no fields, and your spec: line cites them.",
+"",
+"The precedent, twice, and they agree: the interpreter's object TryAtomicFailure extends CheckedException at Library/FortressLibrary.fsi:1047, body .fss:1566-1568 with getter asString(): String = 'Try/atomic failure'; and the team's identical three lines for THIS world at Library/CompilerLibrary.fss:283-285, inside the block comment :253-291 that holds nine checked-exception objects (explorations/coordinator/map/dormant-code.md:32 lists them at the stale lines 220-258; re-anchor by symbol). trait CheckedException extends Exception excludes UncheckedException is live at ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:745, and IOException extends CheckedException at :748 is a checked exception already in use on this path. The api Library/CompilerLibrary.fsi:66-103 lists the unchecked exception objects and no checked one.",
+"",
+"The edit: take the three lines out of the comment (close it before them and reopen it after, or move them below :291) and add object TryAtomicFailure extends CheckedException end to CompilerLibrary.fsi after CastException at :103. Do NOT uncomment the other eight objects, and in particular not MatchFailure extends CheckedException at :258, which collides with the unchecked MatchFailure at :243. Do not implement tryatomic, abort or printThreadInfo: tryatomic parses to TryAtomicExpr (ProjectFortress/astgen/Fortress.ast:678), the checker types it (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala:455-457) and CodeGen.java has no visitor for it; that is a .java rung and X holds this batch's slot. A rung that edits only CompilerLibrary rebuilds CompilerLibrary, CompilerAlgebra and CompilerSystem.",
+"",
+"The test goes in ProjectFortress/library_tests/: TryAtomicRungB.fss and TryAtomicRungB.test (tests=TryAtomicRungB, link, run, run_out_contains=PASS, the form of ProjectFortress/library_tests/IntegralOpsRungN.test): a function that throws TryAtomicFailure, a try ... catch e TryAtomicFailure => ... end that catches it (the shape of ProjectFortress/library_tests/Integer3.fss:17 and FailInference1.fss:21), its asString compared to 'Try/atomic failure', a throws clause on the throwing function if the checker asks for one, and PASS. Do not write a tryatomic expression in the gated test: it would stop at codegen. Capture the disambiguation error before the edit. Your ladder subset: abortTest, nestedTransactions3, tryatomicTest, before and after; expect tryatomicTest and nestedTransactions3 at codegen and abortTest at typecheck (it also calls abort() and printThreadInfo), and none at pass.",
+"",
+].join('\n')
+
+const RUNGS = [
+  { id: 'X', slug: 'rung-export-var',      path: '/home/user/fortress-export',    branch: 'wip/rung-export-var',      tail: X_TAIL, expectedMinutes: 45, writesState: true,
+    blurb: 'a top-level variable exported through an api links on the compiled path (ledger row 320), which both target programs need. The only rung of this batch that touches .java (CodeGen and NamingCzar); it moves no ladder file.',
+    expectedMoves: [] },
+  { id: 'W', slug: 'rung-int-conversions', path: '/home/user/fortress-conv',      branch: 'wip/rung-int-conversions', tail: W_TAIL, expectedMinutes: 45, writesState: false,
+    blurb: 'widen, narrow, unsigned and signed between ZZ32, ZZ64, NN32 and NN64, over the getters and natives the prelude already has. Library only; carries the out-of-range decision for narrow.',
+    expectedMoves: ['tests/fib13.fss: typecheck or better'] },
+  { id: 'B', slug: 'rung-tryatomic',       path: '/home/user/fortress-tryatomic', branch: 'wip/rung-tryatomic',       tail: B_TAIL, expectedMinutes: 30, writesState: false,
+    blurb: 'TryAtomicFailure, the team\'s own three commented-out lines in CompilerLibrary.fss plus one api line. Library only, no decision to carry.',
+    expectedMoves: ['tests/abortTest.fss: typecheck or better', 'tests/nestedTransactions3.fss: typecheck or better', 'tests/tryatomicTest.fss: typecheck or better'] },
+]
+
+// =========================== END MANIFEST ==================================
+
+// ===========================================================================
+// BATCH_1_EXAMPLE - batch 1's manifest, verbatim, kept as the worked example of
+// what the block above must hold (its four tails and four rung entries; the
+// record is explorations/coordinator/CLIMB-BATCH-1.md). The script does not
+// read it. It sits outside the MANIFEST markers on purpose, so that replacing
+// the block for the next batch leaves it in place.
+// ===========================================================================
+
+const B1_F_TAIL = [
 "",
 "## Your rung: F - the functional methods of trait RR64",
 "",
@@ -92,7 +177,7 @@ const F_TAIL = [
 "",
 ].join('\n')
 
-const M_TAIL = [
+const B1_M_TAIL = [
 "",
 "## Your rung: M - Maybe, Just and Nothing for the compiler world",
 "",
@@ -110,7 +195,7 @@ const M_TAIL = [
 "",
 ].join('\n')
 
-const N_TAIL = [
+const B1_N_TAIL = [
 "",
 "## Your rung: N - the named integral operators on ZZ32 and ZZ64",
 "",
@@ -126,7 +211,7 @@ const N_TAIL = [
 "",
 ].join('\n')
 
-const T_TAIL = [
+const B1_T_TAIL = [
 "",
 "## Your rung: T - recordTime and printTime",
 "",
@@ -144,22 +229,27 @@ const T_TAIL = [
 "",
 ].join('\n')
 
-const RUNGS = [
-  { id: 'F', slug: 'rung-rr64-functions', path: '/home/user/fortress-rr64',  branch: 'wip/rung-rr64-functions', tail: F_TAIL, expectedMinutes: 45, writesState: false,
+const BATCH_1_EXAMPLE = {
+  BATCH: 1,
+  BATCH_RECORD: 'explorations/coordinator/CLIMB-BATCH-1.md',
+  BATCH_INTRO: 'This batch is the first ordinary batch of the ladder after the repair batch of 2026-09-19: four library rungs, chosen by what the target program (microGPT compiled to bytecode) names and by what the ladder blocks on.',
+  BATCH_OVERLAPS: 'F and N both edit CompilerBuiltin.fsi and .fss in different traits (RR64; ZZ32 and ZZ64); M may edit either prelude file; T edits CompilerLibrary.',
+  LEDGER_FROM: 329,   // the first free ledger row number when the batch was planned
+  RUNGS: [
+  { id: 'F', slug: 'rung-rr64-functions', path: '/home/user/fortress-rr64',  branch: 'wip/rung-rr64-functions', tail: B1_F_TAIL, expectedMinutes: 45, writesState: false,
     blurb: 'the functional methods of trait RR64 the program and the ladder need - exp, log, sin, cos, tan, asin, acos, atan, atan2, floor, ceiling, round, truncate. The only rung of this batch that touches .java (a native helper under nativeHelpers/).',
     expectedMoves: ['tests/buffons.fss: typecheck or better', 'tests/roundBug.fss: typecheck or better', 'tests/juxtTwice.fss: typecheck or better', 'tests/oprTests.fss: typecheck or better'] },
-  { id: 'M', slug: 'rung-maybe',          path: '/home/user/fortress-maybe', branch: 'wip/rung-maybe',          tail: M_TAIL, expectedMinutes: 40, writesState: false,
+  { id: 'M', slug: 'rung-maybe',          path: '/home/user/fortress-maybe', branch: 'wip/rung-maybe',          tail: B1_M_TAIL, expectedMinutes: 40, writesState: false,
     blurb: 'Maybe, Just and Nothing for the compiler world, over the Option machinery it already has. Library only; carries a naming decision.',
     expectedMoves: ['tests/ExceptionScoping.fss: typecheck or better', 'tests/oddJuxt.fss: typecheck or better'] },
-  { id: 'N', slug: 'rung-integral-ops',   path: '/home/user/fortress-ints',  branch: 'wip/rung-integral-ops',   tail: N_TAIL, expectedMinutes: 45, writesState: false,
+  { id: 'N', slug: 'rung-integral-ops',   path: '/home/user/fortress-ints',  branch: 'wip/rung-integral-ops',   tail: B1_N_TAIL, expectedMinutes: 45, writesState: false,
     blurb: 'the named integral operators MOD, REM, GCD, LCM, LSHIFT, RSHIFT on ZZ32 and ZZ64. Library only, pure Fortress.',
     expectedMoves: ['tests/chain0.fss: pass', 'tests/rshiftbug.fss: codegen or better'] },
-  { id: 'T', slug: 'rung-timing',         path: '/home/user/fortress-time',  branch: 'wip/rung-timing',         tail: T_TAIL, expectedMinutes: 40, writesState: true,
+  { id: 'T', slug: 'rung-timing',         path: '/home/user/fortress-time',  branch: 'wip/rung-timing',         tail: B1_T_TAIL, expectedMinutes: 40, writesState: true,
     blurb: 'recordTime and printTime over the existing nanoTime and a top-level mutable variable. Library only.',
     expectedMoves: ['tests/nestedTransactions1.fss: pass', 'tests/nestedTransactions2.fss: pass', 'tests/nestedTransactions4.fss: pass'] },
-]
-
-// =========================== END MANIFEST ==================================
+  ],
+}
 
 const BATCH_DIR = 'explorations/compile-ladder/climb-batch-' + BATCH
 const GATE_DIR = BATCH_DIR + '/gate'
