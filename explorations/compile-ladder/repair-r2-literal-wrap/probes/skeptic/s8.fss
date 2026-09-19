@@ -1,0 +1,20 @@
+component s8
+export Executable
+(*) Skeptic probe s8.  The divergence s6 turned up: CHOOSE at a negative first
+(*) argument, which is the value IntegerChoose2 was feeding before the rung's
+(*) repair.  This reads it at three negative arguments and at k = 0, 1, 2 so the
+(*) shape of the disagreement is visible rather than a single number.
+run() = do
+    two: ZZ64 = 2
+    one: ZZ64 = 1
+    zero: ZZ64 = 0
+    m1: ZZ64 = -1
+    m4: ZZ64 = -4
+    w: ZZ64 = -1257966796
+    println("s8 (-1) CHOOSE 0 " (m1 CHOOSE zero).asString)
+    println("s8 (-1) CHOOSE 1 " (m1 CHOOSE one).asString)
+    println("s8 (-1) CHOOSE 2 " (m1 CHOOSE two).asString)
+    println("s8 (-4) CHOOSE 2 " (m4 CHOOSE two).asString)
+    println("s8 w    CHOOSE 2 " (w CHOOSE two).asString)
+end
+end

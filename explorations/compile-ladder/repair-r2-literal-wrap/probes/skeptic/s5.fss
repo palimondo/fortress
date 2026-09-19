@@ -1,0 +1,25 @@
+component s5
+export Executable
+(*) Skeptic probe s5.  The rung rewrote library_tests/Integer3.fss:46 and
+(*) Integer4.fss:46 and calls the rewrite value-preserving.  This re-states the
+(*) two assertions those declarations feed (Integer3.fss:99,106 and the same
+(*) two in Integer4) against the NEW spelling, written here rather than read
+(*) from the test, so that the claim is checked and not taken.
+run() = do
+    huge32: ZZ32 = 50000000_16
+    twiceHuge32: ZZ32 = -60000000_16
+    minusHuge32: ZZ32 = (BITNOT huge32) + 1
+    huge64: ZZ64 = 5000000000000000_16
+    twiceHuge64: ZZ64 = -6000000000000000_16
+    minusHuge64: ZZ64 = (BITNOT huge64) + 1
+    println("s5 twiceHuge32 " twiceHuge32.asString)
+    println("s5 twiceHuge64 " twiceHuge64.asString)
+    assert(twiceHuge32 = -1610612736, "twiceHuge32 is not 0xA0000000 read signed")
+    assert(twiceHuge64 = -6917529027641081856, "twiceHuge64 is not 0xA000...0 read signed")
+    assert((huge32 BOXPLUS huge32) = twiceHuge32, "ZZ32 BOXPLUS")
+    assert((huge32 BOXMINUS minusHuge32) = twiceHuge32, "ZZ32 BOXMINUS")
+    assert((huge64 BOXPLUS huge64) = twiceHuge64, "ZZ64 BOXPLUS")
+    assert((huge64 BOXMINUS minusHuge64) = twiceHuge64, "ZZ64 BOXMINUS")
+    println("s5 PASS")
+end
+end

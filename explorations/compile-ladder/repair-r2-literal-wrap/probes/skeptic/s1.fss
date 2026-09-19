@@ -1,0 +1,21 @@
+component s1
+export Executable
+(*) Skeptic probe s1.  The rung claims its new bounds are "exact for both
+(*) signs", but every probe it recorded is non-negative.  bitLength() of a
+(*) negative BigInteger excludes the sign bit too, so -(2^31) has bit length 31
+(*) and -(2^31+1) has bit length 32; under the old <= 32 bound the latter went
+(*) through intValue() and came back as +2147483647, a sign flip the rung never
+(*) measured.  This probe reads both edges on both sides.
+run() = do
+    a: ZZ = -2147483649               (*) -(2^31+1), bit length 32
+    b: ZZ = -9223372036854775809      (*) -(2^63+1), bit length 64
+    c: ZZ64 = -2147483649
+    d: ZZ32 = -2147483648             (*) -2^31, bit length 31, the exact edge
+    e: ZZ64 = -9223372036854775808    (*) -2^63, bit length 63, the exact edge
+    println("s1 ZZ   -(2^31+1) " a.asString)
+    println("s1 ZZ   -(2^63+1) " b.asString)
+    println("s1 ZZ64 -(2^31+1) " c.asString)
+    println("s1 ZZ32 -2^31     " d.asString)
+    println("s1 ZZ64 -2^63     " e.asString)
+end
+end

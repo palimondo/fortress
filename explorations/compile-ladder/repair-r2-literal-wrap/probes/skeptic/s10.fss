@@ -1,0 +1,20 @@
+component s10
+export Executable
+(*) Skeptic probe s10.  The in-domain case of the CHOOSE divergence s6 and s9
+(*) turned up.  k > m >= 0 is squarely inside the natural numbers the operator
+(*) is defined on (Specification/basic-lib/basic-integers.tex:567-568) and the
+(*) property at :571-573 forces m CHOOSE k = 0 there.  The interpreter's
+(*) primitive (interpreter/glue/prim/Int.java:287-305) has no k > n guard,
+(*) folds k to n-k and then runs an empty loop, so it answers 1.
+run() = do
+    three: ZZ64 = 3
+    five: ZZ64 = 5
+    four: ZZ64 = 4
+    two: ZZ64 = 2
+    ten: ZZ64 = 10
+    println("s10  3 CHOOSE 5 " (three CHOOSE five).asString)
+    println("s10  4 CHOOSE 2 " (four CHOOSE two).asString)
+    println("s10  3 CHOOSE 10 " (three CHOOSE ten).asString)
+    println("s10 property at m=3,k=5: LHS " ((three CHOOSE five) + (three CHOOSE (five + 1))).asString " RHS " ((three + 1) CHOOSE (five + 1)).asString)
+end
+end

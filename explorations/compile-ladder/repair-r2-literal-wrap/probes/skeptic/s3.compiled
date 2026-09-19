@@ -1,0 +1,3 @@
+s3 NN64 from IntLiteral arithmetic, rendered  -1
+s3 equals the numeral 2^64-1  true
+s3 one less than it           false

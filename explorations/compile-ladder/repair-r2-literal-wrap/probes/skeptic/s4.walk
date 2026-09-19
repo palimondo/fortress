@@ -1,0 +1,24 @@
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:9:28-34:
+    Variable ZZ32_MIN is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:10:28-34:
+    Variable ZZ32_MAX is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:11:28-34:
+    Variable ZZ64_MIN is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:12:28-34:
+    Variable ZZ64_MAX is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:13:12-18:
+    Variable ZZ32_MIN is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:13:66-72:
+    Variable ZZ32_MIN is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:14:12-18:
+    Variable ZZ64_MIN is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:14:75-81:
+    Variable ZZ64_MIN is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:15:12-18:
+    Variable ZZ32_MIN is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:15:23-29:
+    Variable ZZ32_MAX is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:16:12-18:
+    Variable ZZ64_MIN is not defined.
+/home/user/fortress-r2/explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s4.fss:16:23-29:
+    Variable ZZ64_MAX is not defined.

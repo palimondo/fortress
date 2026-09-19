@@ -1,0 +1,13 @@
+component s2
+export Executable
+(*) Skeptic probe s2.  The rung asserts in prose that the old asNN32's mask
+(*) "accepted the BOGUS sentinel 0xdeadbeefcafebabe that a string-carried
+(*) literal leaves in smallerVal" but never probed it.  A numeral of bit length
+(*) 65 has always taken the string branch, so this program ran before the
+(*) repair as well as after: before, asNN32 masked BOGUS to 0xcafebabe and
+(*) returned 3405691582; after, it refuses.
+run() = do
+    n: NN32 = 36893488147419103231   (*) 2^65 - 1, bit length 65
+    println("s2 NN32 from a string-carried numeral " n.asString)
+end
+end
