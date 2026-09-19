@@ -30,19 +30,17 @@
    Thread count.  A program in this corpus cannot set its own thread count:
    the count is read once from the environment (FORTRESS_THREADS,
    runtimeSystem/FortressExecutable.java:37-44) and Java cannot set an
-   environment variable for its own process.  It does not need to.  The gate
-   target that runs compiler_tests is CompilerJUTest under the fastTrack macro
-   (build.xml:927-953), which sets FORTRESS_CACHES but no thread count, and
-   the harness runs each program in a subprocess that inherits that
-   environment (FileTests.java:480-486), so the count falls back to
-   availableProcessors/2 -- more than one worker on this machine, where the
-   unrepaired tree loses updates on every run.  The FORTRESS_THREADS=1 pin is
-   in the testSystem shards only (build.xml:1184) and those do not run
-   compiler_tests.  The residual limitation: the fallback yields one worker
-   where availableProcessors is 1 or 3, and there this program passes whether
-   or not the implementation is correct.  Recorded in
-   explorations/compile-ladder/repair-r1-atomic-static/REPORT.md with the runs
-   both ways. *)
+   environment variable for its own process.  Nor does the gate set one: the
+   fastTrack macro that runs compiler_tests sets FORTRESS_CACHES and no thread
+   count (build.xml:927-953), and the harness runs each program in a
+   subprocess that inherits the environment (FileTests.java:480-486), so the
+   count is whatever the shell that started ant had.  experiment/env.sh:6
+   exports FORTRESS_THREADS=1, and every run of this project is told to source
+   it, so in practice this program runs at one worker and passes whether or
+   not the implementation is correct.  The deterministic half of the repair,
+   MutableTopLevelVarInLoop.fss, fails at one thread as well and is what
+   carries the gate.  Runs both ways are in
+   explorations/compile-ladder/repair-r1-atomic-static/REPORT.md. *)
 
 component AtomicTopLevelVar
 export Executable

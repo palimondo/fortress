@@ -125,7 +125,7 @@ public class Transaction {
     }        
 
     private void TXAbort() {
-        debug("TXAbort");
+        if (debug) debug("TXAbort");
         throw new TransactionAbortException();
     }
 
@@ -137,7 +137,7 @@ public class Transaction {
             result = new Transaction(parent);
             //throw new RuntimeException(Thread.currentThread().getName() + ": Only single level transactions for now");
         }
-        result.debug("TXBegin:");
+        if (debug) result.debug("TXBegin:");
         return result;
     }
 
@@ -159,11 +159,11 @@ public class Transaction {
         }
         Any AncestrialValue = AncestrialWrite(v);
         if (AncestrialValue != null) {
-            debug("TXRead: v = " + v + " ancestrial val = " + AncestrialValue );
+            if (debug) debug("TXRead: v = " + v + " ancestrial val = " + AncestrialValue );
             reads.put(v,AncestrialValue);
             return AncestrialValue;
         } else {
-            debug("TXRead: v = " + v + " val = " + val);
+            if (debug) debug("TXRead: v = " + v + " val = " + val);
             reads.put(v, val);
             return val;
         }
@@ -177,12 +177,12 @@ public class Transaction {
      
     public int TXValidateHelperTopLevelTransaction() {
         int time = waitForGlobalLock();
-        debug("TXValidateTopLevel: time = " + time);
+        if (debug) debug("TXValidateTopLevel: time = " + time);
 
         for (Map.Entry<MutableFValue,Any> entry : reads.entrySet()) {
             MutableFValue key = entry.getKey();
             Any val = entry.getValue();
-            debug("TXValidate: key = " + key + " val = " + val);
+            if (debug) debug("TXValidate: key = " + key + " val = " + val);
             if (key.getValue() != val)
                 TXAbort();
         }
@@ -195,12 +195,12 @@ public class Transaction {
 
     public int TXValidateHelperNestedTransaction() {
         int time = waitForGlobalLock();
-        debug("TXValidateNested: time = " + time);
+        if (debug) debug("TXValidateNested: time = " + time);
         for (Map.Entry<MutableFValue,Any> entry : reads.entrySet()) {
             MutableFValue key = entry.getKey();
             Any val = entry.getValue();
             Any ancestrialWrite = parent.AncestrialWrite(key);
-            debug("TXValidateNested: key = " + key + " val = " + val + " ancestrialWrite = " + ancestrialWrite);
+            if (debug) debug("TXValidateNested: key = " + key + " val = " + val + " ancestrialWrite = " + ancestrialWrite);
             if (ancestrialWrite == null) {
                 if (key.getValue() != val)
                     TXAbort();
@@ -224,12 +224,12 @@ public class Transaction {
     }
 
     public void TXWrite(MutableFValue v, Any f) {
-        debug("TXWrite: v = " + v + " f = " + f + " reads.getValue = " + reads.get(v) + " writes.getValue = " + writes.get(v));
+        if (debug) debug("TXWrite: v = " + v + " f = " + f + " reads.getValue = " + reads.get(v) + " writes.getValue = " + writes.get(v));
         writes.put(v, f);
     }
     
     public void TXCommit() {
-        debug("TXCommit: reads = " + reads + " writers = " + writes);
+        if (debug) debug("TXCommit: reads = " + reads + " writers = " + writes);
         if (writes.isEmpty())
             return;
 
@@ -237,7 +237,7 @@ public class Transaction {
             
         while (! getGlobalLock(time)) {
             time = TXValidate();
-            debug("TXCommitFail: time " + time);
+            if (debug) debug("TXCommitFail: time " + time);
             snapshot.set(time);
         }
             
@@ -246,7 +246,7 @@ public class Transaction {
             for (Map.Entry<MutableFValue,Any> entry : writes.entrySet()) {
                 MutableFValue key = entry.getKey();
                 Any val = entry.getValue();
-                debug("TXCommitting:  time = " + time + " key = " + key + " val = " + val);
+                if (debug) debug("TXCommitting:  time = " + time + " key = " + key + " val = " + val);
                 key.setValue(val);
             }
        
@@ -262,7 +262,7 @@ public class Transaction {
                 // in the grandparent and the parent transaction wouldn't know to abort.
                 if (parent.writes.get(key) == null) {
                     parent.reads.put(key, val);
-                    debug("TXCommitting: read to parent without ancestrial write: snapshot = " + snapshot + " time = " + time + " key = " + key + " val = " + val);
+                    if (debug) debug("TXCommitting: read to parent without ancestrial write: snapshot = " + snapshot + " time = " + time + " key = " + key + " val = " + val);
                 }
             }
 
@@ -271,7 +271,7 @@ public class Transaction {
                 MutableFValue key = entry.getKey();
                 Any val = entry.getValue();
                 parent.writes.put(key, val);
-                debug("TXCommitting: write to parent: snapshot = " + snapshot.get() + " time = " + time + " key = " + key + " val = " + val);
+                if (debug) debug("TXCommitting: write to parent: snapshot = " + snapshot.get() + " time = " + time + " key = " + key + " val = " + val);
             }
         }
 

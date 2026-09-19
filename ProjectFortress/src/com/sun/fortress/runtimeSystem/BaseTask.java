@@ -180,19 +180,19 @@ public abstract class BaseTask extends FortressExecutable {
    public static void startTransaction() {
         FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
         BaseTask currentTask = ftr.getTask();
-        debug("startTransaction: ftr = " + ftr + " current task = " + currentTask);
+        if (debug) debug("startTransaction: ftr = " + ftr + " current task = " + currentTask);
 
         Transaction transaction = Transaction.TXBegin(currentTask.transaction());
-        debug("Start transaction ftr = " + ftr + " current action = " + currentTask + " trans = " + transaction);
+        if (debug) debug("Start transaction ftr = " + ftr + " current action = " + currentTask + " trans = " + transaction);
         currentTask.setTransaction(transaction);
     }
 
     public static void endTransaction() {
         FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
         BaseTask currentTask = ftr.getTask();
-        debug("endTransaction: ftr = " + ftr + " current task = " + currentTask);
+        if (debug) debug("endTransaction: ftr = " + ftr + " current task = " + currentTask);
         Transaction transaction = ftr.getTask().transaction();
-        debug("End transaction ftr = " + ftr + " current action = " + currentTask + " trans = " + transaction);
+        if (debug) debug("End transaction ftr = " + ftr + " current action = " + currentTask + " trans = " + transaction);
         if (transaction != null) {
             transaction.TXCommit();
             currentTask.setTransaction(transaction.getParent());
@@ -204,7 +204,7 @@ public abstract class BaseTask extends FortressExecutable {
         FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
         BaseTask currentTask = ftr.getTask();
         Transaction transaction = ftr.getTask().transaction();
-        debug("Cleanup transaction ftr = " + ftr + " current action = " + currentTask + " trans = " + transaction);
+        if (debug) debug("Cleanup transaction ftr = " + ftr + " current action = " + currentTask + " trans = " + transaction);
         if (transaction != null)
             currentTask.setTransaction(transaction.getParent());
         else
@@ -231,7 +231,7 @@ public abstract class BaseTask extends FortressExecutable {
 
     public static Transaction getCurrentTransaction() {
         FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
-        debug("getCurrentTransaction: ftr = " + ftr );
+        if (debug) debug("getCurrentTransaction: ftr = " + ftr );
         if (ftr.getTask() != null)
             return ftr.getTask().transaction();
         else return null;
@@ -239,7 +239,7 @@ public abstract class BaseTask extends FortressExecutable {
 
     public static BaseTask getCurrentTask() {
         FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
-        debug("getCurrentTask: ftr = " + ftr );
+        if (debug) debug("getCurrentTask: ftr = " + ftr );
         return ftr.getTask();
     }
 
@@ -255,7 +255,7 @@ public abstract class BaseTask extends FortressExecutable {
 
     public static void setTask(BaseTask t) {
         FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
-        debug("setTask: ftr = " + ftr + " task = " + t);
+        if (debug) debug("setTask: ftr = " + ftr + " task = " + t);
         ftr.setTask(t);
     }
 
