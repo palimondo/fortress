@@ -1,0 +1,4 @@
+|0| on ZZ32 overflows: yes
+-0 on ZZ32 overflows:  yes
+|0| on ZZ64 overflows: yes
+-0 on ZZ64 overflows:  yes
