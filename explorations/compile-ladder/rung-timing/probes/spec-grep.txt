@@ -1,0 +1,27 @@
+### The specification is silent on all three names.  Run 2026-09-19 at dd509621b.
+
+$ grep -rn "recordTime\|printTime\|nanoTime" Specification/
+(exit 1; no output above means no hit anywhere in the specification tree)
+
+$ grep -rln "recordTime\|printTime\|nanoTime" Specification/ Specification-1.0-frozen/
+(exit 1)
+
+### The two clauses that do bear on the edit:
+$ sed -n "181,183p" Specification/basic/traits.tex
+In addition, every trait except \TYP{Any} and \TYP{Object}
+implicitly extends the trait \TYP{Object}
+if it does not do so explicitly.
+
+$ sed -n "332,343p" Specification/basic/components/source-code.tex
+A top-level variable declaration declaring a single variable
+is satisfied by any top-level variable declaration
+that declares the name with the same type
+(in the component,
+the type may be inferred).
+A top-level variable declaration declaring multiple variables
+is satisfied by a set of declarations (possibly just one)
+that declare all the names with their respective types
+(which again, may be inferred).
+In either case,
+the modifiers including the mutability of a variable must be the same in
+the exported and satisfying declarations.

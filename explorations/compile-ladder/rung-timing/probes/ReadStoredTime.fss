@@ -1,0 +1,12 @@
+(*) Probe for ledger row 320, the reason the stored time is not exported.
+(*) Reads Library/CompilerLibrary's top-level mutable variable from another
+(*) component.  Compiles and runs only while that variable is declared in
+(*) Library/CompilerLibrary.fsi as "var __globalTimeInformation: RR64".
+component ReadStoredTime
+export Executable
+run():() = do
+    recordTime(0)
+    println("stored = " || __globalTimeInformation)
+    println "PASS"
+end
+end

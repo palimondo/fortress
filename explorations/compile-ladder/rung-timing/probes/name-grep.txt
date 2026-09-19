@@ -1,0 +1,98 @@
+### Collision and precedent greps for rung T.  Run 2026-09-19 at dd509621b.
+
+## 1. Every occurrence of the three names in the whole tree (outside explorations/).
+$ grep -rn "recordTime\|printTime\|__globalTimeInformation" --include=*.fss --include=*.fsi . | grep -v "^./explorations/"
+./Fortify/example/buffons.fss:26:   recordTime(6.0)
+./Fortify/example/buffons.fss:43:   printTime(6.0)
+./ProjectFortress/demos/sudoku.fss:90:   recordTime(6.847)
+./ProjectFortress/demos/sudoku.fss:92:   printTime(6.847)
+./ProjectFortress/demos/mm.fss:211:   recordTime(6)
+./ProjectFortress/demos/mm.fss:213:   printTime(6)
+./ProjectFortress/demos/mm64.fss:329:   recordTime(6)
+./ProjectFortress/demos/mm64.fss:331:   printTime(6)
+./ProjectFortress/demos/mm64x.fss:457:   recordTime(6)
+./ProjectFortress/demos/mm64x.fss:459:   printTime(6)
+./ProjectFortress/demos/Cfa.fss:470:  recordTime(6.847)
+./ProjectFortress/demos/Cfa.fss:472:  printTime(6.847)
+./ProjectFortress/tests/nestedTransactions4.fss:30:    recordTime(6.0)
+./ProjectFortress/tests/nestedTransactions4.fss:32:    printTime(6.0)
+./ProjectFortress/tests/nestedTransactions3.fss:36:    recordTime(6.0)
+./ProjectFortress/tests/nestedTransactions3.fss:38:    printTime(6.0)
+./ProjectFortress/tests/nestedTransactions1.fss:34:    recordTime(6.0)
+./ProjectFortress/tests/nestedTransactions1.fss:36:    printTime(6.0)
+./ProjectFortress/tests/nestedTransactions2.fss:46:    recordTime(6.0)
+./ProjectFortress/tests/nestedTransactions2.fss:48:    printTime(6.0)
+./ProjectFortress/library_tests/TimingRungT.fss:15:(*) recordTime and printTime on the bytecode path.  The interpreter's library
+./ProjectFortress/library_tests/TimingRungT.fss:20:(*) "Variable recordTime is not defined."
+./ProjectFortress/library_tests/TimingRungT.fss:23:(*) files call recordTime and printTime with a float literal argument, around
+./ProjectFortress/library_tests/TimingRungT.fss:54:    recordTime(6.0)
+./ProjectFortress/library_tests/TimingRungT.fss:60:    printTime(6.0)
+./ProjectFortress/library_tests/TimingRungT.fss:65:    recordTime(0)
+./ProjectFortress/library_tests/TimingRungT.fss:71:    printTime(0)
+./ProjectFortress/library_tests/TimingRungT.fss:74:    (*) 3. Two reports in a row.  printTime re-records the time it read, so
+./ProjectFortress/library_tests/TimingRungT.fss:76:    (*)    recordTime above it.
+./ProjectFortress/library_tests/TimingRungT.fss:77:    recordTime(0)
+./ProjectFortress/library_tests/TimingRungT.fss:78:    printTime(0)
+./ProjectFortress/library_tests/TimingRungT.fss:79:    printTime(0)
+./CompilerLibrary/FortressLibrary.fsi:2384:recordTime(dummy: Any): ()
+./CompilerLibrary/FortressLibrary.fsi:2385:printTime(dummy: Any): ()
+./Library/FortressLibrary.fss:4111:__globalTimeInformation: ZZ64 := 0
+./Library/FortressLibrary.fss:4112:recordTime(dummy: Any): () = do __globalTimeInformation := nanoTime() end
+./Library/FortressLibrary.fss:4113:printTime(dummy: Any): () = do
+./Library/FortressLibrary.fss:4115:    e = r - __globalTimeInformation
+./Library/FortressLibrary.fss:4116:    __globalTimeInformation := r
+./Library/CompilerLibrary.fsi:254:recordTime(dummy: Any): ()
+./Library/CompilerLibrary.fsi:255:printTime(dummy: Any): ()
+./Library/FortressLibrary.fsi:2393:recordTime(dummy: Any): ()
+./Library/FortressLibrary.fsi:2394:printTime(dummy: Any): ()
+./Library/CompilerLibrary.fss:549:__globalTimeInformation: RR64 := 0.0
+./Library/CompilerLibrary.fss:551:recordTime(dummy: Any): () = do __globalTimeInformation := nanoTime() end
+./Library/CompilerLibrary.fss:553:printTime(dummy: Any): () = do
+./Library/CompilerLibrary.fss:555:    e: RR64 = r - __globalTimeInformation
+./Library/CompilerLibrary.fss:556:    __globalTimeInformation := r
+
+## 2. Declarations, as opposed to uses, in every test corpus and both libraries.
+$ grep -rn "^ *\(recordTime\|printTime\|__globalTimeInformation\)" ProjectFortress/tests ProjectFortress/*_tests ProjectFortress/test_library Library ProjectFortress/LibraryBuiltin
+ProjectFortress/tests/nestedTransactions4.fss:30:    recordTime(6.0)
+ProjectFortress/tests/nestedTransactions4.fss:32:    printTime(6.0)
+ProjectFortress/tests/nestedTransactions3.fss:36:    recordTime(6.0)
+ProjectFortress/tests/nestedTransactions3.fss:38:    printTime(6.0)
+ProjectFortress/tests/nestedTransactions1.fss:34:    recordTime(6.0)
+ProjectFortress/tests/nestedTransactions1.fss:36:    printTime(6.0)
+ProjectFortress/tests/nestedTransactions2.fss:46:    recordTime(6.0)
+ProjectFortress/tests/nestedTransactions2.fss:48:    printTime(6.0)
+ProjectFortress/library_tests/TimingRungT.fss:54:    recordTime(6.0)
+ProjectFortress/library_tests/TimingRungT.fss:60:    printTime(6.0)
+ProjectFortress/library_tests/TimingRungT.fss:65:    recordTime(0)
+ProjectFortress/library_tests/TimingRungT.fss:71:    printTime(0)
+ProjectFortress/library_tests/TimingRungT.fss:77:    recordTime(0)
+ProjectFortress/library_tests/TimingRungT.fss:78:    printTime(0)
+ProjectFortress/library_tests/TimingRungT.fss:79:    printTime(0)
+Library/FortressLibrary.fss:4111:__globalTimeInformation: ZZ64 := 0
+Library/FortressLibrary.fss:4112:recordTime(dummy: Any): () = do __globalTimeInformation := nanoTime() end
+Library/FortressLibrary.fss:4113:printTime(dummy: Any): () = do
+Library/FortressLibrary.fss:4116:    __globalTimeInformation := r
+Library/CompilerLibrary.fsi:254:recordTime(dummy: Any): ()
+Library/CompilerLibrary.fsi:255:printTime(dummy: Any): ()
+Library/FortressLibrary.fsi:2393:recordTime(dummy: Any): ()
+Library/FortressLibrary.fsi:2394:printTime(dummy: Any): ()
+Library/CompilerLibrary.fss:549:__globalTimeInformation: RR64 := 0.0
+Library/CompilerLibrary.fss:551:recordTime(dummy: Any): () = do __globalTimeInformation := nanoTime() end
+Library/CompilerLibrary.fss:553:printTime(dummy: Any): () = do
+Library/CompilerLibrary.fss:556:    __globalTimeInformation := r
+(exit 0; the only hits are the two libraries' own declarations)
+
+## 3. The name of this rung's test is used nowhere else.
+$ grep -rln "TimingRungT" --include=*.fss --include=*.fsi --include=*.test .
+./ProjectFortress/library_tests/TimingRungT.fss
+./ProjectFortress/library_tests/TimingRungT.test
+
+## 4. Top-level mutable variables in the compiler world's prelude.
+$ grep -n "^[A-Za-z_][A-Za-z0-9_]*[[:space:]]*:.*:=" Library/CompilerLibrary.fss Library/CompilerAlgebra.fss Library/CompilerSystem.fss ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss ProjectFortress/LibraryBuiltin/AnyType.fss
+Library/CompilerLibrary.fss:549:__globalTimeInformation: RR64 := 0.0
+$ grep -n "^var " Library/CompilerLibrary.fss ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss
+(exit 1)
+
+## 5. The same, in the interpreter's prelude.
+$ grep -n "^[A-Za-z_][A-Za-z0-9_]*[[:space:]]*:.*:=" Library/FortressLibrary.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+Library/FortressLibrary.fss:4111:__globalTimeInformation: ZZ64 := 0

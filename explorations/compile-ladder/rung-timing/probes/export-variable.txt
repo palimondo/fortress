@@ -1,0 +1,60 @@
+### Probe: what happens if the stored time IS exported through the api (ledger row 320)
+### The one added line in Library/CompilerLibrary.fsi:
+diff --git a/Library/CompilerLibrary.fsi b/Library/CompilerLibrary.fsi
+index 1c399abaa..bb2998e59 100644
+--- a/Library/CompilerLibrary.fsi
++++ b/Library/CompilerLibrary.fsi
+@@ -251,6 +251,7 @@ randomZZ32(x:ZZ32): ZZ32
+ * Timing
+ ************************************************************)
+ 
++__globalTimeInformation: RR64
+ recordTime(dummy: Any): ()
+ printTime(dummy: Any): ()
+ 
+LIBRARY BUILD FAILED
+=== library: ../Library/CompilerLibrary.fss 2026-09-19T09:11:22+00:00
+/home/user/fortress-time/Library/CompilerLibrary.fss:12:11-16:2:
+    The following declarations in API CompilerLibrary are not matched
+    by the declarations in component CompilerLibrary.
+    Unmatched declarations: {
+        (__globalTimeInformation:RR64,
+         due to different mutabilities)
+    }
+File CompilerLibrary.fss has 1 error.
+
+real	0m20.118s
+user	0m30.667s
+sys	0m0.571s
+LIBRARY BUILD FAILED on ../Library/CompilerLibrary.fss
+LIBRARY BUILD FAILED on ../Library/CompilerLibrary.fss
+### the test, with the variable exported:
+### FORTRESS_HOME=/home/user/fortress-time FORTRESS_THREADS=1 2026-09-19T09:11:42+00:00
+### git rev dd509621b, dirty:  M Library/CompilerLibrary.fsi ?? explorations/compile-ladder/rung-timing/probes/export-variable.txt ?? explorations/compile-ladder/rung-timing/raw/ ?? explorations/compile-ladder/rung-timing/results.tsv ?? tmp/ 
+### ../bin/fortress junit library_tests/TimingRungT.test
+. link library_tests/TimingRungT /home/user/fortress-time/Library/CompilerLibrary.fss:12:11-16:2:
+    The following declarations in API CompilerLibrary are not matched
+    by the declarations in component CompilerLibrary.
+    Unmatched declarations: {
+        (__globalTimeInformation:RR64,
+         due to different mutabilities)
+    }
+File TimingRungT.fss has 1 error.
+ FAIL
+F. run library_tests/TimingRungT (211ms) Could not load TimingRungT
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : TimingRungT.class
+	... 4 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 19.603
+There were 2 failures:
+1) library_tests/TimingRungT(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+2) library_tests/TimingRungT(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest library_tests/TimingRungT
+
+FAILURES!!!
+Tests run: 2,  Failures: 2,  Errors: 0
+
+### junit exit=0
+### restoring
