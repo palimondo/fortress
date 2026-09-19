@@ -1,0 +1,18 @@
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/A/MaxLibA.fss:3:1-105: and
+/home/user/fortress/Library/FortressLibrary.fss:280:5-71:
+
+MAX[\I\](s:FortressLibrary.RR64,a:Array[\FortressLibrary.RR64,I\]):Array[\FortressLibrary.RR64,I\]/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/A/MaxLibA.fss:3:1-105 and
+StandardTotalOrder[\T extends StandardTotalOrder[\T\]\](uninstantiated)[\T extends StandardTotalOrder[\T\]\].MAX(self:StandardTotalOrder[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:280:5-71 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/A/MaxLibA.fss:3:1-105:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/A/UserMaxLibA.fss:7:14-15:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

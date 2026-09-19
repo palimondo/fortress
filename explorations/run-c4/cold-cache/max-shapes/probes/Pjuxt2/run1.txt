@@ -1,0 +1,18 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:344:5-345:65: and
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pjuxt2/JuxtLib2.fss:6:1-232:
+
+MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].juxtaposition(self:MultiplicativeRing[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:344:5-345:65 and
+juxtaposition[\nat a,nat b,nat c,nat a2,nat b2,nat c2\](x:Array3[\FortressLibrary.RR64,0,a,0,b,0,c\],y:Array3[\FortressLibrary.RR64,0,a2,0,b2,0,c2\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pjuxt2/JuxtLib2.fss:6:1-232 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:344:5-345:65:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pjuxt2/UserJuxtLib2.fss:5:9-19:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

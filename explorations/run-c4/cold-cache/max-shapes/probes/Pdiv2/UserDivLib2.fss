@@ -1,0 +1,9 @@
+component UserDivLib2
+export Executable
+import DivLib2.{...}
+run(): () = do
+    m = zerosM(3, 2)
+    t = array[\RR64\](2,3,2).fill(1.0)
+    println "div: " ((m / 2.0)[2,0]) " " ((m / zerosM(3,2))[1,0]) " " (3.0 / 2.0)
+end
+end

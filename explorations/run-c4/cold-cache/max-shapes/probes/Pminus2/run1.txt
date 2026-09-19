@@ -1,0 +1,17 @@
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pminus2/MinusLib2.fss:3:1-101: and
+/home/user/fortress/Library/FortressLibrary.fss:4499:1-4503:2:
+
+-[\I\](a:Array[\FortressLibrary.RR64,I\],s:FortressLibrary.RR64):Array[\FortressLibrary.RR64,I\]/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pminus2/MinusLib2.fss:3:1-101 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pminus2/MinusLib2.fss:3:1-101:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pminus2/UserMinusLib2.fss:7:89:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

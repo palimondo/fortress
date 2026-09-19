@@ -1,0 +1,10 @@
+component UserJuxtLib2
+export Executable
+import JuxtLib2.{...}
+run(): () = do
+    m = zerosM(3, 2)
+    t = array[\RR64\](2,3,2).fill(1.0)
+    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    println "juxt: " ((diag(v) m)[2,0]) " " ((t t)[1,2,0]) " " ((m m.t())[2,2]) " " (2.0 3.0) " " ((2.0 m)[2,0])
+end
+end

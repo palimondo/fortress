@@ -1,0 +1,12 @@
+component UserMaxLibD3
+export Executable
+import MaxLibD3.{...}
+run(): () = do
+    m = zerosM(3, 2)
+    println "scalar MAX: " (2.0 MAX 3.0)
+    mr = 0.0 MAX m
+    println "mr[0,1] mr[2,0]: " mr[0,1] " " mr[2,0]
+    println "product still a Matrix: " ((mr mr.t())[2,2])
+    println "sum with library +: " ((mr + mr)[2,0])
+end
+end

@@ -1,0 +1,7 @@
+component MaxLibF2
+export MaxLibF2
+object Sc(s: RR64) end
+sc(s: RR64): Sc = Sc(s)
+opr MAX[\I\](x: Sc, a: Array[\RR64,I\]): Array[\RR64,I\] = a.map[\RR64\](fn (e: RR64): RR64 => x.s MAX e)
+zerosM(r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i - j))
+end

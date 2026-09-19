@@ -1,0 +1,4 @@
+scalar MAX: 3.0
+mr[0,1] mr[2,0]: 0.0 2.0
+product still a Matrix: 5.0
+sum with library +: 4.0

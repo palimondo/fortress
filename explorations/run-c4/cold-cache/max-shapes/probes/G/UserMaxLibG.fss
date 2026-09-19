@@ -1,0 +1,14 @@
+component UserMaxLibG
+export Executable
+import MaxLibG.{...}
+run(): () = do
+    m = zerosM(3, 2)
+    println "scalar MAX: " (2.0 MAX 3.0)
+    mr = m.map[\RR64\](fn (e: RR64): RR64 => 0.0 MAX e)
+    println "mr[0,1] mr[2,0]: " mr[0,1] " " mr[2,0]
+    println "product still a Matrix: " ((mr mr.t())[2,2])
+    println "sum with library +: " ((mr + mr)[2,0])
+    mr2 = m.map[\RR64\](fn e => 0.0 MAX e)
+    println "untyped lambda: " mr2[0,1] " " mr2[2,0]
+end
+end

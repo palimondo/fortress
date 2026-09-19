@@ -1,0 +1,9 @@
+component UserPlusLib1
+export Executable
+import PlusLib1.{...}
+run(): () = do
+    m = zerosM(3, 2)
+    t = array[\RR64\](2,3,2).fill(1.0)
+    println "plus: " ((m + 1.0)[2,0]) " " ((m + m)[2,0]) " " (1.5 + 2.0)
+end
+end

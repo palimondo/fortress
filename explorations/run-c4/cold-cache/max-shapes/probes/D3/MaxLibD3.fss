@@ -1,0 +1,6 @@
+component MaxLibD3
+export MaxLibD3
+opr MAX(s: RR64, a: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = a.map[\RR64\](fn (e: RR64): RR64 => s MAX e)
+opr MAX(s: RR64, a: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = a.map[\RR64\](fn (e: RR64): RR64 => s MAX e)
+zerosM(r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i - j))
+end

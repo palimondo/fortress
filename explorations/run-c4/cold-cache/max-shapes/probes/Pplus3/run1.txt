@@ -1,0 +1,18 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:330:5-28: and
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pplus3/PlusLib3.fss:5:1-225:
+
+AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:330:5-28 and
++[\nat r,nat c,nat a,nat b,nat d\](m:Matrix[\FortressLibrary.RR64,r,c\],t:Array3[\FortressLibrary.RR64,0,a,0,b,0,d\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pplus3/PlusLib3.fss:5:1-225 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:330:5-28:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/flatarrays-review/probes/Pplus3/UserPlusLib3.fss:7:109:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

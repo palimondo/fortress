@@ -1,0 +1,6 @@
+component MaxLibE2
+export MaxLibE2
+opr MAX[\nat r, nat c\](s: RR64, a: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = a.map[\RR64\](fn (e: RR64): RR64 => s MAX e)
+opr MAX[\nat n\](s: RR64, a: Vector[\RR64,n\]): Array[\RR64,ZZ32\] = a.map[\RR64\](fn (e: RR64): RR64 => s MAX e)
+zerosM(r: ZZ32, c: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (i - j))
+end
