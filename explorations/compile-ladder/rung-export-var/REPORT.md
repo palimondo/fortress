@@ -362,3 +362,17 @@ be checked, not the exit code.
   (`staticenv/STypeEnv.scala:257-270`) is left as it is. It is dead rather than
   wrong, because `lookup` strips the api anyway, and changing it would move
   every api variable's binding key for no measured gain.
+
+## The tracked-path check
+
+The shared prefix's loop over `explorations/compile-ladder/...` matches only the
+four citations written in full; this report writes most of them relative
+(`probes/...`), so the check was run three more times, over the relative
+`probes/` citations, over the `ProjectFortress/...` citations, and over the bare
+`compiler_tests/`, `other_compiler_tests/` and `tests/` ones, plus the four
+wildcard citations (`probes/P8*`, `probes/P9*`, `probes/SameVarApi.*`,
+`probes/ObjVarApi.*`) expanded by hand and the ten cross-directory citations
+(`rung-timing/probes/export-variable.txt` and `-2.txt`,
+`repair-r1-atomic-static/REPORT.md`, the two map files, and the five microGPT
+sources). Every path exists and is tracked; nothing printed MISSING or
+UNTRACKED.
