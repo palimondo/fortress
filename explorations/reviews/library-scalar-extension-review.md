@@ -499,3 +499,7 @@ green. The corpus convention is `assert(flag, failMsg)` / `deny` / `fail`
    in the `.fsi` (the form `QQ` already uses at `.fsi:373`, licensed by
    `traits.tex:236-241`) while the component keeps the exact list? If so it is the more
    honest api statement, since it does not promise users that `ZZ` is all there is.
+
+## Correction, 2026-09-20
+
+The test-quality note above is wrong. The harness's rule for a `tests/` program is that the word `fail` or `FAIL` in its output fails the test (`FileTests.java:377-379, 408, 415`); a copy of `ArrayScalarExtension.fss` with one expected value made wrong was driven through the same entry point `ant testSystem` uses and the harness reported the failure, while the unmodified test passed. The print-only `check` helper is therefore the assertion, which is the corpus convention. Captures: `explorations/compile-ladder/gate-baseline/fail-word-probe/`.
