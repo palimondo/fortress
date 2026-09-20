@@ -16,7 +16,7 @@ Shadow: a prototype of a sealed-tree edit made by compiling edited copies of the
 
 Sealed tree: everything outside `explorations/` and `research/`, unchanged by the revival except the build ladder; opening it is the phase boundary Pavol has deferred.
 
-## 1. The five surveys
+## 1. The five surveys, and the walkthrough beside them
 
 `modules-and-phases.md`: the 22 packages with sizes, the import graph, the dead modules, the two pipelines phase by phase, the cache, the runtime, native interop, and the one-table divergence of the paths (B.14).
 
@@ -27,6 +27,8 @@ Sealed tree: everything outside `explorations/` and `research/`, unchanged by th
 `dormant-code.md` (part five, added at Pavol's request): the census of what is present, carries a design, and does not run: commented-out library declarations and `Library/incomplete/`, commented-out visitors and off-by-default flags in the source, commented-out test halves and the aspirational directories, the spec's genuinely dormant text and its 62 "not yet supported" notes, the papers; each item judged finished-unwired, sketch, superseded or unknown, and tied to a path step.
 
 `design-intent-sources.md`: the five places rationale is written (in-repo papers, the Steele corpus, our extracts, the spec's draft-only notes and Internal Document, source comments and commits), and a table by design area of what intent the spec leaves unstated.
+
+`compile-path-walkthrough.md` (part six, written 2026-09-20 for the checker decisions): the compile path followed end to end, one section per stage — parsing, name resolution and grammar expansion, the checker (what it walks, what it writes, today's counts on the library), the desugaring switches that make the paths differ, code generation, the second JVM and the stamping class loader, native bindings in both worlds, `nat`, and a glossary.
 
 ## 2. The shape of the system, in twelve facts
 
