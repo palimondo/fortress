@@ -1,0 +1,369 @@
+# Census of 10-typecheck-compilerdesugar.census.txt: the run's header lines, the per-compilation-unit error
+# counts, and every distinct checker message with its multiplicity -- source spans
+# and instantiated type arguments normalized away, each message cut to 150 columns.
+# The raw dump is reproducible with run-all.sh.
+########## PhaseProbe -order typecheck  Library/FortressLibrary.fss
+# start 2026-09-20T16:35:41Z
+### order=typecheck  phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR TYPECHECK ]  target=[Library/FortressLibrary.fss]
+### desugaring=COMPILE-PATH  prelude=INTERPRETER
+@@TC API	FortressLibrary	errors=494
+@@TC API	List	errors=16
+@@TC API	RangeInternals	errors=408
+@@TC API	TypeProxy	errors=0
+@@TC API-CRASH	NativeArray	java.lang.Error	com.sun.fortress.useful.NI.nyi(NI.java:52)	Not yet implemented
+@@TC API	FortressBuiltin	errors=22
+@@TC API	NatReflect	errors=0
+@@TC API	AnyType	errors=0
+@@TC API	FlatString	errors=4
+@@TC API	Writer	errors=0
+@@TC API	Stream	errors=4
+@@TC API	String	errors=12
+@@TC APIS-NOT-SUCCESSFUL	960 errors kept
+@@TC COMPONENT	FortressLibrary	errors=1204
+@@TC COMPONENTS-NOT-SUCCESSFUL	1204 errors kept
+### rc=0
+exit=0
+ELAPSED 406 s
+
+# distinct messages, by multiplicity
+    144 @@TC COMPERR Ill-formed type: Condition[\..\] The static argument () does not satisfy the corresponding bound Object.
+    120 @@TC COMPERR Ill-formed type: Comprehension[\..\] The static argument (T, U) does not satisfy the corresponding bound Object.
+     60 @@TC APIERR Ill-formed type: Condition[\..\] The static argument () does not satisfy the corresponding bound Object.
+     48 @@TC APIERR Ill-formed type: Comprehension[\..\] The static argument (T, U) does not satisfy the corresponding bound Object.
+     42 @@TC COMPERR Ill-formed type: Matrix[\..\] The static argument T does not satisfy the corresponding bound Number.
+     32 @@TC COMPERR Ill-formed type: Generator[\..\] The static argument (T, U) does not satisfy the corresponding bound Object.
+     32 @@TC APIERR Ill-formed type: Just[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+     32 @@TC APIERR Ill-formed type: Just[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+     30 @@TC COMPERR Ill-formed type: Comprehension[\..\] The static argument (Number, Number) does not satisfy the corresponding bound Object.
+     26 @@TC COMPERR Ill-formed type: Vector[\..\] The static argument T does not satisfy the corresponding bound Number.
+     26 @@TC COMPERR Could not check call to operator < - ((NN64 & {UnsignedLong, NN32}), NN64)->Boolean is not applicable to an argument of type (T, Standard
+     24 @@TC COMPERR Ill-formed type: Comprehension[\..\] The static argument Any does not satisfy the corresponding bound Object.
+     20 @@TC COMPERR Could not check call to operator CMP - ((Number & {RR64}), Number)->Comparison is not applicable to an argument of type (A, A). - ((Total
+     20 @@TC APIERR Ill-formed type: Range[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+     20 @@TC APIERR Ill-formed type: Range[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+     20 @@TC APIERR Ill-formed type: Generator[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+     20 @@TC APIERR Ill-formed type: Comprehension[\..\] The static argument Any does not satisfy the corresponding bound Object.
+     16 @@TC COMPERR Ill-formed type: Range[\..\] The static argument Any does not satisfy the corresponding bound Object.
+     16 @@TC COMPERR Ill-formed type: Generator[\..\] The static argument (E, G) does not satisfy the corresponding bound Object.
+     16 @@TC COMPERR Ill-formed type: CommutativeReduction[\..\] The static argument (T, U) does not satisfy the corresponding bound Object.
+     16 @@TC COMPERR Ill-formed type: Array[\..\] The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+     16 @@TC APIERR Ill-formed type: Generator[\..\] The static argument (T, U) does not satisfy the corresponding bound Object.
+     16 @@TC APIERR Ill-formed type: Array[\..\] The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+     12 @@TC COMPERR Number has no getter called isNaN
+     12 @@TC COMPERR Ill-formed type: ZeroIndexed[\..\] The static argument (E, F) does not satisfy the corresponding bound Object.
+     12 @@TC COMPERR Ill-formed type: OpenRange[\..\] The static argument Any does not satisfy the corresponding bound Object.
+     12 @@TC COMPERR Ill-formed type: Indexed[\..\] The static argument (I, E) does not satisfy the corresponding bound Object.
+     12 @@TC COMPERR Ill-formed type: Generator[\..\] The static argument (T, G) does not satisfy the corresponding bound Object.
+     12 @@TC COMPERR Filter expressions in generator clauses must have type Boolean, but r.isNaN was not well typed.
+     12 @@TC COMPERR Could not check call to operator CMP - ((Number & {RR64}), Number)->Comparison is not applicable to an argument of type (B, B). - ((Total
+     12 @@TC APIERR Types DistributesOver[\..\] and DistributesOver[\..\] exclude each other. ProdReduction must not extend them.
+     12 @@TC APIERR Ill-formed type: ZeroIndexed[\..\] The static argument (E, F) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: RightRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: RightRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: OpenRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: OpenRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: Maybe[\..\], Reduction[\..\])\] The static argument (Reduction[\..\], Reduction[\..\]) does not satisfy the corresponding
+     12 @@TC APIERR Ill-formed type: LeftRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: LeftRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: Generator[\..\] The static argument Any does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: Generator[\..\] The static argument (T, G) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: Generator[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: Generator[\..\] The static argument (E, G) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: ExtentRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: ExtentRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: Comprehension[\..\] The static argument (Number, Number) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: CompactFullRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+     12 @@TC APIERR Ill-formed type: CompactFullRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      8 @@TC COMPERR Types DistributesOver[\..\]\] and DistributesOver[\..\] exclude each other. SumReduction must not extend them.
+      8 @@TC COMPERR Types DistributesOver[\..\] and DistributesOver[\..\]\] exclude each other. SumReduction must not extend them.
+      8 @@TC COMPERR Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+      8 @@TC COMPERR Ill-formed type: RangeInternals.CompactFullRange3D[\..\] The static argument K does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC COMPERR Ill-formed type: RangeInternals.CompactFullRange3D[\..\] The static argument J does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC COMPERR Ill-formed type: RangeInternals.CompactFullRange3D[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC COMPERR Ill-formed type: RangeInternals.CompactFullRange2D[\..\] The static argument J does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC COMPERR Ill-formed type: RangeInternals.CompactFullRange2D[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC COMPERR Ill-formed type: RangeInternals.CompactFullParScalarRange[\..\] The static argument I does not satisfy the corresponding bound Integral[\
+      8 @@TC COMPERR Ill-formed type: Nothing[\..\] The static argument (T, G) does not satisfy the corresponding bound Object.
+      8 @@TC COMPERR Ill-formed type: Generator[\..\], ActualReduction[\..\], Generator[\..\]->Condition[\..\], E->R)->Boolean, (ActualReduction[\..\], Actual
+      8 @@TC COMPERR Ill-formed type: Generator[\..\], ActualReduction[\..\], E->R)->Boolean, (ActualReduction[\..\], ActualReduction[\..\], E->R)->R)\] The s
+      8 @@TC COMPERR Ill-formed type: Generator[\..\] The static argument (E, F) does not satisfy the corresponding bound Object.
+      8 @@TC COMPERR Ill-formed type: Array[\..\] The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      8 @@TC COMPERR Function body has type OR((T, (U, U)),(T, U)), but declared return type is (T, U).
+      8 @@TC COMPERR Function body has type Number, but declared return type is T.
+      8 @@TC COMPERR Any has no getter called asDebugString
+      8 @@TC APIERR There are multiple declarations of splitWithOffsets with the same parameter type: ()
+      8 @@TC APIERR There are multiple declarations of split with the same parameter type: ()
+      8 @@TC APIERR Ill-formed type: RangeInternals.ScalarRangeWithRight[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC APIERR Ill-formed type: RangeInternals.CompactFullRange3D[\..\] The static argument K does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC APIERR Ill-formed type: RangeInternals.CompactFullRange3D[\..\] The static argument J does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC APIERR Ill-formed type: RangeInternals.CompactFullRange3D[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC APIERR Ill-formed type: RangeInternals.CompactFullRange2D[\..\] The static argument J does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC APIERR Ill-formed type: RangeInternals.CompactFullRange2D[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC APIERR Ill-formed type: RangeInternals.CompactFullParScalarRange[\..\] The static argument I does not satisfy the corresponding bound Integral[\.
+      8 @@TC APIERR Ill-formed type: RangeInternals.BoundedScalarRange[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      8 @@TC APIERR Ill-formed type: Indexed[\..\] The static argument (I, I) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: Indexed[\..\] The static argument (I, E) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: ImmutableArray[\..\] The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: ImmutableArray[\..\] The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: Generator[\..\] The static argument (ZZ32, String) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: Generator[\..\] The static argument (E, F) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: Generator[\..\] The static argument ((I, J, K), (I, J, K)) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: Generator[\..\] The static argument ((I, J), (I, J)) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: DelegatedIndexed[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: DelegatedIndexed[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: CompactFullRange[\..\] The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: CompactFullRange[\..\] The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: BoundedRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: BoundedRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      8 @@TC APIERR Ill-formed type: Array[\..\] The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      6 @@TC COMPERR No such method Generator[\..\].map.
+      6 @@TC COMPERR Ill-formed type: Reduction[\..\] The static argument () does not satisfy the corresponding bound Object.
+      6 @@TC COMPERR Ill-formed type: NotUnique[\..\] The static argument (T, G) does not satisfy the corresponding bound Object.
+      6 @@TC COMPERR Function body has type T, but declared return type is (T, T).
+      6 @@TC COMPERR Function body has type OR(IntLiteral,T), but declared return type is T.
+      6 @@TC COMPERR Function body has type Integral[\..\], but declared return type is I.
+      6 @@TC COMPERR Function body has type ConcreteRelationalPredicateCondition[\..\], but declared return type is RelationalPredicateCondition[\..\].
+      6 @@TC COMPERR Filter expressions in generator clauses must have type Boolean, but OpExpr at /home/user/fortress/Library/FortressLibrary.fss:282.12 was 
+      6 @@TC COMPERR Filter expressions in generator clauses must have type Boolean, but OpExpr at /home/user/fortress/Library/FortressLibrary.fss:280.36 was 
+      6 @@TC COMPERR Filter expressions in generator clauses must have type Boolean, but OpExpr at /home/user/fortress/Library/FortressLibrary.fss:279.36 was 
+      6 @@TC COMPERR Could not check call to function __cond - [\..\](Condition[\..\], E->R, ()->R)->R is not applicable to any type of the form (Maybe[\..\],
+      6 @@TC APIERR Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+      4 @@TC COMPERR Types DistributesOver[\..\] and DistributesOver[\..\] exclude each other. SumReduction must not extend them.
+      4 @@TC COMPERR No such method Generator[\..\]\].__generate2filtered.
+      4 @@TC COMPERR Ill-formed type: StandardMutableArrayType[\..\],T,(ZZ32, ZZ32, ZZ32)\] The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corres
+      4 @@TC COMPERR Ill-formed type: StandardMutableArrayType[\..\],T,(ZZ32, ZZ32)\] The static argument (ZZ32, ZZ32) does not satisfy the corresponding boun
+      4 @@TC COMPERR Ill-formed type: SequentialGenerator[\..\] The static argument (E, F) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: RightRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: RightRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: RelationalPredicateCondition[\..\] The static argument () does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: Range[\..\] The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: Range[\..\] The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: RangeWithRight[\..\] The static argument Any does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: RangeWithLeft[\..\] The static argument Any does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: RangeWithExtent[\..\] The static argument Any does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: OpenRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: OpenRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: MonoidReduction[\..\] The static argument Any does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: LeftRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: LeftRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: Indexed[\..\] The static argument (I, F) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: ImmutableArray[\..\] The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: ImmutableArray[\..\] The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: ExtentRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: ExtentRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: DelegatedIndexed[\..\] The static argument (E, F) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: Condition[\..\] The static argument (ZZ32, E) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: CommutativeReduction[\..\] The static argument (T, T) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: CommutativeMonoidReduction[\..\] The static argument (Number, Number) does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Ill-formed type: CommutativeMonoidReduction[\..\] The static argument () does not satisfy the corresponding bound Object.
+      4 @@TC COMPERR Generator[\..\] has no getter called size
+      4 @@TC COMPERR Function body has type UniqueItem[\..\], but declared return type is BigReduction[\..\],UniqueItem[\..\]\].
+      4 @@TC COMPERR Function body has type StandardTotalOrder[\..\], but declared return type is T.
+      4 @@TC COMPERR Function body has type StandardMutableArrayType[\..\], but declared return type is T.
+      4 @@TC COMPERR Function body has type StandardImmutableArrayType[\..\], but declared return type is T.
+      4 @@TC COMPERR Function body has type RR64, but declared return type is BigReduction[\..\].
+      4 @@TC COMPERR Function body has type Number, but declared return type is RR64.
+      4 @@TC COMPERR Function body has type Array[\..\], but declared return type is Array1[\..\].
+      4 @@TC COMPERR Function body has type Any, but declared return type is R.
+      4 @@TC COMPERR Could not check call to operator PCMP - [\..\], J extends Integral[\..\], K extends Integral[\..\]\]((I, J, K), (I, J, K))->Comparison is
+      4 @@TC COMPERR Could not check call to operator BIG || - ()->Comprehension[\..\] is not applicable to an argument of type Any. - [\..\]Generator[\..\]->
+      4 @@TC COMPERR Could not check call to operator :: - [\..\](I, J, K)->OpenRange[\..\] is not applicable to an argument of type Any. - [\..\](I, J)->Open
+      4 @@TC COMPERR Could not check call to operator # - [\..\](I, J, K)->LeftRange[\..\] is not applicable to an argument of type I. - [\..\](I, J)->LeftRan
+      4 @@TC COMPERR Could not check call to function __cond - [\..\](Condition[\..\], E->R, ()->R)->R is not applicable to any type of the form (AnyMaybe, _-
+      4 @@TC COMPERR Could not check call to function __bigOperator - [\..\](BigOperator[\..\], (Reduction[\..\], I->L)->L)->O is not applicable to any type o
+      4 @@TC COMPERR Could not check call to function Just - [\..\]T->Just[\..\] is not applicable to an argument of type Any.
+      4 @@TC COMPERR 'throw' can only throw objects of Exception type. This expression is of type Exception->ForbiddenException.
+      4 @@TC APIERR Types DistributesOver[\..\] and DistributesOver[\..\] exclude each other. SumReduction must not extend them.
+      4 @@TC APIERR Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+      4 @@TC APIERR Ill-formed type: StridedFullRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: StridedFullRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: StandardMutableArrayType[\..\],T,(ZZ32, ZZ32, ZZ32)\] The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresp
+      4 @@TC APIERR Ill-formed type: StandardMutableArrayType[\..\],T,(ZZ32, ZZ32)\] The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound
+      4 @@TC APIERR Ill-formed type: Range[\..\] The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: Range[\..\] The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: RangeWithRight[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: RangeWithRight[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: RangeWithLeft[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: RangeWithLeft[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: RangeInternals.ScalarRange[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: RangeInternals.PartialScalarRange[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: RangeInternals.OpenScalarRange[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: RangeInternals.OpenRange3D[\..\] The static argument K does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: RangeInternals.OpenRange3D[\..\] The static argument J does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: RangeInternals.OpenRange3D[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: RangeInternals.OpenRange2D[\..\] The static argument J does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: RangeInternals.OpenRange2D[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: RangeInternals.LeftScalarRange[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: RangeInternals.FullScalarRange[\..\] The static argument I does not satisfy the corresponding bound Integral[\..\].
+      4 @@TC APIERR Ill-formed type: OpenRange[\..\] The static argument Any does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: MonoidReduction[\..\] The static argument Any does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: Maybe[\..\], E)\] The static argument (List.List[\..\], E) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: Maybe[\..\])\] The static argument (E, List.List[\..\]) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: Maybe[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: Maybe[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: List.List[\..\] The static argument (E, F) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: Generator[\..\], ActualReduction[\..\], Generator[\..\]->Condition[\..\], E->R)->Boolean, (ActualReduction[\..\], ActualR
+      4 @@TC APIERR Ill-formed type: Generator[\..\], ActualReduction[\..\], E->R)->Boolean, (ActualReduction[\..\], ActualReduction[\..\], E->R)->R)\] The st
+      4 @@TC APIERR Ill-formed type: Generator[\..\] The static argument (ZZ32, E) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: FullRange[\..\] The static argument (I, J, K) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: FullRange[\..\] The static argument (I, J) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: DelegatedIndexed[\..\] The static argument (E, F) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: CommutativeReduction[\..\] The static argument (T, T) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: CommutativeMonoidReduction[\..\] The static argument (Number, Number) does not satisfy the corresponding bound Object.
+      4 @@TC APIERR Ill-formed type: CommutativeMonoidReduction[\..\] The static argument () does not satisfy the corresponding bound Object.
+      2 @@TC COMPERR Types ZZ64 and Integral[\..\] exclude each other. ZZ32 must not extend them.
+      2 @@TC COMPERR Types ZZ and Integral[\..\] exclude each other. ZZ64 must not extend them.
+      2 @@TC COMPERR Types ZZ and Integral[\..\] exclude each other. NN64 must not extend them.
+      2 @@TC COMPERR Types UniqueItem[\..\] and AnyMaybe exclude each other. Maybe must not extend them.
+      2 @@TC COMPERR Types StandardTotalOrder[\..\] and Comparison exclude each other. TotalComparison must not extend them.
+      2 @@TC COMPERR Types StandardTotalOrder[\..\] and AnyIntegral exclude each other. Integral must not extend them.
+      2 @@TC COMPERR Types StandardPartialOrder[\..\] and RR64 exclude each other. QQ must not extend them.
+      2 @@TC COMPERR Types RR64 and StandardPartialOrder[\..\] exclude each other. QQ must not extend them.
+      2 @@TC COMPERR Types Integral[\..\] and ZZ64 exclude each other. ZZ32 must not extend them.
+      2 @@TC COMPERR Types Integral[\..\] and ZZ exclude each other. ZZ64 must not extend them.
+      2 @@TC COMPERR Types Integral[\..\] and ZZ exclude each other. NN64 must not extend them.
+      2 @@TC COMPERR Types Equality[\..\] and AnyUniqueItem exclude each other. AnyMaybe must not extend them.
+      2 @@TC COMPERR Types Comparison and StandardTotalOrder[\..\] exclude each other. TotalComparison must not extend them.
+      2 @@TC COMPERR Types AnyUniqueItem and Equality[\..\] exclude each other. AnyMaybe must not extend them.
+      2 @@TC COMPERR Types AnyMaybe and UniqueItem[\..\] exclude each other. Maybe must not extend them.
+      2 @@TC COMPERR Types AnyIntegral and StandardTotalOrder[\..\] exclude each other. Integral must not extend them.
+      2 @@TC COMPERR Type ZZ64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+      2 @@TC COMPERR Type ZZ64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+      2 @@TC COMPERR Type ZZ32 excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+      2 @@TC COMPERR Type ZZ32 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+      2 @@TC COMPERR Type ZZ excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+      2 @@TC COMPERR Type TotalComparison excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+      2 @@TC COMPERR Type TotalComparison excludes FortressLibrary.Comparison but it extends FortressLibrary.Comparison.
+      2 @@TC COMPERR Type RelationalPredicateCondition[\..\] excludes FortressLibrary.Condition but it extends FortressLibrary.Condition.
+      2 @@TC COMPERR Type Ratio excludes FortressLibrary.QQ but it extends FortressLibrary.QQ.
+      2 @@TC COMPERR Type QQ excludes FortressLibrary.StandardPartialOrder but it extends FortressLibrary.StandardPartialOrder.
+      2 @@TC COMPERR Type QQ excludes FortressLibrary.RR64 but it extends FortressLibrary.RR64.
+      2 @@TC COMPERR Type Nothing[\..\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+      2 @@TC COMPERR Type NN64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+      2 @@TC COMPERR Type NN64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+      2 @@TC COMPERR Type Maybe[\..\] excludes FortressLibrary.UniqueItem but it extends FortressLibrary.UniqueItem.
+      2 @@TC COMPERR Type Maybe[\..\] excludes FortressLibrary.AnyMaybe but it extends FortressLibrary.AnyMaybe.
+      2 @@TC COMPERR Type LessThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+      2 @@TC COMPERR Type Just[\..\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+      2 @@TC COMPERR Type Integral[\..\] excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+      2 @@TC COMPERR Type Integral[\..\] excludes FortressLibrary.AnyIntegral but it extends FortressLibrary.AnyIntegral.
+      2 @@TC COMPERR Type GreaterThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+      2 @@TC COMPERR Type EqualTo excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+      2 @@TC COMPERR Type ConcreteRelationalPredicateCondition[\..\] excludes FortressLibrary.RelationalPredicateCondition but it extends FortressLibrary.Rela
+      2 @@TC COMPERR Type AnyMaybe excludes FortressLibrary.Equality but it extends FortressLibrary.Equality.
+      2 @@TC COMPERR Type AnyMaybe excludes FortressLibrary.AnyUniqueItem but it extends FortressLibrary.AnyUniqueItem.
+      2 @@TC COMPERR Type AnyIntegral excludes FortressLibrary.QQ but it extends FortressLibrary.QQ.
+      2 @@TC COMPERR Type AndRelationalPredicateCondition[\..\] excludes FortressLibrary.RelationalPredicateCondition but it extends FortressLibrary.Relationa
+      2 @@TC COMPERR The typecase clause, ZZ32, is unreachable.
+      2 @@TC COMPERR No such method NestedGenerator[\..\].f.
+      2 @@TC COMPERR No such method Generator[\..\]\].theoremsFiltered.
+      2 @@TC COMPERR No such method Generator[\..\]\].theorems.
+      2 @@TC COMPERR No such method Generator2[\..\].seed.
+      2 @@TC COMPERR No such method Condition[\..\].cond.
+      2 @@TC COMPERR No such method CompactFullRange[\..\].map.
+      2 @@TC COMPERR Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause but its immediate subtype Integral is not eligible to extend
+      2 @@TC COMPERR Function body has type TotalComparison, but declared return type is BigReduction[\..\].
+      2 @@TC COMPERR Function body has type T, but declared return type is BigReduction[\..\].
+      2 @@TC COMPERR Function body has type Range[\..\], but declared return type is RangeWithRight[\..\].
+      2 @@TC COMPERR Function body has type Range[\..\], but declared return type is OpenRange[\..\].
+      2 @@TC COMPERR Function body has type OR((StandardTotalOrder[\..\], T),(T, StandardTotalOrder[\..\])), but declared return type is (T, T).
+      2 @@TC COMPERR Function body has type Number, but declared return type is Comprehension[\..\].
+      2 @@TC COMPERR Function body has type I, but declared return type is Just[\..\].
+      2 @@TC COMPERR Function body has type Generator[\..\]->RelationalPredicateCondition[\..\], but declared return type is E->RelationalPredicateCondition[\
+      2 @@TC COMPERR Function body has type BoundedRange[\..\], but declared return type is FullRange[\..\].
+      2 @@TC COMPERR Function body has type Boolean, but declared return type is BigReduction[\..\].
+      2 @@TC COMPERR Function body has type Boolean, but declared return type is ().
+      2 @@TC COMPERR Function body has type Array[\..\], but declared return type is Vector[\..\].
+      2 @@TC COMPERR Function body has type Array2[\..\], but declared return type is Matrix[\..\].
+      2 @@TC COMPERR Function body has type Array1[\..\], but declared return type is Vector[\..\].
+      2 @@TC COMPERR Function body has type ((T, T), (T, T)), but declared return type is (T, T).
+      2 @@TC COMPERR Filter expressions in generator clauses must have type Boolean, but OpExpr at /home/user/fortress/Library/FortressLibrary.fss:4450.8 was 
+      2 @@TC COMPERR Filter expressions in generator clauses must have type Boolean, but OpExpr at /home/user/fortress/Library/FortressLibrary.fss:274.14 was 
+      2 @@TC COMPERR Filter expressions in generator clauses must have type Boolean, but OpExpr at /home/user/fortress/Library/FortressLibrary.fss:217.14 was 
+      2 @@TC COMPERR Could not check method invocation Generator[\..\].loop - E->()->() is not applicable to an argument of type E->R.
+      2 @@TC COMPERR Could not check method invocation Array3[\..\].fill - (ZZ32, ZZ32, ZZ32)->T->Array3[\..\] is not applicable to an argument of type (ZZ32,
+      2 @@TC COMPERR Could not check method invocation AND(Generator2[\..\],Generator[\..\]).generate2 - [\..\](ActualReduction[\..\], ActualReduction[\..\], 
+      2 @@TC COMPERR Could not check call to operator SCMP - [\..\], J extends Integral[\..\], K extends Integral[\..\]\]((I, J, K), (I, J, K))->Comparison is
+      2 @@TC COMPERR Could not check call to operator MOD - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applicable to an argument of type (I, Integral[
+      2 @@TC COMPERR Could not check call to operator CMP - ((Number & {RR64}), Number)->Comparison is not applicable to an argument of type (E, E). - ((Total
+      2 @@TC COMPERR Could not check call to operator CMP - ((Number & {RR64}), Number)->Comparison is not applicable to an argument of type (C, C). - ((Total
+      2 @@TC COMPERR Could not check call to operator >= - ((Number & {RR64}), Number)->Boolean is not applicable to an argument of type (T, StandardPartialOr
+      2 @@TC COMPERR Could not check call to operator : - [\..\](I, J, K)->RightRange[\..\] is not applicable to an argument of type Any. - [\..\](I, J)->Righ
+      2 @@TC COMPERR Could not check call to operator : - [\..\]((I, J, K), (I, J, K))->RangeInternals.CompactFullRange3D[\..\] is not applicable to an argume
+      2 @@TC COMPERR Could not check call to operator # - [\..\](I, J, K)->LeftRange[\..\] is not applicable to an argument of type Any. - [\..\](I, J)->LeftR
+      2 @@TC COMPERR Could not check call to operator # - [\..\](I, J, K)->ExtentRange[\..\] is not applicable to an argument of type Any. - [\..\](I, J)->Ext
+      2 @@TC COMPERR Could not check call to function sized3Range - [\..\](I, J, K, I, J, K, I, J, K)->RangeInternals.CompactFullRange3D[\..\] is not applicab
+      2 @@TC COMPERR Could not check call to function sized2Range - [\..\](I, J, I, J, I, J)->RangeInternals.CompactFullRange2D[\..\] is not applicable to an 
+      2 @@TC COMPERR Could not check call to function sized1Range - [\..\](I, I, I)->RangeInternals.CompactFullParScalarRange[\..\] is not applicable to an ar
+      2 @@TC COMPERR Could not check call to function right3Range - [\..\](I, J, K, I, J, K)->RightRange[\..\] is not applicable to an argument of type (ZZ32,
+      2 @@TC COMPERR Could not check call to function right2Range - [\..\](I, J, I, J)->RightRange[\..\] is not applicable to an argument of type (ZZ32, ZZ32,
+      2 @@TC COMPERR Could not check call to function right1Range - [\..\](I, I)->RightRange[\..\] is not applicable to an argument of type (ZZ32, I).
+      2 @@TC COMPERR Could not check call to function partitionL - (NN64 & {UnsignedLong, NN32})->NN64 is not applicable to an argument of type I. - (ZZ32 & {
+      2 @@TC COMPERR Could not check call to function openRangeHelper - [\..\]()->(I, J, K)->RangeInternals.OpenRange3D[\..\] is not applicable to an argument
+      2 @@TC COMPERR Could not check call to function open3Range - [\..\](I, J, K, I, J, K)->OpenRange[\..\] is not applicable to an argument of type (ZZ32, Z
+      2 @@TC COMPERR Could not check call to function open2Range - [\..\](I, J, I, J)->OpenRange[\..\] is not applicable to an argument of type (ZZ32, ZZ32, I
+      2 @@TC COMPERR Could not check call to function open1Range - [\..\](I, I)->OpenRange[\..\] is not applicable to an argument of type (ZZ32, I).
+      2 @@TC COMPERR Could not check call to function left3Range - [\..\](I, J, K, I, J, K)->LeftRange[\..\] is not applicable to an argument of type (ZZ32, Z
+      2 @@TC COMPERR Could not check call to function left2Range - [\..\](I, J, I, J)->LeftRange[\..\] is not applicable to an argument of type (ZZ32, ZZ32, I
+      2 @@TC COMPERR Could not check call to function left1Range - [\..\](I, I)->LeftRange[\..\] is not applicable to an argument of type (ZZ32, I).
+      2 @@TC COMPERR Could not check call to function extent3Range - [\..\](I, J, K, I, J, K)->ExtentRange[\..\] is not applicable to an argument of type (ZZ3
+      2 @@TC COMPERR Could not check call to function extent2Range - [\..\](I, J, I, J)->ExtentRange[\..\] is not applicable to an argument of type (ZZ32, ZZ3
+      2 @@TC COMPERR Could not check call to function extent1Range - [\..\](I, I)->ExtentRange[\..\] is not applicable to an argument of type (ZZ32, I).
+      2 @@TC COMPERR Could not check call to function bounded3Range - [\..\](I, J, K, I, J, K, I, J, K)->RangeInternals.CompactFullRange3D[\..\] is not applic
+      2 @@TC COMPERR Could not check call to function bounded2Range - [\..\](I, J, I, J, I, J)->RangeInternals.CompactFullRange2D[\..\] is not applicable to a
+      2 @@TC COMPERR Could not check call to function bounded1Range - [\..\](I, I, I)->RangeInternals.CompactFullParScalarRange[\..\] is not applicable to an 
+      2 @@TC COMPERR Could not check call to function __bigOperatorSugar - [\..\](BigOperator[\..\], Generator[\..\])->(T, T) is not applicable to an argument
+      2 @@TC COMPERR Could not check call to function SimpleFilterGenerator2 - [\..\](Generator2[\..\], Generator[\..\]->Condition[\..\])->SimpleFilterGenerat
+      2 @@TC COMPERR Could not check call to function Comprehension - [\..\](AnyMaybe->AnyMaybe, ActualReduction[\..\], T->AnyMaybe)->Comprehension[\..\] is n
+      2 @@TC COMPERR Could not check call to function Comprehension - [\..\](Any->T, ActualReduction[\..\], T->Any)->Comprehension[\..\] is not applicable to 
+      2 @@TC APIERR Types ZZ64 and Integral[\..\] exclude each other. ZZ32 must not extend them.
+      2 @@TC APIERR Types ZZ and Integral[\..\] exclude each other. ZZ64 must not extend them.
+      2 @@TC APIERR Types ZZ and Integral[\..\] exclude each other. NN64 must not extend them.
+      2 @@TC APIERR Types UniqueItem[\..\] and AnyMaybe exclude each other. Maybe must not extend them.
+      2 @@TC APIERR Types StandardTotalOrder[\..\] and NN64 exclude each other. NN32 must not extend them.
+      2 @@TC APIERR Types StandardTotalOrder[\..\] and Comparison exclude each other. TotalComparison must not extend them.
+      2 @@TC APIERR Types StandardTotalOrder[\..\] and AnyIntegral exclude each other. Integral must not extend them.
+      2 @@TC APIERR Types StandardPartialOrder[\..\] and RR64 exclude each other. QQ must not extend them.
+      2 @@TC APIERR Types RR64 and StandardPartialOrder[\..\] exclude each other. QQ must not extend them.
+      2 @@TC APIERR Types NN64 and StandardTotalOrder[\..\] exclude each other. NN32 must not extend them.
+      2 @@TC APIERR Types Integral[\..\] and ZZ64 exclude each other. ZZ32 must not extend them.
+      2 @@TC APIERR Types Integral[\..\] and ZZ exclude each other. ZZ64 must not extend them.
+      2 @@TC APIERR Types Integral[\..\] and ZZ exclude each other. NN64 must not extend them.
+      2 @@TC APIERR Types Equality[\..\] and AnyUniqueItem exclude each other. AnyMaybe must not extend them.
+      2 @@TC APIERR Types Comparison and StandardTotalOrder[\..\] exclude each other. TotalComparison must not extend them.
+      2 @@TC APIERR Types AnyUniqueItem and Equality[\..\] exclude each other. AnyMaybe must not extend them.
+      2 @@TC APIERR Types AnyMaybe and UniqueItem[\..\] exclude each other. Maybe must not extend them.
+      2 @@TC APIERR Types AnyIntegral and StandardTotalOrder[\..\] exclude each other. Integral must not extend them.
+      2 @@TC APIERR Type ZZ64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+      2 @@TC APIERR Type ZZ64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+      2 @@TC APIERR Type ZZ32 excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+      2 @@TC APIERR Type ZZ32 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+      2 @@TC APIERR Type ZZ excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+      2 @@TC APIERR Type UnsignedLong excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+      2 @@TC APIERR Type TotalComparison excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+      2 @@TC APIERR Type TotalComparison excludes FortressLibrary.Comparison but it extends FortressLibrary.Comparison.
+      2 @@TC APIERR Type RelationalPredicateCondition[\..\] excludes FortressLibrary.Condition but it extends FortressLibrary.Condition.
+      2 @@TC APIERR Type QQ excludes FortressLibrary.StandardPartialOrder but it extends FortressLibrary.StandardPartialOrder.
+      2 @@TC APIERR Type QQ excludes FortressLibrary.RR64 but it extends FortressLibrary.RR64.
+      2 @@TC APIERR Type Nothing[\..\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+      2 @@TC APIERR Type NN64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+      2 @@TC APIERR Type NN64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+      2 @@TC APIERR Type NN32 excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+      2 @@TC APIERR Type NN32 excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+      2 @@TC APIERR Type Maybe[\..\] excludes FortressLibrary.UniqueItem but it extends FortressLibrary.UniqueItem.
+      2 @@TC APIERR Type Maybe[\..\] excludes FortressLibrary.AnyMaybe but it extends FortressLibrary.AnyMaybe.
+      2 @@TC APIERR Type Long excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+      2 @@TC APIERR Type LessThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+      2 @@TC APIERR Type Just[\..\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+      2 @@TC APIERR Type Integral[\..\] excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+      2 @@TC APIERR Type Integral[\..\] excludes FortressLibrary.AnyIntegral but it extends FortressLibrary.AnyIntegral.
+      2 @@TC APIERR Type IntLiteral excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+      2 @@TC APIERR Type Int excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+      2 @@TC APIERR Type GreaterThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+      2 @@TC APIERR Type EqualTo excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+      2 @@TC APIERR Type BigNum excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+      2 @@TC APIERR Type AnyMaybe excludes FortressLibrary.Equality but it extends FortressLibrary.Equality.
+      2 @@TC APIERR Type AnyMaybe excludes FortressLibrary.AnyUniqueItem but it extends FortressLibrary.AnyUniqueItem.
+      2 @@TC APIERR Type AnyIntegral excludes FortressLibrary.QQ but it extends FortressLibrary.QQ.
+      2 @@TC APIERR Invalid comprises clause: a trait with a comprises ..., such as FortressLibrary.QQ, should not be extended.
+      2 @@TC APIERR Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause but its immediate subtype Integral is not eligible to extend 

@@ -1,0 +1,63 @@
+
+== @@CG FAIL (CODEGEN, the top-level declaration loop): 20 ==
+    17  T no type annotation
+     2  V no visitor: Juxt
+     1  K kind env / trait table
+            18  not a top-level declaration of the source
+             2  checker crashed on it
+      class x provenance:
+          17  T no type annotation                   not a top-level declaration of the source
+           2  V no visitor: Juxt                     checker crashed on it
+           1  K kind env / trait table               not a top-level declaration of the source
+
+== @@CG PREFAIL (CODEGEN, the object/variable pre-pass): 6 ==
+     3  T no type annotation
+     3  V no visitor: Juxt
+             3  checker reported errors on it
+             3  checker crashed on it
+      class x provenance:
+           2  T no type annotation                   checker reported errors on it
+           2  V no visitor: Juxt                     checker crashed on it
+           1  T no type annotation                   checker crashed on it
+           1  V no visitor: Juxt                     checker reported errors on it
+
+== @@TC DECL-CRASH: 5 ==
+     3  com.sun.fortress.useful.NI.nyi(NI.java:52)
+     2  com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:710)
+
+== counts ==
+    13  @@TC DECL-OK
+     5  @@TC DECL-CRASH
+    16  @@CG OK
+    20  @@CG FAIL
+     6  @@CG PREFAIL
+    14  @@CG OVLSKIP
+
+== appendix: every failure, one row ==
+phase	class	provenance	declaration	file:line	exception	site	diagnostic	source line
+CODEGEN/prepass	T no type annotation	checker reported errors on it	ObjectDecl Float	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:54:1-192:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	value object Float extends RR64
+CODEGEN/prepass	T no type annotation	checker reported errors on it	ObjectDecl RR32	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:203:1-367:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	value object RR32 extends RR64
+CODEGEN/prepass	V no visitor: Juxt	checker reported errors on it	ObjectDecl UnsignedLong	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:450:1-459:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:451:35-51: Can't compile Juxt at /home/user/fortress/ProjectFortress/LibraryBu	value object UnsignedLong extends NN64
+CODEGEN/prepass	V no visitor: Juxt	checker crashed on it	ObjectDecl IntLiteral	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:461:1-526:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:462:33-37: Can't compile Juxt at /home/user/fortress/ProjectFortress/LibraryBu	object IntLiteral extends ZZ32
+CODEGEN/prepass	T no type annotation	checker crashed on it	ObjectDecl Boolean	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:538:1-570:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:542:33-48: Missing type information for MethodInvocation at /home/user/fortres	value object Boolean
+CODEGEN/prepass	V no visitor: Juxt	checker crashed on it	ObjectDecl Char	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:574:1-686:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:576:9-79: Can't compile Juxt at /home/user/fortress/ProjectFortress/LibraryBui	value object Char extends { StandardTotalOrder[\Char\] }
+CODEGEN/decls	V no visitor: Juxt	checker crashed on it	FnDecl builtinPrimitive	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:34:1-35:72	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:35:3-69: Can't compile Juxt at /home/user/fortress/ProjectFortress/LibraryBuil	builtinPrimitive[\T\](javaClass:String):T =
+CODEGEN/decls	V no visitor: Juxt	checker crashed on it	TraitDecl Object	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:37:1-52:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:39:9-87: Can't compile Juxt at /home/user/fortress/ProjectFortress/LibraryBuil	trait Object extends Any
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:452:40-46	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	getter one(): UnsignedLong = widen(unsigned(1))
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:452:34-37	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	getter one(): UnsignedLong = widen(unsigned(1))
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:39-44	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	opr ^(self, b:Number):RR64 = self^asFloat(b)
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:620:23	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	if(x = -1 OR (NOT(2 <= radix <= 16))) then
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:620:31-45	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	if(x = -1 OR (NOT(2 <= radix <= 16))) then
+CODEGEN/decls	K kind env / trait table	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:230:45	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1:710	Not in the trait table: ZZ64 ZZ64 @ /home/user/fortress/Library/FortressLibrary.fsi:498:7-9	getter signBit():ZZ32 = if self.rawBits < 0 then 1 else 0 end
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:348:18-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	r = self MIN b
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:358:18-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	r = self MAX b
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:477:62	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	opr >(self, other:IntLiteral): Boolean = self.cmp(other) > 0
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:620:42	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	if(x = -1 OR (NOT(2 <= radix <= 16))) then
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:478:63	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	opr >=(self, other:IntLiteral): Boolean = self.cmp(other) >= 0
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:472:51	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	opr |self| : ZZ32 = if self>=0 then self else -self end
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:38-44	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	opr ^(self, b:Number):RR64 = self^asFloat(b)
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:479:72-73	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	opr CMP(self, other:IntLiteral): TotalComparison = self.cmp(other) CMP 0
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:475:62	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	opr <(self, other:IntLiteral): Boolean = self.cmp(other) < 0
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:685:9-82	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToUpperCase")
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:544:27-545:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	getter size(): ZZ32 = |self|
+CODEGEN/decls	T no type annotation	not a top-level declaration of the source	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuilt...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:620:18	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null	if(x = -1 OR (NOT(2 <= radix <= 16))) then

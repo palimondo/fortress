@@ -1,0 +1,809 @@
+########## PhaseProbe -order nocheck-codegen  Library/FortressLibrary.fss
+# start 2026-09-20T16:34:44Z
+### order=nocheck-codegen  phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING DESUGAR OVERLOADREWRITE CODEGEN ]  target=[Library/FortressLibrary.fss]
+### desugaring=COMPILE-PATH  prelude=INTERPRETER
+@@PROBE DesugarPhase: no type-checker map (TYPECHECK omitted); using an empty one
+@@PROBE DesugarPhase: no type-checker map (TYPECHECK omitted); using an empty one
+@@CG CTORFAIL	Integral	/home/user/fortress/Library/FortressLibrary.fss:614:1-643:2	com.sun.fortress.exceptions.CompilerBug	com.sun.fortress.exceptions.CompilerBug.bug(CompilerBug.java:58)	/home/user/fortress/Library/FortressLibrary.fss:214:19-25: I is not in the kind env [][]
+@@CG OVLSKIP	FortressLibrary	sets=80
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl LexicographicPartialReduction	/home/user/fortress/Library/FortressLibrary.fss:106:1-114:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl LexicographicReduction	/home/user/fortress/Library/FortressLibrary.fss:116:1-124:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=2
+@@CG OVLSKIP	FortressLibrary	sets=4
+@@CG PREFAIL	ObjectDecl LessThan	/home/user/fortress/Library/FortressLibrary.fss:175:1-185:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=4
+@@CG PREFAIL	ObjectDecl GreaterThan	/home/user/fortress/Library/FortressLibrary.fss:187:1-196:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=5
+@@CG PREFAIL	ObjectDecl EqualTo	/home/user/fortress/Library/FortressLibrary.fss:198:1-208:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl Ratio	/home/user/fortress/Library/FortressLibrary.fss:599:1-610:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:600:49-43:     Can't compile AmbiguousMultifixOpExpr at /home/user/fortress/Library/FortressLibrary.fss:600.49
+@@CG PREFAIL	ObjectDecl Just	/home/user/fortress/Library/FortressLibrary.fss:1315:1-1341:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl Nothing	/home/user/fortress/Library/FortressLibrary.fss:1345:1-1368:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl NotUnique	/home/user/fortress/Library/FortressLibrary.fss:1391:1-1414:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl UniqueItemMeetReduction	/home/user/fortress/Library/FortressLibrary.fss:1416:1-1423:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl UniqueItemJoinReduction	/home/user/fortress/Library/FortressLibrary.fss:1431:1-1438:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl FailCalled	/home/user/fortress/Library/FortressLibrary.fss:1458:1-1460:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1459:33-42:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1459.33
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl IndexOutOfBounds	/home/user/fortress/Library/FortressLibrary.fss:1507:1-1509:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1508:33-67:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1508.33
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl DefaultZip	/home/user/fortress/Library/FortressLibrary.fss:1727:1-1736:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG PREFAIL	ObjectDecl __SimpleSubArray1	/home/user/fortress/Library/FortressLibrary.fss:2161:1-2173:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG PREFAIL	ObjectDecl __ImmutableSubArray1	/home/user/fortress/Library/FortressLibrary.fss:2176:1-2188:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG PREFAIL	ObjectDecl __DefaultVector	/home/user/fortress/Library/FortressLibrary.fss:2207:1-2213:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl __DefaultArray2	/home/user/fortress/Library/FortressLibrary.fss:2418:1-2424:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2421:42-49:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:2421.42
+@@CG PREFAIL	ObjectDecl TransposedArray2	/home/user/fortress/Library/FortressLibrary.fss:2428:1-2445:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG PREFAIL	ObjectDecl SubArray2	/home/user/fortress/Library/FortressLibrary.fss:2454:1-2474:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG PREFAIL	ObjectDecl Col	/home/user/fortress/Library/FortressLibrary.fss:2476:1-2485:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG PREFAIL	ObjectDecl Row	/home/user/fortress/Library/FortressLibrary.fss:2487:1-2496:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl __DefaultMatrix	/home/user/fortress/Library/FortressLibrary.fss:2566:1-2572:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2569:40-47:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:2569.40
+@@CG PREFAIL	ObjectDecl TransposedMatrix	/home/user/fortress/Library/FortressLibrary.fss:2574:1-2592:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl __DefaultArray3	/home/user/fortress/Library/FortressLibrary.fss:2783:1-2792:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl SubArray3	/home/user/fortress/Library/FortressLibrary.fss:2801:1-2811:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl ReversedReduction	/home/user/fortress/Library/FortressLibrary.fss:2844:1-2849:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2846:54-47:     Can't compile AmbiguousMultifixOpExpr at /home/user/fortress/Library/FortressLibrary.fss:2846.54
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl NoReductionPair	/home/user/fortress/Library/FortressLibrary.fss:2880:1-2883:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2882:62-63:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2882.62
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl LiftedCommutativeMonoidReduction	/home/user/fortress/Library/FortressLibrary.fss:2923:1-2943:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2924:33-53:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2924.33
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl BigReduction	/home/user/fortress/Library/FortressLibrary.fss:2976:1-2979:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.forFnExpr:3509	 /home/user/fortress/Library/FortressLibrary.fss:2977:27-35:     No return type
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl SumProdReductionPair	/home/user/fortress/Library/FortressLibrary.fss:2998:1-3001:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl MaxSumReductionPair	/home/user/fortress/Library/FortressLibrary.fss:3003:1-3006:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl MinSumReductionPair	/home/user/fortress/Library/FortressLibrary.fss:3008:1-3011:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl MaxNSumReductionPair	/home/user/fortress/Library/FortressLibrary.fss:3013:1-3016:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl MinNSumReductionPair	/home/user/fortress/Library/FortressLibrary.fss:3018:1-3021:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl SumReduction	/home/user/fortress/Library/FortressLibrary.fss:3024:1-3042:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl ProdReduction	/home/user/fortress/Library/FortressLibrary.fss:3050:1-3059:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3056:40-42:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3056.40
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl MaxReductionN	/home/user/fortress/Library/FortressLibrary.fss:3068:1-3072:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl MinReductionN	/home/user/fortress/Library/FortressLibrary.fss:3079:1-3083:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl MinMaxReductionN	/home/user/fortress/Library/FortressLibrary.fss:3090:1-3098:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG PREFAIL	ObjectDecl MinReduction	/home/user/fortress/Library/FortressLibrary.fss:3108:1-3111:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl MaxReduction	/home/user/fortress/Library/FortressLibrary.fss:3117:1-3120:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl MinMaxReduction	/home/user/fortress/Library/FortressLibrary.fss:3126:1-3133:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3129:9-3130:8:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3129.9
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl TupleMinMinReduction	/home/user/fortress/Library/FortressLibrary.fss:3157:1-3170:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3162:9-3163:8:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3162.9
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl TupleMinMaxReduction	/home/user/fortress/Library/FortressLibrary.fss:3177:1-3190:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3182:9-3183:8:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3182.9
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl TupleMaxMinReduction	/home/user/fortress/Library/FortressLibrary.fss:3197:1-3210:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3202:9-3203:8:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3202.9
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl TupleMaxMaxReduction	/home/user/fortress/Library/FortressLibrary.fss:3217:1-3230:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3222:9-3223:8:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3222.9
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl AndReduction	/home/user/fortress/Library/FortressLibrary.fss:3239:1-3246:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl OrReduction	/home/user/fortress/Library/FortressLibrary.fss:3254:1-3261:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl BitXorReduction	/home/user/fortress/Library/FortressLibrary.fss:3287:1-3292:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl StringReduction	/home/user/fortress/Library/FortressLibrary.fss:3301:1-3305:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl SpaceReduction	/home/user/fortress/Library/FortressLibrary.fss:3308:1-3312:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG PREFAIL	ObjectDecl NewlineReduction	/home/user/fortress/Library/FortressLibrary.fss:3315:1-3318:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl MapReduceReduction	/home/user/fortress/Library/FortressLibrary.fss:3352:1-3356:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3355:25-31:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3355.25
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl MIMapReduceReduction	/home/user/fortress/Library/FortressLibrary.fss:3361:1-3365:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3364:29-35:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3364.29
+@@CG PREFAIL	ObjectDecl SimpleMappedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3398:1-3402:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl SimpleMappedIndexed	/home/user/fortress/Library/FortressLibrary.fss:3404:1-3422:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl SimpleMappedSeqGenerator	/home/user/fortress/Library/FortressLibrary.fss:3424:1-3430:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl SimpleSeqFilterGenerator	/home/user/fortress/Library/FortressLibrary.fss:3452:1-3458:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl SimpleNestedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3485:1-3500:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl SimpleNestedSeqGenerator	/home/user/fortress/Library/FortressLibrary.fss:3502:1-3508:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl SimplePairGenerator	/home/user/fortress/Library/FortressLibrary.fss:3523:1-3529:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG PREFAIL	ObjectDecl SimplePairSeqGenerator	/home/user/fortress/Library/FortressLibrary.fss:3531:1-3537:2	java.util.NoSuchElementException	scala.None$.get:627	None.get
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl SimpleReversedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3548:1-3551:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3550:33-76:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3550.33
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl SimpleReversedIndexed	/home/user/fortress/Library/FortressLibrary.fss:3573:1-3576:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3575:33-74:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3575.33
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl NaiveSeqGenerator	/home/user/fortress/Library/FortressLibrary.fss:3593:1-3606:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3595:5-3596:9:     Return type is not inferred. node = size()
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl TrivialOpenRange	/home/user/fortress/Library/FortressLibrary.fss:3683:1-3698:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl StringJoinReduction	/home/user/fortress/Library/FortressLibrary.fss:4089:1-4103:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4090:32-57:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4090.32
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl SimpleFilterGenerator2	/home/user/fortress/Library/FortressLibrary.fss:4435:1-4440:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4439:40-51:     Missing type information for MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:4439.40 node = MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:4439.40
+@@CG OVLSKIP	FortressLibrary	sets=2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG PREFAIL	ObjectDecl AndRelationalPredicateCondition	/home/user/fortress/Library/FortressLibrary.fss:4470:1-4474:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.forFnExpr:3509	 /home/user/fortress/Library/FortressLibrary.fss:4472:36-102:     No return type
+@@CG FAIL	FnDecl cast	/home/user/fortress/Library/FortressLibrary.fss:33:1-37:4	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	FnDecl instanceOf	/home/user/fortress/Library/FortressLibrary.fss:39:1-43:4
+@@CG OK	FnDecl ignore	/home/user/fortress/Library/FortressLibrary.fss:47:1-22
+@@CG OK	FnDecl identity	/home/user/fortress/Library/FortressLibrary.fss:49:1-51:26
+@@CG FAIL	FnDecl CIRC	/home/user/fortress/Library/FortressLibrary.fss:52:1-75:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:52:63-68:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:52.63
+@@CG FAIL	FnDecl fail	/home/user/fortress/Library/FortressLibrary.fss:54:1-75:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:55:5-27:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:55.5
+@@CG OK	FnDecl shared	/home/user/fortress/Library/FortressLibrary.fss:65:1-75:4
+@@CG OK	FnDecl isShared	/home/user/fortress/Library/FortressLibrary.fss:67:1-75:4
+@@CG OK	FnDecl localize	/home/user/fortress/Library/FortressLibrary.fss:69:1-75:4
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Region	/home/user/fortress/Library/FortressLibrary.fss:75:1-78:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl Global	/home/user/fortress/Library/FortressLibrary.fss:80:1-83:2
+@@CG FAIL	FnDecl region	/home/user/fortress/Library/FortressLibrary.fss:85:1-87:43	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl topRegion	/home/user/fortress/Library/FortressLibrary.fss:88:1-37	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:88:28-35:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:88.28
+@@CG FAIL	FnDecl here	/home/user/fortress/Library/FortressLibrary.fss:90:1-94:62	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl =	/home/user/fortress/Library/FortressLibrary.fss:96:1-39	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl NE	/home/user/fortress/Library/FortressLibrary.fss:98:1-42	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Equality	/home/user/fortress/Library/FortressLibrary.fss:100:1-102:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl LexicographicPartialReduction	/home/user/fortress/Library/FortressLibrary.fss:106:1-114:2
+@@CG OK	ObjectDecl LexicographicReduction	/home/user/fortress/Library/FortressLibrary.fss:116:1-124:2
+@@CG FAIL	FnDecl BIG LEXICO	/home/user/fortress/Library/FortressLibrary.fss:126:1-127:76	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:127:5-74:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:127.5
+@@CG FAIL	FnDecl BIG LEXICO	/home/user/fortress/Library/FortressLibrary.fss:129:1-130:107	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:129:1-130:107:     Return type is not inferred. node = BIG LEXICO(g:Generator[\TotalComparison\])
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl Comparison	/home/user/fortress/Library/FortressLibrary.fss:132:1-146:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl Unordered	/home/user/fortress/Library/FortressLibrary.fss:150:1-156:2
+@@CG OVLSKIP	FortressLibrary	sets=5
+@@CG FAIL	TraitDecl TotalComparison	/home/user/fortress/Library/FortressLibrary.fss:158:1-173:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl LessThan	/home/user/fortress/Library/FortressLibrary.fss:175:1-185:2
+@@CG OK	ObjectDecl GreaterThan	/home/user/fortress/Library/FortressLibrary.fss:187:1-196:2
+@@CG OK	ObjectDecl EqualTo	/home/user/fortress/Library/FortressLibrary.fss:198:1-208:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl StandardPartialOrder	/home/user/fortress/Library/FortressLibrary.fss:213:1-226:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl StandardMin	/home/user/fortress/Library/FortressLibrary.fss:235:1-237:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl StandardMax	/home/user/fortress/Library/FortressLibrary.fss:246:1-248:2
+@@CG OVLSKIP	FortressLibrary	sets=2
+@@CG FAIL	TraitDecl StandardMinMax	/home/user/fortress/Library/FortressLibrary.fss:257:1-262:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:260:40-64:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:260.40
+@@CG OVLSKIP	FortressLibrary	sets=2
+@@CG FAIL	TraitDecl StandardTotalOrder	/home/user/fortress/Library/FortressLibrary.fss:270:1-283:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl assert	/home/user/fortress/Library/FortressLibrary.fss:286:1-289:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl assert	/home/user/fortress/Library/FortressLibrary.fss:291:1-294:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl assert	/home/user/fortress/Library/FortressLibrary.fss:296:1-300:6	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.NamingCzar$1.forTupleType:1412	 /home/user/fortress/Library/FortressLibrary.fss:296:22-27:     Can't compile VarArgs yet
+@@CG FAIL	FnDecl deny	/home/user/fortress/Library/FortressLibrary.fss:302:1-42	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:302:26-40:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:302.26
+@@CG FAIL	FnDecl deny	/home/user/fortress/Library/FortressLibrary.fss:304:1-69	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:304:44-67:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:304.44
+@@CG FAIL	FnDecl deny	/home/user/fortress/Library/FortressLibrary.fss:306:1-310:6	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.NamingCzar$1.forTupleType:1412	 /home/user/fortress/Library/FortressLibrary.fss:306:20-25:     Can't compile VarArgs yet
+@@CG FAIL	FnDecl shouldRaise	/home/user/fortress/Library/FortressLibrary.fss:312:1-320:2	java.lang.RuntimeException	com.sun.fortress.compiler.codegen.CodeGen.forTry:2093	NYI: Forbid clauses are not yet implemented
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl AnyAdditiveGroup	/home/user/fortress/Library/FortressLibrary.fss:328:1-25
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl AdditiveGroup	/home/user/fortress/Library/FortressLibrary.fss:331:1-336:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl AnyMultiplicativeRing	/home/user/fortress/Library/FortressLibrary.fss:339:1-30
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl MultiplicativeRing	/home/user/fortress/Library/FortressLibrary.fss:343:1-350:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=3
+@@CG FAIL	TraitDecl Number	/home/user/fortress/Library/FortressLibrary.fss:352:1-423:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl RR64	/home/user/fortress/Library/FortressLibrary.fss:425:1-472:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl simplestRationalBetween	/home/user/fortress/Library/FortressLibrary.fss:474:1-522:9	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:474:43-522:9:     Can't compile Label at /home/user/fortress/Library/FortressLibrary.fss:474.43
+@@CG OVLSKIP	FortressLibrary	sets=18
+@@CG FAIL	TraitDecl QQ	/home/user/fortress/Library/FortressLibrary.fss:524:1-597:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl Ratio	/home/user/fortress/Library/FortressLibrary.fss:599:1-610:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl AnyIntegral	/home/user/fortress/Library/FortressLibrary.fss:612:1-52
+@@CG OVLSKIP	FortressLibrary	sets=9
+@@CG FAIL	TraitDecl Integral	/home/user/fortress/Library/FortressLibrary.fss:614:1-643:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=19
+@@CG FAIL	TraitDecl ZZ32	/home/user/fortress/Library/FortressLibrary.fss:645:1-701:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=21
+@@CG FAIL	TraitDecl ZZ64	/home/user/fortress/Library/FortressLibrary.fss:703:1-771:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:704:27-33:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:704.27
+@@CG OVLSKIP	FortressLibrary	sets=18
+@@CG FAIL	TraitDecl NN64	/home/user/fortress/Library/FortressLibrary.fss:773:1-823:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:776:9-81:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:776.9
+@@CG OVLSKIP	FortressLibrary	sets=14
+@@CG FAIL	TraitDecl ZZ	/home/user/fortress/Library/FortressLibrary.fss:825:1-895:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Contains	/home/user/fortress/Library/FortressLibrary.fss:906:1-918:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl NOTIN	/home/user/fortress/Library/FortressLibrary.fss:921:1-923:42	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl NI	/home/user/fortress/Library/FortressLibrary.fss:924:1-926:48	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl NOTNI	/home/user/fortress/Library/FortressLibrary.fss:927:1-959:3	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Generator	/home/user/fortress/Library/FortressLibrary.fss:960:1-1058:12	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:965:40-72:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:965.40
+@@CG FAIL	FnDecl __generate	/home/user/fortress/Library/FortressLibrary.fss:1066:1-1067:25	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1067:20-23:     Missing type information for TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1067.20 node = TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1067.20
+@@CG FAIL	FnDecl __nest	/home/user/fortress/Library/FortressLibrary.fss:1069:1-1070:20	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1070:18:     Missing type information for f node = f
+@@CG FAIL	FnDecl __singleton	/home/user/fortress/Library/FortressLibrary.fss:1072:1-59	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1072:44-57:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1072.44
+@@CG FAIL	FnDecl __loop	/home/user/fortress/Library/FortressLibrary.fss:1074:1-62	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1074:57-59:     Missing type information for body node = body
+@@CG FAIL	FnDecl __cond	/home/user/fortress/Library/FortressLibrary.fss:1076:1-70	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1076:66-69:     Missing type information for TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1076.66 node = TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1076.66
+@@CG FAIL	FnDecl __cond	/home/user/fortress/Library/FortressLibrary.fss:1077:1-1079:42	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1077:58-72:     Missing type information for TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1077.58 node = TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1077.58
+@@CG FAIL	FnDecl __whileCond	/home/user/fortress/Library/FortressLibrary.fss:1080:1-1088:21	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1081:22-82:     Missing type information for TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1081.22 node = TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1081.22
+@@CG FAIL	FnDecl __map	/home/user/fortress/Library/FortressLibrary.fss:1089:1-1094:6	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1091:52:     Missing type information for f node = f
+@@CG FAIL	FnDecl __filter	/home/user/fortress/Library/FortressLibrary.fss:1101:1-1109:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1104:40:     Missing type information for p node = p
+@@CG FAIL	FnDecl __bigOperatorSugar	/home/user/fortress/Library/FortressLibrary.fss:1117:1-1120:85	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1118:5-70:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1118.5
+@@CG FAIL	FnDecl __bigOperator	/home/user/fortress/Library/FortressLibrary.fss:1121:1-1125:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1122:5-19:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:1122.5
+@@CG FAIL	FnDecl __bigOperator2	/home/user/fortress/Library/FortressLibrary.fss:1147:1-1168:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1152:5-23:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:1152.5
+@@CG FAIL	FnDecl __resolveBottomArgumentType	/home/user/fortress/Library/FortressLibrary.fss:1173:1-1176:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1174:49-54:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1174.49
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl SequentialGenerator	/home/user/fortress/Library/FortressLibrary.fss:1179:1-1198:22	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1180:33-76:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1180.33
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl Condition	/home/user/fortress/Library/FortressLibrary.fss:1203:1-1242:12	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl sequential	/home/user/fortress/Library/FortressLibrary.fss:1245:1-1247:58	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1245:62-66:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1245.62
+@@CG FAIL	FnDecl ANDCOND	/home/user/fortress/Library/FortressLibrary.fss:1248:1-1252:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl ORCOND	/home/user/fortress/Library/FortressLibrary.fss:1252:1-1295:10	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl AnyMaybe	/home/user/fortress/Library/FortressLibrary.fss:1295:1-1297:2
+@@CG FAIL	FnDecl just	/home/user/fortress/Library/FortressLibrary.fss:1299:1-1308:51	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1299:24-29:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1299.24
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl Maybe	/home/user/fortress/Library/FortressLibrary.fss:1309:1-1313:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl Just	/home/user/fortress/Library/FortressLibrary.fss:1315:1-1341:2
+@@CG FAIL	ObjectDecl Nothing	/home/user/fortress/Library/FortressLibrary.fss:1345:1-1368:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1364:5-37:     Return type is not inferred. node = =(self:Nothing[\T\],_:Nothing[\T\])
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl AnyUniqueItem	/home/user/fortress/Library/FortressLibrary.fss:1372:1-1376:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl UniqueItem	/home/user/fortress/Library/FortressLibrary.fss:1383:1-1389:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	ObjectDecl NotUnique	/home/user/fortress/Library/FortressLibrary.fss:1391:1-1414:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1411:5-39:     Return type is not inferred. node = =(self:NotUnique[\T\],_:NotUnique[\T\])
+@@CG OK	ObjectDecl UniqueItemMeetReduction	/home/user/fortress/Library/FortressLibrary.fss:1416:1-1423:2
+@@CG FAIL	FnDecl BIG SQCAP	/home/user/fortress/Library/FortressLibrary.fss:1425:1-1426:82	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1426:5-80:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1426.5
+@@CG FAIL	FnDecl BIG SQCAP	/home/user/fortress/Library/FortressLibrary.fss:1428:1-1429:111	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1428:1-1429:111:     Return type is not inferred. node = BIG SQCAP[\T extends Object\](g:Generator[\UniqueItem[\T\]\])
+@@CG OK	ObjectDecl UniqueItemJoinReduction	/home/user/fortress/Library/FortressLibrary.fss:1431:1-1438:2
+@@CG FAIL	FnDecl BIG SQCUP	/home/user/fortress/Library/FortressLibrary.fss:1440:1-1441:82	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1441:5-80:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1441.5
+@@CG FAIL	FnDecl BIG SQCUP	/home/user/fortress/Library/FortressLibrary.fss:1443:1-1448:62	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1443:1-1448:62:     Return type is not inferred. node = BIG SQCUP[\T extends Object\](g:Generator[\UniqueItem[\T\]\])
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl Exception	/home/user/fortress/Library/FortressLibrary.fss:1450:1-1451:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl UncheckedException	/home/user/fortress/Library/FortressLibrary.fss:1455:1-1456:2
+@@CG OK	ObjectDecl FailCalled	/home/user/fortress/Library/FortressLibrary.fss:1458:1-1460:2
+@@CG OK	ObjectDecl DivisionByZero	/home/user/fortress/Library/FortressLibrary.fss:1462:1-1464:2
+@@CG OK	ObjectDecl UnpastingError	/home/user/fortress/Library/FortressLibrary.fss:1466:1-1468:2
+@@CG OK	ObjectDecl CallerViolation	/home/user/fortress/Library/FortressLibrary.fss:1470:1-1472:2
+@@CG OK	ObjectDecl CalleeViolation	/home/user/fortress/Library/FortressLibrary.fss:1474:1-1476:2
+@@CG OK	ObjectDecl LabelException	/home/user/fortress/Library/FortressLibrary.fss:1478:1-1480:2
+@@CG OK	ObjectDecl TestFailure	/home/user/fortress/Library/FortressLibrary.fss:1482:1-1484:2
+@@CG OK	ObjectDecl ContractHierarchyViolation	/home/user/fortress/Library/FortressLibrary.fss:1486:1-1488:2
+@@CG OK	ObjectDecl NoEqualityOnFunctions	/home/user/fortress/Library/FortressLibrary.fss:1490:1-1492:2
+@@CG OK	ObjectDecl InvalidRange	/home/user/fortress/Library/FortressLibrary.fss:1494:1-1496:2
+@@CG OK	ObjectDecl ForbiddenException	/home/user/fortress/Library/FortressLibrary.fss:1498:1-1500:2
+@@CG OK	ObjectDecl NotFound	/home/user/fortress/Library/FortressLibrary.fss:1503:1-1505:2
+@@CG OK	ObjectDecl IndexOutOfBounds	/home/user/fortress/Library/FortressLibrary.fss:1507:1-1509:2
+@@CG OK	ObjectDecl EmptyReduction	/home/user/fortress/Library/FortressLibrary.fss:1511:1-1513:2
+@@CG OK	ObjectDecl NegativeLength	/home/user/fortress/Library/FortressLibrary.fss:1515:1-1517:2
+@@CG OK	ObjectDecl IntegerOverflow	/home/user/fortress/Library/FortressLibrary.fss:1519:1-1521:2
+@@CG OK	ObjectDecl RationalComparisonError	/home/user/fortress/Library/FortressLibrary.fss:1523:1-1525:2
+@@CG OK	ObjectDecl FloatingComparisonError	/home/user/fortress/Library/FortressLibrary.fss:1527:1-1529:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl CheckedException	/home/user/fortress/Library/FortressLibrary.fss:1533:1-1534:2
+@@CG OK	ObjectDecl CastError	/home/user/fortress/Library/FortressLibrary.fss:1536:1-1538:2
+@@CG OK	ObjectDecl IOFailure	/home/user/fortress/Library/FortressLibrary.fss:1540:1-1542:2
+@@CG OK	ObjectDecl MatchFailure	/home/user/fortress/Library/FortressLibrary.fss:1544:1-1546:2
+@@CG OK	ObjectDecl DisjointUnionError	/home/user/fortress/Library/FortressLibrary.fss:1549:1-1551:2
+@@CG OK	ObjectDecl APIMissing	/home/user/fortress/Library/FortressLibrary.fss:1553:1-1555:2
+@@CG OK	ObjectDecl APINameCollision	/home/user/fortress/Library/FortressLibrary.fss:1557:1-1559:2
+@@CG OK	ObjectDecl ExportedAPIMissing	/home/user/fortress/Library/FortressLibrary.fss:1561:1-1563:2
+@@CG OK	ObjectDecl HiddenAPIMissing	/home/user/fortress/Library/FortressLibrary.fss:1565:1-1567:2
+@@CG OK	ObjectDecl TryAtomicFailure	/home/user/fortress/Library/FortressLibrary.fss:1569:1-1571:2
+@@CG OK	ObjectDecl AtomicSpawnSynchronization	/home/user/fortress/Library/FortressLibrary.fss:1574:1-1576:2
+@@CG FAIL	FnDecl oops	/home/user/fortress/Library/FortressLibrary.fss:1582:1-1585:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1583:4-1584:36:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1583.4
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl HasRank	/home/user/fortress/Library/FortressLibrary.fss:1587:1-1592:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Rank	/home/user/fortress/Library/FortressLibrary.fss:1595:1-1597:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Rank1	/home/user/fortress/Library/FortressLibrary.fss:1602:1-1603:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.generateTypeReference:5859	Only emitting RTTI for types right now
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Rank2	/home/user/fortress/Library/FortressLibrary.fss:1605:1-1606:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.generateTypeReference:5859	Only emitting RTTI for types right now
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Rank3	/home/user/fortress/Library/FortressLibrary.fss:1608:1-1609:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.generateTypeReference:5859	Only emitting RTTI for types right now
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl Indexed1	/home/user/fortress/Library/FortressLibrary.fss:1615:1-44
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl Indexed2	/home/user/fortress/Library/FortressLibrary.fss:1617:1-44
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl Indexed3	/home/user/fortress/Library/FortressLibrary.fss:1619:1-44
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl Indexed	/home/user/fortress/Library/FortressLibrary.fss:1639:1-1717:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl ZeroIndexed	/home/user/fortress/Library/FortressLibrary.fss:1719:1-1725:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl DefaultZip	/home/user/fortress/Library/FortressLibrary.fss:1727:1-1736:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl LexicographicOrder	/home/user/fortress/Library/FortressLibrary.fss:1738:1-1750:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl toArray	/home/user/fortress/Library/FortressLibrary.fss:1752:1-1759:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1753:5-19:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:1753.5
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl DelegatedIndexed	/home/user/fortress/Library/FortressLibrary.fss:1769:1-1783:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1771:39-59:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:1771.39 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:1771.39
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl MutableIndexed	/home/user/fortress/Library/FortressLibrary.fss:1792:1-1801:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1800:16-33:     Missing type information for TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1800.16 node = TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:1800.16
+@@CG OVLSKIP	FortressLibrary	sets=2
+@@CG FAIL	TraitDecl ReadableArray	/home/user/fortress/Library/FortressLibrary.fss:1805:1-1871:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1810:40-49:     Missing type information for MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:1810.40 node = MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:1810.40
+@@CG OVLSKIP	FortressLibrary	sets=2
+@@CG OK	TraitDecl ImmutableArray	/home/user/fortress/Library/FortressLibrary.fss:1873:1-1887:2
+@@CG OVLSKIP	FortressLibrary	sets=3
+@@CG FAIL	TraitDecl Array	/home/user/fortress/Library/FortressLibrary.fss:1889:1-1921:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1892:26-40:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1892.26
+@@CG FAIL	FnDecl array	/home/user/fortress/Library/FortressLibrary.fss:1925:1-70	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1925:38-69:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1925.38
+@@CG FAIL	FnDecl array	/home/user/fortress/Library/FortressLibrary.fss:1926:1-1927:49	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1927:5-48:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1927.5
+@@CG FAIL	FnDecl array	/home/user/fortress/Library/FortressLibrary.fss:1928:1-1932:67	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1929:5-60:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1929.5
+@@CG FAIL	FnDecl __arr1	/home/user/fortress/Library/FortressLibrary.fss:1933:1-1934:19	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1934:5-18:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1934.5
+@@CG FAIL	FnDecl __arr2	/home/user/fortress/Library/FortressLibrary.fss:1935:1-1936:43	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1936:27-42:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1936.27
+@@CG FAIL	FnDecl __arr3	/home/user/fortress/Library/FortressLibrary.fss:1937:1-1941:44	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1938:31-48:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1938.31
+@@CG FAIL	FnDecl immutableArray	/home/user/fortress/Library/FortressLibrary.fss:1942:1-1952:67	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1943:5-36:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1943.5
+@@CG FAIL	FnDecl __imm1	/home/user/fortress/Library/FortressLibrary.fss:1953:1-1960:3	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1954:4-26:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1954.4
+@@CG FAIL	FnDecl primitiveArray	/home/user/fortress/Library/FortressLibrary.fss:1962:1-79	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1962:47-78:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1962.47
+@@CG FAIL	FnDecl __parr	/home/user/fortress/Library/FortressLibrary.fss:1963:1-1964:28	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1964:5-26:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1964.5
+@@CG FAIL	FnDecl primitiveImmutableArray	/home/user/fortress/Library/FortressLibrary.fss:1966:1-1967:38	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1967:5-37:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1967.5
+@@CG FAIL	FnDecl __piarr	/home/user/fortress/Library/FortressLibrary.fss:1968:1-1974:56	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:1969:5-30:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:1969.5
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl StandardImmutableArrayType	/home/user/fortress/Library/FortressLibrary.fss:1975:1-1987:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1978:13-32:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:1978.13 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:1978.13
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl StandardMutableArrayType	/home/user/fortress/Library/FortressLibrary.fss:1990:1-2000:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:1993:13-32:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:1993.13 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:1993.13
+@@CG FAIL	FnDecl partition	/home/user/fortress/Library/FortressLibrary.fss:2007:1-2010:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2008:5-2009:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:2008.5
+@@CG FAIL	TraitDecl ReadableArray1	/home/user/fortress/Library/FortressLibrary.fss:2016:1-2047:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG FAIL	TraitDecl ImmutableArray1	/home/user/fortress/Library/FortressLibrary.fss:2049:1-2092:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG FAIL	TraitDecl Array1	/home/user/fortress/Library/FortressLibrary.fss:2096:1-2142:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG FAIL	FnDecl __subarray	/home/user/fortress/Library/FortressLibrary.fss:2145:1-2148:28	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2148:26:     Missing type information for m node = m
+@@CG FAIL	FnDecl __subarrayI	/home/user/fortress/Library/FortressLibrary.fss:2150:1-2160:45	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2153:26:     Missing type information for m node = m
+@@CG OK	ObjectDecl __SimpleSubArray1	/home/user/fortress/Library/FortressLibrary.fss:2161:1-2173:2
+@@CG OK	ObjectDecl __ImmutableSubArray1	/home/user/fortress/Library/FortressLibrary.fss:2176:1-2188:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl AnyVector	/home/user/fortress/Library/FortressLibrary.fss:2190:1-18
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Vector	/home/user/fortress/Library/FortressLibrary.fss:2192:1-2205:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2196:9-54:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2196.9
+@@CG OK	ObjectDecl __DefaultVector	/home/user/fortress/Library/FortressLibrary.fss:2207:1-2213:2
+@@CG FAIL	FnDecl __builtinFactory1	/home/user/fortress/Library/FortressLibrary.fss:2221:1-2227:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2222:5-24:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:2222.5
+@@CG FAIL	FnDecl __immutableFactory1	/home/user/fortress/Library/FortressLibrary.fss:2232:1-2238:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2233:5-33:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:2233.5
+@@CG FAIL	FnDecl __thrower	/home/user/fortress/Library/FortressLibrary.fss:2240:1-2242:41	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2240:29-45:     Missing type information for ForbiddenException node = ForbiddenException
+@@CG FAIL	FnDecl array1	/home/user/fortress/Library/FortressLibrary.fss:2243:1-2247:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl array1	/home/user/fortress/Library/FortressLibrary.fss:2248:1-68	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2248:67:     Missing type information for v node = v
+@@CG FAIL	FnDecl array1	/home/user/fortress/Library/FortressLibrary.fss:2249:1-75	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2249:73:     Missing type information for f node = f
+@@CG FAIL	FnDecl immutableArray1	/home/user/fortress/Library/FortressLibrary.fss:2251:1-2254:77	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2252:5-31:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2252.5
+@@CG FAIL	FnDecl vector	/home/user/fortress/Library/FortressLibrary.fss:2255:1-79	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2255:55-78:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2255.55
+@@CG FAIL	FnDecl vector	/home/user/fortress/Library/FortressLibrary.fss:2256:1-2257:28	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2257:27:     Missing type information for v node = v
+@@CG FAIL	FnDecl vector	/home/user/fortress/Library/FortressLibrary.fss:2258:1-2259:29	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2259:27:     Missing type information for f node = f
+@@CG FAIL	FnDecl pmul	/home/user/fortress/Library/FortressLibrary.fss:2261:1-2262:69	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2262:67:     Missing type information for b node = b
+@@CG FAIL	FnDecl DOT	/home/user/fortress/Library/FortressLibrary.fss:2264:1-2265:69	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2265:63-66:     Missing type information for other node = other
+@@CG FAIL	FnDecl juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:2267:1-2268:67	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2268:61-64:     Missing type information for other node = other
+@@CG FAIL	FnDecl DOT	/home/user/fortress/Library/FortressLibrary.fss:2270:1-2271:73	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2271:67-70:     Missing type information for other node = other
+@@CG FAIL	FnDecl juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:2273:1-2274:71	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2274:65-68:     Missing type information for other node = other
+@@CG FAIL	FnDecl DOT	/home/user/fortress/Library/FortressLibrary.fss:2276:1-2277:74	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2277:68-71:     Missing type information for other node = other
+@@CG FAIL	FnDecl juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:2279:1-2280:71	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2280:65-68:     Missing type information for other node = other
+@@CG FAIL	FnDecl squaredNorm	/home/user/fortress/Library/FortressLibrary.fss:2282:1-71	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2282:69:     Missing type information for a node = a
+@@CG FAIL	FnDecl ||_||	/home/user/fortress/Library/FortressLibrary.fss:2284:1-2291:48	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	TraitDecl Array2	/home/user/fortress/Library/FortressLibrary.fss:2292:1-2406:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG FAIL	FnDecl __subarray	/home/user/fortress/Library/FortressLibrary.fss:2409:1-2415:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2414:43-48:     Missing type information for TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:2414.43 node = TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:2414.43
+@@CG OK	ObjectDecl __DefaultArray2	/home/user/fortress/Library/FortressLibrary.fss:2418:1-2424:2
+@@CG OK	ObjectDecl TransposedArray2	/home/user/fortress/Library/FortressLibrary.fss:2428:1-2445:2
+@@CG OK	ObjectDecl SubArray2	/home/user/fortress/Library/FortressLibrary.fss:2454:1-2474:2
+@@CG OK	ObjectDecl Col	/home/user/fortress/Library/FortressLibrary.fss:2476:1-2485:2
+@@CG OK	ObjectDecl Row	/home/user/fortress/Library/FortressLibrary.fss:2487:1-2496:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl AnyMatrix	/home/user/fortress/Library/FortressLibrary.fss:2498:1-18
+@@CG FAIL	TraitDecl Matrix	/home/user/fortress/Library/FortressLibrary.fss:2500:1-2563:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG OK	ObjectDecl __DefaultMatrix	/home/user/fortress/Library/FortressLibrary.fss:2566:1-2572:2
+@@CG OK	ObjectDecl TransposedMatrix	/home/user/fortress/Library/FortressLibrary.fss:2574:1-2592:2
+@@CG FAIL	FnDecl __builtinFactory2	/home/user/fortress/Library/FortressLibrary.fss:2594:1-2599:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl array2	/home/user/fortress/Library/FortressLibrary.fss:2603:1-2607:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl array2	/home/user/fortress/Library/FortressLibrary.fss:2608:1-2609:29	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2609:28:     Missing type information for v node = v
+@@CG FAIL	FnDecl array2	/home/user/fortress/Library/FortressLibrary.fss:2610:1-2615:50	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2611:28:     Missing type information for f node = f
+@@CG FAIL	FnDecl matrix	/home/user/fortress/Library/FortressLibrary.fss:2616:1-2617:30	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2617:3-29:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2617.3
+@@CG FAIL	FnDecl matrix	/home/user/fortress/Library/FortressLibrary.fss:2618:1-2623:22	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2619:28-74:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:2619.28 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:2619.28
+@@CG FAIL	FnDecl DOT	/home/user/fortress/Library/FortressLibrary.fss:2624:1-2626:27	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2626:21-24:     Missing type information for other node = other
+@@CG FAIL	FnDecl juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:2628:1-2633:34	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2630:21-24:     Missing type information for other node = other
+@@CG FAIL	FnDecl DOT	/home/user/fortress/Library/FortressLibrary.fss:2634:1-2635:72	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2635:70:     Missing type information for v node = v
+@@CG FAIL	FnDecl juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:2637:1-2640:34	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2638:68:     Missing type information for v node = v
+@@CG FAIL	FnDecl DOT	/home/user/fortress/Library/FortressLibrary.fss:2641:1-2642:72	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2642:70:     Missing type information for v node = v
+@@CG FAIL	FnDecl juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:2644:1-2645:70	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2645:68:     Missing type information for v node = v
+@@CG FAIL	FnDecl DOT	/home/user/fortress/Library/FortressLibrary.fss:2647:1-2648:77	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2648:71-74:     Missing type information for other node = other
+@@CG FAIL	FnDecl juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:2650:1-2651:75	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2651:69-72:     Missing type information for other node = other
+@@CG FAIL	FnDecl DOT	/home/user/fortress/Library/FortressLibrary.fss:2653:1-2654:77	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2654:71-74:     Missing type information for other node = other
+@@CG FAIL	FnDecl juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:2656:1-2664:27	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2657:69-72:     Missing type information for other node = other
+@@CG FAIL	TraitDecl Array3	/home/user/fortress/Library/FortressLibrary.fss:2665:1-2772:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg:5310	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@CG FAIL	FnDecl __subarray	/home/user/fortress/Library/FortressLibrary.fss:2775:1-2781:64	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2781:54-62:     Missing type information for TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:2781.54 node = TupleExpr at /home/user/fortress/Library/FortressLibrary.fss:2781.54
+@@CG OK	ObjectDecl __DefaultArray3	/home/user/fortress/Library/FortressLibrary.fss:2783:1-2792:2
+@@CG OK	ObjectDecl SubArray3	/home/user/fortress/Library/FortressLibrary.fss:2801:1-2811:2
+@@CG FAIL	FnDecl __builtinFactory3	/home/user/fortress/Library/FortressLibrary.fss:2813:1-2815:43	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2815:3-41:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2815.3
+@@CG FAIL	FnDecl array3	/home/user/fortress/Library/FortressLibrary.fss:2817:1-2818:39	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2818:3-38:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2818.3
+@@CG FAIL	FnDecl array3	/home/user/fortress/Library/FortressLibrary.fss:2819:1-2820:32	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2820:31:     Missing type information for v node = v
+@@CG FAIL	FnDecl array3	/home/user/fortress/Library/FortressLibrary.fss:2821:1-2836:62	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:2822:31:     Missing type information for f node = f
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Reduction	/home/user/fortress/Library/FortressLibrary.fss:2838:1-2842:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2839:39-65:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2839.39
+@@CG OK	ObjectDecl ReversedReduction	/home/user/fortress/Library/FortressLibrary.fss:2844:1-2849:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl ActualReduction	/home/user/fortress/Library/FortressLibrary.fss:2855:1-2874:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2861:9-20:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2861.9
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl PossibleReductionPair	/home/user/fortress/Library/FortressLibrary.fss:2876:1-2878:2
+@@CG OK	ObjectDecl NoReductionPair	/home/user/fortress/Library/FortressLibrary.fss:2880:1-2883:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl SomeReductionPair	/home/user/fortress/Library/FortressLibrary.fss:2885:1-2890:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2889:62-67:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2889.62
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl ReductionPair	/home/user/fortress/Library/FortressLibrary.fss:2892:1-2895:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl AssociativeReduction	/home/user/fortress/Library/FortressLibrary.fss:2898:1-2918:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl LiftedCommutativeMonoidReduction	/home/user/fortress/Library/FortressLibrary.fss:2923:1-2943:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl SomeCommutativeReduction	/home/user/fortress/Library/FortressLibrary.fss:2948:1-33
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl CommutativeReduction	/home/user/fortress/Library/FortressLibrary.fss:2950:1-2952:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl MonoidReduction	/home/user/fortress/Library/FortressLibrary.fss:2955:1-2958:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl CommutativeMonoidReduction	/home/user/fortress/Library/FortressLibrary.fss:2960:1-2962:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl ReductionWithZeroes	/home/user/fortress/Library/FortressLibrary.fss:2964:1-2968:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:2965:32-39:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:2965.32
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl BigOperator	/home/user/fortress/Library/FortressLibrary.fss:2970:1-2974:2
+@@CG OK	ObjectDecl BigReduction	/home/user/fortress/Library/FortressLibrary.fss:2976:1-2979:2
+@@CG OK	ObjectDecl Comprehension	/home/user/fortress/Library/FortressLibrary.fss:2981:1-2983:2
+@@CG OK	ObjectDecl VoidReduction	/home/user/fortress/Library/FortressLibrary.fss:2989:1-2994:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl DistributesOver	/home/user/fortress/Library/FortressLibrary.fss:2996:1-29
+@@CG OK	ObjectDecl SumProdReductionPair	/home/user/fortress/Library/FortressLibrary.fss:2998:1-3001:2
+@@CG OK	ObjectDecl MaxSumReductionPair	/home/user/fortress/Library/FortressLibrary.fss:3003:1-3006:2
+@@CG OK	ObjectDecl MinSumReductionPair	/home/user/fortress/Library/FortressLibrary.fss:3008:1-3011:2
+@@CG OK	ObjectDecl MaxNSumReductionPair	/home/user/fortress/Library/FortressLibrary.fss:3013:1-3016:2
+@@CG OK	ObjectDecl MinNSumReductionPair	/home/user/fortress/Library/FortressLibrary.fss:3018:1-3021:2
+@@CG OK	ObjectDecl SumReduction	/home/user/fortress/Library/FortressLibrary.fss:3024:1-3042:2
+@@CG FAIL	FnDecl BIG +	/home/user/fortress/Library/FortressLibrary.fss:3044:1-3045:85	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3045:5-83:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3045.5
+@@CG FAIL	FnDecl BIG +	/home/user/fortress/Library/FortressLibrary.fss:3047:1-3048:64	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3047:1-3048:64:     Return type is not inferred. node = BIG +[\T extends Number\](g:Generator[\T\])
+@@CG OK	ObjectDecl ProdReduction	/home/user/fortress/Library/FortressLibrary.fss:3050:1-3059:2
+@@CG FAIL	FnDecl BIG juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:3061:1-3062:86	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3062:5-84:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3062.5
+@@CG FAIL	FnDecl BIG juxtaposition	/home/user/fortress/Library/FortressLibrary.fss:3064:1-3067:55	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3064:1-3067:55:     Return type is not inferred. node = BIG juxtaposition[\T extends Number\](g:Generator[\T\])
+@@CG OK	ObjectDecl MaxReductionN	/home/user/fortress/Library/FortressLibrary.fss:3068:1-3072:2
+@@CG FAIL	FnDecl BIG MAXN	/home/user/fortress/Library/FortressLibrary.fss:3074:1-3075:85	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3075:5-84:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3075.5
+@@CG FAIL	FnDecl BIG MAXN	/home/user/fortress/Library/FortressLibrary.fss:3076:1-3077:69	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3076:1-3077:69:     Return type is not inferred. node = BIG MAXN[\T extends Number\](g:Generator[\T\])
+@@CG OK	ObjectDecl MinReductionN	/home/user/fortress/Library/FortressLibrary.fss:3079:1-3083:2
+@@CG FAIL	FnDecl BIG MINN	/home/user/fortress/Library/FortressLibrary.fss:3084:1-3085:86	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3085:5-84:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3085.5
+@@CG FAIL	FnDecl BIG MINN	/home/user/fortress/Library/FortressLibrary.fss:3087:1-3088:69	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3087:1-3088:69:     Return type is not inferred. node = BIG MINN[\T extends Number\](g:Generator[\T\])
+@@CG OK	ObjectDecl MinMaxReductionN	/home/user/fortress/Library/FortressLibrary.fss:3090:1-3098:2
+@@CG FAIL	FnDecl BIG MINMAXN	/home/user/fortress/Library/FortressLibrary.fss:3099:1-3102:51	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3101:5-3102:50:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3101.5
+@@CG FAIL	FnDecl BIG MINMAXN	/home/user/fortress/Library/FortressLibrary.fss:3103:1-3106:1	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3104:5-3105:29:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3104.5
+@@CG OK	ObjectDecl MinReduction	/home/user/fortress/Library/FortressLibrary.fss:3108:1-3111:2
+@@CG FAIL	FnDecl BIG MIN	/home/user/fortress/Library/FortressLibrary.fss:3112:1-3113:49	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3113:5-48:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3113.5
+@@CG FAIL	FnDecl BIG MIN	/home/user/fortress/Library/FortressLibrary.fss:3114:1-3115:60	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3114:1-3115:60:     Return type is not inferred. node = BIG MIN[\T extends StandardMin[\T\]\](g:Generator[\T\])
+@@CG OK	ObjectDecl MaxReduction	/home/user/fortress/Library/FortressLibrary.fss:3117:1-3120:2
+@@CG FAIL	FnDecl BIG MAX	/home/user/fortress/Library/FortressLibrary.fss:3121:1-3122:49	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3122:5-48:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3122.5
+@@CG FAIL	FnDecl BIG MAX	/home/user/fortress/Library/FortressLibrary.fss:3123:1-3124:60	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3124:5-58:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3124.5
+@@CG OK	ObjectDecl MinMaxReduction	/home/user/fortress/Library/FortressLibrary.fss:3126:1-3133:2
+@@CG FAIL	FnDecl BIG MINMAX	/home/user/fortress/Library/FortressLibrary.fss:3134:1-3136:97	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3136:5-96:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3136.5
+@@CG FAIL	FnDecl BIG MINMAX	/home/user/fortress/Library/FortressLibrary.fss:3137:1-3138:71	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3138:5-69:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3138.5
+@@CG FAIL	FnDecl BIG MINNUM	/home/user/fortress/Library/FortressLibrary.fss:3140:1-3142:84	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3141:5-3142:82:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3141.5
+@@CG FAIL	FnDecl BIG MINNUM	/home/user/fortress/Library/FortressLibrary.fss:3144:1-3145:63	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3144:1-3145:63:     Return type is not inferred. node = BIG MINNUM(g:Generator[\RR64\])
+@@CG FAIL	FnDecl BIG MAXNUM	/home/user/fortress/Library/FortressLibrary.fss:3147:1-3149:84	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3148:5-3149:82:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3148.5
+@@CG FAIL	FnDecl BIG MAXNUM	/home/user/fortress/Library/FortressLibrary.fss:3151:1-3155:35	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3151:1-3155:35:     Return type is not inferred. node = BIG MAXNUM(g:Generator[\RR64\])
+@@CG OK	ObjectDecl TupleMinMinReduction	/home/user/fortress/Library/FortressLibrary.fss:3157:1-3170:2
+@@CG FAIL	FnDecl BIG MIN_MIN	/home/user/fortress/Library/FortressLibrary.fss:3171:1-3173:98	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3173:5-97:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3173.5
+@@CG FAIL	FnDecl BIG MIN_MIN	/home/user/fortress/Library/FortressLibrary.fss:3174:1-3175:78	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3175:5-76:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3175.5
+@@CG OK	ObjectDecl TupleMinMaxReduction	/home/user/fortress/Library/FortressLibrary.fss:3177:1-3190:2
+@@CG FAIL	FnDecl BIG MIN_MAX	/home/user/fortress/Library/FortressLibrary.fss:3191:1-3193:98	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3193:5-97:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3193.5
+@@CG FAIL	FnDecl BIG MIN_MAX	/home/user/fortress/Library/FortressLibrary.fss:3194:1-3195:78	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3195:5-76:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3195.5
+@@CG OK	ObjectDecl TupleMaxMinReduction	/home/user/fortress/Library/FortressLibrary.fss:3197:1-3210:2
+@@CG FAIL	FnDecl BIG MAX_MIN	/home/user/fortress/Library/FortressLibrary.fss:3211:1-3213:98	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3213:5-97:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3213.5
+@@CG FAIL	FnDecl BIG MAX_MIN	/home/user/fortress/Library/FortressLibrary.fss:3214:1-3215:78	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3215:5-76:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3215.5
+@@CG OK	ObjectDecl TupleMaxMaxReduction	/home/user/fortress/Library/FortressLibrary.fss:3217:1-3230:2
+@@CG FAIL	FnDecl BIG MAX_MAX	/home/user/fortress/Library/FortressLibrary.fss:3231:1-3233:98	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3233:5-97:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3233.5
+@@CG FAIL	FnDecl BIG MAX_MAX	/home/user/fortress/Library/FortressLibrary.fss:3234:1-3238:85	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3235:5-76:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3235.5
+@@CG OK	ObjectDecl AndReduction	/home/user/fortress/Library/FortressLibrary.fss:3239:1-3246:2
+@@CG FAIL	FnDecl BIG AND	/home/user/fortress/Library/FortressLibrary.fss:3248:1-3249:50	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3249:5-48:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3249.5
+@@CG FAIL	FnDecl BIG AND	/home/user/fortress/Library/FortressLibrary.fss:3251:1-3252:77	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3251:1-3252:77:     Return type is not inferred. node = BIG AND[\T extends Object\](g:Generator[\Boolean\])
+@@CG OK	ObjectDecl OrReduction	/home/user/fortress/Library/FortressLibrary.fss:3254:1-3261:2
+@@CG FAIL	FnDecl BIG OR	/home/user/fortress/Library/FortressLibrary.fss:3263:1-3264:49	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3264:5-47:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3264.5
+@@CG FAIL	FnDecl BIG OR	/home/user/fortress/Library/FortressLibrary.fss:3266:1-3285:3	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3267:5-74:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3267.5
+@@CG OK	ObjectDecl BitXorReduction	/home/user/fortress/Library/FortressLibrary.fss:3287:1-3292:2
+@@CG FAIL	FnDecl BIG BITXOR	/home/user/fortress/Library/FortressLibrary.fss:3294:1-3295:47	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3295:5-45:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3295.5
+@@CG FAIL	FnDecl BIG BITXOR	/home/user/fortress/Library/FortressLibrary.fss:3297:1-3300:51	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3298:5-61:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3298.5
+@@CG OK	ObjectDecl StringReduction	/home/user/fortress/Library/FortressLibrary.fss:3301:1-3305:2
+@@CG OK	ObjectDecl SpaceReduction	/home/user/fortress/Library/FortressLibrary.fss:3308:1-3312:2
+@@CG OK	ObjectDecl NewlineReduction	/home/user/fortress/Library/FortressLibrary.fss:3315:1-3318:2
+@@CG FAIL	FnDecl BIG ||	/home/user/fortress/Library/FortressLibrary.fss:3322:1-3324:62	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3323:5-3324:60:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3323.5
+@@CG FAIL	FnDecl BIG ||	/home/user/fortress/Library/FortressLibrary.fss:3326:1-3331:40	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3326:1-3331:40:     Return type is not inferred. node = BIG ||[\T extends Object\](g:Generator[\T\])
+@@CG FAIL	FnDecl BIG |||	/home/user/fortress/Library/FortressLibrary.fss:3332:1-3334:61	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3333:5-3334:59:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3333.5
+@@CG FAIL	FnDecl BIG |||	/home/user/fortress/Library/FortressLibrary.fss:3336:1-3341:18	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3337:5-91:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3337.5
+@@CG FAIL	FnDecl BIG //	/home/user/fortress/Library/FortressLibrary.fss:3342:1-3344:54	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3343:5-3344:52:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3343.5
+@@CG FAIL	FnDecl BIG //	/home/user/fortress/Library/FortressLibrary.fss:3346:1-3351:44	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3346:1-3351:44:     Return type is not inferred. node = BIG //[\T extends Object\](g:Generator[\T\])
+@@CG OK	ObjectDecl MapReduceReduction	/home/user/fortress/Library/FortressLibrary.fss:3352:1-3356:2
+@@CG OK	ObjectDecl MIMapReduceReduction	/home/user/fortress/Library/FortressLibrary.fss:3361:1-3365:2
+@@CG FAIL	FnDecl embiggen	/home/user/fortress/Library/FortressLibrary.fss:3375:1-3381:21	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3376:5-89:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3376.5
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl SomeMappedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3382:1-56
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl MappedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3384:1-3396:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3387:33-79:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3387.33
+@@CG OK	ObjectDecl SimpleMappedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3398:1-3402:2
+@@CG OK	ObjectDecl SimpleMappedIndexed	/home/user/fortress/Library/FortressLibrary.fss:3404:1-3422:2
+@@CG OK	ObjectDecl SimpleMappedSeqGenerator	/home/user/fortress/Library/FortressLibrary.fss:3424:1-3430:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl FilterGenerator	/home/user/fortress/Library/FortressLibrary.fss:3432:1-3444:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3435:33-54:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3435.33
+@@CG OK	ObjectDecl SimpleFilterGenerator	/home/user/fortress/Library/FortressLibrary.fss:3446:1-3450:2
+@@CG OK	ObjectDecl SimpleSeqFilterGenerator	/home/user/fortress/Library/FortressLibrary.fss:3452:1-3458:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl NestedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3460:1-3483:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3465:9-3466:55:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3465.9
+@@CG OK	ObjectDecl SimpleNestedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3485:1-3500:2
+@@CG OK	ObjectDecl SimpleNestedSeqGenerator	/home/user/fortress/Library/FortressLibrary.fss:3502:1-3508:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl PairGenerator	/home/user/fortress/Library/FortressLibrary.fss:3510:1-3521:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl SimplePairGenerator	/home/user/fortress/Library/FortressLibrary.fss:3523:1-3529:2
+@@CG OK	ObjectDecl SimplePairSeqGenerator	/home/user/fortress/Library/FortressLibrary.fss:3531:1-3537:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl ReversedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3540:1-3546:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3542:40-45:     Missing type information for MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3542.40 node = MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3542.40
+@@CG OK	ObjectDecl SimpleReversedGenerator	/home/user/fortress/Library/FortressLibrary.fss:3548:1-3551:2
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl ReversedIndexed	/home/user/fortress/Library/FortressLibrary.fss:3553:1-3571:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3556:33-45:     Missing type information for MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3556.33 node = MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3556.33
+@@CG OK	ObjectDecl SimpleReversedIndexed	/home/user/fortress/Library/FortressLibrary.fss:3573:1-3576:2
+@@CG OK	ObjectDecl NaiveSeqGenerator	/home/user/fortress/Library/FortressLibrary.fss:3593:1-3606:2
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl Range	/home/user/fortress/Library/FortressLibrary.fss:3618:1-3665:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3624:39-52:     Missing type information for MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3624.39 node = MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3624.39
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl PartialRange	/home/user/fortress/Library/FortressLibrary.fss:3667:1-45
+@@CG OVLSKIP	FortressLibrary	sets=2
+@@CG FAIL	TraitDecl OpenRange	/home/user/fortress/Library/FortressLibrary.fss:3669:1-3681:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl TrivialOpenRange	/home/user/fortress/Library/FortressLibrary.fss:3683:1-3698:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl RangeWithExtent	/home/user/fortress/Library/FortressLibrary.fss:3700:1-3702:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl ExtentRange	/home/user/fortress/Library/FortressLibrary.fss:3704:1-3721:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl BoundedRange	/home/user/fortress/Library/FortressLibrary.fss:3723:1-3731:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl RangeWithLeft	/home/user/fortress/Library/FortressLibrary.fss:3733:1-3736:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3735:31-42:     Missing type information for MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3735.31 node = MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3735.31
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl LeftRange	/home/user/fortress/Library/FortressLibrary.fss:3738:1-3756:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl RangeWithRight	/home/user/fortress/Library/FortressLibrary.fss:3758:1-3760:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl RightRange	/home/user/fortress/Library/FortressLibrary.fss:3762:1-3781:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=2
+@@CG FAIL	TraitDecl FullRange	/home/user/fortress/Library/FortressLibrary.fss:3783:1-3797:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl CompactFullRange	/home/user/fortress/Library/FortressLibrary.fss:3799:1-3811:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3800:25-36:     Missing type information for MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3800.25 node = MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3800.25
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl StridedFullRange	/home/user/fortress/Library/FortressLibrary.fss:3813:1-53
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3816:1-107	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3816:78-106:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3816.78
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3817:1-3819:82	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3819:8-17:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3819.8
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3820:1-3824:6	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3822:8-20:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3822.8
+@@CG FAIL	FnDecl :	/home/user/fortress/Library/FortressLibrary.fss:3826:1-3827:40	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3827:9-39:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3827.9
+@@CG FAIL	FnDecl :	/home/user/fortress/Library/FortressLibrary.fss:3828:1-3830:84	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3830:8-17:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3830.8
+@@CG FAIL	FnDecl :	/home/user/fortress/Library/FortressLibrary.fss:3831:1-3835:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3833:5-17:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3833.5
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3838:1-81	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3838:56-80:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3838.56
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3839:1-3842:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3840:5-14:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3840.5
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3843:1-3847:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3845:5-17:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3845.5
+@@CG FAIL	FnDecl :	/home/user/fortress/Library/FortressLibrary.fss:3849:1-37	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3851:1-85	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3851:58-84:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3851.58
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3852:1-3853:64	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3853:8-17:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3853.8
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3854:1-3856:81	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3856:8-20:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3856.8
+@@CG FAIL	FnDecl :	/home/user/fortress/Library/FortressLibrary.fss:3858:1-83	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3858:57-82:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3858.57
+@@CG FAIL	FnDecl :	/home/user/fortress/Library/FortressLibrary.fss:3859:1-3860:63	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3860:8-17:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3860.8
+@@CG FAIL	FnDecl :	/home/user/fortress/Library/FortressLibrary.fss:3861:1-3863:80	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3863:8-20:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3863.8
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3872:1-45	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl :	/home/user/fortress/Library/FortressLibrary.fss:3873:1-45	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl openRange	/home/user/fortress/Library/FortressLibrary.fss:3874:1-3883:3	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3874:36-67:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3874.36
+@@CG FAIL	FnDecl ::	/home/user/fortress/Library/FortressLibrary.fss:3885:1-38	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl ::	/home/user/fortress/Library/FortressLibrary.fss:3887:1-82	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:3887:57-81:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:3887.57
+@@CG FAIL	FnDecl ::	/home/user/fortress/Library/FortressLibrary.fss:3888:1-3889:63	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3889:8-17:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3889.8
+@@CG FAIL	FnDecl ::	/home/user/fortress/Library/FortressLibrary.fss:3890:1-3892:81	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3892:8-20:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:3892.8
+@@CG FAIL	FnDecl ::	/home/user/fortress/Library/FortressLibrary.fss:3894:1-3945:3	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl :	/home/user/fortress/Library/FortressLibrary.fss:3947:1-3950:3	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3947:66-70:     Missing type information for stride node = stride
+@@CG FAIL	FnDecl #	/home/user/fortress/Library/FortressLibrary.fss:3952:1-3956:62	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3952:65-67:     Missing type information for size node = size
+@@CG OVLSKIP	FortressLibrary	sets=7
+@@CG FAIL	TraitDecl String	/home/user/fortress/Library/FortressLibrary.fss:3958:1-4086:11	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:3962:51-60:     Missing type information for MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3962.51 node = MethodInvocation at /home/user/fortress/Library/FortressLibrary.fss:3962.51
+@@CG OK	ObjectDecl StringJoinReduction	/home/user/fortress/Library/FortressLibrary.fss:4089:1-4103:2
+@@CG FAIL	FnDecl reverse	/home/user/fortress/Library/FortressLibrary.fss:4105:1-4109:62	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl nanoTime	/home/user/fortress/Library/FortressLibrary.fss:4111:1-90	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4111:19-89:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4111.19
+@@CG FAIL	FnDecl printTaskTrace	/home/user/fortress/Library/FortressLibrary.fss:4112:1-107	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4112:23-105:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4112.23
+@@CG OK	VarDecl [__globalTimeInformation:ZZ64]	/home/user/fortress/Library/FortressLibrary.fss:4114:1-34
+@@CG FAIL	FnDecl recordTime	/home/user/fortress/Library/FortressLibrary.fss:4115:1-72	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4115:60-68:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4115.60
+@@CG FAIL	FnDecl printTime	/home/user/fortress/Library/FortressLibrary.fss:4116:1-4122:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4117:5-18:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4117.5
+@@CG FAIL	FnDecl fromRawBits	/home/user/fortress/Library/FortressLibrary.fss:4124:1-104	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4124:28-102:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4124.28
+@@CG FAIL	FnDecl random	/home/user/fortress/Library/FortressLibrary.fss:4126:1-95	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4126:25-94:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4126.25
+@@CG FAIL	FnDecl randomZZ32	/home/user/fortress/Library/FortressLibrary.fss:4127:1-47	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4127:27-45:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4127.27
+@@CG FAIL	FnDecl char	/home/user/fortress/Library/FortressLibrary.fss:4129:1-4131:37	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4129:21-86:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4129.21
+@@CG FAIL	FnDecl print	/home/user/fortress/Library/FortressLibrary.fss:4132:1-59	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4132:39:     Missing type information for a node = a
+@@CG FAIL	FnDecl println	/home/user/fortress/Library/FortressLibrary.fss:4133:1-73	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4133:42:     Missing type information for OpExpr at /home/user/fortress/Library/FortressLibrary.fss:4133.42 node = OpExpr at /home/user/fortress/Library/FortressLibrary.fss:4133.42
+@@CG FAIL	FnDecl errorPrint	/home/user/fortress/Library/FortressLibrary.fss:4134:1-64	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4134:44:     Missing type information for a node = a
+@@CG FAIL	FnDecl errorPrintln	/home/user/fortress/Library/FortressLibrary.fss:4135:1-78	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4135:47:     Missing type information for OpExpr at /home/user/fortress/Library/FortressLibrary.fss:4135.47 node = OpExpr at /home/user/fortress/Library/FortressLibrary.fss:4135.47
+@@CG FAIL	FnDecl print	/home/user/fortress/Library/FortressLibrary.fss:4137:1-115	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4137:19-28:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4137.19
+@@CG FAIL	FnDecl println	/home/user/fortress/Library/FortressLibrary.fss:4138:1-77	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4138:21-32:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4138.21
+@@CG FAIL	FnDecl errorPrint	/home/user/fortress/Library/FortressLibrary.fss:4139:1-125	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4139:24-38:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4139.24
+@@CG FAIL	FnDecl errorPrintln	/home/user/fortress/Library/FortressLibrary.fss:4140:1-4142:89	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4140:26-42:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4140.26
+@@CG FAIL	FnDecl print	/home/user/fortress/Library/FortressLibrary.fss:4143:1-22	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4143:14-21:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4143.14
+@@CG FAIL	FnDecl println	/home/user/fortress/Library/FortressLibrary.fss:4144:1-26	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4144:16-25:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4144.16
+@@CG FAIL	FnDecl errorPrint	/home/user/fortress/Library/FortressLibrary.fss:4145:1-32	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4145:19-31:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4145.19
+@@CG FAIL	FnDecl errorPrintln	/home/user/fortress/Library/FortressLibrary.fss:4146:1-37	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4146:21-35:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4146.21
+@@CG FAIL	FnDecl forDigit	/home/user/fortress/Library/FortressLibrary.fss:4148:1-4155:6	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4149:32-15:     Can't compile AmbiguousMultifixOpExpr at /home/user/fortress/Library/FortressLibrary.fss:4149.32
+@@CG FAIL	FnDecl forDigit	/home/user/fortress/Library/FortressLibrary.fss:4157:1-4162:6	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4158:9-30:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4158.9
+@@CG FAIL	FnDecl strToInt	/home/user/fortress/Library/FortressLibrary.fss:4176:1-4189:4	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl strToInt	/home/user/fortress/Library/FortressLibrary.fss:4192:1-4193:1	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4192:29-41:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4192.29
+@@CG FAIL	FnDecl strToFloat	/home/user/fortress/Library/FortressLibrary.fss:4195:1-4200:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4196:3-23:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4196.3
+@@CG FAIL	FnDecl match	/home/user/fortress/Library/FortressLibrary.fss:4204:1-4208:88	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4204:51-124:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4204.51
+@@CG FAIL	FnDecl //	/home/user/fortress/Library/FortressLibrary.fss:4209:1-4213:88	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl ///	/home/user/fortress/Library/FortressLibrary.fss:4214:1-4216:76	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl printThreadInfo	/home/user/fortress/Library/FortressLibrary.fss:4217:1-116	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4217:32-115:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4217.32
+@@CG FAIL	FnDecl printThreadInfo	/home/user/fortress/Library/FortressLibrary.fss:4218:1-117	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4218:32-115:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4218.32
+@@CG FAIL	FnDecl printWithThread	/home/user/fortress/Library/FortressLibrary.fss:4220:1-116	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4220:32-115:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4220.32
+@@CG FAIL	FnDecl printlnWithThread	/home/user/fortress/Library/FortressLibrary.fss:4221:1-4225:3	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4221:34-119:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4221.34
+@@CG FAIL	FnDecl ===	/home/user/fortress/Library/FortressLibrary.fss:4227:1-4228:78	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4228:5-76:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4228.5
+@@CG FAIL	FnDecl XOR	/home/user/fortress/Library/FortressLibrary.fss:4230:1-65	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	FnDecl OR	/home/user/fortress/Library/FortressLibrary.fss:4231:1-63
+@@CG OK	FnDecl AND	/home/user/fortress/Library/FortressLibrary.fss:4232:1-65
+@@CG FAIL	FnDecl OR	/home/user/fortress/Library/FortressLibrary.fss:4233:1-69	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4233:64-68:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4233.64
+@@CG FAIL	FnDecl AND	/home/user/fortress/Library/FortressLibrary.fss:4234:1-71	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4234:55-58:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4234.55
+@@CG OK	FnDecl NOT	/home/user/fortress/Library/FortressLibrary.fss:4235:1-57
+@@CG OK	FnDecl ->	/home/user/fortress/Library/FortressLibrary.fss:4236:1-64
+@@CG FAIL	FnDecl ->	/home/user/fortress/Library/FortressLibrary.fss:4237:1-70	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4237:55-58:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4237.55
+@@CG FAIL	FnDecl <->	/home/user/fortress/Library/FortressLibrary.fss:4238:1-4241:34	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	FnDecl +	/home/user/fortress/Library/FortressLibrary.fss:4243:1-4245:65
+@@CG FAIL	FnDecl =	/home/user/fortress/Library/FortressLibrary.fss:4247:1-4251:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4248:5-4249:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4248.5
+@@CG FAIL	FnDecl <	/home/user/fortress/Library/FortressLibrary.fss:4253:1-4261:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4254:5-4255:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4254.5
+@@CG FAIL	FnDecl <=	/home/user/fortress/Library/FortressLibrary.fss:4263:1-4271:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4264:5-4265:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4264.5
+@@CG FAIL	FnDecl >	/home/user/fortress/Library/FortressLibrary.fss:4273:1-4281:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4274:5-4275:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4274.5
+@@CG FAIL	FnDecl >=	/home/user/fortress/Library/FortressLibrary.fss:4283:1-4291:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4284:5-4285:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4284.5
+@@CG FAIL	FnDecl CMP	/home/user/fortress/Library/FortressLibrary.fss:4293:1-4297:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4294:5-4295:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4294.5
+@@CG FAIL	FnDecl =	/home/user/fortress/Library/FortressLibrary.fss:4299:1-4303:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4300:5-4301:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4300.5
+@@CG FAIL	FnDecl <	/home/user/fortress/Library/FortressLibrary.fss:4305:1-4313:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4306:5-4307:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4306.5
+@@CG FAIL	FnDecl <=	/home/user/fortress/Library/FortressLibrary.fss:4315:1-4323:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4316:5-4317:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4316.5
+@@CG FAIL	FnDecl >	/home/user/fortress/Library/FortressLibrary.fss:4325:1-4333:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4326:5-4327:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4326.5
+@@CG FAIL	FnDecl >=	/home/user/fortress/Library/FortressLibrary.fss:4335:1-4343:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4336:5-4337:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4336.5
+@@CG FAIL	FnDecl CMP	/home/user/fortress/Library/FortressLibrary.fss:4345:1-4349:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4346:5-4347:4:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4346.5
+@@CG OK	ObjectDecl Box	/home/user/fortress/Library/FortressLibrary.fss:4351:1-4352:2
+@@CG OK	VarDecl [var enableDispatching:Boolean]	/home/user/fortress/Library/FortressLibrary.fss:4358:1-39
+@@CG OK	FnDecl switchDispatching	/home/user/fortress/Library/FortressLibrary.fss:4359:1-60
+@@CG OK	FnDecl dispatchingEnabled	/home/user/fortress/Library/FortressLibrary.fss:4360:1-4363:63
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG OK	TraitDecl SomeGenerator2	/home/user/fortress/Library/FortressLibrary.fss:4364:1-45
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl Generator2	/home/user/fortress/Library/FortressLibrary.fss:4367:1-4419:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4372:5-35:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4372.5
+@@CG OVLSKIP	FortressLibrary	sets=1
+@@CG FAIL	TraitDecl FilterGenerator2	/home/user/fortress/Library/FortressLibrary.fss:4422:1-4432:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4425:3-55:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4425.3
+@@CG OK	ObjectDecl SimpleFilterGenerator2	/home/user/fortress/Library/FortressLibrary.fss:4435:1-4440:2
+@@CG OVLSKIP	FortressLibrary	sets=0
+@@CG FAIL	TraitDecl RelationalPredicateCondition	/home/user/fortress/Library/FortressLibrary.fss:4444:1-4458:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4449:5-16:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4449.5
+@@CG OK	ObjectDecl ConcreteRelationalPredicateCondition	/home/user/fortress/Library/FortressLibrary.fss:4461:1-4464:2
+@@CG FAIL	FnDecl ANDCOND	/home/user/fortress/Library/FortressLibrary.fss:4467:1-4469:50	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4467:255-300:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4467.255
+@@CG OK	ObjectDecl AndRelationalPredicateCondition	/home/user/fortress/Library/FortressLibrary.fss:4470:1-4474:2
+@@CG FAIL	FnDecl relationalPredicate	/home/user/fortress/Library/FortressLibrary.fss:4477:1-4483:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/FortressLibrary.fss:4477:168-4482:44:     Can't compile Juxt at /home/user/fortress/Library/FortressLibrary.fss:4477.168
+@@CG FAIL	FnDecl PREFIX_SUM	/home/user/fortress/Library/FortressLibrary.fss:4483:1-4487:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4484:3-19:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4484.3
+@@CG FAIL	FnDecl SUFFIX_SUM	/home/user/fortress/Library/FortressLibrary.fss:4490:1-4494:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4491:3-19:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/FortressLibrary.fss:4491.3
+@@CG FAIL	FnDecl +	/home/user/fortress/Library/FortressLibrary.fss:4497:1-101	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4497:80-100:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4497.80 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4497.80
+@@CG FAIL	FnDecl +	/home/user/fortress/Library/FortressLibrary.fss:4498:1-101	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4498:80-100:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4498.80 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4498.80
+@@CG FAIL	FnDecl -	/home/user/fortress/Library/FortressLibrary.fss:4499:1-101	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4499:80-100:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4499.80 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4499.80
+@@CG FAIL	FnDecl -	/home/user/fortress/Library/FortressLibrary.fss:4500:1-101	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4500:80-100:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4500.80 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4500.80
+@@CG FAIL	FnDecl MIN	/home/user/fortress/Library/FortressLibrary.fss:4501:1-105	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4501:82-104:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4501.82 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4501.82
+@@CG FAIL	FnDecl MIN	/home/user/fortress/Library/FortressLibrary.fss:4502:1-105	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4502:82-104:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4502.82 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4502.82
+@@CG FAIL	FnDecl MAX	/home/user/fortress/Library/FortressLibrary.fss:4503:1-105	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4503:82-104:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4503.82 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4503.82
+@@CG FAIL	FnDecl MAX	/home/user/fortress/Library/FortressLibrary.fss:4504:1-4505:1	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/FortressLibrary.fss:4504:82-104:     Missing type information for FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4504.82 node = FnExpr at /home/user/fortress/Library/FortressLibrary.fss:4504.82
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at Compiler internal generated.:0.0	Compiler internal generated.:0:0	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2559.49	/home/user/fortress/Library/FortressLibrary.fss:2559:49-50	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2768.43	/home/user/fortress/Library/FortressLibrary.fss:2768:43-44	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2068.9	/home/user/fortress/Library/FortressLibrary.fss:2068:9-25	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2118.9	/home/user/fortress/Library/FortressLibrary.fss:2118:9-25	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2605.23	/home/user/fortress/Library/FortressLibrary.fss:2605:23-2606:8	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:471.33	/home/user/fortress/Library/FortressLibrary.fss:471:33-38	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4154.9	/home/user/fortress/Library/FortressLibrary.fss:4154:9-15	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4192.29	/home/user/fortress/Library/FortressLibrary.fss:4192:29-35	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:592.46	/home/user/fortress/Library/FortressLibrary.fss:592:46-49	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:590.25	/home/user/fortress/Library/FortressLibrary.fss:590:25-30	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:584.60	/home/user/fortress/Library/FortressLibrary.fss:584:60-66	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4183.33	/home/user/fortress/Library/FortressLibrary.fss:4183:33-36	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2091.9	/home/user/fortress/Library/FortressLibrary.fss:2091:9-18	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2141.9	/home/user/fortress/Library/FortressLibrary.fss:2141:9-18	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2403.7	/home/user/fortress/Library/FortressLibrary.fss:2403:7-16	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2767.9	/home/user/fortress/Library/FortressLibrary.fss:2767:9-18	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:1754.9	/home/user/fortress/Library/FortressLibrary.fss:1754:9-16	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2737.13	/home/user/fortress/Library/FortressLibrary.fss:2737:13-21	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2249.51	/home/user/fortress/Library/FortressLibrary.fss:2249:51-62	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2560.9	/home/user/fortress/Library/FortressLibrary.fss:2560:9-23	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2619.3	/home/user/fortress/Library/FortressLibrary.fss:2619:3-17	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2822.3	/home/user/fortress/Library/FortressLibrary.fss:2822:3-20	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:317.15	/home/user/fortress/Library/FortressLibrary.fss:317:15-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4143.14	/home/user/fortress/Library/FortressLibrary.fss:4143:14-17	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4144.16	/home/user/fortress/Library/FortressLibrary.fss:4144:16-21	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4145.19	/home/user/fortress/Library/FortressLibrary.fss:4145:19-27	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4146.21	/home/user/fortress/Library/FortressLibrary.fss:4146:21-31	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:422.23	/home/user/fortress/Library/FortressLibrary.fss:422:23-26	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:602.37	/home/user/fortress/Library/FortressLibrary.fss:602:37-44	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:602.63	/home/user/fortress/Library/FortressLibrary.fss:602:63-72	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:705.26	/home/user/fortress/Library/FortressLibrary.fss:705:26-29	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3874.36	/home/user/fortress/Library/FortressLibrary.fss:3874:36-49	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2202.9	/home/user/fortress/Library/FortressLibrary.fss:2202:9-16	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2506.9	/home/user/fortress/Library/FortressLibrary.fss:2506:9-16	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4127.27	/home/user/fortress/Library/FortressLibrary.fss:4127:27-31	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2008.9	/home/user/fortress/Library/FortressLibrary.fss:2008:9-17	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2200.35	/home/user/fortress/Library/FortressLibrary.fss:2200:35-40	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:2508.39	/home/user/fortress/Library/FortressLibrary.fss:2508:39-44	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4492.12	/home/user/fortress/Library/FortressLibrary.fss:4492:12-13	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4427.211	/home/user/fortress/Library/FortressLibrary.fss:4427:211-216	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3979.9	/home/user/fortress/Library/FortressLibrary.fss:3979:9-18	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:1429.91	/home/user/fortress/Library/FortressLibrary.fss:1429:91-100	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:1444.91	/home/user/fortress/Library/FortressLibrary.fss:1444:91-100	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4199.8	/home/user/fortress/Library/FortressLibrary.fss:4199:8-9	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3065.50	/home/user/fortress/Library/FortressLibrary.fss:3065:50-52	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3077.50	/home/user/fortress/Library/FortressLibrary.fss:3077:50-58	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3088.50	/home/user/fortress/Library/FortressLibrary.fss:3088:50-58	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3105.9	/home/user/fortress/Library/FortressLibrary.fss:3105:9-20	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4017.13	/home/user/fortress/Library/FortressLibrary.fss:4017:13-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3124.42	/home/user/fortress/Library/FortressLibrary.fss:3124:42-49	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3138.50	/home/user/fortress/Library/FortressLibrary.fss:3138:50-60	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3145.47	/home/user/fortress/Library/FortressLibrary.fss:3145:47-56	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3152.47	/home/user/fortress/Library/FortressLibrary.fss:3152:47-56	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3175.54	/home/user/fortress/Library/FortressLibrary.fss:3175:54-65	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3195.54	/home/user/fortress/Library/FortressLibrary.fss:3195:54-65	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3215.54	/home/user/fortress/Library/FortressLibrary.fss:3215:54-65	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3235.54	/home/user/fortress/Library/FortressLibrary.fss:3235:54-65	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3252.59	/home/user/fortress/Library/FortressLibrary.fss:3252:59-66	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3267.59	/home/user/fortress/Library/FortressLibrary.fss:3267:59-65	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3298.47	/home/user/fortress/Library/FortressLibrary.fss:3298:47-56	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4105.35	/home/user/fortress/Library/FortressLibrary.fss:4105:35-39	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3337.52	/home/user/fortress/Library/FortressLibrary.fss:3337:52-57	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3347.54	/home/user/fortress/Library/FortressLibrary.fss:3347:54-59	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4149.17	/home/user/fortress/Library/FortressLibrary.fss:4149:17	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4472.76	/home/user/fortress/Library/FortressLibrary.fss:4472:76-78	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3226.20	/home/user/fortress/Library/FortressLibrary.fss:3226:20-21	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4199.83	/home/user/fortress/Library/FortressLibrary.fss:4199:83	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4048.44	/home/user/fortress/Library/FortressLibrary.fss:4048:44-45	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3317.48	/home/user/fortress/Library/FortressLibrary.fss:3317:48	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4127.34	/home/user/fortress/Library/FortressLibrary.fss:4127:34-45	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:420.25	/home/user/fortress/Library/FortressLibrary.fss:420:25-40	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3142.65	/home/user/fortress/Library/FortressLibrary.fss:3142:65-69	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3149.65	/home/user/fortress/Library/FortressLibrary.fss:3149:65-69	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3657.23	/home/user/fortress/Library/FortressLibrary.fss:3657:23-25	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3796.26	/home/user/fortress/Library/FortressLibrary.fss:3796:26-28	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3885.38	/home/user/fortress/Library/FortressLibrary.fss:3885:38	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3693.46	/home/user/fortress/Library/FortressLibrary.fss:3693:46	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3688.45	/home/user/fortress/Library/FortressLibrary.fss:3688:45	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3692.46	/home/user/fortress/Library/FortressLibrary.fss:3692:46-47	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:376.64	/home/user/fortress/Library/FortressLibrary.fss:376:64-68	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4485.18	/home/user/fortress/Library/FortressLibrary.fss:4485:18	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4492.25	/home/user/fortress/Library/FortressLibrary.fss:4492:25	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:1436.71	/home/user/fortress/Library/FortressLibrary.fss:1436:71-74	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4348.17	/home/user/fortress/Library/FortressLibrary.fss:4348:17-22	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4120.29	/home/user/fortress/Library/FortressLibrary.fss:4120:29-30	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:894.33	/home/user/fortress/Library/FortressLibrary.fss:894:33-34	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:855.18	/home/user/fortress/Library/FortressLibrary.fss:855:18-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3291.38	/home/user/fortress/Library/FortressLibrary.fss:3291:38-42	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3793.60	/home/user/fortress/Library/FortressLibrary.fss:3793:60-65	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:1421.71	/home/user/fortress/Library/FortressLibrary.fss:1421:71-74	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4502.100	/home/user/fortress/Library/FortressLibrary.fss:4502:100-101	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4504.100	/home/user/fortress/Library/FortressLibrary.fss:4504:100-101	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3795.46	/home/user/fortress/Library/FortressLibrary.fss:3795:46-63	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4330.23	/home/user/fortress/Library/FortressLibrary.fss:4330:23	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3793.75	/home/user/fortress/Library/FortressLibrary.fss:3793:75-84	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4450.14	/home/user/fortress/Library/FortressLibrary.fss:4450:14	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:382.51	/home/user/fortress/Library/FortressLibrary.fss:382:51-54	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4340.23	/home/user/fortress/Library/FortressLibrary.fss:4340:23	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:3787.18	/home/user/fortress/Library/FortressLibrary.fss:3787:18-28	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4188.17	/home/user/fortress/Library/FortressLibrary.fss:4188:17	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4199.87	/home/user/fortress/Library/FortressLibrary.fss:4199:87-94	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4498.98	/home/user/fortress/Library/FortressLibrary.fss:4498:98	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4500.98	/home/user/fortress/Library/FortressLibrary.fss:4500:98	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4214.29	/home/user/fortress/Library/FortressLibrary.fss:4214:29	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4016.12	/home/user/fortress/Library/FortressLibrary.fss:4016:12	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:572.49	/home/user/fortress/Library/FortressLibrary.fss:572:49-50	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4348.49	/home/user/fortress/Library/FortressLibrary.fss:4348:49-50	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4400.38	/home/user/fortress/Library/FortressLibrary.fss:4400:38	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4492.12	/home/user/fortress/Library/FortressLibrary.fss:4492:12-29	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4492.17	/home/user/fortress/Library/FortressLibrary.fss:4492:17-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/FortressLibrary.fss:4302.34	/home/user/fortress/Library/FortressLibrary.fss:4302:34	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG COMPONENT-OK	FortressLibrary
+### rc=0
+exit=0
+ELAPSED 227 s

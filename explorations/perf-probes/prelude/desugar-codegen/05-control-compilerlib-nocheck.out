@@ -1,0 +1,11 @@
+########## PhaseProbe -order nocheck-codegen -compilerlib Library/CompilerLibrary.fss
+# start 2026-09-20T15:39:04Z
+### world=INTERPRETER-LIBRARIES  order=nocheck-codegen  phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING DESUGAR OVERLOADREWRITE CODEGEN ]  target=[Library/CompilerLibrary.fss]
+### desugaring=COMPILE-PATH  prelude=COMPILER
+@@PROBE DesugarPhase: no type-checker map (TYPECHECK omitted); using an empty one
+@@PROBE DesugarPhase: no type-checker map (TYPECHECK omitted); using an empty one
+@@PROBE DesugarPhase: no type-checker map (TYPECHECK omitted); using an empty one
+@@CG COMPONENT-FAIL	CompilerLibrary	com.sun.fortress.exceptions.CompilerError	 /home/user/fortress/Library/CompilerLibrary.fss:176:33-42:     Can't compile Juxt at /home/user/fortress/Library/CompilerLibrary.fss:176.33
+### rc=0
+exit=0
+ELAPSED 4 s

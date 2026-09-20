@@ -1,0 +1,63 @@
+
+== @@CG FAIL (CODEGEN, the top-level declaration loop): 411 ==
+   287  T no type annotation
+   110  V no visitor: Juxt
+     6  N nat static argument
+     5  R type reference / RTTI
+     1  V no visitor: AmbiguousMultifixOpExpr
+     1  V no visitor: Label/Exit
+     1  X other: forbid clause
+           131  checker checked it clean
+           112  not a top-level declaration of the source
+            88  checker reported errors on it
+            80  checker crashed on it
+      class x provenance:
+         112  T no type annotation                   not a top-level declaration of the source
+          72  V no visitor: Juxt                     checker checked it clean
+          68  T no type annotation                   checker reported errors on it
+          55  T no type annotation                   checker checked it clean
+          52  T no type annotation                   checker crashed on it
+          21  V no visitor: Juxt                     checker crashed on it
+          17  V no visitor: Juxt                     checker reported errors on it
+           6  N nat static argument                  checker crashed on it
+           3  R type reference / RTTI                checker checked it clean
+           2  R type reference / RTTI                checker reported errors on it
+           1  V no visitor: AmbiguousMultifixOpExpr  checker checked it clean
+           1  V no visitor: Label/Exit               checker crashed on it
+           1  X other: forbid clause                 checker reported errors on it
+
+== @@CG PREFAIL (CODEGEN, the object/variable pre-pass): 70 ==
+    48  T no type annotation
+    10  V no visitor: Juxt
+     8  N nat static argument
+     2  V no visitor: AmbiguousMultifixOpExpr
+     2  X other
+            32  checker crashed on it
+            30  checker checked it clean
+             8  checker reported errors on it
+      class x provenance:
+          24  T no type annotation                   checker checked it clean
+          17  T no type annotation                   checker crashed on it
+           7  N nat static argument                  checker crashed on it
+           7  T no type annotation                   checker reported errors on it
+           7  V no visitor: Juxt                     checker crashed on it
+           2  V no visitor: Juxt                     checker checked it clean
+           2  X other                                checker checked it clean
+           1  N nat static argument                  checker checked it clean
+           1  V no visitor: AmbiguousMultifixOpExpr  checker checked it clean
+           1  V no visitor: AmbiguousMultifixOpExpr  checker crashed on it
+           1  V no visitor: Juxt                     checker reported errors on it
+
+== @@CG CTORFAIL (CODEGEN, CodeGen's constructor): 1 ==
+     1  K kind env / trait table
+             1  checker reported errors on it
+      class x provenance:
+           1  K kind env / trait table               checker reported errors on it
+
+== counts ==
+   147  @@CG OK
+   411  @@CG FAIL
+    70  @@CG PREFAIL
+     1  @@CG CTORFAIL
+   170  @@CG OVLSKIP
+
