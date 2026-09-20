@@ -1,0 +1,9 @@
+. link library_tests/IntConversionsRungW  OK (time = 2677ms)
+. run library_tests/IntConversionsRungW (447ms) PASS
+Passed
+
+Time: 3.131
+
+OK (2 tests)
+
+junit exit=0
