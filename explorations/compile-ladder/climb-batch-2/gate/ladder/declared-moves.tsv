@@ -1,0 +1,5 @@
+corpus	file	XXX	phase	secs	missing_name	codegen_node	unapplicable_call	own_missing	imported_missing	first_error
+tests	abortTest.fss		disambiguate	1	abort			abort ; printThreadInfo		Variable abort is not defined.
+tests	fib13.fss		typecheck	4			SQRT			Could not check call to operator SQRT
+tests	nestedTransactions3.fss		codegen	2		Can't compile TryAtomicExpr				Can't compile TryAtomicExpr at /home/user/fortress/ProjectFortress/tests/nestedTransactions3.fss:25.10
+tests	tryatomicTest.fss		codegen	2		Can't compile TryAtomicExpr				Can't compile TryAtomicExpr at /home/user/fortress/ProjectFortress/tests/tryatomicTest.fss:21.13

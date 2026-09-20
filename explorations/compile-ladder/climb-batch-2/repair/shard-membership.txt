@@ -1,0 +1,27 @@
+== a0fcf0a96
+entries 387
+shard 0: 97 files kept, 95 tests, 0 filtered, 0 hidden, 2 other( presidents printing)
+shard 1: 97 files kept, 95 tests, 0 filtered, 0 hidden, 2 other( a.b poem.txt)
+shard 2: 97 files kept, 97 tests, 0 filtered, 0 hidden, 0 other()
+shard 3: 96 files kept, 95 tests, 0 filtered, 0 hidden, 1 other( sample.fa)
+sum 382
+== 8590d7a9e
+entries 389
+shard 0: 98 files kept, 98 tests, 0 filtered, 0 hidden, 0 other()
+shard 1: 97 files kept, 96 tests, 0 filtered, 0 hidden, 1 other( sample.fa)
+shard 2: 97 files kept, 95 tests, 0 filtered, 0 hidden, 2 other( presidents printing)
+shard 3: 97 files kept, 95 tests, 0 filtered, 0 hidden, 2 other( a.b poem.txt)
+sum 384
+== HEAD
+entries 389
+shard 0: 98 files kept, 98 tests, 0 filtered, 0 hidden, 0 other()
+shard 1: 97 files kept, 96 tests, 0 filtered, 0 hidden, 1 other( sample.fa)
+shard 2: 97 files kept, 95 tests, 0 filtered, 0 hidden, 2 other( presidents printing)
+shard 3: 97 files kept, 95 tests, 0 filtered, 0 hidden, 2 other( a.b poem.txt)
+sum 384
+== on-disk top-level entries of ProjectFortress/tests against the tracked ones at HEAD
+IDENTICAL
+== the entries added between a0fcf0a96 and HEAD
+4a5,6
+> ProjectFortress/tests/ArrayOperatorsBesideLibrary.fss
+> ProjectFortress/tests/ArrayScalarExtension.fss

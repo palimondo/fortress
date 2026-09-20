@@ -1,0 +1,103 @@
+== (a) backtick count over explorations/coordinator/climb-batch-workflow.js (the file's own rule, :22); expected 1, the pre-existing mg_phases line
+1
+   the one line:
+899:'        mg_phases () { awk -F\'|\' \'/^\\| *[0-9]+ *\
+
+== (b) syntax: wrapped node --check, the method of postmortem-2026-09-19/user-messages.md:1362,:1491
+node --check exit=0  (expected 0)
+node --check on the copy with one stray ')' exit=1  (expected non-zero: the method bites)
+SyntaxError: Unexpected token ')'
+
+== (c) decode gate_compare (lines 809-821) exactly as JS will produce it, then run it
+--- the decoded shell text:
+        gate_compare () {                 # gate_compare <last-landed-summary> <this-summary>; prints the red lines, exit 1 if any. The system-<i> rows are one suite split by sorted index (FileTests.java:790-806): a file added to tests/ moves every later file along the shards, so those rows are compared by their sum
+            awk -F'\t' '
+              function key(s) { sub("^system-[0-9]+/", "system/", s) ; return s }
+              FNR == NR { if ($0 !~ /^#/ && NF == 5) base[key($1)] += $2 ; next }
+              $0 !~ /^#/ && NF == 5 {
+                  k = key($1) ; seen[k] = 1 ; cur[k] += $2
+                  if ($3 + 0 > 0 || $4 + 0 > 0)              { print "RED\t" $1 "\t" $3 " failures, " $4 " errors" ; bad++ }
+                  if ($2 + 0 == 0)                           { print "EMPTY\t" $1 ; bad++ }
+              }
+              END { for (k in cur) if ((k in base) && cur[k] < base[k]) { print "COUNT DOWN\t" k "\t" base[k] " -> " cur[k] ; bad++ }
+                    for (s in base) if (!(s in seen)) { print "SUITE GONE\t" s "\t" base[s] " -> absent" ; bad++ }
+                    if (bad) exit 1 }' "$1" "$2"
+        }
+--- the awk that will run it:
+mawk 1.3.4 20240123
+
+--- the two clean comparisons, as JUDGE-gate.md step 5(c) gives them
+baseline vs this run  (expected: no output, exit 0)
+exit=0
+self-compare          (expected: no output, exit 0)
+exit=0
+
+--- the four perturbations. Each is run BOTH ways: against the unmodified explorations/compile-ladder/climb-batch-2/gate/summary.txt (which is the
+    comparand the ruling's expected strings were computed against - its bases are this run's
+    384 and 83) and against the landed baseline explorations/compile-ladder/gate-baseline/summary.txt (bases 382 and 77, per :49-52 and :3).
+  [system-0 lowered 98 -> 95] base = this run (explorations/compile-ladder/climb-batch-2/gate/summary.txt):
+    COUNT DOWN^Isystem/SystemJUTest^I384 -> 381$
+    exit=1
+  [system-0 lowered 98 -> 95] base = landed baseline (explorations/compile-ladder/gate-baseline/summary.txt):
+    COUNT DOWN^Isystem/SystemJUTest^I382 -> 381$
+    exit=1
+  [fast-library lowered 83 -> 82] base = this run (explorations/compile-ladder/climb-batch-2/gate/summary.txt):
+    COUNT DOWN^Ifast-library/LibraryJUTest^I83 -> 82$
+    exit=1
+  [fast-library lowered 83 -> 82] base = landed baseline (explorations/compile-ladder/gate-baseline/summary.txt):
+    exit=0
+  [fast-misc/BitsJUTest row deleted] base = this run (explorations/compile-ladder/climb-batch-2/gate/summary.txt):
+    SUITE GONE^Ifast-misc/BitsJUTest^I2 -> absent$
+    exit=1
+  [fast-misc/BitsJUTest row deleted] base = landed baseline (explorations/compile-ladder/gate-baseline/summary.txt):
+    SUITE GONE^Ifast-misc/BitsJUTest^I2 -> absent$
+    exit=1
+  [system-3 row deleted] base = this run (explorations/compile-ladder/climb-batch-2/gate/summary.txt):
+    COUNT DOWN^Isystem/SystemJUTest^I384 -> 289$
+    exit=1
+  [system-3 row deleted] base = landed baseline (explorations/compile-ladder/gate-baseline/summary.txt):
+    COUNT DOWN^Isystem/SystemJUTest^I382 -> 289$
+    exit=1
+
+--- RED and EMPTY are still per row, so a shard with a failure is named by its own shard
+RED^Isystem-2/SystemJUTest^I1 failures, 0 errors$
+exit=1  (expected 1)
+EMPTY^Isystem-1/SystemJUTest$
+COUNT DOWN^Isystem/SystemJUTest^I384 -> 288$
+exit=1  (expected 1)
+
+--- the PRE-EDIT function (git show HEAD:explorations/coordinator/climb-batch-workflow.js, lines 809-820) on baseline vs this run: the gate's red line reproduced
+COUNT DOWN^Isystem-2/SystemJUTest^I97 -> 95$
+exit=1  (expected 1)
+
+== (d) decode run_bg (lines 309-311), source it, and check the subshell captures the whole chain
+    run_bg () {            # run_bg <logfile> <command string>; the subshell makes the redirection cover the whole string, so a cd inside it neither escapes the log nor moves a relative log path
+        nohup bash -c "( $2 ) > '$1' 2>&1; echo EXIT=\$? >> '$1'" >/dev/null 2>&1 &
+    }
+--- /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/rb.txt (expected: first, second, EXIT=1)
+first
+second
+EXIT=1
+--- and a trailing ';' in the string is tolerated (which { $2 ; } would not be)
+third
+EXIT=0
+--- a RELATIVE log path resolves in the caller's directory, not after the cd
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/rel.txt:
+fourth
+EXIT=0
+
+--- the PRE-EDIT run_bg on the same command string, for contrast (the trap the gate stage measured)
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/rb-pre.txt holds only:
+EXIT=1
+
+== (d) decode atomic_runs (lines 834-857, the function's bounds after the two edits) and bash -n it only
+        atomic_runs () {                  # atomic_runs <out-file>; appends "# atomic ..." lines, exit 1 if any is not PASS
+            local O="$1" p d i out rc
+            case "$O" in /*) ;; *) O="$PWD/$O" ;; esac     # resolve before the cd: the gate passes GATE_DIR, which is relative to the main tree
+        ... (the function is not run here)
+            ! grep -q 'FAIL\|TIMEOUT-TWICE\|NO-PASS\|COMPILE-FAILED' "$O"
+        }
+bash -n exit=0  (expected 0; not run)
+--- the inserted line, in isolation: a relative out-file becomes absolute, an absolute one is left alone
+relative -> /home/user/fortress/explorations/compile-ladder/climb-batch-2/gate/summary.txt
+absolute -> /abs/path/summary.txt
