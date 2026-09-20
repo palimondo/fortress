@@ -1,0 +1,4 @@
+component SkKwCall
+export Executable
+run(): () = println("shared(3) = " shared(3))
+end

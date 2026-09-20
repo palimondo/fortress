@@ -1,0 +1,18 @@
+component SkAtomicCount
+import SkVarApi.{...}
+export Executable
+
+iterations: ZZ32 = 20000
+
+bump(): () = atomic do counter := counter + 1 end
+
+run(): () = do
+    do
+        for i <- 1#iterations do bump() end
+    also do
+        for i <- 1#iterations do bump() end
+    end
+    println("counter = " counter)
+    if counter = 100 + 2 iterations then println("PASS") else println("FAIL lost updates") end
+  end
+end

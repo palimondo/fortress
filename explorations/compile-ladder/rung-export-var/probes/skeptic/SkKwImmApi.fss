@@ -1,0 +1,5 @@
+component SkKwImmApi
+export SkKwImmApi
+shared: ZZ32 = 7
+other: ZZ32 = 11
+end

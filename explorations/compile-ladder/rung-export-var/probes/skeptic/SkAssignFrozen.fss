@@ -1,0 +1,8 @@
+component SkAssignFrozen
+import SkVarApi.{...}
+export Executable
+run(): () = do
+    frozen := 7
+    println("frozen = " frozen)
+  end
+end

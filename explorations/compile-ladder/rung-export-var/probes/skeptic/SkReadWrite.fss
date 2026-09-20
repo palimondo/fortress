@@ -1,0 +1,13 @@
+component SkReadWrite
+import SkVarApi.{...}
+export Executable
+run(): () = do
+    println("counter0 = " counter)
+    counter := counter + 5
+    println("counter1 = " counter)
+    println("cell0 = " cell.size)
+    cell := Cell(9)
+    println("cell1 = " cell.size)
+    println("frozen = " frozen)
+  end
+end

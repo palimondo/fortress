@@ -1,0 +1,6 @@
+component SkKwHiddenApi
+export SkKwHiddenApi
+var hidden: ZZ32 = 1
+var value: ZZ32 = 2
+var total: ZZ32 = 3
+end

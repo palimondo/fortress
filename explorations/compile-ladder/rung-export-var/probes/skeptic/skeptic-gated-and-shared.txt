@@ -1,0 +1,50 @@
+### SKEPTIC: the name 'shared' and the rung's own gated tests, tree fd666d129, 2026-09-20T06:25:55+00:00
+=== walk SkKwCall: is 'shared' bound as FortressLibrary's generic function? ===
+shared(3) = 3
+walk-exit=0
+=== compile+run SkKwCall: does the compiler prelude have 'shared'? ===
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkKwCall.fss:3:36-40:
+    Variable shared is not defined.
+File SkKwCall.fss has 1 error.
+compile-exit=0
+######## FORTRESS_THREADS=1 junit compiler_tests/ExportVarRungX.test
+. link compiler_tests/ExportVarRungX  OK (time = 2650ms)
+. run compiler_tests/ExportVarRungX (287ms) PASS
+Passed
+
+Time: 2.943
+
+OK (2 tests)
+
+######## FORTRESS_THREADS=1 junit compiler_tests/XXXExportVarRungXLinked.test
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress-export/ProjectFortress/compiler_tests:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 1.334
+
+OK (1 test)
+
+######## FORTRESS_THREADS=4 junit compiler_tests/ExportVarRungX.test
+. link compiler_tests/ExportVarRungX  OK (time = 2658ms)
+. run compiler_tests/ExportVarRungX (271ms) PASS
+Passed
+
+Time: 2.934
+
+OK (2 tests)
+
+######## FORTRESS_THREADS=4 junit compiler_tests/XXXExportVarRungXLinked.test
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress-export/ProjectFortress/compiler_tests:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 1.287
+
+OK (1 test)
+
+EXIT=0

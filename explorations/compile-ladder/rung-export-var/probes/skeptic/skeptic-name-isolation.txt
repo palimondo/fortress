@@ -1,0 +1,89 @@
+### SKEPTIC: what actually makes walk lose an api-exported variable
+### tree fd666d129  2026-09-20T06:29:51+00:00
+### Each block is the SAME shape: an api declaring two top-level variables,
+### satisfied by a same-named component, read by a third component.
+######################## FORTRESS_THREADS=1
+=== A. walk SkMinMain: api declares 'var alpha' + immutable 'beta'; MUTABLE, names not in any library
+beta = 11
+alpha = 7
+walk-exit=0
+=== B. walk SkMinAlphaFirst: same api, mutable read FIRST (rules out declaration order)
+alpha = 7
+beta = 11
+walk-exit=0
+=== C. walk SkKwMain: identical shape, the two names renamed to 'shared'/'fixed'
+fixed = 11
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkKwMain.fss:6:25-29:
+undefined variable [shared]
+Context:
+walk-exit=1
+=== D. walk SkKwImmMain: 'shared' declared IMMUTABLE in the api (rules out mutability)
+other = 11
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkKwImmMain.fss:6:25-29:
+undefined variable [shared]
+Context:
+walk-exit=1
+=== E. walk SkKwLocal: 'var shared' in ONE component, read and assigned, no api
+shared = 7
+shared = 9
+walk-exit=0
+=== F. walk SkKwCall: is 'shared' bound as Library/FortressLibrary.fsi:45's generic function?
+shared(3) = 3
+walk-exit=0
+=== G. compile SkKwCall: the compiler prelude has no 'shared' at all
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkKwCall.fss:3:36-40:
+    Variable shared is not defined.
+File SkKwCall.fss has 1 error.
+=== H. walk SkKwHiddenApi pair: 'var hidden' in an api (a real keyword, for contrast)
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkKwHiddenApi.fsi:2:11:
+    Syntax Error
+walk-exit=255
+######################## FORTRESS_THREADS=4
+=== A. walk SkMinMain: api declares 'var alpha' + immutable 'beta'; MUTABLE, names not in any library
+beta = 11
+alpha = 7
+walk-exit=0
+=== B. walk SkMinAlphaFirst: same api, mutable read FIRST (rules out declaration order)
+alpha = 7
+beta = 11
+walk-exit=0
+=== C. walk SkKwMain: identical shape, the two names renamed to 'shared'/'fixed'
+fixed = 11
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkKwMain.fss:6:25-29:
+undefined variable [shared]
+Context:
+walk-exit=1
+=== D. walk SkKwImmMain: 'shared' declared IMMUTABLE in the api (rules out mutability)
+other = 11
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkKwImmMain.fss:6:25-29:
+undefined variable [shared]
+Context:
+walk-exit=1
+=== E. walk SkKwLocal: 'var shared' in ONE component, read and assigned, no api
+shared = 7
+shared = 9
+walk-exit=0
+=== F. walk SkKwCall: is 'shared' bound as Library/FortressLibrary.fsi:45's generic function?
+shared(3) = 3
+walk-exit=0
+=== G. compile SkKwCall: the compiler prelude has no 'shared' at all
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkKwCall.fss:3:36-40:
+    Variable shared is not defined.
+File SkKwCall.fss has 1 error.
+=== H. walk SkKwHiddenApi pair: 'var hidden' in an api (a real keyword, for contrast)
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkKwHiddenApi.fsi:2:11:
+    Syntax Error
+walk-exit=255
+=== I. the worker's own SameVarMain, in the worker's own probe directory, for comparison
+fixed = 11
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/SameVarMain.fss:6:25-29:
+undefined variable [shared]
+Context:
+walk-exit=1
+=== J. my alpha/beta pair COPIED into that same directory: the directory is not the cause
+beta = 11
+alpha = 7
+walk-exit=0
+--- copies removed; the worker's probe directory is left as it was:
+(no changes outside probes/skeptic/)
+EXIT=0
