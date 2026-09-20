@@ -1,0 +1,95 @@
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:15:17:
+    Could not check call to operator SQRT
+    - RR64->RR64 is not applicable to an argument of type IntLiteral.
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:17:31-36:
+    Could not check call to operator >=
+    - ((Comparison & {Unordered, TotalComparison}), Comparison)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - ((CompilerAlgebra.StandardTotalOrder[\T\] & {T}), T)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - (Character, Character)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - (IntLiteral, IntLiteral)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - (NN32, NN32)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - (NN64, NN64)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - (RR64, RR64)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - (String, String)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - (ZZ, ZZ)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - (ZZ32, ZZ32)->Boolean is not applicable to an argument of type (I, IntLiteral).
+    - (ZZ64, ZZ64)->Boolean is not applicable to an argument of type (I, IntLiteral).
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:18:21:
+    Could not check call to operator SQRT
+    - RR64->RR64 is not applicable to an argument of type IntLiteral.
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:18:25-27:
+    Could not check call to operator /
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, IntLiteral).
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:24:3-45:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:25:3-46:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ, IntLiteral, String).
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:28:3-47:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:29:3-48:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:30:3-57:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (NN32, IntLiteral, String).
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:31:3-58:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (NN32, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (NN32, IntLiteral, String).
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:32:3-57:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (NN64, IntLiteral, String).
+/home/user/fortress-conv/ProjectFortress/tests/fib13.fss:33:3-58:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (NN64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (NN64, IntLiteral, String).
+File fib13.fss has 12 errors.

@@ -1,0 +1,21 @@
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:53:12-17:
+    Operator PLUS_UP is not defined.
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:54:12-18:
+    Operator MINUS_UP is not defined.
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:55:12-16:
+    Operator DOT_UP is not defined.
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:56:12-18:
+    Operator SLASH_UP is not defined.
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:57:10-15:
+    Operator prefix SQRT_UP is not defined.
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:58:12-19:
+    Operator PLUS_DOWN is not defined.
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:59:12-20:
+    Operator MINUS_DOWN is not defined.
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:60:12-18:
+    Operator DOT_DOWN is not defined.
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:61:12-20:
+    Operator SLASH_DOWN is not defined.
+/home/user/fortress-conv/ProjectFortress/tests/testRR32.fss:62:10-17:
+    Operator prefix SQRT_DOWN is not defined.
+File testRR32.fss has 10 errors.

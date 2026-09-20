@@ -1,0 +1,6 @@
+=== walk: ProbeSignedType ===
+signed of 2^64-1 compares below zero: true
+=== compile: ProbeSignedType ===
+compile exit=0
+=== compiled run: ProbeSignedType ===
+signed of 2^64-1 compares below zero:  true

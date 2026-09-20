@@ -1,0 +1,17 @@
+=== walk: ProbeNarrowSigned ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/ProbeNarrowSigned.fss:15:82-89:
+Overflow of ZZ32 4294967296
+Context:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/ProbeNarrowSigned.fss:15:82-89:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/ProbeNarrowSigned.fss:6:12-13:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/ProbeNarrowSigned.fss:15:58-90:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+=== compile: ProbeNarrowSigned ===
+compile exit=0
+=== compiled run: ProbeNarrowSigned ===
+IntegerOverflow caught from narrow of 2^32:  true
