@@ -16,11 +16,6 @@ export Executable
 
 thrower(): ZZ32 = throw TryAtomicFailure
 
-widened(b: Boolean): Object = do
-    n: ZZ32 = 7
-    if b then n else "seven" end
-end
-
 run():() = do
     println("REACHED")
     caught: String =
@@ -31,14 +26,7 @@ run():() = do
             TryAtomicFailure => e.asString
         end
     assert(caught, "Try/atomic failure",
-           "the catch clause binds the exception value, Specification/basic/expressions/try.tex:56-60")
-    picked: String =
-        typecase widened(true) of
-            x:ZZ32 => x.asString
-            Object => "NOT MATCHED"
-        end
-    assert(picked, "7",
-           "a typecase clause binds the value, Specification/basic/expressions/typecase.tex:53-60")
+           "a catch clause binds the exception value, Specification/basic/expressions/try.tex:56-60")
     println("PASS")
 end
 

@@ -1,0 +1,93 @@
+# Rung B: record lines for the gather
+
+Finished prose, ready to paste. Nothing here was written into the coordinator's files.
+
+## FACTS.md
+
+Two lines. The first is the rung; the second is a property of the gate that this rung had
+to measure before it could place its expected-failure test, and that every later rung with
+a run-time defect will need.
+
+- `TryAtomicFailure` is live in the compiler world as of rung B: `Library/CompilerLibrary.fsi:105`
+  declares `object TryAtomicFailure extends CheckedException end` and `.fss:253-255` gives it
+  `getter asString(): String = "Try/atomic failure"`, the team's own three lines moved out of
+  the comment block at `.fss:257-291`, which still holds eight more exception objects that
+  nothing on the ladder asks for. `tests/tryatomicTest.fss` and `nestedTransactions3.fss` now
+  reach codegen and stop at `Can't compile TryAtomicExpr` (`CodeGen.java` has no
+  `forTryAtomicExpr`); `tests/abortTest.fss` reaches typecheck and stops on `abort` and
+  `printThreadInfo`. Gated by `library_tests/TryAtomicRungB`
+  (`explorations/compile-ladder/rung-tryatomic/REPORT.md`).
+- The `XXX` expected-failure mechanism can express a **compile-stage** failure only. `shouldFail`
+  comes from the `.test` file name (`FileTests.java:932`) and the same flag reaches every stage
+  the file drives (`:1052-1059`, `:1063-1069`), so an `XXX` file that carries `link` (or
+  `compile`) demands that the compile fail (`:384-404`, message at `:402`); and a `TestTest`
+  fails on an unsatisfied `run_out_*` verdict whatever `shouldFail` says (`:534-539`, `:583-585`),
+  with `pass`/`PASS` demanded by default when no check is set (`:276-282`). Of the 224
+  `XXX*.test` files in `compiler_tests/`, 223 drive `compile`, one drives `link`, none drives
+  `run`. A compiles-but-crashes defect is therefore gated as two `.test` files over one
+  component — a plain-named one driving `link`, an `XXX`-named one driving `run` with a marker
+  the failing run does print — which is what rung B did and showed going red on a deliberate
+  fix (`explorations/compile-ladder/rung-tryatomic/raw/junit-xxx-expected.txt`,
+  `explorations/compile-ladder/rung-tryatomic/raw/junit-xxx-goes-red.txt`).
+
+## Gap ledger
+
+**One new row, provisional number 343** — the gather assigns the final number in manifest
+order (X, W, B), so this row takes whatever number falls to B.
+
+> **343. A `catch` or `typecase` clause binding cannot be read in the clause body on the
+> compiled path.** `CodeGen.forTry` takes the catch name at `CodeGen.java:2041`
+> (`Id name = _catch.getName();`) and never uses it; the clause body is compiled at `:2056`
+> with nothing added to the local environment, and the team's comment at `:2034` says why —
+> "We really should have desugared this into typecase, but for now…". A reference to the name
+> reaches `forVarRef` (`:5953-5974`), where `getLocalVarOrNull` returns null at `:5956` and
+> `:5967` builds the class name with `NamingCzar.jvmClassForToplevelDecl`, so the run asks for
+> the singleton class of a top-level variable that nobody emits. `forTypecase` (`:2111-2145`)
+> is the second site: it never reads `c.getName()`, although `TypecaseClause` carries it
+> (`ProjectFortress/astgen/Fortress.ast:1659`, example at `:1656-1657`). Two sites, one cause.
+> Measured both ways: `explorations/compile-ladder/rung-tryatomic/probes/catch-binding.txt`
+> (compile exit 0, run exit 1, `NoClassDefFoundError: CatchBindingRef$e`; under walk exit 0 and
+> `caught: Try/atomic failure`) and
+> `explorations/compile-ladder/rung-tryatomic/probes/typecase-binding.txt` (the same on `$x`;
+> under walk `typecase: 7`). The specification settles the catch site against the compiled run:
+> `Specification/basic/expressions/try.tex:56-60`, "the exception value is bound to the
+> identifier specified in the `catch` clause", with the grammar at `:22`; for the typecase site
+> the 1.0 prose covers only the `typecase x of` spelling
+> (`Specification/basic/expressions/typecase.tex:55-62`, `:88-98`, note at `:15`), so the
+> per-clause `Id :` form is silent-specification territory and the interpreter plus the AST's
+> own example are the evidence. The fix: give the clause binding a local for the duration of the
+> clause body, the shape `CodeGen` already uses at `:2848-2850` and `:3940-3943`
+> (`new VarCodeGen.LocalVar(name, type, this)` then `addLocalVar`), at both sites. Not repaired
+> in rung B because `CodeGen.java` is rung X's file this batch
+> (`explorations/coordinator/CLIMB-BATCH-2.md:77`). Gated as an expected failure at the catch
+> site by `ProjectFortress/library_tests/XXXClauseBindingRungB.fss` with
+> `XXXClauseBindingRungB.test` and `ClauseBindingRungBLink.test`; nothing in either corpus
+> referenced a clause binding before this rung, which is why 5,397 commits and three campaigns
+> had not seen it.
+
+**Nothing to append to an existing row.** Rows 319, 322 and 324 (`atomic` conformance) and
+row 320 (the exported variable) were not touched.
+
+## Handover state line
+
+- Rung B landed: `TryAtomicFailure` live in `CompilerLibrary` (`.fsi:105`, `.fss:253-255`),
+  three ladder files off disambiguate (two at codegen on `TryAtomicExpr`, `abortTest` at
+  typecheck on `abort`/`printThreadInfo`), gated by `library_tests/TryAtomicRungB` (`OK (2 tests)`,
+  `PASS`). One new ledger row, the clause-binding defect of `CodeGen.forTry` and `forTypecase`,
+  gated as an expected failure by `library_tests/XXXClauseBindingRungB` plus
+  `ClauseBindingRungBLink.test`. Next on this thread: `forTryAtomicExpr` in `CodeGen.java`
+  (the only thing `tryatomicTest` and `nestedTransactions3` now wait on), and `abort` and
+  `printThreadInfo` for `abortTest`.
+
+## Two map corrections, for whoever edits the map
+
+Not applied here — the map is the coordinator's to fold, and a parallel rung would conflict on it.
+
+- `explorations/coordinator/map/dormant-code.md:32` calls the `CompilerLibrary.fss` block "ten
+  checked/unchecked exception objects" and then names nine; it held nine, and holds eight after
+  this rung. Its line range `220-258` was stale before this rung (the block was at `253-291`);
+  it is now at `257-291`.
+- `explorations/coordinator/map/test-coverage.md:104` and
+  `explorations/coordinator/map/dormant-code.md:188` cite `FileTests.java:997` for the
+  `fortress.unittests.noopt` read; in this tree it is `FileTests.java:1007`. The property itself
+  is at `default_repository/configuration:51`, as both say.

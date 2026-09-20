@@ -1,5 +1,5 @@
-. link library_tests/XXXClauseBindingRungB  OK (time = 3194ms)
-. run library_tests/XXXClauseBindingRungB (328ms) REACHED
+. link library_tests/XXXClauseBindingRungB  OK (time = 3031ms)
+. run library_tests/XXXClauseBindingRungB (253ms) REACHED
 java.lang.NoClassDefFoundError
 	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
 	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
@@ -13,7 +13,7 @@ java.lang.NoClassDefFoundError
 	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
 	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
 Caused by: java.lang.NoClassDefFoundError: XXXClauseBindingRungB$e
-	at XXXClauseBindingRungB.run(/home/user/fortress-tryatomic/ProjectFortress/library_tests/XXXClauseBindingRungB.fss:31)
+	at XXXClauseBindingRungB.run(/home/user/fortress-tryatomic/ProjectFortress/library_tests/XXXClauseBindingRungB.fss:26)
 	at XXXClauseBindingRungB.compute(/home/user/fortress-tryatomic/ProjectFortress/library_tests/XXXClauseBindingRungB.fss)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
@@ -32,7 +32,7 @@ Caused by: java.io.IOException: Resource not found : XXXClauseBindingRungB$e.cla
 	... 8 more
 Saw expected failure (Exit code != 0)
 
-Time: 3.527
+Time: 3.291
 
 OK (2 tests)
 

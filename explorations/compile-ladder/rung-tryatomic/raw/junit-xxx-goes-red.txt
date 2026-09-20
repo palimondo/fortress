@@ -1,9 +1,10 @@
-. link library_tests/XXXClauseBindingRungB  OK (time = 3239ms)
-. run library_tests/XXXClauseBindingRungB (323ms) REACHED
+# The deliberate local fix: catch clause body reads TryAtomicFailure.asString instead of e.asString.
+. link library_tests/XXXClauseBindingRungB  OK (time = 3192ms)
+. run library_tests/XXXClauseBindingRungB (274ms) REACHED
 PASS
 Did not see expected failure
 F
-Time: 3.569
+Time: 3.473
 There was 1 failure:
 1) library_tests/XXXClauseBindingRungB(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest library_tests/XXXClauseBindingRungB
 	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:589)

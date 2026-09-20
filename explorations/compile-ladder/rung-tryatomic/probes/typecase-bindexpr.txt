@@ -1,0 +1,28 @@
+=== TypecaseBindExprRef.fss : compiled path ===
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/TypecaseBindExprRef.fss:11:18:
+    Variable v is not defined.
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/TypecaseBindExprRef.fss:12:21:
+    Variable v is not defined.
+File TypecaseBindExprRef.fss has 2 errors.
+compile exit=255
+Could not load TypecaseBindExprRef
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : TypecaseBindExprRef.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run exit=1
+
+=== TypecaseBindExprRef.fss : walk (interpreter) ===
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/TypecaseBindExprRef.fss:11:18:
+    Variable v is not defined.
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/TypecaseBindExprRef.fss:12:21:
+    Variable v is not defined.
+walk exit=255
