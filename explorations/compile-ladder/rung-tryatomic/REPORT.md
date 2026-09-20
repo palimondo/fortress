@@ -6,6 +6,17 @@ precedent: the team's own three lines for this world, commented out — `Library
 deviation: the three lines are moved under the `(* Checked Exceptions *)` header rather than uncommented where they lay, so the dormant block stays one block — `Library/CompilerLibrary.fss:251-255`
 historical: `Library/CompilerLibrary.fss`, `Library/CompilerLibrary.fsi`
 
+**Two line-number offsets against the landed tree, added by the merged-diff review of
+2026-09-20.** This report was written in rung B's own worktree, where neither of the other
+two rungs of the batch was applied. In the landed tree every `CompilerBuiltin.fsi` citation
+here at or below `:206` reads **eight lines lower** than the file — rung W added eight
+declaration lines to that file, two in each of the four fixed-size integer traits — so
+`:707-734`, `:731-732`, `:745`, `:745-746` and `:754-756` below are `:715-742`, `:739-740`,
+`:753`, `:753-754` and `:762-764` in the landed tree; `:17-18` is above the first insertion
+and is unchanged. And every `CodeGen.java` citation here reads one lower than the landed
+file above `CodeGen.java:5951` and sixteen lower below it (rung X's two insertions), as
+ledger row 351 and `record.md` now state.
+
 ## What landed
 
 Two lines of declaration and three of body. `Library/CompilerLibrary.fsi:105` declares

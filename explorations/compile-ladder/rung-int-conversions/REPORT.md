@@ -10,7 +10,7 @@ precedent: this world's own plainly-named signed narrowing, `getter asZZ32(): ZZ
 
 deviation: `NN64.signed` is declared `: ZZ64` where the interpreter's api declares `: NN64`, because the glue it binds returns an `FLong` — `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java:59-60`
 
-deviation: `NN64.narrow` throws `IntegerOverflow` out of range where the interpreter truncates, so `ProjectFortress/tests/UnsignedTest.fss:210-211` will not hold on the compiled path — provisional ledger row W-2 below
+deviation: `NN64.narrow` throws `IntegerOverflow` out of range where the interpreter truncates, so `ProjectFortress/tests/UnsignedTest.fss:210-211` will not hold on the compiled path — provisional ledger row W-2 below, which the gather numbered **346** (`record.md` carries the whole mapping: W-1 is 345, W-2 is 346, W-3 is 347; final numbers supplied here by the merged-diff review of 2026-09-20)
 
 deviation: the rung adds one native binding, `simpleUnsignedIntArith.toLong`, and not only declarations, because no imported native zero-extends an `NN32` into a long — `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:86`
 

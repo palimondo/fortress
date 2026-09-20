@@ -3,6 +3,15 @@
 First judgement. **Approved, with five required corrections** listed at the end. None of
 them touches the edit or the tests; all five are in the record.
 
+**Line-number offsets against the landed tree, added by the merged-diff review of
+2026-09-20**, because this judgement was written in rung B's worktree with neither other
+rung applied: every `CompilerBuiltin.fsi` citation here at or below `:206` reads eight lines
+lower than the landed file (rung W added eight declaration lines to that file), so `:745`,
+`:745-746`, `:745-749` and `:748-756` below are `:753`, `:753-754`, `:753-757` and
+`:756-764`; and every `CodeGen.java` citation reads one lower above `CodeGen.java:5951`
+and sixteen lower below it (rung X's two insertions) — so `:1669` here is `:1670` in the
+landed file and `:2030` is `:2031`.
+
 What I inherited: three commits on `wip/rung-tryatomic` (`3c36200ca` the failing test and
 its capture, `cde4d5982` the edit and the gated pair, `a963cac8a` the record), a clean
 worktree, and a branch in sync with the remote. I re-ran the rung's suite myself rather
@@ -160,7 +169,10 @@ line. All correct — and more accurate than the shared prefix's own numbers, wh
 224 `XXX*.test` in `compiler_tests/`, 223 driving `compile`, one driving `link`, none
 driving `run`.
 
-The ledger note opens one row, provisional 343. The highest number in
+The ledger note opens one row, provisional 343 — **landed as row 351**, the manifest order
+having given 343-344 to rung X and 345-350 to rung W, so every "343" in this section means
+rung B's provisional number and not the landed row 343, which is rung X's (final number
+supplied here by the merged-diff review of 2026-09-20). The highest number in
 `explorations/fortress-gap-ledger.md` today is 342, so 343 renumbers and moves nothing, and
 the note says the gather assigns the final number in manifest order. It cites rows 319, 320,
 322 and 324 only to say they were not touched, which is true of the diff. A reader six

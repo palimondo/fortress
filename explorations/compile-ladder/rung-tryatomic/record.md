@@ -52,9 +52,15 @@ requires it; `probes/skeptic/SkepThrowsClause.fss`), and **353**, the compiled p
 A narrowing was appended to existing **row 79** rather than opened as a row of its own: the
 compiled `typecase` is sound for every runtime kind but the integer literal
 (`probes/skeptic/SkepTypecaseKinds.fss`, `SkepTypecaseBind.fss`). Every `CodeGen.java` line
-number below, and in `REPORT.md` and the probes, reads **one lower than the landed tree**:
-rung X added one `import` line at `CodeGen.java:52-53` and everything under it moved by one.
-The ledger rows are re-anchored; this text is not.
+number below, and in `REPORT.md` and the probes, reads **lower than the landed tree**, by
+**one** above `CodeGen.java:5951` and by **sixteen** below it — rung X inserted in two
+places, one `import` line at `:52-53` and the fifteen lines of `importedVarIsMutable` at
+`:5954-5968`. So `:2034`, `:2041`, `:2056`, `:2111-2145`, `:2848-2850` and `:3940-3943`
+below are each one lower than the landed file, and `forVarRef`'s `:5953-5974`, `:5956` and
+`:5967` are sixteen lower (landed `:5969-5990`, `:5972`, `:5983`). The ledger rows are
+re-anchored; this text is not. (The uniform "one lower" this paragraph first claimed was
+wrong for the `forVarRef` numbers; corrected by the merged-diff review of 2026-09-20,
+which corrected the same sentence in ledger row 351.)
 
 > **351. A `catch` or `typecase` clause binding cannot be read in the clause body on the
 > compiled path.** `CodeGen.forTry` takes the catch name at `CodeGen.java:2041`

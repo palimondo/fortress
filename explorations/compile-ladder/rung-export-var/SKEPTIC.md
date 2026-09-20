@@ -338,6 +338,13 @@ for a change.
 
 ## 10. Required corrections
 
+*Note added by the merged-diff review of 2026-09-20: "row 344" in this file (`:210`, `:280`,
+`:341`) is the rung's own provisional number for the row this judgement refutes, and that
+row was never opened. The landed rows of this rung are **343**, the unreported collision
+between an api-declared variable and the implicitly imported `shared`, which is the
+replacement this judgement proposed, and **344**, the compiler prelude's missing locality
+functions.*
+
 1. **`record.md`'s provisional row 344 and `REPORT.md`'s section "The divergence
    with the interpreter" must be rewritten.** As they stand they assert, as
    NEGATIVE-VERIFIED, that the interpreter cannot see a mutable top-level
