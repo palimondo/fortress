@@ -1,0 +1,23 @@
+(*******************************************************************************
+    Copyright 2026, the Fortress revival.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component XXXTryAtomicCodegenRungB
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/REPORT.md
+
+run():() = do
+    x: ZZ32 = tryatomic do 1 + 1 end
+    assert(x, 2, "a tryatomic expression yields the value of its body, ledger row 353, Specification/basic/expressions/atomic.tex:45-48")
+    println("PASS")
+end
+
+end

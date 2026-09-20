@@ -1,0 +1,9 @@
+. link library_tests/TryAtomicRungB  OK (time = 3301ms)
+. run library_tests/TryAtomicRungB (286ms) PASS
+Passed
+
+Time: 3.594
+
+OK (2 tests)
+
+EXIT=0

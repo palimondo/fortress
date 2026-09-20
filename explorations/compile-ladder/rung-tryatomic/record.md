@@ -25,8 +25,16 @@ a run-time defect will need.
   the comment block at `.fss:257-291`, which still holds eight more exception objects that
   nothing on the ladder asks for. `tests/tryatomicTest.fss` and `nestedTransactions3.fss` now
   reach codegen and stop at `Can't compile TryAtomicExpr` (`CodeGen.java` has no
-  `forTryAtomicExpr`); `tests/abortTest.fss` reaches typecheck and stops on `abort` and
-  `printThreadInfo`. Gated by `library_tests/TryAtomicRungB`
+  `forTryAtomicExpr`); `tests/abortTest.fss` stays at disambiguate, its refusal now
+  `Variable abort is not defined.` and `Variable printThreadInfo is not defined.` from the
+  expression disambiguator
+  (`ProjectFortress/src/com/sun/fortress/scala_src/disambiguator/ExprDisambiguator.scala:450`,
+  run by `compiler/Disambiguator.java:362`; classed `disambiguate` by
+  `explorations/compile-ladder/classify.py:82-86`), where before the rung the type
+  disambiguator refused the name `TryAtomicFailure`
+  (`explorations/compile-ladder/baseline-2026-09-19/ladder.tsv:193`); the declared move
+  "typecheck or better" (`explorations/coordinator/CLIMB-BATCH-2.md:71`) was not met and the
+  file did not change phase. Gated by `library_tests/TryAtomicRungB`
   (`explorations/compile-ladder/rung-tryatomic/REPORT.md`).
 - The `XXX` expected-failure mechanism can express a **compile-stage** failure only. `shouldFail`
   comes from the `.test` file name (`FileTests.java:932`) and the same flag reaches every stage
@@ -49,6 +57,13 @@ and 345-350 to rung W. Two further rows came from this rung's skeptic and are fo
 requires it; `probes/skeptic/SkepThrowsClause.fss`), and **353**, the compiled path having no
 `forTryAtomicExpr` at all, which is now the only thing `tests/tryatomicTest.fss` and
 `nestedTransactions3.fss` wait on (`probes/skeptic/SkepTryAtomicVal.fss`, `SkepTryAtomicState.fss`).
+Row **353** is gated as an expected failure, on the judge's order of 2026-09-20, by
+`ProjectFortress/compiler_tests/XXXTryAtomicCodegenRungB.fss` with
+`XXXTryAtomicCodegenRungB.test` (`compile`, `compile_exception_contains=Can't compile TryAtomicExpr`),
+shown to go red on a deliberate local fix
+(`explorations/compile-ladder/climb-batch-2/repair/junit-xxx-tryatomic-goes-red.txt`); row
+**352** keeps home 3 because a missing static error has no green-today expected-failure shape
+in this harness, and the row now says so.
 A narrowing was appended to existing **row 79** rather than opened as a row of its own: the
 compiled `typecase` is sound for every runtime kind but the integer literal
 (`probes/skeptic/SkepTypecaseKinds.fss`, `SkepTypecaseBind.fss`). Every `CodeGen.java` line
@@ -98,9 +113,12 @@ which corrected the same sentence in ledger row 351.)
 ## Handover state line
 
 - Rung B landed: `TryAtomicFailure` live in `CompilerLibrary` (`.fsi:105`, `.fss:253-255`),
-  three ladder files off disambiguate (two at codegen on `TryAtomicExpr`, `abortTest` at
-  typecheck on `abort`/`printThreadInfo`), gated by `library_tests/TryAtomicRungB` (`OK (2 tests)`,
-  `PASS`). One new ledger row, the clause-binding defect of `CodeGen.forTry` and `forTypecase`,
+  two ladder files off disambiguate (both at codegen on `TryAtomicExpr`), while `abortTest`
+  stays at disambiguate, its refusal now `Variable abort is not defined.` and
+  `Variable printThreadInfo is not defined.` from the expression disambiguator
+  (`ExprDisambiguator.scala:450`, run by `compiler/Disambiguator.java:362`) rather than the
+  type disambiguator's refusal of `TryAtomicFailure`; gated by `library_tests/TryAtomicRungB`
+  (`OK (2 tests)`, `PASS`). One new ledger row, the clause-binding defect of `CodeGen.forTry` and `forTypecase`,
   gated as an expected failure by `library_tests/XXXClauseBindingRungB` plus
   `ClauseBindingRungBLink.test`. Next on this thread: `forTryAtomicExpr` in `CodeGen.java`
   (the only thing `tryatomicTest` and `nestedTransactions3` now wait on), and `abort` and

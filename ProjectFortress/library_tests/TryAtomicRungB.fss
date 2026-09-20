@@ -52,7 +52,7 @@ run():() = do
     assert(TryAtomicFailure.asString, "Try/atomic failure",
            "asString of Library/FortressLibrary.fss:1570")
     assert(escapesUncheckedCatch(), "PROPAGATED",
-           "excludes UncheckedException, ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:745")
+           "excludes UncheckedException, ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:753")
     println("PASS")
 end
 

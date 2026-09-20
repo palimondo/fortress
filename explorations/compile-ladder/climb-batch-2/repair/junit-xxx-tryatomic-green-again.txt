@@ -1,0 +1,8 @@
+. compile compiler_tests/XXXTryAtomicCodegenRungB com.sun.fortress.exceptions.CompilerError: 
+ OK Saw expected exception
+
+Time: 1.165
+
+OK (1 test)
+
+EXIT=0

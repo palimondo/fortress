@@ -26,10 +26,20 @@ Two lines of declaration and three of body. `Library/CompilerLibrary.fsi:105` de
 still holds the other eight. No `.java`, no `.scala`, no `ant compileAll`; the library
 rebuild was `CompilerLibrary`, `CompilerAlgebra`, `CompilerSystem`.
 
-The three ladder files all leave disambiguate: `tryatomicTest` and `nestedTransactions3`
-reach codegen and stop at `Can't compile TryAtomicExpr`, `abortTest` reaches typecheck and
-stops on `abort` and `printThreadInfo`. That is the floor the batch record set
-(`explorations/coordinator/CLIMB-BATCH-2.md:71`).
+Two of the three ladder files leave disambiguate: `tryatomicTest` and `nestedTransactions3`
+reach codegen and stop at `Can't compile TryAtomicExpr`. `abortTest` stays at disambiguate.
+Its refusal is now `Variable abort is not defined.` and `Variable printThreadInfo is not
+defined.`, from the expression disambiguator
+(`ProjectFortress/src/com/sun/fortress/scala_src/disambiguator/ExprDisambiguator.scala:450`,
+run by `compiler/Disambiguator.java:362`), classed `disambiguate` by
+`explorations/compile-ladder/classify.py:82-86`; before the rung the same file was at
+disambiguate on the *type* disambiguator's refusal of the name `TryAtomicFailure`
+(`explorations/compile-ladder/baseline-2026-09-19/ladder.tsv:193`). It moved from one
+disambiguator's refusal to the other's inside one phase and did not change phase. The floor
+the batch record set (`explorations/coordinator/CLIMB-BATCH-2.md:71`, "so typecheck") was met
+for the two codegen files and was not met for this one. Re-measured in the main tree at the
+repair of 2026-09-20, with the same two lines and exit 255:
+`explorations/compile-ladder/climb-batch-2/repair/abortTest-compile.txt`.
 
 The rung also measured a defect that nothing in either corpus had exercised before: a
 `catch` clause whose binding is referenced in the clause body compiles and then dies at
@@ -181,7 +191,7 @@ two neighbours each read `TryAtomicFailure is undefined.` and nothing else, and
 |---|---|---|
 | `tests/tryatomicTest.fss` | disambiguate, `TryAtomicFailure is undefined.` | codegen, `Can't compile TryAtomicExpr at …:21.13` |
 | `tests/nestedTransactions3.fss` | disambiguate, same | codegen, `Can't compile TryAtomicExpr at …:25.10` |
-| `tests/abortTest.fss` | disambiguate, same | typecheck, `Variable abort is not defined.` and `Variable printThreadInfo is not defined.` |
+| `tests/abortTest.fss` | disambiguate, same | disambiguate, `Variable abort is not defined.` and `Variable printThreadInfo is not defined.` (the expression disambiguator, not the type disambiguator) |
 
 None reaches `pass`, as the record predicted, and nothing moved down. The codegen wall is
 `CodeGen.defaultCase` (`CodeGen.java:1669`) reached through `forTryAtomicExpr`, which
@@ -344,6 +354,49 @@ four.
 ledger row as the catch site. It is here and not in the `XXX` file because the prose is
 silent on the per-clause spelling, as above — not because it was easier; the same file could
 have carried a second assert.
+
+**Home 2, the `tryatomic` codegen wall (row 353), added by the repair of 2026-09-20.**
+The rung's skeptic measured this defect and the gather opened row 353 for it, but neither
+placed it in a home; the judge of the merged-diff review ordered home 2
+(`explorations/compile-ladder/climb-batch-2/JUDGE-review.md`). The file is
+`ProjectFortress/compiler_tests/XXXTryAtomicCodegenRungB.fss` with
+`XXXTryAtomicCodegenRungB.test`, which drives `compile` and asserts what the specification
+says — `x: ZZ32 = tryatomic do 1 + 1 end` and `assert(x, 2, …)`, the value and type of the
+body per `Specification/basic/expressions/atomic.tex:42-43` and `:45-48`, so that on the day
+`forTryAtomicExpr` exists and the `XXX` prefix comes off, the file is a passing test.
+
+It reaches the harness's expected-failure logic by a path none of the 228 `XXX*.test` files
+in `compiler_tests/` had taken. `sayWhat` returns a `CompilerError`
+(`CodeGen.java:1551-1553`), which is a `RuntimeException`
+(`ProjectFortress/src/com/sun/fortress/exceptions/CompilerError.java:16`) and so is caught by
+neither clause of `Shell.compileWithErrorHandling` (`Shell.java:904-915`, `StaticError` and
+`ProgramError` only); `Shell.subMain` declares `throws Throwable` (`Shell.java:395-396`), so
+in the harness it propagates out of `justTheTest` (`FileTests.java:689-692`) to the
+`catch (Throwable ex)` at `FileTests.java:341`. That branch keys on `f.contains("XXX")`
+(`:346`) where `f = join(_dir, _name)` (`:82`) and `_name` is the `.test` file's `tests=`
+value (`:1052-1059`, reached from `:957-974`) — not the `.test` file name of `:932`, which
+the 224 pre-batch files use through `:384-404`. Hence `tests=XXXTryAtomicCodegenRungB`: the
+`XXX` has to be on the component name, and here it is on both.
+
+The check stream for that path is the harness's third one, `"exception"` (`:136`), whose
+contents are `ex.toString()` (`:344-345`); `CommandTest.testFailed` prefixes it with the
+command (`:702-704`), so the key is `compile_exception_contains`. No `.test` file in either
+corpus used an `exception_` key before this one — a grep for `exception_` over
+`compiler_tests/*.test` and `library_tests/*.test` matches this file alone. The pin is
+`Can't compile TryAtomicExpr`, which `ex.toString()` contains because
+`CompilerError(HasAt, String)` puts the message after the location
+(`CompilerError.java:37-40`).
+
+Three captures, all in the main tree at the repair:
+`explorations/compile-ladder/climb-batch-2/repair/junit-xxx-tryatomic-expected.txt` is the
+pinned run, ` OK Saw expected exception` (`:360`) and `OK (1 test)`;
+`repair/junit-xxx-tryatomic-goes-red.txt` is the same command after `atomic` was substituted
+for `tryatomic`, which compiles clean, so the pin runs against `""` (`:382`) and the file
+fails at `:396-398`, ` Saw failure, but did not satisfy compile_exception_contains` and
+`FAILURES!!!  Tests run: 1,  Failures: 1`; `repair/junit-xxx-tryatomic-green-again.txt` is
+the reverted, committed text, green again. The demonstration is not a formality here,
+because the harness's own author warns that `expect_failure` "is not treated consistently"
+(`FileTests.java:853`) and because this is the path's first use.
 
 ## A negative result, corrected
 
