@@ -1,0 +1,122 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component IntConversionsRungW
+export Executable
+
+(*) explorations/compile-ladder/rung-int-conversions/REPORT.md
+
+shouldOverflowZZ32(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+shouldOverflowNN32(f: () -> NN32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+takesNN64(x: NN64): String = x.asString
+
+run(): () = do
+  z43: ZZ32 = 43
+  zMOne: ZZ32 = -1
+  zMax: ZZ32 = 7FFFFFFF_16
+  zMin: ZZ32 = -zMax - 1
+
+  l43: ZZ64 = 43
+  lMOne: ZZ64 = -1
+  lTwoPow32: ZZ64 = 4294967296
+  lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+  lMin: ZZ64 = -lMax - 1
+
+  n43: NN32 = unsigned(z43)
+  nAll: NN32 = unsigned(zMOne)
+  nHigh: NN32 = unsigned(zMin)
+
+  m43: NN64 = widen(n43)
+  mAll32: NN64 = widen(nAll)
+  mAll64: NN64 = unsigned(lMOne)
+  mHalf64: NN64 = unsigned(lMin)
+
+  assert(widen(z43).asString, "43", "ZZ32 widen 43")
+  assert(widen(zMOne).asString, "-1", "ZZ32 widen -1 sign-extends")
+  assert(widen(zMin).asString, "-2147483648", "ZZ32 widen MIN")
+  assert(widen(zMax).asString, "2147483647", "ZZ32 widen MAX")
+
+  assert(unsigned(z43).asString, "43", "ZZ32 unsigned 43")
+  assert(unsigned(zMOne).asString, "4294967295", "ZZ32 unsigned -1")
+  assert(unsigned(zMin).asString, "2147483648", "ZZ32 unsigned MIN")
+
+  assert(narrow(l43).asString, "43", "ZZ64 narrow 43")
+  assert(narrow(lMOne).asString, "-1", "ZZ64 narrow -1")
+  assert(narrow(widen(zMax)).asString, "2147483647", "ZZ64 narrow MAX of ZZ32")
+  assert(narrow(widen(zMin)).asString, "-2147483648", "ZZ64 narrow MIN of ZZ32")
+
+  assert(shouldOverflowZZ32(fn () => narrow(lTwoPow32)), "ZZ64 narrow 2^32 overflows")
+  assert(shouldOverflowZZ32(fn () => narrow(lMax)), "ZZ64 narrow MAX overflows")
+  assert(shouldOverflowZZ32(fn () => narrow(lMin)), "ZZ64 narrow MIN overflows")
+
+  assert(unsigned(l43).asString, "43", "ZZ64 unsigned 43")
+  assert(unsigned(lMOne).asString, "18446744073709551615", "ZZ64 unsigned -1")
+  assert(unsigned(lMin).asString, "9223372036854775808", "ZZ64 unsigned MIN")
+
+  assert(widen(n43).asString, "43", "NN32 widen 43")
+  assert(widen(nAll).asString, "4294967295", "NN32 widen 2^32-1 zero-extends")
+  assert(widen(nHigh).asString, "2147483648", "NN32 widen 2^31 zero-extends")
+
+  assert(signed(n43).asString, "43", "NN32 signed 43")
+  assert(signed(nAll).asString, "-1", "NN32 signed 2^32-1")
+  assert(signed(nHigh).asString, "-2147483648", "NN32 signed 2^31")
+
+  assert(narrow(m43).asString, "43", "NN64 narrow 43")
+  assert(narrow(mAll32).asString, "4294967295", "NN64 narrow 2^32-1")
+  assert(narrow(widen(nHigh)).asString, "2147483648", "NN64 narrow 2^31")
+
+  assert(shouldOverflowNN32(fn () => narrow(mAll64)), "NN64 narrow 2^64-1 overflows")
+  assert(shouldOverflowNN32(fn () => narrow(mHalf64)), "NN64 narrow 2^63 overflows")
+
+  assert(signed(m43).asString, "43", "NN64 signed 43")
+  assert(signed(mAll64).asString, "-1", "NN64 signed 2^64-1")
+  assert(signed(mHalf64).asString, "-9223372036854775808", "NN64 signed 2^63")
+
+  assert(signed(unsigned(zMOne)).asString, "-1", "ZZ32 signed of unsigned -1")
+  assert(signed(unsigned(zMin)).asString, "-2147483648", "ZZ32 signed of unsigned MIN")
+  assert(signed(unsigned(lMOne)).asString, "-1", "ZZ64 signed of unsigned -1")
+  assert(signed(unsigned(lMin)).asString, "-9223372036854775808", "ZZ64 signed of unsigned MIN")
+
+  assert(narrow(widen(z43)).asString, "43", "ZZ32 narrow of widen 43")
+  assert(narrow(widen(zMOne)).asString, "-1", "ZZ32 narrow of widen -1")
+  assert(narrow(widen(n43)).asString, "43", "NN32 narrow of widen 43")
+  assert(narrow(widen(nAll)).asString, "4294967295", "NN32 narrow of widen 2^32-1")
+
+  assert(widen(unsigned(z43)).asString, "43", "widen of unsigned 43")
+  assert(unsigned(widen(z43)).asString, "43", "unsigned of widen 43")
+  assert(widen(unsigned(z43)).asString, unsigned(widen(z43)).asString, "the two routes agree on 43")
+
+  assert(widen(unsigned(zMOne)).asString, "4294967295", "widen of unsigned -1")
+  assert(unsigned(widen(zMOne)).asString, "18446744073709551615", "unsigned of widen -1")
+
+  assert(takesNN64(nAll), "4294967295", "NN32 coerced to NN64 keeps its value, conversions-coercions.tex:73-75")
+  assert(takesNN64(nHigh), "2147483648", "NN32 coerced to NN64 keeps its value at 2^31, conversions-coercions.tex:73-75")
+  assert(takesNN64(n43), "43", "NN32 coerced to NN64 keeps its value at 43, conversions-coercions.tex:73-75")
+
+  println("PASS")
+end
+
+end

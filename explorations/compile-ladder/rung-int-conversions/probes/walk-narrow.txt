@@ -1,0 +1,22 @@
+ZZ64.narrow in range: 43
+ZZ32.unsigned(-1): 4294967295
+NN32.signed(unsigned(-1)): -1
+NN32.widen(unsigned(-1)): 4294967295
+NN64.narrow(widen(unsigned(-1))): 4294967295
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/WalkNarrow.fss:20:72-84:
+Overflow of ZZ32 4294967296
+Context:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/WalkNarrow.fss:20:72-84:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/WalkNarrow.fss:6:12-13:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/WalkNarrow.fss:20:48-85:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+EXIT=1

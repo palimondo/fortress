@@ -1,0 +1,179 @@
+. link library_tests/IntConversionsRungW /home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:48:15-21:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:49:16-22:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:50:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:52:15-18:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:53:18-21:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:54:18-24:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:55:19-25:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:57:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:58:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:59:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:60:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:62:10-16:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:63:10-16:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:64:10-16:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:66:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:67:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:68:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:68:17-20:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:69:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:69:17-20:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:71:38-42:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:72:38-42:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:73:38-42:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:75:10-16:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:76:10-16:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:77:10-16:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:79:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:80:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:81:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:83:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:84:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:85:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:87:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:88:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:89:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:89:17-20:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:91:38-42:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:92:38-42:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:94:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:95:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:96:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:98:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:98:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:99:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:99:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:100:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:100:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:101:10-14:
+    Variable signed is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:101:17-23:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:103:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:103:17-20:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:104:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:104:17-20:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:105:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:105:17-20:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:106:10-14:
+    Variable narrow is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:106:17-20:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:108:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:108:16-22:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:109:10-16:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:109:19-22:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:110:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:110:16-22:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:110:41-47:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:110:50-53:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:112:10-13:
+    Variable widen is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:112:16-22:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:113:10-16:
+    Variable unsigned is not defined.
+/home/user/fortress-conv/ProjectFortress/library_tests/IntConversionsRungW.fss:113:19-22:
+    Variable widen is not defined.
+File IntConversionsRungW.fss has 69 errors.
+ FAIL
+F. run library_tests/IntConversionsRungW (151ms) Could not load IntConversionsRungW
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : IntConversionsRungW.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 3.331
+There were 2 failures:
+1) library_tests/IntConversionsRungW(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:415)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+2) library_tests/IntConversionsRungW(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest library_tests/IntConversionsRungW
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 2,  Failures: 2,  Errors: 0
+
+junit exit=0
