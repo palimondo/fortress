@@ -87,6 +87,8 @@ Every operand is a typed binding and never a numeral inside the expression, whic
 
 **Recorded pass**, `raw/IntConversionsRungW.compile.after.txt` (empty, exit 0) and `raw/IntConversionsRungW.junit.after.txt`: `. link library_tests/IntConversionsRungW  OK`, `. run library_tests/IntConversionsRungW (447ms) PASS`, `OK (2 tests)`.
 
+Confirmed once more on the landed tree, after the ladder-subset runs had moved the two prelude files back and forth: a fresh library-order rebuild from `CompilerBuiltin` down followed by the harness gives `OK (2 tests)` and `PASS` again, captured as `raw/IntConversionsRungW.junit.final.txt`.
+
 The harness command, both rounds, run from `ProjectFortress/`: `../bin/fortress junit library_tests/IntConversionsRungW.test`, which is `Shell.junit` (`ProjectFortress/src/com/sun/fortress/Shell.java:1070-1086`) into `FileTests.suiteFromListOfFiles` (`FileTests.java:897`, reached from `Shell.java:1086`), the entry point rung N used for the same purpose. The rebuild between the two rounds was the library-order bytecode-cache rebuild only, preceded by `rm -rf default_repository/caches/nativewrapper_cache` because the rung adds a method to the imported set of an already-wrapped native class and the stale wrapper would otherwise be what the run links against.
 
 ## The measured defects, and where each one lives
