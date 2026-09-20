@@ -135,6 +135,12 @@ but if one seems to conflict with something Pavol says, his words win.
   every boot command bounds its output (`head`, `wc -l`, `--stat`), and a
   command whose output could exceed a screen is given to a worker, not run by
   the coordinator.
+- **(P)** 2026-09-20, after two workers launched by hand at a post-compaction boot ran
+  on the coordinator's own tier for want of a `model` argument: the coordinator's tier
+  is reserved for the highest-level work and is the one Pavol's subscription is short
+  of. Every worker, launched by hand or by a script, runs on the cheaper tier by its
+  alias, always; a worker gets the coordinator's tier only when Pavol asks for it for a
+  named piece of high-level analysis. A worker resumed keeps the tier it started on.
 - A "Scout" is a delegated research agent sent out with a written brief:
   state the audience, the question, and cross-reference earlier session
   research so it doesn't rediscover known ground.
