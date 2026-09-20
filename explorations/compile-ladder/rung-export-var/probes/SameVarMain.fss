@@ -1,0 +1,8 @@
+component SameVarMain
+import SameVarApi.{...}
+export Executable
+run(): () = do
+    println("fixed = " fixed)
+    println("shared = " shared)
+  end
+end

@@ -1,0 +1,125 @@
+### PRE-EDIT: the two new gated tests on the base tree 8590d7a9e
+### FORTRESS_HOME=/home/user/fortress-export  rev=8590d7a9e  2026-09-20T05:44:29+00:00
+### git status:
+?? ProjectFortress/compiler_tests/ExportVarRungX.fss
+?? ProjectFortress/compiler_tests/ExportVarRungX.test
+?? ProjectFortress/compiler_tests/ExportVarRungXApi.fsi
+?? ProjectFortress/compiler_tests/ExportVarRungXApi.fss
+?? ProjectFortress/compiler_tests/ExportVarRungXLib.fss
+?? ProjectFortress/compiler_tests/ExportVarRungXLibApi.fsi
+?? ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss
+?? ProjectFortress/compiler_tests/XXXExportVarRungXLinked.test
+?? explorations/compile-ladder/rung-export-var/
+================ FORTRESS_THREADS=1  ../bin/fortress junit compiler_tests/ExportVarRungX.test
+. link compiler_tests/ExportVarRungX /home/user/fortress-export/ProjectFortress/compiler_tests/ExportVarRungX.fss:21:5-16:
+    Cannot assign to immutable variable: ExportVarRungXApi.shared
+File ExportVarRungX.fss has 1 error.
+ FAIL
+F. run compiler_tests/ExportVarRungX (167ms) Could not load ExportVarRungX
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : ExportVarRungX.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 3.248
+There were 2 failures:
+1) compiler_tests/ExportVarRungX(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:415)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+2) compiler_tests/ExportVarRungX(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/ExportVarRungX
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 2,  Failures: 2,  Errors: 0
+
+junit-exit=0
+================ FORTRESS_THREADS=1  ../bin/fortress junit compiler_tests/XXXExportVarRungXLinked.test
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress-export/ProjectFortress/compiler_tests:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 1.419
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit compiler_tests/ExportVarRungX.test
+. link compiler_tests/ExportVarRungX /home/user/fortress-export/ProjectFortress/compiler_tests/ExportVarRungX.fss:21:5-16:
+    Cannot assign to immutable variable: ExportVarRungXApi.shared
+File ExportVarRungX.fss has 1 error.
+ FAIL
+F. run compiler_tests/ExportVarRungX (168ms) Could not load ExportVarRungX
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : ExportVarRungX.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 3.052
+There were 2 failures:
+1) compiler_tests/ExportVarRungX(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:415)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+2) compiler_tests/ExportVarRungX(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/ExportVarRungX
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 2,  Failures: 2,  Errors: 0
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit compiler_tests/XXXExportVarRungXLinked.test
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress-export/ProjectFortress/compiler_tests:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 1.308
+
+OK (1 test)
+
+junit-exit=0
+EXIT=0

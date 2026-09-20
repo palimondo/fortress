@@ -1,0 +1,4 @@
+component FnLib
+export FnApi
+f(x: ZZ32): ZZ32 = x + 1
+end

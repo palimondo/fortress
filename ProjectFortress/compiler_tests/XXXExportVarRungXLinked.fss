@@ -1,0 +1,24 @@
+(*******************************************************************************
+    Copyright 2026, the Fortress revival.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+(* See explorations/compile-ladder/rung-export-var/REPORT.md. *)
+
+component XXXExportVarRungXLinked
+import ExportVarRungXLibApi.{...}
+export Executable
+
+run(): () = do
+    assert(linked, 5, "overview.tex:33-35: a reference to an imported api resolves to a component that exports that api, whatever that component is named")
+    assert(bumpLinked(6), 7, "overview.tex:33-35: the same for an exported function")
+    println("PASS")
+  end
+
+end
