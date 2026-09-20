@@ -1,0 +1,10 @@
+=== walk: SK7Type ===
+1 NN64.signed passed where a ZZ64 is wanted = -1
+2 NN32.signed passed where a ZZ64 is wanted = -1
+walk exit=0
+=== compile: SK7Type ===
+compile exit=0
+=== compiled run: SK7Type ===
+1 NN64.signed passed where a ZZ64 is wanted =  -1
+2 NN32.signed passed where a ZZ64 is wanted =  -1
+run exit=0

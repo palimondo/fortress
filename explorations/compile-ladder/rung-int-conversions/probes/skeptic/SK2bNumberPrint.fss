@@ -1,0 +1,11 @@
+component SK2bNumberPrint
+export Executable
+
+run(): () = do
+  println("" widen(1))
+  println("" unsigned(1))
+  println("" widen(unsigned(43)))
+  println("" unsigned(widen(43)))
+end
+
+end

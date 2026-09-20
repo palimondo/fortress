@@ -1,0 +1,10 @@
+=== walk: SK4bBounds ===
+NN64.narrow(2^32-1) -> value -1
+NN64.narrow(2^32) -> value 0
+walk exit=0
+=== compile: SK4bBounds ===
+compile exit=0
+=== compiled run: SK4bBounds ===
+NN64.narrow(2^32-1) ->  value  -1
+NN64.narrow(2^32) ->  IntegerOverflow caught
+run exit=0

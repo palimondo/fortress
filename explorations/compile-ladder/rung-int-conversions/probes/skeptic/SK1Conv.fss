@@ -1,0 +1,23 @@
+component SK1Conv
+export Executable
+
+run(): () = do
+  zMax: ZZ32 = 7FFFFFFF_16
+  zMin: ZZ32 = -zMax - 1
+  zM1: ZZ32 = -1
+  lM1: ZZ64 = -1
+  lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+  lMin: ZZ64 = -lMax - 1
+  println("1 ZZ32.widen(-1) = " widen(zM1).asString)
+  println("2 ZZ32.widen(zMin) = " widen(zMin).asString)
+  println("3 signed(ZZ32.unsigned(-1)) = " signed(unsigned(zM1)).asString)
+  println("4 signed(ZZ64.unsigned(-1)) = " signed(unsigned(lM1)).asString)
+  println("5 signed(ZZ64.unsigned(lMin)) = " signed(unsigned(lMin)).asString)
+  println("6 signed(NN32.widen(unsigned(-1))) = " signed(widen(unsigned(zM1))).asString)
+  println("7 signed(NN32.widen(unsigned(zMin))) = " signed(widen(unsigned(zMin))).asString)
+  println("8 ZZ64.narrow(widen(zMin)) = " narrow(widen(zMin)).asString)
+  println("9 signed(NN64.narrow(widen(unsigned(-1)))) = " signed(narrow(widen(unsigned(zM1)))).asString)
+  println("10 signed(NN64.narrow(widen(unsigned(zMin)))) = " signed(narrow(widen(unsigned(zMin)))).asString)
+end
+
+end

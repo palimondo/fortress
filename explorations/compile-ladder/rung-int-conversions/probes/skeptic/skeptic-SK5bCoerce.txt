@@ -1,0 +1,14 @@
+=== walk: SK5bCoerce ===
+1 declared-type position = -1
+2 argument position = -1
+3 arithmetic operand position = 4294967296
+4 coerce agrees with widen = true
+walk exit=0
+=== compile: SK5bCoerce ===
+compile exit=0
+=== compiled run: SK5bCoerce ===
+1 declared-type position =  4294967295
+2 argument position =  4294967295
+3 arithmetic operand position =  4294967296
+4 coerce agrees with widen =  true
+run exit=0

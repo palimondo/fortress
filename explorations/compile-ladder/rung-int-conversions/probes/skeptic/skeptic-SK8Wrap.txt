@@ -1,0 +1,13 @@
+=== walk: SK8Wrap ===
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK8Wrap.fss:9:55-60:
+    Operator ? is not defined.
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK8Wrap.fss:10:55-60:
+    Operator ? is not defined.
+walk exit=255
+=== compile: SK8Wrap ===
+compile exit=0
+=== compiled run: SK8Wrap ===
+NN32 max BOXPLUS 1, signed =  0
+NN32 max DOTPLUS 1, signed =  -1
+run exit=0
+EXIT=0

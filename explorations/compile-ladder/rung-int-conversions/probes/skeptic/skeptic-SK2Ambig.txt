@@ -1,0 +1,8 @@
+=== walk: SK2Ambig ===
+unsigned(1) with no expected type, via signed = 1
+widen(124867) with no expected type = 124867
+walk exit=0
+=== compiled run: SK2Ambig ===
+unsigned(1) with no expected type, via signed =  1
+widen(124867) with no expected type =  124867
+run exit=0

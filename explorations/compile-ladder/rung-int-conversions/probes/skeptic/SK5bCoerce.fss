@@ -1,0 +1,19 @@
+component SK5bCoerce
+export Executable
+
+takes64(x: NN64): ZZ64 = signed(x)
+
+run(): () = do
+  z1: ZZ32 = 1
+  zM1: ZZ32 = -1
+  n: NN32 = unsigned(zM1)
+  n1: NN32 = unsigned(z1)
+  a: NN64 = n
+  one: NN64 = widen(n1)
+  println("1 declared-type position = " signed(a).asString)
+  println("2 argument position = " takes64(n).asString)
+  println("3 arithmetic operand position = " signed(one + n).asString)
+  println("4 coerce agrees with widen = " (a = widen(n)))
+end
+
+end

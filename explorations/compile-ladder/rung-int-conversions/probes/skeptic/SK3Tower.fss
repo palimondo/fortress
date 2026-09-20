@@ -1,0 +1,11 @@
+component SK3Tower
+export Executable
+
+run(): () = do
+  z: ZZ32 = 43
+  l: ZZ64 = 43
+  println("narrow of a ZZ32 = " narrow(z).asString)
+  println("widen of a ZZ64 = " widen(l).asString)
+end
+
+end

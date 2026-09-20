@@ -1,0 +1,23 @@
+=== compiled run: SK5Coerce ===
+1 declared-type position =  4294967295
+2 argument position =  4294967295
+3 arithmetic operand position =  4294967296
+4 coerce agrees with widen =  true
+run exit=0
+=== walk: SK5Coerce ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK5Coerce.fss:10:3-12:
+RHS expression type Int is not assignable to LHS type NN64
+Context:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK5Coerce.fss:10:3-12:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK5Coerce.fss:10:3-12:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk exit=1

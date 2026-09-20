@@ -1,0 +1,24 @@
+=== walk: SK4Bounds ===
+ZZ64.narrow(2147483647) -> value 2147483647
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK4Bounds.fss:17:60-69:
+Overflow of ZZ32 2147483648
+Context:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK4Bounds.fss:17:60-69:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK4Bounds.fss:6:14-15:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK4Bounds.fss:17:41-70:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk exit=1
+=== compiled run: SK4Bounds ===
+ZZ64.narrow(2147483647) ->  value  2147483647
+ZZ64.narrow(2147483648) ->  IntegerOverflow caught
+ZZ64.narrow(-2147483649) ->  IntegerOverflow caught
+run exit=0

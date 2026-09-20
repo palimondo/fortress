@@ -1,0 +1,11 @@
+=== walk: SK3Tower ===
+narrow of a ZZ32 = 43
+widen of a ZZ64 = 43
+walk exit=0
+=== compile: SK3Tower ===
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK3Tower.fss:8:32-38:
+    Could not check call to function widen
+    - NN32->NN64 is not applicable to an argument of type ZZ64.
+    - ZZ32->ZZ64 is not applicable to an argument of type ZZ64.
+File SK3Tower.fss has 1 error.
+compile exit=255

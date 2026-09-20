@@ -1,0 +1,21 @@
+component SK4bBounds
+export Executable
+
+guardNN32(f: () -> NN32): String =
+  try
+    "value " signed(f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow caught"
+    Exception => "other Exception caught"
+  end
+
+run(): () = do
+  z1: ZZ32 = 1
+  zM1: ZZ32 = -1
+  mAll: NN64 = widen(unsigned(zM1))
+  mOver: NN64 = mAll + widen(unsigned(z1))
+  println("NN64.narrow(2^32-1) -> " guardNN32(fn () => narrow(mAll)))
+  println("NN64.narrow(2^32) -> " guardNN32(fn () => narrow(mOver)))
+end
+
+end
