@@ -1,0 +1,23 @@
+(* The library's own selection idiom, FortressLibrary.fss:2240-2244:
+   array1[\T, nat s0\]() = typecase __thrower[\T\] of () -> Number => vector[\T,s0\]() else => PrimitiveArray[\T,s0\]() end
+   Here the Number arm selects a monomorphic double store; does the checker
+   accept the arm's result DStore as Arr[\T\]?  (No nat, so the nat crash
+   cannot be what fails.) *)
+component p1b_typecase
+export Executable
+trait Arr[\T\]
+  abstract get(i: ZZ32): T
+end
+object DStore() extends Arr[\RR64\]
+  get(i: ZZ32): RR64 = 5.0
+end
+object BStore[\T\](x: T) extends Arr[\T\]
+  get(i: ZZ32): T = x
+end
+mk[\T\](w: () -> T, x: T): Arr[\T\] =
+  typecase w of
+    () -> RR64 => DStore()
+    else => BStore[\T\](x)
+  end
+run(): () = println("p1b " (mk[\RR64\](fn () => 1.0, 1.0)).get(0))
+end

@@ -1,0 +1,6 @@
+java KDotBoxed         n=3  runs: 0.005252 0.005495 0.021650   median 0.005495 s
+java KDotPrim          n=3  runs: 0.000751 0.000852 0.000854   median 0.000852 s
+java KDotStore         n=3  runs: 0.005268 0.007559 0.008753   median 0.007559 s
+java KMatBoxed         n=3  runs: 0.004570 0.005255 0.005626   median 0.005255 s
+java KMatPrim          n=3  runs: 0.000726 0.000844 0.000848   median 0.000844 s
+java KMatStore         n=3  runs: 0.005252 0.005552 0.005596   median 0.005552 s

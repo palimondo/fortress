@@ -1,0 +1,4 @@
+/home/user/fortress/explorations/compiler-probes/array-design-review/p1_monostore.fss:17:27-33:
+    Function body has type DStore, but declared return type is Arr[\T\].
+File p1_monostore.fss has 1 error.
+exit 255

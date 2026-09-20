@@ -1,0 +1,15 @@
+(* p3 with the operation spelled as an operator, as the model spells it. *)
+component p3b_static_dispatch_opr
+export Executable
+trait Arr[\T\]
+  abstract get(i: ZZ32): T
+end
+trait Vec[\T\] extends Arr[\T\]
+end
+object VObj() extends Vec[\RR64\]
+  get(i: ZZ32): RR64 = 3.0
+end
+opr DOT(a: Vec[\RR64\], b: Vec[\RR64\]): RR64 = a.get(0) b.get(0)
+mk(): Arr[\RR64\] = VObj()
+run(): () = do x = mk(); println("p3b " (x DOT x)) end
+end

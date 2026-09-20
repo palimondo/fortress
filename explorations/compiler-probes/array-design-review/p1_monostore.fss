@@ -1,0 +1,19 @@
+(* array-design.md section 4c: "a native helper behind array1[\T, nat s0\]()
+   can return the double[] store when T's tag is FRR64 and the boxed store
+   otherwise".  Does the compile path's checker accept a monomorphic store
+   where the generic factory's declared result Arr[\T\] is expected?  The
+   interpreter would (it does not check); the question is the checker. *)
+component p1_monostore
+export Executable
+trait Arr[\T\]
+  abstract get(i: ZZ32): T
+end
+object DStore() extends Arr[\RR64\]
+  get(i: ZZ32): RR64 = 5.0
+end
+object BStore[\T\](x: T) extends Arr[\T\]
+  get(i: ZZ32): T = x
+end
+mk[\T\](x: T): Arr[\T\] = DStore()
+run(): () = println("p1 " (mk[\RR64\](1.0)).get(0))
+end

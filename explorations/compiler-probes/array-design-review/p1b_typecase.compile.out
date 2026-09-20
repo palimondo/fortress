@@ -1,0 +1,4 @@
+/home/user/fortress/explorations/compiler-probes/array-design-review/p1b_typecase.fss:18:3-21:4:
+    Function body has type OR(DStore,BStore[\T\]), but declared return type is Arr[\T\].
+File p1b_typecase.fss has 1 error.
+exit 255

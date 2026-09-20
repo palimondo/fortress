@@ -1,0 +1,5 @@
+/home/user/fortress/explorations/compiler-probes/array-design-review/p3_static_dispatch.fss:19:40-48:
+    Could not check call to function dotp
+    - (Vec[\RR64\], Vec[\RR64\])->RR64 is not applicable to an argument of type (Arr[\RR64\], Arr[\RR64\]).
+File p3_static_dispatch.fss has 1 error.
+exit 255

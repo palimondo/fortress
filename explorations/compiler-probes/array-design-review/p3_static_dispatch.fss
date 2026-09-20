@@ -1,0 +1,20 @@
+(* How MicroGptFlat.fss is written: values whose static type is the unsized
+   Array[\RR64,ZZ32\] and whose run-time object is a sized Vector, applied to
+   operations declared only on the sized type (x DOT x in rmsn, :27; the
+   products on views, :56-70).  The interpreter dispatches on the run-time
+   object; the compile path's checker resolves on the static type.  Same
+   program, both paths, no nat so nothing else can be what fails. *)
+component p3_static_dispatch
+export Executable
+trait Arr[\T\]
+  abstract get(i: ZZ32): T
+end
+trait Vec[\T\] extends Arr[\T\]
+end
+object VObj() extends Vec[\RR64\]
+  get(i: ZZ32): RR64 = 3.0
+end
+dotp(a: Vec[\RR64\], b: Vec[\RR64\]): RR64 = a.get(0) b.get(0)
+mk(): Arr[\RR64\] = VObj()
+run(): () = do x = mk(); println("p3 " dotp(x, x)) end
+end

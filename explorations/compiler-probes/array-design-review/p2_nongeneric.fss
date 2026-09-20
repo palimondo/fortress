@@ -1,0 +1,18 @@
+(* array-design.md section 4c calls this "unprobed: that a non-generic trait
+   extending an instantiated generic supertype with a hand-written
+   implementation class compiles and links".  The Fortress half, with an
+   object in place of the Java class: a non-generic trait under Arr[\RR64\],
+   reached through the generic get. *)
+component p2_nongeneric
+export Executable
+trait Arr[\T\]
+  abstract get(i: ZZ32): T
+end
+trait DStore extends Arr[\RR64\]
+end
+object DObj() extends DStore
+  get(i: ZZ32): RR64 = if i = 2 then 5.0 else 0.0 end
+end
+f(a: Arr[\RR64\]): RR64 = a.get(2)
+run(): () = println("p2 " f(DObj()))
+end

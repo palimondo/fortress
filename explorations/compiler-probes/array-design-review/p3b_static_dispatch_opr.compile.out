@@ -1,0 +1,12 @@
+/home/user/fortress/explorations/compiler-probes/array-design-review/p3b_static_dispatch_opr.fss:14:42:
+    Could not check call to operator DOT
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Arr[\RR64\], Arr[\RR64\]).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Arr[\RR64\], Arr[\RR64\]).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Arr[\RR64\], Arr[\RR64\]).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Arr[\RR64\], Arr[\RR64\]).
+    - (Vec[\RR64\], Vec[\RR64\])->RR64 is not applicable to an argument of type (Arr[\RR64\], Arr[\RR64\]).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Arr[\RR64\], Arr[\RR64\]).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Arr[\RR64\], Arr[\RR64\]).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Arr[\RR64\], Arr[\RR64\]).
+File p3b_static_dispatch_opr.fss has 1 error.
+exit 255

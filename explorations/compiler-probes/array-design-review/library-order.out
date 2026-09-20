@@ -1,0 +1,7 @@
+library: LibraryBuiltin/AnyType.fss
+library: LibraryBuiltin/CompilerBuiltin.fss
+library: ../Library/CompilerLibrary.fss
+library: ../Library/CompilerAlgebra.fss
+library: ../Library/CompilerSystem.fss
+library order done 14:14:39
+all done 14:15:00

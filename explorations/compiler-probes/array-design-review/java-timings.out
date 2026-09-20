@@ -1,0 +1,56 @@
+# jdk: openjdk version "25.0.4" 2026-07-21
+# 2026-09-20T14:11:05Z mult=20, 3 runs each, loop_ns = mean of the 20 timed passes
+=== java KDotPrim run 1:
+kdot 231145.26854219884
+loop_ns 854230
+=== java KDotBoxed run 1:
+kdot 231145.26854219884
+loop_ns 21650333
+=== java KDotStore run 1:
+kdot 231145.26854219884
+loop_ns 7559120
+=== java KMatPrim run 1:
+kmat 154.0 208.0
+loop_ns 844377
+=== java KMatBoxed run 1:
+kmat 154.0 208.0
+loop_ns 4570001
+=== java KMatStore run 1:
+kmat 154.0 208.0
+loop_ns 5596114
+=== java KDotPrim run 2:
+kdot 231145.26854219884
+loop_ns 852447
+=== java KDotBoxed run 2:
+kdot 231145.26854219884
+loop_ns 5251787
+=== java KDotStore run 2:
+kdot 231145.26854219884
+loop_ns 8753483
+=== java KMatPrim run 2:
+kmat 154.0 208.0
+loop_ns 725635
+=== java KMatBoxed run 2:
+kmat 154.0 208.0
+loop_ns 5255347
+=== java KMatStore run 2:
+kmat 154.0 208.0
+loop_ns 5552474
+=== java KDotPrim run 3:
+kdot 231145.26854219884
+loop_ns 751465
+=== java KDotBoxed run 3:
+kdot 231145.26854219884
+loop_ns 5494878
+=== java KDotStore run 3:
+kdot 231145.26854219884
+loop_ns 5267760
+=== java KMatPrim run 3:
+kmat 154.0 208.0
+loop_ns 848027
+=== java KMatBoxed run 3:
+kmat 154.0 208.0
+loop_ns 5625649
+=== java KMatStore run 3:
+kmat 154.0 208.0
+loop_ns 5251978
