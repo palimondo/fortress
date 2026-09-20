@@ -1,0 +1,3 @@
+/home/user/fortress-conv/ProjectFortress/tests/NumberPrintTest.fss:23:9-10:
+    Variable big is not defined.
+File NumberPrintTest.fss has 1 error.

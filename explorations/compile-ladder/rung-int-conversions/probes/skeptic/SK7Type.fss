@@ -1,0 +1,15 @@
+component SK7Type
+export Executable
+
+takesZZ64(x: ZZ64): String = x.asString
+
+run(): () = do
+  zM1: ZZ32 = -1
+  lM1: ZZ64 = -1
+  m: NN64 = unsigned(lM1)
+  n: NN32 = unsigned(zM1)
+  println("1 NN64.signed passed where a ZZ64 is wanted = " takesZZ64(signed(m)))
+  println("2 NN32.signed passed where a ZZ64 is wanted = " takesZZ64(widen(signed(n))))
+end
+
+end

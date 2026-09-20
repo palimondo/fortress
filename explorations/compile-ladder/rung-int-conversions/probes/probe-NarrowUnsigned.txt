@@ -1,0 +1,17 @@
+=== walk: ProbeNarrowUnsigned ===
+narrow of 2^64-1: 4294967295
+=== compile: ProbeNarrowUnsigned ===
+compile exit=0
+=== compiled run: ProbeNarrowUnsigned ===
+FortressException: class fortress.CompilerBuiltin$IntegerOverflow with string Integer overflow
+	at com.sun.fortress.compiler.runtimeValues.Utility.makeFortressException(Utility.java:48)
+	at com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.toUnsignedIntOverflow(simpleUnsignedIntArith.java:27)
+	at com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.longOverflowingToUnsignedInt(simpleUnsignedIntArith.java:77)
+	at native.com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.longOverflowingToUnsignedInt(simpleUnsignedIntArith.java)
+	at fortress.CompilerBuiltin$NN64$DefaultTraitMethods.narrow?0(/home/user/fortress-conv/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:874)
+	at fortress.CompilerBuiltin$NN64$DefaultTraitMethods.narrow?0(/home/user/fortress-conv/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin.narrow(/home/user/fortress-conv/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at ProbeNarrowUnsigned.run(/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/ProbeNarrowUnsigned.fss:7)
+	at ProbeNarrowUnsigned.compute(/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/ProbeNarrowUnsigned.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)

@@ -1,0 +1,20 @@
+component ProbeCoerceNN
+export Executable
+
+takesNN64(x: NN64): ZZ = x.asZZ
+
+run(): () = do
+  zMOne: ZZ32 = -1
+  zMax: ZZ32 = 7FFFFFFF_16
+  zMin: ZZ32 = -zMax - 1
+  nAll: NN32 = zMOne.bitsAsNN32
+  nHigh: NN32 = zMin.bitsAsNN32
+  n43: NN32 = 43
+  println("NN32 2^32-1 as ZZ = " nAll.asZZ.asString)
+  println("NN32 2^32-1 coerced to NN64, as ZZ = " takesNN64(nAll).asString)
+  println("NN32 2^31 as ZZ = " nHigh.asZZ.asString)
+  println("NN32 2^31 coerced to NN64, as ZZ = " takesNN64(nHigh).asString)
+  println("NN32 43 coerced to NN64, as ZZ = " takesNN64(n43).asString)
+end
+
+end

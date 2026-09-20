@@ -1,0 +1,23 @@
+component WalkNarrow
+export Executable
+
+shouldOverflow(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+run() = do
+  tooBig: ZZ64 = 4294967296
+  println("ZZ64.narrow in range: " narrow(widen(43)))
+  println("ZZ32.unsigned(-1): " unsigned(-1))
+  println("NN32.signed(unsigned(-1)): " signed(unsigned(-1)))
+  println("NN32.widen(unsigned(-1)): " widen(unsigned(-1)))
+  println("NN64.narrow(widen(unsigned(-1))): " narrow(widen(unsigned(-1))))
+  println("ZZ64.narrow out of range guarded: " shouldOverflow(fn () => narrow(tooBig)))
+  println("ZZ64.narrow out of range raw: " narrow(tooBig))
+end
+end

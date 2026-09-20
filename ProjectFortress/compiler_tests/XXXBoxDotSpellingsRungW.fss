@@ -1,0 +1,30 @@
+(*******************************************************************************
+    Copyright 2026, the Fortress revival.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+(* See explorations/compile-ladder/rung-int-conversions/REPORT.md. *)
+
+component XXXBoxDotSpellingsRungW
+export Executable
+
+run(): () = do
+    zM1: ZZ32 = -1
+    z1: ZZ32 = 1
+    nMax: NN32 = unsigned(zM1)
+    n1: NN32 = unsigned(z1)
+    println("REACHED")
+    assert((nMax BOXPLUS n1).asZZ.asString, "4294967295",
+           "boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208")
+    assert((nMax DOTPLUS n1).asZZ.asString, "0",
+           "dotplus is wraparound addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:205-206")
+    println("PASS")
+  end
+
+end

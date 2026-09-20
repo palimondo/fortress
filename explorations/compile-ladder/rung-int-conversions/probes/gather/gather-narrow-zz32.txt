@@ -1,0 +1,11 @@
+### GATHER, rung W: narrow(z) for z: ZZ32 -- does it compile and what does it give, on BOTH paths?
+### tree 4e4b80253 plus rung W applied and the library cache rebuilt  2026-09-20T07:37:32+0000
+=== walk: GatherNarrowZZ32
+narrow of a ZZ32 = 43
+walk exit=0
+=== compile: GatherNarrowZZ32
+compile exit=0
+=== compiled run: GatherNarrowZZ32
+narrow of a ZZ32 =  43
+run exit=0
+EXIT=0

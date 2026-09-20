@@ -1,0 +1,25 @@
+=== compile ===
+compile exit=0
+=== compiled run ===
+NN32 2^32-1 as ZZ =  4294967295
+NN32 2^32-1 coerced to NN64, as ZZ =  18446744073709551615
+NN32 2^31 as ZZ =  2147483648
+NN32 2^31 coerced to NN64, as ZZ =  18446744071562067968
+NN32 43 coerced to NN64, as ZZ =  43
+run exit=0
+=== walk ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/ProbeCoerceNN.fss:10:16-30:
+Cannot find definition for method bitsAsNN32 given receiver -1: ZZ32
+Context:
+/home/user/fortress-conv/explorations/compile-ladder/rung-int-conversions/probes/ProbeCoerceNN.fss:10:16-30:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk exit=1

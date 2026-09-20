@@ -1,0 +1,24 @@
+=== walk: SK1Conv ===
+1 ZZ32.widen(-1) = -1
+2 ZZ32.widen(zMin) = -2147483648
+3 signed(ZZ32.unsigned(-1)) = -1
+4 signed(ZZ64.unsigned(-1)) = -1
+5 signed(ZZ64.unsigned(lMin)) = -9223372036854775808
+6 signed(NN32.widen(unsigned(-1))) = 4294967295
+7 signed(NN32.widen(unsigned(zMin))) = 2147483648
+8 ZZ64.narrow(widen(zMin)) = -2147483648
+9 signed(NN64.narrow(widen(unsigned(-1)))) = -1
+10 signed(NN64.narrow(widen(unsigned(zMin)))) = -2147483648
+walk exit=0
+=== compiled run: SK1Conv ===
+1 ZZ32.widen(-1) =  -1
+2 ZZ32.widen(zMin) =  -2147483648
+3 signed(ZZ32.unsigned(-1)) =  -1
+4 signed(ZZ64.unsigned(-1)) =  -1
+5 signed(ZZ64.unsigned(lMin)) =  -9223372036854775808
+6 signed(NN32.widen(unsigned(-1))) =  4294967295
+7 signed(NN32.widen(unsigned(zMin))) =  2147483648
+8 ZZ64.narrow(widen(zMin)) =  -2147483648
+9 signed(NN64.narrow(widen(unsigned(-1)))) =  -1
+10 signed(NN64.narrow(widen(unsigned(zMin)))) =  -2147483648
+run exit=0

@@ -1,0 +1,13 @@
+component SK8Wrap
+export Executable
+
+run(): () = do
+  zM1: ZZ32 = -1
+  z1: ZZ32 = 1
+  nMax: NN32 = unsigned(zM1)
+  n1: NN32 = unsigned(z1)
+  println("NN32 max BOXPLUS 1, signed = " signed(nMax BOXPLUS n1).asString)
+  println("NN32 max DOTPLUS 1, signed = " signed(nMax DOTPLUS n1).asString)
+end
+
+end

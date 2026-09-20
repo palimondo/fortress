@@ -203,6 +203,8 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     odd(self): Boolean
     floorAverage(self, other: ZZ64): ZZ64
     ceilingAverage(self, other: ZZ64): ZZ64
+    narrow(self): ZZ32
+    unsigned(self): NN64
 end
 
 trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excludes { ZZ64, RR32, RR64 }
@@ -264,6 +266,8 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     odd(self): Boolean
     opr ^(self, other:ZZ32): ZZ32
     asRR64(): RR64
+    widen(self): ZZ64
+    unsigned(self): NN32
 end
 
 trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR64 }
@@ -321,6 +325,8 @@ trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR6
     ceilingAverage(self, other: NN32): NN32
     opr ^(self, other:NN32):NN32
     asRR64(): RR64
+    widen(self): NN64
+    signed(self): ZZ32
 end
 
 trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR64, NN32, ZZ, IntLiteral }
@@ -377,6 +383,8 @@ trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR6
     floorAverage(self, other: NN64): NN64
     ceilingAverage(self, other: NN64): NN64
     opr ^(self, other:NN64):NN64
+    narrow(self): NN32
+    signed(self): ZZ64
 end
 
 trait IntLiteral extends { Number, Equality[\IntLiteral\] } excludes {ZZ32, ZZ64, NN32, RR64, RR32, Character, Boolean, String, NN64, ZZ}

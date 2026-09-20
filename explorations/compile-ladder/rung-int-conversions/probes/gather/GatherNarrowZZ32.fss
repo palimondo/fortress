@@ -1,0 +1,9 @@
+component GatherNarrowZZ32
+export Executable
+
+run(): () = do
+    z: ZZ32 = 43
+    println("narrow of a ZZ32 = " narrow(z).asString)
+  end
+
+end

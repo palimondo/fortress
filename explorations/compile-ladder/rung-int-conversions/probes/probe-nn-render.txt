@@ -1,0 +1,13 @@
+=== compile ===
+compile exit=0
+=== compiled run ===
+n43.asString =  43
+nAll.asString =  -1
+nAll.bitsAsZZ32.asString =  -1
+nAll > n43 =  true
+nAll < n43 =  false
+mAll.asString =  -1
+mAll.bitsAsZZ64.asString =  -1
+nAll.asZZ.asString =  4294967295
+mAll.asZZ.asString =  18446744073709551615
+run exit=0

@@ -1,0 +1,21 @@
+component SK4Bounds
+export Executable
+
+guardZZ32(f: () -> ZZ32): String =
+  try
+    "value " f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow caught"
+    Exception => "other Exception caught"
+  end
+
+run(): () = do
+  lOk: ZZ64 = 2147483647
+  lHi: ZZ64 = 2147483648
+  lLo: ZZ64 = -2147483649
+  println("ZZ64.narrow(2147483647) -> " guardZZ32(fn () => narrow(lOk)))
+  println("ZZ64.narrow(2147483648) -> " guardZZ32(fn () => narrow(lHi)))
+  println("ZZ64.narrow(-2147483649) -> " guardZZ32(fn () => narrow(lLo)))
+end
+
+end

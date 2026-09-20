@@ -1,0 +1,12 @@
+=== walk: SK2bNumberPrint ===
+1
+1
+43
+43
+walk exit=0
+=== compiled run: SK2bNumberPrint ===
+1
+1
+43
+43
+run exit=0

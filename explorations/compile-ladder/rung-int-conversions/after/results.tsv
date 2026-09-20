@@ -1,0 +1,5 @@
+tests	fib13.fss	fib13	255		4	
+tests	longPrim.fss	longPrim	255		1	
+tests	UnsignedTest.fss	UnsignedTest	255		2	
+tests	NumberPrintTest.fss	NumberPrintTest	255		2	
+tests	testRR32.fss	testRR32	255		1	

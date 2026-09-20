@@ -1,0 +1,18 @@
+component ProbeNarrowSigned
+export Executable
+
+shouldOverflow(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+run(): () = do
+  l: ZZ64 = 4294967296
+  println("IntegerOverflow caught from narrow of 2^32: " shouldOverflow(fn () => narrow(l)))
+end
+
+end

@@ -1,0 +1,22 @@
+component ProbeNNRender
+export Executable
+
+run(): () = do
+  zMOne: ZZ32 = -1
+  z43: ZZ32 = 43
+  nAll: NN32 = zMOne.bitsAsNN32
+  n43: NN32 = z43.bitsAsNN32
+  lMOne: ZZ64 = -1
+  mAll: NN64 = lMOne.bitsAsNN64
+  println("n43.asString = " n43.asString)
+  println("nAll.asString = " nAll.asString)
+  println("nAll.bitsAsZZ32.asString = " nAll.bitsAsZZ32.asString)
+  println("nAll > n43 = " (nAll > n43))
+  println("nAll < n43 = " (nAll < n43))
+  println("mAll.asString = " mAll.asString)
+  println("mAll.bitsAsZZ64.asString = " mAll.bitsAsZZ64.asString)
+  println("nAll.asZZ.asString = " nAll.asZZ.asString)
+  println("mAll.asZZ.asString = " mAll.asZZ.asString)
+end
+
+end

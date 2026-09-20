@@ -1,0 +1,43 @@
+### GATHER, rung W: XXXBoxDotSpellingsRungW shown to go RED on a deliberate local fix
+### tree 4e4b80253 plus rung W applied  2026-09-20T07:38:57+0000
+
+## 1. the XXX test is red-as-expected on the tree as it stands
+FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+Saw expected failure (Exit code != 0)
+OK (1 test)
+
+## 2. the deliberate local fix: swap the natives on NN32's BOXPLUS and DOTPLUS so that
+##    boxplus saturates and dotplus wraps, as opr-overview.tex:205-208 specifies
+swapped
+764:    opr BOXPLUS(self, other:NN32): NN32 = jMakeNN32FromZZ32(jUnsignedIntSaturatingAdd(jMakeZZ32FromNN32(self),jMakeZZ32FromNN32(other)))
+765:    opr DOTPLUS(self, other:NN32): NN32 = jMakeNN32FromZZ32(jUnsignedIntWrappingAdd(jMakeZZ32FromNN32(self),jMakeZZ32FromNN32(other)))
+## rebuilding the library cache from CompilerBuiltin down
+rebuild exit=0
+
+## 3. with the fix in place the XXX test must go RED
+. run compiler_tests/XXXBoxDotSpellingsRungW (330ms) REACHED
+PASS
+1) compiler_tests/XXXBoxDotSpellingsRungW(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXBoxDotSpellingsRungW
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:589)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+## and the plain link test is unaffected
+. link compiler_tests/XXXBoxDotSpellingsRungW  OK (time = 2801ms)
+OK (1 test)
+
+## 4. undoing the fix
+764:    opr BOXPLUS(self, other:NN32): NN32 = jMakeNN32FromZZ32(jUnsignedIntWrappingAdd(jMakeZZ32FromNN32(self),jMakeZZ32FromNN32(other)))
+765:    opr DOTPLUS(self, other:NN32): NN32 = jMakeNN32FromZZ32(jUnsignedIntSaturatingAdd(jMakeZZ32FromNN32(self),jMakeZZ32FromNN32(other)))
+rebuild exit=0
+## and the XXX test is red-as-expected again
+FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+Saw expected failure (Exit code != 0)
+OK (1 test)
+## the rung's own gate, unchanged
+. link library_tests/IntConversionsRungW  OK (time = 2738ms)
+. run library_tests/IntConversionsRungW (474ms) PASS
+OK (2 tests)
+EXIT=0

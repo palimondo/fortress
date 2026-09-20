@@ -1,0 +1,79 @@
+### GATHER, rung W: the rung's own gate and the new box/dot expected-failure pair, on the assembled main tree
+### tree 4e4b80253 plus rung W applied  2026-09-20T07:37:52+0000
+================ FORTRESS_THREADS=1  ../bin/fortress junit library_tests/IntConversionsRungW.test
+. link library_tests/IntConversionsRungW  OK (time = 5360ms)
+. run library_tests/IntConversionsRungW (512ms) PASS
+Passed
+
+Time: 5.879
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  ../bin/fortress junit compiler_tests/BoxDotSpellingsRungWLink.test
+. link compiler_tests/XXXBoxDotSpellingsRungW  OK (time = 3256ms)
+
+Time: 3.265
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  ../bin/fortress junit compiler_tests/XXXBoxDotSpellingsRungW.test
+. run compiler_tests/XXXBoxDotSpellingsRungW (288ms) REACHED
+FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+	at fortress.CompilerLibrary.fail(/home/user/fortress/Library/CompilerLibrary.fss:75)
+	at fortress.CompilerLibrary.assert(/home/user/fortress/Library/CompilerLibrary.fss:114)
+	at XXXBoxDotSpellingsRungW.run(/home/user/fortress/ProjectFortress/compiler_tests/XXXBoxDotSpellingsRungW.fss:23)
+	at XXXBoxDotSpellingsRungW.compute(/home/user/fortress/ProjectFortress/compiler_tests/XXXBoxDotSpellingsRungW.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Saw expected failure (Exit code != 0)
+
+Time: 0.297
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit library_tests/IntConversionsRungW.test
+. link library_tests/IntConversionsRungW  OK (time = 2751ms)
+. run library_tests/IntConversionsRungW (466ms) PASS
+Passed
+
+Time: 3.224
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit compiler_tests/BoxDotSpellingsRungWLink.test
+. link compiler_tests/XXXBoxDotSpellingsRungW  OK (time = 2662ms)
+
+Time: 2.667
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit compiler_tests/XXXBoxDotSpellingsRungW.test
+. run compiler_tests/XXXBoxDotSpellingsRungW (295ms) REACHED
+FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+	at fortress.CompilerLibrary.fail(/home/user/fortress/Library/CompilerLibrary.fss:75)
+	at fortress.CompilerLibrary.assert(/home/user/fortress/Library/CompilerLibrary.fss:114)
+	at XXXBoxDotSpellingsRungW.run(/home/user/fortress/ProjectFortress/compiler_tests/XXXBoxDotSpellingsRungW.fss:23)
+	at XXXBoxDotSpellingsRungW.compute(/home/user/fortress/ProjectFortress/compiler_tests/XXXBoxDotSpellingsRungW.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Saw expected failure (Exit code != 0)
+
+Time: 0.303
+
+OK (1 test)
+
+junit-exit=0
+EXIT=0

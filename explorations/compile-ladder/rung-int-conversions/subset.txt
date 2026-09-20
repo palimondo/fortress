@@ -1,0 +1,5 @@
+tests	fib13.fss
+tests	longPrim.fss
+tests	UnsignedTest.fss
+tests	NumberPrintTest.fss
+tests	testRR32.fss

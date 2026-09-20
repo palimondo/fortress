@@ -1,0 +1,10 @@
+component ProbeNarrowUnsigned
+export Executable
+
+run(): () = do
+  l: ZZ64 = -1
+  m: NN64 = unsigned(l)
+  println("narrow of 2^64-1: " narrow(m))
+end
+
+end

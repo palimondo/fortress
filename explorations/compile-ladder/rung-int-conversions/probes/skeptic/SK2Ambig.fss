@@ -1,0 +1,11 @@
+component SK2Ambig
+export Executable
+
+run(): () = do
+  a = unsigned(1)
+  b = widen(124867)
+  println("unsigned(1) with no expected type, via signed = " signed(a).asString)
+  println("widen(124867) with no expected type = " b.asString)
+end
+
+end

@@ -1,0 +1,11 @@
+component ProbeSignedType
+export Executable
+
+run(): () = do
+  l: ZZ64 = -1
+  m: NN64 = unsigned(l)
+  z: ZZ64 = 0
+  println("signed of 2^64-1 compares below zero: " (signed(m) < z))
+end
+
+end
