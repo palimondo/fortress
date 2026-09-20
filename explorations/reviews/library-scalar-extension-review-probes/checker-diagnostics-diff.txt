@@ -1,0 +1,27 @@
+# diff of the checker diagnostics: (b) clause removed -> (a) as committed
+# each line is 'file:span || message line'; <probe> as above
+2c2
+< FortressLibrary.fsi:1187:5-1188:1: || return type of [\F\](ZeroIndexed[\E\], ZeroIndexed[\F\])->ZeroIndexed[\(E, F)\] @ <probe>/b/FortressLibrary.fsi:1187:5-1188:1
+---
+> FortressLibrary.fsi:1187:5-1188:1: || return type of [\F\](ZeroIndexed[\E\], ZeroIndexed[\F\])->ZeroIndexed[\(E, F)\] @ <probe>/a/FortressLibrary.fsi:1187:5-1188:1
+75,76c75,76
+< FortressLibrary.fsi:409:1-35: || Invalid comprises clause: a trait with a comprises ...,
+< FortressLibrary.fsi:409:1-35: || such as FortressLibrary.QQ, should not be extended.
+---
+> FortressLibrary.fsi:409:1-52: || Invalid comprises clause: a trait with a comprises ...,
+> FortressLibrary.fsi:409:1-52: || such as FortressLibrary.QQ, should not be extended.
+77a78,79
+> FortressLibrary.fsi:411:1-435:2: || Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+> FortressLibrary.fsi:411:1-435:2: || but its immediate subtype Integral is not eligible to extend it.
+
+# diff: (a) as committed -> (c) as committed + Integral[\I\] comprises { ZZ }
+2c2
+< FortressLibrary.fsi:1187:5-1188:1: || return type of [\F\](ZeroIndexed[\E\], ZeroIndexed[\F\])->ZeroIndexed[\(E, F)\] @ <probe>/a/FortressLibrary.fsi:1187:5-1188:1
+---
+> FortressLibrary.fsi:1187:5-1188:1: || return type of [\F\](ZeroIndexed[\E\], ZeroIndexed[\F\])->ZeroIndexed[\(E, F)\] @ <probe>/c/FortressLibrary.fsi:1187:5-1188:1
+78,79d77
+< FortressLibrary.fsi:411:1-435:2: || Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+< FortressLibrary.fsi:411:1-435:2: || but its immediate subtype Integral is not eligible to extend it.
+95a94,95
+> FortressLibrary.fsi:536:1-543:2: || Invalid comprises clause: ZZ is included in the comprises clause of Integral
+> FortressLibrary.fsi:536:1-543:2: || but FortressLibrary.ZZ does not extend Integral[\I\].

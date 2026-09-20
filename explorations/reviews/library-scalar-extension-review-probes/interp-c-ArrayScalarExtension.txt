@@ -1,0 +1,30 @@
+### variant c (committed + Integral[\I\] comprises { ZZ }) : ArrayScalarExtension, cold private cache
+(v + 1.0)[0] = 0.0
+(1.0 + v)[2] = 2.0
+(v - 1.0)[0] = -2.0
+(1.0 - v)[0] = 2.0
+(0.0 MAX v)[0] = 0.0
+(v MAX 0.0)[2] = 1.0
+(0.0 MIN v)[2] = 0.0
+(v MIN 0.0)[0] = -1.0
+(m + 1.0)[0,1] = -2.0
+(1.0 + m)[1,0] = 1.0
+(m - 1.0)[0,0] = 1.0
+(1.0 - m)[0,1] = 4.0
+(0.0 MAX m)[0,1] = 0.0
+(m MAX 0.0)[0,0] = 2.0
+(0.0 MIN m)[0,0] = 0.0
+(m MIN 0.0)[0,1] = -3.0
+(iv + 1)[0] = 0
+(1 + iv)[2] = 2
+(iv - 1)[0] = -2
+(1 - iv)[0] = 2
+(0 MAX iv)[0] = 0
+(iv MAX 0)[2] = 1
+(0 MIN iv)[2] = 0
+(iv MIN 0)[0] = -1
+
+real	0m15.827s
+user	0m28.668s
+sys	0m2.097s
+exit=0

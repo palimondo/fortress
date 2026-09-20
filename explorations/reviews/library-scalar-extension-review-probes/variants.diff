@@ -1,0 +1,47 @@
+### (b) minus (a): the tree before 02d09a39f
+--- <probe>/a/FortressLibrary.fss	2026-09-20 15:30:14.467231852 +0000
++++ <probe>/b/FortressLibrary.fss	2026-09-20 15:30:14.476793919 +0000
+@@ -609,7 +609,7 @@
+     denominator(self):ZZ = den
+ end
+ 
+-trait AnyIntegral extends { QQ } comprises { ZZ } end
++trait AnyIntegral extends { QQ } end
+ 
+ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
+     getter zero(): I
+--- <probe>/a/FortressLibrary.fsi	2026-09-20 15:30:14.467499254 +0000
++++ <probe>/b/FortressLibrary.fsi	2026-09-20 15:30:14.477613991 +0000
+@@ -406,7 +406,7 @@
+     opr MAXNUM(self, other:QQ):QQ
+ end
+ 
+-trait AnyIntegral extends { QQ } comprises { ZZ } end
++trait AnyIntegral extends { QQ } end
+ 
+ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
+     getter zero(): I
+
+### (c) minus (a): the team's repair
+--- <probe>/a/FortressLibrary.fss	2026-09-20 15:30:14.467231852 +0000
++++ <probe>/c/FortressLibrary.fss	2026-09-20 15:30:14.479972082 +0000
+@@ -611,7 +611,7 @@
+ 
+ trait AnyIntegral extends { QQ } comprises { ZZ } end
+ 
+-trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
++trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral } comprises { ZZ }
+     getter zero(): I
+     getter one(): I
+     getter isNaN(): Boolean = false
+--- <probe>/a/FortressLibrary.fsi	2026-09-20 15:30:14.467499254 +0000
++++ <probe>/c/FortressLibrary.fsi	2026-09-20 15:30:14.481084535 +0000
+@@ -408,7 +408,7 @@
+ 
+ trait AnyIntegral extends { QQ } comprises { ZZ } end
+ 
+-trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
++trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral } comprises { ZZ }
+     getter zero(): I
+     getter one(): I
+     opr -(self):I

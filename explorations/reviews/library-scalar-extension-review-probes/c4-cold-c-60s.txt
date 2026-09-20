@@ -1,0 +1,18 @@
+### variant c : MicroGptFlatCheck, cold private cache, 60 s then kill
+MicroGptFlat checks (Run C4) | threads 1 | tolerances: loss 1.0E-12 grad 1.0E-12 fd 1.0E-8
+loader: max |P - P0| over 4192: diff 0.0 PASS
+corpus: max |row - golden| over documents 0..15: diff 0.0 PASS
+step 0 batch 1: max |gradient - golden| over 4192: diff 1.1102230246251565E-16 PASS
+step 0 batch 1: max |P after Adam - golden| over 4192: diff 8.326672684688674E-17 PASS
+step 0 batch 1: zero gradient entries - 464: diff 0.0 PASS
+batch 1 step 1 loss 3.3659669475848513 vs 3.365966947584851 (8258 ms): diff 4.440892098500626E-16 PASS
+batch 1 step 2 loss 3.424272783871772 vs 3.424272783871772 (4245 ms): diff 0.0 PASS
+batch 1 step 3 loss 3.177802125458053 vs 3.177802125458053 (4542 ms): diff 0.0 PASS
+batch 1 step 4 loss 3.066355684224198 vs 3.066355684224198 (4302 ms): diff 0.0 PASS
+batch 1 step 5 loss 3.2208830897506235 vs 3.2208830897506235 (4389 ms): diff 0.0 PASS
+/bin/bash: line 15:  9988 Killed                  timeout -s KILL 60 ../../../bin/fortress MicroGptFlatCheck.fss
+
+real	1m0.002s
+user	0m0.002s
+sys	0m0.000s
+exit=137
