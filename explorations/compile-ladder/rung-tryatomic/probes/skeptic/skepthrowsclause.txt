@@ -1,0 +1,19 @@
+=== SkepThrowsClause.fss ===
+--- compile (compiled path) ---
+compile exit=0
+--- run (compiled path), FORTRESS_THREADS=1 ---
+declared:  CAUGHT FROM DECLARED
+undeclared:  CAUGHT FROM UNDECLARED
+run exit=0
+--- run (compiled path), FORTRESS_THREADS=4 ---
+declared:  CAUGHT FROM DECLARED
+undeclared:  CAUGHT FROM UNDECLARED
+run exit=0
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+declared: CAUGHT FROM DECLARED
+undeclared: CAUGHT FROM UNDECLARED
+walk exit=0
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+declared: CAUGHT FROM DECLARED
+undeclared: CAUGHT FROM UNDECLARED
+walk exit=0

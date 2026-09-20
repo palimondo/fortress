@@ -1,0 +1,31 @@
+component SkepThrowsClause
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+declaredThrower(): ZZ32 throws { TryAtomicFailure } = throw TryAtomicFailure
+
+undeclaredThrower(): ZZ32 = throw TryAtomicFailure
+
+fromDeclared(): String =
+    try
+        ignore declaredThrower()
+        "NOT THROWN"
+    catch e
+        TryAtomicFailure => "CAUGHT FROM DECLARED"
+    end
+
+fromUndeclared(): String =
+    try
+        ignore undeclaredThrower()
+        "NOT THROWN"
+    catch e
+        TryAtomicFailure => "CAUGHT FROM UNDECLARED"
+    end
+
+run():() = do
+    println("declared: " fromDeclared())
+    println("undeclared: " fromUndeclared())
+end
+
+end

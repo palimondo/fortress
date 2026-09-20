@@ -1,0 +1,42 @@
+=== SkepUncheckedStatic.fss ===
+--- compile (compiled path) ---
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncheckedStatic.fss:7:29-43:
+    Right-hand side has type TryAtomicFailure, but declared type is UncheckedException.
+File SkepUncheckedStatic.fss has 1 error.
+compile exit=255
+--- run (compiled path), FORTRESS_THREADS=1 ---
+Could not load .home.user.fortress-tryatomic.explorations.compile-ladder.rung-tryatomic.probes.skeptic.SkepUncheckedStatic.fss
+java.lang.ClassNotFoundException: /home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncheckedStatic/fss
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+run exit=1
+--- run (compiled path), FORTRESS_THREADS=4 ---
+Could not load .home.user.fortress-tryatomic.explorations.compile-ladder.rung-tryatomic.probes.skeptic.SkepUncheckedStatic.fss
+java.lang.ClassNotFoundException: /home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncheckedStatic/fss
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+run exit=1
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncheckedStatic.fss:7:5-26:
+RHS expression type TryAtomicFailure is not assignable to LHS type UncheckedException
+Context:
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncheckedStatic.fss:7:5-26:
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncheckedStatic.fss:7:5-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk exit=1
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncheckedStatic.fss:7:5-26:
+RHS expression type TryAtomicFailure is not assignable to LHS type UncheckedException
+Context:
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncheckedStatic.fss:7:5-26:
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncheckedStatic.fss:7:5-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk exit=1

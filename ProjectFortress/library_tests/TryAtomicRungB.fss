@@ -1,0 +1,59 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component TryAtomicRungB
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/REPORT.md
+
+throwTryAtomicFailure(): ZZ32 = throw TryAtomicFailure
+
+caughtByOwnName(): String =
+    try
+        ignore throwTryAtomicFailure()
+        "NOT THROWN"
+    catch e
+        TryAtomicFailure => "CAUGHT BY OWN NAME"
+    end
+
+caughtAsChecked(): String =
+    try
+        ignore throwTryAtomicFailure()
+        "NOT THROWN"
+    catch e
+        CheckedException => "CAUGHT AS CHECKED"
+    end
+
+escapesUncheckedCatch(): String =
+    try
+        try
+            ignore throwTryAtomicFailure()
+            "NOT THROWN"
+        catch inner
+            UncheckedException => "CAUGHT AS UNCHECKED"
+        end
+    catch outer
+        TryAtomicFailure => "PROPAGATED"
+    end
+
+run():() = do
+    assert(caughtByOwnName(), "CAUGHT BY OWN NAME",
+           "thrown and caught under its own name, Specification/basic/expressions/atomic.tex:45-48")
+    assert(caughtAsChecked(), "CAUGHT AS CHECKED",
+           "a checked exception, Specification/advanced/parallelism-locality/transactions.tex:38")
+    assert(TryAtomicFailure.asString, "Try/atomic failure",
+           "asString of Library/FortressLibrary.fss:1570")
+    assert(escapesUncheckedCatch(), "PROPAGATED",
+           "excludes UncheckedException, ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:745")
+    println("PASS")
+end
+
+end

@@ -1,0 +1,18 @@
+component TypecaseBindExprRef
+export Executable
+
+widened(b: Boolean): Object = do
+    n: ZZ32 = 7
+    if b then n else "seven" end
+end
+
+run():() = do
+    s: String =
+        typecase v = widened(true) of
+            ZZ32 => v.asString
+            Object => "other"
+        end
+    println("typecase-bindexpr: " s)
+end
+
+end

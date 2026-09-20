@@ -1,0 +1,21 @@
+# The deliberate local fix: catch clause body reads TryAtomicFailure.asString instead of e.asString.
+. link library_tests/XXXClauseBindingRungB  OK (time = 3192ms)
+. run library_tests/XXXClauseBindingRungB (274ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 3.473
+There was 1 failure:
+1) library_tests/XXXClauseBindingRungB(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest library_tests/XXXClauseBindingRungB
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:589)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
+junit exit=0

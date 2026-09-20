@@ -1,0 +1,23 @@
+### GATHER: all three rungs' gated tests on the assembled tree (X + W + B)
+### tree d98024425 plus rung B applied  2026-09-20T07:52:23+0000
+## library rebuild from CompilerLibrary down (rung B edits CompilerLibrary)
+rebuild exit=0
+compiler_tests/ExportVarRungX.test                   T=1  OK (2 tests) | 0 expected-failure(s) | junit-exit=0
+compiler_tests/XXXExportVarRungXLinked.test          T=1  OK (1 test) | 1 expected-failure(s) | junit-exit=0
+compiler_tests/XXXExportVarRungXFrozen.test          T=1  OK (1 test) | 1 expected-failure(s) | junit-exit=0
+library_tests/IntConversionsRungW.test               T=1  OK (2 tests) | 0 expected-failure(s) | junit-exit=0
+compiler_tests/BoxDotSpellingsRungWLink.test         T=1  OK (1 test) | 0 expected-failure(s) | junit-exit=0
+compiler_tests/XXXBoxDotSpellingsRungW.test          T=1  OK (1 test) | 1 expected-failure(s) | junit-exit=0
+library_tests/TryAtomicRungB.test                    T=1  OK (2 tests) | 0 expected-failure(s) | junit-exit=0
+library_tests/ClauseBindingRungBLink.test            T=1  OK (1 test) | 0 expected-failure(s) | junit-exit=0
+library_tests/XXXClauseBindingRungB.test             T=1  OK (1 test) | 1 expected-failure(s) | junit-exit=0
+compiler_tests/ExportVarRungX.test                   T=4  OK (2 tests) | 0 expected-failure(s) | junit-exit=0
+compiler_tests/XXXExportVarRungXLinked.test          T=4  OK (1 test) | 1 expected-failure(s) | junit-exit=0
+compiler_tests/XXXExportVarRungXFrozen.test          T=4  OK (1 test) | 1 expected-failure(s) | junit-exit=0
+library_tests/IntConversionsRungW.test               T=4  OK (2 tests) | 0 expected-failure(s) | junit-exit=0
+compiler_tests/BoxDotSpellingsRungWLink.test         T=4  OK (1 test) | 0 expected-failure(s) | junit-exit=0
+compiler_tests/XXXBoxDotSpellingsRungW.test          T=4  OK (1 test) | 1 expected-failure(s) | junit-exit=0
+library_tests/TryAtomicRungB.test                    T=4  OK (2 tests) | 0 expected-failure(s) | junit-exit=0
+library_tests/ClauseBindingRungBLink.test            T=4  OK (1 test) | 0 expected-failure(s) | junit-exit=0
+library_tests/XXXClauseBindingRungB.test             T=4  OK (1 test) | 1 expected-failure(s) | junit-exit=0
+EXIT=0

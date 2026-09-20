@@ -1,0 +1,19 @@
+component TypecaseBindingRef
+export Executable
+
+pick(b: Boolean): Object = do
+    n: ZZ32 = 7
+    if b then n else "seven" end
+end
+
+run():() = do
+    v: Object = pick(true)
+    s: String =
+        typecase v of
+            x:ZZ32 => x.asString
+            Object => "other"
+        end
+    println("typecase: " s)
+end
+
+end

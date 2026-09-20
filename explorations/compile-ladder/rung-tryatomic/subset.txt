@@ -1,0 +1,3 @@
+tests	abortTest.fss
+tests	nestedTransactions3.fss
+tests	tryatomicTest.fss

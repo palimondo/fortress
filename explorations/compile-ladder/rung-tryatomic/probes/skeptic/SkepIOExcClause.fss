@@ -1,0 +1,20 @@
+component SkepIOExcClause
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+thrower(): ZZ32 = throw TryAtomicFailure
+
+run():() = do
+    s: String =
+        try
+            ignore thrower()
+            "NOT THROWN"
+        catch e
+            IOException => "MATCHED IOException"
+            CheckedException => "MATCHED CheckedException"
+        end
+    println("io clause: " s)
+end
+
+end

@@ -102,6 +102,8 @@ object MatchFailure extends UncheckedException end
 
 object CastException extends UncheckedException end
 
+object TryAtomicFailure extends CheckedException end
+
 (************************************************************
  * Simple Range support
  ************************************************************)

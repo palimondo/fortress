@@ -1,0 +1,5 @@
+/home/user/fortress-tryatomic/ProjectFortress/tests/abortTest.fss:23:17-20:
+    Variable abort is not defined.
+/home/user/fortress-tryatomic/ProjectFortress/tests/abortTest.fss:26:33-46:
+    Variable printThreadInfo is not defined.
+File abortTest.fss has 2 errors.

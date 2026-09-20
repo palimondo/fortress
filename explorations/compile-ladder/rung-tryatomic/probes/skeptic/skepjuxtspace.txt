@@ -1,0 +1,27 @@
+=== SkepJuxtSpace.fss ===
+--- compile (compiled path) ---
+compile exit=0
+--- run (compiled path), FORTRESS_THREADS=1 ---
+[ a b ]
+[ a b ]
+[ 7 ]
+a   b
+run exit=0
+--- run (compiled path), FORTRESS_THREADS=4 ---
+[ a b ]
+[ a b ]
+[ 7 ]
+a   b
+run exit=0
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+[ab]
+[ab]
+[7]
+a b
+walk exit=0
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+[ab]
+[ab]
+[7]
+a b
+walk exit=0

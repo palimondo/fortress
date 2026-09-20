@@ -1,0 +1,19 @@
+component SkepTryAtomicState
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+run():() = do
+    n: ZZ32 := 0
+    res: String =
+        try
+            tryatomic do n += 1 end
+            "COMMITTED"
+        catch e
+            TryAtomicFailure => "FAILED"
+        end
+    println("res=" res)
+    println("n=" n)
+end
+
+end

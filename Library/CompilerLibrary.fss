@@ -250,6 +250,10 @@ end
 
 (* Checked Exceptions *)
 
+object TryAtomicFailure extends CheckedException
+    getter asString(): String = "Try/atomic failure"
+end
+
 (*
 object CastError extends CheckedException
     getter asString(): String = "Cast error"
@@ -278,10 +282,6 @@ end
 
 object HiddenAPIMissing extends CheckedException
     getter asString(): String = "Hidden api is missing"
-end
-
-object TryAtomicFailure extends CheckedException
-    getter asString(): String = "Try/atomic failure"
 end
 
 (* Should take a spawned thread as an argument *)

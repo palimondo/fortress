@@ -1,0 +1,19 @@
+=== SkepTypecaseBind.fss ===
+--- compile (compiled path) ---
+compile exit=0
+--- run (compiled path), FORTRESS_THREADS=1 ---
+unread:  other
+read:  other
+run exit=0
+--- run (compiled path), FORTRESS_THREADS=4 ---
+unread:  other
+read:  other
+run exit=0
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+unread: ZZ32, binding absent
+read: 7
+walk exit=0
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+unread: ZZ32, binding absent
+read: 7
+walk exit=0

@@ -1,0 +1,23 @@
+component SkepShadow
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+object TryAtomicFailure extends UncheckedException
+    getter asString(): String = "local shadow"
+end
+
+thrower(): ZZ32 = throw TryAtomicFailure
+
+run():() = do
+    s: String =
+        try
+            ignore thrower()
+            "NOT THROWN"
+        catch e
+            TryAtomicFailure => "CAUGHT LOCAL"
+        end
+    println("shadow: " s " / " TryAtomicFailure.asString)
+end
+
+end

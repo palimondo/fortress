@@ -101,7 +101,7 @@ The command mix is lopsided: across all four, `compile` 402, `link` 222, `typech
 
 `ParserJUTest`'s 188 = 128 files in `parser_tests` plus 60 in `not_passing_yet` (ParserJUTest.java:34-35, 67-79).
 
-The arithmetic only closes because `default_repository/configuration:51` sets `fortress.unittests.noopt=true`; that property gates FileTests.java:997, which would otherwise add one `BytecodeOptimizeEverything` shell test plus a `runOpt` re-run of every `run` test — 226 further tests, and the only exercise the bytecode optimizer would get.
+The arithmetic only closes because `default_repository/configuration:51` sets `fortress.unittests.noopt=true`; that property gates FileTests.java:1007, which would otherwise add one `BytecodeOptimizeEverything` shell test plus a `runOpt` re-run of every `run` test — 226 further tests, and the only exercise the bytecode optimizer would get.
 
 ### A.4 Corpus that no target reads
 

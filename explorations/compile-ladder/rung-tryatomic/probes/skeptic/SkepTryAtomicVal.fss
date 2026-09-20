@@ -1,0 +1,11 @@
+component SkepTryAtomicVal
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+run():() = do
+    x: ZZ32 = tryatomic do 1 + 1 end
+    println("tryatomic value: " x)
+end
+
+end
