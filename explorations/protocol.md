@@ -135,15 +135,10 @@ but if one seems to conflict with something Pavol says, his words win.
   every boot command bounds its output (`head`, `wc -l`, `--stat`), and a
   command whose output could exceed a screen is given to a worker, not run by
   the coordinator.
-- **(P)** 2026-09-20, after two workers launched by hand at a post-compaction boot ran
-  on the coordinator's own tier for want of a `model` argument: the coordinator's tier
-  is reserved for the highest-level work and is the one Pavol's subscription is short
-  of. Every worker, launched by hand or by a script, runs on the cheaper tier by its
-  alias, always, and there is no limit on them — "you can spend as much Opus workers as
-  you want". A worker on the coordinator's tier is launched only after Pavol has been
-  asked and has given permission, each time — "please never run Fable workers without
-  first consulting with me and getting permission" (2026-09-20). A worker resumed keeps
-  the tier it started on.
+- **(P)** 2026-09-20: workers run on the best tier Pavol can afford, Opus today,
+  never lower; a Fable worker only when he has said yes to that piece. (The
+  2026-09-18 "by the alias" remark meant only that the script need not change when
+  a newer Opus arrives.)
 - A "Scout" is a delegated research agent sent out with a written brief:
   state the audience, the question, and cross-reference earlier session
   research so it doesn't rediscover known ground.
@@ -171,6 +166,12 @@ but if one seems to conflict with something Pavol says, his words win.
 - Evidence over speculation; reproduce before explaining.
 - Work that needs Pavol's machine (CI pushes) is parked, not simulated.
 - Closed decisions are not revisited.
+- **(P)** 2026-09-20: a decision that touches two or more of the specification,
+  the interpreter and the compiler, or that infers the original design intent, is
+  made in two steps: cheaper-tier workers gather the evidence into a condensed,
+  cited brief; the judgement is made at the top tier, a worker with Pavol's
+  permission or the coordinator on a clean context, and reaches him as a decision
+  with alternatives before anything is built.
 
 ## 7. Watch-list
 
@@ -186,3 +187,5 @@ Recurring corrections, kept visible so they stay corrected:
 - Explanatory prose landing in the wrong artifact (teaching belongs in
   reports and docs, not in source comments or commit noise).
 - Telling Pavol about stop-hook reminders. They are processed silently (§4).
+- Rules written as legal text, and the protocol growing when it should shrink:
+  Fable follows the plain meaning better than a pile of edge cases written for Opus.
