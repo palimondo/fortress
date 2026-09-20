@@ -1,0 +1,15 @@
+=== ladder start 2026-09-20T06:38:33+00:00 ===
+du: cannot access '/home/user/fortress-tryatomic/tmp/ladder-tryatomic/ladder-caches': No such file or directory
+-- disk free 25181432 KB, cache  MB
+library: LibraryBuiltin/AnyType.fss
+library: LibraryBuiltin/CompilerBuiltin.fss
+library: ../Library/CompilerLibrary.fss
+library: ../Library/CompilerAlgebra.fss
+library: ../Library/CompilerSystem.fss
+sanity ok: library_tests/Integer1 compiles and prints PASS
+tests/abortTest.fss crc=255 rrc= 1s
+tests/nestedTransactions3.fss crc=1 rrc= 2s
+tests/tryatomicTest.fss crc=1 rrc= 2s
+=== ladder done 2026-09-20T06:41:41+00:00, 3 files ===
+-- disk free 25154780 KB, cache 13 MB
+EXIT=0

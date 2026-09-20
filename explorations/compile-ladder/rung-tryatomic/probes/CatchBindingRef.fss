@@ -1,0 +1,17 @@
+component CatchBindingRef
+export Executable
+
+thrower(): ZZ32 = throw TryAtomicFailure
+
+run():() = do
+    s: String =
+        try
+            ignore thrower()
+            "NOT THROWN"
+        catch e
+            TryAtomicFailure => e.asString
+        end
+    println("caught: " s)
+end
+
+end

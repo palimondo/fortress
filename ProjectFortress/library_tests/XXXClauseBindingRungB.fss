@@ -1,0 +1,45 @@
+(*******************************************************************************
+    Copyright 2011, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component XXXClauseBindingRungB
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/REPORT.md
+
+thrower(): ZZ32 = throw TryAtomicFailure
+
+widened(b: Boolean): Object = do
+    n: ZZ32 = 7
+    if b then n else "seven" end
+end
+
+run():() = do
+    println("REACHED")
+    caught: String =
+        try
+            ignore thrower()
+            "NOT THROWN"
+        catch e
+            TryAtomicFailure => e.asString
+        end
+    assert(caught, "Try/atomic failure",
+           "the catch clause binds the exception value, Specification/basic/expressions/try.tex:56-60")
+    picked: String =
+        typecase widened(true) of
+            x:ZZ32 => x.asString
+            Object => "NOT MATCHED"
+        end
+    assert(picked, "7",
+           "a typecase clause binds the value, Specification/basic/expressions/typecase.tex:53-60")
+    println("PASS")
+end
+
+end

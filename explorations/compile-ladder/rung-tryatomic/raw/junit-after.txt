@@ -1,0 +1,42 @@
+. link library_tests/TryAtomicRungB  OK (time = 2699ms)
+. link library_tests/XXXClauseBindingRungB  OK (time = 1127ms)
+. run library_tests/TryAtomicRungB (314ms) PASS
+Passed
+. run library_tests/XXXClauseBindingRungB (281ms) REACHED
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at XXXClauseBindingRungB.main(/home/user/fortress-tryatomic/ProjectFortress/library_tests/XXXClauseBindingRungB.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: XXXClauseBindingRungB$e
+	at XXXClauseBindingRungB.run(/home/user/fortress-tryatomic/ProjectFortress/library_tests/XXXClauseBindingRungB.fss:31)
+	at XXXClauseBindingRungB.compute(/home/user/fortress-tryatomic/ProjectFortress/library_tests/XXXClauseBindingRungB.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 7 more
+Caused by: java.io.IOException: Resource not found : XXXClauseBindingRungB$e.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 8 more
+Saw expected failure (Exit code != 0)
+
+Time: 4.427
+
+OK (4 tests)
+
+junit exit=0

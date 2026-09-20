@@ -1,0 +1,25 @@
+=== TypecaseBindingRef.fss : compiled path ===
+compile exit=0
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at TypecaseBindingRef.main(/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/TypecaseBindingRef.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: TypecaseBindingRef$x
+	at TypecaseBindingRef.run(/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/TypecaseBindingRef.fss:13)
+	at TypecaseBindingRef.compute(/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/TypecaseBindingRef.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+run exit=1
+
+=== TypecaseBindingRef.fss : walk (interpreter) ===
+typecase: 7
+walk exit=0

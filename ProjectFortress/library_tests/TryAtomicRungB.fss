@@ -21,7 +21,7 @@ caughtByOwnName(): String =
         ignore throwTryAtomicFailure()
         "NOT THROWN"
     catch e
-        TryAtomicFailure => e.asString
+        TryAtomicFailure => "CAUGHT BY OWN NAME"
     end
 
 caughtAsChecked(): String =
@@ -29,7 +29,7 @@ caughtAsChecked(): String =
         ignore throwTryAtomicFailure()
         "NOT THROWN"
     catch e
-        CheckedException => e.asString
+        CheckedException => "CAUGHT AS CHECKED"
     end
 
 escapesUncheckedCatch(): String =
@@ -45,10 +45,12 @@ escapesUncheckedCatch(): String =
     end
 
 run():() = do
-    assert(caughtByOwnName(), "Try/atomic failure",
+    assert(caughtByOwnName(), "CAUGHT BY OWN NAME",
+           "thrown and caught under its own name, Specification/basic/expressions/atomic.tex:45-48")
+    assert(caughtAsChecked(), "CAUGHT AS CHECKED",
+           "a checked exception, Specification/advanced/parallelism-locality/transactions.tex:38")
+    assert(TryAtomicFailure.asString, "Try/atomic failure",
            "asString of Library/FortressLibrary.fss:1570")
-    assert(caughtAsChecked(), "Try/atomic failure",
-           "checked exception, Specification/advanced/parallelism-locality/transactions.tex:38")
     assert(escapesUncheckedCatch(), "PROPAGATED",
            "excludes UncheckedException, ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:745")
     println("PASS")
