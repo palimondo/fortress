@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"gate2","workflowPhase":"Gate","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
