@@ -1,0 +1,26 @@
+(*******************************************************************************
+    Copyright 2026, the Fortress revival.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+(* See explorations/compile-ladder/rung-export-var/REPORT.md. *)
+
+component ExportVarRungX
+import ExportVarRungXApi.{...}
+export Executable
+
+run(): () = do
+    assert(fixed, 11, "immutable top-level variable exported through an api; source-code.tex:332-343")
+    assert(shared, 7, "mutable top-level variable exported through an api reads its initial value; ledger row 320")
+    shared := 23
+    assert(shared, 23, "mutable top-level variable exported through an api is assignable through the api; ledger row 320, source-code.tex:340-342")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,5 @@
+component GatherAssignApi
+export GatherAssignApi
+var alpha: ZZ32 = 7
+beta: ZZ32 = 11
+end

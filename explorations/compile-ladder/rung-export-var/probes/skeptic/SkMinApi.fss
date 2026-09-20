@@ -1,0 +1,5 @@
+component SkMinApi
+export SkMinApi
+var alpha: ZZ32 = 7
+beta: ZZ32 = 11
+end

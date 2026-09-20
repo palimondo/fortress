@@ -1,0 +1,60 @@
+### POST-EDIT: the link step, the object-type export, and walk
+### rev=981ed0261  2026-09-20T06:01:44+00:00
+## Q1: does 'fortress link' work when the api and the component have DIFFERENT names?
+--- link P8Main (api P8Api, component P8Lib)
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss:2:8-12:
+    Could not find an implementation for API P8Api on path
+    /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File P8Main.fss has 1 error.
+link-exit=255
+## Q2: does 'fortress link' work when they have the SAME name?
+--- link SameVarMain (api SameVarApi, component SameVarApi)
+link-exit=0
+--- run SameVarMain after link
+fixed =  11
+shared =  7
+run-exit=0
+## Q3: an IMMUTABLE export of an OBJECT type, same names -- the shape both microGPT apis use
+--- compile ObjVarApi.fsi
+compile-exit=0
+--- compile ObjVarApi.fss
+compile-exit=0
+--- compile ObjVarMain.fss
+compile-exit=0
+--- run ObjVarMain
+data.size =  5
+run-exit=0
+## Q4: the interpreter, as evidence -- walk on each main
+--- walk FnMain.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/FnMain.fss:2:8-12:
+    Could not find an implementation for API FnApi on path
+    /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+walk-exit=255
+--- walk P8Main.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss:2:8-12:
+    Could not find an implementation for API P8Api on path
+    /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+walk-exit=255
+--- walk P9Main.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P9Main.fss:2:8-12:
+    Could not find an implementation for API P9Api on path
+    /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+walk-exit=255
+--- walk SameVarMain.fss
+fixed = 11
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/SameVarMain.fss:6:25-29:
+undefined variable [shared]
+Context:
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/SameVarMain.fss:6:25-29:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+walk-exit=1
+--- walk ObjVarMain.fss
+data.size = 5
+walk-exit=0
+EXIT=0

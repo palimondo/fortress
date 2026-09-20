@@ -1,0 +1,9 @@
+component SkKwHiddenMain
+import SkKwHiddenApi.{...}
+export Executable
+run(): () = do
+    println("total = " total)
+    println("hidden = " hidden)
+    println("value = " value)
+  end
+end

@@ -1,0 +1,197 @@
+### POST-EDIT differential: every gated program that assigns to a variable, plus the corpus api test
+### rev=981ed0261  2026-09-20T05:54:10+00:00
+### git status:
+ M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+ M ProjectFortress/src/com/sun/fortress/scala_src/typechecker/STypeChecker.scala
+ M ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala
+?? explorations/compile-ladder/rung-export-var/probes/differential-postedit.txt
+?? explorations/compile-ladder/rung-export-var/probes/gated-tests-postedit.txt
+================ FORTRESS_THREADS=1  junit compiler_tests/XXX6bp.test
+. compile compiler_tests/Compiled6.bp /home/user/fortress-export/ProjectFortress/compiler_tests/Compiled6.bp.fss:29:5-11:
+    Cannot assign to immutable variable: a
+File Compiled6.bp.fss has 1 error.
+ Saw expected failure
+
+Time: 1.093
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  junit compiler_tests/MutableTopLevelVar.test
+. link compiler_tests/MutableTopLevelVar  OK (time = 6154ms)
+. run compiler_tests/MutableTopLevelVar (1158ms) PASS
+Passed
+
+Time: 7.324
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  junit compiler_tests/MutableTopLevelVarInLoop.test
+. link compiler_tests/MutableTopLevelVarInLoop  OK (time = 6596ms)
+. run compiler_tests/MutableTopLevelVarInLoop (1075ms) PASS
+Passed
+
+Time: 7.682
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  junit compiler_tests/AtomicTopLevelVar.test
+. link compiler_tests/AtomicTopLevelVar  OK (time = 6445ms)
+. run compiler_tests/AtomicTopLevelVar (1196ms) PASS
+Passed
+
+Time: 7.654
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  junit compiler_tests/AtomicTopLevelObjectVar.test
+. link compiler_tests/AtomicTopLevelObjectVar  OK (time = 6430ms)
+. run compiler_tests/AtomicTopLevelObjectVar (1062ms) PASS
+Passed
+
+Time: 7.498
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  junit compiler_tests/RecursiveApiTest3.test
+. compile compiler_tests/RecursiveApiTest3c  OK (time = 2759ms)
+. link compiler_tests/RecursiveApiTest3c  OK (time = 3498ms)
+. run compiler_tests/RecursiveApiTest3c (577ms) pass
+Passed
+
+Time: 6.848
+
+OK (3 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  junit other_compiler_tests/atomicTest.test
+Passed
+. run other_compiler_tests/atomic3 (571ms) count = 1000
+PASS
+Passed
+. run other_compiler_tests/atomic4 (568ms) count = 10
+dracula = 55
+PASS
+Passed
+. run other_compiler_tests/atomic5 (604ms) PASS
+Passed
+. run other_compiler_tests/atomic6 (577ms) Starting test
+PASS
+Passed
+. run other_compiler_tests/nestedTransactions0 (532ms) Starting test
+count = 2
+PASS
+Passed
+. run other_compiler_tests/nestedTransactions1 (563ms) Starting test
+count = 25
+PASS
+Passed
+. run other_compiler_tests/nestedTransactions2 (710ms) Starting test
+count = 25
+PASS
+Passed
+
+Time: 20.589
+
+OK (20 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  junit compiler_tests/XXX6bp.test
+. compile compiler_tests/Compiled6.bp /home/user/fortress-export/ProjectFortress/compiler_tests/Compiled6.bp.fss:29:5-11:
+    Cannot assign to immutable variable: a
+File Compiled6.bp.fss has 1 error.
+ Saw expected failure
+
+Time: 0.94
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  junit compiler_tests/MutableTopLevelVar.test
+. link compiler_tests/MutableTopLevelVar  OK (time = 2897ms)
+. run compiler_tests/MutableTopLevelVar (611ms) PASS
+Passed
+
+Time: 3.515
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  junit compiler_tests/MutableTopLevelVarInLoop.test
+. link compiler_tests/MutableTopLevelVarInLoop  OK (time = 3145ms)
+. run compiler_tests/MutableTopLevelVarInLoop (599ms) PASS
+Passed
+
+Time: 3.75
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  junit compiler_tests/AtomicTopLevelVar.test
+. link compiler_tests/AtomicTopLevelVar  OK (time = 2896ms)
+. run compiler_tests/AtomicTopLevelVar (756ms) PASS
+Passed
+
+Time: 3.659
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  junit compiler_tests/AtomicTopLevelObjectVar.test
+. link compiler_tests/AtomicTopLevelObjectVar  OK (time = 2742ms)
+. run compiler_tests/AtomicTopLevelObjectVar (565ms) PASS
+Passed
+
+Time: 3.312
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  junit compiler_tests/RecursiveApiTest3.test
+. compile compiler_tests/RecursiveApiTest3c  OK (time = 610ms)
+. link compiler_tests/RecursiveApiTest3c  OK (time = 2276ms)
+. run compiler_tests/RecursiveApiTest3c (405ms) pass
+Passed
+
+Time: 3.298
+
+OK (3 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  junit other_compiler_tests/atomicTest.test
+Passed
+. run other_compiler_tests/atomic3 (621ms) count = 1000
+PASS
+Passed
+. run other_compiler_tests/atomic4 (489ms) count = 10
+dracula = 55
+PASS
+Passed
+. run other_compiler_tests/atomic5 (498ms) PASS
+Passed
+. run other_compiler_tests/atomic6 (535ms) Starting test
+PASS
+Passed
+. run other_compiler_tests/nestedTransactions0 (547ms) Starting test
+count = 2
+PASS
+Passed
+. run other_compiler_tests/nestedTransactions1 (762ms) Starting test
+count = 25
+PASS
+Passed
+. run other_compiler_tests/nestedTransactions2 (632ms) Starting test
+count = 25
+PASS
+Passed
+
+Time: 13.731
+
+OK (20 tests)
+
+junit-exit=0
+EXIT=0

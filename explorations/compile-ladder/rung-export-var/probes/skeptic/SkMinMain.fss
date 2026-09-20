@@ -1,0 +1,8 @@
+component SkMinMain
+import SkMinApi.{...}
+export Executable
+run(): () = do
+    println("beta = " beta)
+    println("alpha = " alpha)
+  end
+end

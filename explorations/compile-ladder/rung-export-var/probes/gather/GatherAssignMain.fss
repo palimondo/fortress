@@ -1,0 +1,10 @@
+component GatherAssignMain
+import GatherAssignApi.{...}
+export Executable
+run(): () = do
+    println("alpha = " alpha)
+    alpha := 23
+    println("alpha := 23 -> " alpha)
+    println("beta = " beta)
+  end
+end

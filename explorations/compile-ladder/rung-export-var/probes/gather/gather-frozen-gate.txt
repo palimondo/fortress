@@ -1,0 +1,69 @@
+### GATHER: rung X gated tests on the assembled main tree, with the negative case added
+### rev=7de996739  2026-09-20T07:22:32+0000
+================ FORTRESS_THREADS=1  ../bin/fortress junit compiler_tests/ExportVarRungX.test
+. link compiler_tests/ExportVarRungX  OK (time = 3155ms)
+. run compiler_tests/ExportVarRungX (260ms) PASS
+Passed
+
+Time: 3.421
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  ../bin/fortress junit compiler_tests/XXXExportVarRungXLinked.test
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress/ProjectFortress/compiler_tests:.:/home/user/fortress/ProjectFortress/LibraryBuiltin:/home/user/fortress/Library:/home/user/fortress/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 1.371
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  ../bin/fortress junit compiler_tests/XXXExportVarRungXFrozen.test
+. compile compiler_tests/XXXExportVarRungXFrozen /home/user/fortress/ProjectFortress/compiler_tests/XXXExportVarRungXFrozen.fss:19:5-15:
+    Cannot assign to immutable variable: ExportVarRungXApi.fixed
+File XXXExportVarRungXFrozen.fss has 1 error.
+ Saw expected failure
+
+Time: 0.96
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit compiler_tests/ExportVarRungX.test
+. link compiler_tests/ExportVarRungX  OK (time = 2700ms)
+. run compiler_tests/ExportVarRungX (257ms) PASS
+Passed
+
+Time: 2.965
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit compiler_tests/XXXExportVarRungXLinked.test
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress/ProjectFortress/compiler_tests:.:/home/user/fortress/ProjectFortress/LibraryBuiltin:/home/user/fortress/Library:/home/user/fortress/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 1.405
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit compiler_tests/XXXExportVarRungXFrozen.test
+. compile compiler_tests/XXXExportVarRungXFrozen /home/user/fortress/ProjectFortress/compiler_tests/XXXExportVarRungXFrozen.fss:19:5-15:
+    Cannot assign to immutable variable: ExportVarRungXApi.fixed
+File XXXExportVarRungXFrozen.fss has 1 error.
+ Saw expected failure
+
+Time: 0.965
+
+OK (1 test)
+
+junit-exit=0
+EXIT=0

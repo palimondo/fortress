@@ -1,0 +1,5 @@
+component SameVarApi
+export SameVarApi
+var shared: ZZ32 = 7
+fixed: ZZ32 = 11
+end

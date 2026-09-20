@@ -1,0 +1,9 @@
+component SkHelpApi
+import SkVarApi.{...}
+export SkHelpApi
+bumpTwice(): () = do
+    counter := counter + 1
+    counter := counter + 1
+  end
+readCounter(): ZZ32 = counter
+end

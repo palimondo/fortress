@@ -1,0 +1,78 @@
+### PRE-EDIT: the link step, the object-type export, and walk
+### rev=8590d7a9e  2026-09-20T05:39:11+00:00
+## Q1: does 'fortress link' work when the api and the component have DIFFERENT names?
+--- link P8Main (api P8Api, component P8Lib)
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss:2:8-12:
+    Could not find an implementation for API P8Api on path
+    /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File P8Main.fss has 1 error.
+link-exit=255
+## Q2: does 'fortress link' work when they have the SAME name?
+--- link SameVarMain (api SameVarApi, component SameVarApi)
+link-exit=0
+--- run SameVarMain after link
+fixed =  11
+java.lang.NoSuchFieldError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SameVarMain.main(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/SameVarMain.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoSuchFieldError: Class SameVarApi$shared does not have member field 'com.sun.fortress.compiler.runtimeValues.FZZ32 ONLY'
+	at SameVarMain.run(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/SameVarMain.fss:6)
+	at SameVarMain.compute(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/SameVarMain.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+run-exit=1
+## Q3: an IMMUTABLE export of an OBJECT type, same names -- the shape both microGPT apis use
+--- compile ObjVarApi.fsi
+compile-exit=0
+--- compile ObjVarApi.fss
+compile-exit=0
+--- compile ObjVarMain.fss
+compile-exit=0
+--- run ObjVarMain
+data.size =  5
+run-exit=0
+## Q4: the interpreter, as evidence -- walk on each main
+--- walk FnMain.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/FnMain.fss:2:8-12:
+    Could not find an implementation for API FnApi on path
+    /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+walk-exit=255
+--- walk P8Main.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss:2:8-12:
+    Could not find an implementation for API P8Api on path
+    /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+walk-exit=255
+--- walk P9Main.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P9Main.fss:2:8-12:
+    Could not find an implementation for API P9Api on path
+    /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+walk-exit=255
+--- walk SameVarMain.fss
+fixed = 11
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/SameVarMain.fss:6:25-29:
+undefined variable [shared]
+Context:
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/SameVarMain.fss:6:25-29:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+walk-exit=1
+--- walk ObjVarMain.fss
+data.size = 5
+walk-exit=0
+EXIT=0

@@ -339,6 +339,17 @@ abstract class STypeChecker(val current: CompilationUnitIndex,
     }
 
   /**
+   * Lookup whether the given name is declared mutable in the proper type
+   * environment.
+   */
+  protected def isMutableName(name: Name): Boolean =
+    getRealName(name, toListFromImmutable(current.ast.getImports)) match {
+      case id@SIdOrOp(_, Some(api), _) => getEnvFromApi(api).isMutable(id)
+      case id:IdOrOp => env.isMutable(id)
+      case _ => false
+    }
+
+  /**
    * Lookup the functional indices for the given name in the proper type
    * environment.
    */

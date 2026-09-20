@@ -1,0 +1,9 @@
+component SkVarApi
+export SkVarApi
+object Cell(n: ZZ32)
+    getter size(): ZZ32 = n
+end
+var counter: ZZ32 = 100
+frozen: ZZ32 = 200
+var cell: Cell = Cell(3)
+end

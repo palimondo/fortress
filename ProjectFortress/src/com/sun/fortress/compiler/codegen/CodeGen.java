@@ -52,6 +52,7 @@ import com.sun.fortress.compiler.index.Method;
 import com.sun.fortress.compiler.index.ParametricOperator;
 import com.sun.fortress.compiler.index.TraitIndex;
 import com.sun.fortress.compiler.index.TypeConsIndex;
+import com.sun.fortress.compiler.index.Variable;
 import com.sun.fortress.compiler.nativeInterface.SignatureParser;
 import com.sun.fortress.compiler.typechecker.StaticTypeReplacer;
 import com.sun.fortress.compiler.typechecker.TypeNormalizer;
@@ -5950,6 +5951,21 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                                                Naming.internalToDesc(tyName)));
     }
 
+    /** Whether an imported top-level variable is declared mutable by the api
+     *  that declares it.  A mutable variable's singleton field holds a
+     *  MutableFValue cell rather than the value (generateVarDeclInnerClass),
+     *  so a reference to it needs the matching binding -- the same
+     *  distinction addTopLevelVarBinding makes for a variable this component
+     *  declares itself. */
+    private boolean importedVarIsMutable(Id id) {
+        Option<APIName> oapi = id.getApiName();
+        if (!oapi.isSome()) return false;
+        ApiIndex ai = env.apis().get(oapi.unwrap());
+        if (ai == null) return false;
+        Variable var = ai.variables().get(NodeFactory.makeLocalId(id));
+        return var != null && var.mutable();
+    }
+
     public void forVarRef(VarRef v) {
         List<StaticArg> lsargs = v.getStaticArgs();
         Id id = v.getVarId();
@@ -5965,9 +5981,15 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
              */
             String tyDesc = NamingCzar.jvmTypeDesc(ty, thisApi());
             String className = NamingCzar.jvmClassForToplevelDecl(id, packageAndClassName);
-            vcg = new VarCodeGen.StaticBinding(id, lsargs, ty,
-                                               className,
-                                               NamingCzar.SINGLETON_FIELD_NAME, tyDesc);
+            if (importedVarIsMutable(id)) {
+                vcg = new VarCodeGen.MutableStaticBinding(id, ty, className,
+                                                          NamingCzar.SINGLETON_FIELD_NAME,
+                                                          NamingCzar.jvmBoxedTypeName(ty, thisApi()));
+            } else {
+                vcg = new VarCodeGen.StaticBinding(id, lsargs, ty,
+                                                   className,
+                                                   NamingCzar.SINGLETON_FIELD_NAME, tyDesc);
+            }
             addStaticVar(vcg);
 
 

@@ -1,0 +1,16 @@
+### GATHER: does walk ASSIGN a mutable top-level variable exported through an api, when the name is free?
+### tree 7de996739  2026-09-20T07:24:23+0000
+### api GatherAssignApi declares 'var alpha: ZZ32' and immutable 'beta: ZZ32'; GatherAssignMain imports it, reads, assigns, reads back.
+######################## FORTRESS_THREADS=1
+=== walk GatherAssignMain
+alpha = 7
+alpha := 23 -> 23
+beta = 11
+walk-exit=0
+######################## FORTRESS_THREADS=4
+=== walk GatherAssignMain
+alpha = 7
+alpha := 23 -> 23
+beta = 11
+walk-exit=0
+EXIT=0

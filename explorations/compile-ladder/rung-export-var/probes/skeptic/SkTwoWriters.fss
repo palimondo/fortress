@@ -1,0 +1,12 @@
+component SkTwoWriters
+import SkVarApi.{...}
+import SkHelpApi.{...}
+export Executable
+run(): () = do
+    println("mine0 = " counter " theirs0 = " readCounter())
+    counter := counter + 10
+    bumpTwice()
+    println("mine1 = " counter " theirs1 = " readCounter())
+    if counter = 112 then println("PASS one variable") else println("FAIL two variables") end
+  end
+end

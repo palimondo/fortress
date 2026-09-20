@@ -1,0 +1,232 @@
+### SKEPTIC differentials, tree fd666d129, 2026-09-20T06:20:25+00:00
+######################## FORTRESS_THREADS=1
+--- T=1 compile SkVarApi.fsi
+compile-exit=0
+--- T=1 compile SkVarApi.fss
+compile-exit=0
+--- T=1 compile SkHelpApi.fsi
+compile-exit=0
+--- T=1 compile SkHelpApi.fss
+compile-exit=0
+--- T=1 compile SkAssignFrozen.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAssignFrozen.fss:5:5-15:
+    Cannot assign to immutable variable: SkVarApi.frozen
+File SkAssignFrozen.fss has 1 error.
+compile-exit=255
+--- T=1 compile SkReadWrite.fss
+compile-exit=0
+--- T=1 compile SkAtomicCount.fss
+compile-exit=0
+--- T=1 compile SkAlias.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:5:23-24:
+    Variable ctr is not defined.
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:6:5-9:
+    Variable ctr is not defined.
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:7:23-24:
+    Variable ctr is not defined.
+File SkAlias.fss has 3 errors.
+compile-exit=255
+--- T=1 compile SkTwoWriters.fss
+compile-exit=0
+--- T=1 run SkAssignFrozen
+Could not load SkAssignFrozen
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkAssignFrozen.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-exit=1
+--- T=1 run SkReadWrite
+counter0 =  100
+counter1 =  105
+cell0 =  3
+cell1 =  9
+frozen =  200
+run-exit=0
+--- T=1 run SkAtomicCount
+counter =  40100
+PASS
+run-exit=0
+--- T=1 run SkAlias
+Could not load SkAlias
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkAlias.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-exit=1
+--- T=1 run SkTwoWriters
+mine0 =  100  theirs0 =  100
+mine1 =  112  theirs1 =  112
+PASS one variable
+run-exit=0
+--- T=1 walk SkAssignFrozen.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAssignFrozen.fss:5:5-12:
+Cannot assign to immutable frozen
+Context:
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAssignFrozen.fss:5:5-12:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk-exit=1
+--- T=1 walk SkReadWrite.fss
+counter0 = 100
+counter1 = 105
+cell0 = 3
+cell1 = 9
+frozen = 200
+walk-exit=0
+--- T=1 walk SkAtomicCount.fss
+counter = 40100
+PASS
+walk-exit=0
+--- T=1 walk SkAlias.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:5:23-24:
+    Variable ctr is not defined.
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:6:5-9:
+    Variable ctr is not defined.
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:7:23-24:
+    Variable ctr is not defined.
+walk-exit=255
+--- T=1 walk SkTwoWriters.fss
+mine0 = 100 theirs0 = 100
+mine1 = 112 theirs1 = 112
+PASS one variable
+walk-exit=0
+######################## FORTRESS_THREADS=4
+--- T=4 compile SkVarApi.fsi
+compile-exit=0
+--- T=4 compile SkVarApi.fss
+compile-exit=0
+--- T=4 compile SkHelpApi.fsi
+compile-exit=0
+--- T=4 compile SkHelpApi.fss
+compile-exit=0
+--- T=4 compile SkAssignFrozen.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAssignFrozen.fss:5:5-15:
+    Cannot assign to immutable variable: SkVarApi.frozen
+File SkAssignFrozen.fss has 1 error.
+compile-exit=255
+--- T=4 compile SkReadWrite.fss
+compile-exit=0
+--- T=4 compile SkAtomicCount.fss
+compile-exit=0
+--- T=4 compile SkAlias.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:5:23-24:
+    Variable ctr is not defined.
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:6:5-9:
+    Variable ctr is not defined.
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:7:23-24:
+    Variable ctr is not defined.
+File SkAlias.fss has 3 errors.
+compile-exit=255
+--- T=4 compile SkTwoWriters.fss
+compile-exit=0
+--- T=4 run SkAssignFrozen
+Could not load SkAssignFrozen
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkAssignFrozen.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-exit=1
+--- T=4 run SkReadWrite
+counter0 =  100
+counter1 =  105
+cell0 =  3
+cell1 =  9
+frozen =  200
+run-exit=0
+--- T=4 run SkAtomicCount
+counter =  40100
+PASS
+run-exit=0
+--- T=4 run SkAlias
+Could not load SkAlias
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkAlias.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-exit=1
+--- T=4 run SkTwoWriters
+mine0 =  100  theirs0 =  100
+mine1 =  112  theirs1 =  112
+PASS one variable
+run-exit=0
+--- T=4 walk SkAssignFrozen.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAssignFrozen.fss:5:5-12:
+Cannot assign to immutable frozen
+Context:
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAssignFrozen.fss:5:5-12:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk-exit=1
+--- T=4 walk SkReadWrite.fss
+counter0 = 100
+counter1 = 105
+cell0 = 3
+cell1 = 9
+frozen = 200
+walk-exit=0
+--- T=4 walk SkAtomicCount.fss
+counter = 40100
+PASS
+walk-exit=0
+--- T=4 walk SkAlias.fss
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:5:23-24:
+    Variable ctr is not defined.
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:6:5-9:
+    Variable ctr is not defined.
+/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/skeptic/SkAlias.fss:7:23-24:
+    Variable ctr is not defined.
+walk-exit=255
+--- T=4 walk SkTwoWriters.fss
+mine0 = 100 theirs0 = 100
+mine1 = 112 theirs1 = 112
+PASS one variable
+walk-exit=0
+EXIT=0

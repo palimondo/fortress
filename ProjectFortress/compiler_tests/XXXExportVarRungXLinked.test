@@ -1,0 +1,12 @@
+#    Copyright 2026, the Fortress revival.
+#    All rights reserved.
+#
+#
+#    Use is subject to license terms.
+#
+#    This distribution may include materials developed by third parties.
+#
+
+tests=XXXExportVarRungXLinked
+link
+link_err_contains=Could not find an implementation for API ExportVarRungXLibApi
