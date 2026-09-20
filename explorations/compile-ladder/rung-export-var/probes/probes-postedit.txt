@@ -1,0 +1,233 @@
+### POST-EDIT probe runs (repaired tree)
+### FORTRESS_HOME=/home/user/fortress-export  rev=981ed0261  2026-09-20T05:59:28+00:00
+### git status:
+ M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+ M ProjectFortress/src/com/sun/fortress/scala_src/typechecker/STypeChecker.scala
+ M ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala
+?? explorations/compile-ladder/rung-export-var/probes/differential-postedit.txt
+?? explorations/compile-ladder/rung-export-var/probes/gated-tests-postedit.txt
+?? explorations/compile-ladder/rung-export-var/probes/probes-postedit.txt
+?? explorations/compile-ladder/rung-export-var/probes/xxx-goes-red.txt
+================ Fn ================
+--- Fn FORTRESS_THREADS=1 compile FnApi.fsi
+compile-exit=0
+--- Fn FORTRESS_THREADS=1 compile FnLib.fss
+compile-exit=0
+--- Fn FORTRESS_THREADS=1 compile FnMain.fss
+compile-exit=0
+--- Fn FORTRESS_THREADS=1 run FnMain
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at FnMain.main(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/FnMain.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: FnApi
+	at FnMain.run(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/FnMain.fss:4)
+	at FnMain.compute(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/FnMain.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 7 more
+Caused by: java.io.IOException: Resource not found : FnApi.class
+run-exit=1
+--- Fn FORTRESS_THREADS=4 compile FnApi.fsi
+compile-exit=0
+--- Fn FORTRESS_THREADS=4 compile FnLib.fss
+compile-exit=0
+--- Fn FORTRESS_THREADS=4 compile FnMain.fss
+compile-exit=0
+--- Fn FORTRESS_THREADS=4 run FnMain
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at FnMain.main(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/FnMain.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: FnApi
+	at FnMain.run(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/FnMain.fss:4)
+	at FnMain.compute(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/FnMain.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 7 more
+Caused by: java.io.IOException: Resource not found : FnApi.class
+run-exit=1
+================ P8 ================
+--- P8 FORTRESS_THREADS=1 compile P8Api.fsi
+compile-exit=0
+--- P8 FORTRESS_THREADS=1 compile P8Lib.fss
+compile-exit=0
+--- P8 FORTRESS_THREADS=1 compile P8Main.fss
+compile-exit=0
+--- P8 FORTRESS_THREADS=1 run P8Main
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at P8Main.main(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: P8Api$shared
+	at P8Main.run(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss:4)
+	at P8Main.compute(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 7 more
+Caused by: java.io.IOException: Resource not found : P8Api$shared.class
+run-exit=1
+--- P8 FORTRESS_THREADS=4 compile P8Api.fsi
+compile-exit=0
+--- P8 FORTRESS_THREADS=4 compile P8Lib.fss
+compile-exit=0
+--- P8 FORTRESS_THREADS=4 compile P8Main.fss
+compile-exit=0
+--- P8 FORTRESS_THREADS=4 run P8Main
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at P8Main.main(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: P8Api$shared
+	at P8Main.run(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss:4)
+	at P8Main.compute(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P8Main.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 7 more
+Caused by: java.io.IOException: Resource not found : P8Api$shared.class
+run-exit=1
+================ P9 ================
+--- P9 FORTRESS_THREADS=1 compile P9Api.fsi
+compile-exit=0
+--- P9 FORTRESS_THREADS=1 compile P9Lib.fss
+compile-exit=0
+--- P9 FORTRESS_THREADS=1 compile P9Main.fss
+compile-exit=0
+--- P9 FORTRESS_THREADS=1 run P9Main
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at P9Main.main(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P9Main.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: P9Api$shared
+	at P9Main.run(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P9Main.fss:4)
+	at P9Main.compute(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P9Main.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 7 more
+Caused by: java.io.IOException: Resource not found : P9Api$shared.class
+run-exit=1
+--- P9 FORTRESS_THREADS=4 compile P9Api.fsi
+compile-exit=0
+--- P9 FORTRESS_THREADS=4 compile P9Lib.fss
+compile-exit=0
+--- P9 FORTRESS_THREADS=4 compile P9Main.fss
+compile-exit=0
+--- P9 FORTRESS_THREADS=4 run P9Main
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at P9Main.main(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P9Main.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: P9Api$shared
+	at P9Main.run(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P9Main.fss:4)
+	at P9Main.compute(/home/user/fortress-export/explorations/compile-ladder/rung-export-var/probes/P9Main.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 7 more
+Caused by: java.io.IOException: Resource not found : P9Api$shared.class
+run-exit=1
+================ SameVar ================
+--- SameVar FORTRESS_THREADS=1 compile SameVarApi.fsi
+compile-exit=0
+--- SameVar FORTRESS_THREADS=1 compile SameVarApi.fss
+compile-exit=0
+--- SameVar FORTRESS_THREADS=1 compile SameVarMain.fss
+compile-exit=0
+--- SameVar FORTRESS_THREADS=1 run SameVarMain
+fixed =  11
+shared =  7
+run-exit=0
+--- SameVar FORTRESS_THREADS=4 compile SameVarApi.fsi
+compile-exit=0
+--- SameVar FORTRESS_THREADS=4 compile SameVarApi.fss
+compile-exit=0
+--- SameVar FORTRESS_THREADS=4 compile SameVarMain.fss
+compile-exit=0
+--- SameVar FORTRESS_THREADS=4 run SameVarMain
+fixed =  11
+shared =  7
+run-exit=0
+EXIT=0

@@ -441,7 +441,7 @@ trait Operators { self: STypeChecker with Common =>
           val checkedLhs = checkExpr(lhs).asInstanceOf[VarRef]
           val lhsType = getType(checkedLhs).getOrElse(return expr)
 
-          if (!env.isMutable(id)) {
+          if (!isMutableName(id)) {
             signal(expr, "Cannot assign to immutable variable: %s".format(id))
             return expr
           }

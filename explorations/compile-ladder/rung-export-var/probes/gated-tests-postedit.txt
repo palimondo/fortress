@@ -1,0 +1,52 @@
+### POST-EDIT: the two new gated tests on the repaired tree
+### FORTRESS_HOME=/home/user/fortress-export  rev=981ed0261  2026-09-20T05:53:13+00:00
+### git status:
+ M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+ M ProjectFortress/src/com/sun/fortress/scala_src/typechecker/STypeChecker.scala
+ M ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala
+?? explorations/compile-ladder/rung-export-var/probes/gated-tests-postedit.txt
+================ FORTRESS_THREADS=1  ../bin/fortress junit compiler_tests/ExportVarRungX.test
+. link compiler_tests/ExportVarRungX  OK (time = 3683ms)
+. run compiler_tests/ExportVarRungX (377ms) PASS
+Passed
+
+Time: 4.067
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=1  ../bin/fortress junit compiler_tests/XXXExportVarRungXLinked.test
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress-export/ProjectFortress/compiler_tests:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 1.705
+
+OK (1 test)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit compiler_tests/ExportVarRungX.test
+. link compiler_tests/ExportVarRungX  OK (time = 3315ms)
+. run compiler_tests/ExportVarRungX (395ms) PASS
+Passed
+
+Time: 3.715
+
+OK (2 tests)
+
+junit-exit=0
+================ FORTRESS_THREADS=4  ../bin/fortress junit compiler_tests/XXXExportVarRungXLinked.test
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress-export/ProjectFortress/compiler_tests:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 1.918
+
+OK (1 test)
+
+junit-exit=0
+EXIT=0

@@ -1,0 +1,66 @@
+### Does the new XXX test go red when the defect it records is locally repaired?
+### rev=981ed0261  2026-09-20T05:56:17+00:00
+
+## 1. as committed: the api ExportVarRungXLibApi is implemented only by the
+##    differently-named component ExportVarRungXLib, and the test is red-as-expected
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress-export/ProjectFortress/compiler_tests:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 1.841
+
+OK (1 test)
+
+
+## 2. the deliberate local fix: give the api a same-named component as well,
+##    which is the one shape the repository can already discover.
+--- the added file:
+    Copyright 2026, the Fortress revival.
+    All rights reserved.
+    Use is subject to license terms.
+    This distribution may include materials developed by third parties.
+component ExportVarRungXLibApi
+export ExportVarRungXLibApi
+linked: ZZ32 = 5
+bumpLinked(x: ZZ32): ZZ32 = x + 1
+end
+--- the same XXX test, with the fix in place:
+. link compiler_tests/XXXExportVarRungXLinked 
+ Saw failure, but did not satisfy link_err_contains; expected
+Could not find an implementation for API ExportVarRungXLibApi
+F
+Time: 163.093
+There was 1 failure:
+1) compiler_tests/XXXExportVarRungXLinked(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. link
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:398)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+
+## 3. undoing the fix
+--- and the XXX test is red-as-expected again:
+. link compiler_tests/XXXExportVarRungXLinked /home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss:15:8-27:
+    Could not find an implementation for API ExportVarRungXLibApi on path
+    /home/user/fortress-export/ProjectFortress/compiler_tests:.:/home/user/fortress-export/ProjectFortress/LibraryBuiltin:/home/user/fortress-export/Library:/home/user/fortress-export/ProjectFortress/test_library
+File XXXExportVarRungXLinked.fss has 1 error.
+ Saw expected failure
+
+Time: 0.386
+
+OK (1 test)
+
+--- files present after the demonstration:
+/home/user/fortress-export/ProjectFortress/compiler_tests/ExportVarRungXLib.fss
+/home/user/fortress-export/ProjectFortress/compiler_tests/ExportVarRungXLibApi.fsi
+/home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.fss
+/home/user/fortress-export/ProjectFortress/compiler_tests/XXXExportVarRungXLinked.test
+EXIT=0

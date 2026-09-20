@@ -1,0 +1,7 @@
+=== LibraryBuiltin/AnyType.fss 2026-09-20T05:49:49+00:00
+../bin/fortress: line 33:  6273 Killed                  "$JAVACMD" $JAVA_FLAGS -cp "$CP" com.sun.fortress.Shell "$@"
+=== LibraryBuiltin/CompilerBuiltin.fss 2026-09-20T05:50:01+00:00
+=== ../Library/CompilerLibrary.fss 2026-09-20T05:52:16+00:00
+=== ../Library/CompilerAlgebra.fss 2026-09-20T05:52:46+00:00
+=== ../Library/CompilerSystem.fss 2026-09-20T05:52:48+00:00
+EXIT=0
