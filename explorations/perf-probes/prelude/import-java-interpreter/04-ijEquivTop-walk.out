@@ -1,0 +1,13 @@
+$ ./bin/fortress explorations/perf-probes/prelude/import-java-interpreter/ijEquivTop.fss
+equality?sEquiv(Lfortress/AnyType$Any;Lfortress/AnyType$Any;)Z
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress/explorations/perf-probes/prelude/import-java-interpreter/ijEquivTop.fss:11:1-26:
+** bug! Non-top-level reference to imported com.sun.fortress.nativeHelpers.equality.sEquiv
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+### rc=1

@@ -1,0 +1,15 @@
+(* Probe 1d: the same import as ijEquiv, but the call sits at the component's
+   top level, where BaseEnv.getValueNullTail allows a qualified (imported) name
+   (BaseEnv.java:531-533 bugs out on a non-top-level reference).
+   Run: ./bin/fortress ijEquivTop.fss *)
+
+component ijEquivTop
+
+import java com.sun.fortress.nativeHelpers.{equality.sEquiv => jEquiv}
+export Executable
+
+b: Boolean = jEquiv(1, 1)
+
+run():() = println(b)
+
+end

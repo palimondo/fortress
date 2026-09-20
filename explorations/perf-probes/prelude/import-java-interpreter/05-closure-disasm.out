@@ -1,0 +1,16 @@
+$ javap -p -c $FORTRESS_CACHES/bytecode_cache/native/com/sun/fortress/nativeHelpers/equality$$closure.class
+public class native.com.sun.fortress.nativeHelpers.equality$$closure extends com.sun.fortress.interpreter.glue.NativeFn2 {
+  public native.com.sun.fortress.nativeHelpers.equality$$closure();
+    Code:
+         0: aload_0
+         1: invokespecial #8                  // Method com/sun/fortress/interpreter/glue/NativeFn2."<init>":()V
+         4: return
+
+  protected com.sun.fortress.interpreter.evaluator.values.FValue applyToArgs(com.sun.fortress.interpreter.evaluator.values.FValue, com.sun.fortress.interpreter.evaluator.values.FValue);
+    Code:
+         0: aload_1
+         1: aload_2
+         2: invokestatic  #17                 // Method native/com/sun/fortress/nativeHelpers/equality.sEquiv:(Lcom/sun/fortress/interpreter/evaluator/values/FValue;Lcom/sun/fortress/interpreter/evaluator/values/FValue;)Lcom/sun/fortress/interpreter/evaluator/values/FValue;
+         5: areturn
+}
+### rc=0

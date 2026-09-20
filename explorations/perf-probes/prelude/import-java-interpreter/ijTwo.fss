@@ -1,0 +1,17 @@
+(* Probe 1e: two `import java` lines from one Java package — the shape
+   LibraryBuiltin/CompilerBuiltin.fss uses seventeen times (:13, :17, :20,
+   :25, :75, :118, :155, :197, :227, :273, :275, :277, :283, :300, :307,
+   :311, :336).  Both helpers are over `boolean` only, so every type the
+   synthesized api names (FortressBuiltin.Boolean, AnyType.Any) exists in the
+   interpreter's world and disambiguation has nothing to complain about.
+   Run: ./bin/fortress ijTwo.fss *)
+
+component ijTwo
+
+import java com.sun.fortress.nativeHelpers.{equality.sEquiv => jEquiv}
+import java com.sun.fortress.nativeHelpers.{simpleBoolean.booleanAnd => jAnd}
+export Executable
+
+run():() = println(jAnd(jEquiv(1, 1), false))
+
+end

@@ -1,0 +1,6 @@
+$ ./bin/fortress explorations/perf-probes/prelude/import-java-interpreter/ijPrintln.fss
+Internally generated library name, in source code NamingCzar.:0:0:
+    FortressBuiltin.JavaString is undefined.
+Internally generated library name, in source code NamingCzar.:0:0:
+    FortressBuiltin.ZZ32 is undefined.
+### rc=255

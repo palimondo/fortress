@@ -1,0 +1,12 @@
+$ git rev-parse HEAD
+1d148572aa96cba262fcb6216221a8980cdb683b
+$ git status --porcelain
+?? explorations/perf-probes/prelude/import-java-interpreter/
+$ java -version
+openjdk version "25.0.4" 2026-07-21
+OpenJDK Runtime Environment (build 25.0.4+7-1-24.04-Ubuntu)
+OpenJDK 64-Bit Server VM (build 25.0.4+7-1-24.04-Ubuntu, mixed mode, sharing)
+FORTRESS_HOME=/home/user/fortress
+FORTRESS_CACHES=/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/probe-caches
+FORTRESS_THREADS=1
+JAVA_FLAGS=-Xmx4g -Xss64m

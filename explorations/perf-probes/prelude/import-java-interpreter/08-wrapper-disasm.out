@@ -1,0 +1,43 @@
+$ javap -p -c $FORTRESS_CACHES/nativewrapper_cache/native/com/sun/fortress/nativeHelpers/equality.class
+Compiled from "equality.java"
+public class native.com.sun.fortress.nativeHelpers.equality {
+  public static com.sun.fortress.compiler.runtimeValues.FBoolean sEquiv(fortress.AnyType$Any, fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokestatic  #17                 // Method com/sun/fortress/nativeHelpers/equality.sEquiv:(Lfortress/AnyType$Any;Lfortress/AnyType$Any;)Z
+         5: invokestatic  #23                 // Method com/sun/fortress/compiler/runtimeValues/FBoolean.make:(Z)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+         8: areturn
+}
+
+$ javap -p -c $FORTRESS_CACHES/nativewrapper_cache/native/com/sun/fortress/nativeHelpers/simpleDoubleArith.class | sed -n '1,30p'
+Compiled from "simpleDoubleArith.java"
+public class native.com.sun.fortress.nativeHelpers.simpleDoubleArith {
+  public static com.sun.fortress.compiler.runtimeValues.FJavaString doubleToString(com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: invokevirtual #13                 // Method com/sun/fortress/compiler/runtimeValues/FRR64.getValue:()D
+         4: invokestatic  #18                 // Method com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleToString:(D)Ljava/lang/String;
+         7: invokestatic  #24                 // Method com/sun/fortress/compiler/runtimeValues/FJavaString.make:(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;
+        10: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 parseDouble(com.sun.fortress.compiler.runtimeValues.FJavaString);
+    Code:
+         0: aload_0
+         1: invokevirtual #29                 // Method com/sun/fortress/compiler/runtimeValues/FJavaString.getValue:()Ljava/lang/String;
+         4: invokestatic  #32                 // Method com/sun/fortress/nativeHelpers/simpleDoubleArith.parseDouble:(Ljava/lang/String;)D
+         7: invokestatic  #35                 // Method com/sun/fortress/compiler/runtimeValues/FRR64.make:(D)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        10: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 doubleAdd(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:
+         0: aload_0
+         1: invokevirtual #13                 // Method com/sun/fortress/compiler/runtimeValues/FRR64.getValue:()D
+         4: aload_1
+         5: invokevirtual #13                 // Method com/sun/fortress/compiler/runtimeValues/FRR64.getValue:()D
+         8: invokestatic  #40                 // Method com/sun/fortress/nativeHelpers/simpleDoubleArith.doubleAdd:(DD)D
+        11: invokestatic  #35                 // Method com/sun/fortress/compiler/runtimeValues/FRR64.make:(D)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+        14: areturn
+
+  public static com.sun.fortress.compiler.runtimeValues.FRR64 doubleSub(com.sun.fortress.compiler.runtimeValues.FRR64, com.sun.fortress.compiler.runtimeValues.FRR64);
+    Code:

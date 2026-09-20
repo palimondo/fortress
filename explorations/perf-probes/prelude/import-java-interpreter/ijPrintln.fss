@@ -1,0 +1,18 @@
+(* Probe 1b: the same mechanism with the helper every compiler-path test uses.
+   Helper: nativeHelpers/simplePrintln.java
+           public static void nativePrintln(String s)   -- java.lang.String
+   Run:    ./bin/fortress ijPrintln.fss
+   `asJavaString` is how CompilerBuiltin.fss:455 feeds this helper; it is a
+   compiler-world getter, so this one program is not world-neutral text. *)
+
+component ijPrintln
+
+import java com.sun.fortress.nativeHelpers.{simplePrintln.nativePrintln => jPrintln}
+export Executable
+
+run():() = do
+  s: String = "hello from a Java native"
+  jPrintln(s.asJavaString)
+end
+
+end

@@ -1,0 +1,30 @@
+$ ./bin/fortress compile explorations/perf-probes/prelude/import-java-interpreter/ijPrintln.fss
+### compile rc=0
+$ ./bin/fortress run ijPrintln
+hello from a Java native
+### run rc=0
+
+$ ./bin/fortress compile explorations/perf-probes/prelude/import-java-interpreter/ijDouble.fss
+### compile rc=0
+$ ./bin/fortress run ijDouble
+5.0
+### run rc=0
+
+$ ./bin/fortress compile explorations/perf-probes/prelude/import-java-interpreter/ijEquiv.fss
+### compile rc=0
+$ ./bin/fortress run ijEquiv
+false
+### run rc=0
+
+$ ./bin/fortress compile explorations/perf-probes/prelude/import-java-interpreter/ijEquivTop.fss
+### compile rc=0
+$ ./bin/fortress run ijEquivTop
+false
+### run rc=0
+
+$ ./bin/fortress compile explorations/perf-probes/prelude/import-java-interpreter/ijTwo.fss
+### compile rc=0
+$ ./bin/fortress run ijTwo
+false
+### run rc=0
+

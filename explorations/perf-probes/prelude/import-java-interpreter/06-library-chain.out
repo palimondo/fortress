@@ -1,0 +1,10 @@
+$ (cd ProjectFortress && fortress compile LibraryBuiltin/AnyType.fss)
+### rc=0
+$ (cd ProjectFortress && fortress compile LibraryBuiltin/CompilerBuiltin.fss)
+### rc=0
+$ (cd ProjectFortress && fortress compile ../Library/CompilerLibrary.fss)
+### rc=0
+$ (cd ProjectFortress && fortress compile ../Library/CompilerAlgebra.fss)
+### rc=0
+$ (cd ProjectFortress && fortress compile ../Library/CompilerSystem.fss)
+### rc=0

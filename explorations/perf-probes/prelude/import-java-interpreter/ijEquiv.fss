@@ -1,0 +1,16 @@
+(* Probe 1c: the one nativeHelpers method whose signature is over a Fortress
+   value rather than a Java primitive.
+   Helper: nativeHelpers/equality.java
+           public static boolean sEquiv(fortress.AnyType.Any a, fortress.AnyType.Any b)
+   Run:    ./bin/fortress ijEquiv.fss *)
+
+component ijEquiv
+
+import java com.sun.fortress.nativeHelpers.{equality.sEquiv => jEquiv}
+export Executable
+
+run():() = do
+  println(jEquiv(1, 1))
+end
+
+end

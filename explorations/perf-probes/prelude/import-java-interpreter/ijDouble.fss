@@ -1,0 +1,18 @@
+(* Probe 1a: an interpreter program that binds a native over Java primitives
+   with the compiler world's mechanism, `import java`.
+   Helper: ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java
+           public static double doubleAdd(double a, double b)
+   Run:    ./bin/fortress ijDouble.fss        (the walk path)
+   Control: ./bin/fortress compile ijDouble.fss && ./bin/fortress run ijDouble *)
+
+component ijDouble
+
+import java com.sun.fortress.nativeHelpers.{simpleDoubleArith.doubleAdd => jDoubleAdd}
+export Executable
+
+run():() = do
+  x: RR64 = jDoubleAdd(2.0, 3.0)
+  println(x)
+end
+
+end
