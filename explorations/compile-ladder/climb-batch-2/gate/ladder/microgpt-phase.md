@@ -38,8 +38,8 @@ Phases reached: disambiguate 7.
 | 4 | `FlatArrays2.fss` | disambiguate | 255 | 1 | Array is undefined. |
 | 5 | `AplMg.fsi` | disambiguate | 255 | 1 | Vector is undefined. |
 | 6 | `AplMg.fss` | disambiguate | 255 | 1 | Vector is undefined. |
-| 7 | `FlatData2.fsi` | disambiguate | 255 | 1 | Array is undefined. |
-| 8 | `FlatData2.fss` | disambiguate | 255 | 2 | Char is undefined. |
+| 7 | `FlatData2.fsi` | disambiguate | 255 | 2 | Array is undefined. |
+| 8 | `FlatData2.fss` | disambiguate | 255 | 1 | Char is undefined. |
 | 9 | `MicroGptApl.fsi` | disambiguate | 255 | 1 | Array is undefined. |
 | 10 | `MicroGptApl.fss` | disambiguate | 255 | 3 | Char is undefined. |
 | 11 | `MicroGptAplCheck.fss` | disambiguate | 255 | 1 | ImmutableArray is undefined. |

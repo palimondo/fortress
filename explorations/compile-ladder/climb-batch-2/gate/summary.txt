@@ -53,9 +53,9 @@ system-3/SystemJUTest	95	0	0	0
 # compileAll: BUILD SUCCESSFUL
 # compileAll: Total time: 19 seconds
 # testFast: BUILD SUCCESSFUL
-# testFast: Total time: 6 minutes 59 seconds
+# testFast: Total time: 6 minutes 53 seconds
 # testSystem: BUILD SUCCESSFUL
-# testSystem: Total time: 1 minute 54 seconds
+# testSystem: Total time: 1 minute 52 seconds
 # atomic AtomicTopLevelObjectVar run1 threads=4 PASS
 # atomic AtomicTopLevelObjectVar run2 threads=4 PASS
 # atomic AtomicTopLevelObjectVar run3 threads=4 PASS
