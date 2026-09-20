@@ -381,3 +381,7 @@ front-end checked while the compiled path runs a static check. Whether that chec
 same way was not measured here and should not be assumed. Today the question does not arise there at
 all: the compiler prelude's tower is flat traits with hand-written exclusions and has no parametric
 bounds to argue about (`CompilerBuiltin.fss:504, 655, 917, 978`).
+
+## Correction to §1, 2026-09-20, after the probe
+
+The probe (`explorations/reviews/library-scalar-extension-review-probes.md`) ran the compiler's checker over three copies of the library: without the clause, 92 errors; with the clause as committed, 93 (the one added: "AnyIntegral has a comprises clause but its immediate subtype Integral is not eligible to extend it"); with the team's repair clause on `Integral[\I\]` added beside it, still 93, because the checker then asks the other direction and `ZZ` extends the instantiation `Integral[\ZZ\]`, not `Integral[\I\]`. So default B above is wrong: the repair moves the error, it does not remove it, and the closure has no spelling the checker accepts. What is true: the clause changes nothing the interpreter runs (both gated tests and C4's cold check are identical with and without the repair). The choice is now between keeping the clause and carrying one more known checker error on a tower that already carries 92, or removing it and giving the interpreter's acceptance of the generic scalar block another mechanism. That is item 14's decision, unchanged in ownership.
