@@ -1,0 +1,8 @@
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/fwp/control
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0bf6d9b99_16
+. interpret /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/fwp/control/ArrayScalarExtension  OK (time = 12965ms)
+
+Time: 12.971
+
+OK (1 test)
+

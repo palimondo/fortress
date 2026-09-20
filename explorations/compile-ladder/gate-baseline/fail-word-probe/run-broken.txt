@@ -1,0 +1,39 @@
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/fwp/broken
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0bf6d4af8_16
+. interpret /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/fwp/broken/FailWordProbe  FAIL
+fail (v + 1.0)[0]: got 0.0, want 99.0
+(1.0 + v)[2] = 2.0
+(v - 1.0)[0] = -2.0
+(1.0 - v)[0] = 2.0
+(0.0 MAX v)[0] = 0.0
+(v MAX 0.0)[2] = 1.0
+(0.0 MIN v)[2] = 0.0
+(v MIN 0.0)[0] = -1.0
+(m + 1.0)[0,1] = -2.0
+(1.0 + m)[1,0] = 1.0
+(m - 1.0)[0,0] = 1.0
+(1.0 - m)[0,1] = 4.0
+(0.0 MAX m)[0,1] = 0.0
+(m MAX 0.0)[0,0] = 2.0
+(0.0 MIN m)[0,0] = 0.0
+(m MIN 0.0)[0,1] = -3.0
+(iv + 1)[0] = 0
+(1 + iv)[2] = 2
+(iv - 1)[0] = -2
+(1 - iv)[0] = 2
+(0 MAX iv)[0] = 0
+(iv MAX 0)[2] = 1
+(0 MIN iv)[2] = 0
+(iv MIN 0)[0] = -1
+F
+Time: 12.758
+There was 1 failure:
+1) /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/fwp/broken/FailWordProbe(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output InterpreterTest /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/fwp/broken/FailWordProbe
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:415)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+	at com.sun.fortress.tests.unit_tests.SystemJUTest.main(SystemJUTest.java:26)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
