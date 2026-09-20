@@ -102,3 +102,7 @@ To regenerate for another range:
 ## Model names
 
 The exact model identifiers read from the transcripts are written here by tier name: the coordinator's tier as Fable, the workers' tier as Opus (the `[1m]` context-window suffix dropped). The originals are in the transcripts on the `transcripts-blinded` branch. This follows the reading of protocol §4 recorded in POSITIONS on 2026-09-20.
+
+## Index, not copy (2026-09-20)
+
+The two verbatim files per region, `user-messages.md` and `assistant-text.md`, are not kept in the tree: they duplicate the transcript, which is on the `transcripts-blinded` branch. `parse.py` regenerates them from the transcript for any time range when an analysis needs them; the tables above are the index and point into the transcript by timestamp.
