@@ -1,0 +1,23 @@
+=== skeptic's own check of the XXX mechanism ===
+--- a program that exits 0, under an XXX-named .test driving run only ---
+compile exit=0
+. run library_tests/XXXSkepMechCheck (246ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.253
+There was 1 failure:
+1) library_tests/XXXSkepMechCheck(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest library_tests/XXXSkepMechCheck
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:589)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+junit exit=0
+EXIT=0

@@ -1,0 +1,17 @@
+=== SkepIOExcClause.fss ===
+--- compile (compiled path) ---
+compile exit=0
+--- run (compiled path), FORTRESS_THREADS=1 ---
+io clause:  MATCHED CheckedException
+run exit=0
+--- run (compiled path), FORTRESS_THREADS=4 ---
+io clause:  MATCHED CheckedException
+run exit=0
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepIOExcClause.fss:14:13-22:
+    IOException is undefined.
+walk exit=255
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepIOExcClause.fss:14:13-22:
+    IOException is undefined.
+walk exit=255

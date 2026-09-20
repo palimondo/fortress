@@ -1,0 +1,25 @@
+component SkepTypecaseBind
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+unread(x: Object): String =
+    typecase x of
+        ZZ32 => "ZZ32, binding absent"
+        String => "String, binding absent"
+        else => "other"
+    end
+
+readBinding(x: Object): String =
+    typecase x of
+        y:ZZ32 => y.asString
+        y:String => y
+        else => "other"
+    end
+
+run():() = do
+    println("unread: " unread(7))
+    println("read: " readBinding(7))
+end
+
+end

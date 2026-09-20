@@ -1,0 +1,23 @@
+=== SkepExcDispatch.fss ===
+--- compile (compiled path) ---
+compile exit=0
+--- run (compiled path), FORTRESS_THREADS=1 ---
+clauseOrder:  MATCHED Exception
+held:  Try/atomic failure
+direct:  Try/atomic failure
+run exit=0
+--- run (compiled path), FORTRESS_THREADS=4 ---
+clauseOrder:  MATCHED Exception
+held:  Try/atomic failure
+direct:  Try/atomic failure
+run exit=0
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+clauseOrder: MATCHED Exception
+held: Try/atomic failure
+direct: Try/atomic failure
+walk exit=0
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+clauseOrder: MATCHED Exception
+held: Try/atomic failure
+direct: Try/atomic failure
+walk exit=0

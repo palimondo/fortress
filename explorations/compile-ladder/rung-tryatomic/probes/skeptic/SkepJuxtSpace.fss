@@ -1,0 +1,14 @@
+component SkepJuxtSpace
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+run():() = do
+    println("[" "a" "b" "]")
+    s: String = "a" "b"
+    println("[" s "]")
+    println("[" 7 "]")
+    println("a" " " "b")
+end
+
+end

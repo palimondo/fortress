@@ -1,0 +1,11 @@
+component SkepUncheckedStatic
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+run():() = do
+    x: UncheckedException = TryAtomicFailure
+    println("held as unchecked: " x.asString)
+end
+
+end

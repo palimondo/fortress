@@ -1,0 +1,11 @@
+component SkepUncaught
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+run():() = do
+    println("BEFORE")
+    throw TryAtomicFailure
+end
+
+end

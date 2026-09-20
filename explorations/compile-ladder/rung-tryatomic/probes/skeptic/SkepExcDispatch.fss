@@ -1,0 +1,28 @@
+component SkepExcDispatch
+export Executable
+
+(*) See explorations/compile-ladder/rung-tryatomic/SKEPTIC.md
+
+thrower(): ZZ32 = throw TryAtomicFailure
+
+clauseOrder(): String =
+    try
+        ignore thrower()
+        "NOT THROWN"
+    catch e
+        UncheckedException => "MATCHED UncheckedException"
+        Exception => "MATCHED Exception"
+    end
+
+held(): String = do
+    x: CheckedException = TryAtomicFailure
+    x.asString
+end
+
+run():() = do
+    println("clauseOrder: " clauseOrder())
+    println("held: " held())
+    println("direct: " TryAtomicFailure.asString)
+end
+
+end

@@ -1,0 +1,81 @@
+=== SkepTryAtomicVal.fss ===
+--- compile (compiled path) ---
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepTryAtomicVal.fss:7:15-35:
+    Can't compile TryAtomicExpr at /home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepTryAtomicVal.fss:7.15
+	at com.sun.fortress.compiler.codegen.CodeGen.sayWhat(CodeGen.java:1552)
+	at com.sun.fortress.compiler.codegen.CodeGen.sayWhat(CodeGen.java:1557)
+	at com.sun.fortress.compiler.codegen.CodeGen.defaultCase(CodeGen.java:1669)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forNode(NodeAbstractVisitor_void.java:33)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forASTNode(NodeAbstractVisitor_void.java:37)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forAbstractNode(NodeAbstractVisitor_void.java:49)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forExpr(NodeAbstractVisitor_void.java:185)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forTryAtomicExpr(NodeAbstractVisitor_void.java:289)
+	at com.sun.fortress.nodes.TryAtomicExpr.accept(TryAtomicExpr.java:61)
+	at com.sun.fortress.compiler.codegen.CodeGen.evalArg(CodeGen.java:6366)
+	at com.sun.fortress.compiler.codegen.CodeGen.for_RewriteFnApp(CodeGen.java:6443)
+	at com.sun.fortress.nodes._RewriteFnApp.accept(_RewriteFnApp.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.forExprsSerial(CodeGen.java:4853)
+	at com.sun.fortress.compiler.codegen.CodeGen.forLocalVarDecl(CodeGen.java:3997)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.doStatements(CodeGen.java:1579)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlockHelper(CodeGen.java:1709)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlock(CodeGen.java:1764)
+	at com.sun.fortress.nodes.Block.accept(Block.java:73)
+	at com.sun.fortress.compiler.codegen.CodeGen.forDo(CodeGen.java:1971)
+	at com.sun.fortress.nodes.Do.accept(Do.java:61)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateActualMethodCode(CodeGen.java:2798)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateFunctionalBody(CodeGen.java:2740)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnDecl(CodeGen.java:3007)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:71)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1943)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+compile exit=1
+--- run (compiled path), FORTRESS_THREADS=1 ---
+Could not load SkepTryAtomicVal
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkepTryAtomicVal.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run exit=1
+--- run (compiled path), FORTRESS_THREADS=4 ---
+Could not load SkepTryAtomicVal
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkepTryAtomicVal.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run exit=1
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+tryatomic value: 2
+walk exit=0
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+tryatomic value: 2
+walk exit=0

@@ -1,0 +1,50 @@
+=== SkepShadow.fss ===
+--- compile (compiled path) ---
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepShadow.fss:6:8-22:
+    Type name may refer to: TryAtomicFailure, CompilerLibrary.TryAtomicFailure
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepShadow.fss:18:13-27:
+    Type name may refer to: TryAtomicFailure, CompilerLibrary.TryAtomicFailure
+File SkepShadow.fss has 2 errors.
+compile exit=255
+--- run (compiled path), FORTRESS_THREADS=1 ---
+Could not load SkepShadow
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkepShadow.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run exit=1
+--- run (compiled path), FORTRESS_THREADS=4 ---
+Could not load SkepShadow
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkepShadow.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run exit=1
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepShadow.fss:6:8-22:
+    Type name may refer to: TryAtomicFailure, FortressLibrary.TryAtomicFailure
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepShadow.fss:18:13-27:
+    Type name may refer to: TryAtomicFailure, FortressLibrary.TryAtomicFailure
+walk exit=255
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepShadow.fss:6:8-22:
+    Type name may refer to: TryAtomicFailure, FortressLibrary.TryAtomicFailure
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepShadow.fss:18:13-27:
+    Type name may refer to: TryAtomicFailure, FortressLibrary.TryAtomicFailure
+walk exit=255

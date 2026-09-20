@@ -1,0 +1,37 @@
+=== SkepUncaught.fss ===
+--- compile (compiled path) ---
+compile exit=0
+--- run (compiled path), FORTRESS_THREADS=1 ---
+BEFORE
+FortressException: class fortress.CompilerLibrary$TryAtomicFailure with string Try/atomic failure
+	at SkepUncaught.run(/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncaught.fss:8)
+	at SkepUncaught.compute(/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncaught.fss)
+run exit=1
+--- run (compiled path), FORTRESS_THREADS=4 ---
+BEFORE
+FortressException: class fortress.CompilerLibrary$TryAtomicFailure with string Try/atomic failure
+	at SkepUncaught.run(/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncaught.fss:8)
+	at SkepUncaught.compute(/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncaught.fss)
+run exit=1
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+BEFORE
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncaught.fss:8:5-26:
+TryAtomicFailure
+Context:
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncaught.fss:8:5-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk exit=1
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+BEFORE
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncaught.fss:8:5-26:
+TryAtomicFailure
+Context:
+/home/user/fortress-tryatomic/explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepUncaught.fss:8:5-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk exit=1

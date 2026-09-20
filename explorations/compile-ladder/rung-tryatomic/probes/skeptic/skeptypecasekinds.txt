@@ -1,0 +1,27 @@
+=== SkepTypecaseKinds.fss ===
+--- compile (compiled path) ---
+compile exit=0
+--- run (compiled path), FORTRESS_THREADS=1 ---
+literal 7:  other
+ZZ32 var:   ZZ32
+String:     String
+object:     Wrap
+run exit=0
+--- run (compiled path), FORTRESS_THREADS=4 ---
+literal 7:  other
+ZZ32 var:   ZZ32
+String:     String
+object:     Wrap
+run exit=0
+--- walk (interpreter), FORTRESS_THREADS=1 ---
+literal 7: ZZ32
+ZZ32 var:  ZZ32
+String:    String
+object:    Wrap
+walk exit=0
+--- walk (interpreter), FORTRESS_THREADS=4 ---
+literal 7: ZZ32
+ZZ32 var:  ZZ32
+String:    String
+object:    Wrap
+walk exit=0
