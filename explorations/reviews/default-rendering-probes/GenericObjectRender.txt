@@ -1,0 +1,2 @@
+Box[\ZZ32\]
+a Box[\ZZ32\]: Box[\ZZ32\]

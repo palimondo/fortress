@@ -1,0 +1,11 @@
+component ValueObjectRender
+export Executable
+
+value object Pt(x: ZZ32) end
+
+run(): () = do
+    println(Pt(1))
+    println(Pt(1).asDebugString)
+  end
+
+end
