@@ -26,9 +26,6 @@ Not adopted: rewriting the harness on lit and FileCheck, inline diagnostic annot
 
 ## The steps
 
-2026-09-21: the library route is decided (POSITIONS 2026-09-21; the judgement is `coordinator/library-route-judgement.md`): the compiler's prelude is frozen — step 3's remaining prelude-name rungs stop, code-generator rungs continue — and steps 4 and 5 proceed against `Library/FortressLibrary`, with the checker brought to accept it first. The order and the first step's shape are put to Pavol as a plan after the exclusion trace (`perf-probes/prelude/exclusion-trace.md`) lands.
-
-
 Step 0, done: tag `sealed-tree` at `75cca6683`.
 
 Step 1, running: the ladder baseline, `explorations/compile-ladder/REPORT.md` (every interpreter test and the 29 `not_working_library_tests` through the compiler path; missing names ranked by files blocked).
