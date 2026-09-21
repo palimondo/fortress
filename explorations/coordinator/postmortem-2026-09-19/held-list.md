@@ -37,6 +37,7 @@ Was the compiler-library direction chosen without pricing the array re-implement
 ## Smaller items he still owns
 
 - Nine remote `wip/` branches to delete in the GitHub UI; the side branch `notes/postmortem-2026-09-19` is redundant and can go too.
+- 2026-09-21: the two noise commits on `main` (the revert `8fcca6703` of the library-route recording and its undoing `3e85b709c`, both from a misread of an autocorrected message) are left for the cleaner pass on his word ("Eh. OK"); the harness refuses the rewrite here.
 - The history rewrite that drops the four verbatim transcript files from main's history: the harness's classifier refused it here; the command is in the conversation of 2026-09-20 (`git filter-branch … -- dc0bc2bd6..main`, then force-push with lease), or it waits for his planned cleaner pass that moves the whole process record to its own branch.
 - Ledger row 321 (`asString` rendering), the gate's thread count, rows 346 and 348 from batch 2, the class-name half of row 320 (now live work under one library).
 - The Fable spend of this morning's two mistaken workers, which he counts as 1.7 M tokens down the drain; the tier rule is in protocol §5 and POSITIONS.
