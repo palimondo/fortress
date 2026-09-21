@@ -1,0 +1,15 @@
+com.sun.fortress.exceptions.ProgramError: <probe>/L1a/FortressLibrary.fss:4467:1-4469:50: and
+<probe>/L1a/FortressLibrary.fss:1248:1-1252:2:
+first parameters parameter 1:[Generator[\E@<probe>/L1a/FortressLibrary.fss:4467:1-4469:50\]->RelationalPredicateCondition[\E@<probe>/L1a/FortressLibrary.fss:4467:1-4469:50\],Generator[\E@<probe>/L1a/FortressLibrary.fss:4467:1-4469:50\]->RelationalPredicateCondition[\E@<probe>/L1a/FortressLibrary.fss:4467:1-4469:50\]] and parameter 1:[I@<probe>/L1a/FortressLibrary.fss:1248:1-1252:2->Condition[\()\],I@<probe>/L1a/FortressLibrary.fss:1248:1-1252:2->Condition[\()\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+<probe>/L1a/FortressLibrary.fss:4467:1-4469:50:
+<probe>/L1a/FortressLibrary.fss:1248:1-1252:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

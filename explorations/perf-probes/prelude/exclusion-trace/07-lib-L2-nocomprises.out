@@ -1,0 +1,309 @@
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[<probe>/L2/FortressLibrary.fss]
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=12
+@@PROBE checkApi Writer
+@@PROBE checkApi Writer -> errors=0
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=4
+@@PROBE checkApi NatReflect
+@@PROBE checkApi NatReflect -> errors=0
+@@PROBE checkApi FortressBuiltin
+@@SITE A | /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:79:27-30 | decl=Long | x=Long | y=ZZ64 | clause=P
+@@SITE A | /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:76:26-29 | decl=Int | x=Int | y=ZZ32 | clause=P
+@@SITE A | /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:110:35-38 | decl=UnsignedLong | x=UnsignedLong | y=NN64 | clause=P
+@@SITE A | /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:113:29-31 | decl=IntLiteral | x=IntLiteral | y=ZZ32 | clause=P
+@@SITE B | /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:29-52 | decl=NN32 | x=StandardTotalOrder[\NN32\] | y=NN64 | clause=P
+@@SITE A | /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:29-53 | decl=NN32 | x=NN32 | y=StandardTotalOrder[\NN32\] | clause=P
+@@SITE B | /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:57-59 | decl=NN32 | x=NN64 | y=StandardTotalOrder[\NN32\] | clause=P
+@@SITE A | /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:57-59 | decl=NN32 | x=NN32 | y=NN64 | clause=P
+@@SITE A | /home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:145:23 | decl=BigNum | x=BigNum | y=ZZ | clause=P
+@@PROBE checkApi FortressBuiltin -> errors=18
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi RangeInternals
+@@PROBE checkApi RangeInternals -> errors=104
+@@PROBE checkApi TypeProxy
+@@PROBE checkApi TypeProxy -> errors=0
+@@PROBE checkApi List
+@@PROBE checkApi List -> errors=2
+@@PROBE checkApi FortressLibrary
+@@SITE B | <probe>/L2/FortressLibrary.fsi:461:22-24 | decl=ZZ32 | x=ZZ64 | y=Integral[\ZZ32\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:461:22-24 | decl=ZZ32 | x=ZZ32 | y=ZZ64 | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:461:28-41 | decl=ZZ32 | x=Integral[\ZZ32\] | y=ZZ64 | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:461:28-42 | decl=ZZ32 | x=ZZ32 | y=Integral[\ZZ32\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:834:37-46 | decl=Just | x=Just[\T\] | y=Maybe[\T\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:495:22 | decl=ZZ64 | x=ZZ | y=Integral[\ZZ64\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:495:22 | decl=ZZ64 | x=ZZ64 | y=ZZ | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:495:26-39 | decl=ZZ64 | x=Integral[\ZZ64\] | y=ZZ | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:495:26-40 | decl=ZZ64 | x=ZZ64 | y=Integral[\ZZ64\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:370:20-22 | decl=QQ | x=RR64 | y=StandardPartialOrder[\QQ\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:370:20-22 | decl=QQ | x=QQ | y=RR64 | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:370:26-49 | decl=QQ | x=StandardPartialOrder[\QQ\] | y=RR64 | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:370:26-50 | decl=QQ | x=QQ | y=StandardPartialOrder[\QQ\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:408:53-73 | decl=Integral | x=StandardTotalOrder[\I\] | y=AnyIntegral | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:408:53-74 | decl=Integral | x=Integral[\I\] | y=StandardTotalOrder[\I\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:408:78-87 | decl=Integral | x=AnyIntegral | y=StandardTotalOrder[\I\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:408:78-87 | decl=Integral | x=Integral[\I\] | y=AnyIntegral | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:434:22 | decl=NN64 | x=ZZ | y=Integral[\NN64\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:434:22 | decl=NN64 | x=NN64 | y=ZZ | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:434:26-39 | decl=NN64 | x=Integral[\NN64\] | y=ZZ | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:434:26-40 | decl=NN64 | x=NN64 | y=Integral[\NN64\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:151:24-38 | decl=EqualTo | x=EqualTo | y=TotalComparison | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:533:20-32 | decl=ZZ | x=ZZ | y=Integral[\ZZ\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:130:25-39 | decl=LessThan | x=LessThan | y=TotalComparison | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:2519:51-64 | decl=RelationalPredicateCondition | x=RelationalPredicateCondition[\E\] | y=Condition[\()\] | clause=EC
+@@SITE A | <probe>/L2/FortressLibrary.fsi:858:35-44 | decl=Nothing | x=Nothing[\T\] | y=Maybe[\T\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:141:28-42 | decl=GreaterThan | x=GreaterThan | y=TotalComparison | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:830:19-25 | decl=Maybe | x=AnyMaybe | y=UniqueItem[\T\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:830:19-25 | decl=Maybe | x=Maybe[\T\] | y=AnyMaybe | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:830:63-75 | decl=Maybe | x=UniqueItem[\T\] | y=AnyMaybe | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:830:63-76 | decl=Maybe | x=Maybe[\T\] | y=UniqueItem[\T\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:813:32-49 | decl=AnyMaybe | x=Equality[\AnyMaybe\] | y=AnyUniqueItem | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:813:32-50 | decl=AnyMaybe | x=AnyMaybe | y=Equality[\AnyMaybe\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:813:54-65 | decl=AnyMaybe | x=AnyUniqueItem | y=Equality[\AnyMaybe\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:813:54-65 | decl=AnyMaybe | x=AnyMaybe | y=AnyUniqueItem | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:1810:1-30 | decl=SumReduction | x=DistributesOver[\MaxReductionN\] | y=DistributesOver[\MinReductionN\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:1810:1-31 | decl=SumReduction | x=SumReduction | y=DistributesOver[\MaxReductionN\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:1811:1-30 | decl=SumReduction | x=DistributesOver[\MinReductionN\] | y=DistributesOver[\MaxReductionN\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:1811:1-31 | decl=SumReduction | x=SumReduction | y=DistributesOver[\MinReductionN\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:1821:1-29 | decl=ProdReduction | x=DistributesOver[\SumReduction\] | y=DistributesOver[\MinReductionN\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:1821:1-29 | decl=ProdReduction | x=DistributesOver[\SumReduction\] | y=DistributesOver[\MaxReductionN\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:1821:1-30 | decl=ProdReduction | x=ProdReduction | y=DistributesOver[\SumReduction\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:1822:1-30 | decl=ProdReduction | x=DistributesOver[\MinReductionN\] | y=DistributesOver[\SumReduction\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:1822:1-30 | decl=ProdReduction | x=DistributesOver[\MinReductionN\] | y=DistributesOver[\MaxReductionN\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:1822:1-31 | decl=ProdReduction | x=ProdReduction | y=DistributesOver[\MinReductionN\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:1823:1-30 | decl=ProdReduction | x=DistributesOver[\MaxReductionN\] | y=DistributesOver[\SumReduction\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:1823:1-30 | decl=ProdReduction | x=DistributesOver[\MaxReductionN\] | y=DistributesOver[\MinReductionN\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:1823:1-32 | decl=ProdReduction | x=ProdReduction | y=DistributesOver[\MaxReductionN\] | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:120:19-27 | decl=TotalComparison | x=Comparison | y=StandardTotalOrder[\TotalComparison\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:120:19-27 | decl=TotalComparison | x=TotalComparison | y=Comparison | clause=P
+@@SITE B | <probe>/L2/FortressLibrary.fsi:120:31-65 | decl=TotalComparison | x=StandardTotalOrder[\TotalComparison\] | y=Comparison | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:120:31-66 | decl=TotalComparison | x=TotalComparison | y=StandardTotalOrder[\TotalComparison\] | clause=P
+@@SITE A | <probe>/L2/FortressLibrary.fsi:406:29 | decl=AnyIntegral | x=AnyIntegral | y=QQ | clause=P
+@@PROBE checkApi FortressLibrary -> errors=106
+@@PROBE checkApi NativeArray
+@@PROBE OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+@@PROBE    at com.sun.fortress.useful.NI.nyi(NI.java:52)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.makeInferenceArg(STypesUtil.scala:557)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.$anonfun$inferStaticParamsHelper$4(STypesUtil.scala:966)
+@@PROBE    at scala.collection.immutable.List.map(List.scala:236)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.inferStaticParamsHelper(STypesUtil.scala:966)
+@@PROBE    at com.sun.fortress.scala_src.types.TypeSchemaAnalyzer.subEDsolution(TypeSchemaAnalyzer.scala:194)
+@@PROBE checkApi NativeArray -> errors=0
+/home/user/fortress/Library/List.fsi:99:3-48:
+<probe>/L2/FortressLibrary.fsi:1182:5-1183:1:
+    For zip,
+the return type of [\F\](List.List[\E\], List.List[\F\])->Generator[\(E, F)\] @ /home/user/fortress/Library/List.fsi:99:3-48 should be a subtype of the
+    return type of [\F\](ZeroIndexed[\E\], ZeroIndexed[\F\])->ZeroIndexed[\(E, F)\] @ <probe>/L2/FortressLibrary.fsi:1182:5-1183:1
+/home/user/fortress/Library/RangeInternals.fsi:310:15-37:
+    Ill-formed type: RangeInternals.ScalarRangeWithRight[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:310:42-62:
+    Ill-formed type: RangeInternals.PartialScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:315:13-30:
+    Ill-formed type: RangeInternals.LeftScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:316:16-36:
+    Ill-formed type: RangeInternals.BoundedScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:319:19-32:
+    Ill-formed type: RangeInternals.ScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:322:48-68:
+    Ill-formed type: RangeInternals.BoundedScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:322:97-119:
+    Ill-formed type: RangeInternals.ScalarRangeWithRight[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:578:26-43:
+    Ill-formed type: RangeInternals.FullScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:580:59-86:
+    Ill-formed type: RangeInternals.CompactFullParScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:582:104-127:
+    Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:582:104-127:
+    Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:585:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:585:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:585:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument K does not satisfy the corresponding bound Integral[\K\].
+/home/user/fortress/Library/RangeInternals.fsi:587:61-88:
+    Ill-formed type: RangeInternals.CompactFullParScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:589:106-129:
+    Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:589:106-129:
+    Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:592:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:592:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:592:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument K does not satisfy the corresponding bound Integral[\K\].
+/home/user/fortress/Library/RangeInternals.fsi:612:53-70:
+    Ill-formed type: RangeInternals.OpenScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:614:81-97:
+    Ill-formed type: RangeInternals.OpenRange2D[\I,J\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:614:81-97:
+    Ill-formed type: RangeInternals.OpenRange2D[\I,J\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:616:107-126:
+    Ill-formed type: RangeInternals.OpenRange3D[\I,J,K\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:616:107-126:
+    Ill-formed type: RangeInternals.OpenRange3D[\I,J,K\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:616:107-126:
+    Ill-formed type: RangeInternals.OpenRange3D[\I,J,K\]
+    The static argument K does not satisfy the corresponding bound Integral[\K\].
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:76:26-29:
+    Type Int excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:79:27-30:
+    Type Long excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:29-52:
+    Types StandardTotalOrder[\NN32\] and NN64 exclude each other.  NN32 must not extend them.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:29-53:
+    Type NN32 excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:57-59:
+    Type NN32 excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:57-59:
+    Types NN64 and StandardTotalOrder[\NN32\] exclude each other.  NN32 must not extend them.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:110:35-38:
+    Type UnsignedLong excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:113:29-31:
+    Type IntLiteral excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:145:23:
+    Type BigNum excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+<probe>/L2/FortressLibrary.fsi:120:19-27:
+    Type TotalComparison excludes FortressLibrary.Comparison but it extends FortressLibrary.Comparison.
+<probe>/L2/FortressLibrary.fsi:120:19-27:
+    Types Comparison and StandardTotalOrder[\TotalComparison\] exclude each other.  TotalComparison must not extend them.
+<probe>/L2/FortressLibrary.fsi:120:31-65:
+    Types StandardTotalOrder[\TotalComparison\] and Comparison exclude each other.  TotalComparison must not extend them.
+<probe>/L2/FortressLibrary.fsi:120:31-66:
+    Type TotalComparison excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+<probe>/L2/FortressLibrary.fsi:130:25-39:
+    Type LessThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+<probe>/L2/FortressLibrary.fsi:141:28-42:
+    Type GreaterThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+<probe>/L2/FortressLibrary.fsi:151:24-38:
+    Type EqualTo excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+<probe>/L2/FortressLibrary.fsi:370:20-22:
+    Type QQ excludes FortressLibrary.RR64 but it extends FortressLibrary.RR64.
+<probe>/L2/FortressLibrary.fsi:370:20-22:
+    Types RR64 and StandardPartialOrder[\QQ\] exclude each other.  QQ must not extend them.
+<probe>/L2/FortressLibrary.fsi:370:26-49:
+    Types StandardPartialOrder[\QQ\] and RR64 exclude each other.  QQ must not extend them.
+<probe>/L2/FortressLibrary.fsi:370:26-50:
+    Type QQ excludes FortressLibrary.StandardPartialOrder but it extends FortressLibrary.StandardPartialOrder.
+<probe>/L2/FortressLibrary.fsi:406:29:
+    Type AnyIntegral excludes FortressLibrary.QQ but it extends FortressLibrary.QQ.
+<probe>/L2/FortressLibrary.fsi:408:53-73:
+    Types StandardTotalOrder[\I\] and AnyIntegral exclude each other.  Integral must not extend them.
+<probe>/L2/FortressLibrary.fsi:408:53-74:
+    Type Integral[\I\] excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+<probe>/L2/FortressLibrary.fsi:408:78-87:
+    Type Integral[\I\] excludes FortressLibrary.AnyIntegral but it extends FortressLibrary.AnyIntegral.
+<probe>/L2/FortressLibrary.fsi:408:78-87:
+    Types AnyIntegral and StandardTotalOrder[\I\] exclude each other.  Integral must not extend them.
+<probe>/L2/FortressLibrary.fsi:434:22:
+    Type NN64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+<probe>/L2/FortressLibrary.fsi:434:22:
+    Types ZZ and Integral[\NN64\] exclude each other.  NN64 must not extend them.
+<probe>/L2/FortressLibrary.fsi:434:26-39:
+    Types Integral[\NN64\] and ZZ exclude each other.  NN64 must not extend them.
+<probe>/L2/FortressLibrary.fsi:434:26-40:
+    Type NN64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+<probe>/L2/FortressLibrary.fsi:461:22-24:
+    Type ZZ32 excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+<probe>/L2/FortressLibrary.fsi:461:22-24:
+    Types ZZ64 and Integral[\ZZ32\] exclude each other.  ZZ32 must not extend them.
+<probe>/L2/FortressLibrary.fsi:461:28-41:
+    Types Integral[\ZZ32\] and ZZ64 exclude each other.  ZZ32 must not extend them.
+<probe>/L2/FortressLibrary.fsi:461:28-42:
+    Type ZZ32 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+<probe>/L2/FortressLibrary.fsi:495:22:
+    Type ZZ64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+<probe>/L2/FortressLibrary.fsi:495:22:
+    Types ZZ and Integral[\ZZ64\] exclude each other.  ZZ64 must not extend them.
+<probe>/L2/FortressLibrary.fsi:495:26-39:
+    Types Integral[\ZZ64\] and ZZ exclude each other.  ZZ64 must not extend them.
+<probe>/L2/FortressLibrary.fsi:495:26-40:
+    Type ZZ64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+<probe>/L2/FortressLibrary.fsi:533:20-32:
+    Type ZZ excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+<probe>/L2/FortressLibrary.fsi:813:32-49:
+    Types Equality[\AnyMaybe\] and AnyUniqueItem exclude each other.  AnyMaybe must not extend them.
+<probe>/L2/FortressLibrary.fsi:813:32-50:
+    Type AnyMaybe excludes FortressLibrary.Equality but it extends FortressLibrary.Equality.
+<probe>/L2/FortressLibrary.fsi:813:54-65:
+    Type AnyMaybe excludes FortressLibrary.AnyUniqueItem but it extends FortressLibrary.AnyUniqueItem.
+<probe>/L2/FortressLibrary.fsi:813:54-65:
+    Types AnyUniqueItem and Equality[\AnyMaybe\] exclude each other.  AnyMaybe must not extend them.
+<probe>/L2/FortressLibrary.fsi:830:19-25:
+    Type Maybe[\T\] excludes FortressLibrary.AnyMaybe but it extends FortressLibrary.AnyMaybe.
+<probe>/L2/FortressLibrary.fsi:830:19-25:
+    Types AnyMaybe and UniqueItem[\T\] exclude each other.  Maybe must not extend them.
+<probe>/L2/FortressLibrary.fsi:830:63-75:
+    Types UniqueItem[\T\] and AnyMaybe exclude each other.  Maybe must not extend them.
+<probe>/L2/FortressLibrary.fsi:830:63-76:
+    Type Maybe[\T\] excludes FortressLibrary.UniqueItem but it extends FortressLibrary.UniqueItem.
+<probe>/L2/FortressLibrary.fsi:834:37-46:
+    Type Just[\T\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+<probe>/L2/FortressLibrary.fsi:858:35-44:
+    Type Nothing[\T\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+<probe>/L2/FortressLibrary.fsi:1810:1-30:
+    Types DistributesOver[\MaxReductionN\] and DistributesOver[\MinReductionN\] exclude each other.  SumReduction must not extend them.
+<probe>/L2/FortressLibrary.fsi:1810:1-31:
+    Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+<probe>/L2/FortressLibrary.fsi:1811:1-30:
+    Types DistributesOver[\MinReductionN\] and DistributesOver[\MaxReductionN\] exclude each other.  SumReduction must not extend them.
+<probe>/L2/FortressLibrary.fsi:1811:1-31:
+    Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+<probe>/L2/FortressLibrary.fsi:1821:1-29:
+    Types DistributesOver[\SumReduction\] and DistributesOver[\MaxReductionN\] exclude each other.  ProdReduction must not extend them.
+<probe>/L2/FortressLibrary.fsi:1821:1-29:
+    Types DistributesOver[\SumReduction\] and DistributesOver[\MinReductionN\] exclude each other.  ProdReduction must not extend them.
+<probe>/L2/FortressLibrary.fsi:1821:1-30:
+    Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+<probe>/L2/FortressLibrary.fsi:1822:1-30:
+    Types DistributesOver[\MinReductionN\] and DistributesOver[\MaxReductionN\] exclude each other.  ProdReduction must not extend them.
+<probe>/L2/FortressLibrary.fsi:1822:1-30:
+    Types DistributesOver[\MinReductionN\] and DistributesOver[\SumReduction\] exclude each other.  ProdReduction must not extend them.
+<probe>/L2/FortressLibrary.fsi:1822:1-31:
+    Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+<probe>/L2/FortressLibrary.fsi:1823:1-30:
+    Types DistributesOver[\MaxReductionN\] and DistributesOver[\MinReductionN\] exclude each other.  ProdReduction must not extend them.
+<probe>/L2/FortressLibrary.fsi:1823:1-30:
+    Types DistributesOver[\MaxReductionN\] and DistributesOver[\SumReduction\] exclude each other.  ProdReduction must not extend them.
+<probe>/L2/FortressLibrary.fsi:1823:1-32:
+    Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+<probe>/L2/FortressLibrary.fsi:2304:5-60:
+<probe>/L2/FortressLibrary.fsi:2320:5-51:
+    There are multiple declarations of splitWithOffsets with the same parameter type: ()
+<probe>/L2/FortressLibrary.fsi:2305:5-2308:4:
+<probe>/L2/FortressLibrary.fsi:2321:5-2323:48:
+    There are multiple declarations of split with the same parameter type: ()
+<probe>/L2/FortressLibrary.fsi:2519:51-64:
+    Type RelationalPredicateCondition[\E\] excludes FortressLibrary.Condition but it extends FortressLibrary.Condition.
+File FortressLibrary.fss has 91 errors.
+### rc=-1

@@ -1,0 +1,14 @@
+@@PROBE checkApi CompilerLibrary
+@@PROBE checkApi CompilerLibrary -> errors=0
+@@PROBE checkApi Executable
+@@PROBE checkApi Executable -> errors=0
+@@PROBE checkApi CompilerBuiltin
+@@PROBE checkApi CompilerBuiltin -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi CompilerAlgebra
+@@PROBE checkApi CompilerAlgebra -> errors=0
+@@PROBE checkComponent SelfInst2
+/home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/SelfInst2.fss:8:1-36:
+    Cyclic type hierarchy: Type C transitively extends itself.
+File SelfInst2.fss has 1 error.

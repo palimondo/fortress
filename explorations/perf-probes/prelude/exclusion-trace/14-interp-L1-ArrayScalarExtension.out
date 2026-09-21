@@ -1,0 +1,18 @@
+com.sun.fortress.exceptions.ProgramError: <probe>/L1/FortressLibrary.fss:4503:1-105: and
+<probe>/L1/FortressLibrary.fss:280:5-71:
+
+MAX[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]<probe>/L1/FortressLibrary.fss:4503:1-105 and
+StandardTotalOrder[\T extends StandardTotalOrder[\T\]\](uninstantiated)[\T extends StandardTotalOrder[\T\]\].MAX(self:StandardTotalOrder[\T\],other:T):T<probe>/L1/FortressLibrary.fss:280:5-71 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+<probe>/L1/FortressLibrary.fss:4503:1-105:
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:358:18-19:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

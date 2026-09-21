@@ -1,0 +1,22 @@
+(* The example of Specification/basic/trait-parameters.tex:339-345, verbatim:
+   "Trait declarations are allowed to extend other instantiations of themselves.
+    For example, we can write:
+        trait C[\S\] extends C[\T\]
+          where {S extends T, T extends Object}
+        end"
+   Run through the compiler's own type checker, in the compiler's own world. *)
+component SpecSelfInst
+export Executable
+
+trait C[\S\] extends C[\T\]
+    where [\T\] { S extends T, T extends Object }
+end
+
+run(): () = println("ok")
+end
+
+(* The front end requires the where-clause variables to be listed explicitly,
+   "where [\T\] { ... }" (ProjectFortress/tests/whereTest.fss:18,
+   GenericFnWithExcludes.fss:37); the spec's own grammar at
+   trait-parameters.tex:290-293 has no such list, and the example as printed
+   at :343-345 gets "T is undefined" (capture 09a). *)

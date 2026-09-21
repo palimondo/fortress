@@ -1,0 +1,16 @@
+(* Minimal reproduction of the checker's fourth exclusion clause, checkP
+   (TypeAnalyzer.scala:443-457): two distinct instantiations of one generic
+   ancestor make the two types exclude each other.  No `excludes` clause and no
+   `comprises` clause appears anywhere in this file, so any exclusion the checker
+   reports here is derived by checkP alone.  This is the shape the library's
+   numeric tower has: ZZ32 extends ZZ64, ZZ32 extends Integral[\ZZ32\],
+   ZZ64 extends Integral[\ZZ64\] (FortressLibrary.fsi:464, :498). *)
+component MinP
+export Executable
+
+trait G[\X\] end
+trait A extends G[\ZZ32\] end
+trait B extends { A, G[\Boolean\] } end
+
+run(): () = println("ok")
+end

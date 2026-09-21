@@ -1,0 +1,15 @@
+@@PROBE checkApi CompilerLibrary
+@@PROBE checkApi CompilerLibrary -> errors=0
+@@PROBE checkApi Executable
+@@PROBE checkApi Executable -> errors=0
+@@PROBE checkApi CompilerBuiltin
+@@PROBE checkApi CompilerBuiltin -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi CompilerAlgebra
+@@PROBE checkApi CompilerAlgebra -> errors=0
+/home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/SpecSelfInst.fss:11:25:
+    T is undefined.
+/home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/SpecSelfInst.fss:12:29:
+    T is undefined.
+File SpecSelfInst.fss has 2 errors.

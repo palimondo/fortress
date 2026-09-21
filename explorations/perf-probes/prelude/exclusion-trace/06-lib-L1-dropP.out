@@ -1,0 +1,135 @@
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[<probe>/L1/FortressLibrary.fss]
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=12
+@@PROBE checkApi Writer
+@@PROBE checkApi Writer -> errors=0
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=4
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=2
+@@PROBE checkApi NatReflect
+@@PROBE checkApi NatReflect -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi TypeProxy
+@@PROBE checkApi TypeProxy -> errors=0
+@@PROBE checkApi List
+@@PROBE checkApi List -> errors=2
+@@PROBE checkApi RangeInternals
+@@PROBE checkApi RangeInternals -> errors=104
+@@PROBE checkApi FortressLibrary
+@@PROBE OverloadingChecker CRASHED on FortressLibrary : java.lang.Error: Not yet implemented
+@@PROBE    at com.sun.fortress.useful.NI.nyi(NI.java:52)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.makeInferenceArg(STypesUtil.scala:557)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.$anonfun$inferStaticParamsHelper$4(STypesUtil.scala:966)
+@@PROBE    at scala.collection.immutable.List.map(List.scala:240)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.inferStaticParamsHelper(STypesUtil.scala:966)
+@@PROBE    at com.sun.fortress.scala_src.types.TypeSchemaAnalyzer.subEDsolution(TypeSchemaAnalyzer.scala:194)
+@@PROBE checkApi FortressLibrary -> errors=0
+@@PROBE checkApi NativeArray
+@@PROBE OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+@@PROBE    at com.sun.fortress.useful.NI.nyi(NI.java:52)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.makeInferenceArg(STypesUtil.scala:557)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.$anonfun$inferStaticParamsHelper$4(STypesUtil.scala:966)
+@@PROBE    at scala.collection.immutable.List.map(List.scala:236)
+@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.inferStaticParamsHelper(STypesUtil.scala:966)
+@@PROBE    at com.sun.fortress.scala_src.types.TypeSchemaAnalyzer.subEDsolution(TypeSchemaAnalyzer.scala:194)
+@@PROBE checkApi NativeArray -> errors=0
+/home/user/fortress/Library/List.fsi:99:3-48:
+<probe>/L1/FortressLibrary.fsi:1187:5-1188:1:
+    For zip,
+the return type of [\F\](List.List[\E\], List.List[\F\])->Generator[\(E, F)\] @ /home/user/fortress/Library/List.fsi:99:3-48 should be a subtype of the
+    return type of [\F\](ZeroIndexed[\E\], ZeroIndexed[\F\])->ZeroIndexed[\(E, F)\] @ <probe>/L1/FortressLibrary.fsi:1187:5-1188:1
+/home/user/fortress/Library/RangeInternals.fsi:310:15-37:
+    Ill-formed type: RangeInternals.ScalarRangeWithRight[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:310:42-62:
+    Ill-formed type: RangeInternals.PartialScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:315:13-30:
+    Ill-formed type: RangeInternals.LeftScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:316:16-36:
+    Ill-formed type: RangeInternals.BoundedScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:319:19-32:
+    Ill-formed type: RangeInternals.ScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:322:48-68:
+    Ill-formed type: RangeInternals.BoundedScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:322:97-119:
+    Ill-formed type: RangeInternals.ScalarRangeWithRight[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:578:26-43:
+    Ill-formed type: RangeInternals.FullScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:580:59-86:
+    Ill-formed type: RangeInternals.CompactFullParScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:582:104-127:
+    Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:582:104-127:
+    Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:585:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:585:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:585:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument K does not satisfy the corresponding bound Integral[\K\].
+/home/user/fortress/Library/RangeInternals.fsi:587:61-88:
+    Ill-formed type: RangeInternals.CompactFullParScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:589:106-129:
+    Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:589:106-129:
+    Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:592:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:592:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:592:18-44:
+    Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\]
+    The static argument K does not satisfy the corresponding bound Integral[\K\].
+/home/user/fortress/Library/RangeInternals.fsi:612:53-70:
+    Ill-formed type: RangeInternals.OpenScalarRange[\I\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:614:81-97:
+    Ill-formed type: RangeInternals.OpenRange2D[\I,J\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:614:81-97:
+    Ill-formed type: RangeInternals.OpenRange2D[\I,J\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:616:107-126:
+    Ill-formed type: RangeInternals.OpenRange3D[\I,J,K\]
+    The static argument I does not satisfy the corresponding bound Integral[\I\].
+/home/user/fortress/Library/RangeInternals.fsi:616:107-126:
+    Ill-formed type: RangeInternals.OpenRange3D[\I,J,K\]
+    The static argument J does not satisfy the corresponding bound Integral[\J\].
+/home/user/fortress/Library/RangeInternals.fsi:616:107-126:
+    Ill-formed type: RangeInternals.OpenRange3D[\I,J,K\]
+    The static argument K does not satisfy the corresponding bound Integral[\K\].
+<probe>/L1/FortressLibrary.fsi:762:5-47:
+<probe>/L1/FortressLibrary.fsi:789:5-790:4:
+    For map,
+the return type of [\G\](Condition[\()\], ()->G)->Generator[\G\] @ <probe>/L1/FortressLibrary.fsi:789:5-790:4 should be a subtype of the
+    return type of [\G\](SequentialGenerator[\()\], ()->G)->SequentialGenerator[\G\] @ <probe>/L1/FortressLibrary.fsi:762:5-47
+<probe>/L1/FortressLibrary.fsi:2311:5-60:
+<probe>/L1/FortressLibrary.fsi:2327:5-51:
+    There are multiple declarations of splitWithOffsets with the same parameter type: ()
+<probe>/L1/FortressLibrary.fsi:2312:5-2315:4:
+<probe>/L1/FortressLibrary.fsi:2328:5-2330:48:
+    There are multiple declarations of split with the same parameter type: ()
+File FortressLibrary.fss has 30 errors.
+### rc=-1

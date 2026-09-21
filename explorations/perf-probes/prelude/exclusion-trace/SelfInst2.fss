@@ -1,0 +1,11 @@
+(* "Trait declarations are allowed to extend other instantiations of themselves"
+   (Specification/basic/trait-parameters.tex:339-340), written with two static
+   parameters so that no where-clause variable is needed -- the form the front end
+   accepts.  No `excludes` and no `comprises` clause appears in this file. *)
+component SelfInst2
+export Executable
+
+trait C[\S, T\] extends C[\T, T\] end
+
+run(): () = println("ok")
+end

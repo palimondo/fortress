@@ -1,0 +1,24 @@
+@@PROBE checkApi CompilerLibrary
+@@PROBE checkApi CompilerLibrary -> errors=0
+@@PROBE checkApi Executable
+@@PROBE checkApi Executable -> errors=0
+@@PROBE checkApi CompilerBuiltin
+@@PROBE checkApi CompilerBuiltin -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi CompilerAlgebra
+@@PROBE checkApi CompilerAlgebra -> errors=0
+@@PROBE checkComponent MinP
+@@SITE B | /home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/MinP.fss:13:19 | decl=B | x=A | y=G[\Boolean\] | clause=P | witnessP=<in sites.tsv>
+@@SITE A | /home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/MinP.fss:13:19 | decl=B | x=B | y=A | clause=P | witnessP=<in sites.tsv>
+@@SITE B | /home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/MinP.fss:13:22-31 | decl=B | x=G[\Boolean\] | y=A | clause=P | witnessP=<in sites.tsv>
+@@SITE A | /home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/MinP.fss:13:22-32 | decl=B | x=B | y=G[\Boolean\] | clause=P | witnessP=<in sites.tsv>
+/home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/MinP.fss:13:19:
+    Type B excludes A but it extends A.
+/home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/MinP.fss:13:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+/home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/MinP.fss:13:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+/home/user/fortress/explorations/perf-probes/prelude/exclusion-trace/MinP.fss:13:22-32:
+    Type B excludes G but it extends G.
+File MinP.fss has 4 errors.
