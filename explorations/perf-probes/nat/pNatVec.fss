@@ -1,0 +1,20 @@
+component pNatVec
+export Executable
+(* The specification's own nat example, Specification/basic/trait-parameters.tex
+   (natparams) / SpecData/examples/basic/StatParam.Nat.fss:
+
+     makeVector[\T extends Number, nat s0\]():Vector[\T,s0\] = vector[\T,s0\]
+
+   Vector, vector and Number are the INTERPRETER library's; the compiler's
+   prelude has neither (its only nat-parameterized declaration is the empty
+   Matrix at Library/CompilerLibrary.fss:512).  So the shape is reproduced
+   here with a local carrier: one nat symbol in the parameter list and in the
+   return type, which must agree; the size inferred from an argument type at
+   the call to len; and the size in value position, which is what the
+   specification means by "any context a variable of type N32 can appear". *)
+object Vec[\T, nat s0\](x: T) end
+vector[\T, nat s0\](x: T): Vec[\T,s0\] = Vec[\T,s0\](x)
+makeVector[\T, nat s0\](x: T): Vec[\T,s0\] = vector[\T,s0\](x)
+len[\T, nat s0\](v: Vec[\T,s0\]): ZZ32 = s0.asZZ32
+run() = println(len(makeVector[\ZZ32, 5\](7)))
+end

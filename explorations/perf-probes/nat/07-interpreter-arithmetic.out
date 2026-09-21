@@ -1,0 +1,12 @@
+########## INTERPRETER (./bin/fortress <file>)
+---------- pNat5
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/perf-probes/nat/pNat5.fss:9:17-33:
+Unification error: /home/user/fortress/explorations/perf-probes/nat/pNat5.fss:8:19-28:
+Cannot unify Box[\4\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with Box[\k+1\](class com.sun.fortress.nodes.TraitType) abm=()
+Context:
+/home/user/fortress/explorations/perf-probes/nat/pNat5.fss:9:17-33:
+toplevel:
+
+---------- pNat6
+7

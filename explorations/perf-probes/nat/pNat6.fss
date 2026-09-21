@@ -1,0 +1,11 @@
+component pNat6
+export Executable
+(* Arithmetic in a static argument at the USE site, which the interpreter can
+   evaluate: EvalType.forIntArg computes +, - and juxtaposition
+   (interpreter/evaluator/EvalType.java:431-464), so Box[\2 + 1\] is the type
+   Box[\nat 3\] and unifies with Box[\3\].  The minimal design refuses to check
+   it, and this -- not pNat5 -- is where the two paths really differ. *)
+object Box[\nat k\](v: ZZ32) end
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+run() = println(unbox[\3\](Box[\2 + 1\](7)))
+end

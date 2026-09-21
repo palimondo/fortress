@@ -1,0 +1,10 @@
+component NatExtends2
+export Executable
+(* NatExtends1 without a declared method, so that the type checker's Java bug
+   (FnNameInfo.java:162-196) is not in the way and the question reaches code
+   generation: what does CodeGen do with an IntArg in an extends clause
+   (CodeGen.java:5784 falls through to the CompilerError at :5793)? *)
+trait Sized[\nat s\] extends Object end
+object Buf[\nat s\](x: ZZ32) extends Sized[\s\] end
+run() = println(Buf[\3\](7).x)
+end

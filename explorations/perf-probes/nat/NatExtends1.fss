@@ -1,0 +1,17 @@
+component NatExtends1
+export Executable
+(* Decision F question 3 of explorations/reviews/array-design-review.md: a
+   generic object carrying a nat argument in its extends clause.  The checker
+   is the shadow's business; after it, CodeGen.java:5784-5792 throws
+   CompilerError("Only emitting RTTI for types right now") for an IntArg in an
+   extends clause, and the loader has no run-time kind for a nat
+   (InstantiatingClassloader.java:1600-1622, Naming.java:95-101).  This probe
+   asks how far the compiled path gets. *)
+trait Sized[\nat s\] extends Object
+  len(): ZZ32
+end
+object Buf[\nat s\](x: ZZ32) extends Sized[\s\]
+  len(): ZZ32 = s.asZZ32
+end
+run() = println(Buf[\3\](7).len())
+end

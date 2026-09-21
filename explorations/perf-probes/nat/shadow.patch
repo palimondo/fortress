@@ -1,0 +1,783 @@
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala	2026-09-08 16:43:02.717426913 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/Formula.scala	2026-09-21 18:06:40.157273143 +0000
+@@ -46,8 +46,19 @@
+   override def toString = "False"
+ }
+ 
+-// A conjunction of primitive type and operator constraints (one for each inference variables).
+-case class And(ts: Map[_InferenceVarType, TPrimitive], os: Map[_InferenceVarOp, OPrimitive]) extends CFormula {}
++// A conjunction of primitive type, operator and nat constraints (one for each inference variables).
++// SHADOW (nat prototype): the third map is the nat track.  Its key is the NAME of
++// the reserved IntRef that stands for a nat inference variable -- option B of
++// reviews/nat-checking-plan.md (c): no new AST node, so the whole change fits in a
++// classpath shadow.  A String key also avoids the AST nodes' span-sensitive equals.
++case class And(ts: Map[_InferenceVarType, TPrimitive], os: Map[_InferenceVarOp, OPrimitive],
++               ns: Map[String, NPrimitive]) extends CFormula {}
++
++object And {
++  // SHADOW: keeps the two-map constructor for call sites compiled against the tree.
++  def apply(ts: Map[_InferenceVarType, TPrimitive], os: Map[_InferenceVarOp, OPrimitive]): And =
++    And(ts, os, Map())
++}
+ 
+ /* A primitive type constraint.
+  * So far we have: lower bound, not lower bound, upper bound, not upper bound, excludes, does not exclude
+@@ -59,11 +70,21 @@
+  */
+ case class OPrimitive(pe: Set[Op], ne: Set[Op])
+ 
++/* SHADOW: a primitive nat constraint.  Equals and not equals only: the minimal
++ * design does no arithmetic on sizes.
++ */
++case class NPrimitive(pe: Set[IntExpr], ne: Set[IntExpr])
++
+ // A disjunction of conjunctions
+ case class Or(conjuncts: Set[And]) extends CFormula {}
+ 
+ // A conjunction of equality constraints (represented as cliques)
+-case class Conjuncts(eq: Set[Set[Type]], ops: Set[Set[Op]]) extends EFormula {}
++case class Conjuncts(eq: Set[Set[Type]], ops: Set[Set[Op]], nats: Set[Set[IntExpr]]) extends EFormula {}
++
++object Conjuncts {
++  // SHADOW: keeps the two-set constructor for call sites compiled against the tree.
++  def apply(eq: Set[Set[Type]], ops: Set[Set[Op]]): Conjuncts = Conjuncts(eq, ops, Set())
++}
+ 
+ // A disjunction of conjunctions
+ case class Disjuncts(es: Set[Conjuncts]) extends EFormula {}
+@@ -79,6 +100,61 @@
+   def tSubstitution(tmap: Map[_InferenceVarType, Type]): Type => Type = TU.liftSubstitution(tmap)
+   def oSubstitution(omap: Map[_InferenceVarOp, Op]): Op => Op = TU.liftSubstitution(omap)
+   def insertOps(omap: Op => Op): Type => Type = TU.liftSubstitution[Op, Op, Type]{case x:Op => omap(x)}
++
++  // ------------------------------------------------------------------ SHADOW
++  // The nat track.  A nat inference variable is an IntRef whose identifier
++  // starts with natIvarPrefix; nothing a programmer can write starts with '$'.
++  private val nUnit = NPrimitive(Set(), Set())
++  val nEmptySub: IntExpr => IntExpr = (e: IntExpr) => e
++  val natIvarPrefix = "$nat$"
++  private var natIvarCount = 0
++  def freshNatIvarName: String = { natIvarCount += 1; natIvarPrefix + natIvarCount }
++  def isNatIvarName(s: String): Boolean = s.startsWith(natIvarPrefix)
++  def natVarName(e: IntExpr): Option[String] = e match {
++    case r: IntRef if isNatIvarName(r.getName.getText) => Some(r.getName.getText)
++    case _ => None
++  }
++  def isNatIvar(e: IntExpr): Boolean = natVarName(e).isDefined
++  def natRef(name: String): IntExpr = NodeFactory.makeIntRef(NodeFactory.typeSpan, name)
++  /* Structural equality on nat static arguments, ignoring spans.  The generated
++   * AST equals compares the ASTNodeInfo too, so two literal 3s written at
++   * different source positions are NOT equal as nodes; this is the equality the
++   * minimal design needs.  An IntBinaryOp is equal to nothing: the checker does
++   * not reason about arithmetic on sizes. */
++  def nEq(a: IntExpr, b: IntExpr): Boolean = (a, b) match {
++    case (x: IntRef, y: IntRef) => x.getName.getText == y.getName.getText
++    case (x: IntBase, y: IntBase) => x.getIntVal.getIntVal == y.getIntVal.getIntVal
++    case _ => false
++  }
++  /* Symbols and literals are what the nat track can reason about. */
++  def isNatTerm(e: IntExpr): Boolean = e match {
++    case _: IntRef => true
++    case _: IntBase => true
++    case _ => false
++  }
++  def nSubstitution(nmap: Map[String, IntExpr]): IntExpr => IntExpr =
++    if (nmap.isEmpty) nEmptySub
++    else TU.liftSubstitution[IntExpr, IntRef, IntExpr](new PartialFunction[IntRef, IntExpr] {
++      def apply(r: IntRef) = nmap(r.getName.getText)
++      def isDefinedAt(r: IntRef) = nmap.isDefinedAt(r.getName.getText)
++    })
++  /* Push a nat substitution through a type, the way insertOps pushes an op one. */
++  def insertNats(nmap: IntExpr => IntExpr): Type => Type =
++    TU.liftSubstitution[IntExpr, IntRef, Type](new PartialFunction[IntRef, IntExpr] {
++      def apply(r: IntRef) = nmap(r)
++      def isDefinedAt(r: IntRef) = isNatIvar(r)
++    })
++  private def nMerge(p: NPrimitive, q: NPrimitive): NPrimitive = {
++    val NPrimitive(a1, b1) = p
++    val NPrimitive(a2, b2) = q
++    NPrimitive(a1 ++ a2, b1 ++ b2)
++  }
++  private def nImplies(p: NPrimitive, q: NPrimitive): Boolean = {
++    val NPrimitive(p1s, n1s) = p
++    val NPrimitive(p2s, n2s) = q
++    p2s.forall(p2 => p1s.exists(nEq(_, p2))) && n2s.forall(n2 => n1s.exists(nEq(_, n2)))
++  }
++  // ---------------------------------------------------------------- /SHADOW
+   
+   private def merge[S,T](a: Map[S, T], b: Map[S,T], bin: (T,T) => T, unit: T): Map[S, T] =
+     Map((a.keySet ++ b.keySet).map(k => 
+@@ -105,8 +181,9 @@
+   def and(c1: CFormula, c2: CFormula)(implicit ta: TypeAnalyzer): CFormula = (c1, c2) match {
+     case (True, _) => reduce(c2)
+     case (False, _) => False
+-    case (And(as, os), And(bs, ps)) =>
+-      reduce(And(merge(as, bs, tMerge, tUnit), merge(os, ps, oMerge, oUnit)))
++    case (And(as, os, ms), And(bs, ps, qs)) =>
++      reduce(And(merge(as, bs, tMerge, tUnit), merge(os, ps, oMerge, oUnit),
++                 merge(ms, qs, nMerge, nUnit)))
+     case (Or(cs), Or(ds)) =>
+       dis(for(c <- cs; d <- ds) yield and(c,d))
+     case (c1: Or, c2: And) => and(c1, Or(Set(c2)))
+@@ -116,7 +193,7 @@
+   def and(e1: EFormula, e2: EFormula)(implicit ta: TypeAnalyzer): EFormula = (e1, e2) match {
+     case (True, _) => reduce(e2)
+     case (False, _) => False
+-    case (Conjuncts(as, os), Conjuncts(bs, ps)) => reduce(Conjuncts(as ++ bs, os ++ ps))
++    case (Conjuncts(as, os, ms), Conjuncts(bs, ps, qs)) => reduce(Conjuncts(as ++ bs, os ++ ps, ms ++ qs))
+     case (Disjuncts(e1), Disjuncts(e2)) => 
+       dis(for(c <- e1; d <- e2) yield and(c,d))
+     case (e1: Disjuncts, e2: Conjuncts) => and(e1, Disjuncts(Set(e2)))
+@@ -167,12 +244,20 @@
+     case (_, True) => true
+     case (True, _) => false
+     // Checks whether every constraint in c2 is in c1
+-    case (And(as, os), And(bs, ps)) => {
++    case (And(as, os, ms), And(bs, ps, qs)) => {
+        val a1 = forall(as, bs, tImplies, tUnit)
+        val a2 = forall(ps, os, oImplies, oUnit)
++       // SHADOW: the nat track, in the direction the type track uses (c1 => c2).
++       // -Dprobe.nat.impliesIgnoresNats=true drops this conjunct, to test whether
++       // it is what makes TypeSchemaAnalyzer.reduceED refuse subarray's return
++       // type (REPORT.md 5c): a residual NEGATIVE nat constraint, which negate
++       // produces and unification cannot discharge, is in nc and not in nub, and
++       // nImplies(nUnit, q) is then false.
++       val a3 = java.lang.Boolean.getBoolean("probe.nat.impliesIgnoresNats") ||
++                forall(ms, qs, nImplies, nUnit)
+        if (debug)
+-         println("a1, a2 = " + a1 + ", " + a2)
+-       a1 && a2
++         println("a1, a2, a3 = " + a1 + ", " + a2 + ", " + a3)
++       a1 && a2 && a3
+     }
+     case (c1, Or(cs)) => cs.exists(imp(c1, _))
+     case (Or(cs), c2) => cs.forall(imp(_, c2))
+@@ -200,7 +285,7 @@
+   private def primImp(p: TPrimitive, c2: CFormula)(implicit ta: TypeAnalyzer): Boolean = c2 match {
+     case (False) => false
+     case (True) => true
+-    case (And(bs, ps)) => bs.values.forall(tImplies(p, _))
++    case (And(bs, ps, qs)) => bs.values.forall(tImplies(p, _))
+     case (Or(cs)) => cs.exists(primImp(p, _))
+   }
+ 
+@@ -228,8 +313,8 @@
+     case (_, False) => false
+     case (_, True) => true
+     case (True, _) => false
+-    case (Conjuncts(as, os), Conjuncts(bs, ps)) =>
+-      implies(as, bs, ta.equiv) && implies(os, ps, oEq)
++    case (Conjuncts(as, os, ms), Conjuncts(bs, ps, qs)) =>
++      implies(as, bs, ta.equiv) && implies(os, ps, oEq) && implies(ms, qs, nEq)
+     case (_, Disjuncts(es)) => es.exists(imp(e1, _))
+     case (Disjuncts(es), _) => es.forall(imp(_, e2))
+   }
+@@ -268,7 +353,7 @@
+   }
+ 
+   def reduce(c: CFormula)(implicit ta: TypeAnalyzer): CFormula =  c match {
+-    case And(ts, os) =>
++    case And(ts, os, ns) =>
+       def tSimplify(ip: (_InferenceVarType, TPrimitive)): Option[(_InferenceVarType, TPrimitive)] = ip match {
+         // catch trivial contradictions 
+         case (i, TPrimitive(pl,nl,pu,nu,pe,ne)) 
+@@ -330,12 +415,36 @@
+         val (i, OPrimitive(ps, ns)) = ip
+         ps.isEmpty && ns.isEmpty
+       }
++      // SHADOW: the nat track, mirroring the three op steps.
++      def nSimplify(ip: (String, NPrimitive)) = {
++        val (i, NPrimitive(ps, nps)) = ip
++        (i, NPrimitive(removeDups(ps.filterNot(p => natVarName(p) == Some(i)), nEq),
++                       removeDups(nps, nEq)))
++      }
++      def nContradiction(ip: (String, NPrimitive)): Option[(String, NPrimitive)] = {
++        val (i, NPrimitive(ps, nps)) = ip
++        // i = i is not a contradiction; i = e and i =/= e is; two distinct
++        // literals or symbols is; anything that is not a symbol or a literal is
++        // (arithmetic on sizes is refused, not computed).
++        if (nps.exists(n => natVarName(n) == Some(i)) ||
++            ps.exists(p => nps.exists(nEq(p, _))) ||
++            ps.exists(p => !isNatTerm(p)) ||
++            removeDups(ps.filterNot(isNatIvar), nEq).size > 1)
++          None
++        else
++          Some(ip)
++      }
++      def nTrivial(ip: (String, NPrimitive)) = {
++        val (i, NPrimitive(ps, nps)) = ip
++        ps.isEmpty && nps.isEmpty
++      }
+       val nts = ts.map(tSimplify).map(_.flatMap(tContradiction)).map(_.flatMap(tRedundant)).map(_.getOrElse(return False)).filterNot(tTrivial)
+       val nos = os.map(oSimplify).map(oContradiction).map(_.getOrElse(return False)).filterNot(oTrivial)
+-      if (nts.isEmpty && nos.isEmpty)
++      val nns = ns.map(nSimplify).map(nContradiction).map(_.getOrElse(return False)).filterNot(nTrivial)
++      if (nts.isEmpty && nos.isEmpty && nns.isEmpty)
+         return True
+       else
+-        And(Map(nts.toSeq: _*), Map(nos.toSeq: _*)) 
++        And(Map(nts.toSeq: _*), Map(nos.toSeq: _*), Map(nns.toSeq: _*)) 
+     case Or(cs) =>
+       val rcs = cs.map(reduce(_))
+       if(rcs.contains(True))
+@@ -358,19 +467,22 @@
+       TU.disjuncts(ta.join(s))
+   
+   def reduce(e: EFormula)(implicit ta: TypeAnalyzer): EFormula = e match {
+-    case Conjuncts(as, os) => 
++    case Conjuncts(as, os, ms) => 
+       val ras = reduce(as, ta.equiv).map{x => removeDups(x, (a: Type, b: Type) => ta.equiv(a, b))}.
+         filter{_.size > 1}
+       val ros = reduce(os, (a: Op, b: Op) => a==b).map{
+         x => removeDups(x, (a: Op, b: Op) => a==b)}.
+         filter{_.size > 1}
+-      if(ras.isEmpty && ros.isEmpty)
++      // SHADOW: nat cliques, with structural equality in place of == on ops.
++      val rns = reduce(ms, nEq).map{x => removeDups(x, nEq)}.filter{_.size > 1}
++      if(ras.isEmpty && ros.isEmpty && rns.isEmpty)
+         True
+       else if(isContradictory(ras, (s: Type, t: Type) => isFalse(ta.equivalent(s,t)))
+-              || isContradictory(ros, definitelyNotEqual))
++              || isContradictory(ros, definitelyNotEqual)
++              || isContradictory(rns, definitelyNotEqualNat))
+         False
+       else
+-        Conjuncts(ras, ros)  
++        Conjuncts(ras, ros, rns)  
+     case True => True
+     case False => False
+     case Disjuncts(es) => 
+@@ -388,6 +500,11 @@
+     case _ => a!=b
+   }
+   
++  // SHADOW: the nat twin.  An inference variable is equal to anything; two
++  // symbols or literals are equal only if they are the same one.
++  private def definitelyNotEqualNat(a: IntExpr, b: IntExpr): Boolean =
++    if (isNatIvar(a) || isNatIvar(b)) false else !nEq(a, b)
++  
+   private def isContradictory[T](as: Set[Set[T]], neq: (T,T) => Boolean): Boolean =
+     !as.isEmpty && as.forall{a =>  !a.isEmpty && a.tail.foldLeft((a.head, false)){case ((s, b), t) => (t, neq(s,t) || b)}._2}
+   /*
+@@ -417,14 +534,19 @@
+    * point it would be a good idea to replace this with a smarter algorithm.
+    */
+   
++  // SHADOW: solve keeps its old shape (pair) for call sites compiled against the
++  // tree; solveN is the one that also returns the nat substitution.
+   def solve(c: CFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op)] = 
++    solveN(c).map{case (t, o, n) => (t, o)}
++
++  def solveN(c: CFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op, IntExpr => IntExpr)] =
+     slv(reduce(c))
+   
+-  private def slv(c: CFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op)] = c match {
++  private def slv(c: CFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op, IntExpr => IntExpr)] = c match {
+     // False cannot be solved
+     case False => None
+     // True has the trivial solution
+-    case True => Some((tEmptySub, oEmptySub))
++    case True => Some((tEmptySub, oEmptySub, nEmptySub))
+     // We solve an Or by solving one of its branches
+     case Or(cs) => 
+       for (e <- cs) {
+@@ -443,14 +565,21 @@
+      * 5) Return S composed with U
+      */
+     case _:And => 
+-      val (newCon, tUnifier, oUnifier) = unify(c).getOrElse(return None)
++      val (newCon, tUnifier, oUnifier, nUnifier) = unify(c).getOrElse(return None)
+       newCon match {
+-        case True => Some((tUnifier, oUnifier))
++        case True => Some((tUnifier, oUnifier, nUnifier))
+         case False => None
+-        case nc@And(ts, os) =>
+-//	  println("nc: " + nc)
++        case nc0@And(ts, os, nsResidue) =>
++//	  println("nc: " + nc0)
+           // Operators only have equality constraints so they should always be solved by unification
+           assert(os.isEmpty)
++          /* SHADOW: nats likewise only have equality constraints.  A residue with
++           * a positive equality left means unification could not discharge it, so
++           * there is no solution; a residue of negative equalities only is
++           * satisfied by leaving the variable free (decision E2: an unknown size
++           * is an error only where it is used), so it is dropped here. */
++          if (nsResidue.exists{case (_, NPrimitive(pe, _)) => pe.nonEmpty}) return None
++          val nc = And(ts, os, Map[String, NPrimitive]())
+           val sub = TU.killIvars compose 
+             tSubstitution(ts.map{
+               case (k, p@TPrimitive(pl,nl,pu,nu,pe,ne)) => {
+@@ -478,10 +607,10 @@
+                 (k, uni)
+               }
+             })
+-	  val newMap = cMap(newCon, sub)
++	  val newMap = cMap(nc, sub)
+ //	  println("newMap: " + newMap)
+           if(isTrue(newMap))
+-            Some((sub compose tUnifier, oUnifier))
++            Some((sub compose tUnifier, oUnifier, nUnifier))
+           else {
+ //               println("sub:" + sub + " on formula " + c)
+                None
+@@ -491,17 +620,17 @@
+       }      
+   }
+   
+-  def unify(c: CFormula)(implicit ta: TypeAnalyzer): Option[(CFormula, Type => Type, Op => Op)] = {
++  def unify(c: CFormula)(implicit ta: TypeAnalyzer): Option[(CFormula, Type => Type, Op => Op, IntExpr => IntExpr)] = {
+       val eq = getEquality(c)
+ //      println("Unify " + c + " produces " + eq)
+-      un(eq).map{case (ts, os) => (cMap(c, ts, os), ts, os)}
++      un(eq).map{case (ts, os, ns) => (cMap(c, ts, os, ns), ts, os, ns)}
+   }
+   
+-  def unifyWithDebug(c: CFormula, debug:Boolean=false)(implicit ta: TypeAnalyzer): Option[(CFormula, Type => Type, Op => Op)] = {
++  def unifyWithDebug(c: CFormula, debug:Boolean=false)(implicit ta: TypeAnalyzer): Option[(CFormula, Type => Type, Op => Op, IntExpr => IntExpr)] = {
+       val eq = getEquality(c)
+       if (debug)
+           println("Unify " + c + " produces " + eq)
+-      un(eq).map{case (ts, os) => (cMapWithDebug(c, ts, os, debug), ts, os)}
++      un(eq).map{case (ts, os, ns) => (cMapWithDebug(c, ts, os, ns, debug), ts, os, ns)}
+   }
+   
+   /*
+@@ -513,12 +642,15 @@
+   private def getEquality(c: CFormula)(implicit ta: TypeAnalyzer): EFormula = reduce(c) match {
+     case False => False
+     case True => True
+-    case And(ts, os) =>
++    case And(ts, os, ns) =>
+       val teq = getCliques[Type, TPrimitive, _InferenceVarType](ts, 
+           {case TPrimitive(pl,nl,pu,nu,pe,ne) => pl.filter(a => pu.exists(b => ta.equiv(a, b))) ++ pu.filter(a => pl.exists(b => ta.equiv(a, b)))})
+       val oeq = getCliques[Op, OPrimitive, _InferenceVarOp](os,
+           {case OPrimitive(ps, ns) => ps})
+-      reduce(Conjuncts(teq, oeq))
++      /* SHADOW: getCliques wants the variable to be a subclass of the term type;
++       * under option B a nat variable IS an IntRef, so the clique is built here. */
++      val neq: Set[Set[IntExpr]] = ns.map{case (a, NPrimitive(ps, _)) => ps ++ Set(natRef(a))}.toSet
++      reduce(Conjuncts(teq, oeq, neq))
+     case Or(cs) => 
+       val eq = cs.map(getEquality)
+       dis(eq)
+@@ -548,14 +680,14 @@
+    */
+   
+   
+-  def unify(e: EFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op)] =
++  def unify(e: EFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op, IntExpr => IntExpr)] =
+     un(reduce(e))
+   
+-  private def un(e: EFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op)] = { // println("un of " + e)
++  private def un(e: EFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op, IntExpr => IntExpr)] = { // println("un of " + e)
+    e match {
+     case False => None
+-    case True => Some((tEmptySub, oEmptySub))
+-    case e@Conjuncts(teq, oeq) =>
++    case True => Some((tEmptySub, oEmptySub, nEmptySub))
++    case e@Conjuncts(teq, oeq, neq) =>
+       // Makes sure we don't have to use fixed point types
+       def tError(x: (Set[_InferenceVarType], Set[Type])) = x match {
+         case (a, b) => b.flatMap(TU.getInferenceVars).exists(a.contains(_))
+@@ -568,19 +700,30 @@
+       def oError(x: (Set[_InferenceVarOp], Set[Op])) = false
+       def oMake(x: Set[_InferenceVarOp]) = oSubstitution(Map(x.tail.map((x.head, _)).toSeq:_*)) 
+       val (mOSub, oSplit, oVars, oReg) = makeSub(oeq, oError, oMake).getOrElse(return None)
+-      // Combine op and type substitutions
+-      val mTOSub = (mTSub, mOSub) match {
+-        case (Some(tSub), Some(oSub)) => Some((insertOps(oSub) compose tSub, oSub))
+-        case (Some(tSub), None) => Some((tSub, oEmptySub))
+-        case (None, Some(oSub)) => Some((insertOps(oSub), oSub))
+-        case (None, None) => None
+-      }
+-      mTOSub match{
+-        case Some((tSub, oSub)) =>
+-	  val eResult = eMap(e, tSub, oSub)
++      /* SHADOW: the nat cliques.  makeSub partitions variables from terms by
++       * runtime class; under option B both are IntRefs, so the partition is by
++       * predicate and this is a hand-written twin of makeSub. */
++      val nSplit: Set[(Set[String], Set[IntExpr])] =
++        neq.map{x => val (vs, tms) = x.partition(isNatIvar); (vs.flatMap(natVarName), tms)}
++      def nMake(x: Set[String]): IntExpr => IntExpr =
++        nSubstitution(Map(x.tail.map(v => (v, natRef(x.head))).toSeq: _*))
++      val mNSub: Option[IntExpr => IntExpr] =
++        nSplit.map(_._1).filter(_.size > 1).map(nMake).reduceRightOption((a, b) => a compose b)
++      // Combine type, op and nat substitutions
++      val mTONSub =
++        if (mTSub.isEmpty && mOSub.isEmpty && mNSub.isEmpty) None
++        else {
++          val tS = mTSub.getOrElse(tEmptySub)
++          val oS = mOSub.getOrElse(oEmptySub)
++          val nS = mNSub.getOrElse(nEmptySub)
++          Some((insertNats(nS) compose insertOps(oS) compose tS, oS, nS))
++        }
++      mTONSub match{
++        case Some((tSub, oSub, nSub)) =>
++	  val eResult = eMap(e, tSub, oSub, nSub)
+ //	  println("un recursion 1: eMap produces " + eResult)
+           // If there were any inference variables to be unified, then recurse
+-          un(eResult).map{case (t, o) => (t compose tSub, o compose oSub)}
++          un(eResult).map{case (t, o, n) => (t compose tSub, o compose oSub, n compose nSub)}
+         case None=>
+ 	  /* Gets all equivalence classes with more than two non inference variable types and computes the 
+ 	   * constraints under which they are equivalent.
+@@ -590,15 +733,21 @@
+ 	  if(!tNewCons.isEmpty) {
+ 	    // If there were any new constraints, then recurse
+ 	    val tNewCon = and(tNewCons)
+-	    val tOrig = Conjuncts(tSplit.map{case (iv, niv) => iv ++ Set(niv.head)}, oeq)
++	    val tOrig = Conjuncts(tSplit.map{case (iv, niv) => iv ++ Set(niv.head)}, oeq, neq)
+ 	    un(and(tNewCon, tOrig))
+ 	  } else {
+ 	    /* Now each equivalence class must consist of one inference variable 
+ 	     * and one non inference variable. Unify them.
+ 	     */
++	    /* SHADOW: a nat clique that holds two different symbols or literals, or
++	     * anything that is not a symbol or a literal, has no unifier. */
++	    if (nSplit.exists{case (_, tms) => removeDups(tms, nEq).size > 1 || tms.exists(!isNatTerm(_))})
++	      return None
+ 	    val tSub = tSubstitution(Map(tSplit.map{case (iv, ts) => (iv.head, ts.head)}.toSeq:_*))
+ 	    val oSub = oSubstitution(Map(oSplit.map{case (iv, ts) => (iv.head, ts.head)}.toSeq:_*))
+-	    Some((insertOps(oSub) compose tSub, oSub))
++	    val nSub = nSubstitution(Map(nSplit.filter{case (iv, tms) => iv.nonEmpty && tms.nonEmpty}.
++	                                        map{case (iv, tms) => (iv.head, tms.head)}.toSeq:_*))
++	    Some((insertNats(nSub) compose insertOps(oSub) compose tSub, oSub, nSub))
+           }
+       }
+     case Disjuncts(es) =>
+@@ -621,14 +770,22 @@
+   }
+   
+   def cMap(form: CFormula, tSub: Type => Type = tEmptySub, oSub: Op => Op = oEmptySub)(implicit ta: TypeAnalyzer): CFormula = 
+-    cMapWithDebug(form, tSub, oSub, false)
++    cMapWithDebug(form, tSub, oSub, nEmptySub, false)
+     
++  // SHADOW: the nat-carrying overloads.  The three-argument cMap above keeps the
++  // signature that TypeSchemaAnalyzer.scala:410-411 was compiled against.
++  def cMap(form: CFormula, tSub: Type => Type, oSub: Op => Op, nSub: IntExpr => IntExpr)(implicit ta: TypeAnalyzer): CFormula =
++    cMapWithDebug(form, tSub, oSub, nSub, false)
++
+   def cMapWithDebug(form: CFormula, tSub: Type => Type = tEmptySub, oSub: Op => Op = oEmptySub, debug:Boolean)(implicit ta: TypeAnalyzer): CFormula =
++    cMapWithDebug(form, tSub, oSub, nEmptySub, debug)
++
++  def cMapWithDebug(form: CFormula, tSub: Type => Type, oSub: Op => Op, nSub: IntExpr => IntExpr, debug:Boolean)(implicit ta: TypeAnalyzer): CFormula =
+   {
+     if (debug)
+       println("cMap("+form+", "+tSub+", "+oSub+")")
+     form match {
+-    case And(ts, os) =>
++    case And(ts, os, ns) =>
+       val tForm = and(ts.map{
+         case (k, TPrimitive(pl,nl,pu,nu,pe,ne)) =>
+           val sk = tSub(k)
+@@ -648,14 +805,22 @@
+           val sk = oSub(k)
+           and(and(po.map(ta.equivalent(sk, _))), and(no.map(ta.notEquivalent(sk, _))))
+       })
+-      and(tForm, oForm)
+-    case Or(cs) => dis(cs.map(cMap(_, tSub, oSub)))
++      // SHADOW: the nat track.
++      val nForm = and(ns.map{
++        case (k, NPrimitive(pn, nn)) =>
++          val sk = nSub(natRef(k))
++          and(and(pn.map(e => ta.equivalentNat(sk, nSub(e)))),
++              and(nn.map(e => ta.notEquivalentNat(sk, nSub(e)))))
++      })
++      and(tForm, and(oForm, nForm))
++    case Or(cs) => dis(cs.map(cMap(_, tSub, oSub, nSub)))
+     case _ => form
+   }
+   }
+-  def eMap(form: EFormula, tSub: Type => Type = tEmptySub, oSub: Op => Op = oEmptySub)(implicit ta: TypeAnalyzer): EFormula = form match {
+-    case Conjuncts(ts, os) => reduce(Conjuncts(ts.map(_.map(tSub)), os.map(_.map(oSub))))
+-    case Disjuncts(es) => dis(es.map(eMap(_, tSub, oSub)))
++  def eMap(form: EFormula, tSub: Type => Type = tEmptySub, oSub: Op => Op = oEmptySub,
++           nSub: IntExpr => IntExpr = nEmptySub)(implicit ta: TypeAnalyzer): EFormula = form match {
++    case Conjuncts(ts, os, ns) => reduce(Conjuncts(ts.map(_.map(tSub)), os.map(_.map(oSub)), ns.map(_.map(nSub))))
++    case Disjuncts(es) => dis(es.map(eMap(_, tSub, oSub, nSub)))
+     case _ => form
+   }
+   
+@@ -665,7 +830,7 @@
+     case True => False
+     case False => True
+     case Or(cs) => and(cs.map(negate))
+-    case And(ts, os) =>
++    case And(ts, os, ns) =>
+       def tNeg(ip: (_InferenceVarType, TPrimitive)): CFormula = ip match {
+         case (i, TPrimitive(pl, nl, pu, nu, pe, ne)) =>
+           or(or(pl.map(notLowerBound(i, _))), or(
+@@ -679,7 +844,12 @@
+         case (i, OPrimitive(po, no)) =>
+           or(or(po.map(oNotEquivalent(i, _))), or(no.map(oEquivalent(i, _))))
+       }
+-      or(or(ts.map(tNeg)), or(os.map(oNeg)))
++      // SHADOW: the nat twin, so that neg stays total.
++      def nNeg(ip: (String, NPrimitive)): CFormula = ip match {
++        case (i, NPrimitive(pn, nn)) =>
++          or(or(pn.map(nNotEquivalent(i, _))), or(nn.map(nEquivalent(i, _))))
++      }
++      or(or(ts.map(tNeg)), or(or(os.map(oNeg)), or(ns.map(nNeg))))
+   }
+     
+   def upperBound(i: _InferenceVarType, t: Type): CFormula =
+@@ -706,6 +876,15 @@
+   def oEquivalent(i: _InferenceVarOp, o: Op): CFormula = 
+     And(Map(), Map(i -> OPrimitive(Set(o), Set())))
+ 
++  // SHADOW: the two nat primitives, the twins of oEquivalent / oNotEquivalent.
++  def nEquivalent(i: String, e: IntExpr): CFormula =
++    And(Map[_InferenceVarType, TPrimitive](), Map[_InferenceVarOp, OPrimitive](),
++        Map(i -> NPrimitive(Set(e), Set())))
++
++  def nNotEquivalent(i: String, e: IntExpr): CFormula =
++    And(Map[_InferenceVarType, TPrimitive](), Map[_InferenceVarOp, OPrimitive](),
++        Map(i -> NPrimitive(Set(), Set(e))))
++
+   def fromBoolean(x: Boolean) = if (x) True else False
+   
+ }
+--- ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala	2026-09-08 16:43:02.722446892 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala	2026-09-21 17:35:18.367265179 +0000
+@@ -248,12 +248,16 @@
+ 
+      val args = staticParams.zip(staticArgs_1.zip(staticArgs_2))
+      def cmp (param: StaticParam, args: (StaticArg,StaticArg)): CFormula = {
+-       if (param.getVariance() == 1)
+-         pSub(args._1.asInstanceOf[TypeArg].getTypeArg(),args._2.asInstanceOf[TypeArg].getTypeArg())
+-       else if (param.getVariance == -1)
+-         pSub(args._2.asInstanceOf[TypeArg].getTypeArg(),args._1.asInstanceOf[TypeArg].getTypeArg())
+-       else
+-         pEqv(args._1,args._2)
++       // SHADOW: the two variance branches used to cast unconditionally, so a
++       // variant parameter with a non-type argument threw a ClassCastException;
++       // such an argument is now compared by equality instead.
++       (args._1, args._2) match {
++         case (a: TypeArg, b: TypeArg) if param.getVariance() == 1 =>
++           pSub(a.getTypeArg(), b.getTypeArg())
++         case (a: TypeArg, b: TypeArg) if param.getVariance() == -1 =>
++           pSub(b.getTypeArg(), a.getTypeArg())
++         case _ => pEqv(args._1, args._2)
++       }
+      }
+      val formulas : List[CFormula] = args.map(e => cmp(e._1,e._2))
+      pAnd(formulas)
+@@ -328,8 +332,15 @@
+     case (a,b) if (a==b) => pTrue()
+     case (STypeArg(_, _, s), STypeArg(_, _, t)) => pEqv(s, t)
+     case (SOpArg(_, _, o), SOpArg(_, _, p)) => pEqv(o, p)
++    // SHADOW: nat and int arguments, by the minimal design of
++    // reviews/nat-checking-plan.md (c).  Everything below is still unhandled.
++    // -Dprobe.nat.argsAlwaysEqual=true puts the tree's answer back (any two
++    // IntArgs are equal) while keeping the rest of the shadow, so that an error
++    // the new rule CAUSES can be told apart from one it merely makes reachable.
++    case (SIntArg(_, _, e1), SIntArg(_, _, e2)) =>
++      if (java.lang.Boolean.getBoolean("probe.nat.argsAlwaysEqual")) pTrue()
++      else pEqv(e1, e2)
+     // Not handling all static args properly yet
+-    case (_: IntArg, _: IntArg) => pTrue()
+     case (_: BoolArg, _: BoolArg) => pTrue()
+     case (_: DimArg, _: DimArg) => pTrue()
+     case (_: UnitArg, _: UnitArg) => pTrue()
+@@ -338,6 +349,25 @@
+   
+   def equivalent(x: Op, y: Op): CFormula = pEqv(normalize(x), normalize(y))(false)
+   def notEquivalent(x: Op, y: Op): CFormula = pEqv(normalize(x), normalize(y))(true)
++
++  // ------------------------------------------------------------------ SHADOW
++  // Nat static arguments.  This is IntNat.unifyStaticArg of the interpreter
++  // (interpreter/evaluator/types/IntNat.java:127-147) as a constraint: a
++  // literal must be equal, a variable is bound, anything else fails.  No
++  // arithmetic: an IntBinaryOp is equal to nothing (the well-formedness
++  // checker refuses it at the type).
++  def equivalentNat(x: IntExpr, y: IntExpr): CFormula = pEqv(x, y)(false, Set[hType]())
++  def notEquivalentNat(x: IntExpr, y: IntExpr): CFormula = pEqv(x, y)(true, Set[hType]())
++
++  protected def pEqv(x: IntExpr, y: IntExpr)(implicit negate: Boolean, history: Set[hType]): CFormula =
++    (natVarName(x), natVarName(y)) match {
++      case (Some(i), Some(j)) if i == j => pTrue()
++      case (Some(i), Some(j)) => pAnd(pNatEquivalent(i, y), pNatEquivalent(j, x))
++      case (Some(i), None) => pNatEquivalent(i, y)
++      case (None, Some(j)) => pNatEquivalent(j, x)
++      case (None, None) => pFromBoolean(nEq(x, y))
++    }
++  // ---------------------------------------------------------------- /SHADOW
+   
+   protected def pEqv(x: Op, y: Op)(implicit negate: Boolean): CFormula = (x, y) match {
+     case (a, b) if (a==b) => pTrue()
+@@ -792,6 +822,9 @@
+   def pFromBoolean(b: Boolean)(implicit negate: Boolean) = fromBoolean(negate != b)
+   def pEquivalent(i: _InferenceVarOp, o: Op)(implicit negate: Boolean) =
+     if (negate) oNotEquivalent(i, o) else oEquivalent(i, o)
++  // SHADOW: the nat twin.
++  def pNatEquivalent(i: String, e: IntExpr)(implicit negate: Boolean) =
++    if (negate) nNotEquivalent(i, e) else nEquivalent(i, e)
+ }
+ 
+ object TypeAnalyzer {
+--- ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala	2026-09-08 16:43:02.722446892 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala	2026-09-21 17:15:55.517804447 +0000
+@@ -401,14 +401,19 @@
+        println("   ieNotBottom = " + ieNotBottom)
+        println("    c = " + c)
+     }
+-    val (nc, ts, os) = unifyWithDebug(c, debug).getOrElse(return None)
++    // SHADOW (nat prototype): the unifier is a quadruple now -- the nat
++    // substitution is the fourth component -- and cMap takes it too.  ts already
++    // carries the nat substitution pushed through types (Formula.insertNats), so
++    // the `sub` built below needs no change.
++    val (nc, ts, os, ns) = unifyWithDebug(c, debug).getOrElse(return None)
+     if (debug) {
+        println("   nc = " + nc)
+        println("   ts = " + ts)
+        println("   os = " + os)
++       println("   ns = " + ns)
+     }
+-    val nub = cMap(ub, ts, os)
+-    val nieNotBottom = cMap(ieNotBottom, ts, os)
++    val nub = cMap(ub, ts, os, ns)
++    val nieNotBottom = cMap(ieNotBottom, ts, os, ns)
+     if (debug) {
+        println("   nub = " + nub)
+        println("   nieNotBottom = " + nieNotBottom)
+--- ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala	2026-09-08 16:43:02.723791668 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/useful/STypesUtil.scala	2026-09-21 17:10:52.297716655 +0000
+@@ -547,17 +547,31 @@
+     case _: KindType => 
+       NF.makeTypeArg(NU.getSpan(sparam), NF.make_InferenceVarType(NU.getSpan(sparam)),
+                      sparam.isLifted)
+-    case _: KindInt => NI.nyi()
+-    case _: KindBool => NI.nyi()
+-    case _: KindDim => NI.nyi()
++    // SHADOW: nat and int parameters get a fresh nat inference variable, which
++    // is an IntRef with a reserved name (option B of the plan, (c)).
++    case _: KindInt => makeNatInferenceArg(sparam)
++    case _: KindNat => makeNatInferenceArg(sparam)
+     case _: KindOp => NF.makeOpArg(NU.getSpan(sparam),
+                       NF.make_InferenceVarOp(NU.getSpan(sparam)),
+                       sparam.isLifted) // DRC- opArgs also lifted?
+-    case _: KindUnit => NI.nyi()
+-    case _: KindNat => NI.nyi()
++    // SHADOW: bool, dim and unit parameters are out of the minimal design's
++    // scope, but a named checker error beats NI.nyi()'s bare stack trace.
++    case _: KindBool => unsupportedKind(sparam, "bool")
++    case _: KindDim => unsupportedKind(sparam, "dim")
++    case _: KindUnit => unsupportedKind(sparam, "unit")
+     case _ => bug("unexpected kind of static parameter")
+   }
+ 
++  private def makeNatInferenceArg(sparam: StaticParam): StaticArg =
++    NF.makeIntArg(NU.getSpan(sparam),
++                  NF.makeIntRef(NU.getSpan(sparam), freshNatIvarName),
++                  sparam.isLifted)
++
++  private def unsupportedKind(sparam: StaticParam, kind: String): StaticArg =
++    throw TypeError.make("Static argument inference for the " + kind +
++                         " static parameter " + sparam.getName +
++                         " is not supported by the type checker.", sparam)
++
+   /**
+    * Returns a list of conjuncts of the given type. If given an intersection
+    * type, this is the set of the constituents. If ANY, this is empty. If some
+@@ -790,6 +804,11 @@
+       var found = false
+       override def walk(node: Any): Any = node match {
+         case _: _InferenceVarType => found = true; node
++        // SHADOW: an unsolved nat inference variable counts too.  This is where
++        // decision E2 bites: an unknown size that reaches a type is reported
++        // ("not enough context", Functionals.scala:248-250); one that reaches
++        // nothing -- the library's dead nat m, nat p -- is never looked at.
++        case r: IntRef if isNatIvar(r) => found = true; node
+         case _ => super.walk(node)
+       }
+     }
+@@ -998,7 +1017,8 @@
+     val lowerBounds = And(Map(infVars.zip(sparamLowerBounds): _*), Map())
+     
+     // 6. solve C to yield a substitution S' = [$T_i -> U_i]
+-    val (tSub, oSub) = solve(and(constraint, and(upperBounds,lowerBounds))).getOrElse(return None)
++    // SHADOW: solveN also returns the nat substitution.
++    val (tSub, oSub, nSub) = solveN(and(constraint, and(upperBounds,lowerBounds))).getOrElse(return None)
+ 
+     // 7. instantiate infArrow with [U_i] to get resultArrow
+     val prenorm = tSub(infTyp)
+@@ -1010,6 +1030,8 @@
+     val resultArgs = sargs.map {
+       case STypeArg(info, lifted, typ) =>  STypeArg(info, lifted, tSub(typ))
+       case SOpArg(info, lifted, op) => SOpArg(info, lifted, oSub(op))
++      // SHADOW: substitute the solved nat back into the recorded static arg.
++      case SIntArg(info, lifted, e) => SIntArg(info, lifted, nSub(e))
+       case sarg => sarg
+     }
+ 
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala	2026-09-08 16:43:02.717426913 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala	2026-09-21 17:27:48.451128759 +0000
+@@ -643,9 +643,14 @@
+     }
+ 
+   /* Returns true if two IntExprs are same.
+-   * Not implemented!
++   * SHADOW: structural equality on symbols and literals, ignoring spans;
++   * false on arithmetic (Formula.nEq).  -Dprobe.nat.exportAsTree=true puts the
++   * tree's "Not implemented!" answer back, so the two can be measured against
++   * each other in one build.
+    */
+-  private def equalIntExprs(left: IntExpr, right: IntExpr): Boolean = false
++  private def equalIntExprs(left: IntExpr, right: IntExpr): Boolean =
++    if (java.lang.Boolean.getBoolean("probe.nat.exportAsTree")) false
++    else Formula.nEq(left, right)
+ 
+   /* Returns true if two parameters are same. */
+   private def equalParams(left: Param, right: Param): Boolean =
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala	2026-09-18 12:47:02.686800510 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala	2026-09-21 17:10:52.298294979 +0000
+@@ -38,6 +38,12 @@
+ 
+   private def error(s:String, n:Node) = errors.add(TypeError.make(s,n))
+ 
++  /* SHADOW: does this static argument contain an operator? */
++  private def hasArithmetic(e: IntExpr): Boolean = e match {
++    case _: IntBinaryOp => true
++    case _ => false
++  }
++
+   private def getTypes(typ:Id) = {
+     val types = typ match {
+       case SId(info,Some(name),text) =>
+@@ -96,6 +102,16 @@
+       case t@STraitSelfType(_, named, tys) => walk(named); tys.foreach(walk)
+       case t@SObjectExprType(_, tys) => tys.foreach(walk)
+       case t@STraitType(_, name, sargs, _) =>
++      // SHADOW: arithmetic inside white brackets is refused, not evaluated.
++      // The interpreter still computes it (EvalType.java:431-464); this is the
++      // one place where the two paths deliberately differ.
++      sargs.foreach {
++        case SIntArg(_, _, e) if hasArithmetic(e) =>
++          error("Ill-formed type: " + t +
++                "\n    Arithmetic on nat static arguments is not checked; " +
++                "use a nat parameter or a literal.", t)
++        case _ =>
++      }
+       getTypes(name) match {
+         case si:TraitIndex => // Trait name should be defined.
+         // Static arguments should satisfy the corresponding bounds.
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala	2026-09-08 16:43:02.716958789 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala	2026-09-21 17:14:52.924440590 +0000
+@@ -80,8 +80,15 @@
+ 
+   private def checkObjectDeclaration(od: ObjectDecl) = {
+     val tth = od.getHeader
+-    val fakeArgs = tth.getStaticParams.map(p => NF.makeTypeArg(NU.getSpan(p), p.asInstanceOf[StaticParam].getName.getText).asInstanceOf[StaticArg])
+-    val methods = allMethods(NF.makeTraitTypeForScala(tth.getName.asInstanceOf[Id], toJavaList(fakeArgs.toIterable)), typeAnalyzer)
++    // SHADOW (nat prototype): this is bug (i) of reviews/nat-checking-plan.md (c).
++    // fakeArgs made a TypeArg for EVERY static parameter, whatever its kind, so a
++    // nat parameter arrived here as TypeArg(VarType k); gatherMethods then built a
++    // StaticTypeReplacer that rewrote the IntRef k inside the declared method types
++    // into a VarType, and the generated NodeUpdateVisitor.forIntArg cast it to
++    // IntExpr and threw.  STypesUtil.staticParamToArg (:333-345) already makes the
++    // kind-correct argument for every kind, so use it.
++    val fakeArgs = staticParamsToArgs(tth.getStaticParams)
++    val methods = allMethods(NF.makeTraitTypeForScala(tth.getName.asInstanceOf[Id], fakeArgs), typeAnalyzer)
+     // traceObjectDeclMethods(od, methods)
+     val oldTypeAnalyzer = typeAnalyzer
+     // Add static parameters of the enclosing trait or object

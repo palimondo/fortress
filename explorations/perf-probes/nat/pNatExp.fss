@@ -1,0 +1,10 @@
+component pNatExp
+export pNatExp
+export Executable
+trait Vec[\T, nat s\] extends Object end
+object VecOf[\T, nat s\](x: T) extends Vec[\T,s\] end
+mk[\T, nat s\](x: T): Vec[\T,s\] = VecOf[\T,s\](x)
+len[\T, nat s\](v: Vec[\T,s\]): ZZ32 = s.asZZ32
+opr DOT[\T, nat n\](a: Vec[\T,n\], b: Vec[\T,n\]): ZZ32 = n.asZZ32
+run() = println(len(mk[\ZZ32, 5\](7)))
+end

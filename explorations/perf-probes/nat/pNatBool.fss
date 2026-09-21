@@ -1,0 +1,9 @@
+component pNatBool
+export Executable
+(* bool static parameters are out of the minimal design's scope.  The gate
+   wants a checker error that names the kind, not NI.nyi()'s bare
+   "Not yet implemented" stack trace (STypesUtil.scala:551-557 in the tree). *)
+object Flag[\bool b\](v: ZZ32) end
+unflag[\bool b\](f: Flag[\b\]): ZZ32 = f.v
+run() = println(unflag(Flag[\true\](7)))
+end

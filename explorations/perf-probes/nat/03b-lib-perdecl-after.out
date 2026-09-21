@@ -1,0 +1,67 @@
+# /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/nat/03b-lib-perdecl-after.out with the @@TC DECLAT stack lines dropped.
+########## PhaseProbe -order typecheck Library/FortressLibrary.fss (tolerant, per declaration)
+# classpath prefix: explorations/perf-probes/nat/shadow-classes:
+# start 2026-09-21T17:39:27Z
+### order=typecheck  phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR TYPECHECK ]  target=[Library/FortressLibrary.fss]
+### desugaring=COMPILE-PATH  prelude=INTERPRETER
+@@TC API	FortressBuiltin	errors=22
+@@TC API	Writer	errors=0
+@@TC API	String	errors=12
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=4
+@@TC API	List	errors=16
+@@TC API	FortressLibrary	errors=494
+@@TC API	FlatString	errors=4
+@@TC API	TypeProxy	errors=0
+@@TC API	RangeInternals	errors=408
+@@TC API	NatReflect	errors=0
+@@TC API	NativeArray	errors=12
+@@TC APIS-NOT-SUCCESSFUL	972 errors kept
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:33:1-37:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:39:1-43:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:47:1-22	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:49:1-51:26	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:52:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:54:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:65:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:67:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:69:1-75:4	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:75:1-78:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:80:1-83:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:85:1-87:43	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:88:1-37	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:90:1-94:62	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:96:1-39	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:98:1-42	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:100:1-102:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:106:1-114:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:116:1-124:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:126:1-127:76	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:129:1-130:107	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:132:1-146:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:150:1-156:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:158:1-173:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:175:1-185:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:187:1-196:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:198:1-208:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:213:1-226:2	errors=4
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:235:1-237:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:246:1-248:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:257:1-262:2	errors=2
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:270:1-283:2	errors=24
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:286:1-289:6	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:291:1-294:6	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:296:1-300:6	errors=3
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:302:1-42	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:304:1-69	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:306:1-310:6	errors=3
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:312:1-320:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:328:1-25	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:331:1-336:2	errors=2
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:339:1-30	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:343:1-350:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:352:1-423:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:425:1-472:2	errors=14
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:474:1-522:9	errors=10
+exit=143
+ELAPSED 767 s

@@ -1,0 +1,10 @@
+component pNat4
+export Executable
+(* The deliberate mismatch of the gate, step 2: the nat argument written out
+   does not agree with the argument's type.  Must be refused with a type
+   error, not accepted (today two IntArgs are always equal:
+   TypeAnalyzer.scala:332). *)
+object Box[\nat k\](v: ZZ32) end
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+run() = println(unbox[\4\](Box[\3\](7)))
+end

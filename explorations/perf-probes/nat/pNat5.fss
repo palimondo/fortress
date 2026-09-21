@@ -1,0 +1,10 @@
+component pNat5
+export Executable
+(* Arithmetic inside white brackets.  The minimal design refuses to CHECK it:
+   the well-formedness checker reports an ill-formed type.  The interpreter
+   still evaluates such a type (EvalType.java:431-464), so this is the one
+   place where the two paths deliberately differ. *)
+object Box[\nat k\](v: ZZ32) end
+unbox[\nat k\](b: Box[\k + 1\]): ZZ32 = b.v
+run() = println(unbox(Box[\4\](7)))
+end

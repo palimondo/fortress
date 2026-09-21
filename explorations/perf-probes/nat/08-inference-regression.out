@@ -1,0 +1,19 @@
+########## the invariant-inference test under the nat shadow
+# Compiled12.invariantInference.test: compile, link, run; run_out_equals is 12 lines
+---------- fortress compile Compiled12.invariantInference2.fss
+exit=0
+---------- fortress compile Compiled12.invariantInference.fss
+exit=0
+---------- fortress run Compiled12.invariantInference
+Wsub None
+Wsub Inv
+Wsub Co,Contra
+Wsub Inv,Co,Contra
+Wsuper None
+Wsuper Co,Contra
+Wsuper Inv
+Wsuper Inv,Co,Contra
+Wsuper Inv,Co
+Wsuper Inv,Co
+Wsuper Co
+Wsub Inv

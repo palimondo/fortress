@@ -1,0 +1,7 @@
+# The component errors the checker reports on the first ~40 top-level declarations of
+# Library/FortressLibrary.fss, before and after the nat shadow: a 180 s bounded run of
+# the per-declaration probe with -Dprobe.dumpErrors=true.  Only the lines that differ.
+
+# (no output above the exit line means the two agree on what they both reached)
+before: 47 declarations, 0 component errors
+after : 43 declarations, 0 component errors

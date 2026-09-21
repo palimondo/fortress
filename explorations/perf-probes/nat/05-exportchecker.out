@@ -1,0 +1,18 @@
+########## nat shadow, equalIntExprs = false (the tree)
+/home/user/fortress/explorations/perf-probes/nat/pNatExp.fss:1:11-17:
+    Component pNatExp exports API pNatExp
+    but does not define all declarations in pNatExp.
+    Missing declarations: {mk[\T extends Object,nat s\](x:T):pNatExp.Vec[\T,s\] at /home/user/fortress/explorations/perf-probes/nat/pNatExp.fsi:13:1-32,
+                           len[\T extends Object,nat s\](v:pNatExp.Vec[\T,s\]):ZZ32 at /home/user/fortress/explorations/perf-probes/nat/pNatExp.fsi:14:1-36,
+                           DOT[\T extends Object,nat n,nat m\](a:pNatExp.Vec[\T,n\],b:pNatExp.Vec[\T,n\]):ZZ32 at /home/user/fortress/explorations/perf-probes/nat/pNatExp.fsi:15:1-16:1}
+File pNatExp.fss has 1 error.
+exit=255
+
+########## nat shadow, equalIntExprs = structural
+/home/user/fortress/explorations/perf-probes/nat/pNatExp.fss:1:11-17:
+    Component pNatExp exports API pNatExp
+    but does not define all declarations in pNatExp.
+    Missing declarations: {DOT[\T extends Object,nat n,nat m\](a:pNatExp.Vec[\T,n\],b:pNatExp.Vec[\T,n\]):ZZ32 at /home/user/fortress/explorations/perf-probes/nat/pNatExp.fsi:15:1-16:1}
+File pNatExp.fss has 1 error.
+exit=255
+

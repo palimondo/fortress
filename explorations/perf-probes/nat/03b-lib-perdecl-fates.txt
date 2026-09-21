@@ -1,0 +1,29 @@
+# Per top-level declaration of Library/FortressLibrary.fss, the checker's fate
+# with the interpreter prelude, before and after the nat shadow.
+# BEFORE: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/nat/03b-lib-perdecl-before.out
+# AFTER : /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/nat/03b-lib-perdecl-after.out
+
+declarations seen: before 446, after 46
+BEFORE  clean=236  errors-of-its-own=98  crashed=112
+AFTER   clean=36  errors-of-its-own=10  crashed=0
+
+## The 112 declarations that crashed the checker before, and what they become
+  gone from the after run  108
+  clean                    2
+  ordinary error           2
+
+## The crash sites that remain, by site
+
+## The crash sites before, by site
+    81  java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52)
+    29  java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+     1  java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:710)
+
+## Every declaration whose fate changed
+# span | before | after
+FnDecl FortressLibrary.fss:54:1-75:4 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:129:1-130:107 | clean | ok errors=1
+TraitDecl FortressLibrary.fss:331:1-336:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=2
+TraitDecl FortressLibrary.fss:352:1-423:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:474:1-522:9 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=10

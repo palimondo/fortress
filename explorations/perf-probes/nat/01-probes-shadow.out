@@ -1,0 +1,107 @@
+########## fortress compile explorations/perf-probes/prelude/pNat1.fss   (COMPILER world, nat shadow)
+exit=0
+---------- fortress run pNat1
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+
+########## fortress compile explorations/perf-probes/prelude/pNat2.fss   (COMPILER world, nat shadow)
+exit=0
+---------- fortress run pNat2
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+
+########## fortress compile explorations/perf-probes/prelude/pNat3.fss   (COMPILER world, nat shadow)
+exit=0
+---------- fortress run pNat3
+7
+
+########## fortress compile explorations/perf-probes/nat/pNat4.fss   (COMPILER world, nat shadow)
+/home/user/fortress/explorations/perf-probes/nat/pNat4.fss:9:17-37:
+    Could not check call to function unbox
+    - [\4\]Box[\4\]->ZZ32 is not applicable to an argument of type Box[\3\].
+File pNat4.fss has 1 error.
+exit=255
+---------- fortress run pNat4
+Could not load pNat4
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNat4.class
+
+########## fortress compile explorations/perf-probes/nat/pNat5.fss   (COMPILER world, nat shadow)
+/home/user/fortress/explorations/perf-probes/nat/pNat5.fss:8:19-28:
+    Ill-formed type: Box[\k+1\]
+    Arithmetic on nat static arguments is not checked; use a nat parameter or a literal.
+/home/user/fortress/explorations/perf-probes/nat/pNat5.fss:9:17-32:
+    Could not check call to function unbox
+    - [\nat k\]Box[\k+1\]->ZZ32 is not applicable to an argument of type Box[\4\].
+File pNat5.fss has 2 errors.
+exit=255
+---------- fortress run pNat5
+Could not load pNat5
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNat5.class
+
+########## fortress compile explorations/perf-probes/nat/pNat6.fss   (COMPILER world, nat shadow)
+/home/user/fortress/explorations/perf-probes/nat/pNat6.fss:10:17-41:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+File pNat6.fss has 1 error.
+exit=255
+---------- fortress run pNat6
+Could not load pNat6
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNat6.class
+
+########## fortress compile explorations/perf-probes/nat/pNatVec.fss   (COMPILER world, nat shadow)
+exit=0
+---------- fortress run pNatVec
+java.lang.NoClassDefFoundError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+
+########## fortress compile explorations/perf-probes/nat/pNatBool.fss   (COMPILER world, nat shadow)
+/home/user/fortress/explorations/perf-probes/nat/pNatBool.fss:7:9-13:
+    Static argument inference for the bool static parameter b is not supported by the type checker.
+File pNatBool.fss has 1 error.
+exit=255
+---------- fortress run pNatBool
+Could not load pNatBool
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatBool.class
+
