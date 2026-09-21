@@ -1,0 +1,67 @@
+# The five declarations that were clean under the tree and report one error under the shadow
+# (followup.md 3, REPORT.md 5d).  Both per-declaration runs re-run with -Dprobe.dumpErrors=true,
+# which prints the component's error texts in the end-of-component summary; the shadow run now
+# finishes, so the summary is reached.  before 1204 @@TC COMPERR lines, after 1574.
+# The five spans come from f7-perdecl-fates.txt; the texts below are the after run's, and none of
+# them appears in the before run (grep of the same spans there is empty).
+
+## declaration Library/FortressLibrary.fss:129:1-130:107
+    opr BIG LEXICO(g: Generator[\TotalComparison\]) =
+        __bigOperatorSugar[\TotalComparison,TotalComparison,TotalComparison,TotalComparison\](BIG LEXICO(), g)
+    
+    trait Comparison
+  AFTER  Library/FortressLibrary.fss:130:5-105:     Function body has type TotalComparison, but declared return type is BigReduction[\TotalComparison,TotalComparison\].
+  BEFORE 0 matching lines
+
+## declaration Library/FortressLibrary.fss:2248:1-68
+    array1[\T, nat s0\](v:T):Array1[\T,0,s0\] = array1[\T,s0\]().fill(v)
+    array1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\] = array1[\T,s0\]().fill(f)
+    
+    immutableArray1[\T, nat s0\](): ImmutableArray1[\T,0,s0\] =
+  BEFORE 0 matching lines
+
+## declaration Library/FortressLibrary.fss:2594:1-2599:6
+    __builtinFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():Array2[\T,b0,s0,b1,s1\] =
+        if b0=0 AND b1=0 then
+            array2[\T,s0,s1\]()
+        else
+  AFTER  Library/FortressLibrary.fss:2595:5-2599:6:     Function body has type OR(__DefaultArray2[\T,b0,s0,b1,s1\],Array2[\T,0,s0,0,s1\]), but declared return type is Array2[\T,b0,s0,b1,s1\].
+  BEFORE 0 matching lines
+
+## declaration Library/FortressLibrary.fss:3064:1-3067:55
+    opr PROD[\T extends Number\](g: Generator[\T\]) =
+        __bigOperatorSugar[\T,Number,Number,Number\](PROD[\T\](), g)
+    
+    (* MAX without lifting for Numbers... (what is -1/0?)*)
+  AFTER  Library/FortressLibrary.fss:3065:5-63:     Function body has type Number, but declared return type is Comprehension[\T,Number,Number,Number\].
+  BEFORE 0 matching lines
+
+## declaration Library/FortressLibrary.fss:3151:1-3155:35
+    opr BIG MAXNUM(g: Generator[\RR64\]) =
+        __bigOperatorSugar[\RR64,RR64,RR64,RR64\](BIG MAXNUM(), g)
+    
+    
+  AFTER  Library/FortressLibrary.fss:3152:5-61:     Function body has type RR64, but declared return type is BigReduction[\RR64,RR64\].
+  BEFORE 0 matching lines
+
+# NOTE on :2248 -- its per-declaration count is errors=1 (f7-perdecl-fates.txt) but no @@TC COMPERR
+# line carries a span on line 2248, so its text is not in this capture; the component summary
+# deduplicates, and the message is presumably one of the duplicates of a neighbour's.
+#
+# Reading.  Three of the four (:129, :3064, :3151) are one shape: an `opr ... (g) = __bigOperatorSugar
+# [\..\](..)` body with NO declared return type, so the checker must take the return type from the
+# api -- and it takes the WRONG overload's.  For BIG LEXICO the api declares both
+#   FortressLibrary.fsi:96  opr BIG LEXICO(): BigReduction[\TotalComparison, TotalComparison\]
+#   FortressLibrary.fsi:98  opr BIG LEXICO(g: Generator[\TotalComparison\]): TotalComparison
+# and the error quotes :96's return type against :98's body.  No nat occurs anywhere in these three
+# declarations, so whatever misroutes the lookup is not the nat equality table on their own types.
+# Which of the shadow's switches causes them (argsAlwaysEqual / strictIsTrue / exportAsTree) was not
+# established: the api pass alone takes about four minutes, so each A/B is a five-minute run.
+#
+# The fourth, __builtinFactory2 (:2594), looks like a TRUE POSITIVE of the new rule.  Its body is
+#   if b0=0 AND b1=0 then array2[\T,s0,s1\]() else __DefaultArray2[\T,b0,s0,b1,s1\]() end
+# whose branches have types Array2[\T,0,s0,0,s1\] and __DefaultArray2[\T,b0,s0,b1,s1\].  The tree
+# joined them because any two IntArgs were equal; the new rule keeps them apart -- correctly, since
+# Array2[\T,0,s0,0,s1\] IS NOT an Array2[\T,b0,s0,b1,s1\] unless b0 and b1 are 0.  The declaration
+# is sound only because of its own `if b0=0 AND b1=0` guard, which is a dependent-type fact the
+# checker has no way to use (REPORT.md 11: where-clause NatConstraints are ignored).

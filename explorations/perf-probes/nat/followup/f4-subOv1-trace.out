@@ -1,0 +1,55 @@
+# Which comparison refuses subarray's return type.  Trace of
+#   fortress typecheck followup/subOv1.fss
+# with the nat shadow BEFORE followup 1's fix, plus a throwaway debug overlay --
+# copies of OverloadingOracle.scala (not in the shadow), TypeAnalyzer.scala and
+# TypeSchemaAnalyzer.scala with five printlns, compiled ahead of the shadow and
+# enabled with -Ddbg.nat=true.  The overlay is not committed; the print sites are
+#   @@RTR0/@@RTR  OverloadingOracle.satisfiesReturnTypeRule, :86-95 (around subEDsolution / subtypeUA)
+#   @@UAIN/@@SUBUA  TypeSchemaAnalyzer.subtypeUAInner :114-117 and subUA :121
+#   @@NATEQ  the shadow's TypeAnalyzer.pEqv(IntExpr, IntExpr)
+# (@@RTR0 calls subEDsolution an extra time, which is why the $nat$ counter
+# jumps; $nat$4/$nat$5 in the @@SUBUA line are the ones in newargs below it.)
+
+@@RTR0 enter  fa=(Dn[\T,b0,s0\], ZZ32)->Dn[\T,b$13,s$14\] sp1=List(nat b$13, nat s$14, nat o$15)  ga=(Up[\T,b0,s0\], ZZ32)->Up[\T,b$16,s$17\] sp2=List(nat b$16, nat s$17, nat o$18)  subED=Some(((Up[\T,b0,s0\], ZZ32),List($nat$1, $nat$2, $nat$3)))
+@@UAIN s-renamed=(Dn[\T,b0,s0\], ZZ32)->Dn[\T,b$13$19,s$14$20\] sp=List(nat b$13$19, nat s$14$20, nat o$15$21) -> norm=(Dn[\T,b0,s0\], ZZ32)->Dn[\T,b$13$19,s$14$20\] sp=List()
+@@UAIN t-renamed=(Dn[\T,b0,s0\], ZZ32)->Up[\T,$nat$4,$nat$5\] sp=List() -> norm=(Dn[\T,b0,s0\], ZZ32)->Up[\T,$nat$4,$nat$5\] sp=List()
+@@SUBUA s=(Dn[\T,b0,s0\], ZZ32)->Dn[\T,b$13$22,s$14$23\] sp=List()  t=(Dn[\T,b0,s0\], ZZ32)->Up[\T,$nat$4,$nat$5\] sp=List()  branch=lteq
+@@NATEQ b$13$22 =?= $nat$4  negate=false  -> And(Map(),Map(),Map($nat$4 -> NPrimitive(Set(b$13$22),Set())))
+@@NATEQ s$14$23 =?= $nat$5  negate=false  -> And(Map(),Map(),Map($nat$5 -> NPrimitive(Set(s$14$23),Set())))
+@@RTR fa = (Dn[\T,b0,s0\], ZZ32)->Dn[\T,b$13,s$14\]  sp1 = List(nat b$13, nat s$14, nat o$15)
+@@RTR ga = (Up[\T,b0,s0\], ZZ32)->Up[\T,b$16,s$17\]  sp2 = List(nat b$16, nat s$17, nat o$18)
+@@RTR fd = (Dn[\T,b0,s0\], ZZ32)
+@@RTR gd = (Up[\T,b0,s0\], ZZ32)
+@@RTR newgd  = (Up[\T,b0,s0\], ZZ32)
+@@RTR newargs= List($nat$4, $nat$5, $nat$6)
+@@RTR r2 = Up[\T,b$16,s$17\]   newr2 = Up[\T,$nat$4,$nat$5\]
+@@RTR ra = (Dn[\T,b0,s0\], ZZ32)->Up[\T,$nat$4,$nat$5\]
+@@RTR result = false
+@@RTR0 enter  fa=(Up[\T,b0,s0\], ZZ32)->Up[\T,b$25,s$26\] sp1=List(nat b$25, nat s$26, nat o$27)  ga=(Dn[\T,b0,s0\], ZZ32)->Dn[\T,b$28,s$29\] sp2=List(nat b$28, nat s$29, nat o$30)  subED=None
+explorations/perf-probes/nat/followup/subOv1.fss:10:5-11:1:
+explorations/perf-probes/nat/followup/subOv1.fss:14:5-15:1:
+    For sub,
+the return type of [\nat b, nat s, nat o\](Dn[\T,b0,s0\], ZZ32)->Dn[\T,b,s\] @ .../subOv1.fss:14:5-15:1 should be a subtype of the
+    return type of [\nat b, nat s, nat o\](Up[\T,b0,s0\], ZZ32)->Up[\T,b,s\] @ .../subOv1.fss:10:5-11:1
+File subOv1.fss has 1 error.
+
+# Reading, step by step:
+#  1. alphaRenameTypeSchema DOES rename nat parameters (b -> b$13): SNodeUtil's
+#     alphaRename is a Walker over IdOrOp and an IntRef carries an Id.  Not the bug.
+#  2. subEDsolution succeeds and hands back newargs = [$nat$4,$nat$5,$nat$6] --
+#     UNSOLVED nat inference variables, because Up's b,s,o occur nowhere in the
+#     domain, so no constraint about them is ever generated.  Under decision E2
+#     there is no killNatIvars, where the TYPE track has TU.killIvars
+#     (Formula.scala:454, STypesUtil.scala:1920), so for types no ivar ever gets this far.
+#  3. StaticTypeReplacer DOES substitute them into r2: newr2 = Up[\T,$nat$4,$nat$5\].
+#     Not the bug either.
+#  4. normalizeUA then DROPS fa's static params (sp=List()): reduceED removes
+#     existentials that the domain does not mention.  So subUA takes its third
+#     branch, ta.lteq (TypeSchemaAnalyzer.scala:145) -- the branch for two types
+#     with no parameters left to infer.
+#  5. pEqv(IntExpr,IntExpr) fires exactly twice and answers correctly both times:
+#     the satisfiable constraint $nat$4 = b$13$22.
+#  6. lteq = isTrue(subtype(..)) = Formula.implies(True, ..) = imp(True, ..), and
+#     imp's "case (True, _) => false" (Formula.scala:168) calls ANY residual
+#     constraint a failure.  That is the wrong answer: the residue is one free
+#     nat variable that can simply be instantiated.

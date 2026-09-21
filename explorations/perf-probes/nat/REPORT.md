@@ -10,6 +10,13 @@ Every claim carries a file:line or a capture. -->
 
 # The nat shadow
 
+> **Followed up the same day: `followup.md`.** The two `subarray` errors of § 5a/§ 5c and § 11
+> were the *rule's*, not the library's, and are fixed in `shadow.patch` (the library goes 117 →
+> 115, and the equality rule then causes no library error at all); the § 5b slowdown was the
+> tree's unmemoized `TypeAnalyzer.parents`/`excludesClause`, not the nat track, and with a memo
+> the per-declaration run finishes — 446 of 446 in 307 s. Numbers below are the pre-followup
+> ones and are left as they were measured.
+
 ## 0. What was built, and the short answer
 
 Built: the minimal design of `explorations/reviews/nat-checking-plan.md` § c — nats as symbols

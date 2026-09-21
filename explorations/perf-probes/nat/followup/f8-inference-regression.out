@@ -1,0 +1,18 @@
+########## Compiled12.invariantInference, nat shadow + both followup fixes (REPORT.md 4b)
+---------- compile Compiled12.invariantInference2
+exit=0
+---------- compile Compiled12.invariantInference
+exit=0
+---------- run Compiled12.invariantInference
+Wsub None
+Wsub Inv
+Wsub Co,Contra
+Wsub Inv,Co,Contra
+Wsuper None
+Wsuper Co,Contra
+Wsuper Inv
+Wsuper Inv,Co,Contra
+Wsuper Inv,Co
+Wsuper Inv,Co
+Wsuper Co
+Wsub Inv

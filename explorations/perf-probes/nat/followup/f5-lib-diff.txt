@@ -1,0 +1,46 @@
+# The library count after followup 1's fix, against the shadow's own committed captures.
+# Left  = WorldFlip Library/FortressLibrary.fss, nat shadow + BOTH followup fixes: 115 errors, 13 s.
+# Right = the committed 03a-lib-worldflip-after.out: 117 errors, 32 s.
+# Absolute paths, header and ELAPSED lines normalized away.
+
+--- /dev/fd/63	2026-09-21 22:46:20.785233363 +0000
++++ /dev/fd/62	2026-09-21 22:46:20.785233363 +0000
+@@ -18,7 +18,7 @@
+ @@PROBE checkApi FortressBuiltin
+ @@PROBE checkApi FortressBuiltin -> errors=18
+ @@PROBE checkApi NativeArray
+-@@PROBE checkApi NativeArray -> errors=44
++@@PROBE checkApi NativeArray -> errors=48
+ @@PROBE checkApi FortressLibrary
+ @@PROBE checkApi FortressLibrary -> errors=110
+ @@PROBE checkApi RangeInternals
+@@ -222,6 +222,16 @@
+     Invalid overloading of fill in trait PrimitiveArray:
+      (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+  and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
++Library/FortressLibrary.fsi:1401:5-1404:36:
++Library/FortressLibrary.fsi:1423:5-1427:5:
++    For subarray,
++the return type of [\nat b, nat s, nat o\](ImmutableArray1[\T,0,s0\], ZZ32)->ImmutableArray1[\T,b,s\] @ Library/FortressLibrary.fsi:1423:5-1427:5 should be a subtype of the
++    return type of [\nat b, nat s, nat o\]((ReadableArray1[\T,0,s0\] & {ImmutableArray1[\T,0,s0\], Array1[\T,0,s0\]}), ZZ32)->ReadableArray1[\T,b,s\] @ Library/FortressLibrary.fsi:1401:5-1404:36
++Library/FortressLibrary.fsi:1401:5-1404:36:
++Library/FortressLibrary.fsi:1451:5-1453:5:
++    For subarray,
++the return type of [\nat b, nat s, nat o\](Array1[\T,0,s0\], ZZ32)->Array1[\T,b,s\] @ Library/FortressLibrary.fsi:1451:5-1453:5 should be a subtype of the
++    return type of [\nat b, nat s, nat o\]((ReadableArray1[\T,0,s0\] & {ImmutableArray1[\T,0,s0\], Array1[\T,0,s0\]}), ZZ32)->ReadableArray1[\T,b,s\] @ Library/FortressLibrary.fsi:1401:5-1404:36
+ Library/FortressLibrary.fsi:1817:1-30:
+     Types DistributesOver[\MaxReductionN\] and DistributesOver[\MinReductionN\] exclude each other.  SumReduction must not extend them.
+ Library/FortressLibrary.fsi:1817:1-31:
+@@ -352,6 +362,6 @@
+     Type IntLiteral excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+ ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:145:23:
+     Type BigNum excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+-File FortressLibrary.fss has 115 errors.
++File FortressLibrary.fss has 117 errors.
+ ### rc=-1
+ exit=255
+
+# The same run against 03c-lib-argsalwaysequal.out (the 115 of REPORT.md 5c: the
+# shadow with the nat equality rule switched off).  No output = identical error sets.
+
+(identical)

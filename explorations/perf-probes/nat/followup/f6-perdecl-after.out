@@ -1,0 +1,471 @@
+# $W/h-perdecl-final.out with the @@TC DECLAT stack lines dropped: the whole
+# per-declaration run of Library/FortressLibrary.fss under the nat shadow with both
+# followup fixes in.  446 of 446 declarations, 307 s (the tree: 554 s, 112 crashes).
+########## PhaseProbe -order typecheck Library/FortressLibrary.fss (tolerant, per declaration)
+# classpath prefix: explorations/perf-probes/nat/shadow-classes:  (nat shadow + followup 1 isTrue fix + followup 2 parents/excludes memo)
+### order=typecheck  phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR TYPECHECK ]  target=[Library/FortressLibrary.fss]
+### desugaring=COMPILE-PATH  prelude=INTERPRETER
+@@TC API	FortressBuiltin	errors=22
+@@TC API	Writer	errors=0
+@@TC API	String	errors=12
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=4
+@@TC API	List	errors=16
+@@TC API	FortressLibrary	errors=494
+@@TC API	FlatString	errors=4
+@@TC API	TypeProxy	errors=0
+@@TC API	RangeInternals	errors=408
+@@TC API	NatReflect	errors=0
+@@TC API	NativeArray	errors=8
+@@TC APIS-NOT-SUCCESSFUL	968 errors kept
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:33:1-37:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:39:1-43:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:47:1-22	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:49:1-51:26	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:52:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:54:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:65:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:67:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:69:1-75:4	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:75:1-78:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:80:1-83:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:85:1-87:43	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:88:1-37	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:90:1-94:62	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:96:1-39	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:98:1-42	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:100:1-102:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:106:1-114:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:116:1-124:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:126:1-127:76	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:129:1-130:107	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:132:1-146:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:150:1-156:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:158:1-173:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:175:1-185:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:187:1-196:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:198:1-208:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:213:1-226:2	errors=4
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:235:1-237:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:246:1-248:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:257:1-262:2	errors=2
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:270:1-283:2	errors=24
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:286:1-289:6	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:291:1-294:6	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:296:1-300:6	errors=3
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:302:1-42	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:304:1-69	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:306:1-310:6	errors=3
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:312:1-320:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:328:1-25	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:331:1-336:2	errors=2
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:339:1-30	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:343:1-350:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:352:1-423:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:425:1-472:2	errors=14
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:474:1-522:9	errors=10
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:524:1-597:2	errors=4
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:599:1-610:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:612:1-52	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:614:1-643:2	errors=4
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:645:1-701:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:703:1-771:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:773:1-823:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:825:1-895:2	errors=2
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:906:1-918:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:921:1-923:42	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:924:1-926:48	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:927:1-959:3	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:960:1-1058:12	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1066:1-1067:25	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1069:1-1070:20	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1072:1-59	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1074:1-62	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1076:1-70	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1077:1-1079:42	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1080:1-1088:21	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1089:1-1094:6	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1101:1-1109:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1117:1-1120:85	errors=0
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:1121:1-1125:4	com.sun.fortress.exceptions.InterpreterBug	com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)	** bug! Library/FortressLibrary.fss:1123:10     Type is not inferred.
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1147:1-1168:4	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1173:1-1176:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1179:1-1198:22	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1203:1-1242:12	errors=10
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1245:1-1247:58	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1248:1-1252:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1252:1-1295:10	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1295:1-1297:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1299:1-1308:51	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1309:1-1313:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1315:1-1341:2	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1345:1-1368:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1372:1-1376:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1383:1-1389:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1391:1-1414:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1416:1-1423:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1425:1-1426:82	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1428:1-1429:111	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1431:1-1438:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1440:1-1441:82	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1443:1-1448:62	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1450:1-1451:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1455:1-1456:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1458:1-1460:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1462:1-1464:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1466:1-1468:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1470:1-1472:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1474:1-1476:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1478:1-1480:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1482:1-1484:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1486:1-1488:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1490:1-1492:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1494:1-1496:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1498:1-1500:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1503:1-1505:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1507:1-1509:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1511:1-1513:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1515:1-1517:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1519:1-1521:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1523:1-1525:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1527:1-1529:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1533:1-1534:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1536:1-1538:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1540:1-1542:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1544:1-1546:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1549:1-1551:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1553:1-1555:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1557:1-1559:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1561:1-1563:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1565:1-1567:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1569:1-1571:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1574:1-1576:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1582:1-1585:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1587:1-1592:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1595:1-1597:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1602:1-1603:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1605:1-1606:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1608:1-1609:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1615:1-44	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1617:1-44	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1619:1-44	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1639:1-1717:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1719:1-1725:2	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:1727:1-1736:2	errors=5
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1738:1-1750:2	errors=6
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1752:1-1759:4	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1769:1-1783:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1792:1-1801:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1805:1-1871:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1873:1-1887:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1889:1-1921:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1925:1-70	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1926:1-1927:49	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1928:1-1932:67	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1933:1-1934:19	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1935:1-1936:43	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1937:1-1941:44	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1942:1-1952:67	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1953:1-1960:3	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1962:1-79	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1963:1-1964:28	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1966:1-1967:38	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:1968:1-1974:56	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1975:1-1987:2	errors=2
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:1990:1-2000:2	errors=2
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2007:1-2010:4	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2016:1-2047:2	errors=2
+@@TC DECL-CRASH	TraitDecl	Library/FortressLibrary.fss:2049:1-2092:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	TraitDecl	Library/FortressLibrary.fss:2096:1-2142:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2145:1-2148:28	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2150:1-2160:45	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	ObjectDecl	Library/FortressLibrary.fss:2161:1-2173:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	ObjectDecl	Library/FortressLibrary.fss:2176:1-2188:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2190:1-18	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2192:1-2205:2	errors=18
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2207:1-2213:2	errors=0
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2221:1-2227:4	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2232:1-2238:4	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2240:1-2242:41	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2243:1-2247:6	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2248:1-68	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2249:1-75	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2251:1-2254:77	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2255:1-79	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2256:1-2257:28	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2258:1-2259:29	errors=1
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2261:1-2262:69	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2264:1-2265:69	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2267:1-2268:67	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2270:1-2271:73	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2273:1-2274:71	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2276:1-2277:74	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2279:1-2280:71	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2282:1-71	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2284:1-2291:48	errors=0
+@@TC DECL-CRASH	TraitDecl	Library/FortressLibrary.fss:2292:1-2406:2	com.sun.fortress.exceptions.TypeError	com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)	Library/FortressLibrary.fss:2301:9:     Missing parameter type for i
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2409:1-2415:4	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2418:1-2424:2	errors=3
+@@TC DECL-CRASH	ObjectDecl	Library/FortressLibrary.fss:2428:1-2445:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	ObjectDecl	Library/FortressLibrary.fss:2454:1-2474:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	ObjectDecl	Library/FortressLibrary.fss:2476:1-2485:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	ObjectDecl	Library/FortressLibrary.fss:2487:1-2496:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2498:1-18	errors=0
+@@TC DECL-CRASH	TraitDecl	Library/FortressLibrary.fss:2500:1-2563:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2566:1-2572:2	errors=3
+@@TC DECL-CRASH	ObjectDecl	Library/FortressLibrary.fss:2574:1-2592:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2594:1-2599:6	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2603:1-2607:6	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2608:1-2609:29	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2610:1-2615:50	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2616:1-2617:30	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2618:1-2623:22	errors=4
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2624:1-2626:27	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2628:1-2633:34	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2634:1-2635:72	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2637:1-2640:34	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2641:1-2642:72	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2644:1-2645:70	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2647:1-2648:77	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2650:1-2651:75	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2653:1-2654:77	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2656:1-2664:27	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	TraitDecl	Library/FortressLibrary.fss:2665:1-2772:2	com.sun.fortress.exceptions.TypeError	com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)	Library/FortressLibrary.fss:2678:11:     Missing parameter type for i
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:2775:1-2781:64	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	ObjectDecl	Library/FortressLibrary.fss:2783:1-2792:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-CRASH	ObjectDecl	Library/FortressLibrary.fss:2801:1-2811:2	java.lang.ClassCastException	com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)	class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2813:1-2815:43	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2817:1-2818:39	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2819:1-2820:32	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:2821:1-2836:62	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2838:1-2842:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2844:1-2849:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2855:1-2874:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2876:1-2878:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2880:1-2883:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2885:1-2890:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2892:1-2895:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2898:1-2918:2	errors=3
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2923:1-2943:2	errors=4
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2948:1-33	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2950:1-2952:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2955:1-2958:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2960:1-2962:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2964:1-2968:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2970:1-2974:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2976:1-2979:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2981:1-2983:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2989:1-2994:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:2996:1-29	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:2998:1-3001:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3003:1-3006:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3008:1-3011:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3013:1-3016:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3018:1-3021:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3024:1-3042:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3044:1-3045:85	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3047:1-3048:64	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3050:1-3059:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3061:1-3062:86	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3064:1-3067:55	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3068:1-3072:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3074:1-3075:85	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3076:1-3077:69	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3079:1-3083:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3084:1-3085:86	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3087:1-3088:69	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3090:1-3098:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3099:1-3102:51	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3103:1-3106:1	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3108:1-3111:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3112:1-3113:49	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3114:1-3115:60	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3117:1-3120:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3121:1-3122:49	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3123:1-3124:60	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3126:1-3133:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3134:1-3136:97	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3137:1-3138:71	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3140:1-3142:84	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3144:1-3145:63	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3147:1-3149:84	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3151:1-3155:35	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3157:1-3170:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3171:1-3173:98	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3174:1-3175:78	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3177:1-3190:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3191:1-3193:98	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3194:1-3195:78	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3197:1-3210:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3211:1-3213:98	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3214:1-3215:78	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3217:1-3230:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3231:1-3233:98	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3234:1-3238:85	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3239:1-3246:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3248:1-3249:50	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3251:1-3252:77	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3254:1-3261:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3263:1-3264:49	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3266:1-3285:3	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3287:1-3292:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3294:1-3295:47	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3297:1-3300:51	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3301:1-3305:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3308:1-3312:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3315:1-3318:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3322:1-3324:62	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3326:1-3331:40	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3332:1-3334:61	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3336:1-3341:18	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3342:1-3344:54	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3346:1-3351:44	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3352:1-3356:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3361:1-3365:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3375:1-3381:21	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3382:1-56	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3384:1-3396:2	errors=2
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3398:1-3402:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3404:1-3422:2	errors=3
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3424:1-3430:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3432:1-3444:2	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3446:1-3450:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3452:1-3458:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3460:1-3483:2	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3485:1-3500:2	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3502:1-3508:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3510:1-3521:2	errors=2
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3523:1-3529:2	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3531:1-3537:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3540:1-3546:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3548:1-3551:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3553:1-3571:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3573:1-3576:2	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3593:1-3606:2	errors=3
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3618:1-3665:2	errors=2
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3667:1-45	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3669:1-3681:2	errors=1
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:3683:1-3698:2	errors=5
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3700:1-3702:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3704:1-3721:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3723:1-3731:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3733:1-3736:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3738:1-3756:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3758:1-3760:2	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3762:1-3781:2	errors=2
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3783:1-3797:2	errors=3
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3799:1-3811:2	errors=6
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3813:1-53	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3816:1-107	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3817:1-3819:82	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3820:1-3824:6	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3826:1-3827:40	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3828:1-3830:84	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3831:1-3835:4	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3838:1-81	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3839:1-3842:4	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3843:1-3847:4	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3849:1-37	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3851:1-85	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3852:1-3853:64	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3854:1-3856:81	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3858:1-83	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3859:1-3860:63	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3861:1-3863:80	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3872:1-45	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3873:1-45	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3874:1-3883:3	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3885:1-38	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3887:1-82	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3888:1-3889:63	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3890:1-3892:81	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3894:1-3945:3	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3947:1-3950:3	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:3952:1-3956:62	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:3958:1-4086:11	errors=13
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:4089:1-4103:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4105:1-4109:62	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4111:1-90	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4112:1-107	errors=0
+@@TC DECL-OK	VarDecl	Library/FortressLibrary.fss:4114:1-34	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4115:1-72	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4116:1-4122:4	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4124:1-104	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4126:1-95	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4127:1-47	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4129:1-4131:37	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4132:1-59	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4133:1-73	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4134:1-64	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4135:1-78	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4137:1-115	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4138:1-77	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4139:1-125	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4140:1-4142:89	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4143:1-22	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4144:1-26	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4145:1-32	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4146:1-37	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4148:1-4155:6	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4157:1-4162:6	errors=0
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:4176:1-4189:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4192:1-4193:1	errors=0
+@@TC DECL-CRASH	FnDecl	Library/FortressLibrary.fss:4195:1-4200:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4204:1-4208:88	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4209:1-4213:88	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4214:1-4216:76	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4217:1-116	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4218:1-117	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4220:1-116	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4221:1-4225:3	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4227:1-4228:78	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4230:1-65	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4231:1-63	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4232:1-65	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4233:1-69	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4234:1-71	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4235:1-57	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4236:1-64	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4237:1-70	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4238:1-4241:34	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4243:1-4245:65	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4247:1-4251:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4253:1-4261:4	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4263:1-4271:4	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4273:1-4281:4	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4283:1-4291:4	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4293:1-4297:4	errors=2
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4299:1-4303:4	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4305:1-4313:4	errors=2
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4315:1-4323:4	errors=2
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4325:1-4333:4	errors=2
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4335:1-4343:4	errors=2
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4345:1-4349:4	errors=3
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:4351:1-4352:2	errors=0
+@@TC DECL-OK	VarDecl	Library/FortressLibrary.fss:4358:1-39	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4359:1-60	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4360:1-4363:63	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:4364:1-45	errors=0
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:4367:1-4419:2	errors=9
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:4422:1-4432:2	errors=5
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:4435:1-4440:2	errors=1
+@@TC DECL-OK	TraitDecl	Library/FortressLibrary.fss:4444:1-4458:2	errors=3
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:4461:1-4464:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4467:1-4469:50	errors=0
+@@TC DECL-OK	ObjectDecl	Library/FortressLibrary.fss:4470:1-4474:2	errors=0
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4477:1-4483:2	errors=4
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4483:1-4487:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4490:1-4494:2	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4497:1-101	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4498:1-101	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4499:1-101	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4500:1-101	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4501:1-105	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4502:1-105	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4503:1-105	errors=1
+@@TC DECL-OK	FnDecl	Library/FortressLibrary.fss:4504:1-4505:1	errors=1
+@@TC COMPONENT	FortressLibrary	errors=1576
+@@TC COMPONENTS-NOT-SUCCESSFUL	1576 errors kept
+### rc=0
+exit=0
+ELAPSED 307 s

@@ -1,0 +1,53 @@
+# Where the time goes.  JFR recording of the per-declaration run under the nat
+# shadow (followup 1's isTrue fix in, followup 2's memo NOT in), taken with
+#
+#   java ... -XX:StartFlightRecording=filename=perdecl.jfr,settings=profile,duration=420s \
+#        -Dprobe.tolerant=true -cp "<nat shadow>:<per-decl shadow>:$CP" \
+#        PhaseProbe -order typecheck Library/FortressLibrary.fss
+#
+# 419 s recorded, 39287 jdk.ExecutionSample events, all on thread "main".
+# (JFR's own overhead is large here: the same run without JFR reaches the same
+# 43rd declaration in 180 s, so read the shares, not the seconds.)
+
+## Leaf frame of each sample (jfr print --events jdk.ExecutionSample --stack-depth 1)
+
+  36541  com.sun.fortress.scala_src.nodes.Walker.walk(Object)
+    267  com.sun.fortress.scala_src.useful.ASTGenHelper$.scalaify(Object)
+    176  com.sun.fortress.scala_src.nodes.Walker.walk$(Walker, Object)
+    128  com.sun.fortress.nodes.AbstractNode.hashCode()
+     94  com.sun.fortress.scala_src.useful.ASTGenHelper$.javaify(Object)
+     81  com.sun.fortress.scala_src.nodes.SSpanInfo$.apply(Span)
+     ... (nothing else above 70)
+
+## Frames named anywhere in a sample's stack (grep over --stack-depth 200)
+
+  34122  com.sun.fortress.scala_src.types.TypeAnalyzerUtil$.substitute
+    230  ...liftSubstitution
+    115  com.sun.fortress.scala_src.typechecker.Formula$.reduce
+     94  Formula$.tSimplify
+     85  Formula$.minTypes
+     75  Formula$.and
+     39  Formula$.slv
+     38  Formula$.unify / Formula$.solveN
+     29  Formula$.tImplies / Formula$.forall
+     28  Formula$.imp
+      0  insertNats / nSubstitution          <-- the shadow's OWN nat substitution
+
+## Caller of the outermost TypeAnalyzerUtil.substitute in each sample
+# NOTE: these line numbers are the SHADOW's TypeAnalyzer.scala, which is ~34 lines longer
+# than the tree's.  parents is TypeAnalyzer.scala:722 and excludesClause :747 in the tree.
+
+  samples: 39287   with substitute: 34122  (87%)
+  17591  TypeAnalyzer.$anonfun$parents$1(List, TraitIndex, TraitTypeWhere) line: 756
+  16213  TypeAnalyzer.$anonfun$excludesClause$2(List, List, TraitTypeWhere) line: 786
+    228  TypeAnalyzer.$anonfun$comprisesClause$1(...) line: 747
+     88  TypeAnalyzer.$anonfun$excludesClause$1(...) line: 783
+      2  TypeHierarchyChecker.$anonfun$checkDeclComprises$3(...) line: 202
+
+# So: 87% of the samples are the TREE's own parents and excludesClause
+# (tree lines :722 and :747) re-instantiating a trait's extends/excludes clause with
+# TypeAnalyzerUtil.substitute, which walks the whole type each time.  Neither is
+# memoized; excludesClause recurses over every super, so a shared ancestor of
+# the numeric tower is re-instantiated once per path.  The nat track's own
+# additions (insertNats, nSubstitution, the ns map in Formula) appear in no
+# sample.

@@ -1,0 +1,34 @@
+########## [stock] fortress typecheck Compiled1.ah.fss   (AfterTypeChecking.test)
+exit=0
+########## [stock] fortress typecheck Compiled1.av.fss   (AfterTypeChecking.test)
+exit=0
+########## [stock] fortress typecheck Compiled6.af.fss   (AfterTypeChecking.test)
+exit=0
+########## [stock] fortress compile Compiled1.p.fss   (XXX*.test: compile_err_equals)
+/home/user/fortress/ProjectFortress/compiler_tests/Compiled1.p.fss:21:31:
+    m is undefined.
+File Compiled1.p.fss has 1 error.
+exit=255
+########## [stock] fortress compile Compiled5.z.fss   (XXX*.test: compile_err_equals)
+/home/user/fortress/ProjectFortress/compiler_tests/Compiled5.z.fss:15:1-38:
+    Singleton object O must not have a contract.
+File Compiled5.z.fss has 1 error.
+exit=255
+
+########## [shadow] fortress typecheck Compiled1.ah.fss   (AfterTypeChecking.test)
+exit=0
+########## [shadow] fortress typecheck Compiled1.av.fss   (AfterTypeChecking.test)
+exit=0
+########## [shadow] fortress typecheck Compiled6.af.fss   (AfterTypeChecking.test)
+exit=0
+########## [shadow] fortress compile Compiled1.p.fss   (XXX*.test: compile_err_equals)
+/home/user/fortress/ProjectFortress/compiler_tests/Compiled1.p.fss:21:31:
+    m is undefined.
+File Compiled1.p.fss has 1 error.
+exit=255
+########## [shadow] fortress compile Compiled5.z.fss   (XXX*.test: compile_err_equals)
+/home/user/fortress/ProjectFortress/compiler_tests/Compiled5.z.fss:15:1-38:
+    Singleton object O must not have a contract.
+File Compiled5.z.fss has 1 error.
+exit=255
+

@@ -1,0 +1,39 @@
+########## fortress compile explorations/perf-probes/prelude/pNat1.fss   (COMPILER world, nat shadow + followup fixes)
+exit=0
+########## fortress compile explorations/perf-probes/prelude/pNat2.fss   (COMPILER world, nat shadow + followup fixes)
+exit=0
+########## fortress compile explorations/perf-probes/prelude/pNat3.fss   (COMPILER world, nat shadow + followup fixes)
+exit=0
+########## fortress compile explorations/perf-probes/nat/pNat4.fss   (COMPILER world, nat shadow + followup fixes)
+/home/user/fortress/explorations/perf-probes/nat/pNat4.fss:9:17-37:
+    Could not check call to function unbox
+    - [\4\]Box[\4\]->ZZ32 is not applicable to an argument of type Box[\3\].
+File pNat4.fss has 1 error.
+exit=255
+########## fortress compile explorations/perf-probes/nat/pNat5.fss   (COMPILER world, nat shadow + followup fixes)
+/home/user/fortress/explorations/perf-probes/nat/pNat5.fss:8:19-28:
+    Ill-formed type: Box[\k+1\]
+    Arithmetic on nat static arguments is not checked; use a nat parameter or a literal.
+/home/user/fortress/explorations/perf-probes/nat/pNat5.fss:9:17-32:
+    Could not check call to function unbox
+    - [\nat k\]Box[\k+1\]->ZZ32 is not applicable to an argument of type Box[\4\].
+File pNat5.fss has 2 errors.
+exit=255
+########## fortress compile explorations/perf-probes/nat/pNat6.fss   (COMPILER world, nat shadow + followup fixes)
+/home/user/fortress/explorations/perf-probes/nat/pNat6.fss:10:17-41:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+File pNat6.fss has 1 error.
+exit=255
+########## fortress compile explorations/perf-probes/nat/pNatVec.fss   (COMPILER world, nat shadow + followup fixes)
+exit=0
+########## fortress compile explorations/perf-probes/nat/pNatBool.fss   (COMPILER world, nat shadow + followup fixes)
+/home/user/fortress/explorations/perf-probes/nat/pNatBool.fss:7:9-13:
+    Static argument inference for the bool static parameter b is not supported by the type checker.
+File pNatBool.fss has 1 error.
+exit=255
+########## fortress typecheck subOv1.fss / subOv2.fss (the followup reproducers)
+---------- subOv1
+exit=0
+---------- subOv2
+exit=0

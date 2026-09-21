@@ -132,10 +132,10 @@ perdecl () { # perdecl <out> <classpath-prefix>
 wf 03a-lib-worldflip-before.out  "$P/shadow-classes:"      Library/FortressLibrary.fss
 wf 03a-lib-worldflip-after.out   "$NAT:$P/shadow-classes:" Library/FortressLibrary.fss
 perdecl 03b-lib-perdecl-before.out ""
-# NOTE: the after run does NOT finish.  In the recorded run it was stopped by hand
-# after 767 s with 46 of the 446 declarations done (REPORT.md 5b): the nat track
-# makes the 112 declarations that used to abort really checkable, and the biggest
-# of them take minutes each.  Reproducing the whole thing needs hours, not 1800 s.
+# NOTE: as recorded, the after run did NOT finish -- stopped by hand after 767 s
+# with 46 of the 446 declarations done (REPORT.md 5b).  shadow.patch has since
+# gained followup 2's memo (followup.md 2), which was the cause; the run now
+# finishes in 307 s, so this line completes.  followup/run-all.sh re-measures it.
 perdecl 03b-lib-perdecl-after.out  "$NAT:"
 wf 04-flatarrays-before.out  "$P/shadow-classes:"      explorations/run-c4/src/FlatArrays.fss
 wf 04-flatarrays-after.out   "$NAT:$P/shadow-classes:" explorations/run-c4/src/FlatArrays.fss

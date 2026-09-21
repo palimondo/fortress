@@ -1,5 +1,5 @@
 --- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala	2026-09-08 16:43:02.717426913 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/Formula.scala	2026-09-21 18:06:40.157273143 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/Formula.scala	2026-09-21 23:00:43.859280204 +0000
 @@ -46,8 +46,19 @@
    override def toString = "False"
  }
@@ -128,8 +128,26 @@
      case (Disjuncts(e1), Disjuncts(e2)) => 
        dis(for(c <- e1; d <- e2) yield and(c,d))
      case (e1: Disjuncts, e2: Conjuncts) => and(e1, Disjuncts(Set(e2)))
-@@ -167,12 +244,20 @@
+@@ -165,14 +242,38 @@
+     case (False, _) => true
+     case (_, False) => false
      case (_, True) => true
++    /* SHADOW (followup 1): a leftover NAT constraint is not a failure.
++     * reduce() has already turned every contradictory nat entry into False
++     * (nContradiction), so an And whose only entries are nat entries says no
++     * more than "these sizes can be made equal by instantiating a free $nat$
++     * variable", and decision E2 calls that satisfied, not an error.  Without
++     * this line, lteq = isTrue(subtype(..)) = imp(True, ..) answers false
++     * whenever an unsolved $nat$ variable has leaked into the compared type --
++     * which is exactly what refused subarray's return type: an unsolved nat
++     * escapes inferStaticParamsHelper (there is no killNatIvars under E2, where
++     * the type track has TU.killIvars), rides into the special arrow that
++     * OverloadingOracle.satisfiesReturnTypeRule builds (OverloadingOracle.scala:91-95),
++     * and TypeSchemaAnalyzer.subUA then compares it with ta.lteq (:145), the
++     * branch that demands a residue-free formula.  followup.md 1.
++     * -Dprobe.nat.strictIsTrue=true puts the tree's answer back. */
++    case (True, And(bs, ps, qs)) if bs.isEmpty && ps.isEmpty && qs.nonEmpty &&
++                                    !java.lang.Boolean.getBoolean("probe.nat.strictIsTrue") => true
      case (True, _) => false
      // Checks whether every constraint in c2 is in c1
 -    case (And(as, os), And(bs, ps)) => {
@@ -152,7 +170,7 @@
      }
      case (c1, Or(cs)) => cs.exists(imp(c1, _))
      case (Or(cs), c2) => cs.forall(imp(_, c2))
-@@ -200,7 +285,7 @@
+@@ -200,7 +301,7 @@
    private def primImp(p: TPrimitive, c2: CFormula)(implicit ta: TypeAnalyzer): Boolean = c2 match {
      case (False) => false
      case (True) => true
@@ -161,7 +179,7 @@
      case (Or(cs)) => cs.exists(primImp(p, _))
    }
  
-@@ -228,8 +313,8 @@
+@@ -228,8 +329,8 @@
      case (_, False) => false
      case (_, True) => true
      case (True, _) => false
@@ -172,7 +190,7 @@
      case (_, Disjuncts(es)) => es.exists(imp(e1, _))
      case (Disjuncts(es), _) => es.forall(imp(_, e2))
    }
-@@ -268,7 +353,7 @@
+@@ -268,7 +369,7 @@
    }
  
    def reduce(c: CFormula)(implicit ta: TypeAnalyzer): CFormula =  c match {
@@ -181,7 +199,7 @@
        def tSimplify(ip: (_InferenceVarType, TPrimitive)): Option[(_InferenceVarType, TPrimitive)] = ip match {
          // catch trivial contradictions 
          case (i, TPrimitive(pl,nl,pu,nu,pe,ne)) 
-@@ -330,12 +415,36 @@
+@@ -330,12 +431,36 @@
          val (i, OPrimitive(ps, ns)) = ip
          ps.isEmpty && ns.isEmpty
        }
@@ -220,7 +238,7 @@
      case Or(cs) =>
        val rcs = cs.map(reduce(_))
        if(rcs.contains(True))
-@@ -358,19 +467,22 @@
+@@ -358,19 +483,22 @@
        TU.disjuncts(ta.join(s))
    
    def reduce(e: EFormula)(implicit ta: TypeAnalyzer): EFormula = e match {
@@ -247,7 +265,7 @@
      case True => True
      case False => False
      case Disjuncts(es) => 
-@@ -388,6 +500,11 @@
+@@ -388,6 +516,11 @@
      case _ => a!=b
    }
    
@@ -259,7 +277,7 @@
    private def isContradictory[T](as: Set[Set[T]], neq: (T,T) => Boolean): Boolean =
      !as.isEmpty && as.forall{a =>  !a.isEmpty && a.tail.foldLeft((a.head, false)){case ((s, b), t) => (t, neq(s,t) || b)}._2}
    /*
-@@ -417,14 +534,19 @@
+@@ -417,14 +550,19 @@
     * point it would be a good idea to replace this with a smarter algorithm.
     */
    
@@ -281,7 +299,7 @@
      // We solve an Or by solving one of its branches
      case Or(cs) => 
        for (e <- cs) {
-@@ -443,14 +565,21 @@
+@@ -443,14 +581,21 @@
       * 5) Return S composed with U
       */
      case _:And => 
@@ -307,7 +325,7 @@
            val sub = TU.killIvars compose 
              tSubstitution(ts.map{
                case (k, p@TPrimitive(pl,nl,pu,nu,pe,ne)) => {
-@@ -478,10 +607,10 @@
+@@ -478,10 +623,10 @@
                  (k, uni)
                }
              })
@@ -320,7 +338,7 @@
            else {
  //               println("sub:" + sub + " on formula " + c)
                 None
-@@ -491,17 +620,17 @@
+@@ -491,17 +636,17 @@
        }      
    }
    
@@ -342,7 +360,7 @@
    }
    
    /*
-@@ -513,12 +642,15 @@
+@@ -513,12 +658,15 @@
    private def getEquality(c: CFormula)(implicit ta: TypeAnalyzer): EFormula = reduce(c) match {
      case False => False
      case True => True
@@ -360,7 +378,7 @@
      case Or(cs) => 
        val eq = cs.map(getEquality)
        dis(eq)
-@@ -548,14 +680,14 @@
+@@ -548,14 +696,14 @@
     */
    
    
@@ -379,7 +397,7 @@
        // Makes sure we don't have to use fixed point types
        def tError(x: (Set[_InferenceVarType], Set[Type])) = x match {
          case (a, b) => b.flatMap(TU.getInferenceVars).exists(a.contains(_))
-@@ -568,19 +700,30 @@
+@@ -568,19 +716,30 @@
        def oError(x: (Set[_InferenceVarOp], Set[Op])) = false
        def oMake(x: Set[_InferenceVarOp]) = oSubstitution(Map(x.tail.map((x.head, _)).toSeq:_*)) 
        val (mOSub, oSplit, oVars, oReg) = makeSub(oeq, oError, oMake).getOrElse(return None)
@@ -421,7 +439,7 @@
          case None=>
  	  /* Gets all equivalence classes with more than two non inference variable types and computes the 
  	   * constraints under which they are equivalent.
-@@ -590,15 +733,21 @@
+@@ -590,15 +749,21 @@
  	  if(!tNewCons.isEmpty) {
  	    // If there were any new constraints, then recurse
  	    val tNewCon = and(tNewCons)
@@ -445,7 +463,7 @@
            }
        }
      case Disjuncts(es) =>
-@@ -621,14 +770,22 @@
+@@ -621,14 +786,22 @@
    }
    
    def cMap(form: CFormula, tSub: Type => Type = tEmptySub, oSub: Op => Op = oEmptySub)(implicit ta: TypeAnalyzer): CFormula = 
@@ -470,7 +488,7 @@
        val tForm = and(ts.map{
          case (k, TPrimitive(pl,nl,pu,nu,pe,ne)) =>
            val sk = tSub(k)
-@@ -648,14 +805,22 @@
+@@ -648,14 +821,22 @@
            val sk = oSub(k)
            and(and(po.map(ta.equivalent(sk, _))), and(no.map(ta.notEquivalent(sk, _))))
        })
@@ -498,7 +516,7 @@
      case _ => form
    }
    
-@@ -665,7 +830,7 @@
+@@ -665,7 +846,7 @@
      case True => False
      case False => True
      case Or(cs) => and(cs.map(negate))
@@ -507,7 +525,7 @@
        def tNeg(ip: (_InferenceVarType, TPrimitive)): CFormula = ip match {
          case (i, TPrimitive(pl, nl, pu, nu, pe, ne)) =>
            or(or(pl.map(notLowerBound(i, _))), or(
-@@ -679,7 +844,12 @@
+@@ -679,7 +860,12 @@
          case (i, OPrimitive(po, no)) =>
            or(or(po.map(oNotEquivalent(i, _))), or(no.map(oEquivalent(i, _))))
        }
@@ -521,7 +539,7 @@
    }
      
    def upperBound(i: _InferenceVarType, t: Type): CFormula =
-@@ -706,6 +876,15 @@
+@@ -706,6 +892,15 @@
    def oEquivalent(i: _InferenceVarOp, o: Op): CFormula = 
      And(Map(), Map(i -> OPrimitive(Set(o), Set())))
  
@@ -538,7 +556,7 @@
    
  }
 --- ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala	2026-09-08 16:43:02.722446892 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala	2026-09-21 17:35:18.367265179 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala	2026-09-21 22:29:42.792720951 +0000
 @@ -248,12 +248,16 @@
  
       val args = staticParams.zip(staticArgs_1.zip(staticArgs_2))
@@ -605,7 +623,54 @@
    
    protected def pEqv(x: Op, y: Op)(implicit negate: Boolean): CFormula = (x, y) match {
      case (a, b) if (a==b) => pTrue()
-@@ -792,6 +822,9 @@
+@@ -709,6 +739,20 @@
+ //    toOption(traits.typeCons(x)).getOrElse(bug(x, x + " is not in the trait table"))
+     toOption(traits.typeCons(x)).getOrElse(throw new RuntimeException("Not in the trait table: " + x.toStringReadable + " @ " + x.at))
+ 
++  /* SHADOW (followup 2): parents and excludesClause are the checker's two
++   * hottest functions once the nat track makes the library's big declarations
++   * checkable -- 87% of the JFR execution samples of a per-declaration run are
++   * TypeAnalyzerUtil.substitute called from parents (:756) and excludesClause
++   * (:786) (followup/f4-jfr-top.txt).  Neither was memoized, and
++   * excludesClause recurses over every super, so a shared ancestor is
++   * re-instantiated once per path through the hierarchy.  Both depend only on
++   * the trait table and the type, NOT on env, so the memo can live in the
++   * companion object and survive extend(), which makes a fresh TypeAnalyzer
++   * (:768) and therefore throws away every per-instance cache.
++   * -Dprobe.nat.noParentsMemo=true restores the tree's behaviour. */
++  private final val cacheParents =
++    !java.lang.Boolean.getBoolean("probe.nat.noParentsMemo")
++
+   def comprisesClause(t: TraitType): Set[TraitType] = typeCons(t.getName) match {
+     case ti: ProperTraitIndex =>
+       val args = toListFromImmutable(t.getArgs)
+@@ -719,7 +763,11 @@
+   }
+   
+   // For the purposes of this method Any is not the Parent of Object as it is not a TraitType
+-  def parents(t: TraitType): Set[BaseType] = {
++  def parents(t: TraitType): Set[BaseType] =
++    if (!cacheParents) parentsInner(t)
++    else TypeAnalyzer.parentsMemo.getOrElseUpdate((traits, t), parentsInner(t))
++
++  private def parentsInner(t: TraitType): Set[BaseType] = {
+     val STraitType(_, n, a, _) = t
+     val index = typeCons(n).asInstanceOf[TraitIndex]
+     toListFromImmutable(index.extendsTypes).
+@@ -744,7 +792,11 @@
+     }
+   }
+   
+-  def excludesClause(t: TraitType): Set[TraitType] = {
++  def excludesClause(t: TraitType): Set[TraitType] =
++    if (!cacheParents) excludesClauseInner(t)
++    else TypeAnalyzer.excludesMemo.getOrElseUpdate((traits, t), excludesClauseInner(t))
++
++  private def excludesClauseInner(t: TraitType): Set[TraitType] = {
+     val ti = typeCons(t.getName).asInstanceOf[TraitIndex]
+     val args = toListFromImmutable(t.getArgs)
+     val params = toListFromImmutable(ti.staticParameters)
+@@ -792,8 +844,17 @@
    def pFromBoolean(b: Boolean)(implicit negate: Boolean) = fromBoolean(negate != b)
    def pEquivalent(i: _InferenceVarOp, o: Op)(implicit negate: Boolean) =
      if (negate) oNotEquivalent(i, o) else oEquivalent(i, o)
@@ -615,8 +680,16 @@
  }
  
  object TypeAnalyzer {
+   def make(traits: TraitTable) = new TypeAnalyzer(traits, KindEnv.makeFresh)
++  /* SHADOW (followup 2): see parents above.  Keyed by the trait table as well
++   * as the type, because one run builds one table per compilation unit. */
++  private[types] val parentsMemo =
++    new scala.collection.mutable.HashMap[(TraitTable, TraitType), Set[BaseType]]()
++  private[types] val excludesMemo =
++    new scala.collection.mutable.HashMap[(TraitTable, TraitType), Set[TraitType]]()
+ }
 --- ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala	2026-09-08 16:43:02.722446892 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala	2026-09-21 17:15:55.517804447 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala	2026-09-21 21:51:44.944002492 +0000
 @@ -401,14 +401,19 @@
         println("   ieNotBottom = " + ieNotBottom)
         println("    c = " + c)
@@ -641,7 +714,7 @@
         println("   nub = " + nub)
         println("   nieNotBottom = " + nieNotBottom)
 --- ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala	2026-09-08 16:43:02.723791668 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/useful/STypesUtil.scala	2026-09-21 17:10:52.297716655 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/useful/STypesUtil.scala	2026-09-21 21:51:44.944453764 +0000
 @@ -547,17 +547,31 @@
      case _: KindType => 
        NF.makeTypeArg(NU.getSpan(sparam), NF.make_InferenceVarType(NU.getSpan(sparam)),
@@ -711,7 +784,7 @@
      }
  
 --- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala	2026-09-08 16:43:02.717426913 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala	2026-09-21 17:27:48.451128759 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala	2026-09-21 21:51:44.945029769 +0000
 @@ -643,9 +643,14 @@
      }
  
@@ -730,7 +803,7 @@
    /* Returns true if two parameters are same. */
    private def equalParams(left: Param, right: Param): Boolean =
 --- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala	2026-09-18 12:47:02.686800510 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala	2026-09-21 17:10:52.298294979 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala	2026-09-21 21:51:44.945399384 +0000
 @@ -38,6 +38,12 @@
  
    private def error(s:String, n:Node) = errors.add(TypeError.make(s,n))
@@ -762,7 +835,7 @@
          case si:TraitIndex => // Trait name should be defined.
          // Static arguments should satisfy the corresponding bounds.
 --- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala	2026-09-08 16:43:02.716958789 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala	2026-09-21 17:14:52.924440590 +0000
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala	2026-09-21 21:51:44.945568132 +0000
 @@ -80,8 +80,15 @@
  
    private def checkObjectDeclaration(od: ObjectDecl) = {

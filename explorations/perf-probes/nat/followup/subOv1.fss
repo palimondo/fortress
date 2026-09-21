@@ -1,0 +1,18 @@
+(* Minimal shape of Library/FortressLibrary.fsi:1401 / :1423 -- a supertrait with
+   a method whose own nat parameters appear in its return type, overridden in a
+   subtrait that declares the supertrait as a parent at its OWN sizes.  By the
+   extends clause Dn[\T,b,s\] IS an Up[\T,b,s\] for every b and s, so the
+   overloading checker's return-type rule must hold. *)
+component subOv1
+export Executable
+
+trait Up[\T, nat b0, nat s0\]
+    sub[\nat b, nat s, nat o\](m: ZZ32): Up[\T, b, s\]
+end
+
+trait Dn[\T, nat b0, nat s0\] extends { Up[\T, b0, s0\] }
+    sub[\nat b, nat s, nat o\](m: ZZ32): Dn[\T, b, s\]
+end
+
+run(): () = println("subOv1")
+end

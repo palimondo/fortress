@@ -1,0 +1,15 @@
+(* Control: the same shape with a TYPE parameter in place of the two nats.
+   If this is clean and subOv1 is not, the nat track is the difference. *)
+component subOv2
+export Executable
+
+trait UpT[\T, U\]
+    sub[\V\](m: ZZ32): UpT[\T, V\]
+end
+
+trait DnT[\T, U\] extends { UpT[\T, U\] }
+    sub[\V\](m: ZZ32): DnT[\T, V\]
+end
+
+run(): () = println("subOv2")
+end
