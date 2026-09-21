@@ -1,14 +1,3 @@
-(*******************************************************************************
-    Copyright 2026, the Fortress revival.
-    All rights reserved.
-
-
-    Use is subject to license terms.
-
-    This distribution may include materials developed by third parties.
-
- ******************************************************************************)
-
 (* A mutable variable declared at the top level of a component, incremented
    inside `atomic do ... end` by the two implicit threads of a
    `do ... also do ... end`.
