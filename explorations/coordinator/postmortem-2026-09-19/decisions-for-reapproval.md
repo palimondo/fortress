@@ -59,3 +59,9 @@ stand as a worker's default.
 The two largest clusters have one shape in common: a decision was reachable only by reading a
 rung's `record.md` or a review written afterwards, and the paragraph that reported it to him
 named the repair, not the choice.
+
+## Decisions taken by Pavol, 2026-09-21
+
+- The four rows of `02d09a39f` dated 09-19 20:24 other than the closure — the scalar-extension block generalised over `T extends Number`, the meaning of `y - x`, the unsized result type, and `Array3 excludes AnyAdditiveGroup` — are **approved** as landed, together with the `AnyAdditiveGroup` marker trait, which had no row of its own ("Others approved", after the three changes were explained one by one with the blinded review's verdicts). The explainer's comments (what `s - a` means; why `Array3` carries the clause) still go in.
+- The closure row (`AnyIntegral comprises { ZZ }`) is **held** until the exclusion trace lands (`perf-probes/prelude/exclusion-trace.md`): the team's own pattern for a level whose only extender is a generic trait is an open level, a `NOT YET` comment and hand-written `excludes` (`FortressLibrary.fss:1294-1297`, `:1373`, `:1587-1589`); whether that pattern carries the float operators is what the trace measures. A `NOT YET`-style comment at the line goes in either way.
+
