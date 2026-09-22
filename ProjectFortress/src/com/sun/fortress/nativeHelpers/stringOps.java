@@ -13,6 +13,7 @@ package com.sun.fortress.nativeHelpers;
 
 import java.util.List;
 
+import com.sun.fortress.compiler.runtimeValues.FValue;
 import com.sun.fortress.runtimeSystem.Naming;
 import com.sun.fortress.runtimeSystem.RTHelpers;
 import com.sun.fortress.useful.Useful;
@@ -68,6 +69,20 @@ public class stringOps {
         if (stem.equals(Naming.TUPLE_TAG) || stem.equals(Naming.CONCRETE_TUPLE))
             return "(" + inner + ")";
         return name + "[\\" + inner + "\\]";
+    }
+
+    /* The compiled default asString: the Java rendering a value's class has of its own, else its Fortress type name. */
+    public static String defaultAsString(fortress.AnyType.Any a) {
+        return hasOwnToString(a) ? a.toString() : typeName(a);
+    }
+
+    private static boolean hasOwnToString(fortress.AnyType.Any a) {
+        try {
+            Class<?> d = a.getClass().getMethod("toString").getDeclaringClass();
+            return d != FValue.class && d != Object.class;
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
     }
 
 }
