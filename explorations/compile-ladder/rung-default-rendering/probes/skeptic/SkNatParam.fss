@@ -1,0 +1,10 @@
+component SkNatParam
+export Executable
+
+object Vec[\nat n\]() end
+
+run(): () = do
+    println(Vec[\3\]())
+  end
+
+end

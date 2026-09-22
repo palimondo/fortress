@@ -1,0 +1,11 @@
+component SkTwoArgPrint
+export Executable
+
+object Box(n: ZZ32) end
+value object Pt(x: ZZ32) end
+
+run(): () = do
+    println(Box(1), Pt(2))
+  end
+
+end

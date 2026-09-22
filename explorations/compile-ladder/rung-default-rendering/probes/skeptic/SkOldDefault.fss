@@ -1,0 +1,16 @@
+component SkOldDefault
+import java com.sun.fortress.nativeHelpers.{stringOps.asString => jOldAsString}
+export Executable
+
+run(): () = do
+    x: RR32 = 1.5
+    println("RR32 new default: " || x.asString)
+    println("RR32 old default: " || jOldAsString(x))
+    v = makeStringVector(2)
+    v.putValue(0, "a")
+    v.putValue(1, "b")
+    println("StringVector new default: " || v.asString)
+    println("StringVector old default: " || jOldAsString(v))
+  end
+
+end

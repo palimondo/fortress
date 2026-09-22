@@ -1,0 +1,11 @@
+component SkObjExpr
+export Executable
+
+trait Shape end
+
+run(): () = do
+    o: Shape = object extends Shape end
+    println(o)
+  end
+
+end

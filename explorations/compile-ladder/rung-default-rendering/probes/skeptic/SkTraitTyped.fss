@@ -1,0 +1,19 @@
+component SkTraitTyped
+export Executable
+
+trait Shape end
+object Sq extends Shape end
+object Circ(r: ZZ32) extends Shape end
+object BoxTwo end
+
+run(): () = do
+    s: Shape = Sq
+    println(s)
+    t: Shape = Circ(3)
+    println(t)
+    println(BoxTwo)
+    println(Just(Circ(1)))
+    println(Circ(1).asExprString)
+  end
+
+end

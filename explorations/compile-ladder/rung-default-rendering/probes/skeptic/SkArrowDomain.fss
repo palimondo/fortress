@@ -1,0 +1,10 @@
+component SkArrowDomain
+export Executable
+
+object Tag[\T extends Any\]() end
+
+run(): () = do
+    println(Tag[\(ZZ32 -> ZZ32) -> ZZ32\]())
+  end
+
+end

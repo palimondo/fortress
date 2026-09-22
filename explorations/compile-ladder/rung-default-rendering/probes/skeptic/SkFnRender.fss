@@ -1,0 +1,13 @@
+component SkFnRender
+export Executable
+
+inc(x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    f = inc
+    println(f)
+    g = fn (x: ZZ32): ZZ32 => x + 2
+    println(g)
+  end
+
+end

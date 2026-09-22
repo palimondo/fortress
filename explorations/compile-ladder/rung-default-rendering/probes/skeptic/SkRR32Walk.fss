@@ -1,0 +1,10 @@
+component SkRR32Walk
+export Executable
+
+run(): () = do
+    x: RR32 = narrow(1.5)
+    println(x)
+    println("[" || x.asString || "]")
+  end
+
+end

@@ -1,0 +1,225 @@
+### rev=015783775 2026-09-22T21:26:17+00:00 FORTRESS_THREADS=1 MODE=both
+################ SkArgsRender.fss
+--- walk: bin/fortress SkArgsRender.fss
+Tag[\Object\]
+Tag[\Any\]
+Tag[\Number\]
+Tag[\Boolean\]
+Tag[\RR64\]
+Tag[\RR32\]
+Tag[\ZZ64\]
+Tag[\NN32\]
+Tag[\String\]
+Tag[\Shape\]
+Tag[\Maybe[\ZZ32\]\]
+Tag[\ZZ32->ZZ32->ZZ32\]
+Tag[\ZZ32->(ZZ32,String)\]
+Tag[\Tag[\()\]\]
+Cell[\ZZ32\]
+Cell[\Shape\]
+walk rc=0
+--- compiled: bin/fortress compile SkArgsRender.fss && bin/fortress run SkArgsRender
+compile rc=0
+Tag[\Object\]
+Tag[\Any\]
+Tag[\Number\]
+Tag[\Boolean\]
+Tag[\RR64\]
+Tag[\RR32\]
+Tag[\ZZ64\]
+Tag[\NN32\]
+Tag[\String\]
+Tag[\Shape\]
+Tag[\Maybe[\ZZ32\]\]
+Tag[\ZZ32->ZZ32->ZZ32\]
+Tag[\ZZ32->(ZZ32,String)\]
+Tag[\Tag[\()\]\]
+Cell[\ZZ32\]
+Cell[\Shape\]
+run rc=0
+################ SkTraitTyped.fss
+--- walk: bin/fortress SkTraitTyped.fss
+Sq
+Circ
+BoxTwo
+Just(Circ)
+no expression for Circ
+walk rc=0
+--- compiled: bin/fortress compile SkTraitTyped.fss && bin/fortress run SkTraitTyped
+compile rc=0
+Sq
+Circ
+BoxTwo
+Just(Circ)
+[no expression for  Circ ]
+run rc=0
+################ SkInferLit.fss
+--- walk: bin/fortress SkInferLit.fss
+Cell[\Box\]
+Cell[\Int\]
+Cell[\FlatString\]
+walk rc=0
+--- compiled: bin/fortress compile SkInferLit.fss && bin/fortress run SkInferLit
+compile rc=0
+Cell[\Box\]
+Cell[\IntLiteral\]
+Cell[\String\]
+run rc=0
+################ SkTwoArgPrint.fss
+--- walk: bin/fortress SkTwoArgPrint.fss
+(Box,Pt)
+walk rc=0
+--- compiled: bin/fortress compile SkTwoArgPrint.fss && bin/fortress run SkTwoArgPrint
+compile rc=0
+( Box ,  Pt )
+run rc=0
+################ SkUnionReturn.fss
+--- walk: bin/fortress SkUnionReturn.fss
+Box
+Pt
+walk rc=0
+--- compiled: bin/fortress compile SkUnionReturn.fss && bin/fortress run SkUnionReturn
+compile rc=0
+Exception in thread "main" java.lang.VerifyError: Bad return type
+Exception Details:
+  Location:
+    SkUnionReturn.pick(Lcom/sun/fortress/compiler/runtimeValues/FBoolean;)L\=Union?SkUnionReturn\%Pt,SkUnionReturn\%Box?; @30: areturn
+  Reason:
+    Type 'java/lang/Object' (current frame, stack[0]) is not assignable to '\=Union?SkUnionReturn\%Pt,SkUnionReturn\%Box?' (from method signature)
+  Current Frame:
+    bci: @30
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FBoolean' }
+    stack: { 'java/lang/Object' }
+  Bytecode:
+    0000000: 2ab6 0039 9900 1004 b800 3fb8 0045 b800
+    0000010: 47a7 000d 05b8 003f b800 45b8 0049 b0  
+  Stackmap Table:
+    same_frame(@20)
+    same_locals_1_stack_item_frame(@30,Object[#77])
+
+run rc=1
+################ SkUnionReturnDeclared.fss
+--- walk: bin/fortress SkUnionReturnDeclared.fss
+Box
+Pt
+walk rc=0
+--- compiled: bin/fortress compile SkUnionReturnDeclared.fss && bin/fortress run SkUnionReturnDeclared
+compile rc=0
+Box
+Pt
+run rc=0
+################ SkFnRender.fss
+--- walk: bin/fortress SkFnRender.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rendering/Library/FortressLibrary.fss:4037:42-50:
+Non-object receiver inc(x:FortressLibrary.ZZ32):FortressLibrary.ZZ32 ZZ32->ZZ32 /home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkFnRender.fss:4:1-27 trying to invoke method asString
+Context:
+/home/user/fortress-rendering/Library/FortressLibrary.fss:4037:42-50:
+/home/user/fortress-rendering/Library/FortressLibrary.fss:4053:45-47:
+/home/user/fortress-rendering/Library/FortressLibrary.fss:4138:29-32:
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkFnRender.fss:8:5-14:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk rc=1
+--- compiled: bin/fortress compile SkFnRender.fss && bin/fortress run SkFnRender
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkFnRender.fss:8:5-13:
+    Could not check call to function println
+    - (Any, Any)->() is not applicable to an argument of type ZZ32->ZZ32.
+    - (Any, Any, Any)->() is not applicable to an argument of type ZZ32->ZZ32.
+    - (Any, Any, Any, Any)->() is not applicable to an argument of type ZZ32->ZZ32.
+    - Object->() is not applicable to an argument of type ZZ32->ZZ32.
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkFnRender.fss:10:5-13:
+    Could not check call to function println
+    - (Any, Any)->() is not applicable to an argument of type ZZ32->ZZ32.
+    - (Any, Any, Any)->() is not applicable to an argument of type ZZ32->ZZ32.
+    - (Any, Any, Any, Any)->() is not applicable to an argument of type ZZ32->ZZ32.
+    - Object->() is not applicable to an argument of type ZZ32->ZZ32.
+File SkFnRender.fss has 2 errors.
+compile rc=255
+Could not load SkFnRender
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkFnRender.class
+	... 4 more
+run rc=1
+################ SkObjExpr.fss
+--- walk: bin/fortress SkObjExpr.fss
+*objectexpr_ObjectExpr at /home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkObjExpr.fss:7.16
+walk rc=0
+--- compiled: bin/fortress compile SkObjExpr.fss && bin/fortress run SkObjExpr
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkObjExpr.fss:7:16-38:
+    Can't compile ObjectExpr at /home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkObjExpr.fss:7.16
+compile rc=1
+Could not load SkObjExpr
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkObjExpr.class
+	... 4 more
+run rc=1
+################ SkNatParam.fss
+--- walk: bin/fortress SkNatParam.fss
+Vec[\3\]
+walk rc=0
+--- compiled: bin/fortress compile SkNatParam.fss && bin/fortress run SkNatParam
+compile rc=0
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : 3$RTTIc.class
+	... 9 more
+run rc=1
+################ SkOprParam.fss
+--- walk: bin/fortress SkOprParam.fss
+Op[\+\]
+walk rc=0
+--- compiled: bin/fortress compile SkOprParam.fss && bin/fortress run SkOprParam
+compile rc=0
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.RTTI SkOprParam$Op?+?$RTTIc.factory()'
+run rc=1
+################ SkArrowDomain.fss
+--- walk: bin/fortress SkArrowDomain.fss
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkArrowDomain.fss:7:19-21:
+EvalType: class com.sun.fortress.nodes.BoolBinaryOp is not a subtype of BoolExpr.
+Context:
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkArrowDomain.fss:7:19-21:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk rc=1
+--- compiled: bin/fortress compile SkArrowDomain.fss && bin/fortress run SkArrowDomain
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkArrowDomain.fss:7:13-39:
+    Wrong number or kind of static arguments for function: Tag
+File SkArrowDomain.fss has 1 error.
+compile rc=255
+Could not load SkArrowDomain
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkArrowDomain.class
+	... 4 more
+run rc=1
+### rev=015783775 2026-09-22T21:27:19+00:00 FORTRESS_THREADS=1 MODE=compiled
+################ SkRR32Render.fss
+--- compiled: bin/fortress compile SkRR32Render.fss && bin/fortress run SkRR32Render
+compile rc=0
+RR32
+[RR32]
+2.5
+run rc=0
+################ SkOldDefault.fss
+--- compiled: bin/fortress compile SkOldDefault.fss && bin/fortress run SkOldDefault
+compile rc=0
+RR32 new default: RR32
+RR32 old default: 1.5
+StringVector new default: StringVector
+StringVector old default: [a b ]
+run rc=0
+### rev=015783775 2026-09-22T21:27:22+00:00 FORTRESS_THREADS=1 MODE=walk
+################ SkRR32Walk.fss
+--- walk: bin/fortress SkRR32Walk.fss
+1.5
+[1.5]
+walk rc=0
+EXIT=0
