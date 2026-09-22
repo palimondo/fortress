@@ -1,0 +1,22 @@
+(* Skeptic probe for rung M, second judgement; see ../../SKEPTIC.md. *)
+component SkM2Infer
+export Executable
+
+trait A[\T\]
+  tag(): String = "A"
+end
+trait B[\T\] extends A[\T\] end
+object B1 extends B[\ZZ32\]
+  tag(): String = "B1"
+end
+object B2 extends B[\ZZ32\]
+  tag(): String = "B2"
+end
+pick[\X\](a: X, b: X): X = b
+viaA(y: A[\ZZ32\]): String = "viaA " || y.tag()
+
+run(): () = do
+  println(viaA(pick(B2, B1)))
+end
+
+end

@@ -93,3 +93,125 @@ The rung replaces no loud failure with a value. With the memo on, a throw inside
 3. **Citation error:** REPORT.md's "Names added" paragraph gives `IntNat.java:41` (a use; the field is `:57`) and says "three interpreter classes" where fourteen files use the word.
 4. **Substance, no change asked:** the memo is sound on every axis the batch record names. The table is never mutated during its life, every rebuild is a new table, the key covers every input, the value is independent of `env`, there are no threads, and it is sound under rung P's relaxation.
 5. **Notes for the gather, not corrections:** "87%" is every `substitute` sample, and the two functions' lambdas are 86%. Row 354 could sit in §15 by the precedent of rows 139/302/303/306. `:62-69` includes `debugSubtype`.
+
+# Rung M: the skeptic's second judgement
+
+**Verdict: approved, with one required correction to one sentence of `REPORT.md`.** The refusal ground of the first judgement is repaired: the `problem:` line now maps the capture's shadow `:786` to `TypeAnalyzer.scala:756`, and line 756 is the lambda the capture names. Every correction the judge listed is made, and it is made correctly. Where the worker departed from the judge's wording, it followed the tree, and the tree agrees with the worker (the fourteen files, the capture line ranges, walk's unused `TraitTable`). I rebuilt the tree and ran the stage again. The post-edit table comes out, the memo-off table and the stock-code table equal the pre-edit capture, and the checker's full output is identical all three ways. I wrote seven new programs and ran each under walk and compiled, memo on and off, at one and four threads. The memo changed no answer. One of the programs measured a defect outside the rung, in walk's overload check, and it is in recommendedRows. This part is appended below the first judgement so that the lines `REPORT.md`, `record.md` and `JUDGE.md` cite (`SKEPTIC.md:11`, `:62`, `:64-81`) do not move.
+
+**Inherited and re-verified.** The branch is at `a8589973f`, level with origin, and the worktree was clean. Since my first judgement (`f25a1080b`) it has the judge's `0a0aea932` and the worker's repair `a8589973f`. `git diff a0e44bb16 HEAD` touches nothing under `ProjectFortress/`, and the net source change against the batch base is the same 22 added and 2 changed lines I read in the first judgement. I re-ran every check below and did not rely on the earlier captures.
+
+## 0. The provenance block, five lines, opened again
+
+- `problem:` `f3-jfr-top.txt:40` gives 34,122 of 39,287 samples (87%) with `substitute` on the stack. `:41` is `parents$1`, 17,591 samples at shadow 756. `:42` is `excludesClause$2(List, List, TraitTypeWhere)`, 16,213 samples at shadow 786. `:44` is `excludesClause$1`, 88 samples at shadow 783. Together that is 33,892 samples, which is 86.3% of the total. `TypeAnalyzer.scala:726` is the `parents` substitute lambda. `:756` is `val supers = ….map(tw => substitute(args, params, tw.getBaseType))`. `:753` is the excludes-clause `substitute`. `citations.txt:37-40` states the offset of 30, and `timing.txt:4-9` is the six timed rows. **The line now says what the capture says.**
+- `spec:` `types-vals-vars.tex:207-215`, `:163-164` and `traits.tex:187-192`: read again with ten lines either side. They say what the line says, and none of them is an `apis/` rendering.
+- `precedent:` `shadow.patch:656-715`, `TypeAnalyzer.scala:380-391` and `TypeSchemaAnalyzer.scala:53`: as described.
+- `deviation:` `TraitTable.scala:81-97`, `:82`, `:83-84` and `:89-96`; `shadow.patch:710-715`; `followup.md:96-98`; `TypeAnalyzer.scala:722` and `:747`. The block of seven is now cited as `:63-69`, which is right: `:62` is `debugSubtype`.
+- `historical:` names the two files the diff edits, and both are 2012-tree files.
+
+## 1. The recorded failure and pass, and my own run of the stage (`probes/skeptic/stage2.txt`)
+
+- The pre-edit table is committed alone in `3264d93e6` (19:51:13), before the edit commit `fe83db93e` (19:54:06), and it is byte-identical to `gate-baseline/checker-count.txt`.
+- I ran `ant compileAll` from the root: 27 s, and scalac ran. Both edited classes were rewritten, and `javap` shows `memoParents` and `memoExcludesClause` on `TraitTable`. I restored `global.map` with `git checkout`.
+- With the memo on, the stage took 9.3 s, and its table equals `checker-count-postedit.txt`. With the memo off it took 21.8 s, and its table equals `checker-count-preedit.txt`.
+- The stock code, the batch base's two files compiled ahead of the build by `stock-overlay.sh`, gives a table equal to `checker-count-preedit.txt`. The TraitTable in that overlay has no memo member.
+- The full checker output behind the three tables (253 lines, 96 located error lines) is identical on, off and stock.
+- **The total is 93 and the crash line is unchanged.** The report names no `expectedCheckerCount` and no `expectedCheckerCrash`, as `CLIMB-BATCH-3.md:65` has it.
+
+## 2. The diff
+
+It is unchanged, and my first reading holds (`SKEPTIC.md` §2 above). This round I checked two more things.
+
+- **Walk never reaches the memoized functions.** Walk's phases are `PhaseOrder.java:125-135`. Its `TYPECHECK` phase enters the checker only under `Shell.getTypeChecking()` (`StaticChecker.java:166`). That switch defaults to false (`Shell.java:1275`), and walk's branch never sets it (`Shell.java:420-424`). `Desugarer.java:121` constructs a table and never uses it. `PreTypeCheckDesugarer.java:28` imports `TraitTable` and uses nothing from it. The interpreter's overload rewrite names neither class. So the worker's correction is right: the memo's field initializers run under walk, and `parents` and `excludesClause` never do.
+- **What a memo hit can hand back.** The report says a hit differs from a recomputation only in spans (`REPORT.md:45`, "Nothing else can differ"). My first judgement said the same (§2 above), and the judge repeated it (`JUDGE.md` §4). All three are wrong by one field. `TypeInfo` extends `ParenthesizedInfo` (`nodes/TypeInfo.java:23`), whose `_parenthesized` flag (`nodes/ParenthesizedInfo.java:24`) is left out of `TypeInfo.equals` (`nodes/TypeInfo.java:58-72`) and of `generateHashCode` (`:81-87`), just as the span is. So a hit can return an argument whose `parenthesized` flag differs from the caller's.
+  - This is the span's twin, not a defect. No output shows it: the worker's 230 serialized analyzed ASTs were identical, and so were the three analyzed-cache files and 67 class files of my new probes.
+  - The sentence still states a soundness invariant wrongly, and that is required correction 1.
+
+## 3. The precedent search
+
+It is unchanged, and it is right. There are ten memos, and one of them has the key defect (`OverloadingChecker.scala:443-448` against `:452`, `FACTS.md:41`). The worker counted it and did not copy it.
+
+## 4. The test
+
+There is no test file. The two tables are identical by design. The difference the rung claims is time, which I measured again at 21.8 s off and 9.3 s on. Both runs used fresh private caches and one build, so the speed-up is not a cache or build artefact.
+
+## 5. The competing-declaration grep, re-run at `HEAD`
+
+`memoParents` and `memoExcludesClause` occur only in the two edited files. `cacheClauses`, `parentsMemo`, `excludesClauseMemo` and `fortress.analyzer.clauses.cache` occur only in `TraitTable.scala`. `FORTRESS_ANALYZER_CLAUSES_CACHE` occurs nowhere. I searched `ProjectFortress/src/com/sun/fortress/`, `ProjectFortress/tests`, every `*_tests` corpus, `LibraryBuiltin/`, `Library/`, `default_repository/configuration` and both `build.xml`.
+
+I checked the worker's refined count of the word `memo` file by file. Twelve files declare a field of that name:
+
+- `FTypeArrow.java:37`, `FTypeGeneric.java:293`, `FTypeOpr.java:31`, `FTypeOverloadedArrow.java:35`, `FTypeRest.java:25`, `FTypeTuple.java:46` and `IntNat.java:57`
+- `FGenericFunction.java:120`, `GenericConstructor.java:65`, `GenericMethod.java:80`, `GenericSingleton.java:49` and `OverloadedFunction.java:941`
+
+`SingleFcn.java:49` and `useful/LazyMemo1PCL.java:18-21` use the word only in comments. The worker's sentence is right, and so was its choice to follow the tree over the judge's "field or local".
+
+## 6. record.md
+
+- **The FACTS line.** The counts are corrected: 462 class files (556 with the 94 `.xlation` files), and the analyzed-cache count is stated with what was enumerated. The 87%/86% restatement matches the capture, and every citation in the line opens to what it says.
+- **Row 354** is unchanged apart from the same restatement. It renumbers nothing.
+- **Rows 355 and 356.** Row 356 is the judge's appendix text byte for byte. Row 355 differs in one clause. "Outside rung M, which changes code walk never runs" became "whose two memoized functions walk never calls (`compiler/StaticChecker.java:166`)". That is the more accurate sentence, for the reason in §2.
+- **Citations in the rows.** I opened every one:
+  - `TypeHierarchyChecker.scala:80-82`, `:119-121`, `:178-181` and `:187-189`
+  - `FTraitOrObject.java:236-251` and `:245-247`, `Shell.java:420-424`, and `FileTests.java:932`, `:587`, `:654`, `:639-643`, `:534-539` and `:583-585`
+  - `traits.tex:193-194` and `:220-222`, and `types-vals-vars.tex:142-143` and `:199-200`
+  - the ledger's `:57-58`, `:127-151` and `:136`
+  - `walk.txt:44-51`, `:52-75`, `:76-83` and `:3`, and `compiled-on.txt:42-48`, `:59-69`, `:80-106`, `:117-127`, `:138-148` and `:159-165`
+  - `SkWalkExclPlain.fss:5-7` and `SkWalkCyclePlain.fss:5-6`
+  
+  All of them say what the rows say.
+- **The appended correction in `differential.txt:54-55`.** It is placed at the end so that `:38` does not move. I agree with that choice.
+- **The handover line and the decisions paragraph** are accurate.
+- **For the gather** (a note, not a correction): folding three rows also moves the ledger's "Counts by status" section (`fortress-gap-ledger.md:643`).
+
+## 7. The three homes
+
+- **The rung's defect** (the clauses re-instantiated on every call) was repaired here. Its home is the timing capture plus row 354, by the batch record's designation (`CLIMB-BATCH-3.md:148`). I re-measured it (§1).
+- **A and B** (walk accepts extension of mutually excluding traits, and walk overflows on a cyclic hierarchy) now have provisional rows 355 and 356 in `record.md`, plus the committed probes.
+  - Both rows say why neither can be held in the second home: the specified behaviour is a rejection, and an `XXX` file cannot express that polarity (`FileTests.java:932`, `:587`, `:654`). A `.test` content check fails whatever the prefix (`:534-539`, `:583-585`).
+  - I checked those lines, and the reasoning holds. The gap in the rule goes to Pavol through `record.md`'s decisions paragraph.
+- **The parenthesized-flag property** (§2) is a property, not a defect, like the span.
+- **The one new defect my probes measured** (below, "C") is walk's, and it is outside the rung. Its home is a ledger row plus the committed probes. That is the third home, and the reason is given with the row in recommendedRows. The specification's prose disagrees with itself on this point, the design paper settles it, and the settled behaviour is a rejection. So the second home is closed to it for row 355's reason.
+
+## The differentials of the second judgement, both thread columns
+
+I wrote seven new programs. The worker did not write them, and neither did I in the first judgement. Each ran under walk at `FORTRESS_THREADS=1` and `4`, and through `fortress compile` + `fortress run` at 1 and 4 against the prelude caches I built in library order in the first judgement, one with the memo on and one with it off. The compiler source has not changed since those caches were built.
+
+- Captures: `probes/skeptic/walk2.txt`, `compiled2-on.txt`, `compiled2-off.txt` and `genovl-ctl.txt`.
+- Scripts: `walk.sh` and `comp.sh`, with `PROBES` set as each capture's header records.
+- The compiled captures on and off are identical apart from the word `on`/`off`. The three programs that compile leave jars (67 classes unpacked) and analyzed-cache files that are byte-identical on and off.
+
+| program (what it exercises) | walk, T=1 | walk, T=4 | compiled, memo on, T=1 / T=4 | compiled, memo off, T=1 / T=4 | verdict |
+|---|---|---|---|---|---|
+| `SkM2Diamond`: `excludesClause` through a diamond (`D[\T\] extends { L[\T\], R[\T\] }`, both over `Top[\T\] excludes { Other[\T\] }`), where the shared ancestor is reached twice, at two instantiations; overloads `k`, `q`; subtyping to `Top[\ZZ32\]`, `Top[\String\]` | 6 lines `kDZTop kOZOther qOSOther qDSTop upZTop upSTop` | same | compiles; same 6 lines / same | identical | agree |
+| `SkM2DiamondBad`: `k2(D[\ZZ32\])`/`k2(Other[\String\])` must not exclude through the diamond (the key must carry the argument) | rejected at startup: `x:[Other[\String\]] and x:[D[\ZZ32\]] are unrelated` | same | `Invalid overloading of k2`, 1 error | identical | agree: both reject exactly `k2` |
+| `SkM2ParentsKeyBad`: `parents` keyed by argument: `f(x: A[\ZZ32\])` called with `B[\ZZ32\]` first, then with `B[\String\]` | `fZ`, then a run-time `Unification error` at `:13:11-17` | same | `Could not check call to function f … not applicable to an argument of type ObjBS`, 1 error at `:13:11-16` | identical | both reject the second call; walk at run time, the known shape of an interpreter with its checker off |
+| `SkM2VarScope`: `B[\T\] <: A[\T\]` through `parents` with a type variable, `T extends ZZ32` in `f` and `T extends String` in `g`, one key `B[\T\]` for both | `fhA ghA` | same | compiles; same / same | identical | agree |
+| `SkM2Infer`: a joined inferred type checked against `A[\ZZ32\]` through `parents` (`viaA(pick(B2, B1))`) | `viaA B1` | same | compiles; same / same | identical | agree |
+| `SkM2GenOvl`: `o[\T\](P[\T\])`/`o[\T\](Q[\T\])` with `P[\T\] excludes { Q[\T\] }`, and a call `o(Mixed)` with `Mixed extends { P[\ZZ32\], Q[\String\] }` | accepted; `oP` `oP` | same | `Invalid overloading of o`, 1 error | identical | **diverge (C)** |
+| `SkM2GenOvlCtl`: the same pair without the `excludes` clause (a control) | rejected: `… at least one pair of parameters must have excluding types` | same | `Invalid overloading of o`, 1 error | identical | agree; shows walk's check ran on `SkM2GenOvl` and passed it because of the clause |
+
+Two first versions were discarded, and both are recorded here.
+
+- The first version of each program named its objects with two capital letters (`DZ`). Walk refuses such names ("`DZ is not a valid object name`"), so I renamed them.
+- The first `SkM2Infer` called a method on the inferred type. The compile then stopped at the known `NI.nyi` for a method call on a union type (`OR(B1,B2)`, `scala_src/typechecker/impls/Common.scala:108`), which is already recorded (`explorations/coordinator/map/dormant-code.md:214`; `tests/commonSuper.fss` on the ladder). It stopped identically with the memo on and off. The committed version calls no method on the union.
+- The first `SkM2VarScope` also held C's pair, which rejected the whole file on the compiled path. I moved that pair into `SkM2GenOvl`.
+
+**Rule 4 on C.** Walk and the compiled path disagree on `SkM2GenOvl`. The specification's prose disagrees with itself, and the design intent settles it.
+
+- **The literal rules accept the pair.** `basic/overloading.tex:100-108` and `advanced/overloading.tex:95-103` say that overloaded declarations have identical static parameters "up to α-equivalence" and that the rules ignore them. Read that way, `P[\T\]` and `Q[\T\]` exclude by the declared clause, and the Incompatibility Rule (`advanced/overloading.tex:214-216`) accepts the pair.
+- **The purpose and the guarantee reject it.** The rules exist "to eliminate the possibility of ambiguous calls at run time" (`advanced/overloading.tex:60-65`). The Incompatibility Rule rests on there being "no call to which two overloaded declarations are both applicable" (`:178-181`). Each declaration's static parameters are inferred for the call (`basic/overloading.tex:173-175`, `:292-295`). And among the applicable declarations one is more specific than all the others (`:288-291`). `o(Mixed)` is a call to which both declarations apply, with `T = ZZ32` for one and `T = String` for the other. Neither is more specific. `Mixed` itself is legal, because `P[\ZZ32\]` excludes only `Q[\ZZ32\]` (`types-vals-vars.tex:212-214`), and the compiled path reports no hierarchy error for it.
+- **The design paper decides.** It is the source the compiled checker follows (`explorations/coordinator/map/design-intent-sources.md:20`). A generic declaration's domain is the existential type over its own parameters (`Papers/Types/overloading-check.tick:30-39`), so `∃T.P[\T\]` and `∃T.Q[\T\]` overlap at `Mixed`.
+- **So the compiled rejection is right, and walk is wrong.** Walk's rule for two generic declarations requires an excluding pair (`interpreter/evaluator/values/OverloadedFunction.java:497-499`, message `:527`). It found one, which only holds if both declarations share one `T`, and it then dispatched `o(Mixed)` to the first declaration without a word, at both thread counts. That is the second outcome of rule 4, with the repair outside this rung. It sits beside row 159 (walk's same rule is too strict there) and row 355 (walk's other missing exclusion check).
+
+**Thread counts.** Every program ran at 1 and at 4, on both paths, with both memo settings, and the columns agree everywhere.
+
+## The failure-mode question
+
+The rung turns no loud failure into a quiet value. A throw inside either memoized function stores nothing and recurs on the next call. With the switch off, every call runs the unchanged body. C is a quiet failure, since walk gives an answer where no single answer exists. It is walk's and it predates the rung.
+
+## Findings
+
+1. **Closed:** the first judgement's refusal ground, and its correction items 2 and 3. They are repaired as the judge instructed, and in two places more exactly than instructed.
+2. **Required correction 1:** `REPORT.md:45`, "Nothing else can differ", must also name the `parenthesized` flag. `nodes/TypeInfo.java:58-72` and `:81-87` leave it out of `equals` and `hashCode`, as they leave out the span, so a hit can return a substituted argument whose flag differs from the caller's. The conclusion stands, and the sentence should say it for both fields.
+3. **Recommended row (C):** walk accepts an overloading of two generic functions whose domains overlap, and it dispatches an ambiguous call silently. The row is in recommendedRows, with the probe and captures committed here.
+4. **For the gather:** folding rows 354-356 moves the ledger's "Counts by status" section.

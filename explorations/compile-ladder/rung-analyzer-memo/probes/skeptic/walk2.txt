@@ -1,0 +1,84 @@
+# walk (bin/fortress X.fss) on the second judgement's probes at FORTRESS_THREADS=1 and 4, 2026-09-22, /home/user/fortress-memo at a8589973f (source as at fe83db93e).
+# Made by: PROBES='SkM2Diamond SkM2DiamondBad SkM2ParentsKeyBad SkM2VarScope SkM2Infer SkM2GenOvl' bash walk.sh ; Java 'at ...' frames and '... N more' lines filtered out.
+=== walk SkM2Diamond FORTRESS_THREADS=1
+kDZTop
+kOZOther
+qOSOther
+qDSTop
+upZTop
+upSTop
+rc=0
+=== walk SkM2Diamond FORTRESS_THREADS=4
+kDZTop
+kOZOther
+qOSOther
+qDSTop
+upZTop
+upSTop
+rc=0
+=== walk SkM2DiamondBad FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: SkM2DiamondBad.fss:16:1-40: and
+SkM2DiamondBad.fss:15:1-33:
+first parameters x:[Other[\String\]] and x:[D[\ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+SkM2DiamondBad.fss:16:1-40:
+SkM2DiamondBad.fss:15:1-33:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== walk SkM2DiamondBad FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: SkM2DiamondBad.fss:16:1-40: and
+SkM2DiamondBad.fss:15:1-33:
+first parameters x:[Other[\String\]] and x:[D[\ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+SkM2DiamondBad.fss:16:1-40:
+SkM2DiamondBad.fss:15:1-33:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== walk SkM2ParentsKeyBad FORTRESS_THREADS=1
+fZ
+com.sun.fortress.exceptions.ProgramError: SkM2ParentsKeyBad.fss:13:11-17:
+Unification error: Closure/Constructor for f param 1 (x:A[\ZZ32\]) got arg ObjBS of type ObjBS
+Context:
+SkM2ParentsKeyBad.fss:13:11-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== walk SkM2ParentsKeyBad FORTRESS_THREADS=4
+fZ
+com.sun.fortress.exceptions.ProgramError: SkM2ParentsKeyBad.fss:13:11-17:
+Unification error: Closure/Constructor for f param 1 (x:A[\ZZ32\]) got arg ObjBS of type ObjBS
+Context:
+SkM2ParentsKeyBad.fss:13:11-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== walk SkM2VarScope FORTRESS_THREADS=1
+fhA
+ghA
+rc=0
+=== walk SkM2VarScope FORTRESS_THREADS=4
+fhA
+ghA
+rc=0
+=== walk SkM2Infer FORTRESS_THREADS=1
+viaA B1
+rc=0
+=== walk SkM2Infer FORTRESS_THREADS=4
+viaA B1
+rc=0
+=== walk SkM2GenOvl FORTRESS_THREADS=1
+oP
+oP
+rc=0
+=== walk SkM2GenOvl FORTRESS_THREADS=4
+oP
+oP
+rc=0

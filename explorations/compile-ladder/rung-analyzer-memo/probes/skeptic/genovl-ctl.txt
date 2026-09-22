@@ -1,0 +1,66 @@
+# Control for SkM2GenOvl: the same generic pair without the excludes clause. walk (walk.sh) at FORTRESS_THREADS=1 and 4, then comp.sh on and comp.sh off, 2026-09-22, /home/user/fortress-memo at a8589973f.
+# Made by: PROBES=SkM2GenOvlCtl bash walk.sh; PROBES=SkM2GenOvlCtl bash comp.sh on; PROBES=SkM2GenOvlCtl bash comp.sh off. Java 'at ...' frames filtered out.
+=== walk SkM2GenOvlCtl FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: SkM2GenOvlCtl.fss:10:1-33: and
+SkM2GenOvlCtl.fss:9:1-32:
+
+o[\T\](x:Q[\T\]):FortressLibrary.StringSkM2GenOvlCtl.fss:10:1-33 and
+o[\T\](x:P[\T\]):FortressLibrary.StringSkM2GenOvlCtl.fss:9:1-32 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+SkM2GenOvlCtl.fss:10:1-33:
+SkM2GenOvlCtl.fss:9:1-32:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== walk SkM2GenOvlCtl FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: SkM2GenOvlCtl.fss:10:1-33: and
+SkM2GenOvlCtl.fss:9:1-32:
+
+o[\T\](x:Q[\T\]):FortressLibrary.StringSkM2GenOvlCtl.fss:10:1-33 and
+o[\T\](x:P[\T\]):FortressLibrary.StringSkM2GenOvlCtl.fss:9:1-32 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+SkM2GenOvlCtl.fss:10:1-33:
+SkM2GenOvlCtl.fss:9:1-32:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== compile SkM2GenOvlCtl memo=on
+SkM2GenOvlCtl.fss:10:1-33:
+SkM2GenOvlCtl.fss:9:1-32:
+    Invalid overloading of o in component SkM2GenOvlCtl:
+     [\T extends Object\]P[\T\]->String @ SkM2GenOvlCtl.fss:9:1-32
+ and [\T extends Object\]Q[\T\]->String @ SkM2GenOvlCtl.fss:10:1-33
+File SkM2GenOvlCtl.fss has 1 error.
+rc=255
+=== run SkM2GenOvlCtl memo=on FORTRESS_THREADS=1
+Could not load SkM2GenOvlCtl
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2GenOvlCtl.class
+rc=1
+=== run SkM2GenOvlCtl memo=on FORTRESS_THREADS=4
+Could not load SkM2GenOvlCtl
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2GenOvlCtl.class
+rc=1
+=== compile SkM2GenOvlCtl memo=off
+SkM2GenOvlCtl.fss:10:1-33:
+SkM2GenOvlCtl.fss:9:1-32:
+    Invalid overloading of o in component SkM2GenOvlCtl:
+     [\T extends Object\]P[\T\]->String @ SkM2GenOvlCtl.fss:9:1-32
+ and [\T extends Object\]Q[\T\]->String @ SkM2GenOvlCtl.fss:10:1-33
+File SkM2GenOvlCtl.fss has 1 error.
+rc=255
+=== run SkM2GenOvlCtl memo=off FORTRESS_THREADS=1
+Could not load SkM2GenOvlCtl
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2GenOvlCtl.class
+rc=1
+=== run SkM2GenOvlCtl memo=off FORTRESS_THREADS=4
+Could not load SkM2GenOvlCtl
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2GenOvlCtl.class
+rc=1

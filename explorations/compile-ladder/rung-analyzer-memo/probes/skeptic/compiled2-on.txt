@@ -1,0 +1,91 @@
+# fortress compile + fortress run on the second judgement's probes, clauses memo on, 2026-09-22, /home/user/fortress-memo at a8589973f (source as at fe83db93e), after a fresh ant compileAll.
+# Made by: PROBES='SkM2Diamond SkM2DiamondBad SkM2ParentsKeyBad SkM2VarScope SkM2Infer SkM2GenOvl' bash comp.sh on ; prelude cache tmp/sk/caches-on built in library order by libbuild.sh in the first judgement (compiler source unchanged since).
+# Java 'at ...' frames filtered out. A run after a compile that reported static errors prints ClassNotFoundException: there is no class to run.
+=== compile SkM2Diamond memo=on
+rc=0
+=== run SkM2Diamond memo=on FORTRESS_THREADS=1
+kDZTop
+kOZOther
+qOSOther
+qDSTop
+upZTop
+upSTop
+rc=0
+=== run SkM2Diamond memo=on FORTRESS_THREADS=4
+kDZTop
+kOZOther
+qOSOther
+qDSTop
+upZTop
+upSTop
+rc=0
+=== compile SkM2DiamondBad memo=on
+SkM2DiamondBad.fss:15:1-33:
+SkM2DiamondBad.fss:16:1-40:
+    Invalid overloading of k2 in component SkM2DiamondBad:
+     D[\ZZ32\]->String @ SkM2DiamondBad.fss:15:1-33
+ and Other[\String\]->String @ SkM2DiamondBad.fss:16:1-40
+File SkM2DiamondBad.fss has 1 error.
+rc=255
+=== run SkM2DiamondBad memo=on FORTRESS_THREADS=1
+Could not load SkM2DiamondBad
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2DiamondBad.class
+rc=1
+=== run SkM2DiamondBad memo=on FORTRESS_THREADS=4
+Could not load SkM2DiamondBad
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2DiamondBad.class
+rc=1
+=== compile SkM2ParentsKeyBad memo=on
+SkM2ParentsKeyBad.fss:13:11-16:
+    Could not check call to function f
+    - A[\ZZ32\]->String is not applicable to an argument of type ObjBS.
+File SkM2ParentsKeyBad.fss has 1 error.
+rc=255
+=== run SkM2ParentsKeyBad memo=on FORTRESS_THREADS=1
+Could not load SkM2ParentsKeyBad
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2ParentsKeyBad.class
+rc=1
+=== run SkM2ParentsKeyBad memo=on FORTRESS_THREADS=4
+Could not load SkM2ParentsKeyBad
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2ParentsKeyBad.class
+rc=1
+=== compile SkM2VarScope memo=on
+rc=0
+=== run SkM2VarScope memo=on FORTRESS_THREADS=1
+fhA
+ghA
+rc=0
+=== run SkM2VarScope memo=on FORTRESS_THREADS=4
+fhA
+ghA
+rc=0
+=== compile SkM2Infer memo=on
+rc=0
+=== run SkM2Infer memo=on FORTRESS_THREADS=1
+viaA B1
+rc=0
+=== run SkM2Infer memo=on FORTRESS_THREADS=4
+viaA B1
+rc=0
+=== compile SkM2GenOvl memo=on
+SkM2GenOvl.fss:10:1-32:
+SkM2GenOvl.fss:11:1-33:
+    Invalid overloading of o in component SkM2GenOvl:
+     [\T extends Object\]P[\T\]->String @ SkM2GenOvl.fss:10:1-32
+ and [\T extends Object\]Q[\T\]->String @ SkM2GenOvl.fss:11:1-33
+File SkM2GenOvl.fss has 1 error.
+rc=255
+=== run SkM2GenOvl memo=on FORTRESS_THREADS=1
+Could not load SkM2GenOvl
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2GenOvl.class
+rc=1
+=== run SkM2GenOvl memo=on FORTRESS_THREADS=4
+Could not load SkM2GenOvl
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkM2GenOvl.class
+rc=1

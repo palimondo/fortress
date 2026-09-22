@@ -1,0 +1,14 @@
+(* Skeptic probe for rung M, second judgement; see ../../SKEPTIC.md. *)
+component SkM2GenOvlCtl
+export Executable
+
+trait P[\T\] end
+trait Q[\T\] end
+object ObjPZ extends P[\ZZ32\] end
+
+o[\T\](x: P[\T\]): String = "oP"
+o[\T\](x: Q[\T\]): String = "oQ"
+
+run(): () = println(o(ObjPZ))
+
+end
