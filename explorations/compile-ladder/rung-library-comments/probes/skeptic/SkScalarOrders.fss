@@ -1,0 +1,35 @@
+component SkScalarOrders
+export Executable
+
+show3(name: String, a: Array[\ZZ32,ZZ32\]): () = println(name " = " a[0] " " a[1] " " a[2])
+
+showf(name: String, a: Array[\RR64,ZZ32\]): () =
+    println(name " = " a[0] " " a[1] " " (1.0/a[2]) " " (1.0/a[3]) " " a[4])
+
+run(): () = do
+    x: ZZ32[3] = [1 2 3]
+    show3("3 - x", 3 - x)
+    show3("x - 3", x - 3)
+    show3("3 + x", 3 + x)
+    show3("x + 3", x + 3)
+    show3("2 MIN x", 2 MIN x)
+    show3("x MIN 2", x MIN 2)
+    show3("2 MAX x", 2 MAX x)
+    show3("x MAX 2", x MAX 2)
+    nan = 0.0/0.0
+    z = 0.0
+    nz = -0.0
+    f: RR64[5] = [1.0 nan z nz 2.0]
+    showf("f MIN 0.0", f MIN 0.0)
+    showf("0.0 MIN f", 0.0 MIN f)
+    showf("f MAX (-0.0)", f MAX nz)
+    showf("(-0.0) MAX f", nz MAX f)
+    showf("f MIN (-0.0)", f MIN nz)
+    showf("(-0.0) MIN f", nz MIN f)
+    showf("f + (-0.0)", f + nz)
+    showf("(-0.0) + f", nz + f)
+    showf("1.0 - f", 1.0 - f)
+    showf("f - 1.0", f - 1.0)
+end
+
+end

@@ -1,0 +1,32 @@
+# Skeptic, rung C: comment 4's claims (the reversed - is y - e; + MIN MAX commute), including NaN and signed zeros.
+# walk: bin/fortress SkScalarOrders.fss, one thread; base = the base library (tmp/sk/base, scratch-libraries.txt),
+# post = this branch's Library/. In the RR64 lines the 3rd and 4th columns print 1.0/e, so the sign of a zero shows.
+# base and post outputs are byte-identical: yes
+## walk, post
+3 - x = 2 1 0
+x - 3 = -2 -1 0
+3 + x = 4 5 6
+x + 3 = 4 5 6
+2 MIN x = 1 2 2
+x MIN 2 = 1 2 2
+2 MAX x = 2 2 3
+x MAX 2 = 2 2 3
+f MIN 0.0 = 0.0 NaN Infinity -Infinity 0.0
+0.0 MIN f = 0.0 NaN Infinity -Infinity 0.0
+f MAX (-0.0) = 1.0 NaN Infinity -Infinity 2.0
+(-0.0) MAX f = 1.0 NaN Infinity -Infinity 2.0
+f MIN (-0.0) = -0.0 NaN -Infinity -Infinity -0.0
+(-0.0) MIN f = -0.0 NaN -Infinity -Infinity -0.0
+f + (-0.0) = 1.0 NaN Infinity -Infinity 2.0
+(-0.0) + f = 1.0 NaN Infinity -Infinity 2.0
+1.0 - f = 0.0 NaN 1.0 1.0 -1.0
+f - 1.0 = 0.0 NaN -1.0 -1.0 1.0
+rc=0
+
+## compiled: bin/fortress compile SkScalarOrders.fss (the compiler prelude has no Array types, rows 72 and 305)
+/home/user/fortress-comments/explorations/compile-ladder/rung-library-comments/probes/skeptic/SkScalarOrders.fss:4:24-27:
+    Array is undefined.
+/home/user/fortress-comments/explorations/compile-ladder/rung-library-comments/probes/skeptic/SkScalarOrders.fss:6:24-27:
+    Array is undefined.
+File SkScalarOrders.fss has 2 errors.
+rc=255

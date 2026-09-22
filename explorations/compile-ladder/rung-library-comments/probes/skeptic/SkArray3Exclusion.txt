@@ -1,0 +1,160 @@
+# Skeptic, rung C: does Array3's 'excludes AnyAdditiveGroup' license what comment 2 says it licenses?
+# walk (bin/fortress FILE.fss), one thread. 'cold' = a -Dfortress.caches directory created empty for that run;
+# 'warm' = a cache directory that already held FortressLibrary from an earlier run (ledger row 341's mask).
+# Scratch libraries: scratch-libraries.txt. Programs: SkA3Mat.fss (imports the gated fixture
+# ProjectFortress/test_library/ArrayOperatorVocabulary, the plane-wise + between a Matrix and an Array3, both
+# orders), SkA3Num.fss with SkA3NumVocab.fs{i,s} (a user + between an RR64 and an Array3, both orders).
+
+### A1 SkA3Mat, this branch's library, cold
+# the matrix-added-to-every-plane case loads with the clause
+(m + t)[1,1,0] = 13.0
+(t + m)[1,1,0] = 13.0
+rc=0
+
+### A2 SkA3Mat, noAAG, cold
+# without the clause it collides with AdditiveGroup's +(self, other: T) at FortressLibrary.fss:333
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:333:5-28: and
+/home/user/fortress-comments/ProjectFortress/test_library/ArrayOperatorVocabulary.fss:9:1-10:99:
+
+AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:333:5-28 and
++[\nat r,nat c,nat a,nat b,nat d\](t:Array3[\FortressLibrary.RR64,0,a,0,b,0,d\],m:Matrix[\FortressLibrary.RR64,r,c\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress-comments/ProjectFortress/test_library/ArrayOperatorVocabulary.fss:9:1-10:99 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:333:5-28:
+/home/user/fortress-comments/tmp/sk/noAAG/SkA3Mat.fss:10:36:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+
+### A3 SkA3Mat, noAAG, warm
+# the same program on a warm cache passes: row 341's mask
+(m + t)[1,1,0] = 13.0
+(t + m)[1,1,0] = 13.0
+rc=0
+
+### A4 gated ProjectFortress/tests/ArrayOperatorsBesideLibrary.fss, noAAG, cold
+# the gated test pins the clause on a cold cache
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:333:5-28: and
+/home/user/fortress-comments/ProjectFortress/test_library/ArrayOperatorVocabulary.fss:9:1-10:99:
+
+AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:333:5-28 and
++[\nat r,nat c,nat a,nat b,nat d\](t:Array3[\FortressLibrary.RR64,0,a,0,b,0,d\],m:Matrix[\FortressLibrary.RR64,r,c\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress-comments/ProjectFortress/test_library/ArrayOperatorVocabulary.fss:9:1-10:99 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:333:5-28:
+/home/user/fortress-comments/tmp/sk/noAAG/ArrayOperatorsBesideLibrary.fss:29:34:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+
+### A5 the same, run again at once on the same cache
+# and does not on a warm one
+(v MINMAX 0.0)[0] = 0.0
+(0.0 MINMAX v)[2] = 1.0
+(m + t)[1,0,1] = 12.0
+(t + m)[1,1,0] = 13.0
+(t t)[1,1,1] = 100.0
+(t m)[1,0,1] = 20.0
+(m + 1.0)[1,1] = 5.0
+(1.0 + m)[0,1] = 3.0
+(0.0 MAX v)[0] = 0.0
+rc=0
+
+### B1 SkA3Num, this branch's library (clause present), cold
+# a user + between a number and an Array3 is rejected WITH the clause, against the scalar block's generic + (FortressLibrary.fss:4509)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-comments/Library/FortressLibrary.fss:4509:1-101: and
+/home/user/fortress-comments/explorations/compile-ladder/rung-library-comments/probes/skeptic/SkA3NumVocab.fss:6:1-7:55:
+
++[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-comments/Library/FortressLibrary.fss:4509:1-101 and
++[\nat a,nat b,nat d\](t:Array3[\FortressLibrary.RR64,0,a,0,b,0,d\],y:FortressLibrary.RR64):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress-comments/explorations/compile-ladder/rung-library-comments/probes/skeptic/SkA3NumVocab.fss:6:1-7:55 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-comments/Library/FortressLibrary.fss:4509:1-101:
+/home/user/fortress-comments/explorations/compile-ladder/rung-library-comments/probes/skeptic/SkA3Num.fss:6:98:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+
+### B2 SkA3Num, this branch's library, warm
+# passes only on a warm cache
+(1.0 + t)[1,1,1] = 113.0
+(t + 1.0)[1,1,1] = 113.0
+rc=0
+
+### B3 SkA3Num, noAAG, cold
+# without the clause: the same rejection, against the same declaration
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:4509:1-101: and
+/home/user/fortress-comments/tmp/sk/noAAG/SkA3NumVocab.fss:6:1-7:55:
+
++[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:4509:1-101 and
++[\nat a,nat b,nat d\](t:Array3[\FortressLibrary.RR64,0,a,0,b,0,d\],y:FortressLibrary.RR64):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress-comments/tmp/sk/noAAG/SkA3NumVocab.fss:6:1-7:55 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:4509:1-101:
+/home/user/fortress-comments/tmp/sk/noAAG/SkA3Num.fss:6:98:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+
+### B4 SkA3Num, noAAG, run again (warm)
+# passes on a warm cache
+(1.0 + t)[1,1,1] = 113.0
+(t + 1.0)[1,1,1] = 113.0
+rc=0
+
+### B5 SkA3Num, noBlk (clause present, block's + removed), cold
+# with the block's + gone, the number case loads
+(1.0 + t)[1,1,1] = 113.0
+(t + 1.0)[1,1,1] = 113.0
+rc=0
+
+### B6 SkA3Num, noBlkNoAAG (clause and block's + removed), cold
+# and loads without the clause as well: the clause plays no part in the number case
+(1.0 + t)[1,1,1] = 113.0
+(t + 1.0)[1,1,1] = 113.0
+rc=0
+
+### Gated tests on noAAG, warm cache (caches-noAAG), which therefore prove nothing about the clause (row 341):
+# ArrayScalarExtension: rc=0, failures printed: 0
+# array3test: rc=0, failures printed: 0
+# ReplicaTest: rc=0, failures printed: 0
+
+### Compiled path (bin/fortress compile SkA3Mat.fss): the compiler prelude has no Array types (ledger rows 72, 305)
+/home/user/fortress-comments/ProjectFortress/test_library/ArrayOperatorVocabulary.fsi:3:15-18:
+    Array is undefined.
+/home/user/fortress-comments/ProjectFortress/test_library/ArrayOperatorVocabulary.fsi:3:45-48:
+    Array is undefined.
+/home/user/fortress-comments/ProjectFortress/test_library/ArrayOperatorVocabulary.fsi:4:24-27:
+    Array is undefined.
+/home/user/fortress-comments/ProjectFortress/test_library/ArrayOperatorVocabulary.fsi:4:45-48:
+    Array is undefined.
+File SkA3Mat.fss has 13 errors.
+rc=255

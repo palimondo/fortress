@@ -1,0 +1,22 @@
+# Skeptic, rung C: can the compile-path static checker see comment 2's claim? The checker-count stage's driver
+# (explorations/coordinator/tools/checker-count/WorldFlip.java with its shadow StaticChecker, compiled to a scratch
+# directory) run on a user api or component with the interpreter's library in scope; private caches per run.
+## WorldFlip SkA3Mat.fss (this branch's library): the checker crashes on the fixture's nat parameters
+1:### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[SkA3Mat.fss]
+10:@@PROBE checkApi ArrayOperatorVocabulary
+11:@@PROBE OverloadingChecker CRASHED on ArrayOperatorVocabulary : java.lang.Error: Not yet implemented
+13:@@PROBE    at com.sun.fortress.scala_src.useful.STypesUtil$.makeInferenceArg(STypesUtil.scala:557)
+18:@@PROBE checkApi ArrayOperatorVocabulary -> errors=0
+161:File SkA3Mat.fss has 66 errors.
+## WorldFlip SkA3Concrete.fsi (nat-free: the plane-wise + in both orders and a - between an RR64 and an Array3 in both orders, all at fixed sizes), this branch's library
+1:### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[SkA3Concrete.fsi]
+10:@@PROBE checkApi SkA3Concrete
+11:@@PROBE checkApi SkA3Concrete -> errors=0
+152:File SkA3Concrete.fsi has 66 errors.
+## the same api, noAAG library (run from tmp/sk/noAAG; its errors name tmp/sk/noAAG/FortressLibrary.fsi 59 times)
+1:### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[SkA3Concrete.fsi]
+6:@@PROBE checkApi SkA3Concrete
+7:@@PROBE checkApi SkA3Concrete -> errors=0
+152:File SkA3Concrete.fsi has 66 errors.
+# Both runs report 0 errors in SkA3Concrete, with the clause and without it, so today's checker gives no
+# evidence on comment 2's claim either way.

@@ -1,0 +1,43 @@
+# Skeptic, rung C: the compiled path's counterpart of the scalar block, CompilerLibrary's ZZ32Vector block
+# (Library/CompilerLibrary.fsi:186-190: + - MIN MAX with the vector on the left only), against walk's generic block.
+# Library bytecode cache rebuilt in this worktree first, in library order (AnyType, CompilerBuiltin, CompilerLibrary,
+# CompilerAlgebra, CompilerSystem). One thread.
+## bin/fortress compile SkVecScalarC.fss; bin/fortress run SkVecScalarC
+compile rc=0
+x - 3 = -2 -1 0
+x + 3 = 4 5 6
+x MIN 2 = 1 2 2
+x MAX 2 = 2 2 3
+run rc=0
+## bin/fortress compile SkVecScalarRevC.fss (the scalar on the left)
+/home/user/fortress-comments/explorations/compile-ladder/rung-library-comments/probes/skeptic/SkVecScalarRevC.fss:19:19:
+    Could not check call to operator -
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (ZZ32Vector, ZZ32)->ZZ32Vector is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+/home/user/fortress-comments/explorations/compile-ladder/rung-library-comments/probes/skeptic/SkVecScalarRevC.fss:20:19:
+    Could not check call to operator +
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (ZZ32Vector, ZZ32)->ZZ32Vector is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (IntLiteral, ZZ32Vector).
+File SkVecScalarRevC.fss has 2 errors.
+compile rc=255
+## walk's answers for the same expressions over ZZ32[3] = [1 2 3], from SkScalarOrders.txt
+3 - x = 2 1 0
+x - 3 = -2 -1 0
+3 + x = 4 5 6
+x + 3 = 4 5 6
+2 MIN x = 1 2 2
+x MIN 2 = 1 2 2
+2 MAX x = 2 2 3
+x MAX 2 = 2 2 3
