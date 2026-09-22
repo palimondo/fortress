@@ -1,0 +1,16 @@
+### walk: ../../../../bin/fortress VoidArgRender.fss
+void:   Tag[\()\]
+tuple3: Tag[\(ZZ32,String,Boolean)\]
+arrow0: Tag[\()->ZZ32\]
+### compiled, POST-EDIT (typeName native): ../../../../bin/fortress compile VoidArgRender.fss && JAVA_FLAGS+=' -Xlog:class+load=info' ../../../../bin/fortress run VoidArgRender
+compile rc=0
+run rc=0
+void:   Tag[\()\]
+tuple3: Tag[\(ZZ32,String,Boolean)\]
+arrow0: Tag[\()->ZZ32\]
+### stamped names of the probe's object classes:
+VoidArgRender$Tag⟦☃⟧
+VoidArgRender$\=Tag⟦ConcreteTuple⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,fortress\|CompilerBuiltin\%String,com\|sun\|fortress\|compiler\|runtimeValues\|FBoolean⟧⟧
+VoidArgRender$\=Tag⟦Tuple⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,fortress\|CompilerBuiltin\%String,com\|sun\|fortress\|compiler\|runtimeValues\|FBoolean⟧⟧
+VoidArgRender$\=Tag⟦AbstractArrow⟦☃,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧⟧
+VoidArgRender$\=Tag⟦Arrow⟦☃,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧⟧

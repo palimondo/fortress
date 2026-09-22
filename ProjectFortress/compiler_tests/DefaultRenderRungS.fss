@@ -7,6 +7,7 @@ object Box(n: ZZ32) end
 object Cell[\T\](v: T) end
 object Two[\A, B\](a: A, b: B) end
 object AnyCell[\T extends Any\](v: T) end
+object Tag[\T extends Any\]() end
 value object Pt(x: ZZ32) end
 object Boom extends UncheckedException end
 
@@ -26,6 +27,9 @@ run(): () = do
     assert(AnyCell[\(ZZ32, String)\]((1, "a")).asString, "AnyCell[\\(ZZ32,String)\\]", "tuple argument; ledger row 321, walk prints (A,B)")
     assert(AnyCell[\ZZ32 -> ZZ32\](inc).asString, "AnyCell[\\ZZ32->ZZ32\\]", "arrow argument; ledger row 321, walk prints A->B")
     assert(AnyCell[\(ZZ32, ZZ32) -> ZZ32\](add).asString, "AnyCell[\\(ZZ32,ZZ32)->ZZ32\\]", "arrow of two arguments; ledger row 321")
+    assert(Tag[\()\]().asString, "Tag[\\()\\]", "void argument; ledger row 321, walk prints ()")
+    assert(Tag[\(ZZ32, String, Boolean)\]().asString, "Tag[\\(ZZ32,String,Boolean)\\]", "tuple of three; ledger row 321")
+    assert(Tag[\() -> ZZ32\]().asString, "Tag[\\()->ZZ32\\]", "arrow of no arguments; ledger row 321")
     assert("<" || Box(1) || ">", "<Box>", "concatenation goes through asString; ledger row 321")
     assert(Nothing.asString, "Nothing", "prelude singleton Nothing; ledger row 321")
     assert(None.asString, "None", "prelude singleton None; ledger row 321")
