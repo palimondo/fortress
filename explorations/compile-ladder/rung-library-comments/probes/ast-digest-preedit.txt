@@ -1,0 +1,5 @@
+# bin/fortress parse -out <dump> Library/FortressLibrary.{fss,fsi} on the base tree d610695c0, then ast-digest.py over the two dumps
+# parse fss: Ok Dumped parse tree to tmp/parse/pre-fss.tfs 
+# parse fsi: Ok Dumped parse tree to tmp/parse/pre-fsi.tfs 
+e13bdff5c7a642996f23e50fbe0ea7c31faf5509b55f4e3065eea3d99b3ebcc8  spans-removed=29058  spans-left=0  lines=78527  pre-fss.tfs
+7b2c632ad63acafec2ad3115296e9d5b9910d05f703fe62c3db82e3e7627ae8b  spans-removed=12399  spans-left=0  lines=26339  pre-fsi.tfs

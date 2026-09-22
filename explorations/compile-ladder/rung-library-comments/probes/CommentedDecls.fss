@@ -1,0 +1,33 @@
+(* Probe for rung C; see ../REPORT.md *)
+component CommentedDecls
+export Executable
+
+run(): () = do
+    x: ZZ32[2] = [1 2]
+    println("x = " x)
+    println("3 - x = " (3 - x))
+    println("x - 3 = " (x - 3))
+    println("3 + x = " (3 + x) ", x + 3 = " (x + 3))
+    println("0 MAX (x - 2) = " (0 MAX (x - 2)) ", (x - 2) MAX 0 = " ((x - 2) MAX 0))
+
+    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 i)
+    println("v is a Vector: " instanceOf[\Vector[\RR64,3\]\](v))
+    println("1.0 - v is a Vector: " instanceOf[\Vector[\RR64,3\]\](1.0 - v))
+    m: Matrix[\RR64,2,2\] = matrix[\RR64,2,2\](2.0)
+    println("m + 1.0 is a Matrix: " instanceOf[\Matrix[\RR64,2,2\]\](m + 1.0))
+    println("0.0 MAX m is a Matrix: " instanceOf[\Matrix[\RR64,2,2\]\](0.0 MAX m))
+
+    t = array[\RR64\](2, 2, 2).fill(fn (i: ZZ32, j: ZZ32, k: ZZ32): RR64 => 1.0 (i + j + k))
+    println("t is an Array3: " instanceOf[\Array3[\RR64,0,2,0,2,0,2\]\](t))
+    println("t is an AnyAdditiveGroup: " instanceOf[\AnyAdditiveGroup\](t))
+    println("v is an AnyAdditiveGroup: " instanceOf[\AnyAdditiveGroup\](v))
+    println("m is an AnyAdditiveGroup: " instanceOf[\AnyAdditiveGroup\](m))
+    u = 10.0 - t
+    println("(10.0 - t)[1,1,1] = " u[1,1,1] "; is an Array3: " instanceOf[\Array3[\RR64,0,2,0,2,0,2\]\](u))
+
+    println("7 is an AnyIntegral: " instanceOf[\AnyIntegral\](7))
+    println("2.5 is an AnyIntegral: " instanceOf[\AnyIntegral\](2.5))
+    println("7 is a ZZ: " instanceOf[\ZZ\](7))
+end
+
+end

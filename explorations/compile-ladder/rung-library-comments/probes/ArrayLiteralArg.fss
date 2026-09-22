@@ -1,0 +1,11 @@
+(* Probe for rung C; see ../REPORT.md *)
+component ArrayLiteralArg
+export Executable
+
+run(): () = do
+    x: ZZ32[2] = [1 2]
+    println("declared: 3 - x = " (3 - x))
+    println("bare literal: 3 - [1 2] = " (3 - [1 2]))
+end
+
+end
