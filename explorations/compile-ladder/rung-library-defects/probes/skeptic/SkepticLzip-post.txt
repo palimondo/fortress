@@ -1,0 +1,16 @@
+## walk
+zip 1a2b
+zip as ZeroIndexed size 2 last (2,b)
+rc=0
+## compile
+FH/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+FH/Library/List.fsi:109:19-30:
+    Comprehension is undefined.
+FH/Library/List.fsi:112:24-34:
+    BigReduction is undefined.
+FH/Library/List.fsi:130:28-41:
+    MonoidReduction is undefined.
+File SkepticLzip.fss has 4 errors.
+rc=255
+EXIT=0

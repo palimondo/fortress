@@ -1,0 +1,9 @@
+## compile BoundMismatch
+PROBEDIR/BoundMismatch.fss:1:11-23:
+    Component BoundMismatch exports API BoundMismatch
+    but does not define all declarations in BoundMismatch.
+    Missing declarations: {f[\I extends BoundMismatch.K[\I\]\](x:I):() at PROBEDIR/BoundMismatch.fsi:4:1-5:1}
+File BoundMismatch.fss has 1 error.
+rc=255
+## compile BoundMatch
+rc=0

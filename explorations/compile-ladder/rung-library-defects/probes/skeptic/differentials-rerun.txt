@@ -1,0 +1,18 @@
+base-noP         has 93 errors
+mine-noP         has 103 errors
+rec-noP          has 102 errors
+broad-noP        has 103 errors
+seqgen-noP       has 103 errors
+zipnarrow-noP    has 103 errors
+strtri-noP       has 103 errors
+base-P           has 33 errors
+mine-P           has 24 errors
+rec-P            has 23 errors
+seqgen-P         has 24 errors
+## 'For map' distinct errors
+base-P: 2
+mine-P: 0
+rec-P: 0
+## mine-P against rec-P (errset, < mine-P only, > rec-P only)
+7d6
+< FortressLibrary.fsi:409 | Invalid comprises clause: a trait with a comprises ..., such as FortressLibrary.QQ, should not be extended.

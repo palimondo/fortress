@@ -1,0 +1,19 @@
+# stock classpath again, straight after the shadow-fix run (default_repository/caches not wiped)
+. compile compiler_tests/ComprisesEllipsisListed 
+ Missing expected failure 
+F
+Time: 0.819
+There was 1 failure:
+1) compiler_tests/ComprisesEllipsisListed(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. compile
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:402)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+junit exit=0

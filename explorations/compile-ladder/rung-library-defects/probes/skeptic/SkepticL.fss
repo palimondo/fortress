@@ -1,0 +1,62 @@
+component SkepticL
+import List.{...}
+export Executable
+
+kind(x: QQ): String = "QQ"
+kind(x: AnyIntegral): String = "AnyIntegral"
+
+tc(x: RR64): String = typecase x of
+    AnyIntegral => "tc AnyIntegral"
+    QQ => "tc QQ"
+    else => "tc other"
+  end
+
+sumOf(g: Generator[\ZZ32\]): ZZ32 = SUM [i <- g] i
+
+run(): () = do
+  println("1D # " || sumOf(0#4) || " size " || |0#4|)
+  println("1D : " || sumOf(1:4) || " size " || |1:4|)
+  z64: ZZ64 = 5
+  println("ZZ64 # size " || |z64 # z64|)
+  n2 = SUM [(i,j) <- (0,0)#(2,3)] (i + 10 j)
+  println("2D # " || n2 || " size " || |(0,0)#(2,3)|)
+  n2b = SUM [(i,j) <- (1,1):(2,3)] (i + 10 j)
+  println("2D : " || n2b)
+  n3 = SUM [(i,j,k) <- (0,0,0)#(2,2,2)] (i + 10 j + 100 k)
+  println("3D # " || n3 || " size " || |(0,0,0)#(2,2,2)|)
+  n3b = SUM [(i,j,k) <- (1,1,1):(2,2,2)] 1
+  println("3D : " || n3b)
+  a = array1[\ZZ32,6\]().fill(fn (i) => i i)
+  println("slice [2:] " || (SUM [x <- a[2:]] x))
+  println("slice [:3] " || (SUM [x <- a[:3]] x))
+  println("slice [#2] " || (SUM [x <- a[#2]] x))
+  println("slice [3#] " || (SUM [x <- a[3#]] x))
+  println("slice [:] " || (SUM [x <- a[:]] x))
+  println("slice [#0] size " || |a[#0]|)
+  println("empty 3#0 size " || |3#0|)
+  s = "hello, world"
+  println("split pieces " || |seq(s.splitWithOffsets())|)
+  sub = s[2#6]
+  println("sub " || sub || " split " || |seq(sub.splitWithOffsets())|)
+  l = <|[\ZZ32\] 1, 2, 3 |>
+  m = <|[\String\] "a", "b", "c", "d" |>
+  zs = BIG || [(x, y) <- l.zip[\String\](m)] (x.asString || y)
+  println("zip " || zs)
+  zl = l.zip[\String\](m)
+  println("zip size " || |zl| || " first " || zl[0])
+  j: Condition[\ZZ32\] = Just[\ZZ32\](3)
+  jm = j.map[\ZZ32\](fn (x) => x + 1)
+  println("Just.map " || jm.get || " holds " || jm.holds)
+  nt: Condition[\ZZ32\] = Nothing[\ZZ32\]
+  nm = nt.map[\ZZ32\](fn (x) => x + 1)
+  println("Nothing.map holds " || nm.holds)
+  typecase jm of
+    Condition[\ZZ32\] => println("jm is a Condition")
+    else => println("jm is not a Condition")
+  end
+  println("kind 3 " || kind(3) || " kind 17/2 " || kind(17/2))
+  println(tc(3) || " / " || tc(17/2) || " / " || tc(0.5))
+  q: QQ = 17/2
+  println("q " || q || " numerator " || numerator(q))
+end
+end
