@@ -1,0 +1,38 @@
+# Four gated interpreter tests of ProjectFortress/tests/ that exercise the commented declarations, each run singly with bin/fortress (walk) after the edit; exit code after each
+## ArrayScalarExtension
+(0.0 MAX m)[0,1] = 0.0
+(m MAX 0.0)[0,0] = 2.0
+(0.0 MIN m)[0,0] = 0.0
+(m MIN 0.0)[0,1] = -3.0
+(iv + 1)[0] = 0
+(1 + iv)[2] = 2
+(iv - 1)[0] = -2
+(1 - iv)[0] = 2
+(0 MAX iv)[0] = 0
+(iv MAX 0)[2] = 1
+(0 MIN iv)[2] = 0
+(iv MIN 0)[0] = -1
+rc=0
+## ArrayOperatorsBesideLibrary
+(v MINMAX 0.0)[0] = 0.0
+(0.0 MINMAX v)[2] = 1.0
+(m + t)[1,0,1] = 12.0
+(t + m)[1,1,0] = 13.0
+(t t)[1,1,1] = 100.0
+(t m)[1,0,1] = 20.0
+(m + 1.0)[1,1] = 5.0
+(1.0 + m)[0,1] = 3.0
+(0.0 MAX v)[0] = 0.0
+rc=0
+## ReplicaTest
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+rc=0
+## array3test
+rc=0
