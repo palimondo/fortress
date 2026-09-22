@@ -1,0 +1,8 @@
+=== $ cd ProjectFortress && ../bin/fortress tests/RoundHalfEvenRungR.fss   (the rung's test, after the edit; skeptic's own run) 2026-09-22T21:56:02Z ===
+PASS
+=== exit 0 ===
+=== $ java -cp tmp/sk-before-classes:$(bin/fortress_classpath) com.sun.fortress.Shell tests/RoundHalfEvenRungR.fss   (the same test against the base's two natives; skeptic's own run) 2026-09-22T21:56:06Z ===
+FAIL: a Long: 3 =/= a Int: 2; RR64 literal round(2.5) = 2: numbers.tex:470-472, ledger row 329
+/home/user/fortress-round/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+=== exit 1 ===

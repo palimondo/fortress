@@ -1,0 +1,14 @@
+=== $ bin/fortress XXXRoundNearTieNumeral.fss   (walk, after the edit: the proposed home-2 test, red today) 2026-09-22T22:04:27Z ===
+FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:470-472
+/home/user/fortress-round/Library/FortressLibrary.fss:56:5-23:
+=== exit 1 ===
+=== $ java -cp $(bin/fortress_classpath) -Dtests=tmp/sk-xxx-suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (testSystem's harness on a one-file copy: an XXX file whose assertion fails is an expected failure) 2026-09-22T22:04:31Z ===
+tmp/sk-xxx-suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb262c72_16
+. interpret tmp/sk-xxx-suite/XXXRoundNearTieNumeral  OK Saw expected exception
+
+Time: 5.012
+
+OK (1 test)
+
+=== exit 0 ===

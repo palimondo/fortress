@@ -1,0 +1,12 @@
+component SkNearIntNumeral
+export Executable
+
+(*) Skeptic's probe for rung R: see ../../SKEPTIC.md
+
+run():() = do
+    println("numeral floor(2.99999999999999999)    = " floor(2.99999999999999999))
+    println("numeral ceiling(2.00000000000000001)  = " ceiling(2.00000000000000001))
+    println("numeral truncate(2.99999999999999999) = " truncate(2.99999999999999999))
+end
+
+end

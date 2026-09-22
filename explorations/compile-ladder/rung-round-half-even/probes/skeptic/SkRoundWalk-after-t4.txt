@@ -1,0 +1,23 @@
+=== $ FORTRESS_THREADS=4 bin/fortress SkRoundWalk.fss (walk, after the edit, four threads) 2026-09-22T21:55:50Z ===
+arith 2.0+0.5          = 2
+div 5.0/2.0            = 2
+fn halfOf(5.0)         = 2
+fn halfOf(-7.0)        = -4
+generic roundAny(2.5)  = 2
+generic roundAny(-0.5) = 0
+typed r: RR64 = 6.5    = 6
+big tie 2^52-1.5       = 4503599627370494
+big tie 2^52-0.5       = 4503599627370496
+just below half        = 0
+neg zero               = 0
+neg -0.4               = 0
+2^53-1                 = 9007199254740991
+sum round 1.5          = 8
+rational 5/2           = 2
+rational -7/2          = -4
+reduction SUM          = 8
+RR32 big tie 8388606.5 = 8388606
+RR32 big tie 8388607.5 = 8388608
+RR32 q+q = 2.5         = 2
+RR32 q*2 = 2.5 generic = 2
+=== exit 0 ===

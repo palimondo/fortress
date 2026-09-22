@@ -1,0 +1,14 @@
+component SkNearTieRational
+export Executable
+
+(*) Skeptic's probe for rung R: see ../../SKEPTIC.md
+
+run():() = do
+    e17: ZZ64 = 100000000000000000
+    println("rational round(250000000000000001/10^17) = " round(250000000000000001 / e17))
+    println("rational round(249999999999999999/10^17) = " round(249999999999999999 / e17))
+    println("rational round(349999999999999999/10^17) = " round(349999999999999999 / e17))
+    println("rational round(50000000000000001/10^17)  = " round(50000000000000001 / e17))
+end
+
+end

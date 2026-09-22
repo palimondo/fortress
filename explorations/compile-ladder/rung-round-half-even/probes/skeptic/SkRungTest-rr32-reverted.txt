@@ -1,0 +1,5 @@
+=== $ java -cp tmp/sk-before-rr32only:$(bin/fortress_classpath) com.sun.fortress.Shell tests/RoundHalfEvenRungR.fss   (Float$Round fixed, the base's RR32 classes ahead of the build: do the RR32 asserts have teeth of their own?) 2026-09-22T21:56:35Z ===
+FAIL: a Long: 3 =/= a Int: 2; RR32 round(2.5) = 2: numbers.tex:470-472, ledger row 329
+/home/user/fortress-round/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+=== exit 1 ===

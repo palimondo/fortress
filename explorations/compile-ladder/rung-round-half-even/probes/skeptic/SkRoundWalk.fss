@@ -1,0 +1,39 @@
+component SkRoundWalk
+export Executable
+
+(*) Skeptic's walk probe for rung R: see ../../SKEPTIC.md
+
+halfOf(x: RR64): RR64 = x / 2.0
+
+roundAny[\T extends Number\](x: T): ZZ = round(x)
+
+run() = do
+    two: RR64 = 2.0
+    five: RR64 = 5.0
+    println("arith 2.0+0.5          = " round(two + 0.5))
+    println("div 5.0/2.0            = " round(five / 2.0))
+    println("fn halfOf(5.0)         = " round(halfOf(5.0)))
+    println("fn halfOf(-7.0)        = " round(halfOf(-7.0)))
+    println("generic roundAny(2.5)  = " roundAny(2.5))
+    println("generic roundAny(-0.5) = " roundAny(-0.5))
+    println("typed r: RR64 = 6.5    = " (do r: RR64 = 6.5; round(r) end))
+    println("big tie 2^52-1.5       = " round(4503599627370494.5))
+    println("big tie 2^52-0.5       = " round(4503599627370495.5))
+    println("just below half        = " round(0.49999999999999994))
+    println("neg zero               = " round(-0.0))
+    println("neg -0.4               = " round(-0.4))
+    println("2^53-1                 = " round(9007199254740991.0))
+    println("sum round 1.5          = " (round(1.5) + round(2.5) + round(3.5)))
+    println("rational 5/2           = " round(5/2))
+    println("rational -7/2          = " round(-7/2))
+    println("reduction SUM          = " (SUM[i <- 0#4] round(i + 0.5)))
+    b32: RR32 = narrow(8388606.5)
+    c32: RR32 = narrow(8388607.5)
+    q: RR32 = narrow(1.25)
+    println("RR32 big tie 8388606.5 = " round(b32))
+    println("RR32 big tie 8388607.5 = " round(c32))
+    println("RR32 q+q = 2.5         = " round(q + q))
+    println("RR32 q*2 = 2.5 generic = " roundAny(q + q))
+end
+
+end
