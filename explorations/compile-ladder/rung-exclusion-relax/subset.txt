@@ -1,0 +1,5 @@
+tests	atomicList.fss
+tests	typecaseTest.fss
+tests	typecaseVarTest.fss
+tests	typecaseBlockTest.fss
+tests	newlineTest.fss

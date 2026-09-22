@@ -1,0 +1,46 @@
+# ProbeMIEOverload: two overloads on two instantiations of one generic (ledger row 97's shape), on the measurement build under each placement, then under walk. 2026-09-22.
+=== ProbeMIEOverload (measurement build, -Dprobe.rungP=off)
+link exit=0
+f on Tag[ZZ32]
+f on Tag[String]
+run exit=0
+=== ProbeMIEOverload (measurement build, -Dprobe.rungP=hier)
+link exit=0
+f on Tag[ZZ32]
+f on Tag[String]
+run exit=0
+=== ProbeMIEOverload (measurement build, -Dprobe.rungP=over)
+ProbeMIEOverload.fss:14:1-44:
+ProbeMIEOverload.fss:15:1-49:
+    Invalid overloading of f in component ProbeMIEOverload:
+     Tag[\String\]->String @ /home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEOverload.fss:15:1-49
+ and Tag[\ZZ32\]->String @ /home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEOverload.fss:14:1-44
+File ProbeMIEOverload.fss has 1 error.
+link exit=255
+Could not load ProbeMIEOverload
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ProbeMIEOverload.class
+run exit=1
+=== ProbeMIEOverload (measurement build, -Dprobe.rungP=broad)
+ProbeMIEOverload.fss:14:1-44:
+ProbeMIEOverload.fss:15:1-49:
+    Invalid overloading of f in component ProbeMIEOverload:
+     Tag[\String\]->String @ /home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEOverload.fss:15:1-49
+ and Tag[\ZZ32\]->String @ /home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEOverload.fss:14:1-44
+File ProbeMIEOverload.fss has 1 error.
+link exit=255
+Could not load ProbeMIEOverload
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ProbeMIEOverload.class
+run exit=1
+=== ProbeMIEOverload (walk)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEOverload.fss:15:1-49: and
+/home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEOverload.fss:14:1-44:
+first parameters t:[Tag[\String\]] and t:[Tag[\ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEOverload.fss:15:1-49:
+/home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEOverload.fss:14:1-44:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk exit=1
