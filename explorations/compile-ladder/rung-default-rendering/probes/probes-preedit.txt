@@ -1,0 +1,52 @@
+### compiled, PRE-EDIT (stringOps.java and CompilerBuiltin.fss at d610695c0, rebuilt): each probe compiled and run; first 3 lines of each run and the number of stack frames printed
+--- judgement/PlainObjectRender.fss
+compile rc=0
+run rc=1
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+frames printed: 1035; frames through stringOps.asString: 205
+--- judgement/GenericObjectRender.fss
+compile rc=0
+run rc=1
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+frames printed: 1035; frames through stringOps.asString: 205
+--- judgement/ValueObjectRender.fss
+compile rc=0
+run rc=1
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+frames printed: 1035; frames through stringOps.asString: 205
+--- ThrowRender.fss
+compile rc=0
+run rc=1
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+frames printed: 1035; frames through stringOps.asString: 205
+--- RenderArgs.fss
+compile rc=0
+run rc=1
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+frames printed: 1035; frames through stringOps.asString: 205
+
+--- ThrowRender.fss again, PRE-EDIT, JAVA_FLAGS='-Xmx4g -Xss512k -XX:MaxJavaStackTraceDepth=0' so the entry frame is printed: 5249 frames; the last 14, which name the entry (FException.<init> at FException.java:23, from the throw at ThrowRender.fss:10):
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-rendering/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at com.sun.fortress.compiler.runtimeValues.FValue.toString(FValue.java:26)
+	at com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java:40)
+	at native.com.sun.fortress.nativeHelpers.stringOps.asString(stringOps.java)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-rendering/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:350)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-rendering/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at com.sun.fortress.compiler.runtimeValues.FException.<init>(FException.java:23)
+	at ThrowRender.run(/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/ThrowRender.fss:10)
+	at ThrowRender.compute(/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/ThrowRender.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
