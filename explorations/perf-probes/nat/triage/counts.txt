@@ -1,0 +1,159 @@
+# Every whole-unit run of the triage (run-all.sh).  count = 'File FortressLibrary.fss has N errors';
+# api rows as the instrumented StaticChecker prints them (each api's errors are counted twice there);
+# by kind: OVL = Invalid overloading, RET = return type, DUP = same parameter type, OTHER = hierarchy/well-formedness.
+
+r01-ZALL3-dP-eN
+  world: nat shadow (zero's classes) | library: ZALL3 | switches: dropP eligibleNarrow
+  count 173 | fill 71
+  apis: NativeArray 44, FortressLibrary 260, RangeInternals 42
+  kinds: OVL fill 71; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; OVL map 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL generate 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r06-ZALL3-dP-eN-again
+  world: nat shadow (zero's classes) | library: ZALL3 | switches: same, again
+  count 173 | fill 71
+  apis: NativeArray 44, FortressLibrary 260, RangeInternals 42
+  kinds: OVL fill 71; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; OVL map 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL generate 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r26-ZALL3-dP-eN-nat1-notri
+  world: nat shadow + shadow-add | library: ZALL3 | switches: dropP eligibleNarrow
+  count 170 | fill 69
+  apis: NativeArray 44, FortressLibrary 254, RangeInternals 42
+  kinds: OVL fill 69; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; OVL map 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r03-ZALL3-dP-eN-nat1
+  world: nat + shadow-add + triage OC | library: ZALL3 | switches: dropP eligibleNarrow
+  count 176 | fill 74
+  apis: NativeArray 44, FortressLibrary 266, RangeInternals 42
+  kinds: OVL fill 74; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; OVL map 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL generate 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r16-ZALL3-dP-eN-nat1-again
+  world: nat + shadow-add + triage OC | library: ZALL3 | switches: same, again
+  count 176 | fill 74
+  apis: NativeArray 44, FortressLibrary 266, RangeInternals 42
+  kinds: OVL fill 74; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; OVL map 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL generate 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r07-ZALL3-dP-eN-diag
+  world: nat + shadow-add + triage OC | library: ZALL3 | switches: dropP eligibleNarrow diag
+  count 175 | fill 72
+  apis: NativeArray 44, FortressLibrary 264, RangeInternals 42
+  kinds: OVL fill 72; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL map 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL generate 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r05-ZALL3-HO-eN
+  world: nat + shadow-add + triage OC | library: ZALL3 | switches: dropPHier dropPOver eligibleNarrow
+  count 176 | fill 74
+  apis: NativeArray 44, FortressLibrary 266, RangeInternals 42
+  kinds: OVL fill 74; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; OVL map 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL generate 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r15-ZALL3-HO-eN-diag
+  world: nat + shadow-add + triage OC | library: ZALL3 | switches: dropPHier dropPOver eligibleNarrow diag
+  count 168 | fill 65
+  apis: NativeArray 44, FortressLibrary 250, RangeInternals 42
+  kinds: OVL fill 65; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; OVL generate 2; OVL map 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r04-ZALL3-H-eN
+  world: nat + shadow-add + triage OC | library: ZALL3 | switches: dropPHier eligibleNarrow
+  count 464 | fill 79
+  apis: NativeArray 44, FortressLibrary 806, RangeInternals 78
+  kinds: OVL fill 79; RET juxtaposition 60; RET DOT 44; OVL FORWARD_CMP 19; OVL CAP 17; RET BY 10; RET BITAND 8; RET BITNOT 8; RET BITOR 8; RET BITXOR 8; RET CHOOSE 8; RET CMP 8; RET DIV 8; RET GCD 8; RET LCM 8; RET LSHIFT 8; RET MOD 8; RET REM 8; RET RSHIFT 8; OVL IN 7; OVL combine2D 7; OVL combine3D 7; RET narrow 7; OVL lift 6; RET MAX 6; RET MIN 6; OVL seq 5; DUP juxtaposition 4; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; DUP DOT 3; OVL ivmap 3; OVL openRangeHelper 3; DUP BITAND 2; DUP BITNOT 2; DUP BITOR 2; DUP BITXOR 2; DUP BY 2; DUP CHOOSE 2; DUP DIV 2; DUP GCD 2; DUP INVERSE 2; DUP LCM 2; DUP LEXICO 2; DUP LSHIFT 2; DUP MOD 2; DUP REM 2; DUP RSHIFT 2; DUP narrow 2; OVL CMP 2; OVL map 2; RET MINMAX 2; RET SQCAP 2; RET atMost 2; RET empty 2; RET shift 2; DUP CMP 1; DUP SQCAP 1; DUP numerator 1; DUP widen 1; OVL generate 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r20-ZALL3-dP-eN-nat0-nomemo
+  world: nat shadow (zero's classes) | library: ZALL3 | switches: dropP eligibleNarrow, overload memo off
+  count 203 | fill 95
+  apis: NativeArray 44, FortressLibrary 320, RangeInternals 42
+  kinds: OVL fill 95; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL generate 4; OVL juxtaposition 4; OVL map 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL copy 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r21-ZALL3-dP-eN-nat1-nomemo
+  world: nat + shadow-add + triage OC | library: ZALL3 | switches: dropP eligibleNarrow, overload memo off
+  count 203 | fill 95
+  apis: NativeArray 44, FortressLibrary 320, RangeInternals 42
+  kinds: OVL fill 95; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL generate 4; OVL juxtaposition 4; OVL map 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL copy 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r25-ZALL3-HO-eN-nomemo
+  world: nat + shadow-add + triage OC | library: ZALL3 | switches: dropPHier dropPOver eligibleNarrow, memo off
+  count 203 | fill 95
+  apis: NativeArray 44, FortressLibrary 320, RangeInternals 42
+  kinds: OVL fill 95; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL lift 6; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL generate 4; OVL juxtaposition 4; OVL map 4; RET CMP 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; RET MAX 3; RET MIN 3; OVL MINMAX 2; RET atMost 2; RET empty 2; RET shift 2; OVL SQCAP 1; OVL copy 1; OVL isLeftZero 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r24-ZALL3-H-eN-nomemo
+  world: nat + shadow-add + triage OC | library: ZALL3 | switches: dropPHier eligibleNarrow, memo off
+  count 487 | fill 95
+  apis: NativeArray 44, FortressLibrary 852, RangeInternals 78
+  kinds: OVL fill 95; RET juxtaposition 60; RET DOT 44; OVL FORWARD_CMP 19; OVL CAP 17; RET BY 10; RET BITAND 8; RET BITNOT 8; RET BITOR 8; RET BITXOR 8; RET CHOOSE 8; RET CMP 8; RET DIV 8; RET GCD 8; RET LCM 8; RET LSHIFT 8; RET MOD 8; RET REM 8; RET RSHIFT 8; OVL IN 7; OVL combine2D 7; OVL combine3D 7; RET narrow 7; OVL lift 6; RET MAX 6; RET MIN 6; OVL seq 5; DUP DOT 4; OVL MAX 4; OVL MIN 4; OVL generate 4; OVL juxtaposition 4; OVL map 4; DUP LEXICO 3; DUP juxtaposition 3; OVL ivmap 3; OVL openRangeHelper 3; DUP BITAND 2; DUP BITNOT 2; DUP BITOR 2; DUP BITXOR 2; DUP BY 2; DUP CHOOSE 2; DUP DIV 2; DUP GCD 2; DUP INVERSE 2; DUP LCM 2; DUP LSHIFT 2; DUP MOD 2; DUP REM 2; DUP RSHIFT 2; DUP narrow 2; OVL CMP 2; RET MINMAX 2; RET SQCAP 2; RET atMost 2; RET empty 2; RET shift 2; DUP CMP 1; DUP SQCAP 1; DUP numerator 1; DUP widen 1; OVL copy 1; RET array1 1; RET array2 1; RET every 1; RET truncate 1
+
+r3T1-dP-eN-nomemo
+  world: nat shadow (zero's classes) | library: T1 | switches: dropP eligibleNarrow, memo off
+  count 179 | fill 95
+  apis: NativeArray 44, FortressLibrary 278, RangeInternals 36
+  kinds: OVL fill 95; OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL generate 4; OVL juxtaposition 4; OVL map 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; OVL MINMAX 2; OVL SQCAP 1; OVL copy 1; RET array1 1; RET array2 1; RET truncate 1
+
+r3T2-dP-eN-nomemo
+  world: nat shadow (zero's classes) | library: T2 | switches: dropP eligibleNarrow, memo off
+  count 81 | fill 0
+  apis: FortressLibrary 126, RangeInternals 36
+  kinds: OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL generate 4; OVL juxtaposition 4; OVL map 4; RET narrow 4; OVL CMP 3; OVL ivmap 3; OVL openRangeHelper 3; OVL MINMAX 2; OVL SQCAP 1; RET truncate 1
+
+r3T3-dP-eN-nomemo
+  world: nat shadow (zero's classes) | library: T3 | switches: dropP eligibleNarrow, memo off
+  count 72 | fill 0
+  apis: FortressLibrary 108, RangeInternals 36
+  kinds: OVL FORWARD_CMP 19; OVL CAP 12; OVL IN 8; OVL seq 5; OVL MAX 4; OVL MIN 4; OVL juxtaposition 4; RET narrow 4; OVL CMP 3; OVL openRangeHelper 3; OVL MINMAX 2; OVL map 2; OVL SQCAP 1; RET truncate 1
+
+r02-ZL-dP
+  world: nat shadow (zero's classes) | library: ZL | switches: dropP
+  count 45 | fill 22
+  apis: NativeArray 44, FortressLibrary 4, RangeInternals 42
+  kinds: OVL fill 22; OVL CAP 12; OVL openRangeHelper 3; OVL map 2; RET atMost 2; OTHER Library/FortressLibrary.fsi:2524:51-64 1; OTHER Library/FortressLibrary.fsi:411:1-435:2 1; OVL IN 1; RET every 1
+
+r09-ZL-H
+  world: nat + shadow-add + triage OC | library: ZL | switches: dropPHier
+  count 63 | fill 22
+  apis: NativeArray 44, FortressLibrary 4, RangeInternals 78
+  kinds: OVL fill 22; OVL CAP 17; OVL combine2D 7; OVL combine3D 7; OVL openRangeHelper 3; OVL map 2; RET atMost 2; OTHER Library/FortressLibrary.fsi:2524:51-64 1; OTHER Library/FortressLibrary.fsi:411:1-435:2 1; RET every 1
+
+r13-cur-L0-H
+  world: CURRENT TREE + p-only | library: L0 (tracked) | switches: dropPHier
+  count 33 | fill 0
+  apis: List 2, String 12, FlatString 4, FortressBuiltin 2, CRASH java.lang.Error: Not yet implemented, FortressLibrary 6, RangeInternals 104
+  kinds: OTHER Library/RangeInternals.fsi:585:18-44 3; OTHER Library/RangeInternals.fsi:592:18-44 3; OTHER Library/RangeInternals.fsi:616:107-126 3; OTHER Library/RangeInternals.fsi:582:104-127 2; OTHER Library/RangeInternals.fsi:589:106-129 2; OTHER Library/RangeInternals.fsi:614:81-97 2; DUP split 1; DUP splitWithOffsets 1; OTHER Library/FortressLibrary.fsi:2526:51-64 1; OTHER Library/FortressLibrary.fsi:409:1-52 1; OTHER Library/FortressLibrary.fsi:411:1-435:2 1; OTHER Library/RangeInternals.fsi:310:15-37 1; OTHER Library/RangeInternals.fsi:310:42-62 1; OTHER Library/RangeInternals.fsi:315:13-30 1; OTHER Library/RangeInternals.fsi:316:16-36 1; OTHER Library/RangeInternals.fsi:319:19-32 1; OTHER Library/RangeInternals.fsi:322:48-68 1; OTHER Library/RangeInternals.fsi:322:97-119 1; OTHER Library/RangeInternals.fsi:578:26-43 1; OTHER Library/RangeInternals.fsi:580:59-86 1; OTHER Library/RangeInternals.fsi:587:61-88 1; OTHER Library/RangeInternals.fsi:612:53-70 1; RET map 1; RET zip 1
+
+r27-cur-ZL-noP
+  world: CURRENT TREE + p-only | library: ZL | switches: none
+  count 102 | fill 0
+  apis: FortressBuiltin 18, CRASH java.lang.Error: Not yet implemented, FortressLibrary 108, RangeInternals 78
+  kinds: OVL CAP 17; OVL combine2D 7; OVL combine3D 7; OVL openRangeHelper 3; OTHER Library/FortressLibrary.fsi:121:19-27 2; OTHER Library/FortressLibrary.fsi:1828:1-29 2; OTHER Library/FortressLibrary.fsi:1829:1-30 2; OTHER Library/FortressLibrary.fsi:1830:1-30 2; OTHER Library/FortressLibrary.fsi:373:20-22 2; OTHER Library/FortressLibrary.fsi:411:78-87 2; OTHER Library/FortressLibrary.fsi:437:22 2; OTHER Library/FortressLibrary.fsi:464:22-24 2; OTHER Library/FortressLibrary.fsi:498:22 2; OTHER Library/FortressLibrary.fsi:816:54-65 2; OTHER Library/FortressLibrary.fsi:833:19-25 2; OTHER ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:57-59 2; OVL map 2; RET atMost 2; OTHER Library/FortressLibrary.fsi:121:31-65 1; OTHER Library/FortressLibrary.fsi:121:31-66 1; OTHER Library/FortressLibrary.fsi:132:25-39 1; OTHER Library/FortressLibrary.fsi:143:28-42 1; OTHER Library/FortressLibrary.fsi:153:24-38 1; OTHER Library/FortressLibrary.fsi:1817:1-30 1; OTHER Library/FortressLibrary.fsi:1817:1-31 1; OTHER Library/FortressLibrary.fsi:1818:1-30 1; OTHER Library/FortressLibrary.fsi:1818:1-31 1; OTHER Library/FortressLibrary.fsi:1828:1-30 1; OTHER Library/FortressLibrary.fsi:1829:1-31 1; OTHER Library/FortressLibrary.fsi:1830:1-32 1; OTHER Library/FortressLibrary.fsi:2524:51-64 1; OTHER Library/FortressLibrary.fsi:373:26-49 1; OTHER Library/FortressLibrary.fsi:373:26-50 1; OTHER Library/FortressLibrary.fsi:409:29 1; OTHER Library/FortressLibrary.fsi:411:1-435:2 1; OTHER Library/FortressLibrary.fsi:411:53-73 1; OTHER Library/FortressLibrary.fsi:411:53-74 1; OTHER Library/FortressLibrary.fsi:437:26-39 1; OTHER Library/FortressLibrary.fsi:437:26-40 1; OTHER Library/FortressLibrary.fsi:464:28-41 1; OTHER Library/FortressLibrary.fsi:464:28-42 1; OTHER Library/FortressLibrary.fsi:498:26-39 1; OTHER Library/FortressLibrary.fsi:498:26-40 1; OTHER Library/FortressLibrary.fsi:536:20-32 1; OTHER Library/FortressLibrary.fsi:816:32-49 1; OTHER Library/FortressLibrary.fsi:816:32-50 1; OTHER Library/FortressLibrary.fsi:833:63-75 1; OTHER Library/FortressLibrary.fsi:833:63-76 1; OTHER Library/FortressLibrary.fsi:838:37-46 1; OTHER Library/FortressLibrary.fsi:862:35-44 1; OTHER ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:110:35-38 1; OTHER ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:113:29-31 1; OTHER ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:145:23 1; OTHER ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:76:26-29 1; OTHER ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:79:27-30 1; OTHER ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:29-52 1; OTHER ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:29-53 1; RET every 1
+
+r11-cur-ZL-H
+  world: CURRENT TREE + p-only | library: ZL | switches: dropPHier
+  count 41 | fill 0
+  apis: CRASH java.lang.Error: Not yet implemented, FortressLibrary 4, RangeInternals 78
+  kinds: OVL CAP 17; OVL combine2D 7; OVL combine3D 7; OVL openRangeHelper 3; OVL map 2; RET atMost 2; OTHER Library/FortressLibrary.fsi:2524:51-64 1; OTHER Library/FortressLibrary.fsi:411:1-435:2 1; RET every 1
+
+r19-cur-ZL-H-again
+  world: CURRENT TREE + p-only | library: ZL | switches: dropPHier, again
+  count 41 | fill 0
+  apis: CRASH java.lang.Error: Not yet implemented, FortressLibrary 4, RangeInternals 78
+  kinds: OVL CAP 17; OVL combine2D 7; OVL combine3D 7; OVL openRangeHelper 3; OVL map 2; RET atMost 2; OTHER Library/FortressLibrary.fsi:2524:51-64 1; OTHER Library/FortressLibrary.fsi:411:1-435:2 1; RET every 1
+
+r22-cur-ZL-H-nomemo
+  world: CURRENT TREE + p-only | library: ZL | switches: dropPHier, memo off
+  count 41 | fill 0
+  apis: CRASH java.lang.Error: Not yet implemented, FortressLibrary 4, RangeInternals 78
+  kinds: OVL CAP 17; OVL combine2D 7; OVL combine3D 7; OVL openRangeHelper 3; OVL map 2; RET atMost 2; OTHER Library/FortressLibrary.fsi:2524:51-64 1; OTHER Library/FortressLibrary.fsi:411:1-435:2 1; RET every 1
+
+r12-cur-ZL-H-eN
+  world: CURRENT TREE + p-only | library: ZL | switches: dropPHier eligibleNarrow
+  count 40 | fill 0
+  apis: CRASH java.lang.Error: Not yet implemented, FortressLibrary 2, RangeInternals 78
+  kinds: OVL CAP 17; OVL combine2D 7; OVL combine3D 7; OVL openRangeHelper 3; OVL map 2; RET atMost 2; OTHER Library/FortressLibrary.fsi:2524:51-64 1; RET every 1
+
+r17-cur-ZL-HO
+  world: CURRENT TREE + p-only | library: ZL | switches: dropPHier dropPOver
+  count 23 | fill 0
+  apis: CRASH java.lang.Error: Not yet implemented, FortressLibrary 4, RangeInternals 42
+  kinds: OVL CAP 12; OVL openRangeHelper 3; OVL map 2; RET atMost 2; OTHER Library/FortressLibrary.fsi:2524:51-64 1; OTHER Library/FortressLibrary.fsi:411:1-435:2 1; OVL IN 1; RET every 1
+
+r18-cur-ZL-HO-eN
+  world: CURRENT TREE + p-only | library: ZL | switches: dropPHier dropPOver eligibleNarrow
+  count 22 | fill 0
+  apis: CRASH java.lang.Error: Not yet implemented, FortressLibrary 2, RangeInternals 42
+  kinds: OVL CAP 12; OVL openRangeHelper 3; OVL map 2; RET atMost 2; OTHER Library/FortressLibrary.fsi:2524:51-64 1; OVL IN 1; RET every 1

@@ -1,0 +1,74 @@
+# What is left after the (d), fill and one-line (c) fixes (library copy T3 of make-fixes.py, r3T3).
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:99 | RI.fsi:64
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:99 | RI.fsi:63
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:99 | RI.fsi:237
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:99 | RI.fsi:46
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:98 | RI.fsi:64
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:98 | RI.fsi:63
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:98 | RI.fsi:237
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:98 | RI.fsi:46
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:64 | RI.fsi:237
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:64 | RI.fsi:46
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:63 | RI.fsi:237
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:63 | RI.fsi:46
+b | b1 | OVL | CMP | API FortressLibrary | FL.fsi:286 | FL.fsi:222
+b | b2 | OVL | CMP | API FortressLibrary | FL.fsi:2076 | FL.fsi:1203
+b | b2 | OVL | CMP | API FortressLibrary | FL.fsi:2076 | FL.fsi:222
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2116 | FL.fsi:2159
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2116 | FL.fsi:2158
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2116 | FL.fsi:2138
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2116 | FL.fsi:2095
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2116 | FL.fsi:2096
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2116 | FL.fsi:2151
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2159 | FL.fsi:2138
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2159 | FL.fsi:2095
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2159 | FL.fsi:2096
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2159 | FL.fsi:2151
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2158 | FL.fsi:2138
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2158 | FL.fsi:2095
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2158 | FL.fsi:2096
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2158 | FL.fsi:2151
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2138 | FL.fsi:2095
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2138 | FL.fsi:2096
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2138 | FL.fsi:2151
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2095 | FL.fsi:2151
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2096 | FL.fsi:2151
+c | - | OVL | IN | API FortressLibrary | FL.fsi:797 | FL.fsi:2115
+c | - | OVL | IN | API FortressLibrary | FL.fsi:797 | FL.fsi:2097
+c | - | OVL | IN | API FortressLibrary | FL.fsi:797 | FL.fsi:2075
+c | - | OVL | IN | API FortressLibrary | FL.fsi:698 | FL.fsi:2115
+c | - | OVL | IN | API FortressLibrary | FL.fsi:698 | FL.fsi:2097
+c | - | OVL | IN | API FortressLibrary | FL.fsi:698 | FL.fsi:2075
+c | - | OVL | IN | API FortressLibrary | FL.fsi:2115 | FL.fsi:2097
+c | - | OVL | IN | API RangeInternals | RI.fsi:429 | RI.fsi:505
+b | b2 | OVL | MAX | API FortressLibrary | FL.fsi:2555 | FL.fsi:196
+b | b2 | OVL | MAX | API FortressLibrary | FL.fsi:2555 | FL.fsi:210
+b | b2 | OVL | MAX | API FortressLibrary | FL.fsi:2556 | FL.fsi:196
+b | b2 | OVL | MAX | API FortressLibrary | FL.fsi:2556 | FL.fsi:210
+b | b2 | OVL | MIN | API FortressLibrary | FL.fsi:2553 | FL.fsi:209
+b | b2 | OVL | MIN | API FortressLibrary | FL.fsi:2553 | FL.fsi:185
+b | b2 | OVL | MIN | API FortressLibrary | FL.fsi:2554 | FL.fsi:209
+b | b2 | OVL | MIN | API FortressLibrary | FL.fsi:2554 | FL.fsi:185
+b | b1 | OVL | MINMAX | API FortressLibrary | FL.fsi:291 | FL.fsi:221
+b | b1 | OVL | MINMAX | API FortressLibrary | FL.fsi:390 | FL.fsi:221
+c | - | OVL | SQCAP | API FortressLibrary | FL.fsi:837 | FL.fsi:857
+c | - | OVL | juxtaposition | API FortressLibrary | FL.fsi:2366 | FL.fsi:2368
+b | b1 | OVL | juxtaposition | API FortressLibrary | FL.fsi:2366 | FL.fsi:271
+b | b1 | OVL | juxtaposition | API FortressLibrary | FL.fsi:2368 | FL.fsi:271
+b | b1 | OVL | juxtaposition | API FortressLibrary | FL.fsi:2367 | FL.fsi:271
+c | - | OVL | map | trait CompactFullSeqScalarRange | FL.fsi:762 | FL.fsi:1179
+c | - | OVL | map | trait StridedFullSeqScalarRange | FL.fsi:762 | FL.fsi:1179
+b | b2 | OVL | openRangeHelper | API RangeInternals | RI.fsi:616 | RI.fsi:614
+b | b2 | OVL | openRangeHelper | API RangeInternals | RI.fsi:616 | RI.fsi:612
+b | b2 | OVL | openRangeHelper | API RangeInternals | RI.fsi:614 | RI.fsi:612
+b | b2 | OVL | seq | API FortressLibrary | FL.fsi:1224 | FL.fsi:2043
+b | b2 | OVL | seq | API FortressLibrary | FL.fsi:1224 | FL.fsi:761
+b | b2 | OVL | seq | API FortressLibrary | FL.fsi:1274 | FL.fsi:2043
+b | b2 | OVL | seq | API FortressLibrary | FL.fsi:1274 | FL.fsi:761
+c | - | OVL | seq | API FortressLibrary | FL.fsi:2043 | FL.fsi:761
+d | - | RET | narrow | - | FL.fsi:460 | FL.fsi:365
+d | - | RET | narrow | - | FL.fsi:460 | FL.fsi:539
+d | - | RET | narrow | - | FL.fsi:539 | FL.fsi:365
+d | - | RET | narrow | - | FL.fsi:532 | FL.fsi:365
+d | - | RET | truncate | - | FL.fsi:403 | FL.fsi:335
+# tally: {'(sentence applies: b1)': 6, '(sentence applies: b2)': 29, 'b': 35, 'c': 32, 'd': 5} total 72

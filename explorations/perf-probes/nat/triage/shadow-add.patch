@@ -1,0 +1,138 @@
+--- explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ explorations/perf-probes/nat/triage/shadow-src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -96,7 +96,10 @@
+   protected def nsub(x: Type, y: Type)(implicit history: Set[hType]): CFormula = 
+     pSub(x, y)(true, history)
+ 
+-  private val pSubMemo = new scala.collection.mutable.HashMap[(Type, Type, Boolean, Set[hType]), CFormula]()
++  // SHADOW (triage): a twin memo while TypeAnalyzer.probeNoP > 0; see the companion.
++  private val pSubMemo0 = new scala.collection.mutable.HashMap[(Type, Type, Boolean, Set[hType]), CFormula]()
++  private val pSubMemoNoP = new scala.collection.mutable.HashMap[(Type, Type, Boolean, Set[hType]), CFormula]()
++  private def pSubMemo = if (TypeAnalyzer.probeNoP > 0) pSubMemoNoP else pSubMemo0
+ 
+   private var pSubDepthForPrinting: Int = 0
+   private final val indentationPadding = "   |   |   |   |   |   |   |   |   |   |"
+@@ -409,7 +412,10 @@
+     or(Pairs.distinctPairsFrom(ts).map(tt => excludes(tt._1, tt._2)))
+ 
+ 
+-  private val pExcMemo = new scala.collection.mutable.HashMap[(Type, Type, Boolean, Set[hType]), CFormula]()
++  // SHADOW (triage): a twin memo while TypeAnalyzer.probeNoP > 0; see the companion.
++  private val pExcMemo0 = new scala.collection.mutable.HashMap[(Type, Type, Boolean, Set[hType]), CFormula]()
++  private val pExcMemoNoP = new scala.collection.mutable.HashMap[(Type, Type, Boolean, Set[hType]), CFormula]()
++  private def pExcMemo = if (TypeAnalyzer.probeNoP > 0) pExcMemoNoP else pExcMemo0
+     
+   protected def pExc(x: Type, y: Type)(implicit negate: Boolean, history: Set[hType]): CFormula = {
+     if (x == y) pFalse()
+@@ -480,7 +486,7 @@
+       // emit the equality constraints static-argument inference runs on.
+       // Off by default, so every capture taken before this line still reproduces.
+       def checkP(s: TraitType, t: TraitType): CFormula =
+-        if (probeZeroDropP && !negate) pFalse() else {
++        if ((probeZeroDropP || TypeAnalyzer.probeNoP > 0) && !negate) pFalse() else {
+         val sas = ancestors(s) ++ Set(s)
+         val tas = ancestors(t) ++ Set(t)
+         def cP(s: BaseType, t: BaseType): CFormula = (s, t) match {
+@@ -541,11 +547,26 @@
+   }
+   
+ 
+-  private val normalizeVarTypeMemo = new scala.collection.mutable.HashMap[Id, Any]()
+-  private val normalizeTraitTypeMemo = new scala.collection.mutable.HashMap[(Id, List[StaticArg]), Any]()
+-  private val normalizeTupleTypeMemo = new scala.collection.mutable.HashMap[(List[Type], Option[Type]), Any]()
+-  private val normalizeArrowTypeMemo = new scala.collection.mutable.HashMap[(Type, Type, Effect, Boolean), Any]()
+-  private val normalizeOtherTypeMemo = new scala.collection.mutable.HashMap[Any, Any]()
++  // SHADOW (triage): a twin memo while TypeAnalyzer.probeNoP > 0; see the companion.
++  private val normalizeVarTypeMemo0 = new scala.collection.mutable.HashMap[Id, Any]()
++  private val normalizeVarTypeMemoNoP = new scala.collection.mutable.HashMap[Id, Any]()
++  private def normalizeVarTypeMemo = if (TypeAnalyzer.probeNoP > 0) normalizeVarTypeMemoNoP else normalizeVarTypeMemo0
++  // SHADOW (triage): a twin memo while TypeAnalyzer.probeNoP > 0; see the companion.
++  private val normalizeTraitTypeMemo0 = new scala.collection.mutable.HashMap[(Id, List[StaticArg]), Any]()
++  private val normalizeTraitTypeMemoNoP = new scala.collection.mutable.HashMap[(Id, List[StaticArg]), Any]()
++  private def normalizeTraitTypeMemo = if (TypeAnalyzer.probeNoP > 0) normalizeTraitTypeMemoNoP else normalizeTraitTypeMemo0
++  // SHADOW (triage): a twin memo while TypeAnalyzer.probeNoP > 0; see the companion.
++  private val normalizeTupleTypeMemo0 = new scala.collection.mutable.HashMap[(List[Type], Option[Type]), Any]()
++  private val normalizeTupleTypeMemoNoP = new scala.collection.mutable.HashMap[(List[Type], Option[Type]), Any]()
++  private def normalizeTupleTypeMemo = if (TypeAnalyzer.probeNoP > 0) normalizeTupleTypeMemoNoP else normalizeTupleTypeMemo0
++  // SHADOW (triage): a twin memo while TypeAnalyzer.probeNoP > 0; see the companion.
++  private val normalizeArrowTypeMemo0 = new scala.collection.mutable.HashMap[(Type, Type, Effect, Boolean), Any]()
++  private val normalizeArrowTypeMemoNoP = new scala.collection.mutable.HashMap[(Type, Type, Effect, Boolean), Any]()
++  private def normalizeArrowTypeMemo = if (TypeAnalyzer.probeNoP > 0) normalizeArrowTypeMemoNoP else normalizeArrowTypeMemo0
++  // SHADOW (triage): a twin memo while TypeAnalyzer.probeNoP > 0; see the companion.
++  private val normalizeOtherTypeMemo0 = new scala.collection.mutable.HashMap[Any, Any]()
++  private val normalizeOtherTypeMemoNoP = new scala.collection.mutable.HashMap[Any, Any]()
++  private def normalizeOtherTypeMemo = if (TypeAnalyzer.probeNoP > 0) normalizeOtherTypeMemoNoP else normalizeOtherTypeMemo0
+ 
+   def normalize(x: Type): Type = pNorm(x)(Set[hType]())
+ 
+@@ -861,6 +882,22 @@
+ 
+ object TypeAnalyzer {
+   def make(traits: TraitTable) = new TypeAnalyzer(traits, KindEnv.makeFresh)
++  /* SHADOW (triage probe): the checkP relaxation of probe.zero.dropP, raised only
++   * while probeNoP > 0, so that it can be placed at chosen call sites instead of
++   * everywhere.  Every memo of the analyzer and of TypeSchemaAnalyzer has a twin used
++   * while it is raised, so no answer computed under the relaxation is read outside it
++   * or the reverse.  -Dprobe.triage.dropPHier=true raises it around the two
++   * definitelyExcludes calls of TypeHierarchyChecker (:178, :187 in the tree), the
++   * placement of rung P in coordinator/CLIMB-BATCH-3.md.  Off by default. */
++  var probeNoP: Int = 0
++  def probeEnterNoP(): Unit = probeNoP += 1
++  def probeExitNoP(): Unit = probeNoP -= 1
++  def probeWithoutP[A](on: Boolean)(body: => A): A =
++    if (!on) body else { probeNoP += 1; try body finally probeNoP -= 1 }
++  /** The strong rule inside a raised region: for triage/'s diagnostics only. */
++  def probeStrong[A](body: => A): A = { val s = probeNoP; probeNoP = 0; try body finally probeNoP = s }
++  final val probeDropPHier: Boolean =
++    ProjectProperties.getBoolean("probe.triage.dropPHier", false)
+   /* SHADOW (followup 2): see parents above.  Keyed by the trait table as well
+    * as the type, because one run builds one table per compilation unit. */
+   private[types] val parentsMemo =
+--- explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala
++++ explorations/perf-probes/nat/triage/shadow-src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala
+@@ -87,7 +87,10 @@
+           t
+   }
+ 
+-  private val subtypeUAMemo = new scala.collection.mutable.HashMap[(ArrowType, ArrowType), Boolean]()
++  // SHADOW (triage): a twin memo while TypeAnalyzer.probeNoP > 0.
++  private val subtypeUAMemo0 = new scala.collection.mutable.HashMap[(ArrowType, ArrowType), Boolean]()
++  private val subtypeUAMemoNoP = new scala.collection.mutable.HashMap[(ArrowType, ArrowType), Boolean]()
++  private def subtypeUAMemo = if (TypeAnalyzer.probeNoP > 0) subtypeUAMemoNoP else subtypeUAMemo0
+     
+   def subtypeUA(x: ArrowType, y: ArrowType): Boolean = {
+      val rval = if (x == y)
+@@ -145,7 +148,10 @@
+     case (s, t) => ta.lteq(s, t)
+   }}
+   
+-  private val subtypeEDMemo = new scala.collection.mutable.HashMap[(Type, Type), Boolean]()
++  // SHADOW (triage): a twin memo while TypeAnalyzer.probeNoP > 0.
++  private val subtypeEDMemo0 = new scala.collection.mutable.HashMap[(Type, Type), Boolean]()
++  private val subtypeEDMemoNoP = new scala.collection.mutable.HashMap[(Type, Type), Boolean]()
++  private def subtypeEDMemo = if (TypeAnalyzer.probeNoP > 0) subtypeEDMemoNoP else subtypeEDMemo0
+     
+   def subtypeED(x: Type, y: Type): Boolean = {
+      val rval = if (x == y)
+--- explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
++++ explorations/perf-probes/nat/triage/shadow-src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+@@ -183,7 +183,8 @@
+ 	      for (second <- extended) {
+ 		second match {
+ 		  case STraitTypeWhere(_,other@STraitType(_,_,_,_),_) =>
+-		    if ( new_analyzer.definitelyExcludes(st, other) )
++		    // SHADOW (triage): -Dprobe.triage.dropPHier=true relaxes checkP for this question only.
++		    if ( TypeAnalyzer.probeWithoutP(TypeAnalyzer.probeDropPHier)(new_analyzer.definitelyExcludes(st, other)) )
+ 		      error(errors, "Types " + st + " and " + other +
+ 			    " exclude each other.  " + decl +
+ 			    " must not extend them.", st)
+@@ -192,7 +193,8 @@
+ 	      }
+ 	      getTypes(name, errors) match {
+ 		case si:ProperTraitIndex =>
+-		  if ( new_analyzer.definitelyExcludes(tt, st) ) {
++		  // SHADOW (triage): the same, for the second of the two questions.
++		  if ( TypeAnalyzer.probeWithoutP(TypeAnalyzer.probeDropPHier)(new_analyzer.definitelyExcludes(tt, st)) ) {
+ 		      error(errors, "Type " + tt + " excludes " + name +
+ 			    " but it extends " + name + ".", extension)
+ 		  }

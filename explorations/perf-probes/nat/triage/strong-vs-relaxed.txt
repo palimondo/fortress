@@ -1,0 +1,30 @@
+# r15 (dropPHier + dropPOver, diag): for every invalid pair, oa.excludes asked again with the
+# strong checkP and with it relaxed.  count | name | exclStrong | exclRelaxed
+12 | CAP | false | false
+3 | CMP | true | false
+19 | FORWARD_CMP | false | false
+7 | IN | false | false
+1 | IN | true | false
+4 | MAX | false | false
+4 | MIN | false | false
+2 | MINMAX | true | false
+1 | SQCAP | true | false
+65 | fill | false | false
+2 | generate | false | false
+1 | isLeftZero | true | false
+3 | ivmap | false | false
+4 | juxtaposition | false | false
+6 | lift | false | false
+2 | map | false | false
+3 | openRangeHelper | false | false
+5 | seq | false | false
+
+# the pairs the strong checkP alone certifies
+@@TRI CMP | API FortressLibrary | sp=Some(0),Some(0) | f=[\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->TotalComparison @ FortressLibrary.fsi:222:5-223:1 | g=((Number & {RR64}), Number)->Comparison @ FortressLibrary.fsi:286:5-288:24
+@@TRI CMP | API FortressLibrary | sp=Some(0),Some(0) | f=[\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->TotalComparison @ FortressLibrary.fsi:222:5-223:1 | g=[\I\](Range[\I\], Range[\I\])->Comparison @ FortressLibrary.fsi:2069:5-47
+@@TRI CMP | API FortressLibrary | sp=Some(0),Some(0) | f=[\T extends LexicographicOrder[\T,E\], E\](LexicographicOrder[\T,E\], T)->TotalComparison @ FortressLibrary.fsi:1201:5-1203:47 | g=[\I\](Range[\I\], Range[\I\])->Comparison @ FortressLibrary.fsi:2069:5-47
+@@TRI SQCAP | API FortressLibrary | sp=Some(0),Some(0) | f=[\T\](Just[\T\], UniqueItem[\T\])->Maybe[\T\] @ FortressLibrary.fsi:855:5-50 | g=[\T\]((Maybe[\T\] & {Nothing[\T\], Just[\T\]}), Maybe[\T\])->Maybe[\T\] @ FortressLibrary.fsi:835:5-836:1
+@@TRI MINMAX | API FortressLibrary | sp=Some(0),Some(0) | f=((QQ & {AnyIntegral}), QQ)->(QQ, QQ) @ FortressLibrary.fsi:390:5-38 | g=[\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->(T, T) @ FortressLibrary.fsi:221:5-36
+@@TRI MINMAX | API FortressLibrary | sp=Some(0),Some(0) | f=((Number & {RR64}), Number)->(Number, Number) @ FortressLibrary.fsi:291:5-47 | g=[\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->(T, T) @ FortressLibrary.fsi:221:5-36
+@@TRI isLeftZero | trait LexicographicReduction | sp=None,None | f=(LexicographicReduction, Comparison)->Boolean @ FortressLibrary.fsi:93:5-94:1 | g=(ReductionWithZeroes[\TotalComparison,TotalComparison\], TotalComparison)->Boolean @ FortressLibrary.fsi:1781:5-1782:4
+@@TRI IN | API RangeInternals | sp=Some(1),Some(1) | f=[\I extends Integral[\I\]\](I, RangeInternals.CompactFullScalarRange[\I\])->Boolean @ RangeInternals.fsi:429:5-430:5 | g=[\I extends Integral[\I\]\](I, RangeInternals.StridedFullScalarRange[\I\])->Boolean @ RangeInternals.fsi:505:5-506:5

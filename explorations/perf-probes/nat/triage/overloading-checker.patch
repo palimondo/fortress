@@ -1,0 +1,64 @@
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
++++ explorations/perf-probes/nat/triage/shadow-src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+@@ -156,7 +156,15 @@
+     /* Called by com.sun.fortress.compiler.StaticChecker.checkComponent
+      *       and com.sun.fortress.compiler.StaticChecker.checkApi
+      */
+-    def checkOverloading(): JavaList[StaticError] = {
++    /* TRIAGE PROBE (perf-probes/nat/triage.md): -Dprobe.triage.dropPOver=true runs the
++     * whole overloading check with the checkP relaxation raised (TypeAnalyzer.probeNoP in
++     * the nat shadow), i.e. feeds this checker the relaxed exclusion and nothing else.
++     * -Dprobe.triage.diag=true prints one @@TRI line per invalid pair. */
++    private final val probeDropPOver = ProjectProperties.getBoolean("probe.triage.dropPOver", false)
++    private final val probeDiag = ProjectProperties.getBoolean("probe.triage.diag", false)
++    def checkOverloading(): JavaList[StaticError] =
++      TypeAnalyzer.probeWithoutP(probeDropPOver)(checkOverloadingProbe())
++    private def checkOverloadingProbe(): JavaList[StaticError] = {
+         val fnsInComp = compilation_unit.functions
+         val functions = fnsInComp.firstSet
+         val ast = compilation_unit.ast
+@@ -417,6 +425,7 @@
+                                 					      	error(mergeSpan(fa, ga),
+                                 								"Invalid overloading of " + name + " in " + containingKindAndName +
+                                 								":\n     " + mismatch)
++                                          if (probeDiag) probeDiagnose(name, containingKindAndName, first, second, signatures, isMethod, oracle)
+                                        } else {
+                                 	      returnTypeCheck(name, first, second, oracle)
+                                 	      returnTypeCheck(name, second, first, oracle)
+@@ -427,6 +436,36 @@
+                            }
+     }
+ 
++    /* TRIAGE PROBE: for an invalid pair, the four questions of validOverloadingInner
++     * asked again, the exclusion question both with the strong checkP and with it
++     * relaxed, plus the meet of the two domains, and every other signature below both. */
++    private def probeDiagnose(name: IdOrOpOrAnonymousName, where: String,
++                              first: (ArrowType,Option[Int],Option[JavaFunctional]),
++                              second: (ArrowType,Option[Int],Option[JavaFunctional]),
++                              signatures: List[(ArrowType,Option[Int],Option[JavaFunctional])],
++                              isMethod: Boolean, oa: OverloadingOracle): Unit = {
++      val (fa, fsp, _) = first
++      val (ga, gsp, _) = second
++      def safe[A](a: => A): String = try { String.valueOf(a) } catch { case t: Throwable => "THROW:" + t.getClass.getSimpleName }
++      def dom(a: ArrowType) = safe(typeToString(oa.sa.makeDomainWithSelfFromArrow(a)))
++      def meetStr = safe(typeToString(oa.sa.meetED(oa.sa.makeDomainWithSelfFromArrow(fa), oa.sa.makeDomainWithSelfFromArrow(ga))))
++      val exS = TypeAnalyzer.probeStrong(safe(oa.excludes(fa, ga)))
++      val exR = TypeAnalyzer.probeWithoutP(true)(safe(oa.excludes(fa, ga)))
++      val meetS = TypeAnalyzer.probeStrong(meetStr)
++      val meetR = TypeAnalyzer.probeWithoutP(true)(meetStr)
++      val below = signatures.filter(h => h._1 != fa && h._1 != ga &&
++                                         safe(oa.lteq(h._1, fa)) == "true" && safe(oa.lteq(h._1, ga)) == "true")
++      val meets = below.map(h => typeAndSpanToString(h._1) + " isMeet=" + safe(oa.isMeet(h._1, fa, ga, isMethod)))
++      System.err.println("@@TRI " + name + " | " + where + " | sp=" + fsp + "," + gsp +
++                         " | f=" + typeAndSpanToString(fa) + " | g=" + typeAndSpanToString(ga) +
++                         " | domF=" + dom(fa) + " | domG=" + dom(ga) +
++                         " | lteqFG=" + safe(oa.lteq(fa, ga)) + " | lteqGF=" + safe(oa.lteq(ga, fa)) +
++                         " | exclStrong=" + exS + " | exclRelaxed=" + exR +
++                         " | meetStrong=" + meetS + " | meetRelaxed=" + meetR +
++                         " | below=" + below.size + " " + meets.mkString(" ; ") +
++                         " | probeNoP=" + TypeAnalyzer.probeNoP)
++    }
++
+     /* A functional which takes a single parameter of a parametric type
+      * bound by Any cannot be overloaded.
+      */

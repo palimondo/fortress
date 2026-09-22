@@ -1,0 +1,207 @@
+# The 203 errors of the everything-applied copy (ZALL3, dropP + eligibleNarrow, overload memo off,
+# r20), one per line: class [+a] | static-parameter sentence (b1 one generic, b2 both, differing) | kind | name |
+# where | the two declarations.  +a: the pair is certified by the strong checkP (diag run r15).
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:99 | RI.fsi:64
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:99 | RI.fsi:63
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:99 | RI.fsi:237
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:99 | RI.fsi:46
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:98 | RI.fsi:64
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:98 | RI.fsi:63
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:98 | RI.fsi:237
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:98 | RI.fsi:46
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:64 | RI.fsi:237
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:64 | RI.fsi:46
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:63 | RI.fsi:237
+b | b2 | OVL | CAP | API RangeInternals | RI.fsi:63 | RI.fsi:46
+b +a | b1 | OVL | CMP | API FortressLibrary | FL.fsi:286 | FL.fsi:222
+b +a | b2 | OVL | CMP | API FortressLibrary | FL.fsi:2069 | FL.fsi:1201
+b +a | b2 | OVL | CMP | API FortressLibrary | FL.fsi:2069 | FL.fsi:222
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2107 | FL.fsi:2148
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2107 | FL.fsi:2147
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2107 | FL.fsi:2128
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2107 | FL.fsi:2087
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2107 | FL.fsi:2088
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2107 | FL.fsi:2140
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2148 | FL.fsi:2128
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2148 | FL.fsi:2087
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2148 | FL.fsi:2088
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2148 | FL.fsi:2140
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2147 | FL.fsi:2128
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2147 | FL.fsi:2087
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2147 | FL.fsi:2088
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2147 | FL.fsi:2140
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2128 | FL.fsi:2087
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2128 | FL.fsi:2088
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2128 | FL.fsi:2140
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2087 | FL.fsi:2140
+c | - | OVL | FORWARD_CMP | API FortressLibrary | FL.fsi:2088 | FL.fsi:2140
+c | - | OVL | IN | API FortressLibrary | FL.fsi:797 | FL.fsi:2106
+c | - | OVL | IN | API FortressLibrary | FL.fsi:797 | FL.fsi:2089
+c | - | OVL | IN | API FortressLibrary | FL.fsi:797 | FL.fsi:2068
+c | - | OVL | IN | API FortressLibrary | FL.fsi:698 | FL.fsi:2106
+c | - | OVL | IN | API FortressLibrary | FL.fsi:698 | FL.fsi:2089
+c | - | OVL | IN | API FortressLibrary | FL.fsi:698 | FL.fsi:2068
+c | - | OVL | IN | API FortressLibrary | FL.fsi:2106 | FL.fsi:2089
+c +a | - | OVL | IN | API RangeInternals | RI.fsi:429 | RI.fsi:505
+b | b2 | OVL | MAX | API FortressLibrary | FL.fsi:2544 | FL.fsi:196
+b | b2 | OVL | MAX | API FortressLibrary | FL.fsi:2544 | FL.fsi:210
+b | b2 | OVL | MAX | API FortressLibrary | FL.fsi:2545 | FL.fsi:196
+b | b2 | OVL | MAX | API FortressLibrary | FL.fsi:2545 | FL.fsi:210
+b | b2 | OVL | MIN | API FortressLibrary | FL.fsi:2542 | FL.fsi:209
+b | b2 | OVL | MIN | API FortressLibrary | FL.fsi:2542 | FL.fsi:185
+b | b2 | OVL | MIN | API FortressLibrary | FL.fsi:2543 | FL.fsi:209
+b | b2 | OVL | MIN | API FortressLibrary | FL.fsi:2543 | FL.fsi:185
+b +a | b1 | OVL | MINMAX | API FortressLibrary | FL.fsi:291 | FL.fsi:221
+b +a | b1 | OVL | MINMAX | API FortressLibrary | FL.fsi:390 | FL.fsi:221
+c +a | - | OVL | SQCAP | API FortressLibrary | FL.fsi:835 | FL.fsi:855
+c | - | OVL | copy | trait StandardMutableArrayType | FL.fsi:1339 | FL.fsi:1370
+e1 | - | OVL | fill | trait Array | FL.fsi:1337 | FL.fsi:1336
+e1 | - | OVL | fill | trait Array | FL.fsi:1337 | FL.fsi:1297
+e1 | - | OVL | fill | trait Array | FL.fsi:1336 | FL.fsi:1298
+e1 | - | OVL | fill | trait Array | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait Array1 | FL.fsi:1337 | FL.fsi:1336
+e1 | - | OVL | fill | trait Array1 | FL.fsi:1337 | FL.fsi:1297
+c | - | OVL | fill | trait Array1 | FL.fsi:1337 | FL.fsi:1369
+e1 | - | OVL | fill | trait Array1 | FL.fsi:1337 | FL.fsi:1368
+e1 | - | OVL | fill | trait Array1 | FL.fsi:1336 | FL.fsi:1298
+e1 | - | OVL | fill | trait Array1 | FL.fsi:1336 | FL.fsi:1369
+c | - | OVL | fill | trait Array1 | FL.fsi:1336 | FL.fsi:1368
+e1 | - | OVL | fill | trait Array1 | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait Array1 | FL.fsi:1298 | FL.fsi:1368
+e1 | - | OVL | fill | trait Array1 | FL.fsi:1297 | FL.fsi:1369
+e1 | - | OVL | fill | trait Array1 | FL.fsi:1369 | FL.fsi:1368
+e1 | - | OVL | fill | trait Array2 | FL.fsi:1336 | FL.fsi:1337
+e1 | - | OVL | fill | trait Array2 | FL.fsi:1336 | FL.fsi:1298
+c | - | OVL | fill | trait Array2 | FL.fsi:1336 | FL.fsi:1368
+e1 | - | OVL | fill | trait Array2 | FL.fsi:1336 | FL.fsi:1369
+e1 | - | OVL | fill | trait Array2 | FL.fsi:1337 | FL.fsi:1297
+e1 | - | OVL | fill | trait Array2 | FL.fsi:1337 | FL.fsi:1368
+c | - | OVL | fill | trait Array2 | FL.fsi:1337 | FL.fsi:1369
+e1 | - | OVL | fill | trait Array2 | FL.fsi:1297 | FL.fsi:1298
+e1 | - | OVL | fill | trait Array2 | FL.fsi:1297 | FL.fsi:1369
+e1 | - | OVL | fill | trait Array2 | FL.fsi:1298 | FL.fsi:1368
+e1 | - | OVL | fill | trait Array2 | FL.fsi:1368 | FL.fsi:1369
+e1 | - | OVL | fill | trait Array3 | FL.fsi:1336 | FL.fsi:1337
+e1 | - | OVL | fill | trait Array3 | FL.fsi:1336 | FL.fsi:1298
+c | - | OVL | fill | trait Array3 | FL.fsi:1336 | FL.fsi:1368
+e1 | - | OVL | fill | trait Array3 | FL.fsi:1336 | FL.fsi:1369
+e1 | - | OVL | fill | trait Array3 | FL.fsi:1337 | FL.fsi:1297
+e1 | - | OVL | fill | trait Array3 | FL.fsi:1337 | FL.fsi:1368
+c | - | OVL | fill | trait Array3 | FL.fsi:1337 | FL.fsi:1369
+e1 | - | OVL | fill | trait Array3 | FL.fsi:1297 | FL.fsi:1298
+e1 | - | OVL | fill | trait Array3 | FL.fsi:1297 | FL.fsi:1369
+e1 | - | OVL | fill | trait Array3 | FL.fsi:1298 | FL.fsi:1368
+e1 | - | OVL | fill | trait Array3 | FL.fsi:1368 | FL.fsi:1369
+e1 | - | OVL | fill | trait ImmutableArray | FL.fsi:1317 | FL.fsi:1316
+e1 | - | OVL | fill | trait ImmutableArray | FL.fsi:1317 | FL.fsi:1297
+e1 | - | OVL | fill | trait ImmutableArray | FL.fsi:1316 | FL.fsi:1298
+e1 | - | OVL | fill | trait ImmutableArray | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1317 | FL.fsi:1316
+e1 | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1317 | FL.fsi:1297
+c | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1317 | FL.fsi:1369
+e1 | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1317 | FL.fsi:1368
+e1 | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1316 | FL.fsi:1298
+e1 | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1316 | FL.fsi:1369
+c | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1316 | FL.fsi:1368
+e1 | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1298 | FL.fsi:1368
+e1 | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1297 | FL.fsi:1369
+e1 | - | OVL | fill | trait ImmutableArray1 | FL.fsi:1369 | FL.fsi:1368
+c | - | OVL | fill | trait Matrix | FL.fsi:1336 | FL.fsi:1368
+c | - | OVL | fill | trait Matrix | FL.fsi:1337 | FL.fsi:1369
+e1 | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1317 | FL.fsi:1316
+e1 | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1317 | FL.fsi:1297
+c | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1317 | FL.fsi:1369
+e1 | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1317 | FL.fsi:1368
+e1 | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1316 | FL.fsi:1298
+e1 | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1316 | FL.fsi:1369
+c | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1316 | FL.fsi:1368
+e1 | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1298 | FL.fsi:1368
+e1 | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1297 | FL.fsi:1369
+e1 | - | OVL | fill | trait PrimImmutableArray | FL.fsi:1369 | FL.fsi:1368
+e1 | - | OVL | fill | trait PrimitiveArray | FL.fsi:1337 | FL.fsi:1336
+e1 | - | OVL | fill | trait PrimitiveArray | FL.fsi:1337 | FL.fsi:1297
+c | - | OVL | fill | trait PrimitiveArray | FL.fsi:1337 | FL.fsi:1369
+e1 | - | OVL | fill | trait PrimitiveArray | FL.fsi:1337 | FL.fsi:1368
+e1 | - | OVL | fill | trait PrimitiveArray | FL.fsi:1336 | FL.fsi:1298
+e1 | - | OVL | fill | trait PrimitiveArray | FL.fsi:1336 | FL.fsi:1369
+c | - | OVL | fill | trait PrimitiveArray | FL.fsi:1336 | FL.fsi:1368
+e1 | - | OVL | fill | trait PrimitiveArray | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait PrimitiveArray | FL.fsi:1298 | FL.fsi:1368
+e1 | - | OVL | fill | trait PrimitiveArray | FL.fsi:1297 | FL.fsi:1369
+e1 | - | OVL | fill | trait PrimitiveArray | FL.fsi:1369 | FL.fsi:1368
+e1 | - | OVL | fill | trait ReadableArray | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait ReadableArray1 | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait StandardImmutableArrayType | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait StandardImmutableArrayType | FL.fsi:1298 | FL.fsi:1368
+e1 | - | OVL | fill | trait StandardImmutableArrayType | FL.fsi:1297 | FL.fsi:1369
+e1 | - | OVL | fill | trait StandardImmutableArrayType | FL.fsi:1369 | FL.fsi:1368
+e1 | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1337 | FL.fsi:1336
+e1 | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1337 | FL.fsi:1297
+c | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1337 | FL.fsi:1369
+e1 | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1337 | FL.fsi:1368
+e1 | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1336 | FL.fsi:1298
+e1 | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1336 | FL.fsi:1369
+c | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1336 | FL.fsi:1368
+e1 | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1298 | FL.fsi:1297
+e1 | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1298 | FL.fsi:1368
+e1 | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1297 | FL.fsi:1369
+e1 | - | OVL | fill | trait StandardMutableArrayType | FL.fsi:1369 | FL.fsi:1368
+c | - | OVL | fill | trait Vector | FL.fsi:1337 | FL.fsi:1369
+c | - | OVL | fill | trait Vector | FL.fsi:1336 | FL.fsi:1368
+e2 | - | OVL | generate | trait NoReductionPair | FL.fsi:788 | FL.fsi:623
+e2 | - | OVL | generate | trait PossibleReductionPair | FL.fsi:788 | FL.fsi:623
+e2 | - | OVL | generate | trait ReductionPair | FL.fsi:788 | FL.fsi:623
+e2 | - | OVL | generate | trait SomeReductionPair | FL.fsi:788 | FL.fsi:623
+d +a | - | OVL | isLeftZero | trait LexicographicReduction | FL.fsi:93 | FL.fsi:1781
+c | - | OVL | ivmap | trait Just | FL.fsi:790 | FL.fsi:1176
+c | - | OVL | ivmap | trait Maybe | FL.fsi:790 | FL.fsi:1176
+c | - | OVL | ivmap | trait Nothing | FL.fsi:790 | FL.fsi:1176
+c | - | OVL | juxtaposition | API FortressLibrary | FL.fsi:2355 | FL.fsi:2357
+b | b1 | OVL | juxtaposition | API FortressLibrary | FL.fsi:2355 | FL.fsi:271
+b | b1 | OVL | juxtaposition | API FortressLibrary | FL.fsi:2357 | FL.fsi:271
+b | b1 | OVL | juxtaposition | API FortressLibrary | FL.fsi:2356 | FL.fsi:271
+d | - | OVL | lift | trait AssociativeReduction | FL.fsi:1723 | FL.fsi:1762
+d | - | OVL | lift | trait CommutativeReduction | FL.fsi:1723 | FL.fsi:1762
+d | - | OVL | lift | trait MaxReduction | FL.fsi:1723 | FL.fsi:1762
+d | - | OVL | lift | trait MinMaxReduction | FL.fsi:1723 | FL.fsi:1762
+d | - | OVL | lift | trait MinReduction | FL.fsi:1723 | FL.fsi:1762
+d | - | OVL | lift | trait NewlineReduction | FL.fsi:1723 | FL.fsi:1762
+c | - | OVL | map | trait CompactFullSeqScalarRange | FL.fsi:762 | FL.fsi:1177
+c | - | OVL | map | trait Maybe | FL.fsi:789 | FL.fsi:1177
+c | - | OVL | map | trait Maybe | FL.fsi:762 | FL.fsi:1177
+c | - | OVL | map | trait StridedFullSeqScalarRange | FL.fsi:762 | FL.fsi:1177
+b | b2 | OVL | openRangeHelper | API RangeInternals | RI.fsi:616 | RI.fsi:614
+b | b2 | OVL | openRangeHelper | API RangeInternals | RI.fsi:616 | RI.fsi:612
+b | b2 | OVL | openRangeHelper | API RangeInternals | RI.fsi:614 | RI.fsi:612
+b | b2 | OVL | seq | API FortressLibrary | FL.fsi:1222 | FL.fsi:2036
+b | b2 | OVL | seq | API FortressLibrary | FL.fsi:1222 | FL.fsi:761
+b | b2 | OVL | seq | API FortressLibrary | FL.fsi:1272 | FL.fsi:2036
+b | b2 | OVL | seq | API FortressLibrary | FL.fsi:1272 | FL.fsi:761
+c | - | OVL | seq | API FortressLibrary | FL.fsi:2036 | FL.fsi:761
+d | - | RET | CMP | - | FL.fsi:145 | FL.fsi:146
+d | b1 | RET | CMP | - | FL.fsi:145 | FL.fsi:222
+d | - | RET | CMP | - | FL.fsi:134 | FL.fsi:135
+d | b1 | RET | CMP | - | FL.fsi:134 | FL.fsi:222
+d | b1 | RET | MAX | - | FL.fsi:290 | FL.fsi:210
+d | b1 | RET | MAX | - | FL.fsi:389 | FL.fsi:210
+d | b2 | RET | MAX | - | FL.fsi:210 | FL.fsi:196
+d | b1 | RET | MIN | - | FL.fsi:289 | FL.fsi:209
+d | b1 | RET | MIN | - | FL.fsi:388 | FL.fsi:209
+d | b2 | RET | MIN | - | FL.fsi:209 | FL.fsi:185
+e1 | - | RET | array1 | - | FL.fsi:1489 | FL.fsi:1488
+e1 | - | RET | array2 | - | FL.fsi:1599 | FL.fsi:1598
+d | - | RET | atMost | - | RI.fsi:259 | FL.fsi:2113
+d | - | RET | atMost | - | RI.fsi:319 | FL.fsi:2113
+d | - | RET | empty | - | FL.fsi:1858 | FL.fsi:1721
+d | - | RET | empty | - | FL.fsi:1858 | FL.fsi:1712
+d | - | RET | every | - | RI.fsi:257 | FL.fsi:2112
+d | - | RET | narrow | - | FL.fsi:460 | FL.fsi:365
+d | - | RET | narrow | - | FL.fsi:460 | FL.fsi:539
+d | - | RET | narrow | - | FL.fsi:539 | FL.fsi:365
+d | - | RET | narrow | - | FL.fsi:532 | FL.fsi:365
+d | - | RET | shift | - | FL.fsi:1680 | FL.fsi:1335
+d | - | RET | shift | - | FL.fsi:1680 | FL.fsi:1292
+d | - | RET | truncate | - | FL.fsi:403 | FL.fsi:335
+# tally: {'(+a)': 8, '(sentence applies: b1)': 12, '(sentence applies: b2)': 31, 'b': 35, 'c': 56, 'd': 29, 'e1': 79, 'e2': 4} total 203

@@ -1,0 +1,75 @@
+# r24: ZALL3 with checkP relaxed ONLY at the two TypeHierarchyChecker calls (batch 3's rung P),
+# overload memo off: 487 errors against 203 for the broad placement.
+# by kind and name:
+OVL fill 95
+RET juxtaposition 60
+RET DOT 44
+OVL FORWARD_CMP 19
+OVL CAP 17
+RET BY 10
+RET BITAND 8
+RET BITNOT 8
+RET BITOR 8
+RET BITXOR 8
+RET CHOOSE 8
+RET CMP 8
+RET DIV 8
+RET GCD 8
+RET LCM 8
+RET LSHIFT 8
+RET MOD 8
+RET REM 8
+RET RSHIFT 8
+OVL IN 7
+OVL combine2D 7
+OVL combine3D 7
+RET narrow 7
+OVL lift 6
+RET MAX 6
+RET MIN 6
+OVL seq 5
+DUP DOT 4
+OVL MAX 4
+OVL MIN 4
+OVL generate 4
+OVL juxtaposition 4
+OVL map 4
+DUP LEXICO 3
+DUP juxtaposition 3
+OVL ivmap 3
+OVL openRangeHelper 3
+DUP BITAND 2
+DUP BITNOT 2
+DUP BITOR 2
+DUP BITXOR 2
+DUP BY 2
+DUP CHOOSE 2
+DUP DIV 2
+DUP GCD 2
+DUP INVERSE 2
+DUP LCM 2
+DUP LSHIFT 2
+DUP MOD 2
+DUP REM 2
+DUP RSHIFT 2
+DUP narrow 2
+OVL CMP 2
+RET MINMAX 2
+RET SQCAP 2
+RET atMost 2
+RET empty 2
+RET shift 2
+DUP CMP 1
+DUP SQCAP 1
+DUP numerator 1
+DUP widen 1
+OVL copy 1
+RET array1 1
+RET array2 1
+RET every 1
+RET truncate 1
+
+# three of them, verbatim
+DUP | BITAND | - | Library/FortressLibrary.fsi:453:5-32 Library/FortressLibrary.fsi:487:5-32 | ((ZZ32 & {Int, IntLiteral}), ZZ32)
+RET | DIV | - | ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 @ Library/FortressLibrary.fsi:447:5-29 | ((ZZ32 & {Int, IntLiteral}), ZZ32)->ZZ32 @ Library/FortressLibrary.fsi:481:5-29
+OVL | combine2D | API RangeInternals | [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.CompactFullScalarRange[\I\], RangeInternals.CompactFullScalarRange[\J\])->RangeInternals.CompactFullRange2D[\I,J\] @ Library/RangeInternals.fsi:458:1-154 | [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.FullScalarRange[\I\], RangeInternals.FullScalarRange[\J\])->RangeInternals.FullRange2D[\I,J\] @ Library/RangeInternals.fsi:532:1-133
