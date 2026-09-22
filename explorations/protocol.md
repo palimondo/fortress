@@ -166,6 +166,16 @@ but if one seems to conflict with something Pavol says, his words win.
 - Evidence over speculation; reproduce before explaining.
 - Work that needs Pavol's machine (CI pushes) is parked, not simulated.
 - Closed decisions are not revisited.
+- **(P)** 2026-09-22, the way a semantic question is examined before it is decided,
+  found while settling the shift operators: the refresher (what the operation means
+  in mathematics); what each path does today, measured; what the specification's
+  prose says, including the same idea under another spelling; where it sits in the
+  numeric tower; what the library already does in the same family and where the
+  designers already departed from Java; what the peers do, by family (JVM,
+  close-to-the-metal, scientific, unbounded); the history in the commits; then the
+  derivation from Pavol's principle (POSITIONS 2026-09-22), case by case with the
+  cost on the JVM; then the decision in his words, the ledger row appended, and the
+  exact rule in the rung's brief. Steps three to seven come before the choice.
 - **(P)** 2026-09-20: a decision that touches two or more of the specification,
   the interpreter and the compiler, or that infers the original design intent, is
   made in two steps: cheaper-tier workers gather the evidence into a condensed,
