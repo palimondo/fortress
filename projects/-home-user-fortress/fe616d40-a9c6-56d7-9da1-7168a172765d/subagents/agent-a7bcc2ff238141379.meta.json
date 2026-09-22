@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","description":"Probe run-time size designs and value position","toolUseId":"toolu_01MDxEAAcGE171Pp8siYS8x7","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","description":"Probe run-time size designs and value position","toolUseId":"toolu_01MDxEAAcGE171Pp8siYS8x7","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","stoppedByUser":true}
