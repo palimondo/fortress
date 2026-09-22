@@ -1,0 +1,16 @@
+component MieTower
+export Executable
+
+(* The library's nested tower: which instantiation does the interpreter infer for a ZZ32 value? *)
+object Marker[\X\] end
+viaIntegral[\I extends Integral[\I\]\](x: Integral[\I\]): String = (Marker[\I\]).asString
+viaOrder[\T extends StandardTotalOrder[\T\]\](x: StandardTotalOrder[\T\]): String = (Marker[\T\]).asString
+viaEquality[\T extends Equality[\T\]\](x: Equality[\T\]): String = (Marker[\T\]).asString
+
+run(): () = do
+  x: ZZ32 = 3
+  y: ZZ64 = widen(x)
+  println("ZZ32 value: Integral[I] gives " viaIntegral(x) ", StandardTotalOrder[T] gives " viaOrder(x) ", Equality[T] gives " viaEquality(x))
+  println("ZZ64 value: Integral[I] gives " viaIntegral(y) ", StandardTotalOrder[T] gives " viaOrder(y) ", Equality[T] gives " viaEquality(y))
+end
+end

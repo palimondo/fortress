@@ -1,0 +1,19 @@
+component MieInferRet
+export Executable
+
+(* No overloading at all: one generic function whose result is only a Tag[X]. *)
+trait Tag[\X\] tagName(): String end
+object Mk[\X\] extends Tag[\X\] tagName(): String = (Mk[\X\]).asString end
+object Both extends { Tag[\String\], Tag[\ZZ32\] } tagName(): String = "Both" end
+
+mk[\X\](t: Tag[\X\]): Tag[\X\] = Mk[\X\]
+
+run(): () = do
+  s: Tag[\String\] = Both
+  rs: Tag[\String\] = mk(s)
+  println("rs: Tag[String] = mk(s) -> " rs.tagName())
+  z: Tag[\ZZ32\] = Both
+  rz: Tag[\ZZ32\] = mk(z)
+  println("rz: Tag[ZZ32]   = mk(z) -> " rz.tagName())
+end
+end

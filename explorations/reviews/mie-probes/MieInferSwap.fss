@@ -1,0 +1,17 @@
+component MieInferSwap
+export Executable
+
+(* MieInfer with Both's two instantiations listed in the other order. *)
+trait Tag[\X\] tagName(): String end
+object Both extends { Tag[\ZZ32\], Tag[\String\] } tagName(): String = "Both" end
+object Marker[\X\] end
+
+which[\X\](t: Tag[\X\]): String = (Marker[\X\]).asString
+
+run(): () = do
+  s: Tag[\String\] = Both
+  z: Tag[\ZZ32\] = Both
+  println("which(s), s: Tag[String] -> " which(s))
+  println("which(z), z: Tag[ZZ32]   -> " which(z))
+end
+end

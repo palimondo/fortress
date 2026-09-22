@@ -1,0 +1,23 @@
+component MieHeadOrId
+export Executable
+
+(* Naden's headOrID shape (justificationOfRTR.tex:483-494), with a result that is only a Tag[X]:
+   a catch-all beside a generic declaration the interpreter's overload check accepts. *)
+trait Tag[\X\] tagName(): String end
+object Mk[\X\] extends Tag[\X\] tagName(): String = (Mk[\X\]).asString end
+object Both extends { Tag[\String\], Tag[\ZZ32\] } tagName(): String = "Both" end
+
+headOrId(x: Any): Any = x
+headOrId[\X\](x: Tag[\X\]): Tag[\X\] = Mk[\X\]
+
+run(): () = do
+  s: Tag[\String\] = Both
+  z: Tag[\ZZ32\] = Both
+  a: Any = Both
+  println("headOrId(a), a: Any         -> " (headOrId(a)).asString)
+  rs: Tag[\String\] = headOrId(s)
+  println("rs: Tag[String] = headOrId(s) -> " rs.tagName())
+  rz: Tag[\ZZ32\] = headOrId(z)
+  println("rz: Tag[ZZ32]   = headOrId(z) -> " rz.tagName())
+end
+end

@@ -1,0 +1,23 @@
+component MieInfer
+export Executable
+
+(* No overloading: one generic function. Which X does the interpreter pick for Both? *)
+trait Tag[\X\] tagName(): String end
+object StrTag extends Tag[\String\] tagName(): String = "StrTag" end
+object IntTag extends Tag[\ZZ32\] tagName(): String = "IntTag" end
+object Both extends { Tag[\String\], Tag[\ZZ32\] } tagName(): String = "Both" end
+object Marker[\X\] end
+
+which[\X\](t: Tag[\X\]): String = (Marker[\X\]).asString
+
+run(): () = do
+  println("which(StrTag)            -> " which(StrTag))
+  println("which(IntTag)            -> " which(IntTag))
+  s: Tag[\String\] = Both
+  z: Tag[\ZZ32\] = Both
+  println("which(s), s: Tag[String] -> " which(s))
+  println("which(z), z: Tag[ZZ32]   -> " which(z))
+  println("which[String](Both) explicit -> " which[\String\](Both))
+  println("which[ZZ32](Both) explicit   -> " which[\ZZ32\](Both))
+end
+end

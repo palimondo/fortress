@@ -1,0 +1,22 @@
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=<dir warmed by MieDecl> bin/fortress walk MieInferRet.fss   (2026-09-22, JDK 25, main cfdc67f73)
+rs: Tag[String] = mk(s) -> Mk[\String\]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/reviews/mie-probes/MieInferRet.fss:16:3-18:
+RHS expression type Mk[\String\] is not assignable to LHS type Tag[\ZZ32\]
+Context:
+/home/user/fortress/explorations/reviews/mie-probes/MieInferRet.fss:16:3-18:
+/home/user/fortress/explorations/reviews/mie-probes/MieInferRet.fss:16:3-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+real	0m6.232s
+user	0m9.499s
+sys	0m0.561s
+exit=1

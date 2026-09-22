@@ -1,0 +1,8 @@
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=<dir warmed by MieDecl> bin/fortress walk MieInferSwap.fss   (2026-09-22, JDK 25, main cfdc67f73)
+which(s), s: Tag[String] -> Marker[\ZZ32\]
+which(z), z: Tag[ZZ32]   -> Marker[\ZZ32\]
+
+real	0m5.863s
+user	0m9.118s
+sys	0m0.541s
+exit=0

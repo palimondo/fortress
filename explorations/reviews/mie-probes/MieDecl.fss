@@ -1,0 +1,21 @@
+component MieDecl
+export Executable
+
+(* One object that extends two instantiations of one generic: accepted, and a member of both? *)
+trait Tag[\X\] tagName(): String end
+object Both extends { Tag[\String\], Tag[\ZZ32\] } tagName(): String = "Both" end
+
+run(): () = do
+  s: Tag[\String\] = Both
+  z: Tag[\ZZ32\] = Both
+  println("declared and bound at both types: " s.tagName() " " z.tagName())
+  typecase s of
+    Tag[\ZZ32\] => println("typecase: s (static Tag[String]) is also a Tag[ZZ32]")
+    else => println("typecase: s is not a Tag[ZZ32]")
+  end
+  typecase z of
+    Tag[\String\] => println("typecase: z (static Tag[ZZ32]) is also a Tag[String]")
+    else => println("typecase: z is not a Tag[String]")
+  end
+end
+end

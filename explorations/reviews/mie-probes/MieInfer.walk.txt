@@ -1,0 +1,12 @@
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=<dir warmed by MieDecl> bin/fortress walk MieInfer.fss   (2026-09-22, JDK 25, main cfdc67f73)
+which(StrTag)            -> Marker[\String\]
+which(IntTag)            -> Marker[\ZZ32\]
+which(s), s: Tag[String] -> Marker[\String\]
+which(z), z: Tag[ZZ32]   -> Marker[\String\]
+which[String](Both) explicit -> Marker[\String\]
+which[ZZ32](Both) explicit   -> Marker[\ZZ32\]
+
+real	0m10.731s
+user	0m10.077s
+sys	0m0.408s
+exit=0

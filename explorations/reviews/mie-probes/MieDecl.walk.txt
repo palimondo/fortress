@@ -1,0 +1,9 @@
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=<empty dir> bin/fortress walk MieDecl.fss   (2026-09-22, JDK 25, main cfdc67f73)
+declared and bound at both types: Both Both
+typecase: s (static Tag[String]) is also a Tag[ZZ32]
+typecase: z (static Tag[ZZ32]) is also a Tag[String]
+
+real	0m42.312s
+user	0m43.554s
+sys	0m1.747s
+exit=0
