@@ -1,4 +1,4 @@
-(* explorations/compile-ladder/rung-library-defects/REPORT.md *)
+(* explorations/compile-ladder/rung-library-defects/ *)
 component ComprisesEllipsisListed
 export ComprisesEllipsisListed
 trait Q comprises { A, R } end
