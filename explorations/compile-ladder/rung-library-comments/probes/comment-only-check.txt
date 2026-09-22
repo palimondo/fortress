@@ -6,7 +6,7 @@ Library/FortressLibrary.fss: 16 lines added, 0 deleted, 1 added lines not wholly
 RESULT: FAIL
 exit=1
 ## (b) the reversed - note's opening (*) replaced by (* so that the comment runs on unbalanced
-unbalanced comment opened at offset 184576
+unbalanced comment opened at offset 184564
 exit=1
 ## (c) one word of code changed on an existing line (e - y to y - e in the first - declaration)
 Library/FortressLibrary.fss: 16 lines added, 1 deleted, 1 added lines not wholly comment, token stream without comments DIFFERS

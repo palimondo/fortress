@@ -1,4 +1,4 @@
-# parse-compare.sh d610695c0c014001687e528fa9fd99078db6ea76 <scratch>, run from the worktree root after the edit
+# parse-compare.sh d610695c0c014001687e528fa9fd99078db6ea76 <scratch>, run from the worktree root after the edit (re-run in the repair round, after comment 2's rewording)
 base fss: Ok
 tree fss: Ok
 Library/FortressLibrary.fss: 15 lines inserted; 29058 spans and 1355 location-derived names remapped; post dump DIFFERS from the pre dump

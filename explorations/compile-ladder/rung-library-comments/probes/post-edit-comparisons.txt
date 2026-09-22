@@ -1,4 +1,5 @@
 # Comparisons after the edit, each of a post-edit capture against its pre-edit capture (both in this directory), with remap-lines.py mapping every FortressLibrary.fss/.fsi position in the post-edit text back to the base numbering of d610695c0c014001687e528fa9fd99078db6ea76
+# Regenerated in the repair round from the re-run post-edit captures (comment 2 reworded, no line moved); the ArrayLiteralArg post-edit capture was re-run too and is unchanged
 
 ## checker-count table: diff checker-count-preedit.txt checker-count-postedit.txt
 (no difference)

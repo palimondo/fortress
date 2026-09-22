@@ -1,0 +1,15 @@
+# Repair round, rung C: the gated ProjectFortress/tests/ArrayOperatorsBesideLibrary.fss on this branch's library, cold.
+# bin/fortress ProjectFortress/tests/ArrayOperatorsBesideLibrary.fss (walk, one thread), run from the worktree root with
+# JAVA_FLAGS="$JAVA_FLAGS -Dfortress.caches=$PWD/tmp/cold-gated" and tmp/cold-gated created empty for the run
+# (ProjectProperties.java:283; the skeptic's method, probes/skeptic/SkArray3Exclusion.txt:2-3); stdout and stderr, then rc.
+# After the run tmp/cold-gated held FortressLibrary and ArrayOperatorVocabulary in interpreter_parsed_cache and interpreter_cache, written by this run.
+(v MINMAX 0.0)[0] = 0.0
+(0.0 MINMAX v)[2] = 1.0
+(m + t)[1,0,1] = 12.0
+(t + m)[1,1,0] = 13.0
+(t t)[1,1,1] = 100.0
+(t m)[1,0,1] = 20.0
+(m + 1.0)[1,1] = 5.0
+(1.0 + m)[0,1] = 3.0
+(0.0 MAX v)[0] = 0.0
+rc=0

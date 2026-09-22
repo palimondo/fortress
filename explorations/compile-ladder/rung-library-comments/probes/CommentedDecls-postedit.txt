@@ -1,4 +1,4 @@
-# bin/fortress CommentedDecls.fss (walk), run in explorations/compile-ladder/rung-library-comments/probes after the edit; exit code on the last line
+# bin/fortress CommentedDecls.fss (walk), run in explorations/compile-ladder/rung-library-comments/probes after the edit (re-run in the repair round, after comment 2's rewording); exit code on the last line
 x = [0#2][ 1 2 ]
 3 - x = [0#2][ 2 1 ]
 x - 3 = [0#2][ -2 -1 ]

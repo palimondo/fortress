@@ -1659,8 +1659,8 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
                                         (ZZ32,ZZ32,ZZ32)\] }
     excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
     (* Excluding AnyAdditiveGroup picks one of two uses of rank 3.  An operator
-       between an Array3 and a number or a lower-rank array, such as a matrix added
-       to every plane, can be declared without colliding with AdditiveGroup's
+       between an Array3 and a lower-rank array, such as a matrix added to every
+       plane, can be declared without colliding with AdditiveGroup's
        +(self, other: T); in exchange no Array3 can be an additive group, a rank-3
        counterpart of Vector and Matrix.  Array1 and Array2 cannot exclude it:
        Vector and Matrix extend them and are additive groups. *)
