@@ -1,0 +1,51 @@
+# Differential: the compiler with the clauses memo on (switch default) and off (FORTRESS_ANALYZER_CLAUSES_CACHE=false), 2026-09-22,
+# worktree /home/user/fortress-memo at the rung's edit, after ant compileAll. On used default_repository/caches; off used a separate
+# cache directory (FORTRESS_CACHES=tmp/caches-off), so each side compiled everything from source.
+
+## 1. The compiler prelude rebuilt in library order (probes/libbuild.sh), one run per side, sequential; wall seconds per file
+memo on:
+  LibraryBuiltin/AnyType.fss rc=0 17.2 s
+  LibraryBuiltin/CompilerBuiltin.fss rc=0 77.2 s
+  ../Library/CompilerLibrary.fss rc=0 30.5 s
+  ../Library/CompilerAlgebra.fss rc=0 2.2 s
+  ../Library/CompilerSystem.fss rc=0 2.3 s
+memo off:
+  LibraryBuiltin/AnyType.fss rc=0 29.5 s
+  LibraryBuiltin/CompilerBuiltin.fss rc=0 126.3 s
+  ../Library/CompilerLibrary.fss rc=0 35.6 s
+  ../Library/CompilerAlgebra.fss rc=0 2.3 s
+  ../Library/CompilerSystem.fss rc=0 2.1 s
+(single samples on a box shared with another rung's agent; load1 was 2.2-3.5 during these runs)
+
+## 2. What the two prelude builds produced
+bytecode: 5 jars (AnyType, CompilerBuiltin, CompilerLibrary, CompilerAlgebra, CompilerSystem), 556 class files unpacked and compared with diff -r: identical
+analyzed cache after section 1: 14 files (.tfi/.tfs, the checked and serialised ASTs, spans included) compared with cmp: identical
+
+## 3. Every compiler_tests unit named by a .test file, compiled once per side (probes/ctdiff.sh), each output captured with its exit code
+units attempted: 288 names; 39 name no .fss in compiler_tests (NOFILE, same on both sides); 245 compiled and captured;
+4 names carry a relative path (../LibraryBuiltin/CompilerBuiltin and .fsi, ../../Library/CompilerLibrary and .fsi), which the run
+wrote outside its capture directory (two stray files, deleted) or not at all; they are the prelude units of sections 1 and 2, and
+probes/ctdiff.sh as committed flattens the path into the capture name. The 245:
+  memo on      42 rc=0
+  memo on       2 rc=1
+  memo on     201 rc=255
+  memo off      42 rc=0
+  memo off       2 rc=1
+  memo off     201 rc=255
+diff -r of the 284 captured outputs (stdout+stderr, located error messages included), on against off: 0 lines of difference
+bytecode after section 3: 48 jars (the 5 prelude jars and 43 test jars), 710 class files, diff -r on against off: 0 lines of difference
+analyzed cache after section 3: 83 files compared with cmp: 0 differ
+
+## 4. The analyzer's own unit tests (junit.textui.TestRunner, one JVM per class), memo on and off
+  on scala_src.overloading.OverloadingJUTest OK (1 test)
+  on scala_src.typechecker.ConstraintJUTest OK (4 tests)
+  on scala_src.typechecker.FormulaJUTest OK (5 tests)
+  on scala_src.types.TypeAnalyzerJUTest OK (4 tests)
+  on scala_src.types.TypeSchemaAnalyzerJUTest OK (4 tests)
+  on scala_src.useful.STypesUtilJUTest OK (1 test)
+  off scala_src.overloading.OverloadingJUTest OK (1 test)
+  off scala_src.typechecker.ConstraintJUTest OK (4 tests)
+  off scala_src.typechecker.FormulaJUTest OK (5 tests)
+  off scala_src.types.TypeAnalyzerJUTest OK (4 tests)
+  off scala_src.types.TypeSchemaAnalyzerJUTest OK (4 tests)
+  off scala_src.useful.STypesUtilJUTest OK (1 test)

@@ -1,0 +1,3 @@
+# grep -rn -i -w 'memo\|memoize\|cache\|cached' Specification/basic Specification/basic-lib   (2026-09-22, batch base d610695c0)
+Specification/basic/matrix-unpasting.tex:52:The motivating example for matrix unpasting is cache-oblivious
+Specification/basic/matrix-unpasting.tex:53:matrix multiplication.  The general plan in a cache oblivious
