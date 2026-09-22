@@ -1,0 +1,131 @@
+########## fortress compile explorations/perf-probes/prelude/pNat1.fss   (COMPILER world, Scala + Java shadow)
+exit=0
+---------- fortress run pNat1   (no stamped size RTTI)
+java.lang.NoClassDefFoundError
+	at pNat1.main(/home/user/fortress/explorations/perf-probes/prelude/pNat1.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+	at \=AbstractArrow?pNat1\%Box?3?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.<clinit>(Unknown Source)
+	at pNat1.run(/home/user/fortress/explorations/perf-probes/prelude/pNat1.fss)
+	at pNat1.compute(/home/user/fortress/explorations/perf-probes/prelude/pNat1.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+
+########## fortress compile explorations/perf-probes/prelude/pNat2.fss   (COMPILER world, Scala + Java shadow)
+exit=0
+---------- fortress run pNat2   (no stamped size RTTI)
+java.lang.NoClassDefFoundError
+	at pNat2.main(/home/user/fortress/explorations/perf-probes/prelude/pNat2.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+	at \=AbstractArrow?pNat2\%Box?3?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.<clinit>(Unknown Source)
+	at pNat2.run(/home/user/fortress/explorations/perf-probes/prelude/pNat2.fss)
+	at pNat2.compute(/home/user/fortress/explorations/perf-probes/prelude/pNat2.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+
+########## fortress compile explorations/perf-probes/prelude/pNat3.fss   (COMPILER world, Scala + Java shadow)
+exit=0
+---------- fortress run pNat3   (no stamped size RTTI)
+7
+
+########## fortress compile explorations/perf-probes/nat/pNat4.fss   (COMPILER world, Scala + Java shadow)
+/home/user/fortress/explorations/perf-probes/nat/pNat4.fss:9:17-37:
+    Could not check call to function unbox
+    - [\4\]Box[\4\]->ZZ32 is not applicable to an argument of type Box[\3\].
+File pNat4.fss has 1 error.
+exit=255
+---------- fortress run pNat4   (no stamped size RTTI)
+Could not load pNat4
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNat4.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/pNat5.fss   (COMPILER world, Scala + Java shadow)
+/home/user/fortress/explorations/perf-probes/nat/pNat5.fss:8:19-28:
+    Ill-formed type: Box[\k+1\]
+    Arithmetic on nat static arguments is not checked; use a nat parameter or a literal.
+/home/user/fortress/explorations/perf-probes/nat/pNat5.fss:9:17-32:
+    Could not check call to function unbox
+    - [\nat k\]Box[\k+1\]->ZZ32 is not applicable to an argument of type Box[\4\].
+File pNat5.fss has 2 errors.
+exit=255
+---------- fortress run pNat5   (no stamped size RTTI)
+Could not load pNat5
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNat5.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/pNat6.fss   (COMPILER world, Scala + Java shadow)
+/home/user/fortress/explorations/perf-probes/nat/pNat6.fss:10:17-41:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+File pNat6.fss has 1 error.
+exit=255
+---------- fortress run pNat6   (no stamped size RTTI)
+Could not load pNat6
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNat6.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/pNatVec.fss   (COMPILER world, Scala + Java shadow)
+exit=0
+---------- fortress run pNatVec   (no stamped size RTTI)
+java.lang.NoClassDefFoundError
+	at pNatVec.main(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: 5$RTTIc
+	at \=AbstractArrow?pNatVec\%Vec?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.<clinit>(Unknown Source)
+	at pNatVec.run(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+	at pNatVec.compute(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+
+########## fortress compile explorations/perf-probes/nat/pNatBool.fss   (COMPILER world, Scala + Java shadow)
+/home/user/fortress/explorations/perf-probes/nat/pNatBool.fss:7:9-13:
+    Static argument inference for the bool static parameter b is not supported by the type checker.
+File pNatBool.fss has 1 error.
+exit=255
+---------- fortress run pNatBool   (no stamped size RTTI)
+Could not load pNatBool
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatBool.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/java/pNatMeth.fss   (COMPILER world, Scala + Java shadow)
+exit=0
+---------- fortress run pNatMeth   (no stamped size RTTI)
+java.lang.NoClassDefFoundError
+	at pNatMeth.main(/home/user/fortress/explorations/perf-probes/nat/java/pNatMeth.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatMeth\%Box?3??.<clinit>(Unknown Source)
+	at pNatMeth.run(/home/user/fortress/explorations/perf-probes/nat/java/pNatMeth.fss)
+	at pNatMeth.compute(/home/user/fortress/explorations/perf-probes/nat/java/pNatMeth.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+
+########## fortress compile explorations/perf-probes/nat/java/pNatGenMeth.fss   (COMPILER world, Scala + Java shadow)
+exit=0
+---------- fortress run pNatGenMeth   (no stamped size RTTI)
+java.lang.NoClassDefFoundError
+	at pNatGenMeth.main(/home/user/fortress/explorations/perf-probes/nat/java/pNatGenMeth.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatGenMeth\%Box?3??.<clinit>(Unknown Source)
+	at pNatGenMeth.run(/home/user/fortress/explorations/perf-probes/nat/java/pNatGenMeth.fss)
+	at pNatGenMeth.compute(/home/user/fortress/explorations/perf-probes/nat/java/pNatGenMeth.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+

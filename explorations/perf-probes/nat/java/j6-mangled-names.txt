@@ -1,0 +1,35 @@
+# The JVM names pNatGenMeth.fss produces, read out of its own class files.
+# Entries of pNatGenMeth.jar:
+#   pNatGenMeth⚙$Box⟦⟧✉$\=✚Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatGenMeth\%Box⟦k⟧⟧.class
+#   pNatGenMeth⚙$Box⟦⟧✉$\=✚Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatGenMeth\%Box⟦k⟧⟧.xlation
+#   pNatGenMeth⚙$Box☝idx⟦⟧✉$\=✚Arrow⟦Tuple⟦☝,pNatGenMeth\%Box⟦j⟧⟧,pNatGenMeth\%Box⟦k⟧⟧.class
+#   pNatGenMeth⚙$Box☝idx⟦⟧✉$\=✚Arrow⟦Tuple⟦☝,pNatGenMeth\%Box⟦j⟧⟧,pNatGenMeth\%Box⟦k⟧⟧.xlation
+#   pNatGenMeth$Box⟦⟧.class
+#   pNatGenMeth$Box⟦⟧.xlation
+#   pNatGenMeth$Box$RTTIi.class
+#   pNatGenMeth$Box$RTTIc.class
+#   pNatGenMeth⚙$BoxT⟦⟧✉$\=✚Arrow⟦T,pNatGenMeth\%BoxT⟦T⟧⟧.class
+#   pNatGenMeth⚙$BoxT⟦⟧✉$\=✚Arrow⟦T,pNatGenMeth\%BoxT⟦T⟧⟧.xlation
+#   pNatGenMeth⚙$BoxT☝idxT⟦⟧✉$\=✚Arrow⟦Tuple⟦☝,pNatGenMeth\%BoxT⟦U⟧⟧,pNatGenMeth\%BoxT⟦T⟧⟧.class
+#   pNatGenMeth⚙$BoxT☝idxT⟦⟧✉$\=✚Arrow⟦Tuple⟦☝,pNatGenMeth\%BoxT⟦U⟧⟧,pNatGenMeth\%BoxT⟦T⟧⟧.xlation
+#   pNatGenMeth$BoxT⟦⟧.class
+#   pNatGenMeth$BoxT⟦⟧.xlation
+#   pNatGenMeth$BoxT$RTTIi.class
+#   pNatGenMeth$BoxT$RTTIc.class
+#   pNatGenMeth.class
+
+== pNatGenMeth⚙$Box☝idx⟦⟧✉$\=✚Arrow⟦Tuple⟦☝,pNatGenMeth\%Box⟦j⟧⟧,pNatGenMeth\%Box⟦k⟧⟧.class
+     pNatGenMeth⚙$Box☝idx⟦☝,j,k⟧✉$\=✚Arrow⟦Tuple⟦☝,pNatGenMeth\%Box⟦j⟧⟧,pNatGenMeth\%Box⟦k⟧⟧
+== pNatGenMeth$Box⟦⟧.class
+     \=idx☝✖Arrow⟦pNatGenMeth\%Box⟦j⟧,pNatGenMeth\%Box⟦k⟧⟧
+     \=idx☝✖Arrow⟦pNatGenMeth\%Box⟦j⟧,pNatGenMeth\%Box⟦k⟧⟧✖table
+     pNatGenMeth⚙$Box☝idx⟦⟧✉$✚Arrow⟦Tuple⟦☝,pNatGenMeth$Box⟦j⟧⟧,pNatGenMeth$Box⟦k⟧⟧
+== pNatGenMeth⚙$BoxT☝idxT⟦⟧✉$\=✚Arrow⟦Tuple⟦☝,pNatGenMeth\%BoxT⟦U⟧⟧,pNatGenMeth\%BoxT⟦T⟧⟧.class
+     pNatGenMeth⚙$BoxT☝idxT⟦☝,U,T⟧✉$\=✚Arrow⟦Tuple⟦☝,pNatGenMeth\%BoxT⟦U⟧⟧,pNatGenMeth\%BoxT⟦T⟧⟧
+== pNatGenMeth$BoxT⟦⟧.class
+     \=idxT☝✖Arrow⟦pNatGenMeth\%BoxT⟦fortress\|CompilerBuiltin\%Object⟧,pNatGenMeth\%BoxT⟦fortress\|CompilerBuiltin\%Object⟧⟧
+     \=idxT☝✖Arrow⟦pNatGenMeth\%BoxT⟦fortress\|CompilerBuiltin\%Object⟧,pNatGenMeth\%BoxT⟦fortress\|CompilerBuiltin\%Object⟧⟧✖table
+     pNatGenMeth⚙$BoxT☝idxT⟦⟧✉$✚Arrow⟦Tuple⟦☝,pNatGenMeth$BoxT⟦U⟧⟧,pNatGenMeth$BoxT⟦T⟧⟧
+== pNatGenMeth.class
+     \=idxT☝✖Arrow⟦pNatGenMeth\%BoxT⟦fortress\|CompilerBuiltin\%Object⟧,pNatGenMeth\%BoxT⟦fortress\|CompilerBuiltin\%Object⟧⟧
+     \=idx☝✖Arrow⟦pNatGenMeth\%Box⟦j⟧,pNatGenMeth\%Box⟦k⟧⟧

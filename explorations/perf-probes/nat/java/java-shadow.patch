@@ -1,0 +1,109 @@
+--- ProjectFortress/src/com/sun/fortress/compiler/codegen/FnNameInfo.java	2026-09-08 16:43:02.319030519 +0000
++++ explorations/perf-probes/nat/java/shadow-src/com/sun/fortress/compiler/codegen/FnNameInfo.java	2026-09-22 05:08:23.770987629 +0000
+@@ -25,6 +25,8 @@
+ import com.sun.fortress.nodes.FnHeader;
+ import com.sun.fortress.nodes.Id;
+ import com.sun.fortress.nodes.IdOrOp;
++import com.sun.fortress.nodes.KindInt;
++import com.sun.fortress.nodes.KindNat;
+ import com.sun.fortress.nodes.Param;
+ import com.sun.fortress.nodes.StaticArg;
+ import com.sun.fortress.nodes.StaticParam;
+@@ -159,7 +161,45 @@
+         return NodeFactory.makeArrowType(NodeFactory.makeSpan(dt,rt), dt, rt);
+     }
+     
+-    public TypeArg boundsFor(StaticParam sp) {
++    /*
++     * NAT SHADOW (explorations/perf-probes/nat/java/java-shadow.patch).
++     *
++     * boundsFor returned a TypeArg for EVERY static parameter, whatever its
++     * kind, and normalizedSchema below builds a StaticTypeReplacer out of the
++     * results.  For a `nat s' that mapped s |-> TypeArg(TraitType Object), and
++     * StaticTypeReplacer.forIntRef (StaticTypeReplacer.java:221-223) then
++     * unwrapped it (updateNode, :121-141) into a TraitType where an IntExpr belongs,
++     * so the generated NodeUpdateVisitor.forIntArg:5310 threw
++     *   ClassCastException: TraitType cannot be cast to IntExpr
++     * for any checked method invocation on a nat-parameterized receiver
++     * (reached from impls/Functionals.scala:606 and :730).
++     *
++     * The change: dispatch on the parameter's kind.  A size has no upper bound
++     * to erase to -- the team's recorded stance is "don't instantiate"
++     * (Specification-1.0-frozen/appendices/internal-document.tex:206, quoted in
++     * explorations/reviews/nat-checking-plan.md (c)), so the kind-correct
++     * "bound" of a size is the size itself.  That is exactly
++     * STypesUtil.staticParamToArg's answer for KindNat/KindInt
++     * (STypesUtil.scala:338-339): IntArg(IntRef name).  Substituting it is the
++     * identity on the schema's nat positions, so NamingCzar's mangler sees the
++     * declared symbol (forIntRef, NamingCzar.java:1895-1896: XL_INTNAT + the
++     * name's text) or, for a written-out argument, the literal (forIntBase,
++     * :1890-1891).  A reserved-name inference variable ($nat$k, the shadow's
++     * option B) is not a static parameter of the declaration, so it is not in
++     * the map at all and passes through untouched.
++     *
++     * Kinds other than nat/int have the same latent bug and the same one-line
++     * answer (BoolArg/DimArg/UnitArg/OpArg); they are out of the minimal
++     * design's scope (nat-checking-plan.md (c), "bool, dim, unit stay out of
++     * scope") and are left exactly as they were.
++     */
++    public StaticArg boundsFor(StaticParam sp) {
++        if ((sp.getKind() instanceof KindNat || sp.getKind() instanceof KindInt)
++                && sp.getName() instanceof Id) {
++            Span sp_span = sp.getInfo().getSpan();
++            return NodeFactory.makeIntArg(sp_span,
++                    NodeFactory.makeIntRef(sp_span, (Id) sp.getName()));
++        }
+         List<BaseType> tl = sp.getExtendsClause();
+         if (tl.size() == 0) {
+             return NodeFactory.makeTypeArg(NodeFactory.makeTraitType(
+--- /dev/null	2026-09-19 00:47:13.084118588 +0000
++++ explorations/perf-probes/nat/java/shadow-src/com/sun/fortress/compiler/runtimeValues/RTTIsize.java	2026-09-22 05:05:59.279091453 +0000
+@@ -0,0 +1,48 @@
++/* NAT SHADOW, new file (explorations/perf-probes/nat/java/java-shadow.patch).
++ *
++ * The run-time representation of a size static argument, for the scoping
++ * experiment of explorations/perf-probes/nat/java.md  2: the missing third
++ * sibling of VoidRTTI (22 lines) and JavaRTTI (15 lines).
++ *
++ * Two things the rest of the run time asks of an RTTI object, and why a size
++ * needs its own class for them:
++ *   - className() (RTTI.java:52-58) is what RTHelpers.getRTTIclass builds the
++ *     instantiated RTTI class name out of (RTHelpers.java:31-45), so a size's
++ *     must be the size itself, the way VoidRTTI's is the snowman
++ *     (VoidRTTI.java:18-20).
++ *   - runtimeSupertypeOf (RTTI.java:22-27) is Class.isAssignableFrom on the
++ *     javaRep, and a size has no Java class; two sizes are related exactly when
++ *     they are equal (the team's "don't instantiate",
++ *     internal-document.tex:206).
++ * The name begins with "RTTI" so that InstantiatingClassloader's
++ * mustUseSystemLoader list (:2905-2907) sends it to the system loader, as it
++ * does RTTI, ArrowRTTI and JavaRTTI.
++ */
++package com.sun.fortress.compiler.runtimeValues;
++
++public class RTTIsize extends RTTI {
++
++    private final String size;
++
++    public RTTIsize(String size) {
++        // An inert placeholder: a size is not a type, and RTTI's javaRep is only
++        // used by the runtimeSupertypeOf and className overridden below.  FZZ32.class
++        // cannot be used -- its static initializer needs the generic Fortress class
++        // fortress/CompilerAlgebra$Equality[FZZ32], which only the instantiating
++        // loader can make, and it is not the one asking.
++        super(java.lang.Object.class);
++        this.size = size;
++    }
++
++    public boolean runtimeSupertypeOf(RTTI other) {
++        return (other instanceof RTTIsize) && ((RTTIsize) other).size.equals(size);
++    }
++
++    public String className() {
++        return size;
++    }
++
++    public String toString() {
++        return "size " + size;
++    }
++}

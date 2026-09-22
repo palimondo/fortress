@@ -1,0 +1,23 @@
+component pNatGenMeth
+export Executable
+(* A GENERIC method, itself nat-parameterized, on a nat-parameterized receiver,
+   with BOTH sizes occurring in its own domain and range -- the shape of
+   Library/FortressLibrary.fss:2145's
+   __subarray[\T,nat b0,nat s0,nat b,nat s,nat o\](..) = it.subarray[\b,s,o\](m).
+   This is the shape whose JVM name carries FnNameInfo.normalizedSchema's output
+   (NamingCzar.genericMethodName, NamingCzar.java:811-833, from CodeGen.java:6153
+   on the use side and CodeGen.java:2459 / NamingCzar.java:800 on the declaring
+   side), so it is where the mangled name of a sized receiver can be read off.
+   The type-parameter control BoxT is beside it, to show what erasure to the
+   bound (Object) looks like in the same position. *)
+object Box[\nat k\](v: ZZ32)
+  idx[\nat j\](b: Box[\j\]): Box[\k\] = self
+end
+object BoxT[\T\](v: T)
+  idxT[\U\](b: BoxT[\U\]): BoxT[\T\] = self
+end
+run() = do
+  println(Box[\3\](7).idx[\2\](Box[\2\](5)).v)
+  println(BoxT[\ZZ32\](7).idxT[\ZZ32\](BoxT[\ZZ32\](5)).v)
+end
+end

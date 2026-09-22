@@ -1,0 +1,60 @@
+########## the load failure, WITHOUT the stamp (the recorded stop condition)
+---------- fortress run pNat1
+java.lang.NoClassDefFoundError
+	at pNat1.main(/home/user/fortress/explorations/perf-probes/prelude/pNat1.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+	at \=AbstractArrow?pNat1\%Box?3?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.<clinit>(Unknown Source)
+	at pNat1.run(/home/user/fortress/explorations/perf-probes/prelude/pNat1.fss)
+	at pNat1.compute(/home/user/fortress/explorations/perf-probes/prelude/pNat1.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+---------- fortress run pNatVec
+java.lang.NoClassDefFoundError
+	at pNatVec.main(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: 5$RTTIc
+	at \=AbstractArrow?pNatVec\%Vec?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.<clinit>(Unknown Source)
+	at pNatVec.run(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+	at pNatVec.compute(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+---------- fortress run pNatMeth
+java.lang.NoClassDefFoundError
+	at pNatMeth.main(/home/user/fortress/explorations/perf-probes/nat/java/pNatMeth.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatMeth\%Box?3??.<clinit>(Unknown Source)
+	at pNatMeth.run(/home/user/fortress/explorations/perf-probes/nat/java/pNatMeth.fss)
+	at pNatMeth.compute(/home/user/fortress/explorations/perf-probes/nat/java/pNatMeth.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+---------- fortress run pNatGenMeth
+java.lang.NoClassDefFoundError
+	at pNatGenMeth.main(/home/user/fortress/explorations/perf-probes/nat/java/pNatGenMeth.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatGenMeth\%Box?3??.<clinit>(Unknown Source)
+	at pNatGenMeth.run(/home/user/fortress/explorations/perf-probes/nat/java/pNatGenMeth.fss)
+	at pNatGenMeth.compute(/home/user/fortress/explorations/perf-probes/nat/java/pNatGenMeth.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+
+########## the same WITH the stamped 3$RTTIc / 2$RTTIc / 5$RTTIc and RTTIsize
+# MORE_PATH=explorations/perf-probes/nat/java/stamp-classes:explorations/perf-probes/nat/java/shadow-classes
+---------- fortress run pNat1
+7
+---------- fortress run pNat2
+7
+---------- fortress run pNat3
+7
+---------- fortress run pNatVec
+java.lang.NoClassDefFoundError
+	at pNatVec.main(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: pNatVec$s0
+	at pNatVec?$\=len?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5??$\=?Arrow?pNatVec\%Vec?T,s0?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.the_function(Unknown Source)
+	at pNatVec?$\=len?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5??$\=?Arrow?pNatVec\%Vec?T,s0?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.apply(Unknown Source)
+	at pNatVec.run(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss:19)
+	at pNatVec.compute(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+---------- fortress run pNatMeth
+7
+---------- fortress run pNatGenMeth
+7
+7

@@ -1,0 +1,147 @@
+# Per top-level declaration of Library/FortressLibrary.fss, the checker's fate
+# with the interpreter prelude, before and after the nat shadow.
+# BEFORE: explorations/perf-probes/nat/03b-lib-perdecl-before.out
+# AFTER : explorations/perf-probes/nat/java/j4-lib-perdecl.out
+
+declarations seen: before 446, after 446
+BEFORE  clean=236  errors-of-its-own=98  crashed=112
+AFTER   clean=287  errors-of-its-own=154  crashed=5
+
+## The 112 declarations that crashed the checker before, and what they become
+  ordinary error           55
+  clean                    52
+  still crashes            5
+
+## The crash sites that remain, by site
+     2  com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)
+     2  java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+
+## The crash sites before, by site
+    81  java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52)
+    29  java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+     1  java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:710)
+
+## Every declaration whose fate changed
+# span | before | after
+FnDecl FortressLibrary.fss:54:1-75:4 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:129:1-130:107 | clean | ok errors=1
+TraitDecl FortressLibrary.fss:331:1-336:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=2
+TraitDecl FortressLibrary.fss:352:1-423:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:474:1-522:9 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=10
+TraitDecl FortressLibrary.fss:524:1-597:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=4
+ObjectDecl FortressLibrary.fss:599:1-610:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+TraitDecl FortressLibrary.fss:645:1-701:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+TraitDecl FortressLibrary.fss:703:1-771:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+TraitDecl FortressLibrary.fss:825:1-895:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=2
+TraitDecl FortressLibrary.fss:1179:1-1198:22 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+TraitDecl FortressLibrary.fss:1203:1-1242:12 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=10
+ObjectDecl FortressLibrary.fss:1315:1-1341:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:1443:1-1448:62 | ok errors=1 | clean
+ObjectDecl FortressLibrary.fss:1458:1-1460:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+ObjectDecl FortressLibrary.fss:1507:1-1509:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:1582:1-1585:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+TraitDecl FortressLibrary.fss:1639:1-1717:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+TraitDecl FortressLibrary.fss:1719:1-1725:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+ObjectDecl FortressLibrary.fss:1727:1-1736:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=5
+TraitDecl FortressLibrary.fss:1738:1-1750:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=6
+FnDecl FortressLibrary.fss:1752:1-1759:4 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+TraitDecl FortressLibrary.fss:1769:1-1783:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+TraitDecl FortressLibrary.fss:1889:1-1921:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:1925:1-70 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:1926:1-1927:49 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:1928:1-1932:67 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:1942:1-1952:67 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:1962:1-79 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:1966:1-1967:38 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+TraitDecl FortressLibrary.fss:2016:1-2047:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=2
+TraitDecl FortressLibrary.fss:2049:1-2092:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=14
+TraitDecl FortressLibrary.fss:2096:1-2142:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=13
+FnDecl FortressLibrary.fss:2145:1-2148:28 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2150:1-2160:45 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+ObjectDecl FortressLibrary.fss:2161:1-2173:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=2
+ObjectDecl FortressLibrary.fss:2176:1-2188:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=3
+TraitDecl FortressLibrary.fss:2192:1-2205:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=18
+FnDecl FortressLibrary.fss:2221:1-2227:4 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | ok errors=4
+FnDecl FortressLibrary.fss:2232:1-2238:4 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | ok errors=4
+FnDecl FortressLibrary.fss:2248:1-68 | clean | ok errors=1
+FnDecl FortressLibrary.fss:2261:1-2262:69 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2264:1-2265:69 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2267:1-2268:67 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2270:1-2271:73 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2273:1-2274:71 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2276:1-2277:74 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2279:1-2280:71 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2282:1-71 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2284:1-2291:48 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+TraitDecl FortressLibrary.fss:2292:1-2406:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | CRASH com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38) : Library/FortressLibrary.fss:2301:9:     Missing parameter type for i
+FnDecl FortressLibrary.fss:2409:1-2415:4 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+ObjectDecl FortressLibrary.fss:2418:1-2424:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=3
+ObjectDecl FortressLibrary.fss:2428:1-2445:2 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+ObjectDecl FortressLibrary.fss:2454:1-2474:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=2
+ObjectDecl FortressLibrary.fss:2476:1-2485:2 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+ObjectDecl FortressLibrary.fss:2487:1-2496:2 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+TraitDecl FortressLibrary.fss:2500:1-2563:2 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | ok errors=53
+ObjectDecl FortressLibrary.fss:2566:1-2572:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=3
+ObjectDecl FortressLibrary.fss:2574:1-2592:2 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | ok errors=3
+FnDecl FortressLibrary.fss:2594:1-2599:6 | clean | ok errors=1
+FnDecl FortressLibrary.fss:2608:1-2609:29 | ok errors=1 | clean
+FnDecl FortressLibrary.fss:2624:1-2626:27 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2628:1-2633:34 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2634:1-2635:72 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2637:1-2640:34 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2641:1-2642:72 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2644:1-2645:70 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2647:1-2648:77 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2650:1-2651:75 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2653:1-2654:77 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+FnDecl FortressLibrary.fss:2656:1-2664:27 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+TraitDecl FortressLibrary.fss:2665:1-2772:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | CRASH com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38) : Library/FortressLibrary.fss:2678:11:     Missing parameter type for i
+FnDecl FortressLibrary.fss:2775:1-2781:64 | CRASH java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5310) : class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app') | clean
+ObjectDecl FortressLibrary.fss:2783:1-2792:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+ObjectDecl FortressLibrary.fss:2801:1-2811:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:2819:1-2820:32 | ok errors=1 | clean
+ObjectDecl FortressLibrary.fss:2923:1-2943:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=4
+ObjectDecl FortressLibrary.fss:3024:1-3042:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+ObjectDecl FortressLibrary.fss:3050:1-3059:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:3064:1-3067:55 | clean | ok errors=1
+ObjectDecl FortressLibrary.fss:3068:1-3072:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+ObjectDecl FortressLibrary.fss:3090:1-3098:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:3151:1-3155:35 | clean | ok errors=1
+FnDecl FortressLibrary.fss:3251:1-3252:77 | ok errors=1 | clean
+FnDecl FortressLibrary.fss:3322:1-3324:62 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:3332:1-3334:61 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:3342:1-3344:54 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+TraitDecl FortressLibrary.fss:3384:1-3396:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=2
+ObjectDecl FortressLibrary.fss:3404:1-3422:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=3
+ObjectDecl FortressLibrary.fss:3424:1-3430:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+TraitDecl FortressLibrary.fss:3432:1-3444:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+ObjectDecl FortressLibrary.fss:3452:1-3458:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+ObjectDecl FortressLibrary.fss:3485:1-3500:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+ObjectDecl FortressLibrary.fss:3502:1-3508:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+TraitDecl FortressLibrary.fss:3510:1-3521:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=2
+ObjectDecl FortressLibrary.fss:3523:1-3529:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+ObjectDecl FortressLibrary.fss:3531:1-3537:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+ObjectDecl FortressLibrary.fss:3548:1-3551:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+TraitDecl FortressLibrary.fss:3553:1-3571:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+ObjectDecl FortressLibrary.fss:3573:1-3576:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+ObjectDecl FortressLibrary.fss:3593:1-3606:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=3
+TraitDecl FortressLibrary.fss:3799:1-3811:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=6
+TraitDecl FortressLibrary.fss:3958:1-4086:11 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=13
+ObjectDecl FortressLibrary.fss:4089:1-4103:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:4116:1-4122:4 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:4137:1-115 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:4138:1-77 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:4139:1-125 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:4140:1-4142:89 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:4157:1-4162:6 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | clean
+FnDecl FortressLibrary.fss:4176:1-4189:4 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+FnDecl FortressLibrary.fss:4195:1-4200:2 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:710) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+TraitDecl FortressLibrary.fss:4367:1-4419:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=9
+FnDecl FortressLibrary.fss:4483:1-4487:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:4490:1-4494:2 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:4497:1-101 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:4498:1-101 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:4499:1-101 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1
+FnDecl FortressLibrary.fss:4500:1-101 | CRASH java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52) : Not yet implemented | ok errors=1

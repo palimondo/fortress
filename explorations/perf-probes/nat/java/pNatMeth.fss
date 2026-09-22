@@ -1,0 +1,12 @@
+component pNatMeth
+export Executable
+(* A method invocation on a nat-parameterized receiver -- the shape that reaches
+   impls/Functionals.scala:606 -> FnNameInfo.normalizedSchema, i.e. the Java site
+   of explorations/perf-probes/nat/REPORT.md  9.  No nat in an extends clause, so
+   CodeGen.java:5793 ("Only emitting RTTI for types right now") is not in the way
+   and the question reaches the mangled name and the loader. *)
+object Box[\nat k\](v: ZZ32)
+  len(): ZZ32 = v
+end
+run() = println(Box[\3\](7).len())
+end
