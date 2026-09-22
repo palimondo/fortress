@@ -4,7 +4,7 @@ out=$1; names=$2; mkdir -p $out
 cd /home/user/fortress-memo/ProjectFortress/compiler_tests
 for t in $(cat $names); do
   o=$out/$(echo $t | tr / _).txt
-  [ -f $t.fss ] || { echo "NOFILE $t" > $o ; continue ; }
-  timeout 300 ../../bin/fortress compile $t.fss > $o 2>&1
+  if [ -f $t.fss ] ; then src=$t.fss ; elif [ -f $t ] ; then src=$t ; else echo "NOFILE $t" > $o ; continue ; fi
+  timeout 300 ../../bin/fortress compile $src > $o 2>&1
   echo "rc=$?" >> $o
 done
