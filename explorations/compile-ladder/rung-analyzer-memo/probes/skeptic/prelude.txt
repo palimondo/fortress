@@ -1,0 +1,45 @@
+# The compiler prelude built in library order (libbuild.sh) into two caches, clauses memo on and off, then compared. 2026-09-22.
+memo on:  @@LIB LibraryBuiltin/AnyType.fss rc=0 22 s
+memo on:  @@LIB LibraryBuiltin/CompilerBuiltin.fss rc=0 112 s
+memo on:  @@LIB ../Library/CompilerLibrary.fss rc=0 71 s
+memo on:  @@LIB ../Library/CompilerAlgebra.fss rc=0 3 s
+memo on:  @@LIB ../Library/CompilerSystem.fss rc=0 3 s
+memo off: @@LIB LibraryBuiltin/AnyType.fss rc=0 37 s
+memo off: @@LIB LibraryBuiltin/CompilerBuiltin.fss rc=0 203 s
+memo off: @@LIB ../Library/CompilerLibrary.fss rc=0 38 s
+memo off: @@LIB ../Library/CompilerAlgebra.fss rc=0 2 s
+memo off: @@LIB ../Library/CompilerSystem.fss rc=0 2 s
+(the two builds ran concurrently on a shared 4-core box: the seconds are not a timing measurement)
+
+## bytecode_cache: each jar unpacked, then diff -r of the trees (the jars themselves differ in bytes: zip entry timestamps)
+CompilerSystem.jar	2 entries	2 .class
+SkMemoTower.jar	52 entries	44 .class
+fortress.AnyType.jar	1 entries	1 .class
+fortress.CompilerAlgebra.jar	29 entries	19 .class
+fortress.CompilerBuiltin.jar	278 entries	227 .class
+fortress.CompilerLibrary.jar	246 entries	213 .class
+diff -r on/off of the six unpacked jars (five prelude + SkMemoTower): identical
+prelude (five jars): 462 .class entries, 556 entries in all; SkMemoTower.jar: 44 .class
+
+## analyzed_cache: diff -r on/off
+analyzed_cache/AnyType-731f920e.tfi
+analyzed_cache/AnyType-731f9218.tfs
+analyzed_cache/CompilerAlgebra-3c14869a.tfi
+analyzed_cache/CompilerAlgebra-3c1486a4.tfs
+analyzed_cache/CompilerBuiltin-2e1f384c.tfi
+analyzed_cache/CompilerBuiltin-2e1f3856.tfs
+analyzed_cache/CompilerLibrary-7290f6ad.tfi
+analyzed_cache/CompilerLibrary-7290f6b7.tfs
+analyzed_cache/CompilerSystem-588a5359.tfi
+analyzed_cache/CompilerSystem-588a5363.tfs
+analyzed_cache/Executable-51b2c875.tfi
+analyzed_cache/SkMemoTower-1ff52d81.tfs
+analyzed_cache/com.sun.fortress.nativeHelpers-d13bcf6.tfi
+analyzed_cache/depends/CompilerBuiltin-2e1f3856.tfs
+analyzed_cache/depends/CompilerLibrary-7290f6b7.tfs
+analyzed_cache/depends/CompilerSystem-588a5363.tfs
+diff -r: identical (16 files: 12 prelude .tfi/.tfs at top level, 3 under depends/, SkMemoTower's .tfs)
+
+## the worker's own unpacked prelude comparison, tmp/jcmp/on in its worktree, recounted
+files: 556   .class: 462   .xlation: 94
+compiler_tests comparison tmp/jcmp3/on: files 2423, .class 2049

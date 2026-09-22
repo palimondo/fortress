@@ -1,0 +1,39 @@
+(* Skeptic probe for rung M; see ../../SKEPTIC.md. *)
+component SkMemoTower
+export Executable
+
+trait A[\T\] excludes { B[\T\] }
+  tag(): String = "A"
+end
+trait B[\T\]
+  tag(): String = "B"
+end
+trait C[\T\] extends A[\T\] end
+trait D[\T\] extends C[\T\] end
+trait E extends D[\ZZ32\] end
+trait F extends B[\ZZ32\] end
+trait G extends B[\String\] end
+object ObjE extends E end
+object ObjF extends F end
+object ObjG extends G end
+object ObjH extends D[\ZZ32\] end
+object ObjJ extends D[\String\] end
+
+k(x: E): String = "kE" || x.tag()
+k(x: F): String = "kF" || x.tag()
+m(x: D[\ZZ32\]): String = "mDZ" || x.tag()
+m(x: F): String = "mF" || x.tag()
+n(x: D[\String\]): String = "nDS" || x.tag()
+n(x: G): String = "nG" || x.tag()
+
+run(): () = do
+  println(k(ObjE))
+  println(k(ObjF))
+  println(m(ObjE))
+  println(m(ObjH))
+  println(m(ObjF))
+  println(n(ObjJ))
+  println(n(ObjG))
+end
+
+end

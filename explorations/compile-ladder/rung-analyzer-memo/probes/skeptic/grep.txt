@@ -1,0 +1,35 @@
+# Competing-declaration grep for every name rung M adds, 2026-09-22, /home/user/fortress-memo at a0e44bb16
+$ grep -rln 'memoParents|memoExcludesClause|cacheClauses|parentsMemo|excludesClauseMemo|clauses\.cache|CLAUSES_CACHE' ProjectFortress/src/com/sun/fortress ProjectFortress/tests ProjectFortress/*_tests ProjectFortress/LibraryBuiltin Library default_repository build.xml ProjectFortress/build.xml bin
+ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+
+$ grep -rlw memo ProjectFortress/src/com/sun/fortress --include=*.scala --include=*.java   (TraitTable.scala excluded)
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeArrow.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeRest.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeOpr.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeGeneric.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeOverloadedArrow.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FGenericFunction.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericMethod.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericConstructor.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericSingleton.java
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/SingleFcn.java
+ProjectFortress/src/com/sun/fortress/useful/LazyMemo1PCL.java
+
+$ grep -n 'memo' at the three sites REPORT.md names
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java:46:    static Memo1C<List<FType>, FType> memo = null;
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java:49:        memo = new Memo1C<List<FType>, FType>(new Factory(), listComparer);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java:53:        return l.size() == 0 ? FTypeVoid.ONLY : memo.make(l);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeArrow.java:37:    static Memo2<FType, FType, FType> memo = null;
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeArrow.java:40:        memo = new Memo2<FType, FType, FType>(new Factory());
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeArrow.java:44:        return memo.make(d, r);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java:41:        return memo.make(ll);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java:46:        return memo.make(Long.valueOf(l));
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java:57:    static Memo1<Long, IntNat> memo = new Memo1<Long, IntNat>(new Factory());
+
+$ grep -rn 'fortress\.analyzer\.' ProjectFortress/src/com/sun/fortress default_repository/configuration   (TypeAnalyzer.scala's block of seven excluded)
+ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:77:    private final val cacheOverloadChecks = ProjectProperties.getBoolean("fortress.analyzer.overload.cache", true)
+ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala:82:  private final val cacheClauses = ProjectProperties.getBoolean("fortress.analyzer.clauses.cache", true)

@@ -1,0 +1,10 @@
+(* Skeptic probe for rung M; see ../../SKEPTIC.md. *)
+component SkWalkCyclePlain
+export Executable
+
+trait X extends Y end
+trait Y extends X end
+
+run(): () = println("plain cycle accepted")
+
+end

@@ -1,0 +1,79 @@
+# The gate's checker-count stage (explorations/coordinator/tools/checker-count/run.sh), run by the skeptic of rung M, 2026-09-22,
+# in /home/user/fortress-memo at a0e44bb16 after the skeptic's own ant compileAll (37 s; default_repository/caches/global.map restored with git checkout).
+# Three runs, each with a fresh private scratch cache: memo on (switch default), memo off (FORTRESS_ANALYZER_CLAUSES_CACHE=false),
+# and the STOCK code: TypeAnalyzer.scala and TraitTable.scala at d610695c0 compiled with scalac 2.13.18 into the run's scratch classes
+# directory, which run.sh puts ahead of ProjectFortress/build (stock-overlay.sh).
+
+## memo on: table
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	18
+FortressLibrary	110
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	93
+#locations	52
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker
+## memo on: wall clock (bash time)
+real	0m12.563s
+user	0m21.054s
+
+## memo off: table
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	18
+FortressLibrary	110
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	93
+#locations	52
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker
+## memo off: wall clock (bash time)
+real	0m23.357s
+user	0m33.531s
+
+## memo stock: table
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	18
+FortressLibrary	110
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	93
+#locations	52
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker
+## memo stock: wall clock (bash time)
+real	0m24.461s
+user	0m33.892s
+
+## comparisons
+memo on table == probes/checker-count-postedit.txt: identical
+memo off table == probes/checker-count-preedit.txt: identical
+stock table == probes/checker-count-preedit.txt: identical
+stock table == gate-baseline/checker-count.txt: identical
+full checker output (run.txt, 253 lines, 96 located error lines), on vs off, first header line and ### rc line excluded: identical
+full checker output (run.txt, 253 lines, 96 located error lines), on vs stock, first header line and ### rc line excluded: identical
