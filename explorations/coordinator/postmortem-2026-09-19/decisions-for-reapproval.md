@@ -71,3 +71,4 @@ named the repair, not the choice.
 - Row 27 (row 321's reach widened by rung M, 09-19 10:43): **closed** 2026-09-22 — rung M's restraint approved; the rendering decided per `reviews/default-rendering-judgement.md`: the bare Fortress type name on both paths; a rung in the first library batch.
 - Row 28 (shifts) **decided** 2026-09-22 (ledger row 335 appended; the two-operation reading). Row 29 (`GCD`/`LCM`) **approved as recommended** 2026-09-22: rung N stands, the interpreter's natives fixed to match in batch 4's integer rung (ledger row 334).
 - Row 31 (`0 DIV -1`, `|0|`, `-0`) **approved as recommended** 2026-09-22: the record stands; the six-guard fix with its test goes into batch 4's integer rung (ledger row 333).
+- Row 43 (`narrow` out of range) **approved as recommended** 2026-09-22: truncation on both paths, rung W reversed on this point; batch 4's integer rung (ledger row 346).
