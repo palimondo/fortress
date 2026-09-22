@@ -1,0 +1,38 @@
+### REPAIR ROUND, PRE-REPAIR: the gated test with the two new assertions (RR32, StringVector), on the rung tree as the skeptic refused it (typeName bound at CompilerBuiltin.fss:351; cache as the skeptic rebuilt it): compiler_tests/DefaultRenderRungS.test
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=509d3bc61  2026-09-22T22:33:37+00:00
+### git status:
+ M compiler_tests/DefaultRenderRungS.fss
+?? ../explorations/compile-ladder/rung-default-rendering/probes/test-prerepair.txt
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
+. link compiler_tests/DefaultRenderRungS  OK (time = 5151ms)
+. run compiler_tests/DefaultRenderRungS (923ms) Box
+Cell[\ZZ32\]
+Pt
+FAIL:  RR32 =/= 1.5; an RR32 keeps its own Java rendering; ledger row 321, walk prints 1.5
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  RR32 =/= 1.5; an RR32 keeps its own Java rendering; ledger row 321, walk prints 1.5
+	at fortress.CompilerLibrary.fail(/home/user/fortress-rendering/Library/CompilerLibrary.fss:75)
+	at fortress.CompilerLibrary.assert(/home/user/fortress-rendering/Library/CompilerLibrary.fss:114)
+	at DefaultRenderRungS.run(/home/user/fortress-rendering/ProjectFortress/compiler_tests/DefaultRenderRungS.fss:37)
+	at DefaultRenderRungS.compute(/home/user/fortress-rendering/ProjectFortress/compiler_tests/DefaultRenderRungS.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 6.085
+There was 1 failure:
+1) compiler_tests/DefaultRenderRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/DefaultRenderRungS
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+

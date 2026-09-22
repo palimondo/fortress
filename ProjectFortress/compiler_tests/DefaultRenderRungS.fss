@@ -33,6 +33,12 @@ run(): () = do
     assert("<" || Box(1) || ">", "<Box>", "concatenation goes through asString; ledger row 321")
     assert(Nothing.asString, "Nothing", "prelude singleton Nothing; ledger row 321")
     assert(None.asString, "None", "prelude singleton None; ledger row 321")
+    x: RR32 = 1.5
+    assert(x.asString, "1.5", "an RR32 keeps its own Java rendering; ledger row 321, walk prints 1.5")
+    v = makeStringVector(2)
+    v.putValue(0, "a")
+    v.putValue(1, "b")
+    assert(v.asString, "[a b ]", "a StringVector keeps its own Java rendering; ledger row 321")
     var caught: String = "nothing caught"
     try
         throw Boom
