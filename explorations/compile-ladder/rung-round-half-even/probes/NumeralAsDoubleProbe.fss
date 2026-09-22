@@ -1,0 +1,13 @@
+component NumeralAsDoubleProbe
+export Executable
+
+(*) Probe for rung R's repair round: see ../REPORT.md
+
+run():() = do
+    println("2.50000000000000001 = 2.5     : " (2.50000000000000001 = 2.5))
+    println("2.50000000000000001 - 2.5     : " (2.50000000000000001 - 2.5))
+    println("2.50000000000000001 printed   : " 2.50000000000000001)
+    println("(250000000000000001/10^17) = (5/2) : " ((250000000000000001 / 100000000000000000) = (5 / 2)))
+end
+
+end
