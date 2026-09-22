@@ -1,15 +1,16 @@
-### POST-EDIT, after the undo and rebuild: the final gated test on the final tree: compiler_tests/DefaultRenderRungS.test
-### FORTRESS_HOME=/home/user/fortress-rendering  rev=95ad0b427  2026-09-22T20:34:11+00:00
+### REPAIR ROUND, POST-REPAIR: the gated test (18 assertions) on the repaired tree (defaultAsString bound at CompilerBuiltin.fss:351; ant compileAll; caches wiped; library rebuilt in order): compiler_tests/DefaultRenderRungS.test
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=37e8d6b6f  2026-09-22T22:40:18+00:00
 ### git status:
+ M ../explorations/compile-ladder/rung-default-rendering/probes/test-postedit.txt
 ================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
-. link compiler_tests/DefaultRenderRungS  OK (time = 4733ms)
-. run compiler_tests/DefaultRenderRungS (1125ms) Box
+. link compiler_tests/DefaultRenderRungS  OK (time = 3607ms)
+. run compiler_tests/DefaultRenderRungS (859ms) Box
 Cell[\ZZ32\]
 Pt
 PASS
 Passed
 
-Time: 5.867
+Time: 4.475
 
 OK (2 tests)
 
