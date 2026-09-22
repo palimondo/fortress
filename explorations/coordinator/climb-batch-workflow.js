@@ -23,14 +23,14 @@
 
 export const meta = {
   name: 'fortress-climb-batch',
-  description: 'One batch of Fortress compile-ladder rungs in isolated worktrees, each judged by its own skeptic, gathered, reviewed and gated once (suite counts, four-thread atomic runs, ladder regression) before it lands',
+  description: 'One batch of Fortress compile-ladder rungs in isolated worktrees, each judged by its own skeptic, gathered, reviewed and gated once (suite counts, four-thread atomic runs, ladder regression, the checker count over the interpreter library) before it lands',
   phases: [
     { title: 'Rung', detail: 'test-first repair in an isolated worktree, committed and pushed to wip/ as it goes; never runs the full gate' },
     { title: 'Skeptic', detail: 'independent judgement with its own walk-vs-compiled differential; one repair round allowed' },
     { title: 'Judge', detail: 'the session model, only on a refusal, a stop or a red gate: reads the reports and the diff, decides, writes the decision' },
     { title: 'Gather', detail: 'net change of each approved branch applied to main, record folded, one local commit per rung' },
     { title: 'Review', detail: 'the merged diff against the batch rules and the folded record as a whole; runs beside the gate' },
-    { title: 'Gate', detail: 'compileAll, library rebuild, testFast, testSystem, the summary diff, the four-thread atomic runs and the ladder regression' },
+    { title: 'Gate', detail: 'compileAll, library rebuild, testFast, testSystem, the summary diff, the four-thread atomic runs, the ladder regression and the checker count over the interpreter library' },
     { title: 'Commit', detail: 'hashes into the ledger notes, push main, fast-forward the container branch, remove the worktrees' },
   ],
 }
@@ -67,6 +67,16 @@ const MAIN = '/home/user/fortress'
 // skeptic run every differential at one thread and at four), and expectedMoves
 // (ladder files the rung changes on purpose, each with the phase or output it is
 // expected to reach; anything else that moves down is red).
+// Three optional per-rung fields serve the checker-count stage (gate step 8),
+// which runs the compiler's static checker over the interpreter's library:
+// testIsStage (true when that stage's table before and after the edit IS this
+// rung's failing-then-passing test, so the rung's step 1 asks for the table and
+// not for a .fss program - library-route-judgement.md section 2 step 1, the one
+// place the test-first rule is met by a stage, because no program can yet be
+// compiled against that prelude), expectedCheckerCount (the error total the rung
+// expects the stage to print after its edit; without it a total ABOVE the last
+// landed one is red) and expectedCheckerCrash (the crash line the rung expects
+// instead of the landed one, or the literal none when it removes the crash).
 // ===========================================================================
 
 const BATCH = 2
@@ -367,7 +377,7 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '- record.md - the record lines the coordinator will fold at merge time: the FACTS.md line or lines this rung earns, the ledger note (which row, and exactly what to append - rows are never renumbered or moved, they are cited from thirty-five reports), and the handover state line. Write them as finished prose, ready to paste.',
 '- probes/ - your probe programs and their captured outputs, every capture named .txt.',
 '',
-'Do NOT edit explorations/coordinator/FACTS.md, the gap ledger, PLAN.md, POSITIONS.md, INDEX.md, the handover document, CLAUDE.md, explorations/protocol.md, or anything under .claude/. Parallel rungs conflict on every one of those - 28 of 28 replayed pairs conflict on FACTS.md and on the handover - which is the whole reason the record leaves you and is folded centrally.',
+'Do NOT edit explorations/coordinator/FACTS.md, the gap ledger, PLAN.md, POSITIONS.md, INDEX.md, the handover document, CLAUDE.md, explorations/protocol.md, the tools under explorations/coordinator/tools/ (a rung runs them, it does not change them), or anything under .claude/. Parallel rungs conflict on every one of those - 28 of 28 replayed pairs conflict on FACTS.md and on the handover - which is the whole reason the record leaves you and is folded centrally.',
 '',
 'Do NOT run ant testFast or ant testSystem. The batch is gated once, after the merge, by the coordinator. Running the gate here costs 582 s and buys nothing: across nine skeptic runs of the last climb, not one of the 26 findings was load-bearing on a suite failure.',
 '',
@@ -399,7 +409,8 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 // The rung worker's role block. The tails are in the manifest.
 // ---------------------------------------------------------------------------
 
-const RUNG_ROLE = [
+function rungRole(rung) {
+  return [
 '',
 '---',
 '',
@@ -409,12 +420,21 @@ const RUNG_ROLE = [
 '',
 'From explorations/coordinator/PLAN.md, and this is the part Pavol called load-bearing:',
 '',
+...(rung.testIsStage ? [
+'1. Your rung declares testIsStage in the manifest, so its failing-then-passing test is the gate\'s checker-count stage (gate step 8) and NOT a .fss program: no program can yet be compiled against the interpreter\'s prelude, and this is the one place the test-first rule is met by a permanent stage instead of a test file (explorations/coordinator/library-route-judgement.md section 2 step 1; Pavol\'s decision of 2026-09-21, POSITIONS.md, "the library route"). So FIRST, before any edit, read the header of explorations/coordinator/tools/checker-count/run.sh and run it in your worktree (ant compileAll must have run there first):',
+'',
+'        explorations/coordinator/tools/checker-count/run.sh explorations/compile-ladder/SLUG/probes/checker-count-preedit.txt $TMPDIR/cc-pre',
+'',
+'   It runs the compiler\'s static checker over Library/FortressLibrary.fss with the interpreter\'s prelude in scope, under its own private cache, and prints one row per api with that api\'s error count, then #total, #locations and #crash; 20 s measured in the main tree, and it writes nothing but the table. That table IS your recorded failure: it goes under probes/ as a committed .txt and its #total is the number your record.md says the batch starts from.',
+'2. After the edit, run the same stage again and capture it as checker-count-postedit.txt beside the first; put the diff of the two tables in REPORT.md, and say what moved and why, api by api. If the total changes, the manifest must declare the number it reaches as expectedCheckerCount and the crash line as expectedCheckerCrash when that moves - say in REPORT.md and in record.md which values the manifest needs, because the gate is red on an undeclared rise. A rung of this kind writes no .test file; everything else in this list is unchanged, including the ladder subset of step 7 of this list and the three homes of its step 8.',
+] : [
 '1. Write the failing test FIRST, into ProjectFortress/compiler_tests/ (checker and codegen rungs) or ProjectFortress/library_tests/ (library rungs): a .fss component that prints PASS, plus a .test file in the format of ProjectFortress/library_tests/Boolean.test (a tests= line naming the components, then link, run, and the check line). The check line is exactly',
 '',
 '        run_out_contains=PASS',
 '',
 '   run_out_WIcontains, which Boolean.test and PLAN.md write, is implemented in the harness as of 2026-09-19 (FileTests.java:147-155, whitespace-insensitive containment beside _contains) but this batch writes _contains: one key, one meaning, and the seventeen older files are not this batch\'s business. A native-helper rung whose declarations are library declarations is a library rung: rung 7 put its test in library_tests/ (IntLiteralArithRung7).',
 '2. Run it and capture the failure output to a file BEFORE the edit exists, named .txt. A report with no recorded failure is refused by your skeptic. The process this rules out is the one-off validation script: proving once by hand that something works and going ahead without leaving a permanent check in the corpus.',
+]),
 '3. Make the edit, as small as the test needs.',
 '4. Rebuild: ant compileAll if you touched .java or .scala, then the library-order bytecode-cache rebuild. A rung that edits only CompilerLibrary rebuilds CompilerLibrary, CompilerAlgebra and CompilerSystem (25-30 s); one that edits CompilerBuiltin rebuilds from CompilerBuiltin down (about 125 s); the full five only after ant compileAll.',
 '5. Run the test again and capture the pass.',
@@ -427,7 +447,8 @@ const RUNG_ROLE = [
 '',
 'Report at the end in the structured form the tool requires, and write the full detail into REPORT.md.',
 '',
-].join('\n')
+  ].join('\n')
+}
 
 // ---------------------------------------------------------------------------
 // The skeptic's role block. batched-climb-plan.md section 3.
@@ -455,10 +476,13 @@ JSON.stringify(workerReport, null, 2),
 '## What you must check',
 '',
 '0. The provenance block under REPORT.md\'s title: FIVE lines now - problem, spec, precedent, deviation, historical. Open every file:line it cites with sed -n and check that the line says what the block says. A missing line, a line that does not say it, a spec: line that cites only Specification/library/apis/, or a historical: line that omits a file of the 2012 tree the diff edits, is a refusal.',
-'1. The recorded failure. The worker was required to run the new test and capture its failure BEFORE the edit existed. Find that captured output. A rung whose report has no recorded failure is refused - this is not negotiable and it is the point of the whole discipline.',
+(rung.testIsStage
+  ? '1. The recorded failure, which for THIS rung is a table and not a program. Its manifest entry sets testIsStage: no program can yet be compiled against the interpreter\'s prelude, so the failing-then-passing test is the gate\'s checker-count stage (gate step 8, explorations/coordinator/tools/checker-count/run.sh), and the worker was required to capture that stage\'s table BEFORE the edit existed and again after it. Find both captures under explorations/compile-ladder/' + rung.slug + '/probes/, check that the pre-edit one is what the tree printed before the edit, and RUN THE STAGE YOURSELF in the worktree to see the post-edit table come out again: that run is your check that the test passes, in place of running a .fss test. A rung of this kind with no pre-edit table, or whose post-edit table you cannot reproduce, is refused exactly as a missing .fss failure would be. Check also that the report names the total the manifest must declare as expectedCheckerCount, and the crash line as expectedCheckerCrash if that moved, because an undeclared rise makes the batch\'s gate red. Everything else in this list is unchanged.'
+  : '1. The recorded failure. The worker was required to run the new test and capture its failure BEFORE the edit existed. Find that captured output. A rung whose report has no recorded failure is refused - this is not negotiable and it is the point of the whole discipline.'),
 '2. The diff, read line by line against the specification passages cited and against the provenance block. Does the edit do what the report says, and only that? Is it as small as the test needs?',
 '3. The precedent search. Did the worker find what the team already did here, and did it follow the right precedent? Where a precedent repaired a defect, did the worker count the other sites in that file and give the number?',
-'4. The test. Does it actually exercise the defect? The rung\'s tail names the cases that matter for this rung. Check also that the test file carries at most one comment line and no provenance essay.',
+'4. The test. Does it actually exercise the defect? The rung\'s tail names the cases that matter for this rung. Check also that the test file carries at most one comment line and no provenance essay.'
+  + (rung.testIsStage ? ' This rung writes no test file: what you check instead is that the two tables differ in the way the report says, and that the difference is the defect and not a cache or a build artefact.' : ''),
 '5. The competing-declaration grep across both corpora AND across src/com/sun/fortress/ whole.',
 '6. The record.md fragment. Are the FACTS lines true as written and sourced? Does the ledger note cite an existing row without renumbering anything? Would a reader six months from now be able to check it?',
 '7. The three homes. For every defect the report names as measured: home 1 (repaired in this rung) must be a passing assertion in the rung\'s gated test, and you run the test yourself to see it pass; home 2 (deferred, specification settles it) must be an XXX-named file that the harness treats as expected-to-fail, and you check the name and the .test file; home 3 (deferred, specification silent) must be a committed .txt capture and a ledger row, and the report must say the specification is silent and show the grep. A defect in your OWN findings that the worker then repairs is home 1 too, and its assertion is in place before you approve.',
@@ -530,7 +554,7 @@ function judgeRole(kind, rung, worker, verdict, extra) {
     refusal: 'The rung worker landed and its skeptic refused. Decide what the repair is: which of the two is right on each point, by citation, and exactly what the repair round must do. If the skeptic is wrong on its refusal ground, the repair round is a report-only repair that settles it, and you say so.',
     stop: 'The rung worker stopped, reporting a stop condition. Decide whether it is genuinely one of the reserved forks that reach Pavol (the array representation, the library route, a change of semantics against what the specification does say, deleting a test, and the batch record\'s own two: a change to a declared type the prelude already has, a renamed or removed declaration a gated test uses) or a silent specification that rule 4 says to think harder about. If the latter, derive the candidate behaviours with their costs and decide, and the instructions are the continuation. If the former, write what reaches Pavol: the fork, the candidates, what each costs, and your recommendation.',
     review: 'The merged-diff review found something blocking in the source hunks after the gather. Diagnose it holistically on the merged tree and decide the repair; do not bisect rungs.',
-    gate: 'The gate is red on the merged tree. Read the failing evidence and decide the repair. The gate has four ways to be red and they point at different places: a failing or erroring JUnit suite (its output is under ProjectFortress/TEST-RESULTS/); a suite whose test COUNT fell against the last landed summary, which usually means a .test file or a tests= line went missing rather than a test failing; a FAIL or a repeated timeout in the four-thread runs of the compiled atomic programs, which is a lost update and is about the transaction runtime rather than about the suites; and a ladder regression, where a file that compiled and ran before now reaches a lower phase or prints different output - the stage hands you the diff. Pavol\'s standing rule: identify the source of the conflict holistically and rework that part in the merged batch; dropping a rung is the retreat, taken only when its approach is wrong rather than its code, and then it is recorded and returned to the ranking.',
+    gate: 'The gate is red on the merged tree. Read the failing evidence and decide the repair. The gate has five ways to be red and they point at different places: a failing or erroring JUnit suite (its output is under ProjectFortress/TEST-RESULTS/); a suite whose test COUNT fell against the last landed summary, which usually means a .test file or a tests= line went missing rather than a test failing; a FAIL or a repeated timeout in the four-thread runs of the compiled atomic programs, which is a lost update and is about the transaction runtime rather than about the suites; a ladder regression, where a file that compiled and ran before now reaches a lower phase or prints different output - the stage hands you the diff; and an undeclared rise in the checker count over the interpreter\'s library, or a changed crash line, or a stale checker shadow, which is about the distance to the one library Pavol decided on (POSITIONS.md, 2026-09-21, "the library route"; library-route-judgement.md section 2 step 1) and whose evidence is the two tables the stage diffs, ' + GATE_DIR + '/checker-count.txt against the last landed one. Pavol\'s standing rule: identify the source of the conflict holistically and rework that part in the merged batch; dropping a rung is the retreat, taken only when its approach is wrong rather than its code, and then it is recorded and returned to the ranking.',
   }[kind]
   return [
 '',
@@ -754,10 +778,15 @@ const REVIEW_SCHEMA = {
 }
 
 // ---------------------------------------------------------------------------
-// The gate. Six steps: build, library, the two suites, the summary and its
-// comparison with the last landed one, the four-thread atomic runs, and the
-// ladder regression. It commits nothing - the commit stage adds its summary -
-// because the review is committing in this tree at the same time.
+// The gate. Eight steps: build, library, the two suites, the summary and its
+// comparison with the last landed one, the four-thread atomic runs, the ladder
+// regression, and the checker count - the compiler's static checker run over the
+// INTERPRETER's library, whose error total is the measured distance to the one
+// library Pavol decided on (POSITIONS.md, 2026-09-21, "the library route";
+// library-route-judgement.md section 2 step 1 makes it a stage so that the
+// distance is measured by every gate instead of by a script anybody re-runs).
+// It commits nothing - the commit stage adds its summary and its table - because
+// the review is committing in this tree at the same time.
 //
 // The ladder-regression stage's rule about the two microGPT programs, set by
 // Pavol on 2026-09-19: their eighteen components are COMPILED ONLY in this
@@ -770,11 +799,11 @@ const REVIEW_SCHEMA = {
 const ATOMIC_OTHER = 'atomic0 atomic1 atomic2 atomic3 atomic4 atomic5 atomic6 nestedTransactions0 nestedTransactions1 nestedTransactions2'
 const ATOMIC_COMPILER = 'AtomicTopLevelObjectVar AtomicTopLevelVar MutableTopLevelVarInLoop'
 
-function gateRole(expectedMoves) {
+function gateRole(expectedMoves, expectedChecker) {
   return MAIN_TREE_ROLE + [
 '# Your role: the gate',
 '',
-'Run the full gate once on the tree as it stands, exactly, and report what it says. You change no source and you commit nothing: the review agent is committing in this tree beside you, and the commit stage adds your summary to the tree after both of you are done. Your logs go to ' + LOG_DIR + '/, which is untracked and stays untracked - .gitignore:65 ignores /tmp/, and .gitignore:42,46 would swallow a .out or a .log anywhere. Your one tracked output is ' + GATE_DIR + '/summary.txt, which you WRITE but do not commit.',
+'Run the full gate once on the tree as it stands, exactly, and report what it says. You change no source and you commit nothing: the review agent is committing in this tree beside you, and the commit stage adds your summary to the tree after both of you are done. Your logs go to ' + LOG_DIR + '/, which is untracked and stays untracked - .gitignore:65 ignores /tmp/, and .gitignore:42,46 would swallow a .out or a .log anywhere. Your two tracked outputs are ' + GATE_DIR + '/summary.txt and ' + GATE_DIR + '/checker-count.txt, which you WRITE but do not commit.',
 '',
 'The steps, in order. Use run_bg and wait_for from the shared prefix for every long one, and never pipe ant through tail.',
 '',
@@ -906,11 +935,59 @@ function gateRole(expectedMoves) {
 '',
 (expectedMoves.length ? expectedMoves.map(m => '     - ' + m).join('\n') : '     (none: no rung of this batch expects to move a ladder file)'),
 '',
+'8. The checker count: the compiler\'s static checker run over the INTERPRETER\'s library, and its error total compared with the last landed one. Pavol decided on 2026-09-21 that the one library the compiler checks is the interpreter\'s (POSITIONS.md, "the library route"), and step 1 of explorations/coordinator/library-route-judgement.md makes the distance to it a stage of this gate rather than a script anybody re-runs by hand, so that from now on every batch measures it. The count may only fall. Read the header of explorations/coordinator/tools/checker-count/run.sh, then run',
+'',
+'        explorations/coordinator/tools/checker-count/run.sh ' + GATE_DIR + '/checker-count.txt ' + LOG_DIR + '/checker-count',
+'',
+'   from ' + MAIN + '. It compiles the two sources beside it - WorldFlip.java, which flips the world with the public Shell.useInterpreterLibraries() and PhaseOrder.compilerPhaseOrder, and an instrumented copy of StaticChecker that names each api it checks and survives the OverloadingChecker crash - against bin/fortress_classpath, and runs the compiler phase order over Library/FortressLibrary.fss with its own -Dfortress.caches under ' + LOG_DIR + '/, so default_repository/ is neither read nor written and no library rebuild is needed. 20 s measured in the main tree on 2026-09-22; budget a minute. It edits nothing and its only tracked output is the table, which you write and, like the summary, do NOT commit. Print the table in your result: one row per api with that api\'s own error count, then #total, #locations (the distinct file:line the errors were reported at, by this script\'s count), #crash (the crash the checker meets after the apis; today the nat gap, Not yet implemented at STypesUtil.scala:557, the unimplemented static-parameter kinds at STypesUtil.scala:546-559) and #shadow.',
+'',
+'   Then compare it with the last landed table, found the way the summary is found:',
+'',
+'        last_landed_checker_count () {',
+'            git -C "$FORTRESS_HOME" log --name-only --pretty=format: -- \\',
+'                \'explorations/compile-ladder/gate-baseline/checker-count.txt\' \\',
+'                \'explorations/compile-ladder/climb-batch-*/gate/checker-count.txt\' | grep -m1 \'checker-count.txt$\'',
+'        }',
+'',
+'        checker_compare () {              # checker_compare <last-landed-table> <this-table> [declared-total] [declared-crash]; prints the verdict lines, exit 1 if any is red',
+'            local was now wasc nowc bad=0',
+'            was=$(awk -F\'\\t\' \'$1 == "#total" { print $2 }\' "$1")',
+'            now=$(awk -F\'\\t\' \'$1 == "#total" { print $2 }\' "$2")',
+'            wasc=$(awk -F\'\\t\' \'$1 == "#crash" { print $2 }\' "$1")',
+'            nowc=$(awk -F\'\\t\' \'$1 == "#crash" { print $2 }\' "$2")',
+'            [ -n "$now" ] || { echo "NO TOTAL   the table has no #total row" ; return 1 ; }',
+'            if [ "$now" -gt "$was" ] ; then',
+'                if [ -n "${3:-}" ] && [ "$now" = "$3" ] ; then echo "COUNT UP DECLARED   $was -> $now"',
+'                else echo "COUNT UP   $was -> $now" ; bad=1 ; fi',
+'            elif [ "$now" -lt "$was" ] ; then echo "COUNT DOWN   $was -> $now"',
+'            else echo "COUNT SAME   $now" ; fi',
+'            if [ "$nowc" != "$wasc" ] ; then',
+'                if [ -n "${4:-}" ] && [ "$nowc" = "$4" ] ; then echo "CRASH DECLARED   $wasc -> $nowc"',
+'                else echo "CRASH CHANGED   $wasc -> $nowc" ; bad=1 ; fi',
+'            fi',
+'            case "$(awk -F\'\\t\' \'$1 == "#shadow" { print $2 }\' "$2")" in',
+'              STALE*) echo "SHADOW STALE   the instrumented StaticChecker copy no longer matches the tracked one" ; bad=1 ;;',
+'            esac',
+'            diff "$1" "$2" | sed \'s/^/    /\'',
+'            [ "$bad" = 0 ]',
+'        }',
+'',
+'   Run it as checker_compare "$(last_landed_checker_count)" ' + GATE_DIR + '/checker-count.txt with the declared values below as the third and fourth arguments, and append its output to ' + GATE_DIR + '/summary.txt with every line prefixed by "# checker ".',
+'',
+'   A COUNT UP that no rung of this batch declared is RED: the batch has moved the library further from the checker, which is the one direction this stage exists to catch. A CRASH CHANGED line that no rung declared is RED for the same reason, and so is SHADOW STALE, which means the copy beside run.sh is no longer the checker the tree builds and the number is not this tree\'s. A COUNT DOWN is the batch\'s real result and the summary says so plainly. The per-api rows and #locations are reported and are not themselves red: a total that held while the rows moved is a fact the judge wants to see, so print the diff either way. What this batch declared:',
+'',
+(expectedChecker && expectedChecker.counts && expectedChecker.counts.length
+  ? expectedChecker.counts.map(m => '     - total: ' + m).join('\n')
+  : '     - total: none declared, so any total above the last landed one is red'),
+(expectedChecker && expectedChecker.crashes && expectedChecker.crashes.length
+  ? expectedChecker.crashes.map(m => '     - crash line: ' + m).join('\n')
+  : '     - crash line: none declared, so any change of it is red'),
+'',
 '## What green means',
 '',
-'Zero failures and zero errors in every suite of testFast and of testSystem, BUILD SUCCESSFUL on compileAll and on both suites, no COUNT DOWN and no SUITE GONE line from gate_compare, every atomic run PASS, and no undeclared DOWN, STDOUT or MISSING line from the ladder comparison. Anything else is red.',
+'Zero failures and zero errors in every suite of testFast and of testSystem, BUILD SUCCESSFUL on compileAll and on both suites, no COUNT DOWN and no SUITE GONE line from gate_compare, every atomic run PASS, no undeclared DOWN, STDOUT or MISSING line from the ladder comparison, and from the checker count a total that is not above the last landed one, an unchanged crash line and no stale shadow - unless a rung declared the total or the crash line, in which case the printed value must be the declared one. Anything else is red.',
 '',
-'Write ' + GATE_DIR + '/summary.txt as the snippets produce it - do not hand-write a summary; the last two batches wrote agent prose and one of them got a suite count wrong. Do NOT commit it. Return the structured result. If red, name every failing test and copy the first failure\'s output lines into the result; the judge reads them.',
+'Write ' + GATE_DIR + '/summary.txt and ' + GATE_DIR + '/checker-count.txt as the snippets and the script produce them - do not hand-write either; the last two batches wrote agent prose and one of them got a suite count wrong. Do NOT commit them. Return the structured result. If red, name every failing test and copy the first failure\'s output lines into the result; the judge reads them.',
 '',
   ].join('\n')
 }
@@ -925,6 +1002,7 @@ const GATE_SCHEMA = {
     countsDown: { type: 'array', items: { type: 'string' }, description: 'every COUNT DOWN or SUITE GONE line from gate_compare, with the suite named; empty if none' },
     atomicFourThread: { type: 'string', description: 'the thirteen programs, three runs each at FORTRESS_THREADS=4: how many PASS, and every line that is not PASS' },
     ladder: { type: 'string', description: 'the 85 files and the eighteen microGPT components: moves up, moves down, stdout differences, and which were declared in the manifest' },
+    checkerCount: { type: 'string', description: 'the checker count over the interpreter library: the total, the last landed total it was compared against, the crash line, every verdict line checker_compare printed, and the per-api rows that moved' },
     failing: { type: 'array', items: { type: 'string' }, description: 'failing test names with the key output line each' },
     stopped: { type: 'boolean', description: 'true if the gate could not be run (disk, build failure before tests)' },
     summaryPath: { type: 'string', description: 'the path of the summary file you wrote, and the path of the last landed one you compared against' },
@@ -952,7 +1030,7 @@ function commitRole(gather, gate) {
 '',
 'The gate is green on the tree as it stands. Land it.',
 '',
-'1. Replace every literal <short hash> placeholder in the ledger, FACTS and the handover with the hash of the commit it refers to, from the gather stage\'s result below. Add ' + GATE_DIR + '/summary.txt and ' + GATE_DIR + '/ladder/ to the same commit - the gate wrote them and deliberately did not commit them, because the review was committing in this tree at the same time. Title it "Record the landed commits\' hashes and the gate summary". grep -rn "<short hash>" explorations/ afterwards must be empty, and the full gate logs under ' + LOG_DIR + '/ are NOT committed and never are.',
+'1. Replace every literal <short hash> placeholder in the ledger, FACTS and the handover with the hash of the commit it refers to, from the gather stage\'s result below. Add ' + GATE_DIR + '/summary.txt, ' + GATE_DIR + '/checker-count.txt and ' + GATE_DIR + '/ladder/ to the same commit - the gate wrote them and deliberately did not commit them, because the review was committing in this tree at the same time. The checker-count table is the comparand the next batch\'s gate reads, so a batch that lands without it leaves the next gate comparing against an older one. Title it "Record the landed commits\' hashes and the gate summary". grep -rn "<short hash>" explorations/ afterwards must be empty, and the full gate logs under ' + LOG_DIR + '/ are NOT committed and never are.',
 '2. Verify every commit since ' + BASE + ' ends with the two footer lines and contains no model identifier (git log ' + BASE + '..HEAD --format=%B), and that every commit whose diff touches a path outside explorations/ carries a historical: line.',
 '3. git push origin main; then git push origin main:' + CONTAINER_BRANCH + ' so the container\'s own branch stays at main. Retry a failed push up to four times with 2, 4, 8, 16 seconds between.',
 '4. For each wip/ branch: confirm git -C <worktree> status -sb shows nothing ahead of its origin; then git worktree remove <worktree> and git branch -D <branch>. Leave the remote wip/ branches: the proxy refuses branch deletion from here, and Pavol removes them in the GitHub UI.',
@@ -993,7 +1071,7 @@ const results = await pipeline(
   SCATTER,
 
   // Stage 1: the rung worker.
-  (rung) => agent(PREFIX + RUNG_ROLE + rung.tail, {
+  (rung) => agent(PREFIX + rungRole(rung) + rung.tail, {
     label: 'rung:' + rung.id,
     phase: 'Rung',
     schema: RUNG_SCHEMA,
@@ -1016,7 +1094,7 @@ const results = await pipeline(
       if (!judgeOnStop || judgeOnStop.decision !== 'repair') {
         return out('stopped', { worker, verdict: null, judge: judgeOnStop })
       }
-      const resumed = await agent(PREFIX + RUNG_ROLE + rung.tail + repairPrompt(rung, null, judgeOnStop), {
+      const resumed = await agent(PREFIX + rungRole(rung) + rung.tail + repairPrompt(rung, null, judgeOnStop), {
         label: 'resume:' + rung.id,
         phase: 'Rung',
         schema: RUNG_SCHEMA,
@@ -1053,7 +1131,7 @@ const results = await pipeline(
       return out('stopped', { worker, verdict, firstVerdict: verdict, judge: decision, repaired: false })
     }
 
-    const repaired = await agent(PREFIX + RUNG_ROLE + rung.tail + repairPrompt(rung, verdict, decision), {
+    const repaired = await agent(PREFIX + rungRole(rung) + rung.tail + repairPrompt(rung, verdict, decision), {
       label: 'repair:' + rung.id,
       phase: 'Rung',
       schema: RUNG_SCHEMA,
@@ -1085,6 +1163,14 @@ const rungs = RUNGS.map(r => byId[r.id]).filter(Boolean)
 const approved = rungs.filter(r => r.state === 'approved' || r.state === 'approved-after-repair')
 const notLanded = rungs.filter(r => r.state !== 'approved' && r.state !== 'approved-after-repair')
 const expectedMoves = [].concat.apply([], RUNGS.filter(m => approved.some(a => a.rung === m.id)).map(m => (m.expectedMoves || []).map(x => m.id + ': ' + x)))
+// The checker-count stage's declarations, gathered the same way: only an approved
+// rung's declaration counts, because a rung that did not land changed nothing.
+const expectedChecker = {
+  counts: RUNGS.filter(m => approved.some(a => a.rung === m.id) && m.expectedCheckerCount !== undefined)
+               .map(m => m.id + ': ' + m.expectedCheckerCount),
+  crashes: RUNGS.filter(m => approved.some(a => a.rung === m.id) && m.expectedCheckerCrash !== undefined)
+                .map(m => m.id + ': ' + m.expectedCheckerCrash),
+}
 const report = { batch: BATCH, base: BASE, rungs }
 
 if (approved.length === 0) {
@@ -1111,7 +1197,7 @@ if (!gather || gather.unresolved) {
 // is closed by the gate committing nothing: the commit stage adds its summary.
 let [review, gate] = await parallel([
   () => agent(PREFIX + reviewRole(gather), { label: 'review', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }),
-  () => agent(PREFIX + gateRole(expectedMoves), { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }),
+  () => agent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }),
 ])
 report.review = review
 report.gate = gate
@@ -1141,7 +1227,7 @@ if (review && !review.approved && review.blocking && review.blocking.length) {
 }
 
 if (gateIsStale || !gate) {
-  gate = await agent(PREFIX + gateRole(expectedMoves), { label: 'gate:after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS })
+  gate = await agent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate:after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS })
   report.gateAfterReview = gate
 }
 
@@ -1156,7 +1242,7 @@ if (!gate.green) {
     return Object.assign(report, { landed: false, reason: 'gate red, judge did not order a repair' })
   }
   await agent(PREFIX + mergedRepairRole(decision, 'gate'), { label: 'repair:gate', phase: 'Gate', schema: RUNG_SCHEMA, model: OPUS })
-  gate = await agent(PREFIX + gateRole(expectedMoves), { label: 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS })
+  gate = await agent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS })
   report.gate2 = gate
   if (!gate || !gate.green) {
     log('Gate red after one repair: the batch stops here, nothing pushed; the failing tests and the diagnosis are the record')
