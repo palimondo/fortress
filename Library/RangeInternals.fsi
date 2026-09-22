@@ -306,7 +306,7 @@ trait ScalarRangeWithRight[\I extends Integral[\I\]\]
     minRight(other: ScalarRange[\I\]): I
 end
 
-object RightScalarRange[\I\](r: I, str: I)
+object RightScalarRange[\I extends Integral[\I\]\](r: I, str: I)
     extends { ScalarRangeWithRight[\I\], PartialScalarRange[\I\],
         RightRange[\I\] }
     getter stride(): I
@@ -575,20 +575,20 @@ fullRange2D[\I extends Integral[\I\], J extends Integral[\J\]\](l_i: I, l_j: J, 
 
 fullRange3D[\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\]
            (l_i:I, l_j:J, l_k:K, r_i:I, r_j:J, r_k:K, str_i:I, str_j:J, str_k:K): FullRange3D[\I,J,K\]
-emptyScalarRange[\I\](): FullScalarRange[\I\]
+emptyScalarRange[\I extends Integral[\I\]\](): FullScalarRange[\I\]
 
-sized1Range[\I extends AnyIntegral\](_: I, lo: I, ex: I): CompactFullParScalarRange[\I\]
+sized1Range[\I extends Integral[\I\]\](_: I, lo: I, ex: I): CompactFullParScalarRange[\I\]
 
-sized2Range[\I extends AnyIntegral, J extends AnyIntegral\](_: I, _: J, l1: I, l2: J, ex1: I, ex2: J): CompactFullRange2D[\I, J\]
+sized2Range[\I extends Integral[\I\], J extends Integral[\J\]\](_: I, _: J, l1: I, l2: J, ex1: I, ex2: J): CompactFullRange2D[\I, J\]
 
-sized3Range[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\](_: I, _: J, _: K, l1: I, l2: J, l3: K, ex1: I, ex2: J,
+sized3Range[\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](_: I, _: J, _: K, l1: I, l2: J, l3: K, ex1: I, ex2: J,
         ex3: K): CompactFullRange3D[\I, J, K\]
 
-bounded1Range[\I extends AnyIntegral\](_: I, lo: I, hi: I): CompactFullParScalarRange[\I\]
+bounded1Range[\I extends Integral[\I\]\](_: I, lo: I, hi: I): CompactFullParScalarRange[\I\]
 
-bounded2Range[\I extends AnyIntegral, J extends AnyIntegral\](_: I, _: J, l1: I, l2: J, hi1: I, hi2: J): CompactFullRange2D[\I, J\]
+bounded2Range[\I extends Integral[\I\], J extends Integral[\J\]\](_: I, _: J, l1: I, l2: J, hi1: I, hi2: J): CompactFullRange2D[\I, J\]
 
-bounded3Range[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\](_: I, _: J, _: K, l1: I, l2: J, l3: K, hi1: I, hi2: J,
+bounded3Range[\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](_: I, _: J, _: K, l1: I, l2: J, l3: K, hi1: I, hi2: J,
         hi3: K): CompactFullRange3D[\I, J, K\]
 
 left1Range[\I extends AnyIntegral\](_: I, x: I): LeftRange[\I\]
@@ -609,11 +609,11 @@ right2Range[\I extends AnyIntegral, J extends AnyIntegral\](_: I, _: J, x: I, y:
 
 right3Range[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\](_: I, _: J, _: K, x: I, y: J, z: K): RightRange[\(I, J, K)\]
 
-openRangeHelper[\I extends AnyIntegral\](_: ()->I): OpenScalarRange[\I\]
+openRangeHelper[\I extends Integral[\I\]\](_: ()->I): OpenScalarRange[\I\]
 
-openRangeHelper[\I extends AnyIntegral, J extends AnyIntegral\](_: ()->(I, J)): OpenRange2D[\I, J\]
+openRangeHelper[\I extends Integral[\I\], J extends Integral[\J\]\](_: ()->(I, J)): OpenRange2D[\I, J\]
 
-openRangeHelper[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\](_: ()->(I, J, K)): OpenRange3D[\I, J, K\]
+openRangeHelper[\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](_: ()->(I, J, K)): OpenRange3D[\I, J, K\]
 
 open1Range[\I extends AnyIntegral\](_: I, x: I): OpenRange[\I\]
 
