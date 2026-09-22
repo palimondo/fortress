@@ -1,0 +1,30 @@
+### MUTATION CHECK: stringOps.class rebuilt by javac from a copy of the repaired native whose defaultAsString returns typeName(a) unconditionally (stringOps.java:76), nothing else changed: compiler_tests/DefaultRenderRungS.test
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=c10a13879  2026-09-22T22:41:06+00:00
+### the mutant against the committed stringOps.java:
+76c76
+<         return hasOwnToString(a) ? a.toString() : typeName(a);
+---
+>         return typeName(a);
+### javac -cp ProjectFortress/build -d <scratch> <mutant>; the class copied over ProjectFortress/build/com/sun/fortress/nativeHelpers/stringOps.class
+### git status:
+ M ../explorations/compile-ladder/rung-default-rendering/probes/mutation-fprefix.txt
+?? ../explorations/compile-ladder/rung-default-rendering/probes/mutation-owntostring.txt
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
+. link compiler_tests/DefaultRenderRungS  OK (time = 3707ms)
+. run compiler_tests/DefaultRenderRungS (824ms) Box
+Cell[\ZZ32\]
+Pt
+FAIL:  RR32 =/= 1.5; an RR32 keeps its own Java rendering; ledger row 321, walk prints 1.5
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  RR32 =/= 1.5; an RR32 keeps its own Java rendering; ledger row 321, walk prints 1.5
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 4.541
+There was 1 failure:
+1) compiler_tests/DefaultRenderRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/DefaultRenderRungS
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
+### the good class restored: cmp against the saved copy
+cmp: identical

@@ -1,0 +1,20 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component XXXUnionReturnRungS
+export Executable
+
+object Box(n: ZZ32) end
+value object Pt(x: ZZ32) end
+
+pick(b: Boolean) = if b then Box(1) else Pt(2) end
+
+run(): () = do
+    println("REACHED")
+    x: Object = pick(true)
+    y: Object = pick(false)
+    assert(x.asString, "Box", "a function with no declared return type whose body is an if of two object types; Specification/basic/functions.tex:104, Specification/basic/expressions/if.tex:66-67")
+    assert(y.asString, "Pt", "a function with no declared return type whose body is an if of two object types; Specification/basic/functions.tex:104, Specification/basic/expressions/if.tex:66-67")
+    println("PASS")
+  end
+
+end

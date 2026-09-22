@@ -1,43 +1,27 @@
-### MUTATION CHECK: stringOps.class rebuilt by javac from a copy with the F-prefix rule removed (stringOps.java:57), nothing else changed: compiler_tests/DefaultRenderRungS.test
-### FORTRESS_HOME=/home/user/fortress-rendering  rev=b63eb5d8d  2026-09-22T20:18:52+00:00
+### MUTATION CHECK: stringOps.class rebuilt by javac from a copy of the repaired native with the F-prefix rule removed (stringOps.java:58), nothing else changed: compiler_tests/DefaultRenderRungS.test
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=c10a13879  2026-09-22T22:40:56+00:00
+### the mutant against the committed stringOps.java:
+58d57
+<         if (stem.startsWith(Naming.RT_VALUES_PKG)) name = name.substring(1); // FZZ32 is ZZ32
+### javac -cp ProjectFortress/build -d <scratch> <mutant>; the class copied over ProjectFortress/build/com/sun/fortress/nativeHelpers/stringOps.class
 ### git status:
- M compiler_tests/DefaultRenderRungS.fss
- M ../explorations/compile-ladder/rung-default-rendering/probes/test-postedit.txt
-?? ../explorations/compile-ladder/rung-default-rendering/post/
-?? ../explorations/compile-ladder/rung-default-rendering/probes/VoidArgRender.fss
-?? ../explorations/compile-ladder/rung-default-rendering/probes/VoidArgRender.txt
-?? ../explorations/compile-ladder/rung-default-rendering/probes/gated-spot-postedit.txt
+ M ../explorations/compile-ladder/rung-default-rendering/probes/mutation-fprefix.txt
 ================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
-. link compiler_tests/DefaultRenderRungS  OK (time = 3988ms)
-. run compiler_tests/DefaultRenderRungS (877ms) Box
+. link compiler_tests/DefaultRenderRungS  OK (time = 3588ms)
+. run compiler_tests/DefaultRenderRungS (686ms) Box
 Cell[\FZZ32\]
 Pt
 FAIL:  Cell[\FZZ32\] =/= Cell[\ZZ32\]; generic object; ledger row 321, walk prints Cell[\ZZ32\]
 FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  Cell[\FZZ32\] =/= Cell[\ZZ32\]; generic object; ledger row 321, walk prints Cell[\ZZ32\]
-	at fortress.CompilerLibrary.fail(/home/user/fortress-rendering/Library/CompilerLibrary.fss:75)
-	at fortress.CompilerLibrary.assert(/home/user/fortress-rendering/Library/CompilerLibrary.fss:114)
-	at DefaultRenderRungS.run(/home/user/fortress-rendering/ProjectFortress/compiler_tests/DefaultRenderRungS.fss:22)
-	at DefaultRenderRungS.compute(/home/user/fortress-rendering/ProjectFortress/compiler_tests/DefaultRenderRungS.fss)
-	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
-	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
-	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
-	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
-	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
 Failed to satisfy run_out_contains; expected
 PASS
 F
-Time: 4.876
+Time: 4.284
 There was 1 failure:
 1) compiler_tests/DefaultRenderRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/DefaultRenderRungS
-	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
-	at com.sun.fortress.Shell.junit(Shell.java:1086)
-	at com.sun.fortress.Shell.subMain(Shell.java:409)
-	at com.sun.fortress.Shell.main(Shell.java:362)
-	at com.sun.fortress.Shell.main(Shell.java:349)
 
 FAILURES!!!
 Tests run: 2,  Failures: 1,  Errors: 0
 
-EXIT=0
+### the good class restored: cmp against the saved copy
+cmp: identical

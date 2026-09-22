@@ -1,0 +1,73 @@
+### REPAIR ROUND: the judge's check lines tried on the union-return pair, then the committed ones
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=c10a13879  2026-09-22T22:47:20+00:00
+### (1) the judge's assertion form pick(true).asString, JUDGE.md section 5 step 7: the link of the first try, from the run of all six files
+?? compiler_tests/UnionReturnRungSLink.test
+?? compiler_tests/XXXNatArgRungS.fss
+?? compiler_tests/XXXNatArgRungS.test
+?? compiler_tests/XXXOprParamRungS.fss
+?? compiler_tests/XXXOprParamRungS.test
+?? compiler_tests/XXXUnionReturnRungS.fss
+?? compiler_tests/XXXUnionReturnRungS.test
+?? ../explorations/compile-ladder/rung-default-rendering/probes/mutation-owntostring.txt
+?? ../explorations/compile-ladder/rung-default-rendering/probes/postrepair-differentials.txt
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/UnionReturnRungSLink.test
+. link compiler_tests/XXXUnionReturnRungS java.lang.Error: You should be able to call methods on this type,OR(Pt,Box)but this is not yet implemented.: Not yet implemented
+ OK Saw expected exception
+
+Time: 4.313
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXUnionReturnRungS.test
+. run compiler_tests/XXXUnionReturnRungS (431ms) Could not load XXXUnionReturnRungS
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXUnionReturnRungS.class
+	... 4 more
+Failed to satisfy run_out_contains; expected
+REACHED
+F
+Time: 0.451
+There was 1 failure:
+1) compiler_tests/XXXUnionReturnRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXUnionReturnRungS
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+### (2) the committed .fss (results bound to x: Object, y: Object) with the judge's check line run_out_contains=REACHED:
+tests=XXXUnionReturnRungS
+run
+run_out_contains=REACHED
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXUnionReturnRungS.test
+. run compiler_tests/XXXUnionReturnRungS (263ms) Exception in thread "main" java.lang.VerifyError: Bad return type
+
+Failed to satisfy run_out_contains; expected
+REACHED
+F
+Time: 0.276
+There was 1 failure:
+1) compiler_tests/XXXUnionReturnRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXUnionReturnRungS
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+### (3) with run_err_contains=java.lang.VerifyError alone:
+tests=XXXUnionReturnRungS
+run
+run_err_contains=java.lang.VerifyError
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXUnionReturnRungS.test
+. run compiler_tests/XXXUnionReturnRungS (270ms) Exception in thread "main" java.lang.VerifyError: Bad return type
+
+Failed to satisfy default check run_out_contains=PASS
+F
+Time: 0.283
+There was 1 failure:
+1) compiler_tests/XXXUnionReturnRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXUnionReturnRungS
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+### (4) the committed check lines restored:
+tests=XXXUnionReturnRungS
+run
+run_out_does_not_contain=REACHED
+run_err_contains=java.lang.VerifyError

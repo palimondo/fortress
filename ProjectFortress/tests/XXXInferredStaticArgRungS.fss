@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component XXXInferredStaticArgRungS
+export Executable
+
+object Cell[\T extends Any\](v: T) end
+
+run(): () = do
+    println("REACHED")
+    assert(Cell("s").asString, "Cell[\\String\\]", "the static argument inferred from a string literal is String; Specification/basic/expressions/literals.tex:57, walk prints Cell[\\FlatString\\]")
+    println("PASS")
+  end
+
+end

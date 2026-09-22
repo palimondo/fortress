@@ -1,6 +1,6 @@
-=== ladder start 2026-09-22T20:10:04+00:00 ===
-du: cannot access '/home/user/fortress-rendering/tmp/ladder-s-post/ladder-caches': No such file or directory
--- disk free 22467180 KB, cache  MB
+=== ladder start 2026-09-22T22:42:04+00:00 ===
+du: cannot access '/home/user/fortress-rendering/tmp/ladder-s-repair/ladder-caches': No such file or directory
+-- disk free 20982540 KB, cache  MB
 library: LibraryBuiltin/AnyType.fss
 library: LibraryBuiltin/CompilerBuiltin.fss
 library: ../Library/CompilerLibrary.fss
@@ -10,14 +10,14 @@ sanity ok: library_tests/Integer1 compiles and prints PASS
 not_working_library_tests/Comparison1.fss crc=0 rrc=0 10s
 tests/deepHierarchy.fss crc=0 rrc=0 3s
 tests/fmTest2.fss crc=0 rrc=0 4s
-tests/fmTest3.fss crc=0 rrc=0 5s
-tests/nestedInst.fss crc=0 rrc=0 3s
-tests/XXXGenericOverload.fss crc=0 rrc=0 4s
-tests/XXXcaseTest.fss crc=0 rrc=1 4s
+tests/fmTest3.fss crc=0 rrc=0 4s
+tests/nestedInst.fss crc=0 rrc=0 2s
+tests/XXXGenericOverload.fss crc=0 rrc=0 3s
+tests/XXXcaseTest.fss crc=0 rrc=1 3s
 tests/XXXtypeParamShadowing.fss crc=0 rrc=0 2s
 tests/XXXtypecaseTest.fss crc=0 rrc=1 2s
-tests/disp2.fss crc=0 rrc=0 3s
--- disk free 22438676 KB, cache 13 MB
-=== ladder done 2026-09-22T20:14:36+00:00, 10 files ===
--- disk free 22438676 KB, cache 13 MB
+tests/disp2.fss crc=0 rrc=0 2s
+-- disk free 20955792 KB, cache 13 MB
+=== ladder done 2026-09-22T22:46:12+00:00, 10 files ===
+-- disk free 20955792 KB, cache 13 MB
 EXIT=0
