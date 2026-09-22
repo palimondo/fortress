@@ -1,0 +1,135 @@
+# routeC-textcount.py over Library/FortressLibrary.fsi
+names the checker examines (alphabetic and juxtaposition): 70 pairs (ret: 54)
+   by exempted trait: Integral 45, StandardPartialOrder 8, StandardTotalOrder 7, StandardMinMax 6, StandardMin 2, StandardMax 2
+   by declaring trait: ZZ64 17, NN64 15, ZZ32 15, Number 6, QQ 5, LessThan 4, GreaterThan 4, TotalComparison 2, EqualTo 2
+symbolic names the checker skips: 57 pairs (ret: 9)
+   by exempted trait: StandardPartialOrder 33, Equality 14, Integral 10
+   by declaring trait: ZZ64 9, NN64 7, Number 6, QQ 6, ZZ32 6, TotalComparison 4, LessThan 4, EqualTo 4, Unordered 3, GreaterThan 3, Comparison 2, AnyMaybe 1, AnyUniqueItem 1, HasRank 1
+# every pair: specialised .fsi line, trait, name  <-  generic .fsi line, exempted trait  [ret]
+    124 TotalComparison  CMP            <-   169 StandardPartialOrder   
+    134 LessThan         CMP            <-   169 StandardPartialOrder   
+    135 LessThan         CMP            <-   169 StandardPartialOrder   
+    145 GreaterThan      CMP            <-   169 StandardPartialOrder   
+    146 GreaterThan      CMP            <-   169 StandardPartialOrder   
+    155 EqualTo          CMP            <-   169 StandardPartialOrder   
+    286 Number           CMP            <-   169 StandardPartialOrder   
+    512 ZZ64             CMP            <-   169 StandardPartialOrder   
+    289 Number           MIN            <-   185 StandardMin            ret
+    388 QQ               MIN            <-   185 StandardMin            ret
+    290 Number           MAX            <-   196 StandardMax            ret
+    389 QQ               MAX            <-   196 StandardMax            ret
+    291 Number           MINMAX         <-   208 StandardMinMax         ret
+    390 QQ               MINMAX         <-   208 StandardMinMax         ret
+    289 Number           MIN            <-   209 StandardMinMax         ret
+    388 QQ               MIN            <-   209 StandardMinMax         ret
+    290 Number           MAX            <-   210 StandardMinMax         ret
+    389 QQ               MAX            <-   210 StandardMinMax         ret
+    124 TotalComparison  CMP            <-   222 StandardTotalOrder     
+    134 LessThan         CMP            <-   222 StandardTotalOrder     
+    135 LessThan         CMP            <-   222 StandardTotalOrder     
+    145 GreaterThan      CMP            <-   222 StandardTotalOrder     
+    146 GreaterThan      CMP            <-   222 StandardTotalOrder     
+    155 EqualTo          CMP            <-   222 StandardTotalOrder     
+    512 ZZ64             CMP            <-   222 StandardTotalOrder     
+    444 NN64             DOT            <-   417 Integral               ret
+    479 ZZ32             DOT            <-   417 Integral               ret
+    517 ZZ64             DOT            <-   417 Integral               ret
+    445 NN64             TIMES          <-   418 Integral               ret
+    518 ZZ64             TIMES          <-   418 Integral               ret
+    446 NN64             juxtaposition  <-   419 Integral               ret
+    480 ZZ32             juxtaposition  <-   419 Integral               ret
+    519 ZZ64             juxtaposition  <-   419 Integral               ret
+    447 NN64             DIV            <-   420 Integral               ret
+    481 ZZ32             DIV            <-   420 Integral               ret
+    520 ZZ64             DIV            <-   420 Integral               ret
+    448 NN64             REM            <-   421 Integral               ret
+    482 ZZ32             REM            <-   421 Integral               ret
+    521 ZZ64             REM            <-   421 Integral               ret
+    449 NN64             MOD            <-   422 Integral               ret
+    483 ZZ32             MOD            <-   422 Integral               ret
+    522 ZZ64             MOD            <-   422 Integral               ret
+    450 NN64             GCD            <-   423 Integral               ret
+    484 ZZ32             GCD            <-   423 Integral               ret
+    523 ZZ64             GCD            <-   423 Integral               ret
+    451 NN64             LCM            <-   424 Integral               ret
+    485 ZZ32             LCM            <-   424 Integral               ret
+    524 ZZ64             LCM            <-   424 Integral               ret
+    452 NN64             CHOOSE         <-   426 Integral               ret
+    486 ZZ32             CHOOSE         <-   426 Integral               ret
+    525 ZZ64             CHOOSE         <-   426 Integral               ret
+    453 NN64             BITAND         <-   427 Integral               ret
+    487 ZZ32             BITAND         <-   427 Integral               ret
+    526 ZZ64             BITAND         <-   427 Integral               ret
+    454 NN64             BITOR          <-   428 Integral               ret
+    488 ZZ32             BITOR          <-   428 Integral               ret
+    527 ZZ64             BITOR          <-   428 Integral               ret
+    455 NN64             BITXOR         <-   429 Integral               ret
+    489 ZZ32             BITXOR         <-   429 Integral               ret
+    528 ZZ64             BITXOR         <-   429 Integral               ret
+    456 NN64             LSHIFT         <-   430 Integral               ret
+    490 ZZ32             LSHIFT         <-   430 Integral               ret
+    529 ZZ64             LSHIFT         <-   430 Integral               ret
+    457 NN64             RSHIFT         <-   431 Integral               ret
+    491 ZZ32             RSHIFT         <-   431 Integral               ret
+    530 ZZ64             RSHIFT         <-   431 Integral               ret
+    458 NN64             BITNOT         <-   432 Integral               ret
+    492 ZZ32             BITNOT         <-   432 Integral               ret
+    531 ZZ64             BITNOT         <-   432 Integral               ret
+    495 ZZ32             unsigned       <-   434 Integral               
+    103 Comparison       =              <-    74 Equality                 (symbolic)
+    112 Unordered        =              <-    74 Equality                 (symbolic)
+    123 TotalComparison  =              <-    74 Equality                 (symbolic)
+    133 LessThan         =              <-    74 Equality                 (symbolic)
+    144 GreaterThan      =              <-    74 Equality                 (symbolic)
+    154 EqualTo          =              <-    74 Equality                 (symbolic)
+    280 Number           =              <-    74 Equality                 (symbolic)
+    381 QQ               =              <-    74 Equality                 (symbolic)
+    439 NN64             =              <-    74 Equality                 (symbolic)
+    473 ZZ32             =              <-    74 Equality                 (symbolic)
+    507 ZZ64             =              <-    74 Equality                 (symbolic)
+    819 AnyMaybe         =              <-    74 Equality                 (symbolic)
+    887 AnyUniqueItem    =              <-    74 Equality                 (symbolic)
+   1064 HasRank          =              <-    74 Equality                 (symbolic)
+    113 Unordered        <              <-   170 StandardPartialOrder     (symbolic)
+    136 LessThan         <              <-   170 StandardPartialOrder     (symbolic)
+    137 LessThan         <              <-   170 StandardPartialOrder     (symbolic)
+    147 GreaterThan      <              <-   170 StandardPartialOrder     (symbolic)
+    156 EqualTo          <              <-   170 StandardPartialOrder     (symbolic)
+    157 EqualTo          <              <-   170 StandardPartialOrder     (symbolic)
+    282 Number           <              <-   170 StandardPartialOrder     (symbolic)
+    383 QQ               <              <-   170 StandardPartialOrder     (symbolic)
+    440 NN64             <              <-   170 StandardPartialOrder     (symbolic)
+    474 ZZ32             <              <-   170 StandardPartialOrder     (symbolic)
+    508 ZZ64             <              <-   170 StandardPartialOrder     (symbolic)
+    284 Number           >              <-   171 StandardPartialOrder     (symbolic)
+    385 QQ               >              <-   171 StandardPartialOrder     (symbolic)
+    509 ZZ64             >              <-   171 StandardPartialOrder     (symbolic)
+    103 Comparison       =              <-   172 StandardPartialOrder     (symbolic)
+    112 Unordered        =              <-   172 StandardPartialOrder     (symbolic)
+    123 TotalComparison  =              <-   172 StandardPartialOrder     (symbolic)
+    133 LessThan         =              <-   172 StandardPartialOrder     (symbolic)
+    144 GreaterThan      =              <-   172 StandardPartialOrder     (symbolic)
+    154 EqualTo          =              <-   172 StandardPartialOrder     (symbolic)
+    280 Number           =              <-   172 StandardPartialOrder     (symbolic)
+    381 QQ               =              <-   172 StandardPartialOrder     (symbolic)
+    439 NN64             =              <-   172 StandardPartialOrder     (symbolic)
+    473 ZZ32             =              <-   172 StandardPartialOrder     (symbolic)
+    507 ZZ64             =              <-   172 StandardPartialOrder     (symbolic)
+    283 Number           <=             <-   173 StandardPartialOrder     (symbolic)
+    384 QQ               <=             <-   173 StandardPartialOrder     (symbolic)
+    511 ZZ64             <=             <-   173 StandardPartialOrder     (symbolic)
+    125 TotalComparison  >=             <-   174 StandardPartialOrder     (symbolic)
+    126 TotalComparison  >=             <-   174 StandardPartialOrder     (symbolic)
+    285 Number           >=             <-   174 StandardPartialOrder     (symbolic)
+    386 QQ               >=             <-   174 StandardPartialOrder     (symbolic)
+    510 ZZ64             >=             <-   174 StandardPartialOrder     (symbolic)
+    441 NN64             -              <-   414 Integral               ret  (symbolic)
+    476 ZZ32             -              <-   414 Integral               ret  (symbolic)
+    514 ZZ64             -              <-   414 Integral               ret  (symbolic)
+    442 NN64             +              <-   415 Integral               ret  (symbolic)
+    477 ZZ32             +              <-   415 Integral               ret  (symbolic)
+    515 ZZ64             +              <-   415 Integral               ret  (symbolic)
+    443 NN64             -              <-   416 Integral               ret  (symbolic)
+    478 ZZ32             -              <-   416 Integral               ret  (symbolic)
+    516 ZZ64             -              <-   416 Integral               ret  (symbolic)
+    459 NN64             ^              <-   433 Integral                 (symbolic)

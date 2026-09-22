@@ -1,0 +1,23 @@
+component RouteCProbe
+export Executable
+
+(* Route C's overload half in the compiler's own world: a generic over an exempted
+   trait (T bounded by the prelude's StandardTotalOrder, CompilerAlgebra.fss:17) beside a declaration
+   specialised to ZZ32.  f's return type does not mention T, g's does; h is the control,
+   the same shape over a trait that is not exempted. *)
+trait Box[\T\] end
+object ZBox extends Box[\ZZ32\] end
+
+f[\T extends StandardTotalOrder[\T\]\](x: T): Boolean = true
+f(x: ZZ32): Boolean = false
+
+g[\T extends StandardTotalOrder[\T\]\](x: T): T = x
+g(x: ZZ32): ZZ32 = x
+
+h[\T\](x: Box[\T\]): Box[\T\] = x
+h(x: Box[\ZZ32\]): Box[\ZZ32\] = x
+
+run(): () = do
+  println("f(3) = " f(3) ", h(ZBox) is a Box: " (typecase h(ZBox) of Box[\ZZ32\] => true; else => false end))
+end
+end

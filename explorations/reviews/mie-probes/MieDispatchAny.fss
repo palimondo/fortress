@@ -1,0 +1,39 @@
+component MieDispatchAny
+export Executable
+
+(* A call that reaches the generic only by dispatch: the argument's static type is Any,
+   so the static choice is the Any declaration and the run-time dispatcher tries the
+   generic.  peek returns Any, so the dispatcher's result cast is to Any; grab returns
+   Marker[X].  RedBlue and BlueRed list the same two instantiations in opposite orders. *)
+trait Tag[\X\] tagName(): String end
+object Red end
+object Blue end
+object RedTag extends Tag[\Red\] tagName(): String = "RedTag" end
+object RedBlue extends { Tag[\Red\], Tag[\Blue\] } tagName(): String = "RedBlue" end
+object BlueRed extends { Tag[\Blue\], Tag[\Red\] } tagName(): String = "BlueRed" end
+object Marker[\X\] end
+
+peek[\X\](t: Tag[\X\]): Any = Marker[\X\]
+peek(a: Any): Any = Red
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = Marker[\X\]
+grab(a: Any): Any = Red
+
+name(m: Any): String = typecase m of
+    Marker[\Red\] => "Marker[Red]"
+    Marker[\Blue\] => "Marker[Blue]"
+    Red => "Red (the Any declaration)"
+    else => "other"
+  end
+
+run(): () = do
+  a1: Any = RedTag
+  a2: Any = RedBlue
+  a3: Any = BlueRed
+  println("peek(a1), a1: Any = RedTag  -> " name(peek(a1)))
+  println("peek(a2), a2: Any = RedBlue -> " name(peek(a2)))
+  println("peek(a3), a3: Any = BlueRed -> " name(peek(a3)))
+  println("peek(Red)                   -> " name(peek(Red)))
+  println("grab(a1), a1: Any = RedTag  -> " name(grab(a1)))
+end
+end

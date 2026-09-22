@@ -1,0 +1,17 @@
+component MieDispatchZZ32
+export Executable
+
+(* MieDispatchAny's peek with IntTag, which extends one instantiation only: the run-time
+   instantiation at ZZ32, with no multiple instantiation anywhere. *)
+trait Tag[\X\] tagName(): String end
+object IntTag extends Tag[\ZZ32\] tagName(): String = "IntTag" end
+object Marker[\X\] end
+
+peek[\X\](t: Tag[\X\]): Any = Marker[\X\]
+peek(a: Any): Any = "the Any declaration"
+
+run(): () = do
+  a: Any = IntTag
+  println("peek(a), a: Any = IntTag -> " (typecase peek(a) of Marker[\ZZ32\] => "Marker[ZZ32]"; else => "other" end))
+end
+end

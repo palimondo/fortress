@@ -1,0 +1,6 @@
+=== fortress link MieDispatchZZ32.fss   -Dprobe.rungP=off
+link exit=0
+=== fortress run MieDispatchZZ32
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchZZ32$IntTag cannot be cast to class MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatchZZ32$IntTag and MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+run exit=1

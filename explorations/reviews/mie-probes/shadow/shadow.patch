@@ -1,0 +1,122 @@
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+@@ -70,7 +70,7 @@
+  */
+ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+                          globalEnv: GlobalEnvironment) {
+-    var typeAnalyzer = TypeAnalyzer.make(new TraitTable(compilation_unit, globalEnv))
++    var typeAnalyzer = { val a = TypeAnalyzer.make(new TraitTable(compilation_unit, globalEnv)); if (TypeAnalyzer.probeRelaxOver) a.withoutInstantiationExclusion else a }
+     val globalOracle = new OverloadingOracle()(typeAnalyzer)
+     var errors = List[StaticError]()
+ 
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+@@ -175,7 +175,7 @@
+ 	      for (second <- extended) {
+ 		second match {
+ 		  case STraitTypeWhere(_,other@STraitType(_,_,_,_),_) =>
+-		    if ( new_analyzer.definitelyExcludes(st, other) )
++		    if ( (if (TypeAnalyzer.probeRelaxHier) new_analyzer.withoutInstantiationExclusion else new_analyzer).definitelyExcludes(st, other) )
+ 		      error(errors, "Types " + st + " and " + other +
+ 			    " exclude each other.  " + decl +
+ 			    " must not extend them.", st)
+@@ -184,7 +184,7 @@
+ 	      }
+ 	      getTypes(name, errors) match {
+ 		case si:ProperTraitIndex =>
+-		  if ( new_analyzer.definitelyExcludes(tt, st) ) {
++		  if ( (if (TypeAnalyzer.probeRelaxHier) new_analyzer.withoutInstantiationExclusion else new_analyzer).definitelyExcludes(tt, st) ) {
+ 		      error(errors, "Type " + tt + " excludes " + name +
+ 			    " but it extends " + name + ".", extension)
+ 		  }
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -57,7 +57,10 @@
+ 
+ import scala.math.max
+ 
+-class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLattice[Type]{
++class TypeAnalyzer(val traits: TraitTable, val env: KindEnv, val instantiationsExclude: Boolean) extends BoundedLattice[Type]{
++  def this(traits: TraitTable, env: KindEnv) = this(traits, env, TypeAnalyzer.probeDefaultInstantiationsExclude)
++  def withoutInstantiationExclusion: TypeAnalyzer =
++    if (instantiationsExclude) new TypeAnalyzer(traits, env, false) else this
+   
+   private final val debugSubtype = ProjectProperties.getBoolean("fortress.debug.analyzer.subtype", false)
+   private final val cacheSubtypes = ProjectProperties.getBoolean("fortress.analyzer.subtype.cache", true)
+@@ -440,7 +443,7 @@
+         }
+         pOr(cO(s,t), cO(t,s))
+       }
+-      def checkP(s: TraitType, t: TraitType): CFormula = {
++      def checkP(s: TraitType, t: TraitType): CFormula = if (!negate && !instantiationsExclude) pFalse() else {
+         val sas = ancestors(s) ++ Set(s)
+         val tas = ancestors(t) ++ Set(t)
+         def cP(s: BaseType, t: BaseType): CFormula = (s, t) match {
+@@ -766,10 +769,10 @@
+     env.staticParam(x).getOrElse(bug(x, x + " is not in the kind env " + env))
+ 
+   def extend(params: List[StaticParam], where: Option[WhereClause]) =
+-    new TypeAnalyzer(traits, env.extend(params, where))
++    new TypeAnalyzer(traits, env.extend(params, where), instantiationsExclude)
+   
+   def extendJ(params: JavaList[StaticParam], where: JavaOption[WhereClause]) =
+-      new TypeAnalyzer(traits, env.extend(toList(params), toOption(where)))
++      new TypeAnalyzer(traits, env.extend(toList(params), toOption(where)), instantiationsExclude)
+   
+   def pTrue()(implicit negate: Boolean) = 
+     if (negate) False else True
+@@ -796,4 +799,9 @@
+ 
+ object TypeAnalyzer {
+   def make(traits: TraitTable) = new TypeAnalyzer(traits, KindEnv.makeFresh)
++  // PROBE (rung P measurement build, not for landing): off | hier | over | broad
++  final val probeMode: String = System.getProperty("probe.rungP", "off")
++  final val probeDefaultInstantiationsExclude: Boolean = probeMode != "broad"
++  final val probeRelaxHier: Boolean = probeMode == "hier" || probeMode == "over"
++  final val probeRelaxOver: Boolean = probeMode == "over"
+ }
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
+@@ -71,6 +71,31 @@
+ 
+   def equiv(fa: ArrowType, ga: ArrowType): Boolean = lteq(fa, ga) && lteq(ga, fa)
+ 
++  // PROBE (route C sketch, not for landing): -Dprobe.routeC=all|ret.  A static parameter T
++  // of the less specific declaration is "over an exempted trait" when its bound, or the
++  // domain, applies one of these traits to a type that mentions T.  A non-generic
++  // declaration more specific than such a generic specialises it: refuse the pair ("all"),
++  // or only when the generic's return type mentions T ("ret", route B(b)'s shape).
++  private val probeRouteC = System.getProperty("probe.routeC", "off")
++  private val exemptTraits = Set("Equality", "StandardPartialOrder", "StandardMin",
++    "StandardMax", "StandardMinMax", "StandardTotalOrder", "Integral")
++  private def mentions(t: Any, p: Any => Boolean): Boolean = {
++    var found = false
++    object w extends Walker {
++      override def walk(y: Any): Any = { if (p(y)) found = true; super.walk(y) } }
++    w(t); found
++  }
++  private def isVar(v: String)(y: Any) = y match {
++    case SVarType(_, id, _) => id.getText == v; case _ => false }
++  private def exemptOver(v: String)(y: Any) = y match {
++    case STraitType(_, id, args, _) => exemptTraits(id.getText) && mentions(args, isVar(v))
++    case _ => false }
++  def routeCRefuses(sp1: List[StaticParam], sp2: List[StaticParam], d2: Type, r2: Type) =
++    probeRouteC != "off" && sp1.isEmpty && sp2.exists(sp => {
++      val v = sp.getName.getText
++      (mentions(toList(sp.getExtendsClause), exemptOver(v)) || mentions(d2, exemptOver(v))) &&
++      (probeRouteC == "all" || mentions(r2, isVar(v))) })
++
+   // Checks the return type rule
+   def satisfiesReturnTypeRule(f: Functional, g: Functional): Boolean = {
+     val fa = makeArrowFromFunctional(f, true).get
+@@ -86,6 +111,10 @@
+ 	val fd = sa.makeDomainWithSelfFromArrow(fa)
+ 	val gd = sa.makeDomainWithSelfFromArrow(ga)
+ 	sa.subEDsolution(fd, gd) match {
++	  case Some((newgd, newargs)) if routeCRefuses(sp1, sp2, d2, r2) =>
++	    System.err.println("@@ROUTEC " + com.sun.fortress.nodes_util.NodeUtil.getSpan(x) + " " + typeToString(fa) +
++	      "  BESIDE  " + com.sun.fortress.nodes_util.NodeUtil.getSpan(y) + " " + typeToString(ga))
++	    false
+ 	  case Some((newgd, newargs)) =>
+ 	    // Build the special arrow that we use when checking the return type rule
+ 	    val nta = ta.extend(sp1, None)

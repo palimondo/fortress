@@ -1,0 +1,52 @@
+component MieDispatch
+export Executable
+
+(* Which instantiation does compiled code use for Both, which is a Tag[String] and a
+   Tag[ZZ32]?  Three shapes of one generic, X in the return type:
+     which  one declaration, no overloading;
+     pick   beside a declaration whose domain excludes Tag (only the generic can apply);
+     grab   beside a LESS specific declaration (Any), so a call can reach the generic
+            by dispatch.
+   Needs the relaxed checkP to get past the hierarchy check. *)
+trait Tag[\X\] tagName(): String end
+object StrTag extends Tag[\String\] tagName(): String = "StrTag" end
+object IntTag extends Tag[\ZZ32\] tagName(): String = "IntTag" end
+object Both extends { Tag[\String\], Tag[\ZZ32\] } tagName(): String = "Both" end
+object Plain end
+object Marker[\X\] end
+
+which[\X\](t: Tag[\X\]): Marker[\X\] = Marker[\X\]
+
+pick[\X\](t: Tag[\X\]): Marker[\X\] = Marker[\X\]
+pick(p: Plain): Marker[\Plain\] = Marker[\Plain\]
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = Marker[\X\]
+grab(a: Any): Any = Plain
+
+name(m: Any): String = typecase m of
+    Marker[\ZZ32\] => "Marker[ZZ32]"
+    Marker[\String\] => "Marker[String]"
+    Marker[\Plain\] => "Marker[Plain]"
+    Plain => "Plain"
+    else => "other"
+  end
+
+run(): () = do
+  z: Tag[\ZZ32\] = Both
+  s: Tag[\String\] = Both
+  a: Any = Both
+  println("which(z), z: Tag[ZZ32]   -> " name(which(z)))
+  println("which(s), s: Tag[String] -> " name(which(s)))
+  println("pick(z),  z: Tag[ZZ32]   -> " name(pick(z)))
+  println("pick(s),  s: Tag[String] -> " name(pick(s)))
+  println("grab(IntTag)             -> " name(grab(IntTag)))
+  println("grab(StrTag)             -> " name(grab(StrTag)))
+  println("grab(z),  z: Tag[ZZ32]   -> " name(grab(z)))
+  println("grab(s),  s: Tag[String] -> " name(grab(s)))
+  gz: Marker[\ZZ32\] = grab(z)
+  println("gz: Marker[ZZ32] = grab(z) holds " name(gz))
+  gs: Marker[\String\] = grab(s)
+  println("gs: Marker[String] = grab(s) holds " name(gs))
+  println("grab(a),  a: Any         -> " name(grab(a)))
+end
+end

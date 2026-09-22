@@ -1,0 +1,29 @@
+=== fortress link MieDispatchAny.fss   -Dprobe.rungP=off
+MieDispatchAny.fss:12:26-33:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:26-34:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:12:38-46:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:38-47:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:26-34:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:26-35:
+    Type BlueRed excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:39-46:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:39-47:
+    Type BlueRed excludes Tag but it extends Tag.
+File MieDispatchAny.fss has 8 errors.
+link exit=255
+=== fortress link MieDispatchAny.fss   -Dprobe.rungP=hier
+link exit=0
+=== fortress run MieDispatchAny
+peek(a1), a1: Any = RedTag  ->  Marker[Red]
+peek(a2), a2: Any = RedBlue ->  Marker[Blue]
+peek(a3), a3: Any = BlueRed ->  Marker[Red]
+peek(Red)                   ->  Red (the Any declaration)
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchAny$\=Marker?MieDispatchAny\%Red? cannot be cast to class MieDispatchAny$Marker?X? (MieDispatchAny$\=Marker?MieDispatchAny\%Red? and MieDispatchAny$Marker?X? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+run exit=1

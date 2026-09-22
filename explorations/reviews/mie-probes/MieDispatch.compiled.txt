@@ -1,0 +1,27 @@
+=== fortress link MieDispatch.fss   -Dprobe.rungP=off
+MieDispatch.fss:14:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieDispatch.fss:14:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieDispatch.fss:14:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieDispatch.fss:14:38-47:
+    Type Both excludes Tag but it extends Tag.
+File MieDispatch.fss has 4 errors.
+link exit=255
+=== fortress link MieDispatch.fss   -Dprobe.rungP=hier
+link exit=0
+=== fortress run MieDispatch
+which(z), z: Tag[ZZ32]   ->  Marker[ZZ32]
+which(s), s: Tag[String] ->  Marker[String]
+pick(z),  z: Tag[ZZ32]   ->  Marker[ZZ32]
+pick(s),  s: Tag[String] ->  Marker[String]
+grab(IntTag)             ->  Marker[ZZ32]
+grab(StrTag)             ->  Marker[String]
+grab(z),  z: Tag[ZZ32]   ->  Marker[ZZ32]
+grab(s),  s: Tag[String] ->  Marker[String]
+gz: Marker[ZZ32] = grab(z) holds  Marker[ZZ32]
+gs: Marker[String] = grab(s) holds  Marker[String]
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatch$Both cannot be cast to class MieDispatch$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatch$Both and MieDispatch$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+run exit=1

@@ -1,0 +1,29 @@
+=== fortress link RouteCProbe.fss   -Dprobe.routeC=all
+@@ROUTEC RouteCProbe.fss:12:1-28 ZZ32->Boolean  BESIDE  RouteCProbe.fss:11:1-60 [\T$8 extends CompilerAlgebra.StandardTotalOrder[\T$8\]\]T$8->Boolean
+@@ROUTEC RouteCProbe.fss:15:1-21 ZZ32->ZZ32  BESIDE  RouteCProbe.fss:14:1-51 [\T$9 extends CompilerAlgebra.StandardTotalOrder[\T$9\]\]T$9->T$9
+RouteCProbe.fss:11:1-60:
+RouteCProbe.fss:12:1-28:
+    For f,
+the return type of ZZ32->Boolean @ RouteCProbe.fss:12:1-28 should be a subtype of the
+    return type of [\T extends CompilerAlgebra.StandardTotalOrder[\T\]\]T->Boolean @ RouteCProbe.fss:11:1-60
+RouteCProbe.fss:14:1-51:
+RouteCProbe.fss:15:1-21:
+    For g,
+the return type of ZZ32->ZZ32 @ RouteCProbe.fss:15:1-21 should be a subtype of the
+    return type of [\T extends CompilerAlgebra.StandardTotalOrder[\T\]\]T->T @ RouteCProbe.fss:14:1-51
+File RouteCProbe.fss has 2 errors.
+link exit=255
+=== fortress link RouteCProbe.fss   -Dprobe.routeC=ret
+@@ROUTEC RouteCProbe.fss:15:1-21 ZZ32->ZZ32  BESIDE  RouteCProbe.fss:14:1-51 [\T$9 extends CompilerAlgebra.StandardTotalOrder[\T$9\]\]T$9->T$9
+RouteCProbe.fss:14:1-51:
+RouteCProbe.fss:15:1-21:
+    For g,
+the return type of ZZ32->ZZ32 @ RouteCProbe.fss:15:1-21 should be a subtype of the
+    return type of [\T extends CompilerAlgebra.StandardTotalOrder[\T\]\]T->T @ RouteCProbe.fss:14:1-51
+File RouteCProbe.fss has 1 error.
+link exit=255
+=== fortress link RouteCProbe.fss   -Dprobe.routeC=off
+link exit=0
+=== fortress run RouteCProbe
+f(3) =  false , h(ZBox) is a Box:  true
+run exit=0

@@ -1,0 +1,18 @@
+=== fortress link MieDispatchSub.fss   -Dprobe.rungP=off
+MieDispatchSub.fss:13:24-31:
+    Types Sub[\Red\] and Tag[\Blue\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:24-32:
+    Type Mixed excludes Sub but it extends Sub.
+MieDispatchSub.fss:13:36-44:
+    Types Tag[\Blue\] and Sub[\Red\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:36-45:
+    Type Mixed excludes Tag but it extends Tag.
+File MieDispatchSub.fss has 4 errors.
+link exit=255
+=== fortress link MieDispatchSub.fss   -Dprobe.rungP=hier
+link exit=0
+=== fortress run MieDispatchSub
+grab(r), r: Sub[Red]  ->  Marker[Red]
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchSub$\=Marker?MieDispatchSub\%Red? cannot be cast to class MieDispatchSub$\=Marker?MieDispatchSub\%Blue? (MieDispatchSub$\=Marker?MieDispatchSub\%Red? and MieDispatchSub$\=Marker?MieDispatchSub\%Blue? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+run exit=1

@@ -1,0 +1,33 @@
+component MieDispatchSub
+export Executable
+
+(* No non-generic specialisation, so route B(b) would accept the overload set: the
+   generic on Tag beside a MORE specific generic on Sub, same static parameter, same
+   return shape; the return type rule holds for the pair.  Mixed is a Sub[Red] and a
+   Tag[Blue].  A call through a Tag[Blue] variable is checked as the Tag generic at
+   X = Blue, and Sub may apply at run time, so the call is dispatched. *)
+trait Tag[\X\] tagName(): String end
+trait Sub[\X\] extends Tag[\X\] end
+object Red end
+object Blue end
+object Mixed extends { Sub[\Red\], Tag[\Blue\] } tagName(): String = "Mixed" end
+object Marker[\X\] end
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = Marker[\X\]
+grab[\X\](t: Sub[\X\]): Marker[\X\] = Marker[\X\]
+
+name(m: Any): String = typecase m of
+    Marker[\Red\] => "Marker[Red]"
+    Marker[\Blue\] => "Marker[Blue]"
+    else => "other"
+  end
+
+run(): () = do
+  r: Sub[\Red\] = Mixed
+  println("grab(r), r: Sub[Red]  -> " name(grab(r)))
+  b: Tag[\Blue\] = Mixed
+  println("grab(b), b: Tag[Blue] -> " name(grab(b)))
+  mb: Marker[\Blue\] = grab(b)
+  println("mb: Marker[Blue] = grab(b) holds " name(mb))
+end
+end

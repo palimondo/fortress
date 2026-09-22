@@ -1,0 +1,128 @@
+# Route C's overload half over the interpreter's library: WorldFlip on make-lib.py's ZALL3 copy with
+# -Dprobe.zero.dropP=true -Dprobe.zero.eligibleNarrow=true (the zero probe's stack) and -Dprobe.routeC=<mode>.
+# mode  whole-unit errors  FortressLibrary api  return-type-rule errors  refused pairs (of them already refused by the stock rule)  secs
+  off                 173                  260                       24              0 (0)  172
+  all                 231                  376                       87             69 (6)  172
+  ret                 224                  362                       74             54 (4)  172
+
+## -Dprobe.routeC=ret: 54 refused pairs, all declared in FortressLibrary.fsi
+# by the generic declaration: its line, its text, the number of specialisations refused beside it
+  .fsi:185   StandardMin            opr MIN(self, other:T): T                2
+  .fsi:196   StandardMax            opr MAX(self, other:T): T                2
+  .fsi:208   StandardMinMax         abstract opr MINMAX(self, other:T): (T,T) 2
+  .fsi:209   StandardMinMax         opr MIN(self, other:T): (T,T)            2
+  .fsi:210   StandardMinMax         opr MAX(self, other:T): (T,T)            2
+  .fsi:417   Integral               opr DOT(self,b:I):I                      3
+  .fsi:418   Integral               opr TIMES(self,b:I):I                    2
+  .fsi:419   Integral               opr juxtaposition(self,b:I):I            3
+  .fsi:420   Integral               opr DIV(self,b:I):I                      3
+  .fsi:421   Integral               opr REM(self,b:I):I                      3
+  .fsi:422   Integral               opr MOD(self,b:I):I                      3
+  .fsi:423   Integral               opr GCD(self,b:I):I                      3
+  .fsi:424   Integral               opr LCM(self,b:I):I                      3
+  .fsi:426   Integral               opr CHOOSE(self,b:I):I                   3
+  .fsi:427   Integral               opr BITAND(self,b:I):I                   3
+  .fsi:428   Integral               opr BITOR(self,b:I):I                    3
+  .fsi:429   Integral               opr BITXOR(self,b:I):I                   3
+  .fsi:430   Integral               opr LSHIFT(self,b:AnyIntegral):I         3
+  .fsi:431   Integral               opr RSHIFT(self,b:AnyIntegral):I         3
+  .fsi:432   Integral               opr BITNOT(self):I                       3
+# by the trait or object that declares the specialisation: NN64 15, ZZ64 15, ZZ32 14, Number 5, QQ 5
+
+## -Dprobe.routeC=all: 69 refused pairs, all declared in FortressLibrary.fsi
+# by the generic declaration: its line, its text, the number of specialisations refused beside it
+  .fsi:169   StandardPartialOrder   opr CMP(self, other:T): Comparison       8
+  .fsi:185   StandardMin            opr MIN(self, other:T): T                2
+  .fsi:196   StandardMax            opr MAX(self, other:T): T                2
+  .fsi:208   StandardMinMax         abstract opr MINMAX(self, other:T): (T,T) 2
+  .fsi:209   StandardMinMax         opr MIN(self, other:T): (T,T)            2
+  .fsi:210   StandardMinMax         opr MAX(self, other:T): (T,T)            2
+  .fsi:222   StandardTotalOrder     opr CMP(self, other:T): TotalComparison  6
+  .fsi:417   Integral               opr DOT(self,b:I):I                      3
+  .fsi:418   Integral               opr TIMES(self,b:I):I                    2
+  .fsi:419   Integral               opr juxtaposition(self,b:I):I            3
+  .fsi:420   Integral               opr DIV(self,b:I):I                      3
+  .fsi:421   Integral               opr REM(self,b:I):I                      3
+  .fsi:422   Integral               opr MOD(self,b:I):I                      3
+  .fsi:423   Integral               opr GCD(self,b:I):I                      3
+  .fsi:424   Integral               opr LCM(self,b:I):I                      3
+  .fsi:426   Integral               opr CHOOSE(self,b:I):I                   3
+  .fsi:427   Integral               opr BITAND(self,b:I):I                   3
+  .fsi:428   Integral               opr BITOR(self,b:I):I                    3
+  .fsi:429   Integral               opr BITXOR(self,b:I):I                   3
+  .fsi:430   Integral               opr LSHIFT(self,b:AnyIntegral):I         3
+  .fsi:431   Integral               opr RSHIFT(self,b:AnyIntegral):I         3
+  .fsi:432   Integral               opr BITNOT(self):I                       3
+  .fsi:434   Integral               unsigned(self):NN64                      1
+# by the trait or object that declares the specialisation: ZZ64 17, NN64 15, ZZ32 15, Number 6, QQ 5, LessThan 4, GreaterThan 4, EqualTo 2, TotalComparison 1
+# every pair: specialised declaration  <-  generic declaration   (ret = refused under ret too;
+# * = already a stock return type rule error)
+  124:5-46     opr CMP(self, other:Unordered): Comparison <- 169:5-38     opr CMP(self, other:T): Comparison       
+  134:5-45     opr CMP(self, other:LessThan): Comparison  <- 169:5-38     opr CMP(self, other:T): Comparison       
+  135:5-57     opr CMP(self, other:TotalComparison): TotalComparison <- 169:5-38     opr CMP(self, other:T): Comparison       
+  145:5-48     opr CMP(self, other:GreaterThan): Comparison <- 169:5-38     opr CMP(self, other:T): Comparison       
+  146:5-57     opr CMP(self, other:TotalComparison): TotalComparison <- 169:5-38     opr CMP(self, other:T): Comparison       
+  155:5-57     opr CMP(self, other:TotalComparison): TotalComparison <- 169:5-38     opr CMP(self, other:T): Comparison       
+  286:5-288:24 opr CMP(self, b:Number):Comparison         <- 169:5-38     opr CMP(self, other:T): Comparison       
+  512:5-43     opr CMP(self, b:ZZ64): TotalComparison     <- 169:5-38     opr CMP(self, other:T): Comparison       
+  289:5-34     opr MIN(self, b:Number):Number             <- 185:5-186:1  opr MIN(self, other:T): T                ret
+  388:5-30     opr MIN(self, other:QQ):QQ                 <- 185:5-186:1  opr MIN(self, other:T): T                ret
+  290:5-34     opr MAX(self, b:Number):Number             <- 196:5-197:1  opr MAX(self, other:T): T                ret
+  389:5-30     opr MAX(self, other:QQ):QQ                 <- 196:5-197:1  opr MAX(self, other:T): T                ret
+  291:5-47     opr MINMAX(self, b:Number):(Number,Number) <- 208:5-45     abstract opr MINMAX(self, other:T): (T,T) ret
+  390:5-38     opr MINMAX(self, other:QQ):(QQ,QQ)         <- 208:5-45     abstract opr MINMAX(self, other:T): (T,T) ret
+  289:5-34     opr MIN(self, b:Number):Number             <- 209:5-33     opr MIN(self, other:T): (T,T)            ret *
+  388:5-30     opr MIN(self, other:QQ):QQ                 <- 209:5-33     opr MIN(self, other:T): (T,T)            ret *
+  290:5-34     opr MAX(self, b:Number):Number             <- 210:5-211:1  opr MAX(self, other:T): (T,T)            ret *
+  389:5-30     opr MAX(self, other:QQ):QQ                 <- 210:5-211:1  opr MAX(self, other:T): (T,T)            ret *
+  134:5-45     opr CMP(self, other:LessThan): Comparison  <- 222:5-223:1  opr CMP(self, other:T): TotalComparison   *
+  135:5-57     opr CMP(self, other:TotalComparison): TotalComparison <- 222:5-223:1  opr CMP(self, other:T): TotalComparison  
+  145:5-48     opr CMP(self, other:GreaterThan): Comparison <- 222:5-223:1  opr CMP(self, other:T): TotalComparison   *
+  146:5-57     opr CMP(self, other:TotalComparison): TotalComparison <- 222:5-223:1  opr CMP(self, other:T): TotalComparison  
+  155:5-57     opr CMP(self, other:TotalComparison): TotalComparison <- 222:5-223:1  opr CMP(self, other:T): TotalComparison  
+  512:5-43     opr CMP(self, b:ZZ64): TotalComparison     <- 222:5-223:1  opr CMP(self, other:T): TotalComparison  
+  444:5-29     opr DOT(self,b:NN64):NN64                  <- 417:5-23     opr DOT(self,b:I):I                      ret
+  479:5-29     opr DOT(self,b:ZZ32):ZZ32                  <- 417:5-23     opr DOT(self,b:I):I                      ret
+  517:5-29     opr DOT(self,b:ZZ64):ZZ64                  <- 417:5-23     opr DOT(self,b:I):I                      ret
+  445:5-31     opr TIMES(self,b:NN64):NN64                <- 418:5-25     opr TIMES(self,b:I):I                    ret
+  518:5-31     opr TIMES(self,b:ZZ64):ZZ64                <- 418:5-25     opr TIMES(self,b:I):I                    ret
+  446:5-39     opr juxtaposition(self,b:NN64):NN64        <- 419:5-33     opr juxtaposition(self,b:I):I            ret
+  480:5-39     opr juxtaposition(self,b:ZZ32):ZZ32        <- 419:5-33     opr juxtaposition(self,b:I):I            ret
+  519:5-39     opr juxtaposition(self,b:ZZ64):ZZ64        <- 419:5-33     opr juxtaposition(self,b:I):I            ret
+  447:5-29     opr DIV(self,b:NN64):NN64                  <- 420:5-23     opr DIV(self,b:I):I                      ret
+  481:5-29     opr DIV(self,b:ZZ32):ZZ32                  <- 420:5-23     opr DIV(self,b:I):I                      ret
+  520:5-29     opr DIV(self,b:ZZ64):ZZ64                  <- 420:5-23     opr DIV(self,b:I):I                      ret
+  448:5-29     opr REM(self,b:NN64):NN64                  <- 421:5-23     opr REM(self,b:I):I                      ret
+  482:5-29     opr REM(self,b:ZZ32):ZZ32                  <- 421:5-23     opr REM(self,b:I):I                      ret
+  521:5-29     opr REM(self,b:ZZ64):ZZ64                  <- 421:5-23     opr REM(self,b:I):I                      ret
+  449:5-29     opr MOD(self,b:NN64):NN64                  <- 422:5-23     opr MOD(self,b:I):I                      ret
+  483:5-29     opr MOD(self,b:ZZ32):ZZ32                  <- 422:5-23     opr MOD(self,b:I):I                      ret
+  522:5-29     opr MOD(self,b:ZZ64):ZZ64                  <- 422:5-23     opr MOD(self,b:I):I                      ret
+  450:5-29     opr GCD(self,b:NN64):NN64                  <- 423:5-23     opr GCD(self,b:I):I                      ret
+  484:5-29     opr GCD(self,b:ZZ32):ZZ32                  <- 423:5-23     opr GCD(self,b:I):I                      ret
+  523:5-29     opr GCD(self,b:ZZ64):ZZ64                  <- 423:5-23     opr GCD(self,b:I):I                      ret
+  451:5-29     opr LCM(self,b:NN64):NN64                  <- 424:5-23     opr LCM(self,b:I):I                      ret
+  485:5-29     opr LCM(self,b:ZZ32):ZZ32                  <- 424:5-23     opr LCM(self,b:I):I                      ret
+  524:5-29     opr LCM(self,b:ZZ64):ZZ64                  <- 424:5-23     opr LCM(self,b:I):I                      ret
+  452:5-32     opr CHOOSE(self,b:NN64):NN64               <- 426:5-26     opr CHOOSE(self,b:I):I                   ret
+  486:5-32     opr CHOOSE(self,b:ZZ32):ZZ32               <- 426:5-26     opr CHOOSE(self,b:I):I                   ret
+  525:5-32     opr CHOOSE(self,b:ZZ64):ZZ64               <- 426:5-26     opr CHOOSE(self,b:I):I                   ret
+  453:5-32     opr BITAND(self,b:NN64):NN64               <- 427:5-26     opr BITAND(self,b:I):I                   ret
+  487:5-32     opr BITAND(self,b:ZZ32):ZZ32               <- 427:5-26     opr BITAND(self,b:I):I                   ret
+  526:5-32     opr BITAND(self,b:ZZ64):ZZ64               <- 427:5-26     opr BITAND(self,b:I):I                   ret
+  454:5-31     opr BITOR(self,b:NN64):NN64                <- 428:5-25     opr BITOR(self,b:I):I                    ret
+  488:5-31     opr BITOR(self,b:ZZ32):ZZ32                <- 428:5-25     opr BITOR(self,b:I):I                    ret
+  527:5-31     opr BITOR(self,b:ZZ64):ZZ64                <- 428:5-25     opr BITOR(self,b:I):I                    ret
+  455:5-32     opr BITXOR(self,b:NN64):NN64               <- 429:5-26     opr BITXOR(self,b:I):I                   ret
+  489:5-32     opr BITXOR(self,b:ZZ32):ZZ32               <- 429:5-26     opr BITXOR(self,b:I):I                   ret
+  528:5-32     opr BITXOR(self,b:ZZ64):ZZ64               <- 429:5-26     opr BITXOR(self,b:I):I                   ret
+  456:5-39     opr LSHIFT(self,b:AnyIntegral):NN64        <- 430:5-36     opr LSHIFT(self,b:AnyIntegral):I         ret
+  490:5-32     opr LSHIFT(self,b:ZZ64):ZZ32               <- 430:5-36     opr LSHIFT(self,b:AnyIntegral):I         ret
+  529:5-32     opr LSHIFT(self,b:ZZ64):ZZ64               <- 430:5-36     opr LSHIFT(self,b:AnyIntegral):I         ret
+  457:5-39     opr RSHIFT(self,b:AnyIntegral):NN64        <- 431:5-36     opr RSHIFT(self,b:AnyIntegral):I         ret
+  491:5-32     opr RSHIFT(self,b:ZZ64):ZZ32               <- 431:5-36     opr RSHIFT(self,b:AnyIntegral):I         ret
+  530:5-32     opr RSHIFT(self,b:ZZ64):ZZ64               <- 431:5-36     opr RSHIFT(self,b:AnyIntegral):I         ret
+  458:5-25     opr BITNOT(self):NN64                      <- 432:5-22     opr BITNOT(self):I                       ret
+  492:5-493:4  opr BITNOT(self):ZZ32                      <- 432:5-22     opr BITNOT(self):I                       ret
+  531:5-25     opr BITNOT(self):ZZ64                      <- 432:5-22     opr BITNOT(self):I                       ret
+  495:5-496:1  unsigned(self):NN32                        <- 434:5-435:1  unsigned(self):NN64                      
