@@ -1,0 +1,46 @@
+# piece 2, the error sets diffed.  Left: the run without the relaxation.
+
+## base (115) vs eligibleRelax (114) -- exactly the FortressLibrary.fsi:411 entry goes
+22c22
+< @@PROBE checkApi FortressLibrary -> errors=110
+---
+> @@PROBE checkApi FortressLibrary -> errors=108
+52,54d51
+< Library/FortressLibrary.fsi:411:1-435:2:
+<     Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+<     but its immediate subtype Integral is not eligible to extend it.
+354c351
+< File FortressLibrary.fss has 115 errors.
+---
+> File FortressLibrary.fss has 114 errors.
+
+## dropP (55) vs dropP+eligibleRelax (54)
+22c22
+< @@PROBE checkApi FortressLibrary -> errors=6
+---
+> @@PROBE checkApi FortressLibrary -> errors=4
+28,30d27
+< Library/FortressLibrary.fsi:411:1-435:2:
+<     Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+<     but its immediate subtype Integral is not eligible to extend it.
+237c234
+< File FortressLibrary.fss has 55 errors.
+---
+> File FortressLibrary.fss has 54 errors.
+
+## dropP+eligibleRelax vs dropP+eligibleNarrow
+(byte-identical)
+
+## base (115) vs eligibleNarrow (114)
+22c22
+< @@PROBE checkApi FortressLibrary -> errors=110
+---
+> @@PROBE checkApi FortressLibrary -> errors=108
+52,54d51
+< Library/FortressLibrary.fsi:411:1-435:2:
+<     Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+<     but its immediate subtype Integral is not eligible to extend it.
+354c351
+< File FortressLibrary.fss has 115 errors.
+---
+> File FortressLibrary.fss has 114 errors.

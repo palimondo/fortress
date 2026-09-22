@@ -1,0 +1,26 @@
+# Per top-level declaration of Library/FortressLibrary.fss, the checker's fate
+# with the interpreter prelude, before and after the nat shadow.
+# BEFORE: explorations/perf-probes/nat/java/j4-lib-perdecl.out
+# AFTER : /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/zw/n-50-perdecl-charfix.out
+
+declarations seen: before 446, after 446
+BEFORE  clean=287  errors-of-its-own=154  crashed=5
+AFTER   clean=287  errors-of-its-own=156  crashed=3
+
+## The 5 declarations that crashed the checker before, and what they become
+  still crashes            3
+  ordinary error           2
+
+## The crash sites that remain, by site
+     2  com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+
+## The crash sites before, by site
+     2  com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)
+     2  java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+
+## Every declaration whose fate changed
+# span | before | after
+FnDecl FortressLibrary.fss:4176:1-4189:4 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0 | ok errors=1
+FnDecl FortressLibrary.fss:4195:1-4200:2 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0 | ok errors=1

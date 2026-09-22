@@ -1,0 +1,10 @@
+(* What the isEligibleToExtend relaxation lets through.  S's comprises clause names
+   only A, but the generic B also extends S, so a value of type B[\ZZ32\] is a value
+   of S that is not a value of A: the clause is false.  The stock checker catches it. *)
+component zElig
+export Executable
+trait S comprises { A } end
+trait A extends S end
+trait B[\X\] extends S end
+run(): () = println("zElig")
+end

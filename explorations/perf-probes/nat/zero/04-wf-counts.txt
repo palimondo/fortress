@@ -1,0 +1,163 @@
+# Every whole-unit run of the zero probe: the count WorldFlip reports for the component
+# ("File FortressLibrary.fss has N errors"), the per-api rows the instrumented
+# StaticChecker prints, the elapsed time, and the error messages by kind.
+# Library variants are make-lib.py's.  Switches: dP = -Dprobe.zero.dropP,
+# eR = -Dprobe.zero.eligibleRelax, eN = -Dprobe.zero.eligibleNarrow.
+
+capture                    library + switches         errors    secs
+20-wf-base.out             tracked                       115      11
+21-wf-dropP.out            tracked + dP                   55      11
+22-wf-dropP-elig.out       tracked + dP + eR              54      11
+23-wf-elig.out             tracked + eR                  114      11
+25-wf-eligNarrow.out       tracked + eN                  114      12
+26-wf-dropP-eligNarrow.out tracked + dP + eN              54      12
+3x-wf-P3a.out              P3a                           114      12
+3x-wf-P3d.out              P3d                           114      11
+3x-wf-ZP.out               ZP                            115      10
+3x-wf-ZL.out               ZL                            124      36
+3x-wf-ZALL.out             ZALL                          123      35
+41-wf-ZL-relaxed.out       ZL + dP + eN                   44      34
+42-wf-ZLP-relaxed.out      ZLP + dP + eN                  44      38
+40-wf-ZALL-relaxed.out     ZALL + dP + eN                179     153
+
+## per-api rows
+--- tracked
+checkApi TypeProxy -> errors=0
+checkApi List -> errors=2
+checkApi String -> errors=12
+checkApi FlatString -> errors=4
+checkApi NatReflect -> errors=0
+checkApi Stream -> errors=0
+checkApi AnyType -> errors=0
+checkApi Writer -> errors=0
+checkApi FortressBuiltin -> errors=18
+checkApi NativeArray -> errors=44
+checkApi FortressLibrary -> errors=110
+checkApi RangeInternals -> errors=104
+--- ZL + dP + eN
+checkApi List -> errors=0
+checkApi TypeProxy -> errors=0
+checkApi String -> errors=0
+checkApi FlatString -> errors=0
+checkApi NatReflect -> errors=0
+checkApi Stream -> errors=0
+checkApi AnyType -> errors=0
+checkApi Writer -> errors=0
+checkApi FortressBuiltin -> errors=0
+checkApi NativeArray -> errors=44
+checkApi FortressLibrary -> errors=2
+checkApi RangeInternals -> errors=42
+--- ZLP + dP + eN
+checkApi TypeProxy -> errors=0
+checkApi List -> errors=0
+checkApi String -> errors=0
+checkApi FlatString -> errors=0
+checkApi NatReflect -> errors=0
+checkApi Stream -> errors=0
+checkApi AnyType -> errors=0
+checkApi Writer -> errors=0
+checkApi FortressBuiltin -> errors=0
+checkApi NativeArray -> errors=44
+checkApi FortressLibrary -> errors=2
+checkApi RangeInternals -> errors=42
+--- ZALL + dP + eN
+checkApi TypeProxy -> errors=0
+checkApi List -> errors=0
+checkApi String -> errors=0
+checkApi FlatString -> errors=0
+checkApi NatReflect -> errors=0
+checkApi Stream -> errors=0
+checkApi AnyType -> errors=0
+checkApi Writer -> errors=0
+checkApi FortressBuiltin -> errors=0
+checkApi NativeArray -> errors=44
+checkApi FortressLibrary -> errors=272
+checkApi RangeInternals -> errors=42
+
+## error messages by kind
+--- tracked  (has 115 errors)
+     36 excludes FortressLibrary
+     26 exclude each other
+     26 does not satisfy
+     22 Invalid overloading of fill
+      2 multiple declarations of
+      2 Invalid comprises
+      1 should be a subtype
+--- tracked + dP  (has 55 errors)
+     26 does not satisfy
+     22 Invalid overloading of fill
+      2 should be a subtype
+      2 multiple declarations of
+      2 Invalid comprises
+      1 excludes FortressLibrary
+--- ZL  (has 124 errors)
+     36 excludes FortressLibrary
+     26 exclude each other
+     22 Invalid overloading of fill
+     17 Invalid overloading of CAP
+     14 Invalid overloading of combine
+      3 should be a subtype
+      3 Invalid overloading of openRangeHelper
+      2 Invalid overloading of map
+      1 Invalid comprises
+--- ZLP + dP + eN  (has 44 errors)
+     22 Invalid overloading of fill
+     12 Invalid overloading of CAP
+      3 should be a subtype
+      3 Invalid overloading of openRangeHelper
+      2 Invalid overloading of map
+      1 excludes FortressLibrary
+      1 Invalid overloading of IN
+--- ZALL + dP + eN  (has 179 errors)
+     76 Invalid overloading of fill
+     24 should be a subtype
+     19 Invalid overloading of FORWARD_CMP
+     12 Invalid overloading of CAP
+      8 Invalid overloading of IN
+      6 Invalid overloading of lift
+      5 Invalid overloading of seq
+      4 Invalid overloading of juxtaposition
+      4 Invalid overloading of MIN
+      4 Invalid overloading of MAX
+      3 Invalid overloading of openRangeHelper
+      3 Invalid overloading of map
+      3 Invalid overloading of ivmap
+      3 Invalid overloading of CMP
+      2 Invalid overloading of MINMAX
+      1 Invalid overloading of isLeftZero
+      1 Invalid overloading of generate
+      1 Invalid overloading of SQCAP
+
+## the run added after the table above: ZALL3 (ZALL + the declared () return types)
+4x-wf-ZALL3-relaxed.out    ZALL3 + dP + eN               173     155
+  checkApi List -> errors=0
+  checkApi TypeProxy -> errors=0
+  checkApi String -> errors=0
+  checkApi FlatString -> errors=0
+  checkApi NatReflect -> errors=0
+  checkApi Stream -> errors=0
+  checkApi AnyType -> errors=0
+  checkApi Writer -> errors=0
+  checkApi FortressBuiltin -> errors=0
+  checkApi NativeArray -> errors=44
+  checkApi FortressLibrary -> errors=260
+  checkApi RangeInternals -> errors=42
+  by kind:
+       71 Invalid overloading of fill
+       24 should be a subtype
+       19 Invalid overloading of FORWARD_CMP
+       12 Invalid overloading of CAP
+        8 Invalid overloading of IN
+        6 Invalid overloading of lift
+        5 Invalid overloading of seq
+        4 Invalid overloading of juxtaposition
+        4 Invalid overloading of MIN
+        4 Invalid overloading of MAX
+        3 Invalid overloading of openRangeHelper
+        3 Invalid overloading of ivmap
+        3 Invalid overloading of CMP
+        2 Invalid overloading of map
+        2 Invalid overloading of MINMAX
+        1 Invalid overloading of isLeftZero
+        1 Invalid overloading of generate
+        1 Invalid overloading of SQCAP

@@ -9,8 +9,10 @@
 # jN-*.out / .txt; the report that reads them is ../java.md.
 #
 # Two shadows stack on one classpath, both rebuilt here from committed patches:
-#   ../shadow-classes      the SEVEN Scala sources of ../shadow.patch (REPORT.md 1,
-#                          followup.md; rebuilt exactly as ../run-all.sh does it)
+#   ../shadow-classes      the Scala sources of ../shadow.patch (SEVEN when this was
+#                          written, EIGHT since zero.md added TypeHierarchyChecker.scala
+#                          with its switches off by default; REPORT.md 1, followup.md;
+#                          rebuilt exactly as ../run-all.sh does it)
 #   java/shadow-classes    the ONE Java source of java-shadow.patch --
 #                          compiler/codegen/FnNameInfo.java -- plus the one new
 #                          file that patch adds, runtimeValues/RTTIsize.java,
@@ -37,7 +39,8 @@ SHADOWED="scala_src/typechecker/Formula.scala scala_src/types/TypeAnalyzer.scala
           scala_src/types/TypeSchemaAnalyzer.scala scala_src/useful/STypesUtil.scala
           scala_src/typechecker/ExportChecker.scala
           scala_src/typechecker/TypeWellFormedChecker.scala
-          scala_src/typechecker/AbstractMethodChecker.scala"
+          scala_src/typechecker/AbstractMethodChecker.scala
+          scala_src/typechecker/TypeHierarchyChecker.scala"
 if [ ! -d $D/shadow-src ]; then
   for rel in $SHADOWED; do
     mkdir -p "$(dirname $D/shadow-src/com/sun/fortress/$rel)"

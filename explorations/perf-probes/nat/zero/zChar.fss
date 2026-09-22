@@ -1,0 +1,5 @@
+(* One character literal, nothing else. *)
+component zChar
+export Executable
+run(): () = println('x'.codePoint)
+end

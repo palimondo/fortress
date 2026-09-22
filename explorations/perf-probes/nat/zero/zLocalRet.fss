@@ -1,0 +1,10 @@
+(* A local function with an UNTYPED parameter and a DECLARED return type --
+   the shape of Library/FortressLibrary.fss:1123, body(i): L = ... *)
+component zLocalRet
+export Executable
+f(x: ZZ32): ZZ32 = do
+    g(i): ZZ32 = i
+    g(x)
+  end
+run(): () = println(f(3))
+end

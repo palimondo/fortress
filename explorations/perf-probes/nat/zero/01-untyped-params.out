@@ -1,0 +1,15 @@
+########## COMPILER world (no interpreter library involved): fortress typecheck zLocalRet.fss
+** bug! explorations/perf-probes/nat/zero/zLocalRet.fss:6:7
+    Type is not inferred.
+File zLocalRet.fss has 1 error.
+
+########## COMPILER world (no interpreter library involved): fortress typecheck zLocalNoRet.fss
+** bug! Result of typechecking still contains intermediate nodes.
+Component at explorations/perf-probes/nat/zero/zLocalNoRet.fss:3.1
+File zLocalNoRet.fss has 1 error.
+
+########## COMPILER world (no interpreter library involved): fortress typecheck zTopNoRet.fss
+explorations/perf-probes/nat/zero/zTopNoRet.fss:4:3:
+    Missing parameter type for i
+File zTopNoRet.fss has 1 error.
+

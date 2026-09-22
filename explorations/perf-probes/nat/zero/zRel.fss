@@ -1,0 +1,13 @@
+(* Does combining two relational predicates still give a relational-predicate arrow?
+   Generator2.relational (Library/Generator2.fss:88-93) is the library's own test. *)
+component zRel
+import List.{...}
+import Generator2.{...}
+export Executable
+run(): () = do
+  p1 = relationalPredicate[\Number\](fn (a, b) => |a-b| < 4)
+  p2 = relationalPredicate[\Number\](fn (a, b) => a < b)
+  println("relational(p1) = " relational[\Number\](p1))
+  println("relational(p1 ANDCOND p2) = " relational[\Number\](p1 ANDCOND p2))
+end
+end

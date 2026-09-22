@@ -1,0 +1,10 @@
+(* The same shape, but the comprises clause is TRUE of every value: every trait the
+   table knows that immediately extends the generic C is itself below A. *)
+component zElig2
+export Executable
+trait S2 comprises { A2 } end
+trait A2 extends S2 end
+trait C[\X\] extends S2 end
+trait D extends { A2, C[\ZZ32\] } end
+run(): () = println("zElig2")
+end

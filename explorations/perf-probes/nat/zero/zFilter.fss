@@ -1,0 +1,14 @@
+(* Two chained comprehension filters whose conditions are NOT Boolean: the shape the
+   ANDCOND repair of zero.md piece 3 puts at risk.  `keep` returns a Maybe[\()\],
+   which is a Condition[\()\] but not a Boolean. *)
+component zFilter
+import List.{...}
+export Executable
+keep(x: ZZ32): Condition[\()\] = if x > 1 then Just[\()\](()) else Nothing[\()\] end
+keep2(x: ZZ32): Condition[\()\] = if x < 4 then Just[\()\](()) else Nothing[\()\] end
+run(): () = do
+  xs = <|[\ZZ32\] 1, 2, 3, 4 |>
+  ys = <|[\ZZ32\] x | x <- xs, keep(x), keep2(x) |>
+  println(ys)
+end
+end

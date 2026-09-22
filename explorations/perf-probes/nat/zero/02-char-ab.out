@@ -1,0 +1,9 @@
+########## zChar.fss per declaration, INTERPRETER world, Types.CHARACTER fix off
+@@TC DECL-OK	FnDecl	explorations/perf-probes/nat/zero/zChar.fss:4:1-34	errors=1
+@@TC COMPONENT	zChar	errors=2
+@@TC COMPONENTS-NOT-SUCCESSFUL	2 errors kept
+
+########## zChar.fss per declaration, INTERPRETER world, Types.CHARACTER fix on
+@@TC DECL-OK	FnDecl	explorations/perf-probes/nat/zero/zChar.fss:4:1-34	errors=0
+@@TC COMPONENT	zChar	errors=0
+

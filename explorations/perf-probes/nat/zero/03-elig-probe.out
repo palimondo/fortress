@@ -1,0 +1,24 @@
+########## zElig.fss, COMPILER world, stock
+explorations/perf-probes/nat/zero/zElig.fss:8:1-25:
+    Invalid comprises clause: S has a comprises clause
+    but its immediate subtype B is not eligible to extend it.
+File zElig.fss has 1 error.
+
+########## zElig.fss, COMPILER world, relax
+
+########## zElig.fss, COMPILER world, narrow
+explorations/perf-probes/nat/zero/zElig.fss:8:1-25:
+    Invalid comprises clause: S has a comprises clause
+    but its immediate subtype B is not eligible to extend it.
+File zElig.fss has 1 error.
+
+########## zElig2.fss, COMPILER world, stock
+explorations/perf-probes/nat/zero/zElig2.fss:7:1-26:
+    Invalid comprises clause: S2 has a comprises clause
+    but its immediate subtype C is not eligible to extend it.
+File zElig2.fss has 1 error.
+
+########## zElig2.fss, COMPILER world, relax
+
+########## zElig2.fss, COMPILER world, narrow
+

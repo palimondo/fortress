@@ -1,0 +1,35 @@
+--- ProjectFortress/src/com/sun/fortress/compiler/Types.java
++++ explorations/perf-probes/nat/zero/java-shadow-src/com/sun/fortress/compiler/Types.java
+@@ -62,7 +62,16 @@
+     public static final TraitType INT_LITERAL = makeTraitType(span, fortressBuiltin(), "IntLiteral");
+     public static final TraitType ZZ32 = makeTraitType(span, fortressLibrary(), "ZZ32");
+     public static final TraitType BOOLEAN = makeTraitType(span, fortressBuiltin(), "Boolean");
+-    public static final TraitType CHARACTER = makeTraitType(span, fortressBuiltin(), "Character");
++    // SHADOW (zero probe): the character literal's type must follow the prelude in
++    // scope.  The compiler's prelude spells it `trait Character`
++    // (LibraryBuiltin/CompilerBuiltin.fss:1059); the interpreter's spells it
++    // `value object Char` (LibraryBuiltin/FortressBuiltin.fsi:151).  As shipped this
++    // is `static final` and names Character in whichever api fortressBuiltin() was
++    // when this class initialised, so with the interpreter's prelude every character
++    // literal is typed FortressBuiltin.Character, which is in no trait table, and
++    // TypeAnalyzer.typeCons throws (TypeAnalyzer.scala:710) -- the two crashes at
++    // Library/FortressLibrary.fss:4176 and :4195.  Made switchable like STRING below.
++    public static TraitType CHARACTER = makeTraitType(span, fortressBuiltin(), "Character");
+     public static TraitType STRING = makeTraitType(span, fortressLibrary(), "String");
+     public static TraitType JAVASTRING = makeTraitType(span, fortressLibrary(), "JavaString");
+     public static TraitType EXCEPTION = makeTraitType(span, fortressLibrary(), "Exception");
+@@ -75,12 +84,14 @@
+      * Similarly for JavaString and Exception and CheckedException.
+      */
+     public static void useCompilerLibraries() {
++        CHARACTER = makeTraitType(span, fortressBuiltin(), "Character");
+         STRING = makeTraitType(span, fortressBuiltin(), "String");
+         JAVASTRING = makeTraitType(span, fortressBuiltin(), "JavaString");
+         EXCEPTION = makeTraitType(span, fortressBuiltin(), "Exception");
+         CHECKED_EXCEPTION = makeTraitType(span, fortressBuiltin(), "CheckedException");
+     }
+     public static void useFortressLibraries() {
++        CHARACTER = makeTraitType(span, fortressBuiltin(), "Char");
+         STRING = makeTraitType(span, fortressLibrary(), "String");
+         JAVASTRING = makeTraitType(span, fortressLibrary(), "JavaString");
+         EXCEPTION = makeTraitType(span, fortressLibrary(), "Exception");

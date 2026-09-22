@@ -1,0 +1,185 @@
+# The interpreter on each candidate repair of FortressLibrary.fsi:2526, cold cache per
+# library variant (make-lib.py): L0 the tree's library copied unchanged; P3a the excludes
+# clause dropped and nothing else; P3b + the first ANDCOND narrowed to I->Boolean; P3c +
+# the second ANDCOND deleted; P3d + the second ANDCOND made a plain function and chosen by
+# typecase; P3dx = P3d with a println in each branch of andCondCombine.
+
+===== library=L0  Generator2Test
+########## INTERPRETER cold, library=L0, Generator2Test
+res = 46, ggres = 46
+res = 15, ggres = 15
+res = 8, ggres = 8
+rc=0
+
+===== library=L0  ArrayScalarExtension
+########## INTERPRETER cold, library=L0, ArrayScalarExtension
+(v + 1.0)[0] = 0.0
+(1.0 + v)[2] = 2.0
+(v - 1.0)[0] = -2.0
+(1.0 - v)[0] = 2.0
+(0.0 MAX v)[0] = 0.0
+(v MAX 0.0)[2] = 1.0
+(0.0 MIN v)[2] = 0.0
+(v MIN 0.0)[0] = -1.0
+(m + 1.0)[0,1] = -2.0
+(1.0 + m)[1,0] = 1.0
+(m - 1.0)[0,0] = 1.0
+(1.0 - m)[0,1] = 4.0
+(0.0 MAX m)[0,1] = 0.0
+
+===== library=L0  zFilter
+########## INTERPRETER (warm cache of L0), zFilter.fss
+<|2, 3|>
+rc=0
+
+===== library=L0  zRel
+########## INTERPRETER (warm cache of L0), zRel.fss
+relational(p1) = true
+relational(p1 ANDCOND p2) = true
+rc=0
+
+===== library=P3a  Generator2Test
+########## INTERPRETER cold, library=P3a, Generator2Test
+com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:4467:1-4469:50: and
+Library/FortressLibrary.fss:1248:1-1252:2:
+first parameters parameter 1:[Generator[\E@Library/FortressLibrary.fss:4467:1-4469:50\]->RelationalPredicateCondition[\E@Library/FortressLibrary.fss:4467:1-4469:50\],Generator[\E@Library/FortressLibrary.fss:4467:1-4469:50\]->RelationalPredicateCondition[\E@Library/FortressLibrary.fss:4467:1-4469:50\]] and parameter 1:[I@Library/FortressLibrary.fss:1248:1-1252:2->Condition[\()\],I@Library/FortressLibrary.fss:1248:1-1252:2->Condition[\()\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+Library/FortressLibrary.fss:4467:1-4469:50:
+Library/FortressLibrary.fss:1248:1-1252:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+
+===== library=P3a  ArrayScalarExtension
+########## INTERPRETER cold, library=P3a, ArrayScalarExtension
+com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:4467:1-4469:50: and
+Library/FortressLibrary.fss:1248:1-1252:2:
+first parameters parameter 1:[Generator[\E@Library/FortressLibrary.fss:4467:1-4469:50\]->RelationalPredicateCondition[\E@Library/FortressLibrary.fss:4467:1-4469:50\],Generator[\E@Library/FortressLibrary.fss:4467:1-4469:50\]->RelationalPredicateCondition[\E@Library/FortressLibrary.fss:4467:1-4469:50\]] and parameter 1:[I@Library/FortressLibrary.fss:1248:1-1252:2->Condition[\()\],I@Library/FortressLibrary.fss:1248:1-1252:2->Condition[\()\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+Library/FortressLibrary.fss:4467:1-4469:50:
+Library/FortressLibrary.fss:1248:1-1252:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+
+===== library=P3b  Generator2Test
+########## INTERPRETER cold, library=P3b, Generator2Test
+res = 46, ggres = 46
+res = 15, ggres = 15
+res = 8, ggres = 8
+rc=0
+
+===== library=P3b  ArrayScalarExtension
+########## INTERPRETER cold, library=P3b, ArrayScalarExtension
+(v + 1.0)[0] = 0.0
+(1.0 + v)[2] = 2.0
+(v - 1.0)[0] = -2.0
+(1.0 - v)[0] = 2.0
+(0.0 MAX v)[0] = 0.0
+(v MAX 0.0)[2] = 1.0
+(0.0 MIN v)[2] = 0.0
+(v MIN 0.0)[0] = -1.0
+(m + 1.0)[0,1] = -2.0
+(1.0 + m)[1,0] = 1.0
+(m - 1.0)[0,0] = 1.0
+(1.0 - m)[0,1] = 4.0
+(0.0 MAX m)[0,1] = 0.0
+
+===== library=P3b  zFilter
+########## INTERPRETER (warm cache of P3b), zFilter.fss
+com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:3442:44-49:
+Failed to find any matching overload, args = (keep(x:FortressLibrary.ZZ32):Condition[\()\] ZZ32->Condition[\()\] explorations/perf-probes/nat/zero/zFilter.fss:7:1-83,keep2(x:FortressLibrary.ZZ32):Condition[\()\] ZZ32->Condition[\()\] explorations/perf-probes/nat/zero/zFilter.fss:8:1-84), overload = {
+	ANDCOND[\I\](p1:I->FortressBuiltin.Boolean,p2:I->FortressBuiltin.Boolean):I->Condition[\()\]Library/FortressLibrary.fss:1248:1-1252:2
+	ANDCOND[\E\](p:Generator[\E\]->RelationalPredicateCondition[\E\],q:Generator[\E\]->RelationalPredicateCondition[\E\]):Generator[\E\]->Condition[\()\]Library/FortressLibrary.fss:4467:1-4469:50}:OverloadedFunction
+Context:
+Library/FortressLibrary.fss:3442:44-49:
+Library/FortressLibrary.fss:1105:36-46:
+explorations/perf-probes/nat/zero/zFilter.fss:11:41-47:
+Library/FortressLibrary.fss:1124:25-47:
+explorations/perf-probes/nat/zero/zFilter.fss:11:8-50:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+
+===== library=P3b  zRel
+########## INTERPRETER (warm cache of P3b), zRel.fss
+relational(p1) = true
+relational(p1 ANDCOND p2) = true
+rc=0
+
+===== library=P3c  Generator2Test
+########## INTERPRETER cold, library=P3c, Generator2Test
+res = 46, ggres = 46
+res = 15, ggres = 15
+res = 8, ggres = 8
+rc=0
+
+===== library=P3c  ArrayScalarExtension
+########## INTERPRETER cold, library=P3c, ArrayScalarExtension
+(v + 1.0)[0] = 0.0
+(1.0 + v)[2] = 2.0
+(v - 1.0)[0] = -2.0
+(1.0 - v)[0] = 2.0
+(0.0 MAX v)[0] = 0.0
+(v MAX 0.0)[2] = 1.0
+(0.0 MIN v)[2] = 0.0
+(v MIN 0.0)[0] = -1.0
+(m + 1.0)[0,1] = -2.0
+(1.0 + m)[1,0] = 1.0
+(m - 1.0)[0,0] = 1.0
+(1.0 - m)[0,1] = 4.0
+(0.0 MAX m)[0,1] = 0.0
+
+===== library=P3c  zFilter
+########## INTERPRETER (warm cache of P3c), zFilter.fss
+<|2, 3|>
+rc=0
+
+===== library=P3c  zRel
+########## INTERPRETER (warm cache of P3c), zRel.fss
+relational(p1) = true
+relational(p1 ANDCOND p2) = false
+rc=0
+
+===== library=P3d  Generator2Test
+########## INTERPRETER cold, library=P3d, Generator2Test
+res = 46, ggres = 46
+res = 15, ggres = 15
+res = 8, ggres = 8
+rc=0
+
+===== library=P3d  ArrayScalarExtension
+########## INTERPRETER cold, library=P3d, ArrayScalarExtension
+(v + 1.0)[0] = 0.0
+(1.0 + v)[2] = 2.0
+(v - 1.0)[0] = -2.0
+(1.0 - v)[0] = 2.0
+(0.0 MAX v)[0] = 0.0
+(v MAX 0.0)[2] = 1.0
+(0.0 MIN v)[2] = 0.0
+(v MIN 0.0)[0] = -1.0
+(m + 1.0)[0,1] = -2.0
+(1.0 + m)[1,0] = 1.0
+(m - 1.0)[0,0] = 1.0
+(1.0 - m)[0,1] = 4.0
+(0.0 MAX m)[0,1] = 0.0
+
+===== library=P3d  zFilter
+########## INTERPRETER (warm cache of P3d), zFilter.fss
+<|2, 3|>
+rc=0
+
+===== library=P3d  zRel
+########## INTERPRETER (warm cache of P3d), zRel.fss
+relational(p1) = true
+relational(p1 ANDCOND p2) = false
+rc=0
+
+===== library=P3dx  Generator2Test (the branch trace)
+res = 46, ggres = 46
+res = 15, ggres = 15
+@@ANDCOMBINE relational
+res = 8, ggres = 8
+rc=0

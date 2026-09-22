@@ -1,5 +1,5 @@
---- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala	2026-09-08 16:43:02.717426913 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/Formula.scala	2026-09-21 23:00:43.859280204 +0000
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/Formula.scala
 @@ -46,8 +46,19 @@
    override def toString = "False"
  }
@@ -555,9 +555,18 @@
    def fromBoolean(x: Boolean) = if (x) True else False
    
  }
---- ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala	2026-09-08 16:43:02.722446892 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala	2026-09-21 22:29:42.792720951 +0000
-@@ -248,12 +248,16 @@
+--- ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -67,6 +67,8 @@
+   private final val cacheNormalizeTuple = ProjectProperties.getBoolean("fortress.analyzer.normalize.tuple.cache", true)
+   private final val cacheNormalizeArrow = ProjectProperties.getBoolean("fortress.analyzer.normalize.arrow.cache", true)
+   private final val cacheNormalizeOther = ProjectProperties.getBoolean("fortress.analyzer.normalize.Other.cache", true)
++  // SHADOW (zero probe): -Dprobe.zero.dropP=true relaxes checkP; see below.
++  private final val probeZeroDropP = ProjectProperties.getBoolean("probe.zero.dropP", false)
+   
+   type hType = (Boolean, Boolean, Type, Type)
+   implicit val ta: TypeAnalyzer = this
+@@ -248,12 +250,16 @@
  
       val args = staticParams.zip(staticArgs_1.zip(staticArgs_2))
       def cmp (param: StaticParam, args: (StaticArg,StaticArg)): CFormula = {
@@ -580,7 +589,7 @@
       }
       val formulas : List[CFormula] = args.map(e => cmp(e._1,e._2))
       pAnd(formulas)
-@@ -328,8 +332,15 @@
+@@ -328,8 +334,15 @@
      case (a,b) if (a==b) => pTrue()
      case (STypeArg(_, _, s), STypeArg(_, _, t)) => pEqv(s, t)
      case (SOpArg(_, _, o), SOpArg(_, _, p)) => pEqv(o, p)
@@ -597,7 +606,7 @@
      case (_: BoolArg, _: BoolArg) => pTrue()
      case (_: DimArg, _: DimArg) => pTrue()
      case (_: UnitArg, _: UnitArg) => pTrue()
-@@ -338,6 +349,25 @@
+@@ -338,6 +351,25 @@
    
    def equivalent(x: Op, y: Op): CFormula = pEqv(normalize(x), normalize(y))(false)
    def notEquivalent(x: Op, y: Op): CFormula = pEqv(normalize(x), normalize(y))(true)
@@ -623,7 +632,24 @@
    
    protected def pEqv(x: Op, y: Op)(implicit negate: Boolean): CFormula = (x, y) match {
      case (a, b) if (a==b) => pTrue()
-@@ -709,6 +739,20 @@
+@@ -440,7 +472,15 @@
+         }
+         pOr(cO(s,t), cO(t,s))
+       }
+-      def checkP(s: TraitType, t: TraitType): CFormula = {
++      // SHADOW (zero probe): the fourth exclusion clause -- two distinct
++      // instantiations of one generic ancestor exclude each other -- relaxed in
++      // the POSITIVE direction only, which is rung P of coordinator/CLIMB-BATCH-3.md
++      // and bucket 2 of perf-probes/prelude/exclusion-trace.md.  The negative
++      // direction is left alone: notExcludes (:367-370) uses the same clause to
++      // emit the equality constraints static-argument inference runs on.
++      // Off by default, so every capture taken before this line still reproduces.
++      def checkP(s: TraitType, t: TraitType): CFormula =
++        if (probeZeroDropP && !negate) pFalse() else {
+         val sas = ancestors(s) ++ Set(s)
+         val tas = ancestors(t) ++ Set(t)
+         def cP(s: BaseType, t: BaseType): CFormula = (s, t) match {
+@@ -709,6 +749,20 @@
  //    toOption(traits.typeCons(x)).getOrElse(bug(x, x + " is not in the trait table"))
      toOption(traits.typeCons(x)).getOrElse(throw new RuntimeException("Not in the trait table: " + x.toStringReadable + " @ " + x.at))
  
@@ -644,7 +670,7 @@
    def comprisesClause(t: TraitType): Set[TraitType] = typeCons(t.getName) match {
      case ti: ProperTraitIndex =>
        val args = toListFromImmutable(t.getArgs)
-@@ -719,7 +763,11 @@
+@@ -719,7 +773,11 @@
    }
    
    // For the purposes of this method Any is not the Parent of Object as it is not a TraitType
@@ -657,7 +683,7 @@
      val STraitType(_, n, a, _) = t
      val index = typeCons(n).asInstanceOf[TraitIndex]
      toListFromImmutable(index.extendsTypes).
-@@ -744,7 +792,11 @@
+@@ -744,7 +802,11 @@
      }
    }
    
@@ -670,7 +696,7 @@
      val ti = typeCons(t.getName).asInstanceOf[TraitIndex]
      val args = toListFromImmutable(t.getArgs)
      val params = toListFromImmutable(ti.staticParameters)
-@@ -792,8 +844,17 @@
+@@ -792,8 +854,17 @@
    def pFromBoolean(b: Boolean)(implicit negate: Boolean) = fromBoolean(negate != b)
    def pEquivalent(i: _InferenceVarOp, o: Op)(implicit negate: Boolean) =
      if (negate) oNotEquivalent(i, o) else oEquivalent(i, o)
@@ -688,8 +714,8 @@
 +  private[types] val excludesMemo =
 +    new scala.collection.mutable.HashMap[(TraitTable, TraitType), Set[TraitType]]()
  }
---- ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala	2026-09-08 16:43:02.722446892 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala	2026-09-21 21:51:44.944002492 +0000
+--- ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala
 @@ -401,14 +401,19 @@
         println("   ieNotBottom = " + ieNotBottom)
         println("    c = " + c)
@@ -713,8 +739,8 @@
      if (debug) {
         println("   nub = " + nub)
         println("   nieNotBottom = " + nieNotBottom)
---- ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala	2026-09-08 16:43:02.723791668 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/useful/STypesUtil.scala	2026-09-21 21:51:44.944453764 +0000
+--- ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/useful/STypesUtil.scala
 @@ -547,17 +547,31 @@
      case _: KindType => 
        NF.makeTypeArg(NU.getSpan(sparam), NF.make_InferenceVarType(NU.getSpan(sparam)),
@@ -783,8 +809,8 @@
        case sarg => sarg
      }
  
---- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala	2026-09-08 16:43:02.717426913 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala	2026-09-21 21:51:44.945029769 +0000
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
 @@ -643,9 +643,14 @@
      }
  
@@ -802,8 +828,8 @@
  
    /* Returns true if two parameters are same. */
    private def equalParams(left: Param, right: Param): Boolean =
---- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala	2026-09-18 12:47:02.686800510 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala	2026-09-21 21:51:44.945399384 +0000
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala
 @@ -38,6 +38,12 @@
  
    private def error(s:String, n:Node) = errors.add(TypeError.make(s,n))
@@ -834,8 +860,8 @@
        getTypes(name) match {
          case si:TraitIndex => // Trait name should be defined.
          // Static arguments should satisfy the corresponding bounds.
---- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala	2026-09-08 16:43:02.716958789 +0000
-+++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala	2026-09-21 21:51:44.945568132 +0000
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala
 @@ -80,8 +80,15 @@
  
    private def checkObjectDeclaration(od: ObjectDecl) = {
@@ -854,3 +880,63 @@
      // traceObjectDeclMethods(od, methods)
      val oldTypeAnalyzer = typeAnalyzer
      // Add static parameters of the enclosing trait or object
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
++++ explorations/perf-probes/nat/shadow-src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+@@ -44,6 +44,14 @@
+ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
+ 			   globalEnv: GlobalEnvironment,
+ 			   isApi: Boolean) {
++  // SHADOW (zero probe): -Dprobe.zero.eligibleRelax=true relaxes isEligibleToExtend
++  // below.  Off by default, so every capture taken before this line reproduces.
++  private final val probeZeroEligibleRelax: Boolean =
++    com.sun.fortress.repository.ProjectProperties.getBoolean("probe.zero.eligibleRelax", false)
++  // SHADOW (zero probe): the narrow variant of the same relaxation.
++  private final val probeZeroEligibleNarrow: Boolean =
++    com.sun.fortress.repository.ProjectProperties.getBoolean("probe.zero.eligibleNarrow", false)
++
+   def checkHierarchy(): JavaList[StaticError] = {
+     val errors = new ArrayList[StaticError]()
+     for (typ <- toSet(compilation_unit.typeConses.keySet)) {
+@@ -255,6 +263,15 @@
+ 				 analyzer: TypeAnalyzer,
+ 				 errors:JavaList[StaticError]): Boolean = {
+     comprisesContains(comprises, tt, analyzer) ||
++    // SHADOW (zero probe): a GENERIC immediate subtrait is accepted.  The closure
++    // `AnyIntegral comprises { ZZ }` (Library/FortressLibrary.fsi:409, .fss:612) is
++    // extended by `trait Integral[\I extends Integral[\I\]\]` (.fsi:411), and no
++    // instantiation of Integral is a subtype of ZZ, so clause 2 can never hold for
++    // it; what the library means is `comprises { Integral[\I\] where [\I\] }`, a form
++    // the grammar does not have (the team says so at .fss:1296, :1373, :1588-1589).
++    (probeZeroEligibleRelax && !tt.getArgs.isEmpty) ||
++    (probeZeroEligibleNarrow && !tt.getArgs.isEmpty &&
++       everyKnownSubtypeListed(tt, comprises, analyzer)) ||
+     (getTypes(tt.getName, errors) match {
+       case ti:ProperTraitIndex =>
+ 	val t_comprises = ti.comprisesTypes
+@@ -265,6 +282,26 @@
+      })
+   }
+ 
++  /** SHADOW (zero probe), the narrow variant: a generic immediate subtrait is
++   *  accepted only when the trait table knows at least one type that immediately
++   *  extends it and every one of those is below a type in the comprises list.  For
++   *  `AnyIntegral comprises { ZZ }` the traits that immediately extend `Integral` are
++   *  ZZ, ZZ32, ZZ64, NN64 and NN32, every one of them a subtype of ZZ, so the clause
++   *  is true of every value; the broad relaxation above asks nothing at all. */
++  private def everyKnownSubtypeListed(tt: TraitType, comprises: Set[NamedType],
++				      analyzer: TypeAnalyzer): Boolean = {
++    val subs = analyzer.traits.iterator.toList.collect{ case ti: TraitIndex => ti }.filter(ti =>
++      toListFromImmutable(ti.extendsTypes).exists(tw => tw.getBaseType match {
++        case st: TraitType => st.getName.getText.equals(tt.getName.getText)
++        case _ => false }))
++    subs.nonEmpty && subs.forall(ti => toOption(ti.typeOfSelf) match {
++      case Some(self) => SNodeUtil.getTraitType(self) match {
++        case Some(sub) => comprisesContains(comprises, sub,
++			    analyzer.extend(toListFromImmutable(ti.staticParameters), None))
++        case _ => false }
++      case _ => false })
++  }
++
+   private def comprisesContains(comprises: Set[NamedType],
+ 				decl: Type,
+ 				analyzer: TypeAnalyzer): Boolean = {

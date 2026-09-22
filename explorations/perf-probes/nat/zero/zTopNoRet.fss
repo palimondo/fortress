@@ -1,0 +1,6 @@
+(* A TOP-LEVEL function with an untyped parameter, for the A/B *)
+component zTopNoRet
+export Executable
+g(i) = i
+run(): () = println(g(3))
+end

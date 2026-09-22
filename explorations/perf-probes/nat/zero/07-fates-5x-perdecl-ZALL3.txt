@@ -1,0 +1,61 @@
+# Per top-level declaration of Library/FortressLibrary.fss, the checker's fate
+# with the interpreter prelude, before and after the nat shadow.
+# BEFORE: explorations/perf-probes/nat/java/j4-lib-perdecl.out
+# AFTER : /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/zw/n-54-perdecl-ZALL3.out
+
+declarations seen: before 446, after 447
+BEFORE  clean=287  errors-of-its-own=154  crashed=5
+AFTER   clean=304  errors-of-its-own=143  crashed=0
+
+## The 5 declarations that crashed the checker before, and what they become
+  ordinary error           4
+  clean                    1
+
+## The crash sites that remain, by site
+
+## The crash sites before, by site
+     2  com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)
+     2  java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+
+## Every declaration whose fate changed
+# span | before | after
+FnDecl FortressLibrary.fss:129:1-130:107 | ok errors=1 | clean
+FnDecl FortressLibrary.fss:474:1-522:9 | ok errors=10 | ok errors=1
+TraitDecl FortressLibrary.fss:524:1-597:2 | ok errors=4 | ok errors=3
+TraitDecl FortressLibrary.fss:645:1-701:2 | ok errors=1 | clean
+TraitDecl FortressLibrary.fss:703:1-771:2 | ok errors=1 | clean
+TraitDecl FortressLibrary.fss:825:1-895:2 | ok errors=2 | ok errors=1
+FnDecl FortressLibrary.fss:1121:1-1125:4 | CRASH com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67) : ** bug! Library/FortressLibrary.fss:1123:10     Type is not inferred. | clean
+TraitDecl FortressLibrary.fss:1203:1-1242:12 | ok errors=10 | ok errors=9
+FnDecl FortressLibrary.fss:1428:1-1429:111 | ok errors=1 | clean
+TraitDecl FortressLibrary.fss:1719:1-1725:2 | ok errors=1 | clean
+ObjectDecl FortressLibrary.fss:1727:1-1736:2 | ok errors=5 | ok errors=1
+TraitDecl FortressLibrary.fss:1738:1-1750:2 | ok errors=6 | ok errors=2
+FnDecl FortressLibrary.fss:1752:1-1759:4 | ok errors=1 | clean
+TraitDecl FortressLibrary.fss:2016:1-2047:2 | ok errors=2 | clean
+TraitDecl FortressLibrary.fss:2049:1-2092:2 | ok errors=14 | ok errors=4
+TraitDecl FortressLibrary.fss:2096:1-2142:2 | ok errors=13 | ok errors=5
+ObjectDecl FortressLibrary.fss:2161:1-2173:2 | ok errors=2 | clean
+ObjectDecl FortressLibrary.fss:2176:1-2188:2 | ok errors=3 | ok errors=1
+FnDecl FortressLibrary.fss:2248:1-68 | ok errors=1 | clean
+FnDecl FortressLibrary.fss:2249:1-75 | ok errors=1 | clean
+TraitDecl FortressLibrary.fss:2292:1-2406:2 | CRASH com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38) : Library/FortressLibrary.fss:2301:9:     Missing parameter type for i | ok errors=7
+ObjectDecl FortressLibrary.fss:2418:1-2424:2 | ok errors=3 | clean
+ObjectDecl FortressLibrary.fss:2454:1-2474:2 | ok errors=2 | ok errors=1
+TraitDecl FortressLibrary.fss:2500:1-2563:2 | ok errors=53 | ok errors=35
+ObjectDecl FortressLibrary.fss:2566:1-2572:2 | ok errors=3 | clean
+FnDecl FortressLibrary.fss:2610:1-2615:50 | ok errors=1 | clean
+TraitDecl FortressLibrary.fss:2665:1-2772:2 | CRASH com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38) : Library/FortressLibrary.fss:2678:11:     Missing parameter type for i | ok errors=5
+ObjectDecl FortressLibrary.fss:2783:1-2792:2 | ok errors=1 | clean
+ObjectDecl FortressLibrary.fss:2801:1-2811:2 | ok errors=1 | clean
+FnDecl FortressLibrary.fss:2819:1-2820:32 | clean | ok errors=1
+FnDecl FortressLibrary.fss:3047:1-3048:64 | clean | ok errors=1
+FnDecl FortressLibrary.fss:3087:1-3088:69 | ok errors=1 | clean
+FnDecl FortressLibrary.fss:3251:1-3252:77 | clean | ok errors=1
+TraitDecl FortressLibrary.fss:3799:1-3811:2 | ok errors=6 | ok errors=5
+TraitDecl FortressLibrary.fss:3958:1-4086:11 | ok errors=13 | ok errors=11
+ObjectDecl FortressLibrary.fss:4089:1-4103:2 | ok errors=1 | clean
+FnDecl FortressLibrary.fss:4116:1-4122:4 | ok errors=1 | clean
+FnDecl FortressLibrary.fss:4176:1-4189:4 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0 | ok errors=1
+FnDecl FortressLibrary.fss:4195:1-4200:2 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:740) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0 | ok errors=1

@@ -1,0 +1,925 @@
+########## WorldFlip Library/FortressLibrary.fss  -Dprobe.zero.dropP=true -Dprobe.zero.eligibleNarrow=true
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[Library/FortressLibrary.fss]
+@@PROBE checkApi TypeProxy
+@@PROBE checkApi TypeProxy -> errors=0
+@@PROBE checkApi List
+@@PROBE checkApi List -> errors=0
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=0
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=0
+@@PROBE checkApi NatReflect
+@@PROBE checkApi NatReflect -> errors=0
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi Writer
+@@PROBE checkApi Writer -> errors=0
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=0
+@@PROBE checkApi NativeArray
+@@PROBE checkApi NativeArray -> errors=44
+@@PROBE checkApi FortressLibrary
+@@PROBE checkApi FortressLibrary -> errors=272
+@@PROBE checkApi RangeInternals
+@@PROBE checkApi RangeInternals -> errors=42
+Library/FortressLibrary.fsi:134:5-45:
+Library/FortressLibrary.fsi:135:5-57:
+    For CMP,
+the return type of (LessThan, LessThan)->Comparison @ Library/FortressLibrary.fsi:134:5-45 should be a subtype of the
+    return type of (LessThan, TotalComparison)->TotalComparison @ Library/FortressLibrary.fsi:135:5-57
+Library/FortressLibrary.fsi:134:5-45:
+Library/FortressLibrary.fsi:222:5-223:1:
+    For CMP,
+the return type of (LessThan, LessThan)->Comparison @ Library/FortressLibrary.fsi:134:5-45 should be a subtype of the
+    return type of [\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->TotalComparison @ Library/FortressLibrary.fsi:222:5-223:1
+Library/FortressLibrary.fsi:145:5-48:
+Library/FortressLibrary.fsi:146:5-57:
+    For CMP,
+the return type of (GreaterThan, GreaterThan)->Comparison @ Library/FortressLibrary.fsi:145:5-48 should be a subtype of the
+    return type of (GreaterThan, TotalComparison)->TotalComparison @ Library/FortressLibrary.fsi:146:5-57
+Library/FortressLibrary.fsi:145:5-48:
+Library/FortressLibrary.fsi:222:5-223:1:
+    For CMP,
+the return type of (GreaterThan, GreaterThan)->Comparison @ Library/FortressLibrary.fsi:145:5-48 should be a subtype of the
+    return type of [\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->TotalComparison @ Library/FortressLibrary.fsi:222:5-223:1
+Library/FortressLibrary.fsi:185:5-186:1:
+Library/FortressLibrary.fsi:209:5-33:
+    For MIN,
+the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:209:5-33 should be a subtype of the
+    return type of [\T extends StandardMin[\T\]\](StandardMin[\T\], T)->T @ Library/FortressLibrary.fsi:185:5-186:1
+Library/FortressLibrary.fsi:185:5-186:1:
+Library/FortressLibrary.fsi:2542:1-67:
+    Invalid overloading of MIN in API FortressLibrary:
+     [\T extends Number, I\](Array[\T,I\], T)->Array[\T,I\] @ Library/FortressLibrary.fsi:2542:1-67
+ and [\T extends StandardMin[\T\]\](StandardMin[\T\], T)->T @ Library/FortressLibrary.fsi:185:5-186:1
+Library/FortressLibrary.fsi:185:5-186:1:
+Library/FortressLibrary.fsi:2543:1-67:
+    Invalid overloading of MIN in API FortressLibrary:
+     [\T extends Number, I\](T, Array[\T,I\])->Array[\T,I\] @ Library/FortressLibrary.fsi:2543:1-67
+ and [\T extends StandardMin[\T\]\](StandardMin[\T\], T)->T @ Library/FortressLibrary.fsi:185:5-186:1
+Library/FortressLibrary.fsi:196:5-197:1:
+Library/FortressLibrary.fsi:210:5-211:1:
+    For MAX,
+the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:210:5-211:1 should be a subtype of the
+    return type of [\T extends StandardMax[\T\]\](StandardMax[\T\], T)->T @ Library/FortressLibrary.fsi:196:5-197:1
+Library/FortressLibrary.fsi:196:5-197:1:
+Library/FortressLibrary.fsi:2544:1-67:
+    Invalid overloading of MAX in API FortressLibrary:
+     [\T extends Number, I\](Array[\T,I\], T)->Array[\T,I\] @ Library/FortressLibrary.fsi:2544:1-67
+ and [\T extends StandardMax[\T\]\](StandardMax[\T\], T)->T @ Library/FortressLibrary.fsi:196:5-197:1
+Library/FortressLibrary.fsi:196:5-197:1:
+Library/FortressLibrary.fsi:2545:1-2548:1:
+    Invalid overloading of MAX in API FortressLibrary:
+     [\T extends Number, I\](T, Array[\T,I\])->Array[\T,I\] @ Library/FortressLibrary.fsi:2545:1-2548:1
+ and [\T extends StandardMax[\T\]\](StandardMax[\T\], T)->T @ Library/FortressLibrary.fsi:196:5-197:1
+Library/FortressLibrary.fsi:209:5-33:
+Library/FortressLibrary.fsi:2542:1-67:
+    Invalid overloading of MIN in API FortressLibrary:
+     [\T extends Number, I\](Array[\T,I\], T)->Array[\T,I\] @ Library/FortressLibrary.fsi:2542:1-67
+ and [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:209:5-33
+Library/FortressLibrary.fsi:209:5-33:
+Library/FortressLibrary.fsi:2543:1-67:
+    Invalid overloading of MIN in API FortressLibrary:
+     [\T extends Number, I\](T, Array[\T,I\])->Array[\T,I\] @ Library/FortressLibrary.fsi:2543:1-67
+ and [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:209:5-33
+Library/FortressLibrary.fsi:209:5-33:
+Library/FortressLibrary.fsi:289:5-34:
+    For MIN,
+the return type of ((Number & {RR64}), Number)->Number @ Library/FortressLibrary.fsi:289:5-34 should be a subtype of the
+    return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:209:5-33
+Library/FortressLibrary.fsi:209:5-33:
+Library/FortressLibrary.fsi:388:5-30:
+    For MIN,
+the return type of ((QQ & {AnyIntegral}), QQ)->QQ @ Library/FortressLibrary.fsi:388:5-30 should be a subtype of the
+    return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:209:5-33
+Library/FortressLibrary.fsi:210:5-211:1:
+Library/FortressLibrary.fsi:2544:1-67:
+    Invalid overloading of MAX in API FortressLibrary:
+     [\T extends Number, I\](Array[\T,I\], T)->Array[\T,I\] @ Library/FortressLibrary.fsi:2544:1-67
+ and [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:210:5-211:1
+Library/FortressLibrary.fsi:210:5-211:1:
+Library/FortressLibrary.fsi:2545:1-2548:1:
+    Invalid overloading of MAX in API FortressLibrary:
+     [\T extends Number, I\](T, Array[\T,I\])->Array[\T,I\] @ Library/FortressLibrary.fsi:2545:1-2548:1
+ and [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:210:5-211:1
+Library/FortressLibrary.fsi:210:5-211:1:
+Library/FortressLibrary.fsi:290:5-34:
+    For MAX,
+the return type of ((Number & {RR64}), Number)->Number @ Library/FortressLibrary.fsi:290:5-34 should be a subtype of the
+    return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:210:5-211:1
+Library/FortressLibrary.fsi:210:5-211:1:
+Library/FortressLibrary.fsi:389:5-30:
+    For MAX,
+the return type of ((QQ & {AnyIntegral}), QQ)->QQ @ Library/FortressLibrary.fsi:389:5-30 should be a subtype of the
+    return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:210:5-211:1
+Library/FortressLibrary.fsi:221:5-36:
+Library/FortressLibrary.fsi:291:5-47:
+    Invalid overloading of MINMAX in API FortressLibrary:
+     ((Number & {RR64}), Number)->(Number, Number) @ Library/FortressLibrary.fsi:291:5-47
+ and [\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:221:5-36
+Library/FortressLibrary.fsi:221:5-36:
+Library/FortressLibrary.fsi:390:5-38:
+    Invalid overloading of MINMAX in API FortressLibrary:
+     ((QQ & {AnyIntegral}), QQ)->(QQ, QQ) @ Library/FortressLibrary.fsi:390:5-38
+ and [\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->(T, T) @ Library/FortressLibrary.fsi:221:5-36
+Library/FortressLibrary.fsi:222:5-223:1:
+Library/FortressLibrary.fsi:286:5-288:24:
+    Invalid overloading of CMP in API FortressLibrary:
+     ((Number & {RR64}), Number)->Comparison @ Library/FortressLibrary.fsi:286:5-288:24
+ and [\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->TotalComparison @ Library/FortressLibrary.fsi:222:5-223:1
+Library/FortressLibrary.fsi:335:5-336:1:
+Library/FortressLibrary.fsi:403:5-404:4:
+    For truncate,
+the return type of (QQ & {AnyIntegral})->ZZ @ Library/FortressLibrary.fsi:403:5-404:4 should be a subtype of the
+    return type of (Number & {RR64})->ZZ64 @ Library/FortressLibrary.fsi:335:5-336:1
+Library/FortressLibrary.fsi:365:5-366:1:
+Library/FortressLibrary.fsi:460:5-21:
+    For narrow,
+the return type of (NN64 & {UnsignedLong, NN32})->NN32 @ Library/FortressLibrary.fsi:460:5-21 should be a subtype of the
+    return type of (RR64 & {Float, FloatLiteral, RR32, QQ})->RR32 @ Library/FortressLibrary.fsi:365:5-366:1
+Library/FortressLibrary.fsi:365:5-366:1:
+Library/FortressLibrary.fsi:532:5-21:
+    For narrow,
+the return type of (ZZ64 & {Long, ZZ32})->ZZ32 @ Library/FortressLibrary.fsi:532:5-21 should be a subtype of the
+    return type of (RR64 & {Float, FloatLiteral, RR32, QQ})->RR32 @ Library/FortressLibrary.fsi:365:5-366:1
+Library/FortressLibrary.fsi:365:5-366:1:
+Library/FortressLibrary.fsi:539:5-540:4:
+    For narrow,
+the return type of (ZZ & {BigNum, ZZ64, NN64})->ZZ32 @ Library/FortressLibrary.fsi:539:5-540:4 should be a subtype of the
+    return type of (RR64 & {Float, FloatLiteral, RR32, QQ})->RR32 @ Library/FortressLibrary.fsi:365:5-366:1
+Library/FortressLibrary.fsi:460:5-21:
+Library/FortressLibrary.fsi:539:5-540:4:
+    For narrow,
+the return type of (NN64 & {UnsignedLong, NN32})->NN32 @ Library/FortressLibrary.fsi:460:5-21 should be a subtype of the
+    return type of (ZZ & {BigNum, ZZ64, NN64})->ZZ32 @ Library/FortressLibrary.fsi:539:5-540:4
+Library/FortressLibrary.fsi:623:5-630:31:
+Library/FortressLibrary.fsi:788:5-52:
+    Invalid overloading of generate in trait ReductionPair:
+     [\G\](Condition[\SomeReductionPair[\R\]\], Reduction[\G\], SomeReductionPair[\R\]->G)->G @ Library/FortressLibrary.fsi:788:5-52
+ and [\R\](Generator[\SomeReductionPair[\R\]\], Reduction[\R\], SomeReductionPair[\R\]->R)->R @ Library/FortressLibrary.fsi:623:5-630:31
+Library/FortressLibrary.fsi:835:5-836:1:
+Library/FortressLibrary.fsi:855:5-50:
+    Invalid overloading of SQCAP in API FortressLibrary:
+     [\T\]((Maybe[\T\] & {Nothing[\T\], Just[\T\]}), Maybe[\T\])->Maybe[\T\] @ Library/FortressLibrary.fsi:835:5-836:1
+ and [\T\](Just[\T\], UniqueItem[\T\])->Maybe[\T\] @ Library/FortressLibrary.fsi:855:5-50
+Library/FortressLibrary.fsi:1176:5-43:
+Library/FortressLibrary.fsi:790:5-46:
+    Invalid overloading of ivmap in trait Just:
+     [\G\](Condition[\T\], (ZZ32, T)->G)->Generator[\G\] @ Library/FortressLibrary.fsi:790:5-46
+ and [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ Library/FortressLibrary.fsi:1176:5-43
+Library/FortressLibrary.fsi:1176:5-43:
+Library/FortressLibrary.fsi:790:5-46:
+    Invalid overloading of ivmap in trait Maybe:
+     [\G\](Condition[\T\], (ZZ32, T)->G)->Generator[\G\] @ Library/FortressLibrary.fsi:790:5-46
+ and [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ Library/FortressLibrary.fsi:1176:5-43
+Library/FortressLibrary.fsi:1176:5-43:
+Library/FortressLibrary.fsi:790:5-46:
+    Invalid overloading of ivmap in trait Nothing:
+     [\G\](Condition[\T\], (ZZ32, T)->G)->Generator[\G\] @ Library/FortressLibrary.fsi:790:5-46
+ and [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ Library/FortressLibrary.fsi:1176:5-43
+Library/FortressLibrary.fsi:1177:5-1182:5:
+Library/FortressLibrary.fsi:762:5-47:
+    Invalid overloading of map in trait CompactFullSeqScalarRange:
+     [\G\](SequentialGenerator[\I\], I->G)->SequentialGenerator[\G\] @ Library/FortressLibrary.fsi:762:5-47
+ and [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ Library/FortressLibrary.fsi:1177:5-1182:5
+Library/FortressLibrary.fsi:1177:5-1182:5:
+Library/FortressLibrary.fsi:762:5-47:
+    Invalid overloading of map in trait Maybe:
+     [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ Library/FortressLibrary.fsi:762:5-47
+ and [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ Library/FortressLibrary.fsi:1177:5-1182:5
+Library/FortressLibrary.fsi:1177:5-1182:5:
+Library/FortressLibrary.fsi:762:5-47:
+    Invalid overloading of map in trait StridedFullSeqScalarRange:
+     [\G\](SequentialGenerator[\I\], I->G)->SequentialGenerator[\G\] @ Library/FortressLibrary.fsi:762:5-47
+ and [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ Library/FortressLibrary.fsi:1177:5-1182:5
+Library/FortressLibrary.fsi:1201:5-1203:47:
+Library/FortressLibrary.fsi:2069:5-47:
+    Invalid overloading of CMP in API FortressLibrary:
+     [\I\](Range[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2069:5-47
+ and [\T extends LexicographicOrder[\T,E\], E\](LexicographicOrder[\T,E\], T)->TotalComparison @ Library/FortressLibrary.fsi:1201:5-1203:47
+Library/FortressLibrary.fsi:1222:5-39:
+Library/FortressLibrary.fsi:2036:5-2037:1:
+    Invalid overloading of seq in API FortressLibrary:
+     [\E, I\]DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:1222:5-39
+ and [\E\]FilterGenerator[\E\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:2036:5-2037:1
+Library/FortressLibrary.fsi:1222:5-39:
+Library/FortressLibrary.fsi:761:5-39:
+    Invalid overloading of seq in API FortressLibrary:
+     [\E, I\]DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:1222:5-39
+ and [\E\]SequentialGenerator[\E\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:761:5-39
+Library/FortressLibrary.fsi:1272:5-1274:48:
+Library/FortressLibrary.fsi:2036:5-2037:1:
+    Invalid overloading of seq in API FortressLibrary:
+     [\E, I\]ReadableArray[\E,I\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:1272:5-1274:48
+ and [\E\]FilterGenerator[\E\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:2036:5-2037:1
+Library/FortressLibrary.fsi:1272:5-1274:48:
+Library/FortressLibrary.fsi:761:5-39:
+    Invalid overloading of seq in API FortressLibrary:
+     [\E, I\]ReadableArray[\E,I\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:1272:5-1274:48
+ and [\E\]SequentialGenerator[\E\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:761:5-39
+Library/FortressLibrary.fsi:1292:5-1296:39:
+Library/FortressLibrary.fsi:1680:5-1686:8:
+    For shift,
+the return type of (Array3[\T,b0,s0,b1,s1,b2,s2\], (ZZ32, ZZ32, ZZ32))->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1680:5-1686:8 should be a subtype of the
+    return type of (ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32))->ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1292:5-1296:39
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1298:5-44:
+    Invalid overloading of fill in trait Array1:
+     (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1298:5-44:
+    Invalid overloading of fill in trait Array2:
+     (ReadableArray[\T,(ZZ32, ZZ32)\], (ZZ32, ZZ32)->T)->ReadableArray[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1297:5-46
+ and (ReadableArray[\T,(ZZ32, ZZ32)\], T)->ReadableArray[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1298:5-44
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1298:5-44:
+    Invalid overloading of fill in trait Array3:
+     (ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1297:5-46
+ and (ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], T)->ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1298:5-44
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1298:5-44:
+    Invalid overloading of fill in trait ImmutableArray:
+     (ReadableArray[\E,I\], E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (ReadableArray[\E,I\], I->E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1298:5-44:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1298:5-44:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1298:5-44:
+    Invalid overloading of fill in trait ReadableArray1:
+     (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1298:5-44:
+    Invalid overloading of fill in trait ReadableArray:
+     (ReadableArray[\E,I\], E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (ReadableArray[\E,I\], I->E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1298:5-44:
+    Invalid overloading of fill in trait StandardMutableArrayType:
+     (ReadableArray[\E,I\], E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (ReadableArray[\E,I\], I->E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1317:5-44:
+    Invalid overloading of fill in trait ImmutableArray1:
+     (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1317:5-44:
+    Invalid overloading of fill in trait ImmutableArray:
+     (ImmutableArray[\E,I\], E)->ImmutableArray[\E,I\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (ReadableArray[\E,I\], I->E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1317:5-44:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait Array1:
+     (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait Array2:
+     (Array[\T,(ZZ32, ZZ32)\], T)->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (ReadableArray[\T,(ZZ32, ZZ32)\], (ZZ32, ZZ32)->T)->ReadableArray[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait Array3:
+     (Array[\T,(ZZ32, ZZ32, ZZ32)\], T)->Array[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait Array:
+     (Array[\E,I\], E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (ReadableArray[\E,I\], I->E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait StandardMutableArrayType:
+     (Array[\E,I\], E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (ReadableArray[\E,I\], I->E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1297:5-46
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait Array3:
+     (ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1297:5-46
+ and (StandardImmutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,(ZZ32, ZZ32, ZZ32)\], T)->Array3[\T,b0,s0,b1,s1,b2,s2\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait ImmutableArray1:
+     (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,b0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,b0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1297:5-46
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1297:5-46:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait StandardImmutableArrayType:
+     (ReadableArray[\E,I\], I->E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1297:5-46
+ and (StandardImmutableArrayType[\T,E,I\], E)->T @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1298:5-44:
+Library/FortressLibrary.fsi:1316:5-47:
+    Invalid overloading of fill in trait ImmutableArray1:
+     (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1316:5-47
+ and (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1298:5-44
+Library/FortressLibrary.fsi:1298:5-44:
+Library/FortressLibrary.fsi:1316:5-47:
+    Invalid overloading of fill in trait ImmutableArray:
+     (ImmutableArray[\E,I\], I->E)->ImmutableArray[\E,I\] @ Library/FortressLibrary.fsi:1316:5-47
+ and (ReadableArray[\E,I\], E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1298:5-44
+Library/FortressLibrary.fsi:1298:5-44:
+Library/FortressLibrary.fsi:1316:5-47:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1316:5-47
+ and (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1298:5-44
+Library/FortressLibrary.fsi:1298:5-44:
+Library/FortressLibrary.fsi:1336:5-38:
+    Invalid overloading of fill in trait Array3:
+     (Array[\T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->Array[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], T)->ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1298:5-44
+Library/FortressLibrary.fsi:1298:5-44:
+Library/FortressLibrary.fsi:1336:5-38:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1298:5-44
+Library/FortressLibrary.fsi:1298:5-44:
+Library/FortressLibrary.fsi:1336:5-38:
+    Invalid overloading of fill in trait StandardMutableArrayType:
+     (Array[\E,I\], I->E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (ReadableArray[\E,I\], E)->ReadableArray[\E,I\] @ Library/FortressLibrary.fsi:1298:5-44
+Library/FortressLibrary.fsi:1298:5-44:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait Array3:
+     (ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], T)->ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (StandardImmutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->Array3[\T,b0,s0,b1,s1,b2,s2\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1298:5-44:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1298:5-44:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1298:5-44
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1316:5-47:
+Library/FortressLibrary.fsi:1317:5-44:
+    Invalid overloading of fill in trait ImmutableArray1:
+     (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1316:5-47
+Library/FortressLibrary.fsi:1316:5-47:
+Library/FortressLibrary.fsi:1317:5-44:
+    Invalid overloading of fill in trait ImmutableArray:
+     (ImmutableArray[\E,I\], E)->ImmutableArray[\E,I\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (ImmutableArray[\E,I\], I->E)->ImmutableArray[\E,I\] @ Library/FortressLibrary.fsi:1316:5-47
+Library/FortressLibrary.fsi:1316:5-47:
+Library/FortressLibrary.fsi:1317:5-44:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1316:5-47
+Library/FortressLibrary.fsi:1316:5-47:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait ImmutableArray1:
+     (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1316:5-47
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,b0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,b0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1316:5-47:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1316:5-47
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1316:5-47:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait ImmutableArray1:
+     (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1316:5-47
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,b0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,b0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1316:5-47:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1316:5-47
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1317:5-44:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait ImmutableArray1:
+     (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,b0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,b0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1317:5-44:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1317:5-44:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait ImmutableArray1:
+     (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,b0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,b0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1317:5-44:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1317:5-44
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1335:5-44:
+Library/FortressLibrary.fsi:1680:5-1686:8:
+    For shift,
+the return type of (Array3[\T,b0,s0,b1,s1,b2,s2\], (ZZ32, ZZ32, ZZ32))->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1680:5-1686:8 should be a subtype of the
+    return type of (Array[\T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32))->Array[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1335:5-44
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait Array1:
+     (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1336:5-38
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait Array2:
+     (Array[\T,(ZZ32, ZZ32)\], (ZZ32, ZZ32)->T)->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (Array[\T,(ZZ32, ZZ32)\], T)->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1337:5-35
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait Array3:
+     (Array[\T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->Array[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (Array[\T,(ZZ32, ZZ32, ZZ32)\], T)->Array[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1337:5-35
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait Array:
+     (Array[\E,I\], E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (Array[\E,I\], I->E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1336:5-38
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1336:5-38
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1337:5-35:
+    Invalid overloading of fill in trait StandardMutableArrayType:
+     (Array[\E,I\], E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (Array[\E,I\], I->E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1336:5-38
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait Array1:
+     (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (StandardImmutableArrayType[\Array1[\T,b0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,b0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait Array2:
+     (Array[\T,(ZZ32, ZZ32)\], (ZZ32, ZZ32)->T)->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (StandardImmutableArrayType[\Array2[\T,b0,s0,b1,s1\],T,(ZZ32, ZZ32)\], (ZZ32, ZZ32)->T)->Array2[\T,b0,s0,b1,s1\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait Array3:
+     (Array[\T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->Array[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (StandardImmutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->Array3[\T,b0,s0,b1,s1,b2,s2\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait Matrix:
+     (Array[\T,(ZZ32, ZZ32)\], (ZZ32, ZZ32)->T)->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (StandardImmutableArrayType[\Array2[\T,0,s0,0,s1\],T,(ZZ32, ZZ32)\], (ZZ32, ZZ32)->T)->Array2[\T,0,s0,0,s1\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait StandardMutableArrayType:
+     (Array[\E,I\], I->E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (StandardImmutableArrayType[\T,E,I\], I->E)->T @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait Vector:
+     (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait Array3:
+     (Array[\T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->Array[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (StandardImmutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,(ZZ32, ZZ32, ZZ32)\], T)->Array3[\T,b0,s0,b1,s1,b2,s2\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1336:5-38:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1336:5-38
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait Array2:
+     (Array[\T,(ZZ32, ZZ32)\], T)->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\Array2[\T,b0,s0,b1,s1\],T,(ZZ32, ZZ32)\], (ZZ32, ZZ32)->T)->Array2[\T,b0,s0,b1,s1\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait Array3:
+     (Array[\T,(ZZ32, ZZ32, ZZ32)\], T)->Array[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->Array3[\T,b0,s0,b1,s1,b2,s2\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1368:5-18:
+    Invalid overloading of fill in trait StandardMutableArrayType:
+     (Array[\E,I\], E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\T,E,I\], I->E)->T @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait Array1:
+     (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\Array1[\T,b0,s0\],T,ZZ32\], T)->Array1[\T,b0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait Array2:
+     (Array[\T,(ZZ32, ZZ32)\], T)->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\Array2[\T,b0,s0,b1,s1\],T,(ZZ32, ZZ32)\], T)->Array2[\T,b0,s0,b1,s1\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait Array3:
+     (Array[\T,(ZZ32, ZZ32, ZZ32)\], T)->Array[\T,(ZZ32, ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,(ZZ32, ZZ32, ZZ32)\], T)->Array3[\T,b0,s0,b1,s1,b2,s2\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait Matrix:
+     (Array[\T,(ZZ32, ZZ32)\], T)->Array[\T,(ZZ32, ZZ32)\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\Array2[\T,0,s0,0,s1\],T,(ZZ32, ZZ32)\], T)->Array2[\T,0,s0,0,s1\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait StandardMutableArrayType:
+     (Array[\E,I\], E)->Array[\E,I\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\T,E,I\], E)->T @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1337:5-35:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait Vector:
+     (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1337:5-35
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1368:5-18:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait Array2:
+     (StandardImmutableArrayType[\Array2[\T,b0,s0,b1,s1\],T,(ZZ32, ZZ32)\], (ZZ32, ZZ32)->T)->Array2[\T,b0,s0,b1,s1\] @ Library/FortressLibrary.fsi:1368:5-18
+ and (StandardImmutableArrayType[\Array2[\T,b0,s0,b1,s1\],T,(ZZ32, ZZ32)\], T)->Array2[\T,b0,s0,b1,s1\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1368:5-18:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait Array3:
+     (StandardImmutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->T)->Array3[\T,b0,s0,b1,s1,b2,s2\] @ Library/FortressLibrary.fsi:1368:5-18
+ and (StandardImmutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,(ZZ32, ZZ32, ZZ32)\], T)->Array3[\T,b0,s0,b1,s1,b2,s2\] @ Library/FortressLibrary.fsi:1369:5-15
+Library/FortressLibrary.fsi:1368:5-18:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait ImmutableArray1:
+     (StandardImmutableArrayType[\ImmutableArray1[\T,b0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,b0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,b0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,b0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1368:5-18:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1368:5-18:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1369:5-15
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1368:5-18:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait StandardImmutableArrayType:
+     (StandardImmutableArrayType[\T,E,I\], E)->T @ Library/FortressLibrary.fsi:1369:5-15
+ and (StandardImmutableArrayType[\T,E,I\], I->E)->T @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1368:5-18:
+Library/FortressLibrary.fsi:1369:5-15:
+    Invalid overloading of fill in trait StandardMutableArrayType:
+     (StandardImmutableArrayType[\T,E,I\], E)->T @ Library/FortressLibrary.fsi:1369:5-15
+ and (StandardImmutableArrayType[\T,E,I\], I->E)->T @ Library/FortressLibrary.fsi:1368:5-18
+Library/FortressLibrary.fsi:1488:1-41:
+Library/FortressLibrary.fsi:1489:1-1490:1:
+    For array1,
+the return type of [\T, nat s0\]ZZ32->T->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1489:1-1490:1 should be a subtype of the
+    return type of [\T, nat s0\]T->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1488:1-41
+Library/FortressLibrary.fsi:1598:1-54:
+Library/FortressLibrary.fsi:1599:1-1603:51:
+    For array2,
+the return type of [\T, nat s0, nat s1\](ZZ32, ZZ32)->T->Array2[\T,0,s0,0,s1\] @ Library/FortressLibrary.fsi:1599:1-1603:51 should be a subtype of the
+    return type of [\T, nat s0, nat s1\]T->Array2[\T,0,s0,0,s1\] @ Library/FortressLibrary.fsi:1598:1-54
+Library/FortressLibrary.fsi:1712:5-14:
+Library/FortressLibrary.fsi:1858:5-19:
+    For empty,
+the return type of MinMaxReductionN->Number @ Library/FortressLibrary.fsi:1858:5-19 should be a subtype of the
+    return type of Reduction[\(Number, Number)\]->(Number, Number) @ Library/FortressLibrary.fsi:1712:5-14
+Library/FortressLibrary.fsi:1721:5-23:
+Library/FortressLibrary.fsi:1858:5-19:
+    For empty,
+the return type of MinMaxReductionN->Number @ Library/FortressLibrary.fsi:1858:5-19 should be a subtype of the
+    return type of ActualReduction[\(Number, Number),(Number, Number)\]->(Number, Number) @ Library/FortressLibrary.fsi:1721:5-23
+Library/FortressLibrary.fsi:1723:5-25:
+Library/FortressLibrary.fsi:1762:5-25:
+    Invalid overloading of lift in trait AssociativeReduction:
+     (ActualReduction[\R,AnyMaybe\], R)->AnyMaybe @ Library/FortressLibrary.fsi:1723:5-25
+ and (AssociativeReduction[\R\], Any)->AnyMaybe @ Library/FortressLibrary.fsi:1762:5-25
+Library/FortressLibrary.fsi:1723:5-25:
+Library/FortressLibrary.fsi:1762:5-25:
+    Invalid overloading of lift in trait CommutativeReduction:
+     (ActualReduction[\R,AnyMaybe\], R)->AnyMaybe @ Library/FortressLibrary.fsi:1723:5-25
+ and (AssociativeReduction[\R\], Any)->AnyMaybe @ Library/FortressLibrary.fsi:1762:5-25
+Library/FortressLibrary.fsi:1723:5-25:
+Library/FortressLibrary.fsi:1762:5-25:
+    Invalid overloading of lift in trait MaxReduction:
+     (ActualReduction[\T,AnyMaybe\], T)->AnyMaybe @ Library/FortressLibrary.fsi:1723:5-25
+ and (AssociativeReduction[\T\], Any)->AnyMaybe @ Library/FortressLibrary.fsi:1762:5-25
+Library/FortressLibrary.fsi:1723:5-25:
+Library/FortressLibrary.fsi:1762:5-25:
+    Invalid overloading of lift in trait MinMaxReduction:
+     (ActualReduction[\(T, T),AnyMaybe\], (T, T))->AnyMaybe @ Library/FortressLibrary.fsi:1723:5-25
+ and (AssociativeReduction[\(T, T)\], Any)->AnyMaybe @ Library/FortressLibrary.fsi:1762:5-25
+Library/FortressLibrary.fsi:1723:5-25:
+Library/FortressLibrary.fsi:1762:5-25:
+    Invalid overloading of lift in trait MinReduction:
+     (ActualReduction[\T,AnyMaybe\], T)->AnyMaybe @ Library/FortressLibrary.fsi:1723:5-25
+ and (AssociativeReduction[\T\], Any)->AnyMaybe @ Library/FortressLibrary.fsi:1762:5-25
+Library/FortressLibrary.fsi:1723:5-25:
+Library/FortressLibrary.fsi:1762:5-25:
+    Invalid overloading of lift in trait NewlineReduction:
+     (ActualReduction[\String,AnyMaybe\], String)->AnyMaybe @ Library/FortressLibrary.fsi:1723:5-25
+ and (AssociativeReduction[\String\], Any)->AnyMaybe @ Library/FortressLibrary.fsi:1762:5-25
+Library/FortressLibrary.fsi:1781:5-1782:4:
+Library/FortressLibrary.fsi:93:5-94:1:
+    Invalid overloading of isLeftZero in trait LexicographicReduction:
+     (LexicographicReduction, Comparison)->Boolean @ Library/FortressLibrary.fsi:93:5-94:1
+ and (ReductionWithZeroes[\TotalComparison,TotalComparison\], TotalComparison)->Boolean @ Library/FortressLibrary.fsi:1781:5-1782:4
+Library/FortressLibrary.fsi:2036:5-2037:1:
+Library/FortressLibrary.fsi:761:5-39:
+    Invalid overloading of seq in API FortressLibrary:
+     [\E\]FilterGenerator[\E\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:2036:5-2037:1
+ and [\E\]SequentialGenerator[\E\]->SequentialGenerator[\E\] @ Library/FortressLibrary.fsi:761:5-39
+Library/FortressLibrary.fsi:2068:5-40:
+Library/FortressLibrary.fsi:698:5-699:1:
+    Invalid overloading of IN in API FortressLibrary:
+     [\E\](E, Generator[\E\])->Boolean @ Library/FortressLibrary.fsi:698:5-699:1
+ and [\I\](I, Range[\I\])->Boolean @ Library/FortressLibrary.fsi:2068:5-40
+Library/FortressLibrary.fsi:2068:5-40:
+Library/FortressLibrary.fsi:797:5-798:1:
+    Invalid overloading of IN in API FortressLibrary:
+     [\E\](E, Condition[\E\])->Boolean @ Library/FortressLibrary.fsi:797:5-798:1
+ and [\I\](I, Range[\I\])->Boolean @ Library/FortressLibrary.fsi:2068:5-40
+Library/FortressLibrary.fsi:2069:5-47:
+Library/FortressLibrary.fsi:222:5-223:1:
+    Invalid overloading of CMP in API FortressLibrary:
+     [\I\](Range[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2069:5-47
+ and [\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->TotalComparison @ Library/FortressLibrary.fsi:222:5-223:1
+Library/FortressLibrary.fsi:2087:5-59:
+Library/FortressLibrary.fsi:2107:5-2108:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](ExtentRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2107:5-2108:1
+ and [\I\](OpenRange[\I\], OpenRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2087:5-59
+Library/FortressLibrary.fsi:2087:5-59:
+Library/FortressLibrary.fsi:2128:5-2129:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](LeftRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2128:5-2129:1
+ and [\I\](OpenRange[\I\], OpenRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2087:5-59
+Library/FortressLibrary.fsi:2087:5-59:
+Library/FortressLibrary.fsi:2140:5-2141:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](OpenRange[\I\], OpenRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2087:5-59
+ and [\I\](RightRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2140:5-2141:1
+Library/FortressLibrary.fsi:2087:5-59:
+Library/FortressLibrary.fsi:2147:5-56:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](FullRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2147:5-56
+ and [\I\](OpenRange[\I\], OpenRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2087:5-59
+Library/FortressLibrary.fsi:2087:5-59:
+Library/FortressLibrary.fsi:2148:5-2149:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](FullRange[\I\], FullRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2148:5-2149:1
+ and [\I\](OpenRange[\I\], OpenRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2087:5-59
+Library/FortressLibrary.fsi:2088:5-55:
+Library/FortressLibrary.fsi:2107:5-2108:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](ExtentRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2107:5-2108:1
+ and [\I\](OpenRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2088:5-55
+Library/FortressLibrary.fsi:2088:5-55:
+Library/FortressLibrary.fsi:2128:5-2129:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](LeftRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2128:5-2129:1
+ and [\I\](OpenRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2088:5-55
+Library/FortressLibrary.fsi:2088:5-55:
+Library/FortressLibrary.fsi:2140:5-2141:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](OpenRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2088:5-55
+ and [\I\](RightRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2140:5-2141:1
+Library/FortressLibrary.fsi:2088:5-55:
+Library/FortressLibrary.fsi:2147:5-56:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](FullRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2147:5-56
+ and [\I\](OpenRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2088:5-55
+Library/FortressLibrary.fsi:2088:5-55:
+Library/FortressLibrary.fsi:2148:5-2149:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](FullRange[\I\], FullRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2148:5-2149:1
+ and [\I\](OpenRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2088:5-55
+Library/FortressLibrary.fsi:2089:5-2090:1:
+Library/FortressLibrary.fsi:2106:5-31:
+    Invalid overloading of IN in API FortressLibrary:
+     [\I\](I, ExtentRange[\I\])->Boolean @ Library/FortressLibrary.fsi:2106:5-31
+ and [\I\](I, OpenRange[\I\])->Boolean @ Library/FortressLibrary.fsi:2089:5-2090:1
+Library/FortressLibrary.fsi:2089:5-2090:1:
+Library/FortressLibrary.fsi:698:5-699:1:
+    Invalid overloading of IN in API FortressLibrary:
+     [\E\](E, Generator[\E\])->Boolean @ Library/FortressLibrary.fsi:698:5-699:1
+ and [\I\](I, OpenRange[\I\])->Boolean @ Library/FortressLibrary.fsi:2089:5-2090:1
+Library/FortressLibrary.fsi:2089:5-2090:1:
+Library/FortressLibrary.fsi:797:5-798:1:
+    Invalid overloading of IN in API FortressLibrary:
+     [\E\](E, Condition[\E\])->Boolean @ Library/FortressLibrary.fsi:797:5-798:1
+ and [\I\](I, OpenRange[\I\])->Boolean @ Library/FortressLibrary.fsi:2089:5-2090:1
+Library/FortressLibrary.fsi:2106:5-31:
+Library/FortressLibrary.fsi:698:5-699:1:
+    Invalid overloading of IN in API FortressLibrary:
+     [\E\](E, Generator[\E\])->Boolean @ Library/FortressLibrary.fsi:698:5-699:1
+ and [\I\](I, ExtentRange[\I\])->Boolean @ Library/FortressLibrary.fsi:2106:5-31
+Library/FortressLibrary.fsi:2106:5-31:
+Library/FortressLibrary.fsi:797:5-798:1:
+    Invalid overloading of IN in API FortressLibrary:
+     [\E\](E, Condition[\E\])->Boolean @ Library/FortressLibrary.fsi:797:5-798:1
+ and [\I\](I, ExtentRange[\I\])->Boolean @ Library/FortressLibrary.fsi:2106:5-31
+Library/FortressLibrary.fsi:2107:5-2108:1:
+Library/FortressLibrary.fsi:2128:5-2129:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](ExtentRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2107:5-2108:1
+ and [\I\](LeftRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2128:5-2129:1
+Library/FortressLibrary.fsi:2107:5-2108:1:
+Library/FortressLibrary.fsi:2140:5-2141:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](ExtentRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2107:5-2108:1
+ and [\I\](RightRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2140:5-2141:1
+Library/FortressLibrary.fsi:2107:5-2108:1:
+Library/FortressLibrary.fsi:2147:5-56:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](ExtentRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2107:5-2108:1
+ and [\I\](FullRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2147:5-56
+Library/FortressLibrary.fsi:2107:5-2108:1:
+Library/FortressLibrary.fsi:2148:5-2149:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](ExtentRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2107:5-2108:1
+ and [\I\](FullRange[\I\], FullRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2148:5-2149:1
+Library/FortressLibrary.fsi:2112:5-34:
+Library/RangeInternals.fsi:257:5-258:4:
+    For every,
+the return type of (RangeInternals.LeftScalarRange[\I\], I)->RangeInternals.ScalarRange[\I\] @ Library/RangeInternals.fsi:257:5-258:4 should be a subtype of the
+    return type of (BoundedRange[\I\], I)->BoundedRange[\I\] @ Library/FortressLibrary.fsi:2112:5-34
+Library/FortressLibrary.fsi:2113:5-32:
+Library/RangeInternals.fsi:259:5-34:
+    For atMost,
+the return type of (RangeInternals.LeftScalarRange[\I\], I)->RangeInternals.ScalarRange[\I\] @ Library/RangeInternals.fsi:259:5-34 should be a subtype of the
+    return type of (BoundedRange[\I\], I)->FullRange[\I\] @ Library/FortressLibrary.fsi:2113:5-32
+Library/FortressLibrary.fsi:2113:5-32:
+Library/RangeInternals.fsi:319:5-34:
+    For atMost,
+the return type of (RangeInternals.RightScalarRange[\I\], I)->RangeInternals.ScalarRange[\I\] @ Library/RangeInternals.fsi:319:5-34 should be a subtype of the
+    return type of (BoundedRange[\I\], I)->FullRange[\I\] @ Library/FortressLibrary.fsi:2113:5-32
+Library/FortressLibrary.fsi:2128:5-2129:1:
+Library/FortressLibrary.fsi:2140:5-2141:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](LeftRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2128:5-2129:1
+ and [\I\](RightRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2140:5-2141:1
+Library/FortressLibrary.fsi:2128:5-2129:1:
+Library/FortressLibrary.fsi:2147:5-56:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](FullRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2147:5-56
+ and [\I\](LeftRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2128:5-2129:1
+Library/FortressLibrary.fsi:2128:5-2129:1:
+Library/FortressLibrary.fsi:2148:5-2149:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](FullRange[\I\], FullRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2148:5-2149:1
+ and [\I\](LeftRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2128:5-2129:1
+Library/FortressLibrary.fsi:2140:5-2141:1:
+Library/FortressLibrary.fsi:2147:5-56:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](FullRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2147:5-56
+ and [\I\](RightRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2140:5-2141:1
+Library/FortressLibrary.fsi:2140:5-2141:1:
+Library/FortressLibrary.fsi:2148:5-2149:1:
+    Invalid overloading of FORWARD_CMP in API FortressLibrary:
+     [\I\](FullRange[\I\], FullRange[\I\])->Comparison @ Library/FortressLibrary.fsi:2148:5-2149:1
+ and [\I\](RightRange[\I\], Range[\I\])->Comparison @ Library/FortressLibrary.fsi:2140:5-2141:1
+Library/FortressLibrary.fsi:2355:5-41:
+Library/FortressLibrary.fsi:2357:5-2359:64:
+    Invalid overloading of juxtaposition in API FortressLibrary:
+     (Any, String)->String @ Library/FortressLibrary.fsi:2355:5-41
+ and (String, Any)->String @ Library/FortressLibrary.fsi:2357:5-2359:64
+Library/FortressLibrary.fsi:2355:5-41:
+Library/FortressLibrary.fsi:271:5-272:65:
+    Invalid overloading of juxtaposition in API FortressLibrary:
+     (Any, String)->String @ Library/FortressLibrary.fsi:2355:5-41
+ and [\T extends MultiplicativeRing[\T\]\](MultiplicativeRing[\T\], T)->T @ Library/FortressLibrary.fsi:271:5-272:65
+Library/FortressLibrary.fsi:2356:5-44:
+Library/FortressLibrary.fsi:271:5-272:65:
+    Invalid overloading of juxtaposition in API FortressLibrary:
+     (String, String)->String @ Library/FortressLibrary.fsi:2356:5-44
+ and [\T extends MultiplicativeRing[\T\]\](MultiplicativeRing[\T\], T)->T @ Library/FortressLibrary.fsi:271:5-272:65
+Library/FortressLibrary.fsi:2357:5-2359:64:
+Library/FortressLibrary.fsi:271:5-272:65:
+    Invalid overloading of juxtaposition in API FortressLibrary:
+     (String, Any)->String @ Library/FortressLibrary.fsi:2357:5-2359:64
+ and [\T extends MultiplicativeRing[\T\]\](MultiplicativeRing[\T\], T)->T @ Library/FortressLibrary.fsi:271:5-272:65
+Library/RangeInternals.fsi:46:5-47:5:
+Library/RangeInternals.fsi:63:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:63:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ Library/RangeInternals.fsi:46:5-47:5
+Library/RangeInternals.fsi:46:5-47:5:
+Library/RangeInternals.fsi:64:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:64:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ Library/RangeInternals.fsi:46:5-47:5
+Library/RangeInternals.fsi:46:5-47:5:
+Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ Library/RangeInternals.fsi:46:5-47:5
+Library/RangeInternals.fsi:46:5-47:5:
+Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ Library/RangeInternals.fsi:46:5-47:5
+Library/RangeInternals.fsi:63:5-58:
+Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:63:5-58
+Library/RangeInternals.fsi:63:5-58:
+Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:63:5-58
+Library/RangeInternals.fsi:64:5-58:
+Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:64:5-58
+Library/RangeInternals.fsi:64:5-58:
+Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:64:5-58
+Library/RangeInternals.fsi:237:5-238:5:
+Library/RangeInternals.fsi:63:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:63:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ Library/RangeInternals.fsi:237:5-238:5
+Library/RangeInternals.fsi:237:5-238:5:
+Library/RangeInternals.fsi:64:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:64:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ Library/RangeInternals.fsi:237:5-238:5
+Library/RangeInternals.fsi:237:5-238:5:
+Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ Library/RangeInternals.fsi:237:5-238:5
+Library/RangeInternals.fsi:237:5-238:5:
+Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ Library/RangeInternals.fsi:237:5-238:5
+Library/RangeInternals.fsi:429:5-430:5:
+Library/RangeInternals.fsi:505:5-506:5:
+    Invalid overloading of IN in API RangeInternals:
+     [\I extends Integral[\I\]\](I, RangeInternals.CompactFullScalarRange[\I\])->Boolean @ Library/RangeInternals.fsi:429:5-430:5
+ and [\I extends Integral[\I\]\](I, RangeInternals.StridedFullScalarRange[\I\])->Boolean @ Library/RangeInternals.fsi:505:5-506:5
+Library/RangeInternals.fsi:612:1-75:
+Library/RangeInternals.fsi:614:1-104:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\]()->(I, J)->RangeInternals.OpenRange2D[\I,J\] @ Library/RangeInternals.fsi:614:1-104
+ and [\I extends Integral[\I\]\]()->I->RangeInternals.OpenScalarRange[\I\] @ Library/RangeInternals.fsi:612:1-75
+Library/RangeInternals.fsi:612:1-75:
+Library/RangeInternals.fsi:616:1-135:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\]()->(I, J, K)->RangeInternals.OpenRange3D[\I,J,K\] @ Library/RangeInternals.fsi:616:1-135
+ and [\I extends Integral[\I\]\]()->I->RangeInternals.OpenScalarRange[\I\] @ Library/RangeInternals.fsi:612:1-75
+Library/RangeInternals.fsi:614:1-104:
+Library/RangeInternals.fsi:616:1-135:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\]()->(I, J, K)->RangeInternals.OpenRange3D[\I,J,K\] @ Library/RangeInternals.fsi:616:1-135
+ and [\I extends Integral[\I\], J extends Integral[\J\]\]()->(I, J)->RangeInternals.OpenRange2D[\I,J\] @ Library/RangeInternals.fsi:614:1-104
+File FortressLibrary.fss has 179 errors.
+### rc=-1
+exit=255
+ELAPSED 153 s

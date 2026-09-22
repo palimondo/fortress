@@ -10,7 +10,10 @@
 # FORTRESS_CACHES -- and no tracked file is modified.
 #
 # What the shadow is: copies of SEVEN tracked Scala sources with the minimal nat
-# design of explorations/reviews/nat-checking-plan.md (c) applied, compiled with
+# design of explorations/reviews/nat-checking-plan.md (c) applied -- EIGHT since
+# 2026-09-22, when zero.md added TypeHierarchyChecker.scala and one switch in
+# TypeAnalyzer.scala, both off by default, so the captures below still reproduce --
+# compiled with
 # the build's own scalac entry point (build.xml:557-568) and put first on the
 # classpath so the copies win.  The technique is perf-probes/prelude/run-all.sh:33-35
 # and perf-probes/prelude/exclusion-trace/run-all.sh.  The diff against the tree
@@ -35,7 +38,8 @@ SHADOWED="scala_src/typechecker/Formula.scala scala_src/types/TypeAnalyzer.scala
           scala_src/types/TypeSchemaAnalyzer.scala scala_src/useful/STypesUtil.scala
           scala_src/typechecker/ExportChecker.scala
           scala_src/typechecker/TypeWellFormedChecker.scala
-          scala_src/typechecker/AbstractMethodChecker.scala"
+          scala_src/typechecker/AbstractMethodChecker.scala
+          scala_src/typechecker/TypeHierarchyChecker.scala"
 if [ ! -d $D/shadow-src ]; then
   for rel in $SHADOWED; do
     mkdir -p "$(dirname $D/shadow-src/com/sun/fortress/$rel)"
