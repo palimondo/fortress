@@ -1,0 +1,7 @@
+(* explorations/compile-ladder/rung-library-defects/REPORT.md *)
+component ComprisesEllipsisListed
+export ComprisesEllipsisListed
+trait Q comprises { A, R } end
+trait A extends Q end
+object R extends Q end
+end

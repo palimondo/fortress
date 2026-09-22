@@ -1,0 +1,4 @@
+res = 46, ggres = 46
+res = 15, ggres = 15
+res = 8, ggres = 8
+EXIT=0

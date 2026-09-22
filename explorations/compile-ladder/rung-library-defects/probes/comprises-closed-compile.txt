@@ -1,0 +1,5 @@
+/home/user/fortress-defects/explorations/compile-ladder/rung-library-defects/probes/ComprisesClosed.fss:5:1-21:
+    Invalid comprises clause: ComprisesClosed.T has a comprises clause
+    but its immediate subtype P is not eligible to extend it.
+File ComprisesClosed.fss has 1 error.
+rc=255

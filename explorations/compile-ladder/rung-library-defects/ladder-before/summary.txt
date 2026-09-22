@@ -1,0 +1,27 @@
+phase counts: tests (9 files)
+  disambiguate      9
+
+missing names (file stops on it): tests
+     5  LexicographicOrder
+     4  ImmutableArray
+
+missing names (named anywhere IN THE TEST FILE ITSELF): tests
+
+missing names (reported inside an IMPORTED api/component, cascade): tests
+     9  LexicographicOrder
+     9  Comprehension
+     9  BigReduction
+     9  MonoidReduction
+     6  Array
+     5  ImmutableArray
+     3  Char
+     3  ZeroIndexed
+     3  CommutativeMonoidReduction
+
+unapplicable calls: tests
+
+codegen refusals: tests
+
+pass: tests
+
+unclassified first-error lines

@@ -1,0 +1,9 @@
+/home/user/fortress-defects/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-defects/Library/List.fsi:109:19-30:
+    Comprehension is undefined.
+/home/user/fortress-defects/Library/List.fsi:112:24-34:
+    BigReduction is undefined.
+/home/user/fortress-defects/Library/List.fsi:130:28-41:
+    MonoidReduction is undefined.
+File mixedTypeAnnotation.fss has 4 errors.

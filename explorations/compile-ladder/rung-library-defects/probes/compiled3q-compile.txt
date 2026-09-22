@@ -1,0 +1,5 @@
+/home/user/fortress-defects/ProjectFortress/test_library/Compiled3.q.fsi:14:3-23:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled3.q.T, should not be extended.
+File Compiled3.q.fss has 1 error.
+rc=255

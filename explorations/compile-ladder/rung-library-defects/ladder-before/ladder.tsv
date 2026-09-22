@@ -1,0 +1,10 @@
+corpus	file	XXX	phase	secs	missing_name	codegen_node	unapplicable_call	own_missing	imported_missing	first_error
+tests	ArrayListQuick.fss		disambiguate	2	LexicographicOrder				LexicographicOrder ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	CovCollTest.fss		disambiguate	1	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; LexicographicOrder ; BigReduction	ImmutableArray is undefined.
+tests	CovariantTest.fss		disambiguate	2	LexicographicOrder				LexicographicOrder ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	ShuffleTest.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Comprehension ; BigReduction ; MonoidReduction ; Array ; ImmutableArray	LexicographicOrder is undefined.
+tests	StringTests.fss		disambiguate	2	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; LexicographicOrder ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	WordCountSmall.fss		disambiguate	2	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; Char ; LexicographicOrder ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	mixedTypeAnnotation.fss		disambiguate	1	LexicographicOrder				LexicographicOrder ; Comprehension ; BigReduction ; MonoidReduction	LexicographicOrder is undefined.
+tests	parametricListCompr.fss		disambiguate	2	ImmutableArray				ImmutableArray ; Array ; MonoidReduction ; Comprehension ; LexicographicOrder ; BigReduction ; ZeroIndexed ; CommutativeMonoidReduction	ImmutableArray is undefined.
+tests	quicksortTest.fss		disambiguate	2	LexicographicOrder				LexicographicOrder ; Comprehension ; BigReduction ; MonoidReduction ; Array	LexicographicOrder is undefined.
