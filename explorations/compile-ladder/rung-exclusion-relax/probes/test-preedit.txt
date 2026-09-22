@@ -1,0 +1,62 @@
+$ ../bin/fortress junit compiler_tests/ExclusionRelaxRungP.test   (stock tree d610695c0, edit not yet written)
+. link compiler_tests/ExclusionRelaxRungP /home/user/fortress-exclusion/ProjectFortress/compiler_tests/ExclusionRelaxRungP.fss:7:19:
+    Type B excludes A but it extends A.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/ExclusionRelaxRungP.fss:7:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/ExclusionRelaxRungP.fss:7:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/ExclusionRelaxRungP.fss:7:22-32:
+    Type B excludes G but it extends G.
+File ExclusionRelaxRungP.fss has 4 errors.
+ FAIL
+F. run compiler_tests/ExclusionRelaxRungP (231ms) Could not load ExclusionRelaxRungP
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : ExclusionRelaxRungP.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 4.696
+There were 2 failures:
+1) compiler_tests/ExclusionRelaxRungP(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:415)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+2) compiler_tests/ExclusionRelaxRungP(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/ExclusionRelaxRungP
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 2,  Failures: 2,  Errors: 0
+
+exit=0
+
+$ ../bin/fortress compile compiler_tests/ExclusionRelaxRungP.fss
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/ExclusionRelaxRungP.fss:7:19:
+    Type B excludes A but it extends A.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/ExclusionRelaxRungP.fss:7:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/ExclusionRelaxRungP.fss:7:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/ExclusionRelaxRungP.fss:7:22-32:
+    Type B excludes G but it extends G.
+File ExclusionRelaxRungP.fss has 4 errors.
+exit=255
