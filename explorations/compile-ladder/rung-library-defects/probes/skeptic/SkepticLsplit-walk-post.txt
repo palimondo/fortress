@@ -1,0 +1,19 @@
+flat split() is a Maybe[\Generator[\(ZZ32, String)\]\]
+flat splitWithOffsets() is a Maybe[\Generator[\(ZZ32, String)\]\]
+rope split() is a Generator[\String\] of 2 pieces
+com.sun.fortress.exceptions.ProgramError: PROBEDIR/SkepticLsplit.fss:25:3-25:
+RHS expression type Nothing[\Generator[\(ZZ32,String)\]\] is not assignable to LHS type Generator[\String\]
+Context:
+PROBEDIR/SkepticLsplit.fss:25:3-25:
+PROBEDIR/SkepticLsplit.fss:25:3-25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

@@ -1,0 +1,13 @@
+component SkepticLzip
+import List.{...}
+export Executable
+
+run(): () = do
+  l = <|[\ZZ32\] 1, 2, 3 |>
+  m = <|[\String\] "a", "b" |>
+  zs = BIG || [(x, y) <- l.zip[\String\](m)] (x.asString || y)
+  println("zip " || zs)
+  g: ZeroIndexed[\(ZZ32, String)\] = l.zip[\String\](m)
+  println("zip as ZeroIndexed size " || |g| || " last " || g[1])
+end
+end

@@ -1,0 +1,15 @@
+component SkepticLc
+export Executable
+
+run(): () = do
+  println("1D # " || (BIG + [i <- 0#4] i))
+  println("1D : " || (BIG + [i <- 1:4] i))
+  j: Condition[\ZZ32\] = Just[\ZZ32\](3)
+  jm = j.map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1)
+  println("Just.map " || jm.get || " holds " || jm.holds)
+  typecase jm of
+    Condition[\ZZ32\] => println("jm is a Condition")
+    else => println("jm is not a Condition")
+  end
+end
+end

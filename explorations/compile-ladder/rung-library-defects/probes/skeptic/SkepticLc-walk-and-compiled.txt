@@ -1,0 +1,14 @@
+## walk
+1D # 6
+1D : 10
+Just.map 4 holds true
+jm is a Condition
+rc=0
+## compile
+rc=0
+## run
+1D # 6
+1D : 10
+Just.map 4 holds true
+jm is a Condition
+rc=0

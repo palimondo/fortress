@@ -1,0 +1,37 @@
+/home/user/fortress-defects/Library/CovariantCollection.fsi:23:25-37:
+    ImmutableArray is undefined.
+/home/user/fortress-defects/Library/CovariantCollection.fsi:24:16-19:
+    Array is undefined.
+/home/user/fortress-defects/Library/CovariantCollection.fsi:25:24-27:
+    Array is undefined.
+/home/user/fortress-defects/Library/CovariantCollection.fsi:45:33-46:
+    MonoidReduction is undefined.
+/home/user/fortress-defects/Library/CovariantCollection.fsi:53:5-16:
+    Comprehension is undefined.
+/home/user/fortress-defects/Library/File.fsi:41:16-18:
+    Char is undefined.
+/home/user/fortress-defects/Library/File.fsi:84:35-37:
+    Char is undefined.
+/home/user/fortress-defects/Library/File.fsi:85:29-31:
+    Char is undefined.
+/home/user/fortress-defects/Library/File.fsi:108:13-15:
+    Char is undefined.
+/home/user/fortress-defects/Library/FileSupport.fsi:49:16-18:
+    Char is undefined.
+/home/user/fortress-defects/Library/FileSupport.fsi:99:35-37:
+    Char is undefined.
+/home/user/fortress-defects/Library/FlatString.fsi:19:20-22:
+    Char is undefined.
+/home/user/fortress-defects/Library/FlatString.fsi:22:24-26:
+    Char is undefined.
+/home/user/fortress-defects/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-defects/Library/List.fsi:109:19-30:
+    Comprehension is undefined.
+/home/user/fortress-defects/Library/List.fsi:112:24-34:
+    BigReduction is undefined.
+/home/user/fortress-defects/Library/List.fsi:130:28-41:
+    MonoidReduction is undefined.
+/home/user/fortress-defects/Library/System.fsi:26:8-20:
+    ImmutableArray is undefined.
+File CovCollTest.fss has 18 errors.

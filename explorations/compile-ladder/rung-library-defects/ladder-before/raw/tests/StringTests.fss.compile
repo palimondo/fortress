@@ -1,0 +1,33 @@
+/home/user/fortress-defects/Library/CovariantCollection.fsi:23:25-37:
+    ImmutableArray is undefined.
+/home/user/fortress-defects/Library/CovariantCollection.fsi:24:16-19:
+    Array is undefined.
+/home/user/fortress-defects/Library/CovariantCollection.fsi:25:24-27:
+    Array is undefined.
+/home/user/fortress-defects/Library/CovariantCollection.fsi:45:33-46:
+    MonoidReduction is undefined.
+/home/user/fortress-defects/Library/CovariantCollection.fsi:53:5-16:
+    Comprehension is undefined.
+/home/user/fortress-defects/Library/FlatString.fsi:19:20-22:
+    Char is undefined.
+/home/user/fortress-defects/Library/FlatString.fsi:22:24-26:
+    Char is undefined.
+/home/user/fortress-defects/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-defects/Library/List.fsi:110:19-30:
+    Comprehension is undefined.
+/home/user/fortress-defects/Library/List.fsi:113:24-34:
+    BigReduction is undefined.
+/home/user/fortress-defects/Library/List.fsi:131:28-41:
+    MonoidReduction is undefined.
+/home/user/fortress-defects/Library/Set.fsi:25:17-26:
+    ZeroIndexed is undefined.
+/home/user/fortress-defects/Library/Set.fsi:56:51-62:
+    Comprehension is undefined.
+/home/user/fortress-defects/Library/Set.fsi:59:55-65:
+    BigReduction is undefined.
+/home/user/fortress-defects/Library/Set.fsi:62:27-51:
+    CommutativeMonoidReduction is undefined.
+/home/user/fortress-defects/Library/Set.fsi:65:9-19:
+    BigReduction is undefined.
+File StringTests.fss has 16 errors.

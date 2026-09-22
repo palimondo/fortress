@@ -1,0 +1,6 @@
+component ComprisesClosed
+export ComprisesClosed
+trait T comprises { O, P } end
+object O extends T end
+object P extends T end
+end

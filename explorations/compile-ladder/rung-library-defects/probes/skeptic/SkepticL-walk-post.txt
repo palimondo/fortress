@@ -1,0 +1,25 @@
+1D # 6 size 4
+1D : 10 size 4
+ZZ64 # size 5
+2D # 63 size 6
+2D : 129
+3D # 444 size 8
+3D : 8
+slice [2:] 54
+slice [:3] 14
+slice [#2] 1
+slice [3#] 50
+slice [:] 55
+slice [#0] size 0
+empty 3#0 size 0
+split pieces 0
+sub llo, w split 0
+zip 1a2b3c
+zip size 3 first (1,a)
+Just.map 4 holds true
+Nothing.map holds false
+jm is a Condition
+kind 3 AnyIntegral kind 17/2 QQ
+tc AnyIntegral / tc QQ / tc other
+q 17/2 numerator 17
+rc=0

@@ -1,0 +1,9 @@
+tests	ArrayListQuick.fss	ArrayListQuick	255		1	
+tests	CovCollTest.fss	CovCollTest	255		2	
+tests	CovariantTest.fss	CovariantTest	255		2	
+tests	ShuffleTest.fss	ShuffleTest	255		1	
+tests	StringTests.fss	StringTests	255		3	
+tests	WordCountSmall.fss	WordCountSmall	255		3	
+tests	mixedTypeAnnotation.fss	mixedTypeAnnotation	255		3	
+tests	parametricListCompr.fss	parametricListCompr	255		3	
+tests	quicksortTest.fss	quicksortTest	255		3	

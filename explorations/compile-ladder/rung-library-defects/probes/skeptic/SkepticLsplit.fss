@@ -1,0 +1,28 @@
+component SkepticLsplit
+export Executable
+
+run(): () = do
+  s: String = "hello"
+  x = s.split()
+  typecase x of
+    Maybe[\Generator[\(ZZ32, String)\]\] => println("flat split() is a Maybe[\\Generator[\\(ZZ32, String)\\]\\]")
+    Generator[\String\] => println("flat split() is a Generator[\\String\\]")
+    else => println("flat split() is something else")
+  end
+  y = s.splitWithOffsets()
+  typecase y of
+    Maybe[\Generator[\(ZZ32, String)\]\] => println("flat splitWithOffsets() is a Maybe[\\Generator[\\(ZZ32, String)\\]\\]")
+    Generator[\(ZZ32, String)\] => println("flat splitWithOffsets() is a Generator[\\(ZZ32, String)\\]")
+    else => println("flat splitWithOffsets() is something else")
+  end
+  r: String = "hello" || " " || "world, this is a longer string made of pieces" || s
+  z = r.split()
+  typecase z of
+    Maybe[\Generator[\(ZZ32, String)\]\] => println("rope split() is a Maybe")
+    Generator[\String\] => println("rope split() is a Generator[\\String\\] of " || (SUM [_ <- z] 1) || " pieces")
+    else => println("rope split() is something else")
+  end
+  g: Generator[\String\] = s.split()
+  println("bound a flat split() to Generator[\\String\\]: " || (SUM [_ <- g] 1))
+end
+end

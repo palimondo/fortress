@@ -1,0 +1,12 @@
+# shadow TypeHierarchyChecker (listed-type exemption at :209) ahead of ProjectFortress/build on the classpath; no tracked file edited
+. compile compiler_tests/ComprisesEllipsisListed 
+ Missing expected failure 
+F
+Time: 1.809
+There was 1 failure:
+1) compiler_tests/ComprisesEllipsisListed(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+junit exit=0

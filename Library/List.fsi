@@ -96,7 +96,6 @@ trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
   (** %split% splits the list into two smaller lists.  If %|l| > 1%
       both lists will be non-empty. *)
   split(): (List[\E\], List[\E\])
-  zip[\F\](other: List[\F\]): Generator[\(E,F)\]
   filter(p: E -> Boolean): List[\E\]
   (** %concatMap% is an in-place version of the %nest% method from
       %Generator%; it flattens the result into an actual list, rather than

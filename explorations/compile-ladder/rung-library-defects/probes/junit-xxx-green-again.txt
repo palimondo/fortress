@@ -1,0 +1,12 @@
+# the deliberate local fix reverted (git checkout), after ant compileAll
+. compile compiler_tests/ComprisesEllipsisListed /home/user/fortress-defects/ProjectFortress/compiler_tests/ComprisesEllipsisListed.fsi:3:1-20:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as ComprisesEllipsisListed.Q, should not be extended.
+File ComprisesEllipsisListed.fss has 1 error.
+ Saw expected failure
+
+Time: 28.54
+
+OK (1 test)
+
+junit exit=0

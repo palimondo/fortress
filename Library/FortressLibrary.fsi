@@ -370,7 +370,7 @@ end
 *)
 simplestRationalBetween(a:QQ, b:QQ): QQ
 
-trait QQ extends { RR64, StandardPartialOrder[\QQ\] } comprises { ... }
+trait QQ extends { RR64, StandardPartialOrder[\QQ\] } comprises { AnyIntegral, ... }
     getter isNaN(): Boolean
     getter isInfinite(): Boolean
     getter isNumber(): Boolean
@@ -786,7 +786,7 @@ trait Condition[\E\] extends SequentialGenerator[\E\]
 
     (** For a %Condition%, these methods run eagerly. **)
     generate[\G\](r:Reduction[\G\], body: E -> G): G
-    map[\G\](f: E->G): Generator[\G\]
+    map[\G\](f: E->G): Condition[\G\]
     ivmap[\G\](f: (ZZ32,E)->G): Generator[\G\]
     nest[\G\](f: E -> Generator[\G\]): Generator[\G\]
     cross[\G\](g: Generator[\G\]): Generator[\(E,G)\]
@@ -2308,10 +2308,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
     allButLast(): String
     allButFirst(): String
 
-    abstract splitWithOffsets(): Generator[\(ZZ32, String)\]
-    abstract split(): Generator[\String\]
-
-
     rangeContains(r: Range[\ZZ32\], c: Char) : Boolean
 
     (** Answers a subdivision of self into substrings.  This method must take time
@@ -2324,8 +2320,8 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
             str[0] || str [1] || ... || str[n] = self
     **)
 
-    splitWithOffsets(): Generator[\(ZZ32, String)\]
-    split(): Generator[\String\]
+    abstract splitWithOffsets(): Generator[\(ZZ32, String)\]
+    abstract split(): Generator[\String\]
 
     (**  A balanced version of the receiver  **)
     balanced(): String (*  ensures {outcome.isAlmostBalanced AND outcome = self} *)

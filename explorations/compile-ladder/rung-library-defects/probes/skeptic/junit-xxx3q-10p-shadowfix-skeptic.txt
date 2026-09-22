@@ -1,0 +1,24 @@
+# XXX3q and XXX10p with the shadow checker fix (thc-shadow-fix.txt) ahead on the classpath
+. compile compiler_tests/Compiled3.q 
+ Saw failure, but did not satisfy compile_err_equals; expected
+FH/ProjectFortress/test_library/Compiled3.q.fsi:14:3-23:
+ Invalid comprises clause: a trait with a comprises ...,
+ such as Compiled3.q.T, should not be extended.
+File Compiled3.q.fss has 1 error.
+
+F. compile compiler_tests/Compiled10.p 
+ Saw failure, but did not satisfy compile_err_equals; expected
+FH/ProjectFortress/compiler_tests/Compiled10.pAPI.fsi:13:1-20:
+ Invalid comprises clause: a trait with a comprises ...,
+ such as Compiled10.pAPI.T, should not be extended.
+File Compiled10.p.fss has 1 error.
+
+F
+Time: 1.848
+There were 2 failures:
+1) compiler_tests/Compiled3.q(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+2) compiler_tests/Compiled10.p(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 2,  Failures: 2,  Errors: 0
+

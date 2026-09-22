@@ -1,0 +1,13 @@
+# the shadow checker used for junit-xxx-shadowfix-skeptic.txt: a copy of the tracked file with this one-line change,
+# compiled alone with scala.tools.nsc.Main into tmp/skeptic/thc-classes and put ahead of ProjectFortress/build on the classpath
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala	2026-09-22 19:35:33.356650126 +0000
++++ shadow/TypeHierarchyChecker.scala	2026-09-22 21:44:19.251232037 +0000
+@@ -206,7 +206,7 @@
+ 		    error(errors, "Invalid comprises clause: " + name +
+ 			  " has a comprises clause\n    but its immediate subtype " + decl +
+ 			  " is not eligible to extend it.", ti.ast)
+-		  if ( isApi && NodeUtil.isComprisesEllipses(si.ast) )
++		  if ( isApi && NodeUtil.isComprisesEllipses(si.ast) && ! comprisesContains(subst_comprises, tt, new_analyzer) )
+ 		    error(errors, "Invalid comprises clause: " +
+                           "a trait with a comprises ...,\n    such as " + name +
+ 			  ", should not be extended.", ti.ast)

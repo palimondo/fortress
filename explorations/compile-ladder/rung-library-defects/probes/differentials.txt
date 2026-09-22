@@ -1,0 +1,202 @@
+# differentials.sh over library copies (tmp/diff), gate-format tables. noP: the tracked checker with the count stage's
+# instrumented StaticChecker. P: rung P's measured placement, rebuilt from perf-probes/nat/triage/p-only.patch and
+# overloading-checker.patch, switches dropPHier + dropPOver (the triage's r17 form). Variants: see the header of differentials.sh.
+
+## base-noP
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	18
+FortressLibrary	110
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	93
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## mine-noP
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	110
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	103
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## rec-noP
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	108
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	102
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## broad-noP
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	110
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	103
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## seqgen-noP
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	110
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	103
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## zipnarrow-noP
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	110
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	103
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## strtri-noP
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	110
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	103
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## base-P
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	2
+FortressLibrary	6
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	33
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## mine-P
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	6
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	24
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## rec-P
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	4
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	23
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## seqgen-P
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	6
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	24
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented
+
+## distinct-error differences (errset.py)
+### mine-noP against rec-noP
+FortressLibrary.fsi:409 | Invalid comprises clause: a trait with a comprises ..., such as FortressLibrary.QQ, should not be extended.
+### mine-P against rec-P
+FortressLibrary.fsi:409 | Invalid comprises clause: a trait with a comprises ..., such as FortressLibrary.QQ, should not be extended.
+### 'For map' errors: base-P, mine-P
+FortressLibrary.fsi:762 | For map, the return type of [\G\](Condition[\()\], ()->G)->Generator[\G\] @ FortressLibrary.fsi:789:5-790:4 should be a subtype of the return type of [\G\](SequentialGenerator[\()\], ()->G)->SequentialGenerator[\G\] @ FortressLibrary.fsi:762:5-47
+FortressLibrary.fsi:789 | For map, the return type of [\G\](Condition[\()\], ()->G)->Generator[\G\] @ FortressLibrary.fsi:789:5-790:4 should be a subtype of the return type of [\G\](SequentialGenerator[\()\], ()->G)->SequentialGenerator[\G\] @ FortressLibrary.fsi:762:5-47
+0
+### the in-tree stage run (checker-count-postedit-run.txt) against mine-noP
+identical

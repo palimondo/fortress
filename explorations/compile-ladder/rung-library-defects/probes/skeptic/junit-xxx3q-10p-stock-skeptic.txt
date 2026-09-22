@@ -1,0 +1,16 @@
+# XXX3q and XXX10p on the stock classpath, after deleting their cache entries left by the shadow-fix run
+. compile compiler_tests/Compiled3.q FH/ProjectFortress/test_library/Compiled3.q.fsi:14:3-23:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled3.q.T, should not be extended.
+File Compiled3.q.fss has 1 error.
+ Saw expected failure
+. compile compiler_tests/Compiled10.p FH/ProjectFortress/compiler_tests/Compiled10.pAPI.fsi:13:1-20:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled10.pAPI.T, should not be extended.
+File Compiled10.p.fss has 1 error.
+ Saw expected failure
+
+Time: 1.274
+
+OK (2 tests)
+

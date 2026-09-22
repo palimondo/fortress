@@ -1,0 +1,9 @@
+tests	ArrayListQuick.fss
+tests	CovCollTest.fss
+tests	CovariantTest.fss
+tests	ShuffleTest.fss
+tests	StringTests.fss
+tests	WordCountSmall.fss
+tests	mixedTypeAnnotation.fss
+tests	parametricListCompr.fss
+tests	quicksortTest.fss

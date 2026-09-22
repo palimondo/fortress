@@ -1,0 +1,1529 @@
+# ladder subset, before (batch base apis) against after (this rung's apis): ladder.tsv without the secs column, microgpt.tsv, then every raw compile output that differs
+## ladder.tsv (secs column removed)
+identical
+## microgpt.tsv
+identical
+## AplMgSyntax.fsi.compile
+1238c1238
+<     Type name may refer to: FortressLibrary.Generator, CompilerBuiltin.Generator
+---
+>     Type name may refer to: FortressLibrary.Condition, CompilerBuiltin.Condition
+2525,2529c2525
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2311:34-41:
+<     Type name may refer to: FortressLibrary.Generator, CompilerBuiltin.Generator
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2312:23-30:
+<     Type name may refer to: FortressLibrary.Generator, CompilerBuiltin.Generator
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2315:22-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2311:22-25:
+2531c2527
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2315:40-42:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2311:40-42:
+2533c2529
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2327:25-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2323:34-41:
+2535c2531
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2328:14-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2324:23-30:
+2537c2533
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2331:17-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2327:17-21:
+2539c2535
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2333:20-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2329:20-22:
+2541c2537
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2333:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2329:27-31:
+2543c2539
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2335:13-15:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2331:13-15:
+2545c2541
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2335:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2331:20-24:
+2547c2543
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:15-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2332:15-17:
+2549c2545
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:22-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2332:22-26:
+2551c2547
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2340:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:20-24:
+2553c2549
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2340:28-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:28-32:
+2555c2551
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2341:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2337:20-24:
+2557c2553
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2341:28-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2337:28-32:
+2559c2555
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2342:20-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2338:20-22:
+2561c2557
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2342:26-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2338:26-30:
+2563c2559
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2343:24-28:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2339:24-28:
+2565c2561
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2344:31-35:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2340:31-35:
+2567c2563
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2345:35-39:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2341:35-39:
+2569c2565
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2346:25-29:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2342:25-29:
+2571c2567
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2347:25-29:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2343:25-29:
+2573c2569
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2352:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2348:21-25:
+2575c2571
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2352:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2348:30-34:
+2577c2573
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2353:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2349:27-31:
+2579c2575
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2354:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2350:27-31:
+2581c2577
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2357:36-40:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2353:36-40:
+2583c2579
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2358:31-35:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2354:31-35:
+2585c2581
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2358:39-43:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2354:39-43:
+2587c2583
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2359:36-40:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2355:36-40:
+2589c2585
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2362:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2358:20-24:
+2591c2587
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2363:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2359:20-24:
+2593c2589
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2363:29-33:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2359:29-33:
+2595c2591
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2364:26-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2360:26-30:
+2597c2593
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2365:26-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2361:26-30:
+2599c2595
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2368:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2364:21-25:
+2601c2597
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2369:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2365:21-25:
+2603c2599
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2369:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2365:30-34:
+2605c2601
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2370:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2366:27-31:
+2607c2603
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2371:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2367:27-31:
+2609c2605
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:16-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2372:16-23:
+2611c2607
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:32-36:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2372:32-36:
+2613c2609
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2380:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:30-34:
+2615c2611
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2380:46-53:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:46-53:
+2617c2613
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2382:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2378:19-23:
+2619c2615
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2382:28-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2378:28-32:
+2621c2617
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2391:12-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2387:12-14:
+2623c2619
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2399:15-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2395:15-17:
+2625c2621
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2399:21-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2395:21-23:
+2627c2623
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2401:10-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2397:10-14:
+2629c2625
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2401:18-20:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2397:18-20:
+2631c2627
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2402:14-16:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2398:14-16:
+2633c2629
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2402:21-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2398:21-23:
+2635c2631
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2409:8-10:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2405:8-10:
+2637c2633
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2409:14-16:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2405:14-16:
+2639c2635
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2411:10-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2407:10-14:
+2641c2637
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2412:12-16:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2408:12-16:
+2643c2639
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2413:15-19:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2409:15-19:
+2645c2641
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2414:17-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2410:17-21:
+2647c2643
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2416:9-13:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2412:9-13:
+2649c2645
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2417:11-15:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2413:11-15:
+2651c2647
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2418:16-20:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2414:16-20:
+2653c2649
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2432:12-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2428:12-14:
+2655c2651
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2432:24-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2428:24-26:
+2657c2653
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2432:31-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2428:31-34:
+2659c2655
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2433:12-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2429:12-14:
+2661c2657
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2433:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2429:30-34:
+2663c2659
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2433:39-42:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2429:39-42:
+2665c2661
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2446:13-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2442:13-17:
+2667c2663
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2446:28-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2442:28-30:
+2669c2665
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2446:35-37:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2442:35-37:
+2671c2667
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2449:13-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2445:13-17:
+2673c2669
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2449:22-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2445:22-24:
+2675c2671
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2451:15-19:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2447:15-19:
+2677c2673
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2451:24-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2447:24-26:
+2679c2675
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2454:17-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2450:17-21:
+2681c2677
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2457:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2453:18-22:
+2683c2679
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2461:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2457:19-23:
+2685c2681
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2462:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2458:19-23:
+2687c2683
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2463:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2459:19-23:
+2689c2685
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2464:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2460:21-25:
+2691c2687
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2485:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2481:18-22:
+2693c2689
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2492:37-45:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2488:37-45:
+2695c2691
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2498:43-51:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2494:43-51:
+2697c2693
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2509:12-19:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2505:12-19:
+2699c2695
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2510:19-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2506:19-26:
+2701c2697
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2514:29-36:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2510:29-36:
+2703c2699
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:106-113:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2513:106-113:
+2705c2701
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:124-131:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2513:124-131:
+2707c2703
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2519:37-44:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2515:37-44:
+2709c2705
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2521:13-20:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:13-20:
+2711c2707
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2521:33-40:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:33-40:
+2713c2709
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2526:51-58:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2522:51-58:
+2715c2711
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2526:78-85:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2522:78-85:
+2717c2713
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2528:14-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2524:14-21:
+2719c2715
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:26-28:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:26-28:
+2721c2717
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:31-33:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:31-33:
+2723c2719
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:47-49:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:47-49:
+2725c2721
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:52-54:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:52-54:
+2727c2723
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:26-28:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:26-28:
+2729c2725
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:31-33:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:31-33:
+2731c2727
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:47-49:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:47-49:
+2733c2729
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:52-54:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:52-54:
+2735c2731
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2540:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2536:18-22:
+2737c2733
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2541:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2537:18-22:
+2739c2735
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2542:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:18-22:
+2741c2737
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2543:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:18-22:
+2743c2739
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2544:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2540:20-24:
+2745c2741
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2545:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2541:20-24:
+2747c2743
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2546:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2542:20-24:
+2749c2745
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2547:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2543:20-24:
+2753c2749
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+2755c2751
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+2757c2753
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+2761c2757
+< File AplMgSyntax.fsi has 1380 errors.
+---
+> File AplMgSyntax.fsi has 1378 errors.
+## AplMgSyntax.fss.compile
+1238c1238
+<     Type name may refer to: FortressLibrary.Generator, CompilerBuiltin.Generator
+---
+>     Type name may refer to: FortressLibrary.Condition, CompilerBuiltin.Condition
+2525,2529c2525
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2311:34-41:
+<     Type name may refer to: FortressLibrary.Generator, CompilerBuiltin.Generator
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2312:23-30:
+<     Type name may refer to: FortressLibrary.Generator, CompilerBuiltin.Generator
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2315:22-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2311:22-25:
+2531c2527
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2315:40-42:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2311:40-42:
+2533c2529
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2327:25-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2323:34-41:
+2535c2531
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2328:14-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2324:23-30:
+2537c2533
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2331:17-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2327:17-21:
+2539c2535
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2333:20-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2329:20-22:
+2541c2537
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2333:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2329:27-31:
+2543c2539
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2335:13-15:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2331:13-15:
+2545c2541
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2335:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2331:20-24:
+2547c2543
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:15-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2332:15-17:
+2549c2545
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:22-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2332:22-26:
+2551c2547
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2340:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:20-24:
+2553c2549
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2340:28-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:28-32:
+2555c2551
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2341:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2337:20-24:
+2557c2553
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2341:28-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2337:28-32:
+2559c2555
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2342:20-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2338:20-22:
+2561c2557
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2342:26-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2338:26-30:
+2563c2559
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2343:24-28:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2339:24-28:
+2565c2561
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2344:31-35:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2340:31-35:
+2567c2563
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2345:35-39:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2341:35-39:
+2569c2565
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2346:25-29:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2342:25-29:
+2571c2567
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2347:25-29:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2343:25-29:
+2573c2569
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2352:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2348:21-25:
+2575c2571
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2352:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2348:30-34:
+2577c2573
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2353:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2349:27-31:
+2579c2575
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2354:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2350:27-31:
+2581c2577
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2357:36-40:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2353:36-40:
+2583c2579
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2358:31-35:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2354:31-35:
+2585c2581
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2358:39-43:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2354:39-43:
+2587c2583
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2359:36-40:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2355:36-40:
+2589c2585
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2362:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2358:20-24:
+2591c2587
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2363:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2359:20-24:
+2593c2589
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2363:29-33:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2359:29-33:
+2595c2591
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2364:26-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2360:26-30:
+2597c2593
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2365:26-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2361:26-30:
+2599c2595
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2368:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2364:21-25:
+2601c2597
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2369:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2365:21-25:
+2603c2599
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2369:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2365:30-34:
+2605c2601
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2370:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2366:27-31:
+2607c2603
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2371:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2367:27-31:
+2609c2605
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:16-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2372:16-23:
+2611c2607
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:32-36:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2372:32-36:
+2613c2609
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2380:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:30-34:
+2615c2611
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2380:46-53:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:46-53:
+2617c2613
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2382:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2378:19-23:
+2619c2615
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2382:28-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2378:28-32:
+2621c2617
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2391:12-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2387:12-14:
+2623c2619
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2399:15-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2395:15-17:
+2625c2621
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2399:21-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2395:21-23:
+2627c2623
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2401:10-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2397:10-14:
+2629c2625
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2401:18-20:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2397:18-20:
+2631c2627
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2402:14-16:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2398:14-16:
+2633c2629
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2402:21-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2398:21-23:
+2635c2631
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2409:8-10:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2405:8-10:
+2637c2633
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2409:14-16:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2405:14-16:
+2639c2635
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2411:10-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2407:10-14:
+2641c2637
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2412:12-16:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2408:12-16:
+2643c2639
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2413:15-19:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2409:15-19:
+2645c2641
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2414:17-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2410:17-21:
+2647c2643
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2416:9-13:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2412:9-13:
+2649c2645
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2417:11-15:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2413:11-15:
+2651c2647
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2418:16-20:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2414:16-20:
+2653c2649
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2432:12-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2428:12-14:
+2655c2651
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2432:24-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2428:24-26:
+2657c2653
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2432:31-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2428:31-34:
+2659c2655
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2433:12-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2429:12-14:
+2661c2657
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2433:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2429:30-34:
+2663c2659
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2433:39-42:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2429:39-42:
+2665c2661
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2446:13-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2442:13-17:
+2667c2663
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2446:28-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2442:28-30:
+2669c2665
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2446:35-37:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2442:35-37:
+2671c2667
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2449:13-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2445:13-17:
+2673c2669
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2449:22-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2445:22-24:
+2675c2671
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2451:15-19:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2447:15-19:
+2677c2673
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2451:24-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2447:24-26:
+2679c2675
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2454:17-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2450:17-21:
+2681c2677
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2457:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2453:18-22:
+2683c2679
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2461:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2457:19-23:
+2685c2681
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2462:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2458:19-23:
+2687c2683
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2463:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2459:19-23:
+2689c2685
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2464:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2460:21-25:
+2691c2687
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2485:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2481:18-22:
+2693c2689
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2492:37-45:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2488:37-45:
+2695c2691
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2498:43-51:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2494:43-51:
+2697c2693
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2509:12-19:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2505:12-19:
+2699c2695
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2510:19-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2506:19-26:
+2701c2697
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2514:29-36:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2510:29-36:
+2703c2699
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:106-113:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2513:106-113:
+2705c2701
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:124-131:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2513:124-131:
+2707c2703
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2519:37-44:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2515:37-44:
+2709c2705
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2521:13-20:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:13-20:
+2711c2707
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2521:33-40:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:33-40:
+2713c2709
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2526:51-58:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2522:51-58:
+2715c2711
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2526:78-85:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2522:78-85:
+2717c2713
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2528:14-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2524:14-21:
+2719c2715
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:26-28:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:26-28:
+2721c2717
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:31-33:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:31-33:
+2723c2719
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:47-49:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:47-49:
+2725c2721
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:52-54:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:52-54:
+2727c2723
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:26-28:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:26-28:
+2729c2725
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:31-33:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:31-33:
+2731c2727
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:47-49:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:47-49:
+2733c2729
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:52-54:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:52-54:
+2735c2731
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2540:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2536:18-22:
+2737c2733
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2541:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2537:18-22:
+2739c2735
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2542:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:18-22:
+2741c2737
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2543:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:18-22:
+2743c2739
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2544:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2540:20-24:
+2745c2741
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2545:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2541:20-24:
+2747c2743
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2546:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2542:20-24:
+2749c2745
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2547:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2543:20-24:
+2753c2749
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+2755c2751
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+2757c2753
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+2761c2757
+< File AplMgSyntax.fss has 1380 errors.
+---
+> File AplMgSyntax.fss has 1378 errors.
+## MicroGptApl.fss.compile
+1238c1238
+<     Type name may refer to: FortressLibrary.Generator, CompilerBuiltin.Generator
+---
+>     Type name may refer to: FortressLibrary.Condition, CompilerBuiltin.Condition
+2525,2529c2525
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2311:34-41:
+<     Type name may refer to: FortressLibrary.Generator, CompilerBuiltin.Generator
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2312:23-30:
+<     Type name may refer to: FortressLibrary.Generator, CompilerBuiltin.Generator
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2315:22-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2311:22-25:
+2531c2527
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2315:40-42:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2311:40-42:
+2533c2529
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2327:25-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2323:34-41:
+2535c2531
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2328:14-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2324:23-30:
+2537c2533
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2331:17-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2327:17-21:
+2539c2535
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2333:20-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2329:20-22:
+2541c2537
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2333:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2329:27-31:
+2543c2539
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2335:13-15:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2331:13-15:
+2545c2541
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2335:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2331:20-24:
+2547c2543
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:15-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2332:15-17:
+2549c2545
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:22-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2332:22-26:
+2551c2547
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2340:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:20-24:
+2553c2549
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2340:28-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2336:28-32:
+2555c2551
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2341:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2337:20-24:
+2557c2553
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2341:28-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2337:28-32:
+2559c2555
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2342:20-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2338:20-22:
+2561c2557
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2342:26-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2338:26-30:
+2563c2559
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2343:24-28:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2339:24-28:
+2565c2561
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2344:31-35:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2340:31-35:
+2567c2563
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2345:35-39:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2341:35-39:
+2569c2565
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2346:25-29:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2342:25-29:
+2571c2567
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2347:25-29:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2343:25-29:
+2573c2569
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2352:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2348:21-25:
+2575c2571
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2352:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2348:30-34:
+2577c2573
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2353:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2349:27-31:
+2579c2575
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2354:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2350:27-31:
+2581c2577
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2357:36-40:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2353:36-40:
+2583c2579
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2358:31-35:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2354:31-35:
+2585c2581
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2358:39-43:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2354:39-43:
+2587c2583
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2359:36-40:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2355:36-40:
+2589c2585
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2362:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2358:20-24:
+2591c2587
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2363:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2359:20-24:
+2593c2589
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2363:29-33:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2359:29-33:
+2595c2591
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2364:26-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2360:26-30:
+2597c2593
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2365:26-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2361:26-30:
+2599c2595
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2368:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2364:21-25:
+2601c2597
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2369:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2365:21-25:
+2603c2599
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2369:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2365:30-34:
+2605c2601
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2370:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2366:27-31:
+2607c2603
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2371:27-31:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2367:27-31:
+2609c2605
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:16-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2372:16-23:
+2611c2607
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:32-36:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2372:32-36:
+2613c2609
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2380:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:30-34:
+2615c2611
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2380:46-53:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2376:46-53:
+2617c2613
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2382:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2378:19-23:
+2619c2615
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2382:28-32:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2378:28-32:
+2621c2617
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2391:12-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2387:12-14:
+2623c2619
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2399:15-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2395:15-17:
+2625c2621
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2399:21-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2395:21-23:
+2627c2623
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2401:10-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2397:10-14:
+2629c2625
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2401:18-20:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2397:18-20:
+2631c2627
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2402:14-16:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2398:14-16:
+2633c2629
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2402:21-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2398:21-23:
+2635c2631
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2409:8-10:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2405:8-10:
+2637c2633
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2409:14-16:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2405:14-16:
+2639c2635
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2411:10-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2407:10-14:
+2641c2637
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2412:12-16:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2408:12-16:
+2643c2639
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2413:15-19:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2409:15-19:
+2645c2641
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2414:17-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2410:17-21:
+2647c2643
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2416:9-13:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2412:9-13:
+2649c2645
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2417:11-15:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2413:11-15:
+2651c2647
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2418:16-20:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2414:16-20:
+2653c2649
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2432:12-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2428:12-14:
+2655c2651
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2432:24-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2428:24-26:
+2657c2653
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2432:31-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2428:31-34:
+2659c2655
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2433:12-14:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2429:12-14:
+2661c2657
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2433:30-34:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2429:30-34:
+2663c2659
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2433:39-42:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2429:39-42:
+2665c2661
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2446:13-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2442:13-17:
+2667c2663
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2446:28-30:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2442:28-30:
+2669c2665
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2446:35-37:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2442:35-37:
+2671c2667
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2449:13-17:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2445:13-17:
+2673c2669
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2449:22-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2445:22-24:
+2675c2671
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2451:15-19:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2447:15-19:
+2677c2673
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2451:24-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2447:24-26:
+2679c2675
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2454:17-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2450:17-21:
+2681c2677
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2457:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2453:18-22:
+2683c2679
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2461:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2457:19-23:
+2685c2681
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2462:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2458:19-23:
+2687c2683
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2463:19-23:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2459:19-23:
+2689c2685
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2464:21-25:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2460:21-25:
+2691c2687
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2485:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2481:18-22:
+2693c2689
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2492:37-45:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2488:37-45:
+2695c2691
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2498:43-51:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2494:43-51:
+2697c2693
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2509:12-19:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2505:12-19:
+2699c2695
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2510:19-26:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2506:19-26:
+2701c2697
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2514:29-36:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2510:29-36:
+2703c2699
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:106-113:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2513:106-113:
+2705c2701
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:124-131:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2513:124-131:
+2707c2703
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2519:37-44:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2515:37-44:
+2709c2705
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2521:13-20:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:13-20:
+2711c2707
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2521:33-40:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2517:33-40:
+2713c2709
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2526:51-58:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2522:51-58:
+2715c2711
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2526:78-85:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2522:78-85:
+2717c2713
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2528:14-21:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2524:14-21:
+2719c2715
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:26-28:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:26-28:
+2721c2717
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:31-33:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:31-33:
+2723c2719
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:47-49:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:47-49:
+2725c2721
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:52-54:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2534:52-54:
+2727c2723
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:26-28:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:26-28:
+2729c2725
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:31-33:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:31-33:
+2731c2727
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:47-49:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:47-49:
+2733c2729
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:52-54:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2535:52-54:
+2735c2731
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2540:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2536:18-22:
+2737c2733
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2541:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2537:18-22:
+2739c2735
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2542:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2538:18-22:
+2741c2737
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2543:18-22:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2539:18-22:
+2743c2739
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2544:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2540:20-24:
+2745c2741
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2545:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2541:20-24:
+2747c2743
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2546:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2542:20-24:
+2749c2745
+< /home/user/fortress-defects/Library/FortressLibrary.fsi:2547:20-24:
+---
+> /home/user/fortress-defects/Library/FortressLibrary.fsi:2543:20-24:
+2753c2749
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+2755c2751
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+2757c2753
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+2985c2981
+< File MicroGptApl.fss has 1492 errors.
+---
+> File MicroGptApl.fss has 1490 errors.
+## ArrayListQuick.fss.compile
+3c3
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+5c5
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+7c7
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+## CovCollTest.fss.compile
+29c29
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+31c31
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+33c33
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+## CovariantTest.fss.compile
+3c3
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+5c5
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+7c7
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+## ShuffleTest.fss.compile
+3c3
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+5c5
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+7c7
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+## StringTests.fss.compile
+17c17
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+19c19
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+21c21
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+## WordCountSmall.fss.compile
+29c29
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+31c31
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+33c33
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+## mixedTypeAnnotation.fss.compile
+3c3
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+5c5
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+7c7
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+## parametricListCompr.fss.compile
+13c13
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+15c15
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+17c17
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
+## quicksortTest.fss.compile
+3c3
+< /home/user/fortress-defects/Library/List.fsi:110:19-30:
+---
+> /home/user/fortress-defects/Library/List.fsi:109:19-30:
+5c5
+< /home/user/fortress-defects/Library/List.fsi:113:24-34:
+---
+> /home/user/fortress-defects/Library/List.fsi:112:24-34:
+7c7
+< /home/user/fortress-defects/Library/List.fsi:131:28-41:
+---
+> /home/user/fortress-defects/Library/List.fsi:130:28-41:
