@@ -1,4 +1,4 @@
-# Skeptic, rung C (`rung-library-comments`), first judgement
+# Skeptic, rung C (`rung-library-comments`): first judgement (refused), and the second judgement (approved) at the end
 
 **Verdict: refused.** One thing must change. Comment 2 (`Array3`'s `excludes AnyAdditiveGroup`,
 `Library/FortressLibrary.fss:2671-2676`, `.fsi:1661-1666`) says the clause lets "an operator between
@@ -248,3 +248,200 @@ checker, the parser (up to the three span ends of D1) and walk give the same ans
 - `probes/skeptic/`: the captures `SkScalarOrders.txt`, `SkVecScalarC.txt`, `SkNothingLost.txt`,
   `SkViews.txt`, `SkArray3Exclusion.txt`, `SkA3Concrete-checker.txt`, `scratch-libraries.txt`,
   `sk-insertion-check.txt` and `sk-checker-count.txt`.
+
+---
+
+# Second judgement, after the repair round: approved, with three corrections for the commit stage
+
+**Verdict: approved.** The refusal ground is repaired as the judge worded it. Comment 2 no longer says
+"a number" (`Library/FortressLibrary.fss:2671-2676`, `.fsi:1661-1666`, the same six lines in both
+files, the judge's text word for word). The rung is still comment-only, and I checked that again
+with my own tool. Every claim the reworded comment makes holds when I measure it. Two of those
+claims hold only on the compile path's static checker, because walk does not check an exclusion at
+declaration (ledger row 293). The report and the record now say what was measured. There are three
+corrections: one for the report and two for the commit stage. None of them changes a line of
+Fortress.
+
+What I inherited: the branch at `23d319c73`, with a clean worktree. The worker's two repair commits
+are `9bd8ee7a5` (comment 2 and the re-run captures) and `23d319c73` (REPORT.md and record.md), on
+top of the judge's `166e089d1`. I re-ran the checks myself and did not rely on the worker's logs.
+I ran everything at `FORTRESS_THREADS=1`: the rung has no mutable state, field, atomic block or
+library write. Every shell used `tmp/sk2/shell.sh`, which sets what `experiment/env.sh` sets but
+skips its `rm -rf /tmp/fortress*rats`, so the other rungs' Rats! directories survive.
+
+My mechanism in the first judgement (lines 177-182 above: "`RR64` already excludes
+`AdditiveGroup`") was wrong, as the judge said. `RR64` is a `Number`, and `Number` extends
+`AdditiveGroup[\Number\]` (`Library/FortressLibrary.fss:352-355`). A type does not exclude its own
+supertype (`Specification/basic/types-vals-vars.tex:138-142`, :159-162). The measurements B1-B6
+still stand, and the record now carries them without my explanation.
+
+## 0. The provenance block, re-read
+
+It has five lines: problem, spec, precedent, deviation and historical. I opened every file:line they
+cite with `sed -n`.
+
+- **problem.** `POSITIONS.md:44` ("Others approved … the `Array3` exclusion … approved as landed";
+  "A `NOT YET`-style comment at the line goes in either way"), `:47`, and the explainer's A at
+  `:189` ("(default)"), B at `:193` and "Default: A" at `:199`, 3a-A at `:249-255` and 3b-A at
+  `:272-283` all say what the line says. Correction 4 of the first judgement is made.
+- **spec.** I re-ran the grep and it prints exactly six hits: `conversions-coercions.tex:496` and
+  `:695`, `aggregate.tex:180`, `types-vals-vars.tex:279`, and `opr-overview.tex:143` and `:147`.
+  The line sorts them correctly. `opr-overview.tex:143-147` says what the line says. Correction 3 is
+  made.
+- **One citation is not the standard: finding G1.** `traits.tex:231-235` is inside a `\note{…}`.
+  A release build defines `\note` as empty, exactly as it defines `\marginnote`
+  (`Specification/fortress/fortress.tex:35-37`). REPORT.md §4 item 2 dismisses the `aggregate.tex`
+  margin notes as "draft text, not the standard", but §4 item 1 and the spec line rest the closure's
+  derivation on a note box of the same kind. The normative rule is 25 lines below the note, in the
+  prose, at `traits.tex:259-275`: `Molecule comprises { OrganicMolecule, InorganicMolecule }` …
+  "Therefore, the following trait declaration is not allowed: `trait ExclusiveMolecule extends
+  Molecule end`". That sentence makes `trait Integral[\I\] … extends { …, AnyIntegral }`
+  (`.fss:615`) illegal under `comprises { ZZ }`. The same closure reasoning appears in
+  `types-vals-vars.tex:549-570`: "because of the comprises clauses of S and T … any subtype of both
+  S and T must be a subtype of V". So comment 1 stands, and the citation must change (correction 1).
+  The batch record makes the same slip for rung L: `CLIMB-BATCH-3.md:97` cites
+  `traits.tex:236-241`, which is inside the same note. That is the gather's to check, not this rung's.
+- **precedent.** `.fss:1297`, `:1374`, `:1589-1590`, `.fsi:818`, `:1063` and `.fss:4503` are
+  unchanged and checked.
+- **deviation.** `.fss:613`, `.fsi:410`, `.fss:1297`, `aggregate.tex:120-121`, `.fss:4512`,
+  `.fss:4512-4515` and `.fsi:2547` are checked. The reversed `-` is at base `:4500` in the `.fss`
+  and base `:2543` in the `.fsi`. The new clause cites `CLIMB-BATCH-3.md:108` and
+  `SkArray3Exclusion.txt` B1-B6, and `.fss:2672` now reads "between an Array3 and a lower-rank
+  array".
+- **historical.** `git diff --name-only d610695c0...HEAD`, outside `explorations/`, lists exactly
+  the two library files named.
+
+## 1. The recorded failure
+
+The first judgement's ruling stands. The batch record exempts C by design
+(`CLIMB-BATCH-3.md:112`). The base tree's captures were committed before the edit in `76c55b270`,
+and the repair round compared against them again.
+
+## 2. The diff, re-read
+
+`git diff 166e089d1 9bd8ee7a5 -- Library/` touches only comment 2's second and third lines, in both
+files. `git diff --stat d610695c0 -- Library/` still reads 16 + 15 = 31 insertions and no deletions.
+
+- **Insertion check.** My `sk-insertion-check.py`, re-run on both files, finds that each file minus
+  its inserted lines is the base byte for byte, and that every inserted run is whole comments at
+  depth 0 (`probes/skeptic/sk2-checks.txt` §1-2).
+- **What comment 2 claims, and what I measured.** I wrote programs the worker did not write
+  (§ Differentials):
+  - "an operator between an Array3 and a lower-rank array … without colliding with AdditiveGroup's
+    +(self, other: T)" holds at rank 1 as well as at rank 2 (W1/W2).
+  - The clause also licenses `-` against `AdditiveGroup`'s `-(self, other: T)` (W3/W4). The comment
+    names `+` as its example, so this is not an error.
+  - "no Array3 can be an additive group" is what the static checker enforces (C5/C6).
+  - "Array1 and Array2 cannot exclude it: Vector and Matrix extend them and are additive groups":
+    the checker reports exactly that when either one does (C1/C2).
+
+## 3. The precedent search
+
+Unchanged since the first judgement, and correct. The repair is a rewording, so it needed no new
+precedent.
+
+## 4. The test
+
+None, by the batch record. No test file was added.
+
+## 5. The competing-declaration grep
+
+The rung adds no names. I re-ran the grep over `tests`, `compiler_tests`, `library_tests`,
+`test_library`, `static_tests`, `not_working_library_tests` and `src/com/sun/fortress` for
+`AnyAdditiveGroup` and `AnyIntegral`. The only hit is `tests/tupleInfer.fss:16`, and the only
+`Array3` file under `src` is `compiler/typechecker/TypeNormalizer.java`. There is one assert
+message that cites a library line and that the rung moves:
+`library_tests/TryAtomicRungB.fss:42`, whose `:1570` is now `:1571` (correction 2). The other
+test-file citations of `FortressLibrary` lines are `(*)` comments. The ones the rung shifts
+(`TimingRungT.fss:5-6,17`, `LineConcatRung5.fss:8-9,18`) were already a few lines off at the base.
+
+## 6. record.md
+
+- **FACTS line 1.** True as written. It names both suite rules, the new comment text and
+  `probes/gated-cold-postrepair.txt`.
+- **FACTS line 2.** True. I re-ran `parse-compare.sh` and got the worker's capture, below its header
+  line (`sk2-checks.txt` §4).
+- **The row 49 note.** Unchanged since the first judgement, and checked then.
+- **The two row-341 notes.** Both are measured, and both cite committed `.txt` captures. The
+  scalar-block extent `:4509-4519` is right: the first `+` is at `:4509` and the last `MAX` at
+  `:4519`, with the reversed-`-` note at `:4512-4514`. The worker was right to correct the judge's
+  `:4509-4516`. The "warm-cache mask" of note 1 is the mechanism rows 342 and 98 record. A pointer
+  to row 342 would help the reader, but the row can be checked without one.
+- **Row 354.** The number is provisional from 354, and the ledger's highest row is 353. The row has
+  eight columns and uses the ledger's own `NEGATIVE-BOUNDED`. It shows the grep, which I reproduced
+  in the first judgement.
+
+## 7. The three homes
+
+- **F1: repaired.** It was a false sentence in the deliverable, not an implementation defect, so no
+  new assertion is owed. What the sentence now claims is asserted by the gated
+  `tests/ArrayOperatorsBesideLibrary.fss:23-24`. I ran it myself on an empty cache on this branch
+  and it prints its nine lines with rc=0 (`sk2-checks.txt` §5). It fails cold without the clause
+  (`SkArray3Exclusion.txt` A4).
+- **F3 and the number pair: home 3.** They are notes on row 341, and their captures are committed.
+- **D1: home 3.** Row 354, with the grep.
+- **D2 (row 49 in argument position): owed home 2, not met in the rung.** The byte-identical
+  obligation and R's declared 385 rule it out here, as the judge ruled. The record carries it as a
+  gather note, and correction 3 makes the commit stage close it either way.
+- **Round 2's own measurements.** All are either confirmations of the comment or re-sightings of
+  row 293, so I raise no new defect of this rung. The row-293 note is in recommendedRows.
+
+## Differentials (round 2, my own programs, all in `probes/skeptic/`)
+
+The compiled column has two parts. The first is `bin/fortress compile` with the compiler's prelude.
+It has no `Array`, `Array2`, `Array3` or `AnyAdditiveGroup` (rows 72 and 305), so every answer
+there is a static error (`SkRound2Compiled.txt`). The second is the compile path's static checker
+with the interpreter's library in scope: the checker-count stage's own driver, `WorldFlip`
+(`SkRound2Checker.txt`). The scratch libraries are listed in `scratch-libraries-round2.txt`.
+
+| program | walk (`SkRound2Walk.txt`) | compile path | verdict |
+|---|---|---|---|
+| `SkA3Vec.fss` + `SkA3VecVocab.fs{i,s}`: `+` between a `Vector` and an `Array3`, both orders | cold on the branch: 12.0 and 11.0, rc=0 (W1). Cold on `noAAG`: refused against `AdditiveGroup`'s `+` at `FortressLibrary.fss:333` (W2). Warm on `noAAG`: passes (W10, row 341's mask) | `Vector`, `Array3` and `Array` are undefined: 6 errors | "a lower-rank array" holds at rank 1 |
+| `SkA3Minus.fss` + `SkA3MinusVocab.fs{i,s}`: `-` between a `Matrix` and an `Array3` | cold on the branch: -8.0 and 7.0, rc=0 (W3). Cold on `noAAG`: refused against `AdditiveGroup`'s `-(self, other: T)` at `:334` (W4) | `Array3` and `Array` are undefined: 4 errors | the clause licenses `-` too, and the comment's `+` is its example |
+| `SkA3Group.fss` / `SkA3GroupApi.fsi`: `trait A3G extends { Array3[…], AdditiveGroup[\A3G\] }` | cold on the branch: accepted, rc=0 (W5) | checker, branch: "Types Array3[\RR64,0,2,0,2,0,2\] and AdditiveGroup[\SkA3GroupApi.A3G\] exclude each other. A3G must not extend them." (C5). Checker, `noAAG`: no exclusion error (C6) | the paths differ; see below |
+| `SkRank12.fss` on `a2AAG` and `a1AAG` (`Array2` or `Array1` made to exclude `AnyAdditiveGroup`) | accepted, and `m` is both an `AnyAdditiveGroup` and an `Array2` (W6, W7; W8 and W9 show which copy loaded) | `AnyAdditiveGroup` and `Array2` are undefined. Checker on the scratch library: 93 → 97, "Types AdditiveGroup[\Matrix[\T,s0,s1\]\] and Array2[\T,0,s0,0,s1\] exclude each other. Matrix must not extend them." (C1), and the same for `Vector`/`Array1` (C2) | the paths differ; see below |
+
+**Where walk and the compile path's checker disagree.** They disagree on W5 against C5, and on W6/W7
+against C1/C2. This is the second outcome of rule 4: the specification settles against the
+interpreter. `Specification/basic/traits.tex:218-222` says "neither can extend the other, and no
+trait can extend them both". Ledger row 293 already records that the interpreter does not check an
+exclusion at declaration. These are row 293's defect seen through this rung's comment, not a defect
+of the rung. The comment states the language's rule, and the checker enforces it. The new fact is
+that the compile path's checker does report this family: the first judgement's F7 said only that
+walk does not. That fact goes to recommendedRows as a note on row 293.
+
+**The rung's own checks, re-run** (`sk2-checks.txt`):
+
+- **Checker-count table.** It reads 93 errors at 52 locations, the same `NativeArray` crash line,
+  and `#shadow` matching. It is identical to the pre-edit table.
+- **Checker's full output.** Byte-identical to the worker's post-edit capture once the worktree
+  prefix is removed. Identical to the pre-edit run, 253 lines, after my own `sk-remap.py`.
+- **`parse-compare.sh`.** Identical to the worker's capture.
+- **The gated fixture, cold.** It prints its nine lines with rc=0, and it wrote `FortressLibrary`
+  and `ArrayOperatorVocabulary` into the empty cache.
+
+## The failure-mode question
+
+Not applicable. The rung computes nothing and replaces no loud failure.
+
+## Corrections the commit stage must close
+
+1. **REPORT.md, the spec line (`:4`) and §4 item 1 (`:98-105`).** Cite `traits.tex:259-275`, the
+   normative "not allowed" example, and `types-vals-vars.tex:549-570` as the rule. Say that
+   `:231-235` is a `\note` which a release build suppresses (`fortress.tex:35-37`). Reason: rule 3
+   of the shared prefix, and REPORT.md's own treatment of the `aggregate.tex` margin notes.
+2. **`ProjectFortress/library_tests/TryAtomicRungB.fss:42`.** The assert message's `:1570` becomes
+   `:1571`, which is `TryAtomicFailure`'s `asString` after this rung. C is the only rung that edits
+   `FortressLibrary.fss`, so the number is final. This carries over correction 7 of the first
+   judgement, and record.md's gather note already names it.
+3. **Row 49 in argument position: home 2.** The gather adds the expected-failure test
+   `ProjectFortress/tests/XXX…` with its `.test`, asserting what `aggregate.tex:129-137` says
+   (`3 - [1 2]` is `[2 1]`), and adjusts the declared `testSystem` count. Or it records in one
+   sentence why it does not. Either closes the item; leaving it silent does not.
+
+## Files (round 2)
+
+- `probes/skeptic/` programs: `SkA3Vec.fss` with `SkA3VecVocab.fsi`/`.fss`, `SkA3Minus.fss` with
+  `SkA3MinusVocab.fsi`/`.fss`, `SkA3Group.fss`, `SkA3GroupApi.fsi` and `SkRank12.fss`.
+- `probes/skeptic/` captures: `SkRound2Walk.txt`, `SkRound2Checker.txt`, `SkRound2Compiled.txt`,
+  `sk2-checks.txt` and `scratch-libraries-round2.txt`.

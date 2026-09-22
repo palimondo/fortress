@@ -1,0 +1,13 @@
+component SkRank12
+export Executable
+
+run(): () = do
+    v = array[\RR64\](2).fill(fn (i: ZZ32): RR64 => 1.0 i + 1.0)
+    m: Matrix[\RR64,2,2\] = matrix[\RR64,2,2\](1.0)
+    println("(v + v)[1] = " (v + v)[1])
+    println("(m + m)[1,1] = " (m + m)[1,1])
+    println("m is an AnyAdditiveGroup: " instanceOf[\AnyAdditiveGroup\](m))
+    println("m is an Array2: " instanceOf[\Array2[\RR64,0,2,0,2\]\](m))
+end
+
+end

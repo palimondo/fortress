@@ -1,0 +1,30 @@
+# Second skeptic, rung C: the scratch libraries of the round-2 probes (SkRound2Walk.txt, SkRound2Checker.txt). Each
+# directory tmp/sk2/<dir> holds FortressLibrary.fss/.fsi copied from this branch at 23d319c73 with the change below,
+# plus the probe sources; tmp/sk2/branch holds the probe sources only. diff <branch file> <scratch file>:
+## noAAG
+2670c2670
+<     excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
+---
+>     excludes { Number, String, AnyMultiplicativeRing }
+1660c1660
+<     excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
+---
+>     excludes { Number, String, AnyMultiplicativeRing }
+## a2AAG
+2296c2296
+<     excludes { Number, String }
+---
+>     excludes { Number, String, AnyAdditiveGroup }
+1544c1544
+<     excludes { Number, String }
+---
+>     excludes { Number, String, AnyAdditiveGroup }
+## a1AAG
+2100c2100
+<     excludes {Number, String}
+---
+>     excludes {Number, String, AnyAdditiveGroup}
+1442c1442
+<     excludes {Number, String}
+---
+>     excludes {Number, String, AnyAdditiveGroup}

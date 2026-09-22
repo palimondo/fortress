@@ -1,0 +1,14 @@
+component SkA3Minus
+import SkA3MinusVocab.{...}
+export Executable
+
+run(): () = do
+    m: Matrix[\RR64,2,2\] = matrix[\RR64,2,2\](0.0)
+    m[0,1] := 2.0
+    m[1,0] := 3.0
+    t = array3[\RR64,2,2,2\]().fill(fn (ix: (ZZ32,ZZ32,ZZ32)): RR64 => do (p, i, j) = ix; 10.0 p end)
+    println("(m - t)[1,0,1] = " (m - t)[1,0,1])
+    println("(t - m)[1,1,0] = " (t - m)[1,1,0])
+end
+
+end

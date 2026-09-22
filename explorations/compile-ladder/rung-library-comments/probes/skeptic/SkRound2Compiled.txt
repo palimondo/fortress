@@ -1,0 +1,41 @@
+# Second skeptic, rung C: the same probes on the compile path (bin/fortress compile, the compiler's prelude, the
+# worktree's default_repository caches built in library order), run in tmp/sk2/branch. The compiled prelude has no
+# Array, Array2, Array3 or AnyAdditiveGroup (ledger rows 72 and 305), so every answer is a static error; SkA3Minus
+# stops only on Array3 and Array because CompilerLibrary.fsi declares an empty Matrix.
+
+### compile SkA3Vec.fss (compiler prelude, default_repository caches), in tmp/sk2/branch
+tmp/sk2/branch/SkA3VecVocab.fsi:3:40-44:
+    Vector is undefined.
+tmp/sk2/branch/SkA3VecVocab.fsi:3:61-65:
+    Array3 is undefined.
+tmp/sk2/branch/SkA3VecVocab.fsi:3:90-93:
+    Array is undefined.
+tmp/sk2/branch/SkA3VecVocab.fsi:4:40-44:
+    Array3 is undefined.
+tmp/sk2/branch/SkA3VecVocab.fsi:4:71-75:
+    Vector is undefined.
+tmp/sk2/branch/SkA3VecVocab.fsi:4:90-93:
+    Array is undefined.
+File SkA3Vec.fss has 6 errors.
+rc=255
+
+### compile SkA3Minus.fss (compiler prelude, default_repository caches), in tmp/sk2/branch
+tmp/sk2/branch/SkA3MinusVocab.fsi:3:70-74:
+    Array3 is undefined.
+tmp/sk2/branch/SkA3MinusVocab.fsi:3:99-102:
+    Array is undefined.
+tmp/sk2/branch/SkA3MinusVocab.fsi:4:47-51:
+    Array3 is undefined.
+tmp/sk2/branch/SkA3MinusVocab.fsi:4:99-102:
+    Array is undefined.
+File SkA3Minus.fss has 4 errors.
+rc=255
+
+### compile SkRank12.fss (compiler prelude, default_repository caches), in tmp/sk2/branch
+tmp/sk2/branch/SkRank12.fss:9:54-68:
+    AnyAdditiveGroup is undefined.
+tmp/sk2/branch/SkRank12.fss:10:44-48:
+    Array2 is undefined.
+File SkRank12.fss has 2 errors.
+rc=255
+

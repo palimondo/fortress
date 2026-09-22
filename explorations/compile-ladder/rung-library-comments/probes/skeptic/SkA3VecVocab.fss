@@ -1,0 +1,9 @@
+component SkA3VecVocab
+export SkA3VecVocab
+
+opr +[\nat n, nat a, nat b, nat d\](v: Vector[\RR64,n\], t: Array3[\RR64,0,a,0,b,0,d\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] =
+    t.ivmap[\RR64\](fn (ix: (ZZ32,ZZ32,ZZ32), e: RR64): RR64 => do (p, i, j) = ix; v[j] + e end)
+opr +[\nat n, nat a, nat b, nat d\](t: Array3[\RR64,0,a,0,b,0,d\], v: Vector[\RR64,n\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] =
+    t.ivmap[\RR64\](fn (ix: (ZZ32,ZZ32,ZZ32), e: RR64): RR64 => do (p, i, j) = ix; e + v[j] end)
+
+end
