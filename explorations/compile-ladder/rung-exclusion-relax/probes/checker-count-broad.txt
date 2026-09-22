@@ -1,0 +1,18 @@
+# checker-count stage (explorations/coordinator/tools/checker-count/run.sh, unchanged) on the measurement build with JAVA_TOOL_OPTIONS=-Dprobe.rungP=broad, 2026-09-22
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	2
+FortressLibrary	6
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	33
+#locations	26
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker

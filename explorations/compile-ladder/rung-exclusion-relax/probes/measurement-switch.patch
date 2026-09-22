@@ -1,0 +1,83 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+index 77e2cb844..0d0fb63e9 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+@@ -70,7 +70,7 @@ import com.sun.fortress.scala_src.nodes._
+  */
+ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+                          globalEnv: GlobalEnvironment) {
+-    var typeAnalyzer = TypeAnalyzer.make(new TraitTable(compilation_unit, globalEnv))
++    var typeAnalyzer = { val a = TypeAnalyzer.make(new TraitTable(compilation_unit, globalEnv)); if (TypeAnalyzer.probeRelaxOver) a.withoutInstantiationExclusion else a }
+     val globalOracle = new OverloadingOracle()(typeAnalyzer)
+     var errors = List[StaticError]()
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+index 3f02bce04..7218f8ee7 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+@@ -175,7 +175,7 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
+ 	      for (second <- extended) {
+ 		second match {
+ 		  case STraitTypeWhere(_,other@STraitType(_,_,_,_),_) =>
+-		    if ( new_analyzer.definitelyExcludes(st, other) )
++		    if ( (if (TypeAnalyzer.probeRelaxHier) new_analyzer.withoutInstantiationExclusion else new_analyzer).definitelyExcludes(st, other) )
+ 		      error(errors, "Types " + st + " and " + other +
+ 			    " exclude each other.  " + decl +
+ 			    " must not extend them.", st)
+@@ -184,7 +184,7 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
+ 	      }
+ 	      getTypes(name, errors) match {
+ 		case si:ProperTraitIndex =>
+-		  if ( new_analyzer.definitelyExcludes(tt, st) ) {
++		  if ( (if (TypeAnalyzer.probeRelaxHier) new_analyzer.withoutInstantiationExclusion else new_analyzer).definitelyExcludes(tt, st) ) {
+ 		      error(errors, "Type " + tt + " excludes " + name +
+ 			    " but it extends " + name + ".", extension)
+ 		  }
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+index 6c5b78249..ea5a5f203 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -57,7 +57,10 @@ import com.sun.fortress.scala_src.useful.ASTGenHelper._
+ 
+ import scala.math.max
+ 
+-class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLattice[Type]{
++class TypeAnalyzer(val traits: TraitTable, val env: KindEnv, val instantiationsExclude: Boolean) extends BoundedLattice[Type]{
++  def this(traits: TraitTable, env: KindEnv) = this(traits, env, TypeAnalyzer.probeDefaultInstantiationsExclude)
++  def withoutInstantiationExclusion: TypeAnalyzer =
++    if (instantiationsExclude) new TypeAnalyzer(traits, env, false) else this
+   
+   private final val debugSubtype = ProjectProperties.getBoolean("fortress.debug.analyzer.subtype", false)
+   private final val cacheSubtypes = ProjectProperties.getBoolean("fortress.analyzer.subtype.cache", true)
+@@ -440,7 +443,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+         }
+         pOr(cO(s,t), cO(t,s))
+       }
+-      def checkP(s: TraitType, t: TraitType): CFormula = {
++      def checkP(s: TraitType, t: TraitType): CFormula = if (!negate && !instantiationsExclude) pFalse() else {
+         val sas = ancestors(s) ++ Set(s)
+         val tas = ancestors(t) ++ Set(t)
+         def cP(s: BaseType, t: BaseType): CFormula = (s, t) match {
+@@ -766,10 +769,10 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+     env.staticParam(x).getOrElse(bug(x, x + " is not in the kind env " + env))
+ 
+   def extend(params: List[StaticParam], where: Option[WhereClause]) =
+-    new TypeAnalyzer(traits, env.extend(params, where))
++    new TypeAnalyzer(traits, env.extend(params, where), instantiationsExclude)
+   
+   def extendJ(params: JavaList[StaticParam], where: JavaOption[WhereClause]) =
+-      new TypeAnalyzer(traits, env.extend(toList(params), toOption(where)))
++      new TypeAnalyzer(traits, env.extend(toList(params), toOption(where)), instantiationsExclude)
+   
+   def pTrue()(implicit negate: Boolean) = 
+     if (negate) False else True
+@@ -796,4 +799,9 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+ 
+ object TypeAnalyzer {
+   def make(traits: TraitTable) = new TypeAnalyzer(traits, KindEnv.makeFresh)
++  // PROBE (rung P measurement build, not for landing): off | hier | over | broad
++  final val probeMode: String = System.getProperty("probe.rungP", "off")
++  final val probeDefaultInstantiationsExclude: Boolean = probeMode != "broad"
++  final val probeRelaxHier: Boolean = probeMode == "hier" || probeMode == "over"
++  final val probeRelaxOver: Boolean = probeMode == "over"
+ }

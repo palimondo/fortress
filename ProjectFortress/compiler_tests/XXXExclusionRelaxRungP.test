@@ -1,0 +1,3 @@
+tests=XXXExclusionRelaxRungP
+link
+link_err_contains=Type B excludes A but it extends A.

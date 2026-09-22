@@ -1,0 +1,29 @@
+component ProbeMIEPick
+export Executable
+
+trait Tag[\X\]
+  tagName(): String
+end
+object IntTag extends Tag[\ZZ32\]
+  tagName(): String = "IntTag"
+end
+object StrTag extends Tag[\String\]
+  tagName(): String = "StrTag"
+end
+object Both extends { Tag[\String\], Tag[\ZZ32\] }
+  tagName(): String = "Both"
+end
+
+pick[\X\](t: Tag[\X\]): Tag[\X\] = t
+pick(t: Tag[\ZZ32\]): Tag[\ZZ32\] = IntTag
+
+run(): () = do
+  x: Tag[\String\] = Both
+  y: Tag[\String\] = pick(x)
+  println("pick(x) with x: Tag[String] = Both returned " y.tagName())
+  if y.tagName() = "IntTag"
+  then println("UNSOUND: y has static type Tag[String] and holds IntTag, which is only a Tag[ZZ32]")
+  else println("sound: y holds " y.tagName())
+  end
+end
+end

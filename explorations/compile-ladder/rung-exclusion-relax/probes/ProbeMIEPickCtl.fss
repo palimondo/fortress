@@ -1,0 +1,23 @@
+component ProbeMIEPickCtl
+export Executable
+
+trait Tag[\X\]
+  tagName(): String
+end
+object IntTag extends Tag[\ZZ32\]
+  tagName(): String = "IntTag"
+end
+object StrTag extends Tag[\String\]
+  tagName(): String = "StrTag"
+end
+
+pick[\X\](t: Tag[\X\]): Tag[\X\] = t
+pick(t: Tag[\ZZ32\]): Tag[\ZZ32\] = IntTag
+
+run(): () = do
+  x: Tag[\String\] = StrTag
+  y: Tag[\String\] = pick(x)
+  z: Tag[\ZZ32\] = pick(IntTag)
+  println("control: pick(StrTag) = " y.tagName() ", pick(IntTag) = " z.tagName())
+end
+end

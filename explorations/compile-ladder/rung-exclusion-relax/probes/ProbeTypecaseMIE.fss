@@ -1,0 +1,16 @@
+component ProbeTypecaseMIE
+export Executable
+
+trait G[\X\] end
+trait A extends G[\ZZ32\] end
+trait B extends { A, G[\Boolean\] } end
+object O extends B end
+
+run(): () = do
+  x: G[\ZZ32\] = O
+  typecase x of
+    G[\Boolean\] => println("PASS: O is a G[Boolean]")
+    else => println("FAIL: typecase did not take the G[Boolean] clause")
+  end
+end
+end

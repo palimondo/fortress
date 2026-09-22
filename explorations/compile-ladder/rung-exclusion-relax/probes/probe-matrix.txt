@@ -1,0 +1,117 @@
+# The probe matrix: the measurement build (base d610695c0 + probes/measurement-switch.patch), each program linked and run under -Dprobe.rungP=off|hier|over|broad by probes/run-probes.sh, 2026-09-22.
+# off = the base tree's checker; hier = checkP's positive direction relaxed for the two TypeHierarchyChecker questions; over = hier plus the whole typechecker/OverloadingChecker; broad = relaxed in every TypeAnalyzer.
+=== ExclusionRelaxRungP (measurement build, -Dprobe.rungP=off)
+ExclusionRelaxRungP.fss:7:19:
+    Type B excludes A but it extends A.
+ExclusionRelaxRungP.fss:7:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+ExclusionRelaxRungP.fss:7:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+ExclusionRelaxRungP.fss:7:22-32:
+    Type B excludes G but it extends G.
+File ExclusionRelaxRungP.fss has 4 errors.
+link exit=255
+Could not load ExclusionRelaxRungP
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ExclusionRelaxRungP.class
+run exit=1
+=== ProbeMIEPickCtl (measurement build, -Dprobe.rungP=off)
+link exit=0
+control: pick(StrTag) =  StrTag , pick(IntTag) =  IntTag
+run exit=0
+=== ProbeMIEPick (measurement build, -Dprobe.rungP=off)
+ProbeMIEPick.fss:13:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:23-34:
+    Type Both excludes Tag but it extends Tag.
+ProbeMIEPick.fss:13:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:38-47:
+    Type Both excludes Tag but it extends Tag.
+File ProbeMIEPick.fss has 4 errors.
+link exit=255
+Could not load ProbeMIEPick
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ProbeMIEPick.class
+run exit=1
+=== ProbeTypecaseMIE (measurement build, -Dprobe.rungP=off)
+ProbeTypecaseMIE.fss:6:19:
+    Type B excludes A but it extends A.
+ProbeTypecaseMIE.fss:6:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-32:
+    Type B excludes G but it extends G.
+ProbeTypecaseMIE.fss:7:18:
+    Type O excludes B but it extends B.
+ProbeTypecaseMIE.fss:12:5-10:12:
+    The typecase clause, G[\Boolean\], is unreachable.
+File ProbeTypecaseMIE.fss has 6 errors.
+link exit=255
+Could not load ProbeTypecaseMIE
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ProbeTypecaseMIE.class
+run exit=1
+=== ExclusionRelaxRungP (measurement build, -Dprobe.rungP=hier)
+link exit=0
+PASS
+run exit=0
+=== ProbeMIEPickCtl (measurement build, -Dprobe.rungP=hier)
+link exit=0
+control: pick(StrTag) =  StrTag , pick(IntTag) =  IntTag
+run exit=0
+=== ProbeMIEPick (measurement build, -Dprobe.rungP=hier)
+link exit=0
+java.lang.IncompatibleClassChangeError
+Caused by: java.lang.IncompatibleClassChangeError: Class ProbeMIEPick$IntTag does not implement the requested interface ProbeMIEPick$\=Tag?fortress\|CompilerBuiltin\%String?
+run exit=1
+=== ProbeTypecaseMIE (measurement build, -Dprobe.rungP=hier)
+ProbeTypecaseMIE.fss:12:5-10:12:
+    The typecase clause, G[\Boolean\], is unreachable.
+File ProbeTypecaseMIE.fss has 1 error.
+link exit=255
+Could not load ProbeTypecaseMIE
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ProbeTypecaseMIE.class
+run exit=1
+=== ExclusionRelaxRungP (measurement build, -Dprobe.rungP=over)
+link exit=0
+PASS
+run exit=0
+=== ProbeMIEPickCtl (measurement build, -Dprobe.rungP=over)
+link exit=0
+control: pick(StrTag) =  StrTag , pick(IntTag) =  IntTag
+run exit=0
+=== ProbeMIEPick (measurement build, -Dprobe.rungP=over)
+link exit=0
+java.lang.IncompatibleClassChangeError
+Caused by: java.lang.IncompatibleClassChangeError: Class ProbeMIEPick$IntTag does not implement the requested interface ProbeMIEPick$\=Tag?fortress\|CompilerBuiltin\%String?
+run exit=1
+=== ProbeTypecaseMIE (measurement build, -Dprobe.rungP=over)
+ProbeTypecaseMIE.fss:12:5-10:12:
+    The typecase clause, G[\Boolean\], is unreachable.
+File ProbeTypecaseMIE.fss has 1 error.
+link exit=255
+Could not load ProbeTypecaseMIE
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ProbeTypecaseMIE.class
+run exit=1
+=== ExclusionRelaxRungP (measurement build, -Dprobe.rungP=broad)
+link exit=0
+PASS
+run exit=0
+=== ProbeMIEPickCtl (measurement build, -Dprobe.rungP=broad)
+link exit=0
+control: pick(StrTag) =  StrTag , pick(IntTag) =  IntTag
+run exit=0
+=== ProbeMIEPick (measurement build, -Dprobe.rungP=broad)
+link exit=0
+java.lang.IncompatibleClassChangeError
+Caused by: java.lang.IncompatibleClassChangeError: Class ProbeMIEPick$IntTag does not implement the requested interface ProbeMIEPick$\=Tag?fortress\|CompilerBuiltin\%String?
+run exit=1
+=== ProbeTypecaseMIE (measurement build, -Dprobe.rungP=broad)
+link exit=0
+PASS: O is a G[Boolean]
+run exit=0
+EXIT=0

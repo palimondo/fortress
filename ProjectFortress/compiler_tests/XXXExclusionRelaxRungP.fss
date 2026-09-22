@@ -1,0 +1,10 @@
+(* See explorations/compile-ladder/rung-exclusion-relax/REPORT.md. *)
+component XXXExclusionRelaxRungP
+export Executable
+
+trait G[\X\] end
+trait A extends G[\ZZ32\] end
+trait B extends { A, G[\Boolean\] } end
+
+run(): () = println("PASS")
+end
