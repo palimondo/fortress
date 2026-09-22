@@ -1,0 +1,11 @@
+component Sk2RadixTen
+export Executable
+
+(*) Second skeptic's probe for rung R: see ../../SKEPTIC.md
+
+run():() = do
+    println("round(2.5_10)  = " round(2.5_10))
+    println("round(3.5_10)  = " round(3.5_10))
+end
+
+end

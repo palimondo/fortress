@@ -1,0 +1,51 @@
+=== $ FORTRESS_THREADS=1 bin/fortress explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2Radix.fss   (walk, rung R's edit in place) 2026-09-22T23:32:54Z ===
+round(10.1_2)  = 2
+round(11.1_2)  = 4
+round(0.8_16)  = 0
+round(2.8_16)  = 2
+round(10.10000000000000000000000000000000000000000000000000000001_2) = 2
+10.10000000000000000000000000000000000000000000000000000001_2 prints 2.5
+=== exit 0 ===
+=== $ FORTRESS_THREADS=1 java $JAVA_FLAGS -cp tmp/sk-before-classes:$(bin/fortress_classpath) com.sun.fortress.Shell explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2Radix.fss   (walk, the base's Float$Round and RR32$Round, Math.round, ahead of the build) 2026-09-22T23:32:58Z ===
+round(10.1_2)  = 3
+round(11.1_2)  = 4
+round(0.8_16)  = 1
+round(2.8_16)  = 3
+round(10.10000000000000000000000000000000000000000000000000000001_2) = 3
+10.10000000000000000000000000000000000000000000000000000001_2 prints 2.5
+=== exit 0 ===
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress compile ../explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2Radix.fss ; ../bin/fortress run Sk2Radix   (compiled path; the rung touches no compiled-path file) 2026-09-22T23:33:01Z ===
+--- compile exit 0 ---
+round(10.1_2)  =  2
+round(11.1_2)  =  4
+round(0.8_16)  =  0
+round(2.8_16)  =  2
+round(10.10000000000000000000000000000000000000000000000000000001_2) =  2
+java.lang.NullPointerException
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at Sk2Radix.main(/home/user/fortress-round/explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2Radix.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NullPointerException: Cannot invoke "fortress.CompilerBuiltin$String.asJavaString()" because the return value of "fortress.CompilerBuiltin$Object.asString()" is null
+	at fortress.CompilerBuiltin$JavaString$DefaultTraitMethods.|||?0(/home/user/fortress-round/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:428)
+	at fortress.CompilerBuiltin$JavaString$DefaultTraitMethods.|||?0(/home/user/fortress-round/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin.|||(/home/user/fortress-round/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin.|||(/home/user/fortress-round/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin$String$DefaultTraitMethods.juxtaposition?0(/home/user/fortress-round/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:401)
+	at fortress.CompilerBuiltin$String$DefaultTraitMethods.juxtaposition?0(/home/user/fortress-round/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin.juxtaposition(/home/user/fortress-round/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at Sk2Radix.run(/home/user/fortress-round/explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2Radix.fss:12)
+	at Sk2Radix.compute(/home/user/fortress-round/explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2Radix.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+=== run exit 1 ===

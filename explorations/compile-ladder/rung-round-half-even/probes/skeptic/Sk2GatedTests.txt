@@ -1,0 +1,27 @@
+=== $ bin/fortress ProjectFortress/tests/RoundHalfEvenRungR.fss   (walk, rung R's edit in place: the rung's home-1 gate) 2026-09-22T23:34:19Z ===
+PASS
+=== exit 0 ===
+=== $ bin/fortress ProjectFortress/tests/XXXRoundNearTieNumeral.fss   (walk, rung R's edit in place: the home-2 gate, expected to fail) 2026-09-22T23:34:22Z ===
+FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:470-472
+/home/user/fortress-round/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-round/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-round/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-round/ProjectFortress/tests/XXXRoundNearTieNumeral.fss:7:5-125:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+=== exit 1 ===
+=== $ java -cp $(bin/fortress_classpath) -Dtests=tmp/sk2-suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (testSystem's harness on a two-file copy: both new tests) 2026-09-22T23:34:26Z ===
+tmp/sk2-suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb787e0b_16
+. interpret tmp/sk2-suite/XXXRoundNearTieNumeral  OK Saw expected exception
+. interpret tmp/sk2-suite/RoundHalfEvenRungR  OK (time = 601ms)
+
+Time: 4.433
+
+OK (2 tests)
+
+=== exit 0 ===

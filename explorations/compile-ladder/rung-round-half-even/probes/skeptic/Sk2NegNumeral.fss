@@ -1,0 +1,17 @@
+component Sk2NegNumeral
+export Executable
+
+(*) Second skeptic's probe for rung R: see ../../SKEPTIC.md
+
+run():() = do
+    println("round(-2.50000000000000001)        = " round(-2.50000000000000001))
+    println("round(-0.50000000000000001)        = " round(-0.50000000000000001))
+    println("round(2.5 + 0.00000000000000001)   = " round(2.5 + 0.00000000000000001))
+    println("round(-2.5)                        = " round(-2.5))
+    println("round(-0.5)                        = " round(-0.5))
+    println("round(-3.5)                        = " round(-3.5))
+    println("negated -2.50000000000000001 prints  " (-2.50000000000000001))
+    println("numeral 2.50000000000000001 prints   " 2.50000000000000001)
+end
+
+end
