@@ -1,0 +1,27 @@
+=== Revert, 2026-09-22T22:59:40Z: git checkout -- ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/FloatLiteral.java ProjectFortress/LibraryBuiltin/FortressBuiltin.fss; ant compileAll (BUILD SUCCESSFUL); rm -rf default_repository/caches/* ===
+=== $ git status --short -- ProjectFortress/src ProjectFortress/LibraryBuiltin   (empty: neither file is modified) ===
+=== $ ls ProjectFortress/build/com/sun/fortress/interpreter/glue/prim/ | grep FloatLiteral   (no FloatLiteral$Round class) ===
+FloatLiteral$AsFloat.class
+FloatLiteral$Rlit2R.class
+FloatLiteral$Rlit2S.class
+FloatLiteral$ToString.class
+FloatLiteral.class
+=== $ javap -c -cp ProjectFortress/build 'com.sun.fortress.interpreter.glue.prim.Float$Round' | grep rint   (rung R's edit still in the build) ===
+         1: invokestatic  #7                  // Method java/lang/Math.rint:(D)D
+=== $ bin/fortress ProjectFortress/tests/XXXRoundNearTieNumeral.fss   (walk, after the revert: red again) 2026-09-22T22:59:40Z ===
+FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:470-472
+/home/user/fortress-round/Library/FortressLibrary.fss:56:5-23:
+=== exit 1 ===
+=== $ java -cp $(bin/fortress_classpath) -Dtests=tmp/xxx-suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (after the revert: an expected failure again) 2026-09-22T22:59:59Z ===
+tmp/xxx-suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb58f4c9_16
+. interpret tmp/xxx-suite/XXXRoundNearTieNumeral  OK Saw expected exception
+
+Time: 3.987
+
+OK (1 test)
+
+=== exit 0 ===
+=== $ bin/fortress ProjectFortress/tests/RoundHalfEvenRungR.fss   (the rung's own test, after the revert) 2026-09-22T23:00:03Z ===
+PASS
+=== exit 0 ===

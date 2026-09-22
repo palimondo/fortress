@@ -1,0 +1,39 @@
+=== $ cd ProjectFortress && ../bin/fortress compile tests/XXXRoundNearTieNumeral.fss   (the home-2 test on the compiled path, rung R's edit in place, bytecode cache warm; where a full-corpus ladder run would put it) 2026-09-22T22:57:08Z ===
+/home/user/fortress-round/ProjectFortress/tests/XXXRoundNearTieNumeral.fss:7:5-125:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-round/ProjectFortress/tests/XXXRoundNearTieNumeral.fss:8:5-125:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-round/ProjectFortress/tests/XXXRoundNearTieNumeral.fss:9:5-125:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-round/ProjectFortress/tests/XXXRoundNearTieNumeral.fss:10:5-125:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+File XXXRoundNearTieNumeral.fss has 4 errors.
+=== exit 255 ===
