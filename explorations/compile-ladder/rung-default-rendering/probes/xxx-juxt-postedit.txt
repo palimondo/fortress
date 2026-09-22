@@ -1,26 +1,21 @@
-### POST-EDIT (final tree): the row-76 expected-failure pair
-### FORTRESS_HOME=/home/user/fortress-rendering  rev=ec65de800  2026-09-22T20:28:57+00:00
+### AFTER UNDO (final tree): the row-76 expected-failure pair
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=95ad0b427  2026-09-22T20:34:06+00:00
 ### git status:
- M ../explorations/compile-ladder/rung-default-rendering/probes/test-preedit.txt
-?? compiler_tests/JuxtConcatRungSLink.test
-?? compiler_tests/XXXJuxtConcatRungS.fss
-?? compiler_tests/XXXJuxtConcatRungS.test
-?? ../explorations/compile-ladder/rung-default-rendering/probes/xxx-juxt-preedit.txt
 ### CompilerBuiltin.fss String juxtaposition line: 402:    opr juxtaposition(self, b:Object): String = self ||| b
 ================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/JuxtConcatRungSLink.test
-. link compiler_tests/XXXJuxtConcatRungS  OK (time = 5462ms)
+. link compiler_tests/XXXJuxtConcatRungS  OK (time = 4552ms)
 
-Time: 5.473
+Time: 4.559
 
 OK (1 test)
 
 ================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXJuxtConcatRungS.test
-. run compiler_tests/XXXJuxtConcatRungS (561ms) REACHED
+. run compiler_tests/XXXJuxtConcatRungS (644ms) REACHED
 FAIL:  < Box > =/= <Box>; string juxtaposition is concatenation; ledger row 76, Specification/basic/operators/intro.tex:68-70
 FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  < Box > =/= <Box>; string juxtaposition is concatenation; ledger row 76, Specification/basic/operators/intro.tex:68-70
 Saw expected failure (Exit code != 0)
 
-Time: 0.584
+Time: 0.667
 
 OK (1 test)
 

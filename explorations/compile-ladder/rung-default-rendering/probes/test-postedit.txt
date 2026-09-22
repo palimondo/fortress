@@ -1,20 +1,15 @@
-### POST-EDIT: the final gated test on the final tree (typeName native; ant compileAll; library rebuilt in order): compiler_tests/DefaultRenderRungS.test
-### FORTRESS_HOME=/home/user/fortress-rendering  rev=ec65de800  2026-09-22T20:28:49+00:00
+### POST-EDIT, after the undo and rebuild: the final gated test on the final tree: compiler_tests/DefaultRenderRungS.test
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=95ad0b427  2026-09-22T20:34:11+00:00
 ### git status:
- M ../explorations/compile-ladder/rung-default-rendering/probes/test-preedit.txt
-?? compiler_tests/JuxtConcatRungSLink.test
-?? compiler_tests/XXXJuxtConcatRungS.fss
-?? compiler_tests/XXXJuxtConcatRungS.test
-?? ../explorations/compile-ladder/rung-default-rendering/probes/xxx-juxt-preedit.txt
 ================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
-. link compiler_tests/DefaultRenderRungS  OK (time = 6597ms)
-. run compiler_tests/DefaultRenderRungS (1380ms) Box
+. link compiler_tests/DefaultRenderRungS  OK (time = 4733ms)
+. run compiler_tests/DefaultRenderRungS (1125ms) Box
 Cell[\ZZ32\]
 Pt
 PASS
 Passed
 
-Time: 7.989
+Time: 5.867
 
 OK (2 tests)
 
