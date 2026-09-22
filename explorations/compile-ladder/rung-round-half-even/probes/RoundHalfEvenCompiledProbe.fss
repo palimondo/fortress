@@ -1,0 +1,27 @@
+component RoundHalfEvenCompiledProbe
+export Executable
+
+(*) The compiled twin of the RR64 Float lines of RoundHalfEvenWalkProbe.fss:
+(*) the same values built the same way.  The compiled prelude has no narrow
+(*) and no round on RR32, so the RR32 lines have no compiled twin.
+
+run():() = do
+    zero = SQRT(0.0)
+    one = SQRT(1.0)
+    inf = one / zero
+    nan = zero / zero
+    huge = exp(SQRT(10000.0))
+    println("RR64 Float round(2.5)      = " round(SQRT(6.25)))
+    println("RR64 Float round(-3.5)     = " round(-SQRT(12.25)))
+    println("RR64 Float round(0.5)      = " round(SQRT(0.25)))
+    println("RR64 Float round(-1.5)     = " round(-SQRT(2.25)))
+    println("RR64 Float round(3.5)      = " round(SQRT(12.25)))
+    println("RR64 Float round(-0.5)     = " round(-SQRT(0.25)))
+    println("RR64 Float round(nan)      = " round(nan))
+    println("RR64 Float round(inf)      = " round(inf))
+    println("RR64 Float round(-inf)     = " round(-inf))
+    println("RR64 Float round(huge)     = " round(huge))
+    println("RR64 Float round(-huge)    = " round(-huge))
+end
+
+end

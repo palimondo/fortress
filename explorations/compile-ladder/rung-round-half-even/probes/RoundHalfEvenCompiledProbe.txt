@@ -1,0 +1,14 @@
+=== $ cd ProjectFortress && ../bin/fortress compile ../explorations/compile-ladder/rung-round-half-even/probes/RoundHalfEvenCompiledProbe.fss ; ../bin/fortress run RoundHalfEvenCompiledProbe   (compiled path, after the edit; the edit touches no compiled-path file) 2026-09-22T20:51:27Z ===
+--- compile exit 0 ---
+RR64 Float round(2.5)      =  2
+RR64 Float round(-3.5)     =  -4
+RR64 Float round(0.5)      =  0
+RR64 Float round(-1.5)     =  -2
+RR64 Float round(3.5)      =  4
+RR64 Float round(-0.5)     =  0
+RR64 Float round(nan)      =  0
+RR64 Float round(inf)      =  9223372036854775807
+RR64 Float round(-inf)     =  -9223372036854775808
+RR64 Float round(huge)     =  9223372036854775807
+RR64 Float round(-huge)    =  -9223372036854775808
+=== run exit 0 ===
