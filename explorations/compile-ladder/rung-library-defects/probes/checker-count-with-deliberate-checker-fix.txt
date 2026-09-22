@@ -1,0 +1,17 @@
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	108
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	102
+#locations	62
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker

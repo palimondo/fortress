@@ -1,0 +1,13 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+index 3f02bce04..9827cb11b 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+@@ -206,7 +206,7 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
+ 		    error(errors, "Invalid comprises clause: " + name +
+ 			  " has a comprises clause\n    but its immediate subtype " + decl +
+ 			  " is not eligible to extend it.", ti.ast)
+-		  if ( isApi && NodeUtil.isComprisesEllipses(si.ast) )
++		  if ( isApi && NodeUtil.isComprisesEllipses(si.ast) && ! comprisesContains(subst_comprises, tt, new_analyzer) )
+ 		    error(errors, "Invalid comprises clause: " +
+                           "a trait with a comprises ...,\n    such as " + name +
+ 			  ", should not be extended.", ti.ast)
