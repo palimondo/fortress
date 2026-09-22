@@ -1,0 +1,27 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component DefaultRenderRungS
+export Executable
+
+object Box(n: ZZ32) end
+object Cell[\T\](v: T) end
+object Two[\A, B\](a: A, b: B) end
+value object Pt(x: ZZ32) end
+
+run(): () = do
+    println(Box(1))
+    println(Cell[\ZZ32\](1))
+    println(Pt(1))
+    assert(Box(1).asString, "Box", "plain object; ledger row 321, walk prints Box")
+    assert(Cell[\ZZ32\](1).asString, "Cell[\\ZZ32\\]", "generic object; ledger row 321, walk prints Cell[\\ZZ32\\]")
+    assert(Pt(1).asString, "Pt", "value object; ledger row 321, walk prints Pt")
+    assert(Two[\ZZ32, String\](1, "a").asString, "Two[\\ZZ32,String\\]", "two static arguments; ledger row 321")
+    assert(Cell[\Box\](Box(2)).asString, "Cell[\\Box\\]", "a user object as the argument; ledger row 321")
+    assert(Cell[\Cell[\ZZ32\]\](Cell[\ZZ32\](3)).asString, "Cell[\\Cell[\\ZZ32\\]\\]", "nested instance; ledger row 321")
+    assert("<" Box(1) ">", "<Box>", "juxtaposition goes through asString; ledger row 321")
+    assert(Nothing.asString, "Nothing", "prelude singleton Nothing; ledger row 321")
+    assert(None.asString, "None", "prelude singleton None; ledger row 321")
+    println("PASS")
+  end
+
+end
