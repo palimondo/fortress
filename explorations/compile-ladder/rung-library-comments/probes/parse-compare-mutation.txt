@@ -1,0 +1,13 @@
+# Mutation check of ast-compare.py: the edited Library/FortressLibrary.fss with one word of code changed (e - y to y - e in the first - of the scalar block), parsed from a scratch directory and compared with the base parse of parse-compare.txt
+Ok
+Library/FortressLibrary.fss: 15 lines inserted; 29058 spans and 1355 location-derived names remapped; post dump DIFFERS from the pre dump
+  4 dump lines differ: 2 are a span end moved onto an inserted comment line, 2 are anything else
+  - (FnDecl @4499:1~101
+  + (FnDecl @4499:1~INSERTED4514:88
+  - _unambiguousName=(NamedOp @4499:5~6 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fss:4499:1-101"))
+  + _unambiguousName=(NamedOp @4499:5~6 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fss:4499:1-INSERTED4514:88"))
+  - (VarRef @4499:96 _info=(ExprInfo) _lexicalDepth=-2147483648 _varId=(Id _info=(SpanInfo) _text="e"))
+  + (VarRef @4499:96 _info=(ExprInfo) _lexicalDepth=-2147483648 _varId=(Id _info=(SpanInfo) _text="y"))
+  - (VarRef @4499:100 _info=(ExprInfo) _lexicalDepth=-2147483648 _varId=(Id _info=(SpanInfo) _text="y"))])
+  + (VarRef @4499:100 _info=(ExprInfo) _lexicalDepth=-2147483648 _varId=(Id _info=(SpanInfo) _text="e"))])
+ast-compare exit=1

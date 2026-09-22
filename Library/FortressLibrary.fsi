@@ -407,6 +407,7 @@ trait QQ extends { RR64, StandardPartialOrder[\QQ\] } comprises { ... }
 end
 
 trait AnyIntegral extends { QQ } comprises { ZZ } end
+        (** not yet: ``%comprises Integral[\I\] where [\I\]%'' *)
 
 trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
     getter zero(): I
@@ -1657,6 +1658,12 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
               StandardMutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,
                                         (ZZ32,ZZ32,ZZ32)\] }
     excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
+    (* Excluding AnyAdditiveGroup picks one of two uses of rank 3.  An operator
+       between an Array3 and a number or a lower-rank array, such as a matrix added
+       to every plane, can be declared without colliding with AdditiveGroup's
+       +(self, other: T); in exchange no Array3 can be an additive group, a rank-3
+       counterpart of Vector and Matrix.  Array1 and Array2 cannot exclude it:
+       Vector and Matrix extend them and are additive groups. *)
 
     getter size():ZZ32
     getter sizes():(ZZ32,ZZ32,ZZ32)
@@ -2537,9 +2544,18 @@ relationalPredicate[\E\](relation : (E, E) -> Boolean) : E -> RelationalPredicat
 
 opr PREFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\]
 opr SUFFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\]
+(*) Scalar extension: an array of numbers and one number, either way round.
+(*) All eight return the unsized Array[\T,I\], where the Vector and Matrix scalar
+(*) operators keep rank and size (Vector[\T,n\] to Vector[\T,n\]).  Nothing is lost at run
+(*) time, since map builds its result with replica and m + 1.0 is still a Matrix; a static
+(*) checker sees only Array[\T,I\], so sized arrays under a compiler need per-shape
+(*) declarations beside these.
 opr +[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
 opr +[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
 opr -[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+(*) Scalar on the left: y - x is y - e for each element e of x, so 3 - [1 2] is [2 1].
+(*) This is the only pair here whose two orders differ: +, MIN and MAX commute, and so do
+(*) the scalar DOT and juxtaposition pairs of Vector and Matrix that this block follows.
 opr -[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
 opr MIN[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
 opr MIN[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]

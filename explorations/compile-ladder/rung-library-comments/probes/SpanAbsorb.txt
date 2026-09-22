@@ -1,0 +1,19 @@
+# (1) bin/fortress parse -out <dump> SpanAbsorb.fss; the span of every top-level FnDecl in the dump, then every location-derived unambiguous name
+Ok
+Dumped parse tree to tmp/spantest/SpanAbsorb.tfs
+  (FnDecl @4:1~5:63
+  (FnDecl @6:1~8:41
+  (FnDecl @9:1~11:2
+  (FnDecl @13:1~24
+_text="_|explorations|compile-ladder|rung-library-comments|probes|SpanAbsorb.fss:4:1-5:63"
+_text="_|explorations|compile-ladder|rung-library-comments|probes|SpanAbsorb.fss:6:1-8:41"
+_text="_|explorations|compile-ladder|rung-library-comments|probes|SpanAbsorb.fss:9:1-11:2"
+_text="_|explorations|compile-ladder|rung-library-comments|probes|SpanAbsorb.fss:13:1-24"
+# (2) bin/fortress SpanAbsorb.fss (walk): the dispatch failure lists both f with their spans; exit code on the last line
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-library-comments/probes/SpanAbsorb.fss:13:17-22:
+Failed to find any matching overload, args = (true), overload = {
+	f(x:FortressLibrary.ZZ32):FortressLibrary.ZZ32 ZZ32->ZZ32 explorations/compile-ladder/rung-library-comments/probes/SpanAbsorb.fss:4:1-5:63
+	f(x:FortressLibrary.String):FortressLibrary.String String->String explorations/compile-ladder/rung-library-comments/probes/SpanAbsorb.fss:6:1-8:41}:OverloadedFunction
+Context:
+explorations/compile-ladder/rung-library-comments/probes/SpanAbsorb.fss:13:17-22:
+rc=1

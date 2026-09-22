@@ -1,0 +1,14 @@
+(* Probe for rung C; see ../REPORT.md *)
+component SpanAbsorb
+export Executable
+f(x: ZZ32): ZZ32 = x + 1
+(*) a line comment after a function whose body is an expression
+f(x: String): String = x
+
+(* a block comment, after a blank line *)
+g(x: ZZ32): ZZ32 = do
+  x + 2
+end
+(*) a line comment after a function whose body ends in end
+run() = println(f(true))
+end
