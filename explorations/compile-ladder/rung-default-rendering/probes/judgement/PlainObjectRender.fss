@@ -1,0 +1,11 @@
+component PlainObjectRender
+export Executable
+
+object Box(n: ZZ32) end
+
+run(): () = do
+    println(Box(1))
+    println(Box(1).asDebugString)
+  end
+
+end

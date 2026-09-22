@@ -1,0 +1,25 @@
+component ThrowRender
+export Executable
+
+object Boom extends UncheckedException end
+object Bang[\T\](v: T) extends UncheckedException end
+
+run(): () = do
+    var caught: String = "none"
+    try
+        throw Boom
+    catch e
+        Boom => caught := "Boom caught"
+    end
+    println(caught)
+    try
+        throw Bang[\ZZ32\](3)
+    catch e
+        Bang[\ZZ32\] => caught := "Bang caught"
+    end
+    println(caught)
+    println(Boom)
+    throw Bang[\ZZ32\](4)
+  end
+
+end

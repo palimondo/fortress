@@ -1,0 +1,28 @@
+### POST-EDIT: the gated test with the typeName native (stringOps.java + CompilerBuiltin.fss:282-283,351), library rebuilt after ant compileAll: compiler_tests/DefaultRenderRungS.test
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=623c7baf3  2026-09-22T19:54:08+00:00
+### git status:
+ M LibraryBuiltin/CompilerBuiltin.fss
+ M compiler_tests/DefaultRenderRungS.fss
+ M src/com/sun/fortress/nativeHelpers/stringOps.java
+?? ../explorations/compile-ladder/rung-default-rendering/probes/JuxtRender.fss
+?? ../explorations/compile-ladder/rung-default-rendering/probes/JuxtRender.txt
+?? ../explorations/compile-ladder/rung-default-rendering/probes/RenderArgs-compiled-postedit.txt
+?? ../explorations/compile-ladder/rung-default-rendering/probes/RenderArgs-walk.txt
+?? ../explorations/compile-ladder/rung-default-rendering/probes/RenderArgs.fss
+?? ../explorations/compile-ladder/rung-default-rendering/probes/ThrowRender.fss
+?? ../explorations/compile-ladder/rung-default-rendering/probes/ThrowRender.txt
+?? ../explorations/compile-ladder/rung-default-rendering/probes/judgement-probes-both-paths.txt
+?? ../explorations/compile-ladder/rung-default-rendering/probes/judgement/
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
+. link compiler_tests/DefaultRenderRungS  OK (time = 5204ms)
+. run compiler_tests/DefaultRenderRungS (877ms) Box
+Cell[\ZZ32\]
+Pt
+PASS
+Passed
+
+Time: 6.09
+
+OK (2 tests)
+
+EXIT=0

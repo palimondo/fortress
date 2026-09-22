@@ -1,0 +1,11 @@
+component GenericObjectRender
+export Executable
+
+object Box[\T\](n: T) end
+
+run(): () = do
+    println(Box[\ZZ32\](1))
+    println(Box[\ZZ32\](1).asDebugString)
+  end
+
+end

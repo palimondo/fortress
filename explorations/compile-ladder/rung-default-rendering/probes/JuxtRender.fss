@@ -1,0 +1,13 @@
+component JuxtRender
+export Executable
+
+object Box(n: ZZ32) end
+
+run(): () = do
+    println("[" || ("<" Box(1) ">") || "]")
+    println("[" || ("<" || Box(1) || ">") || "]")
+    println("[" || ("<" "Box" ">") || "]")
+    println("[" || ("<" 1 ">") || "]")
+  end
+
+end
