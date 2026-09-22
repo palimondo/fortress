@@ -1,0 +1,158 @@
+########## fortress compile explorations/perf-probes/prelude/pNat1.fss   (likeOpr=false valuePos=false)
+exit=0
+---------- fortress run pNat1
+7
+
+########## fortress compile explorations/perf-probes/prelude/pNat2.fss   (likeOpr=false valuePos=false)
+exit=0
+---------- fortress run pNat2
+7
+
+########## fortress compile explorations/perf-probes/prelude/pNat3.fss   (likeOpr=false valuePos=false)
+exit=0
+---------- fortress run pNat3
+7
+
+########## fortress compile explorations/perf-probes/nat/pNat4.fss   (likeOpr=false valuePos=false)
+/home/user/fortress/explorations/perf-probes/nat/pNat4.fss:9:17-37:
+    Could not check call to function unbox
+    - [\4\]Box[\4\]->ZZ32 is not applicable to an argument of type Box[\3\].
+File pNat4.fss has 1 error.
+exit=255
+---------- fortress run pNat4
+Could not load pNat4
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNat4.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/pNat5.fss   (likeOpr=false valuePos=false)
+/home/user/fortress/explorations/perf-probes/nat/pNat5.fss:8:19-28:
+    Ill-formed type: Box[\k+1\]
+    Arithmetic on nat static arguments is not checked; use a nat parameter or a literal.
+/home/user/fortress/explorations/perf-probes/nat/pNat5.fss:9:17-32:
+    Could not check call to function unbox
+    - [\nat k\]Box[\k+1\]->ZZ32 is not applicable to an argument of type Box[\4\].
+File pNat5.fss has 2 errors.
+exit=255
+---------- fortress run pNat5
+Could not load pNat5
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNat5.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/pNat6.fss   (likeOpr=false valuePos=false)
+/home/user/fortress/explorations/perf-probes/nat/pNat6.fss:10:17-41:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+File pNat6.fss has 1 error.
+exit=255
+---------- fortress run pNat6
+Could not load pNat6
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNat6.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/pNatVec.fss   (likeOpr=false valuePos=false)
+exit=0
+---------- fortress run pNatVec
+java.lang.NoClassDefFoundError
+	at pNatVec.main(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: pNatVec$s0
+	at pNatVec?$\=len?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5??$\=?Arrow?pNatVec\%Vec?T,s0?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.the_function(Unknown Source)
+	at pNatVec?$\=len?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5??$\=?Arrow?pNatVec\%Vec?T,s0?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?.apply(Unknown Source)
+	at pNatVec.run(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss:19)
+	at pNatVec.compute(/home/user/fortress/explorations/perf-probes/nat/pNatVec.fss)
+
+########## fortress compile explorations/perf-probes/nat/pNatBool.fss   (likeOpr=false valuePos=false)
+/home/user/fortress/explorations/perf-probes/nat/pNatBool.fss:7:9-13:
+    Static argument inference for the bool static parameter b is not supported by the type checker.
+File pNatBool.fss has 1 error.
+exit=255
+---------- fortress run pNatBool
+Could not load pNatBool
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatBool.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/java/pNatMeth.fss   (likeOpr=false valuePos=false)
+exit=0
+---------- fortress run pNatMeth
+7
+
+########## fortress compile explorations/perf-probes/nat/java/pNatGenMeth.fss   (likeOpr=false valuePos=false)
+exit=0
+---------- fortress run pNatGenMeth
+7
+7
+
+########## fortress compile explorations/perf-probes/nat/runtime/pNatOver.fss   (likeOpr=false valuePos=false)
+exit=0
+---------- fortress run pNatOver
+3
+4
+
+########## fortress compile explorations/perf-probes/nat/runtime/pNatCase.fss   (likeOpr=false valuePos=false)
+Exception in thread "main" java.lang.Error: 
+/home/user/fortress/explorations/perf-probes/nat/runtime/pNatCase.fss:9:3-13:4: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 9 L1
+,     ALOAD 0
+,     DUP
+,     INSTANCEOF pNatCase$Vec?com/sun/fortress/compiler/runtimeValues/FZZ32,3?
+,     IFNE L2
+,     GOTO L3
+,    L2
+,     POP
+exit=1
+---------- fortress run pNatCase
+Could not load pNatCase
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatCase.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/runtime/pTypeCase.fss   (likeOpr=false valuePos=false)
+Exception in thread "main" java.lang.Error: 
+/home/user/fortress/explorations/perf-probes/nat/runtime/pTypeCase.fss:7:3-11:4: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 7 L1
+,     ALOAD 0
+,     DUP
+,     INSTANCEOF pTypeCase$Vec?com/sun/fortress/compiler/runtimeValues/FZZ32?
+,     IFNE L2
+,     GOTO L3
+,    L2
+,     POP
+exit=1
+---------- fortress run pTypeCase
+Could not load pTypeCase
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pTypeCase.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+

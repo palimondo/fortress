@@ -1,0 +1,86 @@
+--- explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/runtimeSystem/Naming.java
++++ explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/runtimeSystem/Naming.java
+@@ -230,6 +230,11 @@
+     public final static boolean NAT_AS_OPR =
+         ! "false".equals(java.lang.System.getProperty("probe.nat.likeOpr", "true"));
+ 
++    /* NAT SHADOW, the third gap (runtime.md  3): a size read as a value.
++     * -Dprobe.nat.valuePos=true turns on CodeGen.forVarRef's size branch. */
++    public final static boolean NAT_VALUE_POS =
++        "true".equals(java.lang.System.getProperty("probe.nat.valuePos", "false"));
++
+     public final static String XL_BOOL = "bool";
+     public final static String XL_INTNAT = "intnat";
+     public final static String XL_OPR = "opr";
+@@ -287,6 +292,12 @@
+     public static final String magicInterpClass = "CONST";
+     public static final String hashMethod = "hash";
+     public static final String stringMethod = "String";
++    /* NAT SHADOW (runtime.md  3): a third magic-class op beside hash and
++     * String, for a size read as a value.  Its constant is written between
++     * oxfords because that is the only place InstantiationMap substitutes a
++     * bare name (nonVar, InstantiationMap.java:325-329, does not disqualify
++     * '.', so "String.s0" is looked up whole and misses). */
++    public static final String natMethod = "Nat";
+ 
+     /**
+      * Java descriptors for (boxed) Fortress types, INCLUDING leading L and trailing ;
+--- explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/runtimeSystem/MethodInstantiater.java
++++ explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/runtimeSystem/MethodInstantiater.java
+@@ -214,6 +214,10 @@
+                 mv.visitLdcInsn(Long.valueOf(hash_sargs));
+             } else if (op.equals(Naming.stringMethod)) {
+                 mv.visitLdcInsn(s);
++            } else if (op.equals(Naming.natMethod)) {
++                // NAT SHADOW: s is the instantiated text, oxfords and all.
++                mv.visitLdcInsn(Integer.valueOf(Integer.parseInt(
++                        s.substring(1, s.length() - 1))));
+             } else {
+                 throw new Error("Invocation of magic class Method '"+oname+
+                           "' ('"+name+"') seen, but op is not recognized.");
+--- explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/compiler/codegen/CodeGen.java
++++ explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/compiler/codegen/CodeGen.java
+@@ -5989,10 +5989,43 @@
+         return var != null && var.mutable();
+     }
+ 
++    /* NAT SHADOW (runtime.md  3).  A nat/int static parameter read as a value.
++     * The checker types such a VarRef IntLiteral (KindEnv.scala:64-70), and it
++     * is not in lexEnv, so forVarRef's fresh-import path below turns it into
++     * GETSTATIC <component>$<name>.ONLY -- pNatVec$s0, the load failure of
++     * java.md  3.  The test: typed IntLiteral, no api qualifier, and no
++     * variable of that name in the component's own index (a real IntLiteral
++     * variable would be there, or be api-qualified). */
++    private boolean isSizeInValuePosition(VarRef v, Id id) {
++        if (! Naming.NAT_VALUE_POS) return false;
++        if (id.getApiName().isSome()) return false;
++        if (ci.variables().containsKey(id)) return false;
++        Option<Type> ot = NodeUtil.getExprType(v);
++        if (! ot.isSome()) return false;
++        return ot.unwrap().equals(com.sun.fortress.compiler.Types.INT_LITERAL);
++    }
++
+     public void forVarRef(VarRef v) {
+         List<StaticArg> lsargs = v.getStaticArgs();
+         Id id = v.getVarId();
+         VarCodeGen vcg = getLocalVarOrNull(id, lsargs);
++        if (vcg == null && isSizeInValuePosition(v, id)) {
++            /* The literal the instance was stamped with is in the class's own
++             * name, and the substitute-at-load string operation reads it out:
++             * CONST.Nat.<oxfords>() is rewritten by MethodInstantiater to an
++             * LDC of the instantiated number (MethodInstantiater.java:195-207,
++             * the idiom of CodeGen.java:2579-2581).  Then the same
++             * IntLiteral.make(int) forIntLiteralExpr uses (:3871-3886). */
++            addLineNumberInfo(v);
++            String loadNat = Naming.opForString(Naming.natMethod,
++                    Naming.LEFT_OXFORD + id.getText() + Naming.RIGHT_OXFORD);
++            mv.visitMethodInsn(INVOKESTATIC, Naming.magicInterpClass, loadNat, "()I");
++            mv.visitMethodInsn(INVOKESTATIC,
++                    NamingCzar.internalFortressIntLiteral, NamingCzar.make,
++                    Naming.makeMethodDesc(NamingCzar.descInt,
++                            NamingCzar.descFortressIntLiteral));
++            return;
++        }
+         if (vcg == null) {
+             debug("forVarRef fresh import ", v);
+             Type ty = NodeUtil.getExprType(v).unwrap();

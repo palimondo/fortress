@@ -1,0 +1,184 @@
+--- ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
++++ explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/runtimeSystem/Naming.java
+@@ -95,7 +95,18 @@
+         public final static F<String, Boolean> isOpr = new F<String, Boolean>() {
+             @Override
+             public Boolean apply(String x) {
+-                return x.equals(Naming.XL_OPR);
++                /* NAT SHADOW, DESIGN A (explorations/perf-probes/nat/runtime.md).
++                 * This predicate is the run time's ONLY kind dispatch, and it
++                 * marks the static parameters that do NOT carry an RTTI object:
++                 * they are baked into the RTTI stem's own name between the heavy
++                 * angles instead (Naming.oprArgAnnotatedRTTI:1053-1066), left out
++                 * of the factory's arity and of the RTTI recursion
++                 * (MethodInstantiater.java:117-126) and pushed as null so that
++                 * RTHelpers.getRTTIclass:18-45 reads them back off the stem.
++                 * Design A adds a size to that set: it is what
++                 * "instantiated at run time" by name already means for an opr. */
++                return x.equals(Naming.XL_OPR)
++                    || (NAT_AS_OPR && x.equals(Naming.XL_INTNAT));
+             }
+             
+         };
+@@ -209,6 +220,16 @@
+     public final static char LEFT_HEAVY_ANGLE_CHAR = LEFT_HEAVY_ANGLE.charAt(0); // marks Opr parameters in RTTI types
+     public final static char RIGHT_HEAVY_ANGLE_CHAR = RIGHT_HEAVY_ANGLE.charAt(0); // marks Opr parameters in RTTI types
+ 
++    /* NAT SHADOW, DESIGN A: -Dprobe.nat.likeOpr=false restores the tree's
++     * behaviour (design B's premise: a size is RTTI-bearing), so one build
++     * measures both.  Read by Naming.XlationData.isOpr above, by
++     * CodeGen.oprsFromStaticArgs / oprsFromKindParamList / oprLikeKind /
++     * generateTypeReference and by OverloadSet.makeTypeStructure.  It must have
++     * the SAME value in the compiling JVM and in the running JVM -- it decides
++     * a class name. */
++    public final static boolean NAT_AS_OPR =
++        ! "false".equals(java.lang.System.getProperty("probe.nat.likeOpr", "true"));
++
+     public final static String XL_BOOL = "bool";
+     public final static String XL_INTNAT = "intnat";
+     public final static String XL_OPR = "opr";
+--- ProjectFortress/src/com/sun/fortress/runtimeSystem/MethodInstantiater.java
++++ explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/runtimeSystem/MethodInstantiater.java
+@@ -127,6 +127,19 @@
+ 
+             //call the factory
+             String stem_rtti = Naming.stemClassToRTTIclass(stem);
++            if (parameters.size() == 0) {
++                /* NAT SHADOW, DESIGN A.  Every static argument was annotated
++                 * onto the stem, so the RTTI class has no factory and no
++                 * dictionary: CodeGen.java:5368-5385 gives a parameterless RTTI
++                 * class a single ONLY instead (the LDC of its own class constant
++                 * is what the loader rewrites).  Take the same field the
++                 * non-generic branch below takes.  This is the opr path's own
++                 * gap -- an all-opr generic would ask for factory() too -- and
++                 * a size is the first argument kind that reaches it. */
++                mv.visitFieldInsn(Opcodes.GETSTATIC, stem_rtti,
++                        Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);
++                return;
++            }
+             String fact_sig = Naming.rttiFactorySig(parameters.size());
+             mv.visitMethodInsn(Opcodes.INVOKESTATIC, stem_rtti, Naming.RTTI_FACTORY, fact_sig);
+         } else {
+--- ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
++++ explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/compiler/codegen/CodeGen.java
+@@ -99,6 +99,8 @@
+ import com.sun.fortress.nodes.IntArg;
+ import com.sun.fortress.nodes.IntLiteralExpr;
+ import com.sun.fortress.nodes.IntersectionType;
++import com.sun.fortress.nodes.KindInt;
++import com.sun.fortress.nodes.KindNat;
+ import com.sun.fortress.nodes.KindOp;
+ import com.sun.fortress.nodes.Lhs;
+ import com.sun.fortress.nodes.LValue;
+@@ -5262,7 +5264,7 @@
+         {
+             int i = Naming.STATIC_PARAMETER_ORIGIN;
+             for (StaticParam sp : sparams) {
+-                if (! (sp.getKind() instanceof KindOp) ) {
++                if (! oprLikeKind(sp.getKind()) ) {
+                 String method_name =
+                     Naming.staticParameterGetterName(stemClassName, i);
+                 mv = cw.visitCGMethod(
+@@ -5318,7 +5320,7 @@
+         {
+             int i = Naming.STATIC_PARAMETER_ORIGIN;
+             for (StaticParam sp : sparams) {
+-                if (! (sp.getKind() instanceof KindOp) ) {
++                if (! oprLikeKind(sp.getKind()) ) {
+                     String spn = sp.getName().getText();
+                     String stem_name = stemClassName;
+                     InstantiatingClassloader.fieldAndGetterForStaticParameter(cw, stem_name, spn, i);           
+@@ -5346,7 +5348,7 @@
+             
+             int pno = 2; // 1 is java class
+             for (StaticParam sp : sparams) {
+-                if (! (sp.getKind() instanceof KindOp) ) {
++                if (! oprLikeKind(sp.getKind()) ) {
+                     String spn = sp.getName().getText();
+                     // not yet this;  sp.getKind();
+                     mv.visitVarInsn(ALOAD, 0);
+@@ -5557,7 +5559,7 @@
+                 int i = Naming.STATIC_PARAMETER_ORIGIN;
+                 for (StaticParam a_sparam : te_sp) {
+                     StaticParamKind spk = a_sparam.getKind();
+-                    if (spk instanceof KindOp)
++                    if (oprLikeKind(spk))
+                         continue;
+                     String method_name =
+                        Naming.staticParameterGetterName(te_stem, i);
+@@ -5782,7 +5784,12 @@
+                 } else if (sta instanceof DimArg) {
+                     
+                 } else if (sta instanceof IntArg) {
+-                    
++                    /* NAT SHADOW, DESIGN A: like an opr, a size is in the
++                     * annotated stem (oprTaggedGenericStemNameSA above), not in
++                     * the factory's arguments -- so skip it, instead of falling
++                     * through into the throw at the end of the loop, which is
++                     * where NatExtends1/NatExtends2 stopped. */
++                    if (Naming.NAT_AS_OPR) continue;
+                 } else if (sta instanceof OpArg) {
+                     continue; // skip opr args pushing to factory
+                 } else if (sta instanceof UnitArg) {
+@@ -5806,7 +5813,14 @@
+             if (sta instanceof OpArg) {
+                 OpArg opa = (OpArg) sta;
+                 al.add(opa.getId().getText());
+-            } 
++            } else if (Naming.NAT_AS_OPR && sta instanceof IntArg) {
++                /* NAT SHADOW, DESIGN A.  The same text NamingCzar's mangler
++                 * writes for this argument -- the literal for an IntBase
++                 * (NamingCzar.java:1890-1891), the symbol for an IntRef
++                 * (:1895-1896) -- so the annotated stem the declaring side
++                 * dumps and the one MethodInstantiater builds agree. */
++                al.add(sta.accept(NamingCzar.spkTagger(null)).getB());
++            }
+         }
+         return al;
+     }
+@@ -5814,13 +5828,22 @@
+     private List<String> oprsFromKindParamList(List<Pair<String,String>> kind_param_list) {
+         ArrayList<String> al = new ArrayList<String>();
+         for (Pair<String,String> kp : kind_param_list) {
+-            if (kp.getA().equals(Naming.XL_OPR)) {
++            if (kp.getA().equals(Naming.XL_OPR)
++                    || (Naming.NAT_AS_OPR && kp.getA().equals(Naming.XL_INTNAT))) {
+                 al.add(kp.getB());
+             } 
+         }
+         return al;
+     }
+ 
++    /* NAT SHADOW, DESIGN A: the four places generateRTTIclass/Interface asks
++     * "does this static parameter get a field, a getter and a factory
++     * argument?" ask it as `not KindOp'.  A size answers the same way now. */
++    private static boolean oprLikeKind(StaticParamKind spk) {
++        return spk instanceof KindOp
++            || (Naming.NAT_AS_OPR && (spk instanceof KindNat || spk instanceof KindInt));
++    }
++
+ 
+     private void generateTraitTypeReference(CodeGenMethodVisitor mv2, TraitType tt, String rttiClassName, HashSet<String> spns) {
+         List<StaticArg> tt_sa = tt.getArgs();
+--- ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
++++ explorations/perf-probes/nat/runtime/java-src/com/sun/fortress/compiler/OverloadSet.java
+@@ -71,6 +71,7 @@
+ import com.sun.fortress.repository.ProjectProperties;
+ import com.sun.fortress.runtimeSystem.InitializedStaticField;
+ import com.sun.fortress.runtimeSystem.InstantiatingClassloader;
++import com.sun.fortress.nodes.IntArg;
+ import com.sun.fortress.runtimeSystem.Naming;
+ import com.sun.fortress.scala_src.overloading.OverloadingOracle;
+ import com.sun.fortress.scala_src.types.TypeAnalyzer;
+@@ -1177,6 +1178,11 @@
+             for (StaticArg sta : tt_sa) {
+                 if (sta instanceof OpArg) {
+                     tt_sa_oprs.add(((OpArg) sta).getId().getText());
++                } else if (Naming.NAT_AS_OPR && sta instanceof IntArg) {
++                    // NAT SHADOW, DESIGN A: the overloaded-dispatch type
++                    // structure's stem must carry the same annotation the RTTI
++                    // class name does (CodeGen.oprsFromStaticArgs).
++                    tt_sa_oprs.add(sta.accept(NamingCzar.spkTagger(null)).getB());
+                 } else {
+                     tt_sa_no_oprs.add(sta);
+                 }

@@ -1,0 +1,13 @@
+component pTypeCase
+export Executable
+(* The typecase CONTROL: the same program with a TYPE parameter, to show that
+   the codegen error pNatCase.fss hits is not about sizes. *)
+object Vec[\T\](x: T) end
+which(v: Any): ZZ32 =
+  typecase v of
+    Vec[\ZZ32\] => 3
+    Vec[\ZZ64\] => 4
+    else => 0
+  end
+run() = println(which(Vec[\ZZ32\](7)))
+end

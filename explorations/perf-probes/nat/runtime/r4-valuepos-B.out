@@ -1,0 +1,4 @@
+########## fortress compile explorations/perf-probes/nat/pNatVec.fss   (likeOpr=false valuePos=true)
+exit=0
+---------- fortress run pNatVec (with the stamped sizes in front)
+5

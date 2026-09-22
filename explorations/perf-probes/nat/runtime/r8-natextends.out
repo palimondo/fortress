@@ -1,0 +1,88 @@
+########## [design A] fortress compile NatExtends1.fss
+exit=0
+---------- fortress run NatExtends1
+java.lang.NoClassDefFoundError
+	at NatExtends1.main(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: NatExtends1$s
+	at NatExtends1$Buf?3?.len?(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss:14)
+	at NatExtends1$Buf?3?.len(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss)
+	at NatExtends1.run(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss:16)
+	at NatExtends1.compute(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss)
+
+########## [design A] fortress compile NatExtends2.fss
+exit=0
+---------- fortress run NatExtends2
+7
+
+########## [design B] fortress compile NatExtends1.fss
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+	at com.sun.fortress.compiler.codegen.CodeGen.generateTypeReference(CodeGen.java:5800)
+	at com.sun.fortress.compiler.codegen.CodeGen.RttiClassAndInterface(CodeGen.java:5448)
+	at com.sun.fortress.compiler.codegen.CodeGen.forObjectDeclPrePass(CodeGen.java:4426)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1878)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+exit=1
+---------- fortress run NatExtends1
+Could not load NatExtends1
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : NatExtends1.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## [design B] fortress compile NatExtends2.fss
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+	at com.sun.fortress.compiler.codegen.CodeGen.generateTypeReference(CodeGen.java:5800)
+	at com.sun.fortress.compiler.codegen.CodeGen.RttiClassAndInterface(CodeGen.java:5448)
+	at com.sun.fortress.compiler.codegen.CodeGen.forObjectDeclPrePass(CodeGen.java:4426)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1878)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+exit=1
+---------- fortress run NatExtends2
+Could not load NatExtends2
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : NatExtends2.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## [design A + valuePos] fortress compile NatExtends1.fss / NatExtends2.fss
+--- compile NatExtends1
+exit=0
+--- run NatExtends1
+java.lang.ExceptionInInitializerError
+	at NatExtends1.main(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.ExceptionInInitializerError
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,NatExtends1\%Buf?3??.<clinit>(Unknown Source)
+	at NatExtends1.run(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss)
+--- compile NatExtends2
+exit=0
+--- run NatExtends2
+7
+--- run NatExtends1, root cause
+	at NatExtends1.main(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.ExceptionInInitializerError
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,NatExtends1\%Buf?3??.<clinit>(Unknown Source)
+	at NatExtends1.run(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss)
+	at NatExtends1.compute(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss)
+Caused by: java.lang.NumberFormatException: For input string: "s"
+	at com.sun.fortress.runtimeSystem.MethodInstantiater.visitMethodInsn(MethodInstantiater.java:219)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readAndExpandGenericThing(InstantiatingClassloader.java:406)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readAndExpandGenericThing(InstantiatingClassloader.java:379)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:276)
+	at NatExtends1$Buf?3?$RTTIc.<clinit>(/home/user/fortress/explorations/perf-probes/nat/NatExtends1.fss)

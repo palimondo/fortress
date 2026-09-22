@@ -1,0 +1,109 @@
+########## [design A] -verbose:class pNat1, the RTTI classes
+      1 [0.277s][info]fortress.CompilerBuiltin$Object$RTTIi
+      1 [0.277s][info]pNat1$Box❮3❯$RTTIc
+      1 [0.277s][info]pNat1$Box❮3❯$RTTIi
+      1 [0.298s][info]fortress.CompilerBuiltin$Number$RTTIi
+      1 [0.298s][info]fortress.CompilerBuiltin$Object$RTTIi
+      1 [0.299s][info]fortress.CompilerAlgebra$AllStandardTotalOrders$RTTIi
+      1 [0.299s][info]fortress.CompilerAlgebra$Equality$RTTIi
+      1 [0.299s][info]fortress.CompilerAlgebra$StandardTotalOrder$RTTIi
+      1 [0.299s][info]fortress.CompilerBuiltin$ZZ32$RTTIc
+      1 [0.299s][info]fortress.CompilerBuiltin$ZZ32$RTTIi
+      1 [0.301s][info]fortress.CompilerBuiltin$Number$RTTIi
+      1 [0.311s][info]com.sun.fortress.compiler.runtimeValues.FZZ32$RTTIc
+      1 [0.311s][info]fortress.CompilerAlgebra$AllStandardTotalOrders$RTTIi
+      1 [0.311s][info]fortress.CompilerAlgebra$Equality$RTTIi
+      1 [0.311s][info]fortress.CompilerAlgebra$StandardTotalOrder$RTTIi
+      1 [0.311s][info]fortress.CompilerBuiltin$ZZ32$RTTIc
+      1 [0.311s][info]fortress.CompilerBuiltin$ZZ32$RTTIi
+      1 [0.561s][info]Arrow*2$RTTIc
+---------- three timed runs, ms
+  562
+  611
+  613
+########## [design A] -verbose:class pNatGenMeth, the RTTI classes
+      1 [0.262s][info]fortress.CompilerBuiltin$Number$RTTIi
+      1 [0.262s][info]fortress.CompilerBuiltin$Object$RTTIi
+      1 [0.263s][info]fortress.CompilerAlgebra$AllStandardTotalOrders$RTTIi
+      1 [0.263s][info]fortress.CompilerAlgebra$Equality$RTTIi
+      1 [0.263s][info]fortress.CompilerAlgebra$StandardTotalOrder$RTTIi
+      1 [0.263s][info]fortress.CompilerBuiltin$ZZ32$RTTIc
+      1 [0.263s][info]fortress.CompilerBuiltin$ZZ32$RTTIi
+      1 [0.266s][info]fortress.CompilerBuiltin$Number$RTTIi
+      1 [0.266s][info]fortress.CompilerBuiltin$Object$RTTIi
+      1 [0.267s][info]com.sun.fortress.compiler.runtimeValues.FZZ32$RTTIc
+      1 [0.267s][info]fortress.CompilerAlgebra$AllStandardTotalOrders$RTTIi
+      1 [0.267s][info]fortress.CompilerAlgebra$Equality$RTTIi
+      1 [0.267s][info]fortress.CompilerAlgebra$StandardTotalOrder$RTTIi
+      1 [0.267s][info]fortress.CompilerBuiltin$ZZ32$RTTIc
+      1 [0.267s][info]fortress.CompilerBuiltin$ZZ32$RTTIi
+      1 [0.293s][info]pNatGenMeth$Box❮3❯$RTTIc
+      1 [0.293s][info]pNatGenMeth$Box❮3❯$RTTIi
+      1 [0.539s][info]Arrow*2$RTTIc
+      1 [0.604s][info]pNatGenMeth$Box❮2❯$RTTIc
+      1 [0.604s][info]pNatGenMeth$Box❮2❯$RTTIi
+      1 [0.605s][info]Tuple*2$RTTIc
+      2 [0.653s][info]pNatGenMeth$BoxT$RTTIc
+      2 [0.653s][info]pNatGenMeth$BoxT$RTTIi
+---------- three timed runs, ms
+  743
+  638
+  759
+########## [design B] -verbose:class pNat1, the RTTI classes
+      1 [0.274s][info]3$RTTIc
+      1 [0.288s][info]fortress.CompilerBuiltin$Object$RTTIi
+      1 [0.288s][info]pNat1$Box$RTTIc
+      1 [0.288s][info]pNat1$Box$RTTIi
+      1 [0.289s][info]fortress.CompilerBuiltin$Object$RTTIi
+      1 [0.289s][info]pNat1$Box$RTTIc
+      1 [0.289s][info]pNat1$Box$RTTIi
+      1 [0.308s][info]fortress.CompilerBuiltin$Number$RTTIi
+      1 [0.312s][info]fortress.CompilerAlgebra$AllStandardTotalOrders$RTTIi
+      1 [0.312s][info]fortress.CompilerAlgebra$Equality$RTTIi
+      1 [0.312s][info]fortress.CompilerAlgebra$StandardTotalOrder$RTTIi
+      1 [0.312s][info]fortress.CompilerBuiltin$ZZ32$RTTIc
+      1 [0.312s][info]fortress.CompilerBuiltin$ZZ32$RTTIi
+      1 [0.314s][info]fortress.CompilerBuiltin$Number$RTTIi
+      1 [0.320s][info]com.sun.fortress.compiler.runtimeValues.FZZ32$RTTIc
+      1 [0.320s][info]fortress.CompilerAlgebra$AllStandardTotalOrders$RTTIi
+      1 [0.320s][info]fortress.CompilerAlgebra$Equality$RTTIi
+      1 [0.320s][info]fortress.CompilerAlgebra$StandardTotalOrder$RTTIi
+      1 [0.320s][info]fortress.CompilerBuiltin$ZZ32$RTTIc
+      1 [0.320s][info]fortress.CompilerBuiltin$ZZ32$RTTIi
+      1 [0.572s][info]Arrow*2$RTTIc
+---------- three timed runs, ms
+  600
+  616
+  707
+########## [design B] -verbose:class pNatGenMeth, the RTTI classes
+      1 [0.276s][info]fortress.CompilerAlgebra$AllStandardTotalOrders$RTTIi
+      1 [0.276s][info]fortress.CompilerAlgebra$Equality$RTTIi
+      1 [0.276s][info]fortress.CompilerAlgebra$StandardTotalOrder$RTTIi
+      1 [0.276s][info]fortress.CompilerBuiltin$Number$RTTIi
+      1 [0.276s][info]fortress.CompilerBuiltin$Object$RTTIi
+      1 [0.276s][info]fortress.CompilerBuiltin$ZZ32$RTTIi
+      1 [0.277s][info]fortress.CompilerBuiltin$ZZ32$RTTIc
+      1 [0.279s][info]fortress.CompilerBuiltin$Object$RTTIi
+      1 [0.282s][info]fortress.CompilerAlgebra$AllStandardTotalOrders$RTTIi
+      1 [0.282s][info]fortress.CompilerAlgebra$Equality$RTTIi
+      1 [0.282s][info]fortress.CompilerBuiltin$Number$RTTIi
+      1 [0.286s][info]com.sun.fortress.compiler.runtimeValues.FZZ32$RTTIc
+      1 [0.286s][info]fortress.CompilerAlgebra$StandardTotalOrder$RTTIi
+      1 [0.286s][info]fortress.CompilerBuiltin$ZZ32$RTTIc
+      1 [0.286s][info]fortress.CompilerBuiltin$ZZ32$RTTIi
+      1 [0.300s][info]3$RTTIc
+      1 [0.309s][info]pNatGenMeth$Box$RTTIc
+      1 [0.309s][info]pNatGenMeth$Box$RTTIi
+      1 [0.310s][info]pNatGenMeth$Box$RTTIc
+      1 [0.310s][info]pNatGenMeth$Box$RTTIi
+      1 [0.547s][info]Arrow*2$RTTIc
+      1 [0.591s][info]2$RTTIc
+      1 [0.599s][info]Tuple*2$RTTIc
+      1 [0.650s][info]pNatGenMeth$BoxT$RTTIc
+      1 [0.650s][info]pNatGenMeth$BoxT$RTTIi
+      1 [0.651s][info]pNatGenMeth$BoxT$RTTIc
+      1 [0.651s][info]pNatGenMeth$BoxT$RTTIi
+---------- three timed runs, ms
+  724
+  659
+  712

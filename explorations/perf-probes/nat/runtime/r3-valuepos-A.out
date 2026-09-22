@@ -1,0 +1,13 @@
+########## fortress compile explorations/perf-probes/nat/pNatVec.fss   (likeOpr=true valuePos=true)
+exit=0
+---------- fortress run pNatVec
+5
+########## fortress compile explorations/perf-probes/nat/runtime/pNatOver.fss   (likeOpr=true valuePos=true)
+exit=0
+---------- fortress run pNatOver
+3
+4
+########## fortress compile explorations/perf-probes/prelude/pNat1.fss   (likeOpr=true valuePos=true)
+exit=0
+---------- fortress run pNat1
+7

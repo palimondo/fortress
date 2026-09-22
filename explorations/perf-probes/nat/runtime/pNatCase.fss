@@ -1,0 +1,18 @@
+component pNatCase
+export Executable
+(* Can a RUN-TIME type test tell Vec[\ZZ32,3\] from Vec[\ZZ32,4\]?
+   The question decision A of explorations/perf-probes/nat/java.md  3 leaves
+   open.  typecase compiles to RTTI.runtimeSupertypeOf (RTTI.java:22-27) on the
+   scrutinee's RTTI, so this program answers it for whichever design is on. *)
+object Vec[\T, nat s\](x: T) end
+which(v: Any): ZZ32 =
+  typecase v of
+    Vec[\ZZ32,3\] => 3
+    Vec[\ZZ32,4\] => 4
+    else => 0
+  end
+run() = do
+  println(which(Vec[\ZZ32,3\](7)))
+  println(which(Vec[\ZZ32,4\](7)))
+end
+end

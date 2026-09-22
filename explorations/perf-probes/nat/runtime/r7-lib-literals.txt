@@ -1,0 +1,8 @@
+# Integer literals written as STATIC ARGUMENTS in Library/FortressLibrary.fss:
+# one line per distinct literal -- design B stamps one <n>$RTTIc class for each.
+distinct literals: 4   occurrences: 85
+  0   x78   first at FortressLibrary.fss:1933  __arr1[\E, nat n\](w:()->E,x:N[\n\]):Array1[\E,0,n\] =
+  1   x5    first at FortressLibrary.fss:1602  trait Rank1 extends { Rank[\1\]} excludes { Rank2, Rank3, Number, String }
+  2   x1    first at FortressLibrary.fss:1605  trait Rank2 extends { Rank[\2\]} excludes { Rank3, Number, String }
+  3   x1    first at FortressLibrary.fss:1608  trait Rank3 extends { Rank[\3\]} excludes { Number, String }
+for scale: 'nat' static parameters declared: 244; [\ ... \] brackets: 1933

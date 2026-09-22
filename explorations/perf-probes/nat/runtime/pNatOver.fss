@@ -1,0 +1,12 @@
+component pNatOver
+export Executable
+(* The same question for OVERLOADED dispatch, which is the other run-time
+   consumer of RTTI (OverloadSet.java:1165-1195 builds the type structure). *)
+object Vec[\T, nat s\](x: T) end
+g(v: Vec[\ZZ32,3\]): ZZ32 = 3
+g(v: Vec[\ZZ32,4\]): ZZ32 = 4
+run() = do
+  println(g(Vec[\ZZ32,3\](7)))
+  println(g(Vec[\ZZ32,4\](7)))
+end
+end
