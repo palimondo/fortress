@@ -1,0 +1,35 @@
+component Sk2OldNew
+import java com.sun.fortress.nativeHelpers.{stringOps.asString => jOld, stringOps.defaultAsString => jNew}
+export Executable
+
+inc(x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    a: ZZ32 = 7
+    println("ZZ32 " || jOld(a) || " / " || jNew(a) || " / " || a.asString)
+    b: RR64 = 2.5
+    println("RR64 " || jOld(b) || " / " || jNew(b) || " / " || b.asString)
+    c: String = "s"
+    println("String " || jOld(c) || " / " || jNew(c) || " / " || c.asString)
+    d: Boolean = true
+    println("Boolean " || jOld(d) || " / " || jNew(d) || " / " || d.asString)
+    e: ZZ64 = 9
+    println("ZZ64 " || jOld(e) || " / " || jNew(e) || " / " || e.asString)
+    f: NN32 = 4
+    println("NN32 " || jOld(f) || " / " || jNew(f) || " / " || f.asString)
+    g: Character = 'q'
+    println("Character " || jOld(g) || " / " || jNew(g) || " / " || g.asString)
+    h: RR32 = 1.5
+    println("RR32 " || jOld(h) || " / " || jNew(h) || " / " || h.asString)
+    v = makeZZ32Vector(2)
+    println("ZZ32Vector " || jOld(v) || " / " || jNew(v) || " / " || v.asString)
+    j = Just[\ZZ32\](3)
+    println("Just " || jNew(j) || " / " || j.asString)
+    println("None " || jNew(None) || " / " || None.asString)
+    println("Nothing " || jNew(Nothing) || " / " || Nothing.asString)
+    println("void " || jNew(()))
+    println("tuple " || jNew((1, "a")))
+    println("arrow " || jNew(inc))
+  end
+
+end

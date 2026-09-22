@@ -1,0 +1,18 @@
+### skeptic 2: the proposed home-2 pair (probes/skeptic/proposed/) through the junit harness today, on the skeptic's rebuilt cache; rev=1f4d805fb
+================ FORTRESS_THREADS=1 bin/fortress junit FortToStringRungSLink.test (from probes/skeptic/proposed)
+. link XXXFortToStringRungS  OK (time = 4186ms)
+
+Time: 4.192
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 bin/fortress junit XXXFortToStringRungS.test (from probes/skeptic/proposed)
+. run XXXFortToStringRungS (738ms) REACHED
+java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+Saw expected failure (Exit code != 0)
+
+Time: 0.75
+
+OK (1 test)
+

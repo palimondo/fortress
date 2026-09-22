@@ -1,0 +1,14 @@
+component Sk2FortToStringGetter
+export Executable
+
+object Bar(n: ZZ32)
+  getter toString(): String = "bar"
+end
+
+run(): () = do
+    println(Bar(1).toString)
+    println("asString: " || Bar(1).asString)
+    println(Bar(1))
+  end
+
+end

@@ -1,0 +1,14 @@
+component Sk2Reach
+export Executable
+
+inc(x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    println(().asString)
+    t = (1, "a")
+    println(t.asString)
+    f = inc
+    println(f.asString)
+  end
+
+end

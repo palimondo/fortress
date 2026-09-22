@@ -1,0 +1,173 @@
+### rev=1f4d805fb 2026-09-22T23:24:51+00:00 FORTRESS_THREADS=1 MODE=both
+################ Sk2FortToString.fss
+--- walk: bin/fortress Sk2FortToString.fss
+foo
+asString: Foo
+Foo
+walk rc=0
+--- compiled: bin/fortress compile Sk2FortToString.fss && bin/fortress run Sk2FortToString
+compile rc=0
+foo
+java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+run rc=1
+################ Sk2FortToStringGetter.fss
+--- walk: bin/fortress Sk2FortToStringGetter.fss
+bar
+asString: Bar
+Bar
+walk rc=0
+--- compiled: bin/fortress compile Sk2FortToStringGetter.fss && bin/fortress run Sk2FortToStringGetter
+compile rc=0
+bar
+java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+run rc=1
+################ Sk2TraitToString.fss
+--- walk: bin/fortress Sk2TraitToString.fss
+named
+asString: Qux
+Qux
+walk rc=0
+--- compiled: bin/fortress compile Sk2TraitToString.fss && bin/fortress run Sk2TraitToString
+compile rc=0
+named
+java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+run rc=1
+################ Sk2FieldToString.fss
+--- walk: bin/fortress Sk2FieldToString.fss
+W
+Counter
+r
+Rec
+walk rc=0
+--- compiled: bin/fortress compile Sk2FieldToString.fss && bin/fortress run Sk2FieldToString
+compile rc=0
+W
+Counter
+r
+java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+run rc=1
+################ Sk2Tuple.fss
+--- walk: bin/fortress Sk2Tuple.fss
+(1,a)
+(Box,2)
+walk rc=0
+--- compiled: bin/fortress compile Sk2Tuple.fss && bin/fortress run Sk2Tuple
+compile rc=0
+( 1 ,  a )
+( Box ,  2 )
+run rc=0
+################ Sk2Exc.fss
+--- walk: bin/fortress Sk2Exc.fss
+Boom
+Bang[\ZZ32\]
+pow!
+caught Bang[\String\]
+walk rc=0
+--- compiled: bin/fortress compile Sk2Exc.fss && bin/fortress run Sk2Exc
+compile rc=0
+Boom
+Bang[\ZZ32\]
+pow!
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: Sk2Exc$e
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : Sk2Exc$e.class
+	... 8 more
+run rc=1
+################ Sk2TraitAsString.fss
+--- walk: bin/fortress Sk2TraitAsString.fss
+shape
+circ 2
+Tri
+Tri
+walk rc=0
+--- compiled: bin/fortress compile Sk2TraitAsString.fss && bin/fortress run Sk2TraitAsString
+compile rc=0
+shape
+circ 2
+Tri
+Tri
+run rc=0
+################ Sk2Generic.fss
+--- walk: bin/fortress Sk2Generic.fss
+Holder of Inner
+Holder of 3
+Holder of Sq
+Just(Inner)
+Inner/Sq
+walk rc=0
+--- compiled: bin/fortress compile Sk2Generic.fss && bin/fortress run Sk2Generic
+compile rc=0
+Holder of Inner
+Holder of 3
+Holder of Sq
+Just(Inner)
+Inner/Sq
+run rc=0
+################ Sk2Reach.fss
+--- walk: bin/fortress Sk2Reach.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/Sk2Reach.fss:7:13-22:
+Non-object receiver (): () trying to invoke method asString
+Context:
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/Sk2Reach.fss:7:13-22:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk rc=1
+--- compiled: bin/fortress compile Sk2Reach.fss && bin/fortress run Sk2Reach
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/Sk2Reach.fss:7:13-22:
+    () has no getter called asString
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/Sk2Reach.fss:9:13-21:
+    (IntLiteral, String) has no getter called asString
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/Sk2Reach.fss:11:13-21:
+    ZZ32->ZZ32 has no getter called asString
+File Sk2Reach.fss has 3 errors.
+compile rc=255
+Could not load Sk2Reach
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : Sk2Reach.class
+	... 4 more
+run rc=1
+### rev=1f4d805fb 2026-09-22T23:25:43+00:00 FORTRESS_THREADS=1 MODE=compiled
+################ SkRR32Render.fss
+--- compiled: bin/fortress compile SkRR32Render.fss && bin/fortress run SkRR32Render
+compile rc=0
+1.5
+[1.5]
+2.5
+run rc=0
+################ SkOldDefault.fss
+--- compiled: bin/fortress compile SkOldDefault.fss && bin/fortress run SkOldDefault
+compile rc=0
+RR32 new default: 1.5
+RR32 old default: 1.5
+StringVector new default: [a b ]
+StringVector old default: [a b ]
+run rc=0
+################ SkArgsRender.fss
+--- compiled: bin/fortress compile SkArgsRender.fss && bin/fortress run SkArgsRender
+compile rc=0
+Tag[\Object\]
+Tag[\Any\]
+Tag[\Number\]
+Tag[\Boolean\]
+Tag[\RR64\]
+Tag[\RR32\]
+Tag[\ZZ64\]
+Tag[\NN32\]
+Tag[\String\]
+Tag[\Shape\]
+Tag[\Maybe[\ZZ32\]\]
+Tag[\ZZ32->ZZ32->ZZ32\]
+Tag[\ZZ32->(ZZ32,String)\]
+Tag[\Tag[\()\]\]
+Cell[\ZZ32\]
+Cell[\Shape\]
+run rc=0
+EXIT=0

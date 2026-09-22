@@ -1,0 +1,87 @@
+### STAND-IN FIX (skeptic 2, not a proposal of record): hasOwnToString counts only a Java toString()Ljava/lang/String; declared on a class below FValue
+### FORTRESS_HOME=/home/user/fortress-rendering rev=1f4d805fb 2026-09-22T23:22:15+00:00 FORTRESS_THREADS=1
+### the stand-in against the committed stringOps.java:
+80,85c80,84
+<         try {
+<             Class<?> d = a.getClass().getMethod("toString").getDeclaringClass();
+<             return d != FValue.class && d != Object.class;
+<         } catch (NoSuchMethodException e) {
+<             return false;
+<         }
+---
+>         for (Class<?> c = a.getClass(); c != null && c != FValue.class && c != Object.class; c = c.getSuperclass())
+>             for (java.lang.reflect.Method m : c.getDeclaredMethods())
+>                 if (m.getName().equals("toString") && m.getParameterCount() == 0 && m.getReturnType() == String.class)
+>                     return true;
+>         return false;
+### javac -cp ProjectFortress/build -d <scratch> <stand-in>; the class copied over ProjectFortress/build/com/sun/fortress/nativeHelpers/stringOps.class
+================ compiled run of probes/skeptic/Sk2FortToString (compiled before the stand-in; the native body is linked at run time)
+foo
+asString: Foo
+Foo
+run rc=0
+================ compiled run of probes/skeptic/Sk2FortToStringGetter (compiled before the stand-in; the native body is linked at run time)
+bar
+asString: Bar
+Bar
+run rc=0
+================ compiled run of probes/skeptic/Sk2TraitToString (compiled before the stand-in; the native body is linked at run time)
+named
+asString: Qux
+Qux
+run rc=0
+================ compiled run of probes/skeptic/Sk2FieldToString (compiled before the stand-in; the native body is linked at run time)
+W
+Counter
+r
+Rec
+run rc=0
+================ compiled run of probes/skeptic/SkRR32Render (compiled before the stand-in; the native body is linked at run time)
+Could not load SkRR32Render
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkRR32Render.class
+	... 4 more
+run rc=1
+================ compiled run of probes/skeptic/SkOldDefault (compiled before the stand-in; the native body is linked at run time)
+Could not load SkOldDefault
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkOldDefault.class
+	... 4 more
+run rc=1
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
+. link compiler_tests/DefaultRenderRungS  OK (time = 3567ms)
+. run compiler_tests/DefaultRenderRungS (859ms) Box
+Cell[\ZZ32\]
+Pt
+PASS
+Passed
+
+Time: 4.435
+
+OK (2 tests)
+
+================ FORTRESS_THREADS=1 bin/fortress junit XXXFortToStringRungS.test (probes/skeptic/proposed)
+. run XXXFortToStringRungS (398ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.416
+There was 1 failure:
+1) XXXFortToStringRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest XXXFortToStringRungS
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+### the good class restored: cmp against the saved copy
+cmp: identical
+================ after the restore: FORTRESS_THREADS=1 bin/fortress junit XXXFortToStringRungS.test
+. run XXXFortToStringRungS (658ms) REACHED
+java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+Saw expected failure (Exit code != 0)
+
+Time: 0.672
+
+OK (1 test)
+
+EXIT=0

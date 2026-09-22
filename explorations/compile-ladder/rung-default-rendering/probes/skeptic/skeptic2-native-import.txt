@@ -1,0 +1,47 @@
+### rev=1f4d805fb 2026-09-22T23:27:36+00:00 FORTRESS_THREADS=1 MODE=compiled
+################ Sk2NewOne.fss
+--- compiled: bin/fortress compile Sk2NewOne.fss && bin/fortress run Sk2NewOne
+compile rc=0
+RR32 1.5
+Box Box
+ZZ32 7
+run rc=0
+################ Sk2OldNew.fss
+--- compiled: bin/fortress compile Sk2OldNew.fss && bin/fortress run Sk2OldNew
+Exception in thread "main" java.lang.Error: 
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/Sk2OldNew.fss:7:13-33:4: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 8 L1
+,     LDC 7
+,    L2
+,     LINENUMBER 8 L2
+,     INVOKESTATIC com/sun/fortress/compiler/runtimeValues/FIntLiteral.make (I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+,    L3
+,     LINENUMBER 8 L3
+,     INVOKESTATIC fortress/CompilerBuiltin.coerce_ZZ32 (Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+,     ASTORE 0
+,    L4
+,     LINENUMBER 9 L4
+,     LDC "ZZ32 "
+,    L5
+,     LINENUMBER 9 L5
+,     INVOKESTATIC com/sun/fortress/compiler/runtimeValues/FJavaString.make (Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;
+,     CHECKCAST fortress/CompilerBuiltin$String
+,    L6
+,     LINENUMBER 9 L6
+,     ALOAD 0
+,    L7
+,     LINENUMBER 9 L7
+,     INVOKESTATIC native/com/sun/fortress/nativeHelpers/stringOps.asString (Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;
+,     CHECKCAST fortress/CompilerBuiltin$Object
+,    L8
+,     LINENUMBER 9 L8
+,     INVOKESTATIC fortress/CompilerBuiltin.|| (Lfortress/CompilerBuiltin$String;Lfortress/CompilerBuiltin$Object;)Lfortress/CompilerBuiltin$String;
+compile rc=1
+Could not load Sk2OldNew
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : Sk2OldNew.class
+	... 4 more
+run rc=1
+EXIT=0
