@@ -50,3 +50,6 @@ analyzed cache after all passes: 230 files (checked, serialized ASTs, spans incl
   off scala_src.types.TypeAnalyzerJUTest OK (4 tests)
   off scala_src.types.TypeSchemaAnalyzerJUTest OK (4 tests)
   off scala_src.useful.STypesUtilJUTest OK (1 test)
+
+## Correction to section 2 (lines 21-22), repair round of 2026-09-22; appended at the end so that no line cited above moves
+bytecode: 462 class files (556 files with the 94 .xlation files), not "556 class files". analyzed cache: the 14 was not enumerated, and the on-side cache was filled by section 3 before a listing was taken (line 38); the skeptic's rebuild of the prelude enumerates 15 (12 .tfi/.tfs at the top of analyzed_cache/, 3 under depends/), probes/skeptic/prelude.txt:25-41. Every file present was compared and identical, on this run and the skeptic's.
