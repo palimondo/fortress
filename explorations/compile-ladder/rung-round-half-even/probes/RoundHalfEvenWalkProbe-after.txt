@@ -1,0 +1,34 @@
+=== $ bin/fortress explorations/compile-ladder/rung-round-half-even/probes/RoundHalfEvenWalkProbe.fss   (walk, after the edit) 2026-09-22T20:47:25Z ===
+RR64 literal round(2.5)    = 2
+RR64 literal round(-3.5)   = -4
+RR64 literal round(0.5)    = 0
+RR64 literal round(-1.5)   = -2
+RR64 literal round(3.5)    = 4
+RR64 literal round(-2.5)   = -2
+RR64 literal round(-0.5)   = 0
+RR64 literal round(2.4)    = 2
+RR64 literal round(2.6)    = 3
+RR64 literal round(-2.6)   = -3
+RR64 Float round(2.5)      = 2
+RR64 Float round(-3.5)     = -4
+RR64 Float round(0.5)      = 0
+RR64 Float round(-1.5)     = -2
+RR64 Float round(3.5)      = 4
+RR64 Float round(-0.5)     = 0
+RR64 Float round(nan)      = 0
+RR64 Float round(inf)      = 9223372036854775807
+RR64 Float round(-inf)     = -9223372036854775808
+RR64 Float round(huge)     = 9223372036854775807
+RR64 Float round(-huge)    = -9223372036854775808
+RR32 round(2.5)            = 2
+RR32 round(-3.5)           = -4
+RR32 round(0.5)            = 0
+RR32 round(-1.5)           = -2
+RR32 round(4.5)            = 4
+RR32 round(-4.5)           = -4
+RR32 round(3.5)            = 4
+RR32 round(-0.5)           = 0
+RR32 round(nan)            = 0
+RR32 round(inf)            = 9223372036854775807
+RR32 round(-inf)           = -9223372036854775808
+=== exit 0 ===
