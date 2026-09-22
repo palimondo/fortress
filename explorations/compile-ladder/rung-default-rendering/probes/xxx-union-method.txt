@@ -1,0 +1,41 @@
+### REPAIR ROUND: the expected-failure test for a method call on a union-typed receiver (the checker's NYI, scala_src/typechecker/impls/Common.scala:106-108), met when the judge's pick(true).asString was tried; then a stand-in for a fix (the receiver bound to an Object-typed local), then undone
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=f37853a2c  2026-09-22T22:52:06+00:00
+### (1) the committed pair
+tests=XXXUnionMethodRungS
+compile
+compile_exception_contains=You should be able to call methods on this type
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXUnionMethodRungS.test
+. compile compiler_tests/XXXUnionMethodRungS java.lang.Error: You should be able to call methods on this type,OR(Pt,Box)but this is not yet implemented.: Not yet implemented
+ OK Saw expected exception
+
+Time: 1.484
+
+OK (1 test)
+
+### (2) stand-in for a fix: the local edit
+9c9
+< render(b: Boolean): String = (if b then Box(1) else Pt(2) end).asString
+---
+> render(b: Boolean): String = do x: Object = if b then Box(1) else Pt(2) end; x.asString end
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXUnionMethodRungS.test
+. compile compiler_tests/XXXUnionMethodRungS 
+ Saw failure, but did not satisfy compile_exception_contains; expected
+You should be able to call methods on this type
+F
+Time: 2.045
+There was 1 failure:
+1) compiler_tests/XXXUnionMethodRungS(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+### UNDO
+cmp: restored
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXUnionMethodRungS.test
+. compile compiler_tests/XXXUnionMethodRungS java.lang.Error: You should be able to call methods on this type,OR(Pt,Box)but this is not yet implemented.: Not yet implemented
+ OK Saw expected exception
+
+Time: 1.568
+
+OK (1 test)
+

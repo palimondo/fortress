@@ -1,0 +1,18 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component XXXUnionMethodRungS
+export Executable
+
+object Box(n: ZZ32) end
+value object Pt(x: ZZ32) end
+
+render(b: Boolean): String = (if b then Box(1) else Pt(2) end).asString
+
+run(): () = do
+    println("REACHED")
+    assert(render(true), "Box", "a method call on a receiver whose type is the union of two object types; Specification/basic/types-vals-vars.tex:589, Specification/basic/expressions/if.tex:66-67")
+    assert(render(false), "Pt", "a method call on a receiver whose type is the union of two object types; Specification/basic/types-vals-vars.tex:589, Specification/basic/expressions/if.tex:66-67")
+    println("PASS")
+  end
+
+end

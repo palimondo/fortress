@@ -1,0 +1,67 @@
+### REPAIR ROUND spot check on the repaired tree (defaultAsString), run one .test at a time with FORTRESS_THREADS=1 ../bin/fortress junit <file> in ProjectFortress/, stack frames elided
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=f37853a2c  2026-09-22T22:50:40+00:00
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/AtomicTopLevelObjectVar.test
+. link compiler_tests/AtomicTopLevelObjectVar  OK (time = 5014ms)
+. run compiler_tests/AtomicTopLevelObjectVar (434ms) PASS
+Passed
+
+Time: 5.457
+
+OK (2 tests)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit library_tests/MaybeRungM.test
+. link library_tests/MaybeRungM  OK (time = 5406ms)
+. run library_tests/MaybeRungM (934ms) PASS
+Passed
+
+Time: 6.35
+
+OK (2 tests)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit library_tests/TryAtomicRungB.test
+. link library_tests/TryAtomicRungB  OK (time = 4218ms)
+. run library_tests/TryAtomicRungB (352ms) PASS
+Passed
+
+Time: 4.578
+
+OK (2 tests)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/BoxDotSpellingsRungWLink.test
+. link compiler_tests/XXXBoxDotSpellingsRungW  OK (time = 4137ms)
+
+Time: 4.144
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXBoxDotSpellingsRungW.test
+. run compiler_tests/XXXBoxDotSpellingsRungW (398ms) REACHED
+FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  0 =/= 4294967295; boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208
+Saw expected failure (Exit code != 0)
+
+Time: 0.412
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit library_tests/ClauseBindingRungBLink.test
+. link library_tests/XXXClauseBindingRungB  OK (time = 4219ms)
+
+Time: 4.225
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit library_tests/XXXClauseBindingRungB.test
+. run library_tests/XXXClauseBindingRungB (354ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: XXXClauseBindingRungB$e
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : XXXClauseBindingRungB$e.class
+	... 8 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.368
+
+OK (1 test)
+
