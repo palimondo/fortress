@@ -1,0 +1,40 @@
+component ScopeArmsX
+export Executable
+
+(* ScopeArms with both generics naming their parameter X.  Under walk the name decides
+   whether the pair loads: ScopeArms (Y) is refused, this one is accepted.  The
+   specification's answers are those of ScopeArms, and SubM[Red] for grab(r), r: Sub[Red].
+   Mixed needs the relaxed checkP to link. *)
+trait Tag[\X\] end
+trait Sub[\X\] extends Tag[\X\] end
+object Red end
+object Blue end
+object Mixed extends { Sub[\Red\], Tag[\Blue\] } end
+object SubBlue extends Sub[\Blue\] end
+object TagBlue extends Tag[\Blue\] end
+trait Marker[\X\] end
+object TagM[\X\] extends Marker[\X\] end
+object SubM[\X\] extends Marker[\X\] end
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = TagM[\X\]
+grab[\X\](t: Sub[\X\]): Marker[\X\] = SubM[\X\]
+
+name(m: Any): String = typecase m of
+    TagM[\Red\] => "TagM[Red]"
+    TagM[\Blue\] => "TagM[Blue]"
+    SubM[\Red\] => "SubM[Red]"
+    SubM[\Blue\] => "SubM[Blue]"
+    else => "other"
+  end
+
+run(): () = do
+  r: Sub[\Red\] = Mixed
+  println("grab(r), r: Sub[Red] = Mixed    -> " name(grab(r)))
+  b1: Tag[\Blue\] = Mixed
+  println("grab(b1), b1: Tag[Blue] = Mixed   -> " name(grab(b1)))
+  b2: Tag[\Blue\] = SubBlue
+  println("grab(b2), b2: Tag[Blue] = SubBlue -> " name(grab(b2)))
+  b3: Tag[\Blue\] = TagBlue
+  println("grab(b3), b3: Tag[Blue] = TagBlue -> " name(grab(b3)))
+end
+end

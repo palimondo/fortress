@@ -1,0 +1,410 @@
+compiler prelude, own: 0 pairs refused
+compiler prelude, lifted: 0 pairs refused
+
+## compiler_tests: 48 programs linked with -Dprobe.spSentence=own; the refused pairs
+# the programs: Compiled10.Comprehensions3 Compiled10.Comprehensions4 Compiled10.l Compiled12 Compiled12.coerceInt64 Compiled12.inheritFuncFullyGeneric Compiled12.inheritFuncPartiallyGeneric Compiled12.invariantInference Compiled12.invariantInference2 Compiled13 Compiled13a Compiled13b Compiled14 Compiled15 Compiled15a Compiled15b Compiled16 Compiled16a Compiled16b Compiled16c Compiled16d Compiled16e Compiled16f Compiled17 Compiled17a Compiled17b Compiled17c Compiled17dd Compiled17ee Compiled17f Compiled17g Compiled17h Compiled17i Compiled18 Compiled180 Compiled190 Compiled240 Compiled250 Compiled6.ab Compiled6.af Compiled6.ah Compiled6.ak Compiled6.bs Compiled6.bt Compiled70 MutableTopLevelVar VarianceTest4 patternMatching1 
+ProjectFortress/compiler_tests/Compiled10.Comprehensions3.fss:44:1-45:24	ProjectFortress/compiler_tests/Compiled10.Comprehensions3.fss:46:1-47:35	__generate
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:54:1-72	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:53:1-69	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:53:1-69	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:53:1-69	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:54:1-72	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:54:1-72	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:59:1-60:23	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:59:1-60:23	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:59:1-60:23	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:61:1-62:28	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:61:1-62:28	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:61:1-62:28	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:52:1-69	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:54:1-55:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:53:1-72	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:54:1-55:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:56:1-57:34	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:52:1-69	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:56:1-57:34	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:53:1-72	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:56:1-57:34	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:58:1-59:23	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:56:1-57:34	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:60:1-61:28	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:58:1-59:23	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:54:1-55:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:60:1-61:28	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:54:1-55:30	f
+ProjectFortress/compiler_tests/Compiled14.fss:19:1-46	ProjectFortress/compiler_tests/Compiled14.fss:18:1-17	f
+ProjectFortress/compiler_tests/Compiled16f.fss:26:3-54	ProjectFortress/compiler_tests/Compiled16f.fss:18:1-25	g
+ProjectFortress/compiler_tests/Compiled6.ak.fss:15:1-16:1	ProjectFortress/compiler_tests/Compiled6.ak.fss:14:1-16	f
+## the same programs by the text scan
+compiler_tests/Compiled10.Comprehensions3.fss:44:46	__generate
+compiler_tests/Compiled10.Comprehensions4.fss:47:49	__generate
+compiler_tests/Compiled12.invariantInference.fss:52:53	f
+compiler_tests/Compiled12.invariantInference.fss:52:54	f
+compiler_tests/Compiled12.invariantInference.fss:52:55	f
+compiler_tests/Compiled12.invariantInference.fss:52:57	f
+compiler_tests/Compiled12.invariantInference.fss:52:59	f
+compiler_tests/Compiled12.invariantInference.fss:52:61	f
+compiler_tests/Compiled12.invariantInference.fss:53:55	f
+compiler_tests/Compiled12.invariantInference.fss:53:57	f
+compiler_tests/Compiled12.invariantInference.fss:54:55	f
+compiler_tests/Compiled12.invariantInference.fss:54:57	f
+compiler_tests/Compiled12.invariantInference.fss:55:59	f
+compiler_tests/Compiled12.invariantInference.fss:55:61	f
+compiler_tests/Compiled12.invariantInference.fss:57:59	f
+compiler_tests/Compiled12.invariantInference.fss:57:61	f
+compiler_tests/Compiled12.invariantInference2.fss:52:54	f
+compiler_tests/Compiled12.invariantInference2.fss:52:56	f
+compiler_tests/Compiled12.invariantInference2.fss:53:54	f
+compiler_tests/Compiled12.invariantInference2.fss:53:56	f
+compiler_tests/Compiled12.invariantInference2.fss:54:58	f
+compiler_tests/Compiled12.invariantInference2.fss:54:60	f
+compiler_tests/Compiled12.invariantInference2.fss:56:58	f
+compiler_tests/Compiled12.invariantInference2.fss:56:60	f
+compiler_tests/Compiled14.fss:18:19	f
+compiler_tests/Compiled16f.fss:18:26	g
+compiler_tests/Compiled18.fss:39:41	__generate
+compiler_tests/Compiled6.ak.fss:14:15	f
+
+## compiler_tests: 48 programs linked with -Dprobe.spSentence=lifted; the refused pairs
+# the programs: Compiled10.Comprehensions3 Compiled10.Comprehensions4 Compiled10.l Compiled12 Compiled12.coerceInt64 Compiled12.inheritFuncFullyGeneric Compiled12.inheritFuncPartiallyGeneric Compiled12.invariantInference Compiled12.invariantInference2 Compiled13 Compiled13a Compiled13b Compiled14 Compiled15 Compiled15a Compiled15b Compiled16 Compiled16a Compiled16b Compiled16c Compiled16d Compiled16e Compiled16f Compiled17 Compiled17a Compiled17b Compiled17c Compiled17dd Compiled17ee Compiled17f Compiled17g Compiled17h Compiled17i Compiled18 Compiled180 Compiled190 Compiled240 Compiled250 Compiled6.ab Compiled6.af Compiled6.ah Compiled6.ak Compiled6.bs Compiled6.bt Compiled70 MutableTopLevelVar VarianceTest4 patternMatching1 
+ProjectFortress/compiler_tests/Compiled10.Comprehensions3.fss:44:1-45:24	ProjectFortress/compiler_tests/Compiled10.Comprehensions3.fss:46:1-47:35	__generate
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:54:1-72	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:53:1-69	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:53:1-69	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:53:1-69	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:54:1-72	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:54:1-72	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:59:1-60:23	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:59:1-60:23	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:59:1-60:23	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:61:1-62:28	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:52:1-35	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:61:1-62:28	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:55:1-56:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:61:1-62:28	ProjectFortress/compiler_tests/Compiled12.invariantInference.fss:57:1-58:34	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:52:1-69	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:54:1-55:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:53:1-72	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:54:1-55:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:56:1-57:34	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:52:1-69	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:56:1-57:34	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:53:1-72	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:56:1-57:34	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:58:1-59:23	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:56:1-57:34	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:60:1-61:28	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:58:1-59:23	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:54:1-55:30	f
+ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:60:1-61:28	ProjectFortress/compiler_tests/Compiled12.invariantInference2.fss:54:1-55:30	f
+ProjectFortress/compiler_tests/Compiled14.fss:19:1-46	ProjectFortress/compiler_tests/Compiled14.fss:18:1-17	f
+ProjectFortress/compiler_tests/Compiled16f.fss:26:3-54	ProjectFortress/compiler_tests/Compiled16f.fss:18:1-25	g
+ProjectFortress/compiler_tests/Compiled6.ak.fss:15:1-16:1	ProjectFortress/compiler_tests/Compiled6.ak.fss:14:1-16	f
+## the same programs by the text scan
+compiler_tests/Compiled10.Comprehensions3.fss:44:46	__generate
+compiler_tests/Compiled10.Comprehensions4.fss:47:49	__generate
+compiler_tests/Compiled10.l.fss:14:21	op
+compiler_tests/Compiled12.fss:21:26	f
+compiler_tests/Compiled12.inheritFuncPartiallyGeneric.fss:22:28	u
+compiler_tests/Compiled12.inheritFuncPartiallyGeneric.fss:23:32	v
+compiler_tests/Compiled12.inheritFuncPartiallyGeneric.fss:24:37	w
+compiler_tests/Compiled12.invariantInference.fss:52:53	f
+compiler_tests/Compiled12.invariantInference.fss:52:54	f
+compiler_tests/Compiled12.invariantInference.fss:52:55	f
+compiler_tests/Compiled12.invariantInference.fss:52:57	f
+compiler_tests/Compiled12.invariantInference.fss:52:59	f
+compiler_tests/Compiled12.invariantInference.fss:52:61	f
+compiler_tests/Compiled12.invariantInference.fss:53:55	f
+compiler_tests/Compiled12.invariantInference.fss:53:57	f
+compiler_tests/Compiled12.invariantInference.fss:54:55	f
+compiler_tests/Compiled12.invariantInference.fss:54:57	f
+compiler_tests/Compiled12.invariantInference.fss:55:59	f
+compiler_tests/Compiled12.invariantInference.fss:55:61	f
+compiler_tests/Compiled12.invariantInference.fss:57:59	f
+compiler_tests/Compiled12.invariantInference.fss:57:61	f
+compiler_tests/Compiled12.invariantInference2.fss:52:54	f
+compiler_tests/Compiled12.invariantInference2.fss:52:56	f
+compiler_tests/Compiled12.invariantInference2.fss:53:54	f
+compiler_tests/Compiled12.invariantInference2.fss:53:56	f
+compiler_tests/Compiled12.invariantInference2.fss:54:58	f
+compiler_tests/Compiled12.invariantInference2.fss:54:60	f
+compiler_tests/Compiled12.invariantInference2.fss:56:58	f
+compiler_tests/Compiled12.invariantInference2.fss:56:60	f
+compiler_tests/Compiled14.fss:18:19	f
+compiler_tests/Compiled16f.fss:18:26	g
+compiler_tests/Compiled17ee.fss:22:33	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:22:49	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:22:61	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:22:62	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:22:74	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:22:86	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:22:97	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:22:120	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:33:120	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:49:120	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:61:120	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:62:120	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:74:120	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:86:120	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:97:120	SYMBOLIC =
+compiler_tests/Compiled17ee.fss:50:118	SYMBOLIC <
+compiler_tests/Compiled17ee.fss:64:118	SYMBOLIC <
+compiler_tests/Compiled17ee.fss:77:118	SYMBOLIC <
+compiler_tests/Compiled17ee.fss:78:118	SYMBOLIC <
+compiler_tests/Compiled17ee.fss:89:118	SYMBOLIC <
+compiler_tests/Compiled17ee.fss:99:118	SYMBOLIC <
+compiler_tests/Compiled17ee.fss:100:118	SYMBOLIC <
+compiler_tests/Compiled17ee.fss:63:112	CMP
+compiler_tests/Compiled17ee.fss:63:169	CMP
+compiler_tests/Compiled17ee.fss:75:112	CMP
+compiler_tests/Compiled17ee.fss:75:169	CMP
+compiler_tests/Compiled17ee.fss:76:112	CMP
+compiler_tests/Compiled17ee.fss:76:169	CMP
+compiler_tests/Compiled17ee.fss:87:112	CMP
+compiler_tests/Compiled17ee.fss:87:169	CMP
+compiler_tests/Compiled17ee.fss:88:112	CMP
+compiler_tests/Compiled17ee.fss:88:169	CMP
+compiler_tests/Compiled17ee.fss:98:112	CMP
+compiler_tests/Compiled17ee.fss:98:169	CMP
+compiler_tests/Compiled17ee.fss:112:169	CMP
+compiler_tests/Compiled17ee.fss:65:122	SYMBOLIC >=
+compiler_tests/Compiled17ee.fss:65:174	SYMBOLIC >=
+compiler_tests/Compiled17ee.fss:66:122	SYMBOLIC >=
+compiler_tests/Compiled17ee.fss:66:174	SYMBOLIC >=
+compiler_tests/Compiled17ee.fss:122:174	SYMBOLIC >=
+compiler_tests/Compiled17ee.fss:121:175	SYMBOLIC <=
+compiler_tests/Compiled17ee.fss:133:157	MIN
+compiler_tests/Compiled17ee.fss:133:176	MIN
+compiler_tests/Compiled17ee.fss:157:176	MIN
+compiler_tests/Compiled17ee.fss:144:158	MAX
+compiler_tests/Compiled17ee.fss:144:177	MAX
+compiler_tests/Compiled17ee.fss:158:177	MAX
+compiler_tests/Compiled17ee.fss:156:178	MINMAX
+compiler_tests/Compiled18.fss:39:41	__generate
+compiler_tests/Compiled6.ak.fss:14:15	f
+
+## by the text scan (calibrated above), own: tests/, library_tests/, Library/, LibraryBuiltin/
+tests/ArrayListQuick.fss:36:53	chkPop
+tests/ArrayListQuick.fss:36:55	chkPop
+tests/GeneratorNullPointer.fss:18:19	f
+tests/GeneratorNullPointer.fss:19:20	f
+tests/PureListQuick.fss:36:53	chkPop
+tests/PureListQuick.fss:36:55	chkPop
+tests/XXXgenericMethod1.fss:21:23	g	(in U)
+tests/XXXgenericMethod1.fss:22:23	g	(in U)
+tests/XXXgenericMethod2.fss:20:22	g	(in U)
+tests/XXXgenericMethod2.fss:20:23	g	(in U)
+tests/XXXgenericMethod3.fss:20:23	f	(in U)
+tests/doubledOverloading.fss:36:37	a
+tests/doubledOverloading.fss:40:41	b
+tests/genericMethod4.fss:21:22	g	(in U)
+tests/overloadTest8.fss:33:35	f
+tests/overloadTest8.fss:33:37	f
+Library/CovariantCollection.fss:27:39	APPCOV
+Library/Generator2.fss:52:53	takeleft
+Library/Generator2.fss:56:57	takeright
+Library/QuickCheck.fss:728:730	__genMatchElse
+Library/QuickCheck.fss:728:734	__genMatchElse
+Library/QuickCheck.fss:730:732	__genMatchElse
+Library/QuickCheck.fss:732:734	__genMatchElse
+Library/QuickSort.fss:36:48	quicksort
+Library/QuickSort.fss:46:48	quicksort
+Library/QuickSort.fss:48:51	quicksort
+Library/QuickSort.fss:48:56	quicksort
+Library/Set.fss:76:77	set
+Library/Set.fss:76:79	set
+Library/Tuple.fss:19:21	first
+Library/Tuple.fss:19:24	first
+Library/Tuple.fss:21:24	first
+Library/Tuple.fss:20:22	second
+Library/Tuple.fss:20:25	second
+Library/Tuple.fss:22:25	second
+Library/Tuple.fss:23:26	third
+Library/CovariantCollection.fsi:14:16	APPCOV
+Library/QuickSort.fsi:16:18	quicksort
+Library/QuickSort.fsi:17:18	quicksort
+Library/QuickSort.fsi:18:19	quicksort
+Library/QuickSort.fsi:18:20	quicksort
+Library/Tuple.fsi:17:19	first
+Library/Tuple.fsi:17:22	first
+Library/Tuple.fsi:19:22	first
+Library/Tuple.fsi:18:20	second
+Library/Tuple.fsi:18:23	second
+Library/Tuple.fsi:20:23	second
+Library/Tuple.fsi:21:24	third
+Library/FortressLibrary.fsi	CMP	25 pairs
+Library/FortressLibrary.fsi	DOT	48 pairs
+Library/FortressLibrary.fsi	MAX	8 pairs
+Library/FortressLibrary.fsi	MIN	8 pairs
+Library/FortressLibrary.fsi	SYMBOLIC #	25 pairs
+Library/FortressLibrary.fsi	SYMBOLIC +	53 pairs
+Library/FortressLibrary.fsi	SYMBOLIC -	116 pairs
+Library/FortressLibrary.fsi	SYMBOLIC :	25 pairs
+Library/FortressLibrary.fsi	SYMBOLIC ::	6 pairs
+Library/FortressLibrary.fsi	SYMBOLIC <	25 pairs
+Library/FortressLibrary.fsi	SYMBOLIC <=	9 pairs
+Library/FortressLibrary.fsi	SYMBOLIC =	47 pairs
+Library/FortressLibrary.fsi	SYMBOLIC >	9 pairs
+Library/FortressLibrary.fsi	SYMBOLIC >=	13 pairs
+Library/FortressLibrary.fsi	SYMBOLIC BIG //	1 pairs
+Library/FortressLibrary.fsi	__cond	1 pairs
+Library/FortressLibrary.fsi	juxtaposition	80 pairs
+Library/FortressLibrary.fss	CMP	29 pairs
+Library/FortressLibrary.fss	DOT	75 pairs
+Library/FortressLibrary.fss	MAX	10 pairs
+Library/FortressLibrary.fss	MIN	10 pairs
+Library/FortressLibrary.fss	SYMBOLIC #	25 pairs
+Library/FortressLibrary.fss	SYMBOLIC +	32 pairs
+Library/FortressLibrary.fss	SYMBOLIC -	40 pairs
+Library/FortressLibrary.fss	SYMBOLIC :	25 pairs
+Library/FortressLibrary.fss	SYMBOLIC ::	6 pairs
+Library/FortressLibrary.fss	SYMBOLIC <	29 pairs
+Library/FortressLibrary.fss	SYMBOLIC <=	13 pairs
+Library/FortressLibrary.fss	SYMBOLIC =	53 pairs
+Library/FortressLibrary.fss	SYMBOLIC >	11 pairs
+Library/FortressLibrary.fss	SYMBOLIC >=	17 pairs
+Library/FortressLibrary.fss	SYMBOLIC BIG //	1 pairs
+Library/FortressLibrary.fss	SYMBOLIC BIG ||	1 pairs
+Library/FortressLibrary.fss	SYMBOLIC BIG |||	1 pairs
+Library/FortressLibrary.fss	__cond	1 pairs
+Library/FortressLibrary.fss	juxtaposition	107 pairs
+Library/RangeInternals.fsi	PCMP	3 pairs
+Library/RangeInternals.fsi	SCMP	3 pairs
+Library/RangeInternals.fsi	openRangeHelper	3 pairs
+Library/RangeInternals.fss	PCMP	3 pairs
+Library/RangeInternals.fss	SCMP	3 pairs
+Library/RangeInternals.fss	openRangeHelper	3 pairs
+
+## by the text scan (calibrated above), lifted: tests/, library_tests/, Library/, LibraryBuiltin/
+tests/ArrayListQuick.fss:36:53	chkPop
+tests/ArrayListQuick.fss:36:55	chkPop
+tests/GeneratorNullPointer.fss:18:19	f
+tests/GeneratorNullPointer.fss:19:20	f
+tests/PureListQuick.fss:36:53	chkPop
+tests/PureListQuick.fss:36:55	chkPop
+tests/XXXgenericMethod1.fss:21:23	g	(in U)
+tests/XXXgenericMethod1.fss:22:23	g	(in U)
+tests/XXXgenericMethod2.fss:20:22	g	(in U)
+tests/XXXgenericMethod2.fss:20:23	g	(in U)
+tests/XXXgenericMethod3.fss:20:23	f	(in U)
+tests/doubledOverloading.fss:36:37	a
+tests/doubledOverloading.fss:40:41	b
+tests/fmTest3.fss:15:22	OPLUS
+tests/fmTest3.fss:16:23	OTIMES
+tests/fmTest3.fss:16:24	OTIMES
+tests/fmTest3.fss:16:26	OTIMES
+tests/genericMethod4.fss:21:22	g	(in U)
+tests/overloadTest8.fss:33:35	f
+tests/overloadTest8.fss:33:37	f
+Library/Containment.fss:35:67	SUBSETEQ
+Library/Containment.fss:44:67	SUBSETEQ
+Library/Containment.fss:59:67	SUBSETEQ
+Library/CovariantCollection.fss:27:39	APPCOV
+Library/Generator2.fss:52:53	takeleft
+Library/Generator2.fss:56:57	takeright
+Library/List.fss:88:128	SYMBOLIC ||
+Library/List.fss:88:365	SYMBOLIC ||
+Library/QuickCheck.fss:728:730	__genMatchElse
+Library/QuickCheck.fss:728:734	__genMatchElse
+Library/QuickCheck.fss:730:732	__genMatchElse
+Library/QuickCheck.fss:732:734	__genMatchElse
+Library/QuickSort.fss:36:48	quicksort
+Library/QuickSort.fss:46:48	quicksort
+Library/QuickSort.fss:48:51	quicksort
+Library/QuickSort.fss:48:56	quicksort
+Library/Set.fss:76:77	set
+Library/Set.fss:76:79	set
+Library/Tuple.fss:19:21	first
+Library/Tuple.fss:19:24	first
+Library/Tuple.fss:21:24	first
+Library/Tuple.fss:20:22	second
+Library/Tuple.fss:20:25	second
+Library/Tuple.fss:22:25	second
+Library/Tuple.fss:23:26	third
+Library/Containment.fsi:16:37	SYMBOLIC ⊆
+Library/Containment.fsi:25:37	SYMBOLIC ⊆
+Library/Containment.fsi:32:37	SYMBOLIC ⊆
+Library/CovariantCollection.fsi:14:16	APPCOV
+Library/List.fsi:57:81	SYMBOLIC ||
+Library/QuickSort.fsi:16:18	quicksort
+Library/QuickSort.fsi:17:18	quicksort
+Library/QuickSort.fsi:18:19	quicksort
+Library/QuickSort.fsi:18:20	quicksort
+Library/Tuple.fsi:17:19	first
+Library/Tuple.fsi:17:22	first
+Library/Tuple.fsi:19:22	first
+Library/Tuple.fsi:18:20	second
+Library/Tuple.fsi:18:23	second
+Library/Tuple.fsi:20:23	second
+Library/Tuple.fsi:21:24	third
+Library/FortressLibrary.fsi	BITAND	3 pairs
+Library/FortressLibrary.fsi	BITNOT	3 pairs
+Library/FortressLibrary.fsi	BITOR	3 pairs
+Library/FortressLibrary.fsi	BITXOR	3 pairs
+Library/FortressLibrary.fsi	CHOOSE	3 pairs
+Library/FortressLibrary.fsi	CMP	63 pairs
+Library/FortressLibrary.fsi	DIV	3 pairs
+Library/FortressLibrary.fsi	DOT	53 pairs
+Library/FortressLibrary.fsi	GCD	3 pairs
+Library/FortressLibrary.fsi	LCM	3 pairs
+Library/FortressLibrary.fsi	LSHIFT	3 pairs
+Library/FortressLibrary.fsi	MAX	13 pairs
+Library/FortressLibrary.fsi	MIN	13 pairs
+Library/FortressLibrary.fsi	MINMAX	5 pairs
+Library/FortressLibrary.fsi	MOD	3 pairs
+Library/FortressLibrary.fsi	REM	3 pairs
+Library/FortressLibrary.fsi	RSHIFT	3 pairs
+Library/FortressLibrary.fsi	SYMBOLIC #	25 pairs
+Library/FortressLibrary.fsi	SYMBOLIC +	77 pairs
+Library/FortressLibrary.fsi	SYMBOLIC -	212 pairs
+Library/FortressLibrary.fsi	SYMBOLIC :	25 pairs
+Library/FortressLibrary.fsi	SYMBOLIC ::	6 pairs
+Library/FortressLibrary.fsi	SYMBOLIC <	36 pairs
+Library/FortressLibrary.fsi	SYMBOLIC <=	12 pairs
+Library/FortressLibrary.fsi	SYMBOLIC =	188 pairs
+Library/FortressLibrary.fsi	SYMBOLIC >	12 pairs
+Library/FortressLibrary.fsi	SYMBOLIC >=	18 pairs
+Library/FortressLibrary.fsi	SYMBOLIC BIG //	1 pairs
+Library/FortressLibrary.fsi	SYMBOLIC ^	9 pairs
+Library/FortressLibrary.fsi	TIMES	9 pairs
+Library/FortressLibrary.fsi	__cond	1 pairs
+Library/FortressLibrary.fsi	juxtaposition	97 pairs
+Library/FortressLibrary.fsi	seq	6 pairs
+Library/FortressLibrary.fsi	unsigned	1 pairs
+Library/FortressLibrary.fss	BITAND	4 pairs
+Library/FortressLibrary.fss	BITNOT	4 pairs
+Library/FortressLibrary.fss	BITOR	4 pairs
+Library/FortressLibrary.fss	BITXOR	4 pairs
+Library/FortressLibrary.fss	CHOOSE	4 pairs
+Library/FortressLibrary.fss	CMP	75 pairs
+Library/FortressLibrary.fss	DIV	4 pairs
+Library/FortressLibrary.fss	DOT	81 pairs
+Library/FortressLibrary.fss	GCD	4 pairs
+Library/FortressLibrary.fss	IN	9 pairs
+Library/FortressLibrary.fss	INTERSECTION	2 pairs
+Library/FortressLibrary.fss	LCM	4 pairs
+Library/FortressLibrary.fss	LSHIFT	4 pairs
+Library/FortressLibrary.fss	MAX	19 pairs
+Library/FortressLibrary.fss	MIN	19 pairs
+Library/FortressLibrary.fss	MINMAX	5 pairs
+Library/FortressLibrary.fss	MOD	4 pairs
+Library/FortressLibrary.fss	REM	4 pairs
+Library/FortressLibrary.fss	RSHIFT	4 pairs
+Library/FortressLibrary.fss	SYMBOLIC #	25 pairs
+Library/FortressLibrary.fss	SYMBOLIC +	62 pairs
+Library/FortressLibrary.fss	SYMBOLIC -	160 pairs
+Library/FortressLibrary.fss	SYMBOLIC :	25 pairs
+Library/FortressLibrary.fss	SYMBOLIC ::	6 pairs
+Library/FortressLibrary.fss	SYMBOLIC <	42 pairs
+Library/FortressLibrary.fss	SYMBOLIC <=	22 pairs
+Library/FortressLibrary.fss	SYMBOLIC =	218 pairs
+Library/FortressLibrary.fss	SYMBOLIC >	15 pairs
+Library/FortressLibrary.fss	SYMBOLIC >=	30 pairs
+Library/FortressLibrary.fss	SYMBOLIC BIG //	1 pairs
+Library/FortressLibrary.fss	SYMBOLIC BIG ||	1 pairs
+Library/FortressLibrary.fss	SYMBOLIC BIG |||	1 pairs
+Library/FortressLibrary.fss	SYMBOLIC ^	17 pairs
+Library/FortressLibrary.fss	TIMES	13 pairs
+Library/FortressLibrary.fss	__cond	1 pairs
+Library/FortressLibrary.fss	denominator	2 pairs
+Library/FortressLibrary.fss	juxtaposition	126 pairs
+Library/FortressLibrary.fss	round	2 pairs
+Library/FortressLibrary.fss	seq	24 pairs
+Library/RangeInternals.fsi	CAP	20 pairs
+Library/RangeInternals.fsi	PCMP	3 pairs
+Library/RangeInternals.fsi	SCMP	3 pairs
+Library/RangeInternals.fsi	SYMBOLIC =	11 pairs
+Library/RangeInternals.fsi	openRangeHelper	3 pairs
+Library/RangeInternals.fss	IN	3 pairs
+Library/RangeInternals.fss	INTERSECTION	20 pairs
+Library/RangeInternals.fss	PCMP	3 pairs
+Library/RangeInternals.fss	SCMP	3 pairs
+Library/RangeInternals.fss	SYMBOLIC =	15 pairs
+Library/RangeInternals.fss	openRangeHelper	3 pairs

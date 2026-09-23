@@ -1,0 +1,10 @@
+=== fortress link ScopePad.fss   -Dprobe.spSentence=off
+link exit=0
+=== fortress run ScopePad
+pad(IntBox) =  one , pad(IntBox, StrBox) =  two
+run exit=0
+=== fortress link ScopePad.fss   -Dprobe.spSentence=own
+link exit=0
+=== fortress run ScopePad
+pad(IntBox) =  one , pad(IntBox, StrBox) =  two
+run exit=0

@@ -1,0 +1,18 @@
+component ScopePad
+export Executable
+
+(* The sentence's cheapest repair, padding: every declaration of one name given the same
+   static parameters, some of them unused, as FortressLibrary.fsi:1512-1647 already does
+   for DOT and juxtaposition.  pad is the shape of openRangeHelper, SCMP, PCMP, Tuple's
+   first, and __cond: one declaration per arity.  B is unused in the first. *)
+trait Box[\T\] end
+object IntBox extends Box[\ZZ32\] end
+object StrBox extends Box[\String\] end
+
+pad[\A, B\](x: Box[\A\]): String = "one"
+pad[\A, B\](x: Box[\A\], y: Box[\B\]): String = "two"
+
+run(): () = do
+  println("pad(IntBox) = " pad(IntBox) ", pad(IntBox, StrBox) = " pad(IntBox, StrBox))
+end
+end

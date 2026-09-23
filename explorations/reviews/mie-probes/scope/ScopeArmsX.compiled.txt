@@ -1,0 +1,15 @@
+=== fortress link ScopeArmsX.fss   -Dprobe.rungP=hier -Dprobe.scope=off
+link exit=0
+=== fortress run ScopeArmsX
+grab(r), r: Sub[Red] = Mixed    ->  SubM[Red]
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class ScopeArmsX$\=SubM?ScopeArmsX\%Red? cannot be cast to class ScopeArmsX$\=Marker?ScopeArmsX\%Blue? (ScopeArmsX$\=SubM?ScopeArmsX\%Red? and ScopeArmsX$\=Marker?ScopeArmsX\%Blue? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingCl
+run exit=1
+=== fortress link ScopeArmsX.fss   -Dprobe.rungP=hier -Dprobe.scope=callsite
+link exit=0
+=== fortress run ScopeArmsX
+grab(r), r: Sub[Red] = Mixed    ->  SubM[Red]
+grab(b1), b1: Tag[Blue] = Mixed   ->  TagM[Blue]
+grab(b2), b2: Tag[Blue] = SubBlue ->  SubM[Blue]
+grab(b3), b3: Tag[Blue] = TagBlue ->  TagM[Blue]
+run exit=0

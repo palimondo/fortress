@@ -1,0 +1,45 @@
+=== fortress walk MieDispatchSub.fss
+grab(r), r: Sub[Red]  -> Marker[Blue]
+grab(b), b: Tag[Blue] -> Marker[Blue]
+mb: Marker[Blue] = grab(b) holds Marker[Blue]
+walk exit=0
+=== fortress walk ScopeArms.fss
+com.sun.fortress.exceptions.ProgramError: ScopeArms.fss:22:1-48: and
+ScopeArms.fss:21:1-47:
+
+grab[\Y\](t:Sub[\Y\]):Marker[\Y\]ScopeArms.fss:22:1-48 and
+grab[\X\](t:Tag[\X\]):Marker[\X\]ScopeArms.fss:21:1-47 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ScopeArms.fss:22:1-48:
+ScopeArms.fss:21:1-47:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk exit=1
+=== fortress walk ScopeArmsX.fss
+grab(r), r: Sub[Red] = Mixed    -> TagM[Blue]
+grab(b1), b1: Tag[Blue] = Mixed   -> TagM[Blue]
+grab(b2), b2: Tag[Blue] = SubBlue -> SubM[Blue]
+grab(b3), b3: Tag[Blue] = TagBlue -> TagM[Blue]
+walk exit=0
+=== fortress walk ScopeAlpha2.fss
+com.sun.fortress.exceptions.ProgramError: ScopeAlpha2.fss:18:1-59: and
+ScopeAlpha2.fss:17:1-55:
+
+pair[\B,A\](t:SubTwo[\B,A\]):Marker[\B,A\]ScopeAlpha2.fss:18:1-59 and
+pair[\A,B\](t:Two[\A,B\]):Marker[\A,B\]ScopeAlpha2.fss:17:1-55 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ScopeAlpha2.fss:18:1-59:
+ScopeAlpha2.fss:17:1-55:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk exit=1
+=== fortress walk ScopeZZ32Sub.fss
+grab(t), t: Tag[ZZ32] = IntSub -> SubM[ZZ32]
+walk exit=0
+=== fortress walk ScopePad.fss
+pad(IntBox) = one, pad(IntBox, StrBox) = two
+walk exit=0

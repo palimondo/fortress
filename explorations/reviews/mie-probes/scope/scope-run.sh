@@ -209,7 +209,8 @@ PY
         (cd ProjectFortress/compiler_tests && java -Xmx4g -Xss64m -Dprobe.spSentence=$mode -Dfortress.caches=$C \
            -cp $W/classes:$CP com.sun.fortress.Shell link $p.fss > $O/$p.out 2>&1; echo "exit=$?" >> $O/$p.out)
         rm -f $C/bytecode_cache/$p.jar; done; fi
-    echo; echo "## compiler_tests: $(ls $O | wc -l) programs linked with -Dprobe.spSentence=$mode ($CAND); the refused pairs"
+    echo; echo "## compiler_tests: $(ls $O | wc -l) programs linked with -Dprobe.spSentence=$mode; the refused pairs"
+    echo "# the programs: $(tr '\n' ' ' < $CAND)"
     grep -h '^@@SPSENTENCE' $O/*.out | sed -e "s#$PWD/##g" | awk -F'\t' '{print $3 "\t" $4 "\t" $2}' | sort -u
     echo "## the same programs by the text scan"
     python3 $D/sentence-scan.py $mode ProjectFortress/compiler_tests/*.fss ProjectFortress/compiler_tests/*.fsi | sed -e "s#^ProjectFortress/##"
@@ -218,7 +219,14 @@ PY
     echo; echo "## by the text scan (calibrated above), $mode: tests/, library_tests/, Library/, LibraryBuiltin/"
     python3 $D/sentence-scan.py $mode ProjectFortress/tests/*.fss ProjectFortress/tests/*.fsi ProjectFortress/library_tests/*.fss \
       ProjectFortress/library_tests/*.fsi Library/*.fss Library/*.fsi ProjectFortress/LibraryBuiltin/*.fss ProjectFortress/LibraryBuiltin/*.fsi \
-      | sed -e "s#^ProjectFortress/##"
+      | sed -e "s#^ProjectFortress/##" | python3 -c '
+import sys, collections      # FortressLibrary and RangeInternals by name (their pairs: sentence-library.txt)
+big = collections.Counter()
+for l in sys.stdin:
+    f, rest = l.split(":")[0], l.rstrip("\n").split("\t")[1]
+    if f.split("/")[-1].split(".")[0] in ("FortressLibrary", "RangeInternals"): big[(f, rest)] += 1
+    else: print(l, end="")
+for (f, n), c in sorted(big.items()): print(f"{f}\t{n}\t{c} pairs")'
   done; } > $D/sentence-corpora.txt
 
 # ------------------------------------------------------- 6. the interpreter on the same probes

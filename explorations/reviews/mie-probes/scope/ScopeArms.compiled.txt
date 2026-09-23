@@ -3,7 +3,7 @@ link exit=0
 === fortress run ScopeArms
 grab(r), r: Sub[Red] = Mixed    ->  SubM[Red]
 java.lang.ClassCastException
-Caused by: java.lang.ClassCastException: class ScopeArms$\=SubM?ScopeArms\%Red? cannot be cast to class ScopeArms$Marker?Y? (ScopeArms$\=SubM?ScopeArms\%Red? and ScopeArms$Marker?Y? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+Caused by: java.lang.ClassCastException: class ScopeArms$\=SubM?ScopeArms\%Red? cannot be cast to class ScopeArms$Marker?Y? (ScopeArms$\=SubM?ScopeArms\%Red? and ScopeArms$Marker?Y? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader)
 run exit=1
 === fortress link ScopeArms.fss   -Dprobe.rungP=hier -Dprobe.scope=callsite
 link exit=0

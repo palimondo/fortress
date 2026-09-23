@@ -1,0 +1,630 @@
+# The sentence (overloading.tex:100-105) over the interpreter's library: WorldFlip on ZALL3,
+# -Dprobe.spSentence=own|lifted.  pairs = distinct declaration pairs refused; stock = of them,
+# pairs the stock rules already refuse (same two spans in wf-off.out).
+stock (-Dprobe.spSentence=off): whole-unit errors 203
+# checkApi errors, off: List=0 TypeProxy=0 String=0 FlatString=0 NatReflect=0 Stream=0 AnyType=0 Writer=0 FortressBuiltin=0 NativeArray=44 FortressLibrary=320 RangeInternals=42
+# checkApi errors, own: List=0 TypeProxy=0 String=0 FlatString=0 NatReflect=0 Stream=0 AnyType=0 Writer=0 FortressBuiltin=0 NativeArray=44 FortressLibrary=660 RangeInternals=60
+# checkApi errors, lifted: List=0 TypeProxy=0 String=0 FlatString=0 NatReflect=0 Stream=0 AnyType=0 Writer=0 FortressBuiltin=0 NativeArray=44 FortressLibrary=914 RangeInternals=118
+
+## own: 179 pairs, 11 already refused by the stock rules; whole-unit errors 382
+juxtaposition     80 pairs (0 stock)  over 18 declarations
+    FortressLibrary.fsi:271    opr juxtaposition(self, other:T): T
+    FortressLibrary.fsi:298    opr juxtaposition
+    FortressLibrary.fsi:396    opr juxtaposition (self,other:QQ):QQ
+    FortressLibrary.fsi:420    opr juxtaposition(self,b:I):I
+    FortressLibrary.fsi:447    opr juxtaposition(self,b:NN64):NN64
+    FortressLibrary.fsi:481    opr juxtaposition(self,b:ZZ32):ZZ32
+    FortressLibrary.fsi:520    opr juxtaposition(self,b:ZZ64):ZZ64
+    FortressLibrary.fsi:1515   opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1521   opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1527   opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1621   opr juxtaposition[\ T extends Number, nat n, nat m, nat p\]
+    FortressLibrary.fsi:1628   opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1635   opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1641   opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1647   opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:2360   opr juxtaposition(a:Any, self):String
+    FortressLibrary.fsi:2361   opr juxtaposition(self, b:String):String
+    FortressLibrary.fsi:2362   opr juxtaposition(self, b:Any):String
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:1515 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1515 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1515 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1521 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1521 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1521 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1527 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1527 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1527 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1621 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1621 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1621 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1628 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1628 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1628 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1635 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1635 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1635 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1641 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1641 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1641 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1647 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1647 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1647 x FortressLibrary.fsi:2362
+DOT               48 pairs (0 stock)  over 14 declarations
+    FortressLibrary.fsi:296    opr DOT(self,b:Number):RR64
+    FortressLibrary.fsi:394    opr DOT(self,other:QQ):QQ
+    FortressLibrary.fsi:418    opr DOT(self,b:I):I
+    FortressLibrary.fsi:445    opr DOT(self,b:NN64):NN64
+    FortressLibrary.fsi:480    opr DOT(self,b:ZZ32):ZZ32
+    FortressLibrary.fsi:518    opr DOT(self,b:ZZ64):ZZ64
+    FortressLibrary.fsi:1512   opr DOT[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1518   opr DOT[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1524   opr DOT[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1618   opr DOT[\ T extends Number, nat n, nat m, nat p\]
+    FortressLibrary.fsi:1625   opr DOT[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1632   opr DOT[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1638   opr DOT[\ T extends Number, nat n, nat m, nat p \]
+    FortressLibrary.fsi:1644   opr DOT[\ T extends Number, nat n, nat m, nat p \]
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1644
+CMP               25 pairs (0 stock)  over 14 declarations
+    FortressLibrary.fsi:124    opr CMP(self, other:Unordered): Comparison
+    FortressLibrary.fsi:134    opr CMP(self, other:LessThan): Comparison
+    FortressLibrary.fsi:135    opr CMP(self, other:TotalComparison): TotalComparison
+    FortressLibrary.fsi:145    opr CMP(self, other:GreaterThan): Comparison
+    FortressLibrary.fsi:146    opr CMP(self, other:TotalComparison): TotalComparison
+    FortressLibrary.fsi:155    opr CMP(self, other:TotalComparison): TotalComparison
+    FortressLibrary.fsi:169    opr CMP(self, other:T): Comparison
+    FortressLibrary.fsi:222    opr CMP(self, other:T): TotalComparison
+    FortressLibrary.fsi:286    opr CMP(self, b:Number):Comparison
+    FortressLibrary.fsi:513    opr CMP(self, b:ZZ64): TotalComparison
+    FortressLibrary.fsi:1202   opr CMP(self, other:T): TotalComparison
+    FortressLibrary.fsi:2076   opr CMP(self, other:Range[\I\]): Comparison
+    FortressLibrary.fsi:2495   opr CMP[\A,B\](t1:(A,B), t2:(A,B)): Comparison
+    FortressLibrary.fsi:2501   opr CMP[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Comparison
+      pair FortressLibrary.fsi:124 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:124 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:134 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:134 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:135 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:135 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:145 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:145 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:146 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:146 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:155 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:155 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:169 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:169 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:222 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:222 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:286 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:286 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:513 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:513 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:1202 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:1202 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:2076 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:2076 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:2495 x FortressLibrary.fsi:2501
+MAX                8 pairs (4 stock)  over 6 declarations
+    FortressLibrary.fsi:196    opr MAX(self, other:T): T
+    FortressLibrary.fsi:210    opr MAX(self, other:T): (T,T)
+    FortressLibrary.fsi:290    opr MAX(self, b:Number):Number
+    FortressLibrary.fsi:389    opr MAX(self, other:QQ):QQ
+    FortressLibrary.fsi:2558   opr MAX[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+    FortressLibrary.fsi:2559   opr MAX[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+      pair FortressLibrary.fsi:196 x FortressLibrary.fsi:2558  (stock)
+      pair FortressLibrary.fsi:196 x FortressLibrary.fsi:2559  (stock)
+      pair FortressLibrary.fsi:210 x FortressLibrary.fsi:2558  (stock)
+      pair FortressLibrary.fsi:210 x FortressLibrary.fsi:2559  (stock)
+      pair FortressLibrary.fsi:290 x FortressLibrary.fsi:2558
+      pair FortressLibrary.fsi:290 x FortressLibrary.fsi:2559
+      pair FortressLibrary.fsi:389 x FortressLibrary.fsi:2558
+      pair FortressLibrary.fsi:389 x FortressLibrary.fsi:2559
+MIN                8 pairs (4 stock)  over 6 declarations
+    FortressLibrary.fsi:185    opr MIN(self, other:T): T
+    FortressLibrary.fsi:209    opr MIN(self, other:T): (T,T)
+    FortressLibrary.fsi:289    opr MIN(self, b:Number):Number
+    FortressLibrary.fsi:388    opr MIN(self, other:QQ):QQ
+    FortressLibrary.fsi:2556   opr MIN[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+    FortressLibrary.fsi:2557   opr MIN[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+      pair FortressLibrary.fsi:185 x FortressLibrary.fsi:2556  (stock)
+      pair FortressLibrary.fsi:185 x FortressLibrary.fsi:2557  (stock)
+      pair FortressLibrary.fsi:209 x FortressLibrary.fsi:2556  (stock)
+      pair FortressLibrary.fsi:209 x FortressLibrary.fsi:2557  (stock)
+      pair FortressLibrary.fsi:289 x FortressLibrary.fsi:2556
+      pair FortressLibrary.fsi:289 x FortressLibrary.fsi:2557
+      pair FortressLibrary.fsi:388 x FortressLibrary.fsi:2556
+      pair FortressLibrary.fsi:388 x FortressLibrary.fsi:2557
+PCMP               3 pairs (0 stock)  over 3 declarations
+    RangeInternals.fsi:36     opr PCMP[\I extends Integral[\I\]\](a: I, b: I): Comparison
+    RangeInternals.fsi:38     opr PCMP[\I extends Integral[\I\], J extends Integral[\J\]\](a: (I, J), b: (I, J)): Compar
+    RangeInternals.fsi:40     opr PCMP[\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](a: (
+      pair RangeInternals.fsi:36 x RangeInternals.fsi:38
+      pair RangeInternals.fsi:36 x RangeInternals.fsi:40
+      pair RangeInternals.fsi:38 x RangeInternals.fsi:40
+SCMP               3 pairs (0 stock)  over 3 declarations
+    RangeInternals.fsi:30     opr SCMP[\I extends Integral[\I\]\](a: I, b: I): Comparison
+    RangeInternals.fsi:32     opr SCMP[\I extends Integral[\I\], J extends Integral[\J\]\](a: (I, J), b: (I, J)): Compar
+    RangeInternals.fsi:34     opr SCMP[\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](a: (
+      pair RangeInternals.fsi:30 x RangeInternals.fsi:32
+      pair RangeInternals.fsi:30 x RangeInternals.fsi:34
+      pair RangeInternals.fsi:32 x RangeInternals.fsi:34
+openRangeHelper    3 pairs (3 stock)  over 3 declarations
+    RangeInternals.fsi:612    openRangeHelper[\I extends Integral[\I\]\](_: ()->I): OpenScalarRange[\I\]
+    RangeInternals.fsi:614    openRangeHelper[\I extends Integral[\I\], J extends Integral[\J\]\](_: ()->(I, J)): OpenRa
+    RangeInternals.fsi:616    openRangeHelper[\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]
+      pair RangeInternals.fsi:612 x RangeInternals.fsi:614  (stock)
+      pair RangeInternals.fsi:612 x RangeInternals.fsi:616  (stock)
+      pair RangeInternals.fsi:614 x RangeInternals.fsi:616  (stock)
+__cond             1 pairs (0 stock)  over 2 declarations
+    FortressLibrary.fsi:755    __cond[\E,R\](c:Condition[\E\], t:E->R, e:()->R): R
+    FortressLibrary.fsi:756    __cond[\E\](c:Condition[\E\], t:E->()): ()
+      pair FortressLibrary.fsi:755 x FortressLibrary.fsi:756
+
+## lifted: 335 pairs, 43 already refused by the stock rules; whole-unit errors 538
+juxtaposition     97 pairs (3 stock)  over 18 declarations
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:298
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:396
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:420
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:447
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:481
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:520
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:2360  (stock)
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:2361  (stock)
+      pair FortressLibrary.fsi:271 x FortressLibrary.fsi:2362  (stock)
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:420
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:298 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:420
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:396 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:447
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:481
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:520
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:420 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:447 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:481 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1515
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1521
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1527
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1621
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1628
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1635
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1641
+      pair FortressLibrary.fsi:520 x FortressLibrary.fsi:1647
+      pair FortressLibrary.fsi:1515 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1515 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1515 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1521 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1521 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1521 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1527 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1527 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1527 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1621 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1621 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1621 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1628 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1628 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1628 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1635 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1635 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1635 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1641 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1641 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1641 x FortressLibrary.fsi:2362
+      pair FortressLibrary.fsi:1647 x FortressLibrary.fsi:2360
+      pair FortressLibrary.fsi:1647 x FortressLibrary.fsi:2361
+      pair FortressLibrary.fsi:1647 x FortressLibrary.fsi:2362
+CMP               63 pairs (5 stock)  over 14 declarations
+      pair FortressLibrary.fsi:124 x FortressLibrary.fsi:169
+      pair FortressLibrary.fsi:124 x FortressLibrary.fsi:222
+      pair FortressLibrary.fsi:124 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:124 x FortressLibrary.fsi:2076
+      pair FortressLibrary.fsi:124 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:124 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:134 x FortressLibrary.fsi:169
+      pair FortressLibrary.fsi:134 x FortressLibrary.fsi:222  (stock)
+      pair FortressLibrary.fsi:134 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:134 x FortressLibrary.fsi:2076
+      pair FortressLibrary.fsi:134 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:134 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:135 x FortressLibrary.fsi:169
+      pair FortressLibrary.fsi:135 x FortressLibrary.fsi:222
+      pair FortressLibrary.fsi:135 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:135 x FortressLibrary.fsi:2076
+      pair FortressLibrary.fsi:135 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:135 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:145 x FortressLibrary.fsi:169
+      pair FortressLibrary.fsi:145 x FortressLibrary.fsi:222  (stock)
+      pair FortressLibrary.fsi:145 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:145 x FortressLibrary.fsi:2076
+      pair FortressLibrary.fsi:145 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:145 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:146 x FortressLibrary.fsi:169
+      pair FortressLibrary.fsi:146 x FortressLibrary.fsi:222
+      pair FortressLibrary.fsi:146 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:146 x FortressLibrary.fsi:2076
+      pair FortressLibrary.fsi:146 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:146 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:155 x FortressLibrary.fsi:169
+      pair FortressLibrary.fsi:155 x FortressLibrary.fsi:222
+      pair FortressLibrary.fsi:155 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:155 x FortressLibrary.fsi:2076
+      pair FortressLibrary.fsi:155 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:155 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:169 x FortressLibrary.fsi:222
+      pair FortressLibrary.fsi:169 x FortressLibrary.fsi:286
+      pair FortressLibrary.fsi:169 x FortressLibrary.fsi:513
+      pair FortressLibrary.fsi:169 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:169 x FortressLibrary.fsi:2076
+      pair FortressLibrary.fsi:169 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:169 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:222 x FortressLibrary.fsi:286  (stock)
+      pair FortressLibrary.fsi:222 x FortressLibrary.fsi:513
+      pair FortressLibrary.fsi:222 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:222 x FortressLibrary.fsi:2076  (stock)
+      pair FortressLibrary.fsi:222 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:222 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:286 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:286 x FortressLibrary.fsi:2076
+      pair FortressLibrary.fsi:286 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:286 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:513 x FortressLibrary.fsi:1202
+      pair FortressLibrary.fsi:513 x FortressLibrary.fsi:2076
+      pair FortressLibrary.fsi:513 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:513 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:1202 x FortressLibrary.fsi:2076  (stock)
+      pair FortressLibrary.fsi:1202 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:1202 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:2076 x FortressLibrary.fsi:2495
+      pair FortressLibrary.fsi:2076 x FortressLibrary.fsi:2501
+      pair FortressLibrary.fsi:2495 x FortressLibrary.fsi:2501
+DOT               53 pairs (0 stock)  over 14 declarations
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:418
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:296 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:418
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:394 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:445
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:480
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:518
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:418 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:445 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:480 x FortressLibrary.fsi:1644
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1512
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1518
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1524
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1618
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1625
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1632
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1638
+      pair FortressLibrary.fsi:518 x FortressLibrary.fsi:1644
+CAP               20 pairs (12 stock)  over 8 declarations
+      pair RangeInternals.fsi:46 x RangeInternals.fsi:63  (stock)
+      pair RangeInternals.fsi:46 x RangeInternals.fsi:64  (stock)
+      pair RangeInternals.fsi:46 x RangeInternals.fsi:98  (stock)
+      pair RangeInternals.fsi:46 x RangeInternals.fsi:99  (stock)
+      pair RangeInternals.fsi:63 x RangeInternals.fsi:98  (stock)
+      pair RangeInternals.fsi:63 x RangeInternals.fsi:99  (stock)
+      pair RangeInternals.fsi:63 x RangeInternals.fsi:136
+      pair RangeInternals.fsi:63 x RangeInternals.fsi:191
+      pair RangeInternals.fsi:63 x RangeInternals.fsi:237  (stock)
+      pair RangeInternals.fsi:64 x RangeInternals.fsi:98  (stock)
+      pair RangeInternals.fsi:64 x RangeInternals.fsi:99  (stock)
+      pair RangeInternals.fsi:64 x RangeInternals.fsi:136
+      pair RangeInternals.fsi:64 x RangeInternals.fsi:191
+      pair RangeInternals.fsi:64 x RangeInternals.fsi:237  (stock)
+      pair RangeInternals.fsi:98 x RangeInternals.fsi:136
+      pair RangeInternals.fsi:98 x RangeInternals.fsi:191
+      pair RangeInternals.fsi:98 x RangeInternals.fsi:237  (stock)
+      pair RangeInternals.fsi:99 x RangeInternals.fsi:136
+      pair RangeInternals.fsi:99 x RangeInternals.fsi:191
+      pair RangeInternals.fsi:99 x RangeInternals.fsi:237  (stock)
+MAX               13 pairs (7 stock)  over 6 declarations
+      pair FortressLibrary.fsi:196 x FortressLibrary.fsi:210  (stock)
+      pair FortressLibrary.fsi:196 x FortressLibrary.fsi:290
+      pair FortressLibrary.fsi:196 x FortressLibrary.fsi:389
+      pair FortressLibrary.fsi:196 x FortressLibrary.fsi:2558  (stock)
+      pair FortressLibrary.fsi:196 x FortressLibrary.fsi:2559  (stock)
+      pair FortressLibrary.fsi:210 x FortressLibrary.fsi:290  (stock)
+      pair FortressLibrary.fsi:210 x FortressLibrary.fsi:389  (stock)
+      pair FortressLibrary.fsi:210 x FortressLibrary.fsi:2558  (stock)
+      pair FortressLibrary.fsi:210 x FortressLibrary.fsi:2559  (stock)
+      pair FortressLibrary.fsi:290 x FortressLibrary.fsi:2558
+      pair FortressLibrary.fsi:290 x FortressLibrary.fsi:2559
+      pair FortressLibrary.fsi:389 x FortressLibrary.fsi:2558
+      pair FortressLibrary.fsi:389 x FortressLibrary.fsi:2559
+MIN               13 pairs (7 stock)  over 6 declarations
+      pair FortressLibrary.fsi:185 x FortressLibrary.fsi:209  (stock)
+      pair FortressLibrary.fsi:185 x FortressLibrary.fsi:289
+      pair FortressLibrary.fsi:185 x FortressLibrary.fsi:388
+      pair FortressLibrary.fsi:185 x FortressLibrary.fsi:2556  (stock)
+      pair FortressLibrary.fsi:185 x FortressLibrary.fsi:2557  (stock)
+      pair FortressLibrary.fsi:209 x FortressLibrary.fsi:289  (stock)
+      pair FortressLibrary.fsi:209 x FortressLibrary.fsi:388  (stock)
+      pair FortressLibrary.fsi:209 x FortressLibrary.fsi:2556  (stock)
+      pair FortressLibrary.fsi:209 x FortressLibrary.fsi:2557  (stock)
+      pair FortressLibrary.fsi:289 x FortressLibrary.fsi:2556
+      pair FortressLibrary.fsi:289 x FortressLibrary.fsi:2557
+      pair FortressLibrary.fsi:388 x FortressLibrary.fsi:2556
+      pair FortressLibrary.fsi:388 x FortressLibrary.fsi:2557
+BY                 9 pairs (0 stock)  over 6 declarations
+      pair FortressLibrary.fsi:270 x FortressLibrary.fsi:297
+      pair FortressLibrary.fsi:270 x FortressLibrary.fsi:395
+      pair FortressLibrary.fsi:270 x FortressLibrary.fsi:419
+      pair FortressLibrary.fsi:270 x FortressLibrary.fsi:446
+      pair FortressLibrary.fsi:270 x FortressLibrary.fsi:519
+      pair FortressLibrary.fsi:297 x FortressLibrary.fsi:419
+      pair FortressLibrary.fsi:395 x FortressLibrary.fsi:419
+      pair FortressLibrary.fsi:419 x FortressLibrary.fsi:446
+      pair FortressLibrary.fsi:419 x FortressLibrary.fsi:519
+IN                 9 pairs (0 stock)  over 6 declarations
+      pair RangeInternals.fsi:65 x RangeInternals.fsi:100
+      pair RangeInternals.fsi:65 x RangeInternals.fsi:261
+      pair RangeInternals.fsi:65 x RangeInternals.fsi:321
+      pair RangeInternals.fsi:65 x RangeInternals.fsi:429
+      pair RangeInternals.fsi:65 x RangeInternals.fsi:505
+      pair RangeInternals.fsi:100 x RangeInternals.fsi:261
+      pair RangeInternals.fsi:100 x RangeInternals.fsi:321
+      pair RangeInternals.fsi:100 x RangeInternals.fsi:429
+      pair RangeInternals.fsi:100 x RangeInternals.fsi:505
+seq                6 pairs (4 stock)  over 5 declarations
+      pair FortressLibrary.fsi:635 x FortressLibrary.fsi:1223
+      pair FortressLibrary.fsi:635 x FortressLibrary.fsi:1273
+      pair FortressLibrary.fsi:762 x FortressLibrary.fsi:1223  (stock)
+      pair FortressLibrary.fsi:762 x FortressLibrary.fsi:1273  (stock)
+      pair FortressLibrary.fsi:1223 x FortressLibrary.fsi:2043  (stock)
+      pair FortressLibrary.fsi:1273 x FortressLibrary.fsi:2043  (stock)
+MINMAX             5 pairs (2 stock)  over 4 declarations
+      pair FortressLibrary.fsi:208 x FortressLibrary.fsi:221
+      pair FortressLibrary.fsi:208 x FortressLibrary.fsi:291
+      pair FortressLibrary.fsi:208 x FortressLibrary.fsi:390
+      pair FortressLibrary.fsi:221 x FortressLibrary.fsi:291  (stock)
+      pair FortressLibrary.fsi:221 x FortressLibrary.fsi:390  (stock)
+BITAND             3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:428 x FortressLibrary.fsi:454
+      pair FortressLibrary.fsi:428 x FortressLibrary.fsi:488
+      pair FortressLibrary.fsi:428 x FortressLibrary.fsi:527
+BITNOT             3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:433 x FortressLibrary.fsi:459
+      pair FortressLibrary.fsi:433 x FortressLibrary.fsi:493
+      pair FortressLibrary.fsi:433 x FortressLibrary.fsi:532
+BITOR              3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:429 x FortressLibrary.fsi:455
+      pair FortressLibrary.fsi:429 x FortressLibrary.fsi:489
+      pair FortressLibrary.fsi:429 x FortressLibrary.fsi:528
+BITXOR             3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:430 x FortressLibrary.fsi:456
+      pair FortressLibrary.fsi:430 x FortressLibrary.fsi:490
+      pair FortressLibrary.fsi:430 x FortressLibrary.fsi:529
+CHOOSE             3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:427 x FortressLibrary.fsi:453
+      pair FortressLibrary.fsi:427 x FortressLibrary.fsi:487
+      pair FortressLibrary.fsi:427 x FortressLibrary.fsi:526
+DIV                3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:421 x FortressLibrary.fsi:448
+      pair FortressLibrary.fsi:421 x FortressLibrary.fsi:482
+      pair FortressLibrary.fsi:421 x FortressLibrary.fsi:521
+GCD                3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:424 x FortressLibrary.fsi:451
+      pair FortressLibrary.fsi:424 x FortressLibrary.fsi:485
+      pair FortressLibrary.fsi:424 x FortressLibrary.fsi:524
+LCM                3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:425 x FortressLibrary.fsi:452
+      pair FortressLibrary.fsi:425 x FortressLibrary.fsi:486
+      pair FortressLibrary.fsi:425 x FortressLibrary.fsi:525
+LSHIFT             3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:431 x FortressLibrary.fsi:457
+      pair FortressLibrary.fsi:431 x FortressLibrary.fsi:491
+      pair FortressLibrary.fsi:431 x FortressLibrary.fsi:530
+MOD                3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:423 x FortressLibrary.fsi:450
+      pair FortressLibrary.fsi:423 x FortressLibrary.fsi:484
+      pair FortressLibrary.fsi:423 x FortressLibrary.fsi:523
+PCMP               3 pairs (0 stock)  over 3 declarations
+      pair RangeInternals.fsi:36 x RangeInternals.fsi:38
+      pair RangeInternals.fsi:36 x RangeInternals.fsi:40
+      pair RangeInternals.fsi:38 x RangeInternals.fsi:40
+REM                3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:422 x FortressLibrary.fsi:449
+      pair FortressLibrary.fsi:422 x FortressLibrary.fsi:483
+      pair FortressLibrary.fsi:422 x FortressLibrary.fsi:522
+RSHIFT             3 pairs (0 stock)  over 4 declarations
+      pair FortressLibrary.fsi:432 x FortressLibrary.fsi:458
+      pair FortressLibrary.fsi:432 x FortressLibrary.fsi:492
+      pair FortressLibrary.fsi:432 x FortressLibrary.fsi:531
+SCMP               3 pairs (0 stock)  over 3 declarations
+      pair RangeInternals.fsi:30 x RangeInternals.fsi:32
+      pair RangeInternals.fsi:30 x RangeInternals.fsi:34
+      pair RangeInternals.fsi:32 x RangeInternals.fsi:34
+openRangeHelper    3 pairs (3 stock)  over 3 declarations
+      pair RangeInternals.fsi:612 x RangeInternals.fsi:614  (stock)
+      pair RangeInternals.fsi:612 x RangeInternals.fsi:616  (stock)
+      pair RangeInternals.fsi:614 x RangeInternals.fsi:616  (stock)
+__cond             1 pairs (0 stock)  over 2 declarations
+      pair FortressLibrary.fsi:755 x FortressLibrary.fsi:756
+unsigned           1 pairs (0 stock)  over 2 declarations
+      pair FortressLibrary.fsi:435 x FortressLibrary.fsi:496
