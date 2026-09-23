@@ -75,8 +75,8 @@ const MAIN = '/home/user/fortress'
 // not for a .fss program - library-route-judgement.md section 2 step 1, the one
 // place the test-first rule is met by a stage, because no program can yet be
 // compiled against that prelude), expectedCheckerCount (the error total the rung
-// expects the stage to print after its edit; without it a total ABOVE the last
-// landed one is red) and expectedCheckerCrash (the crash line the rung expects
+// expects the stage to print after its edit; a prediction that is printed, never
+// red, since a2b4809a5) and expectedCheckerCrash (the crash line the rung expects
 // instead of the landed one, or the literal none when it removes the crash).
 //
 // Batch 3's values are CLIMB-BATCH-3.md, "The machine-read fields". Each tail is

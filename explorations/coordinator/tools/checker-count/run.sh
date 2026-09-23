@@ -6,7 +6,7 @@
 # Why it exists: POSITIONS.md, 2026-09-21, "the library route" - one library, the
 # interpreter's, becomes the library the compiler checks - and step 1 of
 # coordinator/library-route-judgement.md, which makes the distance to that goal a
-# permanent gate stage rather than a one-off script. The count may only fall.
+# permanent gate stage rather than a one-off script. A change in the count is reported, not red (checker-gate-review.md).
 #
 # Run from $FORTRESS_HOME with experiment/env.sh sourced, after ant compileAll:
 #
