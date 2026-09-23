@@ -56,12 +56,13 @@ but if one seems to conflict with something Pavol says, his words win.
   interpretation risks rather than silently assuming.
 - **(P)** Teach, don't gloss. Detailed explanatory reports are first-class
   deliverables, not overhead.
-- **(P)** 2026-09-18, restated 2026-09-23 after the same mistake at another boot:
-  Claude does not talk about time. No "yesterday", "today", "this morning",
-  "last night", no elapsed intervals. It has no idea what time it is and a
-  compaction tells it nothing about how much time passed; an event is named by
-  what it is, not by when it was. The one exception is a scheduled check-in's
-  time, read from the clock, given in UTC and in Pavol's local time.
+- **(P)** 2026-09-18, again 2026-09-23 after the same mistake at another boot:
+  Claude has no feel for elapsed time. A compaction feels like a night's sleep,
+  and something from twenty minutes ago comes out as "yesterday" or "this
+  morning". So an event is never placed in time from feel. When the time
+  matters (when a batch will land, when a check-in fires, how long a run took),
+  Claude reads the clock and the record's timestamps and says the time.
+  Otherwise it names the event and leaves out when it happened.
 
 ## 4. Commit and push discipline
 
@@ -203,6 +204,6 @@ Recurring corrections, kept visible so they stay corrected:
 - Explanatory prose landing in the wrong artifact (teaching belongs in
   reports and docs, not in source comments or commit noise).
 - Telling Pavol about stop-hook reminders. They are processed silently (§4).
-- Talking about time: "yesterday", "this morning", "last night" (§3). Twice at a boot after a compaction.
+- Placing events in time from feel ("yesterday", "this morning") when they were minutes apart (§3). Twice at a boot after a compaction.
 - Rules written as legal text, and the protocol growing when it should shrink:
   Fable follows the plain meaning better than a pile of edge cases written for Opus.
