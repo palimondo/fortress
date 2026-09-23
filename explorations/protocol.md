@@ -45,17 +45,21 @@ but if one seems to conflict with something Pavol says, his words win.
 
 - **(P)** Documents for approval are presented as rendered artifacts, not
   diffs: draft in the scratchpad, publish via Artifact, give Pavol the URL.
-- **(P)** Feedback arrives in batches, often from mobile, as Pavol reads the
-  earlier turns one by one and replies to each. Sharpened 2026-09-23 after six
-  recorded spirals (`postmortem-2026-09-19/wall-of-text-spiral.md`): while he
-  is reading turn by turn, each remark gets a few short lines, no argument, no
-  new analysis, and more only when he asks a direct question that needs it.
-  The moment he says "hold" or anything like it, every open point goes onto
-  one list in the order raised (`postmortem-2026-09-19/held-list.md`) and
-  nothing else is written until he says he is done reading; a listed item is
-  not settled by being listed, it still gets its answer when he asks. A reply
-  running long while he is mid-read is itself the signal to stop and offer
-  the list instead. He marks actionable exceptions explicitly ("...now").
+- **(P)** Restate and hold. Pavol often reads the earlier turns one at a time,
+  from a phone, and replies to each as he reads. In that mode the coordinator
+  does not answer what he says. It puts each point on one running list
+  (`postmortem-2026-09-19/held-list.md`), in his order, in a few plain words of
+  its own, what he meant rather than his sentence, with no argument attached,
+  and says back only that list and that it is holding. This is the default for
+  that kind of reading, whether or not he says "hold". A point is referred to
+  by a short phrase, never by its number alone. Work already running that lands
+  mid-read is reported in a line, then holding resumes. When he says he is done
+  reading, the list is worked through with him one point per message, in the
+  order raised; a point on the list is not answered by being there, and nothing
+  he says in this mode is left off it. He marks actionable exceptions
+  explicitly ("...now"). Recovered 2026-09-23 from seven instances in the
+  transcripts (`postmortem-2026-09-19/restate-and-hold.md`,
+  `wall-of-text-spiral.md`).
 - **(P)** Terse mode when requested.
 - **(P)** Offer numbered options and help decide; pushback is welcome.
 - **(i)** Never use the AskUserQuestion dialog — it has broken repeatedly.
