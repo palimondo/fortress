@@ -7,7 +7,8 @@
 # rung P's measurement switch verbatim (origin/wip/rung-exclusion-relax,
 # explorations/compile-ladder/rung-exclusion-relax/probes/measurement-switch.patch,
 # -Dprobe.rungP=off|hier|over|broad) plus the forest mode in TypeAnalyzer.checkP
-# (-Dprobe.forest=off|fbound|comprises).  Compiled with the build's own scalac entry point
+# (-Dprobe.forest=off|fbound|comprises|cov; cov also reads a generic that comprises exactly
+# its parameter covariantly in subtyping).  Compiled with the build's own scalac entry point
 # and put first on the classpath, the technique of ../dispatch-run.sh.
 set -u
 cd "$(dirname "$0")/../../../.."                     # $FORTRESS_HOME
@@ -31,7 +32,7 @@ java -Xmx2g -cp "$CP" scala.tools.nsc.Main -nowarn -d $SC -classpath "$CP" -enco
      $(for rel in $SHADOWED; do echo $SS/$rel; done) || exit 1
 
 # ------------------------------------------------ 1. the interpreter (walk) captures
-for p in ForestInfer ForestTower ForestTowerC; do
+for p in ForestInfer ForestTower ForestTowerC ForestTowerCNoSpec; do
   { echo "\$ FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk $p.fss   ($(date -u +%F), JDK $(java -version 2>&1 | head -1 | cut -d'"' -f2), main $(git rev-parse --short HEAD))"
     (cd $F && FORTRESS_THREADS=1 timeout 600 ../../../../bin/fortress walk $p.fss 2>&1 \
        | grep -v '^\s*at \|^java.lang.Throwable' | sed -e "s#$PWD/##g"; echo "exit=${PIPESTATUS[0]}")
@@ -67,6 +68,17 @@ MODES="-Dprobe.rungP=off -Dprobe.rungP=hier -Dprobe.forest=fbound"
 for p in ForestInfer ForestTower ForestTowerC; do
   probe $F $p $MODES > $F/$p.compiled.txt 2>&1
 done
+for p in ForestGeneric ForestGenericLeaf; do
+  probe $F $p -Dprobe.forest=fbound -Dprobe.forest=cov > $F/$p.compiled.txt 2>&1
+done
+probe $F ForestTowerC -Dprobe.forest=cov >> $F/ForestTowerC.compiled.txt 2>&1
+# which Eq argument the compiled run-time type of N and Narrow records (ForestTower's jar,
+# last linked under the forest shadow)
+J=$W/javap; rm -rf $J; mkdir -p $J; (cd $J && unzip -qo $FORTRESS_CACHES/bytecode_cache/ForestTower.jar 2>/dev/null)
+for c in N Narrow; do
+  echo "=== javap -c -p 'ForestTower\$$c\$RTTIc.class' (lines naming an RTTI, the Eq field or Eq__1)"
+  javap -c -p "$J/ForestTower\$$c\$RTTIc.class" | grep -n 'ONLY:\|RTTIc.factory\|Eq__1\|%Eq"'
+done > $F/javap-rtti.txt 2>&1
 R=$W/rung; mkdir -p $R
 for p in ProbeMIEPick ProbeMIEPickCtl ProbeTypecaseMIE ProbeMIEOverload; do
   git show origin/wip/rung-exclusion-relax:explorations/compile-ladder/rung-exclusion-relax/probes/$p.fss > $R/$p.fss
@@ -77,7 +89,7 @@ done > $F/rung-probes.forest.txt 2>&1
 
 # ---------------------- 4. the checker count on the interpreter's library, per mode
 : > $F/checker-count.txt
-for opt in "" "-Dprobe.rungP=hier" "-Dprobe.rungP=broad" "-Dprobe.forest=fbound" "-Dprobe.forest=comprises"; do
+for opt in "" "-Dprobe.rungP=hier" "-Dprobe.rungP=broad" "-Dprobe.forest=fbound" "-Dprobe.forest=comprises" "-Dprobe.forest=cov"; do
   tag=${opt:-stock}; tag=${tag#-Dprobe.}; C=$W/cc-$tag; rm -rf $C; mkdir -p $C/classes
   [ -n "$opt" ] && cp -r $SC/. $C/classes/            # the shadow ahead of the build
   JAVA_TOOL_OPTIONS="$opt" explorations/coordinator/tools/checker-count/run.sh $C.txt $C > /dev/null 2>&1

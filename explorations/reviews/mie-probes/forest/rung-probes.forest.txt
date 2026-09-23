@@ -1,0 +1,37 @@
+=== fortress link ProbeMIEPick.fss   -Dprobe.forest=fbound
+ProbeMIEPick.fss:13:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:23-34:
+    Type Both excludes Tag but it extends Tag.
+ProbeMIEPick.fss:13:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:38-47:
+    Type Both excludes Tag but it extends Tag.
+File ProbeMIEPick.fss has 4 errors.
+link exit=255
+=== fortress link ProbeMIEPickCtl.fss   -Dprobe.forest=fbound
+link exit=0
+=== fortress run ProbeMIEPickCtl
+control: pick(StrTag) =  StrTag , pick(IntTag) =  IntTag
+run exit=0
+=== fortress link ProbeTypecaseMIE.fss   -Dprobe.forest=fbound
+ProbeTypecaseMIE.fss:6:19:
+    Type B excludes A but it extends A.
+ProbeTypecaseMIE.fss:6:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-32:
+    Type B excludes G but it extends G.
+ProbeTypecaseMIE.fss:7:18:
+    Type O excludes B but it extends B.
+ProbeTypecaseMIE.fss:12:5-10:12:
+    The typecase clause, G[\Boolean\], is unreachable.
+File ProbeTypecaseMIE.fss has 6 errors.
+link exit=255
+=== fortress link ProbeMIEOverload.fss   -Dprobe.forest=fbound
+link exit=0
+=== fortress run ProbeMIEOverload
+f on Tag[ZZ32]
+f on Tag[String]
+run exit=0

@@ -1,0 +1,48 @@
+component ForestTowerCNoSpec
+export Executable
+
+(* ForestTowerC with the specialisation renamed h, so that f is not overloaded: a control
+   for the interpreter, which refuses ForestTower's pair and overflows the stack on
+   ForestTowerC's. *)
+trait Eq[\T extends Eq[\T\]\] comprises T
+  name(): String
+  me(): T
+end
+trait Wide extends Eq[\Wide\] end
+trait Mid extends { Wide, Eq[\Mid\] } end
+trait Narrow extends { Mid, Eq[\Narrow\] } end
+object W extends Wide
+  name(): String = "W"
+  me(): Wide = self
+end
+object M extends Mid
+  name(): String = "M"
+  me(): Mid = self
+end
+object N extends Narrow
+  name(): String = "N"
+  me(): Narrow = self
+end
+
+f[\X extends Eq[\X\]\](x: Eq[\X\]): X = x.me()
+h(x: Eq[\Mid\]): Mid = M
+
+run(): () = do
+  n: Narrow = N
+  m: Mid = N
+  em: Eq[\Mid\] = N
+  w: Wide = N
+  ew: Eq[\Wide\] = N
+  en: Eq[\Narrow\] = N
+  println("f(n),  n: Narrow  = N -> " f(n).name())
+  println("f(m),  m: Mid     = N -> " f(m).name())
+  println("f(em), em: Eq[Mid] = N -> " f(em).name())
+  println("f(w),  w: Wide    = N -> " f(w).name())
+  println("f(ew), ew: Eq[Wide] = N -> " f(ew).name())
+  mw: Wide = M
+  println("f(mw), mw: Wide   = M -> " f(mw).name())
+  println("f(W)                  -> " f(W).name())
+  r: Narrow = f(en)
+  println("r: Narrow = f(en), en: Eq[Narrow] = N, holds " r.name())
+end
+end

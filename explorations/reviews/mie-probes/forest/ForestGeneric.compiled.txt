@@ -1,0 +1,16 @@
+=== fortress link ForestGeneric.fss   -Dprobe.forest=fbound
+link exit=0
+=== fortress run ForestGeneric
+h[Wide](N)   ->  M
+h[Mid](N)    ->  M
+java.lang.IncompatibleClassChangeError
+Caused by: java.lang.IncompatibleClassChangeError: Class ForestGeneric$M does not implement the requested interface ForestGeneric$Narrow
+run exit=1
+=== fortress link ForestGeneric.fss   -Dprobe.forest=cov
+link exit=0
+=== fortress run ForestGeneric
+h[Wide](N)   ->  M
+h[Mid](N)    ->  M
+java.lang.IncompatibleClassChangeError
+Caused by: java.lang.IncompatibleClassChangeError: Class ForestGeneric$M does not implement the requested interface ForestGeneric$Narrow
+run exit=1

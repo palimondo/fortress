@@ -1,0 +1,53 @@
+=== fortress link ForestTowerC.fss   -Dprobe.rungP=off
+ForestTowerC.fss:12:21-23:
+    Type Mid excludes Wide but it extends Wide.
+ForestTowerC.fss:12:21-23:
+    Types Wide and Eq[\Mid\] exclude each other.  Mid must not extend them.
+ForestTowerC.fss:12:27-33:
+    Types Eq[\Mid\] and Wide exclude each other.  Mid must not extend them.
+ForestTowerC.fss:12:27-34:
+    Type Mid excludes Eq but it extends Eq.
+ForestTowerC.fss:13:24-25:
+    Type Narrow excludes Mid but it extends Mid.
+ForestTowerC.fss:13:24-25:
+    Types Mid and Eq[\Narrow\] exclude each other.  Narrow must not extend them.
+ForestTowerC.fss:13:29-38:
+    Types Eq[\Narrow\] and Mid exclude each other.  Narrow must not extend them.
+ForestTowerC.fss:13:29-39:
+    Type Narrow excludes Eq but it extends Eq.
+ForestTowerC.fss:18:18-20:
+    Type M excludes Mid but it extends Mid.
+ForestTowerC.fss:22:18-23:
+    Type N excludes Narrow but it extends Narrow.
+ForestTowerC.fss:45:15-17:
+    Could not check call to function f
+    - Eq[\Mid\]->Mid is not applicable to an argument of type Eq[\Narrow\].
+    - [\X extends Eq[\X\]\]Eq[\X\]->X is not applicable to an argument of type Eq[\Narrow\].
+File ForestTowerC.fss has 11 errors.
+link exit=255
+=== fortress link ForestTowerC.fss   -Dprobe.rungP=hier
+ForestTowerC.fss:45:15-17:
+    Could not check call to function f
+    - Eq[\Mid\]->Mid is not applicable to an argument of type Eq[\Narrow\].
+    - [\X extends Eq[\X\]\]Eq[\X\]->X is not applicable to an argument of type Eq[\Narrow\].
+File ForestTowerC.fss has 1 error.
+link exit=255
+=== fortress link ForestTowerC.fss   -Dprobe.forest=fbound
+link exit=0
+=== fortress run ForestTowerC
+f(n),  n: Narrow  = N ->  M
+f(m),  m: Mid     = N ->  M
+f(em), em: Eq[Mid] = N ->  M
+f(w),  w: Wide    = N ->  M
+f(ew), ew: Eq[Wide] = N ->  M
+f(mw), mw: Wide   = M ->  M
+f(W)                  ->  W
+java.lang.IncompatibleClassChangeError
+Caused by: java.lang.IncompatibleClassChangeError: Class ForestTowerC$M does not implement the requested interface ForestTowerC$Narrow
+run exit=1
+=== fortress link ForestTowerC.fss   -Dprobe.forest=cov
+link exit=0
+=== fortress run ForestTowerC
+java.lang.IncompatibleClassChangeError
+Caused by: java.lang.IncompatibleClassChangeError: Class ForestTowerC$M does not implement the requested interface ForestTowerC$Narrow
+run exit=1

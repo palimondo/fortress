@@ -43,7 +43,19 @@
    
    private final val debugSubtype = ProjectProperties.getBoolean("fortress.debug.analyzer.subtype", false)
    private final val cacheSubtypes = ProjectProperties.getBoolean("fortress.analyzer.subtype.cache", true)
-@@ -440,12 +443,21 @@
+@@ -248,7 +251,10 @@
+ 
+      val args = staticParams.zip(staticArgs_1.zip(staticArgs_2))
+      def cmp (param: StaticParam, args: (StaticArg,StaticArg)): CFormula = {
+-       if (param.getVariance() == 1)
++       if (param.getVariance() == 1 ||
++           // Forest rule, mode cov: a generic that comprises exactly its parameter is read
++           // covariantly (the patents' "different subtyping structure" of self-types).
++           (TypeAnalyzer.probeForest == "cov" && forestSelfTyped(traitId_1, true)))
+          pSub(args._1.asInstanceOf[TypeArg].getTypeArg(),args._2.asInstanceOf[TypeArg].getTypeArg())
+        else if (param.getVariance == -1)
+          pSub(args._2.asInstanceOf[TypeArg].getTypeArg(),args._1.asInstanceOf[TypeArg].getTypeArg())
+@@ -440,12 +446,21 @@
          }
          pOr(cO(s,t), cO(t,s))
        }
@@ -66,14 +78,14 @@
              pOr((a1, a2).zipped.map{
                case (STypeArg(_, _, t1), STypeArg(_, _, t2)) => pEqv(t1, t2)(!negate, history)
                case _ => pFalse()
-@@ -709,6 +721,33 @@
+@@ -709,6 +724,33 @@
  //    toOption(traits.typeCons(x)).getOrElse(bug(x, x + " is not in the trait table"))
      toOption(traits.typeCons(x)).getOrElse(throw new RuntimeException("Not in the trait table: " + x.toStringReadable + " @ " + x.at))
  
 +  // Forest rule: G is self-typed when its one static parameter P is bounded by G[P]
 +  // (mode fbound, the library's spelling) or G comprises exactly P (mode comprises, the
-+  // patents' definition; fbound mode accepts either).
-+  def forestSelfTyped(n: Id): Boolean = typeCons(n) match {
++  // patents' definition; fbound and cov accept either; cov's covariant reading needs P).
++  def forestSelfTyped(n: Id, needComprises: Boolean = false): Boolean = typeCons(n) match {
 +    case ti: TraitIndex =>
 +      val ps = toListFromImmutable(ti.staticParameters)
 +      ps.size == 1 && {
@@ -92,7 +104,7 @@
 +            cs.size == 1 && cs.forall(c => isP(c))
 +          case _ => false
 +        }
-+        if (TypeAnalyzer.probeForest == "comprises") comp else (bound || comp)
++        if (needComprises || TypeAnalyzer.probeForest == "comprises") comp else (bound || comp)
 +      }
 +    case _ => false
 +  }
@@ -100,7 +112,7 @@
    def comprisesClause(t: TraitType): Set[TraitType] = typeCons(t.getName) match {
      case ti: ProperTraitIndex =>
        val args = toListFromImmutable(t.getArgs)
-@@ -766,10 +805,10 @@
+@@ -766,10 +808,10 @@
      env.staticParam(x).getOrElse(bug(x, x + " is not in the kind env " + env))
  
    def extend(params: List[StaticParam], where: Option[WhereClause]) =
@@ -113,7 +125,7 @@
    
    def pTrue()(implicit negate: Boolean) = 
      if (negate) False else True
-@@ -796,4 +835,11 @@
+@@ -796,4 +838,12 @@
  
  object TypeAnalyzer {
    def make(traits: TraitTable) = new TypeAnalyzer(traits, KindEnv.makeFresh)
@@ -122,6 +134,7 @@
 +  final val probeDefaultInstantiationsExclude: Boolean = probeMode != "broad"
 +  final val probeRelaxHier: Boolean = probeMode == "hier" || probeMode == "over"
 +  final val probeRelaxOver: Boolean = probeMode == "over"
-+  // PROBE (forest-rule measurement build, not for landing): off | fbound | comprises
++  // PROBE (forest-rule measurement build, not for landing): off | fbound | comprises | cov
++  // (cov = fbound, plus comprises-T generics read covariantly in subtyping)
 +  final val probeForest: String = System.getProperty("probe.forest", "off")
  }

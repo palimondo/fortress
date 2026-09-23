@@ -1,0 +1,38 @@
+component ForestInfer
+export Executable
+
+(* ForestTower's chain with the generic alone, no overloading: which instantiation of Eq
+   does each path give X for an N reached through each static type?  Marker[X] names it. *)
+trait Eq[\T extends Eq[\T\]\]
+  name(): String
+end
+trait Wide extends Eq[\Wide\] end
+trait Mid extends { Wide, Eq[\Mid\] } end
+trait Narrow extends { Mid, Eq[\Narrow\] } end
+object N extends Narrow name(): String = "N" end
+object Marker[\X\] end
+
+g[\X extends Eq[\X\]\](x: Eq[\X\]): Marker[\X\] = Marker[\X\]
+
+which(a: Any): String = typecase a of
+    Marker[\Narrow\] => "Marker[Narrow]"
+    Marker[\Mid\] => "Marker[Mid]"
+    Marker[\Wide\] => "Marker[Wide]"
+    else => "other"
+  end
+
+run(): () = do
+  n: Narrow = N
+  m: Mid = N
+  w: Wide = N
+  en: Eq[\Narrow\] = N
+  em: Eq[\Mid\] = N
+  ew: Eq[\Wide\] = N
+  println("g(n),  n: Narrow     -> " which(g(n)))
+  println("g(m),  m: Mid        -> " which(g(m)))
+  println("g(w),  w: Wide       -> " which(g(w)))
+  println("g(en), en: Eq[Narrow] -> " which(g(en)))
+  println("g(em), em: Eq[Mid]    -> " which(g(em)))
+  println("g(ew), ew: Eq[Wide]   -> " which(g(ew)))
+end
+end

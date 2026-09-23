@@ -3,6 +3,7 @@ rungP=hier	42
 rungP=broad	24
 forest=fbound	37
 forest=comprises	103
+forest=cov	37
 # errors in stock and not under forest=fbound
 FortressBuiltin.fsi:110:35-38	Type UnsignedLong excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
 FortressBuiltin.fsi:113:29-31	Type IntLiteral excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.

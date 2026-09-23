@@ -1,0 +1,10 @@
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ForestTowerCNoSpec.fss   (2026-09-23, JDK 25.0.4, main e4d8a865a)
+f(n),  n: Narrow  = N -> N
+f(m),  m: Mid     = N -> N
+f(em), em: Eq[Mid] = N -> N
+f(w),  w: Wide    = N -> N
+f(ew), ew: Eq[Wide] = N -> N
+f(mw), mw: Wide   = M -> M
+f(W)                  -> W
+r: Narrow = f(en), en: Eq[Narrow] = N, holds N
+exit=0

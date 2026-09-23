@@ -1,0 +1,54 @@
+component ForestTower
+export Executable
+
+(* The tower's shape in miniature: a three-level chain Narrow <: Mid <: Wide, each level an
+   Eq of itself, so an N is an Eq[Wide], an Eq[Mid] and an Eq[Narrow] (a forest in the
+   2012 patents' sense: the three instantiations are totally ordered).  A generic f whose
+   result is its subject type, beside a specialisation at Mid that returns M, a Mid that is
+   not a Narrow.  "N" printed means the generic ran (it returns its argument), "M" means the
+   specialisation ran.  The call through Eq[Narrow] is last: there the checker promises a
+   Narrow, and only the generic can give one.
+   Compiled path: needs checkP relaxed for the hierarchy (-Dprobe.rungP=hier) or the forest
+   switch (-Dprobe.forest=fbound) to get past the hierarchy check. *)
+trait Eq[\T extends Eq[\T\]\]
+  name(): String
+  me(): T
+end
+trait Wide extends Eq[\Wide\] end
+trait Mid extends { Wide, Eq[\Mid\] } end
+trait Narrow extends { Mid, Eq[\Narrow\] } end
+object W extends Wide
+  name(): String = "W"
+  me(): Wide = self
+end
+object M extends Mid
+  name(): String = "M"
+  me(): Mid = self
+end
+object N extends Narrow
+  name(): String = "N"
+  me(): Narrow = self
+end
+
+f[\X extends Eq[\X\]\](x: Eq[\X\]): X = x.me()
+f(x: Eq[\Mid\]): Mid = M
+
+run(): () = do
+  n: Narrow = N
+  m: Mid = N
+  em: Eq[\Mid\] = N
+  w: Wide = N
+  ew: Eq[\Wide\] = N
+  en: Eq[\Narrow\] = N
+  println("f(n),  n: Narrow  = N -> " f(n).name())
+  println("f(m),  m: Mid     = N -> " f(m).name())
+  println("f(em), em: Eq[Mid] = N -> " f(em).name())
+  println("f(w),  w: Wide    = N -> " f(w).name())
+  println("f(ew), ew: Eq[Wide] = N -> " f(ew).name())
+  mw: Wide = M
+  println("f(mw), mw: Wide   = M -> " f(mw).name())
+  println("f(W)                  -> " f(W).name())
+  r: Narrow = f(en)
+  println("r: Narrow = f(en), en: Eq[Narrow] = N, holds " r.name())
+end
+end

@@ -1,0 +1,47 @@
+=== fortress link ForestTower.fss   -Dprobe.rungP=off
+ForestTower.fss:18:21-23:
+    Type Mid excludes Wide but it extends Wide.
+ForestTower.fss:18:21-23:
+    Types Wide and Eq[\Mid\] exclude each other.  Mid must not extend them.
+ForestTower.fss:18:27-33:
+    Types Eq[\Mid\] and Wide exclude each other.  Mid must not extend them.
+ForestTower.fss:18:27-34:
+    Type Mid excludes Eq but it extends Eq.
+ForestTower.fss:19:24-25:
+    Type Narrow excludes Mid but it extends Mid.
+ForestTower.fss:19:24-25:
+    Types Mid and Eq[\Narrow\] exclude each other.  Narrow must not extend them.
+ForestTower.fss:19:29-38:
+    Types Eq[\Narrow\] and Mid exclude each other.  Narrow must not extend them.
+ForestTower.fss:19:29-39:
+    Type Narrow excludes Eq but it extends Eq.
+ForestTower.fss:24:18-20:
+    Type M excludes Mid but it extends Mid.
+ForestTower.fss:28:18-23:
+    Type N excludes Narrow but it extends Narrow.
+ForestTower.fss:51:15-17:
+    Could not check call to function f
+    - Eq[\Mid\]->Mid is not applicable to an argument of type Eq[\Narrow\].
+    - [\X extends Eq[\X\]\]Eq[\X\]->X is not applicable to an argument of type Eq[\Narrow\].
+File ForestTower.fss has 11 errors.
+link exit=255
+=== fortress link ForestTower.fss   -Dprobe.rungP=hier
+ForestTower.fss:51:15-17:
+    Could not check call to function f
+    - Eq[\Mid\]->Mid is not applicable to an argument of type Eq[\Narrow\].
+    - [\X extends Eq[\X\]\]Eq[\X\]->X is not applicable to an argument of type Eq[\Narrow\].
+File ForestTower.fss has 1 error.
+link exit=255
+=== fortress link ForestTower.fss   -Dprobe.forest=fbound
+link exit=0
+=== fortress run ForestTower
+f(n),  n: Narrow  = N ->  M
+f(m),  m: Mid     = N ->  M
+f(em), em: Eq[Mid] = N ->  M
+f(w),  w: Wide    = N ->  M
+f(ew), ew: Eq[Wide] = N ->  M
+f(mw), mw: Wide   = M ->  M
+f(W)                  ->  W
+java.lang.IncompatibleClassChangeError
+Caused by: java.lang.IncompatibleClassChangeError: Class ForestTower$M does not implement the requested interface ForestTower$Narrow
+run exit=1

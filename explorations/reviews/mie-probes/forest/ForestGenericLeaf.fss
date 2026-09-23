@@ -1,0 +1,34 @@
+component ForestGenericLeaf
+export Executable
+
+(* ForestGeneric with a second specialisation at the leaf of the chain, Eq[Narrow]: every
+   level below Mid now has its own declaration, so an N never reaches Mid's. *)
+trait Eq[\T extends Eq[\T\]\] comprises T
+  name(): String
+  me(): T
+end
+trait Wide extends Eq[\Wide\] end
+trait Mid extends { Wide, Eq[\Mid\] } end
+trait Narrow extends { Mid, Eq[\Narrow\] } end
+object M extends Mid
+  name(): String = "M"
+  me(): Mid = self
+end
+object N extends Narrow
+  name(): String = "N"
+  me(): Narrow = self
+end
+
+f[\X extends Eq[\X\]\](x: Eq[\X\]): X = x.me()
+f(x: Eq[\Mid\]): Mid = M
+f(x: Eq[\Narrow\]): Narrow = N
+
+h[\T extends Eq[\T\]\](x: T): T = f(x)
+
+run(): () = do
+  println("h[Wide](N)   -> " (h[\Wide\](N)).name())
+  println("h[Mid](N)    -> " (h[\Mid\](N)).name())
+  r: Narrow = h[\Narrow\](N)
+  println("r: Narrow = h[Narrow](N) holds " r.name())
+end
+end

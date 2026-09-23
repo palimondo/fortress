@@ -1,0 +1,15 @@
+=== fortress link ForestGenericLeaf.fss   -Dprobe.forest=fbound
+ForestGenericLeaf.fss:23:1-24:
+ForestGenericLeaf.fss:24:1-31:
+    Invalid overloading of f in component ForestGenericLeaf:
+     Eq[\Mid\]->Mid @ ForestGenericLeaf.fss:23:1-24
+ and Eq[\Narrow\]->Narrow @ ForestGenericLeaf.fss:24:1-31
+File ForestGenericLeaf.fss has 1 error.
+link exit=255
+=== fortress link ForestGenericLeaf.fss   -Dprobe.forest=cov
+link exit=0
+=== fortress run ForestGenericLeaf
+h[Wide](N)   ->  N
+h[Mid](N)    ->  N
+r: Narrow = h[Narrow](N) holds  N
+run exit=0

@@ -1,0 +1,36 @@
+component ForestGeneric
+export Executable
+
+(* ForestTowerC's chain (Eq comprises exactly T, the patents' spelling) and its pair of f,
+   reached from generic code: h's body calls f on an x of type T, where no specialisation
+   is statically applicable, so the checker takes the generic at X = T and promises a T.
+   Instantiated at T = Narrow, the promise is a Narrow; the specialisation at Mid, the
+   middle of the chain, returns M. *)
+trait Eq[\T extends Eq[\T\]\] comprises T
+  name(): String
+  me(): T
+end
+trait Wide extends Eq[\Wide\] end
+trait Mid extends { Wide, Eq[\Mid\] } end
+trait Narrow extends { Mid, Eq[\Narrow\] } end
+object M extends Mid
+  name(): String = "M"
+  me(): Mid = self
+end
+object N extends Narrow
+  name(): String = "N"
+  me(): Narrow = self
+end
+
+f[\X extends Eq[\X\]\](x: Eq[\X\]): X = x.me()
+f(x: Eq[\Mid\]): Mid = M
+
+h[\T extends Eq[\T\]\](x: T): T = f(x)
+
+run(): () = do
+  println("h[Wide](N)   -> " (h[\Wide\](N)).name())
+  println("h[Mid](N)    -> " (h[\Mid\](N)).name())
+  r: Narrow = h[\Narrow\](N)
+  println("r: Narrow = h[Narrow](N) holds " r.name())
+end
+end

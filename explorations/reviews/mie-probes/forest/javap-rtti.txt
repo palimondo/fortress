@@ -1,0 +1,14 @@
+=== javap -c -p 'ForestTower$N$RTTIc.class' (lines naming an RTTI, the Eq field or Eq__1)
+22:         9: putstatic     #23                 // Field ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+36:        17: getstatic     #31                 // Field ForestTower$Narrow$RTTIc.ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+52:  public com.sun.fortress.compiler.runtimeValues.RTTI \=ForestTower\%Eq__1();
+60:        12: invokevirtual #47                 // Method ForestTower$Narrow$RTTIc."\\=ForestTower\\%Eq__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+=== javap -c -p 'ForestTower$Narrow$RTTIc.class' (lines naming an RTTI, the Eq field or Eq__1)
+24:         9: putstatic     #24                 // Field ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+38:        17: getstatic     #32                 // Field ForestTower$Mid$RTTIc.ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+41:        24: getstatic     #24                 // Field ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+42:        27: invokestatic  #40                 // Method ForestTower$Eq$RTTIc.factory:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+43:        30: putfield      #42                 // Field "\\=ForestTower\\%Eq":Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+58:  public com.sun.fortress.compiler.runtimeValues.RTTI \=ForestTower\%Eq__1();
+64:         6: getfield      #42                 // Field "\\=ForestTower\\%Eq":Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+66:        12: invokevirtual #56                 // Method ForestTower$Eq$RTTIc."\\=ForestTower\\%Eq__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;

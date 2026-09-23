@@ -1,0 +1,12 @@
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ForestTower.fss   (2026-09-23, JDK 25.0.4, main e4d8a865a)
+com.sun.fortress.exceptions.ProgramError: ForestTower.fss:34:1-25: and
+ForestTower.fss:33:1-46:
+
+f[\X extends Eq[\X\]\](x:Eq[\X\]):XForestTower.fss:33:1-46 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ForestTower.fss:34:1-25:
+ForestTower.fss:33:1-46:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
