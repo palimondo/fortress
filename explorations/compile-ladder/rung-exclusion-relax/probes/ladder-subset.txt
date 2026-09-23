@@ -1,0 +1,76 @@
+# Ladder subset for rung P: rung-exclusion-relax/run-subset.sh over rung-exclusion-relax/subset.txt, on the measurement build,
+# PROBE_MODE / PROBE_FLAGS=-Dprobe.rungP=<mode>, LADDER_ROOT=tmp/ladder-p (private caches, library built once under off). 2026-09-22.
+# The five files are those whose baseline-2026-09-19/raw/tests/*.compile errors are exclusion or typecase-reachability errors.
+## results-off.tsv (corpus, file, component, compile rc, run rc, compile s, run s)
+tests	atomicList.fss	atomicList	255		4	
+tests	typecaseTest.fss	typecaseTest	255		3	
+tests	typecaseVarTest.fss	typecaseVarTest	255		1	
+tests	typecaseBlockTest.fss	typecaseBlockTest	255		2	
+tests	newlineTest.fss	newlineTest	255		2	
+## results-hier.tsv (corpus, file, component, compile rc, run rc, compile s, run s)
+tests	atomicList.fss	atomicList	255		3	
+tests	typecaseTest.fss	typecaseTest	255		2	
+tests	typecaseVarTest.fss	typecaseVarTest	255		2	
+tests	typecaseBlockTest.fss	typecaseBlockTest	255		2	
+tests	newlineTest.fss	newlineTest	255		2	
+## results-over.tsv (corpus, file, component, compile rc, run rc, compile s, run s)
+tests	atomicList.fss	atomicList	255		4	
+tests	typecaseTest.fss	typecaseTest	255		4	
+tests	typecaseVarTest.fss	typecaseVarTest	255		3	
+tests	typecaseBlockTest.fss	typecaseBlockTest	255		3	
+tests	newlineTest.fss	newlineTest	255		3	
+## results-broad.tsv (corpus, file, component, compile rc, run rc, compile s, run s)
+tests	atomicList.fss	atomicList	255		5	
+tests	typecaseTest.fss	typecaseTest	255		2	
+tests	typecaseVarTest.fss	typecaseVarTest	255		2	
+tests	typecaseBlockTest.fss	typecaseBlockTest	255		2	
+tests	newlineTest.fss	newlineTest	255		3	
+## the .compile outputs of hier, over and broad compared with off, file by file:
+hier atomicList.fss.compile identical
+hier newlineTest.fss.compile identical
+hier typecaseBlockTest.fss.compile identical
+hier typecaseTest.fss.compile identical
+hier typecaseVarTest.fss.compile identical
+over atomicList.fss.compile identical
+over newlineTest.fss.compile identical
+over typecaseBlockTest.fss.compile identical
+over typecaseTest.fss.compile identical
+over typecaseVarTest.fss.compile identical
+broad atomicList.fss.compile identical
+broad newlineTest.fss.compile identical
+broad typecaseBlockTest.fss.compile identical
+broad typecaseTest.fss.compile identical
+broad typecaseVarTest.fss.compile identical
+## the errors every mode reports (off shown; paths shortened):
+== atomicList.fss.compile
+tests/atomicList.fss:24:1-49:
+    Invalid comprises clause: CompilerBuiltin.Exception has a comprises clause
+tests/atomicList.fss:24:38-45:
+    Type ListError excludes CompilerBuiltin.Exception but it extends CompilerBuiltin.Exception.
+tests/atomicList.fss:36:24-48:
+    Could not check call to operator juxtaposition
+File atomicList.fss has 3 errors.
+== newlineTest.fss.compile
+tests/newlineTest.fss:19:5-17:24:
+    The typecase clause, (ZZ32, RR64), is unreachable.
+tests/newlineTest.fss:19:29-17:24:
+    The typecase clause, (RR64, ZZ32), is unreachable.
+File newlineTest.fss has 2 errors.
+== typecaseBlockTest.fss.compile
+tests/typecaseBlockTest.fss:19:7-Compiler internal generated.:0:0:
+    The typecase clause, ZZ32, is unreachable.
+File typecaseBlockTest.fss has 1 error.
+== typecaseTest.fss.compile
+tests/typecaseTest.fss:18:7-Compiler internal generated.:0:0:
+    The typecase clause, ZZ32, is unreachable.
+tests/typecaseTest.fss:29:5-28:32:
+    The typecase clause, (Number, Number, Number), is unreachable.
+tests/typecaseTest.fss:44:11-Compiler internal generated.:0:0:
+    The typecase clause, String, is unreachable.
+tests/typecaseTest.fss:45:13-Compiler internal generated.:0:0:
+    The typecase clause, ZZ32, is unreachable.
+File typecaseTest.fss has 4 errors.
+== typecaseVarTest.fss.compile
+tests/typecaseVarTest.fss:18:7-Compiler internal generated.:0:0:
+    The typecase clause, ZZ32, is unreachable.
+File typecaseVarTest.fss has 1 error.

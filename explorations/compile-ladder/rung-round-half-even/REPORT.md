@@ -212,7 +212,7 @@ The capture is `explorations/compile-ladder/rung-round-half-even/probes/NumeralA
 
 **Two decisions, the judge's, executed here** (`JUDGE.md` section 4):
 
-- **D1: one `XXX` file, on `round` only.** `floor`, `ceiling` and `truncate` on a numeral are the same defect, with one cause and one repair under every candidate. The provisional row names them, with `explorations/compile-ladder/rung-round-half-even/probes/skeptic/SkNearIntNumeral.txt`.
+- **D1: one `XXX` file, on `round` only.** `floor`, `ceiling` and `truncate` on a numeral are the same defect, with one cause and one repair under every candidate. Ledger row 360 names them, with `explorations/compile-ladder/rung-round-half-even/probes/skeptic/SkNearIntNumeral.txt`.
   - Reason: an `XXX` file flips only when every assertion in it passes. A file that also carried the other three methods would stay red through a `round`-only repair and say nothing.
   - The deliberate fix confirms the premise: with `round` repaired alone, `SkNearIntNumeral`'s three answers stay wrong.
   - Alternative rejected: a second `XXX` file for the three methods (`testSystem` 387). It would guard only against a repair of `floor` that leaves `round` alone.
@@ -253,8 +253,8 @@ The rung does not wait on this. The gate is right under (a) and (b), because bot
 |---|---|---|
 | `walk`'s `round` on `RR64` sends an exact half toward +∞ (ledger row 329) | 1, repaired here | assertions `ProjectFortress/tests/RoundHalfEvenRungR.fss:7-10` (literal) and `:17-20` (`Float`), passing |
 | `walk`'s `round` on `RR32` does the same (`RR32$Round`, the same 2008 commit `e67394471`, not named in row 329's text) | 1, repaired here | assertions `RoundHalfEvenRungR.fss:30-34`, passing |
-| a numeral with a radix point is rounded as its nearest double, not as the rational it denotes, on both paths (measured by the first skeptic) | 2, deferred; the specification settles it (`literals.tex:162-163`, `numbers.tex:470-472`) | `ProjectFortress/tests/XXXRoundNearTieNumeral.fss:7-10`, an expected failure (`probes/xxx-numeral-expected-failure.txt`), shown red on a deliberate local fix and green again after the revert (`probes/xxx-numeral-red-on-deliberate-fix.txt`, `probes/xxx-numeral-after-revert.txt`); provisional new ledger row in `record.md` |
-| `floor`, `ceiling` and `truncate` on such a numeral (measured by the first skeptic) | 2, the same defect as the line above: one cause and one repair under every candidate | carried by the same provisional row, with `probes/skeptic/SkNearIntNumeral.txt`; not given an `XXX` file of its own, by decision D1 (previous section) |
+| a numeral with a radix point is rounded as its nearest double, not as the rational it denotes, on both paths (measured by the first skeptic) | 2, deferred; the specification settles it (`literals.tex:162-163`, `numbers.tex:470-472`) | `ProjectFortress/tests/XXXRoundNearTieNumeral.fss:7-10`, an expected failure (`probes/xxx-numeral-expected-failure.txt`), shown red on a deliberate local fix and green again after the revert (`probes/xxx-numeral-red-on-deliberate-fix.txt`, `probes/xxx-numeral-after-revert.txt`); ledger row 360 (`record.md`) |
+| `floor`, `ceiling` and `truncate` on such a numeral (measured by the first skeptic) | 2, the same defect as the line above: one cause and one repair under every candidate | carried by the same row, 360, with `probes/skeptic/SkNearIntNumeral.txt`; not given an `XXX` file of its own, by decision D1 (previous section) |
 
 My own first pass measured no home-2 or home-3 defect; the first skeptic measured the numeral defect, and the repair round gave it home 2 (previous section). No home-3 defect was measured. The two compiled-prelude absences of differential 3 are classified above as not defects under the decided route, and the reason is given there.
 

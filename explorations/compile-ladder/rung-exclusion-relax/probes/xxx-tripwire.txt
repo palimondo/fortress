@@ -1,0 +1,63 @@
+# The expected-failure test on the measurement build (base d610695c0 + probes/measurement-switch.patch), 2026-09-22.
+# The .test file (the shape of compiler_tests/XXXExportVarRungXLinked.test):
+#   tests=XXXExclusionRelaxRungP
+#   link
+#   link_err_contains=Type B excludes A but it extends A.
+# 1. the base checker (-Dprobe.rungP unset, which is off):
+$ ../bin/fortress junit compiler_tests/XXXExclusionRelaxRungP.test
+. link compiler_tests/XXXExclusionRelaxRungP /home/user/fortress-exclusion/ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss:7:19:
+    Type B excludes A but it extends A.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss:7:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss:7:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss:7:22-32:
+    Type B excludes G but it extends G.
+File XXXExclusionRelaxRungP.fss has 4 errors.
+ Saw expected failure
+
+Time: 5.719
+
+OK (1 test)
+
+exit=0
+
+# 2. the deliberate local fix: the relaxation raised for the two hierarchy questions:
+$ JAVA_FLAGS="$JAVA_FLAGS -Dprobe.rungP=hier" ../bin/fortress junit compiler_tests/XXXExclusionRelaxRungP.test
+. link compiler_tests/XXXExclusionRelaxRungP 
+ Saw failure, but did not satisfy link_err_contains; expected
+Type B excludes A but it extends A.
+F
+Time: 5.744
+There was 1 failure:
+1) compiler_tests/XXXExclusionRelaxRungP(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. link
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:398)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+
+# 3. the base checker again, the jar left by step 2 removed:
+. link compiler_tests/XXXExclusionRelaxRungP /home/user/fortress-exclusion/ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss:7:19:
+    Type B excludes A but it extends A.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss:7:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss:7:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+/home/user/fortress-exclusion/ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss:7:22-32:
+    Type B excludes G but it extends G.
+File XXXExclusionRelaxRungP.fss has 4 errors.
+ Saw expected failure
+
+Time: 6.112
+
+OK (1 test)
+
+exit=0

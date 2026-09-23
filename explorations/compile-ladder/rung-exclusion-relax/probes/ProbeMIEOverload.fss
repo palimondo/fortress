@@ -1,0 +1,21 @@
+component ProbeMIEOverload
+export Executable
+
+trait Tag[\X\]
+  tagName(): String
+end
+object IntTag extends Tag[\ZZ32\]
+  tagName(): String = "IntTag"
+end
+object StrTag extends Tag[\String\]
+  tagName(): String = "StrTag"
+end
+
+f(t: Tag[\ZZ32\]): String = "f on Tag[ZZ32]"
+f(t: Tag[\String\]): String = "f on Tag[String]"
+
+run(): () = do
+  println(f(IntTag))
+  println(f(StrTag))
+end
+end

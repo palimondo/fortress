@@ -1,6 +1,6 @@
 # Rung P (rung-exclusion-relax): the record lines to fold at merge time
 
-Taken into the tree at the gather of climb batch 3 (2026-09-22) as the record of a rung that did not land: its source stays on `wip/rung-exclusion-relax`, and the provisional ledger row 354 and row-97 note it proposes were not opened (ledger row 354 is rung L's); see `explorations/compile-ladder/climb-batch-3/RECORD.md`, "Not landed".
+Taken into the tree at the gather of climb batch 3 (2026-09-22) as the record of a rung that did not land: its source stays on `wip/rung-exclusion-relax`, `ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss` and `.test` included, which the text below cites as in the tree, and the provisional ledger row 354 and row-97 note it proposes were not opened (ledger row 354 is rung L's); see `explorations/compile-ladder/climb-batch-3/RECORD.md`, "Not landed". Every file under `probes/` that the text cites is in the tree: two taken at the gather, the other sixteen byte-identical from the branch at the batch's merged-diff review.
 
 The rung stopped. It lands no checker change. Its net change outside `explorations/` is one expected-failure test, `ProjectFortress/compiler_tests/XXXExclusionRelaxRungP.fss` and `.test`, which is green on the base checker. The full account is `explorations/compile-ladder/rung-exclusion-relax/REPORT.md`.
 

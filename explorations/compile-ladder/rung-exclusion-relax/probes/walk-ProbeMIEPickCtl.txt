@@ -1,0 +1,19 @@
+$ bin/fortress walk ProbeMIEPickCtl.fss   (interpreter; the same overload set, no type extends two instantiations)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEPickCtl.fss:15:1-43: and
+/home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEPickCtl.fss:14:1-36:
+
+pick[\X\](t:Tag[\X\]):Tag[\X\]/home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEPickCtl.fss:14:1-36 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEPickCtl.fss:15:1-43:
+/home/user/fortress-exclusion/explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEPickCtl.fss:14:1-36:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=1
