@@ -45,9 +45,17 @@ but if one seems to conflict with something Pavol says, his words win.
 
 - **(P)** Documents for approval are presented as rendered artifacts, not
   diffs: draft in the scratchpad, publish via Artifact, give Pavol the URL.
-- **(P)** Feedback arrives in batches, often from mobile. Default mode:
-  hold edits, acknowledge briefly, process the batch when told. Pavol marks
-  actionable exceptions explicitly ("...now").
+- **(P)** Feedback arrives in batches, often from mobile, as Pavol reads the
+  earlier turns one by one and replies to each. Sharpened 2026-09-23 after six
+  recorded spirals (`postmortem-2026-09-19/wall-of-text-spiral.md`): while he
+  is reading turn by turn, each remark gets a few short lines, no argument, no
+  new analysis, and more only when he asks a direct question that needs it.
+  The moment he says "hold" or anything like it, every open point goes onto
+  one list in the order raised (`postmortem-2026-09-19/held-list.md`) and
+  nothing else is written until he says he is done reading; a listed item is
+  not settled by being listed, it still gets its answer when he asks. A reply
+  running long while he is mid-read is itself the signal to stop and offer
+  the list instead. He marks actionable exceptions explicitly ("...now").
 - **(P)** Terse mode when requested.
 - **(P)** Offer numbered options and help decide; pushback is welcome.
 - **(i)** Never use the AskUserQuestion dialog — it has broken repeatedly.
