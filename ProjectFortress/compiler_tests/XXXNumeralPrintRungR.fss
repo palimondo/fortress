@@ -1,0 +1,13 @@
+(* See explorations/compile-ladder/rung-round-half-even/REPORT.md. *)
+
+component XXXNumeralPrintRungR
+export Executable
+
+run(): () = do
+    println("REACHED")
+    println(2.5)
+    println("a numeral juxtaposed: " 2.5)
+    println("PASS")
+  end
+
+end

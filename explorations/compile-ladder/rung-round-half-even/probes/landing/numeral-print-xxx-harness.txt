@@ -1,0 +1,113 @@
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/NumeralPrintRungRLink.test   (the plain-named link test on the stock tree at 228b35c49, the build and prelude cache of the gate run at a071fe409) 2026-09-23T04:10:53Z ===
+. link compiler_tests/XXXNumeralPrintRungR  OK (time = 7258ms)
+
+Time: 7.267
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXNumeralPrintRungR.test   (the XXX run test on the stock tree: expected failure) 2026-09-23T04:11:06Z ===
+. run compiler_tests/XXXNumeralPrintRungR (387ms) REACHED
+java.lang.NullPointerException
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at XXXNumeralPrintRungR.main(/home/user/fortress/ProjectFortress/compiler_tests/XXXNumeralPrintRungR.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NullPointerException: Cannot invoke "fortress.CompilerBuiltin$String.asJavaString()" because the return value of "fortress.CompilerBuiltin$Object.asString()" is null
+	at fortress.CompilerBuiltin.println(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:456)
+	at XXXNumeralPrintRungR.run(/home/user/fortress/ProjectFortress/compiler_tests/XXXNumeralPrintRungR.fss:8)
+	at XXXNumeralPrintRungR.compute(/home/user/fortress/ProjectFortress/compiler_tests/XXXNumeralPrintRungR.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Saw expected failure (Exit code != 0)
+
+Time: 0.397
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== the deliberate local fix, applied before the next runs: FFloatLiteral.asString made like FIntLiteral.asString (FIntLiteral.java:57-61), the one line the row names; compiled into ProjectFortress/build by javac alone, so the prelude cache stays as it is ===
+
+=== $ git diff -- ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FFloatLiteral.java   (the fix) 2026-09-23T04:12:02Z ===
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FFloatLiteral.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FFloatLiteral.java
+index d9edb1e67..c7d5a5dc0 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FFloatLiteral.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FFloatLiteral.java
+@@ -50,7 +50,7 @@ public final class FFloatLiteral extends fortress.CompilerBuiltin.FloatLiteral.D
+     }
+ 
+     public FJavaString asString() {
+-        return null; /* replaced in generated code; necessary for primitive hierarchy */
++        return FJavaString.make(this.toString());
+     }
+ 
+     public Error outOfRange(String t) {
+=== exit 0 ===
+
+=== $ javac -nowarn -encoding UTF-8 -source 1.8 -target 1.8 -g -cp "$(bin/fortress_classpath)" -d ProjectFortress/build ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FFloatLiteral.java 2>&1 | grep -v 'warning: \[options\]'   (javac of the one class into the build, the build.xml flags (encoding UTF-8, source and target 1.8, debug)) 2026-09-23T04:12:02Z ===
+=== exit 1: grep -v's own status, because every line javac printed was the [options] warning it removes; javac wrote the class (FFloatLiteral.class 04:12, the link and run below load it) ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/NumeralPrintRungRLink.test   (the link test under the fix) 2026-09-23T04:12:04Z ===
+. link compiler_tests/XXXNumeralPrintRungR  OK (time = 2509ms)
+
+Time: 2.513
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXNumeralPrintRungR.test   (the XXX run test under the fix: the program runs to PASS, so the test must go red) 2026-09-23T04:12:07Z ===
+. run compiler_tests/XXXNumeralPrintRungR (223ms) REACHED
+2.5
+a numeral juxtaposed:  2.5
+PASS
+Did not see expected failure
+F
+Time: 0.229
+There was 1 failure:
+1) compiler_tests/XXXNumeralPrintRungR(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXNumeralPrintRungR
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:589)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 0 ===
+
+=== $ git checkout -- ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FFloatLiteral.java && git status --short -- ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FFloatLiteral.java && javac -nowarn -encoding UTF-8 -source 1.8 -target 1.8 -g -cp "$(bin/fortress_classpath)" -d ProjectFortress/build ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FFloatLiteral.java > /dev/null 2>&1 ; echo javac exit $?   (the fix reverted and the stock class compiled back into the build the same way) 2026-09-23T04:12:22Z ===
+javac exit 0
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXNumeralPrintRungR.test 2>&1 | grep -v '^	at java.base\|^	at com.sun.fortress.runtimeSystem'   (the XXX run test on the stock tree again: expected failure) 2026-09-23T04:12:23Z ===
+. run compiler_tests/XXXNumeralPrintRungR (237ms) REACHED
+java.lang.NullPointerException
+	at XXXNumeralPrintRungR.main(/home/user/fortress/ProjectFortress/compiler_tests/XXXNumeralPrintRungR.fss)
+Caused by: java.lang.NullPointerException: Cannot invoke "fortress.CompilerBuiltin$String.asJavaString()" because the return value of "fortress.CompilerBuiltin$Object.asString()" is null
+	at fortress.CompilerBuiltin.println(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:456)
+	at XXXNumeralPrintRungR.run(/home/user/fortress/ProjectFortress/compiler_tests/XXXNumeralPrintRungR.fss:8)
+	at XXXNumeralPrintRungR.compute(/home/user/fortress/ProjectFortress/compiler_tests/XXXNumeralPrintRungR.fss)
+Saw expected failure (Exit code != 0)
+
+Time: 0.246
+
+OK (1 test)
+
+=== exit 0 ===
+

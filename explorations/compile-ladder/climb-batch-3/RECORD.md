@@ -45,7 +45,7 @@ L, C, R, S, M. The rule is ascending order of each rung's lowest edited line in 
 **Recommended rows, each opened or refused:**
 - The first skeptic's near-tie numeral row: opened as row 360, the rung's own record row (with the second skeptic's correction applied).
 - A, `walk`'s `NumberFormatException` on `2.5_10`: opened as row 361, and its proposed gate placed as `ProjectFortress/tests/XXXRadixTenPointNumeral.fss` with the comment line pointed at R's `REPORT.md`; it is an expected failure today and goes red when the numerals are written without `_10` (`explorations/compile-ladder/rung-round-half-even/probes/gather/radix-ten-xxx-harness.txt`).
-- B, the compiled path's `NullPointerException` rendering a floating-point numeral: opened as row 362, home 3 because the prose is silent on a numeral's rendering.
+- B, the compiled path's `NullPointerException` rendering a floating-point numeral: opened as row 362, home 3 because the prose is silent on a numeral's rendering. Corrected at the landing to home 2, with the gated pair `compiler_tests/XXXNumeralPrintRungR` (section "The landing").
 
 ## Rung S (`rung-default-rendering`)
 

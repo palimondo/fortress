@@ -314,6 +314,7 @@ These are my own programs, written for this judgement. Each was run under `walk`
    - `walk` prints `2.5` three times.
    - The compiled path prints the binding, then throws `NullPointerException` at `println(2.5)` (`Sk2NumeralPrint.txt:21-23`), because `CompilerBuiltin$Object.asString()` is null. `Sk2NegNumeral.txt:30` and `Sk2Radix.txt:24` hit the same throw.
    - The prose is silent on how a numeral renders. This is recommended row B.
+   - (Note at the landing of climb batch 3, 2026-09-23: the row, 362, was given home 2 and a gated expected-failure pair, `compiler_tests/XXXNumeralPrintRungR`, because `basic-lib/objects.tex:19-22` and `:117-122` make rendering a value yield a `String`; `REPORT.md`, row 362.)
 
 ## The failure-mode question
 
