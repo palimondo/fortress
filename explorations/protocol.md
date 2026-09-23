@@ -217,5 +217,6 @@ Recurring corrections, kept visible so they stay corrected:
   reports and docs, not in source comments or commit noise).
 - Telling Pavol about stop-hook reminders. They are processed silently (§4).
 - Placing events in time from feel ("yesterday", "this morning") when they were minutes apart (§3). Twice at a boot after a compaction.
+- Writing a result between tool calls in a turn whose final text is the stop-hook's ".": his client folds it under "Used N tools" and he never sees it. A result is delivered only as a turn's final text (the dispatch probe, 2026-09-22 22:28, seen by him a day later from a screenshot).
 - Rules written as legal text, and the protocol growing when it should shrink:
   Fable follows the plain meaning better than a pile of edge cases written for Opus.

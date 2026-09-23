@@ -80,3 +80,8 @@ ruled out, why, and that "scope" waits on his word.
 - 05:19:50Z (Pavol's own ask) — the checker-gate re-examination, worker still running.
 - Standing, not raised fresh this window — the ten remaining re-approval rows (30, 39-42,
   44-48) and batch 4's manifest, which waits on the four items above.
+
+## Correction, 2026-09-23, from Pavol's screenshot of his client
+
+The 22:28:47 report of the dispatch probe (item 6 above) was never visible to him. It was written between tool calls in a turn that ended with the stop-hook's "." reply, and the client folds such text under "Used 2 tools"; his view shows only the dots between "The probe is already running" and "The batch run ended". So "open, unanswered" for that item means "never delivered", not "not replied to". He first saw the result in the coordinator's message of 2026-09-23 after boot. Lesson in protocol § 7: a result is delivered only when it is the turn's final text.
+
