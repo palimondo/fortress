@@ -1,0 +1,126 @@
+# Second skeptic, rung C: the compile path's static checker on comment 2's last two claims. The checker-count stage's
+# driver (explorations/coordinator/tools/checker-count/WorldFlip.java with its shadow StaticChecker, built by run.sh
+# into a scratch directory) run in tmp/sk2/<dir> with a private -Dfortress.caches per run; the '.' entry of the
+# source path loads that directory's FortressLibrary copy (scratch-libraries-round2.txt). Paths below are made
+# relative: tmp/sk2/<dir>/FortressLibrary.* is written Library/FortressLibrary.*.
+
+## B0 this branch's library (run.sh, the gate's own stage): the table
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	18
+FortressLibrary	110
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	93
+#locations	52
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker
+
+## C1 WorldFlip FortressLibrary.fss in tmp/sk2/a2AAG (Array2 excludes { Number, String, AnyAdditiveGroup }, both files): rc and totals
+has 97 errors.
+@@PROBE checkApi FortressLibrary -> errors=118
+## C1 against B0: diff of the sorted unique lines of the two full outputs (< B0, > C1)
+33a34,35
+>     Type Matrix[\T,s0,s1\] excludes FortressLibrary.AdditiveGroup but it extends FortressLibrary.AdditiveGroup.
+>     Type Matrix[\T,s0,s1\] excludes FortressLibrary.Array2 but it extends FortressLibrary.Array2.
+53a56
+>     Types AdditiveGroup[\Matrix[\T,s0,s1\]\] and Array2[\T,0,s0,0,s1\] exclude each other.  Matrix must not extend them.
+56a60
+>     Types Array2[\T,0,s0,0,s1\] and AdditiveGroup[\Matrix[\T,s0,s1\]\] exclude each other.  Matrix must not extend them.
+84c88
+< ### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[Library/FortressLibrary.fss]
+---
+> ### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[FortressLibrary.fss]
+99c103
+< @@PROBE checkApi FortressLibrary -> errors=110
+---
+> @@PROBE checkApi FortressLibrary -> errors=118
+116c120
+< File FortressLibrary.fss has 93 errors.
+---
+> File FortressLibrary.fss has 97 errors.
+123a128,131
+> Library/FortressLibrary.fsi:1583:30-52:
+> Library/FortressLibrary.fsi:1583:30-53:
+> Library/FortressLibrary.fsi:1583:57-88:
+> Library/FortressLibrary.fsi:1583:57-89:
+
+## C2 WorldFlip FortressLibrary.fss in tmp/sk2/a1AAG (Array1 excludes {Number, String, AnyAdditiveGroup}, both files): rc and totals
+has 97 errors.
+@@PROBE checkApi FortressLibrary -> errors=118
+## C2 against B0: diff of the sorted unique lines of the two full outputs (< B0, > C2)
+48a49,50
+>     Type Vector[\T,s0\] excludes FortressLibrary.AdditiveGroup but it extends FortressLibrary.AdditiveGroup.
+>     Type Vector[\T,s0\] excludes FortressLibrary.Array1 but it extends FortressLibrary.Array1.
+53a56
+>     Types AdditiveGroup[\Vector[\T,s0\]\] and Array1[\T,0,s0\] exclude each other.  Vector must not extend them.
+56a60
+>     Types Array1[\T,0,s0\] and AdditiveGroup[\Vector[\T,s0\]\] exclude each other.  Vector must not extend them.
+84c88
+< ### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[Library/FortressLibrary.fss]
+---
+> ### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[FortressLibrary.fss]
+99c103
+< @@PROBE checkApi FortressLibrary -> errors=110
+---
+> @@PROBE checkApi FortressLibrary -> errors=118
+116c120
+< File FortressLibrary.fss has 93 errors.
+---
+> File FortressLibrary.fss has 97 errors.
+122a127,130
+> Library/FortressLibrary.fsi:1465:30-43:
+> Library/FortressLibrary.fsi:1465:30-44:
+> Library/FortressLibrary.fsi:1465:48-76:
+> Library/FortressLibrary.fsi:1465:48-77:
+
+## C5 WorldFlip SkA3GroupApi.fsi in tmp/sk2/branch (this branch's library): every line naming the api or its trait, with the line after
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[SkA3GroupApi.fsi]
+@@PROBE checkApi String
+--
+@@PROBE checkApi SkA3GroupApi
+@@PROBE checkApi SkA3GroupApi -> errors=8
+@@PROBE checkApi FlatString
+--
+tmp/sk2/branch/SkA3GroupApi.fsi:3:21-44:
+    Types Array3[\RR64,0,2,0,2,0,2\] and AdditiveGroup[\SkA3GroupApi.A3G\] exclude each other.  A3G must not extend them.
+tmp/sk2/branch/SkA3GroupApi.fsi:3:21-45:
+    Type SkA3GroupApi.A3G excludes FortressLibrary.Array3 but it extends FortressLibrary.Array3.
+tmp/sk2/branch/SkA3GroupApi.fsi:3:49-66:
+    Types AdditiveGroup[\SkA3GroupApi.A3G\] and Array3[\RR64,0,2,0,2,0,2\] exclude each other.  A3G must not extend them.
+tmp/sk2/branch/SkA3GroupApi.fsi:3:49-67:
+    Type SkA3GroupApi.A3G excludes FortressLibrary.AdditiveGroup but it extends FortressLibrary.AdditiveGroup.
+File SkA3GroupApi.fsi has 70 errors.
+### rc=-1
+
+## C6 WorldFlip SkA3GroupApi.fsi in tmp/sk2/noAAG (Array3 without AnyAdditiveGroup): every line naming the api or its trait, with the line after
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[SkA3GroupApi.fsi]
+@@PROBE checkApi String
+--
+@@PROBE checkApi SkA3GroupApi
+@@PROBE checkApi SkA3GroupApi -> errors=8
+@@PROBE checkApi FlatString
+--
+    Invalid overloading of fill in trait A3G:
+     (Array[\RR64,(ZZ32, ZZ32, ZZ32)\], (ZZ32, ZZ32, ZZ32)->RR64)->Array[\RR64,(ZZ32, ZZ32, ZZ32)\] @ tmp/sk2/noAAG/FortressLibrary.fsi:1337:5-38
+--
+    Invalid overloading of fill in trait A3G:
+     (Array[\RR64,(ZZ32, ZZ32, ZZ32)\], RR64)->Array[\RR64,(ZZ32, ZZ32, ZZ32)\] @ tmp/sk2/noAAG/FortressLibrary.fsi:1338:5-35
+--
+File SkA3GroupApi.fsi has 70 errors.
+### rc=-1
+
+# C1/C2: an Array1 or Array2 that excluded AnyAdditiveGroup would make Vector or Matrix extend two excluding types;
+# the checker reports it (4 errors each, total 93 -> 97). C5/C6: with the clause the checker refuses a trait extending
+# Array3 and AdditiveGroup; without it, it reports no exclusion for that trait. Its errors=8 there are four errors
+# counted twice, all in Array3's inherited declarations and none an exclusion: two 'For shift, the return type ...
+# should be a subtype' (FortressLibrary.fsi:1687-1693 against :1293-1297 and :1336) and the two 'Invalid overloading
+# of fill' shown above; with the clause the hierarchy error stops the check before them. walk accepts all of these
+# (SkRound2Walk.txt W5, W6, W7): the interpreter does not check an exclusion at declaration, ledger row 293.

@@ -1,0 +1,76 @@
+# Second skeptic, rung C: the rung's own checks re-run on the branch at 23d319c73 (after the repair), by the skeptic
+
+## 1. sk-insertion-check.py (round 1's tool, git diff -U0 against the base), both files
+Library/FortressLibrary.fss: 0 deleted lines, 15 inserted lines
+  new minus inserted == base: True
+  run 613-613: depth before 0, depth after 0
+  run 2671-2676: depth before 0, depth after 0
+  run 4504-4508: depth before 0, depth after 0
+  run 4512-4514: depth before 0, depth after 0
+  RESULT: every inserted run is whole comments at depth 0
+Library/FortressLibrary.fsi: 0 deleted lines, 16 inserted lines
+  new minus inserted == base: True
+  run 410-410: depth before 0, depth after 0
+  run 1661-1666: depth before 0, depth after 0
+  run 2547-2552: depth before 0, depth after 0
+  run 2556-2558: depth before 0, depth after 0
+  RESULT: every inserted run is whole comments at depth 0
+
+## 2. comment 2 identical in both files: diff <(sed -n 2671,2676p .fss) <(sed -n 1661,1666p .fsi)
+(empty)
+
+## 3. the checker-count stage, explorations/coordinator/tools/checker-count/run.sh, on the branch
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	18
+FortressLibrary	110
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	93
+#locations	52
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker
+## 3a. diff against probes/checker-count-preedit.txt:
+(no difference)
+## 3b. the full output with the worktree prefix removed, against probes/checker-count-postedit-run.txt:
+(no difference)
+## 3c. the full output remapped by sk-remap.py, against probes/checker-count-preedit-run.txt:
+(no difference: 253 lines)
+
+## 4. parse-compare.sh d610695c0 <scratch>, against probes/parse-compare.txt below its header line
+(no difference)
+
+## 5. gated ProjectFortress/tests/ArrayOperatorsBesideLibrary.fss, walk from the worktree root, -Dfortress.caches=tmp/sk2/cold1 created empty
+(v MINMAX 0.0)[0] = 0.0
+(0.0 MINMAX v)[2] = 1.0
+(m + t)[1,0,1] = 12.0
+(t + m)[1,1,0] = 13.0
+(t t)[1,1,1] = 100.0
+(t m)[1,0,1] = 20.0
+(m + 1.0)[1,1] = 5.0
+(1.0 + m)[0,1] = 3.0
+(0.0 MAX v)[0] = 0.0
+rc=0
+## 5a. interpreter_cache after the run:
+ArrayOperatorVocabulary-2ee6f801.tfs
+ArrayOperatorsBesideLibrary-3d545a2e.tfs
+CovariantCollection-52b1356c.tfs
+FlatString-6e3ebd25.tfs
+FortressBuiltin-5f4b7b7d.tfs
+FortressLibrary-118fa92.tfs
+List-45b50d19.tfs
+NatReflect-435d0234.tfs
+NativeArray-2428d25a.tfs
+OneShotFlag-77443be1.tfs
+RangeInternals-715f23d4.tfs
+Stream-f84ae3b.tfs
+String-78f80e4c.tfs
+TypeProxy-89ec469.tfs
+Writer-31ce51ae.tfs

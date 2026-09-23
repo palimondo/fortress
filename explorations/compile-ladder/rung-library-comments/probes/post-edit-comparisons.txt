@@ -1,0 +1,24 @@
+# Comparisons after the edit, each of a post-edit capture against its pre-edit capture (both in this directory), with remap-lines.py mapping every FortressLibrary.fss/.fsi position in the post-edit text back to the base numbering of d610695c0c014001687e528fa9fd99078db6ea76
+# Regenerated in the repair round from the re-run post-edit captures (comment 2 reworded, no line moved); the ArrayLiteralArg post-edit capture was re-run too and is unchanged
+
+## checker-count table: diff checker-count-preedit.txt checker-count-postedit.txt
+(no difference)
+
+## checker run output, raw: lines that differ (diff | grep -c '^[<>]')
+96
+
+## checker run output, remapped: diff checker-count-preedit-run.txt <(remap-lines.py d610695c0c014001687e528fa9fd99078db6ea76 checker-count-postedit-run.txt)
+(no difference: the same 253 lines in the same order)
+
+## walk probe CommentedDecls: diff of the two captures below their header lines
+(no difference)
+
+## walk probe ArrayLiteralArg, raw: lines that differ
+26
+
+## walk probe ArrayLiteralArg, remapped: diff ArrayLiteralArg.txt <(remap-lines.py d610695c0c014001687e528fa9fd99078db6ea76 ArrayLiteralArg-postedit.txt)
+22c22
+< 	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-comments/Library/FortressLibrary.fss:4499:1-101
+---
+> 	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-comments/Library/FortressLibrary.fss:4499:1-INSERTED4514:88
+(end of diff)

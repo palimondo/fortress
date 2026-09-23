@@ -1,0 +1,21 @@
+# Skeptic, rung C: comment 3's 'Nothing is lost at run time' -- the results of the scalar block used where
+# a Matrix, a Vector, a transposed view or an Array3 is needed. walk, one thread; base and post as in SkScalarOrders.txt.
+# base and post outputs are byte-identical: yes
+## walk, post
+m + 1.0 is a Matrix RR64 2x2: true
+1.0 - m bound to a Matrix RR64 2x2 variable: 0.0 -3.0
+(m + 1.0) v = 8.0 14.0, a Vector RR64 2: true
+(m + 1.0)(m + 1.0) = 16.0 21.0 28.0 37.0
+(v + 1.0) v = 8.0
+m.t() is a Matrix: true
+m.t() + 1.0 = 2.0 4.0 3.0 5.0, a Matrix: true
+10.0 - t is an Array3: true, u[1,1,1] = -2.0
+rc=0
+
+## compiled: bin/fortress compile SkNothingLost.fss
+/home/user/fortress-comments/explorations/compile-ladder/rung-library-comments/probes/skeptic/SkNothingLost.fss:16:78-82:
+    Vector is undefined.
+/home/user/fortress-comments/explorations/compile-ladder/rung-library-comments/probes/skeptic/SkNothingLost.fss:27:51-55:
+    Array3 is undefined.
+File SkNothingLost.fss has 2 errors.
+rc=255

@@ -1,0 +1,26 @@
+# Skeptic, rung C: explorations/coordinator/tools/checker-count/run.sh on this branch (after the edit), my run
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	18
+FortressLibrary	110
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	93
+#locations	52
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker
+# diff against the worker's pre-edit table probes/checker-count-preedit.txt (committed in 76c55b270 before the edit):
+no difference
+# the full checker output (253 lines), paths made relative and FortressLibrary positions mapped back to the base
+# numbering by sk-remap.py (which reads the inserted lines from git diff -U0), against the worker's pre-edit
+# probes/checker-count-preedit-run.txt:
+no difference: 253 lines
+# before remapping, 48 lines differ, each only in a line number
+# parse-compare.sh re-run by the skeptic (d610695c0 against the tree): output identical to the worker's probes/parse-compare.txt apart from its header line: yes

@@ -1,0 +1,40 @@
+# Skeptic, rung C: the scratch libraries the Array3 probes load. Each directory holds FortressLibrary.fss/.fsi
+# and the probe sources; bin/fortress is run with that directory as the working directory, so the '.' entry
+# at the head of fortress.source.path (default_repository/configuration) loads the copy, and each run gets its
+# own -Dfortress.caches directory. SkWhichLib.fss (3 - (1, 2), a dispatch failure that lists the library's
+# '-' declarations with their file) shows which copy each directory loads.
+
+## base: git show d610695c0c014001687e528fa9fd99078db6ea76:Library/FortressLibrary.{fss,fsi}
+## noAAG: this branch's files with AnyAdditiveGroup deleted from Array3's excludes
+2670c2670
+<     excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
+---
+>     excludes { Number, String, AnyMultiplicativeRing }
+1660c1660
+<     excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
+---
+>     excludes { Number, String, AnyMultiplicativeRing }
+## noBlk: this branch's files without the scalar block's two generic + declarations (exclusion kept)
+4509,4510d4508
+< opr +[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e + y)
+< opr +[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y + e)
+2553,2554d2552
+< opr +[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+< opr +[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+## noBlkNoAAG: noAAG without the scalar block's two generic + declarations
+4509,4510d4508
+< opr +[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e + y)
+< opr +[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y + e)
+2553,2554d2552
+< opr +[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+< opr +[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+## SkWhichLib.fss in base/ (cache caches-base): the scalar block's '-' lines of the listing
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-comments/tmp/sk/base/FortressLibrary.fss:4500:1-101}:OverloadedFunction
+## SkWhichLib.fss in probes/skeptic/ (cache caches-post): this branch's Library/
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-comments/Library/FortressLibrary.fss:4515:1-101}:OverloadedFunction
+## SkWhichLib.fss in noAAG/ (cache caches-noAAG)
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-comments/tmp/sk/noAAG/FortressLibrary.fss:4515:1-101}:OverloadedFunction
+## SkWhichLib.fss in noBlk/ (cache caches-noBlk)
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-comments/tmp/sk/noBlk/FortressLibrary.fss:4513:1-101}:OverloadedFunction
+## SkWhichLib.fss in noBlkNoAAG/ (cache caches-noBlkNoAAG)
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-comments/tmp/sk/noBlkNoAAG/FortressLibrary.fss:4513:1-101}:OverloadedFunction

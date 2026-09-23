@@ -1,0 +1,11 @@
+component SkA3Num
+import SkA3NumVocab.{...}
+export Executable
+
+run(): () = do
+    t = array3[\RR64,2,2,2\]().fill(fn (ix: (ZZ32,ZZ32,ZZ32)): RR64 => do (p, i, j) = ix; 10.0 p + i + j end)
+    println("(1.0 + t)[1,1,1] = " (1.0 + t)[1,1,1])
+    println("(t + 1.0)[1,1,1] = " (t + 1.0)[1,1,1])
+end
+
+end

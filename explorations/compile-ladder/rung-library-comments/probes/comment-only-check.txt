@@ -1,0 +1,24 @@
+# Mutation checks of comment-only-check.py, each on a deliberately altered working copy of Library/FortressLibrary.fss, restored after each run
+## (a) an extra code line inserted after the closure note
+Library/FortressLibrary.fss: 16 lines added, 0 deleted, 1 added lines not wholly comment, token stream without comments DIFFERS
+  added at new lines: 613,614,2672,2673,2674,2675,2676,2677,4505,4506,4507,4508,4509,4513,4514,4515
+  not comment: 614: trait Extra end
+RESULT: FAIL
+exit=1
+## (b) the reversed - note's opening (*) replaced by (* so that the comment runs on unbalanced
+unbalanced comment opened at offset 184564
+exit=1
+## (c) one word of code changed on an existing line (e - y to y - e in the first - declaration)
+Library/FortressLibrary.fss: 16 lines added, 1 deleted, 1 added lines not wholly comment, token stream without comments DIFFERS
+  added at new lines: 613,2671,2672,2673,2674,2675,2676,4504,4505,4506,4507,4508,4511,4512,4513,4514
+  deleted: -opr -[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e - y)
+  not comment: 4511: opr -[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => y - e)
+RESULT: FAIL
+exit=1
+## (d) the edit itself, unaltered
+Library/FortressLibrary.fss: 15 lines added, 0 deleted, 0 added lines not wholly comment, token stream without comments IDENTICAL
+  added at new lines: 613,2671,2672,2673,2674,2675,2676,4504,4505,4506,4507,4508,4512,4513,4514
+Library/FortressLibrary.fsi: 16 lines added, 0 deleted, 0 added lines not wholly comment, token stream without comments IDENTICAL
+  added at new lines: 410,1661,1662,1663,1664,1665,1666,2547,2548,2549,2550,2551,2552,2556,2557,2558
+RESULT: comment-only
+exit=0

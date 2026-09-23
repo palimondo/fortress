@@ -1,0 +1,25 @@
+component SkVecScalarC
+export Executable
+
+show(name: String, v: ZZ32Vector): () = do
+    print(name)
+    print(" = ")
+    print(v[0])
+    print(" ")
+    print(v[1])
+    print(" ")
+    println(v[2])
+end
+
+run(): () = do
+    x = makeZZ32Vector(3)
+    x[0] := 1
+    x[1] := 2
+    x[2] := 3
+    show("x - 3", x - 3)
+    show("x + 3", x + 3)
+    show("x MIN 2", x MIN 2)
+    show("x MAX 2", x MAX 2)
+end
+
+end

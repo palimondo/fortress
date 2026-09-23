@@ -39,7 +39,7 @@ run():() = do
     assert(caughtAsChecked(), "CAUGHT AS CHECKED",
            "a checked exception, Specification/advanced/parallelism-locality/transactions.tex:38")
     assert(TryAtomicFailure.asString, "Try/atomic failure",
-           "asString of Library/FortressLibrary.fss:1570")
+           "asString of Library/FortressLibrary.fss:1571")
     assert(escapesUncheckedCatch(), "PROPAGATED",
            "excludes UncheckedException, ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:753")
     println("PASS")

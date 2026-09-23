@@ -1,0 +1,23 @@
+# parse-compare.sh d610695c0c014001687e528fa9fd99078db6ea76 <scratch>, run from the worktree root after the edit (re-run in the repair round, after comment 2's rewording)
+base fss: Ok
+tree fss: Ok
+Library/FortressLibrary.fss: 15 lines inserted; 29058 spans and 1355 location-derived names remapped; post dump DIFFERS from the pre dump
+  2 dump lines differ: 2 are a span end moved onto an inserted comment line, 0 are anything else
+  - (FnDecl @4499:1~101
+  + (FnDecl @4499:1~INSERTED4514:88
+  - _unambiguousName=(NamedOp @4499:5~6 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fss:4499:1-101"))
+  + _unambiguousName=(NamedOp @4499:5~6 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fss:4499:1-INSERTED4514:88"))
+ast-compare exit=2 (0 identical, 2 only span ends moved onto inserted lines, 1 anything else)
+base fsi: Ok
+tree fsi: Ok
+Library/FortressLibrary.fsi: 16 lines inserted; 12399 spans and 1008 location-derived names remapped; post dump DIFFERS from the pre dump
+  4 dump lines differ: 4 are a span end moved onto an inserted comment line, 0 are anything else
+  - (FnDecl @2539:1~57
+  + (FnDecl @2539:1~INSERTED2552:30
+  - _unambiguousName=(NamedOp @2539:5~14 _fixity=(PreFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fsi:2539:1-57"))
+  + _unambiguousName=(NamedOp @2539:5~14 _fixity=(PreFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fsi:2539:1-INSERTED2552:30"))
+  - (FnDecl @2542:1~65
+  + (FnDecl @2542:1~INSERTED2558:88
+  - _unambiguousName=(NamedOp @2542:5~6 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fsi:2542:1-65"))
+  + _unambiguousName=(NamedOp @2542:5~6 _fixity=(InFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fsi:2542:1-INSERTED2558:88"))
+ast-compare exit=2 (0 identical, 2 only span ends moved onto inserted lines, 1 anything else)

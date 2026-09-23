@@ -1,0 +1,9 @@
+component SkA3Group
+export Executable
+
+trait A3G extends { Array3[\RR64,0,2,0,2,0,2\], AdditiveGroup[\A3G\] }
+end
+
+run(): () = println("A3G declared: an Array3 that is an additive group")
+
+end

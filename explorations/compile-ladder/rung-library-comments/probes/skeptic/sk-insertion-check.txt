@@ -1,0 +1,15 @@
+# Skeptic, rung C: sk-insertion-check.py d610695c0c014001687e528fa9fd99078db6ea76 <file>, run from the worktree root after the edit
+Library/FortressLibrary.fss: 0 deleted lines, 15 inserted lines
+  new minus inserted == base: True
+  run 613-613: depth before 0, depth after 0
+  run 2671-2676: depth before 0, depth after 0
+  run 4504-4508: depth before 0, depth after 0
+  run 4512-4514: depth before 0, depth after 0
+  RESULT: every inserted run is whole comments at depth 0
+Library/FortressLibrary.fsi: 0 deleted lines, 16 inserted lines
+  new minus inserted == base: True
+  run 410-410: depth before 0, depth after 0
+  run 1661-1666: depth before 0, depth after 0
+  run 2547-2552: depth before 0, depth after 0
+  run 2556-2558: depth before 0, depth after 0
+  RESULT: every inserted run is whole comments at depth 0

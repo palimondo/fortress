@@ -1,0 +1,30 @@
+component SkNothingLost
+export Executable
+
+run(): () = do
+    m: Matrix[\RR64,2,2\] = matrix[\RR64,2,2\](0.0)
+    m[0,0] := 1.0
+    m[0,1] := 2.0
+    m[1,0] := 3.0
+    m[1,1] := 4.0
+    v = array[\RR64\](2).fill(fn (i: ZZ32): RR64 => 1.0 i + 1.0)
+    p = m + 1.0
+    println("m + 1.0 is a Matrix RR64 2x2: " instanceOf[\Matrix[\RR64,2,2\]\](p))
+    pm: Matrix[\RR64,2,2\] = 1.0 - m
+    println("1.0 - m bound to a Matrix RR64 2x2 variable: " pm[0,0] " " pm[1,1])
+    w = (m + 1.0) v
+    println("(m + 1.0) v = " w[0] " " w[1] ", a Vector RR64 2: " instanceOf[\Vector[\RR64,2\]\](w))
+    q = (m + 1.0) (m + 1.0)
+    println("(m + 1.0)(m + 1.0) = " q[0,0] " " q[0,1] " " q[1,0] " " q[1,1])
+    d = (v + 1.0) v
+    println("(v + 1.0) v = " d)
+    mt = m.t()
+    println("m.t() is a Matrix: " instanceOf[\Matrix[\RR64,2,2\]\](mt))
+    r = mt + 1.0
+    println("m.t() + 1.0 = " r[0,0] " " r[0,1] " " r[1,0] " " r[1,1] ", a Matrix: " instanceOf[\Matrix[\RR64,2,2\]\](r))
+    t = array3[\RR64,2,2,2\]().fill(fn (ix: (ZZ32,ZZ32,ZZ32)): RR64 => do (p0, i, j) = ix; 10.0 p0 + i + j end)
+    u = 10.0 - t
+    println("10.0 - t is an Array3: " instanceOf[\Array3[\RR64,0,2,0,2,0,2\]\](u) ", u[1,1,1] = " u[1,1,1])
+end
+
+end

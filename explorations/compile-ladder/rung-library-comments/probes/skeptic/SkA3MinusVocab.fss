@@ -1,0 +1,9 @@
+component SkA3MinusVocab
+export SkA3MinusVocab
+
+opr -[\nat r, nat c, nat a, nat b, nat d\](m: Matrix[\RR64,r,c\], t: Array3[\RR64,0,a,0,b,0,d\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] =
+    t.ivmap[\RR64\](fn (ix: (ZZ32,ZZ32,ZZ32), e: RR64): RR64 => do (p, i, j) = ix; m[i,j] - e end)
+opr -[\nat r, nat c, nat a, nat b, nat d\](t: Array3[\RR64,0,a,0,b,0,d\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] =
+    t.ivmap[\RR64\](fn (ix: (ZZ32,ZZ32,ZZ32), e: RR64): RR64 => do (p, i, j) = ix; e - m[i,j] end)
+
+end

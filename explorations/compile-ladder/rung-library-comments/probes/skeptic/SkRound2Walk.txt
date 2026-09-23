@@ -1,0 +1,137 @@
+# Second skeptic, rung C: walk probes of comment 2 as reworded (the lower-rank case, the operator it names, and the
+# rank-3 and rank-1/rank-2 exclusions it states). walk (bin/fortress FILE.fss), FORTRESS_THREADS=1; each run in
+# tmp/sk2/<dir> with its own -Dfortress.caches directory created empty ('cold'), or reused from the named earlier run
+# ('warm'). tmp/sk2/branch holds only the probe sources, so this branch's Library/ loads; the other directories hold
+# a scratch FortressLibrary.fss/.fsi (scratch-libraries-round2.txt) that the '.' entry of fortress.source.path loads
+# first; W2, W4, W8 and W9 name the copy each loaded. Programs: SkA3Vec.fss + SkA3VecVocab.fs{i,s} (a user + between
+# a Vector and an Array3, both orders), SkA3Minus.fss + SkA3MinusVocab.fs{i,s} (a user - between a Matrix and an
+# Array3, both orders), SkA3Group.fss (a trait extending Array3 and AdditiveGroup), SkRank12.fss (Vector and Matrix
+# arithmetic), SkWhichLib.fss (round 1's library locator). Java stack frames ('\tat ...') removed.
+
+### W1: walk SkA3Vec.fss in tmp/sk2/branch, cache caches/W1 
+v is a Vector: true
+(v + t)[1,0,1] = 12.0
+(t + v)[1,1,0] = 11.0
+rc=0
+
+### W2: walk SkA3Vec.fss in tmp/sk2/noAAG, cache caches/W2 
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-comments/tmp/sk2/noAAG/FortressLibrary.fss:333:5-28: and
+/home/user/fortress-comments/tmp/sk2/noAAG/SkA3VecVocab.fss:6:1-7:97:
+
+AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T/home/user/fortress-comments/tmp/sk2/noAAG/FortressLibrary.fss:333:5-28 and
++[\nat n,nat a,nat b,nat d\](t:Array3[\FortressLibrary.RR64,0,a,0,b,0,d\],v:Vector[\FortressLibrary.RR64,n\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress-comments/tmp/sk2/noAAG/SkA3VecVocab.fss:6:1-7:97 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-comments/tmp/sk2/noAAG/FortressLibrary.fss:333:5-28:
+/home/user/fortress-comments/tmp/sk2/noAAG/SkA3Vec.fss:6:59:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+
+### W3: walk SkA3Minus.fss in tmp/sk2/branch, cache caches/W3 
+(m - t)[1,0,1] = -8.0
+(t - m)[1,1,0] = 7.0
+rc=0
+
+### W4: walk SkA3Minus.fss in tmp/sk2/noAAG, cache caches/W4 
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-comments/tmp/sk2/noAAG/FortressLibrary.fss:334:5-46: and
+/home/user/fortress-comments/tmp/sk2/noAAG/SkA3MinusVocab.fss:6:1-7:99:
+
+AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].-(self:AdditiveGroup[\T\],other:T):T/home/user/fortress-comments/tmp/sk2/noAAG/FortressLibrary.fss:334:5-46 and
+-[\nat r,nat c,nat a,nat b,nat d\](t:Array3[\FortressLibrary.RR64,0,a,0,b,0,d\],m:Matrix[\FortressLibrary.RR64,r,c\]):Array[\FortressLibrary.RR64,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\]/home/user/fortress-comments/tmp/sk2/noAAG/SkA3MinusVocab.fss:6:1-7:99 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-comments/tmp/sk2/noAAG/FortressLibrary.fss:334:5-46:
+/home/user/fortress-comments/tmp/sk2/noAAG/SkA3Minus.fss:11:36:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+
+### W5: walk SkA3Group.fss in tmp/sk2/branch, cache caches/W5 
+A3G declared: an Array3 that is an additive group
+rc=0
+
+### W6: walk SkRank12.fss in tmp/sk2/a2AAG, cache caches/W6 
+(v + v)[1] = 4.0
+(m + m)[1,1] = 2.0
+m is an AnyAdditiveGroup: true
+m is an Array2: true
+rc=0
+
+### W7: walk SkRank12.fss in tmp/sk2/a1AAG, cache caches/W7 
+(v + v)[1] = 4.0
+(m + m)[1,1] = 2.0
+m is an AnyAdditiveGroup: true
+m is an Array2: true
+rc=0
+
+### W8: walk SkWhichLib.fss in tmp/sk2/a2AAG, cache caches/W6 (warm, reused)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-comments/tmp/sk2/a2AAG/SkWhichLib.fss:3:21:
+Failed to find any matching overload, args = (3: ZZ32,(1,2): (Int,Int)), overload = {
+	-(native Sub)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress-comments/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:105:5-106:76)
+	-(native Sub)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress-comments/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:274:5-275:75)
+	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-comments/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:408:5-409:75)
+	-(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:380:5-58)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\Number\],Number)->Number (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:334:5-46)
+	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:662:5-663:74)
+	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:730:5-731:75)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:623:5-21)
+	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:847:5-848:77)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:623:5-21)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:623:5-21)
+	-(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:565:5-45)
+	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:784:5-785:83)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:623:5-21)
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].-(self:AdditiveGroup[\T\],other:T):T/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:334:5-46
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):I/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:623:5-21
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:2198:5-2199:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:2506:5-2507:60
+	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:4511:1-4514:88
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-comments/tmp/sk2/a2AAG/FortressLibrary.fss:4515:1-101}:OverloadedFunction
+Context:
+/home/user/fortress-comments/tmp/sk2/a2AAG/SkWhichLib.fss:3:21:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+
+### W9: walk SkWhichLib.fss in tmp/sk2/a1AAG, cache caches/W7 (warm, reused)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-comments/tmp/sk2/a1AAG/SkWhichLib.fss:3:21:
+Failed to find any matching overload, args = (3: ZZ32,(1,2): (Int,Int)), overload = {
+	-(native Sub)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress-comments/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:105:5-106:76)
+	-(native Sub)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress-comments/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:274:5-275:75)
+	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-comments/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:408:5-409:75)
+	-(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:380:5-58)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\Number\],Number)->Number (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:334:5-46)
+	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:662:5-663:74)
+	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:730:5-731:75)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:623:5-21)
+	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:847:5-848:77)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:623:5-21)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:623:5-21)
+	-(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:565:5-45)
+	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:784:5-785:83)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:623:5-21)
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].-(self:AdditiveGroup[\T\],other:T):T/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:334:5-46
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):I/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:623:5-21
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:2198:5-2199:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:2506:5-2507:60
+	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:4511:1-4514:88
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-comments/tmp/sk2/a1AAG/FortressLibrary.fss:4515:1-101}:OverloadedFunction
+Context:
+/home/user/fortress-comments/tmp/sk2/a1AAG/SkWhichLib.fss:3:21:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+
+### W10: walk SkA3Vec.fss in tmp/sk2/noAAG, cache caches/W2 (warm, reused)
+v is a Vector: true
+(v + t)[1,0,1] = 12.0
+(t + v)[1,1,0] = 11.0
+rc=0
+

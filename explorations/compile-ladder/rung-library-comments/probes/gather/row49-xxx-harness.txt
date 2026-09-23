@@ -1,0 +1,70 @@
+=== walk ProjectFortress/tests/XXXArrayLiteralArgRungC.fss (the gated test; merged tree after rungs L and C, private cold cache) 2026-09-23T00:00:55Z ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/ProjectFortress/tests/XXXArrayLiteralArgRungC.fss:8:9:
+Failed to find any matching overload, args = (3: ZZ32,(1,2): (Int,Int)), overload = {
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].-(self:AdditiveGroup[\T\],other:T):T/home/user/fortress/Library/FortressLibrary.fss:334:5-46
+	-(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:380:5-58)
+	-(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress/Library/FortressLibrary.fss:565:5-45)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):I/home/user/fortress/Library/FortressLibrary.fss:623:5-21
+	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:662:5-663:74)
+	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:730:5-731:75)
+	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:784:5-785:83)
+	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:847:5-848:77)
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress/Library/FortressLibrary.fss:2198:5-2199:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress/Library/FortressLibrary.fss:2506:5-2507:60
+	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress/Library/FortressLibrary.fss:4511:1-4514:88
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress/Library/FortressLibrary.fss:4515:1-101
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\Number\],Number)->Number (/home/user/fortress/Library/FortressLibrary.fss:334:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:623:5-21)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:623:5-21)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:623:5-21)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:623:5-21)
+	-(native Sub)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:105:5-106:76)
+	-(native Sub)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:274:5-275:75)
+	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:408:5-409:75)}:OverloadedFunction
+Context:
+/home/user/fortress/ProjectFortress/tests/XXXArrayLiteralArgRungC.fss:8:9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== walk explorations/compile-ladder/rung-library-comments/probes/gather/ArrayLiteralArgDeclaredCtl.fss (control: the same program with the literal bound to x: ZZ32[2] first) ===
+REACHED
+PASS
+=== exit 0 ===
+
+=== $ java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row49/suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the gated test, a one-file copy of ProjectFortress/tests/XXXArrayLiteralArgRungC.fss) 2026-09-23T00:01:27Z ===
+tmp/row49/suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb913981_16
+. interpret tmp/row49/suite/XXXArrayLiteralArgRungC  OK Saw expected exception
+
+Time: 3.62
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row49/ctl junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the control under the XXX name: the literal bound to x: ZZ32[2] first, which is what a repair of row 49 would make of the gated program) 2026-09-23T00:01:31Z ===
+tmp/row49/ctl
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb9148a4_16
+. interpret tmp/row49/ctl/XXXArrayLiteralArgRungC 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 3.728
+There was 1 failure:
+1) tmp/row49/ctl/XXXArrayLiteralArgRungC(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/row49/ctl/XXXArrayLiteralArgRungC
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 1 ===
