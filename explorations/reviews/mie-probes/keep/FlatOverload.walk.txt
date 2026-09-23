@@ -1,0 +1,20 @@
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=<private, warm> bin/fortress walk FlatOverload.fss   (2026-09-23, JDK 25, main a0617d672)
+control, a Wide:       g(Wide) got 3
+a Narrow where only g(Wide) and g(String) are declared:
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/mie-probes/keep/FlatOverload.fss:30:11-13:
+Failed to find any matching overload, args = (NarrowOf), overload = {
+	g(x:Wide):FortressLibrary.String Wide->String explorations/reviews/mie-probes/keep/FlatOverload.fss:23:1-41
+	g(x:FortressLibrary.String):FortressLibrary.String String->String explorations/reviews/mie-probes/keep/FlatOverload.fss:24:1-42}:OverloadedFunction
+Context:
+explorations/reviews/mie-probes/keep/FlatOverload.fss:30:11-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=1

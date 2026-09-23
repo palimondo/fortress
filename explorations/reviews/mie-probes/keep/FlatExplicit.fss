@@ -1,0 +1,37 @@
+component FlatExplicit
+export Executable
+
+(* Remedy (ii): the same call as FlatCall with the widening written at the call site,
+   a plain function standing in for the coerce clause the interpreter cannot use;
+   and the nested-tower control on the library's own ZZ32/ZZ64. *)
+trait Num excludes { String } end
+trait Wide extends { Num, Equality[\Wide\] } excludes { Narrow }
+  getter big(): ZZ64
+  opr =(self, other: Wide): Boolean = self.big = other.big
+end
+trait Narrow extends { Num, Equality[\Narrow\] } excludes { Wide }
+  getter small(): ZZ32
+  opr =(self, other: Narrow): Boolean = self.small = other.small
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+toWide(x: Narrow): Wide = WideOf(widen(x.small))
+
+f(x: Wide): String = "f(Wide) got " x.big
+h(x: ZZ64): String = "h(ZZ64) got " x
+k(x: RR64): String = "k(RR64) got " x
+
+run(): () = do
+  n = NarrowOf(3)
+  println("explicit widening:     " f(toWide(n)))
+  println("nested tower, ZZ32 literal to h(ZZ64): " h(3))
+  println("nested tower, ZZ32 literal to k(RR64): " k(3))
+  z: ZZ32 = 7
+  q: QQ = z
+  println("nested tower, ZZ32 bound to QQ: " q)
+end
+end

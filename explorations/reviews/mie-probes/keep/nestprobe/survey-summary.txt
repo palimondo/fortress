@@ -1,0 +1,57 @@
+$ keep/nestprobe/run-tests.sh <work-dir> 4 && keep/nestprobe/analyze.py <work-dir>/out keep/nestprobe/survey   (2026-09-23, main a0617d672, JDK 25, FORTRESS_THREADS=1)
+tests run: 392; records: 5258; distinct dependent sites: 1236
+sites by file group: {'FortressLibrary.fss': 90, 'tests': 994, 'Library/other': 145, 'other': 6, '?': 1}
+sites by group and category:
+  ?                      conversion 1
+  ?                      tower    1
+  FortressLibrary.fss    conversion 64
+  FortressLibrary.fss    inherit  43
+  FortressLibrary.fss    inherit-missing 33
+  FortressLibrary.fss    inherit-mixed 16
+  FortressLibrary.fss    numdef   28
+  FortressLibrary.fss    numdef-mixed 28
+  FortressLibrary.fss    restate-only 26
+  FortressLibrary.fss    tower    47
+  Library/other          conversion 126
+  Library/other          inherit  43
+  Library/other          inherit-missing 24
+  Library/other          inherit-mixed 21
+  Library/other          numdef   21
+  Library/other          numdef-mixed 21
+  Library/other          restate-only 19
+  Library/other          tower    100
+  other                  conversion 6
+  other                  numdef   6
+  other                  numdef-mixed 6
+  tests                  alg      2
+  tests                  alg-mixed 2
+  tests                  conversion 336
+  tests                  inherit  780
+  tests                  inherit-missing 764
+  tests                  inherit-mixed 58
+  tests                  numdef   163
+  tests                  numdef-missing 5
+  tests                  numdef-mixed 158
+  tests                  restate-only 658
+  tests                  tower    813
+Library/other by file: {'Library/RangeInternals.fss': 4, 'Library/Timing.fss': 6, 'Library/CovariantCollection.fss': 1, 'Library/IntMap.fss': 19, 'Library/String.fss': 1, 'Library/Constants.fss': 1, 'Library/Random.fss': 14, 'Library/QuickCheck.fss': 12, 'Library/Map.fss': 32, 'Library/List.fss': 4, 'Library/Set.fss': 18, 'Library/Reflect.fss': 1, 'Library/SkipList.fss': 1, 'Library/FlatString.fss': 1, 'Library/Format.fss': 18, 'Library/PrefixSet.fss': 1, 'Library/Sparse.fss': 8, 'Library/ChunkedSparseArray.fss': 3}
+FortressLibrary.fss line ranges: 35, 52, 297, 367, 451, 461, 475-478, 484, 491, 495, 499, 512-515, 520-521, 532-544, 548-550, 558-563, 567-576, 580-596, 607, 632, 710, 720, 838, 855-860, 894, 1336, 1750, 1827, 1868, 1979, 1994, 2197, 2201-2205, 2212, 2278, 2505, 2509, 2515-2517, 2533, 2555, 2560, 2570, 3040, 4121, 4509-4511, 4515-4519
+FortressBuiltin.fss lines: []
+tests with a dependent site in their own text: 75; tests whose run passes any dependent check: 357 of 392
+inherited method bodies (definer.method, leaf): 105: {'missing': 24, 'mixed': 81}
+  missing (to restate on the leaf): ['Number.prefix SQRT<-RR64', 'QQ./<-ZZ32', 'QQ.MAXNUM<-ZZ32', 'QQ.MINNUM<-ZZ32', 'QQ.NE<-NN32', 'QQ.NE<-NN64', 'QQ.NE<-ZZ', 'QQ.NE<-ZZ32', 'QQ.NE<-ZZ64', 'QQ.ceiling<-ZZ32', 'QQ.floor<-ZZ32', 'QQ.truncate<-ZZ32', 'ZZ./<-ZZ32', 'ZZ./<-ZZ64', 'ZZ.cmp<-NN32', 'ZZ.even<-ZZ32', 'ZZ.even<-ZZ64', 'ZZ.numerator<-ZZ32', 'ZZ.numerator<-ZZ64', 'ZZ.odd<-ZZ32', 'ZZ.odd<-ZZ64', 'ZZ.widen<-ZZ64', 'ZZ64.big<-ZZ32', 'ZZ64.narrow<-ZZ32']
+  FortressLibrary.fss    sites   90; needing a conversion at the site   64; only a missing leaf method   26
+  Library/other          sites  145; needing a conversion at the site  126; only a missing leaf method   19
+  tests                  sites  994; needing a conversion at the site  336; only a missing leaf method  658
+  ?                      sites    1; needing a conversion at the site    1; only a missing leaf method    0
+  other                  sites    6; needing a conversion at the site    6; only a missing leaf method    0
+  why the conversion sites need one:
+    FortressLibrary.fss    {"a declared type above the value's leaf": 32, 'a Number catch-all body with an integer (mixed arithmetic, or a float function of an integer)': 5, 'a Number catch-all body on floats only (Float with FloatLiteral, or a float with an integer)': 20, "a mixed call answered by a wider leaf's method": 7}
+    Library/other          {'a Number catch-all body with an integer (mixed arithmetic, or a float function of an integer)': 11, "a declared type above the value's leaf": 86, "a mixed call answered by a wider leaf's method": 19, 'a Number catch-all body on floats only (Float with FloatLiteral, or a float with an integer)': 10}
+    tests                  {'a Number catch-all body with an integer (mixed arithmetic, or a float function of an integer)': 29, 'a Number catch-all body on floats only (Float with FloatLiteral, or a float with an integer)': 129, "a declared type above the value's leaf": 120, "a mixed call answered by a wider leaf's method": 58}
+tests with a site in their own text that needs a conversion: 49
+  FortressLibrary.fss    certain conversion sites   44; float-only catch-all sites   20
+  Library/other          certain conversion sites  116; float-only catch-all sites   10
+  tests                  certain conversion sites  207; float-only catch-all sites  129
+tests with a certain conversion site in their own text: 35: ArrayListQuick BitTwiddle CovCollTest DivPrecedence HeapTest IntMapTest NumberPrintTest PureListQuick RandomTest RationalTest ReflectiveQuickCheckTest Region TimingTests UnnamedParam UnsignedTest WordCountSmall asifTest buffons caseTest commonSuper compoundArray expTest fib13 formatTest generatorTest juxtTwice litCoercion longPrim oprTests realArith roundBug sequivTest sparseMatrix varTest vectorOps
+tests reaching FortressLibrary.fss:4121 (a library-load binding): 357; tests reaching any other dependent site: 143; any other certain conversion site: 109

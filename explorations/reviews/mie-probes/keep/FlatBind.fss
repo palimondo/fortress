@@ -1,0 +1,27 @@
+component FlatBind
+export Executable
+
+(* The same flat tower; a Narrow bound to a variable declared Wide. *)
+trait Num excludes { String } end
+trait Wide extends { Num, Equality[\Wide\] } excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ64
+  opr =(self, other: Wide): Boolean = self.big = other.big
+end
+trait Narrow extends { Num, Equality[\Narrow\] } excludes { Wide }
+  getter small(): ZZ32
+  opr =(self, other: Narrow): Boolean = self.small = other.small
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+run(): () = do
+  println("a Narrow bound to a variable declared Wide:")
+  w: Wide = NarrowOf(3)
+  println("bound: " w.big)
+end
+end

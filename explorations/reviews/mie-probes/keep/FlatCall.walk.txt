@@ -1,0 +1,18 @@
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=<private, warm> bin/fortress walk FlatCall.fss   (2026-09-23, JDK 25, main a0617d672)
+control, a Wide:       f(Wide) got 3
+a Narrow where a Wide is declared:
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/mie-probes/keep/FlatCall.fss:31:11-13:
+Unification error: Closure/Constructor for f param 1 (x:Wide) got arg NarrowOf of type NarrowOf
+Context:
+explorations/reviews/mie-probes/keep/FlatCall.fss:31:11-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=1

@@ -1,0 +1,31 @@
+component FlatLifted
+export Executable
+
+(* The same flat tower as FlatCall.  The interpreter's phase order runs the disambiguator's
+   CoercionLifter (compiler/Disambiguator.java:287-288, CoercionLifter.scala), which moves
+   each trait's coerce declarations to a top-level function named coerce_<trait>
+   (NamingCzar.java:106, :1708-1710).  Is that function there to call under walk? *)
+trait Num excludes { String } end
+trait Wide extends { Num, Equality[\Wide\] } excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+  opr =(self, other: Wide): Boolean = self.big = other.big
+end
+trait Narrow extends { Num, Equality[\Narrow\] } excludes { Wide }
+  getter small(): ZZ32
+  opr =(self, other: Narrow): Boolean = self.small = other.small
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+f(x: Wide): String = "f(Wide) got " x.big
+
+run(): () = do
+  n = NarrowOf(3)
+  println("the lifted coercion called by hand: " f(coerce_Wide(n)))
+end
+end
