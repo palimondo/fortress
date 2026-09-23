@@ -1,0 +1,58 @@
+=== walk ProjectFortress/tests/XXXFlatStringSplitRungL.fss (the gated test on the stock merged tree at 1312a4dce, caches as the gate left them) 2026-09-23T00:56:12Z ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:9:5-27:
+RHS expression type Nothing[\Generator[\(ZZ32,String)\]\] is not assignable to LHS type Generator[\String\]
+Context:
+/home/user/fortress/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:9:5-27:
+/home/user/fortress/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:9:5-27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== the deliberate local fix, applied before the next run and reverted after it with git checkout -- Library/FlatString.fss (row 356's proposed fix for FlatString; Nothing[\T\] <: Maybe[\T\] <: Condition[\T\] <: SequentialGenerator[\T\] <: Generator[\T\], Library/FortressLibrary.fss:1346, :1310-1311, :1204, :1180) ===
+-    splitWithOffsets():Maybe⟦Generator⟦(ZZ32, String)⟧⟧ = Nothing⟦Generator⟦(ZZ32, String)⟧⟧
+-    split():Maybe⟦Generator⟦(ZZ32, String)⟧⟧ = Nothing⟦Generator⟦(ZZ32, String)⟧⟧
++    splitWithOffsets():Generator⟦(ZZ32, String)⟧ = Nothing⟦(ZZ32, String)⟧
++    split():Generator⟦String⟧ = Nothing⟦String⟧
+
+=== $ rm -rf default_repository/caches/* ; mkdir -p tmp/row356/ctl ; cp ProjectFortress/tests/XXXFlatStringSplitRungL.fss tmp/row356/ctl/ ; java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row356/ctl junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the control: the gated test, a one-file copy, run with the deliberate local fix in Library/FlatString.fss and cold caches) 2026-09-23T00:56:45Z ===
+tmp/row356/ctl
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cbc3da05_16
+. interpret tmp/row356/ctl/XXXFlatStringSplitRungL 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 18.506
+There was 1 failure:
+1) tmp/row356/ctl/XXXFlatStringSplitRungL(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/row356/ctl/XXXFlatStringSplitRungL
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:402)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 1 ===
+
+=== $ git checkout -- Library/FlatString.fss ; git status --short Library/   (the fix reverted; the status prints nothing) ===
+=== exit 0 ===
+
+=== $ rm -rf default_repository/caches/* ; mkdir -p tmp/row356/suite ; cp ProjectFortress/tests/XXXFlatStringSplitRungL.fss tmp/row356/suite/ ; java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row356/suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the gated test, a one-file copy, on the stock merged tree at 1312a4dce, cold caches) 2026-09-23T00:57:11Z ===
+tmp/row356/suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cbc441ea_16
+. interpret tmp/row356/suite/XXXFlatStringSplitRungL  OK Saw expected exception
+
+Time: 18.808
+
+OK (1 test)
+
+=== exit 0 ===

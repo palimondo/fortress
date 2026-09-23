@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component XXXTupleSeparatorRungS
+export Executable
+
+run(): () = do
+    println("REACHED")
+    t: (ZZ32, String) = (1, "a")
+    s: String = "" t
+    assert(s, "(1, a)", "row 369: a tuple renders with a comma and a space between its elements; Specification/basic-lib/objects.tex:161-188")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,57 @@
+=== walk ProjectFortress/tests/XXXTupleSevenRungS.fss (the gated test on the stock merged tree at 1312a4dce) 2026-09-23T01:09:50Z ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+Non-object receiver (1,2,3,4,5,6,7): (Int,Int,Int,Int,Int,Int,Int) trying to invoke method asString
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+/home/user/fortress/Library/FortressLibrary.fss:4060:45-47:
+/home/user/fortress/ProjectFortress/tests/XXXTupleSevenRungS.fss:9:17-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== the deliberate local fix, applied before the next run: a seven-element overload of trait String's opr || inserted after Library/FortressLibrary.fss:4042, in the form of the six above it (separator ',' kept, so the control also shows the assertion does not depend on row 369's separator) ===
++    opr ||(self, b:(Any,Any,Any,Any,Any,Any,Any)):String =
++        do (i,j,k,l,m,n,o) = b; self || "(" || i || "," j || "," k || "," l || "," m || "," n || "," o || ")" end
+
+=== $ rm -rf default_repository/caches/* ; cp ProjectFortress/tests/XXXTupleSevenRungS.fss tmp/row369x7/ctl/ ; java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row369x7/ctl junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the control: the gated test with the seven-element overload and cold caches) 2026-09-23T01:10:10Z ===
+tmp/row369x7/ctl
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cbd022f6_16
+. interpret tmp/row369x7/ctl/XXXTupleSevenRungS 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 18.444
+There was 1 failure:
+1) tmp/row369x7/ctl/XXXTupleSevenRungS(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/row369x7/ctl/XXXTupleSevenRungS
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:402)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 1 ===
+
+=== $ git checkout -- Library/FortressLibrary.fss ; git status --short Library/ ProjectFortress/src   (the fix reverted; the status prints nothing) ===
+=== exit 0 ===
+
+=== $ rm -rf default_repository/caches/* ; cp ProjectFortress/tests/XXXTupleSevenRungS.fss tmp/row369x7/suite/ ; java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row369x7/suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the gated test, a one-file copy, on the stock merged tree at 1312a4dce, cold caches) 2026-09-23T01:10:29Z ===
+tmp/row369x7/suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cbd06c3a_16
+. interpret tmp/row369x7/suite/XXXTupleSevenRungS  OK Saw expected exception
+
+Time: 18.16
+
+OK (1 test)
+
+=== exit 0 ===

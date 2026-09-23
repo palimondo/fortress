@@ -1,0 +1,15 @@
+(* See explorations/compile-ladder/rung-library-defects/record.md. *)
+
+component XXXFlatStringSplitRungL
+export Executable
+
+run(): () = do
+    println("REACHED")
+    s: String = "hello"
+    g: Generator[\String\] = s.split()
+    p: Generator[\(ZZ32, String)\] = s.splitWithOffsets()
+    assert(SUM [_ <- g] 1, SUM [_ <- p] 1, "row 356: a flat string's split() and splitWithOffsets() are the api's Generator[\\String\\] and Generator[\\(ZZ32, String)\\], Library/FortressLibrary.fsi:2330-2331, and generate the same number of pieces; Specification/basic/traits.tex:525-531")
+    println("PASS")
+  end
+
+end

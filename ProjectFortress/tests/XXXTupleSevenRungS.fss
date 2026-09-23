@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/climb-batch-3/REPAIR-review.md. *)
+
+component XXXTupleSevenRungS
+export Executable
+
+run(): () = do
+    println("REACHED")
+    t: (ZZ32, ZZ32, ZZ32, ZZ32, ZZ32, ZZ32, ZZ32) = (1, 2, 3, 4, 5, 6, 7)
+    s: String = "" t
+    assert(s[0] = '(' AND s[|s| - 1] = ')', true, "row 369: a tuple of seven elements renders, as trait Tuple declares toString for every tuple; Specification/basic-lib/objects.tex:144-158")
+    println("PASS")
+  end
+
+end

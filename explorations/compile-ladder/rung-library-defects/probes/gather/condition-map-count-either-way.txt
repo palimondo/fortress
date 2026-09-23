@@ -1,0 +1,45 @@
+=== $ explorations/coordinator/tools/checker-count/run.sh <scratch>/count-stock.txt <scratch>/cc-stock   (the gate's count stage on the stock merged tree at 1312a4dce, Library/FortressLibrary.fsi:790 as landed: map[\G\](f: E->G): Condition[\G\]) 2026-09-23T01:07:50Z (finished) ===
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	110
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	103
+#locations	63
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker
+=== exit 0 ===
+
+=== $ explorations/coordinator/tools/checker-count/run.sh <scratch>/count-revert.txt <scratch>/cc-revert   (the same, with only rung L's fifth fix reverted for the run, Library/FortressLibrary.fsi:790 back to map[\G\](f: E->G): Generator[\G\]; git checkout -- Library/FortressLibrary.fsi after it) 2026-09-23T01:08:31Z (finished) ===
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	110
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	103
+#locations	63
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker
+=== exit 0 ===
+
+=== $ diff count-stock.txt count-revert.txt ; grep -c 'For map' cc-stock/run.txt cc-revert/run.txt   (the tables are byte-identical, and neither checker run reports a 'For map' error: the edit is invisible to the unrelaxed checker) ===
+(no difference)
+cc-stock/run.txt:0
+cc-revert/run.txt:0
+=== diff exit 0; grep exit 1, no line matched ===

@@ -1,0 +1,11 @@
+component TupleRouteProbe
+export Executable
+
+run(): () = do
+    println("" (1, "a"))
+    println((1, "a"))
+    println("" (1, 2, 3, 4, 5, 6))
+    println((1, 2, 3, 4, 5, 6, 7))
+  end
+
+end

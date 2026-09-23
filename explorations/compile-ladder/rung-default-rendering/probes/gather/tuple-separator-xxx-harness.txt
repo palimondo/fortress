@@ -1,0 +1,192 @@
+=== walk ProjectFortress/tests/XXXTupleSeparatorRungS.fss (the gated test on the stock merged tree at 1312a4dce, FTupleLike.class as the gate's ant compileAll left it) 2026-09-23T00:57:47Z ===
+REACHED
+FAIL: J5/0:(1,a) =/= J6/0:(1, a); row 369: a tuple renders with a comma and a space between its elements; Specification/basic-lib/objects.tex:161-188
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress/ProjectFortress/tests/XXXTupleSeparatorRungS.fss:10:5-141:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== the ruling's deliberate local fix (JUDGE-review.md § 5 step 4), applied before the next build: ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FTupleLike.java:60 ===
+-                res.append(',');
++                res.append(", ");
+
+=== $ ant compileAll   (the FTupleLike fix built; abbreviated to the javac and summary lines, full log in the untracked tmp/row369/compileAll-fix.txt) 2026-09-23T00:57:57Z ===
+    [javac] Compiling 1610 source files to /home/user/fortress/ProjectFortress/build
+BUILD SUCCESSFUL
+Total time: 52 seconds
+=== exit 0 ===
+
+=== $ mkdir -p tmp/row369/ctl ; cp ProjectFortress/tests/XXXTupleSeparatorRungS.fss tmp/row369/ctl/ ; java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row369/ctl junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the ruling's control: the gated test with the FTupleLike fix built; the ruling expected Missing expected failure, and the test is not reached by this fix) 2026-09-23T00:59:03Z ===
+tmp/row369/ctl
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cbc5f5f2_16
+. interpret tmp/row369/ctl/XXXTupleSeparatorRungS  OK Saw expected exception
+
+Time: 19.002
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== walk ProjectFortress/tests/XXXTupleSeparatorRungS.fss (the FTupleLike fix built: the output is the stock tree's, first block of this file) 2026-09-23T00:59:23Z ===
+REACHED
+FAIL: J5/0:(1,a) =/= J6/0:(1, a); row 369: a tuple renders with a comma and a space between its elements; Specification/basic-lib/objects.tex:161-188
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress/ProjectFortress/tests/XXXTupleSeparatorRungS.fss:10:5-141:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== the route probe, explorations/compile-ladder/rung-default-rendering/probes/gather/TupleRouteProbe.fss ===
+component TupleRouteProbe
+export Executable
+
+run(): () = do
+    println("" (1, "a"))
+    println((1, "a"))
+    println("" (1, 2, 3, 4, 5, 6))
+    println((1, 2, 3, 4, 5, 6, 7))
+  end
+
+end
+
+=== walk explorations/compile-ladder/rung-default-rendering/probes/gather/TupleRouteProbe.fss (the FTupleLike fix built; finished 2026-09-23T01:00:11Z) ===
+(1,a)
+(1,a)
+(1,2,3,4,5,6)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+Non-object receiver (1, 2, 3, 4, 5, 6, 7): (Int,Int,Int,Int,Int,Int,Int) trying to invoke method asString
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+/home/user/fortress/Library/FortressLibrary.fss:4060:45-47:
+/home/user/fortress/Library/FortressLibrary.fss:4145:29-32:
+/home/user/fortress/explorations/compile-ladder/rung-default-rendering/probes/gather/TupleRouteProbe.fss:8:5-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ git checkout -- ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FTupleLike.java ; ant compileAll   (the FTupleLike fix reverted and the stock class rebuilt; abbreviated, full log in the untracked tmp/row369/compileAll-stock.txt) 2026-09-23T01:01:50Z ===
+    [javac] Compiling 1610 source files to /home/user/fortress/ProjectFortress/build
+BUILD SUCCESSFUL
+Total time: 57 seconds
+=== exit 0 ===
+
+=== $ javap -c -cp ProjectFortress/build com.sun.fortress.interpreter.evaluator.values.FTupleLike | grep 'bipush        44'   (the stock getString appends the char ',' again) ===
+        57: bipush        44
+=== exit 0 ===
+
+=== walk explorations/compile-ladder/rung-default-rendering/probes/gather/TupleRouteProbe.fss (the stock tree; finished 2026-09-23T01:03:14Z; every rendered line is the same as under the FTupleLike fix, and only the ProgramError's own text of the seven-element tuple, which FTupleLike.toString produces, differs) ===
+(1,a)
+(1,a)
+(1,2,3,4,5,6)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+Non-object receiver (1,2,3,4,5,6,7): (Int,Int,Int,Int,Int,Int,Int) trying to invoke method asString
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+/home/user/fortress/Library/FortressLibrary.fss:4060:45-47:
+/home/user/fortress/Library/FortressLibrary.fss:4145:29-32:
+/home/user/fortress/explorations/compile-ladder/rung-default-rendering/probes/gather/TupleRouteProbe.fss:8:5-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== the deliberate local fix at the traced route, applied before the next run: Library/FortressLibrary.fss:4034, trait String's opr || on a two-element tuple ===
+-    opr ||(self, b:(Any,Any)):String = do (i,j) = b; self || "(" || i || "," j || ")" end
++    opr ||(self, b:(Any,Any)):String = do (i,j) = b; self || "(" || i || ", " j || ")" end
+
+=== $ rm -rf default_repository/caches/* ; mkdir -p tmp/row369/libctl ; cp ProjectFortress/tests/XXXTupleSeparatorRungS.fss tmp/row369/libctl/ ; java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row369/libctl junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the control: the gated test with the library fix and cold caches) 2026-09-23T01:03:26Z ===
+tmp/row369/libctl
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cbc9f8a2_16
+. interpret tmp/row369/libctl/XXXTupleSeparatorRungS 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 18.278
+There was 1 failure:
+1) tmp/row369/libctl/XXXTupleSeparatorRungS(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/row369/libctl/XXXTupleSeparatorRungS
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:402)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 1 ===
+
+=== walk explorations/compile-ladder/rung-default-rendering/probes/gather/TupleRouteProbe.fss (the library fix; finished 2026-09-23T01:04:07Z; println((1, "a")) takes the same route) ===
+(1, a)
+(1, a)
+(1,2,3,4,5,6)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+Non-object receiver (1,2,3,4,5,6,7): (Int,Int,Int,Int,Int,Int,Int) trying to invoke method asString
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+/home/user/fortress/Library/FortressLibrary.fss:4060:45-47:
+/home/user/fortress/Library/FortressLibrary.fss:4145:29-32:
+/home/user/fortress/explorations/compile-ladder/rung-default-rendering/probes/gather/TupleRouteProbe.fss:8:5-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ git checkout -- Library/FortressLibrary.fss ; git status --short Library/ ProjectFortress/src   (the library fix reverted; the status prints nothing) ===
+=== exit 0 ===
+
+=== $ rm -rf default_repository/caches/* ; mkdir -p tmp/row369/suite ; cp ProjectFortress/tests/XXXTupleSeparatorRungS.fss tmp/row369/suite/ ; java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row369/suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the gated test, a one-file copy, on the stock merged tree at 1312a4dce with the stock FTupleLike class, cold caches) 2026-09-23T01:04:13Z ===
+tmp/row369/suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cbcab16a_16
+. interpret tmp/row369/suite/XXXTupleSeparatorRungS  OK Saw expected exception
+
+Time: 18.721
+
+OK (1 test)
+
+=== exit 0 ===
