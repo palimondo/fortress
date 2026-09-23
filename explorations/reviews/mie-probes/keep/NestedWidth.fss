@@ -1,0 +1,12 @@
+component NestedWidth
+export Executable
+
+(* In the nested tower a declared wider type converts nothing: an Int bound to a ZZ64
+   variable stays an Int, and its arithmetic stays 32-bit. *)
+run(): () = do
+  x: ZZ64 = 2147483647
+  println("x: ZZ64 = 2147483647 holds a value of type " x.ilkName)
+  y: ZZ64 = x + 1
+  println("x + 1 = " y)
+end
+end

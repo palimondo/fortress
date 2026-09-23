@@ -30,9 +30,7 @@ The rule only bites where a type adds its own instantiation of a self-typed trai
   - A catch-all applies without coercion to every mixed call. The specification tries coercion only when no declaration applies without it (`conversions-coercions.tex:454-458`), so `x + 1` with `x: ZZ64` would go to float arithmetic, not to `ZZ64`'s `+`.
   - The catch-all returns `RR64`. Once `ZZ32` is not below `RR64`, that result breaks the return type rule against each leaf's own `+`.
 - **Widening**: `coerce` on the wider type. `ZZ64` takes a `ZZ32`; `ZZ` takes the four fixed widths; `NN64` takes an `NN32`. `QQ` and `RR64` take the five integer leaves, and `RR64` also takes a `QQ`. The prelude has the first three groups (`CompilerBuiltin.fss:514-518`, `:575-576`, `:816-817`). It has no coercion from an integer into a float.
-- **`comprises` clauses**: each leaf comprises its own objects only, and `Number` has none, as in the prelude.
-  - `AnyIntegral comprises { ZZ, ZZ64, ZZ32, NN64, NN32 }` becomes well formed, because the five leaves now extend it directly. With it go the family E error at `FortressLibrary.fsi:409-411`, its `NOT YET` comment, and the five-line `isEligibleToExtend` accommodation approved on 2026-09-21 (`POSITIONS.md:48`).
-  - `QQ`'s component clause becomes `{ Ratio }`, and the api keeps `{ ... }`.
+- **`comprises` clauses**: each leaf comprises its own objects only (`QQ`'s component clause becomes `{ Ratio }`, and the api keeps `{ ... }`), and `Number` has none, as in the prelude. `AnyIntegral comprises { ZZ, ZZ64, ZZ32, NN64, NN32 }` becomes well formed, because the five leaves now extend it directly. With it go the family E error at `FortressLibrary.fsi:409-411`, its `NOT YET` comment, and the five-line `isEligibleToExtend` accommodation approved on 2026-09-21 (`POSITIONS.md:48`).
 - **Methods a leaf inherits today** have to be restated on the leaf, or once on `Integral[\I\]`. The survey of § 2 finds 15 such method names that the tests use.
 
 ## 2. What depends on the nesting, measured
@@ -50,23 +48,16 @@ Captures: `keep/nestprobe/survey-summary.txt`, and one row per site in `survey-s
 - **What the tests execute**: 235 dependent sites in 19 library files, none in `FortressBuiltin.fss`.
   - **190 need a conversion.** 160 certainly: 44 in `FortressLibrary.fss` and 116 in the other files. 30 more if the float operand's partner is an integer; these are `Number`'s catch-alls on floats, which run today for a `Float` with a `FloatLiteral`, and `RR64`'s own arithmetic fixes that case in the library.
   - **45 need only a restated method.**
-- **`Library/FortressLibrary.fss`, 90 sites, by line**:
-  - `35` (`cast[\T\]`'s `typecase` at `T = ZZ`), `52` (`COMPOSE`), `297` (`assert(x, y)`'s `x =/= y`, reached by 78 tests), `367`, `451`, `461` (`Number`'s and `RR64`'s own bodies calling `Number`'s comparisons on floats);
-  - `475-521` (`simplestRationalBetween`), `532-596` (`QQ`'s bodies), `607` (`Ratio.asFloat`), `632` (`Integral.DIVIDES`), `710-720` (`ZZ64`), `838-894` (`ZZ`);
-  - `1336`, `1750`, `1827-1994` (array bodies given an integer where a float element is declared), `2197-2278` (`Vector`), `2505-2570` (`Matrix`), `3040` (`SumReduction.join`);
-  - `4121` (`__globalTimeInformation: ZZ64 := 0`), `4509-4519` (the scalar-extension block).
+- **`Library/FortressLibrary.fss`, 90 sites, by line**: `35` (`cast[\T\]`'s `typecase` at `T = ZZ`), `52` (`COMPOSE`), `297` (`assert(x, y)`'s `x =/= y`, reached by 78 tests), `367`, `451`, `461` (`Number`'s and `RR64`'s own bodies calling `Number`'s comparisons on floats), `475-521` (`simplestRationalBetween`), `532-596` (`QQ`'s bodies), `607` (`Ratio.asFloat`), `632` (`Integral.DIVIDES`), `710-720` (`ZZ64`), `838-894` (`ZZ`);
+  `1336`, `1750`, `1827-1994` (array bodies given an integer where a float element is declared), `2197-2278` (`Vector`), `2505-2570` (`Matrix`), `3040` (`SumReduction.join`), `4121` (`__globalTimeInformation: ZZ64 := 0`), `4509-4519` (the scalar-extension block).
 - **The other library files, 145 sites**: `Map` 32, `IntMap` 19, `Set` 18, `Format` 18, `Random` 14, `QuickCheck` 12, `Sparse` 8, `Timing` 6, `RangeInternals` 4, `List` 4, `ChunkedSparseArray` 3, and one each in seven more. Six further sites are in `test_library/ArrayOperatorVocabulary.fss` and in interpreter-generated code.
-- **The methods to restate** are 24 (method, leaf) pairs over 15 names (`survey-methods.tsv`):
-  - from `QQ`: `/`, `=/=`, `floor`, `ceiling`, `truncate`, `MINNUM`, `MAXNUM`;
-  - from `ZZ`: `/`, `numerator`, `odd`, `even`, `cmp`, `widen`;
-  - from `ZZ64`: `narrow`, `big`;
-  - `SQRT` on `RR64`.
+- **The methods to restate** are 24 (method, leaf) pairs over 15 names (`survey-methods.tsv`): from `QQ`, `/`, `=/=`, `floor`, `ceiling`, `truncate`, `MINNUM` and `MAXNUM`; from `ZZ`, `/`, `numerator`, `odd`, `even`, `cmp` and `widen`; from `ZZ64`, `narrow` and `big`; and `SQRT` on `RR64`.
 
 **(b) The tests.**
 - **By grep**: 49 of the 392 `ProjectFortress/tests/*.fss` name a type above `ZZ32`, or mix an integer and a float literal in one arithmetic expression. 47 name such a type and 8 bind an integer literal to one.
 - **By the survey**: 994 dependent sites in the text of 75 test files.
   - **336 need a conversion**, in 49 files. 207 of them certainly, in 35 files. The rest are the float catch-alls above.
-  - **658 need only a restated method.** Nearly all are `RationalTest.fss`'s integer `/`, 703 sites in one file.
+  - **658 need only a restated method.** 599 of them are `RationalTest.fss`'s integer `/`; that file has 703 sites in all.
   - **Sampled to confirm** (`survey-sites.tsv`): `3 + 5 / 4` (`DivPrecedence.fss:18`), `1+BITNOT xfoo` with `xfoo: ZZ` (`UnsignedTest.fss:51`), `(1 + SQRT 5) / 2` (`fib13.fss:15`), and `fib13[\ZZ64\](20)` binding the literal to a `ZZ64` (`:28`).
 - **What a run reaches**: every test expected to pass reaches `FortressLibrary.fss:4121`: 357 of the 392 runs. The 35 that do not are all `XXX` expected-failure tests. So one library line stops the whole suite until it is converted. Beyond that line, 143 tests reach a dependent site, and 109 reach one that certainly needs a conversion.
 - **`library_tests/`**: 12 of its 40 `.fss` name a type above `ZZ32`, and 9 bind an integer literal to one. They are compiled-path tests, and they rely on coercion (§ 3).
@@ -92,9 +83,8 @@ The library's own nesting takes the same calls today: `h(3)` for `h(x: ZZ64)`, `
 **Remedy (i), coercion in the interpreter.** The coercions are already there to be called. The interpreter's phase order runs the disambiguator's `CoercionLifter` (`compiler/Disambiguator.java:287-288`), which turns each trait's `coerce` into a top-level function `coerce_<trait>` (`NamingCzar.java:106`, `:1708-1710`). `FlatLifted` calls `coerce_Wide(n)` by hand under walk, and the call works (`keep/FlatLifted.walk.txt:2`). What is missing is the decision to call them:
 - `OverloadedFunction.bestMatch` (`interpreter/evaluator/values/OverloadedFunction.java:787-801`), where the team left "TODO add checks for COERCE, right here." (`:791`). It needs a second pass when no overload applies: the overloads applicable with coercion, the most specific one (`conversions-coercions.tex:515-535`), and the plan kept in the per-argument-type cache (`:760-776`). Overloaded methods go through the same function (`OverloadedMethod.java:50`). About 80 lines.
 - A single closure: `NonPrimitive.buildEnvFromParams` (`NonPrimitive.java:242-255`) and `typecheckParams` (`:147`, `:164`).
-- The typed bindings: `LHSEvaluator.java:97` and `:215`, `BuildEnvironments.java:224`, `:753` and `:774`, and `BaseEnv.java:314`. With the three `NonPrimitive` sites, that is nine sites at about 5 lines each.
-- A helper that finds `coerce_<T>` in the environment where `T` is declared, tests it and applies it: about 40 lines. `FType.typeMatch` (`FType.java:108-113`) is the one test all these sites share.
-- In total, about 150-200 lines of Java in six files, plus tests.
+- The typed bindings: `LHSEvaluator.java:97` and `:215`, `BuildEnvironments.java:224`, `:753` and `:774`, and `BaseEnv.java:314`. With the three `NonPrimitive` sites, that is nine sites at about 5 lines each. The specification's third context, a declared return type (`conversions-coercions.tex:98-110`), would be a new check: the interpreter records it (`FunctionClosure.java:41`) but never tests a result against it.
+- A helper that finds `coerce_<T>` in the environment where `T` is declared, tests it and applies it: about 40 lines. `FType.typeMatch` (`FType.java:108-113`) is the one test all these sites share. In total, about 150-200 lines of Java in six files (seven with the return check), plus tests.
 - Not covered: generic inference (`EvaluatorBase.inferAndInstantiateGenericFunction`). With mixed widths it infers a join, and the join of `ZZ32` and `ZZ64` in a flat tower is `AnyIntegral`, for example in `lo:hi`. What the interpreter then does with that join is not measured.
 - The semantics would differ from the specification's. It resolves coercion statically: "Notice that coercion is resolved statically. … the statically chosen coercion is applied at run time" (`conversions-coercions.tex:567-570`). Its own example has `c: C = D` and `f(c)`, where `D` is both a `B` and a `C`. The call "resolves to the declaration f(A) despite the fact that the declaration f(B) is applicable to the dynamic call f(D) and does not require coercion" (`:572-604`). An interpreter that coerces at run time would call `f(B)`. The compiled path would follow the specification, and the two paths would answer differently.
 
@@ -141,3 +131,25 @@ The library's own nesting takes the same calls today: `h(3)` for `h(x: ZZ64)`, `
   - The component is never type-checked, so none of § 2's sites is counted.
   - `NativeArray` still crashes the overloading checker.
 - **For comparison**, relaxing `checkP` gave 93 → 33 on the older tree (`perf-probes/prelude/exclusion-trace.md` § 5). `scope-call-site-dispatch.md` prices the other route on this tree.
+
+## 6. The size, and what is not settled
+
+- **The library rewrite** has five parts:
+  - **The 14 headers**: 58 changed lines in `FortressLibrary.fsi` and 62 in `FortressLibrary.fss` (the `FLATN` copy), plus one line in each `FortressBuiltin` file.
+  - **What `Number` gives up and `RR64` takes on**: `Number`'s 52 api declarations and 57 bodies go; `RR64` gets its own arithmetic and the float functions. That is what a `Float` meeting a `FloatLiteral` uses today, including microGPT's 30 float-only sites.
+  - **The 15 restated methods**, most once on `Integral[\I\]`.
+  - **Smaller pieces**: `ZZ`'s `/` returning `Ratio(a, 1)`, and `TotalComparison`'s inherited `MIN`, `MAX`, `<=` and `>=` written by hand.
+  - **A new `SUM` and `PROD`** (§ 2c).
+- **The interpreter remedy this price assumes is (i), coercion**: about 150-200 lines in six files, plus tests. It is the compiled side's own mechanism, and it keeps today's programs as written. Remedy (ii) would edit 160 library sites and 207 test sites in 35 files now, plus up to 159 float sites, and it would do the same to every new program. The price of (i) is § 3's divergence: coercion chosen at run time, where the specification and the compiled path choose it statically.
+- **The tests that change**:
+  - **Under (i), no test text by design, but some results can change.** In the nested tower a declared wider type converts nothing. `x: ZZ64 = 2147483647` holds an `Int`, and `x + 1` prints `-2147483648` (`keep/NestedWidth.walk.txt:2-3`). A coercion makes it a `Long`. How many tests print such a result was not measured. One site needs a conversion regardless: the `typecase` at `FortressLibrary.fss:35`, because `typecase` is not among the coercion contexts (`conversions-coercions.tex:98-110`).
+  - Under (ii), the 35 to 49 test files of § 2.
+  - Both need new interpreter tests for coercion, and a compiled test for the integer-to-float coercion.
+- **In the project's units**: two rungs, each gated on the full suite (the repair batch's gate run was 739 s, `microgpt-run-c-handover.md`). The interpreter rung for remedy (i) lands first or with the library rung, because the flat library cannot pass the gate without it: `FortressLibrary.fss:4121` alone stops every test. The checker needs no change, and its count falls to 22.
+- **Not settled**:
+  - Generic inference over mixed widths, where a flat tower's join is `AnyIntegral` or `Number` (`lo:hi`).
+  - Whether the compiled checker coerces a functional method's `self` position.
+  - The library code that no test runs: the text grep's 212 candidate lines bound it.
+  - The component's type check under the flat tower, which no count reaches yet.
+  - The mechanism behind the 19 `RangeInternals` errors that go and the one that appears.
+  - Which of the three replacements for the reductions' hack to take.
