@@ -96,6 +96,15 @@ const MAIN = '/home/user/fortress'
 // rung sets expectedCheckerCrash: the Not yet implemented crash at
 // STypesUtil.scala:557 does not move in this batch, and the gate is red if it
 // does. No rung declares a ladder move (the record gives the reason per rung).
+// 2026-09-23, after the run wf_776d7c2c-6c3: L declares 103, not the 102 it
+// declared when the batch ran (Pavol, "Finish", POSITIONS.md 2026-09-23). L wrote
+// trait QQ ... comprises { AnyIntegral, ... } at Library/FortressLibrary.fsi:373,
+// because the component's QQ also comprises the private Ratio
+// (Library/FortressLibrary.fss:524, :599) and
+// Specification/basic/components/source-code.tex:386-392 requires the ellipsis;
+// so the checker's pre-existing refusal at .fsi:409 (TypeHierarchyChecker.scala
+// :209-212, ledger row 354) stays in the count. With P stopped, 103 is also the
+// merged tree's total; the gate's table is byte-identical to L's post-edit one.
 // ===========================================================================
 
 const BATCH = 3
@@ -235,8 +244,8 @@ const RUNGS = [
   { id: 'P', slug: 'rung-exclusion-relax', path: '/home/user/fortress-exclusion', branch: 'wip/rung-exclusion-relax', tail: P_TAIL, expectedMinutes: 60, writesState: false, testIsStage: false, expectedCheckerCount: 33,
     blurb: 'the checker\'s fourth exclusion clause, checkP (TypeAnalyzer.scala), which makes two instantiations of one generic exclude each other against Specification/basic/trait-parameters.tex:339-345, stops contributing from the two type-hierarchy checks and from the overloading checker\'s exclusion test; checkP stays and notExcludes is unchanged. Scala; the checker count goes 93 -> 33 on its own branch, and to 23 with L.',
     expectedMoves: [] },
-  { id: 'L', slug: 'rung-library-defects', path: '/home/user/fortress-defects', branch: 'wip/rung-library-defects', tail: L_TAIL, expectedMinutes: 60, writesState: false, testIsStage: true, expectedCheckerCount: 102,
-    blurb: 'the five plain defects in the interpreter library\'s apis: fifteen RangeInternals.fsi bounds, String\'s duplicated split and splitWithOffsets, List.fsi\'s zip, Condition.map, and the free comprises at FortressLibrary.fsi:373. Library/ only; its test is the checker-count stage (testIsStage), 93 -> 102 on its own branch.',
+  { id: 'L', slug: 'rung-library-defects', path: '/home/user/fortress-defects', branch: 'wip/rung-library-defects', tail: L_TAIL, expectedMinutes: 60, writesState: false, testIsStage: true, expectedCheckerCount: 103,
+    blurb: 'the five plain defects in the interpreter library\'s apis: fifteen RangeInternals.fsi bounds, String\'s duplicated split and splitWithOffsets, List.fsi\'s zip, Condition.map, and the free comprises at FortressLibrary.fsi:373. Library/ only; its test is the checker-count stage (testIsStage), 93 -> 103 on its own branch (declared 102 when the batch ran; 103 since 2026-09-23).',
     expectedMoves: [] },
   { id: 'C', slug: 'rung-library-comments', path: '/home/user/fortress-comments', branch: 'wip/rung-library-comments', tail: C_TAIL, expectedMinutes: 20, writesState: false, testIsStage: false,
     blurb: 'four comments and no code in Library/FortressLibrary.fss and .fsi: the closure\'s NOT YET note, why Array3 excludes AnyAdditiveGroup, what the reversed - means, and the scalar block\'s unsized return. No test; both suites byte-identical before and after.',
