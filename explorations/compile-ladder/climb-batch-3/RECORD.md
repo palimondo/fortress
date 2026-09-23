@@ -59,3 +59,19 @@ L, C, R, S, M. The rule is ascending order of each rung's lowest edited line in 
 - First skeptic, a written-out `nat` argument failing at run time: opened as an append to row 307, gated by `compiler_tests/XXXNatArgRungS`.
 - Second skeptic, the `toString`-member overflow ("provisional row 360, or an addition to row 321"): opened as the addition to row 321, because its correction 2 already makes row 321 name the case and the gated test's messages cite row 321.
 - Second skeptic, walk's tuple separator: opened as row 369. The specification settles it (`basic-lib/objects.tex:161-188`), so home 2 is owed; no gate was proposed with the recommendation, and the gather did not author one (below).
+
+## Rung M (`rung-analyzer-memo`)
+
+**Corrections.** The first skeptic's three were made by the repair round and are verified in the tree: the provenance problem line cites the lambda at `:756`; the prelude count reads "462 class files (556 files with the 94 `.xlation` files)" in `REPORT.md`, `record.md`'s FACTS line and an annotation at `probes/differential.txt:55`, with the analyzed cache restated as the 15 files the skeptic's rebuild enumerated; the "Names added" paragraph cites the field at `IntNat.java:57` and the fourteen files. The second skeptic's one, at the gather: `REPORT.md`'s soundness paragraph ("Nothing else can differ") and row 370's note now name the parenthesized flag beside the span, since `TypeInfo.equals` and `generateHashCode` (`ProjectFortress/src/com/sun/fortress/nodes/TypeInfo.java:58-72`, `:81-87`) leave out the `_parenthesized` field inherited from `ParenthesizedInfo` (`nodes/ParenthesizedInfo.java:24`), and state the conclusion for both.
+
+**Provisional rows 354-357 are rows 370-373**; renumbered in `record.md` and `REPORT.md`, noted in `SKEPTIC.md` and `JUDGE.md`. Row 370's placeholder `<commit>` is written as `<short hash>`, the commit stage's.
+
+**Recommended rows, each opened or refused:**
+- A, `excludes` never checked against an `extends` clause under walk: opened as row 371 (a new row, as the rung's record chose, rather than an append to row 22, which is about `comprises`), with a cross-reference to row 293's note from rung C's second skeptic, which measured the same unchecked exclusion against the library's own clauses.
+- B, a cyclic trait hierarchy overflowing walk's stack: opened as row 372.
+- The second skeptic's generic-overloading row (its provisional 357): opened as row 373, appended to the ledger's last table with the batch's other rows rather than placed beside row 159 in section 4.
+
+## Rows owed a gated test and not given one here
+
+The shared prefix's second home asks a gated expected-failure test of every deferred defect the specification settles. The gather placed the three whose test was required by a correction or proposed and verified by a skeptic (`tests/XXXArrayLiteralArgRungC.fss` for row 49, `tests/XXXRadixTenPointNumeral.fss` for row 361, `compiler_tests/XXXFortToStringRungS` for row 321's open case). It authored none for rows 356 (`split`'s return types), 369 (walk's tuple separator) and the specification-settled rows whose skeptics proposed no test; each such row says its home 2 is owed. That is a decision: the alternative was to write and verify new tests at the gather, which would put unreviewed tests in front of the gate.
+

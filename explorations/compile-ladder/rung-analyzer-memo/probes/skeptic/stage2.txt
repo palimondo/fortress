@@ -1,0 +1,33 @@
+# The checker-count stage, second judgement, 2026-09-22, /home/user/fortress-memo at a8589973f (the source is as at fe83db93e; nothing under ProjectFortress/ changed since).
+# 1. Fresh build: ant compileAll from the repository root -> BUILD SUCCESSFUL, Total time: 27 seconds; scalac ran (its deprecation warnings are in the log);
+#    TraitTable.class and TypeAnalyzer.class rewritten 2026-09-22 23:10:58; javap shows memoParents and memoExcludesClause on TraitTable. default_repository/caches/global.map restored with git checkout afterwards.
+# 2. Memo on then off, each with a fresh private scratch cache:
+#    FORTRESS_ANALYZER_CLAUSES_CACHE=<true|false> explorations/coordinator/tools/checker-count/run.sh tmp/sk2/table-<on|off>.txt tmp/sk2/st-<on|off>
+#    @@ on rc=0 wall=9.335093440 load1=1.20
+#    @@ off rc=0 wall=21.832503397 load1=1.21
+# 3. Stock code: bash explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/stock-overlay.sh tmp/sk2/stock tmp/sk2/table-stock.txt (the batch base's TypeAnalyzer.scala and TraitTable.scala compiled with scalac 2.13.18 ahead of ProjectFortress/build; its TraitTable has no memo member)
+#    @@ stock rc=0 35 s (scalac of the two files included)
+# Comparisons:
+#    table memo on  == probes/checker-count-postedit.txt (diff empty)
+#    table memo off == probes/checker-count-preedit.txt (diff empty)
+#    table stock    == probes/checker-count-preedit.txt (diff empty)
+#    probes/checker-count-preedit.txt == explorations/compile-ladder/gate-baseline/checker-count.txt (diff empty)
+#    the checker's full output behind the three tables (253 lines, 96 located error lines; the ### header and ### rc lines excluded): identical, on == off == stock
+# The table, memo on:
+#api	errors
+AnyType	0
+FlatString	4
+FortressBuiltin	18
+FortressLibrary	110
+List	2
+NatReflect	0
+NativeArray	0
+RangeInternals	104
+Stream	0
+String	12
+TypeProxy	0
+Writer	0
+#total	93
+#locations	52
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557
+#shadow	matches the tracked StaticChecker

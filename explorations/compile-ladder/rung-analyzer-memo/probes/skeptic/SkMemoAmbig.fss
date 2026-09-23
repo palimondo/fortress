@@ -1,0 +1,32 @@
+(* Skeptic probe for rung M; see ../../SKEPTIC.md. *)
+component SkMemoAmbig
+export Executable
+
+trait P[\T\] excludes { Q[\T\] } end
+trait Q[\T\] end
+trait R extends P[\ZZ32\] end
+trait S extends Q[\ZZ32\] end
+trait R2 extends P[\String\] end
+trait S2 extends Q[\String\] end
+object ObjR extends R end
+object ObjS extends S end
+object ObjR2 extends R2 end
+object ObjS2 extends S2 end
+
+g(x: R2): String = "gR2"
+g(x: S2): String = "gS2"
+f(x: R): String = "fR"
+f(x: S): String = "fS"
+h(x: R): String = "hR"
+h(x: S2): String = "hS2"
+
+run(): () = do
+  println(g(ObjR2))
+  println(g(ObjS2))
+  println(f(ObjR))
+  println(f(ObjS))
+  println(h(ObjR))
+  println(h(ObjS2))
+end
+
+end

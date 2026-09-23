@@ -1,0 +1,35 @@
+(* Skeptic probe for rung M, second judgement; see ../../SKEPTIC.md. *)
+component SkM2Diamond
+export Executable
+
+trait Top[\T\] excludes { Other[\T\] }
+  tag(): String = "Top"
+end
+trait Other[\T\]
+  tag(): String = "Other"
+end
+trait L[\T\] extends Top[\T\] end
+trait R[\T\] extends Top[\T\] end
+trait D[\T\] extends { L[\T\], R[\T\] } end
+object ObjDZ extends D[\ZZ32\] end
+object ObjDS extends D[\String\] end
+object ObjOZ extends Other[\ZZ32\] end
+object ObjOS extends Other[\String\] end
+
+k(x: D[\ZZ32\]): String = "kDZ" || x.tag()
+k(x: Other[\ZZ32\]): String = "kOZ" || x.tag()
+q(x: Other[\String\]): String = "qOS" || x.tag()
+q(x: D[\String\]): String = "qDS" || x.tag()
+up(x: Top[\ZZ32\]): String = "upZ" || x.tag()
+ups(x: Top[\String\]): String = "upS" || x.tag()
+
+run(): () = do
+  println(k(ObjDZ))
+  println(k(ObjOZ))
+  println(q(ObjOS))
+  println(q(ObjDS))
+  println(up(ObjDZ))
+  println(ups(ObjDS))
+end
+
+end

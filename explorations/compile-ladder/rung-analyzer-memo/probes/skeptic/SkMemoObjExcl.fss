@@ -1,0 +1,13 @@
+(* Skeptic probe for rung M; see ../../SKEPTIC.md. *)
+component SkMemoObjExcl
+export Executable
+
+trait U[\T\] excludes { V[\T\] } end
+trait V[\T\] end
+trait W extends U[\ZZ32\] end
+object Fine1 extends { W, V[\String\] } end
+object Clash extends { W, V[\ZZ32\] } end
+
+run(): () = println("both objects accepted")
+
+end

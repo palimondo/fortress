@@ -719,7 +719,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   }
   
   // For the purposes of this method Any is not the Parent of Object as it is not a TraitType
-  def parents(t: TraitType): Set[BaseType] = {
+  def parents(t: TraitType): Set[BaseType] = traits.memoParents(t) {
     val STraitType(_, n, a, _) = t
     val index = typeCons(n).asInstanceOf[TraitIndex]
     toListFromImmutable(index.extendsTypes).
@@ -744,7 +744,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     }
   }
   
-  def excludesClause(t: TraitType): Set[TraitType] = {
+  def excludesClause(t: TraitType): Set[TraitType] = traits.memoExcludesClause(t) {
     val ti = typeCons(t.getName).asInstanceOf[TraitIndex]
     val args = toListFromImmutable(t.getArgs)
     val params = toListFromImmutable(ti.staticParameters)

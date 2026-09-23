@@ -1,0 +1,14 @@
+(* Skeptic probe for rung M; see ../../SKEPTIC.md. *)
+component SkMemoSpan
+export Executable
+
+trait U[\T\] excludes { V[\T\] } end
+trait V[\T\] end
+trait Mid[\T\] extends U[\T\] end
+object Clash1 extends { Mid[\ZZ32\], V[\ZZ32\] } end
+object Clash2 extends { Mid[\ZZ32\], V[\ZZ32\] } end
+object Clash3 extends {     Mid[\ZZ32\],   V[\ZZ32\] } end
+
+run(): () = println("all three accepted")
+
+end

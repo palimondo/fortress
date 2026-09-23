@@ -1,0 +1,175 @@
+# compiled path, clauses memo on (FORTRESS_ANALYZER_CLAUSES_CACHE=true), cache tmp/sk/caches-on built by libbuild.sh with the same switch;
+# each probe: fortress compile, then fortress run at FORTRESS_THREADS=1 and 4 (comp.sh). 2026-09-22, /home/user/fortress-memo at a0e44bb16.
+# Java stack frames filtered out. A run after a compile that reported static errors prints ClassNotFoundException: there is no class to run.
+=== compile SkMemoTower memo=on
+rc=0
+=== run SkMemoTower memo=on FORTRESS_THREADS=1
+kEA
+kFB
+mDZA
+mDZA
+mFB
+nDSA
+nGB
+rc=0
+=== run SkMemoTower memo=on FORTRESS_THREADS=4
+kEA
+kFB
+mDZA
+mDZA
+mFB
+nDSA
+nGB
+rc=0
+=== compile SkMemoAmbig memo=on
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:20:1-22:
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:21:1-25:
+    Invalid overloading of h in component SkMemoAmbig:
+     R->String @ /home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:20:1-22
+ and S2->String @ /home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:21:1-25
+File SkMemoAmbig.fss has 1 error.
+rc=255
+=== run SkMemoAmbig memo=on FORTRESS_THREADS=1
+Could not load SkMemoAmbig
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMemoAmbig.class
+rc=1
+=== run SkMemoAmbig memo=on FORTRESS_THREADS=4
+Could not load SkMemoAmbig
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMemoAmbig.class
+rc=1
+=== compile SkMemoCycle memo=on
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoCycle.fss:5:1-30:
+    Cyclic type hierarchy: Type X transitively extends itself.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoCycle.fss:6:1-30:
+    Cyclic type hierarchy: Type Y transitively extends itself.
+File SkMemoCycle.fss has 2 errors.
+rc=255
+=== run SkMemoCycle memo=on FORTRESS_THREADS=1
+Could not load SkMemoCycle
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMemoCycle.class
+rc=1
+=== run SkMemoCycle memo=on FORTRESS_THREADS=4
+Could not load SkMemoCycle
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMemoCycle.class
+rc=1
+=== compile SkMemoObjExcl memo=on
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoObjExcl.fss:9:24:
+    Type Clash excludes W but it extends W.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoObjExcl.fss:9:24:
+    Types W and V[\ZZ32\] exclude each other.  Clash must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoObjExcl.fss:9:27-33:
+    Types V[\ZZ32\] and W exclude each other.  Clash must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoObjExcl.fss:9:27-34:
+    Type Clash excludes V but it extends V.
+File SkMemoObjExcl.fss has 4 errors.
+rc=255
+=== run SkMemoObjExcl memo=on FORTRESS_THREADS=1
+Could not load SkMemoObjExcl
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMemoObjExcl.class
+rc=1
+=== run SkMemoObjExcl memo=on FORTRESS_THREADS=4
+Could not load SkMemoObjExcl
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMemoObjExcl.class
+rc=1
+=== compile SkMemoSpan memo=on
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:8:25-33:
+    Types Mid[\ZZ32\] and V[\ZZ32\] exclude each other.  Clash1 must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:8:25-34:
+    Type Clash1 excludes Mid but it extends Mid.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:8:38-44:
+    Types V[\ZZ32\] and Mid[\ZZ32\] exclude each other.  Clash1 must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:8:38-45:
+    Type Clash1 excludes V but it extends V.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:9:25-33:
+    Types Mid[\ZZ32\] and V[\ZZ32\] exclude each other.  Clash2 must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:9:25-34:
+    Type Clash2 excludes Mid but it extends Mid.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:9:38-44:
+    Types V[\ZZ32\] and Mid[\ZZ32\] exclude each other.  Clash2 must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:9:38-45:
+    Type Clash2 excludes V but it extends V.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:10:29-37:
+    Types Mid[\ZZ32\] and V[\ZZ32\] exclude each other.  Clash3 must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:10:29-38:
+    Type Clash3 excludes Mid but it extends Mid.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:10:44-50:
+    Types V[\ZZ32\] and Mid[\ZZ32\] exclude each other.  Clash3 must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoSpan.fss:10:44-51:
+    Type Clash3 excludes V but it extends V.
+File SkMemoSpan.fss has 12 errors.
+rc=255
+=== run SkMemoSpan memo=on FORTRESS_THREADS=1
+Could not load SkMemoSpan
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMemoSpan.class
+rc=1
+=== run SkMemoSpan memo=on FORTRESS_THREADS=4
+Could not load SkMemoSpan
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMemoSpan.class
+rc=1
+=== compile SkWalkExclPlain memo=on
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkExclPlain.fss:7:23:
+    Type Both excludes A but it extends A.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkExclPlain.fss:7:23:
+    Types A and B exclude each other.  Both must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkExclPlain.fss:7:26:
+    Type Both excludes B but it extends B.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkExclPlain.fss:7:26:
+    Types B and A exclude each other.  Both must not extend them.
+File SkWalkExclPlain.fss has 4 errors.
+rc=255
+=== run SkWalkExclPlain memo=on FORTRESS_THREADS=1
+Could not load SkWalkExclPlain
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkWalkExclPlain.class
+rc=1
+=== run SkWalkExclPlain memo=on FORTRESS_THREADS=4
+Could not load SkWalkExclPlain
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkWalkExclPlain.class
+rc=1
+=== compile SkWalkExclDirect memo=on
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkExclDirect.fss:7:23-29:
+    Types U[\ZZ32\] and V[\ZZ32\] exclude each other.  Both must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkExclDirect.fss:7:23-30:
+    Type Both excludes U but it extends U.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkExclDirect.fss:7:34-40:
+    Types V[\ZZ32\] and U[\ZZ32\] exclude each other.  Both must not extend them.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkExclDirect.fss:7:34-41:
+    Type Both excludes V but it extends V.
+File SkWalkExclDirect.fss has 4 errors.
+rc=255
+=== run SkWalkExclDirect memo=on FORTRESS_THREADS=1
+Could not load SkWalkExclDirect
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkWalkExclDirect.class
+rc=1
+=== run SkWalkExclDirect memo=on FORTRESS_THREADS=4
+Could not load SkWalkExclDirect
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkWalkExclDirect.class
+rc=1
+=== compile SkWalkCyclePlain memo=on
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkCyclePlain.fss:5:1-20:
+    Cyclic type hierarchy: Type X transitively extends itself.
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkCyclePlain.fss:6:1-20:
+    Cyclic type hierarchy: Type Y transitively extends itself.
+File SkWalkCyclePlain.fss has 2 errors.
+rc=255
+=== run SkWalkCyclePlain memo=on FORTRESS_THREADS=1
+Could not load SkWalkCyclePlain
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkWalkCyclePlain.class
+rc=1
+=== run SkWalkCyclePlain memo=on FORTRESS_THREADS=4
+Could not load SkWalkCyclePlain
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkWalkCyclePlain.class
+rc=1

@@ -1,0 +1,83 @@
+# walk (bin/fortress X.fss) on every skeptic probe at FORTRESS_THREADS=1 and 4 (walk.sh), 2026-09-22, /home/user/fortress-memo at a0e44bb16.
+# Java stack frames ('at ...' and '... N more') filtered out; in every StackOverflowError below the printed frames are all
+# com.sun.fortress.interpreter.evaluator.types.FTraitOrObject.visitTrait(FTraitOrObject.java:247) (1,020 printed per trace; the JVM truncates).
+=== walk SkMemoTower FORTRESS_THREADS=1
+kEA
+kFB
+mDZA
+mDZA
+mFB
+nDSA
+nGB
+rc=0
+=== walk SkMemoTower FORTRESS_THREADS=4
+kEA
+kFB
+mDZA
+mDZA
+mFB
+nDSA
+nGB
+rc=0
+=== walk SkMemoAmbig FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:21:1-25: and
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:20:1-22:
+first parameters x:[S2] and x:[R] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:21:1-25:
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:20:1-22:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== walk SkMemoAmbig FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:21:1-25: and
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:20:1-22:
+first parameters x:[S2] and x:[R] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:21:1-25:
+/home/user/fortress-memo/explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkMemoAmbig.fss:20:1-22:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== walk SkMemoCycle FORTRESS_THREADS=1
+Exception in thread "main" java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+rc=1
+=== walk SkMemoCycle FORTRESS_THREADS=4
+Exception in thread "main" java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+rc=1
+=== walk SkMemoObjExcl FORTRESS_THREADS=1
+both objects accepted
+rc=0
+=== walk SkMemoObjExcl FORTRESS_THREADS=4
+both objects accepted
+rc=0
+=== walk SkMemoSpan FORTRESS_THREADS=1
+all three accepted
+rc=0
+=== walk SkMemoSpan FORTRESS_THREADS=4
+all three accepted
+rc=0
+=== walk SkWalkExclPlain FORTRESS_THREADS=1
+plain clash accepted
+rc=0
+=== walk SkWalkExclPlain FORTRESS_THREADS=4
+plain clash accepted
+rc=0
+=== walk SkWalkExclDirect FORTRESS_THREADS=1
+direct generic clash accepted
+rc=0
+=== walk SkWalkExclDirect FORTRESS_THREADS=4
+direct generic clash accepted
+rc=0
+=== walk SkWalkCyclePlain FORTRESS_THREADS=1
+Exception in thread "main" java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+rc=1
+=== walk SkWalkCyclePlain FORTRESS_THREADS=4
+Exception in thread "main" java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+rc=1

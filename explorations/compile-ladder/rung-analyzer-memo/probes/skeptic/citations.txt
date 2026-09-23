@@ -1,0 +1,40 @@
+# The provenance problem: line's line mapping, checked by the skeptic of rung M, 2026-09-22
+$ sed -n 36,44p explorations/perf-probes/nat/followup/f3-jfr-top.txt
+## Caller of the outermost TypeAnalyzerUtil.substitute in each sample
+# NOTE: these line numbers are the SHADOW's TypeAnalyzer.scala, which is ~34 lines longer
+# than the tree's.  parents is TypeAnalyzer.scala:722 and excludesClause :747 in the tree.
+
+  samples: 39287   with substitute: 34122  (87%)
+  17591  TypeAnalyzer.$anonfun$parents$1(List, TraitIndex, TraitTypeWhere) line: 756
+  16213  TypeAnalyzer.$anonfun$excludesClause$2(List, List, TraitTypeWhere) line: 786
+    228  TypeAnalyzer.$anonfun$comprisesClause$1(...) line: 747
+     88  TypeAnalyzer.$anonfun$excludesClause$1(...) line: 783
+
+$ git show d610695c0:ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala | sed -n '722,727p;747,762p' (numbered)
+722	  def parents(t: TraitType): Set[BaseType] = {
+723	    val STraitType(_, n, a, _) = t
+724	    val index = typeCons(n).asInstanceOf[TraitIndex]
+725	    toListFromImmutable(index.extendsTypes).
+726	      map(tw => substitute(a, toListFromImmutable(index.staticParameters), tw.getBaseType).asInstanceOf[BaseType]).toSet
+727	  }
+747	  def excludesClause(t: TraitType): Set[TraitType] = {
+748	    val ti = typeCons(t.getName).asInstanceOf[TraitIndex]
+749	    val args = toListFromImmutable(t.getArgs)
+750	    val params = toListFromImmutable(ti.staticParameters)
+751	    val excludes = ti match{
+752	      case ti : ProperTraitIndex =>
+753	        toSet(ti.excludesTypes).map(substitute(args, params, _).asInstanceOf[TraitType])
+754	      case _ => Set[TraitType]()
+755	    }
+756	    val supers = toListFromImmutable(ti.extendsTypes).map(tw => substitute(args, params, tw.getBaseType))
+757	    val transitively = supers.flatMap{
+758	      case s: TraitType => excludesClause(s)
+759	      case _ => Set[TraitType]()
+760	    }
+761	    excludes ++ transitively
+762	  }
+
+# The shadow-to-tree offset is 30 at all three excludesClause/parents lambdas the capture names: parents$1 756 -> 726,
+# excludesClause$1 783 -> 753 (the excludes-clause substitute), excludesClause$2 786 -> 756 (the supers substitute, whose
+# lambda takes (List, List, TraitTypeWhere): args, params and tw). Tree line 757 is 'val transitively = supers.flatMap{', which
+# calls no substitute. The same numbering holds after rung M's edit, which adds no line to the file.

@@ -1,0 +1,55 @@
+# Differential: the compiler with the clauses memo on (switch default) and off (FORTRESS_ANALYZER_CLAUSES_CACHE=false), 2026-09-22,
+# worktree /home/user/fortress-memo at the rung's edit, after ant compileAll. On used default_repository/caches; off used a separate
+# cache directory (FORTRESS_CACHES=tmp/caches-off), so each side compiled everything from source.
+
+## 1. The compiler prelude rebuilt in library order (probes/libbuild.sh), one run per side, sequential; wall seconds per file
+memo on:
+  LibraryBuiltin/AnyType.fss rc=0 17.2 s
+  LibraryBuiltin/CompilerBuiltin.fss rc=0 77.2 s
+  ../Library/CompilerLibrary.fss rc=0 30.5 s
+  ../Library/CompilerAlgebra.fss rc=0 2.2 s
+  ../Library/CompilerSystem.fss rc=0 2.3 s
+memo off:
+  LibraryBuiltin/AnyType.fss rc=0 29.5 s
+  LibraryBuiltin/CompilerBuiltin.fss rc=0 126.3 s
+  ../Library/CompilerLibrary.fss rc=0 35.6 s
+  ../Library/CompilerAlgebra.fss rc=0 2.3 s
+  ../Library/CompilerSystem.fss rc=0 2.1 s
+(single samples on a box shared with another rung's agent; load1 was 2.2-3.5 during these runs)
+
+## 2. What the two prelude builds produced
+bytecode: 5 jars (AnyType, CompilerBuiltin, CompilerLibrary, CompilerAlgebra, CompilerSystem), 556 class files unpacked and compared with diff -r: identical
+analyzed cache after section 1: 14 files (.tfi/.tfs, the checked and serialised ASTs, spans included) compared with cmp: identical
+
+## 3. Every compiler_tests unit named by a .test file, compiled once per side (probes/ctdiff.sh), output and exit code captured
+Names: probes/ct-names.py lists 439 units named by tests= lines of ProjectFortress/compiler_tests/*.test, continuation lines joined.
+Four carry a relative path (../LibraryBuiltin/CompilerBuiltin and .fsi, ../../Library/CompilerLibrary and .fsi): the prelude,
+compared in sections 1 and 2. The other 435 were compiled in three passes of one script: a first pass whose name parsing missed
+multi-name and continued tests= lines and names written with their extension (it compiled 245 units; its misparsed names wrote
+NOFILE on both sides, and its four path names wrote two stray files into Library/, deleted), a second over the 169 it had missed,
+and a third over 22 names written with .fss or .fsi; probes/ctdiff.sh as committed is the third pass's script, which handles all
+three shapes. Every one of the 435 was compiled on both sides; none is NOFILE.
+Exit codes, the same on both sides, unit for unit:
+  178 rc=0    (compiled clean)
+   32 rc=1
+  225 rc=255  (static errors; the XXX tests expect these)
+diff -r of all captured outputs (stdout+stderr, located error messages included), on against off, all three passes: 0 lines of difference
+bytecode left in the caches after all passes: 213 jars (5 prelude jars, 208 test jars), 2049 class files, diff -r on against off: 0 lines
+analyzed cache after all passes: 230 files (checked, serialized ASTs, spans included), cmp on against off: 0 differ
+
+## 4. The analyzer's own unit tests (junit.textui.TestRunner, one JVM per class), memo on and off
+  on scala_src.overloading.OverloadingJUTest OK (1 test)
+  on scala_src.typechecker.ConstraintJUTest OK (4 tests)
+  on scala_src.typechecker.FormulaJUTest OK (5 tests)
+  on scala_src.types.TypeAnalyzerJUTest OK (4 tests)
+  on scala_src.types.TypeSchemaAnalyzerJUTest OK (4 tests)
+  on scala_src.useful.STypesUtilJUTest OK (1 test)
+  off scala_src.overloading.OverloadingJUTest OK (1 test)
+  off scala_src.typechecker.ConstraintJUTest OK (4 tests)
+  off scala_src.typechecker.FormulaJUTest OK (5 tests)
+  off scala_src.types.TypeAnalyzerJUTest OK (4 tests)
+  off scala_src.types.TypeSchemaAnalyzerJUTest OK (4 tests)
+  off scala_src.useful.STypesUtilJUTest OK (1 test)
+
+## Correction to section 2 (lines 21-22), repair round of 2026-09-22; appended at the end so that no line cited above moves
+bytecode: 462 class files (556 files with the 94 .xlation files), not "556 class files". analyzed cache: the 14 was not enumerated, and the on-side cache was filled by section 3 before a listing was taken (line 38); the skeptic's rebuild of the prelude enumerates 15 (12 .tfi/.tfs at the top of analyzed_cache/, 3 under depends/), probes/skeptic/prelude.txt:25-41. Every file present was compared and identical, on this run and the skeptic's.

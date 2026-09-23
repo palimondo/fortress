@@ -1,0 +1,11 @@
+(* Skeptic probe for rung M; see ../../SKEPTIC.md. *)
+component SkWalkExclPlain
+export Executable
+
+trait A excludes { B } end
+trait B end
+object Both extends { A, B } end
+
+run(): () = println("plain clash accepted")
+
+end

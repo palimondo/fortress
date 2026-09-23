@@ -1,0 +1,11 @@
+(* Skeptic probe for rung M; see ../../SKEPTIC.md. *)
+component SkMemoCycle
+export Executable
+
+trait X[\T\] extends Y[\T\] end
+trait Y[\T\] extends X[\T\] end
+object ObjX extends X[\ZZ32\] end
+
+run(): () = println("cycle accepted")
+
+end

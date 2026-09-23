@@ -1,0 +1,18 @@
+(* Skeptic probe for rung M, second judgement; see ../../SKEPTIC.md. *)
+component SkM2GenOvl
+export Executable
+
+trait P[\T\] excludes { Q[\T\] } end
+trait Q[\T\] end
+object ObjPZ extends P[\ZZ32\] end
+object Mixed extends { P[\ZZ32\], Q[\String\] } end
+
+o[\T\](x: P[\T\]): String = "oP"
+o[\T\](x: Q[\T\]): String = "oQ"
+
+run(): () = do
+  println(o(ObjPZ))
+  println(o(Mixed))
+end
+
+end

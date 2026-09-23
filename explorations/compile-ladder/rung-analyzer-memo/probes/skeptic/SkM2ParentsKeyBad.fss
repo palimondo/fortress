@@ -1,0 +1,16 @@
+(* Skeptic probe for rung M, second judgement; see ../../SKEPTIC.md. *)
+component SkM2ParentsKeyBad
+export Executable
+
+trait A[\T\] end
+trait B[\T\] extends A[\T\] end
+object ObjBZ extends B[\ZZ32\] end
+object ObjBS extends B[\String\] end
+f(x: A[\ZZ32\]): String = "fZ"
+
+run(): () = do
+  println(f(ObjBZ))
+  println(f(ObjBS))
+end
+
+end

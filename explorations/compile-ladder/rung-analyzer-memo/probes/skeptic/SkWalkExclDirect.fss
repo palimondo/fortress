@@ -1,0 +1,11 @@
+(* Skeptic probe for rung M; see ../../SKEPTIC.md. *)
+component SkWalkExclDirect
+export Executable
+
+trait U[\T\] excludes { V[\T\] } end
+trait V[\T\] end
+object Both extends { U[\ZZ32\], V[\ZZ32\] } end
+
+run(): () = println("direct generic clash accepted")
+
+end

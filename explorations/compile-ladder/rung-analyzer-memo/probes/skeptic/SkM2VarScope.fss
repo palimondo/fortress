@@ -1,0 +1,21 @@
+(* Skeptic probe for rung M, second judgement; see ../../SKEPTIC.md. *)
+component SkM2VarScope
+export Executable
+
+trait A[\T\]
+  tag(): String = "A"
+end
+trait B[\T\] extends A[\T\] end
+object ObjBZ extends B[\ZZ32\] end
+object ObjBS extends B[\String\] end
+
+h[\U\](y: A[\U\]): String = "h" || y.tag()
+f[\T extends ZZ32\](x: B[\T\]): String = "f" || h[\T\](x)
+g[\T extends String\](x: B[\T\]): String = "g" || h[\T\](x)
+
+run(): () = do
+  println(f[\ZZ32\](ObjBZ))
+  println(g[\String\](ObjBS))
+end
+
+end

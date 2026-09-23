@@ -12,6 +12,7 @@
 package com.sun.fortress.scala_src.typechecker
 
 import _root_.java.util.Map
+import _root_.java.util.concurrent.ConcurrentHashMap
 //import _root_.java.util._
 import edu.rice.cs.plt.tuple.{Option => JOption}
 
@@ -22,6 +23,7 @@ import com.sun.fortress.compiler.index.ApiIndex
 import com.sun.fortress.compiler.index.CompilationUnitIndex
 import com.sun.fortress.compiler.index.ComponentIndex
 import com.sun.fortress.compiler.index.TypeConsIndex
+import com.sun.fortress.repository.ProjectProperties
 import com.sun.fortress.scala_src.useful.Iterators._
 
 import scala.collection.mutable.HashSet
@@ -75,6 +77,24 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
     if (current.ast.getName.equals(name)) current
     else globalEnv.api(name)
   }
+
+  // Memos for TypeAnalyzer.parents and excludesClause, sound while both depend on nothing but this table and the type.
+  private final val cacheClauses = ProjectProperties.getBoolean("fortress.analyzer.clauses.cache", true)
+  private val parentsMemo = new ConcurrentHashMap[TraitType, scala.collection.immutable.Set[BaseType]]()
+  private val excludesClauseMemo = new ConcurrentHashMap[TraitType, scala.collection.immutable.Set[TraitType]]()
+
+  def memoParents(t: TraitType)(compute: => scala.collection.immutable.Set[BaseType]) = memo(parentsMemo, t, compute)
+  def memoExcludesClause(t: TraitType)(compute: => scala.collection.immutable.Set[TraitType]) = memo(excludesClauseMemo, t, compute)
+
+  private def memo[V <: AnyRef](m: ConcurrentHashMap[TraitType, V], t: TraitType, compute: => V): V =
+    if (!cacheClauses) compute
+    else m.get(t) match {
+      case null =>
+        val result = compute
+        val raced = m.putIfAbsent(t, result)
+        if (raced == null) result else raced
+      case v => v
+    }
 
   override def iterator = {
     var result: Set[TypeConsIndex] = new HashSet()
