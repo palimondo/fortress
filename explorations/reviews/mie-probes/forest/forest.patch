@@ -1,0 +1,127 @@
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+@@ -70,7 +70,7 @@
+  */
+ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+                          globalEnv: GlobalEnvironment) {
+-    var typeAnalyzer = TypeAnalyzer.make(new TraitTable(compilation_unit, globalEnv))
++    var typeAnalyzer = { val a = TypeAnalyzer.make(new TraitTable(compilation_unit, globalEnv)); if (TypeAnalyzer.probeRelaxOver) a.withoutInstantiationExclusion else a }
+     val globalOracle = new OverloadingOracle()(typeAnalyzer)
+     var errors = List[StaticError]()
+ 
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+@@ -175,7 +175,7 @@
+ 	      for (second <- extended) {
+ 		second match {
+ 		  case STraitTypeWhere(_,other@STraitType(_,_,_,_),_) =>
+-		    if ( new_analyzer.definitelyExcludes(st, other) )
++		    if ( (if (TypeAnalyzer.probeRelaxHier) new_analyzer.withoutInstantiationExclusion else new_analyzer).definitelyExcludes(st, other) )
+ 		      error(errors, "Types " + st + " and " + other +
+ 			    " exclude each other.  " + decl +
+ 			    " must not extend them.", st)
+@@ -184,7 +184,7 @@
+ 	      }
+ 	      getTypes(name, errors) match {
+ 		case si:ProperTraitIndex =>
+-		  if ( new_analyzer.definitelyExcludes(tt, st) ) {
++		  if ( (if (TypeAnalyzer.probeRelaxHier) new_analyzer.withoutInstantiationExclusion else new_analyzer).definitelyExcludes(tt, st) ) {
+ 		      error(errors, "Type " + tt + " excludes " + name +
+ 			    " but it extends " + name + ".", extension)
+ 		  }
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -57,7 +57,10 @@
+ 
+ import scala.math.max
+ 
+-class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLattice[Type]{
++class TypeAnalyzer(val traits: TraitTable, val env: KindEnv, val instantiationsExclude: Boolean) extends BoundedLattice[Type]{
++  def this(traits: TraitTable, env: KindEnv) = this(traits, env, TypeAnalyzer.probeDefaultInstantiationsExclude)
++  def withoutInstantiationExclusion: TypeAnalyzer =
++    if (instantiationsExclude) new TypeAnalyzer(traits, env, false) else this
+   
+   private final val debugSubtype = ProjectProperties.getBoolean("fortress.debug.analyzer.subtype", false)
+   private final val cacheSubtypes = ProjectProperties.getBoolean("fortress.analyzer.subtype.cache", true)
+@@ -440,12 +443,21 @@
+         }
+         pOr(cO(s,t), cO(t,s))
+       }
+-      def checkP(s: TraitType, t: TraitType): CFormula = {
++      def checkP(s: TraitType, t: TraitType): CFormula = if (!negate && !instantiationsExclude) pFalse() else {
+         val sas = ancestors(s) ++ Set(s)
+         val tas = ancestors(t) ++ Set(t)
+         def cP(s: BaseType, t: BaseType): CFormula = (s, t) match {
+           case (s@STraitType(_, n1, a1, _), t@STraitType(_, n2, a2, _)) if (n1 == n2) =>
+             //Todo: Handle int, nat, bool args
++            if (!negate && TypeAnalyzer.probeForest != "off" && forestSelfTyped(n1))
++              // Forest rule (2012 patents' "Self-types meet"): two instantiations of a
++              // self-typed generic exclude only when their arguments are unordered.
++              pOr((a1, a2).zipped.map{
++                case (STypeArg(_, _, t1), STypeArg(_, _, t2)) =>
++                  pAnd(pSub(t1, t2)(!negate, history), pSub(t2, t1)(!negate, history))
++                case _ => pFalse()
++              })
++            else
+             pOr((a1, a2).zipped.map{
+               case (STypeArg(_, _, t1), STypeArg(_, _, t2)) => pEqv(t1, t2)(!negate, history)
+               case _ => pFalse()
+@@ -709,6 +721,33 @@
+ //    toOption(traits.typeCons(x)).getOrElse(bug(x, x + " is not in the trait table"))
+     toOption(traits.typeCons(x)).getOrElse(throw new RuntimeException("Not in the trait table: " + x.toStringReadable + " @ " + x.at))
+ 
++  // Forest rule: G is self-typed when its one static parameter P is bounded by G[P]
++  // (mode fbound, the library's spelling) or G comprises exactly P (mode comprises, the
++  // patents' definition; fbound mode accepts either).
++  def forestSelfTyped(n: Id): Boolean = typeCons(n) match {
++    case ti: TraitIndex =>
++      val ps = toListFromImmutable(ti.staticParameters)
++      ps.size == 1 && {
++        val p = ps.head
++        def isP(t: Type) = t match {
++          case SVarType(_, v, _) => v.getText == p.getName.getText
++          case _ => false
++        }
++        val bound = toListFromImmutable(p.getExtendsClause).exists {
++          case STraitType(_, bn, List(STypeArg(_, _, a)), _) => bn.getText == n.getText && isP(a)
++          case _ => false
++        }
++        val comp = ti match {
++          case pi: ProperTraitIndex =>
++            val cs = toSet(pi.comprisesTypes)
++            cs.size == 1 && cs.forall(c => isP(c))
++          case _ => false
++        }
++        if (TypeAnalyzer.probeForest == "comprises") comp else (bound || comp)
++      }
++    case _ => false
++  }
++
+   def comprisesClause(t: TraitType): Set[TraitType] = typeCons(t.getName) match {
+     case ti: ProperTraitIndex =>
+       val args = toListFromImmutable(t.getArgs)
+@@ -766,10 +805,10 @@
+     env.staticParam(x).getOrElse(bug(x, x + " is not in the kind env " + env))
+ 
+   def extend(params: List[StaticParam], where: Option[WhereClause]) =
+-    new TypeAnalyzer(traits, env.extend(params, where))
++    new TypeAnalyzer(traits, env.extend(params, where), instantiationsExclude)
+   
+   def extendJ(params: JavaList[StaticParam], where: JavaOption[WhereClause]) =
+-      new TypeAnalyzer(traits, env.extend(toList(params), toOption(where)))
++      new TypeAnalyzer(traits, env.extend(toList(params), toOption(where)), instantiationsExclude)
+   
+   def pTrue()(implicit negate: Boolean) = 
+     if (negate) False else True
+@@ -796,4 +835,11 @@
+ 
+ object TypeAnalyzer {
+   def make(traits: TraitTable) = new TypeAnalyzer(traits, KindEnv.makeFresh)
++  // PROBE (rung P measurement build, not for landing): off | hier | over | broad
++  final val probeMode: String = System.getProperty("probe.rungP", "off")
++  final val probeDefaultInstantiationsExclude: Boolean = probeMode != "broad"
++  final val probeRelaxHier: Boolean = probeMode == "hier" || probeMode == "over"
++  final val probeRelaxOver: Boolean = probeMode == "over"
++  // PROBE (forest-rule measurement build, not for landing): off | fbound | comprises
++  final val probeForest: String = System.getProperty("probe.forest", "off")
+ }

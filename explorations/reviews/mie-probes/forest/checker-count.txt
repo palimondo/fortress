@@ -1,0 +1,90 @@
+stock	103
+rungP=hier	42
+rungP=broad	24
+forest=fbound	37
+forest=comprises	103
+# errors in stock and not under forest=fbound
+FortressBuiltin.fsi:110:35-38	Type UnsignedLong excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+FortressBuiltin.fsi:113:29-31	Type IntLiteral excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+FortressBuiltin.fsi:145:23	Type BigNum excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+FortressBuiltin.fsi:76:26-29	Type Int excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+FortressBuiltin.fsi:79:27-30	Type Long excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+FortressBuiltin.fsi:82:29-52	Types StandardTotalOrder[\NN32\] and NN64 exclude each other.  NN32 must not extend them.
+FortressBuiltin.fsi:82:29-53	Type NN32 excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+FortressBuiltin.fsi:82:57-59	Type NN32 excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+FortressBuiltin.fsi:82:57-59	Types NN64 and StandardTotalOrder[\NN32\] exclude each other.  NN32 must not extend them.
+FortressLibrary.fsi:121:19-27	Type TotalComparison excludes FortressLibrary.Comparison but it extends FortressLibrary.Comparison.
+FortressLibrary.fsi:121:19-27	Types Comparison and StandardTotalOrder[\TotalComparison\] exclude each other.  TotalComparison must not extend them.
+FortressLibrary.fsi:121:31-65	Types StandardTotalOrder[\TotalComparison\] and Comparison exclude each other.  TotalComparison must not extend them.
+FortressLibrary.fsi:121:31-66	Type TotalComparison excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+FortressLibrary.fsi:132:25-39	Type LessThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+FortressLibrary.fsi:143:28-42	Type GreaterThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+FortressLibrary.fsi:153:24-38	Type EqualTo excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+FortressLibrary.fsi:373:20-22	Type QQ excludes FortressLibrary.RR64 but it extends FortressLibrary.RR64.
+FortressLibrary.fsi:373:20-22	Types RR64 and StandardPartialOrder[\QQ\] exclude each other.  QQ must not extend them.
+FortressLibrary.fsi:373:26-49	Types StandardPartialOrder[\QQ\] and RR64 exclude each other.  QQ must not extend them.
+FortressLibrary.fsi:373:26-50	Type QQ excludes FortressLibrary.StandardPartialOrder but it extends FortressLibrary.StandardPartialOrder.
+FortressLibrary.fsi:409:29	Type AnyIntegral excludes FortressLibrary.QQ but it extends FortressLibrary.QQ.
+FortressLibrary.fsi:412:53-73	Types StandardTotalOrder[\I\] and AnyIntegral exclude each other.  Integral must not extend them.
+FortressLibrary.fsi:412:53-74	Type Integral[\I\] excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+FortressLibrary.fsi:412:78-87	Type Integral[\I\] excludes FortressLibrary.AnyIntegral but it extends FortressLibrary.AnyIntegral.
+FortressLibrary.fsi:412:78-87	Types AnyIntegral and StandardTotalOrder[\I\] exclude each other.  Integral must not extend them.
+FortressLibrary.fsi:438:22	Type NN64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+FortressLibrary.fsi:438:22	Types ZZ and Integral[\NN64\] exclude each other.  NN64 must not extend them.
+FortressLibrary.fsi:438:26-39	Types Integral[\NN64\] and ZZ exclude each other.  NN64 must not extend them.
+FortressLibrary.fsi:438:26-40	Type NN64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+FortressLibrary.fsi:465:22-24	Type ZZ32 excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+FortressLibrary.fsi:465:22-24	Types ZZ64 and Integral[\ZZ32\] exclude each other.  ZZ32 must not extend them.
+FortressLibrary.fsi:465:28-41	Types Integral[\ZZ32\] and ZZ64 exclude each other.  ZZ32 must not extend them.
+FortressLibrary.fsi:465:28-42	Type ZZ32 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+FortressLibrary.fsi:499:22	Type ZZ64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+FortressLibrary.fsi:499:22	Types ZZ and Integral[\ZZ64\] exclude each other.  ZZ64 must not extend them.
+FortressLibrary.fsi:499:26-39	Types Integral[\ZZ64\] and ZZ exclude each other.  ZZ64 must not extend them.
+FortressLibrary.fsi:499:26-40	Type ZZ64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+FortressLibrary.fsi:537:20-32	Type ZZ excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+FortressLibrary.fsi:817:32-49	Types Equality[\AnyMaybe\] and AnyUniqueItem exclude each other.  AnyMaybe must not extend them.
+FortressLibrary.fsi:817:32-50	Type AnyMaybe excludes FortressLibrary.Equality but it extends FortressLibrary.Equality.
+FortressLibrary.fsi:817:54-65	Type AnyMaybe excludes FortressLibrary.AnyUniqueItem but it extends FortressLibrary.AnyUniqueItem.
+FortressLibrary.fsi:817:54-65	Types AnyUniqueItem and Equality[\AnyMaybe\] exclude each other.  AnyMaybe must not extend them.
+FortressLibrary.fsi:834:19-25	Type Maybe[\T\] excludes FortressLibrary.AnyMaybe but it extends FortressLibrary.AnyMaybe.
+FortressLibrary.fsi:834:19-25	Types AnyMaybe and UniqueItem[\T\] exclude each other.  Maybe must not extend them.
+FortressLibrary.fsi:834:63-75	Types UniqueItem[\T\] and AnyMaybe exclude each other.  Maybe must not extend them.
+FortressLibrary.fsi:834:63-76	Type Maybe[\T\] excludes FortressLibrary.UniqueItem but it extends FortressLibrary.UniqueItem.
+FortressLibrary.fsi:839:37-46	Type Just[\T\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+FortressLibrary.fsi:863:35-44	Type Nothing[\T\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+RangeInternals.fsi:136:5-137:5 RangeInternals.fsi:46:5-47:5	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:141:1-133 RangeInternals.fsi:51:1-52:1	Invalid overloading of combine2D in API RangeInternals:
+RangeInternals.fsi:155:1-186 RangeInternals.fsi:83:1-84:1	Invalid overloading of combine3D in API RangeInternals:
+RangeInternals.fsi:191:5-192:5 RangeInternals.fsi:46:5-47:5	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:200:1-139 RangeInternals.fsi:51:1-52:1	Invalid overloading of combine2D in API RangeInternals:
+RangeInternals.fsi:215:1-216:61 RangeInternals.fsi:83:1-84:1	Invalid overloading of combine3D in API RangeInternals:
+RangeInternals.fsi:237:5-238:5 RangeInternals.fsi:46:5-47:5	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:271:1-133 RangeInternals.fsi:51:1-52:1	Invalid overloading of combine2D in API RangeInternals:
+RangeInternals.fsi:286:1-186 RangeInternals.fsi:83:1-84:1	Invalid overloading of combine3D in API RangeInternals:
+RangeInternals.fsi:331:1-136 RangeInternals.fsi:51:1-52:1	Invalid overloading of combine2D in API RangeInternals:
+RangeInternals.fsi:346:1-347:59 RangeInternals.fsi:83:1-84:1	Invalid overloading of combine3D in API RangeInternals:
+RangeInternals.fsi:458:1-154 RangeInternals.fsi:51:1-52:1	Invalid overloading of combine2D in API RangeInternals:
+RangeInternals.fsi:458:1-154 RangeInternals.fsi:532:1-133	Invalid overloading of combine2D in API RangeInternals:
+RangeInternals.fsi:476:1-477:71 RangeInternals.fsi:549:1-186	Invalid overloading of combine3D in API RangeInternals:
+RangeInternals.fsi:476:1-477:71 RangeInternals.fsi:83:1-84:1	Invalid overloading of combine3D in API RangeInternals:
+RangeInternals.fsi:51:1-52:1 RangeInternals.fsi:532:1-133	Invalid overloading of combine2D in API RangeInternals:
+RangeInternals.fsi:549:1-186 RangeInternals.fsi:83:1-84:1	Invalid overloading of combine3D in API RangeInternals:
+RangeInternals.fsi:63:5-58 RangeInternals.fsi:64:5-58	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:98:5-64 RangeInternals.fsi:99:5-64	Invalid overloading of CAP in API RangeInternals:
+# errors under forest=fbound and not in stock
+RangeInternals.fsi:429:5-430:5 RangeInternals.fsi:505:5-506:5	Invalid overloading of IN in API RangeInternals:
+# errors under forest=fbound and not under rungP=broad
+FortressLibrary.fsi:1824:1-30	Types DistributesOver[\MaxReductionN\] and DistributesOver[\MinReductionN\] exclude each other.  SumReduction must not extend them.
+FortressLibrary.fsi:1824:1-31	Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+FortressLibrary.fsi:1825:1-30	Types DistributesOver[\MinReductionN\] and DistributesOver[\MaxReductionN\] exclude each other.  SumReduction must not extend them.
+FortressLibrary.fsi:1825:1-31	Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+FortressLibrary.fsi:1835:1-29	Types DistributesOver[\SumReduction\] and DistributesOver[\MaxReductionN\] exclude each other.  ProdReduction must not extend them.
+FortressLibrary.fsi:1835:1-29	Types DistributesOver[\SumReduction\] and DistributesOver[\MinReductionN\] exclude each other.  ProdReduction must not extend them.
+FortressLibrary.fsi:1835:1-30	Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+FortressLibrary.fsi:1836:1-30	Types DistributesOver[\MinReductionN\] and DistributesOver[\MaxReductionN\] exclude each other.  ProdReduction must not extend them.
+FortressLibrary.fsi:1836:1-30	Types DistributesOver[\MinReductionN\] and DistributesOver[\SumReduction\] exclude each other.  ProdReduction must not extend them.
+FortressLibrary.fsi:1836:1-31	Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+FortressLibrary.fsi:1837:1-30	Types DistributesOver[\MaxReductionN\] and DistributesOver[\MinReductionN\] exclude each other.  ProdReduction must not extend them.
+FortressLibrary.fsi:1837:1-30	Types DistributesOver[\MaxReductionN\] and DistributesOver[\SumReduction\] exclude each other.  ProdReduction must not extend them.
+FortressLibrary.fsi:1837:1-32	Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+# errors under rungP=broad and not under forest=fbound
