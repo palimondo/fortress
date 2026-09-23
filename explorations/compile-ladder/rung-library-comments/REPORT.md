@@ -311,7 +311,7 @@ recommitted; section 7 lists what each re-run showed.
   by the judge's ruling (`JUDGE.md` section 9): the library route deletes the compiled prelude at
   the switch-over (`explorations/coordinator/POSITIONS.md:45`). It is reported for Pavol.
 
-No XXX file was added, so the red-on-a-deliberate-fix demonstration does not apply.
+The rung added no XXX file. The one placed at the gather for D2, `ProjectFortress/tests/XXXArrayLiteralArgRungC.fss`, was shown to report `Missing expected failure` on its control, the literal bound to `x: ZZ32[2]` first (`explorations/compile-ladder/rung-library-comments/probes/gather/row49-xxx-harness.txt`).
 
 ## 7. Differentials run
 

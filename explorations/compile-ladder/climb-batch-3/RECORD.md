@@ -104,3 +104,15 @@ Made 2026-09-23 on `main` after `1312a4dce`, on the ruling in `explorations/comp
 **Rung L's fifth fix** is recorded as ungated in the rung L section above, in FACTS, in the handover and in L's `record.md`.
 
 **Gate.** `testSystem`'s expected total is now 392 (389 + 3), the four shards compared by their sum; the three files are the only change to any gate stage's inputs, every other stage's inputs are byte-identical to the green run at `767f7a6f6`, and the `testSystem` stage must run again before the commit stage.
+
+## The merged-diff review after the repair
+
+Made 2026-09-23 on `main` at `763ba87bc`, over the whole change from `d610695c0`, records only; nothing outside `explorations/` changed.
+
+**Corrected.** Row 355 cites the dormant copy of `List.zip` as `CompilerLibrary/List.fsi:99`, where it had `Library/CompilerLibrary/List.fsi:99`, a path that does not exist (the ledger and L's `record.md`). R's `record.md` no longer calls row 360 provisional, and its sharding note says its 391 names are the rung branch's (397 on the merged tree). The batch's `testSystem` total reads 392 in R's and S's `REPORT.md` as it already did in the other records. C's `REPORT.md` no longer says no `XXX` file was added, since the gather placed one for D2. S's `REPORT.md` gains item 14, row 369 and its two tests, so the comment line of `tests/XXXTupleSeparatorRungS.fss`, which points at that report, now leads to them. The handover's L and S lines, and the same lines in L's and S's `record.md`, name the tests the repair placed for rows 356 and 369.
+
+**Where rows 370-373 sit.** All twenty of the batch's rows follow row 353 in the table of section 10, "Bytecode-compiler path", where every row from 310 on has been appended; "the ledger's last table" in this record and the rung records means that table. M's `record.md` proposes section 3 for rows 371 and 372 and section 10 for row 370; the gather appended all three with the others, because rows are appended where the numbering ends and never moved.
+
+**The `<short hash>` placeholders, and the commit each one names.** Ledger rows 76, 307 and 321, the two FACTS lines of rung S and the handover's S line: `6bec1b004` (S). Row 329: `9782955b1` (R). Row 370: `d28cf74d0` (M). The handover's L line: `a7ced6764` (L). Rows 356 and 369: `763ba87bc`, the repair that placed their tests, not rung L's or rung S's commit.
+
+**Escalated to the judge, not corrected here:** row 362's home, and four failures rung S's skeptics measured that have no home. Both are described in the review's return.
