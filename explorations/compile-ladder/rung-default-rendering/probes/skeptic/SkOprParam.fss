@@ -1,0 +1,10 @@
+component SkOprParam
+export Executable
+
+object Op[\opr ODOT\]() end
+
+run(): () = do
+    println(Op[\+\]())
+  end
+
+end

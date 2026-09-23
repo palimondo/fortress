@@ -1,0 +1,7 @@
+### skeptic 2: default_repository/caches/* wiped and the five library components rebuilt in order on rev 1f4d805fb (ProjectFortress/build as the worker left it: stringOps.class newer than its source, javap shows defaultAsString(Any) and hasOwnToString(Any)); each with its rc and seconds
+== LibraryBuiltin/AnyType.fss rc=0 29s
+== LibraryBuiltin/CompilerBuiltin.fss rc=0 126s
+== ../Library/CompilerLibrary.fss rc=0 34s
+== ../Library/CompilerAlgebra.fss rc=0 2s
+== ../Library/CompilerSystem.fss rc=0 2s
+EXIT=0

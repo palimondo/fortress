@@ -1,0 +1,13 @@
+component SkInferLit
+export Executable
+
+object Cell[\T extends Any\](v: T) end
+object Box(n: ZZ32) end
+
+run(): () = do
+    println(Cell(Box(1)))
+    println(Cell(3))
+    println(Cell("s"))
+  end
+
+end

@@ -1,0 +1,19 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component XXXFortToStringRungS
+export Executable
+
+object Foo(n: ZZ32)
+  toString(): String = "foo"
+end
+object Rec(toString: String) end
+
+run(): () = do
+    println("REACHED")
+    assert(Foo(1).toString(), "foo", "a Fortress toString is an ordinary method; Specification/basic-lib/objects.tex:117-122")
+    assert(Foo(1).asString, "Foo", "an object that declares a Fortress toString and no asString; ledger row 321, Specification/basic-lib/objects.tex:19-22, walk prints Foo")
+    assert(Rec("r").asString, "Rec", "an object with a field named toString and no asString; ledger row 321, walk prints Rec")
+    println("PASS")
+  end
+
+end

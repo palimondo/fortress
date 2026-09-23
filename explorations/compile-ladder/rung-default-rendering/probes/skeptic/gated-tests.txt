@@ -1,0 +1,36 @@
+### rev=015783775 2026-09-22T21:22:11+00:00; git status --short:
+### caches wiped and the five library components rebuilt in order by the skeptic at 21:16 (tmp/skeptic/rebuild.txt)
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
+. link compiler_tests/DefaultRenderRungS  OK (time = 6635ms)
+. run compiler_tests/DefaultRenderRungS (1147ms) Box
+Cell[\ZZ32\]
+Pt
+PASS
+Passed
+
+Time: 7.791
+
+OK (2 tests)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/JuxtConcatRungSLink.test
+. link compiler_tests/XXXJuxtConcatRungS  OK (time = 4834ms)
+
+Time: 4.846
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXJuxtConcatRungS.test
+. run compiler_tests/XXXJuxtConcatRungS (505ms) REACHED
+FAIL:  < Box > =/= <Box>; string juxtaposition is concatenation; ledger row 76, Specification/basic/operators/intro.tex:68-70
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  < Box > =/= <Box>; string juxtaposition is concatenation; ledger row 76, Specification/basic/operators/intro.tex:68-70
+Saw expected failure (Exit code != 0)
+
+Time: 0.516
+
+OK (1 test)
+
+================ walk only: SkRR32Walk.fss
+1.5
+[1.5]
+walk rc=0
+EXIT=0

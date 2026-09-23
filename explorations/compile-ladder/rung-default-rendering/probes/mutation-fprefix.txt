@@ -1,0 +1,27 @@
+### MUTATION CHECK: stringOps.class rebuilt by javac from a copy of the repaired native with the F-prefix rule removed (stringOps.java:58), nothing else changed: compiler_tests/DefaultRenderRungS.test
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=c10a13879  2026-09-22T22:40:56+00:00
+### the mutant against the committed stringOps.java:
+58d57
+<         if (stem.startsWith(Naming.RT_VALUES_PKG)) name = name.substring(1); // FZZ32 is ZZ32
+### javac -cp ProjectFortress/build -d <scratch> <mutant>; the class copied over ProjectFortress/build/com/sun/fortress/nativeHelpers/stringOps.class
+### git status:
+ M ../explorations/compile-ladder/rung-default-rendering/probes/mutation-fprefix.txt
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
+. link compiler_tests/DefaultRenderRungS  OK (time = 3588ms)
+. run compiler_tests/DefaultRenderRungS (686ms) Box
+Cell[\FZZ32\]
+Pt
+FAIL:  Cell[\FZZ32\] =/= Cell[\ZZ32\]; generic object; ledger row 321, walk prints Cell[\ZZ32\]
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  Cell[\FZZ32\] =/= Cell[\ZZ32\]; generic object; ledger row 321, walk prints Cell[\ZZ32\]
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 4.284
+There was 1 failure:
+1) compiler_tests/DefaultRenderRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/DefaultRenderRungS
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
+### the good class restored: cmp against the saved copy
+cmp: identical

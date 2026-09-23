@@ -1,0 +1,22 @@
+### REPAIR ROUND: the interpreter expected failure for provisional row 355, run directly under walk (tests/ has no .test files; the harness runs each .fss there as an InterpreterTest, FileTests.java:822-829, XXX prefix -> shouldFail at :711)
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=c10a13879  2026-09-22T22:48:14+00:00
+================ FORTRESS_THREADS=1 ../bin/fortress tests/XXXInferredStaticArgRungS.fss
+REACHED
+FAIL: J18/0:Cell[\FlatString\] =/= J14/0:Cell[\String\]; the static argument inferred from a string literal is String; Specification/basic/expressions/literals.tex:57, walk prints Cell[\FlatString\]
+/home/user/fortress-rendering/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-rendering/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-rendering/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-rendering/ProjectFortress/tests/XXXInferredStaticArgRungS.fss:10:5-196:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

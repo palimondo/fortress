@@ -1,0 +1,12 @@
+component SkRR32Render
+export Executable
+
+run(): () = do
+    x: RR32 = 1.5
+    println(x)
+    println("[" || x.asString || "]")
+    y: RR64 = 2.5
+    println(y)
+  end
+
+end

@@ -1,0 +1,93 @@
+### skeptic 2: every .test file the rung adds, run one by one on the cache the skeptic wiped and rebuilt (library rebuild rc=0 x5); rev=1f4d805fb 2026-09-22T23:23:17+00:00 FORTRESS_THREADS=1
+================ ../bin/fortress junit compiler_tests/DefaultRenderRungS.test
+. link compiler_tests/DefaultRenderRungS  OK (time = 3637ms)
+. run compiler_tests/DefaultRenderRungS (858ms) Box
+Cell[\ZZ32\]
+Pt
+PASS
+Passed
+Time: 4.504
+OK (2 tests)
+================ ../bin/fortress junit compiler_tests/JuxtConcatRungSLink.test
+. link compiler_tests/XXXJuxtConcatRungS  OK (time = 4087ms)
+Time: 4.093
+OK (1 test)
+================ ../bin/fortress junit compiler_tests/XXXJuxtConcatRungS.test
+. run compiler_tests/XXXJuxtConcatRungS (386ms) REACHED
+FAIL:  < Box > =/= <Box>; string juxtaposition is concatenation; ledger row 76, Specification/basic/operators/intro.tex:68-70
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  < Box > =/= <Box>; string juxtaposition is concatenation; ledger row 76, Specification/basic/operators/intro.tex:68-70
+Saw expected failure (Exit code != 0)
+Time: 0.398
+OK (1 test)
+================ ../bin/fortress junit compiler_tests/UnionReturnRungSLink.test
+. link compiler_tests/XXXUnionReturnRungS  OK (time = 4076ms)
+Time: 4.084
+OK (1 test)
+================ ../bin/fortress junit compiler_tests/XXXUnionReturnRungS.test
+. run compiler_tests/XXXUnionReturnRungS (275ms) Exception in thread "main" java.lang.VerifyError: Bad return type
+Exception Details:
+  Location:
+    XXXUnionReturnRungS.pick(Lcom/sun/fortress/compiler/runtimeValues/FBoolean;)L\=Union?XXXUnionReturnRungS\%Pt,XXXUnionReturnRungS\%Box?; @30: areturn
+  Reason:
+    Type 'java/lang/Object' (current frame, stack[0]) is not assignable to '\=Union?XXXUnionReturnRungS\%Pt,XXXUnionReturnRungS\%Box?' (from method signature)
+  Current Frame:
+    bci: @30
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FBoolean' }
+    stack: { 'java/lang/Object' }
+  Bytecode:
+    0000000: 2ab6 0039 9900 1004 b800 3fb8 0045 b800
+    0000010: 47a7 000d 05b8 003f b800 45b8 0049 b0  
+  Stackmap Table:
+    same_frame(@20)
+    same_locals_1_stack_item_frame(@30,Object[#77])
+Saw expected failure (Exit code != 0)
+Time: 0.286
+OK (1 test)
+================ ../bin/fortress junit compiler_tests/OprParamRungSLink.test
+. link compiler_tests/XXXOprParamRungS  OK (time = 4009ms)
+Time: 4.015
+OK (1 test)
+================ ../bin/fortress junit compiler_tests/XXXOprParamRungS.test
+. run compiler_tests/XXXOprParamRungS (351ms) REACHED
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.RTTI XXXOprParamRungS$Op?+?$RTTIc.factory()'
+Saw expected failure (Exit code != 0)
+Time: 0.364
+OK (1 test)
+================ ../bin/fortress junit compiler_tests/NatArgRungSLink.test
+. link compiler_tests/XXXNatArgRungS  OK (time = 4026ms)
+Time: 4.032
+OK (1 test)
+================ ../bin/fortress junit compiler_tests/XXXNatArgRungS.test
+. run compiler_tests/XXXNatArgRungS (355ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : 3$RTTIc.class
+	... 9 more
+Saw expected failure (Exit code != 0)
+Time: 0.367
+OK (1 test)
+================ ../bin/fortress junit compiler_tests/XXXUnionMethodRungS.test
+. compile compiler_tests/XXXUnionMethodRungS java.lang.Error: You should be able to call methods on this type,OR(Pt,Box)but this is not yet implemented.: Not yet implemented
+ OK Saw expected exception
+Time: 1.458
+OK (1 test)
+================ tests/XXXInferredStaticArgRungS.fss via SystemJUTest over a directory holding only a byte-identical copy, private cache
+cmp: the copy is the committed file
+/home/user/fortress-rendering/tmp/skeptic2/interp/dir
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb6ead24_16
+. interpret /home/user/fortress-rendering/tmp/skeptic2/interp/dir/XXXInferredStaticArgRungS 
+REACHED
+FAIL: J18/0:Cell[\FlatString\] =/= J14/0:Cell[\String\]; the static argument inferred from a string literal is String; Specification/basic/expressions/literals.tex:57, walk prints Cell[\FlatString\]
+FortressException: FailCalled
+ OK Saw expected exception
+
+Time: 18.591
+
+OK (1 test)
+
+### git status of the test directories:
+EXIT=0

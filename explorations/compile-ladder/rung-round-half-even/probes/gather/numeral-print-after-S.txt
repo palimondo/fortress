@@ -1,0 +1,6 @@
+=== $ cd ProjectFortress && ../bin/fortress compile ../explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2NumeralPrint.fss && ../bin/fortress run Sk2NumeralPrint   (merged tree after rungs L, C, R and S at the gather, rung S's default asString in place) 2026-09-23T00:15:25Z ===
+--- compile exit 0 ---
+typed RR64 binding:  2.5
+java.lang.NullPointerException
+Caused by: java.lang.NullPointerException: Cannot invoke "fortress.CompilerBuiltin$String.asJavaString()" because the return value of "fortress.CompilerBuiltin$Object.asString()" is null
+=== run exit 1 ===

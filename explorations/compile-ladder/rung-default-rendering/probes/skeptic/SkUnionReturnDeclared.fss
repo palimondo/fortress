@@ -1,0 +1,14 @@
+component SkUnionReturnDeclared
+export Executable
+
+object Box(n: ZZ32) end
+value object Pt(x: ZZ32) end
+
+pick(b: Boolean): Object = if b then Box(1) else Pt(2) end
+
+run(): () = do
+    println(pick(true))
+    println(pick(false))
+  end
+
+end

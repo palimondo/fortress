@@ -1,0 +1,88 @@
+### REPAIR ROUND (repaired tree): the three compiled-path expected-failure pairs for the defects the skeptic measured (union return, opr parameter, nat argument), each a <Name>Link.test and an XXX<Name>.test
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=c10a13879  2026-09-22T22:46:13+00:00
+### git status:
+ M ../explorations/compile-ladder/rung-default-rendering/post/results.tsv
+ M ../explorations/compile-ladder/rung-default-rendering/probes/mutation-fprefix.txt
+ M ../explorations/compile-ladder/rung-default-rendering/probes/xxx-juxt-postedit.txt
+?? compiler_tests/NatArgRungSLink.test
+?? compiler_tests/OprParamRungSLink.test
+?? compiler_tests/UnionReturnRungSLink.test
+?? compiler_tests/XXXNatArgRungS.fss
+?? compiler_tests/XXXNatArgRungS.test
+?? compiler_tests/XXXOprParamRungS.fss
+?? compiler_tests/XXXOprParamRungS.test
+?? compiler_tests/XXXUnionReturnRungS.fss
+?? compiler_tests/XXXUnionReturnRungS.test
+?? ../explorations/compile-ladder/rung-default-rendering/probes/mutation-owntostring.txt
+?? ../explorations/compile-ladder/rung-default-rendering/probes/postrepair-differentials.txt
+?? ../explorations/compile-ladder/rung-default-rendering/probes/xxx-skeptic-defects.txt
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/UnionReturnRungSLink.test
+. link compiler_tests/XXXUnionReturnRungS  OK (time = 3601ms)
+
+Time: 3.608
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXUnionReturnRungS.test
+. run compiler_tests/XXXUnionReturnRungS (288ms) Exception in thread "main" java.lang.VerifyError: Bad return type
+Exception Details:
+  Location:
+    XXXUnionReturnRungS.pick(Lcom/sun/fortress/compiler/runtimeValues/FBoolean;)L\=Union?XXXUnionReturnRungS\%Pt,XXXUnionReturnRungS\%Box?; @30: areturn
+  Reason:
+    Type 'java/lang/Object' (current frame, stack[0]) is not assignable to '\=Union?XXXUnionReturnRungS\%Pt,XXXUnionReturnRungS\%Box?' (from method signature)
+  Current Frame:
+    bci: @30
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FBoolean' }
+    stack: { 'java/lang/Object' }
+  Bytecode:
+    0000000: 2ab6 0039 9900 1004 b800 3fb8 0045 b800
+    0000010: 47a7 000d 05b8 003f b800 45b8 0049 b0  
+  Stackmap Table:
+    same_frame(@20)
+    same_locals_1_stack_item_frame(@30,Object[#77])
+
+Saw expected failure (Exit code != 0)
+
+Time: 0.301
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/OprParamRungSLink.test
+. link compiler_tests/XXXOprParamRungS  OK (time = 3573ms)
+
+Time: 3.583
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXOprParamRungS.test
+. run compiler_tests/XXXOprParamRungS (358ms) REACHED
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.RTTI XXXOprParamRungS$Op?+?$RTTIc.factory()'
+Saw expected failure (Exit code != 0)
+
+Time: 0.369
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/NatArgRungSLink.test
+. link compiler_tests/XXXNatArgRungS  OK (time = 3557ms)
+
+Time: 3.564
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXNatArgRungS.test
+. run compiler_tests/XXXNatArgRungS (366ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : 3$RTTIc.class
+	... 9 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.378
+
+OK (1 test)
+

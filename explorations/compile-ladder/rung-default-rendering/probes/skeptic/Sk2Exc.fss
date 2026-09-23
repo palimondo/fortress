@@ -1,0 +1,21 @@
+component Sk2Exc
+export Executable
+
+object Boom extends UncheckedException end
+object Bang[\T\](v: T) extends UncheckedException end
+object Pow extends UncheckedException
+  getter asString(): String = "pow!"
+end
+
+run(): () = do
+    println(Boom)
+    println(Bang[\ZZ32\](3))
+    println(Pow)
+    try
+      throw Bang[\String\]("x")
+    catch e
+      UncheckedException => println("caught " || e.asString)
+    end
+  end
+
+end

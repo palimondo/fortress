@@ -1,0 +1,52 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component DefaultRenderRungS
+export Executable
+
+object Box(n: ZZ32) end
+object Cell[\T\](v: T) end
+object Two[\A, B\](a: A, b: B) end
+object AnyCell[\T extends Any\](v: T) end
+object Tag[\T extends Any\]() end
+value object Pt(x: ZZ32) end
+object Boom extends UncheckedException end
+
+inc(x: ZZ32): ZZ32 = x + 1
+add(x: ZZ32, y: ZZ32): ZZ32 = x + y
+
+run(): () = do
+    println(Box(1))
+    println(Cell[\ZZ32\](1))
+    println(Pt(1))
+    assert(Box(1).asString, "Box", "plain object; ledger row 321, walk prints Box")
+    assert(Cell[\ZZ32\](1).asString, "Cell[\\ZZ32\\]", "generic object; ledger row 321, walk prints Cell[\\ZZ32\\]")
+    assert(Pt(1).asString, "Pt", "value object; ledger row 321, walk prints Pt")
+    assert(Two[\ZZ32, String\](1, "a").asString, "Two[\\ZZ32,String\\]", "two static arguments; ledger row 321")
+    assert(Cell[\Box\](Box(2)).asString, "Cell[\\Box\\]", "a user object as the argument; ledger row 321")
+    assert(Cell[\Cell[\ZZ32\]\](Cell[\ZZ32\](3)).asString, "Cell[\\Cell[\\ZZ32\\]\\]", "nested instance; ledger row 321")
+    assert(AnyCell[\(ZZ32, String)\]((1, "a")).asString, "AnyCell[\\(ZZ32,String)\\]", "tuple argument; ledger row 321, walk prints (A,B)")
+    assert(AnyCell[\ZZ32 -> ZZ32\](inc).asString, "AnyCell[\\ZZ32->ZZ32\\]", "arrow argument; ledger row 321, walk prints A->B")
+    assert(AnyCell[\(ZZ32, ZZ32) -> ZZ32\](add).asString, "AnyCell[\\(ZZ32,ZZ32)->ZZ32\\]", "arrow of two arguments; ledger row 321")
+    assert(Tag[\()\]().asString, "Tag[\\()\\]", "void argument; ledger row 321, walk prints ()")
+    assert(Tag[\(ZZ32, String, Boolean)\]().asString, "Tag[\\(ZZ32,String,Boolean)\\]", "tuple of three; ledger row 321")
+    assert(Tag[\() -> ZZ32\]().asString, "Tag[\\()->ZZ32\\]", "arrow of no arguments; ledger row 321")
+    assert("<" || Box(1) || ">", "<Box>", "concatenation goes through asString; ledger row 321")
+    assert(Nothing.asString, "Nothing", "prelude singleton Nothing; ledger row 321")
+    assert(None.asString, "None", "prelude singleton None; ledger row 321")
+    x: RR32 = 1.5
+    assert(x.asString, "1.5", "an RR32 keeps its own Java rendering; ledger row 321, walk prints 1.5")
+    v = makeStringVector(2)
+    v.putValue(0, "a")
+    v.putValue(1, "b")
+    assert(v.asString, "[a b ]", "a StringVector keeps its own Java rendering; ledger row 321")
+    var caught: String = "nothing caught"
+    try
+        throw Boom
+    catch e
+        Boom => caught := "Boom caught"
+    end
+    assert(caught, "Boom caught", "a throw of an object with no asString reaches its handler; FException.java:22-23, ledger row 321")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,13 @@
+### walk: ../../../../bin/fortress JuxtRender.fss
+[<Box>]
+[<Box>]
+[<Box>]
+[<1>]
+rc=0
+### compiled (with the typeName native): ../../../../bin/fortress compile JuxtRender.fss && ../../../../bin/fortress run JuxtRender
+rc=0
+[< Box >]
+[<Box>]
+[< Box >]
+[< 1 >]
+rc=0

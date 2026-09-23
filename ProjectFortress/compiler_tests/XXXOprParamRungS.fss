@@ -1,0 +1,16 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component XXXOprParamRungS
+export Executable
+
+object Op[\opr ODOT\]() end
+
+run(): () = do
+    println("REACHED")
+    o = Op[\+\]()
+    println(o)
+    assert(o.asString, "Op[\\+\\]", "an object with an opr static parameter; Specification/basic/trait-parameters.tex:156-176, walk prints Op[\\+\\]")
+    println("PASS")
+  end
+
+end

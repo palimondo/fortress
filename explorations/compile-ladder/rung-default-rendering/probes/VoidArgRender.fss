@@ -1,0 +1,12 @@
+component VoidArgRender
+export Executable
+
+object Tag[\T extends Any\]() end
+
+run(): () = do
+    println("void:   " || Tag[\()\]().asString)
+    println("tuple3: " || Tag[\(ZZ32, String, Boolean)\]().asString)
+    println("arrow0: " || Tag[\() -> ZZ32\]().asString)
+  end
+
+end

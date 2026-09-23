@@ -1,0 +1,13 @@
+component Sk2Tuple
+export Executable
+
+object Box(n: ZZ32) end
+
+run(): () = do
+    t: (ZZ32, String) = (1, "a")
+    println(t)
+    u = (Box(1), 2)
+    println(u)
+  end
+
+end

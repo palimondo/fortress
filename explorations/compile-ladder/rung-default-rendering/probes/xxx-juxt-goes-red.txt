@@ -1,0 +1,24 @@
+### DELIBERATE LOCAL FIX of row 76 (CompilerBuiltin.fss:402 ||| -> ||, CompilerBuiltin and later rebuilt): the expected-failure pair must go red
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=95ad0b427  2026-09-22T20:31:45+00:00
+### git status:
+ M LibraryBuiltin/CompilerBuiltin.fss
+### CompilerBuiltin.fss String juxtaposition line: 402:    opr juxtaposition(self, b:Object): String = self || b
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/JuxtConcatRungSLink.test
+. link compiler_tests/XXXJuxtConcatRungS  OK (time = 4394ms)
+
+Time: 4.404
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXJuxtConcatRungS.test
+. run compiler_tests/XXXJuxtConcatRungS (494ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.518
+There was 1 failure:
+1) compiler_tests/XXXJuxtConcatRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXJuxtConcatRungS
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+

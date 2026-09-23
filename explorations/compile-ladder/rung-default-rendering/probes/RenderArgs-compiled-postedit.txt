@@ -1,0 +1,29 @@
+### compiled, POST-EDIT (typeName native on 623c7baf3): ../../../../bin/fortress compile RenderArgs.fss && JAVA_FLAGS+=' -Xlog:class+load=info' ../../../../bin/fortress run RenderArgs
+compile rc=0
+run rc=0
+### program output (every line that is not a class-load line):
+plain:  Box
+generic: Cell[\ZZ32\]
+value:  Pt
+two:    Two[\ZZ32,String\]
+userarg: Cell[\Box\]
+nested: Cell[\Cell[\ZZ32\]\]
+escape: Cell[\ZZ32\]
+tuple:  AnyCell[\(ZZ32,String)\]
+arrow:  AnyCell[\ZZ32->ZZ32\]
+arrow2: AnyCell[\(ZZ32,ZZ32)->ZZ32\]
+### the stamped names of the probe's object classes (class-load lines naming a RenderArgs$ class, source prefix trimmed):
+RenderArgs$Box
+RenderArgs$Pt
+RenderArgs$\=Cell⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+RenderArgs$\=Two⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,fortress\|CompilerBuiltin\%String⟧
+RenderArgs$\=Cell⟦RenderArgs\%Box⟧
+RenderArgs$\=Cell⟦RenderArgs\%Cell⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧⟧
+RenderArgs$\=AnyCell⟦ConcreteTuple⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,fortress\|CompilerBuiltin\%String⟧⟧
+RenderArgs$\=AnyCell⟦Tuple⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,fortress\|CompilerBuiltin\%String⟧⟧
+RenderArgs$\=AnyCell⟦AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧⟧
+RenderArgs$inc✉$\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+RenderArgs$\=AnyCell⟦Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧⟧
+RenderArgs$\=AnyCell⟦AbstractArrow⟦ConcreteTuple⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧⟧
+RenderArgs$add✉$\=Arrow⟦Tuple⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+RenderArgs$\=AnyCell⟦Arrow⟦Tuple⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧⟧

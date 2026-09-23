@@ -1,0 +1,22 @@
+component Sk2TraitAsString
+export Executable
+
+trait Shape
+  getter asString(): String = "shape"
+end
+object Sq extends Shape end
+object Circ(r: ZZ32) extends Shape
+  getter asString(): String = "circ " || r
+end
+trait Plain end
+object Tri extends Plain end
+
+run(): () = do
+    println(Sq)
+    println(Circ(2))
+    println(Tri)
+    s: Plain = Tri
+    println(s.asString)
+  end
+
+end

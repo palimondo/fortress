@@ -1,0 +1,46 @@
+### rev=c10a13879 2026-09-22T22:41:21+00:00 FORTRESS_THREADS=1 MODE=compiled
+################ SkRR32Render.fss
+--- compiled: bin/fortress compile SkRR32Render.fss && bin/fortress run SkRR32Render
+compile rc=0
+1.5
+[1.5]
+2.5
+run rc=0
+################ SkOldDefault.fss
+--- compiled: bin/fortress compile SkOldDefault.fss && bin/fortress run SkOldDefault
+compile rc=0
+RR32 new default: 1.5
+RR32 old default: 1.5
+StringVector new default: [a b ]
+StringVector old default: [a b ]
+run rc=0
+################ SkArgsRender.fss
+--- compiled: bin/fortress compile SkArgsRender.fss && bin/fortress run SkArgsRender
+compile rc=0
+Tag[\Object\]
+Tag[\Any\]
+Tag[\Number\]
+Tag[\Boolean\]
+Tag[\RR64\]
+Tag[\RR32\]
+Tag[\ZZ64\]
+Tag[\NN32\]
+Tag[\String\]
+Tag[\Shape\]
+Tag[\Maybe[\ZZ32\]\]
+Tag[\ZZ32->ZZ32->ZZ32\]
+Tag[\ZZ32->(ZZ32,String)\]
+Tag[\Tag[\()\]\]
+Cell[\ZZ32\]
+Cell[\Shape\]
+run rc=0
+################ SkTraitTyped.fss
+--- compiled: bin/fortress compile SkTraitTyped.fss && bin/fortress run SkTraitTyped
+compile rc=0
+Sq
+Circ
+BoxTwo
+Just(Circ)
+[no expression for  Circ ]
+run rc=0
+EXIT=0

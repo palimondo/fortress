@@ -1,0 +1,49 @@
+### skeptic 2: why Sk2FortToString overflows on the repaired tree; rev=1f4d805fb
+### (1) javap -p of the generated class Sk2FortToString$Foo from default_repository/caches/bytecode_cache/Sk2FortToString.jar: the Fortress method toString() is emitted under its own name
+Compiled from "/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/Sk2FortToString.fss"
+public final class Sk2FortToString$Foo extends fortress.CompilerBuiltin$Object$DefaultTraitMethods implements fortress.CompilerBuiltin$Object {
+  public final com.sun.fortress.compiler.runtimeValues.FZZ32 \%n;
+  public static final com.sun.fortress.compiler.runtimeValues.RTTI RTTI;
+  public Sk2FortToString$Foo(com.sun.fortress.compiler.runtimeValues.FZZ32);
+  public fortress.CompilerBuiltin$String toString();
+  public fortress.CompilerBuiltin$String toString?();
+  public com.sun.fortress.compiler.runtimeValues.FZZ32 n();
+  public com.sun.fortress.compiler.runtimeValues.FZZ32 n?();
+  public com.sun.fortress.compiler.runtimeValues.RTTI getRTTI();
+  static {};
+}
+### (2) bin/fortress run Sk2FortToString with -Xss2m, first 34 lines of 1035 (the rest repeats the four-frame cycle)
+foo
+java.lang.StackOverflowError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at Sk2FortToString.main(/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/skeptic/Sk2FortToString.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.StackOverflowError
+	at java.base/java.lang.Class.getMethodsRecursive(Class.java:3146)
+	at java.base/java.lang.Class.getMethod0(Class.java:3131)
+	at java.base/java.lang.Class.getMethod(Class.java:2164)
+	at com.sun.fortress.nativeHelpers.stringOps.hasOwnToString(stringOps.java:81)
+	at com.sun.fortress.nativeHelpers.stringOps.defaultAsString(stringOps.java:76)
+	at native.com.sun.fortress.nativeHelpers.stringOps.defaultAsString(stringOps.java)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-rendering/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:351)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-rendering/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at com.sun.fortress.compiler.runtimeValues.FValue.toString(FValue.java:26)
+	at com.sun.fortress.nativeHelpers.stringOps.defaultAsString(stringOps.java:76)
+	at native.com.sun.fortress.nativeHelpers.stringOps.defaultAsString(stringOps.java)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-rendering/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:351)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-rendering/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at com.sun.fortress.compiler.runtimeValues.FValue.toString(FValue.java:26)
+	at com.sun.fortress.nativeHelpers.stringOps.defaultAsString(stringOps.java:76)
+	at native.com.sun.fortress.nativeHelpers.stringOps.defaultAsString(stringOps.java)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-rendering/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:351)
+	at fortress.CompilerBuiltin$Object$DefaultTraitMethods.asString(/home/user/fortress-rendering/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at com.sun.fortress.compiler.runtimeValues.FValue.toString(FValue.java:26)
+	at com.sun.fortress.nativeHelpers.stringOps.defaultAsString(stringOps.java:76)

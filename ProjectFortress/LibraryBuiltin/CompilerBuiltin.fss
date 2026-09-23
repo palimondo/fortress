@@ -279,7 +279,8 @@ import java com.sun.fortress.nativeHelpers.{stringOps.compareTo => jCompareTo,
                                             stringOps.charAt => jCharAt,
                                             stringOps.indexOf => jIndexOf,
                                             stringOps.lastIndexOf => jLastIndexOf,
-                                            stringOps.asString => jAsString}
+                                            stringOps.asString => jAsString,
+                                            stringOps.defaultAsString => jDefaultAsString}
 import java com.sun.fortress.nativeHelpers.{fileOps.jbrOpen => jJavaBufferedReaderOpen,
                                             fileOps.jbrAsString => jJavaBufferedReaderAsString,
                                             fileOps.jbrRead => jJavaBufferedReaderRead,
@@ -347,7 +348,7 @@ export CompilerBuiltin
 nanoTime(): RR64 = jNanoTime()
 
 trait Object extends Any
-   getter asString(): String = jAsString(self)
+   getter asString(): String = jDefaultAsString(self)
    getter asExprString(): String = "[no expression for "  self.asString "]"
    getter asDebugString(): String = self.asString
 (*)     getter asDebugString(): String  = do  (* for debugging; may contain more information *)

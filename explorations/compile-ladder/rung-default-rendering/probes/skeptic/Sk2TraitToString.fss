@@ -1,0 +1,15 @@
+component Sk2TraitToString
+export Executable
+
+trait Named
+  getter toString(): String = "named"
+end
+object Qux extends Named end
+
+run(): () = do
+    println(Qux.toString)
+    println("asString: " || Qux.asString)
+    println(Qux)
+  end
+
+end

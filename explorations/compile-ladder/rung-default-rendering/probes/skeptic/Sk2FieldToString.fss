@@ -1,0 +1,19 @@
+component Sk2FieldToString
+export Executable
+
+object Rec(toString: String) end
+object W(n: ZZ32)
+  toString(x: ZZ32): String = "w" || x
+end
+object Counter(var n: ZZ32) end
+
+run(): () = do
+    println(W(1))
+    c = Counter(1)
+    c.n := 2
+    println(c)
+    println(Rec("r").toString)
+    println(Rec("r"))
+  end
+
+end

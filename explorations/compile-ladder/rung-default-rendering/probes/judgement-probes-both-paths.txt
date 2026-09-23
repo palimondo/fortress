@@ -1,0 +1,27 @@
+### PlainObjectRender.fss (copied unchanged from explorations/reviews/default-rendering-probes/)
+--- walk:
+Box
+a Box: Box
+rc=0
+--- compiled, POST-EDIT (typeName native):
+Box
+Box
+rc=0
+### GenericObjectRender.fss (copied unchanged from explorations/reviews/default-rendering-probes/)
+--- walk:
+Box[\ZZ32\]
+a Box[\ZZ32\]: Box[\ZZ32\]
+rc=0
+--- compiled, POST-EDIT (typeName native):
+Box[\ZZ32\]
+Box[\ZZ32\]
+rc=0
+### ValueObjectRender.fss (copied unchanged from explorations/reviews/default-rendering-probes/)
+--- walk:
+Pt
+a Pt: Pt
+rc=0
+--- compiled, POST-EDIT (typeName native):
+Pt
+Pt
+rc=0

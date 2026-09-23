@@ -1,0 +1,30 @@
+component SkArgsRender
+export Executable
+
+object Tag[\T extends Any\]() end
+object Cell[\T extends Any\](v: T) end
+trait Shape end
+object Sq extends Shape end
+
+wrap[\T extends Any\](x: T): String = Cell[\T\](x).asString
+
+run(): () = do
+    println(Tag[\Object\]())
+    println(Tag[\Any\]())
+    println(Tag[\Number\]())
+    println(Tag[\Boolean\]())
+    println(Tag[\RR64\]())
+    println(Tag[\RR32\]())
+    println(Tag[\ZZ64\]())
+    println(Tag[\NN32\]())
+    println(Tag[\String\]())
+    println(Tag[\Shape\]())
+    println(Tag[\Maybe[\ZZ32\]\]())
+    println(Tag[\ZZ32 -> (ZZ32 -> ZZ32)\]())
+    println(Tag[\ZZ32 -> (ZZ32, String)\]())
+    println(Tag[\Tag[\()\]\]())
+    println(wrap[\ZZ32\](1))
+    println(wrap[\Shape\](Sq))
+  end
+
+end

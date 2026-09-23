@@ -1,0 +1,15 @@
+component Sk2NewOne
+import java com.sun.fortress.nativeHelpers.{stringOps.defaultAsString => jNew}
+export Executable
+
+object Box(n: ZZ32) end
+
+run(): () = do
+    h: RR32 = 1.5
+    println("RR32 " || jNew(h))
+    println("Box " || jNew(Box(1)))
+    a: ZZ32 = 7
+    println("ZZ32 " || jNew(a))
+  end
+
+end

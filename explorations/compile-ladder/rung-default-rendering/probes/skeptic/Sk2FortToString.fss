@@ -1,0 +1,14 @@
+component Sk2FortToString
+export Executable
+
+object Foo(n: ZZ32)
+  toString(): String = "foo"
+end
+
+run(): () = do
+    println(Foo(1).toString())
+    println("asString: " || Foo(1).asString)
+    println(Foo(1))
+  end
+
+end

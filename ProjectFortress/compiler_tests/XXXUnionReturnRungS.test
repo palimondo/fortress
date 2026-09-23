@@ -1,0 +1,4 @@
+tests=XXXUnionReturnRungS
+run
+run_out_does_not_contain=REACHED
+run_err_contains=java.lang.VerifyError

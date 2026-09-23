@@ -1,0 +1,3 @@
+tests=XXXUnionMethodRungS
+compile
+compile_exception_contains=You should be able to call methods on this type

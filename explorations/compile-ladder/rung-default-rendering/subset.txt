@@ -1,0 +1,10 @@
+not_working_library_tests	Comparison1.fss
+tests	deepHierarchy.fss
+tests	fmTest2.fss
+tests	fmTest3.fss
+tests	nestedInst.fss
+tests	XXXGenericOverload.fss
+tests	XXXcaseTest.fss
+tests	XXXtypeParamShadowing.fss
+tests	XXXtypecaseTest.fss
+tests	disp2.fss

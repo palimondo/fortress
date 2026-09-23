@@ -1,0 +1,35 @@
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/FortToStringRungSLink.test   (merged tree after rungs L, C, R and S at the gather: ant compileAll and the prelude rebuilt in library order) 2026-09-23T00:15:04Z ===
+. link compiler_tests/XXXFortToStringRungS  OK (time = 4205ms)
+
+Time: 4.211
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXFortToStringRungS.test   (merged tree after rungs L, C, R and S at the gather: ant compileAll and the prelude rebuilt in library order) 2026-09-23T00:15:09Z ===
+. run compiler_tests/XXXFortToStringRungS (766ms) REACHED
+java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+Saw expected failure (Exit code != 0)
+
+Time: 0.78
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/DefaultRenderRungS.test   (merged tree after rungs L, C, R and S at the gather: ant compileAll and the prelude rebuilt in library order) 2026-09-23T00:15:10Z ===
+. link compiler_tests/DefaultRenderRungS  OK (time = 5227ms)
+. run compiler_tests/DefaultRenderRungS (860ms) Box
+Cell[\ZZ32\]
+Pt
+PASS
+Passed
+
+Time: 6.095
+
+OK (2 tests)
+
+=== exit 0 ===
+

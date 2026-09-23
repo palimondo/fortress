@@ -1,0 +1,20 @@
+component Sk2Generic
+export Executable
+
+object Holder[\T extends Object\](v: T)
+  getter asString(): String = "Holder of " || v.asString
+end
+object Inner end
+trait Shape end
+object Sq extends Shape end
+
+run(): () = do
+    println(Holder[\Inner\](Inner))
+    println(Holder[\ZZ32\](3))
+    println(Holder[\Shape\](Sq))
+    xs: Maybe[\Inner\] = Just[\Inner\](Inner)
+    println(xs)
+    println(Inner.asString || "/" || Sq.asString)
+  end
+
+end

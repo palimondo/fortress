@@ -1,0 +1,38 @@
+### REPAIR ROUND: tests/XXXInferredStaticArgRungS.fss through the interpreter harness itself: FileTests.interpreterSuite(<a directory holding only this file>, false, false), by SystemJUTest, the class each testSystem shard runs (build.xml:1171-1199), with -Dtests=<that directory> (SystemJUTest.java:33-37), FORTRESS_JUNIT_VERBOSE=1, a private cache
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=c10a13879  2026-09-22T22:49:36+00:00
+### (1) the committed file
+cmp: the copy is the committed file
+/home/user/fortress-rendering/tmp/interp-one/dir
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb4f734a_16
+. interpret /home/user/fortress-rendering/tmp/interp-one/dir/XXXInferredStaticArgRungS 
+REACHED
+FAIL: J18/0:Cell[\FlatString\] =/= J14/0:Cell[\String\]; the static argument inferred from a string literal is String; Specification/basic/expressions/literals.tex:57, walk prints Cell[\FlatString\]
+FortressException: FailCalled
+ OK Saw expected exception
+
+Time: 19.025
+
+OK (1 test)
+
+### (2) stand-in for a fix of the inference, in the copy only: the static argument written out, Cell[\String\]("s"), which walk renders Cell[\String\]
+10c10
+<     assert(Cell("s").asString, "Cell[\\String\\]", "the static argument inferred from a string literal is String; Specification/basic/expressions/literals.tex:57, walk prints Cell[\\FlatString\\]")
+---
+>     assert(Cell[\String\]("s").asString, "Cell[\\String\\]", "the static argument inferred from a string literal is String; Specification/basic/expressions/literals.tex:57, walk prints Cell[\\FlatString\\]")
+/home/user/fortress-rendering/tmp/interp-one/dir
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb4fbe8d_16
+. interpret /home/user/fortress-rendering/tmp/interp-one/dir/XXXInferredStaticArgRungS 
+REACHED
+PASS
+
+ Missing expected failure 
+F
+Time: 4.085
+There was 1 failure:
+1) /home/user/fortress-rendering/tmp/interp-one/dir/XXXInferredStaticArgRungS(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest /home/user/fortress-rendering/tmp/interp-one/dir/XXXInferredStaticArgRungS
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+### the copy removed; the committed file untouched:
+?? ProjectFortress/tests/XXXInferredStaticArgRungS.fss

@@ -1,0 +1,15 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component XXXJuxtConcatRungS
+export Executable
+
+object Box(n: ZZ32) end
+
+run(): () = do
+    println("REACHED")
+    assert("<" "Box" ">", "<Box>", "string juxtaposition is concatenation; ledger row 76, Specification/basic/operators/intro.tex:68-70")
+    assert("<" Box(1) ">", "<Box>", "string juxtaposition with an object; ledger row 76")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,54 @@
+### REPAIR ROUND: does the XXXUnionReturnRungS check go red when the VerifyError is gone? Stand-in for a compiler fix: a local edit giving pick the declared return type Object (the SkUnionReturnDeclared form, which runs today), then undone
+### FORTRESS_HOME=/home/user/fortress-rendering  rev=c10a13879  2026-09-22T22:46:54+00:00
+### the local edit:
+9c9
+< pick(b: Boolean) = if b then Box(1) else Pt(2) end
+---
+> pick(b: Boolean): Object = if b then Box(1) else Pt(2) end
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/UnionReturnRungSLink.test
+. link compiler_tests/XXXUnionReturnRungS  OK (time = 4287ms)
+
+Time: 4.295
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXUnionReturnRungS.test
+. run compiler_tests/XXXUnionReturnRungS (373ms) REACHED
+PASS
+Failed to satisfy run_out_does_not_contain; expected
+REACHED
+F
+Time: 0.383
+There was 1 failure:
+1) compiler_tests/XXXUnionReturnRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXUnionReturnRungS
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+### UNDO
+?? compiler_tests/NatArgRungSLink.test
+?? compiler_tests/OprParamRungSLink.test
+?? compiler_tests/UnionReturnRungSLink.test
+?? compiler_tests/XXXNatArgRungS.fss
+?? compiler_tests/XXXNatArgRungS.test
+?? compiler_tests/XXXOprParamRungS.fss
+?? compiler_tests/XXXOprParamRungS.test
+?? compiler_tests/XXXUnionReturnRungS.fss
+?? compiler_tests/XXXUnionReturnRungS.test
+cmp: restored
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/UnionReturnRungSLink.test
+. link compiler_tests/XXXUnionReturnRungS  OK (time = 4284ms)
+
+Time: 4.291
+
+OK (1 test)
+
+================ FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXUnionReturnRungS.test
+. run compiler_tests/XXXUnionReturnRungS (268ms) Exception in thread "main" java.lang.VerifyError: Bad return type
+
+Saw expected failure (Exit code != 0)
+
+Time: 0.281
+
+OK (1 test)
+

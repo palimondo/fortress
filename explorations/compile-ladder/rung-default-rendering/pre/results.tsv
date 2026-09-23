@@ -1,0 +1,10 @@
+not_working_library_tests	Comparison1.fss	Comparison1	0	0	11	1
+tests	deepHierarchy.fss	deepHierarchy	0	0	3	0
+tests	fmTest2.fss	fmTest2	0	0	4	1
+tests	fmTest3.fss	fmTest3	0	0	5	1
+tests	nestedInst.fss	nestedInst	0	0	2	1
+tests	XXXGenericOverload.fss	XXXGenericOverload	0	0	4	0
+tests	XXXcaseTest.fss	XXXcaseTest	0	1	5	1
+tests	XXXtypeParamShadowing.fss	XXXtypeParamShadowing	0	0	2	1
+tests	XXXtypecaseTest.fss	XXXtypecaseTest	0	1	2	1
+tests	disp2.fss	disp2	0	0	4	0

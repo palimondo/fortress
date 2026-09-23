@@ -1,0 +1,27 @@
+### walk: ../../../../bin/fortress ThrowRender.fss
+Boom caught
+Bang caught
+Boom
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/ThrowRender.fss:22:5-25:
+Bang[\ZZ32\]
+Context:
+/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/ThrowRender.fss:22:5-25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+### compiled, POST-EDIT (typeName native): ../../../../bin/fortress compile ThrowRender.fss && ../../../../bin/fortress run ThrowRender
+compile rc=0
+Boom caught
+Bang caught
+Boom
+FortressException: class ThrowRender$\=Bang?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32? with string Bang[\ZZ32\]
+	at ThrowRender.run(/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/ThrowRender.fss:22)
+	at ThrowRender.compute(/home/user/fortress-rendering/explorations/compile-ladder/rung-default-rendering/probes/ThrowRender.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+run rc=1

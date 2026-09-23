@@ -1,0 +1,7 @@
+rev=015783775 2026-09-22T21:16:08+00:00
+== LibraryBuiltin/AnyType.fss rc=0 29s
+== LibraryBuiltin/CompilerBuiltin.fss rc=0 126s
+== ../Library/CompilerLibrary.fss rc=0 35s
+== ../Library/CompilerAlgebra.fss rc=0 2s
+== ../Library/CompilerSystem.fss rc=0 2s
+EXIT=0
