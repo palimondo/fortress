@@ -1,0 +1,10 @@
+=== $ java -cp "$(bin/fortress_classpath)" -Dtests=tmp/rungR-suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (testSystem's harness on a one-file copy of tests/RoundHalfEvenRungR.fss, after the edit) 2026-09-22T20:47:38Z ===
+/home/user/fortress-round/tmp/rungR-suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cadfcae5_16
+. interpret /home/user/fortress-round/tmp/rungR-suite/RoundHalfEvenRungR  OK (time = 6583ms)
+
+Time: 6.589
+
+OK (1 test)
+
+=== exit 0 ===

@@ -323,7 +323,7 @@ public class RR32 extends NativeConstructor {
 
     public static final class Round extends F2L {
         protected long f(float x) {
-            return (long) Math.round((double) x);
+            return (long) Math.rint((double) x);
         }
     }
 

@@ -1,0 +1,20 @@
+component Sk2RR32Arith
+export Executable
+
+(*) Second skeptic's compiled-path probe for rung R: see ../../SKEPTIC.md
+
+run():() = do
+    a: RR32 = 1.25
+    b: RR32 = 0.25
+    c: RR32 = 0.75
+    d: RR32 = 2.5000002
+    e: RR32 = 16777215.0
+    println("RR32 round(a + a) [2.5]    = " round(a + a))
+    println("RR32 round(b + b) [0.5]    = " round(b + b))
+    println("RR32 round(c + c) [1.5]    = " round(c + c))
+    println("RR32 round(d) [2.5000002]  = " round(d))
+    println("RR32 round(e) [2^24-1]     = " round(e))
+    println("RR32 round(c) [0.75]      = " round(c))
+end
+
+end

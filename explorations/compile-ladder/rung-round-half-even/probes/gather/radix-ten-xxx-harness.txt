@@ -1,0 +1,47 @@
+=== $ java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row361/suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the gated test, a one-file copy of ProjectFortress/tests/XXXRadixTenPointNumeral.fss; merged tree after rungs L, C and R, R's two glue classes compiled in) 2026-09-23T00:07:26Z ===
+tmp/row361/suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb96b3a6_16
+. interpret tmp/row361/suite/XXXRadixTenPointNumeral  OK Saw expected exception
+
+Time: 18.974
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ java -cp "$(bin/fortress_classpath)" -Dtests=tmp/row361/ctl junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (the control under the XXX name: 2.5 and 3.5 without the _10 specifier, which is what a repair of the radix-ten numeral makes of the gated program) 2026-09-23T00:07:45Z ===
+tmp/row361/ctl
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb96fec8_16
+. interpret tmp/row361/ctl/XXXRadixTenPointNumeral 
+PASS
+ Missing expected failure 
+F
+Time: 3.69
+There was 1 failure:
+1) tmp/row361/ctl/XXXRadixTenPointNumeral(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/row361/ctl/XXXRadixTenPointNumeral
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 1 ===
+
+=== walk ProjectFortress/tests/XXXRadixTenPointNumeral.fss (merged tree after rungs L, C and R; Java stack frames omitted) 2026-09-23T00:08:17Z ===
+Exception in thread "main" java.lang.NumberFormatException
+Caused by: java.lang.NumberFormatException: For input string: "2.5_10"
+=== exit 1 ===
+
+=== walk ProjectFortress/tests/RoundHalfEvenRungR.fss (merged tree after rungs L, C and R; Java stack frames omitted) 2026-09-23T00:08:21Z ===
+PASS
+=== exit 0 ===
+
+=== walk ProjectFortress/tests/XXXRoundNearTieNumeral.fss (merged tree after rungs L, C and R; Java stack frames omitted) 2026-09-23T00:08:24Z ===
+FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:470-472
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress/ProjectFortress/tests/XXXRoundNearTieNumeral.fss:7:5-125:
+toplevel:
+=== exit 1 ===
+

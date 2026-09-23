@@ -1,0 +1,23 @@
+=== $ java -cp tmp/sk-before-classes:$(bin/fortress_classpath) com.sun.fortress.Shell SkRoundWalk.fss (walk, the base d610695c0's Float$Round and RR32$Round compiled into a side directory ahead of ProjectFortress/build, FORTRESS_THREADS=1) 2026-09-22T21:55:19Z ===
+arith 2.0+0.5          = 3
+div 5.0/2.0            = 3
+fn halfOf(5.0)         = 3
+fn halfOf(-7.0)        = -3
+generic roundAny(2.5)  = 3
+generic roundAny(-0.5) = 0
+typed r: RR64 = 6.5    = 7
+big tie 2^52-1.5       = 4503599627370495
+big tie 2^52-0.5       = 4503599627370496
+just below half        = 0
+neg zero               = 0
+neg -0.4               = 0
+2^53-1                 = 9007199254740991
+sum round 1.5          = 9
+rational 5/2           = 2
+rational -7/2          = -4
+reduction SUM          = 10
+RR32 big tie 8388606.5 = 8388607
+RR32 big tie 8388607.5 = 8388608
+RR32 q+q = 2.5         = 3
+RR32 q*2 = 2.5 generic = 3
+=== exit 0 ===

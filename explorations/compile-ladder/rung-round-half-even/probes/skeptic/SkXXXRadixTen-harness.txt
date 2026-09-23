@@ -1,0 +1,14 @@
+=== $ bin/fortress explorations/compile-ladder/rung-round-half-even/probes/skeptic/XXXRadixTenPointNumeral.fss   (walk, rung R's edit in place: the proposed home-2 gate for the recommended row, red today) 2026-09-22T23:38:22Z ===
+Exception in thread "main" java.lang.NumberFormatException
+Caused by: java.lang.NumberFormatException: For input string: "2.5_10"
+=== exit 1 ===
+=== $ java -cp $(bin/fortress_classpath) -Dtests=tmp/sk2-xxx10 junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (testSystem's harness on a one-file copy) 2026-09-22T23:38:28Z ===
+tmp/sk2-xxx10
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb7c300a_16
+. interpret tmp/sk2-xxx10/XXXRadixTenPointNumeral  OK Saw expected exception
+
+Time: 7.069
+
+OK (1 test)
+
+=== exit 0 ===

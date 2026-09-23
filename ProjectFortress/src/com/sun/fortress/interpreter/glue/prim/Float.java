@@ -381,7 +381,7 @@ public class Float extends NativeConstructor {
 
     public static final class Round extends R2L {
         protected long f(double x) {
-            return Math.round(x);
+            return (long) Math.rint(x);
         }
     }
 

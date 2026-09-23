@@ -1,0 +1,13 @@
+component Sk2NumeralPrint
+export Executable
+
+(*) Second skeptic's probe for rung R: see ../../SKEPTIC.md
+
+run():() = do
+    x: RR64 = 2.5
+    println("typed RR64 binding: " x)
+    println(2.5)
+    println("bare numeral juxtaposed: " 2.5)
+end
+
+end

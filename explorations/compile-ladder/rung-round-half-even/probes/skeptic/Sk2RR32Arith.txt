@@ -1,0 +1,25 @@
+=== $ FORTRESS_THREADS=1 bin/fortress explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2RR32ArithWalk.fss   (walk, rung R's edit in place) 2026-09-22T23:33:59Z ===
+RR32 round(a + a) [2.5]    = 2
+RR32 round(b + b) [0.5]    = 0
+RR32 round(c + c) [1.5]    = 2
+RR32 round(d) [2.5000002]  = 3
+RR32 round(e) [2^24-1]     = 16777215
+RR32 round(c) [0.75]      = 1
+=== exit 0 ===
+=== $ FORTRESS_THREADS=1 java $JAVA_FLAGS -cp tmp/sk-before-classes:$(bin/fortress_classpath) com.sun.fortress.Shell explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2RR32ArithWalk.fss   (walk, the base's Float$Round and RR32$Round, Math.round, ahead of the build) 2026-09-22T23:34:03Z ===
+RR32 round(a + a) [2.5]    = 3
+RR32 round(b + b) [0.5]    = 1
+RR32 round(c + c) [1.5]    = 2
+RR32 round(d) [2.5000002]  = 3
+RR32 round(e) [2^24-1]     = 16777215
+RR32 round(c) [0.75]      = 1
+=== exit 0 ===
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress compile ../explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2RR32Arith.fss ; ../bin/fortress run Sk2RR32Arith   (compiled path; the rung touches no compiled-path file) 2026-09-22T23:34:06Z ===
+--- compile exit 0 ---
+RR32 round(a + a) [2.5]    =  2
+RR32 round(b + b) [0.5]    =  0
+RR32 round(c + c) [1.5]    =  2
+RR32 round(d) [2.5000002]  =  3
+RR32 round(e) [2^24-1]     =  16777215
+RR32 round(c) [0.75]      =  1
+=== run exit 0 ===

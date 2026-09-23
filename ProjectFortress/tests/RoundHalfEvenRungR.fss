@@ -1,0 +1,41 @@
+component RoundHalfEvenRungR
+export Executable
+
+(*) explorations/compile-ladder/rung-round-half-even/REPORT.md
+
+run() = do
+    assert(round(2.5), 2, "RR64 literal round(2.5) = 2: numbers.tex:470-472, ledger row 329")
+    assert(round(-3.5), -4, "RR64 literal round(-3.5) = -4: numbers.tex:470-472, ledger row 329")
+    assert(round(0.5), 0, "RR64 literal round(0.5) = 0: numbers.tex:470-472, ledger row 329")
+    assert(round(-1.5), -2, "RR64 literal round(-1.5) = -2: numbers.tex:470-472, ledger row 329")
+    assert(round(3.5), 4, "RR64 literal round(3.5) = 4: numbers.tex:470-472")
+    assert(round(-2.5), -2, "RR64 literal round(-2.5) = -2: numbers.tex:470-472")
+    assert(round(2.4), 2, "RR64 literal round(2.4) = 2: numbers.tex:470-471")
+    assert(round(2.6), 3, "RR64 literal round(2.6) = 3: numbers.tex:470-471")
+    assert(round(-2.6), -3, "RR64 literal round(-2.6) = -3: numbers.tex:470-471")
+
+    assert(round(SQRT(6.25)), 2, "RR64 Float round(2.5) = 2: numbers.tex:470-472, ledger row 329")
+    assert(round(-SQRT(12.25)), -4, "RR64 Float round(-3.5) = -4: numbers.tex:470-472, ledger row 329")
+    assert(round(SQRT(0.25)), 0, "RR64 Float round(0.5) = 0: numbers.tex:470-472, ledger row 329")
+    assert(round(-SQRT(2.25)), -2, "RR64 Float round(-1.5) = -2: numbers.tex:470-472, ledger row 329")
+    assert(round(SQRT(12.25)), 4, "RR64 Float round(3.5) = 4: numbers.tex:470-472")
+
+    h: RR32 = narrow(2.5)
+    nth: RR32 = narrow(-3.5)
+    half: RR32 = narrow(0.5)
+    noh: RR32 = narrow(-1.5)
+    fh: RR32 = narrow(4.5)
+    nfh: RR32 = narrow(-4.5)
+    th: RR32 = narrow(3.5)
+    assert(round(h), 2, "RR32 round(2.5) = 2: numbers.tex:470-472, ledger row 329")
+    assert(round(nth), -4, "RR32 round(-3.5) = -4: numbers.tex:470-472, ledger row 329")
+    assert(round(half), 0, "RR32 round(0.5) = 0: numbers.tex:470-472, ledger row 329")
+    assert(round(noh), -2, "RR32 round(-1.5) = -2: numbers.tex:470-472, ledger row 329")
+    assert(round(fh), 4, "RR32 round(4.5) = 4: numbers.tex:470-472, ledger row 329")
+    assert(round(nfh), -4, "RR32 round(-4.5) = -4: numbers.tex:470-472")
+    assert(round(th), 4, "RR32 round(3.5) = 4: numbers.tex:470-472")
+
+    println "PASS"
+end
+
+end

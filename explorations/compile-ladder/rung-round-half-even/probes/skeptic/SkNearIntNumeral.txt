@@ -1,0 +1,11 @@
+=== $ bin/fortress SkNearIntNumeral.fss   (walk, after the edit; floor, ceiling and truncate share the numeral-to-double step) 2026-09-22T22:05:13Z ===
+numeral floor(2.99999999999999999)    = 3.0
+numeral ceiling(2.00000000000000001)  = 2.0
+numeral truncate(2.99999999999999999) = 3
+=== exit 0 ===
+=== $ cd ProjectFortress && ../bin/fortress compile SkNearIntNumeral.fss ; ../bin/fortress run SkNearIntNumeral   (compiled path) 2026-09-22T22:05:19Z ===
+--- compile exit 0 ---
+numeral floor(2.99999999999999999)    =  3.0
+numeral ceiling(2.00000000000000001)  =  2.0
+numeral truncate(2.99999999999999999) =  3
+=== run exit 0 ===

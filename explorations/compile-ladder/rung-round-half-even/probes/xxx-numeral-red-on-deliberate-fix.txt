@@ -1,0 +1,63 @@
+=== The deliberate local fix (never committed): git diff of the working tree, 2026-09-22T22:58:19Z ===
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 09703a669..8e5df2809 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -198,6 +198,7 @@ object FloatLiteral extends RR64
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FloatLiteral$ToString")
+     asFloat(self): Float =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FloatLiteral$AsFloat")
++    round(self): ZZ64 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FloatLiteral$Round")
+ end
+ 
+ value object RR32 extends RR64
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/FloatLiteral.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/FloatLiteral.java
+index 5f9b693ff..f5e8e1f60 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/FloatLiteral.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/FloatLiteral.java
+@@ -58,6 +58,12 @@ public class FloatLiteral extends NativeConstructor {
+         }
+     }
+ 
++    public static final class Round extends NativeMeth0 {
++        public final FValue applyMethod(FObject x) {
++            return FLong.make(new java.math.BigDecimal(x.getString()).setScale(0, java.math.RoundingMode.HALF_EVEN).longValueExact());
++        }
++    }
++
+     @Override
+     protected void unregister() {
+         FFloatLiteral.resetConstructor();
+=== then: ant compileAll (BUILD SUCCESSFUL, javac compiled 1 file; it also deletes default_repository/caches) and rm -rf default_repository/caches/* ===
+=== $ bin/fortress ProjectFortress/tests/XXXRoundNearTieNumeral.fss   (walk, deliberate fix in: the XXX file now passes) 2026-09-22T22:58:19Z ===
+PASS
+=== exit 0 ===
+=== $ java -cp $(bin/fortress_classpath) -Dtests=tmp/xxx-suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (testSystem's harness on the one-file copy, deliberate fix in: a passing XXX file turns the suite red) 2026-09-22T22:58:37Z ===
+tmp/xxx-suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb57b5c7_16
+. interpret tmp/xxx-suite/XXXRoundNearTieNumeral 
+PASS
+ Missing expected failure 
+F
+Time: 3.666
+There was 1 failure:
+1) tmp/xxx-suite/XXXRoundNearTieNumeral(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/xxx-suite/XXXRoundNearTieNumeral
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:402)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 1 ===
+=== $ bin/fortress explorations/compile-ladder/rung-round-half-even/probes/skeptic/SkNearIntNumeral.fss   (walk, deliberate fix in: a round-only repair leaves floor, ceiling and truncate on the numeral unchanged, decision D1) 2026-09-22T22:58:41Z ===
+numeral floor(2.99999999999999999)    = 3.0
+numeral ceiling(2.00000000000000001)  = 2.0
+numeral truncate(2.99999999999999999) = 3
+=== exit 0 ===
+=== $ bin/fortress explorations/compile-ladder/rung-round-half-even/probes/skeptic/SkNearTie.fss   (walk, deliberate fix in: the four numerals now round as the rationals they denote) 2026-09-22T22:58:45Z ===
+numeral round(2.50000000000000001) = 3
+numeral round(2.49999999999999999) = 2
+numeral round(3.49999999999999999) = 3
+numeral round(0.50000000000000001) = 1
+=== exit 0 ===

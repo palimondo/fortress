@@ -1,0 +1,58 @@
+component RoundHalfEvenWalkProbe
+export Executable
+
+(*) Prints every value the rung's test asserts, plus the edge values of
+(*) rung F's skeptic probe, so a capture shows each line rather than the
+(*) first failing assert.  Float operands come from SQRT, as in roundBug.fss.
+
+run() = do
+    zero = SQRT(0.0)
+    one = SQRT(1.0)
+    inf = one / zero
+    nan = zero / zero
+    huge = exp(SQRT(10000.0))
+    println("RR64 literal round(2.5)    = " round(2.5))
+    println("RR64 literal round(-3.5)   = " round(-3.5))
+    println("RR64 literal round(0.5)    = " round(0.5))
+    println("RR64 literal round(-1.5)   = " round(-1.5))
+    println("RR64 literal round(3.5)    = " round(3.5))
+    println("RR64 literal round(-2.5)   = " round(-2.5))
+    println("RR64 literal round(-0.5)   = " round(-0.5))
+    println("RR64 literal round(2.4)    = " round(2.4))
+    println("RR64 literal round(2.6)    = " round(2.6))
+    println("RR64 literal round(-2.6)   = " round(-2.6))
+    println("RR64 Float round(2.5)      = " round(SQRT(6.25)))
+    println("RR64 Float round(-3.5)     = " round(-SQRT(12.25)))
+    println("RR64 Float round(0.5)      = " round(SQRT(0.25)))
+    println("RR64 Float round(-1.5)     = " round(-SQRT(2.25)))
+    println("RR64 Float round(3.5)      = " round(SQRT(12.25)))
+    println("RR64 Float round(-0.5)     = " round(-SQRT(0.25)))
+    println("RR64 Float round(nan)      = " round(nan))
+    println("RR64 Float round(inf)      = " round(inf))
+    println("RR64 Float round(-inf)     = " round(-inf))
+    println("RR64 Float round(huge)     = " round(huge))
+    println("RR64 Float round(-huge)    = " round(-huge))
+    h: RR32 = narrow(2.5)
+    nth: RR32 = narrow(-3.5)
+    half: RR32 = narrow(0.5)
+    noh: RR32 = narrow(-1.5)
+    fh: RR32 = narrow(4.5)
+    nfh: RR32 = narrow(-4.5)
+    th: RR32 = narrow(3.5)
+    nhalf: RR32 = narrow(-0.5)
+    nan32: RR32 = narrow(nan)
+    inf32: RR32 = narrow(inf)
+    println("RR32 round(2.5)            = " round(h))
+    println("RR32 round(-3.5)           = " round(nth))
+    println("RR32 round(0.5)            = " round(half))
+    println("RR32 round(-1.5)           = " round(noh))
+    println("RR32 round(4.5)            = " round(fh))
+    println("RR32 round(-4.5)           = " round(nfh))
+    println("RR32 round(3.5)            = " round(th))
+    println("RR32 round(-0.5)           = " round(nhalf))
+    println("RR32 round(nan)            = " round(nan32))
+    println("RR32 round(inf)            = " round(inf32))
+    println("RR32 round(-inf)           = " round(-inf32))
+end
+
+end

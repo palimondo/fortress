@@ -1,0 +1,32 @@
+component SkRoundComp
+export Executable
+
+(*) Skeptic's compiled twin of SkRoundWalk.fss for rung R: see ../../SKEPTIC.md
+
+halfOf(x: RR64): RR64 = x / 2.0
+
+run():() = do
+    two: RR64 = 2.0
+    five: RR64 = 5.0
+    println("arith 2.0+0.5          = " round(two + 0.5))
+    println("div 5.0/2.0            = " round(five / 2.0))
+    println("fn halfOf(5.0)         = " round(halfOf(5.0)))
+    println("fn halfOf(-7.0)        = " round(halfOf(-7.0)))
+    r: RR64 = 6.5
+    println("typed r: RR64 = 6.5    = " round(r))
+    println("big tie 2^52-1.5       = " round(4503599627370494.5))
+    println("big tie 2^52-0.5       = " round(4503599627370495.5))
+    println("just below half        = " round(0.49999999999999994))
+    println("neg zero               = " round(-0.0))
+    println("neg -0.4               = " round(-0.4))
+    println("2^53-1                 = " round(9007199254740991.0))
+    println("sum round 1.5          = " (round(1.5) + round(2.5) + round(3.5)))
+    b32: RR32 = 8388606.5
+    c32: RR32 = 8388607.5
+    h32: RR32 = 2.5
+    println("RR32 big tie 8388606.5 = " round(b32))
+    println("RR32 big tie 8388607.5 = " round(c32))
+    println("RR32 2.5               = " round(h32))
+end
+
+end

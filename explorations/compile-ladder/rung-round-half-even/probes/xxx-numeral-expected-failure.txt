@@ -1,0 +1,29 @@
+=== $ bin/fortress ProjectFortress/tests/XXXRoundNearTieNumeral.fss   (walk, rung R's edit in place: the home-2 test, red today) 2026-09-22T22:56:12Z ===
+FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:470-472
+/home/user/fortress-round/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-round/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-round/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-round/ProjectFortress/tests/XXXRoundNearTieNumeral.fss:7:5-125:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== $ mkdir -p tmp/xxx-suite && cp ProjectFortress/tests/XXXRoundNearTieNumeral.fss tmp/xxx-suite/ && java -cp $(bin/fortress_classpath) -Dtests=tmp/xxx-suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest   (testSystem's harness on a one-file copy) 2026-09-22T22:56:16Z ===
+tmp/xxx-suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cb558bf1_16
+. interpret tmp/xxx-suite/XXXRoundNearTieNumeral  OK Saw expected exception
+
+Time: 3.82
+
+OK (1 test)
+
+=== exit 0 ===

@@ -1,0 +1,12 @@
+component XXXRadixTenPointNumeral
+export Executable
+
+(*) explorations/compile-ladder/rung-round-half-even/REPORT.md
+
+run() = do
+    assert(round(2.5_10), 2, "numeral 2.5_10 is 5/2: lexical-structure.tex:1083-1093, literals.tex:162-163, numbers.tex:470-472")
+    assert(round(3.5_10), 4, "numeral 3.5_10 is 7/2: lexical-structure.tex:1083-1093, literals.tex:162-163, numbers.tex:470-472")
+    println "PASS"
+end
+
+end

@@ -29,3 +29,16 @@ L, C, R, S, M. The rule is ascending order of each rung's lowest edited line in 
 - The warm-cache mask hiding the removal of `Array3`'s `AnyAdditiveGroup` exclusion from `ArrayOperatorsBesideLibrary`: opened as an append to row 341, the repair round's first note there.
 - The generic scalar block holding the (number, `Array3`) slot against a user pair: opened as an append to row 341, the repair round's second note there.
 - The unchecked exclusion against the library's own `excludes` clauses, which the compile path's checker does refuse: opened as an append to row 293.
+
+## Rung R (`rung-round-half-even`)
+
+**Corrections.** The first skeptic's four were made by the repair round and are verified in the tree: the row-329 note's evidence paths are written in full, the FACTS line's saturation wording is the corrected one, `REPORT.md`'s specification section gives the split by operand (a numeral settled by `literals.tex:162-163` with `numbers.tex:470-472`, a `Float` or `RR32` value by the decision at `POSITIONS.md:49`) with `literals.tex:162-163` in the provenance block, and the precedent section cites `b70ed4590` on `main`. The second skeptic's one, made at the gather in `record.md`'s row 360 and in `REPORT.md`'s fork: the four measured values candidate (a) does not reach (`round(-2.50000000000000001)`, `round(-0.50000000000000001)`, `round(2.5 + 0.00000000000000001)`, the binary near tie; `probes/skeptic/Sk2NegNumeral.txt`, `probes/skeptic/Sk2Radix.txt`), the sentence under (a) that its gate would flip without the row closing, the two further `walk` answers rung R moved away from the specification, and "prints its own digits" narrowed to a radix-ten numeral.
+
+**Provisional row 354 is row 360.** R's `REPORT.md` never used the number; `record.md` is renumbered, and `SKEPTIC.md` and `JUDGE.md` carry a one-line note.
+
+**Suite arithmetic.** R's two test files plus the radix-ten gate placed at the gather, S's `XXXInferredStaticArgRungS.fss` and C's row-49 test take `testSystem` from 384 to 389.
+
+**Recommended rows, each opened or refused:**
+- The first skeptic's near-tie numeral row: opened as row 360, the rung's own record row (with the second skeptic's correction applied).
+- A, `walk`'s `NumberFormatException` on `2.5_10`: opened as row 361, and its proposed gate placed as `ProjectFortress/tests/XXXRadixTenPointNumeral.fss` with the comment line pointed at R's `REPORT.md`; it is an expected failure today and goes red when the numerals are written without `_10` (`explorations/compile-ladder/rung-round-half-even/probes/gather/radix-ten-xxx-harness.txt`).
+- B, the compiled path's `NullPointerException` rendering a floating-point numeral: opened as row 362, home 3 because the prose is silent on a numeral's rendering.

@@ -1,0 +1,14 @@
+component XXXRoundNearTieNumeral
+export Executable
+
+(*) explorations/compile-ladder/rung-round-half-even/SKEPTIC.md
+
+run() = do
+    assert(round(2.50000000000000001), 3, "numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:470-472")
+    assert(round(0.50000000000000001), 1, "numeral round(0.50000000000000001) = 1: literals.tex:162-163, numbers.tex:470-472")
+    assert(round(3.49999999999999999), 3, "numeral round(3.49999999999999999) = 3: literals.tex:162-163, numbers.tex:470-472")
+    assert(round(2.49999999999999999), 2, "numeral round(2.49999999999999999) = 2: literals.tex:162-163, numbers.tex:470-472")
+    println "PASS"
+end
+
+end

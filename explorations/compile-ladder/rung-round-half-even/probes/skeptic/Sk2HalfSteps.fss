@@ -1,0 +1,21 @@
+component Sk2HalfSteps
+export Executable
+
+(*) Second skeptic's probe for rung R: see ../../SKEPTIC.md
+
+run():() = do
+    step: RR64 = SQRT(0.25)
+    var acc: RR64 = -SQRT(16.0)
+    var total: ZZ64 = 0
+    var k: ZZ32 = 0
+    while k < 17 do
+        r = round(acc)
+        println("step " k ": round = " r)
+        total := total + r
+        acc := acc + step
+        k := k + 1
+    end
+    println("sum of rounds = " total)
+end
+
+end

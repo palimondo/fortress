@@ -1,0 +1,25 @@
+=== $ bin/fortress SkNearTie.fss   (walk, after the edit) 2026-09-22T21:59:58Z ===
+numeral round(2.50000000000000001) = 2
+numeral round(2.49999999999999999) = 2
+numeral round(3.49999999999999999) = 4
+numeral round(0.50000000000000001) = 0
+=== exit 0 ===
+=== $ java -cp tmp/sk-before-classes:$(bin/fortress_classpath) com.sun.fortress.Shell SkNearTie.fss   (walk, the base's two natives) 2026-09-22T22:00:02Z ===
+numeral round(2.50000000000000001) = 3
+numeral round(2.49999999999999999) = 3
+numeral round(3.49999999999999999) = 4
+numeral round(0.50000000000000001) = 1
+=== exit 0 ===
+=== $ cd ProjectFortress && ../bin/fortress compile SkNearTie.fss ; ../bin/fortress run SkNearTie   (compiled path) 2026-09-22T22:00:06Z ===
+--- compile exit 0 ---
+numeral round(2.50000000000000001) =  2
+numeral round(2.49999999999999999) =  2
+numeral round(3.49999999999999999) =  4
+numeral round(0.50000000000000001) =  0
+=== run exit 0 ===
+=== $ bin/fortress SkNearTieRational.fss   (walk, the same four values written as quotients, which the library makes rationals) 2026-09-22T22:00:11Z ===
+rational round(250000000000000001/10^17) = 3
+rational round(249999999999999999/10^17) = 2
+rational round(349999999999999999/10^17) = 3
+rational round(50000000000000001/10^17)  = 1
+=== exit 0 ===

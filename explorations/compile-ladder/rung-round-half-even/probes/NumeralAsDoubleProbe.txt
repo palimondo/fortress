@@ -1,0 +1,6 @@
+=== $ bin/fortress explorations/compile-ladder/rung-round-half-even/probes/NumeralAsDoubleProbe.fss   (walk, rung R's edit in place, no deliberate fix) 2026-09-22T23:01:24Z ===
+2.50000000000000001 = 2.5     : true
+2.50000000000000001 - 2.5     : 0.0
+2.50000000000000001 printed   : 2.50000000000000001
+(250000000000000001/10^17) = (5/2) : false
+=== exit 0 ===
