@@ -8,7 +8,7 @@ Decision: **repair**. Both findings are right in substance; neither is a reason 
 
 ## 1. What the gate says today
 
-Green on every stage: `testFast` 0 failures over every suite, `testSystem` 97 + 99 + 97 + 96 = 389 with 0 failures, the 39 four-thread `atomic` runs PASS, the ladder and microGPT comparisons empty (`gate/summary.txt`), the checker count 93 → 103 with the crash line unchanged and `#shadow` fresh (`gate/checker-count.txt`, `tmp/gate-batch-3/checker-compare.txt`). The 103 against the manifest's declared 102 is the gather's recorded decision for Pavol on `trait QQ … comprises { AnyIntegral, ... }` (`RECORD.md`, "Rung L"), not a defect and not this ruling's.
+Green on every stage but the checker count: `testFast` 0 failures over every suite, `testSystem` 97 + 99 + 97 + 96 = 389 with 0 failures, the 39 four-thread `atomic` runs PASS, the ladder and microGPT comparisons empty (`gate/summary.txt`); the checker count read 93 → 103 against the declared 102, which `checker_compare` prints as `COUNT UP` and the gate's rule makes red, with the crash line unchanged and `#shadow` fresh (`gate/checker-count.txt`, `tmp/gate-batch-3/checker-compare.txt`). (Corrected at the landing, 2026-09-23: this sentence first read "Green on every stage".) The 103 against the manifest's declared 102 is the gather's recorded decision for Pavol on `trait QQ … comprises { AnyIntegral, ... }` (`RECORD.md`, "Rung L"), not a defect and not this ruling's.
 
 ## 2. Finding 1: rows 356 and 369, home 2 owed and not given
 

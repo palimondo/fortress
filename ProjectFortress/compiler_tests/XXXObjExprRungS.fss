@@ -1,0 +1,17 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component XXXObjExprRungS
+export Executable
+
+trait Shape
+  getter name(): String = "shape"
+end
+
+run(): () = do
+    println("REACHED")
+    o: Shape = object extends Shape end
+    assert(o.name, "shape", "an object expression denotes an object value of an anonymous type extending its extends clause; ledger row 375, Specification/basic/expressions/object.tex:31-38")
+    println("PASS")
+  end
+
+end

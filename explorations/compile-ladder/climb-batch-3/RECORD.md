@@ -40,7 +40,7 @@ L, C, R, S, M. The rule is ascending order of each rung's lowest edited line in 
 
 **Provisional row 354 is row 360.** R's `REPORT.md` never used the number; `record.md` is renumbered, and `SKEPTIC.md` and `JUDGE.md` carry a one-line note.
 
-**Suite arithmetic.** R's two test files plus the radix-ten gate placed at the gather, S's `XXXInferredStaticArgRungS.fss` and C's row-49 test take `testSystem` from 384 to 389, and the merged-diff review's three tests for rows 356 and 369 to 392.
+**Suite arithmetic.** R's two test files plus the radix-ten gate placed at the gather, S's `XXXInferredStaticArgRungS.fss` and C's row-49 test take `testSystem` from 384 to 389, the merged-diff review's three tests for rows 356 and 369 to 392, and the landing's test for row 374 (`ProjectFortress/tests/XXXFnRenderRungS.fss`) to 393.
 
 **Recommended rows, each opened or refused:**
 - The first skeptic's near-tie numeral row: opened as row 360, the rung's own record row (with the second skeptic's correction applied).
@@ -105,7 +105,7 @@ Made 2026-09-23 on `main` after `1312a4dce`, on the ruling in `explorations/comp
 
 **Rung L's fifth fix** is recorded as ungated in the rung L section above, in FACTS, in the handover and in L's `record.md`.
 
-**Gate.** `testSystem`'s expected total is now 392 (389 + 3), the four shards compared by their sum; the three files are the only change to any gate stage's inputs, every other stage's inputs are byte-identical to the green run at `767f7a6f6`, and the `testSystem` stage must run again before the commit stage.
+**Gate.** `testSystem`'s expected total is now 392 (389 + 3), the four shards compared by their sum. The three files are the only change to any gate stage's inputs since the gate ran at `a071fe409`, and that run was not green: it was red on the checker count alone (`COUNT UP 93 -> 103` against rung L's declared 102) and green on every other stage. Nor is one stage enough: the script re-runs the whole gate after a repair on the merged tree, not the stage whose inputs changed (`explorations/coordinator/climb-batch-workflow.js`, `gateIsStale` after the review's repair). (Corrected at the landing, 2026-09-23: this paragraph first called the gate "the green run at `767f7a6f6`", which is the review's correction commit and not where the gate ran, and said that only the `testSystem` stage must run again.)
 
 ## The merged-diff review after the repair
 
@@ -118,3 +118,23 @@ Made 2026-09-23 on `main` at `763ba87bc`, over the whole change from `d610695c0`
 **The `<short hash>` placeholders, and the commit each one names.** Ledger rows 76, 307 and 321, the two FACTS lines of rung S and the handover's S line: `6bec1b004` (S). Row 329: `9782955b1` (R). Row 370: `d28cf74d0` (M). The handover's L line: `a7ced6764` (L). Rows 356 and 369: `763ba87bc`, the repair that placed their tests, not rung L's or rung S's commit.
 
 **Escalated to the judge, not corrected here:** row 362's home, and four failures rung S's skeptics measured that have no home. Both are described in the review's return.
+
+## The landing
+
+Made 2026-09-23 on `main`, after the run `wf_776d7c2c-6c3` returned `{landed: false, reason: 'review still blocking after one repair'}` (`explorations/coordinator/climb-batch-workflow.js`, the return after `review2`) and Pavol said "Finish" (`explorations/coordinator/POSITIONS.md`, 2026-09-23). It follows the script's own stages: the records fixed per the second review, the full gate re-run with 103 declared, the commit stage.
+
+**The checker count.** 103 declared for rung L, the ellipsis spelling kept (section "Rung L" above).
+
+**The second review's B1, row 362's home.** Home 3 as "silent" was wrong by the passage rung S's row-321 correction reads (`Specification/basic-lib/objects.tex:19-22`, `:117-122`): the defect is the null `FFloatLiteral.asString` returns, not the digits. The row now has home 2, gated by `ProjectFortress/compiler_tests/XXXNumeralPrintRungR.fss` with `XXXNumeralPrintRungR.test` (`run`) and `NumeralPrintRungRLink.test` (`link`), the split shape of batch 2's `XXXBoxDotSpellingsRungW`; shown to fail as expected on the tree, to go red on the one-line fix (`FFloatLiteral.asString` made like `FIntLiteral.java:57-61`, compiled into the build alone) and to fail as expected after the revert (`explorations/compile-ladder/rung-round-half-even/probes/landing/numeral-print-xxx-harness.txt`). The ledger row, its copy in R's `record.md`, R's `REPORT.md` (which the test's comment line names) and a note in R's `SKEPTIC.md` say so.
+
+**The second review's B2, four failures rung S's skeptics measured with no home.** Opened as rows 374-377, in the ledger's last table and copied into S's `record.md` ("Rows opened at the landing"), with items 15-18 in S's `REPORT.md`:
+- Row 374, `SkFnRender`, a function value printed: walk's half home 2, gated by `ProjectFortress/tests/XXXFnRenderRungS.fss`, shown red on a deliberate local fix of `Library/FortressLibrary.fss:4044` with cold caches (`explorations/compile-ladder/rung-default-rendering/probes/landing/fn-render-xxx-harness.txt`); the compiled half home 3, because `Specification/basic/types-vals-vars.tex:135-136` and `basic-lib/objects.tex:21-22`, `:127-128` disagree on whether a function is an `Object`.
+- Row 375, `SkObjExpr`, the compiled path's missing object expressions: home 2 (`Specification/basic/expressions/object.tex:31-38`), gated by `ProjectFortress/compiler_tests/XXXObjExprRungS.fss` with its `.test` (`compile`, `compile_exception_contains=Can't compile ObjectExpr`), row 353's form; shown red on the control a repair makes of it, a declared object in place of the expression (`explorations/compile-ladder/rung-default-rendering/probes/landing/objexpr-xxx-harness.txt`).
+- Row 376, `SkArrowDomain`: home 3, because the specification's grammar admits both a type and a Boolean implication for `(ZZ32 -> ZZ32) -> ZZ32` (`->` is also `IMPLIES`) and its prose does not choose; the parser's own lookahead takes the type reading for an unparenthesized domain.
+- Row 377, `Sk2OldNew`: home 3, because the specification has no `import java`; not narrowed.
+
+That is a decision taken at the landing on the brief "open ledger rows, each with its home": a home 2 is a gated test by the shared prefix's definition and by the judge's ruling on rows 356 and 369 (`JUDGE-review.md` § 2), so the two home-2 halves were given their tests rather than an "owed" sentence. The alternative, rows alone, would have kept `testSystem` at 392 and `testFast` at the B1 pair's two.
+
+**Suite arithmetic.** `testSystem` 392 → 393 (`tests/XXXFnRenderRungS.fss`); `testFast` gains three junit tests from three `.test` files (`NumeralPrintRungRLink.test`, `XXXNumeralPrintRungR.test`, `XXXObjExprRungS.test`).
+
+**Records corrected.** `JUDGE-review.md` § 1 no longer calls the gate at `a071fe409` green on every stage; the "Gate" paragraph of "Repair after the judge's ruling" no longer calls it "the green run at `767f7a6f6`" or says one stage is enough; the batch's `testSystem` total reads 393 in FACTS, the handover, R's and S's records and reports. Rung L's `REPORT.md` and `SKEPTIC.md`, owed since the gather, are written from the run's `rung:L` and `skeptic:L` results.

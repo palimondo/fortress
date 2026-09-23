@@ -1,0 +1,101 @@
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXObjExprRungS.test   (the XXX compile test on the stock tree at 228b35c49: expected failure, the codegen's CompilerError) 2026-09-23T04:11:18Z ===
+. compile compiler_tests/XXXObjExprRungS com.sun.fortress.exceptions.CompilerError: 
+ OK Saw expected exception
+
+Time: 1.235
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress compile compiler_tests/XXXObjExprRungS.fss   (the same program compiled directly, for the message the check line matches) 2026-09-23T04:11:31Z ===
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+/home/user/fortress/ProjectFortress/compiler_tests/XXXObjExprRungS.fss:12:16-38:
+    Can't compile ObjectExpr at /home/user/fortress/ProjectFortress/compiler_tests/XXXObjExprRungS.fss:12.16
+	at com.sun.fortress.compiler.codegen.CodeGen.sayWhat(CodeGen.java:1553)
+	at com.sun.fortress.compiler.codegen.CodeGen.sayWhat(CodeGen.java:1558)
+	at com.sun.fortress.compiler.codegen.CodeGen.defaultCase(CodeGen.java:1670)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forNode(NodeAbstractVisitor_void.java:33)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forASTNode(NodeAbstractVisitor_void.java:37)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forAbstractNode(NodeAbstractVisitor_void.java:49)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forExpr(NodeAbstractVisitor_void.java:185)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forAbstractObjectExpr(NodeAbstractVisitor_void.java:229)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forObjectExpr(NodeAbstractVisitor_void.java:233)
+	at com.sun.fortress.nodes.ObjectExpr.accept(ObjectExpr.java:61)
+	at com.sun.fortress.compiler.codegen.CodeGen.forExprsSerial(CodeGen.java:4854)
+	at com.sun.fortress.compiler.codegen.CodeGen.forLocalVarDecl(CodeGen.java:3998)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.doStatements(CodeGen.java:1580)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlockHelper(CodeGen.java:1710)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlock(CodeGen.java:1765)
+	at com.sun.fortress.nodes.Block.accept(Block.java:73)
+	at com.sun.fortress.compiler.codegen.CodeGen.forDo(CodeGen.java:1972)
+	at com.sun.fortress.nodes.Do.accept(Do.java:61)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateActualMethodCode(CodeGen.java:2799)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateFunctionalBody(CodeGen.java:2741)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnDecl(CodeGen.java:3008)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:71)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1944)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== the control, which is what a repair of the code generator makes of the test: tmp/landing/objexpr-ctl/XXXObjExprRungS.fss is the gated file with the object expression replaced by a declared object of the same trait (the diff follows), run under the same XXX name and .test file ===
+
+=== $ diff ProjectFortress/compiler_tests/XXXObjExprRungS.fss tmp/landing/objexpr-ctl/XXXObjExprRungS.fss   (diff of the control against the gated file) 2026-09-23T04:11:33Z ===
+9a10,11
+> object Sq extends Shape end
+> 
+12c14
+<     o: Shape = object extends Shape end
+---
+>     o: Shape = Sq
+=== exit 1 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit ../tmp/landing/objexpr-ctl/XXXObjExprRungS.test   (the control under the harness: the program compiles, so the XXX test must go red) 2026-09-23T04:11:33Z ===
+. compile ../tmp/landing/objexpr-ctl/XXXObjExprRungS 
+ Saw failure, but did not satisfy compile_exception_contains; expected
+Can't compile ObjectExpr
+F
+Time: 1.313
+There was 1 failure:
+1) ../tmp/landing/objexpr-ctl/XXXObjExprRungS(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:398)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress compile ../tmp/landing/objexpr-ctl/XXXObjExprRungS.fss && FORTRESS_THREADS=1 ../bin/fortress run XXXObjExprRungS   (the control compiled and run directly: it prints PASS) 2026-09-23T04:11:34Z ===
+REACHED
+PASS
+=== exit 0 ===
+
+=== $ rm -f default_repository/caches/bytecode_cache/XXXObjExprRungS.jar default_repository/caches/analyzed_cache/XXXObjExprRungS-* && cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXObjExprRungS.test   (the control's cache entries removed (the stale-cache trap of row 354's note), then the gated test again on the stock tree: expected failure) 2026-09-23T04:11:46Z ===
+. compile compiler_tests/XXXObjExprRungS com.sun.fortress.exceptions.CompilerError: 
+ OK Saw expected exception
+
+Time: 1.472
+
+OK (1 test)
+
+=== exit 0 ===
+

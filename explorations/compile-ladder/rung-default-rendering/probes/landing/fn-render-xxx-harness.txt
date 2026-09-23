@@ -1,0 +1,78 @@
+=== $ set -o pipefail; bin/fortress ProjectFortress/tests/XXXFnRenderRungS.fss 2>&1 | grep -v '^	at '   (walk the gated test on the stock tree at 228b35c49; pipefail, so the exit is walk's) 2026-09-23T04:12:46Z ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+Non-object receiver inc(x:FortressLibrary.ZZ32):FortressLibrary.ZZ32 ZZ32->ZZ32 /home/user/fortress/ProjectFortress/tests/XXXFnRenderRungS.fss:6:1-27 trying to invoke method asString
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:4044:42-50:
+/home/user/fortress/Library/FortressLibrary.fss:4060:45-47:
+/home/user/fortress/Library/FortressLibrary.fss:4145:29-32:
+/home/user/fortress/ProjectFortress/tests/XXXFnRenderRungS.fss:10:5-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+=== exit 1 ===
+
+=== $ set -o pipefail; java -cp "$(bin/fortress_classpath)" -Dtests=tmp/landing/fn/suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest 2>&1 | grep -v '^	at '   (the one-file harness on the stock tree: expected failure; the exit is the harness's) 2026-09-23T04:12:48Z ===
+tmp/landing/fn/suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cc775874_16
+. interpret tmp/landing/fn/suite/XXXFnRenderRungS  OK Saw expected exception
+
+Time: 2.41
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== the deliberate local fix, applied before the next runs: trait String's opr || on an Any (Library/FortressLibrary.fss:4044, the frame the failure names) renders a non-Object as the words 'a function' instead of calling asString on it; any repair of the row makes some such change, and the test asserts no spelling ===
+
+=== $ git diff -- Library/FortressLibrary.fss   (the fix) 2026-09-23T04:12:58Z ===
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index a67583d23..7e2061eba 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -4041,7 +4041,11 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+     opr ||(self, b:(Any,Any,Any,Any,Any,Any)):String =
+         do (i,j,k,l,m,n) = b; self || "(" || i || "," j || "," k || "," l || "," m || "," n || ")" end
+     opr ||(a:Any, self):String = a.asString || self
+-    opr ||(self, b:Any):String = self || b.asString
++    opr ||(self, b:Any):String =
++        typecase b of
++            b':Object => self || b'.asString
++            else => self || "a function"
++        end
+ 
+     (** The operator %|||% with at least one String argument converts to string,
+         then appends with a whitespace separator unless one of the two arguments is
+=== exit 0 ===
+
+=== $ rm -rf default_repository/caches/* && set -o pipefail && java -cp "$(bin/fortress_classpath)" -Dtests=tmp/landing/fn/ctl junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest 2>&1 | grep -v '^	at '   (cold caches, then the control: the same file under the fix, through the one-file harness) 2026-09-23T04:12:58Z ===
+tmp/landing/fn/ctl
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cc778174_16
+. interpret tmp/landing/fn/ctl/XXXFnRenderRungS 
+REACHED
+a function
+a function
+PASS
+ Missing expected failure 
+F
+Time: 16.669
+There was 1 failure:
+1) tmp/landing/fn/ctl/XXXFnRenderRungS(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/landing/fn/ctl/XXXFnRenderRungS
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 1 ===
+
+=== $ git checkout -- Library/FortressLibrary.fss && git status --short -- Library/ && rm -rf default_repository/caches/* && set -o pipefail && java -cp "$(bin/fortress_classpath)" -Dtests=tmp/landing/fn/suite junit.textui.TestRunner com.sun.fortress.tests.unit_tests.SystemJUTest 2>&1 | grep -v '^	at '   (the fix reverted, caches wiped again, and the harness on the stock tree: expected failure) 2026-09-23T04:13:21Z ===
+tmp/landing/fn/suite
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0cc77da08_16
+. interpret tmp/landing/fn/suite/XXXFnRenderRungS  OK Saw expected exception
+
+Time: 16.31
+
+OK (1 test)
+
+=== exit 0 ===
+

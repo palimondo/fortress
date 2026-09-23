@@ -1,0 +1,15 @@
+(* See explorations/compile-ladder/rung-default-rendering/REPORT.md. *)
+
+component XXXFnRenderRungS
+export Executable
+
+inc(x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    println("REACHED")
+    println(inc)
+    println(fn (x: ZZ32): ZZ32 => x + 2)
+    println("PASS")
+  end
+
+end

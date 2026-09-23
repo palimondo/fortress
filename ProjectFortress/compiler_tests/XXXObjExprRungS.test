@@ -1,0 +1,3 @@
+tests=XXXObjExprRungS
+compile
+compile_exception_contains=Can't compile ObjectExpr
