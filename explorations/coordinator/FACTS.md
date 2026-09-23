@@ -85,6 +85,10 @@
 
 - The in-repo `Specification/` is the later draft with the implementers' notes; `Specification-1.0-frozen/` is 1.0. Searches are made in the draft. Superseded 2026-09-16 by `map/spec-to-implementation.md` §1.2: the sources under `Specification-1.0-frozen/` are a byte-identical copy of the same draft in 202 of 208 files (the five differences are the revival's `fortress.tex` restyling, three `.pl` generators, and one stray `\tracingcommands` line); only `fortress.1.0.pdf` beside them is the 1.0 artefact. There is one prose to search, the draft, and it is 596 pages against the PDF's 262.
 
+## The repository's lineage (2026-09-23, `coordinator/lineage.md`)
+
+- `palimondo/fortress` is a 2018 GitHub fork of `sirinath/fortress`, a git conversion of the project's java.net Mercurial repository: 5,397 trunk commits, root `72ae6881b` (2007-01-04), tip `a874948ac` (2012-08-31), twelve relic branches, the `1.0` tag; the conversion cut 146 parent links (`research/authorship.md:14-22`). The third-party Java 9 port is one squashed commit (`eab48aa6d`) sharing no history with this tree; `8fe1daa8f` (2026-08-18) copied 1,506 of its files onto `a874948ac`, most of it since removed or redone; `clean-ladder` (`8332bd34f`) is a rebuild on `a874948ac` with no graft that never replaced `main`, so `main` still descends from `8fe1daa8f` and keeps 78 of its blobs byte-identical (6 modified files, 72 added, listed in `lineage.md`). CLAUDE.md's opening sentence said otherwise from `446836590` until corrected; the files that still repeat it are listed in `lineage.md`.
+
 ## The library's arrays and algebra
 
 - `Vector[\T extends Number, nat s0\]` and `Matrix[\T extends Number, nat s0, nat s1\]` are the only sized array traits; `Array3[\T, nat b0, nat s0, …\]` carries no algebraic trait (row 292; `FortressLibrary.fsi:1460, 1578, 1652`).

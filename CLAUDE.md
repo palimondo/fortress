@@ -2,10 +2,12 @@
 
 This is @palimondo's revival of Sun/Oracle's **Fortress** programming language
 (Guy Steele's HPC language, 2003–2012; interpreter + partial JVM compiler,
-BSD-licensed). The repo carries the full available git history (5397 commits,
-root 2007-01-04, HEAD Aug 2012) with pluckyporcupine's Scala 2.10.7/Java 9
-migration grafted on top as a tree overlay — see the commit messages of the
-graft commits for lineage and attribution. Working mode: Claude explains the
+BSD-licensed). The repo is a 2018 GitHub fork of `sirinath/fortress`, a git
+conversion of the project's java.net Mercurial repository: 5,397 trunk commits
+from 2007-01-04 to 2012-08-31 (`a874948ac`), twelve old branches and the `1.0`
+tag. The conversion cut 146 parent links, so a history walk from HEAD stops
+early; see `research/authorship.md`. Everything after `a874948ac` is the
+revival's own work (2026). Working mode: Claude explains the
 codebase and produces documentation and experiments as we go; Pavol decides
 what gets committed. The full collaboration protocol — roles, tone, how work
 is presented, commit discipline, delegation — is in
@@ -45,8 +47,7 @@ Facts that save time:
 
 - **Both execution paths work.** `fortress <file>.fss` interprets directly.
   The bytecode compiler path (`fortress compile` + `fortress run`) also works
-  on JDK 8 — pluckyporcupine's "compiled programs don't run" is wrong here —
-  but has two traps: imported library components (`System`,
+  on JDK 8, but has two traps: imported library components (`System`,
   `CompilerSystem`) must be explicitly `fortress compile`d into the cache
   first, and **stale caches** cause a misleading
   `NoSuchMethodError: fortress.CompilerBuiltin.println(...)` — wipe
@@ -104,6 +105,6 @@ Facts that save time:
    executable-paper showcase; feasibility map and staging:
    `explorations/microgpt-port.md`.
 
-Claims in old READMEs (root `README.txt`, pluckyporcupine's `README.md`,
-`NOTES.md`) describe *their* eras, not the current tree — verify against the
-code before acting on them.
+Claims in the 2012 tree's own READMEs (root `README.txt` among them) describe
+their era, not the current tree — verify against the code before acting on
+them.
