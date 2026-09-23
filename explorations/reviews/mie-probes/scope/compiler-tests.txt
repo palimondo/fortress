@@ -1,0 +1,55 @@
+# compiler_tests declaring a generic overload, or matching 'overload' or Generic/Overload in the name: 43
+# test | stock link/run exits | callsite: output, classes | skip: output
+Compiled10.Comprehensions3 | link exit=0 run exit=0 | callsite: output same, classes identical (39 files) | skip: output same
+Compiled10.Comprehensions4 | link exit=255 | callsite: output same, classes no jar | skip: output same
+Compiled12 | link exit=0 run exit=0 | callsite: output same, classes identical (14 files) | skip: output same
+Compiled12.inheritFuncFullyGeneric | link exit=0 run exit=0 | callsite: output same, classes identical (43 files) | skip: output same
+Compiled12.inheritFuncPartiallyGeneric | link exit=0 run exit=0 | callsite: output same, classes identical (29 files) | skip: output same
+Compiled12.invariantInference | link exit=0 run exit=0 | callsite: output same, classes DIFFERENT: 4 files | skip: output DIFF
+Compiled12.invariantInference2 | link exit=0 run exit=0 | callsite: output same, classes DIFFERENT: 4 files | skip: output same
+Compiled13 | link exit=0 run exit=0 | callsite: output same, classes identical (19 files) | skip: output same
+Compiled13a | link exit=0 run exit=0 | callsite: output same, classes identical (13 files) | skip: output same
+Compiled13b | link exit=0 run exit=0 | callsite: output same, classes identical (13 files) | skip: output same
+Compiled14 | link exit=0 run exit=0 | callsite: output same, classes identical (5 files) | skip: output same
+Compiled15 | link exit=0 run exit=0 | callsite: output same, classes identical (12 files) | skip: output same
+Compiled15a | link exit=0 run exit=0 | callsite: output same, classes identical (12 files) | skip: output same
+Compiled15b | link exit=0 run exit=0 | callsite: output same, classes identical (12 files) | skip: output same
+Compiled16 | link exit=0 run exit=0 | callsite: output same, classes identical (18 files) | skip: output same
+Compiled16a | link exit=0 run exit=0 | callsite: output same, classes identical (8 files) | skip: output same
+Compiled16b | link exit=0 run exit=0 | callsite: output same, classes identical (16 files) | skip: output same
+Compiled16c | link exit=0 run exit=0 | callsite: output same, classes identical (16 files) | skip: output same
+Compiled16d | link exit=0 run exit=0 | callsite: output same, classes identical (12 files) | skip: output same
+Compiled16e | link exit=0 run exit=0 | callsite: output same, classes identical (16 files) | skip: output same
+Compiled16f | link exit=0 run exit=0 | callsite: output same, classes identical (18 files) | skip: output same
+Compiled17 | link exit=0 run exit=0 | callsite: output same, classes identical (21 files) | skip: output same
+Compiled17a | link exit=0 run exit=0 | callsite: output same, classes identical (15 files) | skip: output same
+Compiled17b | link exit=0 run exit=0 | callsite: output same, classes identical (29 files) | skip: output same
+Compiled17c | link exit=0 run exit=0 | callsite: output same, classes identical (29 files) | skip: output same
+Compiled17dd | link exit=0 run exit=0 | callsite: output same, classes identical (11 files) | skip: output same
+Compiled17f | link exit=0 run exit=0 | callsite: output same, classes identical (6 files) | skip: output same
+Compiled17g | link exit=255 | callsite: output same, classes no jar | skip: output same
+Compiled17h | link exit=0 run exit=0 | callsite: output same, classes identical (6 files) | skip: output same
+Compiled17i | link exit=0 run exit=0 | callsite: output same, classes identical (6 files) | skip: output same
+Compiled18 | link exit=255 | callsite: output same, classes no jar | skip: output same
+Compiled180 | link exit=0 run exit=0 | callsite: output same, classes DIFFERENT: 1 files | skip: output same
+Compiled240 | link exit=1 run exit=1 | callsite: output same, classes identical (0 files) | skip: output same
+Compiled250 | link exit=255 | callsite: output same, classes no jar | skip: output same
+Compiled6.ab | link exit=255 | callsite: output same, classes no jar | skip: output same
+Compiled6.af | link exit=0 run exit=0 | callsite: output same, classes identical (21 files) | skip: output same
+Compiled6.ah | link exit=0 run exit=0 | callsite: output same, classes identical (9 files) | skip: output same
+Compiled6.ak | link exit=255 | callsite: output same, classes no jar | skip: output same
+Compiled6.bs | link exit=255 | callsite: output same, classes no jar | skip: output same
+Compiled6.bt | link exit=255 | callsite: output same, classes no jar | skip: output same
+Compiled70 | link exit=0 run exit=0 | callsite: output same, classes identical (11 files) | skip: output same
+MutableTopLevelVar | link exit=0 run exit=0 | callsite: output same, classes identical (3 files) | skip: output same
+VarianceTest4 | link exit=0 run exit=1 | callsite: output same, classes identical (22 files) | skip: output same
+
+# skip's differing output
+4,15c4,15
+< Wsub None
+< Wsub Inv
+< Wsub Co,Contra
+< Wsub Inv,Co,Contra
+< Wsuper None
+< Wsuper Co,Contra
+< Wsuper Inv

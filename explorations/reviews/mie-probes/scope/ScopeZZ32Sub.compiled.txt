@@ -1,0 +1,11 @@
+=== fortress link ScopeZZ32Sub.fss   -Dprobe.scope=off
+link exit=0
+=== fortress run ScopeZZ32Sub
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class ScopeZZ32Sub$IntSub cannot be cast to class ScopeZZ32Sub$\=Sub?fortress\|CompilerBuiltin\%ZZ32? (ScopeZZ32Sub$IntSub and ScopeZZ32Sub$\=Sub?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClas
+run exit=1
+=== fortress link ScopeZZ32Sub.fss   -Dprobe.scope=callsite
+link exit=0
+=== fortress run ScopeZZ32Sub
+grab(t), t: Tag[ZZ32] = IntSub ->  SubM[ZZ32]
+run exit=0

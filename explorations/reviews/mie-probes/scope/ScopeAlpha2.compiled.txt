@@ -1,0 +1,12 @@
+=== fortress link ScopeAlpha2.fss   -Dprobe.scope=off
+link exit=0
+=== fortress run ScopeAlpha2
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class ScopeAlpha2$\=SubM?ScopeAlpha2\%Red,ScopeAlpha2\%Blue? cannot be cast to class ScopeAlpha2$\=Marker?ScopeAlpha2\%Blue,ScopeAlpha2\%Red? (ScopeAlpha2$\=SubM?ScopeAlpha2\%Red,ScopeAlpha2\%Blue? and ScopeAlpha2$\=Marker?ScopeAlpha2\%Blue,ScopeAlpha2\%Red? 
+run exit=1
+=== fortress link ScopeAlpha2.fss   -Dprobe.scope=callsite
+link exit=0
+=== fortress run ScopeAlpha2
+pair(t1), t1: Two[Red,Blue] = RedAndBlue      ->  SubM[Red,Blue]
+pair(t2), t2: Two[Red,Blue] = PlainPair ->  TwoM[Red,Blue]
+run exit=0

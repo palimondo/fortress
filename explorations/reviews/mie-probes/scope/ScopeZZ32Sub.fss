@@ -1,0 +1,22 @@
+component ScopeZZ32Sub
+export Executable
+
+(* The ZZ32 naming defect reached through a generic dispatcher, with no multiple
+   instantiation: IntSub is a Sub[ZZ32] only.  Through t: Tag[ZZ32] the call is checked as
+   the Tag generic at X = ZZ32 and dispatched, and the Sub arm applies. *)
+trait Tag[\X\] end
+trait Sub[\X\] extends Tag[\X\] end
+object IntSub extends Sub[\ZZ32\] end
+trait Marker[\X\] end
+object TagM[\X\] extends Marker[\X\] end
+object SubM[\X\] extends Marker[\X\] end
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = TagM[\X\]
+grab[\X\](t: Sub[\X\]): Marker[\X\] = SubM[\X\]
+
+run(): () = do
+  t: Tag[\ZZ32\] = IntSub
+  println("grab(t), t: Tag[ZZ32] = IntSub -> " (typecase grab(t) of
+      SubM[\ZZ32\] => "SubM[ZZ32]"; TagM[\ZZ32\] => "TagM[ZZ32]"; else => "other" end))
+end
+end

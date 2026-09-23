@@ -1,0 +1,157 @@
+--- a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+@@ -38,6 +38,7 @@
+ import com.sun.fortress.compiler.index.HasTraitStaticParameters;
+ import com.sun.fortress.compiler.index.Method;
+ import com.sun.fortress.compiler.phases.CodeGenerationPhase;
++import com.sun.fortress.compiler.typechecker.StaticTypeReplacer;
+ import com.sun.fortress.exceptions.CompilerBug;
+ import com.sun.fortress.exceptions.CompilerError;
+ import com.sun.fortress.nodes.APIName;
+@@ -51,6 +52,7 @@
+ import com.sun.fortress.nodes.IdOrOp;
+ import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
+ import com.sun.fortress.nodes.IntersectionType;
++import com.sun.fortress.nodes.KindType;
+ import com.sun.fortress.nodes.NamedType;
+ import com.sun.fortress.nodes.Op;
+ import com.sun.fortress.nodes.OpArg;
+@@ -1300,6 +1302,45 @@
+         return variances;
+     }
+     
++    /* Scope probe: -Dprobe.scope=callsite reads a generic arm of a generic dispatcher at the
++     * dispatcher's own static parameters, which the loader has replaced by the call site's
++     * arguments; =skip also leaves out generic arms of a dispatcher that has none. */
++    static final String SCOPE = System.getProperty("probe.scope", "off");
++
++    protected List<StaticParam> templateStaticParams() {
++        return principalMember == null ? null : staticParametersOf(principalMember.tagF);
++    }
++
++    private StaticTypeReplacer atTemplateParams(TaggedFunctionName f) {
++        List<StaticParam> tsp = templateStaticParams();
++        List<StaticParam> fsp = staticParametersOf(f.getF());
++        if (SCOPE.equals("off") || tsp == null || fsp == null || tsp.size() != fsp.size()
++            || !(f.getF() instanceof DeclaredFunction) || !(principalMember.getF() instanceof DeclaredFunction))
++            return null;
++        List<StaticArg> args = new ArrayList<StaticArg>();
++        for (StaticParam sp : tsp) {
++            if (!(sp.getKind() instanceof KindType)) return null;
++            args.add(NodeFactory.makeTypeArg(NodeFactory.makeVarType(NodeUtil.getSpan(sp), sp.getName().getText())));
++        }
++        return new StaticTypeReplacer(fsp, args);
++    }
++
++    private void invokeArmAtTemplateParams(MethodVisitor mv, TaggedFunctionName f, StaticTypeReplacer atT) {
++        List<Param> ps = new ArrayList<Param>();
++        for (Param p : f.getParameters()) ps.add((Param) p.accept(atT));
++        String sig = NamingCzar.jvmSignatureFor(ps,
++                NamingCzar.jvmBoxedTypeDesc(atT.replaceIn(f.getReturnType()), f.tagA), f.tagA);
++        String owner = Naming.dotToSep(f.tagA.getText());
++        String arrow = instanceArrowSchema(f);
++        String fname = functionName(f);
++        if (otherOverloadKeys.contains(Naming.genericFunctionPkgClass(owner, fname,
++                Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow)))
++            fname = NamingCzar.mangleAwayFromOverload(fname);
++        String armClass = Naming.genericFunctionPkgClass(owner, fname,
++                NamingCzar.genericDecoration(templateStaticParams(), null, ifNone), arrow);
++        mv.visitMethodInsn(Opcodes.INVOKESTATIC, armClass, Naming.APPLIED_METHOD, sig);
++    }
++
+     public void generateCall(MethodVisitor mv, int firstArgIndex, int one_if_method_closure) {
+         if (!splitDone) {
+             throw new CompilerError("Must split overload set before generating call(s)");
+@@ -1323,8 +1364,11 @@
+             MultiMap<String, TypeStructure> spmap = new MultiMap<String, TypeStructure>();
+             spmaps[i] = spmap;
+             List<StaticParam> staticParams = staticParametersOf(f.getF());
++            StaticTypeReplacer atT = atTemplateParams(f);
++            if (atT != null) staticParams = null;
+ 
+             Type rt = oa.getRangeType(eff);
++            if (atT != null) rt = atT.replaceIn(rt);
+             return_type_structures[i] = makeTypeStructure(rt,null, 1, 0, staticParams, eff);
+ 
+             // skip parameters -- no 'this' for ordinary functions
+@@ -1341,6 +1385,7 @@
+                 
+                 for (int j = 0; j < tl.size(); j++) {
+                     Type t = STypesUtil.insertStaticParams(tl.get(j), tt.getInfo().getStaticParams());
++                    if (atT != null) t = atT.replaceIn(t);
+                     TypeStructure type_structure = makeTypeStructure(t, spmap, 1, storeAtIndex, staticParams, eff);
+                     f_type_structures[j] = type_structure;
+                     storeAtIndex = type_structure.successorIndex;
+@@ -1355,6 +1400,7 @@
+                 for (int j = 0; j < parameters.size(); j++) {
+                     if (j != selfIndex()) {
+                         Type t = oa.getParamType(eff,j);
++                        if (atT != null) t = atT.replaceIn(t);
+                         TypeStructure type_structure = makeTypeStructure(t, spmap, 1, storeAtIndex, staticParams, eff);
+                         f_type_structures[j] = type_structure;
+                         storeAtIndex = type_structure.successorIndex;
+@@ -1373,6 +1419,9 @@
+ 
+             List<StaticParam> staticParams = staticParametersOf(f.getF());
+             boolean last_case = i == l-1;
++            if (SCOPE.equals("skip") && staticParams != null && templateStaticParams() == null
++                && f.getF() instanceof DeclaredFunction)
++                continue;
+ 
+ 
+             /* Trust the static checker; no need to verify
+@@ -1738,9 +1787,11 @@
+                     }
+                 }
+            
+-                String sig = jvmSignatureFor(f);
+-
+-                invokeParticularMethod(mv, f, sig);
++                StaticTypeReplacer atT = atTemplateParams(f);
++                if (atT != null)
++                    invokeArmAtTemplateParams(mv, f, atT);
++                else
++                    invokeParticularMethod(mv, f, jvmSignatureFor(f));
+                 Type f_return = f.getReturnType();
+                 if (f_return instanceof BottomType) {
+                     CodeGen.castToBottom(mv);
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+@@ -381,6 +381,12 @@
+                            var index = 1
+                            for ( first <- signatures ) {
+                                signatures.slice(index, signatures.length).foreach(second => {
++                                       if (spSentence != "off" && staticParamsDiffer(sentenceParams(first), sentenceParams(second))) {
++                                           System.err.println("@@SPSENTENCE\t" + name + "\t" + NU.getSpan(first._1) + "\t" + NU.getSpan(second._1))
++                                           error(mergeSpan(first._1, second._1), "Static parameters of the declarations of " + name +
++                                                 " differ (overloading.tex:100-105):\n     " + typeAndSpanToString(first._1) +
++                                                 "\n and " + typeAndSpanToString(second._1))
++                                       }
+                                        val a1 = validOverloading(first, second, signatures, isMethod, oracle)
+                                       /* if (false) {
+                                            val a2 = validOverloading(first, second, signatures, isMethod, oracle)
+@@ -427,6 +433,24 @@
+                            }
+     }
+ 
++    /* Scope probe: -Dprobe.spSentence=own|lifted enforces overloading.tex:100-105; own reads a
++     * functional method's static parameters without its trait's, lifted with them. */
++    private val spSentence = System.getProperty("probe.spSentence", "off")
++
++    private def sentenceParams(t: (ArrowType,Option[Int],Option[JavaFunctional])): List[StaticParam] =
++      if (spSentence == "own" && t._3.isDefined) toListFromImmutable(t._3.get.staticParameters)
++      else toListFromImmutable(t._1.getInfo.getStaticParams)
++
++    private def staticParamsDiffer(p: List[StaticParam], q: List[StaticParam]): Boolean =
++      p.size != q.size || p.zip(q).exists { case (a, b) => a.getKind.getClass != b.getKind.getClass } || {
++        val pq = p.zip(q).filter(_._1.getKind.isInstanceOf[KindType])
++        val r = new StaticTypeReplacer(toJavaList(pq.map(_._2)), toJavaList(pq.map(x =>
++                  NF.makeTypeArg(NF.makeVarType(NU.getSpan(x._1), x._1.getName.getText)).asInstanceOf[StaticArg])))
++        def bounds(sp: StaticParam, f: Type => Type) =
++          toListFromImmutable(sp.getExtendsClause).filter(!_.isInstanceOf[AnyType]).map(t => f(t).toString).toSet
++        pq.exists { case (a, b) => bounds(a, t => t) != bounds(b, t => r.replaceIn(t)) }
++      }
++
+     /* A functional which takes a single parameter of a parametric type
+      * bound by Any cannot be overloaded.
+      */

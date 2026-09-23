@@ -1,0 +1,6 @@
+# the compiler prelude compiled stock and with -Dprobe.scope=callsite
+CompilerSystem.jar: identical (2 files)
+fortress.AnyType.jar: identical (1 files)
+fortress.CompilerAlgebra.jar: identical (29 files)
+fortress.CompilerBuiltin.jar: identical (278 files)
+fortress.CompilerLibrary.jar: identical (246 files)

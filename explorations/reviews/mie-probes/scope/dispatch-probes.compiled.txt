@@ -1,0 +1,129 @@
+=== fortress link MieDispatch.fss   -Dprobe.rungP=hier -Dprobe.scope=off
+link exit=0
+=== fortress run MieDispatch
+which(z), z: Tag[ZZ32]   ->  Marker[ZZ32]
+which(s), s: Tag[String] ->  Marker[String]
+pick(z),  z: Tag[ZZ32]   ->  Marker[ZZ32]
+pick(s),  s: Tag[String] ->  Marker[String]
+grab(IntTag)             ->  Marker[ZZ32]
+grab(StrTag)             ->  Marker[String]
+grab(z),  z: Tag[ZZ32]   ->  Marker[ZZ32]
+grab(s),  s: Tag[String] ->  Marker[String]
+gz: Marker[ZZ32] = grab(z) holds  Marker[ZZ32]
+gs: Marker[String] = grab(s) holds  Marker[String]
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatch$Both cannot be cast to class MieDispatch$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatch$Both and MieDispatch$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader 
+run exit=1
+=== fortress link MieDispatchSub.fss   -Dprobe.rungP=hier -Dprobe.scope=off
+link exit=0
+=== fortress run MieDispatchSub
+grab(r), r: Sub[Red]  ->  Marker[Red]
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchSub$\=Marker?MieDispatchSub\%Red? cannot be cast to class MieDispatchSub$\=Marker?MieDispatchSub\%Blue? (MieDispatchSub$\=Marker?MieDispatchSub\%Red? and MieDispatchSub$\=Marker?MieDispatchSub\%Blue? are in unnamed module of loader com.sun.fo
+run exit=1
+=== fortress link MieDispatchAny.fss   -Dprobe.rungP=hier -Dprobe.scope=off
+link exit=0
+=== fortress run MieDispatchAny
+peek(a1), a1: Any = RedTag  ->  Marker[Red]
+peek(a2), a2: Any = RedBlue ->  Marker[Blue]
+peek(a3), a3: Any = BlueRed ->  Marker[Red]
+peek(Red)                   ->  Red (the Any declaration)
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchAny$\=Marker?MieDispatchAny\%Red? cannot be cast to class MieDispatchAny$Marker?X? (MieDispatchAny$\=Marker?MieDispatchAny\%Red? and MieDispatchAny$Marker?X? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloa
+run exit=1
+=== fortress link MieDispatchZZ32.fss   -Dprobe.scope=off
+link exit=0
+=== fortress run MieDispatchZZ32
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchZZ32$IntTag cannot be cast to class MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatchZZ32$IntTag and MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.Insta
+run exit=1
+=== fortress link RouteCProbe.fss   -Dprobe.scope=off
+link exit=0
+=== fortress run RouteCProbe
+f(3) =  false , h(ZBox) is a Box:  true
+run exit=0
+=== fortress link MieDispatch.fss   -Dprobe.rungP=hier -Dprobe.scope=callsite
+link exit=0
+=== fortress run MieDispatch
+which(z), z: Tag[ZZ32]   ->  Marker[ZZ32]
+which(s), s: Tag[String] ->  Marker[String]
+pick(z),  z: Tag[ZZ32]   ->  Marker[ZZ32]
+pick(s),  s: Tag[String] ->  Marker[String]
+grab(IntTag)             ->  Marker[ZZ32]
+grab(StrTag)             ->  Marker[String]
+grab(z),  z: Tag[ZZ32]   ->  Marker[ZZ32]
+grab(s),  s: Tag[String] ->  Marker[String]
+gz: Marker[ZZ32] = grab(z) holds  Marker[ZZ32]
+gs: Marker[String] = grab(s) holds  Marker[String]
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatch$Both cannot be cast to class MieDispatch$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatch$Both and MieDispatch$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader 
+run exit=1
+=== fortress link MieDispatchSub.fss   -Dprobe.rungP=hier -Dprobe.scope=callsite
+link exit=0
+=== fortress run MieDispatchSub
+grab(r), r: Sub[Red]  ->  Marker[Red]
+grab(b), b: Tag[Blue] ->  Marker[Blue]
+mb: Marker[Blue] = grab(b) holds  Marker[Blue]
+run exit=0
+=== fortress link MieDispatchAny.fss   -Dprobe.rungP=hier -Dprobe.scope=callsite
+link exit=0
+=== fortress run MieDispatchAny
+peek(a1), a1: Any = RedTag  ->  Marker[Red]
+peek(a2), a2: Any = RedBlue ->  Marker[Blue]
+peek(a3), a3: Any = BlueRed ->  Marker[Red]
+peek(Red)                   ->  Red (the Any declaration)
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchAny$\=Marker?MieDispatchAny\%Red? cannot be cast to class MieDispatchAny$Marker?X? (MieDispatchAny$\=Marker?MieDispatchAny\%Red? and MieDispatchAny$Marker?X? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloa
+run exit=1
+=== fortress link MieDispatchZZ32.fss   -Dprobe.scope=callsite
+link exit=0
+=== fortress run MieDispatchZZ32
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchZZ32$IntTag cannot be cast to class MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatchZZ32$IntTag and MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.Insta
+run exit=1
+=== fortress link RouteCProbe.fss   -Dprobe.scope=callsite
+link exit=0
+=== fortress run RouteCProbe
+f(3) =  false , h(ZBox) is a Box:  true
+run exit=0
+=== fortress link MieDispatch.fss   -Dprobe.rungP=hier -Dprobe.scope=skip
+link exit=0
+=== fortress run MieDispatch
+which(z), z: Tag[ZZ32]   ->  Marker[ZZ32]
+which(s), s: Tag[String] ->  Marker[String]
+pick(z),  z: Tag[ZZ32]   ->  Marker[ZZ32]
+pick(s),  s: Tag[String] ->  Marker[String]
+grab(IntTag)             ->  Marker[ZZ32]
+grab(StrTag)             ->  Marker[String]
+grab(z),  z: Tag[ZZ32]   ->  Marker[ZZ32]
+grab(s),  s: Tag[String] ->  Marker[String]
+gz: Marker[ZZ32] = grab(z) holds  Marker[ZZ32]
+gs: Marker[String] = grab(s) holds  Marker[String]
+grab(a),  a: Any         ->  Plain
+run exit=0
+=== fortress link MieDispatchSub.fss   -Dprobe.rungP=hier -Dprobe.scope=skip
+link exit=0
+=== fortress run MieDispatchSub
+grab(r), r: Sub[Red]  ->  Marker[Red]
+grab(b), b: Tag[Blue] ->  Marker[Blue]
+mb: Marker[Blue] = grab(b) holds  Marker[Blue]
+run exit=0
+=== fortress link MieDispatchAny.fss   -Dprobe.rungP=hier -Dprobe.scope=skip
+link exit=0
+=== fortress run MieDispatchAny
+peek(a1), a1: Any = RedTag  ->  Red (the Any declaration)
+peek(a2), a2: Any = RedBlue ->  Red (the Any declaration)
+peek(a3), a3: Any = BlueRed ->  Red (the Any declaration)
+peek(Red)                   ->  Red (the Any declaration)
+grab(a1), a1: Any = RedTag  ->  Red (the Any declaration)
+run exit=0
+=== fortress link MieDispatchZZ32.fss   -Dprobe.scope=skip
+link exit=0
+=== fortress run MieDispatchZZ32
+peek(a), a: Any = IntTag ->  other
+run exit=0
+=== fortress link RouteCProbe.fss   -Dprobe.scope=skip
+link exit=0
+=== fortress run RouteCProbe
+f(3) =  false , h(ZBox) is a Box:  true
+run exit=0

@@ -1,0 +1,16 @@
+=== fortress link ScopeMethod.fss   -Dprobe.rungP=hier -Dprobe.scope=off
+link exit=0
+=== fortress run ScopeMethod
+K.grab(r), r: Sub[Red] = Mixed    ->  SubM[Red]
+K.grab(b2), b2: Tag[Blue] = SubBlue ->  SubM[Blue]
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class ScopeMethod$\=SubM?ScopeMethod\%Red? cannot be cast to class ScopeMethod$\=Marker?ScopeMethod\%Blue? (ScopeMethod$\=SubM?ScopeMethod\%Red? and ScopeMethod$\=Marker?ScopeMethod\%Blue? are in unnamed module of loader com.sun.fortress.runtimeSystem.Instant
+run exit=1
+=== fortress link ScopeMethod.fss   -Dprobe.rungP=hier -Dprobe.scope=callsite
+link exit=0
+=== fortress run ScopeMethod
+K.grab(r), r: Sub[Red] = Mixed    ->  SubM[Red]
+K.grab(b2), b2: Tag[Blue] = SubBlue ->  SubM[Blue]
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class ScopeMethod$\=SubM?ScopeMethod\%Red? cannot be cast to class ScopeMethod$\=Marker?ScopeMethod\%Blue? (ScopeMethod$\=SubM?ScopeMethod\%Red? and ScopeMethod$\=Marker?ScopeMethod\%Blue? are in unnamed module of loader com.sun.fortress.runtimeSystem.Instant
+run exit=1

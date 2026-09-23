@@ -1,0 +1,38 @@
+component ScopeMethod
+export Executable
+
+(* ScopeArms as two generic dotted methods of one object: through b: Tag[Blue] the call
+   is checked as the Tag method at X = Blue and dispatched.  The shadow covers top-level
+   functions only, so this shows what the generic method dispatcher does today. *)
+trait Tag[\X\] end
+trait Sub[\X\] extends Tag[\X\] end
+object Red end
+object Blue end
+object Mixed extends { Sub[\Red\], Tag[\Blue\] } end
+object SubBlue extends Sub[\Blue\] end
+trait Marker[\X\] end
+object TagM[\X\] extends Marker[\X\] end
+object SubM[\X\] extends Marker[\X\] end
+
+object K
+  grab[\X\](t: Tag[\X\]): Marker[\X\] = TagM[\X\]
+  grab[\X\](t: Sub[\X\]): Marker[\X\] = SubM[\X\]
+end
+
+name(m: Any): String = typecase m of
+    TagM[\Red\] => "TagM[Red]"
+    TagM[\Blue\] => "TagM[Blue]"
+    SubM[\Red\] => "SubM[Red]"
+    SubM[\Blue\] => "SubM[Blue]"
+    else => "other"
+  end
+
+run(): () = do
+  r: Sub[\Red\] = Mixed
+  println("K.grab(r), r: Sub[Red] = Mixed    -> " name(K.grab(r)))
+  b2: Tag[\Blue\] = SubBlue
+  println("K.grab(b2), b2: Tag[Blue] = SubBlue -> " name(K.grab(b2)))
+  b1: Tag[\Blue\] = Mixed
+  println("K.grab(b1), b1: Tag[Blue] = Mixed   -> " name(K.grab(b1)))
+end
+end

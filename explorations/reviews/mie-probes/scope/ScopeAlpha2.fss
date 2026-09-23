@@ -1,0 +1,32 @@
+component ScopeAlpha2
+export Executable
+
+(* Two static parameters, named in the opposite order by the more specific generic:
+   pair[\B,A\](t: SubTwo[\B,A\]) is pair[\A,B\](t: SubTwo[\A,B\]) up to renaming.
+   Through t: Two[\Red,Blue\] the call is checked as the Two generic at A = Red, B = Blue. *)
+trait Two[\A,B\] end
+trait SubTwo[\A,B\] extends Two[\A,B\] end
+object Red end
+object Blue end
+object RedAndBlue extends SubTwo[\Red,Blue\] end
+object PlainPair extends Two[\Red,Blue\] end
+trait Marker[\A,B\] end
+object TwoM[\A,B\] extends Marker[\A,B\] end
+object SubM[\A,B\] extends Marker[\A,B\] end
+
+pair[\A,B\](t: Two[\A,B\]): Marker[\A,B\] = TwoM[\A,B\]
+pair[\B,A\](t: SubTwo[\B,A\]): Marker[\B,A\] = SubM[\B,A\]
+
+name(m: Any): String = typecase m of
+    TwoM[\Red,Blue\] => "TwoM[Red,Blue]"
+    SubM[\Red,Blue\] => "SubM[Red,Blue]"
+    else => "other"
+  end
+
+run(): () = do
+  t1: Two[\Red,Blue\] = RedAndBlue
+  println("pair(t1), t1: Two[Red,Blue] = RedAndBlue      -> " name(pair(t1)))
+  t2: Two[\Red,Blue\] = PlainPair
+  println("pair(t2), t2: Two[Red,Blue] = PlainPair -> " name(pair(t2)))
+end
+end
