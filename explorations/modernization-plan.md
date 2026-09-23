@@ -70,7 +70,7 @@ root `CLAUDE.md` and `explorations/repo-internals.md`.
    InstConstraintVisitor, Pass2Verifier, GraphicalVerifier). Provenance
    established 2026-08-21: the corruption is *upstream Apache's own* —
    the released bcel-6.2 and even bcel-6.10.0 sources jars carry the
-   identical U+FFFD bytes, so pluckyporcupine vendored it faithfully and
+   identical U+FFFD bytes, so the vendored copy was faithful and
    Apache never fixed it. Fixed here (Pavol, 2026-08-21): the 17 `�`
    preceding JVMS/vmspec section numbers restored to `§`; the 6 in
    GraphicalVerifier's German comments (JBuilder GUI-designer
@@ -231,7 +231,7 @@ commit actions in the main session to avoid cache and working-tree races.
 
 For the planned curated history rebuild ("clean ladder" replacing this first
 ascent). Distilled from a full commit-archaeology pass over all 43 revival
-commits (graft 8fe1daa8f..c4c90f936). Principle: hygiene and determinism
+commits (8fe1daa8f..c4c90f936). Principle: hygiene and determinism
 first, so every later rung is a small, meaningful, reproducible diff.
 
 ### Lessons learned too late (what moves, and why)

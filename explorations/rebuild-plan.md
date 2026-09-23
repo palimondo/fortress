@@ -15,6 +15,7 @@ message carries the full reasoning. The new branch is `clean-ladder`
 (temporary name; Pavol renames it to `main` via the GitHub UI when done).
 The current working branch `claude/handover-reading-vn8zgr` is untouched and
 keeps the full first-ascent record.
+[Correction 2026-09-23: `clean-ladder` was built (tip `8332bd34f`) but never renamed to `main`, which still carries the first ascent; see `explorations/coordinator/lineage.md`.]
 
 Primary sources this plan distills:
 
@@ -337,6 +338,7 @@ B3. **Revive the 2012 build on JDK 8** (spike-verified minimal revival).
     could be revived at all — stays on the record via
     `research/authorship.md` (E5, which documents pluckyporcupine's 2018
     migration) and the untouched working branch.
+    [Correction 2026-09-23: `research/authorship.md` no longer mentions the port, per Pavol's decision of 2026-08-23 that it gets no credit or mention; see `explorations/coordinator/lineage.md`.]
   - Known cosmetic debt, deliberately left until B6: `bin/debugOpt`,
     `bin/fortress.bat`, `bin/fortress_leaks`, `bin/runOptCollect` still
     name `scala-*-2.9.0` jars — verified not gate-relevant (test targets

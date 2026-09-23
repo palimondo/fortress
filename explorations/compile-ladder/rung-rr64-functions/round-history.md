@@ -8,6 +8,7 @@ All history searches were run with `git log --all`, because this clone carries
 several parentless import roots from the graft; the five roots dated 2011-12-06,
 2012-01-20, 2012-01-25, 2012-05-23 and 2012-07-19 answer every `-S` search and
 are not evidence of a change. They are left out of the table.
+[Correction 2026-09-23: those parentless roots come from the Mercurial-to-git conversion, which cut 146 parent links, not from the graft; see `explorations/coordinator/lineage.md`.]
 
 ## Timeline
 

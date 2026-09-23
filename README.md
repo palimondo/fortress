@@ -224,11 +224,13 @@ To run the test suite: `ant testFast` and `ant testSystem`.
 
 ## Lineage and license
 
-This repository carries the full available git history of the original
-`projectfortress.sun.com` Subversion repository, from the January 2007
-opening to the August 2012 wind-down, together with the later migration
-work that keeps it running — see the commit history for lineage and
-attribution.
+This repository is a 2018 GitHub fork of `sirinath/fortress`, a git
+conversion of the project's java.net Mercurial repository. Its history runs
+from the January 2007 opening of the original `projectfortress.sun.com`
+Subversion repository (moved to Mercurial on java.net in March 2011) to the
+August 2012 wind-down; everything after that is the revival's own work
+(2026). The lineage is set out in
+[`explorations/coordinator/lineage.md`](explorations/coordinator/lineage.md).
 
 Most of the code is the work of a small core — Sukyoung Ryu on the front
 end from parser to type checker, David Chase on the compiler and runtime,

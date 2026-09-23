@@ -7,6 +7,7 @@ onto the same base with these 14 commits → force-push clean-ladder
 (only on explicit authorization) → annotated `modernization/*` tags on
 the final SHAs → Pavol pushes tags and renames the branch to `main`
 from his machine.
+[Correction 2026-09-23: the 14 commits were replayed as `clean-ladder` (tip `8332bd34f`), but no `modernization/*` tag was pushed and the branch was never renamed to `main`; see `explorations/coordinator/lineage.md`.]
 
 **Revision 3**, applying the whole revision-2 review round:
 

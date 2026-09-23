@@ -67,3 +67,4 @@ stay as the base for lineage and attribution. What changes is
 everything after: the base block's repo-hygiene commit (rung 0.1)
 replays this trash removal and the README replacement right after the
 graft, so the clean branch never shows the debris.
+[Correction 2026-09-23: superseded; the spike `73f598202` showed the build revives without the graft, and `clean-ladder` was rebuilt directly on trunk `a874948ac` with nothing from it, though it has not replaced `main`; see `explorations/coordinator/lineage.md`.]

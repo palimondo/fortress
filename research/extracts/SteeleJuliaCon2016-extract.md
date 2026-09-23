@@ -190,6 +190,7 @@ Problem" on YouTube.
   karl.naden's `Papers/RuntimeInstantiation/` (incl. "rtr algorithm",
   "using constraints", RTRinstantionTheory.tex) and
   `Papers/Types/journal/justificationOfRTR.tex`, preserved in the graft.
+  [Correction 2026-09-23: these files are in the java.net trunk tip `a874948ac` itself (`justificationOfRTR.tex` from `8015b17f4`, 2012-08-31), not preserved by the graft; see `explorations/coordinator/lineage.md`.]
 
 ## 45–49. Lessons and reflections
 

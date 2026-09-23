@@ -13,9 +13,10 @@ start but shows only ~233 commits because the record starts late, and spec
 co-authors **Sam Tobin-Hochstadt** and **Joe Hallett** have *zero* commits
 here (their era's record is lost). Counts are `git log --full-history`
 per path. Plain `git log -- <dir>` — and `git blame` — are broken in this
-repository, but not by the 2026 graft (a single-parent commit that modified
-only 13 pre-existing files): the hg→git conversion behind the GitHub mirror
-severed 146 parent links, turning ordinary 2011–2012 java.net-era commits
+repository: the hg→git conversion behind the GitHub mirror
+`sirinath/fortress`, of which this repository is a 2018 fork (see
+`explorations/coordinator/lineage.md`), severed 146 parent links, turning
+ordinary 2011–2012 java.net-era commits
 into parentless full-tree snapshots, so any history walk from HEAD dead-ends
 at the nearest phantom root instead of reaching 2007 (blame will credit an
 entire untouched file to, e.g., a July 2012 seam commit). Those snapshot
@@ -205,9 +206,9 @@ end: Chase, Steele, Naden, Luchangco.
 - Who is **senokay** (QuickCheck, summer 2010)? Who is **Crink**? **envia**?
 - Is **black** really Andrew P. Black (sabbatical)? A one-line email to
   Black would settle it.
-- Who made the GitHub mirror of the java.net Mercurial repo, and who is
-  **pluckyporcupine** (the 2018 migration author — no commits under that
-  name survive in our history; their work came in as a tree overlay)?
+- Answered 2026-09-23: the GitHub mirror of the java.net Mercurial repo is
+  `sirinath/fortress`. Still open: how and when it was converted (the
+  mechanism is inferred, not verified).
   One clue: in the converted git history, Flood's 2011–12 commits carry a
   `chmfy@users.noreply.github.com` address — that email form dates from
   2013+, so the hg→git conversion mapped her to a GitHub account `chmfy`,

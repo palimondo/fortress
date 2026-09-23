@@ -87,10 +87,12 @@ silently diverges from the checked-in tree (see "Generated code" below).
 
 ### Git-history caveat for this map
 
-`git log -- <dir>` is unusable for dating anything: the 2026 migration graft
-rewrote directories wholesale, so directory-level history shows only the
-graft. Use `git log --follow` on individual files (that is how the Feb 2009
-start of the Scala type checker was confirmed).
+`git log -- <dir>` is unusable for dating anything: the Mercurial-to-git
+conversion behind `sirinath/fortress`, of which this repository is a fork,
+cut 146 parent links, leaving parentless full-tree snapshot roots at which
+path-limited history from HEAD dead-ends instead of reaching 2007 (see
+`explorations/coordinator/lineage.md`). Use `git log --follow` on individual files
+(that is how the Feb 2009 start of the Scala type checker was confirmed).
 
 ## The two worlds
 
@@ -158,8 +160,7 @@ Rules learned the hard way:
   (`NoSuchMethodError: CompilerBuiltin.println(...)`,
   `NoSuchMethodError: ...asJavaString()`, `Unable to read serialized data
   ... recommend you delete the Fortress bytecode cache and relink`). These
-  sank pluckyporcupine's compiler verdict; they are cache problems, not
-  compiler bugs.
+  are cache problems, not compiler bugs.
 - After editing any `Library/`/`LibraryBuiltin/` `.fss`, wipe — edits are
   otherwise invisible (cached analysis wins).
 - **Compile order matters** on a fresh cache, because `fortress compile` of a
@@ -236,10 +237,7 @@ Rules learned the hard way:
   `git log <base>..HEAD -- <file>` therefore lists `5a68404` for almost
   every file — useless for "who changed what since June". Use **content
   comparison** instead: `git diff --quiet <base> HEAD -- <file>` and
-  `git show <base>:<file> | cmp - <other-tree>/<file>` (this is how the
-  graft's 3-way audit was done; see the graft commit message).
-- pluckyporcupine's base = trunk `304f274` (2012-06-12), confirmed by 56/69
-  differing files being byte-identical to it.
+  `git show <base>:<file> | cmp - <other-tree>/<file>`.
 - The twelve pre-2016 branches are hg named-branch relics; the 2008 research
   branches were squash-merged into trunk, so fine-grained authorship exists
   only on the branch heads. Full survey with per-branch verdicts: see the

@@ -2,6 +2,7 @@
 
 First run of the 2012 test suite on the grafted tree (trunk `a874948` +
 pluckyporcupine migration + build patches; branch tip `b598e0e`).
+[Correction 2026-09-23: most of the files that graft copied onto trunk `a874948` have since been removed or redone, and only one small fix among them still runs; see `explorations/coordinator/lineage.md`.]
 Environment: Ubuntu 24.04 container, OpenJDK 8u482, ant 1.10.14, Scala 2.10.7
 (vendored). Commands: `ant testFast`, `ant testSystem`.
 
@@ -102,3 +103,4 @@ The grafted tree is healthier than either parent lineage: it carries the full
 Aug-2012 feature state, compiles under JDK 8, passes the entire unit/compiler
 suite, and 98% of the interpreter suite, with all 7 failures explained (6
 pre-existing upstream, 1 JDK-era cosmetic).
+[Correction 2026-09-23: the tree descends from one lineage only, the java.net trunk this repository forks through `sirinath/fortress`; the copied files shared no history with it and have since been mostly removed or redone; see `explorations/coordinator/lineage.md`.]

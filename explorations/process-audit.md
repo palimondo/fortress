@@ -368,6 +368,7 @@ the spec could not have helped:
   pluckyporcupine's "compiled programs don't run" is wrong *here* — a claim only
   measurement can settle, and the project's standing rule ("claims in old
   READMEs describe their eras — verify against the code") is exactly right.
+  [Correction 2026-09-23: that `CLAUDE.md` line was corrected in `66b27d810`, which dropped the port's name along with the wrong lineage sentence; see `explorations/coordinator/lineage.md`.]
 
 **Where it failed them.** Four failures, each traceable to a specific missing
 lookup:
