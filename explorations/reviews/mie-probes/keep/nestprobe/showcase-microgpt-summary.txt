@@ -1,0 +1,31 @@
+$ FORTRESS_CACHES=<private, warm> NESTPROBE_OUT=<file> timeout -s TERM 300 java <flags of run-tests.sh> -cp <shadow>:<classpath> com.sun.fortress.Shell walk explorations/microgpt.fss
+$ keep/nestprobe/analyze.py <dir holding that one file> keep/nestprobe/showcase-microgpt   (2026-09-23, main a0617d672; run from the repository root; stopped by the timeout after training step 50 of 250, the golden forward/backward check PASS)
+golden transformer forward/backward vs Python reference: PASS
+step 50 / 250  loss 2.5619548529604566  elapsed 281434 ms
+tests run: 1; records: 59; distinct dependent sites: 38
+sites by file group: {'other': 37, 'FortressLibrary.fss': 1}
+sites by group and category:
+  FortressLibrary.fss    conversion 1
+  FortressLibrary.fss    tower    1
+  other                  conversion 37
+  other                  numdef   37
+  other                  numdef-missing 1
+  other                  numdef-mixed 37
+Library/other by file: {}
+FortressLibrary.fss line ranges: 4121
+FortressBuiltin.fss lines: []
+tests with a dependent site in their own text: 1; tests whose run passes any dependent check: 1 of 1
+inherited method bodies (definer.method, leaf): 11: {'mixed': 10, 'missing': 1}
+  missing (to restate on the leaf): ['Number.prefix SQRT<-RR64']
+  FortressLibrary.fss    sites    1; needing a conversion at the site    1; only a missing leaf method    0
+  other                  sites   37; needing a conversion at the site   37; only a missing leaf method    0
+  why the conversion sites need one:
+    FortressLibrary.fss    {"a declared type above the value's leaf": 1}
+    Library/other          {}
+    tests                  {}
+tests with a site in their own text that needs a conversion: 1
+  FortressLibrary.fss    certain conversion sites    1; float-only catch-all sites    0
+  Library/other          certain conversion sites    0; float-only catch-all sites    0
+  tests                  certain conversion sites    0; float-only catch-all sites    0
+tests with a certain conversion site in their own text: 1: microgpt
+tests reaching FortressLibrary.fss:4121 (a library-load binding): 1; tests reaching any other dependent site: 1; any other certain conversion site: 1

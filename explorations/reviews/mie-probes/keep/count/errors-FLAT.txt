@@ -1,0 +1,128 @@
+Library/RangeInternals.fsi:46:5-47:5:
+Library/RangeInternals.fsi:63:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:63:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ Library/RangeInternals.fsi:46:5-47:5
+=====
+Library/RangeInternals.fsi:46:5-47:5:
+Library/RangeInternals.fsi:64:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:64:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ Library/RangeInternals.fsi:46:5-47:5
+=====
+Library/RangeInternals.fsi:46:5-47:5:
+Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ Library/RangeInternals.fsi:46:5-47:5
+=====
+Library/RangeInternals.fsi:46:5-47:5:
+Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ Library/RangeInternals.fsi:46:5-47:5
+=====
+Library/RangeInternals.fsi:63:5-58:
+Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:63:5-58
+=====
+Library/RangeInternals.fsi:63:5-58:
+Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:63:5-58
+=====
+Library/RangeInternals.fsi:64:5-58:
+Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:64:5-58
+=====
+Library/RangeInternals.fsi:64:5-58:
+Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:64:5-58
+=====
+Library/RangeInternals.fsi:237:5-238:5:
+Library/RangeInternals.fsi:63:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:63:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ Library/RangeInternals.fsi:237:5-238:5
+=====
+Library/RangeInternals.fsi:237:5-238:5:
+Library/RangeInternals.fsi:64:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ Library/RangeInternals.fsi:64:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ Library/RangeInternals.fsi:237:5-238:5
+=====
+Library/RangeInternals.fsi:237:5-238:5:
+Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ Library/RangeInternals.fsi:237:5-238:5
+=====
+Library/RangeInternals.fsi:237:5-238:5:
+Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ Library/RangeInternals.fsi:237:5-238:5
+=====
+Library/RangeInternals.fsi:257:5-258:4:
+<copy>/FortressLibrary.fsi:2077:5-34:
+    For every,
+the return type of (RangeInternals.LeftScalarRange[\I\], I)->RangeInternals.ScalarRange[\I\] @ Library/RangeInternals.fsi:257:5-258:4 should be a subtype of the
+    return type of (BoundedRange[\I\], I)->BoundedRange[\I\] @ <copy>/FortressLibrary.fsi:2077:5-34
+=====
+Library/RangeInternals.fsi:259:5-34:
+<copy>/FortressLibrary.fsi:2078:5-32:
+    For atMost,
+the return type of (RangeInternals.LeftScalarRange[\I\], I)->RangeInternals.ScalarRange[\I\] @ Library/RangeInternals.fsi:259:5-34 should be a subtype of the
+    return type of (BoundedRange[\I\], I)->FullRange[\I\] @ <copy>/FortressLibrary.fsi:2078:5-32
+=====
+Library/RangeInternals.fsi:319:5-34:
+<copy>/FortressLibrary.fsi:2078:5-32:
+    For atMost,
+the return type of (RangeInternals.RightScalarRange[\I\], I)->RangeInternals.ScalarRange[\I\] @ Library/RangeInternals.fsi:319:5-34 should be a subtype of the
+    return type of (BoundedRange[\I\], I)->FullRange[\I\] @ <copy>/FortressLibrary.fsi:2078:5-32
+=====
+Library/RangeInternals.fsi:429:5-430:5:
+Library/RangeInternals.fsi:505:5-506:5:
+    Invalid overloading of IN in API RangeInternals:
+     [\I extends Integral[\I\]\](I, RangeInternals.CompactFullScalarRange[\I\])->Boolean @ Library/RangeInternals.fsi:429:5-430:5
+ and [\I extends Integral[\I\]\](I, RangeInternals.StridedFullScalarRange[\I\])->Boolean @ Library/RangeInternals.fsi:505:5-506:5
+=====
+Library/RangeInternals.fsi:612:1-75:
+Library/RangeInternals.fsi:614:1-104:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\]()->(I, J)->RangeInternals.OpenRange2D[\I,J\] @ Library/RangeInternals.fsi:614:1-104
+ and [\I extends Integral[\I\]\]()->I->RangeInternals.OpenScalarRange[\I\] @ Library/RangeInternals.fsi:612:1-75
+=====
+Library/RangeInternals.fsi:612:1-75:
+Library/RangeInternals.fsi:616:1-135:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\]()->(I, J, K)->RangeInternals.OpenRange3D[\I,J,K\] @ Library/RangeInternals.fsi:616:1-135
+ and [\I extends Integral[\I\]\]()->I->RangeInternals.OpenScalarRange[\I\] @ Library/RangeInternals.fsi:612:1-75
+=====
+Library/RangeInternals.fsi:614:1-104:
+Library/RangeInternals.fsi:616:1-135:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\]()->(I, J, K)->RangeInternals.OpenRange3D[\I,J,K\] @ Library/RangeInternals.fsi:616:1-135
+ and [\I extends Integral[\I\], J extends Integral[\J\]\]()->(I, J)->RangeInternals.OpenRange2D[\I,J\] @ Library/RangeInternals.fsi:614:1-104
+=====
+<copy>/FortressLibrary.fsi:1143:5-1148:5:
+<copy>/FortressLibrary.fsi:728:5-47:
+    Invalid overloading of map in trait CompactFullSeqScalarRange:
+     [\G\](SequentialGenerator[\I\], I->G)->SequentialGenerator[\G\] @ <copy>/FortressLibrary.fsi:728:5-47
+ and [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <copy>/FortressLibrary.fsi:1143:5-1148:5
+=====
+<copy>/FortressLibrary.fsi:1143:5-1148:5:
+<copy>/FortressLibrary.fsi:728:5-47:
+    Invalid overloading of map in trait StridedFullSeqScalarRange:
+     [\G\](SequentialGenerator[\I\], I->G)->SequentialGenerator[\G\] @ <copy>/FortressLibrary.fsi:728:5-47
+ and [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <copy>/FortressLibrary.fsi:1143:5-1148:5
+=====
+<copy>/FortressLibrary.fsi:2487:51-64:
+    Type RelationalPredicateCondition[\E\] excludes FortressLibrary.Condition but it extends FortressLibrary.Condition.

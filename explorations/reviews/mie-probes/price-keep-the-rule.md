@@ -1,4 +1,4 @@
-<!-- Written 2026-09-23 by a delegated worker for Pavol's choice between the two routes on the compiled checker's multiple instantiation exclusion. This note prices route A of ../multiple-instantiation-exclusion.md § 8, "keep the rule"; the sibling note scope-call-site-dispatch.md prices "drop the rule". Measured on main a0617d672, JDK 25, FORTRESS_THREADS=1. Nothing tracked was modified. The interpreter probes ran under walk with private caches. The run-time survey is a classpath shadow of eight interpreter sources, made by keep/nestprobe/make-shadow.py and put ahead of ProjectFortress/build. Commands and captures are in keep/. -->
+<!-- Written 2026-09-23 by a delegated worker for Pavol's choice between the two routes on the compiled checker's multiple instantiation exclusion. This note prices route A of ../multiple-instantiation-exclusion.md § 8, "keep the rule"; the sibling note scope-call-site-dispatch.md prices "drop the rule". Measured on main a0617d672, JDK 25, FORTRESS_THREADS=1. Nothing tracked was modified. The interpreter probes ran under walk with private caches. The run-time survey is a classpath shadow of eight interpreter sources, made by keep/nestprobe/make-shadow.py and put ahead of ProjectFortress/build. The checker count is the gate's own driver run on library copies made by keep/make-flat-lib.py. Commands and captures are in keep/. -->
 
 # The price of keeping the rule: the tower flattened, what depends on the nesting, what the interpreter needs
 
@@ -17,6 +17,7 @@ Terms.
 - **The interpreter has no coercion, but its phase order already turns every `coerce` into a callable `coerce_<trait>`** (§ 3). Calling them at dispatch and at typed bindings is about 150-200 lines in six files. It would resolve coercions at run time, where the specification resolves them statically.
 - **Converting by hand instead** means the sites counted above, and the same again in every new program.
 - **The compiled side's own tests widen by coercion, never by hand.**
+- **The flat tower takes the checker count from 103 to 22** (§ 5): all 61 exclusion errors go. The count is still masked by `FortressLibrary.fsi:2526`, and it does not reach the library's bodies.
 
 ## 1. What "flat" means for this library
 
@@ -105,3 +106,38 @@ The library's own nesting takes the same calls today: `h(3)` for `h(x: ZZ64)`, `
 
 **The compiled side's precedent is coercion, never widening by hand.** `library_tests/Integer.test` compiles and runs `Integer1-4`, `IntegerChoose1-2`, `ShiftTest`, `ShiftTest2` and `AverageTest` against the prelude. They write `three: ZZ64 = 3` (`Integer2.fss:18`). They pass `i`, a `ZZ32` from `0:7`, to `testLongAverage(x: ZZ64, y: ZZ64)` (`AverageTest.fss:108`). They compute `longSeed BOXCROSS intMult` (`ZZ64` by `ZZ32`, `:128`) and `unsignedLongSeed BOXCROSS unsignedIntMult` (`NN64` by `NN32`, `:138`). Every one of these goes through the prelude's `coerce` (`CompilerBuiltin.fss:575-576`, `:816-817`, and the `IntLiteral` ones). Of the 40 `.fss` in `library_tests/`, 12 name a type wider than `ZZ32`, and 9 bind an integer literal to one. None converts by hand.
 
+## 4. What the flat shape forecloses or changes
+
+- **The specification's `Empty extends List[\T\]`** (`Specification/basic/trait-parameters.tex:384-397`). Keeping the rule refuses it on the compiled path, whatever the tower looks like; the flat tower neither helps nor hurts it. Under walk it stays accepted (`MieDecl.walk.txt`).
+- **The specification's promotion story.** The mathematical sets nest by subtyping: "ℤ (ZZ) is the set of integers (it is a subtype of ℚ and ℤ*)" (`basic-lib/basic-integers.tex:28-29`), and ℚ "is a subtype of ℝ and ℚ*" (`basic-lib/numbers.tex:36-37`). Between machine types, widening is coercion:
+  - "it is convenient to be able to use an integer-valued expression in a floating-point expression even though its type is not a subtype of any floating-point type. Fortress supports the automatic conversion of integer values to floating-point values (the technical term for this kind of automatic conversion is coercion)" (`basic/conversions-coercions.tex:61-66`).
+  - The only example with `ZZ32` and `ZZ64` declares `trait ZZ32 end` and `trait ZZ64 coerce(z: ZZ32) = … end`: "the call f(ZZ32) resolves to the declaration f(ZZ64) because ZZ64 ≺ ZZ128, which follows from the fact that ZZ64 coerces to ZZ128" (`:549-565`).
+  - The libraries "define coercions from numerals to integers (for simple numerals) and rational numbers (for compound numerals)" (`basic/expressions/literals.tex:146-148`). The chapter's own note says "Widening and where clauses are not yet supported." (`:15`).
+  - No sentence in `Specification/` makes `ZZ32` a subtype of `ZZ64`, or `QQ` a subtype of `RR64`: a grep of every `.tex` finds the fixed widths only in that example and in examples of other things. So for those two links the flat shape's mechanism is the specification's own. What the flat shape loses against the specification is `ZZ <: QQ`. Both carry `StandardPartialOrder` at their own type, which is Naden's open case: "more work needs to be done in order to understand how to best support the numerical hierarchy" (`justificationOfRTR.tex:631-632`).
+- **`Number` bounds in C4 and the array vocabulary** (`FACTS.md:94`). `T extends Number` stays valid, because every leaf is still a `Number`. Two things change:
+  - **Arithmetic between leaves needs a coercion or a conversion.** The scalar-extension block and the `Vector` and `Matrix` bodies are among § 2's library sites; at `FortressLibrary.fss:2212` and `:2570`, an `Int` reaches a declared `RR64` element.
+  - **One gain:** `RR64` extends `AdditiveGroup[\RR64\]`, so the specification's bound `T extends AdditiveGroup[\T\]`, which the shipped `RR64` fails (`FACTS.md:98`), becomes usable.
+- **microGPT.** The survey on `explorations/microgpt.fss` ran 50 of its 250 training steps and found 37 dependent sites in its text (`keep/nestprobe/showcase-microgpt-sites.tsv`). All 37 go through `Number`'s catch-alls.
+  - **7 mix an integer with a float**: the `n 1.0` idiom (`:86`, `:241`, `:243`, `:250-251`), `(… - 48) / 100.0` (`:63`), and `SQRT(hd 1.0)` (`:208`). They need a coercion from the integer, or `asFloat`.
+  - **30 are floats only.** `var grad: RR64 := 0.0` (`:17`) stores a `FloatLiteral`, and adding it to a `Float` goes through `Number`'s `+`: 941K calls at `:50` alone. `RR64`'s own arithmetic in the library fixes these 30.
+- **Row 330** (`POSITIONS.md:49`: "ℤ sits under ℚ under ℝ64 in the tower, so an integer result goes back into float arithmetic by promotion"). In the flat shape `ZZ` is under neither, so there is no promotion by subtyping.
+  - The promotion survives only as the sketch's `RR64` `coerce(x: ZZ)`. The prelude does not have that coercion today.
+  - On the compiled path it is static: in `floor(x) + y` with `y: RR64`, no `+` applies without coercion, and `RR64`'s applies once `floor(x)` is coerced.
+  - Under walk the promotion needs remedy (i). With remedy (ii) the program writes `asFloat(floor(x))`.
+  - Whether the compiled checker coerces a functional method's `self` position is not measured.
+  - The other half of the reasoning is untouched: `ZZ` is unbounded and cannot overflow.
+
+## 5. The checker count under the flat shape, measured
+
+`keep/count-variant.sh` runs the gate's own driver, checker shadow and table (`coordinator/tools/checker-count/`) on library copies whose directory shadows the tree's `FortressLibrary` and `FortressBuiltin` (`Shell.sourcePath`, `Shell.java:1175-1188`). Each copy has a fresh private cache. `keep/count-diff.py` compares the errors one by one, setting aside the copy's shifted line numbers (`keep/count/`).
+- **The unchanged copy: 103**, the gate's table (`table-L0.txt`).
+- **The flat copy: 22** (`table-FLAT.txt`, `diff-L0-FLAT.txt`).
+  - **82 go**: all 61 hierarchy errors that `checkP` caused (35 family A, 26 family B); both family E comprises errors (`.fsi:409`, `:411`); and 19 overloading errors in `RangeInternals.fsi` (7 `combine2D`, 7 `combine3D` and 5 `CAP` pairs), by a mechanism not traced.
+  - **1 appears**: `IN` at `RangeInternals.fsi:429` against `:505`, also not traced.
+  - **21 stay**: 17 overloading errors in `RangeInternals.fsi`, 3 return-type errors (`:257`, `:259`, `:319` against `BoundedRange`), and the family A error at `FortressLibrary.fsi:2526` (`excludes Condition[\()\]`).
+- **The flat copy that keeps `Number`'s 52 declarations also gives 22** (`table-FLATN.txt`). The `FortressLibrary` api still stops at its hierarchy stage on `:2526`, so its overloading check never examines them.
+- **The 22 is masked, as the 103 is.**
+  - Repairing `:2526` took that api from 2 errors to 260 in the zero probe (`perf-probes/nat/zero.md` § 3).
+  - The component is never type-checked, so none of § 2's sites is counted.
+  - `NativeArray` still crashes the overloading checker.
+- **For comparison**, relaxing `checkP` gave 93 → 33 on the older tree (`perf-probes/prelude/exclusion-trace.md` § 5). `scope-call-site-dispatch.md` prices the other route on this tree.

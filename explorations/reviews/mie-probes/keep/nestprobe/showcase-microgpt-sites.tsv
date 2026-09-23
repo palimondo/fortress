@@ -1,0 +1,39 @@
+#file	line	group	categories	tests	enclosing declaration	detail
+Library/FortressLibrary.fss	4121	FortressLibrary.fss	conversion,tower	1	4121 __globalTimeInformation: ZZ64 := 0	BuildEnvironments.forVarDecl4:ZZ64<-ZZ32 x1; BaseEnv.assignValue:ZZ64<-ZZ32 x1
+explorations/microgpt.fss	19	other	conversion,numdef,numdef-mixed	1	16 object V(var data: RR64, children: List[\V\], grads: List[\R	method:Number.+<-RR64 x42900
+explorations/microgpt.fss	20	other	conversion,numdef,numdef-mixed	1	16 object V(var data: RR64, children: List[\V\], grads: List[\R	method:Number.juxtaposition<-RR64 x45988
+explorations/microgpt.fss	21	other	conversion,numdef,numdef-mixed	1	16 object V(var data: RR64, children: List[\V\], grads: List[\R	method:Number.prefix -<-RR64 x12336
+explorations/microgpt.fss	23	other	conversion,numdef,numdef-mixed	1	16 object V(var data: RR64, children: List[\V\], grads: List[\R	method:Number.-<-RR64 x2087
+explorations/microgpt.fss	24	other	conversion,numdef,numdef-mixed	1	16 object V(var data: RR64, children: List[\V\], grads: List[\R	method:Number./<-RR64 x347
+explorations/microgpt.fss	26	other	conversion,numdef,numdef-mixed	1	16 object V(var data: RR64, children: List[\V\], grads: List[\R	method:Number.><-RR64 x11088
+explorations/microgpt.fss	50	other	conversion,numdef,numdef-mixed	1	44 backward(root: V): () = do	method:Number.+<-RR64 x941342; method:Number.juxtaposition<-RR64 x852066
+explorations/microgpt.fss	63	other	conversion,numdef,numdef-mixed	1	63 initW(i: ZZ32, j: ZZ32): RR64 = (((31 i + 17 j) REM 97) - 48	method:Number./<-ZZ32 x248
+explorations/microgpt.fss	79	other	conversion,numdef,numdef-mixed	1	73 softmaxA(x: Array[\V,ZZ32\], n: ZZ32): Array[\V,ZZ32\] = do	method:Number.prefix -<-RR64 x1043
+explorations/microgpt.fss	86	other	conversion,numdef,numdef-mixed	1	83 rmsnorm(x: Array[\V,ZZ32\], n: ZZ32): Array[\V,ZZ32\] = do	method:Number.juxtaposition<-ZZ32 x1044; method:Number./<-RR64 x1044
+explorations/microgpt.fss	87	other	conversion,numdef,numdef-mixed	1	83 rmsnorm(x: Array[\V,ZZ32\], n: ZZ32): Array[\V,ZZ32\] = do	method:Number.prefix -<-RR64 x1044
+explorations/microgpt.fss	140	other	conversion,numdef,numdef-missing,numdef-mixed	1	139 goldenCheck(): () = do	method:Number./<-RR64 x1; method:Number.prefix SQRT<-RR64 x1
+explorations/microgpt.fss	144	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.^<-RR64 x1
+explorations/microgpt.fss	148	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.prefix -<-RR64 x1
+explorations/microgpt.fss	149	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.prefix -<-RR64 x3
+explorations/microgpt.fss	150	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.prefix -<-RR64 x2
+explorations/microgpt.fss	155	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.-<-RR64 x9
+explorations/microgpt.fss	160	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number./<-RR64 x1
+explorations/microgpt.fss	161	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.-<-RR64 x1
+explorations/microgpt.fss	163	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.prefix -<-RR64 x1
+explorations/microgpt.fss	164	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.-<-RR64 x1
+explorations/microgpt.fss	165	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.-<-RR64 x1
+explorations/microgpt.fss	166	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.prefix -<-RR64 x1
+explorations/microgpt.fss	167	other	conversion,numdef,numdef-mixed	1	139 goldenCheck(): () = do	method:Number.-<-RR64 x1
+explorations/microgpt.fss	176	other	conversion,numdef,numdef-mixed	1	174 gauss(std: RR64): RR64 = do	method:Number.<<-RR64 x1264
+explorations/microgpt.fss	178	other	conversion,numdef,numdef-mixed	1	174 gauss(std: RR64): RR64 = do	method:Number.juxtaposition<-RR64 x1264
+explorations/microgpt.fss	179	other	conversion,numdef,numdef-mixed	1	174 gauss(std: RR64): RR64 = do	method:Number.juxtaposition<-RR64 x1264
+explorations/microgpt.fss	180	other	conversion,numdef,numdef-mixed	1	174 gauss(std: RR64): RR64 = do	method:Number.juxtaposition<-RR64 x1264
+explorations/microgpt.fss	208	other	conversion,numdef,numdef-mixed	1	186 run() = do	method:Number.juxtaposition<-ZZ32 x1; method:Number./<-RR64 x1
+explorations/microgpt.fss	241	other	conversion,numdef,numdef-mixed	1	186 run() = do	method:Number./<-RR64 x52; method:Number.juxtaposition<-ZZ32 x52
+explorations/microgpt.fss	243	other	conversion,numdef,numdef-mixed	1	186 run() = do	method:Number.juxtaposition<-ZZ32 x104; method:Number.juxtaposition<-RR64 x52; method:Number.-<-RR64 x52
+explorations/microgpt.fss	247	other	conversion,numdef,numdef-mixed	1	186 run() = do	method:Number.juxtaposition<-RR64 x9424
+explorations/microgpt.fss	248	other	conversion,numdef,numdef-mixed	1	186 run() = do	method:Number.juxtaposition<-RR64 x75152; method:Number.-<-RR64 x65728
+explorations/microgpt.fss	249	other	conversion,numdef,numdef-mixed	1	186 run() = do	method:Number.juxtaposition<-RR64 x65728; method:Number.-<-RR64 x65728
+explorations/microgpt.fss	250	other	conversion,numdef,numdef-mixed	1	186 run() = do	method:Number.juxtaposition<-ZZ32 x65728; method:Number.+<-RR64 x65728; method:Number.-<-RR64 x65728
+explorations/microgpt.fss	251	other	conversion,numdef,numdef-mixed	1	186 run() = do	method:Number.-<-RR64 x65728; method:Number.juxtaposition<-ZZ32 x65728; method:Number.+<-RR64 x65728
+explorations/microgpt.fss	252	other	conversion,numdef,numdef-mixed	1	186 run() = do	method:Number.+<-RR64 x65728

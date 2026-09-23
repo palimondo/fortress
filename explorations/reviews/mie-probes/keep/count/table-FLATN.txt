@@ -1,0 +1,17 @@
+#variant	FLATN
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	2
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	22
+#locations	19
+#crash	OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented

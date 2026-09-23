@@ -1,0 +1,31 @@
+$ keep/count-diff.py <work-dir> L0 FLAT   (2026-09-23, main a0617d672)
+L0 103   FLAT 22   go 82   appear 1   stay 21
+  go      {'family A (hierarchy)': 35, 'family B (hierarchy)': 26, 'family E (comprises)': 2, 'overloading': 19}
+  appear  {'overloading': 1}
+  stay    {'family A (hierarchy)': 1, 'overloading': 17, 'return type rule': 3}
+GOES   >> Library/RangeInternals.fsi:136:5-137:5: | Library/RangeInternals.fsi:46:5-47:5: |     Invalid overloading of CAP in API RangeInternals: |      [\I extends Integral[\I\]\](RangeInternals.OpenScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.Sca
+GOES   >> Library/RangeInternals.fsi:141:1-133: | Library/RangeInternals.fsi:51:1-52:1: |     Invalid overloading of combine2D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.OpenScalarRange[\I\], RangeInternals.OpenScal
+GOES   >> Library/RangeInternals.fsi:155:1-186: | Library/RangeInternals.fsi:83:1-84:1: |     Invalid overloading of combine3D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.OpenScalarRange[\I\]
+GOES   >> Library/RangeInternals.fsi:191:5-192:5: | Library/RangeInternals.fsi:46:5-47:5: |     Invalid overloading of CAP in API RangeInternals: |      [\I extends Integral[\I\]\](RangeInternals.ExtentScalarRange[\I\], Range[\I\])->RangeInternals.ScalarRangeWithExtent[
+GOES   >> Library/RangeInternals.fsi:200:1-139: | Library/RangeInternals.fsi:51:1-52:1: |     Invalid overloading of combine2D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.ExtentScalarRange[\I\], RangeInternals.Extent
+GOES   >> Library/RangeInternals.fsi:215:1-216:61: | Library/RangeInternals.fsi:83:1-84:1: |     Invalid overloading of combine3D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.ExtentScalarRange
+GOES   >> Library/RangeInternals.fsi:237:5-238:5: | Library/RangeInternals.fsi:46:5-47:5: |     Invalid overloading of CAP in API RangeInternals: |      [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.
+GOES   >> Library/RangeInternals.fsi:271:1-133: | Library/RangeInternals.fsi:51:1-52:1: |     Invalid overloading of combine2D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.LeftScalarRange[\I\], RangeInternals.LeftScal
+GOES   >> Library/RangeInternals.fsi:286:1-186: | Library/RangeInternals.fsi:83:1-84:1: |     Invalid overloading of combine3D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.LeftScalarRange[\I\]
+GOES   >> Library/RangeInternals.fsi:331:1-136: | Library/RangeInternals.fsi:51:1-52:1: |     Invalid overloading of combine2D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.RightScalarRange[\I\], RangeInternals.RightSc
+GOES   >> Library/RangeInternals.fsi:346:1-347:59: | Library/RangeInternals.fsi:83:1-84:1: |     Invalid overloading of combine3D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.RightScalarRange[
+GOES   >> Library/RangeInternals.fsi:458:1-154: | Library/RangeInternals.fsi:51:1-52:1: |     Invalid overloading of combine2D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.CompactFullScalarRange[\I\], RangeInternals.C
+GOES   >> Library/RangeInternals.fsi:458:1-154: | Library/RangeInternals.fsi:532:1-133: |     Invalid overloading of combine2D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.CompactFullScalarRange[\I\], RangeInternals.C
+GOES   >> Library/RangeInternals.fsi:476:1-477:71: | Library/RangeInternals.fsi:549:1-186: |     Invalid overloading of combine3D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.CompactFullScalar
+GOES   >> Library/RangeInternals.fsi:476:1-477:71: | Library/RangeInternals.fsi:83:1-84:1: |     Invalid overloading of combine3D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.CompactFullScalar
+GOES   >> Library/RangeInternals.fsi:51:1-52:1: | Library/RangeInternals.fsi:532:1-133: |     Invalid overloading of combine2D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.FullScalarRange[\I\], RangeInternals.FullScal
+GOES   >> Library/RangeInternals.fsi:549:1-186: | Library/RangeInternals.fsi:83:1-84:1: |     Invalid overloading of combine3D in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.FullScalarRange[\I\]
+GOES   >> Library/RangeInternals.fsi:63:5-58: | Library/RangeInternals.fsi:64:5-58: |     Invalid overloading of CAP in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\
+GOES   >> Library/RangeInternals.fsi:98:5-64: | Library/RangeInternals.fsi:99:5-64: |     Invalid overloading of CAP in API RangeInternals: |      [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInterna
+APPEARS>> Library/RangeInternals.fsi:429:5-430:5: | Library/RangeInternals.fsi:505:5-506:5: |     Invalid overloading of IN in API RangeInternals: |      [\I extends Integral[\I\]\](I, RangeInternals.CompactFullScalarRange[\I\])->Boolean @ Library/RangeInternals.fsi:429:5-430:5 |  and [\I extends Integral[\I\]\](I, RangeInternals.StridedFullScalarRange[\I\])->Boolean @ Library/RangeInternals.fsi:505:5-506:5
+
+$ keep/count-diff.py <work-dir> FLAT FLATN
+FLAT 22   FLATN 22   go 0   appear 0   stay 22
+  go      {}
+  appear  {}
+  stay    {'family A (hierarchy)': 1, 'overloading': 18, 'return type rule': 3}
