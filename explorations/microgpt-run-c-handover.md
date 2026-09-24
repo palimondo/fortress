@@ -85,6 +85,8 @@ Rung M landed: `TypeAnalyzer.parents` and `excludesClause` memoized on `TraitTab
 
 Rung P (`rung-exclusion-relax`) stopped and lands no source: relaxing the checker's multiple instantiation exclusion alone lets `explorations/compile-ladder/rung-exclusion-relax/probes/ProbeMIEPick.fss` type-check and die with `IncompatibleClassChangeError` (`explorations/compile-ladder/rung-exclusion-relax/probes/probe-matrix.txt:67`, `:89`, `:111`), and the rule that would close the hole is the static-parameter sentence reserved to Pavol. Its report, record and judgement are in `explorations/compile-ladder/rung-exclusion-relax/` (`compile-ladder/climb-batch-3/RECORD.md`, "Not landed"); its expected-failure test stays on `wip/rung-exclusion-relax`, and no ledger row is opened for it. So the merged tree's checker count is L's 103, not the 23 of the batch-3 paragraph above; the fork is before Pavol, with the FACTS line of `7f9ad71e6`.
 
+Climb batch 3.5 (`coordinator/CLIMB-BATCH-3.5.md`: the integer rung as rungs B, the compiled path, and I, the interpreter; Pavol's go of 2026-09-24 with the rider "with the siblings" taken and the signed `narrow` truncating) was launched by `coordinator/climb-batch-workflow.js` from the commit that carries this sentence, after the exclusion-fork brief (`reviews/exclusion-design-brief.md`) landed; its landing paragraph follows when it lands.
+
 R1 of the repair batch was built on `wip/repair-r1-atomic-static` (base
 `49ee5e91`), refused once by its skeptic and repaired in the same worktree, and
 is landed on `main` as one commit composed at the gather stage of 2026-09-19, `42d51c47`, of
