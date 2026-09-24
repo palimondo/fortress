@@ -45,7 +45,7 @@ public class BigNum extends NativeConstructor {
             return ((FIntLiteral) x).getLit();
         } else if (x instanceof FNN64) {
             long v = x.getNN64();
-            return (v < 0) ? BigInteger.valueOf(v).add(BigInteger.ONE.shiftLeft(64)) : BigInteger.valueOf(v);
+            return (v >= 0) ? BigInteger.valueOf(v) : BigInteger.valueOf((v << 1) >>> 1).setBit(63);
         } else {
             return BigInteger.valueOf(x.getLong());
         }

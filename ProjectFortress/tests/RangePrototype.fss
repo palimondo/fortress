@@ -63,7 +63,7 @@ opr INTERSECTOLD[\I extends Integral[\I\]\](this:ScalarRange[\I\], other: Scalar
             o = if other.stride < 0 then other.flip() else other end
             exit intersection with (s INTERSECTION o).flip()
         end
-    resultStride = this.stride LCM other.stride
+    resultStride = (this.stride DIV (this.stride GCD other.stride)) DOT other.stride
     firstMeetingPointAbove(l0:I,l1:I):Maybe[\I\] = do
         (l_min,s_min,l_max,s_max) : (I,I,I,I) :=
             if l0 <= l1 then
@@ -168,7 +168,7 @@ opr INTERSECTNEW[\I extends Integral[\I\]\](this:ScalarRange[\I\], other: Scalar
         else
             exit intersection with emptyScalarRange[\I\]()
         end
-    resultStride = this.stride LCM other.stride
+    resultStride = (this.stride DIV (this.stride GCD other.stride)) DOT other.stride
     commute():() =
         exit intersection with other INTERSECTNEW this
     typecase (this,other) of
