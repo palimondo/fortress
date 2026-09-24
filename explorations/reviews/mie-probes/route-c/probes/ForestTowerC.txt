@@ -1,0 +1,65 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ForestTowerC.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+Exception in thread "main" java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+walk exit=1
+=== stock: fortress link ForestTowerC.fss   (no switch)
+ForestTowerC.fss:12:21-23:
+    Type Mid excludes Wide but it extends Wide.
+ForestTowerC.fss:12:21-23:
+    Types Wide and Eq[\Mid\] exclude each other.  Mid must not extend them.
+ForestTowerC.fss:12:27-33:
+    Types Eq[\Mid\] and Wide exclude each other.  Mid must not extend them.
+ForestTowerC.fss:12:27-34:
+    Type Mid excludes Eq but it extends Eq.
+ForestTowerC.fss:13:24-25:
+    Type Narrow excludes Mid but it extends Mid.
+ForestTowerC.fss:13:24-25:
+    Types Mid and Eq[\Narrow\] exclude each other.  Narrow must not extend them.
+ForestTowerC.fss:13:29-38:
+    Types Eq[\Narrow\] and Mid exclude each other.  Narrow must not extend them.
+ForestTowerC.fss:13:29-39:
+    Type Narrow excludes Eq but it extends Eq.
+ForestTowerC.fss:18:18-20:
+    Type M excludes Mid but it extends Mid.
+ForestTowerC.fss:22:18-23:
+    Type N excludes Narrow but it extends Narrow.
+ForestTowerC.fss:45:15-17:
+    Could not check call to function f
+    - Eq[\Mid\]->Mid is not applicable to an argument of type Eq[\Narrow\].
+    - [\X extends Eq[\X\]\]Eq[\X\]->X is not applicable to an argument of type Eq[\Narrow\].
+File ForestTowerC.fss has 11 errors.
+link exit=255
+=== forest: fortress link ForestTowerC.fss   -Dprobe.forest=fbound
+link exit=0
+=== forest: fortress run ForestTowerC
+f(n),  n: Narrow  = N ->  M
+f(m),  m: Mid     = N ->  M
+f(em), em: Eq[Mid] = N ->  M
+f(w),  w: Wide    = N ->  M
+f(ew), ew: Eq[Wide] = N ->  M
+f(mw), mw: Wide   = M ->  M
+f(W)                  ->  W
+java.lang.IncompatibleClassChangeError
+Caused by: java.lang.IncompatibleClassChangeError: Class ForestTowerC$M does not implement the requested interface ForestTowerC$Narrow
+run exit=1
+=== cfull: fortress link ForestTowerC.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+@@RTR	forest	f	ForestTowerC.fss:28:1-25	ForestTowerC.fss:27:1-46	Mid	Wide	above	fits	ok
+@@RTR	forest	f	ForestTowerC.fss:28:1-25	ForestTowerC.fss:27:1-46	Mid	Narrow	below	unfit	REFUSED
+ForestTowerC.fss:27:1-46:
+ForestTowerC.fss:28:1-25:
+    For f (forest rule, forest), Eq[\Mid\]->Mid @ ForestTowerC.fss:28:1-25
+    specialises [\X extends Eq[\X\]\]Eq[\X\]->X @ ForestTowerC.fss:27:1-46 at Mid;
+    its return type does not fit the generic's at Narrow, and no more specific declaration covers that level
+File ForestTowerC.fss has 1 error.
+link exit=255
+=== clite: fortress link ForestTowerC.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+@@RTR	lite	f	ForestTowerC.fss:28:1-25	ForestTowerC.fss:27:1-46	Mid	Wide	above	fits	ok
+@@RTR	lite	f	ForestTowerC.fss:28:1-25	ForestTowerC.fss:27:1-46	Mid	Narrow	below	unfit	REFUSED
+ForestTowerC.fss:27:1-46:
+ForestTowerC.fss:28:1-25:
+    For f (forest rule, lite), Eq[\Mid\]->Mid @ ForestTowerC.fss:28:1-25
+    specialises [\X extends Eq[\X\]\]Eq[\X\]->X @ ForestTowerC.fss:27:1-46 at Mid,
+    below which the chain has Narrow;
+    at or above it the return type does not fit at 
+File ForestTowerC.fss has 1 error.
+link exit=255

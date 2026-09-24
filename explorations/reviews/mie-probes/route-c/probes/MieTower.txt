@@ -1,0 +1,32 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk MieTower.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+ZZ32 value: Integral[I] gives Marker[\ZZ32\], StandardTotalOrder[T] gives Marker[\ZZ32\], Equality[T] gives Marker[\ZZ32\]
+ZZ64 value: Integral[I] gives Marker[\ZZ64\], StandardTotalOrder[T] gives Marker[\ZZ64\], Equality[T] gives Marker[\ZZ64\]
+walk exit=0
+=== stock: fortress link MieTower.fss   (no switch)
+MieTower.fss:6:24-30:
+    Integral is undefined.
+MieTower.fss:6:43-49:
+    Integral is undefined.
+File MieTower.fss has 2 errors.
+link exit=255
+=== forest: fortress link MieTower.fss   -Dprobe.forest=fbound
+MieTower.fss:6:24-30:
+    Integral is undefined.
+MieTower.fss:6:43-49:
+    Integral is undefined.
+File MieTower.fss has 2 errors.
+link exit=255
+=== cfull: fortress link MieTower.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+MieTower.fss:6:24-30:
+    Integral is undefined.
+MieTower.fss:6:43-49:
+    Integral is undefined.
+File MieTower.fss has 2 errors.
+link exit=255
+=== clite: fortress link MieTower.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+MieTower.fss:6:24-30:
+    Integral is undefined.
+MieTower.fss:6:43-49:
+    Integral is undefined.
+File MieTower.fss has 2 errors.
+link exit=255

@@ -1,0 +1,71 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ForestDispatch.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+h(tn), tn: Tagged[Narrow] -> TagM[Narrow]
+h(n),  n: Narrow          -> TagM[Narrow]
+h(w),  w: Wide            -> TagM[Narrow]
+com.sun.fortress.exceptions.ProgramError: ForestDispatch.fss:37:3-21:
+RHS expression type TagM[\Narrow\] is not assignable to LHS type Marker[\Wide\]
+Context:
+ForestDispatch.fss:37:3-21:
+ForestDispatch.fss:37:3-21:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+walk exit=1
+=== stock: fortress link ForestDispatch.fss   (no switch)
+ForestDispatch.fss:12:21-23:
+    Type Mid excludes Wide but it extends Wide.
+ForestDispatch.fss:12:21-23:
+    Types Wide and Eq[\Mid\] exclude each other.  Mid must not extend them.
+ForestDispatch.fss:12:27-33:
+    Types Eq[\Mid\] and Wide exclude each other.  Mid must not extend them.
+ForestDispatch.fss:12:27-34:
+    Type Mid excludes Eq but it extends Eq.
+ForestDispatch.fss:13:24-25:
+    Type Narrow excludes Mid but it extends Mid.
+ForestDispatch.fss:13:24-25:
+    Types Mid and Eq[\Narrow\] exclude each other.  Narrow must not extend them.
+ForestDispatch.fss:13:29-38:
+    Types Eq[\Narrow\] and Mid exclude each other.  Narrow must not extend them.
+ForestDispatch.fss:13:29-39:
+    Type Narrow excludes Eq but it extends Eq.
+ForestDispatch.fss:15:20-24:
+    Type N excludes Narrow but it extends Narrow.
+ForestDispatch.fss:15:20-24:
+    Types Narrow and Tagged[\Narrow\] exclude each other.  N must not extend them.
+ForestDispatch.fss:15:28-41:
+    Types Tagged[\Narrow\] and Narrow exclude each other.  N must not extend them.
+ForestDispatch.fss:15:28-42:
+    Type N excludes Tagged but it extends Tagged.
+ForestDispatch.fss:34:43-45:
+    Could not check call to function h
+    - [\X extends Eq[\X\]\]Eq[\X\]->Marker[\X\] is not applicable to an argument of type Tagged[\Narrow\].
+    - [\X extends Eq[\X\]\]Tagged[\X\]->Marker[\X\] is not applicable to an argument of type Tagged[\Narrow\].
+ForestDispatch.fss:34:62-64:
+    Could not check call to function h
+    - [\X extends Eq[\X\]\]Eq[\X\]->Marker[\X\] is not applicable to an argument of type Tagged[\Narrow\].
+    - [\X extends Eq[\X\]\]Tagged[\X\]->Marker[\X\] is not applicable to an argument of type Tagged[\Narrow\].
+File ForestDispatch.fss has 14 errors.
+link exit=255
+=== forest: fortress link ForestDispatch.fss   -Dprobe.forest=fbound
+link exit=0
+=== forest: fortress run ForestDispatch
+h(tn), tn: Tagged[Narrow] ->  TagM [Narrow]
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class ForestDispatch$\=TagM?ForestDispatch\%Narrow? cannot be cast to class ForestDispatch$\=Marker?ForestDispatch\%Wide? (ForestDispatch$\=TagM?ForestDispatch\%Narrow? and ForestDispatch$\=Marker?Fo
+run exit=1
+=== cfull: fortress link ForestDispatch.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+link exit=0
+=== cfull: fortress run ForestDispatch
+h(tn), tn: Tagged[Narrow] ->  TagM [Narrow]
+h(n),  n: Narrow          ->  EqM [Wide]
+h(w),  w: Wide            ->  EqM [Wide]
+mw: Marker[Wide] = h(w) holds  EqM [Wide]
+run exit=0
+=== clite: fortress link ForestDispatch.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+link exit=0
+=== clite: fortress run ForestDispatch
+h(tn), tn: Tagged[Narrow] ->  TagM [Narrow]
+h(n),  n: Narrow          ->  EqM [Wide]
+h(w),  w: Wide            ->  EqM [Wide]
+mw: Marker[Wide] = h(w) holds  EqM [Wide]
+run exit=0

@@ -1,0 +1,32 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk RouteCProbe.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+com.sun.fortress.exceptions.ProgramError: RouteCProbe.fss:18:1-35: and
+RouteCProbe.fss:17:1-33:
+
+h[\T\](x:Box[\T\]):Box[\T\]RouteCProbe.fss:17:1-33 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+RouteCProbe.fss:18:1-35:
+RouteCProbe.fss:17:1-33:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+walk exit=1
+=== stock: fortress link RouteCProbe.fss   (no switch)
+link exit=0
+=== stock: fortress run RouteCProbe
+f(3) =  false , h(ZBox) is a Box:  true
+run exit=0
+=== forest: fortress link RouteCProbe.fss   -Dprobe.forest=fbound
+link exit=0
+=== forest: fortress run RouteCProbe
+f(3) =  false , h(ZBox) is a Box:  true
+run exit=0
+=== cfull: fortress link RouteCProbe.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+link exit=0
+=== cfull: fortress run RouteCProbe
+f(3) =  false , h(ZBox) is a Box:  true
+run exit=0
+=== clite: fortress link RouteCProbe.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+link exit=0
+=== clite: fortress run RouteCProbe
+f(3) =  false , h(ZBox) is a Box:  true
+run exit=0

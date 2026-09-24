@@ -1,0 +1,56 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ProbeMIEPick.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+com.sun.fortress.exceptions.ProgramError: ProbeMIEPick.fss:18:1-43: and
+ProbeMIEPick.fss:17:1-36:
+
+pick[\X\](t:Tag[\X\]):Tag[\X\]ProbeMIEPick.fss:17:1-36 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProbeMIEPick.fss:18:1-43:
+ProbeMIEPick.fss:17:1-36:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+walk exit=1
+=== stock: fortress link ProbeMIEPick.fss   (no switch)
+ProbeMIEPick.fss:13:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:23-34:
+    Type Both excludes Tag but it extends Tag.
+ProbeMIEPick.fss:13:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:38-47:
+    Type Both excludes Tag but it extends Tag.
+File ProbeMIEPick.fss has 4 errors.
+link exit=255
+=== forest: fortress link ProbeMIEPick.fss   -Dprobe.forest=fbound
+ProbeMIEPick.fss:13:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:23-34:
+    Type Both excludes Tag but it extends Tag.
+ProbeMIEPick.fss:13:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:38-47:
+    Type Both excludes Tag but it extends Tag.
+File ProbeMIEPick.fss has 4 errors.
+link exit=255
+=== cfull: fortress link ProbeMIEPick.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+ProbeMIEPick.fss:13:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:23-34:
+    Type Both excludes Tag but it extends Tag.
+ProbeMIEPick.fss:13:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:38-47:
+    Type Both excludes Tag but it extends Tag.
+File ProbeMIEPick.fss has 4 errors.
+link exit=255
+=== clite: fortress link ProbeMIEPick.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+ProbeMIEPick.fss:13:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:23-34:
+    Type Both excludes Tag but it extends Tag.
+ProbeMIEPick.fss:13:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+ProbeMIEPick.fss:13:38-47:
+    Type Both excludes Tag but it extends Tag.
+File ProbeMIEPick.fss has 4 errors.
+link exit=255

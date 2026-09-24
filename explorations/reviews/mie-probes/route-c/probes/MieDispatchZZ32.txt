@@ -1,0 +1,27 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk MieDispatchZZ32.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+peek(a), a: Any = IntTag -> other
+walk exit=0
+=== stock: fortress link MieDispatchZZ32.fss   (no switch)
+link exit=0
+=== stock: fortress run MieDispatchZZ32
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchZZ32$IntTag cannot be cast to class MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatchZZ32$IntTag and MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in u
+run exit=1
+=== forest: fortress link MieDispatchZZ32.fss   -Dprobe.forest=fbound
+link exit=0
+=== forest: fortress run MieDispatchZZ32
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchZZ32$IntTag cannot be cast to class MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatchZZ32$IntTag and MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in u
+run exit=1
+=== cfull: fortress link MieDispatchZZ32.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+link exit=0
+=== cfull: fortress run MieDispatchZZ32
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchZZ32$IntTag cannot be cast to class MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatchZZ32$IntTag and MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in u
+run exit=1
+=== clite: fortress link MieDispatchZZ32.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+link exit=0
+=== clite: fortress run MieDispatchZZ32
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MieDispatchZZ32$IntTag cannot be cast to class MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (MieDispatchZZ32$IntTag and MieDispatchZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in u
+run exit=1

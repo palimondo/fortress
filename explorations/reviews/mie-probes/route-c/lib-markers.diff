@@ -1,0 +1,50 @@
+--- a/FortressLibrary.fsi
++++ b/FortressLibrary.fsi
+@@ -1821,9 +1821,7 @@
+ 
+ (* Hack to permit any Number to work non-parametrically. *)
+ object SumReduction extends {
+-CommutativeMonoidReduction[\Number\] ,
+-DistributesOver[\MaxReductionN\],
+-DistributesOver[\MinReductionN\] }
++CommutativeMonoidReduction[\Number\] }
+     empty(): Number
+     join(a: Number, b: Number): Number
+ end
+@@ -1832,10 +1830,7 @@
+ 
+ opr SUM[\T extends Number\](g: Generator[\T\]): Number
+ 
+-object ProdReduction extends {CommutativeMonoidReduction[\Number\],
+-DistributesOver[\SumReduction\],
+-DistributesOver[\MinReductionN\],  (* actually, we need to limit elements positive *)
+-DistributesOver[\MaxReductionN\]
++object ProdReduction extends {CommutativeMonoidReduction[\Number\]
+  }
+     empty(): Number
+     join(a:Number, b:Number): Number
+--- a/FortressLibrary.fss
++++ b/FortressLibrary.fss
+@@ -3031,11 +3031,7 @@
+ 
+ (* Hack to permit any Number to work non-parametrically. *)
+ object SumReduction extends {
+-  CommutativeMonoidReduction[\Number\],
+-  DistributesOver[\MaxReductionN\],
+-  DistributesOver[\MinReductionN\],
+-  DistributesOver[\MaxReduction[\Number\]\],
+-  DistributesOver[\MaxReduction[\Number\]\]
++  CommutativeMonoidReduction[\Number\]
+    }
+     getter asString(): String = "SumReduction"
+     empty(): Number = 0
+@@ -3057,8 +3053,7 @@
+     __bigOperatorSugar[\T,Number,Number,Number\](SUM[\T\](), g)
+ 
+ object ProdReduction extends {
+-  CommutativeMonoidReduction[\Number\],
+-  DistributesOver[\SumReduction\]
++  CommutativeMonoidReduction[\Number\]
+  }
+     getter asString(): String = "ProdReduction"
+     empty(): Number = 1

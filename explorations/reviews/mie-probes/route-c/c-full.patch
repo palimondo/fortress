@@ -1,0 +1,373 @@
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -233,6 +233,11 @@
+       }
+     // Trait types
+     case (s: TraitType, t: TraitType) if (t==OBJECT) => pTrue()
++    // Forest rule, mode cov: a generic that comprises exactly its parameter is read
++    // covariantly (the patents' "different subtyping structure" of self-types).
++    case (STraitType(_, n1, List(STypeArg(_, _, a1)), _), STraitType(_, n2, List(STypeArg(_, _, a2)), _))
++      if TypeAnalyzer.probeForest == "cov" && typeCons(n1) == typeCons(n2) && forestSelfTyped(n1, true) =>
++      pSub(a1, a2)
+     
+     case (STraitType(_,traitId_1,staticArgs_1,_),STraitType(_,traitId_2,staticArgs_2,_)) 
+     	if (typeCons(traitId_1)==typeCons(traitId_2)) =>
+@@ -446,6 +451,15 @@
+         def cP(s: BaseType, t: BaseType): CFormula = (s, t) match {
+           case (s@STraitType(_, n1, a1, _), t@STraitType(_, n2, a2, _)) if (n1 == n2) =>
+             //Todo: Handle int, nat, bool args
++            if (!negate && TypeAnalyzer.probeForest != "off" && forestSelfTyped(n1))
++              // Forest rule (2012 patents' "Self-types meet"): two instantiations of a
++              // self-typed generic exclude only when their arguments are unordered.
++              pOr((a1, a2).zipped.map{
++                case (STypeArg(_, _, t1), STypeArg(_, _, t2)) =>
++                  pAnd(pSub(t1, t2)(!negate, history), pSub(t2, t1)(!negate, history))
++                case _ => pFalse()
++              })
++            else
+             pOr((a1, a2).zipped.map{
+               case (STypeArg(_, _, t1), STypeArg(_, _, t2)) => pEqv(t1, t2)(!negate, history)
+               case _ => pFalse()
+@@ -709,6 +723,47 @@
+ //    toOption(traits.typeCons(x)).getOrElse(bug(x, x + " is not in the trait table"))
+     toOption(traits.typeCons(x)).getOrElse(throw new RuntimeException("Not in the trait table: " + x.toStringReadable + " @ " + x.at))
+ 
++  // Forest rule: G is self-typed when its one static parameter P is bounded by G[P]
++  // (mode fbound, the library's spelling) or G comprises exactly P (mode comprises, the
++  // patents' definition; fbound and cov accept either; cov's covariant reading needs P).
++  def forestSelfTyped(n: Id, needComprises: Boolean = false): Boolean = typeCons(n) match {
++    case ti: TraitIndex =>
++      val ps = toListFromImmutable(ti.staticParameters)
++      ps.size == 1 && {
++        val p = ps.head
++        def isP(t: Type) = t match {
++          case SVarType(_, v, _) => v.getText == p.getName.getText
++          case _ => false
++        }
++        val bound = toListFromImmutable(p.getExtendsClause).exists {
++          case STraitType(_, bn, List(STypeArg(_, _, a)), _) => bn.getText == n.getText && isP(a)
++          case _ => false
++        }
++        val comp = ti match {
++          case pi: ProperTraitIndex =>
++            val cs = toSet(pi.comprisesTypes)
++            cs.size == 1 && cs.forall(c => isP(c))
++          case _ => false
++        }
++        if (needComprises || TypeAnalyzer.probeForest == "comprises") comp else (bound || comp)
++      }
++    case _ => false
++  }
++
++  // Forest rule: the other levels of the chain of self-typed S through m, that is every
++  // declared non-generic trait or object L other than m, comparable with m, that is S[L].
++  def forestChain(s: Id, m: Type): List[TraitType] =
++    TypeAnalyzer.chainMemo.getOrElseUpdate((traits, s.getText, m), traits.declaredNames.flatMap { n =>
++      val ti = try { typeCons(n) } catch { case _: RuntimeException => null }
++      ti match {
++        case ti: TraitIndex if ti.staticParameters.isEmpty =>
++          val l = NF.makeTraitType(n)
++          val sl = NF.makeTraitType(s, NF.makeTypeArg(l))
++          if (!(lteq(l, m) && lteq(m, l)) && lteq(l, sl) && (lteq(l, m) || lteq(m, l))) List(l) else Nil
++        case _ => Nil
++      }
++    }.distinctBy(_.toString))
++
+   def comprisesClause(t: TraitType): Set[TraitType] = typeCons(t.getName) match {
+     case ti: ProperTraitIndex =>
+       val args = toListFromImmutable(t.getArgs)
+@@ -796,4 +851,14 @@
+ 
+ object TypeAnalyzer {
+   def make(traits: TraitTable) = new TypeAnalyzer(traits, KindEnv.makeFresh)
++  // PROBE (route C shadow, not for landing).  probe.forest: off | fbound | comprises | cov
++  // (cov = fbound, plus comprises-T generics read covariantly in subtyping).  probe.rtr:
++  // off | forest (C-full's return type rule over the chain) | lite (C-lite).
++  final val probeForest: String = System.getProperty("probe.forest", "off")
++  final val probeRtr: String = System.getProperty("probe.rtr", "off")
++  // probe.identify=true: read S[L] as L in the rule's meet for an F-bounded S as well, which
++  // is sound only if nothing but L extends S[L], what comprises T would enforce
++  final val probeIdentify: Boolean = System.getProperty("probe.identify", "false") == "true"
++  private[types] val chainMemo =
++    new scala.collection.mutable.HashMap[(TraitTable, String, Type), List[TraitType]]()
+ }
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+@@ -96,6 +96,15 @@
+       case v => v
+     }
+ 
++  // Forest rule: the names of every trait and object in scope, as typeCons finds them.
++  def declaredNames: List[Id] = {
++    import scala.jdk.CollectionConverters._
++    val here = current.typeConses.keySet.asScala.toList
++    val there = for ((api, idx) <- globalEnv.apis.asScala.toList if api != current.ast.getName;
++                     id <- idx.typeConses.keySet.asScala.toList) yield NodeFactory.makeId(api, id)
++    here ++ there
++  }
++
+   override def iterator = {
+     var result: Set[TypeConsIndex] = new HashSet()
+     for (t <- current.typeConses.values) {
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
+@@ -21,6 +21,7 @@
+ import com.sun.fortress.exceptions.InterpreterBug.bug
+ import com.sun.fortress.nodes._
+ import com.sun.fortress.nodes_util.NodeFactory._
++import com.sun.fortress.nodes_util.{NodeFactory => NF}
+ import com.sun.fortress.scala_src.nodes._
+ import com.sun.fortress.scala_src.typechecker.staticenv.KindEnv
+ import com.sun.fortress.scala_src.typechecker.Formula._
+@@ -106,6 +107,70 @@
+ 	}
+     }
+ 
++  // Forest rule (route C shadow): the return type rule over a chain.  For f more specific
++  // than g, a static parameter P of g bounded by S[P], S self-typed, that f's domain fixes
++  // at a ground type M, has an applicable instance of g at every other level L of S's chain
++  // through M (M's own is the stock rule's).  One result per level whose domain meets f's: (M, L, L is below f -- only
++  // part of f's domain is at L --, f's return type fits g's at L, f's domain met with g's
++  // at L).  In the meet S[L] is read as L when S comprises exactly its parameter, the
++  // patents' identification of the two (-Dprobe.identify=true: for the F-bound too);
++  // "below" reads every S[A] as A.
++  def forestLevels(x: ArrowType, y: ArrowType): List[(Type, Type, Boolean, Boolean, Type)] =
++    (alphaRenameTypeSchema(x, ta.extend(toList(x.getInfo.getStaticParams), None).env),
++     alphaRenameTypeSchema(y, ta.extend(toList(y.getInfo.getStaticParams), None).env)) match {
++      case (fa@SArrowType(STypeInfo(_, _, sp1, _), _, r1, _, _, _),
++            ga@SArrowType(STypeInfo(_, _, sp2, _), _, r2, _, _, _)) =>
++        val fd = sa.makeDomainWithSelfFromArrow(fa)
++        val gd = sa.makeDomainWithSelfFromArrow(ga)
++        sa.subEDsolution(fd, gd) match {
++          case Some((_, newargs)) if newargs.size == sp2.size =>
++            val nta = ta.extend(sp1, None)
++            val (fdc, gdc) = (clearStaticParams(fd), clearStaticParams(gd))
++            sp2.zip(newargs).zipWithIndex.flatMap {
++              case ((p, STypeArg(_, _, m)), i) if !mentionsVar(m) => forestBound(p) match {
++                case Some(s) => nta.forestChain(s, m).flatMap { l =>
++                  val str = new StaticTypeReplacer(sp2, newargs.updated(i, NF.makeTypeArg(l)))
++                  val gl = str.replaceIn(gdc)
++                  val dl = if (ta.forestSelfTyped(s, true) || TypeAnalyzer.probeIdentify) selfAsLevel(gl, s) else gl
++                  if (nta.definitelyExcludes(fdc, dl)) Nil
++                  else List((m, l, !nta.lteq(selfAsLevel(fdc, s), selfAsLevel(gl, s)),
++                             nta.lteq(r1, str.replaceIn(r2)), nta.meet(fdc, dl)))
++                }
++                case None => Nil
++              }
++              case _ => Nil
++            }
++          case _ => Nil
++        }
++    }
++
++  // Does f's domain met with g's at a level lie inside h's domain (so h runs there)?
++  def forestCovers(meet: Type, f: ArrowType, h: ArrowType): Boolean = {
++    val sp1 = toList(f.getInfo.getStaticParams)
++    sa.subtypeED(if (sp1.isEmpty) meet else insertStaticParams(meet, sp1), sa.makeDomainWithSelfFromArrow(h))
++  }
++
++  private def forestBound(p: StaticParam): Option[Id] =
++    toListFromImmutable(p.getExtendsClause).collectFirst {
++      case STraitType(_, s, List(STypeArg(_, _, SVarType(_, v, _))), _)
++        if v.getText == p.getName.getText && ta.forestSelfTyped(s) => s
++    }
++
++  private def mentionsVar(t: Type): Boolean = {
++    var found = false
++    object w extends Walker { override def walk(node: Any): Any = node match {
++      case v: VarType => found = true; v
++      case _ => super.walk(node) } }
++    w(t); found
++  }
++
++  private def selfAsLevel(t: Type, s: Id): Type = {
++    object w extends Walker { override def walk(node: Any): Any = node match {
++      case STraitType(_, n, List(STypeArg(_, _, a)), _) if n.getText == s.getText => a
++      case _ => super.walk(node) } }
++    w(t).asInstanceOf[Type]
++  }
++
+ //   def satisfiesReturnTypeRule(x: ArrowType, y: ArrowType): Boolean =
+ //     (alphaRenameTypeSchema(x, ta.extend(toList(x.getInfo.getStaticParams), None).env),
+ //      alphaRenameTypeSchema(y, ta.extend(toList(y.getInfo.getStaticParams), None).env)) match {
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+@@ -420,6 +420,8 @@
+                                        } else {
+                                 	      returnTypeCheck(name, first, second, oracle)
+                                 	      returnTypeCheck(name, second, first, oracle)
++                                	      forestCheck(name, first, second, signatures, oracle)
++                                	      forestCheck(name, second, first, signatures, oracle)
+                                        } 
+                                }
+                                  )
+@@ -535,6 +537,52 @@
+     }
+ 
+ 
++    /* Forest rule (route C shadow): the return type rule at every other level of a chain.
++     * -Dprobe.rtr=forest refuses a level where the more specific declaration's return type
++     * does not fit the generic's, unless a still more specific declaration covers the
++     * arguments the two share there; -Dprobe.rtr=lite (C-lite) refuses any level below the
++     * specialisation, and a level above where the return type does not fit. */
++    private def forestCheck(name: IdOrOpOrAnonymousName,
++                            first: (ArrowType,Option[Int],Option[JavaFunctional]),
++                            second: (ArrowType,Option[Int],Option[JavaFunctional]),
++                            signatures: List[(ArrowType,Option[Int],Option[JavaFunctional])],
++                            oa: OverloadingOracle) =
++      if (TypeAnalyzer.probeRtr != "off") {
++        val (fa, _, _) = first
++        val (ga, _, _) = second
++        val bad = oa.forestLevels(fa, ga).filter { case (m, l, below, retOk, meet) =>
++          // covered: a declaration more specific than f runs for every argument f and g share at
++          // the level, one in this overload set or one the level's own type declares
++          def covers(ha: ArrowType) = (ha ne fa) && (ha ne ga) && oa.lteq(ha, fa) && !oa.lteq(fa, ha) &&
++                                      oa.forestCovers(meet, fa, ha)
++          val covered = !retOk && TypeAnalyzer.probeRtr == "forest" &&
++            (signatures.exists(h => covers(h._1)) || levelDeclares(l, name).exists(covers))
++          val refused = if (TypeAnalyzer.probeRtr == "lite") below || !retOk else !retOk && !covered
++          System.err.println("@@RTR\t" + TypeAnalyzer.probeRtr + "\t" + name + "\t" + NU.getSpan(fa) + "\t" +
++                             NU.getSpan(ga) + "\t" + m + "\t" + l + "\t" + (if (below) "below" else "above") +
++                             "\t" + (if (retOk) "fits" else if (covered) "covered" else "unfit") +
++                             "\t" + (if (refused) "REFUSED" else "ok"))
++          refused
++        }
++        if (!bad.isEmpty)
++          error(mergeSpan(fa, ga),
++                "For " + name + " (forest rule, " + TypeAnalyzer.probeRtr + "), " + typeAndSpanToString(fa) +
++                "\n    specialises " + typeAndSpanToString(ga) + " at " + bad.head._1 +
++                ";\n    its return type does not fit the generic's at " + bad.map(_._2).mkString(", ") +
++                ", and no more specific declaration covers that level")
++      }
++
++    // The functional methods of this name that a level of a chain declares itself.
++    private def levelDeclares(l: Type, name: IdOrOpOrAnonymousName): List[ArrowType] = l match {
++      case STraitType(_, n, Nil, _) => typeAnalyzer.typeCons(n) match {
++        case ti: TraitIndex =>
++          val fms = toSet(ti.functionalMethods.firstSet).filter(_.toString == name.toString)
++                      .flatMap(k => toSet(ti.functionalMethods.matchFirst(k))).asInstanceOf[Set[JavaFunctional]]
++          toFunctionArrows(fms, false).map(_._1)
++        case _ => Nil }
++      case _ => Nil
++    }
++
+     /* Drop the first element denoting the receiver type of the given type. */
+     private def dropReceiver(param: Type) = param match {
+       case STupleType(info, _::ty::Nil, None, Nil) => ty
+--- a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+@@ -38,6 +38,7 @@
+ import com.sun.fortress.compiler.index.HasTraitStaticParameters;
+ import com.sun.fortress.compiler.index.Method;
+ import com.sun.fortress.compiler.phases.CodeGenerationPhase;
++import com.sun.fortress.compiler.typechecker.StaticTypeReplacer;
+ import com.sun.fortress.exceptions.CompilerBug;
+ import com.sun.fortress.exceptions.CompilerError;
+ import com.sun.fortress.nodes.APIName;
+@@ -51,6 +52,7 @@
+ import com.sun.fortress.nodes.IdOrOp;
+ import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
+ import com.sun.fortress.nodes.IntersectionType;
++import com.sun.fortress.nodes.KindType;
+ import com.sun.fortress.nodes.NamedType;
+ import com.sun.fortress.nodes.Op;
+ import com.sun.fortress.nodes.OpArg;
+@@ -1300,6 +1302,45 @@
+         return variances;
+     }
+     
++    /* Scope probe: -Dprobe.scope=callsite reads a generic arm of a generic dispatcher at the
++     * dispatcher's own static parameters, which the loader has replaced by the call site's
++     * arguments; =skip also leaves out generic arms of a dispatcher that has none. */
++    static final String SCOPE = System.getProperty("probe.scope", "off");
++
++    protected List<StaticParam> templateStaticParams() {
++        return principalMember == null ? null : staticParametersOf(principalMember.tagF);
++    }
++
++    private StaticTypeReplacer atTemplateParams(TaggedFunctionName f) {
++        List<StaticParam> tsp = templateStaticParams();
++        List<StaticParam> fsp = staticParametersOf(f.getF());
++        if (SCOPE.equals("off") || tsp == null || fsp == null || tsp.size() != fsp.size()
++            || !(f.getF() instanceof DeclaredFunction) || !(principalMember.getF() instanceof DeclaredFunction))
++            return null;
++        List<StaticArg> args = new ArrayList<StaticArg>();
++        for (StaticParam sp : tsp) {
++            if (!(sp.getKind() instanceof KindType)) return null;
++            args.add(NodeFactory.makeTypeArg(NodeFactory.makeVarType(NodeUtil.getSpan(sp), sp.getName().getText())));
++        }
++        return new StaticTypeReplacer(fsp, args);
++    }
++
++    private void invokeArmAtTemplateParams(MethodVisitor mv, TaggedFunctionName f, StaticTypeReplacer atT) {
++        List<Param> ps = new ArrayList<Param>();
++        for (Param p : f.getParameters()) ps.add((Param) p.accept(atT));
++        String sig = NamingCzar.jvmSignatureFor(ps,
++                NamingCzar.jvmBoxedTypeDesc(atT.replaceIn(f.getReturnType()), f.tagA), f.tagA);
++        String owner = Naming.dotToSep(f.tagA.getText());
++        String arrow = instanceArrowSchema(f);
++        String fname = functionName(f);
++        if (otherOverloadKeys.contains(Naming.genericFunctionPkgClass(owner, fname,
++                Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow)))
++            fname = NamingCzar.mangleAwayFromOverload(fname);
++        String armClass = Naming.genericFunctionPkgClass(owner, fname,
++                NamingCzar.genericDecoration(templateStaticParams(), null, ifNone), arrow);
++        mv.visitMethodInsn(Opcodes.INVOKESTATIC, armClass, Naming.APPLIED_METHOD, sig);
++    }
++
+     public void generateCall(MethodVisitor mv, int firstArgIndex, int one_if_method_closure) {
+         if (!splitDone) {
+             throw new CompilerError("Must split overload set before generating call(s)");
+@@ -1323,8 +1364,11 @@
+             MultiMap<String, TypeStructure> spmap = new MultiMap<String, TypeStructure>();
+             spmaps[i] = spmap;
+             List<StaticParam> staticParams = staticParametersOf(f.getF());
++            StaticTypeReplacer atT = atTemplateParams(f);
++            if (atT != null) staticParams = null;
+ 
+             Type rt = oa.getRangeType(eff);
++            if (atT != null) rt = atT.replaceIn(rt);
+             return_type_structures[i] = makeTypeStructure(rt,null, 1, 0, staticParams, eff);
+ 
+             // skip parameters -- no 'this' for ordinary functions
+@@ -1341,6 +1385,7 @@
+                 
+                 for (int j = 0; j < tl.size(); j++) {
+                     Type t = STypesUtil.insertStaticParams(tl.get(j), tt.getInfo().getStaticParams());
++                    if (atT != null) t = atT.replaceIn(t);
+                     TypeStructure type_structure = makeTypeStructure(t, spmap, 1, storeAtIndex, staticParams, eff);
+                     f_type_structures[j] = type_structure;
+                     storeAtIndex = type_structure.successorIndex;
+@@ -1355,6 +1400,7 @@
+                 for (int j = 0; j < parameters.size(); j++) {
+                     if (j != selfIndex()) {
+                         Type t = oa.getParamType(eff,j);
++                        if (atT != null) t = atT.replaceIn(t);
+                         TypeStructure type_structure = makeTypeStructure(t, spmap, 1, storeAtIndex, staticParams, eff);
+                         f_type_structures[j] = type_structure;
+                         storeAtIndex = type_structure.successorIndex;
+@@ -1373,6 +1419,9 @@
+ 
+             List<StaticParam> staticParams = staticParametersOf(f.getF());
+             boolean last_case = i == l-1;
++            if (SCOPE.equals("skip") && staticParams != null && templateStaticParams() == null
++                && f.getF() instanceof DeclaredFunction)
++                continue;
+ 
+ 
+             /* Trust the static checker; no need to verify
+@@ -1738,9 +1787,11 @@
+                     }
+                 }
+            
+-                String sig = jvmSignatureFor(f);
+-
+-                invokeParticularMethod(mv, f, sig);
++                StaticTypeReplacer atT = atTemplateParams(f);
++                if (atT != null)
++                    invokeArmAtTemplateParams(mv, f, atT);
++                else
++                    invokeParticularMethod(mv, f, jvmSignatureFor(f));
+                 Type f_return = f.getReturnType();
+                 if (f_return instanceof BottomType) {
+                     CodeGen.castToBottom(mv);

@@ -1,0 +1,56 @@
+# the compiler prelude compiled under each mode, class by class against stock  (2026-09-24, JDK 25.0.4, main f2a603e61)
+CompilerSystem.jar: C-full identical (2 files); C-lite identical (2 files)
+fortress.AnyType.jar: C-full identical (1 files); C-lite identical (1 files)
+fortress.CompilerAlgebra.jar: C-full identical (29 files); C-lite identical (29 files)
+fortress.CompilerBuiltin.jar: C-full DIFFERENT: 16 files; C-lite DIFFERENT: 16 files
+fortress.CompilerLibrary.jar: C-full DIFFERENT: 6 files; C-lite DIFFERENT: 5 files
+
+# compiler_tests declaring a generic overload, or matching 'overload' or Generic/Overload in the name: 43
+# test | stock link/run exits | C-full: output, classes | C-lite: output, classes
+Compiled10.Comprehensions3 | link exit=0 run exit=0 | cfull: output same, classes identical (39 files) | clite: output same, classes identical (39 files) 
+Compiled10.Comprehensions4 | link exit=255 | cfull: output same, classes no jar | clite: output same, classes no jar 
+Compiled12 | link exit=0 run exit=0 | cfull: output same, classes identical (14 files) | clite: output same, classes identical (14 files) 
+Compiled12.inheritFuncFullyGeneric | link exit=0 run exit=0 | cfull: output same, classes DIFFERENT: 3 files | clite: output same, classes DIFFERENT: 3 files 
+Compiled12.inheritFuncPartiallyGeneric | link exit=0 run exit=0 | cfull: output same, classes identical (29 files) | clite: output same, classes identical (29 files) 
+Compiled12.invariantInference | link exit=0 run exit=0 | cfull: output same, classes DIFFERENT: 5 files | clite: output same, classes DIFFERENT: 5 files 
+Compiled12.invariantInference2 | link exit=0 run exit=0 | cfull: output same, classes DIFFERENT: 5 files | clite: output same, classes DIFFERENT: 5 files 
+Compiled13 | link exit=0 run exit=0 | cfull: output same, classes identical (19 files) | clite: output same, classes DIFFERENT: 1 files 
+Compiled13a | link exit=0 run exit=0 | cfull: output same, classes identical (13 files) | clite: output same, classes identical (13 files) 
+Compiled13b | link exit=0 run exit=0 | cfull: output same, classes identical (13 files) | clite: output same, classes identical (13 files) 
+Compiled14 | link exit=0 run exit=0 | cfull: output same, classes identical (5 files) | clite: output same, classes identical (5 files) 
+Compiled15 | link exit=0 run exit=0 | cfull: output same, classes identical (12 files) | clite: output same, classes identical (12 files) 
+Compiled15a | link exit=0 run exit=0 | cfull: output same, classes identical (12 files) | clite: output same, classes identical (12 files) 
+Compiled15b | link exit=0 run exit=0 | cfull: output same, classes identical (12 files) | clite: output same, classes identical (12 files) 
+Compiled16 | link exit=0 run exit=0 | cfull: output same, classes identical (18 files) | clite: output same, classes identical (18 files) 
+Compiled16a | link exit=0 run exit=0 | cfull: output same, classes identical (8 files) | clite: output same, classes identical (8 files) 
+Compiled16b | link exit=0 run exit=0 | cfull: output same, classes DIFFERENT: 1 files | clite: output same, classes DIFFERENT: 1 files 
+Compiled16c | link exit=0 run exit=0 | cfull: output same, classes identical (16 files) | clite: output same, classes identical (16 files) 
+Compiled16d | link exit=0 run exit=0 | cfull: output same, classes identical (12 files) | clite: output same, classes identical (12 files) 
+Compiled16e | link exit=0 run exit=0 | cfull: output same, classes identical (16 files) | clite: output same, classes identical (16 files) 
+Compiled16f | link exit=0 run exit=0 | cfull: output same, classes identical (18 files) | clite: output same, classes identical (18 files) 
+Compiled17 | link exit=0 run exit=0 | cfull: output same, classes DIFFERENT: 1 files | clite: output same, classes identical (21 files) 
+Compiled17a | link exit=0 run exit=0 | cfull: output same, classes identical (15 files) | clite: output same, classes identical (15 files) 
+Compiled17b | link exit=0 run exit=0 | cfull: output same, classes identical (29 files) | clite: output same, classes identical (29 files) 
+Compiled17c | link exit=0 run exit=0 | cfull: output same, classes identical (29 files) | clite: output same, classes identical (29 files) 
+Compiled17dd | link exit=0 run exit=0 | cfull: output same, classes identical (11 files) | clite: output same, classes identical (11 files) 
+Compiled17f | link exit=0 run exit=0 | cfull: output same, classes identical (6 files) | clite: output same, classes identical (6 files) 
+Compiled17g | link exit=255 | cfull: output same, classes no jar | clite: output same, classes no jar 
+Compiled17h | link exit=0 run exit=0 | cfull: output same, classes identical (6 files) | clite: output same, classes identical (6 files) 
+Compiled17i | link exit=0 run exit=0 | cfull: output same, classes identical (6 files) | clite: output same, classes identical (6 files) 
+Compiled18 | link exit=255 | cfull: output same, classes no jar | clite: output same, classes no jar 
+Compiled180 | link exit=0 run exit=0 | cfull: output same, classes DIFFERENT: 2 files | clite: output same, classes DIFFERENT: 2 files 
+Compiled240 | link exit=1 run exit=1 | cfull: output same, classes identical (0 files) | clite: output same, classes identical (0 files) 
+Compiled250 | link exit=255 | cfull: output same, classes no jar | clite: output same, classes no jar 
+Compiled6.ab | link exit=255 | cfull: output same, classes no jar | clite: output same, classes no jar 
+Compiled6.af | link exit=0 run exit=0 | cfull: output same, classes identical (21 files) | clite: output same, classes identical (21 files) 
+Compiled6.ah | link exit=0 run exit=0 | cfull: output same, classes identical (9 files) | clite: output same, classes identical (9 files) 
+Compiled6.ak | link exit=255 | cfull: output same, classes no jar | clite: output same, classes no jar 
+Compiled6.bs | link exit=255 | cfull: output same, classes no jar | clite: output same, classes no jar 
+Compiled6.bt | link exit=255 | cfull: output same, classes no jar | clite: output same, classes no jar 
+Compiled70 | link exit=0 run exit=0 | cfull: output same, classes DIFFERENT: 1 files | clite: output same, classes DIFFERENT: 1 files 
+MutableTopLevelVar | link exit=0 run exit=0 | cfull: output same, classes identical (3 files) | clite: output same, classes identical (3 files) 
+VarianceTest4 | link exit=0 run exit=1 | cfull: output same, classes identical (22 files) | clite: output same, classes identical (22 files) 
+
+# cfull's differing output
+
+# clite's differing output

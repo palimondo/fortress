@@ -1,0 +1,64 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ForestGenericLeaf.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+Exception in thread "main" java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+walk exit=1
+=== stock: fortress link ForestGenericLeaf.fss   (no switch)
+ForestGenericLeaf.fss:11:21-23:
+    Type Mid excludes Wide but it extends Wide.
+ForestGenericLeaf.fss:11:21-23:
+    Types Wide and Eq[\Mid\] exclude each other.  Mid must not extend them.
+ForestGenericLeaf.fss:11:27-33:
+    Types Eq[\Mid\] and Wide exclude each other.  Mid must not extend them.
+ForestGenericLeaf.fss:11:27-34:
+    Type Mid excludes Eq but it extends Eq.
+ForestGenericLeaf.fss:12:24-25:
+    Type Narrow excludes Mid but it extends Mid.
+ForestGenericLeaf.fss:12:24-25:
+    Types Mid and Eq[\Narrow\] exclude each other.  Narrow must not extend them.
+ForestGenericLeaf.fss:12:29-38:
+    Types Eq[\Narrow\] and Mid exclude each other.  Narrow must not extend them.
+ForestGenericLeaf.fss:12:29-39:
+    Type Narrow excludes Eq but it extends Eq.
+ForestGenericLeaf.fss:13:18-20:
+    Type M excludes Mid but it extends Mid.
+ForestGenericLeaf.fss:17:18-23:
+    Type N excludes Narrow but it extends Narrow.
+File ForestGenericLeaf.fss has 10 errors.
+link exit=255
+=== forest: fortress link ForestGenericLeaf.fss   -Dprobe.forest=fbound
+ForestGenericLeaf.fss:23:1-24:
+ForestGenericLeaf.fss:24:1-31:
+    Invalid overloading of f in component ForestGenericLeaf:
+     Eq[\Mid\]->Mid @ ForestGenericLeaf.fss:23:1-24
+ and Eq[\Narrow\]->Narrow @ ForestGenericLeaf.fss:24:1-31
+File ForestGenericLeaf.fss has 1 error.
+link exit=255
+=== cfull: fortress link ForestGenericLeaf.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+@@RTR	forest	f	ForestGenericLeaf.fss:23:1-24	ForestGenericLeaf.fss:22:1-46	Mid	Wide	above	fits	ok
+@@RTR	forest	f	ForestGenericLeaf.fss:23:1-24	ForestGenericLeaf.fss:22:1-46	Mid	Narrow	below	covered	ok
+@@RTR	forest	f	ForestGenericLeaf.fss:24:1-31	ForestGenericLeaf.fss:22:1-46	Narrow	Wide	above	fits	ok
+@@RTR	forest	f	ForestGenericLeaf.fss:24:1-31	ForestGenericLeaf.fss:22:1-46	Narrow	Mid	above	fits	ok
+link exit=0
+=== cfull: fortress run ForestGenericLeaf
+h[Wide](N)   ->  N
+h[Mid](N)    ->  N
+r: Narrow = h[Narrow](N) holds  N
+run exit=0
+=== clite: fortress link ForestGenericLeaf.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+@@RTR	lite	f	ForestGenericLeaf.fss:23:1-24	ForestGenericLeaf.fss:22:1-46	Mid	Wide	above	fits	ok
+@@RTR	lite	f	ForestGenericLeaf.fss:23:1-24	ForestGenericLeaf.fss:22:1-46	Mid	Narrow	below	unfit	REFUSED
+@@RTR	lite	f	ForestGenericLeaf.fss:24:1-31	ForestGenericLeaf.fss:22:1-46	Narrow	Wide	above	fits	ok
+@@RTR	lite	f	ForestGenericLeaf.fss:24:1-31	ForestGenericLeaf.fss:22:1-46	Narrow	Mid	above	fits	ok
+ForestGenericLeaf.fss:22:1-46:
+ForestGenericLeaf.fss:23:1-24:
+    For f (forest rule, lite), Eq[\Mid\]->Mid @ ForestGenericLeaf.fss:23:1-24
+    specialises [\X extends Eq[\X\]\]Eq[\X\]->X @ ForestGenericLeaf.fss:22:1-46 at Mid,
+    below which the chain has Narrow;
+    at or above it the return type does not fit at 
+ForestGenericLeaf.fss:23:1-24:
+ForestGenericLeaf.fss:24:1-31:
+    Invalid overloading of f in component ForestGenericLeaf:
+     Eq[\Mid\]->Mid @ ForestGenericLeaf.fss:23:1-24
+ and Eq[\Narrow\]->Narrow @ ForestGenericLeaf.fss:24:1-31
+File ForestGenericLeaf.fss has 2 errors.
+link exit=255

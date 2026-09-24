@@ -1,0 +1,63 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ProbeTypecaseMIE.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+PASS: O is a G[Boolean]
+walk exit=0
+=== stock: fortress link ProbeTypecaseMIE.fss   (no switch)
+ProbeTypecaseMIE.fss:6:19:
+    Type B excludes A but it extends A.
+ProbeTypecaseMIE.fss:6:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-32:
+    Type B excludes G but it extends G.
+ProbeTypecaseMIE.fss:7:18:
+    Type O excludes B but it extends B.
+ProbeTypecaseMIE.fss:12:5-10:12:
+    The typecase clause, G[\Boolean\], is unreachable.
+File ProbeTypecaseMIE.fss has 6 errors.
+link exit=255
+=== forest: fortress link ProbeTypecaseMIE.fss   -Dprobe.forest=fbound
+ProbeTypecaseMIE.fss:6:19:
+    Type B excludes A but it extends A.
+ProbeTypecaseMIE.fss:6:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-32:
+    Type B excludes G but it extends G.
+ProbeTypecaseMIE.fss:7:18:
+    Type O excludes B but it extends B.
+ProbeTypecaseMIE.fss:12:5-10:12:
+    The typecase clause, G[\Boolean\], is unreachable.
+File ProbeTypecaseMIE.fss has 6 errors.
+link exit=255
+=== cfull: fortress link ProbeTypecaseMIE.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+ProbeTypecaseMIE.fss:6:19:
+    Type B excludes A but it extends A.
+ProbeTypecaseMIE.fss:6:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-32:
+    Type B excludes G but it extends G.
+ProbeTypecaseMIE.fss:7:18:
+    Type O excludes B but it extends B.
+ProbeTypecaseMIE.fss:12:5-10:12:
+    The typecase clause, G[\Boolean\], is unreachable.
+File ProbeTypecaseMIE.fss has 6 errors.
+link exit=255
+=== clite: fortress link ProbeTypecaseMIE.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+ProbeTypecaseMIE.fss:6:19:
+    Type B excludes A but it extends A.
+ProbeTypecaseMIE.fss:6:19:
+    Types A and G[\Boolean\] exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-31:
+    Types G[\Boolean\] and A exclude each other.  B must not extend them.
+ProbeTypecaseMIE.fss:6:22-32:
+    Type B excludes G but it extends G.
+ProbeTypecaseMIE.fss:7:18:
+    Type O excludes B but it extends B.
+ProbeTypecaseMIE.fss:12:5-10:12:
+    The typecase clause, G[\Boolean\], is unreachable.
+File ProbeTypecaseMIE.fss has 6 errors.
+link exit=255

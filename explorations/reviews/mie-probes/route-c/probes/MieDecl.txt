@@ -1,0 +1,65 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk MieDecl.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+declared and bound at both types: Both Both
+typecase: s (static Tag[String]) is also a Tag[ZZ32]
+typecase: z (static Tag[ZZ32]) is also a Tag[String]
+walk exit=0
+=== stock: fortress link MieDecl.fss   (no switch)
+MieDecl.fss:6:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieDecl.fss:6:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieDecl.fss:6:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieDecl.fss:6:38-47:
+    Type Both excludes Tag but it extends Tag.
+MieDecl.fss:13:5-9:16:
+    The typecase clause, Tag[\ZZ32\], is unreachable.
+MieDecl.fss:17:5-10:14:
+    The typecase clause, Tag[\String\], is unreachable.
+File MieDecl.fss has 6 errors.
+link exit=255
+=== forest: fortress link MieDecl.fss   -Dprobe.forest=fbound
+MieDecl.fss:6:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieDecl.fss:6:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieDecl.fss:6:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieDecl.fss:6:38-47:
+    Type Both excludes Tag but it extends Tag.
+MieDecl.fss:13:5-9:16:
+    The typecase clause, Tag[\ZZ32\], is unreachable.
+MieDecl.fss:17:5-10:14:
+    The typecase clause, Tag[\String\], is unreachable.
+File MieDecl.fss has 6 errors.
+link exit=255
+=== cfull: fortress link MieDecl.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+MieDecl.fss:6:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieDecl.fss:6:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieDecl.fss:6:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieDecl.fss:6:38-47:
+    Type Both excludes Tag but it extends Tag.
+MieDecl.fss:13:5-9:16:
+    The typecase clause, Tag[\ZZ32\], is unreachable.
+MieDecl.fss:17:5-10:14:
+    The typecase clause, Tag[\String\], is unreachable.
+File MieDecl.fss has 6 errors.
+link exit=255
+=== clite: fortress link MieDecl.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+MieDecl.fss:6:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieDecl.fss:6:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieDecl.fss:6:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieDecl.fss:6:38-47:
+    Type Both excludes Tag but it extends Tag.
+MieDecl.fss:13:5-9:16:
+    The typecase clause, Tag[\ZZ32\], is unreachable.
+MieDecl.fss:17:5-10:14:
+    The typecase clause, Tag[\String\], is unreachable.
+File MieDecl.fss has 6 errors.
+link exit=255

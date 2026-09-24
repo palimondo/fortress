@@ -1,0 +1,25 @@
+# probe	walk	stock	forest (fbound)	C-full	C-lite   (link/run exits; E = an exception's class)
+ForestDispatch	1 E=ProgramError	255	01 E=ClassCastException	00	00
+ForestGeneric	1 E=StackOverflowError	255	01 E=IncompatibleClassChangeError	255	255
+ForestGenericLeaf	1 E=StackOverflowError	255	255	00	255
+ForestInfer	0	255	00	00	00
+ForestLeafInv	1 E=StackOverflowError	255	01 E=VerifyError	255	255
+ForestTower	1 E=ProgramError	255	01 E=IncompatibleClassChangeError	255	255
+ForestTowerC	1 E=StackOverflowError	255	01 E=IncompatibleClassChangeError	255	255
+ForestTowerCLeaf	1 E=StackOverflowError	255	255	00	255
+ForestTowerCNoSpec	0	255	01 E=AbstractMethodError	01 E=AbstractMethodError	01 E=AbstractMethodError
+MieDecl	0	255	255	255	255
+MieDispatch	1 E=ProgramError	255	255	255	255
+MieDispatchAny	0	255	255	255	255
+MieDispatchSub	0	255	255	255	255
+MieDispatchZZ32	0	01 E=ClassCastException	01 E=ClassCastException	01 E=ClassCastException	01 E=ClassCastException
+MieHeadOrId	1 E=ProgramError	255	255	255	255
+MieInfer	0	255	255	255	255
+MieInferRet	1 E=ProgramError	255	255	255	255
+MieInferSwap	0	255	255	255	255
+MieTower	0	255	255	255	255
+ProbeMIEOverload	1 E=ProgramError	00	00	00	00
+ProbeMIEPick	1 E=ProgramError	255	255	255	255
+ProbeMIEPickCtl	1 E=ProgramError	00	00	00	00
+ProbeTypecaseMIE	0	255	255	255	255
+RouteCProbe	1 E=ProgramError	00	00	00	00

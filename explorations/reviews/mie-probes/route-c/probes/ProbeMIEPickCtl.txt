@@ -1,0 +1,32 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ProbeMIEPickCtl.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+com.sun.fortress.exceptions.ProgramError: ProbeMIEPickCtl.fss:15:1-43: and
+ProbeMIEPickCtl.fss:14:1-36:
+
+pick[\X\](t:Tag[\X\]):Tag[\X\]ProbeMIEPickCtl.fss:14:1-36 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProbeMIEPickCtl.fss:15:1-43:
+ProbeMIEPickCtl.fss:14:1-36:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+walk exit=1
+=== stock: fortress link ProbeMIEPickCtl.fss   (no switch)
+link exit=0
+=== stock: fortress run ProbeMIEPickCtl
+control: pick(StrTag) =  StrTag , pick(IntTag) =  IntTag
+run exit=0
+=== forest: fortress link ProbeMIEPickCtl.fss   -Dprobe.forest=fbound
+link exit=0
+=== forest: fortress run ProbeMIEPickCtl
+control: pick(StrTag) =  StrTag , pick(IntTag) =  IntTag
+run exit=0
+=== cfull: fortress link ProbeMIEPickCtl.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+link exit=0
+=== cfull: fortress run ProbeMIEPickCtl
+control: pick(StrTag) =  StrTag , pick(IntTag) =  IntTag
+run exit=0
+=== clite: fortress link ProbeMIEPickCtl.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+link exit=0
+=== clite: fortress run ProbeMIEPickCtl
+control: pick(StrTag) =  StrTag , pick(IntTag) =  IntTag
+run exit=0

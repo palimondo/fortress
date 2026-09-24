@@ -1,0 +1,69 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ForestTowerCLeaf.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+Exception in thread "main" java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+walk exit=1
+=== stock: fortress link ForestTowerCLeaf.fss   (no switch)
+ForestTowerCLeaf.fss:13:21-23:
+    Type Mid excludes Wide but it extends Wide.
+ForestTowerCLeaf.fss:13:21-23:
+    Types Wide and Eq[\Mid\] exclude each other.  Mid must not extend them.
+ForestTowerCLeaf.fss:13:27-33:
+    Types Eq[\Mid\] and Wide exclude each other.  Mid must not extend them.
+ForestTowerCLeaf.fss:13:27-34:
+    Type Mid excludes Eq but it extends Eq.
+ForestTowerCLeaf.fss:14:24-25:
+    Type Narrow excludes Mid but it extends Mid.
+ForestTowerCLeaf.fss:14:24-25:
+    Types Mid and Eq[\Narrow\] exclude each other.  Narrow must not extend them.
+ForestTowerCLeaf.fss:14:29-38:
+    Types Eq[\Narrow\] and Mid exclude each other.  Narrow must not extend them.
+ForestTowerCLeaf.fss:14:29-39:
+    Type Narrow excludes Eq but it extends Eq.
+ForestTowerCLeaf.fss:19:18-20:
+    Type M excludes Mid but it extends Mid.
+ForestTowerCLeaf.fss:23:18-23:
+    Type N excludes Narrow but it extends Narrow.
+File ForestTowerCLeaf.fss has 10 errors.
+link exit=255
+=== forest: fortress link ForestTowerCLeaf.fss   -Dprobe.forest=fbound
+ForestTowerCLeaf.fss:29:1-24:
+ForestTowerCLeaf.fss:30:1-36:
+    Invalid overloading of f in component ForestTowerCLeaf:
+     Eq[\Mid\]->Mid @ ForestTowerCLeaf.fss:29:1-24
+ and Eq[\Narrow\]->Narrow @ ForestTowerCLeaf.fss:30:1-36
+File ForestTowerCLeaf.fss has 1 error.
+link exit=255
+=== cfull: fortress link ForestTowerCLeaf.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+@@RTR	forest	f	ForestTowerCLeaf.fss:30:1-36	ForestTowerCLeaf.fss:28:1-46	Narrow	Wide	above	fits	ok
+@@RTR	forest	f	ForestTowerCLeaf.fss:30:1-36	ForestTowerCLeaf.fss:28:1-46	Narrow	Mid	above	fits	ok
+@@RTR	forest	f	ForestTowerCLeaf.fss:29:1-24	ForestTowerCLeaf.fss:28:1-46	Mid	Wide	above	fits	ok
+@@RTR	forest	f	ForestTowerCLeaf.fss:29:1-24	ForestTowerCLeaf.fss:28:1-46	Mid	Narrow	below	covered	ok
+link exit=0
+=== cfull: fortress run ForestTowerCLeaf
+f(n),  n: Narrow  = N ->  N
+f(m),  m: Mid     = N ->  N
+f(em), em: Eq[Mid] = N ->  N
+f(w),  w: Wide    = N ->  N
+f(ew), ew: Eq[Wide] = N ->  N
+f(mw), mw: Wide   = M ->  M
+f(W)                  ->  W
+r: Narrow = f(en), en: Eq[Narrow] = N, holds  N
+run exit=0
+=== clite: fortress link ForestTowerCLeaf.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+@@RTR	lite	f	ForestTowerCLeaf.fss:30:1-36	ForestTowerCLeaf.fss:28:1-46	Narrow	Wide	above	fits	ok
+@@RTR	lite	f	ForestTowerCLeaf.fss:30:1-36	ForestTowerCLeaf.fss:28:1-46	Narrow	Mid	above	fits	ok
+@@RTR	lite	f	ForestTowerCLeaf.fss:29:1-24	ForestTowerCLeaf.fss:28:1-46	Mid	Wide	above	fits	ok
+@@RTR	lite	f	ForestTowerCLeaf.fss:29:1-24	ForestTowerCLeaf.fss:28:1-46	Mid	Narrow	below	unfit	REFUSED
+ForestTowerCLeaf.fss:28:1-46:
+ForestTowerCLeaf.fss:29:1-24:
+    For f (forest rule, lite), Eq[\Mid\]->Mid @ ForestTowerCLeaf.fss:29:1-24
+    specialises [\X extends Eq[\X\]\]Eq[\X\]->X @ ForestTowerCLeaf.fss:28:1-46 at Mid,
+    below which the chain has Narrow;
+    at or above it the return type does not fit at 
+ForestTowerCLeaf.fss:29:1-24:
+ForestTowerCLeaf.fss:30:1-36:
+    Invalid overloading of f in component ForestTowerCLeaf:
+     Eq[\Mid\]->Mid @ ForestTowerCLeaf.fss:29:1-24
+ and Eq[\Narrow\]->Narrow @ ForestTowerCLeaf.fss:30:1-36
+File ForestTowerCLeaf.fss has 2 errors.
+link exit=255

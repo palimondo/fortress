@@ -1,0 +1,34 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ProbeMIEOverload.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+com.sun.fortress.exceptions.ProgramError: ProbeMIEOverload.fss:15:1-49: and
+ProbeMIEOverload.fss:14:1-44:
+first parameters t:[Tag[\String\]] and t:[Tag[\ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+ProbeMIEOverload.fss:15:1-49:
+ProbeMIEOverload.fss:14:1-44:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+walk exit=1
+=== stock: fortress link ProbeMIEOverload.fss   (no switch)
+link exit=0
+=== stock: fortress run ProbeMIEOverload
+f on Tag[ZZ32]
+f on Tag[String]
+run exit=0
+=== forest: fortress link ProbeMIEOverload.fss   -Dprobe.forest=fbound
+link exit=0
+=== forest: fortress run ProbeMIEOverload
+f on Tag[ZZ32]
+f on Tag[String]
+run exit=0
+=== cfull: fortress link ProbeMIEOverload.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+link exit=0
+=== cfull: fortress run ProbeMIEOverload
+f on Tag[ZZ32]
+f on Tag[String]
+run exit=0
+=== clite: fortress link ProbeMIEOverload.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+link exit=0
+=== clite: fortress run ProbeMIEOverload
+f on Tag[ZZ32]
+f on Tag[String]
+run exit=0

@@ -1,0 +1,52 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk MieInfer.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+which(StrTag)            -> Marker[\String\]
+which(IntTag)            -> Marker[\ZZ32\]
+which(s), s: Tag[String] -> Marker[\String\]
+which(z), z: Tag[ZZ32]   -> Marker[\String\]
+which[String](Both) explicit -> Marker[\String\]
+which[ZZ32](Both) explicit   -> Marker[\ZZ32\]
+walk exit=0
+=== stock: fortress link MieInfer.fss   (no switch)
+MieInfer.fss:8:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieInfer.fss:8:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieInfer.fss:8:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieInfer.fss:8:38-47:
+    Type Both excludes Tag but it extends Tag.
+File MieInfer.fss has 4 errors.
+link exit=255
+=== forest: fortress link MieInfer.fss   -Dprobe.forest=fbound
+MieInfer.fss:8:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieInfer.fss:8:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieInfer.fss:8:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieInfer.fss:8:38-47:
+    Type Both excludes Tag but it extends Tag.
+File MieInfer.fss has 4 errors.
+link exit=255
+=== cfull: fortress link MieInfer.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+MieInfer.fss:8:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieInfer.fss:8:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieInfer.fss:8:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieInfer.fss:8:38-47:
+    Type Both excludes Tag but it extends Tag.
+File MieInfer.fss has 4 errors.
+link exit=255
+=== clite: fortress link MieInfer.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+MieInfer.fss:8:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieInfer.fss:8:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieInfer.fss:8:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieInfer.fss:8:38-47:
+    Type Both excludes Tag but it extends Tag.
+File MieInfer.fss has 4 errors.
+link exit=255

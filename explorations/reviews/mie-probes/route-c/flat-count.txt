@@ -1,0 +1,6 @@
+# route A's flat library (keep/make-flat-lib.py FLAT) under the gate's count  (2026-09-24, JDK 25.0.4, main f2a603e61)
+stock	22
+C-full	22
+C-lite	22
+cfull: the same errors as stock
+clite: the same errors as stock

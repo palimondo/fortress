@@ -1,0 +1,76 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ForestLeafInv.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+Exception in thread "main" java.lang.StackOverflowError
+Caused by: java.lang.StackOverflowError
+walk exit=1
+=== stock: fortress link ForestLeafInv.fss   (no switch)
+ForestLeafInv.fss:11:21-23:
+    Type Mid excludes Wide but it extends Wide.
+ForestLeafInv.fss:11:21-23:
+    Types Wide and Eq[\Mid\] exclude each other.  Mid must not extend them.
+ForestLeafInv.fss:11:27-33:
+    Types Eq[\Mid\] and Wide exclude each other.  Mid must not extend them.
+ForestLeafInv.fss:11:27-34:
+    Type Mid excludes Eq but it extends Eq.
+ForestLeafInv.fss:12:24-25:
+    Type Narrow excludes Mid but it extends Mid.
+ForestLeafInv.fss:12:24-25:
+    Types Mid and Eq[\Narrow\] exclude each other.  Narrow must not extend them.
+ForestLeafInv.fss:12:29-38:
+    Types Eq[\Narrow\] and Mid exclude each other.  Narrow must not extend them.
+ForestLeafInv.fss:12:29-39:
+    Type Narrow excludes Eq but it extends Eq.
+ForestLeafInv.fss:13:18-22:
+    Type N excludes Narrow but it extends Narrow.
+File ForestLeafInv.fss has 9 errors.
+link exit=255
+=== forest: fortress link ForestLeafInv.fss   -Dprobe.forest=fbound
+link exit=0
+=== forest: fortress run ForestLeafInv
+java.lang.VerifyError
+Caused by: java.lang.VerifyError: Bad return type
+Exception Details:
+  Location:
+    ForestLeafInv?$\=g?ForestLeafInv\%Wide??$\=?Arrow?ForestLeafInv\%Eq?X?,ForestLeafInv\%Marker?X??.the_function(LForestLeafInv$\=Eq?ForestLeafInv\%Wide?;)LForestLeafInv$\=Marker?ForestLeafInv\%Wide?; @14: areturn
+  Reason:
+    Type 'ForestLeafInv$\=Marker?ForestLeafInv\%Narrow?' (current frame, stack[0]) is not assignable to 'ForestLeafInv$\=Marker?ForestLeafInv\%Wide?' (from method signature)
+  Current Frame:
+    bci: @14
+    flags: { }
+    locals: { 'ForestLeafInv$\=Eq?ForestLeafInv\%Wide?' }
+    stack: { 'ForestLeafInv$\=Marker?ForestLeafInv\%Narrow?' }
+  Bytecode:
+    0000000: 2ac1 0011 9900 0b2a c000 11b8 0017 b02a
+    0000010: b900 1d01 0059 c100 1f9a 0007 57a7 0040
+    0000020: c000 1f4c 2bb9 0022 0100 4d2c 59c1 001f
+    0000030: 9a00 0757 a700 29c0 001f 3a04 1904 b900
+    0000040: 2201 003a 052c 4eb2 0026 1228 2db8 002e
+    0000050: c000 302a b900 3502 00c0 0037 b0b8 003d
+    0000060: bf                                     
+  Stackmap Table:
+    same_frame(@15)
+    same_locals_1_stack_item_frame(@32,Object[#63])
+    full_frame(@55,{Object[#65],Object[#31],Object[#63]},{Object[#63]})
+    chop_frame(@93,2)
+
+run exit=1
+=== cfull: fortress link ForestLeafInv.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+@@RTR	forest	g	ForestLeafInv.fss:17:1-56	ForestLeafInv.fss:16:1-61	Narrow	Wide	above	unfit	REFUSED
+@@RTR	forest	g	ForestLeafInv.fss:17:1-56	ForestLeafInv.fss:16:1-61	Narrow	Mid	above	unfit	REFUSED
+ForestLeafInv.fss:16:1-61:
+ForestLeafInv.fss:17:1-56:
+    For g (forest rule, forest), Eq[\Narrow\]->Marker[\Narrow\] @ ForestLeafInv.fss:17:1-56
+    specialises [\X extends Eq[\X\]\]Eq[\X\]->Marker[\X\] @ ForestLeafInv.fss:16:1-61 at Narrow;
+    its return type does not fit the generic's at Wide, Mid, and no more specific declaration covers that level
+File ForestLeafInv.fss has 1 error.
+link exit=255
+=== clite: fortress link ForestLeafInv.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+@@RTR	lite	g	ForestLeafInv.fss:17:1-56	ForestLeafInv.fss:16:1-61	Narrow	Wide	above	unfit	REFUSED
+@@RTR	lite	g	ForestLeafInv.fss:17:1-56	ForestLeafInv.fss:16:1-61	Narrow	Mid	above	unfit	REFUSED
+ForestLeafInv.fss:16:1-61:
+ForestLeafInv.fss:17:1-56:
+    For g (forest rule, lite), Eq[\Narrow\]->Marker[\Narrow\] @ ForestLeafInv.fss:17:1-56
+    specialises [\X extends Eq[\X\]\]Eq[\X\]->Marker[\X\] @ ForestLeafInv.fss:16:1-61 at Narrow,
+    below which the chain has ;
+    at or above it the return type does not fit at Wide, Mid
+File ForestLeafInv.fss has 1 error.
+link exit=255

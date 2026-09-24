@@ -1,0 +1,107 @@
+# the gate's checker-count stage over each library copy (rows) under each mode (columns)  (2026-09-24, JDK 25.0.4, main f2a603e61)
+# modes: stock = no switch; forest = -Dprobe.forest=fbound; C-full = -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite;
+#        C-lite = -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite (c-lite.patch's shadow)
+library	stock	forest	C-full	C-lite
+tree	103	37	37	37
+markers	90	24	24	24
+seven	90	24	24	24
+comprises	89	23	23	23
+
+# tree: per api, C-full
+AnyType -> errors=0
+FlatString -> errors=0
+FortressBuiltin -> errors=0
+FortressLibrary -> errors=32
+List -> errors=0
+NatReflect -> errors=0
+NativeArray -> errors=0
+RangeInternals -> errors=42
+Stream -> errors=0
+String -> errors=0
+TypeProxy -> errors=0
+Writer -> errors=0
+# tree: errors under cfull and not under forest
+# tree: errors under forest and not under cfull
+# tree: errors under clite and not under forest
+# tree: errors under forest and not under clite
+
+# markers: per api, C-full
+AnyType -> errors=0
+FlatString -> errors=0
+FortressBuiltin -> errors=0
+FortressLibrary -> errors=6
+List -> errors=0
+NatReflect -> errors=0
+NativeArray -> errors=0
+RangeInternals -> errors=42
+Stream -> errors=0
+String -> errors=0
+TypeProxy -> errors=0
+Writer -> errors=0
+# markers: errors under cfull and not under forest
+# markers: errors under forest and not under cfull
+# markers: errors under clite and not under forest
+# markers: errors under forest and not under clite
+
+# seven: per api, C-full
+AnyType -> errors=0
+FlatString -> errors=0
+FortressBuiltin -> errors=0
+FortressLibrary -> errors=6
+List -> errors=0
+NatReflect -> errors=0
+NativeArray -> errors=0
+RangeInternals -> errors=42
+Stream -> errors=0
+String -> errors=0
+TypeProxy -> errors=0
+Writer -> errors=0
+# seven: errors under cfull and not under forest
+# seven: errors under forest and not under cfull
+# seven: errors under clite and not under forest
+# seven: errors under forest and not under clite
+
+# comprises: per api, C-full
+AnyType -> errors=0
+FlatString -> errors=0
+FortressBuiltin -> errors=0
+FortressLibrary -> errors=4
+List -> errors=0
+NatReflect -> errors=0
+NativeArray -> errors=0
+RangeInternals -> errors=42
+Stream -> errors=0
+String -> errors=0
+TypeProxy -> errors=0
+Writer -> errors=0
+# comprises: errors under cfull and not under forest
+# comprises: errors under forest and not under cfull
+# comprises: errors under clite and not under forest
+# comprises: errors under forest and not under clite
+
+# tree: the errors under stock and not under forest are forest/checker-count.txt's
+# markers: the errors left under C-full, where the FortressLibrary api stops before its overloading check
+FortressLibrary.fsi:1179:5-1184:5 FortressLibrary.fsi:764:5-47	Invalid overloading of map in trait CompactFullSeqScalarRange:
+FortressLibrary.fsi:1179:5-1184:5 FortressLibrary.fsi:764:5-47	Invalid overloading of map in trait StridedFullSeqScalarRange:
+FortressLibrary.fsi:2525:51-64	Type RelationalPredicateCondition[\E\] excludes FortressLibrary.Condition but it extends FortressLibrary.Condition.
+FortressLibrary.fsi:409:1-52	Invalid comprises clause: a trait with a comprises ...,
+FortressLibrary.fsi:412:1-436:2	Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+RangeInternals.fsi:237:5-238:5 RangeInternals.fsi:63:5-58	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:237:5-238:5 RangeInternals.fsi:64:5-58	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:237:5-238:5 RangeInternals.fsi:98:5-64	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:237:5-238:5 RangeInternals.fsi:99:5-64	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:257:5-258:4 FortressLibrary.fsi:2115:5-34	For every,
+RangeInternals.fsi:259:5-34 FortressLibrary.fsi:2116:5-32	For atMost,
+RangeInternals.fsi:319:5-34 FortressLibrary.fsi:2116:5-32	For atMost,
+RangeInternals.fsi:429:5-430:5 RangeInternals.fsi:505:5-506:5	Invalid overloading of IN in API RangeInternals:
+RangeInternals.fsi:46:5-47:5 RangeInternals.fsi:63:5-58	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:46:5-47:5 RangeInternals.fsi:64:5-58	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:46:5-47:5 RangeInternals.fsi:98:5-64	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:46:5-47:5 RangeInternals.fsi:99:5-64	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:612:1-75 RangeInternals.fsi:614:1-104	Invalid overloading of openRangeHelper in API RangeInternals:
+RangeInternals.fsi:612:1-75 RangeInternals.fsi:616:1-135	Invalid overloading of openRangeHelper in API RangeInternals:
+RangeInternals.fsi:614:1-104 RangeInternals.fsi:616:1-135	Invalid overloading of openRangeHelper in API RangeInternals:
+RangeInternals.fsi:63:5-58 RangeInternals.fsi:98:5-64	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:63:5-58 RangeInternals.fsi:99:5-64	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:64:5-58 RangeInternals.fsi:98:5-64	Invalid overloading of CAP in API RangeInternals:
+RangeInternals.fsi:64:5-58 RangeInternals.fsi:99:5-64	Invalid overloading of CAP in API RangeInternals:

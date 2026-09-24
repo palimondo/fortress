@@ -1,0 +1,65 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ForestInfer.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+g(n),  n: Narrow     -> Marker[Narrow]
+g(m),  m: Mid        -> Marker[Narrow]
+g(w),  w: Wide       -> Marker[Narrow]
+g(en), en: Eq[Narrow] -> Marker[Narrow]
+g(em), em: Eq[Mid]    -> Marker[Narrow]
+g(ew), ew: Eq[Wide]   -> Marker[Narrow]
+walk exit=0
+=== stock: fortress link ForestInfer.fss   (no switch)
+ForestInfer.fss:10:21-23:
+    Type Mid excludes Wide but it extends Wide.
+ForestInfer.fss:10:21-23:
+    Types Wide and Eq[\Mid\] exclude each other.  Mid must not extend them.
+ForestInfer.fss:10:27-33:
+    Types Eq[\Mid\] and Wide exclude each other.  Mid must not extend them.
+ForestInfer.fss:10:27-34:
+    Type Mid excludes Eq but it extends Eq.
+ForestInfer.fss:11:24-25:
+    Type Narrow excludes Mid but it extends Mid.
+ForestInfer.fss:11:24-25:
+    Types Mid and Eq[\Narrow\] exclude each other.  Narrow must not extend them.
+ForestInfer.fss:11:29-38:
+    Types Eq[\Narrow\] and Mid exclude each other.  Narrow must not extend them.
+ForestInfer.fss:11:29-39:
+    Type Narrow excludes Eq but it extends Eq.
+ForestInfer.fss:12:18-22:
+    Type N excludes Narrow but it extends Narrow.
+ForestInfer.fss:34:45-47:
+    Could not check call to function g
+    - [\X extends Eq[\X\]\]Eq[\X\]->Marker[\X\] is not applicable to an argument of type Eq[\Narrow\].
+ForestInfer.fss:35:45-47:
+    Could not check call to function g
+    - [\X extends Eq[\X\]\]Eq[\X\]->Marker[\X\] is not applicable to an argument of type Eq[\Mid\].
+File ForestInfer.fss has 11 errors.
+link exit=255
+=== forest: fortress link ForestInfer.fss   -Dprobe.forest=fbound
+link exit=0
+=== forest: fortress run ForestInfer
+g(n),  n: Narrow     ->  Marker[Wide]
+g(m),  m: Mid        ->  Marker[Wide]
+g(w),  w: Wide       ->  Marker[Wide]
+g(en), en: Eq[Narrow] ->  Marker[Narrow]
+g(em), em: Eq[Mid]    ->  Marker[Mid]
+g(ew), ew: Eq[Wide]   ->  Marker[Wide]
+run exit=0
+=== cfull: fortress link ForestInfer.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+link exit=0
+=== cfull: fortress run ForestInfer
+g(n),  n: Narrow     ->  Marker[Wide]
+g(m),  m: Mid        ->  Marker[Wide]
+g(w),  w: Wide       ->  Marker[Wide]
+g(en), en: Eq[Narrow] ->  Marker[Narrow]
+g(em), em: Eq[Mid]    ->  Marker[Mid]
+g(ew), ew: Eq[Wide]   ->  Marker[Wide]
+run exit=0
+=== clite: fortress link ForestInfer.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+link exit=0
+=== clite: fortress run ForestInfer
+g(n),  n: Narrow     ->  Marker[Wide]
+g(m),  m: Mid        ->  Marker[Wide]
+g(w),  w: Wide       ->  Marker[Wide]
+g(en), en: Eq[Narrow] ->  Marker[Narrow]
+g(em), em: Eq[Mid]    ->  Marker[Mid]
+g(ew), ew: Eq[Wide]   ->  Marker[Wide]
+run exit=0

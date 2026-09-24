@@ -1,0 +1,118 @@
+# the zero probe's stack (deep instrument: the FortressLibrary api reaches its overloading check), per library copy and mode
+# run	whole-unit errors	FortressLibrary api errors	pairs refused by the forest rule	specialisations refused	crash	elapsed
+markers-forest	203	320	0	0	none	232 s
+markers-cfull	228	370	25	21	none	292 s
+markers-cfull-id	209	332	6	4	none	282 s
+markers-clite	231	376	28	23	none	280 s
+seven-cfull	230	374	25	21	none	314 s
+seven-cfull-id	205	324	0	0	none	287 s
+comprises-cfull	43	0	0	0	FortressLibrary StackOverflowError	148 s
+comprises-dropP	43	0	0	0	FortressLibrary StackOverflowError	106 s
+
+## markers-cfull: every level checked (@@RTR: name, specialisation, generic, solved M, level L, L below the specialisation?, return type at L, verdict)
+# levels by (position, return type, verdict): above/fits/ok 69, below/fits/ok 8, below/unfit/REFUSED 65
+# refused pairs: 25
+LSHIFT	FortressLibrary.fsi:530:5-32	beside FortressLibrary.fsi:431:5-36	ZZ32 below unfit
+BITNOT	FortressLibrary.fsi:532:5-25	beside FortressLibrary.fsi:433:5-22	ZZ32 below unfit
+DOT	FortressLibrary.fsi:518:5-29	beside FortressLibrary.fsi:418:5-23	ZZ32 below unfit
+MAX	FortressLibrary.fsi:290:5-34	beside FortressLibrary.fsi:196:5-197:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:290:5-34	beside FortressLibrary.fsi:210:5-211:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:196:5-197:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:210:5-211:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+BITXOR	FortressLibrary.fsi:529:5-32	beside FortressLibrary.fsi:430:5-26	ZZ32 below unfit
+LCM	FortressLibrary.fsi:525:5-29	beside FortressLibrary.fsi:425:5-23	ZZ32 below unfit
+BITAND	FortressLibrary.fsi:527:5-32	beside FortressLibrary.fsi:428:5-26	ZZ32 below unfit
+DIV	FortressLibrary.fsi:521:5-29	beside FortressLibrary.fsi:421:5-23	ZZ32 below unfit
+BITOR	FortressLibrary.fsi:528:5-31	beside FortressLibrary.fsi:429:5-25	ZZ32 below unfit
+BY	FortressLibrary.fsi:519:5-31	beside FortressLibrary.fsi:419:5-25	ZZ32 below unfit
+RSHIFT	FortressLibrary.fsi:531:5-32	beside FortressLibrary.fsi:432:5-36	ZZ32 below unfit
+MOD	FortressLibrary.fsi:523:5-29	beside FortressLibrary.fsi:423:5-23	ZZ32 below unfit
+MINMAX	FortressLibrary.fsi:390:5-38	beside FortressLibrary.fsi:208:5-45	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MINMAX	FortressLibrary.fsi:291:5-47	beside FortressLibrary.fsi:208:5-45	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+CHOOSE	FortressLibrary.fsi:526:5-32	beside FortressLibrary.fsi:427:5-26	ZZ32 below unfit
+REM	FortressLibrary.fsi:522:5-29	beside FortressLibrary.fsi:422:5-23	ZZ32 below unfit
+juxtaposition	FortressLibrary.fsi:520:5-39	beside FortressLibrary.fsi:420:5-33	ZZ32 below unfit
+GCD	FortressLibrary.fsi:524:5-29	beside FortressLibrary.fsi:424:5-23	ZZ32 below unfit
+MIN	FortressLibrary.fsi:289:5-34	beside FortressLibrary.fsi:209:5-33	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:289:5-34	beside FortressLibrary.fsi:185:5-186:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:209:5-33	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:185:5-186:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+
+## markers-cfull-id: every level checked (@@RTR: name, specialisation, generic, solved M, level L, L below the specialisation?, return type at L, verdict)
+# levels by (position, return type, verdict): above/fits/ok 69, below/covered/ok 39, below/fits/ok 8, below/unfit/REFUSED 26
+# refused pairs: 6
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:196:5-197:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:210:5-211:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+BY	FortressLibrary.fsi:519:5-31	beside FortressLibrary.fsi:419:5-25	ZZ32 below unfit
+MINMAX	FortressLibrary.fsi:390:5-38	beside FortressLibrary.fsi:208:5-45	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:209:5-33	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:185:5-186:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+
+## markers-clite: every level checked (@@RTR: name, specialisation, generic, solved M, level L, L below the specialisation?, return type at L, verdict)
+# levels by (position, return type, verdict): above/fits/ok 69, below/fits/REFUSED 8, below/unfit/REFUSED 65
+# refused pairs: 28
+LSHIFT	FortressLibrary.fsi:530:5-32	beside FortressLibrary.fsi:431:5-36	ZZ32 below unfit
+BITNOT	FortressLibrary.fsi:532:5-25	beside FortressLibrary.fsi:433:5-22	ZZ32 below unfit
+DOT	FortressLibrary.fsi:518:5-29	beside FortressLibrary.fsi:418:5-23	ZZ32 below unfit
+MAX	FortressLibrary.fsi:290:5-34	beside FortressLibrary.fsi:196:5-197:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:290:5-34	beside FortressLibrary.fsi:210:5-211:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:196:5-197:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:210:5-211:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+CMP	FortressLibrary.fsi:286:5-288:24	beside FortressLibrary.fsi:169:5-38	QQ below fits; ZZ below fits; NN64 below fits; ZZ32 below fits; ZZ64 below fits; NN32 below fits
+CMP	FortressLibrary.fsi:513:5-43	beside FortressLibrary.fsi:169:5-38	ZZ32 below fits
+CMP	FortressLibrary.fsi:513:5-43	beside FortressLibrary.fsi:222:5-223:1	ZZ32 below fits
+BITXOR	FortressLibrary.fsi:529:5-32	beside FortressLibrary.fsi:430:5-26	ZZ32 below unfit
+LCM	FortressLibrary.fsi:525:5-29	beside FortressLibrary.fsi:425:5-23	ZZ32 below unfit
+BITAND	FortressLibrary.fsi:527:5-32	beside FortressLibrary.fsi:428:5-26	ZZ32 below unfit
+DIV	FortressLibrary.fsi:521:5-29	beside FortressLibrary.fsi:421:5-23	ZZ32 below unfit
+BITOR	FortressLibrary.fsi:528:5-31	beside FortressLibrary.fsi:429:5-25	ZZ32 below unfit
+BY	FortressLibrary.fsi:519:5-31	beside FortressLibrary.fsi:419:5-25	ZZ32 below unfit
+RSHIFT	FortressLibrary.fsi:531:5-32	beside FortressLibrary.fsi:432:5-36	ZZ32 below unfit
+MOD	FortressLibrary.fsi:523:5-29	beside FortressLibrary.fsi:423:5-23	ZZ32 below unfit
+MINMAX	FortressLibrary.fsi:390:5-38	beside FortressLibrary.fsi:208:5-45	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MINMAX	FortressLibrary.fsi:291:5-47	beside FortressLibrary.fsi:208:5-45	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+CHOOSE	FortressLibrary.fsi:526:5-32	beside FortressLibrary.fsi:427:5-26	ZZ32 below unfit
+REM	FortressLibrary.fsi:522:5-29	beside FortressLibrary.fsi:422:5-23	ZZ32 below unfit
+juxtaposition	FortressLibrary.fsi:520:5-39	beside FortressLibrary.fsi:420:5-33	ZZ32 below unfit
+GCD	FortressLibrary.fsi:524:5-29	beside FortressLibrary.fsi:424:5-23	ZZ32 below unfit
+MIN	FortressLibrary.fsi:289:5-34	beside FortressLibrary.fsi:209:5-33	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:289:5-34	beside FortressLibrary.fsi:185:5-186:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:209:5-33	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:185:5-186:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+
+## seven-cfull: every level checked (@@RTR: name, specialisation, generic, solved M, level L, L below the specialisation?, return type at L, verdict)
+# levels by (position, return type, verdict): above/fits/ok 71, below/fits/ok 8, below/unfit/REFUSED 65
+# refused pairs: 25
+LSHIFT	FortressLibrary.fsi:534:5-32	beside FortressLibrary.fsi:434:5-36	ZZ32 below unfit
+BITNOT	FortressLibrary.fsi:536:5-25	beside FortressLibrary.fsi:436:5-22	ZZ32 below unfit
+DOT	FortressLibrary.fsi:522:5-29	beside FortressLibrary.fsi:418:5-23	ZZ32 below unfit
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:196:5-197:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:290:5-34	beside FortressLibrary.fsi:196:5-197:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:210:5-211:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MAX	FortressLibrary.fsi:290:5-34	beside FortressLibrary.fsi:210:5-211:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+BITAND	FortressLibrary.fsi:531:5-32	beside FortressLibrary.fsi:431:5-26	ZZ32 below unfit
+BITXOR	FortressLibrary.fsi:533:5-32	beside FortressLibrary.fsi:433:5-26	ZZ32 below unfit
+LCM	FortressLibrary.fsi:529:5-29	beside FortressLibrary.fsi:428:5-23	ZZ32 below unfit
+DIV	FortressLibrary.fsi:525:5-29	beside FortressLibrary.fsi:424:5-23	ZZ32 below unfit
+BITOR	FortressLibrary.fsi:532:5-31	beside FortressLibrary.fsi:432:5-25	ZZ32 below unfit
+BY	FortressLibrary.fsi:523:5-31	beside FortressLibrary.fsi:419:5-25	ZZ32 below unfit
+RSHIFT	FortressLibrary.fsi:535:5-32	beside FortressLibrary.fsi:435:5-36	ZZ32 below unfit
+MINMAX	FortressLibrary.fsi:390:5-38	beside FortressLibrary.fsi:208:5-45	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MINMAX	FortressLibrary.fsi:291:5-47	beside FortressLibrary.fsi:208:5-45	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MOD	FortressLibrary.fsi:527:5-29	beside FortressLibrary.fsi:426:5-23	ZZ32 below unfit
+CHOOSE	FortressLibrary.fsi:530:5-32	beside FortressLibrary.fsi:430:5-26	ZZ32 below unfit
+REM	FortressLibrary.fsi:526:5-29	beside FortressLibrary.fsi:425:5-23	ZZ32 below unfit
+GCD	FortressLibrary.fsi:528:5-29	beside FortressLibrary.fsi:427:5-23	ZZ32 below unfit
+juxtaposition	FortressLibrary.fsi:524:5-39	beside FortressLibrary.fsi:420:5-33	ZZ32 below unfit
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:209:5-33	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:289:5-34	beside FortressLibrary.fsi:209:5-33	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:185:5-186:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+MIN	FortressLibrary.fsi:289:5-34	beside FortressLibrary.fsi:185:5-186:1	ZZ below unfit; NN64 below unfit; ZZ32 below unfit; ZZ64 below unfit; NN32 below unfit
+
+## seven-cfull-id: every level checked (@@RTR: name, specialisation, generic, solved M, level L, L below the specialisation?, return type at L, verdict)
+# levels by (position, return type, verdict): above/fits/ok 71, below/covered/ok 65, below/fits/ok 8
+# refused pairs: 0
+
+## comprises-cfull: every level checked (@@RTR: name, specialisation, generic, solved M, level L, L below the specialisation?, return type at L, verdict)
+# levels by (position, return type, verdict): above/fits/ok 12, below/covered/ok 3
+# refused pairs: 0

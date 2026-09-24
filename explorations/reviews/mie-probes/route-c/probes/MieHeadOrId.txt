@@ -1,0 +1,64 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk MieHeadOrId.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+headOrId(a), a: Any         -> Mk[\String\]
+rs: Tag[String] = headOrId(s) -> Mk[\String\]
+com.sun.fortress.exceptions.ProgramError: MieHeadOrId.fss:20:3-18:
+RHS expression type Mk[\String\] is not assignable to LHS type Tag[\ZZ32\]
+Context:
+MieHeadOrId.fss:20:3-18:
+MieHeadOrId.fss:20:3-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+walk exit=1
+=== stock: fortress link MieHeadOrId.fss   (no switch)
+MieHeadOrId.fss:8:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieHeadOrId.fss:8:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieHeadOrId.fss:8:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieHeadOrId.fss:8:38-47:
+    Type Both excludes Tag but it extends Tag.
+MieHeadOrId.fss:17:46-65:
+    Any has no getter called asString
+File MieHeadOrId.fss has 5 errors.
+link exit=255
+=== forest: fortress link MieHeadOrId.fss   -Dprobe.forest=fbound
+MieHeadOrId.fss:8:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieHeadOrId.fss:8:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieHeadOrId.fss:8:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieHeadOrId.fss:8:38-47:
+    Type Both excludes Tag but it extends Tag.
+MieHeadOrId.fss:17:46-65:
+    Any has no getter called asString
+File MieHeadOrId.fss has 5 errors.
+link exit=255
+=== cfull: fortress link MieHeadOrId.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+MieHeadOrId.fss:8:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieHeadOrId.fss:8:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieHeadOrId.fss:8:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieHeadOrId.fss:8:38-47:
+    Type Both excludes Tag but it extends Tag.
+MieHeadOrId.fss:17:46-65:
+    Any has no getter called asString
+File MieHeadOrId.fss has 5 errors.
+link exit=255
+=== clite: fortress link MieHeadOrId.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+MieHeadOrId.fss:8:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieHeadOrId.fss:8:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieHeadOrId.fss:8:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieHeadOrId.fss:8:38-47:
+    Type Both excludes Tag but it extends Tag.
+MieHeadOrId.fss:17:46-65:
+    Any has no getter called asString
+File MieHeadOrId.fss has 5 errors.
+link exit=255

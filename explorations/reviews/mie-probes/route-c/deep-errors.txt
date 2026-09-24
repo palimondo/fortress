@@ -1,0 +1,171 @@
+# the deep instrument's errors, by first message line, against the forest alone on the markers copy  (2026-09-24, JDK 25.0.4, main f2a603e61)
+
+## markers-cfull: messages added (+) and gone (-)
+      1 + For BITAND (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:527:5-32
+      1 + For BITNOT (forest rule, forest), (ZZ64 & {Long, ZZ32})->ZZ64 @ FortressLibrary.fsi:532:5-25
+      1 + For BITOR (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:528:5-31
+      1 + For BITXOR (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:529:5-32
+      1 + For BY (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:519:5-31
+      1 + For CHOOSE (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:526:5-32
+      1 + For DIV (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:521:5-29
+      1 + For DOT (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:518:5-29
+      1 + For GCD (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:524:5-29
+      1 + For LCM (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:525:5-29
+      1 + For LSHIFT (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:530:5-32
+      2 + For MAX (forest rule, forest), ((Number & {RR64}), Number)->Number @ FortressLibrary.fsi:290:5-34
+      2 + For MAX (forest rule, forest), ((QQ & {AnyIntegral}), QQ)->QQ @ FortressLibrary.fsi:389:5-30
+      2 + For MIN (forest rule, forest), ((Number & {RR64}), Number)->Number @ FortressLibrary.fsi:289:5-34
+      2 + For MIN (forest rule, forest), ((QQ & {AnyIntegral}), QQ)->QQ @ FortressLibrary.fsi:388:5-30
+      1 + For MINMAX (forest rule, forest), ((Number & {RR64}), Number)->(Number, Number) @ FortressLibrary.fsi:291:5-47
+      1 + For MINMAX (forest rule, forest), ((QQ & {AnyIntegral}), QQ)->(QQ, QQ) @ FortressLibrary.fsi:390:5-38
+      1 + For MOD (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:523:5-29
+      1 + For REM (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:522:5-29
+      1 + For RSHIFT (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:531:5-32
+      1 + For juxtaposition (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:520:5-39
+
+## markers-cfull-id: messages added (+) and gone (-)
+      1 + For BY (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:519:5-31
+      2 + For MAX (forest rule, forest), ((QQ & {AnyIntegral}), QQ)->QQ @ FortressLibrary.fsi:389:5-30
+      2 + For MIN (forest rule, forest), ((QQ & {AnyIntegral}), QQ)->QQ @ FortressLibrary.fsi:388:5-30
+      1 + For MINMAX (forest rule, forest), ((QQ & {AnyIntegral}), QQ)->(QQ, QQ) @ FortressLibrary.fsi:390:5-38
+
+## markers-clite: messages added (+) and gone (-)
+      1 + For BITAND (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:527:5-32
+      1 + For BITNOT (forest rule, lite), (ZZ64 & {Long, ZZ32})->ZZ64 @ FortressLibrary.fsi:532:5-25
+      1 + For BITOR (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:528:5-31
+      1 + For BITXOR (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:529:5-32
+      1 + For BY (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:519:5-31
+      1 + For CHOOSE (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:526:5-32
+      1 + For CMP (forest rule, lite), ((Number & {RR64}), Number)->Comparison @ FortressLibrary.fsi:286:5-288:24
+      2 + For CMP (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->TotalComparison @ FortressLibrary.fsi:513:5-43
+      1 + For DIV (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:521:5-29
+      1 + For DOT (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:518:5-29
+      1 + For GCD (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:524:5-29
+      1 + For LCM (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:525:5-29
+      1 + For LSHIFT (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:530:5-32
+      2 + For MAX (forest rule, lite), ((Number & {RR64}), Number)->Number @ FortressLibrary.fsi:290:5-34
+      2 + For MAX (forest rule, lite), ((QQ & {AnyIntegral}), QQ)->QQ @ FortressLibrary.fsi:389:5-30
+      2 + For MIN (forest rule, lite), ((Number & {RR64}), Number)->Number @ FortressLibrary.fsi:289:5-34
+      2 + For MIN (forest rule, lite), ((QQ & {AnyIntegral}), QQ)->QQ @ FortressLibrary.fsi:388:5-30
+      1 + For MINMAX (forest rule, lite), ((Number & {RR64}), Number)->(Number, Number) @ FortressLibrary.fsi:291:5-47
+      1 + For MINMAX (forest rule, lite), ((QQ & {AnyIntegral}), QQ)->(QQ, QQ) @ FortressLibrary.fsi:390:5-38
+      1 + For MOD (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:523:5-29
+      1 + For REM (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:522:5-29
+      1 + For RSHIFT (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:531:5-32
+      1 + For juxtaposition (forest rule, lite), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:520:5-39
+
+## seven-cfull: messages added (+) and gone (-)
+      1 + For BITAND (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:531:5-32
+      1 + For BITNOT (forest rule, forest), (ZZ64 & {Long, ZZ32})->ZZ64 @ FortressLibrary.fsi:536:5-25
+      1 + For BITOR (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:532:5-31
+      1 + For BITXOR (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:533:5-32
+      1 + For BY (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:523:5-31
+      1 + For CHOOSE (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:530:5-32
+      1 + For DIV (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:525:5-29
+      1 + For DOT (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:522:5-29
+      1 + For GCD (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:528:5-29
+      1 + For LCM (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:529:5-29
+      1 + For LSHIFT (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:534:5-32
+      2 + For MAX (forest rule, forest), ((Number & {RR64}), Number)->Number @ FortressLibrary.fsi:290:5-34
+      2 + For MAX (forest rule, forest), ((QQ & {AnyIntegral}), QQ)->QQ @ FortressLibrary.fsi:389:5-30
+      1 + For MAX,
+      2 + For MIN (forest rule, forest), ((Number & {RR64}), Number)->Number @ FortressLibrary.fsi:289:5-34
+      2 + For MIN (forest rule, forest), ((QQ & {AnyIntegral}), QQ)->QQ @ FortressLibrary.fsi:388:5-30
+      1 + For MIN,
+      1 + For MINMAX (forest rule, forest), ((Number & {RR64}), Number)->(Number, Number) @ FortressLibrary.fsi:291:5-47
+      1 + For MINMAX (forest rule, forest), ((QQ & {AnyIntegral}), QQ)->(QQ, QQ) @ FortressLibrary.fsi:390:5-38
+      1 + For MOD (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:527:5-29
+      1 + For REM (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:526:5-29
+      1 + For RSHIFT (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:535:5-32
+      1 + For juxtaposition (forest rule, forest), ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ FortressLibrary.fsi:524:5-39
+
+## seven-cfull-id: messages added (+) and gone (-)
+      1 + For MAX,
+      1 + For MIN,
+
+## markers-cfull: the instantiation the stock rule solves for (M), per specialisation and generic
+BITAND	FortressLibrary.fsi:454:5-32	beside FortressLibrary.fsi:428:5-26	M = ZZ
+BITAND	FortressLibrary.fsi:488:5-32	beside FortressLibrary.fsi:428:5-26	M = ZZ
+BITAND	FortressLibrary.fsi:527:5-32	beside FortressLibrary.fsi:428:5-26	M = ZZ
+BITNOT	FortressLibrary.fsi:459:5-25	beside FortressLibrary.fsi:433:5-22	M = ZZ
+BITNOT	FortressLibrary.fsi:493:5-494:4	beside FortressLibrary.fsi:433:5-22	M = ZZ
+BITNOT	FortressLibrary.fsi:532:5-25	beside FortressLibrary.fsi:433:5-22	M = ZZ
+BITOR	FortressLibrary.fsi:455:5-31	beside FortressLibrary.fsi:429:5-25	M = ZZ
+BITOR	FortressLibrary.fsi:489:5-31	beside FortressLibrary.fsi:429:5-25	M = ZZ
+BITOR	FortressLibrary.fsi:528:5-31	beside FortressLibrary.fsi:429:5-25	M = ZZ
+BITXOR	FortressLibrary.fsi:456:5-32	beside FortressLibrary.fsi:430:5-26	M = ZZ
+BITXOR	FortressLibrary.fsi:490:5-32	beside FortressLibrary.fsi:430:5-26	M = ZZ
+BITXOR	FortressLibrary.fsi:529:5-32	beside FortressLibrary.fsi:430:5-26	M = ZZ
+BY	FortressLibrary.fsi:446:5-31	beside FortressLibrary.fsi:419:5-25	M = ZZ
+BY	FortressLibrary.fsi:519:5-31	beside FortressLibrary.fsi:419:5-25	M = ZZ
+CHOOSE	FortressLibrary.fsi:453:5-32	beside FortressLibrary.fsi:427:5-26	M = ZZ
+CHOOSE	FortressLibrary.fsi:487:5-32	beside FortressLibrary.fsi:427:5-26	M = ZZ
+CHOOSE	FortressLibrary.fsi:526:5-32	beside FortressLibrary.fsi:427:5-26	M = ZZ
+CMP	FortressLibrary.fsi:134:5-45	beside FortressLibrary.fsi:169:5-38	M = Comparison
+CMP	FortressLibrary.fsi:135:5-57	beside FortressLibrary.fsi:169:5-38	M = Comparison
+CMP	FortressLibrary.fsi:145:5-48	beside FortressLibrary.fsi:169:5-38	M = Comparison
+CMP	FortressLibrary.fsi:146:5-57	beside FortressLibrary.fsi:169:5-38	M = Comparison
+CMP	FortressLibrary.fsi:155:5-57	beside FortressLibrary.fsi:169:5-38	M = Comparison
+CMP	FortressLibrary.fsi:286:5-288:24	beside FortressLibrary.fsi:169:5-38	M = Number
+CMP	FortressLibrary.fsi:513:5-43	beside FortressLibrary.fsi:169:5-38	M = Number
+CMP	FortressLibrary.fsi:513:5-43	beside FortressLibrary.fsi:222:5-223:1	M = ZZ
+DIV	FortressLibrary.fsi:448:5-29	beside FortressLibrary.fsi:421:5-23	M = ZZ
+DIV	FortressLibrary.fsi:482:5-29	beside FortressLibrary.fsi:421:5-23	M = ZZ
+DIV	FortressLibrary.fsi:521:5-29	beside FortressLibrary.fsi:421:5-23	M = ZZ
+DOT	FortressLibrary.fsi:445:5-29	beside FortressLibrary.fsi:418:5-23	M = ZZ
+DOT	FortressLibrary.fsi:480:5-29	beside FortressLibrary.fsi:418:5-23	M = ZZ
+DOT	FortressLibrary.fsi:518:5-29	beside FortressLibrary.fsi:418:5-23	M = ZZ
+GCD	FortressLibrary.fsi:451:5-29	beside FortressLibrary.fsi:424:5-23	M = ZZ
+GCD	FortressLibrary.fsi:485:5-29	beside FortressLibrary.fsi:424:5-23	M = ZZ
+GCD	FortressLibrary.fsi:524:5-29	beside FortressLibrary.fsi:424:5-23	M = ZZ
+LCM	FortressLibrary.fsi:452:5-29	beside FortressLibrary.fsi:425:5-23	M = ZZ
+LCM	FortressLibrary.fsi:486:5-29	beside FortressLibrary.fsi:425:5-23	M = ZZ
+LCM	FortressLibrary.fsi:525:5-29	beside FortressLibrary.fsi:425:5-23	M = ZZ
+LSHIFT	FortressLibrary.fsi:457:5-39	beside FortressLibrary.fsi:431:5-36	M = ZZ
+LSHIFT	FortressLibrary.fsi:491:5-32	beside FortressLibrary.fsi:431:5-36	M = ZZ
+LSHIFT	FortressLibrary.fsi:530:5-32	beside FortressLibrary.fsi:431:5-36	M = ZZ
+MAX	FortressLibrary.fsi:290:5-34	beside FortressLibrary.fsi:196:5-197:1	M = Number
+MAX	FortressLibrary.fsi:290:5-34	beside FortressLibrary.fsi:210:5-211:1	M = Number
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:196:5-197:1	M = Number
+MAX	FortressLibrary.fsi:389:5-30	beside FortressLibrary.fsi:210:5-211:1	M = Number
+MIN	FortressLibrary.fsi:289:5-34	beside FortressLibrary.fsi:185:5-186:1	M = Number
+MIN	FortressLibrary.fsi:289:5-34	beside FortressLibrary.fsi:209:5-33	M = Number
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:185:5-186:1	M = Number
+MIN	FortressLibrary.fsi:388:5-30	beside FortressLibrary.fsi:209:5-33	M = Number
+MINMAX	FortressLibrary.fsi:291:5-47	beside FortressLibrary.fsi:208:5-45	M = Number
+MINMAX	FortressLibrary.fsi:390:5-38	beside FortressLibrary.fsi:208:5-45	M = Number
+MOD	FortressLibrary.fsi:450:5-29	beside FortressLibrary.fsi:423:5-23	M = ZZ
+MOD	FortressLibrary.fsi:484:5-29	beside FortressLibrary.fsi:423:5-23	M = ZZ
+MOD	FortressLibrary.fsi:523:5-29	beside FortressLibrary.fsi:423:5-23	M = ZZ
+REM	FortressLibrary.fsi:449:5-29	beside FortressLibrary.fsi:422:5-23	M = ZZ
+REM	FortressLibrary.fsi:483:5-29	beside FortressLibrary.fsi:422:5-23	M = ZZ
+REM	FortressLibrary.fsi:522:5-29	beside FortressLibrary.fsi:422:5-23	M = ZZ
+RSHIFT	FortressLibrary.fsi:458:5-39	beside FortressLibrary.fsi:432:5-36	M = ZZ
+RSHIFT	FortressLibrary.fsi:492:5-32	beside FortressLibrary.fsi:432:5-36	M = ZZ
+RSHIFT	FortressLibrary.fsi:531:5-32	beside FortressLibrary.fsi:432:5-36	M = ZZ
+juxtaposition	FortressLibrary.fsi:447:5-39	beside FortressLibrary.fsi:420:5-33	M = ZZ
+juxtaposition	FortressLibrary.fsi:481:5-39	beside FortressLibrary.fsi:420:5-33	M = ZZ
+juxtaposition	FortressLibrary.fsi:520:5-39	beside FortressLibrary.fsi:420:5-33	M = ZZ
+unsigned	FortressLibrary.fsi:496:5-497:1	beside FortressLibrary.fsi:435:5-436:1	M = ZZ
+
+## seven-cfull-id: the stock rule's errors that name the seven's new declarations
+FortressLibrary.fsi:421:5-23:
+    For MIN,
+the return type of [\I extends Integral[\I\]\](Integral[\I\], I)->I @ FortressLibrary.fsi:421:5-23 should be a subtype of the
+    return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:209:5-33
+FortressLibrary.fsi:210:5-211:1:
+--
+FortressLibrary.fsi:210:5-211:1:
+FortressLibrary.fsi:290:5-34:
+--
+FortressLibrary.fsi:422:5-23:
+    For MAX,
+the return type of [\I extends Integral[\I\]\](Integral[\I\], I)->I @ FortressLibrary.fsi:422:5-23 should be a subtype of the
+    return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:210:5-211:1
+FortressLibrary.fsi:221:5-36:
+--
+FortressLibrary.fsi:335:5-336:1:
+FortressLibrary.fsi:403:5-404:4:
+
+## the gate's instrument (section 3): errors under the forest on the seven copy and not on the comprises copy, and back
+FortressLibrary.fsi:412:1-439:2	Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause

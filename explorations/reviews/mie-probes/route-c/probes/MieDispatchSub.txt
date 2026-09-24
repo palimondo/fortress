@@ -1,0 +1,49 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk MieDispatchSub.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+grab(r), r: Sub[Red]  -> Marker[Blue]
+grab(b), b: Tag[Blue] -> Marker[Blue]
+mb: Marker[Blue] = grab(b) holds Marker[Blue]
+walk exit=0
+=== stock: fortress link MieDispatchSub.fss   (no switch)
+MieDispatchSub.fss:13:24-31:
+    Types Sub[\Red\] and Tag[\Blue\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:24-32:
+    Type Mixed excludes Sub but it extends Sub.
+MieDispatchSub.fss:13:36-44:
+    Types Tag[\Blue\] and Sub[\Red\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:36-45:
+    Type Mixed excludes Tag but it extends Tag.
+File MieDispatchSub.fss has 4 errors.
+link exit=255
+=== forest: fortress link MieDispatchSub.fss   -Dprobe.forest=fbound
+MieDispatchSub.fss:13:24-31:
+    Types Sub[\Red\] and Tag[\Blue\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:24-32:
+    Type Mixed excludes Sub but it extends Sub.
+MieDispatchSub.fss:13:36-44:
+    Types Tag[\Blue\] and Sub[\Red\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:36-45:
+    Type Mixed excludes Tag but it extends Tag.
+File MieDispatchSub.fss has 4 errors.
+link exit=255
+=== cfull: fortress link MieDispatchSub.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+MieDispatchSub.fss:13:24-31:
+    Types Sub[\Red\] and Tag[\Blue\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:24-32:
+    Type Mixed excludes Sub but it extends Sub.
+MieDispatchSub.fss:13:36-44:
+    Types Tag[\Blue\] and Sub[\Red\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:36-45:
+    Type Mixed excludes Tag but it extends Tag.
+File MieDispatchSub.fss has 4 errors.
+link exit=255
+=== clite: fortress link MieDispatchSub.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+MieDispatchSub.fss:13:24-31:
+    Types Sub[\Red\] and Tag[\Blue\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:24-32:
+    Type Mixed excludes Sub but it extends Sub.
+MieDispatchSub.fss:13:36-44:
+    Types Tag[\Blue\] and Sub[\Red\] exclude each other.  Mixed must not extend them.
+MieDispatchSub.fss:13:36-45:
+    Type Mixed excludes Tag but it extends Tag.
+File MieDispatchSub.fss has 4 errors.
+link exit=255

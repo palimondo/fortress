@@ -1,0 +1,32 @@
+# the compiler prelude, class by class against a stock compile  (2026-09-24, JDK 25.0.4, main f2a603e61)
+stock2: 0 classes differ from stock, 0 of them only in the order of their instructions
+off: 0 classes differ from stock, 0 of them only in the order of their instructions
+fbound fortress.CompilerBuiltin.jar: 17 classes differ
+  fbound: more than order: fortress/CompilerBuiltin$Boolean$DefaultTraitMethods.class
+  fbound: more than order: fortress/CompilerBuiltin$LessThan.class
+  fbound: more than order: fortress/CompilerBuiltin$NN32$DefaultTraitMethods.class
+  fbound: more than order: fortress/CompilerBuiltin$NN64$DefaultTraitMethods.class
+  fbound: more than order: fortress/CompilerBuiltin$RR64$DefaultTraitMethods.class
+  fbound: more than order: fortress/CompilerBuiltin$TotalComparison$DefaultTraitMethods.class
+  fbound: more than order: fortress/CompilerBuiltin$ZZ32$DefaultTraitMethods.class
+  fbound: more than order: fortress/CompilerBuiltin$ZZ64$DefaultTraitMethods.class
+fbound fortress.CompilerLibrary.jar: 5 classes differ
+  fbound: more than order: fortress/CompilerLibrary$FilteredRange.class
+  fbound: more than order: fortress/CompilerLibrary$GeneratorZZ32$DefaultTraitMethods.class
+  fbound: more than order: fortress/CompilerLibrary$SeqGeneratorZZ32$DefaultTraitMethods.class
+fbound: 22 classes differ from stock, 11 of them only in the order of their instructions
+cfull fortress.CompilerBuiltin.jar: 16 classes differ
+  cfull: more than order: fortress/CompilerBuiltin$Boolean$DefaultTraitMethods.class
+  cfull: more than order: fortress/CompilerBuiltin$GreaterThan.class
+  cfull: more than order: fortress/CompilerBuiltin$JavaBufferedWriter$DefaultTraitMethods.class
+  cfull: more than order: fortress/CompilerBuiltin$LessThan.class
+  cfull: more than order: fortress/CompilerBuiltin$NN32$DefaultTraitMethods.class
+  cfull: more than order: fortress/CompilerBuiltin$NN64$DefaultTraitMethods.class
+  cfull: more than order: fortress/CompilerBuiltin$RR64$DefaultTraitMethods.class
+  cfull: more than order: fortress/CompilerBuiltin$ZZ32$DefaultTraitMethods.class
+  cfull: more than order: fortress/CompilerBuiltin$ZZ64$DefaultTraitMethods.class
+cfull fortress.CompilerLibrary.jar: 6 classes differ
+  cfull: more than order: fortress/CompilerLibrary$FilteredRange.class
+  cfull: more than order: fortress/CompilerLibrary$GeneratorZZ32$DefaultTraitMethods.class
+  cfull: more than order: fortress/CompilerLibrary$SeqGenZZ32.class
+cfull: 22 classes differ from stock, 10 of them only in the order of their instructions

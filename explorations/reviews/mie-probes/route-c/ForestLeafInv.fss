@@ -1,0 +1,34 @@
+component ForestLeafInv
+export Executable
+
+(* A specialisation at the leaf of the chain, Narrow, whose result holds the parameter
+   invariantly: Marker[Narrow].  Nothing is below Narrow, but a caller that sees an N as a
+   Wide is promised a Marker[Wide] by the generic, and dispatch reaches the leaf. *)
+trait Eq[\T extends Eq[\T\]\] comprises T
+  name(): String
+end
+trait Wide extends Eq[\Wide\] end
+trait Mid extends { Wide, Eq[\Mid\] } end
+trait Narrow extends { Mid, Eq[\Narrow\] } end
+object N extends Narrow name(): String = "N" end
+object Marker[\X\] end
+
+g[\X extends Eq[\X\]\](x: Eq[\X\]): Marker[\X\] = Marker[\X\]
+g(x: Eq[\Narrow\]): Marker[\Narrow\] = Marker[\Narrow\]
+
+which(a: Any): String = typecase a of
+    Marker[\Narrow\] => "Marker[Narrow]"
+    Marker[\Mid\] => "Marker[Mid]"
+    Marker[\Wide\] => "Marker[Wide]"
+    else => "other"
+  end
+
+run(): () = do
+  n: Narrow = N
+  w: Wide = N
+  println("g(n),  n: Narrow -> " which(g(n)))
+  println("g(w),  w: Wide   -> " which(g(w)))
+  mw: Marker[\Wide\] = g(w)
+  println("mw: Marker[Wide] = g(w) holds " which(mw))
+end
+end

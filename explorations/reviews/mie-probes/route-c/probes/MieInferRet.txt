@@ -1,0 +1,55 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk MieInferRet.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+rs: Tag[String] = mk(s) -> Mk[\String\]
+com.sun.fortress.exceptions.ProgramError: MieInferRet.fss:16:3-18:
+RHS expression type Mk[\String\] is not assignable to LHS type Tag[\ZZ32\]
+Context:
+MieInferRet.fss:16:3-18:
+MieInferRet.fss:16:3-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+walk exit=1
+=== stock: fortress link MieInferRet.fss   (no switch)
+MieInferRet.fss:7:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieInferRet.fss:7:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieInferRet.fss:7:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieInferRet.fss:7:38-47:
+    Type Both excludes Tag but it extends Tag.
+File MieInferRet.fss has 4 errors.
+link exit=255
+=== forest: fortress link MieInferRet.fss   -Dprobe.forest=fbound
+MieInferRet.fss:7:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieInferRet.fss:7:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieInferRet.fss:7:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieInferRet.fss:7:38-47:
+    Type Both excludes Tag but it extends Tag.
+File MieInferRet.fss has 4 errors.
+link exit=255
+=== cfull: fortress link MieInferRet.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+MieInferRet.fss:7:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieInferRet.fss:7:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieInferRet.fss:7:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieInferRet.fss:7:38-47:
+    Type Both excludes Tag but it extends Tag.
+File MieInferRet.fss has 4 errors.
+link exit=255
+=== clite: fortress link MieInferRet.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+MieInferRet.fss:7:23-33:
+    Types Tag[\String\] and Tag[\ZZ32\] exclude each other.  Both must not extend them.
+MieInferRet.fss:7:23-34:
+    Type Both excludes Tag but it extends Tag.
+MieInferRet.fss:7:38-46:
+    Types Tag[\ZZ32\] and Tag[\String\] exclude each other.  Both must not extend them.
+MieInferRet.fss:7:38-47:
+    Type Both excludes Tag but it extends Tag.
+File MieInferRet.fss has 4 errors.
+link exit=255

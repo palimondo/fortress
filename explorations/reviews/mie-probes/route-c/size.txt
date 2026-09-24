@@ -1,0 +1,15 @@
+# lines added and removed per file: all, then code lines (no comment, blank or switch line)
+
+## c-full.patch: 5 files, +241 -3 lines, code +188 -2
+TypeAnalyzer.scala	+65 -0	code +46 -0
+TraitTable.scala	+9 -0	code +7 -0
+OverloadingOracle.scala	+65 -0	code +51 -0
+OverloadingChecker.scala	+48 -0	code +38 -0
+OverloadSet.java	+54 -3	code +46 -2
+
+## c-lite.patch: 5 files, +202 -3 lines, code +164 -2
+TypeAnalyzer.scala	+56 -0	code +43 -0
+TraitTable.scala	+9 -0	code +7 -0
+OverloadingOracle.scala	+56 -0	code +46 -0
+OverloadingChecker.scala	+27 -0	code +22 -0
+OverloadSet.java	+54 -3	code +46 -2

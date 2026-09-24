@@ -1,0 +1,148 @@
+--- a/FortressLibrary.fsi
++++ b/FortressLibrary.fsi
+@@ -70,7 +70,7 @@
+ 
+ opr =/=(a:Any, b:Any):Boolean
+ 
+-trait Equality[\T extends Equality[\T\]\]
++trait Equality[\T extends Equality[\T\]\] comprises T
+     abstract opr =(self, other:T): Boolean
+ end
+ 
+@@ -165,7 +165,7 @@
+     This is primarily for floating-point values.  Minimal complete
+     definition: %CMP% or %{ <, = }%. **)
+ trait StandardPartialOrder[\T extends StandardPartialOrder[\T\]\]
+-        extends { Equality[\T\] }
++        extends { Equality[\T\] } comprises T
+     opr CMP(self, other:T): Comparison
+     opr <(self, other:T): Boolean
+     opr >(self, other:T): Boolean
+@@ -181,7 +181,7 @@
+     actually participate in the standard total ordering.  It is
+     otherwise the case that %a MIN b = a% when %a <= b% and that
+     %a MIN b = b MIN a%. **)
+-trait StandardMin[\T extends StandardMin[\T\]\]
++trait StandardMin[\T extends StandardMin[\T\]\] comprises T
+     opr MIN(self, other:T): T
+ end
+ 
+@@ -192,7 +192,7 @@
+     actually participate in the standard total ordering.  It is
+     otherwise the case that %a MAX b = a% when %a <= b% and that
+     %a MAX b = b MAX a%. **)
+-trait StandardMax[\T extends StandardMax[\T\]\]
++trait StandardMax[\T extends StandardMax[\T\]\] comprises T
+     opr MAX(self, other:T): T
+ end
+ 
+@@ -204,7 +204,7 @@
+     always hold. **)
+ 
+ trait StandardMinMax[\T extends StandardMinMax[\T\]\]
+-        extends { StandardMin[\T\], StandardMax[\T\] }
++        extends { StandardMin[\T\], StandardMax[\T\] } comprises T
+     abstract opr MINMAX(self, other:T): (T,T)
+     opr MIN(self, other:T): (T,T)
+     opr MAX(self, other:T): (T,T)
+@@ -217,7 +217,7 @@
+     and %MAX% respect the total order and are defined in the obvious
+     way. **)
+ trait StandardTotalOrder[\T extends StandardTotalOrder[\T\]\]
+-        extends { StandardPartialOrder[\T\], StandardMinMax[\T\] }
++        extends { StandardPartialOrder[\T\], StandardMinMax[\T\] } comprises T
+     opr MINMAX(self, other:T): (T,T)
+     opr CMP(self, other:T): TotalComparison
+ end
+@@ -409,7 +409,7 @@
+ trait AnyIntegral extends { QQ } comprises { ZZ } end
+         (** not yet: ``%comprises Integral[\I\] where [\I\]%'' *)
+ 
+-trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
++trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral } comprises I
+     getter zero(): I
+     getter one(): I
+     opr -(self):I
+@@ -1203,7 +1203,7 @@
+ end
+ 
+ trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E\]
+-        extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
++        extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] } comprises T
+     opr CMP(self, other:T): TotalComparison
+     (** We give a specialized version of %=% because it can fail faster
+         than %CMP% by checking sizes early. **)
+--- a/FortressLibrary.fss
++++ b/FortressLibrary.fss
+@@ -97,7 +97,7 @@
+ 
+ opr =/=(a:Any, b:Any):Boolean = NOT (a=b)
+ 
+-trait Equality[\T extends Equality[\T\]\]
++trait Equality[\T extends Equality[\T\]\] comprises T
+     opr =(self, other:T): Boolean = self SEQV other
+ end
+ 
+@@ -211,7 +211,7 @@
+     This is primarily for floating-point values.  Minimal complete
+     definition: CMP or { <, = }. **)
+ trait StandardPartialOrder[\T extends StandardPartialOrder[\T\]\]
+-        extends { Equality[\T\] }
++        extends { Equality[\T\] } comprises T
+     opr CMP(self, other:T): Comparison =
+         if self < other then LessThan
+         elif other < self then GreaterThan
+@@ -232,7 +232,7 @@
+     actually participate in the standard total ordering.  It is
+     otherwise the case that %a MIN b = a% when %a <= b% and that
+     %a MIN b = b MIN a%. **)
+-trait StandardMin[\T extends StandardMin[\T\]\]
++trait StandardMin[\T extends StandardMin[\T\]\] comprises T
+     opr MIN(self, other:T): T
+ end
+ 
+@@ -243,7 +243,7 @@
+     actually participate in the standard total ordering.  It is
+     otherwise the case that %a MAX b = a% when %a <= b% and that
+     %a MAX b = b MAX a%. **)
+-trait StandardMax[\T extends StandardMax[\T\]\]
++trait StandardMax[\T extends StandardMax[\T\]\] comprises T
+     opr MAX(self, other:T): T
+ end
+ 
+@@ -255,7 +255,7 @@
+     always hold. **)
+ 
+ trait StandardMinMax[\T extends StandardMinMax[\T\]\]
+-        extends { StandardMin[\T\], StandardMax[\T\] }
++        extends { StandardMin[\T\], StandardMax[\T\] } comprises T
+     opr MINMAX(self, other:T): (T,T)
+     opr MIN(self, other:T): (T,T) = do (r,_) = self MINMAX other; r end
+     opr MAX(self, other:T): (T,T) = do (_,r) = self MINMAX other; r end
+@@ -268,7 +268,7 @@
+     and %MAX% respect the total order and are defined in the obvious
+     way. **)
+ trait StandardTotalOrder[\T extends StandardTotalOrder[\T\]\]
+-        extends { StandardPartialOrder[\T\], StandardMinMax[\T\] }
++        extends { StandardPartialOrder[\T\], StandardMinMax[\T\] } comprises T
+     opr CMP(self, other:T): TotalComparison =
+         if self < other then LessThan
+         elif other < self then GreaterThan
+@@ -612,7 +612,7 @@
+ trait AnyIntegral extends { QQ } comprises { ZZ } end
+         (** \vspace{-4ex} NOT YET: %comprises Integral[\I\] where [\I\]% *)
+ 
+-trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
++trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral } comprises I
+     getter zero(): I
+     getter one(): I
+     getter isNaN(): Boolean = false
+@@ -1742,7 +1742,7 @@
+ end
+ 
+ trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E\]
+-        extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
++        extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] } comprises T
+     opr CMP(self, other:T): TotalComparison =
+         self.zip[\E\](other).generate[\TotalComparison\](
+             LexicographicReduction,

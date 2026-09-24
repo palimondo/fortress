@@ -1,0 +1,40 @@
+component ForestDispatch
+export Executable
+
+(* Two generic overloads on a chain, no non-generic specialisation: h on Eq[X] beside the
+   more specific h on Tagged[X].  N is a Narrow and a Tagged[Narrow], so it is an Eq at
+   Narrow, Mid and Wide.  A call through a Wide variable is checked as the Eq generic at
+   X = Wide and dispatched; the Tagged arm applies to N only at X = Narrow. *)
+trait Eq[\T extends Eq[\T\]\]
+  name(): String
+end
+trait Wide extends Eq[\Wide\] end
+trait Mid extends { Wide, Eq[\Mid\] } end
+trait Narrow extends { Mid, Eq[\Narrow\] } end
+trait Tagged[\T extends Eq[\T\]\] extends Eq[\T\] end
+object N extends { Narrow, Tagged[\Narrow\] } name(): String = "N" end
+trait Marker[\X\] name(): String end
+object EqM[\X\] extends Marker[\X\] name(): String = "EqM" end
+object TagM[\X\] extends Marker[\X\] name(): String = "TagM" end
+
+h[\X extends Eq[\X\]\](x: Eq[\X\]): Marker[\X\] = EqM[\X\]
+h[\X extends Eq[\X\]\](x: Tagged[\X\]): Marker[\X\] = TagM[\X\]
+
+which(a: Any): String = typecase a of
+    Marker[\Narrow\] => "[Narrow]"
+    Marker[\Mid\] => "[Mid]"
+    Marker[\Wide\] => "[Wide]"
+    else => "[other]"
+  end
+
+run(): () = do
+  n: Narrow = N
+  w: Wide = N
+  tn: Tagged[\Narrow\] = N
+  println("h(tn), tn: Tagged[Narrow] -> " h(tn).name() which(h(tn)))
+  println("h(n),  n: Narrow          -> " h(n).name() which(h(n)))
+  println("h(w),  w: Wide            -> " h(w).name() which(h(w)))
+  mw: Marker[\Wide\] = h(w)
+  println("mw: Marker[Wide] = h(w) holds " mw.name() which(mw))
+end
+end

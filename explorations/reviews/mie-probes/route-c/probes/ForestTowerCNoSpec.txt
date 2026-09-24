@@ -1,0 +1,62 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk ForestTowerCNoSpec.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+f(n),  n: Narrow  = N -> N
+f(m),  m: Mid     = N -> N
+f(em), em: Eq[Mid] = N -> N
+f(w),  w: Wide    = N -> N
+f(ew), ew: Eq[Wide] = N -> N
+f(mw), mw: Wide   = M -> M
+f(W)                  -> W
+r: Narrow = f(en), en: Eq[Narrow] = N, holds N
+walk exit=0
+=== stock: fortress link ForestTowerCNoSpec.fss   (no switch)
+ForestTowerCNoSpec.fss:12:21-23:
+    Type Mid excludes Wide but it extends Wide.
+ForestTowerCNoSpec.fss:12:21-23:
+    Types Wide and Eq[\Mid\] exclude each other.  Mid must not extend them.
+ForestTowerCNoSpec.fss:12:27-33:
+    Types Eq[\Mid\] and Wide exclude each other.  Mid must not extend them.
+ForestTowerCNoSpec.fss:12:27-34:
+    Type Mid excludes Eq but it extends Eq.
+ForestTowerCNoSpec.fss:13:24-25:
+    Type Narrow excludes Mid but it extends Mid.
+ForestTowerCNoSpec.fss:13:24-25:
+    Types Mid and Eq[\Narrow\] exclude each other.  Narrow must not extend them.
+ForestTowerCNoSpec.fss:13:29-38:
+    Types Eq[\Narrow\] and Mid exclude each other.  Narrow must not extend them.
+ForestTowerCNoSpec.fss:13:29-39:
+    Type Narrow excludes Eq but it extends Eq.
+ForestTowerCNoSpec.fss:18:18-20:
+    Type M excludes Mid but it extends Mid.
+ForestTowerCNoSpec.fss:22:18-23:
+    Type N excludes Narrow but it extends Narrow.
+ForestTowerCNoSpec.fss:39:40-42:
+    Could not check call to function f
+    - [\X extends Eq[\X\]\]Eq[\X\]->X is not applicable to an argument of type Eq[\Mid\].
+ForestTowerCNoSpec.fss:45:15-17:
+    Could not check call to function f
+    - [\X extends Eq[\X\]\]Eq[\X\]->X is not applicable to an argument of type Eq[\Narrow\].
+File ForestTowerCNoSpec.fss has 12 errors.
+link exit=255
+=== forest: fortress link ForestTowerCNoSpec.fss   -Dprobe.forest=fbound
+link exit=0
+=== forest: fortress run ForestTowerCNoSpec
+f(n),  n: Narrow  = N ->  N
+f(m),  m: Mid     = N ->  N
+java.lang.AbstractMethodError
+Caused by: java.lang.AbstractMethodError: Receiver class ForestTowerCNoSpec$N does not define or inherit an implementation of the resolved method 'abstract ForestTowerCNoSpec$Mid me()' of interface ForestTowerCNoSpec$\=Eq?ForestTowerCNoSpec
+run exit=1
+=== cfull: fortress link ForestTowerCNoSpec.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+link exit=0
+=== cfull: fortress run ForestTowerCNoSpec
+f(n),  n: Narrow  = N ->  N
+java.lang.AbstractMethodError
+Caused by: java.lang.AbstractMethodError: Receiver class ForestTowerCNoSpec$N does not define or inherit an implementation of the resolved method 'abstract ForestTowerCNoSpec$Mid me()' of interface ForestTowerCNoSpec$\=Eq?ForestTowerCNoSpec
+run exit=1
+=== clite: fortress link ForestTowerCNoSpec.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+link exit=0
+=== clite: fortress run ForestTowerCNoSpec
+f(n),  n: Narrow  = N ->  N
+f(m),  m: Mid     = N ->  N
+java.lang.AbstractMethodError
+Caused by: java.lang.AbstractMethodError: Receiver class ForestTowerCNoSpec$N does not define or inherit an implementation of the resolved method 'abstract ForestTowerCNoSpec$Mid me()' of interface ForestTowerCNoSpec$\=Eq?ForestTowerCNoSpec
+run exit=1

@@ -1,0 +1,83 @@
+=== walk: FORTRESS_THREADS=1 FORTRESS_CACHES=<private> bin/fortress walk MieDispatchAny.fss   (2026-09-24, JDK 25.0.4, main f2a603e61)
+peek(a1), a1: Any = RedTag  -> Red (the Any declaration)
+peek(a2), a2: Any = RedBlue -> Red (the Any declaration)
+peek(a3), a3: Any = BlueRed -> Red (the Any declaration)
+peek(Red)                   -> Red (the Any declaration)
+grab(a1), a1: Any = RedTag  -> Marker[Red]
+walk exit=0
+=== stock: fortress link MieDispatchAny.fss   (no switch)
+MieDispatchAny.fss:12:26-33:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:26-34:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:12:38-46:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:38-47:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:26-34:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:26-35:
+    Type BlueRed excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:39-46:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:39-47:
+    Type BlueRed excludes Tag but it extends Tag.
+File MieDispatchAny.fss has 8 errors.
+link exit=255
+=== forest: fortress link MieDispatchAny.fss   -Dprobe.forest=fbound
+MieDispatchAny.fss:12:26-33:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:26-34:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:12:38-46:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:38-47:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:26-34:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:26-35:
+    Type BlueRed excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:39-46:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:39-47:
+    Type BlueRed excludes Tag but it extends Tag.
+File MieDispatchAny.fss has 8 errors.
+link exit=255
+=== cfull: fortress link MieDispatchAny.fss   -Dprobe.forest=cov -Dprobe.rtr=forest -Dprobe.scope=callsite
+MieDispatchAny.fss:12:26-33:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:26-34:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:12:38-46:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:38-47:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:26-34:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:26-35:
+    Type BlueRed excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:39-46:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:39-47:
+    Type BlueRed excludes Tag but it extends Tag.
+File MieDispatchAny.fss has 8 errors.
+link exit=255
+=== clite: fortress link MieDispatchAny.fss   -Dprobe.forest=fbound -Dprobe.rtr=lite -Dprobe.scope=callsite
+MieDispatchAny.fss:12:26-33:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:26-34:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:12:38-46:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  RedBlue must not extend them.
+MieDispatchAny.fss:12:38-47:
+    Type RedBlue excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:26-34:
+    Types Tag[\Blue\] and Tag[\Red\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:26-35:
+    Type BlueRed excludes Tag but it extends Tag.
+MieDispatchAny.fss:13:39-46:
+    Types Tag[\Red\] and Tag[\Blue\] exclude each other.  BlueRed must not extend them.
+MieDispatchAny.fss:13:39-47:
+    Type BlueRed excludes Tag but it extends Tag.
+File MieDispatchAny.fss has 8 errors.
+link exit=255
