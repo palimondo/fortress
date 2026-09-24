@@ -68,35 +68,26 @@ public class simpleLongArith {
     }
 
     public static long longOverflowingMul(long a, long b) {
-	if (a==(-a)) {
-	    if ((b >> 1) != 0)
-		throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
-	    return a * b;
-	}
-	if (b==(-b)) {
-	    if ((a >> 1) != 0)
-		throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
-	    return a * b;
-	}
-	if (((int)a)==a && ((int)b)==b) return a * b;
-	if ((Long.MAX_VALUE / Math.abs(a)) < Math.abs(b))
+	try {
+	    return Math.multiplyExact(a, b);
+	} catch (ArithmeticException e) {
 	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
-        return a * b;
+	}
     }
 
     public static long longOverflowingDiv(long a, long b) {
 	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
-	if (b==(-1) && a==(-a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (b==(-1) && a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
         return a / b;
     }
 
     public static long longOverflowingNeg(long a) {
-	if (a==(-a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
         return -a;
     }
 
     public static long longOverflowingAbs(long a) {
-	if (a==(-a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
         return Math.abs(a);
     }
 
@@ -246,33 +237,26 @@ public class simpleLongArith {
     }
 
     public static long longSaturatingMul(long a, long b) {
-	if (a==(-a)) {
-	    if ((b >> 1) != 0) return (b >> 63) ^ Long.MIN_VALUE; 
-	    return a * b;
+	try {
+	    return Math.multiplyExact(a, b);
+	} catch (ArithmeticException e) {
+	    return ((a^b) >> 63) ^ Long.MAX_VALUE;
 	}
-	if (b==(-b)) {
-	    if ((a >> 1) != 0) return (a >> 63) ^ Long.MIN_VALUE; 
-	    return a * b;
-	}
-	if (((int)a)==a && ((int)b)==b) return a * b;
-	if ((Long.MAX_VALUE / Math.abs(a)) < Math.abs(b))
-	    return ((a^b) >> 63) ^ Long.MAX_VALUE; 
-        return a * b;
     }
 
     public static long longSaturatingDiv(long a, long b) {
 	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
-	if (b==(-1) && a==(-a)) return Long.MAX_VALUE;
+	if (b==(-1) && a==Long.MIN_VALUE) return Long.MAX_VALUE;
         return a / b;
     }
 
     public static long longSaturatingNeg(long a) {
-	if (a==(-a)) return Long.MAX_VALUE;
+	if (a==Long.MIN_VALUE) return Long.MAX_VALUE;
         return -a;
     }
 
     public static long longSaturatingAbs(long a) {
-	if (a==(-a)) return Long.MAX_VALUE;
+	if (a==Long.MIN_VALUE) return Long.MAX_VALUE;
         return Math.abs(a);
     }
 
@@ -333,6 +317,17 @@ public class simpleLongArith {
 
     public static long longRightShiftByLongMod64(long a, long b) {
         return a >> b;
+    }
+
+    // A count at or beyond 64 saturates to 0 or the sign; a negative count shifts the other way.
+    public static long longBitLeftShift(long a, long b) {
+	if (b < 0) return (b <= -64) ? (a >> 63) : (a >> (-b));
+	return (b >= 64) ? 0 : (a << b);
+    }
+
+    public static long longBitRightShift(long a, long b) {
+	if (b < 0) return (b <= -64) ? 0 : (a << (-b));
+	return (b >= 64) ? (a >> 63) : (a >> b);
     }
 
     // This version handles signed shift distances and checks for arithmetic overflow.

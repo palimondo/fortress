@@ -184,7 +184,7 @@ run(): () = do
   assert((mFour GCD six) DOT (mFour LCM six), |p3|, "GCD LCM = |a b| on -4, 6")
   assert((one GCD mFive) DOT (one LCM mFive), |p4|, "GCD LCM = |a b| on 1, -5")
 
-  (*) LSHIFT and RSHIFT are names for the << and >> of the same trait.
+  (*) For a count in 0..31, LSHIFT and RSHIFT agree with the << and >> of the same trait.
   assert(three LSHIFT four, 48, "3 LSHIFT 4")
   assert(three LSHIFT four, three << four, "3 LSHIFT 4 is 3 << 4")
   assert(fortyEight RSHIFT four, 3, "48 RSHIFT 4")

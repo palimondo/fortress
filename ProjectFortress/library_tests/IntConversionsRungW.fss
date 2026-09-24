@@ -3,24 +3,6 @@ export Executable
 
 (*) explorations/compile-ladder/rung-int-conversions/REPORT.md
 
-shouldOverflowZZ32(f: () -> ZZ32): Boolean =
-  try
-    ignore f()
-    false
-  catch e
-    IntegerOverflow => true
-    Exception => false
-  end
-
-shouldOverflowNN32(f: () -> NN32): Boolean =
-  try
-    ignore f()
-    false
-  catch e
-    IntegerOverflow => true
-    Exception => false
-  end
-
 takesNN64(x: NN64): String = x.asZZ.asString
 
 run(): () = do
@@ -58,9 +40,9 @@ run(): () = do
   assert(narrow(widen(zMax)).asString, "2147483647", "ZZ64 narrow MAX of ZZ32")
   assert(narrow(widen(zMin)).asString, "-2147483648", "ZZ64 narrow MIN of ZZ32")
 
-  assert(shouldOverflowZZ32(fn () => narrow(lTwoPow32)), "ZZ64 narrow 2^32 overflows")
-  assert(shouldOverflowZZ32(fn () => narrow(lMax)), "ZZ64 narrow MAX overflows")
-  assert(shouldOverflowZZ32(fn () => narrow(lMin)), "ZZ64 narrow MIN overflows")
+  assert(narrow(lTwoPow32).asString, "0", "ZZ64 narrow 2^32 keeps the low 32 bits, row 346")
+  assert(narrow(lMax).asString, "-1", "ZZ64 narrow MAX keeps the low 32 bits, row 346")
+  assert(narrow(lMin).asString, "0", "ZZ64 narrow MIN keeps the low 32 bits, row 346")
 
   assert(unsigned(l43).asZZ.asString, "43", "ZZ64 unsigned 43")
   assert(unsigned(lMOne).asZZ.asString, "18446744073709551615", "ZZ64 unsigned -1")
@@ -78,8 +60,8 @@ run(): () = do
   assert(narrow(mAll32).asZZ.asString, "4294967295", "NN64 narrow 2^32-1")
   assert(narrow(widen(nHigh)).asZZ.asString, "2147483648", "NN64 narrow 2^31")
 
-  assert(shouldOverflowNN32(fn () => narrow(mAll64)), "NN64 narrow 2^64-1 overflows")
-  assert(shouldOverflowNN32(fn () => narrow(mHalf64)), "NN64 narrow 2^63 overflows")
+  assert(narrow(mAll64).asZZ.asString, "4294967295", "NN64 narrow 2^64-1 keeps the low 32 bits, row 346")
+  assert(narrow(mHalf64).asZZ.asString, "0", "NN64 narrow 2^63 keeps the low 32 bits, row 346")
 
   assert(signed(m43).asString, "43", "NN64 signed 43")
   assert(signed(mAll64).asString, "-1", "NN64 signed 2^64-1")
