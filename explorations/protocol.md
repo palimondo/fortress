@@ -222,5 +222,6 @@ Recurring corrections, kept visible so they stay corrected:
 - Telling Pavol about stop-hook reminders. They are processed silently (§4).
 - Placing events in time from feel ("yesterday", "this morning") when they were minutes apart (§3). Twice at a boot after a compaction.
 - Writing a result between tool calls in a turn whose final text is the stop-hook's ".": his client folds it under "Used N tools" and he never sees it. A result is delivered only as a turn's final text (the dispatch probe, 2026-09-22 22:28, seen by him only from his screenshot of 2026-09-23 08:57).
+- A fork put to Pavol without first checking how the library itself does the same thing (2026-09-24, the diagonal: two shapes measured in the first run, subtype-or-operator, were carried by every later worker and the coordinator, and the library's own way, the product operator forwarding to a method the subtype overrides, was found by Pavol's question "shouldn't it be a subtype"; step five of § 6's method, skipped).
 - Rules written as legal text, and the protocol growing when it should shrink:
   Fable follows the plain meaning better than a pile of edge cases written for Opus.
