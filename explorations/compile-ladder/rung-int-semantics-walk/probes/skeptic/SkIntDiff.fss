@@ -1,0 +1,124 @@
+component SkIntDiff
+export Executable
+
+s32(f: () -> ZZ32): String =
+  try
+    f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+s64(f: () -> ZZ64): String =
+  try
+    f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+show(what: String, got: String, want: String): () =
+  println(what || " = " || got || "   (want " || want || ")" || (if got = want then "" else "   DIFF" end))
+
+run(): () = do
+    one: ZZ32 = 1
+    two: ZZ32 = 2
+    five: ZZ32 = 5
+    seven: ZZ32 = 7
+    minusOne: ZZ32 = -1
+    minusTwo: ZZ32 = -2
+    minusFive: ZZ32 = -5
+    minusSix: ZZ32 = -6
+    minusFour: ZZ32 = -4
+    minusSeven: ZZ32 = -7
+    zero: ZZ32 = 0
+    maxI: ZZ32 = 2147483647
+    minI: ZZ32 = -maxI - 1
+    n46340: ZZ32 = 46340
+    n46341: ZZ32 = 46341
+    n46342: ZZ32 = 46342
+
+    println("-- ZZ32 shifts")
+    show("ZZ32 1 RSHIFT -31", s32(fn () => one RSHIFT (-31)), "-2147483648")
+    show("ZZ32 1 RSHIFT -32", s32(fn () => one RSHIFT (-32)), "0")
+    show("ZZ32 MIN LSHIFT -31", s32(fn () => minI LSHIFT (-31)), "-1")
+    show("ZZ32 MIN RSHIFT 31", s32(fn () => minI RSHIFT 31), "-1")
+    show("ZZ32 5 LSHIFT 0", s32(fn () => five LSHIFT 0), "5")
+    show("ZZ32 -1 LSHIFT 31", s32(fn () => minusOne LSHIFT 31), "-2147483648")
+    show("ZZ32 MAX LSHIFT 1", s32(fn () => maxI LSHIFT 1), "-2")
+    show("ZZ32 7 LSHIFT -2", s32(fn () => seven LSHIFT (-2)), "1")
+    show("ZZ32 -7 LSHIFT -1", s32(fn () => minusSeven LSHIFT (-1)), "-4")
+    show("ZZ32 5 RSHIFT MAX", s32(fn () => five RSHIFT maxI), "0")
+    show("ZZ32 -5 RSHIFT MAX", s32(fn () => minusFive RSHIFT maxI), "-1")
+    show("ZZ32 5 LSHIFT MAX", s32(fn () => five LSHIFT maxI), "0")
+    show("ZZ32 -5 RSHIFT MIN", s32(fn () => minusFive RSHIFT minI), "0")
+    show("ZZ32 -5 LSHIFT MIN", s32(fn () => minusFive LSHIFT minI), "-1")
+
+    println("-- ZZ32 GCD/LCM")
+    show("ZZ32 -6 GCD -4", s32(fn () => minusSix GCD minusFour), "2")
+    show("ZZ32 -6 LCM -4", s32(fn () => minusSix LCM minusFour), "12")
+    show("ZZ32 MIN GCD 2", s32(fn () => minI GCD two), "2")
+    show("ZZ32 MIN GCD -1", s32(fn () => minI GCD minusOne), "1")
+    show("ZZ32 MIN LCM 2", s32(fn () => minI LCM two), "IntegerOverflow")
+    show("ZZ32 MIN LCM -2", s32(fn () => minI LCM minusTwo), "IntegerOverflow")
+    show("ZZ32 0 GCD 0", s32(fn () => zero GCD zero), "0")
+    show("ZZ32 -7 GCD 0", s32(fn () => minusSeven GCD zero), "7")
+    show("ZZ32 MAX GCD MAX", s32(fn () => maxI GCD maxI), "2147483647")
+    show("ZZ32 MAX LCM -MAX", s32(fn () => maxI LCM (-maxI)), "2147483647")
+    show("ZZ32 46341 LCM 46340", s32(fn () => n46341 LCM n46340), "2147441940")
+    show("ZZ32 -46341 LCM 46340", s32(fn () => (-n46341) LCM n46340), "2147441940")
+    show("ZZ32 46341 LCM 46342", s32(fn () => n46341 LCM n46342), "IntegerOverflow")
+
+    oneL: ZZ64 = widen(one)
+    fiveL: ZZ64 = widen(five)
+    minusFiveL: ZZ64 = widen(minusFive)
+    minusSixL: ZZ64 = widen(minusSix)
+    minusFourL: ZZ64 = widen(minusFour)
+    minusSevenL: ZZ64 = widen(minusSeven)
+    minusTwoL: ZZ64 = widen(minusTwo)
+    twoL: ZZ64 = widen(two)
+    zeroL: ZZ64 = widen(zero)
+    maxL: ZZ64 = 7FFFFFFFFFFFFFFF_16
+    minL: ZZ64 = -maxL - 1
+    a3037000499: ZZ64 = 3037000499
+    a3037000500: ZZ64 = 3037000500
+    a3037000501: ZZ64 = 3037000501
+    twoTo62: ZZ64 = 4611686018427387904
+
+    println("-- ZZ64 shifts")
+    show("ZZ64 1 RSHIFT -63", s64(fn () => oneL RSHIFT (-63)), "-9223372036854775808")
+    show("ZZ64 1 RSHIFT -64", s64(fn () => oneL RSHIFT (-64)), "0")
+    show("ZZ64 MIN LSHIFT -63", s64(fn () => minL LSHIFT (-63)), "-1")
+    show("ZZ64 MIN RSHIFT 63", s64(fn () => minL RSHIFT 63), "-1")
+    show("ZZ64 -7 LSHIFT -1", s64(fn () => minusSevenL LSHIFT (-1)), "-4")
+    show("ZZ64 MAX LSHIFT 1", s64(fn () => maxL LSHIFT 1), "-2")
+    show("ZZ64 5 LSHIFT MAX", s64(fn () => fiveL LSHIFT maxL), "0")
+    show("ZZ64 -5 RSHIFT MAX", s64(fn () => minusFiveL RSHIFT maxL), "-1")
+    show("ZZ64 -5 RSHIFT MIN", s64(fn () => minusFiveL RSHIFT minL), "0")
+
+    println("-- ZZ64 GCD/LCM")
+    show("ZZ64 -6 GCD -4", s64(fn () => minusSixL GCD minusFourL), "2")
+    show("ZZ64 -6 LCM -4", s64(fn () => minusSixL LCM minusFourL), "12")
+    show("ZZ64 MIN GCD 2", s64(fn () => minL GCD twoL), "2")
+    show("ZZ64 MIN GCD 2^62", s64(fn () => minL GCD twoTo62), "4611686018427387904")
+    show("ZZ64 MIN LCM -2", s64(fn () => minL LCM minusTwoL), "IntegerOverflow")
+    show("ZZ64 -7 GCD 0", s64(fn () => minusSevenL GCD zeroL), "7")
+    show("ZZ64 MAX LCM MAX", s64(fn () => maxL LCM maxL), "9223372036854775807")
+    show("ZZ64 3037000499 LCM 3037000500", s64(fn () => a3037000499 LCM a3037000500), "9223372033963249500")
+    show("ZZ64 3037000500 LCM 3037000501", s64(fn () => a3037000500 LCM a3037000501), "IntegerOverflow")
+
+    println("-- ZZ64 narrow")
+    twoTo31m1: ZZ64 = widen(maxI)
+    mTwoTo31: ZZ64 = widen(minI)
+    twoTo32p7: ZZ64 = 4294967303
+    mTwoTo32m1: ZZ64 = -4294967297
+    twoTo31p1: ZZ64 = 2147483649
+    mTwoTo31m1: ZZ64 = -2147483649
+    show("ZZ64 narrow -5", s32(fn () => narrow(minusFiveL)), "-5")
+    show("ZZ64 narrow 2^31-1", s32(fn () => narrow(twoTo31m1)), "2147483647")
+    show("ZZ64 narrow -2^31", s32(fn () => narrow(mTwoTo31)), "-2147483648")
+    show("ZZ64 narrow 2^32+7", s32(fn () => narrow(twoTo32p7)), "7")
+    show("ZZ64 narrow -2^32-1", s32(fn () => narrow(mTwoTo32m1)), "-1")
+    show("ZZ64 narrow 2^31+1", s32(fn () => narrow(twoTo31p1)), "-2147483647")
+    show("ZZ64 narrow -2^31-1", s32(fn () => narrow(mTwoTo31m1)), "2147483647")
+    println("END")
+  end
+end

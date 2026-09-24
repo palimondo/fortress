@@ -1,0 +1,31 @@
+component SkBigLcm
+export Executable
+
+show(what: String, got: ZZ, want: ZZ): () =
+  println(what || " = " || got.asString || "   (want " || want.asString || ")" || (if got = want then "" else "   DIFF" end))
+
+run() = do
+    one: ZZ32 = 1
+    minusFive: ZZ32 = -5
+    minusFour: ZZ32 = -4
+    six: ZZ32 = 6
+    zero: ZZ32 = 0
+    bOne: ZZ = big(widen(one))
+    bMinusFive: ZZ = big(widen(minusFive))
+    bMinusFour: ZZ = big(widen(minusFour))
+    bSix: ZZ = big(widen(six))
+    bZero: ZZ = big(widen(zero))
+    show("ZZ 1 LCM -5", bOne LCM bMinusFive, 5)
+    show("ZZ -5 LCM 1", bMinusFive LCM bOne, 5)
+    show("ZZ -4 LCM 6", bMinusFour LCM bSix, 12)
+    show("ZZ 6 LCM -4", bSix LCM bMinusFour, 12)
+    show("ZZ -4 LCM -5", bMinusFour LCM bMinusFive, 20)
+    show("ZZ 0 GCD -4", bZero GCD bMinusFour, 4)
+    show("ZZ 5 LCM 0", big(widen(five())) LCM bZero, 0)
+    show("ZZ 0 LCM 0", bZero LCM bZero, 0)
+    println("END")
+end
+
+five(): ZZ32 = 5
+
+end

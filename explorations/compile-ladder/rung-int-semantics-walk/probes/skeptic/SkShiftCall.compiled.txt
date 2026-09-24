@@ -1,0 +1,4 @@
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkShiftCall.fss:6:35-38:
+    Variable shift is not defined.
+File SkShiftCall.fss has 1 error.
+compile-exit=255

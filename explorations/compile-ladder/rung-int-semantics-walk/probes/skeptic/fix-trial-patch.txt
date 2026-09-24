@@ -1,0 +1,2 @@
+243a244
+>         if (u.abs().bitLength() + v > Integer.MAX_VALUE) throw Int.overflow();

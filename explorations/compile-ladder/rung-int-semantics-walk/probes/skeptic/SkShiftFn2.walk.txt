@@ -1,0 +1,2 @@
+a top-level shift(ZZ32, ZZ32), shift(3, 1) = 4
+exit=0

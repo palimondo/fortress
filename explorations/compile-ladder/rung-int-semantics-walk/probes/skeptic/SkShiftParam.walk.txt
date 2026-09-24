@@ -1,0 +1,3 @@
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkShiftParam.fss:4:6-9:
+    Variable shift is already declared.
+exit=255

@@ -1,0 +1,10 @@
+ZZ 1 LCM -5 = -5   (want 5)   DIFF
+ZZ -5 LCM 1 = -5   (want 5)   DIFF
+ZZ -4 LCM 6 = -12   (want 12)   DIFF
+ZZ 6 LCM -4 = -12   (want 12)   DIFF
+ZZ -4 LCM -5 = 20   (want 20)
+ZZ 0 GCD -4 = 4   (want 4)
+ZZ 5 LCM 0 = 0   (want 0)
+Exception in thread "main" java.lang.ArithmeticException
+Caused by: java.lang.ArithmeticException: BigInteger divide by zero
+exit=1
