@@ -18,8 +18,10 @@
 //   Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js',
 //             args: {base: '<the commit main is at>'}})
 //
-// Every worker, skeptic, gather, review and gate agent is pinned to Opus; the
-// judge inherits the session's model. No backticks anywhere in this file.
+// Every worker, skeptic, gather, review and gate agent is pinned to Opus, and so
+// is a judge's first ruling on a rung or on the merged tree; a second ruling on
+// the same rung or tree inherits the session's model (Pavol, 2026-09-24, on
+// option (c) of climb-batch-3-redesign.md). No backticks anywhere in this file.
 
 export const meta = {
   name: 'fortress-climb-batch',
@@ -27,7 +29,7 @@ export const meta = {
   phases: [
     { title: 'Rung', detail: 'test-first repair in an isolated worktree, committed and pushed to wip/ as it goes; never runs the full gate' },
     { title: 'Skeptic', detail: 'independent judgement with its own walk-vs-compiled differential; one repair round allowed' },
-    { title: 'Judge', detail: 'the session model, only on a refusal, a stop or a red gate: reads the reports and the diff, decides, writes the decision' },
+    { title: 'Judge', detail: 'Opus for the first ruling on a rung or on the merged tree, the session model for a second ruling on the same one; only on a stop, a refusal, a blocking review or a red gate: reads the reports and the diff, decides, writes the decision' },
     { title: 'Gather', detail: 'net change of each approved branch applied to main, record folded, one local commit per rung' },
     { title: 'Review', detail: 'the merged diff against the batch rules and the folded record as a whole; runs beside the gate' },
     { title: 'Gate', detail: 'compileAll, library rebuild, testFast, testSystem, the summary diff, the four-thread atomic runs, the ladder regression and the checker count over the interpreter library' },
@@ -35,7 +37,12 @@ export const meta = {
   ],
 }
 
-const OPUS = 'opus'   // every worker, skeptic, gather, review and gate agent; the judge inherits the session's model
+const OPUS = 'opus'   // every worker, skeptic, gather, review and gate agent, and a judge's first ruling
+// A judge's tier: Opus for the first ruling on a rung or on the merged tree, the
+// session's model (no model override) for a second ruling on the same one: a
+// refusal ruled after a stop on one rung, a red gate ruled after a blocking
+// review on the merged tree. Pavol's decision of 2026-09-24.
+const judgeTier = (priorRuling) => priorRuling ? {} : { model: OPUS }
 const BASE = args && args.base
 if (!BASE) throw new Error('args.base is required: the commit every wip/ branch was cut from')
 const CONTAINER_BRANCH = 'claude/worker-brief-fable-vnnuv8'   // this container's infrastructure branch; kept at main
@@ -526,9 +533,10 @@ JSON.stringify(decision, null, 2),
 }
 
 // ---------------------------------------------------------------------------
-// The judge. Escalated to the session's model (no model override) at three
-// points only: a skeptic's refusal, a worker's stop, a red gate or a blocking
-// review on the merged tree. It does not build or test; it reads what the two
+// The judge. Called at four points only: a worker's stop, a skeptic's refusal,
+// a blocking review or a red gate on the merged tree. Its first ruling on a rung
+// or on the merged tree runs on Opus; a second ruling on the same one is
+// escalated to the session's model (judgeTier). It does not build or test; it reads what the two
 // Opus agents already wrote, rules on it, and writes instructions the next
 // Opus agent executes. Its context is assembled here from the structured
 // outputs so it does not have to gather it by tool calls.
@@ -1076,11 +1084,11 @@ const results = await pipeline(
     let judgeOnStop = null
     if (worker.stopped) {
       log(rung.id + ' stopped and is reporting: ' + (worker.stopReason || '(no reason given)') + '; the judge decides whether it is a fork')
-      judgeOnStop = await agent(PREFIX + judgeRole('stop', rung, worker, null, null), {
+      judgeOnStop = await agent(PREFIX + judgeRole('stop', rung, worker, null, null), Object.assign({
         label: 'judge:' + rung.id + ':stop',
         phase: 'Judge',
         schema: JUDGE_SCHEMA,
-      })
+      }, judgeTier(null)))
       if (!judgeOnStop || judgeOnStop.decision !== 'repair') {
         return out('stopped', { worker, verdict: null, judge: judgeOnStop })
       }
@@ -1109,11 +1117,11 @@ const results = await pipeline(
 
     log(rung.id + ' refused by its skeptic: ' + ((verdict && verdict.refusalReason) || 'no reason returned') + '; the judge rules before the one repair round')
 
-    const decision = await agent(PREFIX + judgeRole('refusal', rung, worker, verdict, null), {
+    const decision = await agent(PREFIX + judgeRole('refusal', rung, worker, verdict, null), Object.assign({
       label: 'judge:' + rung.id,
       phase: 'Judge',
       schema: JUDGE_SCHEMA,
-    })
+    }, judgeTier(judgeOnStop)))
     if (!decision || decision.decision === 'drop') {
       return out('dropped', { worker, verdict, firstVerdict: verdict, judge: decision, repaired: false })
     }
@@ -1202,7 +1210,7 @@ if (gateIsStale) {
 
 if (review && !review.approved && review.blocking && review.blocking.length) {
   log('Review found blocking: ' + review.blocking.length + ' item(s); the judge rules')
-  const decision = await agent(PREFIX + judgeRole('review', null, null, null, review), { label: 'judge:review', phase: 'Judge', schema: JUDGE_SCHEMA })
+  const decision = await agent(PREFIX + judgeRole('review', null, null, null, review), Object.assign({ label: 'judge:review', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(null)))
   report.reviewJudge = decision
   if (!decision || decision.decision !== 'repair') {
     return Object.assign(report, { landed: false, reason: 'review blocking, judge did not order a repair' })
@@ -1226,7 +1234,7 @@ if (!gate || gate.stopped) {
 }
 if (!gate.green) {
   log('Gate red: ' + gate.failing.length + ' failing; the judge diagnoses on the merged tree')
-  const decision = await agent(PREFIX + judgeRole('gate', null, null, null, gate), { label: 'judge:gate', phase: 'Judge', schema: JUDGE_SCHEMA })
+  const decision = await agent(PREFIX + judgeRole('gate', null, null, null, gate), Object.assign({ label: 'judge:gate', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(report.reviewJudge)))
   report.gateJudge = decision
   if (!decision || decision.decision !== 'repair') {
     return Object.assign(report, { landed: false, reason: 'gate red, judge did not order a repair' })
