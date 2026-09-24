@@ -1,0 +1,25 @@
+1 << 2147483645: precheck allows, JVM returns
+1 << 2147483646: precheck allows, JVM returns
+1 << 2147483647: precheck refuses, JVM throws
+-1 << 2147483645: precheck allows, JVM returns
+-1 << 2147483646: precheck allows, JVM returns
+-1 << 2147483647: precheck refuses, JVM throws
+3 << 2147483644: precheck allows, JVM returns
+3 << 2147483645: precheck allows, JVM returns
+3 << 2147483646: precheck refuses, JVM throws
+-3 << 2147483644: precheck allows, JVM returns
+-3 << 2147483645: precheck allows, JVM returns
+-3 << 2147483646: precheck refuses, JVM throws
+4 << 2147483643: precheck allows, JVM returns
+4 << 2147483644: precheck allows, JVM returns
+4 << 2147483645: precheck refuses, JVM throws
+-4 << 2147483643: precheck allows, JVM returns
+-4 << 2147483644: precheck allows, JVM returns
+-4 << 2147483645: precheck refuses, JVM throws
+5 << 2147483643: precheck allows, JVM returns
+5 << 2147483644: precheck allows, JVM returns
+5 << 2147483645: precheck refuses, JVM throws
+-5 << 2147483643: precheck allows, JVM returns
+-5 << 2147483644: precheck allows, JVM returns
+-5 << 2147483645: precheck refuses, JVM throws
+mismatches 0, 25.0.4

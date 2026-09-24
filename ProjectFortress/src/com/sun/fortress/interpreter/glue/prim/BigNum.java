@@ -175,6 +175,9 @@ public class BigNum extends NativeConstructor {
 
     public static final class Lcm extends ZZ2Z {
         protected BigInteger f(BigInteger u, BigInteger v) {
+            if (u.signum() == 0 || v.signum() == 0) return BigInteger.ZERO;
+            u = u.abs();
+            v = v.abs();
             BigInteger g = u.gcd(v);
             /* Divide smaller by g, then multiply.  Quick whiteboard
     * computation says this will be less work. */
@@ -241,6 +244,7 @@ public class BigNum extends NativeConstructor {
         }
         if (u.signum() == 0) return u;
         if (v > Integer.MAX_VALUE) throw Int.overflow();
+        if (u.abs().bitLength() + v > Integer.MAX_VALUE) throw Int.overflow();
         try {
             return u.shiftLeft((int) v);
         }

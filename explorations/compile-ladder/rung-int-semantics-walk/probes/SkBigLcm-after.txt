@@ -1,0 +1,10 @@
+ZZ 1 LCM -5 = 5   (want 5)
+ZZ -5 LCM 1 = 5   (want 5)
+ZZ -4 LCM 6 = 12   (want 12)
+ZZ 6 LCM -4 = 12   (want 12)
+ZZ -4 LCM -5 = 20   (want 20)
+ZZ 0 GCD -4 = 4   (want 4)
+ZZ 5 LCM 0 = 0   (want 0)
+ZZ 0 LCM 0 = 0   (want 0)
+END
+exit=0
