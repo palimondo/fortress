@@ -1,0 +1,16 @@
+component SkAsZZ32
+export Executable
+
+run(): () = do
+  lTwoPow32: ZZ64 = 4294967296
+  r: String =
+    try
+      lTwoPow32.asZZ32.asString
+    catch e
+      IntegerOverflow => "IntegerOverflow"
+      Exception => "THROWS"
+    end
+  println("ZZ64 2^32 asZZ32 = " r)
+end
+
+end

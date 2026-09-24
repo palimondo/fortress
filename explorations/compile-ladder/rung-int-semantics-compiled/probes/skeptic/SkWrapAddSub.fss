@@ -1,0 +1,33 @@
+component SkWrapAddSub
+export Executable
+
+t32(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "THROWS"
+  end
+
+t64(f: () -> ZZ64): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "THROWS"
+  end
+
+run(): () = do
+  one: ZZ32 = 1
+  zMax: ZZ32 = 7FFFFFFF_16
+  zMin: ZZ32 = -zMax - 1
+  lOne: ZZ64 = widen(one)
+  lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+  lMin: ZZ64 = -lMax - 1
+  println("ZZ32 MAX + 1 = " t32(fn () => zMax + one))
+  println("ZZ32 MIN - 1 = " t32(fn () => zMin - one))
+  println("ZZ64 MAX + 1 = " t64(fn () => lMax + lOne))
+  println("ZZ64 MIN - 1 = " t64(fn () => lMin - lOne))
+end
+
+end

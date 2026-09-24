@@ -1,0 +1,15 @@
+/home/user/fortress-intsem-b/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-intsem-b/Library/List.fsi:109:19-30:
+    Comprehension is undefined.
+/home/user/fortress-intsem-b/Library/List.fsi:112:24-34:
+    BigReduction is undefined.
+/home/user/fortress-intsem-b/Library/List.fsi:130:28-41:
+    MonoidReduction is undefined.
+/home/user/fortress-intsem-b/Library/QuickSort.fsi:16:39-42:
+    Array is undefined.
+/home/user/fortress-intsem-b/Library/QuickSort.fsi:17:39-42:
+    Array is undefined.
+/home/user/fortress-intsem-b/Library/QuickSort.fsi:18:52-55:
+    Array is undefined.
+File quicksortTest.fss has 7 errors.

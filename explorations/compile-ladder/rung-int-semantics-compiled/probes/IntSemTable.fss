@@ -1,0 +1,143 @@
+component IntSemTable
+export Executable
+
+tryZZ32(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "THROWS"
+  end
+
+tryZZ64(f: () -> ZZ64): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "THROWS"
+  end
+
+tryNN32(f: () -> NN32): String =
+  try
+    (f()).asZZ.asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "THROWS"
+  end
+
+run(): () = do
+  zero: ZZ32 = 0
+  three: ZZ32 = 3
+  mOne: ZZ32 = -1
+  mTwo: ZZ32 = -2
+  mThree: ZZ32 = -3
+  mSixteen: ZZ32 = -16
+  thirtyOne: ZZ32 = 31
+  thirtyTwo: ZZ32 = 32
+  thirtyThree: ZZ32 = 33
+  mForty: ZZ32 = -40
+  zMax: ZZ32 = 7FFFFFFF_16
+  zMin: ZZ32 = -zMax - 1
+
+  println("ZZ32 3 LSHIFT 31 = " tryZZ32(fn () => three LSHIFT thirtyOne))
+  println("ZZ32 3 LSHIFT 32 = " tryZZ32(fn () => three LSHIFT thirtyTwo))
+  println("ZZ32 3 LSHIFT 33 = " tryZZ32(fn () => three LSHIFT thirtyThree))
+  println("ZZ32 3 RSHIFT 33 = " tryZZ32(fn () => three RSHIFT thirtyThree))
+  println("ZZ32 -16 RSHIFT 32 = " tryZZ32(fn () => mSixteen RSHIFT thirtyTwo))
+  println("ZZ32 -16 RSHIFT 33 = " tryZZ32(fn () => mSixteen RSHIFT thirtyThree))
+  println("ZZ32 3 LSHIFT -1 = " tryZZ32(fn () => three LSHIFT mOne))
+  println("ZZ32 3 RSHIFT -1 = " tryZZ32(fn () => three RSHIFT mOne))
+  println("ZZ32 -16 LSHIFT -2 = " tryZZ32(fn () => mSixteen LSHIFT mTwo))
+  println("ZZ32 -16 LSHIFT -40 = " tryZZ32(fn () => mSixteen LSHIFT mForty))
+  println("ZZ32 3 RSHIFT -40 = " tryZZ32(fn () => three RSHIFT mForty))
+  println("ZZ32 3 LSHIFT MIN = " tryZZ32(fn () => three LSHIFT zMin))
+  println("ZZ32 -3 LSHIFT MIN = " tryZZ32(fn () => mThree LSHIFT zMin))
+  println("ZZ32 3 RSHIFT MIN = " tryZZ32(fn () => three RSHIFT zMin))
+
+  threeL: ZZ64 = 3
+  mThreeL: ZZ64 = -3
+  mSixteenL: ZZ64 = -16
+  mOneL: ZZ64 = -1
+  mTwoL: ZZ64 = -2
+  sixtyThreeL: ZZ64 = 63
+  sixtyFourL: ZZ64 = 64
+  sixtyFiveL: ZZ64 = 65
+  mSeventyL: ZZ64 = -70
+  lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+  lMin: ZZ64 = -lMax - 1
+
+  println("ZZ64 3 LSHIFT 63 = " tryZZ64(fn () => threeL LSHIFT sixtyThreeL))
+  println("ZZ64 3 LSHIFT 64 = " tryZZ64(fn () => threeL LSHIFT sixtyFourL))
+  println("ZZ64 3 LSHIFT 65 = " tryZZ64(fn () => threeL LSHIFT sixtyFiveL))
+  println("ZZ64 3 RSHIFT 65 = " tryZZ64(fn () => threeL RSHIFT sixtyFiveL))
+  println("ZZ64 -16 RSHIFT 64 = " tryZZ64(fn () => mSixteenL RSHIFT sixtyFourL))
+  println("ZZ64 -16 RSHIFT 65 = " tryZZ64(fn () => mSixteenL RSHIFT sixtyFiveL))
+  println("ZZ64 3 LSHIFT -1 = " tryZZ64(fn () => threeL LSHIFT mOneL))
+  println("ZZ64 3 RSHIFT -1 = " tryZZ64(fn () => threeL RSHIFT mOneL))
+  println("ZZ64 -16 LSHIFT -2 = " tryZZ64(fn () => mSixteenL LSHIFT mTwoL))
+  println("ZZ64 -16 LSHIFT -70 = " tryZZ64(fn () => mSixteenL LSHIFT mSeventyL))
+  println("ZZ64 3 RSHIFT -70 = " tryZZ64(fn () => threeL RSHIFT mSeventyL))
+  println("ZZ64 3 LSHIFT MIN = " tryZZ64(fn () => threeL LSHIFT lMin))
+  println("ZZ64 -3 LSHIFT MIN = " tryZZ64(fn () => mThreeL LSHIFT lMin))
+  println("ZZ64 3 RSHIFT MIN = " tryZZ64(fn () => threeL RSHIFT lMin))
+
+  zeroL: ZZ64 = 0
+  println("ZZ32 |0| = " tryZZ32(fn () => |zero|))
+  println("ZZ32 -0 = " tryZZ32(fn () => -zero))
+  println("ZZ32 0 DIV -1 = " tryZZ32(fn () => zero DIV mOne))
+  println("ZZ64 |0| = " tryZZ64(fn () => |zeroL|))
+  println("ZZ64 -0 = " tryZZ64(fn () => -zeroL))
+  println("ZZ64 0 DIV -1 = " tryZZ64(fn () => zeroL DIV mOneL))
+  println("ZZ32 |MIN| = " tryZZ32(fn () => |zMin|))
+  println("ZZ32 -MIN = " tryZZ32(fn () => -zMin))
+  println("ZZ32 MIN DIV -1 = " tryZZ32(fn () => zMin DIV mOne))
+  println("ZZ64 |MIN| = " tryZZ64(fn () => |lMin|))
+  println("ZZ64 -MIN = " tryZZ64(fn () => -lMin))
+  println("ZZ64 MIN DIV -1 = " tryZZ64(fn () => lMin DIV mOneL))
+
+  oneL: ZZ64 = 1
+  twoL: ZZ64 = 2
+  fiveL: ZZ64 = 5
+  twelveL: ZZ64 = 12
+  eighteenL: ZZ64 = 18
+  lTwoPow32: ZZ64 = 4294967296
+  lTwoPow31: ZZ64 = lTwoPow32 DIV twoL
+  lMTwoPow32: ZZ64 = -lTwoPow32
+  println("ZZ64 0 DOT 5 = " tryZZ64(fn () => zeroL DOT fiveL))
+  println("ZZ64 5 DOT 0 = " tryZZ64(fn () => fiveL DOT zeroL))
+  println("ZZ64 0 CROSS 5 = " tryZZ64(fn () => zeroL CROSS fiveL))
+  println("ZZ64 0 5 = " tryZZ64(fn () => zeroL fiveL))
+  println("ZZ64 0 2^32 = " tryZZ64(fn () => zeroL lTwoPow32))
+  println("ZZ64 2^32 0 = " tryZZ64(fn () => lTwoPow32 zeroL))
+  println("ZZ64 MIN 0 = " tryZZ64(fn () => lMin zeroL))
+  println("ZZ64 MIN 1 = " tryZZ64(fn () => lMin oneL))
+  println("ZZ64 MIN 2 = " tryZZ64(fn () => lMin twoL))
+  println("ZZ64 MIN -1 = " tryZZ64(fn () => lMin mOneL))
+  println("ZZ64 -2^32 2^31 = " tryZZ64(fn () => lMTwoPow32 lTwoPow31))
+  println("ZZ64 2^32 2^31 = " tryZZ64(fn () => lTwoPow32 lTwoPow31))
+  println("ZZ64 3 REM 5 = " tryZZ64(fn () => threeL REM fiveL))
+  println("ZZ64 3 MOD 5 = " tryZZ64(fn () => threeL MOD fiveL))
+  println("ZZ64 3 GCD 5 = " tryZZ64(fn () => threeL GCD fiveL))
+  println("ZZ64 12 GCD 18 = " tryZZ64(fn () => twelveL GCD eighteenL))
+  println("ZZ64 12 LCM 18 = " tryZZ64(fn () => twelveL LCM eighteenL))
+  println("ZZ32 DOTMINUS 0 = " tryZZ32(fn () => DOTMINUS zero))
+  println("ZZ64 DOTMINUS 0 = " tryZZ64(fn () => DOTMINUS zeroL))
+  println("ZZ64 DOTMINUS MIN = " tryZZ64(fn () => DOTMINUS lMin))
+  println("ZZ64 0 DOTCROSS 5 = " tryZZ64(fn () => zeroL DOTCROSS fiveL))
+  println("ZZ64 5 DOTCROSS 0 = " tryZZ64(fn () => fiveL DOTCROSS zeroL))
+  println("ZZ64 0 DOTCROSS 2^32 = " tryZZ64(fn () => zeroL DOTCROSS lTwoPow32))
+  println("ZZ64 MIN DOTCROSS 2 = " tryZZ64(fn () => lMin DOTCROSS twoL))
+  println("ZZ64 MIN DOTCROSS -1 = " tryZZ64(fn () => lMin DOTCROSS mOneL))
+  println("ZZ64 2^32 DOTCROSS 2^31 = " tryZZ64(fn () => lTwoPow32 DOTCROSS lTwoPow31))
+
+  mAll64: NN64 = unsigned(mOneL)
+  mHalf64: NN64 = unsigned(lMin)
+  println("NN64 narrow 2^64-1 = " tryNN32(fn () => narrow(mAll64)))
+  println("NN64 narrow 2^63 = " tryNN32(fn () => narrow(mHalf64)))
+  println("ZZ64 narrow 2^32 = " tryZZ32(fn () => narrow(lTwoPow32)))
+  println("ZZ64 narrow MAX = " tryZZ32(fn () => narrow(lMax)))
+  println("ZZ64 narrow MIN = " tryZZ32(fn () => narrow(lMin)))
+  println("ZZ64 narrow 2^31 = " tryZZ32(fn () => narrow(lTwoPow31)))
+end
+
+end

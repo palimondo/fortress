@@ -1,0 +1,24 @@
+$ fortress SkSatOps.fss   (walk, tree fe57633f4)
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:16:35-41:
+    Operator prefix ? is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:17:33-39:
+    Operator prefix ? is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:18:33-39:
+    Operator prefix ? is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:19:42-48:
+    Operator DOTCROSS is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:20:44-50:
+    Operator DOTCROSS is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:21:43-49:
+    Operator DOTCROSS is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:22:44-50:
+    Operator DOTCROSS is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:23:43-49:
+    Operator DOTCROSS is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:24:42-48:
+    Operator DOTCROSS is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:25:42-48:
+    Operator DOTCROSS is not defined.
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkSatOps.fss:26:40-44:
+    Operator BOXDOT is not defined.
+walk rc=255

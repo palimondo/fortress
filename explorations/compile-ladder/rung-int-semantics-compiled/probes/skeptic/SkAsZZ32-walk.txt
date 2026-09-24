@@ -1,0 +1,16 @@
+$ fortress SkAsZZ32.fss   (walk, tree fe57633f4)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkAsZZ32.fss:8:7-30:
+Cannot find definition for method asZZ32 given receiver 4294967296: ZZ64
+Context:
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkAsZZ32.fss:8:7-30:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk rc=1

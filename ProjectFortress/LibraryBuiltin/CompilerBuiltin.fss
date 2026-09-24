@@ -69,6 +69,8 @@ import java com.sun.fortress.nativeHelpers.{simpleIntArith.intToString => jIntTo
                                             simpleIntArith.intRightShiftByIntMod32 => jIntRightShiftByIntMod32,
                                             simpleIntArith.intLeftShiftByLongMod32 => jIntLeftShiftByLongMod32,
                                             simpleIntArith.intRightShiftByLongMod32 => jIntRightShiftByLongMod32,
+                                            simpleIntArith.intBitLeftShift => jIntBitLeftShift,
+                                            simpleIntArith.intBitRightShift => jIntBitRightShift,
                                             simpleIntArith.intShift => jIntShift,
                                             simpleIntArith.intExp => jIntExp,
                                             simpleIntArith.intToDouble => jIntToDouble}
@@ -193,6 +195,8 @@ import java com.sun.fortress.nativeHelpers.{simpleLongArith.longToString => jLon
                                             simpleLongArith.longRightShiftByIntMod64 => jLongRightShiftByIntMod64,
                                             simpleLongArith.longLeftShiftByLongMod64 => jLongLeftShiftByLongMod64,
                                             simpleLongArith.longRightShiftByLongMod64 => jLongRightShiftByLongMod64,
+                                            simpleLongArith.longBitLeftShift => jLongBitLeftShift,
+                                            simpleLongArith.longBitRightShift => jLongBitRightShift,
                                             simpleLongArith.longShift => jLongShift}
 import java com.sun.fortress.nativeHelpers.{simpleDoubleArith.floatToDouble => jFloatToDouble,
                                             simpleDoubleArith.doubleToString => jDoubleToString,
@@ -640,8 +644,8 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     opr <<<(self, other:ZZ64): ZZ64 = jLongShift(self,jLongLowHalfToInt(-64 MAX (other MIN 64)))
     opr <<<(self, other:NN32): ZZ64 = jLongShift(self,jMakeZZ32FromNN32(other MIN 64))
     opr <<<(self, other:NN64): ZZ64 = jLongShift(self,jLongLowHalfToInt(jMakeZZ64FromNN64(other MIN 64)))
-    opr LSHIFT(self, other:ZZ64): ZZ64 = self << other
-    opr RSHIFT(self, other:ZZ64): ZZ64 = self >> other
+    opr LSHIFT(self, other:ZZ64): ZZ64 = jLongBitLeftShift(self,other)
+    opr RSHIFT(self, other:ZZ64): ZZ64 = jLongBitRightShift(self,other)
     opr MIN(self, other:ZZ64): ZZ64 = if self <= other then self else other end
     opr MAX(self, other:ZZ64): ZZ64 = if self >= other then self else other end
     opr MINMAX(self, other:ZZ64): (ZZ64, ZZ64) = if self <= other then (self, other) else (other, self) end
@@ -652,7 +656,7 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     floorAverage(self, other: ZZ64): ZZ64 = (self BITAND other) + ((self BITXOR other) >> 1)
     (*) `ceilingAverage` computes `|/ (self+other)/2 \|` efficiently and without overflow.
     ceilingAverage(self, other: ZZ64): ZZ64 = (self BITOR other) - ((self BITXOR other) >> 1)
-    narrow(self): ZZ32 = jLongOverflowingToInt(self)
+    narrow(self): ZZ32 = jLongWrappingToInt(self)
     unsigned(self): NN64 = jMakeNN64FromZZ64(self)
 end
 
@@ -729,8 +733,8 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     opr <<<(self, other:ZZ64): ZZ32 = jIntShift(self,jLongLowHalfToInt(-32 MAX (other MIN 32)))
     opr <<<(self, other:NN32): ZZ32 = jIntShift(self,jMakeZZ32FromNN32(other MIN 32))
     opr <<<(self, other:NN64): ZZ32 = jIntShift(self,jLongLowHalfToInt(jMakeZZ64FromNN64(other MIN 32)))
-    opr LSHIFT(self, other:ZZ32): ZZ32 = self << other
-    opr RSHIFT(self, other:ZZ32): ZZ32 = self >> other
+    opr LSHIFT(self, other:ZZ32): ZZ32 = jIntBitLeftShift(self,other)
+    opr RSHIFT(self, other:ZZ32): ZZ32 = jIntBitRightShift(self,other)
     opr MIN(self, other:ZZ32): ZZ32 = if self <= other then self else other end
     opr MAX(self, other:ZZ32): ZZ32 = if self >= other then self else other end
     opr MINMAX(self, other:ZZ32): (ZZ32, ZZ32) = if self <= other then (self, other) else (other, self) end
@@ -872,7 +876,7 @@ trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR6
     (*) `ceilingAverage` computes `|/ (self+other)/2 \|` efficiently and without overflow.
     ceilingAverage(self, other: NN64): NN64 = (self BITOR other) - ((self BITXOR other) >> 1)
     opr ^(self, other:NN64):NN64 = jMakeNN64FromZZ64(junsignedLongExp(jMakeZZ64FromNN64(self), jMakeZZ64FromNN64(other)))
-    narrow(self): NN32 = jMakeNN32FromZZ32(jLongOverflowingToUnsignedInt(jMakeZZ64FromNN64(self)))
+    narrow(self): NN32 = jMakeNN32FromZZ32(jLongWrappingToUnsignedInt(jMakeZZ64FromNN64(self)))
     signed(self): ZZ64 = jMakeZZ64FromNN64(self)
 end
 

@@ -1,0 +1,19 @@
+component SkShiftMixed
+export Executable
+
+run(): () = do
+  three: ZZ32 = 3
+  mOne: ZZ32 = -1
+  n33: ZZ32 = 33
+  lThree: ZZ64 = widen(three)
+  println("ZZ64 3 LSHIFT (ZZ32 33) = " (lThree LSHIFT n33).asString)
+  println("ZZ64 3 LSHIFT (ZZ32 -1) = " (lThree LSHIFT mOne).asString)
+  println("ZZ64 3 RSHIFT (ZZ32 -1) = " (lThree RSHIFT mOne).asString)
+  println("ZZ32 3 LSHIFT literal 33 = " (three LSHIFT 33).asString)
+  println("ZZ32 3 LSHIFT literal -1 = " (three LSHIFT -1).asString)
+  println("ZZ32 3 RSHIFT literal -1 = " (three RSHIFT -1).asString)
+  println("ZZ64 3 LSHIFT literal 65 = " (lThree LSHIFT 65).asString)
+  println("ZZ64 3 LSHIFT literal -1 = " (lThree LSHIFT -1).asString)
+end
+
+end

@@ -1,0 +1,60 @@
+$ fortress junit compiler_tests/IntSemanticsRungB.test
+. link compiler_tests/IntSemanticsRungB  OK (time = 2873ms)
+. run compiler_tests/IntSemanticsRungB (451ms) PASS
+Passed
+
+Time: 3.33
+
+OK (2 tests)
+
+rc=0
+$ fortress junit library_tests/IntConversionsRungW.test library_tests/IntegralOpsRungN.test library_tests/Integer.test
+. link library_tests/IntConversionsRungW  OK (time = 2697ms)
+. link library_tests/IntegralOpsRungN  OK (time = 877ms)
+. compile library_tests/Integer1  OK (time = 99ms)
+. link library_tests/Integer1  OK (time = 726ms)
+. compile library_tests/Integer2  OK (time = 115ms)
+. link library_tests/Integer2  OK (time = 726ms)
+. compile library_tests/Integer3  OK (time = 88ms)
+. link library_tests/Integer3  OK (time = 709ms)
+. compile library_tests/Integer4  OK (time = 92ms)
+. link library_tests/Integer4  OK (time = 716ms)
+. compile library_tests/IntegerChoose1  OK (time = 683ms)
+. link library_tests/IntegerChoose1  OK (time = 701ms)
+. compile library_tests/IntegerChoose2  OK (time = 705ms)
+. link library_tests/IntegerChoose2  OK (time = 766ms)
+. compile library_tests/ShiftTest  OK (time = 152ms)
+. link library_tests/ShiftTest  OK (time = 827ms)
+. compile library_tests/ShiftTest2  OK (time = 100ms)
+. link library_tests/ShiftTest2  OK (time = 701ms)
+. compile library_tests/AverageTest  OK (time = 80ms)
+. link library_tests/AverageTest  OK (time = 688ms)
+. run library_tests/IntConversionsRungW (300ms) PASS
+Passed
+. run library_tests/IntegralOpsRungN (430ms) PASS
+Passed
+. run library_tests/Integer1 (476ms) PASS
+Passed
+. run library_tests/Integer2 (429ms) PASS
+Passed
+. run library_tests/Integer3 (453ms) PASS
+Passed
+. run library_tests/Integer4 (442ms) PASS
+Passed
+. run library_tests/IntegerChoose1 (508ms) PASS
+Passed
+. run library_tests/IntegerChoose2 (524ms) PASS
+Passed
+. run library_tests/ShiftTest (500ms) PASS
+Passed
+. run library_tests/ShiftTest2 (650ms) PASS
+Passed
+. run library_tests/AverageTest (531ms) PASS
+Passed
+
+Time: 17.514
+
+OK (31 tests)
+
+rc=0
+EXIT=0

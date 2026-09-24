@@ -1,0 +1,5 @@
+$ fortress compile compiler_tests/IntSemanticsRungB.fss   (after the edit)
+rc=0
+$ fortress run IntSemanticsRungB
+PASS
+rc=0

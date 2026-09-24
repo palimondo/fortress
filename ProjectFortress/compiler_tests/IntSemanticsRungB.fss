@@ -1,0 +1,158 @@
+component IntSemanticsRungB
+import java com.sun.fortress.nativeHelpers.{simpleIntArith.intSaturatingDiv => jIntSaturatingDiv,
+                                            simpleIntArith.intSaturatingAbs => jIntSaturatingAbs,
+                                            simpleLongArith.longSaturatingDiv => jLongSaturatingDiv,
+                                            simpleLongArith.longSaturatingAbs => jLongSaturatingAbs}
+export Executable
+
+(*) explorations/compile-ladder/rung-int-semantics-compiled/REPORT.md
+
+shouldOverflow32(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+shouldOverflow64(f: () -> ZZ64): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+run(): () = do
+  zero: ZZ32 = 0
+  one: ZZ32 = 1
+  two: ZZ32 = 2
+  three: ZZ32 = 3
+  five: ZZ32 = 5
+  mOne: ZZ32 = -1
+  mTwo: ZZ32 = -2
+  mThree: ZZ32 = -3
+  mSixteen: ZZ32 = -16
+  thirtyOne: ZZ32 = 31
+  thirtyTwo: ZZ32 = 32
+  thirtyThree: ZZ32 = 33
+  mForty: ZZ32 = -40
+  zMax: ZZ32 = 7FFFFFFF_16
+  zMin: ZZ32 = -zMax - 1
+
+  assert((three LSHIFT thirtyOne).asString, "-2147483648", "row 335: ZZ32 3 LSHIFT 31")
+  assert((three LSHIFT thirtyTwo).asString, "0", "row 335: ZZ32 3 LSHIFT 32")
+  assert((three LSHIFT thirtyThree).asString, "0", "row 335: ZZ32 3 LSHIFT 33")
+  assert((three RSHIFT thirtyThree).asString, "0", "row 335: ZZ32 3 RSHIFT 33")
+  assert((mSixteen RSHIFT thirtyTwo).asString, "-1", "row 335: ZZ32 -16 RSHIFT 32")
+  assert((mSixteen RSHIFT thirtyThree).asString, "-1", "row 335: ZZ32 -16 RSHIFT 33")
+  assert((three LSHIFT mOne).asString, "1", "row 335: ZZ32 3 LSHIFT -1")
+  assert((three RSHIFT mOne).asString, "6", "row 335: ZZ32 3 RSHIFT -1")
+  assert((mSixteen LSHIFT mTwo).asString, "-4", "row 335: ZZ32 -16 LSHIFT -2")
+  assert((mSixteen LSHIFT mForty).asString, "-1", "row 335: ZZ32 -16 LSHIFT -40")
+  assert((three RSHIFT mForty).asString, "0", "row 335: ZZ32 3 RSHIFT -40")
+  assert((three LSHIFT zMin).asString, "0", "row 335: ZZ32 3 LSHIFT MIN")
+  assert((mThree LSHIFT zMin).asString, "-1", "row 335: ZZ32 -3 LSHIFT MIN")
+  assert((three RSHIFT zMin).asString, "0", "row 335: ZZ32 3 RSHIFT MIN")
+
+  threeL: ZZ64 = 3
+  mThreeL: ZZ64 = -3
+  mSixteenL: ZZ64 = -16
+  mOneL: ZZ64 = -1
+  mTwoL: ZZ64 = -2
+  sixtyThreeL: ZZ64 = 63
+  sixtyFourL: ZZ64 = 64
+  sixtyFiveL: ZZ64 = 65
+  mSeventyL: ZZ64 = -70
+  lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+  lMin: ZZ64 = -lMax - 1
+
+  assert((threeL LSHIFT sixtyThreeL).asString, "-9223372036854775808", "row 335: ZZ64 3 LSHIFT 63")
+  assert((threeL LSHIFT sixtyFourL).asString, "0", "row 335: ZZ64 3 LSHIFT 64")
+  assert((threeL LSHIFT sixtyFiveL).asString, "0", "row 335: ZZ64 3 LSHIFT 65")
+  assert((threeL RSHIFT sixtyFiveL).asString, "0", "row 335: ZZ64 3 RSHIFT 65")
+  assert((mSixteenL RSHIFT sixtyFourL).asString, "-1", "row 335: ZZ64 -16 RSHIFT 64")
+  assert((mSixteenL RSHIFT sixtyFiveL).asString, "-1", "row 335: ZZ64 -16 RSHIFT 65")
+  assert((threeL LSHIFT mOneL).asString, "1", "row 335: ZZ64 3 LSHIFT -1")
+  assert((threeL RSHIFT mOneL).asString, "6", "row 335: ZZ64 3 RSHIFT -1")
+  assert((mSixteenL LSHIFT mTwoL).asString, "-4", "row 335: ZZ64 -16 LSHIFT -2")
+  assert((mSixteenL LSHIFT mSeventyL).asString, "-1", "row 335: ZZ64 -16 LSHIFT -70")
+  assert((threeL RSHIFT mSeventyL).asString, "0", "row 335: ZZ64 3 RSHIFT -70")
+  assert((threeL LSHIFT lMin).asString, "0", "row 335: ZZ64 3 LSHIFT MIN")
+  assert((mThreeL LSHIFT lMin).asString, "-1", "row 335: ZZ64 -3 LSHIFT MIN")
+  assert((threeL RSHIFT lMin).asString, "0", "row 335: ZZ64 3 RSHIFT MIN")
+
+  zeroL: ZZ64 = 0
+  assert((|zero|).asString, "0", "row 333: ZZ32 |0|, basic-integers.tex:624-625")
+  assert((-zero).asString, "0", "row 333: ZZ32 -0, basic-integers.tex:384")
+  assert((zero DIV mOne).asString, "0", "row 333: ZZ32 0 DIV -1, basic-integers.tex:444-445")
+  assert((|zeroL|).asString, "0", "row 333: ZZ64 |0|, basic-integers.tex:624-625")
+  assert((-zeroL).asString, "0", "row 333: ZZ64 -0, basic-integers.tex:384")
+  assert((zeroL DIV mOneL).asString, "0", "row 333: ZZ64 0 DIV -1, basic-integers.tex:444-445")
+  assert(shouldOverflow32(fn () => |zMin|), "row 333: ZZ32 |MIN| overflows, opr-overview.tex:155")
+  assert(shouldOverflow32(fn () => -zMin), "row 333: ZZ32 -MIN overflows, opr-overview.tex:155")
+  assert(shouldOverflow32(fn () => zMin DIV mOne), "row 333: ZZ32 MIN DIV -1 overflows, opr-overview.tex:155")
+  assert(shouldOverflow64(fn () => |lMin|), "row 333: ZZ64 |MIN| overflows, opr-overview.tex:155")
+  assert(shouldOverflow64(fn () => -lMin), "row 333: ZZ64 -MIN overflows, opr-overview.tex:155")
+  assert(shouldOverflow64(fn () => lMin DIV mOneL), "row 333: ZZ64 MIN DIV -1 overflows, opr-overview.tex:155")
+
+  oneL: ZZ64 = 1
+  twoL: ZZ64 = 2
+  fiveL: ZZ64 = 5
+  twelveL: ZZ64 = 12
+  eighteenL: ZZ64 = 18
+  lTwoPow32: ZZ64 = 4294967296
+  lTwoPow31: ZZ64 = lTwoPow32 DIV twoL
+  lMTwoPow32: ZZ64 = -lTwoPow32
+  assert((zeroL DOT fiveL).asString, "0", "ZZ64 0 DOT 5, basic-integers.tex:415")
+  assert((fiveL DOT zeroL).asString, "0", "ZZ64 5 DOT 0, basic-integers.tex:415")
+  assert((zeroL CROSS fiveL).asString, "0", "ZZ64 0 CROSS 5, basic-integers.tex:415")
+  assert((zeroL fiveL).asString, "0", "ZZ64 0 5, basic-integers.tex:415")
+  assert((zeroL lTwoPow32).asString, "0", "ZZ64 0 2^32, basic-integers.tex:415")
+  assert((lTwoPow32 zeroL).asString, "0", "ZZ64 2^32 0, basic-integers.tex:415")
+  assert((lMin zeroL).asString, "0", "ZZ64 MIN 0, basic-integers.tex:415")
+  assert((lMin oneL).asString, "-9223372036854775808", "ZZ64 MIN 1, basic-integers.tex:415")
+  assert(shouldOverflow64(fn () => lMin twoL), "ZZ64 MIN 2 overflows, opr-overview.tex:155")
+  assert(shouldOverflow64(fn () => lMin mOneL), "ZZ64 MIN -1 overflows, opr-overview.tex:155")
+  assert((lMTwoPow32 lTwoPow31).asString, "-9223372036854775808", "ZZ64 -2^32 2^31 is MIN, basic-integers.tex:415")
+  assert(shouldOverflow64(fn () => lTwoPow32 lTwoPow31), "ZZ64 2^32 2^31 overflows, opr-overview.tex:155")
+  assert((threeL REM fiveL).asString, "3", "ZZ64 3 REM 5, basic-integers.tex:447-448")
+  assert((threeL MOD fiveL).asString, "3", "ZZ64 3 MOD 5, basic-integers.tex:450-451")
+  assert((threeL GCD fiveL).asString, "1", "ZZ64 3 GCD 5, basic-integers.tex:523-525")
+  assert((twelveL GCD eighteenL).asString, "6", "ZZ64 12 GCD 18, basic-integers.tex:523-525")
+  assert((twelveL LCM eighteenL).asString, "36", "ZZ64 12 LCM 18, basic-integers.tex:527-529")
+  assert((DOTMINUS zero).asString, "0", "ZZ32 DOTMINUS 0, basic-integers.tex:384-385")
+  assert((DOTMINUS zeroL).asString, "0", "ZZ64 DOTMINUS 0, basic-integers.tex:384-385")
+  assert((DOTMINUS lMin).asString, "9223372036854775807", "ZZ64 DOTMINUS MIN saturates, Integer4.fss:95")
+  assert((zeroL DOTCROSS fiveL).asString, "0", "ZZ64 0 DOTCROSS 5, basic-integers.tex:415")
+  assert((fiveL DOTCROSS zeroL).asString, "0", "ZZ64 5 DOTCROSS 0, basic-integers.tex:415")
+  assert((zeroL DOTCROSS lTwoPow32).asString, "0", "ZZ64 0 DOTCROSS 2^32, basic-integers.tex:415")
+  assert((lMin DOTCROSS twoL).asString, "-9223372036854775808", "ZZ64 MIN DOTCROSS 2 saturates, row 348, Integer4.fss:124-126")
+  assert((lMin DOTCROSS mOneL).asString, "9223372036854775807", "ZZ64 MIN DOTCROSS -1 saturates, row 348, Integer4.fss:124-126")
+  assert((lTwoPow32 DOTCROSS lTwoPow31).asString, "9223372036854775807", "ZZ64 2^32 DOTCROSS 2^31 saturates, row 348, Integer4.fss:124-126")
+  assert(jIntSaturatingAbs(zero).asString, "0", "ZZ32 saturating |0|, basic-integers.tex:624-625")
+  assert(jIntSaturatingAbs(zMin).asString, "2147483647", "row 333: ZZ32 saturating |MIN| still saturates")
+  assert(jIntSaturatingDiv(zero, mOne).asString, "0", "ZZ32 saturating 0 DIV -1, basic-integers.tex:444-445")
+  assert(jIntSaturatingDiv(zMin, mOne).asString, "2147483647", "row 333: ZZ32 saturating MIN DIV -1 still saturates")
+  assert(jLongSaturatingAbs(zeroL).asString, "0", "ZZ64 saturating |0|, basic-integers.tex:624-625")
+  assert(jLongSaturatingAbs(lMin).asString, "9223372036854775807", "row 333: ZZ64 saturating |MIN| still saturates")
+  assert(jLongSaturatingDiv(zeroL, mOneL).asString, "0", "ZZ64 saturating 0 DIV -1, basic-integers.tex:444-445")
+  assert(jLongSaturatingDiv(lMin, mOneL).asString, "9223372036854775807", "row 333: ZZ64 saturating MIN DIV -1 still saturates")
+
+  nAll: NN32 = unsigned(mOne)
+  mAll64: NN64 = unsigned(mOneL)
+  mHalf64: NN64 = unsigned(lMin)
+  assert(narrow(lTwoPow32).asString, "0", "row 346: ZZ64 narrow 2^32 keeps the low 32 bits")
+  assert(narrow(lMax).asString, "-1", "row 346: ZZ64 narrow MAX keeps the low 32 bits")
+  assert(narrow(lMin).asString, "0", "row 346: ZZ64 narrow MIN keeps the low 32 bits")
+  assert(narrow(lTwoPow31).asString, "-2147483648", "row 346: ZZ64 narrow 2^31 keeps the low 32 bits")
+  assert(narrow(mAll64).asZZ.asString, "4294967295", "row 346: NN64 narrow 2^64-1 keeps the low 32 bits, UnsignedTest.fss:210")
+  assert(narrow(mHalf64).asZZ.asString, "0", "row 346: NN64 narrow 2^63 keeps the low 32 bits, UnsignedTest.fss:211")
+  assert(narrow(mAll64).asZZ.asString, nAll.asZZ.asString, "row 346: NN64 narrow 2^64-1 is NN32 2^32-1")
+
+  println("PASS")
+end
+
+end

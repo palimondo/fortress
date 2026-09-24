@@ -1,0 +1,218 @@
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:7:5-92:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:8:5-96:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:9:5-92:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:10:5-96:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:11:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:12:5-80:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:13:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:14:5-76:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:15:5-80:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:17:5-97:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:18:5-102:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:19:5-97:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:20:5-101:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:21:5-82:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:23:15-23:
+    Could not check call to function narrow
+    - NN64->NN32 is not applicable to an argument of type FloatLiteral.
+    - ZZ64->ZZ32 is not applicable to an argument of type FloatLiteral.
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:24:17-26:
+    Could not check call to function narrow
+    - NN64->NN32 is not applicable to an argument of type RR64.
+    - ZZ64->ZZ32 is not applicable to an argument of type RR64.
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:25:18-26:
+    Could not check call to function narrow
+    - NN64->NN32 is not applicable to an argument of type FloatLiteral.
+    - ZZ64->ZZ32 is not applicable to an argument of type FloatLiteral.
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:26:17-26:
+    Could not check call to function narrow
+    - NN64->NN32 is not applicable to an argument of type RR64.
+    - ZZ64->ZZ32 is not applicable to an argument of type RR64.
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:27:16-24:
+    Could not check call to function narrow
+    - NN64->NN32 is not applicable to an argument of type FloatLiteral.
+    - ZZ64->ZZ32 is not applicable to an argument of type FloatLiteral.
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:28:17-26:
+    Could not check call to function narrow
+    - NN64->NN32 is not applicable to an argument of type RR64.
+    - ZZ64->ZZ32 is not applicable to an argument of type RR64.
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:29:16-24:
+    Could not check call to function narrow
+    - NN64->NN32 is not applicable to an argument of type FloatLiteral.
+    - ZZ64->ZZ32 is not applicable to an argument of type FloatLiteral.
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:30:5-82:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:31:5-87:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:32:5-85:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:33:5-87:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:34:5-83:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:35:5-71:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-intsem-b/ProjectFortress/tests/RoundHalfEvenRungR.fss:36:5-67:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+File RoundHalfEvenRungR.fss has 28 errors.

@@ -1,0 +1,29 @@
+component SkNarrow
+export Executable
+
+run(): () = do
+  one: ZZ32 = 1
+  zMax: ZZ32 = 7FFFFFFF_16
+  zMin: ZZ32 = -zMax - 1
+  lOne: ZZ64 = widen(one)
+  lFive: ZZ64 = lOne + lOne + lOne + lOne + lOne
+  lSeven: ZZ64 = lFive + lOne + lOne
+  lTwoPow32: ZZ64 = 4294967296
+  lMTwoPow32: ZZ64 = -lTwoPow32
+  mOneL: ZZ64 = -lOne
+  n2p32: NN64 = unsigned(lTwoPow32)
+  n2p32p7: NN64 = unsigned(lTwoPow32 + lSeven)
+  n2p33m1: NN64 = unsigned(lTwoPow32 + lTwoPow32 - lOne)
+  println("NN64 narrow 2^32 = " narrow(n2p32).asString)
+  println("NN64 narrow 2^32+7 = " narrow(n2p32p7).asString)
+  println("NN64 narrow 2^33-1 = " narrow(n2p33m1).asString)
+  println("ZZ64 narrow widen MAX = " narrow(widen(zMax)).asString)
+  println("ZZ64 narrow widen MIN = " narrow(widen(zMin)).asString)
+  println("ZZ64 narrow -1 = " narrow(mOneL).asString)
+  println("ZZ64 narrow 2^32+5 = " narrow(lTwoPow32 + lFive).asString)
+  println("ZZ64 narrow -2^32 = " narrow(lMTwoPow32).asString)
+  println("ZZ64 narrow -2^32-1 = " narrow(lMTwoPow32 - lOne).asString)
+  println("ZZ64 narrow widen MIN - 1 = " narrow(widen(zMin) - lOne).asString)
+end
+
+end

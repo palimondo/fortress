@@ -1,0 +1,60 @@
+$ fortress junit compiler_tests/IntSemanticsRungB.test   (main, rung B applied at the gather, the three DOTCROSS messages re-cited; ant compileAll and the five libraries rebuilt in order)
+. link compiler_tests/IntSemanticsRungB  OK (time = 7629ms)
+. run compiler_tests/IntSemanticsRungB (433ms) PASS
+Passed
+
+Time: 8.068
+
+OK (2 tests)
+
+rc=0
+
+$ fortress junit library_tests/IntConversionsRungW.test library_tests/IntegralOpsRungN.test library_tests/Integer.test
+. link library_tests/IntConversionsRungW  OK (time = 5283ms)
+. link library_tests/IntegralOpsRungN  OK (time = 6099ms)
+. compile library_tests/Integer1  OK (time = 11567ms)
+. link library_tests/Integer1  OK (time = 794ms)
+. compile library_tests/Integer2  OK (time = 8816ms)
+. link library_tests/Integer2  OK (time = 699ms)
+. compile library_tests/Integer3  OK (time = 8848ms)
+. link library_tests/Integer3  OK (time = 691ms)
+. compile library_tests/Integer4  OK (time = 7473ms)
+. link library_tests/Integer4  OK (time = 707ms)
+. compile library_tests/IntegerChoose1  OK (time = 9386ms)
+. link library_tests/IntegerChoose1  OK (time = 683ms)
+. compile library_tests/IntegerChoose2  OK (time = 9872ms)
+. link library_tests/IntegerChoose2  OK (time = 718ms)
+. compile library_tests/ShiftTest  OK (time = 16452ms)
+. link library_tests/ShiftTest  OK (time = 757ms)
+. compile library_tests/ShiftTest2  OK (time = 13327ms)
+. link library_tests/ShiftTest2  OK (time = 676ms)
+. compile library_tests/AverageTest  OK (time = 7446ms)
+. link library_tests/AverageTest  OK (time = 685ms)
+. run library_tests/IntConversionsRungW (424ms) PASS
+Passed
+. run library_tests/IntegralOpsRungN (522ms) PASS
+Passed
+. run library_tests/Integer1 (579ms) PASS
+Passed
+. run library_tests/Integer2 (511ms) PASS
+Passed
+. run library_tests/Integer3 (453ms) PASS
+Passed
+. run library_tests/Integer4 (470ms) PASS
+Passed
+. run library_tests/IntegerChoose1 (636ms) PASS
+Passed
+. run library_tests/IntegerChoose2 (558ms) PASS
+Passed
+. run library_tests/ShiftTest (512ms) PASS
+Passed
+. run library_tests/ShiftTest2 (943ms) PASS
+Passed
+. run library_tests/AverageTest (593ms) PASS
+Passed
+
+Time: 117.207
+
+OK (31 tests)
+
+rc=0

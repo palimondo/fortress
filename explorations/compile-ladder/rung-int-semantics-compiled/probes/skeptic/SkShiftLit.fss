@@ -1,0 +1,11 @@
+component SkShiftLit
+export Executable
+
+run(): () = do
+  println("literal 3 LSHIFT 33 = " (3 LSHIFT 33).asString)
+  println("literal 3 LSHIFT -1 = " (3 LSHIFT -1).asString)
+  println("literal 3 RSHIFT -1 = " (3 RSHIFT -1).asString)
+  println("literal -16 RSHIFT 40 = " ((-16) RSHIFT 40).asString)
+end
+
+end

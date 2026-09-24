@@ -1,0 +1,13 @@
+$ fortress compile SkNarrow.fss ; fortress run SkNarrow   (compiled, tree fe57633f4)
+compile rc=0
+NN64 narrow 2^32 =  0
+NN64 narrow 2^32+7 =  7
+NN64 narrow 2^33-1 =  -1
+ZZ64 narrow widen MAX =  2147483647
+ZZ64 narrow widen MIN =  -2147483648
+ZZ64 narrow -1 =  -1
+ZZ64 narrow 2^32+5 =  5
+ZZ64 narrow -2^32 =  0
+ZZ64 narrow -2^32-1 =  -1
+ZZ64 narrow widen MIN - 1 =  2147483647
+run rc=0

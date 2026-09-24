@@ -1,0 +1,5 @@
+$ fortress compile library_tests/IntConversionsRungW.fss   (after the edit)
+rc=0
+$ fortress run IntConversionsRungW
+PASS
+rc=0

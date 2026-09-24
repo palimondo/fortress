@@ -77,17 +77,17 @@ public class simpleIntArith {
 
     public static int intOverflowingDiv(int a, int b) {
 	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
-	if (b==(-1) && a==(-a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (b==(-1) && a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
         return a / b;
     }
 
     public static int intOverflowingNeg(int a) {
-	if (a==(-a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
         return -a;
     }
 
     public static int intOverflowingAbs(int a) {
-	if (a==(-a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
         return Math.abs(a);
     }
 
@@ -271,17 +271,17 @@ public class simpleIntArith {
 
     public static int intSaturatingDiv(int a, int b) {
 	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
-	if (b==(-1) && a==(-a)) return Integer.MAX_VALUE;
+	if (b==(-1) && a==Integer.MIN_VALUE) return Integer.MAX_VALUE;
         return a / b;
     }
 
     public static int intSaturatingNeg(int a) {
-	if (a==(-a)) return Integer.MAX_VALUE;
+	if (a==Integer.MIN_VALUE) return Integer.MAX_VALUE;
         return -a;
     }
 
     public static int intSaturatingAbs(int a) {
-	if (a==(-a)) return Integer.MAX_VALUE;
+	if (a==Integer.MIN_VALUE) return Integer.MAX_VALUE;
         return Math.abs(a);
     }
 
@@ -348,6 +348,17 @@ public class simpleIntArith {
 
     public static int intRightShiftByLongMod32(int a, long b) {
         return a >> b;
+    }
+
+    // A count at or beyond 32 saturates to 0 or the sign; a negative count shifts the other way.
+    public static int intBitLeftShift(int a, int b) {
+	if (b < 0) return (b <= -32) ? (a >> 31) : (a >> (-b));
+	return (b >= 32) ? 0 : (a << b);
+    }
+
+    public static int intBitRightShift(int a, int b) {
+	if (b < 0) return (b <= -32) ? 0 : (a << (-b));
+	return (b >= 32) ? (a >> 31) : (a >> b);
     }
 
     // This version handles signed shift distances and checks for arithmetic overflow.
