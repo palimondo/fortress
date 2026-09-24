@@ -1,0 +1,74 @@
+component SizedDispLit
+export Executable
+(* Measurement (c) of ../size-cost.md, the case both designs can answer: arms
+   with literal sizes (../runtime/pNatOver.fss's pair with a catch-all, as in
+   ../size-probes/pNatDispLit.fss).  The loops are SizedDisp.fss's: dispatched
+   on values typed Any, static on the same values typed by their sizes; one
+   size (ten million calls) and two sizes (five million rounds of a size-3 and
+   a size-4 call); twice in turn, the first round including the JIT's
+   warm-up.  Right totals: 30000000 for one size, 35000000 for two. *)
+object Vec[\T, nat s\](x: T) end
+g(v: Vec[\RR64,3\]): ZZ32 = 3
+g(v: Vec[\RR64,4\]): ZZ32 = 4
+g(x: Any): ZZ32 = -1
+timeDispatched(a: Any): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 10000000 do
+    total += g(a)
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("one size, dispatched: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeStatic(v: Vec[\RR64,3\]): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 10000000 do
+    total += g(v)
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("one size, static: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeDispatched2(a: Any, b: Any): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 5000000 do
+    total += g(a)
+    total += g(b)
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("two sizes, dispatched: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeStatic2(v: Vec[\RR64,3\], w: Vec[\RR64,4\]): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 5000000 do
+    total += g(v)
+    total += g(w)
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("two sizes, static: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+run() = do
+  v: Vec[\RR64,3\] = Vec[\RR64,3\](2.5)
+  w: Vec[\RR64,4\] = Vec[\RR64,4\](2.5)
+  a: Any = v
+  b: Any = w
+  timeDispatched(a)
+  timeStatic(v)
+  timeDispatched2(a, b)
+  timeStatic2(v, w)
+  timeDispatched(a)
+  timeStatic(v)
+  timeDispatched2(a, b)
+  timeStatic2(v, w)
+end
+end

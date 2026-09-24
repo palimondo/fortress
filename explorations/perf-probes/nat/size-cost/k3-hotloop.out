@@ -1,0 +1,7 @@
+########## SizedSum: ten million calls of sumS (bound: the size) and of sumN (bound: |data|); A and B interleaved
+  [A] SizedSum  11639 ms wall   output: sumS total 80000000 ms 2940.720905 sumN total 80000000 ms 2718.263275 sumS total 80000000 ms 2521.159907 sumN total 80000000 ms 2646.335438 
+  [B] SizedSum  11112 ms wall   output: sumS total 80000000 ms 2887.393843 sumN total 80000000 ms 2515.244307 sumS total 80000000 ms 2452.519751 sumN total 80000000 ms 2405.581562 
+  [A] SizedSum  10968 ms wall   output: sumS total 80000000 ms 2741.760392 sumN total 80000000 ms 2490.077544 sumS total 80000000 ms 2606.203208 sumN total 80000000 ms 2365.606932 
+  [B] SizedSum  10974 ms wall   output: sumS total 80000000 ms 2933.434093 sumN total 80000000 ms 2497.058471 sumS total 80000000 ms 2434.490439 sumN total 80000000 ms 2358.81765 
+  [A] SizedSum  11406 ms wall   output: sumS total 80000000 ms 2770.465021 sumN total 80000000 ms 2491.75136 sumS total 80000000 ms 2608.707944 sumN total 80000000 ms 2509.993276 
+  [B] SizedSum  11466 ms wall   output: sumS total 80000000 ms 2957.922351 sumN total 80000000 ms 2616.531295 sumS total 80000000 ms 2503.93001 sumN total 80000000 ms 2553.006043 

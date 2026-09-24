@@ -1,0 +1,21 @@
+component SizedMany
+export Executable
+(* Measurement (a) of ../size-cost.md at eight sizes: ../../prelude/pNat1.fss's
+   Box and unbox, used at the eight literals 1 to 8, so that the class count
+   of each design is seen at more than the one or two literals
+   ../runtime/r6-startup.out measured.  Prints 36. *)
+object Box[\nat k\](v: ZZ32) end
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+run() = do
+  t: ZZ32 := 0
+  t += unbox(Box[\1\](1))
+  t += unbox(Box[\2\](2))
+  t += unbox(Box[\3\](3))
+  t += unbox(Box[\4\](4))
+  t += unbox(Box[\5\](5))
+  t += unbox(Box[\6\](6))
+  t += unbox(Box[\7\](7))
+  t += unbox(Box[\8\](8))
+  println(t)
+end
+end

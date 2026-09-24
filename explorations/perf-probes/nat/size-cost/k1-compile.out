@@ -1,0 +1,120 @@
+########## [A] fortress compile explorations/perf-probes/prelude/pNat1.fss
+exit=0
+---------- [A] fortress run pNat1
+7
+
+########## [B] fortress compile explorations/perf-probes/prelude/pNat1.fss
+exit=0
+---------- [B] fortress run pNat1
+7
+
+########## [A] fortress compile explorations/perf-probes/nat/java/pNatGenMeth.fss
+exit=0
+---------- [A] fortress run pNatGenMeth
+7
+7
+
+########## [B] fortress compile explorations/perf-probes/nat/java/pNatGenMeth.fss
+exit=0
+---------- [B] fortress run pNatGenMeth
+7
+7
+
+########## [A] fortress compile explorations/perf-probes/nat/size-cost/SizedMany.fss
+exit=0
+---------- [A] fortress run SizedMany
+36
+
+########## [B] fortress compile explorations/perf-probes/nat/size-cost/SizedMany.fss
+exit=0
+---------- [B] fortress run SizedMany
+36
+
+########## [A] fortress compile explorations/perf-probes/nat/size-cost/SizedSum.fss
+exit=0
+---------- [A] fortress run SizedSum
+sumS total 80000000 ms 2845.492676
+sumN total 80000000 ms 2505.644276
+sumS total 80000000 ms 2397.268932
+sumN total 80000000 ms 2357.786236
+
+########## [B] fortress compile explorations/perf-probes/nat/size-cost/SizedSum.fss
+exit=0
+---------- [B] fortress run SizedSum
+sumS total 80000000 ms 2701.752072
+sumN total 80000000 ms 2472.822165
+sumS total 80000000 ms 2390.598644
+sumN total 80000000 ms 2422.066913
+
+########## [A] fortress compile explorations/perf-probes/nat/size-cost/SizedDisp.fss
+exit=0
+---------- [A] fortress run SizedDisp
+one size, dispatched: total -10000000 ms 607.171153
+one size, static: total 30000000 ms 509.815333
+two sizes, dispatched: total -10000000 ms 340.014049
+two sizes, static: total 35000000 ms 387.742249
+one size, dispatched: total -10000000 ms 432.137385
+one size, static: total 30000000 ms 372.565707
+two sizes, dispatched: total -10000000 ms 339.475521
+two sizes, static: total 35000000 ms 323.468258
+
+########## [B] fortress compile explorations/perf-probes/nat/size-cost/SizedDisp.fss
+exit=0
+---------- [B] fortress run SizedDisp
+one size, dispatched: total 30000000 ms 620.298894
+one size, static: total 30000000 ms 496.243073
+two sizes, dispatched: total 35000000 ms 514.265381
+two sizes, static: total 35000000 ms 353.560262
+one size, dispatched: total 30000000 ms 564.242332
+one size, static: total 30000000 ms 424.403542
+two sizes, dispatched: total 35000000 ms 507.153904
+two sizes, static: total 35000000 ms 289.518738
+
+########## [A] fortress compile explorations/perf-probes/nat/size-cost/SizedDispLit.fss
+exit=0
+---------- [A] fortress run SizedDispLit
+one size, dispatched: total 30000000 ms 569.812141
+one size, static: total 30000000 ms 561.888951
+two sizes, dispatched: total 35000000 ms 346.069455
+two sizes, static: total 35000000 ms 402.665932
+one size, dispatched: total 30000000 ms 471.741684
+one size, static: total 30000000 ms 393.374517
+two sizes, dispatched: total 35000000 ms 401.700576
+two sizes, static: total 35000000 ms 304.089405
+
+########## [B] fortress compile explorations/perf-probes/nat/size-cost/SizedDispLit.fss
+exit=0
+---------- [B] fortress run SizedDispLit
+one size, dispatched: total 30000000 ms 510.819934
+one size, static: total 30000000 ms 487.114867
+two sizes, dispatched: total 35000000 ms 333.313906
+two sizes, static: total 35000000 ms 410.003253
+one size, dispatched: total 30000000 ms 450.023735
+one size, static: total 30000000 ms 417.387082
+two sizes, dispatched: total 35000000 ms 421.652384
+two sizes, static: total 35000000 ms 299.796942
+
+########## [A] fortress compile explorations/perf-probes/nat/size-cost/VecCtorControl.fss
+exit=0
+---------- [A] fortress run VecCtorControl
+java.lang.NoClassDefFoundError
+	at VecCtorControl.main(/home/user/fortress/explorations/perf-probes/nat/size-cost/VecCtorControl.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc
+	at \=AbstractArrow⟦Tuple⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32Vector,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧,VecCtorControl\%Box⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧⟧.<clinit>(Unknown Source)
+	at VecCtorControl.run(/home/user/fortress/explorations/perf-probes/nat/size-cost/VecCtorControl.fss:10)
+	at VecCtorControl.compute(/home/user/fortress/explorations/perf-probes/nat/size-cost/VecCtorControl.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+
+########## [B] fortress compile explorations/perf-probes/nat/size-cost/VecCtorControl.fss
+exit=0
+---------- [B] fortress run VecCtorControl
+java.lang.NoClassDefFoundError
+	at VecCtorControl.main(/home/user/fortress/explorations/perf-probes/nat/size-cost/VecCtorControl.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc
+	at \=AbstractArrow⟦Tuple⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32Vector,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧,VecCtorControl\%Box⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧⟧.<clinit>(Unknown Source)
+	at VecCtorControl.run(/home/user/fortress/explorations/perf-probes/nat/size-cost/VecCtorControl.fss:10)
+	at VecCtorControl.compute(/home/user/fortress/explorations/perf-probes/nat/size-cost/VecCtorControl.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+

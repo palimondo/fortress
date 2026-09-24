@@ -1,0 +1,81 @@
+component SizedDisp
+export Executable
+(* Measurement (c) of ../size-cost.md: a call dispatched by size, in a loop.
+   The overload set is ../size-probes/pNatDisp.fss's, with each arm returning a
+   number that names it: the vector arm returns its own size (so it needs
+   ../runtime/value-position.patch), the catch-all -1.  "Dispatched" loops call
+   f on values typed Any, so the overload set's dispatcher picks the arm at
+   run time; "static" loops call f on the same values typed Vec[\RR64,3\] and
+   Vec[\RR64,4\], so the checker picks the arm and no dispatcher runs.  "One
+   size" is ten million calls on one value; "two sizes" is five million
+   rounds of a call on a size-3 and a call on a size-4 value.  The four loops
+   run twice in turn (the first round includes the JIT's warm-up).  Right
+   totals: 30000000 for one size, 35000000 for two.  A negative total means
+   the catch-all ran. *)
+object Vec[\T, nat s\](x: T) end
+object Mat[\T, nat r, nat c\](x: T) end
+f(x: RR64): ZZ32 = 0
+f[\nat s\](v: Vec[\RR64,s\]): ZZ32 = s.asZZ32
+f[\nat r, nat c\](m: Mat[\RR64,r,c\]): ZZ32 = 100
+f(x: Any): ZZ32 = -1
+timeDispatched(a: Any): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 10000000 do
+    total += f(a)
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("one size, dispatched: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeStatic(v: Vec[\RR64,3\]): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 10000000 do
+    total += f(v)
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("one size, static: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeDispatched2(a: Any, b: Any): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 5000000 do
+    total += f(a)
+    total += f(b)
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("two sizes, dispatched: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeStatic2(v: Vec[\RR64,3\], w: Vec[\RR64,4\]): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 5000000 do
+    total += f(v)
+    total += f(w)
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("two sizes, static: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+run() = do
+  v: Vec[\RR64,3\] = Vec[\RR64,3\](2.5)
+  w: Vec[\RR64,4\] = Vec[\RR64,4\](2.5)
+  a: Any = v
+  b: Any = w
+  timeDispatched(a)
+  timeStatic(v)
+  timeDispatched2(a, b)
+  timeStatic2(v, w)
+  timeDispatched(a)
+  timeStatic(v)
+  timeDispatched2(a, b)
+  timeStatic2(v, w)
+end
+end

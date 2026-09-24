@@ -1,0 +1,143 @@
+########## [B] design B, the size-generic arm: javap -c of SizedDisp.ZZ32 f\(fortress.AnyType.Any\)
+  public static com.sun.fortress.compiler.runtimeValues.FZZ32 f(fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: invokeinterface #44,  1           // InterfaceMethod fortress/AnyType$Any.getRTTI:()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         6: dup
+         7: instanceof    #46                 // class SizedDisp$Vec$RTTIi
+        10: ifne          17
+        13: pop
+        14: goto          70
+        17: checkcast     #46                 // class SizedDisp$Vec$RTTIi
+        20: astore_1
+        21: aload_1
+        22: invokeinterface #49,  1           // InterfaceMethod SizedDisp$Vec$RTTIi."\\=SizedDisp\\%Vec__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        27: getstatic     #55                 // Field com/sun/fortress/compiler/runtimeValues/FRR64.RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        30: swap
+        31: invokevirtual #61                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+        34: ifeq          70
+        37: aload_1
+        38: invokeinterface #64,  1           // InterfaceMethod SizedDisp$Vec$RTTIi."\\=SizedDisp\\%Vec__2":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        43: astore_3
+        44: aload_3
+        45: astore        4
+        47: getstatic     #68                 // Field "\\=_|explorations|perf-probes|nat|size-cost|SizedDisp\\,fss\\!18\\!1-45✖table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
+        50: ldc           #70                 // String SizedDisp⚙$f⟦⟧✉$✚Arrow⟦SizedDisp$Vec⟦com/sun/fortress/compiler/runtimeValues/FRR64,s⟧,com/sun/fortress/compiler/runtimeValues/FZZ32⟧
+        52: aload         4
+        54: invokestatic  #76                 // Method com/sun/fortress/runtimeSystem/RTHelpers.loadClosureClass:(Lcom/sun/fortress/runtimeSystem/BAlongTree;Ljava/lang/String;Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Ljava/lang/Object;
+        57: checkcast     #78                 // class "\\=AbstractArrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧"
+        60: aload_0
+        61: invokeinterface #84,  2           // InterfaceMethod "\\=Arrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧".apply:(Ljava/lang/Object;)Ljava/lang/Object;
+        66: checkcast     #86                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+        69: areturn
+        70: aload_0
+        71: invokeinterface #44,  1           // InterfaceMethod fortress/AnyType$Any.getRTTI:()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        76: dup
+        77: instanceof    #88                 // class SizedDisp$Mat$RTTIi
+        80: ifne          87
+        83: pop
+        84: goto          154
+        87: checkcast     #88                 // class SizedDisp$Mat$RTTIi
+        90: astore_1
+        91: aload_1
+        92: invokeinterface #91,  1           // InterfaceMethod SizedDisp$Mat$RTTIi."\\=SizedDisp\\%Mat__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        97: getstatic     #55                 // Field com/sun/fortress/compiler/runtimeValues/FRR64.RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+       100: swap
+       101: invokevirtual #61                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+       104: ifeq          154
+       107: aload_1
+       108: invokeinterface #94,  1           // InterfaceMethod SizedDisp$Mat$RTTIi."\\=SizedDisp\\%Mat__2":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+       113: astore_3
+       114: aload_1
+       115: invokeinterface #97,  1           // InterfaceMethod SizedDisp$Mat$RTTIi."\\=SizedDisp\\%Mat__3":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+       120: astore        4
+       122: aload         4
+       124: astore        6
+       126: aload_3
+       127: astore        5
+       129: getstatic     #100                // Field "\\=_|explorations|perf-probes|nat|size-cost|SizedDisp\\,fss\\!19\\!1-49✖table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
+       132: ldc           #102                // String SizedDisp⚙$f⟦⟧✉$✚Arrow⟦SizedDisp$Mat⟦com/sun/fortress/compiler/runtimeValues/FRR64,r,c⟧,com/sun/fortress/compiler/runtimeValues/FZZ32⟧
+       134: aload         5
+       136: aload         6
+       138: invokestatic  #105                // Method com/sun/fortress/runtimeSystem/RTHelpers.loadClosureClass:(Lcom/sun/fortress/runtimeSystem/BAlongTree;Ljava/lang/String;Lcom/sun/fortress/compiler/runtimeValues/RTTI;Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Ljava/lang/Object;
+       141: checkcast     #78                 // class "\\=AbstractArrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧"
+       144: aload_0
+       145: invokeinterface #84,  2           // InterfaceMethod "\\=Arrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧".apply:(Ljava/lang/Object;)Ljava/lang/Object;
+       150: checkcast     #86                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       153: areturn
+       154: aload_0
+       155: instanceof    #51                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+       158: ifeq          169
+       161: aload_0
+       162: checkcast     #51                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+       165: invokestatic  #108                // Method f:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       168: areturn
+       169: aload_0
+       170: checkcast     #40                 // class fortress/AnyType$Any
+       173: invokestatic  #111                // Method "f♙":(Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       176: areturn
+       177: nop
+       178: nop
+       179: nop
+       180: athrow
+
+########## [A] design A, literal arms: javap -c of SizedDispLit.ZZ32 g\(fortress.AnyType.Any\)
+  public static com.sun.fortress.compiler.runtimeValues.FZZ32 g(fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: instanceof    #40                 // class "SizedDispLit$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,4⟧"
+         4: ifeq          15
+         7: aload_0
+         8: checkcast     #40                 // class "SizedDispLit$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,4⟧"
+        11: invokestatic  #43                 // Method g:(LSizedDispLit$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,4⟧;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        14: areturn
+        15: aload_0
+        16: instanceof    #45                 // class "SizedDispLit$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧"
+        19: ifeq          30
+        22: aload_0
+        23: checkcast     #45                 // class "SizedDispLit$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧"
+        26: invokestatic  #48                 // Method g:(LSizedDispLit$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        29: areturn
+        30: aload_0
+        31: checkcast     #50                 // class fortress/AnyType$Any
+        34: invokestatic  #53                 // Method "g♙":(Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        37: areturn
+        38: nop
+        39: nop
+        40: nop
+        41: athrow
+
+########## [B] design B, literal arms: javap -c of SizedDispLit.ZZ32 g\(fortress.AnyType.Any\)
+  public static com.sun.fortress.compiler.runtimeValues.FZZ32 g(fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: instanceof    #40                 // class "SizedDispLit$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,4⟧"
+         4: ifeq          15
+         7: aload_0
+         8: checkcast     #40                 // class "SizedDispLit$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,4⟧"
+        11: invokestatic  #43                 // Method g:(LSizedDispLit$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,4⟧;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        14: areturn
+        15: aload_0
+        16: instanceof    #45                 // class "SizedDispLit$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧"
+        19: ifeq          30
+        22: aload_0
+        23: checkcast     #45                 // class "SizedDispLit$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧"
+        26: invokestatic  #48                 // Method g:(LSizedDispLit$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        29: areturn
+        30: aload_0
+        31: checkcast     #50                 // class fortress/AnyType$Any
+        34: invokestatic  #53                 // Method "g♙":(Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        37: areturn
+        38: nop
+        39: nop
+        40: nop
+        41: athrow
+
+########## [A] the calls in SizedDisp.timeStatic, where the checker picked the arm
+       153: getstatic     #212                // Field "SizedDisp⚙$f⟦3⟧✉$\\=✚Arrow⟦SizedDisp\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,s⟧,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32⟧"."✉":L\=Arrow⟦SizedDisp\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧;
+       157: invokeinterface #218,  2          // InterfaceMethod "\\=Arrow⟦SizedDisp\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32⟧".apply:(LSizedDisp$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+
+########## [B] the calls in SizedDisp.timeStatic, where the checker picked the arm
+       153: getstatic     #251                // Field "SizedDisp⚙$f⟦3⟧✉$\\=✚Arrow⟦SizedDisp\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,s⟧,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32⟧"."✉":L\=Arrow⟦SizedDisp\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧;
+       157: invokeinterface #256,  2          // InterfaceMethod "\\=Arrow⟦SizedDisp\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32⟧".apply:(LSizedDisp$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+

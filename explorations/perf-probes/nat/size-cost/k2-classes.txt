@@ -1,0 +1,98 @@
+########## classes loaded: one run each under -Xlog:class+load=debug
+[A] pNat1: all classes 2339, 8612010 bytes; by the Fortress loader 72, 211479 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 18, 9812 bytes
+[B] pNat1: all classes 2343, 8616739 bytes; by the Fortress loader 73, 213026 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 21, 12979 bytes
+    loaded under A only: 2 classes, 1089 bytes; under B only: 6 classes, 5460 bytes
+    A    884  pNat1$Box❮3❯$RTTIc
+    A    205  pNat1$Box❮3❯$RTTIi
+    B    300  3$RTTIc
+    B   1204  com.sun.fortress.compiler.runtimeValues.RTTIsize
+    B   1703  pNat1$Box$RTTIc
+    B   1703  pNat1$Box$RTTIc
+    B    275  pNat1$Box$RTTIi
+    B    275  pNat1$Box$RTTIi
+    loaded under both, with a different length: 3 classes, B minus A 358 bytes; the largest three:
+      +126  pNat1$Box⟦3⟧
+      +116  \=AbstractArrow⟦pNat1\%Box⟦3⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+      +116  \=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNat1\%Box⟦3⟧⟧
+[A] pNatGenMeth: all classes 2377, 8681868 bytes; by the Fortress loader 101, 256297 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 25, 16605 bytes
+[B] pNatGenMeth: all classes 2380, 8686258 bytes; by the Fortress loader 101, 257455 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 27, 19007 bytes
+    loaded under A only: 4 classes, 2254 bytes; under B only: 7 classes, 5860 bytes
+    A    909  pNatGenMeth$Box❮2❯$RTTIc
+    A    218  pNatGenMeth$Box❮2❯$RTTIi
+    A    909  pNatGenMeth$Box❮3❯$RTTIc
+    A    218  pNatGenMeth$Box❮3❯$RTTIi
+    B    300  2$RTTIc
+    B    300  3$RTTIc
+    B   1204  com.sun.fortress.compiler.runtimeValues.RTTIsize
+    B   1734  pNatGenMeth$Box$RTTIc
+    B   1734  pNatGenMeth$Box$RTTIc
+    B    294  pNatGenMeth$Box$RTTIi
+    B    294  pNatGenMeth$Box$RTTIi
+    loaded under both, with a different length: 7 classes, B minus A 784 bytes; the largest three:
+      +126  pNatGenMeth$Box⟦3⟧
+      +126  pNatGenMeth$Box⟦2⟧
+      +116  \=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatGenMeth\%Box⟦3⟧⟧
+[A] SizedMany: all classes 2406, 8696273 bytes; by the Fortress loader 138, 295245 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 32, 17723 bytes
+[B] SizedMany: all classes 2403, 8697785 bytes; by the Fortress loader 132, 293531 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 28, 15167 bytes
+    loaded under A only: 16 classes, 9000 bytes; under B only: 13 classes, 7648 bytes
+    A    906  SizedMany$Box❮1❯$RTTIc
+    A    219  SizedMany$Box❮1❯$RTTIi
+    A    906  SizedMany$Box❮2❯$RTTIc
+    A    219  SizedMany$Box❮2❯$RTTIi
+    A    906  SizedMany$Box❮3❯$RTTIc
+    A    219  SizedMany$Box❮3❯$RTTIi
+    A    906  SizedMany$Box❮4❯$RTTIc
+    A    219  SizedMany$Box❮4❯$RTTIi
+    A    906  SizedMany$Box❮5❯$RTTIc
+    A    219  SizedMany$Box❮5❯$RTTIi
+    A    906  SizedMany$Box❮6❯$RTTIc
+    A    219  SizedMany$Box❮6❯$RTTIi
+    A    906  SizedMany$Box❮7❯$RTTIc
+    A    219  SizedMany$Box❮7❯$RTTIi
+    A    906  SizedMany$Box❮8❯$RTTIc
+    A    219  SizedMany$Box❮8❯$RTTIi
+    B    300  1$RTTIc
+    B    300  2$RTTIc
+    B    300  3$RTTIc
+    B    300  4$RTTIc
+    B    300  5$RTTIc
+    B    300  6$RTTIc
+    B    300  7$RTTIc
+    B    300  8$RTTIc
+    B   1729  SizedMany$Box$RTTIc
+    B   1729  SizedMany$Box$RTTIc
+    B    293  SizedMany$Box$RTTIi
+    B    293  SizedMany$Box$RTTIi
+    B   1204  com.sun.fortress.compiler.runtimeValues.RTTIsize
+    loaded under both, with a different length: 24 classes, B minus A 2864 bytes; the largest three:
+      +126  SizedMany$Box⟦1⟧
+      +126  SizedMany$Box⟦2⟧
+      +126  SizedMany$Box⟦3⟧
+[A] SizedSum: all classes 2437, 8852585 bytes; by the Fortress loader 150, 430647 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 45, 30022 bytes
+[B] SizedSum: all classes 2441, 8857240 bytes; by the Fortress loader 151, 432084 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 48, 33231 bytes
+    loaded under A only: 2 classes, 1119 bytes; under B only: 6 classes, 5532 bytes
+    A    902  SizedSum$Vec❮8❯$RTTIc
+    A    217  SizedSum$Vec❮8❯$RTTIi
+    B    300  8$RTTIc
+    B   1724  SizedSum$Vec$RTTIc
+    B   1724  SizedSum$Vec$RTTIc
+    B    290  SizedSum$Vec$RTTIi
+    B    290  SizedSum$Vec$RTTIi
+    B   1204  com.sun.fortress.compiler.runtimeValues.RTTIsize
+    loaded under both, with a different length: 2 classes, B minus A 242 bytes; the largest three:
+      +126  SizedSum$Vec⟦8⟧
+      +116  \=AbstractArrow⟦☃,SizedSum\%Vec⟦8⟧⟧
+
+########## start-up: three timed runs each, A and B interleaved
+  [A] pNat1  618 ms wall   output: 7 
+  [B] pNat1  598 ms wall   output: 7 
+  [A] pNat1  583 ms wall   output: 7 
+  [B] pNat1  665 ms wall   output: 7 
+  [A] pNat1  577 ms wall   output: 7 
+  [B] pNat1  571 ms wall   output: 7 
+  [A] SizedMany  671 ms wall   output: 36 
+  [B] SizedMany  688 ms wall   output: 36 
+  [A] SizedMany  706 ms wall   output: 36 
+  [B] SizedMany  688 ms wall   output: 36 
+  [A] SizedMany  715 ms wall   output: 36 
+  [B] SizedMany  694 ms wall   output: 36 

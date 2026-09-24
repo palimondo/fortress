@@ -1,0 +1,14 @@
+component VecCtorControl
+export Executable
+(* A control for ../size-cost.md, no size in it: a ZZ32Vector passed to the
+   constructor of an object generic in a TYPE.  SizedSum.fss's first form
+   passed its storage this way and failed at load under both designs with
+   NoClassDefFoundError: FZZ32Vector$RTTIc; if this fails the same way, the
+   failure is the compiled path's, not the size's. *)
+object Box[\T\](data: ZZ32Vector, x: T) end
+run() = do
+  d: ZZ32Vector = makeZZ32Vector(4)
+  b: Box[\ZZ32\] = Box[\ZZ32\](d, 7)
+  println(b.x)
+end
+end

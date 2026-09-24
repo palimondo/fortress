@@ -1,0 +1,182 @@
+########## [A] design A: javap -c of sumS♙\(\) in the stamped class matching Vec⟦8⟧\.class$
+---------- SizedSum$Vec⟦8⟧.class
+  public com.sun.fortress.compiler.runtimeValues.FZZ32 sumS♙();
+    Code:
+         0: new           #53                 // class com/sun/fortress/compiler/runtimeValues/MutableFValue
+         3: dup
+         4: invokespecial #54                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue."<init>":()V
+         7: astore_1
+         8: iconst_0
+         9: invokestatic  #22                 // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+        12: invokestatic  #40                 // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        15: invokestatic  #60                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+        18: ifeq          33
+        21: invokestatic  #64                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+        24: swap
+        25: aload_1
+        26: swap
+        27: invokevirtual #70                 // Method com/sun/fortress/runtimeSystem/Transaction.TXWrite:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;Lfortress/AnyType$Any;)V
+        30: goto          38
+        33: aload_1
+        34: swap
+        35: invokevirtual #74                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.setValue:(Lfortress/AnyType$Any;)V
+        38: new           #53                 // class com/sun/fortress/compiler/runtimeValues/MutableFValue
+        41: dup
+        42: invokespecial #54                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue."<init>":()V
+        45: astore_2
+        46: iconst_0
+        47: invokestatic  #22                 // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+        50: invokestatic  #40                 // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        53: invokestatic  #60                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+        56: ifeq          71
+        59: invokestatic  #64                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+        62: swap
+        63: aload_2
+        64: swap
+        65: invokevirtual #70                 // Method com/sun/fortress/runtimeSystem/Transaction.TXWrite:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;Lfortress/AnyType$Any;)V
+        68: goto          76
+        71: aload_2
+        72: swap
+        73: invokevirtual #74                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.setValue:(Lfortress/AnyType$Any;)V
+        76: ldc           #16                 // int 8
+        78: invokestatic  #22                 // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+        81: invokeinterface #28,  1           // InterfaceMethod fortress/CompilerBuiltin$IntLiteral.asZZ32:()Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        86: astore_3
+        87: invokestatic  #60                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+        90: ifeq          103
+        93: invokestatic  #64                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+        96: aload_2
+        97: invokevirtual #78                 // Method com/sun/fortress/runtimeSystem/Transaction.TXRead:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lfortress/AnyType$Any;
+       100: goto          107
+       103: aload_2
+       104: invokevirtual #82                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.getValue:()Lfortress/AnyType$Any;
+       107: checkcast     #84                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       110: checkcast     #84                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       113: aload_3
+       114: invokestatic  #88                 // Method fortress/CompilerBuiltin."\\^":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean;
+       117: invokevirtual #92                 // Method com/sun/fortress/compiler/runtimeValues/FBoolean.getValue:()Z
+       120: ifeq          291
+       123: invokestatic  #60                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+       126: ifeq          139
+       129: invokestatic  #64                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+       132: aload_1
+       133: invokevirtual #78                 // Method com/sun/fortress/runtimeSystem/Transaction.TXRead:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lfortress/AnyType$Any;
+       136: goto          143
+       139: aload_1
+       140: invokevirtual #82                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.getValue:()Lfortress/AnyType$Any;
+       143: checkcast     #84                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       146: astore        4
+       148: aload         4
+       150: checkcast     #84                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       153: aload_0
+       154: getfield      #47                 // Field "\\%data":Lcom/sun/fortress/compiler/runtimeValues/FZZ32Vector;
+       157: invokestatic  #60                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+       160: ifeq          173
+       163: invokestatic  #64                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+       166: aload_2
+       167: invokevirtual #78                 // Method com/sun/fortress/runtimeSystem/Transaction.TXRead:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lfortress/AnyType$Any;
+       170: goto          177
+       173: aload_2
+       174: invokevirtual #82                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.getValue:()Lfortress/AnyType$Any;
+       177: checkcast     #84                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       180: invokevirtual #96                 // Method com/sun/fortress/compiler/runtimeValues/FZZ32Vector."\\=_\\{_\\}":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       183: invokestatic  #100                // Method fortress/CompilerBuiltin."+":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       186: astore        5
+       188: aload         5
+       190: invokestatic  #60                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+       193: ifeq          208
+       196: invokestatic  #64                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+       199: swap
+       200: aload_1
+       201: swap
+       202: invokevirtual #70                 // Method com/sun/fortress/runtimeSystem/Transaction.TXWrite:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;Lfortress/AnyType$Any;)V
+       205: goto          213
+       208: aload_1
+       209: swap
+       210: invokevirtual #74                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.setValue:(Lfortress/AnyType$Any;)V
+       213: invokestatic  #105                // Method com/sun/fortress/compiler/runtimeValues/FVoid.make:()Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+       216: pop
+       217: invokestatic  #60                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+       220: ifeq          233
+       223: invokestatic  #64                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+       226: aload_2
+       227: invokevirtual #78                 // Method com/sun/fortress/runtimeSystem/Transaction.TXRead:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lfortress/AnyType$Any;
+       230: goto          237
+       233: aload_2
+       234: invokevirtual #82                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.getValue:()Lfortress/AnyType$Any;
+       237: checkcast     #84                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       240: astore        4
+       242: aload         4
+       244: checkcast     #84                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       247: iconst_1
+       248: invokestatic  #22                 // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+       251: invokestatic  #40                 // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       254: invokestatic  #100                // Method fortress/CompilerBuiltin."+":(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+       257: astore        5
+       259: aload         5
+       261: invokestatic  #60                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+       264: ifeq          279
+       267: invokestatic  #64                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+       270: swap
+       271: aload_2
+       272: swap
+       273: invokevirtual #70                 // Method com/sun/fortress/runtimeSystem/Transaction.TXWrite:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;Lfortress/AnyType$Any;)V
+       276: goto          284
+       279: aload_2
+       280: swap
+       281: invokevirtual #74                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.setValue:(Lfortress/AnyType$Any;)V
+       284: invokestatic  #105                // Method com/sun/fortress/compiler/runtimeValues/FVoid.make:()Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+       287: pop
+       288: goto          87
+       291: invokestatic  #105                // Method com/sun/fortress/compiler/runtimeValues/FVoid.make:()Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+       294: pop
+       295: invokestatic  #60                 // Method com/sun/fortress/runtimeSystem/BaseTask.inATransaction:()Z
+       298: ifeq          311
+       301: invokestatic  #64                 // Method com/sun/fortress/runtimeSystem/BaseTask.getCurrentTransaction:()Lcom/sun/fortress/runtimeSystem/Transaction;
+       304: aload_1
+       305: invokevirtual #78                 // Method com/sun/fortress/runtimeSystem/Transaction.TXRead:(Lcom/sun/fortress/compiler/runtimeValues/MutableFValue;)Lfortress/AnyType$Any;
+       308: goto          315
+       311: aload_1
+       312: invokevirtual #82                 // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.getValue:()Lfortress/AnyType$Any;
+       315: checkcast     #84                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+       318: areturn
+
+
+########## [B] the same method under design B, compared with A's line for line (the header lines aside)
+diff exit=0
+
+########## [A] design A: javap -c of static \{\}; in the stamped class matching Vec⟦8⟧\.class$
+---------- SizedSum$Vec⟦8⟧.class
+  static {};
+    Code:
+         0: getstatic     #145                // Field "SizedSum$Vec❮8❯$RTTIc".ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         3: putstatic     #139                // Field RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         6: return
+}
+
+########## [B] design B: javap -c of static \{\}; in the stamped class matching Vec⟦8⟧\.class$
+---------- SizedSum$Vec⟦8⟧.class
+  static {};
+    Code:
+         0: getstatic     #145                // Field "8$RTTIc".ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         3: invokestatic  #151                // Method SizedSum$Vec$RTTIc.factory:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         6: putstatic     #139                // Field RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         9: return
+}
+
+########## [A] the template, as compiled: the size's read in sumS
+---------- SizedSum$Vec⟦⟧.class
+         4: invokestatic  #58                 // Method CONST."\\=Nat\\,⟦s⟧":()I
+  public com.sun.fortress.compiler.runtimeValues.FZZ32 sumS();
+         1: invokevirtual #16                 // Method "sumS♙":()Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+  public com.sun.fortress.compiler.runtimeValues.FZZ32 sumS♙();
+        76: invokestatic  #58                 // Method CONST."\\=Nat\\,⟦s⟧":()I
+
+########## [B] the template, as compiled: the size's read in sumS
+---------- SizedSum$Vec⟦⟧.class
+         4: invokestatic  #58                 // Method CONST."\\=Nat\\,⟦s⟧":()I
+  public com.sun.fortress.compiler.runtimeValues.FZZ32 sumS();
+         1: invokevirtual #16                 // Method "sumS♙":()Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+  public com.sun.fortress.compiler.runtimeValues.FZZ32 sumS♙();
+        76: invokestatic  #58                 // Method CONST."\\=Nat\\,⟦s⟧":()I
+

@@ -1,0 +1,66 @@
+component SizedSum
+export Executable
+(* The hot loop of ../size-cost.md, measurement (b).  A sized object whose
+   method loops over its eight elements, called ten million times from a plain
+   loop, twice in turn with its control (the first round includes the JIT's
+   warm-up).  sumS takes its loop bound from the size (s read as a value, so it
+   needs ../runtime/value-position.patch); sumN, the control, takes it from the
+   stored vector's own length, read at run time.  The calls are resolved by
+   the checker, so no dispatcher is involved.  Each loop prints its total and
+   the milliseconds it took.  The object makes its own storage, of its own
+   size, because a ZZ32Vector passed to a generic object's constructor fails
+   at load (NoClassDefFoundError: FZZ32Vector$RTTIc, asked for by the
+   constructor's arrow class) with no size involved: VecCtorControl.fss. *)
+object Vec[\nat s\]()
+  data: ZZ32Vector = makeZZ32Vector(s.asZZ32).fill(1)
+  sumS(): ZZ32 = do
+    acc: ZZ32 := 0
+    i: ZZ32 := 0
+    n: ZZ32 = s.asZZ32
+    while i < n do
+      acc += data[i]
+      i += 1
+    end
+    acc
+  end
+  sumN(): ZZ32 = do
+    acc: ZZ32 := 0
+    i: ZZ32 := 0
+    n: ZZ32 = |data|
+    while i < n do
+      acc += data[i]
+      i += 1
+    end
+    acc
+  end
+end
+timeS(v: Vec[\8\]): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 10000000 do
+    total += v.sumS()
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("sumS total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeN(v: Vec[\8\]): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 10000000 do
+    total += v.sumN()
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("sumN total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+run() = do
+  v: Vec[\8\] = Vec[\8\]()
+  timeS(v)
+  timeN(v)
+  timeS(v)
+  timeN(v)
+end
+end
