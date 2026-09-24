@@ -1,0 +1,13 @@
+tests	chain0.fss
+tests	rshiftbug.fss
+tests	BitTwiddle.fss
+tests	UnsignedTest.fss
+tests	intPrim.fss
+tests	longPrim.fss
+tests	testRR32.fss
+tests	QuickCheckTest.fss
+tests	NumberPrintTest.fss
+tests	CovCollTest.fss
+tests	quicksortTest.fss
+tests	sparseMatrix.fss
+tests	RoundHalfEvenRungR.fss
