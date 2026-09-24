@@ -88,6 +88,7 @@ run() = do
     assert(bigMinusThree LSHIFT minL, -1, "row 335: ZZ -3 LSHIFT ZZ64 MIN")
     assert(bigZero LSHIFT 4294967296, 0, "row 335: ZZ 0 LSHIFT 4294967296")
     assert(overflows(fn () => bigThree LSHIFT 4294967296), "row 335: ZZ 3 LSHIFT 4294967296 overflows")
+    assert(overflows(fn () => bigThree LSHIFT 4294967297), "row 335: ZZ 3 LSHIFT 4294967297 overflows")
     assert(overflows(fn () => bigThree RSHIFT minL), "row 335: ZZ 3 RSHIFT ZZ64 MIN overflows")
     assert(overflows(fn () => bigThree LSHIFT 2147483647), "row 335: ZZ 3 LSHIFT 2147483647 overflows")
     assert(bigMinusThree RSHIFT twoTo63, -1, "row 335: ZZ -3 RSHIFT an NN64 count of 2^63")
@@ -108,6 +109,7 @@ run() = do
     assert(overflows(fn () => minI GCD zero), "row 334: ZZ32 MIN GCD 0 overflows")
     assert(overflows(fn () => zero GCD minI), "row 334: ZZ32 0 GCD MIN overflows")
     assert(overflows(fn () => minI GCD minI), "row 334: ZZ32 MIN GCD MIN overflows")
+    assert(overflows(fn () => minI LCM minI), "row 334: ZZ32 MIN LCM MIN overflows")
 
     oneL: ZZ64 = widen(one)
     fiveL: ZZ64 = widen(five)
@@ -126,6 +128,8 @@ run() = do
     assert(overflows(fn () => minL GCD zeroL), "row 334: ZZ64 MIN GCD 0 overflows")
     assert(overflows(fn () => zeroL GCD minL), "row 334: ZZ64 0 GCD MIN overflows")
     assert(overflows(fn () => minL GCD minL), "row 334: ZZ64 MIN GCD MIN overflows")
+    assert(overflows(fn () => minL LCM minL), "row 334: ZZ64 MIN LCM MIN overflows")
+    assert(overflows(fn () => minL LCM 2), "row 334: ZZ64 MIN LCM 2 overflows")
 
     twoTo31: ZZ64 = 2147483648
     assert(narrow(twoTo32), 0, "row 346: ZZ64 narrow 2^32")

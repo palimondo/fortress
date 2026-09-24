@@ -1,0 +1,9 @@
+/home/user/fortress-intsem-i/tmp/h-final2/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d0def120_16
+. interpret /home/user/fortress-intsem-i/tmp/h-final2/tests/XXXShiftRungI  OK Saw expected exception
+. interpret /home/user/fortress-intsem-i/tmp/h-final2/tests/IntSemanticsRungI  OK (time = 5256ms)
+
+Time: 15.558
+
+OK (2 tests)
+
