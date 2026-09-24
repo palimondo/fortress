@@ -101,6 +101,14 @@ public class Long extends NativeConstructor {
         }
     }
 
+    static private abstract class LC2L extends NativeMeth1 {
+        protected abstract long f(long x, long y);
+
+        public final FValue applyMethod(FObject x, FValue y) {
+            return FLong.make(f(x.getLong(), Int.shiftCount(y)));
+        }
+    }
+
     public static final class Negate extends L2L {
         protected long f(long x) {
             return -x;
@@ -139,14 +147,15 @@ public class Long extends NativeConstructor {
 
     public static final class Gcd extends LL2L {
         protected long f(long u, long v) {
-            return Int.gcd(u, v);
+            long g = Int.gcd(u, v);
+            if (g < 0) throw Int.overflow();
+            return g;
         }
     }
 
     public static final class Lcm extends LL2L {
         protected long f(long u, long v) {
-            long g = Int.gcd(u, v);
-            return (u / g) * v;
+            return Int.lcm(u, v);
         }
     }
 
@@ -180,14 +189,16 @@ public class Long extends NativeConstructor {
         }
     }
 
-    public static final class LShift extends LL2L {
+    public static final class LShift extends LC2L {
         protected long f(long u, long v) {
+            if (v < 0) return (v > -64) ? (u >> (int) -v) : (u >> 63);
             return ((v & ~63) == 0) ? (u << (int) v) : 0;
         }
     }
 
-    public static final class RShift extends LL2L {
+    public static final class RShift extends LC2L {
         protected long f(long u, long v) {
+            if (v < 0) return (v > -64) ? (u << (int) -v) : 0;
             return ((v & ~63) == 0) ? (u >> (int) v) : (u >> 63);
         }
     }
@@ -236,7 +247,7 @@ public class Long extends NativeConstructor {
 
     public static final class FromLong extends L2I {
         protected int f(long x) {
-            return Int.rc(x);
+            return (int) x;
         }
     }
 

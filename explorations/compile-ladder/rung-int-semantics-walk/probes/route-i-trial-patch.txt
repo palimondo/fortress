@@ -1,0 +1,352 @@
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 388228454..52ff6dbce 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -541,6 +541,7 @@ trait ZZ extends { Integral[\ZZ\] } comprises { BigNum, ZZ64, NN64 }
+     widen(self): ZZ64
+     odd(self): Boolean
+     even(self): Boolean
++    shift(self, k:AnyIntegral): ZZ
+ end
+ 
+ (************************************************************
+@@ -2077,10 +2078,10 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
+     abstract opr FORWARD_CMP(self, other:Range[\I\]): Comparison
+     asDebugStriing(): String
+     check(): Range[\I\]
+-    shiftLeft(shift: I): Range[\I\]
+-    shiftRight(shift: I): Range[\I\]
+-    opr << (self, shift: I): Range[\I\]
+-    opr >> (self, shift: I): Range[\I\]
++    shiftLeft(amount: I): Range[\I\]
++    shiftRight(amount: I): Range[\I\]
++    opr << (self, amount: I): Range[\I\]
++    opr >> (self, amount: I): Range[\I\]
+ end
+ 
+ trait PartialRange[\I\] extends Range[\I\] end
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index a67583d23..5e36ac568 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -882,6 +882,8 @@ trait ZZ extends Integral[\ZZ\]
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$LShift")
+     opr RSHIFT(self, b:AnyIntegral): ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$RShift")
++    shift(self, k:AnyIntegral): ZZ =
++        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$LShift")
+     opr BITNOT(self): ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$BitNot")
+     opr ^(self, b:AnyIntegral):RR64 =
+@@ -3665,10 +3667,10 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
+          (self.forward() FORWARD_CMP other.forward()))
+     opr FORWARD_CMP(self, other:Range[\I\]): Comparison
+     check(): Range[\I\]
+-    abstract shiftLeft(shift: I): Range[\I\] (* ensures { |outcome| = |self| } *)
+-    abstract shiftRight(shift: I): Range[\I\] (* ensures { |outcome| = |self| } *)
+-    opr << (self, shift: I): Range[\I\] = self.shiftLeft(shift)
+-    opr >> (self, shift: I): Range[\I\] = self.shiftRight(shift)
++    abstract shiftLeft(amount: I): Range[\I\] (* ensures { |outcome| = |self| } *)
++    abstract shiftRight(amount: I): Range[\I\] (* ensures { |outcome| = |self| } *)
++    opr << (self, amount: I): Range[\I\] = self.shiftLeft(amount)
++    opr >> (self, amount: I): Range[\I\] = self.shiftRight(amount)
+ end
+ 
+ trait PartialRange[\I\] extends Range[\I\] end
+@@ -3683,8 +3685,8 @@ trait OpenRange[\I\] extends PartialRange[\I\]
+     opr FORWARD_CMP(self, other:Range[\I\]): Comparison = GreaterThan
+     opr IN(n:I, self): Boolean = true
+     forward(): OpenRange[\I\]
+-    shiftLeft(shift: I): OpenRange[\I\] = self
+-    shiftRight(shift: I): OpenRange[\I\] = self
++    shiftLeft(amount: I): OpenRange[\I\] = self
++    shiftRight(amount: I): OpenRange[\I\] = self
+ end
+ 
+ object TrivialOpenRange extends OpenRange[\Any\]
+diff --git a/Library/List.fss b/Library/List.fss
+index e8c34bb88..062578125 100644
+--- a/Library/List.fss
++++ b/Library/List.fss
+@@ -308,8 +308,8 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
+     get(i:ZZ32): E = underlying.get(firstUsed+i)
+ 
+     fill[\T\](start: ZZ32, under: ImmutableArray[\T,ZZ32\]): () = do
+-        shift = start - firstUsed
+-        under.init0(i+shift, cast[\T\](underlying.get(i))), i <- firstUsed # |self|
++        amount = start - firstUsed
++        under.init0(i+amount, cast[\T\](underlying.get(i))), i <- firstUsed # |self|
+       end
+ 
+     (** Return new %ArrayList% enlarged on the left by at least %i%
+diff --git a/Library/RangeInternals.fsi b/Library/RangeInternals.fsi
+index 87ae18c48..9636fe216 100644
+--- a/Library/RangeInternals.fsi
++++ b/Library/RangeInternals.fsi
+@@ -191,8 +191,8 @@ object ExtentScalarRange[\I extends Integral[\I\]\](ex: I, str: I)
+     opr CAP(self, other: Range[\I\]): ScalarRangeWithExtent[\I\]
+     intersectWithExtent(e: ExtentScalarRange[\I\]): ScalarRangeWithExtent[\I\]
+     opr =(self, b: ExtentScalarRange[\I\]): Boolean
+-    shiftLeft(shift: I): ExtentScalarRange[\I\]
+-    shiftRight(shift: I): ExtentScalarRange[\I\]
++    shiftLeft(amount: I): ExtentScalarRange[\I\]
++    shiftRight(amount: I): ExtentScalarRange[\I\]
+ end
+ 
+ extentScalarRange[\I extends Integral[\I\]\](ex: I, str: I): ScalarRangeWithExtent[\I\]
+@@ -260,8 +260,8 @@ object LeftScalarRange[\I extends Integral[\I\]\](l: I, str: I)
+     opr =(self, b: LeftScalarRange[\I\]): Boolean
+     opr IN(n: I, self): Boolean
+     nonemptyUpwardIntersectionWithPoint(other: BoundedScalarRange[\I\], resultStride: I, p: I): ScalarRangeWithLeft[\I\]
+-    shiftLeft(shift: I): LeftScalarRange[\I\]
+-    shiftRight(shift: I): LeftScalarRange[\I\]
++    shiftLeft(amount: I): LeftScalarRange[\I\]
++    shiftRight(amount: I): LeftScalarRange[\I\]
+ end
+ 
+ leftScalarRange[\I extends Integral[\I\]\](l: I, str: I): LeftScalarRange[\I\]
+@@ -320,8 +320,8 @@ object RightScalarRange[\I extends Integral[\I\]\](r: I, str: I)
+     opr =(self, b: RightScalarRange[\I\]): Boolean
+     opr IN(n: I, self): Boolean
+     nonemptyUpwardIntersectionWithPoint(other: BoundedScalarRange[\I\], resultStride: I, p: I): ScalarRangeWithRight[\I\]
+-    shiftLeft(shift: I): RightScalarRange[\I\]
+-    shiftRight(shift: I): RightScalarRange[\I\]
++    shiftLeft(amount: I): RightScalarRange[\I\]
++    shiftRight(amount: I): RightScalarRange[\I\]
+ end
+ 
+ rightScalarRange[\I extends Integral[\I\]\](r: I, str: I): RightScalarRange[\I\]
+@@ -428,8 +428,8 @@ trait CompactFullScalarRange[\I extends Integral[\I\]\]
+     opr [ i: I ]: I
+     opr IN(n: I, self): Boolean
+     indexOf(n: I): Maybe[\I\]
+-    shiftLeft(shift: I): CompactFullScalarRange[\I\]
+-    shiftRight(shift: I): CompactFullScalarRange[\I\]
++    shiftLeft(amount: I): CompactFullScalarRange[\I\]
++    shiftRight(amount: I): CompactFullScalarRange[\I\]
+ end
+ 
+ object CompactFullParScalarRange[\I extends Integral[\I\]\](l: I, r: I)
+diff --git a/Library/RangeInternals.fss b/Library/RangeInternals.fss
+index c6dc33def..26faa4f65 100644
+--- a/Library/RangeInternals.fss
++++ b/Library/RangeInternals.fss
+@@ -451,8 +451,8 @@ object ExtentScalarRange[\I extends Integral[\I\]\](ex:I, str:I)
+       end
+     opr =(self, b:ExtentScalarRange[\I\]): Boolean =
+         ex = b.ex AND (str = b.str OR ex=1 OR ex=-1)
+-    shiftLeft(shift: I): ExtentScalarRange[\I\] = self
+-    shiftRight(shift: I): ExtentScalarRange[\I\] = self
++    shiftLeft(amount: I): ExtentScalarRange[\I\] = self
++    shiftRight(amount: I): ExtentScalarRange[\I\] = self
+ end
+ 
+ extentScalarRange[\I extends Integral[\I\]\](ex:I, str:I): ScalarRangeWithExtent[\I\] =
+@@ -478,8 +478,8 @@ object ExtentRange2D[\I extends Integral[\I\], J extends Integral[\J\]\]
+         self.recombine(self.range1.forward(), self.range2.forward())
+     recombine(i:ExtentScalarRange[\I\], j:ExtentScalarRange[\J\]): ExtentRange2D[\I,J\] =
+         combine2D[\I,J\](i, j)
+-    shiftLeft(shift: (I, J)): ExtentRange2D[\I, J\] = self
+-    shiftRight(shift: (I, J)): ExtentRange2D[\I, J\] = self
++    shiftLeft(amount: (I, J)): ExtentRange2D[\I, J\] = self
++    shiftRight(amount: (I, J)): ExtentRange2D[\I, J\] = self
+ end
+ 
+ combine3D[\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\]
+@@ -502,8 +502,8 @@ object ExtentRange3D[\I extends Integral[\I\], J extends Integral[\J\], K extend
+         self.recombine(self.range1.forward(), self.range2.forward(), self.range3.forward())
+     recombine(i:ExtentScalarRange[\I\], j:ExtentScalarRange[\J\], k:ExtentScalarRange[\K\]): ExtentRange3D[\I,J,K\] =
+         combine3D[\I,J,K\](i, j, k)
+-    shiftLeft(shift: (I, J, K)):ExtentRange3D[\I,J,K\] = self
+-    shiftRight(shift: (I, J, K)):ExtentRange3D[\I,J,K\] = self
++    shiftLeft(amount: (I, J, K)):ExtentRange3D[\I,J,K\] = self
++    shiftRight(amount: (I, J, K)):ExtentRange3D[\I,J,K\] = self
+ end
+ 
+ trait BoundedScalarRange[\I extends Integral[\I\]\]
+@@ -600,8 +600,8 @@ object LeftScalarRange[\I extends Integral[\I\]\](l:I, str:I)
+         else
+             leftScalarRangeInter(self.maxLeft(other),resultStride,p)
+         end
+-    shiftLeft(shift: I): LeftScalarRange[\I\] = leftScalarRange[\I\](l - shift, str)
+-    shiftRight(shift: I): LeftScalarRange[\I\] = leftScalarRange[\I\](l + shift, str)
++    shiftLeft(amount: I): LeftScalarRange[\I\] = leftScalarRange[\I\](l - amount, str)
++    shiftRight(amount: I): LeftScalarRange[\I\] = leftScalarRange[\I\](l + amount, str)
+ end
+ 
+ leftScalarRange[\I extends Integral[\I\]\](l:I, str:I): LeftScalarRange[\I\] = LeftScalarRange[\I\](l,str).check()
+@@ -628,12 +628,12 @@ object LeftRange2D[\I extends Integral[\I\], J extends Integral[\J\]\]
+         self.recombine(self.range1.forward(), self.range2.forward())
+     recombine(i:LeftScalarRange[\I\], j:LeftScalarRange[\J\]): LeftRange2D[\I,J\] =
+         combine2D[\I,J\](i, j)
+-    shiftLeft(shift: (I,J)):LeftRange2D[\I,J\] = do
+-        (shift_i, shift_j) = shift
++    shiftLeft(amount: (I,J)):LeftRange2D[\I,J\] = do
++        (shift_i, shift_j) = amount
+         LeftRange2D[\I,J\](l_i-shift_i, l_j-shift_j, str_i, str_j)
+       end
+-    shiftRight(shift: (I,J)):LeftRange2D[\I,J\] = do
+-        (shift_i, shift_j) = shift
++    shiftRight(amount: (I,J)):LeftRange2D[\I,J\] = do
++        (shift_i, shift_j) = amount
+         LeftRange2D[\I,J\](l_i+shift_i, l_j+shift_j, str_i, str_j)
+       end
+ end
+@@ -658,13 +658,13 @@ object LeftRange3D[\I extends Integral[\I\], J extends Integral[\J\], K extends
+         self.recombine(self.range1.forward(), self.range2.forward(), self.range3.forward())
+     recombine(i:LeftScalarRange[\I\], j:LeftScalarRange[\J\], k:LeftScalarRange[\K\]): LeftRange3D[\I,J,K\] =
+         combine3D[\I,J,K\](i, j, k)
+-    shiftLeft(shift: (I, J, K)):LeftRange3D[\I,J,K\] = do
+-        (shift_i, shift_j, shift_k) = shift
+-        LeftRange3D[\I,J,K\](l_i-shift_i, l_j-shift_j, l_k-shift, str_i, str_j, str_k)
++    shiftLeft(amount: (I, J, K)):LeftRange3D[\I,J,K\] = do
++        (shift_i, shift_j, shift_k) = amount
++        LeftRange3D[\I,J,K\](l_i-shift_i, l_j-shift_j, l_k-amount, str_i, str_j, str_k)
+       end
+-    shiftRight(shift: (I, J, K)):LeftRange3D[\I,J,K\] = do
+-        (shift_i, shift_j, shift_k) = shift
+-        LeftRange3D[\I,J,K\](l_i+shift_i, l_j+shift_j, l_k+shift, str_i, str_j, str_k)
++    shiftRight(amount: (I, J, K)):LeftRange3D[\I,J,K\] = do
++        (shift_i, shift_j, shift_k) = amount
++        LeftRange3D[\I,J,K\](l_i+shift_i, l_j+shift_j, l_k+amount, str_i, str_j, str_k)
+       end
+ end
+ 
+@@ -719,8 +719,8 @@ object RightScalarRange[\I\](r:I, str:I)
+         else
+             rightScalarRangeInter(self.minRight(other),resultStride,p)
+         end
+-    shiftLeft(shift: I): RightScalarRange[\I\] = rightScalarRange[\I\](r - shift, str)
+-    shiftRight(shift: I): RightScalarRange[\I\] = rightScalarRange[\I\](r + shift, str)
++    shiftLeft(amount: I): RightScalarRange[\I\] = rightScalarRange[\I\](r - amount, str)
++    shiftRight(amount: I): RightScalarRange[\I\] = rightScalarRange[\I\](r + amount, str)
+ end
+ 
+ rightScalarRange[\I extends Integral[\I\]\](r:I, str:I): RightScalarRange[\I\] =
+@@ -748,12 +748,12 @@ object RightRange2D[\I extends Integral[\I\], J extends Integral[\J\]\]
+         self.recombine(self.range1.forward(), self.range2.forward())
+     recombine(i:RightScalarRange[\I\], j:RightScalarRange[\J\]): RightRange2D[\I,J\] =
+         combine2D[\I,J\](i, j)
+-    shiftLeft(shift: (I,J)):RightRange2D[\I,J\] = do
+-        (shift_i, shift_j) = shift
++    shiftLeft(amount: (I,J)):RightRange2D[\I,J\] = do
++        (shift_i, shift_j) = amount
+         RightRange2D[\I,J\](r_i-shift_i, r_j-shift_j, str_i, str_j)
+       end
+-    shiftRight(shift: (I,J)):RightRange2D[\I,J\] = do
+-        (shift_i, shift_j) = shift
++    shiftRight(amount: (I,J)):RightRange2D[\I,J\] = do
++        (shift_i, shift_j) = amount
+         RightRange2D[\I,J\](r_i+shift_i, r_j+shift_j, str_i, str_j)
+       end
+ end
+@@ -778,13 +778,13 @@ object RightRange3D[\I extends Integral[\I\], J extends Integral[\J\], K extends
+         self.recombine(self.range1.forward(), self.range2.forward(), self.range3.forward())
+     recombine(i:RightScalarRange[\I\], j:RightScalarRange[\J\], k:RightScalarRange[\K\]): RightRange3D[\I,J,K\] =
+         combine3D[\I,J,K\](i, j, k)
+-    shiftLeft(shift: (I, J, K)):RightRange3D[\I,J,K\] = do
+-        (shift_i, shift_j, shift_k) = shift
+-        RightRange3D[\I,J,K\](r_i-shift_i, r_j-shift_j, r_k-shift, str_i, str_j, str_k)
++    shiftLeft(amount: (I, J, K)):RightRange3D[\I,J,K\] = do
++        (shift_i, shift_j, shift_k) = amount
++        RightRange3D[\I,J,K\](r_i-shift_i, r_j-shift_j, r_k-amount, str_i, str_j, str_k)
+       end
+-    shiftRight(shift: (I, J, K)):RightRange3D[\I,J,K\] = do
+-        (shift_i, shift_j, shift_k) = shift
+-        RightRange3D[\I,J,K\](r_i+shift_i, r_j+shift_j, r_k+shift, str_i, str_j, str_k)
++    shiftRight(amount: (I, J, K)):RightRange3D[\I,J,K\] = do
++        (shift_i, shift_j, shift_k) = amount
++        RightRange3D[\I,J,K\](r_i+shift_i, r_j+shift_j, r_k+amount, str_i, str_j, str_k)
+       end
+ end
+ 
+@@ -1005,9 +1005,9 @@ trait CompactFullScalarRange[\I extends Integral[\I\]\] extends { FullScalarRang
+         else i+self.lower end
+     opr IN(n:I, self): Boolean = self.lower <= n <= self.upper
+     indexOf(n:I):Maybe[\I\] = if (n IN self) then Just[\I\](n - self.lower) else Nothing[\I\] end
+-    shiftLeft(shift: I): CompactFullScalarRange[\I\] = (self.lower - shift) : (self.upper - shift)
+-    shiftRight(shift: I): CompactFullScalarRange[\I\] (* ensures { |outcome| = |self| } *)
+-        =  (self.lower + shift) : (self.upper + shift)
++    shiftLeft(amount: I): CompactFullScalarRange[\I\] = (self.lower - amount) : (self.upper - amount)
++    shiftRight(amount: I): CompactFullScalarRange[\I\] (* ensures { |outcome| = |self| } *)
++        =  (self.lower + amount) : (self.upper + amount)
+ end
+ 
+ object CompactFullParScalarRange[\I extends Integral[\I\]\](l:I, r:I)
+@@ -1106,12 +1106,12 @@ object CompactFullRange2D[\I extends Integral[\I\], J extends Integral[\J\]\]
+     getter asDebugString(): String = "CompactFullRange2D(" l_i "," l_j ", " r_i "," r_j ")"
+     recombine(i:FullScalarRange[\I\], j:FullScalarRange[\J\]): FullRange2D[\I,J\] =
+         combine2D[\I,J\](i, j)
+-    shiftLeft(shift: (I,J)):CompactFullRange2D[\I, J\] = do
+-        (shift_i, shift_j) = shift
++    shiftLeft(amount: (I,J)):CompactFullRange2D[\I, J\] = do
++        (shift_i, shift_j) = amount
+         CompactFullRange2D[\I, J\](l_i-shift_i, l_j-shift_j, r_i-shift_i, r_j-shift_j)
+       end
+-    shiftRight(shift: (I,J)):CompactFullRange2D[\I, J\] = do
+-        (shift_i, shift_j) = shift
++    shiftRight(amount: (I,J)):CompactFullRange2D[\I, J\] = do
++        (shift_i, shift_j) = amount
+         CompactFullRange2D[\I, J\](l_i+shift_i, l_j+shift_j, r_i+shift_i, r_j+shift_j)
+       end
+ end
+@@ -1140,13 +1140,13 @@ object CompactFullRange3D[\I extends Integral[\I\], J extends Integral[\J\], K e
+     getter asDebugString(): String = "CompactFullRange3D(" l_i "," l_j "," l_k ", " r_i "," r_j "," r_k ")"
+     recombine(i:FullScalarRange[\I\], j:FullScalarRange[\J\], k:FullScalarRange[\K\]):
+              FullRange3D[\I,J,K\] = combine3D[\I,J,K\](i, j, k)
+-    shiftLeft(shift: (I, J, K)):CompactFullRange3D[\I, J, K\] = do
+-        (shift_i, shift_j, shift_k) = shift
++    shiftLeft(amount: (I, J, K)):CompactFullRange3D[\I, J, K\] = do
++        (shift_i, shift_j, shift_k) = amount
+         CompactFullRange3D[\I, J, K\](l_i-shift_i, l_j-shift_j, l_k-shift_k,
+                                                         r_i-shift_i, r_j-shift_j, r_k-shift_k)
+       end
+-    shiftRight(shift: (I, J, K)):CompactFullRange3D[\I, J, K\] = do
+-        (shift_i, shift_j, shift_k) = shift
++    shiftRight(amount: (I, J, K)):CompactFullRange3D[\I, J, K\] = do
++        (shift_i, shift_j, shift_k) = amount
+         CompactFullRange3D[\I, J, K\](l_i+shift_i, l_j+shift_j, l_k+shift_k,
+                                                         r_i+shift_i, r_j+shift_j, r_k+shift_k)
+       end
+@@ -1277,8 +1277,8 @@ object StridedFullParScalarRange[\I extends Integral[\I\]\](l:I, r:I, str:I) ext
+                 lop(r,l)
+             end
+         end
+-    shiftLeft(shift: I):StridedFullParScalarRange[\I\] = StridedFullParScalarRange[\I\](l-shift, r-shift, str)
+-    shiftRight(shift: I):StridedFullParScalarRange[\I\] = StridedFullParScalarRange[\I\](l+shift, r+shift, str)
++    shiftLeft(amount: I):StridedFullParScalarRange[\I\] = StridedFullParScalarRange[\I\](l-amount, r-amount, str)
++    shiftRight(amount: I):StridedFullParScalarRange[\I\] = StridedFullParScalarRange[\I\](l+amount, r+amount, str)
+ end
+ 
+ object StridedFullSeqScalarRange[\I extends Integral[\I\]\](l:I, r:I, str:I)
+@@ -1320,8 +1320,8 @@ object StridedFullSeqScalarRange[\I extends Integral[\I\]\](l:I, r:I, str:I)
+                 i += str
+             end
+         end
+-    shiftLeft(shift: I):StridedFullSeqScalarRange[\I\] = StridedFullSeqScalarRange[\I\](l-shift, r-shift, str)
+-    shiftRight(shift: I):StridedFullSeqScalarRange[\I\] = StridedFullSeqScalarRange[\I\](l+shift, r+shift, str)
++    shiftLeft(amount: I):StridedFullSeqScalarRange[\I\] = StridedFullSeqScalarRange[\I\](l-amount, r-amount, str)
++    shiftRight(amount: I):StridedFullSeqScalarRange[\I\] = StridedFullSeqScalarRange[\I\](l+amount, r+amount, str)
+ end
+ 
+ 
+@@ -1350,13 +1350,13 @@ object StridedFullRange2D[\I extends Integral[\I\], J extends Integral[\J\]\]
+         self.recombine(self.range1.forward(), self.range2.forward())
+     recombine(i:FullScalarRange[\I\], j:FullScalarRange[\J\]): StridedFullRange2D[\I,J\] =
+         combine2D[\I,J\](i, j)
+-    shiftLeft(shift: (I, J)): StridedFullRange2D[\I, J\] = do
+-        (shift_i, shift_j) = shift
+-        StridedFullRange2D[\I, J\](l_i-shift_i, l_j-shift_j, r_i-shift, r_j-shift, str_i, str_j)
++    shiftLeft(amount: (I, J)): StridedFullRange2D[\I, J\] = do
++        (shift_i, shift_j) = amount
++        StridedFullRange2D[\I, J\](l_i-shift_i, l_j-shift_j, r_i-amount, r_j-amount, str_i, str_j)
+       end
+-    shiftRight(shift: (I, J)): StridedFullRange2D[\I, J\] = do
+-        (shift_i, shift_j) = shift
+-        StridedFullRange2D[\I, J\](l_i+shift_i, l_j+shift_j, r_i+shift, r_j+shift, str_i, str_j)
++    shiftRight(amount: (I, J)): StridedFullRange2D[\I, J\] = do
++        (shift_i, shift_j) = amount
++        StridedFullRange2D[\I, J\](l_i+shift_i, l_j+shift_j, r_i+amount, r_j+amount, str_i, str_j)
+       end
+ end
+ 

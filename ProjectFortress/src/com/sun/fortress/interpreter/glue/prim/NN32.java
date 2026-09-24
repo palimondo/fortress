@@ -96,7 +96,7 @@ public class NN32 extends NativeConstructor {
         protected abstract int f(int x, long y);
 
         public final FValue applyMethod(FObject x, FValue y) {
-            return FNN32.make(f(x.getNN32(), y.getLong()));
+            return FNN32.make(f(x.getNN32(), Int.shiftCount(y)));
         }
     }
 
@@ -182,12 +182,14 @@ public class NN32 extends NativeConstructor {
 
     public static final class LShift extends NL2N {
         protected int f(int u, long v) {
+            if (v < 0) return (v > -32) ? (u >>> (int) -v) : 0;
             return ((v & ~31) == 0) ? (u << (int) v) : 0;
         }
     }
 
     public static final class RShift extends NL2N {
         protected int f(int u, long v) {
+            if (v < 0) return (v > -32) ? (u << (int) -v) : 0;
             return ((v & ~31) == 0) ? (u >>> (int) v) : 0;
         }
     }

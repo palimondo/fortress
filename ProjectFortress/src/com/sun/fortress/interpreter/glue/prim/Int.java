@@ -12,6 +12,9 @@
 package com.sun.fortress.interpreter.glue.prim;
 
 import static com.sun.fortress.exceptions.ProgramError.error;
+import com.sun.fortress.compiler.WellKnownNames;
+import com.sun.fortress.exceptions.FortressError;
+import com.sun.fortress.interpreter.Driver;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.types.FTypeObject;
 import com.sun.fortress.interpreter.evaluator.values.*;
@@ -19,6 +22,7 @@ import com.sun.fortress.interpreter.glue.NativeMeth0;
 import com.sun.fortress.interpreter.glue.NativeMeth1;
 import com.sun.fortress.nodes.ObjectConstructor;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -87,7 +91,7 @@ public class Int extends NativeConstructor {
         protected abstract int f(int x, long y);
 
         public final FValue applyMethod(FObject x, FValue y) {
-            return FInt.make(f(x.getInt(), y.getLong()));
+            return FInt.make(f(x.getInt(), shiftCount(y)));
         }
     }
 
@@ -129,14 +133,17 @@ public class Int extends NativeConstructor {
 
     public static final class Gcd extends ZZ2Z {
         protected int f(int u, int v) {
-            return (int) gcd(u, v);
+            long g = gcd(u, v);
+            if (g > Integer.MAX_VALUE) throw overflow();
+            return (int) g;
         }
     }
 
     public static final class Lcm extends ZZ2Z {
         protected int f(int u, int v) {
-            int g = (int) gcd(u, v);
-            return (u / g) * v;
+            long m = lcm(u, v);
+            if (m > Integer.MAX_VALUE) throw overflow();
+            return (int) m;
         }
     }
 
@@ -172,12 +179,14 @@ public class Int extends NativeConstructor {
 
     public static final class LShift extends ZL2Z {
         protected int f(int u, long v) {
+            if (v < 0) return (v > -32) ? (u >> (int) -v) : (u >> 31);
             return ((v & ~31) == 0) ? (u << (int) v) : 0;
         }
     }
 
     public static final class RShift extends ZL2Z {
         protected int f(int u, long v) {
+            if (v < 0) return (v > -32) ? (u << (int) -v) : 0;
             return ((v & ~31) == 0) ? (u >> (int) v) : (u >> 31);
         }
     }
@@ -244,13 +253,43 @@ public class Int extends NativeConstructor {
         return r;
     }
 
+    public static FortressError overflow() {
+        FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
+        return new FortressError(f);
+    }
+
+    public static long shiftCount(FValue y) {
+        if (y instanceof FNN64) {
+            long v = y.getNN64();
+            return (v < 0) ? java.lang.Long.MAX_VALUE : v;
+        }
+        if (y instanceof FBigNum) {
+            BigInteger b = y.getBigInteger();
+            if (b.bitLength() < 64) return b.longValue();
+            return (b.signum() < 0) ? java.lang.Long.MIN_VALUE : java.lang.Long.MAX_VALUE;
+        }
+        return y.getLong();
+    }
+
+    public static long lcm(long u, long v) {
+        if (u == 0 || v == 0) return 0;
+        long q = u / gcd(u, v);
+        if (q == java.lang.Long.MIN_VALUE || v == java.lang.Long.MIN_VALUE) throw overflow();
+        try {
+            return Math.multiplyExact(Math.abs(q), Math.abs(v));
+        }
+        catch (ArithmeticException e) {
+            throw overflow();
+        }
+    }
+
     public static long gcd(long u, long v) {
         /* Thank you, Wikipedia. */
         /* But is this faster than just dividing on a modern
      * architecture? -Jan */
         long k = 0;
         if (u <= 0) {
-            if (u == 0) return v;
+            if (u == 0) return (v < 0) ? -v : v;
             u = -u;
         }
         if (v <= 0) {

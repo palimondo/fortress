@@ -43,6 +43,9 @@ public class BigNum extends NativeConstructor {
             return ((FBigNum) x).getBigInteger();
         } else if (x instanceof FIntLiteral) {
             return ((FIntLiteral) x).getLit();
+        } else if (x instanceof FNN64) {
+            long v = x.getNN64();
+            return (v < 0) ? BigInteger.valueOf(v).add(BigInteger.ONE.shiftLeft(64)) : BigInteger.valueOf(v);
         } else {
             return BigInteger.valueOf(x.getLong());
         }
@@ -100,7 +103,7 @@ public class BigNum extends NativeConstructor {
         protected abstract BigInteger f(BigInteger x, long y);
 
         public final FValue applyMethod(FObject x, FValue y) {
-            return FBigNum.make(f(toB(x), y.getLong()));
+            return FBigNum.make(f(toB(x), Int.shiftCount(y)));
         }
     }
 
@@ -221,13 +224,28 @@ public class BigNum extends NativeConstructor {
 
     public static final class LShift extends ZL2Z {
         protected BigInteger f(BigInteger u, long v) {
-            return u.shiftLeft((int) v);
+            return shiftLeft(u, v);
         }
     }
 
     public static final class RShift extends ZL2Z {
         protected BigInteger f(BigInteger u, long v) {
-            return u.shiftRight((int) v);
+            return shiftLeft(u, (v == java.lang.Long.MIN_VALUE) ? java.lang.Long.MAX_VALUE : -v);
+        }
+    }
+
+    private static BigInteger shiftLeft(BigInteger u, long v) {
+        if (v < 0) {
+            if (v >= -Integer.MAX_VALUE) return u.shiftRight((int) -v);
+            return (u.signum() < 0) ? BigInteger.ONE.negate() : BigInteger.ZERO;
+        }
+        if (u.signum() == 0) return u;
+        if (v > Integer.MAX_VALUE) throw Int.overflow();
+        try {
+            return u.shiftLeft((int) v);
+        }
+        catch (ArithmeticException e) {
+            throw Int.overflow();
         }
     }
 

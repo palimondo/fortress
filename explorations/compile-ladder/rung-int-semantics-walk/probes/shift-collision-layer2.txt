@@ -1,0 +1,12 @@
+/home/user/fortress-intsem-i/Library/FortressLibrary.fss:3670:24-27:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/FortressLibrary.fss:3671:25-28:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/FortressLibrary.fss:3672:19-22:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/FortressLibrary.fss:3673:19-22:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/FortressLibrary.fss:3688:15-18:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/FortressLibrary.fss:3689:16-19:
+    Variable shift is already declared.

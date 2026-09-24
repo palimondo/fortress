@@ -1,0 +1,2 @@
+/home/user/fortress-intsem-i/Library/List.fss:311:9-12:
+    Variable shift is already declared.

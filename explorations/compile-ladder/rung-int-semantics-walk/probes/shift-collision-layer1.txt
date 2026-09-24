@@ -1,0 +1,24 @@
+/home/user/fortress-intsem-i/Library/FortressLibrary.fsi:2081:15-18:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/FortressLibrary.fsi:2082:16-19:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/FortressLibrary.fsi:2083:19-22:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/FortressLibrary.fsi:2084:19-22:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/RangeInternals.fsi:194:15-18:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/RangeInternals.fsi:195:16-19:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/RangeInternals.fsi:263:15-18:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/RangeInternals.fsi:264:16-19:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/RangeInternals.fsi:323:15-18:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/RangeInternals.fsi:324:16-19:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/RangeInternals.fsi:431:15-18:
+    Variable shift is already declared.
+/home/user/fortress-intsem-i/Library/RangeInternals.fsi:432:16-19:
+    Variable shift is already declared.

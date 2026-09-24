@@ -1,0 +1,18 @@
+/home/user/fortress-intsem-i/tmp/h-xxx-trial/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d0d69cfc_16
+. interpret /home/user/fortress-intsem-i/tmp/h-xxx-trial/tests/XXXShiftRungI 
+PASS
+ Missing expected failure 
+F
+Time: 14.181
+There was 1 failure:
+1) /home/user/fortress-intsem-i/tmp/h-xxx-trial/tests/XXXShiftRungI(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest /home/user/fortress-intsem-i/tmp/h-xxx-trial/tests/XXXShiftRungI
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:402)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+	at com.sun.fortress.tests.unit_tests.SystemJUTest.main(SystemJUTest.java:26)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
