@@ -18,52 +18,45 @@ read at session start and after every compaction, and updated in the same commit
 work that establishes a fact or takes a decision; the current state of the work is in
 `explorations/microgpt-run-c-handover.md`.
 
-## Build and run (verified: Ubuntu 24.04 container, JDK 25 — current rung)
+## Build and run
 
 ```bash
-apt-get install -y openjdk-25-jdk-headless ant  # JDK 8/11/17/21 also still work (all gated green)
+apt-get install -y openjdk-25-jdk-headless ant  # JDK 8, 11, 17 and 21 also build and gate green
 export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 export FORTRESS_HOME=<repo root>
 unset JAVA_TOOL_OPTIONS                          # proxy trust-store options confuse ant's JVM forks
 cd $FORTRESS_HOME && ant compileAll              # ~80 s
-./bin/fortress explorations/claude_demo.fss      # interpreter ("walk") — this works
+./bin/fortress explorations/claude_demo.fss      # interpreter ("walk")
 ```
 
-Toolchain (2026-08-21): Scala 2.13.18 (build.xml drives scalac via
-`scala.tools.nsc.Main` directly — Scala 2.13 dropped the `scala.tools.ant`
-tasks), ASM 9.10.1 (vendored in
-`ProjectFortress/third_party/asm/`; watch out — Fortress's own
+Toolchain traps: `build.xml` drives scalac through `scala.tools.nsc.Main`
+directly, because Scala 2.13 dropped the `scala.tools.ant` tasks; ASM is
+vendored in `ProjectFortress/third_party/asm/`, and Fortress's own
 `asmbytecodeoptimizer.Opcodes` shadows `org.objectweb.asm.Opcodes` in that
-package), `-source/-target 1.8` and emitted classfiles V1_6 (both now
-merely conventions — ASM 9 unblocks raising them as a deliberate later
-step), sources compiled as UTF-8 (all sources were already valid UTF-8;
-the old ISO-8859-1 javac attributes just mis-decoded comments),
-work-stealing runtime on stdlib `java.util.concurrent` ForkJoin (vendored
-jsr166y retired); see `explorations/modernization-plan.md` for the ladder
-and current rung.
+package; sources are compiled as UTF-8. The versions, the emitted classfile
+level and the runtime's ForkJoin pool are in
+`explorations/modernization-plan.md`.
 
 Facts that save time:
 
 - **Both execution paths work.** `fortress <file>.fss` interprets directly.
-  The bytecode compiler path (`fortress compile` + `fortress run`) also works
-  on JDK 8, but has two traps: imported library components (`System`,
-  `CompilerSystem`) must be explicitly `fortress compile`d into the cache
-  first, and **stale caches** cause a misleading
-  `NoSuchMethodError: fortress.CompilerBuiltin.println(...)` — wipe
-  `default_repository/caches/*` and recompile in library order (recipe in
-  `explorations/repo-internals.md`). The compiler is incomplete (some
-  constructs still `sayWhat`), not broken. See
-  `explorations/test-baseline-jdk8.md`.
+  The bytecode compiler path (`fortress compile` + `fortress run`) has two
+  traps: imported library components (`System`, `CompilerSystem`) must be
+  explicitly `fortress compile`d into the cache first, and **stale caches**
+  cause a misleading `NoSuchMethodError: fortress.CompilerBuiltin.println(...)`
+  — wipe `default_repository/caches/*` and recompile in library order (recipe
+  in `explorations/repo-internals.md`). The compiler is incomplete (some
+  constructs still `sayWhat`), not broken.
 - **`ProjectFortress/hello.fss` runs only via the compiler path** — its July
   2012 upgrade imports `System.getProperty`/`CompilerSystem.args`, which the
   interpreter can't resolve. Use `explorations/*.fss` as interpreter smoke
   tests.
-- **Test suite (2026-08-19): fully green.** `ant testFast` (~1,400 tests
-  incl. the full compiler suite) and `ant testSystem` (382 interpreter
-  tests) both pass with zero failures — the first fully green suite in this
-  lineage (the 2012 mainline ended with 7 red). History and the two fixes:
-  `explorations/test-baseline-jdk8.md`.
+- **The test suite is fully green and is the gate for every change:** `ant
+  testFast` (the compiler suite among others) and `ant testSystem` (the
+  interpreter tests), zero failures. The current counts are in the last
+  landed gate summary (`explorations/compile-ladder/climb-batch-*/gate/summary.txt`);
+  how the suite first went green is in `explorations/test-baseline-jdk8.md`.
 - The interpreter requires filename (sans `.fss`) == component name.
 - If scalac fails with arity errors in `S*Pattern` nodes, the generated AST
   sources are stale relative to `ProjectFortress/astgen/Fortress.ast`:
@@ -87,23 +80,15 @@ Facts that save time:
 - `Specification/` + `Specification-1.0-frozen/` — the language spec LaTeX
   (in-repo, richer than the published PDF; building it is untested).
 
-## Project goals (rough order)
+## Project goal
 
-1. ~~Baseline the 2012 test suite~~ DONE — fully green on JDK 8 (see above).
-2. Modernization ladder — **approved plan, standing orders, and current rung:
-   `explorations/modernization-plan.md`** (Scala 2.12 ✓ → JDK 11 → UTF-8 →
-   jsr166y→j.u.c. → JDK 17/21 → ASM 9 → Scala 2.13 eval; each rung gated on
-   the fully green suite; CI early).
-3. Complex numbers: the spec promises ℂ but zero complex arithmetic shipped;
-   seed is `explorations/complex_ring.fss`.
-4. Fix the bytecode compiler path — characterized 2026-08-24: the gap is
-   the compiler's tiny prelude library, not codegen; prioritized worklist
-   and measured 6.8–8.9× payoff in `explorations/compiled-path-gaps.md`.
-5. Grow the Steele research corpus (`research/README.md` lists open hunts).
-6. microgpt.fss — port Karpathy's 243-line dependency-free GPT (scalar
-   autodiff, char-level transformer) to interpreter Fortress as an
-   executable-paper showcase; feasibility map and staging:
-   `explorations/microgpt-port.md`.
+Finish what the designers intended, judged by the latest committed
+specification (`Specification/`, the July 2012 draft), not redesign the
+language; the measuring stick is one program, microGPT, compiled to bytecode
+and running fast (Pavol, 2026-09-16, `explorations/coordinator/POSITIONS.md`).
+The plan is `explorations/coordinator/PLAN.md`; where the work stands is the
+first section of `explorations/microgpt-run-c-handover.md`; every known gap,
+defect and design limit is a row of `explorations/fortress-gap-ledger.md`.
 
 Claims in the 2012 tree's own READMEs (root `README.txt` among them) describe
 their era, not the current tree — verify against the code before acting on
