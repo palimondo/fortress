@@ -1,4 +1,4 @@
-<!-- Rung B of CLIMB-BATCH-3.5.md: the record lines folded at the gather. Written at the gather from the record lines the worker returned in its structured result (the harness refused its .md write), with the skeptic's corrections 3, 4, 6 and 7 and its recommended row applied; REPORT.md section 12 says what changed. `<short hash>` stands for rung B's landed commit. -->
+<!-- Rung B of CLIMB-BATCH-3.5.md: the record lines folded at the gather. Written at the gather from the record lines the worker returned in its structured result (the harness refused its .md write), with the skeptic's corrections 3, 4, 6 and 7 and its recommended row applied; REPORT.md section 12 says what changed. `<short hash>` stands for rung B's landed commit, except the two the merged-diff review's repair added, in the FACTS line's last sentence and in row 379's note, which stand for the repair's commit `c9faa7df4` (`explorations/compile-ladder/climb-batch-3.5/RECORD.md`, "The merged-diff review after the repair"). -->
 
 # Record lines for rung B (`rung-int-semantics-compiled`)
 

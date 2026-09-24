@@ -1,4 +1,4 @@
-<!-- Rung I of CLIMB-BATCH-3.5.md: the record lines for the coordinator to fold at merge time. Finished prose, ready to paste. `<short hash>` stands for rung I's landed commit (the worker wrote `<short hash>`; the gather renamed it to the placeholder the commit stage fills, numbered the rows and applied the second skeptic's correction). -->
+<!-- Rung I of CLIMB-BATCH-3.5.md: the record lines for the coordinator to fold at merge time. Finished prose, ready to paste. `<short hash>` stands for rung I's landed commit (the worker wrote `<short hash>`; the gather renamed it to the placeholder the commit stage fills, numbered the rows and applied the second skeptic's correction), except the five the merged-diff review's repair added, in the second FACTS line's last sentence, in row 336's note from "Row 385, the unsigned pair" on, and in the notes of rows 383, 385 and 386, which stand for the repair's commit `c9faa7df4` (`explorations/compile-ladder/climb-batch-3.5/RECORD.md`, "The merged-diff review after the repair"). -->
 
 # Record lines for rung I (`rung-int-semantics-walk`)
 
