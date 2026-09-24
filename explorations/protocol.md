@@ -78,21 +78,25 @@ but if one seems to conflict with something Pavol says, his words win.
 
 ## 4. Commit and push discipline
 
-- Work branch: `claude/handover-reading-vn8zgr`. Never push to a different
-  branch without explicit permission (the `transcripts` orphan branch and
-  the `main` fast-forward below are the two standing exceptions; a third,
+- Work branch: `main`, in the blinded run's container since 2026-09-18, when the
+  coordinating session's container died (POSITIONS 2026-09-18); the container's
+  own branch `claude/worker-brief-fable-vnnuv8` is kept at `main`. Never push to
+  a different branch without explicit permission (the two transcript orphan
+  branches and the container-branch fast-forward below are the standing
+  exceptions; a third,
   2026-09-18 **(P)**: agents of a Workflow batch commit and push to their own
   `wip/<slug>` branch as they work, so a dead container loses nothing —
   "perfectly reasonable. I'm giving you my explicit yes").
-- **(P)** Standing order — fast-forward `main` after every working-branch
-  push: `git push origin claude/handover-reading-vn8zgr:main`. Established
+- **(P)** Standing order — every push goes to `main` and then fast-forwards
+  the container's branch: `git push origin main` then
+  `git push origin main:claude/worker-brief-fable-vnnuv8` (until 2026-09-18 the
+  work branch was pushed and `main` fast-forwarded to it). Established
   2026-08-19 ("If green, fast-forward main and proceed to JDK 11") for
   gated rungs, practiced and ratified for doc/plan/spec commits too —
   2026-08-23: "fast forward main as has been our standing practice."
   Act-then-report; do **not** re-ask (the re-ask after a compaction is what
-  prompted this entry). Whenever `origin/main` is behind the working-branch
-  tip, ff it. This continues through the clean-ladder migration: Pavol
-  renames branches via the GitHub UI himself when it's done.
+  prompted this entry). Whenever the container's branch is behind `main`, ff
+  it.
 - Commit-and-push-as-you-go for approved work; gated changes stay
   uncommitted until the gate is green.
 - No pull requests unless explicitly requested.
@@ -114,7 +118,7 @@ but if one seems to conflict with something Pavol says, his words win.
 
   ```
   Co-Authored-By: Claude <noreply@anthropic.com>
-  Claude-Session: https://claude.ai/code/session_01LjDz79rDLErtnSKpovMDpX
+  Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB
   ```
 
 - Pavol's email is for identification and attribution only; never send it
