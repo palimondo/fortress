@@ -1,0 +1,59 @@
+$ java RunOne compiler_tests IntSemanticsRungB.test  (FileTests.suiteFromListOfFiles, the junit harness's own entry, on the one file)
+. link compiler_tests/IntSemanticsRungB  OK (time = 3067ms)
+. run compiler_tests/IntSemanticsRungB (1100ms) PASS
+Passed
+
+Time: 4.174
+
+OK (2 tests)
+
+rc=0
+$ java RunOne library_tests IntConversionsRungW.test IntegralOpsRungN.test Integer.test
+. link library_tests/IntConversionsRungW  OK (time = 3250ms)
+. link library_tests/IntegralOpsRungN  OK (time = 979ms)
+. compile library_tests/Integer1  OK (time = 100ms)
+. link library_tests/Integer1  OK (time = 715ms)
+. compile library_tests/Integer2  OK (time = 84ms)
+. link library_tests/Integer2  OK (time = 810ms)
+. compile library_tests/Integer3  OK (time = 101ms)
+. link library_tests/Integer3  OK (time = 694ms)
+. compile library_tests/Integer4  OK (time = 94ms)
+. link library_tests/Integer4  OK (time = 646ms)
+. compile library_tests/IntegerChoose1  OK (time = 587ms)
+. link library_tests/IntegerChoose1  OK (time = 675ms)
+. compile library_tests/IntegerChoose2  OK (time = 708ms)
+. link library_tests/IntegerChoose2  OK (time = 695ms)
+. compile library_tests/ShiftTest  OK (time = 160ms)
+. link library_tests/ShiftTest  OK (time = 703ms)
+. compile library_tests/ShiftTest2  OK (time = 100ms)
+. link library_tests/ShiftTest2  OK (time = 659ms)
+. compile library_tests/AverageTest  OK (time = 68ms)
+. link library_tests/AverageTest  OK (time = 578ms)
+. run library_tests/IntConversionsRungW (267ms) PASS
+Passed
+. run library_tests/IntegralOpsRungN (480ms) PASS
+Passed
+. run library_tests/Integer1 (613ms) PASS
+Passed
+. run library_tests/Integer2 (559ms) PASS
+Passed
+. run library_tests/Integer3 (632ms) PASS
+Passed
+. run library_tests/Integer4 (595ms) PASS
+Passed
+. run library_tests/IntegerChoose1 (743ms) PASS
+Passed
+. run library_tests/IntegerChoose2 (797ms) PASS
+Passed
+. run library_tests/ShiftTest (691ms) PASS
+Passed
+. run library_tests/ShiftTest2 (761ms) PASS
+Passed
+. run library_tests/AverageTest (1017ms) PASS
+Passed
+
+Time: 19.59
+
+OK (31 tests)
+
+rc=0
