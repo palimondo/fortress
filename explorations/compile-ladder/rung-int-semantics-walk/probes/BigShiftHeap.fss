@@ -1,0 +1,15 @@
+component BigShiftHeap
+export Executable
+
+run() = do
+    three: ZZ32 = 3
+    bigThree: ZZ = big(widen(three))
+    got: String = try
+        v = bigThree LSHIFT 2147483645
+        "returns"
+      catch e
+        IntegerOverflow => "THROWS IntegerOverflow"
+      end
+    println("ZZ 3 LSHIFT 2147483645 = " got)
+end
+end

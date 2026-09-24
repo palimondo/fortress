@@ -1,2 +1,3 @@
+### ProjectFortress/tests: bin/fortress IntSemanticsRungI.fss, JAVA_FLAGS unset (bin/fortress:28-29, -Xmx256m), FORTRESS_CACHES at an empty directory
 PASS
 exit=0

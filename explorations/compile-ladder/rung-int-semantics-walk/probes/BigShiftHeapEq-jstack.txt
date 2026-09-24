@@ -1,0 +1,23 @@
+### jstack of bin/fortress on this probe (run under the component name BigShiftHeap, now BigShiftHeapEq.fss), JAVA_FLAGS -Xmx4g, after about 400 s of CPU in one worker, then killed (exit=143); frames of java.math and java.util.concurrent omitted
+"ForkJoinPool-1-worker-1" #26 [12848] daemon prio=5 os_prio=0 runnable
+   java.lang.Thread.State: RUNNABLE
+	at com.sun.fortress.interpreter.evaluator.values.FBigNum.toString(FBigNum.java:41)
+	at com.sun.fortress.exceptions.ProgramError.errorSer(ProgramError.java:44)
+	at com.sun.fortress.exceptions.ProgramError.errorMsg(ProgramError.java:51)
+	at com.sun.fortress.interpreter.evaluator.EvaluatorBase.inferAndInstantiateGenericFunction(EvaluatorBase.java:75)
+	at com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.bestMatchInternal(OverloadedFunction.java:821)
+	at com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.bestMatch(OverloadedFunction.java:790)
+	at com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.applyInnerPossiblyGeneric(OverloadedFunction.java:764)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forOpExpr(Evaluator.java:866)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forOpExpr(Evaluator.java:44)
+	at com.sun.fortress.nodes.OpExpr.accept(OpExpr.java:55)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forChainExpr(Evaluator.java:439)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forChainExpr(Evaluator.java:44)
+	at com.sun.fortress.nodes.ChainExpr.accept(ChainExpr.java:55)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forIf(Evaluator.java:588)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forIf(Evaluator.java:44)
+	at com.sun.fortress.nodes.If.accept(If.java:55)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
