@@ -1,0 +1,5 @@
+$ fortress compile SkNarrowRender.fss ; fortress run SkNarrowRender   (compiled, tree fe57633f4)
+compile rc=0
+NN64 narrow 2^33-1 asString =  -1
+NN64 narrow 2^33-1 asZZ.asString =  4294967295
+run rc=0

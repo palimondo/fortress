@@ -1,0 +1,87 @@
+component SkShiftEdge
+export Executable
+
+run(): () = do
+  zero: ZZ32 = 0
+  one: ZZ32 = 1
+  three: ZZ32 = 3
+  five: ZZ32 = 5
+  mOne: ZZ32 = -1
+  mThree: ZZ32 = -3
+  mFive: ZZ32 = -5
+  n31: ZZ32 = 31
+  n32: ZZ32 = 32
+  m31: ZZ32 = -31
+  m32: ZZ32 = -32
+  zMax: ZZ32 = 7FFFFFFF_16
+  zMin: ZZ32 = -zMax - 1
+
+  println("ZZ32 MIN LSHIFT 1 = " (zMin LSHIFT one).asString)
+  println("ZZ32 MAX LSHIFT 1 = " (zMax LSHIFT one).asString)
+  println("ZZ32 -1 LSHIFT 31 = " (mOne LSHIFT n31).asString)
+  println("ZZ32 MIN RSHIFT 31 = " (zMin RSHIFT n31).asString)
+  println("ZZ32 MIN RSHIFT 32 = " (zMin RSHIFT n32).asString)
+  println("ZZ32 MAX RSHIFT 31 = " (zMax RSHIFT n31).asString)
+  println("ZZ32 MAX RSHIFT 32 = " (zMax RSHIFT n32).asString)
+  println("ZZ32 5 LSHIFT 0 = " (five LSHIFT zero).asString)
+  println("ZZ32 -5 RSHIFT 0 = " (mFive RSHIFT zero).asString)
+  println("ZZ32 5 LSHIFT -31 = " (five LSHIFT m31).asString)
+  println("ZZ32 -5 LSHIFT -31 = " (mFive LSHIFT m31).asString)
+  println("ZZ32 5 LSHIFT -32 = " (five LSHIFT m32).asString)
+  println("ZZ32 -5 LSHIFT -32 = " (mFive LSHIFT m32).asString)
+  println("ZZ32 1 RSHIFT -31 = " (one RSHIFT m31).asString)
+  println("ZZ32 1 RSHIFT -32 = " (one RSHIFT m32).asString)
+  println("ZZ32 -1 RSHIFT -31 = " (mOne RSHIFT m31).asString)
+  println("ZZ32 -1 RSHIFT -32 = " (mOne RSHIFT m32).asString)
+  println("ZZ32 3 LSHIFT MAX = " (three LSHIFT zMax).asString)
+  println("ZZ32 -3 RSHIFT MAX = " (mThree RSHIFT zMax).asString)
+  println("ZZ32 -3 RSHIFT MIN = " (mThree RSHIFT zMin).asString)
+  println("ZZ32 0 LSHIFT MIN = " (zero LSHIFT zMin).asString)
+  println("ZZ32 0 RSHIFT MAX = " (zero RSHIFT zMax).asString)
+  println("ZZ32 -1 LSHIFT MIN = " (mOne LSHIFT zMin).asString)
+
+  lOne: ZZ64 = widen(one)
+  lThree: ZZ64 = widen(three)
+  lFive: ZZ64 = widen(five)
+  lMOne: ZZ64 = widen(mOne)
+  lMThree: ZZ64 = widen(mThree)
+  lMFive: ZZ64 = widen(mFive)
+  l63: ZZ64 = widen(n32) + widen(n31)
+  l64: ZZ64 = widen(n32) + widen(n32)
+  lM63: ZZ64 = -l63
+  lM64: ZZ64 = -l64
+  lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+  lMin: ZZ64 = -lMax - 1
+  lTwoPow32: ZZ64 = 4294967296
+  lTwoPow32p1: ZZ64 = lTwoPow32 + lOne
+  lMTwoPow32: ZZ64 = -lTwoPow32
+  lMTwoPow32m1: ZZ64 = lMTwoPow32 - lOne
+
+  println("ZZ64 MIN LSHIFT 1 = " (lMin LSHIFT lOne).asString)
+  println("ZZ64 MAX LSHIFT 1 = " (lMax LSHIFT lOne).asString)
+  println("ZZ64 -1 LSHIFT 63 = " (lMOne LSHIFT l63).asString)
+  println("ZZ64 MIN RSHIFT 63 = " (lMin RSHIFT l63).asString)
+  println("ZZ64 MIN RSHIFT 64 = " (lMin RSHIFT l64).asString)
+  println("ZZ64 MAX RSHIFT 63 = " (lMax RSHIFT l63).asString)
+  println("ZZ64 MAX RSHIFT 64 = " (lMax RSHIFT l64).asString)
+  println("ZZ64 5 LSHIFT -63 = " (lFive LSHIFT lM63).asString)
+  println("ZZ64 -5 LSHIFT -63 = " (lMFive LSHIFT lM63).asString)
+  println("ZZ64 5 LSHIFT -64 = " (lFive LSHIFT lM64).asString)
+  println("ZZ64 -5 LSHIFT -64 = " (lMFive LSHIFT lM64).asString)
+  println("ZZ64 1 RSHIFT -63 = " (lOne RSHIFT lM63).asString)
+  println("ZZ64 1 RSHIFT -64 = " (lOne RSHIFT lM64).asString)
+  println("ZZ64 -1 RSHIFT -64 = " (lMOne RSHIFT lM64).asString)
+  println("ZZ64 3 LSHIFT 2^32 = " (lThree LSHIFT lTwoPow32).asString)
+  println("ZZ64 1 LSHIFT 2^32+1 = " (lOne LSHIFT lTwoPow32p1).asString)
+  println("ZZ64 -3 RSHIFT 2^32 = " (lMThree RSHIFT lTwoPow32).asString)
+  println("ZZ64 3 LSHIFT -2^32 = " (lThree LSHIFT lMTwoPow32).asString)
+  println("ZZ64 -3 LSHIFT -2^32 = " (lMThree LSHIFT lMTwoPow32).asString)
+  println("ZZ64 1 RSHIFT -2^32-1 = " (lOne RSHIFT lMTwoPow32m1).asString)
+  println("ZZ64 3 LSHIFT MAX = " (lThree LSHIFT lMax).asString)
+  println("ZZ64 -3 RSHIFT MAX = " (lMThree RSHIFT lMax).asString)
+  println("ZZ64 -3 RSHIFT MIN = " (lMThree RSHIFT lMin).asString)
+  println("ZZ64 -1 LSHIFT MIN = " (lMOne LSHIFT lMin).asString)
+  println("ZZ64 3 LSHIFT 1 widened-count = " (lThree LSHIFT lOne).asString)
+end
+
+end

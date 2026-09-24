@@ -1,0 +1,4 @@
+$ fortress compile SkAsZZ32.fss ; fortress run SkAsZZ32   (compiled, tree fe57633f4)
+compile rc=0
+ZZ64 2^32 asZZ32 =  IntegerOverflow
+run rc=0

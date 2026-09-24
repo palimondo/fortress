@@ -1,0 +1,11 @@
+$ fortress compile SkShiftMixed.fss ; fortress run SkShiftMixed   (compiled, tree fe57633f4)
+compile rc=0
+ZZ64 3 LSHIFT (ZZ32 33) =  25769803776
+ZZ64 3 LSHIFT (ZZ32 -1) =  1
+ZZ64 3 RSHIFT (ZZ32 -1) =  6
+ZZ32 3 LSHIFT literal 33 =  0
+ZZ32 3 LSHIFT literal -1 =  1
+ZZ32 3 RSHIFT literal -1 =  6
+ZZ64 3 LSHIFT literal 65 =  0
+ZZ64 3 LSHIFT literal -1 =  1
+run rc=0

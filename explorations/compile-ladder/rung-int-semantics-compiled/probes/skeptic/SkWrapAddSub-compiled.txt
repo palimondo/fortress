@@ -1,0 +1,7 @@
+$ fortress compile SkWrapAddSub.fss ; fortress run SkWrapAddSub   (compiled, tree fe57633f4)
+compile rc=0
+ZZ32 MAX + 1 =  IntegerOverflow
+ZZ32 MIN - 1 =  IntegerOverflow
+ZZ64 MAX + 1 =  IntegerOverflow
+ZZ64 MIN - 1 =  IntegerOverflow
+run rc=0

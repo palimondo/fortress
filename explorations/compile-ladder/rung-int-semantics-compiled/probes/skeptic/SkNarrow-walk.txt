@@ -1,0 +1,22 @@
+$ fortress SkNarrow.fss   (walk, tree fe57633f4)
+NN64 narrow 2^32 = 0
+NN64 narrow 2^32+7 = 7
+NN64 narrow 2^33-1 = 4294967295
+ZZ64 narrow widen MAX = 2147483647
+ZZ64 narrow widen MIN = -2147483648
+ZZ64 narrow -1 = -1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkNarrow.fss:23:35-49:
+Overflow of ZZ32 4294967301
+Context:
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkNarrow.fss:23:35-49:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk rc=1

@@ -1,0 +1,17 @@
+$ fortress SkNarrowRender.fss   (walk, tree fe57633f4)
+NN64 narrow 2^33-1 asString = 4294967295
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkNarrowRender.fss:10:49-61:
+Cannot find definition for method asZZ given receiver 4294967295: NN32
+Context:
+/home/user/fortress-intsem-b/explorations/compile-ladder/rung-int-semantics-compiled/probes/skeptic/SkNarrowRender.fss:10:49-61:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+walk rc=1

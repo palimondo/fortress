@@ -1,0 +1,6 @@
+$ fortress SkShiftLit.fss   (walk, tree fe57633f4)
+literal 3 LSHIFT 33 = 0
+literal 3 LSHIFT -1 = 0
+literal 3 RSHIFT -1 = 0
+literal -16 RSHIFT 40 = -1
+walk rc=0

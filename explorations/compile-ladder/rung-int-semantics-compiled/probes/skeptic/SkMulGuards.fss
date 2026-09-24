@@ -1,0 +1,103 @@
+component SkMulGuards
+export Executable
+
+t32(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "THROWS"
+  end
+
+t64(f: () -> ZZ64): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "THROWS"
+  end
+
+run(): () = do
+  zero: ZZ32 = 0
+  one: ZZ32 = 1
+  seven: ZZ32 = 7
+  mOne: ZZ32 = -1
+  zMax: ZZ32 = 7FFFFFFF_16
+  zMin: ZZ32 = -zMax - 1
+  zMinP1: ZZ32 = zMin + 1
+  k46341: ZZ32 = 46341
+  mK46341: ZZ32 = -46341
+  k46340: ZZ32 = 46340
+  k65536: ZZ32 = 65536
+  mK32768: ZZ32 = -32768
+
+  println("ZZ32 |-1| = " t32(fn () => |mOne|))
+  println("ZZ32 |MIN+1| = " t32(fn () => |zMinP1|))
+  println("ZZ32 -(MIN+1) = " t32(fn () => -zMinP1))
+  println("ZZ32 0 DIV MIN = " t32(fn () => zero DIV zMin))
+  println("ZZ32 MIN DIV 1 = " t32(fn () => zMin DIV one))
+  println("ZZ32 MIN DIV MIN = " t32(fn () => zMin DIV zMin))
+  println("ZZ32 (MIN+1) DIV -1 = " t32(fn () => zMinP1 DIV mOne))
+  println("ZZ32 MIN REM -1 = " t32(fn () => zMin REM mOne))
+  println("ZZ32 0 DIV 7 = " t32(fn () => zero DIV seven))
+  println("ZZ32 MIN DOT 1 = " t32(fn () => zMin DOT one))
+  println("ZZ32 0 DOT MIN = " t32(fn () => zero DOT zMin))
+  println("ZZ32 -1 DOT MIN = " t32(fn () => mOne DOT zMin))
+  println("ZZ32 46341 DOT 46341 = " t32(fn () => k46341 DOT k46341))
+  println("ZZ32 -46341 DOT 46340 = " t32(fn () => mK46341 DOT k46340))
+  println("ZZ32 65536 DOT -32768 = " t32(fn () => k65536 DOT mK32768))
+
+  lZero: ZZ64 = widen(zero)
+  lOne: ZZ64 = widen(one)
+  lTwo: ZZ64 = lOne + lOne
+  lSeven: ZZ64 = widen(seven)
+  lMOne: ZZ64 = widen(mOne)
+  lMFour: ZZ64 = lMOne + lMOne + lMOne + lMOne
+  lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+  lMin: ZZ64 = -lMax - 1
+  lMinP1: ZZ64 = lMin + lOne
+  lTwoPow32: ZZ64 = 4294967296
+  lTwoPow31: ZZ64 = lTwoPow32 DIV lTwo
+  lMTwoPow31: ZZ64 = -lTwoPow31
+  lMTwoPow32: ZZ64 = -lTwoPow32
+  s99: ZZ64 = 3037000499
+  s00: ZZ64 = 3037000500
+  mS00: ZZ64 = -s00
+
+  println("ZZ64 MAX DOT -1 = " t64(fn () => lMax DOT lMOne))
+  println("ZZ64 -1 DOT MAX = " t64(fn () => lMOne DOT lMax))
+  println("ZZ64 MIN DOT 1 = " t64(fn () => lMin DOT lOne))
+  println("ZZ64 1 DOT MIN = " t64(fn () => lOne DOT lMin))
+  println("ZZ64 0 DOT MIN = " t64(fn () => lZero DOT lMin))
+  println("ZZ64 MIN DOT 0 = " t64(fn () => lMin DOT lZero))
+  println("ZZ64 -1 DOT MIN = " t64(fn () => lMOne DOT lMin))
+  println("ZZ64 2^31 DOT 2^32 = " t64(fn () => lTwoPow31 DOT lTwoPow32))
+  println("ZZ64 -2^31 DOT 2^32 = " t64(fn () => lMTwoPow31 DOT lTwoPow32))
+  println("ZZ64 2^31 DOT -2^32 = " t64(fn () => lTwoPow31 DOT lMTwoPow32))
+  println("ZZ64 2^31 CROSS -2^32 = " t64(fn () => lTwoPow31 CROSS lMTwoPow32))
+  println("ZZ64 3037000499 DOT 3037000499 = " t64(fn () => s99 DOT s99))
+  println("ZZ64 3037000500 DOT 3037000500 = " t64(fn () => s00 DOT s00))
+  println("ZZ64 -3037000500 DOT 3037000500 = " t64(fn () => mS00 DOT s00))
+  println("ZZ64 MIN DIV 1 = " t64(fn () => lMin DIV lOne))
+  println("ZZ64 0 DIV MIN = " t64(fn () => lZero DIV lMin))
+  println("ZZ64 MIN DIV MIN = " t64(fn () => lMin DIV lMin))
+  println("ZZ64 (MIN+1) DIV -1 = " t64(fn () => lMinP1 DIV lMOne))
+  println("ZZ64 |MIN+1| = " t64(fn () => |lMinP1|))
+  println("ZZ64 -(MIN+1) = " t64(fn () => -lMinP1))
+  println("ZZ64 |-1| = " t64(fn () => |lMOne|))
+  println("ZZ64 MIN REM -1 = " t64(fn () => lMin REM lMOne))
+  println("ZZ64 MIN MOD -1 = " t64(fn () => lMin MOD lMOne))
+  println("ZZ64 MIN REM 2 = " t64(fn () => lMin REM lTwo))
+  println("ZZ64 7 REM MIN = " t64(fn () => lSeven REM lMin))
+  println("ZZ64 0 REM 7 = " t64(fn () => lZero REM lSeven))
+  println("ZZ64 0 MOD 7 = " t64(fn () => lZero MOD lSeven))
+  println("ZZ64 0 GCD 0 = " t64(fn () => lZero GCD lZero))
+  println("ZZ64 7 GCD 0 = " t64(fn () => lSeven GCD lZero))
+  println("ZZ64 -4 GCD 0 = " t64(fn () => lMFour GCD lZero))
+  println("ZZ64 0 LCM 7 = " t64(fn () => lZero LCM lSeven))
+  println("ZZ64 MAX GCD MIN = " t64(fn () => lMax GCD lMin))
+  println("ZZ64 2^31 LCM 2^32 = " t64(fn () => lTwoPow31 LCM lTwoPow32))
+  println("ZZ64 MAX LCM 2 = " t64(fn () => lMax LCM lTwo))
+end
+
+end

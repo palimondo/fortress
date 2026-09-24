@@ -1,0 +1,13 @@
+component SkNarrowRender
+export Executable
+
+run(): () = do
+  one: ZZ32 = 1
+  lOne: ZZ64 = widen(one)
+  lTwoPow32: ZZ64 = 4294967296
+  n: NN64 = unsigned(lTwoPow32 + lTwoPow32 - lOne)
+  println("NN64 narrow 2^33-1 asString = " narrow(n).asString)
+  println("NN64 narrow 2^33-1 asZZ.asString = " narrow(n).asZZ.asString)
+end
+
+end
