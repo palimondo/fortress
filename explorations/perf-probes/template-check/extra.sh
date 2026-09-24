@@ -2,7 +2,7 @@
 # MEASUREMENT ONLY, not part of the plan's four edits: the four-file shadow PLUS
 # a fifth shadowed file, nodes_util/NodeReflection.java, so that a template gap's
 # inherited _info (hence its parenthesized flag) survives the api cache.
-# Run from $FORTRESS_HOME with experiment/env.sh sourced.
+# Run from $FORTRESS_HOME with explorations/experiment/env.sh sourced.
 P=$FORTRESS_HOME/explorations/perf-probes/template-check
 G=$FORTRESS_HOME/explorations/perf-probes/grammar-compile/shim
 CP=$($FORTRESS_HOME/bin/fortress_classpath | tail -1)

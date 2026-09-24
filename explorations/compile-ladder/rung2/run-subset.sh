@@ -4,7 +4,7 @@
 # explorations/compile-ladder/run-ladder.sh; the file list is read from
 # explorations/compile-ladder/rung2/subset.txt (one "corpus/file" per line).
 set -u
-source "$(dirname "${BASH_SOURCE[0]}")/../../../experiment/env.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../explorations/experiment/env.sh"
 
 ROOT="${LADDER_ROOT:-/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad}/rung2"
 export FORTRESS_CACHES="$ROOT/caches"

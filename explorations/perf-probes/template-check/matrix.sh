@@ -1,7 +1,7 @@
 #!/bin/bash
 # The grammar-compile matrix, run once per classpath.  $1 is the output label
 # ("base" or "shadow"), $2 the classpath prefix ("" or "<shadow-classes>:").
-# Run from $FORTRESS_HOME with experiment/env.sh sourced.
+# Run from $FORTRESS_HOME with explorations/experiment/env.sh sourced.
 LABEL=$1
 PREFIX=$2
 P=$FORTRESS_HOME/explorations/perf-probes/template-check

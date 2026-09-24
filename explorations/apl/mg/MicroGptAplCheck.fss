@@ -2,7 +2,7 @@
    (explorations/run-c4/src/MicroGptFlatCheck.fss, 40 checks) with its import
    changed to MicroGptApl and its paths adjusted to this directory; the goldens
    are Run C's, unchanged (explorations/run-c/goldens, extracted from
-   experiment/run-c-goldens/goldens.json).  One line per check with the measured
+   explorations/experiment/run-c-goldens/goldens.json).  One line per check with the measured
    difference and PASS or FAIL, then an aggregate verdict; any FAIL ends the run
    with a non-zero status.
    Copied unchanged from ../microgpt/ but for this comment.

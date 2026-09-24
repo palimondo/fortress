@@ -54,7 +54,7 @@ w("python3 explorations/compile-ladder/after/classify.py  # writes ladder.tsv an
 w("python3 explorations/compile-ladder/after/report.py    # writes REPORT.md")
 w("```")
 w("")
-w("The driver sources `experiment/env.sh`, then redirects the cache tree with the")
+w("The driver sources `explorations/experiment/env.sh`, then redirects the cache tree with the")
 w("`fortress.caches` system property and the `FORTRESS_CACHES` environment variable.")
 w("`bin/fortress` and `bin/run` pass `$JAVA_FLAGS` straight to the JVM and set")
 w("nothing cache-related themselves, and `ProjectProperties.java:283` reads")

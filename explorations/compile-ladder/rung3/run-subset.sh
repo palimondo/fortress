@@ -8,7 +8,7 @@
 # $1 is the output label, "before" or "after"; $2 is an optional classpath
 # prefix, used to put a shadow build of the edited classes first.
 set -u
-source "$(dirname "${BASH_SOURCE[0]}")/../../../experiment/env.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../explorations/experiment/env.sh"
 
 LABEL="${1:-after}"
 PREFIX="${2:-}"

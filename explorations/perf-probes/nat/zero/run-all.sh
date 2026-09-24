@@ -23,7 +23,7 @@
 #                                     immediately extends it is below a listed type
 set -u
 cd "$(dirname "$0")/../../../.."                     # $FORTRESS_HOME
-source experiment/env.sh
+source explorations/experiment/env.sh
 D=explorations/perf-probes/nat
 J=$D/java
 Z=$D/zero

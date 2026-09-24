@@ -1,6 +1,6 @@
 #!/bin/bash
 # differentials.sh <work-dir>: the rung's differentials over library copies, run from $FORTRESS_HOME
-# with experiment/env.sh sourced, after ant compileAll.  Nothing tracked is written: each run has its
+# with explorations/experiment/env.sh sourced, after ant compileAll.  Nothing tracked is written: each run has its
 # own -Dfortress.caches under <work-dir>.  Two checkers: the tracked one (with the count stage's
 # instrumented StaticChecker, tools/checker-count/shadow-src), and rung P's measured placement,
 # rebuilt from the triage's committed patches (perf-probes/nat/triage/p-only.patch and

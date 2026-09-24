@@ -1,4 +1,4 @@
-"""Assemble experiment/worker/article.html from article/sections/*.html.
+"""Assemble explorations/experiment/worker/article.html from article/sections/*.html.
 
 Placeholders:
   {{fig:NAME}}   inline SVG figures/NAME.svg (typeset Fortress source) + a <details> with

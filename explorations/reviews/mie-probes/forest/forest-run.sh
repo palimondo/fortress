@@ -12,7 +12,7 @@
 # and put first on the classpath, the technique of ../dispatch-run.sh.
 set -u
 cd "$(dirname "$0")/../../../.."                     # $FORTRESS_HOME
-source experiment/env.sh; unset JAVA_TOOL_OPTIONS
+source explorations/experiment/env.sh; unset JAVA_TOOL_OPTIONS
 F=explorations/reviews/mie-probes/forest
 W=${1:?usage: forest-run.sh <work-dir>}; mkdir -p "$W"; W=$(cd "$W" && pwd)
 export FORTRESS_CACHES=$W/caches

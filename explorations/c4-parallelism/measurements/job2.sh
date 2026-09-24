@@ -3,7 +3,7 @@
 # measurements 1, 2, 3 and 5. Commands as given there, adapted only for the private
 # cache directory (FORTRESS_CACHES + -Dfortress.caches) and a private java.io.tmpdir.
 set -u
-source /home/user/fortress/experiment/env.sh
+source /home/user/fortress/explorations/experiment/env.sh
 SP=/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad
 CACHES=$SP/measure/caches
 export FORTRESS_CACHES=$CACHES

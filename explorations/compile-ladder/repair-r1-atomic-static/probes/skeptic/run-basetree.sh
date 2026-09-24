@@ -1,6 +1,6 @@
 #!/bin/bash
 # Skeptic: independent reproduction on the batch base 49ee5e91, then restore.
-# Does NOT source experiment/env.sh (its rm -rf /tmp/fortress*rats would hit the
+# Does NOT source explorations/experiment/env.sh (its rm -rf /tmp/fortress*rats would hit the
 # parallel R2 agent); sets the same variables by hand instead.
 set -u
 export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64

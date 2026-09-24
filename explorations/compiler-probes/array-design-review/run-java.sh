@@ -6,7 +6,7 @@
 # own awk.  Classes go to the scratchpad; only java-timings.out is kept.
 set -u
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$HERE/../../../experiment/env.sh"
+source "$HERE/../../../explorations/experiment/env.sh"
 K="$FORTRESS_HOME/explorations/perf-probes/kernels/java"
 OUT="${1:-/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad}/adr-java"
 rm -rf "$OUT"; mkdir -p "$OUT"

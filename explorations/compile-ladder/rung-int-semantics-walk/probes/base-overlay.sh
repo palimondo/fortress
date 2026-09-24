@@ -4,7 +4,7 @@
 # path, so that a test written after the edit can be shown red against the unedited
 # natives without rebuilding the tree. The library sources are the tree's own, which
 # this rung leaves unchanged. Usage, from FORTRESS_HOME with the environment of
-# experiment/env.sh: base-overlay.sh <scratch-dir> <dir-of-program> <Program.fss>
+# explorations/experiment/env.sh: base-overlay.sh <scratch-dir> <dir-of-program> <Program.fss>
 set -u
 S=${1:?scratch dir} ; D=${2:?program dir} ; P=${3:?program}
 FH=${FORTRESS_HOME:?}

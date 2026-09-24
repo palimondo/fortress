@@ -2,7 +2,7 @@
 # Runs, one program each, the cases of IntSemProbe.fss that end a walk run on the base
 # tree (a raw Java exception or a ProgramError, which no Fortress catch sees), and the
 # spec's shift, which the base tree does not declare. Usage, from FORTRESS_HOME with the
-# environment of experiment/env.sh: run-enders.sh <scratch-dir> > <capture>.txt
+# environment of explorations/experiment/env.sh: run-enders.sh <scratch-dir> > <capture>.txt
 set -u
 S=${1:?scratch dir}
 mkdir -p "$S"

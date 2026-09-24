@@ -7,7 +7,7 @@
 # stripped after the fact, to keep them small; exc-clauses.txt holds the
 # deduplicated set from run 01.
 set -x
-source experiment/env.sh
+source explorations/experiment/env.sh
 FH=/home/user/fortress
 PROBE='/tmp/<session scratchpad>'   # rewritten in the captures as <probe>
 D=explorations/perf-probes/prelude/exclusion-trace

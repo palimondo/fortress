@@ -328,6 +328,22 @@ Group D's target keeps the slug and puts the file beside `backend-options.md`,
 which is already a conversation digest at the top level; that removes the
 one-file directory rather than starting a second numbered series.
 
+Group E — the top level (added 2026-09-24, done the same day):
+
+```
+experiment/ → explorations/experiment/
+```
+
+The run briefs, `env.sh`, `setup.sh` and the Run C goldens, moved with one
+`git mv` because everything of the revival's belongs under `explorations/`
+(POSITIONS 2026-09-24). Every reference that a program executes or reads was
+re-pointed in the same commit, including the way `env.sh` and `setup.sh`
+derive the repository root from their own location; prose citations in
+records, reports, captures, reviews and the post-mortem still name
+`experiment/` and are left as history. The `experiment/` paths in
+`astra/`'s scripts name that run's own tree, now `explorations/astra/`, and
+were not changed.
+
 ### One move left to the owner
 
 `explorations/apl-probes/` (456 KB, 102 files) is the APL sublanguage

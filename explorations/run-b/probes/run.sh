@@ -2,7 +2,7 @@
 # Run one probe and keep its output beside it:  probes/run.sh NAME [threads]
 # (NAME.fss in this directory; output to NAME.out, error text verbatim)
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
-source "$ROOT/experiment/env.sh"
+source "$ROOT/explorations/experiment/env.sh"
 export JAVA_FLAGS="${JAVA_FLAGS:--Xmx4g -Xss64m}"
 export FORTRESS_THREADS="${2:-1}"
 cd "$(dirname "$0")"

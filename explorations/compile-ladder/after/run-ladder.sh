@@ -17,7 +17,7 @@
 
 set -u
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../../experiment/env.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../explorations/experiment/env.sh"
 
 LADDER_ROOT="${LADDER_ROOT:-/tmp/claude-0/-home-user-fortress/bdff267d-67dc-5bb9-b970-8c3dfaa634b6/scratchpad/after-run}"
 export LADDER_CACHES="$LADDER_ROOT/ladder-caches"

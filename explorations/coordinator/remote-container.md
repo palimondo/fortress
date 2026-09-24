@@ -48,7 +48,7 @@ git -C /home/user/fortress worktree add /home/user/fortress-transcripts-blinded 
 /home/user/fortress-transcripts-blinded/scripts/backup.sh   # verify: a snapshot commit appears
 ```
 
-`experiment/setup.sh` does this for the blinded lineage. Substitute
+`explorations/experiment/setup.sh` does this for the blinded lineage. Substitute
 `transcripts` for the coordinating lineage. The script that runs is the one in
 the worktree, on the branch — if you edit the reference copy under
 `explorations/`, nothing changes until it is copied into the worktree.

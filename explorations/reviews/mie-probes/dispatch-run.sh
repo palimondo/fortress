@@ -14,7 +14,7 @@
 # first on the classpath: the technique of explorations/perf-probes/nat/run-all.sh.
 set -u
 cd "$(dirname "$0")/../../.."                        # $FORTRESS_HOME
-source experiment/env.sh
+source explorations/experiment/env.sh
 M=explorations/reviews/mie-probes
 S=$M/shadow
 W=${1:?usage: dispatch-run.sh <work-dir>}

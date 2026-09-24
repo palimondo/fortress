@@ -1,6 +1,6 @@
 #!/bin/bash
 # Timing harness for the microGPT-shaped kernel probe.  Run from this directory:
-#   source /home/user/fortress/experiment/env.sh && ./run-all.sh
+#   source /home/user/fortress/explorations/experiment/env.sh && ./run-all.sh
 # Three runs of every form, each in its own fresh JVM.  The loop only is timed
 # inside each program with nanoTime / System.nanoTime; the process wall is
 # recorded alongside.  The Java forms do one untimed warm-up pass and then MULT

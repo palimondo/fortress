@@ -10,7 +10,7 @@
 # two followup fixes, so no separate step is needed.
 set -u
 cd "$(dirname "$0")/../../../.."                     # $FORTRESS_HOME
-source experiment/env.sh
+source explorations/experiment/env.sh
 D=explorations/perf-probes/nat
 F=$D/followup
 P=explorations/perf-probes/prelude

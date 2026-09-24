@@ -3,7 +3,7 @@
 # Output goes to Name.out on exit 0, otherwise to the next free Name.out.N.
 # "cold" wipes the probe's own cache entries first (gap ledger row 98: the
 # Meet-Rule rejection fires only on a cold parsed cache).
-source /home/user/fortress/experiment/env.sh
+source /home/user/fortress/explorations/experiment/env.sh
 export FORTRESS_SOURCE_PATH=".:$FORTRESS_HOME/explorations/run-c4/src:$FORTRESS_HOME/ProjectFortress/LibraryBuiltin:$FORTRESS_HOME/Library:$FORTRESS_HOME/ProjectFortress/test_library"
 cd "$(dirname "$0")"
 name=$1

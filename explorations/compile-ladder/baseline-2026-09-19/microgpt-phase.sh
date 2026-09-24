@@ -2,7 +2,7 @@
 # Take the two microGPT programs through `fortress compile` in dependency order,
 # in the same private cache as the ladder, and record the phase each component reaches.
 set -u
-source /home/user/fortress/experiment/env.sh
+source /home/user/fortress/explorations/experiment/env.sh
 SP=/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad
 export LADDER_CACHES=$SP/measure/caches
 export FORTRESS_CACHES=$LADDER_CACHES

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Rung 0 timing harness: the two runtime defects, measured on the two compiled
 # benchmarks the boxing and kernel probes left behind.  Run from the repo root:
-#   source experiment/env.sh && explorations/compile-ladder/rung0/time-both.sh > explorations/compile-ladder/rung0/before.out
+#   source explorations/experiment/env.sh && explorations/compile-ladder/rung0/time-both.sh > explorations/compile-ladder/rung0/before.out
 # bench1t (perf-probes/boxing) carries the two float literals inside the loop;
 # bench1h (perf-probes/kernels) hoists them and so isolates the transaction check.
 # Three runs each, in a fresh JVM; the loop only is timed inside the program.

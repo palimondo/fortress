@@ -1,6 +1,6 @@
 #!/bin/bash
 # Timing harness for the boxing probe.  Run from this directory with
-#   source /home/user/fortress/experiment/env.sh && ./run-all.sh
+#   source /home/user/fortress/explorations/experiment/env.sh && ./run-all.sh
 # Three runs of each form; the loop only is timed inside each program with
 # nanoTime / System.nanoTime, and the process wall is recorded alongside.
 set -u

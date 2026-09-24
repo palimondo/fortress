@@ -6,7 +6,7 @@
 # ("fortress.caches" <- FORTRESS_CACHES, ProjectProperties.java:261-283).  No `ant`.
 set -u
 cd "$(dirname "$0")/../../../.."
-source experiment/env.sh
+source explorations/experiment/env.sh
 D=explorations/perf-probes/prelude/import-java-interpreter
 : "${FORTRESS_CACHES:=/tmp/import-java-probe-caches}"
 export FORTRESS_CACHES

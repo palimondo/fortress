@@ -23,7 +23,7 @@
    fastTrack macro that runs compiler_tests sets FORTRESS_CACHES and no thread
    count (build.xml:927-953), and the harness runs each program in a
    subprocess that inherits the environment (FileTests.java:480-486), so the
-   count is whatever the shell that started ant had.  experiment/env.sh:6
+   count is whatever the shell that started ant had.  explorations/experiment/env.sh:6
    exports FORTRESS_THREADS=1, and every run of this project is told to source
    it, so in practice this program runs at one worker and passes whether or
    not the implementation is correct.  The deterministic half of the repair,

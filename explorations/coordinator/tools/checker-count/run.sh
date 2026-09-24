@@ -8,7 +8,7 @@
 # coordinator/library-route-judgement.md, which makes the distance to that goal a
 # permanent gate stage rather than a one-off script. A change in the count is reported, not red (checker-gate-review.md).
 #
-# Run from $FORTRESS_HOME with experiment/env.sh sourced, after ant compileAll:
+# Run from $FORTRESS_HOME with explorations/experiment/env.sh sourced, after ant compileAll:
 #
 #     explorations/coordinator/tools/checker-count/run.sh <out-file> [scratch-dir]
 #

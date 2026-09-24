@@ -2,7 +2,7 @@
 # Every command this probe ran, in order. Run from $FORTRESS_HOME.
 # Outputs land next to this script as NN-*.out.
 set -x
-source experiment/env.sh
+source explorations/experiment/env.sh
 P=explorations/perf-probes/prelude
 CP=$(./bin/fortress_classpath 2>/dev/null | tail -1)
 

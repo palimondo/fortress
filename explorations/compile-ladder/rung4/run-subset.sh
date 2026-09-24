@@ -9,7 +9,7 @@
 # prefix, kept from the rung 3 copy and unused here -- a library rung needs no
 # shadow build, fortress compile reads the edited .fss directly.
 set -u
-source "$(dirname "${BASH_SOURCE[0]}")/../../../experiment/env.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../explorations/experiment/env.sh"
 
 LABEL="${1:-after}"
 PREFIX="${2:-}"

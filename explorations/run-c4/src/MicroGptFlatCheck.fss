@@ -2,7 +2,7 @@
    with round two's four single-document checks added, 40 in all), one line per
    check with the measured difference and PASS or FAIL, against the goldens of
    Run C (explorations/run-c/goldens, extracted from
-   experiment/run-c-goldens/goldens.json), then an aggregate verdict; any FAIL
+   explorations/experiment/run-c-goldens/goldens.json), then an aggregate verdict; any FAIL
    ends the run with a non-zero status.
    Run from explorations/run-c4/src:  ../../../bin/fortress MicroGptFlatCheck.fss *)
 component MicroGptFlatCheck

@@ -3,7 +3,7 @@
 set -u
 LABEL="$1"
 cd /home/user/fortress-r1 || exit 1
-source experiment/env.sh >/dev/null 2>&1
+source explorations/experiment/env.sh >/dev/null 2>&1
 export TMPDIR=/home/user/fortress-r1/tmp
 export JAVA_FLAGS="-Xmx4g -Xss64m -Djava.io.tmpdir=/home/user/fortress-r1/tmp"
 P="$FORTRESS_HOME/explorations/compile-ladder/repair-r1-atomic-static/probes/skeptic"

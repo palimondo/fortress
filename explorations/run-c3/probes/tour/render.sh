@@ -3,7 +3,7 @@
 #   sh explorations/run-c3/probes/tour/render.sh
 # Sources: tour.json (extracted from tour.md), rNN.tic (Fortify), fNN.tex (LaTeX).
 set -e
-. "$FORTRESS_HOME/experiment/env.sh"
+. "$FORTRESS_HOME/explorations/experiment/env.sh"
 cd "$(dirname "$0")"
 export TEXINPUTS=".:$FORTRESS_HOME/Fortify:"
 for n in $(seq -w 1 31); do

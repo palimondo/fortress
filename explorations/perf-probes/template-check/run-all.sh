@@ -2,7 +2,7 @@
 # Every command this probe ran, in order.  Run from $FORTRESS_HOME.
 # Outputs land next to this script as NN-*.out.  Failures are kept.
 set -x
-source experiment/env.sh
+source explorations/experiment/env.sh
 P=explorations/perf-probes/template-check
 G=explorations/perf-probes/grammar-compile/shim
 CP=$($FORTRESS_HOME/bin/fortress_classpath | tail -1)

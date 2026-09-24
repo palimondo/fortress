@@ -3,7 +3,7 @@
 # Usage: figures/render.sh NAME    (from anywhere; NAME.tic lives in figures/)
 set -u
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
-source "$ROOT/experiment/env.sh"
+source "$ROOT/explorations/experiment/env.sh"
 cd "$(dirname "$0")"
 NAME="$1"
 "$FORTRESS_HOME/bin/fortick" "$NAME.tic" 2>&1 | grep -v 'Warning:\|^Loading \|Package cl is deprecated\|^Process with\|^  TEXINPUTS\|^or (for pdf'

@@ -6,7 +6,7 @@
 # p3's interpreter run under a second private cache, <p>.interp.out.
 set -u
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$HERE/../../../experiment/env.sh"
+source "$HERE/../../../explorations/experiment/env.sh"
 ROOT="${1:-/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad}/adr"
 export FORTRESS_CACHES="$ROOT/caches"
 export JAVA_FLAGS="-Xmx2g -Xss64m -Dfortress.caches=$ROOT/caches -Djava.io.tmpdir=$ROOT/tmp"

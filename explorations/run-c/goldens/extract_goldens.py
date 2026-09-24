@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write the parts of experiment/run-c-goldens/goldens.json that the Fortress
+"""Write the parts of explorations/experiment/run-c-goldens/goldens.json that the Fortress
 check component reads as plain text, one value per line, Python repr (shortest
 round-trip) so every double reloads exactly.
 
@@ -7,7 +7,7 @@ Usage: python3 extract_goldens.py <repo root>   (writes into this directory)
 """
 import json, os, sys
 root = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), '..', '..', '..')
-g = json.load(open(os.path.join(root, 'experiment', 'run-c-goldens', 'goldens.json')))
+g = json.load(open(os.path.join(root, 'explorations', 'experiment', 'run-c-goldens', 'goldens.json')))
 here = os.path.dirname(os.path.abspath(__file__))
 
 def lines(name, vals):

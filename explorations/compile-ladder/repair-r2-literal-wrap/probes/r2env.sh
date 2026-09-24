@@ -1,4 +1,4 @@
-# Same as experiment/env.sh but without the shared `rm -rf /tmp/fortress*rats`,
+# Same as explorations/experiment/env.sh but without the shared `rm -rf /tmp/fortress*rats`,
 # which would delete the parallel rung's Rats! temp directories mid-run.
 export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
 export PATH="$JAVA_HOME/bin:$PATH"

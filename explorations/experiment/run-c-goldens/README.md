@@ -18,4 +18,4 @@ All floats are written by Python's shortest round-trip repr, so they reload exac
 
 Omitted: the gradient of the batch of four (only its loss and the lemma are kept), the parameter vectors after steps 2 to 5, and any logits or activations. The reference's self-test was not run as such; its two checks are reproduced by the driver.
 
-To regenerate: `cd` to a scratch directory and run `python3 <repo>/experiment/run-c-goldens/make_goldens.py <repo> <repo>/experiment/run-c-goldens`.
+To regenerate: `cd` to a scratch directory and run `python3 <repo>/explorations/experiment/run-c-goldens/make_goldens.py <repo> <repo>/explorations/experiment/run-c-goldens`.

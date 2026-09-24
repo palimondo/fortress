@@ -1,7 +1,7 @@
 #!/bin/bash
 # Disassemble the generated classes for bench1h and bench1r, to show what
 # hoisting the literals and removing the `:=` did to the emitted loop body.
-# Run from this directory (kernels/javap) with experiment/env.sh sourced.
+# Run from this directory (kernels/javap) with explorations/experiment/env.sh sourced.
 set -u
 C=/home/user/fortress/default_repository/caches/bytecode_cache
 W=$(mktemp -d /tmp/kernels-javap-XXXX)

@@ -5,7 +5,7 @@
 # -XX:StartFlightRecording to JAVA_FLAGS -- no wrapper and no edit to the
 # scripts.  Sampling period forced to 1 ms because bench1r's loop is only half
 # a second long at the profile setting's default 10 ms.
-# Run from this directory with experiment/env.sh already sourced.
+# Run from this directory with explorations/experiment/env.sh already sourced.
 set -u
 F=/home/user/fortress/bin/fortress
 BASE="-Xmx4g -Xss64m"

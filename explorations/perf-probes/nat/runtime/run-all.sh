@@ -23,7 +23,7 @@
 # a class name.  The technique is perf-probes/prelude/run-all.sh:7,33-35.
 set -u
 cd "$(dirname "$0")/../../../.."                     # $FORTRESS_HOME
-source experiment/env.sh
+source explorations/experiment/env.sh
 D=explorations/perf-probes/nat
 J=$D/java
 R=$D/runtime

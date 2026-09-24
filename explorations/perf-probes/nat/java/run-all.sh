@@ -21,7 +21,7 @@
 # compiled with javac against the build's own classpath and put first on it.
 set -u
 cd "$(dirname "$0")/../../../.."                     # $FORTRESS_HOME
-source experiment/env.sh
+source explorations/experiment/env.sh
 D=explorations/perf-probes/nat
 J=$D/java
 P=explorations/perf-probes/prelude

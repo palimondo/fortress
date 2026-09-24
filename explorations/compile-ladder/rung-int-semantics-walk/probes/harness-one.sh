@@ -2,7 +2,7 @@
 # Runs the testSystem harness (SystemJUTest, the class build.xml's testSystem shards run)
 # over a directory holding only the named test files, with the JVM settings of
 # build.xml's systemShard macro. Usage, from FORTRESS_HOME with the environment of
-# experiment/env.sh: harness-one.sh <scratch-dir> <file.fss>...
+# explorations/experiment/env.sh: harness-one.sh <scratch-dir> <file.fss>...
 set -u
 S=${1:?scratch dir} ; shift
 FH=${FORTRESS_HOME:?}

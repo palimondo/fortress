@@ -1,7 +1,7 @@
-# Source this in every shell that runs Fortress:  source experiment/env.sh
+# Source this in every shell that runs Fortress:  source explorations/experiment/env.sh
 export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
 export PATH="$JAVA_HOME/bin:$PATH"
-export FORTRESS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export FORTRESS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 unset JAVA_TOOL_OPTIONS
 export FORTRESS_THREADS=1
 # bin/fortress defaults to -Xmx256m (gap ledger row 67); the checks at 4 threads override FORTRESS_THREADS on the command line

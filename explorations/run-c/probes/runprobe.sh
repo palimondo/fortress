@@ -1,6 +1,6 @@
 #!/bin/bash
 # usage: runprobe.sh <probe.fss> [FORTRESS_THREADS]  -- runs from the probe's directory, saves <probe>.out beside it
-source /home/user/fortress/experiment/env.sh
+source /home/user/fortress/explorations/experiment/env.sh
 cd "$(dirname "$1")"
 f="$(basename "$1")"; n="${f%.fss}"
 [ -n "$2" ] && export FORTRESS_THREADS="$2"

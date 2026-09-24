@@ -80,7 +80,7 @@ fd1, fd4 = fd(np.array([0]), G0), fd(b4, gb)
 
 uchars = ns['uchars']
 gold = {
-    'produced_by': 'experiment/run-c-goldens/make_goldens.py over explorations/apl/reference/hsu-flat/microgpt_flat.py (unmodified)',
+    'produced_by': 'explorations/experiment/run-c-goldens/make_goldens.py over explorations/apl/reference/hsu-flat/microgpt_flat.py (unmodified)',
     'reference_sha256': sha(REF),
     'names_txt': {'url': 'https://raw.githubusercontent.com/karpathy/makemore/988aa59/names.txt', 'sha256': sha('input.txt'), 'documents': len(docs)},
     'environment': {'python': platform.python_version(), 'numpy': np.__version__, 'dtype': 'float64'},

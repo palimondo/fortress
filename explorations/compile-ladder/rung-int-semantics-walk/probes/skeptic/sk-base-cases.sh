@@ -1,7 +1,7 @@
 #!/bin/bash
 # Runs, one program each, the ZZ32-receiver cases of SkWalkOnly.fss whose count is not a ZZ64,
 # on the landed tree and against the base tree's natives (../base-overlay.sh).
-# Usage, from FORTRESS_HOME with the environment of experiment/env.sh: sk-base-cases.sh <scratch-dir>
+# Usage, from FORTRESS_HOME with the environment of explorations/experiment/env.sh: sk-base-cases.sh <scratch-dir>
 set -u
 S=${1:?scratch dir}
 FH=${FORTRESS_HOME:?}

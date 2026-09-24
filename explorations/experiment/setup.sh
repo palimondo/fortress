@@ -1,12 +1,12 @@
 #!/bin/bash
 # One-shot environment setup for the microGPT experiment sessions. Idempotent: safe to re-run.
 # Every stage prints "[HH:MM:SS] STAGE <name>: START|OK|FAIL (Ns)" to stdout;
-# stage detail (apt, ant, latex output) streams to experiment/setup.log.
+# stage detail (apt, ant, latex output) streams to explorations/experiment/setup.log.
 # Exit status is non-zero if any stage failed. Stages: packages build warm
-# render transcripts. Run all:  bash experiment/setup.sh
+# render transcripts. Run all:  bash explorations/experiment/setup.sh
 set -u
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-LOG="$ROOT/experiment/setup.log"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+LOG="$ROOT/explorations/experiment/setup.log"
 STAGE_TIMEOUT="${STAGE_TIMEOUT:-900}"
 TB_BRANCH="${TRANSCRIPTS_BRANCH:-transcripts-blinded}"
 TB_DIR="${TRANSCRIPTS_DIR:-/home/user/fortress-transcripts-blinded}"
@@ -30,17 +30,17 @@ else log "packages missing:$missing"
 fi
 
 # --- build: ant compileAll only if outputs are absent
-source "$ROOT/experiment/env.sh"
+source "$ROOT/explorations/experiment/env.sh"
 if [ -d "$ROOT/ProjectFortress/build" ] && [ -x "$ROOT/bin/fortress" ]; then log "STAGE build: OK (present)"; SUMMARY+=("PASS  build")
 else stage build "cd '$ROOT' && ant compileAll"; fi
 
 # --- warm: first interpreter run generates library caches (minutes, once)
-mkdir -p "$ROOT/experiment/warm"
-printf 'component warm\nexport Executable\nrun() = println "warm ok"\nend\n' > "$ROOT/experiment/warm/warm.fss"
-stage warm "cd '$ROOT' && FORTRESS_THREADS=1 ./bin/fortress experiment/warm/warm.fss | grep -q 'warm ok'"
+mkdir -p "$ROOT/explorations/experiment/warm"
+printf 'component warm\nexport Executable\nrun() = println "warm ok"\nend\n' > "$ROOT/explorations/experiment/warm/warm.fss"
+stage warm "cd '$ROOT' && FORTRESS_THREADS=1 ./bin/fortress explorations/experiment/warm/warm.fss | grep -q 'warm ok'"
 
 # --- render: Fortify pipeline end-to-end on a one-line excerpt
-cat > "$ROOT/experiment/warm/rt.tic" <<'TIC'
+cat > "$ROOT/explorations/experiment/warm/rt.tic" <<'TIC'
 \documentclass{article}
 \usepackage{fortify}
 \usepackage[active,tightpage]{preview}
@@ -51,7 +51,7 @@ cat > "$ROOT/experiment/warm/rt.tic" <<'TIC'
 \end{preview}
 \end{document}
 TIC
-stage render "cd '$ROOT/experiment/warm' && '$ROOT/bin/fortick' rt.tic && TEXINPUTS='.:$ROOT/Fortify:' latex -interaction=nonstopmode rt.tex && dvisvgm --no-fonts --exact-bbox -o rt.svg rt.dvi && /opt/pw-browsers/chromium --headless --no-sandbox --disable-gpu --screenshot=rt.png rt.svg && test -s rt.svg && test -s rt.png && rm -f rt.tex rt.dvi rt.aux rt.log"
+stage render "cd '$ROOT/explorations/experiment/warm' && '$ROOT/bin/fortick' rt.tic && TEXINPUTS='.:$ROOT/Fortify:' latex -interaction=nonstopmode rt.tex && dvisvgm --no-fonts --exact-bbox -o rt.svg rt.dvi && /opt/pw-browsers/chromium --headless --no-sandbox --disable-gpu --screenshot=rt.png rt.svg && test -s rt.svg && test -s rt.png && rm -f rt.tex rt.dvi rt.aux rt.log"
 
 # --- transcripts: worktree of the transcripts branch + Stop hook + one real snapshot
 stage transcripts "

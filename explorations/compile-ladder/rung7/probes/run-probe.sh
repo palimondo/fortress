@@ -6,7 +6,7 @@
 # one else-if in NamingCzar.  No tracked file is touched; the shadow classes go
 # first on the classpath, the recipe of perf-probes/template-check/run-all.sh.
 set -x
-source experiment/env.sh
+source explorations/experiment/env.sh
 P=explorations/compile-ladder/rung7/probes
 CP=$($FORTRESS_HOME/bin/fortress_classpath | tail -1)
 SHADOW=$FORTRESS_HOME/$P/shadow-classes

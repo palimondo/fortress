@@ -1,6 +1,6 @@
 (* MicroGptFlatCheck -- the standard of success for Run C3, one line per check
    with the measured difference and PASS or FAIL, against the goldens of Run C
-   (explorations/run-c/goldens, extracted from experiment/run-c-goldens/goldens.json),
+   (explorations/run-c/goldens, extracted from explorations/experiment/run-c-goldens/goldens.json),
    then an aggregate verdict; any FAIL ends the run with a non-zero status.
    Run from explorations/run-c3/src:  ../../../bin/fortress MicroGptFlatCheck.fss *)
 component MicroGptFlatCheck

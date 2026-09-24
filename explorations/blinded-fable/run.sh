@@ -1,10 +1,10 @@
 #!/bin/bash
 # Run a Fortress probe and append invocation + output to the transcript.
-# Usage: experiment/worker/run.sh PATH.fss [extra args]
+# Usage: explorations/experiment/worker/run.sh PATH.fss [extra args]
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-source "$ROOT/experiment/env.sh"
+source "$ROOT/explorations/experiment/env.sh"
 export JAVA_FLAGS="${JAVA_FLAGS:--Xmx6g -Xss64m}"
-T="$ROOT/experiment/worker/transcript.txt"
+T="$ROOT/explorations/experiment/worker/transcript.txt"
 cd "$ROOT"
 {
   echo "======== $(date -u +%Y-%m-%dT%H:%M:%SZ) ./bin/fortress $*"

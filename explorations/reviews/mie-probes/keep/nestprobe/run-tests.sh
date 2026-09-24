@@ -8,7 +8,7 @@
 # and deleted at the end, as after `ant testSystem`).
 set -u
 cd "$(dirname "$0")/../../../../.."                      # $FORTRESS_HOME
-source experiment/env.sh
+source explorations/experiment/env.sh
 K=explorations/reviews/mie-probes/keep/nestprobe
 W=${1:?usage: run-tests.sh <work-dir> [shards]}
 N=${2:-4}

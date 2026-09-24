@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run one worker probe and keep its output beside it:  probes/worker/run.sh NAME
 ROOT="$(cd "$(dirname "$0")/../../../.." && pwd)"
-source "$ROOT/experiment/env.sh"
+source "$ROOT/explorations/experiment/env.sh"
 export JAVA_FLAGS="${JAVA_FLAGS:--Xmx4g -Xss64m}"
 cd "$(dirname "$0")"
 { echo "\$ FORTRESS_THREADS=1 ./bin/fortress explorations/run-b/probes/worker/$1.fss"

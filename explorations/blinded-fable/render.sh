@@ -1,11 +1,11 @@
 #!/bin/bash
 # Typeset actual Fortress source: figures/NAME.tic -> NAME.svg (+ NAME.png for inspection).
-# Usage: experiment/worker/render.sh NAME   (NAME.tic must live in experiment/worker/figures/)
+# Usage: explorations/experiment/worker/render.sh NAME   (NAME.tic must live in explorations/experiment/worker/figures/)
 set -u
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-source "$ROOT/experiment/env.sh"
-FIG="$ROOT/experiment/worker/figures"
-T="$ROOT/experiment/worker/transcript.txt"
+source "$ROOT/explorations/experiment/env.sh"
+FIG="$ROOT/explorations/experiment/worker/figures"
+T="$ROOT/explorations/experiment/worker/transcript.txt"
 NAME="$1"
 cd "$FIG"
 {

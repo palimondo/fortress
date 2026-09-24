@@ -2,7 +2,7 @@
 # Every command this probe ran, in order.  Run from $FORTRESS_HOME.
 # Outputs land next to this script as NN-*.out.
 set -x
-source experiment/env.sh
+source explorations/experiment/env.sh
 P=explorations/perf-probes/grammar-compile
 
 # 2. the two grammars on the WALK INTERPRETER first (cwd must be $P: `.` is

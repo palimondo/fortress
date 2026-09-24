@@ -1,7 +1,7 @@
 #!/bin/bash
 # run-controls.sh <out-dir> [test ...]: run each ProjectFortress/tests program through the
 # interpreter and write <out-dir>/<name>.txt with its combined output and exit status.
-# Run from $FORTRESS_HOME with experiment/env.sh sourced.
+# Run from $FORTRESS_HOME with explorations/experiment/env.sh sourced.
 set -u
 OUT=$1 ; shift
 mkdir -p "$OUT"

@@ -4,7 +4,7 @@
 # at FORTRESS_THREADS=1 and =4, capturing everything.
 # Usage: bash run-skeptic-probes.sh <Component> [more...]
 set -u
-source "$(dirname "${BASH_SOURCE[0]}")/../../../../../experiment/env.sh" >/dev/null 2>&1
+source "$(dirname "${BASH_SOURCE[0]}")/../../../../../explorations/experiment/env.sh" >/dev/null 2>&1
 export TMPDIR="$FORTRESS_HOME/tmp"
 export JAVA_FLAGS="-Xmx4g -Xss64m -Djava.io.tmpdir=$FORTRESS_HOME/tmp"
 D="$FORTRESS_HOME/explorations/compile-ladder/rung-tryatomic/probes/skeptic"

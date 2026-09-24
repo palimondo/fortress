@@ -1,6 +1,6 @@
 #!/bin/bash
 set -u
-source /home/user/fortress/experiment/env.sh
+source /home/user/fortress/explorations/experiment/env.sh
 B=/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/cold-cache
 D=$B/p2; C=$D/caches; T=$D/tmp; mkdir -p "$T"
 export FORTRESS_CACHES=$C

@@ -21,7 +21,7 @@
 #   (the tree's own switch, OverloadingChecker.scala:77: the pair memo off, see triage.md).
 set -u
 cd "$(dirname "$0")/../../../.."                     # $FORTRESS_HOME
-source experiment/env.sh
+source explorations/experiment/env.sh
 D=explorations/perf-probes/nat; T=$D/triage; Z=$D/zero; P=explorations/perf-probes/prelude
 W=${1:?usage: run-all.sh <work-dir>}; W=$(mkdir -p "$W" && cd "$W" && pwd)
 CP=$(./bin/fortress_classpath 2>/dev/null | tail -1); echo "$CP" > "$W/cp.txt"

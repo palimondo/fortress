@@ -20,7 +20,7 @@
 # is shadow.patch beside this script.
 set -u
 cd "$(dirname "$0")/../../.."                        # $FORTRESS_HOME
-source experiment/env.sh                             # JDK 25, FORTRESS_THREADS=1, -Xmx4g -Xss64m
+source explorations/experiment/env.sh                             # JDK 25, FORTRESS_THREADS=1, -Xmx4g -Xss64m
 D=explorations/perf-probes/nat
 P=explorations/perf-probes/prelude                   # WorldFlip.java + its StaticChecker shadow
 DC=$P/desugar-codegen                                # the per-declaration checker shadow

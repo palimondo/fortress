@@ -10,7 +10,7 @@
 # (keep/count/) are the tables of L0, FLAT and FLATN, that comparison, and FLAT's 22 errors.
 set -u
 cd "$(dirname "$0")/../../../.."                          # $FORTRESS_HOME
-source experiment/env.sh
+source explorations/experiment/env.sh
 T=explorations/coordinator/tools/checker-count
 K=explorations/reviews/mie-probes/keep
 W=${1:?usage: count-variant.sh <work-dir> <variant>...}; shift

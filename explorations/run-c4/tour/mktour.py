@@ -7,7 +7,7 @@ ROOT = '/home/user/fortress/explorations/run-c4'
 SRC = open(f'{ROOT}/src/MicroGptFlat.fss').read()
 TOUR = f'{ROOT}/tour'
 RENDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'render.sh')  # the probes' render helper, copied beside this script
-ENV = 'source /home/user/fortress/experiment/env.sh; '
+ENV = 'source /home/user/fortress/explorations/experiment/env.sh; '
 
 rows = [
  dict(dy='L6', dyalog='⎕IO←0 ⋄ NE BLK NH HD VS BOS←16 16 4 4 27 26 ⋄ EPS LR0 B1 B2 EPSA←1E¯5 0.01 0.85 0.99 1E¯8',

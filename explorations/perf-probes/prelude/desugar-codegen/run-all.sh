@@ -11,7 +11,7 @@
 # removed (`trim` below); the raw output stays in the work directory.
 set -u
 cd "$(dirname "$0")/../../../.."                     # $FORTRESS_HOME
-source experiment/env.sh                             # JDK 25, FORTRESS_THREADS=1, -Xmx4g -Xss64m
+source explorations/experiment/env.sh                             # JDK 25, FORTRESS_THREADS=1, -Xmx4g -Xss64m
 P=explorations/perf-probes/prelude/desugar-codegen
 W=${1:?usage: run-all.sh <work-dir>}
 mkdir -p "$W"

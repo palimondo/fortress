@@ -10,7 +10,7 @@
 # (-Dprobe.scope=off|callsite|skip) and OverloadingChecker.scala (-Dprobe.spSentence=off|own|lifted).
 set -u
 cd "$(dirname "$0")/../../../.."                     # $FORTRESS_HOME
-source experiment/env.sh
+source explorations/experiment/env.sh
 M=explorations/reviews/mie-probes; D=$M/scope
 W=${1:?usage: scope-run.sh <work-dir>}; mkdir -p "$W"; W=$(cd "$W" && pwd)
 CP=$(./bin/fortress_classpath 2>/dev/null | tail -1)

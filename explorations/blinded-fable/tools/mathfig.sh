@@ -3,7 +3,7 @@
 # Usage: mathfig.sh NAME 'latex math (display mode, no $$)'
 set -u
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
-FIG="$ROOT/experiment/worker/figures"
+FIG="$ROOT/explorations/experiment/worker/figures"
 NAME="$1"; MATH="$2"
 cd "$FIG"
 cat > "$NAME.tex" <<EOF

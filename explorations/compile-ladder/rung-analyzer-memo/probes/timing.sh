@@ -1,6 +1,6 @@
 #!/bin/bash
 # The whole-library check (the gate's checker-count stage) timed with the clauses memo on and off,
-# alternating, from $FORTRESS_HOME with experiment/env.sh sourced after ant compileAll.
+# alternating, from $FORTRESS_HOME with explorations/experiment/env.sh sourced after ant compileAll.
 # The switch is read through ProjectProperties' environment fallback: fortress.analyzer.clauses.cache
 # is FORTRESS_ANALYZER_CLAUSES_CACHE (StringMap.java:120-125).
 # usage: timing.sh <scratch-dir> [reps, default 3]

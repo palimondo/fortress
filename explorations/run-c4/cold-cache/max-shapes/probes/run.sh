@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run every probe on its own fresh, private cache (read-only in the tree).
 set -u
-source /home/user/fortress/experiment/env.sh
+source /home/user/fortress/explorations/experiment/env.sh
 P=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 TMPD=$P/tmp; mkdir -p "$TMPD"
 for d in "$@"; do

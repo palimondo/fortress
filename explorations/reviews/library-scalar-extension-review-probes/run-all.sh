@@ -3,7 +3,7 @@
 # PROBE is a private scratch directory outside the repository; nothing tracked is touched.
 # Captures in this directory rewrite $PROBE as <probe>.
 set -x
-source experiment/env.sh
+source explorations/experiment/env.sh
 PROBE=/tmp/<session scratchpad>/tower
 FH=/home/user/fortress
 P=explorations/perf-probes/prelude          # WorldFlip.java + the instrumented StaticChecker copy

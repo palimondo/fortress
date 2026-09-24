@@ -1,6 +1,6 @@
 #!/bin/bash
 # usage: render.sh <file.tic> [png]  -- fortick -> latex -> dvisvgm (-> chromium png); leaves <name>.svg beside the .tic
-source /home/user/fortress/experiment/env.sh
+source /home/user/fortress/explorations/experiment/env.sh
 cd "$(dirname "$1")"; f="$(basename "$1")"; n="${f%.tic}"
 "$FORTRESS_HOME/bin/fortick" -q "$f" > "$n.fortick.log" 2>&1 || { echo "fortick failed: $n"; tail -5 "$n.fortick.log"; exit 1; }
 TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex -interaction=nonstopmode "$n.tex" > "$n.latex.log" 2>&1 || { echo "latex failed: $n"; grep -n "^!" "$n.latex.log" | head -5; }

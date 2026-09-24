@@ -1,7 +1,7 @@
 #!/bin/bash
 # The two row-270 rules with the grammar api analysed IN THE SAME PROCESS as the
 # using program, i.e. never read back from analyzed_cache.  Run from $FORTRESS_HOME
-# with experiment/env.sh sourced.  $1 is the classpath prefix.
+# with explorations/experiment/env.sh sourced.  $1 is the classpath prefix.
 PREFIX=$1
 P=$FORTRESS_HOME/explorations/perf-probes/template-check
 G=$FORTRESS_HOME/explorations/perf-probes/grammar-compile/shim

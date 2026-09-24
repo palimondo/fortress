@@ -1,5 +1,5 @@
 #!/bin/bash
-# How the dumps in this directory were produced (JDK 25, source experiment/env.sh first).
+# How the dumps in this directory were produced (JDK 25, source explorations/experiment/env.sh first).
 C=/home/user/fortress/default_repository/caches
 D=$(mktemp -d); cd $D
 jar xf $C/bytecode_cache/bench1.jar
