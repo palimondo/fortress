@@ -1,0 +1,3 @@
+### skeptic round 2: bin/fortress IntSemanticsRungI.fss from ProjectFortress/tests, JAVA_FLAGS unset (-Xmx256m), FORTRESS_CACHES at an empty directory, tree d68be2587
+PASS
+exit=0

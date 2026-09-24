@@ -1,0 +1,22 @@
+component SkR2ShiftC
+export Executable
+
+sz(f: () -> ZZ): String =
+  try
+    f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+run(): () = do
+    three: ZZ = (3).asZZ
+    minusThree: ZZ = (-3).asZZ
+    maxI: ZZ32 = 2147483647
+    println("ZZ 3 <<< -5 = " || sz(fn () => three <<< (-5)))
+    println("ZZ -3 <<< -5 = " || sz(fn () => minusThree <<< (-5)))
+    println("ZZ 3 <<< 33 = " || sz(fn () => three <<< 33))
+    println("ZZ 3 <<< 2147483647 = " || sz(fn () => three <<< maxI))
+    println("END")
+end
+
+end

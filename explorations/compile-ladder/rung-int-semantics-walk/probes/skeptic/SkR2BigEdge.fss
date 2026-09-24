@@ -1,0 +1,20 @@
+component SkR2BigEdge
+export Executable
+
+run(): () = do
+    p1: ZZ32 = 1
+    m3: ZZ32 = -3
+    m4: ZZ32 = -4
+    n2146: ZZ32 = 2147483646
+    n2145: ZZ32 = 2147483645
+    n2144: ZZ32 = 2147483644
+    a = big(widen(p1)) LSHIFT n2146
+    println "ZZ 1 LSHIFT 2147483646 returned (bit length 2147483647)"
+    b = big(widen(m3)) LSHIFT n2145
+    println "ZZ -3 LSHIFT 2147483645 returned (bit length 2147483647)"
+    c = big(widen(m4)) LSHIFT n2144
+    println "ZZ -4 LSHIFT 2147483644 returned (bit length 2147483647)"
+    println "END"
+end
+
+end

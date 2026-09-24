@@ -171,3 +171,162 @@ In the other direction, the rung makes previously valid `walk` programs that bin
 ## Recommended ledger rows (for the gather to open or refuse)
 
 These are in the structured report's `recommendedRows`, one each: finding 3, finding 6, finding 7, finding 8.
+
+# Skeptic's second judgement of rung I: the repair round at `d68be2587`
+
+**Verdict: approved, with one required correction.** The refusal ground is repaired. At the launcher's own heap (`JAVA_FLAGS` unset, so `-Xmx256m`) and on empty caches, the gated test prints `PASS` (`probes/skeptic/r2-test-default-heap.txt`). My own probe of 27 `ZZ` shifts also gives every wanted answer at that heap, including 14 refused shifts that no longer allocate first (`probes/skeptic/SkR2BigShift.walk.txt`). The unbounded `ZZ`'s `LCM` is repaired and asserted. The correction concerns the record: `REPORT.md:148` and the row 336 note (`record.md:37`) present `0 LCM 0` as closed on the `LCM` route, but `NN32` and `NN64` `0 LCM 0` still end a `walk` run with row 336's raw `ArithmeticException` (finding R2-1).
+
+The first judgement above (lines 1-173) stays byte for byte as it was, because `REPORT.md`, `record.md` and `JUDGE.md` cite it by line. This part starts at line 175.
+
+**What I read and ran.** The branch was at `d68be2587` and the worktree was clean. The repair round is five commits, `c54346915` to `d68be2587`, and its source diff (`git diff bdb94f2a1..HEAD`) is four lines of `BigNum.java` and three assertions. I read:
+- the repair round's diff, the rewritten `REPORT.md` and `record.md`, and `JUDGE.md`'s second ruling (its line 91 on);
+- every capture the repair round added.
+
+The differentials ran at one thread (`FORTRESS_THREADS=1`, from `experiment/env.sh`), because the diff adds no mutable variable, field, atomic block or library write. The built class carries the edit: `javap -c` of `ProjectFortress/build/.../BigNum.class` shows the `bitLength` call ahead of `shiftLeft`. The worker's `ant compileAll` had emptied the bytecode cache. I rebuilt it in library order (all five exit 0) before the compiled runs. The compiled path is the base tree's, because rung B is in another worktree. I did not edit the worker's files.
+
+## 0. The provenance block (`REPORT.md:3-7`)
+
+It has five lines, and I opened every citation with `sed -n`. All of them hold.
+- **problem:** `IntSemProbe-before.txt:8` and `run-enders-before.txt:1-3` hold. So do `probes/skeptic/SkBigLcm.walk.txt:1` (`ZZ 1 LCM -5 = -5`) and `probes/skeptic/test-default-heap.txt:1-2` (the `OutOfMemoryError`).
+- **spec:** `basic-integers.tex:518-529`, which I read from `:505` to `:535`, says what the line says:
+  - `:518-519` are the commented source declarations returning `NN`;
+  - `:520-521` are the rendered `ZZ` ones;
+  - "always nonnegative" is at `:524` and `:528`;
+  - "equals the other argument" is at `:524-525` and `:528-529`;
+  - `0` for a zero argument is at `:529`.
+
+  `CLIMB-BATCH-3.5.md:17` and `:19` are now the decisions, the off-by-one repaired. `opr-overview.tex:154-155` and `basic-integers.tex:695-702` hold, as does the declarations passage I checked in the first judgement. No citation is to `Specification/library/apis/`.
+- **precedent:** `Evaluator.java:224-226`, `StringPrim.java:130-133`, `CompilerBuiltin.fss:616-619`, `simpleArbitraryPrecisionArith.java:117-119`, `UnsignedLong.java:240-243`, `probes/skeptic/fix-trial-patch.txt:2`, `Fortress.Number.fsi:162` and `FortressLibrary.fss:881-884` all hold.
+- **deviation:** `PLAN.md:52`, `FortressLibrary.fss:885-886`, `WellKnownNames.java:86`, `RangePrototype.fss:66`/`:171`, `Int.java:134-148` and `BigNum.java:184-190` (the swap, now on magnitudes) all hold.
+- **historical:** it names all twelve 2012-tree files that `git diff --name-only abdfbb2db...HEAD` lists, apart from the rung's own new test. `CLIMB-BATCH-3.5.md:71` is the provenance rule. Commit `1401fd1a2`, which carries the `BigNum.java` edit, has its `historical:` body line.
+
+## 1. The recorded failure
+
+Both reds of this round predate the edit. They are in commit `c54346915`; `BigNum.java` is first touched in `1401fd1a2`.
+- `test-before-biglcm.txt:1`: `FAIL: a BigNum: -5 =/= a Int: 5; row 334: ZZ 1 LCM -5`, located at `IntSemanticsRungI.fss:146` (`:7` of the capture).
+- `probes/test-default-heap-before.txt:16-19`: `OutOfMemoryError: Java heap space` at `BigNum.shiftLeft(BigNum.java:245)` of that tree. This reproduces my first judgement's red.
+
+The earlier rounds' reds stand as I found them in the first judgement.
+
+## 2. The diff
+
+The source diff has four lines, and the three assertions follow in section 4.
+
+**`BigNum$Lcm`** (`BigNum.java:176-192`). `:178` returns zero for a zero argument, and `:179-180` take both magnitudes. After them come the unchanged `gcd`, the smaller-first swap (`:184-189`, now comparing magnitudes) and `u.divide(g).multiply(v)`. This is the compiled body's shape (`CompilerBuiltin.fss:616-619`). The one deviation is the swap, which only reorders two positive factors. No comment was added.
+
+**`BigNum.shiftLeft`** (`:240-254`). The precheck is at `:247`:
+- It sits after the count bound at `:246`, so `bitLength + v` cannot overflow the `long`. It sits before the `try`, and the `catch` is kept at `:248-253`.
+- `RShift` maps `Long.MIN_VALUE` to `Long.MAX_VALUE` (`:236`), and `:246` refuses that for a nonzero receiver.
+- The check is exact on both sides at the Fortress level:
+  - three results of exactly 2^31-1 bits are admitted at 4 GB (`SkR2BigEdge.walk.txt:2-4`: `1 LSHIFT 2147483646`, `-3 LSHIFT 2147483645`, `-4 LSHIFT 2147483644`);
+  - six results one bit longer are refused at 256 MB (`SkR2BigShift.walk.txt:3-8`: `±1 << 2147483647`, `±2 << 2147483646`, `±4 << 2147483645`).
+
+  The worker's Java-level probe agrees (`probes/PrecheckBoundary.txt`, 24 cases, `mismatches 0`).
+
+The edit does what `JUDGE.md`'s second ruling (section 8, steps 1 and 3) says, and only that.
+
+## 3. The precedent search
+
+The worker followed the right precedent, the compiled `LCM` body. Its site count for the sign defect is now right: I grep five signed `LCM` natives (`Int`, `Long`, `BigNum`, dormant `ZZ32.java:128-133`, dormant `IntLiteral.java:155-167`). I checked that `IntLiteral`'s binding is inside the commented-out block `FortressBuiltin.fss:483-525` (`:508`).
+
+The same grep shows two more `LCM` natives, the unsigned ones, which divide by `g` with no zero test:
+- `NN32$Lcm` (`NN32.java:145-150`, `Unsigned.divide(u, g)` at `:148`);
+- `UnsignedLong$Lcm` (`UnsignedLong.java:146-151`, at `:149`).
+
+Both are in files this rung edits. The batch record puts the unsigned pair out of the rung (`CLIMB-BATCH-3.5.md:47`), so not repairing them is right. But the report's claim about the `LCM` route of row 336 is wrong as written (finding R2-1).
+
+## 4. The test
+
+`ProjectFortress/tests/IntSemanticsRungI.fss` has 98 `assert(` lines. `overflows(` occurs 26 times: the helper plus 25 uses. It has one comment line (`:4`), and the three new assertions (`:146-148`) carry their citation in the message.
+- **Default heap:** I ran it under `bin/fortress` with `JAVA_FLAGS` unset and `FORTRESS_CACHES` at an empty directory, which it filled. It printed `PASS`, exit 0 (`probes/skeptic/r2-test-default-heap.txt`).
+- **Harness, 768 MB:** under the harness it is `OK (1 test)` (`probes/skeptic/r2-harness-one.txt`).
+- **Regression subset:** the worker's 36-file subset, re-run by me after the `BigNum.java` edit, is `OK (36 tests)` (`probes/skeptic/r2-harness-regression.txt`). No other file of `ProjectFortress/tests/` names `LCM` or `GCD`.
+
+One limit, stated here because the report implies it but does not say it (finding R2-2). At the harness's 768 MB, `:93` passes with or without the precheck: my first judgement's harness run was on the tree before the precheck and was `OK` (`probes/skeptic/harness-test.txt`). So `ant testSystem` does not guard the precheck; only a run at 256 MB tells the two trees apart. No assertion can do better cheaply, because the largest allocation a refused shift can make, about 268 MB, always fits in 768 MB. I do not require a change.
+
+## 5. Competing declarations
+
+This round adds no name:
+- `bitLength` occurs in `src/com/sun/fortress/interpreter/` only at `Int.java:268` and `BigNum.java:247`.
+- The top-level `shift` is still declared only at `FortressLibrary.fsi:544`/`.fss:885`, beside the array-origin dotted ones.
+- `IntSemanticsRungI` occurs only in its own file, across `ProjectFortress/tests`, every `ProjectFortress/*_tests`, `test_library`, `Library` and `src/com/sun/fortress/`.
+
+## 6. `record.md`
+
+**FACTS.** The FACTS lines are true as written and sourced:
+- line 1: the 25 `overflows(...)` assertions;
+- line 2: the precheck at `BigNum.java:247`, `BigNum$Lcm` at `:176-192` and row 379's values, which match `probes/skeptic/SkWalkOnly.walk.txt:2-6` and `:9`;
+- line 5: the three heaps.
+
+**Ledger notes.**
+- The notes on rows 334, 335, 346 and 347 cite existing rows (`explorations/fortress-gap-ledger.md:345-358`) and renumber nothing. Their line citations hold (`BigNum.java:178`, `:228-254`, `:247`, `:248-253`).
+- I checked the five new rows against their captures:
+  - 379: `SkWalkOnly.walk.txt:2-6`, `:9`, and `sk-base-cases.txt`;
+  - 380: `SkCountType.walk.txt:1` and `.compiled.txt:2`;
+  - 381: `SkMulMin.walk.txt:1-6` against `.compiled.txt:2-7`, six operations and six walk values;
+  - 382: `SkShiftCall.compiled.txt:1-4` and `SkShiftLocal.compiled.txt:1-3`;
+  - 383: `BigShiftHeapEq-jstack.txt:4-8`. For 383 I also read the code it cites (`EvaluatorBase.java:75-78`, `ProgramError.java:44`, `:48-54`, `FBigNum.java:40-42`, `OverloadedFunction.java:821-827`), and it says what the row says.
+
+  They are verifiable six months from now.
+- **One note is wrong in scope.** The row 336 note (`record.md:37`) reads "Rung I closed the `LCM` route only: `0 LCM 0` … is `0` on `ZZ32`, `ZZ64` and `ZZ`", and `REPORT.md:148` says "Row 336's shape is gone from `LCM`". Both would reach the ledger as a closed route while two routes stay open (finding R2-1).
+
+## 7. The three homes
+
+| defect | home | where it is now | checked |
+|---|---|---|---|
+| Finding 1: `ZZ` shift out of memory at 256 MB | 1 | `IntSemanticsRungI.fss:93` passes under `bin/fortress` at 256 MB; red `probes/test-default-heap-before.txt` | I ran it: `r2-test-default-heap.txt` |
+| Finding 2: `BigNum$Lcm` signed, `0 LCM 0` divides by zero | 1 | `:146-148` pass; red `test-before-biglcm.txt` | I ran it: `r2-test-default-heap.txt`, `r2-harness-one.txt` |
+| Finding 3: `ZZ32` receiver, count not a `ZZ64` | 3 (specification silent) | row 379; captures committed; `REPORT.md` section 6.1 states the value and why it is not repaired | `grep -rn "LSHIFT\|RSHIFT\|narrow" Specification/basic Specification/basic-lib` matches nothing, as the `spec:` line says |
+| Finding 6: mixed-width count, two methods | 3 (specification silent) | row 380 | captures committed |
+| Finding 7: compiled `longOverflowingMul` at `Long.MIN_VALUE` | fourth case | row 381, rung B's file | captures committed |
+| Finding 8: `shift` only under `walk` | fourth case | row 382 | captures committed |
+| Round 2's own: overload resolution stringifies a large `ZZ` | 3 | row 383 | code read, captures committed |
+| R2-1 (mine): `NN32`/`NN64` `0 LCM 0` raw `ArithmeticException` | the specification settles it (`basic-integers.tex:529` with `:65`, ℕ being ℤ≥); outside the rung by `CLIMB-BATCH-3.5.md:47` | recommended row; the record's scope corrected (required) | `SkR2NN32Lcm0.walk.txt:4`, `:19-21`; `SkR2NN64Lcm0.walk.txt:4`, `:19-21` |
+| R2-3 (mine): compiled `ZZ` `<<<` raw `ArithmeticException` on an unrepresentable result | the specification settles it (`opr-overview.tex:154-155`); outside the rung (compiled path) | recommended row, or an addition to row 382 | `SkR2ShiftC.compiled.txt:2-4`, `:17`, `:36` |
+
+## 8. The count table
+
+The table is `probes/checker-count-after-shift.txt`, `#total 103`, byte-identical to `probes/checker-count-before.txt`. The report declares 103 (`REPORT.md:133`, `:171`), `record.md:51` says "stays 103", and the manifest's `expectedCheckerCount` is 103, a prediction. Table 103, report 103, prediction 103: no mismatch. This round edits no file under `Library/` or `ProjectFortress/LibraryBuiltin/`, so the stage's input is unchanged.
+
+## 9. The differentials I ran
+
+These are my own programs, none of them the rung's test. They are in `probes/skeptic/`, and each capture sits beside its program. Walk runs used the shell's 4 GB `JAVA_FLAGS` unless a capture's first line says otherwise. The compiled runs used the base tree's compiled path, which this rung does not touch.
+
+| program | walk (landed) | compiled (base) | outcome under rule 4 |
+|---|---|---|---|
+| `SkR2LcmBig.fss`: 18 pairs through `big`, `GCD` and `LCM` (zero first and second, `±1`, `-6 LCM -4`, `10 LCM -4` and `-10 LCM 4` to drive the swap on magnitudes, `12 LCM -18`, `2^40` against `-3·2^39`, `ZZ64 MIN` against 0, 1 and itself) | every answer nonnegative; `0 LCM 0 = 0`; `MIN64 LCM 1`, `MIN64 GCD 0` and `MIN64 LCM MIN64` are `2^63` (`SkR2LcmBig.walk.txt:31-36`) | `Variable big is not defined.` (the compiled `ZZ` has no `big`, `GCD` or `LCM`) | walk only; the specification's answers throughout |
+| `SkR2Lcm64.fss`: the same 18 pairs on `ZZ64` | identical to `SkR2LcmBig.walk.txt` on every in-range pair; `IntegerOverflow` where the answer is `2^63` (`SkR2Lcm64.walk.txt:32-36`) | differs on `0 GCD -5`, `12 LCM -18`, `12 GCD -18`, and `LCM`/`GCD` of `2^40` and `-3·2^39`: `IntegerOverflow` (`SkR2Lcm64.compiled.txt:5`, `:20-21`, `:26-27`); the reversed pairs are right | The specification settles it against the compiled run (`basic-integers.tex:523-529`). This is the zero quotient inside the compiled `REM` that `GCD` loops on (`CompilerBuiltin.fss:597`, `:605-615`), which is rung B's siblings row (`CLIMB-BATCH-3.5.md:35`). No new row. |
+| `SkR2BigShift.fss` at 256 MB: 14 refused shifts (`±1`, `±2`, `±4` at the bit boundary; `RSHIFT` by `-2147483646` and by `ZZ64 MIN`; counts `ZZ 2^127` and `ZZ64 MAX`; `shift` on a `ZZ` and on a `ZZ32` receiver; the shift inside a sum; a `catch e Exception`), 8 zero and saturating cases, and 5 representable round trips | 27 of 27 at the wanted answer, exit 0 (`SkR2BigShift.walk.txt:3-31`) | `Variable big is not defined.`, `Variable shift is not defined.` | walk only |
+| `SkR2BigEdge.fss` at 4 GB: three results of exactly 2^31-1 bits | all three return (`SkR2BigEdge.walk.txt:2-4`) | — | the precheck admits the representable edge |
+| `SkR2ShiftC.fss`: the compiled `ZZ`'s own shift, `<<<` | `asZZ` undefined under `walk`; the walk counterpart is `shift(ZZ 1, 2147483647)` = `IntegerOverflow` (`SkR2BigShift.walk.txt:13`) | `3 <<< -5 = 0`, `-3 <<< -5 = -1`, `3 <<< 33 = 25769803776` (`:2-4`); `3 <<< 2147483647` ends the run with `java.lang.ArithmeticException: BigInteger would overflow supported range` that `catch e IntegerOverflow` does not see (`:17`, exit 1 `:36`) | The specification settles it against the compiled run (`opr-overview.tex:154-155`). Outside the rung. Finding R2-3. |
+| `SkR2Fixed.fss`: 14 fixed-width shifts outside the rung's table (`ZZ32 MIN LSHIFT -32`, `MAX RSHIFT -1`, `ZZ64 MIN LSHIFT -63`, `1 LSHIFT 63`, `-1 LSHIFT -64`, and others), 5 `GCD`/`LCM` cases (`-46340 LCM 46341`, `-65536 LCM 32768`, `MIN GCD -2`, `MIN LCM MIN`, `MIN LCM 0`), 3 `narrow`s | every answer at Pavol's rule | differs on the four negative counts (`SkR2Fixed.compiled.txt:3`, `:7`, `:11`, `:14`) and on `narrow(-2^31 - 1)` (`:21`); the rest agree | Specification silent. Pavol's rule decides for `walk`. Rows 335 and 346, compiled half, rung B's. |
+| `SkR2NN32Lcm0.fss`, `SkR2NN64Lcm0.fss` | `4 LCM 6 = 12`, `0 GCD 0 = 0`, `4 LCM 0 = 0`; `0 LCM 0` ends the run with `ArithmeticException: / by zero` from `Unsigned.divide`, called at `NN32.java:148` and `UnsignedLong.java:149` (`:4`, `:19-21` of each) | not defined: the compiled `NN32`/`NN64` have no `GCD`/`LCM` | The specification settles it against `walk` (`basic-integers.tex:529`, with ℕ = ℤ≥ at `:65`). Outside the rung (`CLIMB-BATCH-3.5.md:47`). Finding R2-1. |
+| Regression: the worker's 36 files, after the `BigNum.java` edit | `OK (36 tests)` (`r2-harness-regression.txt`) | — | — |
+
+## 10. The failure-mode question
+
+This round turns two loud failures into other outcomes:
+- **`ZZ` `0 LCM 0`:** a raw `ArithmeticException: BigInteger divide by zero` becomes `0`, the specification's answer (`basic-integers.tex:529`). A signed `LCM` becomes its magnitude (`:528`, with the `NN` return type at `:519`).
+- **An unrepresentable `ZZ` left shift at 256 MB:** an uncatchable `OutOfMemoryError` becomes a catchable `IntegerOverflow` (`opr-overview.tex:154-155`). A loud failure becomes a louder, catchable one, and no quiet value is produced.
+
+A representable shift larger than the heap still runs out of memory, which is the JVM's limit and is recorded (`REPORT.md:82`). The one quiet value the rung produces overall, a `ZZ32` receiver's 64-bit answer for a `ZZ`, `NN32` or `NN64` count, is now stated in `REPORT.md` section 6.1 and carried by row 379.
+
+## 11. Findings
+
+- **R2-1 (the required correction).** `REPORT.md:148` says "Row 336's shape is gone from `LCM`", and the row 336 note (`record.md:37`) is headed "closed the `LCM` route only". Two `LCM` routes still end a `walk` run with row 336's raw exception: `NN32` and `NN64` `0 LCM 0` raise `ArithmeticException: / by zero` from `Unsigned.divide(u, g)` with `g = 0`, at `NN32.java:148` and `UnsignedLong.java:149` (`probes/skeptic/SkR2NN32Lcm0.walk.txt:4`, `:19-21`; `probes/skeptic/SkR2NN64Lcm0.walk.txt:4`, `:19-21`). Not repairing them is right, because the batch record puts the unsigned pair out (`CLIMB-BATCH-3.5.md:47`). But the two sentences are false as written, and the rule-2 count in `REPORT.md` section 8 does not name these two sites, although they are in files the rung edits.
+- **R2-2 (no change required).** The gate at 768 MB cannot see the precheck (section 4). The record's FACTS line 5 carries the general lesson; this is its instance.
+- **R2-3 (outside the rung).** The compiled `ZZ` `<<<` (`CompilerBuiltin.fss:547`, `simpleArbitraryPrecisionArith.java:93-95`, a bare `a.shiftLeft(k)`) raises a raw `ArithmeticException` on an unrepresentable result, which a Fortress `catch` does not see. Row 382's text names `<<<` as the body that "already computes" the specification's `shift` on the compiled path. A repair taking that route would inherit this failure, so it needs `walk`'s precheck.
+- **Checked and right.** The four source lines, the three assertions, both reds before the edit, the pass at 256 MB and under the harness, the regression subset, the provenance block, the corrected citations (`:17`, `:35`, `:45`, `:57`, "39-57"), the passage reconciliation, the five new rows against their captures, and the count table.
+
+## Required correction
+
+1. **`REPORT.md:148` and `record.md:37`.**
+   - Say that the `LCM` route of row 336 is closed on the signed types only: `ZZ32`, `ZZ64` and `ZZ`.
+   - Say that `NN32` and `NN64` `0 LCM 0` still end a `walk` run with the raw `ArithmeticException: / by zero`, from `Unsigned.divide(u, g)` at `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java:148` and `UnsignedLong.java:149`, citing `probes/skeptic/SkR2NN32Lcm0.walk.txt` and `probes/skeptic/SkR2NN64Lcm0.walk.txt`.
+   - Say that the batch record left the unsigned pair out (`explorations/coordinator/CLIMB-BATCH-3.5.md:47`).
+
+   In `REPORT.md` section 8's rule-2 paragraph, add the two unsigned `LCM` natives as sites of the zero-divisor shape that the rung does not repair.
+
+## Recommended rows (for the gather to open or refuse)
+
+These are in the structured report's `recommendedRows`: R2-1's unsigned `0 LCM 0` and R2-3's compiled `<<<`.

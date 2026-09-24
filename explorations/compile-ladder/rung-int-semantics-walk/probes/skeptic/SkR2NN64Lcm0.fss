@@ -1,0 +1,18 @@
+component SkR2NN64Lcm0
+export Executable
+
+run(): () = do
+    z: ZZ32 = 0
+    p4: ZZ32 = 4
+    p6: ZZ32 = 6
+    a: NN64 = unsigned(widen(p4))
+    b: NN64 = unsigned(widen(p6))
+    zero: NN64 = unsigned(widen(z))
+    println("NN64 4 LCM 6 = " || (a LCM b).asString)
+    println("NN64 0 GCD 0 = " || (zero GCD zero).asString)
+    println("NN64 4 LCM 0 = " || (a LCM zero).asString)
+    println("NN64 0 LCM 0 = " || (zero LCM zero).asString)
+    println("END")
+end
+
+end

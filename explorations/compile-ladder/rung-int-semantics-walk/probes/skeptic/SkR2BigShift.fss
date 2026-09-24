@@ -1,0 +1,85 @@
+component SkR2BigShift
+export Executable
+
+sz(f: () -> ZZ): String =
+  try
+    f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+anyExc(f: () -> ZZ): String =
+  try
+    f().asString
+  catch e
+    Exception => "caught as Exception"
+  end
+
+show(what: String, got: String, want: String): () =
+  println(what || " = " || got || "   (want " || want || ")" || (if got = want then "" else "   DIFF" end))
+
+run(): () = do
+    p1: ZZ32 = 1
+    m1: ZZ32 = -1
+    p2: ZZ32 = 2
+    m2: ZZ32 = -2
+    p3: ZZ32 = 3
+    p4: ZZ32 = 4
+    m4: ZZ32 = -4
+    p5: ZZ32 = 5
+    m5: ZZ32 = -5
+    z: ZZ32 = 0
+    maxI: ZZ32 = 2147483647
+    minI: ZZ32 = -maxI - 1
+    maxL: ZZ64 = 7FFFFFFFFFFFFFFF_16
+    minL: ZZ64 = -maxL - 1
+    b1: ZZ = big(widen(p1))
+    bm1: ZZ = big(widen(m1))
+    b2: ZZ = big(widen(p2))
+    bm2: ZZ = big(widen(m2))
+    b3: ZZ = big(widen(p3))
+    b4: ZZ = big(widen(p4))
+    bm4: ZZ = big(widen(m4))
+    b5: ZZ = big(widen(p5))
+    bm5: ZZ = big(widen(m5))
+    b0: ZZ = big(widen(z))
+    bMaxL: ZZ = big(maxL)
+    bMinL: ZZ = big(minL)
+    b2to127: ZZ = (bMaxL + b1) DOT (bMaxL + b1) DOT big(widen(p2))
+    n2146: ZZ32 = 2147483646
+    n2145: ZZ32 = 2147483645
+    println("-- refused before allocation, at the launcher's heap")
+    show("ZZ 1 LSHIFT 2147483647", sz(fn () => b1 LSHIFT maxI), "IntegerOverflow")
+    show("ZZ -1 LSHIFT 2147483647", sz(fn () => bm1 LSHIFT maxI), "IntegerOverflow")
+    show("ZZ 2 LSHIFT 2147483646", sz(fn () => b2 LSHIFT n2146), "IntegerOverflow")
+    show("ZZ -2 LSHIFT 2147483646", sz(fn () => bm2 LSHIFT n2146), "IntegerOverflow")
+    show("ZZ 4 LSHIFT 2147483645", sz(fn () => b4 LSHIFT n2145), "IntegerOverflow")
+    show("ZZ -4 LSHIFT 2147483645", sz(fn () => bm4 LSHIFT n2145), "IntegerOverflow")
+    show("ZZ 3 RSHIFT -2147483646", sz(fn () => b3 RSHIFT (-n2146)), "IntegerOverflow")
+    show("ZZ 3 RSHIFT ZZ64 MIN", sz(fn () => b3 RSHIFT minL), "IntegerOverflow")
+    show("ZZ 3 LSHIFT ZZ 2^127", sz(fn () => b3 LSHIFT b2to127), "IntegerOverflow")
+    show("ZZ 3 LSHIFT ZZ64 MAX", sz(fn () => b3 LSHIFT maxL), "IntegerOverflow")
+    show("shift(ZZ 1, 2147483647)", sz(fn () => shift(b1, maxI)), "IntegerOverflow")
+    show("shift(ZZ32 1, 2147483647)", sz(fn () => shift(p1, maxI)), "IntegerOverflow")
+    show("(ZZ 1 LSHIFT 2147483647) + 1", sz(fn () => (b1 LSHIFT maxI) + b1), "IntegerOverflow")
+    show("catch Exception: ZZ 5 LSHIFT 2147483647", anyExc(fn () => b5 LSHIFT maxI), "caught as Exception")
+    println("-- zero and saturating right shifts")
+    show("ZZ 0 LSHIFT 2147483647", sz(fn () => b0 LSHIFT maxI), "0")
+    show("ZZ 0 RSHIFT -2147483647", sz(fn () => b0 RSHIFT (-maxI)), "0")
+    show("ZZ 0 LSHIFT ZZ 2^127", sz(fn () => b0 LSHIFT b2to127), "0")
+    show("ZZ -1 RSHIFT 2147483647", sz(fn () => bm1 RSHIFT maxI), "-1")
+    show("ZZ -1 LSHIFT ZZ32 MIN", sz(fn () => bm1 LSHIFT minI), "-1")
+    show("ZZ 5 LSHIFT ZZ32 MIN", sz(fn () => b5 LSHIFT minI), "0")
+    show("ZZ -5 RSHIFT ZZ 2^127", sz(fn () => bm5 RSHIFT b2to127), "-1")
+    show("ZZ 5 RSHIFT ZZ 2^127", sz(fn () => b5 RSHIFT b2to127), "0")
+    println("-- representable shifts are not refused")
+    k: ZZ32 = 100000
+    show("(ZZ -5 LSHIFT 100000) RSHIFT 100000", sz(fn () => (bm5 LSHIFT k) RSHIFT k), "-5")
+    show("(ZZ -5 LSHIFT 100000) RSHIFT 100001", sz(fn () => (bm5 LSHIFT k) RSHIFT (k + 1)), "-3")
+    show("(ZZ MIN64 LSHIFT 1) RSHIFT 64", sz(fn () => (bMinL LSHIFT p1) RSHIFT (64)), "-1")
+    show("ZZ 2^127 RSHIFT 79", sz(fn () => b2to127 RSHIFT (79)), "281474976710656")
+    show("shift(ZZ -5, -1)", sz(fn () => shift(bm5, m1)), "-3")
+    println("END")
+end
+
+end
