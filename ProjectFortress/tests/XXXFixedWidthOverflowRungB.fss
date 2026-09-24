@@ -1,0 +1,41 @@
+(*) explorations/compile-ladder/rung-int-semantics-compiled/REPORT.md
+
+component XXXFixedWidthOverflowRungB
+export Executable
+
+overflows(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+run(): () = do
+    println("REACHED")
+    one: ZZ32 = 1
+    mOne: ZZ32 = -1
+    k46341: ZZ32 = 46341
+    zMax: ZZ32 = 7FFFFFFF_16
+    zMin: ZZ32 = -zMax - 1
+    lOne: ZZ64 = widen(one)
+    lMOne: ZZ64 = widen(mOne)
+    s00: ZZ64 = 3037000500
+    lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+    lMin: ZZ64 = -lMax - 1
+    assert(overflows(fn () => zMax + one), "row 379: ZZ32 MAX + 1 throws IntegerOverflow; Specification/basic/operators/opr-overview.tex:195-196")
+    assert(overflows(fn () => zMin - one), "row 379: ZZ32 MIN - 1; opr-overview.tex:195-196")
+    assert(overflows(fn () => -zMin), "row 379: ZZ32 -MIN; opr-overview.tex:154-155 with basic-integers.tex:384")
+    assert(overflows(fn () => |zMin|), "row 379: ZZ32 |MIN|; opr-overview.tex:154-155 with basic-integers.tex:624-625")
+    assert(overflows(fn () => zMin DIV mOne), "row 379: ZZ32 MIN DIV -1; opr-overview.tex:154-155")
+    assert(overflows(fn () => k46341 DOT k46341), "row 379: ZZ32 46341 DOT 46341; opr-overview.tex:154-155")
+    assert(overflows(fn () => lMax + lOne), "row 379: ZZ64 MAX + 1; opr-overview.tex:195-196")
+    assert(overflows(fn () => lMin - lOne), "row 379: ZZ64 MIN - 1; opr-overview.tex:195-196")
+    assert(overflows(fn () => -lMin), "row 379: ZZ64 -MIN; opr-overview.tex:154-155 with basic-integers.tex:384")
+    assert(overflows(fn () => |lMin|), "row 379: ZZ64 |MIN|; opr-overview.tex:154-155 with basic-integers.tex:624-625")
+    assert(overflows(fn () => lMin DIV lMOne), "row 379: ZZ64 MIN DIV -1; opr-overview.tex:154-155")
+    assert(overflows(fn () => s00 DOT s00), "row 379: ZZ64 3037000500 DOT 3037000500; opr-overview.tex:154-155")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,168 @@
+=== $ bin/fortress ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss   (row 379's expected-failure test walked on the stock tree at decc970df: REACHED, then the first assertion fails because ZZ32 MAX + 1 wraps) 2026-09-24T03:50:40Z ===
+REACHED
+FAIL: row 379: ZZ32 MAX + 1 throws IntegerOverflow; Specification/basic/operators/opr-overview.tex:195-196
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress/Library/FortressLibrary.fss:293:9-294:5:
+/home/user/fortress/ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss:26:5-145:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ explorations/compile-ladder/rung-int-semantics-walk/probes/harness-one.sh /home/user/fortress/tmp/repair-3.5/h379-stock ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss   (the testSystem harness (SystemJUTest, build.xml's systemShard settings) over the one file, fresh caches, stock tree: the expected failure is seen) 2026-09-24T03:51:01Z ===
+/home/user/fortress/tmp/repair-3.5/h379-stock/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d189c2e8_16
+. interpret /home/user/fortress/tmp/repair-3.5/h379-stock/tests/XXXFixedWidthOverflowRungB  OK Saw expected exception
+
+Time: 16.336
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== the deliberate local fix, which is what any repair of row 379 makes of the ten natives in some form: Negate tests MIN, Add/Sub/Mul use Math.addExact/subtractExact/multiplyExact, Div tests MIN DIV -1, each raising the catchable Int.overflow() (in Long.java the class is com.sun.fortress.interpreter.glue.prim.Long, so its MIN is spelled java.lang.Long.MIN_VALUE); it is reverted below ===
+
+=== $ git diff -- ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java   (the deliberate fix of the ten natives, applied in the working tree and not committed) 2026-09-24T03:59:13Z ===
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java
+index 4eb0b1822..5046abdac 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java
+@@ -97,30 +97,32 @@ public class Int extends NativeConstructor {
+ 
+     public static final class Negate extends Z2Z {
+         protected int f(int x) {
++            if (x == Integer.MIN_VALUE) throw overflow();
+             return -x;
+         }
+     }
+ 
+     public static final class Add extends ZZ2Z {
+         protected int f(int x, int y) {
+-            return x + y;
++            try { return Math.addExact(x, y); } catch (ArithmeticException e) { throw overflow(); }
+         }
+     }
+ 
+     public static final class Sub extends ZZ2Z {
+         protected int f(int x, int y) {
+-            return x - y;
++            try { return Math.subtractExact(x, y); } catch (ArithmeticException e) { throw overflow(); }
+         }
+     }
+ 
+     public static final class Mul extends ZZ2Z {
+         protected int f(int x, int y) {
+-            return x * y;
++            try { return Math.multiplyExact(x, y); } catch (ArithmeticException e) { throw overflow(); }
+         }
+     }
+ 
+     public static final class Div extends ZZ2Z {
+         protected int f(int x, int y) {
++            if (x == Integer.MIN_VALUE && y == -1) throw overflow();
+             return x / y;
+         }
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java
+index 3460e1b50..f3d080a37 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java
+@@ -111,30 +111,32 @@ public class Long extends NativeConstructor {
+ 
+     public static final class Negate extends L2L {
+         protected long f(long x) {
++            if (x == java.lang.Long.MIN_VALUE) throw Int.overflow();
+             return -x;
+         }
+     }
+ 
+     public static final class Add extends LL2L {
+         protected long f(long x, long y) {
+-            return x + y;
++            try { return Math.addExact(x, y); } catch (ArithmeticException e) { throw Int.overflow(); }
+         }
+     }
+ 
+     public static final class Sub extends LL2L {
+         protected long f(long x, long y) {
+-            return x - y;
++            try { return Math.subtractExact(x, y); } catch (ArithmeticException e) { throw Int.overflow(); }
+         }
+     }
+ 
+     public static final class Mul extends LL2L {
+         protected long f(long x, long y) {
+-            return x * y;
++            try { return Math.multiplyExact(x, y); } catch (ArithmeticException e) { throw Int.overflow(); }
+         }
+     }
+ 
+     public static final class Div extends LL2L {
+         protected long f(long x, long y) {
++            if (x == java.lang.Long.MIN_VALUE && y == -1) throw Int.overflow();
+             return x / y;
+         }
+     }
+=== exit 0 ===
+
+=== ant compileAll after the deliberate fix (the second build of this repair; log under tmp/, BUILD SUCCESSFUL) ===
+
+=== $ bin/fortress ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss   (row 379's test walked on the deliberate fix: every one of the twelve cases throws the catchable IntegerOverflow, so the file prints PASS) 2026-09-24T03:59:44Z ===
+REACHED
+PASS
+=== exit 0 ===
+
+=== $ explorations/compile-ladder/rung-int-semantics-walk/probes/harness-one.sh /home/user/fortress/tmp/repair-3.5/h379-fix ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss   (the testSystem harness over the one file on the deliberate fix, fresh caches: the file passes, so the XXX test goes red) 2026-09-24T04:00:05Z ===
+/home/user/fortress/tmp/repair-3.5/h379-fix/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d19211c3_16
+. interpret /home/user/fortress/tmp/repair-3.5/h379-fix/tests/XXXFixedWidthOverflowRungB 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 16.106
+There was 1 failure:
+1) /home/user/fortress/tmp/repair-3.5/h379-fix/tests/XXXFixedWidthOverflowRungB(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest /home/user/fortress/tmp/repair-3.5/h379-fix/tests/XXXFixedWidthOverflowRungB
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:402)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+	at com.sun.fortress.tests.unit_tests.SystemJUTest.main(SystemJUTest.java:26)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 0 ===
+
+=== $ git checkout -- ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java && git diff --stat -- ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java   (the deliberate fix reverted; the diff of the two files is empty) 2026-09-24T04:00:29Z ===
+=== exit 0 ===
+
+=== ant compileAll after the revert (the third build of this repair, which puts the stock Int and Long classes back beside the repair's NN32, UnsignedLong and simpleArbitraryPrecisionArith; log under tmp/, BUILD SUCCESSFUL; default_repository/caches/global.map restored with git checkout after it) ===
+
+=== $ explorations/compile-ladder/rung-int-semantics-walk/probes/harness-one.sh /home/user/fortress/tmp/repair-3.5/h379-stock2 ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss   (the testSystem harness over the one file on the stock natives again, fresh caches: the expected failure is seen) 2026-09-24T04:01:02Z ===
+/home/user/fortress/tmp/repair-3.5/h379-stock2/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d192f048_16
+. interpret /home/user/fortress/tmp/repair-3.5/h379-stock2/tests/XXXFixedWidthOverflowRungB  OK Saw expected exception
+
+Time: 16.392
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ for c in 'Int$Add' 'Long$Add' 'Int$Negate' 'Long$Div'; do printf '%s ' "$c"; javap -c -cp ProjectFortress/build "com.sun.fortress.interpreter.glue.prim.$c" | grep -c 'Exact\|overflow' || true; done   (after the third build: the stock natives are back in the build; for each class, the number of disassembled lines naming Exact or overflow (grep -c, so a count of 0 is grep's exit 1, absorbed here)) 2026-09-24T04:10:49Z ===
+Int$Add 0
+Long$Add 0
+Int$Negate 0
+Long$Div 0
+=== exit 0 ===
+

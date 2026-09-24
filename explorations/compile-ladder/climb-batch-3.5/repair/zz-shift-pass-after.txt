@@ -1,0 +1,63 @@
+After the repair of simpleArbitraryPrecisionArith.shiftLeft: ant compileAll, global.map restored, the five libraries rebuilt in order (AnyType, CompilerBuiltin, CompilerLibrary, CompilerAlgebra, CompilerSystem) into the emptied bytecode cache.
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/IntSemanticsRungB.test   (the batch's compiled test with row 386's assertions at :154-156 and the helper at :161-168) 2026-09-24T03:56:14Z ===
+. link compiler_tests/IntSemanticsRungB  OK (time = 8053ms)
+. run compiler_tests/IntSemanticsRungB (463ms) PASS
+Passed
+
+Time: 8.521
+
+OK (2 tests)
+
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit library_tests/IntConversionsRungW.test library_tests/IntegralOpsRungN.test library_tests/Integer.test   (the three compiled integer tests the gather ran (junit-after-correction2.txt): the two rung tests of batch 3 and the library's Integer.test) 2026-09-24T03:56:28Z ===
+. link library_tests/IntConversionsRungW  OK (time = 5181ms)
+. link library_tests/IntegralOpsRungN  OK (time = 5827ms)
+. compile library_tests/Integer1  OK (time = 11846ms)
+. link library_tests/Integer1  OK (time = 788ms)
+. compile library_tests/Integer2  OK (time = 8621ms)
+. link library_tests/Integer2  OK (time = 688ms)
+. compile library_tests/Integer3  OK (time = 9003ms)
+. link library_tests/Integer3  OK (time = 679ms)
+. compile library_tests/Integer4  OK (time = 8320ms)
+. link library_tests/Integer4  OK (time = 737ms)
+. compile library_tests/IntegerChoose1  OK (time = 9249ms)
+. link library_tests/IntegerChoose1  OK (time = 670ms)
+. compile library_tests/IntegerChoose2  OK (time = 9942ms)
+. link library_tests/IntegerChoose2  OK (time = 732ms)
+. compile library_tests/ShiftTest  OK (time = 16522ms)
+. link library_tests/ShiftTest  OK (time = 754ms)
+. compile library_tests/ShiftTest2  OK (time = 13351ms)
+. link library_tests/ShiftTest2  OK (time = 687ms)
+. compile library_tests/AverageTest  OK (time = 7637ms)
+. link library_tests/AverageTest  OK (time = 701ms)
+. run library_tests/IntConversionsRungW (307ms) PASS
+Passed
+. run library_tests/IntegralOpsRungN (444ms) PASS
+Passed
+. run library_tests/Integer1 (446ms) PASS
+Passed
+. run library_tests/Integer2 (444ms) PASS
+Passed
+. run library_tests/Integer3 (433ms) PASS
+Passed
+. run library_tests/Integer4 (450ms) PASS
+Passed
+. run library_tests/IntegerChoose1 (501ms) PASS
+Passed
+. run library_tests/IntegerChoose2 (552ms) PASS
+Passed
+. run library_tests/ShiftTest (468ms) PASS
+Passed
+. run library_tests/ShiftTest2 (629ms) PASS
+Passed
+. run library_tests/AverageTest (565ms) PASS
+Passed
+
+Time: 117.197
+
+OK (31 tests)
+
+=== exit 0 ===
+

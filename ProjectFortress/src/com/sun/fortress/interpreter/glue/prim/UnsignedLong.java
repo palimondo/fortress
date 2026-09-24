@@ -145,6 +145,7 @@ public class UnsignedLong extends NativeConstructor {
 
     public static final class Lcm extends UU2U {
         protected long f(long u, long v) {
+            if (u == 0 || v == 0) return 0;
             long g = gcd(u, v);
             return Unsigned.multiplyToLong(Unsigned.divide(u, g), v);
         }

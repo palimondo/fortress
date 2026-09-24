@@ -146,6 +146,10 @@ run() = do
     assert(big(widen(one)) LCM big(widen(-5)), 5, "row 334: ZZ 1 LCM -5, basic-integers.tex:528")
     assert(big(widen(minusFour)) LCM big(widen(6)), 12, "row 334: ZZ -4 LCM 6, basic-integers.tex:528")
     assert(bigZero LCM bigZero, 0, "row 334: ZZ 0 LCM 0, basic-integers.tex:529")
+    zeroN: NN32 = unsigned(zero)
+    zeroNL: NN64 = unsigned(zeroL)
+    assert(zeroN LCM zeroN, zeroN, "row 385: NN32 0 LCM 0, basic-integers.tex:529")
+    assert(zeroNL LCM zeroNL, zeroNL, "row 385: NN64 0 LCM 0, basic-integers.tex:529")
 
     println "PASS"
 end

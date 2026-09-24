@@ -1,0 +1,3 @@
+tests=XXXShiftDeclRungI
+compile
+compile_err_contains=Variable shift is not defined

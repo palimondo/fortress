@@ -1,0 +1,10 @@
+### ProjectFortress/tests: bin/fortress IntSemanticsRungI.fss with row 385's four lines at :149-152, JAVA_FLAGS unset (bin/fortress:28-29, -Xmx256m), FORTRESS_CACHES at an empty directory; NN32$Lcm and UnsignedLong$Lcm with the zero test (ant compileAll after the edit)
+
+=== $ cd ProjectFortress/tests && env -u JAVA_FLAGS FORTRESS_CACHES=/home/user/fortress/tmp/repair-3.5/caches-385 ../../bin/fortress IntSemanticsRungI.fss   (row 385's assertions after the repair: the whole file passes) 2026-09-24T03:54:21Z ===
+PASS
+=== exit 0 ===
+
+=== $ cd ProjectFortress/tests && env -u JAVA_FLAGS FORTRESS_CACHES=/home/user/fortress/tmp/repair-3.5/caches-385b ../../bin/fortress IntSemanticsRungI.fss   (the same run on the final tree, after the third build (the deliberate fix of row 379 reverted), same conditions with a fresh empty caches directory) 2026-09-24T04:11:19Z ===
+PASS
+=== exit 0 ===
+

@@ -1,0 +1,14 @@
+(*) explorations/compile-ladder/rung-int-semantics-walk/REPORT.md
+
+component XXXShiftDeclRungI
+export Executable
+
+run(): () = do
+    println("REACHED")
+    three: ZZ = (3).asZZ
+    thirtyThree: ZZ32 = 33
+    assert((shift(three, thirtyThree)).asString, "25769803776", "row 383: the specification's shift(self, k) on a ZZ; Specification/basic-lib/basic-integers.tex:695-702")
+    println("PASS")
+  end
+
+end

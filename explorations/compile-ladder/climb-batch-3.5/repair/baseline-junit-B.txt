@@ -1,0 +1,11 @@
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/IntSemanticsRungB.test   (the stock compiled baseline on main at decc970df, before any edit of this repair: the batch's compiled test with the tree's bytecode cache as the gate left it) 2026-09-24T03:50:09Z ===
+. link compiler_tests/IntSemanticsRungB  OK (time = 8018ms)
+. run compiler_tests/IntSemanticsRungB (518ms) PASS
+Passed
+
+Time: 8.542
+
+OK (2 tests)
+
+=== exit 0 ===
+

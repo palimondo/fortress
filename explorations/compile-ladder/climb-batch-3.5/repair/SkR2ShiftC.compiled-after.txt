@@ -1,0 +1,8 @@
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress compile ../explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2ShiftC.fss && FORTRESS_THREADS=1 ../bin/fortress run SkR2ShiftC   (rung I's second skeptic's probe of row 386 compiled and run again after the repair of simpleArbitraryPrecisionArith.shiftLeft: the three representable lines as before, the fourth a caught IntegerOverflow) 2026-09-24T03:58:33Z ===
+ZZ 3 <<< -5 = 0
+ZZ -3 <<< -5 = -1
+ZZ 3 <<< 33 = 25769803776
+ZZ 3 <<< 2147483647 = IntegerOverflow
+END
+=== exit 0 ===
+

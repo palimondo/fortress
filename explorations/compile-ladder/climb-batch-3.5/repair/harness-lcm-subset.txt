@@ -1,0 +1,17 @@
+The corpus files of ProjectFortress/tests that name LCM (grep -l LCM ProjectFortress/tests/*.fss: exactly these five), under the testSystem harness after the repair of NN32$Lcm and UnsignedLong$Lcm.
+
+=== $ explorations/compile-ladder/rung-int-semantics-walk/probes/harness-one.sh /home/user/fortress/tmp/repair-3.5/h385 ProjectFortress/tests/IntSemanticsRungI.fss ProjectFortress/tests/UnsignedTest.fss ProjectFortress/tests/intPrim.fss ProjectFortress/tests/longPrim.fss ProjectFortress/tests/chain0.fss   (the testSystem harness (SystemJUTest, build.xml's systemShard settings) over the five files, fresh caches) 2026-09-24T03:54:49Z ===
+/home/user/fortress/tmp/repair-3.5/h385/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d18d3f04_16
+. interpret /home/user/fortress/tmp/repair-3.5/h385/tests/longPrim  OK (time = 17652ms)
+. interpret /home/user/fortress/tmp/repair-3.5/h385/tests/IntSemanticsRungI  OK (time = 670ms)
+. interpret /home/user/fortress/tmp/repair-3.5/h385/tests/intPrim  OK (time = 273ms)
+. interpret /home/user/fortress/tmp/repair-3.5/h385/tests/chain0  OK (time = 226ms)
+. interpret /home/user/fortress/tmp/repair-3.5/h385/tests/UnsignedTest  OK (time = 938ms)
+
+Time: 19.768
+
+OK (5 tests)
+
+=== exit 0 ===
+

@@ -151,8 +151,20 @@ run(): () = do
   assert(narrow(mAll64).asZZ.asString, "4294967295", "row 346: NN64 narrow 2^64-1 keeps the low 32 bits, UnsignedTest.fss:210")
   assert(narrow(mHalf64).asZZ.asString, "0", "row 346: NN64 narrow 2^63 keeps the low 32 bits, UnsignedTest.fss:211")
   assert(narrow(mAll64).asZZ.asString, nAll.asZZ.asString, "row 346: NN64 narrow 2^64-1 is NN32 2^32-1")
+  bigThree: ZZ = three.asZZ
+  assert((bigThree <<< thirtyThree).asString, "25769803776", "ZZ 3 <<< 33, basic-integers.tex:698-702")
+  assert(shouldOverflowZZ(fn () => bigThree <<< zMax), "row 386: ZZ 3 <<< 2147483647 overflows, opr-overview.tex:155")
 
   println("PASS")
 end
+
+shouldOverflowZZ(f: () -> ZZ): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
 
 end

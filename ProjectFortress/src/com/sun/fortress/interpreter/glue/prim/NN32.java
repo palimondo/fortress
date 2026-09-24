@@ -144,6 +144,7 @@ public class NN32 extends NativeConstructor {
 
     public static final class Lcm extends NN2N {
         protected int f(int u, int v) {
+            if (u == 0 || v == 0) return 0;
             int g = (int) UnsignedLong.gcd(u, v);
             return Unsigned.multiplyToInt(Unsigned.divide(u, g), v);
         }

@@ -1,0 +1,67 @@
+Row 383's expected-failure test and its control, run before this repair's ant compileAll: the control's direct compile writes XXXShiftDeclRungI into the tree's bytecode cache, and that build's cleanCache removes it.
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXShiftDeclRungI.test   (the XXX compile test on the stock tree at decc970df: expected failure, the compiler prelude has no shift) 2026-09-24T03:51:40Z ===
+. compile compiler_tests/XXXShiftDeclRungI /home/user/fortress/ProjectFortress/compiler_tests/XXXShiftDeclRungI.fss:10:13-16:
+    Variable shift is not defined.
+File XXXShiftDeclRungI.fss has 1 error.
+ Saw expected failure
+
+Time: 0.844
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress compile compiler_tests/XXXShiftDeclRungI.fss   (the same program compiled directly, for the message the check line matches) 2026-09-24T03:51:41Z ===
+/home/user/fortress/ProjectFortress/compiler_tests/XXXShiftDeclRungI.fss:10:13-16:
+    Variable shift is not defined.
+File XXXShiftDeclRungI.fss has 1 error.
+=== exit 255 ===
+
+=== the control, which is what a repair of row 383 makes of the test: tmp/repair-3.5/shift-ctl/XXXShiftDeclRungI.fss is the gated file with the call shift(three, thirtyThree) replaced by the operator the prelude has, three <<< thirtyThree (the diff follows), run under the same XXX name and .test file ===
+
+=== $ diff ProjectFortress/compiler_tests/XXXShiftDeclRungI.fss tmp/repair-3.5/shift-ctl/XXXShiftDeclRungI.fss   (diff of the control against the gated file) 2026-09-24T03:51:50Z ===
+10c10
+<     assert((shift(three, thirtyThree)).asString, "25769803776", "row 383: the specification's shift(self, k) on a ZZ; Specification/basic-lib/basic-integers.tex:695-702")
+---
+>     assert((three <<< thirtyThree).asString, "25769803776", "row 383: the specification's shift(self, k) on a ZZ; Specification/basic-lib/basic-integers.tex:695-702")
+=== exit 1 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit ../tmp/repair-3.5/shift-ctl/XXXShiftDeclRungI.test   (the control under the harness: the program compiles, so the XXX test must go red) 2026-09-24T03:51:50Z ===
+. compile ../tmp/repair-3.5/shift-ctl/XXXShiftDeclRungI 
+ Saw failure, but did not satisfy compile_err_contains; expected
+Variable shift is not defined
+F
+Time: 1.217
+There was 1 failure:
+1) ../tmp/repair-3.5/shift-ctl/XXXShiftDeclRungI(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:398)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 0 ===
+
+=== $ cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress compile ../tmp/repair-3.5/shift-ctl/XXXShiftDeclRungI.fss && FORTRESS_THREADS=1 ../bin/fortress run XXXShiftDeclRungI   (the control compiled and run directly: it prints PASS, so the assertion's value holds and the rest of the file compiles) 2026-09-24T03:51:51Z ===
+REACHED
+PASS
+=== exit 0 ===
+
+=== $ rm -f default_repository/caches/bytecode_cache/XXXShiftDeclRungI.jar default_repository/caches/analyzed_cache/XXXShiftDeclRungI-* && cd ProjectFortress && FORTRESS_THREADS=1 ../bin/fortress junit compiler_tests/XXXShiftDeclRungI.test   (the control's cache entries removed (the stale-cache trap of row 354's note), then the gated test again on the stock tree: expected failure) 2026-09-24T03:52:04Z ===
+. compile compiler_tests/XXXShiftDeclRungI /home/user/fortress/ProjectFortress/compiler_tests/XXXShiftDeclRungI.fss:10:13-16:
+    Variable shift is not defined.
+File XXXShiftDeclRungI.fss has 1 error.
+ Saw expected failure
+
+Time: 0.834
+
+OK (1 test)
+
+=== exit 0 ===
+

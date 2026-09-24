@@ -91,7 +91,14 @@ public class simpleArbitraryPrecisionArith {
     }
 
     public static BigInteger shiftLeft(BigInteger a, int k) {
-    	return a.shiftLeft(k);
+        if (k > 0 && a.signum() != 0 && (long) a.abs().bitLength() + k > Integer.MAX_VALUE)
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        try {
+            return a.shiftLeft(k);
+        }
+        catch (ArithmeticException e) {
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        }
     }
 	
     public static BigInteger ZZtoBI(BigInteger i) {
