@@ -1,0 +1,48 @@
+==================== design A
+########## fortress compile explorations/perf-probes/nat/size-probes/pTypeCase2.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false)   [cA]
+exit=0
+---------- fortress run pTypeCase2
+three
+four
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatCase2.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false)   [cA]
+exit=0
+---------- fortress run pNatCase2
+three
+four
+other
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatCaseGen.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false)   [cA]
+exit=0
+---------- fortress run pNatCaseGen
+yes
+no
+no
+yes
+
+==================== design B
+########## fortress compile explorations/perf-probes/nat/size-probes/pTypeCase2.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false)   [cB]
+exit=0
+---------- fortress run pTypeCase2
+three
+four
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatCase2.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false)   [cB]
+exit=0
+---------- fortress run pNatCase2
+three
+four
+other
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatCaseGen.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false)   [cB]
+exit=0
+---------- fortress run pNatCaseGen
+yes
+no
+no
+yes
+

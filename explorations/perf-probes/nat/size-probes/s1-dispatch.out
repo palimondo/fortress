@@ -1,0 +1,264 @@
+==================== the checker, as the stack has it and with keep-size-params.patch
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDisp.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false)   [cA]
+/home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDisp.fss:14:1-47:
+/home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDisp.fss:16:1-27:
+    For f,
+the return type of [\nat s\]Vec[\RR64,s\]->String @ /home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDisp.fss:14:1-47 should be a subtype of the
+    return type of Any->String @ /home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDisp.fss:16:1-27
+/home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDisp.fss:15:1-56:
+/home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDisp.fss:16:1-27:
+    For f,
+exit=255
+---------- fortress run pNatDisp
+Could not load pNatDisp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatDisp.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDisp.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false -Dprobe.nat.argsAlwaysEqual=true)   [cA]
+exit=0
+---------- fortress run pNatDisp
+scalar
+other
+other
+scalar
+other
+other
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pTypeDisp.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false)   [cA]
+exit=0
+---------- fortress run pTypeDisp
+scalar
+vector
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispRTR.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true)   [cA]
+/home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDispRTR.fss:7:1-38:
+/home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDispRTR.fss:8:1-27:
+    For f,
+the return type of [\nat s\]Vec[\RR64,s\]->ZZ32 @ /home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDispRTR.fss:7:1-38 should be a subtype of the
+    return type of Any->String @ /home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDispRTR.fss:8:1-27
+File pNatDispRTR.fss has 1 error.
+exit=255
+---------- fortress run pNatDispRTR
+Could not load pNatDispRTR
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatDispRTR.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+
+==================== design A
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDisp.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true)   [cA]
+exit=0
+---------- fortress run pNatDisp
+scalar
+vector
+matrix
+scalar
+other
+other
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispTrait.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true)   [cA]
+exit=0
+---------- fortress run pNatDispTrait
+scalar
+vector
+matrix
+scalar
+other
+other
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispLit.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true)   [cA]
+exit=0
+---------- fortress run pNatDispLit
+three
+four
+other
+T-three
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispSize.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=true -Dprobe.nat.keepSizeParams=true)   [cV]
+exit=0
+---------- fortress run pNatDispSize
+0
+3
+2
+4
+dispatched:
+0
+-1
+-1
+-1
+-1
+
+==================== design B, as java.md § 2 left it
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDisp.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true)   [cB]
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only handling some static args of generic types
+	at com.sun.fortress.compiler.OverloadSet.makeTypeStructure(OverloadSet.java:1242)
+	at com.sun.fortress.compiler.OverloadSet.generateCall(OverloadSet.java:1402)
+	at com.sun.fortress.compiler.OverloadSet.generateBody(OverloadSet.java:2117)
+	at com.sun.fortress.compiler.OverloadSet.generateAnOverloadDefinitionInner(OverloadSet.java:2105)
+	at com.sun.fortress.compiler.OverloadSet.generateAnOverloadDefinition(OverloadSet.java:1995)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateTopLevelOverloads(CodeGen.java:6668)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1858)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+exit=1
+---------- fortress run pNatDisp
+Could not load pNatDisp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatDisp.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispTrait.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true)   [cB]
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only handling some static args of generic types
+	at com.sun.fortress.compiler.OverloadSet.makeTypeStructure(OverloadSet.java:1242)
+	at com.sun.fortress.compiler.OverloadSet.generateCall(OverloadSet.java:1402)
+	at com.sun.fortress.compiler.OverloadSet.generateBody(OverloadSet.java:2117)
+	at com.sun.fortress.compiler.OverloadSet.generateAnOverloadDefinitionInner(OverloadSet.java:2105)
+	at com.sun.fortress.compiler.OverloadSet.generateAnOverloadDefinition(OverloadSet.java:1995)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateTopLevelOverloads(CodeGen.java:6668)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1858)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+exit=1
+---------- fortress run pNatDispTrait
+Could not load pNatDispTrait
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatDispTrait.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispLit.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true)   [cB]
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only handling some static args of generic types
+	at com.sun.fortress.compiler.OverloadSet.makeTypeStructure(OverloadSet.java:1242)
+	at com.sun.fortress.compiler.OverloadSet.generateCall(OverloadSet.java:1402)
+	at com.sun.fortress.compiler.OverloadSet.generateBody(OverloadSet.java:2117)
+	at com.sun.fortress.compiler.OverloadSet.generateAnOverloadDefinitionInner(OverloadSet.java:2105)
+	at com.sun.fortress.compiler.OverloadSet.generateAnOverloadDefinition(OverloadSet.java:1995)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateTopLevelOverloads(CodeGen.java:6668)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1858)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+exit=1
+---------- fortress run pNatDispLit
+Could not load pNatDispLit
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatDispLit.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+
+==================== design B with its extends-clause piece (extends-b.patch)
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispTrait.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true -Dprobe.nat.extendsB=true)   [cB]
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only handling some static args of generic types
+	at com.sun.fortress.compiler.OverloadSet.makeTypeStructure(OverloadSet.java:1242)
+	at com.sun.fortress.compiler.OverloadSet.generateCall(OverloadSet.java:1402)
+	at com.sun.fortress.compiler.OverloadSet.generateBody(OverloadSet.java:2117)
+	at com.sun.fortress.compiler.OverloadSet.generateAnOverloadDefinitionInner(OverloadSet.java:2105)
+	at com.sun.fortress.compiler.OverloadSet.generateAnOverloadDefinition(OverloadSet.java:1995)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateTopLevelOverloads(CodeGen.java:6668)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1858)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+exit=1
+---------- fortress run pNatDispTrait
+Could not load pNatDispTrait
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : pNatDispTrait.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+
+==================== design B with the dispatch fix (dispatch-b.patch)
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDisp.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true -Dprobe.nat.dispatchB=true)   [cB]
+exit=0
+---------- fortress run pNatDisp
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispTrait.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true -Dprobe.nat.dispatchB=true -Dprobe.nat.extendsB=true)   [cB]
+exit=0
+---------- fortress run pNatDispTrait
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispLit.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false -Dprobe.nat.keepSizeParams=true -Dprobe.nat.dispatchB=true)   [cB]
+exit=0
+---------- fortress run pNatDispLit
+three
+four
+other
+T-three
+other
+
+########## fortress compile explorations/perf-probes/nat/size-probes/pNatDispSize.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=true -Dprobe.nat.keepSizeParams=true -Dprobe.nat.dispatchB=true)   [cVB]
+exit=0
+---------- fortress run pNatDispSize
+0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+

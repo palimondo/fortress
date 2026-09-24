@@ -1,0 +1,15 @@
+########## fortress compile explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkOprParam.fss   (-Dprobe.nat.likeOpr=false -Dprobe.nat.valuePos=false)   [cB]
+exit=0
+---------- fortress run SkOprParam
+Op[\+\]
+
+########## fortress compile explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkOprParam.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false)   [cA]
+exit=0
+---------- fortress run SkOprParam
+Op[\+\]
+
+########## fortress compile explorations/compile-ladder/rung-default-rendering/probes/skeptic/SkOprParam.fss   (-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false -Dprobe.nat.stemFix=true)   [cA]
+exit=0
+---------- fortress run SkOprParam
+Op[\+\]
+
