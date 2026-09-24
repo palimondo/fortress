@@ -143,6 +143,9 @@ run() = do
     assert(narrow(maxL), -1, "row 346: ZZ64 narrow MAX")
     assert(narrow(minL), 0, "row 346: ZZ64 narrow MIN")
     assert(narrow(twoTo31), minI, "row 346: ZZ64 narrow 2^31")
+    assert(big(widen(one)) LCM big(widen(-5)), 5, "row 334: ZZ 1 LCM -5, basic-integers.tex:528")
+    assert(big(widen(minusFour)) LCM big(widen(6)), 12, "row 334: ZZ -4 LCM 6, basic-integers.tex:528")
+    assert(bigZero LCM bigZero, 0, "row 334: ZZ 0 LCM 0, basic-integers.tex:529")
 
     println "PASS"
 end

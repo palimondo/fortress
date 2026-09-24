@@ -1,0 +1,18 @@
+FAIL: a BigNum: -5 =/= a Int: 5; row 334: ZZ 1 LCM -5, basic-integers.tex:528
+/home/user/fortress-intsem-i/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-intsem-i/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-intsem-i/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-intsem-i/ProjectFortress/tests/IntSemanticsRungI.fss:146:5-96:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=1
