@@ -1,0 +1,6 @@
+########## diff explorations/perf-probes/nat/runtime/r1-probes-A.out  <this stack>/r1-probes-A.out
+diff exit=0
+########## diff explorations/perf-probes/nat/runtime/r2-probes-B.out  <this stack>/r2-probes-B.out
+diff exit=0
+########## diff explorations/perf-probes/nat/runtime/r1-probes-A.out  <this stack, -Dprobe.nat.stemFix=true>/r1-probes-A-stemfix.out
+diff exit=0

@@ -1,0 +1,22 @@
+--- a/scala_src/types/TypeSchemaAnalyzer.scala
++++ b/scala_src/types/TypeSchemaAnalyzer.scala
+@@ -487,7 +487,18 @@
+     // is a subtype of all its bounds' images.
+     if (varsMap.forall { case (x, xbds) =>
+       rimageTa.lteq(phi(x), phi(imageTa.meet(xbds)))
+-    }) Some(rimageSparams) // Success -- return the image's static params.
++    }) Some(rimageSparams ++ keptSizeParams(sparams)) // Success -- return the image's static params.
+     else None             // Failure
+   }
++
++  /* SIZE PROBES (explorations/perf-probes/nat/size-probes.md, probe 1).  The
++   * pattern at the top of boundsSubstitution keeps only KindType parameters, so
++   * normalizeUA drops a nat parameter from a universal arrow and leaves its
++   * body with a free size: the return-type rule then compares s$4 with s$4$5
++   * and refuses every size-generic arm beside a less specific one.  With
++   * -Dprobe.nat.keepSizeParams=true a nat or int parameter is carried through
++   * unchanged. */
++  private def keptSizeParams(sparams: List[StaticParam]): List[StaticParam] =
++    if (!java.lang.Boolean.getBoolean("probe.nat.keepSizeParams")) Nil
++    else sparams.filter(sp => sp.getKind.isInstanceOf[KindNat] || sp.getKind.isInstanceOf[KindInt])
+ }

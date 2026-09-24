@@ -1,0 +1,10 @@
+component pNatDispRTR
+export Executable
+(* The checker control for keep-size-params.patch: a size-generic arm whose
+   return type is NOT a subtype of the less specific arm's.  The return-type
+   rule must still refuse it, with the patch on. *)
+object Vec[\T, nat s\](x: T) end
+f[\nat s\](v: Vec[\RR64,s\]): ZZ32 = 1
+f(x: Any): String = "other"
+run() = println(f(Vec[\RR64,3\](2.5)))
+end

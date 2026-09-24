@@ -1,0 +1,17 @@
+component pTypeCase2
+export Executable
+(* The control for pNatCase2.fss: the same typecase over a TYPE parameter, with
+   String clause bodies.  Walk prints three four other. *)
+object Vec[\T\](x: T) end
+which(v: Any): String =
+  typecase v of
+    Vec[\ZZ32\] => "three"
+    Vec[\ZZ64\] => "four"
+    else => "other"
+  end
+run() = do
+  println(which(Vec[\ZZ32\](7)))
+  println(which(Vec[\ZZ64\](7)))
+  println(which(Vec[\String\]("x")))
+end
+end

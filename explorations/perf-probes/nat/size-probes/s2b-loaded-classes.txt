@@ -1,0 +1,60 @@
+########## [-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false ] pNat1: the classes loaded whose name holds Box with its size
+\=Arrow⟦pNat1\%Box⟦3⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+\=AbstractArrow⟦pNat1\%Box⟦3⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+pNat1⚙$unbox⟦3⟧✉$\=✚Arrow⟦pNat1\%Box⟦k⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+pNat1$Box❮3❯$RTTIi
+pNat1$Box❮3❯$RTTIc
+pNat1$Box⟦k⟧
+\=Arrow⟦pNat1\%Box⟦k⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+\=AbstractArrow⟦pNat1\%Box⟦k⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNat1\%Box⟦3⟧⟧
+\=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNat1\%Box⟦3⟧⟧
+pNat1⚙$Box⟦3⟧✉$\=✚Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNat1\%Box⟦k⟧⟧
+\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNat1\%Box⟦k⟧⟧
+\=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNat1\%Box⟦k⟧⟧
+pNat1$Box⟦3⟧
+########## [-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=true ] pNatVec: the classes loaded whose name holds Vec with its size
+\=Arrow⟦pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+\=AbstractArrow⟦pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+pNatVec⚙$\=len⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧✉$\=✚Arrow⟦pNatVec\%Vec⟦T,s0⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+pNatVec$Vec❮5❯$RTTIi
+pNatVec$Vec❮5❯$RTTIc
+pNatVec$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,s0⟧
+\=Arrow⟦pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,s0⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+\=AbstractArrow⟦pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,s0⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧⟧
+\=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧⟧
+pNatVec⚙$\=makeVector⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧✉$\=✚Arrow⟦T,pNatVec\%Vec⟦T,s0⟧⟧
+\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,s0⟧⟧
+\=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,s0⟧⟧
+pNatVec⚙$\=vector⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧✉$\=✚Arrow⟦T,pNatVec\%Vec⟦T,s0⟧⟧
+pNatVec⚙$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧✉$\=✚Arrow⟦T,pNatVec\%Vec⟦T,s0⟧⟧
+pNatVec$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧
+---------- pNatVec's own output
+5
+
+########## [-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=false -Dprobe.nat.stemFix=true] pNat1: the classes loaded whose name holds Box with its size
+\=Arrow⟦pNat1\%Box⟦3⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+\=AbstractArrow⟦pNat1\%Box⟦3⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+pNat1⚙$unbox⟦3⟧✉$\=✚Arrow⟦pNat1\%Box⟦k⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+pNat1$Box❮3❯$RTTIi
+pNat1$Box❮3❯$RTTIc
+pNat1$Box⟦3⟧
+\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNat1\%Box⟦3⟧⟧
+\=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNat1\%Box⟦3⟧⟧
+pNat1⚙$Box⟦3⟧✉$\=✚Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNat1\%Box⟦k⟧⟧
+########## [-Dprobe.nat.likeOpr=true -Dprobe.nat.valuePos=true -Dprobe.nat.stemFix=true] pNatVec: the classes loaded whose name holds Vec with its size
+\=Arrow⟦pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+\=AbstractArrow⟦pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+pNatVec⚙$\=len⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧✉$\=✚Arrow⟦pNatVec\%Vec⟦T,s0⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+pNatVec$Vec❮5❯$RTTIi
+pNatVec$Vec❮5❯$RTTIc
+pNatVec$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧
+\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧⟧
+\=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,pNatVec\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧⟧
+pNatVec⚙$\=makeVector⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧✉$\=✚Arrow⟦T,pNatVec\%Vec⟦T,s0⟧⟧
+pNatVec⚙$\=vector⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧✉$\=✚Arrow⟦T,pNatVec\%Vec⟦T,s0⟧⟧
+pNatVec⚙$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,5⟧✉$\=✚Arrow⟦T,pNatVec\%Vec⟦T,s0⟧⟧
+---------- pNatVec's own output
+5
+

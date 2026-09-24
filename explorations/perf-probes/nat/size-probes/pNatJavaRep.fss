@@ -1,0 +1,20 @@
+component pNatJavaRep
+export Executable
+(* Probe 2, third program: the fourth gap's cause seen without a size read.
+   Under design A a sized descriptor names its object class with the
+   template's size symbols (Vec[E,s] for Vec[E,3]).  A generic arm reached by
+   dispatch instantiates itself from its argument's descriptor
+   (RTHelpers.loadClosureClass builds the name from RTTI.className()), so a
+   sized TYPE argument reaches the arm as Vec[E,s].  E is a user object, so
+   that the element type is not a builtin (reviews/mie-probes/dispatch-and-route-c.md section 1).
+   Walk prints wrap. *)
+object E end
+object Vec[\T, nat s\](x: T) end
+object Wrap[\T\](x: T) end
+h[\T\](w: Wrap[\T\]): String = "wrap"
+h(x: Any): String = "other"
+run() = do
+  a: Any = Wrap[\Vec[\E,3\]\](Vec[\E,3\](E))
+  println(h(a))
+end
+end

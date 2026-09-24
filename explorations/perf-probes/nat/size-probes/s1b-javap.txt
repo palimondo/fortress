@@ -1,0 +1,161 @@
+########## design A: javap -c of pNatDisp.String f\(fortress.AnyType.Any\)
+  public static fortress.CompilerBuiltin$String f(fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: instanceof    #40                 // class "pNatDisp$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,s⟧"
+         4: ifeq          15
+         7: aload_0
+         8: checkcast     #40                 // class "pNatDisp$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,s⟧"
+        11: invokestatic  #46                 // Method "pNatDisp⚙$f⟦s⟧✉$\\=✚Arrow⟦pNatDisp\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,s⟧,fortress\\|CompilerBuiltin\\%String⟧".the_function:(LpNatDisp$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,s⟧;)Lfortress/CompilerBuiltin$String;
+        14: areturn
+        15: aload_0
+        16: instanceof    #48                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        19: ifeq          30
+        22: aload_0
+        23: checkcast     #48                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        26: invokestatic  #51                 // Method f:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lfortress/CompilerBuiltin$String;
+        29: areturn
+        30: aload_0
+        31: instanceof    #53                 // class "pNatDisp$\\=Mat⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,r,c⟧"
+        34: ifeq          45
+        37: aload_0
+        38: checkcast     #53                 // class "pNatDisp$\\=Mat⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,r,c⟧"
+        41: invokestatic  #58                 // Method "pNatDisp⚙$f⟦r,c⟧✉$\\=✚Arrow⟦pNatDisp\\%Mat⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,r,c⟧,fortress\\|CompilerBuiltin\\%String⟧".the_function:(LpNatDisp$\=Mat⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,r,c⟧;)Lfortress/CompilerBuiltin$String;
+        44: areturn
+        45: aload_0
+        46: checkcast     #60                 // class fortress/AnyType$Any
+        49: invokestatic  #63                 // Method "f♙":(Lfortress/AnyType$Any;)Lfortress/CompilerBuiltin$String;
+        52: areturn
+        53: nop
+        54: nop
+        55: nop
+        56: athrow
+
+########## design A: javap -p of the template *Arr1*RTTIi.class of pNatDispTrait
+Compiled from "/home/user/fortress/explorations/perf-probes/nat/size-probes/pNatDispTrait.fss"
+public interface pNatDispTrait$Arr1❮s❯$RTTIi extends pNatDispTrait$Vctr❮s❯$RTTIi {
+  public abstract com.sun.fortress.compiler.runtimeValues.RTTI \=pNatDispTrait\%Arr1❮s❯__1();
+}
+
+########## design A: javap -c of pNatDispLit.String h\(fortress.AnyType.Any\)
+  public static fortress.CompilerBuiltin$String h(fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: invokeinterface #66,  1           // InterfaceMethod fortress/AnyType$Any.getRTTI:()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         6: dup
+         7: instanceof    #68                 // class "pNatDispLit$Vec❮3❯$RTTIi"
+        10: ifne          17
+        13: pop
+        14: goto          62
+        17: checkcast     #68                 // class "pNatDispLit$Vec❮3❯$RTTIi"
+        20: astore_1
+        21: aload_1
+        22: invokeinterface #71,  1           // InterfaceMethod "pNatDispLit$Vec❮3❯$RTTIi"."\\=pNatDispLit\\%Vec❮3❯__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        27: astore_2
+        28: getstatic     #77                 // Field fortress/CompilerBuiltin$Object$RTTIc.ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        31: aload_2
+        32: invokevirtual #83                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+        35: ifeq          62
+        38: aload_2
+        39: astore_3
+        40: getstatic     #87                 // Field "\\=_|explorations|perf-probes|nat|size-probes|pNatDispLit\\,fss\\!15\\!1-41✖table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
+        43: ldc           #89                 // String pNatDispLit⚙$h⟦⟧✉$✚Arrow⟦pNatDispLit$Vec⟦T,3⟧,fortress/CompilerBuiltin$String⟧
+        45: aload_3
+        46: invokestatic  #95                 // Method com/sun/fortress/runtimeSystem/RTHelpers.loadClosureClass:(Lcom/sun/fortress/runtimeSystem/BAlongTree;Ljava/lang/String;Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Ljava/lang/Object;
+        49: checkcast     #97                 // class "\\=AbstractArrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧"
+        52: aload_0
+        53: invokeinterface #103,  2          // InterfaceMethod "\\=Arrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧".apply:(Ljava/lang/Object;)Ljava/lang/Object;
+        58: checkcast     #105                // class fortress/CompilerBuiltin$String
+        61: areturn
+        62: aload_0
+        63: checkcast     #50                 // class fortress/AnyType$Any
+        66: invokestatic  #108                // Method "h♙":(Lfortress/AnyType$Any;)Lfortress/CompilerBuiltin$String;
+        69: areturn
+        70: nop
+        71: nop
+        72: nop
+        73: athrow
+
+########## design B + dispatch-b.patch: javap -c of pNatDisp.String f\(fortress.AnyType.Any\)
+  public static fortress.CompilerBuiltin$String f(fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: invokeinterface #44,  1           // InterfaceMethod fortress/AnyType$Any.getRTTI:()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         6: dup
+         7: instanceof    #46                 // class pNatDisp$Vec$RTTIi
+        10: ifne          17
+        13: pop
+        14: goto          70
+        17: checkcast     #46                 // class pNatDisp$Vec$RTTIi
+        20: astore_1
+        21: aload_1
+        22: invokeinterface #49,  1           // InterfaceMethod pNatDisp$Vec$RTTIi."\\=pNatDisp\\%Vec__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        27: getstatic     #55                 // Field com/sun/fortress/compiler/runtimeValues/FRR64.RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        30: swap
+        31: invokevirtual #61                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+        34: ifeq          70
+        37: aload_1
+        38: invokeinterface #64,  1           // InterfaceMethod pNatDisp$Vec$RTTIi."\\=pNatDisp\\%Vec__2":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        43: astore_3
+        44: aload_3
+        45: astore        4
+        47: getstatic     #68                 // Field "\\=_|explorations|perf-probes|nat|size-probes|pNatDisp\\,fss\\!14\\!1-47✖table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
+        50: ldc           #70                 // String pNatDisp⚙$f⟦⟧✉$✚Arrow⟦pNatDisp$Vec⟦com/sun/fortress/compiler/runtimeValues/FRR64,s⟧,fortress/CompilerBuiltin$String⟧
+        52: aload         4
+        54: invokestatic  #76                 // Method com/sun/fortress/runtimeSystem/RTHelpers.loadClosureClass:(Lcom/sun/fortress/runtimeSystem/BAlongTree;Ljava/lang/String;Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Ljava/lang/Object;
+        57: checkcast     #78                 // class "\\=AbstractArrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧"
+        60: aload_0
+        61: invokeinterface #84,  2           // InterfaceMethod "\\=Arrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧".apply:(Ljava/lang/Object;)Ljava/lang/Object;
+        66: checkcast     #86                 // class fortress/CompilerBuiltin$String
+        69: areturn
+        70: aload_0
+        71: instanceof    #51                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        74: ifeq          85
+        77: aload_0
+        78: checkcast     #51                 // class com/sun/fortress/compiler/runtimeValues/FRR64
+        81: invokestatic  #89                 // Method f:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)Lfortress/CompilerBuiltin$String;
+        84: areturn
+        85: aload_0
+        86: invokeinterface #44,  1           // InterfaceMethod fortress/AnyType$Any.getRTTI:()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        91: dup
+        92: instanceof    #91                 // class pNatDisp$Mat$RTTIi
+        95: ifne          102
+        98: pop
+        99: goto          169
+       102: checkcast     #91                 // class pNatDisp$Mat$RTTIi
+       105: astore_1
+       106: aload_1
+       107: invokeinterface #94,  1           // InterfaceMethod pNatDisp$Mat$RTTIi."\\=pNatDisp\\%Mat__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+       112: getstatic     #55                 // Field com/sun/fortress/compiler/runtimeValues/FRR64.RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+       115: swap
+       116: invokevirtual #61                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+       119: ifeq          169
+       122: aload_1
+       123: invokeinterface #97,  1           // InterfaceMethod pNatDisp$Mat$RTTIi."\\=pNatDisp\\%Mat__2":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+       128: astore_3
+       129: aload_1
+       130: invokeinterface #100,  1          // InterfaceMethod pNatDisp$Mat$RTTIi."\\=pNatDisp\\%Mat__3":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+       135: astore        4
+       137: aload         4
+       139: astore        6
+       141: aload_3
+       142: astore        5
+       144: getstatic     #103                // Field "\\=_|explorations|perf-probes|nat|size-probes|pNatDisp\\,fss\\!15\\!1-56✖table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
+       147: ldc           #105                // String pNatDisp⚙$f⟦⟧✉$✚Arrow⟦pNatDisp$Mat⟦com/sun/fortress/compiler/runtimeValues/FRR64,r,c⟧,fortress/CompilerBuiltin$String⟧
+       149: aload         5
+       151: aload         6
+       153: invokestatic  #108                // Method com/sun/fortress/runtimeSystem/RTHelpers.loadClosureClass:(Lcom/sun/fortress/runtimeSystem/BAlongTree;Ljava/lang/String;Lcom/sun/fortress/compiler/runtimeValues/RTTI;Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Ljava/lang/Object;
+       156: checkcast     #78                 // class "\\=AbstractArrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧"
+       159: aload_0
+       160: invokeinterface #84,  2           // InterfaceMethod "\\=Arrow⟦java\\|lang\\|Object,java\\|lang\\|Object⟧".apply:(Ljava/lang/Object;)Ljava/lang/Object;
+       165: checkcast     #86                 // class fortress/CompilerBuiltin$String
+       168: areturn
+       169: aload_0
+       170: checkcast     #40                 // class fortress/AnyType$Any
+       173: invokestatic  #111                // Method "f♙":(Lfortress/AnyType$Any;)Lfortress/CompilerBuiltin$String;
+       176: areturn
+       177: nop
+       178: nop
+       179: nop
+       180: athrow
+

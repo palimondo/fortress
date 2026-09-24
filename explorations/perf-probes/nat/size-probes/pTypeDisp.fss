@@ -1,0 +1,22 @@
+component pTypeDisp
+export Executable
+(* The checker control for pNatDisp.fss: the same set with the vector arm
+   generic in a TYPE instead of a size.  The return-type rule accepts it on the
+   stack as it is.  E is a user object (reviews/mie-probes/dispatch-and-route-c.md section 1: a builtin
+   type inferred at run time gets a different class name).  Walk prints
+   scalar vector other. *)
+object E end
+object Vec[\T\](x: T) end
+f(x: RR64): String = "scalar"
+f[\T\](v: Vec[\T\]): String = "vector"
+f(x: Any): String = "other"
+run() = do
+  r: RR64 = 2.5
+  a: Any = r
+  println(f(a))
+  b: Any = Vec[\E\](E)
+  println(f(b))
+  c: Any = "c"
+  println(f(c))
+end
+end

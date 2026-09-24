@@ -1,0 +1,87 @@
+--- a/compiler/OverloadSet.java
++++ b/compiler/OverloadSet.java
+@@ -72,6 +72,9 @@
+ import com.sun.fortress.runtimeSystem.InitializedStaticField;
+ import com.sun.fortress.runtimeSystem.InstantiatingClassloader;
+ import com.sun.fortress.nodes.IntArg;
++import com.sun.fortress.nodes.IntExpr;
++import com.sun.fortress.nodes.IntRef;
++import com.sun.fortress.nodes.KindType;
+ import com.sun.fortress.runtimeSystem.Naming;
+ import com.sun.fortress.scala_src.overloading.OverloadingOracle;
+ import com.sun.fortress.scala_src.types.TypeAnalyzer;
+@@ -1093,6 +1096,26 @@
+         }
+     }
+     
++    /* SIZE PROBES, design B: -Dprobe.nat.dispatchB=true. */
++    static final boolean PROBE_DISPATCH_B = Boolean.getBoolean("probe.nat.dispatchB");
++
++    /* SIZE PROBES, design B: a literal size inside a generic arm's parameter
++     * type.  TOS is the size descriptor the enclosing getter returned; the arm
++     * applies only if it is this literal's (RTTIsize compares by equality). */
++    static class SizeLiteralStructure extends TypeStructure {
++        SizeLiteralStructure(String literal, int localIndex, int variance) {
++            super(literal, literal, null, localIndex, localIndex + 1, variance, false, false);
++        }
++        void emitInstanceOf(MethodVisitor mv, Label if_fail, boolean value_cast) {
++            mv.visitFieldInsn(Opcodes.GETSTATIC, Naming.stemClassToRTTIclass(fullname),
++                    Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);
++            mv.visitInsn(Opcodes.SWAP);
++            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Naming.RTTI_CONTAINER_TYPE,
++                    Naming.RTTI_SUBTYPE_METHOD_NAME, Naming.RTTI_SUBTYPE_METHOD_SIG);
++            mv.visitJumpInsn(Opcodes.IFEQ, if_fail);
++        }
++    }
++
+     static class SelfTypeStructure extends TypeStructure {
+         final TypeStructure chainee; 
+         public SelfTypeStructure(String fullname, String stem,
+@@ -1139,6 +1162,7 @@
+         TypeStructure[] parameters = null;
+         int[] variances = null;
+         List<Type> type_elements = null;
++        Map<Integer, String> size_literals = new HashMap<Integer, String>(); // SIZE PROBES, design B
+         boolean hasTypeVariables = false;
+         boolean isVarType = false;
+         boolean isObject = false;
+@@ -1200,6 +1224,19 @@
+                         TypeArg sta_ta = (TypeArg) sta;
+                         type_elements.add( sta_ta.getTypeArg() );
+                         // if interesting variance, change it here.
++                    } else if (PROBE_DISPATCH_B && sta instanceof IntArg) {
++                        /* SIZE PROBES, design B (explorations/perf-probes/nat/size-probes.md).
++                         * A size symbol becomes a leaf the way a type variable does
++                         * (the VarType branch below), so it is read off the value's
++                         * descriptor through its getter and handed to the closure
++                         * loader; a literal becomes a leaf that compares descriptors. */
++                        IntExpr ie = ((IntArg) sta).getIntVal();
++                        if (ie instanceof IntRef) {
++                            type_elements.add(NodeFactory.makeVarType(NodeUtil.getSpan(ie), ((IntRef) ie).getName()));
++                        } else {
++                            size_literals.put(variance_index, sta.accept(NamingCzar.spkTagger(null)).getB());
++                            type_elements.add(null);
++                        }
+                     } else {
+                         // unhandled case.
+                         throw new CompilerError("Only handling some static args of generic types");
+@@ -1249,7 +1286,8 @@
+             int i = 0;
+             int next_index = storeAtIndex+1;
+             for (Type tt : type_elements) {
+-                TypeStructure ts = makeTypeStructure(tt, spmap, variances[i], next_index, staticParams, null);
++                TypeStructure ts = tt == null ? new SizeLiteralStructure(size_literals.get(i), next_index, variances[i])
++                        : makeTypeStructure(tt, spmap, variances[i], next_index, staticParams, null);
+                 
+                 //has type variable if it or any nested structures have type variables
+                 hasTypeVariables = hasTypeVariables || ts.containsTypeVariables;
+@@ -1430,6 +1468,9 @@
+                 MultiMap<StaticParam,Type> concreteUpperBounds = new MultiMap<StaticParam,Type>(); //form X <: T where T contains no type variables
+                 for (int outer = 0; outer < staticParams.size(); outer++) {
+                     StaticParam outerSP = staticParams.get(outer);
++                    // SIZE PROBES, design B: a size's `extends Object' (added to every
++                    // unbounded static parameter) is not a bound its descriptor can meet.
++                    if (PROBE_DISPATCH_B && !(outerSP.getKind() instanceof KindType)) continue;
+                     for (BaseType bt : outerSP.getExtendsClause()) {
+                         if (bt instanceof VarType) {  // outerSP <: bt so outerSP will provide a lower bound on BT
+                             String varName = ((VarType) bt).getName().getText();

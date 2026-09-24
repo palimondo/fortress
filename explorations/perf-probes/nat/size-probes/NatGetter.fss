@@ -1,0 +1,15 @@
+component NatGetter
+export Executable
+(* Probe 2 of ../size-probes.md: the fourth gap in the library's own shape.
+   Library/FortressLibrary.fss:2019-2022 declares
+     trait ReadableArray1[\T, nat b0, nat s0\] ...
+         getter size():ZZ32 = s0
+   a default getter of a sized TRAIT, read through an object that extends it.
+   ../NatExtends1.fss is the other shape: a method of the sized OBJECT itself.
+   Walk prints 3. *)
+trait Sized1[\T, nat b0, nat s0\] extends Object
+  getter size(): ZZ32 = s0
+end
+object Arr1[\T, nat b0, nat s0\](x: T) extends Sized1[\T, b0, s0\] end
+run() = println(Arr1[\ZZ32,0,3\](7).size)
+end

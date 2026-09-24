@@ -1,0 +1,31 @@
+########## design A: javap -c of pNatCase2.String which\(
+  public static fortress.CompilerBuiltin$String which(fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: dup
+         2: instanceof    #41                 // class "pNatCase2$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32,3⟧"
+         5: ifne          11
+         8: goto          20
+        11: pop
+        12: ldc           #43                 // String three
+        14: invokestatic  #49                 // Method com/sun/fortress/compiler/runtimeValues/FJavaString.make:(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;
+        17: goto          51
+        20: dup
+        21: instanceof    #51                 // class "pNatCase2$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32,4⟧"
+        24: ifne          30
+        27: goto          39
+        30: pop
+        31: ldc           #53                 // String four
+        33: invokestatic  #49                 // Method com/sun/fortress/compiler/runtimeValues/FJavaString.make:(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;
+        36: goto          51
+        39: pop
+        40: ldc           #55                 // String other
+        42: invokestatic  #49                 // Method com/sun/fortress/compiler/runtimeValues/FJavaString.make:(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;
+        45: goto          51
+        48: nop
+        49: nop
+        50: athrow
+
+########## design A: instanceof in the template isOfSize of pNatCaseGen
+         2: instanceof    #15                 // class "pNatCaseGen$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32,s⟧"
+

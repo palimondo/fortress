@@ -1,0 +1,29 @@
+component pNatDispLit
+export Executable
+(* Probe 1, fourth program: literal sizes in dispatched arms.  g is
+   ../runtime/pNatOver.fss's pair with a catch-all, called on values typed Any;
+   h is generic in a type and has a literal size, so the dispatcher must
+   compare the value's size with 3 while it infers T.  E is a user object, so
+   that T is not a builtin type (reviews/mie-probes/dispatch-and-route-c.md section 1: a builtin type
+   inferred at run time gets a different class name).  Walk prints
+   three four other T-three other. *)
+object E end
+object Vec[\T, nat s\](x: T) end
+g(v: Vec[\ZZ32,3\]): String = "three"
+g(v: Vec[\ZZ32,4\]): String = "four"
+g(x: Any): String = "other"
+h[\T\](v: Vec[\T,3\]): String = "T-three"
+h(x: Any): String = "other"
+run() = do
+  a: Any = Vec[\ZZ32,3\](7)
+  println(g(a))
+  b: Any = Vec[\ZZ32,4\](7)
+  println(g(b))
+  c: Any = Vec[\ZZ32,5\](7)
+  println(g(c))
+  d: Any = Vec[\E,3\](E)
+  println(h(d))
+  e: Any = Vec[\E,4\](E)
+  println(h(e))
+end
+end

@@ -1,0 +1,40 @@
+--- a/runtimeSystem/MethodInstantiater.java
++++ b/runtimeSystem/MethodInstantiater.java
+@@ -178,9 +178,22 @@
+     }
+ 
+     public void visitLdcInsn(Object cst) {
++        if (PROBE_STEM_FIX && cst instanceof org.objectweb.asm.Type
++                && ((org.objectweb.asm.Type) cst).getSort() == org.objectweb.asm.Type.OBJECT) {
++            /* SIZE PROBES (explorations/perf-probes/nat/size-probes.md, probe 2).
++             * A class constant in a template is instantiated like any other
++             * type name.  The one that matters: a descriptor with no factory
++             * builds its ONLY from LDC <its object class> (CodeGen.java:5367-5385),
++             * which kept the template's size symbols, Buf<s> for Buf<3>. */
++            String type = xlation.getTypeName(((org.objectweb.asm.Type) cst).getInternalName());
++            cst = org.objectweb.asm.Type.getObjectType(Naming.internalToType(type));
++        }
+         mv.visitLdcInsn(cst);
+     }
+ 
++    /* SIZE PROBES: -Dprobe.nat.stemFix=true (fourth-gap-a.patch). */
++    static final boolean PROBE_STEM_FIX = Boolean.getBoolean("probe.nat.stemFix");
++
+     public void visitLineNumber(int line, Label start) {
+         mv.visitLineNumber(line, start);
+     }
+--- a/runtimeSystem/InstantiatingClassloader.java
++++ b/runtimeSystem/InstantiatingClassloader.java
+@@ -2794,7 +2794,11 @@
+ 
+         // 3) create class for this object
+         String stem = Naming.rttiClassToBaseClass(rttiClassName);
+-        if (true || xldata == null) {
++        if (! (MethodInstantiater.PROBE_STEM_FIX && stem.contains(Naming.LEFT_HEAVY_ANGLE))) {
++            /* SIZE PROBES (fourth-gap-a.patch): a stem annotated between heavy
++             * angles (an opr, or a size under design A) is instantiated at load
++             * through the CONST.String channel; a plain LDC kept the template's
++             * symbols, so the factory built Arr1[T,b0,s0] for Arr1<0,3>. */
+             // NOT symbolic (and a problem if we pretend that it is)
+             mv.visitLdcInsn(stem);
+         } else {

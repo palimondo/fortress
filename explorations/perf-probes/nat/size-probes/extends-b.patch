@@ -1,0 +1,44 @@
+--- a/compiler/codegen/CodeGen.java
++++ b/compiler/codegen/CodeGen.java
+@@ -97,6 +97,8 @@
+ import com.sun.fortress.nodes.ImportNames;
+ import com.sun.fortress.nodes.ImportStar;
+ import com.sun.fortress.nodes.IntArg;
++import com.sun.fortress.nodes.IntExpr;
++import com.sun.fortress.nodes.IntRef;
+ import com.sun.fortress.nodes.IntLiteralExpr;
+ import com.sun.fortress.nodes.IntersectionType;
+ import com.sun.fortress.nodes.KindInt;
+@@ -5790,6 +5792,22 @@
+                      * through into the throw at the end of the loop, which is
+                      * where NatExtends1/NatExtends2 stopped. */
+                     if (Naming.NAT_AS_OPR) continue;
++                    if (PROBE_EXTENDS_B) {
++                        /* SIZE PROBES, design B's own extends-clause piece
++                         * (explorations/perf-probes/nat/java.md  2): push the
++                         * size's descriptor, the parameter's field for a symbol
++                         * as generateVarTypeReference does, the stamped literal's
++                         * ONLY otherwise. */
++                        IntExpr ie = ((IntArg) sta).getIntVal();
++                        if (ie instanceof IntRef && spns.contains(((IntRef) ie).getName().getText())) {
++                            mv2.visitVarInsn(ALOAD, 0);
++                            mv2.visitFieldInsn(GETFIELD, rttiClassName, ((IntRef) ie).getName().getText(), Naming.RTTI_CONTAINER_DESC);
++                        } else {
++                            mv2.visitFieldInsn(GETSTATIC, Naming.stemClassToRTTIclass(sta.accept(NamingCzar.spkTagger(null)).getB()),
++                                    Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);
++                        }
++                        continue;
++                    }
+                 } else if (sta instanceof OpArg) {
+                     continue; // skip opr args pushing to factory
+                 } else if (sta instanceof UnitArg) {
+@@ -5851,6 +5869,9 @@
+         generateTypeReference(mv2, rttiClassName, tt_id,  tt_sa, spns); 
+     }
+     
++    /* SIZE PROBES, design B: -Dprobe.nat.extendsB=true. */
++    private static final boolean PROBE_EXTENDS_B = Boolean.getBoolean("probe.nat.extendsB");
++
+     private void generateVarTypeReference(CodeGenMethodVisitor mv2, VarType tt, String rttiClassName, HashSet<String> spns) {
+     	Id tt_id = tt.getName();
+         generateTypeReference(mv2, rttiClassName, tt_id,  Collections.<StaticArg>emptyList(), spns); 

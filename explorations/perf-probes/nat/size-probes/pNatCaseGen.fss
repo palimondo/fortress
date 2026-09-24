@@ -1,0 +1,21 @@
+component pNatCaseGen
+export Executable
+(* Probe 3's second program: the size in the typecase clause is a static
+   parameter of the enclosing generic function, not a literal, so the test is
+   written in a template and the size is filled in when the function is
+   instantiated.  Walk prints yes no no yes. *)
+object Vec[\T, nat s\](x: T) end
+isOfSize[\nat s\](v: Any): String =
+  typecase v of
+    Vec[\ZZ32,s\] => "yes"
+    else => "no"
+  end
+run() = do
+  a: Any = Vec[\ZZ32,3\](7)
+  println(isOfSize[\3\](a))
+  println(isOfSize[\4\](a))
+  b: Any = Vec[\ZZ32,4\](7)
+  println(isOfSize[\3\](b))
+  println(isOfSize[\4\](b))
+end
+end

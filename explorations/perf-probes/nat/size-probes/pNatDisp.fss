@@ -1,0 +1,33 @@
+component pNatDisp
+export Executable
+(* Probe 1 of ../size-probes.md: ledger row 214's three arms, compiled.
+   A scalar arm, an arm generic in one size and an arm generic in two, beside a
+   catch-all on Any.  The first three calls are resolved by the checker (the
+   argument's static type picks the arm); the last four are typed Any, so the
+   checker picks the catch-all and the arm is chosen at run time by the overload
+   set's dispatcher (OverloadSet.generateCall).  The last value has the wrong
+   element type and must reach the catch-all.  Walk prints
+   scalar vector matrix scalar vector matrix other. *)
+object Vec[\T, nat s\](x: T) end
+object Mat[\T, nat r, nat c\](x: T) end
+f(x: RR64): String = "scalar"
+f[\nat s\](v: Vec[\RR64,s\]): String = "vector"
+f[\nat r, nat c\](m: Mat[\RR64,r,c\]): String = "matrix"
+f(x: Any): String = "other"
+run() = do
+  r: RR64 = 2.5
+  v: Vec[\RR64,3\] = Vec[\RR64,3\](r)
+  m: Mat[\RR64,2,4\] = Mat[\RR64,2,4\](r)
+  println(f(r))
+  println(f(v))
+  println(f(m))
+  a: Any = r
+  println(f(a))
+  b: Any = v
+  println(f(b))
+  c: Any = m
+  println(f(c))
+  z: Any = Vec[\ZZ32,3\](7)
+  println(f(z))
+end
+end

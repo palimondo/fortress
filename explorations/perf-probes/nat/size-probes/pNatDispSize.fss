@@ -1,0 +1,33 @@
+component pNatDispSize
+export Executable
+(* Probe 1 of ../size-probes.md, second program: the same set, each generic arm
+   printing the size it was instantiated at (a size read as a value, so it needs
+   ../runtime/value-position.patch).  A dispatched call must instantiate the arm
+   at the value's own size, so the two vectors print 3 and 4 and the matrix 2
+   then 4.  Walk prints 0 3 2 4, "dispatched:", 0 3 4 2 4, -1. *)
+object Vec[\T, nat s\](x: T) end
+object Mat[\T, nat r, nat c\](x: T) end
+f(x: RR64): () = println(0)
+f[\nat s\](v: Vec[\RR64,s\]): () = println(s)
+f[\nat r, nat c\](m: Mat[\RR64,r,c\]): () = do println(r); println(c) end
+f(x: Any): () = println(-1)
+run() = do
+  r: RR64 = 2.5
+  v: Vec[\RR64,3\] = Vec[\RR64,3\](r)
+  m: Mat[\RR64,2,4\] = Mat[\RR64,2,4\](r)
+  f(r)
+  f(v)
+  f(m)
+  println("dispatched:")
+  a: Any = r
+  f(a)
+  b: Any = v
+  f(b)
+  b4: Any = Vec[\RR64,4\](r)
+  f(b4)
+  c: Any = m
+  f(c)
+  z: Any = Vec[\ZZ32,3\](7)
+  f(z)
+end
+end
