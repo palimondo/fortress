@@ -1,0 +1,81 @@
+component SkWalkOnly
+export Executable
+
+kind(v: Any): String =
+  typecase v of
+    ZZ32 => "ZZ32"
+    NN32 => "NN32"
+    ZZ64 => "ZZ64"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    else => "other"
+  end
+
+val(f: () -> Any): String =
+  try
+    v = f()
+    (v.asString) || " : " || kind(v)
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+show(what: String, got: String, want: String): () =
+  println(what || " = " || got || "   (want " || want || ")" || (if got = want then "" else "   DIFF" end))
+
+run() = do
+    three: ZZ32 = 3
+    minusThree: ZZ32 = -3
+    minusTwelve: ZZ32 = -12
+    zero: ZZ32 = 0
+    maxI: ZZ32 = 2147483647
+    maxL: ZZ64 = 9223372036854775807
+    minL: ZZ64 = -9223372036854775807 - 1
+    threeL: ZZ64 = widen(three)
+    bigZero: ZZ = big(widen(zero))
+    bigThree: ZZ = big(threeL)
+    twoTo63: NN64 = unsigned(maxL) + unsigned(widen(1))
+    nnMax: NN64 = twoTo63 + unsigned(maxL)
+    eightZ: ZZ32 = 8
+    eight: NN32 = unsigned(eightZ)
+
+    println("-- ZZ32 receiver, count not a ZZ64 (the width is the receiver's, 32)")
+    show("ZZ32 3 LSHIFT a ZZ count of 33", val(fn () => three LSHIFT big(widen(33))), "0 : ZZ32")
+    show("ZZ32 3 LSHIFT a ZZ count of 40", val(fn () => three LSHIFT big(widen(40))), "0 : ZZ32")
+    show("ZZ32 3 RSHIFT a ZZ count of -33", val(fn () => three RSHIFT big(widen(-33))), "0 : ZZ32")
+    show("ZZ32 3 LSHIFT an NN32 count of 33", val(fn () => three LSHIFT unsigned(33)), "0 : ZZ32")
+    show("ZZ32 3 LSHIFT an NN64 count of 33", val(fn () => three LSHIFT unsigned(widen(33))), "0 : ZZ32")
+    show("ZZ32 3 LSHIFT a ZZ32 count of 33", val(fn () => three LSHIFT 33), "0 : ZZ32")
+
+    println("-- unsigned counts at the top of their range")
+    show("ZZ32 3 LSHIFT an NN64 count of 2^64-1", val(fn () => three LSHIFT nnMax), "0 : ZZ32")
+    show("ZZ64 -3 RSHIFT an NN64 count of 2^64-1", val(fn () => widen(minusThree) RSHIFT nnMax), "-1 : ZZ64")
+    show("NN64 8 RSHIFT an NN64 count of 2^63", val(fn () => unsigned(widen(8)) RSHIFT twoTo63), "0 : NN64")
+    show("ZZ 3 RSHIFT an NN64 count of 2^64-1", val(fn () => bigThree RSHIFT nnMax), "0 : ZZ")
+
+    println("-- the spec's shift")
+    show("shift(8 as NN32, 2)", val(fn () => shift(eight, 2)), "32 : ZZ")
+    show("shift(3, 0)", val(fn () => shift(three, 0)), "3 : ZZ")
+    show("shift(0, 4294967296)", val(fn () => shift(zero, 4294967296)), "0 : ZZ")
+    show("shift(-12, -3)", val(fn () => shift(minusTwelve, -3)), "-2 : ZZ")
+    show("shift(MAX32, 1)", val(fn () => shift(maxI, 1)), "4294967294 : ZZ")
+    show("shift(MIN64, 1)", val(fn () => shift(minL, 1)), "-18446744073709551616 : ZZ")
+    show("shift(-3, -2^70)", val(fn () => shift(minusThree, -(big(widen(1)) LSHIFT 70))), "-1 : ZZ")
+    show("shift(3, 2^70)", val(fn () => shift(three, big(widen(1)) LSHIFT 70)), "IntegerOverflow")
+    show("shift(2^64-1, -1)", val(fn () => shift(nnMax, -1)), "9223372036854775807 : ZZ")
+
+    println("-- ZZ natives with an NN64 operand at or above 2^63")
+    show("NN64 2^64-1 + ZZ 0", val(fn () => nnMax + bigZero), "18446744073709551615 : ZZ")
+    show("ZZ 0 + NN64 2^64-1", val(fn () => bigZero + nnMax), "18446744073709551615 : ZZ")
+    show("ZZ 0 < NN64 2^63", val(fn () => bigZero < twoTo63), "true : other")
+    show("NN64 2^63 DIV ZZ 2", val(fn () => twoTo63 DIV big(widen(2))), "4611686018427387904 : ZZ")
+
+    println("-- the renamed Range methods")
+    r = 1:5
+    println("(1:5) << 2 = " || (r << 2).asString)
+    println("(1:5) >> 3 = " || (r >> 3).asString)
+    println("(1:5).shiftLeft(2) = " || (r.shiftLeft(2)).asString)
+    println("(0#4) >> 10 = " || ((0#4) >> 10).asString)
+    println("END")
+end
+
+end

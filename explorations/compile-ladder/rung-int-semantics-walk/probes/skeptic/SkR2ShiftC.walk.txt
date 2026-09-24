@@ -1,0 +1,15 @@
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2ShiftC.fss:12:18-23:
+Cannot find definition for method asZZ given receiver 3: ZZ32
+Context:
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2ShiftC.fss:12:18-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=1

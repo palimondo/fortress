@@ -1,0 +1,153 @@
+component IntSemanticsRungI
+export Executable
+
+(*) explorations/compile-ladder/rung-int-semantics-walk/REPORT.md
+
+overflows(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+run() = do
+    three: ZZ32 = 3
+    five: ZZ32 = 5
+    zero: ZZ32 = 0
+    one: ZZ32 = 1
+    minusOne: ZZ32 = -1
+    minusThree: ZZ32 = -3
+    minusFour: ZZ32 = -4
+    minusSixteen: ZZ32 = -16
+    hundredK: ZZ32 = 100000
+    minI: ZZ32 = -2147483647 - 1
+    maxI: ZZ32 = 2147483647
+    maxL: ZZ64 = 9223372036854775807
+    minL: ZZ64 = -9223372036854775807 - 1
+
+    assert(three LSHIFT 31, minI, "row 335: ZZ32 3 LSHIFT 31")
+    assert(three LSHIFT 32, 0, "row 335: ZZ32 3 LSHIFT 32")
+    assert(three LSHIFT 33, 0, "row 335: ZZ32 3 LSHIFT 33")
+    assert(three RSHIFT 33, 0, "row 335: ZZ32 3 RSHIFT 33")
+    assert(minusSixteen RSHIFT 32, -1, "row 335: ZZ32 -16 RSHIFT 32")
+    assert(minusSixteen RSHIFT 33, -1, "row 335: ZZ32 -16 RSHIFT 33")
+    assert(three LSHIFT (-1), 1, "row 335: ZZ32 3 LSHIFT -1")
+    assert(three RSHIFT (-1), 6, "row 335: ZZ32 3 RSHIFT -1")
+    assert(minusSixteen LSHIFT (-2), -4, "row 335: ZZ32 -16 LSHIFT -2")
+    assert(minusSixteen LSHIFT (-40), -1, "row 335: ZZ32 -16 LSHIFT -40")
+    assert(three RSHIFT (-40), 0, "row 335: ZZ32 3 RSHIFT -40")
+    assert(three LSHIFT minI, 0, "row 335: ZZ32 3 LSHIFT MIN")
+    assert(minusThree LSHIFT minI, -1, "row 335: ZZ32 -3 LSHIFT MIN")
+    assert(three LSHIFT minL, 0, "row 335: ZZ32 3 LSHIFT ZZ64 MIN")
+    assert(minusThree LSHIFT minL, -1, "row 335: ZZ32 -3 LSHIFT ZZ64 MIN")
+    assert(minusThree RSHIFT minL, 0, "row 335: ZZ32 -3 RSHIFT ZZ64 MIN")
+
+    threeL: ZZ64 = widen(three)
+    minusThreeL: ZZ64 = widen(minusThree)
+    minusSixteenL: ZZ64 = widen(minusSixteen)
+    zeroL: ZZ64 = widen(zero)
+    minusOneL: ZZ64 = widen(minusOne)
+    assert(threeL LSHIFT 63, minL, "row 335: ZZ64 3 LSHIFT 63")
+    assert(threeL LSHIFT 64, zeroL, "row 335: ZZ64 3 LSHIFT 64")
+    assert(threeL LSHIFT 65, zeroL, "row 335: ZZ64 3 LSHIFT 65")
+    assert(threeL RSHIFT 65, zeroL, "row 335: ZZ64 3 RSHIFT 65")
+    assert(minusSixteenL RSHIFT 64, minusOneL, "row 335: ZZ64 -16 RSHIFT 64")
+    assert(minusSixteenL RSHIFT 65, minusOneL, "row 335: ZZ64 -16 RSHIFT 65")
+    assert(threeL LSHIFT (-1), widen(1), "row 335: ZZ64 3 LSHIFT -1")
+    assert(threeL RSHIFT (-1), widen(6), "row 335: ZZ64 3 RSHIFT -1")
+    assert(minusSixteenL LSHIFT (-2), widen(-4), "row 335: ZZ64 -16 LSHIFT -2")
+    assert(minusSixteenL LSHIFT (-70), minusOneL, "row 335: ZZ64 -16 LSHIFT -70")
+    assert(threeL RSHIFT (-70), zeroL, "row 335: ZZ64 3 RSHIFT -70")
+    assert(threeL LSHIFT minL, zeroL, "row 335: ZZ64 3 LSHIFT MIN")
+    assert(minusThreeL LSHIFT minL, minusOneL, "row 335: ZZ64 -3 LSHIFT MIN")
+    assert(minusThreeL RSHIFT minL, zeroL, "row 335: ZZ64 -3 RSHIFT MIN")
+
+    eight: NN32 = unsigned(8)
+    eightL: NN64 = unsigned(widen(8))
+    assert(eight LSHIFT (-1), unsigned(4), "row 335: NN32 8 LSHIFT -1")
+    assert(eight RSHIFT (-1), unsigned(16), "row 335: NN32 8 RSHIFT -1")
+    assert(eightL LSHIFT (-1), unsigned(widen(4)), "row 335: NN64 8 LSHIFT -1")
+    assert(eightL RSHIFT (-1), unsigned(widen(16)), "row 335: NN64 8 RSHIFT -1")
+
+    twoTo63: NN64 = unsigned(maxL) + unsigned(widen(1))
+    assert(minusThreeL LSHIFT twoTo63, zeroL, "row 335: ZZ64 -3 LSHIFT an NN64 count of 2^63")
+    assert(minusThreeL RSHIFT twoTo63, minusOneL, "row 335: ZZ64 -3 RSHIFT an NN64 count of 2^63")
+    assert(eightL LSHIFT twoTo63, unsigned(zeroL), "row 335: NN64 8 LSHIFT an NN64 count of 2^63")
+
+    bigThree: ZZ = big(threeL)
+    bigMinusThree: ZZ = big(minusThreeL)
+    bigZero: ZZ = big(zeroL)
+    assert(threeL LSHIFT bigThree, widen(24), "FortressLibrary.fss:637: ZZ64 3 LSHIFT a ZZ count of 3")
+    assert(minusThree RSHIFT big(widen(40)), -1, "FortressLibrary.fss:637: ZZ32 -3 RSHIFT a ZZ count of 40")
+    assert(bigThree LSHIFT (-4294967297), 0, "row 335: ZZ 3 LSHIFT -4294967297")
+    assert(bigMinusThree LSHIFT (-4294967296), -1, "row 335: ZZ -3 LSHIFT -4294967296")
+    assert(bigThree RSHIFT 4294967297, 0, "row 335: ZZ 3 RSHIFT 4294967297")
+    assert(bigMinusThree RSHIFT 4294967296, -1, "row 335: ZZ -3 RSHIFT 4294967296")
+    assert(bigThree LSHIFT minL, 0, "row 335: ZZ 3 LSHIFT ZZ64 MIN")
+    assert(bigMinusThree LSHIFT minL, -1, "row 335: ZZ -3 LSHIFT ZZ64 MIN")
+    assert(bigZero LSHIFT 4294967296, 0, "row 335: ZZ 0 LSHIFT 4294967296")
+    assert(overflows(fn () => bigThree LSHIFT 4294967296), "row 335: ZZ 3 LSHIFT 4294967296 overflows")
+    assert(overflows(fn () => bigThree LSHIFT 4294967297), "row 335: ZZ 3 LSHIFT 4294967297 overflows")
+    assert(overflows(fn () => bigThree RSHIFT minL), "row 335: ZZ 3 RSHIFT ZZ64 MIN overflows")
+    assert(overflows(fn () => bigThree LSHIFT 2147483647), "row 335: ZZ 3 LSHIFT 2147483647 overflows")
+    assert(bigMinusThree RSHIFT twoTo63, -1, "row 335: ZZ -3 RSHIFT an NN64 count of 2^63")
+    assert(overflows(fn () => bigThree LSHIFT twoTo63), "row 335: ZZ 3 LSHIFT an NN64 count of 2^63 overflows")
+    assert(twoTo63 + bigZero, 9223372036854775808, "basic-integers.tex:15-16: NN64 2^63 + ZZ 0 is exact")
+    assert(shift(three, 33), 25769803776, "basic-integers.tex:698-702: shift(3, 33) on a ZZ32")
+    assert(shift(three, -1), 1, "basic-integers.tex:698-702: shift(3, -1)")
+    assert(shift(minusThree, -1), -2, "basic-integers.tex:698-702: shift(-3, -1)")
+    assert(shift(threeL, 64), 55340232221128654848, "basic-integers.tex:698-702: shift(3, 64) on a ZZ64")
+    assert(shift(twoTo63, 1), 18446744073709551616, "basic-integers.tex:698-702: shift(2^63, 1) on an NN64")
+    assert(shift(bigMinusThree, minL), -1, "basic-integers.tex:698-702: shift(-3, ZZ64 MIN)")
+    assert(overflows(fn () => shift(bigThree, 4294967296)), "basic-integers.tex:698, opr-overview.tex:155: shift(3, 4294967296) on a ZZ overflows")
+
+    assert(zero GCD (-4), 4, "row 334: ZZ32 0 GCD -4, basic-integers.tex:524")
+    assert(zero GCD minusOne, 1, "row 334: ZZ32 0 GCD -1, basic-integers.tex:524")
+    assert(one LCM (-5), 5, "row 334: ZZ32 1 LCM -5, basic-integers.tex:528")
+    assert(minusFour LCM 6, 12, "row 334: ZZ32 -4 LCM 6, basic-integers.tex:528")
+    assert(zero LCM zero, 0, "row 334: ZZ32 0 LCM 0, basic-integers.tex:529")
+    assert(minI LCM zero, 0, "row 334: ZZ32 MIN LCM 0, basic-integers.tex:529")
+    assert(overflows(fn () => maxI LCM 2), "row 334: ZZ32 MAX LCM 2 overflows")
+    assert(overflows(fn () => hundredK LCM 99999), "row 334: ZZ32 100000 LCM 99999 overflows")
+    assert(overflows(fn () => minI LCM minusOne), "row 334: ZZ32 MIN LCM -1 overflows")
+    assert(overflows(fn () => minI LCM one), "row 334: ZZ32 MIN LCM 1 overflows")
+    assert(overflows(fn () => five LCM minI), "row 334: ZZ32 5 LCM MIN overflows")
+    assert(overflows(fn () => minI GCD zero), "row 334: ZZ32 MIN GCD 0 overflows")
+    assert(overflows(fn () => zero GCD minI), "row 334: ZZ32 0 GCD MIN overflows")
+    assert(overflows(fn () => minI GCD minI), "row 334: ZZ32 MIN GCD MIN overflows")
+    assert(overflows(fn () => minI LCM minI), "row 334: ZZ32 MIN LCM MIN overflows")
+
+    oneL: ZZ64 = widen(one)
+    fiveL: ZZ64 = widen(five)
+    twoTo32: ZZ64 = 4294967296
+    assert(zeroL GCD (-4), widen(4), "row 334: ZZ64 0 GCD -4, basic-integers.tex:524")
+    assert(zeroL GCD minusOneL, oneL, "row 334: ZZ64 0 GCD -1, basic-integers.tex:524")
+    assert(oneL LCM (-5), fiveL, "row 334: ZZ64 1 LCM -5, basic-integers.tex:528")
+    assert(widen(minusFour) LCM 6, widen(12), "row 334: ZZ64 -4 LCM 6, basic-integers.tex:528")
+    assert(zeroL LCM zeroL, zeroL, "row 334: ZZ64 0 LCM 0, basic-integers.tex:529")
+    assert(minL LCM zeroL, zeroL, "row 334: ZZ64 MIN LCM 0, basic-integers.tex:529")
+    assert(overflows(fn () => maxL LCM 2), "row 334: ZZ64 MAX LCM 2 overflows")
+    assert(overflows(fn () => twoTo32 LCM (twoTo32 - 1)), "row 334: ZZ64 2^32 LCM 2^32-1 overflows")
+    assert(overflows(fn () => minL LCM minusOneL), "row 334: ZZ64 MIN LCM -1 overflows")
+    assert(overflows(fn () => minL LCM oneL), "row 334: ZZ64 MIN LCM 1 overflows")
+    assert(overflows(fn () => fiveL LCM minL), "row 334: ZZ64 5 LCM MIN overflows")
+    assert(overflows(fn () => minL GCD zeroL), "row 334: ZZ64 MIN GCD 0 overflows")
+    assert(overflows(fn () => zeroL GCD minL), "row 334: ZZ64 0 GCD MIN overflows")
+    assert(overflows(fn () => minL GCD minL), "row 334: ZZ64 MIN GCD MIN overflows")
+    assert(overflows(fn () => minL LCM minL), "row 334: ZZ64 MIN LCM MIN overflows")
+    assert(overflows(fn () => minL LCM 2), "row 334: ZZ64 MIN LCM 2 overflows")
+
+    twoTo31: ZZ64 = 2147483648
+    assert(narrow(twoTo32), 0, "row 346: ZZ64 narrow 2^32")
+    assert(narrow(maxL), -1, "row 346: ZZ64 narrow MAX")
+    assert(narrow(minL), 0, "row 346: ZZ64 narrow MIN")
+    assert(narrow(twoTo31), minI, "row 346: ZZ64 narrow 2^31")
+    assert(big(widen(one)) LCM big(widen(-5)), 5, "row 334: ZZ 1 LCM -5, basic-integers.tex:528")
+    assert(big(widen(minusFour)) LCM big(widen(6)), 12, "row 334: ZZ -4 LCM 6, basic-integers.tex:528")
+    assert(bigZero LCM bigZero, 0, "row 334: ZZ 0 LCM 0, basic-integers.tex:529")
+
+    println "PASS"
+end
+
+end

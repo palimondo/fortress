@@ -1,0 +1,59 @@
+component SkR2Fixed
+export Executable
+
+s32(f: () -> ZZ32): String =
+  try
+    f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+s64(f: () -> ZZ64): String =
+  try
+    f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+run(): () = do
+    p1: ZZ32 = 1
+    m1: ZZ32 = -1
+    m2: ZZ32 = -2
+    z: ZZ32 = 0
+    maxI: ZZ32 = 2147483647
+    minI: ZZ32 = -maxI - 1
+    h: ZZ32 = 1073741824
+    m46340: ZZ32 = -46340
+    p46341: ZZ32 = 46341
+    m65536: ZZ32 = -65536
+    p32768: ZZ32 = 32768
+    maxL: ZZ64 = 7FFFFFFFFFFFFFFF_16
+    minL: ZZ64 = -maxL - 1
+    oneL: ZZ64 = widen(p1)
+    mOneL: ZZ64 = widen(m1)
+    println("ZZ32 MIN RSHIFT 31 = " || s32(fn () => minI RSHIFT 31))
+    println("ZZ32 MIN LSHIFT -32 = " || s32(fn () => minI LSHIFT (-32)))
+    println("ZZ32 -1 RSHIFT 32 = " || s32(fn () => m1 RSHIFT 32))
+    println("ZZ32 2^30 LSHIFT 1 = " || s32(fn () => h LSHIFT 1))
+    println("ZZ32 MAX LSHIFT 1 = " || s32(fn () => maxI LSHIFT 1))
+    println("ZZ32 MAX RSHIFT -1 = " || s32(fn () => maxI RSHIFT (-1)))
+    println("ZZ32 -2 RSHIFT 1 = " || s32(fn () => m2 RSHIFT 1))
+    println("ZZ32 0 LSHIFT -40 = " || s32(fn () => z LSHIFT (-40)))
+    println("ZZ64 MIN RSHIFT 63 = " || s64(fn () => minL RSHIFT 63))
+    println("ZZ64 MIN LSHIFT -63 = " || s64(fn () => minL LSHIFT (-63)))
+    println("ZZ64 1 LSHIFT 63 = " || s64(fn () => oneL LSHIFT 63))
+    println("ZZ64 -1 LSHIFT -64 = " || s64(fn () => mOneL LSHIFT (-64)))
+    println("ZZ64 MAX RSHIFT -1 = " || s64(fn () => maxL RSHIFT (-1)))
+    println("ZZ64 MAX LSHIFT 1 = " || s64(fn () => maxL LSHIFT 1))
+    println("ZZ32 -46340 LCM 46341 = " || s32(fn () => m46340 LCM p46341))
+    println("ZZ32 -65536 LCM 32768 = " || s32(fn () => m65536 LCM p32768))
+    println("ZZ32 MIN GCD -2 = " || s32(fn () => minI GCD m2))
+    println("ZZ32 MIN LCM MIN = " || s32(fn () => minI LCM minI))
+    println("ZZ32 MIN LCM 0 = " || s32(fn () => minI LCM z))
+    println("ZZ64 narrow(-2^31 - 1) = " || s32(fn () => narrow(widen(minI) - oneL)))
+    println("ZZ64 narrow(2^31 - 1) = " || s32(fn () => narrow(widen(maxI))))
+    println("ZZ64 narrow(-1) = " || s32(fn () => narrow(mOneL)))
+    println("END")
+end
+
+end

@@ -1,0 +1,6 @@
+$ fortress compile SkCountType.fss ; fortress run SkCountType   (compiled, main with rung B applied and built at the gather; rung I's patch was in the working tree but not built, and it touches only the interpreter and its library; the probe is rung I's skeptic's, unchanged)
+compile-exit=0
+ZZ32 3 LSHIFT a ZZ64 count of 33 = 25769803776
+ZZ32 3 LSHIFT a ZZ32 count of 33 = 0
+END
+run-exit=0

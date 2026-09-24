@@ -1,0 +1,6 @@
+### walk, JAVA_FLAGS=-Xmx4g, tree d68be2587
+ZZ 1 LSHIFT 2147483646 returned (bit length 2147483647)
+ZZ -3 LSHIFT 2147483645 returned (bit length 2147483647)
+ZZ -4 LSHIFT 2147483644 returned (bit length 2147483647)
+END
+exit=0

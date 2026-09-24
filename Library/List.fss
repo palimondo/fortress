@@ -308,8 +308,8 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
     get(i:ZZ32): E = underlying.get(firstUsed+i)
 
     fill[\T\](start: ZZ32, under: ImmutableArray[\T,ZZ32\]): () = do
-        shift = start - firstUsed
-        under.init0(i+shift, cast[\T\](underlying.get(i))), i <- firstUsed # |self|
+        amount = start - firstUsed
+        under.init0(i+amount, cast[\T\](underlying.get(i))), i <- firstUsed # |self|
       end
 
     (** Return new %ArrayList% enlarged on the left by at least %i%

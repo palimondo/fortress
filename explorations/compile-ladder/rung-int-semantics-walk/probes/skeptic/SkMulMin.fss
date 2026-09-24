@@ -1,0 +1,30 @@
+component SkMulMin
+export Executable
+
+s64(f: () -> ZZ64): String =
+  try
+    f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+show(what: String, got: String, want: String): () =
+  println(what || " = " || got || "   (want " || want || ")" || (if got = want then "" else "   DIFF" end))
+
+run(): () = do
+    two: ZZ32 = 2
+    twoL: ZZ64 = widen(two)
+    maxL: ZZ64 = 7FFFFFFFFFFFFFFF_16
+    minL: ZZ64 = -maxL - 1
+    twoTo62: ZZ64 = 4611686018427387904
+    mTwoTo62: ZZ64 = -twoTo62
+    show("ZZ64 2 DOT -2^62", s64(fn () => twoL DOT mTwoTo62), "-9223372036854775808")
+    show("ZZ64 -2^62 DOT 2", s64(fn () => mTwoTo62 DOT twoL), "-9223372036854775808")
+    show("ZZ64 MIN REM 2", s64(fn () => minL REM twoL), "0")
+    show("ZZ64 MIN MOD 2", s64(fn () => minL MOD twoL), "0")
+    show("ZZ64 MIN GCD 2", s64(fn () => minL GCD twoL), "2")
+    show("ZZ64 2 GCD MIN", s64(fn () => twoL GCD minL), "2")
+    show("ZZ64 2^62 DOT 2", s64(fn () => twoTo62 DOT twoL), "IntegerOverflow")
+    println("END")
+  end
+end

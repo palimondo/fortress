@@ -1,0 +1,10 @@
+compile-exit=0
+ZZ64 2 DOT -2^62 = IntegerOverflow   (want -9223372036854775808)   DIFF
+ZZ64 -2^62 DOT 2 = IntegerOverflow   (want -9223372036854775808)   DIFF
+ZZ64 MIN REM 2 = IntegerOverflow   (want 0)   DIFF
+ZZ64 MIN MOD 2 = IntegerOverflow   (want 0)   DIFF
+ZZ64 MIN GCD 2 = IntegerOverflow   (want 2)   DIFF
+ZZ64 2 GCD MIN = IntegerOverflow   (want 2)   DIFF
+ZZ64 2^62 DOT 2 = IntegerOverflow   (want IntegerOverflow)
+END
+run-exit=0

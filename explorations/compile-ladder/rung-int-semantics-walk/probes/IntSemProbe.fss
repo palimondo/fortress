@@ -1,0 +1,165 @@
+component IntSemProbe
+export Executable
+
+show(name: String, want: String, f: () -> Any): () = do
+  got: String = try
+      v = f()
+      "" v
+    catch e
+      IntegerOverflow => "THROWS IntegerOverflow"
+    end
+  println(name " = " got "   (want " want ")" (if got = want then "" else "   DIFF" end))
+end
+
+run() = do
+    three: ZZ32 = 3
+    five: ZZ32 = 5
+    zero: ZZ32 = 0
+    one: ZZ32 = 1
+    minusOne: ZZ32 = -1
+    minusThree: ZZ32 = -3
+    minusFour: ZZ32 = -4
+    minusSixteen: ZZ32 = -16
+    hundredK: ZZ32 = 100000
+    minI: ZZ32 = -2147483647 - 1
+    maxI: ZZ32 = 2147483647
+    maxL: ZZ64 = 9223372036854775807
+    minL: ZZ64 = -9223372036854775807 - 1
+    ovf = "THROWS IntegerOverflow"
+
+    println("-- ZZ32 shifts")
+    show("ZZ32 3 LSHIFT 31", "-2147483648", fn () => three LSHIFT 31)
+    show("ZZ32 3 LSHIFT 32", "0", fn () => three LSHIFT 32)
+    show("ZZ32 3 LSHIFT 33", "0", fn () => three LSHIFT 33)
+    show("ZZ32 3 RSHIFT 33", "0", fn () => three RSHIFT 33)
+    show("ZZ32 -16 RSHIFT 32", "-1", fn () => minusSixteen RSHIFT 32)
+    show("ZZ32 -16 RSHIFT 33", "-1", fn () => minusSixteen RSHIFT 33)
+    show("ZZ32 3 LSHIFT -1", "1", fn () => three LSHIFT (-1))
+    show("ZZ32 3 RSHIFT -1", "6", fn () => three RSHIFT (-1))
+    show("ZZ32 -16 LSHIFT -2", "-4", fn () => minusSixteen LSHIFT (-2))
+    show("ZZ32 -16 LSHIFT -40", "-1", fn () => minusSixteen LSHIFT (-40))
+    show("ZZ32 3 RSHIFT -40", "0", fn () => three RSHIFT (-40))
+    show("ZZ32 3 LSHIFT MIN", "0", fn () => three LSHIFT minI)
+    show("ZZ32 -3 LSHIFT MIN", "-1", fn () => minusThree LSHIFT minI)
+    show("ZZ32 3 LSHIFT ZZ64 MIN", "0", fn () => three LSHIFT minL)
+    show("ZZ32 -3 LSHIFT ZZ64 MIN", "-1", fn () => minusThree LSHIFT minL)
+    show("ZZ32 -3 RSHIFT ZZ64 MIN", "0", fn () => minusThree RSHIFT minL)
+
+    threeL: ZZ64 = widen(three)
+    minusThreeL: ZZ64 = widen(minusThree)
+    minusSixteenL: ZZ64 = widen(minusSixteen)
+    zeroL: ZZ64 = widen(zero)
+    minusOneL: ZZ64 = widen(minusOne)
+    println("-- ZZ64 shifts")
+    show("ZZ64 3 LSHIFT 63", "-9223372036854775808", fn () => threeL LSHIFT 63)
+    show("ZZ64 3 LSHIFT 64", "0", fn () => threeL LSHIFT 64)
+    show("ZZ64 3 LSHIFT 65", "0", fn () => threeL LSHIFT 65)
+    show("ZZ64 3 RSHIFT 65", "0", fn () => threeL RSHIFT 65)
+    show("ZZ64 -16 RSHIFT 64", "-1", fn () => minusSixteenL RSHIFT 64)
+    show("ZZ64 -16 RSHIFT 65", "-1", fn () => minusSixteenL RSHIFT 65)
+    show("ZZ64 3 LSHIFT -1", "1", fn () => threeL LSHIFT (-1))
+    show("ZZ64 3 RSHIFT -1", "6", fn () => threeL RSHIFT (-1))
+    show("ZZ64 -16 LSHIFT -2", "-4", fn () => minusSixteenL LSHIFT (-2))
+    show("ZZ64 -16 LSHIFT -70", "-1", fn () => minusSixteenL LSHIFT (-70))
+    show("ZZ64 3 RSHIFT -70", "0", fn () => threeL RSHIFT (-70))
+    show("ZZ64 3 LSHIFT MIN", "0", fn () => threeL LSHIFT minL)
+    show("ZZ64 -3 LSHIFT MIN", "-1", fn () => minusThreeL LSHIFT minL)
+    show("ZZ64 -3 RSHIFT MIN", "0", fn () => minusThreeL RSHIFT minL)
+
+    eight: NN32 = unsigned(8)
+    eightL: NN64 = unsigned(widen(8))
+    println("-- NN32 and NN64 shifts")
+    show("NN32 8 LSHIFT -1", "4", fn () => eight LSHIFT (-1))
+    show("NN32 8 RSHIFT -1", "16", fn () => eight RSHIFT (-1))
+    show("NN64 8 LSHIFT -1", "4", fn () => eightL LSHIFT (-1))
+    show("NN64 8 RSHIFT -1", "16", fn () => eightL RSHIFT (-1))
+    show("NN32 8 LSHIFT 32", "0", fn () => eight LSHIFT 32)
+    show("NN32 8 RSHIFT -32", "0", fn () => eight RSHIFT (-32))
+    show("NN64 8 RSHIFT -64", "0", fn () => eightL RSHIFT (-64))
+    twoTo63: NN64 = unsigned(maxL) + unsigned(widen(1))
+    maxU: NN64 = unsigned(minusOneL)
+    show("NN64 count 2^63", "9223372036854775808", fn () => twoTo63)
+    show("ZZ64 -3 LSHIFT NN64 2^63", "0", fn () => minusThreeL LSHIFT twoTo63)
+    show("ZZ64 -3 RSHIFT NN64 2^63", "-1", fn () => minusThreeL RSHIFT twoTo63)
+    show("ZZ64 -3 LSHIFT NN64 2^64-1", "0", fn () => minusThreeL LSHIFT maxU)
+    show("ZZ32 -3 LSHIFT NN64 2^64-1", "0", fn () => minusThree LSHIFT maxU)
+    show("NN64 8 LSHIFT NN64 2^63", "0", fn () => eightL LSHIFT twoTo63)
+    show("NN64 8 LSHIFT NN64 2^64-1", "0", fn () => eightL LSHIFT maxU)
+    show("NN32 8 LSHIFT NN64 2^64-1", "0", fn () => eight LSHIFT maxU)
+
+    bigThree: ZZ = big(threeL)
+    bigMinusThree: ZZ = big(minusThreeL)
+    bigZero: ZZ = big(zeroL)
+    println("-- the unbounded ZZ")
+    show("ZZ 3 LSHIFT -4294967297", "0", fn () => bigThree LSHIFT (-4294967297))
+    show("ZZ -3 LSHIFT -4294967296", "-1", fn () => bigMinusThree LSHIFT (-4294967296))
+    show("ZZ 3 RSHIFT 4294967297", "0", fn () => bigThree RSHIFT 4294967297)
+    show("ZZ -3 RSHIFT 4294967296", "-1", fn () => bigMinusThree RSHIFT 4294967296)
+    show("ZZ 3 LSHIFT ZZ64 MIN", "0", fn () => bigThree LSHIFT minL)
+    show("ZZ -3 LSHIFT ZZ64 MIN", "-1", fn () => bigMinusThree LSHIFT minL)
+    show("ZZ 0 LSHIFT 4294967296", "0", fn () => bigZero LSHIFT 4294967296)
+    show("ZZ 3 LSHIFT 4294967296", ovf, fn () => bigThree LSHIFT 4294967296)
+    show("ZZ 3 LSHIFT 4294967297", ovf, fn () => bigThree LSHIFT 4294967297)
+    show("ZZ 3 RSHIFT ZZ64 MIN", ovf, fn () => bigThree RSHIFT minL)
+    show("ZZ 3 LSHIFT 33", "25769803776", fn () => bigThree LSHIFT 33)
+    show("ZZ 3 LSHIFT -1", "1", fn () => bigThree LSHIFT (-1))
+    show("ZZ -3 LSHIFT -1", "-2", fn () => bigMinusThree LSHIFT (-1))
+    show("ZZ 3 LSHIFT NN64 2^63", ovf, fn () => bigThree LSHIFT twoTo63)
+    show("ZZ -3 RSHIFT NN64 2^63", "-1", fn () => bigMinusThree RSHIFT twoTo63)
+
+    println("-- toB on an NN64 of 2^63 or more")
+    show("NN64 2^63 + ZZ 0", "9223372036854775808", fn () => twoTo63 + bigZero)
+    show("ZZ 0 + NN64 2^63", "9223372036854775808", fn () => bigZero + twoTo63)
+    show("NN64 2^63 = ZZ 2^63", "true", fn () => twoTo63 = (bigThree - bigThree + 9223372036854775808))
+
+    println("-- ZZ32 GCD and LCM")
+    show("ZZ32 0 GCD -4", "4", fn () => zero GCD (-4))
+    show("ZZ32 0 GCD -1", "1", fn () => zero GCD minusOne)
+    show("ZZ32 -4 GCD 0", "4", fn () => minusFour GCD zero)
+    show("ZZ32 12 GCD -18", "6", fn () => (12 GCD (-18)))
+    show("ZZ32 MIN GCD 2", "2", fn () => minI GCD 2)
+    show("ZZ32 MIN GCD -1", "1", fn () => minI GCD minusOne)
+    show("ZZ32 1 LCM -5", "5", fn () => one LCM (-5))
+    show("ZZ32 -4 LCM 6", "12", fn () => minusFour LCM 6)
+    show("ZZ32 -12 LCM -18", "36", fn () => (-12) LCM (-18))
+    show("ZZ32 MIN LCM 0", "0", fn () => minI LCM zero)
+    show("ZZ32 MAX LCM 1", "2147483647", fn () => maxI LCM one)
+    show("ZZ32 MAX LCM 2", ovf, fn () => maxI LCM 2)
+    show("ZZ32 100000 LCM 99999", ovf, fn () => hundredK LCM 99999)
+    show("ZZ32 MIN LCM -1", ovf, fn () => minI LCM minusOne)
+    show("ZZ32 MIN LCM 1", ovf, fn () => minI LCM one)
+    show("ZZ32 5 LCM MIN", ovf, fn () => five LCM minI)
+    show("ZZ32 MIN LCM MIN", ovf, fn () => minI LCM minI)
+    show("ZZ32 MIN GCD 0", ovf, fn () => minI GCD zero)
+    show("ZZ32 0 GCD MIN", ovf, fn () => zero GCD minI)
+    show("ZZ32 MIN GCD MIN", ovf, fn () => minI GCD minI)
+
+    oneL: ZZ64 = widen(one)
+    fiveL: ZZ64 = widen(five)
+    twoTo32: ZZ64 = 4294967296
+    println("-- ZZ64 GCD and LCM")
+    show("ZZ64 0 GCD -4", "4", fn () => zeroL GCD (-4))
+    show("ZZ64 0 GCD -1", "1", fn () => zeroL GCD minusOneL)
+    show("ZZ64 -4 GCD 0", "4", fn () => widen(minusFour) GCD zeroL)
+    show("ZZ64 MIN GCD 2", "2", fn () => minL GCD 2)
+    show("ZZ64 MIN GCD 6", "2", fn () => minL GCD 6)
+    show("ZZ64 1 LCM -5", "5", fn () => oneL LCM (-5))
+    show("ZZ64 -4 LCM 6", "12", fn () => widen(minusFour) LCM 6)
+    show("ZZ64 MIN LCM 0", "0", fn () => minL LCM zeroL)
+    show("ZZ64 65535 LCM 32769", "715838805", fn () => widen(65535) LCM 32769)
+    show("ZZ64 MAX LCM 2", ovf, fn () => maxL LCM 2)
+    show("ZZ64 2^32 LCM 2^32-1", ovf, fn () => twoTo32 LCM (twoTo32 - 1))
+    show("ZZ64 MIN LCM -1", ovf, fn () => minL LCM minusOneL)
+    show("ZZ64 MIN LCM 1", ovf, fn () => minL LCM oneL)
+    show("ZZ64 5 LCM MIN", ovf, fn () => fiveL LCM minL)
+    show("ZZ64 MIN LCM 2", ovf, fn () => minL LCM 2)
+    show("ZZ64 MIN LCM MIN", ovf, fn () => minL LCM minL)
+    show("ZZ64 MIN GCD 0", ovf, fn () => minL GCD zeroL)
+    show("ZZ64 0 GCD MIN", ovf, fn () => zeroL GCD minL)
+    show("ZZ64 MIN GCD MIN", ovf, fn () => minL GCD minL)
+
+    println("-- ZZ64 narrow, in range")
+    show("ZZ64 narrow 5", "5", fn () => narrow(fiveL))
+    show("ZZ64 narrow -2147483648", "-2147483648", fn () => narrow(widen(minI)))
+end
+end

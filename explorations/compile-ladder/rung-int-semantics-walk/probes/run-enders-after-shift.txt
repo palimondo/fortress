@@ -1,0 +1,32 @@
+### ZZ32 0 LCM 0    [zero LCM zero]
+ZZ32 0 LCM 0 = 0   (want 0)
+### ZZ64 0 LCM 0    [zeroL LCM zeroL]
+ZZ64 0 LCM 0 = 0   (want 0)
+### ZZ64 narrow 2^32    [narrow(twoTo32)]
+ZZ64 narrow 2^32 = 0   (want 0)
+### ZZ64 narrow MAX    [narrow(maxL)]
+ZZ64 narrow MAX = -1   (want -1)
+### ZZ64 narrow MIN    [narrow(minL)]
+ZZ64 narrow MIN = 0   (want 0)
+### ZZ64 narrow 2^31    [narrow(twoTo31)]
+ZZ64 narrow 2^31 = -2147483648   (want -2147483648)
+### ZZ64 3 LSHIFT a ZZ count of 3    [threeL LSHIFT bigThree]
+ZZ64 3 LSHIFT a ZZ count of 3 = 24   (want 24)
+### ZZ32 -3 RSHIFT a ZZ count of 40    [minusThree RSHIFT big(widen(40))]
+ZZ32 -3 RSHIFT a ZZ count of 40 = -1   (want -1)
+### ZZ 3 LSHIFT 2147483647    [bigThree LSHIFT 2147483647]
+ZZ 3 LSHIFT 2147483647 = THROWS IntegerOverflow   (want THROWS IntegerOverflow)
+### shift(3, 33) on a ZZ32    [shift(three, 33)]
+shift(3, 33) on a ZZ32 = 25769803776   (want 25769803776)
+### shift(3, -1)    [shift(three, -1)]
+shift(3, -1) = 1   (want 1)
+### shift(-3, -1)    [shift(minusThree, -1)]
+shift(-3, -1) = -2   (want -2)
+### shift(3, 64) on a ZZ64    [shift(threeL, 64)]
+shift(3, 64) on a ZZ64 = 55340232221128654848   (want 55340232221128654848)
+### shift(2^63, 1) on an NN64    [shift(twoTo63, 1)]
+shift(2^63, 1) on an NN64 = 18446744073709551616   (want 18446744073709551616)
+### shift(-3, ZZ64 MIN)    [shift(bigMinusThree, minL)]
+shift(-3, ZZ64 MIN) = -1   (want -1)
+### shift(3, 4294967296) on a ZZ    [shift(bigThree, 4294967296)]
+shift(3, 4294967296) on a ZZ = THROWS IntegerOverflow   (want THROWS IntegerOverflow)

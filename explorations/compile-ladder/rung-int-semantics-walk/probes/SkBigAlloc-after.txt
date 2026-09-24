@@ -1,0 +1,3 @@
+### bin/fortress, JAVA_FLAGS unset (-Xmx256m)
+ZZ 3 LSHIFT 2147483647 = THROWS IntegerOverflow
+exit=0

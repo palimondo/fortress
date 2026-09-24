@@ -1,0 +1,7 @@
+### bin/fortress, JAVA_FLAGS unset (-Xmx256m); frames beginning with 'at' omitted
+Exception in thread "main" java.lang.OutOfMemoryError
+Caused by: java.lang.OutOfMemoryError: Java heap space
+exit=1
+### JAVA_FLAGS -Xmx4g
+ZZ 3 LSHIFT 2147483645 = returns
+exit=0

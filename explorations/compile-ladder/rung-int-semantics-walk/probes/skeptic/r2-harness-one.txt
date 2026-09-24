@@ -1,0 +1,9 @@
+/home/user/fortress-intsem-i/tmp/sk2/h1/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d13707a4_16
+. interpret /home/user/fortress-intsem-i/tmp/sk2/h1/tests/IntSemanticsRungI  OK (time = 16068ms)
+
+Time: 16.072
+
+OK (1 test)
+
+EXIT=0

@@ -1,0 +1,11 @@
+### -Xmx256m
+Exception in thread "main" java.lang.OutOfMemoryError
+Caused by: java.lang.OutOfMemoryError: Java heap space
+Command exited with non-zero status 1
+wall 3.30s maxrss 282196kB
+### -Xmx768m
+ZZ 3 LSHIFT 2147483647 = THROWS IntegerOverflow
+wall 2.62s maxrss 505464kB
+### -Xmx4g
+ZZ 3 LSHIFT 2147483647 = THROWS IntegerOverflow
+wall 2.69s maxrss 574212kB

@@ -1,0 +1,4 @@
+/home/user/fortress-intsem-i/tmp/scratch/ShadowEven.fss:4:3-5:
+    Variable even is already declared.
+/home/user/fortress-intsem-i/tmp/scratch/ShadowEven.fss:7:3-10:
+    Variable numerator is already declared.

@@ -1,0 +1,5 @@
+compile-exit=0
+ZZ32 3 LSHIFT a ZZ64 count of 33 = 25769803776
+ZZ32 3 LSHIFT a ZZ32 count of 33 = 6
+END
+run-exit=0

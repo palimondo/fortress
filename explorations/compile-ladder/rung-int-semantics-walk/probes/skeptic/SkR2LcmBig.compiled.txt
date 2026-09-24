@@ -1,0 +1,6 @@
+compile-exit=255
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2LcmBig.fss:12:13-14:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2LcmBig.fss:13:13-14:
+    Variable big is not defined.
+File SkR2LcmBig.fss has 2 errors.

@@ -93,6 +93,14 @@ public class UnsignedLong extends NativeConstructor {
         }
     }
 
+    static private abstract class UC2U extends NativeMeth1 {
+        protected abstract long f(long x, long y);
+
+        public final FValue applyMethod(FObject x, FValue y) {
+            return FNN64.make(f(x.getNN64(), Int.shiftCount(y)));
+        }
+    }
+
     public static final class Negate extends U2U {
         protected long f(long x) {
             return Unsigned.subtract(0, x);
@@ -173,14 +181,16 @@ public class UnsignedLong extends NativeConstructor {
         }
     }
 
-    public static final class LShift extends UU2U {
+    public static final class LShift extends UC2U {
         protected long f(long u, long v) {
+            if (v < 0) return (v > -64) ? (u >>> (int) -v) : 0;
             return ((v & ~63) == 0) ? (u << (int) v) : 0;
         }
     }
 
-    public static final class RShift extends UU2U {
+    public static final class RShift extends UC2U {
         protected long f(long u, long v) {
+            if (v < 0) return (v > -64) ? (u << (int) -v) : 0;
             return ((v & ~63) == 0) ? (u >>> (int) v) : 0;
         }
     }

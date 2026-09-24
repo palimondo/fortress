@@ -1,0 +1,23 @@
+### landed: ZZ32 3 LSHIFT a ZZ count of 33    [three LSHIFT big(widen(33))]
+ZZ32 3 LSHIFT a ZZ count of 33 = 25769803776 : ZZ64
+### base: ZZ32 3 LSHIFT a ZZ count of 33    [three LSHIFT big(widen(33))]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-intsem-i/tmp/skep/basecases/SkBase1.fss:11:10-13:
+Value 33 might not fit in ZZ64.
+Context:
+/home/user/fortress-intsem-i/tmp/skep/basecases/SkBase1.fss:11:10-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+### landed: ZZ32 3 LSHIFT an NN32 count of 33    [three LSHIFT unsigned(33)]
+ZZ32 3 LSHIFT an NN32 count of 33 = 25769803776 : ZZ64
+### base: ZZ32 3 LSHIFT an NN32 count of 33    [three LSHIFT unsigned(33)]
+ZZ32 3 LSHIFT an NN32 count of 33 = 25769803776 : ZZ64
+### landed: ZZ32 3 LSHIFT an NN64 count of 33    [three LSHIFT unsigned(widen(33))]
+ZZ32 3 LSHIFT an NN64 count of 33 = 25769803776 : ZZ64
+### base: ZZ32 3 LSHIFT an NN64 count of 33    [three LSHIFT unsigned(widen(33))]
+ZZ32 3 LSHIFT an NN64 count of 33 = 25769803776 : ZZ64
+### landed: ZZ32 3 LSHIFT a ZZ64 count of 33    [three LSHIFT widen(33)]
+ZZ32 3 LSHIFT a ZZ64 count of 33 = 0 : ZZ32
+### base: ZZ32 3 LSHIFT a ZZ64 count of 33    [three LSHIFT widen(33)]
+ZZ32 3 LSHIFT a ZZ64 count of 33 = 0 : ZZ32
+EXIT=0

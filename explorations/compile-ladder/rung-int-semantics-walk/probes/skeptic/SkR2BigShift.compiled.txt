@@ -1,0 +1,34 @@
+compile-exit=255
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:36:14-15:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:37:15-16:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:38:14-15:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:39:15-16:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:40:14-15:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:41:14-15:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:42:15-16:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:43:14-15:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:44:15-16:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:45:14-15:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:46:17-18:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:47:17-18:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:48:53-54:
+    Variable big is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:62:49-52:
+    Variable shift is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:63:51-54:
+    Variable shift is not defined.
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2BigShift.fss:81:42-45:
+    Variable shift is not defined.
+File SkR2BigShift.fss has 16 errors.

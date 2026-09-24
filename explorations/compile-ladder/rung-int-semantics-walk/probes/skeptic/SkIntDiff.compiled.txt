@@ -1,0 +1,60 @@
+compile-exit=0
+-- ZZ32 shifts
+ZZ32 1 RSHIFT -31 = 0   (want -2147483648)   DIFF
+ZZ32 1 RSHIFT -32 = 1   (want 0)   DIFF
+ZZ32 MIN LSHIFT -31 = 0   (want -1)   DIFF
+ZZ32 MIN RSHIFT 31 = -1   (want -1)
+ZZ32 5 LSHIFT 0 = 5   (want 5)
+ZZ32 -1 LSHIFT 31 = -2147483648   (want -2147483648)
+ZZ32 MAX LSHIFT 1 = -2   (want -2)
+ZZ32 7 LSHIFT -2 = -1073741824   (want 1)   DIFF
+ZZ32 -7 LSHIFT -1 = -2147483648   (want -4)   DIFF
+ZZ32 5 RSHIFT MAX = 0   (want 0)
+ZZ32 -5 RSHIFT MAX = -1   (want -1)
+ZZ32 5 LSHIFT MAX = -2147483648   (want 0)   DIFF
+ZZ32 -5 RSHIFT MIN = -5   (want 0)   DIFF
+ZZ32 -5 LSHIFT MIN = -5   (want -1)   DIFF
+-- ZZ32 GCD/LCM
+ZZ32 -6 GCD -4 = 2   (want 2)
+ZZ32 -6 LCM -4 = 12   (want 12)
+ZZ32 MIN GCD 2 = 2   (want 2)
+ZZ32 MIN GCD -1 = 1   (want 1)
+ZZ32 MIN LCM 2 = IntegerOverflow   (want IntegerOverflow)
+ZZ32 MIN LCM -2 = IntegerOverflow   (want IntegerOverflow)
+ZZ32 0 GCD 0 = 0   (want 0)
+ZZ32 -7 GCD 0 = 7   (want 7)
+ZZ32 MAX GCD MAX = 2147483647   (want 2147483647)
+ZZ32 MAX LCM -MAX = 2147483647   (want 2147483647)
+ZZ32 46341 LCM 46340 = 2147441940   (want 2147441940)
+ZZ32 -46341 LCM 46340 = 2147441940   (want 2147441940)
+ZZ32 46341 LCM 46342 = IntegerOverflow   (want IntegerOverflow)
+-- ZZ64 shifts
+ZZ64 1 RSHIFT -63 = 0   (want -9223372036854775808)   DIFF
+ZZ64 1 RSHIFT -64 = 1   (want 0)   DIFF
+ZZ64 MIN LSHIFT -63 = 0   (want -1)   DIFF
+ZZ64 MIN RSHIFT 63 = -1   (want -1)
+ZZ64 -7 LSHIFT -1 = -9223372036854775808   (want -4)   DIFF
+ZZ64 MAX LSHIFT 1 = -2   (want -2)
+ZZ64 5 LSHIFT MAX = -9223372036854775808   (want 0)   DIFF
+ZZ64 -5 RSHIFT MAX = -1   (want -1)
+ZZ64 -5 RSHIFT MIN = -5   (want 0)   DIFF
+-- ZZ64 GCD/LCM
+ZZ64 -6 GCD -4 = 2   (want 2)
+ZZ64 -6 LCM -4 = 12   (want 12)
+ZZ64 MIN GCD 2 = IntegerOverflow   (want 2)   DIFF
+ZZ64 MIN GCD 2^62 = IntegerOverflow   (want 4611686018427387904)   DIFF
+ZZ64 MIN LCM -2 = IntegerOverflow   (want IntegerOverflow)
+ZZ64 -7 GCD 0 = 7   (want 7)
+ZZ64 MAX LCM MAX = 9223372036854775807   (want 9223372036854775807)
+ZZ64 3037000499 LCM 3037000500 = IntegerOverflow   (want 9223372033963249500)   DIFF
+ZZ64 3037000500 LCM 3037000501 = IntegerOverflow   (want IntegerOverflow)
+-- ZZ64 narrow
+ZZ64 narrow -5 = -5   (want -5)
+ZZ64 narrow 2^31-1 = 2147483647   (want 2147483647)
+ZZ64 narrow -2^31 = -2147483648   (want -2147483648)
+ZZ64 narrow 2^32+7 = IntegerOverflow   (want 7)   DIFF
+ZZ64 narrow -2^32-1 = IntegerOverflow   (want -1)   DIFF
+ZZ64 narrow 2^31+1 = IntegerOverflow   (want -2147483647)   DIFF
+ZZ64 narrow -2^31-1 = IntegerOverflow   (want 2147483647)   DIFF
+END
+run-exit=0

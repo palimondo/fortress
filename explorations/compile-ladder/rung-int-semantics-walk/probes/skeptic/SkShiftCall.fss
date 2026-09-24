@@ -1,0 +1,8 @@
+component SkShiftCall
+export Executable
+
+run(): () = do
+    three: ZZ32 = 3
+    println("shift(3, 33) = " || (shift(three, 33)).asString)
+  end
+end

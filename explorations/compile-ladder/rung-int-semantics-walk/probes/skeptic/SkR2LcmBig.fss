@@ -1,0 +1,58 @@
+component SkR2LcmBig
+export Executable
+
+sz(f: () -> ZZ): String =
+  try
+    f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+pair(a: ZZ64, b: ZZ64): () = do
+    u: ZZ = big(a)
+    v: ZZ = big(b)
+    println("LCM " || u.asString || " " || v.asString || " = " || sz(fn () => u LCM v))
+    println("GCD " || u.asString || " " || v.asString || " = " || sz(fn () => u GCD v))
+end
+
+run(): () = do
+    z: ZZ32 = 0
+    p1: ZZ32 = 1
+    m1: ZZ32 = -1
+    m5: ZZ32 = -5
+    m6: ZZ32 = -6
+    m4: ZZ32 = -4
+    p4: ZZ32 = 4
+    p10: ZZ32 = 10
+    m10: ZZ32 = -10
+    p7: ZZ32 = 7
+    m7: ZZ32 = -7
+    p12: ZZ32 = 12
+    m18: ZZ32 = -18
+    twoTo40: ZZ64 = 1099511627776
+    m3twoTo39: ZZ64 = -1649267441664
+    twoTo31: ZZ64 = 2147483648
+    maxL: ZZ64 = 7FFFFFFFFFFFFFFF_16
+    minL: ZZ64 = -maxL - 1
+    pair(widen(z), widen(z))
+    pair(widen(z), widen(m5))
+    pair(widen(m5), widen(z))
+    pair(widen(p1), widen(m1))
+    pair(widen(m1), widen(m1))
+    pair(widen(m6), widen(m4))
+    pair(widen(p10), widen(m4))
+    pair(widen(m10), widen(p4))
+    pair(widen(m7), widen(m7))
+    pair(widen(p12), widen(m18))
+    pair(widen(m18), widen(p12))
+    pair(widen(p7), widen(m5))
+    pair(twoTo40, m3twoTo39)
+    pair(m3twoTo39, twoTo40)
+    pair(-twoTo31, twoTo31)
+    pair(minL, widen(z))
+    pair(minL, widen(p1))
+    pair(minL, minL)
+    println("END")
+end
+
+end

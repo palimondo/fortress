@@ -1,0 +1,9 @@
+component SkShiftParam
+export Executable
+
+bump(shift: ZZ32): ZZ32 = shift + 1
+
+run(): () = do
+    println("a parameter named shift, bump(3) = " || (bump(3)).asString)
+  end
+end

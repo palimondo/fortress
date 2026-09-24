@@ -1,0 +1,18 @@
+compile-exit=255
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2NN32Lcm0.fss:11:35:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN32, NN32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN32, NN32).
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2NN32Lcm0.fss:12:35-37:
+    Could not check call to operator GCD
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN32, NN32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN32, NN32).
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2NN32Lcm0.fss:13:35:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN32, NN32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN32, NN32).
+/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2NN32Lcm0.fss:14:35-37:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN32, NN32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN32, NN32).
+File SkR2NN32Lcm0.fss has 4 errors.

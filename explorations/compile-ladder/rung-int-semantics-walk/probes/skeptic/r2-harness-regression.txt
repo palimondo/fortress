@@ -1,0 +1,44 @@
+/home/user/fortress-intsem-i/tmp/sk2/hreg/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d13e7f3c_16
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/ReflectTest  OK (time = 18229ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/rightOverload  OK (time = 191ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/TreapTest  OK (time = 635ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/RandomTest  OK (time = 2746ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/subArray  OK (time = 467ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/NumberPrintTest  OK (time = 265ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/expTest  OK (time = 124ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/intDivisionTest  OK (time = 107ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/conditionalExtension  OK (time = 177ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/buffons  OK (time = 252ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/quicksortTest  OK (time = 579ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/SetTest  OK (time = 414ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/DivPrecedence  OK (time = 115ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/BigNum  OK (time = 114ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/realArith  OK (time = 354ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/IntSemanticsRungI  OK (time = 510ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/longPrim  OK (time = 263ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/zeno  OK (time = 835ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/RangePrototype  OK (time = 15853ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/BitTwiddle  OK (time = 167ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/intPrim  OK (time = 184ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/CovCollTest  OK (time = 1399ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/XXXHashtable  OK Saw expected exception
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/formatTest  OK (time = 1174ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/QuickCheckTest  OK (time = 19847ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/UnsignedTest  OK (time = 923ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/sparseMatrix  OK (time = 767ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/rshiftbug  OK (time = 138ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/RoundHalfEvenRungR  OK (time = 256ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/RationalTest  OK (time = 3397ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/IntMapTest  OK (time = 1518ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/testRR32  OK (time = 290ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/ReflectiveQuickCheckTest  OK (time = 21463ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/wrongOverload  OK (time = 149ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/RangeTest  OK (time = 589ms)
+. interpret /home/user/fortress-intsem-i/tmp/sk2/hreg/tests/chain0  OK (time = 173ms)
+
+Time: 94.712
+
+OK (36 tests)
+
+EXIT=0

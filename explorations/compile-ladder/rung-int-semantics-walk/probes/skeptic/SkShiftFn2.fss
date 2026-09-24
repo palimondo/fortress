@@ -1,0 +1,11 @@
+component SkShiftFn2
+export Executable
+
+shift(x: ZZ32, k: ZZ32): ZZ32 = x + k
+
+run(): () = do
+    three: ZZ32 = 3
+    one: ZZ32 = 1
+    println("a top-level shift(ZZ32, ZZ32), shift(3, 1) = " || (shift(three, one)).asString)
+  end
+end

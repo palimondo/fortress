@@ -1,0 +1,39 @@
+### ZZ32 0 LCM 0    [zero LCM zero]
+ZZ32 0 LCM 0 = 0   (want 0)
+### ZZ64 0 LCM 0    [zeroL LCM zeroL]
+ZZ64 0 LCM 0 = 0   (want 0)
+### ZZ64 narrow 2^32    [narrow(twoTo32)]
+ZZ64 narrow 2^32 = 0   (want 0)
+### ZZ64 narrow MAX    [narrow(maxL)]
+ZZ64 narrow MAX = -1   (want -1)
+### ZZ64 narrow MIN    [narrow(minL)]
+ZZ64 narrow MIN = 0   (want 0)
+### ZZ64 narrow 2^31    [narrow(twoTo31)]
+ZZ64 narrow 2^31 = -2147483648   (want -2147483648)
+### ZZ64 3 LSHIFT a ZZ count of 3    [threeL LSHIFT bigThree]
+ZZ64 3 LSHIFT a ZZ count of 3 = 24   (want 24)
+### ZZ32 -3 RSHIFT a ZZ count of 40    [minusThree RSHIFT big(widen(40))]
+ZZ32 -3 RSHIFT a ZZ count of 40 = -1   (want -1)
+### ZZ 3 LSHIFT 2147483647    [bigThree LSHIFT 2147483647]
+ZZ 3 LSHIFT 2147483647 = THROWS IntegerOverflow   (want THROWS IntegerOverflow)
+### shift(3, 33) on a ZZ32    [shift(three, 33)]
+/home/user/fortress-intsem-i/tmp/runenders-after/RunEnder10.fss:18:14-17:
+    Variable shift is not defined.
+### shift(3, -1)    [shift(three, -1)]
+/home/user/fortress-intsem-i/tmp/runenders-after/RunEnder11.fss:18:14-17:
+    Variable shift is not defined.
+### shift(-3, -1)    [shift(minusThree, -1)]
+/home/user/fortress-intsem-i/tmp/runenders-after/RunEnder12.fss:18:14-17:
+    Variable shift is not defined.
+### shift(3, 64) on a ZZ64    [shift(threeL, 64)]
+/home/user/fortress-intsem-i/tmp/runenders-after/RunEnder13.fss:18:14-17:
+    Variable shift is not defined.
+### shift(2^63, 1) on an NN64    [shift(twoTo63, 1)]
+/home/user/fortress-intsem-i/tmp/runenders-after/RunEnder14.fss:18:14-17:
+    Variable shift is not defined.
+### shift(-3, ZZ64 MIN)    [shift(bigMinusThree, minL)]
+/home/user/fortress-intsem-i/tmp/runenders-after/RunEnder15.fss:18:14-17:
+    Variable shift is not defined.
+### shift(3, 4294967296) on a ZZ    [shift(bigThree, 4294967296)]
+/home/user/fortress-intsem-i/tmp/runenders-after/RunEnder16.fss:18:14-17:
+    Variable shift is not defined.

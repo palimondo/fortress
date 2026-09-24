@@ -1,0 +1,10 @@
+component ShadowEven
+export Executable
+
+f(even: ZZ32): ZZ32 = even + 1
+
+run() = do
+  numerator = 3
+  println("numerator = " numerator " f = " f(4))
+end
+end

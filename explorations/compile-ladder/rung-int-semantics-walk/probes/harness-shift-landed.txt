@@ -1,0 +1,14 @@
+/home/user/fortress-intsem-i/tmp/h-shift-landed/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d0f5ce44_16
+. interpret /home/user/fortress-intsem-i/tmp/h-shift-landed/tests/ArrayListQuick  OK (time = 23406ms)
+. interpret /home/user/fortress-intsem-i/tmp/h-shift-landed/tests/Brackets  OK (time = 788ms)
+. interpret /home/user/fortress-intsem-i/tmp/h-shift-landed/tests/subArray  OK (time = 1199ms)
+. interpret /home/user/fortress-intsem-i/tmp/h-shift-landed/tests/RangePrototype  OK (time = 21801ms)
+. interpret /home/user/fortress-intsem-i/tmp/h-shift-landed/tests/RangeTest  OK (time = 881ms)
+. interpret /home/user/fortress-intsem-i/tmp/h-shift-landed/tests/IntSemanticsRungI  OK (time = 890ms)
+
+Time: 48.975
+
+OK (6 tests)
+
+EXIT=0

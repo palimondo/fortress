@@ -1,0 +1,15 @@
+component BigShiftHeapEq
+export Executable
+
+run() = do
+    three: ZZ32 = 3
+    bigThree: ZZ = big(widen(three))
+    got: String = try
+        v = bigThree LSHIFT 2147483645
+        if (v RSHIFT 2147483645) = bigThree then "returns, and shifting back gives 3" else "returns something else" end
+      catch e
+        IntegerOverflow => "THROWS IntegerOverflow"
+      end
+    println("ZZ 3 LSHIFT 2147483645 = " got)
+end
+end

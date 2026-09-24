@@ -1,0 +1,2 @@
+a top-level function named shift = x3
+exit=0

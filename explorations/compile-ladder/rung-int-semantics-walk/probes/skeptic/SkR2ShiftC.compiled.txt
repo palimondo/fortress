@@ -1,0 +1,36 @@
+compile-exit=0
+ZZ 3 <<< -5 = 0
+ZZ -3 <<< -5 = -1
+ZZ 3 <<< 33 = 25769803776
+java.lang.ArithmeticException
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SkR2ShiftC.main(/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2ShiftC.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.ArithmeticException: BigInteger would overflow supported range
+	at java.base/java.math.BigInteger.reportOverflow(BigInteger.java:1220)
+	at java.base/java.math.BigInteger.checkRange(BigInteger.java:1215)
+	at java.base/java.math.BigInteger.<init>(BigInteger.java:1190)
+	at java.base/java.math.BigInteger.shiftLeft(BigInteger.java:3498)
+	at com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.shiftLeft(simpleArbitraryPrecisionArith.java:94)
+	at native.com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.shiftLeft(simpleArbitraryPrecisionArith.java)
+	at fortress.CompilerBuiltin$ZZ$DefaultTraitMethods.\^\^\^?0(/home/user/fortress-intsem-i/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:547)
+	at fortress.CompilerBuiltin$ZZ$DefaultTraitMethods.\^\^\^?0(/home/user/fortress-intsem-i/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin.\^\^\^(/home/user/fortress-intsem-i/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at SkR2ShiftC$\=fn@18\!44-66.apply(/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2ShiftC.fss:18)
+	at SkR2ShiftC.sz(/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2ShiftC.fss:6)
+	at SkR2ShiftC.run(/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2ShiftC.fss:18)
+	at SkR2ShiftC.compute(/home/user/fortress-intsem-i/explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkR2ShiftC.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+exit=1

@@ -1,0 +1,33 @@
+### walk, JAVA_FLAGS unset (bin/fortress default -Xmx256m), tree d68be2587
+-- refused before allocation, at the launcher's heap
+ZZ 1 LSHIFT 2147483647 = IntegerOverflow   (want IntegerOverflow)
+ZZ -1 LSHIFT 2147483647 = IntegerOverflow   (want IntegerOverflow)
+ZZ 2 LSHIFT 2147483646 = IntegerOverflow   (want IntegerOverflow)
+ZZ -2 LSHIFT 2147483646 = IntegerOverflow   (want IntegerOverflow)
+ZZ 4 LSHIFT 2147483645 = IntegerOverflow   (want IntegerOverflow)
+ZZ -4 LSHIFT 2147483645 = IntegerOverflow   (want IntegerOverflow)
+ZZ 3 RSHIFT -2147483646 = IntegerOverflow   (want IntegerOverflow)
+ZZ 3 RSHIFT ZZ64 MIN = IntegerOverflow   (want IntegerOverflow)
+ZZ 3 LSHIFT ZZ 2^127 = IntegerOverflow   (want IntegerOverflow)
+ZZ 3 LSHIFT ZZ64 MAX = IntegerOverflow   (want IntegerOverflow)
+shift(ZZ 1, 2147483647) = IntegerOverflow   (want IntegerOverflow)
+shift(ZZ32 1, 2147483647) = IntegerOverflow   (want IntegerOverflow)
+(ZZ 1 LSHIFT 2147483647) + 1 = IntegerOverflow   (want IntegerOverflow)
+catch Exception: ZZ 5 LSHIFT 2147483647 = caught as Exception   (want caught as Exception)
+-- zero and saturating right shifts
+ZZ 0 LSHIFT 2147483647 = 0   (want 0)
+ZZ 0 RSHIFT -2147483647 = 0   (want 0)
+ZZ 0 LSHIFT ZZ 2^127 = 0   (want 0)
+ZZ -1 RSHIFT 2147483647 = -1   (want -1)
+ZZ -1 LSHIFT ZZ32 MIN = -1   (want -1)
+ZZ 5 LSHIFT ZZ32 MIN = 0   (want 0)
+ZZ -5 RSHIFT ZZ 2^127 = -1   (want -1)
+ZZ 5 RSHIFT ZZ 2^127 = 0   (want 0)
+-- representable shifts are not refused
+(ZZ -5 LSHIFT 100000) RSHIFT 100000 = -5   (want -5)
+(ZZ -5 LSHIFT 100000) RSHIFT 100001 = -3   (want -3)
+(ZZ MIN64 LSHIFT 1) RSHIFT 64 = -1   (want -1)
+ZZ 2^127 RSHIFT 79 = 281474976710656   (want 281474976710656)
+shift(ZZ -5, -1) = -3   (want -3)
+END
+exit=0

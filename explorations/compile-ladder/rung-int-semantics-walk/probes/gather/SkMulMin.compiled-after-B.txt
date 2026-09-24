@@ -1,0 +1,11 @@
+$ fortress compile SkMulMin.fss ; fortress run SkMulMin   (compiled, main with rung B applied at the gather, before rung I; the probe is rung I's skeptic's, unchanged)
+compile-exit=0
+ZZ64 2 DOT -2^62 = -9223372036854775808   (want -9223372036854775808)
+ZZ64 -2^62 DOT 2 = -9223372036854775808   (want -9223372036854775808)
+ZZ64 MIN REM 2 = 0   (want 0)
+ZZ64 MIN MOD 2 = 0   (want 0)
+ZZ64 MIN GCD 2 = 2   (want 2)
+ZZ64 2 GCD MIN = 2   (want 2)
+ZZ64 2^62 DOT 2 = IntegerOverflow   (want IntegerOverflow)
+END
+run-exit=0

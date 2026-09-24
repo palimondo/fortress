@@ -1,0 +1,15 @@
+/home/user/fortress-intsem-i/ProjectFortress/tests/IntSemanticsRungI.fss:97:12-15:
+    Variable shift is not defined.
+/home/user/fortress-intsem-i/ProjectFortress/tests/IntSemanticsRungI.fss:98:12-15:
+    Variable shift is not defined.
+/home/user/fortress-intsem-i/ProjectFortress/tests/IntSemanticsRungI.fss:99:12-15:
+    Variable shift is not defined.
+/home/user/fortress-intsem-i/ProjectFortress/tests/IntSemanticsRungI.fss:100:12-15:
+    Variable shift is not defined.
+/home/user/fortress-intsem-i/ProjectFortress/tests/IntSemanticsRungI.fss:101:12-15:
+    Variable shift is not defined.
+/home/user/fortress-intsem-i/ProjectFortress/tests/IntSemanticsRungI.fss:102:12-15:
+    Variable shift is not defined.
+/home/user/fortress-intsem-i/ProjectFortress/tests/IntSemanticsRungI.fss:103:31-34:
+    Variable shift is not defined.
+exit=255

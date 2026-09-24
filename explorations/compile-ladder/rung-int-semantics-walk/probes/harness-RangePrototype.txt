@@ -1,0 +1,8 @@
+/home/user/fortress-intsem-i/tmp/h-rp/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0d0dce5b3_16
+. interpret /home/user/fortress-intsem-i/tmp/h-rp/tests/RangePrototype  OK (time = 28686ms)
+
+Time: 28.691
+
+OK (1 test)
+
