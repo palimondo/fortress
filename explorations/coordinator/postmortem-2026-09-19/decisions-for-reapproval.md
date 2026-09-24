@@ -72,3 +72,4 @@ named the repair, not the choice.
 - Row 28 (shifts) **decided** 2026-09-22 (ledger row 335 appended; the two-operation reading). Row 29 (`GCD`/`LCM`) **approved as recommended** 2026-09-22: rung N stands, the interpreter's natives fixed to match in batch 4's integer rung (ledger row 334).
 - Row 31 (`0 DIV -1`, `|0|`, `-0`) **approved as recommended** 2026-09-22: the record stands; the six-guard fix with its test goes into batch 4's integer rung (ledger row 333).
 - Row 43 (`narrow` out of range) **approved as recommended** 2026-09-22: truncation on both paths, rung W reversed on this point; batch 4's integer rung (ledger row 346).
+- Row 30 (the divisor `-1` guarded in the two compiled `REM` bodies rather than in the six natives, 09-19 10:46): **approved as landed** 2026-09-24 ("Row 30 approve as landed"); the guard dies with the prelude at the switch-over (POSITIONS 2026-09-24).
