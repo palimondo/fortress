@@ -1,0 +1,26 @@
+component LitCount
+export Executable
+
+show(what: String, f: () -> Any): () =
+  try
+    println(what " = " f())
+  catch e
+    IntegerOverflow => println(what " = IntegerOverflow")
+    Exception => println(what " = other exception")
+  end
+
+run() = do
+    b: ZZ = big(widen(3))
+    bm: ZZ = big(widen(-3))
+    three: ZZ32 = 3
+    threeL: ZZ64 = widen(three)
+    show("ZZ 3 LSHIFT -2^64 numeral", fn () => b LSHIFT (-18446744073709551616))
+    show("ZZ -3 LSHIFT -2^64 numeral", fn () => bm LSHIFT (-18446744073709551616))
+    show("ZZ 3 RSHIFT 2^64 numeral", fn () => b RSHIFT 18446744073709551616)
+    show("ZZ64 3 LSHIFT 2^64 numeral", fn () => threeL LSHIFT 18446744073709551616)
+    show("ZZ32 3 LSHIFT 2^64 numeral", fn () => three LSHIFT 18446744073709551616)
+    show("shift(3, -2^64 numeral)", fn () => shift(three, -18446744073709551616))
+    println "END"
+end
+
+end

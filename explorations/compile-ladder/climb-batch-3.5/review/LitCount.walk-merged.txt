@@ -1,0 +1,9 @@
+# fortress LitCount.fss -- walk, main at d6faad28f, scratch FORTRESS_CACHES: a shift count written as a numeral beyond the long range reaches the natives as an exact ZZ
+ZZ 3 LSHIFT -2^64 numeral = 0
+ZZ -3 LSHIFT -2^64 numeral = -1
+ZZ 3 RSHIFT 2^64 numeral = 0
+ZZ64 3 LSHIFT 2^64 numeral = 0
+ZZ32 3 LSHIFT 2^64 numeral = 0
+shift(3, -2^64 numeral) = 0
+END
+EXIT=0

@@ -176,4 +176,4 @@ Work only in `/home/user/fortress-intsem-i`, on `wip/rung-int-semantics-walk`, w
 
 ---
 
-At the gather (2026-09-24) the provisional rows 379-382 this text cites became ledger rows 380-383, rung B having opened 378 and 379; row 382 closed with rung B's `ce0c7f453`.
+At the gather (2026-09-24) the provisional rows 379-382 this text cites became ledger rows 380-383, rung B having opened 378 and 379; this text's row 381 (finding 7), now ledger row 382, closed with rung B's `ce0c7f453`, and this text's row 382 (finding 8) is ledger row 383 and open.
