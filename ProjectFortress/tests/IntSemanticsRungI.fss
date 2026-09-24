@@ -94,6 +94,13 @@ run() = do
     assert(bigMinusThree RSHIFT twoTo63, -1, "row 335: ZZ -3 RSHIFT an NN64 count of 2^63")
     assert(overflows(fn () => bigThree LSHIFT twoTo63), "row 335: ZZ 3 LSHIFT an NN64 count of 2^63 overflows")
     assert(twoTo63 + bigZero, 9223372036854775808, "basic-integers.tex:15-16: NN64 2^63 + ZZ 0 is exact")
+    assert(shift(three, 33), 25769803776, "basic-integers.tex:698-702: shift(3, 33) on a ZZ32")
+    assert(shift(three, -1), 1, "basic-integers.tex:698-702: shift(3, -1)")
+    assert(shift(minusThree, -1), -2, "basic-integers.tex:698-702: shift(-3, -1)")
+    assert(shift(threeL, 64), 55340232221128654848, "basic-integers.tex:698-702: shift(3, 64) on a ZZ64")
+    assert(shift(twoTo63, 1), 18446744073709551616, "basic-integers.tex:698-702: shift(2^63, 1) on an NN64")
+    assert(shift(bigMinusThree, minL), -1, "basic-integers.tex:698-702: shift(-3, ZZ64 MIN)")
+    assert(overflows(fn () => shift(bigThree, 4294967296)), "basic-integers.tex:698, opr-overview.tex:155: shift(3, 4294967296) on a ZZ overflows")
 
     assert(zero GCD (-4), 4, "row 334: ZZ32 0 GCD -4, basic-integers.tex:524")
     assert(zero GCD minusOne, 1, "row 334: ZZ32 0 GCD -1, basic-integers.tex:524")

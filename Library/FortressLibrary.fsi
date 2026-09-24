@@ -541,6 +541,7 @@ trait ZZ extends { Integral[\ZZ\] } comprises { BigNum, ZZ64, NN64 }
     widen(self): ZZ64
     odd(self): Boolean
     even(self): Boolean
+    shift(self, k:AnyIntegral): ZZ
 end
 
 (************************************************************
@@ -2077,10 +2078,10 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
     abstract opr FORWARD_CMP(self, other:Range[\I\]): Comparison
     asDebugStriing(): String
     check(): Range[\I\]
-    shiftLeft(shift: I): Range[\I\]
-    shiftRight(shift: I): Range[\I\]
-    opr << (self, shift: I): Range[\I\]
-    opr >> (self, shift: I): Range[\I\]
+    shiftLeft(amount: I): Range[\I\]
+    shiftRight(amount: I): Range[\I\]
+    opr << (self, amount: I): Range[\I\]
+    opr >> (self, amount: I): Range[\I\]
 end
 
 trait PartialRange[\I\] extends Range[\I\] end
