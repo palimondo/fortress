@@ -674,7 +674,7 @@ The interpreter's library has 81 declarations with `nat`/`int`/`bool`
 parameters; the target program's array vocabularies have 30 and 27; the
 compiler's own prelude has exactly **one**, and it is empty:
 `trait Matrix[\T, nat s0, nat s1\] extends Object end`
-(`Library/CompilerLibrary.fss:512`; census in `nat-checking-plan.md` §d). In
+(`Library/CompilerLibrary.fss:638`; census in `nat-checking-plan.md` §d). In
 every one of them the arguments are symbols and literals; the census found no
 arithmetic inside white brackets in the library or either vocabulary
 (`nat-checking-plan.md` §d) — with three exceptions in storing objects that a

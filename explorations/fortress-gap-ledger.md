@@ -950,7 +950,7 @@ Matrix` line) and its `:2553-2571` for `TransposedMatrix` is `:2571-2589`, with 
 and `lmul` at `:2549-2553` and `:2554-2570`; the same report's `:2503-2540` for `mul`
 under the diagonal row is the same `:2506-2547`. Every other held, `FortressLibrary.fsi:1652-1655`,
 `:1460-1462`, `:1578-1580`, `:273-276`, `:1072-1078`, `CompilerBuiltin.fsi:531` and `:550`,
-`CompilerLibrary.fss:512` and `:340-348`, `CompilerLibrary.fsi:194-202`,
+`CompilerLibrary.fss:638` and `:340-348`, `CompilerLibrary.fsi:194-202`,
 `FortressAst.fsi:6`, `FortressSyntax.fsi:14`, `WellKnownNames.java:113-126`,
 `PhaseOrder.java:137-147`, `CodeGen.java:1552`, `BaseTask.java:248`,
 `STypesUtil.scala:546-559` and `:1938-1948`, `Operators.scala:237`,
