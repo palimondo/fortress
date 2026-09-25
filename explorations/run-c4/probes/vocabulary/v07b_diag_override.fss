@@ -1,0 +1,48 @@
+(* v07b_diag_override: v07_diag_matrix again with FlatArrays' Diag in the
+   override shape -- still a Matrix view, now with its own mul, the row
+   scaling, which the library's Matrix product forwards to
+   (FortressLibrary.fss:2631-2633).  Three diagonals side by side: DiagM, v07's
+   plain view whose product is the library's mul; FlatArrays' Diag with the
+   override; and DiagOp, a plain object with the dedicated operator of
+   FlatArrays before 8590d7a9e, the reference.  Same shapes and repetitions as
+   v07 (s = 16 and 64 rows of a 27-column right factor). *)
+component v07b_diag_override
+import FlatArrays.{...}
+export Executable
+
+object DiagM[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; if i = j then d[i] else 0.0 end end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    replica[\U\](): Array2[\U,0,s,0,s\] = array2[\U,s,s\]()
+end
+diagM[\nat s\](v: Vector[\RR64,s\]): DiagM[\s\] = DiagM[\s\](v)
+
+object DiagOp[\nat s\](d: Vector[\RR64,s\]) end
+diagOp[\nat s\](v: Vector[\RR64,s\]): DiagOp[\s\] = DiagOp[\s\](v)
+opr juxtaposition[\nat s, nat r, nat c\](dg: DiagOp[\s\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] =
+    m.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), e: RR64): RR64 => do (i, j) = ij; dg.d[i] e end)
+
+run(): () = do
+    v = vec(3, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    m = mat(3, 2, fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (2 i + j + 1))
+    println "(1) diagM(v) m [library product] = " (diagM(v) m)
+    println "(2) diag(v) m  [FlatArrays' Diag, its mul] = " (diag(v) m)
+    println "(3) diagOp(v) m [the operator of 8590d7a9e^] = " (diagOp(v) m)
+    println "(4) (diag(v) m).get((2,1)) = " ((diag(v) m).get((2,1))) ", v[2] m[2,1] = " (v[2] m[2,1])
+    bench(n: ZZ32, reps: ZZ32): () = do
+        w = vec(n, fn (i: ZZ32): RR64 => 0.5 + 0.01 i)
+        g = mat(n, 27, fn (i: ZZ32, j: ZZ32): RR64 => 0.001 (i + j))
+        t0 = nanoTime()
+        for k <- seq(0#reps) do x = diagM(w) g; end
+        t1 = nanoTime()
+        for k <- seq(0#reps) do y = diag(w) g; end
+        t2 = nanoTime()
+        for k <- seq(0#reps) do z = diagOp(w) g; end
+        t3 = nanoTime()
+        println "(5) n = " n ": library product " ((t1 - t0) DIV (1000000 reps)) " ms/op, FlatArrays' Diag with its mul " ((t2 - t1) DIV (1000000 reps)) " ms/op, the operator " ((t3 - t2) DIV (1000000 reps)) " ms/op"
+      end
+    bench(16, 200)
+    bench(64, 50)
+  end
+end

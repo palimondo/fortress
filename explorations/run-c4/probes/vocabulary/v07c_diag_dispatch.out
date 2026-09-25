@@ -1,0 +1,8 @@
+(0) replicas before any product: 0
+(1) diagM(v) cm, the plain view: replicas 0; row 2 = 15.0 18.0
+(2) diag(v) cm, FlatArrays' Diag: replicas 1; row 2 = 15.0 18.0
+(3) viaMatrix(diag(v), cm), both typed Matrix: replicas 2; row 2 = 15.0 18.0
+(4) diag(v) DOT cm: replicas 3; row 2 = 15.0 18.0
+(5) viaMatrix(diagM(v), cm), the plain view again: replicas 3; row 2 = 15.0 18.0
+(6) rows, not columns: (diag(v) cm).get((2,1)) = 18.0; v[2] cm[2,1] = 18.0; column scaling would give v[1] cm[2,1] = 12.0
+exit 0  (28 s)

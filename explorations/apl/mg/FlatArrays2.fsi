@@ -19,8 +19,9 @@
    Kept from C4 and not from the sketch: the four constructors, because
    FlatData2, AplMg, the model and the check call them; the matrix transpose,
    because the grammar's ⍉ rule writes a call and a postfix ^T may not follow
-   one (rows 144, 158, 293); and the Diag product operator, because the
-   diagonal as a Matrix view costs 13-54x on its line (row 291).
+   one (rows 144, 158, 293); and the row-scaling Diag product, now Diag's own
+   mul, because the library's product over a plain Matrix view costs 13-54x
+   on its line (row 299).
    39 declarations against C4's 38 and the sketch's 28. *)
 api FlatArrays2
 
@@ -74,8 +75,8 @@ log[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\]
 (* ----------------------------------------------------- the diagonal ------
    diag(v) m scales the rows of m: the Dyalog's v ×⍤0 1 m.  The s of the
    diagonal IS the row count of the matrix.  The diagonal is a read-only
-   Matrix view of its own s x s shape, so the product is the library's and
-   needs no declaration here. *)
+   Matrix view of its own s x s shape; the library's product forwards to its
+   mul, which scales the rows, and the overriding mul needs no line here. *)
 object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\] end
 diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\]
 

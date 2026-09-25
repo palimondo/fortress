@@ -40,12 +40,14 @@ log[\T extends Number, I\](a: Array[\T,I\]): Array[\RR64,I\] = a.map[\RR64\](log
 
 (* ----------------------------------------------------- the diagonal ------ *)
 (* the s of the diagonal is the row count of the matrix; a read-only Matrix
-   view, so its product is the library's *)
+   view whose own mul, which the library's product forwards to, scales the rows *)
 object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\]
     get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; if i = j then d[i] else 0.0 end end
     put(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
     init0(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
     replica[\U\](): Array2[\U,0,s,0,s\] = array2[\U,s,s\]()
+    mul[\nat s2\](other: Matrix[\RR64,s,s2\]): Matrix[\RR64,s,s2\] =
+        other.ivmap[\RR64\](fn (ij: (ZZ32,ZZ32), e: RR64): RR64 => do (i, j) = ij; d[i] e end)
 end
 diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\] = Diag[\s\](v)
 

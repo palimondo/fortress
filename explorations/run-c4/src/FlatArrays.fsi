@@ -19,7 +19,7 @@ opr >[\I\](a: Array[\RR64,I\], s: RR64): Array[\RR64,I\]
 opr SQRT[\I\](a: Array[\RR64,I\]): Array[\RR64,I\]
 exp[\I\](a: Array[\RR64,I\]): Array[\RR64,I\]
 log[\I\](a: Array[\RR64,I\]): Array[\RR64,I\]
-(* diag(v) m scales the rows of m: a read-only Matrix view, the product the library's *)
+(* diag(v) m scales the rows of m: a read-only Matrix view whose own mul, which the library's product forwards to, is the row scaling *)
 object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\] end
 diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\]
 

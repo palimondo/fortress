@@ -1,0 +1,32 @@
+(1) diagM(v) m [library product] = [0#3,0#2]
+[ 1.0 2.0
+  6.0 8.0
+  15.0 18.0 ]
+(2) diag(v) m  [FlatArrays' Diag, its mul] = [0#3,0#2]
+[ 1.0 2.0
+  6.0 8.0
+  15.0 18.0 ]
+(3) diagOp(v) m [the operator of 8590d7a9e^] = [0#3,0#2]
+[ 1.0 2.0
+  6.0 8.0
+  15.0 18.0 ]
+(4) (diag(v) m).get((2,1)) = 18.0, v[2] m[2,1] = 18.0
+(5) n = 16: library product 203 ms/op, FlatArrays' Diag with its mul 14 ms/op, the operator 13 ms/op
+(5) n = 64: library product 3126 ms/op, FlatArrays' Diag with its mul 55 ms/op, the operator 53 ms/op
+exit 0  (229 s)
+(1) diagM(v) m [library product] = [0#3,0#2]
+[ 1.0 2.0
+  6.0 8.0
+  15.0 18.0 ]
+(2) diag(v) m  [FlatArrays' Diag, its mul] = [0#3,0#2]
+[ 1.0 2.0
+  6.0 8.0
+  15.0 18.0 ]
+(3) diagOp(v) m [the operator of 8590d7a9e^] = [0#3,0#2]
+[ 1.0 2.0
+  6.0 8.0
+  15.0 18.0 ]
+(4) (diag(v) m).get((2,1)) = 18.0, v[2] m[2,1] = 18.0
+(5) n = 16: library product 215 ms/op, FlatArrays' Diag with its mul 14 ms/op, the operator 13 ms/op
+(5) n = 64: library product 3001 ms/op, FlatArrays' Diag with its mul 52 ms/op, the operator 52 ms/op
+exit 0  (224 s)

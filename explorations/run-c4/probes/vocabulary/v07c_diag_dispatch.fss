@@ -1,0 +1,51 @@
+(* v07c_diag_dispatch: is FlatArrays' Diag.mul reached when the library's
+   Matrix product is applied to a Diag, or does it merely coexist?  The right
+   factor below counts the calls of its replica.  The override's body is
+   other.ivmap, which builds its result from other.replica; the library's
+   Matrix.mul (FortressLibrary.fss:2512) builds its result with matrix() and
+   reads the right factor only by get.  So the count rises by one for each
+   product that reached the override and stays put for one that ran the
+   library's mul.  The control is DiagM, v07's plain Matrix view with no mul
+   of its own. *)
+component v07c_diag_dispatch
+import FlatArrays.{...}
+export Executable
+
+replicas: ZZ32 := 0
+
+(* a read-only 3 x 2 right factor, m[i,j] = 2 i + j + 1, counting its replicas *)
+object CountingM[\nat r, nat c\]() extends Matrix[\RR64,r,c\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; 1.0 (2 i + j + 1) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = fail("read-only")
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = fail("read-only")
+    replica[\U\](): Array2[\U,0,r,0,c\] = do replicas += 1; array2[\U,r,c\]() end
+end
+
+object DiagM[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; if i = j then d[i] else 0.0 end end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = fail("a diagonal is read-only")
+    replica[\U\](): Array2[\U,0,s,0,s\] = array2[\U,s,s\]()
+end
+diagM[\nat s\](v: Vector[\RR64,s\]): DiagM[\s\] = DiagM[\s\](v)
+
+(* the product through a function whose parameters are typed Matrix *)
+viaMatrix[\nat n, nat m, nat p\](a: Matrix[\RR64,n,m\], b: Matrix[\RR64,m,p\]): Matrix[\RR64,n,p\] = a b
+
+run(): () = do
+    v = vec(3, fn (i: ZZ32): RR64 => 1.0 (i + 1))
+    cm = CountingM[\3,2\]()
+    println "(0) replicas before any product: " replicas
+    p1 = diagM(v) cm
+    println "(1) diagM(v) cm, the plain view: replicas " replicas "; row 2 = " p1[2,0] " " p1[2,1]
+    p2 = diag(v) cm
+    println "(2) diag(v) cm, FlatArrays' Diag: replicas " replicas "; row 2 = " p2[2,0] " " p2[2,1]
+    p3 = viaMatrix(diag(v), cm)
+    println "(3) viaMatrix(diag(v), cm), both typed Matrix: replicas " replicas "; row 2 = " p3[2,0] " " p3[2,1]
+    p4 = diag(v) DOT cm
+    println "(4) diag(v) DOT cm: replicas " replicas "; row 2 = " p4[2,0] " " p4[2,1]
+    p5 = viaMatrix(diagM(v), cm)
+    println "(5) viaMatrix(diagM(v), cm), the plain view again: replicas " replicas "; row 2 = " p5[2,0] " " p5[2,1]
+    println "(6) rows, not columns: (diag(v) cm).get((2,1)) = " p2.get((2,1)) "; v[2] cm[2,1] = " (v[2] cm[2,1]) "; column scaling would give v[1] cm[2,1] = " (v[1] cm[2,1])
+  end
+end
