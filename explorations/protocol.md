@@ -188,6 +188,11 @@ but if one seems to conflict with something Pavol says, his words win.
   gated on it.
 - Evidence over speculation; reproduce before explaining.
 - Work that needs Pavol's machine (CI pushes) is parked, not simulated.
+- **(P)** 2026-09-25, after every timing of the day came out twice the 09-15 captures
+  with no way to tell why: a timing on record carries its machine beside it, `nproc`,
+  the CPU's model name and MHz from `/proc/cpuinfo`, the load average when the run
+  started, the JDK and `FORTRESS_THREADS`, so that a comparison across sessions can at
+  least be guessed at; a pair taken in one run is still the only measurement.
 - Closed decisions are not revisited.
 - **(P)** 2026-09-22, the way a semantic question is examined before it is decided,
   found while settling the shift operators: the refresher (what the operation means

@@ -295,3 +295,7 @@ committed captures. Shape 1 is not needed.
 - `explorations/run-c4/probes/vocabulary/v07b_diag_override.fss` + `.out`, `Time1b.out`, `Time2b.out`: the timings.
 - `explorations/run-c4/probes/vocabulary/v07c_diag_dispatch.fss` + `.out`: the dispatch.
 - `explorations/run-c4/cold-cache/diag-override/flatcheck-baseline.out`, `aplcheck-baseline.out`, `flatcheck.out`, `aplcheck.out`: the four check captures.
+
+## The machine
+
+Added by the coordinator on 2026-09-25 at 22:37 UTC, after the runs: 4 CPUs, `Intel(R) Xeon(R) Processor @ 2.80GHz` (2800 MHz), load average 1.04 at that time with one other worker running, JDK 25, `FORTRESS_THREADS=1`; the VM had booted at 21:25 UTC that day. The 09-15 captures of row 299 name no machine.
