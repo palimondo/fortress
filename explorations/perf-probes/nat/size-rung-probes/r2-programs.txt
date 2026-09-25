@@ -1,0 +1,277 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load 1.66 2.22 1.91; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; Fri Sep 25 22:56:44 UTC 2026
+########## [H] fortress compile explorations/perf-probes/nat/size-probes/pNatDisp.fss
+exit=0
+---------- [H] fortress run pNatDisp
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+
+########## [E] fortress compile explorations/perf-probes/nat/size-probes/pNatDisp.fss
+exit=0
+---------- [E] fortress run pNatDisp
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+
+########## [F] fortress compile explorations/perf-probes/nat/size-probes/pNatDisp.fss
+exit=0
+---------- [F] fortress run pNatDisp
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+
+########## [H] fortress compile explorations/perf-probes/nat/size-probes/pNatDispTrait.fss
+exit=0
+---------- [H] fortress run pNatDispTrait
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+
+########## [E] fortress compile explorations/perf-probes/nat/size-probes/pNatDispTrait.fss
+exit=0
+---------- [E] fortress run pNatDispTrait
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+
+########## [F] fortress compile explorations/perf-probes/nat/size-probes/pNatDispTrait.fss
+exit=0
+---------- [F] fortress run pNatDispTrait
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+
+########## [H] fortress compile explorations/perf-probes/nat/size-probes/pNatDispSize.fss
+exit=0
+---------- [H] fortress run pNatDispSize
+0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+
+########## [E] fortress compile explorations/perf-probes/nat/size-probes/pNatDispSize.fss
+exit=0
+---------- [E] fortress run pNatDispSize
+0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+
+########## [F] fortress compile explorations/perf-probes/nat/size-probes/pNatDispSize.fss
+exit=0
+---------- [F] fortress run pNatDispSize
+0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+
+########## [H] fortress compile explorations/perf-probes/nat/size-probes/pNatDispLit.fss
+exit=0
+---------- [H] fortress run pNatDispLit
+three
+four
+other
+T-three
+other
+
+########## [E] fortress compile explorations/perf-probes/nat/size-probes/pNatDispLit.fss
+exit=0
+---------- [E] fortress run pNatDispLit
+three
+four
+other
+T-three
+other
+
+########## [F] fortress compile explorations/perf-probes/nat/size-probes/pNatDispLit.fss
+exit=0
+---------- [F] fortress run pNatDispLit
+three
+four
+other
+T-three
+other
+
+########## [H] fortress compile explorations/perf-probes/nat/size-cost/SizedSum.fss
+exit=0
+---------- [H] fortress run SizedSum
+sumS total 80000000 ms 2664.069544
+sumN total 80000000 ms 2453.438576
+sumS total 80000000 ms 2440.735277
+sumN total 80000000 ms 2269.721612
+
+########## [E] fortress compile explorations/perf-probes/nat/size-cost/SizedSum.fss
+exit=0
+---------- [E] fortress run SizedSum
+sumS total 80000000 ms 2983.377793
+sumN total 80000000 ms 2360.641944
+sumS total 80000000 ms 2389.331906
+sumN total 80000000 ms 2383.247459
+
+########## [F] fortress compile explorations/perf-probes/nat/size-cost/SizedSum.fss
+exit=0
+---------- [F] fortress run SizedSum
+sumS total 80000000 ms 3197.056374
+sumN total 80000000 ms 2513.993325
+sumS total 80000000 ms 2343.887247
+sumN total 80000000 ms 2258.241241
+
+########## [H] fortress compile explorations/perf-probes/nat/size-cost/SizedDisp.fss
+exit=0
+---------- [H] fortress run SizedDisp
+one size, dispatched: total 30000000 ms 642.963523
+one size, static: total 30000000 ms 441.876669
+two sizes, dispatched: total 35000000 ms 443.06862
+two sizes, static: total 35000000 ms 343.546122
+one size, dispatched: total 30000000 ms 443.708087
+one size, static: total 30000000 ms 452.390911
+two sizes, dispatched: total 35000000 ms 370.652215
+two sizes, static: total 35000000 ms 293.261553
+
+########## [E] fortress compile explorations/perf-probes/nat/size-cost/SizedDisp.fss
+exit=0
+---------- [E] fortress run SizedDisp
+one size, dispatched: total 30000000 ms 608.563636
+one size, static: total 30000000 ms 464.723796
+two sizes, dispatched: total 35000000 ms 430.865573
+two sizes, static: total 35000000 ms 370.200244
+one size, dispatched: total 30000000 ms 432.416411
+one size, static: total 30000000 ms 458.73001
+two sizes, dispatched: total 35000000 ms 349.922982
+two sizes, static: total 35000000 ms 296.621379
+
+########## [F] fortress compile explorations/perf-probes/nat/size-cost/SizedDisp.fss
+exit=0
+---------- [F] fortress run SizedDisp
+one size, dispatched: total 30000000 ms 608.666454
+one size, static: total 30000000 ms 483.321092
+two sizes, dispatched: total 35000000 ms 423.244168
+two sizes, static: total 35000000 ms 322.219974
+one size, dispatched: total 30000000 ms 453.74298
+one size, static: total 30000000 ms 611.608714
+two sizes, dispatched: total 35000000 ms 388.075299
+two sizes, static: total 35000000 ms 292.850079
+
+########## [H] fortress compile explorations/perf-probes/nat/size-cost/SizedDispLit.fss
+exit=0
+---------- [H] fortress run SizedDispLit
+one size, dispatched: total 30000000 ms 532.398634
+one size, static: total 30000000 ms 442.740604
+two sizes, dispatched: total 35000000 ms 322.308727
+two sizes, static: total 35000000 ms 353.2077
+one size, dispatched: total 30000000 ms 403.615595
+one size, static: total 30000000 ms 397.57202
+two sizes, dispatched: total 35000000 ms 491.746872
+two sizes, static: total 35000000 ms 291.109493
+
+########## [E] fortress compile explorations/perf-probes/nat/size-cost/SizedDispLit.fss
+exit=0
+---------- [E] fortress run SizedDispLit
+one size, dispatched: total 30000000 ms 500.93976
+one size, static: total 30000000 ms 441.869775
+two sizes, dispatched: total 35000000 ms 332.603209
+two sizes, static: total 35000000 ms 341.134391
+one size, dispatched: total 30000000 ms 417.272614
+one size, static: total 30000000 ms 543.837835
+two sizes, dispatched: total 35000000 ms 344.397481
+two sizes, static: total 35000000 ms 280.818356
+
+########## [F] fortress compile explorations/perf-probes/nat/size-cost/SizedDispLit.fss
+exit=0
+---------- [F] fortress run SizedDispLit
+one size, dispatched: total 30000000 ms 478.768654
+one size, static: total 30000000 ms 465.055391
+two sizes, dispatched: total 35000000 ms 316.805529
+two sizes, static: total 35000000 ms 343.811679
+one size, dispatched: total 30000000 ms 413.748067
+one size, static: total 30000000 ms 373.879389
+two sizes, dispatched: total 35000000 ms 556.85781
+two sizes, static: total 35000000 ms 296.31715
+
+########## [H] fortress compile explorations/perf-probes/nat/size-cost/SizedMany.fss
+exit=0
+---------- [H] fortress run SizedMany
+36
+
+########## [E] fortress compile explorations/perf-probes/nat/size-cost/SizedMany.fss
+exit=0
+---------- [E] fortress run SizedMany
+36
+
+########## [F] fortress compile explorations/perf-probes/nat/size-cost/SizedMany.fss
+exit=0
+---------- [F] fortress run SizedMany
+36
+
+########## [H] fortress compile explorations/perf-probes/nat/size-rung-probes/pExtLit.fss
+exit=0
+---------- [H] fortress run pExtLit
+1
+2
+1
+2
+-1
+
+########## [E] fortress compile explorations/perf-probes/nat/size-rung-probes/pExtLit.fss
+exit=0
+---------- [E] fortress run pExtLit
+1
+2
+1
+2
+-1
+
+########## [F] fortress compile explorations/perf-probes/nat/size-rung-probes/pExtLit.fss
+exit=0
+---------- [F] fortress run pExtLit
+1
+2
+1
+2
+-1
+

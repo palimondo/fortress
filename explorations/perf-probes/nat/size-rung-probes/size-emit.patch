@@ -1,0 +1,55 @@
+--- a/runtimeSystem/InstantiatingClassloader.java
++++ b/runtimeSystem/InstantiatingClassloader.java
+@@ -224,7 +224,11 @@
+                         Naming.RIGHT_OXFORD_CHAR : Naming.RIGHT_HEAVY_ANGLE_CHAR;
+ 
+                 expanded = (isGeneric || isGenericFunction || isClosure) ;
+-                if (name.startsWith(Naming.TUPLE_RTTI_TAG)) {
++                if (PROBE_SIZE_EMIT && isSizeRTTIc(name)) {
++                    // SIZE RUNG PROBES, variant (a): a size literal's holder class
++                    classData = instantiateSizeRTTI(name);
++                    expanded = true;
++                } else if (name.startsWith(Naming.TUPLE_RTTI_TAG)) {
+                     classData = instantiateTupleRTTI(name);
+                     expanded = true;
+                 } else if (name.startsWith(Naming.ARROW_RTTI_TAG)) {
+@@ -1560,6 +1564,39 @@
+         return cw.toByteArray();
+     }
+ 
++    /* SIZE RUNG PROBES, variant (a) (explorations/perf-probes/nat/size-rung-probes.md):
++     * -Dprobe.nat.sizeEmit=true.  The holder class of one size literal, <n>$RTTIc,
++     * whose ONLY holds that number's RTTIsize: what java/StampSizeRTTI.java stamped
++     * ahead of the run, made here on first request instead.  A Fortress name
++     * cannot begin with a digit or a minus sign, so no other class matches. */
++    static final boolean PROBE_SIZE_EMIT = Boolean.getBoolean("probe.nat.sizeEmit");
++
++    static boolean isSizeRTTIc(String name) {
++        char c = name.charAt(0);
++        return (c == '-' || Character.isDigit(c)) && name.endsWith(Naming.RTTI_CLASS_SUFFIX);
++    }
++
++    private static byte[] instantiateSizeRTTI(String name) {
++        String size = name.substring(0, name.length() - Naming.RTTI_CLASS_SUFFIX.length());
++        String sizeRTTI = Naming.RT_VALUES_PKG + "RTTIsize";
++        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
++        cw.visit(JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_FINAL + ACC_SUPER, name, null, "java/lang/Object", null);
++        cw.visitField(ACC_PUBLIC + ACC_STATIC + ACC_FINAL, Naming.RTTI_SINGLETON,
++                      Naming.RTTI_CONTAINER_DESC, null, null).visitEnd();
++        MethodVisitor mv = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
++        mv.visitCode();
++        mv.visitTypeInsn(NEW, sizeRTTI);
++        mv.visitInsn(DUP);
++        mv.visitLdcInsn(size);
++        mv.visitMethodInsn(INVOKESPECIAL, sizeRTTI, "<init>", "(Ljava/lang/String;)V", false);
++        mv.visitFieldInsn(PUTSTATIC, name, Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);
++        mv.visitInsn(RETURN);
++        mv.visitMaxs(0, 0);
++        mv.visitEnd();
++        cw.visitEnd();
++        return cw.toByteArray();
++    }
++
+     private static byte[] instantiateArrowRTTI(String name) {
+         ManglingClassWriter cw = new ManglingClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
+         // Tuple,N$RTTIc

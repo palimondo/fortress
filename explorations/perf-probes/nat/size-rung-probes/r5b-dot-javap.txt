@@ -1,0 +1,92 @@
+########## [H] the calls in pDot.run, where the checker picked each arm (invocations only)
+         0: getstatic     #123                // Field "pDot⚙$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧✉$\\=✚Arrow⟦T,pDot\\%Vec⟦T,s⟧⟧"."✉":L\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,pDot\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧⟧;
+        12: invokeinterface #139,  2          // InterfaceMethod "\\=Arrow⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,pDot\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧⟧".apply:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)LpDot$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧;
+        18: getstatic     #123                // Field "pDot⚙$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧✉$\\=✚Arrow⟦T,pDot\\%Vec⟦T,s⟧⟧"."✉":L\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,pDot\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧⟧;
+        30: invokeinterface #139,  2          // InterfaceMethod "\\=Arrow⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,pDot\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧⟧".apply:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)LpDot$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧;
+        36: getstatic     #146                // Field "pDot⚙$\\=Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,4⟧✉$\\=✚Arrow⟦T,pDot\\%Vec⟦T,s⟧⟧"."✉":L\=Arrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,pDot\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,4⟧⟧;
+        48: invokeinterface #151,  2          // InterfaceMethod "\\=Arrow⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,pDot\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,4⟧⟧".apply:(Lcom/sun/fortress/compiler/runtimeValues/FRR64;)LpDot$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,4⟧;
+        54: ldc           #153                // String (i) static, same sizes
+        59: invokestatic  #114                // Method fortress/CompilerBuiltin.println:(Lfortress/CompilerBuiltin$Object;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+        63: getstatic     #163                // Field "pDot⚙$dot⟦3⟧✉$\\=✚Arrow⟦Tuple⟦pDot\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,n⟧,pDot\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,n⟧⟧,☃⟧"."✉":L\=Arrow⟦Tuple⟦pDot\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧,pDot\%Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧⟧,☃⟧;
+        68: invokeinterface #168,  3          // InterfaceMethod "\\=Arrow⟦Tuple⟦pDot\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧,pDot\\%Vec⟦com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64,3⟧⟧,☃⟧".apply:(LpDot$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧;LpDot$\=Vec⟦com\|sun\|fortress\|compiler\|runtimeValues\|FRR64,3⟧;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+        74: ldc           #170                // String (ii) static, different sizes
+        79: invokestatic  #114                // Method fortress/CompilerBuiltin.println:(Lfortress/CompilerBuiltin$Object;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+        91: invokestatic  #172                // Method dot:(Lfortress/AnyType$Any;Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+       103: ldc           #174                // String (iii) dispatched, same sizes
+       108: invokestatic  #114                // Method fortress/CompilerBuiltin.println:(Lfortress/CompilerBuiltin$Object;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+       115: invokestatic  #172                // Method dot:(Lfortress/AnyType$Any;Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+       119: ldc           #176                // String (iv) dispatched, different sizes, both orders
+       124: invokestatic  #114                // Method fortress/CompilerBuiltin.println:(Lfortress/CompilerBuiltin$Object;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+       131: invokestatic  #172                // Method dot:(Lfortress/AnyType$Any;Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+       138: invokestatic  #172                // Method dot:(Lfortress/AnyType$Any;Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+
+########## [H] the overload set's dispatcher: javap -c of pDot.FVoid dot\(fortress.AnyType.Any, fortress.AnyType.Any\);
+  public static com.sun.fortress.compiler.runtimeValues.FVoid dot(fortress.AnyType$Any, fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: invokeinterface #44,  1           // InterfaceMethod fortress/AnyType$Any.getRTTI:()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         6: dup
+         7: instanceof    #46                 // class pDot$Vec$RTTIi
+        10: ifne          17
+        13: pop
+        14: goto          141
+        17: checkcast     #46                 // class pDot$Vec$RTTIi
+        20: astore_2
+        21: aload_2
+        22: invokeinterface #49,  1           // InterfaceMethod pDot$Vec$RTTIi."\\=pDot\\%Vec__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        27: getstatic     #55                 // Field com/sun/fortress/compiler/runtimeValues/FRR64.RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        30: swap
+        31: invokevirtual #61                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+        34: ifeq          141
+        37: aload_2
+        38: invokeinterface #64,  1           // InterfaceMethod pDot$Vec$RTTIi."\\=pDot\\%Vec__2":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        43: astore        4
+        45: aload_1
+        46: invokeinterface #44,  1           // InterfaceMethod fortress/AnyType$Any.getRTTI:()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        51: dup
+        52: instanceof    #46                 // class pDot$Vec$RTTIi
+        55: ifne          62
+        58: pop
+        59: goto          141
+        62: checkcast     #46                 // class pDot$Vec$RTTIi
+        65: astore        5
+        67: aload         5
+        69: invokeinterface #49,  1           // InterfaceMethod pDot$Vec$RTTIi."\\=pDot\\%Vec__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        74: getstatic     #55                 // Field com/sun/fortress/compiler/runtimeValues/FRR64.RTTI:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        77: swap
+        78: invokevirtual #61                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+        81: ifeq          141
+        84: aload         5
+        86: invokeinterface #64,  1           // InterfaceMethod pDot$Vec$RTTIi."\\=pDot\\%Vec__2":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        91: astore        7
+        93: aload         7
+        95: aload         4
+        97: invokevirtual #61                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+       100: ifeq          141
+       103: aload         4
+       105: aload         7
+       107: invokevirtual #61                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+       110: ifeq          141
+       113: aload         7
+       115: astore        8
+       117: getstatic     #68                 // Field "\\=_|explorations|perf-probes|nat|size-rung-probes|pDot\\,fss\\!16\\!1-65✖table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
+       120: ldc           #70                 // String pDot⚙$dot⟦⟧✉$✚Arrow⟦Tuple⟦pDot$Vec⟦com/sun/fortress/compiler/runtimeValues/FRR64,n⟧,pDot$Vec⟦com/sun/fortress/compiler/runtimeValues/FRR64,n⟧⟧,☃⟧
+       122: aload         8
+       124: invokestatic  #76                 // Method com/sun/fortress/runtimeSystem/RTHelpers.loadClosureClass:(Lcom/sun/fortress/runtimeSystem/BAlongTree;Ljava/lang/String;Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Ljava/lang/Object;
+       127: checkcast     #78                 // class "\\=AbstractArrow⟦Tuple⟦java\\|lang\\|Object,java\\|lang\\|Object⟧,java\\|lang\\|Object⟧"
+       130: aload_0
+       131: aload_1
+       132: invokeinterface #84,  3           // InterfaceMethod "\\=Arrow⟦Tuple⟦java\\|lang\\|Object,java\\|lang\\|Object⟧,java\\|lang\\|Object⟧".apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       137: checkcast     #86                 // class com/sun/fortress/compiler/runtimeValues/FVoid
+       140: areturn
+       141: aload_0
+       142: checkcast     #40                 // class fortress/AnyType$Any
+       145: aload_1
+       146: checkcast     #40                 // class fortress/AnyType$Any
+       149: invokestatic  #89                 // Method "dot♙":(Lfortress/AnyType$Any;Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+       152: areturn
+       153: nop
+       154: nop
+       155: nop
+       156: athrow
+

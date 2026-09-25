@@ -1,0 +1,46 @@
+########## H: the tool's stamped holder classes on the class path (hash as the stack has it)
+mode holder, descriptor class com.sun.fortress.compiler.runtimeValues.RTTIsize
+holder class 3$RTTIc defined by InstantiatingClassloader
+className() of 3, of 4: 3, 4
+two fetches of 3 are one object: true; equals: true; 3 equals 4: false
+3 :> 3 true, 3 :> 4 false, 4 :> 3 false
+sizes 0..16: 1 distinct hashCode(), 1 distinct factory-dictionary keys
+########## E: the loader's emitter, nothing stamped (hash as the stack has it)
+mode holder, descriptor class com.sun.fortress.compiler.runtimeValues.RTTIsize
+holder class 3$RTTIc defined by InstantiatingClassloader
+className() of 3, of 4: 3, 4
+two fetches of 3 are one object: true; equals: true; 3 equals 4: false
+3 :> 3 true, 3 :> 4 false, 4 :> 3 false
+sizes 0..16: 1 distinct hashCode(), 1 distinct factory-dictionary keys
+########## F: the factory (hash as the stack has it)
+mode factory, descriptor class com.sun.fortress.compiler.runtimeValues.RTTIsize
+className() of 3, of 4: 3, 4
+two fetches of 3 are one object: true; equals: true; 3 equals 4: false
+3 :> 3 true, 3 :> 4 false, 4 :> 3 false
+sizes 0..16: 1 distinct hashCode(), 1 distinct factory-dictionary keys
+
+########## H: the tool's stamped holder classes on the class path -Dprobe.nat.sizeHash=true
+mode holder, descriptor class com.sun.fortress.compiler.runtimeValues.RTTIsize
+holder class 3$RTTIc defined by InstantiatingClassloader
+className() of 3, of 4: 3, 4
+two fetches of 3 are one object: true; equals: true; 3 equals 4: false
+3 :> 3 true, 3 :> 4 false, 4 :> 3 false
+sizes 0..16: 17 distinct hashCode(), 17 distinct factory-dictionary keys
+########## E: the loader's emitter, nothing stamped -Dprobe.nat.sizeHash=true
+mode holder, descriptor class com.sun.fortress.compiler.runtimeValues.RTTIsize
+holder class 3$RTTIc defined by InstantiatingClassloader
+className() of 3, of 4: 3, 4
+two fetches of 3 are one object: true; equals: true; 3 equals 4: false
+3 :> 3 true, 3 :> 4 false, 4 :> 3 false
+sizes 0..16: 17 distinct hashCode(), 17 distinct factory-dictionary keys
+########## F: the factory -Dprobe.nat.sizeHash=true
+mode factory, descriptor class com.sun.fortress.compiler.runtimeValues.RTTIsize
+className() of 3, of 4: 3, 4
+two fetches of 3 are one object: true; equals: true; 3 equals 4: false
+3 :> 3 true, 3 :> 4 false, 4 :> 3 false
+sizes 0..16: 17 distinct hashCode(), 17 distinct factory-dictionary keys
+
+########## control: holder classes asked for with neither the tool's classes nor the emitter
+Exception in thread "main" java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : 3$RTTIc.class
+	... 5 more

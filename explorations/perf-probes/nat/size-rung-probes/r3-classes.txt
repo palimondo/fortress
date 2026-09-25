@@ -1,0 +1,32 @@
+[H] SizedMany: all classes 2403, 8700461 bytes; by the Fortress loader 132, 293531 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 28, 15167 bytes
+[E] SizedMany: all classes 2403, 8700461 bytes; by the Fortress loader 132, 293531 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 28, 15167 bytes
+[F] SizedMany: all classes 2405, 8701464 bytes; by the Fortress loader 124, 294131 bytes; descriptor classes ($RTTIc/$RTTIi, either loader) 20, 12767 bytes
+  H against E: under H only 0 loads, 0 bytes; under E only 0 loads, 0 bytes
+    loaded under both, with a different length: 0 classes, E minus H 0 bytes; the largest five:
+    by kind and difference: 
+  H against F: under H only 8 loads, 2400 bytes; under F only 10 loads, 403 bytes
+    H    300  1$RTTIc
+    H    300  2$RTTIc
+    H    300  3$RTTIc
+    H    300  4$RTTIc
+    H    300  5$RTTIc
+    H    300  6$RTTIc
+    H    300  7$RTTIc
+    H    300  8$RTTIc
+    F    403  com.sun.fortress.compiler.runtimeValues.RTTIsize$$Lambda
+    F      0  java.lang.classfile.Interfaces
+    F      0  java.lang.invoke.InnerClassLambdaMetafactory$1
+    F      0  java.lang.invoke.InnerClassLambdaMetafactory$3
+    F      0  java.lang.invoke.InnerClassLambdaMetafactory$6
+    F      0  java.lang.invoke.TypeConvertingMethodAdapter
+    F      0  java.util.ImmutableCollections$Access
+    F      0  java.util.ImmutableCollections$Access$1
+    F      0  jdk.internal.access.JavaUtilCollectionAccess
+    F      0  jdk.internal.classfile.impl.InterfacesImpl
+    loaded under both, with a different length: 24 classes, F minus H 3000 bytes; the largest five:
+      +129  \=AbstractArrow⟦SizedMany\%Box⟦1⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+      +129  \=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,SizedMany\%Box⟦1⟧⟧
+      +129  \=AbstractArrow⟦SizedMany\%Box⟦2⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+      +129  \=AbstractArrow⟦com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,SizedMany\%Box⟦2⟧⟧
+      +129  \=AbstractArrow⟦SizedMany\%Box⟦3⟧,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32⟧
+    by kind and difference: function class +129 bytes: 16; object class +117 bytes: 8

@@ -1,0 +1,36 @@
+########## pNatDisp: answers under H, E, F same; H's answer:
+scalar|vector|matrix|scalar|vector|matrix|other
+  compiled pNatDisp.jar, H against E: identical
+  compiled pNatDisp.jar, H against F: identical
+########## pNatDispTrait: answers under H, E, F same; H's answer:
+scalar|vector|matrix|scalar|vector|matrix|other
+  compiled pNatDispTrait.jar, H against E: identical
+  compiled pNatDispTrait.jar, H against F: identical
+########## pNatDispSize: answers under H, E, F same; H's answer:
+0|3|2|4|dispatched:|0|3|4|2|4|-1
+  compiled pNatDispSize.jar, H against E: identical
+  compiled pNatDispSize.jar, H against F: identical
+########## pNatDispLit: answers under H, E, F same; H's answer:
+three|four|other|T-three|other
+  compiled pNatDispLit.jar, H against E: identical
+  compiled pNatDispLit.jar, H against F: differs in 1 class files: pNatDispLit.class
+########## SizedSum: answers under H, E, F same; H's answer:
+sumS total 80000000|sumN total 80000000|sumS total 80000000|sumN total 80000000
+  compiled SizedSum.jar, H against E: identical
+  compiled SizedSum.jar, H against F: identical
+########## SizedDisp: answers under H, E, F same; H's answer:
+one size, dispatched: total 30000000|one size, static: total 30000000|two sizes, dispatched: total 35000000|two sizes, static: total 35000000|one size, dispatched: total 30000000|one size, static: total 30000000|two sizes, dispatched: total 35000000|two sizes, static: total 35000000
+  compiled SizedDisp.jar, H against E: identical
+  compiled SizedDisp.jar, H against F: identical
+########## SizedDispLit: answers under H, E, F same; H's answer:
+one size, dispatched: total 30000000|one size, static: total 30000000|two sizes, dispatched: total 35000000|two sizes, static: total 35000000|one size, dispatched: total 30000000|one size, static: total 30000000|two sizes, dispatched: total 35000000|two sizes, static: total 35000000
+  compiled SizedDispLit.jar, H against E: identical
+  compiled SizedDispLit.jar, H against F: identical
+########## SizedMany: answers under H, E, F same; H's answer:
+36
+  compiled SizedMany.jar, H against E: identical
+  compiled SizedMany.jar, H against F: identical
+########## pExtLit: answers under H, E, F same; H's answer:
+1|2|1|2|-1
+  compiled pExtLit.jar, H against E: identical
+  compiled pExtLit.jar, H against F: differs in 2 class files: pExtLit$Rnk1$RTTIc.class pExtLit$Rnk2$RTTIc.class

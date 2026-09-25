@@ -1,0 +1,18 @@
+--- a/compiler/runtimeValues/RTTIsize.java
++++ b/compiler/runtimeValues/RTTIsize.java
+@@ -48,6 +48,15 @@
+         return (other instanceof RTTIsize) && ((RTTIsize) other).size.equals(size);
+     }
+ 
++    /* SIZE RUNG PROBES: -Dprobe.nat.sizeHash=true, the hash of the size's own text
++     * instead of RTTI's hash of the placeholder class shared by every size
++     * (size-cost.md section 6). */
++    static final boolean PROBE_SIZE_HASH = Boolean.getBoolean("probe.nat.sizeHash");
++
++    public int hashCode() {
++        return PROBE_SIZE_HASH ? size.hashCode() : super.hashCode();
++    }
++
+     public String className() {
+         return size;
+     }

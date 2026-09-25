@@ -1,0 +1,14 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load 1.67 2.26 1.91; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; Fri Sep 25 22:56:25 UTC 2026
+########## [H] fortress compile explorations/perf-probes/nat/size-rung-probes/pDot.fss
+exit=0
+---------- [H] fortress run pDot
+(i) static, same sizes
+3
+(ii) static, different sizes
+-1
+(iii) dispatched, same sizes
+3
+(iv) dispatched, different sizes, both orders
+-1
+-1
+

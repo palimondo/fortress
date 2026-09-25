@@ -1,0 +1,18 @@
+########## walk explorations/perf-probes/nat/size-rung-probes/pDot.fss
+(i) static, same sizes
+3
+(ii) static, different sizes
+-1
+(iii) dispatched, same sizes
+3
+(iv) dispatched, different sizes, both orders
+-1
+-1
+
+########## walk explorations/perf-probes/nat/size-rung-probes/pExtLit.fss
+1
+2
+1
+2
+-1
+

@@ -1,0 +1,102 @@
+--- a/compiler/runtimeValues/RTTIsize.java
++++ b/compiler/runtimeValues/RTTIsize.java
+@@ -34,6 +34,16 @@
+         this.size = size;
+     }
+ 
++    /* SIZE RUNG PROBES, variant (b): the number's one descriptor, made on first
++     * use and kept, so that descriptors compare by identity as the factories'
++     * dictionaries do (RttiTupleMap.Node.equals). */
++    private static final java.util.concurrent.ConcurrentHashMap<String, RTTIsize> INTERNED =
++        new java.util.concurrent.ConcurrentHashMap<String, RTTIsize>();
++
++    public static RTTI of(String size) {
++        return INTERNED.computeIfAbsent(size, RTTIsize::new);
++    }
++
+     public boolean runtimeSupertypeOf(RTTI other) {
+         return (other instanceof RTTIsize) && ((RTTIsize) other).size.equals(size);
+     }
+--- a/runtimeSystem/MethodInstantiater.java
++++ b/runtimeSystem/MethodInstantiater.java
+@@ -142,6 +142,8 @@
+             }
+             String fact_sig = Naming.rttiFactorySig(parameters.size());
+             mv.visitMethodInsn(Opcodes.INVOKESTATIC, stem_rtti, Naming.RTTI_FACTORY, fact_sig);
++        } else if (isSizeLiteral(owner)) {
++            sizeReference(mv, owner); // SIZE RUNG PROBES: a size literal's descriptor
+         } else {
+             //just get the field
+             String ownerRTTIc = Naming.stemClassToRTTIclass(owner);
+@@ -152,6 +154,31 @@
+         }
+     }
+ 
++    /* SIZE RUNG PROBES (explorations/perf-probes/nat/size-rung-probes.md): the one
++     * place that emits a size literal's descriptor, called from rttiReference
++     * above, from CodeGen's extends-clause push (extends-b.patch) and from the
++     * dispatcher's literal leaf (dispatch-b.patch).  Variant (b),
++     * -Dprobe.nat.sizeFactory=true: RTTIsize.of(text), one interned object per
++     * number, no holder class.  Otherwise the holder class's ONLY, <n>$RTTIc, as
++     * before.  A Fortress name cannot begin with a digit or a minus sign. */
++    public static final boolean PROBE_SIZE_FACTORY = Boolean.getBoolean("probe.nat.sizeFactory");
++
++    public static boolean isSizeLiteral(String s) {
++        char c = s.charAt(0);
++        return c == '-' || Character.isDigit(c);
++    }
++
++    public static void sizeReference(MethodVisitor mv, String size) {
++        if (PROBE_SIZE_FACTORY) {
++            mv.visitLdcInsn(size);
++            mv.visitMethodInsn(Opcodes.INVOKESTATIC, Naming.RT_VALUES_PKG + "RTTIsize", "of",
++                    "(Ljava/lang/String;)" + Naming.RTTI_CONTAINER_DESC, false);
++        } else {
++            mv.visitFieldInsn(Opcodes.GETSTATIC, Naming.stemClassToRTTIclass(size),
++                    Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);
++        }
++    }
++
+     public void visitFrame(int type, int nLocal, Object[] local, int nStack,
+             Object[] stack) {
+         mv.visitFrame(type, nLocal, local, nStack, stack);
+--- a/compiler/codegen/CodeGen.java
++++ b/compiler/codegen/CodeGen.java
+@@ -164,6 +164,7 @@
+ import com.sun.fortress.runtimeSystem.InitializedInstanceField;
+ import com.sun.fortress.runtimeSystem.InitializedStaticField;
+ import com.sun.fortress.runtimeSystem.InstantiatingClassloader;
++import com.sun.fortress.runtimeSystem.MethodInstantiater;
+ import com.sun.fortress.runtimeSystem.Naming;
+ import com.sun.fortress.runtimeSystem.RTHelpers;
+ import com.sun.fortress.scala_src.overloading.OverloadingOracle;
+@@ -5803,8 +5804,7 @@
+                             mv2.visitVarInsn(ALOAD, 0);
+                             mv2.visitFieldInsn(GETFIELD, rttiClassName, ((IntRef) ie).getName().getText(), Naming.RTTI_CONTAINER_DESC);
+                         } else {
+-                            mv2.visitFieldInsn(GETSTATIC, Naming.stemClassToRTTIclass(sta.accept(NamingCzar.spkTagger(null)).getB()),
+-                                    Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);
++                            MethodInstantiater.sizeReference(mv2, sta.accept(NamingCzar.spkTagger(null)).getB());
+                         }
+                         continue;
+                     }
+--- a/compiler/OverloadSet.java
++++ b/compiler/OverloadSet.java
+@@ -71,6 +71,7 @@
+ import com.sun.fortress.repository.ProjectProperties;
+ import com.sun.fortress.runtimeSystem.InitializedStaticField;
+ import com.sun.fortress.runtimeSystem.InstantiatingClassloader;
++import com.sun.fortress.runtimeSystem.MethodInstantiater;
+ import com.sun.fortress.nodes.IntArg;
+ import com.sun.fortress.nodes.IntExpr;
+ import com.sun.fortress.nodes.IntRef;
+@@ -1107,8 +1108,7 @@
+             super(literal, literal, null, localIndex, localIndex + 1, variance, false, false);
+         }
+         void emitInstanceOf(MethodVisitor mv, Label if_fail, boolean value_cast) {
+-            mv.visitFieldInsn(Opcodes.GETSTATIC, Naming.stemClassToRTTIclass(fullname),
+-                    Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);
++            MethodInstantiater.sizeReference(mv, fullname);
+             mv.visitInsn(Opcodes.SWAP);
+             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Naming.RTTI_CONTAINER_TYPE,
+                     Naming.RTTI_SUBTYPE_METHOD_NAME, Naming.RTTI_SUBTYPE_METHOD_SIG);

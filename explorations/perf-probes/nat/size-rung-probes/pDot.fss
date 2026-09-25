@@ -1,0 +1,35 @@
+component pDot
+export Executable
+(* Probe 2 of ../size-rung-probes.md.  The library's inner product shares one
+   size between its two operands,
+     opr DOT[\T extends Number, nat n, nat m, nat p\]
+            (me: Vector[\T,n\], other: Vector[\T,n\]): T
+   (Library/FortressLibrary.fsi:1513-1514).  Here over a user object Vec, as
+   ../size-probes/pNatDisp.fss models the library's vectors, with the element
+   type fixed at RR64: one arm generic in the one shared size, which prints
+   the size it was instantiated at (a size read as a value), beside a
+   catch-all that prints -1.  (i) same sizes known statically; (ii) different
+   sizes known statically; (iii) the arguments typed Any, so the overload
+   set's dispatcher chooses the arm at run time, same sizes; (iv) dispatched,
+   different sizes, in both orders. *)
+object Vec[\T, nat s\](x: T) end
+dot[\nat n\](a: Vec[\RR64,n\], b: Vec[\RR64,n\]): () = println(n)
+dot(a: Any, b: Any): () = println(-1)
+run() = do
+  v3: Vec[\RR64,3\] = Vec[\RR64,3\](2.5)
+  w3: Vec[\RR64,3\] = Vec[\RR64,3\](1.5)
+  w4: Vec[\RR64,4\] = Vec[\RR64,4\](1.5)
+  println("(i) static, same sizes")
+  dot(v3, w3)
+  println("(ii) static, different sizes")
+  dot(v3, w4)
+  a: Any = v3
+  b: Any = w3
+  c: Any = w4
+  println("(iii) dispatched, same sizes")
+  dot(a, b)
+  println("(iv) dispatched, different sizes, both orders")
+  dot(a, c)
+  dot(c, a)
+end
+end

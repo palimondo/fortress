@@ -1,0 +1,9 @@
+size-emit: 29 code lines added, 1 removed
+    runtimeSystem/InstantiatingClassloader.java
+size-factory: 26 code lines added, 4 removed
+    compiler/runtimeValues/RTTIsize.java
+    runtimeSystem/MethodInstantiater.java
+    compiler/codegen/CodeGen.java
+    compiler/OverloadSet.java
+size-hash: 4 code lines added, 0 removed
+    compiler/runtimeValues/RTTIsize.java
