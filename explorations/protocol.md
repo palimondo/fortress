@@ -199,6 +199,16 @@ but if one seems to conflict with something Pavol says, his words win.
   derivation from Pavol's principle (POSITIONS 2026-09-22), case by case with the
   cost on the JVM; then the decision in his words, the ledger row appended, and the
   exact rule in the rung's brief. Steps three to seven come before the choice.
+- **(P)** 2026-09-25, after Pavol had to find the diagonal's override shape himself
+  (the watch-list entry below): three rules so that the solutions we consider are the
+  language's and the library's, not the first two someone wrote down.
+  A worker's brief describes the problem, never the solution expected ("the diagonal's
+  product is too slow, restore a fast one", not "drop what the library serves").
+  Before a design choice reaches Pavol, one worker that has not read our earlier notes
+  gets the problem and the library sources and lists every way the language and the
+  library offer to solve it; the choice put to him is built from that list.
+  When a rule blocks an option, the brief or the reply also says how the library itself
+  gets around that rule.
 - **(P)** 2026-09-20: a decision that touches two or more of the specification,
   the interpreter and the compiler, or that infers the original design intent, is
   made in two steps: cheaper-tier workers gather the evidence into a condensed,
