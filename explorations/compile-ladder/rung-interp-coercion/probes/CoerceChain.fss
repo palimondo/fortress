@@ -1,7 +1,7 @@
 component CoerceChain
 export Executable
 
-(* Coercion does not chain (conversions-coercions.tex:120-125): Small -> Big and Big -> Huge
+(* Coercion does not chain (conversions-coercions.tex:127-132): Small -> Big and Big -> Huge
    do not make Small -> Huge. *)
 trait Small excludes { Big, Huge }
   getter v(): ZZ32

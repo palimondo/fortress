@@ -2,7 +2,7 @@ component CoerceAmbiguous
 export Executable
 
 (* Two overloads each applicable only with a coercion from N, neither more specific: the
-   specification makes the pair a static error (advanced/overloading.tex:196-216, :247-255),
+   specification makes the pair a static error (advanced/overloading.tex:196-216, :247-273),
    which walk, having no checker, meets at the call. *)
 trait N excludes { A, B }
   getter n(): ZZ32

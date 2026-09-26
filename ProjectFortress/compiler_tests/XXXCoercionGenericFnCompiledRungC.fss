@@ -1,0 +1,28 @@
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+component XXXCoercionGenericFnCompiledRungC
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+gf[\T\](x: Wide, y: T): String = "gf got " x.big " and " y
+
+run(): () = do
+    println("REACHED")
+    assert(gf(NarrowOf(2), "two"), "gf got 2 and two", "row 388 (provisional): a generic function's parameter of a declared type converts; conversions-coercions.tex:102-103")
+    println("PASS")
+end
+
+end
