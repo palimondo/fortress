@@ -1,0 +1,23 @@
+# dupinst.py over the 172 tracked .tex outside library/apis/ (texfiles.txt), base 6030e4b36: extends clauses naming one generic twice
+advanced-lib/algebraic-constraints.tex:175: ['BinaryPredicate'] :: { BinaryPredicate[\T,SIM\], BinaryPredicate[\T,SIMEQ\] }
+advanced-lib/algebraic-constraints.tex:296: ['StrictPartialOrder', 'PartialOrder'] :: { StrictPartialOrder[\T,PREC\], PartialOrder[\T, PRECEQ\],               PartialOrder[\T,SUCCEQ\], StrictPartialOrder[\T,SUCC\] }
+advanced-lib/algebraic-constraints.tex:336: ['StrictTotalOrder', 'TotalOrder'] :: { PartialOrderOperators[\T,PREC,PRECEQ,SUCCEQ,SUCC,CMP\],               StrictTotalOrder[\T,PREC\], TotalOrder[\T, PRECEQ\],               TotalOrder[\T,SUCCEQ\
+advanced-lib/algebraic-constraints.tex:902: ['BinaryOperator'] :: { BinaryOperator[\T,OTIMES\], BinaryOperator[\T,OPLUS\], Reflexive[\T,APPROX\], Symmetric[\T,APPROX\] }
+advanced-lib/algebraic-constraints.tex:935: ['BinaryOperator'] :: { BinaryOperator[\T,OTIMES\], BinaryOperator[\T,OPLUS\], Reflexive[\T,APPROX\], Symmetric[\T,APPROX\] }
+advanced-lib/algebraic-constraints.tex:997: ['BinaryOperator'] :: { BinaryOperator[\T,SQCAP\], BinaryOperator[\T,SQCUP\], EquivalenceRelation[\T,=\] }
+advanced-lib/algebraic-constraints.tex:1173: ['Semilattice'] :: { Semilattice[\T,SQCAP\], Semilattice[\T,SQCUP\], AbsorptionLaws[\T,SQCAP,SQCUP\] }
+advanced-lib/algebraic-constraints.tex:1815: ['BinaryOperator'] :: { BinaryOperator[\T,CURLYAND\], BinaryOperator[\T,CURLYOR\],               UnaryOperator[\T,SIM\], EquivalenceRelation[\T,=\] }
+advanced-lib/algebraic-constraints.tex:1833: ['Commutative', 'Associative', 'IdempotentBinaryOperator', 'HasIdentity', 'HasComplements', 'Distributive', 'DeMorgan'] :: { Commutative[\T,CURLYAND\], Associative[\T,CURLYAND\],               Commutative[\T,CURLYOR\], Associative[\T,CURLYOR\],               IdempotentBinaryOperator
+advanced-lib/numbers-advanced.tex:73: ['RationalQuantity', 'Field'] :: { RationalQuantity[\U, ninf', lt', eq', gt', pinf', nan'\]                where { bool ninf', bool lt', bool eq', bool gt', bool pinf', bool nan',              
+advanced/parallelism-locality/defining-generators.tex:318: ['Generator'] :: Any \](other : Generator[\ N \]) : Generator[\ ((A,B), N) \] =
+advanced/parallelism-locality/defining-generators.tex:480: ['Generator'] :: Any \](g : Generator[\E\]) : Generator[\E\]
+advanced/parallelism-locality/distributions.tex:25: ['Range'] :: ArrayIndex\](Range[\B\]):Range[\B\]
+advanced/parallelism-locality/distributions.tex:26: ['Array'] :: ArrayIndex\](a:Array[\E,B\]):Array[\E,B\] =
+appendices/future.tex:250: ['Complex'] :: Number\](x:Complex[\T\]):Complex[\T\]
+appendices/internal-document.tex:319: ['Plussable'] :: {Plussable[\Right\], Plussable[\Wrong\]}
+appendices/internal-document.tex:375: ['Parent'] :: { Parent[\ZZ32\], Parent[\String\] }
+appendices/internal-document.tex:485: ['RationalQuantity'] :: { RationalQuantity[\U, ninf', lt', eq', gt', pinf', nan'\]               where { bool ninf', bool lt', bool eq', bool gt', bool pinf', bool nan',               
+basic-lib/basic-integers.tex:87: ['CommutativeRing'] :: { QQ, ZZ_star, IntegerLike[\ZZ\],                CommutativeRing[\ZZ,+,-,juxtaposition\],                CommutativeRing[\ZZ,+,-,DOT\],                Commutati
+basic-lib/booleans.tex:19: ['BooleanAlgebra', 'PartialOrderAndBoundedLattice', 'EquivalenceRelation', 'Symmetric', 'Commutative'] :: { BooleanAlgebra[\Boolean,juxtaposition,OR,NOT,XOR\],               BooleanAlgebra[\Boolean,juxtaposition,OR,NOT,OPLUS\],               BooleanAlgebra[\Boolean,
+basic-lib/booleans.tex:361: ['BinaryIntervalContainment'] :: { BooleanAlgebra[\BooleanInterval, INTERSECTION, UNION, SET_COMPLEMENT, SYMDIFF\],               Set[\Boolean\],               BinaryIntervalContainment[\Boolea
+basic-lib/numbers.tex:108: ['Field'] :: { RR, QQ_star,                Field[\QQ,QQ_NE,+,-,DOT,/\],                Field[\QQ,QQ_NE,+,-,TIMES,/\],                Field[\QQ,QQ_NE,+,-,juxtaposition,/\],  
