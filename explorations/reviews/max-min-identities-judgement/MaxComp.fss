@@ -1,0 +1,21 @@
+(* MaxComp -- the compiled path in the compiler's own world (CompilerLibrary, where
+   ZZ32 and ZZ64 are siblings and ZZ64 coerces from ZZ32): the empty BIG MAX over ZZ32
+   answers ZZ32's least element (ZZ32Max.empty, CompilerLibrary.fss:468-471); carried
+   into ZZ64 by the coercion at a typed binding, is it still an identity of MAX there?
+   The empty SUM's zero, carried the same way, against +. *)
+component MaxComp
+export Executable
+
+run(): () = do
+    println("BIG MAX[j <- 0#0] j = " (BIG MAX[j <- 0#0] j))
+    println("BIG MAX[j <- 0#4] j = " (BIG MAX[j <- 0#4] j))
+    m: ZZ64 = BIG MAX[j <- 0#0] j
+    y: ZZ64 = m - 1
+    println("m: ZZ64 = BIG MAX[j <- 0#0] j = " m)
+    println("y: ZZ64 = m - 1 = " y "   (below ZZ32's range)")
+    println("m MAX y = " (m MAX y) "   (y if m were an identity of MAX on ZZ64)")
+    s: ZZ64 = SUM[j <- 0#0] j
+    println("s: ZZ64 = SUM[j <- 0#0] j = " s)
+    println("s + y = " (s + y) "   (y: the zero is an identity of + on ZZ64)")
+  end
+end

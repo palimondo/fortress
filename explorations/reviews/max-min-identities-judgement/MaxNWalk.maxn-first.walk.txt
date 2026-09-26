@@ -1,0 +1,37 @@
+# walk.sh MaxNWalk maxn started 2026-09-26T16:05:24Z; tree 1c0dce084; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; load 0.36 0.88 0.92; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+-- 1. the empty cases, the static argument written
+BIG MAXN[\ZZ32\][j <- 0#0] j: -2147483648 : Int
+BIG MINN[\ZZ32\][j <- 0#0] j: 2147483647 : Int
+BIG MAXN[\ZZ64\][j <- 0#0] widen(j): -9223372036854775808 : Long
+BIG MAXN[\RR64\][t <- a0] t: -Infinity : Float
+BIG MINN[\RR64\][t <- a0] t: Infinity : Float
+BIG MINMAXN[\ZZ32\][j <- 0#0] j: (2147483647,-2147483648)
+-- 2. the identity joined into a fold that is not empty
+BIG MAXN[\ZZ32\][j <- 0#4, j > 1] j       (filter): 3 : Int
+BIG MAXN[\ZZ32\][j <- seq(0#4)] j         (sequential): 3 : Int
+BIG MINN[\RR64\][t <- a3, t > 1.0] t      (filter): 1.25 : Float
+BIG MINMAXN[\RR64\][t <- a3, t > 1.0] t: (1.25,2.25)
+-- 3. a type with no least element (ZZ)
+BIG MAXN[\ZZ\][j <- 0#4] big(widen(j))    (nonempty, no filter): 3 : BigNum
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-maxn/Library/RangeInternals.fss:1032:21-58:
+Unification error: Closure/Constructor for join param 1 (a:ZZ) got arg -Infinity:RR64 of type Float
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-maxn/Library/RangeInternals.fss:1032:21-58:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-maxn/Library/RangeInternals.fss:1032:30-43:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-maxn/Library/RangeInternals.fss:1034:13-1035:9:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-maxn/Library/FortressLibrary.fss:1070:5-23:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-maxn/Library/FortressLibrary.fss:1070:5-23:
+/home/user/fortress/explorations/reviews/max-min-identities-judgement/MaxNWalk.fss:34:99-108:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-maxn/Library/FortressLibrary.fss:1127:25-47:
+/home/user/fortress/explorations/reviews/max-min-identities-judgement/MaxNWalk.fss:34:84-128:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

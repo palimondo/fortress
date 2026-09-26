@@ -1,0 +1,48 @@
+(* MaxNWalk -- the interpreter on a private library copy (variants/maxn.py: today's tower,
+   answer 7's SUM/PROD, and the "keep them" shape of BIG MAXN / MINN / MINMAXN: one generic
+   reduction per operator, the identity the least or greatest element of the static
+   argument's type, ZZ and QQ having none).  Each answer with its run-time type: the
+   empty cases per type; a filter clause and a sequential range, where the identity is
+   joined into a fold that is not empty; the types without a least element; and the
+   clause form with no static argument written. *)
+component MaxNWalk
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x " : " x.ilkName)
+
+run(): () = do
+    a0 = array[\RR64\](0)
+    a3 = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 0.25 + i)
+
+    println("-- 1. the empty cases, the static argument written")
+    show("BIG MAXN[\\ZZ32\\][j <- 0#0] j", BIG MAXN[\ZZ32\][j <- 0#0] j)
+    show("BIG MINN[\\ZZ32\\][j <- 0#0] j", BIG MINN[\ZZ32\][j <- 0#0] j)
+    show("BIG MAXN[\\ZZ64\\][j <- 0#0] widen(j)", BIG MAXN[\ZZ64\][j <- 0#0] widen(j))
+    show("BIG MAXN[\\RR64\\][t <- a0] t", BIG MAXN[\RR64\][t <- a0] t)
+    show("BIG MINN[\\RR64\\][t <- a0] t", BIG MINN[\RR64\][t <- a0] t)
+    println("BIG MINMAXN[\\ZZ32\\][j <- 0#0] j: " (BIG MINMAXN[\ZZ32\][j <- 0#0] j))
+
+    println("-- 2. the identity joined into a fold that is not empty")
+    show("BIG MAXN[\\ZZ32\\][j <- 0#4, j > 1] j       (filter)", BIG MAXN[\ZZ32\][j <- 0#4, j > 1] j)
+    show("BIG MAXN[\\ZZ32\\][j <- seq(0#4)] j         (sequential)", BIG MAXN[\ZZ32\][j <- seq(0#4)] j)
+    show("BIG MINN[\\RR64\\][t <- a3, t > 1.0] t      (filter)", BIG MINN[\RR64\][t <- a3, t > 1.0] t)
+    println("BIG MINMAXN[\\RR64\\][t <- a3, t > 1.0] t: " (BIG MINMAXN[\RR64\][t <- a3, t > 1.0] t))
+
+    println("-- 3. a type with no least element (ZZ)")
+    show("BIG MAXN[\\ZZ\\][j <- 0#4] big(widen(j))    (nonempty, no filter)", BIG MAXN[\ZZ\][j <- 0#4] big(widen(j)))
+    try
+        show("BIG MAXN[\\ZZ\\][j <- 0#4, j > 1] big(widen(j)) (nonempty, filter)", BIG MAXN[\ZZ\][j <- 0#4, j > 1] big(widen(j)))
+    catch e
+        EmptyReduction => println("BIG MAXN[\\ZZ\\][j <- 0#4, j > 1] big(widen(j)) (nonempty, filter): threw EmptyReduction")
+    end
+    try
+        show("BIG MAXN[\\ZZ\\][j <- 0#0] big(widen(j))    (empty)", BIG MAXN[\ZZ\][j <- 0#0] big(widen(j)))
+    catch e
+        EmptyReduction => println("BIG MAXN[\\ZZ\\][j <- 0#0] big(widen(j))    (empty): threw EmptyReduction")
+    end
+
+    println("-- 4. the library's BIG MAX beside it, and the clause form unwritten")
+    show("BIG MAX[j <- 0#4, j > 1] j", BIG MAX[j <- 0#4, j > 1] j)
+    show("BIG MAXN[j <- 0#4] j                       (no static argument)", BIG MAXN[j <- 0#4] j)
+  end
+end

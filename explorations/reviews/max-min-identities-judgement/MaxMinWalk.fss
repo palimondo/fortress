@@ -1,0 +1,70 @@
+(* MaxMinWalk -- the interpreter on today's library (the nested tower): what the three
+   Number-typed extremum operators BIG MAXN, BIG MINN and BIG MINMAXN answer, with the
+   run-time type of each answer; when a generator joins the empty value into a fold that
+   is not empty (a filter clause, a sequential range); the same shapes for SUM, for the
+   library's generic BIG MAX (no identity, lifted to Maybe) and for BIG MINNUM (identity
+   NaN); and whether an identity carried into a wider type by widen is still that type's
+   identity: the sum's zero and the product's one against the maximum's least element. *)
+component MaxMinWalk
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x " : " x.ilkName)
+
+run(): () = do
+    a0 = array[\RR64\](0)
+    a3 = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 0.25 + i)
+
+    println("-- 1. today's BIG MAXN / MINN / MINMAXN over Number, identity -1/0 and 1/0")
+    show("BIG MAXN[j <- 0#4] j                (range, nonempty)", BIG MAXN[j <- 0#4] j)
+    show("BIG MAXN[j <- 0#4, j > 1] j         (filter: the empty value is joined in)", BIG MAXN[j <- 0#4, j > 1] j)
+    show("BIG MAXN[j <- seq(0#4)] j           (sequential: the fold starts from the empty value)", BIG MAXN[j <- seq(0#4)] j)
+    show("BIG MAXN[j <- 0#0] j                (empty)", BIG MAXN[j <- 0#0] j)
+    show("BIG MINN[t <- a3] t                 (RR64 array)", BIG MINN[t <- a3] t)
+    show("BIG MINN[t <- a3, t > 1.0] t        (RR64 array, filter)", BIG MINN[t <- a3, t > 1.0] t)
+    show("BIG MINN[t <- a0] t                 (empty RR64 array)", BIG MINN[t <- a0] t)
+    println("BIG MINMAXN[j <- 0#0] j             (empty): " (BIG MINMAXN[j <- 0#0] j))
+    println("BIG MINMAXN[j <- 0#4] j             (nonempty): " (BIG MINMAXN[j <- 0#4] j))
+    show("(BIG MAXN[j <- 0#0] j) MAX 5        (the empty value meets an integer)", (BIG MAXN[j <- 0#0] j) MAX 5)
+
+    println("-- 2. the same shapes for SUM (identity the integer 0)")
+    show("SUM[j <- 0#4, j > 1] j              (filter)", SUM[j <- 0#4, j > 1] j)
+    show("SUM[j <- seq(0#4)] j                (sequential)", SUM[j <- seq(0#4)] j)
+    show("SUM[t <- a3, t > 1.0] t             (RR64 array, filter: the integer 0 joined into floats)", SUM[t <- a3, t > 1.0] t)
+
+    println("-- 3. the library's generic BIG MAX / BIG MIN (no identity, lifted to Maybe)")
+    show("BIG MAX[j <- 0#4, j > 1] j          (filter)", BIG MAX[j <- 0#4, j > 1] j)
+    show("BIG MAX[j <- seq(0#4)] j            (sequential)", BIG MAX[j <- seq(0#4)] j)
+    show("BIG MIN[t <- a3, t > 1.0] t         (RR64 array, filter)", BIG MIN[t <- a3, t > 1.0] t)
+    try
+        show("BIG MAX[j <- 0#0] j                 (empty)", BIG MAX[j <- 0#0] j)
+    catch e
+        EmptyReduction => println("BIG MAX[j <- 0#0] j                 (empty): threw EmptyReduction")
+    end
+
+    println("-- 4. BIG MINNUM over RR64, identity NaN")
+    show("BIG MINNUM[t <- a0] t               (empty)", BIG MINNUM[t <- a0] t)
+    show("BIG MINNUM[t <- a3, t > 1.0] t      (filter: NaN joined in)", BIG MINNUM[t <- a3, t > 1.0] t)
+    show("BIG MINNUM[t <- a3] t", BIG MINNUM[t <- a3] t)
+
+    println("-- 5. an identity carried into a wider type by widen")
+    m32: ZZ32 = -2147483647 - 1
+    m64: ZZ64 = widen(m32)
+    y: ZZ64 = m64 - 1
+    show("y = widen(ZZ32 minimum) - 1        (a ZZ64 below ZZ32's range)", y)
+    show("widen(0) + y                        (sum: zero survives, expect y)", widen(0) + y)
+    show("widen(1) y                          (product: one survives, expect y)", widen(1) y)
+    show("widen(ZZ32 minimum) MAX y           (maximum: expect y if the least element survived)", m64 MAX y)
+    show("widen(ZZ32 maximum) MIN (-y)        (minimum: expect -y if the greatest element survived)", widen(2147483647) MIN (-y))
+    huge = -(10.0^300)
+    show("0 + huge                            (into RR64, sum)", 0 + huge)
+    show("m32 MAX huge                        (into RR64, maximum)", m32 MAX huge)
+
+    println("-- 6. RR64's own least element and its zero")
+    ninf = -1.0/0.0
+    show("(-1.0/0.0) MAX 2.5", ninf MAX 2.5)
+    show("(-1.0/0.0) MAX (-0.0)", ninf MAX (-0.0))
+    show("(-1.0/0.0) MAX (0.0/0.0)          (NaN)", ninf MAX (0.0/0.0))
+    show("0.0 + (-0.0)", 0.0 + (-0.0))
+    show("(-0.0) + (-0.0)", (-0.0) + (-0.0))
+  end
+end

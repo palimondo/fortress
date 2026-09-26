@@ -1,0 +1,40 @@
+# walk.sh MaxMinWalk stock started 2026-09-26T16:03:03Z; tree 1c0dce084; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; load 1.69 1.16 1.00; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+-- 1. today's BIG MAXN / MINN / MINMAXN over Number, identity -1/0 and 1/0
+BIG MAXN[j <- 0#4] j                (range, nonempty): 3 : Int
+BIG MAXN[j <- 0#4, j > 1] j         (filter: the empty value is joined in): 3 : Int
+BIG MAXN[j <- seq(0#4)] j           (sequential: the fold starts from the empty value): 3 : Int
+BIG MAXN[j <- 0#0] j                (empty): -1/0 : Ratio
+BIG MINN[t <- a3] t                 (RR64 array): 0.25 : Float
+BIG MINN[t <- a3, t > 1.0] t        (RR64 array, filter): 1.25 : Float
+BIG MINN[t <- a0] t                 (empty RR64 array): 1/0 : Ratio
+BIG MINMAXN[j <- 0#0] j             (empty): (1/0,-1/0)
+BIG MINMAXN[j <- 0#4] j             (nonempty): (0,3)
+(BIG MAXN[j <- 0#0] j) MAX 5        (the empty value meets an integer): 5 : Int
+-- 2. the same shapes for SUM (identity the integer 0)
+SUM[j <- 0#4, j > 1] j              (filter): 5 : Int
+SUM[j <- seq(0#4)] j                (sequential): 6 : Int
+SUM[t <- a3, t > 1.0] t             (RR64 array, filter: the integer 0 joined into floats): 3.5 : Float
+-- 3. the library's generic BIG MAX / BIG MIN (no identity, lifted to Maybe)
+BIG MAX[j <- 0#4, j > 1] j          (filter): 3 : Int
+BIG MAX[j <- seq(0#4)] j            (sequential): 3 : Int
+BIG MIN[t <- a3, t > 1.0] t         (RR64 array, filter): 1.25 : Float
+BIG MAX[j <- 0#0] j                 (empty): threw EmptyReduction
+-- 4. BIG MINNUM over RR64, identity NaN
+BIG MINNUM[t <- a0] t               (empty): NaN : Float
+BIG MINNUM[t <- a3, t > 1.0] t      (filter: NaN joined in): 1.25 : Float
+BIG MINNUM[t <- a3] t: 0.25 : Float
+-- 5. an identity carried into a wider type by widen
+y = widen(ZZ32 minimum) - 1        (a ZZ64 below ZZ32's range): -2147483649 : Long
+widen(0) + y                        (sum: zero survives, expect y): -2147483649 : Long
+widen(1) y                          (product: one survives, expect y): -2147483649 : Long
+widen(ZZ32 minimum) MAX y           (maximum: expect y if the least element survived): -2147483648 : Long
+widen(ZZ32 maximum) MIN (-y)        (minimum: expect -y if the greatest element survived): 2147483647 : Long
+0 + huge                            (into RR64, sum): -1.0E300 : Float
+m32 MAX huge                        (into RR64, maximum): -2.147483648E9 : Float
+-- 6. RR64's own least element and its zero
+(-1.0/0.0) MAX 2.5: 2.5 : Float
+(-1.0/0.0) MAX (-0.0): -0.0 : Float
+(-1.0/0.0) MAX (0.0/0.0)          (NaN): NaN : Float
+0.0 + (-0.0): 0.0 : Float
+(-0.0) + (-0.0): -0.0 : Float
+rc=0

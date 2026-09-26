@@ -1,0 +1,12 @@
+# comp.sh MaxComp started 2026-09-26T16:02:26Z; tree 1c0dce084; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 1.32 1.01 0.94; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## fortress compile MaxComp.fss (private cache, compiler's world)
+compile rc=0
+## run
+BIG MAX[j <- 0#0] j =  -2147483648
+BIG MAX[j <- 0#4] j =  3
+m: ZZ64 = BIG MAX[j <- 0#0] j =  -2147483648
+y: ZZ64 = m - 1 =  -2147483649    (below ZZ32's range)
+m MAX y =  -2147483648    (y if m were an identity of MAX on ZZ64)
+s: ZZ64 = SUM[j <- 0#0] j =  0
+s + y =  -2147483649    (y: the zero is an identity of + on ZZ64)
+run rc=0

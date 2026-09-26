@@ -1,0 +1,28 @@
+(* FlatMaxWalk -- the interpreter on a private copy of the library with the tower
+   flattened (variants/flat.py, the keep note's FLAT copy: the number types siblings
+   under a Number without operators, RR64 a StandardMinMax[\RR64\] of its own).  The
+   library's generic BIG MAX / BIG MIN on the flat tower, the bare form over an RR64
+   array included (the approved C4 line `BIG MAX z`), and what today's Number-typed
+   BIG MAXN does once Number has no MAX to join with. *)
+component FlatMaxWalk
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x " : " x.ilkName)
+
+run(): () = do
+    a0 = array[\RR64\](0)
+    a3 = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 0.25 + i)
+    show("BIG MAX a3                          (bare, RR64 array: C4's `BIG MAX z`)", BIG MAX a3)
+    show("BIG MAX[t <- a3] t                  (clause, RR64 array)", BIG MAX[t <- a3] t)
+    show("BIG MIN[t <- a3, t > 1.0] t         (filter)", BIG MIN[t <- a3, t > 1.0] t)
+    show("BIG MAX[j <- 0#4] j                 (ZZ32 range)", BIG MAX[j <- 0#4] j)
+    show("BIG MAX[j <- seq(0#4)] j            (sequential)", BIG MAX[j <- seq(0#4)] j)
+    try
+        show("BIG MAX[t <- a0] t                  (empty)", BIG MAX[t <- a0] t)
+    catch e
+        EmptyReduction => println("BIG MAX[t <- a0] t                  (empty): threw EmptyReduction")
+    end
+    show("BIG MAXN[j <- 0#4] j                (nonempty: the join dispatches on the values)", BIG MAXN[j <- 0#4] j)
+    show("BIG MAXN[j <- 0#4, j > 1] j         (filter: -1/0 MAX an integer, no Number MAX)", BIG MAXN[j <- 0#4, j > 1] j)
+  end
+end

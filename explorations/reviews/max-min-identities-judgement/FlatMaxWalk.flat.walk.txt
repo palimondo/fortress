@@ -1,0 +1,4 @@
+# walk.sh FlatMaxWalk flat started 2026-09-26T16:03:59Z; tree 1c0dce084; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; load 1.04 1.09 0.98; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-flat/Library/FortressLibrary.fss:2242:66-68:
+    Operator prefix SQRT is not defined.
+rc=255
