@@ -1,0 +1,22 @@
+/home/user/fortress-overflow/Library/RangeInternals.fss:1201:54-57:
+IntegerOverflow
+Context:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1201:54-57:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1208:17-1209:13:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1070:5-23:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1070:5-23:
+/home/user/fortress-overflow/ProjectFortress/tests/IntMapTest.fss:27:41-53:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1127:25-47:
+/home/user/fortress-overflow/ProjectFortress/tests/IntMapTest.fss:27:10-53:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+rc=1 secs=11

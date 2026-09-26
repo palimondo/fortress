@@ -1,0 +1,31 @@
+2D ranges
+/home/user/fortress-overflow/Library/RangeInternals.fss:1031:48-51:
+IntegerOverflow
+Context:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1031:48-51:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3528:9-3529:77:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3528:9-3529:77:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1058:25-55:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1058:25-55:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1785:25-45:
+/home/user/fortress-overflow/ProjectFortress/tests/RangePrototype.fss:270:13-24:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3399:9-48:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3399:9-48:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1058:25-55:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1058:25-55:
+/home/user/fortress-overflow/ProjectFortress/tests/RangePrototype.fss:267:9-29:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+rc=1 secs=12

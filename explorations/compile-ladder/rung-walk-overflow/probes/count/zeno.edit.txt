@@ -1,0 +1,29 @@
+/home/user/fortress-overflow/Library/ChunkedSparseArray.fss:76:57-59:
+IntegerOverflow
+Context:
+/home/user/fortress-overflow/Library/ChunkedSparseArray.fss:76:57-59:
+/home/user/fortress-overflow/Library/ChunkedSparseArray.fss:96:18-36:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1895:26-40:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:78:16-27:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:83:13-26:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:83:13-26:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:83:13-26:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:83:13-26:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:81:13-25:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:81:13-25:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:83:13-26:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:81:13-25:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:81:13-25:
+/home/user/fortress-overflow/ProjectFortress/tests/zeno.fss:114:5-21:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+rc=1 secs=8

@@ -1,0 +1,26 @@
+/home/user/fortress-overflow/Library/Random.fss:235:22-37:
+IntegerOverflow
+Context:
+/home/user/fortress-overflow/Library/Random.fss:235:22-37:
+/home/user/fortress-overflow/Library/Random.fss:380:17-27:
+/home/user/fortress-overflow/Library/Random.fss:56:9-65:
+/home/user/fortress-overflow/Library/Random.fss:56:9-65:
+/home/user/fortress-overflow/Library/QuickCheck.fss:47:38-54:
+/home/user/fortress-overflow/Library/QuickCheck.fss:700:20-34:
+/home/user/fortress-overflow/Library/QuickCheck.fss:67:5-55:
+/home/user/fortress-overflow/Library/QuickCheck.fss:72:9-26:
+/home/user/fortress-overflow/Library/ReflectiveQuickCheck.fss:337:25-71:
+/home/user/fortress-overflow/Library/ReflectiveQuickCheck.fss:343:5-53:
+/home/user/fortress-overflow/ProjectFortress/tests/ReflectiveQuickCheckTest.fss:46:5-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+rc=1 secs=13

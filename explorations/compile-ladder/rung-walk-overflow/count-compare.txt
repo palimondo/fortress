@@ -1,0 +1,96 @@
+UNSTABLE ArrayListQuick  rc A 0 B 0 edit 0  A/B line 7  A/edit line 7
+    A:    Succeeded in 1.007s
+    B:    Succeeded in 1.771s
+    edit: Succeeded in 0.978s
+UNSTABLE CovCollTest  rc A 0 B 0 edit 0  A/B line 1  A/edit line 1
+    A:    Warmup 1 1 13.604689ms
+    B:    Warmup 1 1 24.21605ms
+    edit: Warmup 1 1 22.8638ms
+UNSTABLE HeapTest  rc A 0 B 0 edit 1  A/B line 2  A/edit line 2
+    A:    11	33	21694813/500000	21694813/5500000	21694813/16500000	64005381/1000000	5818671/1000000	1939557/1000000	60330083/250000	5484553/250000	5484553/750000	2642409/1000000	240219/1000000	80073/1000000	693
+    B:    11	33	4584461/250000	4584461/2750000	4584461/8250000	92317/3125	92317/34375	92317/103125	32698471/200000	32698471/2200000	32698471/6600000	2102813/1000000	2102813/11000000	2102813/33000000	3536823/500
+    edit: 11	33	1303439/50000	1303439/550000	1303439/1650000	47802257/1000000	47802257/11000000	47802257/33000000	24342447/125000	24342447/1375000	8114149/13750007	14	1498937/1000000	1498937/7000000	1498937/140
+CHANGED  IntMapTest  rc 0 -> 1  line 1
+    base: OK
+    edit: /home/user/fortress-overflow/Library/RangeInternals.fss:1201:54-57:
+UNSTABLE PureListQuick  rc A 0 B 0 edit 0  A/B line 7  A/edit line 7
+    A:    Succeeded in 0.776s
+    B:    Succeeded in 1.169s
+    edit: Succeeded in 0.785s
+UNSTABLE QuickCheckTest  rc A 0 B 0 edit 1  A/B line 2  A/edit line 1
+    A:    genBoolean: false false true false false true true false false true false false false true true true
+    B:    genBoolean: false false false false true true true false false true true false false false false true
+    edit: /home/user/fortress-overflow/Library/Random.fss:235:22-37:
+CHANGED  RandomTest  rc 0 -> 1  line 1
+    base: 
+    edit: /home/user/fortress-overflow/Library/Random.fss:235:22-37:
+CHANGED  RangePrototype  rc 0 -> 1  line 2
+    base: fullScalarRanges (16)
+    edit: /home/user/fortress-overflow/Library/RangeInternals.fss:1031:48-51:
+CHANGED  ReflectiveQuickCheckTest  rc 0 -> 1  line 1
+    base: propAssociativeAddition:
+    edit: /home/user/fortress-overflow/Library/Random.fss:235:22-37:
+UNSTABLE ShuffleTest  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    [0#50][ 18 40 36 24 9 47 16 12 25 39 17 35 15 13 33 30 0 23 7 21 45 1 8 34 22 28 4 10 11 5 46 42 49 19 6 43 20 3 48 26 27 37 14 41 44 2 38 32 29 31 ]
+    B:    [0#50][ 4 9 33 43 45 47 26 27 18 0 48 16 41 17 36 1 15 24 32 5 39 44 23 25 11 42 34 7 2 19 28 12 22 3 38 31 21 29 49 37 10 8 40 20 6 46 35 30 14 13 ]
+    edit: [0#50][ 11 44 36 42 17 4 14 39 34 8 2 26 37 3 33 27 49 16 12 38 9 31 41 30 45 0 40 32 19 1 7 28 22 24 13 46 25 6 15 47 23 29 10 21 48 43 20 18 5 35 ]
+UNSTABLE SkipListTest  rc A 0 B 0 edit 0  A/B line 1  A/edit line 1
+    A:    {[0#1][ Emily ], [0#2][ { [], [{ [], [{[0#1][ David ], [0#2][ { [], [{ [], [<<Cathy>>] }] } { [], [{ [], [<<David>>] }] } ]}] }] } { [], [{ [], [{[0#1][ John ], [0#2][ { [], [{ [], [<<Emily>>] }] } {[
+    B:    {[0#1][ Emily ], [0#2][ { [], [{ [], [{[0#1][ David ], [0#2][ { [], [<<Cathy>>] } { [], [<<David>>] } ]}] }] } {[0#1][ John ], [0#2][ { [], [{ [], [{ [], [<<Emily>>] }] }] } { [], [{[0#1][ Nathi ], [0
+    edit: {[0#3][ Emily Nathi Paul ], [0#4][ {[0#1][ David ], [0#2][ <<Cathy>> <<David>> ]} {[0#1][ John ], [0#2][ <<Emily>> <<John>> ]} { [], [<<Nathi>>] } { [], [<<Paul>>] } ]}
+UNSTABLE TimingTests  rc A 0 B 0 edit 0  A/B line 1  A/edit line 1
+    A:    fib(1) 0.557166ms
+    B:    fib(1) 0.634065ms
+    edit: fib(1) 0.68078ms
+UNSTABLE TreapTest  rc A 0 B 0 edit 0  A/B line 3  A/edit line 3
+    A:    Azero
+    B:    Atwo
+    edit: Afour
+UNSTABLE WordCountSmall  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    Acquired words in 881.165748ms
+    B:    Acquired words in 782.481132ms
+    edit: Acquired words in 871.203891ms
+UNSTABLE abortBlock  rc A 0 B 0 edit 0  A/B line 86  A/edit line 34
+    A:     Thread ForkJoinPool-2-worker-1 operating on value Aborting
+    B:    . Thread ForkJoinPool-2-worker-1 operating on value Aborting
+    edit: . Thread ForkJoinPool-2-worker-1 operating on value Aborting
+UNSTABLE buffons  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    estimated Pi = 3.167560321715818
+    B:    estimated Pi = 3.1165562913907285
+    edit: estimated Pi = 3.1803948264125257
+CHANGED  intPrim  rc 0 -> 1  line 1
+    base: 
+    edit: /home/user/fortress-overflow/ProjectFortress/tests/intPrim.fss:21:22-29:
+CHANGED  longPrim  rc 0 -> 1  line 1
+    base: 
+    edit: /home/user/fortress-overflow/ProjectFortress/tests/longPrim.fss:21:22-29:
+UNSTABLE nestedTransactions1  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    Operation took 27ms
+    B:    Operation took 23ms
+    edit: Operation took 36ms
+UNSTABLE nestedTransactions2  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    Operation took 28ms
+    B:    Operation took 29ms
+    edit: Operation took 41ms
+UNSTABLE nestedTransactions3  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    Operation took 34ms
+    B:    Operation took 29ms
+    edit: Operation took 57ms
+UNSTABLE nestedTransactions4  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    Operation took 23ms
+    B:    Operation took 27ms
+    edit: Operation took 29ms
+UNSTABLE quicksortTest  rc A 0 B 0 edit 0  A/B line 1  A/edit line 1
+    A:    random fill 57.082844ms
+    B:    random fill 64.467704ms
+    edit: random fill 0.120522659s
+CHANGED  setSum  rc 0 -> 1  line 1
+    base: 
+    edit: /home/user/fortress-overflow/Library/RangeInternals.fss:1031:48-51:
+CHANGED  simpleSum  rc 0 -> 1  line 1
+    base: 
+    edit: /home/user/fortress-overflow/Library/RangeInternals.fss:1031:48-51:
+CHANGED  zeno  rc 0 -> 1  line 1
+    base: mx = 103
+    edit: /home/user/fortress-overflow/Library/ChunkedSparseArray.fss:76:57-59:
+tests 393  stable 376  changed 9  unstable 17  missing 0

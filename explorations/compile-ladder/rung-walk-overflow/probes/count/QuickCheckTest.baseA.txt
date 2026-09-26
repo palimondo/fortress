@@ -1,0 +1,53 @@
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: false false true false false true true false false true false false false true true true
+genZZ32: -4569607 -5221413 13 3974031 4705 2022816387 -11 19639 -31799 -12757 -35 2046423775
+genZZ64: -17871 11987 1301010757 13831 -1546188668135249872 34483340573459245 -81 -10988566993800
+genZZ: 2179948282996597184 2209365788067444221 1109375 2583863332796890853 168673600806 -1282231978824627666 24 757566482
+genQQ: 3197821695726048777/506933993248 -102688525772899/1466405600797867839 30191662246496275/2061446 2063721287/7165294881599146667
+genRR32: 3.9892333E8 -5.671354E8 -3778.3606 1.6865874E8 8.774457 -2.0132296E8 228933.8 -7.710976E8
+genRR64: -412800.345240924 6.50252607331467E7 -4.2806973889613946E17 1700.4281311511832
+genChar: c Q 4 R Q ` ' 6 ; = W s ; s l 3 9 k & ) 9 : r 2 A P ~ P = ? n a
+genString: a#vD azQfR/[,> zQfR/[,>_J>{ zQfR/[,>_J> zQfR/[,_J>{i zQfR/[, vQfRo QfR/[,> QfR/,_J>{iJ9 QfR/[ Qf/[,> fR/[, fR/[ f/[,_J>{i o/[, /[,>_J>
+genMaybe(genChar): Nothing Nothing Just(o) Just(.) Just(/) Just([) Just(,) Just(>)
+genList(genZZ32): <|-11494, 982450847, 17058, 32199, -23824, -5780243|> <|-11494, 982450847, 17058, 32199, -23824|>
+genList(genString): <|99;UkS'd\I*}mP, 9=UkS'd\;}JP$/&2RJ7'd, 9;UkS'd\I*CJ|> <|9=UkS'd\;}JP$W&2RJ7'd, 9;UkS'd\;C, ;UkS'd\I*CJ, Uk'd\;}JP$#/2RJ7'dA/j)W, %',, 'd\;}JP$W&2, d*C, *;CJ, ;Je#, ;}JP$#, CJ, J$#, P$/&2RJ7H, lW2, m/2, \, W22J, , 2, _, , , , , , W{, , , 6Id}j, Iqd}j%"+, qJ, d}jej"+, }jej"+_kv|>
+genList(genMaybe(genList(genString))): <|Just(<|UkS'd\;}JP$/W2RJ7, k%'d\;}J7, %'d, 'd\;}JP$/W2, d*}J7, *;CJ, ;Je#, ;}JP$/W2, CJ, J$#, P$/&2RJ7H, ml, m/2, \, WR, , 2, _, 'A/j, , A, , /j)W>6Idjs9j"+_|>), Just(<|Uk%', G, '\, , d, , }, C, e, , /W, WR, 2J|>), Just(<|%',, 'd\;}JP$W&2RJ, d*C, *}m, ;}JP$#, ;}JP$lW, CP, JP$#, P$/22J7, /W2J7, mW22J7'd, \, W2RJ, R, 2, 7, , , A, , , W, , 6, , , d,j, 6}, }jej|>), Just(<|'d\;}JP$W2J7, *;, CP, ;Je#, Je, 7e, e#mW&2, m/W, m/&2, 2, , , J, 7, 'A/W{>6, dA4/jT~>6Id}je%"+|>), Just(<|*;CJ, ;}JP$#, ;}JP$/W2, CP, JP$#, P$W2J7H, lW2R, m/W, \, W22J, , 2, 7, , , A, , W{, , , , 6I{, qJd, qJ, d}je%"+_, jej"+_, ej"+_, j"_sC, "_sfa}OQo|75kJ, +9s, _, sf;a}, fYa, xa0O, a}bdH, a0OQ|>)|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {17058|->({false,true},{#,$,',*,,,/,2,4,6,7,>,A,B,C,I,J,P,R,S,U,W,\,d,j,k,m,q,{}), 982450847|->({false,true},{#,$,',*,/,2,3,7,9,=,A,C,I,J,P,R,S,U,W,\,d,j,k,m})}
+genRange(genZZ32): [-11494,-11493,-11492,-11491,... 1593376868] [] [-28884,-28883,-28882,-28881,... 22470] []
+genTuple3(genZZ32,genMaybe(genChar),genString): (-1952273,Just(S),d\I*CP$#mW2RJ7'A4/jT~>6Id}js9j"+_sCfYU\) (838728882,Nothing,*I}mP$#mW2RJ7'A4/jT~>6Id}je%"+_kvM) (855679702,Just(\),}J7e#e\) (61,Just(;),JP$#)
+genTestStatus: TestFail TestSkip TestFail TestSkip TestFail TestFail TestPass TestFail
+genList(genTestStatus): <|TestSkip, TestPass, TestPass, TestFail, TestFail, TestPass, TestPass, TestSkip, TestFail, TestPass, TestPass, TestPass, TestSkip, TestFail, TestSkip, TestPass|> <|TestSkip, TestFail, TestPass, TestFail, TestFail, TestPass, TestPass, TestFail, TestPass, TestPass, TestSkip, TestFail, TestSkip, TestPass, TestPass, TestFail, TestSkip, TestSkip, TestSkip, TestSkip, TestPass, TestPass, TestPass, TestFail, TestSkip, TestFail, TestSkip, TestFail, TestSkip, TestSkip, TestPass, TestFail, TestFail, TestSkip|>
+genArrow(genZZ32,genZZ32):
+    -1199906799 -1120799747
+    -1199906799 -1120799747
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    -7601142 -16434 5936982 1157954
+    -7601142 -16434 5936982 1157954
+
+Passed 28 test(s).
+Failed in 27 test(s): (-4382976.9712148635,9.013004623980715,-2.951703113411501E18)
+Failed in 175 test(s): -1964565836
+Tag(s) of failing properties:
+    no sign extension
+Passed 34 test(s) (and skipped 34 test(s)).
+Passed 20 test(s).
+Passed 68 test(s) (and skipped 481 test(s)) but reached the maximum of 549 tests.
+Collected test data:
+    47%: 2 digits
+    19%: 3 digits or more
+    2%: 1 digit
+Shrinking a failed instance......
+Failed in 100 test(s) (and shrank in 21 test(s)): $
+Shrinking a failed instance.........
+Failed in 256 test(s) (and shrank in 45 test(s)): 7
+Shrinking a failed instance.................
+Failed in 100 test(s) (and shrank in 153 test(s)): (/,)
+Shrinking a failed instance................................................
+Failed in 256 test(s) (and shrank in 1160 test(s)): (_,)
+Shrinking a failed instance............
+Failed in 100 test(s) (and shrank in 90 test(s)): <|)|>
+Shrinking a failed instance............................................................................................................................
+Failed in 256 test(s) (and shrank in 5690 test(s)): <|`|>
+
+
+rc=0 secs=141

@@ -1,0 +1,18 @@
+=== $ bin/fortress walk explorations/compile-ladder/rung-walk-overflow/probes/Row146Width.fss   (stock natives at 47437c65f, bin/fortress's default heap (-Xmx256m -Xss32m): a ZZ64 variable set from a small numeral holds an Int (row 146) and its + and DOT wrap at 32 bits; one set with widen holds a Long) 2026-09-26T03:37:10Z ===
+x: ZZ64 = 2147483647 holds a value of type Int
+w: ZZ64 = widen(2147483647) holds a value of type Long
+x + 1 = -2147483648
+w + 1 = 2147483648
+x DOT x = 1
+w DOT w = 4611686014132420609
+=== exit 0 ===
+
+=== $ java -Xmx256m -Xss32m -Dfile.encoding=UTF-8 -cp "$SHCP" com.sun.fortress.Shell walk explorations/compile-ladder/rung-walk-overflow/probes/Row146Width.fss   (the ten natives edited (natives.patch, compiled into a shadow classes directory ahead of ProjectFortress/build), same heap: the Int-holding ZZ64 now raises IntegerOverflow at 32 bits where the Long does not) 2026-09-26T03:37:18Z ===
+x: ZZ64 = 2147483647 holds a value of type Int
+w: ZZ64 = widen(2147483647) holds a value of type Long
+x + 1 = IntegerOverflow
+w + 1 = 2147483648
+x DOT x = IntegerOverflow
+w DOT w = 4611686014132420609
+=== exit 0 ===
+
