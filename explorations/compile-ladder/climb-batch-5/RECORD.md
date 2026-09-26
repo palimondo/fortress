@@ -104,3 +104,20 @@ All four are in `explorations/compile-ladder/rung-wrap-operators/record.md` and 
 ## Other writers in the tree during the gather
 
 Another agent committed `b0f48231d` (a judgement on the max and min identities, its own files under `explorations/reviews/`) between rung Z's commit and rung S's; it touches no file of this batch. Two untracked `__pycache__/` directories under `explorations/reviews/` appeared during the gather; they belong to no rung, were left untouched, and are staged by none of the gather's commits, each of which was staged by an explicit list.
+
+## For the gate
+
+What the landed commits predict against `explorations/compile-ladder/climb-batch-4/gate/summary.txt` and `gate/checker-count.txt`:
+- `testSystem`: 407, unchanged, since rung D did not land and S and Z add no interpreter test.
+- The compiler track: rung Z's 29 `.test` files more, net; the library track 83, unchanged.
+- `testFast`'s other suites: one more, `RTTIsizeJUTest` (6 tests).
+- The checker count: 125, the crash row `none`, as rung Z measured on its landing and repair builds; S touches no checker file.
+- The ladder: 85 of 85 unmoved, as Z measured; S changes nothing the compiled path reads.
+- The four-thread `atomic` runs: 39 `PASS`, untouched.
+- After `ant compileAll`, the library-order cache rebuild comes before the compiler track (Z changes code generation and the loader).
+
+## After the last commit: the tracked-path check
+
+The check of the gather's brief, run over the report files of the three commits (`e893a3e00`, `3924e7ec3`, `0b1881317`; `HEAD~4..HEAD`, which also spans the other agent's `b0f48231d`), printed nothing: every `explorations/` path cited by a `REPORT.md`, `SKEPTIC.md`, `JUDGE.md` or `record.md` of this batch that exists is tracked. An extended pass over the same files and this record, mapping the records' `compile-ladder/...` citations to `explorations/compile-ladder/...`, printed nothing either, and every such path cited by rungs S and Z exists. Rung D's `REPORT.md` and `record.md` cite captures that stay on its branch (section "Not landed"); they do not exist on `main` and the check skips them by design. One section name the gather's composed `REPORT.md` of rung Z cited wrongly (`JUDGE.md`, "Worker, right", which is the section "Which claims were right", subsection "The worker") is corrected in the follow-up commit that adds this section.
+
+**Placeholders, for the commit stage.** Rung Z's commit is `e893a3e00`, rung S's `3924e7ec3`. Every `<short hash>` stands directly after the name of the rung whose commit it is ("climb batch 5 rung Z (`<short hash>`)", "Rung S of climb batch 5 (`<short hash>`)", "landed as" in each rung's handover paragraph, and "Fixed `<short hash>`" in rows 409, 411 and 415, which are Z's); row 402 carries one of each, Z's first.
