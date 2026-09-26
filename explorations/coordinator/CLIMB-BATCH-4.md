@@ -1,0 +1,492 @@
+<!-- The decision record and manifest for climb batch 4, prepared 2026-09-26 by a planning worker for the coordinating session, on Pavol's go of 2026-09-26 ("Let's run batch 4 overnight", POSITIONS.md:103), held to the five items he decided on 2026-09-24 (POSITIONS.md:85, :88, :89, :92, :93). Sources: POSITIONS.md, FACTS.md, CLIMB-BATCH-3.5.md and its RECORD.md, climb-batch-3-cost.md, the workflow script and its description, reviews/exclusion-design-brief.md, reviews/mie-probes/ (price-keep-the-rule.md, spec-sentences-dated.md, route-c-experiment.md), perf-probes/nat/ (REPORT.md, followup.md, java.md, zero.md, triage.md, size-probes.md and their patches), the ledger, and the sources reopened on the tree at 787d1dbbc (the workflow script re-read at a94f13d3b). Nothing was built or run for it: every count below is either on file or arithmetic from what is on file, and says which. Nothing here has run as a batch; the coordinator launches it on Pavol's word. One line per paragraph. -->
+
+# Climb batch 4
+
+## 1. For Pavol
+
+Batch 4 is five rungs. A rung is one fix, built test-first by one worker in its own copy of the tree and judged by a second worker, the skeptic, before the batch is merged and the whole test suite (the gate) runs once. Four rungs can run tonight as you decided them. The fifth, the specification rung, needs two answers from you; without them it waits for the next batch and the other four run.
+
+**The rungs.**
+- **C, coercion in the interpreter.** The interpreter refuses a value of a narrower type where a wider one is declared, even when the wider type declares how to convert it (a `coerce`); the specification converts it. The rung makes the interpreter convert at calls, overloaded calls and typed variables, the first step of route A, which you chose on 09-24.
+- **S, the specification.** The specification still lets a type be two instantiations of one generic (a generic is a type with a parameter, `List[\T\]`; an instantiation fills it, `List[\ZZ\]`), and still makes the integers a subtype of the rationals; route A gives up both. The rung rewrites those sentences and writes a record that keeps the original text, the reasoning and route C.
+- **N, sizes in the compiled type checker.** The compiled type checker crashes on any size parameter (a `nat`, the `n` in `Vector[\RR64, n\]`), so no sized program compiles. The rung teaches it sizes, with the four-line fix you approved (`keep-size-params.patch`); the run-time half is the next batch.
+- **O, overflow in the interpreter (row 379).** The interpreter wraps fixed-width integer arithmetic silently (the largest `ZZ32` plus 1 gives the smallest), where the specification throws `IntegerOverflow`. The rung first counts the interpreter tests whose printed output would change; if that count is not zero, it stops and the count comes to you.
+- **K, the shift count (rows 380 and 381).** In the interpreter, `ZZ32`'s shifts take only a `ZZ64` count, so a count of another integer type falls through to `ZZ64`'s method and gives a 64-bit answer. The rung declares the pair with any integer count, as the library's `Integral` trait already promises.
+
+Rows 379 and 380/381 share no source or test file with the other rungs (section 4), so both are in.
+
+**Two answers the specification rung needs.** Each option is one the specification or the library already uses; the first listed is theirs.
+1. *How the revised specification shows a change.* (a) An entry in its own "Changes Since Fortress 1.0" appendix, which the team made for this and left empty (`Specification/appendices/changes.tex:12-16`). (b) A draft-note box at each revised passage, the team's `\note`, used 233 times, printed in draft builds and hidden in release builds (`Specification/fortress/fortress.tex:34-37`, `:58-62`). (c) The old text kept as LaTeX comments in the source only, as the source already keeps each example's plain form (`Specification/basic/trait-parameters.tex:341-343`). (d) Nothing in the specification; the record only. They can be combined.
+2. *What an example becomes when route A's rule refuses it.* Three examples are refused: `object Empty extends List[\T\]` for every `T`, the same shape for `Nothing` in the library chapter, and a trait that extends its own other instantiations to say it is covariant. (a) The generic spelling the one library keeps, `Nothing[\T\]` (your decision of 09-21). (b) A plain `Nothing` that converts to any `Maybe` by `coerce`, the team's own draft in the compiler library (`Library/CompilerLibrary.fsi:223-236`), which, by reading, the interpreter can run once rung C lands. (c) The example removed from the specification and kept in the record. (d) The example kept and marked as refused.
+
+**Things you should know; not questions.**
+- Rung C picks a conversion while the program runs, where the specification picks it when the program is compiled. You took this with route A; it is on the brief's list of what A commits to (`reviews/exclusion-design-brief.md:140`). The specification's own example of the difference becomes an expected-failure test.
+- By reading, route A's rule also refuses the specification's covariance example (`trait C[\S\] extends C[\T\]`), which the brief did not list, and it closes the "future work" of 09-21 for the bare `Nothing` in its `where` form. The specification rung records both.
+- After O, a `ZZ64` variable set from a small number still holds a `ZZ32` in the interpreter (row 146), so its arithmetic stops with `IntegerOverflow` where it used to wrap, until next batch's flattening converts it. This may make O's count nonzero.
+- Two choices inside N are left to the rung by standing rules and reported as its decisions: how the checker represents a size it has not yet inferred (on 09-21 you said this one is not yours), and how it reads a size left free when it compares two return types.
+
+**What the batch leaves out.**
+- Flattening the library's number tower: the next batch. The replacement of `SUM`'s catch-all comes to you as a diff before it is built.
+- Sizes at run time (design B): the batch after this one. A sized program will type-check but not yet run compiled.
+- Coercion in the specification's other places (a declared return type, tests and properties, contracts, inside an expression), and generic inference over mixed widths.
+- The specification's sentence that overloads may not differ in static parameters, and the 35 checker errors under it: your decision, not route A's.
+- Overflow on the unsigned widths in the interpreter (row 379 names the signed ones); row 381's compiled half and row 383, both at the switch-over.
+- The workflow's option (b): a separate ask.
+
+**Cost.** Tokens below are the harness's figure, the size of each agent's context at its end, summed (`coordinator/climb-batch-3-cost.md:12`). Earlier batches, measured:
+- Batch 1: 4 rungs, 15 agents, 3.0M tokens, 3 h 11 min.
+- Batch 2: 3 rungs, 17 agents, 3.7M, 5 h 16 min.
+- Batch 3: 6 rungs, 30 agents, 8.2M, 6 h 39 min; the run did not land it, and the coordinator ran its second gate.
+- Batch 3.5: 2 rungs, 17 agents, 4.9M, 4 h 37 min, two gate runs.
+- Batch 4, by arithmetic from those, not measured: 20 to 30 agents, 6M to 9M tokens, 5 to 7 hours, with one or two gate runs of about 20 to 25 minutes each. Without S: 17 to 25 agents, 5M to 7.5M, 4.5 to 6.5 hours. N is the largest rung. Two agents run at a time, so the queue sets the wall. All of these spans ran on this container: 4 CPUs (Intel Xeon, 2.8 GHz), 16 GB.
+
+**What "go" commits you to.** The interpreter converts values while the program runs; rows 307, 379 and 380 close, and so does row 19 for the interpreter; the checker count (the number of errors the compiled type checker reports on the interpreter's library) rises from 103 to about 125, because the checker now reaches the array api its crash hid; the interpreter test count grows; and, if S runs, a revised specification and its PDF.
+
+## 2. The decisions this batch carries
+
+- **Route A**, 2026-09-24, "Agreed. Route A it is." (`coordinator/POSITIONS.md:92`): the compiled checker keeps the multiple instantiation exclusion rule; the library's tower is flattened in the batch after this one; "the interpreter is taught coercion at dispatch first, batch 4's first rung, about 150-200 lines in six Java files, depending on nothing"; "the specification is revised in a rung of batch 4 with a decision record that preserves the original text, the reasoning and route C, an original-tree edit flagged as such, `Specification-1.0-frozen/` untouched"; and his question (1) of that morning (`:82`) answered: "ℤ inside ℚ by coercion".
+- **The specification rung**, 2026-09-24 (`:85`), in his words: "our plan needs to update the spec with the change that we do and somehow properly record why we decided that way, so that there is no open discrepancy between the spec and our implementation that would be confusing to people. We need to preserve the original historic record somewhere in a document with our reasoning why we did the switch and preserve the option to go the route C."
+- **The size design**, 2026-09-24, "B it is." (`:93`): "the size wall's checker rung goes into batch 4 with the four-line `keep-size-params.patch` in its brief; the run-time size rung ... is a rung of the batch after". And the two rulings on the checker plan (`:47`): an unknown size is an error only when it reaches a type, a name or a value; the representation of that unknown size "he did not see as his".
+- **Row 379** (`:88`): `walk` follows the specification, the ten natives raise the catchable `IntegerOverflow`, the expected-failure test becomes a plain gated test, "the count of interpreter tests whose output changes measured first and brought to him if not zero"; in batch 4 only if it shares no file with the other rungs.
+- **Rows 380 and 381** (`:89`): `ZZ32`'s shift pair takes any integral count, `ZZ64`'s api lines match its implementation, one gated assertion, the checker count declared; in batch 4 only if it shares no file.
+- **The go** (`:103`): "Let's run batch 4 overnight", taken as the go for a manifest held to these items, "any rung needing a decision not on record held out for him"; and the gate's comparisons as they stand: the `testSystem` shards compared by their sum, the last landed summary as the comparand.
+
+## 3. The five rungs
+
+The workers get their rung's section below word for word as the tail of their brief (section 7). The skeptics do not get the tail; they read this record, so each section also says what the skeptic checks.
+
+### C. Coercion in the interpreter, `rung-interp-coercion`
+
+**The problem.** Under `walk`, a value whose type is not a subtype of a declared type is refused even when the declared type's own `coerce` accepts it. The refusal comes at each of the interpreter's three kinds of type check: a single function's parameter ("Unification error: Closure/Constructor for f param 1 (x:Wide) got arg NarrowOf", `explorations/reviews/mie-probes/keep/FlatCall.walk.txt:4-5`), an overloaded call ("Failed to find any matching overload", `keep/FlatOverload.walk.txt:5`), and a typed binding ("RHS expression type NarrowOf is not assignable to LHS type Wide", `keep/FlatBind.walk.txt:4`). The specification converts in those places (`Specification/basic/conversions-coercions.tex:98-110`): it tries a coercion only when no declaration applies without one, and among several it takes the one that yields the most specific type (`:452-458`). The compiled path has coercion and the interpreter has none (ledger row 19; `explorations/coordinator/FACTS.md:103`). Route A's flattening, in the next batch, depends on it: under the flat tower every interpreter test expected to pass reaches a line that needs a conversion (`Library/FortressLibrary.fss:4121`; `explorations/reviews/mie-probes/price-keep-the-rule.md:62`).
+
+**The decision.** Route A (`explorations/coordinator/POSITIONS.md:92`): "the interpreter is taught coercion at dispatch first, batch 4's first rung, about 150-200 lines in six Java files, depending on nothing". That is the brief's remedy (i), the coercion chosen on the run-time value (`explorations/reviews/exclusion-design-brief.md:88`, `:143`). Its one semantic price is on the brief's list of what route A commits to (`:140`): the specification resolves a coercion statically (`conversions-coercions.tex:567-570`, with its example at `:572-604`), and the interpreter will resolve it on the value it has (`price-keep-the-rule.md:89`).
+
+**The evidence on file.** `price-keep-the-rule.md` section 3 (`:74-97`). The coercions already exist as functions: the interpreter's phase order runs the disambiguator's `CoercionLifter` (`ProjectFortress/src/com/sun/fortress/compiler/Disambiguator.java:287-288`), which lifts each trait's `coerce` into a top-level function named with the prefix `coerce_` (`compiler/NamingCzar.java:106`), and `keep/FlatLifted.fss` calls one by hand under `walk` and gets the converted answer (`keep/FlatLifted.walk.txt:2`). Where the interpreter makes its checks today: `interpreter/evaluator/values/OverloadedFunction.java:787-801` (`bestMatch`, with the team's "TODO add checks for COERCE, right here." at `:792`, and the per-argument-type cache at `:760-776`, which overloaded methods share through `values/OverloadedMethod.java:50`); `values/NonPrimitive.java:147`, `:164`, `:242`; `LHSEvaluator.java:97`, `:219`; `BuildEnvironments.java:224`, `:753`, `:774`; `BaseEnv.java:314`; each of them through `types/FType.java:108-113` (`typeMatch`). The interpreter's library declares no `coerce` (a `git grep` of `Library/` finds one only under `Library/incomplete/` and in the compiler's own files), and one interpreter test declares one (`ProjectFortress/tests/conditionalExtension.fss:33`). On today's nested tower nothing needs converting, so the brief expects the gate to stay green (`exclusion-design-brief.md:143`). Not covered by the measurement: generic inference over mixed widths (`price-keep-the-rule.md:88`).
+
+**The test, first.** In `ProjectFortress/tests/`, the interpreter's corpus, in the form of `tests/roundBug.fss` (a component exporting `Executable` whose `run()` asserts), as rung I of batch 3.5 did (`explorations/coordinator/CLIMB-BATCH-3.5.md:53`): the three shapes of `keep/FlatCall.fss`, `keep/FlatOverload.fss` and `keep/FlatBind.fss` (a two-level tower declared in the test, `Wide` with `coerce(x: Narrow)`), each asserting the converted answer and captured failing before the edit; and a call where two coercions apply and the most specific must win (`conversions-coercions.tex:452-458`). The specification's own example of static resolution (`:572-604`) is a divergence the specification settles and this rung does not repair, so it takes home 2 of the shared prefix, an `XXX` test asserting the specification's answer. The specification's other coercion places (a declared return type, tests and properties, contracts, subexpressions, `:98-110`) are outside the decision; each one the rung measures gets its home.
+
+**Files it may touch.** Any file under `ProjectFortress/src/com/sun/fortress/interpreter/` except `interpreter/glue/prim/Int.java` and `Long.java`, which are rung O's; new files under `ProjectFortress/tests/`; its own directory. An edit outside `interpreter/` is reported as a decision in `REPORT.md`; an edit to `Library/` or to a file of another rung of this batch is a stop.
+
+**Java or Scala.** Java. `ant compileAll` before the test can pass.
+
+**The checker count.** 103, unchanged: the stage reads the compiled checker and `Library/`, and this rung touches neither.
+
+**What must stay green.** Every file of `ProjectFortress/tests/`, printing what it prints today. The rung shows it: every file run under `walk` before and after its edit, one JVM per test with private caches (`explorations/reviews/mie-probes/keep/nestprobe/run-tests.sh` is the precedent runner), plus a second run of the base to find lines that vary on their own. `ant testSystem` stays the gate's.
+
+**Stops.** A change in any interpreter test's output: on the nested tower nothing should convert, so a change means the brief's reading is wrong, and it comes back to Pavol with the list. A fix that needs a line of `Library/`. A fix that needs the coercion chosen statically, the brief's other remedy (`exclusion-design-brief.md:152`).
+
+**For the skeptic.** The diff writes a cache that the parallel implicit threads of `walk` share (`OverloadedFunction.java:775`, `cache.syncPut`), so the manifest sets `writesState` and every differential runs at `FORTRESS_THREADS=1` and `=4`. The compiled side of a differential is the compiled path's own coercion (the prelude's `coerce` declarations and the programs of `library_tests/Integer.test`, `price-keep-the-rule.md:97`). A choice made with a coercion and cached, then met by an argument that needs none, is the case to probe.
+
+**What comes back to Pavol.** The run-time choice as landed, with the home of the specification's example; the list of the other coercion places and their homes; any changed test output, which is a stop.
+
+**What it closes.** Ledger row 19 for `walk`. Row 146 stays open: on the nested tower a numeral bound to a `ZZ64` is already a subtype and nothing converts it.
+
+### S. The specification, `rung-spec-route-a`
+
+**The problem.** The specification (`Specification/`, the July 2012 draft, the project's standard) describes a language that route A does not implement. It lets a type be a subtype of two instantiations of one generic, and it makes the integers a subtype of the rationals and the rationals a subtype of the reals. Route A keeps the compiled checker's rule against the first and turns the second into coercion (`explorations/coordinator/POSITIONS.md:92`, answering his question (1) of `:82`). Pavol's requirement (`:85`): "our plan needs to update the spec with the change that we do and somehow properly record why we decided that way, so that there is no open discrepancy between the spec and our implementation that would be confusing to people. We need to preserve the original historic record somewhere in a document with our reasoning why we did the switch and preserve the option to go the route C." It is an edit to the original tree and is flagged as one; `Specification-1.0-frozen/` is not touched (`:92`).
+
+**The evidence on file.** The passages and their dates: `Specification/basic/types-vals-vars.tex:184-189` (the subtype and exclusion relations are the smallest that satisfy the listed properties, none of them about instantiations); `basic/trait-parameters.tex:339-351` (a trait extending other instantiations of itself, `trait C[\S\] extends C[\T\] where {S extends T}`, to make its parameter covariant), `:354-381` (`trait C extends D[\T\] where {T extends Object}`, a subtrait of every instantiation), `:383-399` (`object Empty extends List[\T\] where {T extends Object}`); all 2008-2009 text, never revised after (`explorations/reviews/mie-probes/spec-sentences-dated.md:22-35`). The same shape in the library chapter: `basic-lib/convenience.tex:49` (`object Nothing extends Maybe[\T\] excludes Just[\T\] where {T extends Object}`; `explorations/coordinator/FACTS.md:21`). The numbers: `basic-lib/basic-integers.tex:28-29` and its declaration `trait ZZ extends { QQ, ZZ_star, IntegerLike[\ZZ\], ... }` (`:86-87` in plain form, `:195-196` typeset); `basic-lib/numbers.tex:36-37` and `trait QQ extends { RR, QQ_star, ... }` (`:108`, `:177-178`); the subset types around them (`basic-integers.tex:30-63`, `numbers.tex:38-90`). The specification's own mechanism between machine widths is already coercion (`basic/conversions-coercions.tex:61-66`, `:549-565`; `explorations/reviews/mie-probes/price-keep-the-rule.md:102-106`). The rule and its source: `explorations/reviews/multiple-instantiation-exclusion.md` sections 1 and 2; `Papers/Types/exclusion.tick:141-152`; Naden 2012, `Papers/Types/journal/justificationOfRTR.tex:496-497`, `:568-632` (`FACTS.md:42`). The reasoning: `explorations/reviews/exclusion-design-brief.md` (sections 2 to 5; the recommendation at `:135-137`; what route A forecloses at `:91` and `:140`) and Pavol's weighing (`POSITIONS.md:80`). Route C: `explorations/reviews/mie-probes/patents-forest-rule.md`, `explorations/reviews/mie-probes/route-c-experiment.md` with its `route-c/` directory, and what switching back would cost (`FACTS.md:43-44`). The frozen copy is byte-identical to the draft in 202 of 208 files (`FACTS.md:95`) and is not an independent snapshot for three of these (`spec-sentences-dated.md:14-20`). How the tree already edits the specification: two revival commits changed its source and re-rendered the committed PDF in the same commit (`4672b71cd`, `9622f9db3`); the build is `./ant tex` in `Specification/fortress/` with `FORTRESS_HOME` set (`Specification/fortress/README:5-10`); `pdflatex` is installed on this box. `Specification/library/apis/` is generated from the `.fsi` files, so citing it is circular (`FACTS.md:94`).
+
+**What it writes.** First, before any edit, the list: every sentence or example of `Specification/` outside `library/apis/` that lets a type be a subtype of two different instantiations of one generic, directly or through its supertypes, or that states a subtyping between number types that route A turns into coercion, each with its file:line and why it is on the list. Then the revised passages, in the forms Pavol's two answers give (the riders line of the tail). Then the decision record, in the rung's own directory: for each passage the original text verbatim with its file:line at the base, the new text, the reason (route A and the brief's reasoning), and route C as the way back, with its measured state and its cost.
+
+**The test.** None can go red for a prose edit. The precedent is batch 3's comment-only rung (`explorations/coordinator/CLIMB-BATCH-3.md:114`: "None, and the record says why"). The check instead: the specification built with `./ant tex` before and after the edit, both captured; `Specification/fortress.pdf` re-rendered in the rung's commit, as both precedent commits did; `git diff --stat` showing only the listed `.tex` files and the PDF.
+
+**Files it may touch.** `Specification/` except `Specification-1.0-frozen/`, including `Specification/fortress.pdf`; its own directory. No source, library or test file.
+
+**Java or Scala.** Neither. The specification's build locates the interpreter and its helper tools (`Specification/fortress/README:5-9`), so budget one `ant compileAll`.
+
+**The checker count.** 103, unchanged.
+
+**Stops.** Any edit under `Specification-1.0-frozen/`. A riders line that still holds a placeholder. A passage whose new text neither the rule nor route A's decision settles: the rung reports it and does not choose. The specification failing to build on the base tree. The build changing a tracked file other than `fortress.pdf`.
+
+**For the skeptic.** There is no program to run both ways. The check is the list against the specification (every passage the rule refuses is on it, and nothing else is edited), every quoted original against `git show <base>:<path>`, and the two builds.
+
+**What comes back to Pavol.** The revised pages and the record, for his reading. The covariance example and the bare `Nothing`, which the record names as things route A gives up beyond `Empty`.
+
+**What it closes.** No ledger row; the record says so.
+
+### N. Sizes in the compiled type checker, `rung-nat-checker`
+
+**The problem.** The compiled type checker has no rules for a `nat` or `int` static parameter, a size such as the `n` of `Vector[\RR64, n\]`. A size it has to infer reaches `STypesUtil.makeInferenceArg`, which calls `NI.nyi()` ("Not yet implemented", `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:546-559`); a written-out size, and any method call on a sized receiver, throw `ClassCastException` (`explorations/coordinator/FACTS.md:30`, `:34`; ledger row 307). So a six-line program with one size parameter runs under `walk` and does not compile, and the gate's checker-count stage meets the same crash on the array api (`explorations/compile-ladder/climb-batch-3.5/gate/checker-count.txt`, whose `#crash` row reads `OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557`). Sizes are "a central design point" and are not sidestepped (`explorations/coordinator/POSITIONS.md:41`); the compiler work unblocks them first (`:43`).
+
+**The decisions.** A size left unknown after inference is an error only when it reaches a type, a name or a value, and nothing otherwise ("the middle is a clear winner", `POSITIONS.md:47`); the shadow built only the type half (`explorations/perf-probes/nat/REPORT.md:649-655`). `keep-size-params.patch` is in this brief (`POSITIONS.md:93`): `normalizeUA` drops every size parameter from a generic arrow (`scala_src/types/TypeSchemaAnalyzer.scala:449`, `:485`), so the overloading checker's return-type rule compares two renamed sizes and refuses every size-generic overload arm that has a less specific sibling; four code lines keep them (`explorations/perf-probes/nat/size-probes/keep-size-params.patch`, written against the shadow behind a probe switch; `size-probes.md:7`, `:50-59`; run on the size probes, not on the library or the five size compiler tests, `:173`). The shape is the plan's minimal design, which the shadow built: sizes as symbols and literals, unification by equality, a literal binds a symbol, no arithmetic in a type, and a `bool`, `dim` or `unit` parameter a checker error naming the kind instead of the crash (`explorations/reviews/nat-checking-plan.md:349-391`). The run-time half is design B, in the batch after this one (`POSITIONS.md:93`).
+
+**The evidence on file.** The shadow: `explorations/perf-probes/nat/REPORT.md` with `shadow.patch` and its captures. It compiles the specification's `makeVector` shape, refuses a mismatch and arithmetic in a type, and leaves the five size compiler tests byte-identical (its sections 0 and 4); its re-estimate is 7 Scala files, 38 functions and about 225 added lines (`:605-630`). It is a measured shadow, cited as evidence, not as the edit. The two `subarray` errors were the rule's (`followup.md` section 1): a size left free after comparing two return types counted as a failure (`Formula.imp`, `scala_src/typechecker/Formula.scala:168`); a two-line relaxation was measured, and keeping the escaped sizes existential in `OverloadingOracle.satisfiesReturnTypeRule` (`scala_src/overloading/OverloadingOracle.scala:81-107`) was not tried (`followup.md:89-93`). The Java site: `compiler/codegen/FnNameInfo.java:162-173` (`boundsFor`), reached from `scala_src/typechecker/impls/Functionals.scala:606` and `:730`; nine lines in the shadow (`java.md` section 1; `FACTS.md:34`). What the crash hides: on the tree before rung L the whole library went from 93 to 115 errors under the shadow with the relaxation, all 22 new ones in `NativeArray`, with no crash after (`followup.md:39`; `java/j3-lib-worldflip.out`). The per-declaration runs (`zero.md`, `triage.md`) reach the library's hidden layer, which the gate's instrument does not, and found that the overloading checker's memo (`scala_src/typechecker/OverloadingChecker.scala:441-462`, switch at `:77`) makes a count depend on build order (`triage.md:8`, `:27-29`). What stays after this rung: a compiled sized program fails to load (`NoClassDefFoundError: 3$RTTIc`, `FACTS.md:32`), and code generation refuses a size in an `extends` clause (`CodeGen.java:5793`, `FACTS.md:34`); both belong to the run-time rung.
+
+**The test, first.** In `ProjectFortress/compiler_tests/`: a program with a size parameter inferred from an argument, one with the size written out, and one calling a method on a sized receiver, each captured failing at the checker before the edit and compiling after; the size-generic overload arm beside a less specific one (`explorations/perf-probes/nat/size-probes/pNatDisp.fss`, two errors before and compiling with the patch, `size-probes/s1-dispatch.out:2-11`, `:59-60`), with its control `pNatDispRTR.fss` still refused; and a size mismatch and arithmetic in a type, refused with the rule's own error, as `XXX` compile tests. The `.test` files stop at `compile`: a sized program cannot load compiled until the run-time rung, a deferred defect the specification settles (`Specification/basic/trait-parameters.tex:82-86`), so it takes home 2, the split `.test` pair (`FACTS.md:60`), unless an existing `XXX` file already gates it. The checker-count stage's table is captured before and after the edit, as a check, not as the test.
+
+**Files it may touch.** Any file under `ProjectFortress/src/com/sun/fortress/scala_src/`; `compiler/codegen/FnNameInfo.java`; if the rung represents an inferred size by a new syntax-tree node, `ProjectFortress/astgen/Fortress.ast` and the sources it regenerates under `ProjectFortress/src/com/sun/fortress/nodes/` (1,071 tracked files, 353K lines today); tests under `ProjectFortress/compiler_tests/`; its own directory. Any other file is reported as a decision, except these, which are stops: `compiler/StaticChecker.java` (the checker-count tool keeps a copy checked against its checksum, `explorations/coordinator/tools/checker-count/run.sh:35`, and an edit makes the stage's `#shadow` row stale, which is red); `runtimeSystem/`, `compiler/runtimeValues/`, `compiler/codegen/CodeGen.java`, `compiler/OverloadSet.java` (the run-time rung's); `Library/` and `interpreter/` (other rungs', and not this rung's).
+
+**Java or Scala.** Both: Scala for the checker, Java for `FnNameInfo.java`, and the regenerated nodes if the new node is taken.
+
+**The checker count.** Predicted 125, with the crash row `none`. The arithmetic: 93 to 115 on the tree before rung L, every new error in `NativeArray` and no crash after (`followup.md:39`); rung L added ten elsewhere (93 to 103, `FACTS.md:48`); 103 plus 22 is 125. It is not measured on today's tree: `keep-size-params.patch` never ran on the library, and another reading of a free size moves the total (117 without the relaxation, `followup.md:39`). The `FortressLibrary` row does not move, because that api still stops at its hierarchy errors (`compiler/StaticChecker.java:268-272`). The crash row reads `none` when the checker meets no crash (`explorations/coordinator/tools/checker-count/run.sh:81`), and the manifest declares exactly that word; any other row is red at the gate, so the rung reports the row it measured.
+
+**What must stay green, or keep its verdict.** The five size compiler tests (`Compiled1.ah`, `Compiled1.av` and `Compiled6.af` under `compiler_tests/AfterTypeChecking.test`; `Compiled1.p` and `Compiled5.z` under `XXX1p.test` and `XXX5z.test`; `REPORT.md` section 4); `compiler_tests/Compiled12.invariantInference.test`, which exercises the inference machinery the size track shares (`REPORT.md` section 4b); `compiler_tests/XXXNatArgRungS.test` (a written-out size, ledger row 307, expected to fail at run); and the whole `compiler_tests/` track at the gate.
+
+**Stops.** The files named above as stops. A reading of a size, in unification or in the return-type rule, that accepts a program the specification refuses: a change of semantics against the specification (`explorations/coordinator/PLAN.md:52`). A gated test's verdict changing, other than an expected failure this rung's fix makes pass and the rung promotes with its reason.
+
+**Choices the rung takes, reported as decisions.** How the checker represents a size it has not yet inferred: a new node beside the tree's two inference-variable nodes (`explorations/reviews/nat-checking-plan.md:408-428`, argued for in `REPORT.md:649-655`), or a reserved name, as the shadow did; Pavol did not see this one as his, and "the real edit's choice comes after" the shadow (`POSITIONS.md:47`). How the return-type rule reads a size left free: the measured relaxation, or the untried existential reading (`followup.md:89-93`). Neither is a fork that `PLAN.md:52` reserves; each is recorded with its alternative and its cost.
+
+**For the skeptic.** A compiled run of a sized program fails at load until the run-time rung, so the differential is `walk`'s answer against the compiled checker's verdict, and against the compiled answer only for programs without a size. The shadow's open points are the places to probe: five declarations that were clean before gain one error each in the per-declaration run, three of them one shape and one, `__builtinFactory2` at `Library/FortressLibrary.fss:2594` in the shadow's numbering, likely a true positive (`followup.md:80-87`); and a call site that solves several sizes at once (`REPORT.md` section 11).
+
+**What comes back to Pavol.** The two choices and why; the checker count and the `NativeArray` errors now visible; the per-declaration findings.
+
+**What it closes.** Ledger row 307 for the checker; its run-time half stays with the run-time rung. The rows the size probes named for the run-time rung's gather (`FACTS.md:36`, `:38`) are not this rung's.
+
+### O. Overflow in the interpreter, `rung-walk-overflow`
+
+**The problem.** Under `walk`, `+`, `-`, unary `-`, `|..|`, `DIV` and multiplication on `ZZ32` and `ZZ64` wrap silently when the result does not fit: `ZZ32 MAX + 1` is `-2147483648`, `ZZ64 MIN - 1` is `9223372036854775807`, `ZZ32 46341 * 46341` is `-2147479015` (ledger row 379, with its probes). The specification: "For integer results, overflow throws an `IntegerOverflow`" (`Specification/basic/operators/opr-overview.tex:154`, `:195`), with wrapping and saturating given their own operator spellings (`:172-176`, `:205-209`). The compiled path throws already (`explorations/coordinator/FACTS.md:76`).
+
+**The decision.** `explorations/coordinator/POSITIONS.md:88`: "`walk` follows the specification as the compiled path already does: an overflow check in each of the ten natives of the interpreter's `Int` and `Long` glue classes raising the catchable `IntegerOverflow` of rung I, the expected-failure test `ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss` turned into a plain gated test, the count of interpreter tests whose output changes measured first and brought to him if not zero".
+
+**The evidence on file.** The ten natives are `Negate`, `Add`, `Sub`, `Mul` and `Div` in `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:98-125` and `Long.java:112-139`, with `|..|` over them (ledger row 379's notes). The catchable raise from a native is `Int.overflow()` (`Int.java:256-259`; `FACTS.md:24`). The expected failure asserts a catchable `IntegerOverflow` on the row's twelve cases, and it was shown red on a deliberate local fix of exactly these ten natives, then reverted (`explorations/compile-ladder/climb-batch-3.5/repair/overflow-xxx-harness.txt`). A second effect, by reading: a `ZZ64` variable set from a small numeral holds a `ZZ32` under `walk` (ledger row 146), so after this rung its arithmetic raises `IntegerOverflow` at 32 bits where it used to wrap (`explorations/reviews/mie-probes/keep/NestedWidth.walk.txt:2-3`: `x: ZZ64 = 2147483647` holds an `Int`, and `x + 1` prints `-2147483648`), until the flattening's coercion widens it.
+
+**The count, first.** Before its edit is committed, the rung measures how many interpreter tests print something different: every file of `ProjectFortress/tests/` run under `walk` without the edit and with it, one JVM per test with private caches (`explorations/reviews/mie-probes/keep/nestprobe/run-tests.sh` is the precedent runner), a second run of the base to find lines that vary on their own, and `XXXFixedWidthOverflowRungB.fss` left out. Not `ant testSystem`, which is the gate's. The count and the list of files, each with its first differing line, go in `REPORT.md`. Zero: the rung continues. Not zero: the rung stops and reports; that decision is Pavol's (`POSITIONS.md:88`), not a judge's.
+
+**The test, first.** The existing expected failure becomes the plain gated test: the file and its component renamed without the `XXX` prefix, since the interpreter requires the file name to be the component's. As a plain test it fails before the edit (captured) and passes after. Its assertions do not change.
+
+**Files it may touch.** `interpreter/glue/prim/Int.java` and `interpreter/glue/prim/Long.java`; the renamed test; its own directory. Nothing else.
+
+**Java or Scala.** Java.
+
+**The checker count.** 103, unchanged.
+
+**What must stay green.** `ProjectFortress/tests/IntSemanticsRungI.fss`, whose `overflows(...)` helper catches only `IntegerOverflow` (`FACTS.md:24`), and every interpreter test of the count.
+
+**Stops.** A nonzero count. A fix that needs any other file, a library body that relies on wrapping for example. The unsigned widths, `NN32` and `NN64`, are not in row 379: a wrap the rung measures there gets its home under the shared prefix, not a fix.
+
+**For the skeptic.** The compiled answers for the same twelve cases are on file (`explorations/compile-ladder/rung-int-semantics-compiled/probes/IntSemTable-compiled-after.txt`); the differential that matters is `walk` against those, run at `bin/fortress`'s default heap.
+
+**What comes back to Pavol.** The count if it is not zero, with the list; row 146's effect.
+
+**What it closes.** Ledger row 379.
+
+### K. The shift count, `rung-shift-count`
+
+**The problem.** Under `walk`, `ZZ32`'s `LSHIFT` and `RSHIFT` take only a `ZZ64` count (`Library/FortressLibrary.fss:688-691`; api `Library/FortressLibrary.fsi:491-492`), though the trait `Integral[\I\]` promises a count of any integral type (`.fsi:431-432`, `.fss:637-638`). A count that is a `ZZ`, an `NN32` or an `NN64` misses `ZZ32`'s pair and lands on `ZZ64`'s, which takes any integral count (`.fss:756-759`), so `3 LSHIFT big(widen(33))` is `25769803776 : ZZ64`, where a `ZZ64` count of 33 gives `0 : ZZ32` (ledger row 380). The two paths answer differently for a `ZZ64` count (row 381). `ZZ64`'s own api pair says `b:ZZ64` (`.fsi:530-531`) where its implementation says `b:AnyIntegral`.
+
+**The decision.** `explorations/coordinator/POSITIONS.md:89`: "`ZZ32`'s shift pair is declared with any integral count (`Library/FortressLibrary.fss:688-691`, `.fsi:491-492`), as `Integral[\I\]` promises (`.fsi:431-432`) and as `ZZ`, `NN64` and `ZZ64`'s implementation already do, and `ZZ64`'s api lines (`.fsi:530-531`) are made to match its implementation (`.fss:756-759`); one gated assertion pins a `ZZ32` shifted by a `ZZ` count; the rung declares its checker count". Row 381's compiled half closes at the switch-over.
+
+**The evidence on file.** Rows 380 and 381, with `explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkWalkOnly.fss`, `sk-base-cases.sh` and `SkCountType.fss` and their captures. The natives already read a count by its class (`Int.shiftCount`; `explorations/coordinator/FACTS.md:77`), so no Java changes. `FACTS.md:77` records this repair and batch 3.5's reservation of it (`explorations/coordinator/CLIMB-BATCH-3.5.md:57`), which the decision lifts.
+
+**The test, first.** One gated assertion under `walk`: a `ZZ32` shifted by a `ZZ` count answers by the `ZZ32` width rule and is a `ZZ32` (`3 LSHIFT big(widen(33))` is `0`), captured failing before (`25769803776`). In `ProjectFortress/tests/IntSemanticsRungI.fss` or a new file there; not in a file another rung of this batch edits.
+
+**Files it may touch.** `Library/FortressLibrary.fss` (`:688-691`) and `Library/FortressLibrary.fsi` (`:491-492`, `:530-531`); the test file; its own directory.
+
+**Java or Scala.** Neither; the library only. The interpreter reads the library at run time; its caches are wiped before the test is run.
+
+**The checker count.** Predicted 103. The stage reads `FortressLibrary.fsi`, but that api stops at its hierarchy errors (`compiler/StaticChecker.java:268-272`), before any check that reads a method's parameter types. The rung captures the stage's table before and after its edit, as rung I of batch 3.5 did, and declares the total it measured.
+
+**What must stay green.** The shift tests of batch 3.5 and the team's: `ProjectFortress/tests/IntSemanticsRungI.fss`, `BitTwiddle.fss:33-39`, `UnsignedTest.fss`, `QuickCheckTest.fss:97-103`.
+
+**Stops.** A change to any declaration other than those four. This is a change of existing declared types and it is Pavol's decision; the standing stop "a change to a declared type the prelude already has" is about the compiler prelude, not the one library.
+
+**For the skeptic.** The compiled answer for a `ZZ32` receiver with a `ZZ64` count stays the compiler prelude's (row 381, `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:647`, `:736`) until the switch-over.
+
+**What comes back to Pavol.** Nothing beyond the landing.
+
+**What it closes.** Row 380. Row 381 is appended: `walk` answers as before for a `ZZ64` count, and the compiled half closes at the switch-over.
+
+## 4. Overlaps, file by file, and the order the gather applies them
+
+The files each rung may edit, from section 3:
+- **C:** files under `ProjectFortress/src/com/sun/fortress/interpreter/` other than `interpreter/glue/prim/Int.java` and `Long.java`; the ones the evidence names are `interpreter/evaluator/values/OverloadedFunction.java`, `values/NonPrimitive.java`, `LHSEvaluator.java`, `BuildEnvironments.java`, `BaseEnv.java` and `types/FType.java`; new files in `ProjectFortress/tests/`.
+- **S:** `Specification/basic/types-vals-vars.tex`, `basic/trait-parameters.tex`, `basic-lib/convenience.tex`, `basic-lib/basic-integers.tex`, `basic-lib/numbers.tex`, whatever else its list finds under `Specification/` (the changes appendix, `appendices/changes.tex`, if Pavol answers so), and `Specification/fortress.pdf`.
+- **N:** files under `ProjectFortress/src/com/sun/fortress/scala_src/`; `compiler/codegen/FnNameInfo.java`; possibly `ProjectFortress/astgen/Fortress.ast` and `ProjectFortress/src/com/sun/fortress/nodes/`; new files in `ProjectFortress/compiler_tests/`.
+- **O:** `interpreter/glue/prim/Int.java`, `interpreter/glue/prim/Long.java`; `ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss`, renamed.
+- **K:** `Library/FortressLibrary.fss`, `Library/FortressLibrary.fsi`; one file in `ProjectFortress/tests/` that no other rung edits.
+
+**Checked pairwise, no source or test file is shared.** C's area excludes O's two files by name; N works under `scala_src/`, in `compiler/codegen/FnNameInfo.java` and in the syntax tree, where no other rung goes; K is the only rung in `Library/`, and C's premise is that no library line changes (no `coerce` is declared in `Library/` outside `Library/incomplete/` and the compiler's own files, by `git grep`); S is the only rung in `Specification/`. So rows 379 and 380/381 go in.
+
+**What is shared, and how it is handled.**
+- The directory `ProjectFortress/tests/`: C adds files, O renames one, K may add one. Each moves the sorted order of the `testSystem` shards; the gate compares the shards by their sum (`explorations/coordinator/FACTS.md:62`; `POSITIONS.md:103`).
+- The record files (`FACTS.md`, the ledger, the handover's first section) and this batch's `RECORD.md`, which every rung reaches through the gather's fold, as in every batch.
+- The checker count: K edits `FortressLibrary.fsi`, which the stage reads, and N changes the checker that reads it. By reading they cannot combine: the `FortressLibrary` api stops at its hierarchy errors before either change matters (`compiler/StaticChecker.java:268-272`), so the merged total is N's, predicted 125.
+- The behaviour, by reading: on today's nested tower C converts nothing, so it does not change which of O's natives a call reaches; O and row 146 interact as rung O's section says.
+- If N takes a new syntax-tree node, the regenerated visitors are compiled together with C's interpreter code. Neither rung edits the other's files, and the gate's `ant compileAll` is the check.
+
+**The order the gather applies them.** The script's rule is ascending order of each rung's lowest edited line in the files two or more rungs share (`explorations/coordinator/climb-batch-workflow.js:678`). No source file is shared, so the order moves no source line and matters only for re-anchoring record citations. In the ledger, the file with the most notes, the expected order is C (row 19, ledger line 133), N (row 307, line 318), O (row 379, line 390), K (row 380, line 391), then S, which is expected to append to no existing row. The gather works the order out from the branches and says so.
+
+## 5. The design choices inside the rungs
+
+Each is either decided on record, cited, or open for Pavol and listed on the first page.
+
+**Decided on record.**
+- The route, the coercion rung first, the specification rung in this batch, the frozen copy untouched: `POSITIONS.md:92`, `:85`.
+- The interpreter choosing a coercion on the run-time value, the specification's static choice left as a recorded divergence: `POSITIONS.md:92` ("coercion at dispatch", "six Java files", the brief's remedy (i)); the brief's list of what route A commits to, `exclusion-design-brief.md:140`; `price-keep-the-rule.md:89`, `:143`.
+- C's three places (a call, an overloaded call, a typed binding): `POSITIONS.md:92` with `exclusion-design-brief.md:143`; the other coercion places stay out and take the three homes.
+- ZZ inside QQ inside RR by coercion: `POSITIONS.md:92`, answering `:82` (1).
+- `Empty extends List[\T\]` unsupported on the compiled path: the brief's list, `exclusion-design-brief.md:91`, `:140`, which Pavol took with route A.
+- Which specification passages change: derived from the rule and the previous line, by the rung, listed before editing; a passage those do not settle is a stop.
+- The specification rung's check in place of a test: the precedent `CLIMB-BATCH-3.md:114`; the PDF re-rendered, as `4672b71cd` and `9622f9db3` did.
+- N's rules: an unknown size an error only where it reaches a type, a name or a value (`POSITIONS.md:47`); `keep-size-params.patch` in the brief (`:93`); the plan's minimal design, `nat-checking-plan.md:349-391`, which the approved shadow built (`:47`).
+- N's representation of an unknown size: Pavol did not see it as his (`POSITIONS.md:47`); the rung takes it and reports it.
+- N's reading of a size left free in the return-type rule: not a fork `PLAN.md:52` reserves; the rung takes it and reports it, and a reading that accepts what the specification refuses is a stop.
+- O's rule, its test's promotion and its count first: `POSITIONS.md:88`.
+- K's four declarations and its assertion: `POSITIONS.md:89`.
+- The gate's comparisons: `POSITIONS.md:103`.
+
+**Open for Pavol, listed on the first page.**
+- **S1, how the revised specification shows a change**: the changes appendix (`Specification/appendices/changes.tex:12-16`), a `\note` at each passage (`Specification/fortress/fortress.tex:34-37`, `:58-62`), the old text as LaTeX comments in the source (`basic/trait-parameters.tex:341-343`), or nothing in the specification.
+- **S2, what a refused example becomes**: the one library's generic spelling (`Library/FortressLibrary.fsi:864`, `value object Nothing[\T\]`; `POSITIONS.md:51`), a plain `Nothing` with `coerce` (`Library/CompilerLibrary.fsi:223-236`), the example removed and kept in the record, or kept and marked as refused.
+
+Both block rung S only. The other four rungs launch without it: nothing in them reads the specification's new text, and S shares no file with them. The manifest carries S with its riders line; if the answers are not in by launch, the coordinator deletes S's tail, its entry and its three sentences (section 7), and nothing else changes.
+
+**Not choices of this batch, named so they are not lost.** The workflow's option (b) is a separate ask; the judge's tier was decided on 2026-09-26 and is in the script (section 8). The specification's overload sentence (`Specification/basic/overloading.tex:100-107`) and the 35 errors under it (`FACTS.md:41`) are his, and route A does not change them.
+
+## 6. How it is run
+
+**Launch.** Five worktrees from `<base>`, the commit `main` is at when the coordinator launches (`explorations/coordinator/remote-container.md:96-115`): `/home/user/fortress-coerce` on `wip/rung-interp-coercion`, `/home/user/fortress-spec` on `wip/rung-spec-route-a`, `/home/user/fortress-nat` on `wip/rung-nat-checker`, `/home/user/fortress-overflow` on `wip/rung-walk-overflow`, `/home/user/fortress-shiftk` on `wip/rung-shift-count`; none of these branches exists on the remote today. The tracked tree is about 213 MB and `ProjectFortress/build` 40 MB, against 19 GB free on the disk when this was written. Then S's riders line filled with Pavol's two answers, or S removed; the `MANIFEST` block of section 7 pasted into `explorations/coordinator/climb-batch-workflow.js` with nothing else changed; then `Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js', args: {base: '<base>'}})`.
+
+**The batch rules.** Rule 1, no two rungs editing one file: holds (section 4). Rule 2, no rung needing another's names: holds; no test names anything another rung adds. Rule 3, one `.java` rung: does not hold and is not meant to, under the widened rule of `PLAN.md:52`, as in batch 3.5. Rule 4: k is 5 (4 without S) with two agents at a time.
+
+**The gate, and what it should show.** The comparand is `explorations/compile-ladder/climb-batch-3.5/gate/summary.txt`, which the script's own `last_landed_summary` finds today: `testSystem` 395 as the sum of its shards (99, 98, 98, 100), the compiler track 678, the library track 83. `testSystem` rises by C's new files and K's, if K adds one; O's rename leaves the sum as it is. The compiler track rises by N's new `.test` files. Four-thread `atomic` runs: 39 `PASS`. Ladder: no rung declares a move. C, O and K change the interpreter and its library and S the specification, none of which the compiled path reads; N changes the compiled checker, which the 85 pass-list files go through (the eighteen microGPT components stop before it, at disambiguate), and no move is expected from it, since the five size compiler tests and the inference test were unchanged under the shadow (`perf-probes/nat/REPORT.md` sections 4 and 4b); any move down is red. The checker count: the last landed table is `climb-batch-3.5/gate/checker-count.txt` (103, the crash on `NativeArray`); N declares 125 and the crash row `none`, the others 103. The merged-diff review ties the `NativeArray` row's rise to N's edit (its check 9).
+
+**Provenance.** Each `REPORT.md` opens with the five-line provenance block, its `historical:` line naming every 2012-tree file the rung edits: C, its files under `interpreter/`; S, its files under `Specification/` and `Specification/fortress.pdf`; N, its files under `scala_src/` and `FnNameInfo.java`, with `Fortress.ast` and the regenerated nodes if it takes the new node; O, `Int.java` and `Long.java`; K, `Library/FortressLibrary.fss` and `.fsi`. The tests the rungs add or rename are the revival's own. Every commit whose diff touches a path outside `explorations/` carries the same line.
+
+**Ledger.** New rows are numbered provisionally from 387 (the ledger's highest row is 386); the gather assigns final numbers in manifest order C, S, N, O, K. Closed with "fixed \<commit\>": 19 for `walk` (C), 307 for the checker (N), 379 (O), 380 (K). Appended: 381 (K).
+
+## 7. The manifest
+
+The block below replaces everything between the `MANIFEST` and `END MANIFEST` markers of `explorations/coordinator/climb-batch-workflow.js`. The coordinator fills `<base>` at launch and writes Pavol's two answers into S's riders line; if he has not given them, it deletes `S_TAIL`, S's entry in `RUNGS`, and the three sentences of `BATCH_INTRO` and `BATCH_OVERLAPS` that begin with "S" or "For S". Each tail is its rung's section of section 3 word for word, with the code-span backticks dropped and ASCII only.
+
+```js
+// ===========================================================================
+// MANIFEST - the coordinator replaces everything between this line and the
+// "END MANIFEST" line, and changes nothing else in this file.
+//
+// Concurrency, which the manifest does NOT set: at most two agents at once here
+// (FACTS.md, "The container"), a freed slot going to the next queued agent,
+// FIFO. k is 5 in this batch (4 if S is held), so the queue sets the wall.
+// Per rung: id, slug, path, branch, expectedMinutes (the scatter's start order
+// only), tail (the brief), blurb (one line for the shared prefix's table),
+// writesState, expectedMoves, and the checker-count fields testIsStage,
+// expectedCheckerCount (a printed prediction since a2b4809a5, never red) and
+// expectedCheckerCrash (compared exactly with the table's #crash field).
+//
+// Batch 4's values are CLIMB-BATCH-4.md, sections 3, 6 and 7. Each tail is
+// that rung's section of section 3 word for word, with the record's code-span
+// backticks dropped (this file carries none); ASCII only. S's riders line holds
+// Pavol's two answers, which the coordinator writes in at launch; without them
+// the coordinator deletes S_TAIL, S's entry in RUNGS and the three sentences of
+// BATCH_INTRO and BATCH_OVERLAPS that begin with S or For S; nothing else changes.
+// Manifest order C, S, N, O, K is the ledger numbering order; the scatter
+// starts N first. C, S, O and K predict the checker total 103; N predicts 125
+// and declares the crash row none. No rung declares a ladder move. The base is
+// <base>, passed at launch as args.base, not written here.
+// ===========================================================================
+
+const BATCH = '4'
+const BATCH_RECORD = 'explorations/coordinator/CLIMB-BATCH-4.md'
+const BATCH_INTRO = "This batch builds the first rungs of two decisions Pavol took on 2026-09-24 and two ledger rows he decided the same day. C teaches the interpreter coercion at its three kinds of type check, route A's first rung. N teaches the compiled type checker nat and int static parameters, the size wall's checker rung, with keep-size-params.patch in its brief. O makes the interpreter's fixed-width arithmetic raise IntegerOverflow (row 379), after counting the interpreter tests whose output changes. K declares ZZ32's shift pair with any integral count (rows 380 and 381). S revises the specification's sentences that route A changes, with a decision record keeping the original text, the reasoning and route C. The stops reserved for Pavol in this batch, on top of the standing ones: O's count of changed interpreter tests if it is not zero; N editing compiler/StaticChecker.java (the checker-count tool's copy) or a file of the run-time size rung (runtimeSystem/, compiler/runtimeValues/, compiler/codegen/CodeGen.java, compiler/OverloadSet.java); any rung editing a file another rung of this batch owns; and a checker rule that accepts a program the specification refuses. For S, an edit under Specification-1.0-frozen/ and a riders line still holding a placeholder are stops too. In the standing stops, the prelude means the compiler prelude (ProjectFortress/LibraryBuiltin/CompilerBuiltin and Library/CompilerLibrary): K's change of two declared types in Library/FortressLibrary is Pavol's decision (POSITIONS.md, 2026-09-24), and so is O's turning of an XXX test into a plain gated one, which is not the deletion of a test. For the gate: N declares the checker-count crash row as the single word none, and that word alone, without the rung's id, is checker_compare's fourth argument. Any timing anyone records carries its machine: nproc, the CPU model name and MHz from /proc/cpuinfo, the load average when the run started, the JDK and FORTRESS_THREADS (protocol.md section 6)."
+const BATCH_OVERLAPS = "None at file level. C edits files under interpreter/ other than interpreter/glue/prim/Int.java and Long.java, and adds interpreter tests. N edits scala_src/ and compiler/codegen/FnNameInfo.java (and astgen/Fortress.ast with the regenerated nodes/ if it takes a new syntax-tree node), and adds compiler tests. O edits interpreter/glue/prim/Int.java and Long.java, and renames tests/XXXFixedWidthOverflowRungB.fss. K edits four declarations of Library/FortressLibrary.fss and .fsi, and adds one assertion in a tests/ file no other rung edits. S edits Specification/ (never Specification-1.0-frozen/) and re-renders Specification/fortress.pdf. C, O and K add or rename files in ProjectFortress/tests/, which moves the testSystem shards; the gate compares them by their sum. The files every rung reaches are the three record files, folded centrally by the gather."
+const LEDGER_FROM = 387   // the first free ledger row when the batch was planned (the highest is 386)
+
+const C_TAIL = [
+"",
+"## Your rung: C - coercion in the interpreter",
+"",
+"SLUG is rung-interp-coercion. WORKTREE is /home/user/fortress-coerce, branch wip/rung-interp-coercion.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-4.md, section 3, under \"C. Coercion in the interpreter\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The problem.** Under walk, a value whose type is not a subtype of a declared type is refused even when the declared type's own coerce accepts it. The refusal comes at each of the interpreter's three kinds of type check: a single function's parameter (\"Unification error: Closure/Constructor for f param 1 (x:Wide) got arg NarrowOf\", explorations/reviews/mie-probes/keep/FlatCall.walk.txt:4-5), an overloaded call (\"Failed to find any matching overload\", keep/FlatOverload.walk.txt:5), and a typed binding (\"RHS expression type NarrowOf is not assignable to LHS type Wide\", keep/FlatBind.walk.txt:4). The specification converts in those places (Specification/basic/conversions-coercions.tex:98-110): it tries a coercion only when no declaration applies without one, and among several it takes the one that yields the most specific type (:452-458). The compiled path has coercion and the interpreter has none (ledger row 19; explorations/coordinator/FACTS.md:103). Route A's flattening, in the next batch, depends on it: under the flat tower every interpreter test expected to pass reaches a line that needs a conversion (Library/FortressLibrary.fss:4121; explorations/reviews/mie-probes/price-keep-the-rule.md:62).",
+"",
+"**The decision.** Route A (explorations/coordinator/POSITIONS.md:92): \"the interpreter is taught coercion at dispatch first, batch 4's first rung, about 150-200 lines in six Java files, depending on nothing\". That is the brief's remedy (i), the coercion chosen on the run-time value (explorations/reviews/exclusion-design-brief.md:88, :143). Its one semantic price is on the brief's list of what route A commits to (:140): the specification resolves a coercion statically (conversions-coercions.tex:567-570, with its example at :572-604), and the interpreter will resolve it on the value it has (price-keep-the-rule.md:89).",
+"",
+"**The evidence on file.** price-keep-the-rule.md section 3 (:74-97). The coercions already exist as functions: the interpreter's phase order runs the disambiguator's CoercionLifter (ProjectFortress/src/com/sun/fortress/compiler/Disambiguator.java:287-288), which lifts each trait's coerce into a top-level function named with the prefix coerce_ (compiler/NamingCzar.java:106), and keep/FlatLifted.fss calls one by hand under walk and gets the converted answer (keep/FlatLifted.walk.txt:2). Where the interpreter makes its checks today: interpreter/evaluator/values/OverloadedFunction.java:787-801 (bestMatch, with the team's \"TODO add checks for COERCE, right here.\" at :792, and the per-argument-type cache at :760-776, which overloaded methods share through values/OverloadedMethod.java:50); values/NonPrimitive.java:147, :164, :242; LHSEvaluator.java:97, :219; BuildEnvironments.java:224, :753, :774; BaseEnv.java:314; each of them through types/FType.java:108-113 (typeMatch). The interpreter's library declares no coerce (a git grep of Library/ finds one only under Library/incomplete/ and in the compiler's own files), and one interpreter test declares one (ProjectFortress/tests/conditionalExtension.fss:33). On today's nested tower nothing needs converting, so the brief expects the gate to stay green (exclusion-design-brief.md:143). Not covered by the measurement: generic inference over mixed widths (price-keep-the-rule.md:88).",
+"",
+"**The test, first.** In ProjectFortress/tests/, the interpreter's corpus, in the form of tests/roundBug.fss (a component exporting Executable whose run() asserts), as rung I of batch 3.5 did (explorations/coordinator/CLIMB-BATCH-3.5.md:53): the three shapes of keep/FlatCall.fss, keep/FlatOverload.fss and keep/FlatBind.fss (a two-level tower declared in the test, Wide with coerce(x: Narrow)), each asserting the converted answer and captured failing before the edit; and a call where two coercions apply and the most specific must win (conversions-coercions.tex:452-458). The specification's own example of static resolution (:572-604) is a divergence the specification settles and this rung does not repair, so it takes home 2 of the shared prefix, an XXX test asserting the specification's answer. The specification's other coercion places (a declared return type, tests and properties, contracts, subexpressions, :98-110) are outside the decision; each one the rung measures gets its home.",
+"",
+"**Files it may touch.** Any file under ProjectFortress/src/com/sun/fortress/interpreter/ except interpreter/glue/prim/Int.java and Long.java, which are rung O's; new files under ProjectFortress/tests/; its own directory. An edit outside interpreter/ is reported as a decision in REPORT.md; an edit to Library/ or to a file of another rung of this batch is a stop.",
+"",
+"**Java or Scala.** Java. ant compileAll before the test can pass.",
+"",
+"**The checker count.** 103, unchanged: the stage reads the compiled checker and Library/, and this rung touches neither.",
+"",
+"**What must stay green.** Every file of ProjectFortress/tests/, printing what it prints today. The rung shows it: every file run under walk before and after its edit, one JVM per test with private caches (explorations/reviews/mie-probes/keep/nestprobe/run-tests.sh is the precedent runner), plus a second run of the base to find lines that vary on their own. ant testSystem stays the gate's.",
+"",
+"**Stops.** A change in any interpreter test's output: on the nested tower nothing should convert, so a change means the brief's reading is wrong, and it comes back to Pavol with the list. A fix that needs a line of Library/. A fix that needs the coercion chosen statically, the brief's other remedy (exclusion-design-brief.md:152).",
+"",
+"**For the skeptic.** The diff writes a cache that the parallel implicit threads of walk share (OverloadedFunction.java:775, cache.syncPut), so the manifest sets writesState and every differential runs at FORTRESS_THREADS=1 and =4. The compiled side of a differential is the compiled path's own coercion (the prelude's coerce declarations and the programs of library_tests/Integer.test, price-keep-the-rule.md:97). A choice made with a coercion and cached, then met by an argument that needs none, is the case to probe.",
+"",
+"**What comes back to Pavol.** The run-time choice as landed, with the home of the specification's example; the list of the other coercion places and their homes; any changed test output, which is a stop.",
+"",
+"**What it closes.** Ledger row 19 for walk. Row 146 stays open: on the nested tower a numeral bound to a ZZ64 is already a subtype and nothing converts it.",
+"",
+].join('\n')
+
+const S_TAIL = [
+"",
+"## Your rung: S - the specification",
+"",
+"SLUG is rung-spec-route-a. WORKTREE is /home/user/fortress-spec, branch wip/rung-spec-route-a.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-4.md, section 3, under \"S. The specification\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"Pavol's two answers, written in by the coordinator at launch (section 5 of the record, S1 and S2): how the revised specification shows a change = <S1: Pavol's answer>; what an example the rule refuses becomes = <S2: Pavol's answer>. If either still reads as a placeholder in angle brackets, stop before any edit and report: the coordinator was to remove this rung.",
+"",
+"**The problem.** The specification (Specification/, the July 2012 draft, the project's standard) describes a language that route A does not implement. It lets a type be a subtype of two instantiations of one generic, and it makes the integers a subtype of the rationals and the rationals a subtype of the reals. Route A keeps the compiled checker's rule against the first and turns the second into coercion (explorations/coordinator/POSITIONS.md:92, answering his question (1) of :82). Pavol's requirement (:85): \"our plan needs to update the spec with the change that we do and somehow properly record why we decided that way, so that there is no open discrepancy between the spec and our implementation that would be confusing to people. We need to preserve the original historic record somewhere in a document with our reasoning why we did the switch and preserve the option to go the route C.\" It is an edit to the original tree and is flagged as one; Specification-1.0-frozen/ is not touched (:92).",
+"",
+"**The evidence on file.** The passages and their dates: Specification/basic/types-vals-vars.tex:184-189 (the subtype and exclusion relations are the smallest that satisfy the listed properties, none of them about instantiations); basic/trait-parameters.tex:339-351 (a trait extending other instantiations of itself, trait C[\\S\\] extends C[\\T\\] where {S extends T}, to make its parameter covariant), :354-381 (trait C extends D[\\T\\] where {T extends Object}, a subtrait of every instantiation), :383-399 (object Empty extends List[\\T\\] where {T extends Object}); all 2008-2009 text, never revised after (explorations/reviews/mie-probes/spec-sentences-dated.md:22-35). The same shape in the library chapter: basic-lib/convenience.tex:49 (object Nothing extends Maybe[\\T\\] excludes Just[\\T\\] where {T extends Object}; explorations/coordinator/FACTS.md:21). The numbers: basic-lib/basic-integers.tex:28-29 and its declaration trait ZZ extends { QQ, ZZ_star, IntegerLike[\\ZZ\\], ... } (:86-87 in plain form, :195-196 typeset); basic-lib/numbers.tex:36-37 and trait QQ extends { RR, QQ_star, ... } (:108, :177-178); the subset types around them (basic-integers.tex:30-63, numbers.tex:38-90). The specification's own mechanism between machine widths is already coercion (basic/conversions-coercions.tex:61-66, :549-565; explorations/reviews/mie-probes/price-keep-the-rule.md:102-106). The rule and its source: explorations/reviews/multiple-instantiation-exclusion.md sections 1 and 2; Papers/Types/exclusion.tick:141-152; Naden 2012, Papers/Types/journal/justificationOfRTR.tex:496-497, :568-632 (FACTS.md:42). The reasoning: explorations/reviews/exclusion-design-brief.md (sections 2 to 5; the recommendation at :135-137; what route A forecloses at :91 and :140) and Pavol's weighing (POSITIONS.md:80). Route C: explorations/reviews/mie-probes/patents-forest-rule.md, explorations/reviews/mie-probes/route-c-experiment.md with its route-c/ directory, and what switching back would cost (FACTS.md:43-44). The frozen copy is byte-identical to the draft in 202 of 208 files (FACTS.md:95) and is not an independent snapshot for three of these (spec-sentences-dated.md:14-20). How the tree already edits the specification: two revival commits changed its source and re-rendered the committed PDF in the same commit (4672b71cd, 9622f9db3); the build is ./ant tex in Specification/fortress/ with FORTRESS_HOME set (Specification/fortress/README:5-10); pdflatex is installed on this box. Specification/library/apis/ is generated from the .fsi files, so citing it is circular (FACTS.md:94).",
+"",
+"**What it writes.** First, before any edit, the list: every sentence or example of Specification/ outside library/apis/ that lets a type be a subtype of two different instantiations of one generic, directly or through its supertypes, or that states a subtyping between number types that route A turns into coercion, each with its file:line and why it is on the list. Then the revised passages, in the forms Pavol's two answers give (the riders line of the tail). Then the decision record, in the rung's own directory: for each passage the original text verbatim with its file:line at the base, the new text, the reason (route A and the brief's reasoning), and route C as the way back, with its measured state and its cost.",
+"",
+"**The test.** None can go red for a prose edit. The precedent is batch 3's comment-only rung (explorations/coordinator/CLIMB-BATCH-3.md:114: \"None, and the record says why\"). The check instead: the specification built with ./ant tex before and after the edit, both captured; Specification/fortress.pdf re-rendered in the rung's commit, as both precedent commits did; git diff --stat showing only the listed .tex files and the PDF.",
+"",
+"**Files it may touch.** Specification/ except Specification-1.0-frozen/, including Specification/fortress.pdf; its own directory. No source, library or test file.",
+"",
+"**Java or Scala.** Neither. The specification's build locates the interpreter and its helper tools (Specification/fortress/README:5-9), so budget one ant compileAll.",
+"",
+"**The checker count.** 103, unchanged.",
+"",
+"**Stops.** Any edit under Specification-1.0-frozen/. A riders line that still holds a placeholder. A passage whose new text neither the rule nor route A's decision settles: the rung reports it and does not choose. The specification failing to build on the base tree. The build changing a tracked file other than fortress.pdf.",
+"",
+"**For the skeptic.** There is no program to run both ways. The check is the list against the specification (every passage the rule refuses is on it, and nothing else is edited), every quoted original against git show <base>:<path>, and the two builds.",
+"",
+"**What comes back to Pavol.** The revised pages and the record, for his reading. The covariance example and the bare Nothing, which the record names as things route A gives up beyond Empty.",
+"",
+"**What it closes.** No ledger row; the record says so.",
+"",
+].join('\n')
+
+const N_TAIL = [
+"",
+"## Your rung: N - sizes in the compiled type checker",
+"",
+"SLUG is rung-nat-checker. WORKTREE is /home/user/fortress-nat, branch wip/rung-nat-checker.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-4.md, section 3, under \"N. Sizes in the compiled type checker\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The problem.** The compiled type checker has no rules for a nat or int static parameter, a size such as the n of Vector[\\RR64, n\\]. A size it has to infer reaches STypesUtil.makeInferenceArg, which calls NI.nyi() (\"Not yet implemented\", ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:546-559); a written-out size, and any method call on a sized receiver, throw ClassCastException (explorations/coordinator/FACTS.md:30, :34; ledger row 307). So a six-line program with one size parameter runs under walk and does not compile, and the gate's checker-count stage meets the same crash on the array api (explorations/compile-ladder/climb-batch-3.5/gate/checker-count.txt, whose #crash row reads OverloadingChecker CRASHED on NativeArray : java.lang.Error: Not yet implemented at STypesUtil.scala:557). Sizes are \"a central design point\" and are not sidestepped (explorations/coordinator/POSITIONS.md:41); the compiler work unblocks them first (:43).",
+"",
+"**The decisions.** A size left unknown after inference is an error only when it reaches a type, a name or a value, and nothing otherwise (\"the middle is a clear winner\", POSITIONS.md:47); the shadow built only the type half (explorations/perf-probes/nat/REPORT.md:649-655). keep-size-params.patch is in this brief (POSITIONS.md:93): normalizeUA drops every size parameter from a generic arrow (scala_src/types/TypeSchemaAnalyzer.scala:449, :485), so the overloading checker's return-type rule compares two renamed sizes and refuses every size-generic overload arm that has a less specific sibling; four code lines keep them (explorations/perf-probes/nat/size-probes/keep-size-params.patch, written against the shadow behind a probe switch; size-probes.md:7, :50-59; run on the size probes, not on the library or the five size compiler tests, :173). The shape is the plan's minimal design, which the shadow built: sizes as symbols and literals, unification by equality, a literal binds a symbol, no arithmetic in a type, and a bool, dim or unit parameter a checker error naming the kind instead of the crash (explorations/reviews/nat-checking-plan.md:349-391). The run-time half is design B, in the batch after this one (POSITIONS.md:93).",
+"",
+"**The evidence on file.** The shadow: explorations/perf-probes/nat/REPORT.md with shadow.patch and its captures. It compiles the specification's makeVector shape, refuses a mismatch and arithmetic in a type, and leaves the five size compiler tests byte-identical (its sections 0 and 4); its re-estimate is 7 Scala files, 38 functions and about 225 added lines (:605-630). It is a measured shadow, cited as evidence, not as the edit. The two subarray errors were the rule's (followup.md section 1): a size left free after comparing two return types counted as a failure (Formula.imp, scala_src/typechecker/Formula.scala:168); a two-line relaxation was measured, and keeping the escaped sizes existential in OverloadingOracle.satisfiesReturnTypeRule (scala_src/overloading/OverloadingOracle.scala:81-107) was not tried (followup.md:89-93). The Java site: compiler/codegen/FnNameInfo.java:162-173 (boundsFor), reached from scala_src/typechecker/impls/Functionals.scala:606 and :730; nine lines in the shadow (java.md section 1; FACTS.md:34). What the crash hides: on the tree before rung L the whole library went from 93 to 115 errors under the shadow with the relaxation, all 22 new ones in NativeArray, with no crash after (followup.md:39; java/j3-lib-worldflip.out). The per-declaration runs (zero.md, triage.md) reach the library's hidden layer, which the gate's instrument does not, and found that the overloading checker's memo (scala_src/typechecker/OverloadingChecker.scala:441-462, switch at :77) makes a count depend on build order (triage.md:8, :27-29). What stays after this rung: a compiled sized program fails to load (NoClassDefFoundError: 3$RTTIc, FACTS.md:32), and code generation refuses a size in an extends clause (CodeGen.java:5793, FACTS.md:34); both belong to the run-time rung.",
+"",
+"**The test, first.** In ProjectFortress/compiler_tests/: a program with a size parameter inferred from an argument, one with the size written out, and one calling a method on a sized receiver, each captured failing at the checker before the edit and compiling after; the size-generic overload arm beside a less specific one (explorations/perf-probes/nat/size-probes/pNatDisp.fss, two errors before and compiling with the patch, size-probes/s1-dispatch.out:2-11, :59-60), with its control pNatDispRTR.fss still refused; and a size mismatch and arithmetic in a type, refused with the rule's own error, as XXX compile tests. The .test files stop at compile: a sized program cannot load compiled until the run-time rung, a deferred defect the specification settles (Specification/basic/trait-parameters.tex:82-86), so it takes home 2, the split .test pair (FACTS.md:60), unless an existing XXX file already gates it. The checker-count stage's table is captured before and after the edit, as a check, not as the test.",
+"",
+"**Files it may touch.** Any file under ProjectFortress/src/com/sun/fortress/scala_src/; compiler/codegen/FnNameInfo.java; if the rung represents an inferred size by a new syntax-tree node, ProjectFortress/astgen/Fortress.ast and the sources it regenerates under ProjectFortress/src/com/sun/fortress/nodes/ (1,071 tracked files, 353K lines today); tests under ProjectFortress/compiler_tests/; its own directory. Any other file is reported as a decision, except these, which are stops: compiler/StaticChecker.java (the checker-count tool keeps a copy checked against its checksum, explorations/coordinator/tools/checker-count/run.sh:35, and an edit makes the stage's #shadow row stale, which is red); runtimeSystem/, compiler/runtimeValues/, compiler/codegen/CodeGen.java, compiler/OverloadSet.java (the run-time rung's); Library/ and interpreter/ (other rungs', and not this rung's).",
+"",
+"**Java or Scala.** Both: Scala for the checker, Java for FnNameInfo.java, and the regenerated nodes if the new node is taken.",
+"",
+"**The checker count.** Predicted 125, with the crash row none. The arithmetic: 93 to 115 on the tree before rung L, every new error in NativeArray and no crash after (followup.md:39); rung L added ten elsewhere (93 to 103, FACTS.md:48); 103 plus 22 is 125. It is not measured on today's tree: keep-size-params.patch never ran on the library, and another reading of a free size moves the total (117 without the relaxation, followup.md:39). The FortressLibrary row does not move, because that api still stops at its hierarchy errors (compiler/StaticChecker.java:268-272). The crash row reads none when the checker meets no crash (explorations/coordinator/tools/checker-count/run.sh:81), and the manifest declares exactly that word; any other row is red at the gate, so the rung reports the row it measured.",
+"",
+"**What must stay green, or keep its verdict.** The five size compiler tests (Compiled1.ah, Compiled1.av and Compiled6.af under compiler_tests/AfterTypeChecking.test; Compiled1.p and Compiled5.z under XXX1p.test and XXX5z.test; REPORT.md section 4); compiler_tests/Compiled12.invariantInference.test, which exercises the inference machinery the size track shares (REPORT.md section 4b); compiler_tests/XXXNatArgRungS.test (a written-out size, ledger row 307, expected to fail at run); and the whole compiler_tests/ track at the gate.",
+"",
+"**Stops.** The files named above as stops. A reading of a size, in unification or in the return-type rule, that accepts a program the specification refuses: a change of semantics against the specification (explorations/coordinator/PLAN.md:52). A gated test's verdict changing, other than an expected failure this rung's fix makes pass and the rung promotes with its reason.",
+"",
+"**Choices the rung takes, reported as decisions.** How the checker represents a size it has not yet inferred: a new node beside the tree's two inference-variable nodes (explorations/reviews/nat-checking-plan.md:408-428, argued for in REPORT.md:649-655), or a reserved name, as the shadow did; Pavol did not see this one as his, and \"the real edit's choice comes after\" the shadow (POSITIONS.md:47). How the return-type rule reads a size left free: the measured relaxation, or the untried existential reading (followup.md:89-93). Neither is a fork that PLAN.md:52 reserves; each is recorded with its alternative and its cost.",
+"",
+"**For the skeptic.** A compiled run of a sized program fails at load until the run-time rung, so the differential is walk's answer against the compiled checker's verdict, and against the compiled answer only for programs without a size. The shadow's open points are the places to probe: five declarations that were clean before gain one error each in the per-declaration run, three of them one shape and one, __builtinFactory2 at Library/FortressLibrary.fss:2594 in the shadow's numbering, likely a true positive (followup.md:80-87); and a call site that solves several sizes at once (REPORT.md section 11).",
+"",
+"**What comes back to Pavol.** The two choices and why; the checker count and the NativeArray errors now visible; the per-declaration findings.",
+"",
+"**What it closes.** Ledger row 307 for the checker; its run-time half stays with the run-time rung. The rows the size probes named for the run-time rung's gather (FACTS.md:36, :38) are not this rung's.",
+"",
+].join('\n')
+
+const O_TAIL = [
+"",
+"## Your rung: O - overflow in the interpreter",
+"",
+"SLUG is rung-walk-overflow. WORKTREE is /home/user/fortress-overflow, branch wip/rung-walk-overflow.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-4.md, section 3, under \"O. Overflow in the interpreter\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The problem.** Under walk, +, -, unary -, |..|, DIV and multiplication on ZZ32 and ZZ64 wrap silently when the result does not fit: ZZ32 MAX + 1 is -2147483648, ZZ64 MIN - 1 is 9223372036854775807, ZZ32 46341 * 46341 is -2147479015 (ledger row 379, with its probes). The specification: \"For integer results, overflow throws an IntegerOverflow\" (Specification/basic/operators/opr-overview.tex:154, :195), with wrapping and saturating given their own operator spellings (:172-176, :205-209). The compiled path throws already (explorations/coordinator/FACTS.md:76).",
+"",
+"**The decision.** explorations/coordinator/POSITIONS.md:88: \"walk follows the specification as the compiled path already does: an overflow check in each of the ten natives of the interpreter's Int and Long glue classes raising the catchable IntegerOverflow of rung I, the expected-failure test ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss turned into a plain gated test, the count of interpreter tests whose output changes measured first and brought to him if not zero\".",
+"",
+"**The evidence on file.** The ten natives are Negate, Add, Sub, Mul and Div in ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:98-125 and Long.java:112-139, with |..| over them (ledger row 379's notes). The catchable raise from a native is Int.overflow() (Int.java:256-259; FACTS.md:24). The expected failure asserts a catchable IntegerOverflow on the row's twelve cases, and it was shown red on a deliberate local fix of exactly these ten natives, then reverted (explorations/compile-ladder/climb-batch-3.5/repair/overflow-xxx-harness.txt). A second effect, by reading: a ZZ64 variable set from a small numeral holds a ZZ32 under walk (ledger row 146), so after this rung its arithmetic raises IntegerOverflow at 32 bits where it used to wrap (explorations/reviews/mie-probes/keep/NestedWidth.walk.txt:2-3: x: ZZ64 = 2147483647 holds an Int, and x + 1 prints -2147483648), until the flattening's coercion widens it.",
+"",
+"**The count, first.** Before its edit is committed, the rung measures how many interpreter tests print something different: every file of ProjectFortress/tests/ run under walk without the edit and with it, one JVM per test with private caches (explorations/reviews/mie-probes/keep/nestprobe/run-tests.sh is the precedent runner), a second run of the base to find lines that vary on their own, and XXXFixedWidthOverflowRungB.fss left out. Not ant testSystem, which is the gate's. The count and the list of files, each with its first differing line, go in REPORT.md. Zero: the rung continues. Not zero: the rung stops and reports; that decision is Pavol's (POSITIONS.md:88), not a judge's.",
+"",
+"**The test, first.** The existing expected failure becomes the plain gated test: the file and its component renamed without the XXX prefix, since the interpreter requires the file name to be the component's. As a plain test it fails before the edit (captured) and passes after. Its assertions do not change.",
+"",
+"**Files it may touch.** interpreter/glue/prim/Int.java and interpreter/glue/prim/Long.java; the renamed test; its own directory. Nothing else.",
+"",
+"**Java or Scala.** Java.",
+"",
+"**The checker count.** 103, unchanged.",
+"",
+"**What must stay green.** ProjectFortress/tests/IntSemanticsRungI.fss, whose overflows(...) helper catches only IntegerOverflow (FACTS.md:24), and every interpreter test of the count.",
+"",
+"**Stops.** A nonzero count. A fix that needs any other file, a library body that relies on wrapping for example. The unsigned widths, NN32 and NN64, are not in row 379: a wrap the rung measures there gets its home under the shared prefix, not a fix.",
+"",
+"**For the skeptic.** The compiled answers for the same twelve cases are on file (explorations/compile-ladder/rung-int-semantics-compiled/probes/IntSemTable-compiled-after.txt); the differential that matters is walk against those, run at bin/fortress's default heap.",
+"",
+"**What comes back to Pavol.** The count if it is not zero, with the list; row 146's effect.",
+"",
+"**What it closes.** Ledger row 379.",
+"",
+].join('\n')
+
+const K_TAIL = [
+"",
+"## Your rung: K - the shift count",
+"",
+"SLUG is rung-shift-count. WORKTREE is /home/user/fortress-shiftk, branch wip/rung-shift-count.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-4.md, section 3, under \"K. The shift count\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The problem.** Under walk, ZZ32's LSHIFT and RSHIFT take only a ZZ64 count (Library/FortressLibrary.fss:688-691; api Library/FortressLibrary.fsi:491-492), though the trait Integral[\\I\\] promises a count of any integral type (.fsi:431-432, .fss:637-638). A count that is a ZZ, an NN32 or an NN64 misses ZZ32's pair and lands on ZZ64's, which takes any integral count (.fss:756-759), so 3 LSHIFT big(widen(33)) is 25769803776 : ZZ64, where a ZZ64 count of 33 gives 0 : ZZ32 (ledger row 380). The two paths answer differently for a ZZ64 count (row 381). ZZ64's own api pair says b:ZZ64 (.fsi:530-531) where its implementation says b:AnyIntegral.",
+"",
+"**The decision.** explorations/coordinator/POSITIONS.md:89: \"ZZ32's shift pair is declared with any integral count (Library/FortressLibrary.fss:688-691, .fsi:491-492), as Integral[\\I\\] promises (.fsi:431-432) and as ZZ, NN64 and ZZ64's implementation already do, and ZZ64's api lines (.fsi:530-531) are made to match its implementation (.fss:756-759); one gated assertion pins a ZZ32 shifted by a ZZ count; the rung declares its checker count\". Row 381's compiled half closes at the switch-over.",
+"",
+"**The evidence on file.** Rows 380 and 381, with explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/SkWalkOnly.fss, sk-base-cases.sh and SkCountType.fss and their captures. The natives already read a count by its class (Int.shiftCount; explorations/coordinator/FACTS.md:77), so no Java changes. FACTS.md:77 records this repair and batch 3.5's reservation of it (explorations/coordinator/CLIMB-BATCH-3.5.md:57), which the decision lifts.",
+"",
+"**The test, first.** One gated assertion under walk: a ZZ32 shifted by a ZZ count answers by the ZZ32 width rule and is a ZZ32 (3 LSHIFT big(widen(33)) is 0), captured failing before (25769803776). In ProjectFortress/tests/IntSemanticsRungI.fss or a new file there; not in a file another rung of this batch edits.",
+"",
+"**Files it may touch.** Library/FortressLibrary.fss (:688-691) and Library/FortressLibrary.fsi (:491-492, :530-531); the test file; its own directory.",
+"",
+"**Java or Scala.** Neither; the library only. The interpreter reads the library at run time; its caches are wiped before the test is run.",
+"",
+"**The checker count.** Predicted 103. The stage reads FortressLibrary.fsi, but that api stops at its hierarchy errors (compiler/StaticChecker.java:268-272), before any check that reads a method's parameter types. The rung captures the stage's table before and after its edit, as rung I of batch 3.5 did, and declares the total it measured.",
+"",
+"**What must stay green.** The shift tests of batch 3.5 and the team's: ProjectFortress/tests/IntSemanticsRungI.fss, BitTwiddle.fss:33-39, UnsignedTest.fss, QuickCheckTest.fss:97-103.",
+"",
+"**Stops.** A change to any declaration other than those four. This is a change of existing declared types and it is Pavol's decision; the standing stop \"a change to a declared type the prelude already has\" is about the compiler prelude, not the one library.",
+"",
+"**For the skeptic.** The compiled answer for a ZZ32 receiver with a ZZ64 count stays the compiler prelude's (row 381, ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:647, :736) until the switch-over.",
+"",
+"**What comes back to Pavol.** Nothing beyond the landing.",
+"",
+"**What it closes.** Row 380. Row 381 is appended: walk answers as before for a ZZ64 count, and the compiled half closes at the switch-over.",
+"",
+].join('\n')
+
+const RUNGS = [
+  { id: 'C', slug: 'rung-interp-coercion', path: '/home/user/fortress-coerce', branch: 'wip/rung-interp-coercion', tail: C_TAIL, expectedMinutes: 90, writesState: true, testIsStage: false, expectedCheckerCount: 103,
+    blurb: "the interpreter taught coercion at its three kinds of type check (a single function's parameter, an overloaded call, a typed binding), calling the coerce_ functions the disambiguator already lifts: route A's first rung (POSITIONS 2026-09-24). Java under interpreter/, no library line; new interpreter tests. writesState, because the dispatch cache it writes is shared by parallel threads.",
+    expectedMoves: [] },
+  { id: 'S', slug: 'rung-spec-route-a', path: '/home/user/fortress-spec', branch: 'wip/rung-spec-route-a', tail: S_TAIL, expectedMinutes: 60, writesState: false, testIsStage: false, expectedCheckerCount: 103,
+    blurb: "the specification's sentences that route A changes (a type extending two instantiations of one generic; ZZ inside QQ inside RR as subtyping) revised, with a decision record keeping the original text, the reasoning and route C; an original-tree edit, Specification-1.0-frozen/ untouched, Specification/fortress.pdf re-rendered. No source and no test.",
+    expectedMoves: [] },
+  { id: 'N', slug: 'rung-nat-checker', path: '/home/user/fortress-nat', branch: 'wip/rung-nat-checker', tail: N_TAIL, expectedMinutes: 120, writesState: false, testIsStage: false, expectedCheckerCount: 125, expectedCheckerCrash: 'none',
+    blurb: "the compiled type checker taught nat and int static parameters (ledger row 307), with keep-size-params.patch in its brief (POSITIONS 2026-09-24, B it is); Scala under scala_src/ and compiler/codegen/FnNameInfo.java; compiler tests that stop at compile. Checker count predicted 125 and the crash row declared as the word none.",
+    expectedMoves: [] },
+  { id: 'O', slug: 'rung-walk-overflow', path: '/home/user/fortress-overflow', branch: 'wip/rung-walk-overflow', tail: O_TAIL, expectedMinutes: 75, writesState: false, testIsStage: false, expectedCheckerCount: 103,
+    blurb: "ledger row 379: the ten Int and Long natives raise the catchable IntegerOverflow instead of wrapping, after the rung counts the interpreter tests whose output changes (a nonzero count stops it for Pavol); tests/XXXFixedWidthOverflowRungB.fss becomes a plain gated test. Java, two files.",
+    expectedMoves: [] },
+  { id: 'K', slug: 'rung-shift-count', path: '/home/user/fortress-shiftk', branch: 'wip/rung-shift-count', tail: K_TAIL, expectedMinutes: 30, writesState: false, testIsStage: false, expectedCheckerCount: 103,
+    blurb: "ledger rows 380 and 381: ZZ32's LSHIFT and RSHIFT declared with an AnyIntegral count and ZZ64's api pair matched to its implementation, four declarations of Library/FortressLibrary; one gated assertion under walk. Library only.",
+    expectedMoves: [] },
+]
+```
+
+## 8. Script readiness
+
+Read against `explorations/coordinator/climb-batch-workflow.js` at `a94f13d3b`, after the coordinator's commit `e068a3eaa`, which names the second judge's tier; nothing in it is edited here.
+
+- **The manifest block is batch 3.5's** (`:54-153`): `BATCH` `'3.5'` at `:78`, its record, intro and overlaps, `LEDGER_FROM` 378, and the tails B and I with the riders as they launched. Section 7 replaces all of it. The first free ledger row is now 387.
+- **The gate's comparand is current and is kept** (`POSITIONS.md:103`). `last_landed_summary` (`:856-860`) resolves today to `explorations/compile-ladder/climb-batch-3.5/gate/summary.txt` (run by hand with the script's own `git log`), and `gate_compare` (`:842-854`) compares the `system-<i>` rows by their sum.
+- **The checker comparand is current** (`:950-954`): it resolves to `climb-batch-3.5/gate/checker-count.txt`, total 103, crash on `NativeArray` at `STypesUtil.scala:557`, `#shadow` matching. The tracked `compiler/StaticChecker.java` still has the checksum `run.sh:35` records (`16e6e11d...`), so the stage is not stale today.
+- **The first declared crash line.** N is the first rung of any batch to declare `expectedCheckerCrash`. The script collects it as `N: none` (`:1173-1174`) and prints it that way in the gate's prompt (`:984-986`), while `checker_compare` compares its fourth argument with the table's `#crash` field for exact equality (`:967`). A gate agent that passes `N: none` gets `CRASH CHANGED`, which is red. The manifest's `BATCH_INTRO` says that the fourth argument is the word `none` alone, since every agent's prompt starts with it; the script itself is unchanged. The gate prompt's description of the crash, "today the nat gap" (`:946`), is stale once N lands; the declared line covers it.
+- **The judge's tier** (`judgeTier`, `:48`): a first ruling on the workers' tier, a second ruling on the same rung or tree on the top tier by name, as Pavol decided on 2026-09-26 (`POSITIONS.md`, its last entry; `e068a3eaa`). Not stale.
+- **Batch-specific stops written into shared text.** Rule 4 of the shared prefix (`:349`) and the judge's `stop` question (`:557`) name the standing stops "a change to a declared type the prelude already has" and "a renamed or removed declaration a gated test uses", and the judge's list also has "deleting a test". In this batch K changes two declared types in the one library and O turns an `XXX` test into a plain one, both by Pavol's decision; and the batch's own stops (O's nonzero count, the frozen specification, N's run-time and tool files) are in no fixed text. The judge's prompt starts with the shared prefix, which carries `BATCH_INTRO`, so the manifest states all of this there. The script is unchanged.
+- **Tests outside the compiler corpora.** Step 1 of the rung worker's order (`:426`) writes the failing test into `compiler_tests/` or `library_tests/`. C, O and K test under `walk` in `ProjectFortress/tests/`, and S has no test; their tails say so, as batch 3.5's rung I did.
+- **Corpus runs inside a rung.** The shared prefix forbids `ant testFast` and `ant testSystem` in a rung (`:377`). C's check and O's count run each interpreter test directly under `walk` instead, which the prefix does not forbid.
+- **The skeptic does not see the tail.** Its prompt is the prefix and its role only (`:1111-1116`), so what a skeptic of this batch needs is in each rung's section of this record, which the prefix tells every agent to read. S has no program to run both ways, and N's sized programs fail at load when compiled; their sections say what the skeptic checks instead.
+- **Stale citations, not batch-specific.** The shared prefix's three homes cite `FileTests.java:922`, `:841` and `:843` (`:359`); the lines are now `:932`, `:851` and `:853`. The script's comment and gate prompt cite `.gitignore:65` for `/tmp/` (`:260`, `:810`); it is at `:64`. The meanings are unchanged.
+- **Nothing else names batch 3.5** outside the manifest block; the mentions of batches 1 to 3 outside it (`:3`, `:10`, `:156-256`, `:1200-1202`) are history and the worked example, which the script does not read.
