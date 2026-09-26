@@ -162,6 +162,15 @@ but if one seems to conflict with something Pavol says, his words win.
   never lower; a Fable worker only when he has said yes to that piece. (The
   2026-09-18 "by the alias" remark meant only that the script need not change when
   a newer Opus arrives.)
+- **(P)** 2026-09-26: workers commit their own files as they go — "Workers should be
+  committing themselves as they go, focused their files only. Protects against
+  container failures and stops from harness bothering you about uncommitted files".
+  A worker commits only the paths it wrote, in one command (`git add -- <paths> &&
+  git commit -m … -- <paths>`), with the footer of §4, and pushes `main` and the
+  container branch; the coordinator reviews afterwards and fixes by a further commit.
+  Before a push the worker checks that `git log origin/main..main` lists only its own
+  commits: while a batch gathers, the local `main` carries rung commits whose gate has
+  not passed, and a push would publish them.
 - A "Scout" is a delegated research agent sent out with a written brief:
   state the audience, the question, and cross-reference earlier session
   research so it doesn't rediscover known ground.
