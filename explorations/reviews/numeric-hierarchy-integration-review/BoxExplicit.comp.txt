@@ -1,0 +1,8 @@
+=== $ bin/fortress compile BoxExplicit.fss   (private cache seeded with the compiled library)   (2c948a106, 2026-09-26T10:28:06Z, load 4.91, FORTRESS_THREADS=1) ===
+=== exit 0 ===
+=== $ java ... MainWrapper BoxExplicit   (same private cache) ===
+REACHED
+control acceptBox[\Wide\](b, w).big =  1
+case 2 acceptBox[\Wide\](b, n).big =  3
+DONE
+=== exit 0 ===

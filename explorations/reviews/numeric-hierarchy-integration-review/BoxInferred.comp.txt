@@ -1,0 +1,7 @@
+=== $ bin/fortress compile BoxInferred.fss   (private cache seeded with the compiled library)   (3abddc039, 2026-09-26T10:28:37Z, load 5.18, FORTRESS_THREADS=1) ===
+explorations/reviews/numeric-hierarchy-integration-review/BoxInferred.fss:35:13-26:
+    Could not check call to function acceptBox
+    - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\Wide\], Narrow).
+File BoxInferred.fss has 1 error.
+=== exit 255 ===
+=== no BoxInferred.jar produced; nothing to run ===

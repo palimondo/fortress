@@ -1,0 +1,46 @@
+component BoxRR64
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+(* An invariant container with a non-generic method over its parameter. *)
+object Box[\T\]()
+  accept(x: T): T = x
+end
+
+(* The two top-level forwarders, the shape of the library's Matrix scalar
+   product (Library/FortressLibrary.fss:2650-2654). *)
+acceptBox[\T\](b: Box[\T\], x: T): T = b.accept(x)
+opr juxtaposition[\T\](b: Box[\T\], x: T): T = b.accept(x)
+
+(* Control: the library's RR64 as the element type and a ZZ32 argument. *)
+run(): () = do
+  b: Box[\RR64\] = Box[\RR64\]()
+  i: ZZ32 = 3
+  z: RR64 = 3.0
+  println("REACHED")
+  println("for comparison, z: RR64 = 3.0 prints " z)
+  r1: RR64 = b.accept(i)
+  println("case 1 b.accept(i) = " r1)
+  r2: RR64 = acceptBox[\RR64\](b, i)
+  println("case 2 acceptBox[\\RR64\\](b, i) = " r2)
+  r3: RR64 = acceptBox(b, i)
+  println("case 3 acceptBox(b, i) = " r3)
+  r4: RR64 = b i
+  println("case 4 (b i) = " r4)
+  println("DONE")
+end
+
+end

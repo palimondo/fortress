@@ -1,0 +1,6 @@
+=== $ bin/fortress BoxMethod.fss   (3d5be3142, 2026-09-26T10:27:11Z, load 3.75, FORTRESS_THREADS=1) ===
+REACHED
+control b.accept(w).big = 1
+case 1 b.accept(n).big = 3
+DONE
+=== exit 0 ===

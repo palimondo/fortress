@@ -1,0 +1,8 @@
+=== $ bin/fortress compile BoxSelfJuxt.fss   (private cache seeded with the compiled library)   (3abddc039, 2026-09-26T10:33:00Z, load 3.78, FORTRESS_THREADS=1) ===
+=== exit 0 ===
+=== $ java ... MainWrapper BoxSelfJuxt   (same private cache) ===
+REACHED
+control in-trait (b w).big =  1
+case 5 in-trait (b n).big =  3
+DONE
+=== exit 0 ===

@@ -1,0 +1,42 @@
+component BoxSelfJuxt
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+(* An invariant container with a non-generic method over its parameter, and
+   here also the juxtaposition as a functional method of the container, the
+   spelling MultiplicativeRing uses (Library/FortressLibrary.fss:347). *)
+object Box[\T\]()
+  accept(x: T): T = x
+  opr juxtaposition(self, x: T): T = self.accept(x)
+end
+
+(* The top-level generic function as in the other probes; no top-level
+   generic juxtaposition here. *)
+acceptBox[\T\](b: Box[\T\], x: T): T = b.accept(x)
+
+run(): () = do
+  b: Box[\Wide\] = Box[\Wide\]()
+  w: Wide = WideOf(1)
+  n: Narrow = NarrowOf(3)
+  println("REACHED")
+  c: Wide = b w
+  println("control in-trait (b w).big = " c.big)
+  r: Wide = b n
+  println("case 5 in-trait (b n).big = " r.big)
+  println("DONE")
+end
+
+end

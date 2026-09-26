@@ -1,0 +1,24 @@
+=== $ bin/fortress compile BoxRR64.fss   (private cache seeded with the compiled library)   (3abddc039, 2026-09-26T10:30:42Z, load 4.64, FORTRESS_THREADS=1) ===
+explorations/reviews/numeric-hierarchy-integration-review/BoxRR64.fss:35:14-23:
+    Could not check method invocation Box[\RR64\].accept
+    - RR64->RR64 is not applicable to an argument of type ZZ32.
+explorations/reviews/numeric-hierarchy-integration-review/BoxRR64.fss:37:14-35:
+    Could not check call to function acceptBox
+    - [\RR64\](Box[\RR64\], RR64)->RR64 is not applicable to an argument of type (Box[\RR64\], ZZ32).
+explorations/reviews/numeric-hierarchy-integration-review/BoxRR64.fss:39:14-27:
+    Could not check call to function acceptBox
+    - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], ZZ32).
+explorations/reviews/numeric-hierarchy-integration-review/BoxRR64.fss:41:14-16:
+    Could not check call to operator juxtaposition
+    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    - (String, Object)->String is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], ZZ32).
+File BoxRR64.fss has 4 errors.
+=== exit 255 ===
+=== no BoxRR64.jar produced; nothing to run ===

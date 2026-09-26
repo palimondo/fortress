@@ -1,0 +1,46 @@
+=== $ bin/fortress BoxJuxt.fss   (3abddc039, 2026-09-26T10:28:39Z, load 5.16, FORTRESS_THREADS=1) ===
+REACHED
+control (b w).big = 1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/numeric-hierarchy-integration-review/BoxJuxt.fss:35:13-15:
+Failed to find any matching overload, args = (Box[\Wide\],NarrowOf), overload = {
+	juxtaposition[\T\](b:Box[\T\],x:T):Texplorations/reviews/numeric-hierarchy-integration-review/BoxJuxt.fss:26:1-59
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].juxtaposition(self:MultiplicativeRing[\T\],other:T):TLibrary/FortressLibrary.fss:347:5-348:65
+	juxtaposition(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (Library/FortressLibrary.fss:383:5-384:56)
+	juxtaposition(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:572:5-57)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].juxtaposition(self:Integral[\I\],b:I):ILibrary/FortressLibrary.fss:626:5-33
+	juxtaposition(native Mul)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (Library/FortressLibrary.fss:668:5-669:74)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (Library/FortressLibrary.fss:736:5-737:75)
+	juxtaposition(native Mul)fn meth(self 0):(NN64,NN64)->NN64 (Library/FortressLibrary.fss:790:5-791:83)
+	juxtaposition(native Mul)fn meth(self 0):(ZZ,ZZ)->ZZ (Library/FortressLibrary.fss:851:5-852:77)
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:Vector[\T,n\]):TLibrary/FortressLibrary.fss:2270:1-2271:67
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](me:Vector[\T,n\],other:T):Vector[\T,n\]Library/FortressLibrary.fss:2276:1-2277:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n\](other:T,me:Vector[\T,n\]):Vector[\T,n\]Library/FortressLibrary.fss:2282:1-2283:71
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m,nat p\](me:Matrix[\T,n,m\],other:Matrix[\T,m,p\]):Matrix[\T,n,p\]Library/FortressLibrary.fss:2631:1-2636:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],v:Vector[\T,m\]):Vector[\T,n\]Library/FortressLibrary.fss:2640:1-2643:34
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](v:Vector[\T,n\],me:Matrix[\T,n,m\]):Vector[\T,m\]Library/FortressLibrary.fss:2647:1-2648:70
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](me:Matrix[\T,n,m\],other:T):Matrix[\T,n,m\]Library/FortressLibrary.fss:2653:1-2654:75
+	juxtaposition[\T extends FortressLibrary.Number,nat n,nat m\](other:T,me:Matrix[\T,n,m\]):Matrix[\T,n,m\]Library/FortressLibrary.fss:2659:1-2667:27
+	juxtaposition(a:Any,self:FortressLibrary.String):FortressLibrary.Stringfn meth(self 1):(Any,String)->String (Library/FortressLibrary.fss:4060:5-59)
+	juxtaposition(self:FortressLibrary.String,b:Any):FortressLibrary.Stringfn meth(self 0):(String,Any)->String (Library/FortressLibrary.fss:4062:5-4068:48)
+	juxtaposition(self:FortressLibrary.String,b:FortressLibrary.String):FortressLibrary.Stringfn meth(self 0):(String,String)->String (Library/FortressLibrary.fss:4061:5-56)
+	juxtaposition(self:MultiplicativeRing[\T\],other:T):Tfn meth(self 0):(MultiplicativeRing[\Number\],Number)->Number (Library/FortressLibrary.fss:347:5-348:65)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:626:5-33)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:626:5-33)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:626:5-33)
+	juxtaposition(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:626:5-33)
+	juxtaposition(native Mul)fn meth(self 0):(Float,Float)->RR64 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:111:5-113:76)
+	juxtaposition(native Mul)fn meth(self 0):(RR32,Number)->RR32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:280:5-282:75)
+	juxtaposition(native Mul)fn meth(self 0):(NN32,NN32)->NN32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:414:5-415:75)}:OverloadedFunction
+Context:
+explorations/reviews/numeric-hierarchy-integration-review/BoxJuxt.fss:35:13-15:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
