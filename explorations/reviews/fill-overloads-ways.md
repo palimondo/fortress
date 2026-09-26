@@ -8,7 +8,7 @@ SkipList, Generator22D), the checker's sources (OverloadingChecker.scala, TypeAn
 StaticChecker.java, Shell.java, PreDisambiguationDesugaringVisitor.java), Specification/
 (the July 2012 draft), Specification-1.0-frozen/, Documentation/Specification/Prose/Language/
 (types.tick, overloading.tick), Papers/Types/, the gate's test directories, git history up
-to 2012, and peer languages' published documentation (URLs in step 6). Every measurement
+to 2012 (with research/authorship.md for the conversion's parentless commits), and peer languages' published documentation (URLs in step 6). Every measurement
 was taken in a private cache; the drivers, variants, probes and outputs are in
 explorations/reviews/fill-overloads-ways/.
 -->
