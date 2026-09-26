@@ -1,0 +1,87 @@
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java
+@@ -97,30 +97,35 @@
+ 
+     public static final class Negate extends Z2Z {
+         protected int f(int x) {
++            if (x == Integer.MIN_VALUE) probe("Int$Negate", x, 0);
+             return -x;
+         }
+     }
+ 
+     public static final class Add extends ZZ2Z {
+         protected int f(int x, int y) {
++            try { Math.addExact(x, y); } catch (ArithmeticException e) { probe("Int$Add", x, y); }
+             return x + y;
+         }
+     }
+ 
+     public static final class Sub extends ZZ2Z {
+         protected int f(int x, int y) {
++            try { Math.subtractExact(x, y); } catch (ArithmeticException e) { probe("Int$Sub", x, y); }
+             return x - y;
+         }
+     }
+ 
+     public static final class Mul extends ZZ2Z {
+         protected int f(int x, int y) {
++            try { Math.multiplyExact(x, y); } catch (ArithmeticException e) { probe("Int$Mul", x, y); }
+             return x * y;
+         }
+     }
+ 
+     public static final class Div extends ZZ2Z {
+         protected int f(int x, int y) {
++            if (x == Integer.MIN_VALUE && y == -1) probe("Int$Div", x, y);
+             return x / y;
+         }
+     }
+@@ -253,6 +258,10 @@
+         return r;
+     }
+ 
++    public static void probe(String op, long x, long y) {
++        System.err.println("OVERFLOW-PROBE " + op + " " + x + " " + y);
++    }
++
+     public static FortressError overflow() {
+         FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
+         return new FortressError(f);
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java
+@@ -111,30 +111,35 @@
+ 
+     public static final class Negate extends L2L {
+         protected long f(long x) {
++            if (x == java.lang.Long.MIN_VALUE) Int.probe("Long$Negate", x, 0);
+             return -x;
+         }
+     }
+ 
+     public static final class Add extends LL2L {
+         protected long f(long x, long y) {
++            try { Math.addExact(x, y); } catch (ArithmeticException e) { Int.probe("Long$Add", x, y); }
+             return x + y;
+         }
+     }
+ 
+     public static final class Sub extends LL2L {
+         protected long f(long x, long y) {
++            try { Math.subtractExact(x, y); } catch (ArithmeticException e) { Int.probe("Long$Sub", x, y); }
+             return x - y;
+         }
+     }
+ 
+     public static final class Mul extends LL2L {
+         protected long f(long x, long y) {
++            try { Math.multiplyExact(x, y); } catch (ArithmeticException e) { Int.probe("Long$Mul", x, y); }
+             return x * y;
+         }
+     }
+ 
+     public static final class Div extends LL2L {
+         protected long f(long x, long y) {
++            if (x == java.lang.Long.MIN_VALUE && y == -1) Int.probe("Long$Div", x, y);
+             return x / y;
+         }
+     }

@@ -1,0 +1,9 @@
+=== $ java -Xmx256m -Xss32m -Dfile.encoding=UTF-8 -cp tmp/count/shadow:$(bin/fortress_classpath 2>/dev/null | tail -1) com.sun.fortress.Shell walk ProjectFortress/tests/FixedWidthOverflowRungB.fss   (the renamed plain test walked with the ten natives edited (natives.patch compiled into a shadow classes directory ahead of ProjectFortress/build; the source is not edited), -Xmx256m -Xss32m as bin/fortress: all twelve cases raise the catchable IntegerOverflow and it prints PASS. Evidence for the edit only: the rung stopped on its count, so this is not a landed pass) 2026-09-26T03:50:14Z ===
+REACHED
+PASS
+=== exit 0 ===
+
+=== $ java -Xmx256m -Xss32m -Dfile.encoding=UTF-8 -cp tmp/count/shadow:$(bin/fortress_classpath 2>/dev/null | tail -1) com.sun.fortress.Shell walk ProjectFortress/tests/IntSemanticsRungI.fss   (and IntSemanticsRungI.fss, which must stay green, with the same shadow) 2026-09-26T03:50:18Z ===
+PASS
+=== exit 0 ===
+

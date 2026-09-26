@@ -1,0 +1,20 @@
+# The fourth pass: the same 393 files under walk with probes/overflow-probe.patch in a shadow classes directory,
+# which prints OVERFLOW-PROBE <native> <x> <y> to stderr wherever one of the ten natives meets an overflow and then
+# returns the wrapped value as the stock native does. Run 2026-09-26T03:36:21Z to 2026-09-26T03:48:08Z; machine as count-machine.txt, load at start 1.35 4.32 5.55.
+# Every file of the list, one line per file with at least one probe line: the file, the number of probe lines, the count per native, the first probe line.
+
+HeapTest                        22  2 Int$Add; 20 Int$Mul;           first: OVERFLOW-PROBE Int$Mul -761155213 9
+IntMapTest                      31  4 Int$Sub; 27 Long$Negate;       first: OVERFLOW-PROBE Int$Sub -2147483648 1
+QuickCheckTest              146252  8 Int$Add; 146244 Long$Mul;      first: OVERFLOW-PROBE Long$Mul 25214903917 81803813908983
+RandomTest                     926  926 Long$Mul;                    first: OVERFLOW-PROBE Long$Mul 25214903917 247594353610434
+RangePrototype                  40  40 Int$Sub;                      first: OVERFLOW-PROBE Int$Sub -2147483648 1
+ReflectiveQuickCheckTest    131140  12 Int$Add; 131128 Long$Mul;     first: OVERFLOW-PROBE Long$Mul 25214903917 254418963896843
+intPrim                          2  1 Int$Add; 1 Int$Sub;            first: OVERFLOW-PROBE Int$Sub -2147483648 1
+longPrim                         2  1 Int$Add; 1 Int$Sub;            first: OVERFLOW-PROBE Int$Sub -2147483648 1
+setSum                          22  22 Int$Sub;                      first: OVERFLOW-PROBE Int$Sub -2147483648 1
+simpleSum                        1  1 Int$Sub;                       first: OVERFLOW-PROBE Int$Sub -2147483648 1
+zeno                            32  32 Long$Sub;                     first: OVERFLOW-PROBE Long$Sub -9223372036854775808 1
+
+files with at least one probe line: 11 of 393
+exit codes under the logging shadow:  329 rc=0  57 rc=1  7 rc=255 
+exit codes of base run A:             329 rc=0  57 rc=1  7 rc=255 

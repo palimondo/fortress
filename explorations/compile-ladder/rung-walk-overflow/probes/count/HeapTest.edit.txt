@@ -1,0 +1,41 @@
+n	n lg n	lbuild	lbuild/n	lbuild/nlgn	lconsume	lconsume/n	lconsume/nlgn	lgen	lgen/n	lgen/nlgn	build	build/n	build/nlgn	consume	consume/n	consume/nlgn	gen	gen/n	gen/nlgn
+11	33	1303439/50000	1303439/550000	1303439/1650000	47802257/1000000	47802257/11000000	47802257/33000000	24342447/125000	24342447/1375000	8114149/13750007	14	1498937/1000000	1498937/7000000	1498937/14000000	1089309/125000	1089309/875000	1089309/1750000	4985093/125000	4985093/875000	4985093/17500002	2	24001/100000	24001/200000	24001/200000	4706629/1000000	4706629/2000000	4706629/2000000	5443207/500000	5443207/1000000	5443207/1000000	71761/250000	71761/500000	71761/500000	247889/250000	247889/500000	247889/500000	3648421/1000000	3648421/2000000	3648421/2000000	4529117/1000000	4529117/2000000	4529117/2000000	3385643/1000000	3385643/2000000	3385643/2000000	4086849/500000	4086849/1000000	4086849/1000000	299817/1000000	299817/2000000	299817/2000000	45651/50000	45651/100000	45651/100000	3873691/1000000	3873691/2000000	3873691/2000000
+1	0	145247/250000	145247/250000	1/0	3345107/1000000	3345107/1000000	1/0	3395513/500000	3395513/500000	1/0	163649/1000000	163649/1000000	1/0	10071/31250	10071/31250	1/0	4220667/1000000	4220667/1000000	1/0	130767/1000000	130767/1000000	1/0	348883/1000000	348883/1000000	1/0	1380297/500000	1380297/500000	1/0	137023/1000000	137023/1000000	1/0	278671/1000000	278671/1000000	1/0	11689/4000	11689/4000	1/0
+0	0	43029/500000	1/0	1/0	1200759/1000000	1/0	1/0	1858787/500000	1/0	1/0	89419/1000000	1/0	1/0	2031/125000	1/0	1/0	289259/1000000	1/0	1/0	2587/31250	1/0	1/0	1413/100000	1/0	1/0	245541/1000000	1/0	1/0	779/10000	1/0	1/0	1633/125000	1/0	1/0	222983/1000000	1/0	1/0
+/home/user/fortress-overflow/ProjectFortress/tests/HeapTest.fss:98:6-9:
+IntegerOverflow
+Context:
+/home/user/fortress-overflow/ProjectFortress/tests/HeapTest.fss:98:6-9:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:52:65-67:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3399:9-48:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3399:9-48:
+/home/user/fortress-overflow/Library/Heap.fss:286:5-288:61:
+/home/user/fortress-overflow/Library/Heap.fss:286:5-288:61:
+/home/user/fortress-overflow/ProjectFortress/tests/HeapTest.fss:109:29-31:
+/home/user/fortress-overflow/ProjectFortress/tests/HeapTest.fss:134:9-69:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3399:9-48:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3399:9-48:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1058:25-55:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1058:25-55:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1785:25-45:
+/home/user/fortress-overflow/ProjectFortress/tests/HeapTest.fss:130:9-22:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+rc=1 secs=12

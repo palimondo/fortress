@@ -1,0 +1,21 @@
+component Row146Width
+export Executable
+
+attempt(what: String, f: () -> ZZ64): () =
+  try
+    println(what " = " f())
+  catch e
+    IntegerOverflow => println(what " = IntegerOverflow")
+  end
+
+run(): () = do
+  x: ZZ64 = 2147483647
+  w: ZZ64 = widen(2147483647)
+  println("x: ZZ64 = 2147483647 holds a value of type " x.ilkName)
+  println("w: ZZ64 = widen(2147483647) holds a value of type " w.ilkName)
+  attempt("x + 1", fn () => x + 1)
+  attempt("w + 1", fn () => w + 1)
+  attempt("x DOT x", fn () => x DOT x)
+  attempt("w DOT w", fn () => w DOT w)
+end
+end

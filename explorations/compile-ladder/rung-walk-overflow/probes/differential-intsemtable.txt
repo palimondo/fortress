@@ -1,0 +1,56 @@
+=== $ bin/fortress walk explorations/compile-ladder/rung-int-semantics-compiled/probes/IntSemTableWalk.fss | diff - explorations/compile-ladder/rung-walk-overflow/probes/IntSemTableWalk-stock.txt && echo identical to the saved capture   (row 379's probe table walked on the stock natives, bin/fortress's default heap; saved as probes/IntSemTableWalk-stock.txt) 2026-09-26T03:38:08Z ===
+identical to the saved capture
+=== exit 0 ===
+
+=== $ java -Xmx256m -Xss32m -Dfile.encoding=UTF-8 -cp tmp/count/shadow:$(bin/fortress_classpath 2>/dev/null | tail -1) com.sun.fortress.Shell walk explorations/compile-ladder/rung-int-semantics-compiled/probes/IntSemTableWalk.fss | diff - explorations/compile-ladder/rung-walk-overflow/probes/IntSemTableWalk-edit.txt && echo identical to the saved capture   (the same table walked with the ten natives edited (natives.patch in a shadow classes directory ahead of ProjectFortress/build), -Xmx256m -Xss32m as bin/fortress; saved as probes/IntSemTableWalk-edit.txt) 2026-09-26T03:38:14Z ===
+identical to the saved capture
+=== exit 0 ===
+
+=== $ diff explorations/compile-ladder/rung-walk-overflow/probes/IntSemTableWalk-stock.txt explorations/compile-ladder/rung-walk-overflow/probes/IntSemTableWalk-edit.txt   (stock against edited walk: exactly row 379's lines move, each to IntegerOverflow) 2026-09-26T03:38:19Z ===
+35,40c35,40
+< ZZ32 |MIN| = -2147483648
+< ZZ32 -MIN = -2147483648
+< ZZ32 MIN DIV -1 = -2147483648
+< ZZ64 |MIN| = -9223372036854775808
+< ZZ64 -MIN = -9223372036854775808
+< ZZ64 MIN DIV -1 = -9223372036854775808
+---
+> ZZ32 |MIN| = IntegerOverflow
+> ZZ32 -MIN = IntegerOverflow
+> ZZ32 MIN DIV -1 = IntegerOverflow
+> ZZ64 |MIN| = IntegerOverflow
+> ZZ64 -MIN = IntegerOverflow
+> ZZ64 MIN DIV -1 = IntegerOverflow
+49,50c49,50
+< ZZ64 MIN 2 = 0
+< ZZ64 MIN -1 = -9223372036854775808
+---
+> ZZ64 MIN 2 = IntegerOverflow
+> ZZ64 MIN -1 = IntegerOverflow
+52c52
+< ZZ64 2^32 2^31 = -9223372036854775808
+---
+> ZZ64 2^32 2^31 = IntegerOverflow
+=== exit 1 ===
+
+=== $ diff <(sed 's/ = */ = /' explorations/compile-ladder/rung-int-semantics-compiled/probes/IntSemTable-compiled-after.txt) <(sed 's/ = */ = /' explorations/compile-ladder/rung-walk-overflow/probes/IntSemTableWalk-edit.txt)   (edited walk against the compiled path's answers on file (spacing normalised): no overflow line differs; what remains is ZZ64 3 LSHIFT 63, whose receiver threeL: ZZ64 = 3 holds an Int under walk (row 146), and the DOT spellings walk does not declare) 2026-09-26T03:38:19Z ===
+1d0
+< compile rc=0
+16c15
+< ZZ64 3 LSHIFT 63 = -9223372036854775808
+---
+> ZZ64 3 LSHIFT 63 = 0
+59,67d57
+< ZZ32 DOTMINUS 0 = 0
+< ZZ64 DOTMINUS 0 = 0
+< ZZ64 DOTMINUS MIN = 9223372036854775807
+< ZZ64 0 DOTCROSS 5 = 0
+< ZZ64 5 DOTCROSS 0 = 0
+< ZZ64 0 DOTCROSS 2^32 = 0
+< ZZ64 MIN DOTCROSS 2 = -9223372036854775808
+< ZZ64 MIN DOTCROSS -1 = 9223372036854775807
+< ZZ64 2^32 DOTCROSS 2^31 = 9223372036854775807
+74d63
+< run rc=0
+=== exit 1 ===
+
