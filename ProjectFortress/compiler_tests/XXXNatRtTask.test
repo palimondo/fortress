@@ -1,0 +1,3 @@
+tests=XXXNatRtTask
+run
+run_out_contains=REACHED

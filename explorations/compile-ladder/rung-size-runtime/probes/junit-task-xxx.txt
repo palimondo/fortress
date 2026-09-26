@@ -1,0 +1,25 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.60 2.95 2.08; JDK 25; FORTRESS_THREADS=1
+# build: 3bca6b8bc plus the working tree's source edits, if any: 
+########## junit compiler_tests/NatRtTaskLink.test
+. link compiler_tests/XXXNatRtTask  OK (time = 4774ms)
+
+Time: 4.804
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatRtTask.test
+. run compiler_tests/XXXNatRtTask (698ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 11 more
+Caused by: java.io.IOException: Resource not found : CONST.class
+	... 12 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.712
+
+OK (1 test)
+
+exit=0

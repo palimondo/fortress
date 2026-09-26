@@ -1,0 +1,16 @@
+component ZrTaskT
+export Executable
+object BoxT[\T\](v: ZZ32) end
+last: Any := 0
+setLast(x: Any): () = atomic do last := x end
+acc: ZZ32 := 0
+accAdd(x: ZZ32): () = atomic do acc := acc + x end
+both[\T\](v: ZZ32): () = do
+  do accAdd(v) also do setLast(BoxT[\T\](v)) end
+end
+which(x: Any): String = typecase x of BoxT[\ZZ32\] => "zz32"; BoxT[\String\] => "string"; else => "other" end
+run() = do
+  both[\String\](1)
+  println(which(last))
+end
+end

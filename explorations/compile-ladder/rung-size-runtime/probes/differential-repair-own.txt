@@ -1,0 +1,220 @@
+# the repair round own probes on the build of 3bca6b8bc, differential.sh (walk against the compiled run at FORTRESS_THREADS=1 and 4)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.20 3.03 1.81; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrTask.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 11 more
+Caused by: java.io.IOException: Resource not found : CONST.class
+	... 12 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+	... 5 more
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 6 more
+Caused by: java.io.IOException: Resource not found : CONST.class
+	... 7 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+10
+exit=0
+---------- walk, FORTRESS_THREADS=4
+10
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrTaskS.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: k$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 12 more
+Caused by: java.io.IOException: Resource not found : k$RTTIc.class
+	... 13 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: k$RTTIc
+	... 5 more
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : k$RTTIc.class
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+four
+exit=0
+---------- walk, FORTRESS_THREADS=4
+four
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrTaskT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: T$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 12 more
+Caused by: java.io.IOException: Resource not found : T$RTTIc.class
+	... 13 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: T$RTTIc
+	... 5 more
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : T$RTTIc.class
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+string
+exit=0
+---------- walk, FORTRESS_THREADS=4
+string
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrTraitClosure.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+4
+6
+9
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+4
+6
+9
+exit=0
+---------- walk, FORTRESS_THREADS=1
+4
+6
+9
+exit=0
+---------- walk, FORTRESS_THREADS=4
+4
+6
+9
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrMixed.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+7
+string-3
+zz32-3
+12
+pair-2-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+7
+string-3
+zz32-3
+12
+pair-2-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+7
+string-3
+zz32-3
+12
+pair-2-1
+exit=0
+---------- walk, FORTRESS_THREADS=4
+7
+string-3
+zz32-3
+12
+pair-2-1
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrIntKind.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+7
+15
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+7
+15
+exit=0
+---------- walk, FORTRESS_THREADS=1
+7
+15
+exit=0
+---------- walk, FORTRESS_THREADS=4
+7
+15
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrBigClosure.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+3000000000
+18446744073709551615
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+3000000000
+18446744073709551615
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/ZrBigClosure.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/ZrBigClosure.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/ZrBigClosure.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/ZrBigClosure.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrHugeType.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+two-to-63
+two-to-64-less-1
+other
+generic
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+two-to-63
+two-to-64-less-1
+other
+generic
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/ZrHugeType.fss:3:13-16:
+Negative nats are unNATural: -1
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/ZrHugeType.fss:3:13-16:
+explorations/compile-ladder/rung-size-runtime/probes/ZrHugeType.fss:4:1-54:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/ZrHugeType.fss:3:13-16:
+Negative nats are unNATural: -1
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/ZrHugeType.fss:3:13-16:
+explorations/compile-ladder/rung-size-runtime/probes/ZrHugeType.fss:4:1-54:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1

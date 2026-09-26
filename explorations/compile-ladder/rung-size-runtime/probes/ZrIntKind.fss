@@ -1,0 +1,10 @@
+component ZrIntKind
+export Executable
+object IBox[\int i\](v: ZZ32) end
+viaFn[\int i\](b: IBox[\i\]): ZZ32 = (fn () => i)()
+sumI[\int i\](b: IBox[\i\]): ZZ32 = SUM[j <- 0#3] i
+run() = do
+  println(viaFn(IBox[\7\](0)))
+  println(sumI(IBox[\5\](0)))
+end
+end

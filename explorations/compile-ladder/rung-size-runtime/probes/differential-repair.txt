@@ -1,0 +1,339 @@
+# the repair round differential on the build of 3bca6b8bc: sk-diff.sh over the skeptic probes, then differential.sh over NatRtClosure and NatRtBigSize
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.85 0.91 0.94; JDK 25; FORTRESS_THREADS=1
+################################ ZsVLa.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+10
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+10
+exit=0
+---------- walk, FORTRESS_THREADS=1
+10
+exit=0
+---------- walk, FORTRESS_THREADS=4
+10
+exit=0
+################################ ZsVLb.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+1000
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+1000
+exit=0
+---------- walk, FORTRESS_THREADS=1
+1000
+exit=0
+---------- walk, FORTRESS_THREADS=4
+1000
+exit=0
+################################ ZsVLc.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+21
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+21
+exit=0
+---------- walk, FORTRESS_THREADS=1
+21
+exit=0
+---------- walk, FORTRESS_THREADS=4
+21
+exit=0
+################################ ZsVLd.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+9
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+9
+exit=0
+---------- walk, FORTRESS_THREADS=1
+9
+exit=0
+---------- walk, FORTRESS_THREADS=4
+9
+exit=0
+################################ ZsVLe.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+3
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+3
+exit=0
+---------- walk, FORTRESS_THREADS=1
+3
+exit=0
+---------- walk, FORTRESS_THREADS=4
+3
+exit=0
+################################ ZsVLf.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+10
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+10
+exit=0
+---------- walk, FORTRESS_THREADS=1
+10
+exit=0
+---------- walk, FORTRESS_THREADS=4
+10
+exit=0
+################################ ZsVLfT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+10
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+10
+exit=0
+---------- walk, FORTRESS_THREADS=1
+10
+exit=0
+---------- walk, FORTRESS_THREADS=4
+10
+exit=0
+################################ ZsVLg.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+three
+four
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+three
+four
+exit=0
+---------- walk, FORTRESS_THREADS=1
+three
+four
+exit=0
+---------- walk, FORTRESS_THREADS=4
+three
+four
+exit=0
+################################ ZsVLgT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+zz32
+string
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+zz32
+string
+exit=0
+---------- walk, FORTRESS_THREADS=1
+zz32
+string
+exit=0
+---------- walk, FORTRESS_THREADS=4
+zz32
+string
+exit=0
+################################ ZsBigNat.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+2147483647
+3000000000
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+2147483647
+3000000000
+exit=0
+---------- walk, FORTRESS_THREADS=1
+2147483647
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNat.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNat.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+2147483647
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNat.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNat.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ZsBigNatType.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+big
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+big
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:3:13-16:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:4:1-39:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:3:13-16:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:4:1-39:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ZsValArith.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+10
+k is 3
+k is not 3
+k= 5
+12
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+10
+k is 3
+k is not 3
+k= 5
+12
+exit=0
+---------- walk, FORTRESS_THREADS=1
+10
+k is 3
+k is not 3
+k=5
+12
+exit=0
+---------- walk, FORTRESS_THREADS=4
+10
+k is 3
+k is not 3
+k=5
+12
+exit=0
+################################ ZsValField.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+4
+10
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+4
+10
+exit=0
+---------- walk, FORTRESS_THREADS=1
+4
+10
+exit=0
+---------- walk, FORTRESS_THREADS=4
+4
+10
+exit=0
+################################ ZsFieldLit2.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+6
+7
+7
+9
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+6
+7
+7
+9
+exit=0
+---------- walk, FORTRESS_THREADS=1
+6
+7
+7
+9
+exit=0
+---------- walk, FORTRESS_THREADS=4
+6
+7
+7
+9
+exit=0
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.41 3.03 1.76; JDK 25; FORTRESS_THREADS=1
+################################ ProjectFortress/compiler_tests/NatRtClosure.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtBigSize.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+2147483647
+2147483648
+3000000000
+4294967295
+9223372036854775807
+9223372036854775808
+18446744073709551615
+PASS
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+2147483647
+2147483648
+3000000000
+4294967295
+9223372036854775807
+9223372036854775808
+18446744073709551615
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/NatRtBigSize.fss:4:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+ProjectFortress/compiler_tests/NatRtBigSize.fss:4:13-16:
+ProjectFortress/compiler_tests/NatRtBigSize.fss:7:1-39:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/NatRtBigSize.fss:4:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+ProjectFortress/compiler_tests/NatRtBigSize.fss:4:13-16:
+ProjectFortress/compiler_tests/NatRtBigSize.fss:7:1-39:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
