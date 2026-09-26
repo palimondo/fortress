@@ -1,0 +1,25 @@
+(*) Explains AltEmptyCoerce's walk failure.  The same shape (a coercion declared in a generic
+(*) trait, applied at a typed binding), except that the trait's parameter T also appears in the
+(*) coercion's parameter type, so it can be found from the value converted.  If walk converts
+(*) here, AltEmptyCoerce fails because T appears only in the result and walk does not take it
+(*) from the declared type.
+component AltGenericCoerceArg
+export Executable
+
+object Mark[\T extends Any\] end
+
+trait Wrap[\T extends Any\]
+  coerce(m: Mark[\T\]) = WrapImpl[\T\]
+  size(): ZZ32
+end
+
+object WrapImpl[\T extends Any\] extends Wrap[\T\]
+  size(): ZZ32 = 0
+end
+
+run():() = do
+  w: Wrap[\ZZ32\] = Mark[\ZZ32\]
+  println(w.size())
+end
+
+end

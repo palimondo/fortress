@@ -1,0 +1,25 @@
+(*) AltEveryContra.fss with D[\Object\] in place of D[\Any\]: the code generator refuses a static
+(*) argument Any in an extends clause (CodeGen.java:5771-5778, AnyType falls through to "Only
+(*) handling some static args of generic types in extends clause"), so this separates that gap
+(*) from contravariance itself.
+component AltEveryContraObject
+export Executable
+
+trait D[\contravariant T extends Any\]
+  describe(x: T): String
+end
+
+trait C extends D[\Object\]
+  describe(x: Object): String = "C, a D of every T"
+end
+
+object O extends C end
+
+run():() = do
+  x: D[\ZZ32\] = O
+  y: D[\String\] = O
+  println(x.describe(3))
+  println(y.describe("s"))
+end
+
+end

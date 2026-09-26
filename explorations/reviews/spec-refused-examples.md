@@ -1,4 +1,4 @@
-<!-- Review written 2026-09-26 by a delegated worker session, for Pavol: which of the specification's own examples the kept multiple instantiation exclusion rule (route A) refuses, and what each should become. Built fresh from Specification/, the two libraries, Papers/ and the git history; the revival's planning notes on this question (CLIMB-BATCH-4.md, notes mentioning S2) were not read. Probes and captures under explorations/reviews/spec-refused-examples/. -->
+<!-- Review written 2026-09-26 by a delegated worker session, for Pavol: which of the specification's own examples the kept multiple instantiation exclusion rule (route A) refuses, and what each should become. Built fresh from Specification/, the two libraries, Papers/ and the git history; the revival's planning notes on this question (CLIMB-BATCH-4.md, notes mentioning S2) were not read. Revised the same day with the alternatives' runs (round 2 by the coordinator on the tree carrying climb batch 4, round 3 by this session). Probes and captures under explorations/reviews/spec-refused-examples/. -->
 
 # The specification's examples that route A refuses, and what each should become
 
@@ -33,12 +33,27 @@ source at the cited line or commit; **[inferred]** means my reasoning, not check
 
 ## What was found
 
-Fourteen probes were run, one at a time, under walk and through compile and run, in a private
-cache outside the repository (`spec-refused-examples/run.sh`; build `ProjectFortress/build` of
-2026-09-24 03:02 on `main` at `4d5c4c492`, JDK 25). Eight more probes, the alternatives, are
-written and were **not run**: after the fourteenth run this session's permission system refused
-further probe runs (and refused a commit), so they wait under `probes/Alt*.fss` for whoever may
-run them.
+Twenty-four probes, all run one at a time under walk and through compile and run, in a private
+cache outside the repository (`spec-refused-examples/run.sh`, JDK 25). They ran in three rounds:
+- **Round 1, 14 probes.** Run by this review on `main` at `4d5c4c492`, with the
+  `ProjectFortress/build` of 2026-09-24 03:02. These are the examples as written, plus the shapes
+  that reach the rule. None of them compiled, so the runner's run step was never exercised.
+- **Round 2, the 8 alternatives.** The permission system refused them to this review; the
+  coordinator ran them on the tree carrying climb batch 4:
+  - rung C, coercion in the interpreter (`b628871a2`,
+    `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java`);
+  - rung N, `nat` checking in the compiled checker;
+  - rung K, the `ZZ32` shift pair.
+
+  The coordinator also mended the runner's run step, which now goes through `MainWrapper` with
+  the private cache on the class path, since `bin/fortress run` does not read a private cache.
+  The 14 round-1 captures came out byte-identical (`git diff 609053b6f 7723ab5ce` touches none
+  of them), so batch 4 changed nothing measured there.
+- **Round 3, two probes** that explain two of round 2's results. Run by this review on `main`
+  at `e4a8234f8`, with the build of 2026-09-26 06:08, which carries rung C.
+
+Where the rounds changed a claim of the first version of this note, the text says **confirmed**
+or **overturned**.
 
 The examples the rule refuses, grouped by where they sit:
 
@@ -110,6 +125,12 @@ two libraries, the papers and the history, the library's own way first.
    (`Library/CovariantCollection.fss:96`), `emptyList[\E\](): List[\E\]` (`Library/List.fsi:121`),
    `object NoReductionPair[\R\]` (`FortressLibrary.fsi:1748`). Every use names the type argument,
    directly or through the factory. **[read]**
+   - **Runs on both paths [measured, `AltEmptyParam`].** Walk and the compiled run each print
+     `1` and `0`.
+   - **Confirmed:** without the argument written it fails on both paths, as the record said
+     [measured, `AltEmptyParamBare`]. Walk gives `InterpreterBug: Couldn't figure out
+     SEmpty[\T extends Any\](uninstantiated) <: SList[\ZZ32\]`; compile gives `T is not in the
+     kind env`, reported at the object's declaration.
 2. **A non-parametric marker object plus a coercion in the generic trait**: Steele's shape of 2011
    for the compiler world. `object Nothing end` with `coerce(_: Nothing) = NothingObject[\T\]`
    (`not_working_library_tests/MaybeTest1.fss:57-58, :83`, `7a86ba79c`, 2011-04-19), the
@@ -117,17 +138,39 @@ two libraries, the papers and the history, the library's own way first.
    (`Library/CompilerLibrary.fsi:223-236`, `6823d52b6`), and `Option`/`None`
    (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:680-691`, on the trunk since `f85e96424`,
    2012-05-30). The use site keeps a bare `Nothing`. **[read]**
+   - **Compiled path: compiles and runs [measured, `AltEmptyCoerce`].** It prints `1` and `0`.
+   - **Walk: refused, even with rung C [measured, `AltEmptyCoerce`].** The typed binding fails
+     with `RHS expression type SEmptyMark is not assignable to LHS type SList[\ZZ32\]`.
+   - **Why:** under walk a coercion declared in a *generic* trait is not applied. Rung C left
+     this open as ledger row 389, with the expected-failure test
+     `ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss`.
+   - **What it is not:** round 3's `AltGenericCoerceArg` puts the trait's parameter into the
+     coercion's argument type (`coerce(m: Mark[\T\])`). Walk still refuses it, and the compiled
+     path runs it [measured]. So the cause is row 389 itself, not the fact that `SEmptyMark`
+     leaves `T` to be found from the declared type.
+   - **Overturned:** the first version said walk would get this way from batch 4's coercion
+     rung. Rung C landed and does not give it; row 389 must be fixed first.
 3. **A covariant generic and one object at the bottom type**, Scala's `Nil` and Kotlin's
    `EmptyList`: `trait List[\covariant T\]`, `object Empty extends List[\BottomType\]`. The
-   `covariant` keyword exists (below); the bottom type cannot be written: the specification's
+   `covariant` keyword exists (below). The bottom type cannot be written: the specification's
    internal FAQ says "Can a programmer write `BottomType`? No." (`appendices/FAQ.tex:148-151`),
-   and the parser and disambiguator have no such name (only the error-message printer and the
-   interpreter's internal type use it) **[read; inferred that the name is unbound; the probe
-   `AltEmptyBottom` is written, not run]**.
+   and the parser and disambiguator have no such name; only the error-message printer and the
+   interpreter's internal type use it. **[read]**
+   - **Confirmed [measured, `AltEmptyBottom`]:** both paths stop at `BottomType is undefined`.
+   - Even with the name bound, the covariance under it runs on neither path (Idea 2, way 2).
 4. **A contravariant generic and one instantiation at the top**: when the trait's parameter is
    only consumed, `trait D[\contravariant T\]` and `trait C extends D[\Any\]` make `C` a `D[\T\]`
-   for every `T`. Fits E2's shape, not E3's or E4's. **[inferred; probe `AltEveryContra` written,
-   not run]**
+   for every `T`. It fits E2's shape, not E3's or E4's. **[inferred]**
+   - **Overturned: it runs on neither path.**
+   - `AltEveryContra` [measured]: the compiled checker accepts it, then the code generator crashes
+     with `CompilerError: Only handling some static args of generic types in extends clause`.
+     `Any` as a static argument in an extends clause falls through its cases
+     (`CodeGen.java:5771-5778`).
+   - `AltEveryContraObject`, round 3, with `D[\Object\]` in place of `D[\Any\]` [measured]: it
+     compiles, then dies at run time with `IncompatibleClassChangeError: Class ...$O does not
+     implement the requested interface ...D?...FZZ32?`.
+   - Walk refuses both at the typed binding: `RHS expression type O is not assignable to LHS
+     type D[\ZZ32\]`.
 5. **A non-parametric root trait above every instantiation**: `AnyMaybe`, "This trait makes excludes
    work without where clauses, and allows opr = to remain non-parametric"
    (`FortressLibrary.fsi:814-822`), `AnyList` (`List.fsi:55-60`), `AnyCovColl` and `AnyEmpty`
@@ -152,8 +195,11 @@ two libraries, the papers and the history, the library's own way first.
 1. **Invariant parameters and an explicit widening function whose bounded parameters say `S extends T`**:
    the library's way. `private upward[\R, I extends R, T extends R\](_: Empty[\I\], s: Empty[\T\]): Empty[\R\]`
    and `opr APPCOV[\T, A extends T, B extends T\](a: CovariantCollection[\A\], b: CovariantCollection[\B\]): CovariantCollection[\T\]`
-   (`CovariantCollection.fss:14-35`, Maessen, `e22945bc7`, 2008-11-01). **[read; probe
-   `AltCovariantBounded` written, not run]**
+   (`CovariantCollection.fss:14-35`, Maessen, `e22945bc7`, 2008-11-01). **[read]**
+   - **Runs on both paths [measured, `AltCovariantBounded`].**
+     `widen[\T extends Any, S extends T\](c: C[\S\]): C[\T\] = CImpl[\T\](c.item)`, called as
+     `widen[\Animal, Dog\](d)`, prints `dog` under walk and in the compiled run.
+   - The one alternative for covariance that runs anywhere.
 2. **Declaration-site variance**: `trait C[\covariant S\]` or `[\contravariant S\]`. Keywords
    added by Jean-Baptiste Tristan (`26718e298`, 2011-12-06); subtyping made variance-aware by
    Tristan King (`20a8febe9`, 2012-02-29; `TypeAnalyzer.scala:237-258`); a variance checker
@@ -161,8 +207,19 @@ two libraries, the papers and the history, the library's own way first.
    (`compiler_tests/VarianceTest.test`, `1dc6cb3bf`, 2012-03-14) that pass the gate's type check
    **[measured earlier: `compile-ladder/climb-batch-1/gate/testFast.out:384-392`]**. The tests
    only type-check; no code under `interpreter/` or `compiler/codegen/` reads a parameter's
-   variance **[read]**, so whether walk and the compiled program honour it is unknown
-   **[probe `AltCovariantVariance` written, not run]**. Formalised by the team in Welterweight
+   variance **[read]**.
+   - **Measured, `AltCovariantVariance`: variance lives in the compiled checker only.** The
+     checker accepts `a: C[\Animal\] = d` with `d: C[\Dog\]`, and the compiled run then dies with
+     `IncompatibleClassChangeError: Class ...CImpl?...Dog? does not implement the requested
+     interface ...C?...Animal?`. The code generator gives `CImpl[\Dog\]` only its own
+     instantiation's interface **[inferred from the error]**.
+   - Walk refuses the binding: `RHS expression type CImpl[\Dog\] is not assignable to LHS type
+     C[\Animal\]`.
+   - This is the same kind of run-time failure the record already has for route C's specialisation hole
+     (`FACTS.md`, the entry of 2026-09-24).
+   - **Overturned:** the first version left open whether the paths honour variance. Neither does.
+
+   Formalised by the team in Welterweight
    Fortress (`Papers/Welterweight/grammar.tick:48-49`, "Type parameters of traits can be
    covariant, contravariant, or invariant", `paper.tick:556`), with the rule generalised as the
    **Ancestors Meet Rule**: a trait may extend two instances of one trait only if it also extends
@@ -175,9 +232,18 @@ two libraries, the papers and the history, the library's own way first.
    bounds, `grammar.tick:44-47`). **[read]**
 4. **A generic coercion between instantiations**, the specification's own spelling:
    `coerce[\S extends Number\](x: Vector[\S\]) where {T widens or coerces S}`
-   (`basic/conversions-coercions.tex:213-216`). Walk has no coercion today (ledger row 19); batch
-   4's first rung is teaching it (`POSITIONS.md:92`). **[read; probe `AltCovariantCoerce` written,
-   not run]**
+   (`basic/conversions-coercions.tex:213-216`). **[read]**
+   - **Refused on both paths [measured, `AltCovariantCoerce`].**
+   - The compiled checker reports `Cyclic type hierarchy: Type C transitively extends/coerces to
+     itself.` Its acyclicity check records a coercion's source by trait name only, dropping the
+     static arguments (`TypeHierarchyChecker.scala:102-121`). So `C[\T\]`'s coercion from
+     `C[\S\]` reads as `C` coercing from `C`. **[read]**
+   - Walk refuses the binding, by ledger row 389, as in Idea 1's way 2.
+   - **New finding:** the specification's own example of this spelling, `Vector[\T\]` coercing
+     from `Vector[\S\]` (`conversions-coercions.tex:213-216`), is the same shape. By that code the
+     compiled checker would refuse it too. **[inferred from the probe and the code; the
+     specification's text itself not run]** This defect is not route A's; it is not in the ledger
+     as far as I found.
 5. **A non-parametric root with `Any`-typed operations**: `opr APPCOV(a: AnyCovColl, b: AnyCovColl): AnyCovColl`,
    `CVReduction extends MonoidReduction[\AnyCovColl\]` (`CovariantCollection.fsi:16`, `:45-48`),
    `List`'s `CVConcat` (`List.fss:237-242`): covariance recovered at run time, not in types. **[read]**
@@ -233,13 +299,50 @@ two libraries, the papers and the history, the library's own way first.
   Plussable[\Right\] and Plussable[\Wrong\] exclude each other. Parent must not extend them."
   **[measured]**. `NestedTower` (E5's shape): walk runs; compile refuses with five errors, "Type
   ZZx excludes QQx but it extends QQx" among them **[measured]**.
-- **The library's ways**, from the record: a parametric object with its argument written
-  compiles and runs on both paths, and a bare one fails on both **[measured earlier, `FACTS.md`,
-  the entry of 2026-09-19]**; the marker-plus-coercion `Nothing` runs on the compiled path in the
-  gated test `ProjectFortress/library_tests/MaybeRungM.fss:15` (`coerced: Maybe[\ZZ32\] = Nothing`)
-  **[read; gated]**; walk ignores coercion declarations (ledger row 19) **[measured earlier]**.
-- **Not measured**: variance on walk and on the compiled run, a writable bottom type, the generic
-  coercion, the widening function, the contravariant top: the eight `Alt*` probes.
+- **The alternatives**, rounds 2 and 3 **[measured]**. Exit codes are given in the order
+  compile, compiled run, walk; "none" means the compiled run never happened.
+  - `AltEmptyParam`, the parametric `Empty[\T\]` plus a factory: 0, 0, 0. It prints `1` and `0`
+    on both paths.
+  - `AltEmptyParamBare`, the same with the argument left to inference: 255, none, 1.
+    - compile: `T is not in the kind env`;
+    - walk: `InterpreterBug ... uninstantiated`.
+  - `AltEmptyCoerce`, a marker object plus a `coerce` in `SList[\T\]`: 0, 0, 1. Walk fails by
+    row 389: a generic trait's coercion is not applied.
+  - `AltGenericCoerceArg`, the same with `T` in the coercion's argument: 0, 0, 1. Walk fails by
+    row 389.
+  - `AltEmptyBottom`, a covariant list with `Empty extends SList[\BottomType\]`: 255, none, 255.
+    Both paths report `BottomType is undefined`.
+  - `AltCovariantBounded`, the widening function `widen[\T, S extends T\]`: 0, 0, 0. It prints
+    `dog` on both paths.
+  - `AltCovariantVariance`, `trait C[\covariant S\]`: 0, 1, 1.
+    - run: `IncompatibleClassChangeError`;
+    - walk: the binding is not assignable.
+  - `AltCovariantCoerce`, `coerce[\S extends T\](c: C[\S\])`: 255, none, 1.
+    - compile: the checker reports `Cyclic type hierarchy`;
+    - walk: row 389.
+  - `AltEveryContra`, `D[\contravariant T\]` with `C extends D[\Any\]`: 1, none, 1.
+    - compile: the code generator crashes on `Any`;
+    - walk: the binding is not assignable.
+  - `AltEveryContraObject`, the same with `D[\Object\]`: 0, 1, 1.
+    - run: `IncompatibleClassChangeError`;
+    - walk: the binding is not assignable.
+
+  Rung C's coercion does apply at typed bindings under walk: `Coercions.coerceToDeclared`, one
+  of the three places named in its commit. The walk failures of the two coercion rows are
+  therefore row 389 and nothing more general.
+
+  What the round-2 and round-3 results come to:
+  - **Two ways run on both paths:** the library's parametric object and the library's widening
+    function.
+  - **One runs only compiled:** the compiled prelude's marker plus coercion.
+  - **Everything that relies on variance runs on neither path.** The checker alone knows it.
+  - Neither the bottom type nor the generic coercion gets as far as a run.
+- **The library's ways, from the earlier record, agree with this:** a parametric object with its
+  argument written compiles and runs on both paths, and a bare one fails on both **[measured
+  earlier, `FACTS.md`, the entry of 2026-09-19; confirmed by `AltEmptyParam`,
+  `AltEmptyParamBare`]**. The marker-plus-coercion `Nothing` runs on the compiled path in the gated
+  test `ProjectFortress/library_tests/MaybeRungM.fss:15` (`coerced: Maybe[\ZZ32\] = Nothing`)
+  **[read; gated]**.
 
 ### 3. What the specification's prose says, including under another spelling
 
@@ -300,7 +403,8 @@ two libraries, the papers and the history, the library's own way first.
 - For E1, the library never wrote the idiom except as a comment (`TypeProxy`'s `__Proxy`) and never
   used the 2012 `covariant` keyword (no occurrence under `Library/`) **[read]**. **Its way:
   invariant parameters, a widening function with bounded parameters, and an untyped root for the
-  run-time join.**
+  run-time join.** That way is also the only one measured to run on both paths
+  (`AltCovariantBounded`).
 - For E5 to E7: the interpreter library keeps the nested tower (`NN64`, `ZZ32`, `ZZ64`, `ZZ` each
   `Integral[\...\]` at its own level, `FortressLibrary.fsi:412-537`), which is what route A
   flattens; its `Object` carries no algebra. The compiler prelude was flattened by Steele in 2011.
@@ -404,17 +508,38 @@ and keeps the original text and route C recoverable (2026-09-24, `POSITIONS.md:8
 - **Library practice**: parametric objects with factories (E3, E4), invariant parameters with
   widening functions (E1), no algebra on `Object` (E7), and, after the flattening rung, flat
   numbers (E5, E6).
-- **Where two principles pull apart, E1**: the type group's late position is declaration-site
-  variance; the library never used it and uses widening functions. Walk and the code generator
-  read no variance, so writing `covariant` into the specification before a probe shows both paths
-  honour it would open the discrepancy Pavol's 09-24 requirement forbids. A probe settles it; his
-  2026-09-22 rule is that such a fork is probed before it is decided (`POSITIONS.md:71`). The
-  probe is written (`AltCovariantVariance.fss`).
+- **E1 was the one place where two principles pulled apart, and the probe has settled it.**
+  - The type group's late position is declaration-site variance; the library never used it and
+    uses widening functions.
+  - The first version of this note left the fork to a probe, per his rule of 2026-09-22 that a
+    fork a probe can settle is probed before it is decided (`POSITIONS.md:71`).
+  - The probe says variance is the compiled checker's alone: it type-checks, dies at run time
+    with `IncompatibleClassChangeError`, and walk refuses it (`AltCovariantVariance`,
+    `AltEveryContraObject`) **[measured]**.
+  - So writing `covariant` into the specification now would open exactly the discrepancy his
+    09-24 requirement forbids: a specified construct that runs on neither path. The late
+    position describes a checker feature the team never finished at run time.
+  - The library's widening function runs on both paths (`AltCovariantBounded`). Late-over-early
+    and library practice no longer conflict for anything that can be written today.
 - **Row 331 is changed in meaning, not in outcome.** Its "future work gated on where clauses"
-  (`POSITIONS.md:51`) now leads to a refusal, so the specification's bare `Nothing` has only two
-  roads left under route A: a coercion from a marker (walk needs batch 4's coercion rung), or
-  covariance plus a writable bottom type (a language addition). Worklist item 12, "bind
-  where-clause variables in `extends`", stands in the same light. **[inferred]**
+  (`POSITIONS.md:51`) now leads to a refusal. Under route A the specification's bare `Nothing`
+  has only two roads left:
+  - A coercion from a marker. It runs compiled today (`AltEmptyCoerce`, `MaybeRungM`). Walk needs
+    ledger row 389 fixed, which rung C did not cover **[measured]**. The first version said
+    "walk needs batch 4's coercion rung"; that is **overturned**.
+  - Covariance plus a writable bottom type. That is a language addition, and both halves are now
+    measured absent at run time.
+
+  Worklist item 12, "bind where-clause variables in `extends`", stands in the same light.
+  **[inferred]**
+- **Two defects outside route A came up, and the revision should not lean on either:**
+  - variance is not carried to run time;
+  - the compiled checker's cycle check drops static arguments, which refuses the specification's
+    own generic coercion example (`conversions-coercions.tex:213-216`).
+
+  Neither is in the ledger as far as I found. They join the operator-argument failure
+  (`OprSingle`) as candidate rows. **[measured for the probes' shapes; inferred for the
+  specification's own example]**
 - **No open discrepancy**: the specification must also say the rule (it says the opposite at
   `trait-parameters.tex:339-340` and `:365-367`), and, since the implemented rule ignores operator
   arguments, say whether operator arguments count. **[read; inferred]**
@@ -430,36 +555,63 @@ and keeps the original text and route C recoverable (2026-09-24, `POSITIONS.md:8
 
 **E3, the `Empty` list** (the example for "object declarations may include where clauses"):
 1. The library's way: `object Empty[\T\] extends List[\T\]` and a factory `empty[\T\]()`, with the
-   original shown as refused. Commits him to: uses that name the element type until inference
-   exists; a different example for a where clause on an object, one that constrains the object's
-   own parameters (not yet written; the code generator refuses any object with a where clause
-   today, `CodeGen.java:4088`).
+   original shown as refused. Runs on both paths today (`AltEmptyParam`). Commits him to:
+   - uses that name the element type until inference exists (`AltEmptyParamBare` fails on both
+     paths);
+   - a different example for a where clause on an object, one that constrains the object's own
+     parameters. It is not yet written, and the code generator refuses any object with a where
+     clause today (`CodeGen.java:4088`).
 2. The compiled prelude's way: `object Empty end` and `coerce(_: Empty) = EmptyList[\T\]` in
-   `List[\T\]`. Commits him to: the example moving to the coercion chapter; walk depends on batch
-   4's coercion rung; two names for one idea, against row 331's choice for `Nothing`.
-3. Covariance and a bottom object, `object Empty extends List[\BottomType\]`. Commits him to: a
-   writable bottom type (the FAQ says no), variance in the specification, and variance at run time
-   on both paths, none of it measured.
+   `List[\T\]`. Runs compiled; walk refuses it until ledger row 389 is fixed (`AltEmptyCoerce`).
+   Commits him to:
+   - the example moving to the coercion chapter;
+   - a walk fix beyond rung C;
+   - two names for one idea, against row 331's choice for `Nothing`.
+3. Covariance and a bottom object, `object Empty extends List[\BottomType\]`. Measured dead on
+   both paths: the name is unbound (`AltEmptyBottom`), and variance does not reach run time
+   (`AltCovariantVariance`). Commits him to three new things:
+   - a writable bottom type, which the FAQ says no to;
+   - variance in the specification;
+   - variance built into both paths.
 4. Drop the example and state the rule. Commits him to: the where-clause section losing its
    object example.
 
 **E2, "a subtrait of every instantiation"**:
 1. Keep it as the rule's counterexample: the paragraph already explains the trouble; it gains one
    sentence that the declaration is refused. Commits him to nothing else.
-2. Replace it with `trait C extends D[\Any\]` over a contravariant `D`. Commits him to variance in
-   the specification (as E1's option 2).
+2. Replace it with `trait C extends D[\Any\]` over a contravariant `D`. Measured dead on both
+   paths:
+   - with `D[\Any\]` the code generator crashes (`AltEveryContra`);
+   - with `D[\Object\]` the compiled run dies with `IncompatibleClassChangeError`
+     (`AltEveryContraObject`);
+   - walk refuses both.
+
+   Commits him to variance at run time on both paths, as E1's option 2, plus the code generator
+   handling `Any` as a static argument in an extends clause.
 3. Drop it.
 
 **E1, covariance**:
 1. The library's way: parameters are invariant; show the self-extension as refused and the
-   widening function `widen[\T, S extends T\](c: C[\S\]): C[\T\]` as the way. Commits him to: the
-   specification describing what both paths run today; covariance stays a library pattern.
+   widening function `widen[\T, S extends T\](c: C[\S\]): C[\T\]` as the way. Runs on both paths
+   today, printing `dog` (`AltCovariantBounded`). Commits him to:
+   - the specification describing what both paths run;
+   - covariance staying a library pattern, with explicit static arguments at the call.
 2. The type group's late spelling: `trait C[\covariant S\]`, with Welterweight's and Naden's rule
-   for variant parameters. Commits him to: grammar and prose in the specification; walk and the
-   code generator honouring variance (unmeasured, the probe is written); later, the checker's
-   exclusion test made variance-aware when a type extends two instances of a covariant trait.
-3. The coercion chapter's spelling: `coerce[\S extends T\](x: C[\S\])`. Commits him to: coercion in
-   walk (batch 4) and a generic coercion on the compiled path (unmeasured).
+   for variant parameters. Measured: the checker accepts it; the compiled run dies with
+   `IncompatibleClassChangeError`; walk refuses it (`AltCovariantVariance`). Commits him to:
+   - grammar and prose in the specification;
+   - building variance at run time on both paths: the code generator giving an object the
+     interfaces of its supertype instantiations, and walk's subtyping reading variance;
+   - later, the checker's exclusion test made variance-aware for a type that extends two
+     instances of a covariant trait.
+
+   Until that is built, this option is an open discrepancy of exactly the kind his 2026-09-24
+   requirement forbids.
+3. The coercion chapter's spelling: `coerce[\S extends T\](x: C[\S\])`. Measured refused on both
+   paths (`AltCovariantCoerce`): the compiled checker reports `Cyclic type hierarchy` by its
+   name-only cycle check, and walk fails by row 389. Commits him to:
+   - fixing both;
+   - noting that the coercion chapter's own `Vector` example has the same shape.
 
 **E4, `Nothing`** (decided as row 331; what route A adds):
 1. Write the library's `value object Nothing[\T\] extends Maybe[\T\]` into `convenience.tex`, drop
@@ -468,8 +620,9 @@ and keeps the original text and route C recoverable (2026-09-24, `POSITIONS.md:8
    `Nothing[\Exception\]`, and record that route A closes the where-clause road of row 331.
    Commits him to: explicit arguments until inference; the rung M lines and the gated
    `MaybeRungM` line 15 going at the switch-over, as already decided.
-2. The compiled prelude's marker plus coercion in the specification. Commits him to reopening row
-   331, a closed decision.
+2. The compiled prelude's marker plus coercion in the specification. Commits him to:
+   - reopening row 331, a closed decision;
+   - fixing row 389 in walk (`AltEmptyCoerce`).
 
 **E5 and E6, the tower** (decided by route A; the specification follows):
 1. Rewrite the chapters' headers and "subtype of" lists to the flat library once the flattening
@@ -485,24 +638,43 @@ and keeps the original text and route C recoverable (2026-09-24, `POSITIONS.md:8
 rule it motivates, and mark E10 as E6. Commits him to three sentences in a non-normative appendix.
 
 **The operator-argument question**: state that the rule compares type arguments only, as the
-implementation does, and add a ledger row for the compiled checker's failure on an inherited
+implementation does. Add a ledger row for the compiled checker's failure on an inherited
 abstract operator method (`OprSingle`). Commits him to one sentence and one row.
 
-My reading, not a decision: rewrite E3 and E4 to the library's parametric objects, turn E2 and the
-refused originals into counterexamples beside a first statement of the rule, follow the library for
-E7 and (after its rung) for E5-E6, and for E1 run the written variance probe first, taking the
-2012 `covariant` keyword if both paths honour it and the library's widening function if not.
+**Two further candidate ledger rows**, found by the alternatives and not caused by route A:
+- variance is accepted by the compiled checker and carried to run time by neither path
+  (`AltCovariantVariance`, `AltEveryContraObject`);
+- the compiled checker's acyclicity check drops a coercion's static arguments, so a coercion
+  between two instantiations of one generic reads as a cycle (`AltCovariantCoerce`,
+  `TypeHierarchyChecker.scala:102-121`). By that code it refuses the coercion chapter's own
+  example.
+
+Each commits him to one row, or to a sentence saying the specification's text is ahead of both
+paths.
+
+My reading, not a decision:
+- Rewrite E3 and E4 to the library's parametric objects.
+- Turn E2 and the refused originals into counterexamples beside a first statement of the rule.
+- Follow the library for E7 and, after its rung, for E5-E6.
+- For E1, write the library's widening function as the way, and record the 2012 `covariant`
+  keyword as the team's unfinished alternative that runs on neither path.
+
+(The first version left E1 to the variance probe; the probe decided it.)
 
 ## Files
 
 - This note: `explorations/reviews/spec-refused-examples.md`.
-- The runner: `explorations/reviews/spec-refused-examples/run.sh` (private cache under the
-  session's scratchpad; one probe per call).
-- Probes run, with captures in `spec-refused-examples/captures/<name>.{walk,compile}.txt`:
-  `SpecEmpty`, `SpecEmptyBound`, `SpecCovariant`, `SpecCovariantBound`, `SpecSubtraitOfEvery`,
-  `SpecSubtraitOfEveryBound`, `SpecNothing`, `SpecNothingBound`, `SpecNothingNoExcludes`,
-  `DoubleInstance`, `NestedTower`, `OprInstances`, `OprInstancesOplus`, `OprSingle`.
-- Probes written and not run (permission refused): `AltEmptyParam`, `AltEmptyParamBare`,
-  `AltEmptyCoerce`, `AltEmptyBottom`, `AltCovariantVariance`, `AltCovariantBounded`,
-  `AltCovariantCoerce`, `AltEveryContra`.
-- Nothing is committed.
+- The runner: `explorations/reviews/spec-refused-examples/run.sh`. It uses a private cache under
+  the session's scratchpad, runs one probe per call, and does the compiled run through
+  `MainWrapper` since the coordinator's mend.
+- Probes, all run, with captures in `spec-refused-examples/captures/<name>.{walk,compile,run}.txt`
+  (a `.run.txt` exists only where compile succeeded):
+  - round 1: `SpecEmpty`, `SpecEmptyBound`, `SpecCovariant`, `SpecCovariantBound`,
+    `SpecSubtraitOfEvery`, `SpecSubtraitOfEveryBound`, `SpecNothing`, `SpecNothingBound`,
+    `SpecNothingNoExcludes`, `DoubleInstance`, `NestedTower`, `OprInstances`,
+    `OprInstancesOplus`, `OprSingle`;
+  - round 2, run by the coordinator: `AltEmptyParam`, `AltEmptyParamBare`, `AltEmptyCoerce`,
+    `AltEmptyBottom`, `AltCovariantVariance`, `AltCovariantBounded`, `AltCovariantCoerce`,
+    `AltEveryContra`;
+  - round 3: `AltGenericCoerceArg`, `AltEveryContraObject`.
+- The coordinator commits this note and the round-3 files.
