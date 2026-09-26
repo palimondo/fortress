@@ -1,0 +1,223 @@
+# errors-compile-FortressLibrary.tsv 1751   errors-FLATN-compile.tsv 964   go 996   appear 209   stay 755
+
+## go, by kind
+   531  return-type
+   210  overloading
+   136  typecheck
+   113  exclusion
+     3  comprises
+     2  bound-Object
+     1  export
+## go, overloading and return-type by family (subclass)
+    14  overloading  DOT (same parameter type)                same parameter type
+    14  overloading  juxtaposition (same parameter type)      same parameter type
+    12  overloading  BY (same parameter type)                 same parameter type
+    10  overloading  CAP                                      same-sparams
+     9  overloading  BITAND (same parameter type)             same parameter type
+     9  overloading  BITNOT (same parameter type)             same parameter type
+     9  overloading  BITOR (same parameter type)              same parameter type
+     9  overloading  BITXOR (same parameter type)             same parameter type
+     9  overloading  CHOOSE (same parameter type)             same parameter type
+     9  overloading  DIV (same parameter type)                same parameter type
+     9  overloading  GCD (same parameter type)                same parameter type
+     9  overloading  LCM (same parameter type)                same parameter type
+     9  overloading  LEXICO (same parameter type)             same parameter type
+     9  overloading  LSHIFT (same parameter type)             same parameter type
+     9  overloading  REM (same parameter type)                same parameter type
+     8  overloading  MOD (same parameter type)                same parameter type
+     8  overloading  RSHIFT (same parameter type)             same parameter type
+     7  overloading  combine2D                                same-sparams
+     7  overloading  combine3D                                same-sparams
+     6  overloading  narrow (same parameter type)             same parameter type
+     5  overloading  SQCAP (same parameter type)              same parameter type
+     4  overloading  CMP                                      sentence
+     4  overloading  CMP (same parameter type)                same parameter type
+     3  overloading  partitionL (same parameter type)         same parameter type
+     3  overloading  widen (same parameter type)              same parameter type
+     2  overloading  round (same parameter type)              same parameter type
+     2  overloading  unsigned (same parameter type)           same parameter type
+     1  overloading  INVERSE (same parameter type)            same parameter type
+     1  overloading  numerator (same parameter type)          same parameter type
+   132  return-type  juxtaposition                            -
+    96  return-type  DOT                                      -
+    22  return-type  BY                                       -
+    17  return-type  CMP                                      -
+    16  return-type  BITAND                                   -
+    16  return-type  BITNOT                                   -
+    16  return-type  BITOR                                    -
+    16  return-type  BITXOR                                   -
+    16  return-type  CHOOSE                                   -
+    16  return-type  DIV                                      -
+    16  return-type  GCD                                      -
+    16  return-type  LCM                                      -
+    16  return-type  LSHIFT                                   -
+    16  return-type  MOD                                      -
+    16  return-type  REM                                      -
+    16  return-type  RSHIFT                                   -
+    15  return-type  MAX                                      -
+    15  return-type  MIN                                      -
+    14  return-type  narrow                                   -
+     8  return-type  SQCAP                                    -
+     5  return-type  MINMAX                                   -
+     5  return-type  partitionL                               -
+     4  return-type  round                                    -
+     4  return-type  seq                                      -
+     1  return-type  truncate                                 -
+     1  return-type  unsigned                                 -
+## go, the component's type errors and the rest, by message shape (top 25)
+   113  exclusion      -
+    21  typecheck      Could not check call to operator |_| - (NN64 & {UnsignedLong, NN32})->NN64 is not applicable to an argument of
+    18  typecheck      Could not check call to operator CMP - ((Number & {RR64}), Number)->Comparison is not applicable to an argumen
+     8  typecheck      Could not check call to function get - ZZ32->T is not applicable to an argument of type ZZ64.
+     7  typecheck      Could not check call to operator < - ((NN64 & {UnsignedLong, NN32}), NN64)->Boolean is not applicable to an ar
+     4  typecheck      Could not check call to function mma - (ZZ32, ZZ32, ZZ32, ZZ32, ZZ32, ZZ32)->() is not applicable to an argume
+     4  typecheck      Could not check call to operator # - [\..\], IntLiteral).
+     3  comprises      -
+     3  typecheck      Could not check call to function __cond - [\..\], _->_, ()->OR(LessThan,Unordered)).
+     3  typecheck      Could not check call to operator # - [\..\] is not applicable to an argument of type (IntLiteral, ZZ64).
+     3  typecheck      Could not check call to operator - - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applicable to an argum
+     3  typecheck      Function body has type Array[\..\].
+     3  typecheck      Function body has type QQ, but declared return type is ZZ32.
+     3  typecheck      Function body has type ZZ64, but declared return type is ZZ32.
+     2  bound-Object   -
+     2  typecheck      Compiler internal generated.:0:0-L: Could not check call to function __generate - [\..\], BottomType->AnyMaybe
+     2  typecheck      Could not check call to function __bigOperator - [\..\], _->_).
+     2  typecheck      Could not check call to function mm - (ZZ32, ZZ32, ZZ32, ZZ32, ZZ32, ZZ32)->() is not applicable to an argumen
+     2  typecheck      Could not check call to operator # - [\..\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+     2  typecheck      Could not check call to operator BIG || - ()->Comprehension[\..\]->String is not applicable to an argument of 
+     2  typecheck      Could not check method invocation NativeArray.PrimitiveArray[\..\].get - ZZ32->T is not applicable to an argum
+     2  typecheck      Could not check method invocation NativeArray.PrimitiveArray[\..\].init0 - (ZZ32, T)->() is not applicable to 
+     2  typecheck      Could not check method invocation NativeArray.PrimitiveArray[\..\].put - (ZZ32, T)->() is not applicable to an
+     2  typecheck      Function body has type ((), ()), but declared return type is ().
+     2  typecheck      Function body has type QQ, but declared return type is ZZ.
+
+## appear, by kind
+    87  typecheck
+    64  overloading
+    49  return-type
+     4  bound-Object
+     4  wellformed
+     1  export
+## appear, overloading and return-type by family (subclass)
+     9  overloading  MAX                                      same-sparams
+     9  overloading  MIN                                      same-sparams
+     7  overloading  CMP                                      same-sparams
+     5  overloading  CMP                                      sentence
+     4  overloading  MAX                                      sentence
+     4  overloading  MIN                                      sentence
+     4  overloading  MINMAX                                   same-sparams
+     4  overloading  juxtaposition                            sentence
+     4  overloading  round                                    same-sparams
+     3  overloading  BY                                       sentence
+     3  overloading  MINMAX                                   sentence
+     2  overloading  IN                                       same-sparams
+     2  overloading  isLeftZero                               same-sparams
+     1  overloading  DOT                                      sentence
+     1  overloading  SQCAP                                    same-sparams
+     1  overloading  juxtaposition                            same-sparams
+     1  overloading  round                                    sentence
+     9  return-type  DOT                                      -
+     9  return-type  juxtaposition                            -
+     8  return-type  BY                                       -
+     8  return-type  MAX                                      -
+     8  return-type  MIN                                      -
+     2  return-type  ceiling                                  -
+     2  return-type  floor                                    -
+     2  return-type  truncate                                 -
+     1  return-type  unsigned                                 -
+## appear, the component's type errors and the rest, by message shape (top 25)
+    18  typecheck      Could not check call to operator CMP - ((TotalComparison & {LessThan, EqualTo, GreaterThan}), Unordered)->Comp
+     7  typecheck      Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument
+     7  typecheck      Could not check call to operator |_| - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument of type 
+     4  bound-Object   -
+     3  typecheck      Could not check call to function __cond - [\..\], _->_, ()->OR(LessThan,Unordered)).
+     3  typecheck      Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of
+     3  typecheck      Function body has type ExtentRange[\..\].
+     3  typecheck      Function body has type LeftRange[\..\].
+     3  typecheck      Function body has type OpenRange[\..\].
+     3  typecheck      Function body has type RightRange[\..\].
+     2  typecheck      Could not check call to function big - (ZZ64 & {Long})->ZZ is not applicable to an argument of type NN64.
+     2  typecheck      Could not check call to function signed - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument of ty
+     2  typecheck      Could not check call to operator # - [\..\], TotalComparison->TotalComparison) after argument inference
+     2  typecheck      Could not check call to operator BIG || - ()->Comprehension[\..\] is not applicable to an argument of type Any
+     2  typecheck      Could not check call to operator DIV - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument 
+     2  typecheck      Could not check function application - BottomType->AnyMaybe is not applicable to an argument of type ZZ32. L: 
+     2  typecheck      Could not check method invocation RangeInternals.CompactFullParScalarRange[\..\].
+     2  typecheck      Function body has type (RR64, RR64), but declared return type is Number.
+     2  typecheck      Function body has type Array[\..\].
+     2  typecheck      Function body has type OR(((), ()),()), but declared return type is ().
+     2  typecheck      Function body has type RR64, but declared return type is ZZ.
+     2  wellformed     Ill-formed type: MaxReduction[\..\].
+     2  wellformed     Ill-formed type: MinReduction[\..\].
+     1  export         The following declarations in API FortressLibrary are not matched by the declarations in component FortressLib
+     1  typecheck      (RR64, RR64) has no getter called isNaN
+
+## stay, by kind
+   259  bound-Object
+   212  overloading
+   193  typecheck
+    41  wellformed
+    33  return-type
+    12  abstract-method
+     4  exclusion
+     1  export
+## stay, overloading and return-type by family (subclass)
+    56  overloading  fill                                     fill-same
+    38  overloading  FORWARD_CMP                              same-sparams
+    24  overloading  CAP                                      sentence
+    15  overloading  map                                      same-sparams
+    12  overloading  IN                                       same-sparams
+    11  overloading  seq                                      sentence
+     7  overloading  generate                                 same-sparams
+     6  overloading  IN                                       sentence
+     6  overloading  MAX                                      sentence
+     6  overloading  MIN                                      sentence
+     6  overloading  ivmap                                    same-sparams
+     6  overloading  lift                                     same-sparams
+     4  overloading  seq                                      same-sparams
+     3  overloading  cross                                    same-sparams
+     3  overloading  juxtaposition                            same-sparams
+     3  overloading  juxtaposition                            sentence
+     3  overloading  openRangeHelper                          sentence
+     2  overloading  copy                                     same-sparams
+     1  overloading  nest                                     same-sparams
+     4  return-type  MAX                                      -
+     4  return-type  MIN                                      -
+     4  return-type  distribute                               -
+     4  return-type  shift                                    -
+     3  return-type  empty                                    -
+     3  return-type  seq                                      -
+     2  return-type  CMP                                      -
+     2  return-type  atMost                                   -
+     2  return-type  subarray                                 -
+     1  return-type  every                                    -
+     1  return-type  filter                                   -
+     1  return-type  map                                      -
+     1  return-type  relation                                 -
+     1  return-type  target                                   -
+## stay, the component's type errors and the rest, by message shape (top 25)
+   259  bound-Object   -
+    12  typecheck      Function body has type RR64, but declared return type is T.
+    11  wellformed     Ill-formed type: Matrix[\..\] The static argument T does not satisfy the corresponding bound Number.
+    10  wellformed     Ill-formed type: Vector[\..\] The static argument T does not satisfy the corresponding bound Number.
+     8  abstract-method simpleJoin
+     7  typecheck      Function body has type Array[\..\].
+     6  typecheck      Could not check call to function cond - [\..\]).
+     6  typecheck      No such method Generator[\..\].map.
+     6  wellformed     Ill-formed type: RangeInternals.CompactFullRange3D[\..\].
+     5  typecheck      Could not check call to function __bigOperator - [\..\], _->_).
+     5  typecheck      Function body has type Array1[\..\].
+     5  wellformed     Ill-formed type: NativeArray.PrimitiveArray[\..\] Arithmetic on nat static arguments is not supported by the t
+     4  exclusion      -
+     4  typecheck      Function body has type Array2[\..\].
+     4  typecheck      Function body has type Number, but declared return type is T.
+     4  typecheck      Function body has type OR((T, (U, U)),(T, U)), but declared return type is (T, U).
+     4  wellformed     Ill-formed type: RangeInternals.CompactFullRange2D[\..\].
+     3  abstract-method +
+     3  typecheck      Could not check call to function Just - [\..\] is not applicable to an argument of type Any.
+     3  typecheck      Could not check call to function __cond - [\..\], E->())->() is not applicable to any type of the form (AnyMay
+     3  typecheck      Function body has type Integral[\..\], but declared return type is I.
+     3  typecheck      Function body has type T, but declared return type is (T, T).
+     3  typecheck      No such method String.get.
+     2  typecheck      Any has no getter called asDebugString
+     2  typecheck      Any has no getter called asString

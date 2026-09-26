@@ -1,0 +1,283 @@
+# 1049 distinct errors from 1 runs; 1203 raw error lines
+
+## by kind
+   527  overloading
+   383  typecheck
+    88  return-type
+    45  wellformed
+     4  exclusion
+     2  export
+
+## overloading and return-type errors by family
+   300  overloading  fill
+    38  overloading  FORWARD_CMP
+    28  overloading  IN
+    24  overloading  CAP
+    19  overloading  MAX
+    19  overloading  MIN
+    15  overloading  map
+    14  overloading  seq
+    12  overloading  CMP
+    11  overloading  juxtaposition
+     7  overloading  MINMAX
+     7  overloading  generate
+     6  overloading  ivmap
+     6  overloading  lift
+     5  overloading  round
+     3  overloading  BY
+     3  overloading  cross
+     3  overloading  openRangeHelper
+     2  overloading  copy
+     2  overloading  isLeftZero
+     1  overloading  DOT
+     1  overloading  SQCAP
+     1  overloading  nest
+    12  return-type  MAX
+    12  return-type  MIN
+     9  return-type  DOT
+     9  return-type  juxtaposition
+     8  return-type  BY
+     4  return-type  distribute
+     4  return-type  seq
+     4  return-type  shift
+     3  return-type  empty
+     2  return-type  CMP
+     2  return-type  array1
+     2  return-type  array2
+     2  return-type  atMost
+     2  return-type  ceiling
+     2  return-type  floor
+     2  return-type  subarray
+     2  return-type  truncate
+     1  return-type  array3
+     1  return-type  every
+     1  return-type  filter
+     1  return-type  map
+     1  return-type  relation
+     1  return-type  target
+     1  return-type  unsigned
+
+## overloading errors by subclass (overload_sub)
+   244  fill-crossed
+   136  same-sparams
+    91  sentence
+    56  fill-same
+
+## overloading errors by family and subclass
+   244  fill                                     fill-crossed
+    56  fill                                     fill-same
+    38  FORWARD_CMP                              same-sparams
+    24  CAP                                      sentence
+    15  map                                      same-sparams
+    14  IN                                       same-sparams
+    14  IN                                       sentence
+    10  MAX                                      sentence
+    10  MIN                                      sentence
+    10  seq                                      sentence
+     9  MAX                                      same-sparams
+     9  MIN                                      same-sparams
+     7  CMP                                      same-sparams
+     7  generate                                 same-sparams
+     7  juxtaposition                            sentence
+     6  ivmap                                    same-sparams
+     6  lift                                     same-sparams
+     5  CMP                                      sentence
+     4  MINMAX                                   same-sparams
+     4  juxtaposition                            same-sparams
+     4  round                                    same-sparams
+     4  seq                                      same-sparams
+     3  BY                                       sentence
+     3  MINMAX                                   sentence
+     3  cross                                    same-sparams
+     3  openRangeHelper                          sentence
+     2  copy                                     same-sparams
+     2  isLeftZero                               same-sparams
+     1  DOT                                      sentence
+     1  SQCAP                                    same-sparams
+     1  nest                                     same-sparams
+     1  round                                    sentence
+
+## the rest by message shape
+   108  typecheck      Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+    18  typecheck      Could not check call to operator CMP - ((TotalComparison & {LessThan, EqualTo, GreaterThan}), Unordered)->Comp
+    12  typecheck      Function body has type RR64, but declared return type is T.
+    11  wellformed     Ill-formed type: Matrix[\..\] The static argument T does not satisfy the corresponding bound Number.
+    10  typecheck      Could not check call to function fail - Could not infer static argument T without context.
+    10  wellformed     Ill-formed type: Vector[\..\] The static argument T does not satisfy the corresponding bound Number.
+     8  typecheck      Function body has type Array[\..\].
+     7  typecheck      Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument
+     7  typecheck      Could not check call to operator |_| - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument of type 
+     6  typecheck      Could not check call to function cond - [\..\]).
+     6  typecheck      Function body has type Array1[\..\].
+     6  wellformed     Ill-formed type: RangeInternals.CompactFullRange3D[\..\].
+     5  typecheck      Function body has type Array2[\..\].
+     5  wellformed     Ill-formed type: NativeArray.PrimitiveArray[\..\] Arithmetic on nat static arguments is not supported by the t
+     4  typecheck      Function body has type Number, but declared return type is T.
+     4  typecheck      Function body has type OR((T, (U, U)),(T, U)), but declared return type is (T, U).
+     4  wellformed     Ill-formed type: RangeInternals.CompactFullRange2D[\..\].
+     3  typecheck      Could not check call to function __bigOperator - [\..\], _->_).
+     3  typecheck      Could not check call to function __cond - [\..\], E->())->() is not applicable to any type of the form (AnyMay
+     3  typecheck      Could not check call to function __cond - [\..\], _->_, ()->OR(LessThan,Unordered)).
+     3  typecheck      Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of
+     3  typecheck      Function body has type ExtentRange[\..\].
+     3  typecheck      Function body has type Integral[\..\], but declared return type is I.
+     3  typecheck      Function body has type LeftRange[\..\].
+     3  typecheck      Function body has type OpenRange[\..\].
+     3  typecheck      Function body has type RightRange[\..\].
+     3  typecheck      Function body has type T, but declared return type is (T, T).
+     3  typecheck      No such method String.get.
+     2  typecheck      Any has no getter called asDebugString
+     2  typecheck      Any has no getter called asString
+     2  typecheck      Could not check call to function Comprehension - [\..\], _->_).
+     2  typecheck      Could not check call to function big - (ZZ64 & {Long})->ZZ is not applicable to an argument of type NN64.
+     2  typecheck      Could not check call to function signed - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument of ty
+     2  typecheck      Could not check call to operator # - [\..\] is not applicable to an argument of type Any.
+     2  typecheck      Could not check call to operator # - [\..\] is not applicable to an argument of type I.
+     2  typecheck      Could not check call to operator # - [\..\], TotalComparison->TotalComparison) after argument inference
+     2  typecheck      Could not check call to operator :: - [\..\] is not applicable to an argument of type Any.
+     2  typecheck      Could not check call to operator BIG || - ()->Comprehension[\..\]->String is not applicable to an argument of 
+     2  typecheck      Could not check call to operator DIV - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument 
+     2  typecheck      Could not check call to operator PCMP - [\..\](I, I)->Comparison is not applicable to an argument of type (I, 
+     2  typecheck      Could not check function application - BottomType->AnyMaybe is not applicable to an argument of type ZZ32. L: 
+     2  typecheck      Could not check method invocation Matrix[\..\].put - ((ZZ32, ZZ32), T)->() is not applicable to an argument of
+     2  typecheck      Could not check method invocation RangeInternals.CompactFullParScalarRange[\..\].
+     2  typecheck      Could not check method invocation String._[_] - Range[\..\].
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at L.11 was not well typed.
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at L.14 was not well typed.
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at L.36 was not well typed.
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but r.isNaN was not well typed.
+     2  typecheck      Function body has type (RR64, RR64), but declared return type is Number.
+     2  typecheck      Function body has type Any, but declared return type is R.
+     2  typecheck      Function body has type Generator[\..\].
+     2  typecheck      Function body has type OR(((), ()),()), but declared return type is ().
+     2  typecheck      Function body has type RR64, but declared return type is ZZ.
+     2  typecheck      Function body has type Range[\..\].
+     2  typecheck      Function body has type StandardImmutableArrayType[\..\], but declared return type is T.
+     2  typecheck      Function body has type StandardMutableArrayType[\..\], but declared return type is T.
+     2  typecheck      Function body has type StandardTotalOrder[\..\], but declared return type is T.
+     2  typecheck      Generator[\..\] has no getter called size
+     2  typecheck      No such method Generator[\..\]._[_].
+     2  typecheck      No such method Generator[\..\].__generate2filtered.
+     2  typecheck      Q can only throw objects of Exception type. This expression is of type Exception->ForbiddenException.
+     2  typecheck      The typecase clause, NatReflect.N[\..\], is unreachable.
+     2  wellformed     Ill-formed static argument: s0 s1 Arithmetic on nat static arguments is not supported by the type checker; use
+     2  wellformed     Ill-formed type: MaxReduction[\..\].
+     2  wellformed     Ill-formed type: MinReduction[\..\].
+     2  wellformed     Ill-formed type: RangeInternals.CompactFullParScalarRange[\..\].
+     1  export         Component FortressLibrary exports API FortressLibrary but does not define all declarations in FortressLibrary.
+     1  export         The following declarations in API FortressLibrary are not matched by the declarations in component FortressLib
+     1  typecheck      (RR64, RR64) has no getter called isNaN
+     1  typecheck      Could not check call to function SimpleFilterGenerator - [\..\]).
+     1  typecheck      Could not check call to function SimpleFilterGenerator2 - [\..\]).
+     1  typecheck      Could not check call to function SimpleMappedGenerator - [\..\], BottomType->G).
+     1  typecheck      Could not check call to function SimpleMappedIndexed - [\..\], BottomType->G).
+     1  typecheck      Could not check call to function __arr1 - [\..\] is not applicable to an argument of type (()->E, NatReflect.N
+     1  typecheck      Could not check call to function __arr2 - [\..\] is not applicable to an argument of type (()->E, NatReflect.N
+     1  typecheck      Could not check call to function __arr3 - [\..\] is not applicable to an argument of type (()->E, NatReflect.N
+     1  typecheck      Could not check call to function __bigOperatorSugar - [\..\]).
+     1  typecheck      Could not check call to function __cond - [\..\]).
+     1  typecheck      Could not check call to function __imm1 - [\..\] is not applicable to an argument of type (()->E, NatReflect.N
+     1  typecheck      Could not check call to function __parr - [\..\] is not applicable to an argument of type (()->E, NatReflect.N
+     1  typecheck      Could not check call to function __piarr - [\..\] is not applicable to an argument of type (()->E, NatReflect.
+     1  typecheck      Could not check call to function __subarray - [\..\], IntLiteral).
+     1  typecheck      Could not check call to function __subarray - [\..\], NatReflect.NatParam, NatReflect.NatParam, ZZ32).
+     1  typecheck      Could not check call to function __subarrayI - [\..\], IntLiteral).
+     1  typecheck      Could not check call to function bounded1Range - [\..\] is not applicable to an argument of type (ZZ32, I, I).
+     1  typecheck      Could not check call to function bounded2Range - [\..\] is not applicable to an argument of type (ZZ32, ZZ32, 
+     1  typecheck      Could not check call to function bounded3Range - [\..\] is not applicable to an argument of type (ZZ32, ZZ32, 
+     1  typecheck      Could not check call to function map - [\..\] is not applicable to any type of the form _->_.
+     1  typecheck      Could not check call to function odd - (ZZ & {BigNum})->Boolean is not applicable to an argument of type RR64.
+     1  typecheck      Could not check call to function openRangeHelper - [\..\] is not applicable to an argument of type ()->I.
+     1  typecheck      Could not check call to function partitionL - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument o
+     1  typecheck      Could not check call to function seq - DelegatedIndexed[\..\].
+     1  typecheck      Could not check call to function sized1Range - [\..\] is not applicable to an argument of type (ZZ32, I, I).
+     1  typecheck      Could not check call to function sized2Range - [\..\] is not applicable to an argument of type (ZZ32, ZZ32, I,
+     1  typecheck      Could not check call to function sized3Range - [\..\] is not applicable to an argument of type (ZZ32, ZZ32, ZZ
+     1  typecheck      Could not check call to operator : - [\..\] is not applicable to an argument of type Any.
+     1  typecheck      Could not check call to operator : - [\..\], I).
+     1  typecheck      Could not check call to operator >= - ((QQ & {Ratio}), QQ)->Boolean is not applicable to an argument of type (
+     1  typecheck      Could not check call to operator MOD - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument 
+     1  typecheck      Could not check call to operator SCMP - [\..\](I, I)->Comparison is not applicable to an argument of type (I, 
+     1  typecheck      Could not check call to operator juxtaposition - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an
+     1  typecheck      Could not check method invocation AND(Generator2[\..\], _->_).
+     1  typecheck      Could not check method invocation Array3[\..\] is not applicable to an argument of type (ZZ32, ZZ32)->T.
+     1  typecheck      Could not check method invocation Generator[\..\] is not applicable to an argument of type G->(E, G).
+     1  typecheck      Could not check method invocation Generator[\..\] is not applicable to an argument of type G->(T, G).
+     1  typecheck      Could not check method invocation Generator[\..\], BottomType->R).
+     1  typecheck      Could not check method invocation Generator[\..\].loop - E->()->() is not applicable to an argument of type E-
+     1  typecheck      Could not check method invocation String.uncheckedSubstring - Range[\..\].
+     1  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at L.12 was not well typed.
+     1  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at L.59 was not well typed.
+     1  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at L.8 was not well typed.
+     1  typecheck      FullRange[\..\] has no getter called lower
+     1  typecheck      Function body has type ((T, T), (T, T)), but declared return type is (T, T).
+     1  typecheck      Function body has type (QQ & {Ratio}), but declared return type is ZZ.
+     1  typecheck      Function body has type (ZZ32, ZZ32), but declared return type is ZZ32.
+     1  typecheck      Function body has type Boolean, but declared return type is ().
+     1  typecheck      Function body has type Boolean, but declared return type is BigReduction[\..\].
+     1  typecheck      Function body has type BoundedRange[\..\].
+     1  typecheck      Function body has type ConcreteRelationalPredicateCondition[\..\].
+     1  typecheck      Function body has type I, but declared return type is Just[\..\].
+     1  typecheck      Function body has type ImmutableArray[\..\].
+     1  typecheck      Function body has type Just[\..\].
+     1  typecheck      Function body has type Number, but declared return type is Comprehension[\..\].
+     1  typecheck      Function body has type Number, but declared return type is RR64.
+     1  typecheck      Function body has type OR((RR64, RR64),RR64), but declared return type is RR64.
+     1  typecheck      Function body has type OR((StandardTotalOrder[\..\])), but declared return type is (T, T).
+     1  typecheck      Function body has type OR((ZZ, ZZ),(RR64, IntLiteral),(ZZ, IntLiteral)), but declared return type is (ZZ, ZZ).
+     1  typecheck      Function body has type OR(Array1[\..\].
+     1  typecheck      Function body has type OR(ImmutableArray1[\..\].
+     1  typecheck      Function body has type OR(IntLiteral,T), but declared return type is T.
+     1  typecheck      Function body has type OR(__DefaultArray2[\..\].
+     1  typecheck      Function body has type RR64, but declared return type is BigReduction[\..\].
+     1  typecheck      Function body has type RR64, but declared return type is QQ.
+     1  typecheck      Function body has type ReadableArray1[\..\].
+     1  typecheck      Function body has type ReadableArray[\..\].
+     1  typecheck      Function body has type SimpleNestedSeqGenerator[\..\].
+     1  typecheck      Function body has type SimplePairSeqGenerator[\..\].
+     1  typecheck      Function body has type String, but declared return type is Comprehension[\..\].
+     1  typecheck      Function body has type T, but declared return type is BigReduction[\..\].
+     1  typecheck      Function body has type UniqueItem[\..\].
+     1  typecheck      No such method Condition[\..\] after argument inference
+     1  typecheck      No such method Generator2[\..\].seed.
+     1  typecheck      No such method Generator[\..\].theorems.
+     1  typecheck      No such method Generator[\..\].theoremsFiltered.
+     1  typecheck      No such method ImmutableArray1[\..\].put.
+     1  typecheck      No such method Matrix[\..\].add.
+     1  typecheck      No such method Matrix[\..\].negate.
+     1  typecheck      No such method Matrix[\..\].subtract.
+     1  typecheck      No such method NestedGenerator[\..\].f.
+     1  typecheck      No such method String.reverse. L:62: Possibly because (reduction?21, unit?22): (Reduction[\..\], Any->String) 
+     1  typecheck      Non-last expression in a block has type OR((),BottomType,QQ), but it must have () type.
+     1  typecheck      Number has no getter called isNaN
+     1  typecheck      Right-hand side has type AND((ZZ32, ZZ32),I), but left-hand side is a tuple of 2 variables.
+     1  typecheck      Right-hand side has type AND((ZZ32, ZZ32, ZZ32),I), but left-hand side is a tuple of 3 variables.
+     1  typecheck      Right-hand side has type RR64, but declared type is T.
+     1  wellformed     Ill-formed static argument: s0 s1 s2 Arithmetic on nat static arguments is not supported by the type checker; 
+
+## distinct errors by unit and stage (an error printed by several units is under each)
+     1  api FortressLibrary              acyclic
+   177  api FortressLibrary              overloading
+    22  api NativeArray                  overloading
+    21  api RangeInternals               overloading
+     3  component FortressLibrary        acyclic
+     2  component FortressLibrary        export
+   395  component FortressLibrary        overloading
+   383  component FortressLibrary        typecheck
+    33  component FortressLibrary        wellformed1+wellformed2
+    12  component FortressLibrary        wellformed2
+
+## distinct errors, kind by unit (an error printed by several units is under the first)
+unit                       exclus compri overlo return abstra bound- wellfo typech export  other  total
+api FortressLibrary             1      0    150     27      0      0      0      0      0      0    178
+api NativeArray                 0      0     22      0      0      0      0      0      0      0     22
+api RangeInternals              0      0     18      3      0      0      0      0      0      0     21
+component FortressLibrary       3      0    337     58      0      0     45    383      2      0    828
+all                             4      0    527     88      0      0     45    383      2      0   1049
+
+## crashes (stage crashes caught by add-patch.py; declarations the checker crashed on)
+     1  decl	FortressLibrary.fss:1145:1-1149:4	com.sun.fortress.exceptions.InterpreterBug	com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+     1  decl	FortressLibrary.fss:2316:1-2430:2	com.sun.fortress.exceptions.InterpreterBug	com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+     1  decl	FortressLibrary.fss:2689:1-2802:2	com.sun.fortress.exceptions.InterpreterBug	com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+     1  decl	FortressLibrary.fss:4197:1-4210:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)
+     1  decl	FortressLibrary.fss:4216:1-4221:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)

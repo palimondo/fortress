@@ -1,0 +1,629 @@
+########## Distance -order check -setting compile /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 4.30 4.29 4.17; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T10:29:53Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=compile (extendsObject=true compiledExpr=true) prelude=INTERPRETER target=[/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss] overloadCache=false
+@@SC STAGE	api Writer	hierarchy	errors=0
+@@SC STAGE	api Writer	acyclic	errors=0
+@@SC STAGE	api Writer	wellformed1	errors=0
+@@SC STAGE	api Writer	wellformed2	errors=0
+@@SC STAGE	api Writer	overloading	errors=0
+@@TC API	Writer	errors=0
+@@SC STAGE	api AnyType	hierarchy	errors=0
+@@SC STAGE	api AnyType	acyclic	errors=0
+@@SC STAGE	api AnyType	wellformed1	errors=0
+@@SC STAGE	api AnyType	wellformed2	errors=0
+@@SC STAGE	api AnyType	overloading	errors=0
+@@TC API	AnyType	errors=0
+@@SC STAGE	api Stream	hierarchy	errors=0
+@@SC STAGE	api Stream	acyclic	errors=0
+@@SC STAGE	api Stream	wellformed1	errors=1
+@@SC STAGE	api Stream	wellformed2	errors=1
+@@SC STAGE	api Stream	overloading	errors=0
+@@TC API	Stream	errors=2
+@@SC STAGE	api NatReflect	hierarchy	errors=0
+@@SC STAGE	api NatReflect	acyclic	errors=0
+@@SC STAGE	api NatReflect	wellformed1	errors=0
+@@SC STAGE	api NatReflect	wellformed2	errors=0
+@@SC STAGE	api NatReflect	overloading	errors=0
+@@TC API	NatReflect	errors=0
+@@SC STAGE	api FlatString	hierarchy	errors=0
+@@SC STAGE	api FlatString	acyclic	errors=0
+@@SC STAGE	api FlatString	wellformed1	errors=0
+@@SC STAGE	api FlatString	wellformed2	errors=0
+@@SC STAGE	api FlatString	overloading	errors=0
+@@TC API	FlatString	errors=0
+@@SC STAGE	api String	hierarchy	errors=0
+@@SC STAGE	api String	acyclic	errors=0
+@@SC STAGE	api String	wellformed1	errors=0
+@@SC STAGE	api String	wellformed2	errors=0
+@@SC STAGE	api String	overloading	errors=0
+@@TC API	String	errors=0
+@@SC STAGE	api TypeProxy	hierarchy	errors=0
+@@SC STAGE	api TypeProxy	acyclic	errors=0
+@@SC STAGE	api TypeProxy	wellformed1	errors=0
+@@SC STAGE	api TypeProxy	wellformed2	errors=0
+@@SC STAGE	api TypeProxy	overloading	errors=0
+@@TC API	TypeProxy	errors=0
+@@SC STAGE	api List	hierarchy	errors=0
+@@SC STAGE	api List	acyclic	errors=0
+@@SC STAGE	api List	wellformed1	errors=3
+@@SC STAGE	api List	wellformed2	errors=3
+@@SC STAGE	api List	overloading	errors=0
+@@TC API	List	errors=6
+@@SC STAGE	api RangeInternals	hierarchy	errors=0
+@@SC STAGE	api RangeInternals	acyclic	errors=0
+@@SC STAGE	api RangeInternals	wellformed1	errors=76
+@@SC STAGE	api RangeInternals	wellformed2	errors=76
+@@SC STAGE	api RangeInternals	overloading	errors=21
+@@TC API	RangeInternals	errors=173
+@@SC STAGE	api FortressLibrary	hierarchy	errors=0
+@@SC STAGE	api FortressLibrary	acyclic	errors=1
+@@SC STAGE	api FortressLibrary	wellformed1	errors=95
+@@SC STAGE	api FortressLibrary	wellformed2	errors=95
+@@SC STAGE	api FortressLibrary	overloading	errors=116
+@@TC API	FortressLibrary	errors=307
+@@SC STAGE	api NativeArray	hierarchy	errors=0
+@@SC STAGE	api NativeArray	acyclic	errors=0
+@@SC STAGE	api NativeArray	wellformed1	errors=0
+@@SC STAGE	api NativeArray	wellformed2	errors=0
+@@SC STAGE	api NativeArray	overloading	errors=4
+@@TC API	NativeArray	errors=4
+@@SC STAGE	api FortressBuiltin	hierarchy	errors=0
+@@SC STAGE	api FortressBuiltin	acyclic	errors=0
+@@SC STAGE	api FortressBuiltin	wellformed1	errors=1
+@@SC STAGE	api FortressBuiltin	wellformed2	errors=1
+@@SC STAGE	api FortressBuiltin	overloading	errors=0
+@@TC API	FortressBuiltin	errors=2
+@@TC APIS-NOT-SUCCESSFUL	494 errors kept
+@@SC STAGE	component FortressLibrary	hierarchy	errors=0
+@@SC STAGE	component FortressLibrary	apiextract	errors=0
+@@SC STAGE	component FortressLibrary	acyclic	errors=3
+@@SC STAGE	component FortressLibrary	wellformed1	errors=146
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:33:1-37:4	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:39:1-43:4	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:47:1-22	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:49:1-51:26	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:52:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:54:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:65:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:67:1-75:4	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:69:1-75:4	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:75:1-78:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:80:1-83:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:85:1-87:43	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:88:1-37	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:90:1-94:62	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:96:1-39	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:98:1-42	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:100:1-102:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:106:1-114:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:116:1-124:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:126:1-127:76	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:129:1-130:107	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:132:1-146:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:150:1-156:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:158:1-173:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:175:1-185:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:187:1-196:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:198:1-208:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:213:1-226:2	errors=4
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:235:1-237:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:246:1-248:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:257:1-262:2	errors=2
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:270:1-283:2	errors=24
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:286:1-289:6	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:291:1-294:6	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:296:1-300:6	errors=3
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:302:1-42	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:304:1-69	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:306:1-310:6	errors=3
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:312:1-320:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:328:1-25	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:331:1-336:2	errors=2
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:339:1-30	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:343:1-350:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:352:1-421:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:423:1-479:2	errors=14
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:481:1-529:9	errors=2
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:531:1-612:2	errors=10
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:614:1-625:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:627:1-80	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:630:1-659:2	errors=4
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:661:1-717:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:719:1-788:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:790:1-841:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:843:1-919:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:930:1-942:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:945:1-947:42	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:948:1-950:48	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:951:1-983:3	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:984:1-1082:12	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1090:1-1091:25	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1093:1-1094:20	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1096:1-59	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1098:1-62	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1100:1-70	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1101:1-1103:42	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1104:1-1112:21	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1113:1-1118:6	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1125:1-1133:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1141:1-1144:85	errors=0
+@@TC DECL-CRASH	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1145:1-1149:4	com.sun.fortress.exceptions.InterpreterBug	com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)	** bug! /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1147:10     Type is not inferred.
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1171:1-1192:4	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1197:1-1200:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1203:1-1222:22	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1227:1-1266:12	errors=9
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1269:1-1271:58	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1272:1-1276:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1276:1-1319:10	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1319:1-1321:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1323:1-1332:51	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1333:1-1337:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1339:1-1365:2	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1369:1-1392:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1396:1-1400:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1407:1-1413:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1415:1-1438:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1440:1-1447:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1449:1-1450:82	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1452:1-1453:111	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1455:1-1462:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1464:1-1465:82	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1467:1-1472:62	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1474:1-1475:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1479:1-1480:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1482:1-1484:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1486:1-1488:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1490:1-1492:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1494:1-1496:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1498:1-1500:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1502:1-1504:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1506:1-1508:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1510:1-1512:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1514:1-1516:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1518:1-1520:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1522:1-1524:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1527:1-1529:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1531:1-1533:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1535:1-1537:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1539:1-1541:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1543:1-1545:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1547:1-1549:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1551:1-1553:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1557:1-1558:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1560:1-1562:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1564:1-1566:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1568:1-1570:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1573:1-1575:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1577:1-1579:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1581:1-1583:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1585:1-1587:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1589:1-1591:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1593:1-1595:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1598:1-1600:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1606:1-1609:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1611:1-1616:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1619:1-1621:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1626:1-1627:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1629:1-1630:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1632:1-1633:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1639:1-44	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1641:1-44	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1643:1-44	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1663:1-1741:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1743:1-1749:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1751:1-1760:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1762:1-1774:2	errors=2
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1776:1-1783:4	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1793:1-1807:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1816:1-1825:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1829:1-1895:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1897:1-1911:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1913:1-1945:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1949:1-70	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1950:1-1951:49	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1952:1-1956:67	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1957:1-1958:19	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1959:1-1960:43	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1961:1-1965:44	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1966:1-1976:67	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1977:1-1984:3	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1986:1-79	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1987:1-1988:28	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1990:1-1991:38	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1992:1-1998:56	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:1999:1-2011:2	errors=2
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2014:1-2024:2	errors=2
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2031:1-2034:4	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2040:1-2071:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2073:1-2116:2	errors=5
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2120:1-2166:2	errors=4
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2169:1-2172:28	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2174:1-2184:45	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2185:1-2197:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2200:1-2212:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2214:1-18	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2216:1-2229:2	errors=18
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2231:1-2237:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2245:1-2251:4	errors=4
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2256:1-2262:4	errors=4
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2264:1-2266:41	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2267:1-2271:6	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2272:1-68	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2273:1-75	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2275:1-2278:77	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2279:1-79	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2280:1-2281:28	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2282:1-2283:29	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2285:1-2286:69	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2288:1-2289:69	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2291:1-2292:67	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2294:1-2295:73	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2297:1-2298:71	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2300:1-2301:74	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2303:1-2304:71	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2306:1-71	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2308:1-2315:48	errors=0
+@@TC DECL-CRASH	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2316:1-2430:2	com.sun.fortress.exceptions.InterpreterBug	com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)	** bug! TryChecker returned an untyped expr: FnExpr at /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2334.11 fn (i) => do r := r // " " row(i) end Expected type was: ZZ32->Any FortressLibrary.ZZ32->Any
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2433:1-2439:4	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2442:1-2448:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2452:1-2469:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2478:1-2498:2	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2500:1-2509:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2511:1-2520:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2522:1-18	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2524:1-2587:2	errors=35
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2590:1-2596:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2598:1-2616:2	errors=3
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2618:1-2623:6	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2627:1-2631:6	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2632:1-2633:29	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2634:1-2639:50	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2640:1-2641:30	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2642:1-2647:22	errors=4
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2648:1-2650:27	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2652:1-2657:34	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2658:1-2659:72	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2661:1-2664:34	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2665:1-2666:72	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2668:1-2669:70	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2671:1-2672:77	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2674:1-2675:75	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2677:1-2678:77	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2680:1-2688:27	errors=0
+@@TC DECL-CRASH	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2689:1-2802:2	com.sun.fortress.exceptions.InterpreterBug	com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)	** bug! TryChecker returned an untyped expr: FnExpr at /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2725.13 fn (k) => do r := r " ;;"  // " " plane(k) end Expected type was: ZZ32->Any FortressLibrary.ZZ32->Any
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2805:1-2811:64	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2813:1-2822:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2831:1-2841:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2843:1-2845:43	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2847:1-2848:39	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2849:1-2850:32	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2851:1-2866:62	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2868:1-2872:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2874:1-2879:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2885:1-2904:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2906:1-2908:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2910:1-2913:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2915:1-2920:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2922:1-2925:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2928:1-2948:2	errors=3
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2953:1-2973:2	errors=4
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2978:1-33	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2980:1-2982:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2985:1-2988:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2990:1-2992:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:2994:1-2998:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3000:1-3004:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3006:1-3009:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3011:1-3013:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3019:1-3024:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3026:1-29	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3028:1-3031:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3033:1-3036:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3038:1-3041:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3043:1-3046:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3048:1-3051:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3054:1-3066:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3068:1-3069:85	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3071:1-3072:64	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3074:1-3080:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3082:1-3083:86	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3085:1-3088:55	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3089:1-3093:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3095:1-3096:85	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3097:1-3098:69	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3100:1-3104:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3105:1-3106:86	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3108:1-3109:69	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3111:1-3119:2	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3120:1-3123:51	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3124:1-3127:1	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3129:1-3132:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3133:1-3134:49	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3135:1-3136:60	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3138:1-3141:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3142:1-3143:49	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3144:1-3145:60	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3147:1-3154:2	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3155:1-3157:97	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3158:1-3159:71	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3161:1-3163:84	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3165:1-3166:63	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3168:1-3170:84	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3172:1-3176:35	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3178:1-3191:2	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3192:1-3194:98	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3195:1-3196:78	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3198:1-3211:2	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3212:1-3214:98	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3215:1-3216:78	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3218:1-3231:2	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3232:1-3234:98	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3235:1-3236:78	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3238:1-3251:2	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3252:1-3254:98	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3255:1-3259:85	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3260:1-3267:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3269:1-3270:50	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3272:1-3273:77	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3275:1-3282:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3284:1-3285:49	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3287:1-3306:3	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3308:1-3313:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3315:1-3316:47	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3318:1-3321:51	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3322:1-3326:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3329:1-3333:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3336:1-3339:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3343:1-3345:62	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3347:1-3352:40	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3353:1-3355:61	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3357:1-3362:18	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3363:1-3365:54	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3367:1-3372:44	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3373:1-3377:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3382:1-3386:2	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3396:1-3402:21	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3403:1-56	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3405:1-3417:2	errors=2
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3419:1-3423:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3425:1-3443:2	errors=3
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3445:1-3451:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3453:1-3465:2	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3467:1-3471:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3473:1-3479:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3481:1-3504:2	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3506:1-3521:2	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3523:1-3529:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3531:1-3542:2	errors=2
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3544:1-3550:2	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3552:1-3558:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3561:1-3567:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3569:1-3572:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3574:1-3592:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3594:1-3597:2	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3614:1-3627:2	errors=3
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3639:1-3686:2	errors=2
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3688:1-45	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3690:1-3702:2	errors=1
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3704:1-3719:2	errors=5
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3721:1-3723:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3725:1-3742:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3744:1-3752:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3754:1-3757:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3759:1-3777:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3779:1-3781:2	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3783:1-3802:2	errors=2
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3804:1-3818:2	errors=3
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3820:1-3832:2	errors=5
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3834:1-53	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3837:1-107	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3838:1-3840:82	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3841:1-3845:6	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3847:1-3848:40	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3849:1-3851:84	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3852:1-3856:4	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3859:1-81	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3860:1-3863:4	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3864:1-3868:4	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3870:1-37	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3872:1-85	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3873:1-3874:64	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3875:1-3877:81	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3879:1-83	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3880:1-3881:63	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3882:1-3884:80	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3893:1-45	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3894:1-45	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3895:1-3904:3	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3906:1-38	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3908:1-82	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3909:1-3910:63	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3911:1-3913:81	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3915:1-3966:3	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3968:1-3971:3	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3973:1-3977:62	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:3979:1-4107:11	errors=11
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4110:1-4124:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4126:1-4130:62	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4132:1-90	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4133:1-107	errors=0
+@@TC DECL-OK	VarDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4135:1-34	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4136:1-72	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4137:1-4143:4	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4145:1-104	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4147:1-95	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4148:1-47	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4150:1-4152:37	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4153:1-59	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4154:1-73	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4155:1-64	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4156:1-78	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4158:1-115	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4159:1-77	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4160:1-125	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4161:1-4163:89	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4164:1-22	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4165:1-26	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4166:1-32	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4167:1-37	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4169:1-4176:6	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4178:1-4183:6	errors=0
+@@TC DECL-CRASH	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4197:1-4210:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4213:1-4214:1	errors=0
+@@TC DECL-CRASH	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4216:1-4221:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4225:1-4229:88	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4230:1-4234:88	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4235:1-4237:76	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4238:1-116	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4239:1-117	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4241:1-116	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4242:1-4246:3	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4248:1-4249:78	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4251:1-65	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4252:1-63	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4253:1-65	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4254:1-69	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4255:1-71	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4256:1-57	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4257:1-64	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4258:1-70	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4259:1-4262:34	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4264:1-4266:65	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4268:1-4272:4	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4274:1-4282:4	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4284:1-4292:4	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4294:1-4302:4	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4304:1-4312:4	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4314:1-4318:4	errors=2
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4320:1-4324:4	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4326:1-4334:4	errors=2
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4336:1-4344:4	errors=2
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4346:1-4354:4	errors=2
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4356:1-4364:4	errors=2
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4366:1-4370:4	errors=3
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4372:1-4373:2	errors=0
+@@TC DECL-OK	VarDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4379:1-39	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4380:1-60	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4381:1-4384:63	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4385:1-45	errors=0
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4388:1-4440:2	errors=9
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4443:1-4453:2	errors=5
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4456:1-4461:2	errors=1
+@@TC DECL-OK	TraitDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4465:1-4479:2	errors=3
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4482:1-4485:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4488:1-4490:50	errors=0
+@@TC DECL-OK	ObjectDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4491:1-4495:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4498:1-4504:2	errors=4
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4504:1-4508:2	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4511:1-4515:2	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4523:1-101	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4524:1-101	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4525:1-4528:88	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4529:1-101	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4530:1-105	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4531:1-105	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4532:1-105	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:4533:1-4534:1	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:427:5-30	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:428:5-30	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:429:5-32	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:430:5-32	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:431:5-32	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:432:5-433:52	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:535:5-35	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:536:5-47	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:537:5-61	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:538:5-63	errors=2
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:539:5-77	errors=1
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:720:5-30	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:791:5-30	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:845:5-35	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:846:5-28	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:847:5-43	errors=0
+@@TC DECL-OK	FnDecl	/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/sod/libs/FLATN/FortressLibrary.fss:848:5-36	errors=1
+@@SC STAGE	component FortressLibrary	typecheck	errors=340
+@@SC STAGE	component FortressLibrary	wellformed2	errors=301
+
+This domain: (Any, Any)
+Concrete methods and domains: List((NewlineReduction.simpleJoin(a:String, b:String):String,(String, String)))
+More specific concrete methods and domains: List((NewlineReduction.simpleJoin(a:String, b:String):String,(String, String)))
+Domain union of List((String, String)) is (String, String)
+Domain (Any, Any) is not a subtype of (String, String)
+
+This domain: (Any, Any)
+Concrete methods and domains: List((TupleMinMinReduction[\T,U\].simpleJoin(a:(T, U), b:(T, U)):(T, U),((T, U), (T, U))))
+More specific concrete methods and domains: List((TupleMinMinReduction[\T,U\].simpleJoin(a:(T, U), b:(T, U)):(T, U),((T, U), (T, U))))
+Domain union of List(((T, U), (T, U))) is ((T, U), (T, U))
+Domain (Any, Any) is not a subtype of ((T, U), (T, U))
+
+This domain: (Any, Any)
+Concrete methods and domains: List((MinReduction[\T\].simpleJoin(a:T, b:T):T,(T, T)))
+More specific concrete methods and domains: List((MinReduction[\T\].simpleJoin(a:T, b:T):T,(T, T)))
+Domain union of List((T, T)) is (T, T)
+Domain (Any, Any) is not a subtype of (T, T)
+
+This domain: (Any, Any)
+Concrete methods and domains: List((TupleMaxMinReduction[\T,U\].simpleJoin(a:(T, U), b:(T, U)):(T, U),((T, U), (T, U))))
+More specific concrete methods and domains: List((TupleMaxMinReduction[\T,U\].simpleJoin(a:(T, U), b:(T, U)):(T, U),((T, U), (T, U))))
+Domain union of List(((T, U), (T, U))) is ((T, U), (T, U))
+Domain (Any, Any) is not a subtype of ((T, U), (T, U))
+
+This domain: Vector[\T,s0\]
+Concrete methods and domains: List((Vector[\T,s0\].+(self:Vector[\T,s0\], v:Vector[\T,s0\]):Vector[\T,s0\],Vector[\T,s0\]))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Vector[\T,s0\] is not a subtype of BottomType
+
+This domain: Matrix[\T,s0,s1\]
+Concrete methods and domains: List((Matrix[\T,s0,s1\].+(self:Matrix[\T,s0,s1\], v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\],Matrix[\T,s0,s1\]))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Matrix[\T,s0,s1\] is not a subtype of BottomType
+
+This domain: (Any, Any)
+Concrete methods and domains: List((MaxReduction[\T\].simpleJoin(a:T, b:T):T,(T, T)))
+More specific concrete methods and domains: List((MaxReduction[\T\].simpleJoin(a:T, b:T):T,(T, T)))
+Domain union of List((T, T)) is (T, T)
+Domain (Any, Any) is not a subtype of (T, T)
+
+This domain: (Reduction[\R\], PossibleReductionPair[\R\]->R)
+Concrete methods and domains: List((Condition[\E\].generate[\G extends Object\](r:Reduction[\G\], body:E->G):G,(Reduction[\G\], PossibleReductionPair[\R\]->G)))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (Reduction[\R\], PossibleReductionPair[\R\]->R) is not a subtype of BottomType
+
+This domain: (Any, Any)
+Concrete methods and domains: List((MinMaxReduction[\T\].simpleJoin(a:(T, T), b:(T, T)):(T, T),((T, T), (T, T))))
+More specific concrete methods and domains: List((MinMaxReduction[\T\].simpleJoin(a:(T, T), b:(T, T)):(T, T),((T, T), (T, T))))
+Domain union of List(((T, T), (T, T))) is ((T, T), (T, T))
+Domain (Any, Any) is not a subtype of ((T, T), (T, T))
+
+This domain: Matrix[\T,s0,s1\]
+Concrete methods and domains: List((Matrix[\T,s0,s1\].+(self:Matrix[\T,s0,s1\], v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\],Matrix[\T,s0,s1\]))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Matrix[\T,s0,s1\] is not a subtype of BottomType
+
+This domain: (Any, Any)
+Concrete methods and domains: List((TupleMinMaxReduction[\T,U\].simpleJoin(a:(T, U), b:(T, U)):(T, U),((T, U), (T, U))))
+More specific concrete methods and domains: List((TupleMinMaxReduction[\T,U\].simpleJoin(a:(T, U), b:(T, U)):(T, U),((T, U), (T, U))))
+Domain union of List(((T, U), (T, U))) is ((T, U), (T, U))
+Domain (Any, Any) is not a subtype of ((T, U), (T, U))
+
+This domain: (Any, Any)
+Concrete methods and domains: List((TupleMaxMaxReduction[\T,U\].simpleJoin(a:(T, U), b:(T, U)):(T, U),((T, U), (T, U))))
+More specific concrete methods and domains: List((TupleMaxMaxReduction[\T,U\].simpleJoin(a:(T, U), b:(T, U)):(T, U),((T, U), (T, U))))
+Domain union of List(((T, U), (T, U))) is ((T, U), (T, U))
+Domain (Any, Any) is not a subtype of ((T, U), (T, U))
+@@SC STAGE	component FortressLibrary	overloading	errors=262
+@@SC STAGE	component FortressLibrary	export	errors=2
+@@SC STAGE	component FortressLibrary	variance	errors=0
+@@TC COMPONENT	FortressLibrary	errors=3162
+@@TC COMPONENTS-NOT-SUCCESSFUL	3162 errors kept
+### rc=0
+exit=0
+ELAPSED 555 s
+# end 2026-09-26T10:39:08Z
