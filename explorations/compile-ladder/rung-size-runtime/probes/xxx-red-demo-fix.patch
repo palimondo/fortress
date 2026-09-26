@@ -1,0 +1,31 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+index 7a43781ab..a3474878c 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+@@ -1800,13 +1800,15 @@ nameTemp + "\n" +
+                 for (StaticArg sa : args) {
+                     if (sa instanceof TypeArg) {
+                         generateRTTIfromStaticType(mv, ((TypeArg) sa).getTypeArg());
++                    } else if (sa instanceof IntArg && ((IntArg) sa).getIntVal() instanceof IntBase) {
++                        MethodInstantiater.sizeReference(mv, sa.accept(NamingCzar.spkTagger(null)).getB());
+                     } else {
+                         throw new CompilerError("Expected TypeArg for RTTI generation");
+                     }
+                 }
+                 //find component for type and call factory
+-                String typeName = NamingCzar.jvmTypeDesc(t, this.ifNone, false);
+-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, typeName + Naming.RTTI_CLASS_SUFFIX,Naming.RTTI_FACTORY, Naming.rttiFactorySig(args.size()));
++                String typeName = CodeGen.stemFromId(((TraitType) t).getName(), packageAndClassName);
++                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Naming.stemClassToRTTIclass(typeName),Naming.RTTI_FACTORY, Naming.rttiFactorySig(args.size()));
+             } else {
+                 //find component for type and grab singleton RTTI
+                 String typeName = NamingCzar.jvmTypeDesc(t, this.ifNone, false);
+@@ -1827,6 +1829,8 @@ nameTemp + "\n" +
+                 for (StaticArg arg : args) {
+                     if (arg instanceof TypeArg) {
+                         if (isGeneric(((TypeArg) arg).getTypeArg())) return true;
++                    } else if (arg instanceof IntArg) {
++                        if (((IntArg) arg).getIntVal() instanceof IntRef) return true;
+                     } else {
+                         throw new CompilerError("Expecting a TypeArg when checking genericity");
+                     }
