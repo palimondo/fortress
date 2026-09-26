@@ -1,0 +1,44 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtBigSize
+export Executable
+object Box[\nat k\](v: ZZ32) end
+sz64[\nat k\](b: Box[\k\]): ZZ64 = k
+szZ[\nat k\](b: Box[\k\]): ZZ = k
+g(b: Box[\3000000000\]): String = "big"
+g(x: Any): String = "other"
+run() = do
+  e1: ZZ64 = 2147483647
+  r1 = sz64(Box[\2147483647\](0))
+  println(r1)
+  assert(r1 = e1, "trait-parameters.tex:82-90")
+  e2: ZZ64 = 2147483648
+  r2 = sz64(Box[\2147483648\](0))
+  println(r2)
+  assert(r2 = e2, "trait-parameters.tex:82-90")
+  e3: ZZ64 = 3000000000
+  r3 = sz64(Box[\3000000000\](0))
+  println(r3)
+  assert(r3 = e3, "trait-parameters.tex:82-90")
+  e4: ZZ64 = 4294967295
+  r4 = sz64(Box[\4294967295\](0))
+  println(r4)
+  assert(r4 = e4, "trait-parameters.tex:82-90")
+  e5: ZZ64 = 9223372036854775807
+  r5 = sz64(Box[\9223372036854775807\](0))
+  println(r5)
+  assert(r5 = e5, "literals.tex:83-85")
+  e6: ZZ = 9223372036854775808
+  r6 = szZ(Box[\9223372036854775808\](0))
+  println(r6)
+  assert(r6 = e6, "literals.tex:83-85")
+  e7: ZZ = 18446744073709551615
+  r7 = szZ(Box[\18446744073709551615\](0))
+  println(r7)
+  assert(r7 = e7, "literals.tex:83-85")
+  a: Any = Box[\3000000000\](0)
+  assert(g(a), "big", "trait-parameters.tex:82-90")
+  b: Any = Box[\3\](0)
+  assert(g(b), "other", "trait-parameters.tex:82-90")
+  println("PASS")
+end
+end

@@ -1,0 +1,19 @@
+component ZrHugeType
+export Executable
+object Box[\nat k\](v: ZZ32) end
+g(b: Box[\9223372036854775808\]): String = "two-to-63"
+g(b: Box[\18446744073709551615\]): String = "two-to-64-less-1"
+g(x: Any): String = "other"
+h[\nat k\](b: Box[\k\]): String = "generic"
+h(x: Any): String = "other"
+run() = do
+  a: Any = Box[\9223372036854775808\](0)
+  println(g(a))
+  b: Any = Box[\18446744073709551615\](0)
+  println(g(b))
+  c: Any = Box[\9223372036854775807\](0)
+  println(g(c))
+  println(h(a))
+  println(h(0))
+end
+end
