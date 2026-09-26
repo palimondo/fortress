@@ -642,10 +642,8 @@ object ExportChecker {
       case _ => false
     }
 
-  /* Returns true if two IntExprs are same.
-   * Not implemented!
-   */
-  private def equalIntExprs(left: IntExpr, right: IntExpr): Boolean = false
+  /* Returns true if two IntExprs are same. */
+  private def equalIntExprs(left: IntExpr, right: IntExpr): Boolean = Formula.nEq(left, right)
 
   /* Returns true if two parameters are same. */
   private def equalParams(left: Param, right: Param): Boolean =

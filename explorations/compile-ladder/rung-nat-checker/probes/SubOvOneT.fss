@@ -1,0 +1,10 @@
+component SubOvOneT
+export Executable
+trait Up[\T, U0\]
+    sub[\U\](m: ZZ32): Up[\T, U\]
+end
+trait Dn[\T, U0\] extends { Up[\T, U0\] }
+    sub[\U\](m: ZZ32): Dn[\T, ZZ32\]
+end
+run(): () = println("SubOvOneT")
+end

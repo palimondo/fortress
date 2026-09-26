@@ -1,0 +1,3 @@
+tests=XXXNatDispArmChecker
+compile
+compile_exception_contains=Only handling some static args of generic types

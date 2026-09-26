@@ -244,8 +244,9 @@ trait Functionals { self: STypeChecker with Common =>
         }
 
         // If there are inference variables left, inform the user that there
-        // wasn't enough context.
-        if (hasInferenceVars(resultArrow)) {
+        // wasn't enough context.  A size left unknown is an error only where it
+        // reaches a type or a static argument of this call.
+        if (hasInferenceVars(resultArrow) || hasSizeInferenceVars(sargs)) {
           return Right(errorFactory.makeNoContextError(originalArrow, sargs))
         }
 

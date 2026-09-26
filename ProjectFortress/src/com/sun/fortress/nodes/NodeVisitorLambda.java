@@ -363,6 +363,9 @@ public abstract class NodeVisitorLambda<RetType> implements edu.rice.cs.plt.lamb
     /** Process an instance of IntBinaryOp. */
     public abstract RetType forIntBinaryOp(IntBinaryOp that);
 
+    /** Process an instance of _InferenceVarInt. */
+    public abstract RetType for_InferenceVarInt(_InferenceVarInt that);
+
     /** Process an instance of BoolBase. */
     public abstract RetType forBoolBase(BoolBase that);
 
@@ -1098,6 +1101,9 @@ public abstract class NodeVisitorLambda<RetType> implements edu.rice.cs.plt.lamb
     /** Process an instance of _SyntaxTransformationIntBinaryOp. */
     public abstract RetType for_SyntaxTransformationIntBinaryOp(_SyntaxTransformationIntBinaryOp that);
 
+    /** Process an instance of _SyntaxTransformation_InferenceVarInt. */
+    public abstract RetType for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that);
+
     /** Process an instance of _SyntaxTransformationBoolExpr. */
     public abstract RetType for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that);
 
@@ -1818,6 +1824,9 @@ public abstract class NodeVisitorLambda<RetType> implements edu.rice.cs.plt.lamb
     /** Process an instance of _EllipsesIntBinaryOp. */
     public abstract RetType for_EllipsesIntBinaryOp(_EllipsesIntBinaryOp that);
 
+    /** Process an instance of _Ellipses_InferenceVarInt. */
+    public abstract RetType for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that);
+
     /** Process an instance of _EllipsesBoolExpr. */
     public abstract RetType for_EllipsesBoolExpr(_EllipsesBoolExpr that);
 
@@ -2537,6 +2546,9 @@ public abstract class NodeVisitorLambda<RetType> implements edu.rice.cs.plt.lamb
 
     /** Process an instance of TemplateGapIntBinaryOp. */
     public abstract RetType forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that);
+
+    /** Process an instance of TemplateGap_InferenceVarInt. */
+    public abstract RetType forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that);
 
     /** Process an instance of TemplateGapBoolExpr. */
     public abstract RetType forTemplateGapBoolExpr(TemplateGapBoolExpr that);

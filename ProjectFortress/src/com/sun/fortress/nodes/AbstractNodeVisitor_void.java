@@ -357,6 +357,9 @@ public interface AbstractNodeVisitor_void extends ExprVisitor_void, TypeVisitor_
     /** Process an instance of IntBinaryOp. */
     public void forIntBinaryOp(IntBinaryOp that);
 
+    /** Process an instance of _InferenceVarInt. */
+    public void for_InferenceVarInt(_InferenceVarInt that);
+
     /** Process an instance of BoolBase. */
     public void forBoolBase(BoolBase that);
 
@@ -1022,6 +1025,9 @@ public interface AbstractNodeVisitor_void extends ExprVisitor_void, TypeVisitor_
 
     /** Process an instance of _SyntaxTransformationIntBinaryOp. */
     public void for_SyntaxTransformationIntBinaryOp(_SyntaxTransformationIntBinaryOp that);
+
+    /** Process an instance of _SyntaxTransformation_InferenceVarInt. */
+    public void for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that);
 
     /** Process an instance of _SyntaxTransformationBoolExpr. */
     public void for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that);
@@ -1743,6 +1749,9 @@ public interface AbstractNodeVisitor_void extends ExprVisitor_void, TypeVisitor_
     /** Process an instance of _EllipsesIntBinaryOp. */
     public void for_EllipsesIntBinaryOp(_EllipsesIntBinaryOp that);
 
+    /** Process an instance of _Ellipses_InferenceVarInt. */
+    public void for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that);
+
     /** Process an instance of _EllipsesBoolExpr. */
     public void for_EllipsesBoolExpr(_EllipsesBoolExpr that);
 
@@ -2462,6 +2471,9 @@ public interface AbstractNodeVisitor_void extends ExprVisitor_void, TypeVisitor_
 
     /** Process an instance of TemplateGapIntBinaryOp. */
     public void forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that);
+
+    /** Process an instance of TemplateGap_InferenceVarInt. */
+    public void forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that);
 
     /** Process an instance of TemplateGapBoolExpr. */
     public void forTemplateGapBoolExpr(TemplateGapBoolExpr that);

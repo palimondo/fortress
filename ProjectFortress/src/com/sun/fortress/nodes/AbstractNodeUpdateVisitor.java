@@ -596,6 +596,11 @@ public abstract class AbstractNodeUpdateVisitor extends AbstractNodeVisitorLambd
         else return new IntBinaryOp(info_result, that.isParenthesized(), left_result, right_result, op_result);
     }
 
+    public AbstractNode for_InferenceVarIntOnly(_InferenceVarInt that, ASTNodeInfo info_result) {
+        if (that.getInfo() == info_result) return that;
+        else return new _InferenceVarInt(info_result, that.isParenthesized(), that.getId());
+    }
+
     public AbstractNode forBoolBaseOnly(BoolBase that, ASTNodeInfo info_result) {
         if (that.getInfo() == info_result) return that;
         else return new BoolBase(info_result, that.isParenthesized(), that.isBoolVal());
@@ -1706,6 +1711,11 @@ public abstract class AbstractNodeUpdateVisitor extends AbstractNodeVisitorLambd
         else return new _SyntaxTransformationIntBinaryOp(that.isParenthesized(), left_result, right_result, op_result, info_result, that.getVariables(), that.getSyntaxParameters(), that.getSyntaxTransformer());
     }
 
+    public AbstractNode for_SyntaxTransformation_InferenceVarIntOnly(_SyntaxTransformation_InferenceVarInt that, ASTNodeInfo info_result) {
+        if (that.getInfo() == info_result) return that;
+        else return new _SyntaxTransformation_InferenceVarInt(that.isParenthesized(), that.getId(), info_result, that.getVariables(), that.getSyntaxParameters(), that.getSyntaxTransformer());
+    }
+
     public AbstractNode for_SyntaxTransformationBoolExprOnly(_SyntaxTransformationBoolExpr that, ASTNodeInfo info_result) {
         if (that.getInfo() == info_result) return that;
         else return new _SyntaxTransformationBoolExpr(that.isParenthesized(), info_result, that.getVariables(), that.getSyntaxParameters(), that.getSyntaxTransformer());
@@ -2757,6 +2767,10 @@ public abstract class AbstractNodeUpdateVisitor extends AbstractNodeVisitorLambd
     }
 
     public AbstractNode for_EllipsesIntBinaryOpOnly(_EllipsesIntBinaryOp that) {
+        return that;
+    }
+
+    public AbstractNode for_Ellipses_InferenceVarIntOnly(_Ellipses_InferenceVarInt that) {
         return that;
     }
 
@@ -3864,6 +3878,11 @@ public abstract class AbstractNodeUpdateVisitor extends AbstractNodeVisitorLambd
     public AbstractNode forTemplateGapIntBinaryOpOnly(TemplateGapIntBinaryOp that, ASTNodeInfo info_result, Id gapId_result, List<Id> templateParams_result) {
         if (that.getInfo() == info_result && that.getGapId() == gapId_result && that.getTemplateParams() == templateParams_result) return that;
         else return new TemplateGapIntBinaryOp(info_result, gapId_result, templateParams_result);
+    }
+
+    public AbstractNode forTemplateGap_InferenceVarIntOnly(TemplateGap_InferenceVarInt that, ASTNodeInfo info_result, Id gapId_result, List<Id> templateParams_result) {
+        if (that.getInfo() == info_result && that.getGapId() == gapId_result && that.getTemplateParams() == templateParams_result) return that;
+        else return new TemplateGap_InferenceVarInt(info_result, gapId_result, templateParams_result);
     }
 
     public AbstractNode forTemplateGapBoolExprOnly(TemplateGapBoolExpr that, ASTNodeInfo info_result, Id gapId_result, List<Id> templateParams_result) {
@@ -5262,6 +5281,12 @@ public abstract class AbstractNodeUpdateVisitor extends AbstractNodeVisitorLambd
         IntExpr right_result = (IntExpr) recur(that.getRight());
         Op op_result = (Op) recur(that.getOp());
         return forIntBinaryOpOnly(that, info_result, left_result, right_result, op_result);
+    }
+
+
+    public AbstractNode for_InferenceVarInt(_InferenceVarInt that) {
+        ASTNodeInfo info_result = recurOnASTNodeInfo(that.getInfo());
+        return for_InferenceVarIntOnly(that, info_result);
     }
 
 
@@ -6997,6 +7022,12 @@ public abstract class AbstractNodeUpdateVisitor extends AbstractNodeVisitorLambd
     }
 
 
+    public AbstractNode for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that) {
+        ASTNodeInfo info_result = recurOnASTNodeInfo(that.getInfo());
+        return for_SyntaxTransformation_InferenceVarIntOnly(that, info_result);
+    }
+
+
     public AbstractNode for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that) {
         ASTNodeInfo info_result = recurOnASTNodeInfo(that.getInfo());
         return for_SyntaxTransformationBoolExprOnly(that, info_result);
@@ -8413,6 +8444,11 @@ public abstract class AbstractNodeUpdateVisitor extends AbstractNodeVisitorLambd
 
     public AbstractNode for_EllipsesIntBinaryOp(_EllipsesIntBinaryOp that) {
         return for_EllipsesIntBinaryOpOnly(that);
+    }
+
+
+    public AbstractNode for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that) {
+        return for_Ellipses_InferenceVarIntOnly(that);
     }
 
 
@@ -10051,6 +10087,14 @@ public abstract class AbstractNodeUpdateVisitor extends AbstractNodeVisitorLambd
         Id gapId_result = (Id) recur(that.getGapId());
         List<Id> templateParams_result = recurOnListOfId(that.getTemplateParams());
         return forTemplateGapIntBinaryOpOnly(that, info_result, gapId_result, templateParams_result);
+    }
+
+
+    public AbstractNode forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that) {
+        ASTNodeInfo info_result = recurOnASTNodeInfo(that.getInfo());
+        Id gapId_result = (Id) recur(that.getGapId());
+        List<Id> templateParams_result = recurOnListOfId(that.getTemplateParams());
+        return forTemplateGap_InferenceVarIntOnly(that, info_result, gapId_result, templateParams_result);
     }
 
 

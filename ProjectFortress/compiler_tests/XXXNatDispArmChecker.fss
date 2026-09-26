@@ -1,5 +1,5 @@
 (* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
-component NatDispArmChecker
+component XXXNatDispArmChecker
 export Executable
 
 object Vec[\T, nat s\](x: T) end

@@ -363,6 +363,9 @@ public abstract class NodeVisitorRunnable1 implements edu.rice.cs.plt.lambda.Run
     /** Process an instance of IntBinaryOp. */
     public abstract void forIntBinaryOp(IntBinaryOp that);
 
+    /** Process an instance of _InferenceVarInt. */
+    public abstract void for_InferenceVarInt(_InferenceVarInt that);
+
     /** Process an instance of BoolBase. */
     public abstract void forBoolBase(BoolBase that);
 
@@ -1098,6 +1101,9 @@ public abstract class NodeVisitorRunnable1 implements edu.rice.cs.plt.lambda.Run
     /** Process an instance of _SyntaxTransformationIntBinaryOp. */
     public abstract void for_SyntaxTransformationIntBinaryOp(_SyntaxTransformationIntBinaryOp that);
 
+    /** Process an instance of _SyntaxTransformation_InferenceVarInt. */
+    public abstract void for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that);
+
     /** Process an instance of _SyntaxTransformationBoolExpr. */
     public abstract void for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that);
 
@@ -1818,6 +1824,9 @@ public abstract class NodeVisitorRunnable1 implements edu.rice.cs.plt.lambda.Run
     /** Process an instance of _EllipsesIntBinaryOp. */
     public abstract void for_EllipsesIntBinaryOp(_EllipsesIntBinaryOp that);
 
+    /** Process an instance of _Ellipses_InferenceVarInt. */
+    public abstract void for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that);
+
     /** Process an instance of _EllipsesBoolExpr. */
     public abstract void for_EllipsesBoolExpr(_EllipsesBoolExpr that);
 
@@ -2537,6 +2546,9 @@ public abstract class NodeVisitorRunnable1 implements edu.rice.cs.plt.lambda.Run
 
     /** Process an instance of TemplateGapIntBinaryOp. */
     public abstract void forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that);
+
+    /** Process an instance of TemplateGap_InferenceVarInt. */
+    public abstract void forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that);
 
     /** Process an instance of TemplateGapBoolExpr. */
     public abstract void forTemplateGapBoolExpr(TemplateGapBoolExpr that);

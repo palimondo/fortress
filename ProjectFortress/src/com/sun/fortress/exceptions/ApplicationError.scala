@@ -111,6 +111,7 @@ class ApplicationErrorFactory(val app: Expr, val recvrType: Option[Type], isOver
     // Gather up the static params that correspond to uninferred static args.
     val missing = (infSargs zip getStaticParams(arrow)) flatMap {
       case (STypeArg(_, false, _:_InferenceVarType), sparam) => Some(sparam)
+      case (SIntArg(_, _, _:_InferenceVarInt), sparam) => Some(sparam)
       case _ => None
     }
     NoContextError(arrow, missing)

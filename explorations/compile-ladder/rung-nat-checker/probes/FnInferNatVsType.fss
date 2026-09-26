@@ -1,0 +1,11 @@
+component FnInferNatVsType
+export Executable
+object BoxT[\T\](v: ZZ32) end
+object Box[\nat k\](v: ZZ32) end
+fT[\U\](b: BoxT[\U\]): ZZ32 = b.v
+fN[\nat j\](b: Box[\j\]): ZZ32 = b.v
+run(): () = do
+  println(fT(BoxT[\ZZ32\](5)))
+  println(fN(Box[\2\](5)))
+end
+end

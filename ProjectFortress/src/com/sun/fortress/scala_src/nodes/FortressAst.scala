@@ -1524,6 +1524,12 @@ object SWhitespaceSymbol {
    def apply(getInfo:com.sun.fortress.nodes.ASTNodeInfo, getS:String) = 
       new com.sun.fortress.nodes.WhitespaceSymbol(javaify(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], javaify(getS).asInstanceOf[String])
 }
+object S_InferenceVarInt {
+   def unapply(node:com.sun.fortress.nodes._InferenceVarInt) = 
+      Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.isParenthesized()).asInstanceOf[Boolean], scalaify(node.getId()).asInstanceOf[_root_.java.lang.Object]))
+   def apply(getInfo:com.sun.fortress.nodes.ASTNodeInfo, isParenthesized:Boolean, getId:_root_.java.lang.Object) = 
+      new com.sun.fortress.nodes._InferenceVarInt(javaify(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], javaify(isParenthesized).asInstanceOf[Boolean], javaify(getId).asInstanceOf[_root_.java.lang.Object])
+}
 object S_InferenceVarOp {
    def unapply(node:com.sun.fortress.nodes._InferenceVarOp) = 
       Some((scalaify(node.getInfo()).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], scalaify(node.getApiName()).asInstanceOf[Option[com.sun.fortress.nodes.APIName]], scalaify(node.getText()).asInstanceOf[String], scalaify(node.getFixity()).asInstanceOf[com.sun.fortress.nodes.Fixity], scalaify(node.isEnclosing()).asInstanceOf[Boolean], scalaify(node.getId()).asInstanceOf[_root_.java.lang.Object]))
@@ -1781,6 +1787,8 @@ trait Walker {
              SBoolRef(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(isParenthesized).asInstanceOf[Boolean], walk(getName).asInstanceOf[com.sun.fortress.nodes.Id], walk(getLexicalDepth).asInstanceOf[Int])
          case SBoolBase(getInfo, isParenthesized, isBoolVal) =>
              SBoolBase(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(isParenthesized).asInstanceOf[Boolean], walk(isBoolVal).asInstanceOf[Boolean])
+         case S_InferenceVarInt(getInfo, isParenthesized, getId) =>
+             S_InferenceVarInt(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(isParenthesized).asInstanceOf[Boolean], walk(getId).asInstanceOf[_root_.java.lang.Object])
          case SIntBinaryOp(getInfo, isParenthesized, getLeft, getRight, getOp) =>
              SIntBinaryOp(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(isParenthesized).asInstanceOf[Boolean], walk(getLeft).asInstanceOf[com.sun.fortress.nodes.IntExpr], walk(getRight).asInstanceOf[com.sun.fortress.nodes.IntExpr], walk(getOp).asInstanceOf[com.sun.fortress.nodes.Op])
          case SIntRef(getInfo, isParenthesized, getName, getLexicalDepth) =>

@@ -149,6 +149,7 @@ public class NodeReader {
         if (name.equals("IntBase:")) return readIntBaseBody();
         if (name.equals("IntRef:")) return readIntRefBody();
         if (name.equals("IntBinaryOp:")) return readIntBinaryOpBody();
+        if (name.equals("_InferenceVarInt:")) return read_InferenceVarIntBody();
         if (name.equals("BoolBase:")) return readBoolBaseBody();
         if (name.equals("BoolRef:")) return readBoolRefBody();
         if (name.equals("BoolUnaryOp:")) return readBoolUnaryOpBody();
@@ -394,6 +395,7 @@ public class NodeReader {
         if (name.equals("_SyntaxTransformationIntBase:")) return read_SyntaxTransformationIntBaseBody();
         if (name.equals("_SyntaxTransformationIntRef:")) return read_SyntaxTransformationIntRefBody();
         if (name.equals("_SyntaxTransformationIntBinaryOp:")) return read_SyntaxTransformationIntBinaryOpBody();
+        if (name.equals("_SyntaxTransformation_InferenceVarInt:")) return read_SyntaxTransformation_InferenceVarIntBody();
         if (name.equals("_SyntaxTransformationBoolExpr:")) return read_SyntaxTransformationBoolExprBody();
         if (name.equals("_SyntaxTransformationBoolBase:")) return read_SyntaxTransformationBoolBaseBody();
         if (name.equals("_SyntaxTransformationBoolRef:")) return read_SyntaxTransformationBoolRefBody();
@@ -634,6 +636,7 @@ public class NodeReader {
         if (name.equals("_EllipsesIntBase:")) return read_EllipsesIntBaseBody();
         if (name.equals("_EllipsesIntRef:")) return read_EllipsesIntRefBody();
         if (name.equals("_EllipsesIntBinaryOp:")) return read_EllipsesIntBinaryOpBody();
+        if (name.equals("_Ellipses_InferenceVarInt:")) return read_Ellipses_InferenceVarIntBody();
         if (name.equals("_EllipsesBoolExpr:")) return read_EllipsesBoolExprBody();
         if (name.equals("_EllipsesBoolBase:")) return read_EllipsesBoolBaseBody();
         if (name.equals("_EllipsesBoolRef:")) return read_EllipsesBoolRefBody();
@@ -874,6 +877,7 @@ public class NodeReader {
         if (name.equals("TemplateGapIntBase:")) return readTemplateGapIntBaseBody();
         if (name.equals("TemplateGapIntRef:")) return readTemplateGapIntRefBody();
         if (name.equals("TemplateGapIntBinaryOp:")) return readTemplateGapIntBinaryOpBody();
+        if (name.equals("TemplateGap_InferenceVarInt:")) return readTemplateGap_InferenceVarIntBody();
         if (name.equals("TemplateGapBoolExpr:")) return readTemplateGapBoolExprBody();
         if (name.equals("TemplateGapBoolBase:")) return readTemplateGapBoolBaseBody();
         if (name.equals("TemplateGapBoolRef:")) return readTemplateGapBoolRefBody();
@@ -2247,6 +2251,16 @@ public class NodeReader {
         readFieldDelim("op = ");
         Op read_op = (Op) readNode();
         return new IntBinaryOp(read_info, read_parenthesized, read_left, read_right, read_op);
+    }
+
+    private _InferenceVarInt read_InferenceVarIntBody() throws java.io.IOException {
+        readFieldDelim("info = ");
+        ASTNodeInfo read_info = (ASTNodeInfo) readNode();
+        readFieldDelim("parenthesized = ");
+        boolean read_parenthesized = readBoolean();
+        readFieldDelim("id = ");
+        Object read_id = (Object) readUnknownObject();
+        return new _InferenceVarInt(read_info, read_parenthesized, read_id);
     }
 
     private BoolBase readBoolBaseBody() throws java.io.IOException {
@@ -5601,6 +5615,22 @@ public class NodeReader {
         return new _SyntaxTransformationIntBinaryOp(read_parenthesized, read_left, read_right, read_op, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
     }
 
+    private _SyntaxTransformation_InferenceVarInt read_SyntaxTransformation_InferenceVarIntBody() throws java.io.IOException {
+        readFieldDelim("parenthesized = ");
+        boolean read_parenthesized = readBoolean();
+        readFieldDelim("id = ");
+        Object read_id = (Object) readUnknownObject();
+        readFieldDelim("info = ");
+        ASTNodeInfo read_info = (ASTNodeInfo) readNode();
+        readFieldDelim("variables = ");
+        @SuppressWarnings("unchecked") java.util.Map<String, Level> read_variables = (java.util.Map<String, Level>) readUnknownObject();
+        readFieldDelim("syntaxParameters = ");
+        java.util.List<String> read_syntaxParameters = read_java_util_ListOfString();
+        readFieldDelim("syntaxTransformer = ");
+        String read_syntaxTransformer = readString();
+        return new _SyntaxTransformation_InferenceVarInt(read_parenthesized, read_id, read_info, read_variables, read_syntaxParameters, read_syntaxTransformer);
+    }
+
     private _SyntaxTransformationBoolExpr read_SyntaxTransformationBoolExprBody() throws java.io.IOException {
         readFieldDelim("parenthesized = ");
         boolean read_parenthesized = readBoolean();
@@ -7645,6 +7675,10 @@ public class NodeReader {
         return new _EllipsesIntBinaryOp();
     }
 
+    private _Ellipses_InferenceVarInt read_Ellipses_InferenceVarIntBody() throws java.io.IOException {
+        return new _Ellipses_InferenceVarInt();
+    }
+
     private _EllipsesBoolExpr read_EllipsesBoolExprBody() throws java.io.IOException {
         return new _EllipsesBoolExpr();
     }
@@ -9479,6 +9513,16 @@ public class NodeReader {
         readFieldDelim("templateParams = ");
         List<Id> read_templateParams = readListOfId();
         return new TemplateGapIntBinaryOp(read_info, read_gapId, read_templateParams);
+    }
+
+    private TemplateGap_InferenceVarInt readTemplateGap_InferenceVarIntBody() throws java.io.IOException {
+        readFieldDelim("info = ");
+        ASTNodeInfo read_info = (ASTNodeInfo) readNode();
+        readFieldDelim("gapId = ");
+        Id read_gapId = (Id) readNode();
+        readFieldDelim("templateParams = ");
+        List<Id> read_templateParams = readListOfId();
+        return new TemplateGap_InferenceVarInt(read_info, read_gapId, read_templateParams);
     }
 
     private TemplateGapBoolExpr readTemplateGapBoolExprBody() throws java.io.IOException {

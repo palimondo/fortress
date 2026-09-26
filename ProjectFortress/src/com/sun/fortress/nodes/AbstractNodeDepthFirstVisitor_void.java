@@ -626,6 +626,10 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         forIntExprDoFirst(that);
     }
 
+    public void for_InferenceVarIntDoFirst(_InferenceVarInt that) {
+        forIntExprDoFirst(that);
+    }
+
     public void forBoolExprDoFirst(BoolExpr that) {
         forStaticExprDoFirst(that);
     }
@@ -1586,6 +1590,10 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         forIntBinaryOpDoFirst(that);
     }
 
+    public void for_SyntaxTransformation_InferenceVarIntDoFirst(_SyntaxTransformation_InferenceVarInt that) {
+        for_InferenceVarIntDoFirst(that);
+    }
+
     public void for_SyntaxTransformationBoolExprDoFirst(_SyntaxTransformationBoolExpr that) {
         forBoolExprDoFirst(that);
     }
@@ -2544,6 +2552,10 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
 
     public void for_EllipsesIntBinaryOpDoFirst(_EllipsesIntBinaryOp that) {
         forIntBinaryOpDoFirst(that);
+    }
+
+    public void for_Ellipses_InferenceVarIntDoFirst(_Ellipses_InferenceVarInt that) {
+        for_InferenceVarIntDoFirst(that);
     }
 
     public void for_EllipsesBoolExprDoFirst(_EllipsesBoolExpr that) {
@@ -3507,6 +3519,10 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         forIntExprOnly(that);
     }
 
+    public void for_InferenceVarIntOnly(_InferenceVarInt that) {
+        forIntExprOnly(that);
+    }
+
     public void forBoolExprOnly(BoolExpr that) {
         forStaticExprOnly(that);
     }
@@ -4467,6 +4483,10 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         forIntBinaryOpOnly(that);
     }
 
+    public void for_SyntaxTransformation_InferenceVarIntOnly(_SyntaxTransformation_InferenceVarInt that) {
+        for_InferenceVarIntOnly(that);
+    }
+
     public void for_SyntaxTransformationBoolExprOnly(_SyntaxTransformationBoolExpr that) {
         forBoolExprOnly(that);
     }
@@ -5425,6 +5445,10 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
 
     public void for_EllipsesIntBinaryOpOnly(_EllipsesIntBinaryOp that) {
         forIntBinaryOpOnly(that);
+    }
+
+    public void for_Ellipses_InferenceVarIntOnly(_Ellipses_InferenceVarInt that) {
+        for_InferenceVarIntOnly(that);
     }
 
     public void for_EllipsesBoolExprOnly(_EllipsesBoolExpr that) {
@@ -6729,6 +6753,12 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         recur(that.getRight());
         recur(that.getOp());
         forIntBinaryOpOnly(that);
+    }
+
+    public void for_InferenceVarInt(_InferenceVarInt that) {
+        for_InferenceVarIntDoFirst(that);
+        recurOnASTNodeInfo(that.getInfo());
+        for_InferenceVarIntOnly(that);
     }
 
     public void forBoolBase(BoolBase that) {
@@ -8463,6 +8493,12 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         for_SyntaxTransformationIntBinaryOpOnly(that);
     }
 
+    public void for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that) {
+        for_SyntaxTransformation_InferenceVarIntDoFirst(that);
+        recurOnASTNodeInfo(that.getInfo());
+        for_SyntaxTransformation_InferenceVarIntOnly(that);
+    }
+
     public void for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that) {
         for_SyntaxTransformationBoolExprDoFirst(that);
         recurOnASTNodeInfo(that.getInfo());
@@ -9882,6 +9918,11 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
         for_EllipsesIntBinaryOpOnly(that);
     }
 
+    public void for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that) {
+        for_Ellipses_InferenceVarIntDoFirst(that);
+        for_Ellipses_InferenceVarIntOnly(that);
+    }
+
     public void for_EllipsesBoolExpr(_EllipsesBoolExpr that) {
         for_EllipsesBoolExprDoFirst(that);
         for_EllipsesBoolExprOnly(that);
@@ -10933,6 +10974,10 @@ public class AbstractNodeDepthFirstVisitor_void extends AbstractNodeVisitorRunna
     }
 
     public void forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that) {
+        defaultTemplateGap(that);
+    }
+
+    public void forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that) {
         defaultTemplateGap(that);
     }
 

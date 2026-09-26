@@ -328,8 +328,8 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     case (a,b) if (a==b) => pTrue()
     case (STypeArg(_, _, s), STypeArg(_, _, t)) => pEqv(s, t)
     case (SOpArg(_, _, o), SOpArg(_, _, p)) => pEqv(o, p)
+    case (SIntArg(_, _, m), SIntArg(_, _, n)) => pEqv(m, n)
     // Not handling all static args properly yet
-    case (_: IntArg, _: IntArg) => pTrue()
     case (_: BoolArg, _: BoolArg) => pTrue()
     case (_: DimArg, _: DimArg) => pTrue()
     case (_: UnitArg, _: UnitArg) => pTrue()
@@ -344,6 +344,18 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     case (a: _InferenceVarOp, b: _InferenceVarOp) => and(pEquivalent(a, b), pEquivalent(b, a))
     case (a: _InferenceVarOp, b) => pEquivalent(a, b)
     case (a, b: _InferenceVarOp) => pEquivalent(b, a)
+    case _ => pFalse()
+  }
+
+  def equivalent(x: IntExpr, y: IntExpr): CFormula = pEqv(x, y)(false)
+  def notEquivalent(x: IntExpr, y: IntExpr): CFormula = pEqv(x, y)(true)
+
+  // Sizes are equal as symbols and literals; a symbol is not any literal
+  protected def pEqv(x: IntExpr, y: IntExpr)(implicit negate: Boolean): CFormula = (x, y) match {
+    case (a, b) if nEq(a, b) => pTrue()
+    case (a: _InferenceVarInt, b: _InferenceVarInt) => and(pEquivalent(a, b), pEquivalent(b, a))
+    case (a: _InferenceVarInt, b) => pEquivalent(a, b)
+    case (a, b: _InferenceVarInt) => pEquivalent(b, a)
     case _ => pFalse()
   }
   
@@ -792,6 +804,8 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   def pFromBoolean(b: Boolean)(implicit negate: Boolean) = fromBoolean(negate != b)
   def pEquivalent(i: _InferenceVarOp, o: Op)(implicit negate: Boolean) =
     if (negate) oNotEquivalent(i, o) else oEquivalent(i, o)
+  def pEquivalent(i: _InferenceVarInt, e: IntExpr)(implicit negate: Boolean) =
+    if (negate) nNotEquivalent(i, e) else nEquivalent(i, e)
 }
 
 object TypeAnalyzer {

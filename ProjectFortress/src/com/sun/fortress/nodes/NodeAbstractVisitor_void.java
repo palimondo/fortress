@@ -629,6 +629,10 @@ public class NodeAbstractVisitor_void extends NodeVisitorRunnable1 {
         forIntExpr(that);
     }
 
+    public void for_InferenceVarInt(_InferenceVarInt that) {
+        forIntExpr(that);
+    }
+
     public void forBoolExpr(BoolExpr that) {
         forStaticExpr(that);
     }
@@ -1757,6 +1761,10 @@ public class NodeAbstractVisitor_void extends NodeVisitorRunnable1 {
         forIntBinaryOp(that);
     }
 
+    public void for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that) {
+        for_InferenceVarInt(that);
+    }
+
     public void for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that) {
         forBoolExpr(that);
     }
@@ -2717,6 +2725,10 @@ public class NodeAbstractVisitor_void extends NodeVisitorRunnable1 {
         forIntBinaryOp(that);
     }
 
+    public void for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that) {
+        for_InferenceVarInt(that);
+    }
+
     public void for_EllipsesBoolExpr(_EllipsesBoolExpr that) {
         forBoolExpr(that);
     }
@@ -3675,6 +3687,10 @@ public class NodeAbstractVisitor_void extends NodeVisitorRunnable1 {
 
     public void forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that) {
         forIntBinaryOp(that);
+    }
+
+    public void forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that) {
+        for_InferenceVarInt(that);
     }
 
     public void forTemplateGapBoolExpr(TemplateGapBoolExpr that) {

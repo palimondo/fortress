@@ -80,8 +80,8 @@ class AbstractMethodChecker(component: ComponentIndex,
 
   private def checkObjectDeclaration(od: ObjectDecl) = {
     val tth = od.getHeader
-    val fakeArgs = tth.getStaticParams.map(p => NF.makeTypeArg(NU.getSpan(p), p.asInstanceOf[StaticParam].getName.getText).asInstanceOf[StaticArg])
-    val methods = allMethods(NF.makeTraitTypeForScala(tth.getName.asInstanceOf[Id], toJavaList(fakeArgs.toIterable)), typeAnalyzer)
+    val fakeArgs = staticParamsToArgs(tth.getStaticParams)
+    val methods = allMethods(NF.makeTraitTypeForScala(tth.getName.asInstanceOf[Id], fakeArgs), typeAnalyzer)
     // traceObjectDeclMethods(od, methods)
     val oldTypeAnalyzer = typeAnalyzer
     // Add static parameters of the enclosing trait or object

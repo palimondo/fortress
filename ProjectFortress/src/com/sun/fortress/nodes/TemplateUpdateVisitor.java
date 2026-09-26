@@ -598,6 +598,11 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
         else return new IntBinaryOp(info_result, that.isParenthesized(), left_result, right_result, op_result);
     }
 
+    public Node for_InferenceVarIntOnly(_InferenceVarInt that, ASTNodeInfo info_result) {
+        if (that.getInfo() == info_result) return that;
+        else return new _InferenceVarInt(info_result, that.isParenthesized(), that.getId());
+    }
+
     public Node forBoolBaseOnly(BoolBase that, ASTNodeInfo info_result) {
         if (that.getInfo() == info_result) return that;
         else return new BoolBase(info_result, that.isParenthesized(), that.isBoolVal());
@@ -1660,6 +1665,10 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
         return defaultTransformationNodeCase(that);
     }
 
+    public Node for_SyntaxTransformation_InferenceVarIntOnly(_SyntaxTransformation_InferenceVarInt that) {
+        return defaultTransformationNodeCase(that);
+    }
+
     public Node for_SyntaxTransformationBoolExprOnly(_SyntaxTransformationBoolExpr that) {
         return defaultTransformationNodeCase(that);
     }
@@ -2617,6 +2626,10 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
     }
 
     public Node for_EllipsesIntBinaryOpOnly(_EllipsesIntBinaryOp that) {
+        return defaultEllipsesNodeOnly(that);
+    }
+
+    public Node for_Ellipses_InferenceVarIntOnly(_Ellipses_InferenceVarInt that) {
         return defaultEllipsesNodeOnly(that);
     }
 
@@ -3724,6 +3737,11 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
     public Node forTemplateGapIntBinaryOpOnly(TemplateGapIntBinaryOp that, ASTNodeInfo info_result, Id gapId_result, List<Id> templateParams_result) {
         if (that.getInfo() == info_result && that.getGapId() == gapId_result && that.getTemplateParams() == templateParams_result) return that;
         else return new TemplateGapIntBinaryOp(info_result, gapId_result, templateParams_result);
+    }
+
+    public Node forTemplateGap_InferenceVarIntOnly(TemplateGap_InferenceVarInt that, ASTNodeInfo info_result, Id gapId_result, List<Id> templateParams_result) {
+        if (that.getInfo() == info_result && that.getGapId() == gapId_result && that.getTemplateParams() == templateParams_result) return that;
+        else return new TemplateGap_InferenceVarInt(info_result, gapId_result, templateParams_result);
     }
 
     public Node forTemplateGapBoolExprOnly(TemplateGapBoolExpr that, ASTNodeInfo info_result, Id gapId_result, List<Id> templateParams_result) {
@@ -5122,6 +5140,12 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
         IntExpr right_result = (IntExpr) recur(that.getRight());
         Op op_result = (Op) recur(that.getOp());
         return forIntBinaryOpOnly(that, info_result, left_result, right_result, op_result);
+    }
+
+
+    public Node for_InferenceVarInt(_InferenceVarInt that) {
+        ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
+        return for_InferenceVarIntOnly(that, info_result);
     }
 
 
@@ -6994,6 +7018,12 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
     }
 
 
+    public Node for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that) {
+        ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
+        return for_SyntaxTransformation_InferenceVarIntOnly(that);
+    }
+
+
     public Node for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that) {
         ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
         return for_SyntaxTransformationBoolExprOnly(that);
@@ -8410,6 +8440,11 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
 
     public Node for_EllipsesIntBinaryOp(_EllipsesIntBinaryOp that) {
         return for_EllipsesIntBinaryOpOnly(that);
+    }
+
+
+    public Node for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that) {
+        return for_Ellipses_InferenceVarIntOnly(that);
     }
 
 
@@ -10044,6 +10079,14 @@ public abstract class TemplateUpdateVisitor extends NodeVisitorLambda<Node> {
 
 
     public Node forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that) {
+        ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
+        Id gapId_result = (Id) recur(that.getGapId());
+        List<Id> templateParams_result = recurOnListOfId(that.getTemplateParams());
+        return forTemplateGapOnly((TemplateGap) that, info_result, gapId_result, templateParams_result);
+    }
+
+
+    public Node forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that) {
         ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());
         Id gapId_result = (Id) recur(that.getGapId());
         List<Id> templateParams_result = recurOnListOfId(that.getTemplateParams());

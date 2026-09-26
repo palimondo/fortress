@@ -610,6 +610,10 @@ public abstract class AbstractNodeCollectingVisitor<RetType> extends AbstractNod
         return combine(that, left_result, right_result, op_result);
     }
 
+    public RetType for_InferenceVarIntOnly(_InferenceVarInt that) {
+        return combine(that);
+    }
+
     public RetType forBoolExprOnly(BoolExpr that) {
         return combine(that);
     }
@@ -1568,6 +1572,10 @@ public abstract class AbstractNodeCollectingVisitor<RetType> extends AbstractNod
 
     public RetType for_SyntaxTransformationIntBinaryOpOnly(_SyntaxTransformationIntBinaryOp that, RetType left_result, RetType right_result, RetType op_result) {
         return combine(that, left_result, right_result, op_result);
+    }
+
+    public RetType for_SyntaxTransformation_InferenceVarIntOnly(_SyntaxTransformation_InferenceVarInt that) {
+        return combine(that);
     }
 
     public RetType for_SyntaxTransformationBoolExprOnly(_SyntaxTransformationBoolExpr that) {

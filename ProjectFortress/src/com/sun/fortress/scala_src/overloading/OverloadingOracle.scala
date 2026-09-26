@@ -87,12 +87,23 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
 	val gd = sa.makeDomainWithSelfFromArrow(ga)
 	sa.subEDsolution(fd, gd) match {
 	  case Some((newgd, newargs)) =>
+	    // A size of g that the domains leave unsolved stays g's own static
+	    // parameter, bound in the special arrow beside f's.
+	    val escaped = sp2.zip(newargs).collect {
+	      case (p, SIntArg(_, _, v: _InferenceVarInt))
+	        if p.getKind.isInstanceOf[KindNat] || p.getKind.isInstanceOf[KindInt] => (v, p)
+	    }
+	    val bindEscaped: Type => Type =
+	      if (escaped.isEmpty) (t: Type) => t
+	      else insertNats(nSubstitution(Map(escaped.map { case (v, p) =>
+	             (v, staticParamToArg(p).asInstanceOf[IntArg].getIntVal) }: _*)))
+	    val nsp1 = sp1 ++ escaped.map(_._2)
 	    // Build the special arrow that we use when checking the return type rule
-	    val nta = ta.extend(sp1, None)
+	    val nta = ta.extend(nsp1, None)
 	    val ntsa = new TypeSchemaAnalyzer()(nta)
 	    val str = new StaticTypeReplacer(sp2, newargs)
-	    val newr2 = str.replaceIn(r2)
-	    val ra = ntsa.normalizeUA(SArrowType(STypeInfo(s1, p1, sp1, None), nta.meet(d1,newgd), newr2, nta.mergeEffect(e1,e2), i1 && i2, None))
+	    val newr2 = bindEscaped(str.replaceIn(r2))
+	    val ra = ntsa.normalizeUA(SArrowType(STypeInfo(s1, p1, nsp1, None), nta.meet(d1,bindEscaped(newgd)), newr2, nta.mergeEffect(e1,e2), i1 && i2, None))
 	    // Now test against that special arrow
 	    val result = sa.subtypeUA(fa, ra)
 	    if (!result) {
