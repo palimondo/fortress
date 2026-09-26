@@ -1,0 +1,18 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtCaseGen
+export Executable
+object Vec[\T, nat s\](x: T) end
+isOfSize[\nat s\](v: Any): String =
+  typecase v of
+    Vec[\ZZ32,s\] => "yes"
+    else => "no"
+  end
+run() = do
+  a: Any = Vec[\ZZ32,3\](7)
+  println(isOfSize[\3\](a))
+  println(isOfSize[\4\](a))
+  b: Any = Vec[\ZZ32,4\](7)
+  println(isOfSize[\3\](b))
+  println(isOfSize[\4\](b))
+end
+end

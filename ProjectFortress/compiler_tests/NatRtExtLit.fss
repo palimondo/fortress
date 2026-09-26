@@ -1,0 +1,23 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtExtLit
+export Executable
+trait Rnk[\nat k\] end
+trait Rnk1 extends Rnk[\1\] end
+trait Rnk2 extends Rnk[\2\] end
+object Vec[\T, nat s\](x: T) extends Rnk1 end
+object Mat[\T, nat r, nat c\](x: T) extends Rnk2 end
+rank[\nat k\](x: Rnk[\k\]): () = println(k)
+rank(x: Any): () = println(-1)
+run() = do
+  v: Vec[\RR64,3\] = Vec[\RR64,3\](2.5)
+  m: Mat[\RR64,2,4\] = Mat[\RR64,2,4\](2.5)
+  rank(v)
+  rank(m)
+  a: Any = v
+  rank(a)
+  b: Any = m
+  rank(b)
+  c: Any = 2.5
+  rank(c)
+end
+end

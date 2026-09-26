@@ -1,0 +1,17 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtCase
+export Executable
+object Vec[\T, nat s\](x: T) end
+which(v: Any): String =
+  typecase v of
+    Vec[\ZZ32,3\] => "three"
+    Vec[\ZZ32,4\] => "four"
+    else => "other"
+  end
+run() = do
+  println(which(Vec[\ZZ32,3\](7)))
+  println(which(Vec[\ZZ32,4\](7)))
+  println(which(Vec[\ZZ32,5\](7)))
+  println(which(Vec[\ZZ64,3\](7)))
+end
+end

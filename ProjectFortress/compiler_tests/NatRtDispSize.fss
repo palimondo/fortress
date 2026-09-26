@@ -1,0 +1,29 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtDispSize
+export Executable
+object Vec[\T, nat s\](x: T) end
+object Mat[\T, nat r, nat c\](x: T) end
+f(x: RR64): () = println(0)
+f[\nat s\](v: Vec[\RR64,s\]): () = println(s)
+f[\nat r, nat c\](m: Mat[\RR64,r,c\]): () = do println(r); println(c) end
+f(x: Any): () = println(-1)
+run() = do
+  r: RR64 = 2.5
+  v: Vec[\RR64,3\] = Vec[\RR64,3\](r)
+  m: Mat[\RR64,2,4\] = Mat[\RR64,2,4\](r)
+  f(r)
+  f(v)
+  f(m)
+  println("dispatched:")
+  a: Any = r
+  f(a)
+  b: Any = v
+  f(b)
+  b4: Any = Vec[\RR64,4\](r)
+  f(b4)
+  c: Any = m
+  f(c)
+  z: Any = Vec[\ZZ32,3\](7)
+  f(z)
+end
+end

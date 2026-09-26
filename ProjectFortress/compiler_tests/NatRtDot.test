@@ -1,0 +1,5 @@
+tests=NatRtDot
+compile
+link
+run
+run_out_equals=(i) static, same sizes\n3\n(ii) static, different sizes\n-1\n(iii) dispatched, same sizes\n3\n(iv) dispatched, different sizes, both orders\n-1\n-1\n

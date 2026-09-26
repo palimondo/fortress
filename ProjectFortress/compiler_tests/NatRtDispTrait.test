@@ -1,0 +1,5 @@
+tests=NatRtDispTrait
+compile
+link
+run
+run_out_equals=scalar\nvector\nmatrix\nscalar\nvector\nmatrix\nother\n

@@ -1,0 +1,23 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtDispLit
+export Executable
+object E end
+object Vec[\T, nat s\](x: T) end
+g(v: Vec[\ZZ32,3\]): String = "three"
+g(v: Vec[\ZZ32,4\]): String = "four"
+g(x: Any): String = "other"
+h[\T\](v: Vec[\T,3\]): String = "T-three"
+h(x: Any): String = "other"
+run() = do
+  a: Any = Vec[\ZZ32,3\](7)
+  println(g(a))
+  b: Any = Vec[\ZZ32,4\](7)
+  println(g(b))
+  c: Any = Vec[\ZZ32,5\](7)
+  println(g(c))
+  d: Any = Vec[\E,3\](E)
+  println(h(d))
+  e: Any = Vec[\E,4\](E)
+  println(h(e))
+end
+end

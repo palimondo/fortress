@@ -1,0 +1,11 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtOver
+export Executable
+object Vec[\T, nat s\](x: T) end
+g(v: Vec[\ZZ32,3\]): ZZ32 = 3
+g(v: Vec[\ZZ32,4\]): ZZ32 = 4
+run() = do
+  println(g(Vec[\ZZ32,3\](7)))
+  println(g(Vec[\ZZ32,4\](7)))
+end
+end

@@ -1,0 +1,9 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtGetter
+export Executable
+trait Sized1[\T, nat b0, nat s0\] extends Object
+  getter size(): ZZ32 = s0
+end
+object Arr1[\T, nat b0, nat s0\](x: T) extends Sized1[\T, b0, s0\] end
+run() = println(Arr1[\ZZ32,0,3\](7).size)
+end
