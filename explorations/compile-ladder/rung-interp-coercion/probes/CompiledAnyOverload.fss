@@ -1,0 +1,30 @@
+component CompiledAnyOverload
+export Executable
+
+(* Isolates the compiled run's NoSuchMethodError on p(Wide)/p(Any) seen in CompiledOverload. *)
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+p(x: Wide): String = "p(Wide)"
+p(x: Any): String = "p(Any)"
+
+q(x: Wide): String = "q(Wide)"
+q(x: Object): String = "q(Object)"
+
+run(): () = do
+  println("p(WideOf 1) " p(WideOf(1)))
+  println("q(NarrowOf 1) " q(NarrowOf(1)))
+  println("p(NarrowOf 1) " p(NarrowOf(1)))
+end
+end

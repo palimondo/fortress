@@ -25,6 +25,8 @@ object Scaler(k: ZZ64)
   scale(x: Wide): ZZ64 = k x.big
 end
 
+total(xs: Wide...): ZZ64 = SUM[x <- xs] x.big
+
 natf(x: Wide, y: String): String = builtinPrimitive("com.sun.fortress.interpreter.glue.TestFn")
 natr(y: String, xs: Wide...): String = builtinPrimitive("com.sun.fortress.interpreter.glue.TestFn")
 
@@ -34,6 +36,7 @@ run() = do
     assert(Holder(NarrowOf(4)).w.big, 4, "row 19: a constructor's parameter converts; conversions-coercions.tex:98-110")
     assert(Scaler(widen(2)).scale(NarrowOf(5)), 10, "row 19: a method's parameter converts; conversions-coercions.tex:98-110")
     assert((fn (x: Wide): ZZ64 => x.big)(NarrowOf(6)), 6, "row 19: a function expression's parameter converts; conversions-coercions.tex:98-110")
+    assert(total(NarrowOf(9), WideOf(widen(1))), 10, "row 19: a varargs parameter converts; conversions-coercions.tex:98-110, :442-449")
     assert(natf(NarrowOf(7), "native"), "testFn WideOf,native", "row 19: a native function's parameter converts; conversions-coercions.tex:98-110")
     assert(natr("rest", NarrowOf(8)), "testFn rest,WideOf", "row 19: a native function's varargs parameter converts; conversions-coercions.tex:98-110, :442-449")
     println("PASS")

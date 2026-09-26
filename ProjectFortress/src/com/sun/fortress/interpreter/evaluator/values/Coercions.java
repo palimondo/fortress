@@ -181,6 +181,10 @@ public final class Coercions {
             return target;
         }
 
+        int arity() {
+            return coercions.length;
+        }
+
         List<FValue> convert(List<FValue> args) {
             List<FValue> oargs = target.fixupArgCount(args);
             List<FValue> res = new ArrayList<FValue>(oargs);

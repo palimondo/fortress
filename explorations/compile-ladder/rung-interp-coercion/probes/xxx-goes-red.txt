@@ -1,0 +1,37 @@
+=== the deliberate local fix: explorations/compile-ladder/rung-interp-coercion/probes/deliberate-fix.patch, compiled into tmp/fix/classes and put ahead of ProjectFortress/build; it binds a variable whose declared type is a trait of the same file as that type (FAsIf), so dispatch sees c as a C, the specification's static view of this example; it is not in the tree ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (classes /home/user/fortress-coerce/tmp/fix/classes:/home/user/fortress-coerce/ProjectFortress/build, 2026-09-26T02:20:50Z) ===
+REACHED
+PASS
+=== exit 0 ===
+
+=== $ CLASSES=tmp/fix/classes explorations/compile-ladder/rung-interp-coercion/harness-one.sh tmp/h-fix ProjectFortress/tests/XXXCoercionStaticRungC.fss   (the testSystem harness with the fix overlaid: the expected failure no longer fails, 2026-09-26T02:20:58Z) ===
+/home/user/fortress-coerce/tmp/h-fix/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0db840914_16
+. interpret /home/user/fortress-coerce/tmp/h-fix/tests/XXXCoercionStaticRungC 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 41.75
+There was 1 failure:
+1) /home/user/fortress-coerce/tmp/h-fix/tests/XXXCoercionStaticRungC(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest /home/user/fortress-coerce/tmp/h-fix/tests/XXXCoercionStaticRungC
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:402)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+	at com.sun.fortress.tests.unit_tests.SystemJUTest.main(SystemJUTest.java:26)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 0 ===
+
+=== $ explorations/compile-ladder/rung-interp-coercion/harness-one.sh tmp/h-stock ProjectFortress/tests/XXXCoercionStaticRungC.fss   (the same harness without the overlay, bedcb802d: the expected failure is seen again, 2026-09-26T02:21:40Z) ===
+/home/user/fortress-coerce/tmp/h-stock/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0db84ae0e_16
+. interpret /home/user/fortress-coerce/tmp/h-stock/tests/XXXCoercionStaticRungC  OK Saw expected exception
+
+Time: 36.903
+
+OK (1 test)
+
+=== exit 0 ===

@@ -1,0 +1,34 @@
+=== $ bin/fortress compile explorations/compile-ladder/rung-interp-coercion/probes/CompiledAnyOverload.fss   (bedcb802d, 2026-09-26T02:18:14Z) ===
+=== exit 0 ===
+=== $ FORTRESS_THREADS=1 bin/fortress run CompiledAnyOverload ===
+p(WideOf 1)  p(Wide)
+java.lang.NoSuchMethodError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at CompiledAnyOverload.main(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CompiledAnyOverload.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoSuchMethodError: 'fortress.CompilerBuiltin$String CompiledAnyOverload.\=q{_|explorations|compile-ladder|rung-interp-coercion|probes|CompiledAnyOverload\,fss\!22\!1-30,_|explorations|compile-ladder|rung-interp-coercion|probes|CompiledAnyOverload\,fss\!23\!1-35}(fortress.CompilerBuiltin$Object)'
+	at CompiledAnyOverload.run(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CompiledAnyOverload.fss:27)
+	at CompiledAnyOverload.compute(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CompiledAnyOverload.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+=== exit 1 ===
+
+=== $ bin/fortress compile explorations/compile-ladder/rung-interp-coercion/probes/CompiledAnyOverloadNoCoerce.fss   (bedcb802d, 2026-09-26T02:18:29Z) ===
+=== exit 0 ===
+=== $ FORTRESS_THREADS=1 bin/fortress run CompiledAnyOverloadNoCoerce ===
+p(WideOf 1)  p(Wide)
+q(NarrowOf 1)  q(Object)
+p(NarrowOf 1)  p(Any)
+=== exit 0 ===
+

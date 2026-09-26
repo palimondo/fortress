@@ -812,10 +812,12 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     /**
      * For args that no overload takes without coercion: the most specific of
      * the non-generic overloads applicable with coercion, as a call that
-     * converts its arguments first; or null.
+     * converts its arguments first; or null.  It is an error when no one of
+     * them is more specific than all the others.
      */
     private SingleFcn bestMatchWithCoercion(List<FValue> args, List<Overload> someOverloads) {
         Coercions.CoercedCall best = null;
+        List<Coercions.CoercedCall> applicable = new ArrayList<Coercions.CoercedCall>();
         for (Overload o : someOverloads) {
             SingleFcn sfn = o.getFn();
             if (sfn instanceof GenericFunctionOrMethod) continue;
@@ -823,17 +825,26 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             if (oargs == null) continue;
             List<FType> domain = sfn.getDomain();
             SingleFcn[] coercions = new SingleFcn[oargs.size()];
-            boolean applicable = true;
-            for (int j = 0; applicable && j < oargs.size(); j++) {
+            boolean applies = true;
+            for (int j = 0; applies && j < oargs.size(); j++) {
                 FType t = Useful.clampedGet(domain, j).deRest();
                 FValue a = oargs.get(j);
                 if (!argsMatchTypes(Collections.singletonList(a), Collections.singletonList(t))) {
                     coercions[j] = Coercions.coercionFor(t, a);
-                    applicable = coercions[j] != null;
+                    applies = coercions[j] != null;
                 }
             }
-            if (applicable && (best == null || Coercions.moreSpecific(domain, best.getDomain(), oargs.size()))) {
-                best = new Coercions.CoercedCall(sfn, coercions);
+            if (!applies) continue;
+            Coercions.CoercedCall c = new Coercions.CoercedCall(sfn, coercions);
+            applicable.add(c);
+            if (best == null || Coercions.moreSpecific(domain, best.getDomain(), oargs.size())) best = c;
+        }
+        for (Coercions.CoercedCall c : applicable) {
+            if (c != best && !Coercions.moreSpecific(best.getDomain(), c.getDomain(), best.arity())) {
+                return error(errorMsg("Ambiguous coercion, args = ",
+                                      Useful.listInParens(args),
+                                      ", applicable with coercion = ",
+                                      Useful.listInDelimiters("{", applicable, "}")));
             }
         }
         return best;

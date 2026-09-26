@@ -1,0 +1,3 @@
+tests	litCoercion.fss
+tests	conditionalExtension.fss
+tests	setMakerTest0.fss

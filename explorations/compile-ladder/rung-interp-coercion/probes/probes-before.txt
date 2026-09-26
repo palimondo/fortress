@@ -1,0 +1,189 @@
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceChain.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:13:28Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceChain.fss:24:29-38:
+Unification error: Closure/Constructor for f param 1 (x:Huge) got arg BigOf of type BigOf
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceChain.fss:24:29-38:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceReceiver.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:13:40Z) ===
+a Wide's twice: 8
+a Narrow's twice, the receiver unconverted:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceReceiver.fss:19:11-28:
+Cannot find definition for method twice given receiver NarrowOf
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceReceiver.fss:19:11-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceReturn.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:13:54Z) ===
+control: 1
+r() declared Wide returns a Narrow; its wv:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceReturn.fss:21:11-15:
+Cannot find definition for method wv given receiver NarrowOf
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceReturn.fss:21:11-15:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceGenericFn.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:14:09Z) ===
+control: gf got 1 and one
+a Narrow for gf's Wide parameter:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceGenericFn.fss:20:11-31:
+Unification error: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceGenericFn.fss:15:12-14:
+Cannot unify NarrowOf(class com.sun.fortress.interpreter.evaluator.types.FTypeObject)
+  with Wide(class com.sun.fortress.nodes.VarType) abm=()
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceGenericFn.fss:20:11-31:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceGenericTrait.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:14:23Z) ===
+control: 1
+a NarrowG[\ZZ32\] where a WideG[\ZZ32\] is declared:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceGenericTrait.fss:20:11-32:
+Unification error: Closure/Constructor for f param 1 (x:WideG[\ZZ32\]) got arg NarrowGOf[\ZZ32\] of type NarrowGOf[\ZZ32\]
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceGenericTrait.fss:20:11-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceObject.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:14:41Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceObject.fss:18:49-56:
+Unification error: Closure/Constructor for hack param 1 (other:X) got arg Q of type Q
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceObject.fss:18:49-56:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceVarargs.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:14:58Z) ===
+control: 3
+Narrows for a Wide... parameter:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceVarargs.fss:20:11-45:
+Unification error: Closure/Constructor for init param 2 (v:Wide) got arg NarrowOf of type NarrowOf
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceVarargs.fss:20:11-45:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceNative.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:15:11Z) ===
+testFn WideOf,control
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceNative.fss:16:11-37:
+Closure/Constructor for natf parameter 1 (x:Wide) got type NarrowOf
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceNative.fss:16:11-37:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceAmbiguous.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:28:44Z) ===
+f(AOf 1) f(A)
+f(NOf 1), applicable to f(A) and f(B) only by coercion:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceAmbiguous.fss:28:11-18:
+Failed to find any matching overload, args = (NOf), overload = {
+	f(x:A):FortressLibrary.String A->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceAmbiguous.fss:22:1-24
+	f(x:B):FortressLibrary.String B->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceAmbiguous.fss:23:1-25}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceAmbiguous.fss:28:11-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/CoerceBadResult.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:28:48Z) ===
+f(WideOf 1) 1
+f(NarrowOf 2), whose coercion returns the Narrow itself:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceBadResult.fss:21:11-23:
+Unification error: Closure/Constructor for f param 1 (x:Wide) got arg NarrowOf of type NarrowOf
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/CoerceBadResult.fss:21:11-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+

@@ -1,24 +1,24 @@
-=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:09:40Z) ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:26:49Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionOverloadRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:09:50Z) ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionOverloadRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:26:59Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:10:01Z) ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:09Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionMostSpecificRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:10:10Z) ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionMostSpecificRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:16Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionSpecTableRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:10:21Z) ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionSpecTableRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:23Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:10:29Z) ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:30Z) ===
 REACHED
 FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604
 /home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
@@ -39,7 +39,7 @@ java.lang.Throwable
 	at com.sun.fortress.Shell.main(Shell.java:349)
 === exit 1 ===
 
-=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionReturnRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:10:41Z) ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionReturnRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:38Z) ===
 REACHED
 com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
 Cannot find definition for method big given receiver NarrowOf
@@ -57,7 +57,7 @@ java.lang.Throwable
 	at com.sun.fortress.Shell.main(Shell.java:349)
 === exit 1 ===
 
-=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericFnRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:10:52Z) ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericFnRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:45Z) ===
 REACHED
 com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
 Unification error: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:20:12-14:
@@ -77,7 +77,7 @@ java.lang.Throwable
 	at com.sun.fortress.Shell.main(Shell.java:349)
 === exit 1 ===
 
-=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:11:00Z) ===
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:53Z) ===
 REACHED
 com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
 Unification error: Closure/Constructor for f param 1 (x:WideG[\ZZ32\]) got arg NarrowGOf[\ZZ32\] of type NarrowGOf[\ZZ32\]
@@ -95,27 +95,27 @@ java.lang.Throwable
 	at com.sun.fortress.Shell.main(Shell.java:349)
 === exit 1 ===
 
-=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:11:09Z) ===
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:59Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionOverloadRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:11:45Z) ===
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionOverloadRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:06Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:11:53Z) ===
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:11Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionMostSpecificRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:12:01Z) ===
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionMostSpecificRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:16Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionSpecTableRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:12:09Z) ===
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionSpecTableRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:21Z) ===
 PASS
 === exit 0 ===
 
-=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:12:16Z) ===
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:26Z) ===
 REACHED
 FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604
 /home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
@@ -136,7 +136,7 @@ java.lang.Throwable
 	at com.sun.fortress.Shell.main(Shell.java:349)
 === exit 1 ===
 
-=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionReturnRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:12:23Z) ===
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionReturnRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:31Z) ===
 REACHED
 com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
 Cannot find definition for method big given receiver NarrowOf
@@ -154,7 +154,7 @@ java.lang.Throwable
 	at com.sun.fortress.Shell.main(Shell.java:349)
 === exit 1 ===
 
-=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericFnRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:12:30Z) ===
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericFnRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:36Z) ===
 REACHED
 com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
 Unification error: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:20:12-14:
@@ -174,7 +174,7 @@ java.lang.Throwable
 	at com.sun.fortress.Shell.main(Shell.java:349)
 === exit 1 ===
 
-=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss   (7aff60e42 plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:12:39Z) ===
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:40Z) ===
 REACHED
 com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
 Unification error: Closure/Constructor for f param 1 (x:WideG[\ZZ32\]) got arg NarrowGOf[\ZZ32\] of type NarrowGOf[\ZZ32\]
