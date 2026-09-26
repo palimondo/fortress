@@ -1,0 +1,20 @@
+### testSystem harness (SystemJUTest) over the 11 files of probes/shift-subset.txt, after the library edit (tree at 03c341403), by probes/harness-one.sh; nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, cpu MHz 2800.212, JDK 25.0.4, FORTRESS_THREADS=1
+load at start: 6.70 6.10 5.61 6/170 1160
+/home/user/fortress-shiftk/tmp/h-after/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0dbb59c36_16
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/IntSemanticsRungI  OK (time = 29181ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/RandomTest  OK (time = 6832ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/zeno  OK (time = 1724ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/intPrim  OK (time = 436ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/longPrim  OK (time = 429ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/NumberPrintTest  OK (time = 617ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/rshiftbug  OK (time = 426ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/ReflectiveQuickCheckTest  OK (time = 42886ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/QuickCheckTest  OK (time = 54685ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/UnsignedTest  OK (time = 1117ms)
+. interpret /home/user/fortress-shiftk/tmp/h-after/tests/BitTwiddle  OK (time = 217ms)
+
+Time: 138.569
+
+OK (11 tests)
+

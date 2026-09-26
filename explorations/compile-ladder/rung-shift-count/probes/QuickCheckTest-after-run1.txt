@@ -1,0 +1,54 @@
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: true true true true true true true true true false true false true true true true
+genZZ32: 544645190 -16 -5206 -3296396 -50 56 -6267598 -68 -6780074 7366912 30650 3327492
+genZZ64: -143605143023 221586873154 26828 -14818775566835335 -37 -490351780716 -18 -5562664
+genZZ: 554827090 1059963608417044512 -1062 -9043221096518302878 -8455608877671943911 123 -10811852724333132 63071715713
+genQQ: 1915457187/76507589181053 5909205675423991371/6115363408756257106 82411472141186/363098989359779851 -2707306/987584041
+genRR32: -11.700873 -6.460511E8 -2.5016173E8 9.71275 -9.877398 132860.78 -14.388488 -2275684.0
+genRR64: -1636740.6267821002 4.1292964857402195E13 2.8013266695167395E15 6.947783928367791E8
+genChar: L c * K G u u 3 g n 0 } 3 7 * a U p e e 3 D 3 I L ? Y ' R k _ x
+genString: [RW7n>]$nHL6] [xbW7n>] [xW7n>]$U#L xxW7n>]$UL]D27AX(c xW7n>]$U#L]D27AX xW7n>]$U#L jt W7n>]$nHL6 W7n>]$U#L W7n>]$U# W7n>] W7A W7 7n]$UL]D27AX(i6Yn 7n> n>$UL]D27AX(iYnyL1K#Ks
+genMaybe(genChar): Just(W) Just(7) Nothing Just(n) Just(>) Just(]) Nothing Just($)
+genList(genZZ32): <|32721, -5220123, 1830, -44, 880141217, 53, 6120602, 1642095135, 21011, -20154, 59, 14926, -29, -67, 759576414, 51, -11828, -4170119, -115, -18, 736876291|> <|32721, -5220123, -101, 27694, 67, -420873, 6120602, 1642095135, -3574488, 24281, -24467, -29, -67, 759576414, 51, -11828, -4170119, 6277322, -18, 736876291, -73, -5160672|>
+genList(genString): <|27X(iYnyP1K#K, 7A(iYnyL1K#K, A*(, (igj1L, (iYny, cYnyL1, YnyL1, g1L1, LK#KD.942A-[, LK#KD.42A[}U(~,b, 1K#D.9, K#D.942A[}AU, Ks9|> <|27X(iYnyP1K#K, 7A(iYnyL1K#K, A*(, (iYnyL1K, (iYny, cYnyL1, YnyL1, g1L1, LI[KD.4A-[iaA$, LI[KD.42A[}AU~,b, 1I#K|>
+genList(genMaybe(genList(genString))): <|Just(<|AX, (i6gj1, cYnyL1, YnL[, gL#Ks.9, LK#Ks", LI[KD.42A, 1I[KD.9|>), Just(<|(iYnyL1K, cYnyL1, YnyL1, g1L1, 1L1K#K, LI[KD.72A[iaA, 1I[KD.9|>), Nothing, Just(<|YyL, LK, L#VD.9, 1#Ks, [KD, #KD.9, KD., s.97|>), Nothing, Just(<|KKD.92A-[, [KD.9, Ks., Ks", D.4, .9, 9|>), Just(<|[KD, Ks, s", , 92, , A, -, E}, }$~, A|>), Just(<|#KD.9, D.9, s, 9"4A[}A~,b, 42-}A$(, 42A|>), Just(<|D.9, , 92A[}AU, , 4, -, [, a, A, ~,u]|>), Just(<|92, 7, -, [, , a|>), Just(<|, A, [}A$, }AU(|>), Just(<|2A, A, -, }AU~, }$~|>), Nothing|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-77075914|->({false},{1,L}), -6254184|->({false,true},{1,L,Y,n,y}), -5220123|->({false,true},{#,(,1,7,A,K,L,Y,i,n,y}), -1816504|->({true},{a}), -115|->({false},{,,b}), -101|->({false,true},{(,1,6,g,i,j}), -67|->({false},{}), 14926|->({false,true},{-,2,3,4,A,K,U,g,q,}}), 18261|->({false,true},{$,(,4,A,[,a,i}), 21011|->({false},{#,.,9,D}), 24281|->({false,true},{-,.,2,4,9,A}), 1978781|->({false,true},{#,.,1,9,D,K}), 430009190|->({false,true},{(,+,,,b,n,u,~}), 1940404184|->({true},{X,u})}
+genRange(genZZ32): [12808,12809,12810,12811,... 931740674] [] [] []
+genTuple3(genZZ32,genMaybe(genChar),genString): (53,Just(i),1L1.#Ks) (96,Just(g),LK#KD.42A[}AUK8~) (1642095135,Nothing,K#KD.742A-}AUKg3,b) (21011,Nothing,#D.9742A-[)
+genTestStatus: TestPass TestFail TestFail TestFail TestPass TestFail TestFail TestFail
+genList(genTestStatus): <|TestPass, TestPass, TestPass, TestPass, TestFail, TestFail, TestSkip, TestFail, TestPass, TestFail, TestSkip, TestPass|> <|TestPass, TestPass, TestPass, TestPass, TestFail, TestFail, TestSkip, TestFail, TestPass, TestPass, TestSkip, TestPass|>
+genArrow(genZZ32,genZZ32):
+    4903354 -98
+    4903354 -98
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    -127 -577946739 -5415163 6857
+    -127 -577946739 -5415163 6857
+
+Passed 171 test(s).
+Failed in 78 test(s): (2.6817388710069995E15,2163.378535000434,-1156.20181418865)
+Failed in 146 test(s): -7200709
+Tag(s) of failing properties:
+    no sign extension
+Passed 78 test(s) (and skipped 64 test(s)) but reached the maximum of 142 tests.
+Passed 20 test(s).
+Passed 64 test(s) (and skipped 405 test(s)) but reached the maximum of 469 tests.
+Collected test data:
+    35%: 2 digits
+    11%: 2 digits, ends with zero
+    8%: 3 digits or more
+    5%: 1 digit
+    3%: 3 digits or more, ends with zero
+    2%: 1 digit, ends with zero
+Shrinking a failed instance.....
+Failed in 100 test(s) (and shrank in 15 test(s)): |
+Shrinking a failed instance....
+Failed in 256 test(s) (and shrank in 10 test(s)): >
+Shrinking a failed instance...................
+Failed in 100 test(s) (and shrank in 190 test(s)): (^,)
+Shrinking a failed instance................
+Failed in 256 test(s) (and shrank in 136 test(s)): (6,)
+Shrinking a failed instance......
+Failed in 100 test(s) (and partially shrank in 355 test(s)): <|5[D@O2`@vU, [D8@OP7`@, D8@OP, 8@O, @27`vUPyZ, 2`@g)yZm, 2$vU)y, 7`vUP, `@vyYzgug<IInB*, @gyYz<gu<|>
+Shrinking a failed instance...............................................................................
+Failed in 256 test(s) (and shrank in 2900 test(s)): <|9|>
+

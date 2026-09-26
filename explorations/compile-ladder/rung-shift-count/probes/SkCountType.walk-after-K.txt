@@ -1,0 +1,5 @@
+$ fortress SkCountType.fss   (walk, this branch at 03c341403)
+ZZ32 3 LSHIFT a ZZ64 count of 33 = 0
+ZZ32 3 LSHIFT a ZZ32 count of 33 = 0
+END
+exit=0

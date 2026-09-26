@@ -1,0 +1,14 @@
+### walk: bin/fortress SkShiftWidthK.fss, branch at a857544ca, caches emptied then rebuilt; load at start: 2.70, 1.85, 2.43
+ZZ32 1 LSHIFT a ZZ64 count of 31 = -2147483648
+ZZ32 1 LSHIFT a ZZ32 count of 31 = -2147483648
+ZZ32 1 LSHIFT a ZZ64 count of 32 = 0
+ZZ32 -3 RSHIFT a ZZ64 count of 32 = -1
+ZZ32 -3 RSHIFT a ZZ32 count of 32 = -1
+ZZ32 -3 RSHIFT a ZZ64 count of 64 = -1
+ZZ32 3 LSHIFT a ZZ64 count of -1 = 1
+ZZ32 3 LSHIFT a ZZ64 count of 2^32+1 = 0
+ZZ32 MIN RSHIFT a ZZ64 count of 31 = -1
+(ZZ32 1 LSHIFT a ZZ64 count of 31) + 1 = -2147483647
+(ZZ32 1 LSHIFT a ZZ32 count of 31) + 1 = -2147483647
+END
+exit=0

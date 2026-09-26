@@ -1,0 +1,54 @@
+component ShiftCountK
+export Executable
+
+kind(v: Any): String =
+  typecase v of
+    ZZ32 => "ZZ32"
+    NN32 => "NN32"
+    ZZ64 => "ZZ64"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    else => "other"
+  end
+
+val(f: () -> Any): String =
+  try
+    v = f()
+    (v.asString) || " : " || kind(v)
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+run() = do
+    three: ZZ32 = 3
+    minusThree: ZZ32 = -3
+    thirtyThree: ZZ32 = 33
+    threeL: ZZ64 = widen(three)
+    maxL: ZZ64 = 9223372036854775807
+    twoTo63: NN64 = unsigned(maxL) + unsigned(widen(1))
+    nnMax: NN64 = twoTo63 + unsigned(maxL)
+
+    println("-- ZZ32 receiver, each count type")
+    println("ZZ32 3 LSHIFT a ZZ32 count of 33 = " || val(fn () => three LSHIFT thirtyThree))
+    println("ZZ32 3 LSHIFT a ZZ64 count of 33 = " || val(fn () => three LSHIFT widen(thirtyThree)))
+    println("ZZ32 3 LSHIFT a ZZ count of 33 = " || val(fn () => three LSHIFT big(widen(thirtyThree))))
+    println("ZZ32 3 LSHIFT an NN32 count of 33 = " || val(fn () => three LSHIFT unsigned(thirtyThree)))
+    println("ZZ32 3 LSHIFT an NN64 count of 33 = " || val(fn () => three LSHIFT unsigned(widen(thirtyThree))))
+    println("ZZ32 3 LSHIFT a ZZ count of 40 = " || val(fn () => three LSHIFT big(widen(40))))
+    println("ZZ32 3 LSHIFT a ZZ count of 4 = " || val(fn () => three LSHIFT big(widen(4))))
+    println("ZZ32 3 RSHIFT a ZZ count of -33 = " || val(fn () => three RSHIFT big(widen(-33))))
+    println("ZZ32 -3 RSHIFT a ZZ count of 40 = " || val(fn () => minusThree RSHIFT big(widen(40))))
+    println("ZZ32 -3 RSHIFT an NN32 count of 1 = " || val(fn () => minusThree RSHIFT unsigned(1)))
+    println("ZZ32 3 LSHIFT an NN64 count of 2^64-1 = " || val(fn () => three LSHIFT nnMax))
+    println("ZZ32 -3 RSHIFT an NN64 count of 2^63 = " || val(fn () => minusThree RSHIFT twoTo63))
+    println("-- literal receiver")
+    println("literal 3 LSHIFT a ZZ count of 33 = " || val(fn () => 3 LSHIFT big(widen(thirtyThree))))
+    println("literal 3 LSHIFT a ZZ64 count of 33 = " || val(fn () => 3 LSHIFT widen(thirtyThree)))
+    println("-- ZZ64 receiver, unchanged declarations")
+    println("ZZ64 3 LSHIFT a ZZ32 count of 33 = " || val(fn () => threeL LSHIFT thirtyThree))
+    println("ZZ64 3 LSHIFT a ZZ count of 33 = " || val(fn () => threeL LSHIFT big(widen(thirtyThree))))
+    println("ZZ64 3 LSHIFT an NN32 count of 33 = " || val(fn () => threeL LSHIFT unsigned(thirtyThree)))
+    println("END")
+end
+
+end

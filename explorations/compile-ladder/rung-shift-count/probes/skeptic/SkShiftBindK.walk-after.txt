@@ -1,0 +1,4 @@
+### walk, after: FORTRESS_HOME=/home/user/fortress-shiftk (branch wip/rung-shift-count), bin/fortress SkShiftBindK.fss; load at start: 0.93, 1.39, 2.15
+typed binding r: ZZ32 = ZZ32 3 LSHIFT a ZZ count of 3, r = 24
+END
+exit=0

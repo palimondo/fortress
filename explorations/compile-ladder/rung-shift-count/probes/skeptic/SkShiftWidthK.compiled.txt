@@ -1,0 +1,15 @@
+### compiled: bin/fortress compile SkShiftWidthK.fss; bin/fortress run SkShiftWidthK, branch at a857544ca, bytecode cache rebuilt from empty in library order; load at start: 2.66, 1.87, 2.43
+compile-exit=0
+ZZ32 1 LSHIFT a ZZ64 count of 31 = 2147483648
+ZZ32 1 LSHIFT a ZZ32 count of 31 = -2147483648
+ZZ32 1 LSHIFT a ZZ64 count of 32 = 4294967296
+ZZ32 -3 RSHIFT a ZZ64 count of 32 = -1
+ZZ32 -3 RSHIFT a ZZ32 count of 32 = -1
+ZZ32 -3 RSHIFT a ZZ64 count of 64 = -1
+ZZ32 3 LSHIFT a ZZ64 count of -1 = 1
+ZZ32 3 LSHIFT a ZZ64 count of 2^32+1 = 0
+ZZ32 MIN RSHIFT a ZZ64 count of 31 = -1
+(ZZ32 1 LSHIFT a ZZ64 count of 31) + 1 = 2147483649
+(ZZ32 1 LSHIFT a ZZ32 count of 31) + 1 = -2147483647
+END
+run-exit=0

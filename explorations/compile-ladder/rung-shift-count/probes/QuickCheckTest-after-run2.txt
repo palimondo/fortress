@@ -1,0 +1,51 @@
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: true true false true true false true true false true false false true true false true
+genZZ32: 71 -39 -825344965 -2025920275 2129965551 -18495 1579175651 85 -986429673 -7998167 11 -13379
+genZZ64: -1210951361 -191826031 6318298712191952578 451780684 32876565552889 -277801765 41943693 65720949486
+genZZ: -19071749013791869 -5232692696274685706 1439668128 -18199825192645283 8634019723545793000 -897008617701610451 5074449920772366 -1159501448
+genQQ: 22770/8485367090747082433 -6265075563693692019/7861572292334108122 -731437126432454866/25 -23264489039390539/3729127691463442540
+genRR32: 2.8801894 74.86075 1.1212388 8513437.0 4.903705 4.838571 1802285.8 -405.67374
+genRR64: -0.2995689216852519 1.0375409061090761E11 -1.8036039270835772E7 652.9836639244216
+genChar: M y u i 3 [ Y * = b , v { 0 & K t r o ~ U u = = q U B r = s " 5
+genString: b=kIJs4JGC" ^= =kIXJs4JG =kIX kIXJs4JC&Z>dMG|LSi kIXJs4JG kIBJs4GC" kJs4JGC"LZ>Yr oJs4JGC"& Js4JGC"LZ>dMg\ Js4JGC"LZ>dMg Js4JGC"LZ>dM Js4JGC" Js4JGC Js4JC&Z>dMG|LS Js4GC"
+genMaybe(genChar): Just(B) Nothing Nothing Just(J) Nothing Just(s) Just(4) Just(J)
+genList(genZZ32): <|38, -9206, -11999, 23177, -912867302, -494324546, 19, -7124, 2107169881, 2056276010, -2544178, 1434022883|> <|80, 1706708, 4258194, 5495, 729696, -22755, -494324546|>
+genList(genString): <|Y\yz{, dMG|, G|LSi, Gy7, |L, z{H1ff9, zH1fR~V|> <|>dG|L, dMG|, G|LSi, Gy7, |L|>
+genList(genMaybe(genList(genString))): <|Just(<|Gy, \, z{, zH1fR[, !=1fR|>), Just(<|z{H1ff9, z!, !=1ff9~, H1fR|>), Just(<|H1fR, H1ff, fR~V, R~V9,"l, ~VV9, ~|>), Just(<|HBR, 1, B, R, , [|>), Just(<|, R~V9,"l, ~TV9,, ~V9,"|>), Nothing, Just(<|9, Vi, i, _, ,|>), Just(<|V9,", V9, ", ", +, , !_YOK|>), Just(<|V9, ,+!_, "++_GxK, l|>), Just(<|"++_GYOKPb, _sYOK, +, _G, G, K, , ", YP, u, W, ., nj, j, j, *, *l$|>), Just(<|++!, _G, 9x, K, , ", \, u, W, z, ^9*, j, j, *, **E~y, l, *uE~E7\, , l$, , WE7, ~E, E7, 7\n(Se", 7\Se"dX|>), Just(<|++!, !, _GYO, YOPb"\, Pb"P.z, P\uG, ", PWz, P.z, zfYj*, z, Vn, j*, **E~y,7\nT, l$, , , WE7, y, 7nT, , n, (Se, e"d, eE, E, , >bBs@"!l3VM, , rBso, Bs, 1s|>)|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-28|->({false,true},{1,=,B,z}), 23177|->({false,true},{!,i}), 1706708|->({false,true},{G,L,S,i,|}), 4258194|->({false,true},{=,y,z,{})}
+genRange(genZZ32): [] [] [] [23177,23178,23179,23180,... 1503650539]
+genTuple3(genZZ32,genMaybe(genChar),genString): (-22755,Just(z),=1zB) (969143464,Nothing,1fRO) (-7124,Just(x),R~V9,"l) (16699,Just(B),[V9,)
+genTestStatus: TestFail TestPass TestFail TestSkip TestFail TestFail TestFail TestSkip
+genList(genTestStatus): <|TestPass, TestPass, TestPass, TestFail, TestFail, TestFail, TestFail, TestFail, TestFail, TestSkip|> <|TestPass, TestPass, TestPass, TestFail, TestFail, TestFail, TestFail, TestFail|>
+genArrow(genZZ32,genZZ32):
+    -6683797 -2057
+    -6683797 -2057
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    30648 -985154572 14548 24
+    30648 -985154572 14548 24
+
+Passed 148 test(s).
+Failed in 117 test(s): (212859.15169534343,-4106.052896547923,-1.226723102423601E15)
+Failed in 32 test(s): -4039826
+Tag(s) of failing properties:
+    no sign extension
+Passed 123 test(s) (and skipped 140 test(s)) but reached the maximum of 263 tests.
+Passed 20 test(s).
+Passed 57 test(s) (and skipped 412 test(s)) but reached the maximum of 469 tests.
+Collected test data:
+    38%: 2 digits
+    15%: 3 digits or more
+    4%: 1 digit
+Shrinking a failed instance.......
+Failed in 100 test(s) (and shrank in 28 test(s)): 6
+Shrinking a failed instance.................
+Failed in 256 test(s) (and shrank in 153 test(s)): 3
+Shrinking a failed instance.......................
+Failed in 100 test(s) (and shrank in 276 test(s)): (`,)
+Shrinking a failed instance...............................
+Failed in 256 test(s) (and shrank in 496 test(s)): (<,)
+Shrinking a failed instance.......
+Failed in 100 test(s) (and partially shrank in 136 test(s)): <|WD, DC, ya\P^,O=MIs|, Ma\P=M|>
+Shrinking a failed instance..................................................................................................................................................
+Failed in 256 test(s) (and shrank in 7972 test(s)): <|!|>
+

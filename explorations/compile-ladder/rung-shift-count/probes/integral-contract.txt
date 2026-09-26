@@ -1,0 +1,10 @@
+### before (47437c65f), component and api of Library/FortressLibrary, and ProjectFortress/LibraryBuiltin/FortressBuiltin (tmp/base.* are git show 47437c65f copies)
+tmp/base.fss:688  ZZ32: opr LSHIFT(self,b:ZZ64):ZZ32   <-- Integral promises b:AnyIntegral
+tmp/base.fss:690  ZZ32: opr RSHIFT(self,b:ZZ64):ZZ32   <-- Integral promises b:AnyIntegral
+tmp/base.fsi:491  ZZ32: opr LSHIFT(self,b:ZZ64):ZZ32   <-- Integral promises b:AnyIntegral
+tmp/base.fsi:492  ZZ32: opr RSHIFT(self,b:ZZ64):ZZ32   <-- Integral promises b:AnyIntegral
+tmp/base.fsi:530  ZZ64: opr LSHIFT(self,b:ZZ64):ZZ64   <-- Integral promises b:AnyIntegral
+tmp/base.fsi:531  ZZ64: opr RSHIFT(self,b:ZZ64):ZZ64   <-- Integral promises b:AnyIntegral
+checked: +, -, BITAND, BITOR, BITXOR, CHOOSE, DIV, DIVIDES, DOT, GCD, LCM, LSHIFT, MOD, REM, RSHIFT, TIMES, ^, juxtaposition
+### after (this branch)
+checked: +, -, BITAND, BITOR, BITXOR, CHOOSE, DIV, DIVIDES, DOT, GCD, LCM, LSHIFT, MOD, REM, RSHIFT, TIMES, ^, juxtaposition

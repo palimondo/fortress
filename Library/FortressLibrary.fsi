@@ -488,8 +488,8 @@ trait ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }
     opr BITAND(self,b:ZZ32):ZZ32
     opr BITOR(self,b:ZZ32):ZZ32
     opr BITXOR(self,b:ZZ32):ZZ32
-    opr LSHIFT(self,b:ZZ64):ZZ32
-    opr RSHIFT(self,b:ZZ64):ZZ32
+    opr LSHIFT(self,b:AnyIntegral):ZZ32
+    opr RSHIFT(self,b:AnyIntegral):ZZ32
     opr BITNOT(self):ZZ32
     widen(self):ZZ64
     partitionL(self):ZZ32
@@ -527,8 +527,8 @@ trait ZZ64 extends { ZZ, Integral[\ZZ64\] } comprises { Long, ZZ32 }
     opr BITAND(self,b:ZZ64):ZZ64
     opr BITOR(self,b:ZZ64):ZZ64
     opr BITXOR(self,b:ZZ64):ZZ64
-    opr LSHIFT(self,b:ZZ64):ZZ64
-    opr RSHIFT(self,b:ZZ64):ZZ64
+    opr LSHIFT(self,b:AnyIntegral):ZZ64
+    opr RSHIFT(self,b:AnyIntegral):ZZ64
     opr BITNOT(self):ZZ64
     narrow(self):ZZ32
     big(self):ZZ

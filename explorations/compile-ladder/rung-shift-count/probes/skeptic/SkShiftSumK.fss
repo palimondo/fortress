@@ -1,0 +1,13 @@
+component SkShiftSumK
+export Executable
+
+run(): () = do
+    one: ZZ32 = 1
+    k: ZZ = big(widen(30))
+    h = one LSHIFT k
+    println("ZZ32 1 LSHIFT a ZZ count of 30, doubled by + = " || (h + h).asString)
+    println("ZZ32 1 LSHIFT an NN64 count of 31 = " || (one LSHIFT unsigned(widen(31))).asString)
+    println("ZZ32 -1 RSHIFT an NN32 count of 2^32-1 = " || ((-1) RSHIFT unsigned(-1)).asString)
+    println("END")
+  end
+end

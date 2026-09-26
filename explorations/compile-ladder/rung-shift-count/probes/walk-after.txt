@@ -1,0 +1,160 @@
+=== IntSemanticsRungI
+PASS
+exit=0
+=== BitTwiddle
+ZZ32 OK
+ZZ64 OK
+exit=0
+=== UnsignedTest
+PASS?
+exit=0
+=== QuickCheckTest
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: true true false false true true true true false true true false true true true false
+genZZ32: 28910 4850776 82 92 118 -25184 -319664806 -2074794844 -7842306 -4909080 1642317026 -20
+genZZ64: -521009214311 4803451 -83 -11889142456562 -88543297403357 -457622586372 -106 4230336
+genZZ: 11014333432913149 -4993 -340764143598941432 1244418 53519631271 -1659847 237393141408181332 -351783911263
+genQQ: 1414263491/1139807926 514096036662/7801825 821593498/8181764075376657699 22/1251766152685
+genRR32: 8.7485485 239.82152 3.654417E8 77721.31 6.5451046E8 -6.875676 -7.6065856E8 1099209.9
+genRR64: 9.09248206622235E8 212728.7179172535 -1099405.9745661474 -2744.0078800013725
+genChar: ^ _ p ( N - R a c F h C G f [ B F % o = x U 0 | l g G * 7 e 1 L
+genString: 3*fN=ZO2tX-FFhdp' S*fN=ZO2tX-FFhdp Sf0a=ZO2tX-FF *fNZO2tX-FFhdp'" *fN=ZO2tX-FFhdp f0a=ZO2tX-FF f0a=ZO2tX-F fN\ZO2tX-F VN=ZO2tX-FF N=ZO2tX-FFhd[sd% NZO2tX-FFhdp' NZO2tX-FFhdp \8ZO2t-FF \=ZO2tX- ZO2tX-FFhdp =ZO2tX-F
+genMaybe(genChar): Just(a) Just(\) Nothing Nothing Just(@) Just(~) Just(t) Just(C)
+genList(genZZ32): <|-385636, 28907, 277137137, 6915490, 71, 5394235, 29935, 1197165269, -629713450, 4317579, 1413176383, 1918684616, 37|> <|9, -352602598, 277137137, 6915490, 71, 5394235, 29935, -2719176|>
+genList(genString): <|hdp"L{^~]-tv(mB], hd["L{^~]-tvljd, W"q~]}tv(mB2/7w|> <|hdp"L{^~]-(m2/7w*o[8Y'}jfApFPIM!{m, hd["L{^~]-tv(m|>
+genList(genMaybe(genList(genString))): <|Just(<|["d, "`q_, , z"], , &, }, )(, (m2/7w, d2/7, 22/, 27, /w*o[|>), Just(<|%, u, z, ], ], -t, -(mB, v|>), Just(<|, u, z, ], ]|>), Nothing, Just(<|^~, ~, |>), Just(<|]-)(mB, }|>), Just(<|-t, v, (mB, 2/7, 27O, wo, o8t, o[8', o8t}jA<Yt, 8t}4f, 8t, t$jBA<F|>), Just(<|(, d, , , 7|>), Just(<|(m2/7w, 2/7, 27wF, wo, o<8t, o[8', o8t}jB, <8, 8t}, t4A<, '|>), Just(<|d|>), Just(<|2/wo, w*o[, o[8t, o8t, , ', }, }4A, j, 4, , A<Yt, p, FIM, IM!{, /M, M{^/3@Y'D!@>|>), Nothing, Nothing|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-1672960752|->({false,true},{!,*,7,A,F,I,M,P,[,f,j,m,o,p,r,t,{,}}), -39|->({false,true},{",q,u,z}), 37|->({false,true},{*,/,2,8,A,F,I,P,[,f,j,o,p,t,w,}}), 94|->({false,true},{/,1,2,A,F,I,P,[,f,j,o,p,r,t,w,}}), 28907|->({false,true},{",(,-,B,W,],^,m,q,t,v,{,~}), 29935|->({true},{-,],t,v,~}), 4317579|->({false,true},{(,v}), 277137137|->({false,true},{",`,q,u,z}), 1197165269|->({false,true},{(,*,/,1,2,7,F,[,a,f,j,m,o,r,t,w,}})}
+genRange(genZZ32): [] [] [40,41,42,43,... 6915490] []
+genTuple3(genZZ32,genMaybe(genChar),genString): (5394235,Nothing,{^~) (29935,Just(T),~]}ar) (163545010,Just(z),}a(m2/7wFo[rt*}j*B-) (-87,Just(&),t(m2/7wFo[)
+genTestStatus: TestFail TestSkip TestPass TestSkip TestSkip TestSkip TestSkip TestPass
+genList(genTestStatus): <|TestPass, TestPass, TestSkip, TestSkip, TestFail, TestPass, TestFail, TestPass, TestPass, TestSkip, TestSkip, TestPass, TestFail, TestPass, TestFail|> <|TestPass, TestPass, TestSkip, TestSkip, TestFail, TestPass, TestFail, TestPass, TestPass, TestSkip, TestSkip, TestPass, TestFail, TestPass|>
+genArrow(genZZ32,genZZ32):
+    -97259555 -176366607
+    -97259555 -176366607
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    423286 -4355742 1728426 7022
+    423286 -4355742 1728426 7022
+
+Passed 80 test(s).
+Failed in 51 test(s): (7.932290079070054E15,-9.782135707559893E9,-8.416520691066144E7)
+Failed in 178 test(s): -40
+Tag(s) of failing properties:
+    no sign extension
+Passed 56 test(s) (and skipped 49 test(s)).
+Passed 20 test(s).
+Passed 26 test(s) (and skipped 178 test(s)) but reached the maximum of 204 tests.
+Collected test data:
+    15%: 2 digits
+    4%: 3 digits or more
+    4%: 2 digits, ends with zero
+    2%: 3 digits or more, ends with zero
+    1%: 1 digit
+Shrinking a failed instance..........
+Failed in 100 test(s) (and shrank in 55 test(s)): _
+Shrinking a failed instance...................
+Failed in 256 test(s) (and shrank in 190 test(s)): ;
+Shrinking a failed instance.....................
+Failed in 100 test(s) (and shrank in 231 test(s)): (`,)
+Shrinking a failed instance.......................
+Failed in 256 test(s) (and shrank in 276 test(s)): (#,)
+Shrinking a failed instance.....
+Failed in 100 test(s) (and partially shrank in 289 test(s)): <|#OqB|H_OfsxIp9, dqB|H_OfsxIp9, qB|H_O, B|H_OfsxIp9~, 8PH_, H_OfsxIp, _OfsxIp9, OfsxIp, fsxIp9, sxIp9, |>
+Shrinking a failed instance................................................................
+Failed in 256 test(s) (and shrank in 1663 test(s)): <|%|>
+
+exit=0
+=== ReflectiveQuickCheckTest
+propAssociativeAddition:
+Passed 100 test(s).
+propCommutativeAddition:
+Passed 100 test(s).
+propCommutativeAddition':
+Passed 100 test(s).
+propDoubleReversal:
+Passed 100 test(s).
+propDoubleReversalList:
+Passed 100 test(s).
+propDoubleReversalMap:
+Passed 100 test(s).
+propDoubleReversalSet:
+Passed 100 test(s).
+propMapSizeInvariant1:
+Passed 100 test(s).
+propMapSizeInvariant2:
+Passed 100 test(s).
+exit=0
+=== RandomTest
+exit=0
+=== zeno
+mx = 103
+   1:   1 |*
+   3:   9 |******
+   7:   1 |*
+   9:  35 |************************
+  11:   1 |*
+  21:   6 |****
+  27:  77 |****************************************************
+  31:   1 |*
+  33:   5 |***
+  35:   1 |*
+  47:   2 |*
+  63:  15 |**********
+  67:   1 |*
+  81: 103 |**********************************************************************
+  93:   4 |***
+  99:  10 |*******
+ 105:   4 |***
+ 115:   2 |*
+ 141:   6 |****
+ 167:   2 |*
+ 189:  19 |*************
+ 197:   1 |*
+ 201:   3 |**
+ 215:   1 |*
+ 233:   1 |*
+ 243:  83 |********************************************************
+ 279:   5 |***
+ 295:   7 |*****
+ 297:   9 |******
+ 315:   5 |***
+ 325:   1 |*
+ 345:   4 |***
+ 379:   1 |*
+ 421:   1 |*
+ 423:   6 |****
+ 433:   1 |*
+ 457:   3 |**
+ 501:   4 |***
+ 545:   2 |*
+ 567:   9 |******
+ 591:   1 |*
+ 603:   2 |*
+ 645:   1 |*
+ 677:   3 |**
+ 699:   1 |*
+ 729:  30 |********************
+ 749:   1 |*
+ 779:   2 |*
+ 785:   1 |*
+ 837:   2 |*
+ 885:   7 |*****
+ 891:   3 |**
+ 911:   1 |*
+ 945:   2 |*
+ 975:   1 |*
+1013:   2 |*
+exit=0
+=== rshiftbug
+That worked!
+exit=0
+=== longPrim
+exit=0
+=== intPrim
+exit=0
+=== NumberPrintTest
+-1
+78236427658757685
+-78236427658757685
+ZZ64
+ZZ64
+exit=0

@@ -1,0 +1,9 @@
+### walk, after: FORTRESS_HOME=/home/user/fortress-shiftk (branch wip/rung-shift-count), bin/fortress SkShiftHugeLiteralK.fss; load at start: 1.77, 1.60, 2.17
+the literal 18446744073709551616 is a ZZ
+the literal -18446744073709551616 is a ZZ
+ZZ 3 LSHIFT a ZZ count of -2^64 = 0
+ZZ32 3 RSHIFT a ZZ count of -2^64 = ZZ32 0
+ZZ32 3 RSHIFT the literal -18446744073709551616 = ZZ32 0
+ZZ32 -3 LSHIFT the literal -18446744073709551616 = ZZ32 -1
+END
+exit=0

@@ -48,3 +48,24 @@ In the ledger the order would be C (row 19, line 133), N (row 21, line 135), K (
 **For the gate.** Checker count 125, the crash row the word `none`, which alone is `checker_compare`'s fourth argument; compiler track +12 `.test` files (`explorations/compile-ladder/rung-nat-checker/record.md`, "For the manifest and the gate").
 
 **Placeholders.** Every `<short hash>` that rung N's commit adds names N's commit: its three `FACTS.md` bullets and two superseded notes, row 307's note and the handover paragraph.
+
+## Rung K (`rung-shift-count`)
+
+**Inherited from the branch.** Five commits, `3eb25c7b2` to `801f63b65`: the assertion written and captured failing before the library edit (`3eb25c7b2`), the edit and the pass (`03c341403`), the regression subset and probes (`a32c22dad`), `record.md` (`a857544ca`), and the skeptic's approval with four corrections (`801f63b65`). `record.md` and `SKEPTIC.md` were on the branch; `REPORT.md` was not, the subagent harness having refused the file by its name.
+
+**Corrections, all four closed at the gather.**
+1. `explorations/compile-ladder/rung-shift-count/REPORT.md` is composed from the worker's structured result (run `wf_f54d0e4b-63d`, `rung:K`) and opens with the five-line provenance block from its `specCitations`, as the skeptic checked it (`SKEPTIC.md` section 0); its section 0 says how it was written and section 11 lists what the gather changed.
+2. The precedent count reads 22 active declaration lines, 16 with `b:AnyIntegral` and 6 with `b:ZZ64` (`ZZ32`'s pair in the component and the api, `ZZ64`'s pair in the api), in `REPORT.md` section 3; row 380's note says "exactly these six declaration lines (`ZZ32`'s pair in both files, `ZZ64`'s api pair)", as `probes/integral-contract.txt:2-7` shows.
+3. Row 380's note, and `REPORT.md` section 4, carry the skeptic's sentence: neither inherited declaration was more specific (`Specification/basic/overloading.tex:280-285`), so `ZZ32` owed their meet under the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex:396-411`), and the widened declaration is that meet, valid with `ZZ64`'s under the Subtype Rule (`:162-166`). The three passages were read in place, and `Library/FortressLibrary.fsi:412`, `:499` checked.
+4. Row 381's note, and `REPORT.md` section 9, name coercion resolution (`Specification/basic/conversions-coercions.tex:454-461`) choosing `ZZ64`'s method (`CompilerBuiltin.fss:647`) by coercing the receiver through `coerce(x: ZZ32)` (`:580`), `ZZ32` excluding `ZZ64` in the compiler prelude (`:663`); the three prelude lines were opened.
+
+**Recommended rows, each opened or refused.**
+- The skeptic's measurement of the compiled refusal of a `ZZ32` receiver with a `ZZ`, `NN32` or `NN64` count: opened as an append to row 381, as the skeptic wrote it, with its probe paths written in full (`probes/skeptic/SkShiftCountZZK.fss`, `SkShiftCountNN32K.fss`, `SkShiftCountNN64K.fss` and their `.compiled.txt` captures, `SkShiftWidthK`'s compiled and walk captures); `CompilerBuiltin.fss:647-648`, `:579-580`, `:664` were opened.
+
+**Folded.** `FACTS.md`: K's record asks for one change to the existing entry on the interpreter's integer rules, its closing clause "Not repaired (row 380): ... and no gated assertion pins the case" replaced by the repaired fact, and `<short hash>` and K's report added to the entry's closing citation. A decision: this in-place replacement rather than a new bullet after the section's last entry, because the old clause becomes false with this landing and the knowledge base's README condenses a landed entry to the fact as it stands; the replaced clause is kept verbatim in `explorations/coordinator/FACTS-history.md` under a tag dated 2026-09-26, beside the full entry of rung I that it came from. The ledger: row 380's closing note and row 381's note, with corrections 2 to 4, and the skeptic's append to row 381. The handover: one paragraph.
+
+**For rung O when it runs again.** The skeptic's `SkShiftSumK` shows that since this rung `h = 1 LSHIFT` a `ZZ` count of 30 is a `ZZ32`, so `h + h` now wraps at width 32 under `walk` (`explorations/compile-ladder/rung-shift-count/probes/skeptic/SkShiftSumK.walk-after.txt:2`, against `2147483648` in `SkShiftSumK.walk-before.txt:2`), where before it was a `ZZ64` sum; once row 379's natives raise, that sum is an `IntegerOverflow`. Rung O's count was measured without K's edit and does not include this shape; its re-measure after K has landed will.
+
+**For the gate.** Checker count 103, measured before and after, identical tables and byte-identical checker output. No test file added: `testSystem` is not moved by K.
+
+**Placeholders.** Every `<short hash>` that rung K's commit adds names K's commit: the `FACTS.md` entry on the interpreter's integer rules (twice), row 380's and row 381's notes, the handover paragraph, and K's `record.md`.

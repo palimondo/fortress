@@ -1,0 +1,23 @@
+### explorations/compile-ladder/rung-shift-count/probes: bin/fortress ShiftCountK.fss, before the library edit (tree at 3eb25c7b2), JAVA_FLAGS="-Xmx4g -Xss64m -Djava.io.tmpdir=/home/user/fortress-shiftk/tmp"
+-- ZZ32 receiver, each count type
+ZZ32 3 LSHIFT a ZZ32 count of 33 = 0 : ZZ32
+ZZ32 3 LSHIFT a ZZ64 count of 33 = 0 : ZZ32
+ZZ32 3 LSHIFT a ZZ count of 33 = 25769803776 : ZZ64
+ZZ32 3 LSHIFT an NN32 count of 33 = 25769803776 : ZZ64
+ZZ32 3 LSHIFT an NN64 count of 33 = 25769803776 : ZZ64
+ZZ32 3 LSHIFT a ZZ count of 40 = 3298534883328 : ZZ64
+ZZ32 3 LSHIFT a ZZ count of 4 = 48 : ZZ64
+ZZ32 3 RSHIFT a ZZ count of -33 = 25769803776 : ZZ64
+ZZ32 -3 RSHIFT a ZZ count of 40 = -1 : ZZ64
+ZZ32 -3 RSHIFT an NN32 count of 1 = -2 : ZZ64
+ZZ32 3 LSHIFT an NN64 count of 2^64-1 = 0 : ZZ64
+ZZ32 -3 RSHIFT an NN64 count of 2^63 = -1 : ZZ64
+-- literal receiver
+literal 3 LSHIFT a ZZ count of 33 = 25769803776 : ZZ64
+literal 3 LSHIFT a ZZ64 count of 33 = 0 : ZZ32
+-- ZZ64 receiver, unchanged declarations
+ZZ64 3 LSHIFT a ZZ32 count of 33 = 25769803776 : ZZ64
+ZZ64 3 LSHIFT a ZZ count of 33 = 25769803776 : ZZ64
+ZZ64 3 LSHIFT an NN32 count of 33 = 25769803776 : ZZ64
+END
+exit=0
