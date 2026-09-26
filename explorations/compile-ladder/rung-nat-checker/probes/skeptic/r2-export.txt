@@ -1,0 +1,76 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 0.62 1.75 2.40; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+########## walk: fortress SrExpMis.fss
+1
+2
+3
+exit=0
+########## fortress typecheck SrExpMis.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fss:1:11-18:
+    Component SrExpMis exports API SrExpMis
+    but does not define all declarations in SrExpMis.
+    Missing declarations: {symlitT[\T extends Object\](b:SrExpMis.BoxT[\T\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:10:1-12:1,
+                           lit34(b:SrExpMis.Box[\3\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:6:1-24,
+                           symlit[\nat k\](b:SrExpMis.Box[\k\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:7:1-8:1,
+                           ren[\nat k\](b:SrExpMis.Box[\k\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:8:1-9:1,
+                           renT[\T extends Object\](b:SrExpMis.BoxT[\T\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:9:1-29}
+File SrExpMis.fss has 1 error.
+exit=255
+########## fortress compile SrExpMis.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fss:1:11-18:
+    Component SrExpMis exports API SrExpMis
+    but does not define all declarations in SrExpMis.
+    Missing declarations: {symlitT[\T extends Object\](b:SrExpMis.BoxT[\T\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:10:1-12:1,
+                           lit34(b:SrExpMis.Box[\3\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:6:1-24,
+                           symlit[\nat k\](b:SrExpMis.Box[\k\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:7:1-8:1,
+                           ren[\nat k\](b:SrExpMis.Box[\k\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:8:1-9:1,
+                           renT[\T extends Object\](b:SrExpMis.BoxT[\T\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:9:1-29}
+File SrExpMis.fss has 1 error.
+exit=255
+########## fortress run SrExpMis (landed build)
+Could not load SrExpMis
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SrExpMis.class
+	... 4 more
+exit=1
+########## fortress typecheck SrExpMis.fss (unedited checker, tmp/base-classes first)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## fortress typecheck SrExpMis.fss (landed build, only ExportChecker.scala of 47437c65f first: tmp/sk-export-base)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fss:1:11-18:
+    Component SrExpMis exports API SrExpMis
+    but does not define all declarations in SrExpMis.
+    Missing declarations: {symlitT[\T extends Object\](b:SrExpMis.BoxT[\T\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:10:1-12:1,
+                           same3(b:SrExpMis.Box[\3\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:5:1-24,
+                           lit34(b:SrExpMis.Box[\3\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:6:1-24,
+                           symlit[\nat k\](b:SrExpMis.Box[\k\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:7:1-8:1,
+                           ren[\nat k\](b:SrExpMis.Box[\k\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:8:1-9:1,
+                           renT[\T extends Object\](b:SrExpMis.BoxT[\T\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpMis.fsi:9:1-29}
+File SrExpMis.fss has 1 error.
+exit=255
+########## walk: fortress SrExpOk.fss
+1
+8
+exit=0
+########## fortress typecheck SrExpOk.fss (landed build)
+exit=0
+########## fortress compile SrExpOk.fss (landed build)
+exit=0
+########## fortress run SrExpOk (landed build)
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : 3$RTTIc.class
+	... 9 more
+exit=1
+########## fortress typecheck SrExpOk.fss (unedited checker, tmp/base-classes first)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## fortress typecheck SrExpOk.fss (landed build, only ExportChecker.scala of 47437c65f first: tmp/sk-export-base)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpOk.fss:1:11-17:
+    Component SrExpOk exports API SrExpOk
+    but does not define all declarations in SrExpOk.
+    Missing declarations: {same3(b:SrExpOk.Box[\3\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpOk.fsi:4:1-25,
+                           two[\nat k,nat j\](a:SrExpOk.Box[\k\],b:SrExpOk.Box[\j\]):SrExpOk.Box[\j\] at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api2/SrExpOk.fsi:5:1-7:1}
+File SrExpOk.fss has 1 error.
+exit=255

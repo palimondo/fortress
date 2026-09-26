@@ -1,0 +1,11 @@
+component SrLocalArith
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+run(): () = do
+    x: Box[\1 + 2\] = Box[\3\](7)
+    println(x.v)
+  end
+
+end

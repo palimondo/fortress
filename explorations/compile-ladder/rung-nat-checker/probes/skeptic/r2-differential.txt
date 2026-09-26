@@ -1,0 +1,149 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 1.11 1.75 2.38; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+########## walk: fortress SrNegInt.fss
+nullexplorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegInt.fss:5:15:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress typecheck SrNegInt.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegInt.fss:5:15:
+    Syntax Error
+File SrNegInt.fss has 1 error.
+exit=255
+########## fortress compile SrNegInt.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegInt.fss:5:15:
+    Syntax Error
+File SrNegInt.fss has 1 error.
+exit=255
+########## fortress run SrNegInt (landed build)
+Could not load SrNegInt
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SrNegInt.class
+	... 4 more
+exit=1
+########## fortress typecheck SrNegInt.fss (unedited checker, tmp/base-classes first)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegInt.fss:5:15:
+    Syntax Error
+File SrNegInt.fss has 1 error.
+exit=255
+########## walk: fortress SrLocalArith.fss
+7
+exit=0
+########## fortress typecheck SrLocalArith.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLocalArith.fss:7:8-17:
+    Ill-formed type: Box[\1+2\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLocalArith.fss:7:23-32:
+    Right-hand side has type Box[\3\], but declared type is Box[\1+2\].
+File SrLocalArith.fss has 2 errors.
+exit=255
+########## fortress compile SrLocalArith.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLocalArith.fss:7:8-17:
+    Ill-formed type: Box[\1+2\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLocalArith.fss:7:23-32:
+    Right-hand side has type Box[\3\], but declared type is Box[\1+2\].
+File SrLocalArith.fss has 2 errors.
+exit=255
+########## fortress run SrLocalArith (landed build)
+Could not load SrLocalArith
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SrLocalArith.class
+	... 4 more
+exit=1
+########## fortress typecheck SrLocalArith.fss (unedited checker, tmp/base-classes first)
+Exception in thread "main" java.lang.ClassCastException: class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+exit=1
+########## walk: fortress SrLitMeth.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitMeth.fss:13:13-43:
+Unification error: Closure/Constructor for pair param 1 (c:Box[\j\]) got arg Box[\2\] of type Box[\2\]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitMeth.fss:13:13-43:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress typecheck SrLitMeth.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitMeth.fss:14:13-43:
+    Could not check method invocation Box[\3\].pair
+    - [\nat j\](Box[\j\], ZZ32)->ZZ32 is not applicable to an argument of type (Box[\2\], IntLiteral).
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitMeth.fss:16:13-54:
+    Could not check method invocation BoxT[\ZZ32\].pairT
+    - [\U extends Object\](BoxT[\U\], ZZ32)->ZZ32 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File SrLitMeth.fss has 2 errors.
+exit=255
+########## fortress compile SrLitMeth.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitMeth.fss:14:13-43:
+    Could not check method invocation Box[\3\].pair
+    - [\nat j\](Box[\j\], ZZ32)->ZZ32 is not applicable to an argument of type (Box[\2\], IntLiteral).
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitMeth.fss:16:13-54:
+    Could not check method invocation BoxT[\ZZ32\].pairT
+    - [\U extends Object\](BoxT[\U\], ZZ32)->ZZ32 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File SrLitMeth.fss has 2 errors.
+exit=255
+########## fortress run SrLitMeth (landed build)
+Could not load SrLitMeth
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SrLitMeth.class
+	... 4 more
+exit=1
+########## fortress typecheck SrLitMeth.fss (unedited checker, tmp/base-classes first)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## walk: fortress SrLitCtor.fss
+3
+3
+3
+3
+exit=0
+########## fortress typecheck SrLitCtor.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitCtor.fss:12:13-31:
+    Could not check call to function Pair
+    - [\nat k\](Box[\k\], ZZ32)->Pair[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitCtor.fss:14:13-38:
+    Could not check call to function PairT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->PairT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File SrLitCtor.fss has 2 errors.
+exit=255
+########## fortress compile SrLitCtor.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitCtor.fss:12:13-31:
+    Could not check call to function Pair
+    - [\nat k\](Box[\k\], ZZ32)->Pair[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitCtor.fss:14:13-38:
+    Could not check call to function PairT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->PairT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File SrLitCtor.fss has 2 errors.
+exit=255
+########## fortress run SrLitCtor (landed build)
+Could not load SrLitCtor
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SrLitCtor.class
+	... 4 more
+exit=1
+########## fortress typecheck SrLitCtor.fss (unedited checker, tmp/base-classes first)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## walk: fortress SrDeadMeth.fss
+7
+7
+exit=0
+########## fortress typecheck SrDeadMeth.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrDeadMeth.fss:12:13-19:
+    Could not check method invocation Box[\3\].dead
+    - Could not infer static argument nat n without context.
+File SrDeadMeth.fss has 1 error.
+exit=255
+########## fortress compile SrDeadMeth.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrDeadMeth.fss:12:13-19:
+    Could not check method invocation Box[\3\].dead
+    - Could not infer static argument nat n without context.
+File SrDeadMeth.fss has 1 error.
+exit=255
+########## fortress run SrDeadMeth (landed build)
+Could not load SrDeadMeth
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SrDeadMeth.class
+	... 4 more
+exit=1
+########## fortress typecheck SrDeadMeth.fss (unedited checker, tmp/base-classes first)
+Exception in thread "main" java.lang.ClassCastException: class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+exit=1

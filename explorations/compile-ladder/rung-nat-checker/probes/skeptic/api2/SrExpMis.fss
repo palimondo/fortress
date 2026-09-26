@@ -1,0 +1,19 @@
+component SrExpMis
+export { SrExpMis, Executable }
+
+object Box[\nat k\](v: ZZ32) end
+object BoxT[\T\](v: ZZ32) end
+same3(b: Box[\3\]): ZZ32 = b.v
+lit34(b: Box[\4\]): ZZ32 = b.v
+symlit[\nat k\](b: Box[\3\]): ZZ32 = b.v
+ren[\nat j\](b: Box[\j\]): ZZ32 = b.v
+renT[\U\](b: BoxT[\U\]): ZZ32 = b.v
+symlitT[\T\](b: BoxT[\String\]): ZZ32 = b.v
+
+run(): () = do
+    println(same3(Box[\3\](1)))
+    println(ren(Box[\5\](2)))
+    println(renT(BoxT[\String\](3)))
+  end
+
+end

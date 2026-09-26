@@ -1,4 +1,8 @@
-# Rung N (`rung-nat-checker`): the first skeptic's judgement
+# Rung N (`rung-nat-checker`): the skeptic's judgements
+
+**Second judgement (2026-09-26, after the repair round): approved, with two required corrections to the record.** It is the section "Second judgement" at the end of this file. The first judgement follows unchanged. Its section numbers (0 to 10, then "Corrections for the repair round") are the ones `JUDGE.md` and `REPORT.md` cite.
+
+## First judgement: refused
 
 **Verdict: refused.** The one thing that must change: two behaviours this rung repairs are not pinned by any gated assertion, and the three-homes rule puts both in home 1. (a) The `ExportChecker.equalIntExprs` edit (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:645-646`) has no test at all. With only that file taken back to `47437c65f`, a component that exports its own api with a sized function is refused with "Missing declarations: {unbox[\nat k\](b:SkSizedApi.Box[\k\]):ZZ32 ...}", and with the edit it checks clean (`explorations/compile-ladder/rung-nat-checker/probes/skeptic/export-ab.txt:3-11`). (b) `XXXNatArithChecker.test` says `compile_err_contains=Arithmetic on nat static arguments is not supported by the type checker`. That string is in the declaration-level message and in the use-site message alike (`explorations/compile-ladder/rung-nat-checker/probes/skeptic/junit-rerun.txt:101-102`, `:107-108`), so the use-site check that REPORT.md section 6 counts as home 1 (`TypeWellFormedChecker.scala:144-145`) could be deleted and the test would stay green. Each needs a gated assertion that goes red without its edit, and that has to be shown before the next judgement. Everything else below is a correction for the same repair round, or a recommended row.
 
@@ -132,3 +136,134 @@ The quiet case that costs diagnosability is the dead-size arm in an overload set
 6. record.md, row 388: the method half is ledger row 21. Append the size twin, and the fact that the compiled checker infers both kinds, to row 21 as a note, and open a new row only for `bool` inference, or fold that into the same note.
 7. record.md, "What comes back to Pavol", row 387: say "for type parameters today and, through `keep-size-params`, for sizes after this rung".
 8. REPORT.md section 12: "three times" is followed by four durations, and the build and library-compile timings carry no machine line (`explorations/protocol.md` section 6).
+
+# Second judgement: approved, with two required corrections
+
+**Verdict: approved.** Both grounds of the first refusal are closed. Each now has a gated test, and I watched each go red without its edit. (a) `ProjectFortress/compiler_tests/NatExportChecker` passes on the landed build (`explorations/compile-ladder/rung-nat-checker/probes/skeptic/r2-tests.txt:2-7`). With only `ExportChecker.scala` of `47437c65f` first on the classpath it fails with "Missing declarations: {unbox[\nat k\](b:NatExportChecker.Box[\k\]):ZZ32 ...}" (`:55-61`). (b) `XXXNatArithChecker.test` is pinned to `File XXXNatArithChecker.fss has 4 errors.` and to `Ill-formed static argument: 2+1`. It passes (`:10-28`), and it goes red with either of its two checks deleted (the worker's `explorations/compile-ladder/rung-nat-checker/probes/arith-pin-red.txt:3-5` and `:17-20`, `:31-33` and `:45-48`; I read both shadow diffs in that capture). The repair round changed no file under `ProjectFortress/src/`, `Library/` or `ProjectFortress/astgen/`: `git diff --stat 9733887cc..HEAD` lists only test files and the rung's own directory. So the diff I read line by line in the first judgement is the diff that lands. The two corrections below are corrections to the record. Neither changes a verdict of the checker.
+
+Inherited state: branch `wip/rung-nat-checker` at `cef0bead4`, with three worker commits after the judge's ruling (`9733887cc`), and the working tree clean. `ProjectFortress/build` is the landed build: its Scala classes date from 02:02:23 and the last source edit from 02:01:32, and I did not rebuild. The five library components are in `default_repository/caches/bytecode_cache`. All my runs used `FORTRESS_THREADS=1` on one machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, openjdk 25.0.4. The load average at the start of each run is on the first line of its capture. I recorded no timings.
+
+## R0. The provenance block
+
+The block still has five lines. The repair round changed none of the files it cites, and I re-opened each cited line with `sed -n`:
+- problem: `NatInferredChecker.fss:14` is the `unbox` assertion citing row 307. `junit-before.txt:4` is `java.lang.Error: Not yet implemented`, `:185` is the `VarType` to `IntExpr` `ClassCastException`, and `checker-count-before.txt:16` is the `#crash` row.
+- spec: `trait-parameters.tex:68-90` and `advanced/overloading.tex:95-103`, `:158-170`. These are prose chapters; `Specification/` is unchanged since `47437c65f`.
+- precedent: `Fortress.ast:1593` is `_InferenceVarOp(Object id);`. In `Formula.scala`, `:61` is `OPrimitive`, `:805` is `oEquivalent`, `:355` is `oSimplify` and `:640-642` is the op `makeSub`. `IntNat.java:126-127` opens `unifyStaticArg`, `STypesUtil.scala:333` is `staticParamToArg`, and `keep-size-params.patch` has 22 lines.
+- deviation: points to section 5.
+- historical: the repair round edited no file of the 2012 tree. Its edits are the rung's own new test files and records, so the line is complete as it was.
+
+One gap, correction 1. The `spec:` line does not name the standard of the `ExportChecker.equalIntExprs` repair, which the repair round made a home-1 repair. That standard is `Specification/basic/components/apis.tex:250-256`. I read `:236-270`: "The header and type of $d'$ must be the same as the header and type of $d$."
+
+## R1. The recorded failure
+
+The first pass's recorded failure stands: `junit-before.txt`, committed at `9e014be3e` before any source edit. The repair round's two new tests were written after the edit, so their red runs are classpath-shadow runs, as the judge ordered:
+- both tests are red at `NI.nyi` on the unedited checker (`probes/repair-before.txt:2-14`, `:15-28`);
+- `NatExportChecker` is red with only the export checker taken back (`probes/export-test-ab.txt:3-18`);
+- the re-pinned arithmetic test is red with either check removed (`probes/arith-pin-red.txt`).
+
+I re-ran the export A/B myself (`probes/skeptic/r2-tests.txt:55-61`). With `javap -c` I checked the shadow's `equalIntExprs`: it is `iconst_0; ireturn`, the constant `false` of `47437c65f`.
+
+## R2. The repair round's diff
+
+The round changed only test files, and I read each one.
+- `NatExportChecker.fsi`, `.fss` and `.test`: one comment line each. The component exports `{ NatExportChecker, Executable }`, and the `.test` drives `compile` only. So the gated check is the checker's verdict against the api. The `run()` assertion is not executed by the gate, and a compiled run would stop at load like every sized program today (`SrExpOk`, `probes/skeptic/r2-export.txt:58-65`, `3$RTTIc`).
+- `XXXNatArithChecker.test`: two keys. No other `compiler_tests/*.test` combines `_contains` with `_WIcontains` (grep). The harness checks each key on its own (`FileTests.java:147-161`), and the landed run satisfies both (`r2-tests.txt:17-24`).
+- `XXXNatLitArgChecker.fss`: one comment line, two controls and two defect assertions. The message cites `conversions-coercions.tex:102-103`. I read `:88-112`, and `:102-103` is "arguments to functionals and constructors where the corresponding parameters have declared types".
+- `XXXNatOverrideChecker.fss:16`: the message now cites `Library/FortressLibrary.fsi:1403`, which is `subarray` of `trait ReadableArray1` (`:1395`).
+
+The net diff `47437c65f...HEAD` touches no stop file of the batch. A grep for `StaticChecker.java`, `runtimeSystem/`, `runtimeValues/`, `CodeGen.java`, `OverloadSet.java`, `Library/` and `interpreter/` over the file list prints nothing.
+
+## R3. The precedent search
+
+The round adds what it was missing. The ledger search found row 21 (`explorations/fortress-gap-ledger.md:135`), and `REPORT.md` section 3 now says the first pass missed it. For the test shape, the round cites the api-plus-component precedent `ExportVarRungXApi`; `compiler_tests/` holds 37 other `.fsi` files. No repair round precedent is involved in code, since no source changed.
+
+## R4. The tests
+
+I ran them myself, each `.test` in its own JVM with its cache entries deleted before and after (`probes/skeptic/r2-tests.sh`, capture `probes/skeptic/r2-tests.txt`):
+- `NatExportChecker`: `OK (1 test)` (`:7`);
+- `XXXNatArithChecker`: 4 errors, including the use-site error, and `Saw expected failure` (`:23-24`);
+- `XXXNatLitArgChecker`: 2 errors, exactly the two inferred calls at lines 15 and 16, and `Saw expected failure` (`:31-39`);
+- `XXXNatOverrideChecker`: `OK Saw expected exception` (`:48`);
+- `NatExportChecker` with the export checker taken back: `FAIL` with "Missing declarations" (`:55-61`).
+
+The worker's full re-run of all twelve tests plus the size regression tests (`probes/repair-junit.txt`) gives the verdicts section 6 of `REPORT.md` states. I checked every verdict line there.
+
+Two limits of the tests, neither required:
+- `NatExportChecker` gates the false refusal that was repaired. It does not gate the refusal of a mismatch. My `SrExpMis` shows that a mismatch is still refused (R9), but an `equalIntExprs` that answered `true` would pass every gated test.
+- `XXXNatLitArgChecker` pins the error count, not the message.
+
+## R5. The competing-declaration grep
+
+`git grep -lw` for `NatExportChecker` and `XXXNatLitArgChecker` over the whole tree finds only their own five files. That covers `ProjectFortress/src/com/sun/fortress/`, `ProjectFortress/tests/` and every `*_tests/` directory. `scale`, `scaleT`, `plain`, `BoxT` and `unbox` are declared nowhere in the compiled prelude (`Library/CompilerLibrary`, `CompilerAlgebra`, `CompilerSystem` and `ProjectFortress/LibraryBuiltin/`). My `Sr*` probe names occur nowhere else.
+
+## R6. record.md
+
+- The count line is true: 321 tracked `.test` files at HEAD against 309 at `47437c65f` (`git ls-files`, `git ls-tree`).
+- The FACTS line is true and sourced. It names the export checker's repair and `NatExportChecker`, the `BOTTOM` contrast, and `dot`.
+- The note on row 307: `explorations/fortress-gap-ledger.md:318` is row 307, and every line it cites says what the note says.
+- The note on row 21 (`:135` is row 21). I checked each citation: `walk-tests.txt:8-16` is `NatMethodChecker` under walk (a size), and `:42-52` is `XXXNatBoolChecker`. In `walk-probes.txt`, `:2-10` is `MethInferT`, `:11-14` is `FnInferNatVsType`, `:15-17` is `BoolWritten` and `:70-78` is `MethInferPlain`. `compile-probes.txt:23-24` and `:34-35` are the two compiles with `exit=0`. The worker is right that the judge's cited ranges did not hold these cases, and it followed the capture.
+- Rows 387 and 389-392 are provisional. The ledger ends at row 386 (`:397`), and nothing is renumbered or moved.
+- Row 390's specification cell says "silent", and that is half right: correction 2.
+- Row 391 is true as written, but narrower than what I measured: recommended row A.
+
+## R7. The three homes
+
+| defect | home in the record | checked |
+|---|---|---|
+| `ExportChecker.equalIntExprs` always `false` | 1, `NatExportChecker` | ran green; ran red with the edit taken back (`r2-tests.txt:2-7`, `:55-61`) |
+| use-site arithmetic unpinned | 1, `XXXNatArithChecker` re-pinned | ran green (`r2-tests.txt:10-28`); red with each check deleted (`arith-pin-red.txt`) |
+| numeral at an inferred generic call | 2, `XXXNatLitArgChecker`, row 391 | `XXX` name; `.test` has `compile` and `compile_err_contains=... 2 errors.`; the harness demands that failure (`FileTests.java:384-404`), so a repair turns it red; ran it (`r2-tests.txt:31-43`); walk prints `PASS` (`litarg-test.txt:26-28`) |
+| dead-size arm dropped in an overload set | 3, row 390 | captures committed (`probes/skeptic/dead-arms.txt`, `probes/deadval-written.txt`); the report says the specification is silent on inference and cites the placeholder chapter. My grep of `Specification/basic` and `advanced` for `infer` finds no inference rule outside that chapter, but it finds the applicability definition, which speaks to half the question: correction 2 |
+| `checkP` has no size case | recorded, row 392 | conforms to the committed prose (the judge's grep; `types-vals-vars.tex:184-189`) |
+| `bool`/`dim`/`unit` error thrown at the declaration | note on row 307 | the kind limit stays gated by `XXXNatBoolChecker` |
+| walk's method and `bool` inference | note on row 21, 388 withdrawn | citations checked (R6) |
+| the same numeral refusal at a method invocation and at a constructor call (mine, R9) | 2 by the same test: one shared site | recommended row A amends row 391 |
+| a negative `int` size is inexpressible on the compiled path (mine, R9) | 2 by the arithmetic limit's test | recommended row B, a sentence for the row 307 note |
+
+## R8. The count table
+
+The table is `probes/checker-count-after.txt`: `#total 125` (`:14`) and `#crash none` (`:16`). `REPORT.md` section 7 says 125, `record.md:13` says 125, and the structured report says 125. The manifest's expectedCheckerCount is **125**, a prediction, and it matches. The repair round changed no source, so the table stands. In both tables the total is half the sum of the per-api rows (206 and 103 before, 250 and 125 after), the tool's own de-duplication, so it is no finding against the rung.
+
+## R9. The differential (my own programs, written for this judgement)
+
+Every program ran under walk, then `fortress typecheck`, `compile` and `run` on the landed build, then `typecheck` on the unedited checker (`tmp/base-classes`). The api probes also ran with only the export checker taken back (`tmp/sk-export-base`). The runners are `probes/skeptic/r2-probes.sh` and `r2-common.sh`.
+
+| program | walk | compiled (landed) | reading |
+|---|---|---|---|
+| `api2/SrExpOk`: an api with a literal size `same3(b: Box[\3\])` and two sizes `two[\nat k, nat j\]` | 1, 8 | checks and compiles; the run stops at load with `3$RTTIc` (`r2-export.txt:50-65`); with the export checker taken back, both declarations are "Missing" (`:69-76`) | agree on the verdict; the load failure is the run-time rung's (`XXXNatArgRungS`) |
+| `api2/SrExpMis`: the component differs from its api by a literal (`Box[\4\]` for `Box[\3\]`), by a symbol for a literal, and by a renamed size, each with its type twin | prints 1, 2, 3 | refuses exactly the five mismatched declarations and accepts `same3` (`r2-export.txt:7-17`); taken back, `same3` is missing too (`:38-49`) | the specification settles against walk (`apis.tex:256`, the same header), and walk checks no exports. That is the nature rule 4 of the brief states, so no row is owed. A renamed size is refused exactly as a renamed type parameter is: sizes read as types |
+| `SrLocalArith`: `x: Box[\1 + 2\] = Box[\3\](7)` | 7 | the named arithmetic error at the local annotation, plus the follow-on assignment error (`r2-differential.txt:31-38`) | the limit `XXXNatArithChecker` gates; the declared-type check reaches local annotations too |
+| `SrNegInt`: `IBox[\-2\]` for an `int` parameter | syntax error | syntax error (`r2-differential.txt:2-27`) | agree; the grammar has no negative `IntVal` (`Specification/appendices/grammars/concrete-syntax.tex:533-547`) |
+| `SrNegSub`: `IBox[\0 - 2\]` | 5, 6 | refused as arithmetic, 4 errors; the message says "nat" for an `int` parameter (`r2-negsub.txt:6-20`) | the specification sides with walk (`constant.tex:23-24`), under the gated limit. So on the compiled path an `int` size can no longer be negative anywhere: recommended row B |
+| `SrLitMeth`: a generic method `pair[\nat j\](c: Box[\j\], m: ZZ32)` and its type twin `pairT`, each called with a `ZZ32` variable and with a numeral | fails at the first call: row 21, a method's static argument (`r2-differential.txt:56-64`) | accepts both variable calls and refuses both numeral calls, "not applicable to an argument of type (Box[\2\], IntLiteral)" (`:65-73`) | the specification settles it against the compiled checker (`conversions-coercions.tex:102-103`). Row 391's defect at a method invocation: recommended row A |
+| `SrLitCtor`: `Pair(Box[\3\](1), 3)` with `object Pair[\nat k\](b: Box[\k\], m: ZZ32)`, and its type twin `PairT` | 3, 3, 3, 3 | accepts the variable forms and refuses both numeral forms (`r2-differential.txt:98-106`) | the same, and the sentence names constructors explicitly. Recommended row A |
+| `SrDeadMeth`: `dead[\nat n\]()` and `deadT[\U\]()`, methods of a sized object | 7, 7 | `deadT` accepted; `dead` refused, "Could not infer static argument nat n without context" (`r2-differential.txt:129-134`) | decision 3 (a) holds for methods too: sizes stricter than types, under a silent specification. Already recorded as the rung's decision |
+
+On the unedited checker every program with a size crashes: at `NI.nyi`, or at the `VarType` or `TraitType` to `IntExpr` `ClassCastException` (`r2-differential.txt:53-55`, `:147-149`). The exception is the two `SrNeg*` programs: `SrNegInt` stops at the parser, and `SrNegSub` crashes at `NI.nyi` like the rest (`r2-negsub.txt:42-44`).
+
+Thread counts: `FORTRESS_THREADS=1` only. The diff touches no mutable variable, field, atomic block or library state, so the single thread of the brief applies.
+
+## R10. The failure-mode question
+
+The repair round replaced nothing, so no loud failure became quiet in this round. `REPORT.md` section 13 now gives the account the first judgement asked for. I checked it against the source: the throw is at `STypesUtil.scala:565-567`, `killIvars` at `:1937-1940`, and the no-context block at `Functionals.scala:246-251`. I also checked it against my first-round captures, and it is accurate. The one quiet path is still an arm dropped from an overload set (row 390). One small addition: the arithmetic error is loud, but its text says "nat" for an `int` parameter too (`TypeWellFormedChecker.scala:41-42`, `r2-negsub.txt:8-12`).
+
+## R11. What the specification says about row 390
+
+`Specification/basic/overloading.tex:170-175`: "A declaration $\f(\Ps)$ is applicable to a call $\f(\Cs)$ if ... $\Cs \Ovrsubtype \Ps$. If the parameter type $\Ps$ includes static parameters, they are inferred ... before checking the applicability." The dotted-method twin is `:202-207`. I read `:130-215`. In `SkDeadTop`, the dropped arm `ee[\nat n\](x: ZZ32)` has the parameter type `ZZ32`, which contains no static parameter. So by this definition the arm's applicability to `ee(z)` does not depend on `n`: it is applicable, and it is more specific than `ee(x: Any)`. That is the arm run-time dispatch selects (`probes/skeptic/dead-arms.txt:44-55`, which prints 1). The checker's static drop departs from the applicability rule. What the specification leaves open is only the uninstantiated `n` that follows: `:137-138` assumes every static variable instantiated or inferred, and `inference.tex:15`, `:24-25` leave that question open. Home 3 therefore stands, because the program's outcome is not settled: a no-context error under decision 3, or a run under the types' `BOTTOM`. The pair is also one `:100-107` refuses. But the row should not call the specification simply silent. Of the row's three candidate fixes, the third ("report the no-context error when the dropped arm would be the most specific") is the one that agrees with both the applicability rule and decision 3.
+
+## Required corrections (for the commit stage)
+
+1. **`REPORT.md:4` and `record.md:4`, the `spec:` line of the provenance block:** add `Specification/basic/components/apis.tex:250-256` as the standard of the `ExportChecker.equalIntExprs` repair, which the repair round made a home-1 repair gated by `NatExportChecker`. The block is where each edit's standard is stated, and this edit answers to a different chapter from the rest.
+2. **`record.md:52`, row 390's `spec citation` cell, and the matching home cell of `REPORT.md:146`:** add `Specification/basic/overloading.tex:170-175`, with the sentence from R11. Applicability is `C <: P`, inferring only the static parameters that occur in `P`. The dropped arm's `P` is `ZZ32`, so it is applicable and the most specific, which is what run-time dispatch selects. The specification is silent only on the uninstantiated size that follows (`:137-138`; `inference.tex:15`, `:24-25`). Keep the row in home 3. In its notes, say that the third candidate fix is the one consistent with that rule and with decision 3. A row that later readers cite as "silent" must not hide the clause that decides half of its question.
+
+Neither correction changes a test or a source file, so no test needs re-running.
+
+## Recommended rows (the gather opens or refuses each)
+
+- **A. Amend provisional row 391 (claim and reproducer).** Add: "The same refusal occurs at a generic method invocation, `Box[\3\](1).pair(Box[\2\](2), 3)` with `pair[\nat j\](c: Box[\j\], m: ZZ32)`, and its type twin, and at a generic object's constructor call, `Pair(Box[\3\](1), 3)` with `object Pair[\nat k\](b: Box[\k\], m: ZZ32)`, and its type twin. In each case the call with a `ZZ32` variable in place of the numeral checks. Walk prints 3 for all four constructor calls, and it fails the method calls for the reason of row 21. All three call kinds reach one site: `checkApplication` (`Functionals.scala:430-441`, from `SMethodInvocation` at `:581-596` and `S_RewriteFnApp` at `:676-686`), then `checkApplicable` (`:125`), then `checkApplicableWithInference`, which is documented 'with static argument inference and no coercion' (`:170-173`) and fails at `:222-225`. So `XXXNatLitArgChecker` gates all three." Probes: `explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitMeth.fss` and `SrLitCtor.fss`; capture `explorations/compile-ladder/rung-nat-checker/probes/skeptic/r2-differential.txt:56-124`.
+- **B. A sentence to append to the note on row 307.** "On the compiled path an `int` static parameter can now be instantiated only by a non-negative literal or another parameter. The grammar has no negative literal (`Specification/appendices/grammars/concrete-syntax.tex:533-547`), so `IBox[\-2\]` is a syntax error under both paths. `IBox[\0 - 2\]` is arithmetic, refused by name where walk runs it, and the named error says 'nat' for an `int` parameter (`TypeWellFormedChecker.scala:41-42`). This is covered by the arithmetic limit `XXXNatArithChecker` gates." Probes: `explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegInt.fss` and `SrNegSub.fss`; captures `probes/skeptic/r2-differential.txt:2-27` and `probes/skeptic/r2-negsub.txt`.
+
+## Minor, not required
+
+- `REPORT.md:204` says "No `ant testFast` or `ant testSystem`." twice.
+- `XXXNatOverrideChecker.fss:16` cites `FortressLibrary.fsi:1403`. Rung K edits four declarations of that file, so the gather should check the line after the merge. The worker says so too.
