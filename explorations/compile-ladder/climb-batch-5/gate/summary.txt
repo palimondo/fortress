@@ -1,0 +1,99 @@
+#suite	tests	failures	errors	skipped
+fast-compiler/CompilerJUTest	768	0	0	0
+fast-library/LibraryJUTest	83	0	0	0
+fast-misc/ABoundingMapJUTest	4	0	0	0
+fast-misc/AQListJUTest	4	0	0	0
+fast-misc/ASTJUTest	13	0	0	0
+fast-misc/BA2JUTest	8	0	0	0
+fast-misc/BASetJUTest	12	0	0	0
+fast-misc/BATJUTest	8	0	0	0
+fast-misc/BAlongTreeJUTest	7	0	0	0
+fast-misc/BalancedApplicativeTreeEquivalenceClasssesJUTest	8	0	0	0
+fast-misc/BitsJUTest	2	0	0	0
+fast-misc/ConstraintJUTest	4	0	0	0
+fast-misc/ConstructorsJUTest	8	0	0	0
+fast-misc/EmptyCompilerInvocationJUTest	1	0	0	0
+fast-misc/FormulaJUTest	5	0	0	0
+fast-misc/FortressTypeToJavaTypeJUTest	11	0	0	0
+fast-misc/GHashMapJUTest	13	0	0	0
+fast-misc/IdentifierUtilJUTest	11	0	0	0
+fast-misc/InstantiationMapJUTest	3	0	0	0
+fast-misc/IntNatJUTest	6	0	0	0
+fast-misc/LatticeIntervalMapJUTest	5	0	0	0
+fast-misc/ListJUTest	8	0	0	0
+fast-misc/ListsJUTest	1	0	0	0
+fast-misc/Memo2JUTest	1	0	0	0
+fast-misc/ModifiersJUTest	3	0	0	0
+fast-misc/NamingCzarJUTest	2	0	0	0
+fast-misc/NamingJUTest	8	0	0	0
+fast-misc/NodeFactoryJUTest	1	0	0	0
+fast-misc/ObjectUID_JUTest	1	0	0	0
+fast-misc/OptionsJUTest	2	0	0	0
+fast-misc/OverloadJUTest	2	0	0	0
+fast-misc/OverloadingJUTest	1	0	0	0
+fast-misc/ParserJUTest	188	0	0	0
+fast-misc/PathJUTest	5	0	0	0
+fast-misc/PrecedenceMapJUTest	14	0	0	0
+fast-misc/PureListJUTest	1	0	0	0
+fast-misc/RTTIsizeJUTest	6	0	0	0
+fast-misc/STypesUtilJUTest	1	0	0	0
+fast-misc/StaticTypeReplacerJUTest	1	0	0	0
+fast-misc/SyntaxAbstractionJUTest	1	0	0	0
+fast-misc/TemplateVarRewriterJUTest	7	0	0	0
+fast-misc/TransactionJUTest	1	0	0	0
+fast-misc/TrieMapJUTest	6	0	0	0
+fast-misc/TypeAnalyzerJUTest	4	0	0	0
+fast-misc/TypeRangeJUTest	6	0	0	0
+fast-misc/TypeSchemaAnalyzerJUTest	4	0	0	0
+fast-misc/UsefulJUTest	15	0	0	0
+fast-othercompiler/OtherCompilerJUTest	263	0	0	0
+system-0/SystemJUTest	102	0	0	0
+system-1/SystemJUTest	101	0	0	0
+system-2/SystemJUTest	101	0	0	0
+system-3/SystemJUTest	103	0	0	0
+# compileAll: BUILD SUCCESSFUL
+# compileAll: Total time: 22 seconds
+# testFast: BUILD SUCCESSFUL
+# testFast: Total time: 6 minutes 32 seconds
+# testSystem: BUILD SUCCESSFUL
+# testSystem: Total time: 2 minutes 1 second
+# atomic AtomicTopLevelObjectVar run1 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run2 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run3 threads=4 PASS
+# atomic AtomicTopLevelVar run1 threads=4 PASS
+# atomic AtomicTopLevelVar run2 threads=4 PASS
+# atomic AtomicTopLevelVar run3 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run1 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run2 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run3 threads=4 PASS
+# atomic atomic0 run1 threads=4 PASS
+# atomic atomic0 run2 threads=4 PASS
+# atomic atomic0 run3 threads=4 PASS
+# atomic atomic1 run1 threads=4 PASS
+# atomic atomic1 run2 threads=4 PASS
+# atomic atomic1 run3 threads=4 PASS
+# atomic atomic2 run1 threads=4 PASS
+# atomic atomic2 run2 threads=4 PASS
+# atomic atomic2 run3 threads=4 PASS
+# atomic atomic3 run1 threads=4 PASS
+# atomic atomic3 run2 threads=4 PASS
+# atomic atomic3 run3 threads=4 PASS
+# atomic atomic4 run1 threads=4 PASS
+# atomic atomic4 run2 threads=4 PASS
+# atomic atomic4 run3 threads=4 PASS
+# atomic atomic5 run1 threads=4 PASS
+# atomic atomic5 run2 threads=4 PASS
+# atomic atomic5 run3 threads=4 PASS
+# atomic atomic6 run1 threads=4 PASS
+# atomic atomic6 run2 threads=4 PASS
+# atomic atomic6 run3 threads=4 PASS
+# atomic nestedTransactions0 run1 threads=4 PASS
+# atomic nestedTransactions0 run2 threads=4 PASS
+# atomic nestedTransactions0 run3 threads=4 PASS
+# atomic nestedTransactions1 run1 threads=4 PASS
+# atomic nestedTransactions1 run2 threads=4 PASS
+# atomic nestedTransactions1 run3 threads=4 PASS
+# atomic nestedTransactions2 run1 threads=4 PASS
+# atomic nestedTransactions2 run2 threads=4 PASS
+# atomic nestedTransactions2 run3 threads=4 PASS
+# checker COUNT SAME   125, declared S: 125, Z: 125
