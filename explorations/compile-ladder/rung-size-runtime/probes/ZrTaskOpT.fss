@@ -1,0 +1,9 @@
+component ZrTaskOpT
+export Executable
+object BoxT[\T\](v: ZZ32) end
+fib(n: ZZ32): ZZ32 = if n <= 1 then n else fib(n - 1) + fib(n - 2) end
+isStr(x: Any): Boolean = typecase x of BoxT[\String\] => true; else => false end
+size(x: Any): ZZ32 = if isStr(x) then 10 else 0 end
+ft[\T\](v: ZZ32): ZZ32 = fib(size(BoxT[\T\](v))) + fib(size(BoxT[\T\](v)))
+run() = println(ft[\String\](0))
+end

@@ -1,0 +1,7 @@
+component ZrTaskOp
+export Executable
+object Box[\nat k\](v: ZZ32) end
+fib(n: ZZ32): ZZ32 = if n <= 1 then n else fib(n - 1) + fib(n - 2) end
+fk[\nat k\](b: Box[\k\]): ZZ32 = fib(k) + fib(k)
+run() = println(fk(Box[\10\](0)))
+end

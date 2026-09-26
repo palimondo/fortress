@@ -1,0 +1,2 @@
+# ladder-compare.sh over ladder-repair/ (run-subset.sh on the repair build 3bca6b8bc, LADDER_ROOT=tmp/ladder-repair), 2026-09-26T15:15:48Z
+files=85 pass-and-same-stdout=85 moved=0 (timing lines left out: 3 files carry one)

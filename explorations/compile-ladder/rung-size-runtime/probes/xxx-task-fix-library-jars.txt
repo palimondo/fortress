@@ -1,0 +1,7 @@
+# the library jars built with the deliberate local task fix (xxx-task-red-demo-fix.patch) against those built without it (the repair build 2112fe1a7): every class entry of the five jars unzipped and compared byte for byte (diff -rq)
+CompilerSystem: 2 entries
+fortress.AnyType: 1 entries
+fortress.CompilerAlgebra: 29 entries
+fortress.CompilerBuiltin: 278 entries
+fortress.CompilerLibrary: 246 entries
+differing entries: 0

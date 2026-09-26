@@ -1,0 +1,70 @@
+# the task path expected failure on the deliberate local fix (xxx-task-red-demo-fix.patch applied on 2112fe1a7, built, library rebuilt), then the three task probes under differential.sh
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.71 2.58 2.25; JDK 25; FORTRESS_THREADS=1
+# build: 2112fe1a7 plus the working tree's source edits, if any:  M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java 
+########## junit compiler_tests/NatRtTaskLink.test
+. link compiler_tests/XXXNatRtTask  OK (time = 3719ms)
+
+Time: 3.724
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatRtTask.test
+. run compiler_tests/XXXNatRtTask (547ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.558
+There was 1 failure:
+1) compiler_tests/XXXNatRtTask(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXNatRtTask
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.65 2.55 2.24; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrTask.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+10
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+10
+exit=0
+---------- walk, FORTRESS_THREADS=1
+10
+exit=0
+---------- walk, FORTRESS_THREADS=4
+10
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrTaskS.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+four
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+four
+exit=0
+---------- walk, FORTRESS_THREADS=1
+four
+exit=0
+---------- walk, FORTRESS_THREADS=4
+four
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrTaskT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+string
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+string
+exit=0
+---------- walk, FORTRESS_THREADS=1
+string
+exit=0
+---------- walk, FORTRESS_THREADS=4
+string
+exit=0
