@@ -1,0 +1,7 @@
+########## fortress compile VecShape.fss
+compile exit=0
+########## fortress run VecShape 
+shape = 2 by 3
+|m.copy| = 2 nrows 2 ncols 0
+DONE
+run exit=0

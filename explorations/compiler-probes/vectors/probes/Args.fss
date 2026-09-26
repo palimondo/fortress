@@ -1,0 +1,10 @@
+component Args
+import CompilerSystem.args
+export Executable
+
+run(): () = do
+  println("|args| = " || |args|)
+  for i <- seq(0 # |args|) do println("args[" || i || "] = " || args[i]) end
+  println("args = " || args)
+end
+end

@@ -1,0 +1,10 @@
+component VecRangeFill
+export Executable
+
+run(): () = do
+  v = makeZZ32Vector(1:3)
+  println("fill")
+  v1 = v.fill(0)
+  println("after")
+end
+end

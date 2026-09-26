@@ -1,0 +1,9 @@
+component StrVecAssign
+export Executable
+
+run(): () = do
+  s = makeStringVector(2)
+  s[0] := "a"
+  println(s)
+end
+end

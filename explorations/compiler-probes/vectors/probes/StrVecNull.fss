@@ -1,0 +1,12 @@
+component StrVecNull
+export Executable
+
+run(): () = do
+  s = makeStringVector(2)
+  println("before")
+  x = s[1]
+  println("read an unset element")
+  println(x)
+  println("after")
+end
+end

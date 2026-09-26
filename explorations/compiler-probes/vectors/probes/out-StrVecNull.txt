@@ -1,0 +1,8 @@
+########## fortress compile StrVecNull.fss
+compile exit=0
+########## fortress run StrVecNull 
+before
+read an unset element
+null
+after
+run exit=0

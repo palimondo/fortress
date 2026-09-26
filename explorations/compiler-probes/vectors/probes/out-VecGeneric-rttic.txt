@@ -1,0 +1,5 @@
+########## run VecGeneric with the probe-only FZZ32Vector (rttic-alias.patch) first on the class path
+before
+made a Cell of a ZZ32Vector
+[0 0]
+run exit=0

@@ -1,0 +1,11 @@
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32Vector.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32Vector.java
+@@ -80,4 +80,8 @@
+         private RTTIv() { super(FZZ32Vector.class); };
+         public static final RTTI ONLY = new RTTIv();
+     }
++    // PROBE ONLY: the name the loader asks for, pointing at the existing descriptor.
++    public static class RTTIc {
++        public static final RTTI ONLY = RTTIv.ONLY;
++    }
+ }

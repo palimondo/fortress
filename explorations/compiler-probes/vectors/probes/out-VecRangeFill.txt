@@ -1,0 +1,16 @@
+########## fortress compile VecRangeFill.fss
+compile exit=0
+########## fortress run VecRangeFill 
+fill
+java.lang.ArrayIndexOutOfBoundsException
+	at VecRangeFill.main(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/VecRangeFill.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index -1 out of bounds for length 3
+	at com.sun.fortress.compiler.runtimeValues.FZZ32Vector.putIndexedValue(FZZ32Vector.java:67)
+	at com.sun.fortress.nativeHelpers.simpleIntVector.putIndexedValue(simpleIntVector.java:28)
+	at native.com.sun.fortress.nativeHelpers.simpleIntVector.putIndexedValue(simpleIntVector.java)
+	at fortress.CompilerBuiltin$ZZ32Vector$DefaultTraitMethods.putValue(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:1123)
+	at fortress.CompilerBuiltin$ZZ32Vector$DefaultTraitMethods.putValue(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin$ZZ32Vector$DefaultTraitMethods.\=_\{_\}\!=(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:1127)
+	at fortress.CompilerBuiltin$ZZ32Vector$DefaultTraitMethods.\=_\{_\}\!=(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+run exit=1

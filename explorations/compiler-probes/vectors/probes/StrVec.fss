@@ -1,0 +1,12 @@
+component StrVec
+export Executable
+
+run(): () = do
+  s = makeStringVector(3)
+  s.putValue(0, "a")
+  s.putValue(1, "b" || "c")
+  println("s[0] = " || s[0] || ", s.getValue(1) = " || s.getValue(1) || ", |s| = " || |s|)
+  println("s = " || s)
+  println("DONE")
+end
+end

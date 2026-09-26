@@ -1,0 +1,12 @@
+component VecShape
+export Executable
+
+run(): () = do
+  m = makeZZ32Vector(2, 3)
+  (r, c) = m.shape
+  println("shape = " || r || " by " || c)
+  mc = m.copy
+  println("|m.copy| = " || |mc| || " nrows " || mc.nrows || " ncols " || mc.ncols)
+  println("DONE")
+end
+end

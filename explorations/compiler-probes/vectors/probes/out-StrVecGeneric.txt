@@ -1,0 +1,16 @@
+########## fortress compile StrVecGeneric.fss
+compile exit=0
+########## fortress run StrVecGeneric 
+before
+java.lang.NoClassDefFoundError
+	at StrVecGeneric.main(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/StrVecGeneric.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: com/sun/fortress/compiler/runtimeValues/FStringVector$RTTIc
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FStringVector,StrVecGeneric\%Cell?com\|sun\|fortress\|compiler\|runtimeValues\|FStringVector??.<clinit>(Unknown Source)
+	at StrVecGeneric.run(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/StrVecGeneric.fss:7)
+	at StrVecGeneric.compute(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/StrVecGeneric.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	... 8 more
+Caused by: java.io.IOException: Resource not found : com/sun/fortress/compiler/runtimeValues/FStringVector$RTTIc.class
+run exit=1

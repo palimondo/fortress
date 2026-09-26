@@ -1,0 +1,7 @@
+########## fortress compile StrVec.fss
+compile exit=0
+########## fortress run StrVec 
+s[0] = a, s.getValue(1) = bc, |s| = 3
+s = [a bc null ]
+DONE
+run exit=0

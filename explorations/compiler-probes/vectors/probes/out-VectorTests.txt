@@ -1,0 +1,10 @@
+##### compile other_compiler_tests/VectorTest2.fss
+compile exit=0
+##### run VectorTest2
+10
+run exit=0
+##### compile other_compiler_tests/VectorTest3.fss
+compile exit=0
+##### run VectorTest3
+69
+run exit=0

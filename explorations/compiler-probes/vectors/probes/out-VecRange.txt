@@ -1,0 +1,16 @@
+########## fortress compile VecRange.fss
+compile exit=0
+########## fortress run VecRange 
+v[1] = 10, v[3] = 30, |v| = 3
+printing v
+java.lang.ArrayIndexOutOfBoundsException
+	at VecRange.main(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/VecRange.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index -1 out of bounds for length 3
+	at com.sun.fortress.compiler.runtimeValues.FZZ32Vector.getIndexedValue(FZZ32Vector.java:64)
+	at com.sun.fortress.compiler.runtimeValues.FZZ32Vector.toString(FZZ32Vector.java:36)
+	at com.sun.fortress.compiler.runtimeValues.FZZ32Vector.asString(FZZ32Vector.java:62)
+	at com.sun.fortress.compiler.runtimeValues.FZZ32Vector.asString(FZZ32Vector.java:16)
+	at fortress.CompilerBuiltin.println(/home/user/fortress/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:460)
+	at VecRange.run(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/VecRange.fss:10)
+run exit=1

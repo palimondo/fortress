@@ -1,0 +1,28 @@
+component VecBasics
+export Executable
+
+run(): () = do
+  v = makeZZ32Vector(5)
+  println("fresh: " || v || " size " || |v| || " nrows " || v.nrows || " ncols " || v.ncols)
+  v1 = v.fill(7)
+  println("fill(7): " || v)
+  v2 = v.fill(fn (i) => i i)
+  println("fill(f): " || v)
+  v[2] := 42
+  println("v[2] := 42, v[2] = " || v[2])
+  w = v.copy
+  w[0] := 99
+  println("after w = v.copy; w[0] := 99: v = " || v || ", w = " || w)
+  println("v + 1 = " || (v + 1))
+  println("v - 1 = " || (v - 1))
+  println("v MAX 5 = " || (v MAX 5))
+  println("v MIN 5 = " || (v MIN 5))
+  println("PREFIX_SUM v = " || (PREFIX_SUM v))
+  m = makeZZ32Vector(2, 3)
+  m2 = m.fill2(fn (i, j) => 10 i + j)
+  println("m (2x3) via fill2: " || m)
+  println("|m| = " || |m| || " nrows " || m.nrows || " ncols " || m.ncols)
+  println("m[1,2] = " || m[1,2] || ", m[4] = " || m[4] || ", m[0,4] = " || m[0,4])
+  println("DONE")
+end
+end

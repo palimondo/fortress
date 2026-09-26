@@ -1,0 +1,6 @@
+component NatIntArr
+import java vecprobe.{IntArr.sum => jSum}
+export Executable
+
+run(): () = println(jSum(makeZZ32Vector(3)))
+end

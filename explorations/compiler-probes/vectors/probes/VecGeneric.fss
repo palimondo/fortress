@@ -1,0 +1,12 @@
+component VecGeneric
+export Executable
+
+object Cell[\T\](x: T) end
+
+run(): () = do
+  println("before")
+  c = Cell[\ZZ32Vector\](makeZZ32Vector(2))
+  println("made a Cell of a ZZ32Vector")
+  println(c.x)
+end
+end

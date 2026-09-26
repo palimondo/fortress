@@ -1,0 +1,11 @@
+component StrVecGeneric
+export Executable
+
+object Cell[\T\](x: T) end
+
+run(): () = do
+  println("before")
+  c = Cell[\StringVector\](makeStringVector(2))
+  println("made a Cell of a StringVector")
+end
+end

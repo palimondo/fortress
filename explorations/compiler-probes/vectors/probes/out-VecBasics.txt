@@ -1,0 +1,18 @@
+########## fortress compile VecBasics.fss
+compile exit=0
+########## fortress run VecBasics 
+fresh: [0 0 0 0 0] size 5 nrows 5 ncols 0
+fill(7): [7 7 7 7 7]
+fill(f): [0 1 4 9 16]
+v[2] := 42, v[2] = 42
+after w = v.copy; w[0] := 99: v = [0 1 42 9 16], w = [99 1 42 9 16]
+v + 1 = [1 2 43 10 17]
+v - 1 = [-1 0 41 8 15]
+v MAX 5 = [5 5 42 9 16]
+v MIN 5 = [0 1 5 5 5]
+PREFIX_SUM v = [0 1 43 52 68]
+m (2x3) via fill2: 
+(2,3)
+[ 0 1 2
+  10 11 12 ]
+run exit=0

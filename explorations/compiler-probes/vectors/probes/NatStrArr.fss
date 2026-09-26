@@ -1,0 +1,6 @@
+component NatStrArr
+import java vecprobe.{StrArr.count => jCount}
+export Executable
+
+run(): () = println(jCount(makeStringVector(3)))
+end

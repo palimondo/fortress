@@ -1,0 +1,15 @@
+##### compile NatIntArr
+##### compile NatStrArr
+Internally generated import for a native import, compiler method ForeignJava.importAnApi:0:0:
+    Reference to API [Ljava.lang cannot be resolved.
+[Ljava.lang:0:0:
+    Attempt to import an API not in the repository: [Ljava.lang
+[Ljava.lang:0:0:
+    String; is undefined.
+File NatStrArr.fss has 3 errors.
+java.lang.NoSuchMethodError
+	at NatIntArr.main(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/NatIntArr.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.FZZ32 native.vecprobe.IntArr.sum(com.sun.fortress.compiler.runtimeValues.FZZ32Vector)'
+	at NatIntArr.run(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/NatIntArr.fss:5)
+	at NatIntArr.compute(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/NatIntArr.fss)

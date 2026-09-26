@@ -1,0 +1,16 @@
+########## fortress compile VecGeneric.fss
+compile exit=0
+########## fortress run VecGeneric 
+before
+java.lang.NoClassDefFoundError
+	at VecGeneric.main(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/VecGeneric.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoClassDefFoundError: com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc
+	at \=AbstractArrow?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32Vector,VecGeneric\%Cell?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32Vector??.<clinit>(Unknown Source)
+	at VecGeneric.run(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/VecGeneric.fss:7)
+	at VecGeneric.compute(/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/vecprobe/src/VecGeneric.fss)
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	... 8 more
+Caused by: java.io.IOException: Resource not found : com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc.class
+run exit=1

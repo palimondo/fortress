@@ -1,0 +1,10 @@
+component VecOOB
+export Executable
+
+run(): () = do
+  v = makeZZ32Vector(3)
+  println("before")
+  println(v[3])
+  println("after")
+end
+end

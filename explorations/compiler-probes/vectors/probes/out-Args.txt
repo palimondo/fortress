@@ -1,0 +1,8 @@
+########## fortress compile Args.fss
+compile exit=0
+########## fortress run Args one two words
+|args| = 2
+args[0] = one
+args[1] = two words
+args = [one two words ]
+run exit=0
