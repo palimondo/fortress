@@ -1,0 +1,13 @@
+component SkCaptureT
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+
+k[\B\](x: BoxT[\B\], y: ZZ32): BoxT[\B\] = x
+k[\A, B\](x: BoxT[\A\], y: Any): BoxT[\B\] = BoxT[\B\](x.v)
+
+run(): () = do
+    println(k(BoxT[\String\](1), 2).v)
+  end
+
+end

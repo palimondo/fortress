@@ -1,0 +1,13 @@
+component SkSquare
+export Executable
+
+object Mat[\nat r, nat c\](v: ZZ32) end
+
+trace[\nat n\](m: Mat[\n,n\]): ZZ32 = m.v
+
+run(): () = do
+    println(trace(Mat[\3,3\](7)))
+    println(trace(Mat[\3,4\](8)))
+  end
+
+end

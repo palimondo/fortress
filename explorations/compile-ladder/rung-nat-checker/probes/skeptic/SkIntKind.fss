@@ -1,0 +1,17 @@
+component SkIntKind
+export Executable
+
+object IBox[\int i\](v: ZZ32) end
+
+ival[\int i\](b: IBox[\i\]): ZZ32 = b.v
+pos[\int i\](b: IBox[\i\]): IBox[\i\] = b
+
+run(): () = do
+    println(ival(IBox[\5\](7)))
+    p: IBox[\5\] = pos(IBox[\5\](8))
+    println(p.v)
+    q: IBox[\6\] = pos(IBox[\5\](9))
+    println(q.v)
+  end
+
+end

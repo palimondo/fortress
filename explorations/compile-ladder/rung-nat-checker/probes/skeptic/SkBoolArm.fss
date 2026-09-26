@@ -1,0 +1,13 @@
+component SkBoolArm
+export Executable
+
+object Flag[\bool b\](v: ZZ32) end
+
+g[\bool b\](f: Flag[\b\]): ZZ32 = f.v
+g(x: ZZ32): ZZ32 = x
+
+run(): () = do
+    println(g(5))
+  end
+
+end

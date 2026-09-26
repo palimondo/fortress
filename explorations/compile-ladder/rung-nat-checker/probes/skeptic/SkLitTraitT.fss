@@ -1,0 +1,16 @@
+component SkLitTraitT
+export Executable
+
+trait Tt[\T\] end
+object Oi extends Tt[\ZZ32\] end
+object Os extends Tt[\String\] end
+
+g(b: Tt[\ZZ32\]): ZZ32 = 3
+g(b: Tt[\String\]): ZZ32 = 4
+
+run(): () = do
+    println(g(Oi))
+    println(g(Os))
+  end
+
+end

@@ -1,0 +1,13 @@
+component SkDeadArmT
+export Executable
+
+dd[\T\](x: Any): ZZ32 = 1
+dd(x: ZZ32): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    println(dd(z))
+    println(dd("s"))
+  end
+
+end

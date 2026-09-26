@@ -1,0 +1,15 @@
+component SkLitArgT
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+
+scaleT[\T\](b: BoxT[\T\], m: ZZ32): BoxT[\T\] = BoxT[\T\](b.v m)
+plain(b: BoxT[\String\], m: ZZ32): BoxT[\String\] = BoxT[\String\](b.v m)
+
+run(): () = do
+    println(plain(BoxT[\String\](2), 3).v)
+    println(scaleT[\String\](BoxT[\String\](2), 3).v)
+    println(scaleT(BoxT[\String\](2), 3).v)
+  end
+
+end

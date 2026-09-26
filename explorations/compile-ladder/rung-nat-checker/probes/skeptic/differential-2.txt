@@ -1,0 +1,190 @@
+# run-probes.sh (BASE=1 RUN='SkNoSize2 SkDeadT SkLitTraitT SkCaptureT') SkCapture SkLitTrait SkLitTraitT SkDeadT SkDeadN SkOrder SkNoSize2, then run-api.sh; SkLitTrait and SkLitTraitT here are the first versions whose all-capital names are operator names (renamed and re-run in differential-3.txt)
+machine: nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.80GHz; cpu MHz		: 2800.212; load 0.78 1.26 2.53 1/105 14053; JDK 25; FORTRESS_THREADS=1
+########## walk: fortress SkCapture.fss
+1
+exit=0
+########## fortress typecheck SkCapture.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapture.fss:10:13-29:
+    Could not check call to function kk
+    - Could not infer static argument nat b without context.
+    - [\nat b\](Box[\b\], ZZ32)->Box[\b\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+File SkCapture.fss has 1 error.
+exit=255
+########## fortress compile SkCapture.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapture.fss:10:13-29:
+    Could not check call to function kk
+    - Could not infer static argument nat b without context.
+    - [\nat b\](Box[\b\], ZZ32)->Box[\b\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+File SkCapture.fss has 1 error.
+exit=255
+########## fortress typecheck SkCapture.fss (unedited checker, tmp/base-classes first on the classpath)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## walk: fortress SkLitTrait.fss
+nullexplorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:8:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress typecheck SkLitTrait.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:8:
+    Syntax Error
+File SkLitTrait.fss has 1 error.
+exit=255
+########## fortress compile SkLitTrait.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:8:
+    Syntax Error
+File SkLitTrait.fss has 1 error.
+exit=255
+########## fortress typecheck SkLitTrait.fss (unedited checker, tmp/base-classes first on the classpath)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:8:
+    Syntax Error
+File SkLitTrait.fss has 1 error.
+exit=255
+########## walk: fortress SkLitTraitT.fss
+nullexplorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:5:1-30:
+    OI is not a valid object name.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:6:1-32:
+    OS is not a valid object name.
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress typecheck SkLitTraitT.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:5:1-30:
+    OI is not a valid object name.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:6:1-32:
+    OS is not a valid object name.
+File SkLitTraitT.fss has 2 errors.
+exit=255
+########## fortress compile SkLitTraitT.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:5:1-30:
+    OI is not a valid object name.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:6:1-32:
+    OS is not a valid object name.
+File SkLitTraitT.fss has 2 errors.
+exit=255
+########## fortress run SkLitTraitT (landed edit)
+Could not load SkLitTraitT
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkLitTraitT.class
+	... 4 more
+exit=1
+########## fortress typecheck SkLitTraitT.fss (unedited checker, tmp/base-classes first on the classpath)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:5:1-30:
+    OI is not a valid object name.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:6:1-32:
+    OS is not a valid object name.
+File SkLitTraitT.fss has 2 errors.
+exit=255
+########## walk: fortress SkDeadT.fss
+4
+exit=0
+########## fortress typecheck SkDeadT.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadT.fss:7:13-19:
+    Could not check call to function deadT
+    - [\T extends Object\]ZZ32->ZZ32 is not applicable to an argument of type IntLiteral.
+File SkDeadT.fss has 1 error.
+exit=255
+########## fortress compile SkDeadT.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadT.fss:7:13-19:
+    Could not check call to function deadT
+    - [\T extends Object\]ZZ32->ZZ32 is not applicable to an argument of type IntLiteral.
+File SkDeadT.fss has 1 error.
+exit=255
+########## fortress run SkDeadT (landed edit)
+Could not load SkDeadT
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkDeadT.class
+	... 4 more
+exit=1
+########## fortress typecheck SkDeadT.fss (unedited checker, tmp/base-classes first on the classpath)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadT.fss:7:13-19:
+    Could not check call to function deadT
+    - [\T extends Object\]ZZ32->ZZ32 is not applicable to an argument of type IntLiteral.
+File SkDeadT.fss has 1 error.
+exit=255
+########## walk: fortress SkDeadN.fss
+4
+4
+exit=0
+########## fortress typecheck SkDeadN.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadN.fss:8:13-19:
+    Could not check call to function deadN
+    - [\nat n\]ZZ32->ZZ32 is not applicable to an argument of type IntLiteral.
+File SkDeadN.fss has 1 error.
+exit=255
+########## fortress compile SkDeadN.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadN.fss:8:13-19:
+    Could not check call to function deadN
+    - [\nat n\]ZZ32->ZZ32 is not applicable to an argument of type IntLiteral.
+File SkDeadN.fss has 1 error.
+exit=255
+########## fortress typecheck SkDeadN.fss (unedited checker, tmp/base-classes first on the classpath)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## walk: fortress SkOrder.fss
+h
+exit=0
+########## fortress typecheck SkOrder.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkOrder.fss:12:1-62:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkOrder.fss:13:1-46:
+    For hb,
+the return type of V2[\3,String\]->V2[\4,String\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkOrder.fss:12:1-62 should be a subtype of the
+    return type of [\nat n, T extends Object\]V2[\n,T\]->V2[\n,T\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkOrder.fss:13:1-46
+File SkOrder.fss has 1 error.
+exit=255
+########## fortress compile SkOrder.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkOrder.fss:12:1-62:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkOrder.fss:13:1-46:
+    For hb,
+the return type of V2[\3,String\]->V2[\4,String\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkOrder.fss:12:1-62 should be a subtype of the
+    return type of [\nat n, T extends Object\]V2[\n,T\]->V2[\n,T\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkOrder.fss:13:1-46
+File SkOrder.fss has 1 error.
+exit=255
+########## fortress typecheck SkOrder.fss (unedited checker, tmp/base-classes first on the classpath)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## walk: fortress SkNoSize2.fss
+3
+s
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkNoSize2.fss:19:5-28:
+RHS expression type Pair[\FlatString,Int\] is not assignable to LHS type Pair[\String,ZZ32\]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkNoSize2.fss:19:5-28:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkNoSize2.fss:19:5-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress typecheck SkNoSize2.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkNoSize2.fss:19:31-50:
+    Right-hand side has type Pair[\String,IntLiteral\], but declared type is Pair[\String,ZZ32\].
+File SkNoSize2.fss has 1 error.
+exit=255
+########## fortress compile SkNoSize2.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkNoSize2.fss:19:31-50:
+    Right-hand side has type Pair[\String,IntLiteral\], but declared type is Pair[\String,ZZ32\].
+File SkNoSize2.fss has 1 error.
+exit=255
+########## fortress run SkNoSize2 (landed edit)
+Could not load SkNoSize2
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkNoSize2.class
+	... 4 more
+exit=1
+########## fortress typecheck SkNoSize2.fss (unedited checker, tmp/base-classes first on the classpath)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkNoSize2.fss:19:31-50:
+    Right-hand side has type Pair[\String,IntLiteral\], but declared type is Pair[\String,ZZ32\].
+File SkNoSize2.fss has 1 error.
+exit=255
+########## walk: fortress SkSizedUse.fss
+7
+exit=0
+########## fortress typecheck SkSizedApi.fss (the component against its api; landed edit)
+exit=0
+########## fortress compile SkSizedApi.fss (landed edit)
+exit=0
+########## fortress compile SkSizedUse.fss (landed edit, after the component)
+exit=0
+########## fortress typecheck SkSizedApi.fss (unedited checker, tmp/base-classes first on the classpath)
+Exception in thread "main" java.lang.ClassCastException: class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+exit=1
+EXIT=0

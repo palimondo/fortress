@@ -1,0 +1,319 @@
+machine: nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.80GHz; cpu MHz		: 2800.212; load 0.38 1.32 3.30 1/104 8843; JDK 25; FORTRESS_THREADS=1
+########## fortress junit compiler_tests/NatInferredChecker.test
+. compile compiler_tests/NatInferredChecker  OK (time = 2524ms)
+
+Time: 2.53
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/NatWrittenChecker.test
+. compile compiler_tests/NatWrittenChecker  OK (time = 2130ms)
+
+Time: 2.137
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/NatMethodChecker.test
+. compile compiler_tests/NatMethodChecker  OK (time = 2088ms)
+
+Time: 2.095
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/XXXNatDispArmChecker.test
+. compile compiler_tests/XXXNatDispArmChecker com.sun.fortress.exceptions.CompilerError: Only handling some static args of generic types
+ OK Saw expected exception
+
+Time: 2.321
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/XXXNatOverrideChecker.test
+. compile compiler_tests/XXXNatOverrideChecker com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+ OK Saw expected exception
+
+Time: 2.202
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/XXXNatDispRTRChecker.test
+. compile compiler_tests/XXXNatDispRTRChecker ProjectFortress/compiler_tests/XXXNatDispRTRChecker.fss:7:1-38:
+ProjectFortress/compiler_tests/XXXNatDispRTRChecker.fss:8:1-28:
+    For f,
+the return type of [\nat s\]Vec[\RR64,s\]->ZZ32 @ ProjectFortress/compiler_tests/XXXNatDispRTRChecker.fss:7:1-38 should be a subtype of the
+    return type of Any->String @ ProjectFortress/compiler_tests/XXXNatDispRTRChecker.fss:8:1-28
+File XXXNatDispRTRChecker.fss has 1 error.
+ Saw expected failure
+
+Time: 1.735
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/XXXNatRetSizeChecker.test
+. compile compiler_tests/XXXNatRetSizeChecker ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:8:1-47:
+ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:9:1-34:
+    For f,
+the return type of [\nat s\]Vec[\s\]->Box[\s\] @ ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:8:1-47 should be a subtype of the
+    return type of Any->Box[\3\] @ ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:9:1-34
+ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:11:1-38:
+ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:12:1-34:
+    For g,
+the return type of Vec[\3\]->Box[\3\] @ ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:11:1-38 should be a subtype of the
+    return type of Any->Box[\4\] @ ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:12:1-34
+ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:15:5-16:1:
+ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:18:5-19:1:
+    For sub,
+the return type of [\nat b\](Dn[\b0\], ZZ32)->Dn[\3\] @ ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:18:5-19:1 should be a subtype of the
+    return type of [\nat b\](Up[\b0\], ZZ32)->Up[\b\] @ ProjectFortress/compiler_tests/XXXNatRetSizeChecker.fss:15:5-16:1
+File XXXNatRetSizeChecker.fss has 3 errors.
+ Saw expected failure
+
+Time: 2.032
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/XXXNatMismatchChecker.test
+. compile compiler_tests/XXXNatMismatchChecker ProjectFortress/compiler_tests/XXXNatMismatchChecker.fss:12:13-33:
+    Could not check call to function unbox
+    - [\4\]Box[\4\]->ZZ32 is not applicable to an argument of type Box[\3\].
+ProjectFortress/compiler_tests/XXXNatMismatchChecker.fss:13:13-44:
+    Could not check call to function dot
+    - [\nat n, nat m, nat p\](Mat[\n,m\], Mat[\m,p\])->Mat[\n,p\] is not applicable to an argument of type (Mat[\2,3\], Mat[\4,5\]).
+ProjectFortress/compiler_tests/XXXNatMismatchChecker.fss:14:19-28:
+    Right-hand side has type Box[\3\], but declared type is Box[\4\].
+File XXXNatMismatchChecker.fss has 3 errors.
+ Saw expected failure
+
+Time: 1.712
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/XXXNatArithChecker.test
+. compile compiler_tests/XXXNatArithChecker ProjectFortress/compiler_tests/XXXNatArithChecker.fss:8:23-32:
+    Ill-formed type: Box[\k+1\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:11:12-36:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:11:32:
+    Ill-formed static argument: 2+1
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:12:12-36:
+    Could not check call to function unboxNext
+    - [\3\]Box[\3+1\]->ZZ32 is not applicable to an argument of type Box[\4\].
+File XXXNatArithChecker.fss has 4 errors.
+ Saw expected failure
+
+Time: 1.541
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/XXXNatBoolChecker.test
+. compile compiler_tests/XXXNatBoolChecker ProjectFortress/compiler_tests/XXXNatBoolChecker.fss:7:9-13:
+    Static argument inference for the bool static parameter b is not supported by the type checker.
+File XXXNatBoolChecker.fss has 1 error.
+ Saw expected failure
+
+Time: 1.504
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/AfterTypeChecking.test
+. typecheck compiler_tests/Compiled1.ag  OK (time = 754ms)
+. typecheck compiler_tests/Compiled1.ah  OK (time = 7ms)
+. typecheck compiler_tests/Compiled1.ai  OK (time = 5ms)
+. typecheck compiler_tests/Compiled1.aj  OK (time = 3ms)
+. typecheck compiler_tests/Compiled1.ak  OK (time = 3ms)
+. typecheck compiler_tests/Compiled1.as  OK (time = 24ms)
+. typecheck compiler_tests/Compiled1.au  OK (time = 4ms)
+. typecheck compiler_tests/Compiled1.av  OK (time = 5ms)
+. typecheck compiler_tests/Compiled2.g  OK (time = 3ms)
+. typecheck compiler_tests/Compiled2.t  OK (time = 3ms)
+. typecheck compiler_tests/Compiled3.b  OK (time = 3ms)
+. typecheck compiler_tests/Compiled3.c  OK (time = 3ms)
+. typecheck compiler_tests/Compiled3.d  OK (time = 3ms)
+. typecheck compiler_tests/Compiled3.e  OK (time = 3ms)
+. typecheck compiler_tests/Compiled3.f  OK (time = 3ms)
+. typecheck compiler_tests/Compiled3.h  OK (time = 3ms)
+. typecheck compiler_tests/Compiled3.i  OK (time = 3ms)
+. typecheck compiler_tests/Compiled3.j  OK (time = 2ms)
+. typecheck compiler_tests/Compiled3.k  OK (time = 3ms)
+. typecheck compiler_tests/Compiled3.m  OK (time = 5ms)
+. typecheck compiler_tests/Compiled3.p  OK (time = 2ms)
+. typecheck compiler_tests/Compiled3.t  OK (time = 4ms)
+. typecheck compiler_tests/Compiled3.v  OK (time = 2ms)
+. typecheck compiler_tests/Compiled3.x  OK (time = 25ms)
+. typecheck compiler_tests/Compiled5.e  OK (time = 14ms)
+. typecheck compiler_tests/Compiled5.o  OK (time = 6ms)
+. typecheck compiler_tests/Compiled5.p  OK (time = 5ms)
+. typecheck compiler_tests/Compiled5.ah  OK (time = 3ms)
+. typecheck compiler_tests/Compiled5.ai  OK (time = 4ms)
+. typecheck compiler_tests/Compiled5.aj  OK (time = 3ms)
+. typecheck compiler_tests/Compiled5.ak  OK (time = 4ms)
+. typecheck compiler_tests/Compiled5.al  OK (time = 7ms)
+. typecheck compiler_tests/Compiled5.am  OK (time = 3ms)
+. typecheck compiler_tests/Compiled5.bc  OK (time = 2ms)
+. typecheck compiler_tests/Compiled5.bf  OK (time = 5ms)
+. typecheck compiler_tests/Compiled5.bg  OK (time = 2ms)
+. typecheck compiler_tests/Compiled5.bh  OK (time = 2ms)
+. typecheck compiler_tests/Compiled5.bi  OK (time = 3ms)
+. typecheck compiler_tests/Compiled5.bm  OK (time = 5ms)
+. typecheck compiler_tests/Compiled5.br  OK (time = 3ms)
+.
+ typecheck compiler_tests/Compiled5.bs  OK (time = 3ms)
+. typecheck compiler_tests/Compiled5.bu  OK (time = 9ms)
+. typecheck compiler_tests/Compiled6.a  OK (time = 3ms)
+. typecheck compiler_tests/Compiled6.o  OK (time = 4ms)
+. typecheck compiler_tests/Compiled6.r  OK (time = 7ms)
+. typecheck compiler_tests/Compiled6.u  OK (time = 15ms)
+. typecheck compiler_tests/Compiled6.ad  OK (time = 2ms)
+. typecheck compiler_tests/Compiled6.ae  OK (time = 2ms)
+. typecheck compiler_tests/Compiled6.af  OK (time = 9ms)
+. typecheck compiler_tests/Compiled6.ag  OK (time = 4ms)
+. typecheck compiler_tests/Compiled6.ah  OK (time = 4ms)
+. typecheck compiler_tests/Compiled6.ai  OK (time = 7ms)
+. typecheck compiler_tests/Compiled6.al  OK (time = 2ms)
+. typecheck compiler_tests/Compiled6.ao  OK (time = 7ms)
+. typecheck compiler_tests/Compiled6.ap  OK (time = 10ms)
+. typecheck compiler_tests/Compiled6.aq  OK (time = 12ms)
+. typecheck compiler_tests/Compiled6.ar  OK (time = 15ms)
+. typecheck compiler_tests/Compiled6.as  OK (time = 5ms)
+. typecheck compiler_tests/Compiled6.av  OK (time = 7ms)
+. typecheck compiler_tests/Compiled6.aw  OK (time = 2ms)
+. typecheck compiler_tests/Compiled6.ax  OK (time = 4ms)
+. typecheck compiler_tests/Compiled6.ay  OK (time = 4ms)
+. typecheck compiler_tests/Compiled6.az  OK (time = 2ms)
+. typecheck compiler_tests/Compiled6.ba  OK (time = 4ms)
+. typecheck compiler_tests/Compiled6.bb  OK (time = 3ms)
+. typecheck compiler_tests/Compiled6.bc  OK (time = 4ms)
+. typecheck compiler_tests/Compiled6.bd  OK (time = 2ms)
+. typecheck compiler_tests/Compiled6.be  OK (time = 2ms)
+. typecheck compiler_tests/Compiled6.bf  OK (time = 1ms)
+. typecheck compiler_tests/Compiled6.bg  OK (time = 11ms)
+. typecheck compiler_tests/Compiled6.bl  OK (time = 2ms)
+. typecheck compiler_tests/Compiled7.f  OK (time = 5ms)
+. typecheck compiler_tests/Compiled7.g  OK (time = 6ms)
+. typecheck compiler_tests/Compiled7.PatternMatching.a  OK (time = 12ms)
+. typecheck compiler_tests/Compiled7.PatternMatching.b  OK (time = 12ms)
+. typecheck compiler_tests/Compiled7.PatternMatching.d  OK (time = 13ms)
+. typecheck compiler_tests/Compiled80  OK (time = 22ms)
+. typecheck compiler_tests/Compiled9.g  OK (time = 6ms)
+. typecheck compiler_tests/Compiled9.j  OK (time = 2ms)
+. typecheck compiler_tests/Compiled9.k  OK (time = 2ms)
+. typecheck compiler_tests/Compiled9.l  OK (time = 1ms)
+.
+ typecheck compiler_tests/Compiled9.m  OK (time = 7ms)
+. typecheck compiler_tests/Compiled9.o  OK (time = 1ms)
+. typecheck compiler_tests/Compiled9.p  OK (time = 2ms)
+. typecheck compiler_tests/Compiled9.t  OK (time = 3ms)
+. typecheck compiler_tests/Compiled9.u  OK (time = 2ms)
+. typecheck compiler_tests/Compiled9.y  OK (time = 5ms)
+. typecheck compiler_tests/Compiled9.ab  OK (time = 1ms)
+. typecheck compiler_tests/Compiled9.ac  OK (time = 2ms)
+. typecheck compiler_tests/Compiled9.ah  OK (time = 63ms)
+. typecheck compiler_tests/Compiled9.ai  OK (time = 19ms)
+. typecheck compiler_tests/Compiled9.aj  OK (time = 2ms)
+. typecheck compiler_tests/Compiled10.Comprehensions3  OK (time = 21ms)
+. typecheck compiler_tests/Compiled10.l  OK (time = 1ms)
+. typecheck compiler_tests/Compiled10.m  OK (time = 4ms)
+. typecheck compiler_tests/Compiled10.r  OK (time = 1ms)
+. typecheck compiler_tests/Compiled12  OK (time = 11ms)
+
+Time: 1.414
+
+OK (97 tests)
+
+exit=0
+########## fortress junit compiler_tests/XXX1p.test
+. compile compiler_tests/Compiled1.p ProjectFortress/compiler_tests/Compiled1.p.fss:21:31:
+    m is undefined.
+File Compiled1.p.fss has 1 error.
+ Saw expected failure
+
+Time: 1.045
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/XXX5z.test
+. compile compiler_tests/Compiled5.z ProjectFortress/compiler_tests/Compiled5.z.fss:15:1-38:
+    Singleton object O must not have a contract.
+File Compiled5.z.fss has 1 error.
+ Saw expected failure
+
+Time: 0.935
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/Compiled12.invariantInference.test
+. compile compiler_tests/Compiled12.invariantInference  OK (time = 776ms)
+. link compiler_tests/Compiled12.invariantInference  OK (time = 2700ms)
+. compile compiler_tests/Compiled12.invariantInference2  OK (time = 35ms)
+. link compiler_tests/Compiled12.invariantInference2  OK (time = 789ms)
+. run compiler_tests/Compiled12.invariantInference (786ms) Wsub None
+Wsub Inv
+Wsub Co,Contra
+Wsub Inv,Co,Contra
+Wsuper None
+Wsuper Co,Contra
+Wsuper Inv
+Wsuper Inv,Co,Contra
+Wsuper Inv,Co
+Wsuper Inv,Co
+Wsuper Co
+Wsub Inv
+Passed
+. run compiler_tests/Compiled12.invariantInference2 (828ms) Wsub None
+Wsub Inv
+Wsub Co,Contra
+Wsub Inv,Co,Contra
+Wsuper None
+Wsuper Co,Contra
+Wsuper Inv
+Wsuper Inv,Co,Contra
+Wsuper Inv,Co
+Wsuper Inv,Co
+Wsuper Co
+Wsub Inv
+Passed
+
+Time: 5.929
+
+OK (6 tests)
+
+exit=0
+########## fortress junit compiler_tests/NatArgRungSLink.test
+. link compiler_tests/XXXNatArgRungS  OK (time = 3977ms)
+
+Time: 3.984
+
+OK (1 test)
+
+exit=0
+########## fortress junit compiler_tests/XXXNatArgRungS.test
+. run compiler_tests/XXXNatArgRungS (333ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : 3$RTTIc.class
+	... 9 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.345
+
+OK (1 test)
+
+exit=0
+EXIT=0

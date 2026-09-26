@@ -1,0 +1,13 @@
+component SkDeadTopT
+export Executable
+
+ee[\T\](x: ZZ32): ZZ32 = 1
+ee(x: Any): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    println(ee(z))
+    println(ee("s"))
+  end
+
+end

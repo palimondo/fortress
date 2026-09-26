@@ -1,0 +1,13 @@
+component SkCapture
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+kk[\nat b\](x: Box[\b\], y: ZZ32): Box[\b\] = x
+kk[\nat a, nat b\](x: Box[\a\], y: Any): Box[\b\] = Box[\b\](x.v)
+
+run(): () = do
+    println(kk(Box[\3\](1), 2).v)
+  end
+
+end

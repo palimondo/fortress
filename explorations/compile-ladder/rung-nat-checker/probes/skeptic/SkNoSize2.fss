@@ -1,0 +1,26 @@
+component SkNoSize2
+export Executable
+
+object BoxT[\T\](v: T) end
+object Pair[\S, T\](a: S, b: T) end
+
+pick[\T\](x: T, y: T): T = x
+unboxT[\T\](b: BoxT[\T\]): T = b.v
+pair[\S, T\](s: S, t: T): Pair[\S, T\] = Pair[\S, T\](s, t)
+swapP[\S, T\](p: Pair[\S, T\]): Pair[\T, S\] = Pair[\T, S\](p.b, p.a)
+q(x: ZZ32): String = "int"
+q(x: Any): String = "any"
+r[\T\](x: BoxT[\T\]): String = "box"
+r(x: Any): String = "any"
+
+run(): () = do
+    println(pick(3, 4))
+    println(unboxT(BoxT[\String\]("s")))
+    p: Pair[\String, ZZ32\] = swapP(pair(1, "two"))
+    println(p.a)
+    println(p.b)
+    println(q(1) || q("x"))
+    println(r(BoxT[\ZZ32\](1)) || r(7))
+  end
+
+end

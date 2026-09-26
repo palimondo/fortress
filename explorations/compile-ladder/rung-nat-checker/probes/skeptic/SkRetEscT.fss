@@ -1,0 +1,13 @@
+component SkRetEscT
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+
+h(x: ZZ32): BoxT[\ZZ32\] = BoxT[\ZZ32\](1)
+h[\T\](x: Any): BoxT[\T\] = BoxT[\T\](2)
+
+run(): () = do
+    println(h(5).v)
+  end
+
+end

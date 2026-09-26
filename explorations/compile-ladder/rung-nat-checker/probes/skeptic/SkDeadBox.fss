@@ -1,0 +1,15 @@
+component SkDeadBox
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+eb[\nat n\](x: ZZ32): Any = Box[\n\](x)
+eb(x: Any): Any = "any"
+
+run(): () = do
+    z: ZZ32 = 5
+    println(eb(z))
+    println(eb("s"))
+  end
+
+end

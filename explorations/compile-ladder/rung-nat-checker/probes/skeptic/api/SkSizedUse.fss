@@ -1,0 +1,9 @@
+component SkSizedUse
+import SkSizedApi.{...}
+export Executable
+
+run(): () = do
+    println(unbox(Box[\3\](7)))
+  end
+
+end

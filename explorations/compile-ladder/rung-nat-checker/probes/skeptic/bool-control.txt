@@ -1,0 +1,27 @@
+# run-probes.sh SkBoolCtl: SkBoolMany with the bool static argument written out, the control for the masked errors
+########## walk: fortress SkBoolCtl.fss
+7
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkBoolCtl.fss:11:5-16:
+RHS expression type Box[\3\] is not assignable to LHS type Box[\4\]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkBoolCtl.fss:11:5-16:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkBoolCtl.fss:11:5-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress typecheck SkBoolCtl.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkBoolCtl.fss:11:19-28:
+    Right-hand side has type Box[\3\], but declared type is Box[\4\].
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkBoolCtl.fss:13:17:
+    Right-hand side has type IntLiteral, but declared type is String.
+File SkBoolCtl.fss has 2 errors.
+exit=255
+########## fortress compile SkBoolCtl.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkBoolCtl.fss:11:19-28:
+    Right-hand side has type Box[\3\], but declared type is Box[\4\].
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkBoolCtl.fss:13:17:
+    Right-hand side has type IntLiteral, but declared type is String.
+File SkBoolCtl.fss has 2 errors.
+exit=255
+EXIT=0

@@ -1,0 +1,10 @@
+component SkDeadT
+export Executable
+
+deadT[\T\](x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    println(deadT(3))
+  end
+
+end

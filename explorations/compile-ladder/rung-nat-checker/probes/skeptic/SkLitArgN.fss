@@ -1,0 +1,13 @@
+component SkLitArgN
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+scale[\nat k\](b: Box[\k\], m: ZZ32): Box[\k\] = Box[\k\](b.v m)
+
+run(): () = do
+    println(scale[\3\](Box[\3\](2), 3).v)
+    println(scale(Box[\3\](2), 3).v)
+  end
+
+end

@@ -1,0 +1,11 @@
+component SkCapDistinct
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+kk[\nat c\](x: Box[\c\], y: ZZ32): Box[\c\] = x
+kk[\nat a, nat b\](x: Box[\a\], y: Any): Box[\b\] = Box[\b\](x.v)
+
+run(): () = println("decl")
+
+end
