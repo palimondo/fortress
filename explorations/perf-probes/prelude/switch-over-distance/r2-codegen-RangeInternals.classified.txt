@@ -1,0 +1,10 @@
+
+== @@TC DECL-CRASH: 1 ==
+     1  com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)
+
+== counts ==
+    97  @@TC DECL-OK
+     1  @@TC DECL-CRASH
+
+== appendix: every failure, one row ==
+phase	class	provenance	declaration	file:line	exception	site	diagnostic	source line

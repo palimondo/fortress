@@ -1,0 +1,59 @@
+########## Distance -order check -setting walk Library/List.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false -Dprobe.componentOnly=true
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 7.65 7.25 5.80; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T09:47:38Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=walk (extendsObject=false compiledExpr=false) prelude=INTERPRETER target=[Library/List.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=0
+@@TC API	CovariantCollection	errors=0
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	OneShotFlag	errors=0
+@@TC API	List	errors=0
+@@TC API	FortressLibrary	errors=110
+@@TC API	NativeArray	errors=44
+@@TC API	FortressBuiltin	errors=18
+@@TC APIS-NOT-SUCCESSFUL	172 errors kept
+@@SC STAGE	component List	hierarchy	errors=0
+@@SC STAGE	component List	apiextract	errors=0
+@@SC STAGE	component List	acyclic	errors=0
+@@SC STAGE	component List	wellformed1	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/List.fss:70:1-21	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:72:1-50	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:74:1-82:6	errors=1
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/List.fss:86:1-91:2	errors=3
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:93:1-100:6	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:102:1-103:61	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:105:1-111:32	errors=1
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/List.fss:112:1-173:2	errors=3
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:176:1-45	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:177:1-178:87	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:179:1-180:80	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:182:1-183:52	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:184:1-188:21	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:189:1-190:56	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:191:1-197:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:198:1-203:6	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:204:1-206:50	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:207:1-228:4	errors=2
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/List.fss:231:1-235:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/List.fss:238:1-242:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/List.fss:245:1-249:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/List.fss:251:1-477:2	errors=24
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:479:1-480:54	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:482:1-486:72	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:487:1-488:68	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:490:1-51	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:492:1-496:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/List.fss:498:1-499:65	errors=0
+@@SC STAGE	component List	typecheck	errors=39
+@@SC STAGE	component List	wellformed2	errors=0
+@@SC STAGE	component List	overloading	errors=0
+@@SC STAGE	component List	export	errors=2
+@@TC COMPONENT	List	errors=82
+@@TC COMPONENTS-NOT-SUCCESSFUL	82 errors kept
+### rc=0
+exit=0
+ELAPSED 94 s
+# end 2026-09-26T09:49:12Z

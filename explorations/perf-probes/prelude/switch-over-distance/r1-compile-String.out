@@ -1,0 +1,45 @@
+########## Distance -order check -setting compile Library/String.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false -Dprobe.componentOnly=true
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 5.52 4.50 4.17; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T10:18:09Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=compile (extendsObject=true compiledExpr=true) prelude=INTERPRETER target=[Library/String.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=4
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	List	errors=12
+@@TC API	FortressLibrary	errors=490
+@@TC API	FortressBuiltin	errors=22
+@@TC APIS-NOT-SUCCESSFUL	528 errors kept
+@@SC STAGE	component String	hierarchy	errors=0
+@@SC STAGE	component String	apiextract	errors=0
+@@SC STAGE	component String	acyclic	errors=0
+@@SC STAGE	component String	wellformed1	errors=5
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/String.fss:20:3-27:4	errors=1
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/String.fss:33:3-39:17	errors=0
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/String.fss:41:3-45:16	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/String.fss:53:5-59:8	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/String.fss:61:5-71:8	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/String.fss:75:3-169:14	errors=38
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/String.fss:171:3-258:20	errors=5
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/String.fss:260:3-264:20	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/String.fss:270:3-320:16	errors=3
+@@TC DECL-CRASH	FnDecl	/home/user/fortress/Library/String.fss:322:1-332:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/String.fss:338:3-492:14	errors=31
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/String.fss:494:3-535:16	errors=6
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/String.fss:537:3-553:4	errors=2
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/String.fss:555:3-30	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/String.fss:557:3-33	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/String.fss:558:3-45	errors=0
+@@SC STAGE	component String	typecheck	errors=87
+@@SC STAGE	component String	wellformed2	errors=16
+@@SC STAGE	component String	overloading	errors=2
+@@SC STAGE	component String	export	errors=1
+@@SC STAGE	component String	variance	errors=0
+@@TC COMPONENT	String	errors=333
+@@TC COMPONENTS-NOT-SUCCESSFUL	333 errors kept
+### rc=0
+exit=0
+ELAPSED 70 s
+# end 2026-09-26T10:19:19Z

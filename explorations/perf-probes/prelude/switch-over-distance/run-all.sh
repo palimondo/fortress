@@ -14,7 +14,7 @@
 #   codegen   desugaring and code generation per declaration, dispatch generation skipped
 #   codegen2  the same with DESUGAR per declaration and BottomType comparable (add-patch.py)
 #   dispatch  codegen2 with dispatch generation on, 30 min in code generation, under JFR
-#   flat      the checker runs of `check` on keep/make-flat-lib.py's copies L0 and FLAT
+#   flat      FortressLibrary's checker run of `check` on keep/make-flat-lib.py's copies L0 and FLAT
 # Raw output stays in <work-dir>; the captures beside this script are the raw output with
 # the stack-trace lines removed (`trim`).  SKIP_DONE=1 keeps a run whose output is complete.
 set -u
@@ -124,11 +124,17 @@ flat)
   # price-keep-the-rule.md § 5's copies, made again from today's tree; the copy's directory
   # shadows the tree's FortressLibrary and FortressBuiltin through Shell.sourcePath
   rm -rf "$W/libs"; python3 explorations/reviews/mie-probes/keep/make-flat-lib.py "$W/libs" || exit 1
-  for v in L0 FLAT; do
-    for s in walk compile; do
-      run r4-$v-$s 1800 "$ALL" -- -order check -setting $s "$W/libs/$v/FortressLibrary.fss"; trim r4-$v-$s
-    done
+  # L0 (the unchanged copy) under walk's setting is the control: it must give the tree's
+  # r1-walk-FortressLibrary error for error, paths aside
+  # FLAT's component stops at name resolution (Number's operators are gone); FLATN, the
+  # copy that keeps them, is the one whose component can be checked
+  for vs in L0-walk FLAT-walk FLAT-compile FLATN-walk FLATN-compile; do
+    v=${vs%-*}; s=${vs#*-}
+    run r4-$vs 1800 "$ALL" -- -order check -setting $s "$W/libs/$v/FortressLibrary.fss"; trim r4-$vs
   done
+  # and the gate's own count on the copies, by the script that measured them first
+  FORTRESS_ANALYZER_OVERLOAD_CACHE=false explorations/reviews/mie-probes/keep/count-variant.sh "$W/keepcount" L0 FLAT FLATN \
+      > "$P/r4-count-stage-on-copies.txt" 2>&1
   ;;
 *) echo "unknown step $step"; exit 1 ;;
 esac; done

@@ -1,0 +1,34 @@
+########## Distance -order check -setting compile ProjectFortress/LibraryBuiltin/NativeArray.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false -Dprobe.componentOnly=true
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 5.44 3.98 3.98; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T10:16:36Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=compile (extendsObject=true compiledExpr=true) prelude=INTERPRETER target=[ProjectFortress/LibraryBuiltin/NativeArray.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=4
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	FortressLibrary	errors=490
+@@TC API	NativeArray	errors=8
+@@TC API	FortressBuiltin	errors=22
+@@TC APIS-NOT-SUCCESSFUL	524 errors kept
+@@SC STAGE	component NativeArray	hierarchy	errors=0
+@@SC STAGE	component NativeArray	apiextract	errors=0
+@@SC STAGE	component NativeArray	acyclic	errors=0
+@@SC STAGE	component NativeArray	wellformed1	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:15:1-23	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:16:1-57	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:18:1-30:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:32:1-41:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/NativeArray.fss:43:1-52:2	errors=0
+@@SC STAGE	component NativeArray	typecheck	errors=0
+@@SC STAGE	component NativeArray	wellformed2	errors=0
+@@SC STAGE	component NativeArray	overloading	errors=6
+@@SC STAGE	component NativeArray	export	errors=0
+@@SC STAGE	component NativeArray	variance	errors=0
+@@TC COMPONENT	NativeArray	errors=18
+@@TC COMPONENTS-NOT-SUCCESSFUL	18 errors kept
+### rc=0
+exit=0
+ELAPSED 26 s
+# end 2026-09-26T10:17:02Z

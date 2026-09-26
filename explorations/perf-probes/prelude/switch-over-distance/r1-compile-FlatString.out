@@ -1,0 +1,34 @@
+########## Distance -order check -setting compile Library/FlatString.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false -Dprobe.componentOnly=true
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 5.80 4.81 4.30; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T10:19:19Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=compile (extendsObject=true compiledExpr=true) prelude=INTERPRETER target=[Library/FlatString.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=4
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	FortressLibrary	errors=490
+@@TC API	FortressBuiltin	errors=22
+@@TC APIS-NOT-SUCCESSFUL	516 errors kept
+@@SC STAGE	component FlatString	hierarchy	errors=0
+@@SC STAGE	component FlatString	apiextract	errors=0
+@@SC STAGE	component FlatString	acyclic	errors=0
+@@SC STAGE	component FlatString	wellformed1	errors=2
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/FlatString.fss:20:1-23	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/FlatString.fss:21:1-57	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/FlatString.fss:23:1-40	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/FlatString.fss:25:1-26:75	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/FlatString.fss:28:1-32:4	errors=1
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/FlatString.fss:34:1-151:13	errors=6
+@@SC STAGE	component FlatString	typecheck	errors=7
+@@SC STAGE	component FlatString	wellformed2	errors=2
+@@SC STAGE	component FlatString	overloading	errors=2
+@@SC STAGE	component FlatString	export	errors=1
+@@SC STAGE	component FlatString	variance	errors=0
+@@TC COMPONENT	FlatString	errors=42
+@@TC COMPONENTS-NOT-SUCCESSFUL	42 errors kept
+### rc=0
+exit=0
+ELAPSED 16 s
+# end 2026-09-26T10:19:35Z

@@ -1,0 +1,216 @@
+# errors-walk-FortressLibrary.tsv 1825   errors-L0-walk.tsv 1837   go 68   appear 80   stay 1757
+
+## go, by kind
+    41  typecheck
+    27  overloading
+## go, overloading and return-type by family (subclass)
+     3  overloading  MOD (same parameter type)                same parameter type
+     2  overloading  BITAND (same parameter type)             same parameter type
+     2  overloading  BITOR (same parameter type)              same parameter type
+     2  overloading  BITXOR (same parameter type)             same parameter type
+     2  overloading  BY (same parameter type)                 same parameter type
+     2  overloading  DOT (same parameter type)                same parameter type
+     2  overloading  GCD (same parameter type)                same parameter type
+     2  overloading  LCM (same parameter type)                same parameter type
+     2  overloading  SQCAP (same parameter type)              same parameter type
+     1  overloading  CHOOSE (same parameter type)             same parameter type
+     1  overloading  CMP (same parameter type)                same parameter type
+     1  overloading  DIV (same parameter type)                same parameter type
+     1  overloading  LSHIFT (same parameter type)             same parameter type
+     1  overloading  REM (same parameter type)                same parameter type
+     1  overloading  RSHIFT (same parameter type)             same parameter type
+     1  overloading  partitionL (same parameter type)         same parameter type
+     1  overloading  widen (same parameter type)              same parameter type
+## go, the component's type errors and the rest, by message shape (top 25)
+     8  typecheck      Could not check call to function get - ZZ32->T is not applicable to an argument of type ZZ64.
+     4  typecheck      Could not check call to operator # - [\..\] is not applicable to an argument of type (IntLiteral, ZZ64).
+     4  typecheck      Function body has type Array1[\..\].
+     2  typecheck      Could not check method invocation NativeArray.PrimitiveArray[\..\].get - ZZ32->T is not applicable to an argum
+     2  typecheck      Could not check method invocation NativeArray.PrimitiveArray[\..\].init0 - (ZZ32, T)->() is not applicable to 
+     2  typecheck      Could not check method invocation NativeArray.PrimitiveArray[\..\].put - (ZZ32, T)->() is not applicable to an
+     2  typecheck      Function body has type Array[\..\].
+     2  typecheck      Function body has type QQ, but declared return type is ZZ32.
+     2  typecheck      Function body has type ZZ64, but declared return type is ZZ32.
+     2  typecheck      Right-hand side has type ZZ64, but declared type is ZZ32.
+     1  typecheck      Could not check call to function __ImmutableSubArray1 - [\..\], ZZ64, ZZ32).
+     1  typecheck      Could not check call to function __SimpleSubArray1 - [\..\], ZZ64, ZZ32).
+     1  typecheck      Could not check call to function index - (ZZ32, ZZ32)->(ZZ32, ZZ32) is not applicable to an argument of type (
+     1  typecheck      Could not check call to operator : - [\..\] is not applicable to an argument of type (ZZ64, IntLiteral).
+     1  typecheck      Could not check call to operator ^ - ((NN64 & {UnsignedLong, NN32}), AnyIntegral)->RR64 is not applicable to a
+     1  typecheck      Function body has type (QQ, QQ), but declared return type is (ZZ32, ZZ32).
+     1  typecheck      Function body has type (QQ, QQ, QQ), but declared return type is (ZZ32, ZZ32, ZZ32).
+     1  typecheck      Function body has type (QQ, ZZ), but declared return type is (ZZ, ZZ).
+     1  typecheck      Function body has type Boolean, but declared return type is BigReduction[\..\].
+     1  typecheck      Function body has type QQ, but declared return type is ZZ.
+     1  typecheck      Right-hand side has type ZZ, but declared type is ZZ64.
+
+## appear, by kind
+    46  typecheck
+    34  overloading
+## appear, overloading and return-type by family (subclass)
+     3  overloading  GCD (same parameter type)                same parameter type
+     3  overloading  MOD (same parameter type)                same parameter type
+     2  overloading  BITAND (same parameter type)             same parameter type
+     2  overloading  BITOR (same parameter type)              same parameter type
+     2  overloading  BITXOR (same parameter type)             same parameter type
+     2  overloading  BY (same parameter type)                 same parameter type
+     2  overloading  CHOOSE (same parameter type)             same parameter type
+     2  overloading  CMP (same parameter type)                same parameter type
+     2  overloading  DIV (same parameter type)                same parameter type
+     2  overloading  DOT (same parameter type)                same parameter type
+     2  overloading  LCM (same parameter type)                same parameter type
+     2  overloading  REM (same parameter type)                same parameter type
+     2  overloading  RSHIFT (same parameter type)             same parameter type
+     1  overloading  LEXICO (same parameter type)             same parameter type
+     1  overloading  LSHIFT (same parameter type)             same parameter type
+     1  overloading  SQCAP (same parameter type)              same parameter type
+     1  overloading  juxtaposition (same parameter type)      same parameter type
+     1  overloading  partitionL (same parameter type)         same parameter type
+     1  overloading  widen (same parameter type)              same parameter type
+## appear, the component's type errors and the rest, by message shape (top 25)
+     8  typecheck      Could not check call to function get - ZZ32->T is not applicable to an argument of type QQ.
+     7  typecheck      Function body has type Array[\..\].
+     5  typecheck      Function body has type ZZ, but declared return type is ZZ32.
+     4  typecheck      Could not check call to operator # - [\..\] is not applicable to an argument of type (IntLiteral, QQ).
+     2  typecheck      Could not check method invocation NativeArray.PrimitiveArray[\..\].get - ZZ32->T is not applicable to an argum
+     2  typecheck      Could not check method invocation NativeArray.PrimitiveArray[\..\].init0 - (ZZ32, T)->() is not applicable to 
+     2  typecheck      Could not check method invocation NativeArray.PrimitiveArray[\..\].put - (ZZ32, T)->() is not applicable to an
+     2  typecheck      Right-hand side has type QQ, but declared type is ZZ32.
+     1  typecheck      Could not check call to function __ImmutableSubArray1 - [\..\], QQ, ZZ32).
+     1  typecheck      Could not check call to function __SimpleSubArray1 - [\..\], QQ, ZZ32).
+     1  typecheck      Could not check call to function floor - (Number & {RR64})->RR64 is not applicable to an argument of type Arra
+     1  typecheck      Could not check call to function index - (ZZ32, ZZ32)->(ZZ32, ZZ32) is not applicable to an argument of type (
+     1  typecheck      Could not check call to operator : - [\..\] is not applicable to an argument of type (QQ, IntLiteral).
+     1  typecheck      Could not check call to operator DIV - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applicable to an arg
+     1  typecheck      Could not check call to operator ^ - ((NN64 & {UnsignedLong, NN32}), AnyIntegral)->RR64 is not applicable to a
+     1  typecheck      Function body has type (ZZ, ZZ), but declared return type is (ZZ32, ZZ32).
+     1  typecheck      Function body has type (ZZ, ZZ, ZZ), but declared return type is (ZZ32, ZZ32, ZZ32).
+     1  typecheck      Function body has type ImmutableArray[\..\].
+     1  typecheck      Function body has type Number, but declared return type is Comprehension[\..\].
+     1  typecheck      Function body has type RR64, but declared return type is BigReduction[\..\].
+     1  typecheck      Function body has type UniqueItem[\..\].
+     1  typecheck      Function body has type ZZ, but declared return type is ZZ64.
+
+## stay, by kind
+   644  overloading
+   570  return-type
+   380  typecheck
+   117  exclusion
+    41  wellformed
+     3  comprises
+     2  export
+## stay, overloading and return-type by family (subclass)
+   244  overloading  fill                                     fill-crossed
+    56  overloading  fill                                     fill-same
+    38  overloading  FORWARD_CMP                              same-sparams
+    24  overloading  CAP                                      sentence
+    15  overloading  map                                      same-sparams
+    14  overloading  DOT (same parameter type)                same parameter type
+    14  overloading  IN                                       sentence
+    14  overloading  juxtaposition (same parameter type)      same parameter type
+    12  overloading  IN                                       same-sparams
+    11  overloading  BY (same parameter type)                 same parameter type
+    10  overloading  CAP                                      same-sparams
+    10  overloading  seq                                      sentence
+     8  overloading  BITNOT (same parameter type)             same parameter type
+     8  overloading  LEXICO (same parameter type)             same parameter type
+     8  overloading  LSHIFT (same parameter type)             same parameter type
+     7  overloading  BITAND (same parameter type)             same parameter type
+     7  overloading  BITOR (same parameter type)              same parameter type
+     7  overloading  BITXOR (same parameter type)             same parameter type
+     7  overloading  CHOOSE (same parameter type)             same parameter type
+     7  overloading  DIV (same parameter type)                same parameter type
+     7  overloading  LCM (same parameter type)                same parameter type
+     7  overloading  REM (same parameter type)                same parameter type
+     7  overloading  RSHIFT (same parameter type)             same parameter type
+     7  overloading  combine2D                                same-sparams
+     7  overloading  combine3D                                same-sparams
+     7  overloading  generate                                 same-sparams
+     6  overloading  GCD (same parameter type)                same parameter type
+     6  overloading  MAX                                      sentence
+     6  overloading  MIN                                      sentence
+     6  overloading  MOD (same parameter type)                same parameter type
+     6  overloading  ivmap                                    same-sparams
+     6  overloading  lift                                     same-sparams
+     6  overloading  narrow (same parameter type)             same parameter type
+     4  overloading  CMP                                      sentence
+     4  overloading  seq                                      same-sparams
+     3  overloading  CMP (same parameter type)                same parameter type
+     3  overloading  SQCAP (same parameter type)              same parameter type
+     3  overloading  cross                                    same-sparams
+     3  overloading  juxtaposition                            same-sparams
+     3  overloading  juxtaposition                            sentence
+     3  overloading  openRangeHelper                          sentence
+     2  overloading  copy                                     same-sparams
+     2  overloading  partitionL (same parameter type)         same parameter type
+     2  overloading  round (same parameter type)              same parameter type
+     2  overloading  unsigned (same parameter type)           same parameter type
+     2  overloading  widen (same parameter type)              same parameter type
+     1  overloading  INVERSE (same parameter type)            same parameter type
+     1  overloading  nest                                     same-sparams
+     1  overloading  numerator (same parameter type)          same parameter type
+   132  return-type  juxtaposition                            -
+    96  return-type  DOT                                      -
+    22  return-type  BY                                       -
+    19  return-type  CMP                                      -
+    19  return-type  MAX                                      -
+    19  return-type  MIN                                      -
+    16  return-type  BITAND                                   -
+    16  return-type  BITNOT                                   -
+    16  return-type  BITOR                                    -
+    16  return-type  BITXOR                                   -
+    16  return-type  CHOOSE                                   -
+    16  return-type  DIV                                      -
+    16  return-type  GCD                                      -
+    16  return-type  LCM                                      -
+    16  return-type  LSHIFT                                   -
+    16  return-type  MOD                                      -
+    16  return-type  REM                                      -
+    16  return-type  RSHIFT                                   -
+    14  return-type  narrow                                   -
+     8  return-type  SQCAP                                    -
+     8  return-type  seq                                      -
+     5  return-type  MINMAX                                   -
+     5  return-type  partitionL                               -
+     4  return-type  distribute                               -
+     4  return-type  round                                    -
+     4  return-type  shift                                    -
+     3  return-type  empty                                    -
+     2  return-type  array1                                   -
+     2  return-type  array2                                   -
+     2  return-type  atMost                                   -
+     2  return-type  subarray                                 -
+     1  return-type  array3                                   -
+     1  return-type  every                                    -
+     1  return-type  filter                                   -
+     1  return-type  map                                      -
+     1  return-type  relation                                 -
+     1  return-type  target                                   -
+     1  return-type  truncate                                 -
+     1  return-type  unsigned                                 -
+## stay, the component's type errors and the rest, by message shape (top 25)
+   117  exclusion      -
+   108  typecheck      Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+    18  typecheck      Could not check call to operator CMP - ((Number & {RR64}), Number)->Comparison is not applicable to an argumen
+    12  typecheck      Function body has type RR64, but declared return type is T.
+    11  wellformed     Ill-formed type: Matrix[\..\] The static argument T does not satisfy the corresponding bound Number.
+    10  typecheck      Could not check call to function fail - Could not infer static argument T without context.
+    10  wellformed     Ill-formed type: Vector[\..\] The static argument T does not satisfy the corresponding bound Number.
+     8  typecheck      Could not check call to operator < - ((NN64 & {UnsignedLong, NN32}), NN64)->Boolean is not applicable to an ar
+     7  typecheck      Could not check call to operator |_| - (NN64 & {UnsignedLong, NN32})->NN64 is not applicable to an argument of
+     6  typecheck      Could not check call to function cond - [\..\]).
+     6  wellformed     Ill-formed type: RangeInternals.CompactFullRange3D[\..\].
+     5  typecheck      Function body has type Array2[\..\].
+     5  wellformed     Ill-formed type: NativeArray.PrimitiveArray[\..\] Arithmetic on nat static arguments is not supported by the t
+     4  typecheck      Could not check call to function mma - (ZZ32, ZZ32, ZZ32, ZZ32, ZZ32, ZZ32)->() is not applicable to an argume
+     4  typecheck      Function body has type Array1[\..\].
+     4  typecheck      Function body has type Number, but declared return type is T.
+     4  typecheck      Function body has type OR((T, (U, U)),(T, U)), but declared return type is (T, U).
+     4  wellformed     Ill-formed type: RangeInternals.CompactFullRange2D[\..\].
+     3  comprises      -
+     3  typecheck      Could not check call to function __bigOperator - [\..\], _->_).
+     3  typecheck      Could not check call to function __cond - [\..\], E->())->() is not applicable to any type of the form (AnyMay
+     3  typecheck      Could not check call to function __cond - [\..\], _->_, ()->OR(LessThan,Unordered)).
+     3  typecheck      Could not check call to operator - - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applicable to an argum
+     3  typecheck      Function body has type Array[\..\].
+     3  typecheck      Function body has type Integral[\..\], but declared return type is I.

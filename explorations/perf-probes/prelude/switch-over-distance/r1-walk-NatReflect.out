@@ -1,0 +1,32 @@
+########## Distance -order check -setting walk ProjectFortress/LibraryBuiltin/NatReflect.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false -Dprobe.componentOnly=true
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 4.36 6.43 5.77; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T09:50:36Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=walk (extendsObject=false compiledExpr=false) prelude=INTERPRETER target=[ProjectFortress/LibraryBuiltin/NatReflect.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=0
+@@TC API	NatReflect	errors=0
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	FortressLibrary	errors=110
+@@TC API	FortressBuiltin	errors=18
+@@TC APIS-NOT-SUCCESSFUL	128 errors kept
+@@SC STAGE	component NatReflect	hierarchy	errors=0
+@@SC STAGE	component NatReflect	apiextract	errors=0
+@@SC STAGE	component NatReflect	acyclic	errors=0
+@@SC STAGE	component NatReflect	wellformed1	errors=3
+@@TC DECL-OK	TraitDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/NatReflect.fss:23:1-26:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/NatReflect.fss:28:1-31:2	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/NatReflect.fss:42:3-48:6	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/NatReflect.fss:51:1-57:2	errors=1
+@@SC STAGE	component NatReflect	typecheck	errors=2
+@@SC STAGE	component NatReflect	wellformed2	errors=3
+@@SC STAGE	component NatReflect	overloading	errors=0
+@@SC STAGE	component NatReflect	export	errors=1
+@@TC COMPONENT	NatReflect	errors=18
+@@TC COMPONENTS-NOT-SUCCESSFUL	18 errors kept
+### rc=0
+exit=0
+ELAPSED 9 s
+# end 2026-09-26T09:50:45Z

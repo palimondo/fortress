@@ -1,0 +1,12 @@
+
+== @@TC DECL-CRASH: 5 ==
+     2  com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)
+     2  com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)
+     1  com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+
+== counts ==
+   441  @@TC DECL-OK
+     5  @@TC DECL-CRASH
+
+== appendix: every failure, one row ==
+phase	class	provenance	declaration	file:line	exception	site	diagnostic	source line

@@ -1,0 +1,58 @@
+########## Distance -order check -setting compile ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false -Dprobe.componentOnly=true
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 4.67 3.66 3.87; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T10:16:01Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=compile (extendsObject=true compiledExpr=true) prelude=INTERPRETER target=[ProjectFortress/LibraryBuiltin/FortressBuiltin.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=4
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	FortressLibrary	errors=490
+@@TC API	FortressBuiltin	errors=22
+@@TC APIS-NOT-SUCCESSFUL	516 errors kept
+@@SC STAGE	component FortressBuiltin	hierarchy	errors=0
+@@SC STAGE	component FortressBuiltin	apiextract	errors=0
+@@SC STAGE	component FortressBuiltin	acyclic	errors=9
+@@SC STAGE	component FortressBuiltin	wellformed1	errors=2
+@@TC DECL-OK	VarDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:15:1-23	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:16:1-33:3	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:34:1-35:72	errors=0
+@@TC DECL-CRASH	TraitDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:37:1-52:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:54:1-192:2	errors=2
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:194:1-201:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:203:1-367:2	errors=16
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:369:1-376:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:378:1-385:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:387:1-448:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:450:1-459:2	errors=2
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:461:1-526:2	errors=3
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:528:1-535:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:538:1-570:2	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:572:1-60	errors=0
+@@TC DECL-CRASH	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:574:1-686:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:688:1-697:2	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:699:1-85	errors=0
+@@SC STAGE	component FortressBuiltin	typecheck	errors=24
+@@SC STAGE	component FortressBuiltin	wellformed2	errors=5
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+@@SC STAGE	component FortressBuiltin	overloading	errors=2
+@@SC STAGE	component FortressBuiltin	export	errors=1
+@@SC STAGE	component FortressBuiltin	variance	errors=0
+@@TC COMPONENT	FortressBuiltin	errors=129
+@@TC COMPONENTS-NOT-SUCCESSFUL	129 errors kept
+### rc=0
+exit=0
+ELAPSED 35 s
+# end 2026-09-26T10:16:36Z

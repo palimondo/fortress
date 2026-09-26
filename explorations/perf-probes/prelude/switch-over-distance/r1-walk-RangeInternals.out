@@ -1,0 +1,235 @@
+########## Distance -order check -setting walk Library/RangeInternals.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false -Dprobe.componentOnly=true
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 6.94 7.13 5.09; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T09:41:18Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=walk (extendsObject=false compiledExpr=false) prelude=INTERPRETER target=[Library/RangeInternals.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=0
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	TypeProxy	errors=0
+@@TC API	RangeInternals	errors=78
+@@TC API	FortressLibrary	errors=110
+@@TC API	FortressBuiltin	errors=18
+@@TC APIS-NOT-SUCCESSFUL	206 errors kept
+@@SC STAGE	component RangeInternals	hierarchy	errors=0
+@@SC STAGE	component RangeInternals	apiextract	errors=0
+@@SC STAGE	component RangeInternals	acyclic	errors=0
+@@SC STAGE	component RangeInternals	wellformed1	errors=34
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/RangeInternals.fss:16:1-29:52	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:30:1-37:35	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:38:1-39:55	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:40:1-41:46	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:42:1-43:55	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:44:1-50:11	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:51:1-53:50	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:55:1-57:48	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:60:1-80:6	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:87:1-97:6	errors=4
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:99:1-102:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:104:1-108:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:112:1-68	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:114:1-117:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:119:1-123:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:127:1-140:4	errors=2
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:146:1-164:2	errors=4
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:166:1-168:75	errors=1
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:170:1-211:2	errors=6
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:213:1-224:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:226:1-228:75	errors=1
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:230:1-280:2	errors=6
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:282:1-299:2	errors=2
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:301:1-303:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:305:1-330:2	errors=6
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:332:1-334:43	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:336:1-347:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:349:1-351:55	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:353:1-366:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:368:1-82	errors=1
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:370:1-372:2	errors=0
+@@TC DECL-CRASH	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:377:1-456:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)	Not in the trait table: FortressLibrary.GeneratorZZ32 FortressLibrary.GeneratorZZ32 @ /home/user/fortress/Library/RangeInternals.fss:384:13-400:10
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:458:1-459:89	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:461:1-463:57	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:465:1-483:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:485:1-487:75	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:489:1-507:2	errors=2
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:509:1-551:2	errors=7
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:553:1-561:2	errors=1
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:563:1-605:2	errors=11
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:607:1-115	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:609:1-610:49	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:612:1-614:67	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:616:1-639:2	errors=4
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:641:1-643:91	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:645:1-669:2	errors=4
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:671:1-679:2	errors=1
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:681:1-724:2	errors=22
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:726:1-727:45	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:729:1-730:50	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:732:1-734:70	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:736:1-759:2	errors=4
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:761:1-763:95	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:765:1-789:2	errors=4
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:791:1-894:2	errors=17
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:896:1-931:2	errors=3
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:933:1-67	errors=0
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:936:1-982:2	errors=4
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:984:1-1011:2	errors=9
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1013:1-1057:2	errors=2
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1059:1-1084:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1086:1-1088:80	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1090:1-1117:2	errors=6
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1119:1-1121:107	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1123:1-1153:2	errors=6
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:1155:1-1181:2	errors=10
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1183:1-1282:2	errors=6
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1284:1-1325:2	errors=7
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1328:1-1331:48	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1333:1-1361:2	errors=10
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1363:1-1366:58	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1368:1-1392:4	errors=7
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1395:1-1397:59	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1399:1-1400:70	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1402:1-1408:6	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1410:1-1416:6	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1418:1-1421:53	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1422:1-1423:46	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1424:1-1426:54	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1427:1-1432:54	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1433:1-125	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1434:1-1436:44	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1437:1-1439:54	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1441:1-87	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1442:1-1443:52	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1444:1-1446:38	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1448:1-1454:6	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1455:1-1463:6	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1464:1-1473:6	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1475:1-90	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1476:1-1477:54	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1478:1-1480:39	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1482:1-1483:50	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1484:1-1485:46	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1486:1-1487:85	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1489:1-85	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1490:1-1491:48	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1492:1-1494:32	errors=0
+@@SC STAGE	component RangeInternals	typecheck	errors=223
+@@SC STAGE	component RangeInternals	wellformed2	errors=59
+
+This domain: (I, J)
+Concrete methods and domains: List((RangeInternals.Range2D[\I,J\].IN(n:(I, J), self:RangeInternals.Range2D[\I,J\]):Boolean,(I, J)))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (I, J) is not a subtype of BottomType
+
+This domain: (I, J)
+Concrete methods and domains: List((RangeInternals.Range2D[\I,J\].IN(n:(I, J), self:RangeInternals.Range2D[\I,J\]):Boolean,(I, J)))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (I, J) is not a subtype of BottomType
+
+This domain: Range[\(I, J)\]
+Concrete methods and domains: List((RangeInternals.Range2D[\I,J\].CAP(self:RangeInternals.Range2D[\I,J\], other:RangeInternals.Range2D[\I,J\]):Range[\(I, J)\],RangeInternals.Range2D[\I,J\]), (RangeInternals.Range2D[\I,J\].CAP(self:RangeInternals.Range2D[\I,J\], other:Range[\(I, J)\]):Range[\(I, J)\],Range[\(I, J)\]))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Range[\(I, J)\] is not a subtype of BottomType
+
+This domain: I
+Concrete methods and domains: List((RangeInternals.LeftScalarRange[\I\].IN(n:I, self:RangeInternals.LeftScalarRange[\I\]):Boolean,I))
+More specific concrete methods and domains: List((RangeInternals.LeftScalarRange[\I\].IN(n:I, self:RangeInternals.LeftScalarRange[\I\]):Boolean,I))
+Domain union of List(I) is I$4529
+Domain I is not a subtype of I$4529
+
+This domain: I
+Concrete methods and domains: List((RangeInternals.LeftScalarRange[\I\].IN(n:I, self:RangeInternals.LeftScalarRange[\I\]):Boolean,I))
+More specific concrete methods and domains: List((RangeInternals.LeftScalarRange[\I\].IN(n:I, self:RangeInternals.LeftScalarRange[\I\]):Boolean,I))
+Domain union of List(I) is I$4532
+Domain I is not a subtype of I$4532
+
+This domain: (I, J, K)
+Concrete methods and domains: List((RangeInternals.Range3D[\I,J,K\].IN(n:(I, J, K), self:RangeInternals.Range3D[\I,J,K\]):Boolean,(I, J, K)))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (I, J, K) is not a subtype of BottomType
+
+This domain: (I, J, K)
+Concrete methods and domains: List((RangeInternals.Range3D[\I,J,K\].IN(n:(I, J, K), self:RangeInternals.Range3D[\I,J,K\]):Boolean,(I, J, K)))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (I, J, K) is not a subtype of BottomType
+
+This domain: Range[\I\]
+Concrete methods and domains: List((RangeInternals.ExtentScalarRange[\I\].CAP(self:RangeInternals.ExtentScalarRange[\I\], other:Range[\I\]):RangeInternals.ScalarRangeWithExtent[\I\],Range[\I\]), (RangeInternals.ScalarRange[\I\].CAP(self:RangeInternals.ScalarRange[\I\], other:Range[\I\]):Range[\I\],Range[\I\]))
+More specific concrete methods and domains: List((RangeInternals.ExtentScalarRange[\I\].CAP(self:RangeInternals.ExtentScalarRange[\I\], other:Range[\I\]):RangeInternals.ScalarRangeWithExtent[\I\],Range[\I\]), (RangeInternals.ScalarRange[\I\].CAP(self:RangeInternals.ScalarRange[\I\], other:Range[\I\]):Range[\I\],Range[\I\]))
+Domain union of List(Range[\I\], Range[\I\]) is OR(Range[\I$4608$4609\],Range[\I$4610\])
+Domain Range[\I\] is not a subtype of OR(Range[\I$4608$4609\],Range[\I$4610\])
+
+This domain: Range[\I\]
+Concrete methods and domains: List((RangeInternals.ScalarRange[\I\].CAP(self:RangeInternals.ScalarRange[\I\], other:Range[\I\]):Range[\I\],Range[\I\]), (RangeInternals.OpenScalarRange[\I\].CAP(self:RangeInternals.OpenScalarRange[\I\], other:RangeInternals.ScalarRange[\I\]):RangeInternals.ScalarRange[\I\],RangeInternals.ScalarRange[\I\]))
+More specific concrete methods and domains: List((RangeInternals.ScalarRange[\I\].CAP(self:RangeInternals.ScalarRange[\I\], other:Range[\I\]):Range[\I\],Range[\I\]), (RangeInternals.OpenScalarRange[\I\].CAP(self:RangeInternals.OpenScalarRange[\I\], other:RangeInternals.ScalarRange[\I\]):RangeInternals.ScalarRange[\I\],RangeInternals.ScalarRange[\I\]))
+Domain union of List(Range[\I\], RangeInternals.ScalarRange[\I\]) is OR(Range[\I$4629$4630\],RangeInternals.ScalarRange[\I$4631\])
+Domain Range[\I\] is not a subtype of OR(Range[\I$4629$4630\],RangeInternals.ScalarRange[\I$4631\])
+
+This domain: Range[\(I, J, K)\]
+Concrete methods and domains: List((RangeInternals.Range3D[\I,J,K\].CAP(self:RangeInternals.Range3D[\I,J,K\], other:Range[\(I, J, K)\]):Range[\(I, J, K)\],Range[\(I, J, K)\]), (RangeInternals.Range3D[\I,J,K\].CAP(self:RangeInternals.Range3D[\I,J,K\], other:RangeInternals.Range3D[\I,J,K\]):Range[\(I, J, K)\],RangeInternals.Range3D[\I,J,K\]))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Range[\(I, J, K)\] is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: Range[\(I, J, K)\]
+Concrete methods and domains: List((RangeInternals.Range3D[\I,J,K\].CAP(self:RangeInternals.Range3D[\I,J,K\], other:Range[\(I, J, K)\]):Range[\(I, J, K)\],Range[\(I, J, K)\]), (RangeInternals.Range3D[\I,J,K\].CAP(self:RangeInternals.Range3D[\I,J,K\], other:RangeInternals.Range3D[\I,J,K\]):Range[\(I, J, K)\],RangeInternals.Range3D[\I,J,K\]))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Range[\(I, J, K)\] is not a subtype of BottomType
+
+This domain: (I, J)
+Concrete methods and domains: List((RangeInternals.Range2D[\I,J\].IN(n:(I, J), self:RangeInternals.Range2D[\I,J\]):Boolean,(I, J)))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (I, J) is not a subtype of BottomType
+
+This domain: (I, J)
+Concrete methods and domains: List((RangeInternals.Range2D[\I,J\].IN(n:(I, J), self:RangeInternals.Range2D[\I,J\]):Boolean,(I, J)))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (I, J) is not a subtype of BottomType
+
+This domain: (I, J, K)
+Concrete methods and domains: List((RangeInternals.Range3D[\I,J,K\].IN(n:(I, J, K), self:RangeInternals.Range3D[\I,J,K\]):Boolean,(I, J, K)))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (I, J, K) is not a subtype of BottomType
+
+This domain: (I, J, K)
+Concrete methods and domains: List((RangeInternals.Range3D[\I,J,K\].IN(n:(I, J, K), self:RangeInternals.Range3D[\I,J,K\]):Boolean,(I, J, K)))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain (I, J, K) is not a subtype of BottomType
+
+This domain: ()
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain () is not a subtype of BottomType
+
+This domain: Range[\(I, J)\]
+Concrete methods and domains: List((RangeInternals.Range2D[\I,J\].CAP(self:RangeInternals.Range2D[\I,J\], other:RangeInternals.Range2D[\I,J\]):Range[\(I, J)\],RangeInternals.Range2D[\I,J\]), (RangeInternals.Range2D[\I,J\].CAP(self:RangeInternals.Range2D[\I,J\], other:Range[\(I, J)\]):Range[\(I, J)\],Range[\(I, J)\]))
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Range[\(I, J)\] is not a subtype of BottomType
+@@SC STAGE	component RangeInternals	overloading	errors=57
+@@SC STAGE	component RangeInternals	export	errors=2
+@@TC COMPONENT	RangeInternals	errors=750
+@@TC COMPONENTS-NOT-SUCCESSFUL	750 errors kept
+### rc=0
+exit=0
+ELAPSED 300 s
+# end 2026-09-26T09:46:18Z

@@ -1,0 +1,27 @@
+########## Distance -order check -setting walk ProjectFortress/LibraryBuiltin/AnyType.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false -Dprobe.componentOnly=true
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 4.60 6.31 5.75; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T09:51:01Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=walk (extendsObject=false compiledExpr=false) prelude=INTERPRETER target=[ProjectFortress/LibraryBuiltin/AnyType.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=0
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	FortressLibrary	errors=110
+@@TC API	FortressBuiltin	errors=18
+@@TC APIS-NOT-SUCCESSFUL	128 errors kept
+@@SC STAGE	component AnyType	hierarchy	errors=0
+@@SC STAGE	component AnyType	apiextract	errors=0
+@@SC STAGE	component AnyType	acyclic	errors=0
+@@SC STAGE	component AnyType	wellformed1	errors=0
+@@TC DECL-OK	TraitDecl	/home/user/fortress/ProjectFortress/LibraryBuiltin/AnyType.fss:15:1-12	errors=0
+@@SC STAGE	component AnyType	typecheck	errors=0
+@@SC STAGE	component AnyType	wellformed2	errors=0
+@@SC STAGE	component AnyType	overloading	errors=0
+@@SC STAGE	component AnyType	export	errors=0
+@@TC COMPONENT	AnyType	errors=0
+### rc=0
+exit=0
+ELAPSED 9 s
+# end 2026-09-26T09:51:10Z

@@ -1,0 +1,315 @@
+########## Distance -order full -setting compile Library/RangeInternals.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.skipOverloads=true -Dprobe.bottomCompare=true -Dfortress.analyzer.overload.cache=false
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 6.39 6.83 5.41; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T09:44:58Z
+### order=full phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK DESUGAR OVERLOADREWRITE CODEGEN ] setting=compile (extendsObject=true compiledExpr=true) prelude=INTERPRETER target=[Library/RangeInternals.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=4
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	TypeProxy	errors=0
+@@TC API	RangeInternals	errors=304
+@@TC API	FortressLibrary	errors=490
+@@TC API	FortressBuiltin	errors=22
+@@TC APIS-NOT-SUCCESSFUL	820 errors kept
+@@TC DECL-OK	VarDecl	/home/user/fortress/Library/RangeInternals.fss:16:1-29:52	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:30:1-37:35	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:38:1-39:55	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:40:1-41:46	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:42:1-43:55	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:44:1-50:11	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:51:1-53:50	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:55:1-57:48	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:60:1-80:6	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:87:1-97:6	errors=4
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:99:1-102:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:104:1-108:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:112:1-68	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:114:1-117:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:119:1-123:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:127:1-140:4	errors=2
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:146:1-164:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:166:1-168:75	errors=0
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:170:1-211:2	errors=5
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:213:1-224:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:226:1-228:75	errors=0
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:230:1-280:2	errors=5
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:282:1-299:2	errors=2
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:301:1-303:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:305:1-330:2	errors=6
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:332:1-334:43	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:336:1-347:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:349:1-351:55	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:353:1-366:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:368:1-82	errors=1
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:370:1-372:2	errors=0
+@@TC DECL-CRASH	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:377:1-456:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)	Not in the trait table: FortressLibrary.GeneratorZZ32 FortressLibrary.GeneratorZZ32 @ /home/user/fortress/Library/RangeInternals.fss:384:13-400:10
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:458:1-459:89	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:461:1-463:57	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:465:1-483:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:485:1-487:75	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:489:1-507:2	errors=2
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:509:1-551:2	errors=7
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:553:1-561:2	errors=1
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:563:1-605:2	errors=11
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:607:1-115	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:609:1-610:49	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:612:1-614:67	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:616:1-639:2	errors=4
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:641:1-643:91	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:645:1-669:2	errors=4
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:671:1-679:2	errors=1
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:681:1-724:2	errors=22
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:726:1-727:45	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:729:1-730:50	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:732:1-734:70	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:736:1-759:2	errors=4
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:761:1-763:95	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:765:1-789:2	errors=4
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:791:1-894:2	errors=17
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:896:1-931:2	errors=3
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:933:1-67	errors=0
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:936:1-982:2	errors=5
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:984:1-1011:2	errors=9
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1013:1-1057:2	errors=2
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1059:1-1084:2	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1086:1-1088:80	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1090:1-1117:2	errors=6
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1119:1-1121:107	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1123:1-1153:2	errors=6
+@@TC DECL-OK	TraitDecl	/home/user/fortress/Library/RangeInternals.fss:1155:1-1181:2	errors=7
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1183:1-1282:2	errors=6
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1284:1-1325:2	errors=7
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1328:1-1331:48	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1333:1-1361:2	errors=10
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1363:1-1366:58	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/Library/RangeInternals.fss:1368:1-1392:4	errors=7
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1395:1-1397:59	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1399:1-1400:70	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1402:1-1408:6	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1410:1-1416:6	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1418:1-1421:53	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1422:1-1423:46	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1424:1-1426:54	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1427:1-1432:54	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1433:1-125	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1434:1-1436:44	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1437:1-1439:54	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1441:1-87	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1442:1-1443:52	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1444:1-1446:38	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1448:1-1454:6	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1455:1-1463:6	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1464:1-1473:6	errors=2
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1475:1-90	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1476:1-1477:54	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1478:1-1480:39	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1482:1-1483:50	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1484:1-1485:46	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1486:1-1487:85	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1489:1-85	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1490:1-1491:48	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/Library/RangeInternals.fss:1492:1-1494:32	errors=0
+@@TC COMPONENT	RangeInternals	errors=1140
+@@TC COMPONENTS-NOT-SUCCESSFUL	1140 errors kept
+@@DS WHOLE-FAIL	case	edu.rice.cs.plt.tuple.OptionUnwrapException	null
+@@DS FAIL	case	/home/user/fortress/Library/RangeInternals.fss:377:1-456:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap(Null.java:58)	null
+@@DS PERDECL	case	decls=98	failed=1
+@@CG OVLSKIP	RangeInternals	sets=10
+@@CG OVLSKIP	RangeInternals	sets=9
+@@CG PREFAIL	ObjectDecl OpenScalarRange	/home/user/fortress/Library/RangeInternals.fss:305:1-330:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:316:36-60:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:316.36
+@@CG OVLSKIP	RangeInternals	sets=5
+@@CG PREFAIL	ObjectDecl OpenRange2D	/home/user/fortress/Library/RangeInternals.fss:336:1-347:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:343:34-71:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:343.34
+@@CG OVLSKIP	RangeInternals	sets=6
+@@CG PREFAIL	ObjectDecl OpenRange3D	/home/user/fortress/Library/RangeInternals.fss:353:1-366:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:362:36-80:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:362.36
+@@CG OVLSKIP	RangeInternals	sets=12
+@@CG PREFAIL	ObjectDecl ExtentScalarRange	/home/user/fortress/Library/RangeInternals.fss:377:1-456:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:380:34-49:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:380.34
+@@CG OVLSKIP	RangeInternals	sets=8
+@@CG PREFAIL	ObjectDecl ExtentRange2D	/home/user/fortress/Library/RangeInternals.fss:465:1-483:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:471:38-67:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:471.38
+@@CG OVLSKIP	RangeInternals	sets=9
+@@CG PREFAIL	ObjectDecl ExtentRange3D	/home/user/fortress/Library/RangeInternals.fss:489:1-507:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:495:40-80:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:495.40
+@@CG OVLSKIP	RangeInternals	sets=10
+@@CG PREFAIL	ObjectDecl LeftScalarRange	/home/user/fortress/Library/RangeInternals.fss:563:1-605:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:571:9-23:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/RangeInternals.fss:571.9
+@@CG OVLSKIP	RangeInternals	sets=8
+@@CG PREFAIL	ObjectDecl LeftRange2D	/home/user/fortress/Library/RangeInternals.fss:616:1-639:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:626:35-81:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:626.35
+@@CG OVLSKIP	RangeInternals	sets=9
+@@CG PREFAIL	ObjectDecl LeftRange3D	/home/user/fortress/Library/RangeInternals.fss:645:1-669:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:656:37-94:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:656.37
+@@CG OVLSKIP	RangeInternals	sets=2
+@@CG PREFAIL	ObjectDecl RightScalarRange	/home/user/fortress/Library/RangeInternals.fss:681:1-724:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:689:9-23:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/RangeInternals.fss:689.9
+@@CG OVLSKIP	RangeInternals	sets=8
+@@CG PREFAIL	ObjectDecl RightRange2D	/home/user/fortress/Library/RangeInternals.fss:736:1-759:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:746:34-79:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:746.34
+@@CG OVLSKIP	RangeInternals	sets=9
+@@CG PREFAIL	ObjectDecl RightRange3D	/home/user/fortress/Library/RangeInternals.fss:765:1-789:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:776:36-92:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:776.36
+@@CG OVLSKIP	RangeInternals	sets=3
+@@CG PREFAIL	ObjectDecl CompactFullParScalarRange	/home/user/fortress/Library/RangeInternals.fss:1013:1-1057:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1025:13-1035:9:     Can't compile LetFn at /home/user/fortress/Library/RangeInternals.fss:1025.13
+@@CG OVLSKIP	RangeInternals	sets=2
+@@CG PREFAIL	ObjectDecl CompactFullSeqScalarRange	/home/user/fortress/Library/RangeInternals.fss:1059:1-1084:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1066:49-81:     Can't compile AsIfExpr at /home/user/fortress/Library/RangeInternals.fss:1066.49
+@@CG OVLSKIP	RangeInternals	sets=10
+@@CG PREFAIL	ObjectDecl CompactFullRange2D	/home/user/fortress/Library/RangeInternals.fss:1090:1-1117:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1096:9-53:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1096.9
+@@CG OVLSKIP	RangeInternals	sets=11
+@@CG PREFAIL	ObjectDecl CompactFullRange3D	/home/user/fortress/Library/RangeInternals.fss:1123:1-1153:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1129:9-55:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1129.9
+@@CG OVLSKIP	RangeInternals	sets=5
+@@CG PREFAIL	ObjectDecl StridedFullParScalarRange	/home/user/fortress/Library/RangeInternals.fss:1183:1-1282:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1195:17-1209:13:     Can't compile LetFn at /home/user/fortress/Library/RangeInternals.fss:1195.17
+@@CG OVLSKIP	RangeInternals	sets=5
+@@CG PREFAIL	ObjectDecl StridedFullSeqScalarRange	/home/user/fortress/Library/RangeInternals.fss:1284:1-1325:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1290:49-82:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1290.49
+@@CG OVLSKIP	RangeInternals	sets=11
+@@CG PREFAIL	ObjectDecl StridedFullRange2D	/home/user/fortress/Library/RangeInternals.fss:1333:1-1361:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1337:9-77:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1337.9
+@@CG OVLSKIP	RangeInternals	sets=10
+@@CG PREFAIL	ObjectDecl StridedFullRange3D	/home/user/fortress/Library/RangeInternals.fss:1368:1-1392:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1372:9-1373:72:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1372.9
+@@CG OK	VarDecl [private printLimit:IntLiteral]	/home/user/fortress/Library/RangeInternals.fss:16:1-29:52
+@@CG FAIL	FnDecl roundToStride	/home/user/fortress/Library/RangeInternals.fss:30:1-37:35	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:31:5-14:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:31.5
+@@CG FAIL	FnDecl atOrAboveGoingUp	/home/user/fortress/Library/RangeInternals.fss:38:1-39:55	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl atOrBelowGoingUp	/home/user/fortress/Library/RangeInternals.fss:40:1-41:46	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl atOrBelowGoingDown	/home/user/fortress/Library/RangeInternals.fss:42:1-43:55	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl atOrAboveGoingDown	/home/user/fortress/Library/RangeInternals.fss:44:1-50:11	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	FnDecl atOrBelow	/home/user/fortress/Library/RangeInternals.fss:51:1-53:50
+@@CG OK	FnDecl atOrAbove	/home/user/fortress/Library/RangeInternals.fss:55:1-57:48
+@@CG OK	FnDecl meetingPoint	/home/user/fortress/Library/RangeInternals.fss:60:1-80:6
+@@CG FAIL	FnDecl SCMP	/home/user/fortress/Library/RangeInternals.fss:87:1-97:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	FnDecl SCMP	/home/user/fortress/Library/RangeInternals.fss:99:1-102:4
+@@CG FAIL	FnDecl SCMP	/home/user/fortress/Library/RangeInternals.fss:104:1-108:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:106:5-18:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/RangeInternals.fss:106.5
+@@CG OK	FnDecl PCMP	/home/user/fortress/Library/RangeInternals.fss:112:1-68
+@@CG OK	FnDecl PCMP	/home/user/fortress/Library/RangeInternals.fss:114:1-117:4
+@@CG FAIL	FnDecl PCMP	/home/user/fortress/Library/RangeInternals.fss:119:1-123:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:121:5-18:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/RangeInternals.fss:121.5
+@@CG FAIL	FnDecl checkSelection	/home/user/fortress/Library/RangeInternals.fss:127:1-140:4	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:129:5-23:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/RangeInternals.fss:129.5
+@@CG OVLSKIP	RangeInternals	sets=3
+@@CG FAIL	TraitDecl ScalarRange	/home/user/fortress/Library/RangeInternals.fss:146:1-164:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:148:9-50:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/RangeInternals.fss:148.9
+@@CG OK	FnDecl combine2D	/home/user/fortress/Library/RangeInternals.fss:166:1-168:75
+@@CG OVLSKIP	RangeInternals	sets=3
+@@CG FAIL	TraitDecl Range2D	/home/user/fortress/Library/RangeInternals.fss:170:1-211:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:178:9-66:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:178.9
+@@CG OVLSKIP	RangeInternals	sets=3
+@@CG FAIL	TraitDecl ActualRange2D	/home/user/fortress/Library/RangeInternals.fss:213:1-224:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:220:23-69:     Missing type information for TupleExpr at /home/user/fortress/Library/RangeInternals.fss:220.23 node = TupleExpr at /home/user/fortress/Library/RangeInternals.fss:220.23
+@@CG OK	FnDecl combine3D	/home/user/fortress/Library/RangeInternals.fss:226:1-228:75
+@@CG OVLSKIP	RangeInternals	sets=3
+@@CG FAIL	TraitDecl Range3D	/home/user/fortress/Library/RangeInternals.fss:230:1-280:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:241:9-91:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:241.9
+@@CG OVLSKIP	RangeInternals	sets=4
+@@CG FAIL	TraitDecl ActualRange3D	/home/user/fortress/Library/RangeInternals.fss:282:1-299:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:291:23-293:45:     Missing type information for TupleExpr at /home/user/fortress/Library/RangeInternals.fss:291.23 node = TupleExpr at /home/user/fortress/Library/RangeInternals.fss:291.23
+@@CG OVLSKIP	RangeInternals	sets=0
+@@CG OK	TraitDecl PartialScalarRange	/home/user/fortress/Library/RangeInternals.fss:301:1-303:2
+@@CG OK	ObjectDecl OpenScalarRange	/home/user/fortress/Library/RangeInternals.fss:305:1-330:2
+@@CG OK	FnDecl combine2D	/home/user/fortress/Library/RangeInternals.fss:332:1-334:43
+@@CG OK	ObjectDecl OpenRange2D	/home/user/fortress/Library/RangeInternals.fss:336:1-347:2
+@@CG OK	FnDecl combine3D	/home/user/fortress/Library/RangeInternals.fss:349:1-351:55
+@@CG OK	ObjectDecl OpenRange3D	/home/user/fortress/Library/RangeInternals.fss:353:1-366:2
+@@CG FAIL	FnDecl open	/home/user/fortress/Library/RangeInternals.fss:368:1-82	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:368:59-80:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:368.59
+@@CG OVLSKIP	RangeInternals	sets=0
+@@CG OK	TraitDecl ScalarRangeWithExtent	/home/user/fortress/Library/RangeInternals.fss:370:1-372:2
+@@CG OK	ObjectDecl ExtentScalarRange	/home/user/fortress/Library/RangeInternals.fss:377:1-456:2
+@@CG FAIL	FnDecl extentScalarRange	/home/user/fortress/Library/RangeInternals.fss:458:1-459:89	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	FnDecl combine2D	/home/user/fortress/Library/RangeInternals.fss:461:1-463:57
+@@CG OK	ObjectDecl ExtentRange2D	/home/user/fortress/Library/RangeInternals.fss:465:1-483:2
+@@CG OK	FnDecl combine3D	/home/user/fortress/Library/RangeInternals.fss:485:1-487:75
+@@CG OK	ObjectDecl ExtentRange3D	/home/user/fortress/Library/RangeInternals.fss:489:1-507:2
+@@CG OVLSKIP	RangeInternals	sets=2
+@@CG FAIL	TraitDecl BoundedScalarRange	/home/user/fortress/Library/RangeInternals.fss:509:1-551:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OVLSKIP	RangeInternals	sets=0
+@@CG FAIL	TraitDecl ScalarRangeWithLeft	/home/user/fortress/Library/RangeInternals.fss:553:1-561:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl LeftScalarRange	/home/user/fortress/Library/RangeInternals.fss:563:1-605:2
+@@CG FAIL	FnDecl leftScalarRange	/home/user/fortress/Library/RangeInternals.fss:607:1-115	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:607:80-113:     Missing type information for MethodInvocation at /home/user/fortress/Library/RangeInternals.fss:607.80 node = MethodInvocation at /home/user/fortress/Library/RangeInternals.fss:607.80
+@@CG OK	FnDecl leftScalarRangeInter	/home/user/fortress/Library/RangeInternals.fss:609:1-610:49
+@@CG OK	FnDecl combine2D	/home/user/fortress/Library/RangeInternals.fss:612:1-614:67
+@@CG OK	ObjectDecl LeftRange2D	/home/user/fortress/Library/RangeInternals.fss:616:1-639:2
+@@CG OK	FnDecl combine3D	/home/user/fortress/Library/RangeInternals.fss:641:1-643:91
+@@CG OK	ObjectDecl LeftRange3D	/home/user/fortress/Library/RangeInternals.fss:645:1-669:2
+@@CG OVLSKIP	RangeInternals	sets=0
+@@CG FAIL	TraitDecl ScalarRangeWithRight	/home/user/fortress/Library/RangeInternals.fss:671:1-679:2	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	ObjectDecl RightScalarRange	/home/user/fortress/Library/RangeInternals.fss:681:1-724:2
+@@CG FAIL	FnDecl rightScalarRange	/home/user/fortress/Library/RangeInternals.fss:726:1-727:45	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:727:9-43:     Missing type information for MethodInvocation at /home/user/fortress/Library/RangeInternals.fss:727.9 node = MethodInvocation at /home/user/fortress/Library/RangeInternals.fss:727.9
+@@CG OK	FnDecl rightScalarRangeInter	/home/user/fortress/Library/RangeInternals.fss:729:1-730:50
+@@CG OK	FnDecl combine2D	/home/user/fortress/Library/RangeInternals.fss:732:1-734:70
+@@CG OK	ObjectDecl RightRange2D	/home/user/fortress/Library/RangeInternals.fss:736:1-759:2
+@@CG OK	FnDecl combine3D	/home/user/fortress/Library/RangeInternals.fss:761:1-763:95
+@@CG OK	ObjectDecl RightRange3D	/home/user/fortress/Library/RangeInternals.fss:765:1-789:2
+@@CG OVLSKIP	RangeInternals	sets=12
+@@CG FAIL	TraitDecl FullScalarRange	/home/user/fortress/Library/RangeInternals.fss:791:1-894:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:794:34-52:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:794.34
+@@CG OVLSKIP	RangeInternals	sets=6
+@@CG FAIL	TraitDecl FullRange2D	/home/user/fortress/Library/RangeInternals.fss:896:1-931:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:899:38-81:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:899.38
+@@CG OK	FnDecl tupleFlatten	/home/user/fortress/Library/RangeInternals.fss:933:1-67
+@@CG OVLSKIP	RangeInternals	sets=6
+@@CG FAIL	TraitDecl FullRange3D	/home/user/fortress/Library/RangeInternals.fss:936:1-982:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:941:9-70:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:941.9
+@@CG OVLSKIP	RangeInternals	sets=6
+@@CG FAIL	TraitDecl CompactFullScalarRange	/home/user/fortress/Library/RangeInternals.fss:984:1-1011:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:987:9-22:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/RangeInternals.fss:987.9
+@@CG OK	ObjectDecl CompactFullParScalarRange	/home/user/fortress/Library/RangeInternals.fss:1013:1-1057:2
+@@CG OK	ObjectDecl CompactFullSeqScalarRange	/home/user/fortress/Library/RangeInternals.fss:1059:1-1084:2
+@@CG OK	FnDecl combine2D	/home/user/fortress/Library/RangeInternals.fss:1086:1-1088:80
+@@CG OK	ObjectDecl CompactFullRange2D	/home/user/fortress/Library/RangeInternals.fss:1090:1-1117:2
+@@CG OK	FnDecl combine3D	/home/user/fortress/Library/RangeInternals.fss:1119:1-1121:107
+@@CG OK	ObjectDecl CompactFullRange3D	/home/user/fortress/Library/RangeInternals.fss:1123:1-1153:2
+@@CG OVLSKIP	RangeInternals	sets=5
+@@CG FAIL	TraitDecl StridedFullScalarRange	/home/user/fortress/Library/RangeInternals.fss:1155:1-1181:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1575	 /home/user/fortress/Library/RangeInternals.fss:1158:9-72:     Variable being bound lacks type information! node = LocalVarDecl at /home/user/fortress/Library/RangeInternals.fss:1158.9
+@@CG OK	ObjectDecl StridedFullParScalarRange	/home/user/fortress/Library/RangeInternals.fss:1183:1-1282:2
+@@CG OK	ObjectDecl StridedFullSeqScalarRange	/home/user/fortress/Library/RangeInternals.fss:1284:1-1325:2
+@@CG OK	FnDecl combine2D	/home/user/fortress/Library/RangeInternals.fss:1328:1-1331:48
+@@CG OK	ObjectDecl StridedFullRange2D	/home/user/fortress/Library/RangeInternals.fss:1333:1-1361:2
+@@CG OK	FnDecl combine3D	/home/user/fortress/Library/RangeInternals.fss:1363:1-1366:58
+@@CG OK	ObjectDecl StridedFullRange3D	/home/user/fortress/Library/RangeInternals.fss:1368:1-1392:4
+@@CG FAIL	FnDecl fullScalarRange	/home/user/fortress/Library/RangeInternals.fss:1395:1-1397:59	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG OK	FnDecl fullScalarRangeInter	/home/user/fortress/Library/RangeInternals.fss:1399:1-1400:70
+@@CG FAIL	FnDecl fullRange2D	/home/user/fortress/Library/RangeInternals.fss:1402:1-1408:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl fullRange3D	/home/user/fortress/Library/RangeInternals.fss:1410:1-1416:6	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1412:20-14:     Can't compile AmbiguousMultifixOpExpr at /home/user/fortress/Library/RangeInternals.fss:1412.20
+@@CG FAIL	FnDecl emptyScalarRange	/home/user/fortress/Library/RangeInternals.fss:1418:1-1421:53	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1418:50-84:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1418.50
+@@CG FAIL	FnDecl sized1Range	/home/user/fortress/Library/RangeInternals.fss:1422:1-1423:46	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1423:5-45:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1423.5
+@@CG FAIL	FnDecl sized2Range	/home/user/fortress/Library/RangeInternals.fss:1424:1-1426:54	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1426:5-53:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1426.5
+@@CG FAIL	FnDecl sized3Range	/home/user/fortress/Library/RangeInternals.fss:1427:1-1432:54	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1429:5-67:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1429.5
+@@CG OK	FnDecl bounded1Range	/home/user/fortress/Library/RangeInternals.fss:1433:1-125
+@@CG OK	FnDecl bounded2Range	/home/user/fortress/Library/RangeInternals.fss:1434:1-1436:44
+@@CG OK	FnDecl bounded3Range	/home/user/fortress/Library/RangeInternals.fss:1437:1-1439:54
+@@CG FAIL	FnDecl left1Range	/home/user/fortress/Library/RangeInternals.fss:1441:1-87	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1441:63-86:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1441.63
+@@CG FAIL	FnDecl left2Range	/home/user/fortress/Library/RangeInternals.fss:1442:1-1443:52	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1443:26-51:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1443.26
+@@CG FAIL	FnDecl left3Range	/home/user/fortress/Library/RangeInternals.fss:1444:1-1446:38	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1446:5-36:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1446.5
+@@CG FAIL	FnDecl extent1Range	/home/user/fortress/Library/RangeInternals.fss:1448:1-1454:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl extent2Range	/home/user/fortress/Library/RangeInternals.fss:1455:1-1463:6	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	FnDecl extent3Range	/home/user/fortress/Library/RangeInternals.fss:1464:1-1473:6	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1466:15-10:     Can't compile AmbiguousMultifixOpExpr at /home/user/fortress/Library/RangeInternals.fss:1466.15
+@@CG FAIL	FnDecl right1Range	/home/user/fortress/Library/RangeInternals.fss:1475:1-90	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1475:65-89:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1475.65
+@@CG FAIL	FnDecl right2Range	/home/user/fortress/Library/RangeInternals.fss:1476:1-1477:54	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1477:27-53:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1477.27
+@@CG FAIL	FnDecl right3Range	/home/user/fortress/Library/RangeInternals.fss:1478:1-1480:39	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1480:5-37:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1480.5
+@@CG FAIL	FnDecl openRangeHelper	/home/user/fortress/Library/RangeInternals.fss:1482:1-1483:50	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1483:28-49:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1483.28
+@@CG FAIL	FnDecl openRangeHelper	/home/user/fortress/Library/RangeInternals.fss:1484:1-1485:46	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1485:26-45:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1485.26
+@@CG FAIL	FnDecl openRangeHelper	/home/user/fortress/Library/RangeInternals.fss:1486:1-1487:85	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1563	 /home/user/fortress/Library/RangeInternals.fss:1487:58-83:     Can't compile Juxt at /home/user/fortress/Library/RangeInternals.fss:1487.58
+@@CG OK	FnDecl open1Range	/home/user/fortress/Library/RangeInternals.fss:1489:1-85
+@@CG OK	FnDecl open2Range	/home/user/fortress/Library/RangeInternals.fss:1490:1-1491:48
+@@CG OK	FnDecl open3Range	/home/user/fortress/Library/RangeInternals.fss:1492:1-1494:32
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:411.25	/home/user/fortress/Library/RangeInternals.fss:411:25-27	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:414.13	/home/user/fortress/Library/RangeInternals.fss:414:13-16	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1265.33	/home/user/fortress/Library/RangeInternals.fss:1265:33-41	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at Compiler internal generated.:0.0	Compiler internal generated.:0:0	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1158.15	/home/user/fortress/Library/RangeInternals.fss:1158:15-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:136.9	/home/user/fortress/Library/RangeInternals.fss:136:9-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1352.9	/home/user/fortress/Library/RangeInternals.fss:1352:9-22	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1391.43	/home/user/fortress/Library/RangeInternals.fss:1391:43-58	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1466.12	/home/user/fortress/Library/RangeInternals.fss:1466:12	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1412.16	/home/user/fortress/Library/RangeInternals.fss:1412:16-17	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:158.30	/home/user/fortress/Library/RangeInternals.fss:158:30-31	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:948.24	/home/user/fortress/Library/RangeInternals.fss:948:24-949:8	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1:722	Not in the trait table: QQ QQ @ /home/user/fortress/Library/FortressLibrary.fsi:373:7
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:107.74	/home/user/fortress/Library/RangeInternals.fss:107:74-76	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:122.74	/home/user/fortress/Library/RangeInternals.fss:122:74-76	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1010.34	/home/user/fortress/Library/RangeInternals.fss:1010:34	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1379.75	/home/user/fortress/Library/RangeInternals.fss:1379:75-76	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:158.22	/home/user/fortress/Library/RangeInternals.fss:158:22-23	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:526.37	/home/user/fortress/Library/RangeInternals.fss:526:37-38	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:873.40	/home/user/fortress/Library/RangeInternals.fss:873:40-41	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1266.38	/home/user/fortress/Library/RangeInternals.fss:1266:38-42	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1265.48	/home/user/fortress/Library/RangeInternals.fss:1265:48-52	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1266.46	/home/user/fortress/Library/RangeInternals.fss:1266:46-50	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:122.51	/home/user/fortress/Library/RangeInternals.fss:122:51-67	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:675.16	/home/user/fortress/Library/RangeInternals.fss:675:16-17	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:557.16	/home/user/fortress/Library/RangeInternals.fss:557:16-17	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1310.16	/home/user/fortress/Library/RangeInternals.fss:1310:16	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1312.21	/home/user/fortress/Library/RangeInternals.fss:1312:21	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:821.19	/home/user/fortress/Library/RangeInternals.fss:821:19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1318.21	/home/user/fortress/Library/RangeInternals.fss:1318:21	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:251.31	/home/user/fortress/Library/RangeInternals.fss:251:31-41	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:953.77	/home/user/fortress/Library/RangeInternals.fss:953:77	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:383.9	/home/user/fortress/Library/RangeInternals.fss:383:9-400:10	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1429.62	/home/user/fortress/Library/RangeInternals.fss:1429:62	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1467.15	/home/user/fortress/Library/RangeInternals.fss:1467:15	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:859.45	/home/user/fortress/Library/RangeInternals.fss:859:45	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1487.58	/home/user/fortress/Library/RangeInternals.fss:1487:58-83	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:941.57	/home/user/fortress/Library/RangeInternals.fss:941:57-69	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at /home/user/fortress/Library/RangeInternals.fss:1466.23	/home/user/fortress/Library/RangeInternals.fss:1466:23	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG COMPONENT-OK	RangeInternals
+### rc=0
+exit=0
+ELAPSED 287 s
+# end 2026-09-26T09:49:45Z

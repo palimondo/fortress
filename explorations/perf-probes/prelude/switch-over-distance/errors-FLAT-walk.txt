@@ -1,0 +1,80 @@
+# 193 distinct errors from 1 runs; 193 raw error lines
+
+## by kind
+   176  overloading
+    16  return-type
+     1  exclusion
+
+## overloading and return-type errors by family
+    95  overloading  fill
+    19  overloading  FORWARD_CMP
+    12  overloading  CAP
+     8  overloading  IN
+     6  overloading  lift
+     5  overloading  juxtaposition
+     5  overloading  seq
+     4  overloading  MAX
+     4  overloading  MIN
+     4  overloading  generate
+     4  overloading  map
+     3  overloading  ivmap
+     3  overloading  openRangeHelper
+     1  overloading  BY
+     1  overloading  SQCAP
+     1  overloading  copy
+     1  overloading  isLeftZero
+     2  return-type  CMP
+     2  return-type  MAX
+     2  return-type  MIN
+     2  return-type  atMost
+     2  return-type  empty
+     2  return-type  shift
+     1  return-type  array1
+     1  return-type  array2
+     1  return-type  every
+     1  return-type  unsigned
+
+## overloading errors by subclass (overload_sub)
+    77  fill-crossed
+    49  same-sparams
+    32  sentence
+    18  fill-same
+
+## overloading errors by family and subclass
+    77  fill                                     fill-crossed
+    19  FORWARD_CMP                              same-sparams
+    18  fill                                     fill-same
+    12  CAP                                      sentence
+     8  IN                                       same-sparams
+     6  lift                                     same-sparams
+     4  MAX                                      sentence
+     4  MIN                                      sentence
+     4  generate                                 same-sparams
+     4  juxtaposition                            sentence
+     4  map                                      same-sparams
+     4  seq                                      sentence
+     3  ivmap                                    same-sparams
+     3  openRangeHelper                          sentence
+     1  BY                                       sentence
+     1  SQCAP                                    same-sparams
+     1  copy                                     same-sparams
+     1  isLeftZero                               same-sparams
+     1  juxtaposition                            same-sparams
+     1  seq                                      same-sparams
+
+## the rest by message shape
+
+## distinct errors by unit and stage (an error printed by several units is under each)
+     1  api FortressLibrary              acyclic
+   149  api FortressLibrary              overloading
+    22  api NativeArray                  overloading
+    21  api RangeInternals               overloading
+
+## distinct errors, kind by unit (an error printed by several units is under the first)
+unit                       exclus compri overlo return abstra bound- wellfo typech export  other  total
+api FortressLibrary             1      0    136     13      0      0      0      0      0      0    150
+api NativeArray                 0      0     22      0      0      0      0      0      0      0     22
+api RangeInternals              0      0     18      3      0      0      0      0      0      0     21
+all                             1      0    176     16      0      0      0      0      0      0    193
+
+## crashes (stage crashes caught by add-patch.py; declarations the checker crashed on)

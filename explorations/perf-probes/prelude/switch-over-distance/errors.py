@@ -18,8 +18,11 @@ Kinds:
                 parameter type"; family F
   return-type   "For F, the return type of ... should be a subtype of ..."; family F
   bound-Object  "... does not satisfy the corresponding bound Object"
-  typecheck/... any other error the component's declarations produced, by message shape
-  other/...     anything else, by stage"""
+  abstract-method  "The inherited abstract method F ... has no concrete implementation"
+  typecheck     any other error the component's declarations produced, by message shape
+  wellformed    any other error of the two well-formedness passes ("Ill-formed type ...")
+  export        the export checker: a component that does not match its api
+  other/<stage> anything else"""
 import collections, re, sys
 
 LOC = re.compile(r"(/\S+?/)?([\w.]+\.fs[si]):(\d+):\d+(?:-\d+)?(?::\d+)?")
@@ -109,7 +112,11 @@ def classify(stage, msg):
     if r: return "return-type", r.group(1)
     if "corresponding bound Object" in msg or re.search(r"bound Object\b", msg):
         return "bound-Object", "-"
+    r = re.search(r"inherited abstract method (?:abstract getter )?(\S+?)[(:\[].*has no concrete implementation", msg)
+    if r: return "abstract-method", r.group(1)
     if stage == "typecheck": return "typecheck", shape(msg)
+    if stage.startswith("wellformed"): return "wellformed", shape(msg)
+    if stage == "export": return "export", shape(msg)
     return "other/" + stage, shape(msg)
 
 out_path, runs = sys.argv[1], sys.argv[2:]
@@ -162,12 +169,25 @@ print("\n## overloading errors by family and subclass")
 fs = collections.Counter((r[1], r[6]) for r in rows if r[0] == "overloading")
 for (f, s), n in sorted(fs.items(), key=lambda kv: (-kv[1], kv[0])): print("%6d  %-40s %s" % (n, f, s))
 print("\n## the rest by message shape")
-rest = collections.Counter((r[0], r[1]) for r in rows if r[0] not in ("overloading", "return-type", "exclusion", "comprises", "bound-Object"))
+rest = collections.Counter((r[0], r[1]) for r in rows if r[0] not in ("overloading", "return-type", "exclusion", "comprises", "bound-Object", "abstract-method"))
 for (k, f), n in rest.most_common(): print("%6d  %-14s %s" % (n, k, f))
 print("\n## distinct errors by unit and stage (an error printed by several units is under each)")
 us = collections.Counter()
 for r in rows:
     for u in r[2].split("+"): us[(u, r[3])] += 1
 for (u, s), n in sorted(us.items()): print("%6d  %-32s %s" % (n, u, s))
+KS = ["exclusion", "comprises", "overloading", "return-type", "abstract-method", "bound-Object",
+      "wellformed", "typecheck", "export", "other"]
+def big(k):
+    return k if k in KS else "other"
+print("\n## distinct errors, kind by unit (an error printed by several units is under the first)")
+mat = collections.defaultdict(collections.Counter)
+for r in rows: mat[r[2].split("+")[0]][big(r[0])] += 1
+print("%-26s %s %6s" % ("unit", " ".join("%6s" % k[:6] for k in KS), "total"))
+for u in sorted(mat):
+    print("%-26s %s %6d" % (u, " ".join("%6d" % mat[u][k] for k in KS), sum(mat[u].values())))
+tot = collections.Counter()
+for u in mat: tot.update(mat[u])
+print("%-26s %s %6d" % ("all", " ".join("%6d" % tot[k] for k in KS), sum(tot.values())))
 print("\n## crashes (stage crashes caught by add-patch.py; declarations the checker crashed on)")
 for k, n in crashes.items(): print("%6d  %s" % (n, "\t".join(k)[:300]))
