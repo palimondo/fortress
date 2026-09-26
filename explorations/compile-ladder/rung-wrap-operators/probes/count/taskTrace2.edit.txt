@@ -1,0 +1,26 @@
+Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@611ecb40
+	 Expr = TupleExpr at /home/user/fortress-wrap/ProjectFortress/tests/taskTrace2.fss:17.40
+	 Res = null
+	 Thread = Thread[#14,ForkJoinPool-1-worker-1,5,main]
+Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@4a462316
+	 Expr = TupleExpr at /home/user/fortress-wrap/ProjectFortress/tests/taskTrace2.fss:17.32
+	 Res = null
+	 Thread = Thread[#14,ForkJoinPool-1-worker-1,5,main]
+Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@46eadb14
+	 Expr = TupleExpr at /home/user/fortress-wrap/ProjectFortress/tests/taskTrace2.fss:17.24
+	 Res = null
+	 Thread = Thread[#14,ForkJoinPool-1-worker-1,5,main]
+Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@7921aea7
+	 Expr = TupleExpr at /home/user/fortress-wrap/ProjectFortress/tests/taskTrace2.fss:17.16
+	 Res = null
+	 Thread = Thread[#14,ForkJoinPool-1-worker-1,5,main]
+EvaluatorTask: Compilation Unit = Component Index
+Variables: {}
+initializers: []
+Functions: [(run, run():()), (_|ProjectFortress|tests|taskTrace2.fss:16:1-18:5, run():())]
+parametricOperators:[]
+TypeConses: {}
+Dimensions: {}
+Units: {}
+
+rc=0 secs=6

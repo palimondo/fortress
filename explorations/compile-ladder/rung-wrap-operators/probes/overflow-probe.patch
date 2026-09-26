@@ -1,0 +1,157 @@
+diff -ru a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java	2026-09-26 11:18:46.884297637 +0000
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java	2026-09-26 11:18:46.953596278 +0000
+@@ -97,30 +97,35 @@
+ 
+     public static final class Negate extends Z2Z {
+         protected int f(int x) {
++            if (x == Integer.MIN_VALUE) probe("Int$Negate", x, 0);
+             return -x;
+         }
+     }
+ 
+     public static final class Add extends ZZ2Z {
+         protected int f(int x, int y) {
++            try { Math.addExact(x, y); } catch (ArithmeticException e) { probe("Int$Add", x, y); }
+             return x + y;
+         }
+     }
+ 
+     public static final class Sub extends ZZ2Z {
+         protected int f(int x, int y) {
++            try { Math.subtractExact(x, y); } catch (ArithmeticException e) { probe("Int$Sub", x, y); }
+             return x - y;
+         }
+     }
+ 
+     public static final class Mul extends ZZ2Z {
+         protected int f(int x, int y) {
++            try { Math.multiplyExact(x, y); } catch (ArithmeticException e) { probe("Int$Mul", x, y); }
+             return x * y;
+         }
+     }
+ 
+     public static final class Div extends ZZ2Z {
+         protected int f(int x, int y) {
++            if (x == Integer.MIN_VALUE && y == -1) probe("Int$Div", x, y);
+             return x / y;
+         }
+     }
+@@ -253,6 +258,14 @@
+         return r;
+     }
+ 
++    public static void probe(String op, long x, long y) {
++        System.err.println("OVERFLOW-PROBE " + op + " " + x + " " + y);
++    }
++
++    public static void probeU(String op, long x, long y) {
++        System.err.println("OVERFLOW-PROBE " + op + " " + java.lang.Long.toUnsignedString(x) + " " + java.lang.Long.toUnsignedString(y));
++    }
++
+     public static FortressError overflow() {
+         FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
+         return new FortressError(f);
+diff -ru a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java	2026-09-26 11:18:46.897693226 +0000
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java	2026-09-26 11:18:46.927178497 +0000
+@@ -111,30 +111,35 @@
+ 
+     public static final class Negate extends L2L {
+         protected long f(long x) {
++            if (x == java.lang.Long.MIN_VALUE) Int.probe("Long$Negate", x, 0);
+             return -x;
+         }
+     }
+ 
+     public static final class Add extends LL2L {
+         protected long f(long x, long y) {
++            try { Math.addExact(x, y); } catch (ArithmeticException e) { Int.probe("Long$Add", x, y); }
+             return x + y;
+         }
+     }
+ 
+     public static final class Sub extends LL2L {
+         protected long f(long x, long y) {
++            try { Math.subtractExact(x, y); } catch (ArithmeticException e) { Int.probe("Long$Sub", x, y); }
+             return x - y;
+         }
+     }
+ 
+     public static final class Mul extends LL2L {
+         protected long f(long x, long y) {
++            try { Math.multiplyExact(x, y); } catch (ArithmeticException e) { Int.probe("Long$Mul", x, y); }
+             return x * y;
+         }
+     }
+ 
+     public static final class Div extends LL2L {
+         protected long f(long x, long y) {
++            if (x == java.lang.Long.MIN_VALUE && y == -1) Int.probe("Long$Div", x, y);
+             return x / y;
+         }
+     }
+diff -ru a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java	2026-09-26 11:18:46.905957860 +0000
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java	2026-09-26 11:18:46.953251002 +0000
+@@ -102,24 +102,28 @@
+ 
+     public static final class Negate extends N2N {
+         protected int f(int x) {
++            if (x != 0) Int.probe("NN32$Negate", x & 0xffffffffL, 0);
+             return Unsigned.subtract(0, x);
+         }
+     }
+ 
+     public static final class Add extends NN2N {
+         protected int f(int x, int y) {
++            if ((((x & 0xffffffffL) + (y & 0xffffffffL)) >>> 32) != 0) Int.probe("NN32$Add", x & 0xffffffffL, y & 0xffffffffL);
+             return Unsigned.add(x, y);
+         }
+     }
+ 
+     public static final class Sub extends NN2N {
+         protected int f(int x, int y) {
++            if (Integer.compareUnsigned(x, y) < 0) Int.probe("NN32$Sub", x & 0xffffffffL, y & 0xffffffffL);
+             return Unsigned.subtract(x, y);
+         }
+     }
+ 
+     public static final class Mul extends NN2N {
+         protected int f(int x, int y) {
++            if ((((x & 0xffffffffL) * (y & 0xffffffffL)) >>> 32) != 0) Int.probe("NN32$Mul", x & 0xffffffffL, y & 0xffffffffL);
+             return Unsigned.multiplyToInt(x, y);
+         }
+     }
+diff -ru a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java	2026-09-26 11:18:46.918094968 +0000
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java	2026-09-26 11:18:46.953466720 +0000
+@@ -103,24 +103,28 @@
+ 
+     public static final class Negate extends U2U {
+         protected long f(long x) {
++            if (x != 0) Int.probeU("UnsignedLong$Negate", x, 0);
+             return Unsigned.subtract(0, x);
+         }
+     }
+ 
+     public static final class Add extends UU2U {
+         protected long f(long x, long y) {
++            if (java.lang.Long.compareUnsigned(x + y, x) < 0) Int.probeU("UnsignedLong$Add", x, y);
+             return Unsigned.add(x, y);
+         }
+     }
+ 
+     public static final class Sub extends UU2U {
+         protected long f(long x, long y) {
++            if (java.lang.Long.compareUnsigned(x, y) < 0) Int.probeU("UnsignedLong$Sub", x, y);
+             return Unsigned.subtract(x, y);
+         }
+     }
+ 
+     public static final class Mul extends UU2U {
+         protected long f(long x, long y) {
++            if (Math.unsignedMultiplyHigh(x, y) != 0) Int.probeU("UnsignedLong$Mul", x, y);
+             return Unsigned.multiplyToLong(x, y);
+         }
+     }

@@ -1,0 +1,55 @@
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: false true true true true false false false false false true true false true false false
+genZZ32: 6943 15473 -109 -3653755 -57 -8231 1930080443 -258494099 1546907247 -1374143 -29 -43
+genZZ64: 101667995990 -128 1461690 -1097004028 4499608574289937 1728036787 3179813 2618599
+genZZ: -7691480239753044848 -1123123766 -473341292 -2220688735979419081 -4928794076451296 89997854455261 8287 211223410792
+genQQ: 930074428046773571/3639407434501849025 2647248419369978647/3981314570965549500 2124877104234727181/112621393652 -1072573332593238559/43345400380
+genRR32: -29.318436 -7.543716 -7882.808 -1104683.0 -45.46299 -5.90865E8 1.4049984E8 -108878.055
+genRR64: -1.5385376061462036E11 2.6848646563347434E17 -9.604807696131824E10 -3.0912559570740675E15
+genChar: @ C 9 & d b ? ) U K * z v i x | ~ 7 [ 3 C ' M t : z 8 N \ ~ < D
+genString: EU7l^UHuFOoV5E] E>lQUHuFOoV-?sX >7l^UDH >7l^UHuFOoV-E] >lQUHuFOoVE];lb@< 7l^UDH 7l^UHuFOoV5E] lQUHuFOoV-?sX lQUHuFOoV5E]; l^UHuFOoVE]; ^UHuFOoV5E];l ^UHuFOoV5E]; ^UHuFOoV5E] UHuFOoV5E];cl UHuFOoV5E]; UHuFOou0
+genMaybe(genChar): Just(^) Nothing Nothing Just(q) Just(z) Just(H) Nothing Just(u)
+genList(genZZ32): <|8900, 6400883, 32038, -791843557, 659663, 14232, 1973|> <|-559, -126, 32038, 13962, 659663, 14232|>
+genList(genString): <|-sXc<nGD`+HT~YziU:, Esl<nG|+Hd;B~Yz, sl<nG|+Hd;B~Yz, <nG+7T|hV/iU:1, <nG+7T|hV/iU, <nG|+d;|hV, nG+D+d;~Y/it1|fKW|> <|-sXc<nGD`+HIT>|h, Esl<nGD`+HT~YziU:1|>
+genList(genMaybe(genList(genString))): <|Just(<|<nG`-uT|hV/i, <nG`-uT|hV, <nG|+uT, q+D`, |+HT|hV, `+d;~Y, +u7, ud;, d;|h, B~Yz, |, ~/Ht1|f, /Ht, /itW, it1x.K|>), Just(<|<nG|+u7d, q+, , |, , , d, |, z, /Ht, it1x.|>), Just(<|q+|, |, `-, +H, , T, , Yz, z, /Ht, it1x., t1x.K|>), Just(<|+7T~Yz, `+T|h, `+Hd;B, +T~, ud;~Y/iU, d;~Y/, ~YzitW|fKQj, ~Y/Ht, Yz, /Ht1|f|>), Just(<||+uT|hV, `+T|h, +, d, |hV, , ~, V/, /Ht, , t1x.K|>), Just(<|`+Hd;~Yz, +d;~Y, d;|h, B~Yz, ~Y/, ~, /Ht, /Ht, t1, t1x.K|>)|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-791843557|->({false,true},{+,.,/,1,;,<,D,G,H,K,Q,Y,`,d,j,n,t,x,~}), 1973|->({false,true},{+,9,D,H,I,T,Y,`,z,~}), 30944|->({false,true},{+,;,B,H,Y,d,~}), 3613230|->({false,true},{+,1,:,D,H,I,T,U,Y,i,n,z,~}), 6400883|->({false,true},{+,<,>,D,G,H,I,T,V,`,h,l,n,s,|})}
+genRange(genZZ32): [] [101,102,103,104,... 23719] [] [659663,659664,659665,659666,... 1964433825]
+genTuple3(genZZ32,genMaybe(genChar),genString): (15299,Just(2),+D`) (-1256792010,Just(e),`+Hd;~Yz) (29,Just(|),ud;~Y/iU) (-2155736,Just(+),d~YzitW|f)
+genTestStatus: TestSkip TestFail TestPass TestFail TestSkip TestFail TestPass TestPass
+genList(genTestStatus): <|TestPass, TestFail, TestSkip, TestPass, TestSkip, TestSkip|> <|TestPass, TestFail, TestSkip, TestPass, TestSkip|>
+genArrow(genZZ32,genZZ32):
+    213049274 -994
+    213049274 -994
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    -1678079 13 -123 -1070974775
+    -1678079 13 -123 -1070974775
+
+Passed 20 test(s).
+Failed in 188 test(s): (2615726.505337288,1814.3517421362121,957984.8014511142)
+Failed in 64 test(s): -5545474
+Tag(s) of failing properties:
+    no sign extension
+Passed 133 test(s) (and skipped 141 test(s)) but reached the maximum of 274 tests.
+Passed 20 test(s).
+Passed 71 test(s) (and skipped 476 test(s)) but reached the maximum of 547 tests.
+Collected test data:
+    36%: 2 digits
+    17%: 3 digits or more
+    13%: 2 digits, ends with zero
+    4%: 3 digits or more, ends with zero
+    1%: 1 digit
+Shrinking a failed instance.................
+Failed in 100 test(s) (and shrank in 153 test(s)): _
+Shrinking a failed instance...
+Failed in 256 test(s) (and shrank in 6 test(s)): <
+Shrinking a failed instance.........................
+Failed in 100 test(s) (and partially shrank in 502 test(s)): (^gU]=2|,^g)
+Shrinking a failed instance........................................
+Failed in 256 test(s) (and shrank in 820 test(s)): (7,)
+Shrinking a failed instance...........
+Failed in 100 test(s) (and partially shrank in 477 test(s)): <|eXGkg;>>, XG)>>GtE0u<4K@H{, Gt,;>G8tEcu<4, Gt,;>tEcz,<4K, t,;|>
+Shrinking a failed instance..........................
+Failed in 256 test(s) (and shrank in 368 test(s)): <|=|>
+
+
+rc=0 secs=107

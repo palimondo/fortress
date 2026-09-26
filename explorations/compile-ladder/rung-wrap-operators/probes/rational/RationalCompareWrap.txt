@@ -1,0 +1,10 @@
+$ bin/fortress walk RationalCompareWrap.fss   (tree at 352e01d56)
+x = 4611686018427387904, q = 1/4
+numerator(x) 4611686018427387904 : ZZ64, denominator(x) 1 : ZZ32
+numerator(q) 1 : ZZ32, denominator(q) 4 : ZZ32
+x < q (exact answer false): true
+q < x (exact answer true): false
+x CMP q (exact answer GreaterThan): LessThan
+r = 2305843009213693952/3, s = 5/7
+r < s (exact answer false): true
+exit=0

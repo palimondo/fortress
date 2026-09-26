@@ -1,0 +1,7 @@
+component PrecDotTimesPlus
+export Executable
+run() = do
+  a: ZZ32 = 3
+  println(a DOTTIMES a + a)
+end
+end

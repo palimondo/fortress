@@ -1,0 +1,33 @@
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:28:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:29:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:30:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:44:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:45:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:46:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:47:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:58:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:59:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:70:24-30:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:71:24-30:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:73:16-17:
+    Variable big is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:74:16-17:
+    Variable big is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:75:16-17:
+    Variable big is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:83:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:84:23-29:
+    Operator ? is not defined.
+File WrapOperatorsRungD.fss has 16 errors.

@@ -1,0 +1,43 @@
+# The logging pass on the base: probes/overflow-probe.patch (rung O's ten signed natives plus the eight unsigned add, subtract, multiply and negate natives of NN32.java and UnsignedLong.java) compiled over the stock glue sources into a shadow ahead of ProjectFortress/build, which prints OVERFLOW-PROBE <native> <x> <y> where a native meets an overflow and still wraps.
+# Tree: 6030e4b36 plus the new test (not in the list). Tests 2026-09-26T11:31:08Z-11:44:59Z, demos at 120 s 11:44:59Z-12:00:58Z (inherited from the first run of this rung); the microGPT checks at 3600 s 12:17:35Z-12:50:18Z (this run; the inherited 600 s runs stopped at 28 and 26 of 40 checks). Machines in count-machine.txt.
+# One line per program with at least one probe line: the program, the number of probe lines, the count per native, the first probe line. Made by probe-summary.py.
+
+## ProjectFortress/tests/ (count-list.txt)
+HeapTest                          22  2 Int$Add; 20 Int$Mul;                   first: OVERFLOW-PROBE Int$Mul -761155213 9
+IntMapTest                        30  4 Int$Sub; 26 Long$Negate;               first: OVERFLOW-PROBE Int$Sub -2147483648 1
+QuickCheckTest                146706  12 Int$Add; 146694 Long$Mul;             first: OVERFLOW-PROBE Long$Mul 25214903917 91062783203743
+RandomTest                       926  926 Long$Mul;                            first: OVERFLOW-PROBE Long$Mul 25214903917 50948389694760
+RangePrototype                    40  40 Int$Sub;                              first: OVERFLOW-PROBE Int$Sub -2147483648 1
+ReflectiveQuickCheckTest      124442  6 Int$Add; 124436 Long$Mul;              first: OVERFLOW-PROBE Long$Mul 25214903917 92913818631694
+UnsignedTest                      55  2 NN32$Add; 25 NN32$Negate; 1 NN32$Sub; 2 UnsignedLong$Add; 24 UnsignedLong$Negate; 1 UnsignedLong$Sub; first: OVERFLOW-PROBE NN32$Add 3221225472 1073741824
+XXXFixedWidthOverflowRungB         1  1 Int$Add;                               first: OVERFLOW-PROBE Int$Add 2147483647 1
+intPrim                            2  1 Int$Add; 1 Int$Sub;                    first: OVERFLOW-PROBE Int$Sub -2147483648 1
+longPrim                           2  1 Int$Add; 1 Int$Sub;                    first: OVERFLOW-PROBE Int$Sub -2147483648 1
+setSum                            22  22 Int$Sub;                              first: OVERFLOW-PROBE Int$Sub -2147483648 1
+simpleSum                          1  1 Int$Sub;                               first: OVERFLOW-PROBE Int$Sub -2147483648 1
+zeno                              32  32 Long$Sub;                             first: OVERFLOW-PROBE Long$Sub -9223372036854775808 1
+
+programs with at least one probe line: 13 of 406
+exit codes: 335 rc=0  64 rc=1  7 rc=255
+reached the timeout (rc=124): none
+no output or no trailer: none
+
+## ProjectFortress/demos/*.fss (demo-list.txt), 120 s each
+HeapShakedown                  11940  1068 Int$Add; 10872 Int$Mul;             first: OVERFLOW-PROBE Int$Mul -761155213 4
+
+programs with at least one probe line: 1 of 62
+exit codes: 31 rc=0  11 rc=1  18 rc=124  2 rc=255
+reached the timeout (rc=124): ArrayListLong BiCGSTAB BiCGSTAB2 BirdCount1r BirdCount1s BirdCount1t BirdCount1u BirdCount1v BirdCount1w BirdCount1y BirdCount1z BirdCount2a BirdCount2b BirdCount2c Generator2Demo Integrate2 IntegrationStats mg
+no output or no trailer: none
+
+## the two microGPT checks (mg-list.txt), 3600 s each
+
+programs with at least one probe line: 0 of 2
+exit codes: 2 rc=0
+reached the timeout (rc=124): none
+no output or no trailer: none
+
+## Long$Mul lines in the Long-multiplying test files, split by whether one operand is LinearCongruential's multiplier 25214903917
+QuickCheckTest: 146694 Long$Mul, 0 without 25214903917; first such: 
+RandomTest: 926 Long$Mul, 0 without 25214903917; first such: 
+ReflectiveQuickCheckTest: 124436 Long$Mul, 2352 without 25214903917; first such: OVERFLOW-PROBE Long$Mul -7813180603943469563 16066

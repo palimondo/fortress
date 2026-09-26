@@ -1,0 +1,86 @@
+UNSTABLE ArrayListQuick  rc A 0 B 0 edit 0  A/B line 7  A/edit line 7
+    A:    Succeeded in 0.673s
+    B:    Succeeded in 1.402s
+    edit: Succeeded in 1.773s
+UNSTABLE CovCollTest  rc A 0 B 0 edit 0  A/B line 1  A/edit line 1
+    A:    Warmup 1 1 23.246059ms
+    B:    Warmup 1 1 17.671265ms
+    edit: Warmup 1 1 46.198279ms
+UNSTABLE HeapTest  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    11	33	1954667/62500	177697/62500	177697/187500	30895893/1000000	30895893/11000000	10298631/11000000	112262217/500000	112262217/5500000	37420739/5500000	4640079/1000000	4640079/11000000	1546693/1100000
+    B:    11	33	5180679/250000	5180679/2750000	1726893/2750000	1252439/40000	1252439/440000	1252439/1320000	16777253/100000	16777253/1100000	16777253/3300000	869513/200000	869513/2200000	869513/6600000	330099/2
+    edit: 11	33	34337823/1000000	34337823/11000000	11445941/11000000	21223771/1000000	21223771/11000000	21223771/33000000	6783113/40000	6783113/440000	6783113/1320000	6873917/1000000	6873917/11000000	6873917/33
+UNSTABLE PureListQuick  rc A 0 B 0 edit 0  A/B line 7  A/edit line 7
+    A:    Succeeded in 0.944s
+    B:    Succeeded in 1.546s
+    edit: Succeeded in 1.338s
+UNSTABLE QuickCheckTest  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    genBoolean: false true false true false false false false true true false true false true true true
+    B:    genBoolean: false true true true true false false false false false true true false true false false
+    edit: genBoolean: false true false false false false false true true true true false true false false false
+UNSTABLE ShuffleTest  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    [0#50][ 5 35 39 37 8 33 25 11 18 48 42 15 14 47 1 27 29 43 6 19 31 12 46 2 4 34 24 26 0 9 17 23 28 22 45 7 21 3 44 30 41 32 16 49 13 20 36 38 10 40 ]
+    B:    [0#50][ 16 44 12 36 28 0 43 1 41 5 21 27 26 15 37 9 18 4 22 32 38 23 42 31 49 40 7 13 2 14 8 30 34 48 25 47 39 3 24 45 19 11 46 29 6 10 33 35 17 20 ]
+    edit: [0#50][ 44 37 14 34 43 9 21 23 22 35 18 0 3 8 33 11 25 40 42 20 16 10 4 24 19 49 27 17 13 29 38 47 46 32 2 5 28 15 12 36 30 41 48 39 45 1 6 31 26 7 ]
+UNSTABLE SkipListTest  rc A 0 B 0 edit 0  A/B line 1  A/edit line 1
+    A:    {[0#1][ Emily ], [0#2][ { [], [{ [], [{ [], [{[0#1][ David ], [0#2][ <<Cathy>> <<David>> ]}] }] }] } { [], [{ [], [{[0#1][ Nathi ], [0#2][ {[0#1][ John ], [0#2][ <<Emily>> <<John>> ]} {[0#1][ Paul ], 
+    B:    {[0#4][ David Emily John Nathi ], [0#5][ { [], [<<Cathy>>] } { [], [<<David>>] } { [], [<<Emily>>] } { [], [<<John>>] } {[0#1][ Paul ], [0#2][ <<Nathi>> <<Paul>> ]} ]}
+    edit: {[0#3][ David John Nathi ], [0#4][ { [], [<<Cathy>>] } {[0#1][ Emily ], [0#2][ <<David>> <<Emily>> ]} { [], [<<John>>] } {[0#1][ Paul ], [0#2][ <<Nathi>> <<Paul>> ]} ]}
+UNSTABLE TimingTests  rc A 0 B 0 edit 0  A/B line 1  A/edit line 1
+    A:    fib(1) 0.368539ms
+    B:    fib(1) 0.615647ms
+    edit: fib(1) 0.431518ms
+UNSTABLE TreapTest  rc A 0 B 0 edit 0  A/B line 12  A/edit line 12
+    A:    Bthree
+    B:    Bone
+    edit: Bone
+UNSTABLE WordCountSmall  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    Acquired words in 1194.256437ms
+    B:    Acquired words in 657.98702ms
+    edit: Acquired words in 2619.531371ms
+CHANGED  XXXArrayLiteralArgRungC  rc 1 -> 1  line 6
+    base: 	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-wrap/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:408:5-409:75)
+    edit: 	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-wrap/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+CHANGED  XXXFnRenderRungS  rc 1 -> 1  line 2
+    base: com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/Library/FortressLibrary.fss:4046:42-50:
+    edit: com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/Library/FortressLibrary.fss:4082:42-50:
+CHANGED  XXXInheritedOverload  rc 1 -> 1  line 1
+    base: com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28: and
+    edit: com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28: and
+CHANGED  XXXTupleSevenRungS  rc 1 -> 1  line 2
+    base: com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/Library/FortressLibrary.fss:4046:42-50:
+    edit: com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/Library/FortressLibrary.fss:4082:42-50:
+UNSTABLE abortBlock  rc A 0 B 0 edit 0  A/B line 117  A/edit line 41
+    A:    .. Thread ForkJoinPool-2-worker-1 operating on value Aborting
+    B:     Thread ForkJoinPool-2-worker-1 operating on value Aborting
+    edit: . Thread ForkJoinPool-2-worker-1 operating on value Aborting
+UNSTABLE buffons  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    estimated Pi = 3.1786918408631153
+    B:    estimated Pi = 3.04554201411161
+    edit: estimated Pi = 3.1066319895968793
+UNSTABLE nestedTransactions1  rc A 0 B 0 edit 0  A/B line 2  A/edit identical
+    A:    Operation took 28ms
+    B:    Operation took 14ms
+UNSTABLE nestedTransactions2  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    Operation took 11ms
+    B:    Operation took 23ms
+    edit: Operation took 22ms
+UNSTABLE nestedTransactions3  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    Operation took 20ms
+    B:    Operation took 28ms
+    edit: Operation took 138ms
+UNSTABLE nestedTransactions4  rc A 0 B 0 edit 0  A/B line 2  A/edit line 2
+    A:    Operation took 30ms
+    B:    Operation took 20ms
+    edit: Operation took 13ms
+UNSTABLE quicksortTest  rc A 0 B 0 edit 0  A/B line 1  A/edit line 1
+    A:    random fill 64.483491ms
+    B:    random fill 68.232121ms
+    edit: random fill 0.125873109s
+CHANGED  taskTrace2  rc 0 -> 0  line 1
+    base: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@295b6671
+    edit: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@611ecb40
+CHANGED  taskTrace3  rc 0 -> 0  line 1
+    base: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@250f668
+    edit: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@5f233b38
+tests 406  stable 389  changed 6  unstable 17  missing 0

@@ -1,0 +1,31 @@
+component RationalCompareWrap
+export Executable
+
+(* QQ's opr < cross-multiplies numerators and denominators (Library/FortressLibrary.fss:537-541); with fixed-width parts the products wrap under walk. *)
+
+shown(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    ZZ => v.asString || " : ZZ"
+    else => v.asString || " : other"
+  end
+
+run() = do
+    oneL: ZZ64 = widen(1)
+    big62: ZZ64 = oneL LSHIFT 62
+    x: QQ = big62
+    q: QQ = 1/4
+    println("x = " x ", q = " q)
+    println("numerator(x) " shown(numerator(x)) ", denominator(x) " shown(denominator(x)))
+    println("numerator(q) " shown(numerator(q)) ", denominator(q) " shown(denominator(q)))
+    println("x < q (exact answer false): " (x < q))
+    println("q < x (exact answer true): " (q < x))
+    println("x CMP q (exact answer GreaterThan): " (x CMP q))
+    r: QQ = (oneL LSHIFT 61) / 3
+    s: QQ = 5 / 7
+    println("r = " r ", s = " s)
+    println("r < s (exact answer false): " (r < s))
+  end
+
+end

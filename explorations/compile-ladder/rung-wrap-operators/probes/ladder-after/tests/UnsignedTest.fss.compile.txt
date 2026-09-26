@@ -1,0 +1,9 @@
+/home/user/fortress-wrap/ProjectFortress/tests/UnsignedTest.fss:110:11-19:
+    Variable partitionL is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/UnsignedTest.fss:111:11-19:
+    Variable partitionL is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/UnsignedTest.fss:216:11-19:
+    Variable partitionL is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/UnsignedTest.fss:217:11-19:
+    Variable partitionL is not defined.
+File UnsignedTest.fss has 4 errors.

@@ -1,0 +1,7 @@
+--- checker count, before the edit (tree at 00ef43efd) 2026-09-26T11:23:11Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 8.83 7.82 4.78 11/220 28825
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1

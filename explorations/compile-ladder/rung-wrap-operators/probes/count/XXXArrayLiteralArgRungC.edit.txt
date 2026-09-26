@@ -1,0 +1,37 @@
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/ProjectFortress/tests/XXXArrayLiteralArgRungC.fss:8:9:
+Failed to find any matching overload, args = (3: ZZ32,(1,2): (Int,Int)), overload = {
+	-(native Sub)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress-wrap/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:105:5-106:76)
+	-(native Sub)fn meth(self 0):(RR32,Number)->RR32 (/home/user/fortress-wrap/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:274:5-275:75)
+	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-wrap/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+	-(self:(FortressLibrary.Number & {FortressLibrary.RR64}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Number,Number)->RR64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:380:5-58)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\Number\],Number)->Number (/home/user/fortress-wrap/Library/FortressLibrary.fss:334:5-46)
+	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress-wrap/Library/FortressLibrary.fss:670:5-671:74)
+	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:746:5-747:75)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21)
+	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress-wrap/Library/FortressLibrary.fss:879:5-880:77)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21)
+	-(self:(FortressLibrary.QQ & {Ratio, FortressLibrary.AnyIntegral}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-wrap/Library/FortressLibrary.fss:565:5-45)
+	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:808:5-809:83)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21)
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].-(self:AdditiveGroup[\T\],other:T):T/home/user/fortress-wrap/Library/FortressLibrary.fss:334:5-46
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):I/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress-wrap/Library/FortressLibrary.fss:2236:5-2237:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress-wrap/Library/FortressLibrary.fss:2544:5-2545:60
+	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-wrap/Library/FortressLibrary.fss:4549:1-4552:88
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-wrap/Library/FortressLibrary.fss:4553:1-101}:OverloadedFunction
+Context:
+/home/user/fortress-wrap/ProjectFortress/tests/XXXArrayLiteralArgRungC.fss:8:9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+rc=1 secs=14

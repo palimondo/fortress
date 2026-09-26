@@ -1,0 +1,18 @@
+$ bin/fortress walk PrecDotTimesPlus.fss   (tree at 00ef43efd plus the edit)
+null/home/user/fortress-wrap/explorations/compile-ladder/rung-wrap-operators/probes/precedence/PrecDotTimesPlus.fss:5:11-26:
+    Resolution of operator property failed for:
+    /home/user/fortress-wrap/explorations/compile-ladder/rung-wrap-operators/probes/precedence/PrecDotTimesPlus.fss:5.13: Loose operators ? and + have incomparable precedence.
+  RealExpr: expr = a
+  LooseInfix: op = ?
+  RealExpr: expr = a
+  LooseInfix: op = +
+  RealExpr: expr = a
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=1

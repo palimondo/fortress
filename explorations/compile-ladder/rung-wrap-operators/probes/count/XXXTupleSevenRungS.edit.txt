@@ -1,0 +1,19 @@
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/Library/FortressLibrary.fss:4082:42-50:
+Non-object receiver (1,2,3,4,5,6,7): (Int,Int,Int,Int,Int,Int,Int) trying to invoke method asString
+Context:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:4082:42-50:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:4098:45-47:
+/home/user/fortress-wrap/ProjectFortress/tests/XXXTupleSevenRungS.fss:9:17-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+rc=1 secs=9

@@ -1,0 +1,53 @@
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: false true false false false false false true true true true false true false false false
+genZZ32: -8668 -2 -516134552 -19870 1237673196 1409926 48 1921598186 52 1156519054 24824 -14
+genZZ64: -757480068 16022 28224 -106677725639555 10239 -201173083000 -21886 -116
+genZZ: 417127846 2968528 -4961854840419675474 -65341670664288701 1350114429828023066 -28 119450568933616275 6917
+genQQ: 153037431779/242225322014 31981/112 6462639207324/59756863838699 450137517354/6769899246399520117
+genRR32: 1100898.1 1.4770167E7 3057422.2 -499.22653 4187.0894 1655500.5 -120960.445 1730626.9
+genRR64: 5.536652183579059E15 504191.8902908118 6874.3024934538425 -1.4003220129368582E16
+genChar: T - h * { J I f > N 9 t $ D j - ( ( @ A 2 4 g T 5 ? + w s u z 0
+genString: ^C(1-& C(1-&zsu} C(1-&zs C(1-& M(1&zsu} (1-&zs (1-& (1&zsu} (-&zs 1&zsuq[MfVsY 1&zsuq[MfVs -&zs -nuq[MfVsY}aE &zsuq[ &zuq[MfVsY} nuq[MfVsY}aE
+genMaybe(genChar): Just(-) Just(&) Just(n) Just(k) Just(/) Just(u) Just(}) Just(,)
+genList(genZZ32): <|23466, -2311615, -8270542, 1436726679|> <|-1984806035, -2311615, -543228, -714223, -575091902, 20857, 74, -113, -28968, -36, -55, -4985894, -6618529, 7193192, -3117883, -1440476026|>
+genList(genString): <|sY, f^ipRGkDwYo.7G4X, f^ipRGkDwY%.|> <|f^ipRGkDw7%., og, GkDwYo, GkDw7%., G!D, !Dw7.7GX-L, Dw7.7GXL%V6, A7, A, , .7G4, j4Xl, j4X, 4X, XL%VYmd;meo2B, L%VYam};me)o, L%V6Ya, L%VYam}Q, %V6Y, x6Y, YaT-, Ym};meo2B>, am}Q|>
+genList(genMaybe(genList(genString))): <|Just(<|Rk, GkD, GkDwY, G!D, !Dw7.7GXlU, Dw7.7GXUL%, w, A, , ., j], jXl, 4dQ, lL%VYam}Q;, LV6Yam}Q|>), Just(<|, , A, , ., , j4X, , Xl, Q-L, L, |>), Just(<|DwY, w7., A, , , 7G4, j4dQ|>), Just(<|wY%, A, , , 7G4, j4X|>), Just(<|, 7j, 7j, j4X, , lL, UL|>), Nothing, Just(<|j], , , dQ, U, L, , |>), Just(<|j], ], lL%V6Ya, LV, , o, , Q;m, Q;, m@o, e, oi>TI|>), Nothing, Nothing, Nothing, Nothing, Just(<|L%VYmymeo2j, Ya, Y1mdy, amdy, md, ;me)o, ;me, mo2, o2j, @|>), Nothing, Just(<|Yam}Q, Ymdyme, am}Q;, m;meo, };me), dy, ;me|>), Just(<|YaT-, am}Q;, m};meo2B>, m};me|>)|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-493207117|->({false,true},{!,%,-,.,6,7,D,G,L,Q,T,V,X,Y,a,w,}}), -2311615|->({false,true},{D,G,R,^,f,i,k,p,w}), -543228|->({false,true},{%,.,7,D,G,j,k,w}), 19046|->({false,true},{%,4,7,X,j,l,w}), 1436726679|->({false,true},{=,g,o})}
+genRange(genZZ32): [] [] [-23004330,-23004329,-23004328,-23004327,... -9984] [-14787,-14786,-14785,-14784,... 1697650623]
+genTuple3(genZZ32,genMaybe(genChar),genString): (-714223,Just(p),!DwY%.) (2742476,Just(G),w7%.7G4) (-181761189,Just(D),7.7GXL%VYaT-dymj@`) (5724014,Just(Y),7j4Xl)
+genTestStatus: TestSkip TestPass TestFail TestPass TestPass TestSkip TestPass TestFail
+genList(genTestStatus): <|TestFail, TestFail, TestPass, TestFail, TestFail, TestSkip, TestFail, TestPass, TestSkip, TestSkip, TestSkip, TestSkip|> <|TestSkip, TestFail, TestPass, TestFail, TestFail, TestSkip, TestFail, TestPass, TestSkip, TestFail|>
+genArrow(genZZ32,genZZ32):
+    -116 -29920
+    -116 -29920
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    103 123 -6352565 87
+    103 123 -6352565 87
+
+Passed 138 test(s).
+Failed in 173 test(s): (2.5207135088267865E15,-8.48122808722491,5.345023353592723E17)
+Failed in 122 test(s): -803405206
+Tag(s) of failing properties:
+    no sign extension
+Passed 95 test(s) (and skipped 109 test(s)).
+Passed 20 test(s).
+Passed 43 test(s) (and skipped 339 test(s)) but reached the maximum of 382 tests.
+Collected test data:
+    29%: 2 digits
+    12%: 3 digits or more
+    2%: 1 digit
+Shrinking a failed instance....
+Failed in 100 test(s) (and shrank in 10 test(s)): !
+Shrinking a failed instance.......................
+Failed in 256 test(s) (and shrank in 276 test(s)): .
+Shrinking a failed instance...................
+Failed in 100 test(s) (and partially shrank in 279 test(s)): (I1?j!y,)
+Shrinking a failed instance..................
+Failed in 256 test(s) (and shrank in 171 test(s)): ({,)
+Shrinking a failed instance......
+Failed in 100 test(s) (and partially shrank in 276 test(s)): <|?!sp(LY9,d, !sp(LY9,d, sp(LY9,, X, (Lyndb.{s+U9+R<@Y, (L, Lndb.{s0f, db.!{|>
+Shrinking a failed instance...................
+Failed in 256 test(s) (and shrank in 207 test(s)): <|=|>
+
+
+rc=0 secs=172
