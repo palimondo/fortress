@@ -57,8 +57,7 @@ public class OverloadedMethod extends OverloadedFunction implements Method {
         if (best_f == null) {
             SingleFcn m = bestMatch(args, overloads);
             if (m instanceof Coercions.CoercedCall) {
-                Coercions.CoercedCall c = (Coercions.CoercedCall) m;
-                return ((Method) c.getTarget()).applyMethod(selfValue, c.convert(args));
+                return applyMethod(selfValue, ((Coercions.CoercedCall) m).convert(args));
             }
             best_f = (MethodClosure) m;
         }

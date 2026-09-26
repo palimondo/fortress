@@ -1,0 +1,52 @@
+component TupleMore
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+object Holder(n: ZZ32)
+  pair: (Wide, ZZ32) = (NarrowOf(n), n + 1)
+  var mpair: (Wide, ZZ32) = (NarrowOf(n + 2), n + 3)
+end
+
+var topT: (Wide, ZZ32) = (NarrowOf(16), 17)
+
+single(p: (Wide, ZZ32)): ZZ32 = do (a, b) = p; a.big + b end
+
+run() = do
+    nested: ((Wide, ZZ32), ZZ32) = ((NarrowOf(1), 2), 3)
+    (n1, nc) = nested
+    (na, nb) = n1
+    println("nested: ((Wide, ZZ32), ZZ32) = ((NarrowOf(1), 2), 3); na.big = " na.big " nb = " nb " nc = " nc)
+    var m: (Wide, ZZ32) = (WideOf(0), 0)
+    m := (NarrowOf(4), 5)
+    (ma, mb) = m
+    println("var m: (Wide, ZZ32); m := (NarrowOf(4), 5); ma.big = " ma.big " mb = " mb)
+    h = Holder(6)
+    (ha, hb) = h.pair
+    println("field pair: (Wide, ZZ32) = (NarrowOf(6), 7); ha.big = " ha.big " hb = " hb)
+    (ka, kb) = h.mpair
+    println("var field mpair: (Wide, ZZ32) = (NarrowOf(8), 9); ka.big = " ka.big " kb = " kb)
+    (ta0, tb0) = topT
+    println("var topT: (Wide, ZZ32) = (NarrowOf(16), 17); ta0.big = " ta0.big " tb0 = " tb0)
+    topT := (NarrowOf(18), 19)
+    (ta1, tb1) = topT
+    println("topT := (NarrowOf(18), 19); ta1.big = " ta1.big " tb1 = " tb1)
+    println("single(p: (Wide, ZZ32)) given (NarrowOf(12), 13) = " single(NarrowOf(12), 13))
+    tt: (Wide, Wide) = (NarrowOf(14), WideOf(15))
+    (ta, tb) = tt
+    println("tt: (Wide, Wide) = (NarrowOf(14), WideOf(15)); ta.big = " ta.big " tb.big = " tb.big)
+  end
+
+end

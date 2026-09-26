@@ -812,8 +812,11 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     /**
      * For args that no overload takes without coercion: the most specific of
      * the non-generic overloads applicable with coercion, as a call that
-     * converts its arguments first; or null.  It is an error when no one of
-     * them is more specific than all the others.
+     * converts its arguments first and then dispatches the converted
+     * arguments as an ordinary call; or null.  The coercions depend only on
+     * the argument types, so the call may be kept in the per-argument-type
+     * cache.  It is an error when no one of them is more specific than all
+     * the others.
      */
     private SingleFcn bestMatchWithCoercion(List<FValue> args, List<Overload> someOverloads) {
         Coercions.CoercedCall best = null;
@@ -835,7 +838,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                 }
             }
             if (!applies) continue;
-            Coercions.CoercedCall c = new Coercions.CoercedCall(sfn, coercions);
+            Coercions.CoercedCall c = new Coercions.CoercedCall(sfn, coercions, this);
             applicable.add(c);
             if (best == null || Coercions.moreSpecific(domain, best.getDomain(), oargs.size())) best = c;
         }

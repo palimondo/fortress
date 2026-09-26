@@ -1,0 +1,26 @@
+component TupleOverloadParam
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+over(p: (Wide, ZZ32)): String = "over((Wide, ZZ32))"
+over(s: String): String = "over(String)"
+
+run() = do
+    println("over((WideOf(1), 2)) = " over((WideOf(1), 2)))
+    println("over((NarrowOf(3), 4)) = " over((NarrowOf(3), 4)))
+  end
+
+end

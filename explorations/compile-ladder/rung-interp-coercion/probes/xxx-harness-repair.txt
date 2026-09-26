@@ -1,0 +1,21 @@
+=== $ harness-one.sh tmp/h-repair <the twelve new tests/ files: CoercionBindRungC.fss CoercionCallRungC.fss CoercionMostSpecificRungC.fss CoercionOverloadRungC.fss CoercionRedispatchRungC.fss CoercionSpecTableRungC.fss XXXCoercionGenericFnRungC.fss XXXCoercionGenericTraitRungC.fss XXXCoercionReturnRungC.fss XXXCoercionStaticNarrowRungC.fss XXXCoercionStaticRungC.fss XXXCoercionTupleOverloadRungC.fss >   (d7f559170 plus the working-tree edit to ProjectFortress/src and the new XXXCoercionTupleOverloadRungC.fss; machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 0.79 0.90 0.82, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1 (the script's own); 2026-09-26T04:45:47Z) ===
+/home/user/fortress-coerce/tmp/h-repair/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0dc08a0a1_16
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/XXXCoercionTupleOverloadRungC  OK Saw expected exception
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/CoercionOverloadRungC  OK (time = 405ms)
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/XXXCoercionGenericTraitRungC  OK Saw expected exception
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/CoercionSpecTableRungC  OK (time = 249ms)
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/XXXCoercionReturnRungC  OK Saw expected exception
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/XXXCoercionGenericFnRungC  OK Saw expected exception
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/CoercionBindRungC  OK (time = 241ms)
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/CoercionMostSpecificRungC  OK (time = 215ms)
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/CoercionRedispatchRungC  OK (time = 225ms)
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/XXXCoercionStaticRungC  OK Saw expected exception
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/CoercionCallRungC  OK (time = 256ms)
+. interpret /home/user/fortress-coerce/tmp/h-repair/tests/XXXCoercionStaticNarrowRungC  OK Saw expected exception
+
+Time: 21.649
+
+OK (12 tests)
+
+=== exit 0 ===

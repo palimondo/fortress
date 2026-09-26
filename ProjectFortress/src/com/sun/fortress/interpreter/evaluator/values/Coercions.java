@@ -9,6 +9,8 @@ import com.sun.fortress.interpreter.evaluator.EvalType;
 import com.sun.fortress.interpreter.evaluator.EvaluatorBase;
 import com.sun.fortress.interpreter.evaluator.types.FTraitOrObject;
 import com.sun.fortress.interpreter.evaluator.types.FType;
+import com.sun.fortress.interpreter.evaluator.types.FTypeRest;
+import com.sun.fortress.interpreter.evaluator.types.FTypeTuple;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
 import com.sun.fortress.nodes.Type;
 import com.sun.fortress.useful.Useful;
@@ -81,11 +83,36 @@ public final class Coercions {
 
     /**
      * v converted to target by one of target's coercions, or null when none
-     * applies to v.
+     * applies to v.  A tuple converts element by element.
      */
     public static FValue coerce(FType target, FValue v) {
+        if (target instanceof FTypeTuple) return coerceTuple((FTypeTuple) target, v);
         SingleFcn c = coercionFor(target, v);
         return c == null ? null : apply(c, target, v);
+    }
+
+    /**
+     * The tuple v with each element that is not of its element type of target
+     * converted to it; or null when v is not a tuple of target's size, when
+     * target has a varargs element, or when an element does not convert.
+     */
+    private static FValue coerceTuple(FTypeTuple target, FValue v) {
+        if (!(v instanceof FTuple)) return null;
+        List<FType> types = target.getTypes();
+        List<FValue> vals = ((FTuple) v).getVals();
+        if (types.size() != vals.size()) return null;
+        List<FValue> converted = new ArrayList<FValue>(vals.size());
+        for (int j = 0; j < types.size(); j++) {
+            FType t = types.get(j);
+            if (t instanceof FTypeRest) return null;
+            FValue e = vals.get(j);
+            if (!t.typeMatch(e)) {
+                e = coerce(t, e);
+                if (e == null) return null;
+            }
+            converted.add(e);
+        }
+        return FTuple.make(converted);
     }
 
     /**
@@ -163,22 +190,22 @@ public final class Coercions {
     }
 
     /**
-     * An overloaded call with its coercions inserted: the chosen overload, and
-     * for each argument position the coercion that converts it, or null.
-     * Kept in the overloaded function's per-argument-type cache.
+     * The coercions for each argument position of an overloaded call, chosen
+     * by the argument types and kept in the per-argument-type cache: for each
+     * position the coercion that converts it, or null, together with the
+     * overload that makes them applicable.  The converted arguments are
+     * dispatched as an ordinary call.
      */
     static final class CoercedCall extends SingleFcn {
         private final SingleFcn target;
         private final SingleFcn[] coercions;
+        private final OverloadedFunction owner;
 
-        CoercedCall(SingleFcn target, SingleFcn[] coercions) {
+        CoercedCall(SingleFcn target, SingleFcn[] coercions, OverloadedFunction owner) {
             super(target.getWithin());
             this.target = target;
             this.coercions = coercions;
-        }
-
-        SingleFcn getTarget() {
-            return target;
+            this.owner = owner;
         }
 
         int arity() {
@@ -199,10 +226,7 @@ public final class Coercions {
 
         @Override
         public FValue applyInnerPossiblyGeneric(List<FValue> args) {
-            List<FValue> cargs = convert(args);
-            SingleFcn f = target;
-            if (f instanceof FunctionalMethod) f = ((FunctionalMethod) f).getApplicableClosure(cargs);
-            return f.applyInnerPossiblyGeneric(cargs);
+            return owner.applyInnerPossiblyGeneric(convert(args));
         }
 
         @Override
