@@ -142,3 +142,4 @@
   - W2, a clean list with the nine steps for the specification's sentence that overloads may not differ in static parameters;
   - W3, the same for the `fill` pairs;
   - W4, the record repairs, with `PLAN.md` rewritten from the page.
+- 2026-09-26, the first of the batch-5 answers, what rung S's citations call the unrevised copy: "Option 1, agreed." It is called "the Working Draft of February 2011", in the team's own form, since the 1.0 release named its predecessor by title and version ("Fortress Language Specification, Version 1.0β"). Each citation gives the path and line in `Specification-1.0-frozen/`, which stays untouched. The revival section of Appendix I says once that the directory's name is misleading: its sources are the working draft of 2011-02-02, and only `fortress.1.0.pdf` in it is the 1.0 release.
