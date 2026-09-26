@@ -78,3 +78,30 @@ The last LaTeX pass of each build reports no undefined or multiply defined refer
 ## 4. Disagreements with § 4.2
 
 None on what the three calculi admit. There are two additions: Basic Core's own soundness claim (`basic/static.tex:301-303`), which § 4.2 did not list, and the overloading calculus, which § 4.2 does not name and which by reading admits Basic Core's shape (section 1).
+
+## 5. Core Fortress with Overloading, checked and given the fourth callout
+
+Written 2026-09-26 by a second worker, sent to settle section 1's "Not in § 4.2". Base `69256f86a`; the specification edit and the rebuilt PDF landed in `09d8dd4a1`, whose parent is `295673b3c`: the three commits between them, landed while the worker built, touch nothing under `Specification/`, `Library/` or `ProjectFortress/`. The calculus's four files are byte for byte those of `Specification-1.0-frozen/` (`cmp`, before the edit), so the lines below hold in both trees. Section 1 cites the extension sentence as `overloading/calculus.tex:18`; it is on line 19.
+
+**What A.3 admits.** It admits Basic Core's shape, and a callout states that truthfully.
+- Definitions: `trait T[\ᾱ extends N̄\] extends {M̄} fd̄ end` and the object form (`Specification/latex-common/macros/overloading-calculus-macros.tex:50-57`), a supertype being a trait application or `Object` (`overloading/syntax.tex:29-31`).
+- T-TraitDef (`overloading/static.tex:52-64`) and T-ObjectDef (`:70-82`) ask well-formed bounds, fields and supertypes, method typing and `validMeth`, which stands where Basic Core has `oneOwner` (`basic/static.tex:64`, `:78`). T-Program (`:34-46`) adds `validFun` (`:145-169`), which looks at top-level functions only.
+- `validMeth` (`:107-136`) quantifies over pairs of distinct visible methods of one name; `visible` is the definition's own methods and those of its supertypes' instances (`:358-373`). With `trait T[\X extends Object\] extends {} end`, objects `A` and `B`, and `object O() extends { T[\A\], T[\B\] } end`, nothing is visible in `O`, so `validMeth` holds with no pair to check; W-Tapp (`:289-296`) makes both supertypes well formed, and S-Tapp (`:270-275`) gives `O <: T[\A\]` and `O <: T[\B\]`. It is the shape of the rule's "Not allowed" `Child` (`Specification/basic/traits.tex:299-313`).
+- A.3 does not repeat Basic Core's claim that its programs are valid Fortress (no "valid Fortress" or "Fortress program" under `overloading/`). It has a soundness claim, `overloading/static.tex:401-403`.
+- By reading, not needed for the callout: when `T` declares a method whose parameter types mention `X`, the two instances in `visible(O)` are a pair `valid` (`:172-192`) refuses, its condition 4 needing a most specific of the receivers `T[\A\]` and `T[\B\]`, which are unrelated; unless "not same declaration" (`:121`) is read on the source declaration, which would skip the pair. The callout names only the shape that needs no reading, the one Basic Core's callout names.
+
+**What was added (`09d8dd4a1`).**
+- The callout, `Specification/appendices/calculi/overloading/calculus.tex:20-29`, after the opening paragraph and before the calculus's macros are read, in the form of the other three. It names the rule by `\ruleLabel{ValidMeth}`, not `\validMethRule`, which `overloading-calculus-macros.tex:97` defines only after that point.
+- Appendix I's entry "The calculi" (`Specification/appendices/changes.tex:362-427`) names A.3 among the affected sections and in the change, says "The four calculi" in the effect, cites the frozen `overloading/static.tex` lines 52--82, 107--136 and 270--275 beside the others ("the other three boxes"), and after the quoted paragraph adds one sentence: that paragraph did not name A.3, whose box came after the other three. The quotation itself is unchanged.
+- Counts. The callouts are twenty (`grep` of `\revision{` under `Specification/`: nineteen at the base). The front matter (`Specification/fortress/preamble.tex:62`) gives no count. No other file under `Specification/` counts the callouts or the calculi. The decision record's § 4.2 appended line and FACTS's "Superseded 2026-09-26 for the calculi" now name four calculi and this commit.
+
+**The build.** `./ant genSource` then `./ant tex` in `Specification/fortress/`, `FORTRESS_HOME` the repository root, `JAVA_TOOL_OPTIONS` unset, once at the base and once with the edit. Machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, OpenJDK 25.0.4 (2026-07-21), `FORTRESS_THREADS` unset.
+
+| run | load average at start | elapsed | result |
+|---|---|---|---|
+| before, genSource | 0.10 0.30 0.49 | 43 s | BUILD SUCCESSFUL |
+| before, tex | 0.67 0.43 0.53 | 42 s | 611 pages, 2025040 bytes |
+| after, genSource | 0.70 0.57 0.57 | 43 s | BUILD SUCCESSFUL |
+| after, tex | 1.10 0.69 0.61 | 43 s | 611 pages, 2026407 bytes |
+
+The last LaTeX pass of each build reports no undefined or multiply defined reference. The base build's normalised `pdftotext` is identical to that of the committed PDF of `eb2d7e1e6`. Before against after (`build/overloading-before-vs-after-pdftotext-diff.txt`, 124 lines): the callout, headed "Revised by the 2026 revival, see Section I.1.9", on page 478 of the PDF; the entry's changed lines on page 585; the rest is A.3's figures and its "Static Semantics" heading moving within A.3. The rebuilt PDF is committed as `Specification/fortress.pdf`, byte-identical to the build output (sha256 `c0ecc6411258...`). `git status` showed only the two edited `.tex` files after both builds; no generated file had to be restored.

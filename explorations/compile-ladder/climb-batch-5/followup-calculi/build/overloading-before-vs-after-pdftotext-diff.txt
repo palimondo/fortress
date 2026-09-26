@@ -1,0 +1,124 @@
+20872a20873,20879
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.9
+> This calculus predates instantiation exclusion (Section 6.3, Section 10.1). Its only condition on multiple inheritance is its rule
+> [VALID M ETH ], which constrains pairs of visible methods of one name, so, as in Basic Core Fortress, an object that extends
+> two different instantiations of a parameterized trait declaring no method is well typed, and its subtyping rule [S-TAPP ] makes
+> the object a subtype of both instantiations; under the rule it is not a valid Fortress program. The calculus, its rules and its
+> soundness claim are as the team wrote and proved them, and are not changed.
+20942c20949
+< −−−−−−−−−→ →
+---
+> −−−−−−−−−→ −
+20945,20946c20952,20954
+< object OJαextends N K(−
+< x:τ)extends { N } md end
+---
+> →
+> object OJαextends N K(x:τ)extends
+> { N } md end
+20971,20975d20978
+< A.3.3
+< Static Semantics
+< A static semantics for Core Fortress with Overloading is provided in Figures A.15, A.16, A.17, and A.18.
+< We proved the type soundness of Core Fortress with Overloading using the standard technique of proving a progress
+< theorem and a subject reduction theorem.
+21109a21113,21115
+> A.3.3
+> Static Semantics
+> A static semantics for Core Fortress with Overloading is provided in Figures A.15, A.16, A.17, and A.18.
+21170c21176,21177
+< −→
+---
+> −
+> →
+21199,21203c21206,21214
+< p; ∆′ ; Γ x : τ ⊢ e : τ ′
+< p; ∆′ ⊢ τ ′ <: τ0
+< −−−−−−−−−→ →
+< p; ∆; Γ ⊢ mJαextends N K(−
+< x:τ):τ0 = e ok
+---
+> ′
+> ′
+> ′
+> ′
+> p; ∆ ; Γ x : τ ⊢ e : τ
+> p; ∆ ⊢ τ <: τ0
+> −−−−−−−−−→ −
+> → = e ok
+> p; ∆; Γ ⊢ mJαextends N K(x:τ):τ
+21208,21209d21218
+< →
+< −
+21212,21221d21220
+< ∀ (md , CJτ c K), (md ′ , C ′ Jτ c K) ∈ visible p (C o Jαo K).
+< −
+< −
+< −
+< −
+< −
+< −
+< −
+< −
+< −
+21222a21222,21224
+> −
+> ∀ (md , CJτ c K), (md ′ , C ′ Jτ c K) ∈ visible p (C o Jαo K).
+> −−−−−−−−−→
+21241,21244c21243,21244
+< τ → τ r , Jα′ extends N ′ KC ′ Jτ c K τ ′ → τ r , visible (C o Jαo K))
+< p
+< o
+< p ⊢ validMeth(C )
+---
+> τ → τ r , Jα′ extends N ′ KC ′ Jτ c K τ ′ → τ r , visible p (C o Jαo K))
+> p ⊢ validMeth(C o )
+21641a21642,21643
+> We proved the type soundness of Core Fortress with Overloading using the standard technique of proving a progress
+> theorem and a subject reduction theorem.
+21659,21661d21660
+< A.4.3
+< Static Semantics
+< A static semantics for Acyclic Core Fortress with Field Definitions is provided in Figures A.21, A.22, and A.23.
+21751a21751,21753
+> A.4.3
+> Static Semantics
+> A static semantics for Acyclic Core Fortress with Field Definitions is provided in Figures A.21, A.22, and A.23.
+28400c28402,28403
+< Affected sections In Appendix A: Basic Core Fortress (Section A.1), Core Fortress with Where Clauses (Appendix A.2) and Acyclic Core Fortress with Field Definitions (Section A.4).
+---
+> Affected sections In Appendix A: Basic Core Fortress (Section A.1), Core Fortress with Where Clauses (Appendix A.2), Core Fortress with Overloading (Appendix A.3) and Acyclic Core Fortress with Field Definitions
+> (Section A.4).
+28405,28408c28408,28412
+< in a supertype, which its subtyping rule turns into one supertype for each witness of the variable; in Acyclic
+< Core Fortress with Field Definitions, a trait that extends an instantiation of itself at its parameter’s bound, which
+< conditions (2) and (3) of its rule for an acyclic type hierarchy admit. The rules of the calculi and their soundness
+< claims are not changed.
+---
+> in a supertype, which its subtyping rule turns into one supertype for each witness of the variable; in Core
+> Fortress with Overloading, the same object as in Basic Core Fortress, which its rule for valid method declarations
+> admits because the trait declares no method; in Acyclic Core Fortress with Field Definitions, a trait that extends
+> an instantiation of itself at its parameter’s bound, which conditions (2) and (3) of its rule for an acyclic type
+> hierarchy admit. The rules of the calculi and their soundness claims are not changed.
+28412,28413c28416,28417
+< Effect None on the language or on either implementation. The three calculi admit programs, in the shapes named,
+< that are not valid Fortress programs.
+---
+> Effect None on the language or on either implementation. The four calculi admit programs, in the shapes named, that
+> are not valid Fortress programs.
+28418c28422
+< The shapes the other two boxes name are admitted by Specification-1.0-frozen/appendices/
+---
+> The shapes the other three boxes name are admitted by Specification-1.0-frozen/appendices/
+28420,28422c28424,28427
+< calculi/where/static.tex, lines 53–81 and 329–342, and by Specification-1.0-frozen/
+< appendices/calculi/acffd/static.tex, lines 46–88. Before this entry, Section I.1.10 said of the
+< calculi:
+---
+> calculi/where/static.tex, lines 53–81 and 329–342, by Specification-1.0-frozen/
+> appendices/calculi/overloading/static.tex, lines 52–82, 107–136 and 270–275, and by
+> Specification-1.0-frozen/appendices/calculi/acffd/static.tex, lines 46–88. Before
+> this entry, Section I.1.10 said of the calculi:
+28428a28434
+> That paragraph did not name Core Fortress with Overloading, whose box was added after the other three.
