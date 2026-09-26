@@ -1,0 +1,78 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 5.22 2.86 1.59; JDK 25; FORTRESS_THREADS=1
+########## shadow (a): HEAD's TypeWellFormedChecker.scala with lines 144,145 deleted; diff against HEAD:
+144,145d143
+<       case a:IntArg if hasSizeArithmetic(a) =>
+<         error("Ill-formed static argument: " + a + "\n    " + sizeArithmetic, a)
+scalac exit=0; classes: 1
+########## junit compiler_tests/XXXNatArithChecker.test, tmp/twfc-a first on the classpath
+. compile compiler_tests/XXXNatArithChecker ProjectFortress/compiler_tests/XXXNatArithChecker.fss:8:23-32:
+    Ill-formed type: Box[\k+1\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:11:12-36:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:12:12-36:
+    Could not check call to function unboxNext
+    - [\3\]Box[\3+1\]->ZZ32 is not applicable to an argument of type Box[\4\].
+File XXXNatArithChecker.fss has 3 errors.
+
+ Saw failure, but did not satisfy compile_err_contains; expected
+File XXXNatArithChecker.fss has 4 errors.
+F
+Time: 2.762
+There was 1 failure:
+1) compiler_tests/XXXNatArithChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## shadow (b): HEAD's TypeWellFormedChecker.scala with lines 107,108 deleted; diff against HEAD:
+107,108d106
+<       if (sargs.exists(hasSizeArithmetic))
+<         error("Ill-formed type: " + t + "\n    " + sizeArithmetic, t)
+scalac exit=0; classes: 1
+########## junit compiler_tests/XXXNatArithChecker.test, tmp/twfc-b first on the classpath
+. compile compiler_tests/XXXNatArithChecker ProjectFortress/compiler_tests/XXXNatArithChecker.fss:11:12-36:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:11:32:
+    Ill-formed static argument: 2+1
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:12:12-36:
+    Could not check call to function unboxNext
+    - [\3\]Box[\3+1\]->ZZ32 is not applicable to an argument of type Box[\4\].
+File XXXNatArithChecker.fss has 3 errors.
+
+ Saw failure, but did not satisfy compile_err_contains; expected
+File XXXNatArithChecker.fss has 4 errors.
+F
+Time: 2.543
+There was 1 failure:
+1) compiler_tests/XXXNatArithChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatArithChecker.test, the landed build
+. compile compiler_tests/XXXNatArithChecker ProjectFortress/compiler_tests/XXXNatArithChecker.fss:8:23-32:
+    Ill-formed type: Box[\k+1\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:11:12-36:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:11:32:
+    Ill-formed static argument: 2+1
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:12:12-36:
+    Could not check call to function unboxNext
+    - [\3\]Box[\3+1\]->ZZ32 is not applicable to an argument of type Box[\4\].
+File XXXNatArithChecker.fss has 4 errors.
+ Saw expected failure
+
+Time: 2.577
+
+OK (1 test)
+
+exit=0
