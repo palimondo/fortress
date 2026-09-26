@@ -192,9 +192,11 @@ but if one seems to conflict with something Pavol says, his words win.
 ## 6. Engineering method
 
 - One variable per step.
-- The gate: `ant testSystem` 382 pass / 0 fail / 0 skip **and** `ant
-  testFast` zero failures, on a clean build. Every modernization rung is
-  gated on it.
+- The gate: on a clean build, `ant testFast` and `ant testSystem` with zero
+  failures, the four-thread `atomic` runs, and the ladder regression over the
+  measured pass list; the checker count is reported and never red on its own.
+  The current counts are in the last landed gate summary
+  (`compile-ladder/climb-batch-*/gate/summary.txt`). Every rung is gated on it.
 - Evidence over speculation; reproduce before explaining.
 - Work that needs Pavol's machine (CI pushes) is parked, not simulated.
 - **(P)** 2026-09-25, after every timing of the day came out twice the 09-15 captures
