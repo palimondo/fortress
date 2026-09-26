@@ -1,0 +1,7 @@
+(* Q1SumOverflowComp -- the compiled path: a ZZ32 sum that overflows, the
+   case walk wraps to -2 (Q1SumWalk.walk.txt). *)
+component Q1SumOverflowComp
+export Executable
+
+run(): () = println("SUM[j <- 0#2] 2147483647 = " (SUM[j <- 0#2] 2147483647))
+end

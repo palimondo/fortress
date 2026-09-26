@@ -135,7 +135,8 @@ overload (Q1MaxBareWalk.walk.txt), because RR64 is `StandardMax[\Number\]`, not
 *Compiled path* (CompilerLibrary): the big + and big MAX exist over ZZ32 only
 (CompilerLibrary.fsi:153-184). `SUM[j <- 0#0] j = 0`, `offs(0) = 0`; `BIG MAX` over nothing
 answers `-2147483648`, ZZ32's minimum (`ZZ32Max.empty`, CompilerLibrary.fss:468-471), where walk
-throws (Q1SumComp.comp.txt). A sum with an RR64 body is rejected: no `__generate` takes an
+throws (Q1SumComp.comp.txt). A ZZ32 sum that overflows throws IntegerOverflow, where walk
+wraps (Q1SumOverflowComp.comp.txt). A sum with an RR64 body is rejected: no `__generate` takes an
 `RR64` body (Q1SumRRComp.comp.txt). The programs do not reach the big operators on this
 path at all: FlatArrays.fss stops at 64 "Array is undefined" errors
 (Q0FlatArraysComp.comp.txt).
@@ -220,7 +221,8 @@ not yet carry `StandardMinMax[\RR64\]` or `AdditiveGroup[\RR64\]` of their own (
   `DoubleStream.sum` are per primitive type, each with its own zero, and int sums wrap. The
   library departed from Java by making SUM one generic operator over all numbers; it
   departed from Java's wrapping in the compiled prelude, where ZZ32 arithmetic throws
-  IntegerOverflow (measured: Q2WidthComp.comp.txt), while walk wraps (Q1SumWalk, `-2`).
+  IntegerOverflow (measured for a product, Q2WidthComp.comp.txt, and for a sum,
+  Q1SumOverflowComp.comp.txt), while walk wraps (Q1SumWalk, `-2`).
 
 ### 6. What the peers do, by family
 
