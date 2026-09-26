@@ -1,0 +1,18 @@
+(* TraitLiftOpen with Word declared to exclude AnyRing, the plain parent of every
+   Ring instantiation, the only change: Vector's own spelling,
+   FortressLibrary.fsi:1465-1467, "excludes { AnyMultiplicativeRing }". *)
+component TraitLiftAnyExcl
+export Executable
+trait AnyRing end
+trait Ring[\T extends Ring[\T\]\] extends AnyRing
+  combine(self, other: T): String = "ring"
+end
+object Num extends Ring[\Num\] end
+trait Word excludes { AnyRing } end
+object W1 extends Word end
+combine(a: Word, b: Word): String = "word"
+run(): () = do
+  println(combine(Num, Num))
+  println(combine(W1, W1))
+end
+end

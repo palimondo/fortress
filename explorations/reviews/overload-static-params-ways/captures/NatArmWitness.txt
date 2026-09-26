@@ -1,0 +1,12 @@
+### walk: bin/fortress NatArmWitness.fss
+### walk rc=0
+sized
+sized
+### compile: bin/fortress compile NatArmWitness.fss
+### compile rc=1
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only handling some static args of generic types
+### run: MainWrapper NatArmWitness
+### run rc=1
+Could not load NatArmWitness
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : NatArmWitness.class

@@ -1,0 +1,8 @@
+### walk: bin/fortress NatArmViaAny.fss
+### walk rc=0
+sized
+### compile: bin/fortress compile NatArmViaAny.fss
+### compile rc=0
+### run: MainWrapper NatArmViaAny
+### run rc=0
+any

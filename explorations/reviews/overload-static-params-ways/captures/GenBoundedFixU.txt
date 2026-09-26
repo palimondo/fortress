@@ -1,0 +1,21 @@
+### walk: bin/fortress GenBoundedFixU.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/GenBoundedFixU.fss:11:1-47: and
+explorations/reviews/overload-static-params-ways/probes/GenBoundedFixU.fss:10:1-47:
+
+name[\U extends Round\](x:U):FortressLibrary.Stringexplorations/reviews/overload-static-params-ways/probes/GenBoundedFixU.fss:11:1-47 and
+name[\T extends Shape\](x:T):FortressLibrary.Stringexplorations/reviews/overload-static-params-ways/probes/GenBoundedFixU.fss:10:1-47 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/reviews/overload-static-params-ways/probes/GenBoundedFixU.fss:11:1-47:
+explorations/reviews/overload-static-params-ways/probes/GenBoundedFixU.fss:10:1-47:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile GenBoundedFixU.fss
+### compile rc=0
+### run: MainWrapper GenBoundedFixU
+### run rc=1
+java.lang.Error: java.lang.Error: Unable to read serialized data for GenBoundedFixU?$\=name{_|explorations|reviews|overload-static-params-ways|probes|GenBoundedFixU\,fss\!10\!1-47,_|explorations|reviews|overload-static-params-ways|probes|GenBoundedFixU\,fss\!11\!1-47}???$\=?Intersection?Arrow?T,fortress\|CompilerBuiltin\%String?,Arrow?U,fortress\|CompilerBuiltin\%String??, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.lang.Error: Unable to read serialized data for GenBoundedFixU?$\=name{_|explorations|reviews|overload-static-params-ways|probes|GenBoundedFixU\,fss\!10\!1-47,_|explorations|reviews|overload-static-params-ways|probes|GenBoundedFixU\,fss\!11\!1-47}???$\=?Intersection?Arrow?T,fortress\|CompilerBuiltin\%String?,Arrow?U,fortress\|CompilerBuiltin\%String??, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.io.IOException: Resource not found : GenBoundedFixU?$\=name{_|

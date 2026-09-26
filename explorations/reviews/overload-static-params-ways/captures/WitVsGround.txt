@@ -1,0 +1,10 @@
+### walk: bin/fortress WitVsGround.fss
+### walk rc=0
+tagged
+other
+### compile: bin/fortress compile WitVsGround.fss
+### compile rc=0
+### run: MainWrapper WitVsGround
+### run rc=0
+tagged
+other

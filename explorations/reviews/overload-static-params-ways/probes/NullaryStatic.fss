@@ -1,0 +1,12 @@
+(* Two arms that differ only in their static parameter lists: the domain of
+   both is (), so only the explicit static arguments of a call tell them
+   apart.  openRangeHelper's shape without its witness argument. *)
+component NullaryStatic
+export Executable
+mk[\A\](): String = "one"
+mk[\A, B\](): String = "two"
+run(): () = do
+  println(mk[\ZZ32\]())
+  println(mk[\ZZ32, String\]())
+end
+end

@@ -1,0 +1,18 @@
+(* An overriding method whose return type names its own static parameters in
+   the other order.  The trait's pick returns its first argument, typed A;
+   the object's pick, matched to it position by position, returns its second
+   argument, typed B.  A caller through the trait expects an A. *)
+component PermuteOverride
+export Executable
+trait Picker
+  pick[\A extends Any, B extends Any\](a: A, b: B): A
+end
+object P extends Picker
+  pick[\A extends Any, B extends Any\](a: A, b: B): B = b
+end
+run(): () = do
+  p: Picker = P
+  s: String = p.pick[\String, ZZ32\]("one", 2)
+  println(s)
+end
+end

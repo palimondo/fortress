@@ -1,0 +1,18 @@
+### walk: bin/fortress NullaryStatic.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/NullaryStatic.fss:7:1-28: and
+explorations/reviews/overload-static-params-ways/probes/NullaryStatic.fss:6:1-25:
+Overloading of mk[\A,B\]():FortressLibrary.Stringexplorations/reviews/overload-static-params-ways/probes/NullaryStatic.fss:7:1-28 and mk[\A\]():FortressLibrary.Stringexplorations/reviews/overload-static-params-ways/probes/NullaryStatic.fss:6:1-25 fails because their parameter lists have the same types
+Context:
+explorations/reviews/overload-static-params-ways/probes/NullaryStatic.fss:7:1-28:
+explorations/reviews/overload-static-params-ways/probes/NullaryStatic.fss:6:1-25:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile NullaryStatic.fss
+### compile rc=255
+explorations/reviews/overload-static-params-ways/probes/NullaryStatic.fss:6:1-25:
+explorations/reviews/overload-static-params-ways/probes/NullaryStatic.fss:7:1-28:
+    There are multiple declarations of mk with the same parameter type: ()
+File NullaryStatic.fss has 1 error.
+### run: no NullaryStatic.jar produced

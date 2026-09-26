@@ -1,0 +1,10 @@
+(* NatArmNoParam with the sized arm's body reading n, the only change: which
+   value of n does the chosen arm see? *)
+component NatArmShowN
+export Executable
+f(x: Any): String = "any"
+f[\nat n\](x: ZZ32): String = "sized n=" n
+run(): () = do
+  println(f(3))
+end
+end

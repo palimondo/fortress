@@ -1,0 +1,16 @@
+(* The same two arms on traits, which do not exclude each other: some other
+   component may declare a type extending both, and no declaration can name
+   that meet.  The seq family's shape (FortressLibrary.fsi:763, 1224). *)
+component DifferOpen
+export Executable
+trait Box[\T\] end
+trait Pair[\A, B\] end
+object B1 extends Box[\ZZ32\] end
+object P1 extends Pair[\ZZ32, String\] end
+size[\T\](x: Box[\T\]): ZZ32 = 1
+size[\A, B\](x: Pair[\A, B\]): ZZ32 = 2
+run(): () = do
+  println(size(B1))
+  println(size(P1))
+end
+end

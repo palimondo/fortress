@@ -1,0 +1,10 @@
+### walk: bin/fortress WitVsTuple.fss
+### walk rc=0
+tagged
+tuple
+### compile: bin/fortress compile WitVsTuple.fss
+### compile rc=0
+### run: MainWrapper WitVsTuple
+### run rc=0
+tagged
+tuple

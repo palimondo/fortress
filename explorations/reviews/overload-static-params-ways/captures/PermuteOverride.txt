@@ -1,0 +1,20 @@
+### walk: bin/fortress PermuteOverride.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/PermuteOverride.fss:15:3-12:
+RHS expression type Int is not assignable to LHS type String
+Context:
+explorations/reviews/overload-static-params-ways/probes/PermuteOverride.fss:15:3-12:
+explorations/reviews/overload-static-params-ways/probes/PermuteOverride.fss:15:3-12:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile PermuteOverride.fss
+### compile rc=255
+explorations/reviews/overload-static-params-ways/probes/PermuteOverride.fss:11:3-57:
+explorations/reviews/overload-static-params-ways/probes/PermuteOverride.fss:8:3-9:1:
+    For pick,
+the return type of [\A extends Any, B extends Any\](P, A, B)->B @ explorations/reviews/overload-static-params-ways/probes/PermuteOverride.fss:11:3-57 should be a subtype of the
+    return type of [\A extends Any, B extends Any\](Picker, A, B)->A @ explorations/reviews/overload-static-params-ways/probes/PermuteOverride.fss:8:3-9:1
+File PermuteOverride.fss has 1 error.
+### run: no PermuteOverride.jar produced

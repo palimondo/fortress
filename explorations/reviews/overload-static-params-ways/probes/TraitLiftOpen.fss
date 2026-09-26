@@ -1,0 +1,19 @@
+(* The juxtaposition family's shape (FortressLibrary.fsi:271 against
+   2361-2363): a functional method of a generic trait, which the compiled
+   checker sees as generic in the trait's parameter, beside a plain arm on an
+   open trait that nothing makes exclusive of the generic trait. *)
+component TraitLiftOpen
+export Executable
+trait AnyRing end
+trait Ring[\T extends Ring[\T\]\] extends AnyRing
+  combine(self, other: T): String = "ring"
+end
+object Num extends Ring[\Num\] end
+trait Word end
+object W1 extends Word end
+combine(a: Word, b: Word): String = "word"
+run(): () = do
+  println(combine(Num, Num))
+  println(combine(W1, W1))
+end
+end

@@ -1,0 +1,18 @@
+(* The library's own way (RangeInternals.fsi:612-616, FortressLibrary.fss:3883):
+   each arm takes a function value whose arrow type carries the static
+   parameters, and the caller passes a thrower instantiated at the wanted type.
+   As in the library, the parameters are bounded by a trait, so a tuple type
+   cannot instantiate the one-parameter arm. *)
+component NullaryWitness
+export Executable
+trait Tag end
+object T1 extends Tag end
+object T2 extends Tag end
+thrower[\T\](): T = fail("witness only")
+mk[\A extends Tag\](_: ()->A): String = "one"
+mk[\A extends Tag, B extends Tag\](_: ()->(A, B)): String = "two"
+run(): () = do
+  println(mk(thrower[\T1\]))
+  println(mk(thrower[\(T1, T2)\]))
+end
+end

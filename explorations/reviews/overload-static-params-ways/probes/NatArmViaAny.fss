@@ -1,0 +1,12 @@
+(* NatArmNoParam with the argument's static type Any, the only change: the
+   static choice is f(x: Any) either way, and the choice among the arms more
+   specific than it is left to run time. *)
+component NatArmViaAny
+export Executable
+f(x: Any): String = "any"
+f[\nat n\](x: ZZ32): String = "sized"
+run(): () = do
+  a: Any = 3
+  println(f(a))
+end
+end

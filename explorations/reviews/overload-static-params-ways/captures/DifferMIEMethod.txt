@@ -1,0 +1,13 @@
+### walk: bin/fortress DifferMIEMethod.fss
+### walk rc=0
+scalar
+pair
+### compile: bin/fortress compile DifferMIEMethod.fss
+### compile rc=255
+explorations/reviews/overload-static-params-ways/probes/DifferMIEMethod.fss:12:3-31:
+explorations/reviews/overload-static-params-ways/probes/DifferMIEMethod.fss:15:3-29:
+    Invalid overloading of kind in component DifferMIEMethod:
+     [\I extends Num[\I\], J extends Num[\J\]\]P[\I,J\]->String @ explorations/reviews/overload-static-params-ways/probes/DifferMIEMethod.fss:15:3-29
+ and [\I extends Num[\I\]\]S[\I\]->String @ explorations/reviews/overload-static-params-ways/probes/DifferMIEMethod.fss:12:3-31
+File DifferMIEMethod.fss has 1 error.
+### run: no DifferMIEMethod.jar produced

@@ -1,0 +1,98 @@
+differ         invalid           CAP                  12   e.g. Library/RangeInternals.fsi:98:5-64 | Library/RangeInternals.fsi:63:5-58
+differ         invalid           MAX                   4   e.g. Library/FortressLibrary.fsi:2559:1-67 | Library/FortressLibrary.fsi:196:5-197:1
+differ         invalid           MIN                   4   e.g. Library/FortressLibrary.fsi:2557:1-67 | Library/FortressLibrary.fsi:209:5-33
+differ         invalid           openRangeHelper       3   e.g. Library/RangeInternals.fsi:616:1-135 | Library/RangeInternals.fsi:614:1-104
+differ         invalid           seq                   4   e.g. Library/FortressLibrary.fsi:1274:5-1276:48 | Library/FortressLibrary.fsi:2044:5-2045:1
+differ         return-type-rule  MAX                   1   e.g. Library/FortressLibrary.fsi:210:5-211:1 | Library/FortressLibrary.fsi:196:5-197:1
+differ         return-type-rule  MIN                   1   e.g. Library/FortressLibrary.fsi:209:5-33 | Library/FortressLibrary.fsi:185:5-186:1
+dup            same-parameter-type BITAND                2   e.g.  | 
+dup            same-parameter-type BITNOT                2   e.g.  | 
+dup            same-parameter-type BITOR                 2   e.g.  | 
+dup            same-parameter-type BITXOR                2   e.g.  | 
+dup            same-parameter-type BY                    2   e.g.  | 
+dup            same-parameter-type CHOOSE                2   e.g.  | 
+dup            same-parameter-type CMP                   1   e.g.  | 
+dup            same-parameter-type DIV                   2   e.g.  | 
+dup            same-parameter-type DOT                   4   e.g.  | 
+dup            same-parameter-type GCD                   2   e.g.  | 
+dup            same-parameter-type INVERSE               2   e.g.  | 
+dup            same-parameter-type LCM                   2   e.g.  | 
+dup            same-parameter-type LEXICO                2   e.g.  | 
+dup            same-parameter-type LSHIFT                2   e.g.  | 
+dup            same-parameter-type MOD                   2   e.g.  | 
+dup            same-parameter-type REM                   2   e.g.  | 
+dup            same-parameter-type RSHIFT                2   e.g.  | 
+dup            same-parameter-type SQCAP                 1   e.g.  | 
+dup            same-parameter-type juxtaposition         3   e.g.  | 
+dup            same-parameter-type narrow                2   e.g.  | 
+dup            same-parameter-type numerator             1   e.g.  | 
+dup            same-parameter-type widen                 1   e.g.  | 
+generic+plain  invalid           CMP                   2   e.g. Library/FortressLibrary.fsi:145:5-48 | Library/FortressLibrary.fsi:169:5-38
+generic+plain  invalid           juxtaposition         3   e.g. Library/FortressLibrary.fsi:2361:5-41 | Library/FortressLibrary.fsi:271:5-272:65
+generic+plain  return-type-rule  BITAND                3   e.g. Library/FortressLibrary.fsi:527:5-32 | Library/FortressLibrary.fsi:428:5-26
+generic+plain  return-type-rule  BITNOT                3   e.g. Library/FortressLibrary.fsi:493:5-494:4 | Library/FortressLibrary.fsi:433:5-22
+generic+plain  return-type-rule  BITOR                 3   e.g. Library/FortressLibrary.fsi:528:5-31 | Library/FortressLibrary.fsi:429:5-25
+generic+plain  return-type-rule  BITXOR                3   e.g. Library/FortressLibrary.fsi:456:5-32 | Library/FortressLibrary.fsi:430:5-26
+generic+plain  return-type-rule  BY                    6   e.g. Library/FortressLibrary.fsi:519:5-31 | Library/FortressLibrary.fsi:270:5-40
+generic+plain  return-type-rule  CHOOSE                3   e.g. Library/FortressLibrary.fsi:526:5-32 | Library/FortressLibrary.fsi:427:5-26
+generic+plain  return-type-rule  CMP                   2   e.g. Library/FortressLibrary.fsi:124:5-46 | Library/FortressLibrary.fsi:222:5-223:1
+generic+plain  return-type-rule  DIV                   3   e.g. Library/FortressLibrary.fsi:482:5-29 | Library/FortressLibrary.fsi:421:5-23
+generic+plain  return-type-rule  DOT                  36   e.g. Library/FortressLibrary.fsi:480:5-29 | Library/FortressLibrary.fsi:418:5-23
+generic+plain  return-type-rule  GCD                   3   e.g. Library/FortressLibrary.fsi:451:5-29 | Library/FortressLibrary.fsi:424:5-23
+generic+plain  return-type-rule  LCM                   3   e.g. Library/FortressLibrary.fsi:525:5-29 | Library/FortressLibrary.fsi:425:5-23
+generic+plain  return-type-rule  LSHIFT                3   e.g. Library/FortressLibrary.fsi:457:5-39 | Library/FortressLibrary.fsi:431:5-36
+generic+plain  return-type-rule  MAX                   5   e.g. Library/FortressLibrary.fsi:389:5-30 | Library/FortressLibrary.fsi:196:5-197:1
+generic+plain  return-type-rule  MIN                   5   e.g. Library/FortressLibrary.fsi:289:5-34 | Library/FortressLibrary.fsi:209:5-33
+generic+plain  return-type-rule  MINMAX                2   e.g. Library/FortressLibrary.fsi:390:5-38 | Library/FortressLibrary.fsi:208:5-45
+generic+plain  return-type-rule  MOD                   3   e.g. Library/FortressLibrary.fsi:523:5-29 | Library/FortressLibrary.fsi:423:5-23
+generic+plain  return-type-rule  REM                   3   e.g. Library/FortressLibrary.fsi:522:5-29 | Library/FortressLibrary.fsi:422:5-23
+generic+plain  return-type-rule  RSHIFT                3   e.g. Library/FortressLibrary.fsi:531:5-39 | Library/FortressLibrary.fsi:432:5-36
+generic+plain  return-type-rule  juxtaposition        40   e.g. Library/FortressLibrary.fsi:481:5-39 | Library/FortressLibrary.fsi:1629:1-1632:36
+none           invalid           fill                 95   e.g. Library/FortressLibrary.fsi:1339:5-35 | Library/FortressLibrary.fsi:1370:5-18
+none           invalid           juxtaposition         1   e.g. Library/FortressLibrary.fsi:2361:5-41 | Library/FortressLibrary.fsi:2363:5-2365:64
+none           invalid           lift                  6   e.g. Library/FortressLibrary.fsi:1731:5-25 | Library/FortressLibrary.fsi:1770:5-25
+none           return-type-rule  BITAND                5   e.g. Library/FortressLibrary.fsi:527:5-32 | Library/FortressLibrary.fsi:454:5-32
+none           return-type-rule  BITNOT                5   e.g. Library/FortressLibrary.fsi:493:5-494:4 | Library/FortressLibrary.fsi:459:5-25
+none           return-type-rule  BITOR                 5   e.g. Library/FortressLibrary.fsi:528:5-31 | Library/FortressLibrary.fsi:455:5-31
+none           return-type-rule  BITXOR                5   e.g. Library/FortressLibrary.fsi:456:5-32 | Library/FortressLibrary.fsi:529:5-32
+none           return-type-rule  BY                    4   e.g. Library/FortressLibrary.fsi:395:5-31 | Library/FortressLibrary.fsi:519:5-31
+none           return-type-rule  CHOOSE                5   e.g. Library/FortressLibrary.fsi:526:5-32 | Library/FortressLibrary.fsi:453:5-32
+none           return-type-rule  CMP                   6   e.g. Library/FortressLibrary.fsi:124:5-46 | Library/FortressLibrary.fsi:146:5-57
+none           return-type-rule  DIV                   5   e.g. Library/FortressLibrary.fsi:482:5-29 | Library/FortressLibrary.fsi:448:5-29
+none           return-type-rule  DOT                   8   e.g. Library/FortressLibrary.fsi:518:5-29 | Library/FortressLibrary.fsi:480:5-29
+none           return-type-rule  GCD                   5   e.g. Library/FortressLibrary.fsi:451:5-29 | Library/FortressLibrary.fsi:485:5-29
+none           return-type-rule  LCM                   5   e.g. Library/FortressLibrary.fsi:525:5-29 | Library/FortressLibrary.fsi:452:5-29
+none           return-type-rule  LSHIFT                5   e.g. Library/FortressLibrary.fsi:457:5-39 | Library/FortressLibrary.fsi:530:5-39
+none           return-type-rule  MOD                   5   e.g. Library/FortressLibrary.fsi:523:5-29 | Library/FortressLibrary.fsi:484:5-29
+none           return-type-rule  REM                   5   e.g. Library/FortressLibrary.fsi:522:5-29 | Library/FortressLibrary.fsi:449:5-29
+none           return-type-rule  RSHIFT                5   e.g. Library/FortressLibrary.fsi:531:5-39 | Library/FortressLibrary.fsi:458:5-39
+none           return-type-rule  atMost                2   e.g. Library/RangeInternals.fsi:259:5-34 | Library/FortressLibrary.fsi:2121:5-32
+none           return-type-rule  empty                 2   e.g. Library/FortressLibrary.fsi:1866:5-19 | Library/FortressLibrary.fsi:1720:5-14
+none           return-type-rule  every                 1   e.g. Library/RangeInternals.fsi:257:5-258:4 | Library/FortressLibrary.fsi:2120:5-34
+none           return-type-rule  juxtaposition        20   e.g. Library/FortressLibrary.fsi:481:5-39 | Library/FortressLibrary.fsi:2361:5-41
+none           return-type-rule  narrow                7   e.g. Library/FortressLibrary.fsi:540:5-541:4 | Library/FortressLibrary.fsi:365:5-366:1
+none           return-type-rule  shift                 2   e.g. Library/FortressLibrary.fsi:1688:5-1694:8 | Library/FortressLibrary.fsi:1294:5-1298:39
+none           return-type-rule  truncate              1   e.g. Library/FortressLibrary.fsi:403:5-404:4 | Library/FortressLibrary.fsi:335:5-336:1
+same           invalid           CAP                   5   e.g. Library/RangeInternals.fsi:191:5-192:5 | Library/RangeInternals.fsi:46:5-47:5
+same           invalid           FORWARD_CMP          19   e.g. Library/FortressLibrary.fsi:2115:5-2116:1 | Library/FortressLibrary.fsi:2156:5-2157:1
+same           invalid           IN                    7   e.g. Library/FortressLibrary.fsi:700:5-701:1 | Library/FortressLibrary.fsi:2114:5-31
+same           invalid           combine2D             7   e.g. Library/RangeInternals.fsi:271:1-133 | Library/RangeInternals.fsi:51:1-52:1
+same           invalid           combine3D             7   e.g. Library/RangeInternals.fsi:476:1-477:71 | Library/RangeInternals.fsi:83:1-84:1
+same           invalid           generate              1   e.g. Library/FortressLibrary.fsi:790:5-52 | Library/FortressLibrary.fsi:625:5-632:31
+same           invalid           ivmap                 3   e.g. Library/FortressLibrary.fsi:792:5-46 | Library/FortressLibrary.fsi:1178:5-43
+same           invalid           map                   4   e.g. Library/FortressLibrary.fsi:764:5-47 | Library/FortressLibrary.fsi:1179:5-1184:5
+same           invalid           seq                   1   e.g. Library/FortressLibrary.fsi:2044:5-2045:1 | Library/FortressLibrary.fsi:763:5-39
+same           return-type-rule  SQCAP                 2   e.g. Library/FortressLibrary.fsi:837:5-838:1 | Library/FortressLibrary.fsi:882:5-48
+same           return-type-rule  array1                1   e.g. Library/FortressLibrary.fsi:1491:1-1492:1 | Library/FortressLibrary.fsi:1490:1-41
+same           return-type-rule  array2                1   e.g. Library/FortressLibrary.fsi:1601:1-1605:51 | Library/FortressLibrary.fsi:1600:1-54
+# totals
+# differ         invalid             27
+# differ         return-type-rule     2
+# dup            same-parameter-type   43
+# generic+plain  invalid              5
+# generic+plain  return-type-rule   132
+# none           invalid            102
+# none           return-type-rule   113
+# same           invalid             54
+# same           return-type-rule     4
+# all 482

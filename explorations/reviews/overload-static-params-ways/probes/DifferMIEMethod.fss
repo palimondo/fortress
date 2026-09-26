@@ -1,0 +1,23 @@
+(* DifferMIE with the two arms moved into the traits as functional methods,
+   the only change: the CAP family's own spelling (RangeInternals.fsi:46, 63).
+   The compiled checker lifts each trait's static parameters onto its
+   functional method (STypesUtil.scala:123-127), so the pair it compares is
+   the same as DifferMIE's. *)
+component DifferMIEMethod
+export Executable
+trait R[\T extends Any\] end
+trait Num[\I extends Num[\I\]\] end
+object Z extends Num[\Z\] end
+trait S[\I extends Num[\I\]\] extends R[\I\]
+  kind(self): String = "scalar"
+end
+trait P[\I extends Num[\I\], J extends Num[\J\]\] extends R[\(I, J)\]
+  kind(self): String = "pair"
+end
+object Sz extends S[\Z\] end
+object Pz extends P[\Z, Z\] end
+run(): () = do
+  println(kind(Sz))
+  println(kind(Pz))
+end
+end

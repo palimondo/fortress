@@ -1,0 +1,20 @@
+(* Control for DifferMIE, with no static parameter on either arm: A extends
+   R[\Z\], B extends R[\W\], Z and W distinct objects.  Multiple
+   instantiation exclusion alone makes A and B exclude.  Does the compiled
+   checker derive that exclusion when nothing is generic? *)
+component MIEGround
+export Executable
+trait R[\T extends Any\] end
+object Z end
+object W end
+trait A extends R[\Z\] end
+trait B extends R[\W\] end
+object Ao extends A end
+object Bo extends B end
+kind(a: A): String = "a"
+kind(b: B): String = "b"
+run(): () = do
+  println(kind(Ao))
+  println(kind(Bo))
+end
+end

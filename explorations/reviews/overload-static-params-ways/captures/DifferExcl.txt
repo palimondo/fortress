@@ -1,0 +1,10 @@
+### walk: bin/fortress DifferExcl.fss
+### walk rc=0
+1
+2
+### compile: bin/fortress compile DifferExcl.fss
+### compile rc=0
+### run: MainWrapper DifferExcl
+### run rc=0
+1
+2

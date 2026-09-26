@@ -1,0 +1,14 @@
+(* Two generic arms with static parameter lists of different lengths, on
+   object types, which exclude each other.  The specification's sentence
+   forbids it; exclusion makes it valid under the Types paper's rules. *)
+component DifferExcl
+export Executable
+object Box[\T\](x: T) end
+object Pair[\A, B\](a: A, b: B) end
+size[\T\](x: Box[\T\]): ZZ32 = 1
+size[\A, B\](x: Pair[\A, B\]): ZZ32 = 2
+run(): () = do
+  println(size(Box[\ZZ32\](5)))
+  println(size(Pair[\ZZ32, String\](5, "five")))
+end
+end

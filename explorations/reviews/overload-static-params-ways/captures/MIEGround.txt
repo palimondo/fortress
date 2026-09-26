@@ -1,0 +1,17 @@
+### walk: bin/fortress MIEGround.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/MIEGround.fss:15:1-24: and
+explorations/reviews/overload-static-params-ways/probes/MIEGround.fss:14:1-24:
+first parameters b:[B] and a:[A] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+explorations/reviews/overload-static-params-ways/probes/MIEGround.fss:15:1-24:
+explorations/reviews/overload-static-params-ways/probes/MIEGround.fss:14:1-24:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile MIEGround.fss
+### compile rc=0
+### run: MainWrapper MIEGround
+### run rc=0
+a
+b

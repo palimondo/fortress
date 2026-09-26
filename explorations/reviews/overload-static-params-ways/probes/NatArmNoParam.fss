@@ -1,0 +1,11 @@
+(* An overload arm whose nat static parameter appears in no parameter type:
+   its domain, ZZ32, is a subtype of the other arm's, Any.  A call f(3) gives
+   no value for n. *)
+component NatArmNoParam
+export Executable
+f(x: Any): String = "any"
+f[\nat n\](x: ZZ32): String = "sized"
+run(): () = do
+  println(f(3))
+end
+end

@@ -1,0 +1,16 @@
+(* The Types paper's baz pair (Papers/Types/examples.tick): a generic arm
+   returning its own type parameter beside a plain arm on a proper subtrait.
+   For an argument of type Circle, the generic arm's instance at T = Circle
+   returns Circle, the plain arm returns Round: the Return Type Rule fails. *)
+component GenPlainRTR
+export Executable
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+ident[\T extends Shape\](x: T): T = x
+ident(x: Round): Round = x
+run(): () = do
+  c: Circle = ident(Circle)
+  println("static type Circle kept")
+end
+end

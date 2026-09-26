@@ -1,0 +1,41 @@
+### walk: bin/fortress GenPlainRTR.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/GenPlainRTR.fss:11:1-26: and
+explorations/reviews/overload-static-params-ways/probes/GenPlainRTR.fss:10:1-37:
+
+ident[\T extends Shape\](x:T):Texplorations/reviews/overload-static-params-ways/probes/GenPlainRTR.fss:10:1-37 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/reviews/overload-static-params-ways/probes/GenPlainRTR.fss:11:1-26:
+explorations/reviews/overload-static-params-ways/probes/GenPlainRTR.fss:10:1-37:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile GenPlainRTR.fss
+### compile rc=0
+### run: MainWrapper GenPlainRTR
+### run rc=1
+java.lang.VerifyError
+Caused by: java.lang.VerifyError: Bad return type
+Exception Details:
+  Location:
+    GenPlainRTR?$\=ident?GenPlainRTR\%Circle??$?Arrow?T,T?.the_function(LGenPlainRTR$Circle;)LGenPlainRTR$Circle; @14: areturn
+  Reason:
+    Type 'GenPlainRTR$Round' (current frame, stack[0]) is not assignable to 'GenPlainRTR$Circle' (from method signature)
+  Current Frame:
+    bci: @14
+    flags: { }
+    locals: { 'GenPlainRTR$Circle' }
+    stack: { 'GenPlainRTR$Round' }
+  Bytecode:
+    0000000: 2ac1 0011 9900 0b2a c000 11b8 0017 b02a
+    0000010: b900 1d01 004c 2b59 b200 235f b600 2999
+    0000020: 0006 a700 0757 a700 1a4d b200 2d12 2f2c
+    0000030: b800 35c0 0037 2ab9 003c 0200 c000 3eb0
+    0000040: b800 44bf                              
+  Stackmap Table:
+    same_frame(@15)
+    full_frame(@37,{Object[#62],Object[#37]},{Object[#37]})
+    same_locals_1_stack_item_frame(@41,Object[#37])
+    same_frame(@64)
+

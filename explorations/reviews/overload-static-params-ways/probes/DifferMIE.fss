@@ -1,0 +1,21 @@
+(* The CAP family's shape (RangeInternals.fsi:44-99): S[\I\] extends R[\I\],
+   P[\I,J\] extends R[\(I,J)\].  A type extending both would extend R[\I\] and
+   R[\(I',J')\]; multiple instantiation exclusion then needs I = (I',J'), which
+   the bound I extends Num[\I\] (a trait) rules out, since trait types exclude
+   tuple types.  So the two arms exclude, by that chain of reasoning only. *)
+component DifferMIE
+export Executable
+trait R[\T extends Any\] end
+trait Num[\I extends Num[\I\]\] end
+object Z extends Num[\Z\] end
+trait S[\I extends Num[\I\]\] extends R[\I\] end
+trait P[\I extends Num[\I\], J extends Num[\J\]\] extends R[\(I, J)\] end
+object Sz extends S[\Z\] end
+object Pz extends P[\Z, Z\] end
+kind[\I extends Num[\I\]\](a: S[\I\]): String = "scalar"
+kind[\I extends Num[\I\], J extends Num[\J\]\](a: P[\I, J\]): String = "pair"
+run(): () = do
+  println(kind(Sz))
+  println(kind(Pz))
+end
+end

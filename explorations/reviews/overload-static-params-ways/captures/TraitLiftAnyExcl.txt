@@ -1,0 +1,10 @@
+### walk: bin/fortress TraitLiftAnyExcl.fss
+### walk rc=0
+ring
+word
+### compile: bin/fortress compile TraitLiftAnyExcl.fss
+### compile rc=0
+### run: MainWrapper TraitLiftAnyExcl
+### run rc=0
+ring
+word

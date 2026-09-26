@@ -1,0 +1,14 @@
+(* The library's own way for a size that no parameter carries (NatReflect.fsi,
+   FortressLibrary.fss:1928-1936): the arm takes a witness object N[\n\], so
+   the size is read off an argument's run-time type. *)
+component NatArmWitness
+export Executable
+object N[\nat n\] end
+f(x: Any): String = "any"
+f[\nat n\](w: N[\n\]): String = "sized"
+run(): () = do
+  println(f(N[\3\]))
+  a: Any = N[\4\]
+  println(f(a))
+end
+end

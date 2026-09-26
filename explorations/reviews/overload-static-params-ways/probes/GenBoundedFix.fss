@@ -1,0 +1,17 @@
+(* The Types paper's repair of baz: the special arm is itself generic, with a
+   tighter bound, and returns its own type parameter. *)
+component GenBoundedFix
+export Executable
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+object Square extends Shape end
+name[\T extends Shape\](x: T): String = "shape"
+name[\T extends Round\](x: T): String = "round"
+run(): () = do
+  println(name(Circle))
+  println(name(Square))
+  s: Shape = Circle
+  println(name(s))
+end
+end

@@ -1,0 +1,15 @@
+(* WitVsGround with the plain arm on Wit[\(T1, T1)\], a ground tuple, the only
+   change: A extends Tag against a tuple type, with no type variable in the
+   tuple.  Trait types exclude tuple types (types-vals-vars.tex:215). *)
+component WitVsTuple
+export Executable
+trait Tag end
+object T1 extends Tag end
+object Wit[\T extends Any\] end
+mk[\A extends Tag\](_: Wit[\A\]): String = "tagged"
+mk(_: Wit[\(T1, T1)\]): String = "tuple"
+run(): () = do
+  println(mk(Wit[\T1\]))
+  println(mk(Wit[\(T1, T1)\]))
+end
+end

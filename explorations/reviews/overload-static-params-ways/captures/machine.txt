@@ -1,0 +1,7 @@
+# machine for the runs of 2026-09-26 (timings are not the point of these probes)
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1, JAVA_FLAGS=-Xmx4g -Xss64m
+tree at c7c93f294bcfc4b42aad4754a48431763ca393ed (main); tracked StaticChecker.java sha256 16e6e11df9341a67

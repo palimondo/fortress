@@ -1,0 +1,22 @@
+### walk: bin/fortress TraitLiftOpen.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/TraitLiftOpen.fss:14:1-42: and
+explorations/reviews/overload-static-params-ways/probes/TraitLiftOpen.fss:9:3-42:
+
+Ring[\T extends Ring[\T\]\](uninstantiated)[\T extends Ring[\T\]\].combine(self:Ring[\T\],other:T):FortressLibrary.Stringexplorations/reviews/overload-static-params-ways/probes/TraitLiftOpen.fss:9:3-42 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/reviews/overload-static-params-ways/probes/TraitLiftOpen.fss:14:1-42:
+explorations/reviews/overload-static-params-ways/probes/TraitLiftOpen.fss:8:1-10:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile TraitLiftOpen.fss
+### compile rc=255
+explorations/reviews/overload-static-params-ways/probes/TraitLiftOpen.fss:14:1-42:
+explorations/reviews/overload-static-params-ways/probes/TraitLiftOpen.fss:9:3-42:
+    Invalid overloading of combine in component TraitLiftOpen:
+     (Word, Word)->String @ explorations/reviews/overload-static-params-ways/probes/TraitLiftOpen.fss:14:1-42
+ and [\T extends Ring[\T\]\](Ring[\T\], T)->String @ explorations/reviews/overload-static-params-ways/probes/TraitLiftOpen.fss:9:3-42
+File TraitLiftOpen.fss has 1 error.
+### run: no TraitLiftOpen.jar produced

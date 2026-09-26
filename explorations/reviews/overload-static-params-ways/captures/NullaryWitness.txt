@@ -1,0 +1,13 @@
+### walk: bin/fortress NullaryWitness.fss
+### walk rc=0
+one
+two
+### compile: bin/fortress compile NullaryWitness.fss
+### compile rc=255
+explorations/reviews/overload-static-params-ways/probes/NullaryWitness.fss:12:1-45:
+explorations/reviews/overload-static-params-ways/probes/NullaryWitness.fss:13:1-65:
+    Invalid overloading of mk in component NullaryWitness:
+     [\A extends Tag, B extends Tag\]()->(A, B)->String @ explorations/reviews/overload-static-params-ways/probes/NullaryWitness.fss:13:1-65
+ and [\A extends Tag\]()->A->String @ explorations/reviews/overload-static-params-ways/probes/NullaryWitness.fss:12:1-45
+File NullaryWitness.fss has 1 error.
+### run: no NullaryWitness.jar produced

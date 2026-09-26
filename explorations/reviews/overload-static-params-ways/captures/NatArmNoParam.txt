@@ -1,0 +1,8 @@
+### walk: bin/fortress NatArmNoParam.fss
+### walk rc=0
+sized
+### compile: bin/fortress compile NatArmNoParam.fss
+### compile rc=0
+### run: MainWrapper NatArmNoParam
+### run rc=0
+any

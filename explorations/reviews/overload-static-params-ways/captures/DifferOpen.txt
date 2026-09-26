@@ -1,0 +1,23 @@
+### walk: bin/fortress DifferOpen.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:11:1-39: and
+explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:10:1-32:
+
+size[\A,B\](x:Pair[\A,B\]):FortressLibrary.ZZ32explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:11:1-39 and
+size[\T\](x:Box[\T\]):FortressLibrary.ZZ32explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:10:1-32 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:11:1-39:
+explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:10:1-32:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile DifferOpen.fss
+### compile rc=255
+explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:10:1-32:
+explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:11:1-39:
+    Invalid overloading of size in component DifferOpen:
+     [\A extends Object, B extends Object\]Pair[\A,B\]->ZZ32 @ explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:11:1-39
+ and [\T extends Object\]Box[\T\]->ZZ32 @ explorations/reviews/overload-static-params-ways/probes/DifferOpen.fss:10:1-32
+File DifferOpen.fss has 1 error.
+### run: no DifferOpen.jar produced

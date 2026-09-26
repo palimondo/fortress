@@ -1,0 +1,17 @@
+### walk: bin/fortress PermuteReturn.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/PermuteReturn.fss:17:3-24:
+RHS expression type Pr[\ZZ32,String\] is not assignable to LHS type Pr[\String,ZZ32\]
+Context:
+explorations/reviews/overload-static-params-ways/probes/PermuteReturn.fss:17:3-24:
+explorations/reviews/overload-static-params-ways/probes/PermuteReturn.fss:17:3-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile PermuteReturn.fss
+### compile rc=0
+### run: MainWrapper PermuteReturn
+### run rc=1
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class PermuteReturn$\=Pr?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,fortress\|CompilerBuiltin\%String? cannot be cast to class PermuteReturn$\=Pr?fortress\|CompilerBuiltin\%String,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32? (PermuteReturn$\=Pr?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,fortress\|CompilerBuiltin\%String? and PermuteReturn$\=Pr?fortress\|CompilerBuiltin\%String,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)

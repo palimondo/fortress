@@ -1,0 +1,25 @@
+(* DifferMIEMethod with the library's own way around "no type variables in an
+   excludes clause" added, the only change: each generic trait also extends a
+   plain trait, and the plain traits exclude each other (the "Potemkin
+   exclusion traits" of FortressLibrary.fsi:1074-1084, the AnyMaybe device of
+   FortressLibrary.fsi:816-818). *)
+component DifferMIEPotemkin
+export Executable
+trait R[\T extends Any\] end
+trait Num[\I extends Num[\I\]\] end
+object Z extends Num[\Z\] end
+trait AnyS excludes { AnyP } end
+trait AnyP end
+trait S[\I extends Num[\I\]\] extends { R[\I\], AnyS }
+  kind(self): String = "scalar"
+end
+trait P[\I extends Num[\I\], J extends Num[\J\]\] extends { R[\(I, J)\], AnyP }
+  kind(self): String = "pair"
+end
+object Sz extends S[\Z\] end
+object Pz extends P[\Z, Z\] end
+run(): () = do
+  println(kind(Sz))
+  println(kind(Pz))
+end
+end

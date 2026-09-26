@@ -1,0 +1,18 @@
+### walk: bin/fortress GenBoundedFix.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/GenBoundedFix.fss:10:1-47: and
+explorations/reviews/overload-static-params-ways/probes/GenBoundedFix.fss:9:1-47:
+
+name[\T extends Round\](x:T):FortressLibrary.Stringexplorations/reviews/overload-static-params-ways/probes/GenBoundedFix.fss:10:1-47 and
+name[\T extends Shape\](x:T):FortressLibrary.Stringexplorations/reviews/overload-static-params-ways/probes/GenBoundedFix.fss:9:1-47 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/reviews/overload-static-params-ways/probes/GenBoundedFix.fss:10:1-47:
+explorations/reviews/overload-static-params-ways/probes/GenBoundedFix.fss:9:1-47:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile GenBoundedFix.fss
+### compile rc=1
+Exception in thread "main" java.lang.RuntimeException: java.util.zip.ZipException: duplicate entry: GenBoundedFix?$name????$\=?Arrow?T,fortress\|CompilerBuiltin\%String?.class
+Caused by: java.util.zip.ZipException: duplicate entry: GenBoundedFix?$name????$\=?Arrow?T,fortress\|CompilerBuiltin\%String?.class

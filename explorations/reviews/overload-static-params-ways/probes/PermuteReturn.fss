@@ -1,0 +1,21 @@
+(* An overriding method whose static parameters occur only in its return
+   type, which names them in the other order.  PermuteOverride's shape with the
+   parameters out of the domain, the only change.  Through the trait, make
+   [\String, ZZ32\] promises a Pr[\String, ZZ32\]; the object's make returns a
+   Pr[\ZZ32, String\]. *)
+component PermuteReturn
+export Executable
+object Pr[\A extends Any, B extends Any\](a: ZZ32) end
+trait Maker
+  make[\A extends Any, B extends Any\](): Pr[\A, B\]
+end
+object M extends Maker
+  make[\A extends Any, B extends Any\](): Pr[\B, A\] = Pr[\B, A\](1)
+end
+run(): () = do
+  m: Maker = M
+  p: Pr[\String, ZZ32\] = m.make[\String, ZZ32\]()
+  println("bound")
+  println(p.a)
+end
+end

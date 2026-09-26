@@ -1,0 +1,17 @@
+(* Localizes NullaryObjWitness's refusal: one arm generic in A extends Tag on
+   Wit[\A\], the other plain on Wit[\Other\], Other an object that does not
+   extend Tag.  Wit[\A\] and Wit[\Other\] exclude unless A = Other, which the
+   bound rules out.  No tuple is involved. *)
+component WitVsGround
+export Executable
+trait Tag end
+object T1 extends Tag end
+object Other end
+object Wit[\T extends Any\] end
+mk[\A extends Tag\](_: Wit[\A\]): String = "tagged"
+mk(_: Wit[\Other\]): String = "other"
+run(): () = do
+  println(mk(Wit[\T1\]))
+  println(mk(Wit[\Other\]))
+end
+end

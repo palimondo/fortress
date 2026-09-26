@@ -1,0 +1,18 @@
+(* One generic arm and one plain arm of one name; the plain arm's domain is a
+   subtype of the generic arm's, and both return String.  Basic overloading.tex
+   (the sentence at lines 100-105) makes this a static error; the 2011 Types
+   paper's model (Papers/Types/introduction.tick, the quux example) accepts it. *)
+component GenPlainSub
+export Executable
+trait Shape comprises { Circle, Square } end
+object Circle extends Shape end
+object Square extends Shape end
+describe[\T extends Shape\](x: T): String = "generic"
+describe(x: Circle): String = "circle"
+run(): () = do
+  println(describe(Circle))
+  println(describe(Square))
+  s: Shape = Circle
+  println(describe(s))
+end
+end

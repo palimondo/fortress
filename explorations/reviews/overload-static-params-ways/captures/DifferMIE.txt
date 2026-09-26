@@ -1,0 +1,23 @@
+### walk: bin/fortress DifferMIE.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:16:1-77: and
+explorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:15:1-56:
+
+kind[\I extends Num[\I\],J extends Num[\J\]\](a:P[\I,J\]):FortressLibrary.Stringexplorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:16:1-77 and
+kind[\I extends Num[\I\]\](a:S[\I\]):FortressLibrary.Stringexplorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:15:1-56 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:16:1-77:
+explorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:15:1-56:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile DifferMIE.fss
+### compile rc=255
+explorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:15:1-56:
+explorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:16:1-77:
+    Invalid overloading of kind in component DifferMIE:
+     [\I extends Num[\I\], J extends Num[\J\]\]P[\I,J\]->String @ explorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:16:1-77
+ and [\I extends Num[\I\]\]S[\I\]->String @ explorations/reviews/overload-static-params-ways/probes/DifferMIE.fss:15:1-56
+File DifferMIE.fss has 1 error.
+### run: no DifferMIE.jar produced

@@ -1,0 +1,18 @@
+(* GenBoundedFix with the special arm's type parameter renamed U, the only
+   change; the Types paper's repair of baz: the special arm is itself generic, with a
+   tighter bound, and returns its own type parameter. *)
+component GenBoundedFixU
+export Executable
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+object Square extends Shape end
+name[\T extends Shape\](x: T): String = "shape"
+name[\U extends Round\](x: U): String = "round"
+run(): () = do
+  println(name(Circle))
+  println(name(Square))
+  s: Shape = Circle
+  println(name(s))
+end
+end

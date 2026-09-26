@@ -1,0 +1,16 @@
+### walk: bin/fortress NatArmShowN.fss
+### walk rc=1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/overload-static-params-ways/probes/NatArmShowN.fss:6:42:
+undefined variable [n]
+Context:
+explorations/reviews/overload-static-params-ways/probes/NatArmShowN.fss:6:42:
+explorations/reviews/overload-static-params-ways/probes/NatArmShowN.fss:8:11-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+### compile: bin/fortress compile NatArmShowN.fss
+### compile rc=0
+### run: MainWrapper NatArmShowN
+### run rc=0
+any

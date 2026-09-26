@@ -1,0 +1,18 @@
+(* NullaryWitness with the witness an object instance instead of a function
+   value, the only change.  Arrow types never exclude one another (types-vals-
+   vars.tex:400-403), so the thunk witness cannot give the checker exclusion;
+   Wit[\A\] and Wit[\(A,B)\] can, by multiple instantiation exclusion and the
+   bound A extends Tag. *)
+component NullaryObjWitness
+export Executable
+trait Tag end
+object T1 extends Tag end
+object T2 extends Tag end
+object Wit[\T extends Any\] end
+mk[\A extends Tag\](_: Wit[\A\]): String = "one"
+mk[\A extends Tag, B extends Tag\](_: Wit[\(A, B)\]): String = "two"
+run(): () = do
+  println(mk(Wit[\T1\]))
+  println(mk(Wit[\(T1, T2)\]))
+end
+end

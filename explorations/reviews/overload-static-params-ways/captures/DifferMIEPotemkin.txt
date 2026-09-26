@@ -1,0 +1,10 @@
+### walk: bin/fortress DifferMIEPotemkin.fss
+### walk rc=0
+scalar
+pair
+### compile: bin/fortress compile DifferMIEPotemkin.fss
+### compile rc=0
+### run: MainWrapper DifferMIEPotemkin
+### run rc=0
+scalar
+pair

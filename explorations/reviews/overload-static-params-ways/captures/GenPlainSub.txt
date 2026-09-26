@@ -1,0 +1,12 @@
+### walk: bin/fortress GenPlainSub.fss
+### walk rc=0
+generic
+generic
+generic
+### compile: bin/fortress compile GenPlainSub.fss
+### compile rc=0
+### run: MainWrapper GenPlainSub
+### run rc=0
+circle
+generic
+circle
