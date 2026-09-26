@@ -57,3 +57,5 @@ Three smaller items come back to him with the stop. None is a stop of D.
 3. **Unary `DOTPLUS`**: the specification lists it on `ZZ` (`Specification/basic-lib/basic-integers.tex:352-358`), and the library declares neither it nor unary `+`. The decision names neither (`POSITIONS.md:108`). It is a candidate ledger row, and no action is needed now.
 
 The worker's `REPORT.md` was refused by the harness; the gather composes it from the worker's structured result, as in batches 3.5 and 4.
+
+*Note added at the merged-diff review of climb batch 5 (2026-09-26):* the rows 405, 406 and 407 this ruling cites are rung D's provisional numbers (the demo `HeapShakedown`, the ambiguity message's order, `QQ`'s `opr <`). Rung D did not land, and the ledger's rows 405-407 are rung S's; D's rows take their numbers when D lands (`explorations/compile-ladder/climb-batch-5/RECORD.md`, "Not landed").

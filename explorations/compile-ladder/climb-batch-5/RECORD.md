@@ -20,7 +20,7 @@ The batch record expected Z, D, S from the same file (`explorations/coordinator/
 
 ## Rung Z (`rung-size-runtime`)
 
-**Inherited from the branch.** Seventeen commits, `037276cca` to `947b40041`: the worker's first round (the failing tests captured first in `037276cca`, the pieces in `978b0f0d8` and `391f444d2`, the new expected failures shown red on a local fix in `69c622f71`, three defects found on re-verification and repaired in `479d80552` and `d0cef50bf`, the landing captures in `57dac1278`), the first skeptic's probes (`2492fca0b`; its refusal was in its structured result only), the judge's ruling, repair (`3b2b399da`, `JUDGE.md`), the repair round (the two new tests captured failing in `b3941cb06` before the edit in `3bca6b8bc`; `2112fe1a7`, `d6f91bcce`, `c0c9a8800`, `5e030a07d`) and the second skeptic's probes (`947b40041`; its approval with three corrections in its structured result only). Only `JUDGE.md` of the four report files was on the branch.
+**Inherited from the branch.** Sixteen commits, `037276cca` to `947b40041`: the worker's first round (the failing tests captured first in `037276cca`, the pieces in `978b0f0d8` and `391f444d2`, the new expected failures shown red on a local fix in `69c622f71`, three defects found on re-verification and repaired in `479d80552` and `d0cef50bf`, the landing captures in `57dac1278`), the first skeptic's probes (`2492fca0b`; its refusal was in its structured result only), the judge's ruling, repair (`3b2b399da`, `JUDGE.md`), the repair round (the two new tests captured failing in `b3941cb06` before the edit in `3bca6b8bc`; `2112fe1a7`, `d6f91bcce`, `c0c9a8800`, `5e030a07d`) and the second skeptic's probes (`947b40041`; its approval with three corrections in its structured result only). Only `JUDGE.md` of the four report files was on the branch.
 
 **Written at the gather.** `REPORT.md` and `record.md` from the worker's two structured results (`rung:Z`, `repair:Z`), `SKEPTIC.md` from the two skeptics' (`skeptic2:Z`, then `skeptic:Z` under "First judgement: refused"), as batches 3.5 and 4 did; the provisional row numbers in them are replaced by the final ones, and `SKEPTIC.md` says so. `JUDGE.md` keeps its author's words and ends with a note on the one provisional number it cites and on F4.
 
@@ -95,11 +95,11 @@ The second skeptic's three:
 - The judge's candidate row for unary `DOTPLUS` (`Specification/basic-lib/basic-integers.tex:352-358`), which the library does not declare: not opened, since the judge offers it as a candidate with nothing to do now and the decision names neither it nor unary `+`.
 All four are in `explorations/compile-ladder/rung-wrap-operators/record.md` and `JUDGE.md` on `main`, so none is lost if D is dropped.
 
-**Taken from its branch, one path at a time:** `record.md` and `JUDGE.md`, and the eight probes the stop cites, `probes/count/XXXInheritedOverload.baseA.txt`, `.baseB.txt`, `.edit.txt` and the five files of `probes/order/` (`order-probe.sh`, `order-probe-base.txt`, `order-probe-base-passflags.txt`, `order-probe-base-passflags-fn.txt`, `order-repeat-base.txt`), byte-identical to `7f57b836e` except `record.md` below. `REPORT.md` is composed from the worker's structured result (`rung:D`), as the judge asked. No source is applied. The rest of D's directory, its count scripts and the other captures `REPORT.md` and `record.md` cite (`probes/count/`'s other 54 outputs, `probes/sites/`, `probes/rational/`, `probes/precedence/`, `probes/checker-count/`, the ladder captures and the logging summaries), stays on `wip/rung-wrap-operators` at `7f57b836e` and comes with D's landing; until then those citations resolve on the branch. A decision of the gather: batch 4 took all of its stopped rung O's files, because O's source was never to land as it stood; D's is expected to land whole on Pavol's word, and taking its 124 files now would put on `main` the evidence of a change `main` does not carry.
+**Taken from its branch, one path at a time:** `record.md` and `JUDGE.md`, and the eight probes the stop cites, `probes/count/XXXInheritedOverload.baseA.txt`, `.baseB.txt`, `.edit.txt` and the five files of `probes/order/` (`order-probe.sh`, `order-probe-base.txt`, `order-probe-base-passflags.txt`, `order-probe-base-passflags-fn.txt`, `order-repeat-base.txt`), byte-identical to `7f57b836e` except `record.md` below. *Since the merged-diff review's second pass, `JUDGE.md` differs too: it ends with a note on its provisional row numbers, which the ledger's rows 405-407 (rung S's) would otherwise be read as.* `REPORT.md` is composed from the worker's structured result (`rung:D`), as the judge asked. No source is applied. The rest of D's directory, its count scripts and the other captures `REPORT.md` and `record.md` cite (`probes/count/`'s other 54 outputs, `probes/sites/`, `probes/rational/`, `probes/precedence/`, `probes/checker-count/`, the ladder captures and the logging summaries), stays on `wip/rung-wrap-operators` at `7f57b836e` and comes with D's landing; until then those citations resolve on the branch. A decision of the gather: batch 4 took all of its stopped rung O's files, because O's source was never to land as it stood; D's is expected to land whole on Pavol's word, and taking its 124 files now would put on `main` the evidence of a change `main` does not carry.
 
 **Folded, and why.** The judge's two wording corrections for the fold are made in `record.md` ("rung D's edit flips it"; "varies with the JVM's flags"), with a dated note at its head; nothing of D's record is folded into `FACTS.md` or the ledger, since its entries state what D's landed edit does. The handover gets one paragraph, after rungs Z and S, saying that D is held for Pavol.
 
-**When D lands.** Its patch from `6030e4b36...wip/rung-wrap-operators` is applied with `--exclude` for the ten paths already on `main`: nine are byte-identical to the branch, and `record.md` on `main` is the corrected one. Its provisional rows 405-407 then take the next free numbers (421 onward, if nothing lands before it), and its `WrapOperatorsRungD.fss`'s one comment line points at `explorations/compile-ladder/rung-wrap-operators/REPORT.md`, which is on `main` now.
+**When D lands.** Its patch from `6030e4b36...wip/rung-wrap-operators` is applied with `--exclude` for the ten paths already on `main`: eight are byte-identical to the branch, `record.md` on `main` is the corrected one, and `JUDGE.md` on `main` carries the note of the merged-diff review's second pass. Its provisional rows 405-407 then take the next free numbers (421 onward, if nothing lands before it), and its `WrapOperatorsRungD.fss`'s one comment line points at `explorations/compile-ladder/rung-wrap-operators/REPORT.md`, which is on `main` now.
 
 ## Other writers in the tree during the gather
 
@@ -223,3 +223,52 @@ Each item's line carries a pointer here. No stop file was touched, and the push 
 - `explorations/compile-ladder/rung-spec-route-a/decision-record.md.` takes a sentence's period at rung S's `REPORT.md:21`.
 
 Both files exist and are tracked. Two more passes printed nothing: the loop with a final period stripped, and the gather's extended pass, which maps `compile-ladder/...` to `explorations/compile-ladder/...`.
+
+## The merged-diff review, second pass
+
+Made 2026-09-26 on `main` at `396ee649f`, in the relaunched workflow's review stage, over the batch's seven commits (`e893a3e00` rung Z, `3924e7ec3` rung S, `0b1881317` rung D's record, `601f52736` the gather's follow-up, `da53904cd` the first pass's corrections, `fe002948e` the judge's ruling, `396ee649f` its repair). Its corrections are one commit, "Fold the review's corrections", inside `explorations/` only. It finds nothing blocking in the source hunks.
+
+**Checked and holding.**
+- Batch rule 1. Z's source and tests equal `wip/rung-size-runtime` byte for byte on all 72 of its paths outside `explorations/`. S's equal `wip/rung-spec-route-a` except the passages the gather and the repair reworded (`Specification/appendices/changes.tex:83-91`, `Specification/basic/types-vals-vars.tex:247-248`, `Specification/fortress/preamble.tex:59-60`, `Specification/basic/traits.tex:317-318`) and the re-rendered PDF. D's 19 paths are at the base. The repair's five `compiler_tests/` files are new. No declaration, method, trait body or operator is changed by two rungs.
+- Batch rule 2. Z's `cP` case rests on S's text for its standing, and S landed. Since the repair, four of S's revival passages rest on Z's case for their numeral clause, so the two commits stand or fall together; both are on `main`.
+- The checker's case matches the rule it enforces. `nEq` compares two numerals by value (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:103`), as "the same value for a `nat`, `int`, `bool` ... parameter" asks (`Specification/basic/types-vals-vars.tex:218-224`). Under `negate`, `pTrue` and `pFalse` swap (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:787-790`), so the case at `:463` claims exclusion only for two different values, as the `STypeArg` case beside it does for types.
+- The repair did what its ruling says. The four passages keep their files' line counts (416, 657, 168, 850). `Specification/fortress.pdf` has 610 pages and sha256 `64de7320...`. `Specification-1.0-frozen/` and the number chapters are untouched. The captures under `review-repair/` say what "The judge's ruling on the review, and its repair" says of them.
+- Each commit carries its own rung's edit, tests and record; Z's commit carries only Z's section of this record.
+- The ledger has 419 rows: 403 at the base, plus 405-420 in order at `:416-:431`, with no gap or duplicate (148 has been vacant since the base, merged into row 8). A script against `1c0dce084` finds that the eleven pre-batch rows the batch touched (21, 76, 214, 307, 331, 340, 371, 372, 400, 402, 404) changed only by text appended inside their last cell, that their order is kept, and that no line outside the table changed. `FACTS.md`'s two anchors, `:608` and `:748`, are right.
+- Placeholders: `FACTS.md` has 8 (Z 7, S 1), the ledger 8 and the handover 2. No provisional number is left in the three record files.
+- The commits. Footers are exact on all seven, and no commit message or added line carries a model identifier. The three commits that touch paths outside `explorations/` (`e893a3e00`, `3924e7ec3`, `396ee649f`) each carry a `historical:` line.
+- Every `REPORT.md` has a five-line provenance block, each line ending in a file:line. Z's and S's `SKEPTIC.md` say that every line was opened (Z `:63`, `:142`, `:159`; S `:9`, `:63`).
+- The tracked-path check. The brief's loop, extended to `compile-ladder/...` and rung-relative `probes/...` citations, was run over the fourteen rung and batch files, `FACTS.md` and the handover. It printed only three kinds of line: nine rung D captures that stay on `wip/rung-wrap-operators`, one brace-list artefact (`probes/count/XXXInheritedOverload.{...}`), and three stem citations whose files exist and are tracked.
+- All 30 new or renamed `.fss` files under `compiler_tests/` carry one comment line, pointing at a file that exists.
+- The homes of rows 405-420:
+  - Home 3: 405 and 407.
+  - Home 2: 406, 408, 413, 414, 419 and 420.
+  - Home 1: 409 and 415, in `RTTIsizeJUTest` (`testSeventeenSizesHashApart`, `testSizesMadeAtOnceHaveDistinctSerialNumbers`).
+  - Fixed: 410 and 411.
+  - Home 2 owed in `ProjectFortress/tests/`, on the judges' rulings: 416 and 418.
+  - No gated home, reported to Pavol: 417.
+  - Row 412: see below.
+
+**The checker table.** The gate's table is `tmp/gate-batch-5/out/checker-count.txt`, written at 16:38:56 by the gate's run on `601f52736`. No file the count reads changed from `601f52736` to `396ee649f`: `ProjectFortress/src/`, `Library/`, `ProjectFortress/LibraryBuiltin/` and the build files are all untouched. The table is identical to `explorations/compile-ladder/climb-batch-4/gate/checker-count.txt`: no row is new and none rose, `#total` is 125, `#crash` is none and `#shadow` matches.
+
+**For the gate's re-run.** The compiler suite counts one test per command line of a `.test` file.
+- The run on `601f52736` showed `fast-compiler/CompilerJUTest` at 765 against batch 4's 697. The +68 is the command lines Z's net change adds under `compiler_tests/`: 419 at `6030e4b36` and at `b5acbe591`, 487 at `601f52736`.
+- The repair's three files carry one command line each (490 at `396ee649f`), so the re-run should show `CompilerJUTest` at 768.
+- The other expectations are unchanged: `testSystem` 407, `LibraryJUTest` 83, `RTTIsizeJUTest` 6 and the checker 125.
+
+**Corrected in the records.**
+- Z's branch holds sixteen commits, not seventeen (section "Rung Z").
+- D's `JUDGE.md` cites rows 405-407 by D's provisional numbers, which on `main` are rung S's rows. It now ends with a note saying so, and "Not landed" says it is no longer byte-identical to the branch.
+- Three `FACTS.md` entries still pointed at rows as not yet opened:
+  - "The brief's three size probes" owed rows at the size rung's gather; it now names them, 410-412.
+  - "What a size costs at run time" said "no ledger row yet" for the `ZZ32Vector` constructor and owed two rows; it now names 408 and 409.
+  - The vector entry at `:125` quotes that "no ledger row yet"; it now names row 408.
+- Row 407's reason for home 3 cites `Specification/basic/traits.tex:162-164`; the sentence is at `:163-165`, and on its own it would refuse `comprises T`. The appended note says that the home rests on the team's note below the sentence (`:166-170`), and what the home would be under the other reading.
+- Row 412's reproducer cell cites the checker's messages, but those print a size parameter with no bound (`explorations/compile-ladder/rung-size-runtime/probes/differential.txt:536`), so they do not show the defect. The appended note names the measurement (`explorations/perf-probes/nat/size-probes.md:90`) and says why the row has no gated home: its one observable effect is gone since Z's skip.
+- The handover's first section now names the repair's two expected failures and the batch's 32 `.test` files.
+
+**Observed, not changed.**
+- Row 407's home is arguable. If the declared-trait-identifier sentence is read as settling `comprises T` invalid, the row is home 2, owed in `ProjectFortress/tests/` like rows 416 and 418. That is for whoever next owns that directory, with the judges' rulings on 416 and 418.
+- The gather's rung S section says that `traits.tex:162-164` was opened; the passage is `:163-165`.
+- The repair's `historical:` line lists its five new `compiler_tests/` files beside the 2012-tree files it edits. Nothing is lost by that.
+- The gate has not yet run on `396ee649f`. The table above is from `601f52736`, and it stands for the reason given.
