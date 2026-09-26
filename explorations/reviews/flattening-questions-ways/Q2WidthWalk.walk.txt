@@ -9,8 +9,8 @@ h: ZZ64 = 3000000000: 3000000000 : Long
 a + h: 5147483647 : Long
 z: ZZ64 = 0; z.maximum   (longPrim.fss shape): 2147483647 : Int
 widen(0).maximum: 9223372036854775807 : Long
-z.minimum - 1 = z.maximum   (longPrim.fss:18, z holds an Int): true : Boolean
-widen(0).minimum - 1   (what longPrim.fss:18 would compute on a Long): 9223372036854775807 : Long
+z.minimum - 1 = z.maximum   (longPrim.fss:21, z holds an Int): true : Boolean
+widen(0).minimum - 1   (what longPrim.fss:21 would compute on a Long): 9223372036854775807 : Long
 fact(20), x: ZZ64 given the literal 20: -2102132736 : Int
 fact(widen(20)): 2432902008176640000 : Long
 0 : c   (ZZ32 : ZZ64): [0,1] : CompactFullParScalarRange[\ZZ64\]
@@ -32,7 +32,7 @@ pair(a, 0.5) (ZZ32, RR64): [0#2][ 2147483647 0.5 ] : __DefaultVector[\RR64,2\]
 10.0^(-5)   (MicroGptFlat.fss:18): 1.0E-5 : Float
 0.85^s   (MicroGptFlat.fss:79): 0.6141249999999999 : Float
 10.0 (0.5) + (57 - 48)   (FlatData.fss:26): 14.0 : Float
-nanoTime(): 5925293669114 : Long
-(nanoTime() - t0) DIV 1000000: 0 : Long
+nanoTime(): 5955619622695 : Long
+(nanoTime() - t0) DIV 1000000: 3 : Long
 (x DOT x) / |x|   (MicroGptFlat.fss:27): 0.25 : Float
 rc=0

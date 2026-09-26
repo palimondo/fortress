@@ -37,10 +37,10 @@ run(): () = do
     z: ZZ64 = 0
     show("z: ZZ64 = 0; z.maximum   (longPrim.fss shape)", z.maximum)
     show("widen(0).maximum", (widen(0)).maximum)
-    (* ProjectFortress/tests/longPrim.fss:18-19 check a.minimum - 1 = a.maximum
+    (* ProjectFortress/tests/longPrim.fss:21-22 check a.minimum - 1 = a.maximum
        for a: ZZ64 = 0; today a holds an Int, so the check is on ZZ32's bounds *)
-    show("z.minimum - 1 = z.maximum   (longPrim.fss:18, z holds an Int)", (z.minimum - 1) = z.maximum)
-    show("widen(0).minimum - 1   (what longPrim.fss:18 would compute on a Long)",
+    show("z.minimum - 1 = z.maximum   (longPrim.fss:21, z holds an Int)", (z.minimum - 1) = z.maximum)
+    show("widen(0).minimum - 1   (what longPrim.fss:21 would compute on a Long)",
          try (widen(0)).minimum - 1 catch e Exception => "threw " e.ilkName end)
     show("fact(20), x: ZZ64 given the literal 20", fact(20))
     show("fact(widen(20))", fact(widen(20)))
