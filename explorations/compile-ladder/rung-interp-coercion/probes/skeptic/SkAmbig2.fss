@@ -1,0 +1,25 @@
+component SkAmbig2
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+k(x: Wide, y: Narrow): String = "k(Wide, Narrow)"
+k(x: Narrow, y: Wide): String = "k(Narrow, Wide)"
+
+run(): () = do
+  println("k(WideOf(1), NarrowOf(2)) = " k(WideOf(1), NarrowOf(2)))
+  println("k(NarrowOf(3), NarrowOf(4)) = " k(NarrowOf(3), NarrowOf(4)))
+end
+end

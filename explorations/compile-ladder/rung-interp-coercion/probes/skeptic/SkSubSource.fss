@@ -1,0 +1,29 @@
+component SkSubSource
+export Executable
+
+trait Wide excludes { Narrow, String }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+trait Narrower extends Narrow end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowerOf(s: ZZ32) extends Narrower
+  getter small(): ZZ32 = s
+end
+
+f(x: Wide): ZZ32 = x.big
+g(x: Wide): String = "g(Wide) " x.big
+g(x: String): String = "g(String)"
+
+run(): () = do
+  println("f(NarrowerOf(1)) = " f(NarrowerOf(1)))
+  println("g(NarrowerOf(2)) = " g(NarrowerOf(2)))
+  w: Wide = NarrowerOf(3)
+  println("w: Wide = NarrowerOf(3); w.big = " w.big)
+end
+end

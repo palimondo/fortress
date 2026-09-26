@@ -1,0 +1,25 @@
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.80GHz; cpu MHz		: 2800.212; JDK 25; FORTRESS_THREADS=1; load at start 0.62 2.29 4.18 1/104 6165; base = tmp/build-base (47437c65f), after = ProjectFortress/build (0e76124ce); alternating
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkFieldCost.fss   (classes tmp/build-base, 2026-09-26T03:54:52Z) ===
+s = -200000 ms = 2506
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkFieldCost.fss   (0e76124ce, 2026-09-26T03:54:59Z) ===
+s = -200000 ms = 2908
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkFieldCost.fss   (classes tmp/build-base, 2026-09-26T03:55:05Z) ===
+s = -200000 ms = 2809
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkFieldCost.fss   (0e76124ce, 2026-09-26T03:55:12Z) ===
+s = -200000 ms = 2932
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkFieldCost.fss   (classes tmp/build-base, 2026-09-26T03:55:18Z) ===
+s = -200000 ms = 2733
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkFieldCost.fss   (0e76124ce, 2026-09-26T03:55:24Z) ===
+s = -200000 ms = 2572
+=== exit 0 ===
+

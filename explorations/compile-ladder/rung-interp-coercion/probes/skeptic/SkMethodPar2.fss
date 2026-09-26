@@ -1,0 +1,32 @@
+component SkMethodPar2
+export Executable
+
+trait Wide excludes { Narrow, String }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+object Picker
+  pick(x: Wide): ZZ32 = x.big
+  pick(x: String): ZZ32 = 0
+end
+
+total: ZZ32 := 0
+bump(k: ZZ32): () = atomic do total := total + k end
+
+run(): () = do
+  for i <- 1#1000 do
+    bump(Picker.pick(NarrowOf(i)))
+  end
+  println("sum of Picker.pick(NarrowOf(i)) over a parallel for = " total " expected 500500")
+end
+end

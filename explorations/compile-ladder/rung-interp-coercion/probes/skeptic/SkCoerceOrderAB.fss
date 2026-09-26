@@ -1,0 +1,21 @@
+component SkCoerceOrderAB
+export Executable
+
+trait Wide excludes { A, B }
+  coerce(x: A) = WideOf(1)
+  coerce(x: B) = WideOf(2)
+  getter big(): ZZ32
+end
+trait A excludes { Wide } end
+trait B excludes { Wide } end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object BothOf extends { A, B } end
+
+f(x: Wide): ZZ32 = x.big
+
+run(): () = do
+  println("f(BothOf) = " f(BothOf))
+end
+end

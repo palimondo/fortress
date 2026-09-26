@@ -1,0 +1,30 @@
+component SkMethodPar
+export Executable
+
+trait Wide excludes { Narrow, String }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+object Picker
+  pick(x: Wide): ZZ32 = x.big
+  pick(x: String): ZZ32 = 0
+  one(x: Wide): ZZ32 = x.big
+end
+
+run(): () = do
+  s1 = SUM[i <- 1#1000] Picker.pick(if i MOD 2 = 0 then NarrowOf(i) else WideOf(i) end)
+  println("SUM Picker.pick(mixed) = " s1 " expected 500500")
+  s2 = SUM[i <- 1#1000] Picker.one(NarrowOf(i))
+  println("SUM Picker.one(NarrowOf(i)) = " s2 " expected 500500")
+end
+end

@@ -1,0 +1,22 @@
+component SkSpecZZ
+export Executable
+
+trait S32 end
+trait S64
+  coerce(z: S32) = S64Of
+end
+trait S128
+  coerce(z: S32) = S128Of
+  coerce(z: S64) = S128Of
+end
+object S32Of extends S32 end
+object S64Of extends S64 end
+object S128Of extends S128 end
+
+f(z: S64): ZZ32 = 1
+f(z: S128): ZZ32 = 2
+
+run(): () = do
+  println("f(S32Of) = " f(S32Of))
+end
+end

@@ -1,0 +1,23 @@
+component SkTupleArrow
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+run(): () = do
+  p: (Wide, ZZ32) = (NarrowOf(1), 2)
+  (a, b) = p
+  println("p: (Wide, ZZ32) = (NarrowOf(1), 2); a.big = " a.big " b = " b)
+end
+end

@@ -1,0 +1,65 @@
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.80GHz; JDK 25; load 1.37 2.27 4.09 1/105 6767
+=== walk FORTRESS_THREADS=1 SkXComp (cwd probes/skeptic/xcomp) ===
+f(NarrowOf(1)) across components = 1
+g(NarrowOf(2)) across components = g(Wide) 2
+w: Wide = NarrowOf(3) across components; w.big = 3
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkXComp (cwd probes/skeptic/xcomp) ===
+f(NarrowOf(1)) across components = 1
+g(NarrowOf(2)) across components = g(Wide) 2
+w: Wide = NarrowOf(3) across components; w.big = 3
+=== exit 0 ===
+=== compile SkWideApi.fsi ===
+=== exit 0 ===
+=== compile SkWideApi.fss ===
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkWideApi.fss:1:11-19:
+    The following declarations in API SkWideApi are not matched
+    by the declarations in component SkWideApi.
+    Unmatched declarations: {
+        (TraitDecl Wide at /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkWideApi.fsi:3.1,
+         due to different method big @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkWideApi.fsi:5:3-6:1, 
+         due to different method big @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkWideApi.fsi:5:3-6:1, Asbtract method big @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkWideApi.fss:6:3-7:1 is not declared in the API),
+        (TraitDecl Narrow at /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkWideApi.fsi:7.1,
+         due to different method small @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkWideApi.fsi:8:3-9:1, 
+         due to different method small @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkWideApi.fsi:8:3-9:1, Asbtract method small @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkWideApi.fss:9:3-10:1 is not declared in the API)
+    }
+File SkWideApi.fss has 1 error.
+=== exit 255 ===
+=== compile SkXComp.fss ===
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkXComp.fss:6:1-37:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkXComp.fss:7:1-31:
+    Invalid overloading of g in component SkXComp:
+     SkWideApi.Wide->String @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkXComp.fss:6:1-37
+ and ZZ32->String @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/xcomp/SkXComp.fss:7:1-31
+File SkXComp.fss has 1 error.
+=== exit 255 ===
+=== run FORTRESS_THREADS=1 SkXComp ===
+Could not load SkXComp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkXComp.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+=== exit 1 ===
+=== run FORTRESS_THREADS=4 SkXComp ===
+Could not load SkXComp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkXComp.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+=== exit 1 ===

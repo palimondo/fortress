@@ -1,0 +1,26 @@
+component SkCycle
+export Executable
+
+trait P excludes { Q }
+  coerce(x: Q) = POf(x.q)
+  getter p(): ZZ32
+end
+trait Q excludes { P }
+  coerce(x: P) = QOf(x.p)
+  getter q(): ZZ32
+end
+object POf(a: ZZ32) extends P
+  getter p(): ZZ32 = a
+end
+object QOf(a: ZZ32) extends Q
+  getter q(): ZZ32 = a
+end
+
+fp(x: P): ZZ32 = x.p
+fq(x: Q): ZZ32 = x.q
+
+run(): () = do
+  println("fp(QOf(1)) = " fp(QOf(1)))
+  println("fq(POf(2)) = " fq(POf(2)))
+end
+end

@@ -1,0 +1,31 @@
+component SkRedispatch
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+  describe(self): String = "Wide.describe"
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+  describe(self): String = "WideOf.describe"
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+g(x: Wide): String = "g(Wide)"
+g(x: WideOf): String = "g(WideOf)"
+
+run(): () = do
+  println("g(WideOf(1)) = " g(WideOf(1)))
+  println("g(NarrowOf(2)) = " g(NarrowOf(2)))
+  w: Wide = NarrowOf(3)
+  println("w: Wide = NarrowOf(3); g(w) = " g(w))
+  println("describe(WideOf(4)) = " describe(WideOf(4)))
+  println("describe(NarrowOf(5)) = " describe(NarrowOf(5)))
+end
+end

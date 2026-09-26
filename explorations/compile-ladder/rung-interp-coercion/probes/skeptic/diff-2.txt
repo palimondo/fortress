@@ -1,0 +1,358 @@
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.80GHz; cpu MHz		: 2800.212; JDK 25; load at start 2.04 4.99 5.57 1/105 2163
+=== walk FORTRESS_THREADS=1 SkAtomic   (0e76124ce, 03:49:01Z, load 2.04) ===
+acc.big = 4000 expected 4000
+SUM h(NarrowOf(i)) = 500500 expected 500500
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkAtomic   (0e76124ce, 03:49:05Z, load 2.28) ===
+acc.big = 4000 expected 4000
+SUM h(NarrowOf(i)) = 500500 expected 500500
+=== exit 0 ===
+=== compile SkAtomic ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkAtomic ===
+acc.big =  4000  expected  4000
+SUM h(NarrowOf(i)) =  500500  expected 500500
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkAtomic ===
+acc.big =  4000  expected  4000
+SUM h(NarrowOf(i)) =  500500  expected 500500
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 SkMethodPar   (0e76124ce, 03:49:13Z, load 2.16) ===
+SUM Picker.pick(mixed) = 500500 expected 500500
+SUM Picker.one(NarrowOf(i)) = 500500 expected 500500
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkMethodPar   (0e76124ce, 03:49:18Z, load 2.07) ===
+SUM Picker.pick(mixed) = 500500 expected 500500
+SUM Picker.one(NarrowOf(i)) = 500500 expected 500500
+=== exit 0 ===
+=== compile SkMethodPar ===
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
+	at org.objectweb.asm.Frame.merge(Frame.java:1281)
+	at org.objectweb.asm.Frame.merge(Frame.java:1256)
+	at org.objectweb.asm.MethodWriter.computeAllFrames(MethodWriter.java:1612)
+	at org.objectweb.asm.MethodWriter.visitMaxs(MethodWriter.java:1548)
+	at org.objectweb.asm.MethodVisitor.visitMaxs(MethodVisitor.java:787)
+	at com.sun.fortress.compiler.codegen.ManglingMethodVisitor.visitMaxs(ManglingMethodVisitor.java:49)
+	at org.objectweb.asm.MethodVisitor.visitMaxs(MethodVisitor.java:787)
+	at org.objectweb.asm.util.TraceMethodVisitor.visitMaxs(TraceMethodVisitor.java:304)
+	at org.objectweb.asm.MethodVisitor.visitMaxs(MethodVisitor.java:787)
+	at com.sun.fortress.compiler.codegen.CodeGenMethodVisitor.visitMaxs(CodeGenMethodVisitor.java:99)
+	at com.sun.fortress.compiler.codegen.CodeGen.methodReturnAndFinish(CodeGen.java:3409)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnExpr(CodeGen.java:3497)
+	at com.sun.fortress.nodes.FnExpr.accept(FnExpr.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.evalArg(CodeGen.java:6340)
+	at com.sun.fortress.compiler.codegen.CodeGen.for_RewriteFnApp(CodeGen.java:6465)
+	at com.sun.fortress.nodes._RewriteFnApp.accept(_RewriteFnApp.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnExpr(CodeGen.java:3495)
+	at com.sun.fortress.nodes.FnExpr.accept(FnExpr.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.evalArg(CodeGen.java:6340)
+	at com.sun.fortress.compiler.codegen.CodeGen.for_RewriteFnApp(CodeGen.java:6465)
+	at com.sun.fortress.nodes._RewriteFnApp.accept(_RewriteFnApp.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.forExprsSerial(CodeGen.java:4854)
+	at com.sun.fortress.compiler.codegen.CodeGen.forLocalVarDecl(CodeGen.java:3998)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.doStatements(CodeGen.java:1580)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlockHelper(CodeGen.java:1710)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlock(CodeGen.java:1765)
+	at com.sun.fortress.nodes.Block.accept(Block.java:73)
+	at com.sun.fortress.compiler.codegen.CodeGen.forDo(CodeGen.java:1972)
+	at com.sun.fortress.nodes.Do.accept(Do.java:61)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateActualMethodCode(CodeGen.java:2799)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateFunctionalBody(CodeGen.java:2741)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnDecl(CodeGen.java:3008)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:71)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1944)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== walk FORTRESS_THREADS=1 SkSubSource   (0e76124ce, 03:49:24Z, load 2.14) ===
+f(NarrowerOf(1)) = 1
+g(NarrowerOf(2)) = g(Wide) 2
+w: Wide = NarrowerOf(3); w.big = 3
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkSubSource   (0e76124ce, 03:49:28Z, load 2.13) ===
+f(NarrowerOf(1)) = 1
+g(NarrowerOf(2)) = g(Wide) 2
+w: Wide = NarrowerOf(3); w.big = 3
+=== exit 0 ===
+=== compile SkSubSource ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkSubSource ===
+f(NarrowerOf(1)) =  1
+g(NarrowerOf(2)) =  g(Wide)  2
+w: Wide = NarrowerOf(3); w.big =  3
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkSubSource ===
+f(NarrowerOf(1)) =  1
+g(NarrowerOf(2)) =  g(Wide)  2
+w: Wide = NarrowerOf(3); w.big =  3
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 SkAsif   (0e76124ce, 03:49:35Z, load 2.04) ===
+f(NarrowOf(1) asif Narrow) = 1
+g(NarrowOf(2) asif Narrow) = 2
+w: Wide = (NarrowOf(3) asif Narrow); w.big = 3
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkAsif   (0e76124ce, 03:49:39Z, load 2.12) ===
+f(NarrowOf(1) asif Narrow) = 1
+g(NarrowOf(2) asif Narrow) = 2
+w: Wide = (NarrowOf(3) asif Narrow); w.big = 3
+=== exit 0 ===
+=== compile SkAsif ===
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAsif.fss:23:56-67:
+    Can't compile AsIfExpr at /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAsif.fss:23.56
+	at com.sun.fortress.compiler.codegen.CodeGen.sayWhat(CodeGen.java:1553)
+	at com.sun.fortress.compiler.codegen.CodeGen.sayWhat(CodeGen.java:1558)
+	at com.sun.fortress.compiler.codegen.CodeGen.defaultCase(CodeGen.java:1670)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forNode(NodeAbstractVisitor_void.java:33)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forASTNode(NodeAbstractVisitor_void.java:37)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forAbstractNode(NodeAbstractVisitor_void.java:49)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forExpr(NodeAbstractVisitor_void.java:185)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forTypeAnnotatedExpr(NodeAbstractVisitor_void.java:193)
+	at com.sun.fortress.nodes.NodeAbstractVisitor_void.forAsIfExpr(NodeAbstractVisitor_void.java:201)
+	at com.sun.fortress.nodes.AsIfExpr.accept(AsIfExpr.java:55)
+	at com.sun.fortress.compiler.codegen.CodeGen.evalArg(CodeGen.java:6388)
+	at com.sun.fortress.compiler.codegen.CodeGen.for_RewriteFnApp(CodeGen.java:6465)
+	at com.sun.fortress.nodes._RewriteFnApp.accept(_RewriteFnApp.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.evalArg(CodeGen.java:6388)
+	at com.sun.fortress.compiler.codegen.CodeGen.for_RewriteFnApp(CodeGen.java:6465)
+	at com.sun.fortress.nodes._RewriteFnApp.accept(_RewriteFnApp.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.evaluateSubExprsAppropriately(CodeGen.java:4891)
+	at com.sun.fortress.compiler.codegen.CodeGen.forOpExpr(CodeGen.java:4869)
+	at com.sun.fortress.nodes.OpExpr.accept(OpExpr.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.evalArg(CodeGen.java:6388)
+	at com.sun.fortress.compiler.codegen.CodeGen.for_RewriteFnApp(CodeGen.java:6465)
+	at com.sun.fortress.nodes._RewriteFnApp.accept(_RewriteFnApp.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.doStatements(CodeGen.java:1580)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlockHelper(CodeGen.java:1710)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlock(CodeGen.java:1765)
+	at com.sun.fortress.nodes.Block.accept(Block.java:73)
+	at com.sun.fortress.compiler.codegen.CodeGen.forDo(CodeGen.java:1972)
+	at com.sun.fortress.nodes.Do.accept(Do.java:61)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateActualMethodCode(CodeGen.java:2799)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateFunctionalBody(CodeGen.java:2741)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnDecl(CodeGen.java:3008)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:71)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1944)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== walk FORTRESS_THREADS=1 SkCoerceOrderAB   (0e76124ce, 03:49:44Z, load 2.19) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:6:3-26: and
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:5:3-26:
+first parameters x:[B] and x:[A] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:6:3-26:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:5:3-26:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 SkCoerceOrderAB   (0e76124ce, 03:49:48Z, load 2.25) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:6:3-26: and
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:5:3-26:
+first parameters x:[B] and x:[A] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:6:3-26:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:5:3-26:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== compile SkCoerceOrderAB ===
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:5:3-26:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:6:3-26:
+    Invalid overloading of coerce_Wide in component SkCoerceOrderAB:
+     A->Wide @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:5:3-26
+ and B->Wide @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderAB.fss:6:3-26
+File SkCoerceOrderAB.fss has 1 error.
+=== exit 255 ===
+
+=== walk FORTRESS_THREADS=1 SkCoerceOrderBA   (0e76124ce, 03:49:54Z, load 2.23) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:6:3-26: and
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:5:3-26:
+first parameters x:[A] and x:[B] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:6:3-26:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:5:3-26:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 SkCoerceOrderBA   (0e76124ce, 03:49:58Z, load 2.13) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:6:3-26: and
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:5:3-26:
+first parameters x:[A] and x:[B] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:6:3-26:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:5:3-26:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== compile SkCoerceOrderBA ===
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:5:3-26:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:6:3-26:
+    Invalid overloading of coerce_Wide in component SkCoerceOrderBA:
+     A->Wide @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:6:3-26
+ and B->Wide @ /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCoerceOrderBA.fss:5:3-26
+File SkCoerceOrderBA.fss has 1 error.
+=== exit 255 ===
+
+=== walk FORTRESS_THREADS=1 SkAscribe   (0e76124ce, 03:50:03Z, load 2.28) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAscribe.fss:19:18-28:
+The type of expression NarrowOf is not a subtype of Wide.
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAscribe.fss:19:18-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 SkAscribe   (0e76124ce, 03:50:07Z, load 2.28) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAscribe.fss:19:18-28:
+The type of expression NarrowOf is not a subtype of Wide.
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAscribe.fss:19:18-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== compile SkAscribe ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkAscribe ===
+NarrowOf(1) typed Wide gave a value
+1
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkAscribe ===
+NarrowOf(1) typed Wide gave a value
+1
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 SkAmbig2   (0e76124ce, 03:50:13Z, load 2.24) ===
+k(WideOf(1), NarrowOf(2)) = k(Wide, Narrow)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:23:44-69:
+Ambiguous coercion, args = (NarrowOf,NarrowOf), applicable with coercion = {coerced k(x:Wide,y:Narrow):FortressLibrary.String (Wide,Narrow)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:18:1-49,coerced k(x:Narrow,y:Wide):FortressLibrary.String (Narrow,Wide)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:19:1-50}
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:23:44-69:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 SkAmbig2   (0e76124ce, 03:50:18Z, load 2.30) ===
+k(WideOf(1), NarrowOf(2)) = k(Wide, Narrow)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:23:44-69:
+Ambiguous coercion, args = (NarrowOf,NarrowOf), applicable with coercion = {coerced k(x:Wide,y:Narrow):FortressLibrary.String (Wide,Narrow)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:18:1-49,coerced k(x:Narrow,y:Wide):FortressLibrary.String (Narrow,Wide)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:19:1-50}
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:23:44-69:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== compile SkAmbig2 ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkAmbig2 ===
+k(WideOf(1), NarrowOf(2)) =  k(Wide, Narrow)
+k(NarrowOf(3), NarrowOf(4)) =  k(Wide, Narrow)
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkAmbig2 ===
+k(WideOf(1), NarrowOf(2)) =  k(Wide, Narrow)
+k(NarrowOf(3), NarrowOf(4)) =  k(Wide, Narrow)
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 SkCycle   (0e76124ce, 03:50:26Z, load 2.68) ===
+fp(QOf(1)) = 1
+fq(POf(2)) = 2
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkCycle   (0e76124ce, 03:50:30Z, load 2.54) ===
+fp(QOf(1)) = 1
+fq(POf(2)) = 2
+=== exit 0 ===
+=== compile SkCycle ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkCycle ===
+fp(QOf(1)) =  1
+fq(POf(2)) =  2
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkCycle ===
+fp(QOf(1)) =  1
+fq(POf(2)) =  2
+=== exit 0 ===
+

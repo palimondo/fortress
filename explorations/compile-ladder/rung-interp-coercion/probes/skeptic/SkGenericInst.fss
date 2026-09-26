@@ -1,0 +1,29 @@
+component SkGenericInst
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+ident[\T\](x: T): T = x
+object Box[\T\](var content: T) end
+
+run(): () = do
+  println("ident[\\Wide\\](WideOf(1)).big = " ident[\Wide\](WideOf(1)).big)
+  println("ident[\\Wide\\](NarrowOf(2)).big = " ident[\Wide\](NarrowOf(2)).big)
+  b = Box[\Wide\](NarrowOf(3))
+  println("Box[\\Wide\\](NarrowOf(3)).content.big = " b.content.big)
+  b.content := NarrowOf(4)
+  println("b.content := NarrowOf(4); b.content.big = " b.content.big)
+end
+end

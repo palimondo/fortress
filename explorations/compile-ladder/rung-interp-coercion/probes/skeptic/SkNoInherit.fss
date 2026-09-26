@@ -1,0 +1,25 @@
+component SkNoInherit
+export Executable
+
+trait WideSuper end
+trait Wide extends WideSuper excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait WideSub extends Wide end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends WideSub
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+fsub(x: WideSub): ZZ32 = x.big
+
+run(): () = do
+  println("fsub(NarrowOf(1)) = " fsub(NarrowOf(1)))
+end
+end
