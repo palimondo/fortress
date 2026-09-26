@@ -200,6 +200,16 @@ commit "the running workflow's rung 5", and the completion notification). So
 while a batch runs: compact freely between turns; do not send while a turn is
 in flight.
 
+*Corrected 2026-09-26:* the interrupt is not a message. What stops a turn, and
+every background agent with it, Workflow agents and background `Agent`-tool
+workers alike (two workers at 2026-09-22 07:18:51, one at 2026-09-25 22:31:59), is
+the interrupt the transcript records as "[Request interrupted by user]"; on
+2026-09-26 at 12:07:47 it was very likely the iOS stop button. A message sent
+while a turn is in flight is queued, delivered inside the turn or as the next
+turn, and in eleven cases from 09-19 to 09-26 it cut no turn and killed no run. So
+while a batch runs: send whenever; compact between turns; do not press stop in any
+turn, not only a check-in.
+
 ## The 2026-09-18 restart
 
 The repair batch's re-run was launched at 22:57 UTC (run `wf_9777a563-c5e`,
