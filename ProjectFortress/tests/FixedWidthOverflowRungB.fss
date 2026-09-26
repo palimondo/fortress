@@ -1,6 +1,6 @@
-(*) explorations/compile-ladder/rung-int-semantics-compiled/REPORT.md
+(*) explorations/compile-ladder/rung-walk-overflow/REPORT.md
 
-component XXXFixedWidthOverflowRungB
+component FixedWidthOverflowRungB
 export Executable
 
 overflows(f: () -> Any): Boolean =
