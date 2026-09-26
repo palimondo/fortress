@@ -18,8 +18,8 @@ run(): () = do
     h = Holder(1)
     h.pair := (WideOf(10), 11)
     (a, b) = h.pair
-    assert(a.big, 10, "row 397 (provisional): a mutable field declared with a tuple type holds the value assigned to it; basic/objects.tex:275-277, :343-345; basic/traits.tex:446-448")
-    assert(b, 11, "row 397 (provisional): a mutable field declared with a tuple type holds the value assigned to it; basic/objects.tex:275-277, :343-345; basic/traits.tex:446-448")
+    assert(a.big, 10, "row 397: a mutable field declared with a tuple type holds the value assigned to it; basic/objects.tex:275-277, :343-345; basic/traits.tex:446-448")
+    assert(b, 11, "row 397: a mutable field declared with a tuple type holds the value assigned to it; basic/objects.tex:275-277, :343-345; basic/traits.tex:446-448")
     println("PASS")
 end
 

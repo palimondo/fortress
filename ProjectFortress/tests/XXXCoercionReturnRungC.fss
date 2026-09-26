@@ -21,7 +21,7 @@ r(): Wide = NarrowOf(3)
 
 run() = do
     println("REACHED")
-    assert(r().big, 3, "row 387 (provisional): a body whose return type is declared converts; conversions-coercions.tex:104-105")
+    assert(r().big, 3, "row 387: a body whose return type is declared converts; conversions-coercions.tex:104-105")
     println("PASS")
   end
 
