@@ -358,6 +358,12 @@ we make its signature into:
 ``\EXP{\$i} = Right OR \EXP{\$i} = Wrong''.
 Later, the call to \EXP{\VAR{foo}()} forces the issue:
 \EXP{\$i} must be ``Right'', but unless we kept both possibilities alive, our program might not typecheck correctly.
+\revision{revival-internal}{Under instantiation exclusion the program's
+premise is not allowed: \TYP{Parent} may not extend both
+\EXP{\TYP{Plussable}\llbracket\TYP{Right}\rrbracket} and
+\EXP{\TYP{Plussable}\llbracket\TYP{Wrong}\rrbracket}
+(\secref{trait-types}, \secref{trait-decls}),
+so the disjunction does not arise for this program.}
 
 
 \subsection{Weirdness with Multiple Inheritance and Polymorphism}
@@ -412,6 +418,12 @@ We noticed that you can get some fairly odd behavior if you allow inheriting fro
 \(\VAR{run}(\VAR{args}\COLON \TYP{String})\COLONOP() = \VAR{ignore}(\VAR{foo}())\)\\[4pt]
 \(\KWD{end}\)
 \end{Fortress}
+\revision{revival-internal}{This is the case instantiation exclusion
+answers: \VAR{badChild} may not extend both
+\EXP{\TYP{Parent}\llbracket\mathbb{Z}32\rrbracket} and
+\EXP{\TYP{Parent}\llbracket\TYP{String}\rrbracket}
+(\secref{trait-types}, \secref{trait-decls}),
+so the question of what \EXP{\VAR{foo}()} returns does not arise.}
 
 
 
@@ -507,6 +519,12 @@ We noticed that you can get some fairly odd behavior if you allow inheriting fro
 \(    \KWD{where} \{\,\VAR{ninf} \vee \VAR{lt} \vee \VAR{eq} \vee \VAR{gt} \vee \VAR{pinf} \vee \VAR{nan}\,\}\)\-\\\poptabs
 \(\KWD{end}\)
 \end{Fortress}
+\revision{revival-internal}{Under instantiation exclusion this declaration
+is not allowed, for the reason the covariance example of
+\secref{where-clauses} is not: its \KWD{extends} clause names
+\TYP{RationalQuantity} with \KWD{where}-clause variables as static
+arguments. The number chapters that describe the same design are not yet
+revised (\secref{revival-notrevised}).}
 
 
 

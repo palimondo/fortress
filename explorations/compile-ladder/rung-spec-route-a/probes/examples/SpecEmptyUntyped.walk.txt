@@ -1,0 +1,15 @@
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-spec/tmp/probe-cache/work/SpecEmptyUntyped.fss:30:21-28:
+** bug! MethodClosure cons(_:T):List[\T\]/home/user/fortress-spec/tmp/probe-cache/work/SpecEmptyUntyped.fss:7:3-20 has neither body nor def instanceof Method
+Context:
+/home/user/fortress-spec/tmp/probe-cache/work/SpecEmptyUntyped.fss:30:21-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

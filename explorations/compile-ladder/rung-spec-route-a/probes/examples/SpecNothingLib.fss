@@ -1,0 +1,9 @@
+component SpecNothingLib
+export Executable
+
+run():() = do
+  message: Maybe[\String\] = Nothing[\String\]
+  println(message.holds)
+end
+
+end

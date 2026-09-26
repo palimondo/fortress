@@ -109,25 +109,32 @@ can throw a checked exception, it is a static error.
 \seclabel{chained-exceptions}
 
 Every exception has optional fields: a message and a chained exception.
-These fields are default to \TYP{Nothing} as follows:
+These fields are default to
+\EXP{\TYP{Nothing}\llbracket\TYP{String}\rrbracket} and
+\EXP{\TYP{Nothing}\llbracket\TYP{Exception}\rrbracket} as follows:
 %trait Exception comprises { CheckedException, UncheckedException }
-%  getter message(): Maybe[\String\] = Nothing
+%  getter message(): Maybe[\String\] = Nothing[\String\]
 %  setter message(Maybe[\String\]):()
-%  getter chain(): Maybe[\Exception\] = Nothing
+%  getter chain(): Maybe[\Exception\] = Nothing[\Exception\]
 %  setter chain(Maybe[\Exception)\]:()
 %  printStackTrace(): ()
 %end
 \begin{Fortress}
 \(\KWD{trait} \TYP{Exception} \KWD{comprises} \{\,\TYP{CheckedException}, \TYP{UncheckedException}\,\}\)\\
-{\tt~~}\pushtabs\=\+\(  \KWD{getter} \VAR{message}()\COLON \TYP{Maybe}\llbracket\TYP{String}\rrbracket = \TYP{Nothing}\)\\
+{\tt~~}\pushtabs\=\+\(  \KWD{getter} \VAR{message}()\COLON \TYP{Maybe}\llbracket\TYP{String}\rrbracket = \TYP{Nothing}\llbracket\TYP{String}\rrbracket\)\\
 \(  \KWD{setter} \VAR{message}(\TYP{Maybe}\llbracket\TYP{String}\rrbracket)\COLONOP()\)\\
-\(  \KWD{getter} \VAR{chain}()\COLON \TYP{Maybe}\llbracket\TYP{Exception}\rrbracket = \TYP{Nothing}\)\\
+\(  \KWD{getter} \VAR{chain}()\COLON \TYP{Maybe}\llbracket\TYP{Exception}\rrbracket = \TYP{Nothing}\llbracket\TYP{Exception}\rrbracket\)\\
 \(  \KWD{setter} \VAR{chain}(\TYP{Maybe}\llbracket\TYP{Exception}\rrbracket)\COLONOP()\)\\
 \(  \VAR{printStackTrace}()\COLON ()\)\-\\\poptabs
 \(\KWD{end}\)
 \end{Fortress}
-where an optional value \VAR{v} is either \TYP{Nothing} or
+where an optional value \VAR{v} of type \EXP{\TYP{Maybe}\llbracket{}T\rrbracket}
+is either \EXP{\TYP{Nothing}\llbracket{}T\rrbracket} or
 \EXP{\TYP{Just}(v)}.
+\revision{revival-nothing}{The Working Draft of February 2011 wrote both
+defaults as a bare \TYP{Nothing}, one object for every instantiation of
+\TYP{Maybe}, which instantiation exclusion forbids
+(\secref{convenience-types}).}
 The \VAR{chain} field can be set at most once.  If it is set more than
 once, an \TYP{InvalidChain} exception is thrown.
 It is generally set when the exception is created.

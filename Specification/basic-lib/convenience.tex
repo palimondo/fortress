@@ -31,23 +31,49 @@ The function \EXP{\mathrm{coerce}} returns its argument as the given type.
 \section{Convenience Types}
 \seclabel{convenience-types}
 
-An optional value \VAR{v} is either \TYP{Nothing} or
+An optional value \VAR{v} of type \EXP{\TYP{Maybe}\llbracket{}T\rrbracket}
+is either \EXP{\TYP{Nothing}\llbracket{}T\rrbracket} or
 \EXP{\TYP{Just}(v)} declared as follows:
 %(* Optional Values *)
-%trait Maybe[\T\] comprises { Nothing, Just[\T\] }
+%trait Maybe[\T\] comprises { Nothing[\T\], Just[\T\] }
 %  isNothing: Boolean
 %end
-%object Nothing extends Maybe[\T\] excludes Just[\T\] where {T extends Object}
+%value object Nothing[\T\] extends Maybe[\T\]
 %end
 %object Just[\T\](just: T) extends Maybe[\T\]
 %end
 \begin{Fortress}
 \(\mathtt{(*}\;\hbox{\rm  Optional Values \unskip}\;\mathtt{*)}\)\\
-\(\KWD{trait} \TYP{Maybe}\llbracket{}T\rrbracket \KWD{comprises} \{\,\TYP{Nothing}, \TYP{Just}\llbracket{}T\rrbracket\,\}\)\\
+\(\KWD{trait}\:\TYP{Maybe}\llbracket{}T\rrbracket \KWD{comprises} \{\,\TYP{Nothing}\llbracket{}T\rrbracket, \TYP{Just}\llbracket{}T\rrbracket\,\}\)\\
 {\tt~~}\pushtabs\=\+\(  \VAR{isNothing}\COLON \TYP{Boolean}\)\-\\\poptabs
 \(\KWD{end}\)\\
-\(\KWD{object} \TYP{Nothing} \KWD{extends} \TYP{Maybe}\llbracket{}T\rrbracket \KWD{excludes} \TYP{Just}\llbracket{}T\rrbracket \KWD{where} \{T \KWD{extends} \TYP{Object}\}\)\\
+\(\KWD{value}\;\;\KWD{object}\:\TYP{Nothing}\llbracket{}T\rrbracket \KWD{extends}\:\TYP{Maybe}\llbracket{}T\rrbracket\)\\
 \(\KWD{end}\)\\
-\(\KWD{object} \TYP{Just}\llbracket{}T\rrbracket(\VAR{just}\COLON T) \KWD{extends} \TYP{Maybe}\llbracket{}T\rrbracket\)\\
+\(\KWD{object}\:\TYP{Just}\llbracket{}T\rrbracket(\VAR{just}\COLON T) \KWD{extends}\:\TYP{Maybe}\llbracket{}T\rrbracket\)\\
 \(\KWD{end}\)
 \end{Fortress}
+The empty case is one object for each type \VAR{T},
+and each use writes the type,
+as in \EXP{\TYP{Nothing}\llbracket\TYP{String}\rrbracket}.
+The following declaration of a single \TYP{Nothing} for every
+instantiation of \TYP{Maybe} is not allowed:
+%(* Not allowed! *)
+%object Nothing extends Maybe[\T\] excludes Just[\T\] where {T extends Object}
+%end
+\begin{Fortress}
+\(\mathtt{(*}\;\hbox{\rm  Not allowed! \unskip}\;\mathtt{*)}\)\\
+\(\KWD{object} \TYP{Nothing} \KWD{extends} \TYP{Maybe}\llbracket{}T\rrbracket \KWD{excludes} \TYP{Just}\llbracket{}T\rrbracket \KWD{where} \{T \KWD{extends} \TYP{Object}\}\)\\
+\(\KWD{end}\)
+\end{Fortress}
+It would make \TYP{Nothing} a \EXP{\TYP{Maybe}\llbracket{}T\rrbracket}
+for every \VAR{T} at once,
+which instantiation exclusion forbids (\secref{where-clauses});
+and an object declaration has no \KWD{excludes} clause
+(\secref{object-decls}), an object trait type already excluding
+every type that is not its supertype (\secref{object-traits}).
+\revision{revival-nothing}{The Working Draft of February 2011 declared
+\TYP{Nothing} with the declaration marked ``Not allowed''.
+The declaration of \EXP{\TYP{Nothing}\llbracket{}T\rrbracket} is the
+library's, whose own source says it
+``will become a non-parametric singleton when we get where clauses working'';
+instantiation exclusion closes that road.}

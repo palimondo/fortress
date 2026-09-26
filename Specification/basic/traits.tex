@@ -178,6 +178,11 @@ Victor: It is possible for a trait to explicitly extend itself
  (But we could just rule this a special case, since it is special in other
  ways already.)
 }
+\revision{revival-where}{The revival rules on this note and on the
+one below: a \KWD{where}-clause variable may not appear as a static
+argument in an \KWD{extends} clause (\secref{where-clauses}),
+so no trait extends itself through a hidden type variable
+and explicit extension has no self cycles.}
 In addition, every trait except \TYP{Any} and \TYP{Object}
 implicitly extends the trait \TYP{Object}
 if it does not do so explicitly.
@@ -290,6 +295,33 @@ For example, the following trait declaration is not allowed:
 \(\mathtt{(*}\;\hbox{\rm  Not allowed! \unskip}\;\mathtt{*)}\)\\
 \(\KWD{trait} \TYP{InclusiveMolecule} \KWD{extends} \{\,\TYP{InorganicMolecule}, \TYP{OrganicMolecule}\,\} \KWD{end}\)
 \end{Fortress}
+
+For the same reason, a trait or object may not extend
+two instantiations of one parameterized trait
+that exclude each other by instantiation exclusion (\secref{trait-types}),
+directly or through its supertraits:
+any two instantiations of one parameterized trait that it extends
+must have the same static arguments, operator arguments excepted.
+For example, the following object declaration is not allowed:
+%trait Parent[\T\] end
+%(* Not allowed! *)
+%object Child extends { Parent[\ZZ32\], Parent[\String\] } end
+\begin{Fortress}
+\(\KWD{trait}\:\TYP{Parent}\llbracket{}T\rrbracket \KWD{end}\)\\
+\(\mathtt{(*}\;\hbox{\rm  Not allowed! \unskip}\;\mathtt{*)}\)\\
+\(\KWD{object}\:\TYP{Child} \KWD{extends} \{\,\TYP{Parent}\llbracket\mathbb{Z}32\rrbracket, \TYP{Parent}\llbracket\TYP{String}\rrbracket\,\} \KWD{end}\)
+\end{Fortress}
+\revision{revival-rule}{The rule on declarations is new.
+The Working Draft of February 2011 allowed a trait to extend
+two different instantiations of one parameterized trait;
+the compiled type checker refuses such a declaration,
+reporting that the two instantiations exclude each other.
+The team's later Types chapter (Luchangco, 2012) states the rule as:
+a trait that extends two instantiations of a generic type,
+directly or indirectly, must extend an expressible instantiation
+that is a subtype of both.
+Where every static parameter is invariant, as in this specification,
+that is the rule stated above.}
 
 A trait is allowed to have multiple immediate supertraits.
 The following trait has two immediate supertraits:

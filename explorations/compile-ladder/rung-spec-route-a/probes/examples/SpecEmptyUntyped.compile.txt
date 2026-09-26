@@ -1,0 +1,4 @@
+/home/user/fortress-spec/tmp/probe-cache/work/SpecEmptyUntyped.fss:23:8:
+    Missing parameter type for x
+File SpecEmptyUntyped.fss has 1 error.
+rc=255

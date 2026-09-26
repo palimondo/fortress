@@ -19,9 +19,14 @@ every exception in Fortress has trait \TYP{Exception}.
 An exception is either a \TYP{CheckedException} or an
 \TYP{UncheckException}.
 Every exception has optional fields: a message and a chained exception.
-These fields are default to \TYP{Nothing}
-where an optional value \VAR{v} is either \TYP{Nothing} or
+These fields are default to
+\EXP{\TYP{Nothing}\llbracket\TYP{String}\rrbracket} and
+\EXP{\TYP{Nothing}\llbracket\TYP{Exception}\rrbracket}
+where an optional value \VAR{v} of type \EXP{\TYP{Maybe}\llbracket{}T\rrbracket}
+is either \EXP{\TYP{Nothing}\llbracket{}T\rrbracket} or
 \EXP{\TYP{Just}(v)} as declared in \secref{convenience-types}.
+\revision{revival-nothing}{The Working Draft of February 2011 wrote both
+defaults as a bare \TYP{Nothing}.}
 
 
 % trait Exception comprises { CheckedException, UncheckedException }

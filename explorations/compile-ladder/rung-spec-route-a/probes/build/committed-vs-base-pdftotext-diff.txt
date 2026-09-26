@@ -1,75 +1,76 @@
-10920a10921,10922
+# pdftotext of the committed Specification/fortress.pdf at 6030e4b36 (599 pages, built 2026-08-23) against this container's base build (600 pages), each through norm.sh; diff committed base
+10914a10915,10916
 > Place holder for exclusions of AdditiveGroup
 > trait AnyAdditiveGroup end
-10924c10926
+10918c10920
 < trait AdditiveGroup T extends AdditiveGroupJT K
 ---
 > trait AdditiveGroup T extends AdditiveGroupJT K extends AnyAdditiveGroup
-10944,10946c10946
-< self,other :Z
+10938,10940c10940
+< self,other :Z64
 < opr
 < :T
 ---
 > oprself,other :Z64 : T
-11044c11044
+11038c11038
 < comprises { . . . }
 ---
 > comprises { AnyIntegral, . . . }
-11080c11080,11082
+11074c11074,11076
 < trait AnyIntegral extends { Q } end
 ---
 > trait AnyIntegral extends { Q } comprises { Z } end
 > not yet:
 > ‘‘comprises IntegralJIK where JIK ’’
-11165,11166c11167,11168
-< opr LSHIFT(self, b: Z64): Z
-< opr RSHIFT(self, b: Z64): Z
+11159,11160c11161,11162
+< opr LSHIFT(self, b: Z64): Z32
+< opr RSHIFT(self, b: Z64): Z32
 ---
-> opr LSHIFT(self, b: AnyIntegral): Z
-> opr RSHIFT(self, b: AnyIntegral): Z
-11203,11204c11205,11206
-< opr LSHIFT(self, b: Z64): Z
-< opr RSHIFT(self, b: Z64): Z
+> opr LSHIFT(self, b: AnyIntegral): Z32
+> opr RSHIFT(self, b: AnyIntegral): Z32
+11197,11198c11199,11200
+< opr LSHIFT(self, b: Z64): Z64
+< opr RSHIFT(self, b: Z64): Z64
 ---
-> opr LSHIFT(self, b: AnyIntegral): Z
-> opr RSHIFT(self, b: AnyIntegral): Z
-11219a11222
+> opr LSHIFT(self, b: AnyIntegral): Z64
+> opr RSHIFT(self, b: AnyIntegral): Z64
+11213a11216
 > shift(self, k: AnyIntegral): Z
-11263a11267
+11257a11261
 > trait GeneratorJEK extends
-11265c11269
+11259c11263
 < trait GeneratorJEK extends ContainsJEK
 ---
 > ContainsJEK
-11366d11369
+11360d11363
 < x←xs
-11367a11371
+11361a11365
 > x←xs
-11418a11423
+11412a11417
 > nest[\E1,E2\](g:Generator[\E1\], f:E1-
-11425d11429
+11419d11423
 < nest[\E1,E2\](g:Generator[\E1\], f:E1-
-11456c11460
+11450c11454
 < mapJGK(f : E → G): GeneratorJGK
 ---
 > mapJGK(f : E → G): ConditionJGK
-11757c11761
+11751c11755
 < Potemkin exclusion traits.
 ---
 > Potemkin exclusion traits. Really we just want to say that ‘‘RankJnK excludes RankJmK where { m
-11759,11760d11762
+11753,11754d11756
 < Really we just want to say that ‘‘RankJnK excludes RankJmK where { m
 < trait Rank1 extends
-11762c11764,11766
+11756c11758,11760
 < RankJ1K excludes { Rank2, Rank3, Number, String }
 ---
 > trait Rank1 extends RankJ1K excludes { Rank2, Rank3, Number, String }
 > end
 > trait Rank2 extends
-11768,11769d11771
+11762,11763d11765
 < trait Rank2 extends
 < end
-12347c12349,12353
+12341c12343,12347
 < excludes { Number, String }
 ---
 > excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
@@ -77,20 +78,20 @@
 > +(self, other: T); in exchange no Array3 can be an additive group, a rank-3 counterpart of Vector and Matrix.
 > Array1 and Array2 cannot exclude it: Vector and Matrix extend them and are additive groups.
 > *)
-12370c12376
+12364c12370
 < 
 ---
 > opr
-12372c12378,12379
+12366c12372,12373
 < opr : OpenRangeJZ32K : Array3JT, 0, s0 , 0, s1 , 0, s2 K
 ---
 > 
 > : OpenRangeJZ32K : Array3JT, 0, s0 , 0, s1 , 0, s2 K
-12488a12496
+12482a12490
 > 
-12491d12498
+12485d12492
 < 
-12791,12794c12798,12801
+12785,12788c12792,12795
 < shiftLeft(shift: I): RangeJIK
 < shiftRight(shift: I): RangeJIK
 < opr << (self, shift: I): RangeJIK
@@ -100,31 +101,31 @@
 > shiftRight(amount: I): RangeJIK
 > opr << (self, amount: I): RangeJIK
 > opr >> (self, amount: I): RangeJIK
-12988,12991c12995
+12982,12985c12989
 < (:
 < A)
 < #
 < B
 ---
 > (: A) # B
-13064,13067d13067
+13058,13061d13061
 < 
 < 
 < abstract splitWithOffsets(): Generator (Z32, String)
 < abstract split(): GeneratorJStringK
-13078,13079c13078,13079
+13072,13073c13072,13073
 < splitWithOffsets(): Generator (Z32, String)
 < split(): GeneratorJStringK
 ---
 > abstract splitWithOffsets(): Generator (Z32, String)
 > abstract split(): GeneratorJStringK
-13256,13257d13255
+13250,13251d13249
 < relation() : (E, E) → Boolean
 < target() : GeneratorJ E K
-13259a13258,13259
+13253a13252,13253
 > relation() : (E, E) → Boolean
 > target() : GeneratorJ E K
-13269,13270c13269,13272
+13263,13264c13263,13266
 < −
 < →
 ---
@@ -132,11 +133,11 @@
 > −→
 > X
 > ←−
-13274,13276d13275
+13268,13270d13269
 < ←
 < −
 < X
-13278a13278,13291
+13272a13272,13285
 > ⊙
 > * Scalar extension: an array of numbers and one number, either wa
 > ⊙
@@ -151,25 +152,25 @@
 > * declarations beside these.
 > 
 > opr +JT extends Number, IK x: ArrayJT, IK, y: T : ArrayJT, IK
-13280c13293
+13274c13287
 < opr + x: ArrayJZ32, Z32K, y: Z32 : ArrayJZ32, Z32K
 ---
 > opr +JT extends Number, IK y: T, x: ArrayJT, IK : ArrayJT, IK
-13282c13295,13301
+13276c13289,13295
 < opr − x: ArrayJZ32, Z32K, y: Z32 : ArrayJZ32, Z32K
 ---
 > opr −JT extends Number, IK x: ArrayJT, IK, y: T : ArrayJT, IK
 > ⊙
-> * Scalar on the left: y - x is y - e for each element e of x, so 3 - [1
+> * Scalar on the left: y - x is y - e for each element e of x, so 3 - [1 2
 > ⊙
 > * This is the only pair here whose two orders differ: +, MIN and M
 > ⊙
 > * the scalar DOT and juxtaposition pairs of Vector and Matrix that
-13284c13303
+13278c13297
 < opr MIN x: ArrayJZ32, Z32K, y: Z32 : ArrayJZ32, Z32K
 ---
 > opr −JT extends Number, IK y: T, x: ArrayJT, IK : ArrayJT, IK
-13286,13287c13305,13311
+13280,13281c13299,13305
 < opr MAX x: ArrayJZ32, Z32K, y: Z32 : ArrayJZ32, Z32K
 < opr
 ---
@@ -180,16 +181,16 @@
 > opr MAXJT extends Number, IK x: ArrayJT, IK, y: T : ArrayJT, IK
 > 
 > opr MAXJT extends Number, IK y: T, x: ArrayJT, IK : ArrayJT, IK
-13413d13436
-< getter codePoint(): Z
-13414a13438
-> getter codePoint(): Z
-13564,13567d13587
+13407d13430
+< getter codePoint(): Z32
+13408a13432
+> getter codePoint(): Z32
+13558,13561d13581
 < 
 < 
 < 
 < zipJF K other : ListJF K : Generator (E, F )
-23332a23353
+23286a23307
 > Why leave the first?
-23347d23367
+23301d23321
 < Why leave the first?

@@ -1,0 +1,450 @@
+# pdftotext of the base build (6030e4b36, 600 pages) against the edited build (610 pages), each through norm.sh (page numbers, TOC dot leaders and blank lines removed); diff base edit
+3a4
+> with the changes of the 2026 revival, listed in Appendix I
+38a40,45
+> In 2026 the Fortress revival revised this working draft where a decision taken for the implementation it is completing
+> would otherwise leave the text and the implementation in disagreement. The first such revision states the type group’s
+> rule that no type is a subtype of two different instantiations of one parameterized trait, which the compiled type checker
+> enforces and this draft had not stated, and rewrites the examples that the rule refuses. Each revised passage carries
+> a box headed “Revised by the 2026 revival”; Appendix I lists every change with its reason, the original text, and the
+> alternative not taken.
+507a515
+> I.1
+508a517
+> Changes Made by the 2026 Revival to the Working Draft
+2684a2694,2706
+> Two instantiations of the same parameterized trait exclude each other unless each static argument of one, other than
+> an operator argument, is the same as the corresponding static argument of the other: the same type for a type parameter, and the same value for a nat , int , bool , dimension, or unit parameter. This property is called instantiation
+> exclusion. Operator arguments do not count: an operator argument names the operator that a subtrait inherits (Section 12.5), so instantiations that differ only in their operator arguments, such as the instantiations of BooleanAlgebra
+> that Boolean extends (Section 32.1), do not exclude each other on that account. Because types that exclude each
+> other are disjoint, no type is a subtype of two instantiations of one parameterized trait that differ in a static argument other than an operator argument; the rule that this imposes on trait and object declarations is stated in Section 10.1.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.1
+> The Working Draft of February 2011 stated no exclusion between instantiations, so the relations defined in this chapter, the
+> smallest ones that satisfy the properties given, let a type be a subtype of two different instantiations of one parameterized trait.
+> The paragraph above adds the property. It is the rule the type group named multiple instantiation exclusion (Allen, Hilburn,
+> Kilpatrick, Luchangco, Ryu, Chase, and Steele, “Type Checking Modular Multiple Dispatch with Parametric Polymorphism
+> and Multiple Inheritance”, OOPSLA 2011), which the compiled type checker enforces, stated here as the team’s later Types
+> chapter (Luchangco, 2012) states it, under its shorter name.
+3898a3921,3925
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.2
+> The revival rules on this note and on the one below: a where -clause variable may not appear as a static argument in an
+> extends clause (Section 12.6), so no trait extends itself through a hidden type variable and explicit extension has no self
+> cycles.
+3947a3975,3987
+> For the same reason, a trait or object may not extend two instantiations of one parameterized trait that exclude each
+> other by instantiation exclusion (Section 6.3), directly or through its supertraits: any two instantiations of one parameterized trait that it extends must have the same static arguments, operator arguments excepted. For example, the
+> following object declaration is not allowed:
+> trait ParentJT K end
+> (∗ Not allowed! ∗)
+> object Child extends { ParentJZ32K, ParentJStringK } end
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.1
+> The rule on declarations is new. The Working Draft of February 2011 allowed a trait to extend two different instantiations
+> of one parameterized trait; the compiled type checker refuses such a declaration, reporting that the two instantiations exclude
+> each other. The team’s later Types chapter (Luchangco, 2012) states the rule as: a trait that extends two instantiations of
+> a generic type, directly or indirectly, must extend an expressible instantiation that is a subtype of both. Where every static
+> parameter is invariant, as in this specification, that is the rule stated above.
+4733c4773,4784
+< Trait declarations are allowed to extend other instantiations of themselves. For example, we can write:
+---
+> A where -clause variable may not appear as a static argument in an extends clause. Such an occurrence would
+> make the declared trait or object a subtype of one instantiation for each type that the variable may stand for, which
+> instantiation exclusion forbids (Section 6.3 and Section 10.1); the second of the three declarations below shows
+> why.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.2
+> This restriction is new. The three declarations that follow were offered as legal by the Working Draft of February 2011; they
+> are kept as examples of what is not allowed, each with the way to write it.
+> In particular, a trait declaration may not extend other instantiations of itself through a where -clause variable. The
+> following declaration would express that the static parameter S of C is covariant, making CJSK a subtype of CJT K
+> for every supertype T of S ; it is not allowed:
+> (∗ Not allowed! ∗)
+4737,4740c4788,4807
+< In this declaration, for every subtype S of T , CJSK is a subtype of CJT K . Effectively, we have expressed the fact
+< that the static parameter S of C is covariant.
+< Trait declarations need not have any static parameters in order to have a where clause. For example, the following
+< trait declaration is legal:
+---
+> Static parameters are invariant: CJSK is a subtype of CJT K only if S and T are the same type. A value of one
+> instantiation is widened to another by a function whose bounded static parameters state that one argument extends the
+> other:
+> trait CJSK
+> getter item(): S
+> end
+> object CItemJSK(item: S) extends CJSK end
+> widenJT, S extends T K(c: CJSK): CJT K = CItemJT K(c.item)
+> so that, where a trait Dog extends a trait Animal and d is a CJDogK , widenJAnimal, DogK(d) is a CJAnimalK
+> with the same item. The library’s covariant collections are written this way.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.3
+> The Working Draft of February 2011 said that trait declarations are allowed to extend other instantiations of themselves, and
+> gave the declaration above as the way to express covariance. The type group’s later design declares variance instead with
+> a covariant modifier on a static parameter (the team’s later Types chapter, Luchangco, 2012), which is implemented on
+> neither the interpreter nor the compiled path; the revival’s decision record and row 404 of its gap ledger say what is known of
+> it.
+> Trait declarations need not have any static parameters in order to have a where clause. But the following trait
+> declaration is not allowed:
+> (∗ Not allowed! ∗)
+4744,4752c4811,4827
+< In this declaration, trait C is a subtrait of every instantiation of parametric trait D . Thus, trait C has all of the methods
+< of every instantiation of D . By thinking of the declaration this way, we can see what restrictions we need to impose
+< on the trait C in order for it to be sensible. If trait C inherits a method declaration that refers to T , it really contains
+< infinitely many methods (one for each instantiation of T ). However, instantiations of the where -clause variables are
+< not explicit from the program text as static parameters are. It must be possible to infer which method is referred to
+< at the call site. If there is not enough information to infer which method is called, type checking rejects the program
+< and requires more type information from the programmer. Programmers always can provide more type information
+< by using type ascription as described in Section 13.31.
+< Object or functional declarations may include where clauses. Here is an example declaration of an Empty list:
+---
+> In this declaration, trait C would be a subtrait of every instantiation of parametric trait D . Thus, trait C would have
+> all of the methods of every instantiation of D . By thinking of the declaration this way, we can see what restrictions
+> we need to impose on the trait C in order for it to be sensible. If trait C inherits a method declaration that refers
+> to T , it really contains infinitely many methods (one for each instantiation of T ). However, instantiations of the
+> where -clause variables are not explicit from the program text as static parameters are. It must be possible to infer
+> which method is referred to at the call site. If there is not enough information to infer which method is called, type
+> checking rejects the program and requires more type information from the programmer. Programmers always can
+> provide more type information by using type ascription as described in Section 13.31. But trait C would also be a
+> subtype of every pair of different instantiations of D , which exclude each other by instantiation exclusion, so no such
+> restriction makes the declaration sensible: that is why it is not allowed.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.4
+> The Working Draft of February 2011 said that this declaration is legal. The paragraph above, the team’s own account of why
+> such a trait is dangerous, is kept as the reason for the restriction stated at the start of this section.
+> Object or functional declarations may include where clauses, under the same restriction. The following declaration
+> of an Empty list is not allowed:
+> (∗ Not allowed! ∗)
+4759c4834,4847
+< where Cons is declared in Section 11.1.
+---
+> where Cons is declared in Section 11.1. Instead, the empty list is one object for each element type, and each use
+> writes the element type, as in EmptyJZ32K :
+> object EmptyJT K extends ListJT K
+> first(): T = throw NotFound
+> rest(): ListJT K = throw NotFound
+> cons(x: T ): ListJT K = ConsJT K(x, self)
+> append (xs: ListJT K): ListJT K = xs
+> end
+> The library declares its empty collections and its empty optional value (Section 39.2) the same way.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.5
+> The Working Draft of February 2011 gave the declaration marked “Not allowed” as its example of a where clause on an
+> object. It makes Empty a ListJT K for every T at once, which instantiation exclusion forbids. The declaration after it is the
+> library’s own shape; it needs the element type written at each use until the static arguments of a generic object can be inferred.
+6479,6480c6567,6568
+< Every exception has optional fields: a message and a chained exception. These fields are default to Nothing as
+< follows:
+---
+> Every exception has optional fields: a message and a chained exception. These fields are default to NothingJStringK
+> and NothingJExceptionK as follows:
+6482c6570
+< getter message(): MaybeJStringK = Nothing
+---
+> getter message(): MaybeJStringK = NothingJStringK
+6484c6572
+< getter chain(): MaybeJExceptionK = Nothing
+---
+> getter chain(): MaybeJExceptionK = NothingJExceptionK
+6488,6489c6576,6582
+< where an optional value v is either Nothing or Just(v) . The chain field can be set at most once. If it is set more
+< than once, an InvalidChain exception is thrown. It is generally set when the exception is created.
+---
+> where an optional value v of type MaybeJT K is either NothingJT K or Just(v)
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.6
+> The Working Draft of February 2011 wrote both defaults as a bare Nothing , one object for every instantiation of Maybe,
+> which instantiation exclusion forbids (Section 39.2).
+> The chain field can be set at most once. If it is set more than once, an InvalidChain exception is thrown. It is
+> generally set when the exception is created.
+14217c14310,14314
+< equivalence relation. In Object this property is asserted abstractly using the algebraic constraints of Chapter 40.
+---
+> equivalence relation.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.7
+> The Working Draft of February 2011 added that in Object this property is asserted abstractly using the algebraic constraints
+> of Chapter 40; Object no longer does so (Section I.1.7).
+14235,14237c14332,14338
+< The trait Object is the root of the type hierarchy for all user-constructed objects and functions. The Object type
+< does not have any additional methods, but uses algebraic constraints (see Chapter 40) to describe the properties of the
+< existing operators more abstractly.
+---
+> The trait Object is the root of the type hierarchy for all user-constructed objects and functions. The Object type does
+> not have any additional methods; the properties of the existing operators, such as ≡ , are those stated in trait Any.
+> trait Object extends Any
+> excludes { Tuple }
+> end
+> The following declaration, which describes those properties with the algebraic constraints of Chapter 40, is not allowed:
+> (∗ Not allowed! ∗)
+14240a14342,14348
+> Every trait other than Any and Object extends Object (Section 10.1), and the algebraic constraints make each commutative algebraic type T an EquivalenceRelationJT, =K (Chapter 40); such a type would extend two instantiations
+> of EquivalenceRelation whose type arguments differ, which instantiation exclusion forbids (Section 6.3).
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.7
+> The Working Draft of February 2011 declared Object with the declaration marked “Not allowed”, and said that Object uses
+> algebraic constraints to describe the properties of the existing operators more abstractly. The declaration trait Object extends Any
+> is the library’s.
+14243,14246c14351,14353
+< The trait Tuple is the root of the type hierarchy for all tuple types (see Section 6.5). No user-defined object can
+< be a subtype of Tuple. As with the type Object, the type Tuple uses algebraic constraints to describe its existing
+< methods.
+< trait Tuple extends { Any, EquivalenceRelationJTuple, ≡K, IdentityOperatorJTupleK }
+---
+> The trait Tuple is the root of the type hierarchy for all tuple types (see Section 6.5). No user-defined object can be a
+> subtype of Tuple. As with the type Object, the properties of its existing operators are those stated in trait Any.
+> trait Tuple extends Any
+14249a14357,14361
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.7
+> The Working Draft of February 2011 gave Tuple the same algebraic supertraits as Object, at Tuple, and said that it uses
+> algebraic constraints to describe its existing methods. No tuple type extends a trait, so the rule does not refuse that declaration;
+> it follows Object’s.
+15851,15852c15963,15967
+< and a chained exception. These fields are default to Nothing where an optional value v is either Nothing or Just(v)
+< as declared in Section 39.2.
+---
+> and a chained exception. These fields are default to NothingJStringK and NothingJExceptionK where an optional
+> value v of type MaybeJT K is either NothingJT K or Just(v) as declared in Section 39.2.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.6
+> The Working Draft of February 2011 wrote both defaults as a bare Nothing
+16061c16176
+< An optional value v is either Nothing or Just(v) declared as follows:
+---
+> An optional value v of type MaybeJT K is either NothingJT K or Just(v) declared as follows:
+16063c16178
+< trait MaybeJT K comprises { Nothing, JustJT K }
+---
+> trait MaybeJT K comprises { NothingJT K, JustJT K }
+16066c16181
+< object Nothing extends MaybeJT K excludes JustJT K where {T extends Object}
+---
+> value object NothingJT K extends MaybeJT K
+16069a16185,16197
+> The empty case is one object for each type T , and each use writes the type, as in NothingJStringK . The following
+> declaration of a single Nothing for every instantiation of Maybe is not allowed:
+> (∗ Not allowed! ∗)
+> object Nothing extends MaybeJT K excludes JustJT K where {T extends Object}
+> end
+> It would make Nothing a MaybeJT K for every T at once, which instantiation exclusion forbids (Section 12.6); and
+> an object declaration has no excludes clause (Section 11.1), an object trait type already excluding every type that is
+> not its supertype (Section 6.3.1).
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.6
+> The Working Draft of February 2011 declared Nothing with the declaration marked “Not allowed”. The declaration of
+> NothingJT K is the library’s, whose own source says it “will become a non-parametric singleton when we get where clauses
+> working”; instantiation exclusion closes that road.
+28041a28170,28366
+> I.1
+> Changes Made by the 2026 Revival to the Working Draft
+> This section lists the changes made to this working draft by the 2026 revival of the Fortress project (https://
+> github.com/palimondo/fortress). The revival works to finish what the designers intended, judged by this
+> working draft, and changes the text only where a decision it has taken for the implementation would otherwise leave
+> the text and the implementation in open disagreement. Each changed passage carries a box headed “Revised by the
+> 2026 revival” that points to its entry here.
+> Each entry gives the affected sections, the change, its rationale, its effect, the original text, and what reversing to the
+> alternative not taken would require. The original text is that of the Working Draft of February 2011, the unrevised
+> copy of this document kept in the revival’s repository under the directory Specification-1.0-frozen/, cited
+> by path and line there. The directory’s name is misleading: its sources are the working draft of 2 February 2011,
+> and only the file fortress.1.0.pdf in it is the Fortress 1.0 release. The full reasoning behind every entry, with
+> each original passage and each new one, is in the revival’s decision record, explorations/compile-ladder/
+> rung-spec-route-a/decision-record.md in the same repository.
+> Every change below follows from one decision of the revival, taken on 24 September 2026 and called route A: the
+> compiled type checker keeps the type group’s rule that no type is a subtype of two different instantiations of one
+> parameterized trait, a rule this working draft never stated, and the library’s numeric types are to be reorganized so that
+> they satisfy it. The alternative not taken, route C, is described once, in Section I.1.10.
+> I.1.1
+> Instantiation exclusion
+> Affected sections Section 6.3; Section 10.1.
+> Change A property of the exclusion relation is added: two instantiations of the same parameterized trait exclude
+> each other unless every static argument other than an operator argument is the same. The rule it imposes on
+> declarations is added beside the example of InclusiveMolecule: a trait or object may not extend two such
+> instantiations, directly or through its supertraits.
+> Rationale Without the rule a value may belong to two instantiations of one parameterized trait, and code specialised
+> for one of them can be chosen for a caller that was promised the other; with the rule relaxed, the compiled
+> implementation accepts such a program and fails at run time. The type group adopted the rule as multiple instantiation exclusion (Allen, Hilburn, Kilpatrick, Luchangco, Ryu, Chase, and Steele, “Type Checking Modular
+> Multiple Dispatch with Parametric Polymorphism and Multiple Inheritance”, OOPSLA 2011), and the compiled
+> type checker has enforced it since 2010. The team’s later, unfinished Types chapter (Luchangco, 2012) states it
+> in the two parts used here, under the name instantiation exclusion. Operator arguments do not count: an operator argument only names the operator a subtrait inherits (Section 12.5), neither implementation distinguishes
+> instantiations by it at run time, and the algebra of the library chapters depends on types that are several instantiations of one trait differing only in operator arguments. nat , int and bool arguments count: they are values
+> at run time (Section 12.2).
+> Effect Programs in which a type is a subtype of two instantiations of one parameterized trait that differ in any other
+> static argument are no longer valid. The compiled type checker refuses them for type arguments; its comparison
+> of nat and int arguments is row 402 of the revival’s gap ledger, and boolean arguments follow once it supports
+> boolean parameters. The interpreter does not check the rule. The library’s numeric chapters are not yet revised
+> (Section I.1.9).
+> Original text The Working Draft of February 2011 states no such property; its relations are “the smallest ones that
+> satisfy all the properties given in those sections (and this one)” (Specification-1.0-frozen/basic/
+> types-vals-vars.tex, lines 185–189), and the properties it gives for trait types are these (lines 212–216):
+> A trait declaration may also include an excludes clause, in which case the defined trait type excludes every type that appears in that clause. Every trait type also excludes every arrow type and
+> every tuple type, and the special types () and BottomType.
+> Its rule on declarations is only that of exclusive traits, “no trait can extend them both” (Specification-1.
+> 0-frozen/basic/traits.tex, lines 218–222).
+> Route C Replaces this rule by the rule of Section I.1.10.
+> I.1.2
+> Where-clause variables in extends clauses
+> Affected sections Section 12.6; Section 10.1.
+> Change One sentence is added: a where -clause variable may not appear as a static argument in an extends clause.
+> The three declarations that followed it are kept, marked “Not allowed”, each with the way to write it (Section I.1.3, Section I.1.4, Section I.1.5). A box after Victor Luchangco’s two draft notes in Section 10.1, which
+> say that a trait can explicitly extend itself through hidden type variables and that “we could just rule this a special
+> case”, answers them.
+> Rationale Such a variable makes the declared type a subtype of one instantiation for each type the variable may stand
+> for, and instantiation exclusion forbids any two of them.
+> Effect None of the three declarations ran before the revision: both implementations stop at name resolution, because
+> a where -clause variable is not in scope in an extends clause. The revision makes that the rule. The calculus
+> of Appendix A.2 still admits such declarations (Section I.1.9).
+> Original text No such sentence; the draft notes are unchanged.
+> Route C The same under route C, which places no type below infinitely many instantiations of one trait.
+> I.1.3
+> The covariance example
+> Affected section Section 12.6.
+> Change The declaration is kept, marked “Not allowed”; the claims that trait declarations may extend other instantiations of themselves and that the declaration expresses covariance are withdrawn; static parameters are stated
+> to be invariant, and a widening function with bounded static parameters is given as the way to convert one
+> instantiation to another.
+> Rationale CJSK would be a subtype of CJT K for every supertype T of S . The widening function is how the library
+> writes covariance, in the conversions and the APPCOV operator of its covariant collections, and it runs on both
+> implementations.
+> Effect Covariance is written as an explicit conversion, with the static arguments given at the call. The box at the
+> example adds that the type group’s later design declares variance with a covariant modifier, implemented on
+> neither implementation; the decision record and row 404 of the revival’s gap ledger say what is known of it.
+> Original text Specification-1.0-frozen/basic/trait-parameters.tex, lines 339–351; the declaration is the one kept above, marked “Not allowed”, and the text around it read:
+> Trait declarations are allowed to extend other instantiations of themselves. For example, we can
+> write: [the declaration] In this declaration, for every subtype S of T , CJSK is a subtype of CJT K
+> Effectively, we have expressed the fact that the static parameter S of C is covariant.
+> Route C The same under route C.
+> I.1.4
+> A subtrait of every instantiation
+> Affected section Section 12.6.
+> Change “the following trait declaration is legal” becomes “is not allowed”; the paragraph after the declaration is kept,
+> in the conditional, and a closing sentence says why the declaration is not allowed.
+> Rationale The paragraph is the team’s own account of why such a trait is dangerous, written before the rule; it
+> becomes the reason for the rule.
+> Effect None beyond Section I.1.2.
+> Original text Specification-1.0-frozen/basic/trait-parameters.tex, lines 354–380; the declaration is the one kept above, and the text around it read:
+> Trait declarations need not have any static parameters in order to have a where clause. For example,
+> the following trait declaration is legal: [the declaration] In this declaration, trait C is a subtrait of
+> every instantiation of parametric trait D . Thus, trait C has all of the methods of every instantiation
+> of D . By thinking of the declaration this way, we can see what restrictions we need to impose on the
+> trait C in order for it to be sensible. [The rest of the paragraph is unchanged.]
+> Route C The same under route C.
+> I.1.5
+> The empty list
+> Affected section Section 12.6.
+> Change The declaration of Empty is kept, marked “Not allowed”; EmptyJT K , one empty list for each element type,
+> is given beside it.
+> Rationale The original makes Empty a ListJT K for every T at once. The replacement is the library’s own shape
+> for its empty collections and the same choice as for Nothing (Section I.1.6); a program of this shape runs on
+> both implementations.
+> Effect The element type is written at each use, as in EmptyJZ32K , until the static arguments of a generic object can
+> be inferred, which neither implementation does today. The section no longer has a running example of a where
+> clause on an object.
+> Original text Specification-1.0-frozen/basic/trait-parameters.tex, lines 383–399; the declaration is the one kept above, introduced by:
+> Object or functional declarations may include where clauses. Here is an example declaration of an
+> Empty list:
+> Route C The same under route C.
+> I.1.6
+> The empty optional value
+> Affected sections Section 39.2; Section 14.3; Chapter 35.
+> Change Nothing becomes value object NothingJT K extending MaybeJT K , with no excludes clause, and
+> Maybe comprises NothingJT K and JustJT K ; the original declaration is kept, marked “Not allowed”. The
+> defaults of an exception’s message and chain become NothingJStringK and NothingJExceptionK
+> Rationale The original makes Nothing a MaybeJT K for every T at once. Its excludes clause is also one the
+> grammar gives no object declaration (Section 11.1), and is redundant, an object trait type already excluding
+> every type that is not its supertype (Section 6.3.1). The replacement is the library’s declaration.
+> Effect The empty case is written with its type, as in NothingJStringK , until the static arguments of a generic object
+> can be inferred from the type expected. The compiled path’s own library, used until the one library replaces it,
+> still declares a single Nothing with a coercion to every MaybeJT K , and refuses NothingJStringK (row 331
+> of the revival’s gap ledger).
+> Original text Specification-1.0-frozen/basic-lib/convenience.tex, lines 34–53: the declaration kept above, marked “Not allowed”, together with:
+> An optional value v is either Nothing or Just(v) declared as follows: [. . . ]
+> trait MaybeJT K comprises { Nothing, JustJT K }
+> [. . . ]
+> Specification-1.0-frozen/basic/exceptions.tex, lines 111–130:
+> These fields are default to Nothing as follows: [. . . ]
+> getter message(): MaybeJStringK = Nothing
+> ...
+> getter chain(): MaybeJExceptionK = Nothing
+> [. . . ] where an optional value v is either Nothing or Just(v)
+> Specification-1.0-frozen/basic-lib/exception.tex, lines 22–24:
+> These fields are default to Nothing where an optional value v is either Nothing or Just(v) as
+> declared in Section 39.2.
+> Route C The same under route C.
+> I.1.7
+> The root’s algebra
+> Affected sections Chapter 31.
+> Change Object extends Any alone and Tuple likewise, each still excluding the other; the sentences saying that they
+> describe their operators with algebraic constraints are removed. The original declaration of Object is kept,
+> marked “Not allowed”.
+> Rationale Every trait but Any and Object extends Object, and every commutative algebraic type
+> T is an EquivalenceRelationJT, =K ; with the original declaration such a type is also an
+> EquivalenceRelationJObject, ≡K , and the two differ in a type argument. Tuple’s declaration is not refused
+> by the rule, since no tuple type extends a trait, but its text follows Object’s. The replacement is the library’s
+> declaration.
+> Effect The properties of ≡ are those stated in trait Any; they are no longer restated at Object through the algebra
+> chapter.
+> Original text Specification-1.0-frozen/basic-lib/objects.tex (whose lines are two fewer than
+> this document’s source), line 82:
+> In Object this property is asserted abstractly using the algebraic constraints of Chapter 40.
+> lines 125–139, the declaration kept above, marked “Not allowed”, after:
+> The Object type does not have any additional methods, but uses algebraic constraints (see Chapter 40) to describe the properties of the existing operators more abstractly.
+> and lines 145–156:
+> As with the type Object, the type Tuple uses algebraic constraints to describe its existing methods.
+> trait Tuple extends { Any, EquivalenceRelationJTuple, ≡K, IdentityOperatorJTupleK }
+> excludes { Object }
+> toString(): String
+> end
+> Route C By the revival’s reading, not measured, the original declaration of Object is one of the two passages that
+> would read differently under route C, the numeric chapters being the other.
+> I.1.8
+> The internal document
+> Affected sections In the appendix “Internal Document”, which follows this one in a draft build: “Disjunctive Constraints”, “Weirdness with Multiple Inheritance and Polymorphism” and “Conditional Subtyping”.
+> Change One box after each: the first program’s premise is not allowed; the second is the case the rule answers; the
+> third declaration is not allowed for the reason the covariance example is not.
+> Rationale Instantiation exclusion.
+> Effect None; the internal document is printed only in a draft build.
+> Original text Unchanged.
+> Route C The same under route C.
+> I.1.9
+> Passages not yet revised
+> The number chapters, Chapter 33 (whose integers are Section 33.2) and Chapter 41, are not yet revised. Their nested
+> tower, in which each integer type is a subtype of the rational one above it and each carries its algebra at its own type,
+> and the conditional self-extension of RationalQuantity, are refused by instantiation exclusion, as the compiled type
+> checker refuses the library’s nested tower today. They will be revised together with the reorganization of the library’s
+> numeric types that route A decides, and not before, because a specification ahead of its library is as much an open
+> discrepancy as one behind it. Until then the rule refuses the tower these chapters describe.
+> The calculi of Appendix A predate the rule and are not yet revised: the calculus with where clauses (Appendix A.2)
+> lets a where -clause variable occur in a supertype, the calculus with an acyclic type hierarchy admits a trait that
+> extends an instantiation of itself at its parameter’s bound, and the basic calculus states that all of its valid programs are
+> valid Fortress programs, while it admits an object that extends two instantiations of a parameterized trait declaring no
+> method. How they are to be revised awaits a decision of the revival.
+> I.1.10
+> Route C, the alternative not taken
+> The team’s 2012 patent applications (US 8,843,887 and US 8,898,632; Chase, Steele, Naden, Hilburn, and Luchangco)
+> relax the rule for a self-typed parameterized trait: a type may be a subtype of several of its instantiations when they
+> form a chain. The revival built that rule whole as an experiment and measured it. It closes the unsoundness that
+> instantiation exclusion guards against only together with a rule on return types over every level of a chain and a
+> change in how a call chooses among generic methods specialised to different instantiations: 188 lines of code in five
+> files of the compiled type checker and code generator. Reversing route A for route C would also need a method per
+> level of a chain in the code generator, work in the interpreter, a way past a stack overflow of the type checker on the
+> self-typing clauses, and seven library declarations, besides undoing the reorganization of the library’s numeric types.
+> Route C rescues none of the where -clause examples of Section 12.6 nor the Nothing of Section 39.2, each of which
+> places one type below infinitely many instantiations, which no chain contains. Under route C the numeric chapters
+> could keep their nested tower, and the original text of those chapters, kept unrevised in this document for now and
+> in the Working Draft of February 2011, is route C’s. The record of the experiment is explorations/reviews/
+> mie-probes/route-c-experiment.md in the revival’s repository.
+28735a29061,29064
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.8
+> Under instantiation exclusion the program’s premise is not allowed: Parent may not extend both PlussableJRightK and
+> PlussableJWrongK (Section 6.3, Section 10.1), so the disjunction does not arise for this program.
+28760a29090,29092
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.8
+> This is the case instantiation exclusion answers: badChild may not extend both ParentJZ32K and ParentJStringK (Section 6.3, Section 10.1), so the question of what foo() returns does not arise.
+28805a29138,29142
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.8
+> Under instantiation exclusion this declaration is not allowed, for the reason the covariance example of Section 12.6 is not:
+> its extends clause names RationalQuantity with where -clause variables as static arguments. The number chapters that
+> describe the same design are not yet revised (Section I.1.9).

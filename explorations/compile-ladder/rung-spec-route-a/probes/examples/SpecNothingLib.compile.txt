@@ -1,0 +1,4 @@
+/home/user/fortress-spec/tmp/probe-cache/work/SpecNothingLib.fss:5:30-44:
+    Unexpected type for a singleton object reference.
+File SpecNothingLib.fss has 1 error.
+rc=255
