@@ -1,0 +1,16 @@
+(* Q2GenericComp -- the compiled path: the static argument of a generic call
+   inferred from a ZZ32 and a ZZ64 argument. *)
+component Q2GenericComp
+export Executable
+
+second[\T extends Object\](x: T, y: T): T = y
+
+run(): () = do
+    a: ZZ32 = 2147483647
+    c: ZZ64 = 1
+    r = second(a, c)
+    println("second(a, c) = " r)
+    s = second(c, a)
+    println("second(c, a) = " s)
+  end
+end

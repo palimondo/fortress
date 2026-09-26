@@ -1,0 +1,15 @@
+(* Q2GenericTComp -- the compiled path: which T did Q2GenericComp infer for
+   second(a, c), a: ZZ32 and c: ZZ64?  If T is ZZ64 (a coerced), the sum
+   below checks; if T is a join above both (Number, Object or a union), the
+   checker finds no + for it. *)
+component Q2GenericTComp
+export Executable
+
+second[\T extends Object\](x: T, y: T): T = y
+
+run(): () = do
+    a: ZZ32 = 2147483647
+    c: ZZ64 = 1
+    println("second(a, c) + c = " (second(a, c) + c))
+  end
+end

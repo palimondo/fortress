@@ -1,0 +1,28 @@
+(* Q2WidthComp -- mixed widths on the compiled path (CompilerBuiltin, where
+   ZZ32 and ZZ64 are siblings under Number and ZZ64 declares coerce(x: ZZ32)
+   and coerce(x: IntLiteral), CompilerBuiltin.fsi:147-149): the cases of
+   Q2WidthWalk that the compiled prelude accepts. *)
+component Q2WidthComp
+export Executable
+
+(* ProjectFortress/demos/fact64.fss:28, called without its widen *)
+fact(x: ZZ64): ZZ64 = if x < 2 then 1 else x fact(x - 1) end
+
+run(): () = do
+    a: ZZ32 = 2147483647
+    b: ZZ64 = 1                 (* declared ZZ64: IntLiteral coerced to ZZ64 *)
+    println("a + b   (a: ZZ32 = 2^31-1, b: ZZ64 = 1) = " (a + b))
+    println("b + a = " (b + a))
+    m: ZZ64 = 100000
+    println("m: ZZ64 = 100000; m m = " (m m))
+    z: ZZ64 = 0
+    println("z: ZZ64 = 0; z + 9223372036854775807 = " (z + 9223372036854775807))
+    println("fact(20), x: ZZ64 given the literal 20 = " fact(20))
+    i: ZZ32 = 100000
+    y: ZZ64 = i
+    println("y: ZZ64 = i; y y = " (y y))
+    (* last, because it ends the run: a ZZ32 product, then the coercion *)
+    w: ZZ64 = i i
+    println("w: ZZ64 = i i   (i: ZZ32 = 100000) = " w)
+  end
+end

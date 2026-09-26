@@ -1,0 +1,11 @@
+(* Q2RangeComp -- the compiled path: a range with a ZZ32 lower bound and a
+   ZZ64 upper bound.  CompilerLibrary declares opr :(lo:ZZ32, hi:ZZ32) and
+   opr #(lo:ZZ32, sz:ZZ32) only (CompilerLibrary.fsi:172-173). *)
+component Q2RangeComp
+export Executable
+
+run(): () = do
+    c: ZZ64 = 3
+    for i <- seq(0 : c) do println(i) end
+  end
+end

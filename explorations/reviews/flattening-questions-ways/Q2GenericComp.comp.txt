@@ -1,0 +1,6 @@
+## fortress compile Q2GenericComp.fss (private cache)
+compile rc=0
+## run
+second(a, c) =  1
+second(c, a) =  2147483647
+run rc=0

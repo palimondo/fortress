@@ -1,0 +1,14 @@
+(* Q2RealIntComp -- the compiled path: the real-by-integer mixtures the two
+   microGPT programs write.  CompilerBuiltin's RR64 declares coerce(x:
+   FloatLiteral) and coerce(x: RR32) only (CompilerBuiltin.fsi:433-435). *)
+component Q2RealIntComp
+export Executable
+
+run(): () = do
+    s: ZZ32 = 3
+    println("1.0 s = " (1.0 s))                  (* MicroGptFlat.fss:82 *)
+    println("1 - 0.85 = " (1 - 0.85))            (* MicroGptFlat.fss:77 *)
+    println("10.0^(-5) = " (10.0^(-5)))          (* MicroGptFlat.fss:18 *)
+    println("0.85^s = " (0.85^s))                (* MicroGptFlat.fss:79 *)
+  end
+end
