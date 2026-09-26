@@ -1,0 +1,10 @@
+(* Q1SumRRComp -- the compiled path (CompilerLibrary): a sum whose body is
+   RR64.  CompilerLibrary declares the big + over ZZ32 only. *)
+component Q1SumRRComp
+export Executable
+
+run(): () = do
+    x: RR64 = 0.5
+    println("SUM[j <- 0#4] x = " (SUM[j <- 0#4] x))
+  end
+end

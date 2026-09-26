@@ -1,0 +1,19 @@
+BIG MAX over a ZZ32 array: 5
+BIG MAX[t <- a] t over an RR64 array: 2.25
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/reviews/flattening-questions-ways/Q1MaxBareWalk.fss:13:45-53:
+Failed to find any matching overload, args = (__DefaultVector[\RR64,3\]), overload = {
+	BIG MAX[\T extends StandardMax[\T\]\]():BigReduction[\T,FortressLibrary.AnyMaybe\]/home/user/fortress/Library/FortressLibrary.fss:3130:1-3131:49
+	BIG MAX[\T extends StandardMax[\T\]\](g:Generator[\T\]):(T, T)/home/user/fortress/Library/FortressLibrary.fss:3132:1-3133:60}:OverloadedFunction
+Context:
+/home/user/fortress/explorations/reviews/flattening-questions-ways/Q1MaxBareWalk.fss:13:45-53:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

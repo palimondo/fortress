@@ -1,0 +1,15 @@
+(* Q1SumComp -- the compiled path (CompilerLibrary): the big + over ZZ32,
+   including the empty reduction, and the big MAX. *)
+component Q1SumComp
+export Executable
+
+offs(i: ZZ32): ZZ32 = SUM[j <- 0#i] (3 j)
+
+run(): () = do
+    println("SUM[j <- 0#0] j = " (SUM[j <- 0#0] j))
+    println("SUM[j <- 0#4] j = " (SUM[j <- 0#4] j))
+    println("offs(0) = " offs(0) ", offs(3) = " offs(3))
+    println("BIG MAX[j <- 0#4] j = " (BIG MAX[j <- 0#4] j))
+    println("BIG MAX[j <- 0#0] j = " (BIG MAX[j <- 0#0] j))
+  end
+end

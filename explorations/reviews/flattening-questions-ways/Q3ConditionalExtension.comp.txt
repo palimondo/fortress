@@ -1,0 +1,5 @@
+## bin/fortress compile ProjectFortress/tests/conditionalExtension.fss (CompilerLibrary, private cache)
+/home/user/fortress/ProjectFortress/tests/conditionalExtension.fss:19:1-34:2:
+    Cyclic type hierarchy: Type RationalQuantity transitively extends itself.
+File conditionalExtension.fss has 1 error.
+rc=255

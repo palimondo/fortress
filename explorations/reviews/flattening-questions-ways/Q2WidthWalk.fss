@@ -1,0 +1,78 @@
+(* Q2WidthWalk -- mixed widths on the interpreter today: a ZZ32 beside a ZZ64
+   in arithmetic, in a range lo:hi and lo#n, and in a generic call's inferred
+   static argument; a variable declared ZZ64 that holds a 32-bit number; and
+   the real-by-integer mixtures the two microGPT programs write.  Each line is
+   the value and its run-time type (ilkName). *)
+component Q2WidthWalk
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x " : " x.ilkName)
+
+(* a generic call whose static argument is inferred from two arguments *)
+pair[\T\](x: T, y: T): Array[\T,ZZ32\] = do
+    p = array[\T\](2)
+    p[0] := x
+    p[1] := y
+    p
+  end
+(* ProjectFortress/demos/fact64.fss:28, called without its widen *)
+fact(x: ZZ64): ZZ64 = if x < 2 then 1 else x fact(x - 1) end
+
+run(): () = do
+    a: ZZ32 = 2147483647
+    b: ZZ64 = 1                 (* declared ZZ64, holds a 32-bit number *)
+    c: ZZ64 = widen(1)          (* a 64-bit number *)
+    show("b: ZZ64 = 1", b)
+    show("c: ZZ64 = widen(1)", c)
+    show("a + b   (a: ZZ32 = 2^31-1)", a + b)
+    show("a + c", a + c)
+    show("b + a", b + a)
+    m: ZZ64 = 100000
+    show("m: ZZ64 = 100000; m m", m m)
+    n: ZZ64 = widen(100000)
+    show("n: ZZ64 = widen(100000); n n", n n)
+    h: ZZ64 = 3000000000
+    show("h: ZZ64 = 3000000000", h)
+    show("a + h", a + h)
+    z: ZZ64 = 0
+    show("z: ZZ64 = 0; z.maximum   (longPrim.fss shape)", z.maximum)
+    show("widen(0).maximum", (widen(0)).maximum)
+    show("fact(20), x: ZZ64 given the literal 20", fact(20))
+    show("fact(widen(20))", fact(widen(20)))
+    (* ranges with one end of each width *)
+    show("0 : c   (ZZ32 : ZZ64)", 0 : c)
+    show("0 # c   (ZZ32 # ZZ64)", 0 # c)
+    (* a ZZ32 lower bound of 2^31-1 and a ZZ64 upper bound two above it: the
+       first run of this probe enumerated it without end, wrapping at 2^31, so
+       the enumeration now stops after five elements *)
+    r = a : (widen(a) + 2)
+    show("r = a : (widen(a) + 2)", r)
+    show("|r|", |r|)
+    k: ZZ32 := 0
+    label done
+        for i <- seq(r) do
+            show("  element " k " of r", i)
+            k += 1
+            if k >= 5 then exit done end
+        end
+    end done
+    (* the inferred static argument of a generic call *)
+    show("pair(a, c)   (ZZ32, ZZ64)", pair(a, c))
+    show("pair(c, a)   (ZZ64, ZZ32)", pair(c, a))
+    show("pair(a, 0.5) (ZZ32, RR64)", pair(a, 0.5))
+    (* the real-by-integer mixtures of MicroGptFlat.fss *)
+    s: ZZ32 = 3
+    show("1.0 s   (MicroGptFlat.fss:82)", 1.0 s)
+    show("(1.0 s) / 1000   (ZZ32 divisor)", (1.0 s) / 1000)
+    show("1 - 0.85   (MicroGptFlat.fss:77)", 1 - 0.85)
+    show("2 (10.0^(-6))   (MicroGptFlatCheck.fss:86)", 2 (10.0^(-6)))
+    show("10.0^(-5)   (MicroGptFlat.fss:18)", 10.0^(-5))
+    show("0.85^s   (MicroGptFlat.fss:79)", 0.85^s)
+    show("10.0 (0.5) + (57 - 48)   (FlatData.fss:26)", 10.0 (0.5) + (57 - 48))
+    t0 = nanoTime()
+    show("nanoTime()", t0)
+    show("(nanoTime() - t0) DIV 1000000", (nanoTime() - t0) DIV 1000000)
+    x = array[\RR64\](4).fill(0.5)
+    show("(x DOT x) / |x|   (MicroGptFlat.fss:27)", (x DOT x) / |x|)
+  end
+end

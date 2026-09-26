@@ -1,0 +1,41 @@
+(* Q1SumWalk -- what SUM, PROD and the big MAX/MIN return today on the
+   interpreter, for each element type and for the empty reduction: the value
+   and its run-time type (ilkName).  One line per case. *)
+component Q1SumWalk
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x " : " x.ilkName)
+
+(* the shape of MicroGptFlat.fss:43 (matOffset) with a declared ZZ32 result *)
+offs(i: ZZ32): ZZ32 = SUM[j <- 0#i] (3 j)
+(* the same with a declared RR64 result *)
+rsum(i: ZZ32): RR64 = SUM[j <- 0#i] (1.5 j)
+
+run(): () = do
+    show("SUM ZZ32 empty    SUM[j <- 0#0] j", SUM[j <- 0#0] j)
+    show("SUM ZZ32          SUM[j <- 0#4] j", SUM[j <- 0#4] j)
+    show("SUM RR64          SUM[j <- 0#4] (0.5 j)", SUM[j <- 0#4] (0.5 j))
+    show("SUM ZZ64          SUM[j <- 0#4] widen(j)", SUM[j <- 0#4] widen(j))
+    show("SUM ZZ big        SUM[j <- 0#4] big(widen(j))", SUM[j <- 0#4] big(widen(j)))
+    show("SUM QQ            SUM[j <- 1#3] (big(widen(1)) / big(widen(j)))", SUM[j <- 1#3] (big(widen(1)) / big(widen(j))))
+    show("SUM mixed         SUM[j <- 0#2] (if j = 0 then 1 else 0.5 end)", SUM[j <- 0#2] (if j = 0 then 1 else 0.5 end))
+    a0 = array[\RR64\](0)
+    show("SUM RR64 empty    SUM a0 (0 elements)", SUM a0)
+    a3 = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 0.25 + i)
+    show("SUM RR64 array    SUM a3", SUM a3)
+    show("SUM ZZ32 overflow SUM[j <- 0#2] 2147483647", SUM[j <- 0#2] 2147483647)
+    show("offs(0): ZZ32     (matOffset shape, empty)", offs(0))
+    show("offs(3): ZZ32", offs(3))
+    show("rsum(0): RR64     (declared RR64, empty)", rsum(0))
+    show("PROD ZZ32 empty   PROD[j <- 1#0] j", PROD[j <- 1#0] j)
+    show("PROD ZZ32         PROD[j <- 1#4] j", PROD[j <- 1#4] j)
+    show("PROD RR64         PROD[j <- 1#3] (0.5 j)", PROD[j <- 1#3] (0.5 j))
+    show("BIG MAX RR64      BIG MAX[t <- a3] t (MicroGptFlat.fss:28 shape)", BIG MAX[t <- a3] t)
+    show("BIG MAX ZZ32      BIG MAX[j <- 0#4] j", BIG MAX[j <- 0#4] j)
+    show("BIG MAXN empty    BIG MAXN[j <- 0#0] j", BIG MAXN[j <- 0#0] j)
+    show("BIG MINN ZZ32     BIG MINN[j <- 0#4] j", BIG MINN[j <- 0#4] j)
+    show("x / SUM (sm shape) a3 / (SUM a3) elt 0", (a3[0]) / (SUM a3))
+    show("BIG MAX empty     BIG MAX[t <- a0] t (expect EmptyReduction)",
+         try BIG MAX[t <- a0] t catch e Exception => "threw " e.ilkName end)
+  end
+end

@@ -1,0 +1,15 @@
+(* Q1MaxBareWalk -- the big MAX without a generator clause, BIG MAX g, over a
+   ZZ32 array and then over an RR64 array, on the interpreter.  BIG MAX asks
+   T extends StandardMax[\T\]; ZZ32 is StandardMax[\ZZ32\] through
+   Integral[\ZZ32\], RR64 is StandardMax[\Number\] only. *)
+component Q1MaxBareWalk
+export Executable
+
+run(): () = do
+    k = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => 5 - i)
+    println("BIG MAX over a ZZ32 array: " (BIG MAX k))
+    a = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 0.25 + i)
+    println("BIG MAX[t <- a] t over an RR64 array: " (BIG MAX[t <- a] t))
+    println("BIG MAX over an RR64 array: " (BIG MAX a))
+  end
+end

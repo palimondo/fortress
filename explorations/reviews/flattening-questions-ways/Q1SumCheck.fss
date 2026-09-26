@@ -1,0 +1,17 @@
+(* Q1SumCheck -- what the bytecode compiler's static checker says, with the
+   interpreter's library in scope (FortressLibrary), about SUM and PROD used
+   the way the two microGPT programs use them. *)
+component Q1SumCheck
+export Executable
+
+(* MicroGptFlat.fss:43, matOffset: a ZZ32 result from SUM over a ZZ32 range *)
+offs(i: ZZ32): ZZ32 = SUM[j <- 0#i] (3 j)
+(* MicroGptFlat.fss:28, sm: an RR64 array divided by SUM of itself *)
+total(a: Array[\RR64,ZZ32\]): RR64 = SUM a
+(* MicroGptFlatCheck.fss:72: a real result from SUM over a range *)
+weighted(a: Array[\RR64,ZZ32\]): RR64 = SUM[d <- 0#4] a[d]
+(* a product over a range *)
+fact(n: ZZ32): ZZ32 = PROD[j <- 1#n] j
+
+run(): () = println(offs(3) " " fact(4))
+end

@@ -1,0 +1,36 @@
+(* Q3RefineWalk -- does the RationalQuantity design run on the interpreter?
+   A trait with bool static parameters whose extends clause names other
+   instantiations of itself under a where clause (numbers-advanced.tex:261-290;
+   the team's ProjectFortress/tests/conditionalExtension.fss only parses it),
+   and a call that needs the conditional subtyping: a strictly positive value
+   passed where a nonnegative one is expected (QQ_GT where QQ_GE is asked).
+   (The trait is Rat, not RQ: a word of two or more capitals is an operator.
+   A bool static argument list is written with a space after each comma:
+   Rat[\false,true\] in a parameter type is a syntax error on this tree,
+   Rat[\false, true\] parses.) *)
+component Q3RefineWalk
+export Executable
+
+trait Rat[\bool lt, bool eq, bool gt\]
+    extends { Rat[\lt', eq', gt'\]
+              where [\bool lt', bool eq', bool gt'\]
+                    { lt IMPLIES lt', eq IMPLIES eq', gt IMPLIES gt' } }
+    where { lt OR eq OR gt }
+    v(): ZZ32
+end
+
+object Pos(x: ZZ32) extends Rat[\false, false, true\]
+    v(): ZZ32 = x
+end
+
+(* QQ_GT's shape and QQ_GE's shape as parameter types *)
+positive(q: Rat[\false, false, true\]): ZZ32 = q.v()
+nonneg(q: Rat[\false, true, true\]): ZZ32 = q.v()
+
+run(): () = do
+    p = Pos(3)
+    println("positive(Pos(3)) = " positive(p))
+    println("nonneg(Pos(3)), which needs Rat[\\false, false, true\\] <: Rat[\\false, true, true\\]:")
+    println("  = " nonneg(p))
+  end
+end

@@ -1,0 +1,9 @@
+## fortress compile Q1SumComp.fss (private cache)
+compile rc=0
+## run
+SUM[j <- 0#0] j =  0
+SUM[j <- 0#4] j =  6
+offs(0) =  0 , offs(3) =  9
+BIG MAX[j <- 0#4] j =  3
+BIG MAX[j <- 0#0] j =  -2147483648
+run rc=0

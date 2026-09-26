@@ -1,0 +1,3 @@
+## bin/fortress ProjectFortress/tests/conditionalExtension.fss (walk, private cache)
+Conditional extension with where clauses can be parsed.
+rc=0

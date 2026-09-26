@@ -1,0 +1,36 @@
+b: ZZ64 = 1: 1 : Int
+c: ZZ64 = widen(1): 1 : Long
+a + b   (a: ZZ32 = 2^31-1): -2147483648 : Int
+a + c: 2147483648 : Long
+b + a: -2147483648 : Int
+m: ZZ64 = 100000; m m: 1410065408 : Int
+n: ZZ64 = widen(100000); n n: 10000000000 : Long
+h: ZZ64 = 3000000000: 3000000000 : Long
+a + h: 5147483647 : Long
+z: ZZ64 = 0; z.maximum   (longPrim.fss shape): 2147483647 : Int
+widen(0).maximum: 9223372036854775807 : Long
+fact(20), x: ZZ64 given the literal 20: -2102132736 : Int
+fact(widen(20)): 2432902008176640000 : Long
+0 : c   (ZZ32 : ZZ64): [0,1] : CompactFullParScalarRange[\ZZ64\]
+0 # c   (ZZ32 # ZZ64): [0] : CompactFullParScalarRange[\ZZ64\]
+r = a : (widen(a) + 2): [2147483647,-2147483648,-2147483647,-2147483646,... 2147483649] : CompactFullParScalarRange[\ZZ64\]
+|r|: 3 : Long
+  element 0 of r: 2147483647 : Int
+  element 1 of r: -2147483648 : Int
+  element 2 of r: -2147483647 : Int
+  element 3 of r: -2147483646 : Int
+  element 4 of r: -2147483645 : Int
+pair(a, c)   (ZZ32, ZZ64): [0#2][ 2147483647 1 ] : __DefaultVector[\ZZ64,2\]
+pair(c, a)   (ZZ64, ZZ32): [0#2][ 1 2147483647 ] : __DefaultVector[\ZZ64,2\]
+pair(a, 0.5) (ZZ32, RR64): [0#2][ 2147483647 0.5 ] : __DefaultVector[\RR64,2\]
+1.0 s   (MicroGptFlat.fss:82): 3.0 : Float
+(1.0 s) / 1000   (ZZ32 divisor): 0.003 : Float
+1 - 0.85   (MicroGptFlat.fss:77): 0.15000000000000002 : Float
+2 (10.0^(-6))   (MicroGptFlatCheck.fss:86): 2.0E-6 : Float
+10.0^(-5)   (MicroGptFlat.fss:18): 1.0E-5 : Float
+0.85^s   (MicroGptFlat.fss:79): 0.6141249999999999 : Float
+10.0 (0.5) + (57 - 48)   (FlatData.fss:26): 14.0 : Float
+nanoTime(): 5403412841975 : Long
+(nanoTime() - t0) DIV 1000000: 0 : Long
+(x DOT x) / |x|   (MicroGptFlat.fss:27): 0.25 : Float
+rc=0
