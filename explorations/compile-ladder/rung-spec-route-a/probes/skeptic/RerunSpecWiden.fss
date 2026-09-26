@@ -1,0 +1,23 @@
+component RerunSpecWiden
+export Executable
+
+trait C[\S\]
+  getter item(): S
+end
+object CItem[\S\](item: S) extends C[\S\] end
+widen[\T, S extends T\](c: C[\S\]): C[\T\] = CItem[\T\](c.item)
+
+trait Animal
+  getter name(): String
+end
+object Dog extends Animal
+  getter name(): String = "dog"
+end
+
+run():() = do
+  d: C[\Dog\] = CItem[\Dog\](Dog)
+  a: C[\Animal\] = widen[\Animal, Dog\](d)
+  println(a.item.name)
+end
+
+end

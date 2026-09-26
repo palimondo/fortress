@@ -1,0 +1,11 @@
+component SkBoolArgs
+export Executable
+trait Flag[\bool b\] end
+object F extends { Flag[\true\], Flag[\false\] } end
+f(x: Flag[\true\]): String = "f took a Flag[true]"
+g(x: Flag[\false\]): String = "g took a Flag[false]"
+run():() = do
+  println(f(F))
+  println(g(F))
+end
+end

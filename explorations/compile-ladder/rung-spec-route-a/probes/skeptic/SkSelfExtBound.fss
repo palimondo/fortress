@@ -1,0 +1,13 @@
+component SkSelfExtBound
+export Executable
+trait N end
+trait M extends N end
+trait T[\X extends N\] extends T[\N\] end
+object O extends { T[\M\], M } end
+f(t: T[\N\]): String = "f took a T[N]"
+g(t: T[\M\]): String = "g took a T[M]"
+run():() = do
+  println(f(O))
+  println(g(O))
+end
+end

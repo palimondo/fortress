@@ -1,0 +1,4 @@
+SkSelfExtBound.fss:5:1-40:
+    Cyclic type hierarchy: Type T transitively extends itself.
+File SkSelfExtBound.fss has 1 error.
+rc=255

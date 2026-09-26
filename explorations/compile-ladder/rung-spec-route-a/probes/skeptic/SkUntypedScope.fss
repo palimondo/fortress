@@ -1,0 +1,14 @@
+component SkUntypedScope
+export Executable
+trait Greeter
+  greet(String): String
+end
+object Plain
+  twice(x) = x x
+end
+twiceTop(x) = x x
+run():() = do
+  println(Plain.twice("ab"))
+  println(twiceTop("cd"))
+end
+end

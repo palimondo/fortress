@@ -1,0 +1,4 @@
+SkUntypedImpl.fss:7:7:
+    Missing parameter type for x
+File SkUntypedImpl.fss has 1 error.
+rc=255

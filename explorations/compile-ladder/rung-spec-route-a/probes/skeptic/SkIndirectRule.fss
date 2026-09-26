@@ -1,0 +1,15 @@
+component SkIndirectRule
+export Executable
+trait Parent[\T\]
+  tag(): String = "parent"
+end
+trait A extends Parent[\ZZ32\] end
+trait B extends Parent[\String\] end
+object Both extends { A, B } end
+g(p: Parent[\ZZ32\]): String = "g took a Parent[ZZ32]"
+h(p: Parent[\String\]): String = "h took a Parent[String]"
+run():() = do
+  println(g(Both))
+  println(h(Both))
+end
+end

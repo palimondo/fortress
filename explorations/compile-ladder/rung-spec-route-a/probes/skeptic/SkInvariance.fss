@@ -1,0 +1,18 @@
+component SkInvariance
+export Executable
+trait C[\S\]
+  getter item(): S
+end
+object CItem[\S\](item: S) extends C[\S\] end
+trait Animal
+  getter name(): String
+end
+object Dog extends Animal
+  getter name(): String = "dog"
+end
+takesAnimal(c: C[\Animal\]): String = c.item.name
+run():() = do
+  d: C[\Dog\] = CItem[\Dog\](Dog)
+  println(takesAnimal(d))
+end
+end

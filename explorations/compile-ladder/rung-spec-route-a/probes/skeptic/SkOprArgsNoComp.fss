@@ -1,0 +1,15 @@
+component SkOprArgsNoComp
+export Executable
+trait BinPred[\T, opr OP\]
+  abstract opr OP(self, other: T): Boolean
+end
+trait Sample extends { BinPred[\Sample, SQCAP\], BinPred[\Sample, SQCUP\] }
+  opr SQCAP(self, other: Sample): Boolean = true
+  opr SQCUP(self, other: Sample): Boolean = false
+end
+object S extends Sample end
+run():() = do
+  println(S SQCAP S)
+  println(S SQCUP S)
+end
+end

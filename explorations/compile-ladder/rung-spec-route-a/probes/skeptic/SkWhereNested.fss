@@ -1,0 +1,8 @@
+component SkWhereNested
+export Executable
+trait D[\X\] end
+trait Box[\X\] end
+object E extends D[\Box[\T\]\] where {T extends Object} end
+f(d: D[\Box[\ZZ32\]\]): String = "f took a D[Box[ZZ32]]"
+run():() = println(f(E))
+end

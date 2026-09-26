@@ -1,0 +1,35 @@
+component RerunSpecEmptyTyped
+export Executable
+
+trait List[\T\]
+  first(): T
+  rest(): List[\T\]
+  cons(T): List[\T\]
+  append(List[\T\]): List[\T\]
+  size(): ZZ32
+end
+
+object Cons[\T\](hd: T, tl: List[\T\]) extends List[\T\]
+  first(): T = hd
+  rest(): List[\T\] = tl
+  cons(x: T): List[\T\] = Cons[\T\](x, self)
+  append(xs: List[\T\]): List[\T\] = Cons[\T\](hd, tl.append(xs))
+  size(): ZZ32 = 1 + tl.size()
+end
+
+object Empty[\T\] extends List[\T\]
+  first(): T = throw NotFound
+  rest(): List[\T\] = throw NotFound
+  cons(x: T): List[\T\] = Cons[\T\](x,self)
+  append(xs: List[\T\]): List[\T\] = xs
+  size(): ZZ32 = 0
+end
+
+run():() = do
+  e: List[\ZZ32\] = Empty[\ZZ32\]
+  l: List[\ZZ32\] = e.cons(7).cons(8)
+  println(l.size())
+  println(Empty[\String\].size())
+end
+
+end

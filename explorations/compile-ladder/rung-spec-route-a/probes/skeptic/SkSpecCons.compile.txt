@@ -1,0 +1,4 @@
+SkSpecCons.fss:11:8:
+    Missing parameter type for x
+File SkSpecCons.fss has 1 error.
+rc=255

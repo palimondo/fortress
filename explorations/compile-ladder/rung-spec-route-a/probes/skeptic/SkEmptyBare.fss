@@ -1,0 +1,13 @@
+component SkEmptyBare
+export Executable
+trait List[\T\]
+  size(): ZZ32
+end
+object Empty[\T\] extends List[\T\]
+  size(): ZZ32 = 0
+end
+run():() = do
+  e: List[\ZZ32\] = Empty
+  println(e.size())
+end
+end

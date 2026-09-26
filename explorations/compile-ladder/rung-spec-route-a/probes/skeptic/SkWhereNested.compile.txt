@@ -1,0 +1,4 @@
+SkWhereNested.fss:5:26:
+    T is undefined.
+File SkWhereNested.fss has 1 error.
+rc=255
