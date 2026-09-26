@@ -1,0 +1,13 @@
+component MethInferPlain
+export Executable
+object BoxT[\T\](v: ZZ32) end
+object Box[\nat k\](v: ZZ32) end
+object Plain(v: ZZ32)
+  idxT[\U\](b: BoxT[\U\]): ZZ32 = v
+  idx[\nat j\](b: Box[\j\]): ZZ32 = v
+end
+run(): () = do
+  println(Plain(7).idxT(BoxT[\ZZ32\](5)))
+  println(Plain(7).idx(Box[\2\](5)))
+end
+end

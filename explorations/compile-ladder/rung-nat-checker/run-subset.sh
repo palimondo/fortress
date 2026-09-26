@@ -4,6 +4,9 @@
 # A copy of ../run-ladder.sh with two changes: the ladder root and output
 # directory are private to this worktree, and the two whole-corpus loops are
 # replaced by one driven by subset.txt (corpus<TAB>file per line).
+# Rung N: the output directory is $LADDER_OUT when set, and subset.txt is read
+# from beside this script; the subset is the 85 files of
+# baseline-2026-09-19/pass-list.txt.
 #
 # Pushes every interpreter test program (ProjectFortress/tests/*.fss) and every
 # file in ProjectFortress/not_working_library_tests/ through the compiler path
@@ -133,7 +136,7 @@ main () {
         n=$((n+1))
         rm -rf "${LADDER_TMP:?}"/fortress*rats
         if [ $((n % 10)) -eq 0 ]; then prune_cache; disk_guard; fi
-    done < "$OUT/subset.txt"
+    done < "$(dirname "${BASH_SOURCE[0]}")/subset.txt"
     prune_cache
     echo "=== ladder done $(date -Is), $n files ==="
     disk_guard

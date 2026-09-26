@@ -1,0 +1,139 @@
+# the final test files through the harness with the unedited checker: the eleven Scala/Java sources this rung edits, taken from 47437c65f with git show, compiled into tmp/base-classes and put first on the classpath (the classpath-shadow technique of explorations/perf-probes/nat/REPORT.md section 1)
+########## junit compiler_tests/NatInferredChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/NatInferredChecker 
+ UNEXPECTED exception 
+java.lang.Error: Not yet implemented
+F
+Time: 3.388
+There was 1 failure:
+1) compiler_tests/NatInferredChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/NatWrittenChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/NatWrittenChecker 
+ UNEXPECTED exception 
+java.lang.ClassCastException: class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+F
+Time: 3.159
+There was 1 failure:
+1) compiler_tests/NatWrittenChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/NatMethodChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/NatMethodChecker 
+ UNEXPECTED exception 
+java.lang.Error: Not yet implemented
+F
+Time: 3.261
+There was 1 failure:
+1) compiler_tests/NatMethodChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatDispArmChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/XXXNatDispArmChecker 
+ Did not satisfy compile_exception_contains; expected
+Only handling some static args of generic types
+java.lang.Error: Not yet implemented
+F
+Time: 3.157
+There was 1 failure:
+1) compiler_tests/XXXNatDispArmChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatOverrideChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/XXXNatOverrideChecker 
+ Did not satisfy compile_exception_contains; expected
+Only emitting RTTI for types right now
+java.lang.ClassCastException: class com.sun.fortress.nodes.TraitType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.TraitType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+F
+Time: 3.467
+There was 1 failure:
+1) compiler_tests/XXXNatOverrideChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatDispRTRChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/XXXNatDispRTRChecker 
+ Did not satisfy compile_err_contains; expected
+should be a subtype of the
+java.lang.Error: Not yet implemented
+F
+Time: 3
+There was 1 failure:
+1) compiler_tests/XXXNatDispRTRChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatRetSizeChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/XXXNatRetSizeChecker 
+ Did not satisfy compile_err_contains; expected
+File XXXNatRetSizeChecker.fss has 3 errors.
+java.lang.Error: Not yet implemented
+F
+Time: 3.378
+There was 1 failure:
+1) compiler_tests/XXXNatRetSizeChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatMismatchChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/XXXNatMismatchChecker 
+ Did not satisfy compile_err_contains; expected
+File XXXNatMismatchChecker.fss has 3 errors.
+java.lang.Error: Not yet implemented
+F
+Time: 3.003
+There was 1 failure:
+1) compiler_tests/XXXNatMismatchChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatArithChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/XXXNatArithChecker 
+ Did not satisfy compile_err_contains; expected
+Arithmetic on nat static arguments is not supported by the type checker
+java.lang.ClassCastException: class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.IntExpr (com.sun.fortress.nodes.VarType and com.sun.fortress.nodes.IntExpr are in unnamed module of loader 'app')
+F
+Time: 3.761
+There was 1 failure:
+1) compiler_tests/XXXNatArithChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatBoolChecker.test, the unedited checker (tmp/base-classes) first on the classpath
+. compile compiler_tests/XXXNatBoolChecker 
+ Did not satisfy compile_err_contains; expected
+bool static parameter b is not supported by the type checker
+java.lang.Error: Not yet implemented
+F
+Time: 3.412
+There was 1 failure:
+1) compiler_tests/XXXNatBoolChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+EXIT=0

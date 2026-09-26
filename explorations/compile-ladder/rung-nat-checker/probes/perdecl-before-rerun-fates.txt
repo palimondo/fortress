@@ -1,0 +1,26 @@
+# Per top-level declaration of Library/FortressLibrary.fss, the checker's fate
+# with the interpreter prelude, before and after the nat shadow.
+# BEFORE: explorations/compile-ladder/rung-nat-checker/probes/perdecl-before.txt
+# AFTER : tmp/perdecl-before2.txt
+
+declarations seen: before 446, after 446
+BEFORE  clean=237  errors-of-its-own=97  crashed=112
+AFTER   clean=237  errors-of-its-own=97  crashed=112
+
+## The 112 declarations that crashed the checker before, and what they become
+  still crashes            112
+
+## The crash sites that remain, by site
+    81  java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52)
+    29  java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5329)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+     1  java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:710)
+
+## The crash sites before, by site
+    81  java.lang.Error at com.sun.fortress.useful.NI.nyi(NI.java:52)
+    29  java.lang.ClassCastException at com.sun.fortress.nodes.NodeUpdateVisitor.forIntArg(NodeUpdateVisitor.java:5329)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+     1  java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:710)
+
+## Every declaration whose fate changed
+# span | before | after

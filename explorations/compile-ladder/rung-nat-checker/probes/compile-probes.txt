@@ -1,0 +1,35 @@
+# fortress compile of the probes, the landed edit; SubOvSwapTRun, which has no size, is also run compiled
+########## fortress compile UseSiteArith.fss
+explorations/compile-ladder/rung-nat-checker/probes/UseSiteArith.fss:5:21-45:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+explorations/compile-ladder/rung-nat-checker/probes/UseSiteArith.fss:5:41:
+    Ill-formed static argument: 2+1
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+File UseSiteArith.fss has 2 errors.
+exit=255
+########## fortress compile ValuePos.fss
+exit=0
+########## fortress compile SixSizes.fss
+exit=0
+########## fortress compile SixSizesBad.fss
+explorations/compile-ladder/rung-nat-checker/probes/SixSizesBad.fss:7:26-48:
+    Right-hand side has type A3[\6,5,4,3,2,1\], but declared type is A3[\6,5,4,3,1,2\].
+explorations/compile-ladder/rung-nat-checker/probes/SixSizesBad.fss:9:11-57:
+    Could not check call to function pair
+    - [\nat a, nat b, nat c\](A3[\a,b,c,a,b,c\], A3[\c,b,a,c,b,a\])->ZZ32 is not applicable to an argument of type (A3[\1,2,3,1,2,3\], A3[\3,2,1,3,1,2\]).
+File SixSizesBad.fss has 2 errors.
+exit=255
+########## fortress compile MethInferT.fss
+exit=0
+########## fortress compile FnInferNatVsType.fss
+exit=0
+########## fortress compile BoolWritten.fss
+exit=0
+########## fortress compile SubOvSwapTRun.fss
+exit=0
+########## fortress run SubOvSwapTRun
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class SubOvSwapTRun$\=Dn?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ64,com\|sun\|fortress\|compiler\|runtimeValues\|FBoolean? cannot be cast to class SubOvSwapTRun$\=Up?com\|sun\|fortress\|compiler\|runtimeValues\|FBoolean,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ64? (SubOvSwapTRun$\=Dn?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ64,com\|sun\|fortress\|compiler\|runtimeValues\|FBoolean? and SubOvSwapTRun$\=Up?com\|sun\|fortress\|compiler\|runtimeValues\|FBoolean,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ64? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @1d44bcfa)
+########## fortress compile MethInferPlain.fss
+exit=0
