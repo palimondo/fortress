@@ -685,9 +685,9 @@ trait ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$BitOr")
     opr BITXOR(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$BitXor")
-    opr LSHIFT(self,b:ZZ64):ZZ32 =
+    opr LSHIFT(self,b:AnyIntegral):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$LShift")
-    opr RSHIFT(self,b:ZZ64):ZZ32 =
+    opr RSHIFT(self,b:AnyIntegral):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$RShift")
     opr BITNOT(self):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$BitNot")

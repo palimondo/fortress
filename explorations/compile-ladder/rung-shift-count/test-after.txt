@@ -1,0 +1,7 @@
+### ProjectFortress/tests: bin/fortress IntSemanticsRungI.fss, after the library edit, JAVA_FLAGS="-Xmx4g -Xss64m -Djava.io.tmpdir=/home/user/fortress-shiftk/tmp", default_repository/caches emptied first
+PASS
+
+real	0m29.307s
+user	0m42.625s
+sys	0m0.891s
+exit=0
