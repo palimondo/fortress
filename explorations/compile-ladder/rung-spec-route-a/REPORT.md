@@ -2,9 +2,9 @@
 
 problem: `Specification/basic/trait-parameters.tex:339-340` at `6030e4b36` states the opposite of the rule ("Trait declarations are allowed to extend other instantiations of themselves"), while the compiled checker refuses a type below two different instantiations of one parameterized trait, "Types Parent[\ZZ32\] and Parent[\String\] exclude each other.  Child must not extend them." (`explorations/compile-ladder/rung-spec-route-a/probes/examples/SpecDeclRule.compile.txt:2`; the judgement's `explorations/reviews/spec-refused-examples/captures/DoubleInstance.compile.txt:2`); the example printed at `:339-351` itself stops at name resolution on both paths, "T is undefined" (`explorations/reviews/spec-refused-examples/captures/SpecCovariant.compile.txt:2`, `SpecCovariant.walk.txt:2`)
 spec: Specification/basic/types-vals-vars.tex:185-189 at 6030e4b36 (the relations are "the smallest ones that satisfy all the properties given", and no property makes two instantiations exclude each other); beside it, Documentation/Specification/Prose/Language/types.tick:353-377.
-precedent: Specification/basic/traits.tex:286-292 (the Not allowed form); explorations/reviews/spec-change-form.md:480-493 (layered form, S1 option 1); Specification/fortress/fortress.tex:46-62 (the revival's mdframed draft-note box, the callout's shape).
+precedent: Specification/basic/traits.tex:286-292 (the Not allowed form); explorations/reviews/spec-change-form.md:480-493 (layered form, S1 option 1); the revival's mdframed draft-note box, the callout's shape (Specification/fortress/fortress.tex:46-62).
 deviation: new \revision macro, blue, in both builds (Specification/fortress/fortress.tex:76-92); new typeset blocks are from today's fortify.el, which writes \KWD{kw}\: where the 2009 blocks have a plain space (Specification/basic/trait-parameters.tex:470); the new Empty[\T\] bodies are typed and throw NotFound so that it runs (Specification/basic/trait-parameters.tex:463-468); the rule uses the spec's words "parameterized trait" and "the same type" (Specification/basic/types-vals-vars.tex:218-224); the calculi are named as not yet revised, the stop (Specification/appendices/changes.tex:378-386).
-historical: `Specification/basic/types-vals-vars.tex`, `Specification/basic/traits.tex`, `Specification/basic/trait-parameters.tex`, `Specification/basic/exceptions.tex`, `Specification/basic-lib/convenience.tex`, `Specification/basic-lib/exception.tex`, `Specification/basic-lib/objects.tex`, `Specification/appendices/internal-document.tex`, `Specification/appendices/changes.tex`, `Specification/fortress/preamble.tex`, `Specification/fortress/fortress.tex`, `Specification/fortress.pdf`
+historical: `Specification/basic/types-vals-vars.tex`, `Specification/basic/traits.tex`, `Specification/basic/trait-parameters.tex`, `Specification/basic/exceptions.tex`, `Specification/basic-lib/convenience.tex`, `Specification/basic-lib/exception.tex`, `Specification/basic-lib/objects.tex`, `Specification/appendices/internal-document.tex`, `Specification/appendices/changes.tex`, `Specification/fortress/preamble.tex`, `Specification/fortress/fortress.tex`, `Specification/fortress.pdf`; the rule that asks for this line, with the PDF among S's files, is `explorations/coordinator/CLIMB-BATCH-5.md:269`
 
 ## 0. How this report was written
 
@@ -30,7 +30,7 @@ The three number chapters and Specification-1.0-frozen/ are untouched.
 
 REPORT.md was refused by the harness ("Subagents should return findings as text"); its content is carried in these fields. record.md and decision-record.md were written.
 
-One defect found on the way goes to home 3: an untyped parameter in a method implementing an abstract one is refused by both paths (walk InterpreterBug), and the specification is silent. It has provisional row 405.
+One defect found on the way goes to home 3: an untyped parameter in a method implementing an abstract one is refused by both paths (walk InterpreterBug), and the specification is silent. It is row 405 (its provisional number, kept as final).
 
 The checker count is 125 and was not run; this rung touches neither the checker nor Library/.
 
@@ -111,13 +111,13 @@ At the gather, after correction 1: `explorations/compile-ladder/rung-spec-route-
 
 - SpecDeclRule (the rule's Child extends {Parent[\ZZ32\], Parent[\String\]}): walk runs it ('f took a Parent[String]'), compiled refuses it. The specification as revised favours the compiled side; walk not checking the rule is the known walk gap (FACTS, the exclusion entry)
 - SpecNothingLib (the library's Nothing[\String\] as a Maybe[\String\]): walk prints 'false', compiled refuses it with 'Unexpected type for a singleton object reference'. The revised specification (and row 331's decision) favours walk / the one library; the compiled prelude's marker Nothing is row 331 and closes at the switch-over
-- SpecEmptyUntyped: both paths refuse, differently (compiled static error vs walk run-time InterpreterBug). The specification is silent (row 405, provisional)
+- SpecEmptyUntyped: both paths refuse, differently (compiled static error vs walk run-time InterpreterBug). The specification is silent (row 405)
 - SpecWiden, SpecEmptyTyped, SpecNothingT: both paths agree
 
 ## 7. Defect homes
 
 - Appendix A's calculi (Where Core types where-clause variables in supertypes; ACFFD admits a self-extension at the bound; Basic Core claims all its programs are valid Fortress) contradict the rule. Not an implementation defect: a passage of the standard whose new text neither the rule nor the verdicts settle, so it is reported to Pavol under the brief's stop with three candidates (decision-record.md section 4.2). Not one of the three homes; the stop holds the push
-- An untyped parameter in a method implementing an abstract one is refused by both paths: compiled 'Missing parameter type for x', walk InterpreterBug 'MethodClosure cons(_:T):List[\T\] ... has neither body nor def instanceof Method'. Home 3, because the specification is silent: functions.tex:134-143 permits untyped parameters and traits.tex:509-514 requires the object to define the abstract method, but nothing says the untyped parameter takes its type. Probe at explorations/compile-ladder/rung-spec-route-a/probes/examples/SpecEmptyUntyped.fss with .walk.txt and .compile.txt; provisional ledger row 405 in record.md
+- An untyped parameter in a method implementing an abstract one is refused by both paths: compiled 'Missing parameter type for x', walk InterpreterBug 'MethodClosure cons(_:T):List[\T\] ... has neither body nor def instanceof Method'. Home 3, because the specification is silent: functions.tex:134-143 permits untyped parameters and traits.tex:509-514 requires the object to define the abstract method, but nothing says the untyped parameter takes its type. Probe at explorations/compile-ladder/rung-spec-route-a/probes/examples/SpecEmptyUntyped.fss with .walk.txt and .compile.txt; ledger row 405, whose provisional number is its final one (record.md)
 
 At the gather, row 405 is widened to the scope the skeptic measured (its second correction): the compiled path refuses every untyped value parameter, and `walk` fails only on a method that implements an abstract declaration (`decision-record.md` section 3.10; the ledger row).
 
