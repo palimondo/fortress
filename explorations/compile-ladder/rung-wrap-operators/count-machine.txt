@@ -33,3 +33,18 @@ cpu MHz		: 2100.000
 loadavg 3.03 2.64 3.78 1/107 18559
 openjdk version "25.0.4" 2026-07-21
 FORTRESS_THREADS=1
+--- baseLogMgFull (logging shadow over the stock tree: the two microGPT checks at 3600 s) 2026-09-26T12:17:35Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.50 1.73 4.05 4/133 24618
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+--- ant compileAll after the edit 2026-09-26T12:50:32Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 4.31 4.34 4.38 1/110 19332
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+(ant compileAll after the edit: BUILD SUCCESSFUL, Total time: 25 seconds)

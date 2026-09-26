@@ -1,0 +1,34 @@
+# The logging pass after the edit: probes/overflow-probe.patch compiled over the edited glue sources of 352e01d56 into a shadow ahead of ProjectFortress/build (the new Wrapping* classes present and unlogged), which prints OVERFLOW-PROBE <native> <x> <y> where one of the eighteen checked natives meets an overflow and still wraps.
+# Tests 2026-09-26T13:40:46Z-13:55:44Z, then demos at 120 s 13:55:44Z-14:11:09Z; the microGPT checks at 3600 s beside them, 2026-09-26T13:40:46Z to 2026-09-26T14:25:13Z. Machines in count-machine.txt and passes.txt.
+# One line per program with at least one probe line: the program, the number of probe lines, the count per native, the first probe line. Made by probe-summary.py.
+
+## ProjectFortress/tests/ (count-list.txt)
+ReflectiveQuickCheckTest         840  840 Long$Mul;                            first: OVERFLOW-PROBE Long$Mul -3154487486789382269 127
+XXXFixedWidthOverflowRungB         1  1 Int$Add;                               first: OVERFLOW-PROBE Int$Add 2147483647 1
+
+programs with at least one probe line: 2 of 406
+exit codes: 335 rc=0  64 rc=1  7 rc=255
+reached the timeout (rc=124): none
+no output or no trailer: none
+
+## ProjectFortress/demos/*.fss (demo-list.txt), 120 s each
+HeapShakedown                  11940  1068 Int$Add; 10872 Int$Mul;             first: OVERFLOW-PROBE Int$Mul -761155213 4
+
+programs with at least one probe line: 1 of 62
+exit codes: 29 rc=0  11 rc=1  20 rc=124  2 rc=255
+reached the timeout (rc=124): ArrayListLong BiCGSTAB BiCGSTAB2 BirdCount1m BirdCount1o BirdCount1p BirdCount1q BirdCount1r BirdCount1s BirdCount1t BirdCount1u BirdCount1y BirdCount1z BirdCount2a BirdCount2b BirdCount2c Generator2Demo Integrate2 IntegrationStats mg
+no output or no trailer: none
+
+## the two microGPT checks (mg-list.txt), 3600 s each
+
+programs with at least one probe line: 0 of 2
+exit codes: 2 rc=0
+reached the timeout (rc=124): none
+no output or no trailer: none
+
+## Long$Mul lines in the Long-multiplying test files, split by whether one operand is LinearCongruential's multiplier 25214903917
+QuickCheckTest: 0 Long$Mul, 0 without 25214903917
+RandomTest: 0 Long$Mul, 0 without 25214903917
+ReflectiveQuickCheckTest: 840 Long$Mul, 840 without 25214903917
+
+## what remains: XXXFixedWidthOverflowRungB is row 379's expected failure, which adds 2147483647 + 1 on purpose; ReflectiveQuickCheckTest's Long$Mul is QQ's opr < (Library/FortressLibrary.fss:540, see probes/rational/); HeapShakedown's is its spread (ProjectFortress/demos/HeapShakedown.fss:114-118).
