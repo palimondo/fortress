@@ -1,0 +1,20 @@
+(* The library's own way for arms that would differ only in their static
+   parameters' bounds (array1, FortressLibrary.fss:2245-2250, the spec's own
+   example at future.tex:241-245): one declaration, whose body asks which
+   bound its static parameter meets by a typecase on a thrower of it. *)
+component TypecaseWitness
+export Executable
+trait Tag end
+object T1 extends Tag end
+object Other end
+thrower[\T extends Any\](): T = fail("witness only")
+kind[\T extends Any\](): String =
+  typecase thrower[\T\] of
+    () -> Tag => "tag"
+    else => "other"
+  end
+run(): () = do
+  println(kind[\T1\]())
+  println(kind[\Other\]())
+end
+end

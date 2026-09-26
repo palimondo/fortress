@@ -1,0 +1,10 @@
+### walk: bin/fortress TypecaseWitness.fss
+### walk rc=0
+tag
+other
+### compile: bin/fortress compile TypecaseWitness.fss
+### compile rc=0
+### run: MainWrapper TypecaseWitness
+### run rc=0
+tag
+other

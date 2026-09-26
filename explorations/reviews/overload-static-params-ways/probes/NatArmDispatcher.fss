@@ -1,0 +1,14 @@
+(* NatArmViaAny with a third, plain arm on String, the only change: the call
+   through Any now has two arms the checker keeps (Any and String), so the
+   compiled code calls the overload's run-time dispatcher, which holds every
+   arm of f (OverloadSet.java), the sized one among them. *)
+component NatArmDispatcher
+export Executable
+f(x: Any): String = "any"
+f(x: String): String = "string"
+f[\nat n\](x: ZZ32): String = "sized"
+run(): () = do
+  a: Any = 3
+  println(f(a))
+end
+end
