@@ -50,7 +50,13 @@ import com.sun.fortress.nodes.FnDecl;
 import com.sun.fortress.nodes.Id;
 import com.sun.fortress.nodes.IdOrOp;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
+import com.sun.fortress.nodes.IntArg;
+import com.sun.fortress.nodes.IntBase;
+import com.sun.fortress.nodes.IntExpr;
+import com.sun.fortress.nodes.IntRef;
 import com.sun.fortress.nodes.IntersectionType;
+import com.sun.fortress.nodes.KindInt;
+import com.sun.fortress.nodes.KindNat;
 import com.sun.fortress.nodes.NamedType;
 import com.sun.fortress.nodes.Op;
 import com.sun.fortress.nodes.OpArg;
@@ -71,6 +77,7 @@ import com.sun.fortress.nodes_util.Span;
 import com.sun.fortress.repository.ProjectProperties;
 import com.sun.fortress.runtimeSystem.InitializedStaticField;
 import com.sun.fortress.runtimeSystem.InstantiatingClassloader;
+import com.sun.fortress.runtimeSystem.MethodInstantiater;
 import com.sun.fortress.runtimeSystem.Naming;
 import com.sun.fortress.scala_src.overloading.OverloadingOracle;
 import com.sun.fortress.scala_src.types.TypeAnalyzer;
@@ -1092,6 +1099,23 @@ nameTemp + "\n" +
         }
     }
     
+    /**
+     * A literal size inside a parameter type.  TOS is the size descriptor the
+     * enclosing getter returned; the arm applies only if it is this literal's.
+     */
+    static class SizeLiteralStructure extends TypeStructure {
+        SizeLiteralStructure(String literal, int localIndex, int variance) {
+            super(literal, literal, null, localIndex, localIndex + 1, variance, false, false);
+        }
+        void emitInstanceOf(MethodVisitor mv, Label if_fail, boolean value_cast) {
+            MethodInstantiater.sizeReference(mv, fullname);
+            mv.visitInsn(Opcodes.SWAP);
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Naming.RTTI_CONTAINER_TYPE,
+                    Naming.RTTI_SUBTYPE_METHOD_NAME, Naming.RTTI_SUBTYPE_METHOD_SIG);
+            mv.visitJumpInsn(Opcodes.IFEQ, if_fail);
+        }
+    }
+
     static class SelfTypeStructure extends TypeStructure {
         final TypeStructure chainee; 
         public SelfTypeStructure(String fullname, String stem,
@@ -1138,6 +1162,7 @@ nameTemp + "\n" +
         TypeStructure[] parameters = null;
         int[] variances = null;
         List<Type> type_elements = null;
+        Map<Integer, String> size_literals = new HashMap<Integer, String>();
         boolean hasTypeVariables = false;
         boolean isVarType = false;
         boolean isObject = false;
@@ -1194,6 +1219,13 @@ nameTemp + "\n" +
                         TypeArg sta_ta = (TypeArg) sta;
                         type_elements.add( sta_ta.getTypeArg() );
                         // if interesting variance, change it here.
+                    } else if (sta instanceof IntArg && ((IntArg) sta).getIntVal() instanceof IntRef) {
+                        // a size symbol is inferred as a type variable is
+                        IntRef ir = (IntRef) ((IntArg) sta).getIntVal();
+                        type_elements.add(NodeFactory.makeVarType(NodeUtil.getSpan(ir), ir.getName()));
+                    } else if (sta instanceof IntArg && ((IntArg) sta).getIntVal() instanceof IntBase) {
+                        size_literals.put(variance_index, sta.accept(NamingCzar.spkTagger(null)).getB());
+                        type_elements.add(null);
                     } else {
                         // unhandled case.
                         throw new CompilerError("Only handling some static args of generic types");
@@ -1243,7 +1275,9 @@ nameTemp + "\n" +
             int i = 0;
             int next_index = storeAtIndex+1;
             for (Type tt : type_elements) {
-                TypeStructure ts = makeTypeStructure(tt, spmap, variances[i], next_index, staticParams, null);
+                TypeStructure ts = tt == null ?
+                        new SizeLiteralStructure(size_literals.get(i), next_index, variances[i]) :
+                        makeTypeStructure(tt, spmap, variances[i], next_index, staticParams, null);
                 
                 //has type variable if it or any nested structures have type variables
                 hasTypeVariables = hasTypeVariables || ts.containsTypeVariables;
@@ -1424,6 +1458,8 @@ nameTemp + "\n" +
                 MultiMap<StaticParam,Type> concreteUpperBounds = new MultiMap<StaticParam,Type>(); //form X <: T where T contains no type variables
                 for (int outer = 0; outer < staticParams.size(); outer++) {
                     StaticParam outerSP = staticParams.get(outer);
+                    // a size has no bound its descriptor could meet; the compile path gives it extends Object
+                    if (outerSP.getKind() instanceof KindNat || outerSP.getKind() instanceof KindInt) continue;
                     for (BaseType bt : outerSP.getExtendsClause()) {
                         if (bt instanceof VarType) {  // outerSP <: bt so outerSP will provide a lower bound on BT
                             String varName = ((VarType) bt).getName().getText();

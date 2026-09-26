@@ -1,0 +1,297 @@
+# junit-tests.sh before all on the build with pieces 1-4 (descriptor and factory, extends clause, dispatcher, value position; no checkP case), promoted files not yet renamed
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.95 7.34 5.66; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/NatRtUnbox.test
+. compile compiler_tests/NatRtUnbox  OK (time = 1888ms)
+. link compiler_tests/NatRtUnbox  OK (time = 2712ms)
+. run compiler_tests/NatRtUnbox (756ms) 7
+Passed
+
+Time: 5.364
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtOver.test
+. compile compiler_tests/NatRtOver  OK (time = 2160ms)
+. link compiler_tests/NatRtOver  OK (time = 2500ms)
+. run compiler_tests/NatRtOver (716ms) 3
+4
+Passed
+
+Time: 5.386
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtExtends1.test
+. compile compiler_tests/NatRtExtends1  OK (time = 2021ms)
+. link compiler_tests/NatRtExtends1  OK (time = 2602ms)
+. run compiler_tests/NatRtExtends1 (720ms) 3
+Passed
+
+Time: 5.35
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtExtends2.test
+. compile compiler_tests/NatRtExtends2  OK (time = 1890ms)
+. link compiler_tests/NatRtExtends2  OK (time = 2454ms)
+. run compiler_tests/NatRtExtends2 (629ms) 7
+Passed
+
+Time: 4.982
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtVec.test
+. compile compiler_tests/NatRtVec  OK (time = 2065ms)
+. link compiler_tests/NatRtVec  OK (time = 2457ms)
+. run compiler_tests/NatRtVec (723ms) 5
+Passed
+
+Time: 5.256
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtGetter.test
+. compile compiler_tests/NatRtGetter  OK (time = 1932ms)
+. link compiler_tests/NatRtGetter  OK (time = 2409ms)
+. run compiler_tests/NatRtGetter (747ms) 3
+Passed
+
+Time: 5.097
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtCase.test
+. compile compiler_tests/NatRtCase  OK (time = 2061ms)
+. link compiler_tests/NatRtCase  OK (time = 2656ms)
+. run compiler_tests/NatRtCase (745ms) three
+four
+other
+other
+Passed
+
+Time: 5.47
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtCaseGen.test
+. compile compiler_tests/NatRtCaseGen  OK (time = 2205ms)
+. link compiler_tests/NatRtCaseGen  OK (time = 2167ms)
+. run compiler_tests/NatRtCaseGen (600ms) yes
+no
+no
+yes
+Passed
+
+Time: 4.983
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDisp.test
+. compile compiler_tests/NatRtDisp  OK (time = 2218ms)
+. link compiler_tests/NatRtDisp  OK (time = 2067ms)
+. run compiler_tests/NatRtDisp (678ms) scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+Passed
+
+Time: 4.971
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDispTrait.test
+. compile compiler_tests/NatRtDispTrait  OK (time = 2297ms)
+. link compiler_tests/NatRtDispTrait  OK (time = 1919ms)
+. run compiler_tests/NatRtDispTrait (652ms) scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+Passed
+
+Time: 4.874
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDispSize.test
+. compile compiler_tests/NatRtDispSize  OK (time = 2257ms)
+. link compiler_tests/NatRtDispSize  OK (time = 2074ms)
+. run compiler_tests/NatRtDispSize (567ms) 0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+Passed
+
+Time: 4.908
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDispLit.test
+. compile compiler_tests/NatRtDispLit  OK (time = 2071ms)
+. link compiler_tests/NatRtDispLit  OK (time = 1933ms)
+. run compiler_tests/NatRtDispLit (588ms) three
+four
+other
+T-three
+other
+Passed
+
+Time: 4.602
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDot.test
+. compile compiler_tests/NatRtDot  OK (time = 1974ms)
+. link compiler_tests/NatRtDot  OK (time = 1991ms)
+. run compiler_tests/NatRtDot (635ms) (i) static, same sizes
+3
+(ii) static, different sizes
+-1
+(iii) dispatched, same sizes
+3
+(iv) dispatched, different sizes, both orders
+-1
+-1
+Passed
+
+Time: 4.608
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtExtLit.test
+. compile compiler_tests/NatRtExtLit  OK (time = 1916ms)
+. link compiler_tests/NatRtExtLit  OK (time = 2039ms)
+. run compiler_tests/NatRtExtLit (622ms) 1
+2
+1
+2
+-1
+Passed
+
+Time: 4.586
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/XXXNatExcludeChecker.test
+. compile compiler_tests/XXXNatExcludeChecker 
+ Saw failure, but did not satisfy compile_err_contains; expected
+Types Vec[\3\] and Vec[\4\] exclude each other.  V must not extend them.
+F
+Time: 1.5
+There was 1 failure:
+1) compiler_tests/XXXNatExcludeChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/NatExcludeOverload.test
+. compile compiler_tests/NatExcludeOverload ProjectFortress/compiler_tests/NatExcludeOverload.fss:10:1-24:
+ProjectFortress/compiler_tests/NatExcludeOverload.fss:9:1-23:
+    Invalid overloading of g in component NatExcludeOverload:
+     Tg[\3\]->ZZ32 @ ProjectFortress/compiler_tests/NatExcludeOverload.fss:9:1-23
+ and Tg[\4\]->ZZ32 @ ProjectFortress/compiler_tests/NatExcludeOverload.fss:10:1-24
+File NatExcludeOverload.fss has 1 error.
+ FAIL
+F. link compiler_tests/NatExcludeOverload ProjectFortress/compiler_tests/NatExcludeOverload.fss:10:1-24:
+ProjectFortress/compiler_tests/NatExcludeOverload.fss:9:1-23:
+    Invalid overloading of g in component NatExcludeOverload:
+     Tg[\3\]->ZZ32 @ ProjectFortress/compiler_tests/NatExcludeOverload.fss:9:1-23
+ and Tg[\4\]->ZZ32 @ ProjectFortress/compiler_tests/NatExcludeOverload.fss:10:1-24
+File NatExcludeOverload.fss has 1 error.
+ FAIL
+F. run compiler_tests/NatExcludeOverload (197ms) Could not load NatExcludeOverload
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : NatExcludeOverload.class
+	... 4 more
+Failed to satisfy run_out_equals; expected
+3
+4
+
+F
+Time: 3.922
+There were 3 failures:
+1) compiler_tests/NatExcludeOverload(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output compile
+2) compiler_tests/NatExcludeOverload(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+3) compiler_tests/NatExcludeOverload(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/NatExcludeOverload
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatDispArmChecker.test
+. compile compiler_tests/XXXNatDispArmChecker 
+ Saw failure, but did not satisfy compile_exception_contains; expected
+Only handling some static args of generic types
+F
+Time: 2.292
+There was 1 failure:
+1) compiler_tests/XXXNatDispArmChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatOverrideChecker.test
+. compile compiler_tests/XXXNatOverrideChecker 
+ Saw failure, but did not satisfy compile_exception_contains; expected
+Only emitting RTTI for types right now
+F
+Time: 2.059
+There was 1 failure:
+1) compiler_tests/XXXNatOverrideChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/NatArgRungSLink.test
+. link compiler_tests/XXXNatArgRungS  OK (time = 3757ms)
+
+Time: 3.762
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatArgRungS.test
+. run compiler_tests/XXXNatArgRungS (530ms) REACHED
+Vec[\3\]
+PASS
+Did not see expected failure
+F
+Time: 0.537
+There was 1 failure:
+1) compiler_tests/XXXNatArgRungS(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXNatArgRungS
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+EXIT=0

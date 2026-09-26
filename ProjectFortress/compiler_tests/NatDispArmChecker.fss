@@ -1,0 +1,22 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component NatDispArmChecker
+export Executable
+
+object Vec[\T, nat s\](x: T) end
+object Mat[\T, nat r, nat c\](x: T) end
+
+f(x: RR64): String = "scalar"
+f[\nat s\](v: Vec[\RR64,s\]): String = "vector"
+f[\nat r, nat c\](m: Mat[\RR64,r,c\]): String = "matrix"
+f(x: Any): String = "other"
+
+run(): () = do
+    r: RR64 = 2.5
+    assert(f(r), "scalar", "a scalar arm beside the size-generic arms")
+    assert(f(Vec[\RR64,3\](r)), "vector", "a size-generic arm beside a less specific sibling; keep-size-params.patch, POSITIONS.md 2026-09-24")
+    assert(f(Mat[\RR64,2,4\](r)), "matrix", "an arm generic in two sizes beside a less specific sibling; keep-size-params.patch, POSITIONS.md 2026-09-24")
+    assert(f(Vec[\ZZ32,3\](7)), "other", "the catch-all for a vector of another element type")
+    println("PASS")
+  end
+
+end

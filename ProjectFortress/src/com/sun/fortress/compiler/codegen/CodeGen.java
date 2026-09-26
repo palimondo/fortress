@@ -97,7 +97,10 @@ import com.sun.fortress.nodes.Import;
 import com.sun.fortress.nodes.ImportNames;
 import com.sun.fortress.nodes.ImportStar;
 import com.sun.fortress.nodes.IntArg;
+import com.sun.fortress.nodes.IntBase;
+import com.sun.fortress.nodes.IntExpr;
 import com.sun.fortress.nodes.IntLiteralExpr;
+import com.sun.fortress.nodes.IntRef;
 import com.sun.fortress.nodes.IntersectionType;
 import com.sun.fortress.nodes.KindOp;
 import com.sun.fortress.nodes.Lhs;
@@ -160,6 +163,7 @@ import com.sun.fortress.runtimeSystem.BAlongTree;
 import com.sun.fortress.runtimeSystem.InitializedInstanceField;
 import com.sun.fortress.runtimeSystem.InitializedStaticField;
 import com.sun.fortress.runtimeSystem.InstantiatingClassloader;
+import com.sun.fortress.runtimeSystem.MethodInstantiater;
 import com.sun.fortress.runtimeSystem.Naming;
 import com.sun.fortress.runtimeSystem.RTHelpers;
 import com.sun.fortress.scala_src.overloading.OverloadingOracle;
@@ -5782,7 +5786,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 } else if (sta instanceof DimArg) {
                     
                 } else if (sta instanceof IntArg) {
-                    
+                    IntExpr ie = ((IntArg) sta).getIntVal();
+                    if (ie instanceof IntRef && spns.contains(((IntRef) ie).getName().getText())) {
+                        // a size parameter of this type: its own field, as for a type parameter
+                        mv2.visitVarInsn(ALOAD, 0);
+                        mv2.visitFieldInsn(GETFIELD, rttiClassName, ((IntRef) ie).getName().getText(), Naming.RTTI_CONTAINER_DESC);
+                        continue;
+                    } else if (ie instanceof IntBase) {
+                        MethodInstantiater.sizeReference(mv2, sta.accept(NamingCzar.spkTagger(null)).getB());
+                        continue;
+                    }
                 } else if (sta instanceof OpArg) {
                     continue; // skip opr args pushing to factory
                 } else if (sta instanceof UnitArg) {
@@ -5966,10 +5979,35 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         return var != null && var.mutable();
     }
 
+    /**
+     * A nat or int static parameter read as a value: the checker types it
+     * IntLiteral (KindEnv.getType), and it is neither a local, nor api-qualified,
+     * nor a top-level variable of this component.
+     */
+    private boolean isSizeInValuePosition(VarRef v, Id id) {
+        if (id.getApiName().isSome()) return false;
+        if (ci.variables().containsKey(id)) return false;
+        Option<Type> ot = NodeUtil.getExprType(v);
+        return ot.isSome() && ot.unwrap().equals(com.sun.fortress.compiler.Types.INT_LITERAL);
+    }
+
     public void forVarRef(VarRef v) {
         List<StaticArg> lsargs = v.getStaticArgs();
         Id id = v.getVarId();
         VarCodeGen vcg = getLocalVarOrNull(id, lsargs);
+        if (vcg == null && isSizeInValuePosition(v, id)) {
+            // The loader replaces CONST.Nat.<size> by the instantiated number
+            // (MethodInstantiater.visitMethodInsn); then as forIntLiteralExpr.
+            addLineNumberInfo(v);
+            String loadNat = Naming.opForString(Naming.natMethod,
+                    Naming.LEFT_OXFORD + id.getText() + Naming.RIGHT_OXFORD);
+            mv.visitMethodInsn(INVOKESTATIC, Naming.magicInterpClass, loadNat, "()I");
+            mv.visitMethodInsn(INVOKESTATIC,
+                    NamingCzar.internalFortressIntLiteral, NamingCzar.make,
+                    Naming.makeMethodDesc(NamingCzar.descInt,
+                            NamingCzar.descFortressIntLiteral));
+            return;
+        }
         if (vcg == null) {
             debug("forVarRef fresh import ", v);
             Type ty = NodeUtil.getExprType(v).unwrap();

@@ -1,0 +1,14 @@
+component SzTwoThreads
+export Executable
+object Vec[\T, nat s\](x: T) end
+object Box[\nat k\](v: ZZ32) end
+sz[\nat s\](v: Vec[\ZZ32,s\]): ZZ32 = s
+kz[\nat k\](b: Box[\k\]): ZZ32 = k
+run() = do
+  do println(sz(Vec[\ZZ32,97\](1))) also do println(kz(Box[\97\](2))) end
+  a: Any = Vec[\ZZ32,97\](1)
+  b: Any = Box[\97\](2)
+  println(a.asString)
+  println(b.asString)
+end
+end

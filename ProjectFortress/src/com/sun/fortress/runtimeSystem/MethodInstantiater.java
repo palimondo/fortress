@@ -129,6 +129,8 @@ public class MethodInstantiater extends MethodVisitor {
             String stem_rtti = Naming.stemClassToRTTIclass(stem);
             String fact_sig = Naming.rttiFactorySig(parameters.size());
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, stem_rtti, Naming.RTTI_FACTORY, fact_sig);
+        } else if (isSizeLiteral(owner)) {
+            sizeReference(mv, owner);
         } else {
             //just get the field
             String ownerRTTIc = Naming.stemClassToRTTIclass(owner);
@@ -137,6 +139,24 @@ public class MethodInstantiater extends MethodVisitor {
             }
         	mv.visitFieldInsn(Opcodes.GETSTATIC, ownerRTTIc, Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);
         }
+    }
+
+    /**
+     * A size static argument is written as its number, and no Fortress name
+     * begins with a digit or a minus sign.
+     */
+    public static boolean isSizeLiteral(String s) {
+        char c = s.charAt(0);
+        return c == '-' || Character.isDigit(c);
+    }
+
+    /**
+     * Push the descriptor of the size whose text is given.
+     */
+    public static void sizeReference(MethodVisitor mv, String size) {
+        mv.visitLdcInsn(size);
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, Naming.SIZE_RTTI_CONTAINER_TYPE, Naming.SIZE_RTTI_FACTORY,
+                "(Ljava/lang/String;)" + Naming.RTTI_CONTAINER_DESC, false);
     }
 
     public void visitFrame(int type, int nLocal, Object[] local, int nStack,
@@ -201,6 +221,10 @@ public class MethodInstantiater extends MethodVisitor {
                 mv.visitLdcInsn(Long.valueOf(hash_sargs));
             } else if (op.equals(Naming.stringMethod)) {
                 mv.visitLdcInsn(s);
+            } else if (op.equals(Naming.natMethod)) {
+                // s is the instantiated size between oxfords
+                mv.visitLdcInsn(Integer.valueOf(Integer.parseInt(
+                        s.substring(1, s.length() - 1))));
             } else {
                 throw new Error("Invocation of magic class Method '"+oname+
                           "' ('"+name+"') seen, but op is not recognized.");

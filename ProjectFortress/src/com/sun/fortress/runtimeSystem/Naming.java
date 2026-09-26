@@ -151,6 +151,8 @@ public class Naming {
     public final static String RTTI_CONTAINER_ARRAY_DESC = "[L" + RTTI_CONTAINER_TYPE + ";";
     public final static String STATIC_PARAMETER_GETTER_SIG = "()" + RTTI_CONTAINER_DESC;
     public final static String VOID_RTTI_CONTAINER_TYPE = RT_VALUES_PKG + "VoidRTTI";
+    public final static String SIZE_RTTI_CONTAINER_TYPE = RT_VALUES_PKG + "RTTIsize";
+    public final static String SIZE_RTTI_FACTORY = "of";
     public final static String RTTI_SUBTYPE_METHOD_SIG = "(" + RTTI_CONTAINER_DESC + ")Z";
     public final static String RTTI_SUBTYPE_METHOD_NAME = "runtimeSupertypeOf";
 
@@ -266,6 +268,7 @@ public class Naming {
     public static final String magicInterpClass = "CONST";
     public static final String hashMethod = "hash";
     public static final String stringMethod = "String";
+    public static final String natMethod = "Nat";
 
     /**
      * Java descriptors for (boxed) Fortress types, INCLUDING leading L and trailing ;
