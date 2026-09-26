@@ -13,7 +13,7 @@ end
 
 run(): () = do
     u: Up[\2, 5\] = Dn[\0, 7\](1).sub[\2, 5, 0\](3)
-    assert(u.v(), 4, "an override whose sizes are its own and occur only in its return type; the subarray shape of Library/FortressLibrary.fsi")
+    assert(u.v(), 4, "an override whose sizes are its own and occur only in its return type; the subarray shape of Library/FortressLibrary.fsi:1403")
     println("PASS")
   end
 

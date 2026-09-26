@@ -1,0 +1,28 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 5.62 3.61 1.96; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/XXXNatLitArgChecker.test, the landed build
+. compile compiler_tests/XXXNatLitArgChecker ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss:15:12-31:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss:16:12-38:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File XXXNatLitArgChecker.fss has 2 errors.
+ Saw expected failure
+
+Time: 3.095
+
+OK (1 test)
+
+exit=0
+########## fortress typecheck compiler_tests/XXXNatLitArgChecker.fss, the landed build
+ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss:15:12-31:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss:16:12-38:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File XXXNatLitArgChecker.fss has 2 errors.
+exit=255
+########## walk: fortress compiler_tests/XXXNatLitArgChecker.fss
+PASS
+exit=0

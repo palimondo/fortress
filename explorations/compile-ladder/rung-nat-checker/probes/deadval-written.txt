@@ -1,0 +1,17 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 5.94 3.90 2.11; JDK 25; FORTRESS_THREADS=1
+########## fortress typecheck DeadValWritten.fss (landed build)
+exit=0
+########## fortress compile DeadValWritten.fss (landed build)
+exit=0
+########## fortress run DeadValWritten (landed build)
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: DeadValWritten$n
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 9 more
+Caused by: java.io.IOException: Resource not found : DeadValWritten$n.class
+	... 10 more
+exit=1
+########## walk: fortress DeadValWritten.fss
+5
+2
+exit=0

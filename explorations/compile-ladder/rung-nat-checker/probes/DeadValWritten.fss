@@ -1,0 +1,13 @@
+component DeadValWritten
+export Executable
+
+ev[\nat n\](x: ZZ32): ZZ32 = n
+ev(x: Any): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    println(ev[\5\](z))
+    println(ev("s"))
+  end
+
+end

@@ -1,0 +1,20 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component XXXNatLitArgChecker
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+object BoxT[\T\](v: ZZ32) end
+
+scale[\nat k\](b: Box[\k\], m: ZZ32): Box[\k\] = Box[\k\](b.v m)
+scaleT[\T\](b: BoxT[\T\], m: ZZ32): BoxT[\T\] = BoxT[\T\](b.v m)
+plain(b: BoxT[\String\], m: ZZ32): BoxT[\String\] = BoxT[\String\](b.v m)
+
+run(): () = do
+    assert(plain(BoxT[\String\](2), 3).v, 6, "a numeral at a non-generic call")
+    assert(scale[\3\](Box[\3\](2), 3).v, 6, "a numeral at a generic call whose static argument is written out")
+    assert(scale(Box[\3\](2), 3).v, 6, "a numeral coerced at an argument whose parameter has a declared type; Specification/basic/conversions-coercions.tex:102-103")
+    assert(scaleT(BoxT[\String\](2), 3).v, 6, "a numeral coerced at an argument whose parameter has a declared type; Specification/basic/conversions-coercions.tex:102-103")
+    println("PASS")
+  end
+
+end
