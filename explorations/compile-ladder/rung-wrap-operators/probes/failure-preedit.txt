@@ -1,0 +1,83 @@
+--- pre-edit failure, bin/fortress walk 2026-09-26T11:17:46Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 7.96 3.64 2.47 15/220 17078
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+$ ./bin/fortress walk ProjectFortress/tests/WrapOperatorsRungD.fss   (tree at 6030e4b36, stock library and natives)
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:24:23-28:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:25:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:26:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:27:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:28:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:29:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:30:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:31:24-30:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:31:39-44:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:40:23-28:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:41:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:42:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:43:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:44:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:45:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:46:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:47:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:54:23-28:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:55:24-30:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:56:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:57:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:58:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:59:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:66:24-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:67:25-31:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:68:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:69:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:70:24-30:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:71:24-30:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:77:23-28:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:78:23-28:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:79:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:80:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:81:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:82:18-24:
+    Operator prefix ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:83:23-29:
+    Operator ? is not defined.
+/home/user/fortress-wrap/ProjectFortress/tests/WrapOperatorsRungD.fss:84:23-29:
+    Operator ? is not defined.
+exit=255

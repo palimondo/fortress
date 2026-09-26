@@ -1,0 +1,89 @@
+component WrapOperatorsRungD
+export Executable
+
+(*) explorations/compile-ladder/rung-wrap-operators/REPORT.md
+
+shown(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    NN32 => v.asString || " : NN32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN64 => v.asString || " : NN64"
+    ZZ => v.asString || " : ZZ"
+    else => v.asString || " : other"
+  end
+
+run() = do
+    oneI: ZZ32 = 1
+    twoI: ZZ32 = 2
+    minusOneI: ZZ32 = -1
+    minI: ZZ32 = -2147483647 - 1
+    maxI: ZZ32 = 2147483647
+    bigI: ZZ32 = 65536
+
+    assert(shown(maxI DOTPLUS oneI), "-2147483648 : ZZ32", "opr-overview.tex:205-209: ZZ32 MAX DOTPLUS 1 wraps")
+    assert(shown(minI DOTMINUS oneI), "2147483647 : ZZ32", "opr-overview.tex:205-209: ZZ32 MIN DOTMINUS 1 wraps")
+    assert(shown(DOTMINUS minI), "-2147483648 : ZZ32", "opr-overview.tex:205-209: ZZ32 DOTMINUS MIN wraps")
+    assert(shown(DOTMINUS maxI), "-2147483647 : ZZ32", "opr-overview.tex:205-209: ZZ32 DOTMINUS MAX")
+    assert(shown(maxI DOTTIMES twoI), "-2 : ZZ32", "opr-overview.tex:172-176: ZZ32 MAX DOTTIMES 2 wraps")
+    assert(shown(minI DOTTIMES minusOneI), "-2147483648 : ZZ32", "opr-overview.tex:172-176: ZZ32 MIN DOTTIMES -1 wraps")
+    assert(shown(bigI DOTTIMES bigI), "0 : ZZ32", "opr-overview.tex:172-176: ZZ32 2^16 DOTTIMES 2^16 wraps")
+    assert(shown((maxI DOTMINUS oneI) DOTPLUS twoI), "-2147483648 : ZZ32", "opr-overview.tex:205-209: ZZ32 DOTMINUS then DOTPLUS")
+
+    oneL: ZZ64 = widen(1)
+    twoL: ZZ64 = widen(2)
+    minusOneL: ZZ64 = widen(-1)
+    minL: ZZ64 = oneL LSHIFT 63
+    maxL: ZZ64 = BITNOT minL
+    bigL: ZZ64 = oneL LSHIFT 32
+
+    assert(shown(maxL DOTPLUS oneL), "-9223372036854775808 : ZZ64", "opr-overview.tex:205-209: ZZ64 MAX DOTPLUS 1 wraps")
+    assert(shown(minL DOTMINUS oneL), "9223372036854775807 : ZZ64", "opr-overview.tex:205-209: ZZ64 MIN DOTMINUS 1 wraps")
+    assert(shown(DOTMINUS minL), "-9223372036854775808 : ZZ64", "opr-overview.tex:205-209: ZZ64 DOTMINUS MIN wraps")
+    assert(shown(DOTMINUS maxL), "-9223372036854775807 : ZZ64", "opr-overview.tex:205-209: ZZ64 DOTMINUS MAX")
+    assert(shown(maxL DOTTIMES twoL), "-2 : ZZ64", "opr-overview.tex:172-176: ZZ64 MAX DOTTIMES 2 wraps")
+    assert(shown(minL DOTTIMES minusOneL), "-9223372036854775808 : ZZ64", "opr-overview.tex:172-176: ZZ64 MIN DOTTIMES -1 wraps")
+    assert(shown(maxL DOTTIMES maxL), "1 : ZZ64", "opr-overview.tex:172-176: ZZ64 MAX DOTTIMES MAX wraps")
+    assert(shown(bigL DOTTIMES bigL), "0 : ZZ64", "opr-overview.tex:172-176: ZZ64 2^32 DOTTIMES 2^32 wraps")
+
+    zeroU: NN32 = unsigned(0)
+    oneU: NN32 = unsigned(1)
+    maxU: NN32 = BITNOT zeroU
+    bigU: NN32 = oneU LSHIFT 16
+
+    assert(shown(maxU DOTPLUS oneU), "0 : NN32", "opr-overview.tex:205-209: NN32 MAX DOTPLUS 1 wraps")
+    assert(shown(zeroU DOTMINUS oneU), "4294967295 : NN32", "opr-overview.tex:205-209: NN32 0 DOTMINUS 1 wraps")
+    assert(shown(DOTMINUS oneU), "4294967295 : NN32", "opr-overview.tex:205-209: NN32 DOTMINUS 1 wraps")
+    assert(shown(DOTMINUS zeroU), "0 : NN32", "opr-overview.tex:205-209: NN32 DOTMINUS 0")
+    assert(shown(maxU DOTTIMES maxU), "1 : NN32", "opr-overview.tex:172-176: NN32 MAX DOTTIMES MAX wraps")
+    assert(shown(bigU DOTTIMES bigU), "0 : NN32", "opr-overview.tex:172-176: NN32 2^16 DOTTIMES 2^16 wraps")
+
+    zeroUL: NN64 = widen(unsigned(0))
+    oneUL: NN64 = widen(unsigned(1))
+    maxUL: NN64 = BITNOT zeroUL
+    bigUL: NN64 = oneUL LSHIFT 32
+
+    assert(shown(maxUL DOTPLUS oneUL), "0 : NN64", "opr-overview.tex:205-209: NN64 MAX DOTPLUS 1 wraps")
+    assert(shown(zeroUL DOTMINUS oneUL), "18446744073709551615 : NN64", "opr-overview.tex:205-209: NN64 0 DOTMINUS 1 wraps")
+    assert(shown(DOTMINUS oneUL), "18446744073709551615 : NN64", "opr-overview.tex:205-209: NN64 DOTMINUS 1 wraps")
+    assert(shown(DOTMINUS zeroUL), "0 : NN64", "opr-overview.tex:205-209: NN64 DOTMINUS 0")
+    assert(shown(maxUL DOTTIMES maxUL), "1 : NN64", "opr-overview.tex:172-176: NN64 MAX DOTTIMES MAX wraps")
+    assert(shown(bigUL DOTTIMES bigUL), "0 : NN64", "opr-overview.tex:172-176: NN64 2^32 DOTTIMES 2^32 wraps")
+
+    oneZ: ZZ = big(oneL)
+    minZ: ZZ = big(minL)
+    maxZ: ZZ = big(maxL)
+
+    assert(shown(maxZ DOTPLUS oneZ), "9223372036854775808 : ZZ", "opr-overview.tex:205-209, basic-integers.tex:369-370: ZZ DOTPLUS does not wrap")
+    assert(shown(maxZ DOTPLUS oneZ), shown(maxZ + oneZ), "opr-overview.tex:205-209, basic-integers.tex:369-370: ZZ DOTPLUS is +")
+    assert(shown(minZ DOTMINUS oneZ), "-9223372036854775809 : ZZ", "opr-overview.tex:205-209, basic-integers.tex:400-401: ZZ DOTMINUS does not wrap")
+    assert(shown(minZ DOTMINUS oneZ), shown(minZ - oneZ), "opr-overview.tex:205-209, basic-integers.tex:400-401: ZZ DOTMINUS is -")
+    assert(shown(DOTMINUS minZ), "9223372036854775808 : ZZ", "opr-overview.tex:205-209, basic-integers.tex:384-385: ZZ DOTMINUS MIN does not wrap")
+    assert(shown(DOTMINUS minZ), shown(-minZ), "opr-overview.tex:205-209, basic-integers.tex:384-385: ZZ unary DOTMINUS is -")
+    assert(shown(maxZ DOTTIMES maxZ), "85070591730234615847396907784232501249 : ZZ", "opr-overview.tex:172-176, basic-integers.tex:416: ZZ DOTTIMES does not wrap")
+    assert(shown(maxZ DOTTIMES maxZ), shown(maxZ maxZ), "opr-overview.tex:172-176, basic-integers.tex:416: ZZ DOTTIMES is multiplication")
+
+    println "PASS"
+  end
+
+end
