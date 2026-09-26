@@ -1,0 +1,41 @@
+########## junit compiler_tests/XXXNatMismatchChecker.test, tmp/demo-classes first on the classpath
+. compile compiler_tests/XXXNatMismatchChecker ProjectFortress/compiler_tests/XXXNatMismatchChecker.fss:13:13-44:
+    Could not check call to function dot
+    - Could not infer static arguments nat n, nat m, nat p without context.
+File XXXNatMismatchChecker.fss has 1 error.
+
+ Saw failure, but did not satisfy compile_err_contains; expected
+File XXXNatMismatchChecker.fss has 3 errors.
+F
+Time: 3.792
+There was 1 failure:
+1) compiler_tests/XXXNatMismatchChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatRetSizeChecker.test, tmp/demo-classes first on the classpath
+. compile compiler_tests/XXXNatRetSizeChecker 
+ Did not satisfy compile_err_contains; expected
+File XXXNatRetSizeChecker.fss has 3 errors.
+com.sun.fortress.exceptions.CompilerError: Only handling some static args of generic types
+F
+Time: 5.863
+There was 1 failure:
+1) compiler_tests/XXXNatRetSizeChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatDispArmChecker.test, tmp/demo-classes first on the classpath
+. compile compiler_tests/XXXNatDispArmChecker com.sun.fortress.exceptions.CompilerError: Only handling some static args of generic types
+ OK Saw expected exception
+
+Time: 5.642
+
+OK (1 test)
+
+exit=0
+EXIT=0

@@ -1,0 +1,115 @@
+95a96,205
+> Library/FortressLibrary.fsi:1299:5-46:
+> Library/FortressLibrary.fsi:1300:5-44:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1300:5-44
+>  and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1299:5-46
+> Library/FortressLibrary.fsi:1299:5-46:
+> Library/FortressLibrary.fsi:1300:5-44:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1300:5-44
+>  and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1299:5-46
+> Library/FortressLibrary.fsi:1299:5-46:
+> Library/FortressLibrary.fsi:1319:5-44:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1319:5-44
+>  and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1299:5-46
+> Library/FortressLibrary.fsi:1299:5-46:
+> Library/FortressLibrary.fsi:1339:5-35:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1339:5-35
+>  and (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1299:5-46
+> Library/FortressLibrary.fsi:1299:5-46:
+> Library/FortressLibrary.fsi:1371:5-15:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1299:5-46
+>  and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1371:5-15
+> Library/FortressLibrary.fsi:1299:5-46:
+> Library/FortressLibrary.fsi:1371:5-15:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (ReadableArray[\T,ZZ32\], ZZ32->T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1299:5-46
+>  and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1371:5-15
+> Library/FortressLibrary.fsi:1300:5-44:
+> Library/FortressLibrary.fsi:1318:5-47:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1318:5-47
+>  and (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1300:5-44
+> Library/FortressLibrary.fsi:1300:5-44:
+> Library/FortressLibrary.fsi:1338:5-38:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1338:5-38
+>  and (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1300:5-44
+> Library/FortressLibrary.fsi:1300:5-44:
+> Library/FortressLibrary.fsi:1370:5-18:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1300:5-44
+>  and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1370:5-18
+> Library/FortressLibrary.fsi:1300:5-44:
+> Library/FortressLibrary.fsi:1370:5-18:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (ReadableArray[\T,ZZ32\], T)->ReadableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1300:5-44
+>  and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1370:5-18
+> Library/FortressLibrary.fsi:1318:5-47:
+> Library/FortressLibrary.fsi:1319:5-44:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1319:5-44
+>  and (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1318:5-47
+> Library/FortressLibrary.fsi:1318:5-47:
+> Library/FortressLibrary.fsi:1370:5-18:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1318:5-47
+>  and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1370:5-18
+> Library/FortressLibrary.fsi:1318:5-47:
+> Library/FortressLibrary.fsi:1371:5-15:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1318:5-47
+>  and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1371:5-15
+> Library/FortressLibrary.fsi:1319:5-44:
+> Library/FortressLibrary.fsi:1370:5-18:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1319:5-44
+>  and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1370:5-18
+> Library/FortressLibrary.fsi:1319:5-44:
+> Library/FortressLibrary.fsi:1371:5-15:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ Library/FortressLibrary.fsi:1319:5-44
+>  and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1371:5-15
+> Library/FortressLibrary.fsi:1338:5-38:
+> Library/FortressLibrary.fsi:1339:5-35:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1339:5-35
+>  and (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1338:5-38
+> Library/FortressLibrary.fsi:1338:5-38:
+> Library/FortressLibrary.fsi:1370:5-18:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1338:5-38
+>  and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1370:5-18
+> Library/FortressLibrary.fsi:1338:5-38:
+> Library/FortressLibrary.fsi:1371:5-15:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1338:5-38
+>  and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1371:5-15
+> Library/FortressLibrary.fsi:1339:5-35:
+> Library/FortressLibrary.fsi:1370:5-18:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1339:5-35
+>  and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1370:5-18
+> Library/FortressLibrary.fsi:1339:5-35:
+> Library/FortressLibrary.fsi:1371:5-15:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ Library/FortressLibrary.fsi:1339:5-35
+>  and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1371:5-15
+> Library/FortressLibrary.fsi:1370:5-18:
+> Library/FortressLibrary.fsi:1371:5-15:
+>     Invalid overloading of fill in trait PrimImmutableArray:
+>      (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1371:5-15
+>  and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,0,s0\] @ Library/FortressLibrary.fsi:1370:5-18
+> Library/FortressLibrary.fsi:1370:5-18:
+> Library/FortressLibrary.fsi:1371:5-15:
+>     Invalid overloading of fill in trait PrimitiveArray:
+>      (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1371:5-15
+>  and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1370:5-18
+327c437
+< File FortressLibrary.fss has 103 errors.
+---
+> File FortressLibrary.fss has 125 errors.

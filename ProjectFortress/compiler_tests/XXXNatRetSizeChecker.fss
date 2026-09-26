@@ -11,10 +11,16 @@ f(x: Any): Box[\3\] = Box[\3\](2)
 g(v: Vec[\3\]): Box[\3\] = Box[\3\](1)
 g(x: Any): Box[\4\] = Box[\4\](2)
 
+trait Up[\nat b0\]
+    sub[\nat b\](m: ZZ32): Up[\b\]
+end
+trait Dn[\nat b0\] extends { Up[\b0\] }
+    sub[\nat b\](m: ZZ32): Dn[\3\]
+end
+
 run(): () = do
     println(f(Vec[\5\](0)).v)
     println(g(Vec[\3\](0)).v)
-    println("PASS")
   end
 
 end

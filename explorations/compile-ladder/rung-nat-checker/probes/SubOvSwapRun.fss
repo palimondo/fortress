@@ -1,0 +1,16 @@
+component SubOvSwapRun
+export Executable
+trait Up[\nat b0, nat s0\]
+    v(): ZZ32
+    sub[\nat b, nat s\](m: ZZ32): Up[\b, s\]
+end
+object Dn[\nat b0, nat s0\](x: ZZ32) extends { Up[\b0, s0\] }
+    v(): ZZ32 = x
+    sub[\nat b, nat s\](m: ZZ32): Dn[\s, b\] = Dn[\s, b\](x + m)
+end
+run(): () = do
+  u: Up[\0, 7\] = Dn[\0, 7\](1)
+  w: Up[\2, 5\] = u.sub[\2, 5\](3)
+  println(w.v())
+end
+end

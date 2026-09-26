@@ -9,7 +9,6 @@ f(x: Any): String = "other"
 
 run(): () = do
     println(f(Vec[\RR64,3\](2.5)))
-    println("PASS")
   end
 
 end

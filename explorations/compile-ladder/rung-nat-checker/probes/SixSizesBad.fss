@@ -1,0 +1,11 @@
+component SixSizesBad
+export Executable
+object A3[\nat a, nat b, nat c, nat d, nat e, nat f\](v: ZZ32) end
+tr[\nat a, nat b, nat c, nat d, nat e, nat f\](t: A3[\a,b,c,d,e,f\]): A3[\f,e,d,c,b,a\] = A3[\f,e,d,c,b,a\](t.v)
+pair[\nat a, nat b, nat c\](x: A3[\a,b,c,a,b,c\], y: A3[\c,b,a,c,b,a\]): ZZ32 = x.v + y.v
+run(): () = do
+  x: A3[\6,5,4,3,1,2\] = tr(A3[\1,2,3,4,5,6\](7))
+  println(x.v)
+  println(pair(A3[\1,2,3,1,2,3\](1), A3[\3,2,1,3,1,2\](2)))
+end
+end

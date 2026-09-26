@@ -13,7 +13,6 @@ run(): () = do
     println(dot(Mat[\2,3\](6), Mat[\4,5\](7)).v)
     b: Box[\4\] = Box[\3\](7)
     println(b.v)
-    println("PASS")
   end
 
 end

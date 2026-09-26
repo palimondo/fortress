@@ -1,0 +1,4 @@
+MOVED tests/nestedTransactions1.fss crc=0 rrc=0 stdout-diff=4
+MOVED tests/nestedTransactions2.fss crc=0 rrc=0 stdout-diff=4
+MOVED tests/nestedTransactions4.fss crc=0 rrc=0 stdout-diff=4
+files=85 pass-and-same-stdout=82 moved=3

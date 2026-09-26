@@ -1,0 +1,3 @@
+tests=XXXNatOverrideChecker
+compile
+compile_exception_contains=Only emitting RTTI for types right now
