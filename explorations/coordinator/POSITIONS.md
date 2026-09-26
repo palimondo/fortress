@@ -128,3 +128,4 @@
   - the five candidate ledger rows;
   - what S1's citations call the unrevised copy.
   `CLIMB-BATCH-4.md`'s option (b) is corrected when S is briefed.
+- 2026-09-26, the two ledger entries for the 2012 `covariant` keyword (the judgement's candidate row 1 and its § 8 proposal for worklist item 12), put to him as future work, not on the path to microGPT: "Agreed." Row 404 is appended, a soundness hole: the checker accepts variance and neither path carries it to run time. Its expected-failure tests are owed in a batch rung. Worklist item 12 is reworded to declaration-site variance by the keywords, carried to run time on both paths. In the same message he confirmed S2 ("Yes. Sure."). The judgement's candidate rows 2-5 are still open; its row 4 (sizes in the rule) is already row 402, opened by rung N.
