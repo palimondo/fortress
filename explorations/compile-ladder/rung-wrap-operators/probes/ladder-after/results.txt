@@ -1,0 +1,7 @@
+tests	HeapTest.fss	HeapTest	255		2	
+tests	QuickCheckTest.fss	QuickCheckTest	255		4	
+tests	ReflectiveQuickCheckTest.fss	ReflectiveQuickCheckTest	255		5	
+tests	UnsignedTest.fss	UnsignedTest	255		4	
+tests	intPrim.fss	intPrim	255		2	
+tests	longPrim.fss	longPrim	255		2	
+tests	WrapOperatorsRungD.fss	WrapOperatorsRungD	255		2	

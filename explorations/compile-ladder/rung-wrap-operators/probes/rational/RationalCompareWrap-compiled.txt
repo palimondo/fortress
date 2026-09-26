@@ -1,0 +1,11 @@
+$ bin/fortress compile RationalCompareWrap.fss   (tree at 352e01d56; the compiled library of tmp/ladder-d as the cache)
+/home/user/fortress-wrap/explorations/compile-ladder/rung-wrap-operators/probes/rational/RationalCompareWrap.fss:17:8:
+    QQ is undefined.
+/home/user/fortress-wrap/explorations/compile-ladder/rung-wrap-operators/probes/rational/RationalCompareWrap.fss:18:8:
+    QQ is undefined.
+/home/user/fortress-wrap/explorations/compile-ladder/rung-wrap-operators/probes/rational/RationalCompareWrap.fss:25:8:
+    QQ is undefined.
+/home/user/fortress-wrap/explorations/compile-ladder/rung-wrap-operators/probes/rational/RationalCompareWrap.fss:26:8:
+    QQ is undefined.
+File RationalCompareWrap.fss has 4 errors.
+exit=255

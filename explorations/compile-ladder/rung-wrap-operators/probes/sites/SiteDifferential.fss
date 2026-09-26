@@ -1,0 +1,102 @@
+component SiteDifferential
+import List.{...}
+export Executable
+
+(* Each respelled library or test expression, written both ways, over edge values; prints DIFFER for any value the two spellings disagree on. *)
+
+splitOld32(lo: ZZ32, hi: ZZ32): String = do
+    split = partitionL((lo BITXOR hi)+1)
+    mid = hi BITAND (BITNOT (split-1))
+    midAmt = (hi BITAND (BITNOT (split-1))) - lo - 1
+    split.asString || " " || mid.asString || " " || midAmt.asString
+  end
+splitNew32(lo: ZZ32, hi: ZZ32): String = do
+    split = partitionL((lo BITXOR hi) DOTPLUS 1)
+    mid = hi BITAND (BITNOT (split DOTMINUS 1))
+    midAmt = ((hi BITAND (BITNOT (split DOTMINUS 1))) - 1) - lo
+    split.asString || " " || mid.asString || " " || midAmt.asString
+  end
+splitOld64(lo: ZZ64, hi: ZZ64): String = do
+    split = partitionL((lo BITXOR hi)+1)
+    mid = hi BITAND (BITNOT (split-1))
+    midAmt = (hi BITAND (BITNOT (split-1))) - lo - 1
+    split.asString || " " || mid.asString || " " || midAmt.asString
+  end
+splitNew64(lo: ZZ64, hi: ZZ64): String = do
+    split = partitionL((lo BITXOR hi) DOTPLUS 1)
+    mid = hi BITAND (BITNOT (split DOTMINUS 1))
+    midAmt = ((hi BITAND (BITNOT (split DOTMINUS 1))) - 1) - lo
+    split.asString || " " || mid.asString || " " || midAmt.asString
+  end
+keySplitOld(k1: ZZ64, k2: ZZ64): ZZ64 = do
+    (mn,mx) = if k1 <= k2 then (k1,k2) else (k2,k1) end
+    p = partitionL(((mn-1) BITXOR mx)+1)
+    (-p) BITAND mx
+  end
+keySplitNew(k1: ZZ64, k2: ZZ64): ZZ64 = do
+    (mn,mx) = if k1 <= k2 then (k1,k2) else (k2,k1) end
+    p = partitionL(((mn DOTMINUS 1) BITXOR mx) DOTPLUS 1)
+    (DOTMINUS p) BITAND mx
+  end
+
+run() = do
+    differ: ZZ32 := 0
+    checked: ZZ32 := 0
+    note(site: String, a: String, b: String): () = do
+        checked += 1
+        if a =/= b then differ += 1; println("DIFFER " site ": " a " vs " b) end
+      end
+
+    min32: ZZ32 = -2147483647 - 1
+    max32: ZZ32 = 2147483647
+    v32: List[\ZZ32\] = <|[\ZZ32\] min32, min32 + 1, -65536, -3, -1, 0, 1, 2, 7, 65535, max32 - 1, max32 |>
+    for lo <- seq(v32), hi <- seq(v32), lo < hi do
+        note("RangeInternals split ZZ32 " lo " " hi, splitOld32(lo, hi), splitNew32(lo, hi))
+    end
+
+    oneL: ZZ64 = widen(1)
+    min64: ZZ64 = oneL LSHIFT 63
+    max64: ZZ64 = BITNOT min64
+    v64: List[\ZZ64\] = <|[\ZZ64\] min64, min64 + oneL, widen(min32), widen(-3), widen(-1), widen(0), oneL, widen(7), widen(max32), max64 - oneL, max64 |>
+    for lo <- seq(v64), hi <- seq(v64), lo < hi do
+        note("RangeInternals split ZZ64 " lo " " hi, splitOld64(lo, hi), splitNew64(lo, hi))
+        note("IntMap keySplit " lo " " hi, keySplitOld(lo, hi).asString, keySplitNew(lo, hi).asString)
+    end
+    k32a: ZZ64 = -2147483648
+    k32b: ZZ64 = 5
+    note("IntMap keySplit ZZ32-held keys (row 146)", keySplitOld(k32a, k32b).asString, keySplitNew(k32a, k32b).asString)
+
+    mult: ZZ64 = widen(25214903917)
+    add: ZZ64 = widen(11)
+    modulus: ZZ64 = oneL LSHIFT 48
+    sOld: ZZ64 := widen(42)
+    sNew: ZZ64 := widen(42)
+    for i <- seq(1#2000) do
+        sOld := (mult widen(sOld) + add) MOD modulus
+        sNew := ((mult DOTTIMES widen(sNew)) DOTPLUS add) MOD modulus
+        p: ZZ32 = i
+        pOld = (mult widen(sOld BITXOR p) + add) MOD modulus
+        pNew = ((mult DOTTIMES widen(sNew BITXOR p)) DOTPLUS add) MOD modulus
+        note("Random random() step " i, sOld.asString, sNew.asString)
+        note("Random perturbed step " i, pOld.asString, pNew.asString)
+    end
+
+    fe: ZZ64 = BITNOT widen(0)
+    for b <- seq(0#64) do
+        mask: ZZ64 = oneL LSHIFT b
+        note("ChunkedSparseArray secondaryIndex bit " b, ((mask-1) BITAND fe).asString, ((mask DOTMINUS 1) BITAND fe).asString)
+    end
+
+    c1 : ZZ32 = -761155213
+    c2 : ZZ32 = -412293886
+    for n <- seq(v32) do
+        note("HeapTest spread " n, (c1 n + c2).asString, ((c1 DOTTIMES n) DOTPLUS c2).asString)
+    end
+    for n <- seq(0#5000) do
+        note("HeapTest spread " n, (c1 n + c2).asString, ((c1 DOTTIMES n) DOTPLUS c2).asString)
+    end
+
+    println("checked " checked " differ " differ)
+  end
+
+end

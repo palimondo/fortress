@@ -1,0 +1,11 @@
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java	2026-09-26 13:40:38.310248786 +0000
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java	2026-09-26 13:57:15.371565560 +0000
+@@ -129,7 +129,7 @@
+ 
+     public static final class Mul extends LL2L {
+         protected long f(long x, long y) {
+-            return x * y;
++            try { return Math.multiplyExact(x, y); } catch (ArithmeticException e) { throw Int.overflow(); }
+         }
+     }
+ 

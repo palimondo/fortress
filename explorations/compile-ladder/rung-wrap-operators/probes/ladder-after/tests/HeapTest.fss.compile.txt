@@ -1,0 +1,11 @@
+/home/user/fortress-wrap/Library/Heap.fsi:71:17-41:
+    CommutativeMonoidReduction is undefined.
+/home/user/fortress-wrap/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-wrap/Library/List.fsi:109:19-30:
+    Comprehension is undefined.
+/home/user/fortress-wrap/Library/List.fsi:112:24-34:
+    BigReduction is undefined.
+/home/user/fortress-wrap/Library/List.fsi:130:28-41:
+    MonoidReduction is undefined.
+File HeapTest.fss has 5 errors.

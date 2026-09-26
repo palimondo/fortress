@@ -1,0 +1,107 @@
+# base 6030e4b36; files whose positions are mapped: Library/ChunkedSparseArray.fss Library/FortressLibrary.fsi Library/FortressLibrary.fss Library/IntMap.fss Library/Random.fss Library/RangeInternals.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi ProjectFortress/LibraryBuiltin/FortressBuiltin.fss ProjectFortress/tests/HeapTest.fss ProjectFortress/tests/QuickCheckTest.fss ProjectFortress/tests/ReflectiveQuickCheckTest.fss ProjectFortress/tests/UnsignedTest.fss ProjectFortress/tests/WrapOperatorsRungD.fss ProjectFortress/tests/intPrim.fss ProjectFortress/tests/longPrim.fss explorations/compile-ladder/rung-wrap-operators/probes/precedence/PrecDotMixed.fss explorations/compile-ladder/rung-wrap-operators/probes/precedence/PrecDotPlusBitand.fss explorations/compile-ladder/rung-wrap-operators/probes/precedence/PrecDotPlusPlus.fss explorations/compile-ladder/rung-wrap-operators/probes/precedence/PrecDotTimesPlus.fss
+UNSTABLE   ArrayListQuick  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   CovCollTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   HeapTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   PureListQuick  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   QuickCheckTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   ShuffleTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   SkipListTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   TimingTests  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   TreapTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   WordCountSmall  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+NORMALISED XXXArrayLiteralArgRungC  rc 1
+    raw: -	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-wrap/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:408:5-409:75)
+    raw: +	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-wrap/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+    raw: -	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress-wrap/Library/FortressLibrary.fss:662:5-663:74)
+    raw: -	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:730:5-731:75)
+    raw: -	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-wrap/Library/FortressLibrary.fss:623:5-21)
+    raw: -	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress-wrap/Library/FortressLibrary.fss:847:5-848:77)
+    raw: -	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:623:5-21)
+    raw: -	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress-wrap/Library/FortressLibrary.fss:623:5-21)
+    raw: +	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress-wrap/Library/FortressLibrary.fss:670:5-671:74)
+    raw: +	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:746:5-747:75)
+    raw: +	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21)
+    raw: +	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress-wrap/Library/FortressLibrary.fss:879:5-880:77)
+    raw: +	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21)
+    raw: +	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21)
+    raw: -	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:784:5-785:83)
+    raw: -	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:623:5-21)
+    raw: +	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:808:5-809:83)
+    raw: +	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21)
+    raw: -	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):I/home/user/fortress-wrap/Library/FortressLibrary.fss:623:5-21
+    raw: -	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress-wrap/Library/FortressLibrary.fss:22
+    raw: -	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress-wrap/Library
+    raw: -	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-wrap/Library/FortressLibrary.fss:4513:1-4516:88
+    raw: -	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-wrap/Library/FortressLibrary.fss:4517:1-101}:OverloadedFunction
+    raw: +	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):I/home/user/fortress-wrap/Library/FortressLibrary.fss:625:5-21
+    raw: +	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress-wrap/Library/FortressLibrary.fss:22
+    raw: +	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress-wrap/Library
+    raw: +	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-wrap/Library/FortressLibrary.fss:4549:1-4552:88
+    raw: +	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-wrap/Library/FortressLibrary.fss:4553:1-101}:OverloadedFunction
+NORMALISED XXXFnRenderRungS  rc 1
+    raw: -com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/Library/FortressLibrary.fss:4046:42-50:
+    raw: +com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/Library/FortressLibrary.fss:4082:42-50:
+    raw: -/home/user/fortress-wrap/Library/FortressLibrary.fss:4046:42-50:
+    raw: -/home/user/fortress-wrap/Library/FortressLibrary.fss:4062:45-47:
+    raw: -/home/user/fortress-wrap/Library/FortressLibrary.fss:4147:29-32:
+    raw: +/home/user/fortress-wrap/Library/FortressLibrary.fss:4082:42-50:
+    raw: +/home/user/fortress-wrap/Library/FortressLibrary.fss:4098:45-47:
+    raw: +/home/user/fortress-wrap/Library/FortressLibrary.fss:4183:29-32:
+CHANGED    XXXInheritedOverload  rc 1 -> 1
+    after normalising: -com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28: and
+    after normalising: +com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28: and
+    after normalising: +/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28:
+    after normalising: +Overloading of
+    after normalising: +	(first) a(x:Base,y:Sub2):FortressLibrary.ZZ32/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28 and
+    after normalising: +	(second) a(x:Sub1,y:Base):FortressLibrary.ZZ32/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28 fails because
+    after normalising: +	(first) y is more specific than (second) y but
+    after normalising: +	(first) x is less specific than (second) x
+    after normalising: +Context:
+    after normalising: -Overloading of
+    after normalising: -	(first) a(x:Sub1,y:Base):FortressLibrary.ZZ32/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28 and
+    after normalising: -	(second) a(x:Base,y:Sub2):FortressLibrary.ZZ32/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28 fails because
+    raw: -com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28: and
+    raw: +com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28: and
+    raw: +/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28:
+    raw: +Overloading of
+    raw: +	(first) a(x:Base,y:Sub2):FortressLibrary.ZZ32/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28 and
+    raw: +	(second) a(x:Sub1,y:Base):FortressLibrary.ZZ32/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28 fails because
+    raw: +	(first) y is more specific than (second) y but
+    raw: +	(first) x is less specific than (second) x
+    raw: +Context:
+    raw: -Overloading of
+    raw: -	(first) a(x:Sub1,y:Base):FortressLibrary.ZZ32/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28 and
+    raw: -	(second) a(x:Base,y:Sub2):FortressLibrary.ZZ32/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28 fails because
+    raw: -	(first) x is more specific than (second) x but
+    raw: -	(first) y is less specific than (second) y
+    raw: -Context:
+    raw: -/home/user/fortress-wrap/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28:
+NORMALISED XXXTupleSevenRungS  rc 1
+    raw: -com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/Library/FortressLibrary.fss:4046:42-50:
+    raw: +com.sun.fortress.exceptions.ProgramError: /home/user/fortress-wrap/Library/FortressLibrary.fss:4082:42-50:
+    raw: -/home/user/fortress-wrap/Library/FortressLibrary.fss:4046:42-50:
+    raw: -/home/user/fortress-wrap/Library/FortressLibrary.fss:4062:45-47:
+    raw: +/home/user/fortress-wrap/Library/FortressLibrary.fss:4082:42-50:
+    raw: +/home/user/fortress-wrap/Library/FortressLibrary.fss:4098:45-47:
+UNSTABLE   abortBlock  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   buffons  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions1  rc A 0 B 0 edit 0  edit=A True  edit=B False  (normalised)
+UNSTABLE   nestedTransactions2  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions3  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions4  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   quicksortTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+NORMALISED taskTrace2  rc 0
+    raw: -Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@295b6671
+    raw: +Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@611ecb40
+    raw: -Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@56675faa
+    raw: +Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@4a462316
+    raw: -Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@526c50f8
+    raw: +Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@46eadb14
+    raw: -Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@17693978
+    raw: +Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@7921aea7
+NORMALISED taskTrace3  rc 0
+    raw: -Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@250f668
+    raw: +Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@5f233b38
+    raw: -Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@55697955
+    raw: +Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@a4f799b
+tests 406  same 383  normalised 5  changed 1  unstable 17  missing 0

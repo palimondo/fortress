@@ -1,0 +1,63 @@
+# ReflectiveQuickCheckTest under walk at 352e01d56 with long-mul-raising.patch compiled into a shadow ahead of ProjectFortress/build (Long$Mul raises IntegerOverflow where it would wrap; nothing else changed), one core, SerialGC, C1, private empty caches; run 2026-09-26 ~14:00Z. The first overflowing Long multiplication after the edit, and its Fortress context.
+propAssociativeAddition:
+Passed 100 test(s).
+propCommutativeAddition:
+Passed 100 test(s).
+propCommutativeAddition':
+Passed 100 test(s).
+propDoubleReversal:
+Passed 100 test(s).
+propDoubleReversalList:
+Passed 100 test(s).
+propDoubleReversalMap:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:540:44-46:
+IntegerOverflow
+Context:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:540:44-46:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:216:12-22:
+/home/user/fortress-wrap/Library/Map.fss:393:18:
+/home/user/fortress-wrap/Library/Map.fss:374:27-42:
+/home/user/fortress-wrap/Library/QuickCheck.fss:476:64:
+/home/user/fortress-wrap/Library/QuickCheck.fss:172:21-31:
+/home/user/fortress-wrap/Library/QuickCheck.fss:171:25-53:
+/home/user/fortress-wrap/Library/QuickCheck.fss:171:25-53:
+/home/user/fortress-wrap/Library/QuickCheck.fss:178:9-30:
+/home/user/fortress-wrap/Library/QuickCheck.fss:473:9-478:28:
+/home/user/fortress-wrap/Library/QuickCheck.fss:473:9-478:28:
+/home/user/fortress-wrap/Library/QuickCheck.fss:136:9-87:
+/home/user/fortress-wrap/Library/ReflectiveQuickCheck.fss:99:36-49:
+/home/user/fortress-wrap/Library/ReflectiveQuickCheck.fss:276:19-33:
+/home/user/fortress-wrap/Library/QuickCheck.fss:1076:26-38:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1042:21-1043:16:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1050:25-1051:21:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1050:25-1051:21:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1048:25-36:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1053:13-1054:9:
+/home/user/fortress-wrap/Library/QuickCheck.fss:1074:17-52:
+/home/user/fortress-wrap/Library/QuickCheck.fss:1145:12-35:
+/home/user/fortress-wrap/Library/ReflectiveQuickCheck.fss:326:13-327:9:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress-wrap/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:3435:9-48:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:3435:9-48:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:1094:25-55:
+/home/user/fortress-wrap/Library/FortressLibrary.fss:1094:25-55:
+/home/user/fortress-wrap/Library/ReflectiveQuickCheck.fss:322:13-42:
+/home/user/fortress-wrap/Library/ReflectiveQuickCheck.fss:333:12-27:
+/home/user/fortress-wrap/Library/ReflectiveQuickCheck.fss:337:5-72:
+/home/user/fortress-wrap/Library/ReflectiveQuickCheck.fss:343:5-53:
+/home/user/fortress-wrap/ProjectFortress/tests/ReflectiveQuickCheckTest.fss:46:5-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)

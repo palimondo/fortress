@@ -1,0 +1,3 @@
+$ bin/fortress walk SiteDifferential.fss   (tree at 352e01d56, the edit)
+checked 9253 differ 0
+exit=0

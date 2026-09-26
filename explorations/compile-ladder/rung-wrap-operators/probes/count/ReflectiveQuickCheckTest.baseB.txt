@@ -1,0 +1,20 @@
+propAssociativeAddition:
+Passed 100 test(s).
+propCommutativeAddition:
+Passed 100 test(s).
+propCommutativeAddition':
+Passed 100 test(s).
+propDoubleReversal:
+Passed 100 test(s).
+propDoubleReversalList:
+Passed 100 test(s).
+propDoubleReversalMap:
+Passed 100 test(s).
+propDoubleReversalSet:
+Passed 100 test(s).
+propMapSizeInvariant1:
+Passed 100 test(s).
+propMapSizeInvariant2:
+Passed 100 test(s).
+
+rc=0 secs=61
