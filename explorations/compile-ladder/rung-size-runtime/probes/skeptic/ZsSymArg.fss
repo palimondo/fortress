@@ -1,0 +1,19 @@
+component ZsSymArg
+export Executable
+object Box[\nat k\](v: ZZ32) end
+inner[\nat m\](): ZZ32 = m
+outer[\nat n\](b: Box[\n\]): ZZ32 = inner[\n\]()
+mk[\nat n\](b: Box[\n\]): Any = Box[\n\](b.v + 1)
+g(b: Box[\3\]): String = "three"
+g(x: Any): String = "other"
+trait T
+  m[\nat j\](): ZZ32 = j
+end
+object O extends T end
+run() = do
+  println(outer(Box[\6\](0)))
+  println(g(mk(Box[\3\](0))))
+  println(g(mk(Box[\4\](0))))
+  println(O.m[\4\]())
+end
+end

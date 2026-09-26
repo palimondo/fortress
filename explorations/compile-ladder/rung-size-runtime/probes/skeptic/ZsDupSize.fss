@@ -1,0 +1,8 @@
+component ZsDupSize
+export Executable
+trait Tg[\nat k\] end
+object O3 extends Tg[\3\] end
+g(b: Tg[\3\]): String = "first"
+g(b: Tg[\03\]): String = "second"
+run() = println(g(O3))
+end

@@ -1,0 +1,13 @@
+component ZsValFnExpr
+export Executable
+object Box[\nat k\](v: ZZ32) end
+viaFn[\nat k\](b: Box[\k\]): ZZ32 = (fn () => k + b.v)()
+viaFnObj[\nat k\](b: Box[\k\]): ZZ32 = do
+  h = fn (x: ZZ32): ZZ32 => x + k
+  h(100)
+end
+run() = do
+  println(viaFn(Box[\3\](10)))
+  println(viaFnObj(Box[\4\](0)))
+end
+end

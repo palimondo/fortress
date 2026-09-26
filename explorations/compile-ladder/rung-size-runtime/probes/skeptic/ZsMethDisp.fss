@@ -1,0 +1,22 @@
+component ZsMethDisp
+export Executable
+object Vec[\T, nat s\](x: T) end
+object D
+  m(v: Vec[\ZZ32,3\]): String = "m3"
+  m(v: Vec[\ZZ32,4\]): String = "m4"
+  m(v: Any): String = "mother"
+  n[\nat s\](v: Vec[\ZZ32,s\]): ZZ32 = s
+  n(v: Any): ZZ32 = -1
+end
+run() = do
+  a: Any = Vec[\ZZ32,3\](1)
+  b: Any = Vec[\ZZ32,4\](1)
+  c: Any = 2.5
+  println(D.m(a))
+  println(D.m(b))
+  println(D.m(c))
+  println(D.n(a))
+  println(D.n(b))
+  println(D.n(c))
+end
+end

@@ -1,0 +1,14 @@
+component ZsVLgT
+export Executable
+object BoxT[\T\](v: ZZ32) end
+last: Any := 0
+setLast(x: Any): () = atomic do last := x end
+mkIn[\T\](v: ZZ32): () = for i <- 0#1 do setLast(BoxT[\T\](v)) end
+which(x: Any): String = typecase x of BoxT[\ZZ32\] => "zz32"; BoxT[\String\] => "string"; else => "other" end
+run() = do
+  mkIn[\ZZ32\](1)
+  println(which(last))
+  mkIn[\String\](1)
+  println(which(last))
+end
+end

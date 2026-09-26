@@ -1,0 +1,25 @@
+component ZsThreadsS
+export Executable
+object Vec[\T, nat s\](x: T) end
+sAcc: ZZ32 := 0
+f[\nat s\](v: Vec[\ZZ32,s\]): ZZ32 = v.x
+f(x: Any): ZZ32 = 0
+mk(j: ZZ32): Any =
+  if j = 0 then Vec[\ZZ32,1\](1)
+  elif j = 1 then Vec[\ZZ32,2\](2)
+  elif j = 2 then Vec[\ZZ32,3\](3)
+  elif j = 3 then Vec[\ZZ32,4\](4)
+  elif j = 4 then Vec[\ZZ32,5\](5)
+  elif j = 5 then Vec[\ZZ32,6\](6)
+  elif j = 6 then Vec[\ZZ32,7\](7)
+  else Vec[\ZZ32,8\](8) end
+step(i: ZZ32): () = do
+  v = mk(i MOD 8)
+  a = f(v)
+  atomic do sAcc := sAcc + a end
+end
+run() = do
+  for i <- 0#800 do step(i) end
+  println(sAcc)
+end
+end

@@ -1,0 +1,23 @@
+component ZsCaseVal2
+export Executable
+object Vec[\T, nat s\](x: T) end
+f[\nat n\](x: Any): String =
+  typecase x of
+    Vec[\ZZ32,n\] => "size " n
+    else => "not size " n
+  end
+g[\nat n\](x: Any): ZZ32 = do
+  r: ZZ32 = typecase x of
+    Vec[\ZZ32,n\] => n + 0
+    else => 0 - 1
+  end
+  r
+end
+run() = do
+  a: Any = Vec[\ZZ32,3\](1)
+  println(f[\3\](a))
+  println(f[\4\](a))
+  println(g[\3\](a))
+  println(g[\4\](a))
+end
+end

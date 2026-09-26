@@ -1,0 +1,11 @@
+component ZsValField
+export Executable
+object Buf[\nat k\](x: ZZ32)
+  len: ZZ32 = k + 1
+  getter size(): ZZ32 = len
+end
+run() = do
+  println(Buf[\3\](7).size)
+  println(Buf[\9\](7).len)
+end
+end

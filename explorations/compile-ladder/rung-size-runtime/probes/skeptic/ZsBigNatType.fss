@@ -1,0 +1,12 @@
+component ZsBigNatType
+export Executable
+object Box[\nat k\](v: ZZ32) end
+g(b: Box[\3000000000\]): String = "big"
+g(x: Any): String = "other"
+run() = do
+  a: Any = Box[\3000000000\](1)
+  println(g(a))
+  b: Any = Box[\3\](1)
+  println(g(b))
+end
+end

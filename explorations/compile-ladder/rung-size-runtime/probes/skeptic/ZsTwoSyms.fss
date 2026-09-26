@@ -1,0 +1,15 @@
+component ZsTwoSyms
+export Executable
+object Vec[\T, nat s\](x: T) end
+f[\nat m, nat n\](a: Vec[\ZZ32,m\], b: Vec[\ZZ32,n\]): ZZ32 = 10 m + n
+f(a: Any, b: Any): ZZ32 = -1
+run() = do
+  a: Any = Vec[\ZZ32,3\](1)
+  b: Any = Vec[\ZZ32,4\](1)
+  c: Any = Vec[\ZZ64,4\](1)
+  println(f(a, b))
+  println(f(b, a))
+  println(f(a, a))
+  println(f(a, c))
+end
+end

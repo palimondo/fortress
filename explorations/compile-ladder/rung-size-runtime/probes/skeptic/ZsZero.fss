@@ -1,0 +1,18 @@
+component ZsZero
+export Executable
+object Vec[\T, nat s\](x: T) end
+g(v: Vec[\ZZ32,0\]): String = "zero"
+g(v: Vec[\ZZ32,10\]): String = "ten"
+g(x: Any): String = "other"
+len[\nat s\](v: Vec[\ZZ32,s\]): ZZ32 = s
+run() = do
+  a: Any = Vec[\ZZ32,0\](1)
+  b: Any = Vec[\ZZ32,10\](1)
+  c: Any = Vec[\ZZ32,1\](1)
+  println(g(a))
+  println(g(b))
+  println(g(c))
+  println(len(Vec[\ZZ32,0\](1)))
+  println(len(Vec[\ZZ32,10\](1)))
+end
+end

@@ -1,0 +1,11 @@
+component ZsVLc
+export Executable
+object Box[\nat k\](v: ZZ32) end
+acc: ZZ32 := 0
+add(x: ZZ32): () = atomic do acc := acc + x end
+body[\nat k\](b: Box[\k\]): ZZ32 = do
+  for i <- 0#3 do add(k) end
+  acc
+end
+run() = println(body(Box[\7\](0)))
+end

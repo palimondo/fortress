@@ -1,0 +1,24 @@
+component ZsExtSwap
+export Executable
+trait Pair[\nat x, nat y\]
+  fst(): ZZ32 = x
+  snd(): ZZ32 = y
+end
+trait Sized[\nat s\] end
+trait Sized2[\nat s\] extends Sized[\s\] end
+object Sw[\nat a, nat b\]() extends Pair[\b, a\] end
+object Buf[\nat n\]() extends Sized2[\n\] end
+which(x: Any): String = typecase x of Sized[\3\] => "s3"; Sized[\4\] => "s4"; else => "other" end
+which2(x: Any): String = typecase x of Pair[\2,1\] => "p21"; Pair[\1,2\] => "p12"; else => "other" end
+sz[\nat s\](x: Sized[\s\]): ZZ32 = s
+sz(x: Any): ZZ32 = -1
+run() = do
+  println(Sw[\1,2\]().fst())
+  println(Sw[\1,2\]().snd())
+  println(which2(Sw[\1,2\]()))
+  println(which(Buf[\3\]()))
+  println(which(Buf[\4\]()))
+  a: Any = Buf[\7\]()
+  println(sz(a))
+end
+end

@@ -1,0 +1,8 @@
+component ZsExclAncBad
+export Executable
+trait Tg[\nat k\] end
+trait A extends Tg[\3\] end
+trait B extends Tg[\4\] end
+object C extends { A, B } end
+run() = println("REACHED")
+end

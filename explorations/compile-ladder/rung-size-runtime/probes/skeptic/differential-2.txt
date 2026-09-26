@@ -1,0 +1,348 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.53 4.00 5.21; JDK 25; FORTRESS_THREADS=1
+################################ ZsCaseVal2.fss
+---------- compile
+Exception in thread "main" java.lang.Error: 
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsCaseVal2.fss:9:28-15:2: Error trying to close method scope.
+[   L0
+,    L1
+,    L2
+,     LINENUMBER 10 L2
+,     ALOAD 0
+,     DUP
+,     INSTANCEOF ZsCaseVal2$Vec?com/sun/fortress/compiler/runtimeValues/FZZ32,n?
+,     IFNE L3
+,     GOTO L4
+,    L3
+exit=1
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZsCaseVal2
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsCaseVal2.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZsCaseVal2
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsCaseVal2.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+size 3
+not size 4
+3
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=4
+size 3
+not size 4
+3
+-1
+exit=0
+################################ ZsGenTraitMeth2.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+5
+60
+2
+7
+three
+four
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+5
+60
+2
+7
+three
+four
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+5
+60
+2
+7
+three
+four
+other
+exit=0
+---------- walk, FORTRESS_THREADS=4
+5
+60
+2
+7
+three
+four
+other
+exit=0
+################################ ZsFieldLit2.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+6
+7
+7
+9
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+6
+7
+7
+9
+exit=0
+---------- walk, FORTRESS_THREADS=1
+6
+7
+7
+9
+exit=0
+---------- walk, FORTRESS_THREADS=4
+6
+7
+7
+9
+exit=0
+################################ ZsJuxt.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+lit= 5
+zz32= 5
+k= 5
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+lit= 5
+zz32= 5
+k= 5
+exit=0
+---------- walk, FORTRESS_THREADS=1
+lit=5
+zz32=5
+k=5
+exit=0
+---------- walk, FORTRESS_THREADS=4
+lit=5
+zz32=5
+k=5
+exit=0
+################################ ZsValFnExpr.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'void ZsValFnExpr$\=fn@4\!38-53.<init>(ZsValFnExpr$Box?3?)'
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'void ZsValFnExpr$\=fn@4\!38-53.<init>(ZsValFnExpr$Box?3?)'
+exit=1
+---------- walk, FORTRESS_THREADS=1
+13
+104
+exit=0
+---------- walk, FORTRESS_THREADS=4
+13
+104
+exit=0
+################################ ZsValLoop2.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 11 more
+Caused by: java.io.IOException: Resource not found : CONST.class
+	... 12 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 11 more
+Caused by: java.io.IOException: Resource not found : CONST.class
+	... 12 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+10
+1000
+exit=0
+---------- walk, FORTRESS_THREADS=4
+10
+1000
+exit=0
+################################ ZsExtSwap.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+2
+1
+p21
+s3
+s4
+7
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+2
+1
+p21
+s3
+s4
+7
+exit=0
+---------- walk, FORTRESS_THREADS=1
+2
+1
+p21
+s3
+s4
+7
+exit=0
+---------- walk, FORTRESS_THREADS=4
+2
+1
+p21
+s3
+s4
+7
+exit=0
+################################ ZsSymArg.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+6
+three
+other
+4
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+6
+three
+other
+4
+exit=0
+---------- walk, FORTRESS_THREADS=1
+6
+com.sun.fortress.exceptions.InterpreterBug: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsSymArg.fss:6:27-28:
+Missing visitor for class com.sun.fortress.nodes.AnyType
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsSymArg.fss:6:27-28:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsSymArg.fss:15:13-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+6
+com.sun.fortress.exceptions.InterpreterBug: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsSymArg.fss:6:27-28:
+Missing visitor for class com.sun.fortress.nodes.AnyType
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsSymArg.fss:6:27-28:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsSymArg.fss:15:13-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ZsExclAnc.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+A
+B
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+A
+B
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAnc.fss:9:1-21: and
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAnc.fss:8:1-21:
+first parameters x:[B] and x:[A] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAnc.fss:9:1-21:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAnc.fss:8:1-21:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAnc.fss:9:1-21: and
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAnc.fss:8:1-21:
+first parameters x:[B] and x:[A] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAnc.fss:9:1-21:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAnc.fss:8:1-21:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ZsExclAncBad.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAncBad.fss:6:20:
+    Type C excludes A but it extends A.
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAncBad.fss:6:20:
+    Types A and B exclude each other.  C must not extend them.
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAncBad.fss:6:23:
+    Type C excludes B but it extends B.
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsExclAncBad.fss:6:23:
+    Types B and A exclude each other.  C must not extend them.
+File ZsExclAncBad.fss has 4 errors.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZsExclAncBad
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsExclAncBad.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZsExclAncBad
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsExclAncBad.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+REACHED
+exit=0
+---------- walk, FORTRESS_THREADS=4
+REACHED
+exit=0
+################################ ZsDupSize.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:5:1-31:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:6:1-33:
+    There are multiple declarations of g with the same parameter type: Tg[\3\]
+File ZsDupSize.fss has 1 error.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZsDupSize
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsDupSize.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZsDupSize
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsDupSize.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:6:1-33: and
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:5:1-31:
+Overloading of g(b:Tg[\3\]):FortressLibrary.String Tg[\3\]->String explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:6:1-33 and g(b:Tg[\3\]):FortressLibrary.String Tg[\3\]->String explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:5:1-31 fails because their parameter lists have the same types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:6:1-33:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:5:1-31:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:6:1-33: and
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:5:1-31:
+Overloading of g(b:Tg[\3\]):FortressLibrary.String Tg[\3\]->String explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:6:1-33 and g(b:Tg[\3\]):FortressLibrary.String Tg[\3\]->String explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:5:1-31 fails because their parameter lists have the same types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:6:1-33:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsDupSize.fss:5:1-31:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+EXIT=0

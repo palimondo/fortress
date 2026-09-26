@@ -1,0 +1,17 @@
+component ZsValArith
+export Executable
+object Box[\nat k\](v: ZZ32)
+  plus(): ZZ32 = k + v
+  cmp(): String = if k = 3 then "k is 3" else "k is not 3" end
+  cat(): String = "k=" k
+end
+twice(x: ZZ32): ZZ32 = 2 x
+tw[\nat k\](b: Box[\k\]): ZZ32 = twice(k)
+run() = do
+  println(Box[\3\](7).plus())
+  println(Box[\3\](7).cmp())
+  println(Box[\4\](7).cmp())
+  println(Box[\5\](7).cat())
+  println(tw(Box[\6\](0)))
+end
+end

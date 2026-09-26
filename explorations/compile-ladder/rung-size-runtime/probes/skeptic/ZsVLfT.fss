@@ -1,0 +1,6 @@
+component ZsVLfT
+export Executable
+object BoxT[\T\](v: ZZ32) end
+viaFn[\T\](b: BoxT[\T\]): ZZ32 = (fn () => b.v)()
+run() = println(viaFn(BoxT[\String\](10)))
+end

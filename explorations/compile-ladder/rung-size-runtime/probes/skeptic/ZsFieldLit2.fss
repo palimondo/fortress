@@ -1,0 +1,13 @@
+component ZsFieldLit2
+export Executable
+z = 6
+w: ZZ32 = z + 1
+run() = do
+  println(z)
+  println(w)
+  (a, b) = (3, 4)
+  println(a + b)
+  q = 9
+  println(q)
+end
+end
