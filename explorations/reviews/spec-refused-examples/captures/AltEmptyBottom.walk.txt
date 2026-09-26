@@ -1,0 +1,3 @@
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/AltEmptyBottom.fss:15:30-38:
+    BottomType is undefined.
+rc=255

@@ -27,7 +27,10 @@ cp "$H/probes/$p.fss" "$W/$p.fss"
 ( cd "$W" && timeout 600 $F walk $p.fss > "$H/captures/$p.walk.txt" 2>&1; echo "rc=$?" >> "$H/captures/$p.walk.txt" )
 ( cd "$W" && timeout 900 $F compile $p.fss > "$H/captures/$p.compile.txt" 2>&1; echo "rc=$?" >> "$H/captures/$p.compile.txt" )
 if tail -1 "$H/captures/$p.compile.txt" | grep -q "rc=0"; then
-  ( cd "$W" && timeout 600 $F run $p > "$H/captures/$p.run.txt" 2>&1; echo "rc=$?" >> "$H/captures/$p.run.txt" )
+  # bin/fortress run does not read the private cache named by -Dfortress.caches, so the run goes through MainWrapper
+  # with the private cache on the class path (as explorations/compiler-probes/vectors/probes/env.sh does).
+  CP=$($R/bin/fortress_classpath 2>/dev/null | tail -1)
+  ( cd "$W" && timeout 600 java -Xmx2g -Xss64m -Dfile.encoding=UTF-8 -Dfortress.caches=$C -cp "$C/bytecode_cache:$C/bytecode_cache/*:$C/nativewrapper_cache:$CP" com.sun.fortress.runtimeSystem.MainWrapper $p > "$H/captures/$p.run.txt" 2>&1; echo "rc=$?" >> "$H/captures/$p.run.txt" )
 else
   rm -f "$H/captures/$p.run.txt"
 fi

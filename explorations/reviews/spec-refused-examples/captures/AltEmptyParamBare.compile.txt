@@ -1,0 +1,4 @@
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/AltEmptyParamBare.fss:16:47:
+T is not in the kind env [][][]
+File AltEmptyParamBare.fss has 1 error.
+rc=255
