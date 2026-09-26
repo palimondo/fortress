@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"skeptic:Z","workflowPhase":"Skeptic","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
