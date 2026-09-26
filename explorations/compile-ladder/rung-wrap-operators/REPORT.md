@@ -126,3 +126,4 @@ I ran the brief's exact check. REPORT.md does not exist, because the harness ref
 
 - This report was composed from the structured result (section 0). `record.md` carries the judge's two wording corrections for its fold: "rung D's added declarations flip it" reads "rung D's edit flips it", and provisional row 406's "varies with the JVM's thread count" reads "varies with the JVM's flags" (`JUDGE.md` section 5, "Stated more strongly than measured"). The same claim in section 1 and in the stop above keeps the worker's words and is corrected by these two.
 - What is on `main` and what stays on the branch is listed in the batch record, "Not landed".
+- At D's landing as a follow-up (`ab914b6e0`), the other 114 files of this directory came to `main` in `abe06a743`, byte-identical to the branch at `7f57b836e`, so every file of this directory that this report cites is tracked on `main` (the batch record, "Landed as a follow-up").
