@@ -1,0 +1,40 @@
+# differential.sh on SzBoundDisp and SzBoundDispT with the deliberate local fix xxx-red-demo-fix.patch in the build: both compile, run and agree with walk; the fix is then undone
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.59 2.54 4.08; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzBoundDisp.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+bounded by a size-3 vector
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+bounded by a size-3 vector
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+bounded by a size-3 vector
+other
+exit=0
+---------- walk, FORTRESS_THREADS=4
+bounded by a size-3 vector
+other
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzBoundDispT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+bounded by a Three vector
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+bounded by a Three vector
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+bounded by a Three vector
+other
+exit=0
+---------- walk, FORTRESS_THREADS=4
+bounded by a Three vector
+other
+exit=0

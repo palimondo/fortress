@@ -1,0 +1,357 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.28 5.22 6.08; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/NatRtUnbox.test
+. compile compiler_tests/NatRtUnbox  OK (time = 1926ms)
+. link compiler_tests/NatRtUnbox  OK (time = 2581ms)
+. run compiler_tests/NatRtUnbox (719ms) 7
+Passed
+
+Time: 5.239
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtOver.test
+. compile compiler_tests/NatRtOver  OK (time = 1960ms)
+. link compiler_tests/NatRtOver  OK (time = 2564ms)
+. run compiler_tests/NatRtOver (737ms) 3
+4
+Passed
+
+Time: 5.271
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtExtends1.test
+. compile compiler_tests/NatRtExtends1  OK (time = 1937ms)
+. link compiler_tests/NatRtExtends1  OK (time = 2589ms)
+. run compiler_tests/NatRtExtends1 (686ms) 3
+Passed
+
+Time: 5.225
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtExtends2.test
+. compile compiler_tests/NatRtExtends2  OK (time = 1853ms)
+. link compiler_tests/NatRtExtends2  OK (time = 2521ms)
+. run compiler_tests/NatRtExtends2 (694ms) 7
+Passed
+
+Time: 5.077
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtVec.test
+. compile compiler_tests/NatRtVec  OK (time = 2168ms)
+. link compiler_tests/NatRtVec  OK (time = 2536ms)
+. run compiler_tests/NatRtVec (734ms) 5
+Passed
+
+Time: 5.449
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtGetter.test
+. compile compiler_tests/NatRtGetter  OK (time = 1979ms)
+. link compiler_tests/NatRtGetter  OK (time = 2614ms)
+. run compiler_tests/NatRtGetter (750ms) 3
+Passed
+
+Time: 5.356
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtCase.test
+. compile compiler_tests/NatRtCase  OK (time = 1961ms)
+. link compiler_tests/NatRtCase  OK (time = 2496ms)
+. run compiler_tests/NatRtCase (721ms) three
+four
+other
+other
+Passed
+
+Time: 5.188
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtCaseGen.test
+. compile compiler_tests/NatRtCaseGen  OK (time = 2125ms)
+. link compiler_tests/NatRtCaseGen  OK (time = 2458ms)
+. run compiler_tests/NatRtCaseGen (753ms) yes
+no
+no
+yes
+Passed
+
+Time: 5.345
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDisp.test
+. compile compiler_tests/NatRtDisp  OK (time = 2904ms)
+. link compiler_tests/NatRtDisp  OK (time = 2386ms)
+. run compiler_tests/NatRtDisp (752ms) scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+Passed
+
+Time: 6.054
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDispTrait.test
+. compile compiler_tests/NatRtDispTrait  OK (time = 2884ms)
+. link compiler_tests/NatRtDispTrait  OK (time = 2582ms)
+. run compiler_tests/NatRtDispTrait (940ms) scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+Passed
+
+Time: 6.415
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDispSize.test
+. compile compiler_tests/NatRtDispSize  OK (time = 2811ms)
+. link compiler_tests/NatRtDispSize  OK (time = 2391ms)
+. run compiler_tests/NatRtDispSize (807ms) 0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+Passed
+
+Time: 6.02
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDispLit.test
+. compile compiler_tests/NatRtDispLit  OK (time = 2358ms)
+. link compiler_tests/NatRtDispLit  OK (time = 2568ms)
+. run compiler_tests/NatRtDispLit (739ms) three
+four
+other
+T-three
+other
+Passed
+
+Time: 5.674
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtDot.test
+. compile compiler_tests/NatRtDot  OK (time = 2523ms)
+. link compiler_tests/NatRtDot  OK (time = 2501ms)
+. run compiler_tests/NatRtDot (816ms) (i) static, same sizes
+3
+(ii) static, different sizes
+-1
+(iii) dispatched, same sizes
+3
+(iv) dispatched, different sizes, both orders
+-1
+-1
+Passed
+
+Time: 5.85
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtExtLit.test
+. compile compiler_tests/NatRtExtLit  OK (time = 2560ms)
+. link compiler_tests/NatRtExtLit  OK (time = 2611ms)
+. run compiler_tests/NatRtExtLit (868ms) 1
+2
+1
+2
+-1
+Passed
+
+Time: 6.048
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtMethSym.test
+. compile compiler_tests/NatRtMethSym  OK (time = 2544ms)
+. link compiler_tests/NatRtMethSym  OK (time = 2960ms)
+. run compiler_tests/NatRtMethSym (799ms) 5
+6
+4
+Passed
+
+Time: 6.319
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatExcludeOverload.test
+. compile compiler_tests/NatExcludeOverload  OK (time = 2058ms)
+. link compiler_tests/NatExcludeOverload  OK (time = 2454ms)
+. run compiler_tests/NatExcludeOverload (477ms) 3
+4
+Passed
+
+Time: 4.998
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/XXXNatExcludeChecker.test
+. compile compiler_tests/XXXNatExcludeChecker ProjectFortress/compiler_tests/XXXNatExcludeChecker.fss:6:20-25:
+    Types Vec[\3\] and Vec[\4\] exclude each other.  V must not extend them.
+ProjectFortress/compiler_tests/XXXNatExcludeChecker.fss:6:20-26:
+    Type V excludes Vec but it extends Vec.
+ProjectFortress/compiler_tests/XXXNatExcludeChecker.fss:6:30-35:
+    Types Vec[\4\] and Vec[\3\] exclude each other.  V must not extend them.
+ProjectFortress/compiler_tests/XXXNatExcludeChecker.fss:6:30-36:
+    Type V excludes Vec but it extends Vec.
+File XXXNatExcludeChecker.fss has 4 errors.
+ Saw expected failure
+
+Time: 1.605
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatAmbigChecker.test
+. compile compiler_tests/XXXNatAmbigChecker ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55:
+ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:7:1-45:
+    Invalid overloading of g in component XXXNatAmbigChecker:
+     (Tg[\3\], Any)->String @ ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:7:1-45
+ and [\nat n\](Tg[\n\], ZZ32)->String @ ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55
+File XXXNatAmbigChecker.fss has 1 error.
+ Saw expected failure
+
+Time: 1.747
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatDispArmChecker.test
+. link compiler_tests/NatDispArmChecker  OK (time = 5233ms)
+. run compiler_tests/NatDispArmChecker (837ms) PASS
+Passed
+
+Time: 6.078
+
+OK (2 tests)
+
+exit=0
+########## junit compiler_tests/NatOverrideChecker.test
+. link compiler_tests/NatOverrideChecker  OK (time = 5313ms)
+. run compiler_tests/NatOverrideChecker (956ms) PASS
+Passed
+
+Time: 6.275
+
+OK (2 tests)
+
+exit=0
+########## junit compiler_tests/XXXNatBoundDisp.test
+. compile compiler_tests/XXXNatBoundDisp com.sun.fortress.exceptions.CompilerError: Expecting a TypeArg when checking genericity
+ OK Saw expected exception
+
+Time: 2.305
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatArgRungSLink.test
+. link compiler_tests/NatArgRungS  OK (time = 4759ms)
+
+Time: 4.768
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatArgRungS.test
+. link compiler_tests/NatArgRungS  OK (time = 3964ms)
+. run compiler_tests/NatArgRungS (766ms) REACHED
+Vec[\3\]
+PASS
+Passed
+
+Time: 4.737
+
+OK (2 tests)
+
+exit=0
+########## junit compiler_tests/TypeBoundDispLink.test
+. link compiler_tests/XXXTypeBoundDisp  OK (time = 4943ms)
+
+Time: 4.949
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXTypeBoundDisp.test
+. run compiler_tests/XXXTypeBoundDisp (641ms) REACHED
+java.lang.Error: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.io.IOException: Resource not found : XXXTypeBoundDisp$Vt??$RTTIc.xlation
+	... 11 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.653
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatExtendsTwiceLink.test
+. link compiler_tests/XXXNatExtendsTwice  OK (time = 4620ms)
+
+Time: 4.625
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatExtendsTwice.test
+. run compiler_tests/XXXNatExtendsTwice (331ms) REACHED
+java.lang.ClassFormatError: Duplicate interface name "XXXNatExtendsTwice$Vec?3?" in class file XXXNatExtendsTwice$O?3?
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: XXXNatExtendsTwice$O?3?
+Caused by: java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	... 7 more
+Caused by: java.lang.ClassFormatError: Duplicate interface name "XXXNatExtendsTwice$Vec?3?" in class file XXXNatExtendsTwice$O?3?
+	... 8 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.351
+
+OK (1 test)
+
+exit=0
+########## RTTIsizeJUTest
+
+Time: 0.49
+
+OK (6 tests)
+
+EXIT=0

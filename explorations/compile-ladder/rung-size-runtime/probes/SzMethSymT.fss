@@ -1,0 +1,14 @@
+component SzMethSymT
+export Executable
+object E3 end
+object TBox[\T\](v: T)
+  get[\U\](u: U): String = "got"
+  twice(): String = self.get[\T\](v) || self.get[\T\](v)
+end
+viaFn[\S\](b: TBox[\S\], s: S): String = b.get[\S\](s)
+run() = do
+  println(TBox[\E3\](E3).get[\ZZ32\](5))
+  println(TBox[\E3\](E3).twice())
+  println(viaFn(TBox[\E3\](E3), E3))
+end
+end

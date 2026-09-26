@@ -1,0 +1,3 @@
+tests=XXXNatBoundDisp
+compile
+compile_exception_contains=Expecting a TypeArg when checking genericity

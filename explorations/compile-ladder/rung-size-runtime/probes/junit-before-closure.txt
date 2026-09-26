@@ -1,0 +1,22 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.82 0.54 0.89; JDK 25; FORTRESS_THREADS=1
+# build: 3b2b399da plus the working tree's source edits, if any: 
+########## junit compiler_tests/NatRtClosure.test
+. compile compiler_tests/NatRtClosure  OK (time = 2880ms)
+. link compiler_tests/NatRtClosure  OK (time = 1909ms)
+. run compiler_tests/NatRtClosure (473ms) java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 11 more
+Caused by: java.io.IOException: Resource not found : CONST.class
+	... 12 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 5.27
+There was 1 failure:
+1) compiler_tests/NatRtClosure(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/NatRtClosure
+
+FAILURES!!!
+Tests run: 3,  Failures: 1,  Errors: 0
+
+exit=0

@@ -1,0 +1,42 @@
+# step 6 of the order of work: every name the rung adds, grepped in ProjectFortress/tests/, every *_tests/ directory and src/com/sun/fortress/ whole; a hit outside the rung's own files would be a competing declaration
+## Java and Scala names, src/com/sun/fortress/ (hits outside the rung's edited files listed)
+RTTIsize: no other file
+RTTIsizeJUTest: no other file
+sizeReference: no other file
+isSizeLiteral: no other file
+SizeLiteralStructure: no other file
+SIZE_RTTI_CONTAINER_TYPE: no other file
+SIZE_RTTI_FACTORY: no other file
+natMethod: no other file
+isSizeInValuePosition: no other file
+size_literals: no other file
+## the CONST op "Nat" beside "hash" and "String": every opForString call
+src/com/sun/fortress/runtimeSystem/RTHelpers.java:238:        String loadString = Naming.opForString(Naming.stringMethod, string_constant);
+src/com/sun/fortress/runtimeSystem/Naming.java:309:    public static String opForString(String op, String s) {
+src/com/sun/fortress/compiler/codegen/CodeGen.java:2584:            String loadString = Naming.opForString(Naming.stringMethod, string_sargs);
+src/com/sun/fortress/compiler/codegen/CodeGen.java:6002:            String loadNat = Naming.opForString(Naming.natMethod,
+src/com/sun/fortress/compiler/codegen/CodeGen.java:6307:            String loadHash = Naming.opForString(Naming.hashMethod, string_sargs);
+## component names of the rung's tests, in every corpus (file names and component declarations)
+NatRtUnbox: compiler_tests/NatRtUnbox.fss 
+NatRtOver: compiler_tests/NatRtOver.fss 
+NatRtExtends1: compiler_tests/NatRtExtends1.fss 
+NatRtExtends2: compiler_tests/NatRtExtends2.fss 
+NatRtVec: compiler_tests/NatRtVec.fss 
+NatRtGetter: compiler_tests/NatRtGetter.fss 
+NatRtCase: compiler_tests/NatRtCase.fss 
+NatRtCaseGen: compiler_tests/NatRtCaseGen.fss 
+NatRtDisp: compiler_tests/NatRtDisp.fss 
+NatRtDispTrait: compiler_tests/NatRtDispTrait.fss 
+NatRtDispSize: compiler_tests/NatRtDispSize.fss 
+NatRtDispLit: compiler_tests/NatRtDispLit.fss 
+NatRtDot: compiler_tests/NatRtDot.fss 
+NatRtExtLit: compiler_tests/NatRtExtLit.fss 
+NatExcludeOverload: compiler_tests/NatExcludeOverload.fss 
+XXXNatExcludeChecker: compiler_tests/XXXNatExcludeChecker.fss 
+XXXNatBoundDisp: compiler_tests/XXXNatBoundDisp.fss 
+XXXTypeBoundDisp: compiler_tests/XXXTypeBoundDisp.fss 
+NatArgRungS: compiler_tests/NatArgRungS.fss 
+NatDispArmChecker: compiler_tests/NatDispArmChecker.fss 
+NatOverrideChecker: compiler_tests/NatOverrideChecker.fss 
+## the Fortress names the tests declare (Vec, Vctr, Arr, Arr1, Arr2, Mat, Mtrx, Rnk, Rnk1, Rnk2, Tg, Ob3, Ob4, Box, Buf, Sized, Sized1, E, Vt, Ar, Three, Four): these are local to each test component; declarations of them in library_tests/ or compiler_tests/ apis that a test imports would compete
+none of the rung's new tests imports anything

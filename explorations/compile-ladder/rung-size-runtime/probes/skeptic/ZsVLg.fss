@@ -1,0 +1,14 @@
+component ZsVLg
+export Executable
+object Box[\nat k\](v: ZZ32) end
+last: Any := 0
+setLast(x: Any): () = atomic do last := x end
+mkIn[\nat k\](v: ZZ32): () = for i <- 0#1 do setLast(Box[\k\](v)) end
+which(x: Any): String = typecase x of Box[\3\] => "three"; Box[\4\] => "four"; else => "other" end
+run() = do
+  mkIn[\3\](1)
+  println(which(last))
+  mkIn[\4\](1)
+  println(which(last))
+end
+end

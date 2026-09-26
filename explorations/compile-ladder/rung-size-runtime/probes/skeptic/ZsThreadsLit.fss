@@ -1,0 +1,27 @@
+component ZsThreadsLit
+export Executable
+object Vec[\T, nat s\](x: T) end
+tAcc: ZZ32 := 0
+g(v: Vec[\ZZ32,1\]): ZZ32 = 100
+g(v: Vec[\ZZ32,2\]): ZZ32 = 200
+g(v: Vec[\ZZ32,3\]): ZZ32 = 300
+g(v: Vec[\ZZ32,4\]): ZZ32 = 400
+g(x: Any): ZZ32 = 0
+mk(j: ZZ32): Any =
+  if j = 0 then Vec[\ZZ32,1\](j)
+  elif j = 1 then Vec[\ZZ32,2\](j)
+  elif j = 2 then Vec[\ZZ32,3\](j)
+  elif j = 3 then Vec[\ZZ32,4\](j)
+  elif j = 4 then Vec[\ZZ32,5\](j)
+  elif j = 5 then Vec[\ZZ32,6\](j)
+  elif j = 6 then Vec[\ZZ32,7\](j)
+  else Vec[\ZZ32,8\](j) end
+step(i: ZZ32): () = do
+  b = g(mk(i MOD 8))
+  atomic do tAcc := tAcc + b end
+end
+run() = do
+  for i <- 0#800 do step(i) end
+  println(tAcc)
+end
+end

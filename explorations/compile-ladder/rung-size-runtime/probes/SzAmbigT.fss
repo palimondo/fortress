@@ -1,0 +1,8 @@
+component SzAmbigT
+export Executable
+trait Tt[\T\] end
+object ObZ extends Tt[\ZZ32\] end
+g[\T\](b: Tt[\T\], c: ZZ32): String = "generic arm"
+g(b: Tt[\ZZ32\], c: Any): String = "concrete arm"
+run() = println(g(ObZ, 5))
+end

@@ -1,0 +1,20 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.38 0.95 0.95; JDK 25; FORTRESS_THREADS=1
+# build: b3941cb06 plus the working tree's source edits, if any:  M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java  M ProjectFortress/src/com/sun/fortress/compiler/codegen/FreeVarTypes.java  M ProjectFortress/src/com/sun/fortress/runtimeSystem/MethodInstantiater.java  M ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java 
+########## junit compiler_tests/NatRtBigSize.test
+. compile compiler_tests/NatRtBigSize  OK (time = 2872ms)
+. link compiler_tests/NatRtBigSize  OK (time = 1987ms)
+. run compiler_tests/NatRtBigSize (740ms) 2147483647
+2147483648
+3000000000
+4294967295
+9223372036854775807
+9223372036854775808
+18446744073709551615
+PASS
+Passed
+
+Time: 5.606
+
+OK (3 tests)
+
+exit=0

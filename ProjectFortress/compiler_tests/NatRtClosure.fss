@@ -1,0 +1,49 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtClosure
+export Executable
+object Box[\nat k\](v: ZZ32) end
+acc: ZZ32 := 0
+accAdd(x: ZZ32): () = atomic do acc := acc + x end
+accReset(): () = atomic do acc := 0 end
+last: Any := 0
+setLast(x: Any): () = atomic do last := x end
+sumTo[\nat k\](b: Box[\k\]): ZZ32 = SUM[i <- 0#k] i
+sumOfK[\nat k\](b: Box[\k\]): ZZ32 = SUM[i <- 0#3] k
+forBody[\nat k\](b: Box[\k\]): ZZ32 = do
+  accReset()
+  for i <- 0#3 do accAdd(k) end
+  acc
+end
+viaFn[\nat k\](b: Box[\k\]): ZZ32 = (fn () => k)()
+captured[\nat k\](b: Box[\k\]): ZZ32 = (fn () => b.v)()
+mkIn[\nat k\](v: ZZ32): () = for i <- 0#1 do setLast(Box[\k\](v)) end
+which(x: Any): String = typecase x of Box[\3\] => "three"; Box[\4\] => "four"; else => "other" end
+nestedFor[\nat k\](b: Box[\k\]): ZZ32 = do
+  accReset()
+  for i <- 0#2 do for j <- 0#2 do accAdd(k) end end
+  acc
+end
+nestedFn[\nat k\](b: Box[\k\]): ZZ32 = (fn () => (fn () => k)())()
+object SizedHolder[\nat k\](v: ZZ32)
+  total(): ZZ32 = do
+    accReset()
+    for i <- 0#2 do accAdd(k) end
+    acc
+  end
+end
+run() = do
+  assert(sumTo(Box[\5\](0)), 10, "trait-parameters.tex:82-90")
+  assert(sumOfK(Box[\4\](0)), 12, "trait-parameters.tex:82-90")
+  assert(forBody(Box[\7\](0)), 21, "trait-parameters.tex:82-90")
+  assert(viaFn(Box[\3\](10)), 3, "trait-parameters.tex:82-90")
+  assert(captured(Box[\3\](10)), 10, "trait-parameters.tex:82-90")
+  mkIn[\3\](1)
+  assert(which(last), "three", "trait-parameters.tex:82-90")
+  mkIn[\4\](1)
+  assert(which(last), "four", "trait-parameters.tex:82-90")
+  assert(nestedFor(Box[\5\](0)), 20, "trait-parameters.tex:82-90")
+  assert(nestedFn(Box[\6\](0)), 6, "trait-parameters.tex:82-90")
+  assert(SizedHolder[\8\](0).total(), 16, "trait-parameters.tex:82-90")
+  println("PASS")
+end
+end

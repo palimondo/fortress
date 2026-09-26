@@ -1,0 +1,24 @@
+component ZsExtNested
+export Executable
+trait Holder[\T\] end
+object Vec[\T, nat s\](x: T) end
+object Buf[\nat s\](x: ZZ32) extends Holder[\Vec[\ZZ32,s\]\] end
+object W(x: ZZ32) extends Holder[\Vec[\ZZ32,3\]\] end
+which(h: Any): String =
+  typecase h of
+    Holder[\Vec[\ZZ32,3\]\] => "h3"
+    Holder[\Vec[\ZZ32,4\]\] => "h4"
+    else => "other"
+  end
+g(h: Holder[\Vec[\ZZ32,3\]\]): String = "g3"
+g(x: Any): String = "gother"
+run() = do
+  println(which(Buf[\3\](1)))
+  println(which(Buf[\4\](1)))
+  println(which(W(1)))
+  a: Any = Buf[\3\](1)
+  b: Any = Buf[\4\](1)
+  println(g(a))
+  println(g(b))
+end
+end

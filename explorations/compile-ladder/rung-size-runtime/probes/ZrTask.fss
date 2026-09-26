@@ -1,0 +1,11 @@
+component ZrTask
+export Executable
+object Box[\nat k\](v: ZZ32) end
+acc: ZZ32 := 0
+accAdd(x: ZZ32): () = atomic do acc := acc + x end
+both[\nat k\](b: Box[\k\]): ZZ32 = do
+  do accAdd(k) also do accAdd(k) end
+  acc
+end
+run() = println(both(Box[\5\](0)))
+end

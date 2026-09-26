@@ -1,0 +1,8 @@
+# ZrHugeType.fss on the unchanged build (3b2b399da): sizes 2^63 and 2^64-1 in type position only, literal leaves and a size-generic arm, compiled and run at FORTRESS_THREADS=1
+compile exit=0
+two-to-63
+two-to-64-less-1
+other
+generic
+other
+run exit=0

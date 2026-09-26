@@ -1,0 +1,20 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component NatOverrideChecker
+export Executable
+
+trait Up[\nat b0, nat s0\]
+    v(): ZZ32
+    sub[\nat b, nat s, nat o\](m: ZZ32): Up[\b, s\]
+end
+object Dn[\nat b0, nat s0\](x: ZZ32) extends { Up[\b0, s0\] }
+    v(): ZZ32 = x
+    sub[\nat b, nat s, nat o\](m: ZZ32): Dn[\b, s\] = Dn[\b, s\](x + m)
+end
+
+run(): () = do
+    u: Up[\2, 5\] = Dn[\0, 7\](1).sub[\2, 5, 0\](3)
+    assert(u.v(), 4, "an override whose sizes are its own and occur only in its return type; the subarray shape of Library/FortressLibrary.fsi:1403")
+    println("PASS")
+  end
+
+end

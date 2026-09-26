@@ -1,0 +1,12 @@
+component JTypeDouble
+export Executable
+trait Vt[\T\]
+end
+object V extends { Vt[\ZZ32\], Vt[\String\] }
+end
+f(x: Vt[\ZZ32\]): String = "f took a Vt[ZZ32]"
+run():() = do
+  v: V = V
+  println(f(v))
+end
+end

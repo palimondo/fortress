@@ -1,0 +1,15 @@
+component SzBoundDispT
+export Executable
+trait Vt[\T, U\] end
+object Ar[\T, U\](x: T) extends Vt[\T,U\] end
+object Three end
+object Four end
+f[\A extends Vt[\ZZ32,Three\]\](a: A): String = "bounded by a Three vector"
+f(x: Any): String = "other"
+run() = do
+  a: Any = Ar[\ZZ32,Three\](7)
+  b: Any = Ar[\ZZ32,Four\](7)
+  println(f(a))
+  println(f(b))
+end
+end

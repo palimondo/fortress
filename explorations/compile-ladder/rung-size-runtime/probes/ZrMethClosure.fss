@@ -1,0 +1,12 @@
+component ZrMethClosure
+export Executable
+object Box[\nat k\](v: ZZ32) end
+object H[\nat k\](v: ZZ32)
+  m[\nat j\](b: Box[\j\]): ZZ32 = do
+    x: ZZ32 = (fn (): ZZ32 => k)()
+    y: ZZ32 = (fn (): ZZ32 => j)()
+    10 x + y
+  end
+end
+run() = println(H[\3\](0).m[\4\](Box[\4\](0)))
+end

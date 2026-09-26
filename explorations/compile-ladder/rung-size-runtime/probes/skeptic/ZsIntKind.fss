@@ -1,0 +1,13 @@
+component ZsIntKind
+export Executable
+object I[\int k\](x: ZZ32) end
+val[\int k\](i: I[\k\]): ZZ32 = k
+val(x: Any): ZZ32 = -100
+run() = do
+  println(val(I[\5\](1)))
+  a: Any = I[\7\](1)
+  println(val(a))
+  b: Any = 2.5
+  println(val(b))
+end
+end

@@ -1,0 +1,5 @@
+tests=NatRtCaseGen
+compile
+link
+run
+run_out_equals=yes\nno\nno\nyes\n

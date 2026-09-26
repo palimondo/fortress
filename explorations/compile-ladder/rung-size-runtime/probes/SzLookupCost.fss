@@ -1,0 +1,76 @@
+component SzLookupCost
+export Executable
+object E end
+object Vec[\T, nat s\](x: T) end
+object Box[\T\](x: T) end
+h[\T\](v: Vec[\T,3\]): ZZ32 = 3
+h(x: Any): ZZ32 = -1
+k[\T\](v: Box[\T\]): ZZ32 = 3
+k(x: Any): ZZ32 = -1
+timeHD(a: Any): () = do
+  total: ZZ32 := 0
+  n: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while n < 10000000 do
+    total += h(a)
+    n += 1
+  end
+  t1: RR64 = nanoTime()
+  println("literal-size arm, dispatched: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeHS(v: Vec[\E,3\]): () = do
+  total: ZZ32 := 0
+  n: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while n < 10000000 do
+    total += h(v)
+    n += 1
+  end
+  t1: RR64 = nanoTime()
+  println("literal-size arm, static: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeKD(a: Any): () = do
+  total: ZZ32 := 0
+  n: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while n < 10000000 do
+    total += k(a)
+    n += 1
+  end
+  t1: RR64 = nanoTime()
+  println("no-size arm, dispatched: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+timeKS(v: Box[\E\]): () = do
+  total: ZZ32 := 0
+  n: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while n < 10000000 do
+    total += k(v)
+    n += 1
+  end
+  t1: RR64 = nanoTime()
+  println("no-size arm, static: total " || total || " ms " || ((t1 - t0) / 1000000.0))
+end
+run() = do
+  v: Vec[\E,3\] = Vec[\E,3\](E)
+  w: Box[\E\] = Box[\E\](E)
+  a: Any = v
+  b: Any = w
+  timeHD(a)
+  timeHS(v)
+  timeKD(b)
+  timeKS(w)
+  timeHD(a)
+  timeHS(v)
+  timeKD(b)
+  timeKS(w)
+  timeHD(a)
+  timeHS(v)
+  timeKD(b)
+  timeKS(w)
+  timeHD(a)
+  timeHS(v)
+  timeKD(b)
+  timeKS(w)
+end
+end

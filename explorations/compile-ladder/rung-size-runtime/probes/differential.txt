@@ -1,0 +1,1125 @@
+# differential.sh on the landing build: every program of the rung, and the probes named in the rung's structured result, compiled once and run compiled and under walk at FORTRESS_THREADS=1 and 4. NatRtExtends1 and NatRtVec were re-run after they were made library-neutral; their sections are that re-run, whose machine line is: machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 8.02 9.97 8.52; JDK 25; FORTRESS_THREADS=1
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.39 4.38 4.38; JDK 25; FORTRESS_THREADS=1
+################################ ProjectFortress/compiler_tests/NatRtUnbox.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+7
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+7
+exit=0
+---------- walk, FORTRESS_THREADS=1
+7
+exit=0
+---------- walk, FORTRESS_THREADS=4
+7
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtOver.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+3
+4
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+3
+4
+exit=0
+---------- walk, FORTRESS_THREADS=1
+3
+4
+exit=0
+---------- walk, FORTRESS_THREADS=4
+3
+4
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtExtends1.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+3
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+3
+exit=0
+---------- walk, FORTRESS_THREADS=1
+3
+exit=0
+---------- walk, FORTRESS_THREADS=4
+3
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtExtends2.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+7
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+7
+exit=0
+---------- walk, FORTRESS_THREADS=1
+7
+exit=0
+---------- walk, FORTRESS_THREADS=4
+7
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtVec.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+5
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+5
+exit=0
+---------- walk, FORTRESS_THREADS=1
+5
+exit=0
+---------- walk, FORTRESS_THREADS=4
+5
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtGetter.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+3
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+3
+exit=0
+---------- walk, FORTRESS_THREADS=1
+3
+exit=0
+---------- walk, FORTRESS_THREADS=4
+3
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtCase.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+three
+four
+other
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+three
+four
+other
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+three
+four
+other
+other
+exit=0
+---------- walk, FORTRESS_THREADS=4
+three
+four
+other
+other
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtCaseGen.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+yes
+no
+no
+yes
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+yes
+no
+no
+yes
+exit=0
+---------- walk, FORTRESS_THREADS=1
+yes
+no
+no
+yes
+exit=0
+---------- walk, FORTRESS_THREADS=4
+yes
+no
+no
+yes
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtDisp.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+exit=0
+---------- walk, FORTRESS_THREADS=4
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtDispTrait.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+exit=0
+---------- walk, FORTRESS_THREADS=4
+scalar
+vector
+matrix
+scalar
+vector
+matrix
+other
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtDispSize.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=4
+0
+3
+2
+4
+dispatched:
+0
+3
+4
+2
+4
+-1
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtDispLit.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+three
+four
+other
+T-three
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+three
+four
+other
+T-three
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+three
+four
+other
+T-three
+other
+exit=0
+---------- walk, FORTRESS_THREADS=4
+three
+four
+other
+T-three
+other
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtDot.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+(i) static, same sizes
+3
+(ii) static, different sizes
+-1
+(iii) dispatched, same sizes
+3
+(iv) dispatched, different sizes, both orders
+-1
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+(i) static, same sizes
+3
+(ii) static, different sizes
+-1
+(iii) dispatched, same sizes
+3
+(iv) dispatched, different sizes, both orders
+-1
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+(i) static, same sizes
+3
+(ii) static, different sizes
+-1
+(iii) dispatched, same sizes
+3
+(iv) dispatched, different sizes, both orders
+-1
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=4
+(i) static, same sizes
+3
+(ii) static, different sizes
+-1
+(iii) dispatched, same sizes
+3
+(iv) dispatched, different sizes, both orders
+-1
+-1
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtExtLit.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+1
+2
+1
+2
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+1
+2
+1
+2
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+1
+2
+1
+2
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=4
+1
+2
+1
+2
+-1
+exit=0
+################################ ProjectFortress/compiler_tests/NatRtMethSym.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+5
+6
+4
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+5
+6
+4
+exit=0
+---------- walk, FORTRESS_THREADS=1
+5
+6
+4
+exit=0
+---------- walk, FORTRESS_THREADS=4
+5
+6
+4
+exit=0
+################################ ProjectFortress/compiler_tests/NatArgRungS.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+Vec[\3\]
+PASS
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+Vec[\3\]
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=1
+REACHED
+Vec[\3\]
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+REACHED
+Vec[\3\]
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/NatDispArmChecker.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/NatOverrideChecker.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/NatExcludeOverload.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+3
+4
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+3
+4
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/NatExcludeOverload.fss:10:1-24: and
+ProjectFortress/compiler_tests/NatExcludeOverload.fss:9:1-23:
+first parameters b:[Tg[\4\]] and b:[Tg[\3\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+ProjectFortress/compiler_tests/NatExcludeOverload.fss:10:1-24:
+ProjectFortress/compiler_tests/NatExcludeOverload.fss:9:1-23:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/NatExcludeOverload.fss:10:1-24: and
+ProjectFortress/compiler_tests/NatExcludeOverload.fss:9:1-23:
+first parameters b:[Tg[\4\]] and b:[Tg[\3\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+ProjectFortress/compiler_tests/NatExcludeOverload.fss:10:1-24:
+ProjectFortress/compiler_tests/NatExcludeOverload.fss:9:1-23:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ProjectFortress/compiler_tests/XXXNatExcludeChecker.fss
+---------- compile
+ProjectFortress/compiler_tests/XXXNatExcludeChecker.fss:6:20-25:
+    Types Vec[\3\] and Vec[\4\] exclude each other.  V must not extend them.
+ProjectFortress/compiler_tests/XXXNatExcludeChecker.fss:6:20-26:
+    Type V excludes Vec but it extends Vec.
+ProjectFortress/compiler_tests/XXXNatExcludeChecker.fss:6:30-35:
+    Types Vec[\4\] and Vec[\3\] exclude each other.  V must not extend them.
+ProjectFortress/compiler_tests/XXXNatExcludeChecker.fss:6:30-36:
+    Type V excludes Vec but it extends Vec.
+File XXXNatExcludeChecker.fss has 4 errors.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load XXXNatExcludeChecker
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXNatExcludeChecker.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load XXXNatExcludeChecker
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXNatExcludeChecker.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+f took a Vec[3]
+exit=0
+---------- walk, FORTRESS_THREADS=4
+f took a Vec[3]
+exit=0
+################################ ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss
+---------- compile
+ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55:
+ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:7:1-45:
+    Invalid overloading of g in component XXXNatAmbigChecker:
+     (Tg[\3\], Any)->String @ ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:7:1-45
+ and [\nat n\](Tg[\n\], ZZ32)->String @ ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55
+File XXXNatAmbigChecker.fss has 1 error.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load XXXNatAmbigChecker
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXNatAmbigChecker.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load XXXNatAmbigChecker
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXNatAmbigChecker.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:7:1-45: and
+ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55:
+
+g[\nat n\](b:Tg[\n\],c:FortressLibrary.ZZ32):FortressLibrary.StringProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:7:1-45:
+ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:7:1-45: and
+ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55:
+
+g[\nat n\](b:Tg[\n\],c:FortressLibrary.ZZ32):FortressLibrary.StringProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:7:1-45:
+ProjectFortress/compiler_tests/XXXNatAmbigChecker.fss:6:1-55:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ProjectFortress/compiler_tests/XXXNatBoundDisp.fss
+---------- compile
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Expecting a TypeArg when checking genericity
+exit=1
+---------- compiled run, FORTRESS_THREADS=1
+Could not load XXXNatBoundDisp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXNatBoundDisp.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load XXXNatBoundDisp
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXNatBoundDisp.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/XXXTypeBoundDisp.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+java.lang.Error: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.io.IOException: Resource not found : XXXTypeBoundDisp$Vt??$RTTIc.xlation
+	... 11 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+java.lang.Error: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.io.IOException: Resource not found : XXXTypeBoundDisp$Vt??$RTTIc.xlation
+	... 11 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+REACHED
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+REACHED
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/XXXNatExtendsTwice.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+java.lang.ClassFormatError: Duplicate interface name "XXXNatExtendsTwice$Vec?3?" in class file XXXNatExtendsTwice$O?3?
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: XXXNatExtendsTwice$O?3?
+Caused by: java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	... 7 more
+Caused by: java.lang.ClassFormatError: Duplicate interface name "XXXNatExtendsTwice$Vec?3?" in class file XXXNatExtendsTwice$O?3?
+	... 8 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+java.lang.ClassFormatError: Duplicate interface name "XXXNatExtendsTwice$Vec?3?" in class file XXXNatExtendsTwice$O?3?
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: XXXNatExtendsTwice$O?3?
+Caused by: java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	... 7 more
+Caused by: java.lang.ClassFormatError: Duplicate interface name "XXXNatExtendsTwice$Vec?3?" in class file XXXNatExtendsTwice$O?3?
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+REACHED
+O[\3\]
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+REACHED
+O[\3\]
+PASS
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/JTypeDouble.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/JTypeDouble.fss:5:20-27:
+    Types Vt[\ZZ32\] and Vt[\String\] exclude each other.  V must not extend them.
+explorations/compile-ladder/rung-size-runtime/probes/JTypeDouble.fss:5:20-28:
+    Type V excludes Vt but it extends Vt.
+explorations/compile-ladder/rung-size-runtime/probes/JTypeDouble.fss:5:32-41:
+    Types Vt[\String\] and Vt[\ZZ32\] exclude each other.  V must not extend them.
+explorations/compile-ladder/rung-size-runtime/probes/JTypeDouble.fss:5:32-42:
+    Type V excludes Vt but it extends Vt.
+File JTypeDouble.fss has 4 errors.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load JTypeDouble
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : JTypeDouble.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load JTypeDouble
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : JTypeDouble.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+f took a Vt[ZZ32]
+exit=0
+---------- walk, FORTRESS_THREADS=4
+f took a Vt[ZZ32]
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49:
+    Invalid overloading of g in component SzAmbigT:
+     (Tt[\ZZ32\], Any)->String @ explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49
+ and [\T extends Object\](Tt[\T\], ZZ32)->String @ explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51
+File SzAmbigT.fss has 1 error.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load SzAmbigT
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzAmbigT.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load SzAmbigT
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzAmbigT.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49: and
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+
+g[\T\](b:Tt[\T\],c:FortressLibrary.ZZ32):FortressLibrary.Stringexplorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49: and
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+
+g[\T\](b:Tt[\T\],c:FortressLibrary.ZZ32):FortressLibrary.Stringexplorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzSymLitExtT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.ClassFormatError: Duplicate interface name "SzSymLitExtT$\=Vt?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?" in class file SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+Caused by: java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	... 7 more
+Caused by: java.lang.ClassFormatError: Duplicate interface name "SzSymLitExtT$\=Vt?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?" in class file SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+	... 8 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.ClassFormatError: Duplicate interface name "SzSymLitExtT$\=Vt?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?" in class file SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+Caused by: java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	... 7 more
+Caused by: java.lang.ClassFormatError: Duplicate interface name "SzSymLitExtT$\=Vt?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?" in class file SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+O[\ZZ32\]
+exit=0
+---------- walk, FORTRESS_THREADS=4
+O[\ZZ32\]
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+33
+4
+33
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+33
+4
+33
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:7:1-24: and
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32:
+
+g[\nat n\](b:Tg[\n\]):FortressLibrary.ZZ32explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:7:1-24:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:7:1-24: and
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32:
+
+g[\nat n\](b:Tg[\n\]):FortressLibrary.ZZ32explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:7:1-24:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+33
+1
+33
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+33
+1
+33
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:7:1-27: and
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28:
+
+g[\T\](b:Tt[\T\]):FortressLibrary.ZZ32explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:7:1-27:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:7:1-27: and
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28:
+
+g[\T\](b:Tt[\T\]):FortressLibrary.ZZ32explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:7:1-27:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzMethSymT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+got
+gotgot
+got
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+got
+gotgot
+got
+exit=0
+---------- walk, FORTRESS_THREADS=1
+got
+gotgot
+got
+exit=0
+---------- walk, FORTRESS_THREADS=4
+got
+gotgot
+got
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzTwoThreads.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+97
+97
+Vec[\ZZ32,97\]
+Box[\97\]
+a size-97 vector
+a size-97 box
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+97
+97
+Vec[\ZZ32,97\]
+Box[\97\]
+a size-97 vector
+a size-97 box
+exit=0
+---------- walk, FORTRESS_THREADS=1
+97
+97
+Vec[\ZZ32,97\]
+Box[\97\]
+a size-97 vector
+a size-97 box
+exit=0
+---------- walk, FORTRESS_THREADS=4
+97
+97
+Vec[\ZZ32,97\]
+Box[\97\]
+a size-97 vector
+a size-97 box
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzIntNeg.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/SzIntNeg.fss:3:8-9:
+    Ill-formed type: Box[\0-2\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+explorations/compile-ladder/rung-size-runtime/probes/SzIntNeg.fss:5:6-13:
+    Ill-formed type: Box[\0-2\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+explorations/compile-ladder/rung-size-runtime/probes/SzIntNeg.fss:8:11-26:
+    Could not check call to function kOf
+    - [\int k\]Box[\k\]->ZZ32 is not applicable to an argument of type Box[\0-2\].
+explorations/compile-ladder/rung-size-runtime/probes/SzIntNeg.fss:8:22:
+    Ill-formed static argument: 0-2
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load SzIntNeg
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzIntNeg.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load SzIntNeg
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzIntNeg.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+-2
+minus two
+other
+exit=0
+---------- walk, FORTRESS_THREADS=4
+-2
+minus two
+other
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzIntNegLit.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/SzIntNegLit.fss:5:12:
+    Syntax Error
+File SzIntNegLit.fss has 1 error.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load SzIntNegLit
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzIntNegLit.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load SzIntNegLit
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzIntNegLit.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+nullexplorations/compile-ladder/rung-size-runtime/probes/SzIntNegLit.fss:5:12:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+nullexplorations/compile-ladder/rung-size-runtime/probes/SzIntNegLit.fss:5:12:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadTop.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+1
+2
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+1
+2
+exit=0
+---------- walk, FORTRESS_THREADS=1
+1
+2
+exit=0
+---------- walk, FORTRESS_THREADS=4
+1
+2
+exit=0
+################################ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NumberFormatException
+Caused by: java.lang.NumberFormatException: For input string: "n"
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NumberFormatException
+Caused by: java.lang.NumberFormatException: For input string: "n"
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:4:30:
+undefined variable [n]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:4:30:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:9:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:4:30:
+undefined variable [n]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:4:30:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:9:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-nat-checker/probes/DeadValWritten.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+5
+2
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+5
+2
+exit=0
+---------- walk, FORTRESS_THREADS=1
+5
+2
+exit=0
+---------- walk, FORTRESS_THREADS=4
+5
+2
+exit=0
+################################ explorations/perf-probes/nat/runtime/pNatCase.fss
+---------- compile
+Exception in thread "main" java.lang.Error: 
+explorations/perf-probes/nat/runtime/pNatCase.fss:9:3-13:4: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 9 L1
+,     ALOAD 0
+,     DUP
+,     INSTANCEOF pNatCase$Vec?com/sun/fortress/compiler/runtimeValues/FZZ32,3?
+,     IFNE L2
+,     GOTO L3
+,    L2
+,     POP
+exit=1
+---------- compiled run, FORTRESS_THREADS=1
+Could not load pNatCase
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : pNatCase.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load pNatCase
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : pNatCase.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+3
+4
+exit=0
+---------- walk, FORTRESS_THREADS=4
+3
+4
+exit=0
+################################ explorations/perf-probes/nat/runtime/pTypeCase.fss
+---------- compile
+Exception in thread "main" java.lang.Error: 
+explorations/perf-probes/nat/runtime/pTypeCase.fss:7:3-11:4: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 7 L1
+,     ALOAD 0
+,     DUP
+,     INSTANCEOF pTypeCase$Vec?com/sun/fortress/compiler/runtimeValues/FZZ32?
+,     IFNE L2
+,     GOTO L3
+,    L2
+,     POP
+exit=1
+---------- compiled run, FORTRESS_THREADS=1
+Could not load pTypeCase
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : pTypeCase.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load pTypeCase
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : pTypeCase.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+3
+exit=0
+---------- walk, FORTRESS_THREADS=4
+3
+exit=0
+################################ explorations/perf-probes/nat/size-cost/VecCtorControl.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc.class
+	... 9 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc.class
+	... 9 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+explorations/perf-probes/nat/size-cost/VecCtorControl.fss:8:23-31:
+    ZZ32Vector is undefined.
+explorations/perf-probes/nat/size-cost/VecCtorControl.fss:10:6-14:
+    ZZ32Vector is undefined.
+exit=255
+---------- walk, FORTRESS_THREADS=4
+explorations/perf-probes/nat/size-cost/VecCtorControl.fss:8:23-31:
+    ZZ32Vector is undefined.
+explorations/perf-probes/nat/size-cost/VecCtorControl.fss:10:6-14:
+    ZZ32Vector is undefined.
+exit=255

@@ -1,0 +1,6 @@
+component ZsVLa
+export Executable
+object Box[\nat k\](v: ZZ32) end
+sumTo[\nat k\](b: Box[\k\]): ZZ32 = SUM[i <- 0#k] i
+run() = println(sumTo(Box[\5\](0)))
+end

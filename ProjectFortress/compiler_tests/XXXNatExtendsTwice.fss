@@ -1,0 +1,11 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component XXXNatExtendsTwice
+export Executable
+trait Vec[\nat k\] end
+object O[\nat n\] extends { Vec[\n\], Vec[\3\] } end
+run() = do
+  println("REACHED")
+  println(O[\3\])
+  println("PASS")
+end
+end

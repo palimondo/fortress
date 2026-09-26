@@ -1,0 +1,3 @@
+tests=XXXNatExcludeChecker
+compile
+compile_err_contains=Types Vec[\\3\\] and Vec[\\4\\] exclude each other.  V must not extend them.

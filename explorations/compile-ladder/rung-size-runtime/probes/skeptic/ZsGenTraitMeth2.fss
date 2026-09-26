@@ -1,0 +1,21 @@
+component ZsGenTraitMeth2
+export Executable
+trait Sized[\nat s\]
+  size(): ZZ32 = s
+  scaled(m: ZZ32): ZZ32 = m s
+end
+object Buf[\T, nat s\](x: T) extends Sized[\s\] end
+object Mat[\nat r, nat c\]() extends { Sized[\r\] }
+  cols(): ZZ32 = c
+end
+total(xs: Any): String = typecase xs of Sized[\3\] => "three"; Sized[\4\] => "four"; else => "other" end
+run() = do
+  println(Buf[\ZZ32,5\](1).size())
+  println(Buf[\String,6\]("x").scaled(10))
+  println(Mat[\2,7\]().size())
+  println(Mat[\2,7\]().cols())
+  println(total(Buf[\ZZ32,3\](1)))
+  println(total(Mat[\4,1\]()))
+  println(total(Buf[\ZZ32,9\](1)))
+end
+end

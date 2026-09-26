@@ -1,0 +1,30 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtDispTrait
+export Executable
+trait Rnk1 excludes { Rnk2, RR64 } end
+trait Rnk2 excludes { RR64 } end
+trait Vctr[\T, nat s\] extends Rnk1 end
+trait Mtrx[\T, nat r, nat c\] extends Rnk2 end
+object Arr1[\T, nat s\](x: T) extends Vctr[\T,s\] end
+object Arr2[\T, nat r, nat c\](x: T) extends Mtrx[\T,r,c\] end
+f(x: RR64): String = "scalar"
+f[\nat s\](v: Vctr[\RR64,s\]): String = "vector"
+f[\nat r, nat c\](m: Mtrx[\RR64,r,c\]): String = "matrix"
+f(x: Any): String = "other"
+run() = do
+  r: RR64 = 2.5
+  v: Vctr[\RR64,3\] = Arr1[\RR64,3\](r)
+  m: Mtrx[\RR64,2,4\] = Arr2[\RR64,2,4\](r)
+  println(f(r))
+  println(f(v))
+  println(f(m))
+  a: Any = r
+  println(f(a))
+  b: Any = v
+  println(f(b))
+  c: Any = m
+  println(f(c))
+  z: Any = Arr1[\ZZ32,3\](7)
+  println(f(z))
+end
+end

@@ -1,0 +1,57 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.76 1.27 1.75; JDK 25; FORTRESS_THREADS=1
+# build: d6f91bcce plus the working tree's source edits, if any: 
+########## junit compiler_tests/NatRtMethBothLink.test
+. link compiler_tests/XXXNatRtMethBoth  OK (time = 3708ms)
+
+Time: 3.713
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatRtMethBoth.test
+. run compiler_tests/XXXNatRtMethBoth (506ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: j$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 12 more
+Caused by: java.io.IOException: Resource not found : j$RTTIc.class
+	... 13 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.515
+
+OK (1 test)
+
+exit=0
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.76 1.27 1.75; JDK 25; FORTRESS_THREADS=1
+################################ ProjectFortress/compiler_tests/XXXNatRtMethBoth.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: j$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 12 more
+Caused by: java.io.IOException: Resource not found : j$RTTIc.class
+	... 13 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: j$RTTIc
+	... 5 more
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : j$RTTIc.class
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+REACHED
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+REACHED
+PASS
+exit=0

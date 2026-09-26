@@ -1,0 +1,9 @@
+component ZtRange64
+export Executable
+object Box[\nat k\](v: ZZ32) end
+v64[\nat k\](b: Box[\k\]): ZZ64 = k
+run() = do
+  println(v64(Box[\9223372036854775807\](0)))
+  println(v64(Box[\9223372036854775808\](0)))
+end
+end

@@ -1,0 +1,9 @@
+component ZrMethClosureS
+export Executable
+object Box[\nat k\](v: ZZ32) end
+which(x: Any): String = typecase x of Box[\3\] => "three"; Box[\4\] => "four"; else => "other" end
+object H[\nat k\](v: ZZ32)
+  m[\nat j\](b: Box[\j\]): String = (fn (): String => which(Box[\k\](1)) || which(Box[\j\](2)))()
+end
+run() = println(H[\3\](0).m[\4\](Box[\4\](0)))
+end

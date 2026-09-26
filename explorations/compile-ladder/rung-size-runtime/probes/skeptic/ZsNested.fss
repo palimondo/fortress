@@ -1,0 +1,20 @@
+component ZsNested
+export Executable
+object Vec[\T, nat s\](x: T) end
+h(v: Vec[\Vec[\ZZ32,3\],2\]): String = "v3in2"
+h(v: Vec[\Vec[\ZZ32,4\],2\]): String = "v4in2"
+h(x: Any): String = "other"
+k[\nat n\](v: Vec[\Vec[\ZZ32,n\],2\]): ZZ32 = n
+k(x: Any): ZZ32 = -1
+run() = do
+  a: Any = Vec[\Vec[\ZZ32,3\],2\](Vec[\ZZ32,3\](1))
+  b: Any = Vec[\Vec[\ZZ32,4\],2\](Vec[\ZZ32,4\](1))
+  c: Any = Vec[\Vec[\ZZ32,4\],5\](Vec[\ZZ32,4\](1))
+  println(h(a))
+  println(h(b))
+  println(h(c))
+  println(k(a))
+  println(k(b))
+  println(k(c))
+end
+end

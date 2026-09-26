@@ -1,0 +1,5 @@
+tests=NatRtBigSize
+compile
+link
+run
+run_out_contains=PASS

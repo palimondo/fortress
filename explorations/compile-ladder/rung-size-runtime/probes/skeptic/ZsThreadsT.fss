@@ -1,0 +1,33 @@
+component ZsThreadsT
+export Executable
+object Vt[\T\](x: ZZ32) end
+object A1 end
+object A2 end
+object A3 end
+object A4 end
+object A5 end
+object A6 end
+object A7 end
+object A8 end
+sAcc: ZZ32 := 0
+f[\T\](v: Vt[\T\]): ZZ32 = v.x
+f(x: Any): ZZ32 = 0
+mk(j: ZZ32): Any =
+  if j = 0 then Vt[\A1\](1)
+  elif j = 1 then Vt[\A2\](2)
+  elif j = 2 then Vt[\A3\](3)
+  elif j = 3 then Vt[\A4\](4)
+  elif j = 4 then Vt[\A5\](5)
+  elif j = 5 then Vt[\A6\](6)
+  elif j = 6 then Vt[\A7\](7)
+  else Vt[\A8\](8) end
+step(i: ZZ32): () = do
+  v = mk(i MOD 8)
+  a = f(v)
+  atomic do sAcc := sAcc + a end
+end
+run() = do
+  for i <- 0#800 do step(i) end
+  println(sAcc)
+end
+end

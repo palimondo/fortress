@@ -1,0 +1,27 @@
+# decl-fates.py over perdecl-before.txt (the build with pieces 1-4, no checkP case) and perdecl-after.txt (the landing build, checkP's size case for two literals); the script's header says "nat shadow", read it as the checkP case
+# Per top-level declaration of Library/FortressLibrary.fss, the checker's fate
+# with the interpreter prelude, before and after the nat shadow.
+# BEFORE: explorations/compile-ladder/rung-size-runtime/probes/perdecl-before.txt
+# AFTER : explorations/compile-ladder/rung-size-runtime/probes/perdecl-after.txt
+
+declarations seen: before 446, after 446
+BEFORE  clean=287  errors-of-its-own=154  crashed=5
+AFTER   clean=287  errors-of-its-own=154  crashed=5
+
+## The 5 declarations that crashed the checker before, and what they become
+  still crashes            5
+
+## The crash sites that remain, by site
+     2  com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)
+     2  java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+
+## The crash sites before, by site
+     2  com.sun.fortress.exceptions.TypeError at com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)
+     2  java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722)
+     1  com.sun.fortress.exceptions.InterpreterBug at com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)
+
+## Every declaration whose fate changed
+# span | before | after
+FnDecl FortressLibrary.fss:4185:1-4198:4 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+FnDecl FortressLibrary.fss:4204:1-4209:2 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:722) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0 | CRASH java.lang.RuntimeException at com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723) : Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0

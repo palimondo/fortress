@@ -1,0 +1,19 @@
+# explorations/coordinator/tools/checker-count/run.sh on the repair build (3bca6b8bc)
+# the machine line of the row-400 run started just before it: machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.76 2.97 2.10; JDK 25; FORTRESS_THREADS=1
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	18
+FortressLibrary	110
+List	0
+NatReflect	0
+NativeArray	44
+RangeInternals	78
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	125
+#locations	71
+#crash	none
+#shadow	matches the tracked StaticChecker

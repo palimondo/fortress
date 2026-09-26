@@ -1,0 +1,16 @@
+# RTTIsizeJUTest against RTTIsize.java as the rung writes it minus its hashCode(), which is RTTI's (RTTI.java:51), compiled into a scratch directory; the build is not touched
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 12.80 6.64 3.69; JDK 25
+javac exit=0
+.  testSupertypeOnlyOfAnEqualSize(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.F  testSeventeenSizesHashApart(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) FAIL
+.  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testClassNameIsTheText(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testOneDescriptorPerNumber(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+
+Time: 0.124
+There was 1 failure:
+1) testSeventeenSizesHashApart(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest)junit.framework.AssertionFailedError: distinct hashCode() of the sizes 0 to 16 expected:<17> but was:<1>
+
+FAILURES!!!
+Tests run: 5,  Failures: 1,  Errors: 0
+

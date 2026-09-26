@@ -1,0 +1,5 @@
+tests=NatRtMethSym
+compile
+link
+run
+run_out_equals=5\n6\n4\n

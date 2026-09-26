@@ -1,0 +1,51 @@
+# row400.sh on the landing build: rung N's SkDeadTop, SkDeadVal and DeadValWritten compiled, run (stack frames outside java.base kept) and walked
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.28 8.35 8.13; JDK 25; FORTRESS_THREADS=1
+########## fortress compile explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadTop.fss
+exit=0
+########## fortress run SkDeadTop
+1
+2
+exit=0
+########## walk explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadTop.fss
+1
+2
+exit=0
+########## fortress compile explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss
+exit=0
+########## fortress run SkDeadVal
+java.lang.NumberFormatException
+	at SkDeadVal.main(explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NumberFormatException: For input string: "n"
+	at com.sun.fortress.runtimeSystem.MethodInstantiater.visitMethodInsn(MethodInstantiater.java:226)
+	at org.objectweb.asm.ClassReader.readCode(ClassReader.java:2447)
+	at org.objectweb.asm.ClassReader.readMethod(ClassReader.java:1512)
+	at org.objectweb.asm.ClassReader.accept(ClassReader.java:745)
+	at org.objectweb.asm.ClassReader.accept(ClassReader.java:425)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readAndExpandGenericThing(InstantiatingClassloader.java:406)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readAndExpandGenericThing(InstantiatingClassloader.java:379)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:240)
+	at SkDeadVal.ev(explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss)
+	at SkDeadVal.run(explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:9)
+	at SkDeadVal.compute(explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss)
+exit=1
+########## walk explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:4:30:
+undefined variable [n]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:4:30:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss:9:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress compile explorations/compile-ladder/rung-nat-checker/probes/DeadValWritten.fss
+exit=0
+########## fortress run DeadValWritten
+5
+2
+exit=0
+########## walk explorations/compile-ladder/rung-nat-checker/probes/DeadValWritten.fss
+5
+2
+exit=0

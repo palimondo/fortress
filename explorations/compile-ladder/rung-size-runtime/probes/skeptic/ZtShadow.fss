@@ -1,0 +1,9 @@
+component ZtShadow
+export Executable
+object Box[\nat k\](v: ZZ32) end
+f[\nat k\](b: Box[\k\]): ZZ32 = (fn (k: ZZ32): ZZ32 => k + 1)(10)
+run() = do
+  println(f(Box[\5\](0)))
+  println(f(Box[\6\](0)))
+end
+end

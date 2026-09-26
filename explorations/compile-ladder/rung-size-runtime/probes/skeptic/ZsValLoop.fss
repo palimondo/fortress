@@ -1,0 +1,14 @@
+component ZsValLoop
+export Executable
+object Box[\nat k\](v: ZZ32) end
+sumTo[\nat k\](b: Box[\k\]): ZZ32 = SUM[i <- 0#k] i
+count[\nat k\](b: Box[\k\]): ZZ32 = do
+  n: ZZ32 := 0
+  for i <- 0#k do atomic n += 1 end
+  n
+end
+run() = do
+  println(sumTo(Box[\5\](0)))
+  println(count(Box[\1000\](0)))
+end
+end

@@ -1,0 +1,22 @@
+# NatRtMethSym through the harness on the landing build before CodeGen.isSymbolic counts a size symbol (a size symbol as a generic method's static argument)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.43 3.96 4.31; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/NatRtMethSym.test
+. compile compiler_tests/NatRtMethSym  OK (time = 2322ms)
+. link compiler_tests/NatRtMethSym  OK (time = 2401ms)
+. run compiler_tests/NatRtMethSym (739ms) 5
+java.lang.NumberFormatException
+Caused by: java.lang.NumberFormatException: For input string: "k"
+Failed to satisfy run_out_equals; expected
+5
+6
+4
+
+F
+Time: 5.475
+There was 1 failure:
+1) compiler_tests/NatRtMethSym(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/NatRtMethSym
+
+FAILURES!!!
+Tests run: 3,  Failures: 1,  Errors: 0
+
+exit=0

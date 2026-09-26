@@ -1,0 +1,5 @@
+tests=NatRtDispLit
+compile
+link
+run
+run_out_equals=three\nfour\nother\nT-three\nother\n

@@ -1,0 +1,42 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+index bc1d63dc7..55607774d 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+@@ -1636,7 +1636,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             // Generate descriptor for init method of task
+             String init = taskConstructorDesc(freeVars);
+ 
+-            String task = delegate(arg, tDesc, init, freeVars);
++            String task = delegate(arg, tDesc, init, freeVars, fvts);
+             tasks[i] = task;
+             results[i] = tDesc;
+             constructWithFreeVars(task, freeVars, init);
+@@ -4768,9 +4768,18 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+ 
+     // This sets up the parallel task construct.
+     // Caveat: We create separate taskClasses for every task
+-    public String delegate(Expr x, String result, String init, List<VarCodeGen> freeVars) {
++    public String delegate(Expr x, String result, String init, List<VarCodeGen> freeVars, BASet<VarType> fvts) {
+ 
+         String className = NamingCzar.gensymTaskName(packageAndClassName);
++        String classFileName = className;
++        Naming.XlationData xldata = null;
++        if (fvts != null && fvts.size() > 0) {
++            className += Useful.listInDelimiters(Naming.LEFT_OXFORD, fvts, Naming.RIGHT_OXFORD);
++            classFileName += Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD;
++            xldata = xlationData(Naming.FUNCTION_GENERIC_TAG);
++            for (VarType v : fvts)
++                xldata.addKindAndNameToStaticParams(Naming.XL_TYPE, v.getName().getText());
++        }
+ 
+         debug("delegate creating class ", className, " node = ", x,
+               " constructor type = ", init, " result type = ", result);
+@@ -4791,7 +4800,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+ 
+         cg.generateTaskCompute(className, x, result);
+ 
+-        cg.cw.dumpClass(className);
++        cg.cw.dumpClass(classFileName, xldata);
+ 
+         this.lexEnv = restoreFromTaskLexEnv(cg.lexEnv, this.lexEnv);
+         return className;

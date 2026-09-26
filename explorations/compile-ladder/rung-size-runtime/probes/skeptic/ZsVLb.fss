@@ -1,0 +1,11 @@
+component ZsVLb
+export Executable
+object Box[\nat k\](v: ZZ32) end
+counter: ZZ32 := 0
+bump(): () = atomic do counter := counter + 1 end
+count[\nat k\](b: Box[\k\]): ZZ32 = do
+  for i <- 0#k do bump() end
+  counter
+end
+run() = println(count(Box[\1000\](0)))
+end

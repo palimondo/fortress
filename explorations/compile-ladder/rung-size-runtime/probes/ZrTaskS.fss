@@ -1,0 +1,16 @@
+component ZrTaskS
+export Executable
+object Box[\nat k\](v: ZZ32) end
+last: Any := 0
+setLast(x: Any): () = atomic do last := x end
+acc: ZZ32 := 0
+accAdd(x: ZZ32): () = atomic do acc := acc + x end
+both[\nat k\](v: ZZ32): () = do
+  do accAdd(v) also do setLast(Box[\k\](v)) end
+end
+which(x: Any): String = typecase x of Box[\3\] => "three"; Box[\4\] => "four"; else => "other" end
+run() = do
+  both[\4\](1)
+  println(which(last))
+end
+end

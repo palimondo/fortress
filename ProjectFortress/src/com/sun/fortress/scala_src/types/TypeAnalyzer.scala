@@ -457,9 +457,10 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         val tas = ancestors(t) ++ Set(t)
         def cP(s: BaseType, t: BaseType): CFormula = (s, t) match {
           case (s@STraitType(_, n1, a1, _), t@STraitType(_, n2, a2, _)) if (n1 == n2) =>
-            //Todo: Handle int, nat, bool args
+            //Todo: Handle bool args
             pOr((a1, a2).zipped.map{
               case (STypeArg(_, _, t1), STypeArg(_, _, t2)) => pEqv(t1, t2)(!negate, history)
+              case (SIntArg(_, _, i1: IntBase), SIntArg(_, _, i2: IntBase)) => pEqv(i1, i2)(!negate)
               case _ => pFalse()
             })
           case _ => pFalse()

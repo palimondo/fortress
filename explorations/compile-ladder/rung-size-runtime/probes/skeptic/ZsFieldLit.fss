@@ -1,0 +1,14 @@
+component ZsFieldLit
+export Executable
+object O(x: ZZ32)
+  y = 5
+  get(): ZZ32 = y + x
+end
+z = 6
+run() = do
+  println(O(1).get())
+  println(z)
+  (a, b) = (3, 4)
+  println(a + b)
+end
+end

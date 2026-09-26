@@ -1,0 +1,26 @@
+component ZrMixed
+export Executable
+object Vec[\T, nat s\](x: T) end
+object Pair[\nat a, nat b\](v: ZZ32) end
+last: Any := 0
+setLast(x: Any): () = atomic do last := x end
+both[\T, nat s\](v: Vec[\T,s\]): ZZ32 = (fn () => s)()
+mk[\T, nat s\](x: T): () = for i <- 0#1 do setLast(Vec[\T,s\](x)) end
+swap[\nat a, nat b\](p: Pair[\a,b\]): ZZ32 = do
+  x: ZZ32 = (fn (): ZZ32 => a)()
+  y: ZZ32 = (fn (): ZZ32 => b)()
+  10 x + y
+end
+mkSwap[\nat a, nat b\](v: ZZ32): () = for i <- 0#1 do setLast(Pair[\b,a\](v)) end
+which(x: Any): String = typecase x of Vec[\String,3\] => "string-3"; Vec[\ZZ32,3\] => "zz32-3"; Pair[\2,1\] => "pair-2-1"; Pair[\1,2\] => "pair-1-2"; else => "other" end
+run() = do
+  println(both(Vec[\String,7\]("x")))
+  mk[\String,3\]("x")
+  println(which(last))
+  mk[\ZZ32,3\](1)
+  println(which(last))
+  println(swap(Pair[\1,2\](0)))
+  mkSwap[\1,2\](0)
+  println(which(last))
+end
+end

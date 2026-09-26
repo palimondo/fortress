@@ -1,0 +1,4 @@
+# every test's verdict lines in junit-final.txt plus junit-bound-final.txt (the landing build) against junit-repair.txt (the repair build 3bca6b8bc), RTTIsizeJUTest compared separately
+## diff (empty means identical):
+## tests: 44 sections; expected failures seen: 14 (landing: 14)
+## RTTIsizeJUTest, repair build: OK (6 tests)

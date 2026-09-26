@@ -1,0 +1,21 @@
+# NatRtExtends1 and NatRtVec, in their library-neutral text, compiled and run on the unedited build (the six sources at 6030e4b36), library caches of the base run of natreflect/run-subset.sh
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 8.16 8.15 8.06; JDK 25; FORTRESS_THREADS=1
+########## fortress compile compiler_tests/NatRtExtends1.fss
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+exit=1
+########## fortress run NatRtExtends1
+Could not load NatRtExtends1
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : NatRtExtends1.class
+	... 4 more
+exit=1
+########## fortress compile compiler_tests/NatRtVec.fss
+exit=0
+########## fortress run NatRtVec
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: 5$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : 5$RTTIc.class
+	... 9 more
+exit=1

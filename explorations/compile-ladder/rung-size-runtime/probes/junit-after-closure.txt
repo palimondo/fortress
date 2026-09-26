@@ -1,0 +1,13 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.38 0.95 0.95; JDK 25; FORTRESS_THREADS=1
+# build: b3941cb06 plus the working tree's source edits, if any:  M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java  M ProjectFortress/src/com/sun/fortress/compiler/codegen/FreeVarTypes.java  M ProjectFortress/src/com/sun/fortress/runtimeSystem/MethodInstantiater.java  M ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java 
+########## junit compiler_tests/NatRtClosure.test
+. compile compiler_tests/NatRtClosure  OK (time = 2888ms)
+. link compiler_tests/NatRtClosure  OK (time = 1874ms)
+. run compiler_tests/NatRtClosure (678ms) PASS
+Passed
+
+Time: 5.45
+
+OK (3 tests)
+
+exit=0

@@ -1,0 +1,46 @@
+# step 6 of the order of work for the repair round's names: Java names over src/com/sun/fortress/ whole, component names over every corpus, Library/ and LibraryBuiltin/
+## Java names, src/com/sun/fortress/ (files that contain each)
+INT_LITERAL_CLASS: src/com/sun/fortress/runtimeSystem/MethodInstantiater.java src/com/sun/fortress/runtimeSystem/Naming.java 
+sizeParams: src/com/sun/fortress/compiler/codegen/FreeVarTypes.java 
+pushSizeParams: src/com/sun/fortress/compiler/codegen/FreeVarTypes.java 
+popSizeParams: src/com/sun/fortress/compiler/codegen/FreeVarTypes.java 
+## component names of the new tests, declared as components anywhere (file: line)
+NatRtClosure: compiler_tests/NatRtClosure.fss 
+NatRtBigSize: compiler_tests/NatRtBigSize.fss 
+XXXNatRtClosure: 
+XXXNatRtBigSize: 
+## the names the tests declare, as top-level declarations in the compiled library (a hit would compete)
+Box: none
+SizedHolder: none
+acc: none
+accAdd: none
+accReset: none
+last: none
+setLast: none
+sumTo: none
+sumOfK: none
+forBody: none
+viaFn: none
+captured: none
+mkIn: none
+which: none
+nestedFor: none
+nestedFn: none
+sz64: none
+szZ: none
+g: LibraryBuiltin/CompilerBuiltin.fss:1423:      g.map[\(E20,G14)\](fn (y:G14):(E20,G14) => (x,y)) LibraryBuiltin/CompilerBuiltin.fss:1425:      g.map[\(E20,G17)\](fn (y:G17):(E20,G17) => (x,y)) ../Library/CompilerLibrary.fss:338:    g.generate(r,f) 
+## neither new test imports anything
+none
+# the three g hits are indented uses of a local variable or parameter named g inside method bodies, not top-level declarations; nothing competes
+## the two expected failures added later in the round: component names declared anywhere, and their link-half file names
+XXXNatRtTask: component in compiler_tests/XXXNatRtTask.fss files named compiler_tests/XXXNatRtTask.fss compiler_tests/XXXNatRtTask.test 
+XXXNatRtMethBoth: component in compiler_tests/XXXNatRtMethBoth.fss files named compiler_tests/XXXNatRtMethBoth.fss compiler_tests/XXXNatRtMethBoth.test 
+NatRtTaskLink: component in files named compiler_tests/NatRtTaskLink.test 
+NatRtMethBothLink: component in files named compiler_tests/NatRtMethBothLink.test 
+## their top-level names (Box, BoxT, Hs, Ht, acc, accAdd, last, setLast, both, mkS, mkT, which, m) as top-level declarations of the compiled library
+BoxT: none
+Hs: none
+Ht: none
+both: none
+mkS: none
+mkT: none

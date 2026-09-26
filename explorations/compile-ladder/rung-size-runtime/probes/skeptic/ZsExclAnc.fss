@@ -1,0 +1,14 @@
+component ZsExclAnc
+export Executable
+trait Tg[\nat k\] end
+trait A extends Tg[\3\] end
+trait B extends Tg[\4\] end
+object Oa extends A end
+object Ob extends B end
+g(x: A): String = "A"
+g(x: B): String = "B"
+run() = do
+  println(g(Oa))
+  println(g(Ob))
+end
+end

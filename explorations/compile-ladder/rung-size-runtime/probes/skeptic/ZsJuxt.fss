@@ -1,0 +1,12 @@
+component ZsJuxt
+export Executable
+object Box[\nat k\](v: ZZ32)
+  cat(): String = "k=" k
+end
+run() = do
+  println("lit=" 5)
+  z: ZZ32 = 5
+  println("zz32=" z)
+  println(Box[\5\](0).cat())
+end
+end

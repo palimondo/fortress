@@ -1,0 +1,4 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.31 3.28 2.30; JDK 25; FORTRESS_THREADS=1
+compile exit=0
+FORTRESS_THREADS=4: 10 of 10 runs print exactly PASS
+FORTRESS_THREADS=1: 10 of 10 runs print exactly PASS

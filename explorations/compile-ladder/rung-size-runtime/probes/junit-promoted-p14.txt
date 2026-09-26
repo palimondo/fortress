@@ -1,0 +1,44 @@
+# junit-tests.sh promoted, the three renamed tests, on the build with pieces 1-4
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.85 6.74 5.68; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/NatDispArmChecker.test
+. link compiler_tests/NatDispArmChecker  OK (time = 8870ms)
+. run compiler_tests/NatDispArmChecker (1388ms) PASS
+Passed
+
+Time: 10.269
+
+OK (2 tests)
+
+exit=0
+########## junit compiler_tests/NatOverrideChecker.test
+. link compiler_tests/NatOverrideChecker  OK (time = 7643ms)
+. run compiler_tests/NatOverrideChecker (1801ms) PASS
+Passed
+
+Time: 9.453
+
+OK (2 tests)
+
+exit=0
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 8.22 7.06 5.81; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/NatArgRungSLink.test
+. link compiler_tests/NatArgRungS  OK (time = 7712ms)
+
+Time: 7.723
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatArgRungS.test
+. link compiler_tests/NatArgRungS  OK (time = 6335ms)
+. run compiler_tests/NatArgRungS (1308ms) REACHED
+Vec[\3\]
+PASS
+Passed
+
+Time: 7.67
+
+OK (2 tests)
+
+exit=0
+EXIT=0

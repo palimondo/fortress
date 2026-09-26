@@ -1,0 +1,16 @@
+component ZrTraitClosure
+export Executable
+trait Sized[\nat k\]
+  viaFn(): ZZ32 = (fn () => k)()
+  sumK(): ZZ32 = SUM[i <- 0#k] i
+end
+object Arr[\nat k\](v: ZZ32) extends Sized[\k\] end
+object Fld[\nat k\](v: ZZ32)
+  total: ZZ32 = SUM[i <- 0#k] k
+end
+run() = do
+  println(Arr[\4\](0).viaFn())
+  println(Arr[\4\](0).sumK())
+  println(Fld[\3\](0).total)
+end
+end

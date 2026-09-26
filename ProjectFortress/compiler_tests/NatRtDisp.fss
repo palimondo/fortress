@@ -1,0 +1,26 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtDisp
+export Executable
+object Vec[\T, nat s\](x: T) end
+object Mat[\T, nat r, nat c\](x: T) end
+f(x: RR64): String = "scalar"
+f[\nat s\](v: Vec[\RR64,s\]): String = "vector"
+f[\nat r, nat c\](m: Mat[\RR64,r,c\]): String = "matrix"
+f(x: Any): String = "other"
+run() = do
+  r: RR64 = 2.5
+  v: Vec[\RR64,3\] = Vec[\RR64,3\](r)
+  m: Mat[\RR64,2,4\] = Mat[\RR64,2,4\](r)
+  println(f(r))
+  println(f(v))
+  println(f(m))
+  a: Any = r
+  println(f(a))
+  b: Any = v
+  println(f(b))
+  c: Any = m
+  println(f(c))
+  z: Any = Vec[\ZZ32,3\](7)
+  println(f(z))
+end
+end

@@ -1,0 +1,6 @@
+component SzSymLitExtT
+export Executable
+trait Vt[\T\] end
+object O[\T\] extends { Vt[\T\], Vt[\ZZ32\] } end
+run() = println(O[\ZZ32\])
+end

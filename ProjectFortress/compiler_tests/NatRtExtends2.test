@@ -1,0 +1,5 @@
+tests=NatRtExtends2
+compile
+link
+run
+run_out_equals=7\n

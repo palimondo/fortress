@@ -1,0 +1,28 @@
+# RTTIsizeJUTest (ten rounds of eight threads over 2000 fresh sizes) against RTTIsize.java with its putIfAbsent replaced by a plain get-then-put (the racy table), compiled into a scratch directory; the build is not touched; five runs
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 12.60 7.11 3.92; JDK 25
+javac exit=0
+.F  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) FAIL
+Time: 0.115
+1) testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest)junit.framework.AssertionFailedError: size 708063 seen by thread 1 expected same:<8082:708063> was not:<8081:708063>
+FAILURES!!!
+Tests run: 5,  Failures: 1,  Errors: 0
+.F  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) FAIL
+Time: 0.08
+1) testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest)junit.framework.AssertionFailedError: size 700091 seen by thread 2 expected same:<109:700091> was not:<110:700091>
+FAILURES!!!
+Tests run: 5,  Failures: 1,  Errors: 0
+.F  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) FAIL
+Time: 0.075
+1) testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest)junit.framework.AssertionFailedError: size 700031 seen by thread 2 expected same:<49:700031> was not:<50:700031>
+FAILURES!!!
+Tests run: 5,  Failures: 1,  Errors: 0
+.F  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) FAIL
+Time: 0.051
+1) testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest)junit.framework.AssertionFailedError: size 700012 seen by thread 1 expected same:<32:700012> was not:<30:700012>
+FAILURES!!!
+Tests run: 5,  Failures: 1,  Errors: 0
+.F  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) FAIL
+Time: 0.077
+1) testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest)junit.framework.AssertionFailedError: size 700001 seen by thread 7 expected same:<19:700001> was not:<20:700001>
+FAILURES!!!
+Tests run: 5,  Failures: 1,  Errors: 0

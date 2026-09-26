@@ -1,0 +1,6 @@
+component SzSymLitExt
+export Executable
+trait Vec[\nat k\] end
+object O[\nat n\] extends { Vec[\n\], Vec[\3\] } end
+run() = println(O[\3\])
+end

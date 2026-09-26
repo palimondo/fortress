@@ -1,0 +1,13 @@
+component ZtTwoInst
+export Executable
+object Box[\nat k\](v: ZZ32) end
+acc: ZZ32 := 0
+accAdd(x: ZZ32): () = atomic do acc := acc + x end
+f[\nat k\](b: Box[\k\]): ZZ32 = (fn (): ZZ32 => k)()
+run() = do
+  for i <- 0#8 do
+    if i < 4 then accAdd(f(Box[\3\](0))) else accAdd(f(Box[\4\](0))) end
+  end
+  println(acc)
+end
+end

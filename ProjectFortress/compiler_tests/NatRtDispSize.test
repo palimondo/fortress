@@ -1,0 +1,5 @@
+tests=NatRtDispSize
+compile
+link
+run
+run_out_equals=0\n3\n2\n4\ndispatched:\n0\n3\n4\n2\n4\n-1\n

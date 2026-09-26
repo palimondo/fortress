@@ -1,0 +1,14 @@
+component SzIntNegLit
+export Executable
+object Box[\int k\](v: ZZ32) end
+kOf[\int k\](b: Box[\k\]): ZZ32 = k
+g(b: Box[\-2\]): String = "minus two"
+g(x: Any): String = "other"
+run() = do
+  println(kOf(Box[\-2\](7)))
+  a: Any = Box[\-2\](7)
+  println(g(a))
+  b: Any = Box[\2\](7)
+  println(g(b))
+end
+end

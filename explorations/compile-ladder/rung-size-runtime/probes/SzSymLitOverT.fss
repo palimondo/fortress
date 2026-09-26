@@ -1,0 +1,18 @@
+component SzSymLitOverT
+export Executable
+trait Tt[\T\] end
+object ObZ extends Tt[\ZZ32\] end
+object ObS extends Tt[\String\] end
+g[\T\](b: Tt[\T\]): ZZ32 = 1
+g(b: Tt[\ZZ32\]): ZZ32 = 33
+run() = do
+  println(g(ObZ))
+  println(g(ObS))
+  a: Any = ObZ
+  b: Any = ObS
+  println(h(a))
+  println(h(b))
+end
+h(x: Tt[\ZZ32\]): ZZ32 = g(x)
+h(x: Any): ZZ32 = -1
+end

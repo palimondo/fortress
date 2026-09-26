@@ -1,0 +1,502 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.68 5.20 5.96; JDK 25; FORTRESS_THREADS=1
+################################ ZsBigNat.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+2147483647
+java.lang.NumberFormatException
+Caused by: java.lang.NumberFormatException: For input string: "3000000000"
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+2147483647
+java.lang.NumberFormatException
+Caused by: java.lang.NumberFormatException: For input string: "3000000000"
+exit=1
+---------- walk, FORTRESS_THREADS=1
+2147483647
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNat.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNat.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+2147483647
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNat.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNat.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ZsBigNatType.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+big
+other
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+big
+other
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:3:13-16:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:4:1-39:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:3:13-16:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsBigNatType.fss:4:1-39:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ZsCaseVal.fss
+---------- compile
+Exception in thread "main" java.lang.Error: 
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsCaseVal.fss:5:3-8:4: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 5 L1
+,     ALOAD 0
+,     DUP
+,     INSTANCEOF ZsCaseVal$Vec?com/sun/fortress/compiler/runtimeValues/FZZ32,n?
+,     IFNE L2
+,     GOTO L3
+,    L2
+,     POP
+exit=1
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZsCaseVal
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsCaseVal.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZsCaseVal
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsCaseVal.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+3
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=4
+3
+-1
+exit=0
+################################ ZsExtNested.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+h3
+h4
+h3
+g3
+gother
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+h3
+h4
+h3
+g3
+gother
+exit=0
+---------- walk, FORTRESS_THREADS=1
+h3
+h4
+h3
+g3
+gother
+exit=0
+---------- walk, FORTRESS_THREADS=4
+h3
+h4
+h3
+g3
+gother
+exit=0
+################################ ZsFieldLit.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsFieldLit.fss:4:3-7:
+    Must provide type for initializer List(y)
+File ZsFieldLit.fss has 1 error.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZsFieldLit
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsFieldLit.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZsFieldLit
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsFieldLit.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+6
+6
+7
+exit=0
+---------- walk, FORTRESS_THREADS=4
+6
+6
+7
+exit=0
+################################ ZsGenTraitMeth.fss
+---------- compile
+Exception in thread "main" java.lang.Error: 
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsGenTraitMeth.fss:11:24-85: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 11 L1
+,     ALOAD 0
+,     DUP
+,     INSTANCEOF ZsGenTraitMeth$Sized?3?
+,     IFNE L2
+,     GOTO L3
+,    L2
+,     POP
+exit=1
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZsGenTraitMeth
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsGenTraitMeth.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZsGenTraitMeth
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsGenTraitMeth.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+5
+60
+2
+7
+3
+4
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=4
+5
+60
+2
+7
+3
+4
+-1
+exit=0
+################################ ZsIntKind.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+5
+7
+-100
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+5
+7
+-100
+exit=0
+---------- walk, FORTRESS_THREADS=1
+5
+7
+-100
+exit=0
+---------- walk, FORTRESS_THREADS=4
+5
+7
+-100
+exit=0
+################################ ZsLeadZero.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+three
+3
+three
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+three
+3
+three
+exit=0
+---------- walk, FORTRESS_THREADS=1
+three
+3
+three
+exit=0
+---------- walk, FORTRESS_THREADS=4
+three
+3
+three
+exit=0
+################################ ZsMethDisp.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+m3
+m4
+mother
+3
+4
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+m3
+m4
+mother
+3
+4
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsMethDisp.fss:8:27:
+Missing type s
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsMethDisp.fss:8:27:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsMethDisp.fss:9:3-22:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsMethDisp.fss:4:1-10:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsMethDisp.fss:8:27:
+Missing type s
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsMethDisp.fss:8:27:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsMethDisp.fss:9:3-22:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsMethDisp.fss:4:1-10:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ZsNested.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+v3in2
+v4in2
+other
+3
+4
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+v3in2
+v4in2
+other
+3
+4
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+v3in2
+v4in2
+other
+3
+4
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=4
+v3in2
+v4in2
+other
+3
+4
+-1
+exit=0
+################################ ZsThreads.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+3600
+100000
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.LinkageError
+Caused by: java.lang.LinkageError: loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @1d44bcfa attempted duplicate class definition for ZsThreads?$f?1??$\=?Arrow?ZsThreads\%Vec?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,s?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?. (ZsThreads?$f?1??$\=?Arrow?ZsThreads\%Vec?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,s?,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32? is in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @1d44bcfa, parent loader 'app')
+exit=1
+---------- walk, FORTRESS_THREADS=1
+3600
+100000
+exit=0
+---------- walk, FORTRESS_THREADS=4
+3600
+100000
+exit=0
+################################ ZsTwoSyms.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+34
+43
+33
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+34
+43
+33
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+34
+43
+33
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=4
+34
+43
+33
+-1
+exit=0
+################################ ZsValArith.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+10
+k is 3
+k is not 3
+k= 5
+12
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+10
+k is 3
+k is not 3
+k= 5
+12
+exit=0
+---------- walk, FORTRESS_THREADS=1
+10
+k is 3
+k is not 3
+k=5
+12
+exit=0
+---------- walk, FORTRESS_THREADS=4
+10
+k is 3
+k is not 3
+k=5
+12
+exit=0
+################################ ZsValClosure.fss
+---------- compile
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsValClosure.fss:6:3-7:3:
+    Can't compile LetFn at explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsValClosure.fss:6.3
+exit=1
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZsValClosure
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsValClosure.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZsValClosure
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsValClosure.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+13
+104
+exit=0
+---------- walk, FORTRESS_THREADS=4
+13
+104
+exit=0
+################################ ZsValField.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+4
+10
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+4
+10
+exit=0
+---------- walk, FORTRESS_THREADS=1
+4
+10
+exit=0
+---------- walk, FORTRESS_THREADS=4
+4
+10
+exit=0
+################################ ZsValLoop.fss
+---------- compile
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsValLoop.fss:7:19-34:
+    Can't compile AtomicExpr at explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsValLoop.fss:7.19
+exit=1
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZsValLoop
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsValLoop.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZsValLoop
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZsValLoop.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+10
+1000
+exit=0
+---------- walk, FORTRESS_THREADS=4
+10
+1000
+exit=0
+################################ ZsZero.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+zero
+ten
+other
+0
+10
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+zero
+ten
+other
+0
+10
+exit=0
+---------- walk, FORTRESS_THREADS=1
+zero
+ten
+other
+0
+10
+exit=0
+---------- walk, FORTRESS_THREADS=4
+zero
+ten
+other
+0
+10
+exit=0
+EXIT=0

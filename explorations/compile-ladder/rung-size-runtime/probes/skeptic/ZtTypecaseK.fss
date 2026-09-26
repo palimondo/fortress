@@ -1,0 +1,10 @@
+component ZtTypecaseK
+export Executable
+object Box[\nat k\](v: ZZ32) end
+same[\nat k\](b: Box[\k\], x: Any): String = (fn (): String => typecase x of Box[\k\] => "same"; else => "diff" end)()
+run() = do
+  println(same(Box[\3\](0), Box[\3\](1)))
+  println(same(Box[\3\](0), Box[\4\](1)))
+  println(same(Box[\4\](0), Box[\4\](1)))
+end
+end

@@ -1,0 +1,30 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component XXXNatRtTask
+export Executable
+object Box[\nat k\](v: ZZ32) end
+object BoxT[\T\](v: ZZ32) end
+acc: ZZ32 := 0
+accAdd(x: ZZ32): () = atomic do acc := acc + x end
+last: Any := 0
+setLast(x: Any): () = atomic do last := x end
+both[\nat k\](b: Box[\k\]): ZZ32 = do
+  do accAdd(k) also do accAdd(k) end
+  acc
+end
+mkS[\nat k\](v: ZZ32): () = do
+  do accAdd(0) also do setLast(Box[\k\](v)) end
+end
+mkT[\T\](v: ZZ32): () = do
+  do accAdd(0) also do setLast(BoxT[\T\](v)) end
+end
+which(x: Any): String = typecase x of Box[\4\] => "four"; BoxT[\String\] => "string"; else => "other" end
+run() = do
+  println("REACHED")
+  assert(both(Box[\5\](0)), 10, "trait-parameters.tex:82-90")
+  mkS[\4\](1)
+  assert(which(last), "four", "trait-parameters.tex:82-90")
+  mkT[\String\](1)
+  assert(which(last), "string", "trait-parameters.tex:20-24")
+  println("PASS")
+end
+end

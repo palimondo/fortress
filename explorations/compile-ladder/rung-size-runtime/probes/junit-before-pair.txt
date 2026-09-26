@@ -1,0 +1,26 @@
+# junit-tests.sh before pair on the unedited build (6030e4b36): the link and run halves of the written-out size sharing the cache, as in the suite
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 8.42 7.46 4.48; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/NatArgRungSLink.test
+. link compiler_tests/XXXNatArgRungS  OK (time = 6254ms)
+
+Time: 6.262
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatArgRungS.test
+. run compiler_tests/XXXNatArgRungS (695ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: 3$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : 3$RTTIc.class
+	... 9 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.725
+
+OK (1 test)
+
+exit=0
+EXIT=0

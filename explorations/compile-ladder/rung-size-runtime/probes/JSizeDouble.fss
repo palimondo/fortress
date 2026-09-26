@@ -1,0 +1,12 @@
+component JSizeDouble
+export Executable
+trait Vec[\nat n\]
+end
+object V extends { Vec[\3\], Vec[\4\] }
+end
+f(x: Vec[\3\]): String = "f took a Vec[3]"
+run():() = do
+  v: V = V
+  println(f(v))
+end
+end

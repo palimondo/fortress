@@ -1,0 +1,10 @@
+component ZsVLd
+export Executable
+object Box[\nat k\](v: ZZ32) end
+upTo[\nat k\](b: Box[\k\]): ZZ32 = do
+  n: ZZ32 := 0
+  while n < k do n += 1 end
+  n
+end
+run() = println(upTo(Box[\9\](0)))
+end

@@ -1,0 +1,26 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.43 1.60 1.48; JDK 25; FORTRESS_THREADS=1
+# build: 5e030a07d; source edits in the working tree: []
+################################ ZtWalkZero.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+4294967296
+4294967299
+not zero
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+4294967296
+4294967299
+not zero
+exit=0
+---------- walk, FORTRESS_THREADS=1
+0
+3
+same as zero
+exit=0
+---------- walk, FORTRESS_THREADS=4
+0
+3
+same as zero
+exit=0
+EXIT=0

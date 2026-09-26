@@ -1,0 +1,6 @@
+component ZsVLe
+export Executable
+object Box[\nat k\](v: ZZ32) end
+viaFn[\nat k\](b: Box[\k\]): ZZ32 = (fn () => k)()
+run() = println(viaFn(Box[\3\](10)))
+end

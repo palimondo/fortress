@@ -1,0 +1,7 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtExtends2
+export Executable
+trait Sized[\nat s\] extends Object end
+object Buf[\nat s\](x: ZZ32) extends Sized[\s\] end
+run() = println(Buf[\3\](7).x)
+end

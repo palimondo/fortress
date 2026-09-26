@@ -1,0 +1,57 @@
+# the argument-task probes on the repair build (2112fe1a7, the local task fix undone): an operator's two arguments that the parallelism analyzer marks worth parallelizing, in a size-generic function (ZrTaskOp) and its type twin (ZrTaskOpT), under differential.sh
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.72 2.23 2.18; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrTaskOp.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 11 more
+Caused by: java.io.IOException: Resource not found : CONST.class
+	... 12 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+	... 5 more
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 6 more
+Caused by: java.io.IOException: Resource not found : CONST.class
+	... 7 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+110
+exit=0
+---------- walk, FORTRESS_THREADS=4
+110
+exit=0
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.54 2.13 2.15; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrTaskOpT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: T$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 12 more
+Caused by: java.io.IOException: Resource not found : T$RTTIc.class
+	... 13 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: T$RTTIc
+	... 5 more
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : T$RTTIc.class
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+110
+exit=0
+---------- walk, FORTRESS_THREADS=4
+110
+exit=0
