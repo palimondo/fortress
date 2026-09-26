@@ -1,0 +1,114 @@
+# lookup.sh on the final build: SzLookupCost.fss, three runs, each four rounds of the four loops interleaved; then javap of h's dispatcher
+compile exit=0
+########## run 1
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.28 5.98 7.13; JDK 25; FORTRESS_THREADS=1
+literal-size arm, dispatched: total 30000000 ms 536.614123
+literal-size arm, static: total 30000000 ms 464.947867
+no-size arm, dispatched: total 30000000 ms 379.383661
+no-size arm, static: total 30000000 ms 377.919053
+literal-size arm, dispatched: total 30000000 ms 346.52265
+literal-size arm, static: total 30000000 ms 291.564777
+no-size arm, dispatched: total 30000000 ms 356.312742
+no-size arm, static: total 30000000 ms 290.777891
+literal-size arm, dispatched: total 30000000 ms 229.783672
+literal-size arm, static: total 30000000 ms 170.475755
+no-size arm, dispatched: total 30000000 ms 200.760153
+no-size arm, static: total 30000000 ms 167.17803
+literal-size arm, dispatched: total 30000000 ms 222.075528
+literal-size arm, static: total 30000000 ms 161.853886
+no-size arm, dispatched: total 30000000 ms 198.469738
+no-size arm, static: total 30000000 ms 174.815384
+exit=0
+########## run 2
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.25 5.95 7.12; JDK 25; FORTRESS_THREADS=1
+literal-size arm, dispatched: total 30000000 ms 579.030422
+literal-size arm, static: total 30000000 ms 408.537831
+no-size arm, dispatched: total 30000000 ms 414.973586
+no-size arm, static: total 30000000 ms 358.482501
+literal-size arm, dispatched: total 30000000 ms 360.801256
+literal-size arm, static: total 30000000 ms 327.876218
+no-size arm, dispatched: total 30000000 ms 350.306716
+no-size arm, static: total 30000000 ms 298.207528
+literal-size arm, dispatched: total 30000000 ms 233.177748
+literal-size arm, static: total 30000000 ms 177.790553
+no-size arm, dispatched: total 30000000 ms 216.570919
+no-size arm, static: total 30000000 ms 177.747147
+literal-size arm, dispatched: total 30000000 ms 236.169478
+literal-size arm, static: total 30000000 ms 170.836713
+no-size arm, dispatched: total 30000000 ms 204.066387
+no-size arm, static: total 30000000 ms 169.702823
+exit=0
+########## run 3
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.15 5.90 7.10; JDK 25; FORTRESS_THREADS=1
+literal-size arm, dispatched: total 30000000 ms 586.312296
+literal-size arm, static: total 30000000 ms 374.675544
+no-size arm, dispatched: total 30000000 ms 407.864513
+no-size arm, static: total 30000000 ms 408.215112
+literal-size arm, dispatched: total 30000000 ms 360.781531
+literal-size arm, static: total 30000000 ms 358.995033
+no-size arm, dispatched: total 30000000 ms 318.104274
+no-size arm, static: total 30000000 ms 321.311592
+literal-size arm, dispatched: total 30000000 ms 227.849159
+literal-size arm, static: total 30000000 ms 185.934155
+no-size arm, dispatched: total 30000000 ms 199.592177
+no-size arm, static: total 30000000 ms 165.407661
+literal-size arm, dispatched: total 30000000 ms 220.593056
+literal-size arm, static: total 30000000 ms 170.227829
+no-size arm, dispatched: total 30000000 ms 202.692797
+no-size arm, static: total 30000000 ms 178.024732
+exit=0
+########## javap -c of the dispatcher h(Any), SzLookupCost.class
+  public static com.sun.fortress.compiler.runtimeValues.FZZ32 h(fortress.AnyType$Any);
+    Code:
+         0: aload_0
+         1: invokeinterface #44,  1           // InterfaceMethod fortress/AnyType$Any.getRTTI:()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+         6: dup
+         7: instanceof    #46                 // class SzLookupCost$Vec$RTTIi
+        10: ifne          17
+        13: pop
+        14: goto          82
+        17: checkcast     #46                 // class SzLookupCost$Vec$RTTIi
+        20: astore_1
+        21: aload_1
+        22: invokeinterface #49,  1           // InterfaceMethod SzLookupCost$Vec$RTTIi."\\=SzLookupCost\\%Vec__1":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        27: astore_2
+        28: aload_1
+        29: invokeinterface #52,  1           // InterfaceMethod SzLookupCost$Vec$RTTIi."\\=SzLookupCost\\%Vec__2":()Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        34: ldc           #54                 // String 3
+        36: invokestatic  #60                 // Method com/sun/fortress/compiler/runtimeValues/RTTIsize.of:(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        39: swap
+        40: invokevirtual #66                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+        43: ifeq          82
+        46: getstatic     #72                 // Field fortress/CompilerBuiltin$Object$RTTIc.ONLY:Lcom/sun/fortress/compiler/runtimeValues/RTTI;
+        49: aload_2
+        50: invokevirtual #66                 // Method com/sun/fortress/compiler/runtimeValues/RTTI.runtimeSupertypeOf:(Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Z
+        53: ifeq          82
+        56: aload_2
+        57: astore        4
+        59: getstatic     #76                 // Field "\\=_|explorations|compile-ladder|rung-size-runtime|probes|SzLookupCost\\,fss\\!6\\!1-31?table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
+        62: ldc           #78                 // String SzLookupCost?$h???$?Arrow?SzLookupCost$Vec?T,3?,com/sun/fortress/compiler/runtimeValues/FZZ32?
+        64: aload         4
+        66: invokestatic  #84                 // Method com/sun/fortress/runtimeSystem/RTHelpers.loadClosureClass:(Lcom/sun/fortress/runtimeSystem/BAlongTree;Ljava/lang/String;Lcom/sun/fortress/compiler/runtimeValues/RTTI;)Ljava/lang/Object;
+        69: checkcast     #86                 // class "\\=AbstractArrow?java\\|lang\\|Object,java\\|lang\\|Object?"
+        72: aload_0
+        73: invokeinterface #92,  2           // InterfaceMethod "\\=Arrow?java\\|lang\\|Object,java\\|lang\\|Object?".apply:(Ljava/lang/Object;)Ljava/lang/Object;
+        78: checkcast     #94                 // class com/sun/fortress/compiler/runtimeValues/FZZ32
+        81: areturn
+        82: aload_0
+        83: checkcast     #40                 // class fortress/AnyType$Any
+        86: invokestatic  #97                 // Method "h?":(Lfortress/AnyType$Any;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+        89: areturn
+        90: nop
+        91: nop
+        92: nop
+        93: athrow
+EXIT=0
+
+# Derived (python over the lines above): rounds 3 and 4 of each run, ns per call = ms / 10
+run 1 round 3: literal-size arm dispatched-static 5.9 ns/call; no-size arm 3.4 ns/call; difference 2.6 ns/call; static loop 17.0 ns/call
+run 1 round 4: literal-size arm dispatched-static 6.0 ns/call; no-size arm 2.4 ns/call; difference 3.7 ns/call; static loop 16.2 ns/call
+run 2 round 3: literal-size arm dispatched-static 5.5 ns/call; no-size arm 3.9 ns/call; difference 1.7 ns/call; static loop 17.8 ns/call
+run 2 round 4: literal-size arm dispatched-static 6.5 ns/call; no-size arm 3.4 ns/call; difference 3.1 ns/call; static loop 17.1 ns/call
+run 3 round 3: literal-size arm dispatched-static 4.2 ns/call; no-size arm 3.4 ns/call; difference 0.8 ns/call; static loop 18.6 ns/call
+run 3 round 4: literal-size arm dispatched-static 5.0 ns/call; no-size arm 2.5 ns/call; difference 2.6 ns/call; static loop 17.0 ns/call
+median over the six: literal-size 5.7, no-size 3.4, difference 2.6 ns/call; static loop 17.1 ns/call

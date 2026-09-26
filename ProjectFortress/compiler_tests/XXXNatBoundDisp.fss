@@ -1,0 +1,19 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component XXXNatBoundDisp
+export Executable
+
+trait Vctr[\T, nat s\] end
+object Arr[\T, nat s\](x: T) extends Vctr[\T,s\] end
+
+f[\A extends Vctr[\ZZ32,3\]\](a: A): String = "bounded"
+f(x: Any): String = "other"
+
+run(): () = do
+    a: Any = Arr[\ZZ32,3\](7)
+    b: Any = Arr[\ZZ32,4\](7)
+    assert(f(a), "bounded", "a dispatched arm whose static parameter is bounded by a sized type applies to a value of that type; Specification/basic/overloading.tex:170-175, :262-276")
+    assert(f(b), "other", "and not to a value of another size; Specification/basic/overloading.tex:170-175, :262-276")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,32 @@
+# junit-bound.sh on the final build: the two expected failures fail as expected
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.67 5.32 6.80; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/XXXNatBoundDisp.test
+. compile compiler_tests/XXXNatBoundDisp com.sun.fortress.exceptions.CompilerError: Expecting a TypeArg when checking genericity
+ OK Saw expected exception
+
+Time: 2.058
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/TypeBoundDispLink.test
+. link compiler_tests/XXXTypeBoundDisp  OK (time = 4921ms)
+
+Time: 4.926
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXTypeBoundDisp.test
+. run compiler_tests/XXXTypeBoundDisp (709ms) REACHED
+java.lang.Error: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.io.IOException: Resource not found : XXXTypeBoundDisp$Vt??$RTTIc.xlation
+	... 11 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.722
+
+OK (1 test)
+
+exit=0

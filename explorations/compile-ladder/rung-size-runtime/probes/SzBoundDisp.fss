@@ -1,0 +1,13 @@
+component SzBoundDisp
+export Executable
+trait Vctr[\T, nat s\] end
+object Arr[\T, nat s\](x: T) extends Vctr[\T,s\] end
+f[\A extends Vctr[\ZZ32,3\]\](a: A): String = "bounded by a size-3 vector"
+f(x: Any): String = "other"
+run() = do
+  a: Any = Arr[\ZZ32,3\](7)
+  b: Any = Arr[\ZZ32,4\](7)
+  println(f(a))
+  println(f(b))
+end
+end

@@ -1,0 +1,22 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component XXXTypeBoundDisp
+export Executable
+
+trait Vt[\T, U\] end
+object Ar[\T, U\](x: T) extends Vt[\T,U\] end
+object Three end
+object Four end
+
+f[\A extends Vt[\ZZ32,Three\]\](a: A): String = "bounded"
+f(x: Any): String = "other"
+
+run(): () = do
+    println("REACHED")
+    a: Any = Ar[\ZZ32,Three\](7)
+    b: Any = Ar[\ZZ32,Four\](7)
+    assert(f(a), "bounded", "a dispatched arm whose static parameter is bounded by a generic instantiation applies to a value of that type; Specification/basic/overloading.tex:170-175, :262-276")
+    assert(f(b), "other", "and not to a value of another instantiation; Specification/basic/overloading.tex:170-175, :262-276")
+    println("PASS")
+  end
+
+end

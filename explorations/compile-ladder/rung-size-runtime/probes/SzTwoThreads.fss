@@ -4,11 +4,19 @@ object Vec[\T, nat s\](x: T) end
 object Box[\nat k\](v: ZZ32) end
 sz[\nat s\](v: Vec[\ZZ32,s\]): ZZ32 = s
 kz[\nat k\](b: Box[\k\]): ZZ32 = k
+which(x: Any): String =
+  typecase x of
+    Vec[\ZZ32,97\] => "a size-97 vector"
+    Box[\97\] => "a size-97 box"
+    else => "other"
+  end
 run() = do
   do println(sz(Vec[\ZZ32,97\](1))) also do println(kz(Box[\97\](2))) end
-  a: Any = Vec[\ZZ32,97\](1)
-  b: Any = Box[\97\](2)
-  println(a.asString)
-  println(b.asString)
+  v = Vec[\ZZ32,97\](1)
+  b = Box[\97\](2)
+  println(v)
+  println(b)
+  println(which(v))
+  println(which(b))
 end
 end
