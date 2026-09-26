@@ -1,0 +1,12 @@
+component SkCountType
+export Executable
+
+run(): () = do
+    three: ZZ32 = 3
+    thirtyThree: ZZ32 = 33
+    thirtyThreeL: ZZ64 = widen(thirtyThree)
+    println("ZZ32 3 LSHIFT a ZZ64 count of 33 = " || (three LSHIFT thirtyThreeL).asString)
+    println("ZZ32 3 LSHIFT a ZZ32 count of 33 = " || (three LSHIFT thirtyThree).asString)
+    println("END")
+  end
+end

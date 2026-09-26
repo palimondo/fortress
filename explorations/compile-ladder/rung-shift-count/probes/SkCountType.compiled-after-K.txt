@@ -1,0 +1,6 @@
+$ fortress compile SkCountType.fss ; fortress run SkCountType   (compiled, this branch at 03c341403: the bytecode cache rebuilt from empty in library order first, AnyType 20 s, CompilerBuiltin 80 s, CompilerLibrary 35 s, CompilerAlgebra 3 s, CompilerSystem 3 s, on nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, cpu MHz 2800.212, load average 5.84 at the start, JDK 25.0.4, FORTRESS_THREADS=1; the probe is rung I's skeptic's, copied unchanged)
+compile-exit=0
+ZZ32 3 LSHIFT a ZZ64 count of 33 = 25769803776
+ZZ32 3 LSHIFT a ZZ32 count of 33 = 0
+END
+run-exit=0

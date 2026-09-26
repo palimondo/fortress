@@ -1,0 +1,122 @@
+2,19c2,3
+< FAIL: J24/0:25769803776 : not a ZZ32 =/= J8/0:0 : ZZ32; row 380: ZZ32 3 LSHIFT a ZZ count of 33
+< /home/user/fortress-shiftk/Library/FortressLibrary.fss:56:5-23:
+< FailCalled
+< Context:
+< /home/user/fortress-shiftk/Library/FortressLibrary.fss:56:5-23:
+< /home/user/fortress-shiftk/Library/FortressLibrary.fss:299:9-300:5:
+< /home/user/fortress-shiftk/ProjectFortress/tests/IntSemanticsRungI.fss:89:5-104:
+< toplevel:
+< 
+< Turn on "-debug interpreter" for Java-level stack trace.
+< java.lang.Throwable
+< 	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+< 	at com.sun.fortress.Shell.walk(Shell.java:1166)
+< 	at com.sun.fortress.Shell.walk(Shell.java:1116)
+< 	at com.sun.fortress.Shell.subMain(Shell.java:483)
+< 	at com.sun.fortress.Shell.main(Shell.java:362)
+< 	at com.sun.fortress.Shell.main(Shell.java:349)
+< exit=1
+---
+> PASS
+> exit=0
+29,46c13,30
+< genBoolean: true false false false false true false true false false false true false false true false
+< genZZ32: 1010112554 -257526796 32206 4852792 465330 -2595652 -1394700330 -1789574784 -70 4 2089769694 22472
+< genZZ64: -18494 -1287860 1801958 -7698359234095535653 908776654674107668 -25618 21857572491972739 -3863947
+< genZZ: -1419046908505560483 -58300290936898840 -59905761070544634 5232176 21005529079712045 8457368681181958776 -1800574478 942788348
+< genQQ: 5135338/21656252863728437 3804466639763907697/60 166913/26917924180 -719408689218347/208469557486177517
+< genRR32: 6.4973264 -2101379.2 50937.004 -5.8009536E8 5.675892 3.6466758 -1147.336 -26.088596
+< genRR64: 1.487847044173578E15 -1237713.200835473 5846.914537269637 -6104.956809154071
+< genChar: t u V D e e : 5 f F ` & ] * , : r E ! : q d 6 B 1 o N u F C , E
+< genString: _DW D+Hd01u{DSO6}1HK3^8v&4z%MC# D+HdC12uDSu}1HK3&b4z%MC#d$@"kY])? D+HdC12uDSu}1HK3^b4eObsd$"kY])?(a"=+ W/?HdC12uyu}1HK3A^8b4zM#d@"kY])?3a"=+g$ W+HdC12uDSu}1HK3A^8b4z%MC#d +HdC12uDSu}1HK3A^8b4z%MC#d$@ +HdC12uDSu}1HK3A^8b4z%MC#d$ +HdC12uDSu}1HK3A^8b4z%MC#d@I +HdC12uODu}1HK3A^8bvz%MC#d$ ?HdC12uyu}1HK3A^8b4zM#d@I-Y])?3a"=+g$ ?dC12uODu}1HK3A^8b4z%MC#d@I HdC12uyu}1HK3A^8b4zM#d@"kY])?3a"=+g$s HdC12uyu}1HK3A^8b4zM#d@IkY])?3a"=+g$ dC12uyu}1HK3A^8b4zM#d@"kY])?3a"=+g$J%vvT dC12uyu}1HK3A^8b4zM#d@IkY])?3a"=+g$J%
+< genMaybe(genChar): Just([) Just(N) Just(() Nothing Just(d) Nothing Just(\) Nothing
+< genList(genZZ32): <|1558101316, -2475439, -1319978139, -5654087, 18765, -921518559, 11317, -18453, 31, 40, -7966459, 70, -455911877|> <|1558101316, -2475439, -1319978139, -5654087, 18765, -921518559, 11317, -18453, 31, 40, -7966459, 70|>
+< genList(genString): <|DO6}1H, Du}1HK3A^8v&, u}1HK3&8b, u6HK, }1HA^8b4z%MC#|> <|O6}, S, }H*&b4, KA&b, A&8b4zC#d, A&b, ^b4z%, ^84zC#d$@, 8v4zC#d$@, b4zC#d, 4C#d$"kY, eC#d, Cd$@, C#@, d$@, @"kY])a, "k])a", , -Y, ])a"=g$J%vvT, *, ?, a=+, a+msOvvT, +$svv, =g$J%, +msvaAB$, msvaW$-, s%vvB$-[-d, J.vv, .vvB$-[|>
+< genList(genMaybe(genList(genString))): <|Just(<|, H, , , &, b, b, |>), Just(<|1, U, |>), Just(<|KA&b4e, *&, b|>), Just(<|&84%MC#, b, , , e, b, #, d@"kY|>), Just(<|b, , z, e, M, d, @, |>), Just(<|, e, d, $, @, |>), Nothing, Just(<|e, C, |>), Just(<|M, d, @, |>), Nothing, Just(<|d, @"|>), Just(<|@, |>), Just(<|, , *, |>), Just(<|Y])a, $, ), , a", , s, O, vaA, vv, T, , $-d, -[|>), Just(<|$, *, , , g, $, s, O, |>), Just(<|, |>), Just(<|a", , +m, g, s, %v, Xa, v, T, W, |>), Nothing, Nothing, Just(<|s, , , v|>), Nothing, Just(<|T, B, $, -, ,d|>), Just(<|W, , |>), Nothing, Just(<|,, ,-, dG|>), Just(<|dGLVe, d>, >, , , , D, , I`|>), Just(<|, G, , =, aJ|>), Nothing, Nothing, Just(<|VJe^I/`PQ@3, VJeI/`, Je^I/`PQ@|>), Nothing|>
+< genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-1319978139|->({false,true},{1,H,O,}}), -921518559|->({false,true},{#,%,4,8,A,C,^,b,d,z}), -455911877|->({false,true},{",#,),?,@,Y,],d,k}), -6836530|->({false,true},{",$,(,),+,-,@,O,T,W,Y,],a,k,m,s,v}), -102|->({false,true},{#,$,4,C,d,v,z}), -84|->({false,true},{",#,(,),+,=,?,M,Y,],a,d,k}), 80|->({false,true},{3,H,K}), 6775|->({false,true},{#,$,&,4,@,M,d,v,z}), 22001|->({false,true},{",#,%,@,C,Y,d,k,z})}
+< genRange(genZZ32): [] ...111,112,113,114,115] [] [-12901,-12900,-12899,-12898,-12897...
+< genTuple3(genZZ32,genMaybe(genChar),genString): (18765,Nothing,HA^8v&4z%C#d) (-921518559,Nothing,A^8v&4zM#d"kY])?(a"=+) (11317,Just(G),^8v4zM#d@IV-Y])?) (11104,Nothing,v&4zM#d"kY])?(a"=+)
+< genTestStatus: TestFail TestPass TestFail TestPass TestPass TestPass TestSkip TestSkip
+< genList(genTestStatus): <|TestSkip, TestFail, TestPass, TestSkip, TestFail, TestPass, TestSkip, TestFail, TestPass, TestFail|> <|TestSkip, TestFail, TestPass, TestSkip, TestFail, TestPass, TestSkip, TestFail, TestFail, TestPass|>
+---
+> genBoolean: true true false false true true true true false true true false true true true false
+> genZZ32: 28910 4850776 82 92 118 -25184 -319664806 -2074794844 -7842306 -4909080 1642317026 -20
+> genZZ64: -521009214311 4803451 -83 -11889142456562 -88543297403357 -457622586372 -106 4230336
+> genZZ: 11014333432913149 -4993 -340764143598941432 1244418 53519631271 -1659847 237393141408181332 -351783911263
+> genQQ: 1414263491/1139807926 514096036662/7801825 821593498/8181764075376657699 22/1251766152685
+> genRR32: 8.7485485 239.82152 3.654417E8 77721.31 6.5451046E8 -6.875676 -7.6065856E8 1099209.9
+> genRR64: 9.09248206622235E8 212728.7179172535 -1099405.9745661474 -2744.0078800013725
+> genChar: ^ _ p ( N - R a c F h C G f [ B F % o = x U 0 | l g G * 7 e 1 L
+> genString: 3*fN=ZO2tX-FFhdp' S*fN=ZO2tX-FFhdp Sf0a=ZO2tX-FF *fNZO2tX-FFhdp'" *fN=ZO2tX-FFhdp f0a=ZO2tX-FF f0a=ZO2tX-F fN\ZO2tX-F VN=ZO2tX-FF N=ZO2tX-FFhd[sd% NZO2tX-FFhdp' NZO2tX-FFhdp \8ZO2t-FF \=ZO2tX- ZO2tX-FFhdp =ZO2tX-F
+> genMaybe(genChar): Just(a) Just(\) Nothing Nothing Just(@) Just(~) Just(t) Just(C)
+> genList(genZZ32): <|-385636, 28907, 277137137, 6915490, 71, 5394235, 29935, 1197165269, -629713450, 4317579, 1413176383, 1918684616, 37|> <|9, -352602598, 277137137, 6915490, 71, 5394235, 29935, -2719176|>
+> genList(genString): <|hdp"L{^~]-tv(mB], hd["L{^~]-tvljd, W"q~]}tv(mB2/7w|> <|hdp"L{^~]-(m2/7w*o[8Y'}jfApFPIM!{m, hd["L{^~]-tv(m|>
+> genList(genMaybe(genList(genString))): <|Just(<|["d, "`q_, , z"], , &, }, )(, (m2/7w, d2/7, 22/, 27, /w*o[|>), Just(<|%, u, z, ], ], -t, -(mB, v|>), Just(<|, u, z, ], ]|>), Nothing, Just(<|^~, ~, |>), Just(<|]-)(mB, }|>), Just(<|-t, v, (mB, 2/7, 27O, wo, o8t, o[8', o8t}jA<Yt, 8t}4f, 8t, t$jBA<F|>), Just(<|(, d, , , 7|>), Just(<|(m2/7w, 2/7, 27wF, wo, o<8t, o[8', o8t}jB, <8, 8t}, t4A<, '|>), Just(<|d|>), Just(<|2/wo, w*o[, o[8t, o8t, , ', }, }4A, j, 4, , A<Yt, p, FIM, IM!{, /M, M{^/3@Y'D!@>|>), Nothing, Nothing|>
+> genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-1672960752|->({false,true},{!,*,7,A,F,I,M,P,[,f,j,m,o,p,r,t,{,}}), -39|->({false,true},{",q,u,z}), 37|->({false,true},{*,/,2,8,A,F,I,P,[,f,j,o,p,t,w,}}), 94|->({false,true},{/,1,2,A,F,I,P,[,f,j,o,p,r,t,w,}}), 28907|->({false,true},{",(,-,B,W,],^,m,q,t,v,{,~}), 29935|->({true},{-,],t,v,~}), 4317579|->({false,true},{(,v}), 277137137|->({false,true},{",`,q,u,z}), 1197165269|->({false,true},{(,*,/,1,2,7,F,[,a,f,j,m,o,r,t,w,}})}
+> genRange(genZZ32): [] [] [40,41,42,43,... 6915490] []
+> genTuple3(genZZ32,genMaybe(genChar),genString): (5394235,Nothing,{^~) (29935,Just(T),~]}ar) (163545010,Just(z),}a(m2/7wFo[rt*}j*B-) (-87,Just(&),t(m2/7wFo[)
+> genTestStatus: TestFail TestSkip TestPass TestSkip TestSkip TestSkip TestSkip TestPass
+> genList(genTestStatus): <|TestPass, TestPass, TestSkip, TestSkip, TestFail, TestPass, TestFail, TestPass, TestPass, TestSkip, TestSkip, TestPass, TestFail, TestPass, TestFail|> <|TestPass, TestPass, TestSkip, TestSkip, TestFail, TestPass, TestFail, TestPass, TestPass, TestSkip, TestSkip, TestPass, TestFail, TestPass|>
+48,49c32,33
+<     125 -111
+<     125 -111
+---
+>     -97259555 -176366607
+>     -97259555 -176366607
+51,52c35,36
+<     -42 -62 -109227254 2264782
+<     -42 -62 -109227254 2264782
+---
+>     423286 -4355742 1728426 7022
+>     423286 -4355742 1728426 7022
+54,56c38,40
+< Passed 43 test(s).
+< Failed in 135 test(s): (-1744175.5763003174,8.403193707250962E7,-5.234354122345496E7)
+< Failed in 36 test(s): -17628
+---
+> Passed 80 test(s).
+> Failed in 51 test(s): (7.932290079070054E15,-9.782135707559893E9,-8.416520691066144E7)
+> Failed in 178 test(s): -40
+59c43
+< Passed 79 test(s) (and skipped 85 test(s)).
+---
+> Passed 56 test(s) (and skipped 49 test(s)).
+61c45
+< Passed 55 test(s) (and skipped 426 test(s)) but reached the maximum of 481 tests.
+---
+> Passed 26 test(s) (and skipped 178 test(s)) but reached the maximum of 204 tests.
+63,69c47,53
+<     36%: 2 digits
+<     14%: 3 digits or more
+<     5%: 1 digit
+< Shrinking a failed instance...
+< Failed in 100 test(s) (and shrank in 6 test(s)): }
+< Shrinking a failed instance.........
+< Failed in 256 test(s) (and shrank in 45 test(s)): 1
+---
+>     15%: 2 digits
+>     4%: 3 digits or more
+>     4%: 2 digits, ends with zero
+>     2%: 3 digits or more, ends with zero
+>     1%: 1 digit
+> Shrinking a failed instance..........
+> Failed in 100 test(s) (and shrank in 55 test(s)): _
+71,73c55,59
+< Failed in 100 test(s) (and partially shrank in 439 test(s)): (g|`#=@h6%7Lt|4W,)
+< Shrinking a failed instance..................
+< Failed in 256 test(s) (and shrank in 171 test(s)): (1,)
+---
+> Failed in 256 test(s) (and shrank in 190 test(s)): ;
+> Shrinking a failed instance.....................
+> Failed in 100 test(s) (and shrank in 231 test(s)): (`,)
+> Shrinking a failed instance.......................
+> Failed in 256 test(s) (and shrank in 276 test(s)): (#,)
+75,77c61,63
+< Failed in 100 test(s) (and partially shrank in 238 test(s)): <|KjH_EN:qRo8*a']^D_d\, o[j_GE, jH_EN:qRPo8*a+, jH_GE%, jH_EN:qRf", H_ENRf|>
+< Shrinking a failed instance.......................................................................................................................
+< Failed in 256 test(s) (and shrank in 5506 test(s)): <|"|>
+---
+> Failed in 100 test(s) (and partially shrank in 289 test(s)): <|#OqB|H_OfsxIp9, dqB|H_OfsxIp9, qB|H_O, B|H_OfsxIp9~, 8PH_, H_OfsxIp, _OfsxIp9, OfsxIp, fsxIp9, sxIp9, |>
+> Shrinking a failed instance................................................................
+> Failed in 256 test(s) (and shrank in 1663 test(s)): <|%|>

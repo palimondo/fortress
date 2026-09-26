@@ -1,0 +1,11 @@
+IntSemanticsRungI
+BitTwiddle
+UnsignedTest
+QuickCheckTest
+ReflectiveQuickCheckTest
+RandomTest
+zeno
+rshiftbug
+longPrim
+intPrim
+NumberPrintTest
