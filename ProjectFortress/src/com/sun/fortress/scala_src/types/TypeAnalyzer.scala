@@ -460,7 +460,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
             //Todo: Handle bool args
             pOr((a1, a2).zipped.map{
               case (STypeArg(_, _, t1), STypeArg(_, _, t2)) => pEqv(t1, t2)(!negate, history)
-              case (SIntArg(_, _, i1), SIntArg(_, _, i2)) => pEqv(i1, i2)(!negate)
+              case (SIntArg(_, _, i1: IntBase), SIntArg(_, _, i2: IntBase)) => pEqv(i1, i2)(!negate)
               case _ => pFalse()
             })
           case _ => pFalse()

@@ -72,4 +72,38 @@ public class RTTIsizeJUTest extends TestCaseWrapper {
                     assertSame("size " + (base + i) + " seen by thread " + t, seen[0][i], seen[t][i]);
         }
     }
+
+    public void testSizesMadeAtOnceHaveDistinctSerialNumbers() throws Exception {
+        final int threads = 8;
+        final int sizes = 2000;
+        for (int round = 0; round < 10; round++) {
+            final int base = 800000 + round * threads * sizes;
+            final RTTI[][] made = new RTTI[threads][sizes];
+            final CountDownLatch start = new CountDownLatch(1);
+            Thread[] ts = new Thread[threads];
+            for (int t = 0; t < threads; t++) {
+                final int me = t;
+                ts[t] = new Thread() {
+                    public void run() {
+                        try {
+                            start.await();
+                        } catch (InterruptedException e) {
+                            return;
+                        }
+                        for (int i = 0; i < sizes; i++)
+                            made[me][i] = RTTIsize.of(Integer.toString(base + me * sizes + i));
+                    }
+                };
+                ts[t].start();
+            }
+            start.countDown();
+            for (Thread t : ts) t.join();
+            Set<Long> serials = new HashSet<Long>();
+            for (int t = 0; t < threads; t++)
+                for (int i = 0; i < sizes; i++)
+                    assertTrue("serial number " + made[t][i].getSN() + " of size " + made[t][i].className()
+                            + " already given; the closure loader keys on it, RTHelpers.java:162-170; Specification/basic/overloading.tex:262-276",
+                            serials.add(made[t][i].getSN()));
+        }
+    }
 }

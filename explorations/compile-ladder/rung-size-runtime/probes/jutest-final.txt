@@ -1,0 +1,13 @@
+# RTTIsizeJUTest on the final build (pieces 1-5), from ProjectFortress/build through junit.textui.TestRunner; testFast's misc track runs it (build.xml:977-978)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.53 3.52 4.18; JDK 25; FORTRESS_THREADS=1
+.  testSupertypeOnlyOfAnEqualSize(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testSeventeenSizesHashApart(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testClassNameIsTheText(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testOneDescriptorPerNumber(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+
+Time: 0.217
+
+OK (5 tests)
+
+exit=0

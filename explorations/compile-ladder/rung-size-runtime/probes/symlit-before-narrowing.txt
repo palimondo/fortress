@@ -1,0 +1,214 @@
+# the symbol-beside-literal probes on the build with pieces 1-5 as committed at 391f444d2, checkP's size case comparing any two sizes by Formula.nEq: differential.sh (compile, compiled run and walk at FORTRESS_THREADS=1 and 4); the first four from the differential run of the relaunched worker, SzAmbig and SzAmbigT run for this capture
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzSymLitExt.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitExt.fss:4:29-34:
+    Types Vec[\n\] and Vec[\3\] exclude each other.  O must not extend them.
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitExt.fss:4:29-35:
+    Type O[\n\] excludes Vec but it extends Vec.
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitExt.fss:4:39-44:
+    Types Vec[\3\] and Vec[\n\] exclude each other.  O must not extend them.
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitExt.fss:4:39-45:
+    Type O[\n\] excludes Vec but it extends Vec.
+File SzSymLitExt.fss has 4 errors.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load SzSymLitExt
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzSymLitExt.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load SzSymLitExt
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzSymLitExt.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+O[\3\]
+exit=0
+---------- walk, FORTRESS_THREADS=4
+O[\3\]
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzSymLitExtT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.ClassFormatError: Duplicate interface name "SzSymLitExtT$\=Vt?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?" in class file SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+Caused by: java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	... 7 more
+Caused by: java.lang.ClassFormatError: Duplicate interface name "SzSymLitExtT$\=Vt?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?" in class file SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+	... 8 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.ClassFormatError: Duplicate interface name "SzSymLitExtT$\=Vt?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?" in class file SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+Caused by: java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	... 7 more
+Caused by: java.lang.ClassFormatError: Duplicate interface name "SzSymLitExtT$\=Vt?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?" in class file SzSymLitExtT$\=O?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+O[\ZZ32\]
+exit=0
+---------- walk, FORTRESS_THREADS=4
+O[\ZZ32\]
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+33
+4
+33
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+33
+4
+33
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:7:1-24: and
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32:
+
+g[\nat n\](b:Tg[\n\]):FortressLibrary.ZZ32explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:7:1-24:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:7:1-24: and
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32:
+
+g[\nat n\](b:Tg[\n\]):FortressLibrary.ZZ32explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:7:1-24:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOver.fss:6:1-32:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+33
+1
+33
+-1
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+33
+1
+33
+-1
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:7:1-27: and
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28:
+
+g[\T\](b:Tt[\T\]):FortressLibrary.ZZ32explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:7:1-27:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:7:1-27: and
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28:
+
+g[\T\](b:Tt[\T\]):FortressLibrary.ZZ32explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:7:1-27:
+explorations/compile-ladder/rung-size-runtime/probes/SzSymLitOverT.fss:6:1-28:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+literal arm
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+literal arm
+exit=0
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:6:1-45: and
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:5:1-55:
+
+g[\nat n\](b:Tg[\n\],c:FortressLibrary.ZZ32):FortressLibrary.Stringexplorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:5:1-55 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:6:1-45:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:5:1-55:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:6:1-45: and
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:5:1-55:
+
+g[\nat n\](b:Tg[\n\],c:FortressLibrary.ZZ32):FortressLibrary.Stringexplorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:5:1-55 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:6:1-45:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:5:1-55:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49:
+    Invalid overloading of g in component SzAmbigT:
+     (Tt[\ZZ32\], Any)->String @ explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49
+ and [\T extends Object\](Tt[\T\], ZZ32)->String @ explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51
+File SzAmbigT.fss has 1 error.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load SzAmbigT
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzAmbigT.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load SzAmbigT
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SzAmbigT.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49: and
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+
+g[\T\](b:Tt[\T\],c:FortressLibrary.ZZ32):FortressLibrary.Stringexplorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49: and
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+
+g[\T\](b:Tt[\T\],c:FortressLibrary.ZZ32):FortressLibrary.Stringexplorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1

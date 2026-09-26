@@ -11,11 +11,13 @@
 
 package com.sun.fortress.compiler.runtimeValues;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import com.sun.fortress.runtimeSystem.Naming;
 
 public abstract class RTTI {
     
-    private static long snCount = 0;
+    private static final AtomicLong snCount = new AtomicLong(0);
     
     final Class javaRep;
     
@@ -29,7 +31,7 @@ public abstract class RTTI {
     
     public RTTI(Class javaRep) {
         this.javaRep = javaRep;
-        this.serialNumber = snCount++;
+        this.serialNumber = snCount.getAndIncrement();
     }
     /*
      * Long term, this will need to be done lazily because
@@ -45,7 +47,7 @@ public abstract class RTTI {
         } catch (ClassNotFoundException ex) {
             throw new Error(ex);
         }
-        this.serialNumber = snCount++;
+        this.serialNumber = snCount.getAndIncrement();
     }
     
     public int hashCode() { return javaRep.hashCode(); }

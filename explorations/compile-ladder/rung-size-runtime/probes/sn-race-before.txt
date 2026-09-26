@@ -1,0 +1,14 @@
+# SnRace.java against the final build before RTTI.java is edited: 16000 fresh sizes made by RTTIsize.of on 8 threads at once, ten rounds, counting serial numbers given to two sizes
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.86 5.25 4.85; JDK 25; FORTRESS_THREADS=1
+round 0: 16000 distinct sizes made on 8 threads at once, 697 serial numbers shared; e.g. serial 4638 given to size 900573 and to size 900574
+round 1: 16000 distinct sizes made on 8 threads at once, 509 serial numbers shared; e.g. serial 17659 given to size 916345 and to size 916346
+round 2: 16000 distinct sizes made on 8 threads at once, 705 serial numbers shared; e.g. serial 33000 given to size 932204 and to size 934002
+round 3: 16000 distinct sizes made on 8 threads at once, 802 serial numbers shared; e.g. serial 46427 given to size 948161 and to size 948162
+round 4: 16000 distinct sizes made on 8 threads at once, 3170 serial numbers shared; e.g. serial 61593 given to size 964141 and to size 964142
+round 5: 16000 distinct sizes made on 8 threads at once, 0 serial numbers shared
+round 6: 16000 distinct sizes made on 8 threads at once, 379 serial numbers shared; e.g. serial 90504 given to size 998221 and to size 998222
+round 7: 16000 distinct sizes made on 8 threads at once, 0 serial numbers shared
+round 8: 16000 distinct sizes made on 8 threads at once, 538 serial numbers shared; e.g. serial 129539 given to size 1035067 and to size 1035068
+round 9: 16000 distinct sizes made on 8 threads at once, 838 serial numbers shared; e.g. serial 142857 given to size 1049110 and to size 1049111
+rounds with a shared serial number: 8 of 10; shared in all: 7638
+exit=0

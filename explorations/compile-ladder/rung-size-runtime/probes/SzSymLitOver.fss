@@ -1,0 +1,18 @@
+component SzSymLitOver
+export Executable
+trait Tg[\nat k\] end
+object Ob3 extends Tg[\3\] end
+object Ob4 extends Tg[\4\] end
+g[\nat n\](b: Tg[\n\]): ZZ32 = n
+g(b: Tg[\3\]): ZZ32 = 33
+run() = do
+  println(g(Ob3))
+  println(g(Ob4))
+  a: Any = Ob3
+  b: Any = Ob4
+  println(h(a))
+  println(h(b))
+end
+h(x: Tg[\3\]): ZZ32 = g(x)
+h(x: Any): ZZ32 = -1
+end

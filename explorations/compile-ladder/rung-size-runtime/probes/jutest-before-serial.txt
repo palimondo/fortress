@@ -1,0 +1,48 @@
+# RTTIsizeJUTest with its new method testSizesMadeAtOnceHaveDistinctSerialNumbers, compiled into a scratch directory against the final build before RTTI.java is edited (serialNumber = snCount++, RTTI.java:32, :48); the build is not touched; three runs
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.02 5.30 4.86; JDK 25; FORTRESS_THREADS=1
+javac exit=0
+.  testSupertypeOnlyOfAnEqualSize(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testSeventeenSizesHashApart(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.F  testSizesMadeAtOnceHaveDistinctSerialNumbers(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) FAIL
+.  testClassNameIsTheText(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testOneDescriptorPerNumber(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+
+Time: 0.411
+There was 1 failure:
+1) testSizesMadeAtOnceHaveDistinctSerialNumbers(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest)junit.framework.AssertionFailedError: serial number 21617 of size 800306 already given; the closure loader keys on it, RTHelpers.java:162-170; Specification/basic/overloading.tex:262-276
+
+FAILURES!!!
+Tests run: 6,  Failures: 1,  Errors: 0
+
+exit=1
+.  testSupertypeOnlyOfAnEqualSize(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testSeventeenSizesHashApart(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.F  testSizesMadeAtOnceHaveDistinctSerialNumbers(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) FAIL
+.  testClassNameIsTheText(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testOneDescriptorPerNumber(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+
+Time: 0.426
+There was 1 failure:
+1) testSizesMadeAtOnceHaveDistinctSerialNumbers(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest)junit.framework.AssertionFailedError: serial number 31506 of size 810401 already given; the closure loader keys on it, RTHelpers.java:162-170; Specification/basic/overloading.tex:262-276
+
+FAILURES!!!
+Tests run: 6,  Failures: 1,  Errors: 0
+
+exit=1
+.  testSupertypeOnlyOfAnEqualSize(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testSeventeenSizesHashApart(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testFirstReachFromManyThreadsGivesOneDescriptor(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.F  testSizesMadeAtOnceHaveDistinctSerialNumbers(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) FAIL
+.  testClassNameIsTheText(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+.  testOneDescriptorPerNumber(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest) OK
+
+Time: 0.555
+There was 1 failure:
+1) testSizesMadeAtOnceHaveDistinctSerialNumbers(com.sun.fortress.compiler.runtimeValues.RTTIsizeJUTest)junit.framework.AssertionFailedError: serial number 23650 of size 802001 already given; the closure loader keys on it, RTHelpers.java:162-170; Specification/basic/overloading.tex:262-276
+
+FAILURES!!!
+Tests run: 6,  Failures: 1,  Errors: 0
+
+exit=1
