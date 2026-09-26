@@ -5996,16 +5996,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         Id id = v.getVarId();
         VarCodeGen vcg = getLocalVarOrNull(id, lsargs);
         if (vcg == null && isSizeInValuePosition(v, id)) {
-            // The loader replaces CONST.Nat.<size> by the instantiated number
-            // (MethodInstantiater.visitMethodInsn); then as forIntLiteralExpr.
+            // The loader replaces CONST.Nat.<size> by the IntLiteral of the
+            // instantiated number (MethodInstantiater.visitMethodInsn).
             addLineNumberInfo(v);
             String loadNat = Naming.opForString(Naming.natMethod,
                     Naming.LEFT_OXFORD + id.getText() + Naming.RIGHT_OXFORD);
-            mv.visitMethodInsn(INVOKESTATIC, Naming.magicInterpClass, loadNat, "()I");
-            mv.visitMethodInsn(INVOKESTATIC,
-                    NamingCzar.internalFortressIntLiteral, NamingCzar.make,
-                    Naming.makeMethodDesc(NamingCzar.descInt,
-                            NamingCzar.descFortressIntLiteral));
+            mv.visitMethodInsn(INVOKESTATIC, Naming.magicInterpClass, loadNat,
+                    "()" + NamingCzar.descFortressIntLiteral);
             return;
         }
         if (vcg == null) {

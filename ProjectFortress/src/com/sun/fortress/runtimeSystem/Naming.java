@@ -153,6 +153,7 @@ public class Naming {
     public final static String VOID_RTTI_CONTAINER_TYPE = RT_VALUES_PKG + "VoidRTTI";
     public final static String SIZE_RTTI_CONTAINER_TYPE = RT_VALUES_PKG + "RTTIsize";
     public final static String SIZE_RTTI_FACTORY = "of";
+    public final static String INT_LITERAL_CLASS = RT_VALUES_PKG + "FIntLiteral";
     public final static String RTTI_SUBTYPE_METHOD_SIG = "(" + RTTI_CONTAINER_DESC + ")Z";
     public final static String RTTI_SUBTYPE_METHOD_NAME = "runtimeSupertypeOf";
 

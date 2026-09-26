@@ -15,6 +15,7 @@ import java.util.*;
 
 import com.sun.fortress.nodes.*;
 import com.sun.fortress.nodes_util.NodeComparator;
+import com.sun.fortress.nodes_util.NodeFactory;
 import com.sun.fortress.nodes_util.NodeUtil;
 import com.sun.fortress.useful.BASet;
 
@@ -26,6 +27,9 @@ import edu.rice.cs.plt.tuple.Option;
 public class FreeVarTypes extends NodeCollectingVisitor<BASet<VarType>> {
 
     private final HashMap<Node, BASet<VarType>> fv;
+
+    /** The nat and int static parameters of the enclosing declarations. */
+    private final List<String> sizeParams = new ArrayList<String>();
 
     public FreeVarTypes() {
         fv = new HashMap<Node, BASet<VarType>>();
@@ -97,6 +101,68 @@ public class FreeVarTypes extends NodeCollectingVisitor<BASet<VarType>> {
 
     public BASet<VarType> forVarType(VarType i) {
         return set(i);
+    }
+
+    /** A size symbol in a type is a free static parameter, as a type variable is. */
+    public BASet<VarType> forIntRef(IntRef i) {
+        return set(NodeFactory.makeVarType(NodeUtil.getSpan(i), i.getName()));
+    }
+
+    /** So is a size read as a value. */
+    public BASet<VarType> forVarRef(VarRef v) {
+        BASet<VarType> res = super.forVarRef(v);
+        Id id = v.getVarId();
+        if (id.getApiName().isNone() && v.getStaticArgs().isEmpty()
+                && sizeParams.contains(id.getText())) {
+            BASet<VarType> with = set();
+            with.addAll(res);
+            with.add(NodeFactory.makeVarType(NodeUtil.getSpan(v), id.getText()));
+            return with;
+        }
+        return res;
+    }
+
+    private int pushSizeParams(List<StaticParam> sps) {
+        int n = 0;
+        for (StaticParam sp : sps) {
+            if (sp.getKind() instanceof KindNat || sp.getKind() instanceof KindInt) {
+                sizeParams.add(sp.getName().getText());
+                n++;
+            }
+        }
+        return n;
+    }
+
+    private void popSizeParams(int n) {
+        for (int i = 0; i < n; i++)
+            sizeParams.remove(sizeParams.size() - 1);
+    }
+
+    public BASet<VarType> forFnDecl(FnDecl that) {
+        int n = pushSizeParams(that.getHeader().getStaticParams());
+        try {
+            return super.forFnDecl(that);
+        } finally {
+            popSizeParams(n);
+        }
+    }
+
+    public BASet<VarType> forObjectDecl(ObjectDecl that) {
+        int n = pushSizeParams(that.getHeader().getStaticParams());
+        try {
+            return super.forObjectDecl(that);
+        } finally {
+            popSizeParams(n);
+        }
+    }
+
+    public BASet<VarType> forTraitDecl(TraitDecl that) {
+        int n = pushSizeParams(that.getHeader().getStaticParams());
+        try {
+            return super.forTraitDecl(that);
+        } finally {
+            popSizeParams(n);
+        }
     }
 
     public BASet<VarType> forFnRef(FnRef that) {

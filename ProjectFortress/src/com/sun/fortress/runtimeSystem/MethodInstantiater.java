@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.sun.fortress.runtimeSystem;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -222,9 +223,22 @@ public class MethodInstantiater extends MethodVisitor {
             } else if (op.equals(Naming.stringMethod)) {
                 mv.visitLdcInsn(s);
             } else if (op.equals(Naming.natMethod)) {
-                // s is the instantiated size between oxfords
-                mv.visitLdcInsn(Integer.valueOf(Integer.parseInt(
-                        s.substring(1, s.length() - 1))));
+                // s is the instantiated size between oxfords; as CodeGen.forIntLiteralExpr
+                BigInteger bi = new BigInteger(s.substring(1, s.length() - 1));
+                int l = bi.bitLength();
+                String arg_desc;
+                if (l <= 31) {
+                    mv.visitLdcInsn(Integer.valueOf(bi.intValue()));
+                    arg_desc = "I";
+                } else if (l <= 63) {
+                    mv.visitLdcInsn(Long.valueOf(bi.longValue()));
+                    arg_desc = "J";
+                } else {
+                    mv.visitLdcInsn(bi.toString());
+                    arg_desc = "Ljava/lang/String;";
+                }
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Naming.INT_LITERAL_CLASS, "make",
+                        "(" + arg_desc + ")L" + Naming.INT_LITERAL_CLASS + ";", false);
             } else {
                 throw new Error("Invocation of magic class Method '"+oname+
                           "' ('"+name+"') seen, but op is not recognized.");
