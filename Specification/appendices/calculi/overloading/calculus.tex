@@ -17,6 +17,16 @@ In this section, we define a Fortress core calculus with overloading
 for dotted methods and first-order functions.
 We call this calculus \emph{\overloadingcore}.
 \overloadingcore\ is an extension of \basiccore\ with overloading.
+\revision{revival-calculi}{This calculus predates instantiation exclusion
+(\secref{trait-types}, \secref{trait-decls}).
+Its only condition on multiple inheritance is its rule
+\ruleLabel{ValidMeth}, which constrains pairs of visible methods of one
+name, so, as in \basiccore, an object that extends two different
+instantiations of a parameterized trait declaring no method is well typed,
+and its subtyping rule \sBothRule\ makes the object a subtype of both
+instantiations; under the rule it is not a valid Fortress program.
+The calculus, its rules and its soundness claim are as the team wrote and
+proved them, and are not changed.}
 
 \renewcommand{\tappone}{\ensuremath{N}}
 \renewcommand{\tapptwo}{\ensuremath{M}}
