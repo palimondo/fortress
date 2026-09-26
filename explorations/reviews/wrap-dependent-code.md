@@ -79,3 +79,57 @@ Code meets overflow with one of two needs. Some code *means to wrap*: it wants t
 - The interpreter's library, written against a wrapping interpreter, relies on the wrap only where its authors did not stop to think about it. Where they did, they wrote around overflow: the Mersenne twister's wide words (way 1), `meetingPoint` (way 3). No body of the library relies on wrapping and says so.
 - The team's compiled library did it the specification's way: a checked default, a named wrapping family and a named saturating family on every integer type, overflow-free averages, and tests that spell the wrap explicitly wherever they want it (way 5). Only the letters of the names are swapped.
 - Where the designers already departed from Java, on record: `+` checked where Java wraps (Steele's Overflowing natives, 2011; row 379 for `walk`); round half to even (row 329); nonnegative `GCD` (row 334); the smart shift (row 335). The one integer decision that followed Java is `narrow`, which truncates as a Java cast does (row 346), and that is a conversion with its own name, not an arithmetic operator.
+- The compiled library's own parallel range split has the same problem in another form: `parloop` splits at the midpoint `z = lo+hi … (*) Danger of overflow here` (`Library/CompilerLibrary.fss:359-371`, five more at `:377-414`), written by Steele in `d535963cb` (2011-10-12), a month after he made `+` checked. His `floorAverage` of 2012-05-18 is the overflow-free midpoint (way 3), and it was never put into `parloop`.
+
+## 7. What the peers do
+
+Each quotation below was fetched on 2026-09-26 unless marked otherwise.
+
+**JVM family**
+- **Java.** `+` wraps silently: "If an integer addition overflows, then the result is the low-order bits of the mathematical sum as represented in some sufficiently large two's-complement format" (JLS § 15.18.2, <https://docs.oracle.com/javase/specs/jls/se21/html/jls-15.html>; not fetched, the chapter is too long for the fetch tool, quoted from the standard's text). Checking is a library method: `Math.addExact` "Returns the sum of its arguments, throwing an exception if the result overflows an `int`", since Java 8; the high half of a product is `Math.multiplyHigh`, since Java 9 (<https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html>).
+- **X10**, IBM's language from the same DARPA programme as Fortress, compiled to Java and C++: `Int`'s `+` and `*` say "Overflows result in truncating the high bits" and are the bare expressions `((#this) + (#x))` in both back ends (<https://raw.githubusercontent.com/x10-lang/x10/master/x10.runtime/src-x10/x10/lang/Int.x10>). There is no checked operator.
+
+**Close to the metal**
+- **Swift.** "By default Swift reports an error rather than allowing an invalid value to be created. However, when you specifically want an overflow condition to truncate the number of available bits, you can opt in to this behavior … Overflow addition (`&+`), Overflow subtraction (`&-`), Overflow multiplication (`&*`)" (The Swift Programming Language, Advanced Operators, <https://raw.githubusercontent.com/swiftlang/swift-book/main/TSPL.docc/LanguageGuide/AdvancedOperators.md>). The error stops the program; it cannot be caught.
+- **Rust.** "If a program contains arithmetic overflow, the programmer has made an error. In the following discussion, we maintain a distinction between arithmetic overflow and wrapping arithmetic. The first is erroneous, while the second is intentional." Builds with debug assertions must panic; "Other kinds of builds may result in panics or silently wrapped values on overflow, at the implementation's discretion"; "`i32::wrapping_add` provides two's complement, wrapping addition", and "a `Wrapping<T>` newtype … ensures all standard arithmetic operations for `T` have wrapping semantics" (Rust Reference, <https://doc.rust-lang.org/reference/behavior-not-considered-unsafe.html>). The standard library adds `checked_add`, "returning `None` if overflow occurred", `saturating_add` and `overflowing_add` (<https://doc.rust-lang.org/std/primitive.i32.html>).
+- **Zig.** "Operators such as `+` and `-` cause Illegal Behavior on integer overflow"; `+%` wraps, `+|` saturates, and `@addWithOverflow` reports the overflow beside the result (<https://ziglang.org/documentation/master/>).
+- **C.** Signed overflow is undefined behaviour and unsigned arithmetic is reduced modulo 2^n (C11 § 6.5 ¶ 5, § 6.2.5 ¶ 9; not fetched).
+
+**Scientific**
+- **Julia.** "In Julia, exceeding the maximum representable value of a given type results in a wraparound behavior"; "The `Base.Checked` module provides a suite of arithmetic operations equipped with overflow checks"; where overflow cannot be tolerated, `BigInt` (manual, Integers and Floating-Point Numbers, <https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/>). The reason given: "If you can't count on the results of integer operations being integers, it's impossible to generate fast, simple code the way C and Fortran compilers do", and saturation was refused as the default because "Saturating integer arithmetic isn't associative" (FAQ, <https://docs.julialang.org/en/v1/manual/faq/>).
+- **NumPy.** Fixed-size integers wrap: "`numpy.power` evaluates `100 ** 9` correctly for 64-bit integers, but gives -1486618624 (incorrect) for a 32-bit integer" (<https://numpy.org/doc/stable/user/basics.types.html>).
+
+**Unbounded**
+- **Python.** "Integers have unlimited precision." (<https://docs.python.org/3/library/stdtypes.html>). Fortress's `ZZ` is in this family.
+
+**Reading.** The specification's design is Swift's (an error by default, wrapping only under its own operator), with the saturating family as operators, as Zig has them, and a catchable exception where Swift stops the program; the Fortress text predates Swift's 2014 release (section 8). Of the four peers Pavol named, Swift and Rust separate "meant to wrap" from "overflowed by mistake" in the spelling; Julia and X10 wrap everything, Julia for loop speed. Rust and Zig also offer "tell me it overflowed and let me decide" as a primitive; the specification has that only in its unimplemented binary-word layer (way 10).
+
+## 8. The history
+
+Method: the conversion cut 146 parent links (`explorations/repo-internals.md:88-94`), so every date below is from `git log a874948ac --full-history -S'<text>'` (the commits in which the count of that text changes), with the 2011-2012 hits that are parentless full-tree snapshots set aside (checked with `git rev-list --parents -n1`).
+
+**How the interpreter came to wrap.**
+- 2007-01-19, Jan-Willem Maessen, `27521c0c4`, the README under "LANGUAGE FEATURES THAT ARE NOT IMPLEMENTED": "throw and catch. Because of this lack we do not yet perform arithmetic range checks." Wrapping was a known gap, not a design.
+- 2008-03-29, Sukyoung Ryu, `2d256e3fb`: throw and catch moved to the implemented list and the sentence about range checks was deleted. The checks never came.
+
+**When the wrapping operators existed.**
+- 2007-01-04, the root commit `72ae6881b`: the precedence resolver's operator list names "dot plus, dotplus" (`ProjectFortress/src/com/sun/fortress/interpreter/parser/precedence/resolver/operators.txt:76` in that tree).
+- 2007-08-24, Sukyoung Ryu, `0370a14b2`: the team's draft api `StandardLibrary/Fortress.Number.fsi` makes `ZZ` a ring under `DOTPLUS`, `DOTMINUS`, `DOTTIMES` and declares the operators (today `Library/incomplete/basic/Fortress.Number.fsi:87-89`, `:110-125`); the Fortify typesetter maps `DOTPLUS` to ∔ in the same tree.
+- 2008-03-31, `403afbe0b`: the published 1.0 specification, with the names but no overflow rule (section 4).
+- 2009-07-01, Sukyoung Ryu, `c60169320`: the parser maps the ASCII names to the characters.
+- 2009-11-06, Sukyoung Ryu, `0f49d8698`: the operator chapter's prose, the overflow rule and the wrapping spellings with it, enters the tree with the specification's sources ("The next task is to integrate the technical decisions since 1.0"); its origin is older than the git record.
+- 2011-09-08, Guy Steele, `9ce7d8189`: the first implementation, in the compiler's prelude, with the spellings reversed.
+- 2012-05-28, Guy Steele, `91e71e62e`: his rewrite of the operator prose keeps the rule and the spellings (section 4).
+- Never in the interpreter's library: no trunk commit changes the count of `DOTPLUS` in `FortressLibrary.fss` or `.fsi` (pickaxe, no result).
+
+**When each wrap-reliant body was written**, all under a wrapping interpreter and all while the wrapping operators existed only in drafts and operator tables:
+- `HeapTest`'s `spread`: `4d3ba74ae`, 2007-11-02, Maessen ("Heaps (priority queues)").
+- `ChunkedSparseArray.secondaryIndex`: `c7472983c`, 2008-04-10, Maessen.
+- `intPrim` and `longPrim`'s boundary assertions: `f637064e3`, 2008-08-18, Michael Spiegel, "Added test cases to make sure overflow/underflow is happening like it should." The one written statement of intent pins the gap's behaviour.
+- The range split: `ec62365b1`, 2008-09-10, Maessen, as a prototype in `ProjectFortress/tests/RangePrototype.fss`; moved into the library in `2c39d5fc5`, 2008-10-02. `partitionL` itself is `07b953a74`, 2007-05-24, Maessen, a native replacing a Fortress bit-smearing loop.
+- `IntMap.keySplit`: `35a19baac`, 2009-03-30, Maessen.
+- `LinearCongruential` and the Mersenne twister: `7d3df35e8`, 2010-06-21, senokay (identity unresolved, `research/authorship.md:67`).
+- The two associativity properties: `1cc975d2a`, 2010-06-29, and `e40544c31`, 2010-08-17, senokay.
+- Outside the eleven: `UnsignedTest`'s use of unary `-` on an unsigned value as 2^w minus a number, `dc41d5000`, 2008-07-21, Steele (section 11).
+
+**After the change of default.** The team's first code under checked arithmetic, Steele's in 2011-2012, spells the wrap every time it wants one (way 5), notes the one overflow danger it leaves (`parloop`, section 6) and adds overflow-free averages. `Papers/` says nothing about integer overflow; its only hit is a grammar list of operator tokens (`Papers/Dispatch/body.tick:1116`).
