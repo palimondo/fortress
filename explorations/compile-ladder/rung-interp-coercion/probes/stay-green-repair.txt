@@ -1,0 +1,140 @@
+=== $ python3 explorations/compile-ladder/rung-interp-coercion/compare-runs.py tmp/runs/base1/log tmp/runs/base2/log tmp/runs/after2/log <the twelve new tests: CoercionBindRungC CoercionCallRungC CoercionMostSpecificRungC CoercionOverloadRungC CoercionSpecTableRungC XXXCoercionGenericFnRungC XXXCoercionGenericTraitRungC XXXCoercionReturnRungC XXXCoercionStaticRungC CoercionRedispatchRungC XXXCoercionStaticNarrowRungC XXXCoercionTupleOverloadRungC>   (logs of explorations/compile-ladder/rung-interp-coercion/run-tests.sh: base1 and base2 on a copy of the build of 47437c65f, the first pass's runs of probes/stay-green.txt; after2 on tmp/build-repair, a copy of the build of 8878e0e45, the repair round's edit; every ProjectFortress/tests/*.fss, one JVM per test, four at a time, FORTRESS_THREADS=1; 2026-09-26T04:58:49Z) ===
+tests compared (the rung's own new tests left out): 394
+vary on their own (base run 1 against base run 2): 17
+  ArrayListQuick.txt           lines 9/9/9  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  CovCollTest.txt              lines 111/111/111  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  HeapTest.txt                 lines 8/8/8  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  PureListQuick.txt            lines 9/9/9  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  QuickCheckTest.txt           lines 56/55/53  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 1
+      Shrinking a failed instance.....
+  ShuffleTest.txt              lines 12/12/12  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  SkipListTest.txt             lines 15/15/15  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  TimingTests.txt              lines 5/5/5  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  TreapTest.txt                lines 458/458/458  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 1
+      Atwo
+  WordCountSmall.txt           lines 12/12/12  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  abortBlock.txt               lines 2048/1828/1925  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 2
+      ..... Thread ForkJoinPool-2-worker-1 operating on value Aborting
+      .... Thread ForkJoinPool-2-worker-1 operating on value Aborting
+  buffons.txt                  lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  nestedTransactions1.txt      lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  nestedTransactions2.txt      lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  nestedTransactions3.txt      lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  nestedTransactions4.txt      lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  quicksortTest.txt            lines 7/7/7  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+stable in both base runs: 377; different after the edit: 3
+  XXXimmutableTopLevel.txt: different after normalising stack-trace line numbers and identity hashes: False
+  taskTrace2.txt: different after normalising stack-trace line numbers and identity hashes: False
+  taskTrace3.txt: different after normalising stack-trace line numbers and identity hashes: False
+nonzero exit after the edit: 65; the same exit in both base runs for each: True
+
+=== the three tests stable in both base runs whose after2 output differs: what differs (diff base1 after2, the secs= timing dropped) ===
+--- XXXimmutableTopLevel
+18,22c18,22
+< 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:54)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:550)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:541)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:500)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:487)
+---
+> 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:66)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:554)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:545)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:504)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:491)
+27,31c27,31
+< 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:54)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:550)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:541)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:500)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:487)
+---
+> 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:66)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:554)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:545)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:504)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:491)
+44,48c44,48
+< 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:54)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:550)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:541)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:500)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:487)
+---
+> 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:66)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:554)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:545)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:504)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:491)
+53,57c53,57
+< 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:54)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:550)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:541)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:500)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:487)
+---
+> 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:66)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:554)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:545)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:504)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNull(BaseEnv.java:491)
+62,66c62,66
+< 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:54)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:550)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getLeafValueNull(BaseEnv.java:474)
+< 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getLeafValue(BaseEnv.java:445)
+< 	at com.sun.fortress.interpreter.evaluator.BuildEnvironments.forVarDecl4(BuildEnvironments.java:772)
+---
+> 	at com.sun.fortress.interpreter.env.LazilyEvaluatedCell.getValueNull(LazilyEvaluatedCell.java:66)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getValueNullTail(BaseEnv.java:554)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getLeafValueNull(BaseEnv.java:478)
+> 	at com.sun.fortress.interpreter.evaluator.BaseEnv.getLeafValue(BaseEnv.java:449)
+> 	at com.sun.fortress.interpreter.evaluator.BuildEnvironments.forVarDecl4(BuildEnvironments.java:777)
+--- taskTrace2
+1c1
+< Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@eda40a6
+---
+> Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@177cb717
+5c5
+< Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@53ab2279
+---
+> Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@7a96c421
+9c9
+< Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@7a96c421
+---
+> Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@75ee59a1
+13c13
+< Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@75ee59a1
+---
+> Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@3bd7dd33
+--- taskTrace3
+1c1
+< Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@227d4d29
+---
+> Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@1af557f2
+13c13
+< Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@1610f0e
+---
+> Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@2f4594cd
+
+=== the same three after2 logs against the first pass's after run (tmp/runs/after/log, the build of 386e7423a; probes/stay-green.txt:25-28) ===
+XXXimmutableTopLevel: identical
+taskTrace2: identical
+taskTrace3: identical
+
+=== the three self-varying tests with a base-shared line missing after2, and why each varies on its own ===
+TreapTest: the standalone lines print t.rootValue (ProjectFortress/tests/TreapTest.fss:18), the root of a randomised treap; the standalone A/B lines of each run:
+  base1: Azero Azero Afour Bone Azero Azero Azero Azero Azero Athree Bone Azero 
+  base2: Atwo Azero Afour Bfive Atwo Atwo Atwo Atwo Atwo Athree Bthree Atwo 
+  after2: Azero Azero Afour Bthree Azero Azero Azero Azero Azero Aone Bthree Azero 
+QuickCheckTest: random instances; the shrink lines carry one dot per shrinking step: base1 56 lines, base2 55, after2 53.
+abortBlock: ForkJoinPool worker names and interleaving: base1 2048 lines, base2 1828, after2 1925.
+
+=== the runs' start and end, with the load average (nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1; other rungs of the batch ran beside after2) ===
+base1 start 2026-09-26T01:45:28Z loadavg 1.11 1.48 1.12 1/105 25257
+base1 end 2026-09-26T02:03:32Z loadavg 6.05 8.08 6.24 2/135 14613
+base2 start 2026-09-26T02:03:42Z loadavg 5.14 7.79 6.17 3/133 14772
+base2 end 2026-09-26T02:28:43Z loadavg 7.24 9.55 9.81 3/158 21188
+after2 start 2026-09-26T04:46:30Z loadavg 1.02 0.97 0.85 1/104 1646 classes tmp/build-repair (copy of ProjectFortress/build after the repair edit's compileAll, 8878e0e45)
+after2 end 2026-09-26T04:58:04Z loadavg 2.78 4.64 3.31 1/102 13864
+after2 log file last written 2026-09-26 04:58:02Z (the end line above was taken at the next poll)

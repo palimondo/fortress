@@ -1,0 +1,17 @@
+component SkFieldCost
+export Executable
+
+object P(a: ZZ32)
+  x: ZZ32 = a + 1
+  y: ZZ32 = a + 2
+  z: String = "p"
+end
+
+run(): () = do
+  t0 = nanoTime()
+  var s: ZZ32 := 0
+  for i <- seq(1#200000) do s += P(i).x - P(i).y end
+  t1 = nanoTime()
+  println("s = " s " ms = " ((t1 - t0) DIV 1000000))
+end
+end

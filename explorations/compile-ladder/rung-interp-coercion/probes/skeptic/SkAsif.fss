@@ -1,0 +1,28 @@
+component SkAsif
+export Executable
+
+trait Wide excludes { Narrow, String }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+f(x: Wide): ZZ32 = x.big
+g(x: Wide): ZZ32 = x.big
+g(x: String): ZZ32 = 0
+
+run(): () = do
+  println("f(NarrowOf(1) asif Narrow) = " f(NarrowOf(1) asif Narrow))
+  println("g(NarrowOf(2) asif Narrow) = " g(NarrowOf(2) asif Narrow))
+  w: Wide = (NarrowOf(3) asif Narrow)
+  println("w: Wide = (NarrowOf(3) asif Narrow); w.big = " w.big)
+end
+end

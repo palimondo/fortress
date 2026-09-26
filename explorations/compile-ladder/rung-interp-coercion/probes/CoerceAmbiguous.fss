@@ -1,0 +1,30 @@
+component CoerceAmbiguous
+export Executable
+
+(* Two overloads each applicable only with a coercion from N, neither more specific: the
+   specification makes the pair a static error (advanced/overloading.tex:196-216, :247-273),
+   which walk, having no checker, meets at the call. *)
+trait N excludes { A, B }
+  getter n(): ZZ32
+end
+trait A excludes { N, B }
+  coerce(x: N) = AOf(x.n)
+  getter a(): ZZ32
+end
+trait B excludes { N, A }
+  coerce(x: N) = BOf(x.n)
+  getter b(): ZZ32
+end
+object NOf(v: ZZ32) extends N getter n(): ZZ32 = v end
+object AOf(v: ZZ32) extends A getter a(): ZZ32 = v end
+object BOf(v: ZZ32) extends B getter b(): ZZ32 = v end
+
+f(x: A): String = "f(A)"
+f(x: B): String = "f(B)"
+
+run() = do
+  println("f(AOf 1) " f(AOf(1)))
+  println("f(NOf 1), applicable to f(A) and f(B) only by coercion:")
+  println(f(NOf(1)))
+end
+end

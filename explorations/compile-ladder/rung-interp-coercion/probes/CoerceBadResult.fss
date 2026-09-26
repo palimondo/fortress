@@ -1,0 +1,23 @@
+component CoerceBadResult
+export Executable
+
+(* A coercion whose body yields a value that is not of the type it coerces to; the
+   specification makes its result type the trait's own (conversions-coercions.tex:184-186). *)
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = x
+  getter wv(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide getter wv(): ZZ64 = b end
+object NarrowOf(s: ZZ32) extends Narrow getter small(): ZZ32 = s end
+
+f(x: Wide): ZZ64 = x.wv
+
+run() = do
+  println("f(WideOf 1) " f(WideOf(widen(1))))
+  println("f(NarrowOf 2), whose coercion returns the Narrow itself:")
+  println(f(NarrowOf(2)))
+end
+end

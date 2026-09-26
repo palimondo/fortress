@@ -1,0 +1,25 @@
+component Sk2PlainObj
+export Executable
+
+trait Wide
+  getter big(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+
+h2(x: Wide, y: Object): String = "h2(Wide, Object)"
+h2(x: WideOf, y: String): String = "h2(WideOf, String)"
+
+g1(y: Object): String = "g1(Object)"
+g1(y: ZZ32): String = "g1(ZZ32)"
+
+run(): () = do
+  w: Wide = WideOf(1)
+  println("1 w: Wide = WideOf(1); h2(w, \"s\") = " h2(w, "s"))
+  println("2 h2(WideOf(3), \"s\") = " h2(WideOf(3), "s"))
+  o: Object = 5
+  println("3 o: Object = 5; g1(o) = " g1(o))
+  println("4 g1(5) = " g1(5))
+end
+end

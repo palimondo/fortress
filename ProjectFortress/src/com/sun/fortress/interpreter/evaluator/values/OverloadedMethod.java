@@ -53,7 +53,14 @@ public class OverloadedMethod extends OverloadedFunction implements Method {
     }
 
     public FValue applyMethod(FObject selfValue, List<FValue> args) {
-        Method best_f = getApplicableMethod(args);
+        MethodClosure best_f = mcache.get(args);
+        if (best_f == null) {
+            SingleFcn m = bestMatch(args, overloads);
+            if (m instanceof Coercions.CoercedCall) {
+                return applyMethod(selfValue, ((Coercions.CoercedCall) m).convert(args));
+            }
+            best_f = (MethodClosure) m;
+        }
         return best_f.applyMethod(selfValue, args);
     }
 

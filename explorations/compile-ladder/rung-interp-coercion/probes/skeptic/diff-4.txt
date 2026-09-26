@@ -1,0 +1,101 @@
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.80GHz; cpu MHz		: 2800.212; JDK 25; load at start 1.21 2.93 4.59 1/105 5251
+=== walk FORTRESS_THREADS=1 SkTopTwoCoerce   (0e76124ce, 03:53:02Z, load 1.21) ===
+topS.b = 1
+topM.b = 102
+topX.hack() = 7
+Holder().fieldM.b = 104
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkTopTwoCoerce   (0e76124ce, 03:53:06Z, load 1.21) ===
+topS.b = 1
+topM.b = 102
+topX.hack() = 7
+Holder().fieldM.b = 104
+=== exit 0 ===
+=== compile SkTopTwoCoerce ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkTopTwoCoerce ===
+topS.b =  1
+topM.b =  102
+topX.hack() =  7
+Holder().fieldM.b =  104
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkTopTwoCoerce ===
+topS.b =  1
+topM.b =  102
+topX.hack() =  7
+Holder().fieldM.b =  104
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 SkMethodParIf   (0e76124ce, 03:53:13Z, load 1.48) ===
+SUM Picker.pick(mixed) = 500500 expected 500500
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkMethodParIf   (0e76124ce, 03:53:17Z, load 1.48) ===
+SUM Picker.pick(mixed) = 500500 expected 500500
+=== exit 0 ===
+=== compile SkMethodParIf ===
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
+	at org.objectweb.asm.Frame.merge(Frame.java:1281)
+	at org.objectweb.asm.Frame.merge(Frame.java:1256)
+	at org.objectweb.asm.MethodWriter.computeAllFrames(MethodWriter.java:1612)
+	at org.objectweb.asm.MethodWriter.visitMaxs(MethodWriter.java:1548)
+	at org.objectweb.asm.MethodVisitor.visitMaxs(MethodVisitor.java:787)
+	at com.sun.fortress.compiler.codegen.ManglingMethodVisitor.visitMaxs(ManglingMethodVisitor.java:49)
+	at org.objectweb.asm.MethodVisitor.visitMaxs(MethodVisitor.java:787)
+	at org.objectweb.asm.util.TraceMethodVisitor.visitMaxs(TraceMethodVisitor.java:304)
+	at org.objectweb.asm.MethodVisitor.visitMaxs(MethodVisitor.java:787)
+	at com.sun.fortress.compiler.codegen.CodeGenMethodVisitor.visitMaxs(CodeGenMethodVisitor.java:99)
+	at com.sun.fortress.compiler.codegen.CodeGen.methodReturnAndFinish(CodeGen.java:3409)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnExpr(CodeGen.java:3497)
+	at com.sun.fortress.nodes.FnExpr.accept(FnExpr.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.evalArg(CodeGen.java:6340)
+	at com.sun.fortress.compiler.codegen.CodeGen.for_RewriteFnApp(CodeGen.java:6465)
+	at com.sun.fortress.nodes._RewriteFnApp.accept(_RewriteFnApp.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnExpr(CodeGen.java:3495)
+	at com.sun.fortress.nodes.FnExpr.accept(FnExpr.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.evalArg(CodeGen.java:6340)
+	at com.sun.fortress.compiler.codegen.CodeGen.for_RewriteFnApp(CodeGen.java:6465)
+	at com.sun.fortress.nodes._RewriteFnApp.accept(_RewriteFnApp.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.forExprsSerial(CodeGen.java:4854)
+	at com.sun.fortress.compiler.codegen.CodeGen.forLocalVarDecl(CodeGen.java:3998)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:67)
+	at com.sun.fortress.compiler.codegen.CodeGen.doStatements(CodeGen.java:1580)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlockHelper(CodeGen.java:1710)
+	at com.sun.fortress.compiler.codegen.CodeGen.forBlock(CodeGen.java:1765)
+	at com.sun.fortress.nodes.Block.accept(Block.java:73)
+	at com.sun.fortress.compiler.codegen.CodeGen.forDo(CodeGen.java:1972)
+	at com.sun.fortress.nodes.Do.accept(Do.java:61)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateActualMethodCode(CodeGen.java:2799)
+	at com.sun.fortress.compiler.codegen.CodeGen.generateFunctionalBody(CodeGen.java:2741)
+	at com.sun.fortress.compiler.codegen.CodeGen.forFnDecl(CodeGen.java:3008)
+	at com.sun.fortress.nodes.FnDecl.accept(FnDecl.java:71)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1944)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== walk FORTRESS_THREADS=1 SkMethodParOne   (0e76124ce, 03:53:23Z, load 1.72) ===
+SUM Picker.one(NarrowOf(i)) = 500500 expected 500500
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkMethodParOne   (0e76124ce, 03:53:27Z, load 1.91) ===
+SUM Picker.one(NarrowOf(i)) = 500500 expected 500500
+=== exit 0 ===
+=== compile SkMethodParOne ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkMethodParOne ===
+SUM Picker.one(NarrowOf(i)) =  500500  expected 500500
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkMethodParOne ===
+SUM Picker.one(NarrowOf(i)) =  500500  expected 500500
+=== exit 0 ===
+

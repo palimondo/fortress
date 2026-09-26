@@ -1,0 +1,20 @@
+=== the repair round's new names, grepped in ProjectFortress/tests, every ProjectFortress/*_tests directory, ProjectFortress/demos and ProjectFortress/src/com/sun/fortress whole (8878e0e45 plus the uncommitted compiler_tests files; 2026-09-26T05:08:05Z) ===
+--- CoercionRedispatchRungC
+ProjectFortress/tests/CoercionRedispatchRungC.fss
+--- XXXCoercionStaticNarrowRungC
+ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss
+--- XXXCoercionTupleOverloadRungC
+ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss
+--- XXXTupleLocalVarCompiledRungC
+ProjectFortress/compiler_tests/XXXTupleLocalVarCompiledRungC.fss
+ProjectFortress/compiler_tests/TupleVarCompiledRungCLink.test
+ProjectFortress/compiler_tests/XXXTupleLocalVarCompiledRungC.test
+--- XXXTupleVarFieldCompiledRungC
+ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.test
+ProjectFortress/compiler_tests/TupleVarCompiledRungCLink.test
+ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss
+--- TupleVarCompiledRungCLink
+--- WideOdd
+ProjectFortress/tests/CoercionRedispatchRungC.fss
+--- coerceTuple
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java

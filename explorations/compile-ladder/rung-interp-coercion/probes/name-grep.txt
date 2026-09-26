@@ -1,0 +1,80 @@
+=== $ git grep -n -w for the Java names this rung adds, over ProjectFortress/src/com/sun/fortress/ (386e7423a, 2026-09-26T02:34:13Z) ===
+--- Coercions
+ProjectFortress/src/com/sun/fortress/compiler/asmbytecodeoptimizer/RemoveLiteralCoercions.java:105:            System.out.println(" removing Coercions");
+ProjectFortress/src/com/sun/fortress/compiler/index/Coercion.java:118:        // Coercions cannot have anonymous names.
+ProjectFortress/src/com/sun/fortress/interpreter/env/LazilyEvaluatedCell.java:17:import com.sun.fortress.interpreter.evaluator.values.Coercions;
+ProjectFortress/src/com/sun/fortress/interpreter/env/LazilyEvaluatedCell.java:67:                    if (declared != null) v = Coercions.coerceToDeclared(declar
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java:315:                    FValue coerced = Coercions.coerce(ft, value);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:757:                        FValue v = Coercions.coerce(ft, value);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java:99:                v = Coercions.coerce(ft, value);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java:221:                        FValue v = Coercions.coerce(outerType, value);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:26:public final class Coercions {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:28:    private Coercions() {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/NonPrimitive.java:149:                        FValue c = Coercions.coerce(restType, arg);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/NonPrimitive.java:172:                    FValue c = Coercions.coerce(paramType, arg);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/NonPrimitive.java:257:                    FValue c = Coercions.coerce(paramType, arg);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:819:        Coercions.CoercedCall best = null;
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:820:        List<Coercions.CoercedCall> applicable = new ArrayList<Coe
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:833:                    coercions[j] = Coercions.coercionFor(t, a);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:838:            Coercions.CoercedCall c = new Coercions.CoercedCall(sf
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:840:            if (best == null || Coercions.moreSpecific(domain, bes
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:842:        for (Coercions.CoercedCall c : applicable) {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:843:            if (c != best && !Coercions.moreSpecific(best.getDomai
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedMethod.java:59:            if (m instanceof Coercions.CoercedCall) {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedMethod.java:60:                Coercions.CoercedCall c = (Coercions.CoercedCall) m;
+ProjectFortress/src/com/sun/fortress/parser/TraitObject.rats:122:     (Coercions br)? GoFrontInATrait (br GoBackInATrait)?
+ProjectFortress/src/com/sun/fortress/parser/TraitObject.rats:123:   | (Coercions br)? GoBackInATrait
+ProjectFortress/src/com/sun/fortress/parser/TraitObject.rats:124:   | Coercions
+ProjectFortress/src/com/sun/fortress/parser/TraitObject.rats:207:     (Coercions br)? GoFrontInAnObject (br GoBackInAnObject)?
+ProjectFortress/src/com/sun/fortress/parser/TraitObject.rats:208:   | (Coercions br)? GoBackInAnObject
+ProjectFortress/src/com/sun/fortress/parser/TraitObject.rats:209:   | Coercions
+ProjectFortress/src/com/sun/fortress/parser_util/instrumentation/transient.txt:100:Coercions
+ProjectFortress/src/com/sun/fortress/parser_util/instrumentation/transient.txt:101:Coercions$$Star1
+ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala:929:    // Coercions will always be typed.
+--- CoercedCall
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:170:    static final class CoercedCall extends SingleFcn {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:174:        CoercedCall(SingleFcn target, SingleFcn[] coercions) {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:819:        Coercions.CoercedCall best = null;
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:820:        List<Coercions.CoercedCall> applicable = new ArrayList<Coe
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:838:            Coercions.CoercedCall c = new Coercions.CoercedCall(sf
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:842:        for (Coercions.CoercedCall c : applicable) {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedMethod.java:59:            if (m instanceof Coercions.CoercedCall) {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedMethod.java:60:                Coercions.CoercedCall c = (Coercions.CoercedCall) m;
+--- bestMatchWithoutCoercion
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:51:            return ((OverloadedFunction) lifted).bestMatchWithoutCoercion(ar
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:808:    public SingleFcn bestMatchWithoutCoercion(List<FValue> args) {
+--- bestMatchWithCoercion
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:792:            best = bestMatchWithCoercion(args, someOverloads);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:818:    private SingleFcn bestMatchWithCoercion(List<FValue> args, Lis
+--- coerceToDeclared
+ProjectFortress/src/com/sun/fortress/interpreter/env/LazilyEvaluatedCell.java:67:                    if (declared != null) v = Coercions.coerceToDeclared(declar
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:97:    public static FValue coerceToDeclared(Type t, Environment e, FValue v) {
+--- coercionFor
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:46:    static SingleFcn coercionFor(FType target, FValue v) {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:87:        SingleFcn c = coercionFor(target, v);
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:833:                    coercions[j] = Coercions.coercionFor(t, a);
+--- coercionSources
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:113:    private static List<FType> coercionSources(FType u) {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:140:        for (FType a : coercionSources(u)) {
+ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:144:        for (FType a : coercionSources(t)) {
+=== $ git grep -l -w for the component names this rung adds, over every corpus ===
+--- CoercionCallRungC: ProjectFortress/tests/CoercionCallRungC.fss 
+--- CoercionOverloadRungC: ProjectFortress/tests/CoercionOverloadRungC.fss 
+--- CoercionBindRungC: ProjectFortress/tests/CoercionBindRungC.fss 
+--- CoercionMostSpecificRungC: ProjectFortress/tests/CoercionMostSpecificRungC.fss 
+--- CoercionSpecTableRungC: ProjectFortress/tests/CoercionSpecTableRungC.fss 
+--- XXXCoercionStaticRungC: ProjectFortress/tests/XXXCoercionStaticRungC.fss 
+--- XXXCoercionReturnRungC: ProjectFortress/tests/XXXCoercionReturnRungC.fss 
+--- XXXCoercionGenericFnRungC: ProjectFortress/tests/XXXCoercionGenericFnRungC.fss 
+--- XXXCoercionGenericTraitRungC: ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss 
+--- XXXCoercionAnyOverloadRungC: ProjectFortress/compiler_tests/CoercionAnyOverloadRungCLink.test ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.fss ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.test 
+--- XXXCoercionGenericFnCompiledRungC: 
+=== $ git grep -n for coerce_ lifted names in the interpreter's library and corpus (a user function named like a lifted coercion would be found by the lookup) ===
+Library/incomplete/advanced/Fortress.Operators.fsi.INCOMPLETE:698:%%   property coerce_[\T\](Identity[\SQCAP\]) = coerce_[\T\](MaximalElement[\PRECEQ\])
+Library/incomplete/advanced/Fortress.Operators.fsi.INCOMPLETE:721:%%   property coerce_[\T\](Identity[\SQCUP\]) = coerce_[\T\](MinimalElement[\PRECEQ\])
+Library/incomplete/advanced/Fortress.Operators.fsi.INCOMPLETE:907:%  property coerce_[\T\](Zero[\OTIMES\]) APPROX coerce_[\T\](Identity[\OPLUS\])
+Library/incomplete/advanced/Fortress.Operators.fsi.INCOMPLETE:1124:%  property NOT instanceOf[\U\](coerce_[\T\](Zero[\OPLUS\]))
+Library/incomplete/advanced/Fortress.Operators.fsi.INCOMPLETE:1282:%  property coerce_[\T\](Identity[\XOR\]) = coerce_[\T\](Identity[\CURLYOR\])
+Library/incomplete/advanced/Fortress.Operators.fsi.INCOMPLETE:1283:%  property coerce_[\T\](ComplementBound[\CURLYAND\]) = coerce_[\T\](Identity[\CURLYOR\])
+Library/incomplete/advanced/Fortress.Operators.fsi.INCOMPLETE:1284:%  property coerce_[\T\](ComplementBound[\CURLYOR\]) = coerce_[\T\](Identity[\CURLYAND\])
+Library/incomplete/basic/Fortress.Convenience.fss:38:coerce_[\T\](x: T): = x

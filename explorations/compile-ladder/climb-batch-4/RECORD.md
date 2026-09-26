@@ -7,9 +7,9 @@ Written at the gather stage of climb batch 4 (2026-09-26), on `main` from the ba
 ## The order the rungs were applied in
 
 N, then K, then C. No file is shared between the branches' net changes: `git diff --name-only 47437c65f...<branch>` for the three landed branches has an empty pairwise intersection, so no source line of one rung moves a line of another. The files the folds share are the three record files and this one, and the rule, ascending order of each rung's lowest edited line in the files two or more rungs share, is decided in `explorations/coordinator/FACTS.md`, the one shared file in which a fold inserts lines above lines the records cite:
-- N's lowest edit there is line 20 (its superseded note on "The compile path's checker cannot check `nat` parameters"), and its three bullets are inserted after line 51, the end of "The checker and the one library";
-- K's is line 77, the interpreter's integer rules, whose closing clause it replaces in place;
-- C's is line 80, its bullet after the last entry of "Landed semantics" (line 79 at the base).
+- N's lowest edit there is line 20 at the base (its superseded note on "The compile path's checker cannot check `nat` parameters"), and its three bullets are inserted after line 51, the end of "The checker and the one library";
+- K's is line 77 at the base (80 once N's bullets are in), the interpreter's integer rules, whose closing clause it replaces in place;
+- C's is its bullet after line 79 at the base, the last entry of "Landed semantics" (inserted at line 83 once N's bullets are in).
 
 In the ledger the order would be C (row 19, line 133), N (row 21, line 135), K (row 380, line 391), but every ledger edit of an existing row is an append inside its line and moves nothing; the new rows go after row 386 at the end of section 10's table and shift only the lines below them, whose one citation (`FACTS.md`'s entry "The ledger", `fortress-gap-ledger.md:574`, `:714` at the base) is re-anchored in each commit that inserts rows. The handover's paragraphs are appended in the same order. The batch record expected C, N, O, K from the ledger alone (`explorations/coordinator/CLIMB-BATCH-4.md:209`).
 
@@ -69,3 +69,45 @@ In the ledger the order would be C (row 19, line 133), N (row 21, line 135), K (
 **For the gate.** Checker count 103, measured before and after, identical tables and byte-identical checker output. No test file added: `testSystem` is not moved by K.
 
 **Placeholders.** Every `<short hash>` that rung K's commit adds names K's commit: the `FACTS.md` entry on the interpreter's integer rules (twice), row 380's and row 381's notes, the handover paragraph, and K's `record.md`.
+
+## Rung C (`rung-interp-coercion`)
+
+**Inherited from the branch.** Thirteen commits, `7aff60e42` to `aac09f565`: the worker's first pass (seven commits, the tests captured failing in `7aff60e42` before the edit in `bedcb802d`), the first skeptic's probes (`5b7c5ff65`; its refusal was in its structured result only), the judge's ruling (repair; structured result only), the repair round (`d7f559170`, the new tests captured failing, before the edit `8878e0e45`; `2b3e7e397`; `69d3eb799`) and the second skeptic's approval with two corrections (`aac09f565`). Only `SKEPTIC.md`, the second judgement, was on the branch.
+
+**Written at the gather.** `REPORT.md` and `record.md` from the worker's two structured results (`rung:C`, `repair:C`), `JUDGE.md` from the judge's (`judge:C`), and the first judgement appended to `SKEPTIC.md` from its (`skeptic:C`), as batch 3.5 did (`explorations/compile-ladder/climb-batch-3.5/RECORD.md:13`); `JUDGE.md` and `SKEPTIC.md` keep their authors' words and end with a note that their `FACTS.md:59` is `:62` since rung N landed.
+
+**Corrections, all nine closed.** The first skeptic's seven were made by the repair round and are checked here:
+1. The converted arguments are dispatched as an ordinary call (`Coercions.java:228-230`, `OverloadedMethod.java:56-63`), with home-1 assertions `ProjectFortress/tests/CoercionRedispatchRungC.fss:36` (`g(NarrowOf(2))` = "g(WideOf)") and `:39` (the dotted-method twin), passing at 1 and 4 threads (`explorations/compile-ladder/rung-interp-coercion/probes/pass-repair.txt:24`, `:92`; the second skeptic's re-run, `explorations/compile-ladder/rung-interp-coercion/probes/skeptic/sk2-rung-tests-rerun.txt`). Their messages take the form the judge's ruling gave (its instruction 2): `conversions-coercions.tex:253-265` (the skeptic's `:252-261`; the paragraph begins at `:253`), `:532-536`, `advanced/overloading.tex:73-78`, `:466-468`, and `basic/overloading.tex:263-276` at `:36` and `:43`.
+2. Tuple-typed bindings are repaired element by element (`Coercions.java:88-116`), home 1 at `CoercionBindRungC.fss:34-39`; the `FACTS.md` bullet and row 19's note say which targets convert (a typed declaration, parameter or assignment, a tuple-typed one element by element) and row 395 which do not (an overloaded function's tuple parameter, a tuple-typed field assignment).
+3. "No interpreter test's output changed" appears nowhere in what lands: the `FACTS.md` bullet, `REPORT.md` section 7, `record.md` and the handover name `XXXimmutableTopLevel`, `taskTrace2` and `taskTrace3` and what changed in each, and they go to Pavol under the brief's stop with the worker's reading as a proposal (`REPORT.md` section 13, item 1).
+4. The caching is qualified to overloaded functions, `OverloadedMethod.mcache` being written nowhere, in the `FACTS.md` bullet and `REPORT.md` section 10, which also corrects the first pass's "An overloaded call pays the cost once per argument types".
+5. The answer to Pavol's question (5) adds the declared-type evaluation on every typed immutable top-level variable and field, with the skeptic's measurement and its machine line (`REPORT.md` section 10; `record.md`, "What comes back to Pavol", item 5).
+6. Route A's price in its general form is in the `FACTS.md` bullet and in what comes back to Pavol (item 2), with its gated instance `XXXCoercionStaticNarrowRungC.fss`, home 2 by the judge's ruling.
+7. The citation of the ZZ32/ZZ64/ZZ128 example says that `CoercionMostSpecificRungC.fss:6`, `:10`, `:14` add `excludes` clauses the example lacks and that both paths refuse it verbatim (`REPORT.md` section 4; row 394).
+
+The second skeptic's two, made at the gather:
+
+8. `REPORT.md` and `record.md` exist; `REPORT.md` opens with the five-line provenance block, whose `historical:` line names the seven 2012-tree files (and the new `Coercions.java` separately); the one comment line of each of the sixteen new test files, `:4` (`:1` in `compiler_tests/XXXCoercionGenericFnCompiledRungC.fss`), points at `explorations/compile-ladder/rung-interp-coercion/REPORT.md`, checked file by file.
+9. `REPORT.md` section 4 quotes `Specification/basic/conversions-coercions.tex:532-536` in full, clause "and the declaration with parameter type $T$ is applied to the call" included, records as the judge's decision the reading that it names the static call's declaration, which run-time dispatch refines, with its grounds, and names the rejected alternative (the first pass's) and why. The passages were read in place: `conversions-coercions.tex:250-268`, `:505-540`, `:562-575`; `advanced/overloading.tex:66-80`, `:460-470`; `basic/overloading.tex:258-277`.
+
+**Recommended rows, each opened or refused.**
+- First skeptic, R1 (the compiled `typed` ascription coerces): opened as row 392, the repair round's provisional number; its found-by cell and the probe path in full supplied at the gather.
+- R2 (a cycle of coercions accepted on both paths): opened as row 393.
+- R3 (a second shape of row 340's code-generation crash): opened as an append to row 340.
+- R4 (a two-argument shape of row 391): opened as an append to row 391.
+- R5 (the specification's ZZ example refused by both paths): opened as row 394; the skeptic's text gave no status or specification cell, and the gather supplied NEGATIVE-VERIFIED (both paths refuse the example as written), the class "specification text" and `conversions-coercions.tex:538-565` against `:477-484`.
+- Second skeptic (an overload set of an `Object` and a `ZZ32` parameter, `NoSuchMethodError` compiled): opened as an append to row 390, not as a new row. A decision of the gather: `g1(5)` is row 390's shape, because a numeral is an `IntLiteral` in the compiler prelude, excluding `ZZ32` and converted to it by `coerce(x: IntLiteral)` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:883`, `:664`), so `g1(Object)` takes it without coercion and `g1(ZZ32)` only with it, and the skeptic's own control, a `String` argument, needs no coercion and dispatches correctly; the skeptic's "No coercion is involved" overlooked the numeral's conversion. Its other case, `o: Object = 5; g1(o)`, is recorded in the same note as the family of row 79 (a numeral's run-time type differs between the paths), by reading and not measured. The alternative was the skeptic's new row with its fix in `compiler/OverloadSet.java`; the reading above puts the fix with row 390's.
+
+**Row numbers.** C's provisional 387-397 are final. Re-anchored in the landed tree: row 388's generic skip `OverloadedFunction.java:824` → `:826` (the repair round's Javadoc), row 389's `Coercions.java:46-68` → `:48-71`, row 390's `Functionals.scala:429-452` → `:430-453` (rung N's edit above it). Row 387's `if (true || t.typeMatch(x))` is written with escaped pipes so that the table keeps its eight cells.
+
+**Not changed, and why.**
+- Eleven assertion messages in eight of C's `XXX` test files say "row 387 (provisional)" through "row 397 (provisional)". The numbers are final; the tests are left byte-identical to what both skeptics ran, since a gather edit would be an unrun change to gated files.
+- The coordinator's map still says the interpreter has no coercion (`explorations/coordinator/map/spec-to-implementation.md:288`, `:359`; `explorations/coordinator/map/compile-path-walkthrough.md:373-375`). The worker asked the gather to fold them; they are not among the three record files and are left for the coordinator. The `FACTS.md` entry of the territory map that says so gets a superseded note.
+- The batch record's premise that overloaded methods share the per-argument-type cache through `OverloadedMethod.java:50` (`explorations/coordinator/CLIMB-BATCH-4.md:65`, `:79`) is wrong: `OverloadedMethod.mcache` is written nowhere. Noted here, as the judge asked; the decision record is the coordinator's.
+- C's four files in `ProjectFortress/compiler_tests/` are outside the files the batch record names for C (`CLIMB-BATCH-4.md:69`, new files under `ProjectFortress/tests/`); the worker reported them as a decision (`REPORT.md` section 5), both skeptics and the judge accepted them, and they are not a stop, which is `Library/` or another rung's file.
+
+**For Pavol, the stop.** The brief's stop, a change in any interpreter test's output (`CLIMB-BATCH-4.md:77`), is met by three tests whose printed Java line numbers and identity hashes differ; the rung landed on its second skeptic's approval, which, like the judge, did not lift the stop. The handover paragraph and `REPORT.md` section 13 carry it to him.
+
+**For the gate.** `testSystem` +12 files, the compiler track +7 tests, the checker count 103.
+
+**Placeholders.** Every `<short hash>` that rung C's commit adds names C's commit: its `FACTS.md` bullet and the superseded note on the territory-map entry, row 19's note and the handover paragraph.

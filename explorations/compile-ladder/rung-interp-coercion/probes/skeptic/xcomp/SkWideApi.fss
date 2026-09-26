@@ -1,0 +1,18 @@
+component SkWideApi
+export SkWideApi
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+end

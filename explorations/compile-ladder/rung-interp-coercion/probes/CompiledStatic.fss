@@ -1,0 +1,20 @@
+component CompiledStatic
+export Executable
+
+(* The compiled side of XXXCoercionStaticRungC: conversions-coercions.tex:572-604. *)
+trait A
+  coerce(c: C) = AOf
+end
+trait B excludes A end
+trait C end
+object AOf extends A end
+object D extends { B, C } end
+
+f(a: A): ZZ32 = 3
+f(b: B): ZZ32 = 4
+
+run(): () = do
+  c: C = D
+  println("f(c) with c: C = D gives " f(c))
+end
+end

@@ -1,0 +1,22 @@
+component CoerceGenericFn
+export Executable
+
+(* A generic function's parameter of a declared, non-generic type. *)
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide getter big(): ZZ64 = b end
+object NarrowOf(s: ZZ32) extends Narrow getter small(): ZZ32 = s end
+
+gf[\T\](x: Wide, y: T): String = "gf got " x.big " and " y
+
+run() = do
+  println("control: " gf(WideOf(widen(1)), "one"))
+  println("a Narrow for gf's Wide parameter:")
+  println(gf(NarrowOf(2), "two"))
+end
+end

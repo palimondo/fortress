@@ -1,0 +1,11 @@
+--- ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java	2026-09-26 01:49:02.149798407 +0000
++++ ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java (deliberate local fix)	2026-09-26 02:20:27.482614605 +0000
+@@ -216,7 +216,7 @@
+                 if (type.isSome()) {
+                     Type t = NodeUtil.optTypeOrPatternToType(type).unwrap();
+                     outerType = EvalType.getFType(t, evaluator.e);
+-                    if (value.type().subtypeOf(outerType)) evaluator.e.putVariable(s, value, outerType);
++                    if (value.type().subtypeOf(outerType)) evaluator.e.putVariable(s, outerType instanceof FTypeTrait && NodeUtil.getSpan(x).getFileName().equals(NodeUtil.getSpan((AbstractNode) ((FTypeTrait) outerType).getDecl()).getFileName()) ? new FAsIf(value, outerType) : value, outerType);
+                     else {
+                         FValue v = Coercions.coerce(outerType, value);
+                         if (v != null) evaluator.e.putVariable(s, v, outerType);

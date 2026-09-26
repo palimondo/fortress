@@ -1,0 +1,48 @@
+component SkSideEffect
+export Executable
+
+trait Wide excludes { Narrow, String }
+  coerce(x: Narrow) = do println("  [coerce " x.small "]"); WideOf(x.small) end
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+f(x: Wide): ZZ32 = x.big
+f2(x: Wide, y: Wide): ZZ32 = x.big + y.big
+g(x: Wide): ZZ32 = x.big
+g(x: String): ZZ32 = 0
+object Holder(w: Wide) end
+object Rec()
+  fixed: Wide = NarrowOf(60)
+end
+top: Wide = NarrowOf(50)
+var topv: Wide = NarrowOf(70)
+
+run(): () = do
+  println("1 f(NarrowOf(1)) = " f(NarrowOf(1)))
+  println("2 f2(NarrowOf(2), NarrowOf(3)) = " f2(NarrowOf(2), NarrowOf(3)))
+  println("3 g(NarrowOf(4)) = " g(NarrowOf(4)))
+  println("4 g(NarrowOf(5)) again = " g(NarrowOf(5)))
+  println("5 Holder(NarrowOf(6)).w.big = " Holder(NarrowOf(6)).w.big)
+  w: Wide = NarrowOf(7)
+  println("6 w: Wide = NarrowOf(7); w.big = " w.big)
+  var v: Wide = WideOf(0)
+  v := NarrowOf(8)
+  println("7 v := NarrowOf(8); v.big = " v.big)
+  println("8 top.big = " top.big)
+  println("9 top.big again = " top.big)
+  r = Rec()
+  println("10 Rec().fixed.big = " r.fixed.big)
+  println("11 topv.big = " topv.big)
+  topv := NarrowOf(9)
+  println("12 topv := NarrowOf(9); topv.big = " topv.big)
+end
+end

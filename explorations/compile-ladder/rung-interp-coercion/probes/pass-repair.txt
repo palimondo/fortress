@@ -1,0 +1,136 @@
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 1.51 0.63 0.68, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1; build: ProjectFortress/build after the repair edit's ant compileAll (tmp/compileall-repair.txt: BUILD SUCCESSFUL) ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:22Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionOverloadRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:25Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:29Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionMostSpecificRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:32Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionSpecTableRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:35Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionRedispatchRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:39Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:42Z) ===
+REACHED
+FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticRungC.fss:20:5-168:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:46Z) ===
+REACHED
+FAIL: J11/0:g(NarrowOf) =/= J7/0:g(Wide); row 19: coercion is resolved on the static type Narrow, so g(n) calls g(Wide) though g(NarrowOf) applies to the value without coercion; conversions-coercions.tex:525-536, :567-570
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss:26:5-209:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 1.71 0.76 0.72, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=4; build: ProjectFortress/build after the repair edit's ant compileAll (tmp/compileall-repair.txt: BUILD SUCCESSFUL) ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:49Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionOverloadRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:53Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:40:56Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionMostSpecificRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:41:01Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionSpecTableRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:41:04Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionRedispatchRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:41:08Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:41:12Z) ===
+REACHED
+FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticRungC.fss:20:5-168:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:41:16Z) ===
+REACHED
+FAIL: J11/0:g(NarrowOf) =/= J7/0:g(Wide); row 19: coercion is resolved on the static type Narrow, so g(n) calls g(Wide) though g(NarrowOf) applies to the value without coercion; conversions-coercions.tex:525-536, :567-570
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss:26:5-209:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+

@@ -1,0 +1,194 @@
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:26:49Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionOverloadRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:26:59Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:09Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionMostSpecificRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:16Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionSpecTableRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:23Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:30Z) ===
+REACHED
+FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticRungC.fss:20:5-168:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionReturnRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:38Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+Cannot find definition for method big given receiver NarrowOf
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericFnRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:45Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+Unification error: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:20:12-14:
+Cannot unify NarrowOf(class com.sun.fortress.interpreter.evaluator.types.FTypeObject)
+  with Wide(class com.sun.fortress.nodes.VarType) abm=()
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:53Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+Unification error: Closure/Constructor for f param 1 (x:WideG[\ZZ32\]) got arg NarrowGOf[\ZZ32\] of type NarrowGOf[\ZZ32\]
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:27:59Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionOverloadRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:06Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:11Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionMostSpecificRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:16Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/CoercionSpecTableRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:21Z) ===
+PASS
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:26Z) ===
+REACHED
+FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticRungC.fss:20:5-168:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionReturnRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:31Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+Cannot find definition for method big given receiver NarrowOf
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericFnRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:36Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+Unification error: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:20:12-14:
+Cannot unify NarrowOf(class com.sun.fortress.interpreter.evaluator.types.FTypeObject)
+  with Wide(class com.sun.fortress.nodes.VarType) abm=()
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss   (bedcb802d plus the working-tree edit to ProjectFortress/src, 2026-09-26T02:28:40Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+Unification error: Closure/Constructor for f param 1 (x:WideG[\ZZ32\]) got arg NarrowGOf[\ZZ32\] of type NarrowGOf[\ZZ32\]
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+

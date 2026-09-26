@@ -1,0 +1,42 @@
+component SkTopTwoCoerce
+export Executable
+
+trait Small excludes { Mid, Big }
+  getter v(): ZZ32
+end
+trait Mid excludes { Small, Big }
+  getter m(): ZZ32
+end
+trait Big excludes { Small, Mid }
+  coerce(x: Small) = BigOf(x.v)
+  coerce(x: Mid) = BigOf(x.m + 100)
+  getter b(): ZZ32
+end
+object SmallOf(s: ZZ32) extends Small
+  getter v(): ZZ32 = s
+end
+object MidOf(s: ZZ32) extends Mid
+  getter m(): ZZ32 = s
+end
+object BigOf(s: ZZ32) extends Big
+  getter b(): ZZ32 = s
+end
+object X
+  coerce(y: Small) = X
+  hack(): ZZ32 = 7
+end
+
+topS: Big = SmallOf(1)
+topM: Big = MidOf(2)
+topX: X = SmallOf(3)
+object Holder()
+  fieldM: Big = MidOf(4)
+end
+
+run(): () = do
+  println("topS.b = " topS.b)
+  println("topM.b = " topM.b)
+  println("topX.hack() = " topX.hack())
+  println("Holder().fieldM.b = " Holder().fieldM.b)
+end
+end

@@ -1,0 +1,5 @@
+/home/user/fortress-coerce/ProjectFortress/tests/litCoercion.fss:15:11-12:
+    Function body has type ZZ64, but declared return type is ().
+/home/user/fortress-coerce/ProjectFortress/tests/litCoercion.fss:18:3-31:5:
+    Function body has type (), but declared return type is ZZ64.
+File litCoercion.fss has 2 errors.

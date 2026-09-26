@@ -1,0 +1,25 @@
+component CompiledGenericTrait
+export Executable
+
+(* The compiled side of XXXCoercionGenericTraitRungC. *)
+trait WideG[\T\] excludes { NarrowG[\T\] }
+  coerce(x: NarrowG[\T\]) = WideGOf[\T\](x.v)
+  getter w(): T
+end
+trait NarrowG[\T\] excludes { WideG[\T\] }
+  getter v(): T
+end
+object WideGOf[\T\](a: T) extends WideG[\T\]
+  getter w(): T = a
+end
+object NarrowGOf[\T\](a: T) extends NarrowG[\T\]
+  getter v(): T = a
+end
+
+f(x: WideG[\ZZ32\]): ZZ32 = x.w
+
+run(): () = do
+  println("control " f(WideGOf[\ZZ32\](1)))
+  println("NarrowGOf 2 " f(NarrowGOf[\ZZ32\](2)))
+end
+end

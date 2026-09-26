@@ -1,0 +1,54 @@
+component CoercionOverloadRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait Wide excludes { Narrow, String }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+  opr +(self, other: Wide): Wide = WideOf(self.big + other.big)
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+g(x: Wide): String = "g(Wide) got " x.big
+g(x: String): String = "g(String) got " x
+
+g2(a: Wide, b: Wide): ZZ64 = a.big + b.big
+g2(a: String, b: String): ZZ64 = 0
+
+p(x: Wide): String = "p(Wide)"
+p(x: Any): String = "p(Any)"
+
+h(x: Wide): ZZ64 = x.big
+h(x: String): ZZ64 = 0
+
+object Picker
+  pick(x: Wide): ZZ64 = x.big
+  pick(x: String): ZZ64 = 0
+end
+
+run() = do
+    assert(g(WideOf(widen(3))), "g(Wide) got 3", "control: a Wide where g(Wide) is declared")
+    assert(g(NarrowOf(3)), "g(Wide) got 3", "row 19: an overloaded call converts when no declaration applies without a coercion; conversions-coercions.tex:455-458")
+    assert(g(WideOf(widen(4))), "g(Wide) got 4", "row 19: the argument type that needs no coercion is dispatched plainly after one that did")
+    assert(g(NarrowOf(5)), "g(Wide) got 5", "row 19: the coerced choice cached for NarrowOf converts again")
+    assert(g2(NarrowOf(1), WideOf(widen(2))), 3, "row 19: one argument of two converts; conversions-coercions.tex:311-330")
+    assert(g2(NarrowOf(1), NarrowOf(2)), 3, "row 19: both arguments convert; conversions-coercions.tex:311-330")
+    assert(p(NarrowOf(1)), "p(Any)", "a declaration applicable without coercion is chosen over one that needs it; conversions-coercions.tex:262-265, :455-458")
+    assert(Picker.pick(NarrowOf(6)), 6, "row 19: an overloaded method's argument converts; conversions-coercions.tex:98-110")
+    assert((WideOf(widen(1)) + NarrowOf(2)).big, 3, "row 19: a functional method's other parameter converts; conversions-coercions.tex:431-436")
+    assert((NarrowOf(2) + WideOf(widen(1))).big, 3, "row 19: a functional method's self parameter converts; conversions-coercions.tex:431-436")
+    total = SUM[i <- 1:100] h(if i MOD 2 = 0 then NarrowOf(i) else WideOf(widen(i)) end)
+    assert(total, 5050, "row 19: coerced and plain arguments of one overloaded function in a parallel reduction")
+    println("PASS")
+  end
+
+end

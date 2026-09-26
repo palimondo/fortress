@@ -1,0 +1,37 @@
+component XXXCoercionTupleOverloadRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+object Holder(n: ZZ32)
+  var pair: (Wide, ZZ32) = (NarrowOf(n), n + 1)
+end
+
+over(p: (Wide, ZZ32)): String = "over((Wide, ZZ32))"
+over(s: String): String = "over(String)"
+
+run() = do
+    println("REACHED")
+    h = Holder(1)
+    h.pair := (NarrowOf(10), 11)
+    (a, b) = h.pair
+    assert(a.big, 10, "row 395 (provisional): an assignment to a field declared with a tuple type converts element by element; conversions-coercions.tex:108-110, :694-705")
+    assert(over((NarrowOf(3), 4)), "over((Wide, ZZ32))", "row 395 (provisional): an overloaded function's tuple-typed parameter converts its argument element by element; conversions-coercions.tex:102-103, :694-705")
+    println("PASS")
+  end
+
+end

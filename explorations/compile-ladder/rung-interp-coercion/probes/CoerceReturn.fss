@@ -1,0 +1,23 @@
+component CoerceReturn
+export Executable
+
+(* A function body whose return type is declared is a coercion context
+   (conversions-coercions.tex:104-105). *)
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter wv(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide getter wv(): ZZ64 = b end
+object NarrowOf(s: ZZ32) extends Narrow getter small(): ZZ32 = s end
+
+r(): Wide = NarrowOf(3)
+
+run() = do
+  println("control: " WideOf(widen(1)).wv)
+  println("r() declared Wide returns a Narrow; its wv:")
+  println(r().wv)
+end
+end

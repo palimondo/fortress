@@ -1,0 +1,58 @@
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.80GHz; cpu MHz		: 2800.212; JDK 25; load at start 0.64 3.13 4.74 1/105 4570
+=== walk FORTRESS_THREADS=1 SkRedispatchMethod   (0e76124ce, 03:52:16Z, load 0.64) ===
+Picker.pick(WideOf(1)) = pick(WideOf)
+Picker.pick(NarrowOf(2)) = pick(Wide)
+w: Wide = NarrowOf(3); Picker.pick(w) = pick(WideOf)
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkRedispatchMethod   (0e76124ce, 03:52:20Z, load 0.83) ===
+Picker.pick(WideOf(1)) = pick(WideOf)
+Picker.pick(NarrowOf(2)) = pick(Wide)
+w: Wide = NarrowOf(3); Picker.pick(w) = pick(WideOf)
+=== exit 0 ===
+=== compile SkRedispatchMethod ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkRedispatchMethod ===
+Picker.pick(WideOf(1)) =  pick(WideOf)
+Picker.pick(NarrowOf(2)) =  pick(WideOf)
+w: Wide = NarrowOf(3); Picker.pick(w) =  pick(WideOf)
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkRedispatchMethod ===
+Picker.pick(WideOf(1)) =  pick(WideOf)
+Picker.pick(NarrowOf(2)) =  pick(WideOf)
+w: Wide = NarrowOf(3); Picker.pick(w) =  pick(WideOf)
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 SkMethodParNoCoerce   (0e76124ce, 03:52:26Z, load 0.84) ===
+SUM Picker.pick(mixed) = 500500 expected 500500
+SUM Picker.one(WideOf(i)) = 500500 expected 500500
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkMethodParNoCoerce   (0e76124ce, 03:52:30Z, load 1.01) ===
+SUM Picker.pick(mixed) = 500500 expected 500500
+SUM Picker.one(WideOf(i)) = 500500 expected 500500
+=== exit 0 ===
+=== compile SkMethodParNoCoerce ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkMethodParNoCoerce ===
+SUM Picker.pick(mixed) =  500500  expected 500500
+SUM Picker.one(WideOf(i)) =  500500  expected 500500
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkMethodParNoCoerce ===
+SUM Picker.pick(mixed) =  500500  expected 500500
+SUM Picker.one(WideOf(i)) =  500500  expected 500500
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 SkMethodPar2   (0e76124ce, 03:52:38Z, load 1.39) ===
+sum of Picker.pick(NarrowOf(i)) over a parallel for = 500500 expected 500500
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 SkMethodPar2   (0e76124ce, 03:52:42Z, load 1.52) ===
+sum of Picker.pick(NarrowOf(i)) over a parallel for = 500500 expected 500500
+=== exit 0 ===
+=== compile SkMethodPar2 ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 SkMethodPar2 ===
+sum of Picker.pick(NarrowOf(i)) over a parallel for =  500500  expected 500500
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 SkMethodPar2 ===
+sum of Picker.pick(NarrowOf(i)) over a parallel for =  500500  expected 500500
+=== exit 0 ===
+

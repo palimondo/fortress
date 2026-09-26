@@ -1,0 +1,15 @@
+component SkXComp
+import SkWideApi.{...}
+export Executable
+
+f(x: Wide): ZZ32 = x.big
+g(x: Wide): String = "g(Wide) " x.big
+g(x: ZZ32): String = "g(ZZ32)"
+
+run(): () = do
+  println("f(NarrowOf(1)) across components = " f(NarrowOf(1)))
+  println("g(NarrowOf(2)) across components = " g(NarrowOf(2)))
+  w: Wide = NarrowOf(3)
+  println("w: Wide = NarrowOf(3) across components; w.big = " w.big)
+end
+end

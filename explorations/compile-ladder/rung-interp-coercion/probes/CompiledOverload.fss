@@ -1,0 +1,37 @@
+component CompiledOverload
+export Executable
+
+(* The compiled side of CoercionOverloadRungC. *)
+trait Wide excludes { Narrow, String }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+g(x: Wide): String = "g(Wide) got " x.big
+g(x: String): String = "g(String) got " x
+
+g2(a: Wide, b: Wide): ZZ64 = a.big + b.big
+g2(a: String, b: String): ZZ64 = 0
+
+p(x: Wide): String = "p(Wide)"
+p(x: Any): String = "p(Any)"
+
+run(): () = do
+  println(g(WideOf(widen(3))))
+  println(g(NarrowOf(3)))
+  println(g(WideOf(widen(4))))
+  println(g(NarrowOf(5)))
+  println("g2(NarrowOf 1, WideOf 2) " g2(NarrowOf(1), WideOf(widen(2))))
+  println("g2(NarrowOf 1, NarrowOf 2) " g2(NarrowOf(1), NarrowOf(2)))
+  println(p(NarrowOf(1)))
+end
+end

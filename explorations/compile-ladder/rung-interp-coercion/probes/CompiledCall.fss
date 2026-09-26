@@ -1,0 +1,41 @@
+component CompiledCall
+export Executable
+
+(* The compiled side of CoercionCallRungC and CoercionBindRungC: the checker inserts the coercions. *)
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+f(x: Wide): ZZ64 = x.big
+
+object Holder(w: Wide) end
+
+object Scaler(k: ZZ64)
+  scale(x: Wide): ZZ64 = k x.big
+end
+
+topFixed: Wide = NarrowOf(6)
+
+run(): () = do
+  println("control f(WideOf 7) " f(WideOf(widen(7))))
+  println("f(NarrowOf 3) " f(NarrowOf(3)))
+  println("Holder(NarrowOf 4).w.big " Holder(NarrowOf(4)).w.big)
+  println("Scaler(2).scale(NarrowOf 5) " Scaler(widen(2)).scale(NarrowOf(5)))
+  w: Wide = NarrowOf(3)
+  println("w: Wide = NarrowOf(3); w.big " w.big)
+  var v: Wide = WideOf(widen(1))
+  v := NarrowOf(5)
+  println("v := NarrowOf(5); v.big " v.big)
+  println("topFixed.big " topFixed.big)
+end
+end

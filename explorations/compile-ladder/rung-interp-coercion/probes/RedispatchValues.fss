@@ -1,0 +1,47 @@
+component RedispatchValues
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = if x.small MOD 2 = 0 then WideOf(x.small) else WideOdd(x.small) end
+  getter big(): ZZ32
+  describe(self): String = "Wide.describe"
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+  describe(self): String = "WideOf.describe"
+end
+object WideOdd(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+g(x: Wide): String = "g(Wide)"
+g(x: WideOf): String = "g(WideOf)"
+
+object Picker
+  pick(x: Wide): String = "pick(Wide)"
+  pick(x: WideOf): String = "pick(WideOf)"
+end
+
+hit(s: String): ZZ32 = if s = "g(WideOf)" then 1 else 0 end
+
+run() = do
+    println("g(NarrowOf(2)) = " g(NarrowOf(2)))
+    println("g(NarrowOf(3)) = " g(NarrowOf(3)))
+    println("g(NarrowOf(4)) = " g(NarrowOf(4)))
+    println("Picker.pick(NarrowOf(2)) = " Picker.pick(NarrowOf(2)))
+    println("Picker.pick(NarrowOf(3)) = " Picker.pick(NarrowOf(3)))
+    println("describe(NarrowOf(6)) = " describe(NarrowOf(6)))
+    println("describe(NarrowOf(5)) = " describe(NarrowOf(5)))
+    println("SUM[i <- 1:100] hit(g(NarrowOf(i))) = " (SUM[i <- 1:100] hit(g(NarrowOf(i)))))
+    p: (Wide, ZZ32) = (NarrowOf(12), 13)
+    (pa, pb) = p
+    println("p: (Wide, ZZ32) = (NarrowOf(12), 13); pa.big = " pa.big " pb = " pb)
+  end
+
+end

@@ -1,0 +1,22 @@
+component CoerceVarargs
+export Executable
+
+(* A varargs parameter (conversions-coercions.tex:442-449). *)
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide getter big(): ZZ64 = b end
+object NarrowOf(s: ZZ32) extends Narrow getter small(): ZZ32 = s end
+
+total(xs: Wide...): ZZ64 = SUM[x <- xs] x.big
+
+run() = do
+  println("control: " total(WideOf(widen(1)), WideOf(widen(2))))
+  println("Narrows for a Wide... parameter:")
+  println(total(NarrowOf(1), WideOf(widen(2))))
+end
+end

@@ -1,0 +1,29 @@
+component TcVarField
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+object Holder(n: ZZ32)
+  var pair: (Wide, ZZ32) = (WideOf(n), n + 1)
+end
+
+run() = do
+    h = Holder(1)
+    h.pair := (WideOf(10), 11)
+    (a, b) = h.pair
+    println("var field assigned: a.big = " a.big " b = " b)
+  end
+
+end

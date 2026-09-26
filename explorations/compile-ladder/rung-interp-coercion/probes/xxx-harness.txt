@@ -1,0 +1,18 @@
+=== $ explorations/compile-ladder/rung-interp-coercion/harness-one.sh tmp/h-all <the nine new files>   (the testSystem harness over the rung's nine new files on the final build, 386e7423a, 2026-09-26T02:37:45Z) ===
+/home/user/fortress-coerce/tmp/h-all/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0db936ac5_16
+. interpret /home/user/fortress-coerce/tmp/h-all/tests/XXXCoercionGenericTraitRungC  OK Saw expected exception
+. interpret /home/user/fortress-coerce/tmp/h-all/tests/CoercionBindRungC  OK (time = 1634ms)
+. interpret /home/user/fortress-coerce/tmp/h-all/tests/CoercionMostSpecificRungC  OK (time = 1795ms)
+. interpret /home/user/fortress-coerce/tmp/h-all/tests/XXXCoercionStaticRungC  OK Saw expected exception
+. interpret /home/user/fortress-coerce/tmp/h-all/tests/CoercionSpecTableRungC  OK (time = 1551ms)
+. interpret /home/user/fortress-coerce/tmp/h-all/tests/XXXCoercionGenericFnRungC  OK Saw expected exception
+. interpret /home/user/fortress-coerce/tmp/h-all/tests/XXXCoercionReturnRungC  OK Saw expected exception
+. interpret /home/user/fortress-coerce/tmp/h-all/tests/CoercionOverloadRungC  OK (time = 967ms)
+. interpret /home/user/fortress-coerce/tmp/h-all/tests/CoercionCallRungC  OK (time = 970ms)
+
+Time: 56.55
+
+OK (9 tests)
+
+=== exit 0 ===

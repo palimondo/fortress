@@ -1,0 +1,380 @@
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 1.87 1.01 0.81, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1; build: ProjectFortress/build after the repair edit ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:42:09Z) ===
+null/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:27:5-26:
+    Equality testing expressions should be parenthesized.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:42:12Z) ===
+over((WideOf(1), 2)) = over((Wide, ZZ32))
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+Failed to find any matching overload, args = (NarrowOf,4: ZZ32), overload = {
+	over(s:FortressLibrary.String):FortressLibrary.String String->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:19:1-41
+	over(p:(Wide, FortressLibrary.ZZ32)):FortressLibrary.String (Wide,ZZ32)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:18:1-52}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:42:16Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss:19:5-23:
+RHS expression type (NarrowOf,Int,Int) is not assignable to LHS type (Wide,ZZ32...)
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss:19:5-23:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss:19:5-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:42:20Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss:19:5-20:
+RHS expression type (NarrowOf,FlatString) is not assignable to LHS type (Wide,ZZ32)
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss:19:5-20:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss:19:5-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 1.91 1.06 0.83, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=4; build: ProjectFortress/build after the repair edit ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:42:24Z) ===
+null/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:27:5-26:
+    Equality testing expressions should be parenthesized.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:42:26Z) ===
+over((WideOf(1), 2)) = over((Wide, ZZ32))
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+Failed to find any matching overload, args = (NarrowOf,4: ZZ32), overload = {
+	over(s:FortressLibrary.String):FortressLibrary.String String->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:19:1-41
+	over(p:(Wide, FortressLibrary.ZZ32)):FortressLibrary.String (Wide,ZZ32)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:18:1-52}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:42:30Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss:19:5-23:
+RHS expression type (NarrowOf,Int,Int) is not assignable to LHS type (Wide,ZZ32...)
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss:19:5-23:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss:19:5-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:42:34Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss:19:5-20:
+RHS expression type (NarrowOf,FlatString) is not assignable to LHS type (Wide,ZZ32)
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss:19:5-20:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss:19:5-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 1.91 1.11 0.85, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1; classes tmp/build-edit: a copy of the first pass's build (386e7423a), before the repair edit ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss   (classes tmp/build-edit, 2026-09-26T04:42:39Z) ===
+null/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:27:5-26:
+    Equality testing expressions should be parenthesized.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss   (classes tmp/build-edit, 2026-09-26T04:42:41Z) ===
+over((WideOf(1), 2)) = over((Wide, ZZ32))
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+Failed to find any matching overload, args = (NarrowOf,4: ZZ32), overload = {
+	over(s:FortressLibrary.String):FortressLibrary.String String->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:19:1-41
+	over(p:(Wide, FortressLibrary.ZZ32)):FortressLibrary.String (Wide,ZZ32)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:18:1-52}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss   (classes tmp/build-edit, 2026-09-26T04:42:44Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss:19:5-23:
+RHS expression type (NarrowOf,Int,Int) is not assignable to LHS type (Wide,ZZ32...)
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss:19:5-23:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleVarargs.fss:19:5-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss   (classes tmp/build-edit, 2026-09-26T04:42:48Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss:19:5-20:
+RHS expression type (NarrowOf,FlatString) is not assignable to LHS type (Wide,ZZ32)
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss:19:5-20:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMismatch.fss:19:5-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== TupleMore.fss again after its line 27, a nested tuple pattern the parser refuses in a local declaration (above), was split into two declarations; machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 1.55 1.11 0.86, openjdk version "25.0.4" 2026-07-21 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:43:08Z) ===
+nested: ((Wide, ZZ32), ZZ32) = ((NarrowOf(1), 2), 3); na.big = 1 nb = 2 nc = 3
+var m: (Wide, ZZ32); m := (NarrowOf(4), 5); ma.big = 4 mb = 5
+field pair: (Wide, ZZ32) = (NarrowOf(6), 7); ha.big = 6 hb = 7
+var field mpair: (Wide, ZZ32) = (NarrowOf(8), 9); ka.big = 8 kb = 9
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:39:5-40:4:
+Failed to find any matching overload, args = (NarrowOf,11: ZZ32), overload = {
+	mpair(param_mpair:(Wide, FortressLibrary.ZZ32)):() (Wide,ZZ32)->() /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:20:7-26
+	mpair():(Wide, FortressLibrary.ZZ32) ()->(Wide,ZZ32) /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:20:7-26}:OverloadedMethod
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:39:5-40:4:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:43:13Z) ===
+nested: ((Wide, ZZ32), ZZ32) = ((NarrowOf(1), 2), 3); na.big = 1 nb = 2 nc = 3
+var m: (Wide, ZZ32); m := (NarrowOf(4), 5); ma.big = 4 mb = 5
+field pair: (Wide, ZZ32) = (NarrowOf(6), 7); ha.big = 6 hb = 7
+var field mpair: (Wide, ZZ32) = (NarrowOf(8), 9); ka.big = 8 kb = 9
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:39:5-40:4:
+Failed to find any matching overload, args = (NarrowOf,11: ZZ32), overload = {
+	mpair(param_mpair:(Wide, FortressLibrary.ZZ32)):() (Wide,ZZ32)->() /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:20:7-26
+	mpair():(Wide, FortressLibrary.ZZ32) ()->(Wide,ZZ32) /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:20:7-26}:OverloadedMethod
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:39:5-40:4:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss   (classes tmp/build-edit, 2026-09-26T04:43:17Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:26:5-33:
+RHS expression type ((NarrowOf,Int),Int) is not assignable to LHS type ((Wide,ZZ32),ZZ32)
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:26:5-33:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:26:5-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== TupleMore.fss once more: its field assignment h.mpair := (NarrowOf(10), 11), refused above, moved to ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss, and a top-level var of tuple type added; then the XXX file itself; machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 0.32 0.82 0.79, openjdk version "25.0.4" 2026-07-21 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:45:10Z) ===
+nested: ((Wide, ZZ32), ZZ32) = ((NarrowOf(1), 2), 3); na.big = 1 nb = 2 nc = 3
+var m: (Wide, ZZ32); m := (NarrowOf(4), 5); ma.big = 4 mb = 5
+field pair: (Wide, ZZ32) = (NarrowOf(6), 7); ha.big = 6 hb = 7
+var field mpair: (Wide, ZZ32) = (NarrowOf(8), 9); ka.big = 8 kb = 9
+var topT: (Wide, ZZ32) = (NarrowOf(16), 17); ta0.big = 16 tb0 = 17
+topT := (NarrowOf(18), 19); ta1.big = 18 tb1 = 19
+single(p: (Wide, ZZ32)) given (NarrowOf(12), 13) = 25
+tt: (Wide, Wide) = (NarrowOf(14), WideOf(15)); ta.big = 14 tb.big = 15
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:45:14Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:30:5-31:4:
+Failed to find any matching overload, args = (NarrowOf,11: ZZ32), overload = {
+	pair():(Wide, FortressLibrary.ZZ32) ()->(Wide,ZZ32) /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25
+	pair(param_pair:(Wide, FortressLibrary.ZZ32)):() (Wide,ZZ32)->() /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25}:OverloadedMethod
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:30:5-31:4:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:45:18Z) ===
+nested: ((Wide, ZZ32), ZZ32) = ((NarrowOf(1), 2), 3); na.big = 1 nb = 2 nc = 3
+var m: (Wide, ZZ32); m := (NarrowOf(4), 5); ma.big = 4 mb = 5
+field pair: (Wide, ZZ32) = (NarrowOf(6), 7); ha.big = 6 hb = 7
+var field mpair: (Wide, ZZ32) = (NarrowOf(8), 9); ka.big = 8 kb = 9
+var topT: (Wide, ZZ32) = (NarrowOf(16), 17); ta0.big = 16 tb0 = 17
+topT := (NarrowOf(18), 19); ta1.big = 18 tb1 = 19
+single(p: (Wide, ZZ32)) given (NarrowOf(12), 13) = 25
+tt: (Wide, Wide) = (NarrowOf(14), WideOf(15)); ta.big = 14 tb.big = 15
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=4 bin/fortress walk ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss   (d7f559170 plus the working-tree edit to ProjectFortress/src, 2026-09-26T04:45:23Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:30:5-31:4:
+Failed to find any matching overload, args = (NarrowOf,11: ZZ32), overload = {
+	pair():(Wide, FortressLibrary.ZZ32) ()->(Wide,ZZ32) /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25
+	pair(param_pair:(Wide, FortressLibrary.ZZ32)):() (Wide,ZZ32)->() /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25}:OverloadedMethod
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:30:5-31:4:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss   (classes tmp/build-edit, 2026-09-26T04:45:27Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:23:1-44:
+Type mismatch binding (NarrowOf,17): (NarrowOf,Int) (type (NarrowOf,Int)) to topT (type (Wide,ZZ32))
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:23:1-44:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleMore.fss:23:1-44:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss   (classes tmp/build-edit, 2026-09-26T04:45:30Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:3-47:
+Type mismatch binding (NarrowOf,2): (NarrowOf,Int) (type (NarrowOf,Int)) to $pair (type (Wide,ZZ32))
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:3-47:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:3-47:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:29:9-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+

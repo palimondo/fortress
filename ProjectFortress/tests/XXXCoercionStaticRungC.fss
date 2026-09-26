@@ -1,0 +1,24 @@
+component XXXCoercionStaticRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait A
+  coerce(c: C) = AOf
+end
+trait B excludes A end
+trait C end
+object AOf extends A end
+object D extends { B, C } end
+
+f(a: A): ZZ32 = 3
+f(b: B): ZZ32 = 4
+
+run() = do
+    println("REACHED")
+    c: C = D
+    assert(f(c), 3, "row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604")
+    println("PASS")
+  end
+
+end

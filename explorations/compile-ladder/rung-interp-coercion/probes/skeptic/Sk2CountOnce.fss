@@ -1,0 +1,45 @@
+component Sk2CountOnce
+export Executable
+
+var conversions: ZZ32 = 0
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = do
+    atomic do conversions += 1 end
+    if x.small MOD 2 = 0 then WideOf(x.small) else WideOdd(x.small) end
+  end
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object WideOdd(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+g(x: Wide): ZZ32 = 1
+g(x: WideOf): ZZ32 = 2
+
+object Picker
+  pick(x: Wide): ZZ32 = 1
+  pick(x: WideOf): ZZ32 = 2
+end
+
+run(): () = do
+  s1 = SUM[i <- 1#1000] g(NarrowOf(i))
+  c1 = conversions
+  println("1 SUM g(NarrowOf(i)) = " s1 " (expected 1500), conversions = " c1 " (expected 1000)")
+  s2 = SUM[i <- 1#1000] Picker.pick(NarrowOf(i))
+  c2 = conversions - c1
+  println("2 SUM Picker.pick(NarrowOf(i)) = " s2 " (expected 1500), conversions = " c2 " (expected 1000)")
+  s3 = SUM[i <- 1#1000] (g(WideOf(i)) + g(NarrowOf(i)) + g(WideOdd(i)))
+  c3 = conversions - c1 - c2
+  println("3 SUM mixed = " s3 " (expected 4500), conversions = " c3 " (expected 1000)")
+end
+end

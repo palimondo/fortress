@@ -1,0 +1,32 @@
+component Sk2TupleShapes
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+f(p: (Wide, ZZ32)): ZZ32 = do (a, b) = p; a.big + b end
+two(x: Wide, y: (Wide, Wide)): ZZ32 = do (a, b) = y; x.big + a.big + b.big end
+
+run(): () = do
+  q: ((Wide, ZZ32), Wide) = ((NarrowOf(1), 2), NarrowOf(3))
+  (qab, qc) = q
+  (qa, qb) = qab
+  println("1 nested: " qa.big " " qb " " qc.big)
+  println("2 f(NarrowOf(4), 5) = " f(NarrowOf(4), 5))
+  println("3 f((NarrowOf(6), 7)) = " f((NarrowOf(6), 7)))
+  println("4 two(NarrowOf(1), (NarrowOf(2), WideOf(3))) = " two(NarrowOf(1), (NarrowOf(2), WideOf(3))))
+  s = SUM[i <- 1#1000] f(NarrowOf(i), 0)
+  println("5 SUM f(NarrowOf(i), 0) = " s " (expected 500500)")
+end
+end

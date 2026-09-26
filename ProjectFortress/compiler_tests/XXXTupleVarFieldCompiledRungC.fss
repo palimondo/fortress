@@ -1,0 +1,26 @@
+component XXXTupleVarFieldCompiledRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait Wide
+  getter big(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object Holder(n: ZZ32)
+  var pair: (Wide, ZZ32) = (WideOf(n), n + 1)
+end
+
+run(): () = do
+    println("REACHED")
+    h = Holder(1)
+    h.pair := (WideOf(10), 11)
+    (a, b) = h.pair
+    assert(a.big, 10, "row 397 (provisional): a mutable field declared with a tuple type holds the value assigned to it; basic/objects.tex:275-277, :343-345; basic/traits.tex:446-448")
+    assert(b, 11, "row 397 (provisional): a mutable field declared with a tuple type holds the value assigned to it; basic/objects.tex:275-277, :343-345; basic/traits.tex:446-448")
+    println("PASS")
+end
+
+end

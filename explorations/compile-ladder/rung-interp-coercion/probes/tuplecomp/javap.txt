@@ -1,0 +1,33 @@
+=== javap -c -p of the classes fortress compile wrote for probes/tuplecomp/TcLocalVar.fss and TcVarField.fss (default_repository/caches/bytecode_cache/TcLocalVar.jar, TcVarField.jar; build of 8878e0e45, JDK 25.0.4; 2026-09-26T05:11:27Z) ===
+
+--- TcLocalVar.run: the mutable local m read back (LocalMutableVar.pushValue, ProjectFortress/src/com/sun/fortress/compiler/codegen/VarCodeGen.java:547)
+       135: invokevirtual #115                // Method com/sun/fortress/compiler/runtimeValues/MutableFValue.getValue:()Lfortress/AnyType$Any;
+       138: checkcast     #117                // class "LTcLocalVar$Wide;"
+       141: dup
+       142: swap
+       143: invokeinterface #123,  1          // InterfaceMethod "\\=Tuple?TcLocalVar\\%Wide,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32?".e1:()LTcLocalVar$Wide;
+       148: astore_1
+       149: dup
+
+--- TcVarField$Holder: the field, its getter pair, and the setter pair(Wide, FZZ32) forwarding to pair?(Wide, FZZ32)
+  public \=Tuple?TcVarField\%Wide,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32? \%pair;
+  public com.sun.fortress.compiler.runtimeValues.FVoid pair(TcVarField$Wide, com.sun.fortress.compiler.runtimeValues.FZZ32);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #40                 // Method "pair?":(LTcVarField$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+         5: areturn
+
+  public com.sun.fortress.compiler.runtimeValues.FVoid pair?(TcVarField$Wide, com.sun.fortress.compiler.runtimeValues.FZZ32);
+    Code:
+         0: aload_1
+         1: aload_2
+         2: invokestatic  #44                 // Method "\\=ConcreteTuple?TcVarField\\%Wide,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32?".make:(LTcVarField$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)L\=Tuple?TcVarField\%Wide,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?;
+         5: astore_3
+         6: aload_3
+         7: aload_0
+         8: swap
+         9: putfield      #37                 // Field "\\%pair":L\=Tuple?TcVarField\%Wide,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32?;
+        12: invokestatic  #49                 // Method com/sun/fortress/compiler/runtimeValues/FVoid.make:()Lcom/sun/fortress/compiler/runtimeValues/FVoid;
+        15: areturn
+

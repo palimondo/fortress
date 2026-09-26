@@ -1,0 +1,29 @@
+component SkRedispatchMethod
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+object Picker
+  pick(x: Wide): String = "pick(Wide)"
+  pick(x: WideOf): String = "pick(WideOf)"
+end
+
+run(): () = do
+  println("Picker.pick(WideOf(1)) = " Picker.pick(WideOf(1)))
+  println("Picker.pick(NarrowOf(2)) = " Picker.pick(NarrowOf(2)))
+  w: Wide = NarrowOf(3)
+  println("w: Wide = NarrowOf(3); Picker.pick(w) = " Picker.pick(w))
+end
+end

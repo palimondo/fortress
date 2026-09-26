@@ -1,0 +1,4 @@
+38c38
+<         FValue f = e.getTopLevel().getRootValueNull(NamingCzar.LIFTED_COERCION_PREFIX + target.getName());
+---
+>         FValue f = e.getLeafValueNull(NamingCzar.LIFTED_COERCION_PREFIX + target.getName());

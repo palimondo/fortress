@@ -1,0 +1,164 @@
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 1.43 0.79 1.30, openjdk version "25.0.4" 2026-07-21, HEAD 69d3eb799, 2026-09-26T05:20:42Z ===
+=== walk FORTRESS_THREADS=1 Sk2MultiArg   (69d3eb799, 05:20:42Z, load 1.43) ===
+1 h(NarrowOf(2), 5) = h(WideOf, ZZ32)
+2 h(NarrowOf(2), "s") = h(Wide, Object)
+3 h(NarrowOf(3), 6) again = h(WideOf, ZZ32)
+4 h(WideOf(4), 7) = h(WideOf, ZZ32)
+5 NarrowOf(1) OPLUS NarrowOf(2) = OPLUS(WideOf, WideOf)
+6 NarrowOf(1) OPLUS WideOf(2) = OPLUS(WideOf, WideOf)
+7 SUM over 1000 of h(NarrowOf(i), i) = h(WideOf, ZZ32): 1000
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 Sk2MultiArg   (69d3eb799, 05:20:46Z, load 1.43) ===
+1 h(NarrowOf(2), 5) = h(WideOf, ZZ32)
+2 h(NarrowOf(2), "s") = h(Wide, Object)
+3 h(NarrowOf(3), 6) again = h(WideOf, ZZ32)
+4 h(WideOf(4), 7) = h(WideOf, ZZ32)
+5 NarrowOf(1) OPLUS NarrowOf(2) = OPLUS(WideOf, WideOf)
+6 NarrowOf(1) OPLUS WideOf(2) = OPLUS(WideOf, WideOf)
+7 SUM over 1000 of h(NarrowOf(i), i) = h(WideOf, ZZ32): 1000
+=== exit 0 ===
+=== compile Sk2MultiArg ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 Sk2MultiArg ===
+1 h(NarrowOf(2), 5) =  h(Wide, Object)
+2 h(NarrowOf(2), "s") =  h(Wide, Object)
+3 h(NarrowOf(3), 6) again =  h(Wide, Object)
+java.lang.NoSuchMethodError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at Sk2MultiArg.main(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/Sk2MultiArg.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoSuchMethodError: 'fortress.CompilerBuiltin$String Sk2MultiArg.\=h{_|explorations|compile-ladder|rung-interp-coercion|probes|skeptic|Sk2MultiArg\,fss\!18\!1-49,_|explorations|compile-ladder|rung-interp-coercion|probes|skeptic|Sk2MultiArg\,fss\!19\!1-50}(Sk2MultiArg$Wide, fortress.CompilerBuiltin$Object)'
+	at Sk2MultiArg.run(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/Sk2MultiArg.fss:28)
+	at Sk2MultiArg.compute(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/Sk2MultiArg.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+=== exit 1 ===
+=== run FORTRESS_THREADS=4 Sk2MultiArg ===
+1 h(NarrowOf(2), 5) =  h(Wide, Object)
+2 h(NarrowOf(2), "s") =  h(Wide, Object)
+3 h(NarrowOf(3), 6) again =  h(Wide, Object)
+java.lang.NoSuchMethodError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at Sk2MultiArg.main(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/Sk2MultiArg.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.NoSuchMethodError: 'fortress.CompilerBuiltin$String Sk2MultiArg.\=h{_|explorations|compile-ladder|rung-interp-coercion|probes|skeptic|Sk2MultiArg\,fss\!18\!1-49,_|explorations|compile-ladder|rung-interp-coercion|probes|skeptic|Sk2MultiArg\,fss\!19\!1-50}(Sk2MultiArg$Wide, fortress.CompilerBuiltin$Object)'
+	at Sk2MultiArg.run(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/Sk2MultiArg.fss:28)
+	at Sk2MultiArg.compute(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/Sk2MultiArg.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+=== exit 1 ===
+
+=== walk FORTRESS_THREADS=1 Sk2InheritedMethod   (69d3eb799, 05:20:54Z, load 1.83) ===
+1 Obj.pick(NarrowOf(2)) = Obj.pick(WideOf)
+2 b: Base = Obj; b.pick(NarrowOf(3)) = Obj.pick(WideOf)
+3 Plain.pick(NarrowOf(4)) = Base.pick(Wide)
+4 combine(Obj, NarrowOf(5)) = Obj.combine(WideOf)
+5 combine(Plain, NarrowOf(6)) = Base.combine(Wide)
+6 combine(b, NarrowOf(7)) = Obj.combine(WideOf)
+7 SUM over 1000 of Obj.pick(NarrowOf(i)) = Obj.pick(WideOf): 1000
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 Sk2InheritedMethod   (69d3eb799, 05:20:58Z, load 2.01) ===
+1 Obj.pick(NarrowOf(2)) = Obj.pick(WideOf)
+2 b: Base = Obj; b.pick(NarrowOf(3)) = Obj.pick(WideOf)
+3 Plain.pick(NarrowOf(4)) = Base.pick(Wide)
+4 combine(Obj, NarrowOf(5)) = Obj.combine(WideOf)
+5 combine(Plain, NarrowOf(6)) = Base.combine(Wide)
+6 combine(b, NarrowOf(7)) = Obj.combine(WideOf)
+7 SUM over 1000 of Obj.pick(NarrowOf(i)) = Obj.pick(WideOf): 1000
+=== exit 0 ===
+=== compile Sk2InheritedMethod ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 Sk2InheritedMethod ===
+1 Obj.pick(NarrowOf(2)) =  Obj.pick(WideOf)
+2 b: Base = Obj; b.pick(NarrowOf(3)) =  Obj.pick(WideOf)
+3 Plain.pick(NarrowOf(4)) =  Base.pick(Wide)
+4 combine(Obj, NarrowOf(5)) =  Obj.combine(WideOf)
+5 combine(Plain, NarrowOf(6)) =  Base.combine(Wide)
+6 combine(b, NarrowOf(7)) =  Obj.combine(WideOf)
+7 SUM over 1000 of Obj.pick(NarrowOf(i)) = Obj.pick(WideOf):  1000
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 Sk2InheritedMethod ===
+1 Obj.pick(NarrowOf(2)) =  Obj.pick(WideOf)
+2 b: Base = Obj; b.pick(NarrowOf(3)) =  Obj.pick(WideOf)
+3 Plain.pick(NarrowOf(4)) =  Base.pick(Wide)
+4 combine(Obj, NarrowOf(5)) =  Obj.combine(WideOf)
+5 combine(Plain, NarrowOf(6)) =  Base.combine(Wide)
+6 combine(b, NarrowOf(7)) =  Obj.combine(WideOf)
+7 SUM over 1000 of Obj.pick(NarrowOf(i)) = Obj.pick(WideOf):  1000
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 Sk2CountOnce   (69d3eb799, 05:21:06Z, load 2.49) ===
+1 SUM g(NarrowOf(i)) = 1500 (expected 1500), conversions = 1000 (expected 1000)
+2 SUM Picker.pick(NarrowOf(i)) = 1500 (expected 1500), conversions = 1000 (expected 1000)
+3 SUM mixed = 4500 (expected 4500), conversions = 1000 (expected 1000)
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 Sk2CountOnce   (69d3eb799, 05:21:11Z, load 2.45) ===
+1 SUM g(NarrowOf(i)) = 1500 (expected 1500), conversions = 1000 (expected 1000)
+2 SUM Picker.pick(NarrowOf(i)) = 1500 (expected 1500), conversions = 1000 (expected 1000)
+3 SUM mixed = 4500 (expected 4500), conversions = 1000 (expected 1000)
+=== exit 0 ===
+=== compile Sk2CountOnce ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 Sk2CountOnce ===
+1 SUM g(NarrowOf(i)) =  1500  (expected 1500), conversions =  1000  (expected 1000)
+2 SUM Picker.pick(NarrowOf(i)) =  1500  (expected 1500), conversions =  1000  (expected 1000)
+3 SUM mixed =  4500  (expected 4500), conversions =  1000  (expected 1000)
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 Sk2CountOnce ===
+1 SUM g(NarrowOf(i)) =  1500  (expected 1500), conversions =  1000  (expected 1000)
+2 SUM Picker.pick(NarrowOf(i)) =  1500  (expected 1500), conversions =  1000  (expected 1000)
+3 SUM mixed =  4500  (expected 4500), conversions =  1000  (expected 1000)
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 Sk2TupleShapes   (69d3eb799, 05:21:20Z, load 2.53) ===
+null/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/Sk2TupleShapes.fss:23:3-20:
+    Equality testing expressions should be parenthesized.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 Sk2TupleShapes   (69d3eb799, 05:21:22Z, load 2.56) ===
+null/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/Sk2TupleShapes.fss:23:3-20:
+    Equality testing expressions should be parenthesized.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== compile Sk2TupleShapes ===
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/Sk2TupleShapes.fss:23:3-20:
+    Equality testing expressions should be parenthesized.
+File Sk2TupleShapes.fss has 1 error.
+=== exit 255 ===
+

@@ -1,0 +1,36 @@
+component SkAtomic
+export Executable
+
+trait Wide excludes { Narrow, String }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+acc: Wide := WideOf(0)
+iterations: ZZ32 = 2000
+
+bump(): () = atomic do acc := NarrowOf(acc.big + 1) end
+
+h(x: Wide): ZZ32 = x.big
+h(x: String): ZZ32 = 0
+
+run(): () = do
+  do
+    for i <- 1#iterations do bump() end
+  also do
+    for i <- 1#iterations do bump() end
+  end
+  println("acc.big = " acc.big " expected " (2 iterations))
+  s = SUM[i <- 1#1000] h(NarrowOf(i))
+  println("SUM h(NarrowOf(i)) = " s " expected 500500")
+end
+end

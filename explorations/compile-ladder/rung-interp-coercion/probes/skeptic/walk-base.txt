@@ -1,0 +1,100 @@
+the pre-edit build (tmp/build-base, a copy of ProjectFortress/build at 47437c65f) walking the skeptic's probes; nproc 4; load 0.58 1.86 3.81 1/101 7405
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatch.fss   (classes tmp/build-base, 2026-09-26T03:56:43Z) ===
+g(WideOf(1)) = g(WideOf)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatch.fss:25:31-43:
+Failed to find any matching overload, args = (NarrowOf), overload = {
+	g(x:Wide):FortressLibrary.String Wide->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatch.fss:20:1-30
+	g(x:WideOf):FortressLibrary.String WideOf->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatch.fss:21:1-35}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatch.fss:25:31-43:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatchMethod.fss   (classes tmp/build-base, 2026-09-26T03:56:47Z) ===
+Picker.pick(WideOf(1)) = pick(WideOf)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatchMethod.fss:25:41-62:
+Failed to find any matching overload, args = (NarrowOf), overload = {
+	pick(x:WideOf):FortressLibrary.String WideOf->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatchMethod.fss:20:3-42
+	pick(x:Wide):FortressLibrary.String Wide->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatchMethod.fss:19:3-38}:OverloadedMethod
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkRedispatchMethod.fss:25:41-62:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCycle.fss   (classes tmp/build-base, 2026-09-26T03:56:52Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCycle.fss:23:27-35:
+Unification error: Closure/Constructor for fp param 1 (x:P) got arg QOf of type QOf
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCycle.fss:23:27-35:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkTupleArrow.fss   (classes tmp/build-base, 2026-09-26T03:56:56Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkTupleArrow.fss:19:3-18:
+RHS expression type (NarrowOf,Int) is not assignable to LHS type (Wide,ZZ32)
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkTupleArrow.fss:19:3-18:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkTupleArrow.fss:19:3-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkStaticNarrow.fss   (classes tmp/build-base, 2026-09-26T03:57:00Z) ===
+n: Narrow = NarrowOf(1); g(n) = g(NarrowOf)
+=== exit 0 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss   (classes tmp/build-base, 2026-09-26T03:57:04Z) ===
+k(WideOf(1), NarrowOf(2)) = k(Wide, Narrow)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:23:44-69:
+Failed to find any matching overload, args = (NarrowOf,NarrowOf), overload = {
+	k(x:Wide,y:Narrow):FortressLibrary.String (Wide,Narrow)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:18:1-49
+	k(x:Narrow,y:Wide):FortressLibrary.String (Narrow,Wide)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:19:1-50}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkAmbig2.fss:23:44-69:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
