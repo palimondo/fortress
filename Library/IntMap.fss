@@ -672,8 +672,8 @@ end
 
 keySplit(k1:ZZ64, k2:ZZ64): ZZ64 = do
     (mn,mx) = if k1 <= k2 then (k1,k2) else (k2,k1) end
-    p = partitionL(((mn-1) BITXOR mx)+1)
-    (-p) BITAND mx
+    p = partitionL(((mn DOTMINUS 1) BITXOR mx) DOTPLUS 1)
+    (DOTMINUS p) BITAND mx
   end
 
 opr {|->[\Val\] kvs:(ZZ64,Val)... }:IntMap[\Val\] =

@@ -1,0 +1,7 @@
+component PrecDotPlusPlus
+export Executable
+run() = do
+  a: ZZ32 = 1
+  println(a DOTPLUS a + a)
+end
+end

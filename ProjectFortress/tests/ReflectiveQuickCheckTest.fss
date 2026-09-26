@@ -14,7 +14,7 @@ import Map.{...}
 object Properties extends GenericProperties
     (* Tests a non-generic property. *)
     propAssociativeAddition(a:ZZ32, b:ZZ32, c:ZZ32): Boolean =
-        (a + b) + c = a + (b + c)
+        ((a DOTPLUS b) DOTPLUS c) = (a DOTPLUS (b DOTPLUS c))
 
     (* Tests a polymorphic property and its desugared form. *)
     (* XXX RR32 + RR64 doesn't work correctly! *)

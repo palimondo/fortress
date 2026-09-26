@@ -232,13 +232,13 @@ object LinearCongruential[\N\](seed:N, mult:N, add:N, modulus:N)
         do state := seedvec[0] MOD modulus; self end
 
     random(): N =
-        do state := (mult widen(state) + add) MOD modulus; state end
+        do state := ((mult DOTTIMES widen(state)) DOTPLUS add) MOD modulus; state end
 
     perturbed(perturbvec:Generator[\ZZ32\]): LinearCongruential[\N\] = do
         (*) XXX Not statistically tested!
         newseed: N := state
         for p <- seq(perturbvec) do
-            newseed := (mult widen(newseed BITXOR p) + add) MOD modulus
+            newseed := ((mult DOTTIMES widen(newseed BITXOR p)) DOTPLUS add) MOD modulus
         end
         LinearCongruential[\N\](newseed, mult, add, modulus)
     end

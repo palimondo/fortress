@@ -619,11 +619,15 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Any
     getter isInfinite(): Boolean = false  (* For now, no infinite integers. *)
     denominator(self):ZZ = 1
     opr -(self):I
+    opr DOTMINUS(self):I
     opr +(self,b:I):I
+    opr DOTPLUS(self,b:I):I
     opr -(self,b:I):I
+    opr DOTMINUS(self,b:I):I
     opr DOT(self,b:I):I
     opr TIMES(self,b:I):I
     opr juxtaposition(self,b:I):I
+    opr DOTTIMES(self,b:I):I
     opr DIV(self,b:I):I
     opr REM(self,b:I):I
     opr MOD(self,b:I):I
@@ -657,16 +661,24 @@ trait ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }
 
     opr -(self):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Negate")
+    opr DOTMINUS(self):ZZ32 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$WrappingNegate")
     opr +(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Add")
+    opr DOTPLUS(self,b:ZZ32):ZZ32 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$WrappingAdd")
     opr -(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Sub")
+    opr DOTMINUS(self,b:ZZ32):ZZ32 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$WrappingSub")
     opr DOT(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Mul")
     opr TIMES(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Mul")
     opr juxtaposition(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Mul")
+    opr DOTTIMES(self,b:ZZ32):ZZ32 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$WrappingMul")
     opr DIV(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Div")
     opr REM(self,b:ZZ32):ZZ32 =
@@ -725,16 +737,24 @@ trait ZZ64 extends { ZZ, Integral[\ZZ64\] } comprises { Long, ZZ32 }
 
     opr -(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Negate")
+    opr DOTMINUS(self):ZZ64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$WrappingNegate")
     opr +(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Add")
+    opr DOTPLUS(self,b:ZZ64):ZZ64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$WrappingAdd")
     opr -(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Sub")
+    opr DOTMINUS(self,b:ZZ64):ZZ64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$WrappingSub")
     opr DOT(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Mul")
     opr TIMES(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Mul")
     opr juxtaposition(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Mul")
+    opr DOTTIMES(self,b:ZZ64):ZZ64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$WrappingMul")
     opr DIV(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Div")
     opr REM(self,b:ZZ64):ZZ64 =
@@ -779,16 +799,24 @@ trait NN64 extends { ZZ, Integral[\NN64\] } comprises { UnsignedLong, NN32 }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Less")
     opr -(self):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Negate")
+    opr DOTMINUS(self):NN64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingNegate")
     opr +(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Add")
+    opr DOTPLUS(self,b:NN64):NN64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingAdd")
     opr -(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Sub")
+    opr DOTMINUS(self,b:NN64):NN64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingSub")
     opr DOT(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Mul")
     opr TIMES(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Mul")
     opr juxtaposition(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Mul")
+    opr DOTTIMES(self,b:NN64):NN64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingMul")
     opr DIV(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Div")
     opr REM(self,b:NN64):NN64 =
@@ -842,15 +870,23 @@ trait ZZ extends Integral[\ZZ\]
 
     opr -(self): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Negate")
+    opr DOTMINUS(self): ZZ =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Negate")
     opr +(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Add")
+    opr DOTPLUS(self, b: ZZ): ZZ =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Add")
     opr -(self, b: ZZ): ZZ =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Sub")
+    opr DOTMINUS(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Sub")
     opr DOT(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mul")
     opr juxtaposition(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mul")
     opr TIMES(self, b: ZZ): ZZ =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mul")
+    opr DOTTIMES(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mul")
     opr /(self,other:ZZ):QQ = if other < 0 then (-self)/(-other) else
         g = self GCD other

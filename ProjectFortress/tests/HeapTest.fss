@@ -95,7 +95,7 @@ lg(n:ZZ32):ZZ32 =
 spread(n:ZZ32):(ZZ32,ZZ32) = do
     c1 : ZZ32 = -761155213
     c2 : ZZ32 = -412293886
-    (c1 n + c2, n)
+    ((c1 DOTTIMES n) DOTPLUS c2, n)
   end
 
 timeHdr(desc:String) = print("\t" desc "\t" desc "/n\t" desc "/nlgn")

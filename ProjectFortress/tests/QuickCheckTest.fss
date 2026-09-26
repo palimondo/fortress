@@ -86,8 +86,8 @@ end
 
 (** Tests various properties with labeling and shrinking. **)
 testCheck() = do
-    (* associativity of `+` operator over `ZZ32` domain: should pass *)
-    assocPlus = forAll[\(ZZ32,ZZ32,ZZ32)\] (fn (p,q,r) => ((p+q)+r = p+(q+r)))
+    (* associativity of `DOTPLUS` operator over `ZZ32` domain: should pass *)
+    assocPlus = forAll[\(ZZ32,ZZ32,ZZ32)\] (fn (p,q,r) => (((p DOTPLUS q) DOTPLUS r) = (p DOTPLUS (q DOTPLUS r))))
     check(assocPlus)
 
     (* associativity of `+` operator over `RR64` domain: may fail *)

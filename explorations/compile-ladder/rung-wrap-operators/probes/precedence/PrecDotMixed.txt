@@ -1,0 +1,6 @@
+$ bin/fortress walk PrecDotMixed.fss   (tree at 00ef43efd plus the edit)
+a DOTMINUS a DOTMINUS a, left -3, right 3: -3
+a DOTMINUS a DOTPLUS a, left 3, right -3: 3
+a DOTPLUS a DOTTIMES a, DOTTIMES tighter 12, looser 18: 12
+a DOTTIMES a DOTMINUS a, DOTTIMES tighter 6, looser 0: 6
+exit=0

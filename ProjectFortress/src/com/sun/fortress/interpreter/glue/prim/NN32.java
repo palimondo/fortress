@@ -268,4 +268,28 @@ public class NN32 extends NativeConstructor {
 
     }
 
+    public static final class WrappingNegate extends N2N {
+        protected int f(int x) {
+            return Unsigned.subtract(0, x);
+        }
+    }
+
+    public static final class WrappingAdd extends NN2N {
+        protected int f(int x, int y) {
+            return Unsigned.add(x, y);
+        }
+    }
+
+    public static final class WrappingSub extends NN2N {
+        protected int f(int x, int y) {
+            return Unsigned.subtract(x, y);
+        }
+    }
+
+    public static final class WrappingMul extends NN2N {
+        protected int f(int x, int y) {
+            return Unsigned.multiplyToInt(x, y);
+        }
+    }
+
 }

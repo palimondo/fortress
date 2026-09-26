@@ -84,11 +84,15 @@ value object NN32 extends { StandardTotalOrder[\NN32\], NN64 }
     opr =(self, b:NN32):Boolean
     opr <(self, b:NN32):Boolean
     opr -(self):NN32
+    opr DOTMINUS(self):NN32
     opr +(self,b:NN32):NN32
+    opr DOTPLUS(self,b:NN32):NN32
     opr -(self,b:NN32):NN32
+    opr DOTMINUS(self,b:NN32):NN32
     opr DOT(self,b:NN32):NN32
     opr TIMES(self,b:NN32):NN32
     opr juxtaposition(self,b:NN32):NN32
+    opr DOTTIMES(self,b:NN32):NN32
     opr DIV(self,b:NN32):NN32
     opr REM(self,b:NN32):NN32
     opr MOD(self,b:NN32):NN32

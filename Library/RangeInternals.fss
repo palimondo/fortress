@@ -1027,8 +1027,8 @@ object CompactFullParScalarRange[\I extends Integral[\I\]\](l:I, r:I)
                     body(lo)
                 else
                     (* Identify power-of-2 boundary in region, split there *)
-                    split = partitionL((lo BITXOR hi)+1)
-                    mid   = hi BITAND (BITNOT (split-1))
+                    split = partitionL((lo BITXOR hi) DOTPLUS 1)
+                    mid   = hi BITAND (BITNOT (split DOTMINUS 1))
                     red.join(loop'(lo,mid-1),loop'(mid,hi))
                 end
             loop'(l,r)
@@ -1042,8 +1042,8 @@ object CompactFullParScalarRange[\I extends Integral[\I\]\](l:I, r:I)
                     body(lo)
                 else
                     (* Identify power-of-2 boundary in region, split there *)
-                    split = partitionL((lo BITXOR hi)+1)
-                    mid   = hi BITAND (BITNOT (split-1))
+                    split = partitionL((lo BITXOR hi) DOTPLUS 1)
+                    mid   = hi BITAND (BITNOT (split DOTMINUS 1))
                     do
                         lop(lo,mid-1)
                     also do
@@ -1197,8 +1197,8 @@ object StridedFullParScalarRange[\I extends Integral[\I\]\](l:I, r:I, str:I) ext
                         body(lo)
                     else
                         (* Identify power-of-2 boundary *)
-                        split = partitionL((lo BITXOR hi)+1)
-                        midAmt = (hi BITAND (BITNOT (split-1))) - lo - 1
+                        split = partitionL((lo BITXOR hi) DOTPLUS 1)
+                        midAmt = ((hi BITAND (BITNOT (split DOTMINUS 1))) - 1) - lo
                         (* Round power-of-2 boundary down to stride size
                            WARNING?  Problem with negative lo here?  *)
                         midL = lo + str (midAmt DIV str)
@@ -1217,8 +1217,8 @@ object StridedFullParScalarRange[\I extends Integral[\I\]\](l:I, r:I, str:I) ext
                         body(lo)
                     else
                         (* Identify power-of-2 boundary *)
-                        split = partitionL((lo BITXOR hi)+1)
-                        midAmt = (hi BITAND (BITNOT (split-1))) - lo - 1
+                        split = partitionL((lo BITXOR hi) DOTPLUS 1)
+                        midAmt = ((hi BITAND (BITNOT (split DOTMINUS 1))) - 1) - lo
                         (* Round power-of-2 boundary down to stride size
                            WARNING?  Problem with negative lo here?  *)
                         midL = lo + str' (midAmt DIV str')
@@ -1238,8 +1238,8 @@ object StridedFullParScalarRange[\I extends Integral[\I\]\](l:I, r:I, str:I) ext
                         body(lo)
                     else
                         (* Identify power-of-2 boundary *)
-                        split = partitionL((lo BITXOR hi)+1)
-                        midAmt = (hi BITAND (BITNOT (split-1))) - lo - 1
+                        split = partitionL((lo BITXOR hi) DOTPLUS 1)
+                        midAmt = ((hi BITAND (BITNOT (split DOTMINUS 1))) - 1) - lo
                         (* Round power-of-2 boundary down to stride size
                            WARNING?  Problem with negative lo here?  *)
                         midL = lo + str (midAmt DIV str)
@@ -1262,8 +1262,8 @@ object StridedFullParScalarRange[\I extends Integral[\I\]\](l:I, r:I, str:I) ext
                         body(lo)
                     else
                         (* Identify power-of-2 boundary *)
-                        split = partitionL((lo BITXOR hi)+1)
-                        midAmt = (hi BITAND (BITNOT (split-1))) - lo - 1
+                        split = partitionL((lo BITXOR hi) DOTPLUS 1)
+                        midAmt = ((hi BITAND (BITNOT (split DOTMINUS 1))) - 1) - lo
                         (* Round power-of-2 boundary down to stride size
                            WARNING?  Problem with negative lo here?  *)
                         midL = lo + str' (midAmt DIV str')

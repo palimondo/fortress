@@ -329,4 +329,28 @@ public class UnsignedLong extends NativeConstructor {
 
     }
 
+    public static final class WrappingNegate extends U2U {
+        protected long f(long x) {
+            return Unsigned.subtract(0, x);
+        }
+    }
+
+    public static final class WrappingAdd extends UU2U {
+        protected long f(long x, long y) {
+            return Unsigned.add(x, y);
+        }
+    }
+
+    public static final class WrappingSub extends UU2U {
+        protected long f(long x, long y) {
+            return Unsigned.subtract(x, y);
+        }
+    }
+
+    public static final class WrappingMul extends UU2U {
+        protected long f(long x, long y) {
+            return Unsigned.multiplyToLong(x, y);
+        }
+    }
+
 }
