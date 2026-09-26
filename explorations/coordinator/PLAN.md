@@ -16,7 +16,7 @@ The order Pavol approved on 2026-09-26 (`coordinator/POSITIONS.md`, 2026-09-26, 
 
 Every batch lands with the specification, the library and both paths agreeing. So the work is grouped by what has to change together, not split finer.
 
-Two rules of the batch machinery shape the order: two rungs in one batch may not change the same declaration, and a rung cannot build on another rung of its own batch, since every rung branches from the batch's base (`coordinator/climb-batch-workflow.js:370`, batch rule 1). That is why the wrapping operators and the flattening sit in different batches, and why rung O's check follows the operators.
+Two rules of the batch machinery shape the order: two rungs in one batch may not change the same declaration, and a rung cannot build on another rung of its own batch, since every rung branches from the batch's base (`coordinator/climb-batch-workflow.js:465`, batch rule 1). That is why the wrapping operators and the flattening sit in different batches, and why rung O's check follows the operators.
 
 ## The phases
 
