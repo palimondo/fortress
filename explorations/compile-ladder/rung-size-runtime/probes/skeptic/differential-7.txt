@@ -1,0 +1,22 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.36 1.08 1.29; JDK 25; FORTRESS_THREADS=1
+# build: 5e030a07d; source edits in the working tree: []
+################################ ZtParamType.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+41
+34
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+41
+34
+exit=0
+---------- walk, FORTRESS_THREADS=1
+41
+34
+exit=0
+---------- walk, FORTRESS_THREADS=4
+41
+34
+exit=0
+EXIT=0

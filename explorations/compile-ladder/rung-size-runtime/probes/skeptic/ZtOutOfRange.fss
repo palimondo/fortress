@@ -1,0 +1,10 @@
+component ZtOutOfRange
+export Executable
+object Box[\nat k\](v: ZZ32) end
+n32[\nat k\](b: Box[\k\]): NN32 = k
+z32[\nat k\](b: Box[\k\]): ZZ32 = k
+run() = do
+  println(n32(Box[\3000000000\](0)))
+  println(z32(Box[\3000000000\](0)))
+end
+end

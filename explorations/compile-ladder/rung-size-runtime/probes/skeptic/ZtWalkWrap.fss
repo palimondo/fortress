@@ -1,0 +1,16 @@
+component ZtWalkWrap
+export Executable
+object Box[\nat k\](v: ZZ32) end
+v64[\nat k\](b: Box[\k\]): ZZ64 = k
+g(b: Box[\4294967296\]): String = "two-to-32"
+g(b: Box[\0\]): String = "zero"
+g(x: Any): String = "other"
+run() = do
+  println(v64(Box[\4294967296\](0)))
+  println(v64(Box[\4294967299\](0)))
+  a: Any = Box[\4294967296\](0)
+  println(g(a))
+  z: Any = Box[\0\](0)
+  println(g(z))
+end
+end

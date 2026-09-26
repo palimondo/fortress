@@ -1,0 +1,11 @@
+component ZtWalkZero
+export Executable
+object Box[\nat k\](v: ZZ32) end
+v64[\nat k\](b: Box[\k\]): ZZ64 = k
+isZero(x: Any): String = typecase x of Box[\0\] => "same as zero"; else => "not zero" end
+run() = do
+  println(v64(Box[\4294967296\](0)))
+  println(v64(Box[\4294967299\](0)))
+  println(isZero(Box[\4294967296\](0)))
+end
+end

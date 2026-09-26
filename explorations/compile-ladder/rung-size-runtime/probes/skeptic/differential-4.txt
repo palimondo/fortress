@@ -1,0 +1,216 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.82 1.43 1.39; JDK 25; FORTRESS_THREADS=1
+# build: 5e030a07d; source edits in the working tree: []
+################################ ZtRetClosure.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+4
+5
+117
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+4
+5
+117
+exit=0
+---------- walk, FORTRESS_THREADS=1
+4
+5
+117
+exit=0
+---------- walk, FORTRESS_THREADS=4
+4
+5
+117
+exit=0
+################################ ZtLocalFn.fss
+---------- compile
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZtLocalFn.fss:5:3-6:3:
+    Can't compile LetFn at explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZtLocalFn.fss:5.3
+exit=1
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZtLocalFn
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZtLocalFn.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZtLocalFn
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZtLocalFn.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+13
+15
+exit=0
+---------- walk, FORTRESS_THREADS=4
+13
+15
+exit=0
+################################ ZtParSum.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+3000
+7000
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+3000
+7000
+exit=0
+---------- walk, FORTRESS_THREADS=1
+3000
+7000
+exit=0
+---------- walk, FORTRESS_THREADS=4
+3000
+7000
+exit=0
+################################ ZtTwoInst.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+28
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+28
+exit=0
+---------- walk, FORTRESS_THREADS=1
+28
+exit=0
+---------- walk, FORTRESS_THREADS=4
+28
+exit=0
+################################ ZtOutOfRange.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+-1294967296
+java.lang.Error: java.lang.Error: Not in range for ZZ32: 3000000000
+Caused by: java.lang.Error: Not in range for ZZ32: 3000000000
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+-1294967296
+java.lang.Error: java.lang.Error: Not in range for ZZ32: 3000000000
+Caused by: java.lang.Error: Not in range for ZZ32: 3000000000
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZtOutOfRange.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZtOutOfRange.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZtOutOfRange.fss:3:13-16:
+Negative nats are unNATural: -1294967296
+Context:
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZtOutOfRange.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ZtShadow.fss
+---------- compile
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZtShadow.fss:4:38:
+    Variable k is already declared.
+File ZtShadow.fss has 1 error.
+exit=255
+---------- compiled run, FORTRESS_THREADS=1
+Could not load ZtShadow
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZtShadow.class
+	... 4 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+Could not load ZtShadow
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ZtShadow.class
+	... 4 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZtShadow.fss:4:38:
+    Variable k is already declared.
+exit=255
+---------- walk, FORTRESS_THREADS=4
+explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZtShadow.fss:4:38:
+    Variable k is already declared.
+exit=255
+################################ ZtTypecaseK.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+same
+diff
+same
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+same
+diff
+same
+exit=0
+---------- walk, FORTRESS_THREADS=1
+same
+diff
+same
+exit=0
+---------- walk, FORTRESS_THREADS=4
+same
+diff
+same
+exit=0
+################################ ZtTypecaseKT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+same
+diff
+same
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+same
+diff
+same
+exit=0
+---------- walk, FORTRESS_THREADS=1
+same
+diff
+same
+exit=0
+---------- walk, FORTRESS_THREADS=4
+same
+diff
+same
+exit=0
+################################ ZtBig64Val.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+4294967296
+4611686018427387904
+18446744073709551616
+340282366920938463463374607431768211456
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+4294967296
+4611686018427387904
+18446744073709551616
+340282366920938463463374607431768211456
+exit=0
+---------- walk, FORTRESS_THREADS=1
+0
+0
+0
+0
+exit=0
+---------- walk, FORTRESS_THREADS=4
+0
+0
+0
+0
+exit=0
+EXIT=0
