@@ -1,0 +1,30 @@
+component XXXCoercionStaticNarrowRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+g(x: Wide): String = "g(Wide)"
+g(x: NarrowOf): String = "g(NarrowOf)"
+
+run() = do
+    println("REACHED")
+    n: Narrow = NarrowOf(1)
+    assert(g(n), "g(Wide)", "row 19: coercion is resolved on the static type Narrow, so g(n) calls g(Wide) though g(NarrowOf) applies to the value without coercion; conversions-coercions.tex:525-536, :567-570")
+    println("PASS")
+  end
+
+end

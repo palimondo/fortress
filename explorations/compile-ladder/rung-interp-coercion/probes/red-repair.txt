@@ -1,0 +1,88 @@
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 0.00 0.05 0.54, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1; build: ProjectFortress/build of 386e7423a (the first pass's edit), before the repair edit ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionRedispatchRungC.fss   (5b7c5ff65, 2026-09-26T04:37:55Z) ===
+FAIL: J7/0:g(Wide) =/= J9/0:g(WideOf); row 19: the converted argument is dispatched as an ordinary call, and the most specific declaration for its run-time type is applied; conversions-coercions.tex:253-265, :532-536; advanced/overloading.tex:73-78, :466-468; basic/overloading.tex:263-276
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionRedispatchRungC.fss:36:5-292:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (5b7c5ff65, 2026-09-26T04:37:59Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/CoercionBindRungC.fss:27:1-43:
+Type mismatch binding (NarrowOf,15): (NarrowOf,Int) (type (NarrowOf,Int)) to topPair (type (Wide,ZZ32))
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionBindRungC.fss:27:1-43:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionBindRungC.fss:27:1-43:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss   (5b7c5ff65, 2026-09-26T04:38:04Z) ===
+REACHED
+FAIL: J11/0:g(NarrowOf) =/= J7/0:g(Wide); row 19: coercion is resolved on the static type Narrow, so g(n) calls g(Wide) though g(NarrowOf) applies to the value without coercion; conversions-coercions.tex:525-536, :567-570
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss:26:5-209:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== supplementary: every expression of CoercionRedispatchRungC printed rather than asserted, and the local tuple binding of CoercionBindRungC, same build, before the repair edit; loadavg at start 0.46 0.17 0.56 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/compile-ladder/rung-interp-coercion/probes/RedispatchValues.fss   (5b7c5ff65, 2026-09-26T04:38:25Z) ===
+g(NarrowOf(2)) = g(Wide)
+g(NarrowOf(3)) = g(Wide)
+g(NarrowOf(4)) = g(Wide)
+Picker.pick(NarrowOf(2)) = pick(Wide)
+Picker.pick(NarrowOf(3)) = pick(Wide)
+describe(NarrowOf(6)) = WideOf.describe
+describe(NarrowOf(5)) = Wide.describe
+SUM[i <- 1:100] hit(g(NarrowOf(i))) = 0
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/RedispatchValues.fss:42:5-20:
+RHS expression type (NarrowOf,Int) is not assignable to LHS type (Wide,ZZ32)
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/RedispatchValues.fss:42:5-20:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/RedispatchValues.fss:42:5-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+

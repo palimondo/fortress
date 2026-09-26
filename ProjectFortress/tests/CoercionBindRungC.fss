@@ -24,12 +24,19 @@ end
 
 topFixed: Wide = NarrowOf(6)
 var topMoving: Wide = NarrowOf(7)
+topPair: (Wide, ZZ32) = (NarrowOf(14), 15)
 
 run() = do
     w: Wide = NarrowOf(3)
     assert(w.big, 3, "row 19: a local variable declared Wide converts its right-hand side; conversions-coercions.tex:100-101")
     (t: Wide, s: String) = (NarrowOf(4), "four")
     assert(t.big, 4, "row 19: a tuple binding's typed element converts; conversions-coercions.tex:100-101")
+    p: (Wide, ZZ32) = (NarrowOf(12), 13)
+    (pa, pb) = p
+    assert(pa.big, 12, "row 19: a variable declared with a tuple type converts element by element; conversions-coercions.tex:100-101, :694-705")
+    assert(pb, 13, "row 19: an element already of its type is kept; conversions-coercions.tex:694-697")
+    (qa, qb) = topPair
+    assert(qa.big, 14, "row 19: a top-level variable declared with a tuple type converts element by element; conversions-coercions.tex:100-101, :694-705")
     var v: Wide = WideOf(widen(1))
     v := NarrowOf(5)
     assert(v.big, 5, "row 19: an assignment to a variable declared Wide converts; conversions-coercions.tex:108-109")
