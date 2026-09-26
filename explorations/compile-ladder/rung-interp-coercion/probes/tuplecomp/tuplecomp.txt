@@ -1,0 +1,127 @@
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 1.06 2.40 2.69, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1; build of 8878e0e45 with the compiled library cache rebuilt after it; each probe walked, then fortress compile, then fortress run; 2026-09-26T05:03:20Z ===
+=== walk TcLocalPair ===
+local pair: a.big = 1 b = 2
+=== exit 0 ===
+=== compile TcLocalPair ===
+=== exit 0 ===
+=== run TcLocalPair ===
+local pair: a.big =  1  b =  2
+=== exit 0 ===
+
+=== walk TcLocalPairCoerce ===
+local pair coerced: a.big = 1 b = 2
+=== exit 0 ===
+=== compile TcLocalPairCoerce ===
+=== exit 0 ===
+=== run TcLocalPairCoerce ===
+local pair coerced: a.big =  1  b =  2
+=== exit 0 ===
+
+=== walk TcNested ===
+nested: na.big = 1 nb = 2 nc = 3
+=== exit 0 ===
+=== compile TcNested ===
+=== exit 0 ===
+=== run TcNested ===
+nested: na.big =  1  nb =  2  nc =  3
+=== exit 0 ===
+
+=== walk TcLocalVar ===
+local var: ma.big = 4 mb = 5
+=== exit 0 ===
+=== compile TcLocalVar ===
+=== exit 0 ===
+=== run TcLocalVar ===
+java.lang.ClassFormatError: Illegal class name "LTcLocalVar$Wide;" in class file TcLocalVar
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Could not load TcLocalVar
+java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:336)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.lang.ClassFormatError: Illegal class name "LTcLocalVar$Wide;" in class file TcLocalVar
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	... 4 more
+=== exit 1 ===
+
+=== walk TcField ===
+field: ha.big = 6 hb = 7
+=== exit 0 ===
+=== compile TcField ===
+=== exit 0 ===
+=== run TcField ===
+field: ha.big =  6  hb =  7
+=== exit 0 ===
+
+=== walk TcVarField ===
+var field assigned: a.big = 10 b = 11
+=== exit 0 ===
+=== compile TcVarField ===
+=== exit 0 ===
+=== run TcVarField ===
+java.lang.VerifyError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at TcVarField.main(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/tuplecomp/TcVarField.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    TcVarField$Holder.pair(LTcVarField$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FVoid; @2: invokevirtual
+  Reason:
+    Type 'TcVarField$Wide' (current frame, stack[1]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32'
+  Current Frame:
+    bci: @2
+    flags: { }
+    locals: { 'TcVarField$Holder', 'TcVarField$Wide', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'TcVarField$Holder', 'TcVarField$Wide' }
+  Bytecode:
+    0000000: 2a2b b600 28b0                         
+
+	at TcVarField.Holder(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/tuplecomp/TcVarField.fss)
+	at TcVarField.run(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/tuplecomp/TcVarField.fss:23)
+	at TcVarField.compute(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/tuplecomp/TcVarField.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+=== exit 1 ===
+
+=== walk TcTopVar ===
+top var: ta1.big = 18 tb1 = 19
+=== exit 0 ===
+=== compile TcTopVar ===
+=== exit 0 ===
+=== run TcTopVar ===
+top var: ta1.big =  18  tb1 =  19
+=== exit 0 ===
+
+=== walk TcSingle ===
+single: 25
+=== exit 0 ===
+=== compile TcSingle ===
+=== exit 0 ===
+=== run TcSingle ===
+single:  25
+=== exit 0 ===
+

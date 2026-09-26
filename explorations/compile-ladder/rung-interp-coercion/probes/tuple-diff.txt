@@ -1,0 +1,235 @@
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 1.25 2.77 2.82, openjdk version "25.0.4" 2026-07-21; build: ProjectFortress/build of 8878e0e45 (the repair edit), compiled library cache rebuilt in library order after it (tmp/libcache-repair.txt); 2026-09-26T05:01:52Z ===
+
+=== walk FORTRESS_THREADS=1 TupleOverloadParam   (8878e0e45, 05:01:52Z, load 1.25) ===
+over((WideOf(1), 2)) = over((Wide, ZZ32))
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+Failed to find any matching overload, args = (NarrowOf,4: ZZ32), overload = {
+	over(s:FortressLibrary.String):FortressLibrary.String String->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:19:1-41
+	over(p:(Wide, FortressLibrary.ZZ32)):FortressLibrary.String (Wide,ZZ32)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:18:1-52}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 TupleOverloadParam   (8878e0e45, 05:02:11Z, load 1.49) ===
+over((WideOf(1), 2)) = over((Wide, ZZ32))
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+Failed to find any matching overload, args = (NarrowOf,4: ZZ32), overload = {
+	over(s:FortressLibrary.String):FortressLibrary.String String->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:19:1-41
+	over(p:(Wide, FortressLibrary.ZZ32)):FortressLibrary.String (Wide,ZZ32)->String /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:18:1-52}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleOverloadParam.fss:23:41-61:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== compile TupleOverloadParam ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 TupleOverloadParam ===
+over((WideOf(1), 2)) =  over((Wide, ZZ32))
+over((NarrowOf(3), 4)) =  over((Wide, ZZ32))
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 TupleOverloadParam ===
+over((WideOf(1), 2)) =  over((Wide, ZZ32))
+over((NarrowOf(3), 4)) =  over((Wide, ZZ32))
+=== exit 0 ===
+
+=== walk FORTRESS_THREADS=1 TupleFieldAssign   (8878e0e45, 05:02:18Z, load 1.45) ===
+var pair: (Wide, ZZ32) = (NarrowOf(1), 2); a0.big = 1 b0 = 2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:26:5-27:4:
+Failed to find any matching overload, args = (NarrowOf,11: ZZ32), overload = {
+	pair():(Wide, FortressLibrary.ZZ32) ()->(Wide,ZZ32) /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:19:7-25
+	pair(param_pair:(Wide, FortressLibrary.ZZ32)):() (Wide,ZZ32)->() /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:19:7-25}:OverloadedMethod
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:26:5-27:4:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 TupleFieldAssign   (8878e0e45, 05:02:22Z, load 1.57) ===
+var pair: (Wide, ZZ32) = (NarrowOf(1), 2); a0.big = 1 b0 = 2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:26:5-27:4:
+Failed to find any matching overload, args = (NarrowOf,11: ZZ32), overload = {
+	pair():(Wide, FortressLibrary.ZZ32) ()->(Wide,ZZ32) /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:19:7-25
+	pair(param_pair:(Wide, FortressLibrary.ZZ32)):() (Wide,ZZ32)->() /home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:19:7-25}:OverloadedMethod
+Context:
+/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:26:5-27:4:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+=== compile TupleFieldAssign ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 TupleFieldAssign ===
+java.lang.VerifyError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at TupleFieldAssign.main(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    TupleFieldAssign$Holder.pair(LTupleFieldAssign$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FVoid; @2: invokevirtual
+  Reason:
+    Type 'TupleFieldAssign$Wide' (current frame, stack[1]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32'
+  Current Frame:
+    bci: @2
+    flags: { }
+    locals: { 'TupleFieldAssign$Holder', 'TupleFieldAssign$Wide', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'TupleFieldAssign$Holder', 'TupleFieldAssign$Wide' }
+  Bytecode:
+    0000000: 2a2b b600 28b0                         
+
+	at TupleFieldAssign.Holder(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss)
+	at TupleFieldAssign.run(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:23)
+	at TupleFieldAssign.compute(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+=== exit 1 ===
+=== run FORTRESS_THREADS=4 TupleFieldAssign ===
+java.lang.VerifyError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at TupleFieldAssign.main(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    TupleFieldAssign$Holder.pair(LTupleFieldAssign$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FVoid; @2: invokevirtual
+  Reason:
+    Type 'TupleFieldAssign$Wide' (current frame, stack[1]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32'
+  Current Frame:
+    bci: @2
+    flags: { }
+    locals: { 'TupleFieldAssign$Holder', 'TupleFieldAssign$Wide', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'TupleFieldAssign$Holder', 'TupleFieldAssign$Wide' }
+  Bytecode:
+    0000000: 2a2b b600 28b0                         
+
+	at TupleFieldAssign.Holder(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss)
+	at TupleFieldAssign.run(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss:23)
+	at TupleFieldAssign.compute(/home/user/fortress-coerce/explorations/compile-ladder/rung-interp-coercion/probes/TupleFieldAssign.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+=== exit 1 ===
+
+=== walk FORTRESS_THREADS=1 TupleMore   (8878e0e45, 05:02:29Z, load 1.69) ===
+nested: ((Wide, ZZ32), ZZ32) = ((NarrowOf(1), 2), 3); na.big = 1 nb = 2 nc = 3
+var m: (Wide, ZZ32); m := (NarrowOf(4), 5); ma.big = 4 mb = 5
+field pair: (Wide, ZZ32) = (NarrowOf(6), 7); ha.big = 6 hb = 7
+var field mpair: (Wide, ZZ32) = (NarrowOf(8), 9); ka.big = 8 kb = 9
+var topT: (Wide, ZZ32) = (NarrowOf(16), 17); ta0.big = 16 tb0 = 17
+topT := (NarrowOf(18), 19); ta1.big = 18 tb1 = 19
+single(p: (Wide, ZZ32)) given (NarrowOf(12), 13) = 25
+tt: (Wide, Wide) = (NarrowOf(14), WideOf(15)); ta.big = 14 tb.big = 15
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 TupleMore   (8878e0e45, 05:02:34Z, load 1.79) ===
+nested: ((Wide, ZZ32), ZZ32) = ((NarrowOf(1), 2), 3); na.big = 1 nb = 2 nc = 3
+var m: (Wide, ZZ32); m := (NarrowOf(4), 5); ma.big = 4 mb = 5
+field pair: (Wide, ZZ32) = (NarrowOf(6), 7); ha.big = 6 hb = 7
+var field mpair: (Wide, ZZ32) = (NarrowOf(8), 9); ka.big = 8 kb = 9
+var topT: (Wide, ZZ32) = (NarrowOf(16), 17); ta0.big = 16 tb0 = 17
+topT := (NarrowOf(18), 19); ta1.big = 18 tb1 = 19
+single(p: (Wide, ZZ32)) given (NarrowOf(12), 13) = 25
+tt: (Wide, Wide) = (NarrowOf(14), WideOf(15)); ta.big = 14 tb.big = 15
+=== exit 0 ===
+=== compile TupleMore ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 TupleMore ===
+java.lang.ClassFormatError: Illegal class name "LTupleMore$Wide;" in class file TupleMore
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Could not load TupleMore
+java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:336)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.lang.ClassFormatError: Illegal class name "LTupleMore$Wide;" in class file TupleMore
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	... 4 more
+=== exit 1 ===
+=== run FORTRESS_THREADS=4 TupleMore ===
+java.lang.ClassFormatError: Illegal class name "LTupleMore$Wide;" in class file TupleMore
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Could not load TupleMore
+java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:336)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.lang.ClassFormatError: Illegal class name "LTupleMore$Wide;" in class file TupleMore
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	... 4 more
+=== exit 1 ===
+

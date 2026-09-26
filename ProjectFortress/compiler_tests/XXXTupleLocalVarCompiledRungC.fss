@@ -1,0 +1,23 @@
+component XXXTupleLocalVarCompiledRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait Wide
+  getter big(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+
+run(): () = do
+    println("REACHED")
+    var m: (Wide, ZZ32) = (WideOf(0), 0)
+    m := (WideOf(4), 5)
+    (a, b) = m
+    assert(a.big, 4, "row 396 (provisional): a local variable declared with a tuple type holds the value assigned to it; basic/variables.tex:77-84, :195-199")
+    assert(b, 5, "row 396 (provisional): a local variable declared with a tuple type holds the value assigned to it; basic/variables.tex:77-84, :195-199")
+    println("PASS")
+end
+
+end

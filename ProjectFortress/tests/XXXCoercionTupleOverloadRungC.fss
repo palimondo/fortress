@@ -29,8 +29,8 @@ run() = do
     h = Holder(1)
     h.pair := (NarrowOf(10), 11)
     (a, b) = h.pair
-    assert(a.big, 10, "row 19: an assignment to a field declared with a tuple type converts element by element; conversions-coercions.tex:108-110, :694-705")
-    assert(over((NarrowOf(3), 4)), "over((Wide, ZZ32))", "row 19: an overloaded function's tuple-typed parameter converts its argument element by element; conversions-coercions.tex:102-103, :694-705")
+    assert(a.big, 10, "row 395 (provisional): an assignment to a field declared with a tuple type converts element by element; conversions-coercions.tex:108-110, :694-705")
+    assert(over((NarrowOf(3), 4)), "over((Wide, ZZ32))", "row 395 (provisional): an overloaded function's tuple-typed parameter converts its argument element by element; conversions-coercions.tex:102-103, :694-705")
     println("PASS")
   end
 

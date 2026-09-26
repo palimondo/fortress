@@ -1,0 +1,27 @@
+component TcLocalVar
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+
+
+run() = do
+    var m: (Wide, ZZ32) = (WideOf(0), 0)
+    m := (WideOf(4), 5)
+    (ma, mb) = m
+    println("local var: ma.big = " ma.big " mb = " mb)
+  end
+
+end

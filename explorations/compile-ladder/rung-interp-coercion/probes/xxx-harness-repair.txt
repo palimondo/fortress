@@ -19,3 +19,13 @@ Time: 21.649
 OK (12 tests)
 
 === exit 0 ===
+=== $ harness-one.sh tmp/h-repair2 ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss, after its two assert messages were changed to cite row 395 (provisional); loadavg at start 0.94 3.73 3.08; 2026-09-26T04:59:08Z ===
+/home/user/fortress-coerce/tmp/h-repair2/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0dc14d664_16
+. interpret /home/user/fortress-coerce/tmp/h-repair2/tests/XXXCoercionTupleOverloadRungC  OK Saw expected exception
+
+Time: 19.453
+
+OK (1 test)
+
+=== exit 0 ===

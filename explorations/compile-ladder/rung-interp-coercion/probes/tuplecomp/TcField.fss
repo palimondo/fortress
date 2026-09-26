@@ -1,0 +1,28 @@
+component TcField
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+object Holder(n: ZZ32)
+  pair: (Wide, ZZ32) = (WideOf(n), n + 1)
+end
+
+run() = do
+    h = Holder(6)
+    (ha, hb) = h.pair
+    println("field: ha.big = " ha.big " hb = " hb)
+  end
+
+end

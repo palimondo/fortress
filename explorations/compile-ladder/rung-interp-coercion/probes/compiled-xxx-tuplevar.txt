@@ -1,0 +1,498 @@
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/TupleVarCompiledRungCLink.test)   (8878e0e45 plus the new compiler_tests files; nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 0.62 1.81 2.43, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1; 2026-09-26T05:05:51Z) ===
+. link compiler_tests/XXXTupleLocalVarCompiledRungC  OK (time = 4181ms)
+. link compiler_tests/XXXTupleVarFieldCompiledRungC  OK (time = 1143ms)
+
+Time: 5.334
+
+OK (2 tests)
+
+=== exit 0 ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleLocalVarCompiledRungC.test)   (8878e0e45 plus the new compiler_tests files; nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 0.73 1.81 2.43, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1; 2026-09-26T05:05:57Z) ===
+. run compiler_tests/XXXTupleLocalVarCompiledRungC (240ms) java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Could not load XXXTupleLocalVarCompiledRungC
+java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:336)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	... 4 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 0.254
+There was 1 failure:
+1) compiler_tests/XXXTupleLocalVarCompiledRungC(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXTupleLocalVarCompiledRungC
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 0 ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleVarFieldCompiledRungC.test)   (8878e0e45 plus the new compiler_tests files; nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 0.73 1.81 2.43, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1; 2026-09-26T05:05:58Z) ===
+. run compiler_tests/XXXTupleVarFieldCompiledRungC (327ms) REACHED
+java.lang.VerifyError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at XXXTupleVarFieldCompiledRungC.main(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    XXXTupleVarFieldCompiledRungC$Holder.pair(LXXXTupleVarFieldCompiledRungC$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FVoid; @2: invokevirtual
+  Reason:
+    Type 'XXXTupleVarFieldCompiledRungC$Wide' (current frame, stack[1]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32'
+  Current Frame:
+    bci: @2
+    flags: { }
+    locals: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide' }
+  Bytecode:
+    0000000: 2a2b b600 28b0                         
+
+	at XXXTupleVarFieldCompiledRungC.Holder(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at XXXTupleVarFieldCompiledRungC.run(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss:18)
+	at XXXTupleVarFieldCompiledRungC.compute(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 0.341
+There was 1 failure:
+1) compiler_tests/XXXTupleVarFieldCompiledRungC(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXTupleVarFieldCompiledRungC
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 0 ===
+
+=== the two XXX .test files rewritten: run_out_contains=PASS is an unmet check whatever the file name (FileTests.java:534-537, :583-585), so the lines above are red; now the check lines of the XXXUnionReturnRungS and XXXCoercionAnyOverloadRungC precedents ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleLocalVarCompiledRungC.test)   (8878e0e45 plus the new compiler_tests files, final check lines; loadavg at start 1.10 1.74 2.37; 2026-09-26T05:06:52Z) ===
+. run compiler_tests/XXXTupleLocalVarCompiledRungC (330ms) java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Could not load XXXTupleLocalVarCompiledRungC
+java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:336)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	... 4 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.347
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleVarFieldCompiledRungC.test)   (8878e0e45 plus the new compiler_tests files, final check lines; loadavg at start 1.10 1.74 2.37; 2026-09-26T05:06:53Z) ===
+. run compiler_tests/XXXTupleVarFieldCompiledRungC (462ms) REACHED
+java.lang.VerifyError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at XXXTupleVarFieldCompiledRungC.main(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    XXXTupleVarFieldCompiledRungC$Holder.pair(LXXXTupleVarFieldCompiledRungC$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FVoid; @2: invokevirtual
+  Reason:
+    Type 'XXXTupleVarFieldCompiledRungC$Wide' (current frame, stack[1]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32'
+  Current Frame:
+    bci: @2
+    flags: { }
+    locals: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide' }
+  Bytecode:
+    0000000: 2a2b b600 28b0                         
+
+	at XXXTupleVarFieldCompiledRungC.Holder(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at XXXTupleVarFieldCompiledRungC.run(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss:18)
+	at XXXTupleVarFieldCompiledRungC.compute(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Saw expected failure (Exit code != 0)
+
+Time: 0.477
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== the stand-in fix: each XXX program temporarily rewritten to a form that runs today (the local var made immutable with its final value; the var field made immutable with its final value and the assignment dropped), to show its check lines turn red when the program passes ===
+
+--- diff of the stand-in
+15,16c15
+<     var m: (Wide, ZZ32) = (WideOf(0), 0)
+<     m := (WideOf(4), 5)
+---
+>     m: (Wide, ZZ32) = (WideOf(4), 5)
+13c13
+<   var pair: (Wide, ZZ32) = (WideOf(n), n + 1)
+---
+>   pair: (Wide, ZZ32) = (WideOf(n + 9), n + 10)
+19d18
+<     h.pair := (WideOf(10), 11)
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleLocalVarCompiledRungC.test)   (stand-in fix in place; loadavg at start 1.51 1.80 2.38; 2026-09-26T05:07:09Z) ===
+. run compiler_tests/XXXTupleLocalVarCompiledRungC (363ms) java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Could not load XXXTupleLocalVarCompiledRungC
+java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:336)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	... 4 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.39
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleVarFieldCompiledRungC.test)   (stand-in fix in place; loadavg at start 1.51 1.80 2.38; 2026-09-26T05:07:09Z) ===
+. run compiler_tests/XXXTupleVarFieldCompiledRungC (518ms) REACHED
+java.lang.VerifyError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at XXXTupleVarFieldCompiledRungC.main(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    XXXTupleVarFieldCompiledRungC$Holder.pair(LXXXTupleVarFieldCompiledRungC$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FVoid; @2: invokevirtual
+  Reason:
+    Type 'XXXTupleVarFieldCompiledRungC$Wide' (current frame, stack[1]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32'
+  Current Frame:
+    bci: @2
+    flags: { }
+    locals: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide' }
+  Bytecode:
+    0000000: 2a2b b600 28b0                         
+
+	at XXXTupleVarFieldCompiledRungC.Holder(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at XXXTupleVarFieldCompiledRungC.run(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss:18)
+	at XXXTupleVarFieldCompiledRungC.compute(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Saw expected failure (Exit code != 0)
+
+Time: 0.531
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== stand-in removed: cmp against the kept copies ===
+XXXTupleLocalVarCompiledRungC.fss restored
+XXXTupleVarFieldCompiledRungC.fss restored
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleLocalVarCompiledRungC.test)   (restored; loadavg at start 1.51 1.80 2.38; 2026-09-26T05:07:10Z) ===
+. run compiler_tests/XXXTupleLocalVarCompiledRungC (311ms) java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Could not load XXXTupleLocalVarCompiledRungC
+java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:336)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	... 4 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.336
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleVarFieldCompiledRungC.test)   (restored; loadavg at start 1.79 1.85 2.39; 2026-09-26T05:07:11Z) ===
+. run compiler_tests/XXXTupleVarFieldCompiledRungC (525ms) REACHED
+java.lang.VerifyError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at XXXTupleVarFieldCompiledRungC.main(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    XXXTupleVarFieldCompiledRungC$Holder.pair(LXXXTupleVarFieldCompiledRungC$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FVoid; @2: invokevirtual
+  Reason:
+    Type 'XXXTupleVarFieldCompiledRungC$Wide' (current frame, stack[1]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32'
+  Current Frame:
+    bci: @2
+    flags: { }
+    locals: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide' }
+  Bytecode:
+    0000000: 2a2b b600 28b0                         
+
+	at XXXTupleVarFieldCompiledRungC.Holder(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at XXXTupleVarFieldCompiledRungC.run(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss:18)
+	at XXXTupleVarFieldCompiledRungC.compute(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Saw expected failure (Exit code != 0)
+
+Time: 0.541
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== the stand-in above ran the classes the link test had compiled before it: a run test does not compile (the gate runs the link tests, FileTests' command tests, first), so those two runs measured the unchanged program. Again, with the link test run after the stand-in is in place ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/TupleVarCompiledRungCLink.test)   (stand-in fix in place, compiled by this link test; loadavg at start 1.79 1.85 2.38; 2026-09-26T05:07:33Z) ===
+. link compiler_tests/XXXTupleLocalVarCompiledRungC  OK (time = 4774ms)
+. link compiler_tests/XXXTupleVarFieldCompiledRungC  OK (time = 1099ms)
+
+Time: 5.881
+
+OK (2 tests)
+
+=== exit 0 ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleLocalVarCompiledRungC.test)   (stand-in fix in place; loadavg at start 2.04 1.90 2.39; 2026-09-26T05:07:39Z) ===
+. run compiler_tests/XXXTupleLocalVarCompiledRungC (611ms) REACHED
+PASS
+Failed to satisfy run_out_does_not_contain; expected
+REACHED
+F
+Time: 0.62
+There was 1 failure:
+1) compiler_tests/XXXTupleLocalVarCompiledRungC(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXTupleLocalVarCompiledRungC
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 0 ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleVarFieldCompiledRungC.test)   (stand-in fix in place; loadavg at start 2.04 1.90 2.39; 2026-09-26T05:07:40Z) ===
+. run compiler_tests/XXXTupleVarFieldCompiledRungC (652ms) REACHED
+PASS
+Failed to satisfy run_err_contains; expected
+java.lang.VerifyError
+F
+Time: 0.663
+There was 1 failure:
+1) compiler_tests/XXXTupleVarFieldCompiledRungC(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXTupleVarFieldCompiledRungC
+	at com.sun.fortress.tests.unit_tests.FileTests$TestTest.testFile(FileTests.java:585)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$2.run(FileTests.java:908)
+	at com.sun.fortress.Shell.junit(Shell.java:1086)
+	at com.sun.fortress.Shell.subMain(Shell.java:409)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+=== exit 0 ===
+
+=== stand-in removed: cmp against the kept copies ===
+XXXTupleLocalVarCompiledRungC.fss restored
+XXXTupleVarFieldCompiledRungC.fss restored
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/TupleVarCompiledRungCLink.test)   (restored, recompiled by this link test; loadavg at start 2.12 1.92 2.39; 2026-09-26T05:07:41Z) ===
+. link compiler_tests/XXXTupleLocalVarCompiledRungC  OK (time = 4330ms)
+. link compiler_tests/XXXTupleVarFieldCompiledRungC  OK (time = 1085ms)
+
+Time: 5.422
+
+OK (2 tests)
+
+=== exit 0 ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleLocalVarCompiledRungC.test)   (restored; loadavg at start 2.19 1.93 2.40; 2026-09-26T05:07:47Z) ===
+. run compiler_tests/XXXTupleLocalVarCompiledRungC (260ms) java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Could not load XXXTupleLocalVarCompiledRungC
+java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:336)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.lang.ClassFormatError: Illegal class name "LXXXTupleLocalVarCompiledRungC$Wide;" in class file XXXTupleLocalVarCompiledRungC
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	... 4 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.278
+
+OK (1 test)
+
+=== exit 0 ===
+
+=== $ (cd ProjectFortress && ../bin/fortress junit compiler_tests/XXXTupleVarFieldCompiledRungC.test)   (restored; loadavg at start 2.19 1.93 2.40; 2026-09-26T05:07:47Z) ===
+. run compiler_tests/XXXTupleVarFieldCompiledRungC (359ms) REACHED
+java.lang.VerifyError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at XXXTupleVarFieldCompiledRungC.main(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    XXXTupleVarFieldCompiledRungC$Holder.pair(LXXXTupleVarFieldCompiledRungC$Wide;Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FVoid; @2: invokevirtual
+  Reason:
+    Type 'XXXTupleVarFieldCompiledRungC$Wide' (current frame, stack[1]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32'
+  Current Frame:
+    bci: @2
+    flags: { }
+    locals: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'XXXTupleVarFieldCompiledRungC$Holder', 'XXXTupleVarFieldCompiledRungC$Wide' }
+  Bytecode:
+    0000000: 2a2b b600 28b0                         
+
+	at XXXTupleVarFieldCompiledRungC.Holder(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at XXXTupleVarFieldCompiledRungC.run(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss:18)
+	at XXXTupleVarFieldCompiledRungC.compute(/home/user/fortress-coerce/ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Saw expected failure (Exit code != 0)
+
+Time: 0.373
+
+OK (1 test)
+
+=== exit 0 ===
+

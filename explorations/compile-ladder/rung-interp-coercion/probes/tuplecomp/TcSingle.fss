@@ -1,0 +1,24 @@
+component TcSingle
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+single(p: (Wide, ZZ32)): ZZ32 = do (a, b) = p; a.big + b end
+
+run() = do
+    println("single: " single(WideOf(12), 13))
+  end
+
+end
