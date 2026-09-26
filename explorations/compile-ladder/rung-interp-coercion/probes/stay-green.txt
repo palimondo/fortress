@@ -1,0 +1,35 @@
+=== $ python3 explorations/compile-ladder/rung-interp-coercion/compare-runs.py tmp/runs/base1/log tmp/runs/base2/log tmp/runs/after/log <the nine new tests>   (logs of explorations/compile-ladder/rung-interp-coercion/run-tests.sh: base1 and base2 on a copy of the build of 47437c65f, after on a copy of the build of 386e7423a; every ProjectFortress/tests/*.fss, one JVM per test, four at a time, FORTRESS_THREADS=1; 2026-09-26T02:48:16Z) ===
+tests compared (the rung's own new tests left out): 394
+vary on their own (base run 1 against base run 2): 17
+  ArrayListQuick.txt           lines 9/9/9  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  CovCollTest.txt              lines 111/111/111  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  HeapTest.txt                 lines 8/8/8  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  PureListQuick.txt            lines 9/9/9  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  QuickCheckTest.txt           lines 56/55/56  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 1
+      Shrinking a failed instance.....
+  ShuffleTest.txt              lines 12/12/12  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  SkipListTest.txt             lines 15/15/15  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  TimingTests.txt              lines 5/5/5  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  TreapTest.txt                lines 458/458/458  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  WordCountSmall.txt           lines 12/12/12  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  abortBlock.txt               lines 2048/1828/2345  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 1
+      ..... Thread ForkJoinPool-2-worker-1 operating on value Aborting
+  buffons.txt                  lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  nestedTransactions1.txt      lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  nestedTransactions2.txt      lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  nestedTransactions3.txt      lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  nestedTransactions4.txt      lines 4/4/4  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+  quicksortTest.txt            lines 7/7/7  rc ['rc=0']/['rc=0']/['rc=0']  base-shared lines missing after: 0
+stable in both base runs: 377; different after the edit: 3
+  XXXimmutableTopLevel.txt: different after normalising stack-trace line numbers and identity hashes: False
+  taskTrace2.txt: different after normalising stack-trace line numbers and identity hashes: False
+  taskTrace3.txt: different after normalising stack-trace line numbers and identity hashes: False
+nonzero exit after the edit: 65; the same exit in both base runs for each: True
+
+=== the runs' start and end, with the load average (nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, JDK 25; another rung of the batch and this rung's own captures ran beside them) ===
+base1 start 2026-09-26T01:45:28Z loadavg 1.11 1.48 1.12 1/105 25257
+base1 end 2026-09-26T02:03:32Z loadavg 6.05 8.08 6.24 2/135 14613
+base2 start 2026-09-26T02:03:42Z loadavg 5.14 7.79 6.17 3/133 14772
+base2 end 2026-09-26T02:28:43Z loadavg 7.24 9.55 9.81 3/158 21188
+after start 2026-09-26T02:28:50Z loadavg 6.90 9.40 9.75 6/157 21292 classes tmp/build-edit (copy of ProjectFortress/build after the second post-edit compileAll)
+after end 2026-09-26T02:46:58Z loadavg 5.19 7.09 8.35 5/156 5868
