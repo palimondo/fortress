@@ -1,7 +1,7 @@
 (* Q1NullaryComp -- the compiled path (CompilerLibrary): one big operator
    whose nullary form, the one a reduction with generator clauses desugars
    to, is overloaded by element type alone.  CompilerLibrary's own big
-   operators are one element type each (CompilerLibrary.fsi:177-184); the
+   operators are one element type each (CompilerLibrary.fsi:180-184); the
    2012 BirdyLib port spelled its RR64 sum BIG $ beside a ZZ32 BIG +
    (ProjectFortress/BirdyLib/Bazaar.fsi:20-22). *)
 component Q1NullaryComp
