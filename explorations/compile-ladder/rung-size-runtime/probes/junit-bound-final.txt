@@ -1,31 +1,55 @@
-# junit-bound.sh on the final build: the two expected failures fail as expected
-machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.67 5.32 6.80; JDK 25; FORTRESS_THREADS=1
+# junit-bound.sh on the landing build: the expected failures this rung adds fail as expected
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 12.64 8.15 5.84; JDK 25; FORTRESS_THREADS=1
 ########## junit compiler_tests/XXXNatBoundDisp.test
 . compile compiler_tests/XXXNatBoundDisp com.sun.fortress.exceptions.CompilerError: Expecting a TypeArg when checking genericity
  OK Saw expected exception
 
-Time: 2.058
+Time: 4.413
 
 OK (1 test)
 
 exit=0
 ########## junit compiler_tests/TypeBoundDispLink.test
-. link compiler_tests/XXXTypeBoundDisp  OK (time = 4921ms)
+. link compiler_tests/XXXTypeBoundDisp  OK (time = 9590ms)
 
-Time: 4.926
+Time: 9.602
 
 OK (1 test)
 
 exit=0
 ########## junit compiler_tests/XXXTypeBoundDisp.test
-. run compiler_tests/XXXTypeBoundDisp (709ms) REACHED
+. run compiler_tests/XXXTypeBoundDisp (1449ms) REACHED
 java.lang.Error: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
 Caused by: java.lang.Error: Unable to read serialized data for XXXTypeBoundDisp$Vt??$RTTIc, recommend you delete the Fortress bytecode cache and relink
 Caused by: java.io.IOException: Resource not found : XXXTypeBoundDisp$Vt??$RTTIc.xlation
 	... 11 more
 Saw expected failure (Exit code != 0)
 
-Time: 0.722
+Time: 1.469
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatExtendsTwiceLink.test
+. link compiler_tests/XXXNatExtendsTwice  OK (time = 10139ms)
+
+Time: 10.153
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatExtendsTwice.test
+. run compiler_tests/XXXNatExtendsTwice (824ms) REACHED
+java.lang.ClassFormatError: Duplicate interface name "XXXNatExtendsTwice$Vec?3?" in class file XXXNatExtendsTwice$O?3?
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: XXXNatExtendsTwice$O?3?
+Caused by: java.lang.ClassNotFoundException: ClassFormatError in reading class file: 
+	... 7 more
+Caused by: java.lang.ClassFormatError: Duplicate interface name "XXXNatExtendsTwice$Vec?3?" in class file XXXNatExtendsTwice$O?3?
+	... 8 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.836
 
 OK (1 test)
 

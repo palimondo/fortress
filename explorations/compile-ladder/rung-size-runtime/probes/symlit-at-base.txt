@@ -1,0 +1,23 @@
+# SzAmbig, SzAmbigT, SzSymLitExt and SzSymLitExtT compiled on the unedited build (the six sources at 6030e4b36), library caches built by the base run of natreflect/run-subset.sh (-Dfortress.caches in that run's ladder root)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.77 4.10 4.42; JDK 25; FORTRESS_THREADS=1
+########## fortress compile explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:5:1-55:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:6:1-45:
+    Invalid overloading of g in component SzAmbig:
+     (Tg[\3\], Any)->String @ explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:6:1-45
+ and [\nat n\](Tg[\n\], ZZ32)->String @ explorations/compile-ladder/rung-size-runtime/probes/SzAmbig.fss:5:1-55
+File SzAmbig.fss has 1 error.
+exit=255
+########## fortress compile explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51:
+explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49:
+    Invalid overloading of g in component SzAmbigT:
+     (Tt[\ZZ32\], Any)->String @ explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:6:1-49
+ and [\T extends Object\](Tt[\T\], ZZ32)->String @ explorations/compile-ladder/rung-size-runtime/probes/SzAmbigT.fss:5:1-51
+File SzAmbigT.fss has 1 error.
+exit=255
+########## fortress compile explorations/compile-ladder/rung-size-runtime/probes/SzSymLitExt.fss
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+exit=1
+########## fortress compile explorations/compile-ladder/rung-size-runtime/probes/SzSymLitExtT.fss
+exit=0

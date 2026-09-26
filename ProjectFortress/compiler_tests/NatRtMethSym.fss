@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component NatRtMethSym
+export Executable
+object Box[\nat k\](v: ZZ32)
+  get[\nat m\](): ZZ32 = m
+  twice(): ZZ32 = self.get[\k\]() + self.get[\k\]()
+end
+viaFn[\nat n\](b: Box[\n\]): ZZ32 = b.get[\n\]()
+run() = do
+  println(Box[\3\](7).get[\5\]())
+  println(Box[\3\](7).twice())
+  println(viaFn(Box[\4\](7)))
+end
+end

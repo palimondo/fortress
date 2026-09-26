@@ -1,3 +1,5 @@
+# explorations/coordinator/tools/checker-count/run.sh on the landing build
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 13.62 10.76 7.62; JDK 25; FORTRESS_THREADS=1
 #api	errors
 AnyType	0
 FlatString	0

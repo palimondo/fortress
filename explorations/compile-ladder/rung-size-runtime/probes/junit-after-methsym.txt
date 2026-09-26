@@ -1,0 +1,15 @@
+# NatRtMethSym through the harness on the build with CodeGen.isSymbolic counting a size symbol
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.30 4.16 4.32; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/NatRtMethSym.test
+. compile compiler_tests/NatRtMethSym  OK (time = 2269ms)
+. link compiler_tests/NatRtMethSym  OK (time = 2567ms)
+. run compiler_tests/NatRtMethSym (701ms) 5
+6
+4
+Passed
+
+Time: 5.546
+
+OK (3 tests)
+
+exit=0

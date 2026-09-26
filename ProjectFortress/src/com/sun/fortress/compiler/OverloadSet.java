@@ -52,7 +52,6 @@ import com.sun.fortress.nodes.IdOrOp;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
 import com.sun.fortress.nodes.IntArg;
 import com.sun.fortress.nodes.IntBase;
-import com.sun.fortress.nodes.IntExpr;
 import com.sun.fortress.nodes.IntRef;
 import com.sun.fortress.nodes.IntersectionType;
 import com.sun.fortress.nodes.KindInt;

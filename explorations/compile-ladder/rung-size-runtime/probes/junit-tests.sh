@@ -1,10 +1,10 @@
 #!/bin/bash
 # The rung's .test files through the harness, one JVM each, on whatever build is in ProjectFortress/build:
-# the fourteen run-time tests, the two row-402 tests, and the three expected failures rung N left (under their
+# the fifteen run-time tests, the three row-402 tests, and the three expected failures rung N left (under their
 # names of the moment).  usage: junit-tests.sh [promoted|before] [all|pair|"<names>"]
 source /home/user/fortress-size/explorations/compile-ladder/rung-size-runtime/probes/common.sh
-NEW="NatRtUnbox NatRtOver NatRtExtends1 NatRtExtends2 NatRtVec NatRtGetter NatRtCase NatRtCaseGen NatRtDisp NatRtDispTrait NatRtDispSize NatRtDispLit NatRtDot NatRtExtLit"
-R402="XXXNatExcludeChecker NatExcludeOverload"
+NEW="NatRtUnbox NatRtOver NatRtExtends1 NatRtExtends2 NatRtVec NatRtGetter NatRtCase NatRtCaseGen NatRtDisp NatRtDispTrait NatRtDispSize NatRtDispLit NatRtDot NatRtExtLit NatRtMethSym"
+R402="XXXNatExcludeChecker NatExcludeOverload XXXNatAmbigChecker"
 if [ "${1:-}" = promoted ]; then
   ARG=NatArgRungS; RUNGN="NatDispArmChecker NatOverrideChecker"
 else

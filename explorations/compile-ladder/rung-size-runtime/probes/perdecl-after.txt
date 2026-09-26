@@ -1,7 +1,7 @@
-# PhaseProbe per top-level declaration of Library/FortressLibrary.fss, after-cP; the @@TC DECLAT stack lines dropped, paths made relative
+# PhaseProbe per top-level declaration of Library/FortressLibrary.fss, landing; the @@TC DECLAT stack lines dropped, paths made relative
 ########## PhaseProbe -order typecheck Library/FortressLibrary.fss (tolerant, per declaration, error texts)
-# Sat Sep 26 11:48:29 UTC 2026 load 7.20 6.90 6.98 13/235 30031
-machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 7.20 6.90 6.98; JDK 25; FORTRESS_THREADS=1
+# Sat Sep 26 12:51:20 UTC 2026 load 3.79 4.18 4.32 10/166 20115
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.79 4.18 4.32; JDK 25; FORTRESS_THREADS=1
 ### order=typecheck  phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR TYPECHECK ]  target=[Library/FortressLibrary.fss]
 ### desugaring=COMPILE-PATH  prelude=INTERPRETER
 @@TC API	FortressBuiltin	errors=22
@@ -3105,4 +3105,4 @@ machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at st
 @@TC COMPERR	Library/FortressLibrary.fss:4476:164-178:     Ill-formed type: Condition[\()\]     The static argument () does not satisfy the corresponding bound Object.
 ### rc=0
 exit=0
-ELAPSED 468 s
+ELAPSED 510 s

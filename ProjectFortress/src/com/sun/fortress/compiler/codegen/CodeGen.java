@@ -6087,6 +6087,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                     return Useful.orReduction(((TraitType)t).getArgs(), this);
                 }
             }
+            if (x instanceof IntArg) {
+                return ((IntArg) x).getIntVal() instanceof IntRef;
+            }
             return Boolean.FALSE;
         }
         

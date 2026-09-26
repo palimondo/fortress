@@ -1,4 +1,4 @@
-# decl-fates.py over perdecl-before.txt (the build with pieces 1-4, no checkP case) and perdecl-after.txt (with it); the script's header says "nat shadow", read it as the checkP case
+# decl-fates.py over perdecl-before.txt (the build with pieces 1-4, no checkP case) and perdecl-after.txt (the landing build, checkP's size case for two literals); the script's header says "nat shadow", read it as the checkP case
 # Per top-level declaration of Library/FortressLibrary.fss, the checker's fate
 # with the interpreter prelude, before and after the nat shadow.
 # BEFORE: explorations/compile-ladder/rung-size-runtime/probes/perdecl-before.txt
