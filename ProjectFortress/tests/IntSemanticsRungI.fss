@@ -11,6 +11,12 @@ overflows(f: () -> Any): Boolean =
     IntegerOverflow => true
   end
 
+zz32Shown(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    else => v.asString || " : not a ZZ32"
+  end
+
 run() = do
     three: ZZ32 = 3
     five: ZZ32 = 5
@@ -80,6 +86,7 @@ run() = do
     bigZero: ZZ = big(zeroL)
     assert(threeL LSHIFT bigThree, widen(24), "FortressLibrary.fss:637: ZZ64 3 LSHIFT a ZZ count of 3")
     assert(minusThree RSHIFT big(widen(40)), -1, "FortressLibrary.fss:637: ZZ32 -3 RSHIFT a ZZ count of 40")
+    assert(zz32Shown(three LSHIFT big(widen(33))), "0 : ZZ32", "row 380: ZZ32 3 LSHIFT a ZZ count of 33")
     assert(bigThree LSHIFT (-4294967297), 0, "row 335: ZZ 3 LSHIFT -4294967297")
     assert(bigMinusThree LSHIFT (-4294967296), -1, "row 335: ZZ -3 LSHIFT -4294967296")
     assert(bigThree RSHIFT 4294967297, 0, "row 335: ZZ 3 RSHIFT 4294967297")
