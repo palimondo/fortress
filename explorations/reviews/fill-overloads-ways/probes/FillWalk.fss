@@ -1,0 +1,27 @@
+(* fill-overloads-ways, probe 1: what the interpreter does with the two fills,
+   value and function, and with the array1 factory, including the cases where the
+   argument is applicable to both.  Run with the interpreter (walk). *)
+component FillWalk
+export Executable
+
+run():() = do
+  a = array[\RR64\](3).fill(0.5)
+  println("1 value fill, E=RR64: " a[0] " " a[1] " " a[2])
+  b = array[\RR64\](3).fill(fn (i:ZZ32):RR64 => 1.0 i)
+  println("2 function fill, E=RR64: " b[0] " " b[1] " " b[2])
+  (* E = Any: a function is an Any, so both fill(v:E) and fill(f:I->E) apply *)
+  c = array[\Any\](3).fill(fn (i:ZZ32):Any => i + 10)
+  print("3 E=Any, argument a function; c[1] = ")
+  println(c[1])
+  (* E = ZZ32->ZZ32: only fill(v:E) applies, the argument is an element *)
+  d = array[\ZZ32->ZZ32\](2).fill(fn (i:ZZ32):ZZ32 => i + 100)
+  println("4 E=ZZ32->ZZ32; d[1](5) = " (d[1])(5))
+  e = array1[\RR64,3\](0.25)
+  f = array1[\RR64,3\](fn (i:ZZ32):RR64 => 2.0 i)
+  println("5 array1 value: " e[2] "; array1 function: " f[2])
+  g = array1[\Any,3\](fn (i:ZZ32):Any => i + 20)
+  print("6 array1, T=Any, argument a function; g[1] = ")
+  println(g[1])
+end
+
+end

@@ -1,0 +1,24 @@
+(* fill-overloads-ways, probe 4: probe 2 (FillBox.fss) plus a Filler whose element type
+   is a tuple, to see what the implicit Object bound costs. Compiler world. *)
+component FillBoxTuple
+export Executable
+
+trait Filler[\E\]
+  fill(v:E): String = "value"
+  fill(f:ZZ32->E): String = "function"
+end
+
+object RealFiller extends Filler[\RR64\] end
+object TupleFiller extends Filler[\(ZZ32,ZZ32)\] end
+
+mk[\T\](v:T): String = "value"
+mk[\T\](f:ZZ32->T): String = "function"
+
+run():() = do
+  print("1 RealFiller.fill(0.5) -> "); println(RealFiller.fill(0.5))
+  print("2 RealFiller.fill(fn) -> "); println(RealFiller.fill(fn (i:ZZ32):RR64 => 1.0))
+  print("3 mk(0.5) -> "); println(mk(0.5))
+  print("4 mk(fn) -> "); println(mk(fn (i:ZZ32):RR64 => 1.0))
+end
+
+end

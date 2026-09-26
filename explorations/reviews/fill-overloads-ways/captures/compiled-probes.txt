@@ -1,0 +1,31 @@
+# compiler world (bin/fortress compile), private cache (-Dfortress.caches); 2026-09-26T09:39Z
+# nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; JDK openjdk version 25.0.4 2026-07-21; FORTRESS_THREADS=1
+# library components compiled into the cache first, in this order: AnyType, CompilerBuiltin, CompilerAlgebra, CompilerLibrary
+
+$ fortress compile FillBox.fss
+(exit 0)
+
+$ fortress compile FillBoxAny.fss
+FillBoxAny.fss:8:3-29:
+FillBoxAny.fss:9:3-38:
+    Invalid overloading of fill in trait Filler:
+     (Filler[\E\], E)->String @ FillBoxAny.fss:8:3-29
+ and (Filler[\E\], ZZ32->E)->String @ FillBoxAny.fss:9:3-38
+FillBoxAny.fss:14:1-42:
+    A functional which takes a single parameter of a parametric type bound by Any
+    cannot be overloaded.
+File FillBoxAny.fss has 2 errors.
+(exit 255)
+
+$ fortress compile FillBoxTuple.fss
+FillBoxTuple.fss:12:28-46:
+    Ill-formed type: Filler[\(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+File FillBoxTuple.fss has 1 error.
+(exit 255)
+
+$ java ... MainWrapper FillBox
+1 RealFiller.fill(0.5) -> value
+2 RealFiller.fill(fn) -> function
+3 mk(0.5) -> value
+4 mk(fn) -> function

@@ -1,0 +1,24 @@
+(* fill-overloads-ways, probe 3: probe 2 (FillBox.fss) with the two type parameters
+   written "extends Any", the bound the interpreter world gives a parameter written
+   without one. Compiler world (bin/fortress compile). *)
+component FillBoxAny
+export Executable
+
+trait Filler[\E extends Any\]
+  fill(v:E): String = "value"
+  fill(f:ZZ32->E): String = "function"
+end
+
+object RealFiller extends Filler[\RR64\] end
+
+mk[\T extends Any\](v:T): String = "value"
+mk[\T extends Any\](f:ZZ32->T): String = "function"
+
+run():() = do
+  print("1 RealFiller.fill(0.5) -> "); println(RealFiller.fill(0.5))
+  print("2 RealFiller.fill(fn) -> "); println(RealFiller.fill(fn (i:ZZ32):RR64 => 1.0))
+  print("3 mk(0.5) -> "); println(mk(0.5))
+  print("4 mk(fn) -> "); println(mk(fn (i:ZZ32):RR64 => 1.0))
+end
+
+end

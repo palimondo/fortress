@@ -1,0 +1,25 @@
+(* fill-overloads-ways, probe 2: the compiled path, compiler world (bin/fortress
+   compile). A generic trait with the library's two fills, and a generic top-level
+   pair shaped like array1. Type parameters are written without a bound; in the
+   compiler world they get the bound Object (Shell.java:372). *)
+component FillBox
+export Executable
+
+trait Filler[\E\]
+  fill(v:E): String = "value"
+  fill(f:ZZ32->E): String = "function"
+end
+
+object RealFiller extends Filler[\RR64\] end
+
+mk[\T\](v:T): String = "value"
+mk[\T\](f:ZZ32->T): String = "function"
+
+run():() = do
+  print("1 RealFiller.fill(0.5) -> "); println(RealFiller.fill(0.5))
+  print("2 RealFiller.fill(fn) -> "); println(RealFiller.fill(fn (i:ZZ32):RR64 => 1.0))
+  print("3 mk(0.5) -> "); println(mk(0.5))
+  print("4 mk(fn) -> "); println(mk(fn (i:ZZ32):RR64 => 1.0))
+end
+
+end
