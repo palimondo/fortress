@@ -1,0 +1,10 @@
+/home/user/fortress-spec/tmp/probe-cache/work/SpecDeclRule.fss:5:24-35:
+    Types Parent[\ZZ32\] and Parent[\String\] exclude each other.  Child must not extend them.
+/home/user/fortress-spec/tmp/probe-cache/work/SpecDeclRule.fss:5:24-36:
+    Type Child excludes Parent but it extends Parent.
+/home/user/fortress-spec/tmp/probe-cache/work/SpecDeclRule.fss:5:40-53:
+    Types Parent[\String\] and Parent[\ZZ32\] exclude each other.  Child must not extend them.
+/home/user/fortress-spec/tmp/probe-cache/work/SpecDeclRule.fss:5:40-54:
+    Type Child excludes Parent but it extends Parent.
+File SpecDeclRule.fss has 4 errors.
+rc=255

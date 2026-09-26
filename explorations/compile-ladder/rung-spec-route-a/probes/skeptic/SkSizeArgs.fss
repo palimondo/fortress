@@ -1,0 +1,11 @@
+component SkSizeArgs
+export Executable
+trait Vec[\nat n\] end
+object V extends { Vec[\3\], Vec[\4\] } end
+f(v: Vec[\3\]): String = "f took a Vec[3]"
+g(v: Vec[\4\]): String = "g took a Vec[4]"
+run():() = do
+  println(f(V))
+  println(g(V))
+end
+end

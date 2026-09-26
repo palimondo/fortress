@@ -1,0 +1,4 @@
+SkUntypedTop.fss:3:10:
+    Missing parameter type for x
+File SkUntypedTop.fss has 1 error.
+rc=255

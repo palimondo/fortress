@@ -1,0 +1,3 @@
+f took a Flag[true]
+g took a Flag[false]
+rc=0

@@ -1,0 +1,14 @@
+# prose on instantiations, base 6030e4b36
+basic/exceptions.tex:93:instantiations of type variables free in the \KWD{throws} clause
+basic/expressions/constant.tex:20:cannot complete abruptly.  Given instantiations of all static
+basic/expressions/method-invocation.tex:49:A method invocation may include explicit instantiations of static parameters
+basic/objects.tex:196:every instantiation of such an object with the same static
+basic/objects.tex:213:instantiation of the object: \KWD{transient} parameters are not in
+basic/trait-parameters.tex:198:Two restrictions apply to instantiations of operator parameters:
+basic/trait-parameters.tex:202:then the actual operators passed in any instantiation of \VAR{T} must
+basic/trait-parameters.tex:339:Trait declarations are allowed to extend other instantiations of
+basic/trait-parameters.tex:366:instantiation of parametric trait \VAR{D}. Thus, trait \VAR{C} has all
+basic/trait-parameters.tex:367:of the methods of every instantiation of \VAR{D}. By thinking of the
+basic/trait-parameters.tex:371:contains infinitely many methods (one for each instantiation of \VAR{T}).
+basic/trait-parameters.tex:372:However, instantiations of the \KWD{where}-clause variables are not
+basic/traits.tex:170:term defined?  Does it include instantiations of parametric traits?}

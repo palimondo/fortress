@@ -1,0 +1,11 @@
+
+This domain: Sample
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain Sample is not a subtype of BottomType
+SkOprArgsOne.fss:9:1-26:
+    The inherited abstract method OP(self:(BinPred[\T,OP\] & {T}),other:T):Boolean from the trait BinPred[\Sample,SQCAP\]
+    has no concrete implementation in the object S in component SkOprArgsOne.
+File SkOprArgsOne.fss has 1 error.
+rc=255

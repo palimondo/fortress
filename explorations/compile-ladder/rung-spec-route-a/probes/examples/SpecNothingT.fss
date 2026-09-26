@@ -1,0 +1,21 @@
+component SpecNothingT
+export Executable
+
+trait Opt[\T\] comprises { NoneV[\T\], JustV[\T\] }
+  isNone(): Boolean
+end
+value object NoneV[\T\] extends Opt[\T\]
+  isNone(): Boolean = true
+end
+object JustV[\T\](just: T) extends Opt[\T\]
+  isNone(): Boolean = false
+end
+
+run():() = do
+  m: Opt[\String\] = NoneV[\String\]
+  c: Opt[\ZZ32\] = JustV[\ZZ32\](3)
+  println(m.isNone())
+  println(c.isNone())
+end
+
+end

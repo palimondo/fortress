@@ -1,0 +1,3 @@
+f took a Named[ZZ32,SQCAP] named
+g took a Named[ZZ32,SQCUP] named
+rc=0

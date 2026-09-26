@@ -1,0 +1,10 @@
+component SkUntypedImpl
+export Executable
+trait Inc
+  inc(ZZ32): ZZ32
+end
+object One extends Inc
+  inc(x) = x + 1
+end
+run():() = println(One.inc(41))
+end

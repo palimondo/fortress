@@ -1,0 +1,15 @@
+com.sun.fortress.exceptions.InterpreterBug: SkUntypedImpl.fss:9:20-28:
+** bug! MethodClosure inc(_:FortressLibrary.ZZ32):FortressLibrary.ZZ32SkUntypedImpl.fss:4:3-5:1 has neither body nor def instanceof Method
+Context:
+SkUntypedImpl.fss:9:20-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

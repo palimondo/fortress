@@ -1,0 +1,5 @@
+SkInvariance.fss:16:11-23:
+    Could not check call to function takesAnimal
+    - C[\Animal\]->String is not applicable to an argument of type C[\Dog\].
+File SkInvariance.fss has 1 error.
+rc=255

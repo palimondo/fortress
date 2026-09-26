@@ -1,0 +1,10 @@
+SkIndirectRule.fss:8:23:
+    Type Both excludes A but it extends A.
+SkIndirectRule.fss:8:23:
+    Types A and B exclude each other.  Both must not extend them.
+SkIndirectRule.fss:8:26:
+    Type Both excludes B but it extends B.
+SkIndirectRule.fss:8:26:
+    Types B and A exclude each other.  Both must not extend them.
+File SkIndirectRule.fss has 4 errors.
+rc=255

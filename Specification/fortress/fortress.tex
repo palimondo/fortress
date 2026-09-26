@@ -72,6 +72,25 @@
 \parbox[t]{\dimexpr\marginparwidth-4.5pt\relax}{\sffamily\tiny\color{draftnotebar}#1}}}}
 \fi
 
+\usepackage{mdframed}
+\definecolor{revisionbar}{rgb}{0.11,0.33,0.55}
+\definecolor{revisionbg}{rgb}{0.925,0.949,0.973}
+\newmdenv[
+  backgroundcolor=revisionbg,
+  linecolor=revisionbar,
+  topline=false,bottomline=false,rightline=false,
+  linewidth=2.5pt,
+  innerleftmargin=8pt,innerrightmargin=8pt,
+  innertopmargin=6pt,innerbottommargin=6pt,
+  skipabove=8pt,skipbelow=8pt
+]{revisionbox}
+\newcommand{\revision}[2]{%
+\begin{revisionbox}%
+{\footnotesize\color{revisionbar}\textsc{Revised by the 2026 revival}\quad
+\textsc{see} \secref{#1}}\\[2pt]
+{\small #2}%
+\end{revisionbox}}
+
 % Joe 8/4/06: added the following line for the proofs in overloading section
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
 
@@ -114,6 +133,7 @@
 \else
 \\ {\normalsize July 19, 2012}
 \fi
+\\[0.5em] {\normalsize with the changes of the 2026 revival, listed in Appendix~\ref{app:spec-changes}}
 }
 \author
 {

@@ -1,0 +1,18 @@
+component SkOptGeneric
+export Executable
+trait Opt[\T\] comprises { NoneV[\T\], SomeV[\T\] }
+  getter holds(): Boolean
+end
+value object NoneV[\T\] extends Opt[\T\]
+  getter holds(): Boolean = false
+end
+object SomeV[\T\](v: T) extends Opt[\T\]
+  getter holds(): Boolean = true
+end
+pick[\T\](b: Boolean, x: T): Opt[\T\] = if b then SomeV[\T\](x) else NoneV[\T\] end
+run():() = do
+  println(pick[\String\](false, "a").holds)
+  println(pick[\ZZ32\](true, 3).holds)
+  println(NoneV[\String\] === NoneV[\String\])
+end
+end

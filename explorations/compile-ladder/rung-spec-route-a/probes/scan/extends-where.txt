@@ -1,0 +1,53 @@
+# lines with both extends and where, % source and typeset, base 6030e4b36
+advanced-lib/algebraic-constraints.tex:502:%        where { T extends ZeroBasedIndexing[\T,X\] }
+advanced-lib/algebraic-constraints.tex:514:{\tt~~~~}\pushtabs\=\+\(        \KWD{where} \{\,T \KWD{extends}\:\TYP{ZeroBasedIndexing}\llbracket{}T,X\rrbracket\,\}\)\-\-\\\poptabs\poptabs
+advanced-lib/binary.tex:105:%%     where { T extends BinaryWord[\b\] }
+advanced-lib/binary.tex:109:%%     where { T extends BinaryEndianWord[\b,bigEndianBytes,bigEndianBits\] }
+advanced-lib/binary.tex:113:%%     where { T extends BinaryWord[\b\] }
+advanced-lib/binary.tex:139:%%     where { T extends BinaryWord[\b\] }
+advanced-lib/binary.tex:141:%%     where { T extends BinaryWord[\b\] }
+advanced-lib/binary.tex:144:%%     where { T extends BinaryEndianWord[\b,bigEndianBytes,bigEndianBits\] }
+advanced-lib/binary.tex:147:%%     where { T extends BinaryEndianWord[\b,bigEndianBytes,bigEndianBits\] }
+advanced-lib/binary.tex:153:{\tt~~}\pushtabs\=\+\(    \KWD{where} \{\,T \KWD{extends} \TYP{BinaryWord}\llbracket{}b\rrbracket\,\}\)\-\\\poptabs
+advanced-lib/binary.tex:157:{\tt~~}\pushtabs\=\+\(    \KWD{where} \{\,T \KWD{extends} \TYP{BinaryEndianWord}\llbracket{}b,\VAR{bigEndianBytes},\VAR{bigEndianBits}\rrbracket\,\}\)\-\\\poptabs
+advanced-lib/binary.tex:161:{\tt~~}\pushtabs\=\+\(    \KWD{where} \{\,T \KWD{extends} \TYP{BinaryWord}\llbracket{}b\rrbracket\,\}\)\-\\\poptabs
+advanced-lib/binary.tex:187:{\tt~~}\pushtabs\=\+\(    \KWD{where} \{\,T \KWD{extends} \TYP{BinaryWord}\llbracket{}b\rrbracket\,\}\)\-\\\poptabs
+advanced-lib/binary.tex:189:{\tt~~}\pushtabs\=\+\(    \KWD{where} \{\,T \KWD{extends} \TYP{BinaryWord}\llbracket{}b\rrbracket\,\}\)\-\\\poptabs
+advanced-lib/binary.tex:192:{\tt~~}\pushtabs\=\+\(    \KWD{where} \{\,T \KWD{extends} \TYP{BinaryEndianWord}\llbracket{}b,\VAR{bigEndianBytes},\VAR{bigEndianBits}\rrbracket\,\}\)\-\\\poptabs
+advanced-lib/binary.tex:195:{\tt~~}\pushtabs\=\+\(    \KWD{where} \{\,T \KWD{extends} \TYP{BinaryEndianWord}\llbracket{}b,\VAR{bigEndianBytes},\VAR{bigEndianBits}\rrbracket\,\}\)\-\-\\\poptabs\poptabs
+advanced-lib/binary.tex:202:%%     where { T extends BinaryWord[\b\] }
+advanced-lib/binary.tex:206:%%     where { T extends BinaryEndianWord[\b,bigEndianBytes,bigEndianBits\] }
+advanced-lib/binary.tex:209:\hbox{\tt~~}\EXP{\KWD{where} \{\,T \KWD{extends} \TYP{BinaryWord}\llbracket{}b\rrbracket\,\}}}
+advanced-lib/binary.tex:213:\hbox{\tt~~}\EXP{\KWD{where} \{\,T \KWD{extends} \TYP{BinaryEndianWord}\llbracket{}b,\VAR{bigEndianBytes},\VAR{bigEndianBits}\rrbracket\,\}}}
+advanced-lib/binary.tex:223:%%     where { T extends BinaryWord[\b\] }
+advanced-lib/binary.tex:227:{\tt~~}\EXP{\KWD{where} \{\,T \KWD{extends} \TYP{BinaryWord}\llbracket{}b\rrbracket\,\}}}
+advanced-lib/binary.tex:356:%%     where { T extends BinaryWord[\b\] }
+advanced-lib/binary.tex:358:%%     where { T extends BinaryWord[\b\] }
+advanced-lib/binary.tex:361:%%     where { T extends BinaryEndianWord[\b,bigEndianBytes,bigEndianBits\] }
+advanced-lib/binary.tex:364:%%     where { T extends BinaryEndianWord[\b,bigEndianBytes,bigEndianBits\] }
+advanced-lib/binary.tex:366:{\tt~~}\EXP{\KWD{where} \{\,T \KWD{extends} \TYP{BinaryWord}\llbracket{}b\rrbracket\,\}}}
+advanced-lib/binary.tex:368:{\tt~~}\EXP{\KWD{where} \{\,T \KWD{extends} \TYP{BinaryWord}\llbracket{}b\rrbracket\,\}}}
+advanced-lib/binary.tex:371:{\tt~~}\EXP{\KWD{where} \{\,T \KWD{extends} \TYP{BinaryEndianWord}\llbracket{}b,\VAR{bigEndianBytes},\VAR{bigEndianBits}\rrbracket\,\}}}
+advanced-lib/binary.tex:374:{\tt~~}\EXP{\KWD{where} \{\,T \KWD{extends} \TYP{BinaryEndianWord}\llbracket{}b,\VAR{bigEndianBytes},\VAR{bigEndianBits}\rrbracket\,\}}}
+advanced-lib/binary.tex:1509:%%     extends BasicBinaryOperations[\T\] where { b <= maxBinaryWordBitLog }
+advanced-lib/binary.tex:1529:{\tt~~~~}\pushtabs\=\+\(    \KWD{extends} \TYP{BasicBinaryOperations}\llbracket{}T\rrbracket \KWD{where} \{\,b \leq \VAR{maxBinaryWordBitLog}\,\}\)\-\\\poptabs
+appendices/calculi/where/static.tex:113:\ignore\extends\{\supersfour\}\where\tparamstwoWH\ignore\ \inp
+appendices/future.tex:89:% type Double[\F extends FloatNumber[\e, s, ...\]\] where { nat e, nat s, ... }
+appendices/future.tex:92:{\tt~}\pushtabs\=\+\( \KWD{type}\:\TYP{Double}\llbracket{}F \KWD{extends}\:\TYP{FloatNumber}\llbracket{}e, s, \ldots\rrbracket\rrbracket \KWD{where} \{\,\KWD{nat}\:e, \KWD{nat}\:s, \ldots\,\}\)\\
+appendices/future.tex:129:% g(x:A[\T\]) where { T extends Object } =
+appendices/future.tex:131:%       A[\U\] where { U extends Object } => ...
+appendices/future.tex:135:{\tt~}\pushtabs\=\+\( g(x\COLONOP{}A\llbracket{}T\rrbracket) \KWD{where} \{\,T \KWD{extends}\:\TYP{Object}\,\} =\)\\
+appendices/future.tex:137:{\tt~~}\pushtabs\=\+\(       A\llbracket{}U\rrbracket \KWD{where} \{\,U \KWD{extends}\:\TYP{Object}\,\} \Rightarrow \ldots\)\\
+appendices/future.tex:214:%% trait Indexed [\I extends Equality\] excludes Indexed[\U\] where [\U\]{I excludes U}
+appendices/future.tex:218:\(\KWD{trait}\:\TYP{Indexed} \llbracket{}I \KWD{extends}\:\TYP{Equality}\rrbracket \KWD{excludes}\:\TYP{Indexed}\llbracket{}U\rrbracket \KWD{where} \llbracket{}U\rrbracket\{I \KWD{excludes}\:U\}\)\\
+appendices/internal-document.tex:420:%   coercion[\nat b\](x:BinaryLinearSequence[\b,n\]) where {T extends  BinaryWord[\b\]}
+appendices/internal-document.tex:431:{\tt~~~}\pushtabs\=\+\(   \KWD{coercion}\llbracket\KWD{nat} b\rrbracket(x\COLONOP\TYP{BinaryLinearSequence}\llbracket{}b,n\rrbracket) \KWD{where} \{T \KWD{extends}  \TYP{BinaryWord}\llbracket{}b\rrbracket\}\)\\
+basic-lib/convenience.tex:40:%object Nothing extends Maybe[\T\] excludes Just[\T\] where {T extends Object}
+basic-lib/convenience.tex:49:\(\KWD{object} \TYP{Nothing} \KWD{extends} \TYP{Maybe}\llbracket{}T\rrbracket \KWD{excludes} \TYP{Just}\llbracket{}T\rrbracket \KWD{where} \{T \KWD{extends} \TYP{Object}\}\)\\
+basic/trait-parameters.tex:342:%  where {S extends T, T extends Object}
+basic/trait-parameters.tex:346:{\tt~~}\pushtabs\=\+\(  \KWD{where} \{S \KWD{extends} T, T \KWD{extends} \TYP{Object}\}\)\-\\\poptabs
+basic/trait-parameters.tex:358:%  where {T extends Object}
+basic/trait-parameters.tex:362:{\tt~~}\pushtabs\=\+\(  \KWD{where} \{T \KWD{extends} \TYP{Object}\}\)\-\\\poptabs
+basic/trait-parameters.tex:385:%object Empty extends List[\T\] where {T extends Object}
+basic/trait-parameters.tex:392:\(\KWD{object} \TYP{Empty} \KWD{extends} \TYP{List}\llbracket{}T\rrbracket \KWD{where} \{T \KWD{extends} \TYP{Object}\}\)\\
+basic/traits.tex:208:Victor: I think we don't use ``immediately extends'' anywhere in the spec,

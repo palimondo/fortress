@@ -1,0 +1,15 @@
+# The grep behind row 405's home 3, run at the gather of climb batch 5 on main with rung S applied (Specification/ prose chapters, generated examples excluded): where the specification says what type a value parameter written without one takes
+# grep -rn -i -E 'elided|inferred from context|without a declared type|type inference is performed|omit(s|ted)? (the )?(parameter )?type' Specification/preliminaries Specification/basic Specification/basic-lib --include=*.tex | grep -v '/examples/'
+Specification/preliminaries/overview.tex:76: types can be elided in Fortress and inferred from context.
+Specification/preliminaries/overview.tex:915:matrix is inferred from context
+Specification/preliminaries/intro/nutshell.tex:84:we often omit the types when they are clear from context.
+Specification/basic/conversions-coercions.tex:445:which cannot be called with elided arguments nor with variable number of
+Specification/basic/components/type-inference.tex:41:Because declarations in APIs do not have any elided type,
+Specification/basic/components/type-inference.tex:45:is performed over all program constructs that still include elided types.
+Specification/basic/variables.tex:108:optionally eliding types that can be inferred from context:
+Specification/basic/expressions/if.tex:71:The reserved word \KWD{end} may be elided if the \KWD{if} expression
+Specification/basic/traits.tex:160:If such a clause contains only one trait, the enclosing braces may be elided.
+Specification/basic/functions.tex:142:When the parameter is a single plain binding without a declared type,
+Specification/basic/functions.tex:143:enclosing parentheses may be elided.
+Specification/basic/functions.tex:385:without a body.  Parameter names may be elided but parameter types cannot
+# rc of grep pipeline: 0

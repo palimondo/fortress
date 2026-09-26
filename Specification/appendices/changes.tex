@@ -12,5 +12,405 @@
 \chapter{Changes Since Fortress 1.0 Specifications}
 \applabel{spec-changes}
 
-\note{Changes Since 
+\note{Changes Since
 http://projectfortress.sun.com/Projects/Community/changeset/1444}
+
+\section{Changes Made by the 2026 Revival to the Working Draft}
+\seclabel{revival-changes}
+\sloppy
+
+This section lists the changes made to this working draft by the 2026
+revival of the Fortress project (\url{https://github.com/palimondo/fortress}).
+The revival works to finish what the designers intended, judged by this
+working draft, and changes the text only where a decision it has taken for
+the implementation would otherwise leave the text and the implementation in
+open disagreement.
+Each changed passage carries a box headed
+``Revised by the 2026 revival'' that points to its entry here.
+
+Each entry gives the affected sections, the change, its rationale, its
+effect, the original text, and what reversing to the alternative not taken
+would require.
+The original text is that of the \emph{Working Draft of February 2011},
+the unrevised copy of this document kept in the revival's repository under
+the directory \nolinkurl{Specification-1.0-frozen/}, cited by path and line
+there.
+The directory's name is misleading: its sources are the working draft of
+2~February 2011, and only the file \nolinkurl{fortress.1.0.pdf} in it is the
+Fortress~1.0 release.
+The full reasoning behind every entry, with each original passage and each
+new one, is in the revival's decision record,
+\nolinkurl{explorations/compile-ladder/rung-spec-route-a/decision-record.md}
+in the same repository.
+
+Every change below follows from one decision of the revival, taken on
+24~September 2026 and called \emph{route~A}: the compiled type checker keeps
+the type group's rule that no type is a subtype of two different
+instantiations of one parameterized trait, a rule this working draft never
+stated, and the library's numeric types are to be reorganized so that they
+satisfy it.
+The alternative not taken, \emph{route~C}, is described once, in
+\secref{revival-routec}.
+
+\subsection{Instantiation exclusion}
+\seclabel{revival-rule}
+
+\begin{description}
+\item[Affected sections] \secref{trait-types}; \secref{trait-decls}.
+\item[Change] A property of the exclusion relation is added:
+two instantiations of the same parameterized trait exclude each other
+unless every static argument other than an operator argument is the same.
+The rule it imposes on declarations is added beside the example of
+\TYP{InclusiveMolecule}: a trait or object may not extend two such
+instantiations, directly or through its supertraits.
+\item[Rationale] Without the rule a value may belong to two instantiations
+of one parameterized trait, and code specialised for one of them can be
+chosen for a caller that was promised the other; with the rule relaxed, the
+compiled implementation accepts such a program and fails at run time.
+The type group adopted the rule as \emph{multiple instantiation exclusion}
+(Allen, Hilburn, Kilpatrick, Luchangco, Ryu, Chase, and Steele, ``Type
+Checking Modular Multiple Dispatch with Parametric Polymorphism and
+Multiple Inheritance'', OOPSLA 2011), and the compiled type checker has
+enforced it since 2010.
+The team's later, unfinished Types chapter (Luchangco, 2012) states it in
+the two parts used here, under the name \emph{instantiation exclusion}.
+Operator arguments do not count: an operator argument only names the
+operator a subtrait inherits (\secref{opr-ident}), neither implementation
+distinguishes instantiations by it at run time, and the algebra of the
+library chapters depends on types that are several instantiations of one
+trait differing only in operator arguments.
+\KWD{nat}, \KWD{int} and \KWD{bool} arguments count: they are values at
+run time (\secref{natparams}, \secref{boolparams}).
+\item[Effect] Programs in which a type is a subtype of two instantiations
+of one parameterized trait that differ in any other static argument are no
+longer valid. The compiled type checker refuses them for type arguments;
+its comparison of \KWD{nat} and \KWD{int} arguments is row~402 of the
+revival's gap ledger. It does not compare \KWD{bool} arguments either:
+it accepts boolean parameters written out, and a type below two
+instantiations that differ only in a boolean argument (row~406).
+The interpreter does not check the rule.
+The library's numeric chapters are not yet revised
+(\secref{revival-notrevised}).
+\item[Original text] The Working Draft of February 2011 states no such
+property; its relations are ``the smallest ones that satisfy all the
+properties given in those sections (and this one)''
+(\nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex}, lines
+185--189), and the properties it gives for trait types are these (lines
+212--216):
+\begin{quote}
+A trait declaration may also include an \KWD{excludes} clause,
+in which case the defined trait type
+excludes every type that appears in that clause.
+Every trait type also excludes every arrow type and every tuple type,
+and the special types \TYP{()} and \TYP{BottomType}.
+\end{quote}
+Its rule on declarations is only that of exclusive traits,
+``no trait can extend them both''
+(\nolinkurl{Specification-1.0-frozen/basic/traits.tex}, lines 218--222).
+\item[Route C] Replaces this rule by the rule of \secref{revival-routec}.
+\end{description}
+
+\subsection{Where-clause variables in extends clauses}
+\seclabel{revival-where}
+
+\begin{description}
+\item[Affected sections] \secref{where-clauses}; \secref{trait-decls}.
+\item[Change] One sentence is added: a \KWD{where}-clause variable may not
+appear as a static argument in an \KWD{extends} clause.
+The three declarations that followed it are kept, marked
+``Not allowed'', each with the way to write it
+(\secref{revival-covariance}, \secref{revival-every},
+\secref{revival-empty}).
+A box after Victor Luchangco's two draft notes in \secref{trait-decls},
+which say that a trait can explicitly extend itself through hidden type
+variables and that ``we could just rule this a special case'', answers
+them.
+\item[Rationale] Such a variable makes the declared type a subtype of one
+instantiation for each type the variable may stand for, and instantiation
+exclusion forbids any two of them.
+\item[Effect] None of the three declarations ran before the revision:
+both implementations stop at name resolution, because a
+\KWD{where}-clause variable is not in scope in an \KWD{extends} clause.
+The revision makes that the rule.
+The calculus of \appref{where-calculus} still admits such
+declarations (\secref{revival-notrevised}).
+\item[Original text] No such sentence; the draft notes are unchanged.
+\item[Route C] The same under route~C, which places no type below
+infinitely many instantiations of one trait.
+\end{description}
+
+\subsection{The covariance example}
+\seclabel{revival-covariance}
+
+\begin{description}
+\item[Affected section] \secref{where-clauses}.
+\item[Change] The declaration is kept, marked ``Not allowed''; the claims
+that trait declarations may extend other instantiations of themselves and
+that the declaration expresses covariance are withdrawn; static
+parameters are stated to be invariant, and a widening function with
+bounded static parameters is given as the way to convert one
+instantiation to another.
+\item[Rationale] \EXP{C\llbracket{}S\rrbracket} would be a subtype of
+\EXP{C\llbracket{}T\rrbracket} for every supertype \VAR{T} of \VAR{S}.
+The widening function is how the library writes covariance, in the
+conversions and the \OPR{APPCOV} operator of its covariant collections,
+and it runs on both implementations.
+\item[Effect] Covariance is written as an explicit conversion, with the
+static arguments given at the call. The box at the example adds that the
+type group's later design declares variance with a \KWD{covariant}
+modifier, implemented on neither implementation; the decision record and
+row~404 of the revival's gap ledger say what is known of it.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/trait-parameters.tex},
+lines 339--351; the declaration is the one kept above, marked
+``Not allowed'', and the text around it read:
+\begin{quote}
+Trait declarations are allowed to extend other instantiations of
+themselves. For example, we can write:
+[the declaration]
+In this declaration, for every subtype \VAR{S} of \VAR{T}, \EXP{C\llbracket{}S\rrbracket}
+is a subtype of \EXP{C\llbracket{}T\rrbracket}. Effectively, we have expressed
+  the fact that the static parameter \VAR{S} of \VAR{C} is covariant.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{A subtrait of every instantiation}
+\seclabel{revival-every}
+
+\begin{description}
+\item[Affected section] \secref{where-clauses}.
+\item[Change] ``the following trait declaration is legal'' becomes
+``is not allowed''; the paragraph after the declaration is kept, in the
+conditional, and a closing sentence says why the declaration is not
+allowed.
+\item[Rationale] The paragraph is the team's own account of why such a
+trait is dangerous, written before the rule; it becomes the reason for the
+rule.
+\item[Effect] None beyond \secref{revival-where}.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/trait-parameters.tex},
+lines 354--380; the declaration is the one kept above, and the text around
+it read:
+\begin{quote}
+Trait declarations need not have any static parameters in order
+to have a \KWD{where} clause. For example, the following trait
+declaration is legal:
+[the declaration]
+In this declaration, trait \VAR{C} is a subtrait of \emph{every}
+instantiation of parametric trait \VAR{D}. Thus, trait \VAR{C} has all
+of the methods of every instantiation of \VAR{D}. By thinking of the
+declaration this way, we can see what restrictions we need to impose on
+the trait \VAR{C} in order for it to be sensible. [The rest of the
+paragraph is unchanged.]
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The empty list}
+\seclabel{revival-empty}
+
+\begin{description}
+\item[Affected section] \secref{where-clauses}.
+\item[Change] The declaration of \TYP{Empty} is kept, marked
+``Not allowed''; \EXP{\TYP{Empty}\llbracket{}T\rrbracket}, one empty list
+for each element type, is given beside it.
+\item[Rationale] The original makes \TYP{Empty} a
+\EXP{\TYP{List}\llbracket{}T\rrbracket} for every \VAR{T} at once.
+The replacement is the library's own shape for its empty collections and
+the same choice as for \TYP{Nothing} (\secref{revival-nothing}); a program
+of this shape runs on both implementations.
+\item[Effect] The element type is written at each use, as in
+\EXP{\TYP{Empty}\llbracket\mathbb{Z}32\rrbracket}, until the static
+arguments of a generic object can be inferred, which neither
+implementation does today. The section no longer has a running example of
+a \KWD{where} clause on an object.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/trait-parameters.tex},
+lines 383--399; the declaration is the one kept above, introduced by:
+\begin{quote}
+Object or functional declarations may include \KWD{where} clauses.
+Here is an example declaration of an \TYP{Empty} list:
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The empty optional value}
+\seclabel{revival-nothing}
+
+\begin{description}
+\item[Affected sections] \secref{convenience-types};
+\secref{chained-exceptions}; \chapref{lib:exception}.
+\item[Change] \TYP{Nothing} becomes
+\EXP{\KWD{value}\;\;\KWD{object}\:\TYP{Nothing}\llbracket{}T\rrbracket}
+extending \EXP{\TYP{Maybe}\llbracket{}T\rrbracket}, with no
+\KWD{excludes} clause, and \TYP{Maybe} comprises
+\EXP{\TYP{Nothing}\llbracket{}T\rrbracket} and
+\EXP{\TYP{Just}\llbracket{}T\rrbracket}; the original declaration is kept,
+marked ``Not allowed''. The defaults of an exception's message and chain
+become \EXP{\TYP{Nothing}\llbracket\TYP{String}\rrbracket} and
+\EXP{\TYP{Nothing}\llbracket\TYP{Exception}\rrbracket}.
+\item[Rationale] The original makes \TYP{Nothing} a
+\EXP{\TYP{Maybe}\llbracket{}T\rrbracket} for every \VAR{T} at once. Its
+\KWD{excludes} clause is also one the grammar gives no object declaration
+(\secref{object-decls}), and is redundant, an object trait type already
+excluding every type that is not its supertype (\secref{object-traits}).
+The replacement is the library's declaration.
+\item[Effect] The empty case is written with its type, as in
+\EXP{\TYP{Nothing}\llbracket\TYP{String}\rrbracket}, until the static
+arguments of a generic object can be inferred from the type expected.
+The compiled path's own library, used until the one library replaces it,
+still declares a single \TYP{Nothing} with a coercion to every
+\EXP{\TYP{Maybe}\llbracket{}T\rrbracket}, and refuses
+\EXP{\TYP{Nothing}\llbracket\TYP{String}\rrbracket}
+(row~331 of the revival's gap ledger).
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/convenience.tex},
+lines 34--53: the declaration kept above, marked ``Not allowed'', together
+with:
+\begin{quote}
+An optional value \VAR{v} is either \TYP{Nothing} or
+\EXP{\TYP{Just}(v)} declared as follows:
+[\ldots]
+\begin{Fortress}
+\(\KWD{trait} \TYP{Maybe}\llbracket{}T\rrbracket \KWD{comprises} \{\,\TYP{Nothing}, \TYP{Just}\llbracket{}T\rrbracket\,\}\)
+\end{Fortress}
+[\ldots]
+\end{quote}
+\nolinkurl{Specification-1.0-frozen/basic/exceptions.tex}, lines 111--130:
+\begin{quote}
+These fields are default to \TYP{Nothing} as follows: [\ldots]
+\begin{Fortress}
+{\tt~~}\pushtabs\=\+\(  \KWD{getter} \VAR{message}()\COLON \TYP{Maybe}\llbracket\TYP{String}\rrbracket = \TYP{Nothing}\)\\
+\(  \ldots\)\\
+\(  \KWD{getter} \VAR{chain}()\COLON \TYP{Maybe}\llbracket\TYP{Exception}\rrbracket = \TYP{Nothing}\)\-\\\poptabs
+\end{Fortress}
+[\ldots]
+where an optional value \VAR{v} is either \TYP{Nothing} or
+\EXP{\TYP{Just}(v)}.
+\end{quote}
+\nolinkurl{Specification-1.0-frozen/basic-lib/exception.tex}, lines 22--24:
+\begin{quote}
+These fields are default to \TYP{Nothing}
+where an optional value \VAR{v} is either \TYP{Nothing} or
+\EXP{\TYP{Just}(v)} as declared in \secref{convenience-types}.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The root's algebra}
+\seclabel{revival-object}
+
+\begin{description}
+\item[Affected sections] \chapref{lib:object}.
+\item[Change] \TYP{Object} extends \TYP{Any} alone and \TYP{Tuple} likewise,
+each still excluding the other; the sentences saying that they describe
+their operators with algebraic constraints are removed. The original
+declaration of \TYP{Object} is kept, marked ``Not allowed''.
+\item[Rationale] Every trait but \TYP{Any} and \TYP{Object} extends
+\TYP{Object}, and every commutative algebraic type \VAR{T} is an
+\EXP{\TYP{EquivalenceRelation}\llbracket{}T,=\rrbracket}; with the
+original declaration such a type is also an
+\EXP{\TYP{EquivalenceRelation}\llbracket\TYP{Object},\sequiv\rrbracket},
+and the two differ in a type argument. \TYP{Tuple}'s declaration is not
+refused by the rule, since no tuple type extends a trait, but its text
+follows \TYP{Object}'s. The replacement is the library's declaration.
+\item[Effect] The properties of \EXP{\sequiv} are those stated in trait
+\TYP{Any}; they are no longer restated at \TYP{Object} through the
+algebra chapter.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/objects.tex}
+(whose lines are two fewer than this document's source), line 82:
+\begin{quote}
+In \TYP{Object} this property is asserted abstractly using the algebraic constraints of \chapref{lib:algebraic-constraints}.
+\end{quote}
+lines 125--139, the declaration kept above, marked ``Not allowed'', after:
+\begin{quote}
+The \TYP{Object} type does not
+have any additional methods, but uses algebraic constraints (see
+\chapref{lib:algebraic-constraints}) to describe the properties of the
+existing operators more abstractly.
+\end{quote}
+and lines 145--156:
+\begin{quote}
+As with the type \TYP{Object}, the type \TYP{Tuple} uses algebraic constraints to describe its existing methods.
+\begin{Fortress}
+\(\KWD{trait}\mskip 4mu plus 4mu\TYP{Tuple} \KWD{extends} \{\,\TYP{Any}, \TYP{EquivalenceRelation}\llbracket\TYP{Tuple},\sequiv\rrbracket, \TYP{IdentityOperator}\llbracket\TYP{Tuple}\rrbracket\,\}\)\\
+{\tt~~~~}\pushtabs\=\+\(    \KWD{excludes} \{\,\TYP{Object}\,\}\)\-\\\poptabs
+{\tt~~}\pushtabs\=\+\(  \VAR{toString}()\COLON \TYP{String}\)\-\\\poptabs
+\(\KWD{end}\)
+\end{Fortress}
+\end{quote}
+\item[Route C] By the revival's reading, not measured, the original
+declaration of \TYP{Object} is one of the two passages that would read
+differently under route~C, the numeric chapters being the other.
+\end{description}
+
+\subsection{The internal document}
+\seclabel{revival-internal}
+
+\begin{description}
+\item[Affected sections] In the appendix ``Internal Document'', which
+follows this one in a draft build: ``Disjunctive Constraints'',
+``Weirdness with Multiple Inheritance and Polymorphism'' and
+``Conditional Subtyping''.
+\item[Change] One box after each: the first program's premise is not
+allowed; the second is the case the rule answers; the third declaration is
+not allowed for the reason the covariance example is not.
+\item[Rationale] Instantiation exclusion.
+\item[Effect] None; the internal document is printed only in a draft
+build.
+\item[Original text] Unchanged.
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{Passages not yet revised}
+\seclabel{revival-notrevised}
+
+The number chapters, \chapref{lib:numbers-basic} (whose integers are \secref{basic-integers})
+and \chapref{lib:numbers-advanced}, are not yet revised.
+Their nested tower, in which each integer type is a subtype of the rational
+one above it and each carries its algebra at its own type, and the
+conditional self-extension of \TYP{RationalQuantity}, are refused by
+instantiation exclusion, as the compiled type checker refuses the
+library's nested tower today.
+They will be revised together with the reorganization of the library's
+numeric types that route~A decides, and not before, because a
+specification ahead of its library is as much an open discrepancy as one
+behind it.
+Until then the rule refuses the tower these chapters describe.
+
+The calculi of \appref{calculi} predate the rule and are not yet revised:
+the calculus with \KWD{where} clauses (\appref{where-calculus}) lets a
+\KWD{where}-clause variable occur in a supertype, the calculus with an
+acyclic type hierarchy admits a trait that extends an instantiation of
+itself at its parameter's bound, and the basic calculus states that all of
+its valid programs are valid Fortress programs, while it admits an object
+that extends two instantiations of a parameterized trait declaring no
+method.
+How they are to be revised awaits a decision of the revival.
+
+\subsection{Route C, the alternative not taken}
+\seclabel{revival-routec}
+
+The team's 2012 patent applications (US~8,843,887 and US~8,898,632;
+Chase, Steele, Naden, Hilburn, and Luchangco) relax the rule for a
+self-typed parameterized trait: a type may be a subtype of several of its
+instantiations when they form a chain.
+The revival built that rule whole as an experiment and measured it.
+It closes the unsoundness that instantiation exclusion guards against only
+together with a rule on return types over every level of a chain and a
+change in how a call chooses among generic methods specialised to
+different instantiations: 188 lines of code in five files of the compiled
+type checker and code generator.
+Reversing route~A for route~C would also need a method per level of a
+chain in the code generator, work in the interpreter, a way past a stack
+overflow of the type checker on the self-typing clauses, and seven library
+declarations, besides undoing the reorganization of the library's numeric
+types.
+Route~C rescues none of the \KWD{where}-clause examples of
+\secref{where-clauses} nor the \TYP{Nothing} of \secref{convenience-types},
+each of which places one type below infinitely many instantiations, which
+no chain contains.
+Under route~C the numeric chapters could keep their nested tower, and the
+original text of those chapters, kept unrevised in this document for now
+and in the Working Draft of February 2011, is route~C's.
+The record of the experiment is
+\nolinkurl{explorations/reviews/mie-probes/route-c-experiment.md} in the
+revival's repository.
+\fussy

@@ -81,7 +81,11 @@ The infix operator \EXP{\sequiv} (object equivalence) is used to
 decide whether two objects are ``the same object'' in the strictest
 sense possible; this is described in detail in \secref{equivalence}.
 Note that the properties of trait \TYP{Any} assert that \EXP{\sequiv}
-is an equivalence relation.  In \TYP{Object} this property is asserted abstractly using the algebraic constraints of \chapref{lib:algebraic-constraints}.
+is an equivalence relation.
+\revision{revival-object}{The Working Draft of February 2011 added that in
+\TYP{Object} this property is asserted abstractly using the algebraic
+constraints of \chapref{lib:algebraic-constraints}; \TYP{Object} no longer
+does so (\secref{revival-object}).}
 
 For \EXP{\not\sequiv} \see{operator-NSEQV}.
 
@@ -127,35 +131,67 @@ informative representation that will be useful to a person reading it.
 The trait \TYP{Object} is the root of the type hierarchy for all
 user-constructed objects and functions.
 The \TYP{Object} type does not
-have any additional methods, but uses algebraic constraints (see
-\chapref{lib:algebraic-constraints}) to describe the properties of the
-existing operators more abstractly.
+have any additional methods;
+the properties of the existing operators, such as \EXP{\sequiv},
+are those stated in trait \TYP{Any}.
 
+%trait Object extends Any
+%    excludes { Tuple }
+%end
+\begin{Fortress}
+\(\KWD{trait}\:\TYP{Object} \KWD{extends}\:\TYP{Any}\)\\
+{\tt~~~~}\pushtabs\=\+\(    \KWD{excludes} \{\,\TYP{Tuple}\,\}\)\-\\\poptabs
+\(\KWD{end}\)
+\end{Fortress}
+The following declaration, which describes those properties
+with the algebraic constraints of \chapref{lib:algebraic-constraints},
+is not allowed:
+%(* Not allowed! *)
 %trait Object extends { Any, EquivalenceRelation[\Object,===\], IdentityOperator[\Object\] }
 %    excludes { Tuple }
 %end
 \begin{Fortress}
+\(\mathtt{(*}\;\hbox{\rm  Not allowed! \unskip}\;\mathtt{*)}\)\\
 \(\KWD{trait}\mskip 4mu plus 4mu\TYP{Object} \KWD{extends} \{\,\TYP{Any}, \TYP{EquivalenceRelation}\llbracket\TYP{Object},\sequiv\rrbracket, \TYP{IdentityOperator}\llbracket\TYP{Object}\rrbracket\,\}\)\\
 {\tt~~~~}\pushtabs\=\+\(    \KWD{excludes} \{\,\TYP{Tuple}\,\}\)\-\\\poptabs
 \(\KWD{end}\)
 \end{Fortress}
+Every trait other than \TYP{Any} and \TYP{Object} extends \TYP{Object}
+(\secref{trait-decls}),
+and the algebraic constraints make each commutative algebraic type \VAR{T}
+an \EXP{\TYP{EquivalenceRelation}\llbracket{}T,=\rrbracket}
+(\chapref{lib:algebraic-constraints});
+such a type would extend two instantiations of \TYP{EquivalenceRelation}
+whose type arguments differ,
+which instantiation exclusion forbids (\secref{trait-types}).
+\revision{revival-object}{The Working Draft of February 2011 declared
+\TYP{Object} with the declaration marked ``Not allowed'', and said that
+\TYP{Object} uses algebraic constraints to describe the properties of the
+existing operators more abstractly.
+The declaration \EXP{\KWD{trait}\:\TYP{Object} \KWD{extends}\:\TYP{Any}}
+is the library's.}
 
 
 \Trait{Fortress.Core.Tuple}
 \seclabel{core-tuple}
 
-The trait \TYP{Tuple} is the root of the type hierarchy for all tuple types (see \secref{tuple-types}).  No user-defined object can be a subtype of \TYP{Tuple}.  As with the type \TYP{Object}, the type \TYP{Tuple} uses algebraic constraints to describe its existing methods.
+The trait \TYP{Tuple} is the root of the type hierarchy for all tuple types (see \secref{tuple-types}).  No user-defined object can be a subtype of \TYP{Tuple}.  As with the type \TYP{Object}, the properties of its existing operators are those stated in trait \TYP{Any}.
 
-%trait Tuple extends { Any, EquivalenceRelation[\Tuple,===\], IdentityOperator[\Tuple\] }
+%trait Tuple extends Any
 %    excludes { Object }
 %  toString(): String
 %end
 \begin{Fortress}
-\(\KWD{trait}\mskip 4mu plus 4mu\TYP{Tuple} \KWD{extends} \{\,\TYP{Any}, \TYP{EquivalenceRelation}\llbracket\TYP{Tuple},\sequiv\rrbracket, \TYP{IdentityOperator}\llbracket\TYP{Tuple}\rrbracket\,\}\)\\
+\(\KWD{trait}\:\TYP{Tuple} \KWD{extends}\:\TYP{Any}\)\\
 {\tt~~~~}\pushtabs\=\+\(    \KWD{excludes} \{\,\TYP{Object}\,\}\)\-\\\poptabs
 {\tt~~}\pushtabs\=\+\(  \VAR{toString}()\COLON \TYP{String}\)\-\\\poptabs
 \(\KWD{end}\)
 \end{Fortress}
+\revision{revival-object}{The Working Draft of February 2011 gave
+\TYP{Tuple} the same algebraic supertraits as \TYP{Object}, at
+\TYP{Tuple}, and said that it uses algebraic constraints to describe its
+existing methods. No tuple type extends a trait, so the rule does not
+refuse that declaration; it follows \TYP{Object}'s.}
 
 
 \Method{\EXP{\VAR{toString}()\COLON \TYP{String}}}

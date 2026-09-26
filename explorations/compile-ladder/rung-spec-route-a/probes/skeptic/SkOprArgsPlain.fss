@@ -1,0 +1,13 @@
+component SkOprArgsPlain
+export Executable
+trait Named[\T, opr OP\]
+  getter tag(): String = "named"
+end
+object Two extends { Named[\ZZ32, SQCAP\], Named[\ZZ32, SQCUP\] } end
+f(x: Named[\ZZ32, SQCAP\]): String = "f took a Named[ZZ32,SQCAP] " x.tag
+g(x: Named[\ZZ32, SQCUP\]): String = "g took a Named[ZZ32,SQCUP] " x.tag
+run():() = do
+  println(f(Two))
+  println(g(Two))
+end
+end

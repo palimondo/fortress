@@ -1,0 +1,4 @@
+SkEmptyBare.fss:6:33:
+T is not in the kind env [][][]
+File SkEmptyBare.fss has 1 error.
+rc=255

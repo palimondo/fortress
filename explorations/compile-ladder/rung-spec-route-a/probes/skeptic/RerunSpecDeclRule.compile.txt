@@ -1,0 +1,10 @@
+RerunSpecDeclRule.fss:5:24-35:
+    Types Parent[\ZZ32\] and Parent[\String\] exclude each other.  Child must not extend them.
+RerunSpecDeclRule.fss:5:24-36:
+    Type Child excludes Parent but it extends Parent.
+RerunSpecDeclRule.fss:5:40-53:
+    Types Parent[\String\] and Parent[\ZZ32\] exclude each other.  Child must not extend them.
+RerunSpecDeclRule.fss:5:40-54:
+    Type Child excludes Parent but it extends Parent.
+File RerunSpecDeclRule.fss has 4 errors.
+rc=255

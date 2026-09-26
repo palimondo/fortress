@@ -1,0 +1,11 @@
+component RerunSpecDeclRule
+export Executable
+
+trait Parent[\T\] end
+object Child extends { Parent[\ZZ32\], Parent[\String\] } end
+
+f(p: Parent[\String\]): String = "f took a Parent[String]"
+
+run():() = println(f(Child))
+
+end

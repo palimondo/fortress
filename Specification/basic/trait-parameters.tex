@@ -336,34 +336,82 @@ occur either as a static parameter or as a \KWD{where}-clause variable.
 \appref{where-calculus} describes a Fortress core calculus with
 \KWD{where} clauses.
 
-Trait declarations are allowed to extend other instantiations of
-themselves. For example, we can write:
+A \KWD{where}-clause variable may not appear as a static argument
+in an \KWD{extends} clause.
+Such an occurrence would make the declared trait or object a subtype of
+one instantiation for each type that the variable may stand for,
+which instantiation exclusion forbids
+(\secref{trait-types} and \secref{trait-decls});
+the second of the three declarations below shows why.
+\revision{revival-where}{This restriction is new.
+The three declarations that follow were offered as legal by the
+Working Draft of February 2011; they are kept as examples of what is not
+allowed, each with the way to write it.}
+
+In particular, a trait declaration may not extend other instantiations
+of itself through a \KWD{where}-clause variable.
+The following declaration would express that the static parameter \VAR{S}
+of \VAR{C} is covariant, making \EXP{C\llbracket{}S\rrbracket} a subtype of
+\EXP{C\llbracket{}T\rrbracket} for every supertype \VAR{T} of \VAR{S};
+it is not allowed:
+%(* Not allowed! *)
 %trait C[\S\] extends C[\T\]
 %  where {S extends T, T extends Object}
 %end
 \begin{Fortress}
+\(\mathtt{(*}\;\hbox{\rm  Not allowed! \unskip}\;\mathtt{*)}\)\\
 \(\KWD{trait} C\llbracket{}S\rrbracket \KWD{extends} C\llbracket{}T\rrbracket\)\\
 {\tt~~}\pushtabs\=\+\(  \KWD{where} \{S \KWD{extends} T, T \KWD{extends} \TYP{Object}\}\)\-\\\poptabs
 \(\KWD{end}\)
 \end{Fortress}
-In this declaration, for every subtype \VAR{S} of \VAR{T}, \EXP{C\llbracket{}S\rrbracket}
-is a subtype of \EXP{C\llbracket{}T\rrbracket}. Effectively, we have expressed
-  the fact that the static parameter \VAR{S} of \VAR{C} is covariant.
+Static parameters are invariant:
+\EXP{C\llbracket{}S\rrbracket} is a subtype of \EXP{C\llbracket{}T\rrbracket}
+only if \VAR{S} and \VAR{T} are the same type.
+A value of one instantiation is widened to another by a function
+whose bounded static parameters state that one argument extends the other:
+%trait C[\S\]
+%  getter item(): S
+%end
+%object CItem[\S\](item: S) extends C[\S\] end
+%widen[\T, S extends T\](c: C[\S\]): C[\T\] = CItem[\T\](c.item)
+\begin{Fortress}
+\(\KWD{trait}\:C\llbracket{}S\rrbracket\)\\
+{\tt~~}\pushtabs\=\+\(  \KWD{getter}\:\VAR{item}()\COLON S\)\-\\\poptabs
+\(\KWD{end}\)\\
+\(\KWD{object}\:\TYP{CItem}\llbracket{}S\rrbracket(\VAR{item}\COLON S) \KWD{extends}\:C\llbracket{}S\rrbracket \KWD{end}\)\\
+\(\VAR{widen}\llbracket{}T, S \KWD{extends}\:T\rrbracket(c\COLON C\llbracket{}S\rrbracket)\COLON C\llbracket{}T\rrbracket = \TYP{CItem}\llbracket{}T\rrbracket(c.\VAR{item})\)
+\end{Fortress}
+so that, where a trait \TYP{Dog} extends a trait \TYP{Animal} and \VAR{d}
+is a \EXP{C\llbracket\TYP{Dog}\rrbracket},
+\EXP{\VAR{widen}\llbracket\TYP{Animal}, \TYP{Dog}\rrbracket(d)} is a
+\EXP{C\llbracket\TYP{Animal}\rrbracket} with the same item.
+The library's covariant collections are written this way.
+\revision{revival-covariance}{The Working Draft of February 2011 said that
+trait declarations are allowed to extend other instantiations of themselves,
+and gave the declaration above as the way to express covariance.
+The type group's later design declares variance instead with a
+\KWD{covariant} modifier on a static parameter
+(the team's later Types chapter, Luchangco, 2012),
+which is implemented on neither the interpreter nor the compiled path;
+the revival's decision record and row~404 of its gap ledger
+say what is known of it.}
 
 
 Trait declarations need not have any static parameters in order
-to have a \KWD{where} clause. For example, the following trait
-declaration is legal:
+to have a \KWD{where} clause. But the following trait
+declaration is not allowed:
+%(* Not allowed! *)
 %trait C extends D[\T\]
 %  where {T extends Object}
 %end
 \begin{Fortress}
+\(\mathtt{(*}\;\hbox{\rm  Not allowed! \unskip}\;\mathtt{*)}\)\\
 \(\KWD{trait} C \KWD{extends} D\llbracket{}T\rrbracket\)\\
 {\tt~~}\pushtabs\=\+\(  \KWD{where} \{T \KWD{extends} \TYP{Object}\}\)\-\\\poptabs
 \(\KWD{end}\)
 \end{Fortress}
-In this declaration, trait \VAR{C} is a subtrait of \emph{every}
-instantiation of parametric trait \VAR{D}. Thus, trait \VAR{C} has all
+In this declaration, trait \VAR{C} would be a subtrait of \emph{every}
+instantiation of parametric trait \VAR{D}. Thus, trait \VAR{C} would have all
 of the methods of every instantiation of \VAR{D}. By thinking of the
 declaration this way, we can see what restrictions we need to impose on
 the trait \VAR{C} in order for it to be sensible. If trait
@@ -378,10 +426,21 @@ type checking rejects the
 program and requires more type information from the programmer.
 Programmers always can provide more type information by using type
 ascription as described in \secref{type-ascription}.
+But trait \VAR{C} would also be a subtype of every pair of
+different instantiations of \VAR{D},
+which exclude each other by instantiation exclusion,
+so no such restriction makes the declaration sensible:
+that is why it is not allowed.
+\revision{revival-every}{The Working Draft of February 2011 said that this
+declaration is legal. The paragraph above, the team's own account of why
+such a trait is dangerous, is kept as the reason for the restriction stated
+at the start of this section.}
 
 
-Object or functional declarations may include \KWD{where} clauses.
-Here is an example declaration of an \TYP{Empty} list:
+Object or functional declarations may include \KWD{where} clauses,
+under the same restriction.
+The following declaration of an \TYP{Empty} list is not allowed:
+%(* Not allowed! *)
 %object Empty extends List[\T\] where {T extends Object}
 %  first() = throw Error
 %  rest() = throw Error
@@ -389,6 +448,7 @@ Here is an example declaration of an \TYP{Empty} list:
 %  append(xs) = xs
 %end
 \begin{Fortress}
+\(\mathtt{(*}\;\hbox{\rm  Not allowed! \unskip}\;\mathtt{*)}\)\\
 \(\KWD{object} \TYP{Empty} \KWD{extends} \TYP{List}\llbracket{}T\rrbracket \KWD{where} \{T \KWD{extends} \TYP{Object}\}\)\\
 {\tt~~}\pushtabs\=\+\(  \VAR{first}() = \;\KWD{throw} \TYP{Error}\)\\
 \(  \VAR{rest}() = \;\KWD{throw} \TYP{Error}\)\\
@@ -397,3 +457,29 @@ Here is an example declaration of an \TYP{Empty} list:
 \(\KWD{end}\)
 \end{Fortress}
 where \TYP{Cons} is declared in \secref{object-decls}.
+Instead, the empty list is one object for each element type,
+and each use writes the element type,
+as in \EXP{\TYP{Empty}\llbracket\mathbb{Z}32\rrbracket}:
+%object Empty[\T\] extends List[\T\]
+%  first(): T = throw NotFound
+%  rest(): List[\T\] = throw NotFound
+%  cons(x: T): List[\T\] = Cons[\T\](x, self)
+%  append(xs: List[\T\]): List[\T\] = xs
+%end
+\begin{Fortress}
+\(\KWD{object}\:\TYP{Empty}\llbracket{}T\rrbracket \KWD{extends}\:\TYP{List}\llbracket{}T\rrbracket\)\\
+{\tt~~}\pushtabs\=\+\(  \VAR{first}()\COLON T = \;\KWD{throw}\:\TYP{NotFound}\)\\
+\(  \VAR{rest}()\COLON \TYP{List}\llbracket{}T\rrbracket = \;\KWD{throw}\:\TYP{NotFound}\)\\
+\(  \VAR{cons}(x\COLON T)\COLON \TYP{List}\llbracket{}T\rrbracket = \TYP{Cons}\llbracket{}T\rrbracket(x, \KWD{self})\)\\
+\(  \VAR{append}(\VAR{xs}\COLON \TYP{List}\llbracket{}T\rrbracket)\COLON \TYP{List}\llbracket{}T\rrbracket = \VAR{xs}\)\-\\\poptabs
+\(\KWD{end}\)
+\end{Fortress}
+The library declares its empty collections and its empty optional value
+(\secref{convenience-types}) the same way.
+\revision{revival-empty}{The Working Draft of February 2011 gave the
+declaration marked ``Not allowed'' as its example of a \KWD{where} clause on
+an object. It makes \TYP{Empty} a \EXP{\TYP{List}\llbracket{}T\rrbracket} for
+every \VAR{T} at once, which instantiation exclusion forbids.
+The declaration after it is the library's own shape; it needs the element
+type written at each use until the static arguments of a generic object can
+be inferred.}

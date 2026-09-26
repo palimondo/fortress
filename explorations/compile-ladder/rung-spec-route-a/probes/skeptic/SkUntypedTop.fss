@@ -1,0 +1,5 @@
+component SkUntypedTop
+export Executable
+twiceTop(x) = x x
+run():() = println(twiceTop("cd"))
+end

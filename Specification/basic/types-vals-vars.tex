@@ -215,6 +215,40 @@ excludes every type that appears in that clause.
 Every trait type also excludes every arrow type and every tuple type,
 and the special types \TYP{()} and \TYP{BottomType}.
 
+Two instantiations of the same parameterized trait exclude each other
+unless each static argument of one,
+other than an operator argument,
+is the same as the corresponding static argument of the other:
+the same type for a type parameter,
+and the same value for a \KWD{nat}, \KWD{int}, \KWD{bool},
+dimension, or unit parameter.
+This property is called \emph{instantiation exclusion}.
+Operator arguments do not count:
+an operator argument names the operator that a subtrait inherits
+(\secref{opr-ident}),
+so instantiations that differ only in their operator arguments,
+such as the instantiations of \TYP{BooleanAlgebra}
+that \TYP{Boolean} extends (\secref{lib:boolean}),
+do not exclude each other on that account.
+Because types that exclude each other are disjoint,
+no type is a subtype of two instantiations of one parameterized trait
+that differ in a static argument other than an operator argument;
+the rule that this imposes on trait and object declarations
+is stated in \secref{trait-decls}.
+\revision{revival-rule}{The Working Draft of February 2011 stated no
+exclusion between instantiations, so the relations defined in this chapter,
+the smallest ones that satisfy the properties given,
+let a type be a subtype of two different instantiations of one
+parameterized trait.
+The paragraph above adds the property.
+It is the rule the type group named \emph{multiple instantiation exclusion}
+(Allen, Hilburn, Kilpatrick, Luchangco, Ryu, Chase, and Steele,
+``Type Checking Modular Multiple Dispatch with Parametric Polymorphism and
+Multiple Inheritance'', OOPSLA 2011), which the compiled type checker enforces
+for type arguments (\secref{revival-rule} states its coverage),
+stated here as the team's later Types chapter (Luchangco, 2012) states it,
+under its shorter name.}
+
 \subsection{Object Trait Types}
 \seclabel{object-traits}
 

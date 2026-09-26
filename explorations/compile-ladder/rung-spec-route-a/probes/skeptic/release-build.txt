@@ -1,0 +1,17 @@
+# release-mode build of the edited sources (HEAD 2b29c077c), no source edited: \def\release{1} before \input{fortress}, run in Specification/fortress
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg at start=0.48 0.63 2.18 2/108 14767; pdflatex pdfTeX 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian)
+# command, twice: pdflatex -interaction=nonstopmode -jobname=skrelease -output-directory=tmp/skrelease '\def\release{1}\input{fortress}' (fortress.bbl copied to skrelease.bbl)
+pass1 rc=0
+pass2 rc=0
+EXIT=0
+# pass 2:
+Output written on /home/user/fortress-spec/tmp/skrelease/skrelease.pdf (559 pag
+reference warnings (LaTeX Warning: Reference / There were undefined): 0
+'??' in pdftotext: 0
+callout heads 'R EVISED BY THE 2026 REVIVAL' in pdftotext: 13 (draft build: 16; the internal appendix, with 3, is draft-only)
+# title page, pdftotext lines 1-4:
+The Fortress Language Specification
+Working Draft
+Version 1.0
+with the changes of the 2026 revival, listed in Appendix I
+pdfinfo pages: 559
