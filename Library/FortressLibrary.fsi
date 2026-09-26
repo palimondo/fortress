@@ -413,11 +413,15 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Any
     getter zero(): I
     getter one(): I
     opr -(self):I
+    opr DOTMINUS(self):I
     opr +(self,b:I):I
+    opr DOTPLUS(self,b:I):I
     opr -(self,b:I):I
+    opr DOTMINUS(self,b:I):I
     opr DOT(self,b:I):I
     opr TIMES(self,b:I):I
     opr juxtaposition(self,b:I):I
+    opr DOTTIMES(self,b:I):I
     opr DIV(self,b:I):I
     opr REM(self,b:I):I
     opr MOD(self,b:I):I
@@ -440,11 +444,15 @@ trait NN64 extends { ZZ, Integral[\NN64\] } comprises { UnsignedLong, NN32 }
     opr =(self, b:NN64):Boolean
     opr <(self, b:NN64):Boolean
     opr -(self):NN64
+    opr DOTMINUS(self):NN64
     opr +(self,b:NN64):NN64
+    opr DOTPLUS(self,b:NN64):NN64
     opr -(self,b:NN64):NN64
+    opr DOTMINUS(self,b:NN64):NN64
     opr DOT(self,b:NN64):NN64
     opr TIMES(self,b:NN64):NN64
     opr juxtaposition(self,b:NN64):NN64
+    opr DOTTIMES(self,b:NN64):NN64
     opr DIV(self,b:NN64):NN64
     opr REM(self,b:NN64):NN64
     opr MOD(self,b:NN64):NN64
@@ -475,10 +483,14 @@ trait ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }
     opr <(self, b:ZZ32):Boolean
 
     opr -(self):ZZ32
+    opr DOTMINUS(self):ZZ32
     opr +(self,b:ZZ32):ZZ32
+    opr DOTPLUS(self,b:ZZ32):ZZ32
     opr -(self,b:ZZ32):ZZ32
+    opr DOTMINUS(self,b:ZZ32):ZZ32
     opr DOT(self,b:ZZ32):ZZ32
     opr juxtaposition(self,b:ZZ32):ZZ32
+    opr DOTTIMES(self,b:ZZ32):ZZ32
     opr DIV(self,b:ZZ32):ZZ32
     opr REM(self,b:ZZ32):ZZ32
     opr MOD(self,b:ZZ32):ZZ32
@@ -513,11 +525,15 @@ trait ZZ64 extends { ZZ, Integral[\ZZ64\] } comprises { Long, ZZ32 }
     opr CMP(self, b:ZZ64): TotalComparison
 
     opr -(self):ZZ64
+    opr DOTMINUS(self):ZZ64
     opr +(self,b:ZZ64):ZZ64
+    opr DOTPLUS(self,b:ZZ64):ZZ64
     opr -(self,b:ZZ64):ZZ64
+    opr DOTMINUS(self,b:ZZ64):ZZ64
     opr DOT(self,b:ZZ64):ZZ64
     opr TIMES(self,b:ZZ64):ZZ64
     opr juxtaposition(self,b:ZZ64):ZZ64
+    opr DOTTIMES(self,b:ZZ64):ZZ64
     opr DIV(self,b:ZZ64):ZZ64
     opr REM(self,b:ZZ64):ZZ64
     opr MOD(self,b:ZZ64):ZZ64

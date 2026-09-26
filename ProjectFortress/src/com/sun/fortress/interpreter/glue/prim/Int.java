@@ -375,4 +375,28 @@ public class Int extends NativeConstructor {
 
     }
 
+    public static final class WrappingNegate extends Z2Z {
+        protected int f(int x) {
+            return -x;
+        }
+    }
+
+    public static final class WrappingAdd extends ZZ2Z {
+        protected int f(int x, int y) {
+            return x + y;
+        }
+    }
+
+    public static final class WrappingSub extends ZZ2Z {
+        protected int f(int x, int y) {
+            return x - y;
+        }
+    }
+
+    public static final class WrappingMul extends ZZ2Z {
+        protected int f(int x, int y) {
+            return x * y;
+        }
+    }
+
 }

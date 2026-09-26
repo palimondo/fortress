@@ -368,4 +368,28 @@ public class Long extends NativeConstructor {
 
     }
 
+    public static final class WrappingNegate extends L2L {
+        protected long f(long x) {
+            return -x;
+        }
+    }
+
+    public static final class WrappingAdd extends LL2L {
+        protected long f(long x, long y) {
+            return x + y;
+        }
+    }
+
+    public static final class WrappingSub extends LL2L {
+        protected long f(long x, long y) {
+            return x - y;
+        }
+    }
+
+    public static final class WrappingMul extends LL2L {
+        protected long f(long x, long y) {
+            return x * y;
+        }
+    }
+
 }

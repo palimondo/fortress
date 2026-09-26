@@ -73,7 +73,7 @@ object ChunkedSparseArray[\T, nat n\](defaultValue : T) extends Array1[\T,0,n\]
         "[" self.bounds "] = [" (BIG ||[(i,v) <- self.indexValuePairs] " " i "|->" v) " ]"
     getter asDebugString(): String = data.asString
     indexAndMask(i:ZZ32) : (ZZ32,ZZ64) = (i RSHIFT 6, widen(1) LSHIFT (i BITAND 63))
-    secondaryIndex(fe:ZZ64, mask:ZZ64):ZZ32 = popCount((mask-1) BITAND fe)
+    secondaryIndex(fe:ZZ64, mask:ZZ64):ZZ32 = popCount((mask DOTMINUS 1) BITAND fe)
     isSet(i:ZZ32): Boolean = isSet0(offset(i))
     isSet0(i:ZZ32): Boolean = do
         (i1, m) = indexAndMask(i)
