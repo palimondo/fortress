@@ -1,0 +1,124 @@
+11178a11179
+> opr −̇(self) : I
+11179a11181
+> opr ∔(self, b : I) : I
+11180a11183
+> opr −̇(self, b : I) : I
+11183a11187,11189
+> ˙
+> opr ×(self,
+> b : I) : I
+11208a11215
+> opr −̇(self): N64
+11209a11217
+> opr ∔(self, b: N64): N64
+11210a11219
+> opr −̇(self, b: N64): N64
+11213a11223,11225
+> ˙
+> opr ×(self,
+> b: N64): N64
+11242a11255
+> opr −̇(self): Z32
+11243a11257
+> opr ∔(self, b: Z32): Z32
+11244a11259
+> opr −̇(self, b: Z32): Z32
+11246a11262,11264
+> ˙
+> opr ×(self,
+> b: Z32): Z32
+11279a11298
+> opr −̇(self): Z64
+11280a11300
+> opr ∔(self, b: Z64): Z64
+11281a11302
+> opr −̇(self, b: Z64): Z64
+11284a11306,11308
+> ˙
+> opr ×(self,
+> b: Z64): Z64
+11356d11379
+< trait GeneratorJEK extends
+11358c11381
+< ContainsJEK
+---
+> trait GeneratorJEK extends ContainsJEK
+11481a11505
+> *)
+11485d11508
+< *)
+11503a11527
+> nest[\E1,E2\](g:Generator[\E1\], f:E1-
+11512d11535
+< nest[\E1,E2\](g:Generator[\E1\], f:E1-
+11850c11873
+< Potemkin exclusion traits. Really we just want to say that ‘‘RankJnK excludes RankJmK where { m
+---
+> Potemkin exclusion traits.
+11851a11875,11876
+> trait Rank1 extends
+> Really we just want to say that ‘‘RankJnK excludes RankJmK where { m
+11853,11855c11878
+< trait Rank1 extends RankJ1K excludes { Rank2, Rank3, Number, String }
+< end
+< trait Rank2 extends
+---
+> RankJ1K excludes { Rank2, Rank3, Number, String }
+11860a11884,11885
+> trait Rank2 extends
+> end
+11865d11889
+< In
+11868a11893
+> In
+12196a12222
+> but
+12201d12226
+< but
+12219d12243
+< 
+12220a12245
+> 
+12328d12352
+< 
+12329a12354
+> 
+12465,12466d12489
+< opr
+< 
+12468c12491,12492
+< : OpenRangeJZ32K : Array3JT, 0, s0 , 0, s1 , 0, s2 K
+---
+> 
+> opr : OpenRangeJZ32K : Array3JT, 0, s0 , 0, s1 , 0, s2 K
+13077,13078c13101,13109
+< A : (B :) Don’t use these, just write A : B instead.
+<  we reject this.
+---
+> we
+> reject
+> this.
+> A
+> :
+> (B
+> :)
+> Don’t use these, just write A : B instead.
+> 
+13084c13115,13118
+< (: A) # B
+---
+> (:
+> A)
+> #
+> B
+13473a13508
+> opr −̇(self): N32
+13474a13510
+> opr ∔(self, b: N32): N32
+13475a13512
+> opr −̇(self, b: N32): N32
+13478a13516,13518
+> ˙
+> opr ×(self,
+> b: N32): N32

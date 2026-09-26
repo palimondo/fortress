@@ -4,7 +4,7 @@ Written at the gather stage of climb batch 5 (2026-09-26), on `main` from the ba
 
 **Preconditions.** `git status --porcelain` was empty and `6030e4b36` is an ancestor of `HEAD`.
 
-**The push is held.** Two stops that are not lifted hold the commit stage's push, as batch 4's landing held it: rung D's (its one changed interpreter output, section "Not landed") and rung S's own, the calculi of Appendix A, which its worker reported per passage and its skeptic confirmed still holds (rung S below).
+**The push is held.** Two stops that are not lifted hold the commit stage's push, as batch 4's landing held it: rung D's (its one changed interpreter output, section "Not landed") and rung S's own, the calculi of Appendix A, which its worker reported per passage and its skeptic confirmed still holds (rung S below). Rung S's stop was answered on 2026-09-26 with option 1 of the decision record's section 4.2 (`explorations/coordinator/POSITIONS.md`, the entry of that date on the calculi): a callout at each of the three calculi and Appendix I's entry "The calculi" landed in `eb2d7e1e6` (`followup-calculi/NOTE.md`).
 
 ## The order the rungs were applied in
 
