@@ -86,6 +86,11 @@ Finish what the designers intended, judged by the latest committed
 specification (`Specification/`, the July 2012 draft), not redesign the
 language; the measuring stick is one program, microGPT, compiled to bytecode
 and running fast (Pavol, 2026-09-16, `explorations/coordinator/POSITIONS.md`).
+`Specification/` stays the standard; where the Types chapter of the team's
+later, unfinished restart of the specification
+(`Documentation/Specification/Prose/Language/types.tick`, 2012) covers a
+topic, it is cited beside it as the designers' later word (Pavol, 2026-09-26;
+`explorations/coordinator/spec-lineage.md`).
 The plan is `explorations/coordinator/PLAN.md`; where the work stands is the
 first section of `explorations/microgpt-run-c-handover.md`; every known gap,
 defect and design limit is a row of `explorations/fortress-gap-ledger.md`.
