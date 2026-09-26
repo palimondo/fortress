@@ -1,0 +1,12 @@
+(* See explorations/compile-ladder/climb-batch-5/RECORD.md. *)
+component XXXVecCtorLoad
+export Executable
+object Box[\T\](data: ZZ32Vector, x: T) end
+run(): () = do
+    println("REACHED")
+    d: ZZ32Vector = makeZZ32Vector(4)
+    b: Box[\ZZ32\] = Box[\ZZ32\](d, 7)
+    assert(b.x, 7, "a constructor applies to every value of its parameter types; ledger row 408, Specification/basic/objects.tex:198-206")
+    println("PASS")
+  end
+end

@@ -1,0 +1,12 @@
+(* See explorations/compile-ladder/climb-batch-5/RECORD.md. *)
+component XXXBoolExtendsTwice
+export Executable
+trait Flag[\bool b\]
+end
+object F extends { Flag[\true\], Flag[\false\] }
+end
+f(x: Flag[\true\]): String = "f took a Flag[true]"
+run():() = do
+  println(f(F))
+end
+end

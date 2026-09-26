@@ -1,0 +1,13 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.03 0.10 0.68; JDK 25; FORTRESS_THREADS=1
+# build: fe002948e, no source edit; from ProjectFortress/: ../bin/fortress compile ../explorations/compile-ladder/climb-batch-5/review-repair/ReviewIntExclude.fss
+explorations/compile-ladder/climb-batch-5/review-repair/ReviewIntExclude.fss:4:20-24:
+    Types Ti[\3\] and Ti[\4\] exclude each other.  W must not extend them.
+explorations/compile-ladder/climb-batch-5/review-repair/ReviewIntExclude.fss:4:20-25:
+    Type W excludes Ti but it extends Ti.
+explorations/compile-ladder/climb-batch-5/review-repair/ReviewIntExclude.fss:4:29-33:
+    Types Ti[\4\] and Ti[\3\] exclude each other.  W must not extend them.
+explorations/compile-ladder/climb-batch-5/review-repair/ReviewIntExclude.fss:4:29-34:
+    Type W excludes Ti but it extends Ti.
+File ReviewIntExclude.fss has 4 errors.
+elapsed=1s
+rc=255

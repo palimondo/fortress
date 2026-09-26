@@ -150,7 +150,7 @@ Every build log opens with its machine line: nproc 4, Intel(R) Xeon(R) Processor
 1. The calculi of Appendix A (section 8): his choice among the three candidates; the stop holds the batch's push until he chooses.
 2. The revision's form choices, each reported as a decision (section 4): the `\revision` callout's look and name, the front-matter paragraph and the title-page line.
 3. Row 405, found on the way: an untyped value parameter is refused compiled wherever it appears, and the specification's own `Cons` fails on both paths; home 3, because the specification says the type is inferred and gives no rule.
-4. Row 406, from the skeptic: the checker does not compare boolean arguments, which the revised text counts; a `bool` case in `cP` and its expected-failure test are owed in a later rung.
+4. Row 406, from the skeptic: the checker does not compare boolean arguments, which the revised text counts; a `bool` case in `cP` and its expected-failure test are owed in a later rung. The test was added at the merged-diff review's repair: `ProjectFortress/compiler_tests/XXXBoolExtendsTwice` (`compile-ladder/climb-batch-5/JUDGE-review.md`, finding 2).
 
 ## 13. At the gather
 

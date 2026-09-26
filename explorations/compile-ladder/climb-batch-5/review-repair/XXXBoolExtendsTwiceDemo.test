@@ -1,0 +1,3 @@
+tests=XXXBoolExtendsTwiceDemo
+compile
+compile_exception_contains=Only emitting RTTI for types right now

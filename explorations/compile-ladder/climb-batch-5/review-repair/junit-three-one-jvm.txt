@@ -1,0 +1,22 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.15 0.29 0.60; JDK 25; FORTRESS_THREADS=1
+# build: fe002948e, no source edit; the three new .test files in one harness JVM, in the order the directory sorts them; cache entries deleted before and after
+########## from ProjectFortress/: ../bin/fortress junit compiler_tests/VecCtorLoadLink.test compiler_tests/XXXBoolExtendsTwice.test compiler_tests/XXXVecCtorLoad.test
+. link compiler_tests/XXXVecCtorLoad  OK (time = 3308ms)
+. compile compiler_tests/XXXBoolExtendsTwice com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+ OK Saw expected exception
+. run compiler_tests/XXXVecCtorLoad (323ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc.class
+	... 9 more
+Saw expected failure (Exit code != 0)
+
+Time: 3.723
+
+OK (3 tests)
+
+exit=0
+elapsed=3s
+rc=0

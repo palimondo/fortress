@@ -1,0 +1,6 @@
+component ReviewIntExclude
+export Executable
+trait Ti[\int i\] end
+object W extends { Ti[\3\], Ti[\4\] } end
+run():() = println("ran")
+end

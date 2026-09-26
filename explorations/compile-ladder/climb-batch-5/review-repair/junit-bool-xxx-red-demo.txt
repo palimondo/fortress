@@ -1,0 +1,26 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.31 0.32 0.64; JDK 25; FORTRESS_THREADS=1
+# build: fe002948e, no source edit; a variant of compiler_tests/XXXBoolExtendsTwice whose declaration the checker already refuses (type arguments ZZ32 and String), run where it lies; its cache entries deleted before and after
+########## from ProjectFortress/: ../bin/fortress junit ../explorations/compile-ladder/climb-batch-5/review-repair/XXXBoolExtendsTwiceDemo.test
+. compile ../explorations/compile-ladder/climb-batch-5/review-repair/XXXBoolExtendsTwiceDemo explorations/compile-ladder/climb-batch-5/review-repair/XXXBoolExtendsTwiceDemo.fss:6:20-29:
+    Types Flag[\ZZ32\] and Flag[\String\] exclude each other.  F must not extend them.
+explorations/compile-ladder/climb-batch-5/review-repair/XXXBoolExtendsTwiceDemo.fss:6:20-30:
+    Type F excludes Flag but it extends Flag.
+explorations/compile-ladder/climb-batch-5/review-repair/XXXBoolExtendsTwiceDemo.fss:6:34-45:
+    Types Flag[\String\] and Flag[\ZZ32\] exclude each other.  F must not extend them.
+explorations/compile-ladder/climb-batch-5/review-repair/XXXBoolExtendsTwiceDemo.fss:6:34-46:
+    Type F excludes Flag but it extends Flag.
+File XXXBoolExtendsTwiceDemo.fss has 4 errors.
+
+ Saw failure, but did not satisfy compile_exception_contains; expected
+Only emitting RTTI for types right now
+F
+Time: 1.114
+There was 1 failure:
+1) ../explorations/compile-ladder/climb-batch-5/review-repair/XXXBoolExtendsTwiceDemo(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+elapsed=2s
+rc=0

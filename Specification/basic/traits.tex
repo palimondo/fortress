@@ -314,8 +314,8 @@ For example, the following object declaration is not allowed:
 \revision{revival-rule}{The rule on declarations is new.
 The Working Draft of February 2011 allowed a trait to extend
 two different instantiations of one parameterized trait;
-the compiled type checker refuses such a declaration,
-reporting that the two instantiations exclude each other.
+the compiled type checker refuses such a declaration when the arguments that differ are types or numerals
+(\secref{revival-rule} states the exceptions), reporting that the two instantiations exclude each other.
 The team's later Types chapter (Luchangco, 2012) states the rule as:
 a trait that extends two instantiations of a generic type,
 directly or indirectly, must extend an expressible instantiation

@@ -1,0 +1,13 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.44 0.34 0.66; JDK 25; FORTRESS_THREADS=1
+# build: fe002948e, no source edit; the cache entries of XXXBoolExtendsTwice deleted before and after
+########## from ProjectFortress/: ../bin/fortress junit compiler_tests/XXXBoolExtendsTwice.test
+. compile compiler_tests/XXXBoolExtendsTwice com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+ OK Saw expected exception
+
+Time: 1.268
+
+OK (1 test)
+
+exit=0
+elapsed=2s
+rc=0

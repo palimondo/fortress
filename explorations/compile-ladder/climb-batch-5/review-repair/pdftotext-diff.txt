@@ -1,0 +1,41 @@
+# normalised pdftotext (explorations/compile-ladder/rung-spec-route-a/probes/build/norm.sh) of Specification/fortress.pdf at da53904cd (before, git show da53904cd:Specification/fortress.pdf) against the review repair's build (after, Specification/fortress/fortress.pdf copied to Specification/fortress.pdf, sha256 64de7320...); both 610 pages (pdfinfo); command: diff before after
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.57 0.35 0.67; JDK 25; FORTRESS_THREADS=1
+43,45c43,45
+< enforces for type arguments and this draft had not stated, and rewrites the examples that the rule refuses. Each revised
+< passage carries a box headed “Revised by the 2026 revival”; Appendix I lists every change with its reason, the original
+< text, and the alternative not taken.
+---
+> enforces for type arguments and numerals, with the exceptions Appendix I names, and this draft had not stated, and
+> rewrites the examples that the rule refuses. Each revised passage carries a box headed “Revised by the 2026 revival”;
+> Appendix I lists every change with its reason, the original text, and the alternative not taken.
+2705,2706c2705,2707
+< and Multiple Inheritance”, OOPSLA 2011), which the compiled type checker enforces for type arguments (Section I.1.1 states
+< its coverage), stated here as the team’s later Types chapter (Luchangco, 2012) states it, under its shorter name.
+---
+> and Multiple Inheritance”, OOPSLA 2011), which the compiled type checker enforces for type arguments and numerals, not
+> yet in every case (Section I.1.1 states its coverage), stated here as the team’s later Types chapter (Luchangco, 2012) states it,
+> under its shorter name.
+3984,3987c3985,3989
+< of one parameterized trait; the compiled type checker refuses such a declaration, reporting that the two instantiations exclude
+< each other. The team’s later Types chapter (Luchangco, 2012) states the rule as: a trait that extends two instantiations of
+< a generic type, directly or indirectly, must extend an expressible instantiation that is a subtype of both. Where every static
+< parameter is invariant, as in this specification, that is the rule stated above.
+---
+> of one parameterized trait; the compiled type checker refuses such a declaration when the arguments that differ are types or
+> numerals (Section I.1.1 states the exceptions), reporting that the two instantiations exclude each other. The team’s later Types
+> chapter (Luchangco, 2012) states the rule as: a trait that extends two instantiations of a generic type, directly or indirectly, must
+> extend an expressible instantiation that is a subtype of both. Where every static parameter is invariant, as in this specification,
+> that is the rule stated above.
+28204,28208c28206,28210
+< static argument are no longer valid. The compiled type checker refuses them for type arguments; its comparison
+< of nat and int arguments is row 402 of the revival’s gap ledger. It does not compare bool arguments either:
+< it accepts boolean parameters written out, and a type below two instantiations that differ only in a boolean
+< argument (row 406). The interpreter does not check the rule. The library’s numeric chapters are not yet revised
+< (Section I.1.9).
+---
+> static argument are no longer valid. The compiled type checker refuses them where the arguments that differ are
+> types, or numerals given as nat or int arguments (row 402 of the revival’s gap ledger). It does not yet refuse
+> them where those arguments are bool arguments, though it accepts boolean parameters written out (row 406),
+> or where one of them is a static parameter of the trait or object that extends both (row 414). The interpreter does
+> not check the rule. The library’s numeric chapters are not yet revised (Section I.1.9).
+rc=1

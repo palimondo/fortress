@@ -109,7 +109,7 @@ Another agent committed `b0f48231d` (a judgement on the max and min identities, 
 
 What the landed commits predict against `explorations/compile-ladder/climb-batch-4/gate/summary.txt` and `gate/checker-count.txt`:
 - `testSystem`: 407, unchanged, since rung D did not land and S and Z add no interpreter test.
-- The compiler track: rung Z's 29 `.test` files more, net; the library track 83, unchanged.
+- The compiler track: rung Z's 29 `.test` files more, net; the library track 83, unchanged. *Corrected at the review's repair:* 32 net, with its three (section "The judge's ruling on the review, and its repair").
 - `testFast`'s other suites: one more, `RTTIsizeJUTest` (6 tests).
 - The checker count: 125, the crash row `none`, as rung Z measured on its landing and repair builds; S touches no checker file.
 - The ladder: 85 of 85 unmoved, as Z measured; S changes nothing the compiled path reads.
@@ -145,9 +145,9 @@ Made 2026-09-26 on `main` at `601f52736`, over the batch's four commits (`e893a3
 - Provisional labels on final numbers: Z's `SKEPTIC.md` said "Provisional row 418" and twice "the worker's provisional interpreter row" (now "Row 418 (provisional 415)" and row 416); S's `REPORT.md` said "provisional row 405" three times, which is its final number.
 
 **For the judge: three findings in what landed, not fixed here.**
-1. S's text states the checker's coverage without rung Z's case, which landed first. `Specification/appendices/changes.tex:86-88` reads "The compiled type checker refuses them for type arguments; its comparison of nat and int arguments is row 402 of the revival's gap ledger. It does not compare bool arguments either", and the "either" says the checker compares no `nat` or `int` argument; since `e893a3e00` it compares two different literal sizes (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:463`), and row 402's note says so. The callout at the rule and the front matter say "enforces for type arguments" (`Specification/basic/types-vals-vars.tex:247-248`, `Specification/fortress/preamble.tex:57-60`), which undersays it, and the callout on the declaration rule says without qualification that "the compiled type checker refuses such a declaration" (`Specification/basic/traits.tex:316-318`), which rows 406 and 414 contradict for boolean and static-parameter arguments. A wording fix in `Specification/`, then `./ant genSource`, `./ant tex` and the PDF copied again; no gated file moves.
-2. Row 406, the checker not comparing boolean arguments, measured by S's skeptic (`explorations/compile-ladder/rung-spec-route-a/probes/skeptic/SkBoolArgs.compile.txt`), is deferred while the specification as S revises it settles it (`Specification/basic/types-vals-vars.tex:218-237`, `Specification/basic/traits.tex:299-313`), so its home is 2, an `XXX` file; it has probes and a row that says the test is owed "in a later rung" (`explorations/fortress-gap-ledger.md:417`). No judge ruled that deferral: the judge's carrying of rows 416 and 418 rests on rung D owning `ProjectFortress/tests/`, and `ProjectFortress/compiler_tests/` was Z's. The test can be gated today: the compile dies in code generation (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5784`, falling to `:5806`, "Only emitting RTTI for types right now", unchanged by Z's `IntArg` branch), so an `XXX` component pinned by `compile_exception_contains`, the shape of `compiler_tests/XXXNatBoundDisp.test`, goes red when the checker starts refusing the declaration.
-3. Row 408, a `ZZ32Vector` passed to a generic object's constructor failing at load, was re-measured by rung Z (`explorations/compile-ladder/rung-size-runtime/probes/differential.txt:1095-1115`), and the row cites the specification that settles it (`Specification/basic/objects.tex:198-206`); its `XXX` test was not written, "since the brief lists it as opened only" (`explorations/compile-ladder/rung-size-runtime/REPORT.md` section 9), a reading no skeptic or judge ruled on. The program compiles and dies at load, so the two-file shape of `compiler_tests/XXXNatRtTask` gates it.
+1. S's text states the checker's coverage without rung Z's case, which landed first. `Specification/appendices/changes.tex:86-88` reads "The compiled type checker refuses them for type arguments; its comparison of nat and int arguments is row 402 of the revival's gap ledger. It does not compare bool arguments either", and the "either" says the checker compares no `nat` or `int` argument; since `e893a3e00` it compares two different literal sizes (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:463`), and row 402's note says so. The callout at the rule and the front matter say "enforces for type arguments" (`Specification/basic/types-vals-vars.tex:247-248`, `Specification/fortress/preamble.tex:57-60`), which undersays it, and the callout on the declaration rule says without qualification that "the compiled type checker refuses such a declaration" (`Specification/basic/traits.tex:316-318`), which rows 406 and 414 contradict for boolean and static-parameter arguments. A wording fix in `Specification/`, then `./ant genSource`, `./ant tex` and the PDF copied again; no gated file moves. *Closed at the review's repair:* the four passages reworded and the PDF re-rendered (section "The judge's ruling on the review, and its repair").
+2. Row 406, the checker not comparing boolean arguments, measured by S's skeptic (`explorations/compile-ladder/rung-spec-route-a/probes/skeptic/SkBoolArgs.compile.txt`), is deferred while the specification as S revises it settles it (`Specification/basic/types-vals-vars.tex:218-237`, `Specification/basic/traits.tex:299-313`), so its home is 2, an `XXX` file; it has probes and a row that says the test is owed "in a later rung" (`explorations/fortress-gap-ledger.md:417`). No judge ruled that deferral: the judge's carrying of rows 416 and 418 rests on rung D owning `ProjectFortress/tests/`, and `ProjectFortress/compiler_tests/` was Z's. The test can be gated today: the compile dies in code generation (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5784`, falling to `:5806`, "Only emitting RTTI for types right now", unchanged by Z's `IntArg` branch), so an `XXX` component pinned by `compile_exception_contains`, the shape of `compiler_tests/XXXNatBoundDisp.test`, goes red when the checker starts refusing the declaration. *Closed at the review's repair:* home 2, `ProjectFortress/compiler_tests/XXXBoolExtendsTwice` (section "The judge's ruling on the review, and its repair").
+3. Row 408, a `ZZ32Vector` passed to a generic object's constructor failing at load, was re-measured by rung Z (`explorations/compile-ladder/rung-size-runtime/probes/differential.txt:1095-1115`), and the row cites the specification that settles it (`Specification/basic/objects.tex:198-206`); its `XXX` test was not written, "since the brief lists it as opened only" (`explorations/compile-ladder/rung-size-runtime/REPORT.md` section 9), a reading no skeptic or judge ruled on. The program compiles and dies at load, so the two-file shape of `compiler_tests/XXXNatRtTask` gates it. *Closed at the review's repair:* home 2, `ProjectFortress/compiler_tests/XXXVecCtorLoad` with `VecCtorLoadLink` (section "The judge's ruling on the review, and its repair").
 Items 2 and 3 each add one expected failure to the compiler track if repaired, and the gate would run again.
 
 **Observed, not changed.**
@@ -155,3 +155,71 @@ Items 2 and 3 each add one expected failure to the compiler track if repaired, a
 - Rung D's measured defects (`QQ`'s `opr <`, the message order, `HeapShakedown`) have no row on `main`, by the gather's decision in "Not landed"; the judge routes `QQ`'s to Pavol with D's stop. Batch 4 opened row 403 from its stopped rung O; the difference is the judge's routing.
 - The workflow's brief text cites the rule for the `historical:` line as `protocol.md:97` (`explorations/coordinator/climb-batch-workflow.js:556`); the rule is at `explorations/protocol.md:126-127`. The script is the coordinator's.
 - The handover's "The last landing is climb batch 4" and the checker-count comparand it names describe the last landed state and change when this batch lands.
+
+## The judge's ruling on the review, and its repair
+
+The judge ruled repair on all three findings of the review, and added row 414 to the first (`explorations/compile-ladder/climb-batch-5/JUDGE-review.md`, committed as `fe002948e`). The repair round executed the ruling's fourteen steps on `main` at `fe002948e`, with no source change and so no `ant compileAll`. It used the build and library cache that were already in the tree (`ProjectFortress/build` newer than every source of rung Z; `fortress.CompilerLibrary.jar` in `default_repository/caches/bytecode_cache`). Every capture is under `explorations/compile-ladder/climb-batch-5/review-repair/`, and each opens with the machine line of rung Z's `probes/common.sh`: nproc 4, Intel Xeon @ 2.10GHz, 2100.000 MHz, JDK 25, `FORTRESS_THREADS=1`, load at start 0.03 to 0.63. Three places where an instruction did not match its source are in `explorations/compile-ladder/climb-batch-5/REPAIR-review.md`: step 5's reference-warning check, two line numbers in `FileTests.java`, and the shell set-up. None of them changes what was edited or tested.
+
+**The `int` case, measured before it was written (step 3).** `trait Ti[\int i\]` with `object W extends { Ti[\3\], Ti[\4\] }` (`review-repair/ReviewIntExclude.fss`) is refused by the checker: "Types Ti[\3\] and Ti[\4\] exclude each other.  W must not extend them." (`review-repair/ReviewIntExclude.compile.txt:4`, `:8`; `rc=255` at `:13`). The `IntBase` case at `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:463` matches an `int` argument as it matches a `nat` one. The appendix's "numerals given as `nat` or `int` arguments" rests on this measurement for `int` and on `compiler_tests/XXXNatExcludeChecker` for `nat`. The probe's cache entries were deleted.
+
+**The four passages (step 4).** The revival's own passages were reworded as the ruling gives them:
+- Appendix I's Effect, `Specification/appendices/changes.tex:86-90`. The checker refuses the programs where the arguments that differ are types or numerals given as `nat` or `int` arguments (row 402). It does not yet refuse them for `bool` arguments (row 406) or where one argument is a static parameter of the trait or object that extends both (row 414).
+- The callout at the rule, `Specification/basic/types-vals-vars.tex:248`: "for type arguments and numerals, not yet in every case".
+- The front matter, `Specification/fortress/preamble.tex:59`: "for type arguments and numerals, with the exceptions" that Appendix I names.
+- The callout on the declaration rule, `Specification/basic/traits.tex:317-318`: the checker refuses such a declaration "when the arguments that differ are types or numerals", and the appendix states the exceptions.
+
+Each file keeps its line count (416, 657, 168, 850), and `git diff --numstat` gives 5/5, 1/1, 1/1 and 2/2, so no citation of these files elsewhere moves. The normative rule (`Specification/basic/types-vals-vars.tex:218-237`, `Specification/basic/traits.tex:299-313`), `Specification-1.0-frozen/` and the three number chapters are untouched.
+
+**The specification rebuilt (step 5).**
+- `./ant genSource` ends in `BUILD SUCCESSFUL`, `rc=0`, in 45 s (`review-repair/review-genSource.txt:211`, `:213-214`). `./ant tex` does the same in 43 s (`review-repair/review-tex.txt:15569`, `:15571-15572`), with 610 pages (`:15566`).
+- The last two LaTeX passes (`review-tex.txt:9894-15566`) have no undefined reference. The first two passes have them, as every build of this specification has (`REPAIR-review.md` section 1).
+- The copy, `Specification/fortress.pdf`, has 610 pages by `pdfinfo` and sha256 `64de7320...`.
+- The normalised text diff against the PDF at `da53904cd` has four hunks, the four passages and nothing else (`review-repair/pdftotext-diff.txt:3`, `:11`, `:18`, `:29`: the front matter, the callout at the rule, the callout on the declaration rule, Appendix I).
+- The build's ignored products under `Specification/` were removed. None of them holds a tracked file.
+
+**Row 406's expected failure (steps 6 and 7).**
+- `ProjectFortress/compiler_tests/XXXBoolExtendsTwice.fss` with `XXXBoolExtendsTwice.test` is the ruling's program. It pins code generation's `CompilerError` "Only emitting RTTI for types right now": `CodeGen.java:5784`'s empty `BoolArg` branch falls to the `throw` at `:5806`. The harness passes it as expected: `review-repair/junit-bool-xxx.txt:4-5` ("OK Saw expected exception", `FileTests.java:360`) and `:9` ("OK (1 test)").
+- The path a checker fix takes was shown red on a variant, `review-repair/XXXBoolExtendsTwiceDemo.fss` with its `.test`. The variant uses type arguments `ZZ32` and `String`, which today's checker refuses as it would refuse the boolean pair once repaired.
+- In the variant's capture the checker's refusal is at `review-repair/junit-bool-xxx-red-demo.txt:5`. The harness prints "Saw failure, but did not satisfy compile_exception_contains" (`:14`, `FileTests.java:396`) and fails the JUnit test (`:19`, `:21-22`).
+- The other path, code generation learning boolean arguments, ends in "Missing expected failure" (`FileTests.java:400`). It was not shown, because that fix is not in this round.
+
+**Row 408's expected failure (steps 8 and 9).**
+- `ProjectFortress/compiler_tests/XXXVecCtorLoad.fss` with `XXXVecCtorLoad.test` (`run`, `run_out_contains=REACHED`) and `VecCtorLoadLink.test` (`link`) have the two-file shape of `XXXNatRtTask`.
+- Run link first and then run, sharing the cache. The link passes (`review-repair/junit-vec-xxx.txt:4`, `:8`). The run prints `REACHED` (`:12`), dies with `NoClassDefFoundError` naming `com/sun/fortress/compiler/runtimeValues/FZZ32Vector$RTTIc` (`:14`), and passes as expected: "Saw expected failure (Exit code != 0)" (`:19`, `FileTests.java:591`) and "OK (1 test)" (`:23`).
+- The red side was shown on a variant that runs, `review-repair/XXXVecCtorLoadDemo.fss` with `XXXVecCtorLoadDemo.test` and `VecCtorLoadDemoLink.test`, which passes a `ZZ32` where the test passes a `ZZ32Vector`. It prints `REACHED` and `PASS`, then "Did not see expected failure" (`review-repair/junit-vec-xxx-red-demo.txt:12-14`, `FileTests.java:588`), and fails the JUnit test (`:18`, `:20-21`).
+- The three new `.test` files were also run together in one harness JVM, in the order the directory sorts them: "OK (3 tests)" (`review-repair/junit-three-one-jvm.txt:4-18`).
+
+**Two notes on the tests.**
+- Both demonstrations ran on variants beside the probe, not on a local fix, because both fixes are outside this round: the checker's `bool` case and code generation's boolean arguments for row 406, and the vector classes' descriptor name for row 408. The harness ran the variants' `.test` files where they lie, so nothing was copied into `compiler_tests/`.
+- `fortress junit` exits 0 when its JUnit run fails (`junit-bool-xxx-red-demo.txt:24`, `junit-vec-xxx-red-demo.txt:23`), as rung Z's red demonstration shows (`explorations/compile-ladder/rung-size-runtime/probes/xxx-task-red-demo.txt:24`). The verdict of each run is in its "OK" or "FAILURES!!!" line.
+
+Every cache entry of the probe, the tests and the variants was deleted after its run.
+
+**The records (steps 10 and 11).**
+- The ledger has three rows appended in place, with no row added or moved, and still 1000 lines: row 406 names its home 2, row 408 its home 2, and row 414 its mention in Appendix I's entry.
+- `explorations/coordinator/FACTS.md:117` states the checker's coverage as the text now states it.
+- The handover's paragraph on rung S says the PDF was re-rendered last at this repair (`explorations/microgpt-run-c-handover.md:27`).
+- Rung S's `decision-record.md` section 3.1 carries a dated correction (`:124`). Rung S's `REPORT.md:153` names the test added for row 406. Rung Z's `REPORT.md:199` records that its reading "opened only" was ruled wrong.
+- Rung S's `record.md` keeps its lines as proposed (`:11`, `:34`). The folded copies in `FACTS.md` and the handover are the ones corrected, as the gather's folds were.
+
+**The "For the judge" items are closed:**
+- Item 1 by the four passages and the rebuild.
+- Item 2 by `XXXBoolExtendsTwice`.
+- Item 3 by `XXXVecCtorLoad` with `VecCtorLoadLink`.
+
+Each item's line carries a pointer here. No stop file was touched, and the push stays held on rung D's and rung S's stops (the top of this record).
+
+**For the gate, corrected.** This replaces "For the gate" above, against `explorations/compile-ladder/climb-batch-4/gate/summary.txt` and `gate/checker-count.txt`:
+- The compiler track grows by 32 `.test` files net: rung Z's 29, and this round's three. Of those three, two are expected failures (`XXXBoolExtendsTwice`, `XXXVecCtorLoad`) and one is a plain test (`VecCtorLoadLink`).
+- `testSystem` stays at 407, and the library track at 83.
+- `testFast`'s other suites gain `RTTIsizeJUTest` (6 tests), unchanged by this round.
+- The checker count stays at 125, the crash row `none`.
+- The ladder stays at 85 of 85, and the four-thread `atomic` runs at 39 `PASS`.
+- After `ant compileAll`, the library-order cache rebuild comes before the compiler track, as before.
+
+**The tracked-path check (step 13).** The batch prefix's loop was run after staging, over this record, `JUDGE-review.md`, `REPAIR-review.md` and the five record files of step 11. It printed three MISSING lines and no UNTRACKED line, and all three MISSING lines are artefacts of its pattern:
+- `explorations/compile-ladder/...` is prose at `:121` of this record and `JUDGE-review.md:133`.
+- `explorations/compile-ladder/climb-batch-5/RECORD.md.` takes the period of the tests' comment line, as `JUDGE-review.md:100` and `:109` quote it.
+- `explorations/compile-ladder/rung-spec-route-a/decision-record.md.` takes a sentence's period at rung S's `REPORT.md:21`.
+
+Both files exist and are tracked. Two more passes printed nothing: the loop with a final period stripped, and the gather's extended pass, which maps `compile-ladder/...` to `explorations/compile-ladder/...`.

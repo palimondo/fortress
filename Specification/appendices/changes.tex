@@ -83,11 +83,11 @@ trait differing only in operator arguments.
 run time (\secref{natparams}, \secref{boolparams}).
 \item[Effect] Programs in which a type is a subtype of two instantiations
 of one parameterized trait that differ in any other static argument are no
-longer valid. The compiled type checker refuses them for type arguments;
-its comparison of \KWD{nat} and \KWD{int} arguments is row~402 of the
-revival's gap ledger. It does not compare \KWD{bool} arguments either:
-it accepts boolean parameters written out, and a type below two
-instantiations that differ only in a boolean argument (row~406).
+longer valid. The compiled type checker refuses them where the arguments
+that differ are types, or numerals given as \KWD{nat} or \KWD{int}
+arguments (row~402 of the revival's gap ledger). It does not yet refuse
+them where those arguments are \KWD{bool} arguments, though it accepts boolean parameters written out (row~406),
+or where one of them is a static parameter of the trait or object that extends both (row~414).
 The interpreter does not check the rule.
 The library's numeric chapters are not yet revised
 (\secref{revival-notrevised}).

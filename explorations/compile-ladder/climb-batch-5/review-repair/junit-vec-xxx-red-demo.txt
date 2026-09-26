@@ -1,0 +1,25 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.39 0.34 0.64; JDK 25; FORTRESS_THREADS=1
+# build: fe002948e, no source edit; a variant of compiler_tests/XXXVecCtorLoad that runs (a ZZ32 in place of the ZZ32Vector), run where it lies, the link half then the run half sharing the cache; its cache entries deleted before and after
+########## from ProjectFortress/: ../bin/fortress junit ../explorations/compile-ladder/climb-batch-5/review-repair/VecCtorLoadDemoLink.test
+. link ../explorations/compile-ladder/climb-batch-5/review-repair/XXXVecCtorLoadDemo  OK (time = 3544ms)
+
+Time: 3.55
+
+OK (1 test)
+
+exit=0
+########## from ProjectFortress/: ../bin/fortress junit ../explorations/compile-ladder/climb-batch-5/review-repair/XXXVecCtorLoadDemo.test
+. run ../explorations/compile-ladder/climb-batch-5/review-repair/XXXVecCtorLoadDemo (541ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.551
+There was 1 failure:
+1) ../explorations/compile-ladder/climb-batch-5/review-repair/XXXVecCtorLoadDemo(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ../explorations/compile-ladder/climb-batch-5/review-repair/XXXVecCtorLoadDemo
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+elapsed=4s
+rc=0,0
