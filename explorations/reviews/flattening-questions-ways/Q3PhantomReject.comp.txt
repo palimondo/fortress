@@ -1,0 +1,21 @@
+## fortress compile Q3PhantomReject.fss (private cache)
+/home/user/fortress/explorations/reviews/flattening-questions-ways/Q3PhantomReject.fss:36:33-44:
+    Could not check call to function positive
+    - Rat[\Never,Never,May\]->ZZ32 is not applicable to an argument of type Zero.
+File Q3PhantomReject.fss has 1 error.
+compile rc=255
+## run
+Could not load Q3PhantomReject
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : Q3PhantomReject.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run rc=1

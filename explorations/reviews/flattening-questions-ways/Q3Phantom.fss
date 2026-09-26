@@ -1,0 +1,31 @@
+(* Q3Phantom -- the sign refinements of numbers-advanced.tex:47-66 spelled
+   with the later Types chapter's covariant static parameters
+   (types.tick:322-339) instead of bool parameters and a self-extending
+   where clause: each sign is a type argument drawn from a two-type lattice,
+   Never below May, so Rat[\Never, Never, May\] (strictly positive) is a
+   subtype of Rat[\Never, May, May\] (nonnegative) by covariance, and no
+   type extends two instantiations of Rat that are not subtype-related.
+   Run on both paths. *)
+component Q3Phantom
+export Executable
+
+trait May end
+trait Never extends May end
+
+trait Rat[\covariant L extends May, covariant E extends May, covariant G extends May\]
+    v(): ZZ32
+end
+
+object Pos(x: ZZ32) extends Rat[\Never, Never, May\]
+    v(): ZZ32 = x
+end
+
+positive(q: Rat[\Never, Never, May\]): ZZ32 = q.v()
+nonneg(q: Rat[\Never, May, May\]): ZZ32 = q.v()
+
+run(): () = do
+    p = Pos(3)
+    println("positive(Pos(3)) = " positive(p))
+    println("nonneg(Pos(3)) = " nonneg(p))
+  end
+end

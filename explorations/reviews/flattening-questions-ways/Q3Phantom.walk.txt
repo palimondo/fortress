@@ -1,0 +1,16 @@
+positive(Pos(3)) = 3
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/reviews/flattening-questions-ways/Q3Phantom.fss:29:33-40:
+Unification error: Closure/Constructor for nonneg param 1 (q:Rat[\Never,May,May\]) got arg Pos of type Pos
+Context:
+/home/user/fortress/explorations/reviews/flattening-questions-ways/Q3Phantom.fss:29:33-40:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
