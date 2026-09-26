@@ -1,0 +1,11 @@
+component SkShiftBindK
+export Executable
+
+run(): () = do
+    three: ZZ32 = 3
+    k: ZZ = big(widen(three))
+    r: ZZ32 = three LSHIFT k
+    println("typed binding r: ZZ32 = ZZ32 3 LSHIFT a ZZ count of 3, r = " || r.asString)
+    println("END")
+  end
+end

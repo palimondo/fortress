@@ -1,0 +1,10 @@
+### walk: bin/fortress SkShiftCountNN64K.fss, branch at a857544ca; load at start: 1.99, 1.77, 2.37
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-shiftk/explorations/compile-ladder/rung-shift-count/probes/skeptic/SkShiftCountNN64K.fss:6:5-12:
+RHS expression type Int is not assignable to LHS type NN64
+Context:
+/home/user/fortress-shiftk/explorations/compile-ladder/rung-shift-count/probes/skeptic/SkShiftCountNN64K.fss:6:5-12:
+/home/user/fortress-shiftk/explorations/compile-ladder/rung-shift-count/probes/skeptic/SkShiftCountNN64K.fss:6:5-12:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1

@@ -1,0 +1,10 @@
+### walk, before: FORTRESS_HOME=tmp/basehome (Library/FortressLibrary.fss/.fsi at 47437c65f), bin/fortress SkShiftBindK.fss; load at start: 0.83, 1.38, 2.15
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-shiftk/explorations/compile-ladder/rung-shift-count/probes/skeptic/SkShiftBindK.fss:7:5-12:
+RHS expression type Long is not assignable to LHS type ZZ32
+Context:
+/home/user/fortress-shiftk/explorations/compile-ladder/rung-shift-count/probes/skeptic/SkShiftBindK.fss:7:5-12:
+/home/user/fortress-shiftk/explorations/compile-ladder/rung-shift-count/probes/skeptic/SkShiftBindK.fss:7:5-12:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1

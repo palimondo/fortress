@@ -1,0 +1,11 @@
+component SkShiftReturnK
+export Executable
+
+shl(x: ZZ32, k: NN32): ZZ32 = x LSHIFT k
+
+run(): () = do
+    three: ZZ32 = 3
+    println("shl(x: ZZ32, k: NN32): ZZ32, shl(3, an NN32 count of 3) = " || shl(three, unsigned(three)).asString)
+    println("END")
+  end
+end

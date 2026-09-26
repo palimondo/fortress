@@ -1,0 +1,7 @@
+### skeptic: ProjectFortress/tests: bin/fortress IntSemanticsRungI.fss at a857544ca, every default_repository/caches subdirectory emptied first; JAVA_FLAGS="-Xmx4g -Xss64m -Djava.io.tmpdir=/home/user/fortress-shiftk/tmp", FORTRESS_THREADS=1, nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, cpu MHz 2800.212, JDK 25.0.4, load average 0.46 0.86 2.68 at the start
+PASS
+
+real	0m23.579s
+user	0m41.890s
+sys	0m1.122s
+EXIT=0

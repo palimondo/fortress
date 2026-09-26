@@ -1,0 +1,23 @@
+component SkShiftHugeLiteralK
+export Executable
+
+kind(v: Any): String =
+  typecase v of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    ZZ => "ZZ"
+    else => "other"
+  end
+
+run(): () = do
+    three: ZZ32 = 3
+    bigThree: ZZ = big(widen(three))
+    println("the literal 18446744073709551616 is a " || kind(18446744073709551616))
+    println("the literal -18446744073709551616 is a " || kind(-18446744073709551616))
+    println("ZZ 3 LSHIFT a ZZ count of -2^64 = " || (bigThree LSHIFT (big(widen(-1)) LSHIFT 64)).asString)
+    println("ZZ32 3 RSHIFT a ZZ count of -2^64 = " || kind(three RSHIFT (big(widen(-1)) LSHIFT 64)) || " " || (three RSHIFT (big(widen(-1)) LSHIFT 64)).asString)
+    println("ZZ32 3 RSHIFT the literal -18446744073709551616 = " || kind(three RSHIFT (-18446744073709551616)) || " " || (three RSHIFT (-18446744073709551616)).asString)
+    println("ZZ32 -3 LSHIFT the literal -18446744073709551616 = " || kind(-3 LSHIFT (-18446744073709551616)) || " " || ((-3) LSHIFT (-18446744073709551616)).asString)
+    println("END")
+  end
+end

@@ -1,0 +1,29 @@
+component SkShiftWidthK
+export Executable
+
+run(): () = do
+    three: ZZ32 = 3
+    one: ZZ32 = 1
+    minusThree: ZZ32 = -3
+    minI: ZZ32 = -2147483647 - 1
+    k31: ZZ32 = 31
+    k32: ZZ32 = 32
+    k31L: ZZ64 = widen(k31)
+    k32L: ZZ64 = widen(k32)
+    k64L: ZZ64 = widen(k32) + widen(k32)
+    kNeg1L: ZZ64 = widen(k31) - widen(k32)
+    kHugeL: ZZ64 = 4294967297
+    println("ZZ32 1 LSHIFT a ZZ64 count of 31 = " || (one LSHIFT k31L).asString)
+    println("ZZ32 1 LSHIFT a ZZ32 count of 31 = " || (one LSHIFT k31).asString)
+    println("ZZ32 1 LSHIFT a ZZ64 count of 32 = " || (one LSHIFT k32L).asString)
+    println("ZZ32 -3 RSHIFT a ZZ64 count of 32 = " || (minusThree RSHIFT k32L).asString)
+    println("ZZ32 -3 RSHIFT a ZZ32 count of 32 = " || (minusThree RSHIFT k32).asString)
+    println("ZZ32 -3 RSHIFT a ZZ64 count of 64 = " || (minusThree RSHIFT k64L).asString)
+    println("ZZ32 3 LSHIFT a ZZ64 count of -1 = " || (three LSHIFT kNeg1L).asString)
+    println("ZZ32 3 LSHIFT a ZZ64 count of 2^32+1 = " || (three LSHIFT kHugeL).asString)
+    println("ZZ32 MIN RSHIFT a ZZ64 count of 31 = " || (minI RSHIFT k31L).asString)
+    println("(ZZ32 1 LSHIFT a ZZ64 count of 31) + 1 = " || ((one LSHIFT k31L) + 1).asString)
+    println("(ZZ32 1 LSHIFT a ZZ32 count of 31) + 1 = " || ((one LSHIFT k31) + 1).asString)
+    println("END")
+  end
+end

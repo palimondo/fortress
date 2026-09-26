@@ -1,0 +1,4 @@
+### walk, before: FORTRESS_HOME=tmp/basehome (Library/FortressLibrary.fss/.fsi at 47437c65f), bin/fortress SkShiftReturnK.fss; load at start: 0.93, 1.38, 2.15
+shl(x: ZZ32, k: NN32): ZZ32, shl(3, an NN32 count of 3) = 24
+END
+exit=0

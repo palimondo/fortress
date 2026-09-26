@@ -1,0 +1,7 @@
+### skeptic: bytecode cache rebuilt from empty in library order before the compiled runs; nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, cpu MHz 2800.212, JDK 25.0.4, FORTRESS_THREADS=1, load average 0.78 1.26 2.38 at the start
+== LibraryBuiltin/AnyType.fss rc=0 17 s
+== LibraryBuiltin/CompilerBuiltin.fss rc=0 72 s
+== ../Library/CompilerLibrary.fss rc=0 31 s
+== ../Library/CompilerAlgebra.fss rc=0 2 s
+== ../Library/CompilerSystem.fss rc=0 3 s
+EXIT=0

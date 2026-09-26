@@ -1,0 +1,6 @@
+### walk, after: FORTRESS_HOME=/home/user/fortress-shiftk (branch wip/rung-shift-count), bin/fortress SkShiftSumK.fss; load at start: 1.40, 1.47, 2.17
+ZZ32 1 LSHIFT a ZZ count of 30, doubled by + = -2147483648
+ZZ32 1 LSHIFT an NN64 count of 31 = -2147483648
+ZZ32 -1 RSHIFT an NN32 count of 2^32-1 = -1
+END
+exit=0

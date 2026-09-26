@@ -1,0 +1,25 @@
+### compiled: bin/fortress compile SkShiftCountZZK.fss; bin/fortress run SkShiftCountZZK, branch at a857544ca; load at start: 1.99, 1.77, 2.38
+/home/user/fortress-shiftk/explorations/compile-ladder/rung-shift-count/probes/skeptic/SkShiftCountZZK.fss:7:59-62:
+    Could not check call to operator LSHIFT
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ32, ZZ).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (ZZ32, ZZ).
+/home/user/fortress-shiftk/explorations/compile-ladder/rung-shift-count/probes/skeptic/SkShiftCountZZK.fss:8:59-62:
+    Could not check call to operator RSHIFT
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ32, ZZ).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (ZZ32, ZZ).
+File SkShiftCountZZK.fss has 2 errors.
+compile-exit=255
+Could not load SkShiftCountZZK
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkShiftCountZZK.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run-exit=1

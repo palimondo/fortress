@@ -1,0 +1,9 @@
+### walk, before: FORTRESS_HOME=tmp/basehome (Library/FortressLibrary.fss/.fsi at 47437c65f), bin/fortress SkShiftHugeLiteralK.fss; load at start: 1.84, 1.61, 2.18
+the literal 18446744073709551616 is a ZZ
+the literal -18446744073709551616 is a ZZ
+ZZ 3 LSHIFT a ZZ count of -2^64 = 0
+ZZ32 3 RSHIFT a ZZ count of -2^64 = ZZ64 0
+ZZ32 3 RSHIFT the literal -18446744073709551616 = ZZ64 0
+ZZ32 -3 LSHIFT the literal -18446744073709551616 = ZZ64 -1
+END
+exit=0

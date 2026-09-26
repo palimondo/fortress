@@ -1,0 +1,5 @@
+### walk: bin/fortress SkShiftCountZZK.fss, branch at a857544ca; load at start: 1.90, 1.75, 2.38
+ZZ32 3 LSHIFT a ZZ-typed count of 33 = 0
+ZZ32 3 RSHIFT a ZZ-typed count of 33 = 0
+END
+exit=0

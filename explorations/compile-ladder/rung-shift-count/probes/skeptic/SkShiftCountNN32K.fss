@@ -1,0 +1,11 @@
+component SkShiftCountNN32K
+export Executable
+
+run(): () = do
+    three: ZZ32 = 3
+    k: NN32 = 33
+    println("ZZ32 3 LSHIFT a NN32-typed count of 33 = " || (three LSHIFT k).asString)
+    println("ZZ32 3 RSHIFT a NN32-typed count of 33 = " || (three RSHIFT k).asString)
+    println("END")
+  end
+end
