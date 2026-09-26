@@ -1,0 +1,13 @@
+## bin/fortress compile explorations/run-c4/src/FlatArrays.fss (CompilerLibrary, private cache); error lines only
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:9:32-35:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:10:17-20:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:11:33-36:
+    Array is undefined.
+/home/user/fortress/explorations/run-c4/src/FlatArrays.fsi:12:48-51:
+    Array is undefined.
+[... 64 errors in all; the lines between are cut ...]
+    Array is undefined.
+File FlatArrays.fss has 64 errors.
+rc=255

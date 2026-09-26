@@ -1,0 +1,22 @@
+(* Q1NullaryComp -- the compiled path (CompilerLibrary): one big operator
+   whose nullary form, the one a reduction with generator clauses desugars
+   to, is overloaded by element type alone.  CompilerLibrary's own big
+   operators are one element type each (CompilerLibrary.fsi:177-184); the
+   2012 BirdyLib port spelled its RR64 sum BIG $ beside a ZZ32 BIG +
+   (ProjectFortress/BirdyLib/Bazaar.fsi:20-22). *)
+component Q1NullaryComp
+export Executable
+
+object AddZZ32 extends ReductionZZ32
+    empty(): ZZ32 = 0
+    join(a: ZZ32, b: ZZ32): ZZ32 = a + b
+end
+object Cat extends ReductionString
+    empty(): String = ""
+    join(a: String, b: String): String = a || b
+end
+opr BIG OPLUS(): AddZZ32 = AddZZ32
+opr BIG OPLUS(): Cat = Cat
+
+run(): () = println("BIG OPLUS[i <- 0#4] i = " (BIG OPLUS[i <- 0#4] i))
+end

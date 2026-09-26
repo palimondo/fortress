@@ -1,0 +1,27 @@
+(* Q1ZeroWitnessComp -- the identity of a sum chosen by the static argument
+   alone, with no element in hand, on the compiled path (CompilerBuiltin,
+   where the three are siblings).  Q1ZeroWitnessWalk's header follows: the library's own
+   trick for branching on a static argument: a typecase over a function of
+   type () -> T (FortressLibrary.fss:2243-2250, array1 choosing a Vector for
+   a numeric T).  Narrowest type first, because in today's nested tower
+   () -> ZZ32 is a subtype of () -> ZZ64 and of () -> RR64. *)
+component Q1ZeroWitnessComp
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x)
+
+witness[\T\](): T = throw InvalidRange
+zeroOf[\T\](): T =
+    typecase witness[\T\] of
+        () -> ZZ32 => 0
+        () -> ZZ64 => widen(0)
+        () -> RR64 => 0.0
+        else => throw InvalidRange
+    end
+
+run(): () = do
+    show("zeroOf[\\ZZ32\\]()", zeroOf[\ZZ32\]())
+    show("zeroOf[\\ZZ64\\]()", zeroOf[\ZZ64\]())
+    show("zeroOf[\\RR64\\]()", zeroOf[\RR64\]())
+  end
+end

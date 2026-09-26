@@ -1,0 +1,4 @@
+zeroOf[\ZZ32\](): 0 : Int
+zeroOf[\ZZ64\](): 0 : Long
+zeroOf[\RR64\](): 0.0 : FloatLiteral
+rc=0

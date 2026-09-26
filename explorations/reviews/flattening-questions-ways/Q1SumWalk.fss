@@ -24,6 +24,13 @@ run(): () = do
     a3 = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 0.25 + i)
     show("SUM RR64 array    SUM a3", SUM a3)
     show("SUM ZZ32 overflow SUM[j <- 0#2] 2147483647", SUM[j <- 0#2] 2147483647)
+    show("SUM literal body  SUM[i <- 0#4] (if i = 0 then 1 else 0 end) (MicroGptFlatCheck.fss:56 shape)",
+         SUM[i <- 0#4] (if i = 0 then 1 else 0 end))
+    (* the vector DOT of FortressLibrary.fss:2267, which is Vector.dot, a SUM (FortressLibrary.fss:2207) *)
+    show("DOT RR64 empty    a0 DOT a0", a0 DOT a0)
+    show("DOT RR64          a3 DOT a3 (MicroGptFlat.fss:27 shape)", a3 DOT a3)
+    k3 = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => i + 1)
+    show("DOT ZZ32          k3 DOT k3", k3 DOT k3)
     show("offs(0): ZZ32     (matOffset shape, empty)", offs(0))
     show("offs(3): ZZ32", offs(3))
     show("rsum(0): RR64     (declared RR64, empty)", rsum(0))

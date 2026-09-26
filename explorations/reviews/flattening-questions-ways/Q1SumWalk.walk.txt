@@ -8,6 +8,10 @@ SUM mixed         SUM[j <- 0#2] (if j = 0 then 1 else 0.5 end): 1.5 : Float
 SUM RR64 empty    SUM a0 (0 elements): 0 : Int
 SUM RR64 array    SUM a3: 3.75 : Float
 SUM ZZ32 overflow SUM[j <- 0#2] 2147483647: -2 : Int
+SUM literal body  SUM[i <- 0#4] (if i = 0 then 1 else 0 end) (MicroGptFlatCheck.fss:56 shape): 1 : Int
+DOT RR64 empty    a0 DOT a0: 0 : Int
+DOT RR64          a3 DOT a3 (MicroGptFlat.fss:27 shape): 6.6875 : Float
+DOT ZZ32          k3 DOT k3: 14 : Int
 offs(0): ZZ32     (matOffset shape, empty): 0 : Int
 offs(3): ZZ32: 9 : Int
 rsum(0): RR64     (declared RR64, empty): 0 : Int
