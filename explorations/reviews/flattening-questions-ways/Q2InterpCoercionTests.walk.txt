@@ -1,0 +1,17 @@
+## where walk coerces today: three of ProjectFortress/tests run from that directory, each in a private cache (stack frames cut)
+== bin/fortress CoercionBindRungC.fss
+PASS
+== bin/fortress XXXCoercionReturnRungC.fss
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+Cannot find definition for method big given receiver NarrowOf
+Context:
+/home/user/fortress/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+toplevel:
+== bin/fortress XXXCoercionGenericFnRungC.fss
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+Unification error: /home/user/fortress/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:20:12-14:
+Cannot unify NarrowOf(class com.sun.fortress.interpreter.evaluator.types.FTypeObject)
+  with Wide(class com.sun.fortress.nodes.VarType) abm=()
+Context:
