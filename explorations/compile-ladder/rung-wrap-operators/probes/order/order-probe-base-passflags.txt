@@ -1,0 +1,17 @@
+--- order probe, base library 6030e4b36 plus k dummy traits, with the passes' JVM flags 2026-09-26T13:28:44Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.61 3.12 5.66 1/108 13904
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+$ JFLAGS="-XX:+UseSerialGC -XX:TieredStopAtLevel=1 -XX:ActiveProcessorCount=1" bash explorations/compile-ladder/rung-wrap-operators/probes/order/order-probe.sh 6030e4b36 8
+k=0 rc=1 first: a(x:Sub1,y:Base) :25
+k=1 rc=1 first: a(x:Sub1,y:Base) :25
+k=2 rc=1 first: a(x:Sub1,y:Base) :25
+k=3 rc=1 first: a(x:Sub1,y:Base) :25
+k=4 rc=1 first: a(x:Sub1,y:Base) :25
+k=5 rc=1 first: a(x:Sub1,y:Base) :25
+k=6 rc=1 first: a(x:Sub1,y:Base) :25
+k=7 rc=1 first: a(x:Sub1,y:Base) :25
+k=8 rc=1 first: a(x:Sub1,y:Base) :25
