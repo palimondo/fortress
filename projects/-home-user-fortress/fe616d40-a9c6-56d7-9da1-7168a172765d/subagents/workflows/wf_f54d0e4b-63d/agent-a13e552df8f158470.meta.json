@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"judge:C","workflowPhase":"Judge","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
