@@ -1,0 +1,3 @@
+tests=XXXNatDispRTRChecker
+compile
+compile_err_contains=should be a subtype of the

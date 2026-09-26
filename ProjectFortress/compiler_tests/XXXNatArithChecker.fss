@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component XXXNatArithChecker
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+unbox[\nat k\](b: Box[\k + 1\]): ZZ32 = b.v
+
+run(): () = do
+    println(unbox(Box[\4\](7)))
+    println("PASS")
+  end
+
+end

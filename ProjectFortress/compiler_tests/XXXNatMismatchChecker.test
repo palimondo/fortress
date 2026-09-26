@@ -1,0 +1,3 @@
+tests=XXXNatMismatchChecker
+compile
+compile_err_contains=File XXXNatMismatchChecker.fss has 3 errors.

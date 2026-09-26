@@ -1,0 +1,3 @@
+tests=XXXNatBoolChecker
+compile
+compile_err_contains=bool static parameter b is not supported by the type checker

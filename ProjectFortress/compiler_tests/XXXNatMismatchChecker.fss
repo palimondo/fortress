@@ -1,0 +1,19 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component XXXNatMismatchChecker
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+object Mat[\nat r, nat c\](v: ZZ32) end
+
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+dot[\nat n, nat m, nat p\](a: Mat[\n,m\], b: Mat[\m,p\]): Mat[\n,p\] = Mat[\n,p\](a.v b.v)
+
+run(): () = do
+    println(unbox[\4\](Box[\3\](7)))
+    println(dot(Mat[\2,3\](6), Mat[\4,5\](7)).v)
+    b: Box[\4\] = Box[\3\](7)
+    println(b.v)
+    println("PASS")
+  end
+
+end

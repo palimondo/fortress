@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component XXXNatBoolChecker
+export Executable
+
+object Flag[\bool b\](v: ZZ32) end
+
+unflag[\bool b\](f: Flag[\b\]): ZZ32 = f.v
+
+run(): () = do
+    println(unflag(Flag[\true\](7)))
+    println("PASS")
+  end
+
+end

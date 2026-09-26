@@ -1,0 +1,3 @@
+tests=XXXNatArithChecker
+compile
+compile_err_contains=Arithmetic on nat static arguments is not checked

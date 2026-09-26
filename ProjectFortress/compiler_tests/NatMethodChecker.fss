@@ -1,0 +1,17 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component NatMethodChecker
+export Executable
+
+object Box[\nat k\](v: ZZ32)
+  len(): ZZ32 = v
+  idx[\nat j\](b: Box[\j\]): Box[\k\] = self
+end
+
+run(): () = do
+    assert(Box[\3\](7).len(), 7, "a method on a sized receiver; ledger row 307")
+    assert(Box[\3\](7).idx[\2\](Box[\2\](5)).v, 7, "a sized method, its size written out, on a sized receiver; ledger row 307")
+    assert(Box[\3\](7).idx(Box[\2\](5)).v, 7, "a sized method, its size inferred, on a sized receiver; ledger row 307")
+    println("PASS")
+  end
+
+end
