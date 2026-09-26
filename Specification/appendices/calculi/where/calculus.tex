@@ -18,6 +18,17 @@
 In this section, we define a Fortress core calculus with \wc.
 We call this calculus \emph{\wherecore}.
 \wherecore\ is an extension of \basiccore\ with \wc.
+\revision{revival-calculi}{This calculus predates instantiation exclusion
+(\secref{trait-types}, \secref{trait-decls}) and the rule that a
+\KWD{where}-clause variable may not appear as a static argument in an
+\KWD{extends} clause (\secref{where-clauses}).
+It lets a \KWD{where}-clause variable occur in a supertype of a trait or
+object definition, and its subtyping rule \sBothRule\ then makes the
+definition a subtype of one instantiation of that supertype for each
+witness of the variable: the shape of the declarations marked
+``Not allowed'' in \secref{where-clauses}.
+The calculus, its rules and its soundness claim are as the team wrote and
+proved them, and are not changed.}
 
 \input{\macros/where-calculus-macros}
 \input{\calculi/where/syntax}

@@ -16,6 +16,20 @@ acyclic type hierarchy and field definitions inside object definitions.
 We call this calculus \emph{\acffdcore}.
 \acffdcore\ is an extension of \basiccore\ with 
 acyclic type hierarchy and field definitions inside object definitions.
+\revision{revival-calculi}{This calculus predates instantiation exclusion
+(\secref{trait-types}, \secref{trait-decls}).
+Conditions (2) and (3) of its rule \acyclicRule\ admit one
+self-extension, whose static arguments may be the parameters' own bounds,
+so that a trait that extends an instantiation of itself at its parameter's
+bound, such as
+\EXP{\KWD{trait}\:\TYP{T}\llbracket{}X \KWD{extends} \TYP{Object}\rrbracket
+\KWD{extends} \TYP{T}\llbracket\TYP{Object}\rrbracket \KWD{end}},
+is well formed, and \EXP{\TYP{T}\llbracket{}A\rrbracket} is then a subtype
+of \EXP{\TYP{T}\llbracket\TYP{Object}\rrbracket} for every \VAR{A};
+Fortress no longer allows such a trait, for the reason the covariance
+example of \secref{where-clauses} is not allowed.
+The calculus, its rules and its soundness claim are as the team wrote and
+proved them, and are not changed.}
 
 \input{\macros/acffd-calculus-macros}
 \input{\calculi/acffd/syntax}

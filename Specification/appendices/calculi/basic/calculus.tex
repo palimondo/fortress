@@ -17,6 +17,15 @@ Following the precedent set by prior core calculi such as Featherweight
 Generic Java~\cite{fgj},
 we have abided by the restriction that all valid \basiccore\ programs are
 valid Fortress programs.
+\revision{revival-calculi}{This calculus predates instantiation exclusion
+(\secref{trait-types}, \secref{trait-decls}).
+Its only condition on multiple inheritance is that every visible method
+have one owner, so an object that extends two different instantiations of
+a parameterized trait declaring no method is a valid \basiccore\ program;
+under the rule it is not a valid Fortress program, and the sentence above
+no longer holds for every program.
+The calculus, its rules and its soundness claim are as the team wrote and
+proved them, and are not changed.}
 
 \input{\calculi/basic/syntax}
 \input{\calculi/basic/dynamic}

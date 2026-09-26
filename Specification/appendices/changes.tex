@@ -133,7 +133,7 @@ both implementations stop at name resolution, because a
 \KWD{where}-clause variable is not in scope in an \KWD{extends} clause.
 The revision makes that the rule.
 The calculus of \appref{where-calculus} still admits such
-declarations (\secref{revival-notrevised}).
+declarations (\secref{revival-calculi}).
 \item[Original text] No such sentence; the draft notes are unchanged.
 \item[Route C] The same under route~C, which places no type below
 infinitely many instantiations of one trait.
@@ -359,6 +359,66 @@ build.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{The calculi}
+\seclabel{revival-calculi}
+
+\begin{description}
+\item[Affected sections] In \appref{calculi}: \basiccore\
+(Section~\ref{basic-calculus}), \wherecore\ (\appref{where-calculus}) and
+\acffdcore\ (Section~\ref{acffd-calculus}).
+\item[Change] One box at the opening of each calculus, saying that the
+calculus predates instantiation exclusion and naming the shape it admits
+that the rule refuses: in \basiccore, an object that extends two different
+instantiations of a parameterized trait declaring no method, so that its
+statement that all of its valid programs are valid Fortress programs no
+longer holds for every program; in \wherecore, a \KWD{where}-clause
+variable in a supertype, which its subtyping rule turns into one supertype
+for each witness of the variable; in \acffdcore, a trait that extends an
+instantiation of itself at its parameter's bound, which conditions (2)
+and (3) of its rule for an acyclic type hierarchy admit.
+The rules of the calculi and their soundness claims are not changed.
+\item[Rationale] The calculi are the team's formal record of this working
+draft as it stood, and the rule changes the language, not that record.
+New premises in their rules would be new formal work, and would reopen
+soundness claims that were proved for the rules as they are written.
+The revival decided on this treatment on 26~September 2026.
+\item[Effect] None on the language or on either implementation.
+The three calculi admit programs, in the shapes named, that are not valid
+Fortress programs.
+\item[Original text] The calculi are unchanged. The statement that the box
+in \basiccore\ qualifies is in
+\nolinkurl{Specification-1.0-frozen/appendices/calculi/basic/calculus.tex},
+lines 16--19:
+\begin{quote}
+Following the precedent set by prior core calculi such as Featherweight
+Generic Java~\cite{fgj},
+we have abided by the restriction that all valid \basiccore\ programs are
+valid Fortress programs.
+\end{quote}
+The shapes the other two boxes name are admitted by
+\nolinkurl{Specification-1.0-frozen/appendices/calculi/where/syntax.tex},
+lines 82--91, and
+\nolinkurl{Specification-1.0-frozen/appendices/calculi/where/static.tex},
+lines 53--81 and 329--342, and by
+\nolinkurl{Specification-1.0-frozen/appendices/calculi/acffd/static.tex},
+lines 46--88.
+Before this entry, \secref{revival-notrevised} said of the calculi:
+\begin{quote}
+The calculi of \appref{calculi} predate the rule and are not yet revised:
+the calculus with \KWD{where} clauses (\appref{where-calculus}) lets a
+\KWD{where}-clause variable occur in a supertype, the calculus with an
+acyclic type hierarchy admits a trait that extends an instantiation of
+itself at its parameter's bound, and the basic calculus states that all of
+its valid programs are valid Fortress programs, while it admits an object
+that extends two instantiations of a parameterized trait declaring no
+method.
+How they are to be revised awaits a decision of the revival.
+\end{quote}
+\item[Route C] By the revival's reading, not measured, the same under
+route~C: none of the shapes named is a chain of instantiations of a
+self-typed parameterized trait, the one case route~C relaxes.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
@@ -374,16 +434,6 @@ numeric types that route~A decides, and not before, because a
 specification ahead of its library is as much an open discrepancy as one
 behind it.
 Until then the rule refuses the tower these chapters describe.
-
-The calculi of \appref{calculi} predate the rule and are not yet revised:
-the calculus with \KWD{where} clauses (\appref{where-calculus}) lets a
-\KWD{where}-clause variable occur in a supertype, the calculus with an
-acyclic type hierarchy admits a trait that extends an instantiation of
-itself at its parameter's bound, and the basic calculus states that all of
-its valid programs are valid Fortress programs, while it admits an object
-that extends two instantiations of a parameterized trait declaring no
-method.
-How they are to be revised awaits a decision of the revival.
 
 \subsection{Route C, the alternative not taken}
 \seclabel{revival-routec}
