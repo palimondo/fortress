@@ -1,0 +1,19 @@
+(* Q2StrToIntWalk -- the library's strToInt is declared ZZ32 but sums
+   d radix^(n-i) with SUM (FortressLibrary.fss:4185-4198), and ZZ32's ^
+   returns RR64 (FortressLibrary.fss:694): what does it return on the
+   interpreter?  FlatData.fss:34 and MicroGptFlatCheck.fss:81 call it. *)
+component Q2StrToIntWalk
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x " : " x.ilkName)
+
+run(): () = do
+    show("strToInt(\"12\")", strToInt("12"))
+    show("strToInt(\"-5\")", strToInt("-5"))
+    ex: ZZ32 := 0
+    ex := strToInt("7")
+    show("ex: ZZ32 := strToInt(\"7\")", ex)
+    show("10^2   (ZZ32 ^ ZZ32)", 10^2)
+    show("|\\ 3.7 /|   (MicroGptFlatCheck.fss:81 shape)", |\ 3.7 /|)
+  end
+end

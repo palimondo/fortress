@@ -1,0 +1,6 @@
+strToInt("12"): 12 : Int
+strToInt("-5"): -5 : Int
+ex: ZZ32 := strToInt("7"): 7 : Int
+10^2   (ZZ32 ^ ZZ32): 100 : Int
+|\ 3.7 /|   (MicroGptFlatCheck.fss:81 shape): 3 : Long
+rc=0
