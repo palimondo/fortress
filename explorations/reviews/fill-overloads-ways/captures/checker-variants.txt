@@ -1,0 +1,188 @@
+# explorations/reviews/fill-overloads-ways/run-checker.sh <variant> [-objectBound], each over a private copy of Library/ and ProjectFortress/LibraryBuiltin/, caches private.
+# Taken 2026-09-26 between 09:24Z and 09:52Z; nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; JDK openjdk version 25.0.4 2026-07-21; load average 5-7 (other workers running).
+# Library/, ProjectFortress/LibraryBuiltin/ and ProjectFortress/src/ unchanged from 359933449 to 55ee35080 (the runs fell in that span); the build under ProjectFortress/build dated 2026-09-26T06:08Z.
+# 'printed' = errors the checker prints; 'hidden' = the probe's @@HIDDEN lines, the overloading errors the stock checker never reaches (StaticChecker.java:268-272).
+# 'same-kind' = the diamond pairs (same parameter type from both sides).
+
+=== baseline
+  api AnyType	0
+  api FlatString	0
+  api FortressBuiltin	18
+  api FortressLibrary	110
+  api List	0
+  api NatReflect	0
+  api NativeArray	44
+  api RangeInternals	78
+  api Stream	0
+  api String	0
+  api TypeProxy	0
+  api Writer	0
+  total	125
+  hidden overloading errors, all names	127
+  printed: fill pairs 22 = value/function 18 + same-kind 4
+      PrimImmutableArray           same-kind       2
+      PrimImmutableArray           value/function  9
+      PrimitiveArray               same-kind       2
+      PrimitiveArray               value/function  9
+  hidden: fill pairs 73 = value/function 59 + same-kind 14
+      Array                        value/function  4
+      Array1                       same-kind       2
+      Array1                       value/function  9
+      Array2                       same-kind       2
+      Array2                       value/function  9
+      Array3                       same-kind       2
+      Array3                       value/function  9
+      ImmutableArray               value/function  4
+      ImmutableArray1              same-kind       2
+      ImmutableArray1              value/function  9
+      Matrix                       same-kind       2
+      ReadableArray                value/function  1
+      ReadableArray1               value/function  1
+      StandardImmutableArrayType   value/function  4
+      StandardMutableArrayType     same-kind       2
+      StandardMutableArrayType     value/function  9
+      Vector                       same-kind       2
+  hidden: Return Type Rule errors 'For array1,' 1
+  hidden: Return Type Rule errors 'For array2,' 1
+  'does not satisfy the corresponding bound' errors: 0
+
+=== meet
+  api AnyType	0
+  api FlatString	0
+  api FortressBuiltin	18
+  api FortressLibrary	110
+  api List	0
+  api NatReflect	0
+  api NativeArray	64
+  api RangeInternals	78
+  api Stream	0
+  api String	0
+  api TypeProxy	0
+  api Writer	0
+  total	135
+  hidden overloading errors, all names	148
+  printed: fill pairs 32 = value/function 32 + same-kind 0
+      PrimImmutableArray           value/function  16
+      PrimitiveArray               value/function  16
+  hidden: fill pairs 94 = value/function 94 + same-kind 0
+      Array                        value/function  4
+      Array1                       value/function  16
+      Array2                       value/function  16
+      Array3                       value/function  16
+      ImmutableArray               value/function  4
+      ImmutableArray1              value/function  16
+      ReadableArray                value/function  1
+      ReadableArray1               value/function  1
+      StandardImmutableArrayType   value/function  4
+      StandardMutableArrayType     value/function  16
+  hidden: Return Type Rule errors 'For array1,' 1
+  hidden: Return Type Rule errors 'For array2,' 1
+  'does not satisfy the corresponding bound' errors: 0
+
+=== rename
+  api AnyType	0
+  api FlatString	0
+  api FortressBuiltin	18
+  api FortressLibrary	110
+  api List	0
+  api NatReflect	0
+  api NativeArray	0
+  api RangeInternals	78
+  api Stream	0
+  api String	0
+  api TypeProxy	0
+  api Writer	0
+  total	103
+  hidden overloading errors, all names	54
+  printed: fill pairs 0 = value/function 0 + same-kind 0
+  hidden: fill pairs 0 = value/function 0 + same-kind 0
+  'does not satisfy the corresponding bound' errors: 0
+
+=== drop
+  api AnyType	0
+  api FlatString	0
+  api FortressBuiltin	18
+  api FortressLibrary	110
+  api List	0
+  api NatReflect	0
+  api NativeArray	0
+  api RangeInternals	78
+  api Stream	0
+  api String	0
+  api TypeProxy	0
+  api Writer	0
+  total	103
+  hidden overloading errors, all names	55
+  printed: fill pairs 0 = value/function 0 + same-kind 0
+  hidden: fill pairs 0 = value/function 0 + same-kind 0
+  'does not satisfy the corresponding bound' errors: 0
+
+=== baseline-objbound
+  api AnyType	0
+  api FlatString	0
+  api FortressBuiltin	22
+  api FortressLibrary	490
+  api List	12
+  api NatReflect	0
+  api NativeArray	8
+  api RangeInternals	304
+  api Stream	4
+  api String	0
+  api TypeProxy	0
+  api Writer	0
+  total	231
+  hidden overloading errors, all names	106
+  printed: fill pairs 4 = value/function 0 + same-kind 4
+      PrimImmutableArray           same-kind       2
+      PrimitiveArray               same-kind       2
+  hidden: fill pairs 14 = value/function 0 + same-kind 14
+      Array1                       same-kind       2
+      Array2                       same-kind       2
+      Array3                       same-kind       2
+      ImmutableArray1              same-kind       2
+      Matrix                       same-kind       2
+      StandardMutableArrayType     same-kind       2
+      Vector                       same-kind       2
+  'does not satisfy the corresponding bound' errors: 163
+  their static arguments, by count:
+         41 (I, J)
+         39 (I, J, K)
+         16 ()
+         10 (ZZ32, ZZ32)
+          9 Any
+          8 (ZZ32, ZZ32, ZZ32)
+          8 (T, U)
+          6 (E, F)
+          3 (T, G)
+          3 (Reduction[\R\], Reduction[\R\])
+          3 (E, G)
+          2 (Number, Number)
+
+=== boundE
+  api AnyType	0
+  api FlatString	0
+  api FortressBuiltin	18
+  api FortressLibrary	198
+  api List	0
+  api NatReflect	0
+  api NativeArray	0
+  api RangeInternals	78
+  api Stream	0
+  api String	0
+  api TypeProxy	0
+  api Writer	0
+  total	125
+  hidden overloading errors, all names	55
+  printed: fill pairs 0 = value/function 0 + same-kind 0
+  hidden: fill pairs 0 = value/function 0 + same-kind 0
+  'does not satisfy the corresponding bound' errors: 22
+  their static arguments, by count:
+         14 R
+          7 U
+          1 E
+
+=== the two factory refusals in the baseline run, verbatim (paths shortened)
+@@HIDDEN FortressLibrary Library/FortressLibrary.fsi:1490:1-41: Library/FortressLibrary.fsi:1491:1-1492:1:     For array1, the return type of [\T, nat s0\]ZZ32->T->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1491:1-1492:1 should be a subtype of the     return type of [\T, nat s0\]T->Array1[\T,0,s0\] @ Library/FortressLibrary.fsi:1490:1-41
+@@HIDDEN FortressLibrary Library/FortressLibrary.fsi:1600:1-54: Library/FortressLibrary.fsi:1601:1-1605:51:     For array2, the return type of [\T, nat s0, nat s1\](ZZ32, ZZ32)->T->Array2[\T,0,s0,0,s1\] @ Library/FortressLibrary.fsi:1601:1-1605:51 should be a subtype of the     return type of [\T, nat s0, nat s1\]T->Array2[\T,0,s0,0,s1\] @ Library/FortressLibrary.fsi:1600:1-54
+
+=== one unrelated difference between runs: 'Invalid overloading of map in trait Maybe' appears in the drop run's hidden list and not in the rename run's; neither variant touches Maybe.

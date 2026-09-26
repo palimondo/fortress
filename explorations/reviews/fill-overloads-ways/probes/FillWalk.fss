@@ -4,6 +4,9 @@
 component FillWalk
 export Executable
 
+(* generic code that means the value form: v is "the element" *)
+filled[\T\](v:T): Array[\T,ZZ32\] = array[\T\](2).fill(v)
+
 run():() = do
   a = array[\RR64\](3).fill(0.5)
   println("1 value fill, E=RR64: " a[0] " " a[1] " " a[2])
@@ -22,6 +25,9 @@ run():() = do
   g = array1[\Any,3\](fn (i:ZZ32):Any => i + 20)
   print("6 array1, T=Any, argument a function; g[1] = ")
   println(g[1])
+  h = filled[\Any\](fn (i:ZZ32):Any => i + 30)
+  print("7 filled[\\Any\\](a function), written as a value fill; h[1] = ")
+  println(h[1])
 end
 
 end

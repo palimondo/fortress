@@ -1,0 +1,5 @@
+# bin/fortress walk probes/FillClosureWalk.fss, private cache; 2026-09-26T09:45Z
+# nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; JDK openjdk version 25.0.4 2026-07-21; FORTRESS_THREADS=1
+1 zeros: 0.0 0.0
+2 strings: |||
+3 2-D: 26 26

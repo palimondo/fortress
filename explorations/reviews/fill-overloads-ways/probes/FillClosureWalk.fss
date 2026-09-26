@@ -1,0 +1,17 @@
+(* fill-overloads-ways, probe 5: the value fills of the two microGPT programs written
+   as function fills with a constant function, the shape one of the ways gives them.
+   Interpreter (walk). *)
+component FillClosureWalk
+export Executable
+
+run():() = do
+  z = array[\RR64\](3).fill(fn (_: ZZ32): RR64 => 0.0)
+  println("1 zeros: " z[0] " " z[2])
+  s = array[\String\](2).fill(fn (_: ZZ32): String => "")
+  println("2 strings: |" s[0] "|" s[1] "|")
+  bos: ZZ32 = 26
+  t = array[\ZZ32\](2, 3).fill(fn (_: ZZ32, _: ZZ32): ZZ32 => bos)
+  println("3 2-D: " t[0,0] " " t[1,2])
+end
+
+end
