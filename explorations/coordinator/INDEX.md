@@ -2,6 +2,8 @@
 
 # Index of the standalone notes
 
+- `explorations/reviews/numeric-hierarchy-integration-review.md`: Source review of route A through C4's scalar-to-matrix path on c5eada1b2, 2026-09-26: generic bodies need stronger evidence than surviving Number membership, a blanket ring bound would exclude integer clients, row 388 may distinguish a matrix method from its generic operator spelling, and empty reductions need typed identities; proposed checks, no executions or new design decisions.
+
 - `explorations/README.md`: Revival-era experiments and learning material — **not** part of the original Fortress project. Everything under this directory was written in 2026 by Pavol (@palimondo) with Claude and OpenAI assistants while studying th
 - `explorations/aliases-units-report.md`: Produced by the delegated aliases/units research worker, 2026-08-27. Probes: explorations/alias-units-probes/ (all run; captured output in probe-run.log there). Coordinated per explorations/microgpt-iteration2-plan.md. D
 - `explorations/backend-options.md`: Digest of a coordinator conversation on 2026-08-23 (session transcript, "What's that?" about Truffle through "How's Graal on vectorization?"), recovered on 2026-09-08 after it turned out never to have been committed. Cla
