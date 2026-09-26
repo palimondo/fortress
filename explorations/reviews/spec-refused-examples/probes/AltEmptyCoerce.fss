@@ -1,0 +1,34 @@
+(*) Alternative for the specification's Empty: a non-parametric marker object plus a coercion in the
+(*) generic trait, the shape Steele gave the compiler world's Maybe and Option in 2011
+(*) (Library/CompilerLibrary.fsi:223-236 coerce(_: Nothing) to NothingObject[\T\];
+(*) ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:680-691 coerce(_: None)).
+component AltEmptyCoerce
+export Executable
+
+object SEmptyMark end
+
+trait SList[\T extends Any\]
+  coerce(_: SEmptyMark) = SEmptyObj[\T\]
+  append(xs: SList[\T\]): SList[\T\]
+  size(): ZZ32
+end
+
+object SCons[\T extends Any\](first: T, rest: SList[\T\]) extends SList[\T\]
+  append(xs: SList[\T\]): SList[\T\] = SCons[\T\](first, rest.append(xs))
+  size(): ZZ32 = 1 + rest.size()
+end
+
+object SEmptyObj[\T extends Any\] extends SList[\T\]
+  append(xs: SList[\T\]): SList[\T\] = xs
+  size(): ZZ32 = 0
+end
+
+run():() = do
+  e: SList[\ZZ32\] = SEmptyMark
+  s: SList[\String\] = SEmptyMark
+  l: SList[\ZZ32\] = SCons[\ZZ32\](7, e)
+  println(l.size())
+  println(s.size())
+end
+
+end

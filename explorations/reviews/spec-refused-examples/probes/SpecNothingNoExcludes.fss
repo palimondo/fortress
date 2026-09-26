@@ -1,0 +1,29 @@
+(*) SpecNothing.fss without its excludes clause, which the specification's own grammar does not
+(*) admit on an object (Specification/appendices/grammars/concrete-syntax.tex:242-244; SpecNothing
+(*) is a syntax error on both paths):
+(*)     object NothingS extends MaybeS[\T\] where {T extends Object}
+component SpecNothingNoExcludes
+export Executable
+
+trait MaybeS[\T extends Any\] comprises { NothingS, JustS[\T\] }
+  getter isNothing(): Boolean
+end
+
+object NothingS extends MaybeS[\T\] where {T extends Object}
+  getter isNothing(): Boolean = true
+end
+
+object JustS[\T extends Any\](just: T) extends MaybeS[\T\]
+  getter isNothing(): Boolean = false
+end
+
+run():() = do
+  m: MaybeS[\ZZ32\] = NothingS
+  n: MaybeS[\String\] = NothingS
+  j: MaybeS[\ZZ32\] = JustS[\ZZ32\](3)
+  println(m.isNothing)
+  println(n.isNothing)
+  println(j.isNothing)
+end
+
+end

@@ -1,0 +1,24 @@
+(*) A type that directly extends two instantiations of one generic, the shape of
+(*) Specification/appendices/internal-document.tex:305-360 (NeedsDisjunction), which the
+(*) specification's internal appendix presents as a program the checker should accept:
+(*)     object Parent extends {Plussable[\Right\], Plussable[\Wrong\]} end
+component DoubleInstance
+export Executable
+
+object Right end
+object Wrong end
+
+trait Plussable[\T extends Any\]
+end
+
+object Parent extends {Plussable[\Right\], Plussable[\Wrong\]}
+end
+
+foo(p: Plussable[\Wrong\]): String = "foo took a Plussable[Wrong]"
+
+run():() = do
+  a: Parent = Parent
+  println(foo(a))
+end
+
+end

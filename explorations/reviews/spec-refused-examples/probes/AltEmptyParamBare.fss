@@ -1,0 +1,31 @@
+(*) AltEmptyParam.fss with the element type left to inference, as the specification writes a bare
+(*) Empty: e: SList[\ZZ32\] = SEmpty and s: SList[\String\] = emptyS().
+component AltEmptyParamBare
+export Executable
+
+trait SList[\T extends Any\]
+  append(xs: SList[\T\]): SList[\T\]
+  size(): ZZ32
+end
+
+object SCons[\T extends Any\](first: T, rest: SList[\T\]) extends SList[\T\]
+  append(xs: SList[\T\]): SList[\T\] = SCons[\T\](first, rest.append(xs))
+  size(): ZZ32 = 1 + rest.size()
+end
+
+object SEmpty[\T extends Any\] extends SList[\T\]
+  append(xs: SList[\T\]): SList[\T\] = xs
+  size(): ZZ32 = 0
+end
+
+emptyS[\T extends Any\](): SList[\T\] = SEmpty[\T\]
+
+run():() = do
+  e: SList[\ZZ32\] = SEmpty
+  s: SList[\String\] = emptyS()
+  l: SList[\ZZ32\] = SCons[\ZZ32\](7, e)
+  println(l.size())
+  println(s.size())
+end
+
+end

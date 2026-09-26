@@ -1,0 +1,23 @@
+(*) SpecSubtraitOfEvery.fss with the where clause in the binding-list grammar:
+(*)     trait C extends D[\T\] where [\T extends Object\]
+component SpecSubtraitOfEveryBound
+export Executable
+
+trait D[\T extends Any\]
+  describe(): String
+end
+
+trait C extends D[\T\] where [\T extends Object\]
+  describe(): String = "C, a D of every T"
+end
+
+object O extends C end
+
+run():() = do
+  x: D[\ZZ32\] = O
+  y: D[\String\] = O
+  println(x.describe())
+  println(y.describe())
+end
+
+end

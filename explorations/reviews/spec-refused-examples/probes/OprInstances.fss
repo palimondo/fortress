@@ -1,0 +1,29 @@
+(*) One generic instantiated twice, differing only in an operator argument: the shape of the
+(*) specification's algebra (Specification/advanced-lib/algebraic-constraints.tex, e.g. a ring
+(*) extends Monoid[\T,+\] through its additive group and Monoid[\T,TIMES\] directly) and of
+(*) its ZZ, which lists CommutativeRing[\ZZ,+,-,DOT\], CommutativeRing[\ZZ,+,-,TIMES\], ...
+(*) (Specification/basic-lib/basic-integers.tex:86-97).
+component OprInstances
+export Executable
+
+trait MonoidX[\T extends MonoidX[\T,ODOT\], opr ODOT\]
+  opr ODOT(self, other: T): T
+end
+
+trait SemiringX[\T extends SemiringX[\T,OPLUS,OTIMES\], opr OPLUS, opr OTIMES\]
+    extends { MonoidX[\T,OPLUS\], MonoidX[\T,OTIMES\] }
+end
+
+object N(v: ZZ32) extends SemiringX[\N,+,TIMES\]
+  opr +(self, other: N): N = N(v + other.v)
+  opr TIMES(self, other: N): N = N(v TIMES other.v)
+end
+
+run():() = do
+  a = N(3)
+  b = N(4)
+  println((a + b).v)
+  println((a TIMES b).v)
+end
+
+end

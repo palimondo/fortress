@@ -1,0 +1,4 @@
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/SpecNothing.fss:14:45:
+    Syntax Error
+File SpecNothing.fss has 1 error.
+rc=255

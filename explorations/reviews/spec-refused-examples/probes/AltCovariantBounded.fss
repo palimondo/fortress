@@ -1,0 +1,30 @@
+(*) Alternative for the specification's covariance example: an invariant C and an explicit widening
+(*) function whose bounded static parameters say S extends T, the library's own way
+(*) (Library/CovariantCollection.fss:14-35, upward[\R, I extends R, T extends R\] and
+(*) opr APPCOV[\T, A extends T, B extends T\], Maessen 2008).
+component AltCovariantBounded
+export Executable
+
+trait Animal
+  getter name(): String
+end
+object Dog extends Animal
+  getter name(): String = "dog"
+end
+
+trait C[\S extends Any\]
+  getter item(): S
+end
+
+object CImpl[\S extends Any\](item: S) extends C[\S\]
+end
+
+widen[\T extends Any, S extends T\](c: C[\S\]): C[\T\] = CImpl[\T\](c.item)
+
+run():() = do
+  d: C[\Dog\] = CImpl[\Dog\](Dog)
+  a: C[\Animal\] = widen[\Animal, Dog\](d)
+  println(a.item.name)
+end
+
+end

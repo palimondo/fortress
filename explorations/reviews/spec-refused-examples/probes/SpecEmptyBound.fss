@@ -1,0 +1,30 @@
+(*) SpecEmpty.fss with the where clause in the grammar the specification and the parser now use,
+(*) a binding list: where [\T extends Object\] (Specification/appendices/grammars/concrete-syntax.tex:496,
+(*) ProjectFortress/src/com/sun/fortress/parser/NoNewlineHeader.rats:147-166).
+component SpecEmptyBound
+export Executable
+
+trait SList[\T extends Any\]
+  append(xs: SList[\T\]): SList[\T\]
+  size(): ZZ32
+end
+
+object SCons[\T extends Any\](first: T, rest: SList[\T\]) extends SList[\T\]
+  append(xs: SList[\T\]): SList[\T\] = SCons[\T\](first, rest.append(xs))
+  size(): ZZ32 = 1 + rest.size()
+end
+
+object SEmpty extends SList[\T\] where [\T extends Object\]
+  append(xs: SList[\T\]): SList[\T\] = xs
+  size(): ZZ32 = 0
+end
+
+run():() = do
+  e: SList[\ZZ32\] = SEmpty
+  s: SList[\String\] = SEmpty
+  l: SList[\ZZ32\] = SCons[\ZZ32\](7, e)
+  println(l.size())
+  println(s.size())
+end
+
+end

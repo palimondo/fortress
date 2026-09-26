@@ -1,0 +1,10 @@
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/DoubleInstance.fss:14:24-39:
+    Types Plussable[\Right\] and Plussable[\Wrong\] exclude each other.  Parent must not extend them.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/DoubleInstance.fss:14:24-40:
+    Type Parent excludes Plussable but it extends Plussable.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/DoubleInstance.fss:14:44-59:
+    Types Plussable[\Wrong\] and Plussable[\Right\] exclude each other.  Parent must not extend them.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/DoubleInstance.fss:14:44-60:
+    Type Parent excludes Plussable but it extends Plussable.
+File DoubleInstance.fss has 4 errors.
+rc=255

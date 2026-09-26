@@ -1,0 +1,29 @@
+(*) The shape of the specification's numeric tower (Specification/basic-lib/basic-integers.tex:86-97,
+(*) numbers.tex:107): trait ZZ extends { QQ, ..., CommutativeRing[\ZZ,...\], ... }, where QQ carries
+(*) its own self-typed algebra; so ZZ is a subtype of the algebra at ZZ and at QQ.  Also the
+(*) specification's root, Specification/basic-lib/objects.tex:134, where every Object is an
+(*) EquivalenceRelation[\Object,===\] and every algebraic type is also an EquivalenceRelation[\T,=\].
+component NestedTower
+export Executable
+
+trait Alg[\T extends Alg[\T\]\]
+  plus(other: T): T
+end
+
+trait QQx extends Alg[\QQx\]
+end
+
+trait ZZx extends { QQx, Alg[\ZZx\] }
+end
+
+object Z3(v: ZZ32) extends ZZx
+  plus(other: ZZx): ZZx = self
+  plus(other: QQx): QQx = self
+end
+
+run():() = do
+  z = Z3(3)
+  println("built")
+end
+
+end

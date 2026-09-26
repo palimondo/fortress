@@ -1,0 +1,35 @@
+#!/bin/bash
+# Runs one probe under walk and through compile/run, in a private cache outside the repository.
+# Usage: run.sh <Probe>   (probes/<Probe>.fss; captures/<Probe>.walk.txt, .compile.txt, .run.txt)
+# First use builds the compiler-path library jars into the private cache (repo-internals.md recipe).
+set -u
+R=/home/user/fortress
+H=$R/explorations/reviews/spec-refused-examples
+S=${SPEC_REFUSED_SCRATCH:-/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused}
+C=$S/caches; T=$S/tmp; W=$S/work
+mkdir -p "$C" "$T" "$W"
+export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
+export PATH="$JAVA_HOME/bin:$PATH"
+export FORTRESS_HOME=$R
+unset JAVA_TOOL_OPTIONS
+export FORTRESS_THREADS=1
+export JAVA_FLAGS="-Xmx2g -Xss64m -Dfortress.caches=$C -Djava.io.tmpdir=$T"
+F=$R/bin/fortress
+lib() {
+  [ -f "$S/lib.done" ] && return 0
+  ( cd $R/ProjectFortress && for x in LibraryBuiltin/AnyType.fss LibraryBuiltin/CompilerBuiltin.fss \
+      ../Library/CompilerLibrary.fss ../Library/CompilerAlgebra.fss ../Library/CompilerSystem.fss; do
+      timeout 900 $F compile $x > "$S/lib-$(basename $x).txt" 2>&1; echo "lib $x rc=$?"; done ) && touch "$S/lib.done"
+}
+p=$1
+lib
+cp "$H/probes/$p.fss" "$W/$p.fss"
+( cd "$W" && timeout 600 $F walk $p.fss > "$H/captures/$p.walk.txt" 2>&1; echo "rc=$?" >> "$H/captures/$p.walk.txt" )
+( cd "$W" && timeout 900 $F compile $p.fss > "$H/captures/$p.compile.txt" 2>&1; echo "rc=$?" >> "$H/captures/$p.compile.txt" )
+if tail -1 "$H/captures/$p.compile.txt" | grep -q "rc=0"; then
+  ( cd "$W" && timeout 600 $F run $p > "$H/captures/$p.run.txt" 2>&1; echo "rc=$?" >> "$H/captures/$p.run.txt" )
+else
+  rm -f "$H/captures/$p.run.txt"
+fi
+rm -rf "${T:?}"/fortress*rats
+for k in walk compile run; do f=$H/captures/$p.$k.txt; [ -f "$f" ] && { echo "--- $k ($(wc -l < $f) lines)"; head -c 1500 "$f" | head -25; }; done

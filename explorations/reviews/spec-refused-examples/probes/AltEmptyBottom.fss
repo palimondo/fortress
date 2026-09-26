@@ -1,0 +1,27 @@
+(*) Alternative for the specification's Empty: a covariant list (the static-parameter variance the
+(*) parser and checker gained in 2011-2012, ProjectFortress/compiler_tests/VarianceTest1.fss) and one
+(*) empty object at the bottom type, the shape of Scala's Nil extends List[Nothing].
+component AltEmptyBottom
+export Executable
+
+trait SList[\covariant T extends Any\]
+  size(): ZZ32
+end
+
+object SCons[\T extends Any\](first: T, rest: SList[\T\]) extends SList[\T\]
+  size(): ZZ32 = 1 + rest.size()
+end
+
+object SEmpty extends SList[\BottomType\]
+  size(): ZZ32 = 0
+end
+
+run():() = do
+  e: SList[\ZZ32\] = SEmpty
+  s: SList[\String\] = SEmpty
+  l: SList[\ZZ32\] = SCons[\ZZ32\](7, e)
+  println(l.size())
+  println(s.size())
+end
+
+end

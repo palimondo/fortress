@@ -1,0 +1,8 @@
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/SpecEmptyBound.fss:17:30:
+    T is undefined.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/SpecEmptyBound.fss:18:21:
+    T is undefined.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/SpecEmptyBound.fss:18:34:
+    T is undefined.
+File SpecEmptyBound.fss has 3 errors.
+rc=255

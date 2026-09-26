@@ -1,0 +1,27 @@
+(*) The specification's covariance example, Specification/basic/trait-parameters.tex:339-353:
+(*)     trait C[\S\] extends C[\T\] where {S extends T, T extends Object} end
+(*) with one method and one object added so that a use can be run.
+component SpecCovariant
+export Executable
+
+trait Animal
+  getter name(): String
+end
+object Dog extends Animal
+  getter name(): String = "dog"
+end
+
+trait C[\S extends Any\] extends C[\T\] where {S extends T, T extends Object}
+  getter item(): S
+end
+
+object CImpl[\S extends Any\](item: S) extends C[\S\]
+end
+
+run():() = do
+  d: C[\Dog\] = CImpl[\Dog\](Dog)
+  a: C[\Animal\] = d
+  println(a.item.name)
+end
+
+end

@@ -1,0 +1,29 @@
+(*) SpecNothing.fss with the where clause in the binding-list grammar, attached to the extended type
+(*) (the parser takes a where clause per type in an extends clause):
+(*)     object NothingS extends MaybeS[\T\] where [\T extends Object\] excludes JustS[\T\]
+(*) The excludes clause then names a T that only the extends clause binds; the run shows whether it resolves.
+component SpecNothingBound
+export Executable
+
+trait MaybeS[\T extends Any\] comprises { NothingS, JustS[\T\] }
+  getter isNothing(): Boolean
+end
+
+object NothingS extends MaybeS[\T\] where [\T extends Object\] excludes JustS[\T\]
+  getter isNothing(): Boolean = true
+end
+
+object JustS[\T extends Any\](just: T) extends MaybeS[\T\]
+  getter isNothing(): Boolean = false
+end
+
+run():() = do
+  m: MaybeS[\ZZ32\] = NothingS
+  n: MaybeS[\String\] = NothingS
+  j: MaybeS[\ZZ32\] = JustS[\ZZ32\](3)
+  println(m.isNothing)
+  println(n.isNothing)
+  println(j.isNothing)
+end
+
+end

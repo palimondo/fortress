@@ -1,0 +1,29 @@
+(*) Alternative for the specification's covariance example: a generic coercion declared in C, the
+(*) specification's own spelling of a conversion between instantiations
+(*) (Specification/basic/conversions-coercions.tex:210-216,
+(*) coerce[\S extends Number\](x: Vector[\S\]) where {T widens or coerces S}).
+component AltCovariantCoerce
+export Executable
+
+trait Animal
+  getter name(): String
+end
+object Dog extends Animal
+  getter name(): String = "dog"
+end
+
+trait C[\T extends Any\]
+  coerce[\S extends T\](c: C[\S\]) = CImpl[\T\](c.item)
+  getter item(): T
+end
+
+object CImpl[\T extends Any\](item: T) extends C[\T\]
+end
+
+run():() = do
+  d: C[\Dog\] = CImpl[\Dog\](Dog)
+  a: C[\Animal\] = d
+  println(a.item.name)
+end
+
+end

@@ -1,0 +1,33 @@
+(*) Alternative for the specification's Empty: one empty object per element type, the library's
+(*) own way (Library/CovariantCollection.fss:96 object Empty[\T\]; Library/List.fsi:121
+(*) emptyList[\E\](); Library/FortressLibrary.fsi:864 value object Nothing[\T\]).  Every use
+(*) writes the element type, directly or through the factory.
+component AltEmptyParam
+export Executable
+
+trait SList[\T extends Any\]
+  append(xs: SList[\T\]): SList[\T\]
+  size(): ZZ32
+end
+
+object SCons[\T extends Any\](first: T, rest: SList[\T\]) extends SList[\T\]
+  append(xs: SList[\T\]): SList[\T\] = SCons[\T\](first, rest.append(xs))
+  size(): ZZ32 = 1 + rest.size()
+end
+
+object SEmpty[\T extends Any\] extends SList[\T\]
+  append(xs: SList[\T\]): SList[\T\] = xs
+  size(): ZZ32 = 0
+end
+
+emptyS[\T extends Any\](): SList[\T\] = SEmpty[\T\]
+
+run():() = do
+  e: SList[\ZZ32\] = SEmpty[\ZZ32\]
+  s: SList[\String\] = emptyS[\String\]()
+  l: SList[\ZZ32\] = SCons[\ZZ32\](7, e)
+  println(l.size())
+  println(s.size())
+end
+
+end

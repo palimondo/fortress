@@ -1,0 +1,19 @@
+(*) Control for OprInstancesOplus.fss: the same MonoidX, instantiated once (operator OTIMES).
+component OprSingle
+export Executable
+
+trait MonoidX[\T extends MonoidX[\T,ODOT\], opr ODOT\]
+  opr ODOT(self, other: T): T
+end
+
+object N(v: ZZ32) extends MonoidX[\N,OTIMES\]
+  opr OTIMES(self, other: N): N = N(v TIMES other.v)
+end
+
+run():() = do
+  a = N(3)
+  b = N(4)
+  println((a OTIMES b).v)
+end
+
+end

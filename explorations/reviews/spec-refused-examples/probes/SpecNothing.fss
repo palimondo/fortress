@@ -1,0 +1,31 @@
+(*) The specification's Maybe, Specification/basic-lib/convenience.tex:37-43, under local names
+(*) (MaybeS, NothingS, JustS) so that the library's Maybe is not shadowed:
+(*)     trait Maybe[\T\] comprises { Nothing, Just[\T\] } isNothing: Boolean end
+(*)     object Nothing extends Maybe[\T\] excludes Just[\T\] where {T extends Object} end
+(*)     object Just[\T\](just: T) extends Maybe[\T\] end
+(*) The field isNothing is written as a getter so that the declaration is complete.
+component SpecNothing
+export Executable
+
+trait MaybeS[\T extends Any\] comprises { NothingS, JustS[\T\] }
+  getter isNothing(): Boolean
+end
+
+object NothingS extends MaybeS[\T\] excludes JustS[\T\] where {T extends Object}
+  getter isNothing(): Boolean = true
+end
+
+object JustS[\T extends Any\](just: T) extends MaybeS[\T\]
+  getter isNothing(): Boolean = false
+end
+
+run():() = do
+  m: MaybeS[\ZZ32\] = NothingS
+  n: MaybeS[\String\] = NothingS
+  j: MaybeS[\ZZ32\] = JustS[\ZZ32\](3)
+  println(m.isNothing)
+  println(n.isNothing)
+  println(j.isNothing)
+end
+
+end

@@ -1,0 +1,23 @@
+(*) Alternative for the specification's trait C extends D[\T\] where {T extends Object}: with D
+(*) contravariant, one instantiation at the top, D[\Any\], is a subtype of D[\T\] for every T.
+component AltEveryContra
+export Executable
+
+trait D[\contravariant T extends Any\]
+  describe(x: T): String
+end
+
+trait C extends D[\Any\]
+  describe(x: Any): String = "C, a D of every T"
+end
+
+object O extends C end
+
+run():() = do
+  x: D[\ZZ32\] = O
+  y: D[\String\] = O
+  println(x.describe(3))
+  println(y.describe("s"))
+end
+
+end

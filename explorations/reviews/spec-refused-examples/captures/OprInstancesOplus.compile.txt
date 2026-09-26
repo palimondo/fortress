@@ -1,0 +1,11 @@
+
+This domain: N
+Concrete methods and domains: List()
+More specific concrete methods and domains: List()
+Domain union of List() is BottomType
+Domain N is not a subtype of BottomType
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/OprInstancesOplus.fss:19:1-22:2:
+    The inherited abstract method ODOT(self:MonoidX[\T,ODOT\],other:T):T from the trait MonoidX[\N,OTIMES\]
+    has no concrete implementation in the object N in component OprInstancesOplus.
+File OprInstancesOplus.fss has 1 error.
+rc=255

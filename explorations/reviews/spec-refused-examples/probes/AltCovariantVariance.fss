@@ -1,0 +1,28 @@
+(*) Alternative for the specification's covariance example: the static-parameter variance the
+(*) parser (ProjectFortress/src/com/sun/fortress/parser/NoNewlineHeader.rats:358-361) and the
+(*) checker's subtyping (TypeAnalyzer.scala:237-258) gained in 2011-2012:
+(*)     trait C[\covariant S\] ... end
+component AltCovariantVariance
+export Executable
+
+trait Animal
+  getter name(): String
+end
+object Dog extends Animal
+  getter name(): String = "dog"
+end
+
+trait C[\covariant S extends Any\]
+  getter item(): S
+end
+
+object CImpl[\S extends Any\](item: S) extends C[\S\]
+end
+
+run():() = do
+  d: C[\Dog\] = CImpl[\Dog\](Dog)
+  a: C[\Animal\] = d
+  println(a.item.name)
+end
+
+end

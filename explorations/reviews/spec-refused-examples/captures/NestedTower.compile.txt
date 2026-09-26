@@ -1,0 +1,12 @@
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/NestedTower.fss:16:21-22:
+    Type ZZx excludes QQx but it extends QQx.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/NestedTower.fss:16:21-22:
+    Types QQx and Alg[\ZZx\] exclude each other.  ZZx must not extend them.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/NestedTower.fss:16:26-33:
+    Types Alg[\ZZx\] and QQx exclude each other.  ZZx must not extend them.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/NestedTower.fss:16:26-34:
+    Type ZZx excludes Alg but it extends Alg.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/spec-refused/work/NestedTower.fss:19:28-30:
+    Type Z3 excludes ZZx but it extends ZZx.
+File NestedTower.fss has 5 errors.
+rc=255
