@@ -132,3 +132,5 @@ This is for the coordinator's next briefs, not a continuation of this rung.
 These are reported to Pavol out of the loop.
 - **Recommending (1b) over (1a).** The specification speaks of wraparound on "fixed-size integers" only (`opr-overview.tex:172-173`, `:205-206`). It says nothing about ∔ on the unbounded `ZZ`, and nothing about a generic interface carrying the operators. (1b) follows the team's 2011 prelude, which gives `ZZ` the operators as plain arithmetic (`CompilerBuiltin.fss:526-538`). The alternative is (1a): fewer prelude lines, and a hand-derived rewrite of the generic range split.
 - **Recommending two rungs over one.** The library rung is shown to change nothing observable before the natives change, so rung O lands in exactly the shape Pavol decided. The alternative is one combined rung, which is cheaper by one worker but changes the scope he approved for O.
+
+*At the gather of climb batch 4: the `FACTS.md` line numbers cited in this file are those of the base `47437c65f`; rung N's three bullets, landed first, moved the entry on the compiled path's integer rules from `:76` to `:79`.*

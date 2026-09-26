@@ -99,7 +99,7 @@ The raise under `walk` is `Int.overflow()` (`Int.java:256-259`), already used at
 - `Int$Pow` (`Int.java:218-228`) and `Int$Choose` (`:150-154`) go through `Int.rc`, so they raise the uncatchable `ProgramError` (row 347).
 - `Long$Pow` (`Long.java:230-240`) and `Long$Choose` (`:162-166`) wrap silently through `Int.pow` and `Int.choose`.
 
-Division by zero is row 336's concern, at six sites: `Div`, `Rem` and `Mod` in each file. `Long$FromLong`, the narrowing that keeps the low 32 bits, is recorded behaviour (`explorations/coordinator/FACTS.md:76-77`). None of these is in row 379's list, and none was changed.
+Division by zero is row 336's concern, at six sites: `Div`, `Rem` and `Mod` in each file. `Long$FromLong`, the narrowing that keeps the low 32 bits, is recorded behaviour (`explorations/coordinator/FACTS.md:79-80`). None of these is in row 379's list, and none was changed.
 
 **The specification.** `Specification/basic/operators/opr-overview.tex:154-155`, read with the paragraphs around it, for multiplication and division: "The handling of overflow depends on the type of the number produced. For integer results, overflow throws an `IntegerOverflow`." `:195-196` says the same for addition and subtraction. It gives wrapping its own spellings: "Wraparound multiplication on fixed-size integers is expressed by ⊙̇ … These operations do not overflow" (`:172-176`), and ∔ and ∸ for addition and subtraction (`:205-209`). `Specification/basic/types-vals-vars.tex:511-515` names ℤ32 and ℤ64 among the fixed-size integer types.
 

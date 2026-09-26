@@ -110,7 +110,7 @@ The second skeptic's two, made at the gather:
 
 **For the gate.** `testSystem` +12 files, the compiler track +7 tests, the checker count 103.
 
-**Placeholders.** Every `<short hash>` that rung C's commit adds names C's commit: its `FACTS.md` bullet and the superseded note on the territory-map entry, row 19's note and the handover paragraph.
+**Placeholders.** Every `<short hash>` that rung C's commit adds names C's commit: its `FACTS.md` bullet and the superseded note on the territory-map entry, row 19's note, the handover paragraph, and C's `record.md`.
 
 ## Not landed
 
@@ -127,3 +127,7 @@ The second skeptic's two, made at the gather:
 **Folded, and why.** The brief asks for this section and the recommended rows. The rung's record lines are measured facts about the tree with no other home, so they are folded too, as the judge directs (`JUDGE.md` section 6): in `record.md` the wraparound multiplication is written ⨰ (`DOTTIMES`) and row 379's note says that keeping `walk` wrapping postpones the library's repair; `REPORT.md` keeps the worker's text, which `JUDGE.md` section 3 corrects. Folded: the `FACTS.md` line, at the end of "Landed semantics", beside the interpreter's integer rules that the record names, where it moves no line a landed record cites (the record asked for "The checker and the one library", which lies above lines that rungs N, K and C cite); row 379's note, with a pointer to row 403; row 146's note, row 146's shape measured in a shadow; row 403; and a handover paragraph.
 
 **For rung O when it runs again.** Rung K has landed, so the library rung the judge recommends can follow it (`JUDGE.md` section 5, step 1). The re-measured count will include one shape K adds, a `ZZ32` shift by a `ZZ` count summed with itself (the rung K section above).
+
+## After the last rung: the citations the gather's own insertions moved
+
+The citation check after the four commits above (every `FACTS.md`, ledger and handover line cited by a landed record compared with what that line held at the base) found two `FACTS.md` line citations in landed records that the gather's own insertions moved, a defect of this stage: rung N's `REPORT.md` cited `FACTS.md:60` (the entry on a run-time defect needing two `.test` files), which N's three bullets moved to `:63`; and rung K's `record.md` cited `FACTS.md:77` for the entry on the interpreter's integer rules, which N's bullets, landed before K, moved to `:80`. Both are re-anchored by symbol in a follow-up commit, and so is rung O's `REPORT.md`, taken from its branch, whose `FACTS.md:76-77` (the two paths' integer rules) N's bullets moved to `:79-80`; O's `JUDGE.md`, like C's `JUDGE.md` and `SKEPTIC.md`, keeps its author's text and ends with a note giving the moved line. Every other `FACTS.md` line cited by a landed record lies above the gather's insertions or is cited by section.
