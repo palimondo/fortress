@@ -2,8 +2,8 @@
 component NatRtVec
 export Executable
 object Vec[\T, nat s0\](x: T) end
-vector[\T, nat s0\](x: T): Vec[\T,s0\] = Vec[\T,s0\](x)
-makeVector[\T, nat s0\](x: T): Vec[\T,s0\] = vector[\T,s0\](x)
-len[\T, nat s0\](v: Vec[\T,s0\]): ZZ32 = s0.asZZ32
+vec[\T, nat s0\](x: T): Vec[\T,s0\] = Vec[\T,s0\](x)
+makeVector[\T, nat s0\](x: T): Vec[\T,s0\] = vec[\T,s0\](x)
+len[\T, nat s0\](v: Vec[\T,s0\]): ZZ32 = s0
 run() = println(len(makeVector[\ZZ32, 5\](7)))
 end

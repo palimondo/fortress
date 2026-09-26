@@ -1,4 +1,5 @@
-machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.19 5.40 6.87; JDK 25; FORTRESS_THREADS=1
+# row400.sh on the landing build: rung N's SkDeadTop, SkDeadVal and DeadValWritten compiled, run (stack frames outside java.base kept) and walked
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.28 8.35 8.13; JDK 25; FORTRESS_THREADS=1
 ########## fortress compile explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadTop.fss
 exit=0
 ########## fortress run SkDeadTop

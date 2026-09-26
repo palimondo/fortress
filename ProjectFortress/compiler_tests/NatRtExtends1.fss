@@ -5,7 +5,7 @@ trait Sized[\nat s\] extends Object
   len(): ZZ32
 end
 object Buf[\nat s\](x: ZZ32) extends Sized[\s\]
-  len(): ZZ32 = s.asZZ32
+  len(): ZZ32 = s
 end
 run() = println(Buf[\3\](7).len())
 end

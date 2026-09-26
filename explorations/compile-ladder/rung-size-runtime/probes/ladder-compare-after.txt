@@ -1,2 +1,2 @@
-# ladder-compare.sh over ladder-after/ (run-subset.sh on the final build, pieces 1-5, LADDER_ROOT=tmp/ladder-after), 2026-09-26T12:03:41Z
+# ladder-compare.sh over ladder-after/ (run-subset.sh on the landing build, LADDER_ROOT=tmp/ladder-landing), 2026-09-26T13:07:47Z
 files=85 pass-and-same-stdout=85 moved=0 (timing lines left out: 3 files carry one)

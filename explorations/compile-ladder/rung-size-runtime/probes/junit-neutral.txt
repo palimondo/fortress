@@ -1,0 +1,24 @@
+# NatRtExtends1 and NatRtVec through the harness on the landing build after the two were made library-neutral (a size returned as ZZ32 in place of .asZZ32; NatRtVec's vector renamed vec)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 11.86 11.27 8.33; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/NatRtExtends1.test
+. compile compiler_tests/NatRtExtends1  OK (time = 3662ms)
+. link compiler_tests/NatRtExtends1  OK (time = 5229ms)
+. run compiler_tests/NatRtExtends1 (1641ms) 3
+Passed
+
+Time: 10.543
+
+OK (3 tests)
+
+exit=0
+########## junit compiler_tests/NatRtVec.test
+. compile compiler_tests/NatRtVec  OK (time = 3871ms)
+. link compiler_tests/NatRtVec  OK (time = 5126ms)
+. run compiler_tests/NatRtVec (1576ms) 5
+Passed
+
+Time: 10.586
+
+OK (3 tests)
+
+exit=0
