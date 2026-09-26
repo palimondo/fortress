@@ -13,10 +13,10 @@
 #   check     every stage and every declaration, both settings, the twelve prelude components
 #   codegen   desugaring and code generation per declaration, dispatch generation skipped
 #   codegen2  the same with DESUGAR per declaration and BottomType comparable (add-patch.py)
-#   dispatch  the same with dispatch generation on, capped at 30 min, under JFR
+#   dispatch  codegen2 with dispatch generation on, 30 min in code generation, under JFR
 #   flat      the checker runs of `check` on keep/make-flat-lib.py's copies L0 and FLAT
 # Raw output stays in <work-dir>; the captures beside this script are the raw output with
-# the stack-trace lines removed (`trim`).
+# the stack-trace lines removed (`trim`).  SKIP_DONE=1 keeps a run whose output is complete.
 set -u
 cd "$(dirname "$0")/../../../.."                                 # $FORTRESS_HOME
 source explorations/experiment/env.sh                              # JDK 25, FORTRESS_THREADS=1, -Xmx4g -Xss64m
@@ -34,6 +34,7 @@ machine () {   # protocol.md § 6
 }
 run () {   # run <out> <timeout-s> <jvm flags> -- <Distance args...>
   local out=$1 lim=$2 fl=$3; shift 4
+  if [ -n "${SKIP_DONE:-}" ] && grep -q '^ELAPSED' "$W/$out.out" 2>/dev/null; then echo "kept $out"; return; fi
   rm -rf "$W/caches-$out"; mkdir -p "$W/caches-$out"
   { echo "########## Distance $*"; echo "# jvm flags: $fl"; machine
     date -u +'# start %Y-%m-%dT%H:%M:%SZ'; S=$(date +%s)
@@ -72,9 +73,12 @@ control)
   trim r03-control-compilerlib
   ;;
 check)
+  # FortressLibrary's run checks the twelve prelude apis with every stage too; the other
+  # components' runs check the apis as the tracked method does (-Dprobe.componentOnly)
   for s in walk compile; do
     for c in $COMPONENTS; do
-      run r1-$s-$(short $c) 1800 "$ALL" -- -order check -setting $s $c; trim r1-$s-$(short $c)
+      case $c in */FortressLibrary.fss) fl="$ALL" ;; *) fl="$ALL -Dprobe.componentOnly=true" ;; esac
+      run r1-$s-$(short $c) 1800 "$fl" -- -order check -setting $s $c; trim r1-$s-$(short $c)
     done
   done
   ;;
@@ -102,12 +106,19 @@ codegen2)
   done
   ;;
 dispatch)
-  # overload dispatch generation left on; 30 minutes, then the JVM is stopped; JFR throughout
-  run r3-dispatch 1800 "-Dprobe.tolerant=true $MEMO -XX:StartFlightRecording=filename=$W/r3-dispatch.jfr,settings=profile,dumponexit=true" \
+  # overload dispatch generation left on (no probe.skipOverloads), otherwise as codegen2;
+  # JFR throughout; watch-dispatch.sh samples the main thread every 30 s and stops the JVM
+  # 30 minutes after it enters code generation (the checker and desugaring come first)
+  rm -f "$W/r3-dispatch.watch.txt" "$W/r3-dispatch.jfr" "$W/r3-dispatch.dump.jfr"
+  $P/watch-dispatch.sh caches-r3-dispatch "$W/r3-dispatch.watch.txt" 1800 "$W/r3-dispatch.dump.jfr" &
+  run r3-dispatch 3600 "-Dprobe.tolerant=true -Dprobe.bottomCompare=true $MEMO -XX:StartFlightRecording=filename=$W/r3-dispatch.jfr,settings=profile,dumponexit=true" \
       -- -order full -setting compile Library/FortressLibrary.fss
+  wait
   trim r3-dispatch
-  jfr view --width 200 hot-methods "$W/r3-dispatch.jfr" > "$P/r3-dispatch.hot-methods.txt" 2>&1
-  python3 $P/jfr-stacks.py "$W/r3-dispatch.jfr" > "$P/r3-dispatch.jfr-frames.txt" 2>&1
+  cp "$W/r3-dispatch.watch.txt" "$P/r3-dispatch.watch.txt"
+  J=$W/r3-dispatch.jfr; [ -s "$J" ] || J=$W/r3-dispatch.dump.jfr
+  jfr view --width 200 hot-methods "$J" > "$P/r3-dispatch.hot-methods.txt" 2>&1
+  python3 $P/jfr-stacks.py "$J" > "$P/r3-dispatch.jfr-frames.txt" 2>&1
   ;;
 flat)
   # price-keep-the-rule.md § 5's copies, made again from today's tree; the copy's directory

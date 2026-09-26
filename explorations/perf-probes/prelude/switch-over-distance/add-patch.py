@@ -8,7 +8,9 @@ more shadows from the tracked sources (Desugarer, NodeComparator; the end of thi
 Run from $FORTRESS_HOME.  Nothing tracked is modified.  Every edit is inert unless its
 -D switch is given (probe.all; probe.tolerant; probe.bottomCompare).
 
-With -Dprobe.all=true, StaticChecker.checkCompilationUnit
+With -Dprobe.all=true (for components only if -Dprobe.componentOnly=true too, so that a
+run over a small component does not repeat the apis' long overloading check),
+StaticChecker.checkCompilationUnit
   * runs every stage of the check whatever the earlier stages reported: the tracked
     method returns after the hierarchy check, after the api-type extraction, after the
     second well-formedness check and after the overloading check whenever an error
@@ -34,14 +36,14 @@ def rep(old, new):
     assert t.count(old) == 1, ("anchor not unique or missing", old[:70], t.count(old))
     t = t.replace(old, new, 1)
 
-CATCH = "catch (RuntimeException | Error __t) { if (!PROBE_ALL) throw __t; probeCrash(__unit, \"%s\", __t); }"
+CATCH = "catch (RuntimeException | Error __t) { if (!__all) throw __t; probeCrash(__unit, \"%s\", __t); }"
 
 # helpers
 rep("    private static CompilationUnitIndex buildIndex(CompilationUnit ast, boolean isApi) {",
 """    // PROBE (switch-over-distance): -Dprobe.all=true runs every stage, see add-patch.py.
     static final boolean PROBE_ALL = Boolean.getBoolean("probe.all");
-    static int probeStage(String unit, String stage, List<StaticError> errors, int mark) {
-        if (!PROBE_ALL) return errors.size();
+    static int probeStage(boolean all, String unit, String stage, List<StaticError> errors, int mark) {
+        if (!all) return errors.size();
         System.out.println("@@SC STAGE\\t" + unit + "\\t" + stage + "\\terrors=" + (errors.size() - mark));
         for (int i = mark; i < errors.size(); i++)
             System.out.println("@@SC ERR\\t" + unit + "\\t" + stage + "\\t"
@@ -64,6 +66,8 @@ rep("""            List<StaticError> errors = new ArrayList<StaticError>();
             if (isApi) {""",
 """            List<StaticError> errors = new ArrayList<StaticError>();
             final String __unit = (isApi ? "api " : "component ") + index.ast().getName();
+            // -Dprobe.componentOnly: the apis are checked as the tracked method does
+            final boolean __all = PROBE_ALL && !(isApi && Boolean.getBoolean("probe.componentOnly"));
             int __mark = 0;
 
             if (isApi) {""")
@@ -75,8 +79,8 @@ rep("""            errors.addAll(typeHierarchyChecker.checkHierarchy());
             }""",
 """            __mark = errors.size();
             try { errors.addAll(typeHierarchyChecker.checkHierarchy()); } """ + CATCH % "hierarchy" + """
-            __mark = probeStage(__unit, "hierarchy", errors, __mark);
-            if (! errors.isEmpty() && !PROBE_ALL) {
+            __mark = probeStage(__all, __unit, "hierarchy", errors, __mark);
+            if (! errors.isEmpty() && !__all) {
                 return new TypeCheckerResult(ast, errors);
             }""")
 
@@ -89,17 +93,17 @@ rep("""                ast = (Component)typeExtractor.check();
                     ast = (Component)typeExtractor.check();
                     errors.addAll(typeExtractor.getErrors());
                 } """ + CATCH % "apiextract" + """
-                __mark = probeStage(__unit, "apiextract", errors, __mark);
-                if(!errors.isEmpty() && !PROBE_ALL)
+                __mark = probeStage(__all, __unit, "apiextract", errors, __mark);
+                if(!errors.isEmpty() && !__all)
                     return new TypeCheckerResult(ast,errors);""")
 
 # acyclic hierarchy and first well-formedness check
 rep("""            errors.addAll(typeHierarchyChecker.checkAcyclicHierarchy(typeAnalyzer));
             errors.addAll(new TypeWellFormedChecker(index, env, typeAnalyzer).check());""",
 """            try { errors.addAll(typeHierarchyChecker.checkAcyclicHierarchy(typeAnalyzer)); } """ + CATCH % "acyclic" + """
-            __mark = probeStage(__unit, "acyclic", errors, __mark);
+            __mark = probeStage(__all, __unit, "acyclic", errors, __mark);
             try { errors.addAll(new TypeWellFormedChecker(index, env, typeAnalyzer).check()); } """ + CATCH % "wellformed1" + """
-            __mark = probeStage(__unit, "wellformed1", errors, __mark);""")
+            __mark = probeStage(__all, __unit, "wellformed1", errors, __mark);""")
 
 # the thunks, which run over the whole component before the declarations are checked
 rep("""                    thunker.walk(component_ast);""",
@@ -115,7 +119,7 @@ rep("""                    com.sun.fortress.scala_src.typechecker.Thunker$.MODUL
 rep("""                    errors.addAll(Lists.toJavaList(typeChecker.getErrors()));
                     result = new TypeCheckerResult(ast, errors, typeChecker);""",
 """                    errors.addAll(Lists.toJavaList(typeChecker.getErrors()));
-                    __mark = probeStage(__unit, "typecheck", errors, __mark);
+                    __mark = probeStage(__all, __unit, "typecheck", errors, __mark);
                     result = new TypeCheckerResult(ast, errors, typeChecker);""")
 
 # the leftover-inference-variable assertion, reached only when there is no error
@@ -135,8 +139,8 @@ rep("""            errors.addAll(new TypeWellFormedChecker(index, env, typeAnaly
                 return result;
             }""",
 """            try { errors.addAll(new TypeWellFormedChecker(index, env, typeAnalyzer).check()); } """ + CATCH % "wellformed2" + """
-            __mark = probeStage(__unit, "wellformed2", errors, __mark);
-            if ( ! errors.isEmpty() && !PROBE_ALL ) {
+            __mark = probeStage(__all, __unit, "wellformed2", errors, __mark);
+            if ( ! errors.isEmpty() && !__all ) {
                 result = addErrors(errors, result);
                 return result;
             }""")
@@ -146,8 +150,8 @@ rep("""            errors.addAll(new OverloadingChecker(index, env).checkOverloa
                 return result;
             }""",
 """            try { errors.addAll(new OverloadingChecker(index, env).checkOverloading()); } """ + CATCH % "overloading" + """
-            __mark = probeStage(__unit, "overloading", errors, __mark);
-            if ( ! errors.isEmpty() && !PROBE_ALL ) {
+            __mark = probeStage(__all, __unit, "overloading", errors, __mark);
+            if ( ! errors.isEmpty() && !__all ) {
                 result = addErrors(errors, result);
                 return result;
             }""")
@@ -156,11 +160,11 @@ rep("""            errors.addAll(new OverloadingChecker(index, env).checkOverloa
 rep("""                errors.addAll(ExportChecker.checkExports((ComponentIndex)index, env));
                 result = addErrors(errors, result);""",
 """                try { errors.addAll(ExportChecker.checkExports((ComponentIndex)index, env)); } """ + CATCH % "export" + """
-                __mark = probeStage(__unit, "export", errors, __mark);
+                __mark = probeStage(__all, __unit, "export", errors, __mark);
                 result = addErrors(errors, result);""")
 rep("""                errors.addAll(VarianceChecker.run((Component) result.ast()));""",
 """                try { errors.addAll(VarianceChecker.run((Component) result.ast())); } """ + CATCH % "variance" + """
-                __mark = probeStage(__unit, "variance", errors, __mark);""")
+                __mark = probeStage(__all, __unit, "variance", errors, __mark);""")
 
 io.open(p, "w", encoding="utf-8").write(t)
 print("probe.all edits written to " + p)
