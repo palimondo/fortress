@@ -1,0 +1,43 @@
+# check.sh ShapesCheck stock started 2026-09-26T12:50:06Z; tree 0bbf760af; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 6.28 4.67 4.48; openjdk version "25.0.4" 2026-07-21; rc=255
+# api errors dropped (probe.dropApiErrors): AnyType=0 Executable=0 FlatString=0 FortressBuiltin=18 FortressLibrary=110 Stream=0 String=0 
+# the probe component's own lines (with 6 lines of context each), then the tallies:
+17:ShapesCheck.fss:11:35:
+18-    Could not check call to operator #
+19-    - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).
+20-    - [\I extends AnyIntegral, J extends AnyIntegral\]((I, J), (I, J))->CompactFullRange[\(I, J)\] is not applicable to an argument of type (IntLiteral, ZZ32).
+21-    - [\I extends AnyIntegral\](I, I)->CompactFullRange[\I\] is not applicable to an argument of type (IntLiteral, ZZ32).
+22-    - [\I\](PartialRange[\I\], I)->Range[\I\] is not applicable to an argument of type (IntLiteral, ZZ32).
+23-    ShapesCheck.fss:11:26-12:92:
+--
+25:ShapesCheck.fss:13:43:
+26-    Could not check call to operator #
+27-    - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).
+28-    - [\I extends AnyIntegral, J extends AnyIntegral\]((I, J), (I, J))->CompactFullRange[\(I, J)\] is not applicable to an argument of type (IntLiteral, ZZ32).
+29-    - [\I extends AnyIntegral\](I, I)->CompactFullRange[\I\] is not applicable to an argument of type (IntLiteral, ZZ32).
+30-    - [\I\](PartialRange[\I\], I)->Range[\I\] is not applicable to an argument of type (IntLiteral, ZZ32).
+31-    ShapesCheck.fss:13:26-14:60:
+--
+33:ShapesCheck.fss:15:23-16:78:
+34-    Could not check call to function __bigOperator
+35-    - [\I, O, R, L\](BigOperator[\I,O,R,L\], (Reduction[\L\], I->L)->L)->O is not applicable to any type of the form (Comprehension[\BottomType,Number,Number,Number\], _->_).
+36:ShapesCheck.fss:17:38-18:43:
+37-    Could not check call to operator BIG +
+38-    - [\T extends Number\]()->Comprehension[\T,Number,Number,Number\] is not applicable to an argument of type Array[\RR64,ZZ32\].
+39-    - [\T extends Number\]Generator[\T\]->Number is not applicable to an argument of type Array[\RR64,ZZ32\].
+40:ShapesCheck.fss:19:41-20:66:
+41-    Could not check call to operator BIG +
+42-    - [\T extends Number\]()->Comprehension[\T,Number,Number,Number\] is not applicable to an argument of type Array[\RR64,ZZ32\].
+43-    - [\T extends Number\]Generator[\T\]->Number is not applicable to an argument of type Array[\RR64,ZZ32\].
+44:ShapesCheck.fss:21:41-22:28:
+45-    Could not check call to function __bigOperator
+46-    - [\I, O, R, L\](BigOperator[\I,O,R,L\], (Reduction[\L\], I->L)->L)->O is not applicable to any type of the form (Comprehension[\BottomType,Number,Number,Number\], _->_).
+47:ShapesCheck.fss:23:36:
+48-    Could not check call to operator #
+49-    - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).
+50-    - [\I extends AnyIntegral, J extends AnyIntegral\]((I, J), (I, J))->CompactFullRange[\(I, J)\] is not applicable to an argument of type (IntLiteral, ZZ32).
+51-    - [\I extends AnyIntegral\](I, I)->CompactFullRange[\I\] is not applicable to an argument of type (IntLiteral, ZZ32).
+52-    - [\I\](PartialRange[\I\], I)->Range[\I\] is not applicable to an argument of type (IntLiteral, ZZ32).
+53-    ShapesCheck.fss:23:26-42:
+# tallies:
+File ShapesCheck.fss has 7 errors.
+### rc=-1

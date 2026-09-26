@@ -1,0 +1,24 @@
+# walk.sh SumWalkUnwritten sum started 2026-09-26T13:18:25Z; tree 0bbf760af; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; load 6.18 8.31 8.34; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/RangeInternals.fss:1032:21-58:
+Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 0: ZZ32 of type Int
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/RangeInternals.fss:1032:21-58:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/RangeInternals.fss:1032:30-43:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/RangeInternals.fss:1034:13-1035:9:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/FortressLibrary.fss:1070:5-23:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/FortressLibrary.fss:1070:5-23:
+/home/user/fortress/explorations/reviews/sum-replacement-judgement/SumWalkUnwritten.fss:11:27-33:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/FortressLibrary.fss:1127:25-47:
+/home/user/fortress/explorations/reviews/sum-replacement-judgement/SumWalkUnwritten.fss:11:23-42:
+/home/user/fortress/explorations/reviews/sum-replacement-judgement/SumWalkUnwritten.fss:14:45-50:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

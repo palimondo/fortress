@@ -1,0 +1,67 @@
+# check.sh SumCheck flat-sum started 2026-09-26T13:02:11Z; tree 0bbf760af; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 13.35 11.15 7.92; openjdk version "25.0.4" 2026-07-21; rc=255
+# api errors dropped (probe.dropApiErrors): AnyType=0 Executable=0 FlatString=0 FortressBuiltin=0 FortressLibrary=2 Stream=0 String=0 
+# the probe component's own lines (with 6 lines of context each), then the tallies:
+17:SumCheck.fss:14:39-41:
+18-    Could not check function application
+19-    - BottomType->BottomType is not applicable to an argument of type ZZ32.
+20-    SumCheck.fss:14:27-34:
+21-      Possibly because j: ZZ32 after argument inference
+22-    SumCheck.fss:14:23-42:
+23-      Possibly because (reduction?1, unit?2): (Reduction[\BottomType\], BottomType->BottomType) after argument inference
+24:SumCheck.fss:15:39-41:
+25-    Could not check function application
+26-    - BottomType->BottomType is not applicable to an argument of type ZZ32.
+27-    SumCheck.fss:15:28-34:
+28-      Possibly because j: ZZ32 after argument inference
+29-    SumCheck.fss:15:24-42:
+30-      Possibly because (reduction?3, unit?4): (Reduction[\BottomType\], BottomType->BottomType) after argument inference
+31:SumCheck.fss:21:54-57:
+32-    Could not check function application
+33-    - BottomType->BottomType is not applicable to an argument of type RR64.
+34-    SumCheck.fss:21:43-50:
+35-      Possibly because d: ZZ32 after argument inference
+36-    SumCheck.fss:21:39-57:
+37-      Possibly because (reduction?7, unit?8): (Reduction[\BottomType\], BottomType->BottomType) after argument inference
+38:SumCheck.fss:24:56-66:
+39-    Ill-formed type: Vector[\T,n\]
+40-    The static argument T does not satisfy the corresponding bound Number.
+41:SumCheck.fss:24:74-84:
+42-    Ill-formed type: Vector[\T,n\]
+43-    The static argument T does not satisfy the corresponding bound Number.
+44:SumCheck.fss:25:37-45:
+45-    Could not check function application
+46-    - BottomType->BottomType is not applicable to an argument of type T.
+47-    SumCheck.fss:25:9-33:
+48-      Possibly because (i, x): (ZZ32, T) after argument inference
+49-    SumCheck.fss:25:5-46:
+50-      Possibly because (reduction?11, unit?12): (Reduction[\BottomType\], BottomType->BottomType) after argument inference
+51:SumCheck.fss:26:57-67:
+52-    Ill-formed type: Vector[\T,n\]
+53-    The static argument T does not satisfy the corresponding bound Number.
+54:SumCheck.fss:26:75-85:
+55-    Ill-formed type: Vector[\T,n\]
+56-    The static argument T does not satisfy the corresponding bound Number.
+57:SumCheck.fss:29:44-68:
+58-    Could not check function application
+59-    - BottomType->BottomType is not applicable to an argument of type IntLiteral.
+60-    SumCheck.fss:29:32-39:
+61-      Possibly because i: ZZ32 after argument inference
+62-    SumCheck.fss:29:28-30:15:
+63-      Possibly because (reduction?15, unit?16): (Reduction[\BottomType\], BottomType->BottomType) after argument inference
+64:SumCheck.fss:31:40:
+65-    Could not check function application
+66-    - BottomType->BottomType is not applicable to an argument of type ZZ32.
+67-    SumCheck.fss:31:28-36:
+68-      Possibly because j: ZZ32 after argument inference
+69-    SumCheck.fss:31:23-40:
+70-      Possibly because (reduction?17, unit?18): (Reduction[\BottomType\], BottomType->BottomType) after argument inference
+71:SumCheck.fss:35:50:
+72-    Could not check function application
+73-    - BottomType->AnyMaybe is not applicable to an argument of type RR64.
+74-    SumCheck.fss:35:42-46:
+75-      Possibly because t: RR64 after argument inference
+76-    SumCheck.fss:35:34-51:
+77-      Possibly because (reduction?21, unit?22): (Reduction[\AnyMaybe\], BottomType->AnyMaybe) after argument inference
+# tallies:
+File SumCheck.fss has 11 errors.
+### rc=-1

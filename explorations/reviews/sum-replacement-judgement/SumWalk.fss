@@ -1,0 +1,52 @@
+(* SumWalk -- the interpreter on a private library copy with the SUM/PROD replacement
+   (variants/sum.py: one generic reduction per operator, the identity chosen from the
+   static argument through the () -> T witness), today's tower.  The shapes of the two
+   microGPT programs and the empty cases, each with its value and run-time type. *)
+component SumWalk
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x " : " x.ilkName)
+
+(* MicroGptFlat.fss:43, matOffset: the clause form, ZZ32 declared, static argument unwritten *)
+offs(i: ZZ32): ZZ32 = SUM[j <- 0#i] (3 j)
+(* the same shape with an RR64 body, RR64 declared, unwritten *)
+rsum(i: ZZ32): RR64 = SUM[j <- 0#i] (1.5 j)
+(* the same with the static argument written, as ProjectFortress/tests/setSum.fss:23 writes it *)
+rsumW(i: ZZ32): RR64 = SUM[\RR64\][j <- 0#i] (1.5 j)
+lsumW(i: ZZ32): ZZ64 = SUM[\ZZ64\][j <- 0#i] widen(j)
+fact(n: ZZ32): ZZ32 = PROD[\ZZ32\][j <- 1#n] j
+rprodW(n: ZZ32): RR64 = PROD[\RR64\][j <- 1#n] (0.5 j)
+
+run(): () = do
+    show("rsumW(0) clause RR64, empty, written", rsumW(0))
+    show("rsumW(3) clause RR64, written", rsumW(3))
+    show("lsumW(0) clause ZZ64, empty, written", lsumW(0))
+    show("lsumW(3) clause ZZ64, written", lsumW(3))
+    a0 = array[\RR64\](0)
+    a3 = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 0.25 + i)
+    show("SUM a0   bare, empty RR64 array (T from the generator)", SUM a0)
+    show("SUM a3   bare RR64 array (MicroGptFlat.fss:28, 52)", SUM a3)
+    show("SUM[\\RR64\\][x <- a0] x  clause over the empty RR64 array, written", SUM[\RR64\][x <- a0] x)
+    show("a0 DOT a0  Vector.dot, empty (FortressLibrary.fss:2207)", a0 DOT a0)
+    show("a3 DOT a3  Vector.dot (MicroGptFlat.fss:27)", a3 DOT a3)
+    k3 = array[\ZZ32\](3).fill(fn (i: ZZ32): ZZ32 => i + 1)
+    show("k3 DOT k3  Vector.dot over ZZ32", k3 DOT k3)
+    show("a3[0] / (SUM a3)  the sm shape", (a3[0]) / (SUM a3))
+    show("SUM[\\ZZ64\\][j <- 0#4] widen(j)  ZZ64 body, written", SUM[\ZZ64\][j <- 0#4] widen(j))
+    show("SUM[\\ZZ\\][j <- 0#4] big(widen(j))  ZZ body, written (probe copy has no ZZ identity)", SUM[\ZZ\][j <- 0#4] big(widen(j)))
+    show("SUM[\\ZZ32\\] literal body (MicroGptFlatCheck.fss:56), written", SUM[\ZZ32\][i <- 0#4] (if i = 0 then 1 else 0 end))
+    show("SUM[\\ZZ32\\][j <- 0#2] 2147483647  overflow, written", SUM[\ZZ32\][j <- 0#2] 2147483647)
+    show("fact(0)  PROD ZZ32, empty, written", fact(0))
+    show("fact(4)  PROD ZZ32, written", fact(4))
+    show("PROD[\\RR64\\][j <- 1#3] (0.5 j)  PROD RR64, written", PROD[\RR64\][j <- 1#3] (0.5 j))
+    show("rprodW(0) PROD RR64, empty, written", rprodW(0))
+    show("BIG MAX[t <- a3] t  unchanged operator (MicroGptFlat.fss:28)", BIG MAX[t <- a3] t)
+    show("strToInt(\"1234\")  a library caller of SUM (FortressLibrary.fss:4192)", strToInt("1234"))
+    show("strToFloat(\"2.5\")  a library caller (FortressLibrary.fss:4208)", strToFloat("2.5"))
+    println("-- the unwritten clause forms last: expected to die at the first (T bound to Bottom on walk, EvaluatorBase.java:224, 257) --")
+    show("offs(3)  clause ZZ32, unwritten", offs(3))
+    show("offs(0)  clause ZZ32, empty, unwritten", offs(0))
+    show("rsum(3)  clause RR64, unwritten", rsum(3))
+    show("rsum(0)  clause RR64, empty, unwritten", rsum(0))
+  end
+end

@@ -1,0 +1,28 @@
+(* ShapesCheck2 -- ShapesCheck with the two unrelated obstacles stepped around: the range
+   0#i with an integer literal beside a ZZ32 (refused by today's checker in the interpreter
+   library's world, the mixed-width promotion of answer 8) is written with a ZZ32 low bound,
+   and the RR64 array is a Vector.  What is left is the question: does the checker type the
+   clause form's no-argument SUM() with nothing to infer T from, and with T written? *)
+component ShapesCheck2
+export Executable
+
+lo: ZZ32 = 0
+
+(* the clause form, T unwritten, result declared as today's SUM returns *)
+offsN(i: ZZ32): Number = SUM[j <- lo#i] (3 j)
+(* T written, as ProjectFortress/tests/setSum.fss:23 does *)
+offsW(i: ZZ32): Number = SUM[\ZZ32\][j <- lo#i] (3 j)
+(* T written, result declared ZZ32, as MicroGptFlat.fss:43 declares it *)
+offsWZ(i: ZZ32): ZZ32 = SUM[\ZZ32\][j <- lo#i] (3 j)
+(* the bare form over a vector, T unwritten, result Number *)
+totalN(a: Vector[\RR64,4\]): Number = SUM a
+(* is an Array a Generator to this checker? *)
+asGen(a: Array[\RR64,ZZ32\]): Generator[\RR64\] = a
+asGenV(a: Vector[\RR64,4\]): Generator[\RR64\] = a
+(* a generic big operator with T's own join and no identity: the library's BIG MAX *)
+mx(a: Vector[\RR64,4\]): RR64 = BIG MAX a
+mxC(i: ZZ32): ZZ32 = BIG MAX[j <- lo#i] (3 j)
+mxCW(i: ZZ32): ZZ32 = BIG MAX[\ZZ32\][j <- lo#i] (3 j)
+
+run(): () = println(offsN(3))
+end

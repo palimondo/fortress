@@ -1,0 +1,2 @@
+# walk-stock.sh /home/user/fortress/explorations/reviews/sum-replacement-judgement/../../../ProjectFortress/tests/setSum.fss started 2026-09-26T13:11:17Z; tree 0bbf760af; nproc=4; load 5.50 7.80 7.95; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+rc=0

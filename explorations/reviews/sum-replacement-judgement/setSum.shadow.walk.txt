@@ -1,0 +1,19 @@
+# walk-shadow.sh /home/user/fortress/explorations/reviews/sum-replacement-judgement/../../../ProjectFortress/tests/setSum.fss stock started 2026-09-26T13:11:45Z; tree 0bbf760af; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 6.88 7.93 7.99; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# shadow: 226c226 <                     t = BottomType.ONLY; --- >                     t = FTypeTop.ONLY; 245c245 <             if (t == null) t = BottomType.ONLY; --- >             if (t == null) t = FTypeTop.ONLY; 
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/ProjectFortress/tests/setSum.fss:21:20-35:
+Failed to find any matching overload, args = (), overload = {
+	BIG {_BIG }[\T extends StandardTotalOrder[\T\]\]():Comprehension[\T,Set.Set[\T\],CovariantCollection.AnyCovColl,CovariantCollection.AnyCovColl\]/home/user/fortress/Library/Set.fss:109:1-110:73
+	BIG {_BIG }[\T extends StandardTotalOrder[\T\]\](g:Generator[\T\]):Set.Set[\T\]/home/user/fortress/Library/Set.fss:112:1-113:77}:OverloadedFunction
+Context:
+/home/user/fortress/ProjectFortress/tests/setSum.fss:21:20-35:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

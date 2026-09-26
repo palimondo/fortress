@@ -1,0 +1,14 @@
+# walk-shadow.sh /home/user/fortress/explorations/reviews/sum-replacement-judgement/WitnessWalk.fss stock started 2026-09-26T13:09:57Z; tree 0bbf760af; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 5.86 8.61 8.21; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# shadow: 226c226 <                     t = BottomType.ONLY; --- >                     t = FTypeTop.ONLY; 245c245 <             if (t == null) t = BottomType.ONLY; --- >             if (t == null) t = FTypeTop.ONLY; 
+whichArrow()           (no static argument): () -> ZZ32 branch
+whichArrow[\ZZ32\]():   () -> ZZ32 branch
+whichArrow[\RR64\]():   () -> RR64 branch
+whichArrow[\Number\](): () -> Number branch
+zeroOf()          (no static argument): 0 : Int
+zeroOf[\ZZ32\](): 0 : Int
+zeroOf[\RR64\](): 0.0 : FloatLiteral
+via()            (no static argument): catch-all arm
+via[\ZZ32\]():   catch-all arm
+via[\String\](): catch-all arm
+via[\RR64\]():   catch-all arm
+rc=0

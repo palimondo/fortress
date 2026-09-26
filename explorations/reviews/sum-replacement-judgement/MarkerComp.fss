@@ -1,0 +1,24 @@
+(* MarkerComp -- the compiled path in the compiler's world: choosing by a static
+   argument alone through overloading, the library's exclusion-based device: a marker
+   object Ty[\T\] that carries only T, an overload arm per instantiation (Ty[\ZZ32\] and
+   Ty[\RR64\] exclude because ZZ32 and RR64 do), and a generic catch-all arm that gives
+   the checker a static answer of type T. Does the checker accept the set, and does the
+   compiled dispatcher choose the arm by T's run-time descriptor? *)
+component MarkerComp
+export Executable
+
+object Ty[\T\] end
+
+zeroFor[\T\](w: Ty[\T\]): T = throw InvalidRange
+zeroFor(w: Ty[\ZZ32\]): ZZ32 = 0
+zeroFor(w: Ty[\RR64\]): RR64 = 0.0
+
+zeroOf[\T\](): T = zeroFor(Ty[\T\])
+
+run(): () = do
+    println("zeroOf[\\ZZ32\\]() = " zeroOf[\ZZ32\]())
+    println("zeroOf[\\RR64\\]() = " zeroOf[\RR64\]())
+    println("zeroOf[\\RR64\\]() + 1.5 = " (zeroOf[\RR64\]() + 1.5))
+    println("zeroOf[\\ZZ32\\]() + 7 = " (zeroOf[\ZZ32\]() + 7))
+  end
+end

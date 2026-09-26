@@ -1,0 +1,27 @@
+# walk-shadow.sh /home/user/fortress/explorations/reviews/sum-replacement-judgement/SumWalk.fss sum started 2026-09-26T13:10:16Z; tree 0bbf760af; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 5.28 8.35 8.13; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# shadow: 226c226 <                     t = BottomType.ONLY; --- >                     t = FTypeTop.ONLY; 245c245 <             if (t == null) t = BottomType.ONLY; --- >             if (t == null) t = FTypeTop.ONLY; 
+rsumW(0) clause RR64, empty, written: 0.0 : FloatLiteral
+rsumW(3) clause RR64, written: 4.5 : Float
+lsumW(0) clause ZZ64, empty, written: 0 : Long
+lsumW(3) clause ZZ64, written: 3 : Long
+SUM a0   bare, empty RR64 array (T from the generator): 0.0 : FloatLiteral
+SUM a3   bare RR64 array (MicroGptFlat.fss:28, 52): 3.75 : Float
+SUM[\RR64\][x <- a0] x  clause over the empty RR64 array, written: 0.0 : FloatLiteral
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/FortressLibrary.fss:1127:16-47:
+Unification error: Closure/Constructor for unlift param 1 (r:BOTTOM) got arg 0: ZZ32 of type Int
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/FortressLibrary.fss:1127:16-47:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/FortressLibrary.fss:2207:9-58:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/lib-sum/Library/FortressLibrary.fss:2268:56-66:
+/home/user/fortress/explorations/reviews/sum-replacement-judgement/SumWalk.fss:30:69:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

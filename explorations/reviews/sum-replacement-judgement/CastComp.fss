@@ -1,0 +1,33 @@
+(* CastComp -- the compiled path in the compiler's world: does the library's cast[\T\]
+   (CompilerLibrary.fss:39, a typecase on a type variable) work at run time, at a concrete
+   type argument and through a generic function's own T?  WitnessComp typed and then threw
+   CastException inside cast at zeroOf[\ZZ32\](). *)
+component CastComp
+export Executable
+
+viaT[\T\](x: Any): T = cast[\T\](x)
+tc[\T\](x: Any): String =
+    typecase x of
+        T => "matched T"
+        else => "did not match T"
+    end
+
+c1(): Object = try cast[\ZZ32\](0) catch e CastException => "CastException" end
+c2(): Object = try cast[\ZZ32\](3 + 4) catch e CastException => "CastException" end
+c3(): Object = try cast[\RR64\](0.0) catch e CastException => "CastException" end
+c4(): Object = try cast[\RR64\](0.5 + 1.0) catch e CastException => "CastException" end
+c5(): Object = try viaT[\ZZ32\](3 + 4) catch e CastException => "CastException" end
+c6(): Object = try viaT[\RR64\](0.5 + 1.0) catch e CastException => "CastException" end
+
+run(): () = do
+    println("cast[\\ZZ32\\](0)         = " c1())
+    println("cast[\\ZZ32\\](3 + 4)     = " c2())
+    println("cast[\\RR64\\](0.0)       = " c3())
+    println("cast[\\RR64\\](0.5 + 1.0) = " c4())
+    println("viaT[\\ZZ32\\](3 + 4)     = " c5())
+    println("viaT[\\RR64\\](0.5 + 1.0) = " c6())
+    println("tc[\\ZZ32\\](3 + 4)       = " tc[\ZZ32\](3 + 4))
+    println("tc[\\RR64\\](0.5 + 1.0)   = " tc[\RR64\](0.5 + 1.0))
+    println("tc[\\ZZ32\\](0.5)         = " tc[\ZZ32\](0.5))
+  end
+end

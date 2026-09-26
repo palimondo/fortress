@@ -1,0 +1,17 @@
+(* SumWalkUnwritten -- the interpreter on the private library copy with the SUM/PROD
+   replacement (variants/sum.py): the clause form with its static argument unwritten,
+   MicroGptFlat.fss:43's exact shape, nonempty then empty.  Expected to die at the first
+   line: the interpreter binds the unwritten static argument to Bottom, and a reduction
+   instantiated at Bottom accepts no argument. *)
+component SumWalkUnwritten
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x " : " x.ilkName)
+
+offs(i: ZZ32): ZZ32 = SUM[j <- 0#i] (3 j)
+
+run(): () = do
+    show("offs(3)  clause ZZ32, unwritten", offs(3))
+    show("offs(0)  clause ZZ32, empty, unwritten", offs(0))
+  end
+end

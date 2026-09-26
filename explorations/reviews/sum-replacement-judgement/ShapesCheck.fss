@@ -1,0 +1,26 @@
+(* ShapesCheck -- the compiled checker with the interpreter's library in scope (its api
+   errors dropped so that this component is reached): does the checker type a sum with
+   generator clauses, which desugars to __bigOperator(SUM(), fn (r, u) => ...), against a
+   GENERIC no-argument SUM[\T extends Number\]() whose T nothing at the call constrains?
+   One function per shape of the two microGPT programs; the declared result Number where
+   the question is inference alone, ZZ32 or RR64 where it is C4's declared type. *)
+component ShapesCheck
+export Executable
+
+(* the pure inference question: the clause form, result declared as today's SUM returns *)
+offsN(i: ZZ32): Number = SUM[j <- 0#i] (3 j)
+(* the same with the static argument written, as ProjectFortress/tests/setSum.fss:23 does *)
+offsW(i: ZZ32): Number = SUM[\ZZ32\][j <- 0#i] (3 j)
+(* MicroGptFlat.fss:43, matOffset: a ZZ32 result declared *)
+offs(i: ZZ32): ZZ32 = SUM[j <- 0#i] (3 j)
+(* MicroGptFlat.fss:28, sm: the bare form over an RR64 array, declared RR64 *)
+total(a: Array[\RR64,ZZ32\]): RR64 = SUM a
+(* the bare form, result declared Number *)
+totalN(a: Array[\RR64,ZZ32\]): Number = SUM a
+(* MicroGptFlatCheck.fss:72: a real result from the clause form *)
+weighted(a: Array[\RR64,ZZ32\]): RR64 = SUM[d <- 0#4] a[d]
+(* a product over a range *)
+factN(n: ZZ32): Number = PROD[j <- 1#n] j
+
+run(): () = println(offsN(3) " " factN(4))
+end

@@ -1,0 +1,23 @@
+# check.sh ShapesCheck2 flat started 2026-09-26T13:01:03Z; tree 0bbf760af; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 12.95 10.49 7.48; openjdk version "25.0.4" 2026-07-21; rc=255
+# api errors dropped (probe.dropApiErrors): AnyType=0 Executable=0 FlatString=0 FortressBuiltin=0 FortressLibrary=2 Stream=0 String=0 
+# the probe component's own lines (with 6 lines of context each), then the tallies:
+17:ShapesCheck2.fss:12:42-44:
+18-    Could not check function application
+19-    - BottomType->Number is not applicable to an argument of type ZZ32.
+20-    ShapesCheck2.fss:12:30-37:
+21-      Possibly because j: ZZ32 after argument inference
+22-    ShapesCheck2.fss:12:26-13:60:
+23-      Possibly because (reduction?1, unit?2): (Reduction[\Number\], BottomType->Number) after argument inference
+24:ShapesCheck2.fss:16:25-17:61:
+25-    Could not check call to function __bigOperator
+26-    - [\I, O, R, L\](BigOperator[\I,O,R,L\], (Reduction[\L\], I->L)->L)->O is not applicable to any type of the form (Comprehension[\ZZ32,Number,Number,Number\], _->_).
+27:ShapesCheck2.fss:24:42-44:
+28-    Could not check function application
+29-    - BottomType->AnyMaybe is not applicable to an argument of type ZZ32.
+30-    ShapesCheck2.fss:24:30-37:
+31-      Possibly because j: ZZ32 after argument inference
+32-    ShapesCheck2.fss:24:22-45:
+33-      Possibly because (reduction?7, unit?8): (Reduction[\AnyMaybe\], BottomType->AnyMaybe) after argument inference
+# tallies:
+File ShapesCheck2.fss has 3 errors.
+### rc=-1

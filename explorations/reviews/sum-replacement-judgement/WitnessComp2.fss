@@ -1,0 +1,24 @@
+(* WitnessComp2 -- the compiled path in the compiler's world: does a typecase over a
+   () -> T witness choose its branch by T's run-time descriptor, on its own?  No cast in
+   the branches (CastComp showed the library's cast[\T\] throws on this path); each branch
+   answers a String. *)
+component WitnessComp2
+export Executable
+
+witness[\T\](): T = throw InvalidRange
+
+whichArrow[\T\](): String =
+    typecase witness[\T\] of
+        () -> ZZ32 => "() -> ZZ32 branch"
+        () -> ZZ64 => "() -> ZZ64 branch"
+        () -> RR64 => "() -> RR64 branch"
+        else => "else branch"
+    end
+
+run(): () = do
+    println("whichArrow[\\ZZ32\\](): " whichArrow[\ZZ32\]())
+    println("whichArrow[\\ZZ64\\](): " whichArrow[\ZZ64\]())
+    println("whichArrow[\\RR64\\](): " whichArrow[\RR64\]())
+    println("whichArrow[\\String\\](): " whichArrow[\String\]())
+  end
+end

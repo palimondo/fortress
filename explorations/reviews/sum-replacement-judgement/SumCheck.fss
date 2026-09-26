@@ -1,0 +1,38 @@
+(* SumCheck -- the compiled checker with the flat tower and the SUM/PROD replacement in
+   scope (variants/flat-sum.py; the library api's own errors dropped so that this
+   component is reached): the shapes of the two microGPT programs, each with the static
+   argument unwritten (as the programs write them) and written.  lo and one are ZZ32
+   variables so that a range's own mixed-width question (answer 8) stays out, except in
+   offsL, which is C4's exact spelling. *)
+component SumCheck
+export Executable
+
+lo: ZZ32 = 0
+one: ZZ32 = 1
+
+(* MicroGptFlat.fss:43 matOffset *)
+offs(i: ZZ32): ZZ32 = SUM[j <- lo#i] (3 j)
+offsL(i: ZZ32): ZZ32 = SUM[j <- 0#i] (3 j)
+offsW(i: ZZ32): ZZ32 = SUM[\ZZ32\][j <- lo#i] (3 j)
+(* MicroGptFlat.fss:28, 52: the bare form over RR64, declared RR64 *)
+total(a: Vector[\RR64,4\]): RR64 = SUM a
+totalA(a: Array[\RR64,ZZ32\]): RR64 = SUM a
+(* MicroGptFlatCheck.fss:72: the clause form with an RR64 body *)
+weighted(a: Vector[\RR64,4\]): RR64 = SUM[d <- lo#4] a[d]
+weightedW(a: Vector[\RR64,4\]): RR64 = SUM[\RR64\][d <- lo#4] a[d]
+(* Vector.dot's shape (FortressLibrary.fss:2207): a generic clause sum returning T *)
+dotLike[\T extends MultiplicativeRing[\T\], nat n\](v: Vector[\T,n\], w: Vector[\T,n\]): T =
+    SUM[(i,x) <- v.indexValuePairs] x w.get(i)
+dotLikeW[\T extends MultiplicativeRing[\T\], nat n\](v: Vector[\T,n\], w: Vector[\T,n\]): T =
+    SUM[\T\][(i,x) <- v.indexValuePairs] x w.get(i)
+(* MicroGptFlatCheck.fss:56: a literal body *)
+zeroCount(n: ZZ32): ZZ32 = SUM[i <- lo#n] (if i = 0 then 1 else 0 end)
+(* a product *)
+fact(n: ZZ32): ZZ32 = PROD[j <- one#n] j
+factW(n: ZZ32): ZZ32 = PROD[\ZZ32\][j <- one#n] j
+(* MicroGptFlat.fss:28: BIG MAX over RR64, which the flat tower gives StandardMax[\RR64\] *)
+mx(a: Vector[\RR64,4\]): RR64 = BIG MAX a
+mxC(a: Vector[\RR64,4\]): RR64 = BIG MAX[t <- a] t
+
+run(): () = println(offs(3))
+end

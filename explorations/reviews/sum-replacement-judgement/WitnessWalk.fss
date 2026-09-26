@@ -1,0 +1,49 @@
+(* WitnessWalk -- on the interpreter, with today's library: what a static parameter
+   is bound to when a generic function is called with no argument and no written
+   static argument (the shape of the no-argument SUM() that a sum with generator
+   clauses desugars to), and whether the two devices that choose by a static
+   argument alone still choose then: the library's typecase over a () -> T witness
+   (FortressLibrary.fss:2243-2250) and an overload set dispatched on a marker
+   object Ty[\T\] that carries only T. *)
+component WitnessWalk
+export Executable
+
+show(tag: String, x: Object): () = println(tag ": " x " : " x.ilkName)
+
+witness[\T\](): T = throw ForbiddenException
+
+whichArrow[\T extends Number\](): String =
+    typecase witness[\T\] of
+        () -> ZZ32 => "() -> ZZ32 branch"
+        () -> RR64 => "() -> RR64 branch"
+        () -> Number => "() -> Number branch"
+        else => "else branch"
+    end
+
+zeroOf[\T extends Number\](): T =
+    typecase witness[\T\] of
+        () -> ZZ32 => 0
+        () -> RR64 => 0.0
+        else => 0
+    end
+
+object Ty[\T\] end
+nameFor[\T\](w: Ty[\T\]): String = "catch-all arm"
+nameFor(w: Ty[\ZZ32\]): String = "Ty[ZZ32] arm"
+nameFor(w: Ty[\String\]): String = "Ty[String] arm"
+via[\T\](): String = nameFor(Ty[\T\])
+
+run(): () = do
+    println("whichArrow()           (no static argument): " whichArrow())
+    println("whichArrow[\\ZZ32\\]():   " whichArrow[\ZZ32\]())
+    println("whichArrow[\\RR64\\]():   " whichArrow[\RR64\]())
+    println("whichArrow[\\Number\\](): " whichArrow[\Number\]())
+    show("zeroOf()          (no static argument)", zeroOf())
+    show("zeroOf[\\ZZ32\\]()", zeroOf[\ZZ32\]())
+    show("zeroOf[\\RR64\\]()", zeroOf[\RR64\]())
+    println("via()            (no static argument): " via())
+    println("via[\\ZZ32\\]():   " via[\ZZ32\]())
+    println("via[\\String\\](): " via[\String\]())
+    println("via[\\RR64\\]():   " via[\RR64\]())
+  end
+end

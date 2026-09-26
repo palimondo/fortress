@@ -1,0 +1,28 @@
+(* WitnessComp -- the compiled path in the compiler's world (CompilerLibrary, where
+   ZZ32, ZZ64 and RR64 are siblings): the library's device for choosing by a static
+   argument alone, a typecase over a () -> T witness, with each branch's value put
+   through cast[\T\] so that the checker sees T (Q1ZeroWitnessComp failed without it:
+   "body has type OR(FloatLiteral,ZZ64,IntLiteral,BottomType), but declared return
+   type is T"). Does the checker accept it, and does the compiled run choose the branch
+   by T's run-time descriptor? *)
+component WitnessComp
+export Executable
+
+witness[\T\](): T = throw InvalidRange
+
+zeroOf[\T\](): T =
+    typecase witness[\T\] of
+        () -> ZZ32 => cast[\T\](0)
+        () -> ZZ64 => cast[\T\](widen(0))
+        () -> RR64 => cast[\T\](0.0)
+        else => throw InvalidRange
+    end
+
+run(): () = do
+    println("zeroOf[\\ZZ32\\]() = " zeroOf[\ZZ32\]())
+    println("zeroOf[\\ZZ64\\]() = " zeroOf[\ZZ64\]())
+    println("zeroOf[\\RR64\\]() = " zeroOf[\RR64\]())
+    println("zeroOf[\\RR64\\]() + 1.5 = " (zeroOf[\RR64\]() + 1.5))
+    println("zeroOf[\\ZZ32\\]() + 7 = " (zeroOf[\ZZ32\]() + 7))
+  end
+end
