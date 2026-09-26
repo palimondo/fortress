@@ -1,0 +1,23 @@
+# Verdict: replacing the numeric SUM and PROD catch-alls
+
+2026-09-26. Read-only source review; no workers, builds or new probes. Branch base: `25d26ec7449a5e6840952dcad5013f974f81d586`, the fetched main tip. Question 1 and the relevant library/model sources are unchanged from the brief's `cb3cbb683`.
+
+**No listed option is yet demonstrated to meet all four requirements. Way 1 is the candidate to take to one decisive measurement; a checker change has not been shown necessary.** Keep route A and the unchanged-model requirement. The existing evidence establishes a failed spelling, not that selecting a typed identity is inexpressible.
+
+**Why way 1 remains viable.** Per-element-type reductions supply zero and one without an element, preserve the result type, and can sit behind the existing `SUM`/`PROD` syntax. But the generator-clause form needs one generic nullary entry point: result-type-only overloading failed in `Q1NullaryComp`. Its proposed selector works under walk; `Q1ZeroWitnessComp` fails because the witness typecase's result is not established as `T`. Bare-generator overloads alone therefore do not solve `matOffset(0)`.
+
+**A written form worth checking already uses a library mechanism.** Both libraries define `cast[\T extends Any\](x:Any):T` by checking the value against `T` (`FortressLibrary.fss:34–38`; `CompilerLibrary.fss:39–43`). Thus the existing witness can explicitly return `cast[\T\](0)`, `cast[\T\](widen(0))`, or `cast[\T\](0.0)` in its respective branches. More directly for way 1, the same selector can return `cast[\Reduction[\T\]\](SumZZ32)` or its corresponding per-type reduction. These are candidate expressions, **not verified programs**. The cast states the result type and checks it at runtime; it neither converts an integer zero into a float nor repairs a wrongly selected reduction.
+
+A selector must also distinguish the registered element types correctly: matching `() -> RR64` can include a subtype, while `Reduction[RR64]` is not thereby `Reduction[T]`. State the supported types; a broad `T extends Number` does not establish either a suitable identity provider or closed arithmetic. The generic `dot` obligation remains until its actual body checks and returns `T`.
+
+**Why the other listed ways do not presently meet the brief.** Way 2 throws on the required empty integer sum. Way 3 changes caller syntax when the caller supplies the identity; used internally, it is an implementation vehicle for way 1. Ways 4 and 5 depend on unimplemented identity/coercion machinery and have no successful two-path demonstration. Way 6 retains the removed `Number` algebra. An element's `zero` getter cannot supply the identity when no element exists. These conclusions follow Question 1, §§ 2 and 9, and the [typed-identity obligation](numeric-hierarchy-integration-review.md#4-empty-reductions-need-a-type-as-well-as-a-value).
+
+**The one missing measurement:** run the checked-cast witness as the selector for a typed reduction behind a single generic nullary big operator, through both existing execution paths. Check these three outcomes in that one experiment:
+
+1. An unchanged clause-shaped integer sum, including `matOffset(0)`, produces zero assignable to `ZZ32`; bare and clause-shaped float sums produce results assignable to `RR64`. Inspect the float identity's representation (`Float`/`FloatLiteral`, not `Int`); membership of `RR64` alone would let today's nested tower conceal the defect.
+2. An empty and a small nonempty generic dot-shaped reduction return their declared element type; check the generic body, not just concrete callers. Explicit-static-argument success alone does not establish inference for unchanged call sites.
+3. The same construction supplies typed empty products of one for `ZZ32` and `RR64`, without requesting an element or changing caller syntax.
+
+The selector's `ZZ32`/`ZZ64`/`RR64` identity branches can first be exercised by modifying the existing witness, whose compiled version already uses sibling numeric types. That alone would not complete the nullary-operator check. **Until the end-to-end result exists, recommend way 1 conditionally; do not claim either a working cross-backend spelling or a required checker repair.** No additional measurement is made here.
+
+Evidence: [Question 1](flattening-questions-ways.md#question-1-the-big-operators-catch-all), especially 151–159 and 313–366; existing [compiled witness and diagnostic](flattening-questions-ways/Q1ZeroWitnessComp.comp.txt) and [walk capture](flattening-questions-ways/Q1ZeroWitnessWalk.walk.txt); `Library/FortressLibrary.fss:3032–3074`; `explorations/run-c4/src/MicroGptFlat.fss:43`; `coordinator/POSITIONS.md`, route A (09-24) and the accepted typed-empty-sum obligation (09-26).
