@@ -1,0 +1,34 @@
+component Sk2MultiArg
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+h(x: Wide, y: Object): String = "h(Wide, Object)"
+h(x: WideOf, y: ZZ32): String = "h(WideOf, ZZ32)"
+
+opr OPLUS(a: Wide, b: Wide): String = "OPLUS(Wide, Wide)"
+opr OPLUS(a: WideOf, b: WideOf): String = "OPLUS(WideOf, WideOf)"
+
+run(): () = do
+  println("1 h(NarrowOf(2), 5) = " h(NarrowOf(2), 5))
+  println("2 h(NarrowOf(2), \"s\") = " h(NarrowOf(2), "s"))
+  println("3 h(NarrowOf(3), 6) again = " h(NarrowOf(3), 6))
+  println("4 h(WideOf(4), 7) = " h(WideOf(4), 7))
+  println("5 NarrowOf(1) OPLUS NarrowOf(2) = " (NarrowOf(1) OPLUS NarrowOf(2)))
+  println("6 NarrowOf(1) OPLUS WideOf(2) = " (NarrowOf(1) OPLUS WideOf(2)))
+  s = SUM[i <- 1#1000] (if h(NarrowOf(i), i) = "h(WideOf, ZZ32)" then 1 else 0 end)
+  println("7 SUM over 1000 of h(NarrowOf(i), i) = h(WideOf, ZZ32): " s)
+end
+end

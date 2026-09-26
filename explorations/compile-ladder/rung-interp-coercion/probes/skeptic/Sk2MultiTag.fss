@@ -1,0 +1,32 @@
+component Sk2MultiTag
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+trait Tag end
+object TagOf extends Tag end
+object TagElse extends Tag end
+
+k(x: Wide, y: Tag): String = "k(Wide, Tag)"
+k(x: WideOf, y: TagOf): String = "k(WideOf, TagOf)"
+
+run(): () = do
+  println("1 k(NarrowOf(2), TagOf) = " k(NarrowOf(2), TagOf))
+  println("2 k(NarrowOf(3), TagElse) = " k(NarrowOf(3), TagElse))
+  w: Wide = WideOf(4)
+  t: Tag = TagOf
+  println("3 w: Wide = WideOf(4); t: Tag = TagOf; k(w, t) = " k(w, t))
+  println("4 k(WideOf(5), TagOf) = " k(WideOf(5), TagOf))
+end
+end

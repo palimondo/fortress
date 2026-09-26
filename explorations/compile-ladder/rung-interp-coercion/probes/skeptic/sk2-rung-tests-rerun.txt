@@ -1,0 +1,118 @@
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 0.13 0.35 1.23, openjdk version "25.0.4" 2026-07-21, HEAD 69d3eb799, 2026-09-26T05:18:57Z ===
+=== walk FORTRESS_THREADS=1 CoercionCallRungC (05:18:57Z, load 0.13) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=1 CoercionOverloadRungC (05:19:02Z, load 0.36) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=1 CoercionBindRungC (05:19:06Z, load 0.36) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=1 CoercionMostSpecificRungC (05:19:10Z, load 0.49) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=1 CoercionSpecTableRungC (05:19:14Z, load 0.53) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=1 CoercionRedispatchRungC (05:19:18Z, load 0.57) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=1 XXXCoercionStaticRungC (05:19:23Z, load 0.76) ===
+REACHED
+FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604
+FailCalled
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticRungC.fss:20:5-168:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=1 XXXCoercionStaticNarrowRungC (05:19:27Z, load 0.86) ===
+REACHED
+FAIL: J11/0:g(NarrowOf) =/= J7/0:g(Wide); row 19: coercion is resolved on the static type Narrow, so g(n) calls g(Wide) though g(NarrowOf) applies to the value without coercion; conversions-coercions.tex:525-536, :567-570
+FailCalled
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss:26:5-209:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=1 XXXCoercionReturnRungC (05:19:31Z, load 0.86) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+Cannot find definition for method big given receiver NarrowOf
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=1 XXXCoercionGenericFnRungC (05:19:35Z, load 0.87) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+Unification error: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:20:12-14:
+Cannot unify NarrowOf(class com.sun.fortress.interpreter.evaluator.types.FTypeObject)
+  with Wide(class com.sun.fortress.nodes.VarType) abm=()
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=1 XXXCoercionGenericTraitRungC (05:19:39Z, load 0.97) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+Unification error: Closure/Constructor for f param 1 (x:WideG[\ZZ32\]) got arg NarrowGOf[\ZZ32\] of type NarrowGOf[\ZZ32\]
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=1 XXXCoercionTupleOverloadRungC (05:19:43Z, load 0.97) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:30:5-31:4:
+Failed to find any matching overload, args = (NarrowOf,11: ZZ32), overload = {
+	pair():(Wide, FortressLibrary.ZZ32) ()->(Wide,ZZ32) /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25
+	pair(param_pair:(Wide, FortressLibrary.ZZ32)):() (Wide,ZZ32)->() /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25}:OverloadedMethod
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:30:5-31:4:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 CoercionCallRungC (05:19:48Z, load 0.97) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 CoercionOverloadRungC (05:19:51Z, load 0.97) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 CoercionBindRungC (05:19:55Z, load 1.05) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 CoercionMostSpecificRungC (05:19:58Z, load 1.13) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 CoercionSpecTableRungC (05:20:01Z, load 1.28) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 CoercionRedispatchRungC (05:20:05Z, load 1.28) ===
+PASS
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 XXXCoercionStaticRungC (05:20:08Z, load 1.50) ===
+REACHED
+FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604
+FailCalled
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticRungC.fss:20:5-168:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 XXXCoercionStaticNarrowRungC (05:20:12Z, load 1.70) ===
+REACHED
+FAIL: J11/0:g(NarrowOf) =/= J7/0:g(Wide); row 19: coercion is resolved on the static type Narrow, so g(n) calls g(Wide) though g(NarrowOf) applies to the value without coercion; conversions-coercions.tex:525-536, :567-570
+FailCalled
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss:26:5-209:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 XXXCoercionReturnRungC (05:20:15Z, load 1.70) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+Cannot find definition for method big given receiver NarrowOf
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 XXXCoercionGenericFnRungC (05:20:19Z, load 1.80) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+Unification error: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:20:12-14:
+Cannot unify NarrowOf(class com.sun.fortress.interpreter.evaluator.types.FTypeObject)
+  with Wide(class com.sun.fortress.nodes.VarType) abm=()
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 XXXCoercionGenericTraitRungC (05:20:22Z, load 1.74) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+Unification error: Closure/Constructor for f param 1 (x:WideG[\ZZ32\]) got arg NarrowGOf[\ZZ32\] of type NarrowGOf[\ZZ32\]
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+=== exit 1 ===
+=== walk FORTRESS_THREADS=4 XXXCoercionTupleOverloadRungC (05:20:26Z, load 1.74) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:30:5-31:4:
+Failed to find any matching overload, args = (NarrowOf,11: ZZ32), overload = {
+	pair():(Wide, FortressLibrary.ZZ32) ()->(Wide,ZZ32) /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25
+	pair(param_pair:(Wide, FortressLibrary.ZZ32)):() (Wide,ZZ32)->() /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25}:OverloadedMethod
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:30:5-31:4:
+=== exit 1 ===
+EXIT=0

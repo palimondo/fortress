@@ -1,0 +1,24 @@
+=== machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.80GHz, 2800.212 MHz, loadavg at start 0.26 0.79 1.21, openjdk version "25.0.4" 2026-07-21, HEAD 69d3eb799, 2026-09-26T05:25:04Z ===
+=== walk FORTRESS_THREADS=1 Sk2Oplus   (69d3eb799, 05:25:04Z, load 0.26) ===
+1 NarrowOf(1) OPLUS NarrowOf(2) = OPLUS(WideOf, WideOf)
+2 NarrowOf(1) OPLUS WideOf(2) = OPLUS(WideOf, WideOf)
+3 SUM over 1000 of NarrowOf(i) OPLUS NarrowOf(i+1) = OPLUS(WideOf, WideOf): 1000
+=== exit 0 ===
+=== walk FORTRESS_THREADS=4 Sk2Oplus   (69d3eb799, 05:25:08Z, load 0.56) ===
+1 NarrowOf(1) OPLUS NarrowOf(2) = OPLUS(WideOf, WideOf)
+2 NarrowOf(1) OPLUS WideOf(2) = OPLUS(WideOf, WideOf)
+3 SUM over 1000 of NarrowOf(i) OPLUS NarrowOf(i+1) = OPLUS(WideOf, WideOf): 1000
+=== exit 0 ===
+=== compile Sk2Oplus ===
+=== exit 0 ===
+=== run FORTRESS_THREADS=1 Sk2Oplus ===
+1 NarrowOf(1) OPLUS NarrowOf(2) =  OPLUS(WideOf, WideOf)
+2 NarrowOf(1) OPLUS WideOf(2) =  OPLUS(WideOf, WideOf)
+3 SUM over 1000 of NarrowOf(i) OPLUS NarrowOf(i+1) = OPLUS(WideOf, WideOf):  1000
+=== exit 0 ===
+=== run FORTRESS_THREADS=4 Sk2Oplus ===
+1 NarrowOf(1) OPLUS NarrowOf(2) =  OPLUS(WideOf, WideOf)
+2 NarrowOf(1) OPLUS WideOf(2) =  OPLUS(WideOf, WideOf)
+3 SUM over 1000 of NarrowOf(i) OPLUS NarrowOf(i+1) = OPLUS(WideOf, WideOf):  1000
+=== exit 0 ===
+

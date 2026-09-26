@@ -1,0 +1,29 @@
+component Sk2Oplus
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+opr OPLUS(a: Wide, b: Wide): String = "OPLUS(Wide, Wide)"
+opr OPLUS(a: WideOf, b: WideOf): String = "OPLUS(WideOf, WideOf)"
+
+hit(s: String): ZZ32 = if s = "OPLUS(WideOf, WideOf)" then 1 else 0 end
+
+run(): () = do
+  println("1 NarrowOf(1) OPLUS NarrowOf(2) = " (NarrowOf(1) OPLUS NarrowOf(2)))
+  println("2 NarrowOf(1) OPLUS WideOf(2) = " (NarrowOf(1) OPLUS WideOf(2)))
+  s = SUM[i <- 1#1000] hit(NarrowOf(i) OPLUS NarrowOf(i + 1))
+  println("3 SUM over 1000 of NarrowOf(i) OPLUS NarrowOf(i+1) = OPLUS(WideOf, WideOf): " s)
+end
+end

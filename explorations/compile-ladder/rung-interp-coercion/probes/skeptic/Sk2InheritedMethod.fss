@@ -1,0 +1,39 @@
+component Sk2InheritedMethod
+export Executable
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(x.small)
+  getter big(): ZZ32
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+trait Base
+  pick(x: Wide): String = "Base.pick(Wide)"
+  combine(self, x: Wide): String = "Base.combine(Wide)"
+end
+object Obj extends Base
+  pick(x: WideOf): String = "Obj.pick(WideOf)"
+  combine(self, x: WideOf): String = "Obj.combine(WideOf)"
+end
+object Plain extends Base end
+
+run(): () = do
+  println("1 Obj.pick(NarrowOf(2)) = " Obj.pick(NarrowOf(2)))
+  b: Base = Obj
+  println("2 b: Base = Obj; b.pick(NarrowOf(3)) = " b.pick(NarrowOf(3)))
+  println("3 Plain.pick(NarrowOf(4)) = " Plain.pick(NarrowOf(4)))
+  println("4 combine(Obj, NarrowOf(5)) = " combine(Obj, NarrowOf(5)))
+  println("5 combine(Plain, NarrowOf(6)) = " combine(Plain, NarrowOf(6)))
+  println("6 combine(b, NarrowOf(7)) = " combine(b, NarrowOf(7)))
+  s = SUM[i <- 1#1000] (if Obj.pick(NarrowOf(i)) = "Obj.pick(WideOf)" then 1 else 0 end)
+  println("7 SUM over 1000 of Obj.pick(NarrowOf(i)) = Obj.pick(WideOf): " s)
+end
+end
