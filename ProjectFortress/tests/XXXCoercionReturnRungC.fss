@@ -1,0 +1,28 @@
+component XXXCoercionReturnRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+r(): Wide = NarrowOf(3)
+
+run() = do
+    println("REACHED")
+    assert(r().big, 3, "row 387 (provisional): a body whose return type is declared converts; conversions-coercions.tex:104-105")
+    println("PASS")
+  end
+
+end

@@ -133,6 +133,7 @@ public abstract class NonPrimitive extends Simple_fcn {
      */
     public List<FValue> typecheckParams(List<FValue> args) {
         args = fixupArgCount(args);
+        List<FValue> coerced = null;   // args with any converted argument in place
         Iterator<FValue> argsIter = args.iterator();
         Iterator<Parameter> paramsIter = params.iterator();
         boolean asif = false;   // Need to strip asif?  Avoid if not.
@@ -145,6 +146,12 @@ public abstract class NonPrimitive extends Simple_fcn {
                     FValue arg = argsIter.next();
                     if (arg instanceof FAsIf) asif = true;
                     if (!restType.typeMatch(arg)) {
+                        FValue c = Coercions.coerce(restType, arg);
+                        if (c != null) {
+                            if (coerced == null) coerced = new ArrayList<FValue>(args);
+                            coerced.set(i - 1, c);
+                            continue;
+                        }
                         error(errorMsg("Closure/Constructor for ",
                                        getAt().stringName(),
                                        " rest parameter ",
@@ -162,6 +169,12 @@ public abstract class NonPrimitive extends Simple_fcn {
                 FValue arg = argsIter.next();
                 if (arg instanceof FAsIf) asif = true;
                 if (!paramType.typeMatch(arg)) {
+                    FValue c = Coercions.coerce(paramType, arg);
+                    if (c != null) {
+                        if (coerced == null) coerced = new ArrayList<FValue>(args);
+                        coerced.set(i - 1, c);
+                        continue;
+                    }
                     error(errorMsg("Closure/Constructor for ",
                                    getAt().stringName(),
                                    " parameter ",
@@ -175,6 +188,7 @@ public abstract class NonPrimitive extends Simple_fcn {
                 }
             }
         }
+        if (coerced != null) args = coerced;
         if (asif) return stripAsIf(args);
         else return args;
     }
@@ -240,7 +254,8 @@ public abstract class NonPrimitive extends Simple_fcn {
                 arg = argsIter.next();
                 i++;
                 if (!paramType.typeMatch(arg)) {
-                    unificationError(errorMsg("Closure/Constructor for ",
+                    FValue c = Coercions.coerce(paramType, arg);
+                    if (c == null) unificationError(errorMsg("Closure/Constructor for ",
                                               getAt().stringName(),
                                               " param ",
                                               i,
@@ -252,6 +267,7 @@ public abstract class NonPrimitive extends Simple_fcn {
                                               arg,
                                               " of type ",
                                               arg.type()));
+                    arg = c;
                 }
                 arg = arg.getValue(); // Strip asif
                 try {

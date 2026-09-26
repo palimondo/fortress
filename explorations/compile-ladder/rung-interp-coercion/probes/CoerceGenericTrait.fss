@@ -1,0 +1,22 @@
+component CoerceGenericTrait
+export Executable
+
+(* A coercion declared in a generic trait (conversions-coercions.tex:176-178, :212-222). *)
+trait WideG[\T\] excludes { NarrowG[\T\] }
+  coerce(x: NarrowG[\T\]) = WideGOf[\T\](x.v)
+  getter w(): T
+end
+trait NarrowG[\T\] excludes { WideG[\T\] }
+  getter v(): T
+end
+object WideGOf[\T\](a: T) extends WideG[\T\] getter w(): T = a end
+object NarrowGOf[\T\](a: T) extends NarrowG[\T\] getter v(): T = a end
+
+f(x: WideG[\ZZ32\]): ZZ32 = x.w
+
+run() = do
+  println("control: " f(WideGOf[\ZZ32\](1)))
+  println("a NarrowG[\\ZZ32\\] where a WideG[\\ZZ32\\] is declared:")
+  println(f(NarrowGOf[\ZZ32\](2)))
+end
+end

@@ -1,0 +1,19 @@
+component CoerceNative
+export Executable
+trait Wide excludes { Narrow, String }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter wv(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide getter wv(): ZZ64 = b end
+object NarrowOf(s: ZZ32) extends Narrow getter small(): ZZ32 = s end
+natf(x: Wide, y: String): String = builtinPrimitive("com.sun.fortress.interpreter.glue.TestFn")
+natr(y: String, xs: Wide...): String = builtinPrimitive("com.sun.fortress.interpreter.glue.TestFn")
+run() = do
+  println(natf(WideOf(widen(1)), "control"))
+  println(natf(NarrowOf(2), "coerced"))
+  println(natr("rest", NarrowOf(3)))
+end
+end

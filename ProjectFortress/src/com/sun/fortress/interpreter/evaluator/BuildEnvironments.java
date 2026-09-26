@@ -677,7 +677,10 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
             if (lvb.isMutable()) {
                 bindInto.putVariablePlaceholder(sname);
             } else {
-                FValue init_val = new LazilyEvaluatedCell(init, containing);
+                TypeOrPattern declared = lvb.getIdType().unwrap(null);
+                FValue init_val = declared instanceof Type ?
+                                  new LazilyEvaluatedCell(init, containing, (Type) declared) :
+                                  new LazilyEvaluatedCell(init, containing);
                 putValue(bindInto, sname, init_val);
             }
         }
@@ -751,7 +754,9 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
 
                 if (ft != null) {
                     if (!ft.typeMatch(value)) {
-                        ft = error(x, bindInto, errorMsg("Type mismatch binding ",
+                        FValue v = Coercions.coerce(ft, value);
+                        if (v != null) value = v;
+                        else ft = error(x, bindInto, errorMsg("Type mismatch binding ",
                                                          value,
                                                          " (type ",
                                                          value.type(),

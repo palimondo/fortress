@@ -312,17 +312,21 @@ abstract public class BaseEnv implements Environment, Iterable<String> {
             FType ft = rc.getType();
             if (ft != null) {
                 if (!ft.typeMatch(value)) {
-                    String m = errorMsg("Type mismatch assigning ",
-                                        value,
-                                        " (type ",
-                                        value.type(),
-                                        ") to ",
-                                        str,
-                                        " (type ",
-                                        ft,
-                                        ")");
-                    error(loc, m);
-                    return;
+                    FValue coerced = Coercions.coerce(ft, value);
+                    if (coerced == null) {
+                        String m = errorMsg("Type mismatch assigning ",
+                                            value,
+                                            " (type ",
+                                            value.type(),
+                                            ") to ",
+                                            str,
+                                            " (type ",
+                                            ft,
+                                            ")");
+                        error(loc, m);
+                        return;
+                    }
+                    value = coerced;
                 }
             }
             rc.assignValue(value);

@@ -1,0 +1,21 @@
+component CoerceReceiver
+export Executable
+
+(* A dotted method's receiver is not coerced (conversions-coercions.tex:431-434). *)
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter wv(): ZZ64
+  twice(): ZZ64 = 2 self.wv
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide getter wv(): ZZ64 = b end
+object NarrowOf(s: ZZ32) extends Narrow getter small(): ZZ32 = s end
+
+run() = do
+  println("a Wide's twice: " WideOf(widen(4)).twice())
+  println("a Narrow's twice, the receiver unconverted:")
+  println(NarrowOf(4).twice())
+end
+end

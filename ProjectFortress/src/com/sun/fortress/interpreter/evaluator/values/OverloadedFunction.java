@@ -789,13 +789,52 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
         SingleFcn best = bestMatchInternal(args, someOverloads);
         if (best == null) {
-            // TODO add checks for COERCE, right here.
+            best = bestMatchWithCoercion(args, someOverloads);
+        }
+        if (best == null) {
             // Replay the test for debugging
             // best = bestMatchInternal(args, someOverloads);
             error(errorMsg("Failed to find any matching overload, args = ",
                            Useful.listInParens(args),
                            ", overload = ",
                            this));
+        }
+        return best;
+    }
+
+    /**
+     * The most specific overload applicable to args without coercion, or null.
+     */
+    public SingleFcn bestMatchWithoutCoercion(List<FValue> args) {
+        return bestMatchInternal(args, overloads);
+    }
+
+    /**
+     * For args that no overload takes without coercion: the most specific of
+     * the non-generic overloads applicable with coercion, as a call that
+     * converts its arguments first; or null.
+     */
+    private SingleFcn bestMatchWithCoercion(List<FValue> args, List<Overload> someOverloads) {
+        Coercions.CoercedCall best = null;
+        for (Overload o : someOverloads) {
+            SingleFcn sfn = o.getFn();
+            if (sfn instanceof GenericFunctionOrMethod) continue;
+            List<FValue> oargs = sfn.fixupArgCount(args);
+            if (oargs == null) continue;
+            List<FType> domain = sfn.getDomain();
+            SingleFcn[] coercions = new SingleFcn[oargs.size()];
+            boolean applicable = true;
+            for (int j = 0; applicable && j < oargs.size(); j++) {
+                FType t = Useful.clampedGet(domain, j).deRest();
+                FValue a = oargs.get(j);
+                if (!argsMatchTypes(Collections.singletonList(a), Collections.singletonList(t))) {
+                    coercions[j] = Coercions.coercionFor(t, a);
+                    applicable = coercions[j] != null;
+                }
+            }
+            if (applicable && (best == null || Coercions.moreSpecific(domain, best.getDomain(), oargs.size()))) {
+                best = new Coercions.CoercedCall(sfn, coercions);
+            }
         }
         return best;
     }

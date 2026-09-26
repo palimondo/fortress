@@ -1,0 +1,28 @@
+component CoerceChain
+export Executable
+
+(* Coercion does not chain (conversions-coercions.tex:120-125): Small -> Big and Big -> Huge
+   do not make Small -> Huge. *)
+trait Small excludes { Big, Huge }
+  getter v(): ZZ32
+end
+trait Big excludes { Small, Huge }
+  coerce(x: Small) = BigOf(x.v)
+  getter b(): ZZ32
+end
+trait Huge excludes { Small, Big }
+  coerce(x: Big) = HugeOf(x.b)
+  getter h(): ZZ32
+end
+object SmallOf(s: ZZ32) extends Small getter v(): ZZ32 = s end
+object BigOf(s: ZZ32) extends Big getter b(): ZZ32 = s end
+object HugeOf(s: ZZ32) extends Huge getter h(): ZZ32 = s end
+
+f(x: Huge): ZZ32 = x.h
+
+run() = do
+  println("a Big to Huge: " f(BigOf(1)))
+  println("a Small to Huge, which would need two coercions:")
+  println(f(SmallOf(2)))
+end
+end

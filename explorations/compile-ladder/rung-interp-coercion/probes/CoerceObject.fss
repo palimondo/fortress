@@ -1,0 +1,23 @@
+component CoerceObject
+export Executable
+
+(* The specification's own object with two coercions (conversions-coercions.tex:267-330). *)
+object X
+  coerce(kiki: Y) = X
+  coerce(tutu: Q) = X
+  hack(other: X): ZZ32 = 1
+end
+object Y end
+object Q end
+
+foo(dodo: X): ZZ32 = 2
+bar(hyar: X, yon: X): ZZ32 = 3
+bar(hyar: Q, yon: Q): ZZ32 = 4
+
+run() = do
+  println("X.hack(Y) " X.hack(Y) "; X.hack(Q) " X.hack(Q))
+  println("foo(Y) " foo(Y) "; foo(Q) " foo(Q))
+  println("bar(Y, X) " bar(Y, X) "; bar(Q, X) " bar(Q, X) "; bar(X, Y) " bar(X, Y) "; bar(X, Q) " bar(X, Q))
+  println("bar(Y, Y) " bar(Y, Y) "; bar(Q, Q) " bar(Q, Q) "; bar(Q, Y) " bar(Q, Y) "; bar(Y, Q) " bar(Y, Q))
+end
+end

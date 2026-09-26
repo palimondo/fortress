@@ -14,17 +14,29 @@ package com.sun.fortress.interpreter.env;
 import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.Evaluator;
+import com.sun.fortress.interpreter.evaluator.values.Coercions;
 import com.sun.fortress.interpreter.evaluator.values.FValue;
 import com.sun.fortress.nodes.Expr;
+import com.sun.fortress.nodes.Type;
 import com.sun.fortress.nodes_util.NodeUtil;
 
 public class LazilyEvaluatedCell extends IndirectionCell {
     Expr exp;
     Environment e;
+    Type declared;
 
     public LazilyEvaluatedCell(Expr exp, Environment e) {
         this.exp = exp;
         this.e = e;
+    }
+
+    /**
+     * A cell for a variable declared with a type, whose value is converted by
+     * a coercion to that type when it is not a member of it.
+     */
+    public LazilyEvaluatedCell(Expr exp, Environment e, Type declared) {
+        this(exp, e);
+        this.declared = declared;
     }
 
     public String toString() {
@@ -51,7 +63,9 @@ public class LazilyEvaluatedCell extends IndirectionCell {
                     Environment e0 = e;
                     exp = null;
                     e = null;
-                    theValue = (new Evaluator(e0)).eval(exp0);
+                    FValue v = (new Evaluator(e0)).eval(exp0);
+                    if (declared != null) v = Coercions.coerceToDeclared(declared, e0, v);
+                    theValue = v;
                 }
             }
         }

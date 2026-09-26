@@ -1,0 +1,45 @@
+component CompiledMostSpecific
+export Executable
+
+(* The compiled side of CoercionMostSpecificRungC. *)
+trait Small excludes { Mid, Big }
+  getter v(): ZZ32
+end
+trait Mid excludes { Small, Big }
+  coerce(x: Small) = MidOf(x.v)
+  getter m(): ZZ32
+end
+trait Big excludes { Small, Mid }
+  coerce(x: Small) = BigOf(x.v)
+  coerce(x: Mid) = BigOf(x.m)
+  getter b(): ZZ32
+end
+object SmallOf(s: ZZ32) extends Small
+  getter v(): ZZ32 = s
+end
+object MidOf(s: ZZ32) extends Mid
+  getter m(): ZZ32 = s
+end
+object BigOf(s: ZZ32) extends Big
+  getter b(): ZZ32 = s
+end
+
+f(x: Big): String = "f(Big) got " x.b
+f(x: Mid): String = "f(Mid) got " x.m
+
+h(x: Mid): String = "h(Mid) got " x.m
+h(x: Big): String = "h(Big) got " x.b
+
+k(x: Mid, y: Mid): String = "k(Mid, Mid)"
+k(x: Big, y: Big): String = "k(Big, Big)"
+
+run(): () = do
+  println(f(SmallOf(1)))
+  println(h(SmallOf(2)))
+  println(k(SmallOf(3), SmallOf(4)))
+  println(f(MidOf(5)))
+  println(k(MidOf(6), SmallOf(7)))
+  b: Big = MidOf(8)
+  println("b: Big = MidOf(8); b.b " b.b)
+end
+end

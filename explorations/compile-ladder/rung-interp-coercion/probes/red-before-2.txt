@@ -1,0 +1,90 @@
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:07:43Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/CoercionCallRungC.fss:33:12-24:
+Unification error: Closure/Constructor for f param 1 (x:Wide) got arg NarrowOf of type NarrowOf
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionCallRungC.fss:33:12-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionSpecTableRungC.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:08:39Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/CoercionSpecTableRungC.fss:20:12-19:
+Unification error: Closure/Constructor for hack param 1 (other:X) got arg Y of type Y
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionSpecTableRungC.fss:20:12-19:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionReturnRungC.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:08:53Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+Cannot find definition for method big given receiver NarrowOf
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericFnRungC.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:09:05Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+Unification error: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:20:12-14:
+Cannot unify NarrowOf(class com.sun.fortress.interpreter.evaluator.types.FTypeObject)
+  with Wide(class com.sun.fortress.nodes.VarType) abm=()
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss   (classes /home/user/fortress-coerce/tmp/build-base, 2026-09-26T02:09:19Z) ===
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+Unification error: Closure/Constructor for f param 1 (x:WideG[\ZZ32\]) got arg NarrowGOf[\ZZ32\] of type NarrowGOf[\ZZ32\]
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+

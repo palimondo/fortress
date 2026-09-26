@@ -1,0 +1,24 @@
+component CompiledReturn
+export Executable
+
+(* The compiled side of XXXCoercionReturnRungC. *)
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+r(): Wide = NarrowOf(3)
+
+run(): () = do
+  println("r().big " r().big)
+end
+end

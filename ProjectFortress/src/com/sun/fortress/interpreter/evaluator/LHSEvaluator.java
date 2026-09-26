@@ -92,22 +92,26 @@ public class LHSEvaluator extends NodeAbstractVisitor<Voidoid> {
         e = BaseEnv.toContainingObjectEnv(e, x.getLexicalDepth());
 
         FType ft = e.getVarTypeNull(s);
+        FValue v = value;
         if (ft != null) {
             // Check that variable can receive type
             if (!ft.typeMatch(value)) {
-                String m = errorMsg("Type mismatch assigning ",
-                                    value,
-                                    " (type ",
-                                    value.type(),
-                                    ") to ",
-                                    s,
-                                    " (type ",
-                                    ft,
-                                    ")");
-                return error(x, e, m);
+                v = Coercions.coerce(ft, value);
+                if (v == null) {
+                    String m = errorMsg("Type mismatch assigning ",
+                                        value,
+                                        " (type ",
+                                        value.type(),
+                                        ") to ",
+                                        s,
+                                        " (type ",
+                                        ft,
+                                        ")");
+                    return error(x, e, m);
+                }
             }
         }
-        e.assignValue(x, s, value);
+        e.assignValue(x, s, v);
         return null;
     }
 
@@ -214,7 +218,9 @@ public class LHSEvaluator extends NodeAbstractVisitor<Voidoid> {
                     outerType = EvalType.getFType(t, evaluator.e);
                     if (value.type().subtypeOf(outerType)) evaluator.e.putVariable(s, value, outerType);
                     else {
-                        error(x, evaluator.e, errorMsg("RHS expression type ",
+                        FValue v = Coercions.coerce(outerType, value);
+                        if (v != null) evaluator.e.putVariable(s, v, outerType);
+                        else error(x, evaluator.e, errorMsg("RHS expression type ",
                                                        value.type(),
                                                        " is not assignable to LHS type ",
                                                        outerType));

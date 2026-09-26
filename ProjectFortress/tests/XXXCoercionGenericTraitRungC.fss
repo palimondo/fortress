@@ -1,0 +1,29 @@
+component XXXCoercionGenericTraitRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait WideG[\T\] excludes { NarrowG[\T\] }
+  coerce(x: NarrowG[\T\]) = WideGOf[\T\](x.v)
+  getter w(): T
+end
+trait NarrowG[\T\] excludes { WideG[\T\] }
+  getter v(): T
+end
+object WideGOf[\T\](a: T) extends WideG[\T\]
+  getter w(): T = a
+end
+object NarrowGOf[\T\](a: T) extends NarrowG[\T\]
+  getter v(): T = a
+end
+
+f(x: WideG[\ZZ32\]): ZZ32 = x.w
+
+run() = do
+    println("REACHED")
+    assert(f(WideGOf[\ZZ32\](1)), 1, "control: a WideG where a WideG is declared")
+    assert(f(NarrowGOf[\ZZ32\](2)), 2, "row 389 (provisional): a generic trait's coercion converts; conversions-coercions.tex:176-178, :212-222")
+    println("PASS")
+  end
+
+end

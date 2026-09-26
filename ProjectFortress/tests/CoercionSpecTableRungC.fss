@@ -1,0 +1,35 @@
+component CoercionSpecTableRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+object X
+  coerce(kiki: Y) = X
+  coerce(tutu: Q) = X
+  hack(other: X): ZZ32 = 1
+end
+object Y end
+object Q end
+
+foo(dodo: X): ZZ32 = 2
+
+bar(hyar: X, yon: X): ZZ32 = 3
+bar(hyar: Q, yon: Q): ZZ32 = 4
+
+run() = do
+    assert(X.hack(Y), 1, "row 19: X.hack(Y) is X.hack(coerce[X](Y)); conversions-coercions.tex:300-310")
+    assert(X.hack(Q), 1, "row 19: X.hack(Q) is X.hack(coerce[X](Q)); conversions-coercions.tex:300-310")
+    assert(foo(Y), 2, "row 19: foo(Y); conversions-coercions.tex:315")
+    assert(foo(Q), 2, "row 19: foo(Q); conversions-coercions.tex:316")
+    assert(bar(Y, X), 3, "row 19: bar(Y, X); conversions-coercions.tex:317")
+    assert(bar(Q, X), 3, "row 19: bar(Q, X); conversions-coercions.tex:318")
+    assert(bar(X, Y), 3, "row 19: bar(X, Y); conversions-coercions.tex:319")
+    assert(bar(X, Q), 3, "row 19: bar(X, Q); conversions-coercions.tex:320")
+    assert(bar(Y, Y), 3, "row 19: bar(Y, Y); conversions-coercions.tex:321")
+    assert(bar(Q, Q), 4, "row 19: bar(Q, Q) is unchanged; conversions-coercions.tex:322, :327-329")
+    assert(bar(Q, Y), 3, "row 19: bar(Q, Y); conversions-coercions.tex:323")
+    assert(bar(Y, Q), 3, "row 19: bar(Y, Q); conversions-coercions.tex:324")
+    println("PASS")
+  end
+
+end
