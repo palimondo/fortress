@@ -250,3 +250,30 @@ was never finished, never checked against the rest of the language definition, a
 adopted as the specification of record before the project ended. This is offered as
 evidence bearing on Pavol's decision of what to cite where; it does not by itself say
 which text should govern.
+
+## Coordinator's check (2026-09-26)
+
+Section 6's statement that the static-parameter topic behind the batch-4 specification rung
+has no counterpart in `Documentation/Specification/` is wrong. There is no
+`trait-parameters` file, but `Documentation/Specification/Prose/Language/types.tick`
+(Victor Luchangco, 2012-05-31, `275b90773`, "New types chapter (draft)") restates the
+rule itself:
+
+- `types.tick:353-376`: the rule is renamed "instantiation exclusion" (the comment at
+  :353-354: "Multiple instantiation exclusion / Victor: I've shortened this to
+  instantiation exclusion"). Two instantiations exclude each other if the arguments for
+  any covariant parameter exclude each other, or if the arguments for any non-covariant
+  parameter are not type equivalent. The `\note` states the stronger rule that is
+  actually imposed: a trait that extends two instantiations of a generic type must
+  extend an expressible instantiation that is a subtype of both.
+- `types.tick:320-339`: a trait's static parameter may be declared `covariant`, and one
+  instantiation is a subtype of another when the covariant arguments are subtypes and the
+  others are the same. The older draft has no such modifier. It expresses covariance
+  through a self-extending `where` clause (`Specification/basic/trait-parameters.tex:339-352`).
+- `types.tick:173-195`: `Bottom` is uninhabited, excludes every type including itself, and
+  is inexpressible: it cannot be written in a program.
+
+So, on the rule the batch-4 specification rung revises, the team's later statement is
+this unfinished chapter too. It keeps the rule and adds declared covariance. The path's
+`git log` names only the parentless import `5a68404fd`. The date comes from `275b90773`,
+whose diff rewrites this file (1,429 lines changed).
