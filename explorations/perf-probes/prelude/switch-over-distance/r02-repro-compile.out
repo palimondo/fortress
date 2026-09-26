@@ -1,0 +1,650 @@
+########## Distance -order check -setting compile Library/FortressLibrary.fss
+# jvm flags: -Dfortress.analyzer.overload.cache=false
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 1.42 2.05 2.89; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# start 2026-09-26T11:01:00Z
+### order=check phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK ] setting=compile (extendsObject=true compiledExpr=true) prelude=INTERPRETER target=[Library/FortressLibrary.fss] overloadCache=false
+/home/user/fortress/Library/FortressLibrary.fsi:121:19-27:
+    Type TotalComparison excludes FortressLibrary.Comparison but it extends FortressLibrary.Comparison.
+/home/user/fortress/Library/FortressLibrary.fsi:121:19-27:
+    Types Comparison and StandardTotalOrder[\TotalComparison\] exclude each other.  TotalComparison must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:121:31-65:
+    Types StandardTotalOrder[\TotalComparison\] and Comparison exclude each other.  TotalComparison must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:121:31-66:
+    Type TotalComparison excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+/home/user/fortress/Library/FortressLibrary.fsi:132:25-39:
+    Type LessThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+/home/user/fortress/Library/FortressLibrary.fsi:143:28-42:
+    Type GreaterThan excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+/home/user/fortress/Library/FortressLibrary.fsi:153:24-38:
+    Type EqualTo excludes FortressLibrary.TotalComparison but it extends FortressLibrary.TotalComparison.
+/home/user/fortress/Library/FortressLibrary.fsi:373:20-22:
+    Type QQ excludes FortressLibrary.RR64 but it extends FortressLibrary.RR64.
+/home/user/fortress/Library/FortressLibrary.fsi:373:20-22:
+    Types RR64 and StandardPartialOrder[\QQ\] exclude each other.  QQ must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:373:26-49:
+    Types StandardPartialOrder[\QQ\] and RR64 exclude each other.  QQ must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:373:26-50:
+    Type QQ excludes FortressLibrary.StandardPartialOrder but it extends FortressLibrary.StandardPartialOrder.
+/home/user/fortress/Library/FortressLibrary.fsi:409:1-52:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as FortressLibrary.QQ, should not be extended.
+/home/user/fortress/Library/FortressLibrary.fsi:409:29:
+    Type AnyIntegral excludes FortressLibrary.QQ but it extends FortressLibrary.QQ.
+/home/user/fortress/Library/FortressLibrary.fsi:412:1-436:2:
+    Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+    but its immediate subtype Integral is not eligible to extend it.
+/home/user/fortress/Library/FortressLibrary.fsi:412:53-73:
+    Types StandardTotalOrder[\I\] and AnyIntegral exclude each other.  Integral must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:412:53-74:
+    Type Integral[\I\] excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+/home/user/fortress/Library/FortressLibrary.fsi:412:78-87:
+    Type Integral[\I\] excludes FortressLibrary.AnyIntegral but it extends FortressLibrary.AnyIntegral.
+/home/user/fortress/Library/FortressLibrary.fsi:412:78-87:
+    Types AnyIntegral and StandardTotalOrder[\I\] exclude each other.  Integral must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:438:22:
+    Type NN64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+/home/user/fortress/Library/FortressLibrary.fsi:438:22:
+    Types ZZ and Integral[\NN64\] exclude each other.  NN64 must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:438:26-39:
+    Types Integral[\NN64\] and ZZ exclude each other.  NN64 must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:438:26-40:
+    Type NN64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+/home/user/fortress/Library/FortressLibrary.fsi:465:22-24:
+    Type ZZ32 excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+/home/user/fortress/Library/FortressLibrary.fsi:465:22-24:
+    Types ZZ64 and Integral[\ZZ32\] exclude each other.  ZZ32 must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:465:28-41:
+    Types Integral[\ZZ32\] and ZZ64 exclude each other.  ZZ32 must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:465:28-42:
+    Type ZZ32 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+/home/user/fortress/Library/FortressLibrary.fsi:499:22:
+    Type ZZ64 excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+/home/user/fortress/Library/FortressLibrary.fsi:499:22:
+    Types ZZ and Integral[\ZZ64\] exclude each other.  ZZ64 must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:499:26-39:
+    Types Integral[\ZZ64\] and ZZ exclude each other.  ZZ64 must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:499:26-40:
+    Type ZZ64 excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+/home/user/fortress/Library/FortressLibrary.fsi:537:20-32:
+    Type ZZ excludes FortressLibrary.Integral but it extends FortressLibrary.Integral.
+/home/user/fortress/Library/FortressLibrary.fsi:653:20-32:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:682:36-51:
+    Ill-formed type: Generator[\(E, G)\]
+    The static argument (E, G) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:708:38-50:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:766:35-50:
+    Ill-formed type: Generator[\(E, F)\]
+    The static argument (E, F) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:780:31-49:
+    Ill-formed type: Generator[\(ZZ32, E)\]
+    The static argument (ZZ32, E) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:794:36-51:
+    Ill-formed type: Generator[\(E, G)\]
+    The static argument (E, G) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:803:24-36:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:803:47-59:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:803:68-80:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:806:23-35:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:806:46-58:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:806:67-79:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:818:32-49:
+    Types Equality[\AnyMaybe\] and AnyUniqueItem exclude each other.  AnyMaybe must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:818:32-50:
+    Type AnyMaybe excludes FortressLibrary.Equality but it extends FortressLibrary.Equality.
+/home/user/fortress/Library/FortressLibrary.fsi:818:54-65:
+    Type AnyMaybe excludes FortressLibrary.AnyUniqueItem but it extends FortressLibrary.AnyUniqueItem.
+/home/user/fortress/Library/FortressLibrary.fsi:818:54-65:
+    Types AnyUniqueItem and Equality[\AnyMaybe\] exclude each other.  AnyMaybe must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:835:19-25:
+    Type Maybe[\T\] excludes FortressLibrary.AnyMaybe but it extends FortressLibrary.AnyMaybe.
+/home/user/fortress/Library/FortressLibrary.fsi:835:19-25:
+    Types AnyMaybe and UniqueItem[\T\] exclude each other.  Maybe must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:835:63-75:
+    Types UniqueItem[\T\] and AnyMaybe exclude each other.  Maybe must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:835:63-76:
+    Type Maybe[\T\] excludes FortressLibrary.UniqueItem but it extends FortressLibrary.UniqueItem.
+/home/user/fortress/Library/FortressLibrary.fsi:840:37-46:
+    Type Just[\T\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+/home/user/fortress/Library/FortressLibrary.fsi:851:36-51:
+    Ill-formed type: Generator[\(T, G)\]
+    The static argument (T, G) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:864:35-44:
+    Type Nothing[\T\] excludes FortressLibrary.Maybe but it extends FortressLibrary.Maybe.
+/home/user/fortress/Library/FortressLibrary.fsi:875:36-51:
+    Ill-formed type: Generator[\(T, G)\]
+    The static argument (T, G) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:917:36-51:
+    Ill-formed type: Generator[\(T, G)\]
+    The static argument (T, G) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1137:31-46:
+    Ill-formed type: Indexed[\(I, E),I\]
+    The static argument (I, E) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1189:34-51:
+    Ill-formed type: ZeroIndexed[\(E, F)\]
+    The static argument (E, F) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1193:19-36:
+    Ill-formed type: ZeroIndexed[\(E, F)\]
+    The static argument (E, F) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1193:41-68:
+    Ill-formed type: DelegatedIndexed[\(E, F),ZZ32\]
+    The static argument (E, F) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1198:28-45:
+    Ill-formed type: ZeroIndexed[\(E, F)\]
+    The static argument (E, F) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1225:36-51:
+    Ill-formed type: Generator[\(E, G)\]
+    The static argument (E, G) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1258:31-46:
+    Ill-formed type: Indexed[\(I, E),I\]
+    The static argument (I, E) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1318:5-47:
+/home/user/fortress/Library/FortressLibrary.fsi:1370:5-18:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ImmutableArray[\T,ZZ32\], ZZ32->T)->ImmutableArray[\T,ZZ32\] @ /home/user/fortress/Library/FortressLibrary.fsi:1318:5-47
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], ZZ32->T)->ImmutableArray1[\T,0,s0\] @ /home/user/fortress/Library/FortressLibrary.fsi:1370:5-18
+/home/user/fortress/Library/FortressLibrary.fsi:1319:5-44:
+/home/user/fortress/Library/FortressLibrary.fsi:1371:5-15:
+    Invalid overloading of fill in trait PrimImmutableArray:
+     (ImmutableArray[\T,ZZ32\], T)->ImmutableArray[\T,ZZ32\] @ /home/user/fortress/Library/FortressLibrary.fsi:1319:5-44
+ and (StandardImmutableArrayType[\ImmutableArray1[\T,0,s0\],T,ZZ32\], T)->ImmutableArray1[\T,0,s0\] @ /home/user/fortress/Library/FortressLibrary.fsi:1371:5-15
+/home/user/fortress/Library/FortressLibrary.fsi:1338:5-38:
+/home/user/fortress/Library/FortressLibrary.fsi:1370:5-18:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (Array[\T,ZZ32\], ZZ32->T)->Array[\T,ZZ32\] @ /home/user/fortress/Library/FortressLibrary.fsi:1338:5-38
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], ZZ32->T)->Array1[\T,0,s0\] @ /home/user/fortress/Library/FortressLibrary.fsi:1370:5-18
+/home/user/fortress/Library/FortressLibrary.fsi:1339:5-35:
+/home/user/fortress/Library/FortressLibrary.fsi:1371:5-15:
+    Invalid overloading of fill in trait PrimitiveArray:
+     (Array[\T,ZZ32\], T)->Array[\T,ZZ32\] @ /home/user/fortress/Library/FortressLibrary.fsi:1339:5-35
+ and (StandardImmutableArrayType[\Array1[\T,0,s0\],T,ZZ32\], T)->Array1[\T,0,s0\] @ /home/user/fortress/Library/FortressLibrary.fsi:1371:5-15
+/home/user/fortress/Library/FortressLibrary.fsi:1351:27-46:
+    Ill-formed type: Array[\E,(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1352:34-58:
+    Ill-formed type: Array[\E,(ZZ32, ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1357:36-64:
+    Ill-formed type: ImmutableArray[\E,(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1358:43-76:
+    Ill-formed type: ImmutableArray[\E,(ZZ32, ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1544:15-77:
+    Ill-formed type: StandardMutableArrayType[\Array2[\T,b0,s0,b1,s1\],T,(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1548:19-47:
+    Ill-formed type: CompactFullRange[\(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1554:9-26:
+    Ill-formed type: Range[\(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1554:32-51:
+    Ill-formed type: Array[\T,(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1557:26-45:
+    Ill-formed type: Array[\T,(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1567:17-45:
+    Ill-formed type: CompactFullRange[\(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1578:12-40:
+    Ill-formed type: ImmutableArray[\T,(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1659:15-1660:56:
+    Ill-formed type: StandardMutableArrayType[\Array3[\T,b0,s0,b1,s1,b2,s2\],T,(ZZ32, ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1671:21-54:
+    Ill-formed type: CompactFullRange[\(ZZ32, ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1685:11-33:
+    Ill-formed type: Range[\(ZZ32, ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1685:39-63:
+    Ill-formed type: Array[\T,(ZZ32, ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1688:32-51:
+    Ill-formed type: Array[\T,(ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1699:19-52:
+    Ill-formed type: CompactFullRange[\(ZZ32, ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1706:14-47:
+    Ill-formed type: ImmutableArray[\T,(ZZ32, ZZ32, ZZ32)\]
+    The static argument (ZZ32, ZZ32, ZZ32) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1735:40-77:
+    Ill-formed type: Maybe[\(Reduction[\R\], Reduction[\R\])\]
+    The static argument (Reduction[\R\], Reduction[\R\]) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1738:41-78:
+    Ill-formed type: Maybe[\(Reduction[\R\], Reduction[\R\])\]
+    The static argument (Reduction[\R\], Reduction[\R\]) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1741:36-73:
+    Ill-formed type: Maybe[\(Reduction[\R\], Reduction[\R\])\]
+    The static argument (Reduction[\R\], Reduction[\R\]) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1817:32-61:
+    Ill-formed type: CommutativeMonoidReduction[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1825:1-30:
+    Types DistributesOver[\MaxReductionN\] and DistributesOver[\MinReductionN\] exclude each other.  SumReduction must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:1825:1-31:
+    Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+/home/user/fortress/Library/FortressLibrary.fsi:1826:1-30:
+    Types DistributesOver[\MinReductionN\] and DistributesOver[\MaxReductionN\] exclude each other.  SumReduction must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:1826:1-31:
+    Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+/home/user/fortress/Library/FortressLibrary.fsi:1836:1-29:
+    Types DistributesOver[\SumReduction\] and DistributesOver[\MaxReductionN\] exclude each other.  ProdReduction must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:1836:1-29:
+    Types DistributesOver[\SumReduction\] and DistributesOver[\MinReductionN\] exclude each other.  ProdReduction must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:1836:1-30:
+    Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+/home/user/fortress/Library/FortressLibrary.fsi:1837:1-30:
+    Types DistributesOver[\MinReductionN\] and DistributesOver[\MaxReductionN\] exclude each other.  ProdReduction must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:1837:1-30:
+    Types DistributesOver[\MinReductionN\] and DistributesOver[\SumReduction\] exclude each other.  ProdReduction must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:1837:1-31:
+    Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+/home/user/fortress/Library/FortressLibrary.fsi:1838:1-30:
+    Types DistributesOver[\MaxReductionN\] and DistributesOver[\MinReductionN\] exclude each other.  ProdReduction must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:1838:1-30:
+    Types DistributesOver[\MaxReductionN\] and DistributesOver[\SumReduction\] exclude each other.  ProdReduction must not extend them.
+/home/user/fortress/Library/FortressLibrary.fsi:1838:1-32:
+    Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.DistributesOver.
+/home/user/fortress/Library/FortressLibrary.fsi:1864:34-76:
+    Ill-formed type: CommutativeMonoidReduction[\(Number, Number)\]
+    The static argument (Number, Number) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1870:9-72:
+    Ill-formed type: Comprehension[\T,(Number, Number),(Number, Number),(Number, Number)\]
+    The static argument (Number, Number) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1889:65-91:
+    Ill-formed type: CommutativeReduction[\(T, T)\]
+    The static argument (T, T) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1909:9-49:
+    Ill-formed type: Comprehension[\(T, U),(T, U),(T, U),AnyMaybe\]
+    The static argument (T, U) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1910:82-97:
+    Ill-formed type: Generator[\(T, U)\]
+    The static argument (T, U) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1913:9-49:
+    Ill-formed type: Comprehension[\(T, U),(T, U),(T, U),AnyMaybe\]
+    The static argument (T, U) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1914:82-97:
+    Ill-formed type: Generator[\(T, U)\]
+    The static argument (T, U) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1917:9-49:
+    Ill-formed type: Comprehension[\(T, U),(T, U),(T, U),AnyMaybe\]
+    The static argument (T, U) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1918:82-97:
+    Ill-formed type: Generator[\(T, U)\]
+    The static argument (T, U) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1921:9-49:
+    Ill-formed type: Comprehension[\(T, U),(T, U),(T, U),AnyMaybe\]
+    The static argument (T, U) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1922:82-97:
+    Ill-formed type: Generator[\(T, U)\]
+    The static argument (T, U) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1995:15-53:
+    Ill-formed type: Comprehension[\Any,String,String,String\]
+    The static argument Any does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:1997:15-28:
+    Ill-formed type: Generator[\Any\]
+    The static argument Any does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2002:16-54:
+    Ill-formed type: Comprehension[\Any,String,String,String\]
+    The static argument Any does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2004:16-29:
+    Ill-formed type: Generator[\Any\]
+    The static argument Any does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2009:15-55:
+    Ill-formed type: Comprehension[\Any,String,String,AnyMaybe\]
+    The static argument Any does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2024:65-84:
+    Ill-formed type: MonoidReduction[\Any\]
+    The static argument Any does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2036:38-63:
+    Ill-formed type: Comprehension[\T,T,Any,Any\]
+    The static argument Any does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2040:22-34:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2043:21-33:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2100:33-46:
+    Ill-formed type: OpenRange[\Any\]
+    The static argument Any does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2171:28-50:
+    Ill-formed type: CompactFullRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2173:32-56:
+    Ill-formed type: CompactFullRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2177:28-50:
+    Ill-formed type: CompactFullRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2179:32-56:
+    Ill-formed type: CompactFullRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2183:66-81:
+    Ill-formed type: LeftRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2185:10-27:
+    Ill-formed type: LeftRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2190:67-84:
+    Ill-formed type: ExtentRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2192:10-29:
+    Ill-formed type: ExtentRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2195:67-83:
+    Ill-formed type: RightRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2197:10-28:
+    Ill-formed type: RightRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2222:68-83:
+    Ill-formed type: OpenRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2224:23-40:
+    Ill-formed type: OpenRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2331:34-58:
+    Ill-formed type: Generator[\(ZZ32, String)\]
+    The static argument (ZZ32, String) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2518:29-183:
+    Ill-formed type: Generator[\((ActualReduction[\R,L1\], ActualReduction[\R,L2\], E->R)->Boolean, (ActualReduction[\R,L1\], ActualReduction[\R,L1\], E->R)->R)\]
+    The static argument ((ActualReduction[\R,L1\], ActualReduction[\R,L2\], E->R)->Boolean, (ActualReduction[\R,L1\], ActualReduction[\R,L1\], E->R)->R) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2521:124-136:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2523:37-261:
+    Ill-formed type: Generator[\((ActualReduction[\R,L1\], ActualReduction[\R,L2\], Generator[\E\]->Condition[\()\], E->R)->Boolean, (ActualReduction[\R,L1\], ActualReduction[\R,L2\], Generator[\E\]->Condition[\()\], E->R)->R)\]
+    The static argument ((ActualReduction[\R,L1\], ActualReduction[\R,L2\], Generator[\E\]->Condition[\()\], E->R)->Boolean, (ActualReduction[\R,L1\], ActualReduction[\R,L2\], Generator[\E\]->Condition[\()\], E->R)->R) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2525:33-45:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2530:51-63:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/FortressLibrary.fsi:2530:51-64:
+    Type RelationalPredicateCondition[\E\] excludes FortressLibrary.Condition but it extends FortressLibrary.Condition.
+/home/user/fortress/Library/FortressLibrary.fsi:2530:78-90:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/List.fsi:76:25-44:
+    Ill-formed type: Maybe[\(E, List.List[\E\])\]
+    The static argument (E, List.List[\E\]) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/List.fsi:77:26-45:
+    Ill-formed type: Maybe[\(List.List[\E\], E)\]
+    The static argument (List.List[\E\], E) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/List.fsi:135:22-32:
+    Ill-formed type: List.List[\(E, F)\]
+    The static argument (E, F) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:54:13-25:
+    Ill-formed type: Range[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:61:29-49:
+    Ill-formed type: RangeWithLeft[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:62:29-50:
+    Ill-formed type: RangeWithRight[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:63:26-38:
+    Ill-formed type: Range[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:63:44-56:
+    Ill-formed type: Range[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:64:44-56:
+    Ill-formed type: Range[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:87:13-28:
+    Ill-formed type: Range[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:96:37-60:
+    Ill-formed type: RangeWithLeft[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:97:37-61:
+    Ill-formed type: RangeWithRight[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:98:26-41:
+    Ill-formed type: Range[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:98:47-62:
+    Ill-formed type: Range[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:99:47-62:
+    Ill-formed type: Range[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:144:15-31:
+    Ill-formed type: OpenRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:159:15-34:
+    Ill-formed type: OpenRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:203:15-33:
+    Ill-formed type: ExtentRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:206:22-33:
+    Ill-formed type: Just[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:220:15-36:
+    Ill-formed type: ExtentRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:224:22-36:
+    Ill-formed type: Just[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:274:15-31:
+    Ill-formed type: LeftRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:277:20-31:
+    Ill-formed type: Just[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:282:16-35:
+    Ill-formed type: BoundedRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:290:15-34:
+    Ill-formed type: LeftRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:294:20-34:
+    Ill-formed type: Just[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:300:16-38:
+    Ill-formed type: BoundedRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:334:15-32:
+    Ill-formed type: RightRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:337:21-32:
+    Ill-formed type: Just[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:342:16-35:
+    Ill-formed type: BoundedRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:351:15-35:
+    Ill-formed type: RightRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:355:21-35:
+    Ill-formed type: Just[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:361:16-38:
+    Ill-formed type: BoundedRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:387:15-31:
+    Ill-formed type: FullRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:387:53-84:
+    Ill-formed type: DelegatedIndexed[\(I, J),(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:390:22-33:
+    Ill-formed type: Just[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:391:25-41:
+    Ill-formed type: Generator[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:392:23-39:
+    Ill-formed type: Generator[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:397:14-26:
+    Ill-formed type: Range[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:398:24-35:
+    Ill-formed type: Maybe[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:405:15-34:
+    Ill-formed type: FullRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:405:59-96:
+    Ill-formed type: DelegatedIndexed[\(I, J, K),(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:409:22-36:
+    Ill-formed type: Just[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:410:25-44:
+    Ill-formed type: Generator[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:411:23-39:
+    Ill-formed type: Generator[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:416:14-29:
+    Ill-formed type: Range[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:417:26-39:
+    Ill-formed type: Maybe[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:425:31-48:
+    Ill-formed type: Indexed[\(I, I),I\]
+    The static argument (I, I) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:461:15-38:
+    Ill-formed type: CompactFullRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:465:23-39:
+    Ill-formed type: Generator[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:466:31-57:
+    Ill-formed type: Generator[\((I, J), (I, J))\]
+    The static argument ((I, J), (I, J)) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:468:20-31:
+    Ill-formed type: Just[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:469:21-32:
+    Ill-formed type: Just[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:481:15-41:
+    Ill-formed type: CompactFullRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:485:23-42:
+    Ill-formed type: Generator[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:486:31-63:
+    Ill-formed type: Generator[\((I, J, K), (I, J, K))\]
+    The static argument ((I, J, K), (I, J, K)) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:488:20-34:
+    Ill-formed type: Just[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:489:21-35:
+    Ill-formed type: Just[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:501:31-48:
+    Ill-formed type: Indexed[\(I, I),I\]
+    The static argument (I, I) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:535:15-38:
+    Ill-formed type: StridedFullRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:537:23-39:
+    Ill-formed type: Generator[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:538:31-57:
+    Ill-formed type: Generator[\((I, J), (I, J))\]
+    The static argument ((I, J), (I, J)) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:540:20-31:
+    Ill-formed type: Just[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:541:21-32:
+    Ill-formed type: Just[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:555:15-41:
+    Ill-formed type: StridedFullRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:557:23-42:
+    Ill-formed type: Generator[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:558:31-63:
+    Ill-formed type: Generator[\((I, J, K), (I, J, K))\]
+    The static argument ((I, J, K), (I, J, K)) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:560:20-34:
+    Ill-formed type: Just[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:561:21-35:
+    Ill-formed type: Just[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:596:85-101:
+    Ill-formed type: LeftRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:598:120-139:
+    Ill-formed type: LeftRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:602:87-105:
+    Ill-formed type: ExtentRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:604:122-143:
+    Ill-formed type: ExtentRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:608:86-103:
+    Ill-formed type: RightRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:610:121-141:
+    Ill-formed type: RightRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:620:85-101:
+    Ill-formed type: OpenRange[\(I, J)\]
+    The static argument (I, J) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/RangeInternals.fsi:622:120-139:
+    Ill-formed type: OpenRange[\(I, J, K)\]
+    The static argument (I, J, K) does not satisfy the corresponding bound Object.
+/home/user/fortress/Library/Stream.fsi:52:14-27:
+    Ill-formed type: Generator[\Any\]
+    The static argument Any does not satisfy the corresponding bound Object.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:76:26-29:
+    Type Int excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:79:27-30:
+    Type Long excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:29-52:
+    Types StandardTotalOrder[\NN32\] and NN64 exclude each other.  NN32 must not extend them.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:29-53:
+    Type NN32 excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOrder.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:57-59:
+    Type NN32 excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:82:57-59:
+    Types NN64 and StandardTotalOrder[\NN32\] exclude each other.  NN32 must not extend them.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:110:35-38:
+    Type UnsignedLong excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:113:29-31:
+    Type IntLiteral excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:145:23:
+    Type BigNum excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:148:15-27:
+    Ill-formed type: Condition[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+File FortressLibrary.fss has 231 errors.
+### rc=-1
+exit=255
+ELAPSED 12 s
+# end 2026-09-26T11:01:12Z

@@ -66,6 +66,8 @@ count)
   explorations/coordinator/tools/checker-count/run.sh "$P/r01-count-stage-memo-off.txt" "$W/count-off" > /dev/null 2>&1
   # this probe's driver with every probe switch off reproduces the stage's total
   run r02-repro 900 "$MEMO" -- -order check -setting walk Library/FortressLibrary.fss; trim r02-repro
+  # and what the same early returns would show under the compile path's setting
+  run r02-repro-compile 900 "$MEMO" -- -order check -setting compile Library/FortressLibrary.fss; trim r02-repro-compile
   ;;
 control)
   # the compiler's own prelude, whose compile is green: every stage run must still give 0
@@ -119,6 +121,11 @@ dispatch)
   J=$W/r3-dispatch.jfr; [ -s "$J" ] || J=$W/r3-dispatch.dump.jfr
   jfr view --width 200 hot-methods "$J" > "$P/r3-dispatch.hot-methods.txt" 2>&1
   python3 $P/jfr-stacks.py "$J" > "$P/r3-dispatch.jfr-frames.txt" 2>&1
+  # the code-generation window, from the watcher's "entered" line to the run's end line
+  t0=$(sed -n 's/^# code generation entered at \([0-9:]*\).*/\1/p' "$W/r3-dispatch.watch.txt")
+  t1=$(sed -n 's/^# end ....-..-..T\([0-9:]*\)Z/\1/p' "$W/r3-dispatch.out")
+  [ -n "$t0" ] && python3 $P/jfr-stacks.py "$J" "$t0" "$t1" > "$P/r3-dispatch.jfr-codegen.txt" 2>&1
+  python3 explorations/perf-probes/prelude/desugar-codegen/classify.py "$P/r3-dispatch.out" > "$P/r3-dispatch.classified.txt"
   ;;
 flat)
   # price-keep-the-rule.md § 5's copies, made again from today's tree; the copy's directory

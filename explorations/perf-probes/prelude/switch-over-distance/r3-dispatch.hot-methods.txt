@@ -1,0 +1,30 @@
+
+                                                                                   Java Methods that Execute the Most
+
+Method                                                                                                                                                                                  Samples Percent
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------- -------
+com.sun.fortress.scala_src.nodes.Walker.walk(Object)                                                                                                                                     56,039  72.63%
+com.sun.fortress.scala_src.useful.ASTGenHelper$.scalaify(Object)                                                                                                                          2,271   2.94%
+scala.runtime.BoxesRunTime.equals2(Object, Object)                                                                                                                                        1,233   1.60%
+scala.collection.immutable.SetBuilderImpl.addOne(Object)                                                                                                                                  1,112   1.44%
+scala.collection.immutable.HashSetBuilder.update(SetNode, Object, int, int, int)                                                                                                          1,002   1.30%
+java.util.Arrays.copyOf(Object[], int)                                                                                                                                                      934   1.21%
+scala.runtime.Statics.anyHash(Object)                                                                                                                                                       904   1.17%
+scala.collection.immutable.HashSetBuilder.insertValue(BitmapIndexedSetNode, int, Object, int, int)                                                                                          818   1.06%
+scala.collection.mutable.Growable.addAll(IterableOnce)                                                                                                                                      690   0.89%
+com.sun.fortress.scala_src.nodes.STraitType$.unapply(TraitType)                                                                                                                             575   0.75%
+scala.collection.Iterator$ConcatIterator.hasNext()                                                                                                                                          507   0.66%
+scala.collection.StrictOptimizedIterableOps.flatMap(Function1)                                                                                                                              412   0.53%
+scala.collection.immutable.ChampBaseIterator.searchNextValueNode()                                                                                                                          373   0.48%
+scala.collection.immutable.ChampBaseIterator.hasNext()                                                                                                                                      366   0.47%
+com.sun.fortress.scala_src.useful.ASTGenHelper$.needsScalafication(Object)                                                                                                                  343   0.44%
+scala.collection.ArrayOps$ArrayIterator.next()                                                                                                                                              336   0.44%
+com.sun.fortress.scala_src.nodes.Walker.walk$(Walker, Object)                                                                                                                               336   0.44%
+com.sun.fortress.nodes.TraitType.equals(Object)                                                                                                                                             309   0.40%
+scala.collection.StrictOptimizedIterableOps.map(Function1)                                                                                                                                  292   0.38%
+com.sun.fortress.scala_src.types.TypeAnalyzer$$Lambda.0x000000007541b0c8.apply(Object)                                                                                                      241   0.31%
+java.util.concurrent.ConcurrentHashMap.get(Object)                                                                                                                                          217   0.28%
+com.sun.fortress.nodes.AbstractNode.hashCode()                                                                                                                                              217   0.28%
+java.lang.invoke.DirectMethodHandle$Holder.newInvokeSpecial(Object, Object)                                                                                                                 192   0.25%
+scala.collection.immutable.Set$SetNIterator.next()                                                                                                                                          192   0.25%
+scala.collection.View$Concat.knownSize()                                                                                                                                                    189   0.24%

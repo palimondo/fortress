@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""jfr-stacks.py <recording.jfr> : where the execution samples of a JFR recording fall.
+"""jfr-stacks.py <recording.jfr> [HH:MM:SS HH:MM:SS] : where the execution samples of a JFR
+recording fall, optionally only those whose start time is in the window given (UTC, as
+`jfr print` prints it).  A window is how a phase is picked out: JFR keeps 64 frames of a
+stack by default, so the phase's own frame is often not in a deep sample.
 
 Runs `jfr print --events jdk.ExecutionSample --stack-depth 200` and reads each sample's
 stack.  Prints, over all samples:
@@ -14,9 +17,13 @@ out = subprocess.run(["jfr", "print", "--events", "jdk.ExecutionSample", "--stac
                      capture_output=True, text=True).stdout
 FRAME = re.compile(r"^\s+([\w$.<>/]+)\(.*\)\s+line:")
 samples, cur, inside = [], None, False
+lo, hi = (sys.argv[2], sys.argv[3]) if len(sys.argv) > 3 else (None, None)
 for line in out.splitlines():
     if line.startswith("jdk.ExecutionSample"):
         cur = []; samples.append(cur); inside = False
+    elif line.strip().startswith("startTime = ") and lo is not None:
+        t = line.split("=")[1].strip()[:8]
+        if not (lo <= t <= hi): samples.pop(); cur = []
     elif "stackTrace = [" in line:
         inside = True
     elif inside:
@@ -24,7 +31,8 @@ for line in out.splitlines():
         if m: cur.append(m.group(1))
         elif line.strip().startswith("]"): inside = False
 n = len(samples)
-print("# %s: %d execution samples" % (sys.argv[1].split("/")[-1], n))
+print("# %s: %d execution samples%s" % (sys.argv[1].split("/")[-1], n,
+      " started between %s and %s" % (lo, hi) if lo else ""))
 if not n: sys.exit(0)
 top = collections.Counter(s[0] for s in samples if s)
 print("\n## top frame (self), 25 commonest")
