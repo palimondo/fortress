@@ -1,0 +1,15 @@
+component ZrMethOnlyT
+export Executable
+object BoxT[\T\](v: ZZ32) end
+which(x: Any): String = typecase x of BoxT[\String\] => "string"; BoxT[\ZZ32\] => "zz32"; else => "other" end
+object G[\T\](v: ZZ32)
+  m[\U\](b: BoxT[\U\]): String = which(BoxT[\U\](2))
+end
+object N
+  m[\U\](b: BoxT[\U\]): String = which(BoxT[\U\](2))
+end
+run() = do
+  println(N.m[\ZZ32\](BoxT[\ZZ32\](0)))
+  println(G[\String\](0).m[\ZZ32\](BoxT[\ZZ32\](0)))
+end
+end

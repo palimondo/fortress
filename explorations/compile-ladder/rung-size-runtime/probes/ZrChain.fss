@@ -1,0 +1,11 @@
+component ZrChain
+export Executable
+object Box[\nat k\](v: ZZ32) end
+inner[\nat k\](b: Box[\k\]): ZZ32 = (fn (): ZZ32 => do x: Box[\k\] = b; x.v + k end)()
+outer[\nat k\](b: Box[\k\]): ZZ32 = (fn (): ZZ32 => inner(b))()
+viaLit[\nat k\](b: Box[\k\]): ZZ32 = (fn (): ZZ32 => inner(Box[\k\](100)))()
+run() = do
+  println(outer(Box[\5\](10)))
+  println(viaLit(Box[\6\](0)))
+end
+end

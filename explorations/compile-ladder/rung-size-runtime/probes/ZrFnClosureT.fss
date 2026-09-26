@@ -1,0 +1,13 @@
+component ZrFnClosureT
+export Executable
+object BoxT[\T\](v: ZZ32) end
+which(x: Any): String = typecase x of BoxT[\String\] => "string"; BoxT[\ZZ32\] => "zz32"; else => "other" end
+object H[\T\](v: ZZ32)
+  m(): String = (fn (): String => which(BoxT[\T\](1)))()
+end
+f[\U\](v: ZZ32): String = (fn (): String => which(BoxT[\U\](2)))()
+run() = do
+  println(H[\String\](0).m())
+  println(f[\ZZ32\](0))
+end
+end

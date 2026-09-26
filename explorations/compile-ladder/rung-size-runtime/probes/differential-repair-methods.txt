@@ -1,0 +1,179 @@
+# closures and generic methods on the repair build (d6f91bcce), differential.sh (walk against the compiled run at FORTRESS_THREADS=1 and 4), five runs concatenated, each with its own machine line
+## ZrChain (from the first run; its two siblings in that run were rewritten and are in the second run)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.32 1.52 1.93; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrChain.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+15
+106
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+15
+106
+exit=0
+---------- walk, FORTRESS_THREADS=1
+15
+106
+exit=0
+---------- walk, FORTRESS_THREADS=4
+15
+106
+exit=0
+# further repair-round probes on the repair build (d6f91bcce), differential.sh; the generic method called with its static argument written out, which walk needs (row 21)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.90 1.51 1.90; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrMethClosure.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+34
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+34
+exit=0
+---------- walk, FORTRESS_THREADS=1
+34
+exit=0
+---------- walk, FORTRESS_THREADS=4
+34
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrMethClosureT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: U$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 13 more
+Caused by: java.io.IOException: Resource not found : U$RTTIc.class
+	... 14 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: U$RTTIc
+	... 5 more
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : U$RTTIc.class
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+stringzz32
+exit=0
+---------- walk, FORTRESS_THREADS=4
+stringzz32
+exit=0
+# further repair-round probes on the repair build (d6f91bcce), differential.sh: a closure in a generic method of a generic object that constructs an instance over the method s and the object s static parameters, for sizes (ZrMethClosureS); its type twin without the closure (ZrMethNoClosureT); a closure over one static parameter in a method of a generic object and in a generic function (ZrFnClosureT)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.95 1.45 1.87; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrMethClosureS.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: j$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 13 more
+Caused by: java.io.IOException: Resource not found : j$RTTIc.class
+	... 14 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: j$RTTIc
+	... 5 more
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : j$RTTIc.class
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+threefour
+exit=0
+---------- walk, FORTRESS_THREADS=4
+threefour
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrMethNoClosureT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: U$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 12 more
+Caused by: java.io.IOException: Resource not found : U$RTTIc.class
+	... 13 more
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: U$RTTIc
+	... 5 more
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : U$RTTIc.class
+	... 8 more
+exit=1
+---------- walk, FORTRESS_THREADS=1
+stringzz32
+exit=0
+---------- walk, FORTRESS_THREADS=4
+stringzz32
+exit=0
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrFnClosureT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+string
+zz32
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+string
+zz32
+exit=0
+---------- walk, FORTRESS_THREADS=1
+string
+zz32
+exit=0
+---------- walk, FORTRESS_THREADS=4
+string
+zz32
+exit=0
+# a generic method constructing an instance over its own type parameter, in a singleton object (N) and in a generic object (G), on the repair build (d6f91bcce)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.05 1.44 1.84; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrMethOnlyT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+zz32
+zz32
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+zz32
+zz32
+exit=0
+---------- walk, FORTRESS_THREADS=1
+zz32
+zz32
+exit=0
+---------- walk, FORTRESS_THREADS=4
+zz32
+zz32
+exit=0
+# a generic method of a generic object constructing an instance over the object s type parameter only, on the repair build (d6f91bcce)
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.88 1.38 1.82; JDK 25; FORTRESS_THREADS=1
+################################ explorations/compile-ladder/rung-size-runtime/probes/ZrMethObjT.fss
+---------- compile
+exit=0
+---------- compiled run, FORTRESS_THREADS=1
+string
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+string
+exit=0
+---------- walk, FORTRESS_THREADS=1
+string
+exit=0
+---------- walk, FORTRESS_THREADS=4
+string
+exit=0

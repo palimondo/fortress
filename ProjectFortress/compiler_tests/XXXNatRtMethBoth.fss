@@ -1,0 +1,19 @@
+(* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
+component XXXNatRtMethBoth
+export Executable
+object Box[\nat k\](v: ZZ32) end
+object BoxT[\T\](v: ZZ32) end
+which(x: Any): String = typecase x of Box[\3\] => "three"; Box[\4\] => "four"; BoxT[\String\] => "string"; BoxT[\ZZ32\] => "zz32"; else => "other" end
+object Hs[\nat k\](v: ZZ32)
+  m[\nat j\](b: Box[\j\]): String = which(Box[\k\](1)) || which(Box[\j\](2))
+end
+object Ht[\T\](v: ZZ32)
+  m[\U\](b: BoxT[\U\]): String = which(BoxT[\T\](1)) || which(BoxT[\U\](2))
+end
+run() = do
+  println("REACHED")
+  assert(Hs[\3\](0).m[\4\](Box[\4\](0)), "threefour", "trait-parameters.tex:82-90")
+  assert(Ht[\String\](0).m[\ZZ32\](BoxT[\ZZ32\](0)), "stringzz32", "trait-parameters.tex:20-24")
+  println("PASS")
+end
+end
