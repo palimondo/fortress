@@ -1,0 +1,152 @@
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionCallRungC.fss   (47437c65f, 2026-09-26T01:44:24Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/CoercionCallRungC.fss:30:12-24:
+Unification error: Closure/Constructor for f param 1 (x:Wide) got arg NarrowOf of type NarrowOf
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionCallRungC.fss:30:12-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionOverloadRungC.fss   (47437c65f, 2026-09-26T01:44:27Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/CoercionOverloadRungC.fss:40:12-24:
+Failed to find any matching overload, args = (NarrowOf), overload = {
+	g(x:Wide):FortressLibrary.String Wide->String /home/user/fortress-coerce/ProjectFortress/tests/CoercionOverloadRungC.fss:21:1-41
+	g(x:FortressLibrary.String):FortressLibrary.String String->String /home/user/fortress-coerce/ProjectFortress/tests/CoercionOverloadRungC.fss:22:1-42}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionOverloadRungC.fss:40:12-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionBindRungC.fss   (47437c65f, 2026-09-26T01:44:32Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/CoercionBindRungC.fss:25:1-28:
+Type mismatch binding NarrowOf (type NarrowOf) to topFixed (type Wide)
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionBindRungC.fss:25:1-28:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionBindRungC.fss:25:1-28:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/CoercionMostSpecificRungC.fss   (47437c65f, 2026-09-26T01:44:36Z) ===
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/ProjectFortress/tests/CoercionMostSpecificRungC.fss:38:12-23:
+Failed to find any matching overload, args = (SmallOf), overload = {
+	f(x:Big):FortressLibrary.String Big->String /home/user/fortress-coerce/ProjectFortress/tests/CoercionMostSpecificRungC.fss:28:1-37
+	f(x:Mid):FortressLibrary.String Mid->String /home/user/fortress-coerce/ProjectFortress/tests/CoercionMostSpecificRungC.fss:29:1-38}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/ProjectFortress/tests/CoercionMostSpecificRungC.fss:38:12-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk ProjectFortress/tests/XXXCoercionStaticRungC.fss   (47437c65f, 2026-09-26T01:44:39Z) ===
+REACHED
+FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:567-604
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-coerce/Library/FortressLibrary.fss:299:9-300:5:
+/home/user/fortress-coerce/ProjectFortress/tests/XXXCoercionStaticRungC.fss:20:5-168:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/reviews/mie-probes/keep/FlatCall.fss   (47437c65f, 2026-09-26T01:44:43Z) ===
+control, a Wide:       f(Wide) got 3
+a Narrow where a Wide is declared:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/reviews/mie-probes/keep/FlatCall.fss:31:11-13:
+Unification error: Closure/Constructor for f param 1 (x:Wide) got arg NarrowOf of type NarrowOf
+Context:
+/home/user/fortress-coerce/explorations/reviews/mie-probes/keep/FlatCall.fss:31:11-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/reviews/mie-probes/keep/FlatOverload.fss   (47437c65f, 2026-09-26T01:44:47Z) ===
+control, a Wide:       g(Wide) got 3
+a Narrow where only g(Wide) and g(String) are declared:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/reviews/mie-probes/keep/FlatOverload.fss:30:11-13:
+Failed to find any matching overload, args = (NarrowOf), overload = {
+	g(x:Wide):FortressLibrary.String Wide->String /home/user/fortress-coerce/explorations/reviews/mie-probes/keep/FlatOverload.fss:23:1-41
+	g(x:FortressLibrary.String):FortressLibrary.String String->String /home/user/fortress-coerce/explorations/reviews/mie-probes/keep/FlatOverload.fss:24:1-42}:OverloadedFunction
+Context:
+/home/user/fortress-coerce/explorations/reviews/mie-probes/keep/FlatOverload.fss:30:11-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+
+=== $ FORTRESS_THREADS=1 bin/fortress walk explorations/reviews/mie-probes/keep/FlatBind.fss   (47437c65f, 2026-09-26T01:44:51Z) ===
+a Narrow bound to a variable declared Wide:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-coerce/explorations/reviews/mie-probes/keep/FlatBind.fss:24:3-10:
+RHS expression type NarrowOf is not assignable to LHS type Wide
+Context:
+/home/user/fortress-coerce/explorations/reviews/mie-probes/keep/FlatBind.fss:24:3-10:
+/home/user/fortress-coerce/explorations/reviews/mie-probes/keep/FlatBind.fss:24:3-10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+=== exit 1 ===
+

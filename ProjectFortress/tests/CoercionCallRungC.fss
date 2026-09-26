@@ -1,0 +1,36 @@
+component CoercionCallRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+f(x: Wide): ZZ64 = x.big
+
+object Holder(w: Wide) end
+
+object Scaler(k: ZZ64)
+  scale(x: Wide): ZZ64 = k x.big
+end
+
+run() = do
+    assert(f(WideOf(widen(7))), 7, "control: a Wide where a Wide is declared")
+    assert(f(NarrowOf(3)), 3, "row 19: a function's parameter converts by the declared type's coerce; conversions-coercions.tex:98-110")
+    assert(Holder(NarrowOf(4)).w.big, 4, "row 19: a constructor's parameter converts; conversions-coercions.tex:98-110")
+    assert(Scaler(widen(2)).scale(NarrowOf(5)), 10, "row 19: a method's parameter converts; conversions-coercions.tex:98-110")
+    println("PASS")
+  end
+
+end

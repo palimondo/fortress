@@ -1,0 +1,48 @@
+component CoercionBindRungC
+export Executable
+
+(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+
+trait Wide excludes { Narrow }
+  coerce(x: Narrow) = WideOf(widen(x.small))
+  getter big(): ZZ64
+end
+trait Narrow excludes { Wide }
+  getter small(): ZZ32
+end
+object WideOf(b: ZZ64) extends Wide
+  getter big(): ZZ64 = b
+end
+object NarrowOf(s: ZZ32) extends Narrow
+  getter small(): ZZ32 = s
+end
+
+object Record(n: ZZ32)
+  fixed: Wide = NarrowOf(n)
+  var moving: Wide = NarrowOf(n + 1)
+end
+
+topFixed: Wide = NarrowOf(6)
+var topMoving: Wide = NarrowOf(7)
+
+run() = do
+    w: Wide = NarrowOf(3)
+    assert(w.big, 3, "row 19: a local variable declared Wide converts its right-hand side; conversions-coercions.tex:100-101")
+    (t: Wide, s: String) = (NarrowOf(4), "four")
+    assert(t.big, 4, "row 19: a tuple binding's typed element converts; conversions-coercions.tex:100-101")
+    var v: Wide = WideOf(widen(1))
+    v := NarrowOf(5)
+    assert(v.big, 5, "row 19: an assignment to a variable declared Wide converts; conversions-coercions.tex:108-109")
+    assert(topFixed.big, 6, "row 19: a top-level immutable variable converts; conversions-coercions.tex:100-101")
+    assert(topMoving.big, 7, "row 19: a top-level mutable variable converts; conversions-coercions.tex:100-101")
+    topMoving := NarrowOf(8)
+    assert(topMoving.big, 8, "row 19: an assignment to a top-level variable converts; conversions-coercions.tex:108-109")
+    r = Record(9)
+    assert(r.fixed.big, 9, "row 19: an immutable field declared Wide converts; conversions-coercions.tex:100-101")
+    assert(r.moving.big, 10, "row 19: a mutable field declared Wide converts; conversions-coercions.tex:100-101")
+    r.moving := NarrowOf(11)
+    assert(r.moving.big, 11, "row 19: an assignment to a field declared Wide converts; conversions-coercions.tex:108-109")
+    println("PASS")
+  end
+
+end
