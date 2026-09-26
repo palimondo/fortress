@@ -1,0 +1,44 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 1.15 1.69 2.29; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+########## walk: fortress SrNegSub.fss
+5
+6
+exit=0
+########## fortress typecheck SrNegSub.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegSub.fss:5:8-18:
+    Ill-formed type: IBox[\0-2\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegSub.fss:9:27:
+    Ill-formed static argument: 0-2
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegSub.fss:10:13-32:
+    Could not check call to function same
+    - [\int j\]IBox[\j\]->ZZ32 is not applicable to an argument of type IBox[\0-2\].
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegSub.fss:10:28:
+    Ill-formed static argument: 0-2
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+File SrNegSub.fss has 4 errors.
+exit=255
+########## fortress compile SrNegSub.fss (landed build)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegSub.fss:5:8-18:
+    Ill-formed type: IBox[\0-2\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegSub.fss:9:27:
+    Ill-formed static argument: 0-2
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegSub.fss:10:13-32:
+    Could not check call to function same
+    - [\int j\]IBox[\j\]->ZZ32 is not applicable to an argument of type IBox[\0-2\].
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrNegSub.fss:10:28:
+    Ill-formed static argument: 0-2
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+File SrNegSub.fss has 4 errors.
+exit=255
+########## fortress run SrNegSub (landed build)
+Could not load SrNegSub
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SrNegSub.class
+	... 4 more
+exit=1
+########## fortress typecheck SrNegSub.fss (unedited checker, tmp/base-classes first)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1

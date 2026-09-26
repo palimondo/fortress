@@ -647,6 +647,10 @@ public abstract class NodeDepthFirstVisitor<RetType> extends NodeVisitorLambda<R
         return forIntExprOnly(that, info_result);
     }
 
+    public RetType for_InferenceVarIntOnly(_InferenceVarInt that, RetType info_result) {
+        return forIntExprOnly(that, info_result);
+    }
+
     public RetType forBoolExprOnly(BoolExpr that, RetType info_result) {
         return forStaticExprOnly(that, info_result);
     }
@@ -1773,6 +1777,10 @@ public abstract class NodeDepthFirstVisitor<RetType> extends NodeVisitorLambda<R
 
     public RetType for_SyntaxTransformationIntBinaryOpOnly(_SyntaxTransformationIntBinaryOp that, RetType left_result, RetType right_result, RetType op_result, RetType info_result) {
         return forIntBinaryOpOnly(that, info_result, left_result, right_result, op_result);
+    }
+
+    public RetType for_SyntaxTransformation_InferenceVarIntOnly(_SyntaxTransformation_InferenceVarInt that, RetType info_result) {
+        return for_InferenceVarIntOnly(that, info_result);
     }
 
     public RetType for_SyntaxTransformationBoolExprOnly(_SyntaxTransformationBoolExpr that, RetType info_result) {
@@ -2965,6 +2973,11 @@ public abstract class NodeDepthFirstVisitor<RetType> extends NodeVisitorLambda<R
         RetType right_result = recur(that.getRight());
         RetType op_result = recur(that.getOp());
         return forIntBinaryOpOnly(that, info_result, left_result, right_result, op_result);
+    }
+
+    public RetType for_InferenceVarInt(_InferenceVarInt that) {
+        RetType info_result = recur(that.getInfo());
+        return for_InferenceVarIntOnly(that, info_result);
     }
 
     public RetType forBoolBase(BoolBase that) {
@@ -4591,6 +4604,11 @@ public abstract class NodeDepthFirstVisitor<RetType> extends NodeVisitorLambda<R
         return for_SyntaxTransformationIntBinaryOpOnly(that, left_result, right_result, op_result, info_result);
     }
 
+    public RetType for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that) {
+        RetType info_result = recur(that.getInfo());
+        return for_SyntaxTransformation_InferenceVarIntOnly(that, info_result);
+    }
+
     public RetType for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that) {
         RetType info_result = recur(that.getInfo());
         return for_SyntaxTransformationBoolExprOnly(that, info_result);
@@ -5770,6 +5788,10 @@ public abstract class NodeDepthFirstVisitor<RetType> extends NodeVisitorLambda<R
         return defaultEllipsesNode(that);
     }
 
+    public RetType for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that) {
+        return defaultEllipsesNode(that);
+    }
+
     public RetType for_EllipsesBoolExpr(_EllipsesBoolExpr that) {
         return defaultEllipsesNode(that);
     }
@@ -6727,6 +6749,10 @@ public abstract class NodeDepthFirstVisitor<RetType> extends NodeVisitorLambda<R
     }
 
     public RetType forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that) {
+        return defaultTemplateGap(that);
+    }
+
+    public RetType forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that) {
         return defaultTemplateGap(that);
     }
 

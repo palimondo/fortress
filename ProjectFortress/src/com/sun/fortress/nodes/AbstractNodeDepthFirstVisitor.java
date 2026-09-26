@@ -631,6 +631,10 @@ public abstract class AbstractNodeDepthFirstVisitor<RetType> extends AbstractNod
         return forIntExprOnly(that);
     }
 
+    public RetType for_InferenceVarIntOnly(_InferenceVarInt that) {
+        return forIntExprOnly(that);
+    }
+
     public RetType forBoolExprOnly(BoolExpr that) {
         return forStaticExprOnly(that);
     }
@@ -1589,6 +1593,10 @@ public abstract class AbstractNodeDepthFirstVisitor<RetType> extends AbstractNod
 
     public RetType for_SyntaxTransformationIntBinaryOpOnly(_SyntaxTransformationIntBinaryOp that, RetType left_result, RetType right_result, RetType op_result) {
         return forIntBinaryOpOnly(that, left_result, right_result, op_result);
+    }
+
+    public RetType for_SyntaxTransformation_InferenceVarIntOnly(_SyntaxTransformation_InferenceVarInt that) {
+        return for_InferenceVarIntOnly(that);
     }
 
     public RetType for_SyntaxTransformationBoolExprOnly(_SyntaxTransformationBoolExpr that) {
@@ -2656,6 +2664,10 @@ public abstract class AbstractNodeDepthFirstVisitor<RetType> extends AbstractNod
         RetType right_result = recur(that.getRight());
         RetType op_result = recur(that.getOp());
         return forIntBinaryOpOnly(that, left_result, right_result, op_result);
+    }
+
+    public RetType for_InferenceVarInt(_InferenceVarInt that) {
+        return for_InferenceVarIntOnly(that);
     }
 
     public RetType forBoolBase(BoolBase that) {
@@ -3925,6 +3937,10 @@ public abstract class AbstractNodeDepthFirstVisitor<RetType> extends AbstractNod
         return for_SyntaxTransformationIntBinaryOpOnly(that, left_result, right_result, op_result);
     }
 
+    public RetType for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that) {
+        return for_SyntaxTransformation_InferenceVarIntOnly(that);
+    }
+
     public RetType for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that) {
         return for_SyntaxTransformationBoolExprOnly(that);
     }
@@ -5003,6 +5019,10 @@ public abstract class AbstractNodeDepthFirstVisitor<RetType> extends AbstractNod
         return defaultEllipsesNode(that);
     }
 
+    public RetType for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that) {
+        return defaultEllipsesNode(that);
+    }
+
     public RetType for_EllipsesBoolExpr(_EllipsesBoolExpr that) {
         return defaultEllipsesNode(that);
     }
@@ -5960,6 +5980,10 @@ public abstract class AbstractNodeDepthFirstVisitor<RetType> extends AbstractNod
     }
 
     public RetType forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that) {
+        return defaultTemplateGap(that);
+    }
+
+    public RetType forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that) {
         return defaultTemplateGap(that);
     }
 

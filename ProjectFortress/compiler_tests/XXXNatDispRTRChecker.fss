@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component XXXNatDispRTRChecker
+export Executable
+
+object Vec[\T, nat s\](x: T) end
+
+f[\nat s\](v: Vec[\RR64,s\]): ZZ32 = 1
+f(x: Any): String = "other"
+
+run(): () = do
+    println(f(Vec[\RR64,3\](2.5)))
+  end
+
+end

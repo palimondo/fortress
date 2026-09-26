@@ -1,0 +1,11 @@
+component SkCapDeclT
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+
+kk[\C\](x: BoxT[\C\], y: ZZ32): BoxT[\C\] = x
+kk[\A, B\](x: BoxT[\A\], y: Any): BoxT[\B\] = BoxT[\B\](x.v)
+
+run(): () = println("decl")
+
+end

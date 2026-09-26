@@ -1,0 +1,13 @@
+component SkRetEsc
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+h(x: ZZ32): Box[\3\] = Box[\3\](1)
+h[\nat n\](x: Any): Box[\n\] = Box[\n\](2)
+
+run(): () = do
+    println(h(5).v)
+  end
+
+end

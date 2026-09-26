@@ -1179,6 +1179,10 @@ public class NodeFactory {
         return new _InferenceVarOp(makeASTNodeInfo(span), Option.<APIName>none(), "Inference", unknownFix, false, new Object());
     }
 
+    public static _InferenceVarInt make_InferenceVarInt(Span span) {
+        return new _InferenceVarInt(makeSpanInfo(span), false, new Object());
+    }
+
     public static TaggedUnitType makeTaggedUnitType(TaggedUnitType t, Type s) {
         return makeTaggedUnitType(NodeUtil.getSpan(t), NodeUtil.isParenthesized(t),
                                   s, t.getUnitExpr());

@@ -1,0 +1,196 @@
+# run-probes.sh (BASE=1 RUN='SkLitTraitT SkLitArgT') SkLitTrait SkLitTraitT SkLitArgT SkLitArgN SkCapDecl SkCapDistinct SkCapOne SkCapDeclT
+machine: nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.80GHz; cpu MHz		: 2800.212; load 1.33 1.35 2.32 2/132 16821; JDK 25; FORTRESS_THREADS=1
+########## walk: fortress SkLitTrait.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:9:1-24: and
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:1-23:
+first parameters b:[Tg[\4\]] and b:[Tg[\3\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:9:1-24:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:1-23:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress typecheck SkLitTrait.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:1-23:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:9:1-24:
+    Invalid overloading of g in component SkLitTrait:
+     Tg[\3\]->ZZ32 @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:1-23
+ and Tg[\4\]->ZZ32 @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:9:1-24
+File SkLitTrait.fss has 1 error.
+exit=255
+########## fortress compile SkLitTrait.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:1-23:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:9:1-24:
+    Invalid overloading of g in component SkLitTrait:
+     Tg[\3\]->ZZ32 @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:1-23
+ and Tg[\4\]->ZZ32 @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:9:1-24
+File SkLitTrait.fss has 1 error.
+exit=255
+########## fortress typecheck SkLitTrait.fss (unedited checker, tmp/base-classes first on the classpath)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:8:1-23:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTrait.fss:9:1-24:
+    There are multiple declarations of g with the same parameter type: Tg[\4\]
+File SkLitTrait.fss has 1 error.
+exit=255
+########## walk: fortress SkLitTraitT.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:9:1-29: and
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:8:1-26:
+first parameters b:[Tt[\String\]] and b:[Tt[\ZZ32\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:9:1-29:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitTraitT.fss:8:1-26:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress typecheck SkLitTraitT.fss (landed edit)
+exit=0
+########## fortress compile SkLitTraitT.fss (landed edit)
+exit=0
+########## fortress run SkLitTraitT (landed edit)
+3
+4
+exit=0
+########## fortress typecheck SkLitTraitT.fss (unedited checker, tmp/base-classes first on the classpath)
+exit=0
+########## walk: fortress SkLitArgT.fss
+6
+6
+6
+exit=0
+########## fortress typecheck SkLitArgT.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitArgT.fss:12:13-39:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File SkLitArgT.fss has 1 error.
+exit=255
+########## fortress compile SkLitArgT.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitArgT.fss:12:13-39:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File SkLitArgT.fss has 1 error.
+exit=255
+########## fortress run SkLitArgT (landed edit)
+Could not load SkLitArgT
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkLitArgT.class
+	... 4 more
+exit=1
+########## fortress typecheck SkLitArgT.fss (unedited checker, tmp/base-classes first on the classpath)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitArgT.fss:12:13-39:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File SkLitArgT.fss has 1 error.
+exit=255
+########## walk: fortress SkLitArgN.fss
+6
+6
+exit=0
+########## fortress typecheck SkLitArgN.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitArgN.fss:10:13-32:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+File SkLitArgN.fss has 1 error.
+exit=255
+########## fortress compile SkLitArgN.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitArgN.fss:10:13-32:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+File SkLitArgN.fss has 1 error.
+exit=255
+########## fortress typecheck SkLitArgN.fss (unedited checker, tmp/base-classes first on the classpath)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## walk: fortress SkCapDecl.fss
+decl
+exit=0
+########## fortress typecheck SkCapDecl.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:6:1-47:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:7:1-66:
+    For kk,
+the return type of [\nat b\](Box[\b\], ZZ32)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:6:1-47 should be a subtype of the
+    return type of [\nat a, nat b\](Box[\a\], Any)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:7:1-66
+File SkCapDecl.fss has 1 error.
+exit=255
+########## fortress compile SkCapDecl.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:6:1-47:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:7:1-66:
+    For kk,
+the return type of [\nat b\](Box[\b\], ZZ32)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:6:1-47 should be a subtype of the
+    return type of [\nat a, nat b\](Box[\a\], Any)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:7:1-66
+File SkCapDecl.fss has 1 error.
+exit=255
+########## fortress typecheck SkCapDecl.fss (unedited checker, tmp/base-classes first on the classpath)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## walk: fortress SkCapDistinct.fss
+decl
+exit=0
+########## fortress typecheck SkCapDistinct.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:6:1-47:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:7:1-66:
+    For kk,
+the return type of [\nat c\](Box[\c\], ZZ32)->Box[\c\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:6:1-47 should be a subtype of the
+    return type of [\nat a, nat b\](Box[\a\], Any)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:7:1-66
+File SkCapDistinct.fss has 1 error.
+exit=255
+########## fortress compile SkCapDistinct.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:6:1-47:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:7:1-66:
+    For kk,
+the return type of [\nat c\](Box[\c\], ZZ32)->Box[\c\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:6:1-47 should be a subtype of the
+    return type of [\nat a, nat b\](Box[\a\], Any)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:7:1-66
+File SkCapDistinct.fss has 1 error.
+exit=255
+########## fortress typecheck SkCapDistinct.fss (unedited checker, tmp/base-classes first on the classpath)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## walk: fortress SkCapOne.fss
+decl
+exit=0
+########## fortress typecheck SkCapOne.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:6:1-38:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:7:1-66:
+    For kk,
+the return type of (Box[\3\], ZZ32)->Box[\3\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:6:1-38 should be a subtype of the
+    return type of [\nat a, nat b\](Box[\a\], Any)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:7:1-66
+File SkCapOne.fss has 1 error.
+exit=255
+########## fortress compile SkCapOne.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:6:1-38:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:7:1-66:
+    For kk,
+the return type of (Box[\3\], ZZ32)->Box[\3\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:6:1-38 should be a subtype of the
+    return type of [\nat a, nat b\](Box[\a\], Any)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:7:1-66
+File SkCapOne.fss has 1 error.
+exit=255
+########## fortress typecheck SkCapOne.fss (unedited checker, tmp/base-classes first on the classpath)
+Exception in thread "main" java.lang.Error: Not yet implemented
+exit=1
+########## walk: fortress SkCapDeclT.fss
+decl
+exit=0
+########## fortress typecheck SkCapDeclT.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:6:1-45:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:7:1-61:
+    For kk,
+the return type of [\C extends Object\](BoxT[\C\], ZZ32)->BoxT[\C\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:6:1-45 should be a subtype of the
+    return type of [\A extends Object, B extends Object\](BoxT[\A\], Any)->BoxT[\B\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:7:1-61
+File SkCapDeclT.fss has 1 error.
+exit=255
+########## fortress compile SkCapDeclT.fss (landed edit)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:6:1-45:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:7:1-61:
+    For kk,
+the return type of [\C extends Object\](BoxT[\C\], ZZ32)->BoxT[\C\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:6:1-45 should be a subtype of the
+    return type of [\A extends Object, B extends Object\](BoxT[\A\], Any)->BoxT[\B\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:7:1-61
+File SkCapDeclT.fss has 1 error.
+exit=255
+########## fortress typecheck SkCapDeclT.fss (unedited checker, tmp/base-classes first on the classpath)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:6:1-45:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:7:1-61:
+    For kk,
+the return type of [\C extends Object\](BoxT[\C\], ZZ32)->BoxT[\C\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:6:1-45 should be a subtype of the
+    return type of [\A extends Object, B extends Object\](BoxT[\A\], Any)->BoxT[\B\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:7:1-61
+File SkCapDeclT.fss has 1 error.
+exit=255
+EXIT=0

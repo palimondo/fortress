@@ -1,0 +1,20 @@
+component SkOrder
+export Executable
+
+object V2[\nat n, T\](x: T) end
+
+f[\nat n, T\](v: V2[\n, T\]): V2[\n, T\] = v
+f(x: Any): Any = x
+
+h(x: V2[\3, String\]): V2[\3, String\] = x
+h[\nat n, T\](x: V2[\n, T\]): V2[\n, T\] = x
+
+hb(x: V2[\3, String\]): V2[\4, String\] = V2[\4, String\](x.x)
+hb[\nat n, T\](x: V2[\n, T\]): V2[\n, T\] = x
+
+run(): () = do
+    w: V2[\3, String\] = h(V2[\3, String\]("h"))
+    println(w.x)
+  end
+
+end

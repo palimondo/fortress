@@ -1,0 +1,20 @@
+component SubOvSwapTRun
+export Executable
+trait Up[\U0, V0\]
+    v(): ZZ32
+    sub[\U, V\](m: ZZ32): Up[\U, V\]
+end
+object Dn[\U0, V0\](x: ZZ32) extends { Up[\U0, V0\] }
+    v(): ZZ32 = x
+    sub[\U, V\](m: ZZ32): Dn[\V, U\] = Dn[\V, U\](x + m)
+end
+run(): () = do
+  u: Up[\ZZ32, String\] = Dn[\ZZ32, String\](1)
+  w: Up[\Boolean, ZZ64\] = u.sub[\Boolean, ZZ64\](3)
+  println(w.v())
+  typecase w of
+    Up[\Boolean, ZZ64\] => println("Up[\\Boolean, ZZ64\\]")
+    else => println("not Up[\\Boolean, ZZ64\\]")
+  end
+end
+end

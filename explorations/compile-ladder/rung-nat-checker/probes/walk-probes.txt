@@ -1,0 +1,78 @@
+# the probes under the interpreter (walk)
+########## walk: fortress MethInferT.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/MethInferT.fss:10:11-47:
+Unification error: Closure/Constructor for idxT param 1 (b:BoxT[\U@explorations/compile-ladder/rung-nat-checker/probes/MethInferT.fss:3:1-5:2\]) got arg BoxT[\ZZ32\] of type BoxT[\ZZ32\]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/MethInferT.fss:10:11-47:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## walk: fortress FnInferNatVsType.fss
+5
+5
+exit=0
+########## walk: fortress BoolWritten.fss
+7
+exit=0
+########## walk: fortress ValuePos.fss
+5
+exit=0
+########## walk: fortress SixSizes.fss
+7
+3
+exit=0
+########## walk: fortress SixSizesBad.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/SixSizesBad.fss:7:3-23:
+RHS expression type A3[\6,5,4,3,2,1\] is not assignable to LHS type A3[\6,5,4,3,1,2\]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/SixSizesBad.fss:7:3-23:
+explorations/compile-ladder/rung-nat-checker/probes/SixSizesBad.fss:7:3-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## walk: fortress DeadSize.fss
+3
+7
+3
+7
+exit=0
+########## walk: fortress UseSiteArith.fss
+7
+exit=0
+########## walk: fortress SubOvUniv.fss
+SubOvUniv
+exit=0
+########## walk: fortress SubOvOneSize.fss
+SubOvOneSize
+exit=0
+########## walk: fortress SubOvSwapRun.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/SubOvSwapRun.fss:13:3-16:
+RHS expression type Dn[\5,2\] is not assignable to LHS type Up[\2,5\]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/SubOvSwapRun.fss:13:3-16:
+explorations/compile-ladder/rung-nat-checker/probes/SubOvSwapRun.fss:13:3-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## walk: fortress SubOvSwapTRun.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/SubOvSwapTRun.fss:13:3-25:
+RHS expression type Dn[\ZZ64,Boolean\] is not assignable to LHS type Up[\Boolean,ZZ64\]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/SubOvSwapTRun.fss:13:3-25:
+explorations/compile-ladder/rung-nat-checker/probes/SubOvSwapTRun.fss:13:3-25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## walk: fortress MethInferPlain.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-nat-checker/probes/MethInferPlain.fss:10:11-38:
+Unification error: Closure/Constructor for idxT param 1 (b:BoxT[\U@explorations/compile-ladder/rung-nat-checker/probes/MethInferPlain.fss:5:1-8:2\]) got arg BoxT[\ZZ32\] of type BoxT[\ZZ32\]
+Context:
+explorations/compile-ladder/rung-nat-checker/probes/MethInferPlain.fss:10:11-38:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1

@@ -1,0 +1,16 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component XXXNatArithChecker
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+unboxNext[\nat k\](b: Box[\k + 1\]): ZZ32 = b.v
+
+run(): () = do
+    assert(unbox[\3\](Box[\2 + 1\](7)), 7, "a static argument computed at the use site; Specification/basic/expressions/constant.tex, static expressions")
+    assert(unboxNext[\3\](Box[\4\](7)), 7, "a size computed in a declared type; Specification/basic/expressions/constant.tex, static expressions")
+    println("PASS")
+  end
+
+end

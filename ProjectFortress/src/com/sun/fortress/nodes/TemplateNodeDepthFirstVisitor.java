@@ -634,6 +634,10 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
         return forIntExprOnly(that, info_result);
     }
 
+    public RetType for_InferenceVarIntOnly(_InferenceVarInt that, RetType info_result) {
+        return forIntExprOnly(that, info_result);
+    }
+
     public RetType forBoolExprOnly(BoolExpr that, RetType info_result) {
         return forStaticExprOnly(that, info_result);
     }
@@ -1762,6 +1766,10 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
         return forIntBinaryOpOnly(that, info_result, left_result, right_result, op_result);
     }
 
+    public RetType for_SyntaxTransformation_InferenceVarIntOnly(_SyntaxTransformation_InferenceVarInt that, RetType info_result) {
+        return for_InferenceVarIntOnly(that, info_result);
+    }
+
     public RetType for_SyntaxTransformationBoolExprOnly(_SyntaxTransformationBoolExpr that, RetType info_result) {
         return forBoolExprOnly(that, info_result);
     }
@@ -2722,6 +2730,10 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
         return defaultEllipsesNodeCase(that);
     }
 
+    public RetType for_Ellipses_InferenceVarIntOnly(_Ellipses_InferenceVarInt that) {
+        return defaultEllipsesNodeCase(that);
+    }
+
     public RetType for_EllipsesBoolExprOnly(_EllipsesBoolExpr that) {
         return defaultEllipsesNodeCase(that);
     }
@@ -3679,6 +3691,10 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
     }
 
     public RetType forTemplateGapIntBinaryOpOnly(TemplateGapIntBinaryOp that, RetType info_result, RetType gapId_result, List<RetType> templateParams_result) {
+        return defaultTemplateGapCase(that);
+    }
+
+    public RetType forTemplateGap_InferenceVarIntOnly(TemplateGap_InferenceVarInt that, RetType info_result, RetType gapId_result, List<RetType> templateParams_result) {
         return defaultTemplateGapCase(that);
     }
 
@@ -4872,6 +4888,11 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
         RetType right_result = recur(that.getRight());
         RetType op_result = recur(that.getOp());
         return forIntBinaryOpOnly(that, info_result, left_result, right_result, op_result);
+    }
+
+    public RetType for_InferenceVarInt(_InferenceVarInt that) {
+        RetType info_result = recur(that.getInfo());
+        return for_InferenceVarIntOnly(that, info_result);
     }
 
     public RetType forBoolBase(BoolBase that) {
@@ -6498,6 +6519,11 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
         return for_SyntaxTransformationIntBinaryOpOnly(that, left_result, right_result, op_result, info_result);
     }
 
+    public RetType for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that) {
+        RetType info_result = recur(that.getInfo());
+        return for_SyntaxTransformation_InferenceVarIntOnly(that, info_result);
+    }
+
     public RetType for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that) {
         RetType info_result = recur(that.getInfo());
         return for_SyntaxTransformationBoolExprOnly(that, info_result);
@@ -7675,6 +7701,10 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
 
     public RetType for_EllipsesIntBinaryOp(_EllipsesIntBinaryOp that) {
         return for_EllipsesIntBinaryOpOnly(that);
+    }
+
+    public RetType for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that) {
+        return for_Ellipses_InferenceVarIntOnly(that);
     }
 
     public RetType for_EllipsesBoolExpr(_EllipsesBoolExpr that) {
@@ -9073,6 +9103,13 @@ public abstract class TemplateNodeDepthFirstVisitor<RetType> extends NodeVisitor
         RetType gapId_result = recur(that.getGapId());
         List<RetType> templateParams_result = recurOnListOfId(that.getTemplateParams());
         return forTemplateGapIntBinaryOpOnly(that, info_result, gapId_result, templateParams_result);
+    }
+
+    public RetType forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that) {
+        RetType info_result = recur(that.getInfo());
+        RetType gapId_result = recur(that.getGapId());
+        List<RetType> templateParams_result = recurOnListOfId(that.getTemplateParams());
+        return forTemplateGap_InferenceVarIntOnly(that, info_result, gapId_result, templateParams_result);
     }
 
     public RetType forTemplateGapBoolExpr(TemplateGapBoolExpr that) {

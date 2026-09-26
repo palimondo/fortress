@@ -1,0 +1,42 @@
+# typecheck only, by hand, of SkCapDecl SkCapDistinct SkCapOne SkCapDeclT SkLitArg (the landed build)
+##### typecheck SkCapDecl
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:6:1-47:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:7:1-66:
+    For kk,
+the return type of [\nat b\](Box[\b\], ZZ32)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:6:1-47 should be a subtype of the
+    return type of [\nat a, nat b\](Box[\a\], Any)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDecl.fss:7:1-66
+File SkCapDecl.fss has 1 error.
+exit=255
+##### typecheck SkCapDistinct
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:6:1-47:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:7:1-66:
+    For kk,
+the return type of [\nat c\](Box[\c\], ZZ32)->Box[\c\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:6:1-47 should be a subtype of the
+    return type of [\nat a, nat b\](Box[\a\], Any)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDistinct.fss:7:1-66
+File SkCapDistinct.fss has 1 error.
+exit=255
+##### typecheck SkCapOne
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:6:1-38:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:7:1-66:
+    For kk,
+the return type of (Box[\3\], ZZ32)->Box[\3\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:6:1-38 should be a subtype of the
+    return type of [\nat a, nat b\](Box[\a\], Any)->Box[\b\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapOne.fss:7:1-66
+File SkCapOne.fss has 1 error.
+exit=255
+##### typecheck SkCapDeclT
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:6:1-45:
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:7:1-61:
+    For kk,
+the return type of [\C extends Object\](BoxT[\C\], ZZ32)->BoxT[\C\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:6:1-45 should be a subtype of the
+    return type of [\A extends Object, B extends Object\](BoxT[\A\], Any)->BoxT[\B\] @ explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkCapDeclT.fss:7:1-61
+File SkCapDeclT.fss has 1 error.
+exit=255
+##### typecheck SkLitArg
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitArg.fss:11:13-39:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkLitArg.fss:12:13-32:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+File SkLitArg.fss has 2 errors.
+exit=255

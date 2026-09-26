@@ -1,0 +1,11 @@
+component SkDeadN
+export Executable
+
+deadN[\nat n\](x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    println(deadN[\5\](3))
+    println(deadN(3))
+  end
+
+end

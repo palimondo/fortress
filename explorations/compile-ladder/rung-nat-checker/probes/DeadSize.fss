@@ -1,0 +1,13 @@
+component DeadSize
+export Executable
+object Box[\nat k\](v: ZZ32) end
+dead[\nat m\](x: ZZ32): ZZ32 = x
+half[\nat k, nat m\](b: Box[\k\]): ZZ32 = b.v
+run(): () = do
+  x: ZZ32 = 3
+  println(dead(x))
+  println(half(Box[\3\](7)))
+  println(dead[\5\](3))
+  println(half[\3, 4\](Box[\3\](7)))
+end
+end

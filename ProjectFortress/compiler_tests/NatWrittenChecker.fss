@@ -1,0 +1,18 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component NatWrittenChecker
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+object Mat[\nat r, nat c\](v: ZZ32) end
+
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+swap[\nat r, nat c\](m: Mat[\r,c\]): Mat[\c,r\] = Mat[\c,r\](m.v)
+
+run(): () = do
+    assert(unbox[\3\](Box[\3\](7)), 7, "a size written out at the call; ledger row 307")
+    t: Mat[\4,2\] = swap[\2,4\](Mat[\2,4\](5))
+    assert(t.v, 5, "two sizes written out at the call; ledger row 307")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,19 @@
+component SrLitMeth
+export Executable
+
+object Box[\nat k\](v: ZZ32)
+    pair[\nat j\](c: Box[\j\], m: ZZ32): ZZ32 = v + c.v m
+end
+object BoxT[\T\](v: ZZ32)
+    pairT[\U\](c: BoxT[\U\], m: ZZ32): ZZ32 = v + c.v m
+end
+
+run(): () = do
+    z: ZZ32 = 3
+    println(Box[\3\](1).pair(Box[\2\](2), z))
+    println(Box[\3\](1).pair(Box[\2\](2), 3))
+    println(BoxT[\ZZ32\](1).pairT(BoxT[\String\](2), z))
+    println(BoxT[\ZZ32\](1).pairT(BoxT[\String\](2), 3))
+  end
+
+end

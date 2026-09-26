@@ -1,0 +1,52 @@
+# the rung's test programs under the interpreter (walk)
+########## walk: fortress NatInferredChecker.fss
+PASS
+exit=0
+########## walk: fortress NatWrittenChecker.fss
+PASS
+exit=0
+########## walk: fortress NatMethodChecker.fss
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/NatMethodChecker.fss:13:12-37:
+Unification error: Closure/Constructor for idx param 1 (b:Box[\j\]) got arg Box[\2\] of type Box[\2\]
+Context:
+ProjectFortress/compiler_tests/NatMethodChecker.fss:13:12-37:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## walk: fortress XXXNatDispArmChecker.fss
+PASS
+exit=0
+########## walk: fortress XXXNatOverrideChecker.fss
+PASS
+exit=0
+########## walk: fortress XXXNatDispRTRChecker.fss
+1
+exit=0
+########## walk: fortress XXXNatRetSizeChecker.fss
+1
+1
+exit=0
+########## walk: fortress XXXNatMismatchChecker.fss
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/XXXNatMismatchChecker.fss:12:13-34:
+Unification error: Closure/Constructor for unbox param 1 (b:Box[\4\]) got arg Box[\3\] of type Box[\3\]
+Context:
+ProjectFortress/compiler_tests/XXXNatMismatchChecker.fss:12:13-34:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## walk: fortress XXXNatArithChecker.fss
+PASS
+exit=0
+########## walk: fortress XXXNatBoolChecker.fss
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/XXXNatBoolChecker.fss:10:12-33:
+Unification error: ProjectFortress/compiler_tests/XXXNatBoolChecker.fss:7:21-27:
+Cannot unify Flag[\true\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with Flag[\b\](class com.sun.fortress.nodes.TraitType) abm=()
+Context:
+ProjectFortress/compiler_tests/XXXNatBoolChecker.fss:10:12-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1

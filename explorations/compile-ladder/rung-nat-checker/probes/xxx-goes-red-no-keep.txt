@@ -1,0 +1,44 @@
+########## junit compiler_tests/XXXNatDispArmChecker.test, tmp/demo2-classes first on the classpath
+. compile compiler_tests/XXXNatDispArmChecker ProjectFortress/compiler_tests/XXXNatDispArmChecker.fss:10:1-56:
+ProjectFortress/compiler_tests/XXXNatDispArmChecker.fss:11:1-28:
+    For f,
+the return type of [\nat r, nat c\]Mat[\RR64,r,c\]->String @ ProjectFortress/compiler_tests/XXXNatDispArmChecker.fss:10:1-56 should be a subtype of the
+    return type of Any->String @ ProjectFortress/compiler_tests/XXXNatDispArmChecker.fss:11:1-28
+ProjectFortress/compiler_tests/XXXNatDispArmChecker.fss:11:1-28:
+ProjectFortress/compiler_tests/XXXNatDispArmChecker.fss:9:1-47:
+    For f,
+the return type of [\nat s\]Vec[\RR64,s\]->String @ ProjectFortress/compiler_tests/XXXNatDispArmChecker.fss:9:1-47 should be a subtype of the
+    return type of Any->String @ ProjectFortress/compiler_tests/XXXNatDispArmChecker.fss:11:1-28
+File XXXNatDispArmChecker.fss has 2 errors.
+
+ Saw failure, but did not satisfy compile_exception_contains; expected
+Only handling some static args of generic types
+F
+Time: 4.548
+There was 1 failure:
+1) compiler_tests/XXXNatDispArmChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatOverrideChecker.test, tmp/demo2-classes first on the classpath
+. compile compiler_tests/XXXNatOverrideChecker ProjectFortress/compiler_tests/XXXNatOverrideChecker.fss:11:5-71:
+ProjectFortress/compiler_tests/XXXNatOverrideChecker.fss:7:5-8:1:
+    For sub,
+the return type of [\nat b, nat s, nat o\](Dn[\b0,s0\], ZZ32)->Dn[\b,s\] @ ProjectFortress/compiler_tests/XXXNatOverrideChecker.fss:11:5-71 should be a subtype of the
+    return type of [\nat b, nat s, nat o\](Up[\b0,s0\], ZZ32)->Up[\b,s\] @ ProjectFortress/compiler_tests/XXXNatOverrideChecker.fss:7:5-8:1
+File XXXNatOverrideChecker.fss has 1 error.
+
+ Saw failure, but did not satisfy compile_exception_contains; expected
+Only emitting RTTI for types right now
+F
+Time: 4.427
+There was 1 failure:
+1) compiler_tests/XXXNatOverrideChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+EXIT=0

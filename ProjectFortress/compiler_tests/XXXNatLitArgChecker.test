@@ -1,0 +1,3 @@
+tests=XXXNatLitArgChecker
+compile
+compile_err_contains=File XXXNatLitArgChecker.fss has 2 errors.

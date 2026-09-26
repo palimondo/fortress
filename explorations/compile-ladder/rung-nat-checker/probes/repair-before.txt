@@ -1,0 +1,28 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 6.06 5.11 2.95; JDK 25; FORTRESS_THREADS=1
+########## junit compiler_tests/NatExportChecker.test, tmp/base-classes first on the classpath
+. compile compiler_tests/NatExportChecker 
+ UNEXPECTED exception 
+java.lang.Error: Not yet implemented
+F
+Time: 2.822
+There was 1 failure:
+1) compiler_tests/NatExportChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/XXXNatLitArgChecker.test, tmp/base-classes first on the classpath
+. compile compiler_tests/XXXNatLitArgChecker 
+ Did not satisfy compile_err_contains; expected
+File XXXNatLitArgChecker.fss has 2 errors.
+java.lang.Error: Not yet implemented
+F
+Time: 3.198
+There was 1 failure:
+1) compiler_tests/XXXNatLitArgChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0

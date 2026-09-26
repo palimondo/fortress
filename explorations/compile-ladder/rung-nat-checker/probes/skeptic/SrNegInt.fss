@@ -1,0 +1,13 @@
+component SrNegInt
+export Executable
+
+object IBox[\int k\](v: ZZ32) end
+neg(b: IBox[\-2\]): ZZ32 = b.v
+pos(b: IBox[\2\]): ZZ32 = b.v
+
+run(): () = do
+    println(pos(IBox[\2\](4)))
+    println(neg(IBox[\-2\](5)))
+  end
+
+end

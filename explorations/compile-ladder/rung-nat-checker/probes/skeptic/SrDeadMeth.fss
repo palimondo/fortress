@@ -1,0 +1,15 @@
+component SrDeadMeth
+export Executable
+
+object Box[\nat k\](v: ZZ32)
+    dead[\nat n\](): ZZ32 = v
+    deadT[\U\](): ZZ32 = v
+end
+
+run(): () = do
+    b: Box[\3\] = Box[\3\](7)
+    println(b.deadT())
+    println(b.dead())
+  end
+
+end

@@ -1,0 +1,13 @@
+component SrNegSub
+export Executable
+
+object IBox[\int k\](v: ZZ32) end
+neg(b: IBox[\0 - 2\]): ZZ32 = b.v
+same[\int j\](b: IBox[\j\]): ZZ32 = b.v
+
+run(): () = do
+    println(neg(IBox[\0 - 2\](5)))
+    println(same(IBox[\0 - 2\](6)))
+  end
+
+end

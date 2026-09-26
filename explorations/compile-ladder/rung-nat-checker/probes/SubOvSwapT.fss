@@ -1,0 +1,10 @@
+component SubOvSwapT
+export Executable
+trait Up[\T, U0, V0\]
+    sub[\U, V\](m: ZZ32): Up[\T, U, V\]
+end
+trait Dn[\T, U0, V0\] extends { Up[\T, U0, V0\] }
+    sub[\U, V\](m: ZZ32): Dn[\T, V, U\]
+end
+run(): () = println("SubOvSwapT")
+end

@@ -25,6 +25,8 @@ import com.sun.fortress.nodes.FnDecl;
 import com.sun.fortress.nodes.FnHeader;
 import com.sun.fortress.nodes.Id;
 import com.sun.fortress.nodes.IdOrOp;
+import com.sun.fortress.nodes.KindInt;
+import com.sun.fortress.nodes.KindNat;
 import com.sun.fortress.nodes.Param;
 import com.sun.fortress.nodes.StaticArg;
 import com.sun.fortress.nodes.StaticParam;
@@ -35,6 +37,7 @@ import com.sun.fortress.nodes_util.NodeFactory;
 import com.sun.fortress.nodes_util.NodeUtil;
 import com.sun.fortress.nodes_util.Span;
 import com.sun.fortress.runtimeSystem.Naming;
+import com.sun.fortress.scala_src.useful.STypesUtil;
 import com.sun.fortress.useful.ConcatenatedList;
 import com.sun.fortress.useful.DeletedList;
 import com.sun.fortress.useful.Fn;
@@ -159,7 +162,11 @@ public class FnNameInfo {
         return NodeFactory.makeArrowType(NodeFactory.makeSpan(dt,rt), dt, rt);
     }
     
-    public TypeArg boundsFor(StaticParam sp) {
+    public StaticArg boundsFor(StaticParam sp) {
+        // A size has no bound to erase to; it stands for itself.
+        if (sp.getKind() instanceof KindNat || sp.getKind() instanceof KindInt) {
+            return STypesUtil.staticParamToArg(sp);
+        }
         List<BaseType> tl = sp.getExtendsClause();
         if (tl.size() == 0) {
             return NodeFactory.makeTypeArg(NodeFactory.makeTraitType(

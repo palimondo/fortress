@@ -626,6 +626,10 @@ public abstract class NodeCollectingVisitor<RetType> extends NodeDepthFirstVisit
         return combine(that, info_result, left_result, right_result, op_result);
     }
 
+    public RetType for_InferenceVarIntOnly(_InferenceVarInt that, RetType info_result) {
+        return combine(that, info_result);
+    }
+
     public RetType forBoolExprOnly(BoolExpr that, RetType info_result) {
         return combine(that, info_result);
     }
@@ -1752,6 +1756,10 @@ public abstract class NodeCollectingVisitor<RetType> extends NodeDepthFirstVisit
 
     public RetType for_SyntaxTransformationIntBinaryOpOnly(_SyntaxTransformationIntBinaryOp that, RetType left_result, RetType right_result, RetType op_result, RetType info_result) {
         return combine(that, left_result, right_result, op_result, info_result);
+    }
+
+    public RetType for_SyntaxTransformation_InferenceVarIntOnly(_SyntaxTransformation_InferenceVarInt that, RetType info_result) {
+        return combine(that, info_result);
     }
 
     public RetType for_SyntaxTransformationBoolExprOnly(_SyntaxTransformationBoolExpr that, RetType info_result) {

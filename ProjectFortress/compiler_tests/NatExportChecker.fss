@@ -1,0 +1,12 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component NatExportChecker
+export { NatExportChecker, Executable }
+
+object Box[\nat k\](v: ZZ32) end
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+
+run(): () = do
+    assert(unbox(Box[\3\](7)), 7, "a component exporting its sized api provides matching definitions; Specification/basic/components/apis.tex:250-256")
+  end
+
+end

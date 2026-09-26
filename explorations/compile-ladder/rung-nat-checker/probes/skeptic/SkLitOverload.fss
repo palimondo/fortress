@@ -1,0 +1,14 @@
+component SkLitOverload
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+g(b: Box[\3\]): ZZ32 = 3
+g(b: Box[\4\]): ZZ32 = 4
+
+run(): () = do
+    println(g(Box[\3\](0)))
+    println(g(Box[\4\](0)))
+  end
+
+end

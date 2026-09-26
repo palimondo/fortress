@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component XXXNatBoolChecker
+export Executable
+
+object Flag[\bool b\](v: ZZ32) end
+
+unflag[\bool b\](f: Flag[\b\]): ZZ32 = f.v
+
+run(): () = do
+    assert(unflag(Flag[\true\](7)), 7, "a bool static parameter inferred from the argument's type; Specification/basic/trait-parameters.tex, bool parameters")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,91 @@
+# build 1: keep-size-params without the bound escaped sizes (OverloadingOracle unedited); fortress compile, probes run from explorations/compile-ladder/rung-nat-checker/probes
+########## fortress compile SubOvUniv.fss
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+	at com.sun.fortress.compiler.codegen.CodeGen.generateTypeReference(CodeGen.java:5793)
+	at com.sun.fortress.compiler.codegen.CodeGen.RttiClassAndInterface(CodeGen.java:5446)
+	at com.sun.fortress.compiler.codegen.CodeGen.forTraitDecl(CodeGen.java:5145)
+	at com.sun.fortress.nodes.TraitDecl.accept(TraitDecl.java:62)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1944)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=1
+########## fortress compile SubOvOneSize.fss
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+	at com.sun.fortress.compiler.codegen.CodeGen.generateTypeReference(CodeGen.java:5793)
+	at com.sun.fortress.compiler.codegen.CodeGen.RttiClassAndInterface(CodeGen.java:5446)
+	at com.sun.fortress.compiler.codegen.CodeGen.forTraitDecl(CodeGen.java:5145)
+	at com.sun.fortress.nodes.TraitDecl.accept(TraitDecl.java:62)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1944)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=1
+########## fortress compile SubOvSwap.fss
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+	at com.sun.fortress.compiler.codegen.CodeGen.generateTypeReference(CodeGen.java:5793)
+	at com.sun.fortress.compiler.codegen.CodeGen.RttiClassAndInterface(CodeGen.java:5446)
+	at com.sun.fortress.compiler.codegen.CodeGen.forTraitDecl(CodeGen.java:5145)
+	at com.sun.fortress.nodes.TraitDecl.accept(TraitDecl.java:62)
+	at com.sun.fortress.compiler.codegen.CodeGen.forComponent(CodeGen.java:1944)
+	at com.sun.fortress.nodes.Component.accept(Component.java:56)
+	at com.sun.fortress.compiler.phases.CodeGenerationPhase.execute(CodeGenerationPhase.java:196)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+	at com.sun.fortress.Shell.subMain(Shell.java:407)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit=1
+########## fortress compile DeadSize.fss
+explorations/compile-ladder/rung-nat-checker/probes/DeadSize.fss:7:11-16:
+    Could not check call to function dead
+    - [\nat m\]ZZ32->ZZ32 is not applicable to an argument of type IntLiteral.
+explorations/compile-ladder/rung-nat-checker/probes/DeadSize.fss:8:11-25:
+    Could not check call to function half
+    - Could not infer static argument nat m without context.
+File DeadSize.fss has 2 errors.
+exit=255
+########## fortress compile UseSiteArith.fss
+explorations/compile-ladder/rung-nat-checker/probes/UseSiteArith.fss:5:21-45:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+explorations/compile-ladder/rung-nat-checker/probes/UseSiteArith.fss:5:41:
+    Ill-formed static argument: 2+1
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+File UseSiteArith.fss has 2 errors.
+exit=255
+########## fortress compile ValuePos.fss
+exit=0
+########## fortress compile MethInferT.fss
+exit=0
+########## fortress compile FnInferNatVsType.fss
+exit=0
+########## fortress compile BoolWritten.fss
+exit=0
+EXIT=0

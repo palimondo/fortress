@@ -616,6 +616,10 @@ public abstract class AbstractNodeAbstractVisitor<RetType>  extends AbstractNode
         return forIntExpr(that);
     }
 
+    public RetType for_InferenceVarInt(_InferenceVarInt that) {
+        return forIntExpr(that);
+    }
+
     public RetType forBoolExpr(BoolExpr that) {
         return forStaticExpr(that);
     }
@@ -1574,6 +1578,10 @@ public abstract class AbstractNodeAbstractVisitor<RetType>  extends AbstractNode
 
     public RetType for_SyntaxTransformationIntBinaryOp(_SyntaxTransformationIntBinaryOp that) {
         return forIntBinaryOp(that);
+    }
+
+    public RetType for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that) {
+        return for_InferenceVarInt(that);
     }
 
     public RetType for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that) {
@@ -2536,6 +2544,10 @@ public abstract class AbstractNodeAbstractVisitor<RetType>  extends AbstractNode
         return forIntBinaryOp(that);
     }
 
+    public RetType for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that) {
+        return for_InferenceVarInt(that);
+    }
+
     public RetType for_EllipsesBoolExpr(_EllipsesBoolExpr that) {
         return forBoolExpr(that);
     }
@@ -3494,6 +3506,10 @@ public abstract class AbstractNodeAbstractVisitor<RetType>  extends AbstractNode
 
     public RetType forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that) {
         return forIntBinaryOp(that);
+    }
+
+    public RetType forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that) {
+        return for_InferenceVarInt(that);
     }
 
     public RetType forTemplateGapBoolExpr(TemplateGapBoolExpr that) {

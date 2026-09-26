@@ -1,0 +1,11 @@
+component DeadTypeSingle
+export Executable
+object BoxT[\T\](v: ZZ32) end
+deadT[\U\](x: ZZ32): ZZ32 = x
+halfT[\T, U\](b: BoxT[\T\]): ZZ32 = b.v
+run(): () = do
+  x: ZZ32 = 3
+  println(deadT(x))
+  println(halfT(BoxT[\String\](7)))
+end
+end

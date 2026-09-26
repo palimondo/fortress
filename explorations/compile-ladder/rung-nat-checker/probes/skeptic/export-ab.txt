@@ -1,0 +1,12 @@
+# run-export-ab.sh: the ExportChecker edit alone, A/B on the sized api probe
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; JDK 25; FORTRESS_THREADS=1
+########## fortress typecheck SkSizedApi.fss (landed build, ExportChecker.scala of 47437c65f first on the classpath)
+explorations/compile-ladder/rung-nat-checker/probes/skeptic/api/SkSizedApi.fss:1:11-20:
+    Component SkSizedApi exports API SkSizedApi
+    but does not define all declarations in SkSizedApi.
+    Missing declarations: {unbox[\nat k\](b:SkSizedApi.Box[\k\]):ZZ32 at explorations/compile-ladder/rung-nat-checker/probes/skeptic/api/SkSizedApi.fsi:4:1-6:1}
+File SkSizedApi.fss has 1 error.
+exit=255
+########## fortress typecheck SkSizedApi.fss (landed build)
+exit=0
+EXIT=0

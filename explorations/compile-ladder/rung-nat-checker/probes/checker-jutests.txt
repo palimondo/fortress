@@ -1,0 +1,13 @@
+# the checker's JUnit classes on the landed edit, java junit.textui.TestRunner <class>, one JVM each
+== com.sun.fortress.scala_src.typechecker.FormulaJUTest
+OK (5 tests)
+== com.sun.fortress.scala_src.typechecker.ConstraintJUTest
+OK (4 tests)
+== com.sun.fortress.scala_src.overloading.OverloadingJUTest
+OK (1 test)
+== com.sun.fortress.scala_src.useful.STypesUtilJUTest
+OK (1 test)
+== com.sun.fortress.scala_src.types.TypeAnalyzerJUTest
+OK (4 tests)
+== com.sun.fortress.scala_src.types.TypeSchemaAnalyzerJUTest
+OK (4 tests)

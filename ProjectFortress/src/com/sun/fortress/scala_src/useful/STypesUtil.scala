@@ -260,7 +260,7 @@ object STypesUtil {
 
     // Get the substitution resulting from params :> expectedDomain
     val paramsDomain = makeDomainType(params).get
-    solve(analyzer.subtype(expectedDomain, paramsDomain)).map{ case (tSub, oSub) =>
+    solve(analyzer.subtype(expectedDomain, paramsDomain)).map{ case (tSub, oSub, nSub) =>
       params.map{
         case SParam(info, name, mods, Some(idType), defaultExpr, None) =>
           idType match {
@@ -547,16 +547,24 @@ object STypesUtil {
     case _: KindType => 
       NF.makeTypeArg(NU.getSpan(sparam), NF.make_InferenceVarType(NU.getSpan(sparam)),
                      sparam.isLifted)
-    case _: KindInt => NI.nyi()
-    case _: KindBool => NI.nyi()
-    case _: KindDim => NI.nyi()
+    case _: KindInt => makeSizeInferenceArg(sparam)
+    case _: KindBool => unsupportedKindError(sparam, "bool")
+    case _: KindDim => unsupportedKindError(sparam, "dim")
     case _: KindOp => NF.makeOpArg(NU.getSpan(sparam),
                       NF.make_InferenceVarOp(NU.getSpan(sparam)),
                       sparam.isLifted) // DRC- opArgs also lifted?
-    case _: KindUnit => NI.nyi()
-    case _: KindNat => NI.nyi()
+    case _: KindUnit => unsupportedKindError(sparam, "unit")
+    case _: KindNat => makeSizeInferenceArg(sparam)
     case _ => bug("unexpected kind of static parameter")
   }
+
+  private def makeSizeInferenceArg(sparam: StaticParam): StaticArg =
+    NF.makeIntArg(NU.getSpan(sparam), NF.make_InferenceVarInt(NU.getSpan(sparam)),
+                  sparam.isLifted)
+
+  private def unsupportedKindError(sparam: StaticParam, kind: String): StaticArg =
+    throw TypeError.make("Static argument inference for the " + kind + " static parameter " +
+                         sparam.getName + " is not supported by the type checker.", sparam)
 
   /**
    * Returns a list of conjuncts of the given type. If given an intersection
@@ -790,11 +798,19 @@ object STypesUtil {
       var found = false
       override def walk(node: Any): Any = node match {
         case _: _InferenceVarType => found = true; node
+        case _: _InferenceVarInt => found = true; node
         case _ => super.walk(node)
       }
     }
     infChecker(typ); infChecker.found
   }
+
+  /** Is any size in these static args an unsolved inference variable? */
+  def hasSizeInferenceVars(sargs: List[StaticArg]): Boolean =
+    sargs.exists {
+      case SIntArg(_, _, _: _InferenceVarInt) => true
+      case _ => false
+    }
 
   /** Does the type contain any nested occurrences of UnknownType? */
   def hasUnknownType(typ: Type): Boolean = {
@@ -998,7 +1014,7 @@ object STypesUtil {
     val lowerBounds = And(Map(infVars.zip(sparamLowerBounds): _*), Map())
     
     // 6. solve C to yield a substitution S' = [$T_i -> U_i]
-    val (tSub, oSub) = solve(and(constraint, and(upperBounds,lowerBounds))).getOrElse(return None)
+    val (tSub, oSub, nSub) = solve(and(constraint, and(upperBounds,lowerBounds))).getOrElse(return None)
 
     // 7. instantiate infArrow with [U_i] to get resultArrow
     val prenorm = tSub(infTyp)
@@ -1010,6 +1026,7 @@ object STypesUtil {
     val resultArgs = sargs.map {
       case STypeArg(info, lifted, typ) =>  STypeArg(info, lifted, tSub(typ))
       case SOpArg(info, lifted, op) => SOpArg(info, lifted, oSub(op))
+      case SIntArg(info, lifted, e) => SIntArg(info, lifted, nSub(e))
       case sarg => sarg
     }
 

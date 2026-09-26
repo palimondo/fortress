@@ -1,0 +1,17 @@
+component SkMixed
+export Executable
+
+object Vec[\T, nat n\](x: T) end
+
+first[\T, nat n\](v: Vec[\T, n\]): T = v.x
+same[\T, nat n\](v: Vec[\T, n\]): Vec[\T, n\] = v
+
+run(): () = do
+    println(first(Vec[\String, 4\]("four")))
+    w: Vec[\String, 4\] = same(Vec[\String, 4\]("w"))
+    println(w.x)
+    bad: Vec[\String, 5\] = same(Vec[\String, 4\]("bad"))
+    println(bad.x)
+  end
+
+end

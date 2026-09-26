@@ -1,0 +1,17 @@
+component SkCtx
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+object BoxT[\T\](v: ZZ32) end
+
+make[\nat n\](v: ZZ32): Box[\n\] = Box[\n\](v)
+makeT[\T\](v: ZZ32): BoxT[\T\] = BoxT[\T\](v)
+
+run(): () = do
+    bt: BoxT[\ZZ32\] = makeT(7)
+    println(bt.v)
+    b: Box[\3\] = make(7)
+    println(b.v)
+  end
+
+end

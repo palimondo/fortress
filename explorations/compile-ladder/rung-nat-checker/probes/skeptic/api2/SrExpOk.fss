@@ -1,0 +1,13 @@
+component SrExpOk
+export { SrExpOk, Executable }
+
+object Box[\nat k\](v: ZZ32) end
+same3(b: Box[\3\]): ZZ32 = b.v
+two[\nat k, nat j\](a: Box[\k\], b: Box[\j\]): Box[\j\] = Box[\j\](a.v + b.v)
+
+run(): () = do
+    println(same3(Box[\3\](1)))
+    println(two(Box[\2\](3), Box[\4\](5)).v)
+  end
+
+end

@@ -1,0 +1,26 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component XXXNatRetSizeChecker
+export Executable
+
+object Vec[\nat s\](x: ZZ32) end
+object Box[\nat k\](v: ZZ32) end
+
+f[\nat s\](v: Vec[\s\]): Box[\s\] = Box[\s\](1)
+f(x: Any): Box[\3\] = Box[\3\](2)
+
+g(v: Vec[\3\]): Box[\3\] = Box[\3\](1)
+g(x: Any): Box[\4\] = Box[\4\](2)
+
+trait Up[\nat b0\]
+    sub[\nat b\](m: ZZ32): Up[\b\]
+end
+trait Dn[\nat b0\] extends { Up[\b0\] }
+    sub[\nat b\](m: ZZ32): Dn[\3\]
+end
+
+run(): () = do
+    println(f(Vec[\5\](0)).v)
+    println(g(Vec[\3\](0)).v)
+  end
+
+end

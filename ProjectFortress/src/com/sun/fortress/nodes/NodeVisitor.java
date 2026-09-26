@@ -357,6 +357,9 @@ public interface NodeVisitor<RetType> extends AbstractNodeVisitor<RetType>, Expr
     /** Process an instance of IntBinaryOp. */
     public RetType forIntBinaryOp(IntBinaryOp that);
 
+    /** Process an instance of _InferenceVarInt. */
+    public RetType for_InferenceVarInt(_InferenceVarInt that);
+
     /** Process an instance of BoolBase. */
     public RetType forBoolBase(BoolBase that);
 
@@ -1092,6 +1095,9 @@ public interface NodeVisitor<RetType> extends AbstractNodeVisitor<RetType>, Expr
     /** Process an instance of _SyntaxTransformationIntBinaryOp. */
     public RetType for_SyntaxTransformationIntBinaryOp(_SyntaxTransformationIntBinaryOp that);
 
+    /** Process an instance of _SyntaxTransformation_InferenceVarInt. */
+    public RetType for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that);
+
     /** Process an instance of _SyntaxTransformationBoolExpr. */
     public RetType for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that);
 
@@ -1812,6 +1818,9 @@ public interface NodeVisitor<RetType> extends AbstractNodeVisitor<RetType>, Expr
     /** Process an instance of _EllipsesIntBinaryOp. */
     public RetType for_EllipsesIntBinaryOp(_EllipsesIntBinaryOp that);
 
+    /** Process an instance of _Ellipses_InferenceVarInt. */
+    public RetType for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that);
+
     /** Process an instance of _EllipsesBoolExpr. */
     public RetType for_EllipsesBoolExpr(_EllipsesBoolExpr that);
 
@@ -2531,6 +2540,9 @@ public interface NodeVisitor<RetType> extends AbstractNodeVisitor<RetType>, Expr
 
     /** Process an instance of TemplateGapIntBinaryOp. */
     public RetType forTemplateGapIntBinaryOp(TemplateGapIntBinaryOp that);
+
+    /** Process an instance of TemplateGap_InferenceVarInt. */
+    public RetType forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that);
 
     /** Process an instance of TemplateGapBoolExpr. */
     public RetType forTemplateGapBoolExpr(TemplateGapBoolExpr that);

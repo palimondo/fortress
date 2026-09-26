@@ -1,0 +1,24 @@
+(* See explorations/compile-ladder/rung-nat-checker/REPORT.md. *)
+component NatInferredChecker
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+object Mat[\nat r, nat c\](v: ZZ32) end
+
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+rebox[\nat k\](b: Box[\k\]): Box[\k\] = Box[\k\](b.v + 1)
+swap[\nat r, nat c\](m: Mat[\r,c\]): Mat[\c,r\] = Mat[\c,r\](m.v)
+dot[\nat n, nat m, nat p\](a: Mat[\n,m\], b: Mat[\m,p\]): Mat[\n,p\] = Mat[\n,p\](a.v b.v)
+
+run(): () = do
+    assert(unbox(Box[\3\](7)), 7, "a size inferred from the argument's type; ledger row 307")
+    b: Box[\3\] = rebox(Box[\3\](7))
+    assert(b.v, 8, "an inferred size carried into the return type; ledger row 307")
+    t: Mat[\4,2\] = swap(Mat[\2,4\](5))
+    assert(t.v, 5, "two sizes inferred at one call, permuted in the return type; ledger row 307")
+    d: Mat[\2,4\] = dot(Mat[\2,3\](6), Mat[\3,4\](7))
+    assert(d.v, 42, "a size shared by two arguments; ledger row 307")
+    println("PASS")
+  end
+
+end

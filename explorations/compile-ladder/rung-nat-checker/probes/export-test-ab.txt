@@ -1,0 +1,26 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 4.96 2.47 1.41; JDK 25; FORTRESS_THREADS=1
+# tmp/sk-export-base holds: ./com/sun/fortress/scala_src/typechecker/ExportChecker$.class ./com/sun/fortress/scala_src/typechecker/ExportChecker.class 
+########## junit compiler_tests/NatExportChecker.test, tmp/sk-export-base first on the classpath
+. compile compiler_tests/NatExportChecker ProjectFortress/compiler_tests/NatExportChecker.fss:2:11-26:
+    Component NatExportChecker exports API NatExportChecker
+    but does not define all declarations in NatExportChecker.
+    Missing declarations: {unbox[\nat k\](b:NatExportChecker.Box[\k\]):ZZ32 at ProjectFortress/compiler_tests/NatExportChecker.fsi:5:1-7:1}
+File NatExportChecker.fss has 1 error.
+ FAIL
+F
+Time: 2.756
+There was 1 failure:
+1) compiler_tests/NatExportChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/NatExportChecker.test, the landed build
+. compile compiler_tests/NatExportChecker  OK (time = 3069ms)
+
+Time: 3.082
+
+OK (1 test)
+
+exit=0

@@ -1,0 +1,6 @@
+component BoolWritten
+export Executable
+object Flag[\bool b\](v: ZZ32) end
+unflag[\bool b\](f: Flag[\b\]): ZZ32 = f.v
+run(): () = println(unflag[\true\](Flag[\true\](7)))
+end

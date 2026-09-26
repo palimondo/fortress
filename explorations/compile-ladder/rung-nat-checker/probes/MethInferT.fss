@@ -1,0 +1,14 @@
+component MethInferT
+export Executable
+object BoxT[\T\](v: ZZ32)
+  idxT[\U\](b: BoxT[\U\]): BoxT[\T\] = self
+end
+object Box[\nat k\](v: ZZ32)
+  idx[\nat j\](b: Box[\j\]): Box[\k\] = self
+end
+run(): () = do
+  println(BoxT[\String\](7).idxT(BoxT[\ZZ32\](5)).v)
+  println(Box[\3\](7).idx[\2\](Box[\2\](5)).v)
+  println(Box[\3\](7).idx(Box[\2\](5)).v)
+end
+end

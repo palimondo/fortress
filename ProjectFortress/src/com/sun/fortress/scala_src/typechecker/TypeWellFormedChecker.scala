@@ -38,6 +38,14 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
 
   private def error(s:String, n:Node) = errors.add(TypeError.make(s,n))
 
+  private val sizeArithmetic =
+    "Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal."
+
+  private def hasSizeArithmetic(sarg: StaticArg) = sarg match {
+    case SIntArg(_, _, _: IntBinaryOp) => true
+    case _ => false
+  }
+
   private def getTypes(typ:Id) = {
     val types = typ match {
       case SId(info,Some(name),text) =>
@@ -96,6 +104,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       case t@STraitSelfType(_, named, tys) => walk(named); tys.foreach(walk)
       case t@SObjectExprType(_, tys) => tys.foreach(walk)
       case t@STraitType(_, name, sargs, _) =>
+      if (sargs.exists(hasSizeArithmetic))
+        error("Ill-formed type: " + t + "\n    " + sizeArithmetic, t)
       getTypes(name) match {
         case si:TraitIndex => // Trait name should be defined.
         // Static arguments should satisfy the corresponding bounds.
@@ -131,6 +141,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       case SUnionType(_, elements) => elements.foreach(walk)
       case _:LabelType => // OK
       case _:DimBase => // OK
+      case a:IntArg if hasSizeArithmetic(a) =>
+        error("Ill-formed static argument: " + a + "\n    " + sizeArithmetic, a)
       case SFunctionalRef(_, args, _, _, _, _, _, _, _) =>
         // Only the static arguments are written at the reference site.  The two
         // overloading lists and the overloading type are assembled by overload

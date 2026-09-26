@@ -401,14 +401,15 @@ class TypeSchemaAnalyzer(implicit val ta: TypeAnalyzer) {
        println("   ieNotBottom = " + ieNotBottom)
        println("    c = " + c)
     }
-    val (nc, ts, os) = unifyWithDebug(c, debug).getOrElse(return None)
+    val (nc, ts, os, ns) = unifyWithDebug(c, debug).getOrElse(return None)
     if (debug) {
        println("   nc = " + nc)
        println("   ts = " + ts)
        println("   os = " + os)
+       println("   ns = " + ns)
     }
-    val nub = cMap(ub, ts, os)
-    val nieNotBottom = cMap(ieNotBottom, ts, os)
+    val nub = cMap(ub, ts, os, ns)
+    val nieNotBottom = cMap(ieNotBottom, ts, os, ns)
     if (debug) {
        println("   nub = " + nub)
        println("   nieNotBottom = " + nieNotBottom)
@@ -480,9 +481,11 @@ class TypeSchemaAnalyzer(implicit val ta: TypeAnalyzer) {
     val rimageTa = ta.extend(rimageSparams, None)
     // Verify that the image environment can prove that each variable's image
     // is a subtype of all its bounds' images.
+    // Sizes have no bounds; a nat or int parameter is kept as it is.
+    val sizeSparams = sparams.filter(sp => sp.getKind.isInstanceOf[KindNat] || sp.getKind.isInstanceOf[KindInt])
     if (varsMap.forall { case (x, xbds) =>
       rimageTa.lteq(phi(x), phi(imageTa.meet(xbds)))
-    }) Some(rimageSparams) // Success -- return the image's static params.
+    }) Some(rimageSparams ++ sizeSparams) // Success -- return the image's static params.
     else None             // Failure
   }
 }

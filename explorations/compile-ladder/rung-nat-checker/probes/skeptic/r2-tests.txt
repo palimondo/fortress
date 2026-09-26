@@ -1,0 +1,70 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 0.89 2.05 2.54; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+########## junit compiler_tests/NatExportChecker.test, the landed build
+. compile compiler_tests/NatExportChecker  OK (time = 1838ms)
+
+Time: 1.845
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatArithChecker.test, the landed build
+. compile compiler_tests/XXXNatArithChecker ProjectFortress/compiler_tests/XXXNatArithChecker.fss:8:23-32:
+    Ill-formed type: Box[\k+1\]
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:11:12-36:
+    Could not check call to function unbox
+    - [\3\]Box[\3\]->ZZ32 is not applicable to an argument of type Box[\2+1\].
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:11:32:
+    Ill-formed static argument: 2+1
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+ProjectFortress/compiler_tests/XXXNatArithChecker.fss:12:12-36:
+    Could not check call to function unboxNext
+    - [\3\]Box[\3+1\]->ZZ32 is not applicable to an argument of type Box[\4\].
+File XXXNatArithChecker.fss has 4 errors.
+ Saw expected failure
+
+Time: 1.619
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatLitArgChecker.test, the landed build
+. compile compiler_tests/XXXNatLitArgChecker ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss:15:12-31:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss:16:12-38:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File XXXNatLitArgChecker.fss has 2 errors.
+ Saw expected failure
+
+Time: 2.028
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatOverrideChecker.test, the landed build
+. compile compiler_tests/XXXNatOverrideChecker com.sun.fortress.exceptions.CompilerError: Only emitting RTTI for types right now
+ OK Saw expected exception
+
+Time: 2.18
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatExportChecker.test, tmp/sk-export-base first on the classpath
+. compile compiler_tests/NatExportChecker ProjectFortress/compiler_tests/NatExportChecker.fss:2:11-26:
+    Component NatExportChecker exports API NatExportChecker
+    but does not define all declarations in NatExportChecker.
+    Missing declarations: {unbox[\nat k\](b:NatExportChecker.Box[\k\]):ZZ32 at ProjectFortress/compiler_tests/NatExportChecker.fsi:5:1-7:1}
+File NatExportChecker.fss has 1 error.
+ FAIL
+F
+Time: 1.732
+There was 1 failure:
+1) compiler_tests/NatExportChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0

@@ -1,0 +1,17 @@
+component SkBoolCtl
+export Executable
+
+object Flag[\bool b\](v: ZZ32) end
+object Box[\nat k\](v: ZZ32) end
+
+unflag[\bool b\](f: Flag[\b\]): ZZ32 = f.v
+
+run(): () = do
+    println(unflag[\true\](Flag[\true\](7)))
+    b: Box[\4\] = Box[\3\](9)
+    println(b.v)
+    s: String = 5
+    println(s)
+  end
+
+end

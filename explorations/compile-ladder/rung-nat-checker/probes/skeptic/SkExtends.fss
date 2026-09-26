@@ -1,0 +1,19 @@
+component SkExtends
+export Executable
+
+trait T[\nat n\]
+  v(): ZZ32
+end
+object O(x: ZZ32) extends T[\3\]
+  v(): ZZ32 = x
+end
+
+f3(t: T[\3\]): ZZ32 = t.v()
+f4(t: T[\4\]): ZZ32 = t.v()
+
+run(): () = do
+    println(f3(O(7)))
+    println(f4(O(8)))
+  end
+
+end

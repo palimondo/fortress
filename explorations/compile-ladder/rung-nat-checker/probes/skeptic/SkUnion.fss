@@ -1,0 +1,14 @@
+component SkUnion
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+unbox[\nat k\](b: Box[\k\]): ZZ32 = b.v
+
+run(): () = do
+    c: Boolean = true
+    println(unbox(if c then Box[\3\](1) else Box[\3\](2) end))
+    println(unbox(if c then Box[\3\](1) else Box[\4\](2) end))
+  end
+
+end

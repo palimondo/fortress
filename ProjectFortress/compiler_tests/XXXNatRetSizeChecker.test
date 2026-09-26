@@ -1,0 +1,3 @@
+tests=XXXNatRetSizeChecker
+compile
+compile_err_contains=File XXXNatRetSizeChecker.fss has 3 errors.

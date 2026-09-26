@@ -1,0 +1,30 @@
+# build 1: keep-size-params without the bound escaped sizes (OverloadingOracle unedited); fortress typecheck
+########## fortress typecheck SubOvUniv.fss
+exit=0
+########## fortress typecheck SubOvOneSize.fss
+exit=0
+########## fortress typecheck SubOvSwap.fss
+exit=0
+########## fortress typecheck DeadSize.fss
+explorations/compile-ladder/rung-nat-checker/probes/DeadSize.fss:8:11-16:
+    Could not check call to function dead
+    - Could not infer static argument nat m without context.
+explorations/compile-ladder/rung-nat-checker/probes/DeadSize.fss:9:11-25:
+    Could not check call to function half
+    - Could not infer static argument nat m without context.
+File DeadSize.fss has 2 errors.
+exit=255
+EXIT=0
+########## fortress typecheck SubOvUnivT.fss
+exit=0
+########## fortress typecheck SubOvOneT.fss
+explorations/compile-ladder/rung-nat-checker/probes/SubOvOneT.fss:4:5-5:1:
+explorations/compile-ladder/rung-nat-checker/probes/SubOvOneT.fss:7:5-8:1:
+    For sub,
+the return type of [\U extends Object\](Dn[\T,U0\], ZZ32)->Dn[\T,ZZ32\] @ explorations/compile-ladder/rung-nat-checker/probes/SubOvOneT.fss:7:5-8:1 should be a subtype of the
+    return type of [\U extends Object\](Up[\T,U0\], ZZ32)->Up[\T,U\] @ explorations/compile-ladder/rung-nat-checker/probes/SubOvOneT.fss:4:5-5:1
+File SubOvOneT.fss has 1 error.
+exit=255
+########## fortress typecheck SubOvSwapT.fss
+exit=0
+EXIT=0

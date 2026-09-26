@@ -622,6 +622,10 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
         forIntExprDoFirst(that);
     }
 
+    public void for_InferenceVarIntDoFirst(_InferenceVarInt that) {
+        forIntExprDoFirst(that);
+    }
+
     public void forBoolExprDoFirst(BoolExpr that) {
         forStaticExprDoFirst(that);
     }
@@ -1580,6 +1584,10 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
 
     public void for_SyntaxTransformationIntBinaryOpDoFirst(_SyntaxTransformationIntBinaryOp that) {
         forIntBinaryOpDoFirst(that);
+    }
+
+    public void for_SyntaxTransformation_InferenceVarIntDoFirst(_SyntaxTransformation_InferenceVarInt that) {
+        for_InferenceVarIntDoFirst(that);
     }
 
     public void for_SyntaxTransformationBoolExprDoFirst(_SyntaxTransformationBoolExpr that) {
@@ -2542,6 +2550,10 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
         forIntBinaryOpDoFirst(that);
     }
 
+    public void for_Ellipses_InferenceVarIntDoFirst(_Ellipses_InferenceVarInt that) {
+        for_InferenceVarIntDoFirst(that);
+    }
+
     public void for_EllipsesBoolExprDoFirst(_EllipsesBoolExpr that) {
         forBoolExprDoFirst(that);
     }
@@ -3500,6 +3512,10 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
 
     public void forTemplateGapIntBinaryOpDoFirst(TemplateGapIntBinaryOp that) {
         forIntBinaryOpDoFirst(that);
+    }
+
+    public void forTemplateGap_InferenceVarIntDoFirst(TemplateGap_InferenceVarInt that) {
+        for_InferenceVarIntDoFirst(that);
     }
 
     public void forTemplateGapBoolExprDoFirst(TemplateGapBoolExpr that) {
@@ -4463,6 +4479,10 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
         forIntExprOnly(that);
     }
 
+    public void for_InferenceVarIntOnly(_InferenceVarInt that) {
+        forIntExprOnly(that);
+    }
+
     public void forBoolExprOnly(BoolExpr that) {
         forStaticExprOnly(that);
     }
@@ -5421,6 +5441,10 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
 
     public void for_SyntaxTransformationIntBinaryOpOnly(_SyntaxTransformationIntBinaryOp that) {
         forIntBinaryOpOnly(that);
+    }
+
+    public void for_SyntaxTransformation_InferenceVarIntOnly(_SyntaxTransformation_InferenceVarInt that) {
+        for_InferenceVarIntOnly(that);
     }
 
     public void for_SyntaxTransformationBoolExprOnly(_SyntaxTransformationBoolExpr that) {
@@ -6383,6 +6407,10 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
         forIntBinaryOpOnly(that);
     }
 
+    public void for_Ellipses_InferenceVarIntOnly(_Ellipses_InferenceVarInt that) {
+        for_InferenceVarIntOnly(that);
+    }
+
     public void for_EllipsesBoolExprOnly(_EllipsesBoolExpr that) {
         forBoolExprOnly(that);
     }
@@ -7341,6 +7369,10 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
 
     public void forTemplateGapIntBinaryOpOnly(TemplateGapIntBinaryOp that) {
         forIntBinaryOpOnly(that);
+    }
+
+    public void forTemplateGap_InferenceVarIntOnly(TemplateGap_InferenceVarInt that) {
+        for_InferenceVarIntOnly(that);
     }
 
     public void forTemplateGapBoolExprOnly(TemplateGapBoolExpr that) {
@@ -8645,6 +8677,12 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
         recur(that.getRight());
         recur(that.getOp());
         forIntBinaryOpOnly(that);
+    }
+
+    public void for_InferenceVarInt(_InferenceVarInt that) {
+        for_InferenceVarIntDoFirst(that);
+        recurOnASTNodeInfo(that.getInfo());
+        for_InferenceVarIntOnly(that);
     }
 
     public void forBoolBase(BoolBase that) {
@@ -10379,6 +10417,12 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
         for_SyntaxTransformationIntBinaryOpOnly(that);
     }
 
+    public void for_SyntaxTransformation_InferenceVarInt(_SyntaxTransformation_InferenceVarInt that) {
+        for_SyntaxTransformation_InferenceVarIntDoFirst(that);
+        recurOnASTNodeInfo(that.getInfo());
+        for_SyntaxTransformation_InferenceVarIntOnly(that);
+    }
+
     public void for_SyntaxTransformationBoolExpr(_SyntaxTransformationBoolExpr that) {
         for_SyntaxTransformationBoolExprDoFirst(that);
         recurOnASTNodeInfo(that.getInfo());
@@ -11796,6 +11840,11 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
     public void for_EllipsesIntBinaryOp(_EllipsesIntBinaryOp that) {
         for_EllipsesIntBinaryOpDoFirst(that);
         for_EllipsesIntBinaryOpOnly(that);
+    }
+
+    public void for_Ellipses_InferenceVarInt(_Ellipses_InferenceVarInt that) {
+        for_Ellipses_InferenceVarIntDoFirst(that);
+        for_Ellipses_InferenceVarIntOnly(that);
     }
 
     public void for_EllipsesBoolExpr(_EllipsesBoolExpr that) {
@@ -13434,6 +13483,14 @@ public class TemplateAbstractNodeDepthFirstVisitor_void extends AbstractNodeVisi
         recur(that.getGapId());
         recurOnListOfId(that.getTemplateParams());
         forTemplateGapIntBinaryOpOnly(that);
+    }
+
+    public void forTemplateGap_InferenceVarInt(TemplateGap_InferenceVarInt that) {
+        forTemplateGap_InferenceVarIntDoFirst(that);
+        recurOnASTNodeInfo(that.getInfo());
+        recur(that.getGapId());
+        recurOnListOfId(that.getTemplateParams());
+        forTemplateGap_InferenceVarIntOnly(that);
     }
 
     public void forTemplateGapBoolExpr(TemplateGapBoolExpr that) {

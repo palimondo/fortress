@@ -1346,6 +1346,11 @@ interface Node() extends HasAt;
                      * e.g.) 2^b
                      */
                     IntBinaryOp(IntExpr left, IntExpr right, Op op);
+                    /**
+                     * inferred nat or int static argument
+                     * Used internally for type analysis
+                     */
+                    _InferenceVarInt(Object id) implements OutAfterTypeChecking;
                 /**
                  * boolean expression
                  * StaticExpr ::= BoolExpr
