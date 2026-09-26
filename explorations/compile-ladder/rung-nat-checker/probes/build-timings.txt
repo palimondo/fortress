@@ -1,0 +1,35 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start not recorded; JDK 25; FORTRESS_THREADS=1 (the machine line of REPORT.md section 7; the builds ran in the same container on 2026-09-26)
+# the first pass's builds, extracted from the untracked logs tmp/compileAll-*.txt (ant compileAll) and tmp/cache-*.txt (tmp/cache.sh: the five library components compiled in order, /usr/bin/time -f '%e s' each), in the order they ran, with each log's modification time (container clock, UTC)
+## tmp/compileAll-base.txt, written 2026-09-26 01:32:49
+BUILD SUCCESSFUL
+Total time: 1 minute 12 seconds
+## tmp/cache-base.txt, written 2026-09-26 01:35:13
+== LibraryBuiltin/AnyType.fss 16.92 s
+== LibraryBuiltin/CompilerBuiltin.fss 78.13 s
+== ../Library/CompilerLibrary.fss 33.08 s
+== ../Library/CompilerAlgebra.fss 2.13 s
+== ../Library/CompilerSystem.fss 2.08 s
+sum 132.3 s
+## tmp/compileAll-ast.txt, written 2026-09-26 01:43:31
+BUILD SUCCESSFUL
+Total time: 43 seconds
+## tmp/compileAll-1.txt, written 2026-09-26 01:52:49
+BUILD SUCCESSFUL
+Total time: 2 minutes 9 seconds
+## tmp/cache-1.txt, written 2026-09-26 01:56:16
+== LibraryBuiltin/AnyType.fss 24.59 s
+== LibraryBuiltin/CompilerBuiltin.fss 106.18 s
+== ../Library/CompilerLibrary.fss 51.30 s
+== ../Library/CompilerAlgebra.fss 5.47 s
+== ../Library/CompilerSystem.fss 5.28 s
+sum 192.8 s
+## tmp/compileAll-2.txt, written 2026-09-26 02:02:25
+BUILD SUCCESSFUL
+Total time: 51 seconds
+## tmp/cache-2.txt, written 2026-09-26 02:05:05
+== LibraryBuiltin/AnyType.fss 21.24 s
+== LibraryBuiltin/CompilerBuiltin.fss 85.05 s
+== ../Library/CompilerLibrary.fss 40.40 s
+== ../Library/CompilerAlgebra.fss 3.24 s
+== ../Library/CompilerSystem.fss 3.35 s
+sum 153.3 s

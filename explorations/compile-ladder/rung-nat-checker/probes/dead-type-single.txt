@@ -1,0 +1,13 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.80GHz; 2800.212 MHz; load at start 6.47 5.36 3.13; JDK 25; FORTRESS_THREADS=1
+########## fortress typecheck DeadTypeSingle.fss (landed build)
+exit=0
+########## fortress compile DeadTypeSingle.fss (landed build)
+exit=0
+########## fortress run DeadTypeSingle (landed build)
+3
+7
+exit=0
+########## walk: fortress DeadTypeSingle.fss
+3
+7
+exit=0
