@@ -1,0 +1,3 @@
+### ProjectFortress/tests: bin/fortress IntSemanticsRungI.fss, after the library edit, JAVA_FLAGS unset (bin/fortress's default heap), load at start 6.55
+PASS
+exit=0
