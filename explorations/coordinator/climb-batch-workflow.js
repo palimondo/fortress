@@ -20,8 +20,9 @@
 //
 // Every worker, skeptic, gather, review and gate agent is pinned to Opus, and so
 // is a judge's first ruling on a rung or on the merged tree; a second ruling on
-// the same rung or tree inherits the session's model (Pavol, 2026-09-24, on
-// option (c) of climb-batch-3-redesign.md). No backticks anywhere in this file.
+// the same rung or tree runs on Fable (Pavol, 2026-09-24, on option (c) of
+// climb-batch-3-redesign.md, the escalation; 2026-09-26, Fable named, since the
+// session may run on Opus). No backticks anywhere in this file.
 
 export const meta = {
   name: 'fortress-climb-batch',
@@ -29,7 +30,7 @@ export const meta = {
   phases: [
     { title: 'Rung', detail: 'test-first repair in an isolated worktree, committed and pushed to wip/ as it goes; never runs the full gate' },
     { title: 'Skeptic', detail: 'independent judgement with its own walk-vs-compiled differential; one repair round allowed' },
-    { title: 'Judge', detail: 'Opus for the first ruling on a rung or on the merged tree, the session model for a second ruling on the same one; only on a stop, a refusal, a blocking review or a red gate: reads the reports and the diff, decides, writes the decision' },
+    { title: 'Judge', detail: 'Opus for the first ruling on a rung or on the merged tree, Fable for a second ruling on the same one; only on a stop, a refusal, a blocking review or a red gate: reads the reports and the diff, decides, writes the decision' },
     { title: 'Gather', detail: 'net change of each approved branch applied to main, record folded, one local commit per rung' },
     { title: 'Review', detail: 'the merged diff against the batch rules and the folded record as a whole; runs beside the gate' },
     { title: 'Gate', detail: 'compileAll, library rebuild, testFast, testSystem, the summary diff, the four-thread atomic runs, the ladder regression and the checker count over the interpreter library' },
@@ -38,11 +39,13 @@ export const meta = {
 }
 
 const OPUS = 'opus'   // every worker, skeptic, gather, review and gate agent, and a judge's first ruling
-// A judge's tier: Opus for the first ruling on a rung or on the merged tree, the
-// session's model (no model override) for a second ruling on the same one: a
-// refusal ruled after a stop on one rung, a red gate ruled after a blocking
-// review on the merged tree. Pavol's decision of 2026-09-24.
-const judgeTier = (priorRuling) => priorRuling ? {} : { model: OPUS }
+const FABLE = 'fable' // a judge's second ruling on the same rung or tree
+// A judge's tier: Opus for the first ruling on a rung or on the merged tree,
+// Fable for a second ruling on the same one: a refusal ruled after a stop on one
+// rung, a red gate ruled after a blocking review on the merged tree. Pavol's
+// decisions of 2026-09-24 (the escalation) and 2026-09-26 (Fable named rather
+// than the session's model, which may be Opus).
+const judgeTier = (priorRuling) => priorRuling ? { model: FABLE } : { model: OPUS }
 const BASE = args && args.base
 if (!BASE) throw new Error('args.base is required: the commit every wip/ branch was cut from')
 const CONTAINER_BRANCH = 'claude/worker-brief-fable-vnnuv8'   // this container's infrastructure branch; kept at main
@@ -537,7 +540,7 @@ JSON.stringify(decision, null, 2),
 // The judge. Called at four points only: a worker's stop, a skeptic's refusal,
 // a blocking review or a red gate on the merged tree. Its first ruling on a rung
 // or on the merged tree runs on Opus; a second ruling on the same one is
-// escalated to the session's model (judgeTier). It does not build or test; it reads what the two
+// escalated to Fable (judgeTier). It does not build or test; it reads what the two
 // Opus agents already wrote, rules on it, and writes instructions the next
 // Opus agent executes. Its context is assembled here from the structured
 // outputs so it does not have to gather it by tool calls.
