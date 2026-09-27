@@ -1,0 +1,4 @@
+# step 3(d): each \Method line Appendix I now quotes (Specification/appendices/changes.tex:845-847), counted as a whole line in Specification-1.0-frozen/basic-lib/basic-integers.tex (grep -Fxc), and where it is there (grep -Fxn)
+changes.tex:845  count=1  at frozen :380  \Method{\EXP{\KWD{opr} -(\KWD{self})\COLON \mathbb{Q}}}
+changes.tex:846  count=1  at frozen :381  \Method*{\EXP{\KWD{opr} \mathord{\boxminus}(\KWD{self})\COLON \mathbb{Q}}}
+changes.tex:847  count=1  at frozen :382  \Method*{\EXP{\KWD{opr} \mathord{\dotminus}(\KWD{self})\COLON \mathbb{Q}}}

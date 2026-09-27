@@ -1,0 +1,14 @@
+component QQPowerExponent
+export Executable
+
+run() = do
+  q: QQ = 1/2
+  println("q = " q)
+  println("q^3 (ZZ32 exponent) = " q^3)
+  println("q^(widen(3)) (ZZ64 exponent) = " q^(widen(3)))
+  println("q^(big(3)) (ZZ exponent) = " q^(big(3)))
+  println("q^(widen(unsigned(3))) (NN64 exponent) = " q^(widen(unsigned(3))))
+  println("q^(-big(3)) (negative ZZ exponent) = " q^(-big(3)))
+end
+
+end

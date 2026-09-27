@@ -1,0 +1,76 @@
+--- XXXQQPowerExponent, stock and with deliberate local fixes, tree 595c5fdec 2026-09-27T07:03:14Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.91 1.40 1.30 2/110 18835
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+--- the fixes, as diffs against the tree
+48a49
+>         if (value.bitLength() < 64) return value.longValue();
+273c273
+<     opr ^(self, other:ZZ64): T
+---
+>     opr ^(self, other:AnyIntegral): T
+417c417
+<     opr ^(self, other:ZZ64):QQ
+---
+>     opr ^(self, other:AnyIntegral):QQ
+608c608
+<         if -other > 0 then   (* Way too clever by half (to avoid infinite recursion on 2^(-63)) *)
+---
+>         if other < 0 AND -other > 0 then   (* Way too clever by half (to avoid infinite recursion on 2^(-63)) *)
+=== walk, stock
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/Library/FortressLibrary.fss:611:40-62:
+Value 3 might not fit in ZZ64.
+/home/user/fortress/Library/FortressLibrary.fss:611:40-62:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/walk-stock/XXXQQPowerExponent.fss:8:13-23:
+rc=1 secs=14
+=== walk, API: the api's exponents AnyIntegral
+REACHED
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/lib-api/FortressLibrary.fss:611:40-62:
+Value 3 might not fit in ZZ64.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/lib-api/FortressLibrary.fss:611:40-62:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/walk-api/XXXQQPowerExponent.fss:8:13-23:
+rc=1 secs=14
+=== walk, CLASS: FBigNum.getLong overlaid
+REACHED
+Exception in thread "main" java.lang.BootstrapMethodError: java.lang.BootstrapMethodError: bootstrap method initialization exception
+Caused by: java.lang.BootstrapMethodError: bootstrap method initialization exception
+Caused by: java.lang.invoke.StringConcatException: Generator failed
+Caused by: java.lang.invoke.StringConcatException: Exception while spinning the class
+Caused by: java.lang.StackOverflowError
+rc=1 secs=25
+=== walk, CLASS and BODY (with API)
+REACHED
+PASS
+rc=0 secs=14
+=== the testSystem harness (SystemJUTest), stock: the expected failure is seen
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/h-stock/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e1addac9_16
+. interpret /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/h-stock/tests/XXXQQPowerExponent  OK Saw expected exception
+Time: 14.381
+OK (1 test)
+exit=0
+=== the testSystem harness (SystemJUTest), CLASS and BODY (with API): the expected failure no longer fails
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/h-fixed/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e1ae13b6_16
+. interpret /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/h-fixed/tests/XXXQQPowerExponent 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 15.311
+There was 1 failure:
+1) /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/h-fixed/tests/XXXQQPowerExponent(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/h-fixed/tests/XXXQQPowerExponent
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+exit=0
+=== the testSystem harness (SystemJUTest), CLASS alone: the expected failure is still seen (the harness prints no more; walk's run with the same overlay, above, fails at the unsigned assertion)
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/h-class/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e1ae507f_16
+. interpret /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/xxx3/h-class/tests/XXXQQPowerExponent  OK Saw expected exception
+Time: 18.47
+OK (1 test)
+exit=0

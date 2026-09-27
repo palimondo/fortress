@@ -1,0 +1,13 @@
+component XXXQQPowerExponent
+export Executable
+
+(*) explorations/compile-ladder/climb-batch-6/REPAIR-review.md
+
+run() = do
+    println("REACHED")
+    assert((1/2)^(big(3)), 1/8, "row 445, numbers.tex:326-331")
+    assert((1/2)^(widen(unsigned(3))), 1/8, "row 445, numbers.tex:326-331")
+    println("PASS")
+  end
+
+end

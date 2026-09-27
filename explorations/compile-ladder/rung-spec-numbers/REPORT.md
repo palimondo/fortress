@@ -239,7 +239,7 @@ The list is also `explorations/compile-ladder/rung-spec-numbers/probes/repair/fo
    - Appendix I.1.10 to I.1.16 from page 587.
 
    The text diff is `explorations/compile-ladder/rung-spec-numbers/probes/build/base-vs-edit-pdftotext-diff.txt`, with its causes in `explorations/compile-ladder/rung-spec-numbers/probes/build/diff-hunks.txt`.
-2. **The Appendix I entries** (`Specification/appendices/changes.tex:435-1016`). Every original is quoted, the four method-entry lines included.
+2. **The Appendix I entries** (`Specification/appendices/changes.tex:435-1026`). Every original is quoted, the four method-entry lines included.
 3. **The list**, with what was left and why: `explorations/compile-ladder/rung-spec-numbers/probes/list.txt` (T1 to T18, L1 to L16, and the corrections appended).
 4. **A decision taken under answer 8's words** (the judge's, `JUDGE.md` section 3). ℝ64 coerces "from ℤ32 and from integer numerals", so Example 1 stands.
    - Walk's narrowing is row 443.
@@ -287,13 +287,13 @@ The judge's steps (`explorations/compile-ladder/rung-spec-numbers/JUDGE.md` sect
    - Frozen `:622` (`|self| : ℕ`) and `:816` (`lowBits : ℕ`) are quoted, with a note that the listing's `:284` already said ℤ and that ℕ was a synonym for ℤ≥ (frozen `:65`).
    - The Change now names "the result of `lowBits` in its method entry" (`changes.tex:774-777`).
 4. **The reductions callout** (`reductions.tex:27-44`). Scoped as the judge wrote, with one sentence on the compiled path's smaller library and no repository path.
-5. **I.1.16** (`changes.tex:985-1016`). The Change and the Rationale say the same. The Rationale cites `\nolinkurl{Library/CompilerLibrary.fsi}` lines 180--184 and the skeptic's `SkSumClauseTyped.t1.txt` beside rows 424 and 425.
+5. **I.1.16** (`changes.tex:995-1026`). The Change and the Rationale say the same. The Rationale cites `\nolinkurl{Library/CompilerLibrary.fsi}` lines 180--184 and the skeptic's `SkSumClauseTyped.t1.txt` beside rows 424 and 425.
 6. **The negative power.** Three sentences in the `revival-integers` callout (`basic-integers.tex:286-291`) and in I.1.12's Effect (`changes.tex:791-797`). The `^` entry and its property are unchanged (`basic-integers.tex:495-505`).
 7. **The numerals.** The edits:
    - `numbers.tex:43`: "from ℤ32, and from integer numerals (`\secref{literals}`)";
    - `conversions-coercions.tex:65-66`: "of values of type ℤ32, and of integer numerals, to the floating-point type ℝ64";
    - the callout (`:74-88`): "from ℤ32, and the decision names the integer numerals too", then the interpreter sentence;
-   - I.1.10's Change (`changes.tex:448`), I.1.15's Change (`:963-966`) and Effect (`:970-974`, Example 1 stands). Example 1 itself is unchanged. No provisional row number appears under `Specification/`.
+   - I.1.10's Change (`changes.tex:448`), I.1.15's Change (`:973-976`) and Effect (`:980-984`, Example 1 stands). Example 1 itself is unchanged. No provisional row number appears under `Specification/`.
 
    **One instruction was wrong against a primary source.** The judge's callout sentence was "the compiled path's own library declares no conversion into ℝ64 from an integer". The prelude does declare explicit conversions: `asRR64(): RR64` on `ZZ32`, `NN32` and `IntLiteral` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:268`, `:327`, `:396`). What it lacks is a coercion: its `RR64` coerces from `FloatLiteral` and `RR32` only (`:433-435`). So the sentence reads "declares no coercion into ℝ64 from an integer type or an integer numeral; there ℤ32, ℕ32 and integer numerals convert to ℝ64 only explicitly, and the other integer types not at all" (`conversions-coercions.tex:86-88`), as the second skeptic's correction 1 wrote it at the gather: `ZZ`, `ZZ64` and `NN64` declare no conversion into `RR64` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:103-146`, `:147-209`, `:332-389`; `explorations/compile-ladder/rung-spec-numbers/probes/skeptic/Sk2Z64AsRR64.t1.txt`).
 8. **Rebuild.** `./ant genSource` then `./ant tex` in `Specification/fortress/` with `FORTRESS_HOME` set to the worktree:

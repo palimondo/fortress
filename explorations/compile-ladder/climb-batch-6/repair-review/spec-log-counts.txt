@@ -1,0 +1,18 @@
+# counts in Specification/fortress/fortress.log of the build in spec-tex.txt (grep -c; the log traces macros, so a pattern is matched on a line of its own)
+LaTeX Warning: Reference: 0
+There were undefined references: 0
+multiply defined: 0
+Undefined control sequence: 0
+LaTeX Error: 4
+Emergency stop: 0
+Output written on fortress.pdf (621 pages, 2073920 bytes).
+
+# the same counts for a control build: a scratch copy of this Specification/ with basic-integers.tex and changes.tex taken from HEAD (595c5fdec), ./ant tex; its normalised text equals the committed PDF's (diff empty)
+LaTeX Warning: Reference: 0
+There were undefined references: 0
+multiply defined: 0
+Undefined control sequence: 0
+LaTeX Error: 4
+Emergency stop: 0
+Output written on fortress.pdf (621 pages, 2073334 bytes).
+# the four 'LaTeX Error' lines, in both builds, are macro-trace lines (#2<-LaTeX Error: \string \mathtt allowed only in math mode, and its \@latex@error expansion) inside hyperref's bookmark-string expansion of two subsection titles holding \KWD{self} and \KWD{where}; neither build's log has a '! ' error line for them

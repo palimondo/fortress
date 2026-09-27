@@ -76,12 +76,12 @@ run() = do
 
     assert(shown(maxZ DOTPLUS oneZ), "9223372036854775808 : ZZ", "opr-overview.tex:205-209, basic-integers.tex:369-370: ZZ DOTPLUS does not wrap")
     assert(shown(maxZ DOTPLUS oneZ), shown(maxZ + oneZ), "opr-overview.tex:205-209, basic-integers.tex:369-370: ZZ DOTPLUS is +")
-    assert(shown(minZ DOTMINUS oneZ), "-9223372036854775809 : ZZ", "opr-overview.tex:205-209, basic-integers.tex:400-401: ZZ DOTMINUS does not wrap")
-    assert(shown(minZ DOTMINUS oneZ), shown(minZ - oneZ), "opr-overview.tex:205-209, basic-integers.tex:400-401: ZZ DOTMINUS is -")
-    assert(shown(DOTMINUS minZ), "9223372036854775808 : ZZ", "opr-overview.tex:205-209, basic-integers.tex:384-385: ZZ DOTMINUS MIN does not wrap")
-    assert(shown(DOTMINUS minZ), shown(-minZ), "opr-overview.tex:205-209, basic-integers.tex:384-385: ZZ unary DOTMINUS is -")
-    assert(shown(maxZ DOTTIMES maxZ), "85070591730234615847396907784232501249 : ZZ", "opr-overview.tex:172-176, basic-integers.tex:416: ZZ DOTTIMES does not wrap")
-    assert(shown(maxZ DOTTIMES maxZ), shown(maxZ maxZ), "opr-overview.tex:172-176, basic-integers.tex:416: ZZ DOTTIMES is multiplication")
+    assert(shown(minZ DOTMINUS oneZ), "-9223372036854775809 : ZZ", "opr-overview.tex:205-209, basic-integers.tex:393-394: ZZ DOTMINUS does not wrap")
+    assert(shown(minZ DOTMINUS oneZ), shown(minZ - oneZ), "opr-overview.tex:205-209, basic-integers.tex:393-394: ZZ DOTMINUS is -")
+    assert(shown(DOTMINUS minZ), "9223372036854775808 : ZZ", "opr-overview.tex:205-209, basic-integers.tex:380-381: ZZ DOTMINUS MIN does not wrap")
+    assert(shown(DOTMINUS minZ), shown(-minZ), "opr-overview.tex:205-209, basic-integers.tex:380-381: ZZ unary DOTMINUS is -")
+    assert(shown(maxZ DOTTIMES maxZ), "85070591730234615847396907784232501249 : ZZ", "opr-overview.tex:172-176, basic-integers.tex:409: ZZ DOTTIMES does not wrap")
+    assert(shown(maxZ DOTTIMES maxZ), shown(maxZ maxZ), "opr-overview.tex:172-176, basic-integers.tex:409: ZZ DOTTIMES is multiplication")
 
     println "PASS"
   end

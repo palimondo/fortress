@@ -33,12 +33,12 @@ end
 hit(s: String): ZZ32 = if s = "g(WideOf)" then 1 else 0 end
 
 run() = do
-    assert(g(NarrowOf(2)), "g(WideOf)", "row 19: the converted argument is dispatched as an ordinary call, and the most specific declaration for its run-time type is applied; conversions-coercions.tex:253-265, :532-536; advanced/overloading.tex:73-78, :466-468; basic/overloading.tex:263-276")
-    assert(g(NarrowOf(3)), "g(Wide)", "row 19: the declaration is chosen per call on the converted value, not cached per argument type; conversions-coercions.tex:253-265; advanced/overloading.tex:73-78, :466-468")
+    assert(g(NarrowOf(2)), "g(WideOf)", "row 19: the converted argument is dispatched as an ordinary call, and the most specific declaration for its run-time type is applied; conversions-coercions.tex:270-282, :549-553; advanced/overloading.tex:73-78, :466-468; basic/overloading.tex:263-276")
+    assert(g(NarrowOf(3)), "g(Wide)", "row 19: the declaration is chosen per call on the converted value, not cached per argument type; conversions-coercions.tex:270-282; advanced/overloading.tex:73-78, :466-468")
     assert(g(NarrowOf(4)), "g(WideOf)", "row 19: the converted argument is dispatched as an ordinary call after a call that converted to another type; advanced/overloading.tex:73-78, :466-468")
-    assert(Picker.pick(NarrowOf(2)), "pick(WideOf)", "row 19: an overloaded method's converted argument is dispatched as an ordinary call; conversions-coercions.tex:253-265, :532-536; advanced/overloading.tex:73-78, :466-468")
+    assert(Picker.pick(NarrowOf(2)), "pick(WideOf)", "row 19: an overloaded method's converted argument is dispatched as an ordinary call; conversions-coercions.tex:270-282, :549-553; advanced/overloading.tex:73-78, :466-468")
     assert(Picker.pick(NarrowOf(3)), "pick(Wide)", "row 19: the method declaration is chosen per call on the converted value, not cached per argument type; advanced/overloading.tex:73-78, :466-468")
-    assert(describe(NarrowOf(6)), "WideOf.describe", "row 19: a functional method dispatches on its converted self argument; conversions-coercions.tex:434-436; advanced/overloading.tex:466-468")
+    assert(describe(NarrowOf(6)), "WideOf.describe", "row 19: a functional method dispatches on its converted self argument; conversions-coercions.tex:451-453; advanced/overloading.tex:466-468")
     assert(describe(NarrowOf(5)), "Wide.describe", "row 19: a functional method dispatches per call on its converted self argument; advanced/overloading.tex:466-468")
     assert(SUM[\ZZ32\][i <- 1:100] hit(g(NarrowOf(i))), 50, "row 19: converted arguments dispatched per call in a parallel reduction; basic/overloading.tex:263-276")
     println("PASS")

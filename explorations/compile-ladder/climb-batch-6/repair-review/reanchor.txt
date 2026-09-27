@@ -1,0 +1,227 @@
+# reanchor.py --write, run at the repository root; the map is base e5414f5bf -> the working tree
+# per rewritten reference: file:line, kind, chapter, old -> new, whether the old lines' text at the base equals the new lines' text in the tree, and where on the line it sits
+ProjectFortress/tests/CoercionBindRungC.fss:31  explicit     conversions-coercions.tex  :100-101 -> :117-118  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:33  explicit     conversions-coercions.tex  :100-101 -> :117-118  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:36  explicit     conversions-coercions.tex  :100-101 -> :117-118  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:36  continuation conversions-coercions.tex  :694-705 -> :711-722  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:37  explicit     conversions-coercions.tex  :694-697 -> :711-714  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:39  explicit     conversions-coercions.tex  :100-101 -> :117-118  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:39  continuation conversions-coercions.tex  :694-705 -> :711-722  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:42  explicit     conversions-coercions.tex  :108-109 -> :125-126  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:43  explicit     conversions-coercions.tex  :100-101 -> :117-118  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:44  explicit     conversions-coercions.tex  :100-101 -> :117-118  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:46  explicit     conversions-coercions.tex  :108-109 -> :125-126  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:48  explicit     conversions-coercions.tex  :100-101 -> :117-118  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:49  explicit     conversions-coercions.tex  :100-101 -> :117-118  text equal  (message/comment)
+ProjectFortress/tests/CoercionBindRungC.fss:51  explicit     conversions-coercions.tex  :108-109 -> :125-126  text equal  (message/comment)
+ProjectFortress/tests/CoercionCallRungC.fss:35  explicit     conversions-coercions.tex  :98-110 -> :115-127  text equal  (message/comment)
+ProjectFortress/tests/CoercionCallRungC.fss:36  explicit     conversions-coercions.tex  :98-110 -> :115-127  text equal  (message/comment)
+ProjectFortress/tests/CoercionCallRungC.fss:37  explicit     conversions-coercions.tex  :98-110 -> :115-127  text equal  (message/comment)
+ProjectFortress/tests/CoercionCallRungC.fss:38  explicit     conversions-coercions.tex  :98-110 -> :115-127  text equal  (message/comment)
+ProjectFortress/tests/CoercionCallRungC.fss:39  explicit     conversions-coercions.tex  :98-110 -> :115-127  text equal  (message/comment)
+ProjectFortress/tests/CoercionCallRungC.fss:39  continuation conversions-coercions.tex  :442-449 -> :459-466  text equal  (message/comment)
+ProjectFortress/tests/CoercionCallRungC.fss:40  explicit     conversions-coercions.tex  :98-110 -> :115-127  text equal  (message/comment)
+ProjectFortress/tests/CoercionCallRungC.fss:41  explicit     conversions-coercions.tex  :98-110 -> :115-127  text equal  (message/comment)
+ProjectFortress/tests/CoercionCallRungC.fss:41  continuation conversions-coercions.tex  :442-449 -> :459-466  text equal  (message/comment)
+ProjectFortress/tests/CoercionMostSpecificRungC.fss:38  explicit     conversions-coercions.tex  :458-460 -> :475-477  text equal  (message/comment)
+ProjectFortress/tests/CoercionMostSpecificRungC.fss:38  continuation conversions-coercions.tex  :525-536 -> :542-553  text equal  (message/comment)
+ProjectFortress/tests/CoercionMostSpecificRungC.fss:39  explicit     conversions-coercions.tex  :525-536 -> :542-553  text equal  (message/comment)
+ProjectFortress/tests/CoercionMostSpecificRungC.fss:40  explicit     conversions-coercions.tex  :477-484 -> :494-501  text equal  (message/comment)
+ProjectFortress/tests/CoercionMostSpecificRungC.fss:40  continuation conversions-coercions.tex  :493-496 -> :510-513  text equal  (message/comment)
+ProjectFortress/tests/CoercionMostSpecificRungC.fss:42  explicit     conversions-coercions.tex  :311-330 -> :328-347  text equal  (message/comment)
+ProjectFortress/tests/CoercionMostSpecificRungC.fss:44  explicit     conversions-coercions.tex  :100-101 -> :117-118  text equal  (message/comment)
+ProjectFortress/tests/CoercionOverloadRungC.fss:40  explicit     conversions-coercions.tex  :455-458 -> :472-475  text equal  (message/comment)
+ProjectFortress/tests/CoercionOverloadRungC.fss:43  explicit     conversions-coercions.tex  :311-330 -> :328-347  text equal  (message/comment)
+ProjectFortress/tests/CoercionOverloadRungC.fss:44  explicit     conversions-coercions.tex  :311-330 -> :328-347  text equal  (message/comment)
+ProjectFortress/tests/CoercionOverloadRungC.fss:45  explicit     conversions-coercions.tex  :262-265 -> :279-282  text equal  (message/comment)
+ProjectFortress/tests/CoercionOverloadRungC.fss:45  continuation conversions-coercions.tex  :455-458 -> :472-475  text equal  (message/comment)
+ProjectFortress/tests/CoercionOverloadRungC.fss:46  explicit     conversions-coercions.tex  :98-110 -> :115-127  text equal  (message/comment)
+ProjectFortress/tests/CoercionOverloadRungC.fss:47  explicit     conversions-coercions.tex  :431-436 -> :448-453  text equal  (message/comment)
+ProjectFortress/tests/CoercionOverloadRungC.fss:48  explicit     conversions-coercions.tex  :431-436 -> :448-453  text equal  (message/comment)
+ProjectFortress/tests/CoercionRedispatchRungC.fss:36  explicit     conversions-coercions.tex  :253-265 -> :270-282  text equal  (message/comment)
+ProjectFortress/tests/CoercionRedispatchRungC.fss:36  continuation conversions-coercions.tex  :532-536 -> :549-553  text equal  (message/comment)
+ProjectFortress/tests/CoercionRedispatchRungC.fss:37  explicit     conversions-coercions.tex  :253-265 -> :270-282  text equal  (message/comment)
+ProjectFortress/tests/CoercionRedispatchRungC.fss:39  explicit     conversions-coercions.tex  :253-265 -> :270-282  text equal  (message/comment)
+ProjectFortress/tests/CoercionRedispatchRungC.fss:39  continuation conversions-coercions.tex  :532-536 -> :549-553  text equal  (message/comment)
+ProjectFortress/tests/CoercionRedispatchRungC.fss:41  explicit     conversions-coercions.tex  :434-436 -> :451-453  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:20  explicit     conversions-coercions.tex  :300-310 -> :317-327  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:21  explicit     conversions-coercions.tex  :300-310 -> :317-327  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:22  explicit     conversions-coercions.tex  :315 -> :332  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:23  explicit     conversions-coercions.tex  :316 -> :333  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:24  explicit     conversions-coercions.tex  :317 -> :334  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:25  explicit     conversions-coercions.tex  :318 -> :335  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:26  explicit     conversions-coercions.tex  :319 -> :336  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:27  explicit     conversions-coercions.tex  :320 -> :337  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:28  explicit     conversions-coercions.tex  :321 -> :338  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:29  explicit     conversions-coercions.tex  :322 -> :339  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:29  continuation conversions-coercions.tex  :327-329 -> :344-346  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:30  explicit     conversions-coercions.tex  :323 -> :340  text equal  (message/comment)
+ProjectFortress/tests/CoercionSpecTableRungC.fss:31  explicit     conversions-coercions.tex  :324 -> :341  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:104  explicit     basic-integers.tex  :698-702 -> :677-681  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:105  explicit     basic-integers.tex  :698-702 -> :677-681  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:106  explicit     basic-integers.tex  :698-702 -> :677-681  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:107  explicit     basic-integers.tex  :698-702 -> :677-681  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:108  explicit     basic-integers.tex  :698-702 -> :677-681  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:109  explicit     basic-integers.tex  :698-702 -> :677-681  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:110  explicit     basic-integers.tex  :698 -> :677  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:112  explicit     basic-integers.tex  :524 -> :513  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:113  explicit     basic-integers.tex  :524 -> :513  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:114  explicit     basic-integers.tex  :528 -> :517  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:115  explicit     basic-integers.tex  :528 -> :517  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:116  explicit     basic-integers.tex  :529 -> :518  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:117  explicit     basic-integers.tex  :529 -> :518  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:131  explicit     basic-integers.tex  :524 -> :513  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:132  explicit     basic-integers.tex  :524 -> :513  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:133  explicit     basic-integers.tex  :528 -> :517  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:134  explicit     basic-integers.tex  :528 -> :517  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:135  explicit     basic-integers.tex  :529 -> :518  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:136  explicit     basic-integers.tex  :529 -> :518  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:153  explicit     basic-integers.tex  :528 -> :517  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:154  explicit     basic-integers.tex  :528 -> :517  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:155  explicit     basic-integers.tex  :529 -> :518  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:158  explicit     basic-integers.tex  :529 -> :518  text equal  (message/comment)
+ProjectFortress/tests/IntSemanticsRungI.fss:159  explicit     basic-integers.tex  :529 -> :518  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:7  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:8  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:9  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:10  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:11  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:12  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:13  explicit     numbers.tex  :470-471 -> :445-446  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:14  explicit     numbers.tex  :470-471 -> :445-446  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:15  explicit     numbers.tex  :470-471 -> :445-446  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:17  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:18  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:19  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:20  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:21  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:30  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:31  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:32  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:33  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:34  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:35  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/RoundHalfEvenRungR.fss:36  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/WrapOperatorsRungD.fss:79  explicit     basic-integers.tex  :400-401 -> :393-394  text equal  (message/comment)
+ProjectFortress/tests/WrapOperatorsRungD.fss:80  explicit     basic-integers.tex  :400-401 -> :393-394  text equal  (message/comment)
+ProjectFortress/tests/WrapOperatorsRungD.fss:81  explicit     basic-integers.tex  :384-385 -> :380-381  text equal  (message/comment)
+ProjectFortress/tests/WrapOperatorsRungD.fss:82  explicit     basic-integers.tex  :384-385 -> :380-381  text equal  (message/comment)
+ProjectFortress/tests/WrapOperatorsRungD.fss:83  explicit     basic-integers.tex  :416 -> :409  text equal  (message/comment)
+ProjectFortress/tests/WrapOperatorsRungD.fss:84  explicit     basic-integers.tex  :416 -> :409  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25  explicit     conversions-coercions.tex  :102-103 -> :119-120  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25  explicit     conversions-coercions.tex  :176-178 -> :193-195  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25  continuation conversions-coercions.tex  :212-222 -> :229-239  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionReturnRungC.fss:24  explicit     conversions-coercions.tex  :104-105 -> :121-122  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss:26  explicit     conversions-coercions.tex  :525-536 -> :542-553  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss:26  continuation conversions-coercions.tex  :567-570 -> :584-587  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionStaticRungC.fss:20  explicit     conversions-coercions.tex  :567-604 -> :584-621  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:32  explicit     conversions-coercions.tex  :108-110 -> :125-127  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:32  continuation conversions-coercions.tex  :694-705 -> :711-722  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:33  explicit     conversions-coercions.tex  :102-103 -> :119-120  text equal  (message/comment)
+ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:33  continuation conversions-coercions.tex  :694-705 -> :711-722  text equal  (message/comment)
+ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss:28  explicit     basic-integers.tex  :384 -> :380  text equal  (message/comment)
+ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss:29  explicit     basic-integers.tex  :624-625 -> :608-609  text equal  (message/comment)
+ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss:34  explicit     basic-integers.tex  :384 -> :380  text equal  (message/comment)
+ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss:35  explicit     basic-integers.tex  :624-625 -> :608-609  text equal  (message/comment)
+ProjectFortress/tests/XXXRadixTenPointNumeral.fss:7  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/XXXRadixTenPointNumeral.fss:8  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/XXXRoundNearTieNumeral.fss:7  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/XXXRoundNearTieNumeral.fss:8  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/XXXRoundNearTieNumeral.fss:9  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/tests/XXXRoundNearTieNumeral.fss:10  explicit     numbers.tex  :470-472 -> :445-447  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:88  explicit     basic-integers.tex  :624-625 -> :608-609  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:89  explicit     basic-integers.tex  :384 -> :380  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:90  explicit     basic-integers.tex  :444-445 -> :433-434  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:91  explicit     basic-integers.tex  :624-625 -> :608-609  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:92  explicit     basic-integers.tex  :384 -> :380  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:93  explicit     basic-integers.tex  :444-445 -> :433-434  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:109  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:110  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:111  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:112  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:113  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:114  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:115  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:116  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:119  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:121  explicit     basic-integers.tex  :447-448 -> :436-437  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:122  explicit     basic-integers.tex  :450-451 -> :439-440  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:123  explicit     basic-integers.tex  :523-525 -> :512-514  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:124  explicit     basic-integers.tex  :523-525 -> :512-514  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:125  explicit     basic-integers.tex  :527-529 -> :516-518  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:126  explicit     basic-integers.tex  :384-385 -> :380-381  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:127  explicit     basic-integers.tex  :384-385 -> :380-381  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:129  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:130  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:131  explicit     basic-integers.tex  :415 -> :408  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:135  explicit     basic-integers.tex  :624-625 -> :608-609  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:137  explicit     basic-integers.tex  :444-445 -> :433-434  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:139  explicit     basic-integers.tex  :624-625 -> :608-609  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:141  explicit     basic-integers.tex  :444-445 -> :433-434  text equal  (message/comment)
+ProjectFortress/compiler_tests/IntSemanticsRungB.fss:155  explicit     basic-integers.tex  :698-702 -> :677-681  text equal  (message/comment)
+ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.fss:25  explicit     conversions-coercions.tex  :455-458 -> :472-475  text equal  (message/comment)
+ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.fss:25  continuation conversions-coercions.tex  :522-525 -> :539-542  text equal  (message/comment)
+ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.fss:24  explicit     conversions-coercions.tex  :102-103 -> :119-120  text equal  (message/comment)
+ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss:15  explicit     conversions-coercions.tex  :102-103 -> :119-120  text equal  (message/comment)
+ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss:16  explicit     conversions-coercions.tex  :102-103 -> :119-120  text equal  (message/comment)
+ProjectFortress/compiler_tests/XXXShiftDeclRungI.fss:10  explicit     basic-integers.tex  :695-702 -> :674-681  text equal  (message/comment)
+ProjectFortress/library_tests/IntConversionsRungW.fss:87  explicit     conversions-coercions.tex  :73-75 -> :90-92  text equal  (message/comment)
+ProjectFortress/library_tests/IntConversionsRungW.fss:88  explicit     conversions-coercions.tex  :73-75 -> :90-92  text equal  (message/comment)
+ProjectFortress/library_tests/IntConversionsRungW.fss:89  explicit     conversions-coercions.tex  :73-75 -> :90-92  text equal  (message/comment)
+ProjectFortress/library_tests/IntegralOpsRungN.fss:8  explicit     basic-integers.tex  :465-468 -> :454-457  text equal  (message/comment)
+ProjectFortress/library_tests/IntegralOpsRungN.fss:80  explicit     basic-integers.tex  :465-468 -> :454-457  text equal  (message/comment)
+ProjectFortress/library_tests/IntegralOpsRungN.fss:116  explicit     basic-integers.tex  :488-490 -> :477-479  text equal  (message/comment)
+ProjectFortress/library_tests/IntegralOpsRungN.fss:123  explicit     basic-integers.tex  :439-440 -> :428-429  text equal  (message/comment)
+ProjectFortress/library_tests/IntegralOpsRungN.fss:123  continuation basic-integers.tex  :459 -> :448  text equal  (message/comment)
+ProjectFortress/library_tests/IntegralOpsRungN.fss:130  explicit     basic-integers.tex  :484 -> :473  text equal  (message/comment)
+ProjectFortress/library_tests/IntegralOpsRungN.fss:152  explicit     basic-integers.tex  :523-525 -> :512-514  text equal  (message/comment)
+ProjectFortress/library_tests/IntegralOpsRungN.fss:165  explicit     basic-integers.tex  :527-529 -> :516-518  text equal  (message/comment)
+ProjectFortress/library_tests/IntegralOpsRungN.fss:176  explicit     basic-integers.tex  :544 -> :531  text equal  (message/comment)
+# rewritten: 177 references (161 explicit, 16 continuations) in 25 files
+#   ProjectFortress/tests/CoercionBindRungC.fss: 14
+#   ProjectFortress/tests/CoercionCallRungC.fss: 9
+#   ProjectFortress/tests/CoercionMostSpecificRungC.fss: 7
+#   ProjectFortress/tests/CoercionOverloadRungC.fss: 8
+#   ProjectFortress/tests/CoercionRedispatchRungC.fss: 6
+#   ProjectFortress/tests/CoercionSpecTableRungC.fss: 13
+#   ProjectFortress/tests/IntSemanticsRungI.fss: 24
+#   ProjectFortress/tests/RoundHalfEvenRungR.fss: 21
+#   ProjectFortress/tests/WrapOperatorsRungD.fss: 6
+#   ProjectFortress/tests/XXXCoercionGenericFnRungC.fss: 1
+#   ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss: 2
+#   ProjectFortress/tests/XXXCoercionReturnRungC.fss: 1
+#   ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss: 2
+#   ProjectFortress/tests/XXXCoercionStaticRungC.fss: 1
+#   ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss: 4
+#   ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss: 4
+#   ProjectFortress/tests/XXXRadixTenPointNumeral.fss: 2
+#   ProjectFortress/tests/XXXRoundNearTieNumeral.fss: 4
+#   ProjectFortress/compiler_tests/IntSemanticsRungB.fss: 30
+#   ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.fss: 2
+#   ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.fss: 1
+#   ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss: 2
+#   ProjectFortress/compiler_tests/XXXShiftDeclRungI.fss: 1
+#   ProjectFortress/library_tests/IntConversionsRungW.fss: 3
+#   ProjectFortress/library_tests/IntegralOpsRungN.fss: 9
+# the 25 files of JUDGE-review.md:32-34: exactly these
+# references that do not map (left): 0
+# references to Specification-1.0-frozen (never rewritten): 0
+# references whose lines did not move (nothing to rewrite): 15
+#   ProjectFortress/tests/IntSemanticsRungI.fss:103 explicit basic-integers.tex:15-16
+#   ProjectFortress/tests/WrapOperatorsRungD.fss:77 explicit basic-integers.tex:369-370
+#   ProjectFortress/tests/WrapOperatorsRungD.fss:78 explicit basic-integers.tex:369-370
+#   ProjectFortress/tests/XXXInferredStaticArgRungS.fss:10 explicit literals.tex:57
+#   ProjectFortress/tests/XXXRadixTenPointNumeral.fss:7 explicit literals.tex:162-163
+#   ProjectFortress/tests/XXXRadixTenPointNumeral.fss:8 explicit literals.tex:162-163
+#   ProjectFortress/tests/XXXRoundNearTieNumeral.fss:7 explicit literals.tex:162-163
+#   ProjectFortress/tests/XXXRoundNearTieNumeral.fss:8 explicit literals.tex:162-163
+#   ProjectFortress/tests/XXXRoundNearTieNumeral.fss:9 explicit literals.tex:162-163
+#   ProjectFortress/tests/XXXRoundNearTieNumeral.fss:10 explicit literals.tex:162-163
+#   ProjectFortress/compiler_tests/IntLiteralWrapRepairR2.fss:11 explicit literals.tex:83-85
+#   ProjectFortress/compiler_tests/IntLiteralWrapRepairR2.fss:13 explicit basic-integers.tex:369-370
+#   ProjectFortress/compiler_tests/NatRtBigSize.fss:29 explicit literals.tex:83-85
+#   ProjectFortress/compiler_tests/NatRtBigSize.fss:33 explicit literals.tex:83-85
+#   ProjectFortress/compiler_tests/NatRtBigSize.fss:37 explicit literals.tex:83-85
+# every rewritten reference: text equal and inside a message or a comment: yes
+# the line check, over git diff HEAD of the three test corpora: each changed line against its original, with every .tex:N[-M] and bare :N[-M] digit run replaced by #
+# files changed: 25; lines changed: 161; lines differing outside reference digits: 0

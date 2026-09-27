@@ -288,7 +288,7 @@ The exponent of the power, \EXP{\mathbb{N}} in the Working Draft, is now
 The Working Draft gave the result of a negative power through the
 exponentiation of \EXP{\mathbb{Q}}, since \EXP{\mathbb{Z}} was a subtype of
 \EXP{\mathbb{Q}}: \EXP{2^{-1}} was \EXP{1/2}.
-This chapter does not give it.}
+This chapter does not give it. The method entries of the three unary negations gave the result \EXP{\mathbb{Q}} where the listing gave \EXP{\mathbb{Z}}; on the flat tower that would make the negative of an integer a rational, and they now give \EXP{\mathbb{Z}}, as the listing does.}
 
 
 %%   coerce(x: ZZ64)
@@ -370,12 +370,12 @@ The wrapping and saturating addition operators \EXP{\boxplus} and \EXP{\dotplus}
 because operations on type \EXP{\mathbb{Z}} never need to wrap or saturate.
 
 
-%%   opr -(self): QQ
-%%   opr BOXMINUS(self): QQ
-%%   opr DOTMINUS(self): QQ
-\Method{\EXP{\KWD{opr} -(\KWD{self})\COLON \mathbb{Q}}}
-\Method*{\EXP{\KWD{opr} \mathord{\boxminus}(\KWD{self})\COLON \mathbb{Q}}}
-\Method*{\EXP{\KWD{opr} \mathord{\dotminus}(\KWD{self})\COLON \mathbb{Q}}}
+%%   opr -(self): ZZ
+%%   opr BOXMINUS(self): ZZ
+%%   opr DOTMINUS(self): ZZ
+\Method{\EXP{\KWD{opr} -(\KWD{self})\COLON \mathbb{Z}}}
+\Method*{\EXP{\KWD{opr} \mathord{\boxminus}(\KWD{self})\COLON \mathbb{Z}}}
+\Method*{\EXP{\KWD{opr} \mathord{\dotminus}(\KWD{self})\COLON \mathbb{Z}}}
 
 The unary negation operator \EXP{-} returns the negative of its argument.
 The operators \EXP{\boxminus} and \EXP{\dotminus} do exactly the same thing.

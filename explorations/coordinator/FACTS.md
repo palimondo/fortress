@@ -151,4 +151,4 @@
 
 ## The ledger
 
-- Rows are never renumbered or moved, and the reports cite them by number; the counts by kind are derived by script in the ledger's counts (`fortress-gap-ledger.md:772`), and the revival worklist (46 items, `fortress-gap-ledger.md:632`) and `apl/lessons.md` are the two derived views. Five cost rows sit in section 15; whether they get a section of their own is Pavol's call.
+- Rows are never renumbered or moved, and the reports cite them by number; the counts by kind are derived by script in the ledger's counts (`fortress-gap-ledger.md:773`), and the revival worklist (46 items, `fortress-gap-ledger.md:633`) and `apl/lessons.md` are the two derived views. Five cost rows sit in section 15; whether they get a section of their own is Pavol's call.

@@ -1,0 +1,16 @@
+component QQPowerUnsigned
+export Executable
+
+run() = do
+  u: NN64 = widen(unsigned(3))
+  v: NN32 = unsigned(3)
+  println("-u = " (-u))
+  println("-u > 0: " (-u > 0))
+  println("u < 0: " (u < 0))
+  println("-v = " (-v))
+  println("-v > 0: " (-v > 0))
+  q: QQ = 1/2
+  println("q^v (NN32 exponent) = " q^v)
+end
+
+end

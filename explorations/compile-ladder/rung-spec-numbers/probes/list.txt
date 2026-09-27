@@ -193,6 +193,7 @@ CORRECTIONS MADE AFTER THE LIST WAS COMMITTED (095775d39), citations only
     :622 (the absolute value : N); T6's :339 (division : Q*) and :387 (CMP taking Q) are
     quoted in "The rational trait". Each of the four entries had a type other than the
     listing's, and the first wording of those entries said they had the same signatures.
+- L14's first item, the unary minus of Z declared : Q in its entry, is fixed at climb batch 6's merged-diff review's repair (compile-ladder/climb-batch-6/JUDGE-review.md): the three entries give Z, as the listing does.
 
 FOUND AFTER THE LIST WAS COMMITTED
 

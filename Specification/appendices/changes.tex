@@ -775,7 +775,7 @@ Division returns \EXP{\mathbb{Q}}; the exponent of the power, the results of the
 factorial, of \OPR{CHOOSE} and of the four hyperfloor and hyperceiling
 operators, the argument of \OPR{CMP}, the absolute value, and the result of
 \VAR{lowBits} in its method entry are \EXP{\mathbb{Z}}.
-The twelve check methods leave the listing and the method entries.
+The twelve check methods leave the listing and the method entries. The method entries of the three unary negations give the result \EXP{\mathbb{Z}}, as the listing does.
 The sentences on the infinities of \EXP{\mathbb{Z}^*} and \EXP{\mathbb{N}^*}
 leave the method entries, and so do the words that made the strictly positive
 integers a type extending a lattice trait; the lattice they describe stays.
@@ -784,10 +784,10 @@ integers a type extending a lattice trait; the lattice they describe stays.
 Division takes the type the library declares for it; the other signatures take
 \EXP{\mathbb{Z}}, since the library declares none of those methods with a
 natural-number type (its power on integers is another method, returning a
-floating-point value).
+floating-point value). Route~A gives each number type its own algebra, and the listing's commutative ring over \EXP{\mathbb{Z}} negates within \EXP{\mathbb{Z}}; the method entries' \EXP{\mathbb{Q}} held of an integer only while \EXP{\mathbb{Z}} was a subtype of \EXP{\mathbb{Q}}.
 \item[Effect] As \secref{revival-numbers}.
 The integer types no longer hold infinities, so their total order is that of the
-finite integers.
+finite integers. Negating an integer gives an integer.
 The exponent of the power, \EXP{\mathbb{N}} in the Working Draft, is now
 \EXP{\mathbb{Z}}, so a negative power is admitted.
 The Working Draft gave the result of a negative power through the
@@ -838,6 +838,16 @@ line 284, which the revision leaves as it was, already said \EXP{\mathbb{Z}}:
 \end{quote}
 In the chapter each of these two lines was the heading of its entry; here each
 is set as a line.
+Lines 380--382 gave the three unary negations the result \EXP{\mathbb{Q}},
+where the listing's lines 228--230 gave \EXP{\mathbb{Z}}:
+\begin{quote}
+\RenewDocumentCommand\Method{sm}{#2\par}
+\Method{\EXP{\KWD{opr} -(\KWD{self})\COLON \mathbb{Q}}}
+\Method*{\EXP{\KWD{opr} \mathord{\boxminus}(\KWD{self})\COLON \mathbb{Q}}}
+\Method*{\EXP{\KWD{opr} \mathord{\dotminus}(\KWD{self})\COLON \mathbb{Q}}}
+\end{quote}
+In the chapter the first line was the heading of its entry and the other two
+continued it; here each is set as a line.
 Lines 372--374, 387--388 and 418--421:
 \begin{quote}
 For type \EXP{\mathbb{Z}^*}, the sum of an infinity

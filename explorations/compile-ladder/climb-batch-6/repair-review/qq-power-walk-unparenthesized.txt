@@ -1,0 +1,49 @@
+# the first run of QQPowerExponent.fss, whose lines 8-10 then wrote the exponent unparenthesized (q^widen(3), q^big(3), q^widen(unsigned(3))): walk reads q^widen(3) as (q^widen)(3) and stops at line 8 with the function widen as the exponent; qq-power-walk.txt is the run with the exponents parenthesized
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=1.14 1.07 1.06; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=595c5fdec with the review's repair uncommitted; date=2026-09-27T06:43:15Z
+# walk, FORTRESS_THREADS=1, from an empty private cache (FORTRESS_CACHES=<scratch>/caches with a zeroed global.map, as explorations/compile-ladder/rung-flat-tower/perturb-probe.sh:9-17 does); the program is repair-review/QQPowerExponent.fss, run from a scratch copy; the landed library of 595c5fdec
+q = 1/2
+q^3 (ZZ32 exponent) = 1/8
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/qqpow/QQPowerExponent.fss:8:44-48:
+Failed to find any matching overload, args = (Ratio,{
+	widen(native ToUnsignedLong)fn meth(self 0):NN32->NN64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:450:5-451:86)
+	widen(native ToLong)fn meth(self 0):ZZ32->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:748:5-749:77)
+	widen(self:(FortressLibrary.ZZ64 & {FortressBuiltin.Long})):FortressLibrary.ZZ64fn meth(self 0):ZZ64->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:840:5-27)
+	widen(native ToZZ64)fn meth(self 0):ZZ->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:992:5-993:80)}:OverloadedFunction), overload = {
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):T/home/user/fortress/Library/FortressLibrary.fss:349:5-350:1
+	^(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(RR64,AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:454:5-55)
+	^(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(RR64,Number)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:452:5-453:50)
+	^(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.AnyIntegral):FortressLibrary.QQfn meth(self 0):(QQ,AnyIntegral)->QQ (/home/user/fortress/Library/FortressLibrary.fss:607:5-612:10)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64/home/user/fortress/Library/FortressLibrary.fss:682:5-35
+	^(native Pow)fn meth(self 0):(ZZ32,AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:746:5-747:74)
+	^(native Pow)fn meth(self 0):(ZZ64,AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:830:5-831:75)
+	^(native Pow)fn meth(self 0):(NN64,AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:897:5-898:83)
+	^(native Pow)fn meth(self 0):(ZZ,AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:987:5-988:77)
+	^(self:FortressLibrary.String,n:FortressLibrary.ZZ32):FortressLibrary.Stringfn meth(self 0):(String,ZZ32)->String (/home/user/fortress/Library/FortressLibrary.fss:4073:5-4079:8)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\NN32\],AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:682:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\NN32\],AnyIntegral)->NN32 (/home/user/fortress/Library/FortressLibrary.fss:349:5-350:1)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\RR64\],AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:349:5-350:1)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\QQ\],AnyIntegral)->QQ (/home/user/fortress/Library/FortressLibrary.fss:349:5-350:1)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ32\],AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:682:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\ZZ32\],AnyIntegral)->ZZ32 (/home/user/fortress/Library/FortressLibrary.fss:349:5-350:1)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ64\],AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:682:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\ZZ64\],AnyIntegral)->ZZ64 (/home/user/fortress/Library/FortressLibrary.fss:349:5-350:1)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\NN64\],AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:682:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\NN64\],AnyIntegral)->NN64 (/home/user/fortress/Library/FortressLibrary.fss:349:5-350:1)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ\],AnyIntegral)->RR64 (/home/user/fortress/Library/FortressLibrary.fss:682:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\ZZ\],AnyIntegral)->ZZ (/home/user/fortress/Library/FortressLibrary.fss:349:5-350:1)
+	^(native Pow)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:154:5-155:76)
+	^(native Pow)fn meth(self 0):(Float,RR32)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:156:5-157:76)
+	^(native Pow)fn meth(self 0):(Float,AnyIntegral)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:160:5-161:76)
+	^(self:FortressBuiltin.Float,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Float,Number)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:158:5-159:50)
+	^(native Pow)fn meth(self 0):(RR32,Float)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:325:5-326:76)
+	^(native Pow)fn meth(self 0):(RR32,RR32)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:323:5-324:75)
+	^(self:FortressBuiltin.RR32,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(RR32,Number)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:5-328:50)
+	^(native Pow)fn meth(self 0):(RR32,ZZ64)->RR32 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:329:5-330:75)
+	^(native Pow)fn meth(self 0):(NN32,AnyIntegral)->RR64 (/home/user/fortress/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:448:5-449:75)}:OverloadedFunction
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/qqpow/QQPowerExponent.fss:8:44-48:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1 secs=15
