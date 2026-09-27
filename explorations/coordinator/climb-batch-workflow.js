@@ -71,15 +71,28 @@ const MAIN = '/home/user/fortress'
 // rung of this batch declares one, so any change of the crash row is red).
 // Optional: landsOnlyWith, the ids of the rungs a rung lands only with; the
 // script applies it after the scatter, so S, which names C, reaches the gather
-// only when C is approved. facts (Pavol, 2026-09-27): what the rung's agents
-// read first from the knowledge base, as data the script does not read: one
-// flat list of substrings, each matched against FACTS.md's bold entry titles
-// and its "## " section headings and against INDEX.md's backticked paths (the
-// map's parts among them); the same list is the "Read first" paragraph of the
-// rung's section. The script reads a rung's briefing and checks instead
-// (facts-extract.sh keys; climb-batch-workflow.md, "Preparing a batch
-// record"), which these entries do not carry yet, so every role's step 1 says
-// the rung has no briefing (the record's section 8, item 4).
+// only when C is approved. briefing: the rung's mission briefing, which the
+// planner writes from the record so that the agents learn in context what they
+// were never trained on: the keys of
+// explorations/coordinator/tools/facts-extract.sh for the POSITIONS.md entries
+// (positions:DATE WORDS), gap-ledger rows (ledger:ROW) and earlier judges'
+// rulings (doc:PATH#HEADING) the rung rests on; the notes already written on
+// the subject, found through INDEX.md (doc:, index:); the specification's
+// sections its subject touches (doc: on a .tex heading, code: on a passage);
+// the library code that is the precedent for the same kind of problem
+// (code:PATH#FROM..TO); and the FACTS.md entries and map rows and sections of
+// its area; in reading order, decisions first. The rung worker reads it whole
+// as its step 1. And checks, the sub-list of briefing that the skeptic, the
+// repair round and the judges read as their step 1: the decisions and ledger
+// rows their checks need, and the specification's sections and the precedent
+// code those checks compare against. No key holds a double quote, backtick,
+// dollar sign or backslash, since each is rendered in double quotes. H's, A's
+// and B's lists are checked with the tool's --check to match exactly one place
+// per key, on main at 205a68a0a (re-checked at each launch). S, C, W and L
+// carry instead the facts field of the record's first draft, data the script
+// does not read, until their briefings are written before the second run is
+// briefed; until then their step 1 says the rung has no briefing (the record's
+// section 8, item 4).
 //
 // Batch 7's values are CLIMB-BATCH-7.md, sections 3, 6 and 7. Each tail is that
 // rung's section of section 3 word for word, with the record's code-span
@@ -289,11 +302,9 @@ const H_TAIL = [
 "",
 "Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-7.md, section 3, under \"H. What the flattening left\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
 "",
-"**The answers this rung follows.** None of section 1's questions changes this rung. (Its 19 errors are on main at d846e3644, which carries rung F's library; the coordinator re-reads them on the landed table before the launch.)",
+"**The answers this rung follows.** None of section 1's questions changes this rung. (Its 19 errors are on batch 6b's landed table, explorations/compile-ladder/climb-batch-6b/gate/checker-count.txt, 38 on the FortressLibrary row, each counted twice; Library/ and ProjectFortress/LibraryBuiltin/ have not changed since d846e3644.)",
 "",
-"**Read first.** Most of the knowledge base is not this rung's. explorations/coordinator/FACTS.md, the entries \"The compiled checker's exclusion rule is the designers'\"; \"The specification's own examples that the multiple instantiation exclusion refuses\"; \"The specification states instantiation exclusion, and its refused examples are the library's shapes\"; \"Crashes reach zero in the shadow\"; \"The compiled checker refuses every api-declared trait that extends a trait whose comprises clause has ...\"; \"The exclusion fork, priced three ways and dated\"; \"The true distance to the switch-over\"; \"The one library's number tower is flat\" (rung F's entry, folded at batch 6's gather); \"testSystem's four shards are one suite split by sorted index\"; \"The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program\", and the rest of its section \"The checker and the one library\" as far as it bears on the files above. explorations/coordinator/INDEX.md, the notes explorations/reviews/exclusion-design-brief.md, explorations/reviews/mie-probes/flat-world-for-users.md, explorations/reviews/mie-probes/route-c-experiment.md, explorations/reviews/spec-refused-examples-judgement.md, explorations/coordinator/library-route-judgement.md, explorations/perf-probes/prelude/switch-over-distance.md, explorations/coordinator/tools/checker-count/, explorations/compile-ladder/rung-library-defects/REPORT.md, explorations/repo-internals.md. The map, explorations/coordinator/map/: spec-to-implementation.md section 4 (the tower's layered picture), dormant-code.md (the library's \"not yet\" notes, AnyIntegral's among them) and README.md section 7, the Library/FortressLibrary.fss row. The manifest entry carries the same list as its facts field.",
-"",
-"**The problem.** On rung F's library, now main's (d846e3644 carries the branch wip/rung-flat-tower's Library/ byte for byte; re-read on the landed table), the checker-count stage reads 62, and the FortressLibrary api still stops at the checker's hierarchy pass (its acyclic stage) on 19 errors, so its overloading and return-type checks never run in the gate (explorations/compile-ladder/rung-flat-tower/probes/skeptic/checker-count-rerun.txt, the table and its 18 exclusion reports; explorations/compile-ladder/rung-flat-tower/probes/distance/walk-flat.txt:86-106, all 19 with their lines; the stage's per-api rows read twice the total in every landed table, so the api's 38 is 19 of the 62). The declarations, at their lines on that library:",
+"**The problem.** On rung F's library, now main's (d846e3644 carries the branch wip/rung-flat-tower's Library/ byte for byte, unchanged since; batch 6b's landed table reads the same), the checker-count stage reads 62, and the FortressLibrary api still stops at the checker's hierarchy pass (its acyclic stage) on 19 errors, so its overloading and return-type checks never run in the gate (explorations/compile-ladder/rung-flat-tower/probes/skeptic/checker-count-rerun.txt, the table and its 18 exclusion reports; explorations/compile-ladder/rung-flat-tower/probes/distance/walk-flat.txt:86-106, all 19 with their lines; the stage's per-api rows read twice the total in every landed table, so the api's 38 is 19 of the 62). The declarations, at their lines on that library:",
 "- TotalComparison extends Comparison, which is a StandardPartialOrder[\\Comparison\\], and StandardTotalOrder[\\TotalComparison\\] (Library/FortressLibrary.fsi:100-121), so it is below two instantiations of one generic; its three objects LessThan, EqualTo and GreaterThan are refused with it.",
 "- AnyMaybe extends Equality[\\AnyMaybe\\] beside AnyUniqueItem, Maybe[\\T\\] extends AnyMaybe beside UniqueItem[\\T\\], and Just and Nothing are refused with them (:879-905).",
 "- RelationalPredicateCondition[\\E\\] extends Condition[\\()\\] and excludes Condition[\\()\\] in one line (:2558), a type that excludes its own supertype.",
@@ -302,7 +313,7 @@ const H_TAIL = [
 "",
 "**The decisions.** Route A (explorations/coordinator/POSITIONS.md, 2026-09-24, route A): the compiled checker keeps the rule and the library conforms. Its measured price names these edits among the \"extends clauses that go\": \"StandardTotalOrder[\\TotalComparison\\] on TotalComparison (the prelude's own edit, CompilerBuiltin.fss:1521-1523), Equality[\\AnyMaybe\\] on AnyMaybe\" (explorations/reviews/mie-probes/price-keep-the-rule.md:25), and the count it expected, 22, assumes them. The overloading judgement assigns the comparisons to route A (explorations/reviews/overloading-judgement.md section 3.6, CMP and MINMAX), and Pavol agreed to it (POSITIONS 2026-09-26, answer 9). The Condition site is a library defect with no question attached (explorations/coordinator/library-route-judgement.md section 2, step 1). For the AnyIntegral clause nothing is decided beyond route A's \"the library conforms\": the ways on file are below, the rung chooses with its measurements in hand and reports the choice as a decision with the ways not taken, and section 1 says when the choice goes to Pavol instead (a walk output changed, or an error the distance stage shows as caused rather than unmasked).",
 "",
-"**What the library and the specification already do.** Evidence, not the brief; the rung lists every way before it chooses. The compiler prelude's TotalComparison has its StandardTotalOrder clause commented out and extends Comparison only (ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:719-722, .fss:1526-1528). The specification's TotalComparison extends Comparison and the LEXICO algebra, not StandardTotalOrder (Specification/advanced-lib/comparison.tex), and its Maybe extends nothing but its own cases (Specification/basic-lib/convenience.tex:37-53, as batch 5's rung S revised it). The keep-the-rule measurement's copy dropped those two clauses and wrote TotalComparison's inherited MIN, MAX, <= and >= by hand (price-keep-the-rule.md, \"Smaller pieces\"; the copy's script explorations/reviews/mie-probes/keep/make-flat-lib.py:36-37, :72-73). For Condition[\\()\\] a component-only repair was measured, which kept walk loading and Generator2Test byte-identical (FACTS.md, \"Crashes reach zero in the shadow, and clearing the early errors exposes a hidden layer\"). For AnyIntegral: the keep-the-rule sketch drops AnyIntegral from Integral[\\I\\]'s extends clause and lets each integer type extend both, as they already do on the flat library (explorations/reviews/mie-probes/keep/flat-tower-sketch.fsi:69-84, make-flat-lib.py:59-60), and on that copy the api kept one error, the Condition site (explorations/perf-probes/prelude/switch-over-distance.md section 5); rung F kept the clause and the extends. The ellipsis form, comprises { ... }, is refused by the checker for every api-declared type that extends the trait (row 354, ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:209-212; the one-line checker fix batch 3 tried and measured, explorations/compile-ladder/rung-library-defects/probes/deliberate-checker-fix.txt, is Scala and not this rung's). The specification's word on a comprises clause in an api is Specification/basic/traits.tex:236-241 and basic/components/source-code.tex:386-392. What depends on an Integral[\\I\\] being an AnyIntegral (the bounds I extends AnyIntegral beside I extends Integral[\\I\\] in Library/RangeInternals.fsi, Number comprises { RR64, QQ, AnyIntegral }) is the rung's to measure: both stages, walk's corpus and the two microGPT checks.",
+"**What the library and the specification already do.** Evidence, not the brief; the rung lists every way before it chooses. The compiler prelude's TotalComparison has its StandardTotalOrder clause commented out and extends Comparison only (ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:719-722, .fss:1526-1528). The specification's TotalComparison extends Comparison and the LEXICO algebra, not StandardTotalOrder (Specification/advanced-lib/comparison.tex), and its Maybe extends nothing but its own cases (Specification/basic-lib/convenience.tex:37-53, as batch 5's rung S revised it). The keep-the-rule measurement's copy dropped those two clauses and wrote TotalComparison's inherited MIN, MAX, <= and >= by hand (price-keep-the-rule.md, \"Smaller pieces\"; the copy's script explorations/reviews/mie-probes/keep/make-flat-lib.py:36-37, :72-73). For Condition[\\()\\] a component-only repair was measured, which kept walk loading and Generator2Test byte-identical (FACTS.md, \"Crashes reach zero in the shadow, and clearing the early errors exposes a hidden layer\"). For AnyIntegral: the keep-the-rule sketch drops AnyIntegral from Integral[\\I\\]'s extends clause and lets each integer type extend both, as they already do on the flat library (explorations/reviews/mie-probes/keep/flat-tower-sketch.fsi:69-84, make-flat-lib.py:59-60), and on that copy the api kept one error, the Condition site (explorations/perf-probes/prelude/switch-over-distance.md section 5); rung F kept the clause and the extends, and it had dropped AnyIntegral from Integral[\\I\\]'s extends clause on its branch and restored it, because without it walk's overload check refuses C4's generic array operators beside Integral's generic ones (its decision D4, explorations/compile-ladder/rung-flat-tower/REPORT.md section 6; 077beba2d). The ellipsis form, comprises { ... }, is refused by the checker for every api-declared type that extends the trait (row 354, ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:209-212; the one-line checker fix batch 3 tried and measured, explorations/compile-ladder/rung-library-defects/probes/deliberate-checker-fix.txt, is Scala and not this rung's). The specification's word on a comprises clause in an api is Specification/basic/traits.tex:236-241 and basic/components/source-code.tex:386-392. What depends on an Integral[\\I\\] being an AnyIntegral (the bounds I extends AnyIntegral beside I extends Integral[\\I\\] in Library/RangeInternals.fsi, Number comprises { RR64, QQ, AnyIntegral }) is the rung's to measure: both stages, walk's corpus and the two microGPT checks.",
 "",
 "**The test, first.** The manifest sets testIsStage: the recorded failure is the checker-count stage's table before the edit, with the api's 19 errors at the hierarchy pass, and the table after. Clearing them lets the FortressLibrary api reach its overloading and return-type checks in the stage for the first time, so the table after may rise: every new row is listed as unmasked, with P1's run of the same library as the prediction, and the distance stage's table before and after shows that nothing new was caused. Beside them, a new interpreter test in ProjectFortress/tests/, written before the edit and passing before and after: CMP and LEXICO over comparisons, MIN and MAX of comparison values, = on Maybe values, Just and Nothing as generators, and a relational predicate condition combined by AND, each with today's value asserted.",
 "",
@@ -335,8 +346,6 @@ const A_TAIL = [
 "Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-7.md, section 3, under \"A. tabulate\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
 "",
 "**The answers this rung follows.** None of section 1's questions changes this rung.",
-"",
-"**Read first.** Most of the knowledge base is not this rung's. explorations/coordinator/FACTS.md, the entries \"The fill refusals, counted on the one library, and how each path treats the pair\"; \"Measured by the overloading judgement on private library copies\"; \"The hidden layer, classified\"; \"The one library's number tower is flat\" (rung F's entry, folded at batch 6's gather); \"Route A's generic container obligations still need body-level checks\"; \"The compiled path's only array-like types are ZZ32Vector and StringVector\"; \"Specification-1.0-frozen/ is byte for byte the working draft of 2011-02-02\"; \"Citing Specification/library/apis/*.tex as an independent standard is circular\"; \"testSystem's four shards are one suite split by sorted index\"; \"The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program\", and the rest of its sections \"The library's arrays and algebra\" and \"The checker and the one library\" as far as it bears on the files above. explorations/coordinator/INDEX.md, the notes explorations/reviews/fill-overloads-ways.md, explorations/reviews/overloading-judgement.md, explorations/reviews/spec-change-form.md, explorations/coordinator/tools/checker-count/, explorations/perf-probes/prelude/switch-over-distance.md, explorations/microgpt-run-c-handover.md, explorations/repo-internals.md, explorations/coordinator/CLIMB-BATCH-5.md. The map, explorations/coordinator/map/: spec-to-implementation.md (the arrays chapters), test-coverage.md (the interpreter corpus) and README.md section 7, the Library/FortressLibrary.fss and explorations/apl/mg/, run-c4/src/ rows. The manifest entry carries the same list as its facts field.",
 "",
 "**The problem.** The compiled checker refuses fill 95 times on the one library: 22 printed by the checker-count stage (in ProjectFortress/LibraryBuiltin/NativeArray.fsi's two objects) and 73 behind the FortressLibrary api's early return (FACTS.md, \"The fill refusals, counted on the one library, and how each path treats the pair\"). 77 pair the value form fill(v: E) with the function form fill(f: I -> E): with an unbounded element type a value can be a function, and under walk a function passed as a value to an array of element type Any is called per index instead of stored (explorations/reviews/fill-overloads-ways.md, probe FillWalk, cases 3, 6 and 7). 18 are the diamond: an array object inherits fill from two parents with no declaration below both (Library/FortressLibrary.fsi:1297-1369). array1 and array2's value and function factories are refused by the return-type rule. And array3(f) takes a two-argument function for a three-dimensional array and is absent from the api (Library/FortressLibrary.fss:2830 against .fsi:1712; row 247).",
 "",
@@ -375,8 +384,6 @@ const B_TAIL = [
 "Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-7.md, section 3, under \"B. The written bounds and row 421\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
 "",
 "**The answers this rung follows.** Q1 = (a), answered by Pavol on 2026-09-27: a type parameter written without a bound is bounded by Any, so the bound this rung writes is not implied. (Line numbers in this section are on main at ad2d25f11, whose Library/ and ProjectFortress/LibraryBuiltin/ are byte for byte those of d65892d34, the sources the measurements ran on.)",
-"",
-"**Read first.** Most of the knowledge base is not this rung's. explorations/coordinator/FACTS.md, the entries \"The distance to the switch-over by root cause\"; \"The cheap fixes and scalar ranges over ZZ32, measured on one library copy\"; \"Keeping the expected type at a call written f(x) is four one-token edits\"; \"Static arguments are inferred from the arguments alone, on both paths\"; \"The true distance to the switch-over\"; \"Between the interpreter's library and bytecode stands the checker\"; \"The one library's number tower is flat\"; \"testSystem's four shards are one suite split by sorted index\"; \"The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program\"; \"ant compileAll deletes a tracked file\", and the rest of its section \"The checker and the one library\" as far as it bears on the files above. explorations/coordinator/INDEX.md, the notes explorations/perf-probes/prelude/distance-triage.md, explorations/reviews/numerics-plan-synthesis.md, explorations/reviews/numerics-plan-coordinator.md, explorations/perf-probes/prelude/switch-over-distance-flat.md, explorations/coordinator/tools/checker-count/, explorations/repo-internals.md. The map, explorations/coordinator/map/: README.md section 7, the Library/FortressLibrary.fss row. The manifest entry carries the same list as its facts field.",
 "",
 "**The problem.** Two defects of the one library, both measured by the distance driver under walk's setting, which bounds an unbounded type parameter by Any, as Q1's answer does.",
 "- A type parameter that appears only in the result. builtinPrimitive[\\T\\](javaClass:String):T (ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:30, .fss:34) is the body of 340 native declarations whose return type is written, such as widen(self):ZZ64 = builtinPrimitive(\"...Int$ToLong\"). With T bounded by Any, the compiled checker reports \"Could not infer static argument T without context\" at every one of them: class N1, 340 errors, in FortressBuiltin.fss 183, FortressLibrary.fss 125, FlatString.fss 14, Writer.fss 11 and NativeArray.fss 7 (explorations/perf-probes/prelude/distance-triage.md section 3.1; the split by file is explorations/reviews/numerics-plan-coordinator/measure-D.md section 3). fail[\\T\\](s:String):T (Library/FortressLibrary.fsi:37, .fss:54) has the same shape, and so has List's nullary comprehension operator opr BIG <|[\\T\\]|> (Library/List.fsi:109, List.fss:177, called at List.fss:150): class N2, 24 errors (explorations/reviews/numerics-plan-coordinator/measure-C.md section 1). Under walk nothing is wrong: the interpreter replaces a native's body with its glue class (row 309), and fail throws.",
@@ -436,17 +443,136 @@ const L_ENTRY = { id: 'L', slug: 'rung-overload-families', path: '/home/user/for
 
 const H_ENTRY = { id: 'H', slug: 'rung-exclusion-remainder', path: '/home/user/fortress-remainder', branch: 'wip/rung-exclusion-remainder', tail: H_TAIL, expectedMinutes: 150, writesState: false, testIsStage: true, expectedCheckerCount: P1_COUNT.H,
     blurb: "the instantiation-exclusion refusals batch 6's flattening left (TotalComparison and its objects, AnyMaybe, Maybe, Just, Nothing) and RelationalPredicateCondition's excludes, made to conform (route A), so the FortressLibrary api reaches its overloading check in the gate; library and one guard test, no Java.",
-    facts: ["The compiled checker's exclusion rule is the designers'", "The specification's own examples that the multiple instantiation exclusion refuses", "The specification states instantiation exclusion, and its refused examples are the library's shapes", "Crashes reach zero in the shadow", "The compiled checker refuses every api-declared trait that extends a trait whose comprises clause has ...", "The exclusion fork, priced three ways and dated", "The true distance to the switch-over", "The one library's number tower is flat", "testSystem's four shards are one suite split by sorted index", "The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program", "The checker and the one library", "explorations/reviews/exclusion-design-brief.md", "explorations/reviews/mie-probes/flat-world-for-users.md", "explorations/reviews/mie-probes/route-c-experiment.md", "explorations/reviews/spec-refused-examples-judgement.md", "explorations/coordinator/library-route-judgement.md", "explorations/perf-probes/prelude/switch-over-distance.md", "explorations/coordinator/tools/checker-count/", "explorations/compile-ladder/rung-library-defects/REPORT.md", "explorations/repo-internals.md", "explorations/coordinator/map/spec-to-implementation.md", "explorations/coordinator/map/dormant-code.md", "explorations/coordinator/map/README.md"],
+    briefing: [
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-23 how the exclusion-rule fork", "positions:2026-09-26 answer 9",
+      "positions:2026-09-21 library commit", "positions:2026-09-23 climb batch 3's checker count", "positions:2026-09-27 numerics plans",
+      "positions:2026-09-21 ledger row 331", "positions:2026-09-19 answering the open question", "positions:2026-09-24 after finding the override shape",
+      "positions:2026-09-26 answer 11", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "ledger:354",
+      "ledger:358", "ledger:331", "doc:explorations/compile-ladder/rung-flat-tower/REPORT.md#6. Decisions@D4",
+      "doc:explorations/compile-ladder/rung-flat-tower/REPORT.md#14. The checker count",
+      "doc:explorations/coordinator/climb-batch-7-review.md#1. Changes made, one reason each@19th error named",
+      "doc:explorations/compile-ladder/rung-flat-tower/probes/skeptic/checker-count-rerun.txt",
+      "doc:explorations/reviews/mie-probes/price-keep-the-rule.md#1. What flat means for this library",
+      "doc:explorations/perf-probes/prelude/switch-over-distance.md#5. The flattened copy",
+      "doc:explorations/reviews/overloading-judgement.md#3.6 The library's refused set, repaired@CMP",
+      "doc:explorations/perf-probes/nat/zero.md#3. The Condition",
+      "doc:explorations/perf-probes/prelude/switch-over-distance-flat.md#1. How it was measured",
+      "doc:explorations/perf-probes/prelude/switch-over-distance-flat.md#5. The distance stage for phase 3's gates", "index:checker-count",
+      "doc:Specification/basic/types-vals-vars.tex#Trait Types", "doc:Specification/basic/traits.tex#Trait Declarations",
+      "doc:Specification/basic/components/source-code.tex#Export Statements",
+      "code:Specification/advanced-lib/comparison.tex#%% value trait TotalComparison..%% GreaterThan: TotalComparison",
+      "doc:Specification/basic-lib/convenience.tex#Convenience Types", "code:Library/FortressLibrary.fsi#trait Comparison..trait TotalComparison",
+      "code:Library/FortressLibrary.fsi#trait AnyIntegral extends..trait Integral[",
+      "code:Library/FortressLibrary.fsi#value trait AnyMaybe..value trait Maybe[", "code:Library/FortressLibrary.fsi#trait RelationalPredicateCondition",
+      "code:Library/FortressLibrary.fss#trait RelationalPredicateCondition..relationalPredicate[",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait TotalComparison..object EqualTo extends TotalComparison",
+      "doc:explorations/reviews/mie-probes/keep/flat-tower-sketch.fsi", "The compiled checker's exclusion rule is the designers'",
+      "The specification states instantiation exclusion, and its refused examples are the library's shapes",
+      "The specification's own examples that the multiple instantiation exclusion refuses", "The exclusion fork, priced three ways and dated",
+      "The tower closure of 02d09a39f has no spelling the compiler's checker accepts",
+      "The compiled checker refuses every api-declared trait that extends a trait whose comprises clause has", "Crashes reach zero in the shadow",
+      "The true distance to the switch-over", "The checker-count stage's table", "The one library's number tower is flat",
+      "A comment placed after a declaration that ends in an expression or a type", "testSystem's four shards are one suite split by sorted index",
+      "The interpreter's overload-ambiguity message names its two declarations", "ant compileAll deletes a tracked file",
+      "map:spec-to-implementation.md#4.2 The tower in", "map:README.md#Touch this@Library/FortressLibrary.fss and the other"],
+    checks: [
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-26 answer 9", "positions:2026-09-21 library commit",
+      "positions:2026-09-24 after finding the override shape", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop",
+      "ledger:354", "ledger:358", "doc:explorations/compile-ladder/rung-flat-tower/REPORT.md#6. Decisions@D4",
+      "doc:explorations/compile-ladder/rung-flat-tower/probes/skeptic/checker-count-rerun.txt",
+      "doc:explorations/reviews/mie-probes/price-keep-the-rule.md#1. What flat means for this library",
+      "doc:explorations/perf-probes/prelude/switch-over-distance-flat.md#1. How it was measured",
+      "doc:Specification/basic/types-vals-vars.tex#Trait Types",
+      "code:Specification/advanced-lib/comparison.tex#%% value trait TotalComparison..%% GreaterThan: TotalComparison",
+      "doc:Specification/basic-lib/convenience.tex#Convenience Types",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait TotalComparison..object EqualTo extends TotalComparison",
+      "doc:explorations/reviews/mie-probes/keep/flat-tower-sketch.fsi", "The tower closure of 02d09a39f has no spelling the compiler's checker accepts",
+      "The true distance to the switch-over"],
     expectedMoves: [] }
 
 const A_ENTRY = { id: 'A', slug: 'rung-tabulate', path: '/home/user/fortress-tabulate', branch: 'wip/rung-tabulate', tail: A_TAIL, expectedMinutes: 190, writesState: false, testIsStage: true, expectedCheckerCount: P1_COUNT.A,
     blurb: "fill redeclared where the array traits' diamond meets and its function form renamed tabulate (answer 10): about 30 library call sites, the team's test lines that call it, 12 approved microGPT vocabulary lines and four probe lines, the arrays figure's row; library, tests and one specification passage, no Java.",
-    facts: ["The fill refusals, counted on the one library, and how each path treats the pair", "Measured by the overloading judgement on private library copies", "The hidden layer, classified", "The one library's number tower is flat", "Route A's generic container obligations still need body-level checks", "The compiled path's only array-like types are ZZ32Vector and StringVector", "Specification-1.0-frozen/ is byte for byte the working draft of 2011-02-02", "Citing Specification/library/apis/*.tex as an independent standard is circular", "testSystem's four shards are one suite split by sorted index", "The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program", "The library's arrays and algebra", "The checker and the one library", "explorations/reviews/fill-overloads-ways.md", "explorations/reviews/overloading-judgement.md", "explorations/reviews/spec-change-form.md", "explorations/coordinator/tools/checker-count/", "explorations/perf-probes/prelude/switch-over-distance.md", "explorations/microgpt-run-c-handover.md", "explorations/repo-internals.md", "explorations/coordinator/CLIMB-BATCH-5.md", "explorations/coordinator/map/spec-to-implementation.md", "explorations/coordinator/map/test-coverage.md", "explorations/coordinator/map/README.md"],
+    briefing: [
+      "positions:2026-09-26 answer 10", "positions:2026-09-19 answering the open question", "positions:2026-09-24 after finding the override shape",
+      "positions:2026-09-19 FlatArrays review's repair", "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers",
+      "positions:2026-09-26 answer 11", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "ledger:247",
+      "ledger:437", "doc:explorations/reviews/overloading-judgement.md#4.3 The decision and why",
+      "doc:explorations/reviews/overloading-judgement.md#4.4 What it changes",
+      "doc:explorations/reviews/overloading-judgement.md#9. Measured for this judgement",
+      "doc:explorations/reviews/fill-overloads-ways.md#What the checker refuses, measured",
+      "doc:explorations/reviews/fill-overloads-ways.md#2. What each path does today, measured", "doc:explorations/reviews/fill-overloads-ways.md#Way 0",
+      "doc:explorations/reviews/fill-overloads-ways.md#Way 3",
+      "doc:explorations/reviews/fill-overloads-ways.md#5. What the library does in the same family",
+      "doc:explorations/perf-probes/prelude/switch-over-distance-flat.md#1. How it was measured", "index:checker-count",
+      "doc:Specification/advanced/parallelism-locality/arrays-distributed.tex#Distributed Arrays",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form",
+      "doc:Specification/appendices/changes.tex#Reductions whose element type nothing fixes",
+      "doc:Specification/appendices/changes.tex#Passages not yet revised",
+      "doc:explorations/coordinator/CLIMB-BATCH-5.md#S. The specification@How it is checked",
+      "code:Library/FortressLibrary.fsi#trait ReadableArray[..trait StandardMutableArrayType[",
+      "code:Library/FortressLibrary.fss#trait StandardImmutableArrayType[..trait StandardMutableArrayType[",
+      "code:Library/FortressLibrary.fsi#trait ReadableArray1[..trait Array1[", "code:Library/FortressLibrary.fsi#trait Array2[",
+      "code:Library/FortressLibrary.fsi#(f:ZZ32->T):Array1..(f:ZZ32->T):Vector",
+      "code:Library/FortressLibrary.fss#(): T = throw ForbiddenException..(f:ZZ32->T):Vector",
+      "code:Library/FortressLibrary.fss#T,nat s0, nat s1, nat s2..(f:(ZZ32,ZZ32)->T)", "doc:ProjectFortress/tests/roundBug.fss",
+      "The fill refusals, counted on the one library, and how each path treats the pair",
+      "Measured by the overloading judgement on private library copies", "The hidden layer, classified",
+      "Route A's generic container obligations still need body-level checks", "The one library's number tower is flat",
+      "The true distance to the switch-over", "The checker-count stage's table",
+      "The specification states instantiation exclusion, and its refused examples are the library's shapes", "Specification-1.0-frozen/ is byte for byte",
+      "Citing Specification/library/apis/*.tex as an independent standard is circular", "Every functional-method name of the library is reserved",
+      "A comment placed after a declaration that ends in an expression or a type", "testSystem's four shards are one suite split by sorted index",
+      "The interpreter's overload-ambiguity message names its two declarations", "ant compileAll deletes a tracked file",
+      "map:spec-to-implementation.md#Parts IV", "map:README.md#Touch this@Library/FortressLibrary.fss and the other",
+      "map:README.md#Touch this@explorations/apl/mg/", "map:README.md#Touch this@Specification/ (the standard)"],
+    checks: [
+      "positions:2026-09-26 answer 10", "positions:2026-09-19 FlatArrays review's repair", "positions:2026-09-26 S1",
+      "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop",
+      "ledger:247", "doc:explorations/reviews/overloading-judgement.md#4.4 What it changes",
+      "doc:explorations/reviews/overloading-judgement.md#9. Measured for this judgement",
+      "doc:Specification/advanced/parallelism-locality/arrays-distributed.tex#Distributed Arrays",
+      "code:Library/FortressLibrary.fsi#trait ReadableArray[..trait StandardMutableArrayType[", "code:Library/FortressLibrary.fsi#trait Array2[",
+      "code:Library/FortressLibrary.fss#T,nat s0, nat s1, nat s2..(f:(ZZ32,ZZ32)->T)",
+      "The fill refusals, counted on the one library, and how each path treats the pair"],
     expectedMoves: [] }
 
 const B_ENTRY = { id: 'B', slug: 'rung-result-bounds', path: '/home/user/fortress-bounds', branch: 'wip/rung-result-bounds', tail: B_TAIL, expectedMinutes: 140, writesState: false, testIsStage: true, expectedCheckerCount: P1_COUNT.B,
     blurb: "the written bound Object on the result-only type parameter of builtinPrimitive, fail and List's nullary comprehension operator, and StandardMinMax's MIN and MAX declared returning T (row 421), on Pavol's yes to the numerics synthesis's decision 2; eight library lines and one guard test, no Java.",
-    facts: ["The distance to the switch-over by root cause", "The cheap fixes and scalar ranges over ZZ32, measured on one library copy", "Keeping the expected type at a call written f(x) is four one-token edits", "Static arguments are inferred from the arguments alone, on both paths", "The true distance to the switch-over", "Between the interpreter's library and bytecode stands the checker", "The one library's number tower is flat", "testSystem's four shards are one suite split by sorted index", "The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program", "ant compileAll deletes a tracked file", "The checker and the one library", "explorations/perf-probes/prelude/distance-triage.md", "explorations/reviews/numerics-plan-synthesis.md", "explorations/reviews/numerics-plan-coordinator.md", "explorations/perf-probes/prelude/switch-over-distance-flat.md", "explorations/coordinator/tools/checker-count/", "explorations/repo-internals.md", "explorations/coordinator/map/README.md"],
+    briefing: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-19 answering the open question", "positions:2026-09-21 library route",
+      "positions:2026-09-26 answer 11", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "ledger:421",
+      "ledger:309", "ledger:412", "ledger:447", "ledger:425", "ledger:455", "ledger:358", "doc:explorations/reviews/numerics-plan-synthesis.md#Decision 2",
+      "doc:explorations/reviews/numerics-plan-coordinator/measure-C.md#1. Tree 1",
+      "doc:explorations/reviews/numerics-plan-coordinator/measure-D.md#The answers",
+      "doc:explorations/reviews/numerics-plan-coordinator/measure-D.md#5. What this does not settle",
+      "doc:explorations/perf-probes/prelude/distance-triage.md#1. How it was measured",
+      "doc:explorations/perf-probes/prelude/distance-triage.md#3. The measurements",
+      "doc:explorations/reviews/overloading-judgement.md#3.6 The library's refused set, repaired@StandardMinMax's slip", "index:checker-count",
+      "doc:Specification/basic/trait-parameters.tex#Type Parameters", "doc:Specification/basic/inference.tex#Type Inference",
+      "code:Specification/basic-lib/basic-integers.tex#whichever argument is larger..if the arguments are equal",
+      "doc:SpecData/examples/basic/Fun.Decl.fss", "code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi#(javaClass:String):T",
+      "code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss#(javaClass:String):T", "code:Library/FortressLibrary.fsi#cast[..localize[",
+      "code:Library/FortressLibrary.fss#fail[", "code:Library/FortressLibrary.fsi#trait StandardMinMax[",
+      "code:Library/FortressLibrary.fss#trait StandardMinMax[..trait StandardTotalOrder[", "code:Library/List.fsi#List comprehensions..g:Generator",
+      "code:Library/List.fss#Vararg factory for lists; provides aggregate list constants **)..__bigOperatorSugar",
+      "code:Library/List.fss#filter(p: E -> Boolean)", "code:ProjectFortress/tests/FlatTowerRungF.fss#group(g: () -> ()): ZZ32 =",
+      "doc:ProjectFortress/tests/roundBug.fss", "The distance to the switch-over by root cause",
+      "The cheap fixes and scalar ranges over ZZ32, measured on one library copy",
+      "Keeping the expected type at a call written f(x) is four one-token edits", "Static arguments are inferred from the arguments alone, on both paths",
+      "The true distance to the switch-over", "The checker-count stage's table", "Between the interpreter's library and bytecode stands the checker",
+      "The one library's number tower is flat", "testSystem's four shards are one suite split by sorted index",
+      "The interpreter's overload-ambiguity message names its two declarations", "ant compileAll deletes a tracked file",
+      "map:compile-path-walkthrough.md#The extends Object rewrite", "map:compile-path-walkthrough.md#7. Native bindings in both worlds",
+      "map:README.md#Touch this@Library/FortressLibrary.fss and the other"],
+    checks: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "ledger:421",
+      "ledger:309", "ledger:447", "doc:explorations/reviews/numerics-plan-coordinator/measure-C.md#1. Tree 1",
+      "doc:explorations/perf-probes/prelude/distance-triage.md#1. How it was measured",
+      "doc:explorations/perf-probes/prelude/distance-triage.md#3. The measurements", "doc:Specification/basic/trait-parameters.tex#Type Parameters",
+      "code:Specification/basic-lib/basic-integers.tex#whichever argument is larger..if the arguments are equal",
+      "code:Library/FortressLibrary.fss#trait StandardMinMax[..trait StandardTotalOrder[",
+      "code:Library/List.fss#Vararg factory for lists; provides aggregate list constants **)..__bigOperatorSugar",
+      "The cheap fixes and scalar ranges over ZZ32, measured on one library copy"],
     expectedMoves: [] }
 
 const ANSWER9_RUNGS = [S_ENTRY, C_ENTRY, W_ENTRY, L_ENTRY]
